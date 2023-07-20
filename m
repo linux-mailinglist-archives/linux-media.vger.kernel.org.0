@@ -2,59 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DD7175B37F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 17:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9782475B3C8
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 18:05:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233020AbjGTPxN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 11:53:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55476 "EHLO
+        id S232697AbjGTQFF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 12:05:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233120AbjGTPxI (ORCPT
+        with ESMTP id S230336AbjGTQFA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 11:53:08 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 949D0114
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 08:53:07 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6864c144897so202378b3a.1
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 08:53:07 -0700 (PDT)
+        Thu, 20 Jul 2023 12:05:00 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C831998
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 09:04:54 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-262d096149cso124852a91.1
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 09:04:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689868387; x=1690473187;
+        d=gmail.com; s=20221208; t=1689869094; x=1690473894;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=79atujyIAePkjssFt6F1DQY6dRtcAglZAWaG3FWufgA=;
-        b=pSDTILb/0ljxdjnrkoERh4lMs+I0qvOfIAeuwK2gFbOfpm6HR+PO0Lw9Od6A7/kG27
-         /q0/CCiVLXlrXRBpeK6XT2JgXVfLmPE8OCZ3GOPOIAgqz0xZBMgstTMkR8Aa2VK/N2zk
-         I69YnfYMPr4SHfj7CAGJrol/E2WOGVBPDDb/HhO/QBCHZvaJEyeZefdf3v+fNTAltyhv
-         2vKg2KRRr7uqNuUqS5MeNd8gWH8Ld3KltZEiQJ1nvA7n1fELaD1W9WKTTeqWfUPNCOes
-         wi5YB22f62sa8YEjuvptBM7cMuaAeACJZicfT1f4pS8GdaytvfhoEGz9ZBFvhaZ+BJ9j
-         QbWA==
+        bh=dp5o9nt8Hvpi+5tSNPwMybnsFj0k0LnIrtFD/XRgDaQ=;
+        b=UlhljImlYQJCM0xEuF6ua825vJ4Mx9kTKkp2A5QZ1gIeHJYIx7zw2uxyWRQxgSza/G
+         OO28v6ZxUSAJqj7wN4Og0OVHBSpFREk+Xiy6RYsgw4zRpeIXrldaT5SG/xcJ3ygW6OAn
+         ZAGZ9NAB0zVb2P2jq2Kv6vbpu9H0Q3pzDq0pFupoZuCImB3EBfNGOQ10HQp7t6KXXsWq
+         ocan9HFdX/YWGlSXHGrfEbb+HpBkZ7S0wZal5vqISVjGYwIUV6komz6Km1Lg/ql7r5sf
+         X1eWSbxMJseVt66XciazLvxsowe0pZ0wK+XhN3IUHOEe0k/jt7q32ktWDU3EY/ErG7fz
+         XPQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689868387; x=1690473187;
+        d=1e100.net; s=20221208; t=1689869094; x=1690473894;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=79atujyIAePkjssFt6F1DQY6dRtcAglZAWaG3FWufgA=;
-        b=K/LVzulTI5mAB+gBRnX7P2riyGenhU9UaHhSbC/U5KbbE3fOAixzHHkpGm1xSVMn+g
-         FMQknDtRgXisJDX/CSqXCBSNjLKzlWuvZfvNZDvkVgCcFak3fve07NFwFNgXobTJK+C8
-         sB85Bm85UrFJFsRu9oWGkjCluxVk5caBqliI7yM1uWBbpDhN2tp0X0v5ME1IRtU5t5ZS
-         aZFkyup2NrEvTnBeVXM+5RQ6RBtbyVpNQ3jg3z75RdCDhCI2gYNLnDBHM9DsTzmt2zMN
-         QboMBb/iz0Jeesg7BfOGMcZvwTPpvhXo8yZu5v3R5NY3omXGLJ/iWTKLgnIHu/x/Du7P
-         9AFQ==
-X-Gm-Message-State: ABy/qLbmdxdi8Y6sireTzxxUDDj9rK76vuSG2bjTa5kwqWjLpaYMu3y+
-        5cRQujMN6NVTgN3Y+Y4FrxEafw4QhecJ+yLB6NM=
-X-Google-Smtp-Source: APBJJlFeV2HgA485ICasy/bLECVTRUcN6eih8nRR0wz0HoQ442DMbTnK1fWx7i+lzAus4rC3Hz2QaQfGo1rN7tQroa4=
-X-Received: by 2002:a05:6a00:1d2a:b0:676:2a5c:7bc5 with SMTP id
- a42-20020a056a001d2a00b006762a5c7bc5mr3525833pfx.1.1689868386998; Thu, 20 Jul
- 2023 08:53:06 -0700 (PDT)
+        bh=dp5o9nt8Hvpi+5tSNPwMybnsFj0k0LnIrtFD/XRgDaQ=;
+        b=E8bGB9ISyHdRjtZd+hk6kr5mdjko9BEEFD9N+zDQZTduHNw3vS9TFSPScQNr4BPQjV
+         0pSNkqJ/R0ow5K0yzqNaDMoU54Vd4DBxd9Zkw5QgdT7Gr4CbBETNQuvjsEMFo7ePvQlt
+         Vf3Q5NmCCn7m/uaIPmNyyGW+81OnCh8J1g50U5SWp5soWLV1gMndEeM+p0F9a8LR7eJl
+         yACExZoC5uvglvx5virBBFosxCICK0StuzdmePfL7xoDSCXrs5Va3tpc8cNjdajXPq+q
+         UKz32k7aMAr2oj8dwEAR0AXQ0oqWkTzLx4od4PJZdptbJPMYbU3+NiLTucFGXpv6PGgw
+         C9LA==
+X-Gm-Message-State: ABy/qLacjebBIYJRuVrt4hu6EAcCdwOn4TH4CECh8RaxwEvzcRETN9ga
+        l2Q78BWzpobB49MSPvfQefaO/n3o6rzdgcdp4s8=
+X-Google-Smtp-Source: APBJJlEV2zHagRJZABdjMoLondcup/iMj0ww0LaLiPMTxVon6ZOVZBRQbjWblipK6CL0UsvlVU9k+28tPnhDNdvQUxk=
+X-Received: by 2002:a17:90a:690d:b0:263:ed7:3574 with SMTP id
+ r13-20020a17090a690d00b002630ed73574mr2275351pjj.1.1689869093615; Thu, 20 Jul
+ 2023 09:04:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAJ+vNU0BOVLTL17ofgHwtexbpuMYwH_aGUC==EXABUtHHiv_ag@mail.gmail.com>
  <2290635.ElGaqSPkdT@steina-w> <CAJ+vNU0_LwY+4_9LT7-Cin4Otv3ne20N72TdsfzV4odEMQrLOg@mail.gmail.com>
  <844922189.0ifERbkFSE@steina-w> <CAJ+vNU21HytYLDojnPqLu8a9BRGRbMNgmGzdqbm67_5TYZT2tg@mail.gmail.com>
-In-Reply-To: <CAJ+vNU21HytYLDojnPqLu8a9BRGRbMNgmGzdqbm67_5TYZT2tg@mail.gmail.com>
+ <CAOMZO5AT=U2EDqEm2QEK-DSqCMd+=xMa_AAaYaog4-j77h46gA@mail.gmail.com>
+In-Reply-To: <CAOMZO5AT=U2EDqEm2QEK-DSqCMd+=xMa_AAaYaog4-j77h46gA@mail.gmail.com>
 From:   Fabio Estevam <festevam@gmail.com>
-Date:   Thu, 20 Jul 2023 12:52:55 -0300
-Message-ID: <CAOMZO5AT=U2EDqEm2QEK-DSqCMd+=xMa_AAaYaog4-j77h46gA@mail.gmail.com>
+Date:   Thu, 20 Jul 2023 13:04:41 -0300
+Message-ID: <CAOMZO5C1H65pWWJsXoqhumkPWjxjehb4VF8zZMyD7rUyvbC4Zw@mail.gmail.com>
 Subject: Re: media: imx: imx7-media-csi: Get rid of superfluous call to
  imx7_csi_mbus_fm t_to_pix_fmt
 To:     Tim Harvey <tharvey@gateworks.com>
@@ -83,15 +84,42 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Tim,
 
-On Thu, Jul 20, 2023 at 12:12=E2=80=AFPM Tim Harvey <tharvey@gateworks.com>=
+On Thu, Jul 20, 2023 at 12:52=E2=80=AFPM Fabio Estevam <festevam@gmail.com>=
  wrote:
 
-> have you tested mipi-csi with linux-next recently and observed it not
-> probing? I assume there is another issue awaiting us when linux-next
-> gets merged.
+> I tested capture on imx8mm-evk and imx8mn-evk boards on linux-next 202307=
+20.
+>
+> Both of them are working here, so I was not able to reproduce the
+> probe failure you reported.
 
-I tested capture on imx8mm-evk and imx8mn-evk boards on linux-next 20230720=
-.
+Does the change below help?
 
-Both of them are working here, so I was not able to reproduce the
-probe failure you reported.
+--- a/arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-imx219.dtso
++++ b/arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-imx219.dtso
+@@ -62,25 +62,12 @@ &mipi_csi {
+        status =3D "okay";
+
+        ports {
+-               #address-cells =3D <1>;
+-               #size-cells =3D <0>;
+-
+-               port@0 {
+-                       reg =3D <0>;
+-
++               port {
+                        imx8mm_mipi_csi_in: endpoint {
+                                remote-endpoint =3D <&imx219_to_mipi_csi2>;
+                                data-lanes =3D <1 2>;
+                        };
+                };
+-
+-               port@1 {
+-                       reg =3D <1>;
+-
+-                       imx8mm_mipi_csi_out: endpoint {
+-                               remote-endpoint =3D <&csi_in>;
+-                       };
+-               };
+        };
+ };
