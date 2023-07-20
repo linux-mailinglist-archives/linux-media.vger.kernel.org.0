@@ -2,102 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F48175A7FA
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 09:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22BED75A7FB
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 09:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231641AbjGTHlj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 03:41:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60250 "EHLO
+        id S230430AbjGTHmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 03:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjGTHli (ORCPT
+        with ESMTP id S229977AbjGTHmA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 03:41:38 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EF4D2122
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 00:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1689838896; x=1721374896;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NypF6BjMiKMUosxHTXziAHI4i73qdfEnHzAUvrdx/3s=;
-  b=VrUg6DdRlAWvuvdQ15+RC4KbA6o6ankxFaV3nGqyRM7SCH9JhDOXxp2A
-   bpkb8SV9IHLWSZQf2wAALRGEN+AJx9h8PtDka7i3vFLPYIj2EtmC/vBVR
-   QyDoE/TQWtGtAIEMaFzcEB0HUrx021iRW6ozzZI3KQNgOUNrtgpx0q7mw
-   Fpm/nAx/MLSlGsAg5UYH/w7uH76BQlGIOcdj65AVnt/JSspLxdPq3glH6
-   nocAv4BfI62XBfEt8/HxV7RLEWq1oMdqXvvpG/H9mQyt+OKbAhsJDIUGx
-   DmI8liHe1fl8w2Tm/WcaVlP5L6BOu8bqf52KsWp3EzmwIjWpSx66b/ePK
-   A==;
-X-IronPort-AV: E=Sophos;i="6.01,218,1684792800"; 
-   d="scan'208";a="32025080"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 20 Jul 2023 09:41:32 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BEB97280084;
-        Thu, 20 Jul 2023 09:41:32 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tim Harvey <tharvey@gateworks.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 2/2] media: imx: imx7-media-csi: Fix applying format constraints
-Date:   Thu, 20 Jul 2023 09:41:29 +0200
-Message-Id: <20230720074129.3680269-2-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230720074129.3680269-1-alexander.stein@ew.tq-group.com>
-References: <20230720074129.3680269-1-alexander.stein@ew.tq-group.com>
+        Thu, 20 Jul 2023 03:42:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2821C2118
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 00:41:59 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 530659B9;
+        Thu, 20 Jul 2023 09:41:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1689838862;
+        bh=4q/JnoFdoaFrSVy0MFStpjxTvRdaTgaXcYH98REQDpY=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=gmveTbSe/j8oqDfl1Q39a8b56FneP32uak9ttfGG430nJCK58cL1TtH2D8yZyqkX+
+         HgDY41yaLZUvIuEx26KeLXMZSgK0xpki0fnNZvj95/aPBAFWFS9ZR8jCK9y4TE++5w
+         GTMymYGfYfdPcJBtn6lLEllf5lRyfYFys5WFlkmQ=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230718204541.3955386-1-u.kleine-koenig@pengutronix.de>
+References: <20230718204541.3955386-1-u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] media: Switch three more drivers back to use struct i2c_driver::probe()
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, kernel@pengutronix.de
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Uwe =?utf-8?q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Date:   Thu, 20 Jul 2023 08:41:53 +0100
+Message-ID: <168983891379.2075858.1065248508876084250@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-v4l_bound_align_image aligns to a multiple power of 2 of walign, but the
-result only needs to be a multiple of walign. Fix this by using
-v4l2_apply_frmsize_constraints() instead.
+Hi Uwe,
 
-Reported-by: Tim Harvey <tharvey@gateworks.com>
-Fixes: 6f482c4729d9 ("media: imx: imx7-media-csi: Get rid of superfluous call to imx7_csi_mbus_fmt_to_pix_fmt")
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-Tim,
-can you please test if this fixes your problem?
-Apparently this issue only arises under specific conditions, e.g. 640/480/8bpp.
-This issue does not show up for 640/480/10bpp.
+Quoting Uwe Kleine-K=C3=B6nig (2023-07-18 21:45:41)
+> struct i2c_driver::probe_new() is about to go away. Since I converted
+> all drivers below drivers/media use struct i2c_driver::probe, three more
+> drivers were added in the following commits that use .probe_new():
+>=20
+>         6363db1c9d45 media: i2c: add DS90UB953 driver
+>         c158d0d4ff15 media: i2c: add DS90UB913 driver
+>         afe267f2d368 media: i2c: add DS90UB960 driver
 
- drivers/media/platform/nxp/imx7-media-csi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-index 73f8f2a35422..523e5f039a5a 100644
---- a/drivers/media/platform/nxp/imx7-media-csi.c
-+++ b/drivers/media/platform/nxp/imx7-media-csi.c
-@@ -1141,8 +1141,8 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
- 	 * TODO: Implement configurable stride support.
- 	 */
- 	walign = 8 * 8 / cc->bpp;
--	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
--			      &pixfmt->height, 1, 0xffff, 1, 0);
-+	v4l2_apply_frmsize_constraints(&pixfmt->width, &pixfmt->height,
-+				       &imx7_csi_frmsize_stepwise);
- 
- 	pixfmt->bytesperline = pixfmt->width * cc->bpp / 8;
- 	pixfmt->sizeimage = pixfmt->bytesperline * pixfmt->height;
--- 
-2.34.1
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+>=20
+> Switch these driver to use the probe callback.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
+> Hello,
+>=20
+> these three drivers are currently added in next and introduce new usages
+> of .probe_new which I intend to remove after the next -rc1.
+>=20
+> To reduce the amount of patches that are necessary to apply together
+> with the patch that drops .probe_new() it would be great if you make
+> sure that this patch makes it in before v6.6-rc1.
+>=20
+> Thanks
+> Uwe
+>=20
+>  drivers/media/i2c/ds90ub913.c | 2 +-
+>  drivers/media/i2c/ds90ub953.c | 2 +-
+>  drivers/media/i2c/ds90ub960.c | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
+> index 203f7cceae23..4dae5afa9fa9 100644
+> --- a/drivers/media/i2c/ds90ub913.c
+> +++ b/drivers/media/i2c/ds90ub913.c
+> @@ -889,7 +889,7 @@ static const struct of_device_id ub913_dt_ids[] =3D {
+>  MODULE_DEVICE_TABLE(of, ub913_dt_ids);
+> =20
+>  static struct i2c_driver ds90ub913_driver =3D {
+> -       .probe_new      =3D ub913_probe,
+> +       .probe          =3D ub913_probe,
+>         .remove         =3D ub913_remove,
+>         .id_table       =3D ub913_id,
+>         .driver =3D {
+> diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
+> index 1e3827a60029..87a7420366ea 100644
+> --- a/drivers/media/i2c/ds90ub953.c
+> +++ b/drivers/media/i2c/ds90ub953.c
+> @@ -1382,7 +1382,7 @@ static const struct of_device_id ub953_dt_ids[] =3D=
+ {
+>  MODULE_DEVICE_TABLE(of, ub953_dt_ids);
+> =20
+>  static struct i2c_driver ds90ub953_driver =3D {
+> -       .probe_new      =3D ub953_probe,
+> +       .probe          =3D ub953_probe,
+>         .remove         =3D ub953_remove,
+>         .id_table       =3D ub953_id,
+>         .driver =3D {
+> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+> index e101bcf2356a..548c257f922f 100644
+> --- a/drivers/media/i2c/ds90ub960.c
+> +++ b/drivers/media/i2c/ds90ub960.c
+> @@ -4034,7 +4034,7 @@ static const struct of_device_id ub960_dt_ids[] =3D=
+ {
+>  MODULE_DEVICE_TABLE(of, ub960_dt_ids);
+> =20
+>  static struct i2c_driver ds90ub960_driver =3D {
+> -       .probe_new      =3D ub960_probe,
+> +       .probe          =3D ub960_probe,
+>         .remove         =3D ub960_remove,
+>         .id_table       =3D ub960_id,
+>         .driver =3D {
+>=20
+> base-commit: 6363db1c9d45a54ddc1582423b74b5f9935b5958
+> --=20
+> 2.39.2
+>
