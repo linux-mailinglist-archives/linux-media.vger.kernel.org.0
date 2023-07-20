@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84EDF75A4B6
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 05:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8198C75A4BD
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 05:25:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbjGTDVw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 23:21:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42216 "EHLO
+        id S229868AbjGTDZE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 23:25:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjGTDVv (ORCPT
+        with ESMTP id S229894AbjGTDY5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 23:21:51 -0400
+        Wed, 19 Jul 2023 23:24:57 -0400
 Received: from mail.208.org (unknown [183.242.55.162])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0170BF0
-        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 20:21:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A7C2698
+        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 20:24:49 -0700 (PDT)
 Received: from mail.208.org (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTP id 4R5yf25T9kzBRDrZ
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 11:21:46 +0800 (CST)
+        by mail.208.org (Postfix) with ESMTP id 4R5yjW483zzBRDrZ
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 11:24:47 +0800 (CST)
 Authentication-Results: mail.208.org (amavisd-new); dkim=pass
         reason="pass (just generated, assumed good)" header.d=208.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
         content-transfer-encoding:content-type:message-id:user-agent
         :references:in-reply-to:subject:to:from:date:mime-version; s=
-        dkim; t=1689823306; x=1692415307; bh=IM9mBbnkWDvSQtfl523MKJBAc0A
-        ufM/2UqDWiGJB27E=; b=UE7kl/ND2LJWNezGOKHYn4jGh8C2DsU7pHCovTkm/lx
-        NN10uO+wtnmXCUWbW8rSZVvadkJRJz3A/ajkoVEgxvAs5QqY64UXsT/RimleLwYo
-        4raqMaYf0x6uPYhhuUTSJlt3ST1gDU+OUip5osWa2LqiZjUFGu6sItFGKs0BGSwM
-        rBg/7YRwnm5coya97srivI65Rj7u7NFIqWqGNpypCixg6zLjviQFMp3LZpxJIC1B
-        D6izRRdP3Yp12uKa7tFN3asEfFe+RdZs3D78KuuS4V6ZgH2bVbtBCUpbczNFEJjs
-        leRI1n59x9FkyzfKJcV8ZloZpAlXQvworKqShCoNp6g==
+        dkim; t=1689823486; x=1692415487; bh=ppjwFhVPDtaNu7oIL/ApBshuMIo
+        6bf9nBUAqS4MhxEo=; b=zyopWuNo5fl4qrDyiU+Kpn5peWBydyDyp/ysE82smrg
+        kPZbc+Sgp22yX03bi6F51mYB8WdWz5d6tNcoPmqsw8Vxim4ihv+PzduW4CBCOX3M
+        gvTy5eq/l1uS81So9vJpBWeyPMfu8kSjkHBZwpYIkD7RU4c6ciFEOrYtwwoOwdk5
+        8gNMap/5d81hMubnDGx9MJEqevrxHNHtEa4QZHHVva3asY3Yq8fKsfHoO7ufvZV0
+        Gs9m+D3fUGljwxEQIIK9H9HIYRxRYfMfLGsMdmMJYxrKxUApBaMAZHNCyJ7v9rx5
+        0JEMFyFMUBmbYwSMUehhrwU58+7Bkq+ncuKLURE1zEg==
 X-Virus-Scanned: amavisd-new at mail.208.org
 Received: from mail.208.org ([127.0.0.1])
         by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ulbuDBdottIa for <linux-media@vger.kernel.org>;
-        Thu, 20 Jul 2023 11:21:46 +0800 (CST)
+        with ESMTP id U3aPVa1EnC2F for <linux-media@vger.kernel.org>;
+        Thu, 20 Jul 2023 11:24:46 +0800 (CST)
 Received: from localhost (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTPSA id 4R5yf23bPlzBR1P6;
-        Thu, 20 Jul 2023 11:21:46 +0800 (CST)
+        by mail.208.org (Postfix) with ESMTPSA id 4R5yjV5yZRzBR1P6;
+        Thu, 20 Jul 2023 11:24:46 +0800 (CST)
 MIME-Version: 1.0
-Date:   Thu, 20 Jul 2023 11:21:46 +0800
+Date:   Thu, 20 Jul 2023 11:24:46 +0800
 From:   sunran001@208suo.com
 To:     mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH] w1: add missing spaces before '*' and remove spaces after '*'
-In-Reply-To: <20230720031545.1702-1-xujianghui@cdjrlc.com>
-References: <20230720031545.1702-1-xujianghui@cdjrlc.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] oom: remove spaces after '*'
+In-Reply-To: <20230720032346.1869-1-xujianghui@cdjrlc.com>
+References: <20230720032346.1869-1-xujianghui@cdjrlc.com>
 User-Agent: Roundcube Webmail
-Message-ID: <0ed50f990b1b10620f5fdaa123809ff7@208suo.com>
+Message-ID: <944703e88ae911d7008f2b5f1ca52d2f@208suo.com>
 X-Sender: sunran001@208suo.com
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
@@ -61,37 +61,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing spaces to clear checkpatch errors.
+remove redundant spaces to clear checkpatch errors.
 
-ERROR: "foo* bar" should be "foo *bar"
+ERROR: "foo * bar" should be "foo *bar"
 
 Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
-  include/linux/w1.h | 6 +++---
-  1 file changed, 3 insertions(+), 3 deletions(-)
+  include/linux/oom.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/w1.h b/include/linux/w1.h
-index 9a2a0ef39018..70188da81d04 100644
---- a/include/linux/w1.h
-+++ b/include/linux/w1.h
-@@ -304,17 +304,17 @@ int w1_reset_select_slave(struct w1_slave *sl);
-  int w1_reset_resume_command(struct w1_master *);
-  void w1_next_pullup(struct w1_master *, int);
-
--static inline struct w1_slave* dev_to_w1_slave(struct device *dev)
-+static inline struct w1_slave *dev_to_w1_slave(struct device *dev)
-  {
-  	return container_of(dev, struct w1_slave, dev);
+diff --git a/include/linux/oom.h b/include/linux/oom.h
+index 7d0c9c48a0c5..7964f1fd9984 100644
+--- a/include/linux/oom.h
++++ b/include/linux/oom.h
+@@ -72,7 +72,7 @@ static inline bool oom_task_origin(const struct 
+task_struct *p)
+  	return p->signal->oom_flag_origin;
   }
 
--static inline struct w1_slave* kobj_to_w1_slave(struct kobject *kobj)
-+static inline struct w1_slave *kobj_to_w1_slave(struct kobject *kobj)
+-static inline bool tsk_is_oom_victim(struct task_struct * tsk)
++static inline bool tsk_is_oom_victim(struct task_struct *tsk)
   {
-  	return dev_to_w1_slave(container_of(kobj, struct device, kobj));
-  }
-
--static inline struct w1_master* dev_to_w1_master(struct device *dev)
-+static inline struct w1_master *dev_to_w1_master(struct device *dev)
-  {
-  	return container_of(dev, struct w1_master, dev);
+  	return tsk->signal->oom_mm;
   }
