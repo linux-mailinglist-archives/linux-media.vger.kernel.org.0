@@ -2,128 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C33075AD8F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 13:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FF5B75ADD4
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 14:08:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230233AbjGTLza (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 07:55:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52212 "EHLO
+        id S230417AbjGTMIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 08:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229820AbjGTLz2 (ORCPT
+        with ESMTP id S229704AbjGTMIk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 07:55:28 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D01E4C
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 04:55:05 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3fbb07e7155so75935e9.0
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 04:55:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689854102; x=1690458902;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c7W1A++0DmK32WknpFfFMJvCsm3vvkm9n73s4zuJV0A=;
-        b=ZN0pvitrpyGLGHO7DXi/CBmlTQA8KHBrZMzlz3oGazd+8bDa7qzIJ+Xj0z2GiJtZOU
-         iCJQVdRt5eqS+el53qE+5cpS4za7pvXs4GpwDW5IktKoQvxWYZ5rx/Ga6yhAjObCcdBb
-         CeViB+SqwwF2cWcYfmK3NRXmWkPMqjHis6+i6u2uTyaKwPNaHLc1e4idr8pamrQC5n3R
-         0e0Jxy+GNG1pNJKDlI9VoItQwXadT/nWW2A1l9DPTQRiCbiXdBE7X1DOxlBvpRlvCwsM
-         7G3DwHpOmIe74X2B9q8VPwu32pr2xqg4g8GNNxX8GOhlqTtr3G4WER6Yun8AP+yQYARz
-         /jVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689854103; x=1690458903;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c7W1A++0DmK32WknpFfFMJvCsm3vvkm9n73s4zuJV0A=;
-        b=JZFeaEPsDU51+IuTeEeSrPARjQH9HZpkAvCHjbBTApwYCLXmAb0mkfE1iovt3K/lz7
-         Q5tqPixDTgUleMfdKbP/KbQcE5fWNENb4zj/7fQGq96LzTutRvG6LXUQ9PZY0FlCBALM
-         FmaYynBfwWe0/Jo8DSXsnwe2Nd3KQXitsYN571HuBZZryop3UFoZE45spcpC9NkbVhRe
-         y06fZsujlNOqqSr0q/pJKJP+l53i63+DXaOlpdDcNZnwAEoc5zoU/6Ul7uYth7dzkd6y
-         pWohhUBO5dD8z/0s5ucNi9VGSFZN2b0qbTqPXJb5mpPJVRtt+9GFK1S/U1ySPv/PBWWP
-         yXBg==
-X-Gm-Message-State: ABy/qLZy/DYVZnIqGn5Kk2tldlQSAPz4l9R0T32/kFfOv8k+HOoTLPtr
-        sRSnNWbwwimyXIE4uUHlf7fz8axGXOV83xycLiVAew==
-X-Google-Smtp-Source: APBJJlF6quPHTwSBR/5D8iYhvQDfr+5h6tZoGC1DPqjiaFa0POXQFNfCEXlT/1hj/qSzkPD5fWrzqYeGqeg9c27DzZI=
-X-Received: by 2002:a05:600c:450e:b0:3f7:e463:a0d6 with SMTP id
- t14-20020a05600c450e00b003f7e463a0d6mr101638wmo.0.1689854102589; Thu, 20 Jul
- 2023 04:55:02 -0700 (PDT)
+        Thu, 20 Jul 2023 08:08:40 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF911BC6;
+        Thu, 20 Jul 2023 05:08:38 -0700 (PDT)
+Received: from [192.168.1.108] (unknown [103.86.18.219])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83023881;
+        Thu, 20 Jul 2023 14:07:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1689854861;
+        bh=I7D8HsntABbOPGm+D0eg6gBaHau8vi0Fy8weIblvRiI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=C9rcCL//i41y22J1MMM06/Y+nst5kyJEYz1JS+G77t0VdpLGKRY0uPKEo+asf2C2b
+         5SYb86rrJfchaHctEjcRqzGGbL/iDDvztPDxzIAoKmQ20u6boYTQdW/58ZWO+rljzS
+         rr+ojFuVkiBN431XerImw1kYcWGLoiV57ZvOJ+mA=
+Message-ID: <43b2929d-f6be-d382-2802-412b0928dad0@ideasonboard.com>
+Date:   Thu, 20 Jul 2023 17:38:26 +0530
 MIME-Version: 1.0
-References: <0000000000003ee3610599d20096@google.com> <000000000000c26a66060035ad18@google.com>
- <20230712211112.GD30092@pendragon.ideasonboard.com>
-In-Reply-To: <20230712211112.GD30092@pendragon.ideasonboard.com>
-From:   Aleksandr Nogikh <nogikh@google.com>
-Date:   Thu, 20 Jul 2023 13:54:50 +0200
-Message-ID: <CANp29Y7Y=0m4y0awEd5E4sgWYvpxbHQUTOMXH+6ub6BdBoEGwQ@mail.gmail.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in __media_entity_remove_links
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     syzbot <syzbot+0b0095300dfeb8a83dc8@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v9 0/5] staging: vc04_services: vchiq: Register devices
+ with a custom bus_type
+To:     Stefan Wahren <stefan.wahren@i2se.com>,
+        linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, f.fainelli@gmail.com,
+        athierry@redhat.com, error27@gmail.com,
+        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com
+References: <20230719164427.1383646-1-umang.jain@ideasonboard.com>
+ <fe8ed301-dda8-9038-a035-c24e84bc2c5c@ideasonboard.com>
+ <546b2da6-994a-ebc7-60c1-1d1ff2202f88@i2se.com>
+Content-Language: en-US
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <546b2da6-994a-ebc7-60c1-1d1ff2202f88@i2se.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 11:11=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Tue, Jul 11, 2023 at 06:00:08AM -0700, syzbot wrote:
-> > This bug is marked as fixed by commit:
-> > media: uvcvideo: Avoid cyclic entity chains due to malformed
-> >
-> > But I can't find it in the tested trees[1] for more than 90 days.
-> > Is it a correct commit? Please update it by replying:
->
-> #syz fix: media: uvcvideo: Avoid cyclic entity chains due to malformed US=
-B descriptors
+Hi Stefan ,
 
-Thanks for providing the correct name!
 
+On 7/19/23 11:05 PM, Stefan Wahren wrote:
+> Hi Umang,
 >
-> Can a commit ID be used as well ?
+> Am 19.07.23 um 18:54 schrieb Umang Jain:
+>> Hi,
+>>
+>> One comment,
+>>
+>> On 7/19/23 10:14 PM, Umang Jain wrote:
+>>> The patch series added a new bus type vchiq_bus_type and registers
+>>> child devices in order to move them away from using platform
+>>> device/driver.
+>>>
+>>> Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
+>>> interface
+>>>
+>>> Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
+>>> to the new bus respectively
+>>>
+>>> Patch 5/5 removes a platform registeration helper which is no
+>>> longer required.
+>>>
+>>> Changes in v9:
+>>> - Fix module autoloading
+>>
+>> While the autoloading of bcm2835-audio, bcm2835-camera is fixed as 
+>> part of this series, there is one WARN coming in when bcm2835-audio 
+>> is loaded regarding dma_alloc_attr
+>>
+>> dmesg output: https://paste.debian.net/plain/1286359
+>
+> is it possible that after your patch series no DMA mask like 
+> DMA_BIT_MASK(32) is provided?
 
-The problem with commit hashes is that we fuzz quite a number of
-different Linux trees and every new commit might appear in all of them
-with totally different hashes. Name is a much more reliable
-identifier, so that's what we currently require in #syz fix.
+I am trying to set DMA_BIT_MASK(32) via  dma_set_mask_and_coherent() but 
+it fails with -EIO
+>
+>>
+>> I am investigating further...
+>>> - Implement bus_type's probe() callback to load drivers
+>>> - Implement bus_type's uevent() to make sure appropriate drivers are
+>>>    loaded when device are registed from vchiq.
+>>>
+>>> Changes in v8:
+>>> - Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
+>>>
+>>> Changes in v7:
+>>> (5 out of 6 patches from v6 merged)
+>>> - Split the main patch (6/6) as requested.
+>>> - Use struct vchiq_device * instead of struct device * in
+>>>    all bus functions.
+>>> - Drop additional name attribute displayed in sysfs (redundant info)
+>>> - Document vchiq_interface doesn't enumerate device discovery
+>>> - remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
+>>>
+>>> Changes in v6:
+>>> - Split struct device and struct driver wrappers in vchiq_device.[ch]
+>>> - Move vchiq_bus_type definition to vchiq_device.[ch] as well
+>>> - return error on bus_register() failure
+>>> - drop dma_set_mask_and_coherent
+>>> - trivial variable name change
+>>>
+>>> Changes in v5:
+>>> - Fixup missing "staging: " in commits' subject line
+>>> - No code changes from v4
+>>>
+>>> Changes in v4:
+>>> - Introduce patches to drop include directives from Makefile
+>>>
+>>> Changes in v3:
+>>> - Rework entirely to replace platform devices/driver model
+>>>
+>>> -v2:
+>>> https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/ 
+>>>
+>>>
+>>> -v1:
+>>> https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/ 
+>>>
+>>>
+>>> Umang Jain (5):
+>>>    staging: vc04_services: vchiq_arm: Add new bus type and device type
+>>>    staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+>>>    staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+>>>    staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
+>>>    staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
+>>>
+>>>   drivers/staging/vc04_services/Makefile        |   1 +
+>>>   .../vc04_services/bcm2835-audio/bcm2835.c     |  20 ++--
+>>>   .../bcm2835-camera/bcm2835-camera.c           |  17 +--
+>>>   .../interface/vchiq_arm/vchiq_arm.c           |  48 ++++-----
+>>>   .../interface/vchiq_arm/vchiq_device.c        | 102 
+>>> ++++++++++++++++++
+>>>   .../interface/vchiq_arm/vchiq_device.h        |  54 ++++++++++
+>>>   6 files changed, 196 insertions(+), 46 deletions(-)
+>>>   create mode 100644 
+>>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>>>   create mode 100644 
+>>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>>>
+>>
 
->
-> > Until then the bug is still considered open and new crashes with
-> > the same signature are ignored.
-> >
-> > Kernel: Linux
-> > Dashboard link: https://syzkaller.appspot.com/bug?extid=3D0b0095300dfeb=
-8a83dc8
-> >
-> > ---
-> > [1] I expect the commit to be present in:
-> >
-> > 1. for-kernelci branch of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
-> >
-> > 2. master branch of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
-> >
-> > 3. master branch of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
-> >
-> > 4. main branch of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-> >
-> > The full list of 9 trees can be found at
-> > https://syzkaller.appspot.com/upstream/repos
->
-> --
-> Regards,
->
-> Laurent Pinchart
