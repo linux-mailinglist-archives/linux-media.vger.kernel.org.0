@@ -2,248 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C3ED75B8A9
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 22:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 308E275B8CC
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 22:37:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230158AbjGTUWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 16:22:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59978 "EHLO
+        id S229633AbjGTUhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 16:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbjGTUWT (ORCPT
+        with ESMTP id S229452AbjGTUhm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 16:22:19 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2E0271C;
-        Thu, 20 Jul 2023 13:22:17 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:11:83d4::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9C9576607094;
-        Thu, 20 Jul 2023 21:22:14 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1689884536;
-        bh=6M9ZDL21aWrrFRYxWzAwtVegdIAxdx1kKWISs1pHSfY=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ajaVbOG/FS7aLl4qzeKDNblnyhHDdjhv4HXGt+6yqnskc/OSnzK4NiLvWsLFt2sW0
-         xTP00Wi6Tcc0cGAl2LSXYGcOG0ujX7CRXDgceHtAuE6XEdvPvWVCAaaQBWoaW6wpm9
-         EOhr4D8ohufkzr4u0Q83tDXnGXYbxeFkXqgSmsMhVTlG8kPmVaQhMbmNOWefEGt/7W
-         7+yFPSuduXlaQmFf9fL7yoi+GpiTtNq2F8ypI+Sj/DzrtN4o9eG6yo+ePaqj7zKyfy
-         Us246olv2/lmFLICCNghaggVQppOpduYaTsHMucFYhlm9gnS+CXPO3Cnkm/mM+Zj9u
-         6UeEisI8xvNvw==
-Message-ID: <02e3f58e3dc009eadd1f37ac3d7d65a95706c9a6.camel@collabora.com>
-Subject: Re: [PATCH 1/2] media: mediatek: vcodec: checking decoder ack
- message parameter
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
-        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nathan Hebert <nhebert@chromium.org>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Thu, 20 Jul 2023 16:22:06 -0400
-In-Reply-To: <20230717081319.12542-1-yunfei.dong@mediatek.com>
-References: <20230717081319.12542-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Thu, 20 Jul 2023 16:37:42 -0400
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF26E12F
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 13:37:41 -0700 (PDT)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-1babd7fe2cdso216330fac.0
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 13:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689885461; x=1690490261;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N1wqOxmotibR6luqRCo8gXZ5+VUekAjRyJKonjmii38=;
+        b=mIiwMIOd/fjQfo1bo3adwM0KafXx2nTr3LdEw+MY1n/3E4i9rqjkoJuSTIojnzf5va
+         yPSXwSgGA8MtHwCYQnfMaMyfdyEF9lF1RSDZ2fY+b3cVz9nMyrnbCjqX5/LYVG1ufWY4
+         ABob2quKes2NP4U+YcJ2yfgE69mNOsYNPxocjTOOl3+MIZo4TXKmEasZIFG2SnxWTgEK
+         HgxRop3/WMYI5NKpqj/YFudwX7XfesbfzmowsL1hpycfPQQO/drsobN+jn8NqQBwWENe
+         XoQC7lbwxmmv9OM0tU4pHMLKhb+5tqE2lk9PcilO994ZmtSn+E3OTNEtFG2gNPzfK5Cz
+         caDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689885461; x=1690490261;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N1wqOxmotibR6luqRCo8gXZ5+VUekAjRyJKonjmii38=;
+        b=LHJ7kP6nBZzOEt3y8aULVOGQiADbVMkqYrnhji6Dp/ilKnViHs6Aqr6h173OtBbDJg
+         5DS6IDoGpCR8LaNNZBXfdP61bmtKQxR6mZF5xZunpYjW+Npm5SmMWQPAhkcGtfbrBglA
+         EeTGOSGATeNNkDertFgMV/JgDnvhjKNAV8YqLIjJa9vTd+7jlUN/6pMc21f721+qhOz1
+         RA5eEeW2URfpadKbqcqH7ANNF7XZuml1r4ovffOpI3zWjhST9z1pWvoRtV80zZafG0AU
+         GJHWA+mV/H60tD5H7W46CafITaTQ28c7zcP7BwxPefFEYw/FZR49OT3DS/R8XzkX7kYh
+         N2Ow==
+X-Gm-Message-State: ABy/qLb/I3FADd5wdI6YZ7DjSfOUvn2c6H6wS0xBwEPytuxblYkNRPM0
+        lhHvBvYN3xD4lkRNQrAnc7E=
+X-Google-Smtp-Source: APBJJlEeLQ3EHZGZePw+FmqUGza5mD2Rm0eJgGDvzKrqXIbJ6JSHxXeDhKpMi4l6ovg7eHVmd9xftw==
+X-Received: by 2002:a05:6808:1887:b0:3a4:8cdb:db8f with SMTP id bi7-20020a056808188700b003a48cdbdb8fmr18752oib.0.1689885460899;
+        Thu, 20 Jul 2023 13:37:40 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:954b:3fb3:26f3:9d00])
+        by smtp.gmail.com with ESMTPSA id f7-20020a05680807c700b003a40b3fce01sm770829oij.10.2023.07.20.13.37.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 13:37:40 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        rmfrfs@gmail.com, alexander.stein@ew.tq-group.com,
+        tharvey@gateworks.com, linux-media@vger.kernel.org,
+        Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] media: imx: imx7-media-csi: Fix applying format constraints
+Date:   Thu, 20 Jul 2023 17:36:35 -0300
+Message-Id: <20230720203635.1676734-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+From: Fabio Estevam <festevam@denx.de>
 
-Le lundi 17 juillet 2023 =C3=A0 16:13 +0800, Yunfei Dong a =C3=A9crit=C2=A0=
-:
-> Need to checking all parameters of msg data are valid or not,
-> in case of access null pointer or unreasonable value leading
-> to kernel reboot.
->=20
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  2 +
->  .../mediatek/vcodec/decoder/vdec_vpu_if.c     | 77 ++++++++++++-------
->  2 files changed, 52 insertions(+), 27 deletions(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
-.h
-> index c8b4374c5e6c..1ea5dbb475dd 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> @@ -160,6 +160,7 @@ struct mtk_vcodec_dec_pdata {
->   * @hw_id: hardware index used to identify different hardware.
->   *
->   * @msg_queue: msg queue used to store lat buffer information.
-> + * @vpu_inst: vpu instance pointer.
->   */
->  struct mtk_vcodec_dec_ctx {
->  	enum mtk_instance_type type;
-> @@ -202,6 +203,7 @@ struct mtk_vcodec_dec_ctx {
->  	int hw_id;
-> =20
->  	struct vdec_msg_queue msg_queue;
-> +	void *vpu_inst;
->  };
-> =20
->  /**
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c=
- b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> index 82c3dc8c4127..23cfe5c6c90b 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> @@ -72,6 +72,21 @@ static void handle_get_param_msg_ack(const struct vdec=
-_vpu_ipi_get_param_ack *ms
->  	}
->  }
-> =20
-> +static bool vpu_dec_check_ap_inst(struct mtk_vcodec_dec_dev *dec_dev, st=
-ruct vdec_vpu_inst *vpu)
-> +{
-> +	struct mtk_vcodec_dec_ctx *ctx;
-> +	int ret =3D false;
-> +
-> +	list_for_each_entry(ctx, &dec_dev->ctx_list, list) {
+v4l_bound_align_image() aligns to a multiple power of 2 of walign, but the
+result only needs to be a multiple of walign.
 
-I'm not quite fully aware of the threading model in place, but this ctx_lis=
-t is
-normally protected by dev->dev_mutex, and is not being protected here. I al=
-so
-don't know which type of interrupt handler we are in here.
+This causes a 640x480 sensor that used to report:
 
-> +		if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst =3D=3D vpu) {
-> +			ret =3D true;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * vpu_dec_ipi_handler - Handler for VPU ipi message.
->   *
-> @@ -84,44 +99,51 @@ static void handle_get_param_msg_ack(const struct vde=
-c_vpu_ipi_get_param_ack *ms
->   */
->  static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv=
-)
->  {
-> +	struct mtk_vcodec_dec_dev *dec_dev;
->  	const struct vdec_vpu_ipi_ack *msg =3D data;
-> -	struct vdec_vpu_inst *vpu =3D (struct vdec_vpu_inst *)
-> -					(unsigned long)msg->ap_inst_addr;
-> +	struct vdec_vpu_inst *vpu;
-> =20
-> -	if (!vpu) {
-> +	dec_dev =3D (struct mtk_vcodec_dec_dev *)priv;
-> +	vpu =3D (struct vdec_vpu_inst *)(unsigned long)msg->ap_inst_addr;
-> +	if (!priv || !vpu) {
->  		mtk_v4l2_vdec_err(vpu->ctx, "ap_inst_addr is NULL, did the SCP hang or=
- crash?");
->  		return;
->  	}
-> =20
-> -	mtk_vdec_debug(vpu->ctx, "+ id=3D%X", msg->msg_id);
-> +	if (!vpu_dec_check_ap_inst(dec_dev, vpu) || msg->msg_id < VPU_IPIMSG_DE=
-C_INIT_ACK ||
-> +	    msg->msg_id > VPU_IPIMSG_DEC_GET_PARAM_ACK) {
-> +		mtk_v4l2_vdec_err(vpu->ctx, "vdec msg id not correctly =3D> 0x%x", msg=
-->msg_id);
-> +		vpu->failure =3D -EINVAL;
-> +		goto error;
-> +	}
-> =20
->  	vpu->failure =3D msg->status;
-> -	vpu->signaled =3D 1;
-> +	if (msg->status !=3D 0)
-> +		goto error;
-> =20
-> -	if (msg->status =3D=3D 0) {
-> -		switch (msg->msg_id) {
-> -		case VPU_IPIMSG_DEC_INIT_ACK:
-> -			handle_init_ack_msg(data);
-> -			break;
-> +	switch (msg->msg_id) {
-> +	case VPU_IPIMSG_DEC_INIT_ACK:
-> +		handle_init_ack_msg(data);
-> +		break;
-> =20
-> -		case VPU_IPIMSG_DEC_START_ACK:
-> -		case VPU_IPIMSG_DEC_END_ACK:
-> -		case VPU_IPIMSG_DEC_DEINIT_ACK:
-> -		case VPU_IPIMSG_DEC_RESET_ACK:
-> -		case VPU_IPIMSG_DEC_CORE_ACK:
-> -		case VPU_IPIMSG_DEC_CORE_END_ACK:
-> -			break;
-> +	case VPU_IPIMSG_DEC_START_ACK:
-> +	case VPU_IPIMSG_DEC_END_ACK:
-> +	case VPU_IPIMSG_DEC_DEINIT_ACK:
-> +	case VPU_IPIMSG_DEC_RESET_ACK:
-> +	case VPU_IPIMSG_DEC_CORE_ACK:
-> +	case VPU_IPIMSG_DEC_CORE_END_ACK:
-> +		break;
-> =20
-> -		case VPU_IPIMSG_DEC_GET_PARAM_ACK:
-> -			handle_get_param_msg_ack(data);
-> -			break;
-> -		default:
-> -			mtk_vdec_err(vpu->ctx, "invalid msg=3D%X", msg->msg_id);
-> -			break;
-> -		}
-> +	case VPU_IPIMSG_DEC_GET_PARAM_ACK:
-> +		handle_get_param_msg_ack(data);
-> +		break;
-> +	default:
-> +		mtk_vdec_err(vpu->ctx, "invalid msg=3D%X", msg->msg_id);
-> +		break;
->  	}
-> =20
-> -	mtk_vdec_debug(vpu->ctx, "- id=3D%X", msg->msg_id);
-> +error:
-> +	vpu->signaled =3D 1;
->  }
-> =20
->  static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int=
- len)
-> @@ -182,9 +204,10 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
-> =20
->  	init_waitqueue_head(&vpu->wq);
->  	vpu->handler =3D vpu_dec_ipi_handler;
-> +	vpu->ctx->vpu_inst =3D vpu;
-> =20
->  	err =3D mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
-> -					 vpu->handler, "vdec", NULL);
-> +					 vpu->handler, "vdec", vpu->ctx->dev);
->  	if (err) {
->  		mtk_vdec_err(vpu->ctx, "vpu_ipi_register fail status=3D%d", err);
->  		return err;
-> @@ -193,7 +216,7 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
->  	if (vpu->ctx->dev->vdec_pdata->hw_arch =3D=3D MTK_VDEC_LAT_SINGLE_CORE)=
- {
->  		err =3D mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler,
->  						 vpu->core_id, vpu->handler,
-> -						 "vdec", NULL);
-> +						 "vdec", vpu->ctx->dev);
->  		if (err) {
->  			mtk_vdec_err(vpu->ctx, "vpu_ipi_register core fail status=3D%d", err)=
-;
->  			return err;
+	Width/Height      : 640/480
+        
+to incorrectly report:
+
+	Width/Height      : 768/480
+
+Fix this problem by doing the correct alignment via clamp_roundup().
+
+Reported-by: Tim Harvey <tharvey@gateworks.com>
+Fixes: 6f482c4729d9 ("media: imx: imx7-media-csi: Get rid of superfluous call to imx7_csi_mbus_fmt_to_pix_fmt")
+Co-developed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ drivers/media/platform/nxp/imx7-media-csi.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
+index 0bd2613b9320..d964b5a714c5 100644
+--- a/drivers/media/platform/nxp/imx7-media-csi.c
++++ b/drivers/media/platform/nxp/imx7-media-csi.c
+@@ -1108,6 +1108,17 @@ static int imx7_csi_video_g_fmt_vid_cap(struct file *file, void *fh,
+ 	return 0;
+ }
+ 
++/* Borrowed from drivers/media/v4l2-core/v4l2-common.c */
++static unsigned int clamp_roundup(unsigned int x, unsigned int min,
++				  unsigned int max, unsigned int alignment)
++{
++	x = clamp(x, min, max);
++	if (alignment)
++		x = round_up(x, alignment);
++
++	return x;
++}
++
+ static const struct imx7_csi_pixfmt *
+ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
+ 			 struct v4l2_rect *compose)
+@@ -1137,8 +1148,8 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
+ 	 * TODO: Implement configurable stride support.
+ 	 */
+ 	walign = 8 * 8 / cc->bpp;
+-	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
+-			      &pixfmt->height, 1, 0xffff, 1, 0);
++	pixfmt->width = clamp_roundup(pixfmt->width, 1, 0xffff, walign);
++	pixfmt->height = clamp_roundup(pixfmt->height, 1, 0xffff, 1);
+ 
+ 	pixfmt->bytesperline = pixfmt->width * cc->bpp / 8;
+ 	pixfmt->sizeimage = pixfmt->bytesperline * pixfmt->height;
+-- 
+2.34.1
 
