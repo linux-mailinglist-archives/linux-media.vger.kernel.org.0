@@ -2,56 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D937175B81A
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 21:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3951075B81D
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 21:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230502AbjGTTgU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 15:36:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44846 "EHLO
+        id S230104AbjGTTiK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 15:38:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbjGTTgT (ORCPT
+        with ESMTP id S229457AbjGTTiI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 15:36:19 -0400
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573C6171E
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:36:16 -0700 (PDT)
-Received: by mail-oi1-x233.google.com with SMTP id 5614622812f47-3a1e6022b93so838458b6e.1
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:36:16 -0700 (PDT)
+        Thu, 20 Jul 2023 15:38:08 -0400
+Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEF4119BE
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:38:07 -0700 (PDT)
+Received: by mail-ua1-x930.google.com with SMTP id a1e0cc1a2514c-7918b56b1e1so481277241.2
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689881775; x=1690486575;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689881887; x=1690486687;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=fCqX5B+zhrDKpuRs62rqJnb0R5l0ogRH2YoLWX5OaQA=;
-        b=gBvnOr0JgrI4Dpx6IeCG+XoztX5r7UPzUiCZayttjCeC30JvGQP/fnrsVY+yPQC7Xx
-         66P/cPQ15cxNQAVLUu9GCJF04177/8/aqMo3TYFW4ZE+bCa6ymRHaBnjK0oLSEVvtVFR
-         55K9fJWVvnLDmnQae84RYQ0KGoAGdziG2cMTs+z/rkV4Up++17DfbpKDznFvucJkqBbj
-         xfumbcznFXLAPm7PUG7DrPO6vYoe8ZhwjPguIS7tG4Yul9w0+JlYzOf55ooXM7lOfcpN
-         X1hwb4vQtWs61YLpxPLc0YbYMHdVPnjoE+7aQ1mCUQmXCIl7j0qctLSIWwsTeae1j2Kc
-         xJCg==
+        bh=1Aqo/gOfqS4N7dGQz+LUmrfdtT5oEda+VCbRxOBGots=;
+        b=ZPaTGFbmPqDHsbzbKNAF//LB+sGL+e8ErB9u8GPN/U8qhUhBpWU5DIlQwFlaDosZe/
+         p1YWZfL3b3cBv1nolfN1PNi4DeR4PLwvVzZ8fAj+6nw3DJAb24Wqwn/VwUKntTp3zLV/
+         9PHE6PTDFxEEuWsRiOmcnrinF/tMUX8t8I6vFEk32+8BM+uucBbqMGvACmUVHREvXSQ2
+         HvmI9/5EXLfhUHjBHEsGfUVIE9qZApojxEI/84CjLmIDw6RrJ11Nk64mtLaXw3/LKsKD
+         hTMcKlTEGHrqIcfyBbirCeTGt5dsWczFkP9j9uFUhQYSDLaN147PSimQJiTkAVD0FgM0
+         +qrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689881775; x=1690486575;
+        d=1e100.net; s=20221208; t=1689881887; x=1690486687;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=fCqX5B+zhrDKpuRs62rqJnb0R5l0ogRH2YoLWX5OaQA=;
-        b=jCzyKjSYqcE70Uvl+VZ6tYnAQk1ge//pzoyLAk5PP6otrfS0mOApB8Wt9O6yyrGO2R
-         fTe+HHpmRep7TrKYJiwvjE0SztRgCZkcmgljd+wh5v89jUlMCSYUy5vahhUpITBWRREN
-         JfqB8rNHcPWq2AzodOlSu0oAL4E9nUCZ/Ju26OZs1BYuWm5sfGYAOZOlTwrCu5ye2RYV
-         HXbdpfdWWjSWUPfITqXzMdlN8x0GXGZQr3Bw3C+4rBtk0bDH2B6NrCUNigUt1DAPZ2Wo
-         OBpdv+kYjITDjG4kmTwLhrE9/phCLWHlc1acRoAA1GI5bQx9Ppam48oPfBw7P/WmWMKj
-         IuPg==
-X-Gm-Message-State: ABy/qLY+sxHaARF+nw+DaAyU8sU8I43EV/BpFfLRykbG0QOSsgv6Ekz+
-        ypSnXv2XTAQaBui0tjf9ZPOAMQ==
-X-Google-Smtp-Source: APBJJlH8IvwexnwlfEPCulJnc+7Fldt5647O/XARhg5vn5qnzYg42szoNWOVisXdIJl623o51CAajQ==
-X-Received: by 2002:a05:6808:1394:b0:3a3:ed19:8a25 with SMTP id c20-20020a056808139400b003a3ed198a25mr521806oiw.3.1689881775665;
-        Thu, 20 Jul 2023 12:36:15 -0700 (PDT)
+        bh=1Aqo/gOfqS4N7dGQz+LUmrfdtT5oEda+VCbRxOBGots=;
+        b=irmZLx5yHKGcqO4kvX/pMdT91mkZFZPYnUY/SR794+x62mndV4kcsvvqMFpeoQljuh
+         PB6097TOft+Reaj9WOnHfW6/DWd5jKVr1aSD8qdcxrkOGb53KK1iwYSzv8DjOu+c4yAY
+         OCPCf5BQmGOwE4bJOOL33oFa483bnOi7fInCdu/9+Qr25Bh3+nIgAD/i7Nw/CG90G6Yb
+         rAomxJobv0a/r+598acgCoW2/5yM7oL51fh7HO3QRusB1EkIssGXDv+nc8s3wIgc/wqc
+         rC6fGiGCyJ5wKdh+WgsyFHxbBIigFo7Vf/x0bXvZms0ubuDD0ZsS5q8awtbzmk6SBKZK
+         lQVQ==
+X-Gm-Message-State: ABy/qLa+HSaUJuRA5X2on7xrDaFKS9Uuhs5aRAqVyQaf+yvfLzmdIUqK
+        wInKo2wmrjc7+0zk+0EUBVFvAQ==
+X-Google-Smtp-Source: APBJJlG58gxa9sCnD8UgtVvUAplhdSAm5YXTJem1cUMpfF3izF2KWjtxgd9RRD0H+1CykZ3PfvN1XA==
+X-Received: by 2002:a67:f243:0:b0:445:3bf:9387 with SMTP id y3-20020a67f243000000b0044503bf9387mr12927466vsm.4.1689881886847;
+        Thu, 20 Jul 2023 12:38:06 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain ([2606:6d00:11:83d4::7a9])
-        by smtp.gmail.com with ESMTPSA id i26-20020ac860da000000b00403efa1c143sm651001qtm.38.2023.07.20.12.36.14
+        by smtp.gmail.com with ESMTPSA id r22-20020a0cb296000000b0063600a119fcsm687199qve.37.2023.07.20.12.38.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 12:36:15 -0700 (PDT)
-Message-ID: <694dcc89ec4ff01ff240a1b924dac98fc1b64ac0.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/4] media: mediatek: vcodec: fix potential double free
+        Thu, 20 Jul 2023 12:38:06 -0700 (PDT)
+Message-ID: <05048ff687ca5a030bbb218570f13e2165f623d8.camel@ndufresne.ca>
+Subject: Re: [PATCH 3/4] media: mediatek: vcodec: Fix potential crash in
+ mtk_vcodec_dbgfs_remove()
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Dan Carpenter <dan.carpenter@linaro.org>,
         Yunfei Dong <yunfei.dong@mediatek.com>
@@ -64,70 +65,68 @@ Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
-Date:   Thu, 20 Jul 2023 15:36:14 -0400
-In-Reply-To: <ca491aaa-cfc4-4a84-b7fc-b64f3adc6550@moroto.mountain>
-References: <ca491aaa-cfc4-4a84-b7fc-b64f3adc6550@moroto.mountain>
+Date:   Thu, 20 Jul 2023 15:38:05 -0400
+In-Reply-To: <d4fffbaa-f01d-4e2e-9b1b-45d996236642@moroto.mountain>
+References: <d4fffbaa-f01d-4e2e-9b1b-45d996236642@moroto.mountain>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-Just a reminder to Yunfei that this change was originally addressed to him,=
- and
-a review was to be expected. Over a month is a bit too long for fixes.
-
-Le mercredi 14 juin 2023 =C3=A0 16:05 +0300, Dan Carpenter a =C3=A9crit=C2=
+Le mercredi 14 juin 2023 =C3=A0 16:07 +0300, Dan Carpenter a =C3=A9crit=C2=
 =A0:
-> The "lat_buf->private_data" needs to be set to NULL to prevent a
-> double free.  How this would happen is if vdec_msg_queue_init() failed
-> twice in a row and on the second time it failed earlier than on the
-> first time.
+> The list iterator "dbgfs_inst" is always non-NULL.  This means that the
+> test for NULL inside the loop is unnecessary and it also means that the
+> test for NULL outside the loop will not work.  If we do not find the item
+> on the list with the correct the ctx_id then it will free invalid memory
+> leading to a crash.
 >=20
-> The vdec_msg_queue_init() function has a loop which does:
-> 	for (i =3D 0; i < NUM_BUFFER_COUNT; i++) {
->=20
-> Each iteration initializes one element in the msg_queue->lat_buf[] array
-> and then the clean up function vdec_msg_queue_deinit() frees each
-> element of the msg_queue->lat_buf[] array.  This clean up code relies
-> on the assumption that every element is either initialized or zeroed.
-> Leaving a freed pointer which is non-zero breaks the assumption.
->=20
-> Fixes: b199fe46f35c ("media: mtk-vcodec: Add msg queue feature for lat an=
-d core architecture")
+> Fixes: cd403a6a0419 ("media: mediatek: vcodec: Add a debugfs file to get =
+different useful information")
 
-Unbalanced calls to deinit/init would be unfortunate, but I like keeping it=
- safe
-and aligned with the fact everything is clears to 0/null otherwise.
+Clearly better.
 
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 > ---
->  drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c | 1 +
->  1 file changed, 1 insertion(+)
+>  .../media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
 >=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/dr=
-ivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-> index f555341ae708..92ac82eb444e 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-> @@ -231,6 +231,7 @@ void vdec_msg_queue_deinit(struct vdec_msg_queue *msg=
-_queue,
->  			mtk_vcodec_mem_free(ctx, mem);
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c b/=
+drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
+> index 2151c3967684..2ebf68d33d57 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
+> @@ -166,16 +166,13 @@ void mtk_vcodec_dbgfs_remove(struct mtk_vcodec_dev =
+*vcodec_dev, int ctx_id)
+>  	struct mtk_vcodec_dbgfs_inst *dbgfs_inst;
 > =20
->  		kfree(lat_buf->private_data);
-> +		lat_buf->private_data =3D NULL;
+>  	list_for_each_entry(dbgfs_inst, &vcodec_dev->dbgfs.dbgfs_head, node) {
+> -		if (dbgfs_inst && dbgfs_inst->inst_id =3D=3D ctx_id) {
+> +		if (dbgfs_inst->inst_id =3D=3D ctx_id) {
+>  			vcodec_dev->dbgfs.inst_count--;
+> -			break;
+> +			list_del(&dbgfs_inst->node);
+> +			kfree(dbgfs_inst);
+> +			return;
+>  		}
 >  	}
+> -
+> -	if (dbgfs_inst) {
+> -		list_del(&dbgfs_inst->node);
+> -		kfree(dbgfs_inst);
+> -	}
+>  }
+>  EXPORT_SYMBOL_GPL(mtk_vcodec_dbgfs_remove);
 > =20
->  	cancel_work_sync(&msg_queue->core_work);
 
