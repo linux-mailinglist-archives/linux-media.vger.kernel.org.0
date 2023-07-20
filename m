@@ -2,241 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E29B75ABA3
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 12:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A98975ABCB
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 12:20:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229935AbjGTKHW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 06:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58554 "EHLO
+        id S230076AbjGTKUG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 06:20:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbjGTKHV (ORCPT
+        with ESMTP id S229679AbjGTKUF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 06:07:21 -0400
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9F4B7;
-        Thu, 20 Jul 2023 03:07:19 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3F764E0009;
-        Thu, 20 Jul 2023 10:07:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1689847638;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MfeAI5RqQVRWdSrS//JYyaBTkTxdDT5SqbV+7NPisKA=;
-        b=RriP9ZzSGPv8pbwLFTRKDGx+aoCYONDtuc/vK1L9HA60ws9zpJiLoTd4h194Gax3hwuzXA
-        4Gzfj3714apbJXaLGWdeTy0H8tWuc8AcSo7jtIhrHG2Rg6+dHQG05wZy1cG6uDGFbWj1XW
-        jU9bGTd+SQk8algoKJQjeBz1xg++d0JfoZ5H3UGcUC3N2BBUHABrF1QzmhncLC4WoCYLEU
-        8+KF+t2bU5tnQCak/BoOKkTKhZ7Roh1oaon2Bb187gGTfJ4lFALga4UacD3m1NJ8sp2UM7
-        6Bj/bSqUlVVkA5AFpQhO+vPVHYInXIzGryYHpkHLfzS19a2MIgrjkpLwdeqj4g==
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH 2/2] media: doc: codec: Rename "Return fields" to "Returned fields" for consistency
-Date:   Thu, 20 Jul 2023 12:07:02 +0200
-Message-ID: <20230720100702.42803-2-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230720100702.42803-1-paul.kocialkowski@bootlin.com>
-References: <20230720100702.42803-1-paul.kocialkowski@bootlin.com>
+        Thu, 20 Jul 2023 06:20:05 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5063CE75
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 03:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1689848403; x=1721384403;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=MboF/Yj6FZtYzwwj0ID9ddy66mCTdjv++Tu+1ox1wsc=;
+  b=FJ1BrggS+voTsBXLGNrbSWMVUAmRR9fiNtV4aNIaTiE0dCtqAMnzrcKR
+   OeNJkjuLR/CyHBi3XP88tjulLP+TkqJNon+QIOcaklcCBenJU3LoAgEMD
+   cfck5wogGxhOnuCwF/O61x7rFTko9cf9TklaLuhKY4INRpFamVpyN5hfN
+   SGkY8T9JM5ruC5v7qyI2aG826zVu+x5YRnr8S/FDdORaECdb+uwe5l/JF
+   zMxPVLapJHtMvnUtBrR/i+Y4zHSz+IZqTD+mjR5AFotU4l5E1+1bvnxwl
+   9H1AKM23W+GP+KnEcbdAjCw1E0zmPK850K1rY58vYaWS2iLU51heudadK
+   Q==;
+X-IronPort-AV: E=Sophos;i="6.01,218,1684792800"; 
+   d="scan'208";a="32030419"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 20 Jul 2023 12:20:01 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 05E90280078;
+        Thu, 20 Jul 2023 12:20:01 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>
+Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/2] media: imx: imx7-media-csi: Fix applying format constraints
+Date:   Thu, 20 Jul 2023 12:19:59 +0200
+Message-ID: <2765509.BEx9A2HvPv@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230720074129.3680269-2-alexander.stein@ew.tq-group.com>
+References: <20230720074129.3680269-1-alexander.stein@ew.tq-group.com> <20230720074129.3680269-2-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The parts about fields that are returned typically comes after
-"Required fields" so it feels more consistent to name them "Returned fields".
+Am Donnerstag, 20. Juli 2023, 09:41:29 CEST schrieb Alexander Stein:
+> v4l_bound_align_image aligns to a multiple power of 2 of walign, but the
+> result only needs to be a multiple of walign. Fix this by using
+> v4l2_apply_frmsize_constraints() instead.
+>=20
+> Reported-by: Tim Harvey <tharvey@gateworks.com>
+> Fixes: 6f482c4729d9 ("media: imx: imx7-media-csi: Get rid of superfluous
+> call to imx7_csi_mbus_fmt_to_pix_fmt") Signed-off-by: Alexander Stein
+> <alexander.stein@ew.tq-group.com>
+> ---
+> Tim,
+> can you please test if this fixes your problem?
+> Apparently this issue only arises under specific conditions, e.g.
+> 640/480/8bpp. This issue does not show up for 640/480/10bpp.
+>=20
+>  drivers/media/platform/nxp/imx7-media-csi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
+> b/drivers/media/platform/nxp/imx7-media-csi.c index
+> 73f8f2a35422..523e5f039a5a 100644
+> --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> @@ -1141,8 +1141,8 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format
+> *pixfmt, * TODO: Implement configurable stride support.
+>  	 */
+>  	walign =3D 8 * 8 / cc->bpp;
+> -	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
+> -			      &pixfmt->height, 1, 0xffff, 1, 0);
+> +	v4l2_apply_frmsize_constraints(&pixfmt->width, &pixfmt->height,
+> +				       &imx7_csi_frmsize_stepwise);
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- .../userspace-api/media/v4l/dev-decoder.rst      | 16 ++++++++--------
- .../userspace-api/media/v4l/dev-encoder.rst      | 16 ++++++++--------
- .../media/v4l/dev-stateless-decoder.rst          |  4 ++--
- 3 files changed, 18 insertions(+), 18 deletions(-)
+Meh, this essentially removes the walign constraint. I need some more coffe=
+e=20
+and this some more work.
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-index 675bc2c3c6b8..ef8e8cf31f90 100644
---- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-@@ -277,7 +277,7 @@ Initialization
-      other fields
-          follow standard semantics.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``sizeimage``
-          adjusted size of ``OUTPUT`` buffers.
-@@ -311,7 +311,7 @@ Initialization
-       ``memory``
-           follows standard semantics.
- 
--    * **Return fields:**
-+    * **Returned fields:**
- 
-       ``count``
-           the actual number of buffers allocated.
-@@ -339,7 +339,7 @@ Initialization
-       ``format``
-           follows standard semantics.
- 
--    * **Return fields:**
-+    * **Returned fields:**
- 
-       ``count``
-           adjusted to the number of allocated buffers.
-@@ -410,7 +410,7 @@ Capture Setup
-       ``type``
-           a ``V4L2_BUF_TYPE_*`` enum appropriate for ``CAPTURE``.
- 
--    * **Return fields:**
-+    * **Returned fields:**
- 
-       ``width``, ``height``
-           frame buffer resolution for the decoded frames.
-@@ -443,7 +443,7 @@ Capture Setup
-       ``target``
-           set to ``V4L2_SEL_TGT_COMPOSE``.
- 
--    * **Return fields:**
-+    * **Returned fields:**
- 
-       ``r.left``, ``r.top``, ``r.width``, ``r.height``
-           the visible rectangle; it must fit within the frame buffer resolution
-@@ -552,7 +552,7 @@ Capture Setup
-          frame is written; defaults to ``V4L2_SEL_TGT_COMPOSE_DEFAULT``;
-          read-only on hardware without additional compose/scaling capabilities.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``r.left``, ``r.top``, ``r.width``, ``r.height``
-          the visible rectangle; it must fit within the frame buffer resolution
-@@ -629,7 +629,7 @@ Capture Setup
-       ``memory``
-           follows standard semantics.
- 
--    * **Return fields:**
-+    * **Returned fields:**
- 
-       ``count``
-           actual number of buffers allocated.
-@@ -668,7 +668,7 @@ Capture Setup
-           a format representing the maximum framebuffer resolution to be
-           accommodated by newly allocated buffers.
- 
--    * **Return fields:**
-+    * **Returned fields:**
- 
-       ``count``
-           adjusted to the number of allocated buffers.
-diff --git a/Documentation/userspace-api/media/v4l/dev-encoder.rst b/Documentation/userspace-api/media/v4l/dev-encoder.rst
-index c82d27689c08..15ca234459bb 100644
---- a/Documentation/userspace-api/media/v4l/dev-encoder.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-encoder.rst
-@@ -163,7 +163,7 @@ Initialization
-      other fields
-          follow standard semantics.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``sizeimage``
-          adjusted size of ``CAPTURE`` buffers.
-@@ -189,7 +189,7 @@ Initialization
-      other fields
-          follow standard semantics.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``pixelformat``
-          raw format supported for the coded format currently selected on
-@@ -215,7 +215,7 @@ Initialization
-      other fields
-          follow standard semantics.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``width``, ``height``
-          may be adjusted to match encoder minimums, maximums and alignment
-@@ -245,7 +245,7 @@ Initialization
- 	 the desired frame interval; the encoder may adjust it to
- 	 match hardware requirements.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``parm.output.timeperframe``
- 	 the adjusted frame interval.
-@@ -296,7 +296,7 @@ Initialization
- 	 the desired coded frame interval; the encoder may adjust it to
- 	 match hardware requirements.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``parm.capture.timeperframe``
- 	 the adjusted frame interval.
-@@ -339,7 +339,7 @@ Initialization
-          rectangle and may be subject to adjustment to match codec and
-          hardware constraints.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``r.left``, ``r.top``, ``r.width``, ``r.height``
-          visible rectangle adjusted by the encoder.
-@@ -387,7 +387,7 @@ Initialization
-      other fields
-          follow standard semantics.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``count``
-           actual number of buffers allocated.
-@@ -420,7 +420,7 @@ Initialization
-      other fields
-          follow standard semantics.
- 
--   * **Return fields:**
-+   * **Returned fields:**
- 
-      ``count``
-          adjusted to the number of allocated buffers.
-diff --git a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
-index 4a26646eeec5..35ed05f2695e 100644
---- a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
-@@ -180,7 +180,7 @@ Initialization
-       ``memory``
-           follows standard semantics.
- 
--    * **Return fields:**
-+    * **Returned fields:**
- 
-       ``count``
-           actual number of buffers allocated.
-@@ -208,7 +208,7 @@ Initialization
-           follows standard semantics. ``V4L2_MEMORY_USERPTR`` is not supported
-           for ``CAPTURE`` buffers.
- 
--    * **Return fields:**
-+    * **Returned fields:**
- 
-       ``count``
-           adjusted to allocated number of buffers, in case the codec requires
--- 
-2.41.0
+Sorry for the noise
+Alexander
+
+>=20
+>  	pixfmt->bytesperline =3D pixfmt->width * cc->bpp / 8;
+>  	pixfmt->sizeimage =3D pixfmt->bytesperline * pixfmt->height;
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
