@@ -2,125 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E903A75B789
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 21:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D937175B81A
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 21:36:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230184AbjGTTJ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 15:09:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56462 "EHLO
+        id S230502AbjGTTgU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 15:36:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230210AbjGTTJZ (ORCPT
+        with ESMTP id S229609AbjGTTgT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 15:09:25 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EC6F2711
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:09:23 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-267711d2b43so207753a91.0
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:09:23 -0700 (PDT)
+        Thu, 20 Jul 2023 15:36:19 -0400
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573C6171E
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:36:16 -0700 (PDT)
+Received: by mail-oi1-x233.google.com with SMTP id 5614622812f47-3a1e6022b93so838458b6e.1
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:36:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689880162; x=1690484962;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kSoXuGhX+8yQXzcITg+GBvfy1BNzP6Nm9GarxZehFAI=;
-        b=NBQChcbR+3EsDO+bEL/FzOVux3FFDHCpdoZ0LN/l+hsxLtMZEYBjGRtjtkawFVPkew
-         lblgC66GlIWXV9a6sd6L812zEdTSPwIZdIyHEyLgeXHC0EvnixyH7MtLCb0aWgIHWbus
-         mTPVa+wLz09ianC/OI7fKuJYYlPtrw8ule9RCC7F9ny4rqRDRhFLu2VkxH59CCNnxfUt
-         fEpwymyunNUhlH55dOXOniflRjyRTkHIxm7HHDC4+xCCPS0ugoIsSUjHs7TDppMekouC
-         HZyNNBHJAKGsKCW2LZCldfiah3CFTEVvuFFOKklxkIO00999sySPw4df8Vpa+uKLCEOK
-         1QnQ==
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689881775; x=1690486575;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fCqX5B+zhrDKpuRs62rqJnb0R5l0ogRH2YoLWX5OaQA=;
+        b=gBvnOr0JgrI4Dpx6IeCG+XoztX5r7UPzUiCZayttjCeC30JvGQP/fnrsVY+yPQC7Xx
+         66P/cPQ15cxNQAVLUu9GCJF04177/8/aqMo3TYFW4ZE+bCa6ymRHaBnjK0oLSEVvtVFR
+         55K9fJWVvnLDmnQae84RYQ0KGoAGdziG2cMTs+z/rkV4Up++17DfbpKDznFvucJkqBbj
+         xfumbcznFXLAPm7PUG7DrPO6vYoe8ZhwjPguIS7tG4Yul9w0+JlYzOf55ooXM7lOfcpN
+         X1hwb4vQtWs61YLpxPLc0YbYMHdVPnjoE+7aQ1mCUQmXCIl7j0qctLSIWwsTeae1j2Kc
+         xJCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689880162; x=1690484962;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kSoXuGhX+8yQXzcITg+GBvfy1BNzP6Nm9GarxZehFAI=;
-        b=P66tRdKLy/XTAkRsDnAKy11tX5hpZhbxz51T/qY7nygpjjLDbc1zwj8ezBZoyQkPFq
-         mUY9q892N6rM5bURy8iX87VkHEGfkKcrYLRm9mKFJzoElDfgwLfd2zKAgW2kGrkd7Qal
-         brvQZpV7w4PHbISLOdDUxe6G2DvmSQGJbX2bmjG0zHTH1Nm5g5BVLvXzKVI+2YHOzKyS
-         gcTKg6l6Ze+mJWlAVJY6/vwWy5c06NffRysJDYhIeU+ZjH7gARTssRJ9y5DPWaEVO2im
-         BHRAdl9xDa52vQnRNVbINZ43skLlR5U3N0nD/+azv3Q5ukB0QqzuvMGc+TVR7K8T9QXa
-         /icA==
-X-Gm-Message-State: ABy/qLbN6vsa5lfOyCu9LKBqMQ7e6pmIQC6bFGDYxCKq0DCZKs25YJ6+
-        nVB46hHU3M1/8++A8URVMXqXs1M9OwK9uxQUOig=
-X-Google-Smtp-Source: APBJJlGpVDhpXYcYil3PJhbK+lG6U1dR+wOxxDh2/dj/GXYsBiIPvSrpgoFFXiGkXnzSNODAdkB8q7TlQgN4Cd5JoaQ=
-X-Received: by 2002:a17:90a:3e05:b0:25b:88bc:bb6b with SMTP id
- j5-20020a17090a3e0500b0025b88bcbb6bmr3058001pjc.2.1689880162531; Thu, 20 Jul
- 2023 12:09:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAJ+vNU0BOVLTL17ofgHwtexbpuMYwH_aGUC==EXABUtHHiv_ag@mail.gmail.com>
- <2290635.ElGaqSPkdT@steina-w> <CAJ+vNU0_LwY+4_9LT7-Cin4Otv3ne20N72TdsfzV4odEMQrLOg@mail.gmail.com>
- <844922189.0ifERbkFSE@steina-w> <CAJ+vNU21HytYLDojnPqLu8a9BRGRbMNgmGzdqbm67_5TYZT2tg@mail.gmail.com>
- <CAOMZO5CWLRq+_Cg0hd42G0XA-NASDp3PDezg9sE18CZ-uNrVDQ@mail.gmail.com>
-In-Reply-To: <CAOMZO5CWLRq+_Cg0hd42G0XA-NASDp3PDezg9sE18CZ-uNrVDQ@mail.gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Thu, 20 Jul 2023 16:09:10 -0300
-Message-ID: <CAOMZO5AoWRr+PdE9_+31b187XgCKTYKBcNq5F++UDrhqQQ1F4A@mail.gmail.com>
-Subject: Re: media: imx: imx7-media-csi: Get rid of superfluous call to
- imx7_csi_mbus_fm t_to_pix_fmt
-To:     Tim Harvey <tharvey@gateworks.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
+        d=1e100.net; s=20221208; t=1689881775; x=1690486575;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fCqX5B+zhrDKpuRs62rqJnb0R5l0ogRH2YoLWX5OaQA=;
+        b=jCzyKjSYqcE70Uvl+VZ6tYnAQk1ge//pzoyLAk5PP6otrfS0mOApB8Wt9O6yyrGO2R
+         fTe+HHpmRep7TrKYJiwvjE0SztRgCZkcmgljd+wh5v89jUlMCSYUy5vahhUpITBWRREN
+         JfqB8rNHcPWq2AzodOlSu0oAL4E9nUCZ/Ju26OZs1BYuWm5sfGYAOZOlTwrCu5ye2RYV
+         HXbdpfdWWjSWUPfITqXzMdlN8x0GXGZQr3Bw3C+4rBtk0bDH2B6NrCUNigUt1DAPZ2Wo
+         OBpdv+kYjITDjG4kmTwLhrE9/phCLWHlc1acRoAA1GI5bQx9Ppam48oPfBw7P/WmWMKj
+         IuPg==
+X-Gm-Message-State: ABy/qLY+sxHaARF+nw+DaAyU8sU8I43EV/BpFfLRykbG0QOSsgv6Ekz+
+        ypSnXv2XTAQaBui0tjf9ZPOAMQ==
+X-Google-Smtp-Source: APBJJlH8IvwexnwlfEPCulJnc+7Fldt5647O/XARhg5vn5qnzYg42szoNWOVisXdIJl623o51CAajQ==
+X-Received: by 2002:a05:6808:1394:b0:3a3:ed19:8a25 with SMTP id c20-20020a056808139400b003a3ed198a25mr521806oiw.3.1689881775665;
+        Thu, 20 Jul 2023 12:36:15 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:83d4::7a9])
+        by smtp.gmail.com with ESMTPSA id i26-20020ac860da000000b00403efa1c143sm651001qtm.38.2023.07.20.12.36.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 12:36:15 -0700 (PDT)
+Message-ID: <694dcc89ec4ff01ff240a1b924dac98fc1b64ac0.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/4] media: mediatek: vcodec: fix potential double free
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Dan Carpenter <dan.carpenter@linaro.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
+Date:   Thu, 20 Jul 2023 15:36:14 -0400
+In-Reply-To: <ca491aaa-cfc4-4a84-b7fc-b64f3adc6550@moroto.mountain>
+References: <ca491aaa-cfc4-4a84-b7fc-b64f3adc6550@moroto.mountain>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 20, 2023 at 3:47=E2=80=AFPM Fabio Estevam <festevam@gmail.com> =
-wrote:
+Hi,
 
-> Does it work if we do like this?
->
-> --- a/drivers/media/platform/nxp/imx7-media-csi.c
-> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> @@ -1108,6 +1108,17 @@ static int imx7_csi_video_g_fmt_vid_cap(struct
-> file *file, void *fh,
->         return 0;
->  }
->
-> +/* borrowed from drivers/media/v4l2-core/v4l2-common.c */
-> +static unsigned int clamp_roundup(unsigned int x, unsigned int min,
-> +                                 unsigned int max, unsigned int alignmen=
-t)
-> +{
-> +       x =3D clamp(x, min, max);
-> +       if (alignment)
-> +               x =3D round_up(x, alignment);
-> +
-> +       return x;
-> +}
-> +
->  static const struct imx7_csi_pixfmt *
->  __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
->                          struct v4l2_rect *compose)
-> @@ -1137,8 +1148,8 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pi=
-xfmt,
->          * TODO: Implement configurable stride support.
->          */
->         walign =3D 8 * 8 / cc->bpp;
-> -       v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
-> -                             &pixfmt->height, 1, 0xffff, 1, 0);
-> +       pixfmt->width =3D clamp_roundup(pixfmt->width, 1, 0xffff, walign)=
-;
-> +       pixfmt->height =3D clamp_roundup(pixfmt->height, 1, 0xffff, walig=
-n);
+Just a reminder to Yunfei that this change was originally addressed to him,=
+ and
+a review was to be expected. Over a month is a bit too long for fixes.
 
-Actually the height should be:
+Le mercredi 14 juin 2023 =C3=A0 16:05 +0300, Dan Carpenter a =C3=A9crit=C2=
+=A0:
+> The "lat_buf->private_data" needs to be set to NULL to prevent a
+> double free.  How this would happen is if vdec_msg_queue_init() failed
+> twice in a row and on the second time it failed earlier than on the
+> first time.
+>=20
+> The vdec_msg_queue_init() function has a loop which does:
+> 	for (i =3D 0; i < NUM_BUFFER_COUNT; i++) {
+>=20
+> Each iteration initializes one element in the msg_queue->lat_buf[] array
+> and then the clean up function vdec_msg_queue_deinit() frees each
+> element of the msg_queue->lat_buf[] array.  This clean up code relies
+> on the assumption that every element is either initialized or zeroed.
+> Leaving a freed pointer which is non-zero breaks the assumption.
+>=20
+> Fixes: b199fe46f35c ("media: mtk-vcodec: Add msg queue feature for lat an=
+d core architecture")
 
-pixfmt->height =3D clamp_roundup(pixfmt->height, 1, 0xffff, 1);
+Unbalanced calls to deinit/init would be unfortunate, but I like keeping it=
+ safe
+and aligned with the fact everything is clears to 0/null otherwise.
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/dr=
+ivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> index f555341ae708..92ac82eb444e 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> @@ -231,6 +231,7 @@ void vdec_msg_queue_deinit(struct vdec_msg_queue *msg=
+_queue,
+>  			mtk_vcodec_mem_free(ctx, mem);
+> =20
+>  		kfree(lat_buf->private_data);
+> +		lat_buf->private_data =3D NULL;
+>  	}
+> =20
+>  	cancel_work_sync(&msg_queue->core_work);
+
