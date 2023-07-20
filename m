@@ -2,105 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 380A875A7C2
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 09:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23DC375A7F9
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 09:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230291AbjGTH0a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 03:26:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53738 "EHLO
+        id S231584AbjGTHlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 03:41:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230144AbjGTH02 (ORCPT
+        with ESMTP id S229451AbjGTHlg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 03:26:28 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84AC719A6
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 00:26:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689837987; x=1721373987;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=2dClKk9mbxGL+oyokT6h+JrcG9FfvfifzgcmH4N+eW0=;
-  b=iSsbQHkNEwugYNRVqrwK3iDYvAY6EFPzqwY2MbH6H7QZfBlyuc+053gx
-   H8aXiSWRVN7uzWmB/9SPZMH8c1cGUhZNgjeuiDlKKahERapMTCudjuOLL
-   zdE3NzuhOy9ZuKIur9fyDz2O470MCp0zVj+uBCuVBbdKAQVKxxeOuvhmx
-   7XSV7e8+QZjLjERTh2i+rBhgBaMh4kSxtQY3i+oz99JqOpPvjzPpJ9CBR
-   ImhrfOtYkZsl+EJZfYtC9ruci41zIdevCrPnW0Pwpc0RpcAs3gzXnpWDx
-   FiKeTwVq/O1Dn17OqZV1jReZ1fA620LxOCjuEMdgJr51vnI7IKsap2rsy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="365542206"
-X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
-   d="scan'208";a="365542206"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 00:26:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="837983301"
-X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
-   d="scan'208";a="837983301"
-Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Jul 2023 00:26:25 -0700
-From:   Wentong Wu <wentong.wu@intel.com>
-To:     sakari.ailus@linux.intel.com, hdegoede@redhat.com,
-        djrscally@gmail.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org
-Cc:     bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
-        xiang.ye@intel.com, tian.shu.qiu@intel.com,
-        Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v10 3/3] ACPI: delay enumeration of devices with a _DEP pointing to IVSC device
-Date:   Thu, 20 Jul 2023 15:25:52 +0800
-Message-Id: <1689837952-12373-4-git-send-email-wentong.wu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1689837952-12373-1-git-send-email-wentong.wu@intel.com>
-References: <1689837952-12373-1-git-send-email-wentong.wu@intel.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Thu, 20 Jul 2023 03:41:36 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893C12118
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 00:41:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1689838894; x=1721374894;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cXY/BLZfaDuNi5P3IqCRO4cP4HDGKE/2ag+TBekzt7g=;
+  b=JzbW+i3D4pnDGHwv3Fsq+LRA6jDCy6igkEa/8fbzfgS4eMjvDZpifs78
+   iWwkhm3cegXNDStEQ+zX6A81nPFGCyWU7NNGQmY400sHYWNuwCxygB9AE
+   5wpu2jIBafWSeYh7r9UI3tcPdPxSkUCzxpUhZiVxryQ8tThKFdCUlrlN2
+   +7H0LmGvEgDQnxdRlEXJ+Z63m7Wwe7EA+ZZ3BA0qt3sZA+CVM33EsttzW
+   NPyIMvMampSGhL1Done97lsih+KR8mmohErqbcI66PCy0HcncKT+ZTyrh
+   q51v8GYmFF2GQJVI3LTVVPg3mTorfxTQSHZwPzjSmT2/Ahsxlln2qhcWn
+   w==;
+X-IronPort-AV: E=Sophos;i="6.01,218,1684792800"; 
+   d="scan'208";a="32025079"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 20 Jul 2023 09:41:32 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 8C2FA280078;
+        Thu, 20 Jul 2023 09:41:32 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 1/2] media: imx: imx7-media-csi: Move stepwise framesize into a dedicated struct
+Date:   Thu, 20 Jul 2023 09:41:28 +0200
+Message-Id: <20230720074129.3680269-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Inside IVSC, switching ownership requires an interface with two
-different hardware modules, ACE and CSI. The software interface
-to these modules is based on Intel MEI framework. Usually mei
-client devices are dynamically created, so the info of consumers
-depending on mei client devices is not present in the firmware
-tables.
+This way these constraints can be reused later on.
+No functional change intended.
 
-This causes problems with the probe ordering with respect to
-drivers for consumers of these mei client devices. But on these
-camera sensor devices, the ACPI nodes describing the sensors all
-have a _DEP dependency on the matching mei bus ACPI device, so
-adding IVSC mei bus ACPI device to acpi_honor_dep_ids allows
-solving the probe-ordering problem by delaying the enumeration of
-ACPI-devices which have a _DEP dependency on an IVSC mei bus ACPI
-device.
-
-On TGL platform, the HID of IVSC mei bus ACPI device is INTC1059,
-and on ADL platform, the HID is INTC1095. So add both of them to
-acpi_honor_dep_ids.
-
-Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/acpi/scan.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/platform/nxp/imx7-media-csi.c | 26 ++++++++++++---------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-index 2743444..59c92a9 100644
---- a/drivers/acpi/scan.c
-+++ b/drivers/acpi/scan.c
-@@ -796,6 +796,9 @@ static const char * const acpi_ignore_dep_ids[] = {
- /* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
- static const char * const acpi_honor_dep_ids[] = {
- 	"INT3472", /* Camera sensor PMIC / clk and regulator info */
-+	"INTC1059", /* IVSC (TGL) driver must be loaded to allow i2c access to camera sensors */
-+	"INTC1095", /* IVSC (ADL) driver must be loaded to allow i2c access to camera sensors */
-+	"INTC100A", /* IVSC (RPL) driver must be loaded to allow i2c access to camera sensors */
- 	NULL
- };
+diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
+index 2f9302fc7570..73f8f2a35422 100644
+--- a/drivers/media/platform/nxp/imx7-media-csi.c
++++ b/drivers/media/platform/nxp/imx7-media-csi.c
+@@ -260,6 +260,20 @@ imx7_csi_notifier_to_dev(struct v4l2_async_notifier *n)
+ 	return container_of(n, struct imx7_csi, notifier);
+ }
  
++/*
++ * TODO: The constraints are hardware-specific and may depend on the
++ * pixel format. This should come from the driver using
++ * imx_media_capture.
++ */
++static const struct v4l2_frmsize_stepwise imx7_csi_frmsize_stepwise = {
++	.min_width = 1,
++	.min_height = 1,
++	.max_width = 65535,
++	.max_height = 65535,
++	.step_width = 1,
++	.step_height = 1,
++};
++
+ /* -----------------------------------------------------------------------------
+  * Hardware Configuration
+  */
+@@ -1082,18 +1096,8 @@ static int imx7_csi_video_enum_framesizes(struct file *file, void *fh,
+ 	if (!cc)
+ 		return -EINVAL;
+ 
+-	/*
+-	 * TODO: The constraints are hardware-specific and may depend on the
+-	 * pixel format. This should come from the driver using
+-	 * imx_media_capture.
+-	 */
+ 	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
+-	fsize->stepwise.min_width = 1;
+-	fsize->stepwise.max_width = 65535;
+-	fsize->stepwise.min_height = 1;
+-	fsize->stepwise.max_height = 65535;
+-	fsize->stepwise.step_width = 1;
+-	fsize->stepwise.step_height = 1;
++	fsize->stepwise = imx7_csi_frmsize_stepwise;
+ 
+ 	return 0;
+ }
 -- 
-2.7.4
+2.34.1
 
