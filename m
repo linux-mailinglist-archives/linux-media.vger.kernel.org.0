@@ -2,78 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F89F75B889
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 22:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C3ED75B8A9
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 22:22:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229876AbjGTUKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 16:10:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56704 "EHLO
+        id S230158AbjGTUWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 16:22:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbjGTUKC (ORCPT
+        with ESMTP id S229653AbjGTUWT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 16:10:02 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C3DED
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 13:10:00 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id af79cd13be357-76728ae3162so106819385a.3
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 13:10:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689883800; x=1690488600;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=X6oWLkz6x5qYmjU2JhBWktWGTfXJ8rQEV/60IeqqLVA=;
-        b=vo6kORkz/2I2jOtgIHATmtuOo6e3DA+IzMz4hil4GX1fh8Ec+/wfzvo+70TbP6saPO
-         kjbN2NIRF7veOewuZkHiBIbGlvjogEk0yh2vlUq73EjFTlgCs7Z0zDysgX3jp0lt3+eQ
-         SkhvLw3ZLAEJxB16yRnmDPRNqJT4PWfpscNrrAWmiz8LN4cXGWHkWJtocktZwOnzoSds
-         IZA+DFaGSzSwnQpSEZpttc9XSR+dggKJizrVVqrtCM/+hwNDkS4WEx6MHHOMOGSGWhv6
-         WWzqogkzh2Dauxjp6sOyup2GTAzDPo1cij1OXspycKklONg0zbow156lwuGNckEwwv9t
-         eM1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689883800; x=1690488600;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X6oWLkz6x5qYmjU2JhBWktWGTfXJ8rQEV/60IeqqLVA=;
-        b=DUQuAc2oy17nhlyaTa5SAXRuohVzqV8GCEApv/BrAUFulx7lbQXjqWRMtHXiQpA647
-         aZk6KOGVjn6b+N8z0m4eT+EoTj/bQFCQknGPZtf53DTX1GnBxUGryxqqQvmXkzS39RLp
-         g7aY0turmFHMODR9LAlPfCQXQVJJbpXxEinxC5SnJTC6iMxzSXyTbGt48mFyZnO0E4H6
-         lUuiVqwu+MRP241uyc8IrY0DvCkptQkpEs0IOetgoW8RqwZyjqcmk3mRi4DqswR+s6Uy
-         WpaDqeJMFDwnXUjKHPpdEJg1dVVuCMiRmxM7fdun9tjPe9slIRPo5K2SdzJwIqjqawXp
-         BuaA==
-X-Gm-Message-State: ABy/qLaQVRy+iBdjjjb4DduJzAPsXFZtsKOpEZxIuls1T1+W/wdpYptR
-        YmGSEKAoelgi1/CW8TIuH4Z/Qg==
-X-Google-Smtp-Source: APBJJlHQ5Xb9t19f2pNRk1xu40E1jXT0Vq7glHZjAXEg+udNqCJuq/iNTIp/0aO5H/YuD9KsCT7yuw==
-X-Received: by 2002:a05:620a:2aec:b0:768:3f41:5843 with SMTP id bn44-20020a05620a2aec00b007683f415843mr5481309qkb.50.1689883799854;
-        Thu, 20 Jul 2023 13:09:59 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:83d4::7a9])
-        by smtp.gmail.com with ESMTPSA id j3-20020a37c243000000b00767d7307490sm602968qkm.34.2023.07.20.13.09.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 13:09:59 -0700 (PDT)
-Message-ID: <bbb6660439bb66bd9d81bb8031d9062d3c03fdf0.camel@ndufresne.ca>
-Subject: Re: [PATCH v7 2/9] media: vivid: Convert to v4l2_ext_pix_format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Randy Li <ayaka@soulik.info>, Tomasz Figa <tfiga@chromium.org>
-Cc:     linux-media@vger.kernel.org, randy.li@synaptics.com,
-        Brian.Starkey@arm.com, boris.brezillon@collabora.com,
-        frkoenig@chromium.org, hans.verkuil@cisco.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, kernel@collabora.com,
-        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, narmstrong@baylibre.com, sakari.ailus@iki.fi,
-        stanimir.varbanov@linaro.org,
-        Helen Koike <helen.koike@collabora.com>
-Date:   Thu, 20 Jul 2023 16:09:58 -0400
-In-Reply-To: <46d15120-6e19-e224-47f3-e0dcbf0aeda5@soulik.info>
-References: <20230206043308.28365-1-ayaka@soulik.info>
-         <20230206043308.28365-3-ayaka@soulik.info>
-         <20230713103912.favcnhqwjkzvsa6b@chromium.org>
-         <46d15120-6e19-e224-47f3-e0dcbf0aeda5@soulik.info>
+        Thu, 20 Jul 2023 16:22:19 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2E0271C;
+        Thu, 20 Jul 2023 13:22:17 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:11:83d4::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9C9576607094;
+        Thu, 20 Jul 2023 21:22:14 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1689884536;
+        bh=6M9ZDL21aWrrFRYxWzAwtVegdIAxdx1kKWISs1pHSfY=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=ajaVbOG/FS7aLl4qzeKDNblnyhHDdjhv4HXGt+6yqnskc/OSnzK4NiLvWsLFt2sW0
+         xTP00Wi6Tcc0cGAl2LSXYGcOG0ujX7CRXDgceHtAuE6XEdvPvWVCAaaQBWoaW6wpm9
+         EOhr4D8ohufkzr4u0Q83tDXnGXYbxeFkXqgSmsMhVTlG8kPmVaQhMbmNOWefEGt/7W
+         7+yFPSuduXlaQmFf9fL7yoi+GpiTtNq2F8ypI+Sj/DzrtN4o9eG6yo+ePaqj7zKyfy
+         Us246olv2/lmFLICCNghaggVQppOpduYaTsHMucFYhlm9gnS+CXPO3Cnkm/mM+Zj9u
+         6UeEisI8xvNvw==
+Message-ID: <02e3f58e3dc009eadd1f37ac3d7d65a95706c9a6.camel@collabora.com>
+Subject: Re: [PATCH 1/2] media: mediatek: vcodec: checking decoder ack
+ message parameter
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
+        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Thu, 20 Jul 2023 16:22:06 -0400
+In-Reply-To: <20230717081319.12542-1-yunfei.dong@mediatek.com>
+References: <20230717081319.12542-1-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,193 +68,182 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 18 juillet 2023 =C3=A0 00:00 +0800, Randy Li a =C3=A9crit=C2=A0:
-> On 2023/7/13 18:39, Tomasz Figa wrote:
-> > On Mon, Feb 06, 2023 at 12:33:01PM +0800, ayaka wrote:
-> > > From: Helen Koike <helen.koike@collabora.com>
-> > >=20
-> > > Simplify Multi/Single planer API handling by converting to v4l2_ext_p=
-ix_format.
-> > >=20
-> > > Duplicate v4l2_ioctl_ops for touch devices. This is done to force the
-> > > framework to use the ext hooks when the classic Api is used from
-> > > userspace in Vid devices, and to keep touch devices with classic hook=
-.
-> > >=20
-> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> > > ---
-> > > Changes in v7:
-> > > - Force the userspace using the new APIs to operate non-touch drivers=
-.
-> > The primary objective of Linux development is not to break the
-> > userspace. We can't just remove the old API, especially not from
-> > existing drivers.
-> Maybe I should create a new virtual driver here? It is impossible to=20
-> support the new fourcc modifier with the old APIs.
+Hi,
 
-For MPLANE, where backward compatibility was built into libv4l2 LD_PRELOAD
-wrapper, it simply failed the cases that could not be supported (non contig=
-uous
-planes).
+Le lundi 17 juillet 2023 =C3=A0 16:13 +0800, Yunfei Dong a =C3=A9crit=C2=A0=
+:
+> Need to checking all parameters of msg data are valid or not,
+> in case of access null pointer or unreasonable value leading
+> to kernel reboot.
+>=20
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  2 +
+>  .../mediatek/vcodec/decoder/vdec_vpu_if.c     | 77 ++++++++++++-------
+>  2 files changed, 52 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
+c_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
+.h
+> index c8b4374c5e6c..1ea5dbb475dd 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> @@ -160,6 +160,7 @@ struct mtk_vcodec_dec_pdata {
+>   * @hw_id: hardware index used to identify different hardware.
+>   *
+>   * @msg_queue: msg queue used to store lat buffer information.
+> + * @vpu_inst: vpu instance pointer.
+>   */
+>  struct mtk_vcodec_dec_ctx {
+>  	enum mtk_instance_type type;
+> @@ -202,6 +203,7 @@ struct mtk_vcodec_dec_ctx {
+>  	int hw_id;
+> =20
+>  	struct vdec_msg_queue msg_queue;
+> +	void *vpu_inst;
+>  };
+> =20
+>  /**
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c=
+ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> index 82c3dc8c4127..23cfe5c6c90b 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> @@ -72,6 +72,21 @@ static void handle_get_param_msg_ack(const struct vdec=
+_vpu_ipi_get_param_ack *ms
+>  	}
+>  }
+> =20
+> +static bool vpu_dec_check_ap_inst(struct mtk_vcodec_dec_dev *dec_dev, st=
+ruct vdec_vpu_inst *vpu)
+> +{
+> +	struct mtk_vcodec_dec_ctx *ctx;
+> +	int ret =3D false;
+> +
+> +	list_for_each_entry(ctx, &dec_dev->ctx_list, list) {
 
-regards,
-Nicolas
+I'm not quite fully aware of the threading model in place, but this ctx_lis=
+t is
+normally protected by dev->dev_mutex, and is not being protected here. I al=
+so
+don't know which type of interrupt handler we are in here.
 
-> >=20
-> > [snip]
-> > >   int vivid_try_fmt_vid_cap(struct file *file, void *priv,
-> > > -			struct v4l2_format *f)
-> > > +			  struct v4l2_ext_pix_format *f)
-> > >   {
-> > > -	struct v4l2_pix_format_mplane *mp =3D &f->fmt.pix_mp;
-> > > -	struct v4l2_plane_pix_format *pfmt =3D mp->plane_fmt;
-> > >   	struct vivid_dev *dev =3D video_drvdata(file);
-> > > +	struct v4l2_plane_pix_format *pfmt =3D f->plane_fmt;
-> > >   	const struct vivid_fmt *fmt;
-> > >   	unsigned bytesperline, max_bpl;
-> > >   	unsigned factor =3D 1;
-> > >   	unsigned w, h;
-> > >   	unsigned p;
-> > > -	bool user_set_csc =3D !!(mp->flags & V4L2_PIX_FMT_FLAG_SET_CSC);
-> > Why is this condition being removed?
->=20
-> Because the v4l2_ext_pix has a struct for the colorspace?
->=20
-> Would you like the idea that driver exports a buffer contains all the=20
-> info for an enumeration ?
->=20
-> >=20
-> > Best regards,
-> > Tomasz
-> >=20
-> > >  =20
-> > > -	fmt =3D vivid_get_format(dev, mp->pixelformat);
-> > > +	fmt =3D vivid_get_format(dev, f->pixelformat);
-> > >   	if (!fmt) {
-> > >   		dprintk(dev, 1, "Fourcc format (0x%08x) unknown.\n",
-> > > -			mp->pixelformat);
-> > > -		mp->pixelformat =3D V4L2_PIX_FMT_YUYV;
-> > > -		fmt =3D vivid_get_format(dev, mp->pixelformat);
-> > > +			f->pixelformat);
-> > > +		f->pixelformat =3D V4L2_PIX_FMT_YUYV;
-> > > +		fmt =3D vivid_get_format(dev, f->pixelformat);
-> > >   	}
-> > >  =20
-> > > -	mp->field =3D vivid_field_cap(dev, mp->field);
-> > > +	f->field =3D vivid_field_cap(dev, f->field);
-> > >   	if (vivid_is_webcam(dev)) {
-> > >   		const struct v4l2_frmsize_discrete *sz =3D
-> > >   			v4l2_find_nearest_size(webcam_sizes,
-> > >   					       VIVID_WEBCAM_SIZES, width,
-> > > -					       height, mp->width, mp->height);
-> > > +					       height, f->width, f->height);
-> > >  =20
-> > >   		w =3D sz->width;
-> > >   		h =3D sz->height;
-> > > @@ -604,14 +603,14 @@ int vivid_try_fmt_vid_cap(struct file *file, vo=
-id *priv,
-> > >   		w =3D dev->src_rect.width;
-> > >   		h =3D dev->src_rect.height;
-> > >   	}
-> > > -	if (V4L2_FIELD_HAS_T_OR_B(mp->field))
-> > > +	if (V4L2_FIELD_HAS_T_OR_B(f->field))
-> > >   		factor =3D 2;
-> > >   	if (vivid_is_webcam(dev) ||
-> > >   	    (!dev->has_scaler_cap && !dev->has_crop_cap && !dev->has_compo=
-se_cap)) {
-> > > -		mp->width =3D w;
-> > > -		mp->height =3D h / factor;
-> > > +		f->width =3D w;
-> > > +		f->height =3D h / factor;
-> > >   	} else {
-> > > -		struct v4l2_rect r =3D { 0, 0, mp->width, mp->height * factor };
-> > > +		struct v4l2_rect r =3D { 0, 0, f->width, f->height * factor };
-> > >  =20
-> > >   		v4l2_rect_set_min_size(&r, &vivid_min_rect);
-> > >   		v4l2_rect_set_max_size(&r, &vivid_max_rect);
-> > > @@ -624,16 +623,15 @@ int vivid_try_fmt_vid_cap(struct file *file, vo=
-id *priv,
-> > >   		} else if (!dev->has_scaler_cap && !dev->has_crop_cap) {
-> > >   			v4l2_rect_set_min_size(&r, &dev->src_rect);
-> > >   		}
-> > > -		mp->width =3D r.width;
-> > > -		mp->height =3D r.height / factor;
-> > > +		f->width =3D r.width;
-> > > +		f->height =3D r.height / factor;
-> > >   	}
-> > >  =20
-> > >   	/* This driver supports custom bytesperline values */
-> > >  =20
-> > > -	mp->num_planes =3D fmt->buffers;
-> > >   	for (p =3D 0; p < fmt->buffers; p++) {
-> > >   		/* Calculate the minimum supported bytesperline value */
-> > > -		bytesperline =3D (mp->width * fmt->bit_depth[p]) >> 3;
-> > > +		bytesperline =3D (f->width * fmt->bit_depth[p]) >> 3;
-> > >   		/* Calculate the maximum supported bytesperline value */
-> > >   		max_bpl =3D (MAX_ZOOM * MAX_WIDTH * fmt->bit_depth[p]) >> 3;
-> > >  =20
-> > > @@ -642,48 +640,49 @@ int vivid_try_fmt_vid_cap(struct file *file, vo=
-id *priv,
-> > >   		if (pfmt[p].bytesperline < bytesperline)
-> > >   			pfmt[p].bytesperline =3D bytesperline;
-> > >  =20
-> > > -		pfmt[p].sizeimage =3D (pfmt[p].bytesperline * mp->height) /
-> > > +		pfmt[p].sizeimage =3D (pfmt[p].bytesperline * f->height) /
-> > >   				fmt->vdownsampling[p] + fmt->data_offset[p];
-> > > -
-> > > -		memset(pfmt[p].reserved, 0, sizeof(pfmt[p].reserved));
-> > >   	}
-> > > +
-> > > +	if (p < VIDEO_MAX_PLANES)
-> > > +		pfmt[p].sizeimage =3D 0;
-> > > +
-> > >   	for (p =3D fmt->buffers; p < fmt->planes; p++)
-> > > -		pfmt[0].sizeimage +=3D (pfmt[0].bytesperline * mp->height *
-> > > +		pfmt[0].sizeimage +=3D (pfmt[0].bytesperline * f->height *
-> > >   			(fmt->bit_depth[p] / fmt->vdownsampling[p])) /
-> > >   			(fmt->bit_depth[0] / fmt->vdownsampling[0]);
-> > >  =20
-> > > -	if (!user_set_csc || !v4l2_is_colorspace_valid(mp->colorspace))
-> > > -		mp->colorspace =3D vivid_colorspace_cap(dev);
-> > > +	if (!v4l2_is_colorspace_valid(f->colorspace))
-> > > +		f->colorspace =3D vivid_colorspace_cap(dev);
-> > >  =20
-> > > -	if (!user_set_csc || !v4l2_is_xfer_func_valid(mp->xfer_func))
-> > > -		mp->xfer_func =3D vivid_xfer_func_cap(dev);
-> > > +	if (!v4l2_is_xfer_func_valid(f->xfer_func))
-> > > +		f->xfer_func =3D vivid_xfer_func_cap(dev);
-> > >  =20
-> > >   	if (fmt->color_enc =3D=3D TGP_COLOR_ENC_HSV) {
-> > > -		if (!user_set_csc || !v4l2_is_hsv_enc_valid(mp->hsv_enc))
-> > > -			mp->hsv_enc =3D vivid_hsv_enc_cap(dev);
-> > > +		if (!v4l2_is_hsv_enc_valid(f->hsv_enc))
-> > > +			f->hsv_enc =3D vivid_hsv_enc_cap(dev);
-> > >   	} else if (fmt->color_enc =3D=3D TGP_COLOR_ENC_YCBCR) {
-> > > -		if (!user_set_csc || !v4l2_is_ycbcr_enc_valid(mp->ycbcr_enc))
-> > > -			mp->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
-> > > +		if (!v4l2_is_ycbcr_enc_valid(f->ycbcr_enc))
-> > > +			f->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
-> > >   	} else {
-> > > -		mp->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
-> > > +		f->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
-> > >   	}
-> > >  =20
-> > >   	if (fmt->color_enc =3D=3D TGP_COLOR_ENC_YCBCR ||
-> > >   	    fmt->color_enc =3D=3D TGP_COLOR_ENC_RGB) {
-> > > -		if (!user_set_csc || !v4l2_is_quant_valid(mp->quantization))
-> > > -			mp->quantization =3D vivid_quantization_cap(dev);
-> > > +		if (!v4l2_is_quant_valid(f->quantization))
-> > > +			f->quantization =3D vivid_quantization_cap(dev);
-> > >   	} else {
-> > > -		mp->quantization =3D vivid_quantization_cap(dev);
-> > > +		f->quantization =3D vivid_quantization_cap(dev);
-> > >   	}
-> > >  =20
-> > > -	memset(mp->reserved, 0, sizeof(mp->reserved));
-> > > +	memset(f->reserved, 0, sizeof(f->reserved));
-> > >   	return 0;
-> > >   }
-> > [snip]
->=20
+> +		if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst =3D=3D vpu) {
+> +			ret =3D true;
+> +			break;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  /*
+>   * vpu_dec_ipi_handler - Handler for VPU ipi message.
+>   *
+> @@ -84,44 +99,51 @@ static void handle_get_param_msg_ack(const struct vde=
+c_vpu_ipi_get_param_ack *ms
+>   */
+>  static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv=
+)
+>  {
+> +	struct mtk_vcodec_dec_dev *dec_dev;
+>  	const struct vdec_vpu_ipi_ack *msg =3D data;
+> -	struct vdec_vpu_inst *vpu =3D (struct vdec_vpu_inst *)
+> -					(unsigned long)msg->ap_inst_addr;
+> +	struct vdec_vpu_inst *vpu;
+> =20
+> -	if (!vpu) {
+> +	dec_dev =3D (struct mtk_vcodec_dec_dev *)priv;
+> +	vpu =3D (struct vdec_vpu_inst *)(unsigned long)msg->ap_inst_addr;
+> +	if (!priv || !vpu) {
+>  		mtk_v4l2_vdec_err(vpu->ctx, "ap_inst_addr is NULL, did the SCP hang or=
+ crash?");
+>  		return;
+>  	}
+> =20
+> -	mtk_vdec_debug(vpu->ctx, "+ id=3D%X", msg->msg_id);
+> +	if (!vpu_dec_check_ap_inst(dec_dev, vpu) || msg->msg_id < VPU_IPIMSG_DE=
+C_INIT_ACK ||
+> +	    msg->msg_id > VPU_IPIMSG_DEC_GET_PARAM_ACK) {
+> +		mtk_v4l2_vdec_err(vpu->ctx, "vdec msg id not correctly =3D> 0x%x", msg=
+->msg_id);
+> +		vpu->failure =3D -EINVAL;
+> +		goto error;
+> +	}
+> =20
+>  	vpu->failure =3D msg->status;
+> -	vpu->signaled =3D 1;
+> +	if (msg->status !=3D 0)
+> +		goto error;
+> =20
+> -	if (msg->status =3D=3D 0) {
+> -		switch (msg->msg_id) {
+> -		case VPU_IPIMSG_DEC_INIT_ACK:
+> -			handle_init_ack_msg(data);
+> -			break;
+> +	switch (msg->msg_id) {
+> +	case VPU_IPIMSG_DEC_INIT_ACK:
+> +		handle_init_ack_msg(data);
+> +		break;
+> =20
+> -		case VPU_IPIMSG_DEC_START_ACK:
+> -		case VPU_IPIMSG_DEC_END_ACK:
+> -		case VPU_IPIMSG_DEC_DEINIT_ACK:
+> -		case VPU_IPIMSG_DEC_RESET_ACK:
+> -		case VPU_IPIMSG_DEC_CORE_ACK:
+> -		case VPU_IPIMSG_DEC_CORE_END_ACK:
+> -			break;
+> +	case VPU_IPIMSG_DEC_START_ACK:
+> +	case VPU_IPIMSG_DEC_END_ACK:
+> +	case VPU_IPIMSG_DEC_DEINIT_ACK:
+> +	case VPU_IPIMSG_DEC_RESET_ACK:
+> +	case VPU_IPIMSG_DEC_CORE_ACK:
+> +	case VPU_IPIMSG_DEC_CORE_END_ACK:
+> +		break;
+> =20
+> -		case VPU_IPIMSG_DEC_GET_PARAM_ACK:
+> -			handle_get_param_msg_ack(data);
+> -			break;
+> -		default:
+> -			mtk_vdec_err(vpu->ctx, "invalid msg=3D%X", msg->msg_id);
+> -			break;
+> -		}
+> +	case VPU_IPIMSG_DEC_GET_PARAM_ACK:
+> +		handle_get_param_msg_ack(data);
+> +		break;
+> +	default:
+> +		mtk_vdec_err(vpu->ctx, "invalid msg=3D%X", msg->msg_id);
+> +		break;
+>  	}
+> =20
+> -	mtk_vdec_debug(vpu->ctx, "- id=3D%X", msg->msg_id);
+> +error:
+> +	vpu->signaled =3D 1;
+>  }
+> =20
+>  static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int=
+ len)
+> @@ -182,9 +204,10 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
+> =20
+>  	init_waitqueue_head(&vpu->wq);
+>  	vpu->handler =3D vpu_dec_ipi_handler;
+> +	vpu->ctx->vpu_inst =3D vpu;
+> =20
+>  	err =3D mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
+> -					 vpu->handler, "vdec", NULL);
+> +					 vpu->handler, "vdec", vpu->ctx->dev);
+>  	if (err) {
+>  		mtk_vdec_err(vpu->ctx, "vpu_ipi_register fail status=3D%d", err);
+>  		return err;
+> @@ -193,7 +216,7 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
+>  	if (vpu->ctx->dev->vdec_pdata->hw_arch =3D=3D MTK_VDEC_LAT_SINGLE_CORE)=
+ {
+>  		err =3D mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler,
+>  						 vpu->core_id, vpu->handler,
+> -						 "vdec", NULL);
+> +						 "vdec", vpu->ctx->dev);
+>  		if (err) {
+>  			mtk_vdec_err(vpu->ctx, "vpu_ipi_register core fail status=3D%d", err)=
+;
+>  			return err;
 
