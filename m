@@ -2,138 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB2A275AEB4
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 14:47:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C023A75B04F
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 15:44:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230246AbjGTMrw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 08:47:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51438 "EHLO
+        id S231129AbjGTNo6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 09:44:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229703AbjGTMrs (ORCPT
+        with ESMTP id S230042AbjGTNo4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 08:47:48 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013F32690;
-        Thu, 20 Jul 2023 05:47:47 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id E9B41660703D;
-        Thu, 20 Jul 2023 13:47:45 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1689857266;
-        bh=ZgHpOz5P4a3+RUYc0FlSzSAD1mZgKKcEW/6wH6JQze4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kl4krZJ+/sd7l3cwiDMFKJ5bakRMFaUfX1KhVTaIRt8bS4NM3VagGYjfqxatp7/5y
-         HZMk1XhgFnlkAazOf2OOdflrkkh4AO+biZ5Ia5Us88mU2WGyEYW6tXkwTfyzyJqIKB
-         Vuc3oLvOdFe0+XoYUdHUk6idBEtovXYBHTctZ+8pAj75Ow6rJhbq07ftjgFrf6mnI5
-         Q5AbibEg3V85VC5nxOquc+oyQqSMFwSJTDHclbbHxRPLeeHqaeQqR6p7A70xm7bzac
-         wh7W890bqFnTS4KK+7yCygZHthCzCkce2BHn5n6jElCTcPJLMOWYt8I+5XxKc7Asq+
-         Fd4i3BelVSMMA==
-Message-ID: <c2b8d1dc-fdbe-5ea6-89d6-6b1113fc3a55@collabora.com>
-Date:   Thu, 20 Jul 2023 14:47:43 +0200
+        Thu, 20 Jul 2023 09:44:56 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CBB210B
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 06:44:53 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 22E3E6000A;
+        Thu, 20 Jul 2023 13:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1689860692;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4E5D+NoyeHfMBkGFN9CS/OId+ov0zCrvbzGLvU/4DTc=;
+        b=Un02aD2oSm1RloGejVSwMM1CWjlUhG//DKpIHGE0mP6IDTtXhoNCL8fHzWdQrqRiQRdmIR
+        j/D0mviaFh6KhKFjsgu66Bgz4YFhvkEm8PI8OEEBKpOvh6RcDfdTmsZBre6Pg1s6nHS0mr
+        SnkgUSP44DT8GTpOra5op2O0GYJpETmiW/nr9xZfxQep3V2vT1MJX94mL/z95wWrxisorf
+        X+GQu3adQ7erByeUsFoVL13tNeGkJYdTUhGpOc7P+wvA4+b6wjJPi56bJORoIJarq/LUuf
+        O3VuM4/5EPe4LEvgwVTmWswcpdHvu/VJUDSTg6KNpb6u3GYIvHPDIBGA8wQauw==
+Date:   Thu, 20 Jul 2023 15:44:45 +0200
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH] staging: media: tegra-video: include video.h header
+Message-ID: <20230720154445.34984607@booty>
+In-Reply-To: <4d55437f-4b3e-8a06-1d8e-e603dc333383@xs4all.nl>
+References: <4d55437f-4b3e-8a06-1d8e-e603dc333383@xs4all.nl>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2] media: mdp3: Fix resource leak in a
- for_each_child_of_node() loop
-Content-Language: en-US
-To:     Lu Hongfei <luhongfei@vivo.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Arnd Bergmann <arnd@arndb.de>, Sun Ke <sunke32@huawei.com>,
-        Deepak R Varma <drv@mailo.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>
-Cc:     "opensource.kernel" <opensource.kernel@vivo.com>
-References: <20230720062248.37906-1-luhongfei@vivo.com>
- <32ae3716-672f-cdc2-f246-d8336ed44a68@collabora.com>
- <30bf6cc7-615b-52c5-0c23-f8b4be890e5e@vivo.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <30bf6cc7-615b-52c5-0c23-f8b4be890e5e@vivo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 20/07/23 14:19, Lu Hongfei ha scritto:
-> On 2023/7/20 15:51, AngeloGioacchino Del Regno wrote:
->> [Some people who received this message don't often get email from
->> angelogioacchino.delregno@collabora.com. Learn why this is important
->> at https://aka.ms/LearnAboutSenderIdentification ]
->>
->> Il 20/07/23 08:23, Lu Hongfei ha scritto:
->>> for_each_child_of_node should have of_node_put()
->>> in error path avoid resource leaks.
->>>
->>> Signed-off-by: Lu Hongfei <luhongfei@vivo.com>
->>> ---
->>> Changelog:
->>> v1->v2:
->>> 1. Change the subject line of this patch to include driver name.
->>> 2. Remove the unneeded of_node_put.
->>>
->>>    drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 1 +
->>>    1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
->>> b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
->>> index a605e80c7dc3..40c4b79a5090 100644
->>> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
->>> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
->>> @@ -1135,6 +1135,7 @@ int mdp_comp_config(struct mdp_dev *mdp)
->>>                comp = mdp_comp_create(mdp, node, id);
->>>                if (IS_ERR(comp)) {
->>>                        ret = PTR_ERR(comp);
->>> +                     of_node_put(node);
->>>                        goto err_init_comps;
->>>                }
->>>
->>
->> In case mdp_comp_sub_create() fails, we still want to decrease the
->> refcount
->> of `node`....
->>
->> ...so, just call of_node_put(node) just once, at the err_init_comps
->> label.
->>
->> err_init_comps:
->>         mdp_comp_destroy(mdp);
->>         of_node_put(node);
->>         return ret;
->>
->> Regards,
->> Angelo
-> 
-> mdp_comp_sub_create() executes after for_each_child_of_node loop ends.
-> 
-> The for_each_child_of_node loop ended, node == NULL and there is nothing
-> to put.
-> 
-> So I don't think it's necessary to decrease the refcount of `node` again
-> when
-> 
-> mdp_comp_sub_create() fails.
-> 
-> Or you could further explain the reason for doing so.
-> 
+Hi Hans,
 
-You're right. My bad.
+On Thu, 20 Jul 2023 09:20:03 +0200
+Hans Verkuil <hverkuil@xs4all.nl> wrote:
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> This tells sparse that tegra_vip_driver is actually used,
+> and so avoids this warning:
+> 
+> drivers/staging/media/tegra-video/vip.c:280:31: warning: 'tegra_vip_driver' defined but not used [-Wunused-variable]
+>   280 | static struct platform_driver tegra_vip_driver = {
+>       |                               ^~~~~~~~~~~~~~~~
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
