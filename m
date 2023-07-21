@@ -2,60 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2CBD75C343
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 11:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B93C75C4A9
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 12:29:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229654AbjGUJmV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jul 2023 05:42:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54404 "EHLO
+        id S229933AbjGUK34 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jul 2023 06:29:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230346AbjGUJmT (ORCPT
+        with ESMTP id S229616AbjGUK3z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jul 2023 05:42:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1BC3ABD;
-        Fri, 21 Jul 2023 02:41:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D1B8B619B0;
-        Fri, 21 Jul 2023 09:41:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7342FC433C8;
-        Fri, 21 Jul 2023 09:41:46 +0000 (UTC)
-Message-ID: <48a07b61-edb6-1c2f-8299-14d346ab7b2e@xs4all.nl>
-Date:   Fri, 21 Jul 2023 11:41:44 +0200
+        Fri, 21 Jul 2023 06:29:55 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31EADFD;
+        Fri, 21 Jul 2023 03:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689935394; x=1721471394;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ehIc6SVTRowtZLkUcYzIyA6jks/ZdEIT3lElrCx+RlE=;
+  b=cTXx9UfOOyEyIOhlmMxR5uItANjdviuJo/9IDOrUZ+k/dHFV8WVtgkiU
+   uo8Z8Ojw+ghpCTGYDk9j2GjBj17DujxLAu0ao7LcTEPBWpZk1otGorE67
+   WwqeokWvnzoMIWwJhBwMmft8HXaSuffDKZ5JtoHlqCvEYQwvEGS2thR6A
+   xLyii7k6xYK6VfL0IHEmyktRBxN/aMdERENs6X0vNYNygKuwgJDLmjtQS
+   T4fq9J8XvteAGsoRT1MU5BKtDb/9jOcs3JO3pDlSiSYmaOeahEJ/B95HH
+   I0HFGCA5YvuieyIfoqftaO/MqJPXFbuYKfl/d48xbK005zO29uVzcTL0q
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="364455163"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
+   d="scan'208";a="364455163"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 03:29:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="718772366"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
+   d="scan'208";a="718772366"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007.jf.intel.com with ESMTP; 21 Jul 2023 03:29:50 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1qMnOO-0005gR-2U;
+        Fri, 21 Jul 2023 13:29:48 +0300
+Date:   Fri, 21 Jul 2023 13:29:48 +0300
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/8] media: i2c: ds90ub953: Restructure clkout
+ management
+Message-ID: <ZLpeHG9/99YjdKtW@smile.fi.intel.com>
+References: <20230720-fpdlink-additions-v2-0-b91b1eca2ad3@ideasonboard.com>
+ <20230720-fpdlink-additions-v2-6-b91b1eca2ad3@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3] media: platform: mtk-mdp3: Fix resource leak in
- mdp_get_subsys_id() and mdp_comp_config()
-Content-Language: en-US
-To:     Lu Hongfei <luhongfei@vivo.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Arnd Bergmann <arnd@arndb.de>, Sun Ke <sunke32@huawei.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        "open list:ARM/Mediatek SoC support" <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Cc:     opensource.kernel@vivo.com
-References: <20230613032734.34099-1-luhongfei@vivo.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230613032734.34099-1-luhongfei@vivo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230720-fpdlink-additions-v2-6-b91b1eca2ad3@ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,78 +74,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lu Hongfei,
-
-On 13/06/2023 05:27, Lu Hongfei wrote:
-> Add a put_device() call for the release of the object
-> which was determined by a of_find_device_by_node() call
-> in mdp_get_subsys_id().
+On Thu, Jul 20, 2023 at 01:30:37PM +0300, Tomi Valkeinen wrote:
+> Separate clkout calculations and register writes into two functions:
+> ub953_calc_clkout_params and ub953_write_clkout_regs, and add a struct
+> ub953_clkout_data that is used to store the clkout parameters.
 > 
-> Add of_node_put() call for the release of the object
-> which was determined by a for_each_child_of_node() call
-> in mdp_comp_config().
+> This simplifies the clkout management.
 
-After merging this patch from you into our media_stage tree:
+...
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20230530101724.31412-1-luhongfei@vivo.com/
+> +struct ub953_clkout_data {
+> +	u32 hs_div;
+> +	u32 m;
+> +	u32 n;
 
-this v3 no longer applies. So I will need a v4, I'm afraid...
+I don't think it makes driver worse. The V4L2 UAPI has similar struct which is
+used widely, hence I see no issues in using u32_fract here.
 
-Regards,
+OTOH I'm not a maintainer, so...
 
-	Hans
+> +	unsigned long rate;
+> +};
 
-> 
-> Signed-off-by: Lu Hongfei <luhongfei@vivo.com>
-> ---
-> The previous version’s Subject was:
-> [PATCH v2] media: platform: mtk-mdp3: Fix resource leaks in mdp_get_subsys_id()
-> 
-> The modifications made compared to the previous version are as follows:
-> 1. Modified the patch subject
-> 2. Fix resource leak issue in mdp_comp_config()
-> 
->  drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-> index a605e80c7dc3..85c5f89f2ed2
-> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-> @@ -892,13 +892,16 @@ static int mdp_get_subsys_id(struct mdp_dev *mdp, struct device *dev,
->  	ret = cmdq_dev_get_client_reg(&comp_pdev->dev, &cmdq_reg, index);
->  	if (ret != 0) {
->  		dev_err(&comp_pdev->dev, "cmdq_dev_get_subsys fail!\n");
-> -		return -EINVAL;
-> +		ret = -EINVAL;
-> +		goto put_device;
->  	}
->  
->  	comp->subsys_id = cmdq_reg.subsys;
->  	dev_dbg(&comp_pdev->dev, "subsys id=%d\n", cmdq_reg.subsys);
->  
-> -	return 0;
-> +put_device:
-> +	put_device(&comp_pdev->dev);
-> +	return ret;
->  }
->  
->  static void __mdp_comp_init(struct mdp_dev *mdp, struct device_node *node,
-> @@ -1135,6 +1138,7 @@ int mdp_comp_config(struct mdp_dev *mdp)
->  		comp = mdp_comp_create(mdp, node, id);
->  		if (IS_ERR(comp)) {
->  			ret = PTR_ERR(comp);
-> +			of_node_put(node);
->  			goto err_init_comps;
->  		}
->  
-> @@ -1144,6 +1148,8 @@ int mdp_comp_config(struct mdp_dev *mdp)
->  		pm_runtime_enable(comp->comp_dev);
->  	}
->  
-> +	of_node_put(node);
-> +
->  	ret = mdp_comp_sub_create(mdp);
->  	if (ret)
->  		goto err_init_comps;
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
