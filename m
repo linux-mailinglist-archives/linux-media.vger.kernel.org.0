@@ -2,110 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 413BA75C56F
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 13:08:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3224D75C598
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 13:12:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230461AbjGULIs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jul 2023 07:08:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54242 "EHLO
+        id S231136AbjGULMF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jul 2023 07:12:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231343AbjGULHq (ORCPT
+        with ESMTP id S229683AbjGULLz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jul 2023 07:07:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D5246B2
-        for <linux-media@vger.kernel.org>; Fri, 21 Jul 2023 04:04:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        Fri, 21 Jul 2023 07:11:55 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E87D830C4;
+        Fri, 21 Jul 2023 04:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1689937890; x=1721473890;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bg0EKrPEjTsGypZ5UK09REWMP3ov4FCmALYSfW5tDVk=;
+  b=FCiVybKDrcqcOrgcWDFHvdsmk6zLZQbLC4t66Tpb2j8wFZOeX3xaABoZ
+   XkfCRRmN95GhMEduz4Q4k+43ljjywNBqc6/xRZDISvyOLgjpNBbQS0Q62
+   WRBt4J6y5wPiBuI9iLSrVjK1wTvdf0oKZ5Cg+Us12p/NmRFQzeIby23VA
+   DOHosNU+Xcpu1tHwtjcdC82hutFJShVNWzOy0Wuhj788Cm20QkerRovwK
+   7loTXMJcI7QjpMI42pL5zpL427fyk6LIQGrCuVNEXEWqjeCDONWVaGOlY
+   +1b0F3rkTBoiqKWDWisRtn8RMJzESM/S3Z324jeKQDBZ91CkVzs8BydQF
+   w==;
+X-IronPort-AV: E=Sophos;i="6.01,220,1684792800"; 
+   d="scan'208";a="32052709"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 21 Jul 2023 13:10:34 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CD9F360B9B
-        for <linux-media@vger.kernel.org>; Fri, 21 Jul 2023 11:04:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 259A3C433CA;
-        Fri, 21 Jul 2023 11:04:04 +0000 (UTC)
-Message-ID: <540fbe91-5dc4-1c75-379d-1ff89669ba96@xs4all.nl>
-Date:   Fri, 21 Jul 2023 13:04:03 +0200
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 634CC280078;
+        Fri, 21 Jul 2023 13:10:34 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Rob Herring <robh+dt@kernel.org>, Ming Qian <ming.qian@nxp.com>,
+        Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Anson Huang <Anson.Huang@nxp.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org
+Subject: [PATCH 1/3] dt-bindings: media: amphion: Fix subnode pattern
+Date:   Fri, 21 Jul 2023 13:10:18 +0200
+Message-Id: <20230721111020.1234278-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Juerg Haefliger <juergh@gmail.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Ming Qian <ming.qian@nxp.com>, Zheng Wang <zyytlz.wz@163.com>,
-        Emma Christy <emma.t.christy@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.6] Various codec fixes/enhancements
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 28999781d15f94046e6c23a9a7d92ad28a436abf:
+DT nodes use dashes instead of underscore. Adjust pattern to also fix
+warnings regarding nodes in arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
 
-  media: i2c: ov01a10: Switch back to use struct i2c_driver::probe (2023-07-19 12:57:51 +0200)
+Fixes: 38ad8b32f3af ("dt-bindings: media: amphion: add amphion video codec bindings")
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+ Documentation/devicetree/bindings/media/amphion,vpu.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/Documentation/devicetree/bindings/media/amphion,vpu.yaml b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+index a9d80eaeeeb6..90d273b9fdd7 100644
+--- a/Documentation/devicetree/bindings/media/amphion,vpu.yaml
++++ b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+@@ -47,7 +47,7 @@ patternProperties:
+     $ref: ../mailbox/fsl,mu.yaml#
+ 
+ 
+-  "^vpu_core@[0-9a-f]+$":
++  "^vpu-core@[0-9a-f]+$":
+     description:
+       Each core correspond a decoder or encoder, need to configure them
+       separately. NXP i.MX8QM SoC has one decoder and two encoder, i.MX8QXP SoC
+-- 
+2.34.1
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.6e
-
-for you to fetch changes up to 9c2d629e7ea3d5c5d5c1203b3aaa9807053d0c7d:
-
-  media: amphion: ensure the bitops don't cross boundaries (2023-07-21 12:27:38 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Benjamin Gaignard (1):
-      media: rkvdec: increase max supported height for H.264
-
-Chen-Yu Tsai (1):
-      media: mtk-jpeg: Set platform driver data earlier
-
-Emma Christy (1):
-      media: rkvdec: removed redundant blank line
-
-Juerg Haefliger (1):
-      media: meson: vdec: Add MODULE_FIRMWARE macro
-
-Michael Tretter (1):
-      media: verisilicon: Fix TRY_FMT on encoder OUTPUT
-
-Ming Qian (8):
-      media: amphion: reinit vpu if reqbufs output 0
-      media: amphion: add helper function to get id name
-      media: amphion: decoder support display delay for all formats
-      media: amphion: fix CHECKED_RETURN issues reported by coverity
-      media: amphion: fix REVERSE_INULL issues reported by coverity
-      media: amphion: fix UNINIT issues reported by coverity
-      media: amphion: fix UNUSED_VALUE issue reported by coverity
-      media: amphion: ensure the bitops don't cross boundaries
-
-Zheng Wang (1):
-      media: mtk-jpeg: Fix use after free bug due to uncanceled work
-
- drivers/media/platform/amphion/vdec.c                | 41 ++++++++++++++++++++++++---------
- drivers/media/platform/amphion/venc.c                |  6 +++--
- drivers/media/platform/amphion/vpu.h                 |  3 +++
- drivers/media/platform/amphion/vpu_cmds.c            | 16 +++++++------
- drivers/media/platform/amphion/vpu_core.c            |  2 ++
- drivers/media/platform/amphion/vpu_dbg.c             | 17 +++++++++-----
- drivers/media/platform/amphion/vpu_helpers.c         | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/amphion/vpu_msgs.c            | 14 ++++++------
- drivers/media/platform/amphion/vpu_v4l2.c            |  7 +++++-
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c |  5 +++--
- drivers/media/platform/verisilicon/hantro_v4l2.c     |  9 ++++++--
- drivers/staging/media/meson/vdec/vdec_platform.c     |  9 ++++++++
- drivers/staging/media/rkvdec/rkvdec-vp9.c            |  1 -
- drivers/staging/media/rkvdec/rkvdec.c                |  2 +-
- 14 files changed, 155 insertions(+), 38 deletions(-)
