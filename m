@@ -2,70 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E04575C678
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 14:05:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A70EB75C6C7
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 14:19:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231454AbjGUMFF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jul 2023 08:05:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56370 "EHLO
+        id S231494AbjGUMTM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jul 2023 08:19:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231296AbjGUMEt (ORCPT
+        with ESMTP id S231489AbjGUMTK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jul 2023 08:04:49 -0400
+        Fri, 21 Jul 2023 08:19:10 -0400
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E81A3AAF;
-        Fri, 21 Jul 2023 05:04:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84FB72106;
+        Fri, 21 Jul 2023 05:19:09 -0700 (PDT)
 Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36LA44aI007067;
-        Fri, 21 Jul 2023 14:04:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=selector1;
- bh=QJv4FgeoZI13kyNGmPPMTf96OOf5S9wcDXXdOT9sXaA=;
- b=SPlergAN5qCyFlQD1Rgi4TrAYSiH16tnHAUvFadudLoVT95J31goXCai1qdZI0N9ds4l
- gjW4OFoD3DEaizGAdlRPr5gVUp4R88TC6jPN8uR6TgHjpGV/+LawgGcvvkJv/2kE2c7Z
- fashXyVjnlXFOVxrcqqKm4dtFVaMRD8lahyyK8f0D01rmPM3larc/aVcD+E8JcNqQGOP
- ZYd0mA9j5yhBLjrZ+I0OXt0N5tcQ/WUEpxc/cG2k3v7+rG1Me0LgQjXEPxuejDy3aDQy
- OYzVS1fEz9aZARet9pmlvPaAdBfSpe3ME1msu8eOjmhKXZFBChCjAdoprwmmeLu+fGsq hg== 
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36LA40An006962;
+        Fri, 21 Jul 2023 14:19:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=selector1; bh=8jf3Y+n/y+JfiDeu+j5xacMWa2oOy4dEQ2WKqHh0NrY=;
+ b=LPPdpl84ZSWsStOJML+beJ5qOPONAuo9qa9c9qsAo5lxU9+bzhcbL2DOglK9E13x3u1x
+ lkIC50rKiKIHgZGUShhMrJU3sWaJRwLtIIPqXg8JI0FyPw1Uh4ySFE0J5tVfX0DJTQH9
+ dAIXAHQfz/OW43kFCy9hCDhN46oVCiCgUfOuxTVZzhK2WjSaNqhAGk8cIipOOBA86W/G
+ QvU5Oy6sFWOOQStSCxuD98hYGiTP0Zufohppfe/PLZk9D/SNKfG8cW8kn6E8SUyrWi7g
+ WFZYveIARFjXLzhgjkiYokQx+VSCr4pEFsOfbc2yXMNCn2XXM6t87Yhp1Ruk/mhZ50Bh /g== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ryqxjgvtp-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ryqxjh0an-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 21 Jul 2023 14:04:12 +0200
+        Fri, 21 Jul 2023 14:19:03 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0672B10002A;
-        Fri, 21 Jul 2023 14:04:12 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4A87310002A;
+        Fri, 21 Jul 2023 14:19:03 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id F3103229A68;
-        Fri, 21 Jul 2023 14:04:11 +0200 (CEST)
-Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3F1BD22D17C;
+        Fri, 21 Jul 2023 14:19:03 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
  (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 21 Jul
- 2023 14:04:11 +0200
+ 2023 14:19:02 +0200
+Date:   Fri, 21 Jul 2023 14:18:54 +0200
 From:   Alain Volmat <alain.volmat@foss.st.com>
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+CC:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC:     Alain Volmat <alain.volmat@foss.st.com>,
-        <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 2/2] media: stm32: dcmi: only call s_stream on the source subdev
-Date:   Fri, 21 Jul 2023 14:03:15 +0200
-Message-ID: <20230721120316.1172445-3-alain.volmat@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230721120316.1172445-1-alain.volmat@foss.st.com>
-References: <20230721120316.1172445-1-alain.volmat@foss.st.com>
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] media: i2c: st_mipid02: cascade s_stream call to the
+ source subdev
+Message-ID: <20230721121854.GA1172642@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: Hans Verkuil <hverkuil@xs4all.nl>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230711123211.794838-1-alain.volmat@foss.st.com>
+ <20230711123211.794838-2-alain.volmat@foss.st.com>
+ <cd0a1ec0-5ab9-dc14-b1ca-c990b062b3c5@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <cd0a1ec0-5ab9-dc14-b1ca-c990b062b3c5@xs4all.nl>
+X-Disclaimer: ce message est personnel / this message is private
 X-Originating-IP: [10.129.178.213]
 X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
  (10.75.129.69)
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-21_07,2023-07-20_01,2023-05-22_02
+ definitions=2023-07-21_08,2023-07-20_01,2023-05-22_02
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -76,126 +79,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Avoid calling s_stream on each subdev until reaching the sensor and
-instead call s_stream on the source subdev only (which will in turn
-do whatever needed to start the stream).
+Hi Hans,
 
-Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
----
- drivers/media/platform/st/stm32/stm32-dcmi.c | 63 +++++---------------
- 1 file changed, 14 insertions(+), 49 deletions(-)
+On Wed, Jul 19, 2023 at 12:26:37PM +0200, Hans Verkuil wrote:
+> On 11/07/2023 14:32, Alain Volmat wrote:
+> > Cascade the s_stream call to the source subdev whenever the bridge
+> > streaming is enable / disabled.
+> > 
+> > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> > ---
+> >  drivers/media/i2c/st-mipid02.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+> > index 906553a28676..703d2f06f552 100644
+> > --- a/drivers/media/i2c/st-mipid02.c
+> > +++ b/drivers/media/i2c/st-mipid02.c
+> > @@ -547,6 +547,13 @@ static int mipid02_stream_disable(struct mipid02_dev *bridge)
+> >  	struct i2c_client *client = bridge->i2c_client;
+> >  	int ret;
+> >  
+> > +	if (!bridge->s_subdev)
+> > +		goto error;
+> 
+> I'm getting this compiler warning:
+> 
+> media-git/drivers/media/i2c/st-mipid02.c: In function 'mipid02_stream_disable':
+> media-git/drivers/media/i2c/st-mipid02.c:568:12: warning: 'ret' may be used uninitialized [-Wmaybe-uninitialized]
+>   568 |         if (ret)
+>       |            ^
+> media-git/drivers/media/i2c/st-mipid02.c:548:13: note: 'ret' was declared here
+>   548 |         int ret;
+>       |             ^~~
+> 
+> I'm dropping this series, waiting for a v2.
 
-diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
-index dad6e22e4ce4..ac8a5031dce6 100644
---- a/drivers/media/platform/st/stm32/stm32-dcmi.c
-+++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
-@@ -134,6 +134,7 @@ struct stm32_dcmi {
- 	struct video_device		*vdev;
- 	struct v4l2_async_notifier	notifier;
- 	struct v4l2_subdev		*source;
-+	struct v4l2_subdev		*s_subdev;
- 	struct v4l2_format		fmt;
- 	struct v4l2_rect		crop;
- 	bool				do_crop;
-@@ -692,51 +693,6 @@ static int dcmi_pipeline_s_fmt(struct stm32_dcmi *dcmi,
- 	return 0;
- }
- 
--static int dcmi_pipeline_s_stream(struct stm32_dcmi *dcmi, int state)
--{
--	struct media_entity *entity = &dcmi->vdev->entity;
--	struct v4l2_subdev *subdev;
--	struct media_pad *pad;
--	int ret;
--
--	/* Start/stop all entities within pipeline */
--	while (1) {
--		pad = &entity->pads[0];
--		if (!(pad->flags & MEDIA_PAD_FL_SINK))
--			break;
--
--		pad = media_pad_remote_pad_first(pad);
--		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
--			break;
--
--		entity = pad->entity;
--		subdev = media_entity_to_v4l2_subdev(entity);
--
--		ret = v4l2_subdev_call(subdev, video, s_stream, state);
--		if (ret < 0 && ret != -ENOIOCTLCMD) {
--			dev_err(dcmi->dev, "%s: \"%s\" failed to %s streaming (%d)\n",
--				__func__, subdev->name,
--				state ? "start" : "stop", ret);
--			return ret;
--		}
--
--		dev_dbg(dcmi->dev, "\"%s\" is %s\n",
--			subdev->name, state ? "started" : "stopped");
--	}
--
--	return 0;
--}
--
--static int dcmi_pipeline_start(struct stm32_dcmi *dcmi)
--{
--	return dcmi_pipeline_s_stream(dcmi, 1);
--}
--
--static void dcmi_pipeline_stop(struct stm32_dcmi *dcmi)
--{
--	dcmi_pipeline_s_stream(dcmi, 0);
--}
--
- static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
- {
- 	struct stm32_dcmi *dcmi = vb2_get_drv_priv(vq);
-@@ -758,9 +714,12 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 		goto err_pm_put;
- 	}
- 
--	ret = dcmi_pipeline_start(dcmi);
--	if (ret)
-+	ret = v4l2_subdev_call(dcmi->s_subdev, video, s_stream, 1);
-+	if (ret < 0) {
-+		dev_err(dcmi->dev, "%s: Failed to start source subdev, error (%d)\n",
-+			__func__, ret);
- 		goto err_media_pipeline_stop;
-+	}
- 
- 	spin_lock_irq(&dcmi->irqlock);
- 
-@@ -862,7 +821,7 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	return 0;
- 
- err_pipeline_stop:
--	dcmi_pipeline_stop(dcmi);
-+	v4l2_subdev_call(dcmi->s_subdev, video, s_stream, 0);
- 
- err_media_pipeline_stop:
- 	video_device_pipeline_stop(dcmi->vdev);
-@@ -889,8 +848,12 @@ static void dcmi_stop_streaming(struct vb2_queue *vq)
- {
- 	struct stm32_dcmi *dcmi = vb2_get_drv_priv(vq);
- 	struct dcmi_buf *buf, *node;
-+	int ret;
- 
--	dcmi_pipeline_stop(dcmi);
-+	ret = v4l2_subdev_call(dcmi->s_subdev, video, s_stream, 0);
-+	if (ret < 0)
-+		dev_err(dcmi->dev, "%s: Failed to stop source subdev, error (%d)\n",
-+			__func__, ret);
- 
- 	video_device_pipeline_stop(dcmi->vdev);
- 
-@@ -1876,6 +1839,8 @@ static int dcmi_graph_notify_bound(struct v4l2_async_notifier *notifier,
- 		dev_dbg(dcmi->dev, "DCMI is now linked to \"%s\"\n",
- 			subdev->name);
- 
-+	dcmi->s_subdev = subdev;
-+
- 	return ret;
- }
- 
--- 
-2.25.1
+Indeed, this was a real issue.  I added KCFLAGS=-Wmaybe-uninitialized
+in my build command line to spot thoses issues from now on.
 
+v2 posted with the fix.
+
+> 
+> Regards,
+> 
+> 	Hans
+
+Regards,
+Alain
+> 
+> > +
+> > +	ret = v4l2_subdev_call(bridge->s_subdev, video, s_stream, 0);
+> > +	if (ret)
+> > +		goto error;
+> > +
+> >  	/* Disable all lanes */
+> >  	ret = mipid02_write_reg(bridge, MIPID02_CLK_LANE_REG1, 0);
+> >  	if (ret)
+> > @@ -633,6 +640,10 @@ static int mipid02_stream_enable(struct mipid02_dev *bridge)
+> >  	if (ret)
+> >  		goto error;
+> >  
+> > +	ret = v4l2_subdev_call(bridge->s_subdev, video, s_stream, 1);
+> > +	if (ret)
+> > +		goto error;
+> > +
+> >  	return 0;
+> >  
+> >  error:
+> 
