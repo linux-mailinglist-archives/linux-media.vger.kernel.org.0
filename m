@@ -2,110 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A454A75C727
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 14:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4400575C7C1
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 15:25:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231246AbjGUMuT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jul 2023 08:50:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49178 "EHLO
+        id S231138AbjGUNZm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jul 2023 09:25:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231151AbjGUMuS (ORCPT
+        with ESMTP id S230283AbjGUNZj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jul 2023 08:50:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B86510CB;
-        Fri, 21 Jul 2023 05:50:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E9B9D61B1F;
-        Fri, 21 Jul 2023 12:50:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60618C433C9;
-        Fri, 21 Jul 2023 12:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689943816;
-        bh=O1jJbBEcaURn4zEGQ2aRZSKmYUb+p4lmuCCmyb9Qvp8=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=Bpu0BUiupIfVegnNJ+wLKfTgXQzT+x5YufL5i/oNwOh2vqofQ1+qvykE2sGLXeU3k
-         SwHVaXGHwMV54Sfo8803R2ogAfCwOJWMY3YpaxfPSolZDOLMd4uC3dFptoDzUFhNwm
-         8KPnr1ejSciq1YGHk4tNsZKIX7Jix4XVcXY87LrFEKi3hZNh27RlSS0k0HF+sJFIch
-         XM4/Rb9e4VMXqsLdMA0JI0kyGOhoopjAZ6WDkrcLwchl8LAUsW//x0HZ73GP7sSKUi
-         SnzU/ex/JbhZk3Te/9DVwB+ML3iJ2F/D9Zt2bMPEA5ZM+INp1bA/sPlLOPvwQDOttZ
-         MXEPn3+X7lTww==
-Received: (nullmailer pid 785149 invoked by uid 1000);
-        Fri, 21 Jul 2023 12:50:13 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Fri, 21 Jul 2023 09:25:39 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B34930F1;
+        Fri, 21 Jul 2023 06:25:17 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2C2B373D;
+        Fri, 21 Jul 2023 15:23:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1689945782;
+        bh=VbVEf/xlEK/hCNC8ckZfFvkPXoJPi+08Ql7C4Xf6HXA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=lpNCbI0rHaRM9tnYkFhcUZ+VEmU7iyd0uREap0iTT27iTeytpUNQdQKPJ9Sk1wsbm
+         nmmBucngpwAFEvOHthu6QiQQMaIACPwbA+zOJQ/aIuFz6++4YjOc3Pxlpg0l1f9Lz0
+         Pi8zPWgHFjw5s1sYniENMWQVMq1Q1yYuzWtw251E=
+Message-ID: <2e2417fb-97a1-7153-6ba9-88a6d50f962a@ideasonboard.com>
+Date:   Fri, 21 Jul 2023 16:23:54 +0300
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 6/8] media: i2c: ds90ub953: Restructure clkout
+ management
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Brown <broonie@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Ming Qian <ming.qian@nxp.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>, linux-spi@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shijie Qin <shijie.qin@nxp.com>, devicetree@vger.kernel.org,
-        Zhou Peng <eagle.zhou@nxp.com>
-In-Reply-To: <20230721111020.1234278-1-alexander.stein@ew.tq-group.com>
-References: <20230721111020.1234278-1-alexander.stein@ew.tq-group.com>
-Message-Id: <168994381338.785121.14262858445617202831.robh@kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: media: amphion: Fix subnode pattern
-Date:   Fri, 21 Jul 2023 06:50:13 -0600
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230720-fpdlink-additions-v2-0-b91b1eca2ad3@ideasonboard.com>
+ <20230720-fpdlink-additions-v2-6-b91b1eca2ad3@ideasonboard.com>
+ <ZLpeHG9/99YjdKtW@smile.fi.intel.com>
+Content-Language: en-US
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <ZLpeHG9/99YjdKtW@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On Fri, 21 Jul 2023 13:10:18 +0200, Alexander Stein wrote:
-> DT nodes use dashes instead of underscore. Adjust pattern to also fix
-> warnings regarding nodes in arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
+On 21/07/2023 13:29, Andy Shevchenko wrote:
+> On Thu, Jul 20, 2023 at 01:30:37PM +0300, Tomi Valkeinen wrote:
+>> Separate clkout calculations and register writes into two functions:
+>> ub953_calc_clkout_params and ub953_write_clkout_regs, and add a struct
+>> ub953_clkout_data that is used to store the clkout parameters.
+>>
+>> This simplifies the clkout management.
 > 
-> Fixes: 38ad8b32f3af ("dt-bindings: media: amphion: add amphion video codec bindings")
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  Documentation/devicetree/bindings/media/amphion,vpu.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> ...
 > 
+>> +struct ub953_clkout_data {
+>> +	u32 hs_div;
+>> +	u32 m;
+>> +	u32 n;
+> 
+> I don't think it makes driver worse. The V4L2 UAPI has similar struct which is
+> used widely, hence I see no issues in using u32_fract here.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+I think it makes sense to use u32_fract in common code. My argument for 
+not using it here is:
 
-yamllint warnings/errors:
+- There is no actual functionality that u32_fract brings, so it's really 
+only about field naming
+- m and n matches the terms in the HW documentation, making it easier to 
+compare the code and the docs
+- This is private to the driver
+- I'm (currently) the most likely person to edit the driver, and I would 
+have to check which one that numerator/denominator was again when 
+looking at this part of the code (but maybe I would learn eventually)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/amphion,vpu.example.dtb: vpu@2c000000: 'vpu_core@2d080000', 'vpu_core@2d090000', 'vpu_core@2d0a0000' do not match any of the regexes: '^mailbox@[0-9a-f]+$', '^vpu-core@[0-9a-f]+$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/media/amphion,vpu.yaml#
+So, in my view, the change doesn't really have any pros but does have cons.
 
-doc reference errors (make refcheckdocs):
+That said, it's not a biggie. If others chime in and say it's a good 
+idea to use u32_fract, I'm fine doing that change.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230721111020.1234278-1-alexander.stein@ew.tq-group.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+  Tomi
 
