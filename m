@@ -2,125 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 247E675CAA9
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 16:52:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFA0575CAD6
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 17:00:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229920AbjGUOwb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jul 2023 10:52:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35284 "EHLO
+        id S229973AbjGUPAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jul 2023 11:00:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229779AbjGUOwa (ORCPT
+        with ESMTP id S229682AbjGUPAT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jul 2023 10:52:30 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7AF3F0;
-        Fri, 21 Jul 2023 07:52:29 -0700 (PDT)
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+        Fri, 21 Jul 2023 11:00:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D712E19B6
+        for <linux-media@vger.kernel.org>; Fri, 21 Jul 2023 08:00:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 780E16606EE0;
-        Fri, 21 Jul 2023 15:52:26 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1689951148;
-        bh=98bysGy+AeVi9wthSW3bKoLCU2PN4QMkm22+kvUMnWU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=joUUPWHADFpPK77514Ek71bf5t5zpKD6tvYcIO0gvGc+G4FTMiFstL89i+PqFIx39
-         DX4FxMvrMdEcbmQKdXjwh+d7PWhx2Ii7bKGvx5TAzwkF5M6Xsz/PLiS1wmywRn6ZQP
-         Pt0Nct/1ZoNTTGziCUvbEGm4+F5bwYZlC113Wj+fs9ckiFX2yhDN1N9CiyJ1cE9af2
-         N73I8Vr3lNHHNft8iDK9VSike47aLodpcoJyU1nVw7Ok7R7iQrIm7L3B7QB16CBEDE
-         vTjEFDOJMblL5MEZtQHxnE9Ay1QvqW9bLUcxtxcJcfbIgCK4zw4Kk/JgpXbFPTGws4
-         LaFb5BxvYn3DA==
-Date:   Fri, 21 Jul 2023 10:52:23 -0400
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
-        <nfraprado@collabora.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v5 5/7] media: mediatek: vcodec: Read HW active status
- from syscon
-Message-ID: <08fab56b-c938-4509-940e-eab503f87740@notapiano>
-References: <20230630151436.155586-1-nfraprado@collabora.com>
- <20230630151436.155586-6-nfraprado@collabora.com>
- <fe9b6ee0-4661-ec0d-a49f-5986e00cb355@xs4all.nl>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7556D61CD5
+        for <linux-media@vger.kernel.org>; Fri, 21 Jul 2023 15:00:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B59EBC433C8;
+        Fri, 21 Jul 2023 15:00:15 +0000 (UTC)
+Message-ID: <af0772c6-7052-ce13-dbf3-d403b06aad02@xs4all.nl>
+Date:   Fri, 21 Jul 2023 17:00:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Mingjia Zhang <mingjia.zhang@mediatek.com>,
+        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>, Xiaoyong Lu <xiaoyong.lu@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.6] Various vcodec fixes and enhancements
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fe9b6ee0-4661-ec0d-a49f-5986e00cb355@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 21, 2023 at 01:44:10PM +0200, Hans Verkuil wrote:
-> On 30/06/2023 17:14, Nícolas F. R. A. Prado wrote:
-[..]
-> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-> > @@ -489,6 +489,7 @@ struct mtk_vcodec_dev {
-> >  	void __iomem *reg_base[NUM_MAX_VCODEC_REG_BASE];
-> >  	const struct mtk_vcodec_dec_pdata *vdec_pdata;
-> >  	const struct mtk_vcodec_enc_pdata *venc_pdata;
-> > +	struct regmap *vdecsys_regmap;
-> 
-> You forgot to add the kerneldoc documentation for this new field.
-> 
-> If you just give me the documentation of this field then I can modify the
-> patch. That's actually easier for me.
+The following changes since commit 28999781d15f94046e6c23a9a7d92ad28a436abf:
 
-Sorry about that. Seems like I'm not getting a kerneldoc warning due to that,
-I'll look into why so I can catch this next time.
+  media: i2c: ov01a10: Switch back to use struct i2c_driver::probe (2023-07-19 12:57:51 +0200)
 
-This is the documentation:
+are available in the Git repository at:
 
-@vdecsys_regmap: VDEC_SYS register space passed through syscon
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.6g
 
-Or if a patch that applies on top would make it easier to fixup:
+for you to fetch changes up to c0f7b945ab6c5224a17aeeb08acee8d825472e49:
 
-cat 0001-media-mediatek-vcodec-Add-missing-kerneldoc-for-vdec.patch
-From ee6a6d619dbe60c8f4947188a9b9bbeafc3616f7 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
- <nfraprado@collabora.com>
-Date: Fri, 21 Jul 2023 16:33:54 +0200
-Subject: [PATCH] media: mediatek: vcodec: Add missing kerneldoc for
- vdecsys_regmap
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+  media: mediatek: vcodec: Add capture format to support 10bit raster mode (2023-07-21 16:56:51 +0200)
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h | 1 +
- 1 file changed, 1 insertion(+)
+----------------------------------------------------------------
+Tag branch
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-index 0b430936f67d..c38eb62bc72a 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-@@ -441,6 +441,7 @@ struct mtk_vcodec_enc_pdata {
-  * @reg_base: Mapped address of MTK Vcodec registers.
-  * @vdec_pdata: decoder IC-specific data
-  * @venc_pdata: encoder IC-specific data
-+ * @vdecsys_regmap: VDEC_SYS register space passed through syscon
-  *
-  * @fw_handler: used to communicate with the firmware.
-  * @id_counter: used to identify current opened instance
---
-2.30.2
+----------------------------------------------------------------
+Dan Carpenter (4):
+      media: mediatek: vcodec: fix potential double free
+      media: mediatek: vcodec: fix resource leaks in vdec_msg_queue_init()
+      media: mediatek: vcodec: Fix potential crash in mtk_vcodec_dbgfs_remove()
+      media: mediatek: vcodec: Improve an error message
 
-Thanks,
-Nícolas
+Irui Wang (1):
+      media: mediatek: vcodec: Return NULL if no vdec_fb is found
+
+Mingjia Zhang (2):
+      media: mediatek: vcodec: Add capture format to support 10bit tile mode
+      media: mediatek: vcodec: Add capture format to support 10bit raster mode
+
+NÃ­colas F. R. A. Prado (5):
+      media: dt-bindings: mediatek,vcodec: Allow single clock for mt8183
+      media: dt-bindings: mediatek,vcodec: Don't require assigned-clocks
+      media: dt-bindings: mediatek,vcodec: Remove VDEC_SYS register space
+      media: mediatek: vcodec: Define address for VDEC_HW_ACTIVE
+      media: mediatek: vcodec: Read HW active status from syscon
+
+Xiaoyong Lu (1):
+      media: mediatek: vcodec: fix AV1 decode fail for 36bit iova
+
+ Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml | 67 ++++++++++++++++++++++-------
+ Documentation/userspace-api/media/v4l/pixfmt-reserved.rst            | 15 +++++++
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c            | 13 +++---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c          | 77 +++++++++++++++++++++++++++++-----
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c           |  4 +-
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.h           |  3 +-
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h              |  2 +
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c             | 15 +++++++
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h             |  2 +
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c    | 12 ++++--
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c            | 10 ++---
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c            |  5 ++-
+ drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c              |  6 ++-
+ drivers/media/v4l2-core/v4l2-common.c                                |  4 ++
+ drivers/media/v4l2-core/v4l2-ioctl.c                                 |  2 +
+ include/uapi/linux/videodev2.h                                       |  2 +
+ 16 files changed, 187 insertions(+), 52 deletions(-)
