@@ -2,295 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7E8D75CEF8
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 18:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73F8C75D133
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 20:20:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232970AbjGUQ0Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jul 2023 12:26:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51802 "EHLO
+        id S229925AbjGUST6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jul 2023 14:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232905AbjGUQ0C (ORCPT
+        with ESMTP id S229529AbjGUST4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jul 2023 12:26:02 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 042E4469C
-        for <linux-media@vger.kernel.org>; Fri, 21 Jul 2023 09:22:57 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-765a4ff26cdso202161185a.0
-        for <linux-media@vger.kernel.org>; Fri, 21 Jul 2023 09:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689956527; x=1690561327;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=anzVo3hUJH+3skT2M/ifsBnOhDsDvDLiIiPxAeMTDlI=;
-        b=UVkVCLfTxdvk+X9SJNoWdJCrc4GrRB+WZ5aBs26E/0CXNIZWTKsoSzYVWaJ2zxdFvr
-         B4TPaZxrJR1memEr3mA6PZGU5JKlrBOerZP9QLL7cG43qHxQC4pc7hh8qj7kMr1R60JA
-         kCRyfT1BJlm7xhlYgDDDM19sHmPB/vI+UkgoNNQaVNfQASPx9jZVH6/0YT4DLSSxL/cP
-         VOyancBt0vq5/dz2wDg7feCYFBsp2gl0uVSltBvxj5AYHZvtoZ9F2tVbVceIg7Yky1Mj
-         9EztgHZdtUq/U60BXIjtX0EBy0tMYXnL4RbR3kHJ+QmMG9jntcqRGJi5uT79Q4N8DLmA
-         FSgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689956527; x=1690561327;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=anzVo3hUJH+3skT2M/ifsBnOhDsDvDLiIiPxAeMTDlI=;
-        b=H6udFfI45grTUboitBUdeWOuOFiEDYXqkgcjF1uRt83EkiPS1FZBvfSqQtMJYzOThI
-         dl5zWz1uwSJ6cCo0GrtH1VqzhV+InTHY+Vybmdqb8iAR43g0Xz2BWk8YxCb75P2jnN2h
-         zdOC/QBwSMlqj9TosU/DFJKhyxrNbvsK257vjcn4JItegOdphNRqEa+gc7XllY7dl8IQ
-         uTQ6IeCumtjTn0ZiJ/nXsYjtdX08zL8vuitb0Pzphgf56EN2vCwQC7LAL+JZ5XIsVqu9
-         7RixEYqu4O9RAEkbDYzXsthBCUSveRCKs31WgYNAMe28LagrOTgjoIwQ4aXLORj8lmIH
-         uIFw==
-X-Gm-Message-State: ABy/qLZL8/l/6divuTMOwGWLQE1WKY4GWn1T2TL2f4JyMd8nk0iMxqcB
-        Uf5d4jHk1Lhp+T0auupKC7jfdfYVu+wK/MOvpXE3vg==
-X-Google-Smtp-Source: APBJJlGZiYvgAnJnYzwVz2Q+FjRLwQE0OkdKGdNFx0kh+h8pHjGDnNPXWk/P8IsRz0VuMA6PmAbPhw==
-X-Received: by 2002:a05:620a:4141:b0:767:915a:ccf6 with SMTP id k1-20020a05620a414100b00767915accf6mr584247qko.65.1689956526723;
-        Fri, 21 Jul 2023 09:22:06 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:10:580::7a9])
-        by smtp.gmail.com with ESMTPSA id r29-20020a05620a03dd00b00767f00a9c67sm1200195qkm.95.2023.07.21.09.22.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jul 2023 09:22:06 -0700 (PDT)
-Message-ID: <801aaaaaa77f28c6fc8f1bcb46b4410f663ec97e.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/2] [RESEND] media: v4l2-mem2mem: allow device run
- without buf
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     linux-media@vger.kernel.org, ayaka@soulik.info,
-        hans.verkuil@cisco.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        Sebastian Fricke <sebastian.fricke@collabora.com>
-Date:   Fri, 21 Jul 2023 12:22:05 -0400
-In-Reply-To: <452a4d48-fd73-d539-25f6-ded6bc6212bc@synaptics.com>
-References: <20230704040044.681850-1-randy.li@synaptics.com>
-         <20230704040044.681850-2-randy.li@synaptics.com>
-         <20452e233a9a4b39b58139081d818d3b1454105a.camel@ndufresne.ca>
-         <20230712093129.pdcbvlxd5zphwr5m@chromium.org>
-         <17ca8c5ee31ac8e48bb2ac7f89f6bae84816c893.camel@ndufresne.ca>
-         <452a4d48-fd73-d539-25f6-ded6bc6212bc@synaptics.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Fri, 21 Jul 2023 14:19:56 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EEA42D58
+        for <linux-media@vger.kernel.org>; Fri, 21 Jul 2023 11:19:55 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qMujJ-0007bY-Td; Fri, 21 Jul 2023 20:19:53 +0200
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qMujH-0002AX-8H; Fri, 21 Jul 2023 20:19:51 +0200
+Date:   Fri, 21 Jul 2023 20:19:51 +0200
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Jernej =?iso-8859-15?Q?=A6krabec?= <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: Stateless Encoding uAPI Discussion and Proposal
+Message-ID: <20230721181951.GL12001@pengutronix.de>
+References: <ZK2NiQd1KnraAr20@aptenodytes>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="CqfQkoYPE/jGoa5Q"
+Content-Disposition: inline
+In-Reply-To: <ZK2NiQd1KnraAr20@aptenodytes>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 21 juillet 2023 =C3=A0 16:56 +0800, Hsia-Jun Li a =C3=A9crit=C2=
-=A0:
->=20
-> On 7/17/23 22:00, Nicolas Dufresne wrote:
-> > CAUTION: Email originated externally, do not click links or open attach=
-ments unless you recognize the sender and know the content is safe.
-> >=20
-> >=20
-> > Le mercredi 12 juillet 2023 =C3=A0 09:31 +0000, Tomasz Figa a =C3=A9cri=
-t :
-> > > On Fri, Jul 07, 2023 at 03:14:23PM -0400, Nicolas Dufresne wrote:
-> > > > Hi Randy,
-> > > >=20
-> > > > Le mardi 04 juillet 2023 =C3=A0 12:00 +0800, Hsia-Jun Li a =C3=A9cr=
-it :
-> > > > > From: Randy Li <ayaka@soulik.info>
-> > > > >=20
-> > > > > For the decoder supports Dynamic Resolution Change,
-> > > > > we don't need to allocate any CAPTURE or graphics buffer
-> > > > > for them at inital CAPTURE setup step.
-> > > > >=20
-> > > > > We need to make the device run or we can't get those
-> > > > > metadata.
-> > > > >=20
-> > > > > Signed-off-by: Randy Li <ayaka@soulik.info>
-> > > > > ---
-> > > > >   drivers/media/v4l2-core/v4l2-mem2mem.c | 5 +++--
-> > > > >   1 file changed, 3 insertions(+), 2 deletions(-)
-> > > > >=20
-> > > > > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/med=
-ia/v4l2-core/v4l2-mem2mem.c
-> > > > > index 0cc30397fbad..c771aba42015 100644
-> > > > > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > > > > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > > > > @@ -301,8 +301,9 @@ static void __v4l2_m2m_try_queue(struct v4l2_=
-m2m_dev *m2m_dev,
-> > > > >=20
-> > > > >    dprintk("Trying to schedule a job for m2m_ctx: %p\n", m2m_ctx)=
-;
-> > > > >=20
-> > > > > - if (!m2m_ctx->out_q_ctx.q.streaming
-> > > > > -     || !m2m_ctx->cap_q_ctx.q.streaming) {
-> > > > > + if (!(m2m_ctx->out_q_ctx.q.streaming || m2m_ctx->out_q_ctx.buff=
-ered)
-> > > > > +     || !(m2m_ctx->cap_q_ctx.q.streaming
-> > > > > +          || m2m_ctx->cap_q_ctx.buffered)) {
-> > > >=20
-> > > > I have a two atches with similar goals in my wave5 tree. It will be=
- easier to
-> > > > upstream with an actual user, though, I'm probably a month or two a=
-way from
-> > > > submitting this driver again.
-> > > >=20
-> > > > https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__gitlab.colla=
-bora.com_chipsnmedia_kernel_-2D_commit_ac59eafd5076c4deb3bfe1fb85b3b776586e=
-f3eb&d=3DDwIFaQ&c=3D7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DP4xb2_7=
-biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=3D9eWwqueFnh1yZHTW11j-syNVQvema7iBzN=
-QeX1GKUQwXZ9pm6V4HDL_R2tIYKoOw&s=3DEz5AyEYFIAJmC_k00IPO_ImzVdLZjr_veRq1bN4R=
-SNg&e=3D
-> > > > https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__gitlab.colla=
-bora.com_chipsnmedia_kernel_-2D_commit_5de4fbe0abb20b8e8d862b654f93e3efeb1e=
-f251&d=3DDwIFaQ&c=3D7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DP4xb2_7=
-biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=3D9eWwqueFnh1yZHTW11j-syNVQvema7iBzN=
-QeX1GKUQwXZ9pm6V4HDL_R2tIYKoOw&s=3DtM81gjNe-bTjpjmidZ1sAhiodMh6npcVJNOhMCi1=
-mPo&e=3D
-> > > >=20
-> > >=20
-> > > While I'm not going to NAK this series or those 2 patches if you send
-> > > them, I'm not really convinced that adding more and more complexity t=
-o
-> > > the mem2mem helpers is a good idea, especially since all of those see=
-m
-> > > to be only needed by stateful video decoders.
-> > >=20
-> > > The mem2mem framework started as a set of helpers to eliminate boiler
-> > > plate from simple drivers that always get 1 CAPTURE and 1 OUTPUT buff=
-er,
-> > > run 1 processing job on them and then return both of the to the users=
-pace
-> > > and I think it should stay like this.
-> >=20
-> > Its a bit late to try and bring that argument. It should have been rais=
-ed couple
-> > of years ago (before I even started helping with these CODEC). Now that=
- all the
-> > newly written stately decoders uses this framework, it is logical to ke=
-ep
-> > reducing the boiler plate for these too. In my opinion, the job_ready()
-> > callback, should have been a lot more flexible from the start. And allo=
-wing
-> > driver to make it more powerful does not really add that much complexit=
-y.
-> >=20
-> > Speaking of complexity, driving the output manually (outside of the job
-> > workqueue) during sequence initialization is a way more complex and ris=
-ky then
-> > this. Finally, sticking with 1:1 pattern means encoder, detilers, image
-> > enhancement reducing framerate, etc. would all be unwelcome to use this=
-. Which
-> > in short, means no one should even use this.
-> >=20
-> I think those things are m2m, but it would be hard to present in current=
-=20
-> m2m framework:
-> 1. N:1 compositor(It may be implemented as a loop running 2:1 compositor)=
-.
 
-Correct, only SRC/DST/BG type of blitters can be supported for compositing,
-which is quite limiting. Currently there is no way to make an N:1 M2M, as M=
-2M
-instances are implemented at the video node layer, and not at the MC layer.=
- This
-is a entirely new subject and API design space to tackle (same goes for 1:N=
-,
-like multi scalers, svc decoders etc.).
+--CqfQkoYPE/jGoa5Q
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 2. AV1 film gain
+Hi everyone!
 
-For AV1/HEVC film grain, it is handle similar to inline converters and scal=
-ers.
-The driver secretly allocate the reference frames, and post process into th=
-e
-user visible buffers. It breaks some assumption made by most protected memo=
-ry
-setup though, as not all allocation is user driven, meaning the decoder nee=
-ds to
-know if its secure or not. Secure memory is a also another API design space=
- to
-tackle.
+Just to let you know. I have just pushed a Branch that includes some first
+steps to make the h264-stateless encoder working in Gstreamer. The work is
+based on the VP8 Stateless Encoder patches Benjamin Gaignard created.
 
-> 3. HDR with dynamic meta data to SDR
+https://gitlab.freedesktop.org/mgrzeschik/gstreamer/-/commits/1.22/topic/h2=
+64-stateless-encoder
 
-True, but easy to design around the stateless model. I'm not worried for th=
-ese.
+The codec this is used with, is the rkvenc that can be found on rockchip
+rk3568. I will send an RFC driver for that in the next weeks after my vacat=
+ion.
 
->=20
-> The video things fix for m2m model could be just a little less complex=
-=20
-> than ISP or camera pipeline. The only difference is just ISP won't have=
-=20
-> multiple contexts running at the same time.
-
-I thought that having the kernel schedule ISP reprocessing jobs (which requ=
-ires
-instances) would be nice. But this can only be solved after we have solved =
+On Tue, Jul 11, 2023 at 07:12:41PM +0200, Paul Kocialkowski wrote:
+>After various discussions following Andrzej's talk at EOSS, feedback from =
 the
-N:N use cases of m2m (with multiple instances).
+>Media Summit (which I could not attend unfortunately) and various direct
+>discussions, I have compiled some thoughts and ideas about stateless encod=
+ers
+>support with various proposals. This is the result of a few years of inter=
+est
+>in the topic, after working on a PoC for the Hantro H1 using the hantro dr=
+iver,
+>which turned out to have numerous design issues.
+>
+>I am now working on a H.264 encoder driver for Allwinner platforms (curren=
+tly
+>focusing on the V3/V3s), which already provides some usable bitstream and =
+will
+>be published soon.
+>
+>This is a very long email where I've tried to split things into distinct t=
+opics
+>and explain a few concepts to make sure everyone is on the same page.
+>
+># Bitstream Headers
+>
+>Stateless encoders typically do not generate all the bitstream headers and
+>sometimes no header at all (e.g. Allwinner encoder does not even produce s=
+lice
+>headers). There's often some hardware block that makes bit-level writing t=
+o the
+>destination buffer easier (deals with alignment, etc).
+>
+>The values of the bitstream headers must be in line with how the compressed
+>data bitstream is generated and generally follow the codec specification.
+>Some encoders might allow configuring all the fields found in the headers,
+>others may only allow configuring a few or have specific constraints regar=
+ding
+>which values are allowed.
+>
+>As a result, we cannot expect that any given encoder is able to produce fr=
+ames
+>for any set of headers. Reporting related constraints and limitations (bey=
+ond
+>profile/level) seems quite difficult and error-prone.
+>
+>So it seems that keeping header generation in-kernel only (close to where =
+the
+>hardware is actually configured) is the safest approach.
 
-> If we could design a model for the video encoder I think we could solve=
-=20
-> the most of problems.
-> A video encoder would have:
-> 1. input graphics buffer
-> 2. reconstruction graphics buffer
-> 3. motion vector cache buffer(optional)
-> 4. coded bitstream output
-> 5. encoding statistic report
-> > >=20
-> > > I think we're strongly in need of a stateful video decoder framework =
-that
-> > > would actually address the exact problems that those have rather than
-> > > bending something that wasn't designed with them in mind to work arou=
-nd the
-> > > differences.
-> >=20
-> > The bend is already there, of course I'd be happy to help with any new
-> > framework. Specially on modern stateless, were there is a need to do be=
-tter
-> > scheduling.
-> I didn't know the schedule problem about stateless codec, are they=20
-> supposed to be in the job queue when the buffers that DPB requests are=
-=20
-> own by the driver and its registers are prepared except the trigger bit?
+For the case with the rkvenc, the headers are also not created by the
+kernel driver. Instead we use the gst_h264_bit_writer_sps/pps functions
+that are part of the codecparsers module.
 
-On RK3588 at least, decoder scheduling is going to be complex. There is an =
-even
-number of cores, but when you need to decode 8K, you have to pair two cores
-(there is a specific set of cores that are to be paired with). We need a de=
-cent
-scheduling logic to ensure we don't starve 8K decoding session when there i=
-s
-multiple smaller resolution session on-going.
+># Codec Features
+>
+>Codecs have many variable features that can be enabled or not and specific
+>configuration fields that can take various values. There is usually some
+>top-level indication of profile/level that restricts what can be used.
+>
+>This is a very similar situation to stateful encoding, where codec-specific
+>controls are used to report and set profile/level and configure these aspe=
+cts.
+>A particularly nice thing about it is that we can reuse these existing con=
+trols
+>and add new ones in the future for features that are not yet covered.
+>
+>This approach feels more flexible than designing new structures with a sel=
+ected
+>set of parameters (that could match the existing controls) for each codec.
 
-On MTK, the entropy decoding (LAT) and the reconstruction (CORE) is split. =
-MTK
-vcodec is using multiple workqueues to move jobs around, which is clearly
-expensive. Also, the life time of a job is not exactly easy to manage.
+I back the Idea of generic profiles instead of explicit configuration
+=66rom the usersapace point of view.
 
-On RPi HEVC (not upstream yet, but being worked on), the entropy decoding a=
-nd
-reconstruction is done one the same core, but remains 2 concurrent operatio=
-n.
-Does not impose a complex scheduling issue, but it raised the need for a wa=
-y to
-fully utilize such HW.
+The parameterization works like this:
 
-This is just some examples of complexity for which the current framework is=
- not
-that helpful (even though, its not impossible either).
+Read the sane default parameter set from the driver.
+Modify the parameters based on the userspace decisions.
+ - (currently hardcoded and not based on any user input)
+Write the updated parameters back to the driver.
 
->   Just ping me if you have some effort starting, I don't currently
-> > have a budget or bandwidth to write new drivers or port existing driver=
-s them on
-> > a newly written framework.
-> >=20
-> > Nicolas
-> >=20
-> >=20
-> > [...]
->=20
+># Reference and Reconstruction Management
+<snip>
 
+># Frame Types
+<snip>
+
+># Rate Control
+<snip>
+
+># Regions of Interest
+<snip>
+
+Since the first shot of the rkvenc is I-Frame only code, these other topics=
+ are
+currently undefined and unimplemented in the Gstreamer stack.
+
+
+Regards,
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--CqfQkoYPE/jGoa5Q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmS6zEQACgkQC+njFXoe
+LGTPfQ/+PmQ8Lvg2djfpwtS7LxFWLLcSURknZAUaxzfZ33D6DjikuhpISojkKcX8
+mQ9Maq0mkyvQJUGWCpnB/28k2360UV2V3n7x16E9ZjUoQhj4WL0k+1H5aL/74rRw
+GnOBvEK6KwI09BsDhb+ozMYhbW8TIp3FYpTj8lZBtjrcyqkiioDwcCOqQBZB+NwG
+TJbBUkG59O0F9BXFNfR/QDF0eJnKE5CpkNVlSkKUPR9tRpmwt+lVvxXBv2fo7g9g
+dFWLKlzUZ1qxEQY3ZVrBQd7JZ4jBrREHlsJx2Wj22AI1gCrYpnA3aknRcs8BfdZc
+BnRj7FZ893OoVJlFbRqP4w8PVnNasxOAiuu5njOnl/3lpjlh7A2l286qaEw863V0
+jMNQSUI2KQS5vvpWZ7f+4j1obwKr/1hS1Y6HBoFwES9BgIFegAcq+dYZaUOxZQk5
+Fx/zGG+3Uldx6NOsOIzV46cHLbmFVZ8v68zlB8FFZkdqeP93xdTAD/DUEpNnQ19B
+Pvm1kKM4nTZIDGLDFJOxF4xiHu8oOypKfeFksXdjqDp4CvQDuYnf0fsEff3rAAUN
+MwL4pTWm1R2aLNq9FcXJ7mX/1H+bkCV2R5mPd0yllFArV/xF3nNRspEuvn8BWzn3
+knSPOepvZ89dsFcJdduTabzypDDYtGiCwMd/Wf1G9ZUsb2l/Z9s=
+=7cn6
+-----END PGP SIGNATURE-----
+
+--CqfQkoYPE/jGoa5Q--
