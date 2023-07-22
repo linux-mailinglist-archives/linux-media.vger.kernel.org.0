@@ -2,208 +2,269 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73F8C75D133
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jul 2023 20:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CBEF75DAAC
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jul 2023 09:42:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjGUST6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jul 2023 14:19:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33648 "EHLO
+        id S230262AbjGVHms (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Jul 2023 03:42:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjGUST4 (ORCPT
+        with ESMTP id S229655AbjGVHmq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jul 2023 14:19:56 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EEA42D58
-        for <linux-media@vger.kernel.org>; Fri, 21 Jul 2023 11:19:55 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1qMujJ-0007bY-Td; Fri, 21 Jul 2023 20:19:53 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1qMujH-0002AX-8H; Fri, 21 Jul 2023 20:19:51 +0200
-Date:   Fri, 21 Jul 2023 20:19:51 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
+        Sat, 22 Jul 2023 03:42:46 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BDAF2709;
+        Sat, 22 Jul 2023 00:42:38 -0700 (PDT)
+X-UUID: 519d5982286311ee9cb5633481061a41-20230722
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=ujzp6ICOMwVrN0AH1KJECL3aAmApevuDCm3GoPxgT3I=;
+        b=ew4khwXgJT3PUwBYrvdmkVWdMjqX3cAmhD4x9okN/N/GR1z+G5UFNj93jwq7ZTFJQGIcAiyQ58ERRkR9fFV0BGosHFmaO6kXByIL3fyE/QjKZbrq1oL590w194kvUwAGwyOSeHtFT92JQGAOE01fBCDdWaTEOxM3BYynMBGZPxk=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.28,REQID:671d3788-90d8-4a59-80bd-82d7a2075622,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+        ON:release,TS:70
+X-CID-INFO: VERSION:1.1.28,REQID:671d3788-90d8-4a59-80bd-82d7a2075622,IP:0,URL
+        :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
+        ON:quarantine,TS:70
+X-CID-META: VersionHash:176cd25,CLOUDID:3203f48e-7caa-48c2-8dbb-206f0389473c,B
+        ulkID:230722154234TW9NBYTR,BulkQuantity:0,Recheck:0,SF:29|28|17|19|48|38,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+        ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_SDM,TF_CID_SPAM_ASC,TF_CID_SPAM_FAS,
+        TF_CID_SPAM_FSD,TF_CID_SPAM_ULS
+X-UUID: 519d5982286311ee9cb5633481061a41-20230722
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1291466516; Sat, 22 Jul 2023 15:42:33 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 22 Jul 2023 15:42:31 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sat, 22 Jul 2023 15:42:30 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
+        <nfraprado@collabora.com>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Jernej =?iso-8859-15?Q?=A6krabec?= <jernej.skrabec@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: Stateless Encoding uAPI Discussion and Proposal
-Message-ID: <20230721181951.GL12001@pengutronix.de>
-References: <ZK2NiQd1KnraAr20@aptenodytes>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+CC:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "Steve Cho" <stevecho@chromium.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v7,0/11] media: mediatek: vcodec: separate encoder and decoder
+Date:   Sat, 22 Jul 2023 15:42:19 +0800
+Message-ID: <20230722074230.30558-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="CqfQkoYPE/jGoa5Q"
-Content-Disposition: inline
-In-Reply-To: <ZK2NiQd1KnraAr20@aptenodytes>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
 
---CqfQkoYPE/jGoa5Q
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+With the driver more and more complex, encoder and decoder need to add more parameter
+in shared struct 'mtk_vcodec_ctx' and 'mtk_vcodec_dev'. Encoder use about 40% and
+decoder use 60% parameter. Need to allocate extra unused memory when encoder and decoder
+working.
 
-Hi everyone!
+Separate encoder and decoder in different folder and use independent data struct.
 
-Just to let you know. I have just pushed a Branch that includes some first
-steps to make the h264-stateless encoder working in Gstreamer. The work is
-based on the VP8 Stateless Encoder patches Benjamin Gaignard created.
+patch 1 remove unused parameter.
+patch 2~3 align fw and interrupt related interface.
+patch 4~6 remove the dependency of debug log
+patch 7~8 separate mtk_vcodec_ctx and mtk_vcodec_dev
+patch 9 fix unreasonable parameter
+patch 10 removed unused header files
+patch 11 separate encoder and decoder in different folder
+---
+Changed from v6:
+- rebase to: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=fo-v6.6g.
+Changed from v5:
+- fix some words error for patch 3/6/11.
+- rename mtk_vcodec_comm_drv.h to mtk_vcodec_cmn_drv.h for patch 7.
+Changed from v4:
+- add one parameter to record register base for reg_base for patch 3.
+- add debug string for non ctx log for patch 6.
+- change the comment of struct mtk_vcodec_dec_ctx and struct mtk_vcodec_enc_ctx for patch 7.
+- prefer to use struct mtk_vcodec_dec_dev an current period, will re-construct in the future for patch 8.
+Changed from v3:
+- re-write commit message for patch 3.
+Changed from v2:
+- This patch main changed:
+  1: add different macro mtk_dec_debug and mtk_enc_debug calling common
+     macro mtk_vcodec_debug in order to use dev_dbg instead of pr_debug.
+  2: add different macro mtk_v4l2_venc_dbg and mtk_v4l2_vdec_dbg calling common
+     macro  in order to use dev_dbg instead of pr_debug.
+Changed from v1:
+- Change pr_dbg to dev_dbg for mtk_v4l2_level and mtk_vcodec_dbg for patch 4.
+- Change pr_err to dev_err for mtk_v4l2_err and mtk_vcodec_err for patch 5.
+- Fix unreasonable parameter for patch 8.
+---
+Yunfei Dong (11):
+  media: mediatek: vcodec: remove unused parameter
+  media: mediatek: vcodec: align fw interface
+  media: mediatek: vcodec: Removing struct 'mtk_vcodec_ctx/dev' for
+    shared interface
+  media: mediatek: vcodec: Removing useless debug log
+  media: mediatek: vcodec: remove the dependency of vcodec debug log
+  media: mediatek: vcodec: replace pr_* with dev_* for v4l2 debug
+    message
+  media: mediatek: vcodec: separate struct 'mtk_vcodec_ctx'
+  media: mediatek: vcodec: separate struct mtk_vcodec_dev
+  media: mediatek: vcodec: fix unreasonable parameter definition and
+    style
+  media: mediatek: vcodec: remove unused include header
+  media: mediatek: vcodec: separate decoder and encoder
 
-https://gitlab.freedesktop.org/mgrzeschik/gstreamer/-/commits/1.22/topic/h2=
-64-stateless-encoder
+ .../media/platform/mediatek/vcodec/Makefile   |  55 +-
+ .../platform/mediatek/vcodec/common/Makefile  |  21 +
+ .../vcodec/common/mtk_vcodec_cmn_drv.h        | 147 +++++
+ .../vcodec/{ => common}/mtk_vcodec_dbgfs.c    |  55 +-
+ .../vcodec/{ => common}/mtk_vcodec_dbgfs.h    |  24 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw.c       |  21 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw.h       |   8 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw_priv.h  |  14 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw_scp.c   |  26 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw_vpu.c   |  64 +-
+ .../mediatek/vcodec/common/mtk_vcodec_intr.c  |  68 +++
+ .../vcodec/{ => common}/mtk_vcodec_intr.h     |   6 +-
+ .../vcodec/{ => common}/mtk_vcodec_util.c     |  71 +--
+ .../mediatek/vcodec/common/mtk_vcodec_util.h  |  74 +++
+ .../platform/mediatek/vcodec/decoder/Makefile |  25 +
+ .../vcodec/{ => decoder}/mtk_vcodec_dec.c     | 182 +++---
+ .../vcodec/{ => decoder}/mtk_vcodec_dec.h     |  10 +-
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_drv.c |  87 ++-
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       | 317 ++++++++++
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_hw.c  |  19 +-
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_hw.h  |   6 +-
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_pm.c  |  38 +-
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_pm.h  |   6 +-
+ .../{ => decoder}/mtk_vcodec_dec_stateful.c   | 176 +++---
+ .../{ => decoder}/mtk_vcodec_dec_stateless.c  |  91 +--
+ .../{ => decoder}/vdec/vdec_av1_req_lat_if.c  | 158 +++--
+ .../vcodec/{ => decoder}/vdec/vdec_h264_if.c  |  79 ++-
+ .../{ => decoder}/vdec/vdec_h264_req_common.c |   4 +-
+ .../{ => decoder}/vdec/vdec_h264_req_common.h |   6 +-
+ .../{ => decoder}/vdec/vdec_h264_req_if.c     |  75 ++-
+ .../vdec/vdec_h264_req_multi_if.c             | 157 +++--
+ .../vdec/vdec_hevc_req_multi_if.c             | 129 ++--
+ .../vcodec/{ => decoder}/vdec/vdec_vp8_if.c   |  70 ++-
+ .../{ => decoder}/vdec/vdec_vp8_req_if.c      |  81 ++-
+ .../vcodec/{ => decoder}/vdec/vdec_vp9_if.c   | 132 ++---
+ .../{ => decoder}/vdec/vdec_vp9_req_lat_if.c  | 129 ++--
+ .../vcodec/{ => decoder}/vdec_drv_base.h      |   2 +-
+ .../vcodec/{ => decoder}/vdec_drv_if.c        |  12 +-
+ .../vcodec/{ => decoder}/vdec_drv_if.h        |  10 +-
+ .../vcodec/{ => decoder}/vdec_ipi_msg.h       |   0
+ .../vcodec/{ => decoder}/vdec_msg_queue.c     |  64 +-
+ .../vcodec/{ => decoder}/vdec_msg_queue.h     |  14 +-
+ .../vcodec/{ => decoder}/vdec_vpu_if.c        |  57 +-
+ .../vcodec/{ => decoder}/vdec_vpu_if.h        |   6 +-
+ .../platform/mediatek/vcodec/encoder/Makefile |  11 +
+ .../vcodec/{ => encoder}/mtk_vcodec_enc.c     | 296 +++++-----
+ .../vcodec/{ => encoder}/mtk_vcodec_enc.h     |  12 +-
+ .../vcodec/{ => encoder}/mtk_vcodec_enc_drv.c |  73 +--
+ .../vcodec/encoder/mtk_vcodec_enc_drv.h       | 246 ++++++++
+ .../vcodec/{ => encoder}/mtk_vcodec_enc_pm.c  |  12 +-
+ .../vcodec/{ => encoder}/mtk_vcodec_enc_pm.h  |   4 +-
+ .../vcodec/{ => encoder}/venc/venc_h264_if.c  | 110 ++--
+ .../vcodec/{ => encoder}/venc/venc_vp8_if.c   |  69 +--
+ .../vcodec/{ => encoder}/venc_drv_base.h      |   4 +-
+ .../vcodec/{ => encoder}/venc_drv_if.c        |  10 +-
+ .../vcodec/{ => encoder}/venc_drv_if.h        |  11 +-
+ .../vcodec/{ => encoder}/venc_ipi_msg.h       |   0
+ .../vcodec/{ => encoder}/venc_vpu_if.c        |  75 +--
+ .../vcodec/{ => encoder}/venc_vpu_if.h        |   3 +-
+ .../platform/mediatek/vcodec/mtk_vcodec_drv.h | 550 ------------------
+ .../mediatek/vcodec/mtk_vcodec_intr.c         |  43 --
+ .../mediatek/vcodec/mtk_vcodec_util.h         |  85 ---
+ 62 files changed, 2222 insertions(+), 2188 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/Makefile
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_cmn_drv.h
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_dbgfs.c (77%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_dbgfs.h (62%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw.c (75%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw.h (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_priv.h (75%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_scp.c (70%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_vpu.c (58%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_intr.c
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_intr.h (68%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_util.c (56%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.h
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/Makefile
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec.c (83%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec.h (91%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_drv.c (84%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_hw.c (91%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_hw.h (92%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_pm.c (81%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_pm.h (61%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_stateful.c (73%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_stateless.c (84%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_av1_req_lat_if.c (93%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_if.c (84%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_common.c (98%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_common.h (97%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_if.c (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_multi_if.c (85%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_hevc_req_multi_if.c (90%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp8_if.c (88%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp8_req_if.c (81%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp9_if.c (87%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp9_req_lat_if.c (94%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_base.h (95%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_if.c (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_if.h (89%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_ipi_msg.h (100%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_msg_queue.c (82%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_msg_queue.h (95%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_vpu_if.c (79%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_vpu_if.h (97%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/encoder/Makefile
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc.c (82%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc.h (78%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_drv.c (86%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_pm.c (83%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_pm.h (78%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc/venc_h264_if.c (88%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc/venc_vp8_if.c (88%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_base.h (94%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_if.c (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_if.h (94%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_ipi_msg.h (100%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_vpu_if.c (82%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_vpu_if.h (96%)
+ delete mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
+ delete mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c
+ delete mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
 
-The codec this is used with, is the rkvenc that can be found on rockchip
-rk3568. I will send an RFC driver for that in the next weeks after my vacat=
-ion.
+-- 
+2.18.0
 
-On Tue, Jul 11, 2023 at 07:12:41PM +0200, Paul Kocialkowski wrote:
->After various discussions following Andrzej's talk at EOSS, feedback from =
-the
->Media Summit (which I could not attend unfortunately) and various direct
->discussions, I have compiled some thoughts and ideas about stateless encod=
-ers
->support with various proposals. This is the result of a few years of inter=
-est
->in the topic, after working on a PoC for the Hantro H1 using the hantro dr=
-iver,
->which turned out to have numerous design issues.
->
->I am now working on a H.264 encoder driver for Allwinner platforms (curren=
-tly
->focusing on the V3/V3s), which already provides some usable bitstream and =
-will
->be published soon.
->
->This is a very long email where I've tried to split things into distinct t=
-opics
->and explain a few concepts to make sure everyone is on the same page.
->
-># Bitstream Headers
->
->Stateless encoders typically do not generate all the bitstream headers and
->sometimes no header at all (e.g. Allwinner encoder does not even produce s=
-lice
->headers). There's often some hardware block that makes bit-level writing t=
-o the
->destination buffer easier (deals with alignment, etc).
->
->The values of the bitstream headers must be in line with how the compressed
->data bitstream is generated and generally follow the codec specification.
->Some encoders might allow configuring all the fields found in the headers,
->others may only allow configuring a few or have specific constraints regar=
-ding
->which values are allowed.
->
->As a result, we cannot expect that any given encoder is able to produce fr=
-ames
->for any set of headers. Reporting related constraints and limitations (bey=
-ond
->profile/level) seems quite difficult and error-prone.
->
->So it seems that keeping header generation in-kernel only (close to where =
-the
->hardware is actually configured) is the safest approach.
-
-For the case with the rkvenc, the headers are also not created by the
-kernel driver. Instead we use the gst_h264_bit_writer_sps/pps functions
-that are part of the codecparsers module.
-
-># Codec Features
->
->Codecs have many variable features that can be enabled or not and specific
->configuration fields that can take various values. There is usually some
->top-level indication of profile/level that restricts what can be used.
->
->This is a very similar situation to stateful encoding, where codec-specific
->controls are used to report and set profile/level and configure these aspe=
-cts.
->A particularly nice thing about it is that we can reuse these existing con=
-trols
->and add new ones in the future for features that are not yet covered.
->
->This approach feels more flexible than designing new structures with a sel=
-ected
->set of parameters (that could match the existing controls) for each codec.
-
-I back the Idea of generic profiles instead of explicit configuration
-=66rom the usersapace point of view.
-
-The parameterization works like this:
-
-Read the sane default parameter set from the driver.
-Modify the parameters based on the userspace decisions.
- - (currently hardcoded and not based on any user input)
-Write the updated parameters back to the driver.
-
-># Reference and Reconstruction Management
-<snip>
-
-># Frame Types
-<snip>
-
-># Rate Control
-<snip>
-
-># Regions of Interest
-<snip>
-
-Since the first shot of the rkvenc is I-Frame only code, these other topics=
- are
-currently undefined and unimplemented in the Gstreamer stack.
-
-
-Regards,
-Michael
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---CqfQkoYPE/jGoa5Q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmS6zEQACgkQC+njFXoe
-LGTPfQ/+PmQ8Lvg2djfpwtS7LxFWLLcSURknZAUaxzfZ33D6DjikuhpISojkKcX8
-mQ9Maq0mkyvQJUGWCpnB/28k2360UV2V3n7x16E9ZjUoQhj4WL0k+1H5aL/74rRw
-GnOBvEK6KwI09BsDhb+ozMYhbW8TIp3FYpTj8lZBtjrcyqkiioDwcCOqQBZB+NwG
-TJbBUkG59O0F9BXFNfR/QDF0eJnKE5CpkNVlSkKUPR9tRpmwt+lVvxXBv2fo7g9g
-dFWLKlzUZ1qxEQY3ZVrBQd7JZ4jBrREHlsJx2Wj22AI1gCrYpnA3aknRcs8BfdZc
-BnRj7FZ893OoVJlFbRqP4w8PVnNasxOAiuu5njOnl/3lpjlh7A2l286qaEw863V0
-jMNQSUI2KQS5vvpWZ7f+4j1obwKr/1hS1Y6HBoFwES9BgIFegAcq+dYZaUOxZQk5
-Fx/zGG+3Uldx6NOsOIzV46cHLbmFVZ8v68zlB8FFZkdqeP93xdTAD/DUEpNnQ19B
-Pvm1kKM4nTZIDGLDFJOxF4xiHu8oOypKfeFksXdjqDp4CvQDuYnf0fsEff3rAAUN
-MwL4pTWm1R2aLNq9FcXJ7mX/1H+bkCV2R5mPd0yllFArV/xF3nNRspEuvn8BWzn3
-knSPOepvZ89dsFcJdduTabzypDDYtGiCwMd/Wf1G9ZUsb2l/Z9s=
-=7cn6
------END PGP SIGNATURE-----
-
---CqfQkoYPE/jGoa5Q--
