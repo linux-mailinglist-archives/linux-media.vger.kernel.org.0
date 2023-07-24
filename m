@@ -2,46 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8E7575E83F
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 03:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 035CC75E804
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 03:37:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231996AbjGXBjQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jul 2023 21:39:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41510 "EHLO
+        id S231355AbjGXBhK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jul 2023 21:37:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232016AbjGXBip (ORCPT
+        with ESMTP id S231246AbjGXBgr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jul 2023 21:38:45 -0400
+        Sun, 23 Jul 2023 21:36:47 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F644C1C;
-        Sun, 23 Jul 2023 18:34:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A58FA59FF;
+        Sun, 23 Jul 2023 18:33:04 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 57C1160F9C;
-        Mon, 24 Jul 2023 01:31:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14823C433C8;
-        Mon, 24 Jul 2023 01:31:46 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 87BB760F60;
+        Mon, 24 Jul 2023 01:31:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A482C433CC;
+        Mon, 24 Jul 2023 01:31:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690162307;
-        bh=S15+AbMxQ5Xyr3RT5XwQiLJB6O9wdJaVQ9670ztnQZc=;
+        s=k20201202; t=1690162312;
+        bh=c981O8wuVun9esepfw++HUguwxtUWbBn3o4RYZoaNMM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q9x6vPIozLixGVYXxp5RRTcHkrgB508BEBtQEwS7QMjJoviyCkLvK383eqM/YdhDv
-         ZrGblNDrw1E67M0PXx3ZfxC3QhPnYHE/m/V/frNi0CsgCfY5ZAHWA53WKRIBDK6Isr
-         khHypyVkCCaWqFXU6hNI6rf8qs0WNzyJsqfWiZfbNOawXoBczqCx50RNtEzU7H1gdS
-         gZ9NjKDNQjKL68Rrob0Efax0L6Jyt4vz0DmLu15IZsbw0sFmtLb58lguoWXr06Z9tD
-         rjfJeqntYgHt4dGhI/PNjaVzdU8IX0VwJsbuP0LT4P7ed34EXK5Yl76NwkSLap+WiK
-         VD+ik2zqdjfRg==
+        b=C9A+q5LdkO+NXl0+5BvZ+2q+oUdPuA4Lrm39oUZORFSQkBeZ+a5eg+lABeUkmUbwH
+         8nc/8m2yF5Mq8iM2qNfh96MFR80FupHTdJG3BmbZFDeyTvBgm9M/jJDmDJT1o86xfq
+         gZspXrfv6SgQ+G7SKBjFrgM7pZASoH+DJrhY2YFnc6GIbpyyESYpHuqGEBSQ1P3h02
+         nQ940ARfQxYitv2yekzhH8kNasBkY6Ss9VwDcsIlmmVcxKGCH/hbfzZcmiqXef6MjF
+         peP5K5jah0LiOBecSlYcF9HM09sSGB9FGRrV66hAD4KcYFpvUH7i9d+gPHNzyTtGWh
+         VVKeV1dXU0DRQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 04/40] media: camss: set VFE bpl_alignment to 16 for sdm845 and sm8250
-Date:   Sun, 23 Jul 2023 21:31:04 -0400
-Message-Id: <20230724013140.2327815-4-sashal@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, matthias.bgg@gmail.com,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.4 07/40] media: platform: mediatek: vpu: fix NULL ptr dereference
+Date:   Sun, 23 Jul 2023 21:31:07 -0400
+Message-Id: <20230724013140.2327815-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230724013140.2327815-1-sashal@kernel.org>
 References: <20230724013140.2327815-1-sashal@kernel.org>
@@ -60,46 +62,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Andrey Konovalov <andrey.konovalov@linaro.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit d5b7eb477c286f6ceccbb38704136eea0e6b09ca ]
+[ Upstream commit 3df55cd773e8603b623425cc97b05e542854ad27 ]
 
-From the experiments with camera sensors using SGRBG10_1X10/3280x2464 and
-SRGGB10_1X10/3280x2464 formats, it becomes clear that on sdm845 and sm8250
-VFE outputs the lines padded to a length multiple of 16 bytes. As in the
-current driver the value of the bpl_alignment is set to 8 bytes, the frames
-captured in formats with the bytes-per-line value being not a multiple of
-16 get corrupted.
+If pdev is NULL, then it is still dereferenced.
 
-Set the bpl_alignment of the camss video output device to 16 for sdm845 and
-sm8250 to fix that.
+This fixes this smatch warning:
 
-Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+drivers/media/platform/mediatek/vpu/mtk_vpu.c:570 vpu_load_firmware() warn: address of NULL pointer 'pdev'
+
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Yunfei Dong <yunfei.dong@mediatek.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/qcom/camss/camss-vfe.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/media/platform/mediatek/vpu/mtk_vpu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index e0832f3f4f25c..06c95568e5af4 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -1541,7 +1541,11 @@ int msm_vfe_register_entities(struct vfe_device *vfe,
- 		}
+diff --git a/drivers/media/platform/mediatek/vpu/mtk_vpu.c b/drivers/media/platform/mediatek/vpu/mtk_vpu.c
+index 5e2bc286f168e..1a95958a1f908 100644
+--- a/drivers/media/platform/mediatek/vpu/mtk_vpu.c
++++ b/drivers/media/platform/mediatek/vpu/mtk_vpu.c
+@@ -562,15 +562,17 @@ static int load_requested_vpu(struct mtk_vpu *vpu,
+ int vpu_load_firmware(struct platform_device *pdev)
+ {
+ 	struct mtk_vpu *vpu;
+-	struct device *dev = &pdev->dev;
++	struct device *dev;
+ 	struct vpu_run *run;
+ 	int ret;
  
- 		video_out->ops = &vfe->video_ops;
--		video_out->bpl_alignment = 8;
-+		if (vfe->camss->version == CAMSS_845 ||
-+		    vfe->camss->version == CAMSS_8250)
-+			video_out->bpl_alignment = 16;
-+		else
-+			video_out->bpl_alignment = 8;
- 		video_out->line_based = 0;
- 		if (i == VFE_LINE_PIX) {
- 			video_out->bpl_alignment = 16;
+ 	if (!pdev) {
+-		dev_err(dev, "VPU platform device is invalid\n");
++		pr_err("VPU platform device is invalid\n");
+ 		return -EINVAL;
+ 	}
+ 
++	dev = &pdev->dev;
++
+ 	vpu = platform_get_drvdata(pdev);
+ 	run = &vpu->run;
+ 
 -- 
 2.39.2
 
