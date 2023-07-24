@@ -2,59 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DB8B75FAA2
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 17:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D7D675FB69
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 18:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229980AbjGXPU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jul 2023 11:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44300 "EHLO
+        id S229550AbjGXQEA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jul 2023 12:04:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbjGXPUZ (ORCPT
+        with ESMTP id S229602AbjGXQD6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jul 2023 11:20:25 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA2F9199D;
-        Mon, 24 Jul 2023 08:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=2Uq2Pslaml20DkLDwKIg3Bu+xRL9XU0v7guHi1TrQWo=; b=AMbbYdovmJxjBGIC8OX8ya+rO5
-        g2Q7ooGVlDXvojFicjeF2yv/uglkqBe0+0mGMnHzQUcX47jvY0Zq7onOVrUGWbNoqbkQXhHVidrUD
-        n8S8yhZ9ZeqjgWs6TYnvbvRei32lgFqefJrjrLvs7yaSCRmhCwPwm8CvTY/fllnbA6ABRxN4w1ftc
-        FsNxaCOwHhX+0JntQD9/ROobN0RQUqtGPwarRdRrM8P/4GPWNoeNuXRacMXgP2yczoH9fmuGG6ysq
-        nqa/WRgPR94l+KKbmITifk2GWyyjVVTcLvIo2Z7iStn2qNLXuKtb2O0GMGYhRolD3+bzL0O1T1KB9
-        60GLtT3w==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qNxLs-004iws-1D;
-        Mon, 24 Jul 2023 15:20:00 +0000
-Message-ID: <7f92397e-a51b-0fc1-bb70-823dfe10f16d@infradead.org>
-Date:   Mon, 24 Jul 2023 08:19:58 -0700
+        Mon, 24 Jul 2023 12:03:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03E910D8;
+        Mon, 24 Jul 2023 09:03:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 60E6F6123E;
+        Mon, 24 Jul 2023 16:03:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D206C433C9;
+        Mon, 24 Jul 2023 16:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690214636;
+        bh=gEGG+FZYD+NSA0ZYzDRF7T5qT2Xr+u4huds8czcmYno=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ardLAL214iDLsUNo193xmbUiA3sADMAWpXdYMa57c0a/IH8keZh98mM8kjpbzgl4v
+         l4XH3FwUPyzKGO7w6ZzTjEYw3+T9g5CkLhUl8Kt65qHlEd83LW41Vr5cQeBO3a4j6/
+         FURIr/prACokPQeMqTEZL4jIDE6ETrJsD3WdrG6/M5fMu+kTUKWxfgHIgPltp5bjG1
+         QWfRMVv/jySJzXpUZwNtqxN5u66tIbwwzFa1XwrRzQWBbniuE9cGVBD6Pybjyfj3Dh
+         7rqhktMl3zHsxESmWx9O7cKM/VpIWWixtzAM0HbUsEmp+wEEpFwfv8wPFdi68g1Mxk
+         1P9Q4Kqyx7eYw==
+Received: (nullmailer pid 3627162 invoked by uid 1000);
+        Mon, 24 Jul 2023 16:03:54 -0000
+Date:   Mon, 24 Jul 2023 10:03:54 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, Ming Qian <ming.qian@nxp.com>,
+        Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>, linux-spi@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>
+Subject: Re: [PATCH 2/3] dt-bindings: lpspi: Add power-domains
+Message-ID: <169021463363.3627105.7699659264255868174.robh@kernel.org>
+References: <20230721111020.1234278-1-alexander.stein@ew.tq-group.com>
+ <20230721111020.1234278-2-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] dma-buf/sync_file: Fix docs syntax
-Content-Language: en-US
-To:     Rob Clark <robdclark@gmail.com>, linux-kernel@vger.kernel.org
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Greg Hackmann <ghackmann@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
-References: <20230724145000.125880-1-robdclark@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230724145000.125880-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230721111020.1234278-2-alexander.stein@ew.tq-group.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,37 +73,15 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-
-On 7/24/23 07:49, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Fri, 21 Jul 2023 13:10:19 +0200, Alexander Stein wrote:
+> i.MX8(X) based SoC use a power domain. Allow supplying this domain in
+> bindings.
 > 
-> Fixes the warning:
-> 
->   include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
-> 
-> Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > ---
->  include/uapi/linux/sync_file.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/devicetree/bindings/spi/spi-fsl-lpspi.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-> index 7e42a5b7558b..ff0a931833e2 100644
-> --- a/include/uapi/linux/sync_file.h
-> +++ b/include/uapi/linux/sync_file.h
-> @@ -56,7 +56,7 @@ struct sync_fence_info {
->   * @name:	name of fence
->   * @status:	status of fence. 1: signaled 0:active <0:error
->   * @flags:	sync_file_info flags
-> - * @num_fences	number of fences in the sync_file
-> + * @num_fences:	number of fences in the sync_file
->   * @pad:	padding for 64-bit alignment, should always be zero
->   * @sync_fence_info: pointer to array of struct &sync_fence_info with all
->   *		 fences in the sync_file
 
--- 
-~Randy
+Acked-by: Rob Herring <robh@kernel.org>
+
