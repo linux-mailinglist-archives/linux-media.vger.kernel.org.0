@@ -2,60 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD2075E99B
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 04:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0681F75EA4B
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 05:57:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231539AbjGXCRI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jul 2023 22:17:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50444 "EHLO
+        id S230091AbjGXD50 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jul 2023 23:57:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230374AbjGXCQz (ORCPT
+        with ESMTP id S229504AbjGXD5Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jul 2023 22:16:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB621212D;
-        Sun, 23 Jul 2023 19:16:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B9DE660F9C;
-        Mon, 24 Jul 2023 01:36:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C53F2C433BB;
-        Mon, 24 Jul 2023 01:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690162560;
-        bh=PW4WxFGrvqfneht5/Jh0eks0NWEnSus/V5aQFykvO60=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PhoJAM1Wz3t1UDlxLMs7M762JvpCudlNbSDkmjdc4QvYdpqR1eItftglN0bQwKWUf
-         /33coj89E9CM5Cc8bLn2ft4xpUd9Ug+EzSXjb5peetlJE833GDHZK8biucM2Dx6gGa
-         mpFXtB+ykJ6+W/GaxQ5IH751/a24tN1o9g5az1ux1JejVPuBeUGSzSEX5QWBe6bo0H
-         BVcps63aPJLLF4Ay53d9u4hBCOn+nExkUI9fe6xv0NPhT7j1NI8W+iT7ao8fEOc29t
-         HpFexqPiiLcvqXiuJZneoDwSrL9fc6QhPmGzkj0yN5T/y4YzqRmUhjICgQWicRe/i0
-         prHGqgEUVqDGA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, minghsiu.tsai@mediatek.com,
-        houlong.wei@mediatek.com, matthias.bgg@gmail.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.14 2/9] media: platform: mediatek: vpu: fix NULL ptr dereference
-Date:   Sun, 23 Jul 2023 21:35:44 -0400
-Message-Id: <20230724013554.2334965-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230724013554.2334965-1-sashal@kernel.org>
-References: <20230724013554.2334965-1-sashal@kernel.org>
+        Sun, 23 Jul 2023 23:57:25 -0400
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA27D7
+        for <linux-media@vger.kernel.org>; Sun, 23 Jul 2023 20:57:24 -0700 (PDT)
+Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-4468a772490so1255531137.3
+        for <linux-media@vger.kernel.org>; Sun, 23 Jul 2023 20:57:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690171043; x=1690775843;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QQbqZRXyNeXO694NDt6W+s9kvzU+RJfmV4lzyl4Jhqs=;
+        b=XLmN1dlVY3fLlD6jnXs352zFCU3oKs7vlPkwIhhKW8f16684rNtuKRsSAM1fCHGPfN
+         gyu1wfaknQcbUBnOMpy2weNVBrWUt5Qwy0hXGCZNz0EULp2vEz+OdDVsGWrepfabMqxd
+         9bOzvxXI8rgO06FWS/q7zDHlVfLdWcu6piVzA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690171043; x=1690775843;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QQbqZRXyNeXO694NDt6W+s9kvzU+RJfmV4lzyl4Jhqs=;
+        b=k2vs/7kSnoRXwl5pR/Aw6jWNOe3VDxMcECxEuYGuDGhPs3xF9Imr8Kqn9p1vK/EqGx
+         HRibWIwjI18m/sGi8mtp+GGNMMF5Mqj4hpJhhe5+9WBu8xUcmyiopPMmaHURhmrO/Ucu
+         oPAi0HVsDMqyV7SsPIgUJhm8HakAnPDKzh78TLmy29qBwJ3JyLLwYijUk8AolhIZHCUq
+         t5Y2N3DsoishqQ2GeZU6XzAUlQh5rr396jpU10R0u9E4/Hka+G8Rg8u3lnTebRmH/WxQ
+         v1uBRSRSNnLuKFHbuUV33eXYjwZYaMHVaNewcNDtniXBWFJTBrEonCp2Yn/Hle9tOJvt
+         YUvA==
+X-Gm-Message-State: ABy/qLZoSbXYH4gfNq2X0CII8Ro+lfPlnJKQ1DpSlB8lhCDMX51T/jm8
+        1mJ0n2OYdj0aX9WEHrx6LTYHC/iAwtqpkzOsjqxZ2w==
+X-Google-Smtp-Source: APBJJlHJESV0bemNAIaRlOmqqeCNR1rjLB2zvGMtMD3yvcm77xPhy6bCASb2JOcjUhV2HhqffNo/Eb9ytArDywdtzyQ=
+X-Received: by 2002:a67:e21a:0:b0:443:6052:43ac with SMTP id
+ g26-20020a67e21a000000b00443605243acmr1774610vsa.30.1690171043624; Sun, 23
+ Jul 2023 20:57:23 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.14.320
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+References: <540fbe91-5dc4-1c75-379d-1ff89669ba96@xs4all.nl>
+In-Reply-To: <540fbe91-5dc4-1c75-379d-1ff89669ba96@xs4all.nl>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Mon, 24 Jul 2023 11:57:12 +0800
+Message-ID: <CAGXv+5EGpNTgp-cjmmdCfYps-y_7ycjwaGWCrGrBEA5=dfKvVQ@mail.gmail.com>
+Subject: Re: [GIT PULL FOR v6.6] Various codec fixes/enhancements
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Juerg Haefliger <juergh@gmail.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Ming Qian <ming.qian@nxp.com>, Zheng Wang <zyytlz.wz@163.com>,
+        Emma Christy <emma.t.christy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -64,49 +70,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Hi Hans,
 
-[ Upstream commit 3df55cd773e8603b623425cc97b05e542854ad27 ]
+On Fri, Jul 21, 2023 at 7:04=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
+rote:
+>
+> The following changes since commit 28999781d15f94046e6c23a9a7d92ad28a436a=
+bf:
+>
+>   media: i2c: ov01a10: Switch back to use struct i2c_driver::probe (2023-=
+07-19 12:57:51 +0200)
+>
+> are available in the Git repository at:
+>
+>   git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.6e
+>
+> for you to fetch changes up to 9c2d629e7ea3d5c5d5c1203b3aaa9807053d0c7d:
+>
+>   media: amphion: ensure the bitops don't cross boundaries (2023-07-21 12=
+:27:38 +0200)
+>
+> ----------------------------------------------------------------
+> Tag branch
+>
+> ----------------------------------------------------------------
+> Benjamin Gaignard (1):
+>       media: rkvdec: increase max supported height for H.264
+>
+> Chen-Yu Tsai (1):
+>       media: mtk-jpeg: Set platform driver data earlier
 
-If pdev is NULL, then it is still dereferenced.
+This really needs to be merged for v6.5, as I mentioned in the footer.
 
-This fixes this smatch warning:
-
-drivers/media/platform/mediatek/vpu/mtk_vpu.c:570 vpu_load_firmware() warn: address of NULL pointer 'pdev'
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Yunfei Dong <yunfei.dong@mediatek.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/mtk-vpu/mtk_vpu.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-index 019a5e7e1a402..de5e732b1f0b6 100644
---- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
-+++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-@@ -536,16 +536,18 @@ static int load_requested_vpu(struct mtk_vpu *vpu,
- int vpu_load_firmware(struct platform_device *pdev)
- {
- 	struct mtk_vpu *vpu;
--	struct device *dev = &pdev->dev;
-+	struct device *dev;
- 	struct vpu_run *run;
- 	const struct firmware *vpu_fw = NULL;
- 	int ret;
- 
- 	if (!pdev) {
--		dev_err(dev, "VPU platform device is invalid\n");
-+		pr_err("VPU platform device is invalid\n");
- 		return -EINVAL;
- 	}
- 
-+	dev = &pdev->dev;
-+
- 	vpu = platform_get_drvdata(pdev);
- 	run = &vpu->run;
- 
--- 
-2.39.2
-
+ChenYu
