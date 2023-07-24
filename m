@@ -2,95 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ABF175F931
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 16:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3DC575FA2C
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 16:50:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230232AbjGXOD1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jul 2023 10:03:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35420 "EHLO
+        id S230454AbjGXOue (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jul 2023 10:50:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbjGXOD1 (ORCPT
+        with ESMTP id S230078AbjGXOuc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jul 2023 10:03:27 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 128DBE53;
-        Mon, 24 Jul 2023 07:03:26 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:580::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7CEBD66070F8;
-        Mon, 24 Jul 2023 15:03:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1690207404;
-        bh=CNNPojrBe3GA3r7vdLKDeTK/xNBXO1fhCqhqF3pFqnY=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=huBFHz/NfJne0+D5ND0Q6u0orbbn4VkeBRCpEa0aAJXHQ99o6YdbyTVv0/z+gfUAU
-         ygPL0RGKgu2zokA7gzKvgHFQOiYL6kxLCpoVLO18E+AF98XiKCN/NBqzhu22cK0ZDO
-         KBXz6q9pBBx+FiUG7LQmHQEDf881uUTBuO625J+48BXpcoV9bZA7qrCeY186pBsE2s
-         huJ3WDnYDPj/YOTVV0AbGDSAdaWAquJRIfQs+1WJwWaXqeBpkW1id36y8Y3AxaGQLs
-         GQvBncsNndDg+aYeNcI9xSit/7tZywiDkMIk5kFhkZst+tgOJR8S9jsHihb4w9iqHY
-         gAxc7Bnp9NhWw==
-Message-ID: <c6a222be5eee962581cf5dcb9a1473cf45ff303c.camel@collabora.com>
-Subject: Re: Stateless Encoding uAPI Discussion and Proposal
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Michael Grzeschik <mgr@pengutronix.de>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Date:   Mon, 24 Jul 2023 10:03:12 -0400
-In-Reply-To: <20230721181951.GL12001@pengutronix.de>
-References: <ZK2NiQd1KnraAr20@aptenodytes>
-         <20230721181951.GL12001@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Mon, 24 Jul 2023 10:50:32 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8025210C3;
+        Mon, 24 Jul 2023 07:50:28 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6862842a028so2409354b3a.0;
+        Mon, 24 Jul 2023 07:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690210228; x=1690815028;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y9FgIAEGGUhV8Bu4h5u2096wjTv+qpp9D0lv6o0X1Os=;
+        b=ptc2BUxx3eJRL2ESeln4TMtMZ5o5saooTWv+0/B6wgK4hw10z0yrHD9Nw2fsBXrQ1H
+         oX0MT/nKxyWaS3YlZTNku5c4nK9gfkZa4BgbfvItSgMG+J+F1tPBd8zbDb74QdfEzhIb
+         jZ5sybePeyeHF8Rijwb1EGTw8cQJLsbRROaxQgcXn3sdBuwTgVB8PV5aqiAVKqrebhrb
+         tpIz0rA0PtyAY9yoRA/kdSw98AoDU+wd3qJyArnDu5zCbxhid29NK9Xwz4BbzSBrO1f0
+         1YUeMTqXTR0XY8zTDeeG1p4QlDHHRCrgc3XW0s3eMuJyakFvOGHei7QXVF4Y2lKUSqLb
+         UdSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690210228; x=1690815028;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y9FgIAEGGUhV8Bu4h5u2096wjTv+qpp9D0lv6o0X1Os=;
+        b=hEjIeMBIuWU3a+oAYQs/TO512K0h35M/N2Kf8gIuxnPCCSxi5M8fF6+1m0/h46I7cQ
+         lfDZlPY9LDn9Ch3faOGs9zAz1B/qdghF6rBAQkPtRouRQTy3g0JuGUNn+BUC4oSrYfsC
+         34/gExV29l1+DiQNh1aO4v8liUUqnf/ajVzUlxKvgWgmwOAkbAA/g+jjhUp4aCi1j3YF
+         gjDmkr2X8hvQnI+AJl7pttg6ByK3wDVG6Pygls1J9kHA29V21Z/XqcfahnX+qMTAuPna
+         SMY9ucUeZH2ug7JI9kITXbnRyd0a+2QDig7FbdQYxzASC5Q8wc68dqyIybc06HZU3r3+
+         EbBA==
+X-Gm-Message-State: ABy/qLaWNh5RhIlZFDLJ0SbkhhpzOuwpUDC7x1ppR7l46wjbC2laCZ9x
+        QjP4q+BzlzNlDGOm+hUyamNe2ypy4KY=
+X-Google-Smtp-Source: APBJJlFMZ8RANdQoPHnukFjFwlUwTdQ6RXBdcsp7hN2KNRuVwIr+EPpPeq8lz2UMrzl55cgy1/5Emw==
+X-Received: by 2002:a05:6a00:a8a:b0:643:aa8d:8cd7 with SMTP id b10-20020a056a000a8a00b00643aa8d8cd7mr8363957pfl.32.1690210227606;
+        Mon, 24 Jul 2023 07:50:27 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
+        by smtp.gmail.com with ESMTPSA id 7-20020aa79147000000b0065980654baasm7805653pfi.130.2023.07.24.07.50.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jul 2023 07:50:26 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Greg Hackmann <ghackmann@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org (open list:SYNC FILE FRAMEWORK)
+Subject: [PATCH] dma-buf/sync_file: Fix docs syntax
+Date:   Mon, 24 Jul 2023 07:49:41 -0700
+Message-ID: <20230724145000.125880-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 21 juillet 2023 =C3=A0 20:19 +0200, Michael Grzeschik a =C3=A9c=
-rit=C2=A0:
-> > As a result, we cannot expect that any given encoder is able to produce=
- frames
-> > for any set of headers. Reporting related constraints and limitations (=
-beyond
-> > profile/level) seems quite difficult and error-prone.
-> >=20
-> > So it seems that keeping header generation in-kernel only (close to whe=
-re the
-> > hardware is actually configured) is the safest approach.
->=20
-> For the case with the rkvenc, the headers are also not created by the
-> kernel driver. Instead we use the gst_h264_bit_writer_sps/pps functions
-> that are part of the codecparsers module.
+From: Rob Clark <robdclark@chromium.org>
 
-One level of granularity we can add is split headers (like SPS/PPS) and
-slice/frame headers. It remains that in some cases, like HEVC, when the sli=
-ce
-header is byte aligned, it can be nice to be able to handle it at applicati=
-on
-side in order to avoid limiting SVC support (and other creative features) b=
-y our
-API/abstraction limitations. I think a certain level of "per CODEC" reasoni=
-ng is
-also needed. Just like, I would not want to have to ask the kernel to gener=
-ate
-user data SEI and other in-band data.
+Fixes the warning:
 
-regards,
-Nicolas
+  include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
+
+Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ include/uapi/linux/sync_file.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+index 7e42a5b7558b..ff0a931833e2 100644
+--- a/include/uapi/linux/sync_file.h
++++ b/include/uapi/linux/sync_file.h
+@@ -56,7 +56,7 @@ struct sync_fence_info {
+  * @name:	name of fence
+  * @status:	status of fence. 1: signaled 0:active <0:error
+  * @flags:	sync_file_info flags
+- * @num_fences	number of fences in the sync_file
++ * @num_fences:	number of fences in the sync_file
+  * @pad:	padding for 64-bit alignment, should always be zero
+  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+  *		 fences in the sync_file
+-- 
+2.41.0
+
