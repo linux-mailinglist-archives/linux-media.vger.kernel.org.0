@@ -2,68 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D7D675FB69
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 18:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69C4275FBE7
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 18:24:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbjGXQEA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jul 2023 12:04:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38590 "EHLO
+        id S231204AbjGXQYY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jul 2023 12:24:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbjGXQD6 (ORCPT
+        with ESMTP id S229509AbjGXQYX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jul 2023 12:03:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03E910D8;
-        Mon, 24 Jul 2023 09:03:57 -0700 (PDT)
+        Mon, 24 Jul 2023 12:24:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31EB690;
+        Mon, 24 Jul 2023 09:24:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 60E6F6123E;
-        Mon, 24 Jul 2023 16:03:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D206C433C9;
-        Mon, 24 Jul 2023 16:03:54 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B90A66124A;
+        Mon, 24 Jul 2023 16:24:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF91C433C8;
+        Mon, 24 Jul 2023 16:24:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690214636;
-        bh=gEGG+FZYD+NSA0ZYzDRF7T5qT2Xr+u4huds8czcmYno=;
+        s=k20201202; t=1690215862;
+        bh=6NGzDJNu/uN9rHgETSJqMjm2aZhAn1+hlsqguz+TxYk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ardLAL214iDLsUNo193xmbUiA3sADMAWpXdYMa57c0a/IH8keZh98mM8kjpbzgl4v
-         l4XH3FwUPyzKGO7w6ZzTjEYw3+T9g5CkLhUl8Kt65qHlEd83LW41Vr5cQeBO3a4j6/
-         FURIr/prACokPQeMqTEZL4jIDE6ETrJsD3WdrG6/M5fMu+kTUKWxfgHIgPltp5bjG1
-         QWfRMVv/jySJzXpUZwNtqxN5u66tIbwwzFa1XwrRzQWBbniuE9cGVBD6Pybjyfj3Dh
-         7rqhktMl3zHsxESmWx9O7cKM/VpIWWixtzAM0HbUsEmp+wEEpFwfv8wPFdi68g1Mxk
-         1P9Q4Kqyx7eYw==
-Received: (nullmailer pid 3627162 invoked by uid 1000);
-        Mon, 24 Jul 2023 16:03:54 -0000
-Date:   Mon, 24 Jul 2023 10:03:54 -0600
+        b=YlciR1IC/iFXisfN79U+eBJ7EOQq0RaK9uZFbmi+HWWrrFhU+G1WHkw0tiZcq9sbk
+         xmFzlwCmY//YuageHq76Za2GZ8mnadQNoMHVsHe+uXVYLpYFboo+tGbEKcA8zHHX65
+         980/5SLR1ay+DllILY7dMNOteTRWxjD4y/YNaK9udiDYuyiKXjxDIYpknBOf91oT7i
+         EGRfX2NMeIAEHxJmGrvm7F/OmmU+rExNvmnTR2kjMPxPNEeA96txM2ZzWn7BTyq2HH
+         XusXruOcez2uLVSvQg7fAMCjyjLqWLd9nkjzzDGOCXcAzChbJq8dbBR66S43G1Q8d7
+         nIAOdxUXSJi+A==
+Received: (nullmailer pid 3775609 invoked by uid 1000);
+        Mon, 24 Jul 2023 16:24:19 -0000
+Date:   Mon, 24 Jul 2023 10:24:19 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, Ming Qian <ming.qian@nxp.com>,
-        Shijie Qin <shijie.qin@nxp.com>,
-        Zhou Peng <eagle.zhou@nxp.com>, linux-spi@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>
-Subject: Re: [PATCH 2/3] dt-bindings: lpspi: Add power-domains
-Message-ID: <169021463363.3627105.7699659264255868174.robh@kernel.org>
-References: <20230721111020.1234278-1-alexander.stein@ew.tq-group.com>
- <20230721111020.1234278-2-alexander.stein@ew.tq-group.com>
+        linux-samsung-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-kernel@vger.kernel.org,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: dt-bindings: samsung,exynos4212-fimc-is:
+ replace duplicate pmu node with phandle
+Message-ID: <169021585853.3775371.15388589164520572622.robh@kernel.org>
+References: <20230722115441.139628-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230721111020.1234278-2-alexander.stein@ew.tq-group.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+In-Reply-To: <20230722115441.139628-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -73,15 +67,35 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On Fri, 21 Jul 2023 13:10:19 +0200, Alexander Stein wrote:
-> i.MX8(X) based SoC use a power domain. Allow supplying this domain in
-> bindings.
+On Sat, 22 Jul 2023 13:54:39 +0200, Krzysztof Kozlowski wrote:
+> The FIMC IS camera must access the PMU (Power Management Unit) IO memory
+> to control camera power.  This was achieved by duplicating the PMU node
+> as its child like:
 > 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>   soc@0 {
+>     system-controller@10020000 { ... }; // Real PMU
+> 
+>     camera@11800000 {
+>       fimc-is@12000000 {
+>         // FIMC IS camera node
+>         pmu@10020000 {
+>           reg = <0x10020000 0x3000>; // Fake PMU node
+>         };
+>       };
+>     };
+>   };
+> 
+> This is not a correct representation of the hardware.  Mapping the PMU
+> (Power Management Unit) IO memory should be via syscon-like phandle
+> (samsung,pmu-syscon, already used for other drivers), not by duplicating
+> "pmu" Devicetree node inside the FIMC IS.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  Documentation/devicetree/bindings/spi/spi-fsl-lpspi.yaml | 3 +++
->  1 file changed, 3 insertions(+)
+>  .../media/samsung,exynos4212-fimc-is.yaml         | 15 ++++++++++-----
+>  .../devicetree/bindings/media/samsung,fimc.yaml   |  5 +----
+>  2 files changed, 11 insertions(+), 9 deletions(-)
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
