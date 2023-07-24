@@ -2,62 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69C4275FBE7
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 18:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C0F175FC57
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 18:39:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231204AbjGXQYY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jul 2023 12:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51662 "EHLO
+        id S231645AbjGXQjx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jul 2023 12:39:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjGXQYX (ORCPT
+        with ESMTP id S231575AbjGXQjd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jul 2023 12:24:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31EB690;
-        Mon, 24 Jul 2023 09:24:23 -0700 (PDT)
+        Mon, 24 Jul 2023 12:39:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12ED18E;
+        Mon, 24 Jul 2023 09:39:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B90A66124A;
-        Mon, 24 Jul 2023 16:24:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF91C433C8;
-        Mon, 24 Jul 2023 16:24:20 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F5EB6126E;
+        Mon, 24 Jul 2023 16:39:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E3BC6C433C9;
+        Mon, 24 Jul 2023 16:39:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690215862;
-        bh=6NGzDJNu/uN9rHgETSJqMjm2aZhAn1+hlsqguz+TxYk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YlciR1IC/iFXisfN79U+eBJ7EOQq0RaK9uZFbmi+HWWrrFhU+G1WHkw0tiZcq9sbk
-         xmFzlwCmY//YuageHq76Za2GZ8mnadQNoMHVsHe+uXVYLpYFboo+tGbEKcA8zHHX65
-         980/5SLR1ay+DllILY7dMNOteTRWxjD4y/YNaK9udiDYuyiKXjxDIYpknBOf91oT7i
-         EGRfX2NMeIAEHxJmGrvm7F/OmmU+rExNvmnTR2kjMPxPNEeA96txM2ZzWn7BTyq2HH
-         XusXruOcez2uLVSvQg7fAMCjyjLqWLd9nkjzzDGOCXcAzChbJq8dbBR66S43G1Q8d7
-         nIAOdxUXSJi+A==
-Received: (nullmailer pid 3775609 invoked by uid 1000);
-        Mon, 24 Jul 2023 16:24:19 -0000
-Date:   Mon, 24 Jul 2023 10:24:19 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-samsung-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-kernel@vger.kernel.org,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: dt-bindings: samsung,exynos4212-fimc-is:
- replace duplicate pmu node with phandle
-Message-ID: <169021585853.3775371.15388589164520572622.robh@kernel.org>
-References: <20230722115441.139628-1-krzysztof.kozlowski@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230722115441.139628-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        s=k20201202; t=1690216767;
+        bh=37s4TxYwzRRPRfHRgS8f9yeg9LcCDjhWrxKYuAsrmT0=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=uGHcN02axiexiW/uqwYz33z+hqLrgR0vAtlZi3VqUjxFZGe3KO8wRMCkYWaDe7SmN
+         2OfC0mroXBiFEUAMfNIUV6f79006q9ENJrP3Ukkd1hBwnmQrhQ9ooWrDSaGTZWUdje
+         w7t0Srf/ChaiRxPNv2H32O6EdFyKzth62SeRqz4b3tqPJK9hYS/2e4ttFqYJoBdc79
+         E0Rr7BUR/PKMffRYB56w2JqaTgUnFn6Pgq0qlD79kg9fDMu1oEh0peCUvTtmrPIjXJ
+         CngbNAHCniKUxTrzTm1+XyiepTmi5aQrPaXhP+EgoxlmgGWOYrnsIIJ1EtCjLSxA6n
+         gNhuKTA3t2E0A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C6192E1F65A;
+        Mon, 24 Jul 2023 16:39:27 +0000 (UTC)
+Subject: Re: [GIT PULL for v6.5-rc4] media fixes
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20230724121150.1d55ce6b@coco.lan>
+References: <20230724121150.1d55ce6b@coco.lan>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20230724121150.1d55ce6b@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-2
+X-PR-Tracked-Commit-Id: 0cb1d9c845110ce638a43a1417c7df5968d1daa3
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9e0ee0c7545c7ec012a53878e7687e05b87abc75
+Message-Id: <169021676780.29251.11317321803832138971.pr-tracker-bot@kernel.org>
+Date:   Mon, 24 Jul 2023 16:39:27 +0000
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,36 +65,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The pull request you sent on Mon, 24 Jul 2023 12:11:50 +0200:
 
-On Sat, 22 Jul 2023 13:54:39 +0200, Krzysztof Kozlowski wrote:
-> The FIMC IS camera must access the PMU (Power Management Unit) IO memory
-> to control camera power.  This was achieved by duplicating the PMU node
-> as its child like:
-> 
->   soc@0 {
->     system-controller@10020000 { ... }; // Real PMU
-> 
->     camera@11800000 {
->       fimc-is@12000000 {
->         // FIMC IS camera node
->         pmu@10020000 {
->           reg = <0x10020000 0x3000>; // Fake PMU node
->         };
->       };
->     };
->   };
-> 
-> This is not a correct representation of the hardware.  Mapping the PMU
-> (Power Management Unit) IO memory should be via syscon-like phandle
-> (samsung,pmu-syscon, already used for other drivers), not by duplicating
-> "pmu" Devicetree node inside the FIMC IS.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../media/samsung,exynos4212-fimc-is.yaml         | 15 ++++++++++-----
->  .../devicetree/bindings/media/samsung,fimc.yaml   |  5 +----
->  2 files changed, 11 insertions(+), 9 deletions(-)
-> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-2
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9e0ee0c7545c7ec012a53878e7687e05b87abc75
 
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
