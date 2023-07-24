@@ -2,106 +2,262 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3DC575FA2C
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 16:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFD6575FA49
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 16:58:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230454AbjGXOue (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jul 2023 10:50:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33348 "EHLO
+        id S230194AbjGXO6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jul 2023 10:58:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230078AbjGXOuc (ORCPT
+        with ESMTP id S230034AbjGXO6g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jul 2023 10:50:32 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8025210C3;
-        Mon, 24 Jul 2023 07:50:28 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6862842a028so2409354b3a.0;
-        Mon, 24 Jul 2023 07:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690210228; x=1690815028;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=y9FgIAEGGUhV8Bu4h5u2096wjTv+qpp9D0lv6o0X1Os=;
-        b=ptc2BUxx3eJRL2ESeln4TMtMZ5o5saooTWv+0/B6wgK4hw10z0yrHD9Nw2fsBXrQ1H
-         oX0MT/nKxyWaS3YlZTNku5c4nK9gfkZa4BgbfvItSgMG+J+F1tPBd8zbDb74QdfEzhIb
-         jZ5sybePeyeHF8Rijwb1EGTw8cQJLsbRROaxQgcXn3sdBuwTgVB8PV5aqiAVKqrebhrb
-         tpIz0rA0PtyAY9yoRA/kdSw98AoDU+wd3qJyArnDu5zCbxhid29NK9Xwz4BbzSBrO1f0
-         1YUeMTqXTR0XY8zTDeeG1p4QlDHHRCrgc3XW0s3eMuJyakFvOGHei7QXVF4Y2lKUSqLb
-         UdSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690210228; x=1690815028;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y9FgIAEGGUhV8Bu4h5u2096wjTv+qpp9D0lv6o0X1Os=;
-        b=hEjIeMBIuWU3a+oAYQs/TO512K0h35M/N2Kf8gIuxnPCCSxi5M8fF6+1m0/h46I7cQ
-         lfDZlPY9LDn9Ch3faOGs9zAz1B/qdghF6rBAQkPtRouRQTy3g0JuGUNn+BUC4oSrYfsC
-         34/gExV29l1+DiQNh1aO4v8liUUqnf/ajVzUlxKvgWgmwOAkbAA/g+jjhUp4aCi1j3YF
-         gjDmkr2X8hvQnI+AJl7pttg6ByK3wDVG6Pygls1J9kHA29V21Z/XqcfahnX+qMTAuPna
-         SMY9ucUeZH2ug7JI9kITXbnRyd0a+2QDig7FbdQYxzASC5Q8wc68dqyIybc06HZU3r3+
-         EbBA==
-X-Gm-Message-State: ABy/qLaWNh5RhIlZFDLJ0SbkhhpzOuwpUDC7x1ppR7l46wjbC2laCZ9x
-        QjP4q+BzlzNlDGOm+hUyamNe2ypy4KY=
-X-Google-Smtp-Source: APBJJlFMZ8RANdQoPHnukFjFwlUwTdQ6RXBdcsp7hN2KNRuVwIr+EPpPeq8lz2UMrzl55cgy1/5Emw==
-X-Received: by 2002:a05:6a00:a8a:b0:643:aa8d:8cd7 with SMTP id b10-20020a056a000a8a00b00643aa8d8cd7mr8363957pfl.32.1690210227606;
-        Mon, 24 Jul 2023 07:50:27 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
-        by smtp.gmail.com with ESMTPSA id 7-20020aa79147000000b0065980654baasm7805653pfi.130.2023.07.24.07.50.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 07:50:26 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Greg Hackmann <ghackmann@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org (open list:SYNC FILE FRAMEWORK)
-Subject: [PATCH] dma-buf/sync_file: Fix docs syntax
-Date:   Mon, 24 Jul 2023 07:49:41 -0700
-Message-ID: <20230724145000.125880-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        Mon, 24 Jul 2023 10:58:36 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2720310EB;
+        Mon, 24 Jul 2023 07:58:33 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:580::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2971A66070F7;
+        Mon, 24 Jul 2023 15:58:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1690210711;
+        bh=eh2oEF+J5oZffvXBl4TeLOtFgXuWus4Ht+BGvLmKiFs=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=nmbFmwfFglDldVWaISuEQOc2SM5Qz3Dg5xRAiTAA0X8fXt/RVdXav8RAxMAnZt9xE
+         FNi8aMnb9bBHCpyTIDVanWywJEsa+UNuxbUPoyCpfRnQmNcoIA9ExiSLGzY1zHrDq+
+         4pHLsw19pJQr2NyrFdOAgBhetbctNBA7+Upa5AYPCDcH/txc7KR//loFW8xWaAHse4
+         66zbJPjvnWht1DKqDB+I5SpeUwcvEmY7eYoI3neCmF+MzAYmoNMDTv0v2VLDhXb0YR
+         bHIZjjhV72xXqc6Y1T2dj5d3VjWb958b+TJjLn/s6ch0/0OrtI1FgRDo6EA0r8aetx
+         tJzuKf/KyEQ0w==
+Message-ID: <a01d1f15542917f0dbc8273bc5bcb41652338841.camel@collabora.com>
+Subject: Re: [PATCH v2,1/2] media: mediatek: vcodec: checking decoder ack
+ message parameter
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
+        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Mon, 24 Jul 2023 10:58:21 -0400
+In-Reply-To: <20230722074608.30766-1-yunfei.dong@mediatek.com>
+References: <20230722074608.30766-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+Hi Yunfei,
 
-Fixes the warning:
+Le samedi 22 juillet 2023 =C3=A0 15:46 +0800, Yunfei Dong a =C3=A9crit=C2=
+=A0:
+> Need to checking all parameters of msg data are valid or not,
+> in case of access null pointer or unreasonable value leading
+> to kernel reboot.
 
-  include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
+May I suggest an alternative commit message ? It would look like:
+  =20
+  =20
+   media: mediatek: vcodec: Fix possible invalid memory access
+  =20
+   Validate that the context pointer and the vpu instance within this
+   context is valid. <please add why it may occur here>
 
-Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- include/uapi/linux/sync_file.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-index 7e42a5b7558b..ff0a931833e2 100644
---- a/include/uapi/linux/sync_file.h
-+++ b/include/uapi/linux/sync_file.h
-@@ -56,7 +56,7 @@ struct sync_fence_info {
-  * @name:	name of fence
-  * @status:	status of fence. 1: signaled 0:active <0:error
-  * @flags:	sync_file_info flags
-- * @num_fences	number of fences in the sync_file
-+ * @num_fences:	number of fences in the sync_file
-  * @pad:	padding for 64-bit alignment, should always be zero
-  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
-  *		 fences in the sync_file
--- 
-2.41.0
+I cannot really provide a full message here, but my understanding is that i=
+t is
+normal behaviour for the IRQ handler to be called after the context or the =
+VPU
+instance has been released ? It is unlikely a great programming pattern tho=
+ugh,
+can't you remove the handler on time instead ?
+
+Nicolas
+
+>=20
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  2 +
+>  .../mediatek/vcodec/decoder/vdec_vpu_if.c     | 77 ++++++++++++-------
+>  2 files changed, 52 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
+c_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
+.h
+> index 6c318de25a55..7e36b2c69b7d 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> @@ -161,6 +161,7 @@ struct mtk_vcodec_dec_pdata {
+>   * @hw_id: hardware index used to identify different hardware.
+>   *
+>   * @msg_queue: msg queue used to store lat buffer information.
+> + * @vpu_inst: vpu instance pointer.
+>   *
+>   * @is_10bit_bitstream: set to true if it's 10bit bitstream
+>   */
+> @@ -205,6 +206,7 @@ struct mtk_vcodec_dec_ctx {
+>  	int hw_id;
+> =20
+>  	struct vdec_msg_queue msg_queue;
+> +	void *vpu_inst;
+> =20
+>  	bool is_10bit_bitstream;
+>  };
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c=
+ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> index 82c3dc8c4127..23cfe5c6c90b 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
+> @@ -72,6 +72,21 @@ static void handle_get_param_msg_ack(const struct vdec=
+_vpu_ipi_get_param_ack *ms
+>  	}
+>  }
+> =20
+> +static bool vpu_dec_check_ap_inst(struct mtk_vcodec_dec_dev *dec_dev, st=
+ruct vdec_vpu_inst *vpu)
+> +{
+> +	struct mtk_vcodec_dec_ctx *ctx;
+> +	int ret =3D false;
+> +
+> +	list_for_each_entry(ctx, &dec_dev->ctx_list, list) {
+> +		if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst =3D=3D vpu) {
+> +			ret =3D true;
+> +			break;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  /*
+>   * vpu_dec_ipi_handler - Handler for VPU ipi message.
+>   *
+> @@ -84,44 +99,51 @@ static void handle_get_param_msg_ack(const struct vde=
+c_vpu_ipi_get_param_ack *ms
+>   */
+>  static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv=
+)
+>  {
+> +	struct mtk_vcodec_dec_dev *dec_dev;
+>  	const struct vdec_vpu_ipi_ack *msg =3D data;
+> -	struct vdec_vpu_inst *vpu =3D (struct vdec_vpu_inst *)
+> -					(unsigned long)msg->ap_inst_addr;
+> +	struct vdec_vpu_inst *vpu;
+> =20
+> -	if (!vpu) {
+> +	dec_dev =3D (struct mtk_vcodec_dec_dev *)priv;
+> +	vpu =3D (struct vdec_vpu_inst *)(unsigned long)msg->ap_inst_addr;
+> +	if (!priv || !vpu) {
+>  		mtk_v4l2_vdec_err(vpu->ctx, "ap_inst_addr is NULL, did the SCP hang or=
+ crash?");
+>  		return;
+>  	}
+> =20
+> -	mtk_vdec_debug(vpu->ctx, "+ id=3D%X", msg->msg_id);
+> +	if (!vpu_dec_check_ap_inst(dec_dev, vpu) || msg->msg_id < VPU_IPIMSG_DE=
+C_INIT_ACK ||
+> +	    msg->msg_id > VPU_IPIMSG_DEC_GET_PARAM_ACK) {
+> +		mtk_v4l2_vdec_err(vpu->ctx, "vdec msg id not correctly =3D> 0x%x", msg=
+->msg_id);
+> +		vpu->failure =3D -EINVAL;
+> +		goto error;
+> +	}
+> =20
+>  	vpu->failure =3D msg->status;
+> -	vpu->signaled =3D 1;
+> +	if (msg->status !=3D 0)
+> +		goto error;
+> =20
+> -	if (msg->status =3D=3D 0) {
+> -		switch (msg->msg_id) {
+> -		case VPU_IPIMSG_DEC_INIT_ACK:
+> -			handle_init_ack_msg(data);
+> -			break;
+> +	switch (msg->msg_id) {
+> +	case VPU_IPIMSG_DEC_INIT_ACK:
+> +		handle_init_ack_msg(data);
+> +		break;
+> =20
+> -		case VPU_IPIMSG_DEC_START_ACK:
+> -		case VPU_IPIMSG_DEC_END_ACK:
+> -		case VPU_IPIMSG_DEC_DEINIT_ACK:
+> -		case VPU_IPIMSG_DEC_RESET_ACK:
+> -		case VPU_IPIMSG_DEC_CORE_ACK:
+> -		case VPU_IPIMSG_DEC_CORE_END_ACK:
+> -			break;
+> +	case VPU_IPIMSG_DEC_START_ACK:
+> +	case VPU_IPIMSG_DEC_END_ACK:
+> +	case VPU_IPIMSG_DEC_DEINIT_ACK:
+> +	case VPU_IPIMSG_DEC_RESET_ACK:
+> +	case VPU_IPIMSG_DEC_CORE_ACK:
+> +	case VPU_IPIMSG_DEC_CORE_END_ACK:
+> +		break;
+> =20
+> -		case VPU_IPIMSG_DEC_GET_PARAM_ACK:
+> -			handle_get_param_msg_ack(data);
+> -			break;
+> -		default:
+> -			mtk_vdec_err(vpu->ctx, "invalid msg=3D%X", msg->msg_id);
+> -			break;
+> -		}
+> +	case VPU_IPIMSG_DEC_GET_PARAM_ACK:
+> +		handle_get_param_msg_ack(data);
+> +		break;
+> +	default:
+> +		mtk_vdec_err(vpu->ctx, "invalid msg=3D%X", msg->msg_id);
+> +		break;
+>  	}
+> =20
+> -	mtk_vdec_debug(vpu->ctx, "- id=3D%X", msg->msg_id);
+> +error:
+> +	vpu->signaled =3D 1;
+>  }
+> =20
+>  static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int=
+ len)
+> @@ -182,9 +204,10 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
+> =20
+>  	init_waitqueue_head(&vpu->wq);
+>  	vpu->handler =3D vpu_dec_ipi_handler;
+> +	vpu->ctx->vpu_inst =3D vpu;
+> =20
+>  	err =3D mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
+> -					 vpu->handler, "vdec", NULL);
+> +					 vpu->handler, "vdec", vpu->ctx->dev);
+>  	if (err) {
+>  		mtk_vdec_err(vpu->ctx, "vpu_ipi_register fail status=3D%d", err);
+>  		return err;
+> @@ -193,7 +216,7 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
+>  	if (vpu->ctx->dev->vdec_pdata->hw_arch =3D=3D MTK_VDEC_LAT_SINGLE_CORE)=
+ {
+>  		err =3D mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler,
+>  						 vpu->core_id, vpu->handler,
+> -						 "vdec", NULL);
+> +						 "vdec", vpu->ctx->dev);
+>  		if (err) {
+>  			mtk_vdec_err(vpu->ctx, "vpu_ipi_register core fail status=3D%d", err)=
+;
+>  			return err;
 
