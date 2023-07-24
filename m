@@ -2,140 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 476E076000F
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 21:53:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12A7676004B
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 22:12:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjGXTxV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jul 2023 15:53:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49012 "EHLO
+        id S229907AbjGXUMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jul 2023 16:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjGXTxU (ORCPT
+        with ESMTP id S229491AbjGXUMf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jul 2023 15:53:20 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FA66A6;
-        Mon, 24 Jul 2023 12:53:19 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:580::7a9])
+        Mon, 24 Jul 2023 16:12:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A01D10D9;
+        Mon, 24 Jul 2023 13:12:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C71586603203;
-        Mon, 24 Jul 2023 20:53:15 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1690228398;
-        bh=PRkjd2dRnd+EsIcZtdobbsElZ0PbITrpELmxKRMqlKo=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Mnt+n2sYU/YWGGZvargH1OGEje/HLjLt18r6XVEqBd4dZvWfIHmsbk18XE89NHhra
-         yPBslOaf3pCymMVRLJa2JEUjkitZXlmJJCzG4PhTmAFKxGuaSLVm4AF75mBl8nHBmf
-         Kl1ivsXDMwty7uprkXDqmrZG5uQE6f1LNsNjtG7/y9DR3OpcIAZQ2JTyVnj8nuqXGe
-         J/jexIdXHa1jiTSaNZYA1PKPO7EoDDt/ovo4H7wBEbGLi+wE5I+YX7I7613aOazlBk
-         pSswx//y+Ain44ezlEalmHDi0Tq6jN2ew9Z/TR61IY0sy6iKtIpT/kd8wW1qmfGpXs
-         sSHrJahrhYIAA==
-Message-ID: <0c8877c39ced8e664c2901ad20fd36fbb90d9d4f.camel@collabora.com>
-Subject: Re: [PATCH v2,0/3] media: mediatek: vcodec: Add driver to support
- 10bit
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
-        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nathan Hebert <nhebert@chromium.org>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        Mingjia Zhang <mingjia.zhang@mediatek.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D816A61383;
+        Mon, 24 Jul 2023 20:12:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 657E1C433C8;
+        Mon, 24 Jul 2023 20:12:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690229553;
+        bh=yI+t0tsle3ZPixBpc6BGQ5Mbxz2IXUw9G9/llSuxVYg=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=P1zGePN7fWRsLvfUZ8kIrQLVNxHzhdYoyXsfSZkDbWaJk+bOU6m+1aJpQ32nikuZL
+         9F2/0Ul3Ns6Q4+47JprinPDNAVYqL/ngZn+udj3IfP/ReKS5avZigNFWZj36L5G9zb
+         r3hHfx4utK20Iqn+3AkytfoY66RJrpJEChXHI/YryAv5VlQoKyvVIRDRUjaMT04DmP
+         75yY/hnLrZHAsKOcLB+xJxd1Sb/wq/c1qO/vMBJkVdydlDKL0VrYPoUY4khZpGSxsk
+         sN1Vlh82CX84Ss5PSyVMZYpR/sai5qACIgSPBP90DP9+W4p+haFgBP4vPXmxDQq/5C
+         +GwVrjcTUQMAA==
+From:   Mark Brown <broonie@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>, Ming Qian <ming.qian@nxp.com>,
+        Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Mon, 24 Jul 2023 15:53:07 -0400
-In-Reply-To: <20230722074448.30671-1-yunfei.dong@mediatek.com>
-References: <20230722074448.30671-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org
+In-Reply-To: <20230721111020.1234278-1-alexander.stein@ew.tq-group.com>
+References: <20230721111020.1234278-1-alexander.stein@ew.tq-group.com>
+Subject: Re: (subset) [PATCH 1/3] dt-bindings: media: amphion: Fix subnode
+ pattern
+Message-Id: <169022954911.1351900.17929422978163204640.b4-ty@kernel.org>
+Date:   Mon, 24 Jul 2023 21:12:29 +0100
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-099c9
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei.
+On Fri, 21 Jul 2023 13:10:18 +0200, Alexander Stein wrote:
+> DT nodes use dashes instead of underscore. Adjust pattern to also fix
+> warnings regarding nodes in arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
+> 
+> 
 
-Le samedi 22 juillet 2023 =C3=A0 15:44 +0800, Yunfei Dong a =C3=A9crit=C2=
-=A0:
-> From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
->=20
-> Define two capture formats V4L2_PIX_FMT_MT2110R and
-> V4L2_PIX_FMT_MT2110T to support 10bit in mt8195, mt8199 and more.
-> Getting the size of each plane again when user space set 10bit
-> syntax to driver.
->=20
-> V4L2_PIX_FMT_MT2110R is used for H264, and V4L2_PIX_FMT_MT2110T
-> is used for AV1/VP9/HEVC.
->=20
-> patch 1 Add driver to support 10bit
-> patch 2 Add capture format V4L2_PIX_FMT_MT2110T to support 10bit tile mod=
-e
-> patch 3 Add capture format V4L2_PIX_FMT_MT2110R to support 10bit raster m=
-ode
-> ---
-> - compared with v1:
-> - Fix set non sps return -EINVAL issue.
-> - Driver test pass in mt8195/mt8188 with tast and Youtube.
-> - Run v4l2 compliance in mt8195/mt8188 pass.
-> - fluster test as below:
-> - h264: (JVT-FR-EXT: 29/69  JVT-AVC_V1: 95/135)
-> - h265: (JCT-VC-HEVC_V1: 142/147)
-> - vp9 : (VP9-TEST-VECTORS: 1/6  VP9-TEST-VECTORS: 276/305)
-> - av1 : (CHROMIUM-10bit-AV1-TEST-VECTORS: 22/23   CHROMIUM-8bit-AV1-TEST-=
-VECTORS: 11/13
-> -        AV1-TEST-VECTORS: Ran 237/239)
+Applied to
 
-Thanks for the fluster reports, I cannot confirm this yet, since it does no=
-t
-apply. Note that you have forgot to provide V4L2 compliance report as reque=
-sted.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
->=20
-> - send the first version v1:
-> - Run 10bit VP9/AV1 fluster test pass.
-> - Will return error when the 10bit parameter no correctly in function mtk=
-_vdec_s_ctrl.
-> ---
->=20
-> Reference series:
-> [1]: this series depends on v6 which is send by Yunfei Dong.
->      message-id: 20230704131349.8354-1-yunfei.dong@mediatek.com
->=20
-> Mingjia Zhang (3):
->   media: mediatek: vcodec: Add capture format to support 10bit tile mode
->   media: mediatek: vcodec: Add capture format to support 10bit raster
->     mode
->   media: mediatek: vcodec: Add driver to support 10bit
->=20
->  .../media/v4l/pixfmt-reserved.rst             |  13 ++
->  .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  |  22 ++-
->  .../vcodec/decoder/mtk_vcodec_dec_drv.h       |   5 +
->  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 144 +++++++++++++++++-
+Thanks!
 
-vcodec/decoder directory no longer exists. Can you rebase your work please =
-?
+[2/3] dt-bindings: lpspi: Add power-domains
+      commit: 49aa77165c00e5047b17b0072bbb41cc83a9f197
 
-Nicolas
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
->  drivers/media/v4l2-core/v4l2-common.c         |   4 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
->  include/uapi/linux/videodev2.h                |   2 +
->  7 files changed, 188 insertions(+), 4 deletions(-)
->=20
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
