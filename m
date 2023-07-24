@@ -2,57 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E53175E957
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 03:52:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD2075E99B
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 04:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbjGXBv7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jul 2023 21:51:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53444 "EHLO
+        id S231539AbjGXCRI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jul 2023 22:17:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232600AbjGXBvq (ORCPT
+        with ESMTP id S230374AbjGXCQz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jul 2023 21:51:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5507EE2;
-        Sun, 23 Jul 2023 18:42:38 -0700 (PDT)
+        Sun, 23 Jul 2023 22:16:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB621212D;
+        Sun, 23 Jul 2023 19:16:03 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C83E360FB4;
-        Mon, 24 Jul 2023 01:35:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4378FC433C9;
-        Mon, 24 Jul 2023 01:35:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B9DE660F9C;
+        Mon, 24 Jul 2023 01:36:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C53F2C433BB;
+        Mon, 24 Jul 2023 01:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690162557;
-        bh=ve8GlTcDx3xxhHd+mTKMYwS4ODpTdL2prrI9QupPcAY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PKJu2ZaQk6qIv7uP5/ds8QgTcGHiGuheln3oxDsz+U+xXtf0CtpJT/h9qV1G5lvPK
-         jZZcmKroBGe+weU2RqfBa6OtkI5teEqYSt+mu5ERaR3sakpL/UwdnNg+fyyEPk12WC
-         W9YiP13FGEOr8DacoKFVuJ3p65V7ZuvAAwPLeHNM28jfZNdgkIIAJdEgX8Bo82BTPd
-         6g2Shw8boqzQbv4cMduCFhkSLGuL2nZSKlfurmoe5kDmJT+Whm980w7vxY6WmGQlNT
-         8Q4iGYBd15woC0tEqvwftB/RnPEncVv8/siZ/QFTtS/g9M3uJNfEWLaDLnsB4qubE4
-         tkWVVwJaZywiw==
+        s=k20201202; t=1690162560;
+        bh=PW4WxFGrvqfneht5/Jh0eks0NWEnSus/V5aQFykvO60=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=PhoJAM1Wz3t1UDlxLMs7M762JvpCudlNbSDkmjdc4QvYdpqR1eItftglN0bQwKWUf
+         /33coj89E9CM5Cc8bLn2ft4xpUd9Ug+EzSXjb5peetlJE833GDHZK8biucM2Dx6gGa
+         mpFXtB+ykJ6+W/GaxQ5IH751/a24tN1o9g5az1ux1JejVPuBeUGSzSEX5QWBe6bo0H
+         BVcps63aPJLLF4Ay53d9u4hBCOn+nExkUI9fe6xv0NPhT7j1NI8W+iT7ao8fEOc29t
+         HpFexqPiiLcvqXiuJZneoDwSrL9fc6QhPmGzkj0yN5T/y4YzqRmUhjICgQWicRe/i0
+         prHGqgEUVqDGA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Pina Chen <pina.chen@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sasha Levin <sashal@kernel.org>, matthias.bgg@gmail.com,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, tiffany.lin@mediatek.com,
+        andrew-ct.chen@mediatek.com, minghsiu.tsai@mediatek.com,
+        houlong.wei@mediatek.com, matthias.bgg@gmail.com,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.14 1/9] media: v4l2-mem2mem: add lock to protect parameter num_rdy
-Date:   Sun, 23 Jul 2023 21:35:43 -0400
-Message-Id: <20230724013554.2334965-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 2/9] media: platform: mediatek: vpu: fix NULL ptr dereference
+Date:   Sun, 23 Jul 2023 21:35:44 -0400
+Message-Id: <20230724013554.2334965-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230724013554.2334965-1-sashal@kernel.org>
+References: <20230724013554.2334965-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 4.14.320
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -61,64 +64,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yunfei Dong <yunfei.dong@mediatek.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit 56b5c3e67b0f9af3f45cf393be048ee8d8a92694 ]
+[ Upstream commit 3df55cd773e8603b623425cc97b05e542854ad27 ]
 
-Getting below error when using KCSAN to check the driver. Adding lock to
-protect parameter num_rdy when getting the value with function:
-v4l2_m2m_num_src_bufs_ready/v4l2_m2m_num_dst_bufs_ready.
+If pdev is NULL, then it is still dereferenced.
 
-kworker/u16:3: [name:report&]BUG: KCSAN: data-race in v4l2_m2m_buf_queue
-kworker/u16:3: [name:report&]
+This fixes this smatch warning:
 
-kworker/u16:3: [name:report&]read-write to 0xffffff8105f35b94 of 1 bytes by task 20865 on cpu 7:
-kworker/u16:3:  v4l2_m2m_buf_queue+0xd8/0x10c
+drivers/media/platform/mediatek/vpu/mtk_vpu.c:570 vpu_load_firmware() warn: address of NULL pointer 'pdev'
 
-Signed-off-by: Pina Chen <pina.chen@mediatek.com>
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Yunfei Dong <yunfei.dong@mediatek.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/media/v4l2-mem2mem.h | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/media/platform/mtk-vpu/mtk_vpu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index e157d5c9b224e..239bcc4b7e95a 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -392,7 +392,14 @@ void v4l2_m2m_buf_queue(struct v4l2_m2m_ctx *m2m_ctx,
- static inline
- unsigned int v4l2_m2m_num_src_bufs_ready(struct v4l2_m2m_ctx *m2m_ctx)
+diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+index 019a5e7e1a402..de5e732b1f0b6 100644
+--- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
++++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+@@ -536,16 +536,18 @@ static int load_requested_vpu(struct mtk_vpu *vpu,
+ int vpu_load_firmware(struct platform_device *pdev)
  {
--	return m2m_ctx->out_q_ctx.num_rdy;
-+	unsigned int num_buf_rdy;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&m2m_ctx->out_q_ctx.rdy_spinlock, flags);
-+	num_buf_rdy = m2m_ctx->out_q_ctx.num_rdy;
-+	spin_unlock_irqrestore(&m2m_ctx->out_q_ctx.rdy_spinlock, flags);
-+
-+	return num_buf_rdy;
- }
+ 	struct mtk_vpu *vpu;
+-	struct device *dev = &pdev->dev;
++	struct device *dev;
+ 	struct vpu_run *run;
+ 	const struct firmware *vpu_fw = NULL;
+ 	int ret;
  
- /**
-@@ -404,7 +411,14 @@ unsigned int v4l2_m2m_num_src_bufs_ready(struct v4l2_m2m_ctx *m2m_ctx)
- static inline
- unsigned int v4l2_m2m_num_dst_bufs_ready(struct v4l2_m2m_ctx *m2m_ctx)
- {
--	return m2m_ctx->cap_q_ctx.num_rdy;
-+	unsigned int num_buf_rdy;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&m2m_ctx->cap_q_ctx.rdy_spinlock, flags);
-+	num_buf_rdy = m2m_ctx->cap_q_ctx.num_rdy;
-+	spin_unlock_irqrestore(&m2m_ctx->cap_q_ctx.rdy_spinlock, flags);
-+
-+	return num_buf_rdy;
- }
+ 	if (!pdev) {
+-		dev_err(dev, "VPU platform device is invalid\n");
++		pr_err("VPU platform device is invalid\n");
+ 		return -EINVAL;
+ 	}
  
- /**
++	dev = &pdev->dev;
++
+ 	vpu = platform_get_drvdata(pdev);
+ 	run = &vpu->run;
+ 
 -- 
 2.39.2
 
