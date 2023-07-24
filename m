@@ -2,522 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE9AA75FA8A
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 17:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DB8B75FAA2
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jul 2023 17:20:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230286AbjGXPQ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jul 2023 11:16:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41980 "EHLO
+        id S229980AbjGXPU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jul 2023 11:20:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjGXPQz (ORCPT
+        with ESMTP id S229845AbjGXPUZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jul 2023 11:16:55 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75B9E12F
-        for <linux-media@vger.kernel.org>; Mon, 24 Jul 2023 08:16:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690211813; x=1721747813;
-  h=from:to:cc:subject:date:message-id;
-  bh=94UnchHshd9PTZHFFMJYnCEt0ZifHvUC0fN4te0B5JU=;
-  b=UYgNBZLjgADTqo71UvwWFPo4Fjha/763hzG6DlNoyS26XcHBKPoiabG1
-   BicdxJxnzhMsswUd2GzKhiKjIwzDT43NmKaiAu2RV7jWu6l7WrqnvglDs
-   k4nUfhTUUZSeZX65A8PxjTc7QxudQCLmR/XkTXSXJanLnSp9nJRQqwKyt
-   nGD8rjZVuubvyeUozzmDpIaI4rS7wI8tMSZejclFJRa1h0LfiOlLPkz9K
-   sWweZ7inzwHnzsycUuRNrnncC/WERo+Ze4Ui+hrlTvyjY5bmuqnEzbMyq
-   3pfbQFB3mxKDxDLuXg/Ot7TmRVhfvbBKDZkM1FzGW1dKG+NkCNXzi1O7T
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="398376648"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="398376648"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 08:16:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="760836567"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="760836567"
-Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
-  by orsmga001.jf.intel.com with ESMTP; 24 Jul 2023 08:16:36 -0700
-From:   Wentong Wu <wentong.wu@intel.com>
-To:     sakari.ailus@linux.intel.com, bingbu.cao@linux.intel.com,
-        andriy.shevchenko@intel.com, linux-media@vger.kernel.org
-Cc:     zhifeng.wang@intel.com, tian.shu.qiu@intel.com,
-        Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v3] add IVSC support for IPU bridge driver
-Date:   Mon, 24 Jul 2023 23:16:33 +0800
-Message-Id: <1690211793-8912-1-git-send-email-wentong.wu@intel.com>
-X-Mailer: git-send-email 2.7.4
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 24 Jul 2023 11:20:25 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA2F9199D;
+        Mon, 24 Jul 2023 08:20:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=2Uq2Pslaml20DkLDwKIg3Bu+xRL9XU0v7guHi1TrQWo=; b=AMbbYdovmJxjBGIC8OX8ya+rO5
+        g2Q7ooGVlDXvojFicjeF2yv/uglkqBe0+0mGMnHzQUcX47jvY0Zq7onOVrUGWbNoqbkQXhHVidrUD
+        n8S8yhZ9ZeqjgWs6TYnvbvRei32lgFqefJrjrLvs7yaSCRmhCwPwm8CvTY/fllnbA6ABRxN4w1ftc
+        FsNxaCOwHhX+0JntQD9/ROobN0RQUqtGPwarRdRrM8P/4GPWNoeNuXRacMXgP2yczoH9fmuGG6ysq
+        nqa/WRgPR94l+KKbmITifk2GWyyjVVTcLvIo2Z7iStn2qNLXuKtb2O0GMGYhRolD3+bzL0O1T1KB9
+        60GLtT3w==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qNxLs-004iws-1D;
+        Mon, 24 Jul 2023 15:20:00 +0000
+Message-ID: <7f92397e-a51b-0fc1-bb70-823dfe10f16d@infradead.org>
+Date:   Mon, 24 Jul 2023 08:19:58 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] dma-buf/sync_file: Fix docs syntax
+Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>, linux-kernel@vger.kernel.org
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Greg Hackmann <ghackmann@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+References: <20230724145000.125880-1-robdclark@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230724145000.125880-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Previously on ACPI platforms, sensors that are intended to be connected
-to a IPU device for use with the ipu3-cio2 driver lacking the necessary
-connection information in firmware. IPU bridge driver is to connect
-sensors to IPU device via software nodes.
 
-Currently IVSC located between IPU device and sensors is available in
-existing commercial platforms from multiple OEMs. But the connection
-information between them in firmware is also not enough to build V4L2
-connection graph. This patch parses the connection properties from the
-SSDB buffer in DSDT and build the connection using software nodes.
 
-IVSC driver is based on MEI framework (previously known as HECI), it
-has two MEI clients, MEI CSI and MEI ACE. Both clients are used to
-communicate messages with IVSC firmware. Linux abstracts MEI client
-as a device, whose bus type is MEI. And the device is addressed by a
-GUID/UUID which is part of the device name of MEI client. After figured
-out MEI CSI via the UUID composed device name, this patch setup the
-connection between MEI CSI and IPU, and the connection between MEI CSI
-and sensor via software nodes.
+On 7/24/23 07:49, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Fixes the warning:
+> 
+>   include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
+> 
+> Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Signed-off-by: Wentong Wu <wentong.wu@intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
----
-v3:
- - check ivsc ready or not in ipu_bridge_sensors_are_ready()
- - get ivsc acpi dev in ipu_bridge_get_ivsc_acpi_dev()
- - get mei csi dev in ipu_bridge_get_ivsc_csi_dev()
- - test this patch with IPU6 driver, ivsc driver series and sensor driver
+> ---
+>  include/uapi/linux/sync_file.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+> index 7e42a5b7558b..ff0a931833e2 100644
+> --- a/include/uapi/linux/sync_file.h
+> +++ b/include/uapi/linux/sync_file.h
+> @@ -56,7 +56,7 @@ struct sync_fence_info {
+>   * @name:	name of fence
+>   * @status:	status of fence. 1: signaled 0:active <0:error
+>   * @flags:	sync_file_info flags
+> - * @num_fences	number of fences in the sync_file
+> + * @num_fences:	number of fences in the sync_file
+>   * @pad:	padding for 64-bit alignment, should always be zero
+>   * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+>   *		 fences in the sync_file
 
----
- drivers/media/pci/intel/ipu-bridge.c | 251 +++++++++++++++++++++++++++++++++--
- drivers/media/pci/intel/ipu-bridge.h |  19 ++-
- 2 files changed, 261 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index 62daa8c..e6a1d73 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -4,13 +4,32 @@
- #include <linux/acpi.h>
- #include <linux/device.h>
- #include <linux/i2c.h>
-+#include <linux/mei_cl_bus.h>
- #include <linux/pci.h>
-+#include <linux/platform_device.h>
- #include <linux/property.h>
-+#include <linux/string.h>
- #include <media/v4l2-fwnode.h>
- 
- #include "ipu-bridge.h"
- 
- /*
-+ * 92335fcf-3203-4472-af93-7b4453ac29da
-+ *
-+ * Used to build MEI CSI device name to lookup MEI CSI device by
-+ * device_find_child_by_name().
-+ */
-+#define MEI_CSI_UUID							\
-+	UUID_LE(0x92335FCF, 0x3203, 0x4472,				\
-+		0xAF, 0x93, 0x7b, 0x44, 0x53, 0xAC, 0x29, 0xDA)
-+/*
-+ * IVSC device name
-+ *
-+ * Used to match IVSC device by ipu_bridge_match_ivsc_dev()
-+ */
-+#define IVSC_DEV_NAME "intel_vsc"
-+
-+/*
-  * Extend this array with ACPI Hardware IDs of devices known to be working
-  * plus the number of link-frequencies expected by their drivers, along with
-  * the frequency values in hertz. This is somewhat opportunistic way of adding
-@@ -61,6 +80,91 @@ static const char * const ipu_vcm_types[] = {
- 	"lc898212axb",
- };
- 
-+/*
-+ * Used to figure out IVSC acpi device by ipu_bridge_get_ivsc_acpi_dev()
-+ * instead of device and driver match to probe IVSC device.
-+ */
-+static const struct acpi_device_id ivsc_acpi_ids[] = {
-+	{ "INTC1059" },
-+	{ "INTC1095" },
-+	{ "INTC100A" },
-+	{ "INTC10CF" },
-+};
-+
-+static struct acpi_device *ipu_bridge_get_ivsc_acpi_dev(struct acpi_device *adev)
-+{
-+	acpi_handle handle = acpi_device_handle(adev);
-+	struct acpi_device *consumer, *ivsc_adev;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(ivsc_acpi_ids); i++) {
-+		const struct acpi_device_id *acpi_id = &ivsc_acpi_ids[i];
-+
-+		for_each_acpi_dev_match(ivsc_adev, acpi_id->id, NULL, -1)
-+			/* camera sensor depends on IVSC in DSDT if exist */
-+			for_each_acpi_consumer_dev(ivsc_adev, consumer)
-+				if (consumer->handle == handle)
-+					return ivsc_adev;
-+	}
-+
-+	return NULL;
-+}
-+
-+static int ipu_bridge_match_ivsc_dev(struct device *dev, const void *adev)
-+{
-+	if (ACPI_COMPANION(dev) != adev)
-+		return 0;
-+
-+	if (!sysfs_streq(dev_name(dev), IVSC_DEV_NAME))
-+		return 0;
-+
-+	return 1;
-+}
-+
-+static struct device *ipu_bridge_get_ivsc_csi_dev(struct acpi_device *adev)
-+{
-+	struct device *dev, *csi_dev;
-+	uuid_le uuid = MEI_CSI_UUID;
-+	char name[64];
-+
-+	/* IVSC device on platform bus */
-+	dev = bus_find_device(&platform_bus_type, NULL, adev,
-+			      ipu_bridge_match_ivsc_dev);
-+	if (dev) {
-+		snprintf(name, sizeof(name), "%s-%pUl", dev_name(dev), &uuid);
-+
-+		csi_dev = device_find_child_by_name(dev, name);
-+
-+		put_device(dev);
-+
-+		return csi_dev;
-+	}
-+
-+	return NULL;
-+}
-+
-+static int ipu_bridge_check_ivsc_dev(struct ipu_sensor *sensor,
-+				     struct acpi_device *sensor_adev)
-+{
-+	struct acpi_device *adev;
-+	struct device *csi_dev;
-+
-+	adev = ipu_bridge_get_ivsc_acpi_dev(sensor_adev);
-+	if (adev) {
-+		csi_dev = ipu_bridge_get_ivsc_csi_dev(adev);
-+		if (!csi_dev) {
-+			acpi_dev_put(adev);
-+			dev_err(&adev->dev, "Failed to find MEI CSI dev\n");
-+			return -ENODEV;
-+		}
-+
-+		sensor->csi_dev = csi_dev;
-+		sensor->ivsc_adev = adev;
-+	}
-+
-+	return 0;
-+}
-+
- static int ipu_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
- 				       void *data, u32 size)
- {
-@@ -137,16 +241,53 @@ static void ipu_bridge_create_fwnode_properties(
- 	struct ipu_bridge *bridge,
- 	const struct ipu_sensor_config *cfg)
- {
--	u32 rotation;
-+	struct ipu_property_names *names = &sensor->prop_names;
-+	struct software_node *nodes = sensor->swnodes;
- 	enum v4l2_fwnode_orientation orientation;
-+	u32 rotation;
- 
- 	rotation = ipu_bridge_parse_rotation(sensor);
- 	orientation = ipu_bridge_parse_orientation(sensor);
- 
- 	sensor->prop_names = prop_names;
- 
--	sensor->local_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_IPU_ENDPOINT]);
--	sensor->remote_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_SENSOR_ENDPOINT]);
-+	if (sensor->csi_dev) {
-+		sensor->local_ref[0] =
-+			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_IVSC_SENSOR_ENDPOINT]);
-+		sensor->remote_ref[0] =
-+			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_IVSC_IPU_ENDPOINT]);
-+		sensor->ivsc_sensor_ref[0] =
-+			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_SENSOR_ENDPOINT]);
-+		sensor->ivsc_ipu_ref[0] =
-+			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_IPU_ENDPOINT]);
-+
-+		sensor->ivsc_sensor_ep_properties[0] =
-+			PROPERTY_ENTRY_U32(names->bus_type,
-+					   V4L2_FWNODE_BUS_TYPE_CSI2_DPHY);
-+		sensor->ivsc_sensor_ep_properties[1] =
-+			PROPERTY_ENTRY_U32_ARRAY_LEN(names->data_lanes,
-+						     bridge->data_lanes,
-+						     sensor->ssdb.lanes);
-+		sensor->ivsc_sensor_ep_properties[2] =
-+			PROPERTY_ENTRY_REF_ARRAY(names->remote_endpoint,
-+						 sensor->ivsc_sensor_ref);
-+
-+		sensor->ivsc_ipu_ep_properties[0] =
-+			PROPERTY_ENTRY_U32(names->bus_type,
-+					   V4L2_FWNODE_BUS_TYPE_CSI2_DPHY);
-+		sensor->ivsc_ipu_ep_properties[1] =
-+			PROPERTY_ENTRY_U32_ARRAY_LEN(names->data_lanes,
-+						     bridge->data_lanes,
-+						     sensor->ssdb.lanes);
-+		sensor->ivsc_ipu_ep_properties[2] =
-+			PROPERTY_ENTRY_REF_ARRAY(names->remote_endpoint,
-+						 sensor->ivsc_ipu_ref);
-+	} else {
-+		sensor->local_ref[0] =
-+			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_IPU_ENDPOINT]);
-+		sensor->remote_ref[0] =
-+			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_SENSOR_ENDPOINT]);
-+	}
- 
- 	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(
- 					sensor->prop_names.clock_frequency,
-@@ -201,6 +342,15 @@ static void ipu_bridge_init_swnode_names(struct ipu_sensor *sensor)
- 	snprintf(sensor->node_names.endpoint,
- 		 sizeof(sensor->node_names.endpoint),
- 		 SWNODE_GRAPH_ENDPOINT_NAME_FMT, 0); /* And endpoint 0 */
-+
-+	if (sensor->csi_dev) {
-+		snprintf(sensor->node_names.ivsc_sensor_port,
-+			 sizeof(sensor->node_names.ivsc_sensor_port),
-+			 SWNODE_GRAPH_PORT_NAME_FMT, 0);
-+		snprintf(sensor->node_names.ivsc_ipu_port,
-+			 sizeof(sensor->node_names.ivsc_ipu_port),
-+			 SWNODE_GRAPH_PORT_NAME_FMT, 1);
-+	}
- }
- 
- static void ipu_bridge_init_swnode_group(struct ipu_sensor *sensor)
-@@ -214,11 +364,31 @@ static void ipu_bridge_init_swnode_group(struct ipu_sensor *sensor)
- 	sensor->group[SWNODE_IPU_ENDPOINT] = &nodes[SWNODE_IPU_ENDPOINT];
- 	if (sensor->ssdb.vcmtype)
- 		sensor->group[SWNODE_VCM] =  &nodes[SWNODE_VCM];
-+
-+	if (sensor->csi_dev) {
-+		sensor->group[SWNODE_IVSC_HID] =
-+					&nodes[SWNODE_IVSC_HID];
-+		sensor->group[SWNODE_IVSC_SENSOR_PORT] =
-+					&nodes[SWNODE_IVSC_SENSOR_PORT];
-+		sensor->group[SWNODE_IVSC_SENSOR_ENDPOINT] =
-+					&nodes[SWNODE_IVSC_SENSOR_ENDPOINT];
-+		sensor->group[SWNODE_IVSC_IPU_PORT] =
-+					&nodes[SWNODE_IVSC_IPU_PORT];
-+		sensor->group[SWNODE_IVSC_IPU_ENDPOINT] =
-+					&nodes[SWNODE_IVSC_IPU_ENDPOINT];
-+
-+		if (sensor->ssdb.vcmtype)
-+			sensor->group[SWNODE_VCM] = &nodes[SWNODE_VCM];
-+	} else {
-+		if (sensor->ssdb.vcmtype)
-+			sensor->group[SWNODE_IVSC_HID] = &nodes[SWNODE_VCM];
-+	}
- }
- 
- static void ipu_bridge_create_connection_swnodes(struct ipu_bridge *bridge,
- 						 struct ipu_sensor *sensor)
- {
-+	struct ipu_node_names *names = &sensor->node_names;
- 	struct software_node *nodes = sensor->swnodes;
- 	char vcm_name[ACPI_ID_LEN + 4];
- 
-@@ -238,6 +408,29 @@ static void ipu_bridge_create_connection_swnodes(struct ipu_bridge *bridge,
- 						sensor->node_names.endpoint,
- 						&nodes[SWNODE_IPU_PORT],
- 						sensor->ipu_properties);
-+
-+	if (sensor->csi_dev) {
-+		snprintf(sensor->ivsc_name, sizeof(sensor->ivsc_name), "%s-%u",
-+			 acpi_device_hid(sensor->ivsc_adev), sensor->ssdb.link);
-+
-+		nodes[SWNODE_IVSC_HID] = NODE_SENSOR(sensor->ivsc_name,
-+						     sensor->ivsc_properties);
-+		nodes[SWNODE_IVSC_SENSOR_PORT] =
-+				NODE_PORT(names->ivsc_sensor_port,
-+					  &nodes[SWNODE_IVSC_HID]);
-+		nodes[SWNODE_IVSC_SENSOR_ENDPOINT] =
-+				NODE_ENDPOINT(names->endpoint,
-+					      &nodes[SWNODE_IVSC_SENSOR_PORT],
-+					      sensor->ivsc_sensor_ep_properties);
-+		nodes[SWNODE_IVSC_IPU_PORT] =
-+				NODE_PORT(names->ivsc_ipu_port,
-+					  &nodes[SWNODE_IVSC_HID]);
-+		nodes[SWNODE_IVSC_IPU_ENDPOINT] =
-+				NODE_ENDPOINT(names->endpoint,
-+					      &nodes[SWNODE_IVSC_IPU_PORT],
-+					      sensor->ivsc_ipu_ep_properties);
-+	}
-+
- 	if (sensor->ssdb.vcmtype) {
- 		/* append ssdb.link to distinguish VCM nodes with same HID */
- 		snprintf(vcm_name, sizeof(vcm_name), "%s-%u",
-@@ -273,6 +466,22 @@ static void ipu_bridge_instantiate_vcm_i2c_client(struct ipu_sensor *sensor)
- 	}
- }
- 
-+static int ipu_bridge_instantiate_ivsc(struct ipu_sensor *sensor)
-+{
-+	struct fwnode_handle *fwnode;
-+
-+	if (!sensor->csi_dev)
-+		return 0;
-+
-+	fwnode = software_node_fwnode(&sensor->swnodes[SWNODE_IVSC_HID]);
-+	if (!fwnode)
-+		return -ENODEV;
-+
-+	set_secondary_fwnode(sensor->csi_dev, fwnode);
-+
-+	return 0;
-+}
-+
- static void ipu_bridge_unregister_sensors(struct ipu_bridge *bridge)
- {
- 	struct ipu_sensor *sensor;
-@@ -284,6 +493,8 @@ static void ipu_bridge_unregister_sensors(struct ipu_bridge *bridge)
- 		ACPI_FREE(sensor->pld);
- 		acpi_dev_put(sensor->adev);
- 		i2c_unregister_device(sensor->vcm_i2c_client);
-+		put_device(sensor->csi_dev);
-+		acpi_dev_put(sensor->ivsc_adev);
- 	}
- }
- 
-@@ -337,12 +548,16 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
- 			goto err_free_pld;
- 		}
- 
-+		ret = ipu_bridge_check_ivsc_dev(sensor, adev);
-+		if (ret)
-+			goto err_free_pld;
-+
- 		ipu_bridge_create_fwnode_properties(sensor, bridge, cfg);
- 		ipu_bridge_create_connection_swnodes(bridge, sensor);
- 
- 		ret = software_node_register_node_group(sensor->group);
- 		if (ret)
--			goto err_free_pld;
-+			goto err_put_dev;
- 
- 		fwnode = software_node_fwnode(&sensor->swnodes[
- 						      SWNODE_SENSOR_HID]);
-@@ -356,6 +571,10 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
- 		primary = acpi_fwnode_handle(adev);
- 		primary->secondary = fwnode;
- 
-+		ret = ipu_bridge_instantiate_ivsc(sensor);
-+		if (ret)
-+			goto err_free_swnodes;
-+
- 		ipu_bridge_instantiate_vcm_i2c_client(sensor);
- 
- 		dev_info(&ipu->dev, "Found supported sensor %s\n",
-@@ -368,6 +587,9 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
- 
- err_free_swnodes:
- 	software_node_unregister_node_group(sensor->group);
-+err_put_dev:
-+	put_device(sensor->csi_dev);
-+	acpi_dev_put(sensor->ivsc_adev);
- err_free_pld:
- 	ACPI_FREE(sensor->pld);
- err_put_adev:
-@@ -411,7 +633,8 @@ static int ipu_bridge_connect_sensors(struct ipu_bridge *bridge,
-  */
- static int ipu_bridge_sensors_are_ready(void)
- {
--	struct acpi_device *adev;
-+	struct acpi_device *sensor_adev, *adev;
-+	struct device *csi_dev;
- 	bool ready = true;
- 	unsigned int i;
- 
-@@ -419,11 +642,23 @@ static int ipu_bridge_sensors_are_ready(void)
- 		const struct ipu_sensor_config *cfg =
- 			&ipu_supported_sensors[i];
- 
--		for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
--			if (!adev->status.enabled)
-+		for_each_acpi_dev_match(sensor_adev, cfg->hid, NULL, -1) {
-+			if (!sensor_adev->status.enabled)
-+				continue;
-+
-+			adev = ipu_bridge_get_ivsc_acpi_dev(sensor_adev);
-+			if (adev) {
-+				csi_dev = ipu_bridge_get_ivsc_csi_dev(adev);
-+				if (!csi_dev)
-+					ready = false;
-+
-+				put_device(csi_dev);
-+				acpi_dev_put(adev);
-+
- 				continue;
-+			}
- 
--			if (!acpi_dev_ready_for_enumeration(adev))
-+			if (!acpi_dev_ready_for_enumeration(sensor_adev))
- 				ready = false;
- 		}
- 	}
-diff --git a/drivers/media/pci/intel/ipu-bridge.h b/drivers/media/pci/intel/ipu-bridge.h
-index 8cb733c..72ad9db 100644
---- a/drivers/media/pci/intel/ipu-bridge.h
-+++ b/drivers/media/pci/intel/ipu-bridge.h
-@@ -54,7 +54,12 @@ enum ipu_sensor_swnodes {
- 	SWNODE_SENSOR_ENDPOINT,
- 	SWNODE_IPU_PORT,
- 	SWNODE_IPU_ENDPOINT,
--	/* Must be last because it is optional / maybe empty */
-+	/* below are optional / maybe empty */
-+	SWNODE_IVSC_HID,
-+	SWNODE_IVSC_SENSOR_PORT,
-+	SWNODE_IVSC_SENSOR_ENDPOINT,
-+	SWNODE_IVSC_IPU_PORT,
-+	SWNODE_IVSC_IPU_ENDPOINT,
- 	SWNODE_VCM,
- 	SWNODE_COUNT
- };
-@@ -101,6 +106,8 @@ struct ipu_property_names {
- 
- struct ipu_node_names {
- 	char port[7];
-+	char ivsc_sensor_port[7];
-+	char ivsc_ipu_port[7];
- 	char endpoint[11];
- 	char remote_port[7];
- };
-@@ -117,6 +124,10 @@ struct ipu_sensor {
- 	struct acpi_device *adev;
- 	struct i2c_client *vcm_i2c_client;
- 
-+	struct device *csi_dev;
-+	struct acpi_device *ivsc_adev;
-+	char ivsc_name[ACPI_ID_LEN + 4];
-+
- 	/* SWNODE_COUNT + 1 for terminating NULL */
- 	const struct software_node *group[SWNODE_COUNT + 1];
- 	struct software_node swnodes[SWNODE_COUNT];
-@@ -129,9 +140,15 @@ struct ipu_sensor {
- 	struct property_entry ep_properties[5];
- 	struct property_entry dev_properties[5];
- 	struct property_entry ipu_properties[3];
-+	struct property_entry ivsc_properties[1];
-+	struct property_entry ivsc_sensor_ep_properties[4];
-+	struct property_entry ivsc_ipu_ep_properties[4];
-+
- 	struct software_node_ref_args local_ref[1];
- 	struct software_node_ref_args remote_ref[1];
- 	struct software_node_ref_args vcm_ref[1];
-+	struct software_node_ref_args ivsc_sensor_ref[1];
-+	struct software_node_ref_args ivsc_ipu_ref[1];
- };
- 
- struct ipu_bridge {
 -- 
-2.7.4
-
+~Randy
