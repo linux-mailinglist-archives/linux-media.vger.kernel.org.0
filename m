@@ -2,59 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6E4E760E01
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 11:09:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5124760F7C
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 11:39:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232923AbjGYJJx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 05:09:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50994 "EHLO
+        id S233448AbjGYJi7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 05:38:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232901AbjGYJJv (ORCPT
+        with ESMTP id S233431AbjGYJih (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 05:09:51 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A91010B;
-        Tue, 25 Jul 2023 02:09:49 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 71B0C2000D;
-        Tue, 25 Jul 2023 09:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1690276188;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zJtc9a3PGhmMO8/h4CC9DQKXOK21zPv9JTdVoVJ318k=;
-        b=Vlg0eYuZWhIEbpQbazYON07DWlXTfMaRsgKSzTsixhGezTtz+2OBAyB/awmn4aw5aWNCTE
-        xdVWKI8j1Dsm7no8qGuKHEwLFvrEVP74ZtLqWP6t4bTZJIRv5N432HFVMqgv5PN9r/eO0p
-        PDGxm7gYfcE6PFCYmu2Ge834mAuNU6xJxkCealfsbuqXgc1MOkR42nxOFZIvk53fl3o9zc
-        wnf+f1hM9xU2rIkYLTC5ceC5bY0dO8Wn0hAj4DD+DIy8bnTvC4aifmISVW7UlvlRB2DUPz
-        2gsfH25/tCaggNKsBpaHUJ92e2mV/FmH4erk5YLGVH9WtPekMJlz2zaVfxjm9w==
-Date:   Tue, 25 Jul 2023 11:09:44 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Michael Grzeschik <mgr@pengutronix.de>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: Stateless Encoding uAPI Discussion and Proposal
-Message-ID: <ZL-RWOfUYh5VbUo1@aptenodytes>
-References: <ZK2NiQd1KnraAr20@aptenodytes>
- <20230721181951.GL12001@pengutronix.de>
- <c6a222be5eee962581cf5dcb9a1473cf45ff303c.camel@collabora.com>
+        Tue, 25 Jul 2023 05:38:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26FD64223;
+        Tue, 25 Jul 2023 02:37:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 51C16615D3;
+        Tue, 25 Jul 2023 09:37:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C2CC433B9;
+        Tue, 25 Jul 2023 09:37:23 +0000 (UTC)
+Message-ID: <b2f44154-79a2-b5e4-4f59-bc578e19e31f@xs4all.nl>
+Date:   Tue, 25 Jul 2023 11:37:21 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="LqVc6g4NIsP9GW5P"
-Content-Disposition: inline
-In-Reply-To: <c6a222be5eee962581cf5dcb9a1473cf45ff303c.camel@collabora.com>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v7,06/11] media: mediatek: vcodec: replace pr_* with dev_*
+ for v4l2 debug message
+Content-Language: en-US
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
+        <nfraprado@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230722074230.30558-1-yunfei.dong@mediatek.com>
+ <20230722074230.30558-7-yunfei.dong@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230722074230.30558-7-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,100 +64,112 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 22/07/2023 09:42, Yunfei Dong wrote:
+> Adding different macro mtk_v4l2_vdec_dbg and mtk_v4l2_venc_dbg for
+> encoder and decoder. Then calling the common macro mtk_v4l2_debug to
+> print debug message.
+> 
+> Replace pr_err with dev_err for 'mtk_v4l2_err' debug message.
+> Replace pr_debug with dev_dbg for 'mtk_v4l2_debug' debug message.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../platform/mediatek/vcodec/mtk_vcodec_dec.c | 116 +++++-----
+>  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |  54 +++--
+>  .../mediatek/vcodec/mtk_vcodec_dec_hw.c       |   7 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_pm.c       |  19 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_stateful.c | 143 ++++++------
+>  .../vcodec/mtk_vcodec_dec_stateless.c         |  62 ++---
+>  .../platform/mediatek/vcodec/mtk_vcodec_enc.c | 211 ++++++++----------
+>  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |  45 ++--
+>  .../mediatek/vcodec/mtk_vcodec_enc_pm.c       |   8 +-
+>  .../platform/mediatek/vcodec/mtk_vcodec_fw.c  |   2 +-
+>  .../mediatek/vcodec/mtk_vcodec_fw_scp.c       |   2 +-
+>  .../mediatek/vcodec/mtk_vcodec_fw_vpu.c       |   7 +-
+>  .../mediatek/vcodec/mtk_vcodec_intr.c         |  12 +-
+>  .../mediatek/vcodec/mtk_vcodec_util.c         |  30 ++-
+>  .../mediatek/vcodec/mtk_vcodec_util.h         |  27 ++-
+>  .../vcodec/vdec/vdec_av1_req_lat_if.c         |  10 +-
+>  .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  14 +-
+>  .../vcodec/vdec/vdec_h264_req_multi_if.c      |  16 +-
+>  .../vcodec/vdec/vdec_hevc_req_multi_if.c      |  14 +-
+>  .../platform/mediatek/vcodec/vdec_drv_if.c    |   4 +-
+>  .../platform/mediatek/vcodec/vdec_msg_queue.c |  52 +++--
+>  .../platform/mediatek/vcodec/vdec_msg_queue.h |   2 +
+>  .../platform/mediatek/vcodec/vdec_vpu_if.c    |   2 +-
+>  23 files changed, 417 insertions(+), 442 deletions(-)
+> 
 
---LqVc6g4NIsP9GW5P
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+<snip>
 
-Hi Nicolas,
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> index fd951ff47fc3..6bc822c7d825 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> @@ -11,6 +11,9 @@
+>  #include <linux/types.h>
+>  #include <linux/dma-direction.h>
+>  
+> +#define MTK_DBG_VCODEC_STR "[MTK_VCODEC]"
+> +#define MTK_DBG_V4L2_STR "[MTK_V4L2]"
+> +
+>  struct mtk_vcodec_mem {
+>  	size_t size;
+>  	void *va;
+> @@ -28,8 +31,8 @@ struct mtk_vcodec_dev;
+>  #undef pr_fmt
+>  #define pr_fmt(fmt) "%s(),%d: " fmt, __func__, __LINE__
+>  
+> -#define mtk_v4l2_err(fmt, args...)                \
+> -	pr_err("[MTK_V4L2][ERROR] " fmt "\n", ##args)
+> +#define mtk_v4l2_err(plat_dev, fmt, args...)                            \
+> +	dev_err(&(plat_dev)->dev, "[MTK_V4L2][ERROR] " fmt "\n", ##args)
+>  
+>  #define mtk_vcodec_err(inst_id, plat_dev, fmt, args...)                                 \
+>  	dev_err(&(plat_dev)->dev, "[MTK_VCODEC][ERROR][%d]: " fmt "\n", inst_id, ##args)
+> @@ -38,11 +41,11 @@ struct mtk_vcodec_dev;
+>  extern int mtk_v4l2_dbg_level;
+>  extern int mtk_vcodec_dbg;
+>  
+> -#define mtk_v4l2_debug(level, fmt, args...)				\
+> -	do {								\
+> -		if (mtk_v4l2_dbg_level >= (level))			\
+> -			pr_debug("[MTK_V4L2] %s, %d: " fmt "\n",        \
+> -				 __func__, __LINE__, ##args);	        \
+> +#define mtk_v4l2_debug(plat_dev, level, fmt, args...)                             \
+> +	do {                                                                      \
+> +		if (mtk_v4l2_dbg_level >= (level))                                \
+> +			dev_dbg(&(plat_dev)->dev, "[MTK_V4L2] %s, %d: " fmt "\n", \
+> +				 __func__, __LINE__, ##args);                     \
+>  	} while (0)
 
-On Mon 24 Jul 23, 10:03, Nicolas Dufresne wrote:
-> Le vendredi 21 juillet 2023 =C3=A0 20:19 +0200, Michael Grzeschik a =C3=
-=A9crit=C2=A0:
-> > > As a result, we cannot expect that any given encoder is able to produ=
-ce frames
-> > > for any set of headers. Reporting related constraints and limitations=
- (beyond
-> > > profile/level) seems quite difficult and error-prone.
-> > >=20
-> > > So it seems that keeping header generation in-kernel only (close to w=
-here the
-> > > hardware is actually configured) is the safest approach.
-> >=20
-> > For the case with the rkvenc, the headers are also not created by the
-> > kernel driver. Instead we use the gst_h264_bit_writer_sps/pps functions
-> > that are part of the codecparsers module.
->=20
-> One level of granularity we can add is split headers (like SPS/PPS) and
-> slice/frame headers.
+You forgot to add 'plat_dev' to the argument list of the mtk_v4l2_debug
+macro when CONFIG_DEBUG_FS is not set. That causes zillions of compiler
+warnings.
 
-Do you mean asking the driver to return a buffer with only SPS/PPS and then
-return another buffer with the slice/frame header?
+>  
+>  #define mtk_vcodec_debug(inst_id, plat_dev, fmt, args...)                               \
+> @@ -70,6 +73,16 @@ extern int mtk_vcodec_dbg;
+>  #define mtk_venc_debug(ctx, fmt, args...)                              \
+>  	mtk_vcodec_debug((ctx)->id, (ctx)->dev->plat_dev, fmt, ##args)
+>  
+> +#define mtk_v4l2_vdec_err(ctx, fmt, args...) mtk_v4l2_err((ctx)->dev->plat_dev, fmt, ##args)
+> +
+> +#define mtk_v4l2_vdec_dbg(level, ctx, fmt, args...)             \
+> +	mtk_v4l2_debug((ctx)->dev->plat_dev, level, fmt, ##args)
+> +
+> +#define mtk_v4l2_venc_err(ctx, fmt, args...) mtk_v4l2_err((ctx)->dev->plat_dev, fmt, ##args)
+> +
+> +#define mtk_v4l2_venc_dbg(level, ctx, fmt, args...)             \
+> +	mtk_v4l2_debug((ctx)->dev->plat_dev, level, fmt, ##args)
+> +
+>  void __iomem *mtk_vcodec_get_reg_addr(void __iomem **reg_base, unsigned int reg_idx);
+>  int mtk_vcodec_write_vdecsys(struct mtk_vcodec_ctx *ctx, unsigned int reg, unsigned int val);
+>  int mtk_vcodec_mem_alloc(void *priv, struct mtk_vcodec_mem *mem);
 
-Looks like there's already a control for it: V4L2_CID_MPEG_VIDEO_HEADER_MODE
-which takes either
-- V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE: looks like what you're suggesting
-- V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME: usual case
+Regards,
 
-So that could certainly be supported to easily allow userspace to stuff ext=
-ra
-NALUs in-between.
+	Hans
 
-> It remains that in some cases, like HEVC, when the slice
-> header is byte aligned, it can be nice to be able to handle it at applica=
-tion
-> side in order to avoid limiting SVC support (and other creative features)=
- by our
-> API/abstraction limitations.
-
-Do you see something in the headers that we expect the kernel to generate t=
-hat
-would need specific changes to support features like SVC?
-
-=46rom what I can see there's a svc_extension_flag that's only set for spec=
-ific
-NALUs (prefix_nal_unit/lice_layer_extension) so these could be inserted by
-userspace.
-
-Also I'm not very knowledgeable about SVC so it's not very clear to me if i=
-t's
-possible to take an encoder that doesn't support SVC and turn the resulting
-stream into something SVC-ready by adding extra NAL units or if the encoder
-should be a lot more involved.
-
-Also do you know if we have stateful codecs supporting SVC?
-
-> I think a certain level of "per CODEC" reasoning is
-> also needed. Just like, I would not want to have to ask the kernel to gen=
-erate
-> user data SEI and other in-band data.
-
-Yeah it looks like there is definitely a need for adding extra NALUs from
-userspace without passing that data to the kernel.
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---LqVc6g4NIsP9GW5P
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmS/kVgACgkQ3cLmz3+f
-v9GRFwf/VznO8iHeong8AkuaWQeM7KcKco1lDbchrzz066+pA86oUP7z2Ud11wYx
-fk8XrODnscy4t+9nhueQ7m0yk7+I7pgDik+0SB2ihC/HIqzABArJZDl1xeXmvD/p
-Y5gkj16u7tGpeVmuBt19QQjcWFr33HPjfyv2siR9f/nS0o0FRc1P1QCWaPXujgwP
-OSg/cdjat0c8f0hCYsj+vcKqkGmSaV//oHle6hOc4pZCF5GyT6AbUPhrHxj7r+J+
-1sv4geBVWfOplrofSEYAx74TAQLcaVWR9pjJeZOKDpLd501Nndgxx/2/eC6Xs3bY
-FYrgLk2SGts+kXFluS1nmkhBp3ujbw==
-=sW6t
------END PGP SIGNATURE-----
-
---LqVc6g4NIsP9GW5P--
