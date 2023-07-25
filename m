@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2C0B760F8F
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 11:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D577B760FFE
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 11:59:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232295AbjGYJlo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 05:41:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48352 "EHLO
+        id S233582AbjGYJ7M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 05:59:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232923AbjGYJlm (ORCPT
+        with ESMTP id S233491AbjGYJ6z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 05:41:42 -0400
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C14C173E
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 02:41:23 -0700 (PDT)
-Received: from [127.0.0.1] (unknown [62.91.23.180])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        Tue, 25 Jul 2023 05:58:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A461FDB;
+        Tue, 25 Jul 2023 02:58:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 5955A8678A;
-        Tue, 25 Jul 2023 11:41:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1690278079;
-        bh=LuK4FNZTlA0qnhJ8g2hfc0WrOPtXhSIb0q1latjntO0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TpOXGgpoIAKAlLQtqLldRRJfm6JT3gYaNPYaPQQwqrgSRK4iHFxykg3rMIxfGrm/F
-         UsDQqFYeOmoFKAs4J0f7kv57as6qsd0BKFYH+7Gd7hAqY6C62vc4Kgx+cVzVI4J5hW
-         kXjufgmrvVsuytzUlRnU8+hD+PV/Bu8YDz5bpHTurZ0nwu5OhFJkPUbxOD2T60euPL
-         P/8dzCLLsxJWEaWOBYcbc2KhgxME78x6/VZBDqGSMY99XxOgEvOPM+APVhcU+y0A8t
-         40JK1WKT8MVmm9SNrskT6FqqlTH9iyqSTIHHbfTPX1w6X1gC+OzlZxcfrFBmBaFvBn
-         xCILiySyvXEsQ==
-Message-ID: <47c49ef5-c77b-cd76-62e7-0d488d667636@denx.de>
-Date:   Tue, 25 Jul 2023 11:41:18 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8DFAB615E6;
+        Tue, 25 Jul 2023 09:58:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F016AC433C7;
+        Tue, 25 Jul 2023 09:58:37 +0000 (UTC)
+Message-ID: <231e9976-93fe-b8b1-29d9-6c799a8e6a3a@xs4all.nl>
+Date:   Tue, 25 Jul 2023 11:58:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: ov5640: Enable MIPI interface in
- ov5640_set_power_mipi()
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-References: <20230724222210.162785-1-marex@denx.de>
- <c5oh3axckaqfenwm3cq5tictl5ra2hda5dmf65gsrjfxuj7crk@dgdlnph5fxvp>
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v7,0/11] media: mediatek: vcodec: separate encoder and
+ decoder
 Content-Language: en-US
-From:   Marek Vasut <marex@denx.de>
-In-Reply-To: <c5oh3axckaqfenwm3cq5tictl5ra2hda5dmf65gsrjfxuj7crk@dgdlnph5fxvp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
+        <nfraprado@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230722074230.30558-1-yunfei.dong@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230722074230.30558-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -63,49 +63,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/25/23 11:04, Jacopo Mondi wrote:
-> Hi Marek
-
-Hi,
-
-> On Tue, Jul 25, 2023 at 12:22:10AM +0200, Marek Vasut wrote:
->> Set OV5640_REG_IO_MIPI_CTRL00 bit 2 to 1 instead of 0, since 1 means
->> MIPI CSI2 interface, while 0 means CPI parallel interface.
->>
->> In the ov5640_set_power_mipi() the interface should obviously be set
->> to MIPI CSI2 since this functions is used to power up the sensor when
->> operated in MIPI CSI2 mode. The sensor should not be in CPI mode in
->> that case.
+On 22/07/2023 09:42, Yunfei Dong wrote:
+> From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
 > 
-> Does this actually help fixing your 'first frame corrupted issue' ?
-
-Yes it does.
-
-> I think the logic here was to power up the interface here  in
-> ov5640_set_power_mipi() with the CSI-2 interface disabled to enter
-> LP-11 mode (something some receivers like the imx6 one are
-> particularly sensible to).
-
-Per OV5640 datasheet.
-
-Register 0x300e bit 2 selects sensor interface mode between MIPI CSI2 
-and CPI (parallel), it has nothing to do with LP modes .
-
-Register 0x3019 bits [6:4] control LP00/LP11 mode on CSI2 lines.
-
-> Then at stream time the CSI-2 interface is actually enabled in
-> ov5640_set_stream_mipi() just before streaming is started.
+> With the driver more and more complex, encoder and decoder need to add more parameter
+> in shared struct 'mtk_vcodec_ctx' and 'mtk_vcodec_dev'. Encoder use about 40% and
+> decoder use 60% parameter. Need to allocate extra unused memory when encoder and decoder
+> working.
 > 
-> Also the register documentation is very confusing and as reported in
-> ov5640_set_stream_mipi() it is also probably wrong (at least in the
-> datasheet version I have).
+> Separate encoder and decoder in different folder and use independent data struct.
 > 
-> I would be particularly cautious in touching this sequence as it has
-> been validated to work with multiple receivers. Of course if it
-> actually fixes an issue for you it should be taken in, but ideally, as
-> this sensor is still used in a large number of evaluation boards, it
-> should be validated by other consumers of this driver (st, imx,
-> microchip and rensas to name a few).
+> patch 1 remove unused parameter.
+> patch 2~3 align fw and interrupt related interface.
+> patch 4~6 remove the dependency of debug log
+> patch 7~8 separate mtk_vcodec_ctx and mtk_vcodec_dev
+> patch 9 fix unreasonable parameter
+> patch 10 removed unused header files
+> patch 11 separate encoder and decoder in different folder
+> ---
+> Changed from v6:
+> - rebase to: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=fo-v6.6g.
+> Changed from v5:
+> - fix some words error for patch 3/6/11.
+> - rename mtk_vcodec_comm_drv.h to mtk_vcodec_cmn_drv.h for patch 7.
+> Changed from v4:
+> - add one parameter to record register base for reg_base for patch 3.
+> - add debug string for non ctx log for patch 6.
+> - change the comment of struct mtk_vcodec_dec_ctx and struct mtk_vcodec_enc_ctx for patch 7.
+> - prefer to use struct mtk_vcodec_dec_dev an current period, will re-construct in the future for patch 8.
+> Changed from v3:
+> - re-write commit message for patch 3.
+> Changed from v2:
+> - This patch main changed:
+>   1: add different macro mtk_dec_debug and mtk_enc_debug calling common
+>      macro mtk_vcodec_debug in order to use dev_dbg instead of pr_debug.
+>   2: add different macro mtk_v4l2_venc_dbg and mtk_v4l2_vdec_dbg calling common
+>      macro  in order to use dev_dbg instead of pr_debug.
+> Changed from v1:
+> - Change pr_dbg to dev_dbg for mtk_v4l2_level and mtk_vcodec_dbg for patch 4.
+> - Change pr_err to dev_err for mtk_v4l2_err and mtk_vcodec_err for patch 5.
+> - Fix unreasonable parameter for patch 8.
+> ---
+> Yunfei Dong (11):
+>   media: mediatek: vcodec: remove unused parameter
+>   media: mediatek: vcodec: align fw interface
+>   media: mediatek: vcodec: Removing struct 'mtk_vcodec_ctx/dev' for
+>     shared interface
+>   media: mediatek: vcodec: Removing useless debug log
+>   media: mediatek: vcodec: remove the dependency of vcodec debug log
+>   media: mediatek: vcodec: replace pr_* with dev_* for v4l2 debug
+>     message
+>   media: mediatek: vcodec: separate struct 'mtk_vcodec_ctx'
+>   media: mediatek: vcodec: separate struct mtk_vcodec_dev
+>   media: mediatek: vcodec: fix unreasonable parameter definition and
+>     style
+>   media: mediatek: vcodec: remove unused include header
+>   media: mediatek: vcodec: separate decoder and encoder
 
-That's quite a tall order which effectively makes it impossible to 
-change or fix anything in this driver.
+Besides the missing argument in patch 6/11 I also get this compiler warning:
+
+drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c: In function 'vpu_enc_ipi_handler':
+drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c:64:31: warning: 'vpu' may be used uninitialized [-Wmaybe-uninitialized]
+   64 |         struct venc_vpu_inst *vpu;
+      |                               ^~~
+
+and this smatch error:
+
+drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:138 mtk_vcodec_get_reg_bases() error: buffer overflow 'mtk_dec_reg_names' 11 <= 11
+
+However, I believe that was introduced by Nicolas' patch series.
+
+I'll try to pinpoint the precise patch.
+
+Regards,
+
+	Hans
