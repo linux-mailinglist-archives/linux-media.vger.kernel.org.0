@@ -2,58 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 397ED7623B0
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 22:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDAD37623CF
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 22:44:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230193AbjGYUlS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 16:41:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39176 "EHLO
+        id S229747AbjGYUol (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 16:44:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229896AbjGYUlO (ORCPT
+        with ESMTP id S231209AbjGYUoh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 16:41:14 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7A32118;
-        Tue, 25 Jul 2023 13:40:54 -0700 (PDT)
-Received: from notapiano.myfiosgateway.com (zone.collabora.co.uk [167.235.23.81])
+        Tue, 25 Jul 2023 16:44:37 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A6C22125;
+        Tue, 25 Jul 2023 13:44:15 -0700 (PDT)
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 83EEB66003AA;
-        Tue, 25 Jul 2023 21:40:51 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 65EAE6606EEE;
+        Tue, 25 Jul 2023 21:44:12 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1690317653;
-        bh=iMBQ+s+wbpCm8QUbxfi+mfkOxoIlRyEKgUUo7g7/1i0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Cx3GrVj1e1Yf45KTfHj6nGdGPQwkfC3ZGbMopZLX6d+wmXEe1nUa0jxLgNGbS5soN
-         mufw/QA1mUdaewY1A0DPSBvDbuMK9TGGIdm2CTUcuJckYGHZWDQtal+lspXcc74Kfz
-         F6wSs1M7e5tKpWvgQF+3x/qEwvomKgU3uslCF5WAYcgsnxKSmp1PfIWNDYmXQrp66h
-         CkvL7tDh0R5JwSBqKu+cs5nL6YoaZ/n9msdvVuV0vG5+ANjmlGSSqpMpdGwS1n8ia5
-         AjUGAhWHbAN1+KjI70aaiaChZPlJwLT5K0nLsLIkBaL3rCuTSOqR5RU3kSsUTT+hfY
-         BR8+sbXOms5HQ==
-From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        s=mail; t=1690317854;
+        bh=l0QdiZLVFikXd6djh9oMfl+C2ChjeqPpqf7ac5R2fis=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=it21CKyA7WekFPItXvp7zTV3pDdq7MTw11C+d6Is0wunsHAzgQejIaLMW1dys51cx
+         +OfSQ7YlmutsGoj53fpg/NrFVhxHMK34h8dJBprpBewiLkzYVFrv6FL44P9pehWXUq
+         KoxEtTIKIkHDt3tmM0EjxGGmrDM8b0etKHAWFyHf3oGkbKQ9l9p4IruVoUCtDavvbm
+         jPSTj2Yx2jLAbDstlibyw3qu+WxzlZfaw5oHtFeOZnQ63BAP1cB7zdy7PD5VoRIIOS
+         SR16Wuo4/DxpM8rSzTNHgsZsewEfLoGqqDYAfNuaB4Wmnru+cRqQ43MTGyLOFFsHJj
+         o8FxFs63Pw7UA==
+Date:   Tue, 25 Jul 2023 16:44:08 -0400
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
         <nfraprado@collabora.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     kernel@collabora.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@collabora.com>,
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
         Yunfei Dong <yunfei.dong@mediatek.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: [PATCH] media: mediatek: vcodec: Consider vdecsys presence in reg range check
-Date:   Tue, 25 Jul 2023 16:40:39 -0400
-Message-ID: <20230725204043.569799-1-nfraprado@collabora.com>
-X-Mailer: git-send-email 2.41.0
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [PATCH v5 5/7] media: mediatek: vcodec: Read HW active status
+ from syscon
+Message-ID: <b5ba26b8-7c03-4ead-97ff-8ee3ae0efa26@notapiano>
+References: <20230630151436.155586-1-nfraprado@collabora.com>
+ <20230630151436.155586-6-nfraprado@collabora.com>
+ <b5fd2dff-14a5-3ad8-9698-d1a50f4516fa@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <b5fd2dff-14a5-3ad8-9698-d1a50f4516fa@xs4all.nl>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -64,43 +66,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit fe8a33978383 ("media: mediatek: vcodec: Read HW active status
-from syscon") allowed the driver to read the VDEC_SYS io space from a
-syscon instead of from the reg property when reg-names are supplied.
-However as part of that change, a smatch warning was introduced:
+On Tue, Jul 25, 2023 at 12:15:03PM +0200, Hans Verkuil wrote:
+> Hi Nicolas,
+> 
+> On 30/06/2023 17:14, Nícolas F. R. A. Prado wrote:
+> > Remove the requirement of a VDEC_SYS reg iospace for both MT8173 and
+> > MT8183. To achieve that, rely on a vdecsys syscon to be passed through
+> > the DT, and use it to directly read the VDEC_HW_ACTIVE bit during IRQ
+> > handling to check whether the HW is active. Also update the VP8 stateful
+> > decoder to use the syscon, if present, for writes to VDEC_SYS.
+> > 
+> > The old behavior is still present when reg-names aren't supplied, as
+> > to keep backward compatibility.
+> > 
+> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > 
+> > ---
+> > 
+> > Changes in v5:
+> > - Added explicit linux/bitfield.h include for FIELD_GET(), following
+> >   0day report
+> > 
+> > Changes in v4:
+> > - Added new helper and updated VP8 stateful decoder to use it, so the
+> >   syscon can also be used by mt8173
+> > - Made handling cleaner
+> > - Reworded commit
+> > 
+> > Changes in v3:
+> > - Switched handling of VDEC_HW_ACTIVE to use a syscon instead of the
+> >   'active' clock
+> > - Reworded commit
+> > - Removed changes to subdev part of driver, since they aren't used by
+> >   MT8183
+> > 
+> >  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      | 77 ++++++++++++++++---
+> >  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |  1 +
+> >  .../mediatek/vcodec/mtk_vcodec_util.c         | 15 ++++
+> >  .../mediatek/vcodec/mtk_vcodec_util.h         |  2 +
+> >  .../mediatek/vcodec/vdec/vdec_vp8_if.c        | 10 +--
+> >  5 files changed, 87 insertions(+), 18 deletions(-)
+> 
+> This patch introduced this new smatch error:
+> 
+> drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c:143 mtk_vcodec_get_reg_bases() error: buffer overflow 'mtk_dec_reg_names' 11 <= 11
+> 
+> I think it is due to:
+> 
+> if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE) {
+> 
+> in mtk_vcodec_get_reg_bases(): the '>' should probably be '>='.
+> 
+> Can you post a follow-up patch fixing this?
 
-drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c:142 mtk_vcodec_get_reg_bases() error: buffer overflow 'mtk_dec_reg_names' 11 <= 11
+Hi Hans,
 
-With a correct Devicetree, that is, one that follows the dt-binding, it
-wouldn't be possible to trigger such a buffer overflow. Even so, update
-the range validation of the reg property, so that the smatch warning is
-fixed and if an incorrect Devicetree is ever supplied the code errors
-out instead of causing memory corruption.
+sorry about that, and thanks for noticing it.
 
-Reported-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Closes: https://lore.kernel.org/all/b5fd2dff-14a5-3ad8-9698-d1a50f4516fa@xs4all.nl
-Fixes: fe8a33978383 ("media: mediatek: vcodec: Read HW active status from syscon")
-Signed-off-by: NÃ­colas F. R. A. Prado <nfraprado@collabora.com>
+I've just sent the fix:
+https://lore.kernel.org/all/20230725204043.569799-1-nfraprado@collabora.com
 
----
-
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-index 742b6903d030..cd62b3f68072 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-@@ -124,7 +124,8 @@ static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
- 	/* Sizeof(u32) * 4 bytes for each register base. */
- 	reg_num = of_property_count_elems_of_size(pdev->dev.of_node, "reg",
- 						  sizeof(u32) * 4);
--	if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE) {
-+	if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE ||
-+	    (!has_vdecsys_reg && reg_num > NUM_MAX_VDEC_REG_BASE - 1)) {
- 		dev_err(&pdev->dev, "Invalid register property size: %d\n", reg_num);
- 		return -EINVAL;
- 	}
--- 
-2.41.0
-
+Thanks,
+Nícolas
