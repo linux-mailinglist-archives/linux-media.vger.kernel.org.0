@@ -2,121 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AAC67611A1
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 12:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CF06761210
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 12:59:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230409AbjGYKyH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 06:54:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58474 "EHLO
+        id S233683AbjGYK7I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 06:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233088AbjGYKxN (ORCPT
+        with ESMTP id S233881AbjGYK6P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 06:53:13 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ACD330EA;
-        Tue, 25 Jul 2023 03:51:46 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4R9DNk1zV3zyRB;
-        Tue, 25 Jul 2023 13:51:33 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1690282303;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nVTFYmNWV1jP27+FDM4eqhSzMI/cuSd7gi5VmMNOAfg=;
-        b=OIKPneVysIIsOt0iRF7c9GoTrhfIJR3pJ1fYanttlyHbKxBnxdV50h3BXqREUF1tnvN/8H
-        ttNqApgMpAYqB7vDQZc+xH2UvgGKtx66Hw1y+pGiPqPEw8hU2G2wzUdMtgPO8868lDUEuC
-        mAamey/Dq8fuzD8h9oyCJhONbjrEu28=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1690282303;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nVTFYmNWV1jP27+FDM4eqhSzMI/cuSd7gi5VmMNOAfg=;
-        b=B8bdNu9uBV5ZXRnWapFwaJRrCRvDVUeUl1pyKdPWhaxXOVJ824gQaLzPRbWHbGIpGc9grs
-        jqcDmI9Bw1kzqTupLqxIloBqC/4NgCsOXWuXufhnKIg2jSO/0Ve1RtJU6Ax3Z+d0PLJPoe
-        dAV05DsdXtLCk2N97Jcdz7E1wVO/iwM=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1690282303; a=rsa-sha256; cv=none;
-        b=vct141sa+XcGyQ1kVIQejOrk1qw2TvdjLqv5zflvOIbiywY4zEj5ryKGPtYOfkQM0he69/
-        7oqKcieTLFTTIM75qqs7mrU3HO4obQNPfyig41htRHqPfObXhKwFeAh5H9FyPca2wIIHTX
-        Wvb5rALlBcEDu3u29PPObFj7UthU4Mw=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 304E7634C23;
-        Tue, 25 Jul 2023 13:51:33 +0300 (EEST)
-Date:   Tue, 25 Jul 2023 10:51:33 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Joe Tessler <jrt@google.com>,
+        Tue, 25 Jul 2023 06:58:15 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A529F211B;
+        Tue, 25 Jul 2023 03:55:34 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36PA3XNW017003;
+        Tue, 25 Jul 2023 12:55:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=84skJsHFBbLfJSMlPNHQ+kQWJqyQB1R4sOuBvFYxBvo=;
+ b=3a4+EUWkn6pQShKO2au+wN2f/gRwLzdSQ7FFu6o58dphPQEJePsW/c4a9gTnob02iylW
+ eU+Avt0XO10YPO6Q2/XLToKcYe49BQOeoxnnnrC7pz5nVwUtE1L9uLq1S+Rz+nIWpJbE
+ 1aIvksZU5aFK0NB9+OqFYPpfpxtCtRYUA1H/oIg8e45ZToBwna6GCVkcFkxnrINDbtjj
+ jcVDuv/07aLqTwCcve2GLHRePG3AJWhIbgyaiznDytxDxvj1p0nPO8Wgns2Q3BAOsDZK
+ 4SqPpvJQRJBBsmPmfhb9623HDK98yi5XZSanKvNEL5/z2g02nbJeMXLlZdGTbihjSLsP kg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3s2cabgb78-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 25 Jul 2023 12:55:23 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5D8AC100048;
+        Tue, 25 Jul 2023 12:55:22 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5450B228A39;
+        Tue, 25 Jul 2023 12:55:22 +0200 (CEST)
+Received: from [10.129.166.114] (10.129.166.114) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 25 Jul
+ 2023 12:55:21 +0200
+Message-ID: <e8138fd1-5d1f-8fc3-e29a-547902c2ab18@foss.st.com>
+Date:   Tue, 25 Jul 2023 12:55:21 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] media: dt-bindings: drop unneeded status from examples
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
-Message-ID: <ZL+pNUYymeXv5EoU@valkosipuli.retiisi.eu>
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
- <5afcec8b-b8f6-35b0-278a-5de185e4a7a2@xs4all.nl>
- <ZG9XJCD98VWjGjTN@valkosipuli.retiisi.eu>
- <ZG9ger4WE2VWoVEF@valkosipuli.retiisi.eu>
- <158425ec-86e8-ca3e-eed8-e14b37c42730@linaro.org>
- <ce217ae6-6dd5-26ea-2ce7-95d97ef791c4@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ce217ae6-6dd5-26ea-2ce7-95d97ef791c4@linaro.org>
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        <linux-tegra@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20230725101625.75162-1-krzysztof.kozlowski@linaro.org>
+From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20230725101625.75162-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.129.166.114]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-25_06,2023-07-25_01,2023-05-22_02
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -127,73 +82,45 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Krzysztof,
 
-On Thu, Jul 13, 2023 at 08:46:58AM +0200, Krzysztof Kozlowski wrote:
-> On 19/06/2023 16:13, Krzysztof Kozlowski wrote:
-> > On 25/05/2023 15:19, Sakari Ailus wrote:
-> >> Hi folks,
-> >>
-> >> On Thu, May 25, 2023 at 03:40:04PM +0300, Sakari Ailus wrote:
-> >>> Hi Hans,
-> >>>
-> >>> On Sat, May 13, 2023 at 11:57:33AM +0200, Hans Verkuil wrote:
-> >>>> On 12/05/2023 18:35, Krzysztof Kozlowski wrote:
-> >>>>> On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
-> >>>>>> The driver can match only via the DT table so the table should be always
-> >>>>>> used and the of_match_ptr does not have any sense (this also allows ACPI
-> >>>>>> matching via PRP0001, even though it might not be relevant here).
-> >>>>>>
-> >>>>>>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
-> >>>>>>
-> >>>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>>>>> ---
-> >>>>>
-> >>>>> Hans, Sakari,
-> >>>>>
-> >>>>> Can you pick up the patchset? There was positive feedback:
-> >>>>> https://patchwork.linuxtv.org/project/linux-media/patch/20230312131318.351173-1-krzysztof.kozlowski@linaro.org/
-> >>>>>
-> >>>>> but it seems it was not applied.
-> >>>>
-> >>>> I see it is delegated to Sakari in patchwork and marked Under Review, but I don't
-> >>>> see a corresponding pull request for this series.
-> >>>>
-> >>>> Sakari, did something go wrong?
-> >>>
-> >>> I spotted this as Hans notified me in IRC, I wasn't cc'd. Apologies for
-> >>> this --- I intended to take these but I think I must have missed something
-> >>> important in the process. I'll take them now.
-> >>>
-> >>> Thanks.
-> >>
-> >> This no longer applied cleanly. Mostly there was fuzz near .of_match_table
-> >> changes as probe_new (and remove_new?) changes have been recently merged.
-> >> There were other issues as well, I marked a few patches in the set "not
-> >> applicable" as other patches had already done equivalent changes earlier.
-> >>
-> >> There were substance-changing changes in the 20th patch, replied to the
-> >> disuccsion there.
-> >>
-> >> I've pushed the result here and intend to send PR to Mauro soon if there
-> >> are no issues:
-> >>
-> >> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=of-match-ptr>
-> > 
-> > One month later, I still don't see this set in the linux-next.  What's
-> > happening here?
-> > 
+Thank you for your patch.
+
+For the st-mipid02 :
+Reviewed-By: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+
+On 7/25/23 12:16, Krzysztof Kozlowski wrote:
+> Example DTS should not have 'status' property.
 > 
-> I don't think this was merged in v6.5-rc1. It's not in linux-next,
-> either. Another month passed...
-
-These are now in the media-stage tree
-<URL:https://git.linuxtv.org/media_stage.git/log/>. Assuming nothing goes
-wrong, these should end up in Linus's tree for 6.6.
-
-The issues related to media tree maintenance are being addressed as we're
-changing the process how the tree is maintained. The patches will
-eventually get in still, also expect this to improve in the future.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml       | 1 -
+>  Documentation/devicetree/bindings/media/i2c/st,st-mipid02.yaml   | 1 -
+>  2 files changed, 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml b/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+> index 369c48fd9bf9..a6b73498bc21 100644
+> --- a/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+> +++ b/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+> @@ -53,6 +53,5 @@ examples:
+>          interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
+>          clocks = <&tegra_car TEGRA124_CLK_CEC>;
+>          clock-names = "cec";
+> -        status = "disabled";
+>          hdmi-phandle = <&hdmi>;
+>      };
+> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-mipid02.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-mipid02.yaml
+> index 19a39d753aad..b68141264c0e 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/st,st-mipid02.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-mipid02.yaml
+> @@ -143,7 +143,6 @@ examples:
+>          mipid02: csi2rx@14 {
+>              compatible = "st,st-mipid02";
+>              reg = <0x14>;
+> -            status = "okay";
+>              clocks = <&clk_ext_camera_12>;
+>              clock-names = "xclk";
+>              VDDE-supply = <&vdd>;
 
 -- 
 Regards,
 
-Sakari Ailus
+Benjamin
