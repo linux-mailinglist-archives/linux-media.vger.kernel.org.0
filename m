@@ -2,63 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7F82761124
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 12:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AAC67611A1
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 12:54:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231802AbjGYKph (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 06:45:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56658 "EHLO
+        id S230409AbjGYKyH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 06:54:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjGYKpg (ORCPT
+        with ESMTP id S233088AbjGYKxN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 06:45:36 -0400
+        Tue, 25 Jul 2023 06:53:13 -0400
 Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E2110CC
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 03:45:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ACD330EA;
+        Tue, 25 Jul 2023 03:51:46 -0700 (PDT)
 Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4R9DFj6rGSzyRB
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 13:45:28 +0300 (EEST)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4R9DNk1zV3zyRB;
+        Tue, 25 Jul 2023 13:51:33 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1690281930;
+        t=1690282303;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=uiCND8nqp7NRqKwMrvqdrrdm882GKpIzRUhYAIa+Wko=;
-        b=RPYjQhd4O46Udd4oUx+2XbjJPRUcBy5kIuRFFQlk3kkqVeYWSYyN94aAQ0O1YF1UXjDtid
-        1z2gniz9rbb+w85xKBVt3ikSWuZuEHT+dBkL7QWFW8xMi1mg0G68y1FjDnwqmBZXT7hKf+
-        jIgMCPZ/EHkLBHsnbCw2UPjZadrYAvQ=
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nVTFYmNWV1jP27+FDM4eqhSzMI/cuSd7gi5VmMNOAfg=;
+        b=OIKPneVysIIsOt0iRF7c9GoTrhfIJR3pJ1fYanttlyHbKxBnxdV50h3BXqREUF1tnvN/8H
+        ttNqApgMpAYqB7vDQZc+xH2UvgGKtx66Hw1y+pGiPqPEw8hU2G2wzUdMtgPO8868lDUEuC
+        mAamey/Dq8fuzD8h9oyCJhONbjrEu28=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1690281930;
+        s=meesny; t=1690282303;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=uiCND8nqp7NRqKwMrvqdrrdm882GKpIzRUhYAIa+Wko=;
-        b=OAZKb87jA5pZI1FEj17d/FxR+5DjAKgyGqSRgLChkYO6N6vaSXQRXLRr+yC+EPy47wanzQ
-        TArAF8/rOs+Fc8sM5QQRPAWYbets5/6DLU/ASSSjxIa0kGVcnkr7AHOEQtYSpaeaQ2bu+P
-        goRm/c3fX+LuiyRdJcKoQQpzeFd4dSs=
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nVTFYmNWV1jP27+FDM4eqhSzMI/cuSd7gi5VmMNOAfg=;
+        b=B8bdNu9uBV5ZXRnWapFwaJRrCRvDVUeUl1pyKdPWhaxXOVJ824gQaLzPRbWHbGIpGc9grs
+        jqcDmI9Bw1kzqTupLqxIloBqC/4NgCsOXWuXufhnKIg2jSO/0Ve1RtJU6Ax3Z+d0PLJPoe
+        dAV05DsdXtLCk2N97Jcdz7E1wVO/iwM=
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1690281930; a=rsa-sha256; cv=none;
-        b=m2cj/kcdhN2amtAmFjUDIeHa5szfuCAP4l9VcuGlCGbFMejlPbUUZuoowORKmEYQjQfwya
-        JK8nibuvc4jl9XAvrrVeTh1XB7pEN+nnjJfAnEJ7wkIT2Joe3G7Ir16MjQTumlHF7SzGjB
-        iko8A7hl7h/PcPnwRoZr8XbNNyYiFtc=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1690282303; a=rsa-sha256; cv=none;
+        b=vct141sa+XcGyQ1kVIQejOrk1qw2TvdjLqv5zflvOIbiywY4zEj5ryKGPtYOfkQM0he69/
+        7oqKcieTLFTTIM75qqs7mrU3HO4obQNPfyig41htRHqPfObXhKwFeAh5H9FyPca2wIIHTX
+        Wvb5rALlBcEDu3u29PPObFj7UthU4Mw=
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E9CC2634C23
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 13:45:27 +0300 (EEST)
-Date:   Tue, 25 Jul 2023 10:45:27 +0000
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 304E7634C23;
+        Tue, 25 Jul 2023 13:51:33 +0300 (EEST)
+Date:   Tue, 25 Jul 2023 10:51:33 +0000
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.6] Separate V4L2 async sub-devices from connections
-Message-ID: <ZL+nx1/qYE2FggwD@valkosipuli.retiisi.eu>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Joe Tessler <jrt@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
+Message-ID: <ZL+pNUYymeXv5EoU@valkosipuli.retiisi.eu>
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+ <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
+ <5afcec8b-b8f6-35b0-278a-5de185e4a7a2@xs4all.nl>
+ <ZG9XJCD98VWjGjTN@valkosipuli.retiisi.eu>
+ <ZG9ger4WE2VWoVEF@valkosipuli.retiisi.eu>
+ <158425ec-86e8-ca3e-eed8-e14b37c42730@linaro.org>
+ <ce217ae6-6dd5-26ea-2ce7-95d97ef791c4@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ce217ae6-6dd5-26ea-2ce7-95d97ef791c4@linaro.org>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
@@ -69,155 +125,75 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Krzysztof,
 
-This set reworks V4L2 async framework by separating async sub-devices from
-connections, allowing binding a sub-device with multiple asynchronous
-connections. Consequently, it also allows both i.MX6 and adv748x drivers to
-work with the same kernel.
+On Thu, Jul 13, 2023 at 08:46:58AM +0200, Krzysztof Kozlowski wrote:
+> On 19/06/2023 16:13, Krzysztof Kozlowski wrote:
+> > On 25/05/2023 15:19, Sakari Ailus wrote:
+> >> Hi folks,
+> >>
+> >> On Thu, May 25, 2023 at 03:40:04PM +0300, Sakari Ailus wrote:
+> >>> Hi Hans,
+> >>>
+> >>> On Sat, May 13, 2023 at 11:57:33AM +0200, Hans Verkuil wrote:
+> >>>> On 12/05/2023 18:35, Krzysztof Kozlowski wrote:
+> >>>>> On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
+> >>>>>> The driver can match only via the DT table so the table should be always
+> >>>>>> used and the of_match_ptr does not have any sense (this also allows ACPI
+> >>>>>> matching via PRP0001, even though it might not be relevant here).
+> >>>>>>
+> >>>>>>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+> >>>>>>
+> >>>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>>>>> ---
+> >>>>>
+> >>>>> Hans, Sakari,
+> >>>>>
+> >>>>> Can you pick up the patchset? There was positive feedback:
+> >>>>> https://patchwork.linuxtv.org/project/linux-media/patch/20230312131318.351173-1-krzysztof.kozlowski@linaro.org/
+> >>>>>
+> >>>>> but it seems it was not applied.
+> >>>>
+> >>>> I see it is delegated to Sakari in patchwork and marked Under Review, but I don't
+> >>>> see a corresponding pull request for this series.
+> >>>>
+> >>>> Sakari, did something go wrong?
+> >>>
+> >>> I spotted this as Hans notified me in IRC, I wasn't cc'd. Apologies for
+> >>> this --- I intended to take these but I think I must have missed something
+> >>> important in the process. I'll take them now.
+> >>>
+> >>> Thanks.
+> >>
+> >> This no longer applied cleanly. Mostly there was fuzz near .of_match_table
+> >> changes as probe_new (and remove_new?) changes have been recently merged.
+> >> There were other issues as well, I marked a few patches in the set "not
+> >> applicable" as other patches had already done equivalent changes earlier.
+> >>
+> >> There were substance-changing changes in the 20th patch, replied to the
+> >> disuccsion there.
+> >>
+> >> I've pushed the result here and intend to send PR to Mauro soon if there
+> >> are no issues:
+> >>
+> >> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=of-match-ptr>
+> > 
+> > One month later, I still don't see this set in the linux-next.  What's
+> > happening here?
+> > 
+> 
+> I don't think this was merged in v6.5-rc1. It's not in linux-next,
+> either. Another month passed...
 
-Please pull.
+These are now in the media-stage tree
+<URL:https://git.linuxtv.org/media_stage.git/log/>. Assuming nothing goes
+wrong, these should end up in Linus's tree for 6.6.
 
-
-The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
-
-  Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/async-multi-v6-signed
-
-for you to fetch changes up to a74b4f6c47473d28603b6a95d7f27038e7b8d256:
-
-  media: Documentation: v4l: Document sub-device notifiers (2023-07-24 00:02:48 +0300)
-
-----------------------------------------------------------------
-V4L2 async sub-devices and connections for 6.6
-
-----------------------------------------------------------------
-Jacopo Mondi (1):
-      media: v4l: async: Drop v4l2_async_nf_parse_fwnode_endpoints()
-
-Sakari Ailus (37):
-      media: v4l: fwnode: Remove unneeded forward declaration
-      media: atmel-isi: Remote unneeeded forward declaration
-      media: xilinx-vipp: Clean up bound async notifier callback
-      media: omap3isp: Move link creation to bound callback
-      media: Documentation: v4l: Fix async notifier registration example
-      media: Documentation: v4l: Add section titles for async
-      media: Documentation: v4l: Fix async sensor subdev helper documentation
-      media: Documentation: v4l: Document missing async subdev function
-      media: Documentation: v4l: Document v4l2_async_nf_cleanup
-      media: v4l: async: Add some debug prints
-      media: v4l: async: Clean up testing for duplicate async subdevs
-      media: v4l: async: Don't check whether asd is NULL in validity check
-      media: v4l: async: Make V4L2 async match information a struct
-      media: v4l: async: Rename V4L2_ASYNC_MATCH_ macros, add TYPE_
-      media: v4l: async: Only pass match information for async subdev validation
-      media: v4l: async: Clean up list heads and entries
-      media: v4l: async: Simplify async sub-device fwnode matching
-      media: v4l: async: Rename v4l2_async_subdev as v4l2_async_connection
-      media: v4l: async: Clean up error handling in v4l2_async_match_notify
-      media: v4l: async: Drop duplicate handling when adding connections
-      media: v4l: async: Rework internal lists
-      media: v4l: async: Obtain async connection based on sub-device
-      media: v4l: async: Allow multiple connections between entities
-      media: v4l: async: Drop unneeded list entry initialisation
-      media: v4l: async: Try more connections
-      media: v4l: async: Support fwnode endpoint list matching for subdevs
-      media: adv748x: Return to endpoint matching
-      media: pxa_camera: Fix probe error handling
-      media: pxa_camera: Register V4L2 device early
-      media: marvell: cafe: Register V4L2 device earlier
-      media: am437x-vpfe: Register V4L2 device early
-      media: omap3isp: Initialise V4L2 async notifier later
-      media: xilinx-vipp: Init async notifier after registering V4L2 device
-      media: davinci: Init async notifier after registering V4L2 device
-      media: qcom: Initialise V4L2 async notifier later
-      media: v4l: async: Set v4l2_device and subdev in async notifier init
-      media: Documentation: v4l: Document sub-device notifiers
-
- Documentation/driver-api/media/v4l2-subdev.rst     | 110 ++--
- drivers/media/i2c/adv748x/adv748x-csi2.c           |  13 +-
- drivers/media/i2c/max9286.c                        |  27 +-
- drivers/media/i2c/rdacm20.c                        |  16 +-
- drivers/media/i2c/rdacm21.c                        |  15 +-
- drivers/media/i2c/st-mipid02.c                     |  12 +-
- drivers/media/i2c/tc358746.c                       |  15 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c      |  14 +-
- drivers/media/platform/atmel/atmel-isi.c           |  12 +-
- drivers/media/platform/atmel/atmel-isi.h           |   2 -
- drivers/media/platform/cadence/cdns-csi2rx.c       |  10 +-
- drivers/media/platform/intel/pxa_camera.c          |  77 +--
- drivers/media/platform/marvell/cafe-driver.c       |  18 +-
- drivers/media/platform/marvell/mcam-core.c         |  15 +-
- drivers/media/platform/marvell/mmp-driver.c        |   6 +-
- .../media/platform/microchip/microchip-csi2dc.c    |  11 +-
- .../media/platform/microchip/microchip-isc-base.c  |   4 +-
- drivers/media/platform/microchip/microchip-isc.h   |   2 +-
- .../platform/microchip/microchip-sama5d2-isc.c     |   9 +-
- .../platform/microchip/microchip-sama7g5-isc.c     |   9 +-
- drivers/media/platform/nxp/imx-mipi-csis.c         |  17 +-
- drivers/media/platform/nxp/imx7-media-csi.c        |  10 +-
- .../media/platform/nxp/imx8-isi/imx8-isi-core.c    |  12 +-
- drivers/media/platform/qcom/camss/camss.c          |  26 +-
- drivers/media/platform/qcom/camss/camss.h          |   2 +-
- drivers/media/platform/renesas/rcar-isp.c          |  12 +-
- .../media/platform/renesas/rcar-vin/rcar-core.c    |  52 +-
- .../media/platform/renesas/rcar-vin/rcar-csi2.c    |  20 +-
- drivers/media/platform/renesas/rcar-vin/rcar-vin.h |  10 +-
- drivers/media/platform/renesas/rcar_drif.c         |  12 +-
- drivers/media/platform/renesas/renesas-ceu.c       |  10 +-
- .../media/platform/renesas/rzg2l-cru/rzg2l-core.c  |  14 +-
- .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |   2 +-
- .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  |  12 +-
- .../media/platform/rockchip/rkisp1/rkisp1-common.h |   2 +-
- .../media/platform/rockchip/rkisp1/rkisp1-csi.c    |   7 +-
- .../media/platform/rockchip/rkisp1/rkisp1-dev.c    |  12 +-
- .../media/platform/rockchip/rkisp1/rkisp1-isp.c    |   8 +-
- .../media/platform/samsung/exynos4-is/media-dev.c  |  11 +-
- .../media/platform/samsung/exynos4-is/media-dev.h  |   2 +-
- drivers/media/platform/st/stm32/stm32-dcmi.c       |  12 +-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c |  10 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi_bridge.c    |  12 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi_bridge.h    |   2 +-
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c        |  10 +-
- .../sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c    |  10 +-
- drivers/media/platform/ti/am437x/am437x-vpfe.c     |  36 +-
- drivers/media/platform/ti/am437x/am437x-vpfe.h     |   2 +-
- drivers/media/platform/ti/cal/cal.c                |  10 +-
- drivers/media/platform/ti/davinci/vpif_capture.c   |  35 +-
- drivers/media/platform/ti/omap3isp/isp.c           |  55 +-
- drivers/media/platform/ti/omap3isp/isp.h           |  15 +-
- drivers/media/platform/ti/omap3isp/ispccdc.c       |  13 +-
- drivers/media/platform/ti/omap3isp/ispccp2.c       |   2 +
- drivers/media/platform/ti/omap3isp/ispcsi2.c       |   2 +
- drivers/media/platform/ti/omap3isp/ispcsiphy.c     |  15 +-
- drivers/media/platform/video-mux.c                 |  10 +-
- drivers/media/platform/xilinx/xilinx-vipp.c        |  55 +-
- drivers/media/v4l2-core/v4l2-async.c               | 689 +++++++++++----------
- drivers/media/v4l2-core/v4l2-fwnode.c              | 109 +---
- drivers/media/v4l2-core/v4l2-subdev.c              |  13 +
- .../media/atomisp/pci/atomisp_csi2_bridge.c        |   8 +-
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |   2 +-
- .../media/deprecated/atmel/atmel-isc-base.c        |   4 +-
- drivers/staging/media/deprecated/atmel/atmel-isc.h |   2 +-
- .../media/deprecated/atmel/atmel-sama5d2-isc.c     |   9 +-
- .../media/deprecated/atmel/atmel-sama7g5-isc.c     |   9 +-
- drivers/staging/media/imx/imx-media-csi.c          |  10 +-
- drivers/staging/media/imx/imx-media-dev-common.c   |   6 +-
- drivers/staging/media/imx/imx-media-dev.c          |   2 +-
- drivers/staging/media/imx/imx-media-of.c           |   4 +-
- drivers/staging/media/imx/imx6-mipi-csi2.c         |  12 +-
- drivers/staging/media/imx/imx8mq-mipi-csi2.c       |  10 +-
- .../staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c |   6 +-
- .../staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h |   2 +-
- drivers/staging/media/tegra-video/vi.c             |  21 +-
- include/media/davinci/vpif_types.h                 |   2 +-
- include/media/v4l2-async.h                         | 238 +++----
- include/media/v4l2-fwnode.h                        |  70 ---
- include/media/v4l2-subdev.h                        |  19 +-
- 80 files changed, 1059 insertions(+), 1144 deletions(-)
+The issues related to media tree maintenance are being addressed as we're
+changing the process how the tree is maintained. The patches will
+eventually get in still, also expect this to improve in the future.
 
 -- 
+Regards,
+
 Sakari Ailus
