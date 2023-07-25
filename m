@@ -2,62 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDAD37623CF
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 22:44:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8638A76248E
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 23:34:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229747AbjGYUol (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 16:44:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
+        id S231159AbjGYVes (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 17:34:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231209AbjGYUoh (ORCPT
+        with ESMTP id S230113AbjGYVes (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 16:44:37 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A6C22125;
-        Tue, 25 Jul 2023 13:44:15 -0700 (PDT)
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 65EAE6606EEE;
-        Tue, 25 Jul 2023 21:44:12 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1690317854;
-        bh=l0QdiZLVFikXd6djh9oMfl+C2ChjeqPpqf7ac5R2fis=;
+        Tue, 25 Jul 2023 17:34:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D304B1FEB;
+        Tue, 25 Jul 2023 14:34:46 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 888EB558;
+        Tue, 25 Jul 2023 23:33:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1690320826;
+        bh=ME1+CBDQYvlhuvE6K0h3OT4ZgR/K0YNqSSW2nIjfyAs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=it21CKyA7WekFPItXvp7zTV3pDdq7MTw11C+d6Is0wunsHAzgQejIaLMW1dys51cx
-         +OfSQ7YlmutsGoj53fpg/NrFVhxHMK34h8dJBprpBewiLkzYVFrv6FL44P9pehWXUq
-         KoxEtTIKIkHDt3tmM0EjxGGmrDM8b0etKHAWFyHf3oGkbKQ9l9p4IruVoUCtDavvbm
-         jPSTj2Yx2jLAbDstlibyw3qu+WxzlZfaw5oHtFeOZnQ63BAP1cB7zdy7PD5VoRIIOS
-         SR16Wuo4/DxpM8rSzTNHgsZsewEfLoGqqDYAfNuaB4Wmnru+cRqQ43MTGyLOFFsHJj
-         o8FxFs63Pw7UA==
-Date:   Tue, 25 Jul 2023 16:44:08 -0400
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
-        <nfraprado@collabora.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Subject: Re: [PATCH v5 5/7] media: mediatek: vcodec: Read HW active status
- from syscon
-Message-ID: <b5ba26b8-7c03-4ead-97ff-8ee3ae0efa26@notapiano>
-References: <20230630151436.155586-1-nfraprado@collabora.com>
- <20230630151436.155586-6-nfraprado@collabora.com>
- <b5fd2dff-14a5-3ad8-9698-d1a50f4516fa@xs4all.nl>
+        b=nap3f1ZG3NheZIrUiieyj9+/Zjjm7B+geJ9paZBqG74SNVTfDNSthO9d6NXA30l7N
+         ccLz63QfaSZ8i+Sn0foOIPisHR/EkNUPyzonrVhPOskCF4QxUCIMKFdMf+bxqulk1a
+         zBL/eobCTo2whdJKzy1D8ICjMcg/0R5wZeT9xVBc=
+Date:   Wed, 26 Jul 2023 00:34:51 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        stable@kernel.org, Zubin Mithra <zsm@chromium.org>
+Subject: Re: [PATCH v2] media: uvcvideo: Fix OOB read
+Message-ID: <20230725213451.GU31069@pendragon.ideasonboard.com>
+References: <20230717-uvc-oob-v2-1-c7745a8d5847@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b5fd2dff-14a5-3ad8-9698-d1a50f4516fa@xs4all.nl>
+In-Reply-To: <20230717-uvc-oob-v2-1-c7745a8d5847@chromium.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,65 +49,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 12:15:03PM +0200, Hans Verkuil wrote:
-> Hi Nicolas,
-> 
-> On 30/06/2023 17:14, Nícolas F. R. A. Prado wrote:
-> > Remove the requirement of a VDEC_SYS reg iospace for both MT8173 and
-> > MT8183. To achieve that, rely on a vdecsys syscon to be passed through
-> > the DT, and use it to directly read the VDEC_HW_ACTIVE bit during IRQ
-> > handling to check whether the HW is active. Also update the VP8 stateful
-> > decoder to use the syscon, if present, for writes to VDEC_SYS.
-> > 
-> > The old behavior is still present when reg-names aren't supplied, as
-> > to keep backward compatibility.
-> > 
-> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > 
-> > ---
-> > 
-> > Changes in v5:
-> > - Added explicit linux/bitfield.h include for FIELD_GET(), following
-> >   0day report
-> > 
-> > Changes in v4:
-> > - Added new helper and updated VP8 stateful decoder to use it, so the
-> >   syscon can also be used by mt8173
-> > - Made handling cleaner
-> > - Reworded commit
-> > 
-> > Changes in v3:
-> > - Switched handling of VDEC_HW_ACTIVE to use a syscon instead of the
-> >   'active' clock
-> > - Reworded commit
-> > - Removed changes to subdev part of driver, since they aren't used by
-> >   MT8183
-> > 
-> >  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      | 77 ++++++++++++++++---
-> >  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |  1 +
-> >  .../mediatek/vcodec/mtk_vcodec_util.c         | 15 ++++
-> >  .../mediatek/vcodec/mtk_vcodec_util.h         |  2 +
-> >  .../mediatek/vcodec/vdec/vdec_vp8_if.c        | 10 +--
-> >  5 files changed, 87 insertions(+), 18 deletions(-)
-> 
-> This patch introduced this new smatch error:
-> 
-> drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c:143 mtk_vcodec_get_reg_bases() error: buffer overflow 'mtk_dec_reg_names' 11 <= 11
-> 
-> I think it is due to:
-> 
-> if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE) {
-> 
-> in mtk_vcodec_get_reg_bases(): the '>' should probably be '>='.
-> 
-> Can you post a follow-up patch fixing this?
+Hi Ricardo,
 
-Hi Hans,
+Thank you for the patch.
 
-sorry about that, and thanks for noticing it.
+On Thu, Jul 20, 2023 at 05:46:54PM +0000, Ricardo Ribalda wrote:
+> If the index provided by the user is bigger than the mask size, we might do an
+> out of bound read.
+> 
+> CC: stable@kernel.org
+> Fixes: 40140eda661e ("media: uvcvideo: Implement mask for V4L2_CTRL_TYPE_MENU")
+> Reported-by: Zubin Mithra <zsm@chromium.org>
 
-I've just sent the fix:
-https://lore.kernel.org/all/20230725204043.569799-1-nfraprado@collabora.com
+checkpatch now requests a Reported-by tag to be immediately followed by
+a Closes tag that contains the URL to the report. Could you please
+provide that ?
 
-Thanks,
-Nícolas
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> Avoid reading index >= 31
+> ---
+> Changes in v2:
+> - Use BITS_PER_TYPE instead of 32 (thanks Sergey).
+> - Add Reported-by tag.
+> - Link to v1: https://lore.kernel.org/r/20230717-uvc-oob-v1-1-f5b9b4aba3b4@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 5e9d3da862dd..e59a463c2761 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1402,6 +1402,9 @@ int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
+>  	query_menu->id = id;
+>  	query_menu->index = index;
+>  
+> +	if (index >= BITS_PER_TYPE(mapping->menu_mask))
+> +		return -EINVAL;
+> +
+
+I'd move this a few lines up, before setting query_menu.
+
+With those minor changes,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+There's no need for a v3, I can handle the changes locally, but I need
+the URL for the Closes tag.
+
+>  	ret = mutex_lock_interruptible(&chain->ctrl_mutex);
+>  	if (ret < 0)
+>  		return -ERESTARTSYS;
+> 
+> ---
+> base-commit: fdf0eaf11452d72945af31804e2a1048ee1b574c
+> change-id: 20230717-uvc-oob-4b0148a00417
+
+-- 
+Regards,
+
+Laurent Pinchart
