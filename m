@@ -2,44 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B496761B3E
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 16:20:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94A78761CE7
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 17:07:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232473AbjGYOUq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 10:20:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33066 "EHLO
+        id S231579AbjGYPHH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 11:07:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232444AbjGYOUf (ORCPT
+        with ESMTP id S231685AbjGYPHG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 10:20:35 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EF36212F
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 07:16:28 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qOIpW-004aJv-8r; Tue, 25 Jul 2023 14:16:02 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.96)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qOIpT-00ECCm-0n;
-        Tue, 25 Jul 2023 14:16:00 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR 6.6] Separate V4L2 async sub-devices from connections (#93401)
-Date:   Tue, 25 Jul 2023 14:15:58 +0000
-Message-Id: <20230725141558.3383499-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <ZL+nx1/qYE2FggwD@valkosipuli.retiisi.eu>
-References: 
+        Tue, 25 Jul 2023 11:07:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1396419A7
+        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 08:07:00 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4890558;
+        Tue, 25 Jul 2023 17:06:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1690297561;
+        bh=iYRpADB5yV2tqM/ecRddv0+b5mQ8GWchTD92CeOvT8g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=kMWGXDkDUBjQynXduP3m53H+48800IqvvGAwM7zuWUYNPjj1CZwepM8zaUzMU/aXO
+         V8A7rOxD6G8k0LZmuv0U9q5D2GrhBu8mI9S5T2YRLTJR4ynBdNFyjpeMbq9krlkXiL
+         7LGlP2ScY7b3fk+zjZZ+skBr68TF8uYaCAd4YhmA=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH] staging: media: imx: Merge VIDEO_IMX_CSI into VIDEO_IMX_MEDIA
+Date:   Tue, 25 Jul 2023 18:07:07 +0300
+Message-Id: <20230725150707.16197-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -48,62 +45,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+The VIDEO_IMX_MEDIA Kconfig symbol used to select helpers shared between
+independent drivers for different i.MX SoCs, and VIDEO_IMX_MEDIA then
+selects drivers specific to the i.MX5 and i.MX6. Now that i.MX7 and
+i.MX8 support has moved to drivers/media/ and doesn't depend on
+VIDEO_IMX_CSI, there's no need to have separate Kconfig options. Merge
+VIDEO_IMX_CSI into VIDEO_IMX_MEDIA.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZL+nx1/qYE2FggwD@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/325108/
-Build time: 00:00:00
-Link: https://lore.kernel.org/linux-media/ZL+nx1/qYE2FggwD@valkosipuli.retiisi.eu
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/staging/media/imx/Kconfig  | 17 +++--------------
+ drivers/staging/media/imx/Makefile |  7 +++----
+ 2 files changed, 6 insertions(+), 18 deletions(-)
 
-gpg: Signature made Tue 25 Jul 2023 10:39:03 AM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+index b42af427b88b..426310e1ea5b 100644
+--- a/drivers/staging/media/imx/Kconfig
++++ b/drivers/staging/media/imx/Kconfig
+@@ -1,10 +1,11 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config VIDEO_IMX_MEDIA
+-	tristate "i.MX5/6 V4L2 media core driver"
++	tristate "i.MX5/6 V4L2 media drivers"
+ 	depends on ARCH_MXC || COMPILE_TEST
+ 	depends on HAS_DMA
+ 	depends on VIDEO_DEV
+ 	depends on VIDEO_DEV
++	depends on IMX_IPUV3_CORE
+ 	select MEDIA_CONTROLLER
+ 	select V4L2_FWNODE
+ 	select V4L2_MEM2MEM_DEV
+@@ -12,16 +13,4 @@ config VIDEO_IMX_MEDIA
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	help
+ 	  Say yes here to enable support for video4linux media controller
+-	  driver for the i.MX5/6 SOC.
+-
+-if VIDEO_IMX_MEDIA
+-menu "i.MX5/6/7/8 Media Sub devices"
+-
+-config VIDEO_IMX_CSI
+-	tristate "i.MX5/6 Camera Sensor Interface driver"
+-	depends on IMX_IPUV3_CORE
+-	default y
+-	help
+-	  A video4linux camera sensor interface driver for i.MX5/6.
+-endmenu
+-endif
++	  drivers for the i.MX5/6 SOC.
+diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
+index b69951deff9a..330e0825f506 100644
+--- a/drivers/staging/media/imx/Makefile
++++ b/drivers/staging/media/imx/Makefile
+@@ -9,7 +9,6 @@ imx6-media-objs := imx-media-dev.o imx-media-internal-sd.o \
+ imx6-media-csi-objs := imx-media-csi.o imx-media-fim.o
+ 
+ obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx-media-common.o
+-
+-obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media.o
+-obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
+-obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
++obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx6-media.o
++obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx6-media-csi.o
++obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx6-mipi-csi2.o
+-- 
+Regards,
 
-
-Build aborted due to a fatal error:
-FAILED: patch patch patches/0017-media-v4l-async-Clean-up-list-heads-and-entries.patch doesn't apply:
-Applying patch patches/0017-media-v4l-async-Clean-up-list-heads-and-entries.patch
-can't find file to patch at input line 30
-Perhaps you used the wrong -p or --strip option?
-The text leading up to this was:
---------------------------
-|From 0ef45acbe7e5bf5af0b8df524cc05971268a4001 Mon Sep 17 00:00:00 2001
-|From: Sakari Ailus <sakari.ailus@linux.intel.com>
-|Date: Wed, 22 Feb 2023 13:02:39 +0200
-|Subject: media: v4l: async: Clean up list heads and entries
-|MIME-Version: 1.0
-|Content-Type: text/plain; charset=UTF-8
-|Content-Transfer-Encoding: 8bit
-|
-|The naming of list heads and list entries is confusing as they're named
-|similarly. Use _list for list head and _entry for list entries.
-|
-|Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-|Tested-by: Philipp Zabel <p.zabel@pengutronix.de> # imx6qp
-|Tested-by: Niklas Söderlund <niklas.soderlund@ragnatech.se> # rcar + adv746x
-|Tested-by: Aishwarya Kothari <aishwarya.kothari@toradex.com> # Apalis i.MX6Q with TC358743
-|Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # Renesas RZ/G2L SMARC
-|---
-| drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  2 +-
-| drivers/media/platform/xilinx/xilinx-vipp.c   |  6 +--
-| drivers/media/v4l2-core/v4l2-async.c          | 54 +++++++++----------
-| drivers/staging/media/tegra-video/vi.c        |  4 +-
-| include/media/v4l2-async.h                    | 22 ++++----
-| include/media/v4l2-subdev.h                   |  4 +-
-| 6 files changed, 46 insertions(+), 46 deletions(-)
-|
-|diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-|index 34984a7474ed..78248cb343ce 100644
-|--- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-|+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-patching file drivers/media/platform/xilinx/xilinx-vipp.c
-patching file drivers/media/v4l2-core/v4l2-async.c
-patching file drivers/staging/media/tegra-video/vi.c
-patching file include/media/v4l2-async.h
-patching file include/media/v4l2-subdev.h
-Patch patches/0017-media-v4l-async-Clean-up-list-heads-and-entries.patch does not apply (enforce with -f)
+Laurent Pinchart
 
