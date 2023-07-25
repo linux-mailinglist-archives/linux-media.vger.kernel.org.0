@@ -2,150 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58C6D7622FF
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 22:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 397ED7623B0
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 22:41:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231584AbjGYUGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 16:06:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49690 "EHLO
+        id S230193AbjGYUlS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 16:41:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231679AbjGYUGo (ORCPT
+        with ESMTP id S229896AbjGYUlO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 16:06:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A3626B6
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 13:06:34 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13E89982;
-        Tue, 25 Jul 2023 22:05:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690315535;
-        bh=B5b3tgy2II0OQUZdkQhgxEcAUlZDMbVv3COzLFTVJk8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G3IiLqL+pldgnt6AwAO/tJ0myhXDKv5x9lX+oq8jPM+NXJ/K3uO+Lg+epWFrv3aUH
-         ZHzlD7HbxWGTY+ekWvzMhtLegBwqaSre8ZUk73mBgB+prvwxVstS8y1lffh4NPavpi
-         ebYEO8a6vOURBWMPpFTUGppoN1NWL1JWOSEJ+lYY=
-Date:   Tue, 25 Jul 2023 23:06:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        rmfrfs@gmail.com, alexander.stein@ew.tq-group.com,
-        tharvey@gateworks.com, linux-media@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>
-Subject: Re: [PATCH v2] media: imx: imx7-media-csi: Fix applying format
- constraints
-Message-ID: <20230725200641.GQ31069@pendragon.ideasonboard.com>
-References: <20230720222543.1740198-1-festevam@gmail.com>
+        Tue, 25 Jul 2023 16:41:14 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7A32118;
+        Tue, 25 Jul 2023 13:40:54 -0700 (PDT)
+Received: from notapiano.myfiosgateway.com (zone.collabora.co.uk [167.235.23.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 83EEB66003AA;
+        Tue, 25 Jul 2023 21:40:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1690317653;
+        bh=iMBQ+s+wbpCm8QUbxfi+mfkOxoIlRyEKgUUo7g7/1i0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Cx3GrVj1e1Yf45KTfHj6nGdGPQwkfC3ZGbMopZLX6d+wmXEe1nUa0jxLgNGbS5soN
+         mufw/QA1mUdaewY1A0DPSBvDbuMK9TGGIdm2CTUcuJckYGHZWDQtal+lspXcc74Kfz
+         F6wSs1M7e5tKpWvgQF+3x/qEwvomKgU3uslCF5WAYcgsnxKSmp1PfIWNDYmXQrp66h
+         CkvL7tDh0R5JwSBqKu+cs5nL6YoaZ/n9msdvVuV0vG5+ANjmlGSSqpMpdGwS1n8ia5
+         AjUGAhWHbAN1+KjI70aaiaChZPlJwLT5K0nLsLIkBaL3rCuTSOqR5RU3kSsUTT+hfY
+         BR8+sbXOms5HQ==
+From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     kernel@collabora.com,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH] media: mediatek: vcodec: Consider vdecsys presence in reg range check
+Date:   Tue, 25 Jul 2023 16:40:39 -0400
+Message-ID: <20230725204043.569799-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230720222543.1740198-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio,
+Commit fe8a33978383 ("media: mediatek: vcodec: Read HW active status
+from syscon") allowed the driver to read the VDEC_SYS io space from a
+syscon instead of from the reg property when reg-names are supplied.
+However as part of that change, a smatch warning was introduced:
 
-Thank you for the patch.
+drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c:142 mtk_vcodec_get_reg_bases() error: buffer overflow 'mtk_dec_reg_names' 11 <= 11
 
-On Thu, Jul 20, 2023 at 07:25:43PM -0300, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
-> 
-> v4l_bound_align_image() aligns to a multiple power of 2 of walign, but the
-> result only needs to be a multiple of walign.
-> 
-> This causes a 640x480 sensor that used to report:
-> 
-> 	Width/Height      : 640/480
->         
-> to incorrectly report:
-> 
-> 	Width/Height      : 768/480
-> 
-> Fix this problem by doing the correct alignment via clamp_roundup().
-> 
-> Reported-by: Tim Harvey <tharvey@gateworks.com>
-> Fixes: 6f482c4729d9 ("media: imx: imx7-media-csi: Get rid of superfluous call to imx7_csi_mbus_fmt_to_pix_fmt")
-> Co-developed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> ---
-> Changes since v1:
-> - Export clamp_roundup().
-> 
->  drivers/media/platform/nxp/imx7-media-csi.c | 4 ++--
->  drivers/media/v4l2-core/v4l2-common.c       | 5 +++--
->  include/media/v4l2-common.h                 | 2 ++
->  3 files changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-> index 0bd2613b9320..f3c506fc19c4 100644
-> --- a/drivers/media/platform/nxp/imx7-media-csi.c
-> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> @@ -1137,8 +1137,8 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
->  	 * TODO: Implement configurable stride support.
->  	 */framesize
->  	walign = 8 * 8 / cc->bpp;
-> -	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
-> -			      &pixfmt->height, 1, 0xffff, 1, 0);
-> +	pixfmt->width = clamp_roundup(pixfmt->width, 1, 0xffff, walign);
-> +	pixfmt->height = clamp_roundup(pixfmt->height, 1, 0xffff, 1);
->  
->  	pixfmt->bytesperline = pixfmt->width * cc->bpp / 8;
->  	pixfmt->sizeimage = pixfmt->bytesperline * pixfmt->height;
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index bee1535b04d3..3e8c16bcb0f6 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -106,8 +106,8 @@ static unsigned int clamp_align(unsigned int x, unsigned int min,
->  	return x;
->  }
->  
-> -static unsigned int clamp_roundup(unsigned int x, unsigned int min,
-> -				   unsigned int max, unsigned int alignment)
-> +unsigned int clamp_roundup(unsigned int x, unsigned int min,
-> +			   unsigned int max, unsigned int alignment)
->  {
->  	x = clamp(x, min, max);
->  	if (alignment)
-> @@ -115,6 +115,7 @@ static unsigned int clamp_roundup(unsigned int x, unsigned int min,
->  
->  	return x;
->  }
-> +EXPORT_SYMBOL(clamp_roundup);
->  
->  void v4l_bound_align_image(u32 *w, unsigned int wmin, unsigned int wmax,
->  			   unsigned int walign,
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index d278836fd9cb..7059b99f4afa 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -521,6 +521,8 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
->  		     u32 width, u32 height);
->  int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
->  			u32 width, u32 height);
-> +unsigned int clamp_roundup(unsigned int x, unsigned int min,
-> +			   unsigned int max, unsigned int alignment);
+With a correct Devicetree, that is, one that follows the dt-binding, it
+wouldn't be possible to trigger such a buffer overflow. Even so, update
+the range validation of the reg property, so that the smatch warning is
+fixed and if an incorrect Devicetree is ever supplied the code errors
+out instead of causing memory corruption.
 
-The function name is too generic to be exported by V4L2. It should move
-to include/linux/minmax.h (and the implementation to a corresponding
-source file if it's too large to be inlined) if you want to export it.
+Reported-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Closes: https://lore.kernel.org/all/b5fd2dff-14a5-3ad8-9698-d1a50f4516fa@xs4all.nl
+Fixes: fe8a33978383 ("media: mediatek: vcodec: Read HW active status from syscon")
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-I've submitted a v3 of this patch, along with two other patches, and
-CC'ed you. The series retains your authorship on this patch. Could you
-please review it ?
+---
 
->  
->  /**
->   * v4l2_get_link_freq - Get link rate from transmitter
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+index 742b6903d030..cd62b3f68072 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+@@ -124,7 +124,8 @@ static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
+ 	/* Sizeof(u32) * 4 bytes for each register base. */
+ 	reg_num = of_property_count_elems_of_size(pdev->dev.of_node, "reg",
+ 						  sizeof(u32) * 4);
+-	if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE) {
++	if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE ||
++	    (!has_vdecsys_reg && reg_num > NUM_MAX_VDEC_REG_BASE - 1)) {
+ 		dev_err(&pdev->dev, "Invalid register property size: %d\n", reg_num);
+ 		return -EINVAL;
+ 	}
 -- 
-Regards,
+2.41.0
 
-Laurent Pinchart
