@@ -2,51 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1501D762058
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 19:40:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6731B76207D
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 19:49:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231232AbjGYRkR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 13:40:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42428 "EHLO
+        id S229620AbjGYRtf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 13:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230398AbjGYRkP (ORCPT
+        with ESMTP id S230408AbjGYRtc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 13:40:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3FC1193
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 10:40:14 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82A75558;
-        Tue, 25 Jul 2023 19:39:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690306754;
-        bh=4f032qP+PoraQ/e8maiWAapYjkYjTCPck/IMWM1pGPc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CHNw+ToGkz3dFi+D/7iURyCl4n28CFxNHCrBaHNnbvHR5YqCIarWOI6lcJ4+MQmMF
-         DeN6KuLCv/xnD8UaEKkbjB1H/g9gmI95eyjYDdoV0Dr1aCrCVkFUEXhWMuu2w/YmcO
-         r/g77iT1zk+e2itbfp6CxXgDpmBuXxvyJYm3ZIHs=
-Date:   Tue, 25 Jul 2023 20:40:20 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/2] media: imx: imx7-media-csi: Move stepwise framesize
- into a dedicated struct
-Message-ID: <20230725174020.GH21640@pendragon.ideasonboard.com>
-References: <20230720074129.3680269-1-alexander.stein@ew.tq-group.com>
+        Tue, 25 Jul 2023 13:49:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA79CF7;
+        Tue, 25 Jul 2023 10:49:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5BDA761852;
+        Tue, 25 Jul 2023 17:49:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C4F6C433C8;
+        Tue, 25 Jul 2023 17:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690307369;
+        bh=w7dbONTIy2Co3mAFj/AcsnLbCERRs5c4tblF0g/VRPU=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=qRmvy9rHWcDnpixwhpi8DTuQcPdUyIZr5ZNx9ydG3F5boc73mSyEcLxTRGyRsCrB3
+         vClccnArnxXoaiGAgIdoaS2+TOFRAoqZK63Wk0bXfrXFknhfb+CydSPKk0rOsuu3hH
+         TLEWzXb38mM81F0bbsLAvvpzt0taCiE7A8213w6F+7Ut1V3wYK9UY5byb1RK9gdLLH
+         A8/Iy7F8eWp47Q1Fq/3T9a96ynyIDqiSA2oI0PcsUAwZGhiXzTUnrxDNnd0AH129MP
+         pymfYyEwQoff+K9nqQse31QUqBocLgoqy3MvVJHBF8sdscLUh2TInqE0lKi9416xVB
+         K25mir6FU0ktQ==
+Received: (nullmailer pid 3497934 invoked by uid 1000);
+        Tue, 25 Jul 2023 17:49:25 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230720074129.3680269-1-alexander.stein@ew.tq-group.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+From:   Rob Herring <robh@kernel.org>
+To:     Gatien Chevallier <gatien.chevallier@foss.st.com>
+Cc:     kuba@kernel.org, will@kernel.org, linux-serial@vger.kernel.org,
+        linux-phy@lists.infradead.org,
+        Oleksii Moisieiev <oleksii_moisieiev@epam.com>,
+        linux-spi@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+        lee@kernel.org, robh+dt@kernel.org, linux-usb@vger.kernel.org,
+        gregkh@linuxfoundation.org, arnaud.pouliquen@foss.st.com,
+        Oleksii_Moisieiev@epam.com, arnd@kernel.org,
+        hugues.fruchet@foss.st.com, ulf.hansson@linaro.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jic23@kernel.org, alexandre.torgue@foss.st.com, pabeni@redhat.com,
+        andi.shyti@kernel.org, netdev@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        edumazet@google.com, vkoul@kernel.org, dmaengine@vger.kernel.org,
+        catalin.marinas@arm.com, herbert@gondor.apana.org.au,
+        fabrice.gasnier@foss.st.com, mchehab@kernel.org,
+        linux-iio@vger.kernel.org, richardcochran@gmail.com,
+        davem@davemloft.net, conor+dt@kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        linux-crypto@vger.kernel.org, linux-i2c@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, olivier.moysan@foss.st.com
+In-Reply-To: <20230725164104.273965-2-gatien.chevallier@foss.st.com>
+References: <20230725164104.273965-1-gatien.chevallier@foss.st.com>
+ <20230725164104.273965-2-gatien.chevallier@foss.st.com>
+Message-Id: <169030736341.3497818.1740404012211043486.robh@kernel.org>
+Subject: Re: [IGNORE][PATCH v2 01/11] dt-bindings: Document common device
+ controller bindings
+Date:   Tue, 25 Jul 2023 11:49:25 -0600
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -55,70 +78,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
 
-Thank you for the patch.
-
-On Thu, Jul 20, 2023 at 09:41:28AM +0200, Alexander Stein wrote:
-> This way these constraints can be reused later on.
-> No functional change intended.
+On Tue, 25 Jul 2023 18:40:54 +0200, Gatien Chevallier wrote:
+> From: Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
 > 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Introducing of the common device controller bindings for the controller
+> provider and consumer devices. Those bindings are intended to allow
+> divided system on chip into muliple domains, that can be used to
+> configure hardware permissions.
+> 
+> Signed-off-by: Oleksii Moisieiev <oleksii_moisieiev@epam.com>
 > ---
->  drivers/media/platform/nxp/imx7-media-csi.c | 26 ++++++++++++---------
->  1 file changed, 15 insertions(+), 11 deletions(-)
+>  .../feature-domain-controller.yaml            | 84 +++++++++++++++++++
+>  1 file changed, 84 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml
 > 
-> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-> index 2f9302fc7570..73f8f2a35422 100644
-> --- a/drivers/media/platform/nxp/imx7-media-csi.c
-> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> @@ -260,6 +260,20 @@ imx7_csi_notifier_to_dev(struct v4l2_async_notifier *n)
->  	return container_of(n, struct imx7_csi, notifier);
->  }
->  
-> +/*
-> + * TODO: The constraints are hardware-specific and may depend on the
-> + * pixel format. This should come from the driver using
-> + * imx_media_capture.
 
-Addressing this will not be possible with a single v4l2_frmsize_stepwise
-instance, so I'd rather address the TODO first.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> + */
-> +static const struct v4l2_frmsize_stepwise imx7_csi_frmsize_stepwise = {
-> +	.min_width = 1,
-> +	.min_height = 1,
-> +	.max_width = 65535,
-> +	.max_height = 65535,
-> +	.step_width = 1,
-> +	.step_height = 1,
-> +};
-> +
->  /* -----------------------------------------------------------------------------
->   * Hardware Configuration
->   */
-> @@ -1082,18 +1096,8 @@ static int imx7_csi_video_enum_framesizes(struct file *file, void *fh,
->  	if (!cc)
->  		return -EINVAL;
->  
-> -	/*
-> -	 * TODO: The constraints are hardware-specific and may depend on the
-> -	 * pixel format. This should come from the driver using
-> -	 * imx_media_capture.
-> -	 */
->  	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-> -	fsize->stepwise.min_width = 1;
-> -	fsize->stepwise.max_width = 65535;
-> -	fsize->stepwise.min_height = 1;
-> -	fsize->stepwise.max_height = 65535;
-> -	fsize->stepwise.step_width = 1;
-> -	fsize->stepwise.step_height = 1;
-> +	fsize->stepwise = imx7_csi_frmsize_stepwise;
->  
->  	return 0;
->  }
+yamllint warnings/errors:
 
--- 
-Regards,
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml: title: 'Generic Domain Controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
 
-Laurent Pinchart
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230725164104.273965-2-gatien.chevallier@foss.st.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
