@@ -2,170 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC0BA76228C
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 21:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 011F77622E5
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 22:02:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231331AbjGYTj6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 15:39:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38454 "EHLO
+        id S230157AbjGYUCp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 16:02:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbjGYTjy (ORCPT
+        with ESMTP id S229703AbjGYUCo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 15:39:54 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C77A26A2
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 12:39:37 -0700 (PDT)
+        Tue, 25 Jul 2023 16:02:44 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A723A12E
+        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 13:02:43 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A1C4558;
-        Tue, 25 Jul 2023 21:38:36 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E4C6982;
+        Tue, 25 Jul 2023 22:01:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690313916;
-        bh=3wbMEz6EIUKlo6YPd0W2jZr/Ov+Z99zOc+DsvYLCy98=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d58HFA37GdAIRuM0MM2seTk+pTbXmhUV74AbDK2YkY2YXO6YW22kHJim6sCfmZv8+
-         4bCYRHcb1l3IR7JLwnRAnDkHZs0ZU6KuWWN35SC3MeMV4RabXgAreK9vC387NpNVn1
-         D5UiZ6s3fS9b2U1NdKsQ4tWBZaGYZka3lL/mSYDA=
-Date:   Tue, 25 Jul 2023 22:39:42 +0300
+        s=mail; t=1690315303;
+        bh=453MTYtJP4nvuJZ3XdwieMpiBQ25wtsefDR8XT3OZqk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=H5Ud84yS+69vtrLe9rC10HWDFOMA0Ds3B5hQX8m4ZwykXF2aRcfETOh8X3lGbZ4qp
+         jYKab3FOk25beE/18eMBqdXMSnH4HSjzD6f5MPRrrD7dNswk7V2MVLXsnwca8kT6/y
+         rYhVs0l7OQsVGrmpxKNAezWmLTbqUnls02S+MDTU=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     hverkuil-cisco@xs4all.nl, Fabio Estevam <festevam@gmail.com>,
-        sakari.ailus@linux.intel.com, rmfrfs@gmail.com,
-        tharvey@gateworks.com, linux-media@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>
-Subject: Re: [PATCH v2] media: imx: imx7-media-csi: Fix applying format
- constraints
-Message-ID: <20230725193942.GA433@pendragon.ideasonboard.com>
-References: <20230720222543.1740198-1-festevam@gmail.com>
- <4522817.cEBGB3zze1@steina-w>
+To:     linux-media@vger.kernel.org
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Fabio Estevam <festevam@denx.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Martin Kepplinger <martink@posteo.de>,
+        Purism Kernel Team <kernel@puri.sm>
+Subject: [PATCH v3 0/3] media: imx: imx7-media-csi: Fix width alignment
+Date:   Tue, 25 Jul 2023 23:02:46 +0300
+Message-Id: <20230725200249.15447-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4522817.cEBGB3zze1@steina-w>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 21, 2023 at 07:48:52AM +0200, Alexander Stein wrote:
-> Am Freitag, 21. Juli 2023, 00:25:43 CEST schrieb Fabio Estevam:
-> > From: Fabio Estevam <festevam@denx.de>
-> > 
-> > v4l_bound_align_image() aligns to a multiple power of 2 of walign, but the
-> > result only needs to be a multiple of walign.
-> > 
-> > This causes a 640x480 sensor that used to report:
-> > 
-> > 	Width/Height      : 640/480
-> > 
-> > to incorrectly report:
-> > 
-> > 	Width/Height      : 768/480
-> > 
-> > Fix this problem by doing the correct alignment via clamp_roundup().
-> > 
-> > Reported-by: Tim Harvey <tharvey@gateworks.com>
-> > Fixes: 6f482c4729d9 ("media: imx: imx7-media-csi: Get rid of superfluous
-> > call to imx7_csi_mbus_fmt_to_pix_fmt") Co-developed-by: Alexander Stein
-> > <alexander.stein@ew.tq-group.com> Signed-off-by: Alexander Stein
-> > <alexander.stein@ew.tq-group.com>
-> > Signed-off-by: Fabio Estevam <festevam@denx.de>
-> > ---
-> > Changes since v1:
-> > - Export clamp_roundup().
-> > 
-> >  drivers/media/platform/nxp/imx7-media-csi.c | 4 ++--
-> >  drivers/media/v4l2-core/v4l2-common.c       | 5 +++--
-> >  include/media/v4l2-common.h                 | 2 ++
-> >  3 files changed, 7 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
-> > b/drivers/media/platform/nxp/imx7-media-csi.c index
-> > 0bd2613b9320..f3c506fc19c4 100644
-> > --- a/drivers/media/platform/nxp/imx7-media-csi.c
-> > +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> > @@ -1137,8 +1137,8 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format
-> > *pixfmt, * TODO: Implement configurable stride support.
-> >  	 */
-> >  	walign = 8 * 8 / cc->bpp;
-> > -	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
-> > -			      &pixfmt->height, 1, 0xffff, 1, 0);
-> > +	pixfmt->width = clamp_roundup(pixfmt->width, 1, 0xffff, walign);
-> > +	pixfmt->height = clamp_roundup(pixfmt->height, 1, 0xffff, 1);
-> > 
-> >  	pixfmt->bytesperline = pixfmt->width * cc->bpp / 8;
-> >  	pixfmt->sizeimage = pixfmt->bytesperline * pixfmt->height;
-> > diff --git a/drivers/media/v4l2-core/v4l2-common.c
-> > b/drivers/media/v4l2-core/v4l2-common.c index bee1535b04d3..3e8c16bcb0f6
-> > 100644
-> > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > @@ -106,8 +106,8 @@ static unsigned int clamp_align(unsigned int x, unsigned
-> > int min, return x;
-> >  }
-> > 
-> > -static unsigned int clamp_roundup(unsigned int x, unsigned int min,
-> > -				   unsigned int max, unsigned int 
-> alignment)
-> > +unsigned int clamp_roundup(unsigned int x, unsigned int min,
-> > +			   unsigned int max, unsigned int alignment)
-> >  {
-> >  	x = clamp(x, min, max);
-> >  	if (alignment)
-> > @@ -115,6 +115,7 @@ static unsigned int clamp_roundup(unsigned int x,
-> > unsigned int min,
-> > 
-> >  	return x;
-> >  }
-> > +EXPORT_SYMBOL(clamp_roundup);
-> > 
-> >  void v4l_bound_align_image(u32 *w, unsigned int wmin, unsigned int wmax,
-> >  			   unsigned int walign,
-> > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> > index d278836fd9cb..7059b99f4afa 100644
-> > --- a/include/media/v4l2-common.h
-> > +++ b/include/media/v4l2-common.h
-> > @@ -521,6 +521,8 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32
-> > pixelformat, u32 width, u32 height);
-> >  int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32
-> > pixelformat, u32 width, u32 height);
-> > +unsigned int clamp_roundup(unsigned int x, unsigned int min,
-> > +			   unsigned int max, unsigned int alignment);
-> > 
-> >  /**
-> >   * v4l2_get_link_freq - Get link rate from transmitter
-> 
-> I expect this to work, but I'm not so sure about exporting clamp_roundup().
+Hello,
 
-I agree. The function name is too generic to be exported by V4L2. It
-should be moved to include/linux/minmax.h (and the implementation to a
-corresponding source file if it's too large to be inlined) if we want to
-export it.
+This patch series is an attempt to fix the issue reported by Tim Harvey
+in [1].
 
-> I would rather use v4l2_apply_frmsize_constraints() instead, but this requires 
-> additional work, refer to the TODO in imx7_csi_video_enum_framesizes().
+Both Alexander Stein and Fabio Estevam gave this a try in [2] and [3]
+respectively, with Alexander's self-nacking his patches and Fabio's
+solution receiving requests for changes during review.
 
-That TODO is definitely outdated, it would be nice to address it. I'll
-submit a patch.
+Compared to those attempts, this version implements a simpler fix for
+the issue (in patch 1/3), before addressing a TODO item (patch 2/3) and
+cleaning up includes as a drive-by improvement (patch 3/3).
 
-> See also my first (broken) try in [1].
-> 
-> As a short term fix, using clamp_roundup() is okay to me. But I'm thinking 
-> about using a copy of clamp_roundup() as in v1 instead,so to avoid an eventual 
-> unexport of clamp_roundup in the future. Maybe this concern doesn't matter, I 
-> guess the maintainers can tell.
-> 
-> Best regards,
-> Alexander
-> 
-> [1] https://lore.kernel.org/linux-media/202307210050.s7hfCvwG-lkp@intel.com/T/
-> #ma88811098cb96f3698a8248d903f0c3455febec7
+The series doesn't need to be merged in one go. Patch 1/3 can get merged
+as a fix for v6.5, while patches 2/3 and 3/3 can wait until v6.6.
+
+Tim, would you be able to test this ?
+
+[1] https://lore.kernel.org/linux-media/CAJ+vNU0BOVLTL17ofgHwtexbpuMYwH_aGUC==EXABUtHHiv_ag@mail.gmail.com/
+[2] https://lore.kernel.org/linux-media/20230720074129.3680269-1-alexander.stein@ew.tq-group.com
+[3] https://lore.kernel.org/linux-media/20230720222543.1740198-1-festevam@gmail.com
+
+Fabio Estevam (1):
+  media: imx: imx7-media-csi: Fix applying format constraints
+
+Laurent Pinchart (2):
+  media: imx: imx7-media-csi: Fix frame sizes enumeration
+  media: imx: imx7-media-csi: Include headers explicitly
+
+ drivers/media/platform/nxp/imx7-media-csi.c | 48 +++++++++++++++------
+ 1 file changed, 34 insertions(+), 14 deletions(-)
 
 -- 
 Regards,
 
 Laurent Pinchart
+
