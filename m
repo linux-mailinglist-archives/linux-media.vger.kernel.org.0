@@ -2,70 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C665762216
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 21:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC0BA76228C
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jul 2023 21:39:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231260AbjGYTOM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jul 2023 15:14:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55532 "EHLO
+        id S231331AbjGYTj6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jul 2023 15:39:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjGYTOL (ORCPT
+        with ESMTP id S229910AbjGYTjy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jul 2023 15:14:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E3911B8;
-        Tue, 25 Jul 2023 12:14:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EE98E61884;
-        Tue, 25 Jul 2023 19:14:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FE35C433C7;
-        Tue, 25 Jul 2023 19:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690312448;
-        bh=o+O/Jk71dzlERNjmO1aGiXrhRze1SOzo9ZcDuG2HzRI=;
+        Tue, 25 Jul 2023 15:39:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C77A26A2
+        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 12:39:37 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A1C4558;
+        Tue, 25 Jul 2023 21:38:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1690313916;
+        bh=3wbMEz6EIUKlo6YPd0W2jZr/Ov+Z99zOc+DsvYLCy98=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=txQoh0Xv0YRWkHlNo1ZViUjjr40HJHDtEl+xS+rJzK92bEbyR6O5cqzhN4K+6gHtl
-         zYiyfc3a/8rVD8bGT3fK+C3t+qtzj6/6uyT9GLzqATSjFGNqll8XOi622i8sh5zdPO
-         ujWY/5TfNDKJfkntyj4MSP2k5C6T5CHGVOtBch5FU8BaVf+0//7XBIu6vuKY4fmvYd
-         FSxyaNugucGnKRKjYXizjw+Fdi8y4jun72+tARmcE7OElGyZqhakBbQJNAb8qAhq/B
-         4ShRMaJXRt/gj1wTH1Ta9XB0q7JfNZ7RWCulPFtDwhEj8rtHjQ5bjwID0vBpdf3OWk
-         AfefvidnnxEyA==
-Date:   Tue, 25 Jul 2023 20:14:02 +0100
-From:   Conor Dooley <conor@kernel.org>
+        b=d58HFA37GdAIRuM0MM2seTk+pTbXmhUV74AbDK2YkY2YXO6YW22kHJim6sCfmZv8+
+         4bCYRHcb1l3IR7JLwnRAnDkHZs0ZU6KuWWN35SC3MeMV4RabXgAreK9vC387NpNVn1
+         D5UiZ6s3fS9b2U1NdKsQ4tWBZaGYZka3lL/mSYDA=
+Date:   Tue, 25 Jul 2023 22:39:42 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ming Qian <ming.qian@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
-        Zhou Peng <eagle.zhou@nxp.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] dt-bindings: media: imx-jpeg: Add clocks property
-Message-ID: <20230725-catwalk-reviver-ed7611a15f54@spud>
-References: <20230724122101.2903318-1-alexander.stein@ew.tq-group.com>
- <20230724122101.2903318-3-alexander.stein@ew.tq-group.com>
- <20230724-unscrew-bonnet-3c86da806df3@spud>
- <1908243.taCxCBeP46@steina-w>
+Cc:     hverkuil-cisco@xs4all.nl, Fabio Estevam <festevam@gmail.com>,
+        sakari.ailus@linux.intel.com, rmfrfs@gmail.com,
+        tharvey@gateworks.com, linux-media@vger.kernel.org,
+        Fabio Estevam <festevam@denx.de>
+Subject: Re: [PATCH v2] media: imx: imx7-media-csi: Fix applying format
+ constraints
+Message-ID: <20230725193942.GA433@pendragon.ideasonboard.com>
+References: <20230720222543.1740198-1-festevam@gmail.com>
+ <4522817.cEBGB3zze1@steina-w>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Lbf0SnNYlJcLd10g"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1908243.taCxCBeP46@steina-w>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+In-Reply-To: <4522817.cEBGB3zze1@steina-w>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,79 +51,121 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, Jul 21, 2023 at 07:48:52AM +0200, Alexander Stein wrote:
+> Am Freitag, 21. Juli 2023, 00:25:43 CEST schrieb Fabio Estevam:
+> > From: Fabio Estevam <festevam@denx.de>
+> > 
+> > v4l_bound_align_image() aligns to a multiple power of 2 of walign, but the
+> > result only needs to be a multiple of walign.
+> > 
+> > This causes a 640x480 sensor that used to report:
+> > 
+> > 	Width/Height      : 640/480
+> > 
+> > to incorrectly report:
+> > 
+> > 	Width/Height      : 768/480
+> > 
+> > Fix this problem by doing the correct alignment via clamp_roundup().
+> > 
+> > Reported-by: Tim Harvey <tharvey@gateworks.com>
+> > Fixes: 6f482c4729d9 ("media: imx: imx7-media-csi: Get rid of superfluous
+> > call to imx7_csi_mbus_fmt_to_pix_fmt") Co-developed-by: Alexander Stein
+> > <alexander.stein@ew.tq-group.com> Signed-off-by: Alexander Stein
+> > <alexander.stein@ew.tq-group.com>
+> > Signed-off-by: Fabio Estevam <festevam@denx.de>
+> > ---
+> > Changes since v1:
+> > - Export clamp_roundup().
+> > 
+> >  drivers/media/platform/nxp/imx7-media-csi.c | 4 ++--
+> >  drivers/media/v4l2-core/v4l2-common.c       | 5 +++--
+> >  include/media/v4l2-common.h                 | 2 ++
+> >  3 files changed, 7 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
+> > b/drivers/media/platform/nxp/imx7-media-csi.c index
+> > 0bd2613b9320..f3c506fc19c4 100644
+> > --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> > +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> > @@ -1137,8 +1137,8 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format
+> > *pixfmt, * TODO: Implement configurable stride support.
+> >  	 */
+> >  	walign = 8 * 8 / cc->bpp;
+> > -	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
+> > -			      &pixfmt->height, 1, 0xffff, 1, 0);
+> > +	pixfmt->width = clamp_roundup(pixfmt->width, 1, 0xffff, walign);
+> > +	pixfmt->height = clamp_roundup(pixfmt->height, 1, 0xffff, 1);
+> > 
+> >  	pixfmt->bytesperline = pixfmt->width * cc->bpp / 8;
+> >  	pixfmt->sizeimage = pixfmt->bytesperline * pixfmt->height;
+> > diff --git a/drivers/media/v4l2-core/v4l2-common.c
+> > b/drivers/media/v4l2-core/v4l2-common.c index bee1535b04d3..3e8c16bcb0f6
+> > 100644
+> > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > @@ -106,8 +106,8 @@ static unsigned int clamp_align(unsigned int x, unsigned
+> > int min, return x;
+> >  }
+> > 
+> > -static unsigned int clamp_roundup(unsigned int x, unsigned int min,
+> > -				   unsigned int max, unsigned int 
+> alignment)
+> > +unsigned int clamp_roundup(unsigned int x, unsigned int min,
+> > +			   unsigned int max, unsigned int alignment)
+> >  {
+> >  	x = clamp(x, min, max);
+> >  	if (alignment)
+> > @@ -115,6 +115,7 @@ static unsigned int clamp_roundup(unsigned int x,
+> > unsigned int min,
+> > 
+> >  	return x;
+> >  }
+> > +EXPORT_SYMBOL(clamp_roundup);
+> > 
+> >  void v4l_bound_align_image(u32 *w, unsigned int wmin, unsigned int wmax,
+> >  			   unsigned int walign,
+> > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> > index d278836fd9cb..7059b99f4afa 100644
+> > --- a/include/media/v4l2-common.h
+> > +++ b/include/media/v4l2-common.h
+> > @@ -521,6 +521,8 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32
+> > pixelformat, u32 width, u32 height);
+> >  int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32
+> > pixelformat, u32 width, u32 height);
+> > +unsigned int clamp_roundup(unsigned int x, unsigned int min,
+> > +			   unsigned int max, unsigned int alignment);
+> > 
+> >  /**
+> >   * v4l2_get_link_freq - Get link rate from transmitter
+> 
+> I expect this to work, but I'm not so sure about exporting clamp_roundup().
 
---Lbf0SnNYlJcLd10g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I agree. The function name is too generic to be exported by V4L2. It
+should be moved to include/linux/minmax.h (and the implementation to a
+corresponding source file if it's too large to be inlined) if we want to
+export it.
 
-On Tue, Jul 25, 2023 at 07:31:55AM +0200, Alexander Stein wrote:
-> Am Montag, 24. Juli 2023, 20:26:15 CEST schrieb Conor Dooley:
-> > On Mon, Jul 24, 2023 at 02:21:00PM +0200, Alexander Stein wrote:
-> > > i.MX8 and i.MX8X both use two clocks for accessing the periphery.
-> > > Add clocks and clock-names properties accordingly.
-> > >=20
-> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > ---
-> > > Changes in v2:
-> > > * None
-> > >=20
-> > >  .../devicetree/bindings/media/nxp,imx8-jpeg.yaml          | 8 ++++++=
-++
-> > >  1 file changed, 8 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.ya=
-ml
-> > > b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml index
-> > > 3d9d1db37040..2533e16720f2 100644
-> > > --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> > >=20
-> > > @@ -46,6 +46,14 @@ properties:
-> > >      minItems: 2               # Wrapper and 1 slot
-> > >      maxItems: 5               # Wrapper and 4 slots
-> > >=20
-> > > +  clocks:
-> > > +    maxItems: 2
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: per
-> > > +      - const: ipg
-> >=20
-> > What do "per" and "ipg" mean? I assume "per" is peripheral?
->=20
-> Actually I don't know what "ipg" stands for. It's a quite common name on =
-i.MX=20
-> platforms though. I opted for the names currently used in the DT. The dri=
-ver=20
-> doesn't care for the names currently.
+> I would rather use v4l2_apply_frmsize_constraints() instead, but this requires 
+> additional work, refer to the TODO in imx7_csi_video_enum_framesizes().
 
-FWIW, my motivation was wondering how someone would know which clock to
-put in which.
+That TODO is definitely outdated, it would be nice to address it. I'll
+submit a patch.
 
-> But cross-checking the reference manual these clocks seems to be called "=
-jpeg"=20
-> and "ips", individually for both jpeg encoder and decoder.
+> See also my first (broken) try in [1].
+> 
+> As a short term fix, using clamp_roundup() is okay to me. But I'm thinking 
+> about using a copy of clamp_roundup() as in v1 instead,so to avoid an eventual 
+> unexport of clamp_roundup in the future. Maybe this concern doesn't matter, I 
+> guess the maintainers can tell.
+> 
+> Best regards,
+> Alexander
+> 
+> [1] https://lore.kernel.org/linux-media/202307210050.s7hfCvwG-lkp@intel.com/T/
+> #ma88811098cb96f3698a8248d903f0c3455febec7
 
-Hm, that seems confusing TBH. The reference manual is where I would be
-going to try and figure out the numbers.
+-- 
+Regards,
 
-> Mirela (added to recipients): As the original author of the DT nodes, cou=
-ld=20
-> you provide additional information regarding the clock names?
-
-That'd be great, thanks.
-
---Lbf0SnNYlJcLd10g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZMAe+gAKCRB4tDGHoIJi
-0o1UAQC1cnVwXp98JS4HvqzNrw9c8F55gRCUOnjji9asmPeD5AD/WfP3b0aAYSf5
-0s/cT0K7cT5JAZnGFpCHwNLOPy1h2g0=
-=IYFs
------END PGP SIGNATURE-----
-
---Lbf0SnNYlJcLd10g--
+Laurent Pinchart
