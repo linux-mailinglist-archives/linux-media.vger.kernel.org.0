@@ -2,231 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AFAF7634A7
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 13:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7425E7634DB
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 13:26:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231665AbjGZLUT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 07:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51132 "EHLO
+        id S233557AbjGZL0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 07:26:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230229AbjGZLUS (ORCPT
+        with ESMTP id S233677AbjGZL0h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 07:20:18 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E7B597
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 04:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690370416; x=1721906416;
-  h=date:from:to:cc:subject:message-id;
-  bh=RoRAfce9Bt+FqsTKnkiXVbkiZ+md+9ZdajgH2jeM+sk=;
-  b=aQ9+muZubzJ1fBPE0cy3s1N4ZbaaFvjR9o9DPIrHJv/HU3PsQprhrHXu
-   TB+3W7sIO81752K1Azpx8f/7uBoiqJK0QbqjWlQytir2GABE1ft5o9f+Z
-   WyjnYTIYeZm6LaEhD9a6UpzjSPhayMMe1C2c+cL5IIYLMAvfhG/yWOkht
-   gRzY3Z4bm1mtdgsrAC4JNEpaSahmDVAeavX3MjK4++wRNzxHuQD8CdJuU
-   MsUSz2uHaXkRGWiApwsYD3NmzKjZIxjGaC/Gm/ifoVRPLn6ZuOfiIOdy/
-   YLs+OcynmvC/XbzhNrG/oP/sDBnHajZ/HNJMfN5ETLJJ8FMCM8aH0HiYu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="431787924"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="431787924"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 04:20:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="850432121"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="850432121"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 26 Jul 2023 04:19:59 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qOcYh-0000v3-0O;
-        Wed, 26 Jul 2023 11:19:59 +0000
-Date:   Wed, 26 Jul 2023 19:19:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:async-multi] BUILD SUCCESS
- 2c119bed650596d35a3f9e4407d58c42f97d56fb
-Message-ID: <202307261909.xqt9eMlF-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 26 Jul 2023 07:26:37 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D42E30EA
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 04:26:22 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-31751d7d96eso3196200f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 04:26:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690370780; x=1690975580;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Me9DdLikay9/mg6C3pH4uUNkCjGXHrRqvb1zE6qVcE8=;
+        b=ujTe+OeVXyCQq14CK3Lba2vXYOY9/0WyK+FgPAmVWPvzh3WNG2TICYQast91tQL3J7
+         7nZSIWWrhBBoDpJgfuV54SLHBWWYOCemg/C5NM5OftTyQk8YsN3RyzWTeINC6jiP20T6
+         Yvw+psL8owvkQ0G+pmfjynvhdzpJuaKajxQDJ1sKtdGQylimQcZ8kz/nspw0Bg0GsK07
+         dKIL0khNzLWR6bfDh71j3MQeL6YkTcRBtJvOYrm9MpfVgHft9xgCPLOisrXQndxpjXan
+         wqUtQCJ6w2jldLKMabpDa/QJtc9sU8gKVGiaz5BYvrmdBjU4eesDzOULf9ieBr5AU7d/
+         pQzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690370780; x=1690975580;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Me9DdLikay9/mg6C3pH4uUNkCjGXHrRqvb1zE6qVcE8=;
+        b=Ah+mmtdvar1SAyh9w5/npOnX4Qp786+0B7v1rfXWNQEzmQluZnJYNHSVKgpRJtRIEN
+         G7sJU1qrXBWBuy1f33ZWMbOgOwuc5xKw6WbYGj05g79KVSDmQOy0kvYVxafTs11Jcb6L
+         7+4+9JQ2Wanx0axcy6fmBoKR9X9P6ipD2/S1bU0mMjBj7/usAVrb6U9z4brgODqchkst
+         u4T683T0WbwB3i4AuaNp7d+uBFg7HJnbXsIS9zsWkZZ4YBALcAye3L649N9IdNlSt5VN
+         MhWyr0njMZypEhoX0CV/qCKGMUST/O3ZcaNkOEAwfltHGYe3tVclXyk4ZGVlgUH4T5qO
+         RMUQ==
+X-Gm-Message-State: ABy/qLYh+vdkjv/SDZbYADzv6mDUJ42aSAm052/p7l9+Z0oK8rMoJLwT
+        nqdUl7NmJEILiow4J2ROdxcOgw==
+X-Google-Smtp-Source: APBJJlEGjczswR4kEUEn/zYFcZ9/aGxKnTF+3Hy6HdeMe8iP8tSvfbhOFOcSPsrOUXJpQ+OHei9OVw==
+X-Received: by 2002:adf:efcb:0:b0:314:370f:e92c with SMTP id i11-20020adfefcb000000b00314370fe92cmr1190968wrp.67.1690370780412;
+        Wed, 26 Jul 2023 04:26:20 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id h4-20020adfe984000000b003175f00e555sm9584341wrm.97.2023.07.26.04.26.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jul 2023 04:26:19 -0700 (PDT)
+Message-ID: <a108084b-8044-fe6f-9cb8-df1f3fc6fdfe@linaro.org>
+Date:   Wed, 26 Jul 2023 12:26:18 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7 2/6] media: admin-guide: Add starfive_camss.rst for
+ Starfive Camera Subsystem
+Content-Language: en-US
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
+References: <20230619112838.19797-1-jack.zhu@starfivetech.com>
+ <20230619112838.19797-3-jack.zhu@starfivetech.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20230619112838.19797-3-jack.zhu@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git async-multi
-branch HEAD: 2c119bed650596d35a3f9e4407d58c42f97d56fb  media: Documentation: v4l: Document sub-device notifiers
+On 19/06/2023 12:28, Jack Zhu wrote:
+> Add starfive_camss.rst file that documents the Starfive Camera
+> Subsystem driver which is used for handing image sensor data.
+> 
+> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+> ---
+>   .../admin-guide/media/starfive_camss.rst      | 57 +++++++++++++++++++
+>   .../media/starfive_camss_graph.dot            | 16 ++++++
+>   .../admin-guide/media/v4l-drivers.rst         |  1 +
+>   MAINTAINERS                                   |  1 +
+>   4 files changed, 75 insertions(+)
+>   create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
+>   create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
+> 
+> diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documentation/admin-guide/media/starfive_camss.rst
+> new file mode 100644
+> index 000000000000..a6378849384f
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/starfive_camss.rst
+> @@ -0,0 +1,57 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: <isonum.txt>
+> +
+> +================================
+> +Starfive Camera Subsystem driver
+> +================================
+> +
+> +Introduction
+> +------------
+> +
+> +This file documents the driver for the Starfive Camera Subsystem found on
+> +Starfive JH7110 SoC. The driver is located under drivers/media/platform/
+> +starfive.
+> +
+> +The driver implements V4L2, Media controller and v4l2_subdev interfaces.
+> +Camera sensor using V4L2 subdev interface in the kernel is supported.
+> +
+> +The driver has been successfully used on the Gstreamer 1.18.5 with
+> +v4l2src plugin.
+> +
+> +
+> +Starfive Camera Subsystem hardware
+> +----------------------------------
+> +
+> +The Starfive Camera Subsystem hardware consists of:
+> +
+> +- MIPI DPHY Receiver: receives mipi data from a MIPI camera sensor.
 
-elapsed time: 794m
+Feels like a terribe nit-pick but you have "mipi" and "MIPI" here. I'd 
+be consistent with one - recommend MIPI throughout your documentation.
 
-configs tested: 154
-configs skipped: 9
+> +- MIPI CSIRx Controller: is responsible for handling and decoding CSI2 protocol
+> +  based camera sensor data stream.
+> +- ISP: handles the image data streams from the MIPI CSIRx Controller.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Maybe you've done this elsewhere but, it would be worthwhile describing 
+what the ISP does. Debayering ? 3As ? Just raw dumps ?
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r006-20230726   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r005-20230726   gcc  
-arc                  randconfig-r043-20230725   gcc  
-arc                  randconfig-r043-20230726   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r032-20230726   clang
-arm                  randconfig-r046-20230726   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r002-20230725   clang
-arm64                randconfig-r032-20230725   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r001-20230725   gcc  
-csky                 randconfig-r021-20230725   gcc  
-hexagon              randconfig-r005-20230725   clang
-hexagon              randconfig-r011-20230725   clang
-hexagon              randconfig-r014-20230726   clang
-hexagon              randconfig-r023-20230725   clang
-hexagon              randconfig-r023-20230726   clang
-hexagon              randconfig-r036-20230726   clang
-hexagon              randconfig-r041-20230726   clang
-hexagon              randconfig-r045-20230726   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230725   clang
-i386         buildonly-randconfig-r004-20230726   gcc  
-i386         buildonly-randconfig-r005-20230725   clang
-i386         buildonly-randconfig-r005-20230726   gcc  
-i386         buildonly-randconfig-r006-20230725   clang
-i386         buildonly-randconfig-r006-20230726   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230725   clang
-i386                 randconfig-i001-20230726   gcc  
-i386                 randconfig-i002-20230725   clang
-i386                 randconfig-i002-20230726   gcc  
-i386                 randconfig-i003-20230725   clang
-i386                 randconfig-i003-20230726   gcc  
-i386                 randconfig-i004-20230725   clang
-i386                 randconfig-i004-20230726   gcc  
-i386                 randconfig-i005-20230725   clang
-i386                 randconfig-i005-20230726   gcc  
-i386                 randconfig-i006-20230725   clang
-i386                 randconfig-i006-20230726   gcc  
-i386                 randconfig-i011-20230725   gcc  
-i386                 randconfig-i011-20230726   clang
-i386                 randconfig-i012-20230725   gcc  
-i386                 randconfig-i012-20230726   clang
-i386                 randconfig-i013-20230725   gcc  
-i386                 randconfig-i013-20230726   clang
-i386                 randconfig-i014-20230725   gcc  
-i386                 randconfig-i014-20230726   clang
-i386                 randconfig-i015-20230725   gcc  
-i386                 randconfig-i015-20230726   clang
-i386                 randconfig-i016-20230725   gcc  
-i386                 randconfig-i016-20230726   clang
-i386                 randconfig-r003-20230725   clang
-i386                 randconfig-r006-20230726   gcc  
-i386                 randconfig-r026-20230725   gcc  
-i386                 randconfig-r036-20230725   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r001-20230726   gcc  
-m68k                 randconfig-r002-20230726   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r024-20230725   clang
-mips                 randconfig-r035-20230726   clang
-nios2                               defconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r034-20230725   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc              randconfig-r003-20230726   gcc  
-powerpc              randconfig-r005-20230726   gcc  
-powerpc              randconfig-r013-20230725   gcc  
-powerpc              randconfig-r022-20230725   gcc  
-powerpc              randconfig-r032-20230725   clang
-powerpc              randconfig-r035-20230725   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230725   gcc  
-riscv                randconfig-r042-20230726   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r015-20230725   gcc  
-s390                 randconfig-r033-20230725   clang
-s390                 randconfig-r036-20230725   clang
-s390                 randconfig-r044-20230725   gcc  
-s390                 randconfig-r044-20230726   clang
-sh                               allmodconfig   gcc  
-sh                   randconfig-r001-20230726   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r016-20230725   clang
-um                   randconfig-r026-20230725   clang
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230725   clang
-x86_64       buildonly-randconfig-r001-20230726   gcc  
-x86_64       buildonly-randconfig-r002-20230725   clang
-x86_64       buildonly-randconfig-r002-20230726   gcc  
-x86_64       buildonly-randconfig-r003-20230725   clang
-x86_64       buildonly-randconfig-r003-20230726   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r004-20230725   clang
-x86_64               randconfig-x001-20230725   gcc  
-x86_64               randconfig-x001-20230726   clang
-x86_64               randconfig-x002-20230725   gcc  
-x86_64               randconfig-x002-20230726   clang
-x86_64               randconfig-x003-20230725   gcc  
-x86_64               randconfig-x003-20230726   clang
-x86_64               randconfig-x004-20230725   gcc  
-x86_64               randconfig-x004-20230726   clang
-x86_64               randconfig-x005-20230725   gcc  
-x86_64               randconfig-x005-20230726   clang
-x86_64               randconfig-x006-20230725   gcc  
-x86_64               randconfig-x006-20230726   clang
-x86_64               randconfig-x011-20230725   clang
-x86_64               randconfig-x011-20230726   gcc  
-x86_64               randconfig-x012-20230725   clang
-x86_64               randconfig-x012-20230726   gcc  
-x86_64               randconfig-x013-20230725   clang
-x86_64               randconfig-x013-20230726   gcc  
-x86_64               randconfig-x014-20230725   clang
-x86_64               randconfig-x014-20230726   gcc  
-x86_64               randconfig-x015-20230725   clang
-x86_64               randconfig-x015-20230726   gcc  
-x86_64               randconfig-x016-20230725   clang
-x86_64               randconfig-x016-20230726   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r006-20230725   gcc  
+> +- VIN(Video In): a top-level module, is responsible for controlling power
+> +  and clocks to other modules, dumps the input data to memory or transfers the
+> +  input data to ISP.
+> +
+> +
+> +Topology
+> +--------
+> +
+> +The media controller pipeline graph is as follows:
+> +
+> +.. _starfive_camss_graph:
+> +
+> +.. kernel-figure:: starfive_camss_graph.dot
+> +    :alt:   starfive_camss_graph.dot
+> +    :align: center
+> +
+> +The driver has 2 video devices:
+> +
+> +- stf_vin0_wr_video0: capture device for images directly from the VIN module.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+OK so you can get the raw images.
+
+> +- stf_vin0_isp0_video1: capture device for images without scaling.
+> +
+> +The driver has 3 subdevices:
+> +
+> +- stf_isp0: is responsible for all the isp operations.
+> +- stf_vin0_wr: used to dump RAW images to memory.
+> +- stf_vin0_isp0: used to capture images for the stf_vin0_isp0_video1 device.
+
+But what is being output here ? RGB, jpeg, YUV ?
+It would be worth adding a few bits of text to describe that so you 
+don't have to dive into code to understand it.
+
+---
+bod
