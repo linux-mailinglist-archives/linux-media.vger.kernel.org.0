@@ -2,100 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5BE9762B7E
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 08:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6040762C6A
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 09:03:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231370AbjGZGdy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 02:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53480 "EHLO
+        id S229936AbjGZHD3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 03:03:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230166AbjGZGdx (ORCPT
+        with ESMTP id S232346AbjGZHC4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 02:33:53 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6411FEC
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:33:52 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-522294c0d5bso4344384a12.2
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690353230; x=1690958030;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MZgSHgs+DaEu5YKeJ7xYroSTsKzuw+qbovR9q1BksYk=;
-        b=NaBZnXsxeuQzuczGqtwCBX1JMo5/AIwWPrRzlQV8QJaimiIAHSQsOIuaYcJjRxy1Z5
-         Q1UWMcH8xX5l22eNgWA/GbI+x3joki79DVJBtDuNur0X8xfbhlhbqeIgWxI0grb/JA2M
-         C24RvYntdb5GQliZBLWZDreB5mFr0eJtLAr0+YUIxnroqi9XLSOrmgh/JX2kGFtgkiRw
-         VxWo5BbGMVGiPFxS6O3eFR7+ZMESRuUDjOlJOCc4z2Co2cqR0UQLB+eMlw3cqEZZSMfX
-         TSK5V+jxjrsLvD1tVaRfO5oxGhLWk03ll+e1lulIhT8+GiPpwGKLv8pTRptqC81fck/7
-         1Lvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690353230; x=1690958030;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MZgSHgs+DaEu5YKeJ7xYroSTsKzuw+qbovR9q1BksYk=;
-        b=Nw1vcaCtCYTDMTamBVsoIPplzi4aZV/MMuIPV2msEm4qThhjV0Pku6gW/TU5rGi3sf
-         O2aG+ZvdNtTy8JM5nrLgif4Z6HyERyB7lWj3Jx+LUUIJeJfdB4TRmkwm2d24dG8Ha7sA
-         S49Ms5G8B2eHqAHmAUm6/OpBz285llXcjzpouv2VzOvhJ+Ver95PDR465C9l5jPGDO5V
-         yAaQe8B3Ye4EQf2C/pR2xr13O1+kYvDGR4kH5kvABn8eqrSyKWhIUV0Ca/xR1tweD9s9
-         FjOjEUS08p73HIMWu4xOGp2njIvAhhX8plDvDcc8kzIXGHO3/WiHOzgKVMHSqq2sQVu1
-         NT2A==
-X-Gm-Message-State: ABy/qLbiSysE1ivzzLEaX1KYHax4VkgbYNIUGc4L/zd+gGPJcw62Ged9
-        eK9pOJvSgDPbHwAEKGC0Rh/ruA==
-X-Google-Smtp-Source: APBJJlEqrM14tJfMA+TcQHw7fvQjjF0gb0G1lKIEdzmcSA/W2bZSmpfQbJgqHftRJIIo5i2M02/PaQ==
-X-Received: by 2002:aa7:d958:0:b0:522:3ebc:84b9 with SMTP id l24-20020aa7d958000000b005223ebc84b9mr776848eds.24.1690353230229;
-        Tue, 25 Jul 2023 23:33:50 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id q2-20020a056402032200b0051d9de03516sm8450368edw.52.2023.07.25.23.33.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 23:33:49 -0700 (PDT)
-Message-ID: <30d0689f-5a6a-c593-2a30-1ef2dc37f1af@linaro.org>
-Date:   Wed, 26 Jul 2023 08:33:48 +0200
+        Wed, 26 Jul 2023 03:02:56 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E99B423B;
+        Wed, 26 Jul 2023 00:01:32 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D32EA6606FCD;
+        Wed, 26 Jul 2023 08:01:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1690354890;
+        bh=b3275iZpeVMp7nlokph744oUHdv+Z9l5geLiebs0KXw=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=AGGIjrK1AuhE4G3/2REeqPS4TJ2FRl25j8vVbcMqiVq2MlrPCIAd55MPFSwbMpPD8
+         n8InzWlzbUkEAItf9kNquzNKvx1c796WVHHlA/WGUNCBaje9GqkcfiT90/gWDP+C5K
+         yxxfXeQVYk0CgcH7WEKRbnJJvxCWtBkB6ERJe1VJUOZqmSC13hQFNiEQnrayjJpnec
+         JYX7BwUEUM9BOg/9byTpO+hoLfnmVyfnpPfHBe7v4QzHYgnPtgQmrr+4HfmxZ490eC
+         B5a/ANfAO28MTYS7rSsygVd4A4qn11nZL18pYrhEZlL10tlWTJ+/NdInrxhqP3HnxY
+         FgXWhaSfnxyDg==
+Message-ID: <5a7c6b24-03f1-dd33-5911-ce046ee140f1@collabora.com>
+Date:   Wed, 26 Jul 2023 09:01:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH] media: dt-bindings: drop unneeded status from examples
+Subject: Re: [PATCH] media: mediatek: vcodec: Consider vdecsys presence in reg
+ range check
 Content-Language: en-US
-To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     kernel@collabora.com, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230725101625.75162-1-krzysztof.kozlowski@linaro.org>
- <e8138fd1-5d1f-8fc3-e29a-547902c2ab18@foss.st.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <e8138fd1-5d1f-8fc3-e29a-547902c2ab18@foss.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20230725204043.569799-1-nfraprado@collabora.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230725204043.569799-1-nfraprado@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/07/2023 12:55, Benjamin Mugnier wrote:
-> Hi Krzysztof,
+Il 25/07/23 22:40, Nícolas F. R. A. Prado ha scritto:
+> Commit fe8a33978383 ("media: mediatek: vcodec: Read HW active status
+> from syscon") allowed the driver to read the VDEC_SYS io space from a
+> syscon instead of from the reg property when reg-names are supplied.
+> However as part of that change, a smatch warning was introduced:
 > 
-> Thank you for your patch.
+> drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c:142 mtk_vcodec_get_reg_bases() error: buffer overflow 'mtk_dec_reg_names' 11 <= 11
 > 
-> For the st-mipid02 :
-> Reviewed-By: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> With a correct Devicetree, that is, one that follows the dt-binding, it
+> wouldn't be possible to trigger such a buffer overflow. Even so, update
+> the range validation of the reg property, so that the smatch warning is
+> fixed and if an incorrect Devicetree is ever supplied the code errors
+> out instead of causing memory corruption.
+> 
+> Reported-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Closes: https://lore.kernel.org/all/b5fd2dff-14a5-3ad8-9698-d1a50f4516fa@xs4all.nl
+> Fixes: fe8a33978383 ("media: mediatek: vcodec: Read HW active status from syscon")
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> 
+> ---
+> 
+>   drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> index 742b6903d030..cd62b3f68072 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> @@ -124,7 +124,8 @@ static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
+>   	/* Sizeof(u32) * 4 bytes for each register base. */
+>   	reg_num = of_property_count_elems_of_size(pdev->dev.of_node, "reg",
+>   						  sizeof(u32) * 4);
+> -	if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE) {
+> +	if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE ||
 
-I don't think we have half-reviews. There are half-acks, but not reviews.
+You could also simplify this like
 
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L542
+int num_max_vdec_regs;
 
-Best regards,
-Krzysztof
+....
+
+num_max_vdec_regs = no_vdecsys_reg ?
+		    ARRAY_SIZE(mtk_dec_reg_names) : NUM_MAX_VDEC_REG_BASE;
+
+if (reg_num <= 0 || reg_num > num_max_vdec_regs) ....
+
+I'd go for the proposed solution, as it looks better in my eyes, but it's
+ultimately your choice and probably just a personal preference.
+
+That said, if you want to keep this commit as it is, you still get my
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+> +	    (!has_vdecsys_reg && reg_num > NUM_MAX_VDEC_REG_BASE - 1)) {
+>   		dev_err(&pdev->dev, "Invalid register property size: %d\n", reg_num);
+>   		return -EINVAL;
+>   	}
 
