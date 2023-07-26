@@ -2,149 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA9B5762B65
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 08:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5BE9762B7E
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 08:33:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbjGZG2T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 02:28:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52528 "EHLO
+        id S231370AbjGZGdy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 02:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231778AbjGZG2Q (ORCPT
+        with ESMTP id S230166AbjGZGdx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 02:28:16 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD8A41FCF
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:28:14 -0700 (PDT)
+        Wed, 26 Jul 2023 02:33:53 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6411FEC
+        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:33:52 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-522294c0d5bso4344384a12.2
+        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:33:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1690352895; x=1721888895;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/Fnbe0MfDGSP8QxyI60Rnu8VUe6YB63e276DrVds+Go=;
-  b=kGF5osAl8oYV++AIZdxYcLnJHbS4vWoVCYOrWZARy7ePFBFXE8NAi8YU
-   Yl9rm0ERECBW2FjXOCaxASL/o7vUKdrDSCWlprDCVeC1fYrEcZIckO3le
-   gQh/sZ9oZFeSvc9hRO9mUcmwdZ3zsP3XwOVWH21rOSV3F/KYrDLdw/5+Q
-   u2RMekspjrldSKkwzENNXbvYq77GVZj4UclbGp3SqQy+hNMVeCHZkCUDd
-   ymUz0LQf1PVX7OTjh8jtE6kK9/yeXUhaw6IDBslpFMiT6egQkN+A2q/um
-   DT5/REgg+CVP3XvGueHRFe2Y+4CXytgvBu8+qT2S0cVxLdxpc7Jnj7nw3
-   g==;
-X-IronPort-AV: E=Sophos;i="6.01,231,1684792800"; 
-   d="scan'208";a="32119097"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 26 Jul 2023 08:28:13 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 29BB0280075;
-        Wed, 26 Jul 2023 08:28:13 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Fabio Estevam <festevam@denx.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Martin Kepplinger <martink@posteo.de>,
-        Purism Kernel Team <kernel@puri.sm>
-Subject: Re: [PATCH v3 3/3] media: imx: imx7-media-csi: Include headers explicitly
-Date:   Wed, 26 Jul 2023 08:28:12 +0200
-Message-ID: <4160136.1IzOArtZ34@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230725200249.15447-4-laurent.pinchart@ideasonboard.com>
-References: <20230725200249.15447-1-laurent.pinchart@ideasonboard.com> <20230725200249.15447-4-laurent.pinchart@ideasonboard.com>
+        d=linaro.org; s=google; t=1690353230; x=1690958030;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MZgSHgs+DaEu5YKeJ7xYroSTsKzuw+qbovR9q1BksYk=;
+        b=NaBZnXsxeuQzuczGqtwCBX1JMo5/AIwWPrRzlQV8QJaimiIAHSQsOIuaYcJjRxy1Z5
+         Q1UWMcH8xX5l22eNgWA/GbI+x3joki79DVJBtDuNur0X8xfbhlhbqeIgWxI0grb/JA2M
+         C24RvYntdb5GQliZBLWZDreB5mFr0eJtLAr0+YUIxnroqi9XLSOrmgh/JX2kGFtgkiRw
+         VxWo5BbGMVGiPFxS6O3eFR7+ZMESRuUDjOlJOCc4z2Co2cqR0UQLB+eMlw3cqEZZSMfX
+         TSK5V+jxjrsLvD1tVaRfO5oxGhLWk03ll+e1lulIhT8+GiPpwGKLv8pTRptqC81fck/7
+         1Lvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690353230; x=1690958030;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MZgSHgs+DaEu5YKeJ7xYroSTsKzuw+qbovR9q1BksYk=;
+        b=Nw1vcaCtCYTDMTamBVsoIPplzi4aZV/MMuIPV2msEm4qThhjV0Pku6gW/TU5rGi3sf
+         O2aG+ZvdNtTy8JM5nrLgif4Z6HyERyB7lWj3Jx+LUUIJeJfdB4TRmkwm2d24dG8Ha7sA
+         S49Ms5G8B2eHqAHmAUm6/OpBz285llXcjzpouv2VzOvhJ+Ver95PDR465C9l5jPGDO5V
+         yAaQe8B3Ye4EQf2C/pR2xr13O1+kYvDGR4kH5kvABn8eqrSyKWhIUV0Ca/xR1tweD9s9
+         FjOjEUS08p73HIMWu4xOGp2njIvAhhX8plDvDcc8kzIXGHO3/WiHOzgKVMHSqq2sQVu1
+         NT2A==
+X-Gm-Message-State: ABy/qLbiSysE1ivzzLEaX1KYHax4VkgbYNIUGc4L/zd+gGPJcw62Ged9
+        eK9pOJvSgDPbHwAEKGC0Rh/ruA==
+X-Google-Smtp-Source: APBJJlEqrM14tJfMA+TcQHw7fvQjjF0gb0G1lKIEdzmcSA/W2bZSmpfQbJgqHftRJIIo5i2M02/PaQ==
+X-Received: by 2002:aa7:d958:0:b0:522:3ebc:84b9 with SMTP id l24-20020aa7d958000000b005223ebc84b9mr776848eds.24.1690353230229;
+        Tue, 25 Jul 2023 23:33:50 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id q2-20020a056402032200b0051d9de03516sm8450368edw.52.2023.07.25.23.33.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jul 2023 23:33:49 -0700 (PDT)
+Message-ID: <30d0689f-5a6a-c593-2a30-1ef2dc37f1af@linaro.org>
+Date:   Wed, 26 Jul 2023 08:33:48 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] media: dt-bindings: drop unneeded status from examples
+Content-Language: en-US
+To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230725101625.75162-1-krzysztof.kozlowski@linaro.org>
+ <e8138fd1-5d1f-8fc3-e29a-547902c2ab18@foss.st.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <e8138fd1-5d1f-8fc3-e29a-547902c2ab18@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 25/07/2023 12:55, Benjamin Mugnier wrote:
+> Hi Krzysztof,
+> 
+> Thank you for your patch.
+> 
+> For the st-mipid02 :
+> Reviewed-By: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
-thanks for the additional cleanup.
+I don't think we have half-reviews. There are half-acks, but not reviews.
 
-Am Dienstag, 25. Juli 2023, 22:02:49 CEST schrieb Laurent Pinchart:
-> Include all the headers that the driver needs explicitly instead of
-> relying on indirect inclusion. While at it, drop a few unneeded headers.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/platform/nxp/imx7-media-csi.c | 27 ++++++++++++++++-----
->  1 file changed, 21 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
-> b/drivers/media/platform/nxp/imx7-media-csi.c index
-> 3aa7978d3f8a..95e9f22f21be 100644
-> --- a/drivers/media/platform/nxp/imx7-media-csi.c
-> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> @@ -3,31 +3,46 @@
->   * V4L2 Capture CSI Subdev for Freescale i.MX6UL/L / i.MX7 SOC
->   *
->   * Copyright (c) 2019 Linaro Ltd
-> - *
->   */
->=20
->  #include <linux/clk.h>
-> +#include <linux/completion.h>
-> +#include <linux/container_of.h>
->  #include <linux/delay.h>
-> +#include <linux/device.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/err.h>
->  #include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/kernel.h>
-> +#include <linux/list.h>
->  #include <linux/math.h>
-> -#include <linux/mfd/syscon.h>
->  #include <linux/minmax.h>
->  #include <linux/module.h>
-> +#include <linux/mutex.h>
->  #include <linux/of.h>
-> -#include <linux/of_graph.h>
-> -#include <linux/pinctrl/consumer.h>
->  #include <linux/platform_device.h>
-> -#include <linux/regmap.h>
-> +#include <linux/property.h>
->  #include <linux/slab.h>
->  #include <linux/spinlock.h>
-> +#include <linux/string.h>
-> +#include <linux/timekeeping.h>
->  #include <linux/types.h>
->=20
-> +#include <media/media-device.h>
-> +#include <media/media-entity.h>
-> +#include <media/v4l2-async.h>
-> +#include <media/v4l2-common.h>
-> +#include <media/v4l2-dev.h>
->  #include <media/v4l2-device.h>
-> -#include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-fh.h>
->  #include <media/v4l2-ioctl.h>
->  #include <media/v4l2-mc.h>
->  #include <media/v4l2-subdev.h>
-> +#include <media/videobuf2-core.h>
->  #include <media/videobuf2-dma-contig.h>
-> +#include <media/videobuf2-v4l2.h>
->=20
->  #define IMX7_CSI_PAD_SINK		0
->  #define IMX7_CSI_PAD_SRC		1
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L542
 
-Looks good to me.
-Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+Best regards,
+Krzysztof
 
