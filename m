@@ -2,80 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7027640D8
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 23:00:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5414A7641F7
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 00:14:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231351AbjGZVAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 17:00:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37160 "EHLO
+        id S230189AbjGZWOs convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 26 Jul 2023 18:14:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231235AbjGZVAK (ORCPT
+        with ESMTP id S230185AbjGZWOq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 17:00:10 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 309631727
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 14:00:09 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-52256241c66so358289a12.1
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 14:00:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690405207; x=1691010007;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BxBJ0tFj1UbUOBEqoo5krK0VcqyYI11I6KTerRdAx7Q=;
-        b=x+rFUkLZ5fBSAD+SlvEMEuMVK8vhBZsqqpAgrIUUtRGFzZYWEuF3zKmwpDzOOqytTH
-         3tFXfLJNRyJCh/6PdS67Hv7e+4iidv0I19PKMZ92VsmP6r4r7mdF+Y0tSqh1jJJd226u
-         s0kbzZMEby7Mms+4n5XdHn8UTXYItiWk//96Dfegk3k1i/3Gldjk8JnKtrHDoInm1Ofk
-         37tlNOA+1+3HhAk0FOiIyrIy3LJWXYuOrhH9Vo7a/soZy9jg0nmK22jy1pZAO8BWahnu
-         XS4RCydB/v+0tE7LeFGRd+C4nmsPlTMvaOgDXw4v0NFigcdtlZrRNNhcgauQTOCP7N41
-         oATg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690405207; x=1691010007;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BxBJ0tFj1UbUOBEqoo5krK0VcqyYI11I6KTerRdAx7Q=;
-        b=l350o1WuY/UakY+2M0DtsUJkw/TKcMXDhP+dMcjZanVyF6jJW4j0oAdHgsYEzs1rvq
-         6u3COZkLAvmZxXO+HDa65qhCSF5djVQXs1ZEGanKAAw04kHIxx5VQPn+fkHEZQdFzEvb
-         oHJgAAb+MF8rD5mD3qQCTuWUw8GP+ek6FTU8xjSP0+Z49zjRQj4cIPU0KtJOCJfe5Utf
-         8/uDlL/ZTnLxZPLvTtl5QxEj4Sobp80azpbIEaAmje6NzYVfDgzKBkmCZx00z2fk1dmU
-         svQERlQ0BzrDE6CELbIpMr97rWJmqRSwCFjLfRfElLGhEPHYAKFVNOktXyOF/lgTxUmi
-         OZBQ==
-X-Gm-Message-State: ABy/qLbQT/GLbFV4q7qK+u6GQ1yGRfsQmzzvU4B5cqauHoGjS/FH8arP
-        gHl0/fPUtMS9TDsWlEbkyU3G+A==
-X-Google-Smtp-Source: APBJJlFZJICiVh5rlt6ysLzD0BWx1vEgt0m23dypJlzCPgv0/Qw+dtH2Pk55t+Ec0uttPJRaapYBCQ==
-X-Received: by 2002:a05:6402:5188:b0:522:28b9:e84c with SMTP id q8-20020a056402518800b0052228b9e84cmr183918edd.21.1690405207622;
-        Wed, 26 Jul 2023 14:00:07 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id e6-20020a056402088600b005223d76a3e3sm3209902edy.85.2023.07.26.14.00.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 14:00:07 -0700 (PDT)
-Message-ID: <df37ca83-a198-6395-723f-94aede45978b@linaro.org>
-Date:   Wed, 26 Jul 2023 23:00:04 +0200
+        Wed, 26 Jul 2023 18:14:46 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BCDB270D;
+        Wed, 26 Jul 2023 15:14:44 -0700 (PDT)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 1CE5724DB83;
+        Thu, 27 Jul 2023 06:14:42 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 27 Jul
+ 2023 06:14:42 +0800
+Received: from [192.168.60.107] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 27 Jul
+ 2023 06:14:41 +0800
+Message-ID: <995e6991-6635-0c0e-d50c-5b6fe2ce6655@starfivetech.com>
+Date:   Thu, 27 Jul 2023 06:14:41 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH] dt-bindings: media: Add bindings for Imagination E5010
- JPEG Encoder driver
+Subject: Re: [PATCH v7 3/6] media: starfive: camss: Add basic driver
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230619112838.19797-1-jack.zhu@starfivetech.com>
+ <20230619112838.19797-4-jack.zhu@starfivetech.com>
+ <eb8ff364-1c49-28b4-242d-168828ca7094@linaro.org>
 Content-Language: en-US
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
-        j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
-        p-mantena@ti.com, vijayp@ti.com
-References: <20230726162615.1270075-1-devarsht@ti.com>
- <b6bddd59-ac78-3f75-828e-cff54766fc72@linaro.org>
- <3d26f0f719cd5f71c20e80599362cd52bcfe8dd4.camel@ndufresne.ca>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <3d26f0f719cd5f71c20e80599362cd52bcfe8dd4.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <eb8ff364-1c49-28b4-242d-168828ca7094@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,30 +67,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/07/2023 22:35, Nicolas Dufresne wrote:
-> Le mercredi 26 juillet 2023 à 18:33 +0200, Krzysztof Kozlowski a écrit :
->> On 26/07/2023 18:26, Devarsh Thakkar wrote:
->>> Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
->>> implemented as stateful V4L2 M2M driver.
->>>
->>> Co-developed-by: David Huang <d-huang@ti.com>
->>> Signed-off-by: David Huang <d-huang@ti.com>
->>
->> A nit, subject: drop second/last, redundant "bindings for". The
->> "dt-bindings" prefix is already stating that these are bindings.
->>
->> Drop also "driver". Bindings are for hardware, not drivers.
->>
->> Prefix starts with media and then dt-bindings.
+Hi Bryan,
+
+Thank you for your comments.
+
+On 2023/7/26 18:55, Bryan O'Donoghue wrote:
+> On 19/06/2023 12:28, Jack Zhu wrote:
 > 
-> That being said, I haven't seen any submission for the driver using these, is it
-> common practice to upstream bindings for unsupported hardware ?
+>> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
+>> +{
+>> +    struct device *dev = stfcamss->dev;
+>> +    struct device_node *node = NULL;
+>> +    int ret, num_subdevs = 0;
+>> +
+>> +    for_each_endpoint_of_node(dev->of_node, node) {
+>> +        struct stfcamss_async_subdev *csd;
+>> +
+>> +        if (!of_device_is_available(node))
+>> +            continue;
+>> +
+>> +        csd = v4l2_async_nf_add_fwnode_remote(&stfcamss->notifier,
+>> +                              of_fwnode_handle(node),
+>> +                              struct stfcamss_async_subdev);
+>> +        if (IS_ERR(csd)) {
+>> +            ret = PTR_ERR(csd);
+>> +            goto err_cleanup;
+>> +        }
+>> +
+>> +        ret = stfcamss_of_parse_endpoint_node(dev, node, csd);
+>> +        if (ret < 0)
+>> +            goto err_cleanup;
+>> +
+>> +        num_subdevs++;
+>> +    }
+>> +
+>> +    return num_subdevs;
+>> +
+>> +err_cleanup:
+>> +    of_node_put(node);
+> 
+> Where is the _get() for this and if you are releasing it on the error path when is the _get() released on the non-error path ?
+> 
 
-I assumed I wasn't CC'ed on the user, but it seems there is no user.
-None, neither drivers, not DTS.  Commit msg also doesn't explain it.
+OK, I will fix it.
 
-No point op submit bindings where there are no users.
+>> +    return ret;
+>> +}
+>> +
+>> +static int stfcamss_subdev_notifier_bound(struct v4l2_async_notifier *async,
+>> +                      struct v4l2_subdev *subdev,
+>> +                      struct v4l2_async_subdev *asd)
+>> +{
+>> +    struct media_pad *pad[STF_PADS_NUM];
+>> +    unsigned int i, pad_num = 0;
+>> +
+>> +    for (i = 0; i < pad_num; ++i) {
+> 
+> Does this loop ever run ?
+> I don't see how it can..
+> 
 
-Best regards,
-Krzysztof
+OK, I will fix it, although there are modifications to this code in patch 5 and patch 6.
 
+> ---
+> bod
+
+-- 
+Regards,
+
+Jack Zhu
