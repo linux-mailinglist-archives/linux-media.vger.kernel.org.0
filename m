@@ -2,124 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA66E763FDD
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 21:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E30DE763FF9
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 21:54:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbjGZTlj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 15:41:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40266 "EHLO
+        id S231572AbjGZTyM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 15:54:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbjGZTli (ORCPT
+        with ESMTP id S230319AbjGZTyL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 15:41:38 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B292122
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 12:41:37 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qOkO2-00038K-1a; Wed, 26 Jul 2023 21:41:30 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qOkO1-002JWW-0U; Wed, 26 Jul 2023 21:41:29 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qOkO0-0081Ok-8c; Wed, 26 Jul 2023 21:41:28 +0200
-Date:   Wed, 26 Jul 2023 21:41:27 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Wolfram Sang <wsa@kernel.org>, Bingbu Cao <bingbu.cao@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: ov01a10: Switch back to use struct
- i2c_driver::probe
-Message-ID: <20230726194127.ti4ufwlirrhhzxjk@pengutronix.de>
-References: <20230626090533.556406-1-u.kleine-koenig@pengutronix.de>
- <20230720090202.aljhzxiac6pvmtag@pengutronix.de>
- <62b03784-1f93-e370-3df6-f9ae4409ae5c@xs4all.nl>
- <20230720094631.brtkaijg3auwfbt7@pengutronix.de>
+        Wed, 26 Jul 2023 15:54:11 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BCB21BF6;
+        Wed, 26 Jul 2023 12:54:10 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:580::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7B58D6606F8A;
+        Wed, 26 Jul 2023 20:54:07 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1690401248;
+        bh=UcOrA8SIWWtnawAkOkr1I4M28Jmi8tXZddLqSw+V8JU=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=W16Q36YyNsYA97Y3EY732WUvNVXJ748CBu5KB/cdLIfH5F6Q1G8Bc6PeP4oxKqltI
+         /lpeq/u1SIz5fyOGFl8fSWoEhxx8+V7Lsf3znDUt2wI+yAYhax8L/U3QjY4rmb3Xem
+         O0i87ruJt2PcMrc1d77TEHQMxPatTKH0sxh+oDvLs/M3btjpPnBOpkOhESDZU+aNHb
+         2rF+glV+kl9vH8K6E1iAMLXS1Xm1FRPv90dwOOnAJxia6GoTV/LG81L9O7KWp7LSpX
+         tICoSuuayOeGaHhbjQDFFNCjLwE+2lijQ/Rx7d52iFy+Ntmr2epmkTvR7PyBSRG4kU
+         1D3DdPoe7hXoQ==
+Message-ID: <87cfcdfadee89984496c3f52d01b4f1e10c12cae.camel@collabora.com>
+Subject: Re: Stateless Encoding uAPI Discussion and Proposal
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Wed, 26 Jul 2023 15:53:58 -0400
+In-Reply-To: <c15805b0-261b-114a-c29d-b63f00dd8da4@synaptics.com>
+References: <ZK2NiQd1KnraAr20@aptenodytes>
+         <c46d0c53b7e5dc8dcdf7925f3d892024390a8b2b.camel@collabora.com>
+         <ZK6zjaJtulRSrn7P@aptenodytes>
+         <bbd62e1b-dd0b-e351-110e-040b42d02974@synaptics.com>
+         <ZL-8yBhWWChKBDHM@aptenodytes>
+         <c15805b0-261b-114a-c29d-b63f00dd8da4@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="um5ekq4o7klipu6a"
-Content-Disposition: inline
-In-Reply-To: <20230720094631.brtkaijg3auwfbt7@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
---um5ekq4o7klipu6a
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-On Thu, Jul 20, 2023 at 11:46:31AM +0200, Uwe Kleine-K=F6nig wrote:
-> On Thu, Jul 20, 2023 at 11:27:51AM +0200, Hans Verkuil wrote:
-> > On 20/07/2023 11:02, Uwe Kleine-K=F6nig wrote:
-> > > Is this patch still (or at all) on someone's radar for merging?
+Le mercredi 26 juillet 2023 =C3=A0 10:49 +0800, Hsia-Jun Li a =C3=A9crit=C2=
+=A0:
+> > I am strongly against this approach, instead I think we need to keep al=
+l
+> > vendor-specific parts in the kernel driver and provide a clean unified =
+userspace
+> > API.
 > >=20
-> > I merged this yesterday in our staging tree for 6.6. Did you get an ema=
-il
-> > from patchwork?
-> >=20
-> > https://patchwork.linuxtv.org/project/linux-media/patch/20230626090533.=
-556406-1-u.kleine-koenig@pengutronix.de/
-> >=20
-> > I also merged yesterday your patch converting three more drivers:
-> >=20
-> > https://patchwork.linuxtv.org/project/linux-media/patch/20230718204541.=
-3955386-1-u.kleine-koenig@pengutronix.de/
->=20
-> Indeed I got a mail about that, but missed that here. (Too many patches
-> in float here, so I usually check the submission thread and next before
-> asking about the status. For me it would be a useful improvement if the
-> mail would be sent in reply to the respecitve mailing list thread.)
+> We are driving away vendor participation. Besides, the current design is=
+=20
+> a performance bottleneck.
 
-Today I stumbled again over this patch because it didn't appear in next
-as of today. Is this intended?
+I know you have been hammering this argument for many many years. But in
+concrete situation, we have conducted tests, and we out perform vendors sta=
+cks
+that directly hit into hardware register with stateless CODEC. Also, Paul's
+proposal, is that fine grain / highly close to metal tuning of the encoding
+process should endup in the Linux kernel, so that it can benefit from the
+natural hard real-time advantage of a hard IRQ. Just like anything else, we=
+ will
+find a lot of common methods and shareable code which will benefit in secur=
+ity
+and quality, which is very unlike what we normally get from per vendor BSP.=
+ The
+strategy is the same as everything else in Linux, vendor will adpot it if t=
+here
+is a clear benefit. And better quality, ease of use, good collection of mat=
+ure
+userspace software is what makes the difference. It does takes time of cour=
+se.
 
-Rechecking said mail, it only mentions "git:media_stage/master" in the
-Subject and the body only has " This is an automatic generated email to
-let you know that the following patch were queued:" plus the patch.
-
-Additionally to what I wrote before it would also be great if the the
-git repo's public URL were mentioned, ideally together with the branch
-name as git request-pull generates it for easy cut'n'paste after
-"git fetch".
-
-Thanks for considering,
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---um5ekq4o7klipu6a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmTBduYACgkQj4D7WH0S
-/k5lcgf/X+zXBYqHecPq/fsSS9C5gEAQVECr5xx7YM8eJIdUCn6aCbm9xJ6fnbCT
-ggAO7iLrAv/NpFmnVI+q4659GOGN5j6VBG0qmsN/JHtkjFcp7ih1s3XtNPPe7fTl
-YVGwj4olp8wejLYoVxSiFGBUFCIY8TDeY/f/+9bGsRu6BhZMVOG9bjJCv+WwtL9i
-mGyIZlQnAaqI3Xjb/8Lm3gD9PxPVXjO7oiZ2t1P6CIgmPtSrbh0JS70ZNea0XT2K
-qvxupRxRoHyS34d2QsGPvLdw22Js2JmXHuJVkC4uODREHh1V6OzgipxPXes/RP5e
-7BrhlnCxlypsjDbb1dzaIrlszkDk2Q==
-=w2dS
------END PGP SIGNATURE-----
-
---um5ekq4o7klipu6a--
+regards,
+Nicolas
