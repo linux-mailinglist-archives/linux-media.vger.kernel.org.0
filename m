@@ -2,184 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7425E7634DB
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 13:26:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 871CB76350D
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 13:33:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233557AbjGZL0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 07:26:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56208 "EHLO
+        id S233794AbjGZLct (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 07:32:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233677AbjGZL0h (ORCPT
+        with ESMTP id S233656AbjGZLcr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 07:26:37 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D42E30EA
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 04:26:22 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-31751d7d96eso3196200f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 04:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690370780; x=1690975580;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Me9DdLikay9/mg6C3pH4uUNkCjGXHrRqvb1zE6qVcE8=;
-        b=ujTe+OeVXyCQq14CK3Lba2vXYOY9/0WyK+FgPAmVWPvzh3WNG2TICYQast91tQL3J7
-         7nZSIWWrhBBoDpJgfuV54SLHBWWYOCemg/C5NM5OftTyQk8YsN3RyzWTeINC6jiP20T6
-         Yvw+psL8owvkQ0G+pmfjynvhdzpJuaKajxQDJ1sKtdGQylimQcZ8kz/nspw0Bg0GsK07
-         dKIL0khNzLWR6bfDh71j3MQeL6YkTcRBtJvOYrm9MpfVgHft9xgCPLOisrXQndxpjXan
-         wqUtQCJ6w2jldLKMabpDa/QJtc9sU8gKVGiaz5BYvrmdBjU4eesDzOULf9ieBr5AU7d/
-         pQzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690370780; x=1690975580;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Me9DdLikay9/mg6C3pH4uUNkCjGXHrRqvb1zE6qVcE8=;
-        b=Ah+mmtdvar1SAyh9w5/npOnX4Qp786+0B7v1rfXWNQEzmQluZnJYNHSVKgpRJtRIEN
-         G7sJU1qrXBWBuy1f33ZWMbOgOwuc5xKw6WbYGj05g79KVSDmQOy0kvYVxafTs11Jcb6L
-         7+4+9JQ2Wanx0axcy6fmBoKR9X9P6ipD2/S1bU0mMjBj7/usAVrb6U9z4brgODqchkst
-         u4T683T0WbwB3i4AuaNp7d+uBFg7HJnbXsIS9zsWkZZ4YBALcAye3L649N9IdNlSt5VN
-         MhWyr0njMZypEhoX0CV/qCKGMUST/O3ZcaNkOEAwfltHGYe3tVclXyk4ZGVlgUH4T5qO
-         RMUQ==
-X-Gm-Message-State: ABy/qLYh+vdkjv/SDZbYADzv6mDUJ42aSAm052/p7l9+Z0oK8rMoJLwT
-        nqdUl7NmJEILiow4J2ROdxcOgw==
-X-Google-Smtp-Source: APBJJlEGjczswR4kEUEn/zYFcZ9/aGxKnTF+3Hy6HdeMe8iP8tSvfbhOFOcSPsrOUXJpQ+OHei9OVw==
-X-Received: by 2002:adf:efcb:0:b0:314:370f:e92c with SMTP id i11-20020adfefcb000000b00314370fe92cmr1190968wrp.67.1690370780412;
-        Wed, 26 Jul 2023 04:26:20 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id h4-20020adfe984000000b003175f00e555sm9584341wrm.97.2023.07.26.04.26.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 04:26:19 -0700 (PDT)
-Message-ID: <a108084b-8044-fe6f-9cb8-df1f3fc6fdfe@linaro.org>
-Date:   Wed, 26 Jul 2023 12:26:18 +0100
+        Wed, 26 Jul 2023 07:32:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D10E6BF;
+        Wed, 26 Jul 2023 04:32:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A3EB61A8D;
+        Wed, 26 Jul 2023 11:32:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA78AC433C8;
+        Wed, 26 Jul 2023 11:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690371165;
+        bh=wq+kGX1o6azl/+AxJe/umF5svvBwne/PrZi7iuI++k0=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=e1hankn3CHxOhV5V7dL9xTWosq9z/AofiRirVkpOjA5iGzdOg2AqeCG/lPXcfSVuf
+         NLnHQ8xPlaS3pRI4KBAejMqJ/9BDmbpTNDdG4GGoJApzH9gUqgXlIXbAJMEuxctoIS
+         6TH+ublhNs4PXHTBz9tII/L0d5YdsiwqMQhhqqyOL6xfDC/m1t8m7XHlDAvW7/JeUA
+         Y7CJxKafOQrVbAqZyxMgeC6wgPtZF0Yp2f6Jx/Gi404YrKPKekJc1fm+VKNqhl8zF4
+         44iwHUskx7tCXskhYbfbD94aM0do3HAm8eFIcjFR2ae6oW991MwijW+S7cmTHLlyov
+         Y/YMdbOcLz5Dg==
+Received: (nullmailer pid 1021823 invoked by uid 1000);
+        Wed, 26 Jul 2023 11:32:41 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v7 2/6] media: admin-guide: Add starfive_camss.rst for
- Starfive Camera Subsystem
-Content-Language: en-US
-To:     Jack Zhu <jack.zhu@starfivetech.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
-References: <20230619112838.19797-1-jack.zhu@starfivetech.com>
- <20230619112838.19797-3-jack.zhu@starfivetech.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230619112838.19797-3-jack.zhu@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+From:   Rob Herring <robh@kernel.org>
+To:     Gatien Chevallier <gatien.chevallier@foss.st.com>
+Cc:     olivier.moysan@foss.st.com, lee@kernel.org, netdev@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-iio@vger.kernel.org,
+        will@kernel.org, Frank Rowand <frowand.list@gmail.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        andi.shyti@kernel.org, vkoul@kernel.org,
+        linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+        ulf.hansson@linaro.org, richardcochran@gmail.com,
+        catalin.marinas@arm.com, conor+dt@kernel.org, edumazet@google.com,
+        gregkh@linuxfoundation.org, alsa-devel@alsa-project.org,
+        fabrice.gasnier@foss.st.com, linux-spi@vger.kernel.org,
+        davem@davemloft.net, mchehab@kernel.org, pabeni@redhat.com,
+        herbert@gondor.apana.org.au, devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com, robh+dt@kernel.org,
+        alexandre.torgue@foss.st.com, hugues.fruchet@foss.st.com,
+        krzysztof.kozlowski+dt@linaro.org, jic23@kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        Oleksii_Moisieiev@epam.com, linux-i2c@vger.kernel.org,
+        kuba@kernel.org, linux-phy@lists.infradead.org,
+        dmaengine@vger.kernel.org, arnaud.pouliquen@foss.st.com,
+        arnd@kernel.org
+In-Reply-To: <20230726090129.233316-1-gatien.chevallier@foss.st.com>
+References: <20230726083810.232100-1-gatien.chevallier@foss.st.com>
+ <20230726090129.233316-1-gatien.chevallier@foss.st.com>
+Message-Id: <169037116156.1021724.12937477325696165938.robh@kernel.org>
+Subject: Re: [PATCH v3 04/11] dt-bindings: bus: document ETZPC
+Date:   Wed, 26 Jul 2023 05:32:41 -0600
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/06/2023 12:28, Jack Zhu wrote:
-> Add starfive_camss.rst file that documents the Starfive Camera
-> Subsystem driver which is used for handing image sensor data.
+
+On Wed, 26 Jul 2023 11:01:22 +0200, Gatien Chevallier wrote:
+> Document ETZPC (Extended TrustZone protection controller). ETZPC is a
+> firewall controller.
 > 
-> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
 > ---
->   .../admin-guide/media/starfive_camss.rst      | 57 +++++++++++++++++++
->   .../media/starfive_camss_graph.dot            | 16 ++++++
->   .../admin-guide/media/v4l-drivers.rst         |  1 +
->   MAINTAINERS                                   |  1 +
->   4 files changed, 75 insertions(+)
->   create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
->   create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
 > 
-> diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documentation/admin-guide/media/starfive_camss.rst
-> new file mode 100644
-> index 000000000000..a6378849384f
-> --- /dev/null
-> +++ b/Documentation/admin-guide/media/starfive_camss.rst
-> @@ -0,0 +1,57 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: <isonum.txt>
-> +
-> +================================
-> +Starfive Camera Subsystem driver
-> +================================
-> +
-> +Introduction
-> +------------
-> +
-> +This file documents the driver for the Starfive Camera Subsystem found on
-> +Starfive JH7110 SoC. The driver is located under drivers/media/platform/
-> +starfive.
-> +
-> +The driver implements V4L2, Media controller and v4l2_subdev interfaces.
-> +Camera sensor using V4L2 subdev interface in the kernel is supported.
-> +
-> +The driver has been successfully used on the Gstreamer 1.18.5 with
-> +v4l2src plugin.
-> +
-> +
-> +Starfive Camera Subsystem hardware
-> +----------------------------------
-> +
-> +The Starfive Camera Subsystem hardware consists of:
-> +
-> +- MIPI DPHY Receiver: receives mipi data from a MIPI camera sensor.
+> Changes in V2:
+> 	- Corrected errors highlighted by Rob's robot
+> 	- No longer define the maxItems for the "feature-domains"
+> 	  property
+> 	- Fix example (node name, status)
+> 	- Declare "feature-domain-names" as an optional
+> 	  property for child nodes
+> 	- Fix description of "feature-domains" property
+> 	- Reorder the properties so it matches RIFSC
+> 	- Add missing "feature-domain-controller" property
+> 
+>  .../bindings/bus/st,stm32-etzpc.yaml          | 96 +++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
+> 
 
-Feels like a terribe nit-pick but you have "mipi" and "MIPI" here. I'd 
-be consistent with one - recommend MIPI throughout your documentation.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> +- MIPI CSIRx Controller: is responsible for handling and decoding CSI2 protocol
-> +  based camera sensor data stream.
-> +- ISP: handles the image data streams from the MIPI CSIRx Controller.
+yamllint warnings/errors:
 
-Maybe you've done this elsewhere but, it would be worthwhile describing 
-what the ISP does. Debayering ? 3As ? Just raw dumps ?
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bus/st,stm32-etzpc.example.dtb: serial@4c001000: Unevaluated properties are not allowed ('feature-domains' was unexpected)
+	from schema $id: http://devicetree.org/schemas/serial/st,stm32-uart.yaml#
 
-> +- VIN(Video In): a top-level module, is responsible for controlling power
-> +  and clocks to other modules, dumps the input data to memory or transfers the
-> +  input data to ISP.
-> +
-> +
-> +Topology
-> +--------
-> +
-> +The media controller pipeline graph is as follows:
-> +
-> +.. _starfive_camss_graph:
-> +
-> +.. kernel-figure:: starfive_camss_graph.dot
-> +    :alt:   starfive_camss_graph.dot
-> +    :align: center
-> +
-> +The driver has 2 video devices:
-> +
-> +- stf_vin0_wr_video0: capture device for images directly from the VIN module.
+doc reference errors (make refcheckdocs):
 
-OK so you can get the raw images.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230726090129.233316-1-gatien.chevallier@foss.st.com
 
-> +- stf_vin0_isp0_video1: capture device for images without scaling.
-> +
-> +The driver has 3 subdevices:
-> +
-> +- stf_isp0: is responsible for all the isp operations.
-> +- stf_vin0_wr: used to dump RAW images to memory.
-> +- stf_vin0_isp0: used to capture images for the stf_vin0_isp0_video1 device.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-But what is being output here ? RGB, jpeg, YUV ?
-It would be worth adding a few bits of text to describe that so you 
-don't have to dive into code to understand it.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
----
-bod
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
