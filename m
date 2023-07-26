@@ -2,487 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0702D762DB2
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 09:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4920762E15
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 09:41:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232601AbjGZHbp convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 26 Jul 2023 03:31:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57792 "EHLO
+        id S231294AbjGZHlq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 03:41:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231455AbjGZHbL (ORCPT
+        with ESMTP id S231273AbjGZHlF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 03:31:11 -0400
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DC49422C;
-        Wed, 26 Jul 2023 00:29:10 -0700 (PDT)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 0D2E881BB;
-        Wed, 26 Jul 2023 15:28:55 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 26 Jul
- 2023 15:28:55 +0800
-Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 26 Jul
- 2023 15:28:55 +0800
-Message-ID: <1e38f176-4dcd-83d5-0865-f6ad65e3751d@starfivetech.com>
-Date:   Wed, 26 Jul 2023 15:28:54 +0800
+        Wed, 26 Jul 2023 03:41:05 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E6385269;
+        Wed, 26 Jul 2023 00:37:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690357055; x=1721893055;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ncKdy80nWS3ccpzU88YneIMppYiencUN22SHnydR2Hc=;
+  b=Mhxexstkrn3kJmYYkX2NvwUCBDR/371K+aWYa5jF7V0+oRTtDsQT90VX
+   8Pd6TEvEiEVU+q83cXfORHm6W9r2C9xPRzO9+rPwbxbTR0bLECPYAHuKK
+   vgrQrMLV6b+OiUNGjXddGRavgiL/nbRE1rgV+VoKHDNSZY2WUKOrhRpmQ
+   enbKHL1ghnrMvdcBWSyx0EgZToIep+ORVRhlkOHPXOspMu+JRA3eyJ4Ja
+   G0stdyiShUKmeOrqc8sCr50VTmudZDfVjrAAsh6OZzQPFwK+ioXR8h3tH
+   40mMqwL6pliV+a7GcRLAMFapcgj2JO53N8/ymoc3qoWtvBo0PWgm0t4/A
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="431744194"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
+   d="scan'208";a="431744194"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 00:37:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="973005082"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
+   d="scan'208";a="973005082"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 26 Jul 2023 00:37:04 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qOZ3K-0000mN-0e;
+        Wed, 26 Jul 2023 07:36:05 +0000
+Date:   Wed, 26 Jul 2023 15:34:23 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size
+ of 1420 bytes is larger than 1024 bytes
+Message-ID: <202307261553.XuMIlSoE-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v7 0/6] Add StarFive Camera Subsystem driver
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <changhuang.liang@starfivetech.com>
-References: <20230619112838.19797-1-jack.zhu@starfivetech.com>
-Content-Language: en-US
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <20230619112838.19797-1-jack.zhu@starfivetech.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Bryan,
+Hi Ezequiel,
 
-Could you please help to review? Thank you for your time!
+FYI, the error/warning still remains.
 
-On 2023/6/19 19:28, Jack Zhu wrote:
-> Hi,
-> 
-> This series is the v7 series that attempts to support the Camera Subsystem
-> found on StarFive JH7110 SoC.
-> 
-> The following are the media graph for the device and the v4l2-compliance
-> output.
-> 
-> ===========================================================================
-> [the media graph]:
-> 
-> digraph board {
-> 	rankdir=TB
-> 	n00000001 [label="{{<port0> 0} | stf_isp0\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> 	n00000001:port1 -> n0000000d:port0 [style=dashed]
-> 	n00000004 [label="{{<port0> 0} | stf_vin0_wr\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> 	n00000004:port1 -> n00000007 [style=bold]
-> 	n00000007 [label="stf_vin0_wr_video0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-> 	n0000000d [label="{{<port0> 0} | stf_vin0_isp0\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> 	n0000000d:port1 -> n00000010 [style=bold]
-> 	n00000010 [label="stf_vin0_isp0_video1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-> 	n00000018 [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
-> 	n00000018:port1 -> n00000004:port0 [style=dashed]
-> 	n00000018:port1 -> n00000001:port0 [style=dashed]
-> 	n00000022 [label="{{} | imx219 6-0010\n/dev/v4l-subdev3 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-> 	n00000022:port0 -> n00000018:port0 [style=bold]
-> }
-> 
-> [the device topology]:
-> 
-> Media controller API version 6.4.0
-> 
-> Media device information
-> ------------------------
-> driver          starfive-camss
-> model           Starfive Camera Subsystem
-> serial          
-> bus info        platform:19840000.camss
-> hw revision     0x0
-> driver version  6.4.0
-> 
-> Device topology
-> - entity 1: stf_isp0 (2 pads, 2 links)
->             type V4L2 subdev subtype Unknown flags 0
->             device node name /dev/v4l-subdev0
-> 	pad0: Sink
-> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
-> 		 crop.bounds:(0,0)/1920x1080
-> 		 crop:(0,0)/1920x1080]
-> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
-> 	pad1: Source
-> 		[fmt:Y12_1X12/1920x1080 field:none colorspace:srgb
-> 		 crop.bounds:(0,0)/1920x1080
-> 		 crop:(0,0)/1920x1080]
-> 		-> "stf_vin0_isp0":0 []
-> 
-> - entity 4: stf_vin0_wr (2 pads, 2 links)
->             type V4L2 subdev subtype Unknown flags 0
->             device node name /dev/v4l-subdev1
-> 	pad0: Sink
-> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb]
-> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
-> 	pad1: Source
-> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb]
-> 		-> "stf_vin0_wr_video0":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 7: stf_vin0_wr_video0 (1 pad, 1 link)
->             type Node subtype V4L flags 0
->             device node name /dev/video0
-> 	pad0: Sink
-> 		<- "stf_vin0_wr":1 [ENABLED,IMMUTABLE]
-> 
-> - entity 13: stf_vin0_isp0 (2 pads, 2 links)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev2
-> 	pad0: Sink
-> 		[fmt:Y12_1X12/1920x1080 field:none colorspace:srgb]
-> 		<- "stf_isp0":1 []
-> 	pad1: Source
-> 		[fmt:Y12_1X12/1920x1080 field:none colorspace:srgb]
-> 		-> "stf_vin0_isp0_video1":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 16: stf_vin0_isp0_video1 (1 pad, 1 link)
->              type Node subtype V4L flags 0
->              device node name /dev/video1
-> 	pad0: Sink
-> 		<- "stf_vin0_isp0":1 [ENABLED,IMMUTABLE]
-> 
-> - entity 24: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
->              type V4L2 subdev subtype Unknown flags 0
-> 	pad0: Sink
-> 		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
-> 	pad1: Source
-> 		-> "stf_vin0_wr":0 []
-> 		-> "stf_isp0":0 []
-> 	pad2: Source
-> 	pad3: Source
-> 	pad4: Source
-> 
-> - entity 34: imx219 6-0010 (1 pad, 1 link)
->              type V4L2 subdev subtype Sensor flags 0
->              device node name /dev/v4l-subdev3
-> 	pad0: Source
-> 		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
-> 		 crop.bounds:(8,8)/3280x2464
-> 		 crop:(8,8)/3280x2464]
-> 		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
-> 
-> ===========================================================================
-> [the v4l2-compliance output]:
-> 
-> v4l2-compliance -s -d /dev/video1
-> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
-> 
-> Compliance test for stf camss device /dev/video1:
-> 
-> Driver Info:
-> 	Driver name      : stf camss
-> 	Card type        : Starfive Camera Subsystem
-> 	Bus info         : platform:19840000.camss
-> 	Driver version   : 6.4.0
-> 	Capabilities     : 0x85200001
-> 		Video Capture
-> 		Read/Write
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x05200001
-> 		Video Capture
-> 		Read/Write
-> 		Streaming
-> 		Extended Pix Format
-> Media Driver Info:
-> 	Driver name      : starfive-camss
-> 	Model            : Starfive Camera Subsystem
-> 	Serial           : 
-> 	Bus info         : platform:19840000.camss
-> 	Media version    : 6.4.0
-> 	Hardware revision: 0x00000000 (0)
-> 	Driver version   : 6.4.0
-> Interface Info:
-> 	ID               : 0x03000012
-> 	Type             : V4L Video
-> Entity Info:
-> 	ID               : 0x00000010 (16)
-> 	Name             : stf_vin0_isp0_video1
-> 	Function         : V4L2 I/O
-> 	Pad 0x01000011   : 0: Sink
-> 	  Link 0x02000014: from remote pad 0x100000f of entity 'stf_vin0_isp0' (Video Pixel Formatter): Data, Enabled, Immutable
-> 
-> Required ioctls:
-> 	test MC information (see 'Media Driver Info' above): OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test invalid ioctls: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/video1 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
-> 
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-> 	test VIDIOC_QUERYCTRL: OK (Not Supported)
-> 	test VIDIOC_G/S_CTRL: OK (Not Supported)
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 0 Private Controls: 0
-> 
-> Format ioctls:
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK (Not Supported)
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK (Not Supported)
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK
-> 
-> Codec ioctls:
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
-> 
-> Test input 0:
-> 
-> Streaming ioctls:
-> 	test read/write: OK
-> 	test blocking wait: OK
-> 	test MMAP (no poll): OK                           
-> 	test MMAP (select): OK                            
-> 	test MMAP (epoll): OK                             
-> 	test USERPTR (no poll): OK (Not Supported)
-> 	test USERPTR (select): OK (Not Supported)
-> 	test DMABUF: Cannot test, specify --expbuf-device
-> 
-> Total for stf camss device /dev/video1: 53, Succeeded: 53, Failed: 0, Warnings: 0
-> 
-> ===========================================================================
-> 
-> Changes in v7:
-> - HAS_DMA is used instead of DMA_CMA in Kconfig.
-> - Dropped some non-essential member variables.
-> - Used v4l2_async_nf_add_fwnode_remote() to simplify the relevant code.
-> - Modified some Local variable types in the function.
-> - Used v4l2_create_fwnode_links_to_pad() to simplify the relevant code.
-> - Added error handling for clk_prepare_enable().
-> - Simplified stfcamss_format_info struct and modified the relevant code.
-> - Dropped enum_input, g_input and s_input.
-> - Unified v4l2_ioctl_ops struct.
-> - Used v4l2_fh_open()/vb2_fop_release to replace deprecated APIs.
-> - Added a camss directory under the starfive directory and modified the
->   patch title.
-> 
-> v6 link: https://lore.kernel.org/all/20230525083202.67933-1-jack.zhu@starfivetech.com/
-> 
-> Changes in v6:
-> - Added 'bus-type' in bindings example.
-> - Corrected spelling errors.
-> - As reviewed by Bryan, used 'nclks' and 'nrsts' variables.
-> - Added lccf config for ISP.
-> 
-> v5 link: https://lore.kernel.org/all/20230512102844.51084-1-jack.zhu@starfivetech.com/
-> 
-> Changes in v5:
-> - Rebased on v6.4-rc1.
-> - Added new patch.
-> - Modified ISP driver.
-> 
-> v4 link: https://lore.kernel.org/all/20230413035541.62129-1-jack.zhu@starfivetech.com/
-> 
-> Previous cover letter from v4:
-> 
-> This patch series adds support for the StarFive Camera Subsystem
-> found on StarFive JH7110 SoC.
-> 
-> The driver implements V4L2, Media controller and V4L2 subdev interfaces.
-> Camera sensor using V4L2 subdev interface in the kernel is supported.
-> 
-> The driver is tested on VisionFive V2 board with IMX219 camera sensor.
-> GStreamer 1.18.5 with v4l2src plugin is supported.
-> 
-> Changes since v3:
-> Patch 1:
-> - Modified port@0 and port@1 properties.
-> - Extended the port@0 example with appropriate properties.
-> - Added 'port@0' for 'required'
-> Patch 2:
-> - Modified spelling errors.
-> Patch 3:
-> - Merged patch 5 into the patch with an explanation for compatible in
->   commit msg.
-> Patch 6:
-> - Asserted pixel_rst[i] reset in the loop after the err_disable_pixclk
->   label.
-> - Modified Code Style for getting sys_rst and p_rst.
-> - Renamed clk_name to name and modified the relevant code.
-> Patch 9:
-> - Added static for stfcamss_get_mem_res function.
-> - Added static for isp_close function.
-> - Fixed implicit conversion warning for stf_vin_map_isp_pad function.
-> - Dropped unused variables.
-> 
->   v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
-> 
-> Changes since v2:
-> - Rebased on v6.3-rc1.
-> Patch 1:
-> - Modified spelling errors.
-> - Added port@0.
-> - Modified '$ref' of port.
-> - Added 'ports' to 'required'.
-> - Dropped 'stfcamss' label in example.
-> - Added port@0 in example.
-> - Added MAINTAINERS file.
-> Patch 2:
-> - Split this patch into three new patches.
-> - Modified compatible property.
-> - Replaced clock names with the existing names.
-> - Modified 'bus-type' and 'clock-lanes'
-> - Added port@2 - port@4
-> - Dropped 'csi2rx' label in example.
-> Patch 3:
-> - Updated rst and dot file as three pipelines were deleted.
-> Patch 4:
-> - Split this patch into three new patches.
-> - Dropped .s_power() and .get_fmt().
-> - Dropped CSI-2 DT support.
-> - Dropped v4l2_device_register_subdev_nodes().
-> - Used assigned-clock-rates in DT to set clk value.
-> - Modified 'compatible' field.
-> Patch 5:
-> - Deleted three pipelines. 
-> - Modified 'stfcamss_clocks'/'stfcamss_resets' struct.
-> - Dropped stfcamss_find_sensor() function.
-> - Removed redundant code from stfcamss_of_parse_endpoint_node().
-> - Modified spelling errors.
-> - Rewrote stfcamss_reg_media_subdev_node() function.
-> - Modified stfcamss_subdev_notifier_bound().
-> - Modified stfcamss_probe() function.
-> - Dropped stfcamss_suspend() and stfcamss_resume().
-> - Dropped dev_info() in stfcamss_remove() function.
-> - Added 'stf_' prefix for enum subdev_type.
-> - Moved all includes to the top in stf_camss.h file.
-> - Dropped unused fields in stfcamss struct.
-> - Replaced Custom logging macros with regular macros.
-> - Rewrote register read and write functions.
-> - Used lowercase for all hex constants.
-> - Used macro to name registers.
-> - Dropped unused ioctl and stf_isp_ioctl.h file.
-> 
->   v2: https://lore.kernel.org/all/20230310120553.60586-1-jack.zhu@starfivetech.com/
-> 
-> Changes since v1:
-> - Deleted starfive,jh7110-mipi-csi2.yaml.
-> - Converted cdns,csi2rx.txt to cdns,csi2rx.yaml and added ‘resets’
->   properties.
-> - Added ‘cdns,csi2rx.yaml’ in ‘CADENCE MIPI-CSI2 BRIDGES’ entry.
-> - The following contents were modified in starfive,jh7110-camss.yaml:
->   dropped quotes from ’id’ and ‘schema’; dropped ‘|’ for ‘description’;
->   corrected the wrong or redundant words: ‘a ISP’, ‘PD ISP’;
->   dropped ‘minItems’ for ‘reg’, ‘clocks’, ‘resets’ and ‘interrupts’;
->   dropped the '_clk' and 'rst_' prefix about the 'clock-names' and
->   'reset-names';
->   changed ‘endpoint@1’ to ‘endpoint’; updated examples;
-> - Updated Subject for some patches.
-> - Merged patch 6, 7, 8, 9, 10, 11 into one patch.
-> 
-> Jack Zhu (6):
->   media: dt-bindings: Add JH7110 Camera Subsystem
->   media: admin-guide: Add starfive_camss.rst for Starfive Camera
->     Subsystem
->   media: starfive: camss: Add basic driver
->   media: starfive: camss: Add video driver
->   media: starfive: camss: Add ISP driver
->   media: starfive: camss: Add VIN driver
-> 
->  .../admin-guide/media/starfive_camss.rst      |   57 +
->  .../media/starfive_camss_graph.dot            |   16 +
->  .../admin-guide/media/v4l-drivers.rst         |    1 +
->  .../bindings/media/starfive,jh7110-camss.yaml |  180 +++
->  MAINTAINERS                                   |    9 +
->  drivers/media/platform/Kconfig                |    1 +
->  drivers/media/platform/Makefile               |    1 +
->  drivers/media/platform/starfive/Kconfig       |    5 +
->  drivers/media/platform/starfive/Makefile      |    2 +
->  drivers/media/platform/starfive/camss/Kconfig |   16 +
->  .../media/platform/starfive/camss/Makefile    |   14 +
->  .../media/platform/starfive/camss/stf_camss.c |  444 +++++++
->  .../media/platform/starfive/camss/stf_camss.h |  151 +++
->  .../media/platform/starfive/camss/stf_isp.c   |  519 ++++++++
->  .../media/platform/starfive/camss/stf_isp.h   |  479 ++++++++
->  .../platform/starfive/camss/stf_isp_hw_ops.c  |  468 ++++++++
->  .../media/platform/starfive/camss/stf_video.c |  724 +++++++++++
->  .../media/platform/starfive/camss/stf_video.h |   92 ++
->  .../media/platform/starfive/camss/stf_vin.c   | 1069 +++++++++++++++++
->  .../media/platform/starfive/camss/stf_vin.h   |  173 +++
->  .../platform/starfive/camss/stf_vin_hw_ops.c  |  192 +++
->  21 files changed, 4613 insertions(+)
->  create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
->  create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
->  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->  create mode 100644 drivers/media/platform/starfive/Kconfig
->  create mode 100644 drivers/media/platform/starfive/Makefile
->  create mode 100644 drivers/media/platform/starfive/camss/Kconfig
->  create mode 100644 drivers/media/platform/starfive/camss/Makefile
->  create mode 100644 drivers/media/platform/starfive/camss/stf_camss.c
->  create mode 100644 drivers/media/platform/starfive/camss/stf_camss.h
->  create mode 100644 drivers/media/platform/starfive/camss/stf_isp.c
->  create mode 100644 drivers/media/platform/starfive/camss/stf_isp.h
->  create mode 100644 drivers/media/platform/starfive/camss/stf_isp_hw_ops.c
->  create mode 100644 drivers/media/platform/starfive/camss/stf_video.c
->  create mode 100644 drivers/media/platform/starfive/camss/stf_video.h
->  create mode 100644 drivers/media/platform/starfive/camss/stf_vin.c
->  create mode 100644 drivers/media/platform/starfive/camss/stf_vin.h
->  create mode 100644 drivers/media/platform/starfive/camss/stf_vin_hw_ops.c
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18b44bc5a67275641fb26f2c54ba7eef80ac5950
+commit: fbb6c848dd89786fe24856ee6b5e773910ded29c media: destage Hantro VPU driver
+date:   11 months ago
+config: csky-randconfig-r021-20230726 (https://download.01.org/0day-ci/archive/20230726/202307261553.XuMIlSoE-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261553.XuMIlSoE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307261553.XuMIlSoE-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/v4l2-core/v4l2-vp9.c: In function 'v4l2_vp9_adapt_noncoef_probs':
+>> drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size of 1420 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1834 | }
+         | ^
+
+
+vim +1834 drivers/media/v4l2-core/v4l2-vp9.c
+
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1757  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1758  /* 8.4.4 Non coefficient probability adaptation process */
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1759  void v4l2_vp9_adapt_noncoef_probs(struct v4l2_vp9_frame_context *probs,
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1760  				  struct v4l2_vp9_frame_symbol_counts *counts,
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1761  				  u8 reference_mode, u8 interpolation_filter, u8 tx_mode,
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1762  				  u32 flags)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1763  {
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1764  	unsigned int i, j;
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1765  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1766  	for (i = 0; i < ARRAY_SIZE(probs->is_inter); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1767  		probs->is_inter[i] = adapt_prob(probs->is_inter[i], (*counts->intra_inter)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1768  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1769  	for (i = 0; i < ARRAY_SIZE(probs->comp_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1770  		probs->comp_mode[i] = adapt_prob(probs->comp_mode[i], (*counts->comp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1771  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1772  	for (i = 0; i < ARRAY_SIZE(probs->comp_ref); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1773  		probs->comp_ref[i] = adapt_prob(probs->comp_ref[i], (*counts->comp_ref)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1774  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1775  	if (reference_mode != V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1776  		for (i = 0; i < ARRAY_SIZE(probs->single_ref); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1777  			for (j = 0; j < ARRAY_SIZE(probs->single_ref[0]); j++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1778  				probs->single_ref[i][j] = adapt_prob(probs->single_ref[i][j],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1779  								     (*counts->single_ref)[i][j]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1780  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1781  	for (i = 0; i < ARRAY_SIZE(probs->inter_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1782  		adapt_probs_variant_c(probs->inter_mode[i], (*counts->mv_mode)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1783  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1784  	for (i = 0; i < ARRAY_SIZE(probs->y_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1785  		adapt_probs_variant_d(probs->y_mode[i], (*counts->y_mode)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1786  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1787  	for (i = 0; i < ARRAY_SIZE(probs->uv_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1788  		adapt_probs_variant_d(probs->uv_mode[i], (*counts->uv_mode)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1789  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1790  	for (i = 0; i < ARRAY_SIZE(probs->partition); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1791  		adapt_probs_variant_e(probs->partition[i], (*counts->partition)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1792  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1793  	for (i = 0; i < ARRAY_SIZE(probs->skip); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1794  		probs->skip[i] = adapt_prob(probs->skip[i], (*counts->skip)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1795  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1796  	if (interpolation_filter == V4L2_VP9_INTERP_FILTER_SWITCHABLE)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1797  		for (i = 0; i < ARRAY_SIZE(probs->interp_filter); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1798  			adapt_probs_variant_f(probs->interp_filter[i], (*counts->filter)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1799  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1800  	if (tx_mode == V4L2_VP9_TX_MODE_SELECT)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1801  		for (i = 0; i < ARRAY_SIZE(probs->tx8); i++) {
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1802  			adapt_probs_variant_b(probs->tx8[i], (*counts->tx8p)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1803  			adapt_probs_variant_f(probs->tx16[i], (*counts->tx16p)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1804  			adapt_probs_variant_e(probs->tx32[i], (*counts->tx32p)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1805  		}
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1806  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1807  	adapt_probs_variant_e(probs->mv.joint, *counts->mv_joint);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1808  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1809  	for (i = 0; i < ARRAY_SIZE(probs->mv.sign); i++) {
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1810  		probs->mv.sign[i] = adapt_prob(probs->mv.sign[i], (*counts->sign)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1811  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1812  		adapt_probs_variant_g(probs->mv.classes[i], (*counts->classes)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1813  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1814  		probs->mv.class0_bit[i] = adapt_prob(probs->mv.class0_bit[i], (*counts->class0)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1815  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1816  		for (j = 0; j < ARRAY_SIZE(probs->mv.bits[0]); j++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1817  			probs->mv.bits[i][j] = adapt_prob(probs->mv.bits[i][j],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1818  							  (*counts->bits)[i][j]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1819  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1820  		for (j = 0; j < ARRAY_SIZE(probs->mv.class0_fr[0]); j++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1821  			adapt_probs_variant_e(probs->mv.class0_fr[i][j],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1822  					      (*counts->class0_fp)[i][j]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1823  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1824  		adapt_probs_variant_e(probs->mv.fr[i], (*counts->fp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1825  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1826  		if (!(flags & V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV))
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1827  			continue;
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1828  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1829  		probs->mv.class0_hp[i] = adapt_prob(probs->mv.class0_hp[i],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1830  						    (*counts->class0_hp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1831  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1832  		probs->mv.hp[i] = adapt_prob(probs->mv.hp[i], (*counts->hp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1833  	}
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16 @1834  }
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1835  EXPORT_SYMBOL_GPL(v4l2_vp9_adapt_noncoef_probs);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1836  
+
+:::::: The code at line 1834 was first introduced by commit
+:::::: 3e3b1fb0e5d95c0cd7278717185ca3fb00f5d771 media: Add VP9 v4l2 library
+
+:::::: TO: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- 
-Regards,
-
-Jack Zhu
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
