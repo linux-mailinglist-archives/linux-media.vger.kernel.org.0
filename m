@@ -2,50 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 964AA763095
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 10:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24D2376309D
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 10:56:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233421AbjGZI4X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 04:56:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54630 "EHLO
+        id S233470AbjGZI4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 04:56:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232720AbjGZIzh (ORCPT
+        with ESMTP id S232670AbjGZIzh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 26 Jul 2023 04:55:37 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C56054693;
-        Wed, 26 Jul 2023 01:49:01 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qOaBR-0003Ck-29; Wed, 26 Jul 2023 10:47:49 +0200
-Message-ID: <ab557ae6-7550-189a-81dd-6e3346d84620@leemhuis.info>
-Date:   Wed, 26 Jul 2023 10:47:46 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8734689;
+        Wed, 26 Jul 2023 01:49:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E420361874;
+        Wed, 26 Jul 2023 08:48:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA1DEC433C7;
+        Wed, 26 Jul 2023 08:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1690361300;
+        bh=TVkm71Dj8e6ZNnwjoIIRsgr0o73kkDOfdDDGNd/kDBU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SyVWd+uTTovinaUIsKyOKRWsGKy/aLlm2Gr/MJvvS4WfCf6sK8/jBKlvkNxs5W7HP
+         WvRM0Wa9pGKgHFSre3z/gWuyTgrF6WknjGkRSfjsy/p3lrwDA6dUdX+nWG/cw1UXx7
+         rzwXalMlJ582UPLADRhbsG/xCLp3uJhZRpjWwLvs=
+Date:   Wed, 26 Jul 2023 10:48:17 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Gatien Chevallier <gatien.chevallier@foss.st.com>
+Cc:     Oleksii_Moisieiev@epam.com, herbert@gondor.apana.org.au,
+        davem@davemloft.net, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        alexandre.torgue@foss.st.com, vkoul@kernel.org, jic23@kernel.org,
+        olivier.moysan@foss.st.com, arnaud.pouliquen@foss.st.com,
+        mchehab@kernel.org, fabrice.gasnier@foss.st.com,
+        andi.shyti@kernel.org, ulf.hansson@linaro.org, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, hugues.fruchet@foss.st.com,
+        lee@kernel.org, will@kernel.org, catalin.marinas@arm.com,
+        arnd@kernel.org, richardcochran@gmail.com,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [IGNORE][PATCH v3 01/11] dt-bindings: Document common device
+ controller bindings
+Message-ID: <2023072605-removed-pacemaker-faff@gregkh>
+References: <20230726083810.232100-1-gatien.chevallier@foss.st.com>
+ <20230726083810.232100-2-gatien.chevallier@foss.st.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US, de-DE
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        stable@kernel.org, Zubin Mithra <zsm@chromium.org>,
-        =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>
-References: <20230717-uvc-oob-v2-1-c7745a8d5847@chromium.org>
- <20230725213451.GU31069@pendragon.ideasonboard.com>
- <CANiDSCttkqows7PZS823Jpk-CqK9Gz2rujF_R4SPDi=wcPJ2LA@mail.gmail.com>
- <20230726080753.GX31069@pendragon.ideasonboard.com>
- <952fb983-d1e0-2c4b-a7e8-81c33473c727@leemhuis.info>
- <CANiDSCvVag+sW5JDTKAPuML_-+6xHWgF+NeKoBKSd5MMr1Yiag@mail.gmail.com>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v2] media: uvcvideo: Fix OOB read
-In-Reply-To: <CANiDSCvVag+sW5JDTKAPuML_-+6xHWgF+NeKoBKSd5MMr1Yiag@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1690361341;9e6180f4;
-X-HE-SMSGID: 1qOaBR-0003Ck-29
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230726083810.232100-2-gatien.chevallier@foss.st.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,36 +72,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26.07.23 10:38, Ricardo Ribalda wrote:
-> On Wed, 26 Jul 2023 at 10:33, Thorsten Leemhuis <linux@leemhuis.info> wrote:
->> On 26.07.23 10:07, Laurent Pinchart wrote:
->>> (CC'ing Kai and Thorsten who have added the check to checkpatch)
->>>
->>> On Wed, Jul 26, 2023 at 08:24:50AM +0200, Ricardo Ribalda wrote:
->>>> On Tue, 25 Jul 2023 at 23:34, Laurent Pinchart wrote:
->>>>> On Thu, Jul 20, 2023 at 05:46:54PM +0000, Ricardo Ribalda wrote:
->>>>>> If the index provided by the user is bigger than the mask size, we might do an
->>>>>> out of bound read.
->>>>>>
->>>>>> CC: stable@kernel.org
->>>>>> Fixes: 40140eda661e ("media: uvcvideo: Implement mask for V4L2_CTRL_TYPE_MENU")
->>>>>> Reported-by: Zubin Mithra <zsm@chromium.org>
->>>>>
->>>>> checkpatch now requests a Reported-by tag to be immediately followed by
->>>>> a Closes
->>
->> Not that it matters, the changes I performed only required a Link: tag,
->> which is how things should have been done for many years already. It
->> later became Closes: due to patches from Matthieu. But whatever. :-D
+On Wed, Jul 26, 2023 at 10:38:00AM +0200, Gatien Chevallier wrote:
+> From: Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
 > 
-> I prefer to leave the Reported-by and remove the Closes, that way we
-> credit the reporter (assuming they approved to be referred).
+> Introducing of the common device controller bindings for the controller
+> provider and consumer devices. Those bindings are intended to allow
+> divided system on chip into muliple domains, that can be used to
+> configure hardware permissions.
 > 
-> But if that is not possible, just remove the reported-by. A private
-> link is pretty much noise on the tree.
+> Signed-off-by: Oleksii Moisieiev <oleksii_moisieiev@epam.com>
+> ---
+>  .../feature-domain-controller.yaml            | 84 +++++++++++++++++++
+>  1 file changed, 84 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml
 
-Yeah, of course that's the right strategy (Linus made it pretty clear
-that he doesn't want any private links) in case the reporter okay with
-the Reported-by. Sorry, forgot to cover that case in my reply.
+What is the [IGNORE] prefix for?
 
-Ciao, Thorsten
