@@ -2,184 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F3EF763C66
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 18:27:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53013763C8E
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 18:33:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231665AbjGZQ1A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 12:27:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47422 "EHLO
+        id S231347AbjGZQdQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 12:33:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231357AbjGZQ06 (ORCPT
+        with ESMTP id S231335AbjGZQdN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 12:26:58 -0400
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FD732D4F;
-        Wed, 26 Jul 2023 09:26:31 -0700 (PDT)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 36QGQH7e009437;
-        Wed, 26 Jul 2023 11:26:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1690388777;
-        bh=MVdmp+gOoZlAhPHT4qa7hQWAupBLfXTDw707s4VDyrA=;
-        h=From:To:CC:Subject:Date;
-        b=mn9gCRXkS8xbWmFJlFkauTNUAuNcDSnnZoeD+I8oI1UzVHso0fr1byxJzkyKrOvl4
-         0ifuSrl6fkucQSvx/DGkALB8XNvCHUlNr+Lsp3UJgVZK33eL0Ug/4OtnuMDOAWwKae
-         bmYdH2Z4mOxc/ilHyM4+ycvucgaw+s0gi2Cr08KA=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 36QGQGbb014798
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 26 Jul 2023 11:26:16 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 26
- Jul 2023 11:26:16 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 26 Jul 2023 11:26:16 -0500
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 36QGQF0Z015623;
-        Wed, 26 Jul 2023 11:26:16 -0500
-From:   Devarsh Thakkar <devarsht@ti.com>
-To:     <mchehab@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>,
-        <a-bhatia1@ti.com>, <j-luthra@ti.com>, <b-brnich@ti.com>,
-        <detheridge@ti.com>, <p-mantena@ti.com>, <vijayp@ti.com>,
-        <devarsht@ti.com>
-Subject: [PATCH] dt-bindings: media: Add bindings for Imagination E5010 JPEG Encoder driver
-Date:   Wed, 26 Jul 2023 21:56:15 +0530
-Message-ID: <20230726162615.1270075-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 26 Jul 2023 12:33:13 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E3126A6
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 09:33:12 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-5223fbd54c6so3653256a12.3
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 09:33:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690389190; x=1690993990;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Cd6m0zvmyOqP7EWDic5k2R+RpP5jPlweNd1w6rynyUo=;
+        b=CpCaZKvwgLa6C42nwkcVPITwosYh27rjpvegCGk6j3BfVf/jx7sMu/acak8DDsb8ij
+         B5zoR1Vgn59ztkl3pTwTuFLbemf2uukY7hCunEI3om3zYVMG8xG/hI+rv6brkXc5NvYd
+         xyEtVVG0u8FoTmlDzsvMkc1ViEiV0YlbBnh5CuWWCqPvVmAw+xT7GVct9/8N6gz0l48M
+         Q0x69k1K44236DF5YNYZW9/eOHYE3K3FkjX/z2Se9NbhztCipzvThfnsLEdhnhh/3Ug9
+         sa/TeNROkMrH9augEXqCZSpNPzWSTJElwgetHL9fCxb5rZvzDIarDAnXZSKZCIMMolAw
+         4Ocw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690389190; x=1690993990;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cd6m0zvmyOqP7EWDic5k2R+RpP5jPlweNd1w6rynyUo=;
+        b=lPI/zy9We+GtXwzqiVQeDSEVufi9kOFSb8Ze/Xg66QnQuskBS9VSIOvAkjyVy5hYmE
+         SiZN8bpmlVHIbgKmlImS8cGizegJDaE5+rvLg+cN/1En4HWI3ES12g1bLQ3uAopVym1a
+         /e3lHlRKpi6R3drQX/pWmQBrBmRQLtKJpYTpnX5V/H+M5fB7fn9ve9WBEIfztDsjTdMs
+         46NO2Vx2AK/T3UbFIYs+yTSdoFXJo9Ks/Kt/Scl445lXB4IaCC54YmnMT/ZyI2s2Qew/
+         JYhS4vanXaS2V6W2X2CGJjRtHvXBUWAltv59hgNgF4EJ3JbHVa9in1ige1zjnp7n6lJJ
+         ujRg==
+X-Gm-Message-State: ABy/qLYz/GOrPoIWgyGgnKuF8Sg8uV8i5Z4GyXpOgmVsqOo7glhS9iI9
+        KrNC9HM3jEE1yOzDKvtOTIBDsg==
+X-Google-Smtp-Source: APBJJlEHXWRBqhdbOOlxQ84CIcPANQDUd8v8/7MSJsHOzfyyb3Xyjt6sp7ho11ZBjqC2KJeq851+lQ==
+X-Received: by 2002:aa7:d5c7:0:b0:521:d23b:f2c5 with SMTP id d7-20020aa7d5c7000000b00521d23bf2c5mr1891281eds.14.1690389190663;
+        Wed, 26 Jul 2023 09:33:10 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id a11-20020aa7d90b000000b005222a38c7b2sm4812918edr.48.2023.07.26.09.33.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jul 2023 09:33:10 -0700 (PDT)
+Message-ID: <b6bddd59-ac78-3f75-828e-cff54766fc72@linaro.org>
+Date:   Wed, 26 Jul 2023 18:33:08 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] dt-bindings: media: Add bindings for Imagination E5010
+ JPEG Encoder driver
+Content-Language: en-US
+To:     Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
+        j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
+        p-mantena@ti.com, vijayp@ti.com
+References: <20230726162615.1270075-1-devarsht@ti.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230726162615.1270075-1-devarsht@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
-implemented as stateful V4L2 M2M driver.
+On 26/07/2023 18:26, Devarsh Thakkar wrote:
+> Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
+> implemented as stateful V4L2 M2M driver.
+> 
+> Co-developed-by: David Huang <d-huang@ti.com>
+> Signed-off-by: David Huang <d-huang@ti.com>
 
-Co-developed-by: David Huang <d-huang@ti.com>
-Signed-off-by: David Huang <d-huang@ti.com>
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
- .../bindings/media/img,e5010-jpeg-enc.yaml    | 79 +++++++++++++++++++
- MAINTAINERS                                   |  5 ++
- 2 files changed, 84 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+A nit, subject: drop second/last, redundant "bindings for". The
+"dt-bindings" prefix is already stating that these are bindings.
 
-diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-new file mode 100644
-index 000000000000..0060373eace7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-@@ -0,0 +1,79 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Imagination E5010 JPEG Encoder
-+
-+maintainers:
-+  - Devarsh Thakkar <devarsht@ti.com>
-+
-+description: |
-+  The E5010 is a JPEG encoder from Imagination Technologies implemented on
-+  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
-+  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
-+  8Kx8K resolution.
-+
-+properties:
-+  compatible:
-+    const: img,e5010-jpeg-enc
-+
-+  reg:
-+    items:
-+      - description: The E5010 main register region
-+      - description: The E5010 mmu register region
-+
-+  reg-names:
-+    items:
-+      - const: regjasper
-+      - const: regmmu
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 2
-+
-+  clock-names:
-+    minItems: 1
-+    maxItems: 2
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - power-domains
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    cbass_main {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
-+      e5010: e5010@fd20000 {
-+          compatible = "img,e5010-jpeg-enc";
-+          reg = <0x00 0xfd20000 0x00 0x100>,
-+                <0x00 0xfd20200 0x00 0x200>;
-+          reg-names = "regjasper", "regmmu";
-+          clocks = <&k3_clks 201 0>;
-+          clock-names = "core_clk";
-+          power-domains = <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
-+          interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-+      };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a5c16bb92fe2..aab11219810f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10170,6 +10170,11 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/auxdisplay/img,ascii-lcd.yaml
- F:	drivers/auxdisplay/img-ascii-lcd.c
- 
-+IMGTEC JPEG ENCODER DRIVER
-+M:	Devarsh Thakkar <devarsht@ti.com>
-+S:	Supported
-+F:	Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-+
- IMGTEC IR DECODER DRIVER
- S:	Orphan
- F:	drivers/media/rc/img-ir/
--- 
-2.34.1
+Drop also "driver". Bindings are for hardware, not drivers.
+
+Prefix starts with media and then dt-bindings.
+
+
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> ---
+>  .../bindings/media/img,e5010-jpeg-enc.yaml    | 79 +++++++++++++++++++
+>  MAINTAINERS                                   |  5 ++
+>  2 files changed, 84 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+> new file mode 100644
+> index 000000000000..0060373eace7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Imagination E5010 JPEG Encoder
+> +
+> +maintainers:
+> +  - Devarsh Thakkar <devarsht@ti.com>
+> +
+> +description: |
+> +  The E5010 is a JPEG encoder from Imagination Technologies implemented on
+> +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
+> +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
+> +  8Kx8K resolution.
+> +
+> +properties:
+> +  compatible:
+> +    const: img,e5010-jpeg-enc
+
+Your description suggests that this is part of TI SoC. Pretty often
+licensed blocks cannot be used on their own and need some
+customizations. Are you sure your block does not need any customization
+thus no dedicated compatible is needed?
+
+> +
+> +  reg:
+> +    items:
+> +      - description: The E5010 main register region
+> +      - description: The E5010 mmu register region
+> +
+> +  reg-names:
+> +    items:
+> +      - const: regjasper
+> +      - const: regmmu
+> +
+
+Drop reg from both
+
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 2
+
+You need to specify the items. Also, no variable number of clocks. Why
+would they vary if block is strictly defined?
+
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 2
+
+Instead list the names.
+
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    cbass_main {
+
+That's some weird name. Probably you meant soc. Anyway, underscores are
+not allowed.
+
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +      e5010: e5010@fd20000 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+Drop the label.
+
+> +          compatible = "img,e5010-jpeg-enc";
+> +          reg = <0x00 0xfd20000 0x00 0x100>,
+> +                <0x00 0xfd20200 0x00 0x200>;
+> +          reg-names = "regjasper", "regmmu";
+> +          clocks = <&k3_clks 201 0>;
+> +          clock-names = "core_clk";
+> +          power-domains = <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
+> +          interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
+> +      };
+> +    };
+
+
+Best regards,
+Krzysztof
 
