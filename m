@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2F3876345A
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 12:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66325763462
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 12:58:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233831AbjGZK4B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 06:56:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41800 "EHLO
+        id S233502AbjGZK6Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 06:58:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234035AbjGZKz7 (ORCPT
+        with ESMTP id S230480AbjGZK6Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 06:55:59 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE99E78
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 03:55:57 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3fbf1b82d9cso55844695e9.2
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 03:55:56 -0700 (PDT)
+        Wed, 26 Jul 2023 06:58:24 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6BFFE63
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 03:58:22 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-31757edd9edso3138052f8f.2
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 03:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690368955; x=1690973755;
+        d=linaro.org; s=google; t=1690369101; x=1690973901;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iegk/2TKL5Rj456XBjxdhlF2YFlmLFdSyPtT2uk62mo=;
-        b=CW3jL5pMUrmOUizoS1E9Hcsvtp4BD/g7xIZqvjeEkiUm4QBhFwTSenULu7s0INr9iJ
-         zQysgQPFzzAVrqets21G+KcdMXNDWvaj9TwVMnDuA/v4sGB1JgcKYEF4cErb4lNceJ+2
-         YVE6eDM18TkSiSu4iJfWA/Ku+F+wohEkxQgbqJuieY0qLQv1e8ZYLf/FY/BaKem8B936
-         PdG2Z39Rxp+xEfrzkebV4lh0v083vpRRmnFRTIW+Kyfr+rB3xFJLS1yHpobQYxZbtkhC
-         rywe5ncdgxjclxQMKOK0X5tJhU/o+KgtRF2F4GQhNwTe3EUKY1Gt4rriLeBpkloQS8X/
-         wCFA==
+        bh=69jj580P1DSe8cr6wdR9bzkleON+onBpdSJQbX0RqQQ=;
+        b=abCtLTAHxzLZQx3yZP7Jwy4wSL5/u0dolDfq845g7zh8r+qohhm8WyQ+I08DytVAGW
+         ov2RCtlAbso2q1msLc44f4Pn2L4C5m4OhY/FW+ucsvoB1+dYUb91WvHy+R+wdv67Hf99
+         VBFCnBwPuVvzZ14c8i5mauC35jRBgiU7bRl3jo52k8wT5YXoSarMnQbycr5BopNVsxeQ
+         BmDlAe2ugU2cpcJWzqTLcpMks9xh/dyZZ5aAUFuKqteDD7iRu7C0mZeBL17G+KpOTtgt
+         2DEn4g5qMf3a6AKY7IRjhPtr9qEuNY3RHTNaW2qC8xRijyBvzM/cPoWyu0lT7cQ80ceb
+         ntMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690368955; x=1690973755;
+        d=1e100.net; s=20221208; t=1690369101; x=1690973901;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iegk/2TKL5Rj456XBjxdhlF2YFlmLFdSyPtT2uk62mo=;
-        b=dLwOIPfd7IxeRGeI64T8Bf1/7XO4bJSxQunNCotQrXVRTcl5s1BLOF9Cx404vaup+v
-         tCYnTyvGtW0L1xUOYeLAMqTP7lZJWyVBBGjJEEjDpsVRxcfPWFKRnT5ZDjElwPrOLTIK
-         80x40UobQVd1phmq3BPX2bszFQW+B5gfSb8qVSPAx0qs37oRwdJfTK1ZWVK089Pwg2ME
-         LbUjyta7VUQvwB5k7dYEAq7dstYvLxLZ4muyvR4LRFpUxaSEQJ15LXcxLBdCGccmy/lw
-         Q2Y8RKtwjSVL7yQU+TSdqCjfV78epQfSL31ThfDQGJZ7J2dbJzzJ2F3TxDHz5bNg8/5W
-         ugfA==
-X-Gm-Message-State: ABy/qLZBLyyVukHdXEwzWCDvIZeY500OZf+s4TxQbZWz+/ZkdJQI+iiL
-        uBNU1uuNbZOqce+vjPITDviqkT0Iky8S3TitZKU=
-X-Google-Smtp-Source: APBJJlG6UyprMnFMQm4Ei76lg009+z+sJ9pxlVFtN/IZb2oMNBA6ouM38riQicLc05GMonaqkYMTWw==
-X-Received: by 2002:a5d:558e:0:b0:313:e9f6:3378 with SMTP id i14-20020a5d558e000000b00313e9f63378mr1003950wrv.4.1690368955338;
-        Wed, 26 Jul 2023 03:55:55 -0700 (PDT)
+        bh=69jj580P1DSe8cr6wdR9bzkleON+onBpdSJQbX0RqQQ=;
+        b=iUCQU6CBRY3KFyZucAKIlCpx7TWgFACnN2rJ9wsleGo/KF8EPSMtUvN4Ets4jSmK+j
+         uxwotw/srzO0Jj+NlderYPsaG5I6EvK9cB/W1Ubux8+BaChkYbtOAvqGNr3OYHLL4d4S
+         fIJPq2TDd9CSsnEVso4NbjeJBQFWKKB/5fcuPX0/qnaWusnu7f7f8fpyUymkVchIINT7
+         6r/z8GsVqEOKdceFfl0COaMOn8BYHv2w2IpFLPV8XWUR5c0Hm/kCLVhHFSEGJTXngPp/
+         Z/Wx4TdV5ao0V+CsdzQs9F5Ws7AIMMEfgH/NOWdQjaL1tCI+vmXjUPXCpexgeWcdvwWR
+         /MAg==
+X-Gm-Message-State: ABy/qLbG5DKHVSAk9rpbo3bxwSVs0zdd+3khNCiE/bGSapaBDttMdZg7
+        7sPLEqbVlQA/RRBlQmIj9zaOiw==
+X-Google-Smtp-Source: APBJJlFuFExWjA3/qcQB/qgB2FxAoydz5gV11+BnboLGZNTKevsjTGJMa3597JykIshfwxKFQJTPDA==
+X-Received: by 2002:a5d:4450:0:b0:317:70cb:4f58 with SMTP id x16-20020a5d4450000000b0031770cb4f58mr997310wrr.63.1690369101230;
+        Wed, 26 Jul 2023 03:58:21 -0700 (PDT)
 Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id o26-20020a5d58da000000b0030ae499da59sm19353583wrf.111.2023.07.26.03.55.54
+        by smtp.gmail.com with ESMTPSA id r15-20020adff70f000000b003143ba62cf4sm19225643wrp.86.2023.07.26.03.58.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 03:55:54 -0700 (PDT)
-Message-ID: <eb8ff364-1c49-28b4-242d-168828ca7094@linaro.org>
-Date:   Wed, 26 Jul 2023 11:55:53 +0100
+        Wed, 26 Jul 2023 03:58:20 -0700 (PDT)
+Message-ID: <d939d08d-9e5a-b620-5d4f-cc805bcc76b7@linaro.org>
+Date:   Wed, 26 Jul 2023 11:58:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
@@ -88,56 +88,18 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 19/06/2023 12:28, Jack Zhu wrote:
+> Add basic platform driver for StarFive Camera Subsystem.
 
-> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
-> +{
-> +	struct device *dev = stfcamss->dev;
-> +	struct device_node *node = NULL;
-> +	int ret, num_subdevs = 0;
-> +
-> +	for_each_endpoint_of_node(dev->of_node, node) {
-> +		struct stfcamss_async_subdev *csd;
-> +
-> +		if (!of_device_is_available(node))
-> +			continue;
-> +
-> +		csd = v4l2_async_nf_add_fwnode_remote(&stfcamss->notifier,
-> +						      of_fwnode_handle(node),
-> +						      struct stfcamss_async_subdev);
-> +		if (IS_ERR(csd)) {
-> +			ret = PTR_ERR(csd);
-> +			goto err_cleanup;
-> +		}
-> +
-> +		ret = stfcamss_of_parse_endpoint_node(dev, node, csd);
-> +		if (ret < 0)
-> +			goto err_cleanup;
-> +
-> +		num_subdevs++;
-> +	}
-> +
-> +	return num_subdevs;
-> +
-> +err_cleanup:
-> +	of_node_put(node);
+Another nit here.
 
-Where is the _get() for this and if you are releasing it on the error 
-path when is the _get() released on the non-error path ?
+"Add basic driver" isn't a great title. Recommend "Add core driver".
 
-> +	return ret;
-> +}
-> +
-> +static int stfcamss_subdev_notifier_bound(struct v4l2_async_notifier *async,
-> +					  struct v4l2_subdev *subdev,
-> +					  struct v4l2_async_subdev *asd)
-> +{
-> +	struct media_pad *pad[STF_PADS_NUM];
-> +	unsigned int i, pad_num = 0;
-> +
-> +	for (i = 0; i < pad_num; ++i) {
+Basic implies a thing that will be added to or improved upon but, this 
+code here is your "core" interface where you do your probing and 
+resource parsing/allocation etc.
 
-Does this loop ever run ?
-I don't see how it can..
+Use "core" not "basic" to describe this.
 
 ---
 bod
+
