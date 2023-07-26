@@ -2,90 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0918763409
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 12:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ECA076340E
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 12:41:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233964AbjGZKkH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 06:40:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33348 "EHLO
+        id S233983AbjGZKk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 06:40:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbjGZKkE (ORCPT
+        with ESMTP id S233995AbjGZKkw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 06:40:04 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC511BCB;
-        Wed, 26 Jul 2023 03:40:03 -0700 (PDT)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36Q7VZaZ007966;
-        Wed, 26 Jul 2023 12:39:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=W8GLfB17+jUE7Nw68o8tScgzzDDgHpp5NKWkRxESZlI=;
- b=qLRE5+KmvbKk5B/UW10nGEjBoDKipiB1flNkgDwSQYqmZMZdBpctbst7Vwt4EUF87UAQ
- lGs1OpG9iWa7NPx/eqb8ySrQnjHJTDAhdOqjGv8LVHdxJLHd4/JhOqgzW88/jAn5GpJe
- /9sWA3Z+uL0eH5JViXAbOVXN00Amp02Tix6WttAS9w4R9wAmpstvy5KIJGiwDfWDgPWe
- 7Ll7vUdK2tWD46wDK1zTVYHE+KrDhr1nsi10XJw0x7tkd+qwL727Kpu0HqUADsa0lQkG
- 4pxFNpRPxpJfDasvoPH+WokzK6DrXEtEA/wNoEISShjpOySH6a8QFdhtHwnQ+A4I7C3/ 6g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3s2y641c6j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Jul 2023 12:39:37 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C13A210002A;
-        Wed, 26 Jul 2023 12:39:36 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B6D7C21787E;
-        Wed, 26 Jul 2023 12:39:36 +0200 (CEST)
-Received: from [10.201.21.121] (10.201.21.121) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 26 Jul
- 2023 12:39:34 +0200
-Message-ID: <9f34d34b-911a-c064-9e44-34e030b76786@foss.st.com>
-Date:   Wed, 26 Jul 2023 12:39:31 +0200
+        Wed, 26 Jul 2023 06:40:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E82F26A5;
+        Wed, 26 Jul 2023 03:40:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7A02961A5C;
+        Wed, 26 Jul 2023 10:40:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7BB7C433C7;
+        Wed, 26 Jul 2023 10:40:41 +0000 (UTC)
+Message-ID: <bf859616-601e-1dc3-2696-803a8edbd8ab@xs4all.nl>
+Date:   Wed, 26 Jul 2023 12:40:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 05/11] firewall: introduce stm32_firewall framework
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v8 2/2] Added Digiteq Automotive MGB4 driver documentation
 Content-Language: en-US
-To:     Simon Horman <simon.horman@corigine.com>
-CC:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
-        <vkoul@kernel.org>, <jic23@kernel.org>,
-        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
-        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
-        <andi.shyti@kernel.org>, <ulf.hansson@linaro.org>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <hugues.fruchet@foss.st.com>, <lee@kernel.org>, <will@kernel.org>,
-        <catalin.marinas@arm.com>, <arnd@kernel.org>,
-        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
-        <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <20230725164104.273965-1-gatien.chevallier@foss.st.com>
- <20230725164104.273965-6-gatien.chevallier@foss.st.com>
- <ZMDz1AhlEeZTM/vi@corigine.com>
-From:   Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <ZMDz1AhlEeZTM/vi@corigine.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.21.121]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-26_04,2023-07-25_01,2023-05-22_02
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+To:     tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>
+References: <20230704131339.2177-1-tumic@gpxsee.org>
+ <20230704131339.2177-3-tumic@gpxsee.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230704131339.2177-3-tumic@gpxsee.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -93,39 +49,457 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 04/07/2023 15:13, tumic@gpxsee.org wrote:
+> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+> 
+> The "admin-guide" documentation for the Digiteq Automotive MGB4 driver.
+> 
+> Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+> ---
+>  Documentation/admin-guide/media/mgb4.rst      | 369 ++++++++++++++++++
+>  .../admin-guide/media/pci-cardlist.rst        |   1 +
+>  .../admin-guide/media/v4l-drivers.rst         |   1 +
+>  3 files changed, 371 insertions(+)
+>  create mode 100644 Documentation/admin-guide/media/mgb4.rst
+> 
+> diff --git a/Documentation/admin-guide/media/mgb4.rst b/Documentation/admin-guide/media/mgb4.rst
+> new file mode 100644
+> index 000000000000..e1bb708a2265
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/mgb4.rst
+> @@ -0,0 +1,369 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +====================
+> +mgb4 sysfs interface
+> +====================
+> +
+> +The mgb4 driver provides a sysfs interface, that is used to configure video
+> +stream related parameters (some of them must be set properly before the v4l2
+> +device can be opened) and obtain the video device/stream status.
+> +
+> +There are two types of parameters - global / PCI card related, found under
+> +``/sys/class/video4linux/videoX/device`` and module specific found under
+> +``/sys/class/video4linux/videoX``.
+> +
+> +
+> +Global (PCI card) parameters
+> +============================
+> +
+> +**module_type** (R):
+> +    Module type.
+> +
+> +    | 0 - No module present
+> +    | 1 - FPDL3
+> +    | 2 - GMSL
+> +
+> +**module_version** (R):
+> +    Module version number. Zero in case of a missing module.
+> +
+> +**fw_type** (R):
+> +    Firmware type.
+> +
+> +    | 1 - FPDL3
+> +    | 2 - GMSL
+> +
+> +**fw_version** (R):
+> +    Firmware version number.
+> +
+> +**serial_number** (R):
+> +    Card serial number. The format is::
+> +
+> +        PRODUCT-REVISION-SERIES-SERIAL
+> +
+> +    where each component is a 8b number.
+> +
+> +
+> +Common FPDL3/GMSL input parameters
+> +==================================
+> +
+> +**input_id** (R):
+> +    Input number ID, zero based.
+> +
+> +**oldi_lane_width** (RW):
+> +    Number of deserializer output lanes.
+> +
+> +    | 0 - single
+> +    | 1 - dual
+> +
+> +**color_mapping** (RW):
+> +    Mapping of the incoming bits in the signal to the colour bits of the pixels.
+> +
+> +    | 0 - OLDI/JEIDA
+> +    | 1 - SPWG/VESA
+> +
+> +**link_status** (R):
+> +    Video link status. If the link is locked, chips are properly connected and
+> +    communicating at the same speed and protocol. The link can be locked without
+> +    an active video stream.
+> +
+> +    A value of 0 is equivalent to the V4L2_IN_ST_NO_SYNC flag of the V4L2
+> +    VIDIOC_ENUMINPUT status bits.
+> +
+> +    | 0 - unlocked
+> +    | 1 - locked
+> +
+> +**stream_status** (R):
+> +    Video stream status. A stream is detected if the link is locked, the input
+> +    pixel clock is running and the DE signal is moving.
+> +
+> +    A value of 0 is equivalent to the V4L2_IN_ST_NO_SIGNAL flag of the V4L2
+> +    VIDIOC_ENUMINPUT status bits.
+> +
+> +    | 0 - not detected
+> +    | 1 - detected
+> +
+> +**video_width** (R):
+> +    Video stream width. This is the actual width as detected by the HW.
+> +
+> +    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in the width
+> +    field of the v4l2_bt_timings struct.
+> +
+> +**video_height** (R):
+> +    Video stream height. This is the actual height as detected by the HW.
+> +
+> +    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in the height
+> +    field of the v4l2_bt_timings struct.
+> +
+> +**vsync_status** (R):
+> +    The type of VSYNC pulses as detected by the video format detector.
+> +
+> +    The value is equivalent to the flags returned by VIDIOC_QUERY_DV_TIMINGS in
+> +    the polarities field of the v4l2_bt_timings struct.
+> +
+> +    | 0 - active low
+> +    | 1 - active high
+> +    | 2 - not available
+> +
+> +**hsync_status** (R):
+> +    The type of HSYNC pulses as detected by the video format detector.
+> +
+> +    The value is equivalent to the flags returned by VIDIOC_QUERY_DV_TIMINGS in
+> +    the polarities field of the v4l2_bt_timings struct.
+> +
+> +    | 0 - active low
+> +    | 1 - active high
+> +    | 2 - not available
+> +
+> +**vsync_gap_length** (RW):
+> +    If the incoming video signal does not contain synchronization VSYNC and
+> +    HSYNC pulses, these must be generated internally in the FPGA to achieve
+> +    the correct frame ordering. This value indicates, how many "empty" pixels
 
+Pixels or lines? This is vsync, so lines would be more logical.
 
-On 7/26/23 12:22, Simon Horman wrote:
-> On Tue, Jul 25, 2023 at 06:40:58PM +0200, Gatien Chevallier wrote:
-> 
-> ...
-> 
->> diff --git a/drivers/bus/stm32_firewall.c b/drivers/bus/stm32_firewall.c
-> 
-> ...
-> 
->> +int stm32_firewall_controller_register(struct stm32_firewall_controller *firewall_controller)
->> +{
->> +	struct stm32_firewall_controller *ctrl;
->> +
->> +	pr_info("Registering %s firewall controller\n", firewall_controller->name);
->> +
->> +	if (!firewall_controller)
->> +		return -ENODEV;
-> 
-> HI Gatien,
-> 
-> Sorry, one more on this patch, that I missed before sending my previous
-> email.
-> 
-> firewall_controller is checked for NULL here.
-> But it is already dereferenced on the line above the check.
-> 
-> Flagged by Smatch.
-> 
-> ...
+Even if the hardware wants pixels, perhaps the driver should use lines and
+translate it to pixels. It's much easier for userspace to work with lines.
 
-Indeed, thank you. I will change this for V4
+> +    (pixels with deasserted Data Enable signal) are necessary to generate the
+> +    internal VSYNC pulse.
+> +
+> +**hsync_gap_length** (RW):
+> +    If the incoming video signal does not contain synchronization VSYNC and
+> +    HSYNC pulses, these must be generated internally in the FPGA to achieve
+> +    the correct frame ordering. This value indicates, how many "empty" pixels
+> +    (pixels with deasserted Data Enable signal) are necessary to generate the
+> +    internal HSYNC pulse. The value must be greater than 1 and smaller than
+> +    vsync_gap_length.
 
-Best regards,
-Gatien
+Does this make sense? vsync_gap_length can be many video lines, which makes
+not sense for hsync_gap_length.
+
+I wonder if it isn't easier to just change this to v/hsync_blanking_length
+(lines for vsync, pixels for hsync) to indicate the length of the blanking
+periods, and then let the driver pick a suitable hsync/vsync position.
+
+> +
+> +**pclk_frequency** (R):
+> +    Input pixel clock frequency in kHz.
+> +
+> +    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
+> +    the pixelclock field of the v4l2_bt_timings struct.
+> +
+> +    *Note: The frequency_range parameter must be set properly first to get
+> +    a valid frequency here.*
+> +
+> +**hsync_width** (R):
+> +    Width of the HSYNC signal in PCLK clock ticks.
+> +
+> +    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
+> +    the hsync field of the v4l2_bt_timings struct.
+> +
+> +**vsync_width** (R):
+> +    Width of the VSYNC signal in PCLK clock ticks.
+> +
+> +    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
+> +    the vsync field of the v4l2_bt_timings struct.
+> +
+> +**hback_porch** (R):
+> +    Number of PCLK pulses between deassertion of the HSYNC signal and the first
+> +    valid pixel in the video line (marked by DE=1).
+> +
+> +    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
+> +    the hbackporch field of the v4l2_bt_timings struct.
+> +
+> +**hfront_porch** (R):
+> +    Number of PCLK pulses between the end of the last valid pixel in the video
+> +    line (marked by DE=1) and assertion of the HSYNC signal.
+> +
+> +    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
+> +    the hfrontporch field of the v4l2_bt_timings struct.
+> +
+> +**vback_porch** (R):
+> +    Number of video lines between deassertion of the VSYNC signal and the video
+> +    line with the first valid pixel (marked by DE=1).
+> +
+> +    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
+> +    the vbackporch field of the v4l2_bt_timings struct.
+> +
+> +**vfront_porch** (R):
+> +    Number of video lines between the end of the last valid pixel line (marked
+> +    by DE=1) and assertion of the VSYNC signal.
+> +
+> +    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
+> +    the vfrontporch field of the v4l2_bt_timings struct.
+
+Does setting v/hsync_gap_length also update these fields accordingly?
+
+> +
+> +**frequency_range** (RW)
+> +    PLL frequency range of the OLDI input clock generator. The PLL frequency is
+> +    derived from the Pixel Clock Frequency (PCLK) and is equal to PCLK if
+> +    oldi_lane_width is set to "single" and PCLK/2 if oldi_lane_width is set to
+> +    "dual".
+> +
+> +    | 0 - PLL < 50MHz
+> +    | 1 - PLL >= 50MHz
+> +
+> +    *Note: This parameter can not be changed while the input v4l2 device is
+> +    open.*
+> +
+> +
+> +Common FPDL3/GMSL output parameters
+> +===================================
+> +
+> +**output_id** (R):
+> +    Output number ID, zero based.
+> +
+> +**video_source** (RW):
+> +    Output video source. If set to 0 or 1, the source is the corresponding card
+> +    input and the v4l2 output devices are disabled. If set to 2 or 3, the source
+> +    is the corresponding v4l2 video output device.
+> +
+> +    | 0 - input 0
+> +    | 1 - input 1
+> +    | 2 - v4l2 output 0
+> +    | 3 - v4l2 output 1
+> +
+> +    *Note: This parameter can not be changed while ANY of the input/output v4l2
+> +    devices is open.*
+> +
+> +**display_width** (RW):
+> +    Display width. There is no autodetection of the connected display, so the
+> +    proper value must be set before the start of streaming.
+> +
+> +    *Note: This parameter can not be changed while the output v4l2 device is
+> +    open.*
+> +
+> +**display_height** (RW):
+> +    Display height. There is no autodetection of the connected display, so the
+> +    proper value must be set before the start of streaming.
+> +
+> +    *Note: This parameter can not be changed while the output v4l2 device is
+> +    open.*
+> +
+> +**frame_rate** (RW):
+> +    Output video frame rate in frames per second.
+> +
+> +**hsync_polarity** (RW):
+> +    HSYNC signal polarity.
+> +
+> +    | 0 - active low
+> +    | 1 - active high
+> +
+> +**vsync_polarity** (RW):
+> +    VSYNC signal polarity.
+> +
+> +    | 0 - active low
+> +    | 1 - active high
+> +
+> +**de_polarity** (RW):
+> +    DE signal polarity.
+> +
+> +    | 0 - active low
+> +    | 1 - active high
+> +
+> +**pclk_frequency** (RW):
+> +    Output pixel clock frequency. Allowed values are between 25000-190000(kHz)
+> +    and there is a non-linear stepping between two consecutive allowed
+> +    frequencies. The driver finds the nearest allowed frequency to the given
+> +    value and sets it. When reading this property, you get the exact
+> +    frequency set by the driver.
+> +
+> +    *Note: This parameter can not be changed while the output v4l2 device is
+> +    open.*
+> +
+> +**hsync_width** (RW):
+> +    Width of the HSYNC signal in PCLK clock ticks.
+
+Isn't "PCLK clock ticks" the equivalent of "pixels"? That's a much more natural
+way of describing this.
+
+> +
+> +**vsync_width** (RW):
+> +    Width of the VSYNC signal in PCLK clock ticks.
+
+VSYNC is usually described in lines and 'height'.
+
+> +
+> +**hback_porch** (RW):
+> +    Number of PCLK pulses between deassertion of the HSYNC signal and the first
+> +    valid pixel in the video line (marked by DE=1).
+> +
+> +**hfront_porch** (RW):
+> +    Number of PCLK pulses between the end of the last valid pixel in the video
+> +    line (marked by DE=1) and assertion of the HSYNC signal.
+> +
+> +**vback_porch** (RW):
+> +    Number of video lines between deassertion of the VSYNC signal and the video
+> +    line with the first valid pixel (marked by DE=1).
+
+As is done here.
+
+> +
+> +**vfront_porch** (RW):
+> +    Number of video lines between the end of the last valid pixel line (marked
+> +    by DE=1) and assertion of the VSYNC signal.
+> +
+> +
+> +FPDL3 specific input parameters
+> +===============================
+> +
+> +**fpdl3_input_width** (RW):
+> +    Number of deserializer input lines.
+> +
+> +    | 0 - auto
+> +    | 1 - single
+> +    | 2 - dual
+> +
+> +FPDL3 specific output parameters
+> +================================
+> +
+> +**fpdl3_output_width** (RW):
+> +    Number of serializer output lines.
+> +
+> +    | 0 - auto
+> +    | 1 - single
+> +    | 2 - dual
+> +
+> +GMSL specific input parameters
+> +==============================
+> +
+> +**gmsl_mode** (RW):
+> +    GMSL speed mode.
+> +
+> +    | 0 - 12Gb/s
+> +    | 1 - 6Gb/s
+> +    | 2 - 3Gb/s
+> +    | 3 - 1.5Gb/s
+> +
+> +**gmsl_stream_id** (RW):
+> +    The GMSL multi-stream contains up to four video streams. This parameter
+> +    selects which stream is captured by the video input. The value is the
+> +    zero-based index of the stream.
+> +
+> +    *Note: This parameter can not be changed while the input v4l2 device is
+> +    open.*
+> +
+> +**gmsl_fec** (RW):
+> +    GMSL Forward Error Correction (FEC).
+> +
+> +    | 0 - disabled
+> +    | 1 - enabled
+> +
+> +
+> +====================
+> +mgb4 mtd partitions
+> +====================
+> +
+> +The mgb4 driver creates a MTD device with two partitions:
+> + - mgb4-fw.X - FPGA firmware.
+> + - mgb4-data.X - Factory settings, e.g. card serial number.
+> +
+> +The *mgb4-fw* partition is writable and is used for FW updates, *mgb4-data* is
+> +read-only. The *X* attached to the partition name represents the card number.
+> +Depending on the CONFIG_MTD_PARTITIONED_MASTER kernel configuration, you may
+> +also have a third partition named *mgb4-flash* available in the system. This
+> +partition represents the whole, unpartitioned, card's FLASH memory and one should
+> +not fiddle with it...
+> +
+> +====================
+> +mgb4 iio (triggers)
+> +====================
+> +
+> +The mgb4 driver creates an Industrial I/O (IIO) device that provides trigger and
+> +signal level status capability. The following scan elements are available:
+> +
+> +**activity**:
+> +	The trigger levels and pending status.
+> +
+> +	| bit 1 - trigger 1 pending
+> +	| bit 2 - trigger 2 pending
+> +	| bit 5 - trigger 1 level
+> +	| bit 6 - trigger 2 level
+> +
+> +**timestamp**:
+> +	The trigger event timestamp.
+> +
+> +The iio device can operate either in "raw" mode where you can fetch the signal
+> +levels (activity bits 5 and 6) using sysfs access or in triggered buffer mode.
+> +In the triggered buffer mode you can follow the signal level changes (activity
+> +bits 1 and 2) using the iio device in /dev. If you enable the timestamps, you
+> +will also get the exact trigger event time that can be matched to a video frame
+> +(every mgb4 video frame has a timestamp with the same clock source).
+> +
+> +*Note: although the activity sample always contains all the status bits, it makes
+> +no sense to get the pending bits in raw mode or the level bits in the triggered
+> +buffer mode - the values do not represent valid data in such case.*
+> diff --git a/Documentation/admin-guide/media/pci-cardlist.rst b/Documentation/admin-guide/media/pci-cardlist.rst
+> index 42528795d4da..7d8e3c8987db 100644
+> --- a/Documentation/admin-guide/media/pci-cardlist.rst
+> +++ b/Documentation/admin-guide/media/pci-cardlist.rst
+> @@ -77,6 +77,7 @@ ipu3-cio2         Intel ipu3-cio2 driver
+>  ivtv              Conexant cx23416/cx23415 MPEG encoder/decoder
+>  ivtvfb            Conexant cx23415 framebuffer
+>  mantis            MANTIS based cards
+> +mgb4              Digiteq Automotive MGB4 frame grabber
+>  mxb               Siemens-Nixdorf 'Multimedia eXtension Board'
+>  netup-unidvb      NetUP Universal DVB card
+>  ngene             Micronas nGene
+> diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
+> index 1c41f87c3917..61283d67ceef 100644
+> --- a/Documentation/admin-guide/media/v4l-drivers.rst
+> +++ b/Documentation/admin-guide/media/v4l-drivers.rst
+> @@ -17,6 +17,7 @@ Video4Linux (V4L) driver-specific documentation
+>  	imx7
+>  	ipu3
+>  	ivtv
+> +	mgb4
+>  	omap3isp
+>  	omap4_camera
+>  	philips
+
+General note regarding the RW attributes: are there default values set by the driver?
+Should those be documented? What happens if you just start streaming without setting
+any of the RW attrs?
+
+The standard V4L2 model is that there is no such thing as an uninitialized value, i.e.
+there always are reasonable defaults created at probe time. Streaming might not actually
+work if the defaults do not match the incoming signal, but you won't have to deal with
+e.g. zero values or anything like that.
+
+The same should be done here: there do have to be sane documented initial values.
+
+Regards,
+
+	Hans
