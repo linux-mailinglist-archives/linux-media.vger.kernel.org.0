@@ -2,134 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14044763D20
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 19:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B868763D61
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 19:14:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232130AbjGZRBv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 13:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44464 "EHLO
+        id S230441AbjGZROi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 13:14:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231470AbjGZRBp (ORCPT
+        with ESMTP id S229507AbjGZROh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 13:01:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D50813D;
-        Wed, 26 Jul 2023 10:01:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B85D61BF3;
-        Wed, 26 Jul 2023 17:01:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 222C0C433CB;
-        Wed, 26 Jul 2023 17:01:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690390903;
-        bh=4mbYmnu1PDgK0itPtxxQYM0+Hl+zT+MwXTqlREX4YhU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MlygdD+/KE1R/9AaKHGMCTFrqMun444kuddWkLPP/pXwMkc8RFH/CqsNJRzbROd5q
-         hvHHxv3+KRojZaLXxUgCXE1nZxdFEOYDFXtoj2FirCiW7xPuG7LkP/kCXSqm06woUE
-         gXKPTvU2NDgbv3pHK1q3S7wuvgbwI5Ey4DYWZ7o1sZzn8UgAhQad7Eoz+yzZih+TXI
-         OD5+vitXuR/7A/RiC0KPR5a0hYdWU3/3X0YtqUGEGKUEAZPtVCULnThdDqfTuGN4ry
-         IVs296+9cHENYnQXkshMl21XP+HhHQ2ch+qKJ8Gqj/EAO+rBgqijgQ7zXL0YvRLvfR
-         /MpDs/Qn6NmVA==
-Received: (nullmailer pid 1585388 invoked by uid 1000);
-        Wed, 26 Jul 2023 17:01:41 -0000
-Date:   Wed, 26 Jul 2023 11:01:41 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Conor Dooley <conor@kernel.org>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Ming Qian <ming.qian@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
-        Zhou Peng <eagle.zhou@nxp.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] dt-bindings: media: imx-jpeg: Add clocks property
-Message-ID: <20230726170141.GA1568248-robh@kernel.org>
-References: <20230724122101.2903318-1-alexander.stein@ew.tq-group.com>
- <20230724122101.2903318-3-alexander.stein@ew.tq-group.com>
- <20230724-unscrew-bonnet-3c86da806df3@spud>
- <1908243.taCxCBeP46@steina-w>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1908243.taCxCBeP46@steina-w>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 26 Jul 2023 13:14:37 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C061739;
+        Wed, 26 Jul 2023 10:14:36 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-668704a5b5bso94109b3a.0;
+        Wed, 26 Jul 2023 10:14:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690391676; x=1690996476;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y8QZa7qTEmGwCyA0yfHV1JjhyFQSM3L1Bj9irGZtMbI=;
+        b=V5ourLyDBFitbj6i3NSu7Ce7nyCxoe4wZz6T48QqcrhwAyGppGZo6/+WkRI9pTCQhc
+         ZKv2sR5SfQnbXhe8eslmUHoLwz/Dk2cyZSCWcaACOGBdVZueFvu5ixTwrS09deJZEeCl
+         ggNyP8W+/4g2znmswMkpzWrVAtkKCAh36eSKLciRAPRvDQhheqyFytgwdBoZG4Ecxs/y
+         JTAnoH6VABAO9MSHILqEdWZ1xznhrFaW/CWQxP6nx0FD9x8BsFJjFQ27EzuMopLeSN/E
+         vIUvuUTPiuI3TdlPaDwPH2zPABN0ZDf+Y6vAALJ46Eq9cz21qVSeIhwttVhqxNA3p49O
+         evtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690391676; x=1690996476;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y8QZa7qTEmGwCyA0yfHV1JjhyFQSM3L1Bj9irGZtMbI=;
+        b=NyO5sWF/JPJqjxvsdtAGbJjzauSLTQmSI2r9QMtNtmYeXv6BTW8XeaWhqhofRZfy9P
+         79Max51NegOagbu5MbVniqZyEundi9+SG7BhFZYyirk7kKOIB6YguD1bSiw/QliCVIDR
+         O/yyTnvx37K45WjFmbk8C4f6brz2rhEOks3aNP/lTOgUmpslgRcUD6d/hntym3VNwWBJ
+         ZV1EuHHjDQXEY4syUNftBxDFReCcXoKm+6dQdHlhit5eqetWOAvTTaSuhBnWMCyu3rWU
+         JCggWf5l9+TGuKemJwwBmLVT9xeeb2exIJwfKNETFiActgfqEVLeqw7CS+hEKCgHuNtE
+         ypoA==
+X-Gm-Message-State: ABy/qLYQz+IZW/h1VzBkasLRD6nL7QuOwRnKiGI4dfxOrFNMcTdjG1NF
+        5OC6BxacCmQ1fisIXvIPu8I=
+X-Google-Smtp-Source: APBJJlF9uZ/TB0GtcuHXezMc7d0QCA7hQiP905LgZ3w0DZ1XDY4QZ9iUrKmEg++RMxvAb8QwPjMcLA==
+X-Received: by 2002:a05:6a00:2d01:b0:686:b662:f303 with SMTP id fa1-20020a056a002d0100b00686b662f303mr3540492pfb.0.1690391675815;
+        Wed, 26 Jul 2023 10:14:35 -0700 (PDT)
+Received: from 377044c6c369.cse.ust.hk (191host097.mobilenet.cse.ust.hk. [143.89.191.97])
+        by smtp.gmail.com with ESMTPSA id k196-20020a633dcd000000b005501b24b1c9sm12688361pga.62.2023.07.26.10.14.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jul 2023 10:14:35 -0700 (PDT)
+From:   Chengfeng Ye <dg573847474@gmail.com>
+To:     james.smart@broadcom.com, dick.kennedy@broadcom.com,
+        jejb@linux.ibm.com, martin.petersen@oracle.com,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        justin.tee@broadcom.com
+Cc:     linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        Chengfeng Ye <dg573847474@gmail.com>
+Subject: [PATCH] scsi: lpfc: Fix potential deadlock on &ndlp->lock
+Date:   Wed, 26 Jul 2023 17:14:23 +0000
+Message-Id: <20230726171423.18692-1-dg573847474@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 07:31:55AM +0200, Alexander Stein wrote:
-> Am Montag, 24. Juli 2023, 20:26:15 CEST schrieb Conor Dooley:
-> > On Mon, Jul 24, 2023 at 02:21:00PM +0200, Alexander Stein wrote:
-> > > i.MX8 and i.MX8X both use two clocks for accessing the periphery.
-> > > Add clocks and clock-names properties accordingly.
-> > > 
-> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > ---
-> > > Changes in v2:
-> > > * None
-> > > 
-> > >  .../devicetree/bindings/media/nxp,imx8-jpeg.yaml          | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> > > b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml index
-> > > 3d9d1db37040..2533e16720f2 100644
-> > > --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> > > 
-> > > @@ -46,6 +46,14 @@ properties:
-> > >      minItems: 2               # Wrapper and 1 slot
-> > >      maxItems: 5               # Wrapper and 4 slots
-> > > 
-> > > +  clocks:
-> > > +    maxItems: 2
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: per
-> > > +      - const: ipg
-> > 
-> > What do "per" and "ipg" mean? I assume "per" is peripheral?
-> 
-> Actually I don't know what "ipg" stands for. It's a quite common name on i.MX 
-> platforms though. I opted for the names currently used in the DT. The driver 
-> doesn't care for the names currently.
+As &ndlp->lock is acquired by timer lpfc_els_retry_delay() under softirq
+context, process context code acquiring the lock &phba->hbalock should
+disable irq or bh, otherwise deadlock could happen if the timer preempt
+the execution while the lock is held in process context on the same CPU.
 
-Those names date back about 25 years to Motorola Mcore GSM SoCs. IPG 
-came from IPG bus which IIRC stood for IP gasket. Essentially the bus 
-was something like Arm APB being slave only. The IPG clock is 
-essentially the bus and register access clock. 'per' is the functional 
-clock in cases that need a defined clock rate such as UART baud clock. 
+The two lock acquisition inside lpfc_cleanup_pending_mbox() does not
+disable irq or softirq.
 
-There is also a shared (between CPU and DSP) bus called SPBA from the 
-same time which still lives on even though it isn't shared in i.MX 
-chips.
+[Deadlock Scenario]
+lpfc_cmpl_els_fdisc()
+    -> lpfc_cleanup_pending_mbox()
+    -> spin_lock(&ndlp->lock);
+        <irq>
+        -> lpfc_els_retry_delay()
+        -> lpfc_nlp_get()
+        -> spin_lock_irqsave(&ndlp->lock, flags); (deadlock here)
 
-> But cross-checking the reference manual these clocks seems to be called "jpeg" 
-> and "ips", individually for both jpeg encoder and decoder.
+This flaw was found by an experimental static analysis tool I am
+developing for irq-related deadlock.
 
-Given this block is probably licensed IP, seems like it would use 
-something different and be directly connected to AHB or AXI.
+The patch fix the potential deadlock by spin_lock_irq() to disable
+irq.
 
-> Mirela (added to recipients): As the original author of the DT nodes, could 
-> you provide additional information regarding the clock names?
-> 
-> Best regards,
-> Alexander
+Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
+---
+ drivers/scsi/lpfc/lpfc_sli.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
+index 58d10f8f75a7..8555f6bb9742 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.c
++++ b/drivers/scsi/lpfc/lpfc_sli.c
+@@ -21049,9 +21049,9 @@ lpfc_cleanup_pending_mbox(struct lpfc_vport *vport)
+ 				mb->mbox_flag |= LPFC_MBX_IMED_UNREG;
+ 				restart_loop = 1;
+ 				spin_unlock_irq(&phba->hbalock);
+-				spin_lock(&ndlp->lock);
++				spin_lock_irq(&ndlp->lock);
+ 				ndlp->nlp_flag &= ~NLP_IGNR_REG_CMPL;
+-				spin_unlock(&ndlp->lock);
++				spin_unlock_irq(&ndlp->lock);
+ 				spin_lock_irq(&phba->hbalock);
+ 				break;
+ 			}
+@@ -21067,9 +21067,9 @@ lpfc_cleanup_pending_mbox(struct lpfc_vport *vport)
+ 			ndlp = (struct lpfc_nodelist *)mb->ctx_ndlp;
+ 			mb->ctx_ndlp = NULL;
+ 			if (ndlp) {
+-				spin_lock(&ndlp->lock);
++				spin_lock_irq(&ndlp->lock);
+ 				ndlp->nlp_flag &= ~NLP_IGNR_REG_CMPL;
+-				spin_unlock(&ndlp->lock);
++				spin_unlock_irq(&ndlp->lock);
+ 				lpfc_nlp_put(ndlp);
+ 			}
+ 		}
+-- 
+2.17.1
+
