@@ -2,153 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D72C3763235
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 11:32:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5FA1763306
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 12:01:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232974AbjGZJcO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 05:32:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49666 "EHLO
+        id S231820AbjGZKBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 06:01:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232098AbjGZJbu (ORCPT
+        with ESMTP id S231453AbjGZKBY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 05:31:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED561420C;
-        Wed, 26 Jul 2023 02:30:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4E09E619FD;
-        Wed, 26 Jul 2023 09:30:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2DDCC433C7;
-        Wed, 26 Jul 2023 09:30:33 +0000 (UTC)
-Message-ID: <aeaf46cd-205e-8111-c366-d4aa7223be4c@xs4all.nl>
-Date:   Wed, 26 Jul 2023 11:30:32 +0200
+        Wed, 26 Jul 2023 06:01:24 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 441D897;
+        Wed, 26 Jul 2023 03:01:21 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id B614B80F8;
+        Wed, 26 Jul 2023 18:01:13 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 26 Jul
+ 2023 18:01:13 +0800
+Received: from [192.168.60.107] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 26 Jul
+ 2023 18:01:13 +0800
+Message-ID: <5f4733e4-9bda-3381-ada5-3a495a079e5f@starfivetech.com>
+Date:   Wed, 26 Jul 2023 18:01:12 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v8 1/2] Added Digiteq Automotive MGB4 driver
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v7 5/6] media: starfive: camss: Add ISP driver
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230619112838.19797-1-jack.zhu@starfivetech.com>
+ <20230619112838.19797-6-jack.zhu@starfivetech.com>
+ <6936fa89-af4a-6518-972b-693691f8e78a@xs4all.nl>
 Content-Language: en-US
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>
-References: <20230704131339.2177-1-tumic@gpxsee.org>
- <20230704131339.2177-2-tumic@gpxsee.org>
- <fd6517b1-1bb9-d54e-45c6-87765343f112@xs4all.nl>
-In-Reply-To: <fd6517b1-1bb9-d54e-45c6-87765343f112@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <6936fa89-af4a-6518-972b-693691f8e78a@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/07/2023 11:14, Hans Verkuil wrote:
-> Hi Martin,
+Hi Hans,
+
+Thank you for your comment.
+
+On 2023/7/26 17:11, Hans Verkuil wrote:
+> Hi Jack,
 > 
-> On 04/07/2023 15:13, tumic@gpxsee.org wrote:
->> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
->>
->> Digiteq Automotive MGB4 is a modular frame grabber PCIe card for automotive
->> video interfaces. As for now, two modules - FPD-Link and GMSL - are
->> available and supported by the driver. The card has two inputs and two
->> outputs (FPD-Link only).
->>
->> In addition to the video interfaces it also provides a trigger signal
->> interface and a MTD interface for FPGA firmware upload.
->>
->> Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+> On 19/06/2023 13:28, Jack Zhu wrote:
+>> Add ISP driver for StarFive Camera Subsystem.
+>> 
+>> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
 >> ---
->>  MAINTAINERS                             |   7 +
->>  drivers/media/pci/Kconfig               |   1 +
->>  drivers/media/pci/Makefile              |   1 +
->>  drivers/media/pci/mgb4/Kconfig          |  17 +
->>  drivers/media/pci/mgb4/Makefile         |   6 +
->>  drivers/media/pci/mgb4/mgb4_cmt.c       | 244 +++++++
->>  drivers/media/pci/mgb4/mgb4_cmt.h       |  17 +
->>  drivers/media/pci/mgb4/mgb4_core.c      | 711 ++++++++++++++++++
->>  drivers/media/pci/mgb4/mgb4_core.h      |  72 ++
->>  drivers/media/pci/mgb4/mgb4_dma.c       | 123 ++++
->>  drivers/media/pci/mgb4/mgb4_dma.h       |  18 +
->>  drivers/media/pci/mgb4/mgb4_i2c.c       | 140 ++++
->>  drivers/media/pci/mgb4/mgb4_i2c.h       |  35 +
->>  drivers/media/pci/mgb4/mgb4_io.h        |  33 +
->>  drivers/media/pci/mgb4/mgb4_regs.c      |  30 +
->>  drivers/media/pci/mgb4/mgb4_regs.h      |  35 +
->>  drivers/media/pci/mgb4/mgb4_sysfs.h     |  18 +
->>  drivers/media/pci/mgb4/mgb4_sysfs_in.c  | 757 +++++++++++++++++++
->>  drivers/media/pci/mgb4/mgb4_sysfs_out.c | 700 ++++++++++++++++++
->>  drivers/media/pci/mgb4/mgb4_sysfs_pci.c |  71 ++
->>  drivers/media/pci/mgb4/mgb4_trigger.c   | 208 ++++++
->>  drivers/media/pci/mgb4/mgb4_trigger.h   |   8 +
->>  drivers/media/pci/mgb4/mgb4_vin.c       | 930 ++++++++++++++++++++++++
->>  drivers/media/pci/mgb4/mgb4_vin.h       |  69 ++
->>  drivers/media/pci/mgb4/mgb4_vout.c      | 594 +++++++++++++++
->>  drivers/media/pci/mgb4/mgb4_vout.h      |  65 ++
->>  26 files changed, 4910 insertions(+)
->>  create mode 100644 drivers/media/pci/mgb4/Kconfig
->>  create mode 100644 drivers/media/pci/mgb4/Makefile
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_dma.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_dma.h
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
->>  create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
->>
+>>  .../media/platform/starfive/camss/Makefile    |   2 +
+>>  .../media/platform/starfive/camss/stf_camss.c |  76 ++-
+>>  .../media/platform/starfive/camss/stf_camss.h |   3 +
+>>  .../media/platform/starfive/camss/stf_isp.c   | 519 ++++++++++++++++++
+>>  .../media/platform/starfive/camss/stf_isp.h   | 479 ++++++++++++++++
+>>  .../platform/starfive/camss/stf_isp_hw_ops.c  | 468 ++++++++++++++++
+>>  6 files changed, 1544 insertions(+), 3 deletions(-)
+>>  create mode 100644 drivers/media/platform/starfive/camss/stf_isp.c
+>>  create mode 100644 drivers/media/platform/starfive/camss/stf_isp.h
+>>  create mode 100644 drivers/media/platform/starfive/camss/stf_isp_hw_ops.c
 > 
-> When I build with: make W=1 KCFLAGS=-Wmaybe-uninitialized
+> Just a quick note:
 > 
-> I get this warning:
+> When I compile this I get the following warnings:
 > 
-> drivers/media/pci/mgb4/mgb4_vout.c: In function 'mgb4_vout_create':
-> drivers/media/pci/mgb4/mgb4_vout.c:473:27: warning: variable 'video' set but not used [-Wunused-but-set-variable]
->   473 |         struct mgb4_regs *video;
->       |                           ^~~~~
+> drivers/media/platform/starfive/camss/stf_camss.c: In function 'stfcamss_subdev_notifier_bound':
+> drivers/media/platform/starfive/camss/stf_camss.c:217:23: warning: 'pad[0]' may be used uninitialized [-Wmaybe-uninitialized]
+>   217 |                 ret = v4l2_create_fwnode_links_to_pad(subdev, pad[i], 0);
+>       |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/media/platform/starfive/camss/stf_camss.c:202:27: note: 'pad[0]' was declared here
+>   202 |         struct media_pad *pad[STF_PADS_NUM];
+>       |                           ^~~
+> drivers/media/platform/starfive/camss/stf_isp.c: In function 'isp_try_format.isra':
+> drivers/media/platform/starfive/camss/stf_isp.c:105:40: warning: 'formats' may be used uninitialized [-Wmaybe-uninitialized]
+>   105 |         const struct isp_format_table *formats;
+>       |                                        ^~~~~~~
+> drivers/media/platform/starfive/camss/stf_isp.c:105:40: note: 'formats' was declared here
+>   105 |         const struct isp_format_table *formats;
+>       |                                        ^~~~~~~
+> drivers/media/platform/starfive/camss/stf_isp.c:106:30: warning: 'rect' may be used uninitialized [-Wmaybe-uninitialized]
+>   106 |         struct stf_isp_crop *rect;
+>       |                              ^~~~
+> drivers/media/platform/starfive/camss/stf_isp.c:106:30: note: 'rect' was declared here
+>   106 |         struct stf_isp_crop *rect;
+>       |                              ^~~~
+> 
+> That's when I build with: make W=1 KCFLAGS=-Wmaybe-uninitialized
+> 
 
-checkpatch.pl --strict also gives a lot of warnings.
+OK, I will fix these warnings.
 
-You can ignore the "line length of 131 exceeds 100 columns" warnings for the hex dump.
-Those are OK in that particular case.
+> Regards,
+> 
+> 	Hans
+> 
+>> 
 
-But the suggested renamings would be good to implement to be consistent with other
-drivers.
-
-Regarding these:
-
-WARNING: Missing a blank line after declarations
-#3340: FILE: drivers/media/pci/mgb4/mgb4_trigger.c:93:
-+               u32 data;
-+               s64 ts __aligned(8);
-
-WARNING: externs should be avoided in .c files
-#3340: FILE: drivers/media/pci/mgb4/mgb4_trigger.c:93:
-+               s64 ts __aligned(8);
-
-This seems to be standard iio coding style, even though checkpatch
-gets confused by this. So let's leave this as-is.
-
+-- 
 Regards,
 
-	Hans
+Jack Zhu
