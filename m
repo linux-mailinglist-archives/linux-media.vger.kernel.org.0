@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE8AB762B64
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 08:27:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA9B5762B65
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 08:28:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229993AbjGZG1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 02:27:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52370 "EHLO
+        id S230205AbjGZG2T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 02:28:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbjGZG1o (ORCPT
+        with ESMTP id S231778AbjGZG2Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 02:27:44 -0400
+        Wed, 26 Jul 2023 02:28:16 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF4E1995
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:27:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD8A41FCF
+        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1690352863; x=1721888863;
+  t=1690352895; x=1721888895;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=SO8qtq5n4vUs03x+BQHo8Bbf83RhpEqSbZNT0bEINiU=;
-  b=MYxVhk4/wYqB8Q5xz5nFGiM2pj/kQSdqdUtbutWQqBdZtPPLbtvAyNjJ
-   /avhrom1N5iOsQMzvtOuvs6E85G7VYiktmMsEmWBb0kQQYnCcYTMKmfGU
-   6e1G3mjVIbZsOXFYrQCvOhYjWtFZL13kOHVkBhKFK37RuKBOzW6R2xCBW
-   UN7y8Y3hCKrgOkUoE7Nqu9if0xVjUyPZawCH+LPQP/2s9Cse1nY4pOysB
-   54OAlf8Z4l517TL2b1x7wJfCHCPBKKcgN8opfmpjP88ECWJHvgYcIcsp3
-   cvEtpAcGofzubWXbmiwfVLevBYq4VBMcOYzYo9usKJJwUZyA1jVZT/uzB
+  bh=/Fnbe0MfDGSP8QxyI60Rnu8VUe6YB63e276DrVds+Go=;
+  b=kGF5osAl8oYV++AIZdxYcLnJHbS4vWoVCYOrWZARy7ePFBFXE8NAi8YU
+   Yl9rm0ERECBW2FjXOCaxASL/o7vUKdrDSCWlprDCVeC1fYrEcZIckO3le
+   gQh/sZ9oZFeSvc9hRO9mUcmwdZ3zsP3XwOVWH21rOSV3F/KYrDLdw/5+Q
+   u2RMekspjrldSKkwzENNXbvYq77GVZj4UclbGp3SqQy+hNMVeCHZkCUDd
+   ymUz0LQf1PVX7OTjh8jtE6kK9/yeXUhaw6IDBslpFMiT6egQkN+A2q/um
+   DT5/REgg+CVP3XvGueHRFe2Y+4CXytgvBu8+qT2S0cVxLdxpc7Jnj7nw3
    g==;
 X-IronPort-AV: E=Sophos;i="6.01,231,1684792800"; 
-   d="scan'208";a="32119091"
+   d="scan'208";a="32119097"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 26 Jul 2023 08:27:41 +0200
+  by mx1.tq-group.com with ESMTP; 26 Jul 2023 08:28:13 +0200
 Received: from steina-w.localnet (unknown [10.123.53.21])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id AF7D2280075;
-        Wed, 26 Jul 2023 08:27:41 +0200 (CEST)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 29BB0280075;
+        Wed, 26 Jul 2023 08:28:13 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     linux-media@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -48,12 +48,12 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Martin Kepplinger <martink@posteo.de>,
         Purism Kernel Team <kernel@puri.sm>
-Subject: Re: [PATCH v3 2/3] media: imx: imx7-media-csi: Fix frame sizes enumeration
-Date:   Wed, 26 Jul 2023 08:27:41 +0200
-Message-ID: <14965809.tv2OnDr8pf@steina-w>
+Subject: Re: [PATCH v3 3/3] media: imx: imx7-media-csi: Include headers explicitly
+Date:   Wed, 26 Jul 2023 08:28:12 +0200
+Message-ID: <4160136.1IzOArtZ34@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <20230725200249.15447-3-laurent.pinchart@ideasonboard.com>
-References: <20230725200249.15447-1-laurent.pinchart@ideasonboard.com> <20230725200249.15447-3-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230725200249.15447-4-laurent.pinchart@ideasonboard.com>
+References: <20230725200249.15447-1-laurent.pinchart@ideasonboard.com> <20230725200249.15447-4-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -68,58 +68,78 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-thanks for picking up my suggestion.
+thanks for the additional cleanup.
 
-Am Dienstag, 25. Juli 2023, 22:02:48 CEST schrieb Laurent Pinchart:
-> Enumeration of the minimum, maximum and step values for the image width
-> does not take hardware constraints into account. Fix it.
+Am Dienstag, 25. Juli 2023, 22:02:49 CEST schrieb Laurent Pinchart:
+> Include all the headers that the driver needs explicitly instead of
+> relying on indirect inclusion. While at it, drop a few unneeded headers.
 >=20
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/platform/nxp/imx7-media-csi.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+>  drivers/media/platform/nxp/imx7-media-csi.c | 27 ++++++++++++++++-----
+>  1 file changed, 21 insertions(+), 6 deletions(-)
 >=20
 > diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
 > b/drivers/media/platform/nxp/imx7-media-csi.c index
-> 5684ecd2e3fe..3aa7978d3f8a 100644
+> 3aa7978d3f8a..95e9f22f21be 100644
 > --- a/drivers/media/platform/nxp/imx7-media-csi.c
 > +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> @@ -1076,6 +1076,7 @@ static int imx7_csi_video_enum_framesizes(struct fi=
-le
-> *file, void *fh, struct v4l2_frmsizeenum *fsize)
->  {
->  	const struct imx7_csi_pixfmt *cc;
-> +	u32 walign;
+> @@ -3,31 +3,46 @@
+>   * V4L2 Capture CSI Subdev for Freescale i.MX6UL/L / i.MX7 SOC
+>   *
+>   * Copyright (c) 2019 Linaro Ltd
+> - *
+>   */
 >=20
->  	if (fsize->index > 0)
->  		return -EINVAL;
-> @@ -1085,16 +1086,17 @@ static int imx7_csi_video_enum_framesizes(struct
-> file *file, void *fh, return -EINVAL;
+>  #include <linux/clk.h>
+> +#include <linux/completion.h>
+> +#include <linux/container_of.h>
+>  #include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/err.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/kernel.h>
+> +#include <linux/list.h>
+>  #include <linux/math.h>
+> -#include <linux/mfd/syscon.h>
+>  #include <linux/minmax.h>
+>  #include <linux/module.h>
+> +#include <linux/mutex.h>
+>  #include <linux/of.h>
+> -#include <linux/of_graph.h>
+> -#include <linux/pinctrl/consumer.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/regmap.h>
+> +#include <linux/property.h>
+>  #include <linux/slab.h>
+>  #include <linux/spinlock.h>
+> +#include <linux/string.h>
+> +#include <linux/timekeeping.h>
+>  #include <linux/types.h>
 >=20
->  	/*
-> -	 * TODO: The constraints are hardware-specific and may depend on the
-> -	 * pixel format. This should come from the driver using
-> -	 * imx_media_capture.
-> +	 * The width alignment is 8 bytes as indicated by the
-> +	 * CSI_IMAG_PARA.IMAGE_WIDTH documentation. Convert it to pixels.
->  	 */
-> +	walign =3D 8 * 8 / cc->bpp;
-> +
->  	fsize->type =3D V4L2_FRMSIZE_TYPE_CONTINUOUS;
-> -	fsize->stepwise.min_width =3D 1;
-> -	fsize->stepwise.max_width =3D 65535;
-> +	fsize->stepwise.min_width =3D walign;
-> +	fsize->stepwise.max_width =3D round_down(65535U, walign);
->  	fsize->stepwise.min_height =3D 1;
->  	fsize->stepwise.max_height =3D 65535;
-> -	fsize->stepwise.step_width =3D 1;
-> +	fsize->stepwise.step_width =3D walign;
->  	fsize->stepwise.step_height =3D 1;
+> +#include <media/media-device.h>
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-common.h>
+> +#include <media/v4l2-dev.h>
+>  #include <media/v4l2-device.h>
+> -#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-fh.h>
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-mc.h>
+>  #include <media/v4l2-subdev.h>
+> +#include <media/videobuf2-core.h>
+>  #include <media/videobuf2-dma-contig.h>
+> +#include <media/videobuf2-v4l2.h>
 >=20
->  	return 0;
+>  #define IMX7_CSI_PAD_SINK		0
+>  #define IMX7_CSI_PAD_SRC		1
 
 Looks good to me.
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
 =2D-=20
 TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
