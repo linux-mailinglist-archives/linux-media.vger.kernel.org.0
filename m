@@ -2,59 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB714764092
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 22:35:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F7027640D8
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 23:00:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbjGZUf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 16:35:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58646 "EHLO
+        id S231351AbjGZVAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 17:00:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbjGZUfz (ORCPT
+        with ESMTP id S231235AbjGZVAK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 16:35:55 -0400
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6C3A2701
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 13:35:54 -0700 (PDT)
-Received: by mail-oi1-x233.google.com with SMTP id 5614622812f47-3a3790a0a48so227193b6e.1
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 13:35:54 -0700 (PDT)
+        Wed, 26 Jul 2023 17:00:10 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 309631727
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 14:00:09 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-52256241c66so358289a12.1
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 14:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1690403754; x=1691008554;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UbJeRzU7wigg3Cu4qDyeUEG2N0zmDly89LtEzqyMs4E=;
-        b=TxGCtU4yiHilQLBjUikX0JH9p6bb2UNI26c3vHmd5RO8FYRkDvNulnhPJd3CKSq9Fo
-         gOIC9PqsHWZlRyLBv3mi4bIOQDpNAYCYZlr81fsXoGFwE2cUSvufGtSEX0dw8bo7gqqP
-         vd09xr+NRbEsFtKf5A8oTo1/4bZUznMU31ew4iJs9g3kOnfP6XqNJsyomSHnsRBJhQRF
-         2si1a902AlFy8F5TkVpPzp9EA4/2bLGvXYGY8pAIvq+RYJueW8d5oxz/SNTEEIMBGhZy
-         ye5hpxcBNZC2MQcUkJVCvw7mM/HP7xVL//qt4/c6EwBoG/qjLV9Wz/SDxuo19X3BtYi3
-         TbCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690403754; x=1691008554;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=linaro.org; s=google; t=1690405207; x=1691010007;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=UbJeRzU7wigg3Cu4qDyeUEG2N0zmDly89LtEzqyMs4E=;
-        b=lQXOOKUGwuyIdOrO/aKfc3g2nrAsHrXIrudyvLbmX0d9s6PnoJ18JsAD13MrvaA32L
-         IpvmpYQxpkecDNxTEFERVlHb9rcDCR267Bd0vn589XuaR24POu2XezYYqB2akgfDg2/p
-         lAi6eTDa+8HAEYl31mYKHexdhmRjwglKv6Fpyt4/fIu8lbfsd6jlQ3k/QNVqzectyr3d
-         y1NNHemJoI+QTyBPn6d1BjPpUwSNeWd7/Wu+m4T1BxM7ir7/czxW2gKJwOu9iyw6Ledo
-         It2M9Lzeu2Bw2f0s7rRlSO/jijS9PflJx9qMVOoLnKU0cHBg1xhZ4Mjr1HMOVqi7p8U2
-         0aFQ==
-X-Gm-Message-State: ABy/qLYki3vFfEGs/WqFsLrJHxOly/YRQj+ZaGb5f4KtAYQUZZhrNrvk
-        gWe9vHCAruYIRGMP3E/Y8VF23g==
-X-Google-Smtp-Source: APBJJlFMm0AI2+RVorQy6CQwizGZeLXoyZBFhxx7j6jzyKq1c1RJlExUWOEk9RJSbT6hVnqn+H4ZZA==
-X-Received: by 2002:a05:6808:aac:b0:3a4:19fd:cd51 with SMTP id r12-20020a0568080aac00b003a419fdcd51mr588581oij.10.1690403754044;
-        Wed, 26 Jul 2023 13:35:54 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:10:580::7a9])
-        by smtp.gmail.com with ESMTPSA id k19-20020a0cf593000000b00634daee6ecbsm5390895qvm.113.2023.07.26.13.35.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 13:35:53 -0700 (PDT)
-Message-ID: <3d26f0f719cd5f71c20e80599362cd52bcfe8dd4.camel@ndufresne.ca>
+        bh=BxBJ0tFj1UbUOBEqoo5krK0VcqyYI11I6KTerRdAx7Q=;
+        b=x+rFUkLZ5fBSAD+SlvEMEuMVK8vhBZsqqpAgrIUUtRGFzZYWEuF3zKmwpDzOOqytTH
+         3tFXfLJNRyJCh/6PdS67Hv7e+4iidv0I19PKMZ92VsmP6r4r7mdF+Y0tSqh1jJJd226u
+         s0kbzZMEby7Mms+4n5XdHn8UTXYItiWk//96Dfegk3k1i/3Gldjk8JnKtrHDoInm1Ofk
+         37tlNOA+1+3HhAk0FOiIyrIy3LJWXYuOrhH9Vo7a/soZy9jg0nmK22jy1pZAO8BWahnu
+         XS4RCydB/v+0tE7LeFGRd+C4nmsPlTMvaOgDXw4v0NFigcdtlZrRNNhcgauQTOCP7N41
+         oATg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690405207; x=1691010007;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BxBJ0tFj1UbUOBEqoo5krK0VcqyYI11I6KTerRdAx7Q=;
+        b=l350o1WuY/UakY+2M0DtsUJkw/TKcMXDhP+dMcjZanVyF6jJW4j0oAdHgsYEzs1rvq
+         6u3COZkLAvmZxXO+HDa65qhCSF5djVQXs1ZEGanKAAw04kHIxx5VQPn+fkHEZQdFzEvb
+         oHJgAAb+MF8rD5mD3qQCTuWUw8GP+ek6FTU8xjSP0+Z49zjRQj4cIPU0KtJOCJfe5Utf
+         8/uDlL/ZTnLxZPLvTtl5QxEj4Sobp80azpbIEaAmje6NzYVfDgzKBkmCZx00z2fk1dmU
+         svQERlQ0BzrDE6CELbIpMr97rWJmqRSwCFjLfRfElLGhEPHYAKFVNOktXyOF/lgTxUmi
+         OZBQ==
+X-Gm-Message-State: ABy/qLbQT/GLbFV4q7qK+u6GQ1yGRfsQmzzvU4B5cqauHoGjS/FH8arP
+        gHl0/fPUtMS9TDsWlEbkyU3G+A==
+X-Google-Smtp-Source: APBJJlFZJICiVh5rlt6ysLzD0BWx1vEgt0m23dypJlzCPgv0/Qw+dtH2Pk55t+Ec0uttPJRaapYBCQ==
+X-Received: by 2002:a05:6402:5188:b0:522:28b9:e84c with SMTP id q8-20020a056402518800b0052228b9e84cmr183918edd.21.1690405207622;
+        Wed, 26 Jul 2023 14:00:07 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id e6-20020a056402088600b005223d76a3e3sm3209902edy.85.2023.07.26.14.00.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jul 2023 14:00:07 -0700 (PDT)
+Message-ID: <df37ca83-a198-6395-723f-94aede45978b@linaro.org>
+Date:   Wed, 26 Jul 2023 23:00:04 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
 Subject: Re: [PATCH] dt-bindings: media: Add bindings for Imagination E5010
  JPEG Encoder driver
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
         Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
         robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         conor+dt@kernel.org, linux-media@vger.kernel.org,
@@ -62,176 +66,47 @@ To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 Cc:     praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
         j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
         p-mantena@ti.com, vijayp@ti.com
-Date:   Wed, 26 Jul 2023 16:35:52 -0400
-In-Reply-To: <b6bddd59-ac78-3f75-828e-cff54766fc72@linaro.org>
 References: <20230726162615.1270075-1-devarsht@ti.com>
-         <b6bddd59-ac78-3f75-828e-cff54766fc72@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+ <b6bddd59-ac78-3f75-828e-cff54766fc72@linaro.org>
+ <3d26f0f719cd5f71c20e80599362cd52bcfe8dd4.camel@ndufresne.ca>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <3d26f0f719cd5f71c20e80599362cd52bcfe8dd4.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 26 juillet 2023 =C3=A0 18:33 +0200, Krzysztof Kozlowski a =C3=
-=A9crit=C2=A0:
-> On 26/07/2023 18:26, Devarsh Thakkar wrote:
-> > Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
-> > implemented as stateful V4L2 M2M driver.
-> >=20
-> > Co-developed-by: David Huang <d-huang@ti.com>
-> > Signed-off-by: David Huang <d-huang@ti.com>
->=20
-> A nit, subject: drop second/last, redundant "bindings for". The
-> "dt-bindings" prefix is already stating that these are bindings.
->=20
-> Drop also "driver". Bindings are for hardware, not drivers.
->=20
-> Prefix starts with media and then dt-bindings.
+On 26/07/2023 22:35, Nicolas Dufresne wrote:
+> Le mercredi 26 juillet 2023 à 18:33 +0200, Krzysztof Kozlowski a écrit :
+>> On 26/07/2023 18:26, Devarsh Thakkar wrote:
+>>> Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
+>>> implemented as stateful V4L2 M2M driver.
+>>>
+>>> Co-developed-by: David Huang <d-huang@ti.com>
+>>> Signed-off-by: David Huang <d-huang@ti.com>
+>>
+>> A nit, subject: drop second/last, redundant "bindings for". The
+>> "dt-bindings" prefix is already stating that these are bindings.
+>>
+>> Drop also "driver". Bindings are for hardware, not drivers.
+>>
+>> Prefix starts with media and then dt-bindings.
+> 
+> That being said, I haven't seen any submission for the driver using these, is it
+> common practice to upstream bindings for unsupported hardware ?
 
-That being said, I haven't seen any submission for the driver using these, =
-is it
-common practice to upstream bindings for unsupported hardware ?
+I assumed I wasn't CC'ed on the user, but it seems there is no user.
+None, neither drivers, not DTS.  Commit msg also doesn't explain it.
 
-Nicolas
+No point op submit bindings where there are no users.
 
->=20
->=20
-> > Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> > ---
-> >  .../bindings/media/img,e5010-jpeg-enc.yaml    | 79 +++++++++++++++++++
-> >  MAINTAINERS                                   |  5 ++
-> >  2 files changed, 84 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/img,e5010-j=
-peg-enc.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc=
-.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-> > new file mode 100644
-> > index 000000000000..0060373eace7
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-> > @@ -0,0 +1,79 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Imagination E5010 JPEG Encoder
-> > +
-> > +maintainers:
-> > +  - Devarsh Thakkar <devarsht@ti.com>
-> > +
-> > +description: |
-> > +  The E5010 is a JPEG encoder from Imagination Technologies implemente=
-d on
-> > +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YU=
-V422
-> > +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
-> > +  8Kx8K resolution.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: img,e5010-jpeg-enc
->=20
-> Your description suggests that this is part of TI SoC. Pretty often
-> licensed blocks cannot be used on their own and need some
-> customizations. Are you sure your block does not need any customization
-> thus no dedicated compatible is needed?
->=20
-> > +
-> > +  reg:
-> > +    items:
-> > +      - description: The E5010 main register region
-> > +      - description: The E5010 mmu register region
-> > +
-> > +  reg-names:
-> > +    items:
-> > +      - const: regjasper
-> > +      - const: regmmu
-> > +
->=20
-> Drop reg from both
->=20
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    minItems: 1
-> > +    maxItems: 2
->=20
-> You need to specify the items. Also, no variable number of clocks. Why
-> would they vary if block is strictly defined?
->=20
-> > +
-> > +  clock-names:
-> > +    minItems: 1
-> > +    maxItems: 2
->=20
-> Instead list the names.
->=20
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - reg-names
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - power-domains
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    cbass_main {
->=20
-> That's some weird name. Probably you meant soc. Anyway, underscores are
-> not allowed.
->=20
-> > +      #address-cells =3D <2>;
-> > +      #size-cells =3D <2>;
-> > +      e5010: e5010@fd20000 {
->=20
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-device=
-tree-basics.html#generic-names-recommendation
->=20
->=20
-> Drop the label.
->=20
-> > +          compatible =3D "img,e5010-jpeg-enc";
-> > +          reg =3D <0x00 0xfd20000 0x00 0x100>,
-> > +                <0x00 0xfd20200 0x00 0x200>;
-> > +          reg-names =3D "regjasper", "regmmu";
-> > +          clocks =3D <&k3_clks 201 0>;
-> > +          clock-names =3D "core_clk";
-> > +          power-domains =3D <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
-> > +          interrupts =3D <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-> > +      };
-> > +    };
->=20
->=20
-> Best regards,
-> Krzysztof
->=20
+Best regards,
+Krzysztof
 
