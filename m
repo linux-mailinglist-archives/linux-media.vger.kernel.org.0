@@ -2,128 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F1A3762F82
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 10:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5FD4762FD9
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 10:29:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbjGZITE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 04:19:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60348 "EHLO
+        id S233266AbjGZI3X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 04:29:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230286AbjGZISF (ORCPT
+        with ESMTP id S233249AbjGZI2u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 04:18:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0217165B3;
-        Wed, 26 Jul 2023 01:07:48 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A10B8D;
-        Wed, 26 Jul 2023 10:06:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690358808;
-        bh=CKhmzJ56UgWNHoCThwkHdBEUTSxWCrCFRrFIdc0bWaE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VVzMv6Xt/8EPe3v41U5IOcy+UFXJUCG9lS1XRbJf8FNCmkC25ReP8qqVnUfxqVW83
-         zlNgwIiUNvRIgy93mHkY8OwObDa7ssq6HF136dokFbslsNXh5W7RohqySf8APO+iyg
-         ZxhZ30hti1njNxlXXCKlX9p7BIruc3X0XYCdmNJE=
-Date:   Wed, 26 Jul 2023 11:07:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        stable@kernel.org, Zubin Mithra <zsm@chromium.org>,
-        Kai =?utf-8?Q?Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v2] media: uvcvideo: Fix OOB read
-Message-ID: <20230726080753.GX31069@pendragon.ideasonboard.com>
-References: <20230717-uvc-oob-v2-1-c7745a8d5847@chromium.org>
- <20230725213451.GU31069@pendragon.ideasonboard.com>
- <CANiDSCttkqows7PZS823Jpk-CqK9Gz2rujF_R4SPDi=wcPJ2LA@mail.gmail.com>
+        Wed, 26 Jul 2023 04:28:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90C6344A3;
+        Wed, 26 Jul 2023 01:18:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F078617FE;
+        Wed, 26 Jul 2023 08:18:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927E7C433C7;
+        Wed, 26 Jul 2023 08:18:44 +0000 (UTC)
+Message-ID: <0b5717cb-8f30-c38c-f20e-e8a81d29423a@xs4all.nl>
+Date:   Wed, 26 Jul 2023 10:18:42 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCttkqows7PZS823Jpk-CqK9Gz2rujF_R4SPDi=wcPJ2LA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: Stateless Encoding uAPI Discussion and Proposal
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Cc:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <ZK2NiQd1KnraAr20@aptenodytes>
+ <c46d0c53b7e5dc8dcdf7925f3d892024390a8b2b.camel@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <c46d0c53b7e5dc8dcdf7925f3d892024390a8b2b.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
-
-(CC'ing Kai and Thorsten who have added the check to checkpatch)
-
-On Wed, Jul 26, 2023 at 08:24:50AM +0200, Ricardo Ribalda wrote:
-> On Tue, 25 Jul 2023 at 23:34, Laurent Pinchart wrote:
-> > On Thu, Jul 20, 2023 at 05:46:54PM +0000, Ricardo Ribalda wrote:
-> > > If the index provided by the user is bigger than the mask size, we might do an
-> > > out of bound read.
-> > >
-> > > CC: stable@kernel.org
-> > > Fixes: 40140eda661e ("media: uvcvideo: Implement mask for V4L2_CTRL_TYPE_MENU")
-> > > Reported-by: Zubin Mithra <zsm@chromium.org>
-> >
-> > checkpatch now requests a Reported-by tag to be immediately followed by
-> > a Closes tag that contains the URL to the report. Could you please
-> > provide that ?
->
-> I saw that, but the URL is kind of private:
+On 11/07/2023 20:18, Nicolas Dufresne wrote:
+> Le mardi 11 juillet 2023 à 19:12 +0200, Paul Kocialkowski a écrit :
+>> Hi everyone!
+>>
+>> After various discussions following Andrzej's talk at EOSS, feedback from the
+>> Media Summit (which I could not attend unfortunately) and various direct
+>> discussions, I have compiled some thoughts and ideas about stateless encoders
+>> support with various proposals. This is the result of a few years of interest
+>> in the topic, after working on a PoC for the Hantro H1 using the hantro driver,
+>> which turned out to have numerous design issues.
+>>
+>> I am now working on a H.264 encoder driver for Allwinner platforms (currently
+>> focusing on the V3/V3s), which already provides some usable bitstream and will
+>> be published soon.
+>>
+>> This is a very long email where I've tried to split things into distinct topics
+>> and explain a few concepts to make sure everyone is on the same page.
+>>
+>> # Bitstream Headers
+>>
+>> Stateless encoders typically do not generate all the bitstream headers and
+>> sometimes no header at all (e.g. Allwinner encoder does not even produce slice
+>> headers). There's often some hardware block that makes bit-level writing to the
+>> destination buffer easier (deals with alignment, etc).
+>>
+>> The values of the bitstream headers must be in line with how the compressed
+>> data bitstream is generated and generally follow the codec specification.
+>> Some encoders might allow configuring all the fields found in the headers,
+>> others may only allow configuring a few or have specific constraints regarding
+>> which values are allowed.
+>>
+>> As a result, we cannot expect that any given encoder is able to produce frames
+>> for any set of headers. Reporting related constraints and limitations (beyond
+>> profile/level) seems quite difficult and error-prone.
+>>
+>> So it seems that keeping header generation in-kernel only (close to where the
+>> hardware is actually configured) is the safest approach.
 > 
-> Closes: http://issuetracker.google.com/issues/289975230
-
-Ah :-S I wonder if we should drop the Reported-by tag then ?
-
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > > Avoid reading index >= 31
-> > > ---
-> > > Changes in v2:
-> > > - Use BITS_PER_TYPE instead of 32 (thanks Sergey).
-> > > - Add Reported-by tag.
-> > > - Link to v1: https://lore.kernel.org/r/20230717-uvc-oob-v1-1-f5b9b4aba3b4@chromium.org
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_ctrl.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > index 5e9d3da862dd..e59a463c2761 100644
-> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > @@ -1402,6 +1402,9 @@ int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
-> > >       query_menu->id = id;
-> > >       query_menu->index = index;
-> > >
-> > > +     if (index >= BITS_PER_TYPE(mapping->menu_mask))
-> > > +             return -EINVAL;
-> > > +
-> >
-> > I'd move this a few lines up, before setting query_menu.
+> This seems to match with what happened with the Hantro VP8 proof of concept. The
+> encoder does not produce the frame header, but also, it produces 2 encoded
+> buffers which cannot be made contiguous at the hardware level. This notion of
+> plane in coded data wasn't something that blended well with the rest of the API
+> and we didn't want to copy in the kernel while the userspace would also be
+> forced to copy to align the headers. Our conclusion was that it was best to
+> generate the headers and copy both segment before delivering to userspace. I
+> suspect this type of situation will be quite common.
 > 
-> SGTM, I just wanted to clear all the fields to mimic the other error
-> paths of the function.
+>>
+>> # Codec Features
+>>
+>> Codecs have many variable features that can be enabled or not and specific
+>> configuration fields that can take various values. There is usually some
+>> top-level indication of profile/level that restricts what can be used.
+>>
+>> This is a very similar situation to stateful encoding, where codec-specific
+>> controls are used to report and set profile/level and configure these aspects.
+>> A particularly nice thing about it is that we can reuse these existing controls
+>> and add new ones in the future for features that are not yet covered.
+>>
+>> This approach feels more flexible than designing new structures with a selected
+>> set of parameters (that could match the existing controls) for each codec.
+> 
+> Though, reading more into this emails, we still have a fair amount of controls
+> to design and add, probably some compound controls too ?
 
-I'm fine with that too if you prefer.
+I expect that for stateless encoders support for read-only requests will be needed:
 
-> > With those minor changes,
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > There's no need for a v3, I can handle the changes locally, but I need
-> > the URL for the Closes tag.
-> >
-> > >       ret = mutex_lock_interruptible(&chain->ctrl_mutex);
-> > >       if (ret < 0)
-> > >               return -ERESTARTSYS;
-> > >
-> > > ---
-> > > base-commit: fdf0eaf11452d72945af31804e2a1048ee1b574c
-> > > change-id: 20230717-uvc-oob-4b0148a00417
+https://patchwork.linuxtv.org/project/linux-media/list/?series=5647
 
--- 
+I worked on that in the past together with dynamic control arrays. The dynamic
+array part was merged, but the read-only request part wasn't (there was never a
+driver that actually needed it).
+
+I don't know if that series still applies, but if there is a need for it then I
+can rebase it and post an RFCv3.
+
 Regards,
 
-Laurent Pinchart
+	Hans
