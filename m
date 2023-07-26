@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5414A7641F7
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 00:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EBED764205
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 00:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230189AbjGZWOs convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 26 Jul 2023 18:14:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56598 "EHLO
+        id S230148AbjGZWTE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 18:19:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbjGZWOq (ORCPT
+        with ESMTP id S229822AbjGZWTD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 18:14:46 -0400
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BCDB270D;
-        Wed, 26 Jul 2023 15:14:44 -0700 (PDT)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        Wed, 26 Jul 2023 18:19:03 -0400
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 223E81BFF;
+        Wed, 26 Jul 2023 15:19:01 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
         (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 1CE5724DB83;
-        Thu, 27 Jul 2023 06:14:42 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 27 Jul
- 2023 06:14:42 +0800
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id AE4CC24E26F;
+        Thu, 27 Jul 2023 06:18:59 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 27 Jul
+ 2023 06:18:59 +0800
 Received: from [192.168.60.107] (180.164.60.184) by EXMBX073.cuchost.com
  (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 27 Jul
- 2023 06:14:41 +0800
-Message-ID: <995e6991-6635-0c0e-d50c-5b6fe2ce6655@starfivetech.com>
-Date:   Thu, 27 Jul 2023 06:14:41 +0800
+ 2023 06:18:59 +0800
+Message-ID: <9c38930b-4bd9-4956-74c7-3be2915f4676@starfivetech.com>
+Date:   Thu, 27 Jul 2023 06:18:58 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [PATCH v7 3/6] media: starfive: camss: Add basic driver
+Content-Language: en-US
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Robert Foss <rfoss@kernel.org>,
@@ -48,18 +49,17 @@ CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <changhuang.liang@starfivetech.com>
 References: <20230619112838.19797-1-jack.zhu@starfivetech.com>
  <20230619112838.19797-4-jack.zhu@starfivetech.com>
- <eb8ff364-1c49-28b4-242d-168828ca7094@linaro.org>
-Content-Language: en-US
+ <d939d08d-9e5a-b620-5d4f-cc805bcc76b7@linaro.org>
 From:   Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <eb8ff364-1c49-28b4-242d-168828ca7094@linaro.org>
+In-Reply-To: <d939d08d-9e5a-b620-5d4f-cc805bcc76b7@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
  (172.16.6.83)
 X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,66 +71,24 @@ Hi Bryan,
 
 Thank you for your comments.
 
-On 2023/7/26 18:55, Bryan O'Donoghue wrote:
+On 2023/7/26 18:58, Bryan O'Donoghue wrote:
 > On 19/06/2023 12:28, Jack Zhu wrote:
+>> Add basic platform driver for StarFive Camera Subsystem.
 > 
->> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
->> +{
->> +    struct device *dev = stfcamss->dev;
->> +    struct device_node *node = NULL;
->> +    int ret, num_subdevs = 0;
->> +
->> +    for_each_endpoint_of_node(dev->of_node, node) {
->> +        struct stfcamss_async_subdev *csd;
->> +
->> +        if (!of_device_is_available(node))
->> +            continue;
->> +
->> +        csd = v4l2_async_nf_add_fwnode_remote(&stfcamss->notifier,
->> +                              of_fwnode_handle(node),
->> +                              struct stfcamss_async_subdev);
->> +        if (IS_ERR(csd)) {
->> +            ret = PTR_ERR(csd);
->> +            goto err_cleanup;
->> +        }
->> +
->> +        ret = stfcamss_of_parse_endpoint_node(dev, node, csd);
->> +        if (ret < 0)
->> +            goto err_cleanup;
->> +
->> +        num_subdevs++;
->> +    }
->> +
->> +    return num_subdevs;
->> +
->> +err_cleanup:
->> +    of_node_put(node);
+> Another nit here.
 > 
-> Where is the _get() for this and if you are releasing it on the error path when is the _get() released on the non-error path ?
+> "Add basic driver" isn't a great title. Recommend "Add core driver".
+> 
+> Basic implies a thing that will be added to or improved upon but, this code here is your "core" interface where you do your probing and resource parsing/allocation etc.
+> 
+> Use "core" not "basic" to describe this.
 > 
 
-OK, I will fix it.
-
->> +    return ret;
->> +}
->> +
->> +static int stfcamss_subdev_notifier_bound(struct v4l2_async_notifier *async,
->> +                      struct v4l2_subdev *subdev,
->> +                      struct v4l2_async_subdev *asd)
->> +{
->> +    struct media_pad *pad[STF_PADS_NUM];
->> +    unsigned int i, pad_num = 0;
->> +
->> +    for (i = 0; i < pad_num; ++i) {
-> 
-> Does this loop ever run ?
-> I don't see how it can..
-> 
-
-OK, I will fix it, although there are modifications to this code in patch 5 and patch 6.
+Ok, I will modify this title.
 
 > ---
 > bod
+> 
 
 -- 
 Regards,
