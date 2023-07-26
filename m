@@ -2,185 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83621764017
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 22:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB714764092
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 22:35:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229989AbjGZUDR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 16:03:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46730 "EHLO
+        id S230238AbjGZUf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 16:35:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbjGZUDH (ORCPT
+        with ESMTP id S229528AbjGZUfz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 16:03:07 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772C01BF6;
-        Wed, 26 Jul 2023 13:03:00 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:580::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 05E8F6605835;
-        Wed, 26 Jul 2023 21:02:57 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1690401779;
-        bh=gearTXn/NA1vf3XwUpplsDwpHaVmvkzNdWyDMsuqeZo=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=UJ7rpORaK+nEzKWJekZChGytRWr5gox773JXYZpmRVnbWU9+ghrzyRBbx1Hsx0GV2
-         XwPOXowfw3cXxEzN3ZDJek7mUUkh+kJHIdG9QkLxxvs7ng+65UB3eJwpWh6b67l5wh
-         V1MlukVZ6V8D7oRxEKws80RLD2k/c86JUlFKXrcaq9zwoib55tHhlV50sKU9LR+lZD
-         HEhwVGbSRxwETxb2W7ItX+tA2CMQ9YyPJjxbdtsrhBOmdjnn65d9RsgN/RNLxJLHod
-         Wqmu5hUFHMI0Vu86d4IznJkx/DykGVMgg6+uJwgj+oJVfwmvNmBAvGkkp+kg0SrR8w
-         +S+lTwQsKju5A==
-Message-ID: <4afabd718f632965314794946d4b31cec739a3d6.camel@collabora.com>
-Subject: Re: Stateless Encoding uAPI Discussion and Proposal
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Michael Grzeschik <mgr@pengutronix.de>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Date:   Wed, 26 Jul 2023 16:02:49 -0400
-In-Reply-To: <ZL-RWOfUYh5VbUo1@aptenodytes>
-References: <ZK2NiQd1KnraAr20@aptenodytes>
-         <20230721181951.GL12001@pengutronix.de>
-         <c6a222be5eee962581cf5dcb9a1473cf45ff303c.camel@collabora.com>
-         <ZL-RWOfUYh5VbUo1@aptenodytes>
+        Wed, 26 Jul 2023 16:35:55 -0400
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6C3A2701
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 13:35:54 -0700 (PDT)
+Received: by mail-oi1-x233.google.com with SMTP id 5614622812f47-3a3790a0a48so227193b6e.1
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 13:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1690403754; x=1691008554;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UbJeRzU7wigg3Cu4qDyeUEG2N0zmDly89LtEzqyMs4E=;
+        b=TxGCtU4yiHilQLBjUikX0JH9p6bb2UNI26c3vHmd5RO8FYRkDvNulnhPJd3CKSq9Fo
+         gOIC9PqsHWZlRyLBv3mi4bIOQDpNAYCYZlr81fsXoGFwE2cUSvufGtSEX0dw8bo7gqqP
+         vd09xr+NRbEsFtKf5A8oTo1/4bZUznMU31ew4iJs9g3kOnfP6XqNJsyomSHnsRBJhQRF
+         2si1a902AlFy8F5TkVpPzp9EA4/2bLGvXYGY8pAIvq+RYJueW8d5oxz/SNTEEIMBGhZy
+         ye5hpxcBNZC2MQcUkJVCvw7mM/HP7xVL//qt4/c6EwBoG/qjLV9Wz/SDxuo19X3BtYi3
+         TbCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690403754; x=1691008554;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UbJeRzU7wigg3Cu4qDyeUEG2N0zmDly89LtEzqyMs4E=;
+        b=lQXOOKUGwuyIdOrO/aKfc3g2nrAsHrXIrudyvLbmX0d9s6PnoJ18JsAD13MrvaA32L
+         IpvmpYQxpkecDNxTEFERVlHb9rcDCR267Bd0vn589XuaR24POu2XezYYqB2akgfDg2/p
+         lAi6eTDa+8HAEYl31mYKHexdhmRjwglKv6Fpyt4/fIu8lbfsd6jlQ3k/QNVqzectyr3d
+         y1NNHemJoI+QTyBPn6d1BjPpUwSNeWd7/Wu+m4T1BxM7ir7/czxW2gKJwOu9iyw6Ledo
+         It2M9Lzeu2Bw2f0s7rRlSO/jijS9PflJx9qMVOoLnKU0cHBg1xhZ4Mjr1HMOVqi7p8U2
+         0aFQ==
+X-Gm-Message-State: ABy/qLYki3vFfEGs/WqFsLrJHxOly/YRQj+ZaGb5f4KtAYQUZZhrNrvk
+        gWe9vHCAruYIRGMP3E/Y8VF23g==
+X-Google-Smtp-Source: APBJJlFMm0AI2+RVorQy6CQwizGZeLXoyZBFhxx7j6jzyKq1c1RJlExUWOEk9RJSbT6hVnqn+H4ZZA==
+X-Received: by 2002:a05:6808:aac:b0:3a4:19fd:cd51 with SMTP id r12-20020a0568080aac00b003a419fdcd51mr588581oij.10.1690403754044;
+        Wed, 26 Jul 2023 13:35:54 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:10:580::7a9])
+        by smtp.gmail.com with ESMTPSA id k19-20020a0cf593000000b00634daee6ecbsm5390895qvm.113.2023.07.26.13.35.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jul 2023 13:35:53 -0700 (PDT)
+Message-ID: <3d26f0f719cd5f71c20e80599362cd52bcfe8dd4.camel@ndufresne.ca>
+Subject: Re: [PATCH] dt-bindings: media: Add bindings for Imagination E5010
+ JPEG Encoder driver
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
+        j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
+        p-mantena@ti.com, vijayp@ti.com
+Date:   Wed, 26 Jul 2023 16:35:52 -0400
+In-Reply-To: <b6bddd59-ac78-3f75-828e-cff54766fc72@linaro.org>
+References: <20230726162615.1270075-1-devarsht@ti.com>
+         <b6bddd59-ac78-3f75-828e-cff54766fc72@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 25 juillet 2023 =C3=A0 11:09 +0200, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> Hi Nicolas,
->=20
-> On Mon 24 Jul 23, 10:03, Nicolas Dufresne wrote:
-> > Le vendredi 21 juillet 2023 =C3=A0 20:19 +0200, Michael Grzeschik a =C3=
+Le mercredi 26 juillet 2023 =C3=A0 18:33 +0200, Krzysztof Kozlowski a =C3=
 =A9crit=C2=A0:
-> > > > As a result, we cannot expect that any given encoder is able to pro=
-duce frames
-> > > > for any set of headers. Reporting related constraints and limitatio=
-ns (beyond
-> > > > profile/level) seems quite difficult and error-prone.
-> > > >=20
-> > > > So it seems that keeping header generation in-kernel only (close to=
- where the
-> > > > hardware is actually configured) is the safest approach.
-> > >=20
-> > > For the case with the rkvenc, the headers are also not created by the
-> > > kernel driver. Instead we use the gst_h264_bit_writer_sps/pps functio=
-ns
-> > > that are part of the codecparsers module.
+> On 26/07/2023 18:26, Devarsh Thakkar wrote:
+> > Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
+> > implemented as stateful V4L2 M2M driver.
 > >=20
-> > One level of granularity we can add is split headers (like SPS/PPS) and
-> > slice/frame headers.
+> > Co-developed-by: David Huang <d-huang@ti.com>
+> > Signed-off-by: David Huang <d-huang@ti.com>
 >=20
-> Do you mean asking the driver to return a buffer with only SPS/PPS and th=
-en
-> return another buffer with the slice/frame header?
+> A nit, subject: drop second/last, redundant "bindings for". The
+> "dt-bindings" prefix is already stating that these are bindings.
 >=20
-> Looks like there's already a control for it: V4L2_CID_MPEG_VIDEO_HEADER_M=
-ODE
-> which takes either
-> - V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE: looks like what you're suggesting
-> - V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME: usual case
+> Drop also "driver". Bindings are for hardware, not drivers.
 >=20
-> So that could certainly be supported to easily allow userspace to stuff e=
-xtra
-> NALUs in-between.
+> Prefix starts with media and then dt-bindings.
 
-Good point, indeed.
+That being said, I haven't seen any submission for the driver using these, =
+is it
+common practice to upstream bindings for unsupported hardware ?
+
+Nicolas
 
 >=20
-> > It remains that in some cases, like HEVC, when the slice
-> > header is byte aligned, it can be nice to be able to handle it at appli=
-cation
-> > side in order to avoid limiting SVC support (and other creative feature=
-s) by our
-> > API/abstraction limitations.
 >=20
-> Do you see something in the headers that we expect the kernel to generate=
- that
-> would need specific changes to support features like SVC?
-
-Getting the kernel to set the layer IDs, unless we have a full SVC configur=
-ation
-would just be extra indirections. That being said, if we mention HEVC, thes=
-e IDs
-can be modified in-place as they use a fixed number of bytes. If you can sp=
-lit
-the headers appart, generating per layer headers in application makes a lot=
- of
-sense.
-
-Traditionally, slice headers are made by stateless accelerators, but not th=
-e
-SPS/PPS and friend.
-
+> > Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> > ---
+> >  .../bindings/media/img,e5010-jpeg-enc.yaml    | 79 +++++++++++++++++++
+> >  MAINTAINERS                                   |  5 ++
+> >  2 files changed, 84 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/img,e5010-j=
+peg-enc.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc=
+.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+> > new file mode 100644
+> > index 000000000000..0060373eace7
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+> > @@ -0,0 +1,79 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Imagination E5010 JPEG Encoder
+> > +
+> > +maintainers:
+> > +  - Devarsh Thakkar <devarsht@ti.com>
+> > +
+> > +description: |
+> > +  The E5010 is a JPEG encoder from Imagination Technologies implemente=
+d on
+> > +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YU=
+V422
+> > +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
+> > +  8Kx8K resolution.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: img,e5010-jpeg-enc
 >=20
-> From what I can see there's a svc_extension_flag that's only set for spec=
-ific
-> NALUs (prefix_nal_unit/lice_layer_extension) so these could be inserted b=
-y
-> userspace.
+> Your description suggests that this is part of TI SoC. Pretty often
+> licensed blocks cannot be used on their own and need some
+> customizations. Are you sure your block does not need any customization
+> thus no dedicated compatible is needed?
 >=20
-> Also I'm not very knowledgeable about SVC so it's not very clear to me if=
- it's
-> possible to take an encoder that doesn't support SVC and turn the resulti=
-ng
-> stream into something SVC-ready by adding extra NAL units or if the encod=
-er
-> should be a lot more involved.
-
-You can use any encoders to create a temporal SVC. Its only about the
-referencing pattern, made so you can reduce the framerate (dividing by 2
-usually).
-
-For spatial layer, the encoders need scaling capabilities. I'm not totally =
-sure
-how multi-view work, but this is most likely just using left eye as referen=
-ce
-(not having an I frame ever for the second eye).
-
+> > +
+> > +  reg:
+> > +    items:
+> > +      - description: The E5010 main register region
+> > +      - description: The E5010 mmu register region
+> > +
+> > +  reg-names:
+> > +    items:
+> > +      - const: regjasper
+> > +      - const: regmmu
+> > +
 >=20
-> Also do you know if we have stateful codecs supporting SVC?
-
-We don't at the moment, they all produce headers with layer id hardcoded to=
- 0 as
-far as I'm aware. The general plan (if it had continued) might have been to
-offer a memu based control, and drivers could offer from a list of preset S=
-VC
-pattern. Mimicking what browsers needs:
-
-https://www.w3.org/TR/webrtc-svc/
-
+> Drop reg from both
 >=20
-> > I think a certain level of "per CODEC" reasoning is
-> > also needed. Just like, I would not want to have to ask the kernel to g=
-enerate
-> > user data SEI and other in-band data.
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    minItems: 1
+> > +    maxItems: 2
 >=20
-> Yeah it looks like there is definitely a need for adding extra NALUs from
-> userspace without passing that data to the kernel.
+> You need to specify the items. Also, no variable number of clocks. Why
+> would they vary if block is strictly defined?
 >=20
-> Cheers,
+> > +
+> > +  clock-names:
+> > +    minItems: 1
+> > +    maxItems: 2
 >=20
-> Paul
+> Instead list the names.
+>=20
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - reg-names
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    cbass_main {
+>=20
+> That's some weird name. Probably you meant soc. Anyway, underscores are
+> not allowed.
+>=20
+> > +      #address-cells =3D <2>;
+> > +      #size-cells =3D <2>;
+> > +      e5010: e5010@fd20000 {
+>=20
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-device=
+tree-basics.html#generic-names-recommendation
+>=20
+>=20
+> Drop the label.
+>=20
+> > +          compatible =3D "img,e5010-jpeg-enc";
+> > +          reg =3D <0x00 0xfd20000 0x00 0x100>,
+> > +                <0x00 0xfd20200 0x00 0x200>;
+> > +          reg-names =3D "regjasper", "regmmu";
+> > +          clocks =3D <&k3_clks 201 0>;
+> > +          clock-names =3D "core_clk";
+> > +          power-domains =3D <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
+> > +          interrupts =3D <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
+> > +      };
+> > +    };
+>=20
+>=20
+> Best regards,
+> Krzysztof
 >=20
 
