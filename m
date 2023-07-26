@@ -2,60 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8F7E763D0F
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 18:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14044763D20
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 19:01:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232246AbjGZQ57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 12:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41358 "EHLO
+        id S232130AbjGZRBv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 13:01:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232179AbjGZQ5z (ORCPT
+        with ESMTP id S231470AbjGZRBp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 12:57:55 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EE89C;
-        Wed, 26 Jul 2023 09:57:53 -0700 (PDT)
-Received: from notapiano.myfiosgateway.com (zone.collabora.co.uk [167.235.23.81])
+        Wed, 26 Jul 2023 13:01:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D50813D;
+        Wed, 26 Jul 2023 10:01:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id A2852660709C;
-        Wed, 26 Jul 2023 17:57:49 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1690390672;
-        bh=GlSb/Bi4XjuFoQXGAU8G64f+6li+1Qu1vQWug/7FS4g=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Y6BeWLgMrfIcehv5Ih0vL+HDn+bwY/cr2pesUVlIOakGBv2jPOsnhgCHHMoLQfonw
-         5n4dnGMiYpWm+DJEToZmn1iUqHIazQJ+WEd/rw+B+dfxnwttftEpKYYlNEPJ0LMRQZ
-         VElt4B1JoxD92zSWdD+vcjJ+2YsvEIIU1IYifPCyJwU4AIioe/JWHJuzFLZgjqUlev
-         NNQ2KRAiCa7f6K6uLij5Wmpwc3soLAoXy+3WAhTpIhu5OAzqUhSMVL42Ih4y5iQpcu
-         s8ce4GJ9a53q2gZBYUU40Jxg9qfwG1DGNgCWS3jn2WjigPEfwMHdHZMAhSj/Vx29E1
-         Y2VVSGXhTgy8g==
-From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@collabora.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     kernel@collabora.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@collabora.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B85D61BF3;
+        Wed, 26 Jul 2023 17:01:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 222C0C433CB;
+        Wed, 26 Jul 2023 17:01:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690390903;
+        bh=4mbYmnu1PDgK0itPtxxQYM0+Hl+zT+MwXTqlREX4YhU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MlygdD+/KE1R/9AaKHGMCTFrqMun444kuddWkLPP/pXwMkc8RFH/CqsNJRzbROd5q
+         hvHHxv3+KRojZaLXxUgCXE1nZxdFEOYDFXtoj2FirCiW7xPuG7LkP/kCXSqm06woUE
+         gXKPTvU2NDgbv3pHK1q3S7wuvgbwI5Ey4DYWZ7o1sZzn8UgAhQad7Eoz+yzZih+TXI
+         OD5+vitXuR/7A/RiC0KPR5a0hYdWU3/3X0YtqUGEGKUEAZPtVCULnThdDqfTuGN4ry
+         IVs296+9cHENYnQXkshMl21XP+HhHQ2ch+qKJ8Gqj/EAO+rBgqijgQ7zXL0YvRLvfR
+         /MpDs/Qn6NmVA==
+Received: (nullmailer pid 1585388 invoked by uid 1000);
+        Wed, 26 Jul 2023 17:01:41 -0000
+Date:   Wed, 26 Jul 2023 11:01:41 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Conor Dooley <conor@kernel.org>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Ming Qian <ming.qian@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: [PATCH v2] media: mediatek: vcodec: Consider vdecsys presence in reg range check
-Date:   Wed, 26 Jul 2023 12:57:39 -0400
-Message-ID: <20230726165742.614248-1-nfraprado@collabora.com>
-X-Mailer: git-send-email 2.41.0
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] dt-bindings: media: imx-jpeg: Add clocks property
+Message-ID: <20230726170141.GA1568248-robh@kernel.org>
+References: <20230724122101.2903318-1-alexander.stein@ew.tq-group.com>
+ <20230724122101.2903318-3-alexander.stein@ew.tq-group.com>
+ <20230724-unscrew-bonnet-3c86da806df3@spud>
+ <1908243.taCxCBeP46@steina-w>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1908243.taCxCBeP46@steina-w>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -64,61 +74,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit fe8a33978383 ("media: mediatek: vcodec: Read HW active status
-from syscon") allowed the driver to read the VDEC_SYS io space from a
-syscon instead of from the reg property when reg-names are supplied.
-However as part of that change, a smatch warning was introduced:
+On Tue, Jul 25, 2023 at 07:31:55AM +0200, Alexander Stein wrote:
+> Am Montag, 24. Juli 2023, 20:26:15 CEST schrieb Conor Dooley:
+> > On Mon, Jul 24, 2023 at 02:21:00PM +0200, Alexander Stein wrote:
+> > > i.MX8 and i.MX8X both use two clocks for accessing the periphery.
+> > > Add clocks and clock-names properties accordingly.
+> > > 
+> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > ---
+> > > Changes in v2:
+> > > * None
+> > > 
+> > >  .../devicetree/bindings/media/nxp,imx8-jpeg.yaml          | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> > > b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml index
+> > > 3d9d1db37040..2533e16720f2 100644
+> > > --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> > > 
+> > > @@ -46,6 +46,14 @@ properties:
+> > >      minItems: 2               # Wrapper and 1 slot
+> > >      maxItems: 5               # Wrapper and 4 slots
+> > > 
+> > > +  clocks:
+> > > +    maxItems: 2
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: per
+> > > +      - const: ipg
+> > 
+> > What do "per" and "ipg" mean? I assume "per" is peripheral?
+> 
+> Actually I don't know what "ipg" stands for. It's a quite common name on i.MX 
+> platforms though. I opted for the names currently used in the DT. The driver 
+> doesn't care for the names currently.
 
-drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c:142 mtk_vcodec_get_reg_bases() error: buffer overflow 'mtk_dec_reg_names' 11 <= 11
+Those names date back about 25 years to Motorola Mcore GSM SoCs. IPG 
+came from IPG bus which IIRC stood for IP gasket. Essentially the bus 
+was something like Arm APB being slave only. The IPG clock is 
+essentially the bus and register access clock. 'per' is the functional 
+clock in cases that need a defined clock rate such as UART baud clock. 
 
-With a correct Devicetree, that is, one that follows the dt-binding, it
-wouldn't be possible to trigger such a buffer overflow. Even so, update
-the range validation of the reg property, so that the smatch warning is
-fixed and if an incorrect Devicetree is ever supplied the code errors
-out instead of causing memory corruption.
+There is also a shared (between CPU and DSP) bus called SPBA from the 
+same time which still lives on even though it isn't shared in i.MX 
+chips.
 
-Reported-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Closes: https://lore.kernel.org/all/b5fd2dff-14a5-3ad8-9698-d1a50f4516fa@xs4all.nl
-Fixes: fe8a33978383 ("media: mediatek: vcodec: Read HW active status from syscon")
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> But cross-checking the reference manual these clocks seems to be called "jpeg" 
+> and "ips", individually for both jpeg encoder and decoder.
 
----
+Given this block is probably licensed IP, seems like it would use 
+something different and be directly connected to AHB or AXI.
 
-Changes in v2:
-- Tidied logic by moving number of maximum regs to separate variable
-- Rebased on top of Hans' for-v6.6i branch
-
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-index 6cf5f88a3a8e..f5b8c37f32f5 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-@@ -96,6 +96,7 @@ static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
- 	int reg_num, i;
- 	struct resource *res;
- 	bool has_vdecsys_reg;
-+	int num_max_vdec_regs;
- 	static const char * const mtk_dec_reg_names[] = {
- 		"misc",
- 		"ld",
-@@ -122,10 +123,13 @@ static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
- 	else
- 		has_vdecsys_reg = true;
- 
-+	num_max_vdec_regs = has_vdecsys_reg ? NUM_MAX_VDEC_REG_BASE :
-+					      ARRAY_SIZE(mtk_dec_reg_names);
-+
- 	/* Sizeof(u32) * 4 bytes for each register base. */
- 	reg_num = of_property_count_elems_of_size(pdev->dev.of_node, "reg",
- 						  sizeof(u32) * 4);
--	if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE) {
-+	if (reg_num <= 0 || reg_num > num_max_vdec_regs) {
- 		dev_err(&pdev->dev, "Invalid register property size: %d\n", reg_num);
- 		return -EINVAL;
- 	}
--- 
-2.41.0
-
+> Mirela (added to recipients): As the original author of the DT nodes, could 
+> you provide additional information regarding the clock names?
+> 
+> Best regards,
+> Alexander
