@@ -2,158 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BA49762B5D
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 08:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE8AB762B64
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jul 2023 08:27:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231652AbjGZG0C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 02:26:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51324 "EHLO
+        id S229993AbjGZG1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 02:27:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231665AbjGZG0A (ORCPT
+        with ESMTP id S229528AbjGZG1o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 02:26:00 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9DA1BD1
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:25:59 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-76ae0784e0bso30979685a.0
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:25:59 -0700 (PDT)
+        Wed, 26 Jul 2023 02:27:44 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF4E1995
+        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1690352759; x=1690957559;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fIXZYAd4S4dWNQQy99R1f7KDCW04tYVv72JP0Q85d0Q=;
-        b=TP9IV8s3OfmJbGjlHVmJEZTLSXIGnmU09/8SLSLNcxiG3ALpCijbOSjqsNCgzo4gtW
-         rdYdqxNH+OI8CbQPc7sCm60oS2Cf8l3vfDHaij1UGSKy+cj4KZ66P7FZ5YFlPkHqRZ0Z
-         XKxfTp00d3xFnIh4bYWXfd8EYRg6poAuBKSEQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690352759; x=1690957559;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fIXZYAd4S4dWNQQy99R1f7KDCW04tYVv72JP0Q85d0Q=;
-        b=Xa0C3tJet9kOTuxlYmUeLbpuPtn1WQwt0HZgvV7ud9qghhGHsPght80fiukdsoJvSo
-         7aAhVHhf5NeCweCks2YXI0wu3opwF3HT67ANSz4K/C7y/MPn8dKwO9hR8GY1teI5Rxsj
-         LMinOLyHvKApClw93yj4q97MbqGodjIc3dgYGoFtZFNgHzuLhJUh1qDrv4cpuWxO0qr6
-         lvLpQffvUbFfpsRHkP2SW/u4SM4D2QZzCgQ+BTUkyrQJkCVUALC6tO2jzlvCPhD8kw8i
-         NUb2MWm3AFzWD5T9yuu/DQAzG19VAyzaIFfk/zGRJurl4b6DXx5YGEutlggRzZ4flyi4
-         sszQ==
-X-Gm-Message-State: ABy/qLZqcA3V2e0ZiAg8iLpkUsKK64XkJ1qC9Rw5hJgxX9R64u+bMiEe
-        hLgvm8gjWxoS47Pe+IE2dDGB7AP35NAlxUziEBaH6w==
-X-Google-Smtp-Source: APBJJlF237KPOzVfQfH9u4dRQAdv8Huxv6wZFn8ACVrn7CKnSXYCNx2FO4ZTzCvsITJvJLVtXh7/yw==
-X-Received: by 2002:a05:620a:4689:b0:76a:da92:e0a0 with SMTP id bq9-20020a05620a468900b0076ada92e0a0mr4999743qkb.18.1690352758995;
-        Tue, 25 Jul 2023 23:25:58 -0700 (PDT)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com. [209.85.219.47])
-        by smtp.gmail.com with ESMTPSA id z8-20020ac84308000000b0040321ca109fsm4625892qtm.96.2023.07.25.23.25.04
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 23:25:19 -0700 (PDT)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-63cff46ddb8so2915656d6.1
-        for <linux-media@vger.kernel.org>; Tue, 25 Jul 2023 23:25:04 -0700 (PDT)
-X-Received: by 2002:a05:6214:124e:b0:623:8494:9945 with SMTP id
- r14-20020a056214124e00b0062384949945mr5700539qvv.26.1690352702309; Tue, 25
- Jul 2023 23:25:02 -0700 (PDT)
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1690352863; x=1721888863;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=SO8qtq5n4vUs03x+BQHo8Bbf83RhpEqSbZNT0bEINiU=;
+  b=MYxVhk4/wYqB8Q5xz5nFGiM2pj/kQSdqdUtbutWQqBdZtPPLbtvAyNjJ
+   /avhrom1N5iOsQMzvtOuvs6E85G7VYiktmMsEmWBb0kQQYnCcYTMKmfGU
+   6e1G3mjVIbZsOXFYrQCvOhYjWtFZL13kOHVkBhKFK37RuKBOzW6R2xCBW
+   UN7y8Y3hCKrgOkUoE7Nqu9if0xVjUyPZawCH+LPQP/2s9Cse1nY4pOysB
+   54OAlf8Z4l517TL2b1x7wJfCHCPBKKcgN8opfmpjP88ECWJHvgYcIcsp3
+   cvEtpAcGofzubWXbmiwfVLevBYq4VBMcOYzYo9usKJJwUZyA1jVZT/uzB
+   g==;
+X-IronPort-AV: E=Sophos;i="6.01,231,1684792800"; 
+   d="scan'208";a="32119091"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 26 Jul 2023 08:27:41 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id AF7D2280075;
+        Wed, 26 Jul 2023 08:27:41 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Fabio Estevam <festevam@denx.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Martin Kepplinger <martink@posteo.de>,
+        Purism Kernel Team <kernel@puri.sm>
+Subject: Re: [PATCH v3 2/3] media: imx: imx7-media-csi: Fix frame sizes enumeration
+Date:   Wed, 26 Jul 2023 08:27:41 +0200
+Message-ID: <14965809.tv2OnDr8pf@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230725200249.15447-3-laurent.pinchart@ideasonboard.com>
+References: <20230725200249.15447-1-laurent.pinchart@ideasonboard.com> <20230725200249.15447-3-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-References: <20230717-uvc-oob-v2-1-c7745a8d5847@chromium.org> <20230725213451.GU31069@pendragon.ideasonboard.com>
-In-Reply-To: <20230725213451.GU31069@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 26 Jul 2023 08:24:50 +0200
-X-Gmail-Original-Message-ID: <CANiDSCttkqows7PZS823Jpk-CqK9Gz2rujF_R4SPDi=wcPJ2LA@mail.gmail.com>
-Message-ID: <CANiDSCttkqows7PZS823Jpk-CqK9Gz2rujF_R4SPDi=wcPJ2LA@mail.gmail.com>
-Subject: Re: [PATCH v2] media: uvcvideo: Fix OOB read
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        stable@kernel.org, Zubin Mithra <zsm@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Laurent,
 
-Thanks for the review!
+thanks for picking up my suggestion.
 
-On Tue, 25 Jul 2023 at 23:34, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the patch.
->
-> On Thu, Jul 20, 2023 at 05:46:54PM +0000, Ricardo Ribalda wrote:
-> > If the index provided by the user is bigger than the mask size, we might do an
-> > out of bound read.
-> >
-> > CC: stable@kernel.org
-> > Fixes: 40140eda661e ("media: uvcvideo: Implement mask for V4L2_CTRL_TYPE_MENU")
-> > Reported-by: Zubin Mithra <zsm@chromium.org>
->
-> checkpatch now requests a Reported-by tag to be immediately followed by
-> a Closes tag that contains the URL to the report. Could you please
-> provide that ?
->
-I saw that, but the URL is kind of private:
+Am Dienstag, 25. Juli 2023, 22:02:48 CEST schrieb Laurent Pinchart:
+> Enumeration of the minimum, maximum and step values for the image width
+> does not take hardware constraints into account. Fix it.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/platform/nxp/imx7-media-csi.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
+> b/drivers/media/platform/nxp/imx7-media-csi.c index
+> 5684ecd2e3fe..3aa7978d3f8a 100644
+> --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> @@ -1076,6 +1076,7 @@ static int imx7_csi_video_enum_framesizes(struct fi=
+le
+> *file, void *fh, struct v4l2_frmsizeenum *fsize)
+>  {
+>  	const struct imx7_csi_pixfmt *cc;
+> +	u32 walign;
+>=20
+>  	if (fsize->index > 0)
+>  		return -EINVAL;
+> @@ -1085,16 +1086,17 @@ static int imx7_csi_video_enum_framesizes(struct
+> file *file, void *fh, return -EINVAL;
+>=20
+>  	/*
+> -	 * TODO: The constraints are hardware-specific and may depend on the
+> -	 * pixel format. This should come from the driver using
+> -	 * imx_media_capture.
+> +	 * The width alignment is 8 bytes as indicated by the
+> +	 * CSI_IMAG_PARA.IMAGE_WIDTH documentation. Convert it to pixels.
+>  	 */
+> +	walign =3D 8 * 8 / cc->bpp;
+> +
+>  	fsize->type =3D V4L2_FRMSIZE_TYPE_CONTINUOUS;
+> -	fsize->stepwise.min_width =3D 1;
+> -	fsize->stepwise.max_width =3D 65535;
+> +	fsize->stepwise.min_width =3D walign;
+> +	fsize->stepwise.max_width =3D round_down(65535U, walign);
+>  	fsize->stepwise.min_height =3D 1;
+>  	fsize->stepwise.max_height =3D 65535;
+> -	fsize->stepwise.step_width =3D 1;
+> +	fsize->stepwise.step_width =3D walign;
+>  	fsize->stepwise.step_height =3D 1;
+>=20
+>  	return 0;
 
-Closes: http://issuetracker.google.com/issues/289975230
+Looks good to me.
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> > Avoid reading index >= 31
-> > ---
-> > Changes in v2:
-> > - Use BITS_PER_TYPE instead of 32 (thanks Sergey).
-> > - Add Reported-by tag.
-> > - Link to v1: https://lore.kernel.org/r/20230717-uvc-oob-v1-1-f5b9b4aba3b4@chromium.org
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 5e9d3da862dd..e59a463c2761 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -1402,6 +1402,9 @@ int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
-> >       query_menu->id = id;
-> >       query_menu->index = index;
-> >
-> > +     if (index >= BITS_PER_TYPE(mapping->menu_mask))
-> > +             return -EINVAL;
-> > +
->
-> I'd move this a few lines up, before setting query_menu.
->
-
-SGTM, I just wanted to clear all the fields to mimic the other error
-paths of the function.
-
-> With those minor changes,
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> There's no need for a v3, I can handle the changes locally, but I need
-> the URL for the Closes tag.
->
-> >       ret = mutex_lock_interruptible(&chain->ctrl_mutex);
-> >       if (ret < 0)
-> >               return -ERESTARTSYS;
-> >
-> > ---
-> > base-commit: fdf0eaf11452d72945af31804e2a1048ee1b574c
-> > change-id: 20230717-uvc-oob-4b0148a00417
->
-> --
-> Regards,
->
-> Laurent Pinchart
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
 
-
--- 
-Ricardo Ribalda
