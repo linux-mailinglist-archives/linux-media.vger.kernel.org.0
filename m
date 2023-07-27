@@ -2,111 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E5FF765993
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 19:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1224F765995
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 19:11:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbjG0RKs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 13:10:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43330 "EHLO
+        id S230331AbjG0RLF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 13:11:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229914AbjG0RKr (ORCPT
+        with ESMTP id S229870AbjG0RLD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 13:10:47 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9882D7D
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 10:10:44 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2b74209fb60so18545321fa.0
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 10:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690477843; x=1691082643;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YA4KY7APNBoaVIsE8pbZuVrmfLiy26uq1i7pnH5Zurc=;
-        b=kU9RvC9MMM1jkXnKHDH9Y7YHb/jOhWaYDV+48W6Vp1QVRVT5IN1Nbx2J3fu7lxkgxk
-         bXHpKj/a9cTgAWSocNtrGS2015UQWdKNmAnaaCM/GNB/VTIoO3JnopGz/neyutp/SNz0
-         HttdyOVb9DnvYuA5Eq8kwtAIOnojFWbJJ7tp54kx35OUeLlv11MmbhtD/ZxW+/bGoC74
-         L2We5/1bmS4V2nVaCDcX+5n/T2En8pyA5sIpVNhcrv0qSRr+NoAHPI4qSjvDhXR+32B4
-         739OCJFYQ7fq8XXBViQNHYEI5IJZQUl2TUW+jXEWQ8Dbs1U5EDXB1ZDFrtoTOiNZlpN3
-         qMcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690477843; x=1691082643;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YA4KY7APNBoaVIsE8pbZuVrmfLiy26uq1i7pnH5Zurc=;
-        b=fKVYZtVwzI2YnJH+aAa6rmgro86TR/BP5pK6GajTF3ugufuQyRjw+u9mprS17GikCd
-         PDYGVbhYd32/5abI+BOEQWa0Iiyt6G60X+ozrmy+AynBejiHDAfZergp1F9mwI7Wx+zA
-         qMl5L4/BJR88kpbeCzkfSs7wiL+AOx7Gp1FHBP2CXp6jSVih8OLOaksVwPAQ7JGt9dA4
-         nLnOjN7X14C2Fc2z0qBu2XKLotHD9IgNo0ZJBrosc30mdutTfL38QN5lkPDGGUy+UIy8
-         gnzc1Zra95Coqsabz2ZGsvagodOOkgU1OBxgVbMSjRMgGL3iaIkYy9iSmtca84S/VnqA
-         dJKA==
-X-Gm-Message-State: ABy/qLbGX1NdQkdBQQO7bDv2XU5eGDUTEayiN1k2fPYIFQfb9JnLcMZK
-        v1lxI/lPEpee9TpyRlP4N1CYZg==
-X-Google-Smtp-Source: APBJJlFaJ8HKfLfLui9GCTpqO9VRb6s9gu3E4pmdbVXWA9rs8zr5ttu0hEFBNa46OOcBduEXOCgc4A==
-X-Received: by 2002:a2e:3613:0:b0:2b6:dec9:2812 with SMTP id d19-20020a2e3613000000b002b6dec92812mr2191782lja.33.1690477842958;
-        Thu, 27 Jul 2023 10:10:42 -0700 (PDT)
-Received: from [192.168.1.101] (abxi99.neoplus.adsl.tpnet.pl. [83.9.2.99])
-        by smtp.gmail.com with ESMTPSA id y4-20020a2eb004000000b002b944151da5sm441863ljk.81.2023.07.27.10.08.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 10:09:12 -0700 (PDT)
-Message-ID: <df947545-23ef-2ee9-72cc-8e54bbe46be1@linaro.org>
-Date:   Thu, 27 Jul 2023 19:08:14 +0200
+        Thu, 27 Jul 2023 13:11:03 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C7BC30E3;
+        Thu, 27 Jul 2023 10:11:00 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:580::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id AB2A666015A0;
+        Thu, 27 Jul 2023 18:10:56 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1690477858;
+        bh=E2DEXdpIOFGoKjwDPsij+hvboO8PwGO9KDMyYSS8/g8=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=PO2HdFdaDesVZug0aiSrvrGIcYwCWh0/En+KEJmYoLDvpbf3y5clLKeL7Qx9leBy4
+         SvmCFI2bqj0dUTPWpxWoOI7N5a7ed+DUHs1igWV+rVHtyzrZ9OlxKPJzBKCBgzlXdB
+         WkTitGe2C0HzOy1B1dHDm4W/PL6YmfOnIID1VCWZ2SYCUYUCo820L2krj2z18mQ6Ga
+         OdBGNJHUSWtvmRZk16cveAszn809lMB/unrCyFDDY2+HRtRf3dFkVy/OpEGxM024pY
+         oIKP16WG/UyofGetUUb1mel9zsTkKSyGq5IDWHNNm+hSAnuphkCf2S85utev9dYYT3
+         K6rMPkvvzE8JQ==
+Message-ID: <8f0fbb7c3c18c211b4d407dc1b45539a1ce41766.camel@collabora.com>
+Subject: Re: Stateless Encoding uAPI Discussion and Proposal
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Thu, 27 Jul 2023 13:10:47 -0400
+In-Reply-To: <b2d75cf6-2e57-65ab-ebf1-caaa17f479e0@synaptics.com>
+References: <ZK2NiQd1KnraAr20@aptenodytes>
+         <c46d0c53b7e5dc8dcdf7925f3d892024390a8b2b.camel@collabora.com>
+         <ZK6zjaJtulRSrn7P@aptenodytes>
+         <bbd62e1b-dd0b-e351-110e-040b42d02974@synaptics.com>
+         <ZL-8yBhWWChKBDHM@aptenodytes>
+         <c15805b0-261b-114a-c29d-b63f00dd8da4@synaptics.com>
+         <87cfcdfadee89984496c3f52d01b4f1e10c12cae.camel@collabora.com>
+         <b2d75cf6-2e57-65ab-ebf1-caaa17f479e0@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] venus: hfi: add checks to perform sanity on queue
- pointers
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, bryan.odonoghue@linaro.org,
-        agross@kernel.org, andersson@kernel.org, mchehab@kernel.org,
-        hans.verkuil@cisco.com, tfiga@chromium.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <1690432469-14803-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690432469-14803-2-git-send-email-quic_vgarodia@quicinc.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <1690432469-14803-2-git-send-email-quic_vgarodia@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -114,30 +70,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27.07.2023 06:34, Vikash Garodia wrote:
-> Read and write pointers are used to track the packet index in the memory
-> shared between video driver and firmware. There is a possibility of OOB
-> access if the read or write pointer goes beyond the queue memory size.
-> Add checks for the read and write pointer to avoid OOB access.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/hfi_venus.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index f0b4638..dc228c4 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -206,6 +206,10 @@ static int venus_write_queue(struct venus_hfi_device *hdev,
->  
->  	new_wr_idx = wr_idx + dwords;
->  	wr_ptr = (u32 *)(queue->qmem.kva + (wr_idx << 2));
-> +
-> +	if (wr_ptr < (u32 *)queue->qmem.kva || wr_ptr > (u32 *)(queue->qmem.kva + queue->qmem.size))
-Shouldn't the cases on the right side of the OR operator include a
-"- 1"?
+Le jeudi 27 juillet 2023 =C3=A0 10:45 +0800, Hsia-Jun Li a =C3=A9crit=C2=A0=
+:
+>=20
+> On 7/27/23 03:53, Nicolas Dufresne wrote:
+> > CAUTION: Email originated externally, do not click links or open attach=
+ments unless you recognize the sender and know the content is safe.
+> >=20
+> >=20
+> > Hi,
+> >=20
+> > Le mercredi 26 juillet 2023 =C3=A0 10:49 +0800, Hsia-Jun Li a =C3=A9cri=
+t :
+> > > > I am strongly against this approach, instead I think we need to kee=
+p all
+> > > > vendor-specific parts in the kernel driver and provide a clean unif=
+ied userspace
+> > > > API.
+> > > >=20
+> > > We are driving away vendor participation. Besides, the current design=
+ is
+> > > a performance bottleneck.
+> >=20
+> >=20
 
-Konrad
+. . .=20
+
+> Or we just define an interface that only FOSS would use.
+
+We explicitly favour FOSS and make API that guaranty you can use the driver=
+ with
+FOSS. This is not something we do in secret, this is fundamental to being a=
+ GPL
+project. On DRM side, were the API is a lot more flexible, they explicitly
+reject drivers without an actual FOSS user. We don't strictly have to do th=
+at in
+V4L2, because the API is done at a higher level. But if we were to come up =
+with
+a lower level abstraction, we'd certainly have this rules.
+
+. . .
+>=20
+
+>=20
+> Please DO ***NOT*** make a standard that occupied many memory behinds=20
+> usersace and a standard that user has to handle the reconstruction=20
+> buffer holding with a strange mechanism(I mean reconstruction buffer=20
+> lifetime would be manged by userspace manually).
+
+In all fairness, people have limited time, and builds on top of existing
+infrastructure. The reason reconstruction buffers won't be exposed is reall=
+y
+simple to understand. We don't have API in current framework to support all=
+ the
+allocations happening in codec drivers. If we could not progress without th=
+at,
+I've sure finding solution would become a priority. But the trith is that w=
+e can
+live without, and are aiming to move forward without.
+
+We can certainly start a thread on the subject, I even have plenty of ideas=
+ how
+to introduce these without throwing away all the existing stuff. But only i=
+f
+there is a clear intention to actually implement it. We have plenty on our =
+plate
+and exposing reconstruction buffers can certainly wait.
+
+regards,
+Nicolas
+>=20
