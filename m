@@ -2,63 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED246764905
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 09:42:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10CF776494A
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 09:50:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231700AbjG0Hl7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 03:41:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52942 "EHLO
+        id S233538AbjG0HuU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 03:50:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233082AbjG0Hlo (ORCPT
+        with ESMTP id S233306AbjG0HuB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 03:41:44 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 194F359DE
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690443323; x=1721979323;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m62EafBUUGnvw65JvFV5yDJjSwgYCCFo1q/imM6cWiA=;
-  b=Un7QqIApzSSpsymRAKWX6sxP0hJAlSWzM0OW/9oM+qIye5pZ6rgTzl9z
-   uNYUZH9NEkk6CkZ/gyu0rfdT1PQuMj8n/gUBFBUjldtsaWa8k9NekgJjs
-   i8LUf6UJBJO1VaIV3LozHRKiNhLa+1JrAPPSzB8WaCLhpyKCZZpjUJBmU
-   2YKKnF7WvYr/bFa2z8nSDRXOtNTVxytdqI0EaCjTq8zCHQpoAbggOwoO/
-   lehzPHbpMVwuD7bHlWQSkIa3bcSE/qd89D9equxfyNd9IyuXg2rxFTXCQ
-   Q3YTEFs04eW7qPbT3M8kFCRtUznD5FJXpE5s6mZiVahkZeuCgB7Cvso1Y
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="454601935"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="454601935"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 00:34:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="756552160"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="756552160"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 27 Jul 2023 00:34:54 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qOvWG-00023X-2P;
-        Thu, 27 Jul 2023 07:34:49 +0000
-Date:   Thu, 27 Jul 2023 15:34:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [sailus-media-tree:master 9/20] drivers/media/i2c/ov5693.c:1280:17:
- warning: incompatible integer to pointer conversion assigning to 'struct
- regmap *' from 'int'
-Message-ID: <202307271517.dPa1bTSi-lkp@intel.com>
+        Thu, 27 Jul 2023 03:50:01 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C41673592
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:43:40 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-765ae938b1bso53990585a.0
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690443819; x=1691048619;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sn8sesRltxTsvGZPwjqFOVYdqOt+0ePbjNVrO+NvsVI=;
+        b=R2VjX1bEkK/wSa0IZkJIxTRe3q9R5KoePY/bouYE39NsO0oIGVw47WASgbslll3YBc
+         Pp1ORtFOCrvjgNLDBe6bi/b8i1HxWSI9TKHc74lvCjSKoSvKX6D2P2Ek3vlwRwdXlNXZ
+         sksdyNpKupk8vAKa/03ovrzw66ttGol74EXos=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690443819; x=1691048619;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sn8sesRltxTsvGZPwjqFOVYdqOt+0ePbjNVrO+NvsVI=;
+        b=Lfvr8l1b4F+T0+jjZgGK568RBAazm6q2cc92M+MzgEhKr0omQMzp36D84lDw9Np/dW
+         25mIHmAxOHTA/GGllDItmExovSleVN6U6aulPN16OD66joFxTd3YuYkJugtKRiPQe/bg
+         DRDIWrdAFWpSmwKm/xRVQwC928KnJSL0vN2N8ByYKhk2ZvkMaaWNynvQPXIDATLkGdt4
+         OlnDPyfXpJxJAjGgSFtkis2E9veYKW+g3H7FMBDvf48cTeKGVjhTiIF6ErJSapqO3UNa
+         AAYpGCcGmUBQU1UI/8DfrwRrUkIgzL+SwZkDhGbSOyI+m4Vhg8/HnpGPOS3jGabGe6c5
+         Wi6A==
+X-Gm-Message-State: ABy/qLZQzeoGivAQumBG9sTsdxLqqQbuITajYsU9anUodUzU03A4ZoMw
+        3M7MxStUzLMqVTE1u3ZwEzfU+EpfC4i1em5ZLdzWyg==
+X-Google-Smtp-Source: APBJJlF0jiMLmIVu35P/29siA0A08AI7rsd9g4f/KaMCAyaHQx5RN7fYf1aTB7rSLs/BUZbtvT2qLw==
+X-Received: by 2002:a05:620a:25c8:b0:76c:53d5:49ec with SMTP id y8-20020a05620a25c800b0076c53d549ecmr5317373qko.65.1690443819501;
+        Thu, 27 Jul 2023 00:43:39 -0700 (PDT)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com. [209.85.219.52])
+        by smtp.gmail.com with ESMTPSA id m9-20020ae9e709000000b0075ca4cd03d4sm237739qka.64.2023.07.27.00.43.38
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 00:43:38 -0700 (PDT)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-63d10da0f26so4841966d6.3
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:43:38 -0700 (PDT)
+X-Received: by 2002:ad4:438f:0:b0:63d:d83:8808 with SMTP id
+ s15-20020ad4438f000000b0063d0d838808mr3291222qvr.63.1690443818431; Thu, 27
+ Jul 2023 00:43:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <20230704040044.681850-1-randy.li@synaptics.com>
+ <20230704040044.681850-3-randy.li@synaptics.com> <20230712093301.nkj2vok2x7esdhb3@chromium.org>
+ <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
+In-Reply-To: <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 27 Jul 2023 16:43:27 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
+Message-ID: <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
+        ayaka@soulik.info, hans.verkuil@cisco.com, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
+        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,150 +80,170 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   215e4463b11d94668b841368cb6882f3a2968148
-commit: 6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c [9/20] media: ov5693: Convert to new CCI register access helpers
-config: arm-randconfig-r012-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271517.dPa1bTSi-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271517.dPa1bTSi-lkp@intel.com/reproduce)
+On Mon, Jul 17, 2023 at 11:07=E2=80=AFPM Nicolas Dufresne <nicolas@ndufresn=
+e.ca> wrote:
+>
+> Le mercredi 12 juillet 2023 =C3=A0 09:33 +0000, Tomasz Figa a =C3=A9crit =
+:
+> > On Tue, Jul 04, 2023 at 12:00:38PM +0800, Hsia-Jun Li wrote:
+> > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+> > >
+> > > Many drivers have to create its own buf_struct for a
+> > > vb2_queue to track such a state. Also driver has to
+> > > iterate over rdy_queue every times to find out a buffer
+> > > which is not sent to hardware(or firmware), this new
+> > > list just offers the driver a place to store the buffer
+> > > that hardware(firmware) has acknowledged.
+> > >
+> > > One important advance about this list, it doesn't like
+> > > rdy_queue which both bottom half of the user calling
+> > > could operate it, while the v4l2 worker would as well.
+> > > The v4l2 core could only operate this queue when its
+> > > v4l2_context is not running, the driver would only
+> > > access this new hw_queue in its own worker.
+> >
+> > Could you describe in what case such a list would be useful for a
+> > mem2mem driver?
+>
+> Today all driver must track buffers that are "owned by the hardware". Thi=
+s is a
+> concept dictated by the m2m framework and enforced through the ACTIVE fla=
+g. All
+> buffers from this list must be mark as done/error/queued after streamoff =
+of the
+> respective queue in order to acknowledge that they are no longer in use b=
+y the
+> HW. Not doing so will warn:
+>
+>   videobuf2_common: driver bug: stop_streaming operation is leaving buf .=
+..
+>
+> Though, there is no queue to easily iterate them. All driver endup having=
+ their
+> own queue, or just leaving the buffers in the rdy_queue (which isn't bett=
+er).
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271517.dPa1bTSi-lkp@intel.com/
+Thanks for the explanation. I see how it could be useful now.
 
-All warnings (new ones prefixed by >>):
+Although I guess this is a problem specifically for hardware (or
+firmware) which can internally queue more than 1 buffer, right?
+Otherwise the current buffer could just stay at the top of the
+rdy_queue until it's removed by the driver's completion handler,
+timeout/error handler or context destruction.
 
-   drivers/media/i2c/ov5693.c:1280:19: error: implicit declaration of function 'devm_cci_regmap_init_i2c' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-                            ^
->> drivers/media/i2c/ov5693.c:1280:17: warning: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
-           ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+Best regards,
+Tomasz
 
-
-vim +1280 drivers/media/i2c/ov5693.c
-
-  1267	
-  1268	static int ov5693_probe(struct i2c_client *client)
-  1269	{
-  1270		struct ov5693_device *ov5693;
-  1271		u32 xvclk_rate;
-  1272		int ret = 0;
-  1273	
-  1274		ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
-  1275		if (!ov5693)
-  1276			return -ENOMEM;
-  1277	
-  1278		ov5693->dev = &client->dev;
-  1279	
-> 1280		ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-  1281		if (IS_ERR(ov5693->regmap))
-  1282			return PTR_ERR(ov5693->regmap);
-  1283	
-  1284		ret = ov5693_check_hwcfg(ov5693);
-  1285		if (ret)
-  1286			return ret;
-  1287	
-  1288		mutex_init(&ov5693->lock);
-  1289	
-  1290		v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
-  1291	
-  1292		ov5693->xvclk = devm_clk_get_optional(&client->dev, "xvclk");
-  1293		if (IS_ERR(ov5693->xvclk))
-  1294			return dev_err_probe(&client->dev, PTR_ERR(ov5693->xvclk),
-  1295					     "failed to get xvclk: %ld\n",
-  1296					     PTR_ERR(ov5693->xvclk));
-  1297	
-  1298		if (ov5693->xvclk) {
-  1299			xvclk_rate = clk_get_rate(ov5693->xvclk);
-  1300		} else {
-  1301			ret = fwnode_property_read_u32(dev_fwnode(&client->dev),
-  1302					     "clock-frequency",
-  1303					     &xvclk_rate);
-  1304	
-  1305			if (ret) {
-  1306				dev_err(&client->dev, "can't get clock frequency");
-  1307				return ret;
-  1308			}
-  1309		}
-  1310	
-  1311		if (xvclk_rate != OV5693_XVCLK_FREQ)
-  1312			dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
-  1313				 xvclk_rate, OV5693_XVCLK_FREQ);
-  1314	
-  1315		ret = ov5693_configure_gpios(ov5693);
-  1316		if (ret)
-  1317			return ret;
-  1318	
-  1319		ret = ov5693_get_regulators(ov5693);
-  1320		if (ret)
-  1321			return dev_err_probe(&client->dev, ret,
-  1322					     "Error fetching regulators\n");
-  1323	
-  1324		ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-  1325		ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
-  1326		ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-  1327	
-  1328		ov5693->mode.crop = ov5693_default_crop;
-  1329		ov5693->mode.format = ov5693_default_fmt;
-  1330		ov5693->mode.vts = __ov5693_calc_vts(ov5693->mode.format.height);
-  1331	
-  1332		ret = ov5693_init_controls(ov5693);
-  1333		if (ret)
-  1334			return ret;
-  1335	
-  1336		ret = media_entity_pads_init(&ov5693->sd.entity, 1, &ov5693->pad);
-  1337		if (ret)
-  1338			goto err_ctrl_handler_free;
-  1339	
-  1340		/*
-  1341		 * We need the driver to work in the event that pm runtime is disable in
-  1342		 * the kernel, so power up and verify the chip now. In the event that
-  1343		 * runtime pm is disabled this will leave the chip on, so that streaming
-  1344		 * will work.
-  1345		 */
-  1346	
-  1347		ret = ov5693_sensor_powerup(ov5693);
-  1348		if (ret)
-  1349			goto err_media_entity_cleanup;
-  1350	
-  1351		ret = ov5693_detect(ov5693);
-  1352		if (ret)
-  1353			goto err_powerdown;
-  1354	
-  1355		pm_runtime_set_active(&client->dev);
-  1356		pm_runtime_get_noresume(&client->dev);
-  1357		pm_runtime_enable(&client->dev);
-  1358	
-  1359		ret = v4l2_async_register_subdev_sensor(&ov5693->sd);
-  1360		if (ret) {
-  1361			dev_err(&client->dev, "failed to register V4L2 subdev: %d",
-  1362				ret);
-  1363			goto err_pm_runtime;
-  1364		}
-  1365	
-  1366		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-  1367		pm_runtime_use_autosuspend(&client->dev);
-  1368		pm_runtime_put_autosuspend(&client->dev);
-  1369	
-  1370		return ret;
-  1371	
-  1372	err_pm_runtime:
-  1373		pm_runtime_disable(&client->dev);
-  1374		pm_runtime_put_noidle(&client->dev);
-  1375	err_powerdown:
-  1376		ov5693_sensor_powerdown(ov5693);
-  1377	err_media_entity_cleanup:
-  1378		media_entity_cleanup(&ov5693->sd.entity);
-  1379	err_ctrl_handler_free:
-  1380		v4l2_ctrl_handler_free(&ov5693->ctrls.handler);
-  1381	
-  1382		return ret;
-  1383	}
-  1384	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Nicolas
+> >
+> > >
+> > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++-------=
+-
+> > >  include/media/v4l2-mem2mem.h           | 10 +++++++++-
+> > >  2 files changed, 26 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v=
+4l2-core/v4l2-mem2mem.c
+> > > index c771aba42015..b4151147d5bd 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > > @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2=
+m_dev *m2m_dev,
+> > >             goto job_unlock;
+> > >     }
+> > >
+> > > -   src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> > > -   dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> > > -   if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> > > -           dprintk("No input buffers available\n");
+> > > -           goto job_unlock;
+> > > +   if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
+> > > +           src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> > > +
+> > > +           if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> > > +                   dprintk("No input buffers available\n");
+> > > +                   goto job_unlock;
+> > > +           }
+> > >     }
+> > > -   if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> > > -           dprintk("No output buffers available\n");
+> > > -           goto job_unlock;
+> > > +
+> > > +   if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
+> > > +           dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> > > +           if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> > > +                   dprintk("No output buffers available\n");
+> > > +                   goto job_unlock;
+> > > +           }
+> > >     }
+> >
+> > src and dst would be referenced unitialized below if neither of the
+> > above ifs hits...
+> >
+> > Best regards,
+> > Tomasz
+> >
+> > >
+> > >     m2m_ctx->new_frame =3D true;
+> > > @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struct =
+v4l2_m2m_ctx *m2m_ctx,
+> > >     INIT_LIST_HEAD(&q_ctx->rdy_queue);
+> > >     q_ctx->num_rdy =3D 0;
+> > >     spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
+> > > +   INIT_LIST_HEAD(&q_ctx->hw_queue);
+> > >
+> > >     if (m2m_dev->curr_ctx =3D=3D m2m_ctx) {
+> > >             m2m_dev->curr_ctx =3D NULL;
+> > > @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct v=
+4l2_m2m_dev *m2m_dev,
+> > >
+> > >     INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
+> > >     INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
+> > > +   INIT_LIST_HEAD(&out_q_ctx->hw_queue);
+> > > +   INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
+> > >     spin_lock_init(&out_q_ctx->rdy_spinlock);
+> > >     spin_lock_init(&cap_q_ctx->rdy_spinlock);
+> > >
+> > > diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2me=
+m.h
+> > > index d6c8eb2b5201..2342656e582d 100644
+> > > --- a/include/media/v4l2-mem2mem.h
+> > > +++ b/include/media/v4l2-mem2mem.h
+> > > @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
+> > >   * processed
+> > >   *
+> > >   * @q:             pointer to struct &vb2_queue
+> > > - * @rdy_queue:     List of V4L2 mem-to-mem queues
+> > > + * @rdy_queue:     List of V4L2 mem-to-mem queues. If v4l2_m2m_buf_q=
+ueue() is
+> > > + *         called in struct vb2_ops->buf_queue(), the buffer enqueue=
+d
+> > > + *         by user would be added to this list.
+> > >   * @rdy_spinlock: spin lock to protect the struct usage
+> > >   * @num_rdy:       number of buffers ready to be processed
+> > > + * @hw_queue:      A list for tracking the buffer is occupied by the=
+ hardware
+> > > + *                 (or device's firmware). A buffer could only be in=
+ either
+> > > + *                 this list or @rdy_queue.
+> > > + *                 Driver may choose not to use this list while uses=
+ its own
+> > > + *                 private data to do this work.
+> > >   * @buffered:      is the queue buffered?
+> > >   *
+> > >   * Queue for buffers ready to be processed as soon as this
+> > > @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
+> > >     struct list_head        rdy_queue;
+> > >     spinlock_t              rdy_spinlock;
+> > >     u8                      num_rdy;
+> > > +   struct list_head        hw_queue;
+> > >     bool                    buffered;
+> > >  };
+> > >
+> > > --
+> > > 2.17.1
+> > >
+>
