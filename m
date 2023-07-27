@@ -2,95 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BC39764373
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 03:40:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3C4776437B
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 03:44:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229889AbjG0BkN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 21:40:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58286 "EHLO
+        id S230424AbjG0Bn7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jul 2023 21:43:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbjG0BkN (ORCPT
+        with ESMTP id S229957AbjG0Bn6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 21:40:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B4FC1FF5
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 18:40:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F2A861CE7
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:40:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED76C433CA
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:40:10 +0000 (UTC)
-Date:   Thu, 27 Jul 2023 03:40:08 +0200
-Message-ID: <ffa5ae3399b70c536178cef9a817fb1b.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 26 Jul 2023 21:43:58 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F23BE61;
+        Wed, 26 Jul 2023 18:43:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=hp6cp7A51G4iktXiOcxoO4u7miw3X4y4lxN8UCoOFWg=; b=pm49HYnGqpGvPGwRRyIdGfVUc2
+        TFYKuzsKW2So1LPZo3brH+GTA99n8QIX5QZYOJLgYu/V24erEs15gpmatnxht7iZItH9owzL7eo93
+        h2hKM/IvPr5qdke5XTWavQebJhczW5N/TWUItH7co+Iy3lHHgLJXTQlUnrsVcbPlwkUpHL4h3aIl9
+        HWRd8YHH8vvLj/OBR9gNlHF+P/VR69zsB7c7ZV0qhhPj/D9mwq4HUxYDF9HkBeABgR/s+EdzotJZ/
+        RgsCAPEw0uKdqMJEnevaxO3y+xhvUzL4hNgzSiJLfp22HiAJZjXxARy+gM9SiabRDj/8K3Cq4Zks2
+        rnjpX+3w==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qOq2j-00BszC-25;
+        Thu, 27 Jul 2023 01:43:53 +0000
+Message-ID: <d811b6c7-fe01-4f9c-be14-31defce4d864@infradead.org>
+Date:   Wed, 26 Jul 2023 18:43:52 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] dma-buf/sync_file: Fix missing colon in kernel-doc for
+ num_fences
+Content-Language: en-US
+To:     David Reaver <me@davidreaver.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Clark <robdclark@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+References: <20230727011944.327807-1-me@davidreaver.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230727011944.327807-1-me@davidreaver.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi--
 
-Results of the daily build of media_tree:
+On 7/26/23 18:19, David Reaver wrote:
+> The struct sync_fence_info member num_fences was missing a colon in the
+> kernel-doc, causing this warning when running make htmldocs:
+> 
+> ./include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
+> 
+> num_fences was also clearly missing from
+> https://docs.kernel.org/driver-api/dma-buf.html#c.sync_file_info before
+> this patch.
+> 
+> Signed-off-by: David Reaver <me@davidreaver.com>
+> ---
+>  include/uapi/linux/sync_file.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+> index 7e42a5b7558b..b389a5495181 100644
+> --- a/include/uapi/linux/sync_file.h
+> +++ b/include/uapi/linux/sync_file.h
+> @@ -56,7 +56,7 @@ struct sync_fence_info {
+>   * @name:	name of fence
+>   * @status:	status of fence. 1: signaled 0:active <0:error
+>   * @flags:	sync_file_info flags
+> - * @num_fences	number of fences in the sync_file
+> + * @num_fences: number of fences in the sync_file
+>   * @pad:	padding for 64-bit alignment, should always be zero
+>   * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+>   *		 fences in the sync_file
 
-date:			Thu Jul 27 03:00:08 CEST 2023
-media-tree git branch:	media_stage/master
-media-tree git hash:	7baeedbe2bc6fac7d54f73e44605f6b7b40158ab
-v4l-utils git hash:	08e42fb5c8423868a363e860cf1297d79b1dd2ed
-edid-decode git hash:	a31e680438789d45207497bf999a20cf6e2c0ec1
-gcc version:		i686-linux-gcc (GCC) 13.1.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8428-ga2e6ca07
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 1d0b00f84db0492caa6af4073677f098acbae626
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: OK
-smatch.config: ERRORS
-sparse.config: WARNINGS
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-utils: OK
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 5
-Check pahole: ABI OK
-kerneldoc: OK
+Same as https://lore.kernel.org/all/20230330142720.882045-1-robdclark@gmail.com/
 
-Detailed results are available here:
+Hopefully someone will merge/apply that one. Rob, can you make that happen?
 
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+thanks.
+-- 
+~Randy
