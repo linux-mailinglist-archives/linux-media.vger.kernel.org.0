@@ -2,103 +2,245 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73782765A96
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 19:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11AD9765B39
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 20:14:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232317AbjG0RkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 13:40:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37370 "EHLO
+        id S230282AbjG0SN7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 14:13:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232172AbjG0RkM (ORCPT
+        with ESMTP id S230292AbjG0SN5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 13:40:12 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE9BD9;
-        Thu, 27 Jul 2023 10:40:11 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3fc0aecf15bso13801255e9.1;
-        Thu, 27 Jul 2023 10:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690479610; x=1691084410;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vm0hSF63AJjNABtvNsjawRxsPZnGdoadnD63dXFyEDM=;
-        b=Ff2d1S0oErgHRpjDgvPd5pgl+pv8TT24oUFTO0FDFso5x+0BX2ZijGrgNwNXnCvzsI
-         QlPCFCav09nxJB7Ds9PGNv2IdfTTza8CVrqc7xb42bOputCRiSc6J1D2S0zgPRhvuruc
-         jSgKb6nM9koO5S2oZjCjKykH+qS4cdEqRWvZ4gRwNnOpuJF6roTm7VK+mxVBIJnvzTlH
-         3sLmtvCWB0+Muy1IL3jvx8lgfF21PIlLHeen/JO9RqNAeToeg1ypykVMvcft48sRrP1B
-         MJLFX6/kEI/MN+grpINzG/+1T2BNe9rySrR2MwbF7ltgAs9zfGKBIz5RR+313tSZQQQk
-         Jzjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690479610; x=1691084410;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vm0hSF63AJjNABtvNsjawRxsPZnGdoadnD63dXFyEDM=;
-        b=lPxlSQeDjoQ/awmG2o4pPwY2hxL2C41pW4jTYBKbpWoIawUp9AU3oI/D96rffGdArN
-         3rGRgR2WcfV4HMOHEWGhocPmwu9Y+d1gowHw1RL+DJN79YDuW5pI8cNUPvf6wULv/M5q
-         5IdF7wyVtWVc7V76pzQZIZ+ypl3ObauCEqoP0sxeTDvDPTAdjjcH8XjAiuDAnSClGoMD
-         ZzXB2za4WVbu6ZyOiaw5PZq9pTqu319mAVvamM0wBhe+KVbnYby2mRqWHTzyefWguR5u
-         tUxWZwINJryHivtZU0DYUSBTHqxsVdT8PBL25vTTl9E+UQjeGWjaNeWYn7JeSgaj0FV2
-         olaw==
-X-Gm-Message-State: ABy/qLZ6z4OjstzKO0OJOh+1nJwezLdbQJk8HuITcZ+7jTIATEHDTjEN
-        fuf066YX1iG/jNiOZLWWn0EwpQh7qP79BQ==
-X-Google-Smtp-Source: APBJJlHc2w6sCUiG+DIW9ehHlUyBy4YgfHUYrF3BYticU2IXTL8gQsGe1A0YAEzh5iTKl8d1WM4Rwg==
-X-Received: by 2002:a05:600c:3789:b0:3fb:fa61:a4ea with SMTP id o9-20020a05600c378900b003fbfa61a4eamr2276514wmr.11.1690479609421;
-        Thu, 27 Jul 2023 10:40:09 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id o12-20020a05600c378c00b003fc0062f0f8sm2400003wmr.9.2023.07.27.10.40.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 10:40:08 -0700 (PDT)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@suse.de>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][next] [media] go7007: Remove redundant if statement
-Date:   Thu, 27 Jul 2023 18:40:07 +0100
-Message-Id: <20230727174007.635572-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 27 Jul 2023 14:13:57 -0400
+Received: from mgamail.intel.com (unknown [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91DE3594
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 11:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690481628; x=1722017628;
+  h=date:from:to:cc:subject:message-id;
+  bh=k/Q0AzFhIX0c7AmkxB7kZH5pLHV0iEKCjRtNNGtfjpw=;
+  b=YzskbR8THgDWdcXGXxUZtl4JIZ0+z4sb4QwaWQsWssf+cksDT16aNfzo
+   u6hVE9a9OJyfNJgod4T8NuH1EYr0+jAdViKj8aBdnf2W3opxLTwwIw6j5
+   z+2GOna8JIaqEtJQZ8IYlFH2TuJ3ypRoVZ8lzzeQmA9gpImKMDLP46Ip8
+   aq9svZvXDCoXpNIro2eDiHFCzQPb4ASJrPortOrgvK02mtPytf6gDgEEN
+   Ist0Quke5VWMV2RYevmSbDXj0X2OY3ndtDOkvVq9GT2ZOqmO4okGHG2JK
+   N3zaWwqTdU+Q+1hku0q1pTCcx2R7V9MYMYU8OssJ92iPRzEZh4Sgqweds
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="432207923"
+X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
+   d="scan'208";a="432207923"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 11:13:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="762319409"
+X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
+   d="scan'208";a="762319409"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 27 Jul 2023 11:09:47 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qP5QG-0002UX-0a;
+        Thu, 27 Jul 2023 18:09:31 +0000
+Date:   Fri, 28 Jul 2023 02:07:51 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD REGRESSION
+ 215e4463b11d94668b841368cb6882f3a2968148
+Message-ID: <202307280246.7WWFUTzs-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The if statement that compares msgs[i].len != 3 is always false because
-it is in a code block where msg[i].len is equal to 3. The check is
-redundant and can be removed.
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: 215e4463b11d94668b841368cb6882f3a2968148  media: rcar-csi2: Add support for C-PHY on R-Car V4H
 
-As detected by cppcheck static analysis:
-drivers/media/usb/go7007/go7007-i2c.c:168:20: warning: Opposite inner
-'if' condition leads to a dead code block. [oppositeInnerCondition]
+Error/Warning reports:
 
-Fixes: 866b8695d67e ("Staging: add the go7007 video driver")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/media/usb/go7007/go7007-i2c.c | 2 --
- 1 file changed, 2 deletions(-)
+https://lore.kernel.org/oe-kbuild-all/202307271517.dPa1bTSi-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202307271519.XIXA0WQd-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202307271602.UaRdCl4a-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202307271602.eGpiQHCZ-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202307271623.kiFptZRi-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202307271639.6vSx9BOA-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202307271727.smfo1zYW-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202307271738.4bmtoDez-lkp@intel.com
 
-diff --git a/drivers/media/usb/go7007/go7007-i2c.c b/drivers/media/usb/go7007/go7007-i2c.c
-index 38339dd2f83f..2880370e45c8 100644
---- a/drivers/media/usb/go7007/go7007-i2c.c
-+++ b/drivers/media/usb/go7007/go7007-i2c.c
-@@ -165,8 +165,6 @@ static int go7007_i2c_master_xfer(struct i2c_adapter *adapter,
- 		} else if (msgs[i].len == 3) {
- 			if (msgs[i].flags & I2C_M_RD)
- 				return -EIO;
--			if (msgs[i].len != 3)
--				return -EIO;
- 			if (go7007_i2c_xfer(go, msgs[i].addr, 0,
- 					(msgs[i].buf[0] << 8) | msgs[i].buf[1],
- 					0x01, &msgs[i].buf[2]) < 0)
+Error/Warning: (recently discovered and may have been fixed)
+
+drivers/media/i2c/imx290.c:1526:17: error: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
+drivers/media/i2c/imx290.c:1526:17: warning: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
+drivers/media/i2c/imx290.c:1526:19: error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+drivers/media/i2c/imx290.c:1526:19: error: implicit declaration of function 'devm_cci_regmap_init_i2c' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+drivers/media/i2c/imx290.c:1526:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+drivers/media/i2c/imx290.c:1526:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c'; did you mean 'devm_regmap_init_i2c'? [-Werror=implicit-function-declaration]
+drivers/media/i2c/ov5693.c:1280: undefined reference to `devm_cci_regmap_init_i2c'
+drivers/media/i2c/ov5693.c:1280:17: error: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
+drivers/media/i2c/ov5693.c:1280:17: warning: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
+drivers/media/i2c/ov5693.c:1280:19: error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+drivers/media/i2c/ov5693.c:1280:19: error: implicit declaration of function 'devm_cci_regmap_init_i2c' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+drivers/media/i2c/ov5693.c:1280:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+drivers/media/i2c/ov5693.c:1280:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c' [-Werror=implicit-function-declaration]
+drivers/media/i2c/ov5693.c:365: undefined reference to `cci_update_bits'
+drivers/media/i2c/ov5693.c:421: undefined reference to `cci_read'
+drivers/media/i2c/ov5693.c:616: undefined reference to `cci_write'
+ld: drivers/media/i2c/ov5693.c:439: undefined reference to `cci_write'
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- i386-randconfig-i016-20230727
+|   |-- drivers-media-i2c-ov5693.c:undefined-reference-to-cci_read
+|   |-- drivers-media-i2c-ov5693.c:undefined-reference-to-cci_update_bits
+|   |-- drivers-media-i2c-ov5693.c:undefined-reference-to-cci_write
+|   |-- drivers-media-i2c-ov5693.c:undefined-reference-to-devm_cci_regmap_init_i2c
+|   `-- ld:drivers-media-i2c-ov5693.c:undefined-reference-to-cci_write
+|-- mips-randconfig-r034-20230727
+|   |-- drivers-media-i2c-imx290.c:error:implicit-declaration-of-function-devm_cci_regmap_init_i2c
+|   |-- drivers-media-i2c-imx290.c:warning:assignment-to-struct-regmap-from-int-makes-pointer-from-integer-without-a-cast
+|   |-- drivers-media-i2c-ov5693.c:error:implicit-declaration-of-function-devm_cci_regmap_init_i2c
+|   `-- drivers-media-i2c-ov5693.c:warning:assignment-to-struct-regmap-from-int-makes-pointer-from-integer-without-a-cast
+`-- x86_64-randconfig-x005-20230727
+    |-- drivers-media-i2c-imx290.c:error:implicit-declaration-of-function-devm_cci_regmap_init_i2c
+    `-- drivers-media-i2c-imx290.c:warning:assignment-to-struct-regmap-from-int-makes-pointer-from-integer-without-a-cast
+clang_recent_errors
+|-- arm-randconfig-r012-20230727
+|   |-- drivers-media-i2c-imx290.c:error:implicit-declaration-of-function-devm_cci_regmap_init_i2c-is-invalid-in-C99-Werror-Wimplicit-function-declaration
+|   |-- drivers-media-i2c-imx290.c:warning:incompatible-integer-to-pointer-conversion-assigning-to-struct-regmap-from-int
+|   |-- drivers-media-i2c-ov5693.c:error:implicit-declaration-of-function-devm_cci_regmap_init_i2c-is-invalid-in-C99-Werror-Wimplicit-function-declaration
+|   `-- drivers-media-i2c-ov5693.c:warning:incompatible-integer-to-pointer-conversion-assigning-to-struct-regmap-from-int
+|-- i386-randconfig-i005-20230727
+|   |-- drivers-media-i2c-imx290.c:error:call-to-undeclared-function-devm_cci_regmap_init_i2c-ISO-C99-and-later-do-not-support-implicit-function-declarations
+|   |-- drivers-media-i2c-imx290.c:error:incompatible-integer-to-pointer-conversion-assigning-to-struct-regmap-from-int
+|   |-- drivers-media-i2c-ov5693.c:error:call-to-undeclared-function-devm_cci_regmap_init_i2c-ISO-C99-and-later-do-not-support-implicit-function-declarations
+|   `-- drivers-media-i2c-ov5693.c:error:incompatible-integer-to-pointer-conversion-assigning-to-struct-regmap-from-int
+`-- mips-randconfig-r013-20230727
+    |-- drivers-media-i2c-imx290.c:error:call-to-undeclared-function-devm_cci_regmap_init_i2c-ISO-C99-and-later-do-not-support-implicit-function-declarations
+    |-- drivers-media-i2c-imx290.c:error:incompatible-integer-to-pointer-conversion-assigning-to-struct-regmap-from-int
+    |-- drivers-media-i2c-ov5693.c:error:call-to-undeclared-function-devm_cci_regmap_init_i2c-ISO-C99-and-later-do-not-support-implicit-function-declarations
+    `-- drivers-media-i2c-ov5693.c:error:incompatible-integer-to-pointer-conversion-assigning-to-struct-regmap-from-int
+
+elapsed time: 722m
+
+configs tested: 106
+configs skipped: 5
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r024-20230727   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r016-20230727   gcc  
+arc                  randconfig-r021-20230727   gcc  
+arc                  randconfig-r043-20230727   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r012-20230727   clang
+arm                  randconfig-r032-20230727   gcc  
+arm                  randconfig-r046-20230727   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r006-20230727   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r035-20230727   gcc  
+hexagon              randconfig-r033-20230727   clang
+hexagon              randconfig-r041-20230727   clang
+hexagon              randconfig-r045-20230727   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230727   clang
+i386         buildonly-randconfig-r005-20230727   clang
+i386         buildonly-randconfig-r006-20230727   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230727   clang
+i386                 randconfig-i002-20230727   clang
+i386                 randconfig-i003-20230727   clang
+i386                 randconfig-i004-20230727   clang
+i386                 randconfig-i005-20230727   clang
+i386                 randconfig-i006-20230727   clang
+i386                 randconfig-i011-20230727   gcc  
+i386                 randconfig-i012-20230727   gcc  
+i386                 randconfig-i013-20230727   gcc  
+i386                 randconfig-i014-20230727   gcc  
+i386                 randconfig-i015-20230727   gcc  
+i386                 randconfig-i016-20230727   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r013-20230727   clang
+mips                 randconfig-r025-20230727   clang
+mips                 randconfig-r034-20230727   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r023-20230727   gcc  
+openrisc             randconfig-r005-20230727   gcc  
+openrisc             randconfig-r011-20230727   gcc  
+openrisc             randconfig-r014-20230727   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r036-20230727   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230727   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230727   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r004-20230727   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r026-20230727   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r001-20230727   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230727   clang
+x86_64       buildonly-randconfig-r002-20230727   clang
+x86_64       buildonly-randconfig-r003-20230727   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-x001-20230727   gcc  
+x86_64               randconfig-x002-20230727   gcc  
+x86_64               randconfig-x003-20230727   gcc  
+x86_64               randconfig-x004-20230727   gcc  
+x86_64               randconfig-x005-20230727   gcc  
+x86_64               randconfig-x006-20230727   gcc  
+x86_64               randconfig-x011-20230727   clang
+x86_64               randconfig-x012-20230727   clang
+x86_64               randconfig-x013-20230727   clang
+x86_64               randconfig-x014-20230727   clang
+x86_64               randconfig-x015-20230727   clang
+x86_64               randconfig-x016-20230727   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r003-20230727   gcc  
+xtensa               randconfig-r015-20230727   gcc  
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
