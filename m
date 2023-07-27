@@ -2,62 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA8B4764EA3
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 11:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64DB5764E9C
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 11:08:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233092AbjG0JIn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 05:08:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35908 "EHLO
+        id S232825AbjG0JIS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 05:08:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233421AbjG0JIW (ORCPT
+        with ESMTP id S233920AbjG0JIE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 05:08:22 -0400
-Received: from mgamail.intel.com (unknown [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA45AD39
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:49:40 -0700 (PDT)
+        Thu, 27 Jul 2023 05:08:04 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B67A0102EC
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:48:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690447780; x=1721983780;
+  t=1690447739; x=1721983739;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=thgfgq9LM0wo6rOSTfSpv96E/Jl8XjqiVjbwuIp009E=;
-  b=A1L2OAO2C79TRlxzAB3tsL4ju9OtYvUT98ubZtvVKlfhwg57p/7PnoLH
-   ppxyYi3K1ziWXZ0OPdQpBbUWhN1cDU+8+UMRdeL1oYKovtgFPMGudtR9h
-   TrGJZToqMf8QxDyT8G7jIZ/zruwpuQvLtrxmr2AA2ljc+0qFvU8Kn2FOI
-   fvZmYijOLawT2pc4JA9ooPecGKaWfHLp13IQdTTucb2UksXR/WnzIYGvc
-   XzjpyrT8zbcHBFxMOldriG5/XQ55ggNQZ/L+UtmLkaDvtEJMNN7wPexUf
-   3nUiTlTGEV9qgAAUR/T+cvQskoEFcN+YrFNGHm952u7Ky0i04R65+Ilyu
+  bh=nv68xje8Pdl+68Pcvzi40sptNdrq8c4sfydWLEs4aag=;
+  b=ksLcllm6+VEzpElphniKCVjPGZc5Z9jayN8tSQob2oS8gVWItT2ItHXk
+   U53w/R6LuCTEqrxJJJFf0Te1KEB0c8VMoL+GrRPp0AUXkXRtfjaqyOWO7
+   jsf8mr5XGet/rddNhzRFbBzJebSxl/MI7LwtH5O4Ui/4sjaXppE8dq2SY
+   ZNiav3GxC8crzz/+u2UYcgF3/clClL7qRRn9fDpXhAqy3Xc95Zd1taEcH
+   MmeKY1mJy2893L6TnzOl/YmTxQuVafEf8BjGHk/CcO5PtdXXVD8n8HUHT
+   vf0Jpcm//ugaK+cCVkTjlbuTcF3znOSN0PXu7U32STHhk9RwCxuaOrHfI
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="432049166"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="454620201"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="432049166"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 01:49:39 -0700
+   d="scan'208";a="454620201"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 01:48:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="756576655"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="762097894"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="756576655"
+   d="scan'208";a="762097894"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 27 Jul 2023 01:49:37 -0700
+  by orsmga001.jf.intel.com with ESMTP; 27 Jul 2023 01:48:55 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qOwgf-00026f-0x;
-        Thu, 27 Jul 2023 08:49:34 +0000
+        id 1qOwfS-00026V-1v;
+        Thu, 27 Jul 2023 08:48:31 +0000
 Date:   Thu, 27 Jul 2023 16:47:49 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [sailus-media-tree:master 9/20] drivers/media/i2c/ov5693.c:616:
- undefined reference to `cci_write'
-Message-ID: <202307271602.UaRdCl4a-lkp@intel.com>
+Subject: [sailus-media-tree:master 10/20] drivers/media/i2c/imx290.c:1526:19:
+ error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202307271602.eGpiQHCZ-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -66,246 +68,135 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 tree:   git://linuxtv.org/sailus/media_tree.git master
 head:   215e4463b11d94668b841368cb6882f3a2968148
-commit: 6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c [9/20] media: ov5693: Convert to new CCI register access helpers
-config: i386-randconfig-i016-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271602.UaRdCl4a-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271602.UaRdCl4a-lkp@intel.com/reproduce)
+commit: 51b1f81e3b15a4cf6c5c1bfd6bb14ff8bc9951fb [10/20] media: imx290: Convert to new CCI register access helpers
+config: mips-randconfig-r013-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271602.eGpiQHCZ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271602.eGpiQHCZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271602.UaRdCl4a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271602.eGpiQHCZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/media/i2c/ov5693.o: in function `ov5693_enable_streaming':
->> drivers/media/i2c/ov5693.c:616: undefined reference to `cci_write'
-   ld: drivers/media/i2c/ov5693.o: in function `ov5693_digital_gain_configure':
-   drivers/media/i2c/ov5693.c:438: undefined reference to `cci_write'
->> ld: drivers/media/i2c/ov5693.c:439: undefined reference to `cci_write'
-   ld: drivers/media/i2c/ov5693.c:440: undefined reference to `cci_write'
-   ld: drivers/media/i2c/ov5693.o: in function `ov5693_flip_vert_configure':
->> drivers/media/i2c/ov5693.c:365: undefined reference to `cci_update_bits'
-   ld: drivers/media/i2c/ov5693.o: in function `ov5693_test_pattern_configure':
-   drivers/media/i2c/ov5693.c:470: undefined reference to `cci_write'
-   ld: drivers/media/i2c/ov5693.o: in function `ov5693_get_gain':
->> drivers/media/i2c/ov5693.c:421: undefined reference to `cci_read'
-   ld: drivers/media/i2c/ov5693.o: in function `ov5693_probe':
->> drivers/media/i2c/ov5693.c:1280: undefined reference to `devm_cci_regmap_init_i2c'
-   ld: drivers/media/i2c/ov5693.o: in function `ov5693_detect':
-   drivers/media/i2c/ov5693.c:744: undefined reference to `cci_read'
+>> drivers/media/i2c/imx290.c:1526:19: error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1526 |         imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
+         |                          ^
+   drivers/media/i2c/imx290.c:1526:19: note: did you mean '__devm_regmap_init_i2c'?
+   include/linux/regmap.h:660:16: note: '__devm_regmap_init_i2c' declared here
+     660 | struct regmap *__devm_regmap_init_i2c(struct i2c_client *i2c,
+         |                ^
+>> drivers/media/i2c/imx290.c:1526:17: error: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
+    1526 |         imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +616 drivers/media/i2c/ov5693.c
+vim +/devm_cci_regmap_init_i2c +1526 drivers/media/i2c/imx290.c
 
-   415	
-   416	static int ov5693_get_gain(struct ov5693_device *ov5693, u32 *gain)
-   417	{
-   418		u64 value;
-   419		int ret;
-   420	
- > 421		ret = cci_read(ov5693->regmap, OV5693_GAIN_CTRL_REG, &value, NULL);
-   422		if (ret)
-   423			return ret;
-   424	
-   425		/* As with exposure, the lowest 4 bits are fractional bits. */
-   426		*gain = value >> 4;
-   427	
-   428		return ret;
-   429	}
-   430	
-   431	static int ov5693_digital_gain_configure(struct ov5693_device *ov5693,
-   432						 u32 gain)
-   433	{
-   434		int ret = 0;
-   435	
-   436		gain &= OV5693_MWB_GAIN_MASK;
-   437	
- > 438		cci_write(ov5693->regmap, OV5693_MWB_RED_GAIN_REG, gain, &ret);
- > 439		cci_write(ov5693->regmap, OV5693_MWB_GREEN_GAIN_REG, gain, &ret);
-   440		cci_write(ov5693->regmap, OV5693_MWB_BLUE_GAIN_REG, gain, &ret);
-   441	
-   442		return ret;
-   443	}
-   444	
-   445	static int ov5693_analog_gain_configure(struct ov5693_device *ov5693, u32 gain)
-   446	{
-   447		int ret = 0;
-   448	
-   449		gain = (gain << 4) & OV5693_GAIN_CTRL_MASK;
-   450	
-   451		cci_write(ov5693->regmap, OV5693_GAIN_CTRL_REG, gain, &ret);
-   452	
-   453		return ret;
-   454	}
-   455	
-   456	static int ov5693_vts_configure(struct ov5693_device *ov5693, u32 vblank)
-   457	{
-   458		u16 vts = ov5693->mode.format.height + vblank;
-   459		int ret = 0;
-   460	
-   461		cci_write(ov5693->regmap, OV5693_TIMING_VTS_REG, vts, &ret);
-   462	
-   463		return ret;
-   464	}
-   465	
-   466	static int ov5693_test_pattern_configure(struct ov5693_device *ov5693, u32 idx)
-   467	{
-   468		int ret = 0;
-   469	
-   470		cci_write(ov5693->regmap, OV5693_TEST_PATTERN_REG,
-   471			  ov5693_test_pattern_bits[idx], &ret);
-   472	
-   473		return ret;
-   474	}
-   475	
-   476	static int ov5693_s_ctrl(struct v4l2_ctrl *ctrl)
-   477	{
-   478		struct ov5693_device *ov5693 =
-   479		    container_of(ctrl->handler, struct ov5693_device, ctrls.handler);
-   480		int ret = 0;
-   481	
-   482		/* If VBLANK is altered we need to update exposure to compensate */
-   483		if (ctrl->id == V4L2_CID_VBLANK) {
-   484			int exposure_max;
-   485	
-   486			exposure_max = ov5693->mode.format.height + ctrl->val -
-   487				       OV5693_INTEGRATION_TIME_MARGIN;
-   488			__v4l2_ctrl_modify_range(ov5693->ctrls.exposure,
-   489						 ov5693->ctrls.exposure->minimum,
-   490						 exposure_max,
-   491						 ov5693->ctrls.exposure->step,
-   492						 min(ov5693->ctrls.exposure->val,
-   493						     exposure_max));
-   494		}
-   495	
-   496		/* Only apply changes to the controls if the device is powered up */
-   497		if (!pm_runtime_get_if_in_use(ov5693->dev))
-   498			return 0;
-   499	
-   500		switch (ctrl->id) {
-   501		case V4L2_CID_EXPOSURE:
-   502			ret = ov5693_exposure_configure(ov5693, ctrl->val);
-   503			break;
-   504		case V4L2_CID_ANALOGUE_GAIN:
-   505			ret = ov5693_analog_gain_configure(ov5693, ctrl->val);
-   506			break;
-   507		case V4L2_CID_DIGITAL_GAIN:
-   508			ret = ov5693_digital_gain_configure(ov5693, ctrl->val);
-   509			break;
-   510		case V4L2_CID_HFLIP:
-   511			ret = ov5693_flip_horz_configure(ov5693, !!ctrl->val);
-   512			break;
-   513		case V4L2_CID_VFLIP:
-   514			ret = ov5693_flip_vert_configure(ov5693, !!ctrl->val);
-   515			break;
-   516		case V4L2_CID_VBLANK:
-   517			ret = ov5693_vts_configure(ov5693, ctrl->val);
-   518			break;
-   519		case V4L2_CID_TEST_PATTERN:
-   520			ret = ov5693_test_pattern_configure(ov5693, ctrl->val);
-   521			break;
-   522		default:
-   523			ret = -EINVAL;
-   524		}
-   525	
-   526		pm_runtime_put(ov5693->dev);
-   527	
-   528		return ret;
-   529	}
-   530	
-   531	static int ov5693_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-   532	{
-   533		struct ov5693_device *ov5693 = container_of(ctrl->handler,
-   534							    struct ov5693_device,
-   535							    ctrls.handler);
-   536	
-   537		switch (ctrl->id) {
-   538		case V4L2_CID_EXPOSURE_ABSOLUTE:
-   539			return ov5693_get_exposure(ov5693, &ctrl->val);
-   540		case V4L2_CID_AUTOGAIN:
-   541			return ov5693_get_gain(ov5693, &ctrl->val);
-   542		default:
-   543			return -EINVAL;
-   544		}
-   545	}
-   546	
-   547	static const struct v4l2_ctrl_ops ov5693_ctrl_ops = {
-   548		.s_ctrl = ov5693_s_ctrl,
-   549		.g_volatile_ctrl = ov5693_g_volatile_ctrl
-   550	};
-   551	
-   552	/* System Control Functions */
-   553	
-   554	static int ov5693_mode_configure(struct ov5693_device *ov5693)
-   555	{
-   556		const struct ov5693_mode *mode = &ov5693->mode;
-   557		int ret = 0;
-   558	
-   559		/* Crop Start X */
-   560		cci_write(ov5693->regmap, OV5693_CROP_START_X_REG, mode->crop.left,
-   561			  &ret);
-   562	
-   563		/* Offset X */
-   564		cci_write(ov5693->regmap, OV5693_OFFSET_START_X_REG, 0, &ret);
-   565	
-   566		/* Output Size X */
-   567		cci_write(ov5693->regmap, OV5693_OUTPUT_SIZE_X_REG, mode->format.width,
-   568			  &ret);
-   569	
-   570		/* Crop End X */
-   571		cci_write(ov5693->regmap, OV5693_CROP_END_X_REG,
-   572			  mode->crop.left + mode->crop.width, &ret);
-   573	
-   574		/* Horizontal Total Size */
-   575		cci_write(ov5693->regmap, OV5693_TIMING_HTS_REG, OV5693_FIXED_PPL,
-   576			  &ret);
-   577	
-   578		/* Crop Start Y */
-   579		cci_write(ov5693->regmap, OV5693_CROP_START_Y_REG, mode->crop.top,
-   580			  &ret);
-   581	
-   582		/* Offset Y */
-   583		cci_write(ov5693->regmap, OV5693_OFFSET_START_Y_REG, 0, &ret);
-   584	
-   585		/* Output Size Y */
-   586		cci_write(ov5693->regmap, OV5693_OUTPUT_SIZE_Y_REG, mode->format.height,
-   587			  &ret);
-   588	
-   589		/* Crop End Y */
-   590		cci_write(ov5693->regmap, OV5693_CROP_END_Y_REG,
-   591			  mode->crop.top + mode->crop.height, &ret);
-   592	
-   593		/* Subsample X increase */
-   594		cci_write(ov5693->regmap, OV5693_SUB_INC_X_REG,
-   595			  ((mode->inc_x_odd << 4) & 0xf0) | 0x01, &ret);
-   596		/* Subsample Y increase */
-   597		cci_write(ov5693->regmap, OV5693_SUB_INC_Y_REG,
-   598			  ((mode->inc_y_odd << 4) & 0xf0) | 0x01, &ret);
-   599	
-   600		/* Binning */
-   601		cci_update_bits(ov5693->regmap, OV5693_FORMAT1_REG,
-   602				OV5693_FORMAT1_VBIN_EN,
-   603				mode->binning_y ? OV5693_FORMAT1_VBIN_EN : 0, &ret);
-   604	
-   605		cci_update_bits(ov5693->regmap, OV5693_FORMAT2_REG,
-   606				OV5693_FORMAT2_HBIN_EN,
-   607				mode->binning_x ? OV5693_FORMAT2_HBIN_EN : 0, &ret);
-   608	
-   609		return ret;
-   610	}
-   611	
-   612	static int ov5693_enable_streaming(struct ov5693_device *ov5693, bool enable)
-   613	{
-   614		int ret = 0;
-   615	
- > 616		cci_write(ov5693->regmap, OV5693_SW_STREAM_REG,
-   617			  enable ? OV5693_START_STREAMING : OV5693_STOP_STREAMING,
-   618			  &ret);
-   619	
-   620		return ret;
-   621	}
-   622	
+  1514	
+  1515	static int imx290_probe(struct i2c_client *client)
+  1516	{
+  1517		struct device *dev = &client->dev;
+  1518		struct imx290 *imx290;
+  1519		int ret;
+  1520	
+  1521		imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
+  1522		if (!imx290)
+  1523			return -ENOMEM;
+  1524	
+  1525		imx290->dev = dev;
+> 1526		imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
+  1527		if (IS_ERR(imx290->regmap)) {
+  1528			dev_err(dev, "Unable to initialize I2C\n");
+  1529			return -ENODEV;
+  1530		}
+  1531	
+  1532		ret = imx290_parse_dt(imx290);
+  1533		if (ret)
+  1534			return ret;
+  1535	
+  1536		/* Acquire resources. */
+  1537		imx290->xclk = devm_clk_get(dev, "xclk");
+  1538		if (IS_ERR(imx290->xclk))
+  1539			return dev_err_probe(dev, PTR_ERR(imx290->xclk),
+  1540					     "Could not get xclk\n");
+  1541	
+  1542		ret = imx290_get_regulators(dev, imx290);
+  1543		if (ret < 0)
+  1544			return dev_err_probe(dev, ret, "Cannot get regulators\n");
+  1545	
+  1546		imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
+  1547							   GPIOD_OUT_HIGH);
+  1548		if (IS_ERR(imx290->rst_gpio))
+  1549			return dev_err_probe(dev, PTR_ERR(imx290->rst_gpio),
+  1550					     "Cannot get reset gpio\n");
+  1551	
+  1552		/* Initialize external clock frequency. */
+  1553		ret = imx290_init_clk(imx290);
+  1554		if (ret)
+  1555			return ret;
+  1556	
+  1557		/*
+  1558		 * Enable power management. The driver supports runtime PM, but needs to
+  1559		 * work when runtime PM is disabled in the kernel. To that end, power
+  1560		 * the sensor on manually here.
+  1561		 */
+  1562		ret = imx290_power_on(imx290);
+  1563		if (ret < 0) {
+  1564			dev_err(dev, "Could not power on the device\n");
+  1565			return ret;
+  1566		}
+  1567	
+  1568		/*
+  1569		 * Enable runtime PM with autosuspend. As the device has been powered
+  1570		 * manually, mark it as active, and increase the usage count without
+  1571		 * resuming the device.
+  1572		 */
+  1573		pm_runtime_set_active(dev);
+  1574		pm_runtime_get_noresume(dev);
+  1575		pm_runtime_enable(dev);
+  1576		pm_runtime_set_autosuspend_delay(dev, 1000);
+  1577		pm_runtime_use_autosuspend(dev);
+  1578	
+  1579		/* Initialize the V4L2 subdev. */
+  1580		ret = imx290_subdev_init(imx290);
+  1581		if (ret)
+  1582			goto err_pm;
+  1583	
+  1584		v4l2_i2c_subdev_set_name(&imx290->sd, client,
+  1585					 imx290->model->name, NULL);
+  1586	
+  1587		/*
+  1588		 * Finally, register the V4L2 subdev. This must be done after
+  1589		 * initializing everything as the subdev can be used immediately after
+  1590		 * being registered.
+  1591		 */
+  1592		ret = v4l2_async_register_subdev(&imx290->sd);
+  1593		if (ret < 0) {
+  1594			dev_err(dev, "Could not register v4l2 device\n");
+  1595			goto err_subdev;
+  1596		}
+  1597	
+  1598		/*
+  1599		 * Decrease the PM usage count. The device will get suspended after the
+  1600		 * autosuspend delay, turning the power off.
+  1601		 */
+  1602		pm_runtime_mark_last_busy(dev);
+  1603		pm_runtime_put_autosuspend(dev);
+  1604	
+  1605		return 0;
+  1606	
+  1607	err_subdev:
+  1608		imx290_subdev_cleanup(imx290);
+  1609	err_pm:
+  1610		pm_runtime_disable(dev);
+  1611		pm_runtime_put_noidle(dev);
+  1612		imx290_power_off(imx290);
+  1613		return ret;
+  1614	}
+  1615	
 
 -- 
 0-DAY CI Kernel Test Service
