@@ -2,43 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CF0D76480B
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 09:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78ED176480E
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 09:11:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233191AbjG0HLj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 03:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55170 "EHLO
+        id S233239AbjG0HLn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 03:11:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233195AbjG0HLG (ORCPT
+        with ESMTP id S233217AbjG0HLU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 03:11:06 -0400
+        Thu, 27 Jul 2023 03:11:20 -0400
 Received: from mgamail.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED7715588
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:05:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E9C3AA5
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690441555; x=1721977555;
+  t=1690441561; x=1721977561;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=6uCfbKPaEAGKS12UeKOywPAXIS9s7UcUlugdeLQE+Wo=;
-  b=eqC4ixAdq8yhNFvckwaHpxetlifIiuRKT3LPYQ1U8fIs8gui/1d5couF
-   7bZmtI1qsPTuEylh72ZBMDJTLq1me2lIf51sgUNw6j2xgcX7yKCC8+xaF
-   qrfKrgtaO50gPifzHC7NFNNLADhp1b5QH5zVtOIgrLkF14kbJkAtshXGx
-   hgLIV7cDZ03SVeDAxbG9X9BE8CJQdVbFnTKUQFAAhC3z0h+8tRMbRv8R/
-   SuO+XC5+qsNSoN4d6gLp0XPG1XFyv7kP1j1EiVyHZyxam/Vl87NaShidd
-   Ss5e8+ImrosG+s26fdBDE9VaXCO6bZpGR6WP3lxBl8/ryoAWZBA7jgLaM
+  bh=V7kJOU+ZMhQjtzgQ/7W2IJGmu0FoOd6vfg4ysX7E8KU=;
+  b=CFXlX/4P4JxP+5xK7okmCQC2hiVCIbbSYibyooGd0EAZ/NSueGCqZy7e
+   ihWPua2OwLZKNM70GW6XzexLLnZSquGDc4Og7oRZDH64BmvoRQLBVLE7X
+   y8ji8fgdXpKcTIqtHlNwGgExjQAkRiAU+88/3PGz3qIwU6680nApUsVmL
+   V76LsZI11Vrsrv2RBZfn7hDm1BuAJcR7qhX0/vMlPDOokYgqZjdGPPopV
+   G8GaRPZOPH5WoYg+3Eg7qW0V7cgSueGNRYTAtqHYZwNU2u/bEMJVoWw6N
+   nR84ic/3cM3q9A5qDmGshQpPE3TI2D8AlIlznGEQAjMCZ9Yj8Ph6JjX34
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="370900851"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="370900878"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="370900851"
+   d="scan'208";a="370900878"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 00:04:32 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 00:04:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="704072955"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="704073009"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="704072955"
+   d="scan'208";a="704073009"
 Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
-  by orsmga006.jf.intel.com with ESMTP; 27 Jul 2023 00:04:25 -0700
+  by orsmga006.jf.intel.com with ESMTP; 27 Jul 2023 00:04:32 -0700
 From:   bingbu.cao@intel.com
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         laurent.pinchart@ideasonboard.com
@@ -47,18 +47,19 @@ Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
         hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
         bingbu.cao@intel.com, bingbu.cao@linux.intel.com,
         tian.shu.qiu@intel.com, hongju.wang@intel.com
-Subject: [PATCH 07/15] media: intel/ipu6: input system ABI between firmware and driver
-Date:   Thu, 27 Jul 2023 15:15:50 +0800
-Message-Id: <20230727071558.1148653-8-bingbu.cao@intel.com>
+Subject: [PATCH 08/15] media: intel/ipu6: add IPU6 CSI2 receiver v4l2 sub-device
+Date:   Thu, 27 Jul 2023 15:15:51 +0800
+Message-Id: <20230727071558.1148653-9-bingbu.cao@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230727071558.1148653-1-bingbu.cao@intel.com>
 References: <20230727071558.1148653-1-bingbu.cao@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -67,1165 +68,1416 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Bingbu Cao <bingbu.cao@intel.com>
 
-Implement the input system firmware ABIs between the firmware and
-driver - include stream configuration, control command, capture
-request and response, etc.
+Input system CSI2 receiver is exposed as a v4l2 sub-device.
+Each CSI2 sub-device represent one single CSI2 hardware port
+which be linked with external sub-device such camera sensor
+by linked with ISYS CSI2's sink pad. CSI2 source pad is linked
+to the sink pad of video capture device.
 
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-fw-isys.c | 563 +++++++++++++++++++
- drivers/media/pci/intel/ipu6/ipu6-fw-isys.h | 572 ++++++++++++++++++++
- 2 files changed, 1135 insertions(+)
- create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
- create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-isys.h
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 656 ++++++++++++++++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h |  81 +++
+ .../media/pci/intel/ipu6/ipu6-isys-subdev.c   | 378 ++++++++++
+ .../media/pci/intel/ipu6/ipu6-isys-subdev.h   |  58 ++
+ .../intel/ipu6/ipu6-platform-isys-csi2-reg.h  | 187 +++++
+ 5 files changed, 1360 insertions(+)
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-fw-isys.c b/drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
 new file mode 100644
-index 000000000000..8567b9d50b97
+index 000000000000..364591793de4
 --- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
-@@ -0,0 +1,563 @@
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+@@ -0,0 +1,656 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +// Copyright (C) 2013 - 2023 Intel Corporation
 +
-+#include <linux/cacheflush.h>
++#include <linux/bitfield.h>
 +#include <linux/delay.h>
-+#include <linux/types.h>
++#include <linux/device.h>
++#include <linux/spinlock.h>
++
++#include <media/media-entity.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-event.h>
 +
 +#include "ipu6.h"
 +#include "ipu6-bus.h"
-+#include "ipu6-fw-com.h"
-+#include "ipu6-fw-isys.h"
++#include "ipu6-buttress.h"
 +#include "ipu6-isys.h"
-+#include "ipu6-platform.h"
++#include "ipu6-isys-csi2.h"
++#include "ipu6-isys-phy.h"
++#include "ipu6-isys-subdev.h"
++#include "ipu6-isys-video.h"
++#include "ipu6-platform-buttress-regs.h"
 +#include "ipu6-platform-isys-csi2-reg.h"
 +#include "ipu6-platform-regs.h"
 +
-+#define IPU6_FW_INVALID_BPP		0
-+static const u8 extracted_bits_per_pixel_per_mipi_data_type[64] = {
-+	64,	/* [0x00]   MIPI_DATA_TYPE_FRAME_START_CODE */
-+	64,	/* [0x01]   MIPI_DATA_TYPE_FRAME_END_CODE */
-+	64,	/* [0x02]   MIPI_DATA_TYPE_LINE_START_CODE */
-+	64,	/* [0x03]   MIPI_DATA_TYPE_LINE_END_CODE */
-+	IPU6_FW_INVALID_BPP,	/* [0x04] */
-+	IPU6_FW_INVALID_BPP,	/* [0x05] */
-+	IPU6_FW_INVALID_BPP,	/* [0x06] */
-+	IPU6_FW_INVALID_BPP,	/* [0x07] */
-+	64,	/* [0x08]   MIPI_DATA_TYPE_GENERIC_SHORT1 */
-+	64,	/* [0x09]   MIPI_DATA_TYPE_GENERIC_SHORT2 */
-+	64,	/* [0x0A]   MIPI_DATA_TYPE_GENERIC_SHORT3 */
-+	64,	/* [0x0B]   MIPI_DATA_TYPE_GENERIC_SHORT4 */
-+	64,	/* [0x0C]   MIPI_DATA_TYPE_GENERIC_SHORT5 */
-+	64,	/* [0x0D]   MIPI_DATA_TYPE_GENERIC_SHORT6 */
-+	64,	/* [0x0E]   MIPI_DATA_TYPE_GENERIC_SHORT7 */
-+	64,	/* [0x0F]   MIPI_DATA_TYPE_GENERIC_SHORT8 */
-+	IPU6_FW_INVALID_BPP,	/* [0x10] */
-+	IPU6_FW_INVALID_BPP,	/* [0x11] */
-+	8,	/* [0x12]    MIPI_DATA_TYPE_EMBEDDED */
-+	IPU6_FW_INVALID_BPP,	/* [0x13] */
-+	IPU6_FW_INVALID_BPP,	/* [0x14] */
-+	IPU6_FW_INVALID_BPP,	/* [0x15] */
-+	IPU6_FW_INVALID_BPP,	/* [0x16] */
-+	IPU6_FW_INVALID_BPP,	/* [0x17] */
-+	12,	/* [0x18]   MIPI_DATA_TYPE_YUV420_8 */
-+	15,	/* [0x19]   MIPI_DATA_TYPE_YUV420_10 */
-+	12,	/* [0x1A]   MIPI_DATA_TYPE_YUV420_8_LEGACY */
-+	IPU6_FW_INVALID_BPP,	/* [0x1B] */
-+	12,	/* [0x1C]   MIPI_DATA_TYPE_YUV420_8_SHIFT */
-+	15,	/* [0x1D]   MIPI_DATA_TYPE_YUV420_10_SHIFT */
-+	16,	/* [0x1E]   MIPI_DATA_TYPE_YUV422_8 */
-+	20,	/* [0x1F]   MIPI_DATA_TYPE_YUV422_10 */
-+	16,	/* [0x20]   MIPI_DATA_TYPE_RGB_444 */
-+	16,	/* [0x21]   MIPI_DATA_TYPE_RGB_555 */
-+	16,	/* [0x22]   MIPI_DATA_TYPE_RGB_565 */
-+	18,	/* [0x23]   MIPI_DATA_TYPE_RGB_666 */
-+	24,	/* [0x24]   MIPI_DATA_TYPE_RGB_888 */
-+	IPU6_FW_INVALID_BPP,	/* [0x25] */
-+	IPU6_FW_INVALID_BPP,	/* [0x26] */
-+	IPU6_FW_INVALID_BPP,	/* [0x27] */
-+	6,	/* [0x28]    MIPI_DATA_TYPE_RAW_6 */
-+	7,	/* [0x29]    MIPI_DATA_TYPE_RAW_7 */
-+	8,	/* [0x2A]    MIPI_DATA_TYPE_RAW_8 */
-+	10,	/* [0x2B]   MIPI_DATA_TYPE_RAW_10 */
-+	12,	/* [0x2C]   MIPI_DATA_TYPE_RAW_12 */
-+	14,	/* [0x2D]   MIPI_DATA_TYPE_RAW_14 */
-+	16,	/* [0x2E]   MIPI_DATA_TYPE_RAW_16 */
-+	8,	/* [0x2F]    MIPI_DATA_TYPE_BINARY_8 */
-+	8,	/* [0x30]    MIPI_DATA_TYPE_USER_DEF1 */
-+	8,	/* [0x31]    MIPI_DATA_TYPE_USER_DEF2 */
-+	8,	/* [0x32]    MIPI_DATA_TYPE_USER_DEF3 */
-+	8,	/* [0x33]    MIPI_DATA_TYPE_USER_DEF4 */
-+	8,	/* [0x34]    MIPI_DATA_TYPE_USER_DEF5 */
-+	8,	/* [0x35]    MIPI_DATA_TYPE_USER_DEF6 */
-+	8,	/* [0x36]    MIPI_DATA_TYPE_USER_DEF7 */
-+	8,	/* [0x37]    MIPI_DATA_TYPE_USER_DEF8 */
-+	IPU6_FW_INVALID_BPP,	/* [0x38] */
-+	IPU6_FW_INVALID_BPP,	/* [0x39] */
-+	IPU6_FW_INVALID_BPP,	/* [0x3A] */
-+	IPU6_FW_INVALID_BPP,	/* [0x3B] */
-+	IPU6_FW_INVALID_BPP,	/* [0x3C] */
-+	IPU6_FW_INVALID_BPP,	/* [0x3D] */
-+	IPU6_FW_INVALID_BPP,	/* [0x3E] */
-+	IPU6_FW_INVALID_BPP		/* [0x3F] */
++static const u32 csi2_supported_codes[] = {
++	MEDIA_BUS_FMT_RGB565_1X16,
++	MEDIA_BUS_FMT_RGB888_1X24,
++	MEDIA_BUS_FMT_UYVY8_1X16,
++	MEDIA_BUS_FMT_YUYV8_1X16,
++	MEDIA_BUS_FMT_SBGGR10_1X10,
++	MEDIA_BUS_FMT_SGBRG10_1X10,
++	MEDIA_BUS_FMT_SGRBG10_1X10,
++	MEDIA_BUS_FMT_SRGGB10_1X10,
++	MEDIA_BUS_FMT_SBGGR12_1X12,
++	MEDIA_BUS_FMT_SGBRG12_1X12,
++	MEDIA_BUS_FMT_SGRBG12_1X12,
++	MEDIA_BUS_FMT_SRGGB12_1X12,
++	MEDIA_BUS_FMT_SBGGR8_1X8,
++	MEDIA_BUS_FMT_SGBRG8_1X8,
++	MEDIA_BUS_FMT_SGRBG8_1X8,
++	MEDIA_BUS_FMT_SRGGB8_1X8,
++	0,
 +};
 +
-+static const char send_msg_types[N_IPU6_FW_ISYS_SEND_TYPE][32] = {
-+	"STREAM_OPEN",
-+	"STREAM_START",
-+	"STREAM_START_AND_CAPTURE",
-+	"STREAM_CAPTURE",
-+	"STREAM_STOP",
-+	"STREAM_FLUSH",
-+	"STREAM_CLOSE"
++/*
++ * Strings corresponding to CSI-2 receiver errors are here.
++ * Corresponding macros are defined in the header file.
++ */
++static const struct ipu6_csi2_error dphy_rx_errors[] = {
++	{ "Single packet header error corrected", true },
++	{ "Multiple packet header errors detected", true },
++	{ "Payload checksum (CRC) error", true },
++	{ "Transfer FIFO overflow", false },
++	{ "Reserved short packet data type detected", true },
++	{ "Reserved long packet data type detected", true },
++	{ "Incomplete long packet detected", false },
++	{ "Frame sync error", false },
++	{ "Line sync error", false },
++	{ "DPHY recoverable synchronization error", true },
++	{ "DPHY fatal error", false },
++	{ "DPHY elastic FIFO overflow", false },
++	{ "Inter-frame short packet discarded", true },
++	{ "Inter-frame long packet discarded", true },
++	{ "MIPI pktgen overflow", false },
++	{ "MIPI pktgen data loss", false },
++	{ "FIFO overflow", false },
++	{ "Lane deskew", false },
++	{ "SOT sync error", false },
++	{ "HSIDLE detected", false }
 +};
 +
-+u8 ipu6_fw_isys_get_bpp_by_dt(u8 dt)
++s64 ipu6_isys_csi2_get_link_freq(struct ipu6_isys_csi2 *csi2)
 +{
-+	if (WARN_ONCE(dt > MIPI_CSI2_DT_USER_DEFINED(0xf),
-+		      "unsupported data type value %d\n", dt))
-+		return IPU6_FW_INVALID_BPP;
++	struct media_pad *src_pad;
++	struct v4l2_subdev *ext_sd;
++	struct device *dev;
 +
-+	return extracted_bits_per_pixel_per_mipi_data_type[dt];
-+}
-+
-+static int handle_proxy_response(struct ipu6_isys *isys, unsigned int req_id)
-+{
-+	struct device *dev = &isys->adev->auxdev.dev;
-+	struct ipu6_fw_isys_proxy_resp_info_abi *resp;
-+	int ret;
-+
-+	resp = ipu6_recv_get_token(isys->fwcom, IPU6_BASE_PROXY_RECV_QUEUES);
-+	if (!resp)
-+		return 1;
-+
-+	dev_dbg(dev, "Proxy response: id 0x%x, error %d, details %d\n",
-+		resp->request_id, resp->error_info.error,
-+		resp->error_info.error_details);
-+
-+	ret = req_id == resp->request_id ? 0 : -EIO;
-+
-+	ipu6_recv_put_token(isys->fwcom, IPU6_BASE_PROXY_RECV_QUEUES);
-+
-+	return ret;
-+}
-+
-+int ipu6_fw_isys_send_proxy_token(struct ipu6_isys *isys,
-+				  unsigned int req_id,
-+				  unsigned int index,
-+				  unsigned int offset, u32 value)
-+{
-+	struct ipu6_fw_com_context *ctx = isys->fwcom;
-+	struct device *dev = &isys->adev->auxdev.dev;
-+	struct ipu6_fw_proxy_send_queue_token *token;
-+	unsigned int timeout = 1000;
-+	int ret;
-+
-+	dev_dbg(dev,
-+		"proxy send: req_id 0x%x, index %d, offset 0x%x, value 0x%x\n",
-+		req_id, index, offset, value);
-+
-+	token = ipu6_send_get_token(ctx, IPU6_BASE_PROXY_SEND_QUEUES);
-+	if (!token)
-+		return -EBUSY;
-+
-+	token->request_id = req_id;
-+	token->region_index = index;
-+	token->offset = offset;
-+	token->value = value;
-+	ipu6_send_put_token(ctx, IPU6_BASE_PROXY_SEND_QUEUES);
-+
-+	do {
-+		usleep_range(100, 110);
-+		ret = handle_proxy_response(isys, req_id);
-+		if (!ret)
-+			break;
-+		if (ret == -EIO) {
-+			dev_err(dev, "Proxy respond with unexpected id\n");
-+			break;
-+		}
-+		timeout--;
-+	} while (ret && timeout);
-+
-+	if (!timeout)
-+		dev_err(dev, "Proxy response timed out\n");
-+
-+	return ret;
-+}
-+
-+int ipu6_fw_isys_complex_cmd(struct ipu6_isys *isys,
-+			     const unsigned int stream_handle,
-+			     void *cpu_mapped_buf,
-+			     dma_addr_t dma_mapped_buf,
-+			     size_t size, u16 send_type)
-+{
-+	struct ipu6_fw_com_context *ctx = isys->fwcom;
-+	struct device *dev = &isys->adev->auxdev.dev;
-+	struct ipu6_fw_send_queue_token *token;
-+
-+	if (send_type >= N_IPU6_FW_ISYS_SEND_TYPE)
++	if (!csi2)
 +		return -EINVAL;
 +
-+	dev_dbg(dev, "send_token: %s\n", send_msg_types[send_type]);
++	dev = &csi2->isys->adev->auxdev.dev;
++	src_pad = media_entity_remote_source_pad_unique(&csi2->asd.sd.entity);
++	if (IS_ERR_OR_NULL(src_pad)) {
++		dev_err(dev, "can't get source pad of %s\n", csi2->asd.sd.name);
++		return -ENOLINK;
++	}
 +
-+	/*
-+	 * Time to flush cache in case we have some payload. Not all messages
-+	 * have that
-+	 */
-+	if (cpu_mapped_buf)
-+		clflush_cache_range(cpu_mapped_buf, size);
++	ext_sd = media_entity_to_v4l2_subdev(src_pad->entity);
++	if (WARN(!ext_sd, "Failed to get subdev for %s\n", csi2->asd.sd.name))
++		return -ENODEV;
 +
-+	token = ipu6_send_get_token(ctx,
-+				    stream_handle + IPU6_BASE_MSG_SEND_QUEUES);
-+	if (!token)
-+		return -EBUSY;
++	return v4l2_get_link_freq(ext_sd->ctrl_handler, 0, 0);
++}
 +
-+	token->payload = dma_mapped_buf;
-+	token->buf_handle = (unsigned long)cpu_mapped_buf;
-+	token->send_type = send_type;
++static int csi2_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
++				struct v4l2_event_subscription *sub)
++{
++	struct ipu6_isys_csi2 *csi2 = to_ipu6_isys_csi2(sd);
++	struct device *dev = &csi2->isys->adev->auxdev.dev;
 +
-+	ipu6_send_put_token(ctx, stream_handle + IPU6_BASE_MSG_SEND_QUEUES);
++	dev_dbg(dev, "csi2 subscribe event(type %u id %u)\n",
++		sub->type, sub->id);
++
++	switch (sub->type) {
++	case V4L2_EVENT_FRAME_SYNC:
++		return v4l2_event_subscribe(fh, sub, 10, NULL);
++	case V4L2_EVENT_CTRL:
++		return v4l2_ctrl_subscribe_event(fh, sub);
++	default:
++		return -EINVAL;
++	}
++}
++
++static const struct v4l2_subdev_core_ops csi2_sd_core_ops = {
++	.subscribe_event = csi2_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
++};
++
++/*
++ * The input system CSI2+ receiver has several
++ * parameters affecting the receiver timings. These depend
++ * on the MIPI bus frequency F in Hz (sensor transmitter rate)
++ * as follows:
++ *	register value = (A/1e9 + B * UI) / COUNT_ACC
++ * where
++ *	UI = 1 / (2 * F) in seconds
++ *	COUNT_ACC = counter accuracy in seconds
++ *	COUNT_ACC = 0.125 ns = 1 / 8 ns, ACCINV = 8.
++ *
++ * A and B are coefficients from the table below,
++ * depending whether the register minimum or maximum value is
++ * calculated.
++ *				       Minimum     Maximum
++ * Clock lane			       A     B     A     B
++ * reg_rx_csi_dly_cnt_termen_clane     0     0    38     0
++ * reg_rx_csi_dly_cnt_settle_clane    95    -8   300   -16
++ * Data lanes
++ * reg_rx_csi_dly_cnt_termen_dlane0    0     0    35     4
++ * reg_rx_csi_dly_cnt_settle_dlane0   85    -2   145    -6
++ * reg_rx_csi_dly_cnt_termen_dlane1    0     0    35     4
++ * reg_rx_csi_dly_cnt_settle_dlane1   85    -2   145    -6
++ * reg_rx_csi_dly_cnt_termen_dlane2    0     0    35     4
++ * reg_rx_csi_dly_cnt_settle_dlane2   85    -2   145    -6
++ * reg_rx_csi_dly_cnt_termen_dlane3    0     0    35     4
++ * reg_rx_csi_dly_cnt_settle_dlane3   85    -2   145    -6
++ *
++ * We use the minimum values of both A and B.
++ */
++
++#define DIV_SHIFT	8
++#define CSI2_ACCINV	8
++
++static u32 calc_timing(s32 a, s32 b, s64 link_freq, u32 accinv)
++{
++	return accinv * a + (accinv * b * (500000000 >> DIV_SHIFT)
++			     / (int32_t)(link_freq >> DIV_SHIFT));
++}
++
++static int
++ipu6_isys_csi2_calc_timing(struct ipu6_isys_csi2 *csi2,
++			   struct ipu6_isys_csi2_timing *timing, u32 accinv)
++{
++	struct device *dev = &csi2->isys->adev->auxdev.dev;
++	s64 link_freq;
++
++	link_freq = ipu6_isys_csi2_get_link_freq(csi2);
++	if (link_freq < 0)
++		return link_freq;
++
++	timing->ctermen = calc_timing(CSI2_CSI_RX_DLY_CNT_TERMEN_CLANE_A,
++				      CSI2_CSI_RX_DLY_CNT_TERMEN_CLANE_B,
++				      link_freq, accinv);
++	timing->csettle = calc_timing(CSI2_CSI_RX_DLY_CNT_SETTLE_CLANE_A,
++				      CSI2_CSI_RX_DLY_CNT_SETTLE_CLANE_B,
++				      link_freq, accinv);
++	timing->dtermen = calc_timing(CSI2_CSI_RX_DLY_CNT_TERMEN_DLANE_A,
++				      CSI2_CSI_RX_DLY_CNT_TERMEN_DLANE_B,
++				      link_freq, accinv);
++	timing->dsettle = calc_timing(CSI2_CSI_RX_DLY_CNT_SETTLE_DLANE_A,
++				      CSI2_CSI_RX_DLY_CNT_SETTLE_DLANE_B,
++				      link_freq, accinv);
++
++	dev_dbg(dev, "ctermen %u csettle %u dtermen %u dsettle %u\n",
++		timing->ctermen, timing->csettle,
++		timing->dtermen, timing->dsettle);
 +
 +	return 0;
 +}
 +
-+int ipu6_fw_isys_simple_cmd(struct ipu6_isys *isys,
-+			    const unsigned int stream_handle, u16 send_type)
++void ipu6_isys_register_errors(struct ipu6_isys_csi2 *csi2)
 +{
-+	return ipu6_fw_isys_complex_cmd(isys, stream_handle, NULL, 0, 0,
-+					send_type);
++	u32 irq = readl(csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
++			CSI_PORT_REG_BASE_IRQ_STATUS_OFFSET);
++	struct ipu6_isys *isys = csi2->isys;
++	u32 mask;
++
++	mask = isys->pdata->ipdata->csi2.irq_mask;
++	writel(irq & mask, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
++	       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
++	csi2->receiver_errors |= irq & mask;
 +}
 +
-+int ipu6_fw_isys_close(struct ipu6_isys *isys)
++void ipu6_isys_csi2_error(struct ipu6_isys_csi2 *csi2)
 +{
++	struct device *dev = &csi2->isys->adev->auxdev.dev;
++	const struct ipu6_csi2_error *errors;
++	u32 status;
++	u32 i;
++
++	/* register errors once more in case of interrupts are disabled */
++	ipu6_isys_register_errors(csi2);
++	status = csi2->receiver_errors;
++	csi2->receiver_errors = 0;
++	errors = dphy_rx_errors;
++
++	for (i = 0; i < CSI_RX_NUM_ERRORS_IN_IRQ; i++) {
++		if (status & BIT(i))
++			dev_err_ratelimited(dev, "csi2-%i error: %s\n",
++					    csi2->port, errors[i].error_string);
++	}
++}
++
++static int ipu6_isys_csi2_set_stream(struct v4l2_subdev *sd,
++				     const struct ipu6_isys_csi2_timing *timing,
++				     unsigned int nlanes, int enable)
++{
++	struct ipu6_isys_csi2 *csi2 = to_ipu6_isys_csi2(sd);
++	struct ipu6_isys *isys = csi2->isys;
 +	struct device *dev = &isys->adev->auxdev.dev;
-+	int retry = IPU6_ISYS_CLOSE_RETRY;
-+	unsigned long flags;
-+	void *fwcom;
-+	int ret;
++	struct ipu6_isys_csi2_config cfg;
++	unsigned int nports;
++	int ret = 0;
++	u32 mask = 0;
++	u32 i;
 +
-+	/*
-+	 * Stop the isys fw. Actual close takes
-+	 * some time as the FW must stop its actions including code fetch
-+	 * to SP icache.
-+	 * spinlock to wait the interrupt handler to be finished
-+	 */
-+	spin_lock_irqsave(&isys->power_lock, flags);
-+	ret = ipu6_fw_com_close(isys->fwcom);
-+	fwcom = isys->fwcom;
-+	isys->fwcom = NULL;
-+	spin_unlock_irqrestore(&isys->power_lock, flags);
-+	if (ret)
-+		dev_err(dev, "Device close failure: %d\n", ret);
++	dev_dbg(dev, "stream %s CSI2-%u with %u lanes\n", enable ? "on" : "off",
++		csi2->port, nlanes);
 +
-+	/* release probably fails if the close failed. Let's try still */
-+	do {
-+		usleep_range(400, 500);
-+		ret = ipu6_fw_com_release(fwcom, 0);
-+		retry--;
-+	} while (ret && retry);
++	cfg.port = csi2->port;
++	cfg.nlanes = nlanes;
 +
-+	if (ret) {
-+		dev_err(dev, "Device release time out %d\n", ret);
-+		spin_lock_irqsave(&isys->power_lock, flags);
-+		isys->fwcom = fwcom;
-+		spin_unlock_irqrestore(&isys->power_lock, flags);
-+	}
++	mask = isys->pdata->ipdata->csi2.irq_mask;
++	nports = isys->pdata->ipdata->csi2.nports;
 +
-+	return ret;
-+}
++	if (!enable) {
++		writel(0, csi2->base + CSI_REG_CSI_FE_ENABLE);
++		writel(0, csi2->base + CSI_REG_PPI2CSI_ENABLE);
 +
-+void ipu6_fw_isys_cleanup(struct ipu6_isys *isys)
-+{
-+	int ret;
++		writel(0,
++		       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
++		       CSI_PORT_REG_BASE_IRQ_ENABLE_OFFSET);
++		writel(mask,
++		       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
++		       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
++		writel(0,
++		       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
++		       CSI_PORT_REG_BASE_IRQ_ENABLE_OFFSET);
++		writel(0xffffffff,
++		       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
++		       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
 +
-+	ret = ipu6_fw_com_release(isys->fwcom, 1);
-+	if (ret < 0)
-+		dev_err(&isys->adev->auxdev.dev,
-+			"Device busy, fw_com release failed.");
-+	isys->fwcom = NULL;
-+}
++		isys->phy_set_power(isys, &cfg, timing, false);
 +
-+static void start_sp(struct ipu6_bus_device *adev)
-+{
-+	struct ipu6_isys *isys = ipu6_bus_get_drvdata(adev);
-+	void __iomem *spc_regs_base = isys->pdata->base +
-+		isys->pdata->ipdata->hw_variant.spc_offset;
-+	u32 val = IPU6_ISYS_SPC_STATUS_START |
-+		IPU6_ISYS_SPC_STATUS_RUN |
-+		IPU6_ISYS_SPC_STATUS_CTRL_ICACHE_INVALIDATE;
++		writel(0, isys->pdata->base + CSI_REG_HUB_FW_ACCESS_PORT
++		       (isys->pdata->ipdata->csi2.fw_access_port_ofs,
++			csi2->port));
++		writel(0, isys->pdata->base +
++		       CSI_REG_HUB_DRV_ACCESS_PORT(csi2->port));
 +
-+	val |= isys->icache_prefetch ? IPU6_ISYS_SPC_STATUS_ICACHE_PREFETCH : 0;
-+
-+	writel(val, spc_regs_base + IPU6_ISYS_REG_SPC_STATUS_CTRL);
-+}
-+
-+static int query_sp(struct ipu6_bus_device *adev)
-+{
-+	struct ipu6_isys *isys = ipu6_bus_get_drvdata(adev);
-+	void __iomem *spc_regs_base = isys->pdata->base +
-+		isys->pdata->ipdata->hw_variant.spc_offset;
-+	u32 val;
-+
-+	val = readl(spc_regs_base + IPU6_ISYS_REG_SPC_STATUS_CTRL);
-+	/* return true when READY == 1, START == 0 */
-+	val &= IPU6_ISYS_SPC_STATUS_READY | IPU6_ISYS_SPC_STATUS_START;
-+
-+	return val == IPU6_ISYS_SPC_STATUS_READY;
-+}
-+
-+static int ipu6_isys_fwcom_cfg_init(struct ipu6_isys *isys,
-+				    struct ipu6_fw_com_cfg *fwcom,
-+				    unsigned int num_streams)
-+{
-+	unsigned int max_send_queues, max_sram_blocks, max_devq_size;
-+	struct ipu6_fw_syscom_queue_config *input_queue_cfg;
-+	struct ipu6_fw_syscom_queue_config *output_queue_cfg;
-+	struct device *dev = &isys->adev->auxdev.dev;
-+	int type_proxy = IPU6_FW_ISYS_QUEUE_TYPE_PROXY;
-+	int type_dev = IPU6_FW_ISYS_QUEUE_TYPE_DEV;
-+	int type_msg = IPU6_FW_ISYS_QUEUE_TYPE_MSG;
-+	int base_dev_send = IPU6_BASE_DEV_SEND_QUEUES;
-+	int base_msg_send = IPU6_BASE_MSG_SEND_QUEUES;
-+	int base_msg_recv = IPU6_BASE_MSG_RECV_QUEUES;
-+	struct ipu6_fw_isys_fw_config *isys_fw_cfg;
-+	u32 num_in_message_queues;
-+	unsigned int max_streams;
-+	unsigned int size;
-+	unsigned int i;
-+
-+	max_streams = isys->pdata->ipdata->max_streams;
-+	max_send_queues = isys->pdata->ipdata->max_send_queues;
-+	max_sram_blocks = isys->pdata->ipdata->max_sram_blocks;
-+	max_devq_size = isys->pdata->ipdata->max_devq_size;
-+	num_in_message_queues = clamp(num_streams, 1U, max_streams);
-+	isys_fw_cfg = devm_kzalloc(dev, sizeof(*isys_fw_cfg), GFP_KERNEL);
-+	if (!isys_fw_cfg)
-+		return -ENOMEM;
-+
-+	isys_fw_cfg->num_send_queues[type_proxy] = IPU6_N_MAX_PROXY_SEND_QUEUES;
-+	isys_fw_cfg->num_send_queues[type_dev] = IPU6_N_MAX_DEV_SEND_QUEUES;
-+	isys_fw_cfg->num_send_queues[type_msg] = num_in_message_queues;
-+	isys_fw_cfg->num_recv_queues[type_proxy] = IPU6_N_MAX_PROXY_RECV_QUEUES;
-+	/* Common msg/dev return queue */
-+	isys_fw_cfg->num_recv_queues[type_dev] = 0;
-+	isys_fw_cfg->num_recv_queues[type_msg] = 1;
-+
-+	size = sizeof(*input_queue_cfg) * max_send_queues;
-+	input_queue_cfg = devm_kzalloc(dev, size, GFP_KERNEL);
-+	if (!input_queue_cfg)
-+		return -ENOMEM;
-+
-+	size = sizeof(*output_queue_cfg) * IPU6_N_MAX_RECV_QUEUES;
-+	output_queue_cfg = devm_kzalloc(dev, size, GFP_KERNEL);
-+	if (!output_queue_cfg)
-+		return -ENOMEM;
-+
-+	fwcom->input = input_queue_cfg;
-+	fwcom->output = output_queue_cfg;
-+
-+	fwcom->num_input_queues = isys_fw_cfg->num_send_queues[type_proxy] +
-+		isys_fw_cfg->num_send_queues[type_dev] +
-+		isys_fw_cfg->num_send_queues[type_msg];
-+
-+	fwcom->num_output_queues = isys_fw_cfg->num_recv_queues[type_proxy] +
-+		isys_fw_cfg->num_recv_queues[type_dev] +
-+		isys_fw_cfg->num_recv_queues[type_msg];
-+
-+	/* SRAM partitioning. Equal partitioning is set. */
-+	for (i = 0; i < max_sram_blocks; i++) {
-+		if (i < num_in_message_queues)
-+			isys_fw_cfg->buffer_partition.num_gda_pages[i] =
-+				(IPU6_DEVICE_GDA_NR_PAGES *
-+				 IPU6_DEVICE_GDA_VIRT_FACTOR) /
-+				num_in_message_queues;
-+		else
-+			isys_fw_cfg->buffer_partition.num_gda_pages[i] = 0;
-+	}
-+
-+	/* FW assumes proxy interface at fwcom queue 0 */
-+	for (i = 0; i < isys_fw_cfg->num_send_queues[type_proxy]; i++) {
-+		input_queue_cfg[i].token_size =
-+			sizeof(struct ipu6_fw_proxy_send_queue_token);
-+		input_queue_cfg[i].queue_size = IPU6_ISYS_SIZE_PROXY_SEND_QUEUE;
-+	}
-+
-+	for (i = 0; i < isys_fw_cfg->num_send_queues[type_dev]; i++) {
-+		input_queue_cfg[base_dev_send + i].token_size =
-+			sizeof(struct ipu6_fw_send_queue_token);
-+		input_queue_cfg[base_dev_send + i].queue_size = max_devq_size;
-+	}
-+
-+	for (i = 0; i < isys_fw_cfg->num_send_queues[type_msg]; i++) {
-+		input_queue_cfg[base_msg_send + i].token_size =
-+			sizeof(struct ipu6_fw_send_queue_token);
-+		input_queue_cfg[base_msg_send + i].queue_size =
-+			IPU6_ISYS_SIZE_SEND_QUEUE;
-+	}
-+
-+	for (i = 0; i < isys_fw_cfg->num_recv_queues[type_proxy]; i++) {
-+		output_queue_cfg[i].token_size =
-+			sizeof(struct ipu6_fw_proxy_resp_queue_token);
-+		output_queue_cfg[i].queue_size =
-+			IPU6_ISYS_SIZE_PROXY_RECV_QUEUE;
-+	}
-+	/* There is no recv DEV queue */
-+	for (i = 0; i < isys_fw_cfg->num_recv_queues[type_msg]; i++) {
-+		output_queue_cfg[base_msg_recv + i].token_size =
-+			sizeof(struct ipu6_fw_resp_queue_token);
-+		output_queue_cfg[base_msg_recv + i].queue_size =
-+			IPU6_ISYS_SIZE_RECV_QUEUE;
-+	}
-+
-+	fwcom->dmem_addr = isys->pdata->ipdata->hw_variant.dmem_offset;
-+	fwcom->specific_addr = isys_fw_cfg;
-+	fwcom->specific_size = sizeof(*isys_fw_cfg);
-+
-+	return 0;
-+}
-+
-+int ipu6_fw_isys_init(struct ipu6_isys *isys, unsigned int num_streams)
-+{
-+	struct device *dev = &isys->adev->auxdev.dev;
-+	int retry = IPU6_ISYS_OPEN_RETRY;
-+	struct ipu6_fw_com_cfg fwcom = {
-+		.cell_start = start_sp,
-+		.cell_ready = query_sp,
-+		.buttress_boot_offset = SYSCOM_BUTTRESS_FW_PARAMS_ISYS_OFFSET,
-+	};
-+	int ret;
-+
-+	ipu6_isys_fwcom_cfg_init(isys, &fwcom, num_streams);
-+
-+	isys->fwcom = ipu6_fw_com_prepare(&fwcom, isys->adev,
-+					  isys->pdata->base);
-+	if (!isys->fwcom) {
-+		dev_err(dev, "isys fw com prepare failed\n");
-+		return -EIO;
-+	}
-+
-+	ret = ipu6_fw_com_open(isys->fwcom);
-+	if (ret) {
-+		dev_err(dev, "isys fw com open failed %d\n", ret);
 +		return ret;
 +	}
 +
-+	do {
-+		usleep_range(400, 500);
-+		if (ipu6_fw_com_ready(isys->fwcom))
-+			break;
-+		retry--;
-+	} while (retry > 0);
++	/* reset port reset */
++	writel(0x1, csi2->base + CSI_REG_PORT_GPREG_SRST);
++	usleep_range(100, 200);
++	writel(0x0, csi2->base + CSI_REG_PORT_GPREG_SRST);
 +
-+	if (!retry) {
-+		dev_err(dev, "isys port open ready failed %d\n", ret);
-+		ipu6_fw_isys_close(isys);
-+		ret = -EIO;
++	/* enable port clock */
++	for (i = 0; i < nports; i++) {
++		writel(1, isys->pdata->base + CSI_REG_HUB_DRV_ACCESS_PORT(i));
++		writel(1, isys->pdata->base + CSI_REG_HUB_FW_ACCESS_PORT
++		       (isys->pdata->ipdata->csi2.fw_access_port_ofs, i));
++	}
++
++	/* enable all error related irq */
++	writel(mask,
++	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
++	       CSI_PORT_REG_BASE_IRQ_STATUS_OFFSET);
++	writel(mask,
++	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
++	       CSI_PORT_REG_BASE_IRQ_MASK_OFFSET);
++	writel(mask,
++	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
++	       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
++	writel(mask,
++	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
++	       CSI_PORT_REG_BASE_IRQ_LEVEL_NOT_PULSE_OFFSET);
++	writel(mask,
++	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
++	       CSI_PORT_REG_BASE_IRQ_ENABLE_OFFSET);
++
++	/*
++	 * Using event from firmware instead of irq to handle CSI2 sync event
++	 * which can reduce system wakeups. If CSI2 sync irq enabled, we need
++	 * disable the firmware CSI2 sync event to avoid duplicate handling.
++	 */
++	writel(0xffffffff, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
++	       CSI_PORT_REG_BASE_IRQ_STATUS_OFFSET);
++	writel(0, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
++	       CSI_PORT_REG_BASE_IRQ_MASK_OFFSET);
++	writel(0xffffffff, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
++	       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
++	writel(0, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
++	       CSI_PORT_REG_BASE_IRQ_LEVEL_NOT_PULSE_OFFSET);
++	writel(0xffffffff, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
++	       CSI_PORT_REG_BASE_IRQ_ENABLE_OFFSET);
++
++	/* configure to enable FE and PPI2CSI */
++	writel(0, csi2->base + CSI_REG_CSI_FE_MODE);
++	writel(CSI_SENSOR_INPUT, csi2->base + CSI_REG_CSI_FE_MUX_CTRL);
++	writel(CSI_CNTR_SENSOR_LINE_ID | CSI_CNTR_SENSOR_FRAME_ID,
++	       csi2->base + CSI_REG_CSI_FE_SYNC_CNTR_SEL);
++	writel(FIELD_PREP(PPI_INTF_CONFIG_NOF_ENABLED_DLANES_MASK, nlanes - 1),
++	       csi2->base + CSI_REG_PPI2CSI_CONFIG_PPI_INTF);
++
++	writel(1, csi2->base + CSI_REG_PPI2CSI_ENABLE);
++	writel(1, csi2->base + CSI_REG_CSI_FE_ENABLE);
++
++	ret = isys->phy_set_power(isys, &cfg, timing, true);
++	if (ret) {
++		dev_err(dev, "csi-%d phy power up failed %d\n", csi2->port,
++			ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int set_stream(struct v4l2_subdev *sd, int enable)
++{
++	struct ipu6_isys_csi2 *csi2 = to_ipu6_isys_csi2(sd);
++	struct device *dev = &csi2->isys->adev->auxdev.dev;
++	struct ipu6_isys_csi2_timing timing = {0};
++	unsigned int nlanes;
++	int ret;
++
++	dev_dbg(dev, "csi2 stream %s callback\n", enable ? "on" : "off");
++
++	if (!enable) {
++		csi2->stream_count--;
++		if (csi2->stream_count)
++			return 0;
++
++		ipu6_isys_csi2_set_stream(sd, &timing, 0, enable);
++		return 0;
++	}
++
++	if (csi2->stream_count) {
++		csi2->stream_count++;
++		return 0;
++	}
++
++	nlanes = csi2->nlanes;
++
++	ret = ipu6_isys_csi2_calc_timing(csi2, &timing, CSI2_ACCINV);
++	if (ret)
++		return ret;
++
++	ret = ipu6_isys_csi2_set_stream(sd, &timing, nlanes, enable);
++	if (ret)
++		return ret;
++
++	csi2->stream_count++;
++
++	return 0;
++}
++
++static int ipu6_isys_csi2_set_sel(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state,
++				  struct v4l2_subdev_selection *sel)
++{
++	struct ipu6_isys_subdev *asd = to_ipu6_isys_subdev(sd);
++	struct device *dev = &asd->isys->adev->auxdev.dev;
++	struct v4l2_mbus_framefmt *sink_ffmt;
++	struct v4l2_mbus_framefmt *src_ffmt;
++	struct v4l2_rect *crop;
++
++	if (sel->pad == CSI2_PAD_SINK || sel->target != V4L2_SEL_TGT_CROP)
++		return -EINVAL;
++
++	sink_ffmt = v4l2_subdev_state_get_opposite_stream_format(state,
++								 sel->pad,
++								 sel->stream);
++	src_ffmt = v4l2_subdev_state_get_stream_format(state, sel->pad,
++						       sel->stream);
++	crop = v4l2_subdev_state_get_stream_crop(state, sel->pad, sel->stream);
++
++	/* Only vertical cropping is supported */
++	sel->r.left = 0;
++	sel->r.width = sink_ffmt->width;
++	/* Non-bayer formats can't be single line cropped */
++	if (!ipu6_isys_is_bayer_format(sink_ffmt->code))
++		sel->r.top &= ~1;
++	sel->r.height = clamp(sel->r.height & ~1, IPU6_ISYS_MIN_HEIGHT,
++			      sink_ffmt->height - sel->r.top);
++	*crop = sel->r;
++
++	/* update source pad format */
++	src_ffmt->width = sel->r.width;
++	src_ffmt->height = sel->r.height;
++	if (ipu6_isys_is_bayer_format(sink_ffmt->code))
++		src_ffmt->code = ipu6_isys_convert_bayer_order(sink_ffmt->code,
++							       sel->r.left,
++							       sel->r.top);
++	dev_dbg(dev, "set crop for %s sel: %d,%d,%d,%d code: 0x%x\n",
++		sd->name, sel->r.left, sel->r.top, sel->r.width, sel->r.height,
++		src_ffmt->code);
++
++	return 0;
++}
++
++static int ipu6_isys_csi2_get_sel(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state,
++				  struct v4l2_subdev_selection *sel)
++{
++	struct v4l2_mbus_framefmt *sink_ffmt;
++	struct v4l2_rect *crop;
++	int ret = 0;
++
++	if (sd->entity.pads[sel->pad].flags & MEDIA_PAD_FL_SINK)
++		return -EINVAL;
++
++	sink_ffmt = v4l2_subdev_state_get_opposite_stream_format(state,
++								 sel->pad,
++								 sel->stream);
++	crop = v4l2_subdev_state_get_stream_crop(state, sel->pad, sel->stream);
++
++	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++		sel->r.left = 0;
++		sel->r.top = 0;
++		sel->r.width = sink_ffmt->width;
++		sel->r.height = sink_ffmt->height;
++		break;
++	case V4L2_SEL_TGT_CROP:
++		sel->r = *crop;
++		break;
++	default:
++		ret = -EINVAL;
 +	}
 +
 +	return ret;
 +}
 +
-+struct ipu6_fw_isys_resp_info_abi *
-+ipu6_fw_isys_get_resp(void *context, unsigned int queue)
++static const struct v4l2_subdev_video_ops csi2_sd_video_ops = {
++	.s_stream = set_stream,
++};
++
++static const struct v4l2_subdev_pad_ops csi2_sd_pad_ops = {
++	.init_cfg = ipu6_isys_subdev_init_cfg,
++	.get_fmt = v4l2_subdev_get_fmt,
++	.set_fmt = ipu6_isys_subdev_set_fmt,
++	.get_selection = ipu6_isys_csi2_get_sel,
++	.set_selection = ipu6_isys_csi2_set_sel,
++	.enum_mbus_code = ipu6_isys_subdev_enum_mbus_code,
++	.set_routing = ipu6_isys_subdev_set_routing,
++};
++
++static const struct v4l2_subdev_ops csi2_sd_ops = {
++	.core = &csi2_sd_core_ops,
++	.video = &csi2_sd_video_ops,
++	.pad = &csi2_sd_pad_ops,
++};
++
++static const struct media_entity_operations csi2_entity_ops = {
++	.link_validate = v4l2_subdev_link_validate,
++	.has_pad_interdep = v4l2_subdev_has_pad_interdep,
++};
++
++void ipu6_isys_csi2_cleanup(struct ipu6_isys_csi2 *csi2)
 +{
-+	return ipu6_recv_get_token(context, queue);
++	if (!csi2->isys)
++		return;
++
++	v4l2_device_unregister_subdev(&csi2->asd.sd);
++	v4l2_subdev_cleanup(&csi2->asd.sd);
++	ipu6_isys_subdev_cleanup(&csi2->asd);
++	csi2->isys = NULL;
 +}
 +
-+void ipu6_fw_isys_put_resp(void *context, unsigned int queue)
++int ipu6_isys_csi2_init(struct ipu6_isys_csi2 *csi2,
++			struct ipu6_isys *isys,
++			void __iomem *base, unsigned int index)
 +{
-+	ipu6_recv_put_token(context, queue);
-+}
-+
-+void
-+ipu6_fw_isys_dump_stream_cfg(struct device *dev,
-+			     struct ipu6_fw_isys_stream_cfg_data_abi *cfg)
-+{
++	struct device *dev = &isys->adev->auxdev.dev;
 +	unsigned int i;
++	int ret;
 +
-+	dev_dbg(dev, "-----------------------------------------------------\n");
-+	dev_dbg(dev, "IPU6_FW_ISYS_STREAM_CFG_DATA\n");
++	csi2->isys = isys;
++	csi2->base = base;
++	csi2->port = index;
 +
-+	dev_dbg(dev, "compfmt = %d\n", cfg->vc);
-+	dev_dbg(dev, "src = %d\n", cfg->src);
-+	dev_dbg(dev, "vc = %d\n", cfg->vc);
-+	dev_dbg(dev, "isl_use = %d\n", cfg->isl_use);
-+	dev_dbg(dev, "sensor_type = %d\n", cfg->sensor_type);
++	csi2->asd.sd.entity.ops = &csi2_entity_ops;
++	csi2->asd.isys = isys;
++	ret = ipu6_isys_subdev_init(&csi2->asd, &csi2_sd_ops, 0,
++				    NR_OF_CSI2_PADS);
++	if (ret)
++		goto fail;
 +
-+	dev_dbg(dev, "send_irq_sof_discarded = %d\n",
-+		cfg->send_irq_sof_discarded);
-+	dev_dbg(dev, "send_irq_eof_discarded = %d\n",
-+		cfg->send_irq_eof_discarded);
-+	dev_dbg(dev, "send_resp_sof_discarded = %d\n",
-+		cfg->send_resp_sof_discarded);
-+	dev_dbg(dev, "send_resp_eof_discarded = %d\n",
-+		cfg->send_resp_eof_discarded);
++	csi2->asd.pad[CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK
++		| MEDIA_PAD_FL_MUST_CONNECT;
 +
-+	dev_dbg(dev, "crop:\n");
-+	dev_dbg(dev, "\t.left_top = [%d, %d]\n", cfg->crop.left_offset,
-+		cfg->crop.top_offset);
-+	dev_dbg(dev, "\t.right_bottom = [%d, %d]\n", cfg->crop.right_offset,
-+		cfg->crop.bottom_offset);
++	for (i = CSI2_PAD_SRC; i < NR_OF_CSI2_PADS; i++)
++		csi2->asd.pad[i].flags = MEDIA_PAD_FL_SOURCE;
 +
-+	dev_dbg(dev, "nof_input_pins = %d\n", cfg->nof_input_pins);
-+	for (i = 0; i < cfg->nof_input_pins; i++) {
-+		dev_dbg(dev, "input pin[%d]:\n", i);
-+		dev_dbg(dev, "\t.dt = 0x%0x\n", cfg->input_pins[i].dt);
-+		dev_dbg(dev, "\t.mipi_store_mode = %d\n",
-+			cfg->input_pins[i].mipi_store_mode);
-+		dev_dbg(dev, "\t.bits_per_pix = %d\n",
-+			cfg->input_pins[i].bits_per_pix);
-+		dev_dbg(dev, "\t.mapped_dt = 0x%0x\n",
-+			cfg->input_pins[i].mapped_dt);
-+		dev_dbg(dev, "\t.input_res = %dx%d\n",
-+			cfg->input_pins[i].input_res.width,
-+			cfg->input_pins[i].input_res.height);
-+		dev_dbg(dev, "\t.mipi_decompression = %d\n",
-+			cfg->input_pins[i].mipi_decompression);
-+		dev_dbg(dev, "\t.capture_mode = %d\n",
-+			cfg->input_pins[i].capture_mode);
++	csi2->asd.source = IPU6_FW_ISYS_STREAM_SRC_CSI2_PORT0 + index;
++	csi2->asd.supported_codes = csi2_supported_codes;
++	snprintf(csi2->asd.sd.name, sizeof(csi2->asd.sd.name),
++		 IPU6_ISYS_ENTITY_PREFIX " CSI2 %u", index);
++	v4l2_set_subdevdata(&csi2->asd.sd, &csi2->asd);
++	ret = v4l2_subdev_init_finalize(&csi2->asd.sd);
++	if (ret) {
++		dev_err(dev, "failed to init v4l2 subdev\n");
++		goto fail;
 +	}
 +
-+	dev_dbg(dev, "nof_output_pins = %d\n", cfg->nof_output_pins);
-+	for (i = 0; i < cfg->nof_output_pins; i++) {
-+		dev_dbg(dev, "output_pin[%d]:\n", i);
-+		dev_dbg(dev, "\t.input_pin_id = %d\n",
-+			cfg->output_pins[i].input_pin_id);
-+		dev_dbg(dev, "\t.output_res = %dx%d\n",
-+			cfg->output_pins[i].output_res.width,
-+			cfg->output_pins[i].output_res.height);
-+		dev_dbg(dev, "\t.stride = %d\n", cfg->output_pins[i].stride);
-+		dev_dbg(dev, "\t.pt = %d\n", cfg->output_pins[i].pt);
-+		dev_dbg(dev, "\t.payload_buf_size = %d\n",
-+			cfg->output_pins[i].payload_buf_size);
-+		dev_dbg(dev, "\t.ft = %d\n", cfg->output_pins[i].ft);
-+		dev_dbg(dev, "\t.watermark_in_lines = %d\n",
-+			cfg->output_pins[i].watermark_in_lines);
-+		dev_dbg(dev, "\t.send_irq = %d\n",
-+			cfg->output_pins[i].send_irq);
-+		dev_dbg(dev, "\t.reserve_compression = %d\n",
-+			cfg->output_pins[i].reserve_compression);
-+		dev_dbg(dev, "\t.snoopable = %d\n",
-+			cfg->output_pins[i].snoopable);
-+		dev_dbg(dev, "\t.error_handling_enable = %d\n",
-+			cfg->output_pins[i].error_handling_enable);
-+		dev_dbg(dev, "\t.sensor_type = %d\n",
-+			cfg->output_pins[i].sensor_type);
++	ret = v4l2_device_register_subdev(&isys->v4l2_dev, &csi2->asd.sd);
++	if (ret) {
++		dev_err(dev, "failed to register v4l2 subdev\n");
++		goto fail;
 +	}
-+	dev_dbg(dev, "-----------------------------------------------------\n");
++
++	return 0;
++
++fail:
++	ipu6_isys_csi2_cleanup(csi2);
++
++	return ret;
 +}
 +
-+void
-+ipu6_fw_isys_dump_frame_buff_set(struct device *dev,
-+				 struct ipu6_fw_isys_frame_buff_set_abi *buf,
-+				 unsigned int outputs)
++void ipu6_isys_csi2_sof_event_by_stream(struct ipu6_isys_stream *stream)
 +{
++	struct video_device *vdev = stream->asd->sd.devnode;
++	struct device *dev = &stream->isys->adev->auxdev.dev;
++	struct ipu6_isys_csi2 *csi2 = ipu6_isys_subdev_to_csi2(stream->asd);
++	struct v4l2_event ev = {
++		.type = V4L2_EVENT_FRAME_SYNC,
++	};
++
++	ev.u.frame_sync.frame_sequence = atomic_inc_return(&stream->sequence);
++	v4l2_event_queue(vdev, &ev);
++
++	dev_dbg(dev, "sof_event::csi2-%i sequence: %i, vc: %d\n",
++		csi2->port, ev.u.frame_sync.frame_sequence, stream->vc);
++}
++
++void ipu6_isys_csi2_eof_event_by_stream(struct ipu6_isys_stream *stream)
++{
++	struct device *dev = &stream->isys->adev->auxdev.dev;
++	struct ipu6_isys_csi2 *csi2 = ipu6_isys_subdev_to_csi2(stream->asd);
++	u32 frame_sequence = atomic_read(&stream->sequence);
++
++	dev_dbg(dev, "eof_event::csi2-%i sequence: %i\n",
++		csi2->port, frame_sequence);
++}
++
++int ipu6_isys_csi2_get_remote_desc(u32 source_stream,
++				   struct ipu6_isys_csi2 *csi2,
++				   struct media_entity *source_entity,
++				   struct v4l2_mbus_frame_desc_entry *entry,
++				   int *nr_queues)
++{
++	struct v4l2_mbus_frame_desc_entry *desc_entry = NULL;
++	struct device *dev = &csi2->isys->adev->auxdev.dev;
++	struct v4l2_mbus_frame_desc desc;
++	struct v4l2_subdev *source;
++	struct media_pad *pad;
 +	unsigned int i;
++	int count = 0;
++	int ret;
 +
-+	dev_dbg(dev, "-----------------------------------------------------\n");
-+	dev_dbg(dev, "IPU6_FW_ISYS_FRAME_BUFF_SET\n");
++	source = media_entity_to_v4l2_subdev(source_entity);
++	if (!source)
++		return -EPIPE;
 +
-+	for (i = 0; i < outputs; i++) {
-+		dev_dbg(dev, "output_pin[%d]:\n", i);
-+		dev_dbg(dev, "\t.out_buf_id = %llu\n",
-+			buf->output_pins[i].out_buf_id);
-+		dev_dbg(dev, "\t.addr = 0x%x\n", buf->output_pins[i].addr);
-+		dev_dbg(dev, "\t.compress = %d\n",
-+			buf->output_pins[i].compress);
++	pad = media_pad_remote_pad_first(&csi2->asd.pad[CSI2_PAD_SINK]);
++	if (!pad)
++		return -EPIPE;
++
++	ret = v4l2_subdev_call(source, pad, get_frame_desc, pad->index, &desc);
++	if (ret)
++		return ret;
++
++	if (desc.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
++		dev_err(dev, "Unsupported frame descriptor type\n");
++		return -EINVAL;
 +	}
 +
-+	dev_dbg(dev, "send_irq_sof = 0x%x\n", buf->send_irq_sof);
-+	dev_dbg(dev, "send_irq_eof = 0x%x\n", buf->send_irq_eof);
-+	dev_dbg(dev, "send_resp_sof = 0x%x\n", buf->send_resp_sof);
-+	dev_dbg(dev, "send_resp_eof = 0x%x\n", buf->send_resp_eof);
-+	dev_dbg(dev, "send_irq_capture_ack = 0x%x\n",
-+		buf->send_irq_capture_ack);
-+	dev_dbg(dev, "send_irq_capture_done = 0x%x\n",
-+		buf->send_irq_capture_done);
-+	dev_dbg(dev, "send_resp_capture_ack = 0x%x\n",
-+		buf->send_resp_capture_ack);
-+	dev_dbg(dev, "send_resp_capture_done = 0x%x\n",
-+		buf->send_resp_capture_done);
++	for (i = 0; i < desc.num_entries; i++) {
++		if (source_stream == desc.entry[i].stream) {
++			desc_entry = &desc.entry[i];
++			break;
++		}
++	}
 +
-+	dev_dbg(dev, "-----------------------------------------------------\n");
++	if (!desc_entry) {
++		dev_err(dev, "Failed to find stream %u from remote subdev\n",
++			source_stream);
++		return -EINVAL;
++	}
++
++	if (desc_entry->bus.csi2.vc >= NR_OF_CSI2_VC) {
++		dev_err(dev, "invalid vc %d\n", desc_entry->bus.csi2.vc);
++		return -EINVAL;
++	}
++
++	*entry = *desc_entry;
++	for (i = 0; i < desc.num_entries; i++) {
++		if (entry->bus.csi2.vc == desc.entry[i].bus.csi2.vc)
++			count++;
++	}
++
++	*nr_queues = count;
++	return 0;
 +}
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-fw-isys.h b/drivers/media/pci/intel/ipu6/ipu6-fw-isys.h
++
++void ipu6_isys_set_csi2_streams_status(struct ipu6_isys_video *av, bool status)
++{
++	struct ipu6_isys_stream *stream = av->stream;
++	struct v4l2_subdev *sd = &stream->asd->sd;
++	struct v4l2_subdev_state *state;
++	struct media_pad *r_pad;
++	unsigned int i;
++	u32 r_stream;
++
++	r_pad = media_pad_remote_pad_first(&av->pad);
++	r_stream = ipu6_isys_get_src_stream_by_src_pad(sd, r_pad->index);
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++
++	for (i = 0; i < state->stream_configs.num_configs; i++) {
++		struct v4l2_subdev_stream_config *cfg =
++			&state->stream_configs.configs[i];
++
++		if (cfg->pad == r_pad->index && r_stream == cfg->stream) {
++			dev_dbg(&av->isys->adev->auxdev.dev,
++				"%s: pad:%u, stream:%u, status:%u\n",
++				sd->entity.name, r_pad->index, r_stream,
++				status);
++			cfg->enabled = status;
++		}
++	}
++
++	v4l2_subdev_unlock_state(state);
++}
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
 new file mode 100644
-index 000000000000..106b81ae1eba
+index 000000000000..43f8d2b6a086
 --- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu6-fw-isys.h
-@@ -0,0 +1,572 @@
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
+@@ -0,0 +1,81 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/* Copyright (C) 2013 - 2023 Intel Corporation */
 +
-+#ifndef IPU6_FW_ISYS_H
-+#define IPU6_FW_ISYS_H
++#ifndef IPU6_ISYS_CSI2_H
++#define IPU6_ISYS_CSI2_H
++
++#include <media/media-entity.h>
++#include <media/v4l2-device.h>
++
++#include "ipu6-isys-subdev.h"
++#include "ipu6-isys-video.h"
++
++struct ipu6_isys;
++struct ipu6_isys_csi2_pdata;
++struct ipu6_isys_csi2_timing;
++struct ipu6_isys_stream;
++
++#define NR_OF_CSI2_VC			16
++#define INVALID_VC_ID			-1
++#define NR_OF_CSI2_SINK_PADS		1
++#define CSI2_PAD_SINK			0
++#define NR_OF_CSI2_SRC_PADS		8
++#define CSI2_PAD_SRC			1
++#define NR_OF_CSI2_PADS	(NR_OF_CSI2_SINK_PADS + NR_OF_CSI2_SRC_PADS)
++
++#define CSI2_CSI_RX_DLY_CNT_TERMEN_CLANE_A		0
++#define CSI2_CSI_RX_DLY_CNT_TERMEN_CLANE_B		0
++#define CSI2_CSI_RX_DLY_CNT_SETTLE_CLANE_A		95
++#define CSI2_CSI_RX_DLY_CNT_SETTLE_CLANE_B		-8
++
++#define CSI2_CSI_RX_DLY_CNT_TERMEN_DLANE_A		0
++#define CSI2_CSI_RX_DLY_CNT_TERMEN_DLANE_B		0
++#define CSI2_CSI_RX_DLY_CNT_SETTLE_DLANE_A		85
++#define CSI2_CSI_RX_DLY_CNT_SETTLE_DLANE_B		-2
++
++struct ipu6_isys_csi2 {
++	struct ipu6_isys_csi2_pdata *pdata;
++	struct ipu6_isys *isys;
++	struct ipu6_isys_subdev asd;
++
++	void __iomem *base;
++	u32 receiver_errors;
++	unsigned int nlanes;
++	unsigned int port;
++	unsigned int stream_count;
++};
++
++struct ipu6_isys_csi2_timing {
++	u32 ctermen;
++	u32 csettle;
++	u32 dtermen;
++	u32 dsettle;
++};
++
++struct ipu6_csi2_error {
++	const char *error_string;
++	bool is_info_only;
++};
++
++#define ipu6_isys_subdev_to_csi2(__sd) \
++	container_of(__sd, struct ipu6_isys_csi2, asd)
++
++#define to_ipu6_isys_csi2(sd) container_of(to_ipu6_isys_subdev(sd), \
++					   struct ipu6_isys_csi2, asd)
++
++s64 ipu6_isys_csi2_get_link_freq(struct ipu6_isys_csi2 *csi2);
++int ipu6_isys_csi2_init(struct ipu6_isys_csi2 *csi2, struct ipu6_isys *isys,
++			void __iomem *base, unsigned int index);
++void ipu6_isys_csi2_cleanup(struct ipu6_isys_csi2 *csi2);
++void ipu6_isys_csi2_sof_event_by_stream(struct ipu6_isys_stream *stream);
++void ipu6_isys_csi2_eof_event_by_stream(struct ipu6_isys_stream *stream);
++void ipu6_isys_register_errors(struct ipu6_isys_csi2 *csi2);
++void ipu6_isys_csi2_error(struct ipu6_isys_csi2 *csi2);
++int ipu6_isys_csi2_get_remote_desc(u32 source_stream,
++				   struct ipu6_isys_csi2 *csi2,
++				   struct media_entity *source_entity,
++				   struct v4l2_mbus_frame_desc_entry *entry,
++				   int *nr_queues);
++void ipu6_isys_set_csi2_streams_status(struct ipu6_isys_video *av, bool status);
++
++#endif /* IPU6_ISYS_CSI2_H */
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+new file mode 100644
+index 000000000000..d38012be8dd5
+--- /dev/null
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+@@ -0,0 +1,378 @@
++// SPDX-License-Identifier: GPL-2.0-only
++// Copyright (C) 2013 - 2023 Intel Corporation
++
++#include <linux/media-bus-format.h>
++#include <linux/types.h>
++#include <linux/videodev2.h>
++#include <media/media-entity.h>
++
++#include "ipu6.h"
++#include "ipu6-bus.h"
++#include "ipu6-isys.h"
++#include "ipu6-isys-subdev.h"
++#include "ipu6-isys-video.h"
++
++unsigned int ipu6_isys_mbus_code_to_bpp(u32 code)
++{
++	switch (code) {
++	case MEDIA_BUS_FMT_RGB888_1X24:
++		return 24;
++	case MEDIA_BUS_FMT_RGB565_1X16:
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++	case MEDIA_BUS_FMT_YUYV8_1X16:
++		return 16;
++	case MEDIA_BUS_FMT_SBGGR12_1X12:
++	case MEDIA_BUS_FMT_SGBRG12_1X12:
++	case MEDIA_BUS_FMT_SGRBG12_1X12:
++	case MEDIA_BUS_FMT_SRGGB12_1X12:
++		return 12;
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++		return 10;
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++		return 8;
++	default:
++		WARN_ON(1);
++		return 8;
++	}
++}
++
++unsigned int ipu6_isys_mbus_code_to_mipi(u32 code)
++{
++	switch (code) {
++	case MEDIA_BUS_FMT_RGB565_1X16:
++		return MIPI_CSI2_DT_RGB565;
++	case MEDIA_BUS_FMT_RGB888_1X24:
++		return MIPI_CSI2_DT_RGB888;
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++	case MEDIA_BUS_FMT_YUYV8_1X16:
++		return MIPI_CSI2_DT_YUV422_8B;
++	case MEDIA_BUS_FMT_SBGGR12_1X12:
++	case MEDIA_BUS_FMT_SGBRG12_1X12:
++	case MEDIA_BUS_FMT_SGRBG12_1X12:
++	case MEDIA_BUS_FMT_SRGGB12_1X12:
++		return MIPI_CSI2_DT_RAW12;
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++		return MIPI_CSI2_DT_RAW10;
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++		return MIPI_CSI2_DT_RAW8;
++	default:
++		/* return unavailable MIPI data type - 0x3f */
++		WARN_ON(1);
++		return 0x3f;
++	}
++}
++
++bool ipu6_isys_is_bayer_format(u32 code)
++{
++	switch (ipu6_isys_mbus_code_to_mipi(code)) {
++	case MIPI_CSI2_DT_RAW8:
++	case MIPI_CSI2_DT_RAW10:
++	case MIPI_CSI2_DT_RAW12:
++		return true;
++	}
++	return false;
++}
++
++u32 ipu6_isys_convert_bayer_order(u32 code, int x, int y)
++{
++	static const u32 code_map[] = {
++		MEDIA_BUS_FMT_SRGGB8_1X8,
++		MEDIA_BUS_FMT_SGRBG8_1X8,
++		MEDIA_BUS_FMT_SGBRG8_1X8,
++		MEDIA_BUS_FMT_SBGGR8_1X8,
++		MEDIA_BUS_FMT_SRGGB10_1X10,
++		MEDIA_BUS_FMT_SGRBG10_1X10,
++		MEDIA_BUS_FMT_SGBRG10_1X10,
++		MEDIA_BUS_FMT_SBGGR10_1X10,
++		MEDIA_BUS_FMT_SRGGB12_1X12,
++		MEDIA_BUS_FMT_SGRBG12_1X12,
++		MEDIA_BUS_FMT_SGBRG12_1X12,
++		MEDIA_BUS_FMT_SBGGR12_1X12,
++	};
++	u32 i;
++
++	for (i = 0; i < ARRAY_SIZE(code_map); i++)
++		if (code_map[i] == code)
++			break;
++
++	if (i == ARRAY_SIZE(code_map)) {
++		WARN_ON(1);
++		return code;
++	}
++
++	return code_map[i ^ (((y & 1) << 1) | (x & 1))];
++}
++
++int ipu6_isys_subdev_set_fmt(struct v4l2_subdev *sd,
++			     struct v4l2_subdev_state *state,
++			     struct v4l2_subdev_format *format)
++{
++	struct ipu6_isys_subdev *asd = to_ipu6_isys_subdev(sd);
++	struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_rect *crop;
++	u32 code = asd->supported_codes[0];
++	u32 other_pad, other_stream;
++	unsigned int i;
++	int ret;
++
++	/* No transcoding, source and sink formats must match. */
++	if ((sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SOURCE) &&
++	    sd->entity.num_pads > 1) {
++		return v4l2_subdev_get_fmt(sd, state, format);
++	}
++	format->format.width = clamp(format->format.width, IPU6_ISYS_MIN_WIDTH,
++				     IPU6_ISYS_MAX_WIDTH);
++	format->format.height = clamp(format->format.height,
++				      IPU6_ISYS_MIN_HEIGHT,
++				      IPU6_ISYS_MAX_HEIGHT);
++
++	for (i = 0; asd->supported_codes[i]; i++) {
++		if (asd->supported_codes[i] == format->format.code) {
++			code = asd->supported_codes[i];
++			break;
++		}
++	}
++	format->format.code = code;
++	format->format.field = V4L2_FIELD_NONE;
++
++	/* Store the format and propagate it to the source pad. */
++	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
++						  format->stream);
++	if (!fmt)
++		return -EINVAL;
++
++	*fmt = format->format;
++
++	if (!(sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SINK))
++		return 0;
++
++	/* propagate format to following source pad */
++	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
++							   format->stream);
++	if (!fmt)
++		return -EINVAL;
++
++	*fmt = format->format;
++
++	ret = v4l2_subdev_routing_find_opposite_end(&state->routing,
++						    format->pad,
++						    format->stream,
++						    &other_pad,
++						    &other_stream);
++	if (ret)
++		return -EINVAL;
++
++	crop = v4l2_subdev_state_get_stream_crop(state, other_pad,
++						 other_stream);
++	/* reset crop */
++	crop->left = 0;
++	crop->top = 0;
++	crop->width = fmt->width;
++	crop->height = fmt->height;
++
++	return 0;
++}
++
++int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
++				    struct v4l2_subdev_state *state,
++				    struct v4l2_subdev_mbus_code_enum *code)
++{
++	struct ipu6_isys_subdev *asd = to_ipu6_isys_subdev(sd);
++	const u32 *supported_codes = asd->supported_codes;
++	u32 index;
++
++	for (index = 0; supported_codes[index]; index++) {
++		if (index == code->index) {
++			code->code = supported_codes[index];
++			return 0;
++		}
++	}
++
++	return -EINVAL;
++}
++
++static int subdev_set_routing(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_state *state,
++			      struct v4l2_subdev_krouting *routing)
++{
++	static const struct v4l2_mbus_framefmt format = {
++		.width = 4096,
++		.height = 3072,
++		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
++		.field = V4L2_FIELD_NONE,
++	};
++	int ret;
++
++	ret = v4l2_subdev_routing_validate(sd, routing,
++					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
++	if (ret)
++		return ret;
++
++	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing, &format);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++int ipu6_isys_get_stream_pad_fmt(struct v4l2_subdev *sd, u32 pad, u32 stream,
++				 struct v4l2_mbus_framefmt *format)
++{
++	struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_subdev_state *state;
++	int ret = -EINVAL;
++
++	if (!sd || !format)
++		return -EINVAL;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	fmt = v4l2_subdev_state_get_stream_format(state, pad, stream);
++	if (fmt) {
++		*format = *fmt;
++		ret = 0;
++	}
++	v4l2_subdev_unlock_state(state);
++
++	return ret;
++}
++
++int ipu6_isys_get_stream_pad_crop(struct v4l2_subdev *sd, u32 pad, u32 stream,
++				  struct v4l2_rect *crop)
++{
++	struct v4l2_subdev_state *state;
++	struct v4l2_rect *rect;
++	int ret = -EINVAL;
++
++	if (!sd || !crop)
++		return -EINVAL;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	rect = v4l2_subdev_state_get_stream_crop(state, pad, stream);
++	if (rect) {
++		*crop = *rect;
++		ret = 0;
++	}
++	v4l2_subdev_unlock_state(state);
++
++	return ret;
++}
++
++u32 ipu6_isys_get_src_stream_by_src_pad(struct v4l2_subdev *sd, u32 pad)
++{
++	struct v4l2_subdev_state *state;
++	struct v4l2_subdev_route *routes;
++	unsigned int i;
++	u32 source_stream = 0;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	if (!state)
++		return 0;
++
++	routes = state->routing.routes;
++	for (i = 0; i < state->routing.num_routes; i++) {
++		if (routes[i].source_pad == pad) {
++			source_stream = routes[i].source_stream;
++			break;
++		}
++	}
++
++	v4l2_subdev_unlock_state(state);
++
++	return source_stream;
++}
++
++int ipu6_isys_subdev_init_cfg(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_state *state)
++{
++	struct v4l2_subdev_route route = {
++		.sink_pad = 0,
++		.sink_stream = 0,
++		.source_pad = 1,
++		.source_stream = 0,
++		.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
++	};
++	struct v4l2_subdev_krouting routing = {
++		.num_routes = 1,
++		.routes = &route,
++	};
++
++	return subdev_set_routing(sd, state, &routing);
++}
++
++int ipu6_isys_subdev_set_routing(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *state,
++				 enum v4l2_subdev_format_whence which,
++				 struct v4l2_subdev_krouting *routing)
++{
++	return subdev_set_routing(sd, state, routing);
++}
++
++int ipu6_isys_subdev_init(struct ipu6_isys_subdev *asd,
++			  const struct v4l2_subdev_ops *ops,
++			  unsigned int nr_ctrls,
++			  unsigned int num_pads)
++{
++	int ret;
++
++	v4l2_subdev_init(&asd->sd, ops);
++
++	asd->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
++			 V4L2_SUBDEV_FL_HAS_EVENTS |
++			 V4L2_SUBDEV_FL_STREAMS;
++	asd->sd.owner = THIS_MODULE;
++	asd->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
++
++	asd->pad = devm_kcalloc(&asd->isys->adev->auxdev.dev, num_pads,
++				sizeof(*asd->pad), GFP_KERNEL);
++
++	if (!asd->pad)
++		return -ENOMEM;
++
++	ret = media_entity_pads_init(&asd->sd.entity, num_pads, asd->pad);
++	if (ret)
++		return ret;
++
++	if (asd->ctrl_init) {
++		ret = v4l2_ctrl_handler_init(&asd->ctrl_handler, nr_ctrls);
++		if (ret)
++			goto out_media_entity_cleanup;
++
++		asd->ctrl_init(&asd->sd);
++		if (asd->ctrl_handler.error) {
++			ret = asd->ctrl_handler.error;
++			goto out_v4l2_ctrl_handler_free;
++		}
++
++		asd->sd.ctrl_handler = &asd->ctrl_handler;
++	}
++
++	asd->source = -1;
++
++	return 0;
++
++out_v4l2_ctrl_handler_free:
++	v4l2_ctrl_handler_free(&asd->ctrl_handler);
++
++out_media_entity_cleanup:
++	media_entity_cleanup(&asd->sd.entity);
++
++	return ret;
++}
++
++void ipu6_isys_subdev_cleanup(struct ipu6_isys_subdev *asd)
++{
++	media_entity_cleanup(&asd->sd.entity);
++	v4l2_ctrl_handler_free(&asd->ctrl_handler);
++}
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+new file mode 100644
+index 000000000000..cb2bb7ea980e
+--- /dev/null
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+@@ -0,0 +1,58 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* Copyright (C) 2013 - 2023 Intel Corporation */
++
++#ifndef IPU6_ISYS_SUBDEV_H
++#define IPU6_ISYS_SUBDEV_H
++
++#include <media/media-entity.h>
++#include <media/mipi-csi2.h>
++#include <media/v4l2-ctrls.h>
 +
 +struct ipu6_isys;
 +
-+/* Max number of Input/Output Pins */
-+#define IPU6_MAX_IPINS 4
++struct ipu6_isys_subdev {
++	struct v4l2_subdev sd;
++	struct ipu6_isys *isys;
++	u32 const *supported_codes;
++	struct media_pad *pad;
++	struct v4l2_ctrl_handler ctrl_handler;
++	void (*ctrl_init)(struct v4l2_subdev *sd);
++	int source;	/* SSI stream source; -1 if unset */
++};
 +
-+#define IPU6_MAX_OPINS ((IPU6_MAX_IPINS) + 1)
++#define to_ipu6_isys_subdev(__sd) \
++	container_of(__sd, struct ipu6_isys_subdev, sd)
 +
-+#define IPU6_STREAM_ID_MAX 16
-+#define IPU6_NONSECURE_STREAM_ID_MAX 12
-+#define IPU6_DEV_SEND_QUEUE_SIZE (IPU6_STREAM_ID_MAX)
-+#define IPU6_NOF_SRAM_BLOCKS_MAX (IPU6_STREAM_ID_MAX)
-+#define IPU6_N_MAX_MSG_SEND_QUEUES (IPU6_STREAM_ID_MAX)
-+#define IPU6SE_STREAM_ID_MAX 8
-+#define IPU6SE_NONSECURE_STREAM_ID_MAX 4
-+#define IPU6SE_DEV_SEND_QUEUE_SIZE (IPU6SE_STREAM_ID_MAX)
-+#define IPU6SE_NOF_SRAM_BLOCKS_MAX (IPU6SE_STREAM_ID_MAX)
-+#define IPU6SE_N_MAX_MSG_SEND_QUEUES (IPU6SE_STREAM_ID_MAX)
++unsigned int ipu6_isys_mbus_code_to_bpp(u32 code);
++unsigned int ipu6_isys_mbus_code_to_mipi(u32 code);
++bool ipu6_isys_is_bayer_format(u32 code);
++u32 ipu6_isys_convert_bayer_order(u32 code, int x, int y);
 +
-+/* Single return queue for all streams/commands type */
-+#define IPU6_N_MAX_MSG_RECV_QUEUES 1
-+/* Single device queue for high priority commands (bypass in-order queue) */
-+#define IPU6_N_MAX_DEV_SEND_QUEUES 1
-+/* Single dedicated send queue for proxy interface */
-+#define IPU6_N_MAX_PROXY_SEND_QUEUES 1
-+/* Single dedicated recv queue for proxy interface */
-+#define IPU6_N_MAX_PROXY_RECV_QUEUES 1
-+/* Send queues layout */
-+#define IPU6_BASE_PROXY_SEND_QUEUES 0
-+#define IPU6_BASE_DEV_SEND_QUEUES \
-+	(IPU6_BASE_PROXY_SEND_QUEUES + IPU6_N_MAX_PROXY_SEND_QUEUES)
-+#define IPU6_BASE_MSG_SEND_QUEUES \
-+	(IPU6_BASE_DEV_SEND_QUEUES + IPU6_N_MAX_DEV_SEND_QUEUES)
-+/* Recv queues layout */
-+#define IPU6_BASE_PROXY_RECV_QUEUES 0
-+#define IPU6_BASE_MSG_RECV_QUEUES \
-+	(IPU6_BASE_PROXY_RECV_QUEUES + IPU6_N_MAX_PROXY_RECV_QUEUES)
-+#define IPU6_N_MAX_RECV_QUEUES \
-+	(IPU6_BASE_MSG_RECV_QUEUES + IPU6_N_MAX_MSG_RECV_QUEUES)
++int ipu6_isys_subdev_set_fmt(struct v4l2_subdev *sd,
++			     struct v4l2_subdev_state *state,
++			     struct v4l2_subdev_format *fmt);
++int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
++				    struct v4l2_subdev_state *state,
++				    struct v4l2_subdev_mbus_code_enum
++				    *code);
++int ipu6_isys_subdev_link_validate(struct v4l2_subdev *sd,
++				   struct media_link *link,
++				   struct v4l2_subdev_format *source_fmt,
++				   struct v4l2_subdev_format *sink_fmt);
++u32 ipu6_isys_get_src_stream_by_src_pad(struct v4l2_subdev *sd, u32 pad);
++int ipu6_isys_get_stream_pad_fmt(struct v4l2_subdev *sd, u32 pad, u32 stream,
++				 struct v4l2_mbus_framefmt *format);
++int ipu6_isys_get_stream_pad_crop(struct v4l2_subdev *sd, u32 pad, u32 stream,
++				  struct v4l2_rect *crop);
++int ipu6_isys_subdev_init_cfg(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_state *state);
++int ipu6_isys_subdev_set_routing(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *state,
++				 enum v4l2_subdev_format_whence which,
++				 struct v4l2_subdev_krouting *routing);
++int ipu6_isys_subdev_init(struct ipu6_isys_subdev *asd,
++			  const struct v4l2_subdev_ops *ops,
++			  unsigned int nr_ctrls,
++			  unsigned int num_pads);
++void ipu6_isys_subdev_cleanup(struct ipu6_isys_subdev *asd);
++#endif /* IPU6_ISYS_SUBDEV_H */
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h b/drivers/media/pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h
+new file mode 100644
+index 000000000000..ab8beef51313
+--- /dev/null
++++ b/drivers/media/pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h
+@@ -0,0 +1,187 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* Copyright (C) 2023 Intel Corporation */
 +
-+#define IPU6_N_MAX_SEND_QUEUES \
-+	(IPU6_BASE_MSG_SEND_QUEUES + IPU6_N_MAX_MSG_SEND_QUEUES)
-+#define IPU6SE_N_MAX_SEND_QUEUES \
-+	(IPU6_BASE_MSG_SEND_QUEUES + IPU6SE_N_MAX_MSG_SEND_QUEUES)
++#ifndef IPU6_PLATFORM_ISYS_CSI2_REG_H
++#define IPU6_PLATFORM_ISYS_CSI2_REG_H
 +
-+/* Max number of supported input pins routed in ISL */
-+#define IPU6_MAX_IPINS_IN_ISL 2
++#define CSI_REG_BASE			0x220000
++#define CSI_REG_BASE_PORT(id)		((id) * 0x1000)
 +
-+/* Max number of planes for frame formats supported by the FW */
-+#define IPU6_PIN_PLANES_MAX 4
++#define IPU6_CSI_PORT_A_ADDR_OFFSET	\
++		(CSI_REG_BASE + CSI_REG_BASE_PORT(0))
++#define IPU6_CSI_PORT_B_ADDR_OFFSET	\
++		(CSI_REG_BASE + CSI_REG_BASE_PORT(1))
++#define IPU6_CSI_PORT_C_ADDR_OFFSET	\
++		(CSI_REG_BASE + CSI_REG_BASE_PORT(2))
++#define IPU6_CSI_PORT_D_ADDR_OFFSET	\
++		(CSI_REG_BASE + CSI_REG_BASE_PORT(3))
++#define IPU6_CSI_PORT_E_ADDR_OFFSET	\
++		(CSI_REG_BASE + CSI_REG_BASE_PORT(4))
++#define IPU6_CSI_PORT_F_ADDR_OFFSET	\
++		(CSI_REG_BASE + CSI_REG_BASE_PORT(5))
++#define IPU6_CSI_PORT_G_ADDR_OFFSET	\
++		(CSI_REG_BASE + CSI_REG_BASE_PORT(6))
++#define IPU6_CSI_PORT_H_ADDR_OFFSET	\
++		(CSI_REG_BASE + CSI_REG_BASE_PORT(7))
 +
-+#define IPU6_FW_ISYS_SENSOR_TYPE_START 14
-+#define IPU6_FW_ISYS_SENSOR_TYPE_END 19
-+#define IPU6SE_FW_ISYS_SENSOR_TYPE_START 6
-+#define IPU6SE_FW_ISYS_SENSOR_TYPE_END 11
++/* CSI Port Genral Purpose Registers */
++#define CSI_REG_PORT_GPREG_SRST                 0x0
++#define CSI_REG_PORT_GPREG_CSI2_SLV_REG_SRST    0x4
++#define CSI_REG_PORT_GPREG_CSI2_PORT_CONTROL    0x8
++
 +/*
-+ * Device close takes some time from last ack message to actual stopping
-+ * of the SP processor. As long as the SP processor runs we can't proceed with
-+ * clean up of resources.
++ * Port IRQs mapping events:
++ * IRQ0 - CSI_FE event
++ * IRQ1 - CSI_SYNC
++ * IRQ2 - S2M_SIDS0TO7
++ * IRQ3 - S2M_SIDS8TO15
 + */
-+#define IPU6_ISYS_OPEN_RETRY			2000
-+#define IPU6_ISYS_CLOSE_RETRY			2000
-+#define IPU6_FW_CALL_TIMEOUT_JIFFIES		\
-+	msecs_to_jiffies(IPU6_FW_CALL_TIMEOUT_MS)
++#define CSI_PORT_REG_BASE_IRQ_CSI               0x80
++#define CSI_PORT_REG_BASE_IRQ_CSI_SYNC          0xA0
++#define CSI_PORT_REG_BASE_IRQ_S2M_SIDS0TOS7     0xC0
++#define CSI_PORT_REG_BASE_IRQ_S2M_SIDS8TOS15    0xE0
 +
-+enum ipu6_fw_isys_resp_type {
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_OPEN_DONE = 0,
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_START_ACK,
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_START_AND_CAPTURE_ACK,
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_CAPTURE_ACK,
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_STOP_ACK,
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_FLUSH_ACK,
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_CLOSE_ACK,
-+	IPU6_FW_ISYS_RESP_TYPE_PIN_DATA_READY,
-+	IPU6_FW_ISYS_RESP_TYPE_PIN_DATA_WATERMARK,
-+	IPU6_FW_ISYS_RESP_TYPE_FRAME_SOF,
-+	IPU6_FW_ISYS_RESP_TYPE_FRAME_EOF,
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_START_AND_CAPTURE_DONE,
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_CAPTURE_DONE,
-+	IPU6_FW_ISYS_RESP_TYPE_PIN_DATA_SKIPPED,
-+	IPU6_FW_ISYS_RESP_TYPE_STREAM_CAPTURE_SKIPPED,
-+	IPU6_FW_ISYS_RESP_TYPE_FRAME_SOF_DISCARDED,
-+	IPU6_FW_ISYS_RESP_TYPE_FRAME_EOF_DISCARDED,
-+	IPU6_FW_ISYS_RESP_TYPE_STATS_DATA_READY,
-+	N_IPU6_FW_ISYS_RESP_TYPE
++#define CSI_PORT_REG_BASE_IRQ_EDGE_OFFSET	0x0
++#define CSI_PORT_REG_BASE_IRQ_MASK_OFFSET	0x4
++#define CSI_PORT_REG_BASE_IRQ_STATUS_OFFSET	0x8
++#define CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET	0xc
++#define CSI_PORT_REG_BASE_IRQ_ENABLE_OFFSET	0x10
++#define CSI_PORT_REG_BASE_IRQ_LEVEL_NOT_PULSE_OFFSET	0x14
++
++#define IPU6SE_CSI_RX_ERROR_IRQ_MASK		GENMASK(18, 0)
++#define IPU6_CSI_RX_ERROR_IRQ_MASK		GENMASK(19, 0)
++
++#define CSI_RX_NUM_ERRORS_IN_IRQ		20
++#define CSI_RX_NUM_IRQ				32
++
++#define IPU_CSI_RX_IRQ_FS_VC(chn)	(1 << ((chn) * 2))
++#define IPU_CSI_RX_IRQ_FE_VC(chn)	(2 << ((chn) * 2))
++
++/* PPI2CSI */
++#define CSI_REG_PPI2CSI_ENABLE				0x200
++#define CSI_REG_PPI2CSI_CONFIG_PPI_INTF			0x204
++#define PPI_INTF_CONFIG_NOF_ENABLED_DLANES_MASK		GENMASK(4, 3)
++#define CSI_REG_PPI2CSI_CONFIG_CSI_FEATURE		0x208
++
++enum CSI_PPI2CSI_CTRL {
++	CSI_PPI2CSI_DISABLE = 0,
++	CSI_PPI2CSI_ENABLE = 1,
 +};
 +
-+enum ipu6_fw_isys_send_type {
-+	IPU6_FW_ISYS_SEND_TYPE_STREAM_OPEN = 0,
-+	IPU6_FW_ISYS_SEND_TYPE_STREAM_START,
-+	IPU6_FW_ISYS_SEND_TYPE_STREAM_START_AND_CAPTURE,
-+	IPU6_FW_ISYS_SEND_TYPE_STREAM_CAPTURE,
-+	IPU6_FW_ISYS_SEND_TYPE_STREAM_STOP,
-+	IPU6_FW_ISYS_SEND_TYPE_STREAM_FLUSH,
-+	IPU6_FW_ISYS_SEND_TYPE_STREAM_CLOSE,
-+	N_IPU6_FW_ISYS_SEND_TYPE
++/* CSI_FE */
++#define CSI_REG_CSI_FE_ENABLE                   0x280
++#define CSI_REG_CSI_FE_MODE                     0x284
++#define CSI_REG_CSI_FE_MUX_CTRL                 0x288
++#define CSI_REG_CSI_FE_SYNC_CNTR_SEL            0x290
++
++enum CSI_FE_ENABLE_TYPE {
++	CSI_FE_DISABLE = 0,
++	CSI_FE_ENABLE = 1,
 +};
 +
-+enum ipu6_fw_isys_queue_type {
-+	IPU6_FW_ISYS_QUEUE_TYPE_PROXY = 0,
-+	IPU6_FW_ISYS_QUEUE_TYPE_DEV,
-+	IPU6_FW_ISYS_QUEUE_TYPE_MSG,
-+	N_IPU6_FW_ISYS_QUEUE_TYPE
++enum CSI_FE_MODE_TYPE {
++	CSI_FE_DPHY_MODE = 0,
++	CSI_FE_CPHY_MODE = 1,
 +};
 +
-+enum ipu6_fw_isys_stream_source {
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_0 = 0,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_1,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_2,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_3,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_4,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_5,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_6,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_7,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_8,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_9,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_10,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_11,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_12,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_13,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_14,
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_15,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_0,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_1,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_2,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_3,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_4,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_5,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_6,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_7,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_8,
-+	IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_9,
-+	N_IPU6_FW_ISYS_STREAM_SRC
++enum CSI_FE_INPUT_SELECTOR {
++	CSI_SENSOR_INPUT = 0,
++	CSI_MIPIGEN_INPUT = 1,
 +};
 +
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_PORT0 IPU6_FW_ISYS_STREAM_SRC_PORT_0
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_PORT1 IPU6_FW_ISYS_STREAM_SRC_PORT_1
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_PORT2 IPU6_FW_ISYS_STREAM_SRC_PORT_2
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_PORT3 IPU6_FW_ISYS_STREAM_SRC_PORT_3
++enum CSI_FE_SYNC_CNTR_SEL_TYPE {
++	CSI_CNTR_SENSOR_LINE_ID = BIT(0),
++	CSI_CNTR_INT_LINE_PKT_ID = ~CSI_CNTR_SENSOR_LINE_ID,
++	CSI_CNTR_SENSOR_FRAME_ID = BIT(1),
++	CSI_CNTR_INT_FRAME_PKT_ID = ~CSI_CNTR_SENSOR_FRAME_ID,
++};
 +
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_3PH_PORTA IPU6_FW_ISYS_STREAM_SRC_PORT_4
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_3PH_PORTB IPU6_FW_ISYS_STREAM_SRC_PORT_5
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_3PH_CPHY_PORT0 \
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_6
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_3PH_CPHY_PORT1 \
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_7
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_3PH_CPHY_PORT2 \
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_8
-+#define IPU6_FW_ISYS_STREAM_SRC_CSI2_3PH_CPHY_PORT3 \
-+	IPU6_FW_ISYS_STREAM_SRC_PORT_9
++/* CSI HUB General Purpose Registers */
++#define CSI_REG_HUB_GPREG_SRST			(CSI_REG_BASE + 0x18000)
++#define CSI_REG_HUB_GPREG_SLV_REG_SRST		(CSI_REG_BASE + 0x18004)
 +
-+#define IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_PORT0 IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_0
-+#define IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_PORT1 IPU6_FW_ISYS_STREAM_SRC_MIPIGEN_1
++#define CSI_REG_HUB_DRV_ACCESS_PORT(id)	(CSI_REG_BASE + 0x18018 + (id) * 4)
++#define CSI_REG_HUB_FW_ACCESS_PORT_OFS		0x17000
++#define CSI_REG_HUB_FW_ACCESS_PORT_V6OFS	0x16000
++#define CSI_REG_HUB_FW_ACCESS_PORT(ofs, id)	(CSI_REG_BASE + (ofs) + \
++						 (id) * 4)
 +
-+/**
-+ * enum ipu6_fw_isys_mipi_vc: MIPI csi2 spec
-+ * supports up to 4 virtual per physical channel
++enum CSI_PORT_CLK_GATING_SWITCH {
++	CSI_PORT_CLK_GATING_OFF = 0,
++	CSI_PORT_CLK_GATING_ON = 1,
++};
++
++#define CSI_REG_BASE_HUB_IRQ                        0x18200
++
++#define IPU6_REG_ISYS_CSI_TOP_CTRL0_IRQ_EDGE			0x238200
++#define IPU6_REG_ISYS_CSI_TOP_CTRL0_IRQ_MASK			0x238204
++#define IPU6_REG_ISYS_CSI_TOP_CTRL0_IRQ_STATUS			0x238208
++#define IPU6_REG_ISYS_CSI_TOP_CTRL0_IRQ_CLEAR			0x23820c
++#define IPU6_REG_ISYS_CSI_TOP_CTRL0_IRQ_ENABLE			0x238210
++#define IPU6_REG_ISYS_CSI_TOP_CTRL0_IRQ_LEVEL_NOT_PULSE		0x238214
++
++#define IPU6_REG_ISYS_CSI_TOP_CTRL1_IRQ_EDGE			0x238220
++#define IPU6_REG_ISYS_CSI_TOP_CTRL1_IRQ_MASK			0x238224
++#define IPU6_REG_ISYS_CSI_TOP_CTRL1_IRQ_STATUS			0x238228
++#define IPU6_REG_ISYS_CSI_TOP_CTRL1_IRQ_CLEAR			0x23822c
++#define IPU6_REG_ISYS_CSI_TOP_CTRL1_IRQ_ENABLE			0x238230
++#define IPU6_REG_ISYS_CSI_TOP_CTRL1_IRQ_LEVEL_NOT_PULSE		0x238234
++
++/* MTL IPU6V6 irq ctrl0 & ctrl1 */
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL0_IRQ_EDGE			0x238700
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL0_IRQ_MASK			0x238704
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL0_IRQ_STATUS		0x238708
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL0_IRQ_CLEAR			0x23870c
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL0_IRQ_ENABLE		0x238710
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL0_IRQ_LEVEL_NOT_PULSE	0x238714
++
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL1_IRQ_EDGE			0x238720
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL1_IRQ_MASK			0x238724
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL1_IRQ_STATUS		0x238728
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL1_IRQ_CLEAR			0x23872c
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL1_IRQ_ENABLE		0x238730
++#define IPU6V6_REG_ISYS_CSI_TOP_CTRL1_IRQ_LEVEL_NOT_PULSE	0x238734
++
++/*
++ * 3:0 CSI_PORT.irq_out[3:0] CSI_PORT_CTRL0 IRQ outputs (4bits)
++ * [0] CSI_PORT.IRQ_CTRL0_csi
++ * [1] CSI_PORT.IRQ_CTRL1_csi_sync
++ * [2] CSI_PORT.IRQ_CTRL2_s2m_sids0to7
++ * [3] CSI_PORT.IRQ_CTRL3_s2m_sids8to15
 + */
-+enum ipu6_fw_isys_mipi_vc {
-+	IPU6_FW_ISYS_MIPI_VC_0 = 0,
-+	IPU6_FW_ISYS_MIPI_VC_1,
-+	IPU6_FW_ISYS_MIPI_VC_2,
-+	IPU6_FW_ISYS_MIPI_VC_3,
-+	N_IPU6_FW_ISYS_MIPI_VC
-+};
++#define IPU6_ISYS_UNISPART_IRQ_CSI2(port)		\
++				   (0x3 << ((port) * IPU6_CSI_IRQ_NUM_PER_PIPE))
 +
-+enum ipu6_fw_isys_frame_format_type {
-+	IPU6_FW_ISYS_FRAME_FORMAT_NV11 = 0, /* 12 bit YUV 411, Y, UV plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_NV12,	/* 12 bit YUV 420, Y, UV plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_NV12_16, /* 16 bit YUV 420, Y, UV plane */
-+	/* 12 bit YUV 420, Intel proprietary tiled format */
-+	IPU6_FW_ISYS_FRAME_FORMAT_NV12_TILEY,
-+
-+	IPU6_FW_ISYS_FRAME_FORMAT_NV16,	/* 16 bit YUV 422, Y, UV plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_NV21,	/* 12 bit YUV 420, Y, VU plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_NV61,	/* 16 bit YUV 422, Y, VU plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YV12,	/* 12 bit YUV 420, Y, V, U plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YV16,	/* 16 bit YUV 422, Y, V, U plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUV420, /* 12 bit YUV 420, Y, U, V plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUV420_10, /* yuv420, 10 bits per subpixel */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUV420_12, /* yuv420, 12 bits per subpixel */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUV420_14, /* yuv420, 14 bits per subpixel */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUV420_16, /* yuv420, 16 bits per subpixel */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUV422, /* 16 bit YUV 422, Y, U, V plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUV422_16, /* yuv422, 16 bits per subpixel */
-+	IPU6_FW_ISYS_FRAME_FORMAT_UYVY,	/* 16 bit YUV 422, UYVY interleaved */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUYV,	/* 16 bit YUV 422, YUYV interleaved */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUV444, /* 24 bit YUV 444, Y, U, V plane */
-+	/* Internal format, 2 y lines followed by a uvinterleaved line */
-+	IPU6_FW_ISYS_FRAME_FORMAT_YUV_LINE,
-+	IPU6_FW_ISYS_FRAME_FORMAT_RAW8,	/* RAW8, 1 plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_RAW10, /* RAW10, 1 plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_RAW12, /* RAW12, 1 plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_RAW14, /* RAW14, 1 plane */
-+	IPU6_FW_ISYS_FRAME_FORMAT_RAW16, /* RAW16, 1 plane */
-+	/**
-+	 * 16 bit RGB, 1 plane. Each 3 sub pixels are packed into one 16 bit
-+	 * value, 5 bits for R, 6 bits for G and 5 bits for B.
-+	 */
-+	IPU6_FW_ISYS_FRAME_FORMAT_RGB565,
-+	IPU6_FW_ISYS_FRAME_FORMAT_PLANAR_RGB888, /* 24 bit RGB, 3 planes */
-+	IPU6_FW_ISYS_FRAME_FORMAT_RGBA888, /* 32 bit RGBA, 1 plane, A=Alpha */
-+	IPU6_FW_ISYS_FRAME_FORMAT_QPLANE6, /* Internal, for advanced ISP */
-+	IPU6_FW_ISYS_FRAME_FORMAT_BINARY_8, /* byte stream, used for jpeg. */
-+	N_IPU6_FW_ISYS_FRAME_FORMAT
-+};
-+
-+#define IPU6_FW_ISYS_FRAME_FORMAT_RAW	(IPU6_FW_ISYS_FRAME_FORMAT_RAW16)
-+
-+enum ipu6_fw_isys_pin_type {
-+	/* captured as MIPI packets */
-+	IPU6_FW_ISYS_PIN_TYPE_MIPI = 0,
-+	/* captured through the SoC path */
-+	IPU6_FW_ISYS_PIN_TYPE_RAW_SOC = 3,
-+};
-+
-+/**
-+ * enum ipu6_fw_isys_mipi_store_mode. Describes if long MIPI packets reach
-+ * MIPI SRAM with the long packet header or
-+ * if not, then only option is to capture it with pin type MIPI.
++/*
++ * ipu6se support 2 front ends, 2 port per front end, 4 ports 0..3
++ * sip0 - 0, 1
++ * sip1 - 2, 3
++ * 0 and 2 support 4 data lanes, 1 and 3 support 2 data lanes
++ * all offset are base from isys base address
 + */
-+enum ipu6_fw_isys_mipi_store_mode {
-+	IPU6_FW_ISYS_MIPI_STORE_MODE_NORMAL = 0,
-+	IPU6_FW_ISYS_MIPI_STORE_MODE_DISCARD_LONG_HEADER,
-+	N_IPU6_FW_ISYS_MIPI_STORE_MODE
-+};
 +
-+enum ipu6_fw_isys_capture_mode {
-+	IPU6_FW_ISYS_CAPTURE_MODE_REGULAR = 0,
-+	IPU6_FW_ISYS_CAPTURE_MODE_BURST,
-+	N_IPU6_FW_ISYS_CAPTURE_MODE,
-+};
++#define CSI2_HUB_GPREG_SIP_SRST(sip)			(0x238038 + (sip) * 4)
++#define CSI2_HUB_GPREG_SIP_FB_PORT_CFG(sip)		(0x238050 + (sip) * 4)
 +
-+enum ipu6_fw_isys_sensor_mode {
-+	IPU6_FW_ISYS_SENSOR_MODE_NORMAL = 0,
-+	IPU6_FW_ISYS_SENSOR_MODE_TOBII,
-+	N_IPU6_FW_ISYS_SENSOR_MODE,
-+};
++#define CSI2_HUB_GPREG_DPHY_TIMER_INCR			0x238040
++#define CSI2_HUB_GPREG_HPLL_FREQ			0x238044
++#define CSI2_HUB_GPREG_IS_CLK_RATIO			0x238048
++#define CSI2_HUB_GPREG_HPLL_FREQ_ISCLK_RATE_OVERRIDE	0x23804c
++#define CSI2_HUB_GPREG_PORT_CLKGATING_DISABLE		0x238058
++#define CSI2_HUB_GPREG_SIP0_CSI_RX_A_CONTROL		0x23805c
++#define CSI2_HUB_GPREG_SIP0_CSI_RX_B_CONTROL		0x238088
++#define CSI2_HUB_GPREG_SIP1_CSI_RX_A_CONTROL		0x2380a4
++#define CSI2_HUB_GPREG_SIP1_CSI_RX_B_CONTROL		0x2380d0
 +
-+enum ipu6_fw_isys_error {
-+	IPU6_FW_ISYS_ERROR_NONE = 0,
-+	IPU6_FW_ISYS_ERROR_FW_INTERNAL_CONSISTENCY,
-+	IPU6_FW_ISYS_ERROR_HW_CONSISTENCY,
-+	IPU6_FW_ISYS_ERROR_DRIVER_INVALID_COMMAND_SEQUENCE,
-+	IPU6_FW_ISYS_ERROR_DRIVER_INVALID_DEVICE_CONFIGURATION,
-+	IPU6_FW_ISYS_ERROR_DRIVER_INVALID_STREAM_CONFIGURATION,
-+	IPU6_FW_ISYS_ERROR_DRIVER_INVALID_FRAME_CONFIGURATION,
-+	IPU6_FW_ISYS_ERROR_INSUFFICIENT_RESOURCES,
-+	IPU6_FW_ISYS_ERROR_HW_REPORTED_STR2MMIO,
-+	IPU6_FW_ISYS_ERROR_HW_REPORTED_SIG2CIO,
-+	IPU6_FW_ISYS_ERROR_SENSOR_FW_SYNC,
-+	IPU6_FW_ISYS_ERROR_STREAM_IN_SUSPENSION,
-+	IPU6_FW_ISYS_ERROR_RESPONSE_QUEUE_FULL,
-+	N_IPU6_FW_ISYS_ERROR
-+};
++#define CSI2_SIP_TOP_CSI_RX_BASE(sip)		(0x23805c + (sip) * 0x48)
++#define CSI2_SIP_TOP_CSI_RX_PORT_BASE_0(port)	(0x23805c + ((port) / 2) * 0x48)
++#define CSI2_SIP_TOP_CSI_RX_PORT_BASE_1(port)	(0x238088 + ((port) / 2) * 0x48)
 +
-+enum ipu6_fw_proxy_error {
-+	IPU6_FW_PROXY_ERROR_NONE = 0,
-+	IPU6_FW_PROXY_ERROR_INVALID_WRITE_REGION,
-+	IPU6_FW_PROXY_ERROR_INVALID_WRITE_OFFSET,
-+	N_IPU6_FW_PROXY_ERROR
-+};
++/* offset from port base */
++#define CSI2_SIP_TOP_CSI_RX_PORT_CONTROL		0x0
++#define CSI2_SIP_TOP_CSI_RX_DLY_CNT_TERMEN_CLANE	0x4
++#define CSI2_SIP_TOP_CSI_RX_DLY_CNT_SETTLE_CLANE	0x8
++#define CSI2_SIP_TOP_CSI_RX_DLY_CNT_TERMEN_DLANE(lane)	(0xc + (lane) * 8)
++#define CSI2_SIP_TOP_CSI_RX_DLY_CNT_SETTLE_DLANE(lane)	(0x10 + (lane) * 8)
 +
-+/* firmware ABI structure below are aligned in firmware, no need pack */
-+struct ipu6_fw_isys_buffer_partition_abi {
-+	u32 num_gda_pages[IPU6_STREAM_ID_MAX];
-+};
-+
-+struct ipu6_fw_isys_fw_config {
-+	struct ipu6_fw_isys_buffer_partition_abi buffer_partition;
-+	u32 num_send_queues[N_IPU6_FW_ISYS_QUEUE_TYPE];
-+	u32 num_recv_queues[N_IPU6_FW_ISYS_QUEUE_TYPE];
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_resolution_abi: Generic resolution structure.
-+ */
-+struct ipu6_fw_isys_resolution_abi {
-+	u32 width;
-+	u32 height;
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_output_pin_payload_abi
-+ * @out_buf_id: Points to output pin buffer - buffer identifier
-+ * @addr: Points to output pin buffer - CSS Virtual Address
-+ * @compress: Request frame compression (1), or  not (0)
-+ */
-+struct ipu6_fw_isys_output_pin_payload_abi {
-+	u64 out_buf_id;
-+	u32 addr;
-+	u32 compress;
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_output_pin_info_abi
-+ * @output_res: output pin resolution
-+ * @stride: output stride in Bytes (not valid for statistics)
-+ * @watermark_in_lines: pin watermark level in lines
-+ * @payload_buf_size: minimum size in Bytes of all buffers that will be
-+ *			supplied for capture on this pin
-+ * @send_irq: assert if pin event should trigger irq
-+ * @pt: pin type -real format "enum ipu6_fw_isys_pin_type"
-+ * @ft: frame format type -real format "enum ipu6_fw_isys_frame_format_type"
-+ * @input_pin_id: related input pin id
-+ * @reserve_compression: reserve compression resources for pin
-+ */
-+struct ipu6_fw_isys_output_pin_info_abi {
-+	struct ipu6_fw_isys_resolution_abi output_res;
-+	u32 stride;
-+	u32 watermark_in_lines;
-+	u32 payload_buf_size;
-+	u32 ts_offsets[IPU6_PIN_PLANES_MAX];
-+	u32 s2m_pixel_soc_pixel_remapping;
-+	u32 csi_be_soc_pixel_remapping;
-+	u8 send_irq;
-+	u8 input_pin_id;
-+	u8 pt;
-+	u8 ft;
-+	u8 reserved;
-+	u8 reserve_compression;
-+	u8 snoopable;
-+	u8 error_handling_enable;
-+	u32 sensor_type;
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_input_pin_info_abi
-+ * @input_res: input resolution
-+ * @dt: mipi data type ((enum ipu6_fw_isys_mipi_data_type)
-+ * @mipi_store_mode: defines if legacy long packet header will be stored or
-+ *		     discarded if discarded, output pin type for this
-+ *		     input pin can only be MIPI
-+ *		     (enum ipu6_fw_isys_mipi_store_mode)
-+ * @bits_per_pix: native bits per pixel
-+ * @mapped_dt: actual data type from sensor
-+ * @mipi_decompression: defines which compression will be in mipi backend
-+ * @crop_first_and_last_lines    Control whether to crop the
-+ *                              first and last line of the
-+ *                              input image. Crop done by HW
-+ *                              device.
-+ * @capture_mode: mode of capture, regular or burst, default value is regular
-+ */
-+struct ipu6_fw_isys_input_pin_info_abi {
-+	struct ipu6_fw_isys_resolution_abi input_res;
-+	u8 dt;
-+	u8 mipi_store_mode;
-+	u8 bits_per_pix;
-+	u8 mapped_dt;
-+	u8 mipi_decompression;
-+	u8 crop_first_and_last_lines;
-+	u8 capture_mode;
-+	u8 reserved;
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_cropping_abi - cropping coordinates
-+ */
-+struct ipu6_fw_isys_cropping_abi {
-+	s32 top_offset;
-+	s32 left_offset;
-+	s32 bottom_offset;
-+	s32 right_offset;
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_stream_cfg_data_abi
-+ * ISYS stream configuration data structure
-+ * @crop: for extended use and is not used in FW currently
-+ * @input_pins: input pin descriptors
-+ * @output_pins: output pin descriptors
-+ * @compfmt: de-compression setting for User Defined Data
-+ * @nof_input_pins: number of input pins
-+ * @nof_output_pins: number of output pins
-+ * @send_irq_sof_discarded: send irq on discarded frame sof response
-+ *		- if '1' it will override the send_resp_sof_discarded
-+ *		  and send the response
-+ *		- if '0' the send_resp_sof_discarded will determine
-+ *		  whether to send the response
-+ * @send_irq_eof_discarded: send irq on discarded frame eof response
-+ *		- if '1' it will override the send_resp_eof_discarded
-+ *		  and send the response
-+ *		- if '0' the send_resp_eof_discarded will determine
-+ *		  whether to send the response
-+ * @send_resp_sof_discarded: send response for discarded frame sof detected,
-+ *			     used only when send_irq_sof_discarded is '0'
-+ * @send_resp_eof_discarded: send response for discarded frame eof detected,
-+ *			     used only when send_irq_eof_discarded is '0'
-+ * @src: Stream source index e.g. MIPI_generator_0, CSI2-rx_1
-+ * @vc: MIPI Virtual Channel (up to 4 virtual per physical channel)
-+ * @isl_use: indicates whether stream requires ISL and how
-+ * @sensor_type: type of connected sensor, tobii or others, default is 0
-+ */
-+struct ipu6_fw_isys_stream_cfg_data_abi {
-+	struct ipu6_fw_isys_cropping_abi crop;
-+	struct ipu6_fw_isys_input_pin_info_abi input_pins[IPU6_MAX_IPINS];
-+	struct ipu6_fw_isys_output_pin_info_abi output_pins[IPU6_MAX_OPINS];
-+	u32 compfmt;
-+	u8 nof_input_pins;
-+	u8 nof_output_pins;
-+	u8 send_irq_sof_discarded;
-+	u8 send_irq_eof_discarded;
-+	u8 send_resp_sof_discarded;
-+	u8 send_resp_eof_discarded;
-+	u8 src;
-+	u8 vc;
-+	u8 isl_use;
-+	u8 sensor_type;
-+	u8 reserved;
-+	u8 reserved2;
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_frame_buff_set - frame buffer set
-+ * @output_pins: output pin addresses
-+ * @send_irq_sof: send irq on frame sof response
-+ *		- if '1' it will override the send_resp_sof and
-+ *		  send the response
-+ *		- if '0' the send_resp_sof will determine whether to
-+ *		  send the response
-+ * @send_irq_eof: send irq on frame eof response
-+ *		- if '1' it will override the send_resp_eof and
-+ *		  send the response
-+ *		- if '0' the send_resp_eof will determine whether to
-+ *		  send the response
-+ * @send_resp_sof: send response for frame sof detected,
-+ *		   used only when send_irq_sof is '0'
-+ * @send_resp_eof: send response for frame eof detected,
-+ *		   used only when send_irq_eof is '0'
-+ * @send_resp_capture_ack: send response for capture ack event
-+ * @send_resp_capture_done: send response for capture done event
-+ */
-+struct ipu6_fw_isys_frame_buff_set_abi {
-+	struct ipu6_fw_isys_output_pin_payload_abi output_pins[IPU6_MAX_OPINS];
-+	u8 send_irq_sof;
-+	u8 send_irq_eof;
-+	u8 send_irq_capture_ack;
-+	u8 send_irq_capture_done;
-+	u8 send_resp_sof;
-+	u8 send_resp_eof;
-+	u8 send_resp_capture_ack;
-+	u8 send_resp_capture_done;
-+	u8 reserved[8];
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_error_info_abi
-+ * @error: error code if something went wrong
-+ * @error_details: depending on error code, it may contain additional error info
-+ */
-+struct ipu6_fw_isys_error_info_abi {
-+	u32 error;
-+	u32 error_details;
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_resp_info_comm
-+ * @pin: this var is only valid for pin event related responses,
-+ *     contains pin addresses
-+ * @error_info: error information from the FW
-+ * @timestamp: Time information for event if available
-+ * @stream_handle: stream id the response corresponds to
-+ * @type: response type (enum ipu6_fw_isys_resp_type)
-+ * @pin_id: pin id that the pin payload corresponds to
-+ */
-+struct ipu6_fw_isys_resp_info_abi {
-+	u64 buf_id;
-+	struct ipu6_fw_isys_output_pin_payload_abi pin;
-+	struct ipu6_fw_isys_error_info_abi error_info;
-+	u32 timestamp[2];
-+	u8 stream_handle;
-+	u8 type;
-+	u8 pin_id;
-+	u8 reserved;
-+	u32 reserved2;
-+};
-+
-+/**
-+ * struct ipu6_fw_isys_proxy_error_info_comm
-+ * @proxy_error: error code if something went wrong
-+ * @proxy_error_details: depending on error code, it may contain additional
-+ *			error info
-+ */
-+struct ipu6_fw_isys_proxy_error_info_abi {
-+	u32 error;
-+	u32 error_details;
-+};
-+
-+struct ipu6_fw_isys_proxy_resp_info_abi {
-+	u32 request_id;
-+	struct ipu6_fw_isys_proxy_error_info_abi error_info;
-+};
-+
-+/**
-+ * struct ipu6_fw_proxy_write_queue_token
-+ * @request_id: update id for the specific proxy write request
-+ * @region_index: Region id for the proxy write request
-+ * @offset: Offset of the write request according to the base address
-+ *	    of the region
-+ * @value: Value that is requested to be written with the proxy write request
-+ */
-+struct ipu6_fw_proxy_write_queue_token {
-+	u32 request_id;
-+	u32 region_index;
-+	u32 offset;
-+	u32 value;
-+};
-+
-+/**
-+ * struct ipu6_fw_resp_queue_token
-+ */
-+struct ipu6_fw_resp_queue_token {
-+	struct ipu6_fw_isys_resp_info_abi resp_info;
-+};
-+
-+/**
-+ * struct ipu6_fw_send_queue_token
-+ */
-+struct ipu6_fw_send_queue_token {
-+	u64 buf_handle;
-+	u32 payload;
-+	u16 send_type;
-+	u16 stream_id;
-+};
-+
-+/**
-+ * struct ipu6_fw_proxy_resp_queue_token
-+ */
-+struct ipu6_fw_proxy_resp_queue_token {
-+	struct ipu6_fw_isys_proxy_resp_info_abi proxy_resp_info;
-+};
-+
-+/**
-+ * struct ipu6_fw_proxy_send_queue_token
-+ */
-+struct ipu6_fw_proxy_send_queue_token {
-+	u32 request_id;
-+	u32 region_index;
-+	u32 offset;
-+	u32 value;
-+};
-+
-+u8 ipu6_fw_isys_get_bpp_by_dt(u8 dt);
-+void ipu6_fw_isys_dump_stream_cfg(struct device *dev,
-+				  struct ipu6_fw_isys_stream_cfg_data_abi
-+				  *stream_cfg);
-+void
-+ipu6_fw_isys_dump_frame_buff_set(struct device *dev,
-+				 struct ipu6_fw_isys_frame_buff_set_abi *buf,
-+				 unsigned int outputs);
-+int ipu6_fw_isys_init(struct ipu6_isys *isys, unsigned int num_streams);
-+int ipu6_fw_isys_close(struct ipu6_isys *isys);
-+int ipu6_fw_isys_simple_cmd(struct ipu6_isys *isys,
-+			    const unsigned int stream_handle, u16 send_type);
-+int ipu6_fw_isys_complex_cmd(struct ipu6_isys *isys,
-+			     const unsigned int stream_handle,
-+			     void *cpu_mapped_buf, dma_addr_t dma_mapped_buf,
-+			     size_t size, u16 send_type);
-+int ipu6_fw_isys_send_proxy_token(struct ipu6_isys *isys,
-+				  unsigned int req_id,
-+				  unsigned int index,
-+				  unsigned int offset, u32 value);
-+void ipu6_fw_isys_cleanup(struct ipu6_isys *isys);
-+struct ipu6_fw_isys_resp_info_abi *
-+ipu6_fw_isys_get_resp(void *context, unsigned int queue);
-+void ipu6_fw_isys_put_resp(void *context, unsigned int queue);
-+#endif
++#endif /* IPU6_ISYS_CSI2_REG_H */
 -- 
 2.40.1
 
