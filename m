@@ -2,63 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 394957653C8
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 14:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B327F7653D6
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 14:28:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234149AbjG0M0K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 08:26:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58752 "EHLO
+        id S232881AbjG0M23 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 08:28:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbjG0MZv (ORCPT
+        with ESMTP id S234294AbjG0M14 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 08:25:51 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7317130EA
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 05:24:57 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b9ba3d6157so13035981fa.3
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 05:24:57 -0700 (PDT)
+        Thu, 27 Jul 2023 08:27:56 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A0B94219
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 05:27:14 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4f4b2bc1565so1555448e87.2
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 05:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690460684; x=1691065484;
+        d=linaro.org; s=google; t=1690460831; x=1691065631;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=dM1dkUrxTZP0LCfoLzwjbnmeZ73oqlRwBBWQaUJPc/4=;
-        b=ZT0q62/Ws05TLE5nzjdkbyA3dQxNWG4eLH/vbeMz+hJTEBdzqb6uC7sYtdmIIMKDbV
-         a+DeEPndOlLMd1xm+7W+OdIUK+JK0+GMmvgZFZMiPk/mJm8KP71zOfCLMAL4tg8BWyL9
-         J3Q9t2zoLWH9Vp4X5W4k83zmqbD/RiyDyVqM5R8yyy83jY30IByXpcSjWBKgnVJXVf5f
-         lWhFNfAyWe0sB+EPTAvXVRPl25pgGdrV72B+zqueSR9EBxf6dkjEQIwMDLGKumVWU7ZH
-         jg39w/Pk+oAechsDOZeE4pNGAeI7guzrqfp2z/NHdQIyslq+3N69KPgnTpmzPbZ59sBM
-         M3Eg==
+        bh=DbBc/Xp5vDhN57+nyWdnfZit+Hhf7+7jO6GicfM9MZY=;
+        b=SKk5HURndFjmfQs/6/dI4mSdYP1Ma7B9aBTIJFoRTdIBlRIMcmuDR5FNLHh5k+HNkk
+         PjvB2BConz/Mr/IDFLR/wHDEioT9km4Gbh/B+VVp1M6kNhqChbihwJ0QsDAwOOppOJp0
+         2xB3jqxayJbYjNxxFP3/ZeToVAPfXJzjWL5fLres+d1jdf7wgHjwpBNk1mCiOS4fzKy3
+         72qqCwLbHmLcX+4Nn0W4CsvUd4sZ8SiGEYMN3mNSyoAYPYtrA23FYcIRd0Ogcog9Xfh0
+         uKl1yK/gjLnSlj/8FD3WFQii3iC0/JDipq4d1rN5E6Auc/x7kttZbQxCfzR/DDPsS7pZ
+         /6Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690460684; x=1691065484;
+        d=1e100.net; s=20221208; t=1690460831; x=1691065631;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dM1dkUrxTZP0LCfoLzwjbnmeZ73oqlRwBBWQaUJPc/4=;
-        b=f1GL8wNQ6hfVtCdKnWWcgXwGTACMbJ1lQGRPxKvJVu3zru8s8szGpBU8UvtRS+vRWP
-         KHmNuDAx9hxhGNdxptQQ94LFN4Pnt0piMfPg3PgJhOsyq1wmgeo36N3B295Lf9ZcCSBr
-         PfuR/UWuXAVQGAMJTsvh0SrNEWK4hI8OiecRncGdTJ7TiUcdDqPHqpLW3UNJF9/09r+Y
-         fcgVAIdjT8I8m6ukz9BER3OBxjtbrtT7kPetZPgYtgRILxXMaEE5FYIeu9x7IDTyaMP8
-         h+WgsnlBUJtu3fJ38dlJhICayNZBCOBE5feTO+Yo9bTWaQgds7n61AxjMS+9gzExcosC
-         VcDg==
-X-Gm-Message-State: ABy/qLbVcrJAz8Rz46vu5cpy48WuQG1wF7NlSVEVTW0Rn7ohIaUq1N48
-        txcIABmnM7wdID2qI9je8kkWXg==
-X-Google-Smtp-Source: APBJJlGh70K+MIn7fYVMGvP4ZpEm8iCKX+iWp15lCHVIMc9Gx4e1SlOUav0TkN6/elkL3YftSZJFhg==
-X-Received: by 2002:a2e:91c2:0:b0:2b9:4b2e:5420 with SMTP id u2-20020a2e91c2000000b002b94b2e5420mr1602856ljg.52.1690460684271;
-        Thu, 27 Jul 2023 05:24:44 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id o21-20020a17090637d500b009937e7c4e54sm710367ejc.39.2023.07.27.05.24.42
+        bh=DbBc/Xp5vDhN57+nyWdnfZit+Hhf7+7jO6GicfM9MZY=;
+        b=jN21guAtyNsRs0E9BUYoqttVwm1JOTNHeA9jkcy2IeebWFkVXBWj0CEqrOZ+e295zD
+         fnaRTh0Eb5+l632HRJAMo35+NxwMAXSzQb3WRGXLSM5EWUMkofXHNGiNquieDTHaZrXi
+         I5CwGsX2JueDIkFBPLkpHmDBTCT06IOjB8BQ3klP1K9lcmZdJD2E2glgxxwWWp+qt76n
+         H+kb0RJRp52OiSSjQezJtT3iasuZoe0c2KXqRhzg0Bd2p79abKrU89+3gPCyg8wG4PCH
+         3+c7H3L7wS6Vu+/PS6XywDAJPhQWmj/r5L24d2i8oNWbwVlDveFOHhGcF4ZGrnBNI1/z
+         cadQ==
+X-Gm-Message-State: ABy/qLbdTQlwBsXvDms4zsD6fbASIU251lonqrvjCCZRnLGy599N8hin
+        pY5pU+9YRVyVCnDTE4F5s8/HEA==
+X-Google-Smtp-Source: APBJJlHSr8IB03GxRhMBlFdFfdlZPoqNJpO9iIuq9aU4JtzQR+GUoz8bwVuMY1X2x4tOPFXaa5Gerw==
+X-Received: by 2002:a05:6512:1591:b0:4f8:58ae:8ea8 with SMTP id bp17-20020a056512159100b004f858ae8ea8mr1930432lfb.58.1690460831464;
+        Thu, 27 Jul 2023 05:27:11 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id s25-20020a056402165900b0051d9dbf5edfsm594934edx.55.2023.07.27.05.27.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 05:24:43 -0700 (PDT)
-Message-ID: <c246ab77-0dcd-e6a1-bbec-0924c0923a75@linaro.org>
-Date:   Thu, 27 Jul 2023 15:24:41 +0300
+        Thu, 27 Jul 2023 05:27:10 -0700 (PDT)
+Message-ID: <e9a4e015-7e25-92be-9a7a-8e5dcf3848fa@linaro.org>
+Date:   Thu, 27 Jul 2023 14:27:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [PATCH v2] dt-bindings: qcom: Update RPMHPD entries for some SoCs
-Content-Language: en-GB
+Content-Language: en-US
 To:     Rohit Agarwal <quic_rohiagar@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Rob Herring <robh@kernel.org>
 Cc:     mathieu.poirier@linaro.org, mchehab@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, quic_vgarodia@quicinc.com,
@@ -69,23 +68,23 @@ Cc:     mathieu.poirier@linaro.org, mchehab@kernel.org,
         linux-mmc@vger.kernel.org, quic_tdas@quicinc.com,
         stanimir.k.varbanov@gmail.com, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org, andersson@kernel.org,
-        mturquette@baylibre.com, linux-remoteproc@vger.kernel.org,
-        sean@poorly.run, ulf.hansson@linaro.org,
-        devicetree@vger.kernel.org, vladimir.zapolskiy@linaro.org,
-        rfoss@kernel.org, mani@kernel.org, linux-media@vger.kernel.org,
-        sboyd@kernel.org, quic_abhinavk@quicinc.com,
-        bhupesh.sharma@linaro.org, linux-arm-msm@vger.kernel.org,
-        marijn.suijten@somainline.org, neil.armstrong@linaro.org,
-        robdclark@gmail.com
+        mturquette@baylibre.com, dmitry.baryshkov@linaro.org,
+        linux-remoteproc@vger.kernel.org, sean@poorly.run,
+        ulf.hansson@linaro.org, devicetree@vger.kernel.org,
+        vladimir.zapolskiy@linaro.org, rfoss@kernel.org, mani@kernel.org,
+        linux-media@vger.kernel.org, sboyd@kernel.org,
+        quic_abhinavk@quicinc.com, bhupesh.sharma@linaro.org,
+        linux-arm-msm@vger.kernel.org, marijn.suijten@somainline.org,
+        neil.armstrong@linaro.org, robdclark@gmail.com
 References: <1690448953-23425-1-git-send-email-quic_rohiagar@quicinc.com>
  <169045659774.1058731.6391693092002547810.robh@kernel.org>
  <fa84ec4f-bdb9-dace-c56a-46174a9b47ee@quicinc.com>
  <2edb92b8-a6a8-c115-757c-daccef6be5f0@linaro.org>
  <432ab1d3-0f9e-4072-ff4d-6362886584b8@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 In-Reply-To: <432ab1d3-0f9e-4072-ff4d-6362886584b8@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
@@ -96,115 +95,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/07/2023 15:21, Rohit Agarwal wrote:
-> 
-> On 7/27/2023 5:15 PM, Krzysztof Kozlowski wrote:
->> On 27/07/2023 13:19, Rohit Agarwal wrote:
->>> On 7/27/2023 4:46 PM, Rob Herring wrote:
->>>> On Thu, 27 Jul 2023 14:39:13 +0530, Rohit Agarwal wrote:
->>>>> Update the RPMHPD references with new bindings defined in rpmhpd.h
->>>>> for Qualcomm SoCs SM8[2345]50.
->>>>>
->>>>> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
->>>>> ---
->>>>>    
->>>>> Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml   | 
->>>>> 4 ++--
->>>>>    
->>>>> Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml  | 
->>>>> 4 ++--
->>>>>    
->>>>> Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml    | 
->>>>> 4 ++--
->>>>>    
->>>>> Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml   | 
->>>>> 4 ++--
->>>>>    
->>>>> Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml  | 
->>>>> 4 ++--
->>>>>    
->>>>> Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml   | 
->>>>> 4 ++--
->>>>>    
->>>>> Documentation/devicetree/bindings/clock/qcom,videocc.yaml         | 
->>>>> 4 ++--
->>>>>    
->>>>> .../devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml          | 
->>>>> 4 ++--
->>>>>    
->>>>> .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml         | 
->>>>> 8 ++++----
->>>>>    
->>>>> .../devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml          | 
->>>>> 4 ++--
->>>>>    
->>>>> .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml         | 
->>>>> 6 +++---
->>>>>    
->>>>> .../devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml          | 
->>>>> 4 ++--
->>>>>    
->>>>> .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml         | 
->>>>> 8 ++++----
->>>>>    
->>>>> .../devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml          | 
->>>>> 4 ++--
->>>>>    
->>>>> .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml         | 
->>>>> 8 ++++----
->>>>>    
->>>>> Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml    | 
->>>>> 4 ++--
->>>>>    
->>>>> Documentation/devicetree/bindings/mmc/sdhci-msm.yaml              | 
->>>>> 4 ++--
->>>>>    
->>>>> Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml | 
->>>>> 6 +++---
->>>>>    18 files changed, 44 insertions(+), 44 deletions(-)
->>>>>
->>>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
->>>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->>>>
->>>> yamllint warnings/errors:
->>>>
->>>> dtschema/dtc warnings/errors:
->>>> Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dts:21:18: fatal error: dt-bindings/power/qcom,rpmhpd.h: No such file or directory
->>>>      21 |         #include <dt-bindings/power/qcom,rpmhpd.h>
->>>>         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>> compilation terminated.
->>>> make[2]: *** [scripts/Makefile.lib:419: 
->>>> Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dtb] Error 1
->>>> make[2]: *** Waiting for unfinished jobs....
->>>> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1500: 
->>>> dt_binding_check] Error 2
->>>> make: *** [Makefile:234: __sub-make] Error 2
->>>>
->>>> doc reference errors (make refcheckdocs):
->>>>
->>>> See 
->>>> https://patchwork.ozlabs.org/project/devicetree-bindings/patch/1690448953-23425-1-git-send-email-quic_rohiagar@quicinc.com
->>>>
->>>> The base for the series is generally the latest rc1. A different 
->>>> dependency
->>>> should be noted in *this* patch.
->>>>
->>>> If you already ran 'make dt_binding_check' and didn't see the above
->>>> error(s), then make sure 'yamllint' is installed and dt-schema is up to
->>>> date:
->>>>
->>>> pip3 install dtschema --upgrade
->>>>
->>>> Please check and re-submit after running the above command yourself. 
->>>> Note
->>>> that DT_SCHEMA_FILES can be set to your schema file to speed up 
->>>> checking
->>>> your schema. However, it must be unset to test all examples with 
->>>> your schema.
->>> This should be ignored as the patch that creates the new header is
->>> already applied.
->>> Please follow this series
->>>
+On 27/07/2023 14:21, Rohit Agarwal wrote:
 >>> https://lore.kernel.org/all/1689744162-9421-1-git-send-email-quic_rohiagar@quicinc.com/
 >> Please mention the dependency in patch changelog ---, so it is obvious
 >> for people applying it and also for the bot.
@@ -212,19 +103,8 @@ On 27/07/2023 15:21, Rohit Agarwal wrote:
 > and will
 > keep the version as v2 since there no change at all in the patch.
 
-What would be the merge strategy? Even if you split it per subsystem, I 
-probably can not pick up display parts. Is there an immutable branch 
-with the new header? Otherwise I can either ack Bjorn picking up this 
-patch or it will have to wait for the next cycle.
+There is no need for cover letter for one patch.
 
-> 
-> Thanks,
-> Rohit.
->> Best regards,
->> Krzysztof
->>
-
--- 
-With best wishes
-Dmitry
+Best regards,
+Krzysztof
 
