@@ -2,64 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47D1C764C72
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 10:22:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6539F764D84
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 10:36:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234190AbjG0IWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 04:22:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55566 "EHLO
+        id S234386AbjG0IgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 04:36:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234063AbjG0ISV (ORCPT
+        with ESMTP id S234335AbjG0Ifs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 04:18:21 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D1965BE
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:10:50 -0700 (PDT)
+        Thu, 27 Jul 2023 04:35:48 -0400
+Received: from mgamail.intel.com (unknown [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 911501BC1
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690445450; x=1721981450;
+  t=1690445955; x=1721981955;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zrfAmZ4o52ulOEe2NdPrWdHquCo9OaUriPnqqYF+iO0=;
-  b=GcEs5c6CItLCraUbhbVdUjvY+fdwtor5Qb6GI9dvoiUSHFoVnuLqyDEJ
-   dfJo1YwrG5sGKOggM5NeVIYiYnqsnmdRV1wtgsLgjkgT79grginzw6hIs
-   mYhYl/JxOy+3m52gRajgYfH13Xoq/V75g6NuQdYaxmi7nE6fHD/jHZwbj
-   zUyxkM2aFzvL9Qtpzqt+9dksVzP+XoSX6gF67ayWTFxAvU8SgOrd5QAfq
-   rwNViL9+aJhCBERAG7NKEtiTr3zT9jmF5k7ath2HzP4HFYq9oFeOL30II
-   7zUxgwW6xtxwpTiAYaikfcV7DMgLSUTsVuNxzk5Kkx9g735ERIXuR4GG/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="399182049"
+  bh=N6D3Z7WGditHoLQws1W+RFXG+wdqFs5MhCVLjURj05s=;
+  b=PFWnh8XiBHiQkHPjP7+xYULFQNhxbjmXkXdHB2b+LdDPCSzn2LUqUCU/
+   19VcFtC9SXVE0ttfQb3Z2ci9cz7FHF4zmbHbXs7WW3pgWo1tW+lxGaZ1Z
+   mGB1Ulhu8PH4RiA6X52SIBkJbagUlaBabM15f/ZVvzpoDJridSVfrz2oz
+   o0P99CtyUrq/IFyY1TwsZvc5ZrtmtqgYYvcBYZg45WL3mMYDqnbnT1+X/
+   JiOkuUiW68G6pqIJHd4sm7k4gkZSFv4T5DpblFYulgF3Rfoiiboz/0Bgm
+   vLrt5xYeOKnhO7f+GmdL9XXScPBfV5z9c8NKnsFL7x2UGR8c2d9bcVb6h
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="432040537"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="399182049"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 01:10:36 -0700
+   d="scan'208";a="432040537"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 01:18:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="850768991"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="762091750"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="850768991"
+   d="scan'208";a="762091750"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 27 Jul 2023 01:10:33 -0700
+  by orsmga001.jf.intel.com with ESMTP; 27 Jul 2023 01:18:48 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qOw4O-00024h-0b;
-        Thu, 27 Jul 2023 08:10:09 +0000
-Date:   Thu, 27 Jul 2023 16:05:49 +0800
+        id 1qOwB0-000255-2K;
+        Thu, 27 Jul 2023 08:18:11 +0000
+Date:   Thu, 27 Jul 2023 16:16:10 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
         linux-media@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [sailus-media-tree:master 9/20] drivers/media/i2c/ov5693.c:1280:19:
- error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202307271519.XIXA0WQd-lkp@intel.com>
+Subject: [sailus-media-tree:master 10/20] drivers/media/i2c/imx290.c:1526:17:
+ warning: incompatible integer to pointer conversion assigning to 'struct
+ regmap *' from 'int'
+Message-ID: <202307271639.6vSx9BOA-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -68,147 +68,135 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 tree:   git://linuxtv.org/sailus/media_tree.git master
 head:   215e4463b11d94668b841368cb6882f3a2968148
-commit: 6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c [9/20] media: ov5693: Convert to new CCI register access helpers
-config: mips-randconfig-r013-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271519.XIXA0WQd-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271519.XIXA0WQd-lkp@intel.com/reproduce)
+commit: 51b1f81e3b15a4cf6c5c1bfd6bb14ff8bc9951fb [10/20] media: imx290: Convert to new CCI register access helpers
+config: arm-randconfig-r012-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271639.6vSx9BOA-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271639.6vSx9BOA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271519.XIXA0WQd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271639.6vSx9BOA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/i2c/ov5693.c:1280:19: error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1280 |         ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-         |                          ^
->> drivers/media/i2c/ov5693.c:1280:17: error: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
-    1280 |         ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-         |                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   drivers/media/i2c/imx290.c:1526:19: error: implicit declaration of function 'devm_cci_regmap_init_i2c' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
+                            ^
+   drivers/media/i2c/imx290.c:1526:19: note: did you mean '__devm_regmap_init_i2c'?
+   include/linux/regmap.h:660:16: note: '__devm_regmap_init_i2c' declared here
+   struct regmap *__devm_regmap_init_i2c(struct i2c_client *i2c,
+                  ^
+>> drivers/media/i2c/imx290.c:1526:17: warning: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
+           imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
+                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +/devm_cci_regmap_init_i2c +1280 drivers/media/i2c/ov5693.c
+vim +1526 drivers/media/i2c/imx290.c
 
-  1267	
-  1268	static int ov5693_probe(struct i2c_client *client)
-  1269	{
-  1270		struct ov5693_device *ov5693;
-  1271		u32 xvclk_rate;
-  1272		int ret = 0;
-  1273	
-  1274		ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
-  1275		if (!ov5693)
-  1276			return -ENOMEM;
-  1277	
-  1278		ov5693->dev = &client->dev;
-  1279	
-> 1280		ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-  1281		if (IS_ERR(ov5693->regmap))
-  1282			return PTR_ERR(ov5693->regmap);
-  1283	
-  1284		ret = ov5693_check_hwcfg(ov5693);
-  1285		if (ret)
-  1286			return ret;
-  1287	
-  1288		mutex_init(&ov5693->lock);
-  1289	
-  1290		v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
-  1291	
-  1292		ov5693->xvclk = devm_clk_get_optional(&client->dev, "xvclk");
-  1293		if (IS_ERR(ov5693->xvclk))
-  1294			return dev_err_probe(&client->dev, PTR_ERR(ov5693->xvclk),
-  1295					     "failed to get xvclk: %ld\n",
-  1296					     PTR_ERR(ov5693->xvclk));
-  1297	
-  1298		if (ov5693->xvclk) {
-  1299			xvclk_rate = clk_get_rate(ov5693->xvclk);
-  1300		} else {
-  1301			ret = fwnode_property_read_u32(dev_fwnode(&client->dev),
-  1302					     "clock-frequency",
-  1303					     &xvclk_rate);
-  1304	
-  1305			if (ret) {
-  1306				dev_err(&client->dev, "can't get clock frequency");
-  1307				return ret;
-  1308			}
-  1309		}
-  1310	
-  1311		if (xvclk_rate != OV5693_XVCLK_FREQ)
-  1312			dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
-  1313				 xvclk_rate, OV5693_XVCLK_FREQ);
-  1314	
-  1315		ret = ov5693_configure_gpios(ov5693);
-  1316		if (ret)
-  1317			return ret;
-  1318	
-  1319		ret = ov5693_get_regulators(ov5693);
-  1320		if (ret)
-  1321			return dev_err_probe(&client->dev, ret,
-  1322					     "Error fetching regulators\n");
-  1323	
-  1324		ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-  1325		ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
-  1326		ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-  1327	
-  1328		ov5693->mode.crop = ov5693_default_crop;
-  1329		ov5693->mode.format = ov5693_default_fmt;
-  1330		ov5693->mode.vts = __ov5693_calc_vts(ov5693->mode.format.height);
-  1331	
-  1332		ret = ov5693_init_controls(ov5693);
-  1333		if (ret)
-  1334			return ret;
-  1335	
-  1336		ret = media_entity_pads_init(&ov5693->sd.entity, 1, &ov5693->pad);
-  1337		if (ret)
-  1338			goto err_ctrl_handler_free;
-  1339	
-  1340		/*
-  1341		 * We need the driver to work in the event that pm runtime is disable in
-  1342		 * the kernel, so power up and verify the chip now. In the event that
-  1343		 * runtime pm is disabled this will leave the chip on, so that streaming
-  1344		 * will work.
-  1345		 */
-  1346	
-  1347		ret = ov5693_sensor_powerup(ov5693);
-  1348		if (ret)
-  1349			goto err_media_entity_cleanup;
-  1350	
-  1351		ret = ov5693_detect(ov5693);
-  1352		if (ret)
-  1353			goto err_powerdown;
-  1354	
-  1355		pm_runtime_set_active(&client->dev);
-  1356		pm_runtime_get_noresume(&client->dev);
-  1357		pm_runtime_enable(&client->dev);
-  1358	
-  1359		ret = v4l2_async_register_subdev_sensor(&ov5693->sd);
-  1360		if (ret) {
-  1361			dev_err(&client->dev, "failed to register V4L2 subdev: %d",
-  1362				ret);
-  1363			goto err_pm_runtime;
-  1364		}
-  1365	
-  1366		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-  1367		pm_runtime_use_autosuspend(&client->dev);
-  1368		pm_runtime_put_autosuspend(&client->dev);
-  1369	
-  1370		return ret;
-  1371	
-  1372	err_pm_runtime:
-  1373		pm_runtime_disable(&client->dev);
-  1374		pm_runtime_put_noidle(&client->dev);
-  1375	err_powerdown:
-  1376		ov5693_sensor_powerdown(ov5693);
-  1377	err_media_entity_cleanup:
-  1378		media_entity_cleanup(&ov5693->sd.entity);
-  1379	err_ctrl_handler_free:
-  1380		v4l2_ctrl_handler_free(&ov5693->ctrls.handler);
-  1381	
-  1382		return ret;
-  1383	}
-  1384	
+  1514	
+  1515	static int imx290_probe(struct i2c_client *client)
+  1516	{
+  1517		struct device *dev = &client->dev;
+  1518		struct imx290 *imx290;
+  1519		int ret;
+  1520	
+  1521		imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
+  1522		if (!imx290)
+  1523			return -ENOMEM;
+  1524	
+  1525		imx290->dev = dev;
+> 1526		imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
+  1527		if (IS_ERR(imx290->regmap)) {
+  1528			dev_err(dev, "Unable to initialize I2C\n");
+  1529			return -ENODEV;
+  1530		}
+  1531	
+  1532		ret = imx290_parse_dt(imx290);
+  1533		if (ret)
+  1534			return ret;
+  1535	
+  1536		/* Acquire resources. */
+  1537		imx290->xclk = devm_clk_get(dev, "xclk");
+  1538		if (IS_ERR(imx290->xclk))
+  1539			return dev_err_probe(dev, PTR_ERR(imx290->xclk),
+  1540					     "Could not get xclk\n");
+  1541	
+  1542		ret = imx290_get_regulators(dev, imx290);
+  1543		if (ret < 0)
+  1544			return dev_err_probe(dev, ret, "Cannot get regulators\n");
+  1545	
+  1546		imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
+  1547							   GPIOD_OUT_HIGH);
+  1548		if (IS_ERR(imx290->rst_gpio))
+  1549			return dev_err_probe(dev, PTR_ERR(imx290->rst_gpio),
+  1550					     "Cannot get reset gpio\n");
+  1551	
+  1552		/* Initialize external clock frequency. */
+  1553		ret = imx290_init_clk(imx290);
+  1554		if (ret)
+  1555			return ret;
+  1556	
+  1557		/*
+  1558		 * Enable power management. The driver supports runtime PM, but needs to
+  1559		 * work when runtime PM is disabled in the kernel. To that end, power
+  1560		 * the sensor on manually here.
+  1561		 */
+  1562		ret = imx290_power_on(imx290);
+  1563		if (ret < 0) {
+  1564			dev_err(dev, "Could not power on the device\n");
+  1565			return ret;
+  1566		}
+  1567	
+  1568		/*
+  1569		 * Enable runtime PM with autosuspend. As the device has been powered
+  1570		 * manually, mark it as active, and increase the usage count without
+  1571		 * resuming the device.
+  1572		 */
+  1573		pm_runtime_set_active(dev);
+  1574		pm_runtime_get_noresume(dev);
+  1575		pm_runtime_enable(dev);
+  1576		pm_runtime_set_autosuspend_delay(dev, 1000);
+  1577		pm_runtime_use_autosuspend(dev);
+  1578	
+  1579		/* Initialize the V4L2 subdev. */
+  1580		ret = imx290_subdev_init(imx290);
+  1581		if (ret)
+  1582			goto err_pm;
+  1583	
+  1584		v4l2_i2c_subdev_set_name(&imx290->sd, client,
+  1585					 imx290->model->name, NULL);
+  1586	
+  1587		/*
+  1588		 * Finally, register the V4L2 subdev. This must be done after
+  1589		 * initializing everything as the subdev can be used immediately after
+  1590		 * being registered.
+  1591		 */
+  1592		ret = v4l2_async_register_subdev(&imx290->sd);
+  1593		if (ret < 0) {
+  1594			dev_err(dev, "Could not register v4l2 device\n");
+  1595			goto err_subdev;
+  1596		}
+  1597	
+  1598		/*
+  1599		 * Decrease the PM usage count. The device will get suspended after the
+  1600		 * autosuspend delay, turning the power off.
+  1601		 */
+  1602		pm_runtime_mark_last_busy(dev);
+  1603		pm_runtime_put_autosuspend(dev);
+  1604	
+  1605		return 0;
+  1606	
+  1607	err_subdev:
+  1608		imx290_subdev_cleanup(imx290);
+  1609	err_pm:
+  1610		pm_runtime_disable(dev);
+  1611		pm_runtime_put_noidle(dev);
+  1612		imx290_power_off(imx290);
+  1613		return ret;
+  1614	}
+  1615	
 
 -- 
 0-DAY CI Kernel Test Service
