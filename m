@@ -2,65 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADEEE765A4C
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 19:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73782765A96
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 19:40:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230335AbjG0Rbu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 13:31:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60248 "EHLO
+        id S232317AbjG0RkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 13:40:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229876AbjG0Rbt (ORCPT
+        with ESMTP id S232172AbjG0RkM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 13:31:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A8C2728;
-        Thu, 27 Jul 2023 10:31:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B8A8F61EEE;
-        Thu, 27 Jul 2023 17:31:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0037BC433C9;
-        Thu, 27 Jul 2023 17:31:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690479107;
-        bh=Ajlt8COfnYfig1GjhZUz3uN08k51rfXoSC611m7YbuU=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=Xo8zC/S07jN+as1GcbjnY5sJ9JvXWL1l8uIa0tcxHcFiwpRwhDAq2q7xXeSBO/G4N
-         tW/YvfpLYes8Gv6gN4FdByfbIItZ4kwZC05cYVPt8wSiwHx1cborNLzzsPq5MeynSw
-         0/5EObXNDl7G53L5Yvic5YS8jC0a7qHfRifefzIqbxxUziHUP3Zbs/dJSDSM+hVGHh
-         VgdhqgCuP0ydWOFmCA0bnxbjYX4quwJSJFotF25wYLFJSgqNA+OVJIR/sq9VUj1cWi
-         MpB3+tHLEJwr+TwA1zaEjfTg8vMTfkRGW8no6pZmVvfB0lJxwnYvSTwQPS7gZOS85I
-         w91aROtnZodtg==
-Received: (nullmailer pid 2846 invoked by uid 1000);
-        Thu, 27 Jul 2023 17:31:45 -0000
+        Thu, 27 Jul 2023 13:40:12 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE9BD9;
+        Thu, 27 Jul 2023 10:40:11 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3fc0aecf15bso13801255e9.1;
+        Thu, 27 Jul 2023 10:40:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690479610; x=1691084410;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vm0hSF63AJjNABtvNsjawRxsPZnGdoadnD63dXFyEDM=;
+        b=Ff2d1S0oErgHRpjDgvPd5pgl+pv8TT24oUFTO0FDFso5x+0BX2ZijGrgNwNXnCvzsI
+         QlPCFCav09nxJB7Ds9PGNv2IdfTTza8CVrqc7xb42bOputCRiSc6J1D2S0zgPRhvuruc
+         jSgKb6nM9koO5S2oZjCjKykH+qS4cdEqRWvZ4gRwNnOpuJF6roTm7VK+mxVBIJnvzTlH
+         3sLmtvCWB0+Muy1IL3jvx8lgfF21PIlLHeen/JO9RqNAeToeg1ypykVMvcft48sRrP1B
+         MJLFX6/kEI/MN+grpINzG/+1T2BNe9rySrR2MwbF7ltgAs9zfGKBIz5RR+313tSZQQQk
+         Jzjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690479610; x=1691084410;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vm0hSF63AJjNABtvNsjawRxsPZnGdoadnD63dXFyEDM=;
+        b=lPxlSQeDjoQ/awmG2o4pPwY2hxL2C41pW4jTYBKbpWoIawUp9AU3oI/D96rffGdArN
+         3rGRgR2WcfV4HMOHEWGhocPmwu9Y+d1gowHw1RL+DJN79YDuW5pI8cNUPvf6wULv/M5q
+         5IdF7wyVtWVc7V76pzQZIZ+ypl3ObauCEqoP0sxeTDvDPTAdjjcH8XjAiuDAnSClGoMD
+         ZzXB2za4WVbu6ZyOiaw5PZq9pTqu319mAVvamM0wBhe+KVbnYby2mRqWHTzyefWguR5u
+         tUxWZwINJryHivtZU0DYUSBTHqxsVdT8PBL25vTTl9E+UQjeGWjaNeWYn7JeSgaj0FV2
+         olaw==
+X-Gm-Message-State: ABy/qLZ6z4OjstzKO0OJOh+1nJwezLdbQJk8HuITcZ+7jTIATEHDTjEN
+        fuf066YX1iG/jNiOZLWWn0EwpQh7qP79BQ==
+X-Google-Smtp-Source: APBJJlHc2w6sCUiG+DIW9ehHlUyBy4YgfHUYrF3BYticU2IXTL8gQsGe1A0YAEzh5iTKl8d1WM4Rwg==
+X-Received: by 2002:a05:600c:3789:b0:3fb:fa61:a4ea with SMTP id o9-20020a05600c378900b003fbfa61a4eamr2276514wmr.11.1690479609421;
+        Thu, 27 Jul 2023 10:40:09 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id o12-20020a05600c378c00b003fc0062f0f8sm2400003wmr.9.2023.07.27.10.40.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jul 2023 10:40:08 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@suse.de>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] [media] go7007: Remove redundant if statement
+Date:   Thu, 27 Jul 2023 18:40:07 +0100
+Message-Id: <20230727174007.635572-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        kieran.bingham@ideasonboard.com,
-        Lee Jackson <lee.jackson@arducam.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        jacopo.mondi@ideasonboard.com,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20230727154108.308320-2-umang.jain@ideasonboard.com>
-References: <20230727154108.308320-1-umang.jain@ideasonboard.com>
- <20230727154108.308320-2-umang.jain@ideasonboard.com>
-Message-Id: <169047910522.2828.10861979635958643627.robh@kernel.org>
-Subject: Re: [PATCH 1/2] media: dt-bindings: imx519: Add IMX519 DT bindings
-Date:   Thu, 27 Jul 2023 11:31:45 -0600
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -69,44 +72,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The if statement that compares msgs[i].len != 3 is always false because
+it is in a code block where msg[i].len is equal to 3. The check is
+redundant and can be removed.
 
-On Thu, 27 Jul 2023 21:11:07 +0530, Umang Jain wrote:
-> From: Lee Jackson <lee.jackson@arducam.com>
-> 
-> Add YAML device tree binding documentation for IMX519 CMOS
-> image sensor.
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../bindings/media/i2c/sony,imx519.yaml       | 113 ++++++++++++++++++
->  1 file changed, 113 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
-> 
+As detected by cppcheck static analysis:
+drivers/media/usb/go7007/go7007-i2c.c:168:20: warning: Opposite inner
+'if' condition leads to a dead code block. [oppositeInnerCondition]
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Fixes: 866b8695d67e ("Staging: add the go7007 video driver")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/media/usb/go7007/go7007-i2c.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
- 	 $id: http://devicetree.org/schemas/media/i2c/imx519.yaml
- 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230727154108.308320-2-umang.jain@ideasonboard.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/media/usb/go7007/go7007-i2c.c b/drivers/media/usb/go7007/go7007-i2c.c
+index 38339dd2f83f..2880370e45c8 100644
+--- a/drivers/media/usb/go7007/go7007-i2c.c
++++ b/drivers/media/usb/go7007/go7007-i2c.c
+@@ -165,8 +165,6 @@ static int go7007_i2c_master_xfer(struct i2c_adapter *adapter,
+ 		} else if (msgs[i].len == 3) {
+ 			if (msgs[i].flags & I2C_M_RD)
+ 				return -EIO;
+-			if (msgs[i].len != 3)
+-				return -EIO;
+ 			if (go7007_i2c_xfer(go, msgs[i].addr, 0,
+ 					(msgs[i].buf[0] << 8) | msgs[i].buf[1],
+ 					0x01, &msgs[i].buf[2]) < 0)
+-- 
+2.39.2
 
