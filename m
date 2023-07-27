@@ -2,304 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB462764829
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 09:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58A457648CB
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 09:36:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233200AbjG0HMv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 03:12:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55904 "EHLO
+        id S232935AbjG0HgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 03:36:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233204AbjG0HMa (ORCPT
+        with ESMTP id S232201AbjG0Hfu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 03:12:30 -0400
-Received: from mgamail.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A81D84211
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:07:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690441629; x=1721977629;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=c3wrTsVpPtHIzNRvSjgXT1JgoxxvSHSVSSGbdlHSo6c=;
-  b=mbwJCX68LD96/9kmwTff5LERhQR3PzxE1a0KwE4FxEV0LOXCY35QWqpx
-   mYrg/dePovLNjjCpE5Ue7bSxoj0uB9LneNg8wemtGhvajMfBb/lkinoJZ
-   GGdd9ZPVuPXacV+DF+0zPMhYE3bBW12CICL9vVlDY+NCyg7mLQtLDKqmt
-   wgCDoOGkqCITzuOnZNFx7jitbJ/g69AZNZNMGBps43kCoMgexvsS2YSfP
-   yOt5nHnc5gqEMkq/syyLkxp2AlOrtwLm5y+kTjIrabAv7wnUlkiEp+yDM
-   8YM1L2YmrAEeABYvW18qPQHjoO4hueojcoVwVmG6UsesTQ1AIL1cv4FST
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="370901057"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="370901057"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 00:05:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="704073397"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="704073397"
-Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
-  by orsmga006.jf.intel.com with ESMTP; 27 Jul 2023 00:05:09 -0700
-From:   bingbu.cao@intel.com
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com
-Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
-        hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@intel.com, bingbu.cao@linux.intel.com,
-        tian.shu.qiu@intel.com, hongju.wang@intel.com
-Subject: [PATCH 15/15] Documentation: add documentation of Intel IPU6 driver and hardware overview
-Date:   Thu, 27 Jul 2023 15:15:58 +0800
-Message-Id: <20230727071558.1148653-16-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230727071558.1148653-1-bingbu.cao@intel.com>
-References: <20230727071558.1148653-1-bingbu.cao@intel.com>
+        Thu, 27 Jul 2023 03:35:50 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DF7E3598
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:25:17 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-76aeab08625so57656585a.2
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:25:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690442714; x=1691047514;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p6qbtNcmszQ6EQo0mvb3858AOVM9yDgbycyUD/QntYs=;
+        b=TBeDFHw2o1PPT5oMbU+NDPXsSrWYU3P2m4Mdr7KGxZTUTGIIRKl8iOw9Xef7A5De3V
+         lfBCHyxkPS086WdwtSKG/K2m/tVqSDPVr0+F+0PFSDki3rnCPm8D5nXRR4gnR+1GzQ8S
+         Hmh4heKpIKs+6LN1VtUFl9O8QW4jj15NCAeio=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690442714; x=1691047514;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p6qbtNcmszQ6EQo0mvb3858AOVM9yDgbycyUD/QntYs=;
+        b=dwcBymoGzxsvuwb0CFwQnY6Qee8rA3/RJ9Jrq3shIZP4Iz0kuXoqMXdCeOUAXK56xc
+         gQdQjACM/1ZV9b9cuhcHkbhwCzgMut4PvG1VNl9AEi8XZFCpjtcyxBLMSOEea8rFCvqd
+         fVuonjUf5UGhvnCECds101qcQCnykHzT6SoBLXkIhB2iDNfjmgqTwmj2DsCfvGlzIh79
+         GL+lT8cufpF5YEwn+V63AoyLPN1H2ZfJFwq3ApCEgekF/InGAu2P9sYRV/8XrDZ6ULiB
+         F7nAffKcEeQnL0Y9zmogePHZVMdUCd0xO751hxSt5Q6x4M3XWWs6daqDl51cKBQWEqnE
+         pzNw==
+X-Gm-Message-State: ABy/qLYccuKhzHxlU9uE6qptYT3B3Ez74A1IIjqTymu6LVGSXUim2I29
+        0ZUhTooOX8fFGPZPuA/6gmxBIzBnHOMLh5fQCCD0+g==
+X-Google-Smtp-Source: APBJJlEOH/UaVn9wuaVjpxmYqet2mr2gFCxXYhb2vNzVSpRK3SmkvT7XRSDUaArmvuzi31cD6GLsEA==
+X-Received: by 2002:ac8:5748:0:b0:400:797e:d694 with SMTP id 8-20020ac85748000000b00400797ed694mr6078618qtx.11.1690442714268;
+        Thu, 27 Jul 2023 00:25:14 -0700 (PDT)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com. [209.85.219.44])
+        by smtp.gmail.com with ESMTPSA id b2-20020ac801c2000000b00403ad47c895sm254345qtg.22.2023.07.27.00.25.12
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 00:25:13 -0700 (PDT)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-63cf3dcffe0so4527446d6.1
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:25:12 -0700 (PDT)
+X-Received: by 2002:a0c:dd0b:0:b0:63d:212e:8ae7 with SMTP id
+ u11-20020a0cdd0b000000b0063d212e8ae7mr3764157qvk.14.1690442712330; Thu, 27
+ Jul 2023 00:25:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230704040044.681850-1-randy.li@synaptics.com>
+ <20230704040044.681850-3-randy.li@synaptics.com> <20230712093301.nkj2vok2x7esdhb3@chromium.org>
+ <4e70c8b8-d459-2b79-2b3d-40875f701d97@synaptics.com>
+In-Reply-To: <4e70c8b8-d459-2b79-2b3d-40875f701d97@synaptics.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 27 Jul 2023 16:25:00 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CGO4iiC7HX9wTetuzjZyaAsKStFOpxqcFkZ_o-eJOPtg@mail.gmail.com>
+Message-ID: <CAAFQd5CGO4iiC7HX9wTetuzjZyaAsKStFOpxqcFkZ_o-eJOPtg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     linux-media@vger.kernel.org, ayaka@soulik.info,
+        hans.verkuil@cisco.com, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
+        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        nicolas@ndufresne.ca
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+On Mon, Jul 17, 2023 at 4:15=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics.com=
+> wrote:
+>
+>
+> On 7/12/23 17:33, Tomasz Figa wrote:
+> > CAUTION: Email originated externally, do not click links or open attach=
+ments unless you recognize the sender and know the content is safe.
+> >
+> >
+> > On Tue, Jul 04, 2023 at 12:00:38PM +0800, Hsia-Jun Li wrote:
+> >> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+> >>
+> >> Many drivers have to create its own buf_struct for a
+> >> vb2_queue to track such a state. Also driver has to
+> >> iterate over rdy_queue every times to find out a buffer
+> >> which is not sent to hardware(or firmware), this new
+> >> list just offers the driver a place to store the buffer
+> >> that hardware(firmware) has acknowledged.
+> >>
+> >> One important advance about this list, it doesn't like
+> >> rdy_queue which both bottom half of the user calling
+> >> could operate it, while the v4l2 worker would as well.
+> >> The v4l2 core could only operate this queue when its
+> >> v4l2_context is not running, the driver would only
+> >> access this new hw_queue in its own worker.
+> > Could you describe in what case such a list would be useful for a
+> > mem2mem driver?
+>
+> This list, as its description, just for saving us from creating a
+> private buffer struct to track buffer state.
+>
+> The queue in the kernel is not the queue that hardware(codec firmware)
+> are using.
+>
 
-Add a documentation for an overview of IPU6 hardware and describe the main
-the components of IPU6 driver.
+Sorry, I find the description difficult to understand. It might make
+sense to have the text proofread by someone experienced in writing
+technical documentation in English before posting in the future.
+Thanks.
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- .../driver-api/media/drivers/index.rst        |   1 +
- .../driver-api/media/drivers/ipu6.rst         | 205 ++++++++++++++++++
- 2 files changed, 206 insertions(+)
- create mode 100644 Documentation/driver-api/media/drivers/ipu6.rst
+I think I got the point from Nicolas' explanation, though.
 
-diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
-index c4123a16b5f9..7f6f3dcd5c90 100644
---- a/Documentation/driver-api/media/drivers/index.rst
-+++ b/Documentation/driver-api/media/drivers/index.rst
-@@ -26,6 +26,7 @@ Video4Linux (V4L) drivers
- 	vimc-devel
- 	zoran
- 	ccs/ccs
-+	ipu6
- 
- 
- Digital TV drivers
-diff --git a/Documentation/driver-api/media/drivers/ipu6.rst b/Documentation/driver-api/media/drivers/ipu6.rst
-new file mode 100644
-index 000000000000..2685e4a0d7ba
---- /dev/null
-+++ b/Documentation/driver-api/media/drivers/ipu6.rst
-@@ -0,0 +1,205 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================
-+Intel IPU6 Driver
-+==================
-+
-+Author: Bingbu Cao <bingbu.cao@intel.com>
-+
-+Overview
-+=========
-+
-+Intel IPU6 is the sixth generation of Intel Image Processing Unit used in some
-+Intel Chipsets such as Tiger Lake, Jasper Lake, Alder Lake, Raptor Lake and
-+Meteor Lake. IPU6 consists of two major systems - Input System (IS) and
-+Processing System (PS). IPU6 are visible on the PCI bus as a single device,
-+it can be found by ``lspci``:
-+
-+``0000:00:05.0 Multimedia controller: Intel Corporation Device xxxx (rev xx)``
-+
-+IPU6 has a 16 MB BAR in PCI configuration Space for MMIO registers which is
-+visible for driver.
-+
-+Buttress
-+=========
-+
-+The IPU6 is connecting to the system fabric with ``Buttress`` which is enabling
-+host driver to control the IPU6, it also allows IPU6 access the system memory to
-+store and load frame pixel streams and any other metadata.
-+
-+``Buttress`` mainly manages several system functionalities - power management,
-+interrupt handling, firmware authentication and global timer sync.
-+
-+IS and PS Power flow
-+---------------------------
-+
-+IPU6 driver initialize the IS and PS power up or down request by setting the
-+Buttress frequency control register for IS and PS -
-+``IPU6_BUTTRESS_REG_IS_FREQ_CTL`` and ``IPU6_BUTTRESS_REG_PS_FREQ_CTL`` in
-+function:
-+
-+.. c:function:: int ipu6_buttress_power(..., bool on)
-+
-+Buttress forwards the request to Punit, after Punit execute the power up flow,
-+buttress indicates driver that IS or PS is powered up by updating the power
-+status registers.
-+
-+.. Note:: IS power up needs take place prior to PS power up, IS power down needs
-+	  take place after PS power down due to hardware limitation.
-+
-+
-+Interrupt
-+------------
-+
-+IPU6 interrupt can be generated as MSI or INTA, interrupt will be triggered
-+when IS, PS, Buttress event or error happen, driver can get the interrupt
-+cause by reading the interrupt status register ``BUTTRESS_REG_ISR_STATUS``,
-+driver firstly clear the irq status and then call specific IS or PS irq handler.
-+
-+.. c:function:: irqreturn_t ipu6_buttress_isr(int irq, ...)
-+
-+Security and firmware authentication
-+-------------------------------------
-+To address the IPU6 firmware security concerns, the IPU6 firmware needs to
-+undergo an authentication process before it is allowed to executed on the IPU6
-+internal processors. Driver will work with Converged Security Engine (CSE) to
-+complete authentication process. CSE is responsible of authenticating the
-+IPU6 firmware, the authenticated firmware binary is copied into an isolated
-+memory region. Firmware authentication process is implemented by CSE following
-+an IPC handshake with driver. There are some Buttress registers used by CSE and
-+driver to communicate with each other as IPC messages.
-+
-+.. c:function:: int ipu6_buttress_authenticate(...)
-+
-+Global timer sync
-+------------------
-+IPU driver initiates a Hammock Harbor synchronization flow each time it starts
-+camera operation. IPU will synchronizes an internal counter in the Buttress
-+with a copy of SoC time, this counter keeps the updated time until camera
-+operation is stopped. Driver can use this time counter to calibrate the
-+timestamp based on the timestamp in response event from firmware.
-+
-+.. c:function:: int ipu6_buttress_start_tsc_sync(...)
-+
-+
-+DMA and MMU
-+============
-+
-+IPU6 has its own scalar processor where the firmware run at, it has
-+an internal 32-bits virtual address space. IPU6 has MMU address translation
-+hardware to allow that scalar process access the internal memory and external
-+system memory through IPU6 virtual address. The address translation is
-+based on two levels of page lookup tables stored in system memory which are
-+maintained by IPU6 driver. IPU6 driver sets the level-1 page table base address
-+to MMU register and allow MMU to lookup the page table.
-+
-+IPU6 driver exports its own DMA operations. Driver will update the page table
-+entries for each DMA operation and invalidate the MMU TLB after each unmap and
-+free.
-+
-+.. code-block:: none
-+
-+    const struct dma_map_ops ipu6_dma_ops = {
-+	   .alloc = ipu6_dma_alloc,
-+	   .free = ipu6_dma_free,
-+	   .mmap = ipu6_dma_mmap,
-+	   .map_sg = ipu6_dma_map_sg,
-+	   .unmap_sg = ipu6_dma_unmap_sg,
-+	   ...
-+    };
-+
-+.. Note:: IPU6 MMU works behind IOMMU, so for each IPU6 DMA ops, driver will
-+	  call generic PCI DMA ops to ask IOMMU to do the additional mapping
-+	  if VT-d enabled.
-+
-+
-+Firmware file format
-+=====================
-+
-+IPU6 release the firmware in Code Partition Directory (CPD) file format. The
-+CPD firmware contains a CPD header, several CPD entries and CPD components.
-+CPD component includes 3 entries - manifest, metadata and module data. Manifest
-+and metadata are defined by CSE and used by CSE for authentication. Module data
-+is defined by IPU6 which holds the binary data of firmware called package
-+directory. IPU6 driver (``ipu6-cpd.c``) parses and validates the CPD firmware
-+file and get the package directory binary data of IPU6 firmware, copy it to
-+specific DMA buffer and sets its base address to Buttress ``FW_SOURCE_BASE``
-+register, CSE will do authentication for this firmware binary.
-+
-+
-+Syscom interface
-+================
-+
-+IPU6 driver communicates with firmware via syscom ABI. Syscom is an
-+inter-processor communication mechanism between IPU scalar processor and CPU.
-+There are a number of resources shared between firmware and software.
-+A system memory region where the message queues reside, firmware can access the
-+memory region via IPU MMU. Syscom queues are FIFO fixed depth queues with
-+configurable elements ``token`` (message). There is also a common IPU MMIO
-+registers where the queue read and write indices reside. Software and firmware
-+work as producer and consumer of tokens in queue, and update the write and read
-+indices separately when sending or receiving each message.
-+
-+IPU6 driver must prepare and configure the number of input and output queues,
-+configure the count of tokens per queue and the size of per token before
-+initiate and start the communication with firmware, firmware and software must
-+use same configurations. IPU6 Buttress has a number of firmware boot parameter
-+registers which can be used to store the address of configuration and initiate
-+the Syscom state, then driver can request firmware to start and run via setting
-+the scalar processor control status register.
-+
-+
-+Input System
-+==============
-+
-+IPU6 input system consists of MIPI D-PHY and several CSI receiver controllers,
-+it can capture image pixel data from camera sensors or other MIPI CSI output
-+devices.
-+
-+DPHYs and CSI2 ports lane mapping
-+---------------------------------
-+
-+IPU6 integrates different D-PHY IPs on different SoCs, on Tiger Lake and Alder
-+Lake, IPU6 integrates MCD10 D-PHY, IPU6SE on Jasper Lake integrates JSL D-PHY
-+and IPU6EP on Meteor Lake integrates a Synopsys DWC D-PHY. There is an adaption
-+layer between D-PHY and CSI receiver controller which includes port
-+configuration, PHY wrapper or private test interfaces for D-PHY. There are 3
-+D-PHY drivers ``ipu6-isys-mcd-phy.c``, ``ipu6-isys-jsl-phy.c`` and
-+``ipu6-isys-dwc-phy.c`` program the above 3 D-PHYs in IPU6.
-+
-+Different IPU6 version has different DPHY lanes mappings, On Tiger Lake, there
-+are 12 data lanes and 8 clock lanes, IPU6 support maximum 8 CSI2 ports, see
-+the ppi mmapping in ``ipu6-isys-mcd-phy.c`` for more information. On Jasper Lake
-+and Alder Lake, DPHY has 8 data lanes and 4 clock lanes, IPU6 support maximum 4
-+CSI2 ports. For Meteor Lake, DPHY has 12 data lanes and 6 clock lanes, IPU6
-+support maximum 6 CSI2 ports.
-+
-+.. Note:: Each adjacent CSI ports work as a pair and share the data lanes.
-+	  For example, for CSI port 0 and 1, CSI port 0 support maximum 4
-+	  data lanes, CSI port 1 support maximum 2 data lanes, CSI port 0
-+	  with 2 data lanes can work together with CSI port 1 with 2 data lanes.
-+	  If trying to use CSI port 0 with 4 lanes, CSI port 1 will not be
-+	  available as the 4 data lanes are shared by CSI port 0 and 1. Same
-+	  scenario is also applied for CSI port 2/3, 4/5 and 7/8.
-+
-+IS firmware ABIs
-+----------------
-+
-+IPU6 firmware define a series of ABIs to software. In general, software firstly
-+prepare the stream configuration ``struct ipu6_fw_isys_stream_cfg_data_abi``
-+and send the configuration to firmware via sending ``STREAM_OPEN`` command.
-+Stream configuration includes input pins and output pins, input pin
-+``struct ipu6_fw_isys_input_pin_info_abi`` defines the resolution and data type
-+of input source, output pin ``struct ipu6_fw_isys_output_pin_info_abi``
-+defines the output resolution, stride and frame format, etc. Once driver get the
-+interrupt from firmware that indicates stream open successfully, driver will
-+send the ``STREAM_START`` and ``STREAM_CAPTURE`` command to request firmware to
-+start capturing image frames. ``STREAM_CAPTURE`` command queues the buffers to
-+firmware with ``struct ipu6_fw_isys_frame_buff_set``, software then wait the
-+interrupt and response from firmware, ``PIN_DATA_READY`` means data ready
-+on specific output pin and then software return the buffers to user.
-+
-+.. Note:: See Documentation/admin-guide/media/ipu6-isys.rst for how to do
-+	  capture by IPU6 IS driver.
-+
-+
--- 
-2.40.1
+>
+> >> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> >> ---
+> >>   drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++-------=
+-
+> >>   include/media/v4l2-mem2mem.h           | 10 +++++++++-
+> >>   2 files changed, 26 insertions(+), 9 deletions(-)
+> >>
+> >> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4=
+l2-core/v4l2-mem2mem.c
+> >> index c771aba42015..b4151147d5bd 100644
+> >> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> >> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> >> @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m=
+_dev *m2m_dev,
+> >>                goto job_unlock;
+> >>        }
+> >>
+> >> -     src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> >> -     dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> >> -     if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> >> -             dprintk("No input buffers available\n");
+> >> -             goto job_unlock;
+> >> +     if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
+> >> +             src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> >> +
+> >> +             if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> >> +                     dprintk("No input buffers available\n");
+> >> +                     goto job_unlock;
+> >> +             }
+> >>        }
+> >> -     if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> >> -             dprintk("No output buffers available\n");
+> >> -             goto job_unlock;
+> >> +
+> >> +     if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
+> >> +             dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> >> +             if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> >> +                     dprintk("No output buffers available\n");
+> >> +                     goto job_unlock;
+> >> +             }
+> >>        }
+> > src and dst would be referenced unitialized below if neither of the
+> > above ifs hits...
+> I think they have been initialized at v4l2_m2m_ctx_init()
 
+What do you mean? They are local variables in this function.
+
+> >
+> > Best regards,
+> > Tomasz
+> >
+> >>        m2m_ctx->new_frame =3D true;
+> >> @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struct v=
+4l2_m2m_ctx *m2m_ctx,
+> >>        INIT_LIST_HEAD(&q_ctx->rdy_queue);
+> >>        q_ctx->num_rdy =3D 0;
+> >>        spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
+> >> +     INIT_LIST_HEAD(&q_ctx->hw_queue);
+> >>
+> >>        if (m2m_dev->curr_ctx =3D=3D m2m_ctx) {
+> >>                m2m_dev->curr_ctx =3D NULL;
+> >> @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct v4=
+l2_m2m_dev *m2m_dev,
+> >>
+> >>        INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
+> >>        INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
+> >> +     INIT_LIST_HEAD(&out_q_ctx->hw_queue);
+> >> +     INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
+> >>        spin_lock_init(&out_q_ctx->rdy_spinlock);
+> >>        spin_lock_init(&cap_q_ctx->rdy_spinlock);
+> >>
+> >> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem=
+.h
+> >> index d6c8eb2b5201..2342656e582d 100644
+> >> --- a/include/media/v4l2-mem2mem.h
+> >> +++ b/include/media/v4l2-mem2mem.h
+> >> @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
+> >>    *   processed
+> >>    *
+> >>    * @q:               pointer to struct &vb2_queue
+> >> - * @rdy_queue:       List of V4L2 mem-to-mem queues
+> >> + * @rdy_queue:       List of V4L2 mem-to-mem queues. If v4l2_m2m_buf_=
+queue() is
+> >> + *           called in struct vb2_ops->buf_queue(), the buffer enqueu=
+ed
+> >> + *           by user would be added to this list.
+> >>    * @rdy_spinlock: spin lock to protect the struct usage
+> >>    * @num_rdy: number of buffers ready to be processed
+> >> + * @hw_queue:        A list for tracking the buffer is occupied by th=
+e hardware
+> >> + *           (or device's firmware). A buffer could only be in either
+> >> + *           this list or @rdy_queue.
+> >> + *           Driver may choose not to use this list while uses its ow=
+n
+> >> + *           private data to do this work.
+> >>    * @buffered:        is the queue buffered?
+> >>    *
+> >>    * Queue for buffers ready to be processed as soon as this
+> >> @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
+> >>        struct list_head        rdy_queue;
+> >>        spinlock_t              rdy_spinlock;
+> >>        u8                      num_rdy;
+> >> +     struct list_head        hw_queue;
+> >>        bool                    buffered;
+> >>   };
+> >>
+> >> --
+> >> 2.17.1
+> >>
+> --
+> Hsia-Jun(Randy) Li
+>
