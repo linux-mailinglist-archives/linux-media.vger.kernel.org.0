@@ -2,175 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26E38765819
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 17:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76BE376594F
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 18:58:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232274AbjG0P5M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 11:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54452 "EHLO
+        id S232468AbjG0Q6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 12:58:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231586AbjG0P5L (ORCPT
+        with ESMTP id S233029AbjG0Q6G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 11:57:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DE5730C2
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 08:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690473380;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=yNIprgBPbgBlUDGou/Q61G2MdeSraQtmRjGJ2xeLiJE=;
-        b=Lj7punyIVr1RilDbuf3FL+vRuHd8bHLandPCr10zncqDm1qkR58yHIe12hCb1DX7W+Q3P4
-        ETS/BeB4Qx4MDAA7T+8Lw9VA1q9j1HfUJENINrzyiCd75HF8bVk0Iesn8fWtxICzbIjZxn
-        /ZoKOPVKFuhIt97ayX1ntcq+r6Pp2pY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-150-s5J4NZuGNQapyiUgsPbyJQ-1; Thu, 27 Jul 2023 11:56:17 -0400
-X-MC-Unique: s5J4NZuGNQapyiUgsPbyJQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 901E8802A55;
-        Thu, 27 Jul 2023 15:56:16 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.108])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9C655492B02;
-        Thu, 27 Jul 2023 15:56:14 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: atomisp: Fix smatch warnings caused by atomisp custom assert() usage
-Date:   Thu, 27 Jul 2023 17:56:06 +0200
-Message-ID: <20230727155606.41903-1-hdegoede@redhat.com>
+        Thu, 27 Jul 2023 12:58:06 -0400
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F38CF7
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 09:58:04 -0700 (PDT)
+Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-63cf9eddbc6so11573466d6.0
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 09:58:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1690477083; x=1691081883;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DGpD1fj0PXv450sjuK4bUou4/t1cGfwJ84zl83bJ1T0=;
+        b=SEW+MFQo2D8TQfjQqYawou4aHfj4BYHAKdSeICESAHr+bt0jzpqTb3bYFysTLIHEjm
+         TZA+dFp4mSVfKfEAkBtHOydfbRBguVRIqiCQbmOrLw3Gsy8uH0/iJ9w3/YJVyNEI4/nM
+         brVwYh5au/ALLNdr5wfb5OyZsSEo6Ag2iPmOzB8QNLs82+iN3lIro6gDHGG+h8CtX6wa
+         ywxwhUKgf1/wSb1wCZZqjKEvu+ettobE8uBg5G3l0wpGYSS9C9xzYB9lnxLU7jQnN8xJ
+         IeCZ2hw+QfkDkxoa1nLh2I3UnIgcExpdgyXtDPK8TYkF0zUV6u9IxUTvV3uSwkqj5qi9
+         jQMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690477083; x=1691081883;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DGpD1fj0PXv450sjuK4bUou4/t1cGfwJ84zl83bJ1T0=;
+        b=azyfpAU9W91a6+TgBBoaPXE8B1mIeE3pLt3MwNPG5bOR1WE/ecGmaoFnk5WCoraVFd
+         M4sjzsrobEbIj66+qCW32ooSG5n52G5Pn3nHVlU2YrceaqOdvTYPGG8lZ0UbzTj+GKgl
+         tNbLucxLGuMtj9/XroLNWQ+GdJpVOCq1zeuk/nIph42O4smZVm5kTGvLHzHPEHCt37Nx
+         W0YgdFINdu00scZv+CsK8BCIMY6H/+g06xZahF0TTZDlUZjqb+rLyhNvX2N8O4R111eh
+         MK4pV+XeNHd1F6DSAa5XW/ezc5fpIRXPsnzRATkd5MUi69IN6XOGoj4tnnSR6ZNEbe3O
+         vuIw==
+X-Gm-Message-State: ABy/qLZJk8HTWnUIk895F29un3jWR6jrqTf6xGLfj32vTwlv6csBvKV9
+        veQytRbVYbdDZAmuxYKzR9Qeqw==
+X-Google-Smtp-Source: APBJJlH5vVGzZ46pKLCUH8Mp+07XMUhph3BHbC5VIX35SbNLRle+mxNSsZoq0+kRNbMjZMX8U//0sA==
+X-Received: by 2002:ad4:4eaa:0:b0:63c:f325:bb03 with SMTP id ed10-20020ad44eaa000000b0063cf325bb03mr866321qvb.8.1690477083581;
+        Thu, 27 Jul 2023 09:58:03 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:10:580::7a9])
+        by smtp.gmail.com with ESMTPSA id a18-20020a0cb352000000b006262de12a8csm547061qvf.65.2023.07.27.09.58.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jul 2023 09:58:03 -0700 (PDT)
+Message-ID: <583e22718b80cc5e1ae631528c83c95e97de5cae.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
+        ayaka@soulik.info, hans.verkuil@cisco.com, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
+        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org
+Date:   Thu, 27 Jul 2023 12:58:02 -0400
+In-Reply-To: <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
+References: <20230704040044.681850-1-randy.li@synaptics.com>
+         <20230704040044.681850-3-randy.li@synaptics.com>
+         <20230712093301.nkj2vok2x7esdhb3@chromium.org>
+         <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
+         <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The atomisp code base has a custom assert() macro, a couple of functions
-use this in a construction like the following:
+Le jeudi 27 juillet 2023 =C3=A0 16:43 +0900, Tomasz Figa a =C3=A9crit=C2=A0=
+:
+> On Mon, Jul 17, 2023 at 11:07=E2=80=AFPM Nicolas Dufresne <nicolas@ndufre=
+sne.ca> wrote:
+> >=20
+> > Le mercredi 12 juillet 2023 =C3=A0 09:33 +0000, Tomasz Figa a =C3=A9cri=
+t :
+> > > On Tue, Jul 04, 2023 at 12:00:38PM +0800, Hsia-Jun Li wrote:
+> > > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+> > > >=20
+> > > > Many drivers have to create its own buf_struct for a
+> > > > vb2_queue to track such a state. Also driver has to
+> > > > iterate over rdy_queue every times to find out a buffer
+> > > > which is not sent to hardware(or firmware), this new
+> > > > list just offers the driver a place to store the buffer
+> > > > that hardware(firmware) has acknowledged.
+> > > >=20
+> > > > One important advance about this list, it doesn't like
+> > > > rdy_queue which both bottom half of the user calling
+> > > > could operate it, while the v4l2 worker would as well.
+> > > > The v4l2 core could only operate this queue when its
+> > > > v4l2_context is not running, the driver would only
+> > > > access this new hw_queue in its own worker.
+> > >=20
+> > > Could you describe in what case such a list would be useful for a
+> > > mem2mem driver?
+> >=20
+> > Today all driver must track buffers that are "owned by the hardware". T=
+his is a
+> > concept dictated by the m2m framework and enforced through the ACTIVE f=
+lag. All
+> > buffers from this list must be mark as done/error/queued after streamof=
+f of the
+> > respective queue in order to acknowledge that they are no longer in use=
+ by the
+> > HW. Not doing so will warn:
+> >=20
+> >   videobuf2_common: driver bug: stop_streaming operation is leaving buf=
+ ...
+> >=20
+> > Though, there is no queue to easily iterate them. All driver endup havi=
+ng their
+> > own queue, or just leaving the buffers in the rdy_queue (which isn't be=
+tter).
+> >=20
+>=20
+> Thanks for the explanation. I see how it could be useful now.
+>=20
+> Although I guess this is a problem specifically for hardware (or
+> firmware) which can internally queue more than 1 buffer, right?
+> Otherwise the current buffer could just stay at the top of the
+> rdy_queue until it's removed by the driver's completion handler,
+> timeout/error handler or context destruction.
 
-   assert(pipe);
-   assert(pipe->stream);
-   if ((!pipe) || (!pipe->stream)) {
-           ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-                               "allocate_mipi_frames(%p) exit: ...\n",
-                               pipe);
-           return -EINVAL;
-   }
+Correct, its only an issue when you need to process multiple src buffers be=
+fore
+producing a dst buffer. If affects stateful decoder, stateful encoders and
+deinterlacer as far as I'm aware.
 
-The second assert is seen by smatch as dereferencing "pipe" in the above
-example (and dereferencing "dvs_6axis_config" / "me" in the 2 other cases).
+Nicolas
 
-Following by the dereferenced variable being checked (a second time)
-in the following if () statement.
-
-This triggers the following smatch warnings:
-drivers/staging/media/atomisp/pci/sh_css_mipi.c:356 allocate_mipi_frames() warn: variable dereferenced before check 'pipe' (see line 355)
-drivers/staging/media/atomisp/pci/sh_css_mipi.c:562 send_mipi_frames() warn: variable dereferenced before check 'pipe' (see line 561)
-drivers/staging/media/atomisp/pci/sh_css_param_dvs.c:208 free_dvs_6axis_table() warn: variable dereferenced before check 'dvs_6axis_config' (see line 206)
-drivers/staging/media/atomisp/pci/sh_css_sp.c:1255 sh_css_sp_init_pipeline() warn: variable dereferenced before check 'me->stages' (see line 1224)
-
-The custom assert() macro actually expands to a BUG() call and BUG()
-calls should not be used in the kernel.
-
-Remove the assert() calls to fix the smatch warnings and in case of
-[allocate|send]_mipi_frames() also remove the if () return -EINVAL
-block since these functions are never called with a NULL pipe.
-
-Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>=20
+> Best regards,
+> Tomasz
+>=20
+> > Nicolas
+> > >=20
+> > > >=20
+> > > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> > > > ---
+> > > >  drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++-----=
 ---
-Note:
-1. No Closes: tag since Hans Verkuil reported this in an offlist email.
-2. All the other assert() calls really should also be removed.
-   I've put this on my todo list.
----
- drivers/staging/media/atomisp/pci/sh_css_mipi.c  | 16 ----------------
- .../staging/media/atomisp/pci/sh_css_param_dvs.c |  3 ---
- drivers/staging/media/atomisp/pci/sh_css_sp.c    |  4 ----
- 3 files changed, 23 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index b20acaab0595..ced21dedf7ac 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -351,15 +351,6 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 			    "allocate_mipi_frames(%p) enter:\n", pipe);
- 
--	assert(pipe);
--	assert(pipe->stream);
--	if ((!pipe) || (!pipe->stream)) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--				    "allocate_mipi_frames(%p) exit: pipe or stream is null.\n",
--				    pipe);
--		return -EINVAL;
--	}
--
- 	if (IS_ISP2401 && pipe->stream->config.online) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
-@@ -557,13 +548,6 @@ send_mipi_frames(struct ia_css_pipe *pipe)
- 
- 	IA_CSS_ENTER_PRIVATE("pipe=%p", pipe);
- 
--	assert(pipe);
--	assert(pipe->stream);
--	if (!pipe || !pipe->stream) {
--		IA_CSS_ERROR("pipe or stream is null");
--		return -EINVAL;
--	}
--
- 	/* multi stream video needs mipi buffers */
- 	/* nothing to be done in other cases. */
- 	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-index ff0082d02af3..5174bc210ae1 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-@@ -202,9 +202,6 @@ generate_dvs_6axis_table_from_config(struct ia_css_dvs_6axis_config
- void
- free_dvs_6axis_table(struct ia_css_dvs_6axis_config  **dvs_6axis_config)
- {
--	assert(dvs_6axis_config);
--	assert(*dvs_6axis_config);
--
- 	if ((dvs_6axis_config) && (*dvs_6axis_config)) {
- 		IA_CSS_ENTER_PRIVATE("dvs_6axis_config %p", (*dvs_6axis_config));
- 		if ((*dvs_6axis_config)->xcoords_y) {
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 4ef1c9e61ea8..5ecc982ad725 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1215,10 +1215,6 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
- 	unsigned int thread_id;
- 	u8 if_config_index, tmp_if_config_index;
- 
--	assert(me);
--
--	assert(me->stages);
--
- 	first_binary = me->stages->binary;
- 
- 	if (input_mode == IA_CSS_INPUT_MODE_SENSOR ||
--- 
-2.41.0
+> > > >  include/media/v4l2-mem2mem.h           | 10 +++++++++-
+> > > >  2 files changed, 26 insertions(+), 9 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media=
+/v4l2-core/v4l2-mem2mem.c
+> > > > index c771aba42015..b4151147d5bd 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > > > @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_=
+m2m_dev *m2m_dev,
+> > > >             goto job_unlock;
+> > > >     }
+> > > >=20
+> > > > -   src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> > > > -   dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> > > > -   if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> > > > -           dprintk("No input buffers available\n");
+> > > > -           goto job_unlock;
+> > > > +   if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
+> > > > +           src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> > > > +
+> > > > +           if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> > > > +                   dprintk("No input buffers available\n");
+> > > > +                   goto job_unlock;
+> > > > +           }
+> > > >     }
+> > > > -   if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> > > > -           dprintk("No output buffers available\n");
+> > > > -           goto job_unlock;
+> > > > +
+> > > > +   if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
+> > > > +           dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> > > > +           if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> > > > +                   dprintk("No output buffers available\n");
+> > > > +                   goto job_unlock;
+> > > > +           }
+> > > >     }
+> > >=20
+> > > src and dst would be referenced unitialized below if neither of the
+> > > above ifs hits...
+> > >=20
+> > > Best regards,
+> > > Tomasz
+> > >=20
+> > > >=20
+> > > >     m2m_ctx->new_frame =3D true;
+> > > > @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struc=
+t v4l2_m2m_ctx *m2m_ctx,
+> > > >     INIT_LIST_HEAD(&q_ctx->rdy_queue);
+> > > >     q_ctx->num_rdy =3D 0;
+> > > >     spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
+> > > > +   INIT_LIST_HEAD(&q_ctx->hw_queue);
+> > > >=20
+> > > >     if (m2m_dev->curr_ctx =3D=3D m2m_ctx) {
+> > > >             m2m_dev->curr_ctx =3D NULL;
+> > > > @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct=
+ v4l2_m2m_dev *m2m_dev,
+> > > >=20
+> > > >     INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
+> > > >     INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
+> > > > +   INIT_LIST_HEAD(&out_q_ctx->hw_queue);
+> > > > +   INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
+> > > >     spin_lock_init(&out_q_ctx->rdy_spinlock);
+> > > >     spin_lock_init(&cap_q_ctx->rdy_spinlock);
+> > > >=20
+> > > > diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2=
+mem.h
+> > > > index d6c8eb2b5201..2342656e582d 100644
+> > > > --- a/include/media/v4l2-mem2mem.h
+> > > > +++ b/include/media/v4l2-mem2mem.h
+> > > > @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
+> > > >   * processed
+> > > >   *
+> > > >   * @q:             pointer to struct &vb2_queue
+> > > > - * @rdy_queue:     List of V4L2 mem-to-mem queues
+> > > > + * @rdy_queue:     List of V4L2 mem-to-mem queues. If v4l2_m2m_buf=
+_queue() is
+> > > > + *         called in struct vb2_ops->buf_queue(), the buffer enque=
+ued
+> > > > + *         by user would be added to this list.
+> > > >   * @rdy_spinlock: spin lock to protect the struct usage
+> > > >   * @num_rdy:       number of buffers ready to be processed
+> > > > + * @hw_queue:      A list for tracking the buffer is occupied by t=
+he hardware
+> > > > + *                 (or device's firmware). A buffer could only be =
+in either
+> > > > + *                 this list or @rdy_queue.
+> > > > + *                 Driver may choose not to use this list while us=
+es its own
+> > > > + *                 private data to do this work.
+> > > >   * @buffered:      is the queue buffered?
+> > > >   *
+> > > >   * Queue for buffers ready to be processed as soon as this
+> > > > @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
+> > > >     struct list_head        rdy_queue;
+> > > >     spinlock_t              rdy_spinlock;
+> > > >     u8                      num_rdy;
+> > > > +   struct list_head        hw_queue;
+> > > >     bool                    buffered;
+> > > >  };
+> > > >=20
+> > > > --
+> > > > 2.17.1
+> > > >=20
+> >=20
 
