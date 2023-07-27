@@ -2,258 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76BE376594F
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 18:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E5FF765993
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 19:10:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232468AbjG0Q6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 12:58:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34060 "EHLO
+        id S229746AbjG0RKs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 13:10:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233029AbjG0Q6G (ORCPT
+        with ESMTP id S229914AbjG0RKr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 12:58:06 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F38CF7
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 09:58:04 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-63cf9eddbc6so11573466d6.0
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 09:58:04 -0700 (PDT)
+        Thu, 27 Jul 2023 13:10:47 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9882D7D
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 10:10:44 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2b74209fb60so18545321fa.0
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 10:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1690477083; x=1691081883;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=DGpD1fj0PXv450sjuK4bUou4/t1cGfwJ84zl83bJ1T0=;
-        b=SEW+MFQo2D8TQfjQqYawou4aHfj4BYHAKdSeICESAHr+bt0jzpqTb3bYFysTLIHEjm
-         TZA+dFp4mSVfKfEAkBtHOydfbRBguVRIqiCQbmOrLw3Gsy8uH0/iJ9w3/YJVyNEI4/nM
-         brVwYh5au/ALLNdr5wfb5OyZsSEo6Ag2iPmOzB8QNLs82+iN3lIro6gDHGG+h8CtX6wa
-         ywxwhUKgf1/wSb1wCZZqjKEvu+ettobE8uBg5G3l0wpGYSS9C9xzYB9lnxLU7jQnN8xJ
-         IeCZ2hw+QfkDkxoa1nLh2I3UnIgcExpdgyXtDPK8TYkF0zUV6u9IxUTvV3uSwkqj5qi9
-         jQMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690477083; x=1691081883;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=linaro.org; s=google; t=1690477843; x=1691082643;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=DGpD1fj0PXv450sjuK4bUou4/t1cGfwJ84zl83bJ1T0=;
-        b=azyfpAU9W91a6+TgBBoaPXE8B1mIeE3pLt3MwNPG5bOR1WE/ecGmaoFnk5WCoraVFd
-         M4sjzsrobEbIj66+qCW32ooSG5n52G5Pn3nHVlU2YrceaqOdvTYPGG8lZ0UbzTj+GKgl
-         tNbLucxLGuMtj9/XroLNWQ+GdJpVOCq1zeuk/nIph42O4smZVm5kTGvLHzHPEHCt37Nx
-         W0YgdFINdu00scZv+CsK8BCIMY6H/+g06xZahF0TTZDlUZjqb+rLyhNvX2N8O4R111eh
-         MK4pV+XeNHd1F6DSAa5XW/ezc5fpIRXPsnzRATkd5MUi69IN6XOGoj4tnnSR6ZNEbe3O
-         vuIw==
-X-Gm-Message-State: ABy/qLZJk8HTWnUIk895F29un3jWR6jrqTf6xGLfj32vTwlv6csBvKV9
-        veQytRbVYbdDZAmuxYKzR9Qeqw==
-X-Google-Smtp-Source: APBJJlH5vVGzZ46pKLCUH8Mp+07XMUhph3BHbC5VIX35SbNLRle+mxNSsZoq0+kRNbMjZMX8U//0sA==
-X-Received: by 2002:ad4:4eaa:0:b0:63c:f325:bb03 with SMTP id ed10-20020ad44eaa000000b0063cf325bb03mr866321qvb.8.1690477083581;
-        Thu, 27 Jul 2023 09:58:03 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:10:580::7a9])
-        by smtp.gmail.com with ESMTPSA id a18-20020a0cb352000000b006262de12a8csm547061qvf.65.2023.07.27.09.58.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 09:58:03 -0700 (PDT)
-Message-ID: <583e22718b80cc5e1ae631528c83c95e97de5cae.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
-        ayaka@soulik.info, hans.verkuil@cisco.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org
-Date:   Thu, 27 Jul 2023 12:58:02 -0400
-In-Reply-To: <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
-References: <20230704040044.681850-1-randy.li@synaptics.com>
-         <20230704040044.681850-3-randy.li@synaptics.com>
-         <20230712093301.nkj2vok2x7esdhb3@chromium.org>
-         <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
-         <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        bh=YA4KY7APNBoaVIsE8pbZuVrmfLiy26uq1i7pnH5Zurc=;
+        b=kU9RvC9MMM1jkXnKHDH9Y7YHb/jOhWaYDV+48W6Vp1QVRVT5IN1Nbx2J3fu7lxkgxk
+         bXHpKj/a9cTgAWSocNtrGS2015UQWdKNmAnaaCM/GNB/VTIoO3JnopGz/neyutp/SNz0
+         HttdyOVb9DnvYuA5Eq8kwtAIOnojFWbJJ7tp54kx35OUeLlv11MmbhtD/ZxW+/bGoC74
+         L2We5/1bmS4V2nVaCDcX+5n/T2En8pyA5sIpVNhcrv0qSRr+NoAHPI4qSjvDhXR+32B4
+         739OCJFYQ7fq8XXBViQNHYEI5IJZQUl2TUW+jXEWQ8Dbs1U5EDXB1ZDFrtoTOiNZlpN3
+         qMcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690477843; x=1691082643;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YA4KY7APNBoaVIsE8pbZuVrmfLiy26uq1i7pnH5Zurc=;
+        b=fKVYZtVwzI2YnJH+aAa6rmgro86TR/BP5pK6GajTF3ugufuQyRjw+u9mprS17GikCd
+         PDYGVbhYd32/5abI+BOEQWa0Iiyt6G60X+ozrmy+AynBejiHDAfZergp1F9mwI7Wx+zA
+         qMl5L4/BJR88kpbeCzkfSs7wiL+AOx7Gp1FHBP2CXp6jSVih8OLOaksVwPAQ7JGt9dA4
+         nLnOjN7X14C2Fc2z0qBu2XKLotHD9IgNo0ZJBrosc30mdutTfL38QN5lkPDGGUy+UIy8
+         gnzc1Zra95Coqsabz2ZGsvagodOOkgU1OBxgVbMSjRMgGL3iaIkYy9iSmtca84S/VnqA
+         dJKA==
+X-Gm-Message-State: ABy/qLbGX1NdQkdBQQO7bDv2XU5eGDUTEayiN1k2fPYIFQfb9JnLcMZK
+        v1lxI/lPEpee9TpyRlP4N1CYZg==
+X-Google-Smtp-Source: APBJJlFaJ8HKfLfLui9GCTpqO9VRb6s9gu3E4pmdbVXWA9rs8zr5ttu0hEFBNa46OOcBduEXOCgc4A==
+X-Received: by 2002:a2e:3613:0:b0:2b6:dec9:2812 with SMTP id d19-20020a2e3613000000b002b6dec92812mr2191782lja.33.1690477842958;
+        Thu, 27 Jul 2023 10:10:42 -0700 (PDT)
+Received: from [192.168.1.101] (abxi99.neoplus.adsl.tpnet.pl. [83.9.2.99])
+        by smtp.gmail.com with ESMTPSA id y4-20020a2eb004000000b002b944151da5sm441863ljk.81.2023.07.27.10.08.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 10:09:12 -0700 (PDT)
+Message-ID: <df947545-23ef-2ee9-72cc-8e54bbe46be1@linaro.org>
+Date:   Thu, 27 Jul 2023 19:08:14 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] venus: hfi: add checks to perform sanity on queue
+ pointers
+Content-Language: en-US
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
+        stanimir.k.varbanov@gmail.com, bryan.odonoghue@linaro.org,
+        agross@kernel.org, andersson@kernel.org, mchehab@kernel.org,
+        hans.verkuil@cisco.com, tfiga@chromium.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <1690432469-14803-1-git-send-email-quic_vgarodia@quicinc.com>
+ <1690432469-14803-2-git-send-email-quic_vgarodia@quicinc.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <1690432469-14803-2-git-send-email-quic_vgarodia@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 27 juillet 2023 =C3=A0 16:43 +0900, Tomasz Figa a =C3=A9crit=C2=A0=
-:
-> On Mon, Jul 17, 2023 at 11:07=E2=80=AFPM Nicolas Dufresne <nicolas@ndufre=
-sne.ca> wrote:
-> >=20
-> > Le mercredi 12 juillet 2023 =C3=A0 09:33 +0000, Tomasz Figa a =C3=A9cri=
-t :
-> > > On Tue, Jul 04, 2023 at 12:00:38PM +0800, Hsia-Jun Li wrote:
-> > > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-> > > >=20
-> > > > Many drivers have to create its own buf_struct for a
-> > > > vb2_queue to track such a state. Also driver has to
-> > > > iterate over rdy_queue every times to find out a buffer
-> > > > which is not sent to hardware(or firmware), this new
-> > > > list just offers the driver a place to store the buffer
-> > > > that hardware(firmware) has acknowledged.
-> > > >=20
-> > > > One important advance about this list, it doesn't like
-> > > > rdy_queue which both bottom half of the user calling
-> > > > could operate it, while the v4l2 worker would as well.
-> > > > The v4l2 core could only operate this queue when its
-> > > > v4l2_context is not running, the driver would only
-> > > > access this new hw_queue in its own worker.
-> > >=20
-> > > Could you describe in what case such a list would be useful for a
-> > > mem2mem driver?
-> >=20
-> > Today all driver must track buffers that are "owned by the hardware". T=
-his is a
-> > concept dictated by the m2m framework and enforced through the ACTIVE f=
-lag. All
-> > buffers from this list must be mark as done/error/queued after streamof=
-f of the
-> > respective queue in order to acknowledge that they are no longer in use=
- by the
-> > HW. Not doing so will warn:
-> >=20
-> >   videobuf2_common: driver bug: stop_streaming operation is leaving buf=
- ...
-> >=20
-> > Though, there is no queue to easily iterate them. All driver endup havi=
-ng their
-> > own queue, or just leaving the buffers in the rdy_queue (which isn't be=
-tter).
-> >=20
->=20
-> Thanks for the explanation. I see how it could be useful now.
->=20
-> Although I guess this is a problem specifically for hardware (or
-> firmware) which can internally queue more than 1 buffer, right?
-> Otherwise the current buffer could just stay at the top of the
-> rdy_queue until it's removed by the driver's completion handler,
-> timeout/error handler or context destruction.
+On 27.07.2023 06:34, Vikash Garodia wrote:
+> Read and write pointers are used to track the packet index in the memory
+> shared between video driver and firmware. There is a possibility of OOB
+> access if the read or write pointer goes beyond the queue memory size.
+> Add checks for the read and write pointer to avoid OOB access.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/venus/hfi_venus.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+> index f0b4638..dc228c4 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+> @@ -206,6 +206,10 @@ static int venus_write_queue(struct venus_hfi_device *hdev,
+>  
+>  	new_wr_idx = wr_idx + dwords;
+>  	wr_ptr = (u32 *)(queue->qmem.kva + (wr_idx << 2));
+> +
+> +	if (wr_ptr < (u32 *)queue->qmem.kva || wr_ptr > (u32 *)(queue->qmem.kva + queue->qmem.size))
+Shouldn't the cases on the right side of the OR operator include a
+"- 1"?
 
-Correct, its only an issue when you need to process multiple src buffers be=
-fore
-producing a dst buffer. If affects stateful decoder, stateful encoders and
-deinterlacer as far as I'm aware.
-
-Nicolas
-
->=20
-> Best regards,
-> Tomasz
->=20
-> > Nicolas
-> > >=20
-> > > >=20
-> > > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> > > > ---
-> > > >  drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++-----=
----
-> > > >  include/media/v4l2-mem2mem.h           | 10 +++++++++-
-> > > >  2 files changed, 26 insertions(+), 9 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media=
-/v4l2-core/v4l2-mem2mem.c
-> > > > index c771aba42015..b4151147d5bd 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > > > @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_=
-m2m_dev *m2m_dev,
-> > > >             goto job_unlock;
-> > > >     }
-> > > >=20
-> > > > -   src =3D v4l2_m2m_next_src_buf(m2m_ctx);
-> > > > -   dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
-> > > > -   if (!src && !m2m_ctx->out_q_ctx.buffered) {
-> > > > -           dprintk("No input buffers available\n");
-> > > > -           goto job_unlock;
-> > > > +   if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
-> > > > +           src =3D v4l2_m2m_next_src_buf(m2m_ctx);
-> > > > +
-> > > > +           if (!src && !m2m_ctx->out_q_ctx.buffered) {
-> > > > +                   dprintk("No input buffers available\n");
-> > > > +                   goto job_unlock;
-> > > > +           }
-> > > >     }
-> > > > -   if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
-> > > > -           dprintk("No output buffers available\n");
-> > > > -           goto job_unlock;
-> > > > +
-> > > > +   if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
-> > > > +           dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
-> > > > +           if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
-> > > > +                   dprintk("No output buffers available\n");
-> > > > +                   goto job_unlock;
-> > > > +           }
-> > > >     }
-> > >=20
-> > > src and dst would be referenced unitialized below if neither of the
-> > > above ifs hits...
-> > >=20
-> > > Best regards,
-> > > Tomasz
-> > >=20
-> > > >=20
-> > > >     m2m_ctx->new_frame =3D true;
-> > > > @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struc=
-t v4l2_m2m_ctx *m2m_ctx,
-> > > >     INIT_LIST_HEAD(&q_ctx->rdy_queue);
-> > > >     q_ctx->num_rdy =3D 0;
-> > > >     spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
-> > > > +   INIT_LIST_HEAD(&q_ctx->hw_queue);
-> > > >=20
-> > > >     if (m2m_dev->curr_ctx =3D=3D m2m_ctx) {
-> > > >             m2m_dev->curr_ctx =3D NULL;
-> > > > @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct=
- v4l2_m2m_dev *m2m_dev,
-> > > >=20
-> > > >     INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
-> > > >     INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
-> > > > +   INIT_LIST_HEAD(&out_q_ctx->hw_queue);
-> > > > +   INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
-> > > >     spin_lock_init(&out_q_ctx->rdy_spinlock);
-> > > >     spin_lock_init(&cap_q_ctx->rdy_spinlock);
-> > > >=20
-> > > > diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2=
-mem.h
-> > > > index d6c8eb2b5201..2342656e582d 100644
-> > > > --- a/include/media/v4l2-mem2mem.h
-> > > > +++ b/include/media/v4l2-mem2mem.h
-> > > > @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
-> > > >   * processed
-> > > >   *
-> > > >   * @q:             pointer to struct &vb2_queue
-> > > > - * @rdy_queue:     List of V4L2 mem-to-mem queues
-> > > > + * @rdy_queue:     List of V4L2 mem-to-mem queues. If v4l2_m2m_buf=
-_queue() is
-> > > > + *         called in struct vb2_ops->buf_queue(), the buffer enque=
-ued
-> > > > + *         by user would be added to this list.
-> > > >   * @rdy_spinlock: spin lock to protect the struct usage
-> > > >   * @num_rdy:       number of buffers ready to be processed
-> > > > + * @hw_queue:      A list for tracking the buffer is occupied by t=
-he hardware
-> > > > + *                 (or device's firmware). A buffer could only be =
-in either
-> > > > + *                 this list or @rdy_queue.
-> > > > + *                 Driver may choose not to use this list while us=
-es its own
-> > > > + *                 private data to do this work.
-> > > >   * @buffered:      is the queue buffered?
-> > > >   *
-> > > >   * Queue for buffers ready to be processed as soon as this
-> > > > @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
-> > > >     struct list_head        rdy_queue;
-> > > >     spinlock_t              rdy_spinlock;
-> > > >     u8                      num_rdy;
-> > > > +   struct list_head        hw_queue;
-> > > >     bool                    buffered;
-> > > >  };
-> > > >=20
-> > > > --
-> > > > 2.17.1
-> > > >=20
-> >=20
-
+Konrad
