@@ -2,63 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6539F764D84
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 10:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A287D764D7B
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 10:35:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234386AbjG0IgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 04:36:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43904 "EHLO
+        id S234447AbjG0IfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 04:35:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234335AbjG0Ifs (ORCPT
+        with ESMTP id S234701AbjG0Idu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 04:35:48 -0400
-Received: from mgamail.intel.com (unknown [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 911501BC1
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:19:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690445955; x=1721981955;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N6D3Z7WGditHoLQws1W+RFXG+wdqFs5MhCVLjURj05s=;
-  b=PFWnh8XiBHiQkHPjP7+xYULFQNhxbjmXkXdHB2b+LdDPCSzn2LUqUCU/
-   19VcFtC9SXVE0ttfQb3Z2ci9cz7FHF4zmbHbXs7WW3pgWo1tW+lxGaZ1Z
-   mGB1Ulhu8PH4RiA6X52SIBkJbagUlaBabM15f/ZVvzpoDJridSVfrz2oz
-   o0P99CtyUrq/IFyY1TwsZvc5ZrtmtqgYYvcBYZg45WL3mMYDqnbnT1+X/
-   JiOkuUiW68G6pqIJHd4sm7k4gkZSFv4T5DpblFYulgF3Rfoiiboz/0Bgm
-   vLrt5xYeOKnhO7f+GmdL9XXScPBfV5z9c8NKnsFL7x2UGR8c2d9bcVb6h
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="432040537"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="432040537"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 01:18:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="762091750"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="762091750"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 27 Jul 2023 01:18:48 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qOwB0-000255-2K;
-        Thu, 27 Jul 2023 08:18:11 +0000
-Date:   Thu, 27 Jul 2023 16:16:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [sailus-media-tree:master 10/20] drivers/media/i2c/imx290.c:1526:17:
- warning: incompatible integer to pointer conversion assigning to 'struct
- regmap *' from 'int'
-Message-ID: <202307271639.6vSx9BOA-lkp@intel.com>
+        Thu, 27 Jul 2023 04:33:50 -0400
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB35F2D4E
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:18:12 -0700 (PDT)
+Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-635f293884cso4893506d6.3
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:18:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690445876; x=1691050676;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+pBNJ9Jjy5nne/mBaf+XQM6YNk3Kfb6d2ItNYN5IxBY=;
+        b=XStq0dP/lunnm7P2pL+7qLkD89FL8gf/DMu5sQD7qsV92U2kReLMnQ2A4+jr//sxKQ
+         D3uPQ64lCn+jIpk/TY1XHAsQ3QS2fyknnWTc8cE7OBO7YKAjG4RwP3opf0oggbmtpuuO
+         H49mzeIWwogGduZXepIexRcKuth4A6/ZNm0p4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690445876; x=1691050676;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+pBNJ9Jjy5nne/mBaf+XQM6YNk3Kfb6d2ItNYN5IxBY=;
+        b=Z9C0d/IFPDcdGUtozjwAzcyt+5AwFXulZNSvHQdhUTr3Z0RVldREptfoSYF1+ADclI
+         JyoV6NVURrICqYng9lCv3T1gxSs1uxzpn6p1bKsDs3fQaRW2AtBet4MhiLbaaSVxPSe1
+         ACq7jCcHzvDHFqpgr/Rzmtai1cgAoR+BA5DuavBNpQUKldFID9qxYvYmCAtSoFC4R8Da
+         9IZ8YrkKyv4cvddfyNYMADgB+3vsw+8Ru9FKxaA7crtbWRK7nboQFxKbEJNR/8EUkDpU
+         TQtE/BCGztv+dhG7yedavFuA+bmxbgTYMtvRKmjBb1xrRQb3xzHuPAKGKgcOP7R2Kg5D
+         4umA==
+X-Gm-Message-State: ABy/qLZQJIb3bjM5gbSOUHYa9/Z4pv92q6lJegoJqBb/hoNAtcEQiqmY
+        NASXpUS/B2nVIbrPrai/OjYHyvpcdNdejcOnoMVb+Q==
+X-Google-Smtp-Source: APBJJlF6NdLdGXb0XcZOf50Y8HesR/nGFFn29oAESi9Qu9PSeyz+9wMNQ2o5P/g9e/RoFccyihRP9w==
+X-Received: by 2002:a05:6214:2586:b0:63d:3a7:3aa6 with SMTP id fq6-20020a056214258600b0063d03a73aa6mr5655166qvb.44.1690445875816;
+        Thu, 27 Jul 2023 01:17:55 -0700 (PDT)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com. [209.85.222.178])
+        by smtp.gmail.com with ESMTPSA id j13-20020a0cf50d000000b0063cdbe73a05sm258781qvm.97.2023.07.27.01.17.55
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 01:17:55 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-76595a7b111so58992385a.2
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:17:55 -0700 (PDT)
+X-Received: by 2002:a05:620a:5318:b0:767:dee0:455d with SMTP id
+ oo24-20020a05620a531800b00767dee0455dmr4057489qkn.20.1690445874607; Thu, 27
+ Jul 2023 01:17:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <a2ffa1cb-42db-a78a-8bd7-b0e422aade13@synaptics.com>
+In-Reply-To: <a2ffa1cb-42db-a78a-8bd7-b0e422aade13@synaptics.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 27 Jul 2023 17:17:43 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AFJwreERs2Hn_A+3g51OLF6F0eWjx2+rgiZV=FR_61fA@mail.gmail.com>
+Message-ID: <CAAFQd5AFJwreERs2Hn_A+3g51OLF6F0eWjx2+rgiZV=FR_61fA@mail.gmail.com>
+Subject: Re: [RFC]: m2m dec reports the graphics memory requirement
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        ayaka <ayaka@soulik.info>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, Brian.Starkey@arm.com,
+        boris.brezillon@collabora.com, frkoenig@chromium.org,
+        hans.verkuil@cisco.com, hiroh@chromium.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,138 +84,90 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   215e4463b11d94668b841368cb6882f3a2968148
-commit: 51b1f81e3b15a4cf6c5c1bfd6bb14ff8bc9951fb [10/20] media: imx290: Convert to new CCI register access helpers
-config: arm-randconfig-r012-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271639.6vSx9BOA-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271639.6vSx9BOA-lkp@intel.com/reproduce)
+On Fri, Jun 30, 2023 at 7:47=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics.com=
+> wrote:
+>
+> Hello All
+>
+> This RFC tries to address the following problems:
+>
+> 1. Application may request too many buffers, increasing pressure to
+> system's memory allocator(Thinking about running Android with 8K UHD
+> playback in a system with only 2 GiB memory available);
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271639.6vSx9BOA-lkp@intel.com/
+Yeah, I think that's something that has to be addressed. It was also
+mentioned recently in the review of the DELETE_BUF series. I think we
+need some kind of accounting of the allocations to the processes, so
+that the per-process limits of memory usage could apply. Let me add
++Sergey Senozhatsky who often crosses his path with kernel memory
+management.
 
-All warnings (new ones prefixed by >>):
+> 2. Application may allocate too few buffers while the codec stream
+> didn't follow the statement in its sequence info;
 
-   drivers/media/i2c/imx290.c:1526:19: error: implicit declaration of function 'devm_cci_regmap_init_i2c' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
-                            ^
-   drivers/media/i2c/imx290.c:1526:19: note: did you mean '__devm_regmap_init_i2c'?
-   include/linux/regmap.h:660:16: note: '__devm_regmap_init_i2c' declared here
-   struct regmap *__devm_regmap_init_i2c(struct i2c_client *i2c,
-                  ^
->> drivers/media/i2c/imx290.c:1526:17: warning: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
-           imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
-                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+Isn't that just an error? I think generally a stateful decoder
+shouldn't allow allocating less buffers than required by the stream
+(and as reported by V4L2_CID_MIN_BUFFERS_FOR_CAPTURE).
 
+>
+> 3. Application would allocate all the graphics buffers in a large size
+> meeting the decoding requirement, while only few alternative ref(never
+> display) frame requests that;
 
-vim +1526 drivers/media/i2c/imx290.c
+Could you explain when that could happen in practice?
 
-  1514	
-  1515	static int imx290_probe(struct i2c_client *client)
-  1516	{
-  1517		struct device *dev = &client->dev;
-  1518		struct imx290 *imx290;
-  1519		int ret;
-  1520	
-  1521		imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
-  1522		if (!imx290)
-  1523			return -ENOMEM;
-  1524	
-  1525		imx290->dev = dev;
-> 1526		imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
-  1527		if (IS_ERR(imx290->regmap)) {
-  1528			dev_err(dev, "Unable to initialize I2C\n");
-  1529			return -ENODEV;
-  1530		}
-  1531	
-  1532		ret = imx290_parse_dt(imx290);
-  1533		if (ret)
-  1534			return ret;
-  1535	
-  1536		/* Acquire resources. */
-  1537		imx290->xclk = devm_clk_get(dev, "xclk");
-  1538		if (IS_ERR(imx290->xclk))
-  1539			return dev_err_probe(dev, PTR_ERR(imx290->xclk),
-  1540					     "Could not get xclk\n");
-  1541	
-  1542		ret = imx290_get_regulators(dev, imx290);
-  1543		if (ret < 0)
-  1544			return dev_err_probe(dev, ret, "Cannot get regulators\n");
-  1545	
-  1546		imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
-  1547							   GPIOD_OUT_HIGH);
-  1548		if (IS_ERR(imx290->rst_gpio))
-  1549			return dev_err_probe(dev, PTR_ERR(imx290->rst_gpio),
-  1550					     "Cannot get reset gpio\n");
-  1551	
-  1552		/* Initialize external clock frequency. */
-  1553		ret = imx290_init_clk(imx290);
-  1554		if (ret)
-  1555			return ret;
-  1556	
-  1557		/*
-  1558		 * Enable power management. The driver supports runtime PM, but needs to
-  1559		 * work when runtime PM is disabled in the kernel. To that end, power
-  1560		 * the sensor on manually here.
-  1561		 */
-  1562		ret = imx290_power_on(imx290);
-  1563		if (ret < 0) {
-  1564			dev_err(dev, "Could not power on the device\n");
-  1565			return ret;
-  1566		}
-  1567	
-  1568		/*
-  1569		 * Enable runtime PM with autosuspend. As the device has been powered
-  1570		 * manually, mark it as active, and increase the usage count without
-  1571		 * resuming the device.
-  1572		 */
-  1573		pm_runtime_set_active(dev);
-  1574		pm_runtime_get_noresume(dev);
-  1575		pm_runtime_enable(dev);
-  1576		pm_runtime_set_autosuspend_delay(dev, 1000);
-  1577		pm_runtime_use_autosuspend(dev);
-  1578	
-  1579		/* Initialize the V4L2 subdev. */
-  1580		ret = imx290_subdev_init(imx290);
-  1581		if (ret)
-  1582			goto err_pm;
-  1583	
-  1584		v4l2_i2c_subdev_set_name(&imx290->sd, client,
-  1585					 imx290->model->name, NULL);
-  1586	
-  1587		/*
-  1588		 * Finally, register the V4L2 subdev. This must be done after
-  1589		 * initializing everything as the subdev can be used immediately after
-  1590		 * being registered.
-  1591		 */
-  1592		ret = v4l2_async_register_subdev(&imx290->sd);
-  1593		if (ret < 0) {
-  1594			dev_err(dev, "Could not register v4l2 device\n");
-  1595			goto err_subdev;
-  1596		}
-  1597	
-  1598		/*
-  1599		 * Decrease the PM usage count. The device will get suspended after the
-  1600		 * autosuspend delay, turning the power off.
-  1601		 */
-  1602		pm_runtime_mark_last_busy(dev);
-  1603		pm_runtime_put_autosuspend(dev);
-  1604	
-  1605		return 0;
-  1606	
-  1607	err_subdev:
-  1608		imx290_subdev_cleanup(imx290);
-  1609	err_pm:
-  1610		pm_runtime_disable(dev);
-  1611		pm_runtime_put_noidle(dev);
-  1612		imx290_power_off(imx290);
-  1613		return ret;
-  1614	}
-  1615	
+>
+> 4. ioctl() G_FMT may need to reflex a format which far from the current
+> sequence, or we can't know the resolution change result at an early stage=
+;
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Could you elaborate on this problem?
+
+As per the stateful decoder specification "Any client query issued
+after the decoder queues the event will return values applying to the
+stream after the resolution change, including queue formats, selection
+rectangles and controls.", which means that as soon as the decoder
+gets a frame that has different buffer requirements, it will update
+the format and notify the user space.
+
+>
+>
+> A few solutions here:
+>
+> 1. Extend the struct v4l2_event_src_change in struct v4l2_event with the
+> graphics pixel format(break uAPI)
+>
+
+We can't break uAPI, but I guess we could add a new event that
+replaces the old one, In addition to a pixel format (and I guess the
+number of buffers needed?), we would also need the buffer index or
+some kind of timestamp to make it possible for the user space to
+correlate the event with the action that triggered it.
+
+But I fear that we would need to keep extending and extending the
+struct with more data every once and a while.
+
+> 2. Getting controls after the SRC_CHG event, struct v4l2_event need to
+> tell how many controls it needs to fetch.
+>
+
+What do you mean by "how many controls"?
+
+> 3. struct v4l2_ext_buffer for such out-of-band data.
+>
+
+It's similar to the event, this could end up with an ever growing struct.
+
+If we need to understand the state of the codec for a specific frame,
+I think it's exactly what the request API was designed for. It
+captures the control state for each request, so we can read the
+format, number of buffers needed and whatever we want for the result
+of any given decoding request.
+
+>
+> Sorry for making it html before
+>
+> --
+> Hsia-Jun(Randy) Li
+>
