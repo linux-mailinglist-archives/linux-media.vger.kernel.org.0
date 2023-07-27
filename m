@@ -2,248 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10CF776494A
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 09:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46E35764960
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 09:53:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233538AbjG0HuU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 03:50:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56118 "EHLO
+        id S231614AbjG0Hx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 03:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233306AbjG0HuB (ORCPT
+        with ESMTP id S233534AbjG0Hww (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 03:50:01 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C41673592
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:43:40 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-765ae938b1bso53990585a.0
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1690443819; x=1691048619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sn8sesRltxTsvGZPwjqFOVYdqOt+0ePbjNVrO+NvsVI=;
-        b=R2VjX1bEkK/wSa0IZkJIxTRe3q9R5KoePY/bouYE39NsO0oIGVw47WASgbslll3YBc
-         Pp1ORtFOCrvjgNLDBe6bi/b8i1HxWSI9TKHc74lvCjSKoSvKX6D2P2Ek3vlwRwdXlNXZ
-         sksdyNpKupk8vAKa/03ovrzw66ttGol74EXos=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690443819; x=1691048619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sn8sesRltxTsvGZPwjqFOVYdqOt+0ePbjNVrO+NvsVI=;
-        b=Lfvr8l1b4F+T0+jjZgGK568RBAazm6q2cc92M+MzgEhKr0omQMzp36D84lDw9Np/dW
-         25mIHmAxOHTA/GGllDItmExovSleVN6U6aulPN16OD66joFxTd3YuYkJugtKRiPQe/bg
-         DRDIWrdAFWpSmwKm/xRVQwC928KnJSL0vN2N8ByYKhk2ZvkMaaWNynvQPXIDATLkGdt4
-         OlnDPyfXpJxJAjGgSFtkis2E9veYKW+g3H7FMBDvf48cTeKGVjhTiIF6ErJSapqO3UNa
-         AAYpGCcGmUBQU1UI/8DfrwRrUkIgzL+SwZkDhGbSOyI+m4Vhg8/HnpGPOS3jGabGe6c5
-         Wi6A==
-X-Gm-Message-State: ABy/qLZQzeoGivAQumBG9sTsdxLqqQbuITajYsU9anUodUzU03A4ZoMw
-        3M7MxStUzLMqVTE1u3ZwEzfU+EpfC4i1em5ZLdzWyg==
-X-Google-Smtp-Source: APBJJlF0jiMLmIVu35P/29siA0A08AI7rsd9g4f/KaMCAyaHQx5RN7fYf1aTB7rSLs/BUZbtvT2qLw==
-X-Received: by 2002:a05:620a:25c8:b0:76c:53d5:49ec with SMTP id y8-20020a05620a25c800b0076c53d549ecmr5317373qko.65.1690443819501;
-        Thu, 27 Jul 2023 00:43:39 -0700 (PDT)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com. [209.85.219.52])
-        by smtp.gmail.com with ESMTPSA id m9-20020ae9e709000000b0075ca4cd03d4sm237739qka.64.2023.07.27.00.43.38
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 00:43:38 -0700 (PDT)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-63d10da0f26so4841966d6.3
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:43:38 -0700 (PDT)
-X-Received: by 2002:ad4:438f:0:b0:63d:d83:8808 with SMTP id
- s15-20020ad4438f000000b0063d0d838808mr3291222qvr.63.1690443818431; Thu, 27
- Jul 2023 00:43:38 -0700 (PDT)
+        Thu, 27 Jul 2023 03:52:52 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2061.outbound.protection.outlook.com [40.107.93.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09DB4ED6;
+        Thu, 27 Jul 2023 00:46:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QgIlD//yHQZcBNLA34RVsTbbf2CSiLVTGmiqeqko4BZIXjw+mZsrnP4g7jrucCZ9eS35rD1IDE7/YrvOSf/uKH/Alt+34V5o6rws04YFdIE10f6BLt2bhP9dBAxr6zzolIlsoA/7XlYgbnRj7xTLEjwLuUvWdwEkxwrVIhkd2LNTwIw4kCw2zxNmJw1Y0dXl1gKbH1jlpktAG8deO33YMxZOabIP7GQe756hw3r59a/1UoErNfCHYiREcEHJ/EpyRFWq1xVI+2DWRoUZVlz0X4ctAz96ERbzJcqaUErHhAFglsbfXCuteRUemApE8nq01hcu/A+5KiY6rkUqD984eA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dsuXSTq8w9nhLNvGsyo0ANgU+L52Pez8eHR2nW3tAPQ=;
+ b=NOkn5uY6/R9+gq+mBnOB/pv7gl1oNYr71x9iVTW1cSBBpuU160IaTbb275lEcgz73WFg5mG3rT4kuG4Eq7xvWRzNxtVGv4nDqMuCubB9bBvhXeZ/W2UL+WCZQtK+OE4slY9jdD4ewD5EQXL8tztXoQTjorIRsocdgpkjjB8fMEkdgB7ou5/JMImJYswT1dSF7pfHbU8vF8X8HqmEyDaSLYIn9qg+BI/C2KFk46BpIPKPAFeS4Ztt8kcUOEknS7tSpXQSlL/q1zDxh44alnOjYUSOdiVAoBuE5KFoSwd2QbjDWCkZ8MlRIFNZzWhkeAa0naSVXBAXc/2THq5+RAskDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dsuXSTq8w9nhLNvGsyo0ANgU+L52Pez8eHR2nW3tAPQ=;
+ b=nr7kmUQG1HVtPnGuUBIsJ75njrri7jJJri8GjqJBj6mX6EtW/gU6Nqo/Z6L953baUt3RqrzoHvRWeE49mvbr/APuE7l9k8fecl8F0cSjr8JXPfBWdJWFWSRB5y1bjgJL5SCLGhV9rbvCzCDVIMw3aGr9TYZo65x/qVbvI182Dt0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH7PR12MB8428.namprd12.prod.outlook.com (2603:10b6:510:243::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Thu, 27 Jul
+ 2023 07:46:07 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
+ 07:46:07 +0000
+Message-ID: <52498955-a14b-5646-95a3-611bda0049d7@amd.com>
+Date:   Thu, 27 Jul 2023 09:46:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] dma-buf: Fix the typo in DMA-BUF statistics doc
+Content-Language: en-US
+To:     Luc Ma <onion0709@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        javierm@redhat.com
+References: <64b6749a.170a0220.3acab.2af9@mx.google.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <64b6749a.170a0220.3acab.2af9@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0012.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::15) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <20230704040044.681850-1-randy.li@synaptics.com>
- <20230704040044.681850-3-randy.li@synaptics.com> <20230712093301.nkj2vok2x7esdhb3@chromium.org>
- <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
-In-Reply-To: <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 27 Jul 2023 16:43:27 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
-Message-ID: <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
-        ayaka@soulik.info, hans.verkuil@cisco.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB8428:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad16d763-6edc-4a3b-2de4-08db8e75897a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RuL7iBJnJFTcVsK1fEVZO077ALPlv4WU+SdLG35DRgz7GDx5CPLpK7ifMZyj9wZ9dEvVceAHSIVxU1lNSHSmh+pD9RSKMOkWBVDEo9a113d9BONqeV7ydKUrZW3+dn3TuYg2Onml47vB2kexVO0hR7gmARwdGf1u7bc2sp8UOfPnPtRVM/7attWCfbK4N5f34HqlTP+ChYrZUX5h9fpGOotCiJyJ0AzPljVslVxbkTkYCEoKZbIGamUu9z37dOuLyz5ieDG4l+TgU3o2RnHSYndmNF0xR2hC9xslPkx6Gwf/vk8/Kdu9CzZG6JC0VQJ5evhFy0dYR7v7aw4sIV7mZPbNguO9OOtaMpBHDknnatc477vzbUW/PC8Zaje1OPxc3uw/QpqbUBTTJPW7sDQcj9MPvTJNTZjyHdndPWvxH2Z8YkD62adQDISfiX17EKXnLvSZPXVKyVxDo/JyTGdsBdRI4H/jKCVnCGLeTq19L5d7GTNmhhnm1LZR4YGixu2bdWsJzFzKDzTFsTM4DrvJxh8z1iWmsNiJVap5S+InIEXy+zc0I7UgA/HL4gQmgVW+O7Kj+7DFxnQ5CExjBvGBmAOQA2yn3dsDMj06rKiwMVW0ZlDTbRuvJm5VB8ZUpijWflYQ+P8Zgi3u5XcRSmZjXg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(396003)(39860400002)(346002)(366004)(451199021)(31686004)(8936002)(8676002)(5660300002)(41300700001)(316002)(2906002)(66556008)(66476007)(66946007)(6666004)(110136005)(6506007)(186003)(478600001)(86362001)(31696002)(36756003)(2616005)(6512007)(6486002)(83380400001)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aTJDeEVFY1ZpS1BEaktnOEZuR29XMGhwUE5DNEVLVkYyRmxPNVU0UGU4MXpo?=
+ =?utf-8?B?cFNPQXB3WDZwbGNTZkxJdHh4ZmIyVm5QWGl5Z1Z6OVVkQXpCL213Tm42ckw4?=
+ =?utf-8?B?aDFCRUQ3cUEzdUtza2JOTnhlN0VmWXZUUHBNeTVYWjVScm5DL3NkU3ZCVU5Z?=
+ =?utf-8?B?S0kvblRCd0RkTllFUmxrRi9RZmorb3J6QXFaeUw2eHBzNlNCdWw0QWtSNjlV?=
+ =?utf-8?B?VDZxTjR1NEVua2kya3VwRkN5THJDcjN3QTFGSW81QWFRL2hPU2tzTHJJdzU5?=
+ =?utf-8?B?MnFqT3VFSG9FanZMQk9ySVVDYmNRTWM5Y09hYmMvNk5vRkFQTmNtSzZLSHVu?=
+ =?utf-8?B?ZGluNC83Tkorc2RhMm5YWkZtMjViRElETDUyb2dudzR2UTJuQW1FWjJxcmdk?=
+ =?utf-8?B?TzZ2SGFBeG5nVmZnelZRS2FLOTRRR08zczEzZ1Mydk96V1kvc3M2U2NtbUho?=
+ =?utf-8?B?TmM4T1lVdEJkRDJNais5ZENreC9MN2puR01odUtPUGp0MmhaMVF4dExheHU0?=
+ =?utf-8?B?WUNtWlBGVlN2cXlpMnB6cGpTbU03TjFOeHN0Q0VKSW1yUG9xVUg1Q0lYbDNQ?=
+ =?utf-8?B?ODkvQkZ3TzhtRk5qYnlsVzhmekVMZDZsUDVVNXBiZVVWZ1RzNW1YQlQ3MGQ5?=
+ =?utf-8?B?NGdqRXh5K1g0VW1mSkFQc0ljTFV1QVRVYzZFL2lDTFlBdzhxTTNoZXRDTEFX?=
+ =?utf-8?B?d1crYTJyTEVMM0d3V1J3NldPMWFTYm5VM2xabzZCd3hGaUdKeU4vRENZUDNR?=
+ =?utf-8?B?WEZJY3dBdlJ1eXVpeUJzVndsb2Q1QS9uZDRXTGdmSjAxQlJwb2tsR3Nld2Vs?=
+ =?utf-8?B?Vno2bzRHWjBkUGpzTklCcFFsb0IrclZSYjRnUTVoTHEveHlhYVBCbnZPQjFj?=
+ =?utf-8?B?TkpUb0JxdGRhU1lWUGhIYytocklBM3hHdTBkMHZFL29OV1l5eVdKYjRPNE16?=
+ =?utf-8?B?ZmZSZTRWZEZHMVQ0S2hIVVF3RXQ5cWI4RGl1VG96MmIzMWhlaEQxRTJaL214?=
+ =?utf-8?B?V2I3aDZheUlCbnNvaDc1dEpBVXA4Q3NOTWxQeitkR0xWeW9qZ212SWpDOXkv?=
+ =?utf-8?B?UzU2R0tNbEF4Mlpobkhlek9YMkp6dVQxS3YzNlI3aVVPZFlBWDYyWUx6WlBO?=
+ =?utf-8?B?bnU5amJuemhwZ3VWb0J1YisyeVZMSE5TQWtHSjVkSENRZFR3TkROWDVyT3Nm?=
+ =?utf-8?B?VWRXMElLeCtzTUhkTklRdXZ1NzBKM1podytWTTRPV3NWZDVVRzU5Z0ZIVlJv?=
+ =?utf-8?B?eXBwWVhQUG50a1Fwd0hrUHRQQVluc0NaaEtyL0ppQ29IbUQ0aWFicFlwVlVq?=
+ =?utf-8?B?U3kwdG5rY0JNMDJIdk96NTlwbzZ6WXJCK0lYMjVWRDhTdlduYWNNZWJ2SEF5?=
+ =?utf-8?B?d0dBamlxWkFwUCt2dlZCZ3hnRUNBSkxFWkdpRkg5OGhpaUEvSzltazZPZFhH?=
+ =?utf-8?B?Ty83VmdrK2F1VEMxTE5velJobng4TkpxNDREK3N0SjdkdFQxYWUwVForczhv?=
+ =?utf-8?B?NXdQK3JTeFdLWHdGMkplc01FUGJxMmlqTEFjY201U0ZZZEN6dFU2MHU0bjZt?=
+ =?utf-8?B?UER3b0Y5UGdXQWdLYWYwYUlmdkZ4Rzl3S2lOM1BQWGdlREh3MERFVmpkV0tn?=
+ =?utf-8?B?bjlEZGdMOG1meWdwc3dkRVAwTHFJdStuS01GWW9XS0xzbkZ2ZHczREM2OEFM?=
+ =?utf-8?B?ZnNhRE1EU3RxaUp5K1gvZFA2UjYvRkJUOWRvYWtGT21aSTJ3N1A3ejZDak15?=
+ =?utf-8?B?bEVwU3hWZVVrOEs1dmhINWk5a0NVZkJYOU1RT0g5NWxmQjlIZE5YL1kwUWUy?=
+ =?utf-8?B?RzRINFozZGREd2NUY0UxaTBvWmMvbDhRWlBad0lXY0NGak92L1hHRFR4N1Zs?=
+ =?utf-8?B?aXFlUVQvQTZYc1JUajBkelRMRUlsTnVXdFFVeUlvakdtZVA0R1Fxa1dua3RX?=
+ =?utf-8?B?TWNObisxVVVoU3JJRmZEZUNvcS9yajJnS1ZHdTJyNnBiU1FBZ29RUVEyYzJM?=
+ =?utf-8?B?ZjNHYmxRcVV2TFNjZWdjTXpHY3RFZjJqK1BJZjBCZVVlUDZURzBNMzk5TElX?=
+ =?utf-8?B?ME5FanBnZENBWDhrbnNHaUtrQlRlcVdORytVOXpFL2wvRzA2Zy9FTEZUeGdD?=
+ =?utf-8?B?N0IyWTVqUXJZRUoraWVKc2NQVVdROEQyZjYrMjJkb292dVdUeVBoOUxUbmNN?=
+ =?utf-8?Q?Y4BBvYU5YNvgQgltf+1p0yUxPg61GdeSj8MMqGHvaFME?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad16d763-6edc-4a3b-2de4-08db8e75897a
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2023 07:46:07.4369
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lq9owbYWAvd6beiuZRhz1EXVczpgVw3MjPpwPi6RJzrujSH8KdaWrQIvkYqpKN3V
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8428
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 17, 2023 at 11:07=E2=80=AFPM Nicolas Dufresne <nicolas@ndufresn=
-e.ca> wrote:
+Am 18.07.23 um 13:16 schrieb Luc Ma:
+> From: Luc Ma <luc@sietium.com>
 >
-> Le mercredi 12 juillet 2023 =C3=A0 09:33 +0000, Tomasz Figa a =C3=A9crit =
-:
-> > On Tue, Jul 04, 2023 at 12:00:38PM +0800, Hsia-Jun Li wrote:
-> > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-> > >
-> > > Many drivers have to create its own buf_struct for a
-> > > vb2_queue to track such a state. Also driver has to
-> > > iterate over rdy_queue every times to find out a buffer
-> > > which is not sent to hardware(or firmware), this new
-> > > list just offers the driver a place to store the buffer
-> > > that hardware(firmware) has acknowledged.
-> > >
-> > > One important advance about this list, it doesn't like
-> > > rdy_queue which both bottom half of the user calling
-> > > could operate it, while the v4l2 worker would as well.
-> > > The v4l2 core could only operate this queue when its
-> > > v4l2_context is not running, the driver would only
-> > > access this new hw_queue in its own worker.
-> >
-> > Could you describe in what case such a list would be useful for a
-> > mem2mem driver?
+> The kernel-doc for DMA-BUF statistics mentions /sys/kernel/dma-buf/buffers
+> but the correct path is /sys/kernel/dmabuf/buffers instead.
 >
-> Today all driver must track buffers that are "owned by the hardware". Thi=
-s is a
-> concept dictated by the m2m framework and enforced through the ACTIVE fla=
-g. All
-> buffers from this list must be mark as done/error/queued after streamoff =
-of the
-> respective queue in order to acknowledge that they are no longer in use b=
-y the
-> HW. Not doing so will warn:
->
->   videobuf2_common: driver bug: stop_streaming operation is leaving buf .=
-..
->
-> Though, there is no queue to easily iterate them. All driver endup having=
- their
-> own queue, or just leaving the buffers in the rdy_queue (which isn't bett=
-er).
->
+> Signed-off-by: Luc Ma <luc@sietium.com>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Thanks for the explanation. I see how it could be useful now.
+Reviewed and pushed to drm-misc-next.
 
-Although I guess this is a problem specifically for hardware (or
-firmware) which can internally queue more than 1 buffer, right?
-Otherwise the current buffer could just stay at the top of the
-rdy_queue until it's removed by the driver's completion handler,
-timeout/error handler or context destruction.
+Thanks,
+Christian.
 
-Best regards,
-Tomasz
-
-> Nicolas
-> >
-> > >
-> > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++-------=
--
-> > >  include/media/v4l2-mem2mem.h           | 10 +++++++++-
-> > >  2 files changed, 26 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v=
-4l2-core/v4l2-mem2mem.c
-> > > index c771aba42015..b4151147d5bd 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > > @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2=
-m_dev *m2m_dev,
-> > >             goto job_unlock;
-> > >     }
-> > >
-> > > -   src =3D v4l2_m2m_next_src_buf(m2m_ctx);
-> > > -   dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
-> > > -   if (!src && !m2m_ctx->out_q_ctx.buffered) {
-> > > -           dprintk("No input buffers available\n");
-> > > -           goto job_unlock;
-> > > +   if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
-> > > +           src =3D v4l2_m2m_next_src_buf(m2m_ctx);
-> > > +
-> > > +           if (!src && !m2m_ctx->out_q_ctx.buffered) {
-> > > +                   dprintk("No input buffers available\n");
-> > > +                   goto job_unlock;
-> > > +           }
-> > >     }
-> > > -   if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
-> > > -           dprintk("No output buffers available\n");
-> > > -           goto job_unlock;
-> > > +
-> > > +   if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
-> > > +           dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
-> > > +           if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
-> > > +                   dprintk("No output buffers available\n");
-> > > +                   goto job_unlock;
-> > > +           }
-> > >     }
-> >
-> > src and dst would be referenced unitialized below if neither of the
-> > above ifs hits...
-> >
-> > Best regards,
-> > Tomasz
-> >
-> > >
-> > >     m2m_ctx->new_frame =3D true;
-> > > @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struct =
-v4l2_m2m_ctx *m2m_ctx,
-> > >     INIT_LIST_HEAD(&q_ctx->rdy_queue);
-> > >     q_ctx->num_rdy =3D 0;
-> > >     spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
-> > > +   INIT_LIST_HEAD(&q_ctx->hw_queue);
-> > >
-> > >     if (m2m_dev->curr_ctx =3D=3D m2m_ctx) {
-> > >             m2m_dev->curr_ctx =3D NULL;
-> > > @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct v=
-4l2_m2m_dev *m2m_dev,
-> > >
-> > >     INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
-> > >     INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
-> > > +   INIT_LIST_HEAD(&out_q_ctx->hw_queue);
-> > > +   INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
-> > >     spin_lock_init(&out_q_ctx->rdy_spinlock);
-> > >     spin_lock_init(&cap_q_ctx->rdy_spinlock);
-> > >
-> > > diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2me=
-m.h
-> > > index d6c8eb2b5201..2342656e582d 100644
-> > > --- a/include/media/v4l2-mem2mem.h
-> > > +++ b/include/media/v4l2-mem2mem.h
-> > > @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
-> > >   * processed
-> > >   *
-> > >   * @q:             pointer to struct &vb2_queue
-> > > - * @rdy_queue:     List of V4L2 mem-to-mem queues
-> > > + * @rdy_queue:     List of V4L2 mem-to-mem queues. If v4l2_m2m_buf_q=
-ueue() is
-> > > + *         called in struct vb2_ops->buf_queue(), the buffer enqueue=
-d
-> > > + *         by user would be added to this list.
-> > >   * @rdy_spinlock: spin lock to protect the struct usage
-> > >   * @num_rdy:       number of buffers ready to be processed
-> > > + * @hw_queue:      A list for tracking the buffer is occupied by the=
- hardware
-> > > + *                 (or device's firmware). A buffer could only be in=
- either
-> > > + *                 this list or @rdy_queue.
-> > > + *                 Driver may choose not to use this list while uses=
- its own
-> > > + *                 private data to do this work.
-> > >   * @buffered:      is the queue buffered?
-> > >   *
-> > >   * Queue for buffers ready to be processed as soon as this
-> > > @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
-> > >     struct list_head        rdy_queue;
-> > >     spinlock_t              rdy_spinlock;
-> > >     u8                      num_rdy;
-> > > +   struct list_head        hw_queue;
-> > >     bool                    buffered;
-> > >  };
-> > >
-> > > --
-> > > 2.17.1
-> > >
+> ---
+>   drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
+> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> index 6cfbbf0720bd..b5b62e40ccc1 100644
+> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> @@ -33,7 +33,7 @@
+>    * into their address space. This necessitated the creation of the DMA-BUF sysfs
+>    * statistics interface to provide per-buffer information on production systems.
+>    *
+> - * The interface at ``/sys/kernel/dma-buf/buffers`` exposes information about
+> + * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
+>    * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
+>    *
+>    * The following stats are exposed by the interface:
+
