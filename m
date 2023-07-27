@@ -2,419 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C037176535F
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 14:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD7AE765394
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 14:22:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230154AbjG0MNy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 08:13:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54952 "EHLO
+        id S233962AbjG0MWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 08:22:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233486AbjG0MNw (ORCPT
+        with ESMTP id S229801AbjG0MWc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 08:13:52 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF8E62D73
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 05:13:47 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-99bdd262bb0so63317366b.3
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 05:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690460026; x=1691064826;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2mH+Rp4hSfnfzF/tM/KbcwfyGEwPjJ6t1DC9fcpN9vs=;
-        b=ULSIU0yhJ878Y/H7wl/vpxvHi5mUdrRaM9uzsVLLNJB1UZr97BZEzMrhZFmMGFDkNh
-         l/LPI3x4SP/pfKtk6Lk2ouk1ZZrQIpB4OBk4gaYtV6heVaWKLbJc/e2bEVqaC0dVhQNk
-         bbAAaK9gXR6sUhFHWm0ID6CmcLraEIadZ6fEDNAJMzIrqCiIqFtxy0dnre3xqrc5L8L9
-         fssUUNom/Hir5FY6BVjYQmW+Pr/bJgVpt4obun4yuyKyZznbsW/DP3V1hCZg8CwsyYzy
-         yq8amupcCMsW1Dsk5FEyTtjlJc/1dHIQhPp9U+/doOkJQTc9EYvuLjZ9aLRuQrx6WycC
-         qJMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690460026; x=1691064826;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2mH+Rp4hSfnfzF/tM/KbcwfyGEwPjJ6t1DC9fcpN9vs=;
-        b=eDz2fAzoNyzFtJjYCR3FdkYwELjQjMYPjt6H+0s9Q4Vmvu0EnsYzXSEbXU5bU+QbIX
-         HnWBySdNVZj8jJucBl+o58MNVAUlRAood8R4fJ+p8GJHNtYS76tJUUh1/ivndcbcEo14
-         1oy0KY2zwfVybRUG9WoNU2QvjC7M/gSSMecxCGv6Y7vszWwBkv/b4yqMtKCTcRG0X1Bf
-         pHnkJAl8ToLtjtkY+9gXTRgq0vaRfTtMxZ4ovsKy/+/8kpZICs/Qzn5hbFyNVpH6kWj0
-         j6+lCk2+FIMfzuaWyjO+Qk/Dvqc6dLTt0KIleuSBlnpI20bgQaeqC0w/N3RdGXZDH4A/
-         rrVA==
-X-Gm-Message-State: ABy/qLY9iXDY4RYxDigh1XcVIijbQnzmLKne6mfT5HNkUTPx3SICNTFd
-        3aoNxyt5xuGML14xJvplIELdcw==
-X-Google-Smtp-Source: APBJJlFtTydzjExxCW2N0thWNf60e/JzMuJjuuZISZRxsnDyWezae/QKskV4QnPmRVwurLShFjR1mg==
-X-Received: by 2002:a17:906:84:b0:994:539d:f97f with SMTP id 4-20020a170906008400b00994539df97fmr2048729ejc.37.1690460025986;
-        Thu, 27 Jul 2023 05:13:45 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id m15-20020a17090607cf00b00993159ce075sm688182ejc.210.2023.07.27.05.13.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 05:13:45 -0700 (PDT)
-Message-ID: <ef4825d6-1016-cbf2-0cd3-94b0fc4165f4@linaro.org>
-Date:   Thu, 27 Jul 2023 14:13:43 +0200
+        Thu, 27 Jul 2023 08:22:32 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA0F30DD;
+        Thu, 27 Jul 2023 05:22:09 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36R9bmq4019837;
+        Thu, 27 Jul 2023 12:21:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ShKGmiRxB3jreFZnddt7i7eSbG6FvqDQLB3DqUUxvHw=;
+ b=bIwXi6M2vd8NygZ19MXgzEvn5JeC8pupn4HfSO0GrtcvqXn0gbTYtdO69vETENPh2wgc
+ egokng4gUs6BXm2/bKsniCexTrz8s1OoV8MgjmdTSNRK+oAd1LPAeKEmWIoy7JpbRerm
+ M/kGQdd2ANNIdHzWa0YDqGjOQILbgOG7n/e1HcbaPjmiS0TSrzYyaLWNun+IOJ+c0gK4
+ Lo87jBoq0jtvVeOLINqUUtjkkdOPWNb9WJLucAZzEjFF/dfasPzKY5pS+HBwf9Chwq/o
+ geMtKDyUDjeqKgEagYLLuFC2vK4IgAOMvfqD+qeF724PWubvwH11Y1OuCDjgQggF3SqS 6Q== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s3n2k8hcs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Jul 2023 12:21:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36RCLsGT016569
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Jul 2023 12:21:55 GMT
+Received: from [10.216.40.41] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 27 Jul
+ 2023 05:21:42 -0700
+Message-ID: <432ab1d3-0f9e-4072-ff4d-6362886584b8@quicinc.com>
+Date:   Thu, 27 Jul 2023 17:51:39 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 2/2] media: imagination: Add E5010 JPEG Encoder driver
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2] dt-bindings: qcom: Update RPMHPD entries for some SoCs
 Content-Language: en-US
-To:     Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, eugen.hristev@collabora.com,
-        ezequiel@vanguardiasur.com.ar, u.kleine-koenig@pengutronix.de,
-        sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
-        j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
-        p-mantena@ti.com, vijayp@ti.com
-References: <20230727112546.2201995-1-devarsht@ti.com>
- <20230727112546.2201995-3-devarsht@ti.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230727112546.2201995-3-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+CC:     <mathieu.poirier@linaro.org>, <mchehab@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <quic_vgarodia@quicinc.com>,
+        <konrad.dybcio@linaro.org>, <agross@kernel.org>,
+        <freedreno@lists.freedesktop.org>, <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>, <jonathan@marek.ca>,
+        <conor+dt@kernel.org>, <robh+dt@kernel.org>, <airlied@gmail.com>,
+        <linux-mmc@vger.kernel.org>, <quic_tdas@quicinc.com>,
+        <stanimir.k.varbanov@gmail.com>, <linux-clk@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <andersson@kernel.org>,
+        <mturquette@baylibre.com>, <dmitry.baryshkov@linaro.org>,
+        <linux-remoteproc@vger.kernel.org>, <sean@poorly.run>,
+        <ulf.hansson@linaro.org>, <devicetree@vger.kernel.org>,
+        <vladimir.zapolskiy@linaro.org>, <rfoss@kernel.org>,
+        <mani@kernel.org>, <linux-media@vger.kernel.org>,
+        <sboyd@kernel.org>, <quic_abhinavk@quicinc.com>,
+        <bhupesh.sharma@linaro.org>, <linux-arm-msm@vger.kernel.org>,
+        <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>,
+        <robdclark@gmail.com>
+References: <1690448953-23425-1-git-send-email-quic_rohiagar@quicinc.com>
+ <169045659774.1058731.6391693092002547810.robh@kernel.org>
+ <fa84ec4f-bdb9-dace-c56a-46174a9b47ee@quicinc.com>
+ <2edb92b8-a6a8-c115-757c-daccef6be5f0@linaro.org>
+From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
+In-Reply-To: <2edb92b8-a6a8-c115-757c-daccef6be5f0@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 52ITVeTb3FWiH_aNJVretgsD4WZy4OTk
+X-Proofpoint-ORIG-GUID: 52ITVeTb3FWiH_aNJVretgsD4WZy4OTk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-27_06,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 phishscore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ spamscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307270110
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/07/2023 13:25, Devarsh Thakkar wrote:
-> This adds support for stateful V4L2 M2M based driver
-> for Imagination E5010 JPEG Encoder [1] which supports baseline
-> encoding with two different quantization tables and compression
-> ratio as demanded.
-> 
-> Support for both contigous and non-contigous YUV420 and YUV422
-> semiplanar formats is added along with alignment restrictions
-> as required by the hardware.
-> 
-> System and runtime PM hooks are added in the driver along with v4l2
-> crop and selection API support.
-> 
-> Minimum resolution supported is 64x64 and
-> Maximum resolution supported is 8192x8192.
-> 
 
+On 7/27/2023 5:15 PM, Krzysztof Kozlowski wrote:
+> On 27/07/2023 13:19, Rohit Agarwal wrote:
+>> On 7/27/2023 4:46 PM, Rob Herring wrote:
+>>> On Thu, 27 Jul 2023 14:39:13 +0530, Rohit Agarwal wrote:
+>>>> Update the RPMHPD references with new bindings defined in rpmhpd.h
+>>>> for Qualcomm SoCs SM8[2345]50.
+>>>>
+>>>> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+>>>> ---
+>>>>    Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml   | 4 ++--
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml  | 4 ++--
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml    | 4 ++--
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml   | 4 ++--
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml  | 4 ++--
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml   | 4 ++--
+>>>>    Documentation/devicetree/bindings/clock/qcom,videocc.yaml         | 4 ++--
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml          | 4 ++--
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml         | 8 ++++----
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml          | 4 ++--
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml         | 6 +++---
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml          | 4 ++--
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml         | 8 ++++----
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml          | 4 ++--
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml         | 8 ++++----
+>>>>    Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml    | 4 ++--
+>>>>    Documentation/devicetree/bindings/mmc/sdhci-msm.yaml              | 4 ++--
+>>>>    Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml | 6 +++---
+>>>>    18 files changed, 44 insertions(+), 44 deletions(-)
+>>>>
+>>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+>>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>>>
+>>> yamllint warnings/errors:
+>>>
+>>> dtschema/dtc warnings/errors:
+>>> Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dts:21:18: fatal error: dt-bindings/power/qcom,rpmhpd.h: No such file or directory
+>>>      21 |         #include <dt-bindings/power/qcom,rpmhpd.h>
+>>>         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> compilation terminated.
+>>> make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dtb] Error 1
+>>> make[2]: *** Waiting for unfinished jobs....
+>>> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1500: dt_binding_check] Error 2
+>>> make: *** [Makefile:234: __sub-make] Error 2
+>>>
+>>> doc reference errors (make refcheckdocs):
+>>>
+>>> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/1690448953-23425-1-git-send-email-quic_rohiagar@quicinc.com
+>>>
+>>> The base for the series is generally the latest rc1. A different dependency
+>>> should be noted in *this* patch.
+>>>
+>>> If you already ran 'make dt_binding_check' and didn't see the above
+>>> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+>>> date:
+>>>
+>>> pip3 install dtschema --upgrade
+>>>
+>>> Please check and re-submit after running the above command yourself. Note
+>>> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+>>> your schema. However, it must be unset to test all examples with your schema.
+>> This should be ignored as the patch that creates the new header is
+>> already applied.
+>> Please follow this series
+>>
+>> https://lore.kernel.org/all/1689744162-9421-1-git-send-email-quic_rohiagar@quicinc.com/
+> Please mention the dependency in patch changelog ---, so it is obvious
+> for people applying it and also for the bot.
+Sure. Will send a cover letter for this patch mentioning the changelogs 
+and will
+keep the version as v2 since there no change at all in the patch.
 
-...
-
-> +
-> +static int e5010_release(struct file *file)
-> +{
-> +	struct e5010_dev *dev = video_drvdata(file);
-> +	struct e5010_context *ctx = file->private_data;
-> +
-> +	dprintk(dev, 1, "Releasing instance: 0x%p, m2m_ctx: 0x%p\n", ctx, ctx->fh.m2m_ctx);
-
-Why do you print pointers? Looks like code is buggy and you still keep
-debugging it.
-
-> +	mutex_lock(&dev->mutex);
-> +	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-> +	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
-> +	v4l2_fh_del(&ctx->fh);
-> +	v4l2_fh_exit(&ctx->fh);
-> +	kfree(ctx);
-> +	mutex_unlock(&dev->mutex);
-> +
-> +	return 0;
-> +}
-> +
-
-...
-
-> +static int e5010_init_device(struct e5010_dev *dev)
-> +{
-> +	int ret = 0;
-> +
-> +	/*TODO: Set MMU in bypass mode until support for the same is added in driver*/
-> +	e5010_hw_bypass_mmu(dev->mmu_base, 1);
-> +
-> +	if (e5010_hw_enable_auto_clock_gating(dev->jasper_base, 1))
-> +		dev_warn(dev->dev, "Failed to enable auto clock gating\n");
-> +
-> +	if (e5010_hw_enable_manual_clock_gating(dev->jasper_base, 0))
-> +		dev_warn(dev->dev, "Failed to disable manual clock gating\n");
-> +
-> +	if (e5010_hw_enable_crc_check(dev->jasper_base, 0))
-> +		dev_warn(dev->dev, "Failed to disable CRC check\n");
-> +
-> +	if (e5010_hw_enable_output_address_error_irq(dev->jasper_base, 1))
-> +		dev_err(dev->dev, "Failed to enable Output Address Error interrupts\n");
-> +
-> +	ret = e5010_hw_set_input_source_to_memory(dev->jasper_base, 1);
-> +	if (ret) {
-> +		dev_err(dev->dev, "Failed to set input source to memory\n");
-> +		goto fail;
-
-retturn ret;
-
-> +	}
-> +
-> +	ret = e5010_hw_enable_picture_done_irq(dev->jasper_base, 1);
-> +	if (ret)
-> +		dev_err(dev->dev, "Failed to enable Picture Done interrupts\n");
-> +fail:
-> +	return ret;
-> +}
-> +
-> +static int e5010_probe(struct platform_device *pdev)
-> +{
-> +	const struct of_device_id *of_dev_id;
-> +	struct e5010_dev *dev;
-
-dev is struct device, so call it differently.
-
-> +	struct resource *res;
-> +	int irq, ret = 0;
-> +
-> +	of_dev_id = of_match_device(e5010_of_match, &pdev->dev);
-> +	if (!of_dev_id) {
-> +		dev_err(&pdev->dev, "%s: Unable to match device\n", __func__);
-
-I don't think this can happen.
-
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "32-bit consistent DMA enable failed\n");
-> +		return ret;
-> +	}
-> +
-> +	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
-> +	if (!dev)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, dev);
-> +
-> +	dev->dev = &pdev->dev;
-> +
-> +	mutex_init(&dev->mutex);
-> +	spin_lock_init(&dev->hw_lock);
-> +
-> +	dev->vdev = &e5010_videodev;
-> +	dev->vdev->v4l2_dev = &dev->v4l2_dev;
-> +	dev->vdev->lock = &dev->mutex;
-> +	dev->vdev->queue = NULL;
-> +	dev->vdev->prio = NULL;
-> +	dev->vdev->dev_parent = NULL;
-> +	dev->vdev->minor = -1;
-> +
-> +	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
-> +	if (ret) {
-> +		dev_err(dev->dev, "Failed to register v4l2 device\n");
-> +		return ret;
-
-return dev_err_probe
-
-> +	}
-> +
-> +	dev->m2m_dev = v4l2_m2m_init(&e5010_m2m_ops);
-> +	if (!dev->m2m_dev) {
-
-This cannot happen. Read the function.
-
-> +		dev_err(dev->dev, "Failed to initialize m2m device\n");
-> +		ret = -ENOMEM;
-> +		goto fail_after_v4l2_register;
-> +	}
-> +
-> +	video_set_drvdata(dev->vdev, dev);
-> +
-> +	ret = video_register_device(dev->vdev, VFL_TYPE_VIDEO, 0);
-> +	if (ret) {
-> +		dev_err(dev->dev, "Failed to register video device\n");
-> +		ret = -ENOMEM;
-
-Why?
-
-> +		goto fail_after_v4l2_register;
-> +	}
-> +
-> +	dev_info(dev->dev, "Device registered as /dev/video%d\n",
-> +		 dev->vdev->num);
-> +
-> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "regjasper");
-> +	if (!res) {
-> +		dev_err(dev->dev, "Missing 'regjasper' resources area\n");
-> +		ret = -ENOMEM;
-> +		goto fail_after_video_register_device;
-> +	}
-> +	dev->jasper_base = devm_ioremap_resource(&pdev->dev, res);
-
-Use helper function to combine two calls into one.
-
-> +	if (!dev->jasper_base) {
-> +		ret = -ENOMEM;
-
-This shouldn't be ENOMEM
-
-> +		goto fail_after_video_register_device;
-> +	}
-> +
-> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "regmmu");
-> +	if (!res) {
-> +		dev_err(dev->dev, "Missing 'regmmu' resources area\n");
-> +		ret = -ENOMEM;
-> +		goto fail_after_video_register_device;
-> +	}
-> +	dev->mmu_base = devm_ioremap_resource(&pdev->dev, res);
-> +	if (!dev->mmu_base) {
-> +		ret = -ENOMEM;
-
-The same.
-
-> +		goto fail_after_video_register_device;
-> +	}
-> +
-> +	dev->last_context_run = NULL;
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	ret = devm_request_irq(dev->dev, irq, e5010_irq, 0,
-> +			       E5010_MODULE_NAME, dev);
-> +	if (ret) {
-> +		dev_err(dev->dev, "Failed to register IRQ %d\n", irq);
-> +		goto fail_after_video_register_device;
-> +	}
-> +
-> +	dev->clk = devm_clk_get(&pdev->dev, "core_clk");
-> +	if (IS_ERR(dev->clk)) {
-> +		dev_err(dev->dev, "failed to get clock\n");
-> +		ret = PTR_ERR(dev->clk);
-
-ret = dev_err_probe
-
-> +		goto fail_after_video_register_device;
-> +	}
-> +
-> +	pm_runtime_enable(dev->dev);
-> +
-> +	return 0;
-> +
-> +fail_after_video_register_device:
-> +	v4l2_m2m_release(dev->m2m_dev);
-> +fail_after_v4l2_register:
-> +	v4l2_device_unregister(&dev->v4l2_dev);
-> +	return ret;
-> +}
-> +
-> +static int e5010_remove(struct platform_device *pdev)
-> +{
-> +	struct e5010_dev *dev = platform_get_drvdata(pdev);
-> +
-> +	pm_runtime_disable(dev->dev);
-> +	video_unregister_device(dev->vdev);
-> +	v4l2_m2m_release(dev->m2m_dev);
-> +	v4l2_device_unregister(&dev->v4l2_dev);
-> +
-> +	return 0;
-> +}
-
-...
-
-> +#define MAX_PLANES			2
-> +#define HEADER_SIZE			0x025E
-> +#define MIN_DIMENSION			64
-> +#define MAX_DIMENSION			8192
-> +#define DEFAULT_WIDTH			640
-> +#define DEFAULT_HEIGHT			480
-> +#define E5010_MODULE_NAME		"e5010"
-> +
-> +/* JPEG marker definitions */
-> +#define START_OF_IMAGE			0xFFD8
-> +#define SOF_BASELINE_DCT		0xFFC0
-> +#define END_OF_IMAGE			0xFFD9
-> +#define START_OF_SCAN			0xFFDA
-> +
-> +/* Definitions for the huffman table specification in the Marker segment */
-> +#define DHT_MARKER			0xFFC4
-> +#define LH_DC				0x001F
-> +#define LH_AC				0x00B5
-> +
-> +/* Definitions for the quantization table specification in the Marker segment */
-> +#define DQT_MARKER			0xFFDB
-> +#define ACMAX				0x03FF
-> +#define DCMAX				0x07FF
-> +
-> +/* Length and precision of the quantization table parameters */
-> +#define LQPQ				0x00430
-> +#define QMAX				255
-> +
-> +/* Misc JPEG header definitions */
-> +#define UC_NUM_COMP			3
-> +#define PRECISION			8
-> +#define HORZ_SAMPLING_FACTOR		(2 << 4)
-> +#define VERT_SAMPLING_FACTOR_422	1
-> +#define VERT_SAMPLING_FACTOR_420	2
-> +#define COMPONENTS_IN_SCAN		3
-> +#define PELS_IN_BLOCK			64
-> +
-> +/* Used for Qp table generation */
-> +#define LUMINOSITY			10
-> +#define CONTRAST			1
-> +#define INCREASE			2
-> +#define QP_TABLE_SIZE			(8 * 8)
-> +#define QP_TABLE_FIELD_OFFSET		0x04
-> +
-> +/*
-> + * vb2 queue structure
-> + * contains queue data information
-> + *
-> + * @fmt: format info
-> + * @width: frame width
-> + * @height: frame height
-> + * @bytesperline: bytes per line in memory
-> + * @size_image: image size in memory
-> + */
-> +struct e5010_q_data {
-> +	struct e5010_fmt *fmt;
-> +	u32 width;
-> +	u32 height;
-> +	u32 width_adjusted;
-> +	u32 height_adjusted;
-> +	u32 sizeimage[MAX_PLANES];
-> +	u32 bytesperline[MAX_PLANES];
-> +	bool format_set;
-> +	bool streaming;
-> +	u32			sequence;
-> +	struct v4l2_rect	crop;
-
-Unexpected indentation.
-
-> +};
-> +
-> +/*
-> + * Driver device structure
-> + * Holds all memory handles and global parameters
-> + * Shared by all instances
-> + */
-> +struct e5010_dev {
-> +	struct device *dev;
-> +	struct v4l2_device v4l2_dev;
-> +	struct v4l2_m2m_dev *m2m_dev;
-> +	struct video_device *vdev;
-> +	void __iomem *jasper_base;
-> +	void __iomem *mmu_base;
-> +	struct clk   *clk;
-
-Please keep style consistent.
-
-> +	struct e5010_context *last_context_run;
-> +	/* Protect access to device data */
-> +	struct mutex mutex;
-> +	/* Protect access to hardware*/
-> +	spinlock_t hw_lock;
-> +};
-> +
-
-
-Best regards,
-Krzysztof
-
+Thanks,
+Rohit.
+> Best regards,
+> Krzysztof
+>
