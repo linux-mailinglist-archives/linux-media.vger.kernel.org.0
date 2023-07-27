@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C111764607
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 07:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18BC276460F
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 07:47:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232422AbjG0FrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 01:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35128 "EHLO
+        id S232502AbjG0Fri (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 01:47:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232418AbjG0Fqx (ORCPT
+        with ESMTP id S231147AbjG0FrO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 01:46:53 -0400
+        Thu, 27 Jul 2023 01:47:14 -0400
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B163630FE
-        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 22:46:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B633330F0
+        for <linux-media@vger.kernel.org>; Wed, 26 Jul 2023 22:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690436770; x=1721972770;
+  t=1690436796; x=1721972796;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=nDP2pWkFvqv209E19OSGvS70VbS3sJ3yXaA814k+3uU=;
-  b=Uyu8UzpMXQ8e7Mc0/3p7DzOrozMAxRGUelTRNgCVF13MtwdObalgJmit
-   6NSIW78q+GCYXEwllBEcAgHeam2b7z28aj/FnKm4RHdfJlQM3fyCVUhku
-   7nEwrX2cn3DVJ+UAU7lmPMWbNXDMXvq4PdtnAEuYaR83dnnJu3K+dS+5P
-   zf9S+Nd0I2xVw841GcM0UOSXY8hkn/iND/jmUTUb4+1sorlg2XXZvij3w
-   KjjVG41LynvP11iHOBnLpOT3D5PxlKWEcm3e6UmCQOR3vmNQssFv6jThZ
-   CxMPTwL+HdjaddOC7rG8TKLowS7QXnv7ByeglI/fhJJF1/41q+RhUlLhc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="399150509"
+  bh=H5T8pmfnnyA9pHPW2xjhc32SFf/63Tl5QWx7NbNYzcY=;
+  b=Qiu/f/qmUMCaIYFCNiRkUxAOhXkFQzlsCQGW4DbXvvsT4lCeRy1ArsMs
+   fXP783WGnwklvB3XH1vXIXLHxaoDXo8rzyxeSCajtNzNj79jhlBnnPtrX
+   U/xRVMg0DdV4r/vE/nUiOR2UiG3NFnBdqv+qr3cSiyJ/CdgjqAqiS1VxW
+   IpiYcELi16pWoGnzij2Xr4qcmC7AhuRmJnxf7R6XJP+XFp3UkEt1J6s33
+   DvCniydWUvfzUj18YUontNJI6eKw07q1eukwY5XNT7ngDRK5VhUjxPQQ1
+   JkKn0+PISfSBeJlZKLEMO+aS5Ww2RMu/ct6seWVAlt4x/rcJ/zyCPafDl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="399150641"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="399150509"
+   d="scan'208";a="399150641"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 22:44:38 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 22:44:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="840584042"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="840584088"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="840584042"
+   d="scan'208";a="840584088"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 22:44:30 -0700
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 22:44:39 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id B4EB4120B86;
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id BB419120B8A;
         Thu, 27 Jul 2023 08:44:18 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1qOtmD-004xrH-33;
+        id 1qOtmD-004xrM-3A;
         Thu, 27 Jul 2023 08:43:05 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
@@ -76,9 +76,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH v6 14/38] media: v4l: async: Make V4L2 async match information a struct
-Date:   Thu, 27 Jul 2023 08:42:31 +0300
-Message-Id: <20230727054255.1183255-15-sakari.ailus@linux.intel.com>
+Subject: [PATCH v6 15/38] media: v4l: async: Rename V4L2_ASYNC_MATCH_ macros, add TYPE_
+Date:   Thu, 27 Jul 2023 08:42:32 +0300
+Message-Id: <20230727054255.1183255-16-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230727054255.1183255-1-sakari.ailus@linux.intel.com>
 References: <20230727054255.1183255-1-sakari.ailus@linux.intel.com>
@@ -95,11 +95,16 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make V4L2 async match information a struct, making it easier to use it
-elsewhere outside the scope of struct v4l2_async_subdev.
+The async match type is a struct field now, rename V4L2_ASYNC_MATCH_*
+macros as V4L2_ASYNC_MATCH_TYPE_* instead.
 
-Also remove an obsolete comment --- none of these fields are supposed to
-be touched by drivers.
+This patch has been produced by:
+
+git grep -l V4L2_ASYNC_MATCH_ -- drivers/media/ drivers/staging/media/ \
+	include/ Documentation/|xargs perl -i -pe \
+	's/V4L2_ASYNC_MATCH_\K/TYPE_/g'
+
+so it must be correct.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Tested-by: Philipp Zabel <p.zabel@pengutronix.de> # imx6qp
@@ -108,69 +113,68 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Tested-by: Aishwarya Kothari <aishwarya.kothari@toradex.com> # Apalis i.MX6Q with TC358743
 Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # Renesas RZ/G2L SMARC
 ---
- drivers/media/v4l2-core/v4l2-async.c | 18 ++++++------
- include/media/v4l2-async.h           | 41 ++++++++++++++++------------
- 2 files changed, 32 insertions(+), 27 deletions(-)
+ drivers/media/v4l2-core/v4l2-async.c | 22 +++++++++++-----------
+ include/media/v4l2-async.h           | 16 ++++++++--------
+ 2 files changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index 925ab5571cd4..5aa8ab83eb8d 100644
+index 5aa8ab83eb8d..2c040bc50e6b 100644
 --- a/drivers/media/v4l2-core/v4l2-async.c
 +++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -212,7 +212,7 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
- 
+@@ -213,10 +213,10 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
  	list_for_each_entry(asd, &notifier->waiting, list) {
  		/* bus_type has been verified valid before */
--		switch (asd->match_type) {
-+		switch (asd->match.type) {
- 		case V4L2_ASYNC_MATCH_I2C:
+ 		switch (asd->match.type) {
+-		case V4L2_ASYNC_MATCH_I2C:
++		case V4L2_ASYNC_MATCH_TYPE_I2C:
  			match = match_i2c;
  			break;
-@@ -237,10 +237,10 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
- static bool asd_equal(struct v4l2_async_subdev *asd_x,
- 		      struct v4l2_async_subdev *asd_y)
- {
--	if (asd_x->match_type != asd_y->match_type)
-+	if (asd_x->match.type != asd_y->match.type)
+-		case V4L2_ASYNC_MATCH_FWNODE:
++		case V4L2_ASYNC_MATCH_TYPE_FWNODE:
+ 			match = match_fwnode;
+ 			break;
+ 		default:
+@@ -241,12 +241,12 @@ static bool asd_equal(struct v4l2_async_subdev *asd_x,
  		return false;
  
--	switch (asd_x->match_type) {
-+	switch (asd_x->match.type) {
- 	case V4L2_ASYNC_MATCH_I2C:
+ 	switch (asd_x->match.type) {
+-	case V4L2_ASYNC_MATCH_I2C:
++	case V4L2_ASYNC_MATCH_TYPE_I2C:
  		return asd_x->match.i2c.adapter_id ==
  			asd_y->match.i2c.adapter_id &&
-@@ -554,7 +554,7 @@ static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
- {
+ 			asd_x->match.i2c.address ==
+ 			asd_y->match.i2c.address;
+-	case V4L2_ASYNC_MATCH_FWNODE:
++	case V4L2_ASYNC_MATCH_TYPE_FWNODE:
+ 		return asd_x->match.fwnode == asd_y->match.fwnode;
+ 	default:
+ 		break;
+@@ -555,8 +555,8 @@ static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
  	struct device *dev = notifier_dev(notifier);
  
--	switch (asd->match_type) {
-+	switch (asd->match.type) {
- 	case V4L2_ASYNC_MATCH_I2C:
- 	case V4L2_ASYNC_MATCH_FWNODE:
+ 	switch (asd->match.type) {
+-	case V4L2_ASYNC_MATCH_I2C:
+-	case V4L2_ASYNC_MATCH_FWNODE:
++	case V4L2_ASYNC_MATCH_TYPE_I2C:
++	case V4L2_ASYNC_MATCH_TYPE_FWNODE:
  		if (v4l2_async_nf_has_async_subdev(notifier, asd, skip_self)) {
-@@ -564,7 +564,7 @@ static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
- 		break;
- 	default:
- 		dev_err(dev, "v4l2-async: Invalid match type %u on %p\n",
--			asd->match_type, asd);
-+			asd->match.type, asd);
- 		return -EINVAL;
- 	}
- 
-@@ -690,7 +690,7 @@ static void __v4l2_async_nf_cleanup(struct v4l2_async_notifier *notifier)
- 		return;
+ 			dev_dbg(dev, "v4l2-async: subdev descriptor already listed in a notifier\n");
+ 			return -EEXIST;
+@@ -691,7 +691,7 @@ static void __v4l2_async_nf_cleanup(struct v4l2_async_notifier *notifier)
  
  	list_for_each_entry_safe(asd, tmp, &notifier->asd_list, asd_list) {
--		switch (asd->match_type) {
-+		switch (asd->match.type) {
- 		case V4L2_ASYNC_MATCH_FWNODE:
+ 		switch (asd->match.type) {
+-		case V4L2_ASYNC_MATCH_FWNODE:
++		case V4L2_ASYNC_MATCH_TYPE_FWNODE:
  			fwnode_handle_put(asd->match.fwnode);
  			break;
+ 		default:
 @@ -745,7 +745,7 @@ __v4l2_async_nf_add_fwnode(struct v4l2_async_notifier *notifier,
  	if (!asd)
  		return ERR_PTR(-ENOMEM);
  
--	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
-+	asd->match.type = V4L2_ASYNC_MATCH_FWNODE;
+-	asd->match.type = V4L2_ASYNC_MATCH_FWNODE;
++	asd->match.type = V4L2_ASYNC_MATCH_TYPE_FWNODE;
  	asd->match.fwnode = fwnode_handle_get(fwnode);
  
  	ret = __v4l2_async_nf_add_subdev(notifier, asd);
@@ -178,88 +182,71 @@ index 925ab5571cd4..5aa8ab83eb8d 100644
  	if (!asd)
  		return ERR_PTR(-ENOMEM);
  
--	asd->match_type = V4L2_ASYNC_MATCH_I2C;
-+	asd->match.type = V4L2_ASYNC_MATCH_I2C;
+-	asd->match.type = V4L2_ASYNC_MATCH_I2C;
++	asd->match.type = V4L2_ASYNC_MATCH_TYPE_I2C;
  	asd->match.i2c.adapter_id = adapter_id;
  	asd->match.i2c.address = address;
  
-@@ -905,7 +905,7 @@ EXPORT_SYMBOL(v4l2_async_unregister_subdev);
- static void print_waiting_subdev(struct seq_file *s,
+@@ -906,11 +906,11 @@ static void print_waiting_subdev(struct seq_file *s,
  				 struct v4l2_async_subdev *asd)
  {
--	switch (asd->match_type) {
-+	switch (asd->match.type) {
- 	case V4L2_ASYNC_MATCH_I2C:
+ 	switch (asd->match.type) {
+-	case V4L2_ASYNC_MATCH_I2C:
++	case V4L2_ASYNC_MATCH_TYPE_I2C:
  		seq_printf(s, " [i2c] dev=%d-%04x\n", asd->match.i2c.adapter_id,
  			   asd->match.i2c.address);
+ 		break;
+-	case V4L2_ASYNC_MATCH_FWNODE: {
++	case V4L2_ASYNC_MATCH_TYPE_FWNODE: {
+ 		struct fwnode_handle *devnode, *fwnode = asd->match.fwnode;
+ 
+ 		devnode = fwnode_graph_is_endpoint(fwnode) ?
 diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-index 2c9baa3c9266..d347ef32f4ec 100644
+index d347ef32f4ec..8d1506a9755c 100644
 --- a/include/media/v4l2-async.h
 +++ b/include/media/v4l2-async.h
-@@ -34,23 +34,37 @@ enum v4l2_async_match_type {
+@@ -22,15 +22,15 @@ struct v4l2_async_notifier;
+  * enum v4l2_async_match_type - type of asynchronous subdevice logic to be used
+  *	in order to identify a match
+  *
+- * @V4L2_ASYNC_MATCH_I2C: Match will check for I2C adapter ID and address
+- * @V4L2_ASYNC_MATCH_FWNODE: Match will use firmware node
++ * @V4L2_ASYNC_MATCH_TYPE_I2C: Match will check for I2C adapter ID and address
++ * @V4L2_ASYNC_MATCH_TYPE_FWNODE: Match will use firmware node
+  *
+  * This enum is used by the asynchronous sub-device logic to define the
+  * algorithm that will be used to match an asynchronous device.
+  */
+ enum v4l2_async_match_type {
+-	V4L2_ASYNC_MATCH_I2C,
+-	V4L2_ASYNC_MATCH_FWNODE,
++	V4L2_ASYNC_MATCH_TYPE_I2C,
++	V4L2_ASYNC_MATCH_TYPE_FWNODE,
  };
  
  /**
-- * struct v4l2_async_subdev - sub-device descriptor, as known to a bridge
-+ * struct v4l2_async_match_desc - async sub-device match information
+@@ -38,17 +38,17 @@ enum v4l2_async_match_type {
   *
-- * @match_type:	type of match that will be used
-- * @match:	union of per-bus type matching data sets
-- * @match.fwnode:
-- *		pointer to &struct fwnode_handle to be matched.
-+ * @type:	type of match that will be used
-+ * @fwnode:	pointer to &struct fwnode_handle to be matched.
-  *		Used if @match_type is %V4L2_ASYNC_MATCH_FWNODE.
-- * @match.i2c:	embedded struct with I2C parameters to be matched.
-+ * @i2c:	embedded struct with I2C parameters to be matched.
+  * @type:	type of match that will be used
+  * @fwnode:	pointer to &struct fwnode_handle to be matched.
+- *		Used if @match_type is %V4L2_ASYNC_MATCH_FWNODE.
++ *		Used if @match_type is %V4L2_ASYNC_MATCH_TYPE_FWNODE.
+  * @i2c:	embedded struct with I2C parameters to be matched.
   *		Both @match.i2c.adapter_id and @match.i2c.address
   *		should be matched.
-  *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
-- * @match.i2c.adapter_id:
-+ * @i2c.adapter_id:
+- *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
++ *		Used if @match_type is %V4L2_ASYNC_MATCH_TYPE_I2C.
+  * @i2c.adapter_id:
   *		I2C adapter ID to be matched.
-  *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
-- * @match.i2c.address:
-+ * @i2c.address:
+- *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
++ *		Used if @match_type is %V4L2_ASYNC_MATCH_TYPE_I2C.
+  * @i2c.address:
   *		I2C address to be matched.
-  *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
-+ */
-+struct v4l2_async_match_desc {
-+	enum v4l2_async_match_type type;
-+	union {
-+		struct fwnode_handle *fwnode;
-+		struct {
-+			int adapter_id;
-+			unsigned short address;
-+		} i2c;
-+	};
-+};
-+
-+/**
-+ * struct v4l2_async_subdev - sub-device descriptor, as known to a bridge
-+ *
-+ * @match:	struct of match type and per-bus type matching data sets
-  * @asd_list:	used to add struct v4l2_async_subdev objects to the
-  *		master notifier @asd_list
-  * @list:	used to link struct v4l2_async_subdev objects, waiting to be
-@@ -61,16 +75,7 @@ enum v4l2_async_match_type {
-  * v4l2_async_subdev as its first member.
+- *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
++ *		Used if @match_type is %V4L2_ASYNC_MATCH_TYPE_I2C.
   */
- struct v4l2_async_subdev {
--	enum v4l2_async_match_type match_type;
--	union {
--		struct fwnode_handle *fwnode;
--		struct {
--			int adapter_id;
--			unsigned short address;
--		} i2c;
--	} match;
--
--	/* v4l2-async core private: not to be used by drivers */
-+	struct v4l2_async_match_desc match;
- 	struct list_head list;
- 	struct list_head asd_list;
- };
+ struct v4l2_async_match_desc {
+ 	enum v4l2_async_match_type type;
 -- 
 2.39.2
 
