@@ -2,89 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58FB37643BE
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 04:21:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D41597644E3
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 06:35:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbjG0CVS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jul 2023 22:21:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43346 "EHLO
+        id S231308AbjG0EfF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 00:35:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229639AbjG0CVR (ORCPT
+        with ESMTP id S229820AbjG0EfE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jul 2023 22:21:17 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D06E91BDA;
-        Wed, 26 Jul 2023 19:21:15 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RBDx61QCFzTkqW;
-        Thu, 27 Jul 2023 10:19:38 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 27 Jul
- 2023 10:21:12 +0800
-From:   Ruan Jinjie <ruanjinjie@huawei.com>
-To:     <mirela.rabulea@nxp.com>, <linux-imx@nxp.com>,
-        <mchehab@kernel.org>, <shawnguo@kernel.org>,
-        <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
-        <festevam@gmail.com>, <laurent.pinchart@ideasonboard.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH -next] media: nxp: Remove redundant dev_err()
-Date:   Thu, 27 Jul 2023 10:21:54 +0000
-Message-ID: <20230727102154.2757410-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 27 Jul 2023 00:35:04 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FC3E2704;
+        Wed, 26 Jul 2023 21:35:03 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36R48XvA013662;
+        Thu, 27 Jul 2023 04:34:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=ZMQ682HHLhMyrGe37gS8Chm+Rhi4J/2foIKcYpm9+Rc=;
+ b=L1kpfyKQw5U8fayHcbebr60EnHOgqDeKt3EvtDJFzRbvixbSfKsIzSb+DrxANfrFen8S
+ jlajwxopwuhTGK89a55qZv5BKW0LdATtKMnmorQylnlZTkD9CXFQkVn36jbQKjxlaYzI
+ R/w2Qw+GQXxZCmpi9kO5wHzZdu2iSfklpPwlNjymPsB2QYSQpUfKDpIVUnREVnFEB1db
+ MX681vAjlxfygQHMrF1j03rZd+pRMCjZKlPUcuDj+vBNLYWQs7IyUR3DnT+29vSP6lz3
+ RNgtDGIPRYj9RCyPFdgjLU5ssmCWzbMeBBqL5ZkbceoKv2D36tO6nINCrikX1+kROikW dg== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s3afyrnrp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Jul 2023 04:34:57 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36R4Yunq002389
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Jul 2023 04:34:56 GMT
+Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Wed, 26 Jul 2023 21:34:52 -0700
+From:   Vikash Garodia <quic_vgarodia@quicinc.com>
+To:     <stanimir.k.varbanov@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <mchehab@kernel.org>,
+        <hans.verkuil@cisco.com>, <tfiga@chromium.org>
+CC:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>
+Subject: [PATCH 0/4] Venus driver fixes to avoid possible OOB accesses 
+Date:   Thu, 27 Jul 2023 10:04:25 +0530
+Message-ID: <1690432469-14803-1-git-send-email-quic_vgarodia@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_06_12,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: _neKvULE_FctP6fzXaHy8P3lvTEpmNDI
+X-Proofpoint-ORIG-GUID: _neKvULE_FctP6fzXaHy8P3lvTEpmNDI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 impostorscore=0
+ mlxscore=0 phishscore=0 spamscore=0 suspectscore=0 mlxlogscore=922
+ priorityscore=1501 bulkscore=0 lowpriorityscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307270040
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is no need to call the dev_err() function directly to print a custom
-message when handling an error from platform_get_irq() function as
-it is going to display an appropriate error message in case of a failure.
+This series primarily adds check at relevant places in venus driver where there
+are possible OOB accesses due to unexpected payload from venus firmware. The
+patches describes the specific OOB possibility.
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
----
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c      | 1 -
- drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c | 1 -
- 2 files changed, 2 deletions(-)
+Please review and share your feedback.
 
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index 9512c0a61966..b7a720198ce5 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -2742,7 +2742,6 @@ static int mxc_jpeg_probe(struct platform_device *pdev)
- 	dev_info(&pdev->dev, "choose slot %d\n", jpeg->slot_data.slot);
- 	dec_irq = platform_get_irq(pdev, 0);
- 	if (dec_irq < 0) {
--		dev_err(&pdev->dev, "Failed to get irq %d\n", dec_irq);
- 		ret = dec_irq;
- 		goto err_irq;
- 	}
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-index c4454aa1cb34..65d20e9bae69 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
-@@ -791,7 +791,6 @@ int mxc_isi_pipe_init(struct mxc_isi_dev *isi, unsigned int id)
- 
- 	irq = platform_get_irq(to_platform_device(isi->dev), id);
- 	if (irq < 0) {
--		dev_err(pipe->isi->dev, "Failed to get IRQ (%d)\n", irq);
- 		ret = irq;
- 		goto error;
- 	}
+Vikash Garodia (4):
+  venus: hfi: add checks to perform sanity on queue pointers
+  venus: hfi: fix the check to handle session buffer requirement
+  venus: hfi: add checks to handle capabilities from firmware
+  venus: hfi_parser: Add check to keep the number of codecs within range
+
+ drivers/media/platform/qcom/venus/hfi_msgs.c   |  2 +-
+ drivers/media/platform/qcom/venus/hfi_parser.c | 27 ++++++++++++++++++++++++++
+ drivers/media/platform/qcom/venus/hfi_venus.c  |  8 ++++++++
+ 3 files changed, 36 insertions(+), 1 deletion(-)
+
 -- 
-2.34.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
