@@ -2,177 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD7AE765394
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 14:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DA5E7653BD
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 14:25:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233962AbjG0MWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 08:22:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58832 "EHLO
+        id S233955AbjG0MZF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 08:25:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbjG0MWc (ORCPT
+        with ESMTP id S233907AbjG0MYj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 08:22:32 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA0F30DD;
-        Thu, 27 Jul 2023 05:22:09 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36R9bmq4019837;
-        Thu, 27 Jul 2023 12:21:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ShKGmiRxB3jreFZnddt7i7eSbG6FvqDQLB3DqUUxvHw=;
- b=bIwXi6M2vd8NygZ19MXgzEvn5JeC8pupn4HfSO0GrtcvqXn0gbTYtdO69vETENPh2wgc
- egokng4gUs6BXm2/bKsniCexTrz8s1OoV8MgjmdTSNRK+oAd1LPAeKEmWIoy7JpbRerm
- M/kGQdd2ANNIdHzWa0YDqGjOQILbgOG7n/e1HcbaPjmiS0TSrzYyaLWNun+IOJ+c0gK4
- Lo87jBoq0jtvVeOLINqUUtjkkdOPWNb9WJLucAZzEjFF/dfasPzKY5pS+HBwf9Chwq/o
- geMtKDyUDjeqKgEagYLLuFC2vK4IgAOMvfqD+qeF724PWubvwH11Y1OuCDjgQggF3SqS 6Q== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s3n2k8hcs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jul 2023 12:21:57 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36RCLsGT016569
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jul 2023 12:21:55 GMT
-Received: from [10.216.40.41] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 27 Jul
- 2023 05:21:42 -0700
-Message-ID: <432ab1d3-0f9e-4072-ff4d-6362886584b8@quicinc.com>
-Date:   Thu, 27 Jul 2023 17:51:39 +0530
+        Thu, 27 Jul 2023 08:24:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1613B2D64;
+        Thu, 27 Jul 2023 05:24:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7BB2661E51;
+        Thu, 27 Jul 2023 12:23:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DAA1C433C8;
+        Thu, 27 Jul 2023 12:23:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690460617;
+        bh=/shLq4qzxc3NXa/9E/Gu6HjzRfsdLokrY9AG3a6p8tU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YAwtkcpPf5xIaMIjG5UKw7gNsda0nETisMjiYC70/K3m++/7yygPbaekS3UPER+VD
+         YewdPVJ+DFVWDvKh/o0DMQBvZVLSGwZ/8ygb4i4UvyT12p57rUU9xBrI2YosPy9p6T
+         M8JoTCVcY1jSodRMmpb+cnJGbsarV+SNBdT0VBFiV+qqI873xlRBqRE2Z8sjLB5Ybd
+         XzU+notVxM3VPHLRS1P4b1pc8qcbZilBiALGkWhpkt5yHR0TrNXxvXPLjJ66WL3GaO
+         mliZHWMAnPIWH9BJSkBm2toRVe7kBTUGMF/QmD+DKmLDP53GEj696OlkSGFGLAr2cc
+         /oWctlaVHvpsQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Dan Scally <djrscally@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: ipu3-cio2: allow ipu_bridge to be a module again
+Date:   Thu, 27 Jul 2023 14:22:58 +0200
+Message-Id: <20230727122331.2421453-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2] dt-bindings: qcom: Update RPMHPD entries for some SoCs
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>
-CC:     <mathieu.poirier@linaro.org>, <mchehab@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <quic_vgarodia@quicinc.com>,
-        <konrad.dybcio@linaro.org>, <agross@kernel.org>,
-        <freedreno@lists.freedesktop.org>, <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>, <jonathan@marek.ca>,
-        <conor+dt@kernel.org>, <robh+dt@kernel.org>, <airlied@gmail.com>,
-        <linux-mmc@vger.kernel.org>, <quic_tdas@quicinc.com>,
-        <stanimir.k.varbanov@gmail.com>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <andersson@kernel.org>,
-        <mturquette@baylibre.com>, <dmitry.baryshkov@linaro.org>,
-        <linux-remoteproc@vger.kernel.org>, <sean@poorly.run>,
-        <ulf.hansson@linaro.org>, <devicetree@vger.kernel.org>,
-        <vladimir.zapolskiy@linaro.org>, <rfoss@kernel.org>,
-        <mani@kernel.org>, <linux-media@vger.kernel.org>,
-        <sboyd@kernel.org>, <quic_abhinavk@quicinc.com>,
-        <bhupesh.sharma@linaro.org>, <linux-arm-msm@vger.kernel.org>,
-        <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>,
-        <robdclark@gmail.com>
-References: <1690448953-23425-1-git-send-email-quic_rohiagar@quicinc.com>
- <169045659774.1058731.6391693092002547810.robh@kernel.org>
- <fa84ec4f-bdb9-dace-c56a-46174a9b47ee@quicinc.com>
- <2edb92b8-a6a8-c115-757c-daccef6be5f0@linaro.org>
-From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
-In-Reply-To: <2edb92b8-a6a8-c115-757c-daccef6be5f0@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 52ITVeTb3FWiH_aNJVretgsD4WZy4OTk
-X-Proofpoint-ORIG-GUID: 52ITVeTb3FWiH_aNJVretgsD4WZy4OTk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-27_06,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 impostorscore=0 mlxscore=0 suspectscore=0
- spamscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307270110
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Arnd Bergmann <arnd@arndb.de>
 
-On 7/27/2023 5:15 PM, Krzysztof Kozlowski wrote:
-> On 27/07/2023 13:19, Rohit Agarwal wrote:
->> On 7/27/2023 4:46 PM, Rob Herring wrote:
->>> On Thu, 27 Jul 2023 14:39:13 +0530, Rohit Agarwal wrote:
->>>> Update the RPMHPD references with new bindings defined in rpmhpd.h
->>>> for Qualcomm SoCs SM8[2345]50.
->>>>
->>>> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
->>>> ---
->>>>    Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml   | 4 ++--
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml  | 4 ++--
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml    | 4 ++--
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml   | 4 ++--
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml  | 4 ++--
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml   | 4 ++--
->>>>    Documentation/devicetree/bindings/clock/qcom,videocc.yaml         | 4 ++--
->>>>    .../devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml          | 4 ++--
->>>>    .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml         | 8 ++++----
->>>>    .../devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml          | 4 ++--
->>>>    .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml         | 6 +++---
->>>>    .../devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml          | 4 ++--
->>>>    .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml         | 8 ++++----
->>>>    .../devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml          | 4 ++--
->>>>    .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml         | 8 ++++----
->>>>    Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml    | 4 ++--
->>>>    Documentation/devicetree/bindings/mmc/sdhci-msm.yaml              | 4 ++--
->>>>    Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml | 6 +++---
->>>>    18 files changed, 44 insertions(+), 44 deletions(-)
->>>>
->>> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
->>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
->>>
->>> yamllint warnings/errors:
->>>
->>> dtschema/dtc warnings/errors:
->>> Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dts:21:18: fatal error: dt-bindings/power/qcom,rpmhpd.h: No such file or directory
->>>      21 |         #include <dt-bindings/power/qcom,rpmhpd.h>
->>>         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>> compilation terminated.
->>> make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dtb] Error 1
->>> make[2]: *** Waiting for unfinished jobs....
->>> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1500: dt_binding_check] Error 2
->>> make: *** [Makefile:234: __sub-make] Error 2
->>>
->>> doc reference errors (make refcheckdocs):
->>>
->>> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/1690448953-23425-1-git-send-email-quic_rohiagar@quicinc.com
->>>
->>> The base for the series is generally the latest rc1. A different dependency
->>> should be noted in *this* patch.
->>>
->>> If you already ran 'make dt_binding_check' and didn't see the above
->>> error(s), then make sure 'yamllint' is installed and dt-schema is up to
->>> date:
->>>
->>> pip3 install dtschema --upgrade
->>>
->>> Please check and re-submit after running the above command yourself. Note
->>> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
->>> your schema. However, it must be unset to test all examples with your schema.
->> This should be ignored as the patch that creates the new header is
->> already applied.
->> Please follow this series
->>
->> https://lore.kernel.org/all/1689744162-9421-1-git-send-email-quic_rohiagar@quicinc.com/
-> Please mention the dependency in patch changelog ---, so it is obvious
-> for people applying it and also for the bot.
-Sure. Will send a cover letter for this patch mentioning the changelogs 
-and will
-keep the version as v2 since there no change at all in the patch.
+This code was previously part of the VIDEO_IPU3_CIO2 driver, which could
+be built-in or a loadable module, but after the move it turned into a
+builtin-only driver. This fails to link when the I2C subsystem is a
+module:
 
-Thanks,
-Rohit.
-> Best regards,
-> Krzysztof
->
+x86_64-linux-ld: drivers/media/pci/intel/ipu-bridge.o: in function `ipu_bridge_unregister_sensors':
+ipu-bridge.c:(.text+0x50): undefined reference to `i2c_unregister_device'
+x86_64-linux-ld: drivers/media/pci/intel/ipu-bridge.o: in function `ipu_bridge_init':
+ipu-bridge.c:(.text+0x9c9): undefined reference to `i2c_acpi_new_device_by_fwnode'
+
+In general, drivers should not have to be built-in, so change the option
+to a tristate with the corresponding dependency. This in turn opens a
+new problem with the dependency, as the IPU bridge can be a loadable module
+while the ipu3 driver itself is built-in, producing a new link failure:
+
+86_64-linux-ld: drivers/media/pci/intel/ipu3/ipu3-cio2.o: in function `cio2_pci_probe':
+ipu3-cio2.c:(.text+0x197e): undefined reference to `ipu_bridge_init'
+
+In order to fix this, restore the old Kconfig option that controlled
+the ipu bridge driver before it was split out, but make it select a
+hidden symbol that now corresponds to the bridge driver.
+
+When other drivers get added that share ipu-bridge, this should cover
+all corner cases, and allow any combination of them to be built-in
+or modular.
+
+Fixes: 881ca25978c6f ("media: ipu3-cio2: rename cio2 bridge to ipu bridge and move out of ipu3")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/pci/intel/Kconfig      | 21 +++++----------------
+ drivers/media/pci/intel/ipu-bridge.c |  3 +++
+ drivers/media/pci/intel/ipu3/Kconfig | 20 ++++++++++++++++++++
+ 3 files changed, 28 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/media/pci/intel/Kconfig b/drivers/media/pci/intel/Kconfig
+index 64a29b0b7033b..51b18fce6a1de 100644
+--- a/drivers/media/pci/intel/Kconfig
++++ b/drivers/media/pci/intel/Kconfig
+@@ -1,21 +1,10 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config IPU_BRIDGE
+-	bool "Intel IPU Sensors Bridge"
+-	depends on VIDEO_IPU3_CIO2 && ACPI
+-	depends on I2C
++	tristate
++	depends on I2C && ACPI
+ 	help
+-	  This extension provides an API for the Intel IPU driver to create
+-	  connections to cameras that are hidden in the SSDB buffer in ACPI.
+-	  It can be used to enable support for cameras in detachable / hybrid
+-	  devices that ship with Windows.
+-
+-	  Say Y here if your device is a detachable / hybrid laptop that comes
+-	  with Windows installed by the OEM, for example:
+-
+-		- Microsoft Surface models (except Surface Pro 3)
+-		- The Lenovo Miix line (for example the 510, 520, 710 and 720)
+-		- Dell 7285
+-
+-	  If in doubt, say N here.
++	  This is a helper module for the IPU bridge, which can be
++	  used by ipu3 and other drivers. In order to handle module
++	  dependencies, this is selected by each driver that needs it.
+ 
+ source "drivers/media/pci/intel/ipu3/Kconfig"
+diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+index 62daa8c1f6b18..bd67c3e990ea8 100644
+--- a/drivers/media/pci/intel/ipu-bridge.c
++++ b/drivers/media/pci/intel/ipu-bridge.c
+@@ -493,3 +493,6 @@ int ipu_bridge_init(struct pci_dev *ipu)
+ 	return ret;
+ }
+ EXPORT_SYMBOL_NS_GPL(ipu_bridge_init, INTEL_IPU_BRIDGE);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Intel IPU Sensors Bridge driver");
+diff --git a/drivers/media/pci/intel/ipu3/Kconfig b/drivers/media/pci/intel/ipu3/Kconfig
+index 9be06ee81ff05..0951545eab21a 100644
+--- a/drivers/media/pci/intel/ipu3/Kconfig
++++ b/drivers/media/pci/intel/ipu3/Kconfig
+@@ -8,6 +8,7 @@ config VIDEO_IPU3_CIO2
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select V4L2_FWNODE
+ 	select VIDEOBUF2_DMA_SG
++	select IPU_BRIDGE if CIO2_BRIDGE
+ 
+ 	help
+ 	  This is the Intel IPU3 CIO2 CSI-2 receiver unit, found in Intel
+@@ -17,3 +18,22 @@ config VIDEO_IPU3_CIO2
+ 	  Say Y or M here if you have a Skylake/Kaby Lake SoC with MIPI CSI-2
+ 	  connected camera.
+ 	  The module will be called ipu3-cio2.
++
++config CIO2_BRIDGE
++	bool "IPU3 CIO2 Sensors Bridge"
++	depends on VIDEO_IPU3_CIO2 && ACPI
++	depends on I2C
++	help
++	  This extension provides an API for the ipu3-cio2 driver to create
++	  connections to cameras that are hidden in the SSDB buffer in ACPI.
++	  It can be used to enable support for cameras in detachable / hybrid
++	  devices that ship with Windows.
++
++	  Say Y here if your device is a detachable / hybrid laptop that comes
++	  with Windows installed by the OEM, for example:
++
++		- Microsoft Surface models (except Surface Pro 3)
++		- The Lenovo Miix line (for example the 510, 520, 710 and 720)
++		- Dell 7285
++
++	  If in doubt, say N here.
+-- 
+2.39.2
+
