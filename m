@@ -2,199 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB7D0765012
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 11:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E51B765013
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 11:43:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232172AbjG0Jng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 05:43:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59630 "EHLO
+        id S232388AbjG0Jnh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 05:43:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233787AbjG0JnX (ORCPT
+        with ESMTP id S233849AbjG0JnY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 05:43:23 -0400
-Received: from mgamail.intel.com (unknown [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B7130FC
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 02:42:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690450967; x=1721986967;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d+K0scrOmf7UQ815GWB56h6hLf/UpiBYm+EwNQoVCtU=;
-  b=EoLaUVgM4cTPSLss/69VTT+kzwn3kQVisqDokYCBZNAgGsHJShBcsVPS
-   BL0WU8+fHQrUEHQ3ehZ4IVdVdFMEbnbBm9KxON/7faeU/RqE7ACmsVEkI
-   82s5epaorIQSmFnVoBgs/qfDRK6qc2FeZvlpW6HH1vGF6h5zNP5ACrkV6
-   fJLdlgTcjUuHO841+Is4PPU/5h83PgScXpLR1b1BiftmUYlRMhPPYwxB6
-   jFaGHxq2fUE7aLhbSrmuoJHXcWMN7WFtxHGZwTyKjBeplvbAZh2xaxQyC
-   hG8Ew1HM13vcU73KZhKxBt9pqsFnMP4ybARq2BGn3bInKK8QJg9N0itGC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="353164697"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="353164697"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 02:42:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="677088052"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="677088052"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 27 Jul 2023 02:42:45 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qOxVC-00029B-2a;
-        Thu, 27 Jul 2023 09:42:00 +0000
-Date:   Thu, 27 Jul 2023 17:40:00 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [sailus-media-tree:master 10/20] drivers/media/i2c/imx290.c:1526:26:
- error: implicit declaration of function 'devm_cci_regmap_init_i2c'; did you
- mean 'devm_regmap_init_i2c'?
-Message-ID: <202307271727.smfo1zYW-lkp@intel.com>
+        Thu, 27 Jul 2023 05:43:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04D383581
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 02:42:50 -0700 (PDT)
+Received: from ideasonboard.com (mob-5-91-19-250.net.vodafone.it [5.91.19.250])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 455AD4A9;
+        Thu, 27 Jul 2023 11:41:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1690450909;
+        bh=J761nHIdwzWmcAbqa5O2oKZduxnn8nYdk0EnKi7wZ/U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rAdM8KChVAFKKMqBhRiPONUa/cnFWM1IaUw5BAX5NQnjco5CR6Wl5W/3e0t2mGYFN
+         W0MPzUzrsRcoZrut31SCuodYugIyUWXsTZnfy3+/wIhhLBmo2BhBxFfEzkNLRZpGmZ
+         LM/43JpsrPxVXHRtM2OvCAqD7k/zuMrOQ+bx/USs=
+Date:   Thu, 27 Jul 2023 11:42:45 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v3 2/2] Documentation: v4l: Exposure/gain for camera
+ sensor
+Message-ID: <wdhkxxokan2gk4m2b3gwro7d6j6ie4zhshfman456dhvjqokxm@67jcmm3bewgb>
+References: <20230710132240.7864-1-jacopo.mondi@ideasonboard.com>
+ <20230710132240.7864-3-jacopo.mondi@ideasonboard.com>
+ <ZLUW1eBTH3GpnSlW@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZLUW1eBTH3GpnSlW@valkosipuli.retiisi.eu>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   215e4463b11d94668b841368cb6882f3a2968148
-commit: 51b1f81e3b15a4cf6c5c1bfd6bb14ff8bc9951fb [10/20] media: imx290: Convert to new CCI register access helpers
-config: mips-randconfig-r034-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271727.smfo1zYW-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271727.smfo1zYW-lkp@intel.com/reproduce)
+Hi Sakari
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271727.smfo1zYW-lkp@intel.com/
+On Mon, Jul 17, 2023 at 10:24:21AM +0000, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Mon, Jul 10, 2023 at 03:22:40PM +0200, Jacopo Mondi wrote:
+> > Document the suggested way to exposure controls for exposure and gain
+> > for camera sensor drivers.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > ---
+> >  .../driver-api/media/camera-sensor.rst        | 27 +++++++++++++++++++
+> >  1 file changed, 27 insertions(+)
+> >
+> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > index cd915ca119ea..67fe77b1edb9 100644
+> > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > @@ -189,3 +189,30 @@ the ``V4L2_CID_VFLIP`` and ``V4L2_CID_HFLIP`` controls with the
+> >  a flip can potentially change the output buffer content layout. Flips should
+> >  also be taken into account when enumerating and handling media bus formats
+> >  on the camera sensor source pads.
+> > +
+> > +Exposure and Gain Control
+> > +-------------------------
+> > +
+> > +Camera sensor drivers that allow applications to control the image exposure
+> > +and gain should do so by exposing dedicated controls to applications.
+> > +
+> > +Exposure time is controlled by registering the ``V4L2_CID_EXPOSURE`` control.
+> > +The control definition does not specify a unit to allow maximum flexibility
+> > +for multiple device types, but when used for camera sensor drivers it should be
+> > +expressed in unit of lines whenever possible.
+>
+> This part of the documentation applies to both raw and SoC cameras.
+>
+> Should the exposure unit be something more user-friendly for SoC cameras?
 
-All error/warnings (new ones prefixed by >>):
+SoC cameras == YUV/RGB sensors ?
 
-   drivers/media/i2c/imx290.c: In function 'imx290_probe':
->> drivers/media/i2c/imx290.c:1526:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c'; did you mean 'devm_regmap_init_i2c'? [-Werror=implicit-function-declaration]
-    1526 |         imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                          devm_regmap_init_i2c
->> drivers/media/i2c/imx290.c:1526:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1526 |         imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
-         |                        ^
-   cc1: some warnings being treated as errors
+Are you thinking about using the actual exposure time for YUV/RGB
+sensors ?
 
+>
+> We have two exposure controls now, V4L2_CID_EXPOSURE and
+> V4L2_CID_EXPOSURE_ABSOLUTE. The former doesn't specity a unit whereas the
 
-vim +1526 drivers/media/i2c/imx290.c
+Apparently only 2 drivers in mainline register V4L2_CID_EXPOSURE_ABSOLUTE
 
-  1514	
-  1515	static int imx290_probe(struct i2c_client *client)
-  1516	{
-  1517		struct device *dev = &client->dev;
-  1518		struct imx290 *imx290;
-  1519		int ret;
-  1520	
-  1521		imx290 = devm_kzalloc(dev, sizeof(*imx290), GFP_KERNEL);
-  1522		if (!imx290)
-  1523			return -ENOMEM;
-  1524	
-  1525		imx290->dev = dev;
-> 1526		imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
-  1527		if (IS_ERR(imx290->regmap)) {
-  1528			dev_err(dev, "Unable to initialize I2C\n");
-  1529			return -ENODEV;
-  1530		}
-  1531	
-  1532		ret = imx290_parse_dt(imx290);
-  1533		if (ret)
-  1534			return ret;
-  1535	
-  1536		/* Acquire resources. */
-  1537		imx290->xclk = devm_clk_get(dev, "xclk");
-  1538		if (IS_ERR(imx290->xclk))
-  1539			return dev_err_probe(dev, PTR_ERR(imx290->xclk),
-  1540					     "Could not get xclk\n");
-  1541	
-  1542		ret = imx290_get_regulators(dev, imx290);
-  1543		if (ret < 0)
-  1544			return dev_err_probe(dev, ret, "Cannot get regulators\n");
-  1545	
-  1546		imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
-  1547							   GPIOD_OUT_HIGH);
-  1548		if (IS_ERR(imx290->rst_gpio))
-  1549			return dev_err_probe(dev, PTR_ERR(imx290->rst_gpio),
-  1550					     "Cannot get reset gpio\n");
-  1551	
-  1552		/* Initialize external clock frequency. */
-  1553		ret = imx290_init_clk(imx290);
-  1554		if (ret)
-  1555			return ret;
-  1556	
-  1557		/*
-  1558		 * Enable power management. The driver supports runtime PM, but needs to
-  1559		 * work when runtime PM is disabled in the kernel. To that end, power
-  1560		 * the sensor on manually here.
-  1561		 */
-  1562		ret = imx290_power_on(imx290);
-  1563		if (ret < 0) {
-  1564			dev_err(dev, "Could not power on the device\n");
-  1565			return ret;
-  1566		}
-  1567	
-  1568		/*
-  1569		 * Enable runtime PM with autosuspend. As the device has been powered
-  1570		 * manually, mark it as active, and increase the usage count without
-  1571		 * resuming the device.
-  1572		 */
-  1573		pm_runtime_set_active(dev);
-  1574		pm_runtime_get_noresume(dev);
-  1575		pm_runtime_enable(dev);
-  1576		pm_runtime_set_autosuspend_delay(dev, 1000);
-  1577		pm_runtime_use_autosuspend(dev);
-  1578	
-  1579		/* Initialize the V4L2 subdev. */
-  1580		ret = imx290_subdev_init(imx290);
-  1581		if (ret)
-  1582			goto err_pm;
-  1583	
-  1584		v4l2_i2c_subdev_set_name(&imx290->sd, client,
-  1585					 imx290->model->name, NULL);
-  1586	
-  1587		/*
-  1588		 * Finally, register the V4L2 subdev. This must be done after
-  1589		 * initializing everything as the subdev can be used immediately after
-  1590		 * being registered.
-  1591		 */
-  1592		ret = v4l2_async_register_subdev(&imx290->sd);
-  1593		if (ret < 0) {
-  1594			dev_err(dev, "Could not register v4l2 device\n");
-  1595			goto err_subdev;
-  1596		}
-  1597	
-  1598		/*
-  1599		 * Decrease the PM usage count. The device will get suspended after the
-  1600		 * autosuspend delay, turning the power off.
-  1601		 */
-  1602		pm_runtime_mark_last_busy(dev);
-  1603		pm_runtime_put_autosuspend(dev);
-  1604	
-  1605		return 0;
-  1606	
-  1607	err_subdev:
-  1608		imx290_subdev_cleanup(imx290);
-  1609	err_pm:
-  1610		pm_runtime_disable(dev);
-  1611		pm_runtime_put_noidle(dev);
-  1612		imx290_power_off(imx290);
-  1613		return ret;
-  1614	}
-  1615	
+> latter suggests the unit of 100 µs.
+>
+> As exposure is specific to cameras, I think at least a part of this should
+> make it to the controls documentation. The UVC, for instance, uses
+> EXPOSURE_ABSOLUTE.
+>
+> Could we document V4L2_CID_EXPOSURE is in lines (if possible)?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I would indeed be happy with something like "The suggested unit for
+the control is lines"
+
+>
+> > +
+> > +To convert lines into units of time, the total line length (visible and
+> > +not visible pixels) has to be divided by the pixel rate::
+> > +
+> > +        line duration = total line length / pixel rate
+> > +                      = (image width + horizontal blanking) / pixel rate
+> > +
+> > +Camera sensor driver should try whenever possible to distinguish between the
+> > +analogue and digital gain control functions. Analogue gain is a multiplication
+> > +factor applied to all color channels on the pixel array before they get
+> > +converted into the digital domain. It should be made controllable by
+>
+> The analogue gain may not be linear. This depends on the sensor. I'd thus
+> drop the wording related to multiplication factor.
+>
+
+I might have missed why the gain being linear or not has implications
+on the fact it acts as a multiplication factor for the color
+channels...
+
+> > +registering the ``V4L2_CID_ANALOGUE_GAIN`` control, expressed as a device
+> > +specific gain code. Digital gain control is optional and should be exposed to
+> > +applications by registering ``V4L2_CID_DIGITAL_GAIN``. Camera sensor drivers are
+> > +discouraged from using ``V4L2_CID_GAIN`` as it doesn't allow differentiation of
+> > +analogue vs digital gain.
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
