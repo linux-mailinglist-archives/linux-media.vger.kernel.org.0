@@ -2,51 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47E44765DAF
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 23:04:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE926765E58
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 23:41:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230407AbjG0VEY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 17:04:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39234 "EHLO
+        id S230395AbjG0Vly (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 17:41:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjG0VEX (ORCPT
+        with ESMTP id S229817AbjG0Vlw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 17:04:23 -0400
+        Thu, 27 Jul 2023 17:41:52 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C85273E;
-        Thu, 27 Jul 2023 14:04:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26D62211C;
+        Thu, 27 Jul 2023 14:41:51 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34C4A2E4;
-        Thu, 27 Jul 2023 23:03:20 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 815622E4;
+        Thu, 27 Jul 2023 23:40:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690491800;
-        bh=YfEcvIPkQ/u1qCXnD/eO6Jp2xF7xny1sba71dt626Lc=;
+        s=mail; t=1690494049;
+        bh=hO7M58yWunaaw/sSzfGn3ueuFEF+JFjoOtS7Y/xPjS0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rC3oF+PQ411Lgg3BcS3TkykhDt+QyuQzf3hJbZEz7Nhe34SU/fEQwMbuITJvQP7Dj
-         ra+haFKjyQ/j4LHUQQyVMPwgsm1oiRcQeosfKbFM0Ajg0I2EOgb/kXjsnnQaqyHcOD
-         gzNnzFNohgvsJG48KwZ0GQHG7z/eArM2/yCc3Rj4=
-Date:   Fri, 28 Jul 2023 00:04:25 +0300
+        b=pGubWVPvd19nL30AGcrK3q+cNDF9nuU5BtFtpwQbEOs+Vucdz1Hq+EOwoIu+XpcXZ
+         niBtKUxQbltTRoopK+66xkPvmZ+xUSC85Ly5CfBV3rNQnuPcHIqev4oxw6T9EC0aq+
+         GzR/3CvMrRxKmPg0tEpBvKMYneslCTIQsg0PFUgg=
+Date:   Fri, 28 Jul 2023 00:41:54 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, hverkuil-cisco@xs4all.nl,
-        eugen.hristev@collabora.com, ezequiel@vanguardiasur.com.ar,
-        u.kleine-koenig@pengutronix.de, sakari.ailus@linux.intel.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, praneeth@ti.com, nm@ti.com,
-        vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com,
-        b-brnich@ti.com, detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com
-Subject: Re: [PATCH v2 2/2] media: imagination: Add E5010 JPEG Encoder driver
-Message-ID: <20230727210425.GK25174@pendragon.ideasonboard.com>
-References: <20230727112546.2201995-1-devarsht@ti.com>
- <20230727112546.2201995-3-devarsht@ti.com>
- <b83249c002c6986f471913cf96fa631c46ec69be.camel@ndufresne.ca>
+To:     guoniu.zhou@oss.nxp.com
+Cc:     linux-media@vger.kernel.org, linux-imx@nxp.com,
+        devicetree@vger.kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        xavier.roumegue@oss.nxp.com, kernel@pengutronix.de,
+        jacopo.mondi@ideasonboard.com, sakari.ailus@linux.intel.com
+Subject: Re: [PATCH v5 2/3] media: nxp: imx8-isi: move i.MX8 gasket
+ configuration to an ops structure
+Message-ID: <20230727214154.GO25174@pendragon.ideasonboard.com>
+References: <20230629013621.2388121-1-guoniu.zhou@oss.nxp.com>
+ <20230629013621.2388121-3-guoniu.zhou@oss.nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b83249c002c6986f471913cf96fa631c46ec69be.camel@ndufresne.ca>
+In-Reply-To: <20230629013621.2388121-3-guoniu.zhou@oss.nxp.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -56,106 +51,267 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 27, 2023 at 10:10:41AM -0400, Nicolas Dufresne wrote:
-> Le jeudi 27 juillet 2023 à 16:55 +0530, Devarsh Thakkar a écrit :
-> > This adds support for stateful V4L2 M2M based driver
-> > for Imagination E5010 JPEG Encoder [1] which supports baseline
-> > encoding with two different quantization tables and compression
-> > ratio as demanded.
-> > 
-> > Support for both contigous and non-contigous YUV420 and YUV422
->                    contiguous        contiguous
+Hi Guoniu,
+
+Thank you for the patch.
+
+On Thu, Jun 29, 2023 at 09:36:20AM +0800, guoniu.zhou@oss.nxp.com wrote:
+> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
 > 
-> > semiplanar formats is added along with alignment restrictions
-> > as required by the hardware.
-> > 
-> > System and runtime PM hooks are added in the driver along with v4l2
-> > crop and selection API support.
-> > 
-> > Minimum resolution supported is 64x64 and
-> > Maximum resolution supported is 8192x8192.
-> > 
-> > All v4l2-compliance tests are passing [2] :
-> > v4l2-compliance -s -f -a  -d /dev/video0 -e /dev/video1
-> > 
-> > Total for e5010 device /dev/video0: 78, Succeeded: 78, Failed: 0,
-> > Warnings: 0
-> > 
-> > NOTE: video1 here is VIVID test pattern generator
-> > 
-> > Also tests [3] were run manually to verify below driver features:
-> >  - Runtime Power Management
-> >  - Multi-instance JPEG Encoding
-> >  - DMABUF import, export support
-> >  - NV12, NV21, NV16, NV61 video format support
-> >  - Compression quality S_CTRL
-> > 
-> > Existing V4L2 M2M based JPEG drivers namely s5p-jpeg,
-> > imx-jpeg and rcar_jpu were referred while making this.
-> > 
-> > [1]:  AM62A TRM (Section 7.6 is for JPEG Encoder)
-> > Link: https://www.ti.com/lit/pdf/spruj16
-> > 
-> > [2]: v4l2-compliance test :
-> > Link: https://gist.github.com/devarsht/867b1d646bca3f3877edb1f3638aae31
-> > 
-> > [3]: E5010 JPEG Encoder Manual tests :
-> > Link: https://gist.github.com/devarsht/ea31179199393c2026ae457219bb6321
-> > 
-> > Co-developed-by: David Huang <d-huang@ti.com>
-> > Signed-off-by: David Huang <d-huang@ti.com>
-> > Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> > ---
-> > V2: No change
-> > 
-> >  MAINTAINERS                                   |    2 +
-> >  drivers/media/platform/Kconfig                |    1 +
-> >  drivers/media/platform/Makefile               |    1 +
-> >  drivers/media/platform/imagination/Kconfig    |   13 +
-> >  drivers/media/platform/imagination/Makefile   |    3 +
-> >  .../platform/imagination/e5010-core-regs.h    |  584 ++++++
-> >  .../platform/imagination/e5010-jpeg-enc-hw.c  |  319 +++
-> >  .../platform/imagination/e5010-jpeg-enc-hw.h  |   41 +
-> >  .../platform/imagination/e5010-jpeg-enc.c     | 1762 +++++++++++++++++
-> >  .../platform/imagination/e5010-jpeg-enc.h     |  165 ++
-> >  .../platform/imagination/e5010-mmu-regs.h     |  303 +++
-> >  11 files changed, 3194 insertions(+)
-> >  create mode 100644 drivers/media/platform/imagination/Kconfig
-> >  create mode 100644 drivers/media/platform/imagination/Makefile
-> >  create mode 100644 drivers/media/platform/imagination/e5010-core-regs.h
-> >  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.c
-> >  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.h
-> >  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.c
-> >  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.h
-> >  create mode 100644 drivers/media/platform/imagination/e5010-mmu-regs.h
-
-[snip]
-
-> > diff --git a/drivers/media/platform/imagination/e5010-core-regs.h b/drivers/media/platform/imagination/e5010-core-regs.h
-> > new file mode 100644
-> > index 000000000000..aa2d57146c3d
-> > --- /dev/null
-> > +++ b/drivers/media/platform/imagination/e5010-core-regs.h
-> > @@ -0,0 +1,584 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * TI E5010 JPEG Encoder driver.
-> > + *
-> > + * Copyright (c) 2023 Texas Instruments Inc.
-> > + * Author: David Huang <d-huang@ti.com>
-> > + * Author: Devarsh Thakkar <devarsht@ti.com>
-> > + */
-> > +
-> > +#ifndef _E5010_CORE_REGS_H
-> > +#define _E5010_CORE_REGS_H
+> The i.MX93 includes an ISI instance compatible with the imx8-isi
+> driver, but with a different gasket. To prepare for this, make the
+> gasket configuration modular by moving the code to an ops structure.
 > 
-> nit: Could be modernized to "#pragma once" (though only used in selftest so far)
+> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
+> ---
+>  drivers/media/platform/nxp/imx8-isi/Makefile  |  4 +-
+>  .../platform/nxp/imx8-isi/imx8-isi-core.c     |  6 +-
+>  .../platform/nxp/imx8-isi/imx8-isi-core.h     | 12 +++-
+>  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 36 ++----------
+>  .../platform/nxp/imx8-isi/imx8-isi-gasket.c   | 55 +++++++++++++++++++
+>  5 files changed, 77 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/media/platform/nxp/imx8-isi/Makefile b/drivers/media/platform/nxp/imx8-isi/Makefile
+> index 9bff9297686d..4713c4e8b64b 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/Makefile
+> +++ b/drivers/media/platform/nxp/imx8-isi/Makefile
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  
+> -imx8-isi-y := imx8-isi-core.o imx8-isi-crossbar.o imx8-isi-hw.o \
+> -	imx8-isi-pipe.o imx8-isi-video.o
+> +imx8-isi-y := imx8-isi-core.o imx8-isi-crossbar.o imx8-isi-gasket.o \
+> +	imx8-isi-hw.o imx8-isi-pipe.o imx8-isi-video.o
+>  imx8-isi-$(CONFIG_DEBUG_FS) += imx8-isi-debug.o
+>  imx8-isi-$(CONFIG_VIDEO_IMX8_ISI_M2M) += imx8-isi-m2m.o
+>  
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> index 253e77189b69..5165f8960c2c 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> @@ -289,7 +289,7 @@ static const struct mxc_isi_plat_data mxc_imx8mn_data = {
+>  	.clks			= mxc_imx8mn_clks,
+>  	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
+>  	.buf_active_reverse	= false,
+> -	.has_gasket		= true,
+> +	.gasket_ops		= &mxc_imx8_gasket_ops,
+>  	.has_36bit_dma		= false,
+>  };
+>  
+> @@ -303,7 +303,7 @@ static const struct mxc_isi_plat_data mxc_imx8mp_data = {
+>  	.clks			= mxc_imx8mn_clks,
+>  	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
+>  	.buf_active_reverse	= true,
+> -	.has_gasket		= true,
+> +	.gasket_ops		= &mxc_imx8_gasket_ops,
+>  	.has_36bit_dma		= true,
+>  };
+>  
+> @@ -443,7 +443,7 @@ static int mxc_isi_probe(struct platform_device *pdev)
+>  		return PTR_ERR(isi->regs);
+>  	}
+>  
+> -	if (isi->pdata->has_gasket) {
+> +	if (isi->pdata->gasket_ops) {
+>  		isi->gasket = syscon_regmap_lookup_by_phandle(dev->of_node,
+>  							      "fsl,blk-ctrl");
+>  		if (IS_ERR(isi->gasket)) {
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> index e469788a9e6c..78ca047d93d1 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> @@ -147,6 +147,14 @@ struct mxc_isi_set_thd {
+>  	struct mxc_isi_panic_thd panic_set_thd_v;
+>  };
+>  
+> +struct mxc_gasket_ops {
+> +	void (*enable)(struct mxc_isi_dev *isi,
+> +		       const struct v4l2_mbus_frame_desc *fd,
+> +		       const struct v4l2_mbus_framefmt *fmt,
+> +		       const unsigned int port);
+> +	void (*disable)(struct mxc_isi_dev *isi, const unsigned int port);
+> +};
+> +
+>  enum model {
+>  	MXC_ISI_IMX8MN,
+>  	MXC_ISI_IMX8MP,
+> @@ -159,10 +167,10 @@ struct mxc_isi_plat_data {
+>  	unsigned int reg_offset;
+>  	const struct mxc_isi_ier_reg  *ier_reg;
+>  	const struct mxc_isi_set_thd *set_thd;
+> +	const struct mxc_gasket_ops *gasket_ops;
+>  	const struct clk_bulk_data *clks;
+>  	unsigned int num_clks;
+>  	bool buf_active_reverse;
+> -	bool has_gasket;
+>  	bool has_36bit_dma;
+>  };
+>  
+> @@ -286,6 +294,8 @@ struct mxc_isi_dev {
+>  	struct dentry			*debugfs_root;
+>  };
+>  
+> +extern const struct mxc_gasket_ops mxc_imx8_gasket_ops;
+> +
+>  int mxc_isi_crossbar_init(struct mxc_isi_dev *isi);
+>  void mxc_isi_crossbar_cleanup(struct mxc_isi_crossbar *xbar);
+>  int mxc_isi_crossbar_register(struct mxc_isi_crossbar *xbar);
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> index f7447b2f4d77..c6a658ef0c62 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> @@ -15,7 +15,6 @@
+>  #include <linux/types.h>
+>  
+>  #include <media/media-entity.h>
+> -#include <media/mipi-csi2.h>
+>  #include <media/v4l2-subdev.h>
+>  
+>  #include "imx8-isi-core.h"
+> @@ -25,32 +24,18 @@ static inline struct mxc_isi_crossbar *to_isi_crossbar(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct mxc_isi_crossbar, sd);
+>  }
+>  
+> -/* -----------------------------------------------------------------------------
+> - * Media block control (i.MX8MN and i.MX8MP only)
+> - */
+> -#define GASKET_BASE(n)				(0x0060 + (n) * 0x30)
+> -
+> -#define GASKET_CTRL				0x0000
+> -#define GASKET_CTRL_DATA_TYPE(dt)		((dt) << 8)
+> -#define GASKET_CTRL_DATA_TYPE_MASK		(0x3f << 8)
+> -#define GASKET_CTRL_DUAL_COMP_ENABLE		BIT(1)
+> -#define GASKET_CTRL_ENABLE			BIT(0)
+> -
+> -#define GASKET_HSIZE				0x0004
+> -#define GASKET_VSIZE				0x0008
+> -
+>  static int mxc_isi_crossbar_gasket_enable(struct mxc_isi_crossbar *xbar,
+>  					  struct v4l2_subdev_state *state,
+>  					  struct v4l2_subdev *remote_sd,
+>  					  u32 remote_pad, unsigned int port)
+>  {
+>  	struct mxc_isi_dev *isi = xbar->isi;
+> +	const struct mxc_gasket_ops *gasket_ops = isi->pdata->gasket_ops;
+>  	const struct v4l2_mbus_framefmt *fmt;
+>  	struct v4l2_mbus_frame_desc fd;
+> -	u32 val;
+>  	int ret;
+>  
+> -	if (!isi->pdata->has_gasket)
+> +	if (!gasket_ops)
+>  		return 0;
+>  
+>  	/*
+> @@ -77,17 +62,7 @@ static int mxc_isi_crossbar_gasket_enable(struct mxc_isi_crossbar *xbar,
+>  	if (!fmt)
+>  		return -EINVAL;
+>  
+> -	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_HSIZE, fmt->width);
+> -	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_VSIZE, fmt->height);
+> -
+> -	val = GASKET_CTRL_DATA_TYPE(fd.entry[0].bus.csi2.dt)
+> -	    | GASKET_CTRL_ENABLE;
+> -
+> -	if (fd.entry[0].bus.csi2.dt == MIPI_CSI2_DT_YUV422_8B)
+> -		val |= GASKET_CTRL_DUAL_COMP_ENABLE;
+> -
+> -	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_CTRL, val);
+> -
+> +	gasket_ops->enable(isi, &fd, fmt, port);
+>  	return 0;
+>  }
+>  
+> @@ -95,11 +70,12 @@ static void mxc_isi_crossbar_gasket_disable(struct mxc_isi_crossbar *xbar,
+>  					    unsigned int port)
+>  {
+>  	struct mxc_isi_dev *isi = xbar->isi;
+> +	const struct mxc_gasket_ops *gasket_ops = isi->pdata->gasket_ops;
+>  
+> -	if (!isi->pdata->has_gasket)
+> +	if (!gasket_ops)
+>  		return;
+>  
+> -	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_CTRL, 0);
+> +	gasket_ops->disable(isi, port);
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+> new file mode 100644
+> index 000000000000..1d632dc60699
+> --- /dev/null
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+> @@ -0,0 +1,55 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright 2019-2023 NXP
+> + */
+> +
+> +#include <linux/regmap.h>
+> +
+> +#include <media/mipi-csi2.h>
+> +
+> +#include "imx8-isi-core.h"
+> +
+> +/* -----------------------------------------------------------------------------
+> + * i.MX8MN and i.MX8MP gasket
+> + **/
 
-I don't know if there's a kernel-wide policy regarding its use, but
-Linus has not too long ago expressed a dislike for "#pragma once", see
-https://lore.kernel.org/lkml/CAHk-=wi13+FLcRo4zmnRUmmY=AAns-Yd5NR_mVdcAd6ZrPq2fA@mail.gmail.com/.
+There's an extra star here, it should be
 
-[snip]
+  */
+
+> +
+> +#define GASKET_BASE(n)				(0x0060 + (n) * 0x30)
+> +
+> +#define GASKET_CTRL				0x0000
+> +#define GASKET_CTRL_DATA_TYPE(dt)		((dt) << 8)
+> +#define GASKET_CTRL_DATA_TYPE_MASK		(0x3f << 8)
+> +#define GASKET_CTRL_DUAL_COMP_ENABLE		BIT(1)
+> +#define GASKET_CTRL_ENABLE			BIT(0)
+> +
+> +#define GASKET_HSIZE				0x0004
+> +#define GASKET_VSIZE				0x0008
+> +
+> +static void mxc_imx8_gasket_enable(struct mxc_isi_dev *isi,
+> +				   const struct v4l2_mbus_frame_desc *fd,
+> +				   const struct v4l2_mbus_framefmt *fmt,
+> +				   const unsigned int port)
+> +{
+> +	u32 val;
+> +
+> +	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_HSIZE, fmt->width);
+> +	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_VSIZE, fmt->height);
+> +
+> +	val = GASKET_CTRL_DATA_TYPE(fd->entry[0].bus.csi2.dt);
+> +	if (fd->entry[0].bus.csi2.dt == MIPI_CSI2_DT_YUV422_8B)
+> +		val |= GASKET_CTRL_DUAL_COMP_ENABLE;
+> +
+> +	val |= GASKET_CTRL_ENABLE;
+> +	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_CTRL, val);
+> +}
+> +
+> +static void mxc_imx8_gasket_disable(struct mxc_isi_dev *isi,
+> +				    const unsigned int port)
+> +{
+> +	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_CTRL, 0);
+> +}
+> +
+> +/* Gasket operations for i.MX8MN and i.MX8MP */
+
+This comment can be dropped too, the section header above is enough.
+With these minor issues fixed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+There's no need to resubmit the series just for this, I can make those
+modifications locally if no other changes are needed.
+
+> +const struct mxc_gasket_ops mxc_imx8_gasket_ops = {
+> +	.enable = mxc_imx8_gasket_enable,
+> +	.disable = mxc_imx8_gasket_disable,
+> +};
 
 -- 
 Regards,
