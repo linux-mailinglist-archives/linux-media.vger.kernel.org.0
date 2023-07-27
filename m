@@ -2,78 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A50676499F
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 09:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 319B2764F76
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 11:21:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231926AbjG0H6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 03:58:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33736 "EHLO
+        id S234177AbjG0JVs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 05:21:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233477AbjG0H5h (ORCPT
+        with ESMTP id S232211AbjG0JVZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 03:57:37 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B773AB7
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:55:04 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-76731802203so57506785a.3
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1690444502; x=1691049302;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I6NJUz38HTUn5Lzf1Xa0ODFyXspS2ZmT9vChRAq/stA=;
-        b=IYqyqWWRS1zPU+/f6hElNXBsiFZ6Uu5xVx/wagwU2bzF1OoYMp7rChZr46iljgJ2ov
-         /KGYrChrKUEw2fMdw5tx4gBVLVFhHW6IoFqv12fhP1+uGsa7+bRPLQ5s6XVc+m34a7ho
-         PxOyjP0byhyIUYb8hEDLlZJCHnCys2Oe+0iHI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690444502; x=1691049302;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I6NJUz38HTUn5Lzf1Xa0ODFyXspS2ZmT9vChRAq/stA=;
-        b=IDH1c1TU+7D/zlFM3GFf/ZVFcqfqZ4oVH6etGsCfcOxJAqczD/nT9KZ2U6xgdEsDef
-         UfM5nX5ZwQ/JdyXxRc44F0Pgdsi564/tjhnZWKY/odJhoco+5b9PrYRXm1u9uGoESH+o
-         ZxAA2xa4JOiCX8uVamiBMrxcZAQ/GdGeidYE3YRwQumc7D+zmWkNQ3BGI8TiRgwyjw9F
-         HuuIoO9ZtfV/fLLF/zwVWoBApHGUsTtm8cuKutFQ8EM43r2N5QvhhbQcwte7jwBnX+Hu
-         8wtqig0ahfonfWHsnuJ7nNZlpsFB/c82o3rV1fXTlk9sAJdLNr/O84B0Hw7TQh9ewaLY
-         ouxQ==
-X-Gm-Message-State: ABy/qLYoBSohw7nta8I2IFNolqD4BRQZ19qO0SLz4e6RhtBKPz8LG6tp
-        2NajoAQrBGwE7lmOYivLBgpWEnqceGtCU8TrZzI0Qw==
-X-Google-Smtp-Source: APBJJlFVdK3dgQiGQbCGtzHO5HAU734tkg07rpZG/vGBcSN0sV11N9GEP40A6EOc7GL2nRzEEsONoQ==
-X-Received: by 2002:a37:ac05:0:b0:768:125b:2b67 with SMTP id e5-20020a37ac05000000b00768125b2b67mr4446116qkm.33.1690444502717;
-        Thu, 27 Jul 2023 00:55:02 -0700 (PDT)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com. [209.85.222.177])
-        by smtp.gmail.com with ESMTPSA id os31-20020a05620a811f00b00767e20c4267sm242824qkn.61.2023.07.27.00.55.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 00:55:02 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-765a4ff26cdso59053985a.0
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 00:55:02 -0700 (PDT)
-X-Received: by 2002:a05:620a:2915:b0:767:81fc:c6b8 with SMTP id
- m21-20020a05620a291500b0076781fcc6b8mr5945598qkp.6.1690444501768; Thu, 27 Jul
- 2023 00:55:01 -0700 (PDT)
+        Thu, 27 Jul 2023 05:21:25 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 257C461AB;
+        Thu, 27 Jul 2023 02:11:33 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36R5YK05009590;
+        Thu, 27 Jul 2023 07:09:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=eseq8ZzD3Dvq62NkFGvHlXs3ONEHLuPN1Y5ZVBwSuQQ=;
+ b=Wvo45ocoV43Pr2UY1aCtcxLJBdUnVM4mkgjEE8RF72+WAM+F/4S7aVFixrLrXByrokpN
+ XAJSPcHK0MsVODiBfP9UFEVpU8v17S+cdhlo/Gpbgnxm8LjiSvL2bDunOZ1ANI/QUxpe
+ HCSCOaw91re24hGhR3gHLoGD+I+YJ+V8usjWKvoJZyye5I/ireCNWAX2bj+B6IFTnhSV
+ MGta5EXxS62LWhGg6xn8US9NcfWXgkoDyMMhIBxq6J+unV0/sIX2nKb8vErpm/HNn0h+
+ vTONoud2nCuPCWpXge2YdOdmDeliRJ0hleUF44RJuDHEUro+CKQLrHZ8xjuqfevzG09C 1A== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s336t1ymm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Jul 2023 07:09:41 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36R79WMY011314
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Jul 2023 07:09:32 GMT
+Received: from [10.216.40.41] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 27 Jul
+ 2023 00:09:20 -0700
+Message-ID: <4dce1330-55eb-bbee-8374-987533b6a877@quicinc.com>
+Date:   Thu, 27 Jul 2023 12:39:17 +0530
 MIME-Version: 1.0
-References: <20230704040044.681850-1-randy.li@synaptics.com>
- <20230704040044.681850-3-randy.li@synaptics.com> <20230712093301.nkj2vok2x7esdhb3@chromium.org>
- <4e70c8b8-d459-2b79-2b3d-40875f701d97@synaptics.com> <CAAFQd5CGO4iiC7HX9wTetuzjZyaAsKStFOpxqcFkZ_o-eJOPtg@mail.gmail.com>
- <ca16e2d6-a1c7-bff6-496f-07174f379fd9@synaptics.com>
-In-Reply-To: <ca16e2d6-a1c7-bff6-496f-07174f379fd9@synaptics.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 27 Jul 2023 16:54:49 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DbF_=_ZE3M=g0qjhizDBKy2dbsDxW5fWgUXXFHMoQwzQ@mail.gmail.com>
-Message-ID: <CAAFQd5DbF_=_ZE3M=g0qjhizDBKy2dbsDxW5fWgUXXFHMoQwzQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc:     linux-media@vger.kernel.org, ayaka@soulik.info,
-        hans.verkuil@cisco.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        nicolas@ndufresne.ca
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] dt-bindings: qcom: Update RPMHPD entries for some SoCs
+Content-Language: en-US
+To:     Pavan Kondeti <quic_pkondeti@quicinc.com>
+CC:     <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <andersson@kernel.org>, <agross@kernel.org>,
+        <konrad.dybcio@linaro.org>, <mturquette@baylibre.com>,
+        <sboyd@kernel.org>, <conor+dt@kernel.org>, <robdclark@gmail.com>,
+        <quic_abhinavk@quicinc.com>, <dmitry.baryshkov@linaro.org>,
+        <sean@poorly.run>, <marijn.suijten@somainline.org>,
+        <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <stanimir.k.varbanov@gmail.com>, <quic_vgarodia@quicinc.com>,
+        <mchehab@kernel.org>, <ulf.hansson@linaro.org>,
+        <mathieu.poirier@linaro.org>, <jonathan@marek.ca>,
+        <vladimir.zapolskiy@linaro.org>, <quic_tdas@quicinc.com>,
+        <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+        <bhupesh.sharma@linaro.org>, <mani@kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <freedreno@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+        <linux-mmc@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>
+References: <1690433470-24102-1-git-send-email-quic_rohiagar@quicinc.com>
+ <edac596d-2b3d-4632-9468-4af863aff6f4@quicinc.com>
+ <86c6e8b1-d286-6858-5de6-b8faf6557fe4@quicinc.com>
+ <3da310cc-b866-4829-8411-befaa719f10d@quicinc.com>
+From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
+In-Reply-To: <3da310cc-b866-4829-8411-befaa719f10d@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: g-uXOygpocTyBnxtmMGatXEAqimXMHdy
+X-Proofpoint-GUID: g-uXOygpocTyBnxtmMGatXEAqimXMHdy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ clxscore=1015 mlxlogscore=657 adultscore=0 lowpriorityscore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 impostorscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307270063
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -82,180 +98,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 27, 2023 at 4:33=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics.com=
-> wrote:
->
->
->
-> On 7/27/23 15:25, Tomasz Figa wrote:
-> > CAUTION: Email originated externally, do not click links or open attach=
-ments unless you recognize the sender and know the content is safe.
-> >
-> >
-> > On Mon, Jul 17, 2023 at 4:15=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics=
-.com> wrote:
-> >>
-> >>
-> >> On 7/12/23 17:33, Tomasz Figa wrote:
-> >>> CAUTION: Email originated externally, do not click links or open atta=
-chments unless you recognize the sender and know the content is safe.
-> >>>
-> >>>
-> >>> On Tue, Jul 04, 2023 at 12:00:38PM +0800, Hsia-Jun Li wrote:
-> >>>> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-> >>>>
-> >>>> Many drivers have to create its own buf_struct for a
-> >>>> vb2_queue to track such a state. Also driver has to
-> >>>> iterate over rdy_queue every times to find out a buffer
-> >>>> which is not sent to hardware(or firmware), this new
-> >>>> list just offers the driver a place to store the buffer
-> >>>> that hardware(firmware) has acknowledged.
-> >>>>
-> >>>> One important advance about this list, it doesn't like
-> >>>> rdy_queue which both bottom half of the user calling
-> >>>> could operate it, while the v4l2 worker would as well.
-> >>>> The v4l2 core could only operate this queue when its
-> >>>> v4l2_context is not running, the driver would only
-> >>>> access this new hw_queue in its own worker.
-> >>> Could you describe in what case such a list would be useful for a
-> >>> mem2mem driver?
-> >>
-> >> This list, as its description, just for saving us from creating a
-> >> private buffer struct to track buffer state.
-> >>
-> >> The queue in the kernel is not the queue that hardware(codec firmware)
-> >> are using.
-> >>
-> >
-> > Sorry, I find the description difficult to understand. It might make
-> > sense to have the text proofread by someone experienced in writing
-> > technical documentation in English before posting in the future.
-> > Thanks.
-> >
-> Sorry, I may not be able to get more resource here. I would try to ask a
-> chatbot to fix my description next time.
 
-I think people on the linux-media IRC channel (including me) could
-also be willing to help with rephrasing things, but if a chatbot can
-do it too, it's even better. :)
+On 7/27/2023 12:38 PM, Pavan Kondeti wrote:
+> On Thu, Jul 27, 2023 at 12:24:10PM +0530, Rohit Agarwal wrote:
+>> On 7/27/2023 11:06 AM, Pavan Kondeti wrote:
+>>> On Thu, Jul 27, 2023 at 10:21:10AM +0530, Rohit Agarwal wrote:
+>>>> Update the RPMHPD references with new bindings defined in rpmhpd.h
+>>>> for Qualcomm SoCs SM8[2345]50.
+>>>>
+>>>> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+>>>> ---
+>>>>    Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml    | 3 ++-
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml   | 3 ++-
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml     | 3 ++-
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml    | 3 ++-
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml   | 3 ++-
+>>>>    Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml    | 3 ++-
+>>>>    Documentation/devicetree/bindings/clock/qcom,videocc.yaml          | 3 ++-
+>>>>    Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml | 3 ++-
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml          | 7 ++++---
+>>>>    Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml | 3 ++-
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml          | 5 +++--
+>>>>    Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml | 3 ++-
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml          | 7 ++++---
+>>>>    Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml | 3 ++-
+>>>>    .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml          | 7 ++++---
+>>>>    Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml     | 3 ++-
+>>>>    Documentation/devicetree/bindings/mmc/sdhci-msm.yaml               | 3 ++-
+>>>>    Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml  | 5 +++--
+>>>>    18 files changed, 44 insertions(+), 26 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
+>>>> index d6774db..d6b81c0 100644
+>>>> --- a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
+>>>> +++ b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
+>>>> @@ -83,6 +83,7 @@ examples:
+>>>>      - |
+>>>>        #include <dt-bindings/clock/qcom,rpmh.h>
+>>>>        #include <dt-bindings/power/qcom-rpmpd.h>
+>>>> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+>>>>        clock-controller@af00000 {
+>>>>          compatible = "qcom,sm8250-dispcc";
+>>>>          reg = <0x0af00000 0x10000>;
+>>>> @@ -103,7 +104,7 @@ examples:
+>>>>          #clock-cells = <1>;
+>>>>          #reset-cells = <1>;
+>>>>          #power-domain-cells = <1>;
+>>>> -      power-domains = <&rpmhpd SM8250_MMCX>;
+>>>> +      power-domains = <&rpmhpd RPMHPD_MMCX>;
+>>>>          required-opps = <&rpmhpd_opp_low_svs>;
+>>>>        };
+>>>>    ...
+>>> Does this file still need to include old header? The same is applicable
+>>> to some of the other files in the patch also.
+>>>
+>>> We also discussed on the other thread [1] to move the regulator level
+>>> definitions to new header. should this change be done after that, so that
+>>> we don't end up touching the very same files again?
+>>>
+>>> [1]
+>>> https://lore.kernel.org/all/a4zztrn6jhblozdswba7psqtvjt5l765mfr3yl4llsm5gsyqef@7x6q7yabydvm/
+>> Removing this header directly would also be fine as we are not using any
+>> macro defined directly in these
+>> bindings.
+>> I already checked with dt_binding_check by removing this header.
+>>
+> Thanks for checking, then we should remove the old header in this patch
+> it self, right?
+Yes
 
-> > I think I got the point from Nicolas' explanation, though.
-> >
-> >>
-> >>>> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> >>>> ---
-> >>>>    drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++----=
-----
-> >>>>    include/media/v4l2-mem2mem.h           | 10 +++++++++-
-> >>>>    2 files changed, 26 insertions(+), 9 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/=
-v4l2-core/v4l2-mem2mem.c
-> >>>> index c771aba42015..b4151147d5bd 100644
-> >>>> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> >>>> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> >>>> @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_m=
-2m_dev *m2m_dev,
-> >>>>                 goto job_unlock;
-> >>>>         }
-> >>>>
-> >>>> -     src =3D v4l2_m2m_next_src_buf(m2m_ctx);
-> >>>> -     dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
-> >>>> -     if (!src && !m2m_ctx->out_q_ctx.buffered) {
-> >>>> -             dprintk("No input buffers available\n");
-> >>>> -             goto job_unlock;
-> >>>> +     if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
-> >>>> +             src =3D v4l2_m2m_next_src_buf(m2m_ctx);
-> >>>> +
-> >>>> +             if (!src && !m2m_ctx->out_q_ctx.buffered) {
-> >>>> +                     dprintk("No input buffers available\n");
-> >>>> +                     goto job_unlock;
-> >>>> +             }
-> >>>>         }
-> >>>> -     if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
-> >>>> -             dprintk("No output buffers available\n");
-> >>>> -             goto job_unlock;
-> >>>> +
-> >>>> +     if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
-> >>>> +             dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
-> >>>> +             if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
-> >>>> +                     dprintk("No output buffers available\n");
-> >>>> +                     goto job_unlock;
-> >>>> +             }
-> >>>>         }
-> >>> src and dst would be referenced unitialized below if neither of the
-> >>> above ifs hits...
-> >> I think they have been initialized at v4l2_m2m_ctx_init()
-> >
-> > What do you mean? They are local variables in this function.
-> >
-> Sorry, I didn't notice the sentence after that.
-> >>>
-> >>> Best regards,
-> >>> Tomasz
-> >>>
-> >>>>         m2m_ctx->new_frame =3D true;
-> >>>> @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struct=
- v4l2_m2m_ctx *m2m_ctx,
-> >>>>         INIT_LIST_HEAD(&q_ctx->rdy_queue);
-> >>>>         q_ctx->num_rdy =3D 0;
-> >>>>         spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
-> >>>> +     INIT_LIST_HEAD(&q_ctx->hw_queue);
-> >>>>
-> >>>>         if (m2m_dev->curr_ctx =3D=3D m2m_ctx) {
-> >>>>                 m2m_dev->curr_ctx =3D NULL;
-> >>>> @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct =
-v4l2_m2m_dev *m2m_dev,
-> >>>>
-> >>>>         INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
-> >>>>         INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
-> >>>> +     INIT_LIST_HEAD(&out_q_ctx->hw_queue);
-> >>>> +     INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
-> >>>>         spin_lock_init(&out_q_ctx->rdy_spinlock);
-> >>>>         spin_lock_init(&cap_q_ctx->rdy_spinlock);
-> >>>>
-> >>>> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2m=
-em.h
-> >>>> index d6c8eb2b5201..2342656e582d 100644
-> >>>> --- a/include/media/v4l2-mem2mem.h
-> >>>> +++ b/include/media/v4l2-mem2mem.h
-> >>>> @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
-> >>>>     *   processed
-> >>>>     *
-> >>>>     * @q:               pointer to struct &vb2_queue
-> >>>> - * @rdy_queue:       List of V4L2 mem-to-mem queues
-> >>>> + * @rdy_queue:       List of V4L2 mem-to-mem queues. If v4l2_m2m_bu=
-f_queue() is
-> >>>> + *           called in struct vb2_ops->buf_queue(), the buffer enqu=
-eued
-> >>>> + *           by user would be added to this list.
-> >>>>     * @rdy_spinlock: spin lock to protect the struct usage
-> >>>>     * @num_rdy: number of buffers ready to be processed
-> >>>> + * @hw_queue:        A list for tracking the buffer is occupied by =
-the hardware
-> >>>> + *           (or device's firmware). A buffer could only be in eith=
-er
-> >>>> + *           this list or @rdy_queue.
-> >>>> + *           Driver may choose not to use this list while uses its =
-own
-> >>>> + *           private data to do this work.
-> >>>>     * @buffered:        is the queue buffered?
-> >>>>     *
-> >>>>     * Queue for buffers ready to be processed as soon as this
-> >>>> @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
-> >>>>         struct list_head        rdy_queue;
-> >>>>         spinlock_t              rdy_spinlock;
-> >>>>         u8                      num_rdy;
-> >>>> +     struct list_head        hw_queue;
-> >>>>         bool                    buffered;
-> >>>>    };
-> >>>>
-> >>>> --
-> >>>> 2.17.1
-> >>>>
-> >> --
-> >> Hsia-Jun(Randy) Li
-> >>
+Thanks,
+Rohit.
 >
-> --
-> Hsia-Jun(Randy) Li
+> Thanks,
+> Pavan
