@@ -2,173 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 319B2764F76
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 11:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47D1C764C72
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jul 2023 10:22:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234177AbjG0JVs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jul 2023 05:21:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45414 "EHLO
+        id S234190AbjG0IWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jul 2023 04:22:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232211AbjG0JVZ (ORCPT
+        with ESMTP id S234063AbjG0ISV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jul 2023 05:21:25 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 257C461AB;
-        Thu, 27 Jul 2023 02:11:33 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36R5YK05009590;
-        Thu, 27 Jul 2023 07:09:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=eseq8ZzD3Dvq62NkFGvHlXs3ONEHLuPN1Y5ZVBwSuQQ=;
- b=Wvo45ocoV43Pr2UY1aCtcxLJBdUnVM4mkgjEE8RF72+WAM+F/4S7aVFixrLrXByrokpN
- XAJSPcHK0MsVODiBfP9UFEVpU8v17S+cdhlo/Gpbgnxm8LjiSvL2bDunOZ1ANI/QUxpe
- HCSCOaw91re24hGhR3gHLoGD+I+YJ+V8usjWKvoJZyye5I/ireCNWAX2bj+B6IFTnhSV
- MGta5EXxS62LWhGg6xn8US9NcfWXgkoDyMMhIBxq6J+unV0/sIX2nKb8vErpm/HNn0h+
- vTONoud2nCuPCWpXge2YdOdmDeliRJ0hleUF44RJuDHEUro+CKQLrHZ8xjuqfevzG09C 1A== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s336t1ymm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jul 2023 07:09:41 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36R79WMY011314
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jul 2023 07:09:32 GMT
-Received: from [10.216.40.41] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 27 Jul
- 2023 00:09:20 -0700
-Message-ID: <4dce1330-55eb-bbee-8374-987533b6a877@quicinc.com>
-Date:   Thu, 27 Jul 2023 12:39:17 +0530
+        Thu, 27 Jul 2023 04:18:21 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D1965BE
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 01:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690445450; x=1721981450;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zrfAmZ4o52ulOEe2NdPrWdHquCo9OaUriPnqqYF+iO0=;
+  b=GcEs5c6CItLCraUbhbVdUjvY+fdwtor5Qb6GI9dvoiUSHFoVnuLqyDEJ
+   dfJo1YwrG5sGKOggM5NeVIYiYnqsnmdRV1wtgsLgjkgT79grginzw6hIs
+   mYhYl/JxOy+3m52gRajgYfH13Xoq/V75g6NuQdYaxmi7nE6fHD/jHZwbj
+   zUyxkM2aFzvL9Qtpzqt+9dksVzP+XoSX6gF67ayWTFxAvU8SgOrd5QAfq
+   rwNViL9+aJhCBERAG7NKEtiTr3zT9jmF5k7ath2HzP4HFYq9oFeOL30II
+   7zUxgwW6xtxwpTiAYaikfcV7DMgLSUTsVuNxzk5Kkx9g735ERIXuR4GG/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="399182049"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="399182049"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 01:10:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="850768991"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="850768991"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 27 Jul 2023 01:10:33 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qOw4O-00024h-0b;
+        Thu, 27 Jul 2023 08:10:09 +0000
+Date:   Thu, 27 Jul 2023 16:05:49 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [sailus-media-tree:master 9/20] drivers/media/i2c/ov5693.c:1280:19:
+ error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202307271519.XIXA0WQd-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] dt-bindings: qcom: Update RPMHPD entries for some SoCs
-Content-Language: en-US
-To:     Pavan Kondeti <quic_pkondeti@quicinc.com>
-CC:     <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <andersson@kernel.org>, <agross@kernel.org>,
-        <konrad.dybcio@linaro.org>, <mturquette@baylibre.com>,
-        <sboyd@kernel.org>, <conor+dt@kernel.org>, <robdclark@gmail.com>,
-        <quic_abhinavk@quicinc.com>, <dmitry.baryshkov@linaro.org>,
-        <sean@poorly.run>, <marijn.suijten@somainline.org>,
-        <airlied@gmail.com>, <daniel@ffwll.ch>,
-        <stanimir.k.varbanov@gmail.com>, <quic_vgarodia@quicinc.com>,
-        <mchehab@kernel.org>, <ulf.hansson@linaro.org>,
-        <mathieu.poirier@linaro.org>, <jonathan@marek.ca>,
-        <vladimir.zapolskiy@linaro.org>, <quic_tdas@quicinc.com>,
-        <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
-        <bhupesh.sharma@linaro.org>, <mani@kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <freedreno@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>
-References: <1690433470-24102-1-git-send-email-quic_rohiagar@quicinc.com>
- <edac596d-2b3d-4632-9468-4af863aff6f4@quicinc.com>
- <86c6e8b1-d286-6858-5de6-b8faf6557fe4@quicinc.com>
- <3da310cc-b866-4829-8411-befaa719f10d@quicinc.com>
-From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
-In-Reply-To: <3da310cc-b866-4829-8411-befaa719f10d@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: g-uXOygpocTyBnxtmMGatXEAqimXMHdy
-X-Proofpoint-GUID: g-uXOygpocTyBnxtmMGatXEAqimXMHdy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- clxscore=1015 mlxlogscore=657 adultscore=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 bulkscore=0 impostorscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307270063
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   215e4463b11d94668b841368cb6882f3a2968148
+commit: 6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c [9/20] media: ov5693: Convert to new CCI register access helpers
+config: mips-randconfig-r013-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271519.XIXA0WQd-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271519.XIXA0WQd-lkp@intel.com/reproduce)
 
-On 7/27/2023 12:38 PM, Pavan Kondeti wrote:
-> On Thu, Jul 27, 2023 at 12:24:10PM +0530, Rohit Agarwal wrote:
->> On 7/27/2023 11:06 AM, Pavan Kondeti wrote:
->>> On Thu, Jul 27, 2023 at 10:21:10AM +0530, Rohit Agarwal wrote:
->>>> Update the RPMHPD references with new bindings defined in rpmhpd.h
->>>> for Qualcomm SoCs SM8[2345]50.
->>>>
->>>> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
->>>> ---
->>>>    Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml    | 3 ++-
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml   | 3 ++-
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml     | 3 ++-
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml    | 3 ++-
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml   | 3 ++-
->>>>    Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml    | 3 ++-
->>>>    Documentation/devicetree/bindings/clock/qcom,videocc.yaml          | 3 ++-
->>>>    Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml | 3 ++-
->>>>    .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml          | 7 ++++---
->>>>    Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml | 3 ++-
->>>>    .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml          | 5 +++--
->>>>    Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml | 3 ++-
->>>>    .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml          | 7 ++++---
->>>>    Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml | 3 ++-
->>>>    .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml          | 7 ++++---
->>>>    Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml     | 3 ++-
->>>>    Documentation/devicetree/bindings/mmc/sdhci-msm.yaml               | 3 ++-
->>>>    Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml  | 5 +++--
->>>>    18 files changed, 44 insertions(+), 26 deletions(-)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
->>>> index d6774db..d6b81c0 100644
->>>> --- a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
->>>> +++ b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
->>>> @@ -83,6 +83,7 @@ examples:
->>>>      - |
->>>>        #include <dt-bindings/clock/qcom,rpmh.h>
->>>>        #include <dt-bindings/power/qcom-rpmpd.h>
->>>> +    #include <dt-bindings/power/qcom,rpmhpd.h>
->>>>        clock-controller@af00000 {
->>>>          compatible = "qcom,sm8250-dispcc";
->>>>          reg = <0x0af00000 0x10000>;
->>>> @@ -103,7 +104,7 @@ examples:
->>>>          #clock-cells = <1>;
->>>>          #reset-cells = <1>;
->>>>          #power-domain-cells = <1>;
->>>> -      power-domains = <&rpmhpd SM8250_MMCX>;
->>>> +      power-domains = <&rpmhpd RPMHPD_MMCX>;
->>>>          required-opps = <&rpmhpd_opp_low_svs>;
->>>>        };
->>>>    ...
->>> Does this file still need to include old header? The same is applicable
->>> to some of the other files in the patch also.
->>>
->>> We also discussed on the other thread [1] to move the regulator level
->>> definitions to new header. should this change be done after that, so that
->>> we don't end up touching the very same files again?
->>>
->>> [1]
->>> https://lore.kernel.org/all/a4zztrn6jhblozdswba7psqtvjt5l765mfr3yl4llsm5gsyqef@7x6q7yabydvm/
->> Removing this header directly would also be fine as we are not using any
->> macro defined directly in these
->> bindings.
->> I already checked with dt_binding_check by removing this header.
->>
-> Thanks for checking, then we should remove the old header in this patch
-> it self, right?
-Yes
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271519.XIXA0WQd-lkp@intel.com/
 
-Thanks,
-Rohit.
->
-> Thanks,
-> Pavan
+All errors (new ones prefixed by >>):
+
+>> drivers/media/i2c/ov5693.c:1280:19: error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1280 |         ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
+         |                          ^
+>> drivers/media/i2c/ov5693.c:1280:17: error: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
+    1280 |         ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+
+
+vim +/devm_cci_regmap_init_i2c +1280 drivers/media/i2c/ov5693.c
+
+  1267	
+  1268	static int ov5693_probe(struct i2c_client *client)
+  1269	{
+  1270		struct ov5693_device *ov5693;
+  1271		u32 xvclk_rate;
+  1272		int ret = 0;
+  1273	
+  1274		ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
+  1275		if (!ov5693)
+  1276			return -ENOMEM;
+  1277	
+  1278		ov5693->dev = &client->dev;
+  1279	
+> 1280		ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
+  1281		if (IS_ERR(ov5693->regmap))
+  1282			return PTR_ERR(ov5693->regmap);
+  1283	
+  1284		ret = ov5693_check_hwcfg(ov5693);
+  1285		if (ret)
+  1286			return ret;
+  1287	
+  1288		mutex_init(&ov5693->lock);
+  1289	
+  1290		v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
+  1291	
+  1292		ov5693->xvclk = devm_clk_get_optional(&client->dev, "xvclk");
+  1293		if (IS_ERR(ov5693->xvclk))
+  1294			return dev_err_probe(&client->dev, PTR_ERR(ov5693->xvclk),
+  1295					     "failed to get xvclk: %ld\n",
+  1296					     PTR_ERR(ov5693->xvclk));
+  1297	
+  1298		if (ov5693->xvclk) {
+  1299			xvclk_rate = clk_get_rate(ov5693->xvclk);
+  1300		} else {
+  1301			ret = fwnode_property_read_u32(dev_fwnode(&client->dev),
+  1302					     "clock-frequency",
+  1303					     &xvclk_rate);
+  1304	
+  1305			if (ret) {
+  1306				dev_err(&client->dev, "can't get clock frequency");
+  1307				return ret;
+  1308			}
+  1309		}
+  1310	
+  1311		if (xvclk_rate != OV5693_XVCLK_FREQ)
+  1312			dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
+  1313				 xvclk_rate, OV5693_XVCLK_FREQ);
+  1314	
+  1315		ret = ov5693_configure_gpios(ov5693);
+  1316		if (ret)
+  1317			return ret;
+  1318	
+  1319		ret = ov5693_get_regulators(ov5693);
+  1320		if (ret)
+  1321			return dev_err_probe(&client->dev, ret,
+  1322					     "Error fetching regulators\n");
+  1323	
+  1324		ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+  1325		ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
+  1326		ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+  1327	
+  1328		ov5693->mode.crop = ov5693_default_crop;
+  1329		ov5693->mode.format = ov5693_default_fmt;
+  1330		ov5693->mode.vts = __ov5693_calc_vts(ov5693->mode.format.height);
+  1331	
+  1332		ret = ov5693_init_controls(ov5693);
+  1333		if (ret)
+  1334			return ret;
+  1335	
+  1336		ret = media_entity_pads_init(&ov5693->sd.entity, 1, &ov5693->pad);
+  1337		if (ret)
+  1338			goto err_ctrl_handler_free;
+  1339	
+  1340		/*
+  1341		 * We need the driver to work in the event that pm runtime is disable in
+  1342		 * the kernel, so power up and verify the chip now. In the event that
+  1343		 * runtime pm is disabled this will leave the chip on, so that streaming
+  1344		 * will work.
+  1345		 */
+  1346	
+  1347		ret = ov5693_sensor_powerup(ov5693);
+  1348		if (ret)
+  1349			goto err_media_entity_cleanup;
+  1350	
+  1351		ret = ov5693_detect(ov5693);
+  1352		if (ret)
+  1353			goto err_powerdown;
+  1354	
+  1355		pm_runtime_set_active(&client->dev);
+  1356		pm_runtime_get_noresume(&client->dev);
+  1357		pm_runtime_enable(&client->dev);
+  1358	
+  1359		ret = v4l2_async_register_subdev_sensor(&ov5693->sd);
+  1360		if (ret) {
+  1361			dev_err(&client->dev, "failed to register V4L2 subdev: %d",
+  1362				ret);
+  1363			goto err_pm_runtime;
+  1364		}
+  1365	
+  1366		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+  1367		pm_runtime_use_autosuspend(&client->dev);
+  1368		pm_runtime_put_autosuspend(&client->dev);
+  1369	
+  1370		return ret;
+  1371	
+  1372	err_pm_runtime:
+  1373		pm_runtime_disable(&client->dev);
+  1374		pm_runtime_put_noidle(&client->dev);
+  1375	err_powerdown:
+  1376		ov5693_sensor_powerdown(ov5693);
+  1377	err_media_entity_cleanup:
+  1378		media_entity_cleanup(&ov5693->sd.entity);
+  1379	err_ctrl_handler_free:
+  1380		v4l2_ctrl_handler_free(&ov5693->ctrls.handler);
+  1381	
+  1382		return ret;
+  1383	}
+  1384	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
