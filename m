@@ -2,141 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 343C376732B
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 19:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8541876733F
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 19:25:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229528AbjG1RXE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 13:23:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51088 "EHLO
+        id S233335AbjG1RZ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 13:25:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233199AbjG1RXA (ORCPT
+        with ESMTP id S233271AbjG1RZz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 13:23:00 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57EF12688
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:22:58 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b9b50be31aso36392391fa.3
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690564976; x=1691169776;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IO0OFH0oUMMupA6OukcceVhS0L4SRH/Rh0UjiIiLnes=;
-        b=oKD5+5IAOmXR3esQou5EBar56x+DVKWDv6xGRkDAl2V2EuPrZJoP/aI+szj2K3RhhJ
-         FrD/A5qz80ZzcSN0tPI7C7UYdiONl1tjkKftTF2/B7MTALz5xqP4Qbd4shUBC1hyLDxA
-         InsvA2UB6h/m8RBDjYStLTY7RIQlCuvxphTBUMf82x3o2ulB6auyGKhzyN8VUaDJk+we
-         chBmEqtRWVtPIsko+dC/O92lGPVV94+UMYuRu1PxTFgw+Tl1bjkC2nE0/v3BnT23ZXtd
-         Uf+HUwGpJY1jU3bAU6LBpJ53GmOMgFoqlw5+WgfvP+bRfbZqRbUucSLuDi++ZMuufss6
-         NTIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690564976; x=1691169776;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IO0OFH0oUMMupA6OukcceVhS0L4SRH/Rh0UjiIiLnes=;
-        b=kpMP4EQpgPYG3AVOu1fEzX2mrTReAUboai06M96FSPZCOpRjMnpeOc6HipqAP3n+NS
-         3/3Tfplf1SVNpA1CPKEbpJZE3DSo9ftmLE7OWli9uttec0Y2I3BvlVDRz9iwV/8LEPME
-         zZNGeqRE7+HZvRqJRCpVQCzLdV/cPnwRSWlbDUxws0B0nI0NR0M7JrBWIHf08LWRlhcd
-         AlUfa1LlLBjKSk2/eFw/us/QaE+rCACRatf2BKHdjwsvDJ8xfEXEgYfmP3XlaxAEpbit
-         JDHFj8UF7SHEZcG2ZNtZXTU9VDDvcliX5uokDYh+Jbr0iwuGXhQ/7QFFfgJnneowwxUU
-         Q31Q==
-X-Gm-Message-State: ABy/qLYKZRIUSnzuivJOXhUIZXOeS7LXDFl8Mjc34La1q2hZfLpuSzx5
-        gqCynReTB4t/2aJcFUwrhB0clQ==
-X-Google-Smtp-Source: APBJJlEdL3g1snaMud3XPIopmMyn6HUS3QtiMvOqCpEYQIzAuXD/ripiZDnhzAs2UyvLAr4klpNUNA==
-X-Received: by 2002:a2e:9356:0:b0:2b6:b98e:fe87 with SMTP id m22-20020a2e9356000000b002b6b98efe87mr2188280ljh.16.1690564976596;
-        Fri, 28 Jul 2023 10:22:56 -0700 (PDT)
-Received: from [192.168.1.101] (abyk53.neoplus.adsl.tpnet.pl. [83.9.30.53])
-        by smtp.gmail.com with ESMTPSA id x11-20020a2e9dcb000000b002b69f44646bsm1048747ljj.17.2023.07.28.10.22.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 10:22:56 -0700 (PDT)
-Message-ID: <9c6e098a-5d7f-4a1a-80d6-116a2c6b8867@linaro.org>
-Date:   Fri, 28 Jul 2023 19:22:55 +0200
+        Fri, 28 Jul 2023 13:25:55 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB323A9C;
+        Fri, 28 Jul 2023 10:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690565152; x=1722101152;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mKRS6boUyUY8eyb/hoH/4uJAOZeecmb/FL8JIFuPo/w=;
+  b=cHnT1n7Z5oAnnGakpk4VzsVk0T9CJJBoZMXlpC0x6ltPZREPwQtx/dOv
+   PdswNw56QjQX9Dx1uXgTdJ6i2Pbio6qdyfUMnPzXzl1usYjKpxFHvkE7l
+   tv1pYfU2cXFEadWniP/eF87amwR/yRQsd3xkZFLEMxj8nul13riJ7Yja6
+   HkqtNb5JP3Tz1+KBfP1dALgGPMge8y8t/ctCCpyLBR2SFOp3FGUNdPhaQ
+   7QM/jAbWrPwpQXiZY9K42CcP1weVFt/6ZE84JMSIoGF8pW5oE6yIJ75Zp
+   8aWfGQqITInMKW60IFq3qTlkUk8fM9pzHTdNdZrioO+taT9vVuPHDFU3h
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="434931072"
+X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
+   d="scan'208";a="434931072"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 10:25:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="727556285"
+X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
+   d="scan'208";a="727556285"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 28 Jul 2023 10:25:48 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qPRDh-0003Qb-2T;
+        Fri, 28 Jul 2023 17:25:43 +0000
+Date:   Sat, 29 Jul 2023 01:24:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <davidgow@google.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, igt-dev@lists.freedesktop.org,
+        intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] kunit: Allow kunit test modules to use test filtering
+Message-ID: <202307290124.BnnhRy8b-lkp@intel.com>
+References: <20230728154419.1810177-8-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/33] iris: vidc: add helpers for memory management
-Content-Language: en-US
-To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc:     stanimir.k.varbanov@gmail.com, agross@kernel.org,
-        andersson@kernel.org, mchehab@kernel.org, hans.verkuil@cisco.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, quic_dikshita@quicinc.com
-References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-12-git-send-email-quic_vgarodia@quicinc.com>
- <20230728162817.GE1428172@hu-bjorande-lv.qualcomm.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20230728162817.GE1428172@hu-bjorande-lv.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230728154419.1810177-8-janusz.krzysztofik@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28.07.2023 18:28, Bjorn Andersson wrote:
-> On Fri, Jul 28, 2023 at 06:53:22PM +0530, Vikash Garodia wrote:
->> diff --git a/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_memory.c b/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_memory.c
-> [..]
->> +static const struct msm_vidc_memory_ops msm_mem_ops = {
->> +	.dma_buf_get                    = msm_vidc_dma_buf_get,
->> +	.dma_buf_put                    = msm_vidc_dma_buf_put,
->> +	.dma_buf_put_completely         = msm_vidc_dma_buf_put_completely,
->> +	.dma_buf_attach                 = msm_vidc_dma_buf_attach,
->> +	.dma_buf_detach                 = msm_vidc_dma_buf_detach,
->> +	.dma_buf_map_attachment         = msm_vidc_dma_buf_map_attachment,
->> +	.dma_buf_unmap_attachment       = msm_vidc_dma_buf_unmap_attachment,
->> +	.memory_alloc_map               = msm_vidc_memory_alloc_map,
->> +	.memory_unmap_free              = msm_vidc_memory_unmap_free,
->> +	.buffer_region                  = msm_vidc_buffer_region,
-> 
-> Will there ever be more than one implementation of the
-> msm_vidc_memory_ops?
-> 
-> Unless there's a really strong reason, just call the functions directly
-> without the function pointers and call_mem_op(), this will be slightly
-> faster, but more importantly it allows for much faster navigation of the
-> code base.
-Same for HFI ops
+Hi Janusz,
 
-Konrad
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/kunit-fixes]
+[also build test WARNING on linus/master v6.5-rc3]
+[cannot apply to shuah-kselftest/kunit next-20230728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Janusz-Krzysztofik/kunit-Report-the-count-of-test-suites-in-a-module/20230728-234736
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit-fixes
+patch link:    https://lore.kernel.org/r/20230728154419.1810177-8-janusz.krzysztofik%40linux.intel.com
+patch subject: [PATCH 3/3] kunit: Allow kunit test modules to use test filtering
+config: hexagon-randconfig-r045-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290124.BnnhRy8b-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290124.BnnhRy8b-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307290124.BnnhRy8b-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> lib/kunit/executor.c:182:42: warning: declaration of 'struct suite_set' will not be visible outside of this function [-Wvisibility]
+     182 | static void kunit_exec_list_tests(struct suite_set *suite_set)
+         |                                          ^
+   lib/kunit/executor.c:190:25: error: incomplete definition of type 'struct suite_set'
+     190 |         for (suites = suite_set->start; suites < suite_set->end; suites++)
+         |                       ~~~~~~~~~^
+   lib/kunit/executor.c:182:42: note: forward declaration of 'struct suite_set'
+     182 | static void kunit_exec_list_tests(struct suite_set *suite_set)
+         |                                          ^
+   lib/kunit/executor.c:190:52: error: incomplete definition of type 'struct suite_set'
+     190 |         for (suites = suite_set->start; suites < suite_set->end; suites++)
+         |                                                  ~~~~~~~~~^
+   lib/kunit/executor.c:182:42: note: forward declaration of 'struct suite_set'
+     182 | static void kunit_exec_list_tests(struct suite_set *suite_set)
+         |                                          ^
+   lib/kunit/executor.c:198:19: error: variable has incomplete type 'struct suite_set'
+     198 |         struct suite_set suite_set = {__kunit_suites_start, __kunit_suites_end};
+         |                          ^
+   lib/kunit/executor.c:198:9: note: forward declaration of 'struct suite_set'
+     198 |         struct suite_set suite_set = {__kunit_suites_start, __kunit_suites_end};
+         |                ^
+   In file included from lib/kunit/executor.c:230:
+   lib/kunit/executor_test.c:45:19: error: variable has incomplete type 'struct suite_set'
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                          ^
+   lib/kunit/executor_test.c:45:9: note: forward declaration of 'struct suite_set'
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                ^
+   lib/kunit/executor_test.c:46:19: error: variable has incomplete type 'struct suite_set'
+      46 |         struct suite_set got;
+         |                          ^
+   lib/kunit/executor_test.c:45:9: note: forward declaration of 'struct suite_set'
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                ^
+   lib/kunit/executor_test.c:69:19: error: variable has incomplete type 'struct suite_set'
+      69 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                          ^
+   lib/kunit/executor_test.c:69:9: note: forward declaration of 'struct suite_set'
+      69 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                ^
+   lib/kunit/executor_test.c:70:19: error: variable has incomplete type 'struct suite_set'
+      70 |         struct suite_set got;
+         |                          ^
+   lib/kunit/executor_test.c:69:9: note: forward declaration of 'struct suite_set'
+      69 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                ^
+   lib/kunit/executor_test.c:96:19: error: variable has incomplete type 'struct suite_set'
+      96 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                          ^
+   lib/kunit/executor_test.c:96:9: note: forward declaration of 'struct suite_set'
+      96 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                ^
+   lib/kunit/executor_test.c:97:19: error: variable has incomplete type 'struct suite_set'
+      97 |         struct suite_set got;
+         |                          ^
+   lib/kunit/executor_test.c:96:9: note: forward declaration of 'struct suite_set'
+      96 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                ^
+   lib/kunit/executor_test.c:138:4: warning: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+     138 |                         (kunit_action_t *)kfree,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings and 9 errors generated.
+
+
+vim +182 lib/kunit/executor.c
+
+9c6b0e1d8993e4 Daniel Latypov 2021-09-30  181  
+9c6b0e1d8993e4 Daniel Latypov 2021-09-30 @182  static void kunit_exec_list_tests(struct suite_set *suite_set)
+aac35468ca20a3 Alan Maguire   2020-08-04  183  {
+e5857d396f35e5 Daniel Latypov 2022-07-09  184  	struct kunit_suite * const *suites;
+9c6b0e1d8993e4 Daniel Latypov 2021-09-30  185  	struct kunit_case *test_case;
+9c6b0e1d8993e4 Daniel Latypov 2021-09-30  186  
+6c738b52316c58 Rae Moar       2022-11-23  187  	/* Hack: print a ktap header so kunit.py can find the start of KUnit output. */
+6c738b52316c58 Rae Moar       2022-11-23  188  	pr_info("KTAP version 1\n");
+9c6b0e1d8993e4 Daniel Latypov 2021-09-30  189  
+9c6b0e1d8993e4 Daniel Latypov 2021-09-30  190  	for (suites = suite_set->start; suites < suite_set->end; suites++)
+e5857d396f35e5 Daniel Latypov 2022-07-09  191  		kunit_suite_for_each_test_case((*suites), test_case) {
+e5857d396f35e5 Daniel Latypov 2022-07-09  192  			pr_info("%s.%s\n", (*suites)->name, test_case->name);
+9c6b0e1d8993e4 Daniel Latypov 2021-09-30  193  		}
+9c6b0e1d8993e4 Daniel Latypov 2021-09-30  194  }
+9c6b0e1d8993e4 Daniel Latypov 2021-09-30  195  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
