@@ -2,388 +2,347 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91D1E766416
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 08:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC723766468
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 08:46:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233523AbjG1GXm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 02:23:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48172 "EHLO
+        id S233260AbjG1Gqq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 02:46:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232782AbjG1GXl (ORCPT
+        with ESMTP id S229568AbjG1Gqp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 02:23:41 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92257A0
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 23:23:39 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-40553466a08so11300541cf.3
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 23:23:39 -0700 (PDT)
+        Fri, 28 Jul 2023 02:46:45 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EEC43585
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 23:46:43 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-63d0f62705dso11832966d6.0
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 23:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1690525418; x=1691130218;
+        d=chromium.org; s=google; t=1690526802; x=1691131602;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=y9qPdlm1ReHqwmo2FxAME7hY6kG8vj/DByNpFwGBv3E=;
-        b=FW/UilF/dRbMBUjv/XiNzGNDfXU6p04RedzWyL3FpNAw5kFfGY8cnJdCGSqMrA2to8
-         05seqMQXfSy48HVmPExk3RiQhpNPFhebIseVnu10V4S+bEwvoWrE85MIHaxQLOTJqsZg
-         9zQE5hA/BtrkGkK9mYBQKBdtLf/pHmtvOmt/w=
+        bh=BGY2nO4ftRXQP63Y2pNslApqrzNNXCRHiRU0fSeA3Xw=;
+        b=k4Oigcu7aqKetFKoVexIE83Bu8ETLioCwuptG6SBn9YOfxWfNfnGv3G529VdF7B8uq
+         o3OupE40gllWnOarBVs8Fz/vxsZXz68E9WJpnOzNSkzIU6EneDGTxLNYU4pnDbqtNE1N
+         fJxrelkBzy9zdsFb14Bw/svw1stDs8fGmExJc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690525418; x=1691130218;
+        d=1e100.net; s=20221208; t=1690526802; x=1691131602;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=y9qPdlm1ReHqwmo2FxAME7hY6kG8vj/DByNpFwGBv3E=;
-        b=jJm0ne0IxA7RiIvPntY2zSQQ1uv+hW4MjIztoVDdS4sZpp9qZeT5M4SVNGxY49Ti6m
-         9t91RRdIjHK4aASrhjXCXTYpdUZTkCyuQxPGtVFyOBl7JjO9uZWrE/0DEm6g3fh9niqQ
-         IuQBpQngSMWQp2Z2ZqIL1b2QzLctHBZwITHFC9TufPp/zJFPNTmRUgqr0IA5wHafKUmg
-         trD/1QF4b1nRCWcyxDoblYM2aQEO/J59ZUGIzn48RdFpAfrrsJ1EKbHhTxMLq9L28t9d
-         o1SbOptm7Syo3rVA2omCYSGu2U85FWhkyoFNcV9sMY1xhKpLNJ4+iNsxeT1juzZYyCYK
-         Zr3Q==
-X-Gm-Message-State: ABy/qLatSSfZCM9GNYlqEojyWAWI5p/FLKK/J8rOS/Q8MFGsEu9SxrRP
-        XF7vclEFlZjB2iBV9eO8c7rcKmKPBNVeZatrwqgpFw==
-X-Google-Smtp-Source: APBJJlF/gI84e1Q/MiPrFk/0e37sHNPl6hPrWFSbxVhIaXYHZDSLDYmCn3O+IIFeBJp4uPAYKHeosQ==
-X-Received: by 2002:a05:622a:1aa0:b0:407:2c52:2858 with SMTP id s32-20020a05622a1aa000b004072c522858mr1429517qtc.55.1690525417995;
-        Thu, 27 Jul 2023 23:23:37 -0700 (PDT)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com. [209.85.219.43])
-        by smtp.gmail.com with ESMTPSA id z1-20020ac83e01000000b003e3918f350dsm958596qtf.25.2023.07.27.23.23.36
+        bh=BGY2nO4ftRXQP63Y2pNslApqrzNNXCRHiRU0fSeA3Xw=;
+        b=XDTDoHtI0MfJ8OWr7v81bBC2E0EtJHGWGhiig1ugN+xUeqAjWsctxnDHNPf5yNLiRK
+         HXvvYlGhI/RqAMgIyirPhpudCzBP1P8suCsO/j0l3dK20bwc+U1ptBqNmwu59pKInoSA
+         jxALurEBI8KsRJ6PZuoM/gzqh1hwID+EgBjE+APp5P6/yMxlNu7FVbESAfgtyQsOkN/N
+         nV2DrwB657+q3s/M15X7XM681zfom1KAGEAngv/v5GdLO1LhBZRLeApOZC8sIGCnQ408
+         YKaxAKDYx6r3f4XVa9BQ4I1EUwU93hq/pbQJqBjGYsu2sJEGwtXMkCR6xChbCQ1+Y4B3
+         gtRw==
+X-Gm-Message-State: ABy/qLbaw2TDzrIwMoTPhDN/M7zvvfaAYRCAEz3j2K+ppRQYNCsmz1Ua
+        jbUfdiZUqjZot7tzeVjK1XHB51PUtFwtxeB9Y3CDhcSG
+X-Google-Smtp-Source: APBJJlHy8+9APD8RJQeDHOw5zDHt1w4dRy96TmsF6BRRGLE9/Cg1OsGF2uyalPGlrmOp972d3BOpNA==
+X-Received: by 2002:a0c:d991:0:b0:63d:419c:5914 with SMTP id y17-20020a0cd991000000b0063d419c5914mr1559801qvj.57.1690526801667;
+        Thu, 27 Jul 2023 23:46:41 -0700 (PDT)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com. [209.85.219.50])
+        by smtp.gmail.com with ESMTPSA id s7-20020a0cb307000000b00637615a1f33sm1011543qve.20.2023.07.27.23.46.40
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 23:23:36 -0700 (PDT)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-63cf3dcffe0so10729946d6.1
-        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 23:23:36 -0700 (PDT)
-X-Received: by 2002:a0c:d692:0:b0:626:1e95:2feb with SMTP id
- k18-20020a0cd692000000b006261e952febmr1377537qvi.19.1690525416152; Thu, 27
- Jul 2023 23:23:36 -0700 (PDT)
+        Thu, 27 Jul 2023 23:46:40 -0700 (PDT)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-63d10da0f26so11706226d6.3
+        for <linux-media@vger.kernel.org>; Thu, 27 Jul 2023 23:46:40 -0700 (PDT)
+X-Received: by 2002:a05:6214:3b84:b0:63d:23c:41d with SMTP id
+ nf4-20020a0562143b8400b0063d023c041dmr1469017qvb.25.1690526800244; Thu, 27
+ Jul 2023 23:46:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <3df23ff7-7a62-ed92-b9fb-a988e96c9790@synaptics.com>
- <CAAFQd5DBwCL8vELwJpFZPseLgLeXq-p2LWO9t=PYc0wXVjGB9w@mail.gmail.com> <fccd65a7-d555-0957-75f0-804730981be3@synaptics.com>
-In-Reply-To: <fccd65a7-d555-0957-75f0-804730981be3@synaptics.com>
+References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
+ <20230622131349.144160-5-benjamin.gaignard@collabora.com> <e7444263-0ce5-1575-8cca-1e51b1cfbe9a@synaptics.com>
+ <5cb3f216-5041-a155-5d2c-059dc1f15024@collabora.com> <25b21252-0d3a-3e50-0012-57055f386fee@synaptics.com>
+ <20230712104801.tgawhexpm53ocgd6@chromium.org> <2d239d33-b05d-1b51-2268-43b2839b64ea@synaptics.com>
+In-Reply-To: <2d239d33-b05d-1b51-2268-43b2839b64ea@synaptics.com>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 28 Jul 2023 15:23:24 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DbnYmxKC3763HQy0hmuwcWNT=YdrOm2BQdb=+6fPBTPg@mail.gmail.com>
-Message-ID: <CAAFQd5DbnYmxKC3763HQy0hmuwcWNT=YdrOm2BQdb=+6fPBTPg@mail.gmail.com>
-Subject: Re: [RFC]: media: mc: storing query status in variable length buffer
- likes blob in DRM
+Date:   Fri, 28 Jul 2023 15:46:29 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5D7oNG8oZB66qEW720fR79paw_q0LGBg7X4jK-ZkgYD_g@mail.gmail.com>
+Message-ID: <CAAFQd5D7oNG8oZB66qEW720fR79paw_q0LGBg7X4jK-ZkgYD_g@mail.gmail.com>
+Subject: Re: [PATCH v3 04/11] media: videobuf2: Stop define VB2_MAX_FRAME as global
 To:     Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc:     Yunke Cao <yunkec@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        ayaka <ayaka@soulik.info>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, Brian.Starkey@arm.com,
-        boris.brezillon@collabora.com, frkoenig@chromium.org,
-        hans.verkuil@cisco.com, hiroh@chromium.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>
+Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, linux-staging@lists.linux.dev,
+        ming.qian@nxp.com, kernel@collabora.com,
+        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 27, 2023 at 7:10=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics.com=
+On Mon, Jul 17, 2023 at 4:44=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics.com=
 > wrote:
 >
 >
->
-> On 7/27/23 17:07, Tomasz Figa wrote:
+> On 7/12/23 18:48, Tomasz Figa wrote:
 > > CAUTION: Email originated externally, do not click links or open attach=
 ments unless you recognize the sender and know the content is safe.
 > >
 > >
-> > On Tue, Jul 4, 2023 at 5:41=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics.=
-com> wrote:
-> >>
-> >> Hello All
-> >>
-> >> This RFC will address the problem that some ioctl() commands would be
-> >> called many times until that command got all the all its entries. Thos=
-e
-> >> ioctl() command are:
-> >>
-> >> - VIDIOC_ENUM_FMT
-> >>
-> >> - VIDIOC_QUERYCTRL
-> >>
-> >> - VIDIOC_ENUMSTD and VIDIOC_SUBDEV_ENUMSTD
-> >>
-> >> Generally speaking, all enumeration type commands would lead to
-> >> frequently context switch between userspace  and kernel space. A few
-> >> enumeration commands listed below may not meet this problem in some
-> >> cases, as they could present their entries in a step wise way.
-> >>
-> >> - VIDIOC_ENUM_FRAMESIZES
-> >>
-> >> - VIDIOC_ENUM_FRAMEINTERVALS
-> >>
-> >
-> > Right, it's something that often comes in conversations with user
-> > space developers on how it's difficult to query information from V4L2.
-> > That said, we've mostly found it as an annoyance rather than a
-> > practical problem. Do you have some specific case where the current
-> > approach of enumeration causes a problem for the application (e.g.
-> > performance)?
-> >
-> I have to admit the performance is not a problem for enumeration of
-> pixel formats. We only do that in the setup step.
->
-> The original problem before ext_pixel_format is enumeration of the
-> colorspace, 12 variant of colorimetries for a pixel format.
->
-> After we began to disccus the v4l2 ext APIs, I want to remove the
-> barrier that we can't update the v4l2 uAPI easily under the size limitati=
-on.
-> >>
-> >> A simple solution that we could bring and improve from DRM is the blob
-> >> object(struct drm_property_blob).
-> >>
-> >> We could extend the existing ioctl() in this way:
-> >>
-> >> 1. VIDIOC_ENUM_EXT_FMT would turn a blob id and the memory size
-> >> requirement that usespace should prepare
-> >>
-> >> for storing.
-> >>
-> >> 2. Appication call VIDIOC_GETPROPBLOB with blob id and a userspace
-> >> pointer which should be enough for storing.
-> >>
-> >> 3. V4L2 framework fill the that userptr with context likes this:
-> >>
-> >> struct v4l2_blob_prop {
-> >>
-> >> __u32 version;
-> >>
-> >> __u32 payload_size;
-> >>
-> >> __u32 payload[];
-> >>
-> >> };
-> >>
-> >> 4. The parsing of payload would depend on its version which
-> >> v4l2_blob_prop.version says, and each entry in the payload could be
-> >> variable length, likes this:
-> >>
-> >> struct v4l2_ext_pix_mod_desc {
-> >>
-> >> __u64 modifier;
-> >>
-> >> __u64 allocate_hints; /* heap flags shard by DMA-heap */
-> >>
-> >> __u32 num_of_planes;
-> >>
-> >> __u32 plane_sizes[8];
-> >>
-> >> __u32 colorimetry_flags;
-> >>
-> >> };
-> >>
-> >> struct v4l2_ext_pix_desc {
-> >>
-> >> __u32 fourcc;
-> >>
-> >> __u32 num_of_modifies;
-> >>
-> >> struct v4l2_ext_pix_mod_desc[];
-> >>
-> >> };
-> >>
-> >
-> > Since I'm not familiar with the DRM blob approach it might be an
-> > obvious thing, but what happens when the application was written when
-> DRM doesn't have such design about API version.
-> > let's say the version was 3, but the kernel it's running on now was
-> > upgraded to version 4?
-> >
-> Nope, the API version is not selected by the userspace but kernel.
-> It is something likes the protocol version in wayland.
->
-> We would careful make a version of API but we don't not take the
-> responsibility for the back-compatible for the application.
-
-I hope Linus is not seeing this. Linux UAPI backwards compatibility is
-a hard guarantee and it's stated multiple times in the kernel
-documentation, for example:
-
-https://www.kernel.org/doc/html/latest/process/4.Coding.html#regressions
-
-I would be really surprised if DRM was an exception. Let me add
-+Daniel Vetter as my source of truth regarding the DRM UAPI.
-
-> >>
-> >> In this design, we could avoid the problem that we could hardly extend
-> >> our uAPI for V4L2, all the structure must be a fixed size.
-> >>
-> >> Here are some options design that people want for this RFC:
-> >>
-> >> 1. Do we need to call the ioctl() command itself(likes
-> >> VIDIOC_ENUM_EXT_FMT) which let the driver to flush its internal proper=
-ty
-> >> cache or calling VIDIOC_GETPROPBLOB is enough?
-> >
-> > Wouldn't the former make it thread-unsafe?
-> >
-> Why we need thread safe here? V4L2 don't offer such thing.
-
-That's not really true. What is your statement based on?
-
-All V4L2 drivers need to allow calling their ioctls from different
-threads - in the simplest case by serializing them. Any call to a V4L2
-ioctl must return a consistent result. In your case, one thread would
-call VIDIOC_ENUM_EXT_FMT, another could then call VIDIOC_ENUM_EXT_CTRL
-and then if the first one calls VIDIOC_GETPROPBLOB it would get
-results for something completely different than originally requested.
-
-Arguably, the current design of enumerations is not thread-safe
-either, because one thread could read supported formats from 0 to n,
-then another thread could change some other state of the device and
-then the first thread would get potentially different results for
-formats n+1 to N. That is a design problem of the API, though. Nobody
-was expecting that the list of formats would ever change due to some
-potentially unrelated state change when the API was being designed.
-(Although that's addressed today by the SRC_FMT change event, making
-the user space re-read the destination formats when it notices it.)
-
-> > I'd imagine something like this:
-> >
-> > struct v4l2_property_array {
-> >          __u32 version; // Could be equal to the length of the struct
-> >
-> It should not be. version means the structure of the payload.
-> >          void __user *buf;
-> >          __u32 len;
-> >
-> >          __u32 num_formats;
-> >          __u32 num_frame_sizes;
-> >          __u32 num_modifiers;
-> >          __u32 num_controls;
-> >          __u32 num_menus;
-> >
-> >         // More fields could be added here for more types of
-> > information to query, with next versions, which could be ignored by
-> > old userspace.
-> You know what this buffer for(the property that you want) before this
-> step. That is not necessary to have a union reporting the items in the
-> payload.
-> A struct(or an item) in the payload(many items) itself could have a
-> variable array. How many items in the payload may not help on parsing
-> for the userspace.
-
-They don't have to have variable arrays if designed as such. Instead of hav=
-ing
-
-struct v4l2_ext_pix_mod_desc modifiers[];
-__u32 num_modifiers;
-
-in struct v4l2_ext_pix_desc, we can have the struct representing a
-supported modifier refer to a pixel format by its fourcc. Sure, the
-drawback would be repeating the same information for every <modifier,
-fourcc> pair in the rest of the struct, but at least we don't need to
-have variable arrays. Another approach would be to have an additional
-association array of only <fourcc, modifier> pairs, like in databases.
-
-My main goal is to make it possible to keep backwards compatibility of
-returned data, as per the kernel UAPI development guidelines, with a
-reasonable amount of effort and without complicating user space
-programming too much. That said, we may still need to have some kind
-of size variability in the structs, because otherwise we wouldn't be
-able to extend them in the future with more fields, so my proposal
-wouldn't work either. Need to think about it for a moment.
-
-> > };
-> >
-> > If out_buf is NULL, the kernel fills len and num_* fields and returns.
-> > Then the userspace allocates a big enough buffer and calls the ioctl
-> > again with buf !=3D NULL, which fills in the buffer pointed by buf as
-> > below.
-> >
-> The maximum requirement size would be confirmed at the first step, a
-> ioctl() likes VIDIOC_ENUM_EXT_FMT.
-> > {
-> >          (struct v4l2_ext_format[]) {
-> >                 [0] =3D { ... },
-> >                 [num_formats - 1] =3D { ... }
-> >          }
-> >          (struct v4l2_frame_size[]) {
-> >                  [0] =3D { ... },
-> >                  [num_frame_sizes - 1] =3D { ... }
-> >          }
-> >          // [...]
-> >          (struct v4l2_ctrl_menu[]) {
-> >                  [0] =3D { ... },
-> >                  [num_menus - 1] =3D { ... }
-> >          }
-> > }
-> >
-> > I think we could also let the user space fill in the version and num_
-> > (presumably with 0) to control what information it wants the kernel to
-> > return.
-> >
-> >>
-> >> 2. Should we make MC node support this feature only or standard video
-> >> node could? A thought from pinchartl is that every driver should have =
+> > On Mon, Jul 03, 2023 at 04:35:30PM +0800, Hsia-Jun Li wrote:
+> >> On 7/3/23 16:09, Benjamin Gaignard wrote:
+> >>> CAUTION: Email originated externally, do not click links or open
+> >>> attachments unless you recognize the sender and know the content is
+> >>> safe.
+> >>>
+> >>>
+> >>> Le 30/06/2023 =C3=A0 11:51, Hsia-Jun Li a =C3=A9crit :
+> >>>> On 6/22/23 21:13, Benjamin Gaignard wrote:
+> >>>>> CAUTION: Email originated externally, do not click links or open
+> >>>>> attachments unless you recognize the sender and know the content is
+> >>>>> safe.
+> >>>>>
+> >>>>>
+> >>>>> After changing bufs arrays to a dynamic allocated array
+> >>>>> VB2_MAX_FRAME doesn't mean anything for videobuf2 core.
+> >>>> I think make it 64 which is the VB2_MAX_FRAME in Android GKI kernel =
+is
+> >>>> more reasonable.
+> >>>>
+> >>>> It would be hard to iterate the whole array, it would go worse with =
 a
-> >> MC node even for the stateful driver.
+> >>>> filter. Such iterate may need to go twice because you mix
+> >>>> post-processing buffer and decoding buffer(with MV) in the same arra=
+y.
+> >>> Here I don't want to change drivers behavior so I keep the same value=
+.
+> >>> If it happens that they need more buffers, like for dynamic resolutio=
+n
+> >>> change
+> >>> feature for Verisilicon VP9 decoder, case by case patches will be nee=
+ded.
+> >>>
+> >> I just don't like the idea that using a variant length array here.
 > >>
+> > "I don't like" is not an argument. We had a number of arguments for
+> > using a generic helper (originally idr, but later decided to go with
+> > XArray, because the former is now deprecated) that we pointed out in
+> > our review comments for previous revisions. It wasn't really about the
+> > size being variable, but rather avoiding open coding things in vb2 and
+> > duplicating what's already implemented in generic code.
+>
+> I just want to say I don't think we need a variable length array to
+> store the buffer here.
+>
+> And the below is the reason that such a case could be avoided in the
+> first place.
+>
 > >
-> > The futuristic model that we envisioned back in time would be that
-> > there is a media device that gives the user space ability to perform
-> > operations on all the interfaces of the respective media controller
-> > (or even all interfaces in the system - but that would require some
-> > security considerations). In such a model, the userspace could prepare
-> > an array (or blob if you prefer) of operations, where each operation
-> > refers to an interface entity ID on which to execute the operation. It
-> > would allow us to submit complete requests (or even many of them) in a
-> > single ioctl, reducing the overhead significantly.
-> >
-> > That said, it would be a complete overhaul of the API, so it might be
-> > a step too big? Not sure. We certainly could benefit from V4L3. ;)
-> >
-> I thought of that. But I try to convince people those are not a big
-> change but essential.
-
-Overhauling the entire querying side of the API is already quite a big
-change. It shouldn't really matter if the change is small and big,
-assuming a good enough justification is there (and the change meets
-the kernel development requirements).
-
+> >> And I could explain why you won't need so many buffers for the perform=
+ance
+> >> of decoding.
 > >>
-> >> The implementation of RFC could be a foundation for ext pixel and ext
-> >> buffer APIs. I would like to know your feedback before we settle the
-> >> problem with the ext pixel format.
-> >
-> > I feel like this kind of batch operation would be more important for
-> > buffer management, because it could allow dequeuing multiple buffers
-> > in one ioctl, which is actually something that is starting to show up
-> > as a real performance bottleneck for complex devices, such as ISPsI thi=
-nk I make it for MC node from the idea of Pinchart.
-> > (We have a MediaTek ISP that has a really big number of DMA engines,
-> > which accounts to about 200 DQBUFs per frame. Let me add +Yunke Cao
-> I need to know how it happens.
+> >> VP9 could support 10 reference frames in dpb.
+> >>
+> >> Even for those frequent resolution changing test set, it would only ha=
+ppen
+> >> to two resolutions,
+> >>
+> >> 32 would be enough for 20 buffers of two resolution plus golden frames=
+. It
+> >> also leaves enough slots for re-order latency.
+> >>
+> >> If your case had more two resolutions, likes low->medium->high.
+> >>
+> >> I would suggest just skip the medium resolutions, just allocate the lo=
+wer
+> >> one first for fast playback then the highest for all the possible
+> >>
+> >> medium cases. Reallocation happens frequently would only cause memory
+> >> fragment, nothing benefits your performance.
+> >>
+> > We have mechanisms in the kernel to deal with memory fragmentation
+> > (migration/compaction) and it would still only matters for the
+> > pathologic cases of hardware that require physically contiguous memory.
+> > Modern hardware with proper DMA capabilities can either scatter-gather
+> > or are equipped with an IOMMU, so the allocation always happens in page
+> > granularity and fragmentation is avoided.
+>
+> Unfortunately, there are more devices that didn't have a IOMMU attached
+> to it, supporting scatter gather is more odd.
+>
+> It would be more likely that IOMMU would be disabled for the performance
+> reason.
 
-I can't share the exact details, but basically it's an ISP, so it has
-multiple different processing blocks that have their own inputs and
-outputs. They can then be relatively freely arranged into a processing
-pipeline.
+These days IOMMU is totally mandatory if you want to think about
+having any level of security in your system. Sure, there could be some
+systems that are completely isolated from any external environment,
+like some offline industry automation machines, but then arguably
+their running conditions would also be quite static and require very
+little memory re-allocation.
 
-> > who's been looking into what performance effects it has and how we
-> > could improve it.)
-> >
-> We need to hurry up on settling the design of m2m or v4l2 framework.
-
-Hurry is the biggest foe of API design. ;)
-The last thing we want is an API that we'll have to replace again in a
-few quarters.
-I agree that we need to have people mobilized and invest more time
-into modernizing the API, though.
-
-> We meet the fourcc namespace problem at least 5 years ago, but we still
-> didn't fix it.
-
-What's the problem with the fourcc namespace?
+I also don't buy the performance reason. CPUs have been behind MMUs
+for ages and nobody is running them with paging disabled for
+performance reasons. Similarly, most of the modern consumer systems
+(mobile phones, PCs) run with IOMMUs enabled for pretty much anything
+because of the security reason and they don't seem to be having any
+performance issues. In fact, it can improve the performance, because
+memory allocation is much easier and without contiguous careouts (as
+we used to have long ago on Android devices) the extra memory can be
+used for buffers and caches to improve system performance.
 
 Best regards,
 Tomasz
+
+>
+> >
+> > Best regards,
+> > Tomasz
+> >
+> >>>>> Remove it from the core definitions but keep it for drivers interna=
+l
+> >>>>> needs.
+> >>>>>
+> >>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >>>>> ---
+> >>>>>    drivers/media/common/videobuf2/videobuf2-core.c | 2 ++
+> >>>>>    drivers/media/platform/amphion/vdec.c | 1 +
+> >>>>> .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c | 2 +=
++
+> >>>>>    drivers/media/platform/qcom/venus/hfi.h | 2 ++
+> >>>>>    drivers/media/platform/verisilicon/hantro_hw.h | 2 ++
+> >>>>>    drivers/staging/media/ipu3/ipu3-v4l2.c | 2 ++
+> >>>>>    include/media/videobuf2-core.h | 1 -
+> >>>>>    include/media/videobuf2-v4l2.h | 4 ----
+> >>>>>    8 files changed, 11 insertions(+), 5 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> index 86e1e926fa45..899783f67580 100644
+> >>>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> @@ -31,6 +31,8 @@
+> >>>>>
+> >>>>>    #include <trace/events/vb2.h>
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME  32
+> >>>>> +
+> >>>>>    static int debug;
+> >>>>>    module_param(debug, int, 0644);
+> >>>>>
+> >>>>> diff --git a/drivers/media/platform/amphion/vdec.c
+> >>>>> b/drivers/media/platform/amphion/vdec.c
+> >>>>> index 3fa1a74a2e20..b3219f6d17fa 100644
+> >>>>> --- a/drivers/media/platform/amphion/vdec.c
+> >>>>> +++ b/drivers/media/platform/amphion/vdec.c
+> >>>>> @@ -28,6 +28,7 @@
+> >>>>>
+> >>>>>    #define VDEC_MIN_BUFFER_CAP            8
+> >>>>>    #define VDEC_MIN_BUFFER_OUT            8
+> >>>>> +#define VB2_MAX_FRAME                  32
+> >>>>>
+> >>>>>    struct vdec_fs_info {
+> >>>>>           char name[8];
+> >>>>> diff --git
+> >>>>> a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> >>>>> b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> >>>>> index 6532a69f1fa8..a1e0f24bb91c 100644
+> >>>>> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_=
+if.c
+> >>>>> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_=
+if.c
+> >>>>> @@ -16,6 +16,8 @@
+> >>>>>    #include "../vdec_drv_if.h"
+> >>>>>    #include "../vdec_vpu_if.h"
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME  32
+> >>>>> +
+> >>>>>    /* reset_frame_context defined in VP9 spec */
+> >>>>>    #define VP9_RESET_FRAME_CONTEXT_NONE0 0
+> >>>>>    #define VP9_RESET_FRAME_CONTEXT_NONE1 1
+> >>>>> diff --git a/drivers/media/platform/qcom/venus/hfi.h
+> >>>>> b/drivers/media/platform/qcom/venus/hfi.h
+> >>>>> index f25d412d6553..bd5ca5a8b945 100644
+> >>>>> --- a/drivers/media/platform/qcom/venus/hfi.h
+> >>>>> +++ b/drivers/media/platform/qcom/venus/hfi.h
+> >>>>> @@ -10,6 +10,8 @@
+> >>>>>
+> >>>>>    #include "hfi_helper.h"
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME                          32
+> >>>>> +
+> >>>>>    #define VIDC_SESSION_TYPE_VPE                  0
+> >>>>>    #define VIDC_SESSION_TYPE_ENC                  1
+> >>>>>    #define VIDC_SESSION_TYPE_DEC                  2
+> >>>>> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>> b/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>> index e83f0c523a30..9e8faf7ba6fb 100644
+> >>>>> --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>> @@ -15,6 +15,8 @@
+> >>>>>    #include <media/v4l2-vp9.h>
+> >>>>>    #include <media/videobuf2-core.h>
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME  32
+> >>>>> +
+> >>>>>    #define DEC_8190_ALIGN_MASK    0x07U
+> >>>>>
+> >>>>>    #define MB_DIM                 16
+> >>>>> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>> b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>> index e530767e80a5..6627b5c2d4d6 100644
+> >>>>> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>> @@ -10,6 +10,8 @@
+> >>>>>    #include "ipu3.h"
+> >>>>>    #include "ipu3-dmamap.h"
+> >>>>>
+> >>>>> +#define VB2_MAX_FRAME  32
+> >>>>> +
+> >>>>>    /******************** v4l2_subdev_ops ********************/
+> >>>>>
+> >>>>>    #define IPU3_RUNNING_MODE_VIDEO                0
+> >>>>> diff --git a/include/media/videobuf2-core.h
+> >>>>> b/include/media/videobuf2-core.h
+> >>>>> index 77921cf894ef..080b783d608d 100644
+> >>>>> --- a/include/media/videobuf2-core.h
+> >>>>> +++ b/include/media/videobuf2-core.h
+> >>>>> @@ -20,7 +20,6 @@
+> >>>>>    #include <media/media-request.h>
+> >>>>>    #include <media/frame_vector.h>
+> >>>>>
+> >>>>> -#define VB2_MAX_FRAME  (32)
+> >>>>>    #define VB2_MAX_PLANES (8)
+> >>>>>
+> >>>>>    /**
+> >>>>> diff --git a/include/media/videobuf2-v4l2.h
+> >>>>> b/include/media/videobuf2-v4l2.h
+> >>>>> index 5a845887850b..88a7a565170e 100644
+> >>>>> --- a/include/media/videobuf2-v4l2.h
+> >>>>> +++ b/include/media/videobuf2-v4l2.h
+> >>>>> @@ -15,10 +15,6 @@
+> >>>>>    #include <linux/videodev2.h>
+> >>>>>    #include <media/videobuf2-core.h>
+> >>>>>
+> >>>>> -#if VB2_MAX_FRAME !=3D VIDEO_MAX_FRAME
+> >>>>> -#error VB2_MAX_FRAME !=3D VIDEO_MAX_FRAME
+> >>>>> -#endif
+> >>>>> -
+> >>>>>    #if VB2_MAX_PLANES !=3D VIDEO_MAX_PLANES
+> >>>>>    #error VB2_MAX_PLANES !=3D VIDEO_MAX_PLANES
+> >>>>>    #endif
+> >>>>> --
+> >>>>> 2.39.2
+> >>>>>
+> >> --
+> >> Hsia-Jun(Randy) Li
+> >>
+> --
+> Hsia-Jun(Randy) Li
+>
