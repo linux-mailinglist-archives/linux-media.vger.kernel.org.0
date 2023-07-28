@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE8B7673EF
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 19:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D7FD767405
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 19:55:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233069AbjG1RxK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 13:53:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43988 "EHLO
+        id S230265AbjG1Rzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 13:55:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233674AbjG1RxA (ORCPT
+        with ESMTP id S231324AbjG1Rzi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 13:53:00 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8512D60
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:52:55 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4fe0fe622c3so4022233e87.2
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:52:55 -0700 (PDT)
+        Fri, 28 Jul 2023 13:55:38 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB95F3C1D
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:55:36 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2b9b50be31aso36815391fa.3
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:55:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690566774; x=1691171574;
+        d=linaro.org; s=google; t=1690566935; x=1691171735;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SL9ORKV7EqBhOElFVd5vnXP5HIc4kBpa3/e5CVa3AcI=;
-        b=pqFdhBqFxV1vXMvtxKLGxGxna95F1EiQl9DfW5vPWfjygSsGAPJVhk/KnTZ6XknLRX
-         4wuQTBAqBwSmD+yZD1feRNTbJkPrZP+uRmAPJioI+LQ4VnezuvhnI9bJqgi8mgPbxbcb
-         pn3aUKhv94/LRzp6AdJP6Oq28Oj2VssSCrIalB50p1ADeC7mrLr2J/Rp2kAqstsjhvEq
-         ovJoLW2L9Nss1Z1Q3ACWF4x75jn4Kt9G5GKQIwvJDbWvktlYqyr8oZPOKNc59p644fYC
-         tMnG/Obj3S/m+EfIO3pAsMfFkG/5REqXFem0cxQ7WTy33D6WEremM0krEIaIiTNH4GLX
-         dK9g==
+        bh=J50FXHBVMY76jU86gdZA2hOUW6PaI5nolOLYf+ebiaY=;
+        b=hZdqr3GqH1hXtYipXXVyx+LyNKzCHTAMWViYak7U5KMHQPctf/TwIHCPkL7dpLPh+G
+         As6ugvww8cLF2tv6y3hy6wODKLWIoHdrJWEAwbOOW3n5krErLhgcCshds8/Rco4UgjCr
+         yP96bDZWp7V2CcmmciIYHyS+ZKZPZNUS2+Lz3Say9pMKVj8ai67H+JBQfqXwyo7udZWU
+         dQfObvns/GPXNF1NDDmIWgABDLbe1BMW9r4U/ZjpPRCwS62TKxfiEiKo6ox5sw0Wk9T2
+         oz7tYeA9TagpPie1B6/yfiYmOFlBh84v7oWVeVgiGBqTh91vRfwm56HLahj7NVt6qKPR
+         8dTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690566774; x=1691171574;
+        d=1e100.net; s=20221208; t=1690566935; x=1691171735;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SL9ORKV7EqBhOElFVd5vnXP5HIc4kBpa3/e5CVa3AcI=;
-        b=W2CiOjGcq0yD2MGImPr4a3KEpgdnz0n95XxQti7j3B1bsDHRQydFpR/vO6iAldcGAf
-         ZoA/v37jANRz/9jpyOAdO6z/Rsj9ndqmC4reiE6DsHEFsZY949YukWd1npcHqEFlVSGY
-         Yk/VWoNNBQ9sTZ8YtcVpovetvBjmkKwq4xMm1tQ/JGN4NZ7q5vwJzr6cbZzloKZLGG+m
-         zYhYtmmFmMOuINuxpjbRaPY9F4ie0Iu4KK7fcji2dOibkCkBHYhcO1wFffnTVON1EkKu
-         /+hanzyYlJ1roKwXs/AxyGnP92NKZjleREJOLDlT6MSRFv7Jpu7vwK/G535F0rnrZWGH
-         tuaw==
-X-Gm-Message-State: ABy/qLYULleeawA4TKwKkLLuW1yoChwFqIvPz1E8JU76YCyqnT67WBTc
-        ALb381KGDLc0jZQHx/sIi5UkdA==
-X-Google-Smtp-Source: APBJJlFGl6dMuVGyqR+QXnIAMlLI6igrXS/52DnF0PKtWsKYAVFtQO+cRwB9qSKji1k4xApHlFoDSw==
-X-Received: by 2002:a19:e05b:0:b0:4ef:ed49:fcc2 with SMTP id g27-20020a19e05b000000b004efed49fcc2mr2127957lfj.26.1690566774123;
-        Fri, 28 Jul 2023 10:52:54 -0700 (PDT)
+        bh=J50FXHBVMY76jU86gdZA2hOUW6PaI5nolOLYf+ebiaY=;
+        b=dCEu5QB25x93FrWZfF3V5+8+RebKS4rOZMvPsUbDnyj4Yf1SbUe4qlaR8y5dJ1m4ce
+         ANThxaoHU3aTcUboxIFo2h2hg0Yap8mm+QceljSdG4eOMyLgIEUOH7/IsSN/Y/4qRkP0
+         AOP/vP3ujAqf7ujemzT/ZK93JQ7hkzzpULPmfNmWxCZG4FdIBx/DyRswZw9vsaf/z5Za
+         g3vjBCbZ5tmlPhHLV373HzHr9eTE3NaqDzdJpovgzPLRKI00OPUCje7ZHkixw3kuHCQC
+         guXYMI1eoNgjlVRbv8kksJMENILjR8OOV64gsL/OUpa2ETiuRhKt4k3zMZxCy0WxZwfH
+         UICw==
+X-Gm-Message-State: ABy/qLZZCg+3RGPneO44UCaDVRAHuB6ROvHdsl/WfglqMOiIVlOLOPCm
+        4rTPDT0TSYZozjzlfIRx/KBg+g==
+X-Google-Smtp-Source: APBJJlEdAdkNxm/VMjBas2n7DxBuJYqVKFC6TaGzlwER+arPmE+bBMALlJPr2kpQ/5UXmJ53563PLg==
+X-Received: by 2002:a2e:9b14:0:b0:2b4:7559:32b0 with SMTP id u20-20020a2e9b14000000b002b4755932b0mr2156492lji.19.1690566934940;
+        Fri, 28 Jul 2023 10:55:34 -0700 (PDT)
 Received: from [192.168.1.101] (abyk53.neoplus.adsl.tpnet.pl. [83.9.30.53])
-        by smtp.gmail.com with ESMTPSA id z5-20020ac25de5000000b004fdc8e52ddasm911957lfq.129.2023.07.28.10.52.53
+        by smtp.gmail.com with ESMTPSA id v20-20020a2e9614000000b002b9af8422a8sm1054627ljh.130.2023.07.28.10.55.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 10:52:53 -0700 (PDT)
-Message-ID: <60271d41-7807-0808-34d0-684ab9e81a90@linaro.org>
-Date:   Fri, 28 Jul 2023 19:52:52 +0200
+        Fri, 28 Jul 2023 10:55:34 -0700 (PDT)
+Message-ID: <cd1fea83-3e0c-32c2-dc9f-61569366e212@linaro.org>
+Date:   Fri, 28 Jul 2023 19:55:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/33] iris: vidc: add helpers for state management
+Subject: Re: [PATCH 16/33] iris: add helpers for media format
 Content-Language: en-US
 To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         stanimir.k.varbanov@gmail.com, agross@kernel.org,
@@ -63,7 +63,7 @@ To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         linux-arm-msm@vger.kernel.org
 Cc:     quic_dikshita@quicinc.com
 References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-15-git-send-email-quic_vgarodia@quicinc.com>
+ <1690550624-14642-17-git-send-email-quic_vgarodia@quicinc.com>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -100,13 +100,13 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <1690550624-14642-15-git-send-email-quic_vgarodia@quicinc.com>
+In-Reply-To: <1690550624-14642-17-git-send-email-quic_vgarodia@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -114,140 +114,46 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 28.07.2023 15:23, Vikash Garodia wrote:
-> This implements the functions to handle different core
-> and instance state transitions.
+> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> 
+> Add helpers to calculate stride, scanline, buffer size
+> etc. for different media formats.
 > 
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
 [...]
 
-> +enum msm_vidc_core_sub_state {
-> +	CORE_SUBSTATE_NONE                   = 0x0,
-> +	CORE_SUBSTATE_POWER_ENABLE           = BIT(0),
-> +	CORE_SUBSTATE_GDSC_HANDOFF           = BIT(1),
-> +	CORE_SUBSTATE_PM_SUSPEND             = BIT(2),
-> +	CORE_SUBSTATE_FW_PWR_CTRL            = BIT(3),
-> +	CORE_SUBSTATE_PAGE_FAULT             = BIT(4),
-> +	CORE_SUBSTATE_CPU_WATCHDOG           = BIT(5),
-> +	CORE_SUBSTATE_VIDEO_UNRESPONSIVE     = BIT(6),
-> +	CORE_SUBSTATE_MAX                    = BIT(7),
-Why store it in an enum if they're not consecutive? You can make them
-preprocessor #defines.
-
-> +};
-> +
-> +enum msm_vidc_core_event_type {
-> +	CORE_EVENT_NONE                      = BIT(0),
-> +	CORE_EVENT_UPDATE_SUB_STATE          = BIT(1),
-> +};
-Ditto (even though techinically they're consecutive)
 
 > +
-> +enum msm_vidc_state {
-> +	MSM_VIDC_OPEN,
-> +	MSM_VIDC_INPUT_STREAMING,
-> +	MSM_VIDC_OUTPUT_STREAMING,
-> +	MSM_VIDC_STREAMING,
-> +	MSM_VIDC_CLOSE,
-> +	MSM_VIDC_ERROR,
-> +};
+> +#ifndef MSM_MEDIA_ALIGN
+> +#define MSM_MEDIA_ALIGN(__sz, __align) (((__align) & ((__align) - 1)) ?\
+> +	((((__sz) + (__align) - 1) / (__align)) * (__align)) :\
+> +	(((__sz) + (__align) - 1) & (~((__align) - 1))))
+<linux/align.h>?
+
+> +#endif
 > +
-> +#define MSM_VIDC_SUB_STATE_NONE          0
-> +#define MSM_VIDC_MAX_SUB_STATES          6
+> +#ifndef MSM_MEDIA_ROUNDUP
+> +#define MSM_MEDIA_ROUNDUP(__sz, __r) (((__sz) + ((__r) - 1)) / (__r))
+> +#endif
+> +
 > +/*
-> + * max value of inst->sub_state if all
-> + * the 6 valid bits are set i.e 111111==>63
+> + * Function arguments:
+> + * @v4l2_fmt
+> + * @width
+> + * Progressive: width
+> + * Interlaced: width
 > + */
-> +#define MSM_VIDC_MAX_SUB_STATE_VALUE     ((1 << MSM_VIDC_MAX_SUB_STATES) - 1)
-> +
-> +enum msm_vidc_sub_state {
-> +	MSM_VIDC_DRAIN                     = BIT(0),
-> +	MSM_VIDC_DRC                       = BIT(1),
-> +	MSM_VIDC_DRAIN_LAST_BUFFER         = BIT(2),
-> +	MSM_VIDC_DRC_LAST_BUFFER           = BIT(3),
-> +	MSM_VIDC_INPUT_PAUSE               = BIT(4),
-> +	MSM_VIDC_OUTPUT_PAUSE              = BIT(5),
-Ditto
+Kerneldoc would be cooler
 
 [...]
 
-> +static int msm_vidc_core_init_wait_state(struct msm_vidc_core *core,
-> +					 enum msm_vidc_core_event_type type,
-> +					 struct msm_vidc_event_data *data)
+> +static inline unsigned int video_rgb_stride_pix(unsigned int colorformat,
+> +						unsigned int width)
 > +{
-> +	int rc = 0;
-rc seems never assigned again, good to drop
+> +	unsigned int bpp = 4;
+Always?
 
-[...]
-
-> +
-> +static int msm_vidc_core_init_state(struct msm_vidc_core *core,
-> +				    enum msm_vidc_core_event_type type,
-> +				    struct msm_vidc_event_data *data)
-> +{
-> +	int rc = 0;
-Ditto
-
-[...]
-
-> +static int msm_vidc_core_error_state(struct msm_vidc_core *core,
-> +				     enum msm_vidc_core_event_type type,
-> +				     struct msm_vidc_event_data *data)
-> +{
-> +	int rc = 0;
-Ditto
-
-[...]
-
-> +int msm_vidc_update_core_state(struct msm_vidc_core *core,
-> +			       enum msm_vidc_core_state request_state, const char *func)
-> +{
-> +	struct msm_vidc_core_state_handle *state_handle = NULL;
-> +	int rc = 0;
-Ditto
-
-[...]
-
-> +int msm_vidc_change_core_state(struct msm_vidc_core *core,
-> +			       enum msm_vidc_core_state request_state, const char *func)
-> +{
-> +	enum msm_vidc_allow allow;
-> +	int rc = 0;
-Ditto
-
-[...]
-
-> +bool is_state(struct msm_vidc_inst *inst, enum msm_vidc_state state)
-> +{
-> +	return inst->state == state;
-> +}
-> +
-> +bool is_sub_state(struct msm_vidc_inst *inst, enum msm_vidc_sub_state sub_state)
-> +{
-> +	return (inst->sub_state & sub_state);
-> +}
-Why are there 2 separate funcs for core and inst? Don't we have
-a pointer within one to the other?
-
-
-[...]
-
-> +
-> +int msm_vidc_update_state(struct msm_vidc_inst *inst,
-> +			  enum msm_vidc_state request_state, const char *func)
-> +{
-> +	struct msm_vidc_state_handle *state_handle = NULL;
-> +	int rc = 0;
-rc is unused
-
-[...]
-
-> +static int msm_vidc_set_sub_state(struct msm_vidc_inst *inst,
-> +				  enum msm_vidc_sub_state sub_state, const char *func)
-> +{
-> +	char sub_state_name[MAX_NAME_LENGTH];
-> +	int cnt, rc = 0;
-ditto
 
 Konrad
