@@ -2,74 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF511766F8D
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 16:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D523F766FA2
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 16:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237110AbjG1Oee (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 10:34:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54246 "EHLO
+        id S237172AbjG1Ok6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 10:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237104AbjG1Oec (ORCPT
+        with ESMTP id S237173AbjG1Ok5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 10:34:32 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F1AD3A9A
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:34:31 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3fbea147034so22823815e9.0
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:34:31 -0700 (PDT)
+        Fri, 28 Jul 2023 10:40:57 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8087C3C2A
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:40:55 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-d18566dc0c1so2073336276.0
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:40:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690554869; x=1691159669;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yQHJGwayOc+O4cksaa/ROvfn4y8YSDZc3qnYsF4uZqw=;
-        b=EcDu3WAIxaRhO63H6hHNuwo0THjAYjbMikEkGUQleSFNeDnX2Xs8wV8hGhlfUFpIzC
-         1fB6D0X3Ixg0+E/n0cVN/p4U1JhENLqx88d50pw4If+aZ5LzlzVGoK+cLSYwsAjkLhIt
-         yIQIh4qQuSnWqwoI+Cus5tVTn/KZauSQsSh4pruFKtZ1Q6L8Nd2JFVLulSe4xmzExqKQ
-         LzUdpE0t9s/RGbV2tA/8bQOlJweepTEDuAaCmhZUpnFeYDhC4KPSlM105luoEPvRgPoW
-         QZ/ni93CT1E/ipM5l51bH84R3mIT2Y/HtWfc+04p6ND9z+6k6G00UekHetqjN+wxLnnx
-         Cavw==
+        d=linaro.org; s=google; t=1690555254; x=1691160054;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sERIbIsoa27U7tLUKzRHxHjjan6MTrTpQeERoAPEVqw=;
+        b=ii8/gXRyTwbuFGCUlX210GU0DE8pNLjcjn3vjwPaFv9KdrBca8eikdAmXuN+GY0jc9
+         QPBV4slFT2RcfRIwhALDMSqVbYE92SF6Q6MUExW3Dq7JmLMesRqZZP1AeZ5yI/6HBIQn
+         +ww//XKWiEL/ZtJGDG3Xbt8+DVu5l03INnKV0kykLt1H7AON7GSsqnRDUqU0TBDDCTFQ
+         8nlCxfMdDkmCvrOn1T6wUCoTOSRVYGxYdTbPJjX1NETQTTdY61+QF0eTOa+cay7WwXSa
+         ja/+PnAHGWb1n4SehoMjvnT3wrKk/GZfSs6jfXQFfjX4Wk6awwr5kEoe+PDI9uv9BHUx
+         X0lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690554869; x=1691159669;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yQHJGwayOc+O4cksaa/ROvfn4y8YSDZc3qnYsF4uZqw=;
-        b=TWBxizecFAOlThWjoMjCP9bXjG0xu2mR6gPB7HoWGSxI0dpovEha2I2hbCuqG9CXmL
-         /6xPG8uDatdl8gzT/soVYe8rRWxoYm/qIrWQKUyOBY1v4sleWFA5M65HsJU1JTWcRdfh
-         obslyOdYdajgz09UsD7O1A4qMmFrQEmsgJStXRIzaVvNHPpHR/H92d4bPRKLqvYerPII
-         Q6snm6bMynll4ZpaT4eauJfZU33DL0gCpL6qBVIdHsVhbQRV2hiR/8YJsxUCl34hzxdN
-         bWv7b85eYtm7+wM85RX9W7Srwe8FsMrQn63+HYVcBCT8uNKW8zI5Vt4tVWrIy/NwL1G3
-         oc0w==
-X-Gm-Message-State: ABy/qLbWjXm8OiUxa8F4I/pKGnz8oJY2Y4jyb0O4X/3RSMUbmVzqlkeM
-        XVdFi2Ubs41WQFi/o26swDYYUQ==
-X-Google-Smtp-Source: APBJJlHqVdMI1zH3ei216nTKTJ3P7/3y7iqzi2E5C3bdueCeKqiWOkVS6ktlrc6U9SJzoyMWV+O1+Q==
-X-Received: by 2002:a1c:7216:0:b0:3fc:627:ea31 with SMTP id n22-20020a1c7216000000b003fc0627ea31mr1875553wmc.38.1690554869645;
-        Fri, 28 Jul 2023 07:34:29 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id hn40-20020a05600ca3a800b003fbaa2903f4sm4378117wmb.19.2023.07.28.07.34.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 07:34:29 -0700 (PDT)
-Message-ID: <f5ffae25-fcd6-b4a5-5114-3b66db5d7c31@linaro.org>
-Date:   Fri, 28 Jul 2023 15:34:28 +0100
+        d=1e100.net; s=20221208; t=1690555254; x=1691160054;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sERIbIsoa27U7tLUKzRHxHjjan6MTrTpQeERoAPEVqw=;
+        b=B77FWDrlhWxrTYtykF/k/Zb0DqYOfoknmpXCmIkyhuZI5OxeL3NyxaCBcj3q5/j+TR
+         3rGWbAlbWmARHQbZH02J1tAFcAOgXHgNWmdSTdvUb6NNiByJc0pY8ywKM9xJ/huf1Qqd
+         aPhvajTAJyui3ZLxMi8mYT7JSXaMTgeNUsloYRgkeWzNCMJVljOL4n+6GqA/HxPFURVK
+         26jya5KrTeJKxwgv1KrbKZ/8hfxoGxX0O6g4GoCGbsMl0aVUfMMQdJA8FBMzRd61yWIF
+         MbLRX19aO0Lte/Plel6Hr9V5YQyts3in26q1u021EnETyX1CD2rH340t4g2TkVBqk8J/
+         bqog==
+X-Gm-Message-State: ABy/qLawaD6nVxylsM3EKTuqZsxC1hwY2jqOkfNywJ9qYUfMc7+OSm19
+        wzrkYMtkgckUHNhyS+EaoGGSWxK0qqIb3SMnkr8ePw==
+X-Google-Smtp-Source: APBJJlFlCqhvIbqLQ8v5jXOX7eba+Y3bAB4ZHk7FZyJJxQQ+oWIHj2gevaS3HagVnPpyZL9SH3T55xc+twhIh8HL0sA=
+X-Received: by 2002:a25:455:0:b0:cad:347e:2c8f with SMTP id
+ 82-20020a250455000000b00cad347e2c8fmr1922407ybe.39.1690555254663; Fri, 28 Jul
+ 2023 07:40:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 00/33] Qualcomm video decoder/encoder driver
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, agross@kernel.org,
+References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com> <1690550624-14642-34-git-send-email-quic_vgarodia@quicinc.com>
+In-Reply-To: <1690550624-14642-34-git-send-email-quic_vgarodia@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Fri, 28 Jul 2023 17:40:43 +0300
+Message-ID: <CAA8EJpoDrhBtU=xyFEeuUwWnpvG8mjGQRY_T0jZ-9UmvmSZH+A@mail.gmail.com>
+Subject: Re: [PATCH 33/33] iris: enable building of iris video driver
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc:     stanimir.k.varbanov@gmail.com, agross@kernel.org,
         andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
         hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     quic_dikshita@quicinc.com
-References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        quic_dikshita@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -78,20 +70,130 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/07/2023 14:23, Vikash Garodia wrote:
-> This patch series introduces support for Qualcomm new video acceleration
-> hardware architecture, used for video stream decoding/encoding. This driver
-> is based on new communication protocol between video hardware and application
-> processor.
+On Fri, 28 Jul 2023 at 17:28, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
+>
+> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>
+> This adds iris driver Makefile and Kconfig, also changes
+> v4l2 platform/qcom Makefile/Kconfig in order to
+> enable compilation of the driver.
+>
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/Kconfig       |  1 +
+>  drivers/media/platform/qcom/Makefile      |  1 +
+>  drivers/media/platform/qcom/iris/Kconfig  | 15 ++++++++++
+>  drivers/media/platform/qcom/iris/Makefile | 46 +++++++++++++++++++++++++++++++
+>  4 files changed, 63 insertions(+)
+>  create mode 100644 drivers/media/platform/qcom/iris/Kconfig
+>  create mode 100644 drivers/media/platform/qcom/iris/Makefile
+>
+> diff --git a/drivers/media/platform/qcom/Kconfig b/drivers/media/platform/qcom/Kconfig
+> index cc5799b..b86bebd 100644
+> --- a/drivers/media/platform/qcom/Kconfig
+> +++ b/drivers/media/platform/qcom/Kconfig
+> @@ -4,3 +4,4 @@ comment "Qualcomm media platform drivers"
+>
+>  source "drivers/media/platform/qcom/camss/Kconfig"
+>  source "drivers/media/platform/qcom/venus/Kconfig"
+> +source "drivers/media/platform/qcom/iris/Kconfig"
+> diff --git a/drivers/media/platform/qcom/Makefile b/drivers/media/platform/qcom/Makefile
+> index 4f055c3..83eea29 100644
+> --- a/drivers/media/platform/qcom/Makefile
+> +++ b/drivers/media/platform/qcom/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  obj-y += camss/
+>  obj-y += venus/
+> +obj-y += iris/
+> diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
+> new file mode 100644
+> index 0000000..d434c31
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/Kconfig
+> @@ -0,0 +1,15 @@
+> +config VIDEO_QCOM_IRIS
+> +       tristate "Qualcomm Iris V4L2 encoder/decoder driver"
+> +       depends on V4L_MEM2MEM_DRIVERS
+> +       depends on VIDEO_DEV && QCOM_SMEM
+> +       depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
+> +       select QCOM_MDT_LOADER if ARCH_QCOM
+> +       select QCOM_SCM
+> +       select VIDEOBUF2_DMA_CONTIG
+> +       select V4L2_MEM2MEM_DEV
+> +       select DMABUF_HEAPS
+> +       help
+> +         This is a V4L2 driver for Qualcomm Iris video accelerator
+> +         hardware. It accelerates encoding and decoding operations
+> +         on various Qualcomm SoCs.
+> +         To compile this driver as a module choose m here.
+> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
+> new file mode 100644
+> index 0000000..e681c4f
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/Makefile
+> @@ -0,0 +1,46 @@
+> +KBUILD_OPTIONS+= VIDEO_ROOT=$(KERNEL_SRC)/$(M)
+> +
+> +VIDEO_COMPILE_TIME = $(shell date)
+> +VIDEO_COMPILE_BY = $(shell whoami | sed 's/\\/\\\\/')
+> +VIDEO_COMPILE_HOST = $(shell uname -n)
+> +VIDEO_GEN_PATH = $(srctree)/$(src)/vidc/inc/video_generated_h
+> +
+> +$(shell echo '#define VIDEO_COMPILE_TIME "$(VIDEO_COMPILE_TIME)"' > $(VIDEO_GEN_PATH))
+> +$(shell echo '#define VIDEO_COMPILE_BY "$(VIDEO_COMPILE_BY)"' >> $(VIDEO_GEN_PATH))
+> +$(shell echo '#define VIDEO_COMPILE_HOST "$(VIDEO_COMPILE_HOST)"' >> $(VIDEO_GEN_PATH))
 
-I think my main comment and question for this driver is; what 
-specifically about the sm8550 requires an entirely new driver for the 
-venus block ?
+Why do you need this at all?
 
-We have a re-implementation of the HFI as an example.
+> +
+> +iris-objs += vidc/src/msm_vidc_v4l2.o \
+> +                  vidc/src/msm_vidc_vb2.o \
+> +                  vidc/src/msm_vidc.o \
+> +                  vidc/src/msm_vdec.o \
+> +                  vidc/src/msm_venc.o \
+> +                  vidc/src/msm_vidc_driver.o \
+> +                  vidc/src/msm_vidc_control.o \
+> +                  vidc/src/msm_vidc_buffer.o \
+> +                  vidc/src/msm_vidc_power.o \
+> +                  vidc/src/msm_vidc_probe.o \
+> +                  vidc/src/resources.o \
+> +                  vidc/src/firmware.o \
+> +                  vidc/src/msm_vidc_debug.o \
+> +                  vidc/src/msm_vidc_memory.o \
+> +                  vidc/src/venus_hfi.o \
+> +                  vidc/src/venus_hfi_queue.o \
+> +                  vidc/src/hfi_packet.o \
+> +                  vidc/src/venus_hfi_response.o \
+> +                  vidc/src/msm_vidc_state.o \
+> +                  platform/common/src/msm_vidc_platform.o \
+> +                  platform/sm8550/src/msm_vidc_sm8550.o \
+> +                  variant/common/src/msm_vidc_variant.o \
+> +                  variant/iris3/src/msm_vidc_buffer_iris3.o \
+> +                  variant/iris3/src/msm_vidc_iris3.o \
+> +                  variant/iris3/src/msm_vidc_power_iris3.o \
+> +                  variant/iris3/src/msm_vidc_bus_iris3.o \
+> +                  variant/iris3/src/msm_vidc_clock_iris3.o
+> +
+> +obj-$(CONFIG_VIDEO_QCOM_IRIS) += iris.o
+> +
+> +ccflags-y += -I$(srctree)/$(src)/vidc/inc
+> +ccflags-y += -I$(srctree)/$(src)/platform/common/inc
+> +ccflags-y += -I$(srctree)/$(src)/platform/sm8550/inc
+> +ccflags-y += -I$(srctree)/$(src)/variant/common/inc
+> +ccflags-y += -I$(srctree)/$(src)/variant/iris3/inc
 
-What are the specifics of the technical barriers, if any, that preclude 
-adding or extending the existing venus codebase to enable the new silicon ?
+For me this is a sign of the bad structure of the include files.
+Please define proper interfaces between submodules. The parts of the
+driver usually should include files from the top-level dir only (and
+from the local subdirectory of course).
 
----
-bod
+> --
+> 2.7.4
+>
+
+
+-- 
+With best wishes
+Dmitry
