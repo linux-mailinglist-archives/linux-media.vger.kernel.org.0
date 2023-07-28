@@ -2,62 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2C73766F48
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 16:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF511766F8D
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 16:34:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237032AbjG1OTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 10:19:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
+        id S237110AbjG1Oee (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 10:34:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237037AbjG1OTo (ORCPT
+        with ESMTP id S237104AbjG1Oec (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 10:19:44 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD73B3C31
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:19:33 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fe1489ced6so3780518e87.0
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:19:33 -0700 (PDT)
+        Fri, 28 Jul 2023 10:34:32 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F1AD3A9A
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:34:31 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3fbea147034so22823815e9.0
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690553971; x=1691158771;
+        d=linaro.org; s=google; t=1690554869; x=1691159669;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TwC1GnhTIaS1iQUgfL/p8s3hC5LFjPYomRAoG7YJ7FA=;
-        b=xeREq3Cd4kH9iJCkMZdFmavDkhLL+IrGzu3OlZJ5MWF/douNVsygXfRp1WhAKJlfM2
-         XlppJrJKl2JFAtKIshrhlJ7aSfSCTqVrtuJ+bmFrsnD+tErduzpHkvDYUanAAnrdNA9I
-         RkymAaXG+BJwEDMLz5LEXAU2tcv0S6d1eM8p2s6XF5bN6rbJ7buPV1+Cg2Y5cQMsf2j6
-         pTGl6uW09AqtPu8vbhrif29v28OiabFwMnZvawTlmNkyJxuqmMIlCEKDkOTk7OFFptfO
-         smYU7fuZwQgj3m2F6hEueOcHrl52xV9dyN7hd6aCX8hlx7Xvo/1GD/lmeTcSCDkAE95K
-         OLcA==
+        bh=yQHJGwayOc+O4cksaa/ROvfn4y8YSDZc3qnYsF4uZqw=;
+        b=EcDu3WAIxaRhO63H6hHNuwo0THjAYjbMikEkGUQleSFNeDnX2Xs8wV8hGhlfUFpIzC
+         1fB6D0X3Ixg0+E/n0cVN/p4U1JhENLqx88d50pw4If+aZ5LzlzVGoK+cLSYwsAjkLhIt
+         yIQIh4qQuSnWqwoI+Cus5tVTn/KZauSQsSh4pruFKtZ1Q6L8Nd2JFVLulSe4xmzExqKQ
+         LzUdpE0t9s/RGbV2tA/8bQOlJweepTEDuAaCmhZUpnFeYDhC4KPSlM105luoEPvRgPoW
+         QZ/ni93CT1E/ipM5l51bH84R3mIT2Y/HtWfc+04p6ND9z+6k6G00UekHetqjN+wxLnnx
+         Cavw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690553971; x=1691158771;
+        d=1e100.net; s=20221208; t=1690554869; x=1691159669;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TwC1GnhTIaS1iQUgfL/p8s3hC5LFjPYomRAoG7YJ7FA=;
-        b=DwpNRpmc+I3hHq7xhJg8/lTWBW28fk75gUxSM9M5Itl4Zr1h5mONd4xPBtDPGE2Pgh
-         wtHHqtia4EXw9ynqTbZ8lkmEYLKjpc5A/eor99nJTjrFD3DhBrxG1Ckr4FeUD+4RhJ8n
-         8df/xMSQ9c7ef0l8w96J3XVfZJlGomJ4C4Tvsmh31FbJGoh3BDNbWoC+fGxQE85AjlJy
-         zmg8nZplchBTRTegRPtvO61cKGgS5GE2wAGwrUfK0URGpyjIhpCDTdG9iK5s9FeodN9X
-         Ud21Unut6VzY69Rrn4spUL1EMzAh2vETofrgyHrcQRMhC974AbnEu/SbKHI8wINKa+Yt
-         SuXw==
-X-Gm-Message-State: ABy/qLbej8mrQippKRCz3pAFVy51mrJHG4AzoG/hvDynKx4cFPYhw4Fo
-        aI34rWnSasXkiQsUaBy/SVWyUA==
-X-Google-Smtp-Source: APBJJlHzw1rBPo079EO+VWTgu2lUabU7pwoieaXR8FYzSmvqpnehu09eQhphUQei2bfDV1iEY+i9xg==
-X-Received: by 2002:ac2:5f43:0:b0:4fb:8680:138a with SMTP id 3-20020ac25f43000000b004fb8680138amr1781361lfz.22.1690553971398;
-        Fri, 28 Jul 2023 07:19:31 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
-        by smtp.gmail.com with ESMTPSA id j29-20020ac2551d000000b004fe09920fe5sm849910lfk.47.2023.07.28.07.19.30
+        bh=yQHJGwayOc+O4cksaa/ROvfn4y8YSDZc3qnYsF4uZqw=;
+        b=TWBxizecFAOlThWjoMjCP9bXjG0xu2mR6gPB7HoWGSxI0dpovEha2I2hbCuqG9CXmL
+         /6xPG8uDatdl8gzT/soVYe8rRWxoYm/qIrWQKUyOBY1v4sleWFA5M65HsJU1JTWcRdfh
+         obslyOdYdajgz09UsD7O1A4qMmFrQEmsgJStXRIzaVvNHPpHR/H92d4bPRKLqvYerPII
+         Q6snm6bMynll4ZpaT4eauJfZU33DL0gCpL6qBVIdHsVhbQRV2hiR/8YJsxUCl34hzxdN
+         bWv7b85eYtm7+wM85RX9W7Srwe8FsMrQn63+HYVcBCT8uNKW8zI5Vt4tVWrIy/NwL1G3
+         oc0w==
+X-Gm-Message-State: ABy/qLbWjXm8OiUxa8F4I/pKGnz8oJY2Y4jyb0O4X/3RSMUbmVzqlkeM
+        XVdFi2Ubs41WQFi/o26swDYYUQ==
+X-Google-Smtp-Source: APBJJlHqVdMI1zH3ei216nTKTJ3P7/3y7iqzi2E5C3bdueCeKqiWOkVS6ktlrc6U9SJzoyMWV+O1+Q==
+X-Received: by 2002:a1c:7216:0:b0:3fc:627:ea31 with SMTP id n22-20020a1c7216000000b003fc0627ea31mr1875553wmc.38.1690554869645;
+        Fri, 28 Jul 2023 07:34:29 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id hn40-20020a05600ca3a800b003fbaa2903f4sm4378117wmb.19.2023.07.28.07.34.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 07:19:30 -0700 (PDT)
-Message-ID: <7e51bbe3-5a28-da22-84fa-3f2964556198@linaro.org>
-Date:   Fri, 28 Jul 2023 17:19:30 +0300
+        Fri, 28 Jul 2023 07:34:29 -0700 (PDT)
+Message-ID: <f5ffae25-fcd6-b4a5-5114-3b66db5d7c31@linaro.org>
+Date:   Fri, 28 Jul 2023 15:34:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 29/33] iris: variant: iris3: add helpers for buffer size
- calculations
-Content-Language: en-GB
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 00/33] Qualcomm video decoder/encoder driver
+Content-Language: en-US
 To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         stanimir.k.varbanov@gmail.com, agross@kernel.org,
         andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
@@ -65,9 +64,8 @@ To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Cc:     quic_dikshita@quicinc.com
 References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-30-git-send-email-quic_vgarodia@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1690550624-14642-30-git-send-email-quic_vgarodia@quicinc.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -80,339 +78,20 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/07/2023 16:23, Vikash Garodia wrote:
-> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> 
-> This implements iris3 specific buffer size calculation for
-> firmware internal buffers, input and output buffers for
-> encoder and decoder.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->   .../qcom/iris/variant/iris3/inc/hfi_buffer_iris3.h | 1481 ++++++++++++++++++++
->   .../iris/variant/iris3/inc/msm_vidc_buffer_iris3.h |   19 +
->   .../iris/variant/iris3/src/msm_vidc_buffer_iris3.c |  595 ++++++++
->   3 files changed, 2095 insertions(+)
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/hfi_buffer_iris3.h
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/msm_vidc_buffer_iris3.h
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_buffer_iris3.c
-> 
-> diff --git a/drivers/media/platform/qcom/iris/variant/iris3/inc/hfi_buffer_iris3.h b/drivers/media/platform/qcom/iris/variant/iris3/inc/hfi_buffer_iris3.h
-> new file mode 100644
-> index 0000000..cb068ca
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/iris/variant/iris3/inc/hfi_buffer_iris3.h
-> @@ -0,0 +1,1481 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef __HFI_BUFFER_IRIS3__
-> +#define __HFI_BUFFER_IRIS3__
-> +
-> +#include <linux/types.h>
-> +
-> +#include "hfi_property.h"
-> +
-> +typedef u8      HFI_U8;
-> +typedef s8      HFI_S8;
-> +typedef u16     HFI_U16;
-> +typedef s16     HFI_S16;
-> +typedef u32     HFI_U32;
-> +typedef s32     HFI_S32;
-> +typedef u64     HFI_U64;
-> +typedef u32     HFI_BOOL;
+On 28/07/2023 14:23, Vikash Garodia wrote:
+> This patch series introduces support for Qualcomm new video acceleration
+> hardware architecture, used for video stream decoding/encoding. This driver
+> is based on new communication protocol between video hardware and application
+> processor.
 
-No custom typedefs please.
+I think my main comment and question for this driver is; what 
+specifically about the sm8550 requires an entirely new driver for the 
+venus block ?
 
-> +
-> +#ifndef MIN
-> +#define  MIN(x, y) (((x) < (y)) ? (x) : (y))
-> +#endif
-> +
-> +#ifndef MAX
-> +#define  MAX(x, y) (((x) > (y)) ? (x) : (y))
-> +#endif
+We have a re-implementation of the HFI as an example.
 
-You have seen <linux/minmax.h>, didn't you? If so, why are you adding 
-new wrappers?
+What are the specifics of the technical barriers, if any, that preclude 
+adding or extending the existing venus codebase to enable the new silicon ?
 
-> +
-> +#define HFI_ALIGNMENT_4096 (4096)
-> +
-> +#define BUF_SIZE_ALIGN_16 (16)
-> +#define BUF_SIZE_ALIGN_32 (32)
-> +#define BUF_SIZE_ALIGN_64 (64)
-> +#define BUF_SIZE_ALIGN_128 (128)
-> +#define BUF_SIZE_ALIGN_256 (256)
-> +#define BUF_SIZE_ALIGN_512 (512)
-> +#define BUF_SIZE_ALIGN_4096 (4096)
-
-So nice, so useless.
-
-> +
-> +#define HFI_ALIGN(a, b) (((b) & ((b) - 1)) ? (((a) + (b) - 1) / \
-> +	(b) * (b)) : (((a) + (b) - 1) & (~((b) - 1))))
-
-Can you use ALIGN instead?
-
-> +
-> +#define HFI_WORKMODE_1 1
-> +#define HFI_WORKMODE_2 2
-> +
-> +#define HFI_DEFAULT_METADATA_STRIDE_MULTIPLE (64)
-> +#define HFI_DEFAULT_METADATA_BUFFERHEIGHT_MULTIPLE (16)
-> +
-> +#define HFI_COLOR_FORMAT_YUV420_NV12_UBWC_Y_TILE_HEIGHT (8)
-> +#define HFI_COLOR_FORMAT_YUV420_NV12_UBWC_Y_TILE_WIDTH (32)
-> +#define HFI_COLOR_FORMAT_YUV420_NV12_UBWC_UV_TILE_HEIGHT (8)
-> +#define HFI_COLOR_FORMAT_YUV420_NV12_UBWC_UV_TILE_WIDTH (16)
-> +#define HFI_COLOR_FORMAT_YUV420_TP10_UBWC_Y_TILE_HEIGHT (4)
-> +#define HFI_COLOR_FORMAT_YUV420_TP10_UBWC_Y_TILE_WIDTH (48)
-> +#define HFI_COLOR_FORMAT_YUV420_TP10_UBWC_UV_TILE_HEIGHT (4)
-> +#define HFI_COLOR_FORMAT_YUV420_TP10_UBWC_UV_TILE_WIDTH (24)
-> +#define HFI_COLOR_FORMAT_RGBA8888_UBWC_TILE_HEIGHT (4)
-> +#define HFI_COLOR_FORMAT_RGBA8888_UBWC_TILE_WIDTH (16)
-> +
-> +#define HFI_NV12_IL_CALC_Y_STRIDE(stride, frame_width, stride_multiple) \
-> +	(stride = HFI_ALIGN(frame_width, stride_multiple))
-
-macros with side actions are not really welcomed. Especially as they do 
-not bring any additional value and can be inlined.
-
-> +
-> +#define HFI_NV12_IL_CALC_Y_BUFHEIGHT(buf_height, frame_height, \
-> +	min_buf_height_multiple) (buf_height = HFI_ALIGN(frame_height, \
-> +	min_buf_height_multiple))
-> +
-> +#define HFI_NV12_IL_CALC_UV_STRIDE(stride, frame_width, stride_multiple) \
-> +	(stride = HFI_ALIGN(frame_width, stride_multiple))
-> +
-> +#define HFI_NV12_IL_CALC_UV_BUFHEIGHT(buf_height, frame_height, \
-> +	min_buf_height_multiple) (buf_height = HFI_ALIGN((((frame_height) + 1) \
-> +	 >> 1),	min_buf_height_multiple))
-> +
-> +#define HFI_NV12_IL_CALC_BUF_SIZE(buf_size, y_bufsize, y_stride, y_buf_height, \
-> +	uv_buf_size, uv_stride, uv_buf_height) \
-> +	do { \
-> +		y_bufsize = (y_stride * y_buf_height); \
-> +		uv_buf_size = (uv_stride * uv_buf_height); \
-> +		buf_size = HFI_ALIGN(y_bufsize + uv_buf_size, HFI_ALIGNMENT_4096) \
-> +	} while (0)
-> +
-> +#define HFI_NV12_UBWC_IL_CALC_Y_BUF_SIZE(y_bufsize, y_stride, y_buf_height) \
-> +	(y_bufsize = HFI_ALIGN(y_stride * y_buf_height, HFI_ALIGNMENT_4096))
-> +
-> +#define HFI_NV12_UBWC_IL_CALC_UV_BUF_SIZE(uv_buf_size, \
-> +	uv_stride, uv_buf_height) \
-> +	(uv_buf_size = HFI_ALIGN(uv_stride * uv_buf_height, HFI_ALIGNMENT_4096))
-> +
-> +#define HFI_NV12_UBWC_IL_CALC_BUF_SIZE_V2(buf_size,\
-> +	frame_width, frame_height, y_stride_multiple,\
-> +	y_buffer_height_multiple, uv_stride_multiple, \
-> +	uv_buffer_height_multiple, y_metadata_stride_multiple, \
-> +	y_metadata_buffer_height_multiple, \
-> +	uv_metadata_stride_multiple, uv_metadata_buffer_height_multiple) \
-> +	do { \
-> +		HFI_U32 y_buf_size, uv_buf_size, y_meta_size, uv_meta_size;   \
-> +		HFI_U32 stride, _height; \
-> +		HFI_U32 half_height = (frame_height + 1) >> 1; \
-> +		HFI_NV12_IL_CALC_Y_STRIDE(stride, frame_width,\
-> +					y_stride_multiple); \
-> +		HFI_NV12_IL_CALC_Y_BUFHEIGHT(_height, half_height,\
-> +					y_buffer_height_multiple); \
-> +		HFI_NV12_UBWC_IL_CALC_Y_BUF_SIZE(y_buf_size, stride, _height);\
-> +		HFI_NV12_IL_CALC_UV_STRIDE(stride, frame_width, \
-> +					uv_stride_multiple); \
-> +		HFI_NV12_IL_CALC_UV_BUFHEIGHT(_height, half_height, \
-> +					uv_buffer_height_multiple); \
-> +		HFI_NV12_UBWC_IL_CALC_UV_BUF_SIZE(uv_buf_size, stride, _height);\
-> +		HFI_UBWC_CALC_METADATA_PLANE_STRIDE(stride, frame_width,\
-> +				y_metadata_stride_multiple, \
-> +			HFI_COLOR_FORMAT_YUV420_NV12_UBWC_Y_TILE_WIDTH);\
-> +		HFI_UBWC_METADATA_PLANE_BUFHEIGHT(_height, half_height, \
-> +				y_metadata_buffer_height_multiple,\
-> +			HFI_COLOR_FORMAT_YUV420_NV12_UBWC_Y_TILE_HEIGHT);\
-> +		HFI_UBWC_METADATA_PLANE_BUFFER_SIZE(y_meta_size, stride, \
-> +				_height);    \
-> +		HFI_UBWC_UV_METADATA_PLANE_STRIDE(stride, frame_width,\
-> +				uv_metadata_stride_multiple, \
-> +			HFI_COLOR_FORMAT_YUV420_NV12_UBWC_UV_TILE_WIDTH); \
-> +		HFI_UBWC_UV_METADATA_PLANE_BUFHEIGHT(_height, half_height,\
-> +				uv_metadata_buffer_height_multiple,\
-> +			HFI_COLOR_FORMAT_YUV420_NV12_UBWC_UV_TILE_HEIGHT);\
-> +		HFI_UBWC_METADATA_PLANE_BUFFER_SIZE(uv_meta_size, stride, \
-> +				 _height); \
-> +		buf_size = (y_buf_size + uv_buf_size + y_meta_size + \
-> +			uv_meta_size) << 1;\
-> +	} while (0)
-
-Even more macro with side effects. Please consider rewriting them to be 
-functions. Small function is usually easier to understand compared to 
-the complex macro.
-
-> +
-> +#define HFI_YUV420_TP10_CALC_Y_STRIDE(stride, frame_width, stride_multiple) \
-> +	do { \
-> +		stride = HFI_ALIGN(frame_width, 192); \
-> +		stride = HFI_ALIGN(stride * 4 / 3, stride_multiple); \
-> +	} while (0)
-> +
-> +#define HFI_YUV420_TP10_CALC_Y_BUFHEIGHT(buf_height, frame_height, \
-> +				min_buf_height_multiple) \
-> +	(buf_height = HFI_ALIGN(frame_height, min_buf_height_multiple))
-> +
-> +#define HFI_YUV420_TP10_CALC_UV_STRIDE(stride, frame_width, stride_multiple) \
-> +	do { \
-> +		stride = HFI_ALIGN(frame_width, 192); \
-> +		stride = HFI_ALIGN(stride * 4 / 3, stride_multiple); \
-> +	} while (0)
-> +
-> +#define HFI_YUV420_TP10_CALC_UV_BUFHEIGHT(buf_height, frame_height, \
-> +				min_buf_height_multiple) \
-> +	(buf_height = HFI_ALIGN(((frame_height + 1) >> 1), \
-> +			min_buf_height_multiple))
-> +
-> +#define HFI_YUV420_TP10_CALC_BUF_SIZE(buf_size, y_buf_size, y_stride,\
-> +		y_buf_height, uv_buf_size, uv_stride, uv_buf_height) \
-> +	do {	\
-> +		y_buf_size = (y_stride * y_buf_height); \
-> +		uv_buf_size = (uv_stride * uv_buf_height); \
-> +		buf_size = y_buf_size + uv_buf_size \
-> +	} while (0)
-> +
-> +#define HFI_YUV420_TP10_UBWC_CALC_Y_BUF_SIZE(y_buf_size, y_stride, \
-> +					y_buf_height) \
-> +	(y_buf_size = HFI_ALIGN(y_stride * y_buf_height, HFI_ALIGNMENT_4096))
-> +
-> +#define HFI_YUV420_TP10_UBWC_CALC_UV_BUF_SIZE(uv_buf_size, uv_stride, \
-> +					uv_buf_height) \
-> +	(uv_buf_size = HFI_ALIGN(uv_stride * uv_buf_height, HFI_ALIGNMENT_4096))
-> +
-> +#define HFI_YUV420_TP10_UBWC_CALC_BUF_SIZE(buf_size, y_stride, y_buf_height, \
-> +	uv_stride, uv_buf_height, y_md_stride, y_md_height, uv_md_stride, \
-> +	uv_md_height)\
-> +	do { \
-> +		HFI_U32 y_data_size, uv_data_size, y_md_size, uv_md_size; \
-> +		HFI_YUV420_TP10_UBWC_CALC_Y_BUF_SIZE(y_data_size, y_stride,\
-> +						y_buf_height); \
-> +		HFI_YUV420_TP10_UBWC_CALC_UV_BUF_SIZE(uv_data_size, uv_stride, \
-> +						uv_buf_height); \
-> +		HFI_UBWC_METADATA_PLANE_BUFFER_SIZE(y_md_size, y_md_stride, \
-> +						y_md_height); \
-> +		HFI_UBWC_METADATA_PLANE_BUFFER_SIZE(uv_md_size, uv_md_stride, \
-> +						uv_md_height); \
-> +		buf_size = y_data_size + uv_data_size + y_md_size + \
-> +						uv_md_size; \
-> +	} while (0)
-> +
-> +#define HFI_YUV420_P010_CALC_Y_STRIDE(stride, frame_width, stride_multiple) \
-> +	(stride = HFI_ALIGN(frame_width * 2, stride_multiple))
-> +
-> +#define HFI_YUV420_P010_CALC_Y_BUFHEIGHT(buf_height, frame_height, \
-> +				min_buf_height_multiple) \
-> +	(buf_height = HFI_ALIGN(frame_height, min_buf_height_multiple))
-> +
-> +#define HFI_YUV420_P010_CALC_UV_STRIDE(stride, frame_width, stride_multiple) \
-> +	(stride = HFI_ALIGN(frame_width * 2, stride_multiple))
-> +
-> +#define HFI_YUV420_P010_CALC_UV_BUFHEIGHT(buf_height, frame_height, \
-> +				min_buf_height_multiple) \
-> +	(buf_height = HFI_ALIGN(((frame_height + 1) >> 1), \
-> +			min_buf_height_multiple))
-> +
-> +#define HFI_YUV420_P010_CALC_BUF_SIZE(buf_size, y_data_size, y_stride, \
-> +	y_buf_height, uv_data_size, uv_stride, uv_buf_height) \
-> +	do { \
-> +		y_data_size = HFI_ALIGN(y_stride * y_buf_height, \
-> +				HFI_ALIGNMENT_4096);\
-> +		uv_data_size = HFI_ALIGN(uv_stride * uv_buf_height, \
-> +				HFI_ALIGNMENT_4096); \
-> +		buf_size = y_data_size + uv_data_size; \
-> +	} while (0)
-> +
-> +#define HFI_RGB888_CALC_STRIDE(stride, frame_width, stride_multiple) \
-> +	(stride = ((frame_width * 3) + stride_multiple - 1) & \
-> +			 (0xffffffff - (stride_multiple - 1)))
-> +
-> +#define HFI_RGB888_CALC_BUFHEIGHT(buf_height, frame_height, \
-> +			min_buf_height_multiple) \
-> +	(buf_height = ((frame_height + min_buf_height_multiple - 1) & \
-> +			(0xffffffff - (min_buf_height_multiple - 1))))
-> +
-> +#define HFI_RGB888_CALC_BUF_SIZE(buf_size, stride, buf_height) \
-> +	(buf_size = ((stride) * (buf_height)))
-> +
-> +#define HFI_RGBA8888_CALC_STRIDE(stride, frame_width, stride_multiple) \
-> +	(stride = HFI_ALIGN((frame_width << 2), stride_multiple))
-> +
-> +#define HFI_RGBA8888_CALC_BUFHEIGHT(buf_height, frame_height, \
-> +			min_buf_height_multiple) \
-> +	(buf_height = HFI_ALIGN(frame_height, min_buf_height_multiple))
-> +
-> +#define HFI_RGBA8888_CALC_BUF_SIZE(buf_size, stride, buf_height) \
-> +	(buf_size = (stride) * (buf_height))
-> +
-> +#define HFI_RGBA8888_UBWC_CALC_DATA_PLANE_BUF_SIZE(buf_size, stride, \
-> +				buf_height) \
-> +	(buf_size = HFI_ALIGN((stride) * (buf_height), HFI_ALIGNMENT_4096))
-> +
-> +#define HFI_RGBA8888_UBWC_BUF_SIZE(buf_size, data_buf_size, \
-> +	metadata_buffer_size, stride, buf_height, _metadata_tride, \
-> +	_metadata_buf_height) \
-> +	do { \
-> +		HFI_RGBA8888_UBWC_CALC_DATA_PLANE_BUF_SIZE(data_buf_size, \
-> +				stride, buf_height); \
-> +		HFI_UBWC_METADATA_PLANE_BUFFER_SIZE(metadata_buffer_size, \
-> +				_metadata_tride, _metadata_buf_height); \
-> +		buf_size = data_buf_size + metadata_buffer_size \
-> +	} while (0)
-> +
-> +#define HFI_UBWC_CALC_METADATA_PLANE_STRIDE(metadata_stride, frame_width,\
-> +	metadata_stride_multiple, tile_width_in_pels) \
-> +	((metadata_stride = HFI_ALIGN(((frame_width + (tile_width_in_pels - 1)) /\
-> +	tile_width_in_pels), metadata_stride_multiple)))
-> +
-> +#define HFI_UBWC_METADATA_PLANE_BUFHEIGHT(metadata_buf_height, frame_height, \
-> +	metadata_height_multiple, tile_height_in_pels) \
-> +	((metadata_buf_height = HFI_ALIGN(((frame_height + \
-> +	(tile_height_in_pels - 1)) / tile_height_in_pels), \
-> +	metadata_height_multiple)))
-> +
-> +#define HFI_UBWC_UV_METADATA_PLANE_STRIDE(metadata_stride, frame_width, \
-> +	metadata_stride_multiple, tile_width_in_pels) \
-> +	((metadata_stride = HFI_ALIGN(((((frame_width + 1) >> 1) +\
-> +	(tile_width_in_pels - 1)) / tile_width_in_pels), \
-> +	metadata_stride_multiple)))
-> +
-> +#define HFI_UBWC_UV_METADATA_PLANE_BUFHEIGHT(metadata_buf_height, frame_height,\
-> +	metadata_height_multiple, tile_height_in_pels) \
-> +	(metadata_buf_height = HFI_ALIGN(((((frame_height + 1) >> 1) + \
-> +	(tile_height_in_pels - 1)) / tile_height_in_pels), \
-> +	metadata_height_multiple))
-> +
-> +#define HFI_UBWC_METADATA_PLANE_BUFFER_SIZE(buffer_size, _metadata_tride, \
-> +					_metadata_buf_height) \
-> +	((buffer_size = HFI_ALIGN(_metadata_tride * _metadata_buf_height, \
-> +					HFI_ALIGNMENT_4096)))
-> +
-> +#define BUFFER_ALIGNMENT_512_BYTES 512
-> +#define BUFFER_ALIGNMENT_256_BYTES 256
-> +#define BUFFER_ALIGNMENT_128_BYTES 128
-> +#define BUFFER_ALIGNMENT_64_BYTES 64
-> +#define BUFFER_ALIGNMENT_32_BYTES 32
-> +#define BUFFER_ALIGNMENT_16_BYTES 16
-> +#define BUFFER_ALIGNMENT_8_BYTES 8
-> +#define BUFFER_ALIGNMENT_4_BYTES 4
-
--ETOOMUCH.
-
-[skipped the rest, internal reviewer exception]
-
--- 
-With best wishes
-Dmitry
-
+---
+bod
