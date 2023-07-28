@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB30F766E76
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 15:34:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A382766E7B
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 15:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235782AbjG1NeV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 09:34:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49214 "EHLO
+        id S236132AbjG1Nfe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 09:35:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236451AbjG1NeR (ORCPT
+        with ESMTP id S235600AbjG1Nfd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 09:34:17 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B854686
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:33:39 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2b9540031acso34649541fa.3
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:33:39 -0700 (PDT)
+        Fri, 28 Jul 2023 09:35:33 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDE4344B3
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:35:01 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4fe0eb0ca75so3720661e87.2
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690551136; x=1691155936;
+        d=linaro.org; s=google; t=1690551299; x=1691156099;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=/KdNumUIsNcnj2X0el2BiZUtK43QxcOgdu3ZvlTzlk4=;
-        b=MfD6VmjrZ7O20jHnhdbLJuUgeNpLlUIsR7qBW5eo3kp4MJpEfKDqlActRdlzSHeq6h
-         OaQQKXAevyiVIPSp50kxHMutjF9JddhoXhmQTbJID7F77YuV8xawEMw/VFy8Sls521OR
-         kg4sbvwZWe6fBve4phg2qnHKmbEcblR6oQgzYgesSbl3e2DCsUaeUHzwK+VJUIcLSz3Y
-         bvQD10B2gVB2mi24BLANeJD8zJBJsLC9XEDwkqEqRyP38xD8FkVsmdMEo9BYF+ZIenIv
-         6xNuJ7MZaSFCgD6SdQx7GxzcW9JL9/0Q1QE9SMQm321iDIJPEWCSBPaiuOh/Z+HiXkVC
-         ueqA==
+        bh=y+jdPyTRRICX+VTwleLQyCEk097YGrt13KrQ2Veg5Nw=;
+        b=A+9bhPJlMR9JqfLsJg82uNCcyGhv4BN7TyTDOJdtWtlioq1CNWXuYUJyhrTGIsIIjF
+         Xgb76qghsKvFgJ+kByXA1N0cH4Bi5dKVlIpC/IHWMmupugavfqtcnQQB82ww64PJe1zd
+         WKlsG9gaAOqzr/tuUlGW6Qw/US/LlLrUNrPosVRpiU4mLfwxQ5Pwd1vZhuODZOSSJMX3
+         Rx1+BhefQWFr6+0rcKbDoq4ADS5LR1BxS6s1Y1XFA14aIwBJLbfeLy3U0Fkjb67480GW
+         Y+7AqjIeX6YdqhIXHNKEqKgOtiLJveJYm92Kyzf6VSXPP87uniTgbV4YeAsXv9m5X2+c
+         6Aaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690551136; x=1691155936;
+        d=1e100.net; s=20221208; t=1690551299; x=1691156099;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/KdNumUIsNcnj2X0el2BiZUtK43QxcOgdu3ZvlTzlk4=;
-        b=JmPu3Hm92WzdRr+kvyiIzrvz/lGcenxRzv0BKmQYKSXMf+ZpGUsePIcQMXbM/h+d8C
-         JhCDCClHhlaDV3mgehkf4VIPUIkQby5w3NwUrNi27bTzZhPs28bDPW+xX11PDg1qnkkQ
-         1dKcPTbr/FN0fJ1hqa7rrAaw4DlMBDyvwWAfBiT42gpmPUGqBUiJccZMnxL4/KfkP+Nr
-         NptT5reiHmj83eXJqm9/Pbvrqn0FBkwNs1WOv2eaP+8T0AQJuAj0o+ishEW4jypt8FIf
-         wPIwKVT7jJNWGxE3DUdNsWdkpteG98SuP1IQvurvnsF/QBOJZz08krZaDC4Vn3fahVej
-         sCDw==
-X-Gm-Message-State: ABy/qLbE96A68H8yrUMOsczBxmGS97U4BRB5GryoZr7KAmsiXB90If42
-        vpkqiF6cNHUOae5nKgnVn6eGaw==
-X-Google-Smtp-Source: APBJJlFvD/h+AmH9WSQfnU2p760u3F9y9LmFXPO0Kp8/Ad8eIQN/JcgP5f+N33Rcsw0Juc3Ru2SzhQ==
-X-Received: by 2002:a2e:b0ce:0:b0:2b6:ad79:a4fb with SMTP id g14-20020a2eb0ce000000b002b6ad79a4fbmr1829332ljl.1.1690551136132;
-        Fri, 28 Jul 2023 06:32:16 -0700 (PDT)
+        bh=y+jdPyTRRICX+VTwleLQyCEk097YGrt13KrQ2Veg5Nw=;
+        b=NnesmXiu8eO6Su2O77OAISZF2OcrLZcHlqenIgYGRBVmoGJqOVXM6x1ZYO7BPmOpDX
+         iQlM3SFQTSXK4ypUSPj9mNJ/zIUOH4Bt2WNt84aOA4xB65Of9EbsXz5RyyDIsa3xT0S9
+         3M05PBEbROKBO+3D+kN3MWiGYeKmFLV4OA0PfGZ3EMa0peUkn9cyrriIkDRbUmZqT+fe
+         s6mp0/SohzX45YdrcezG6f9Yfuxw8MoMNyDHYyT7pwfSdeY/CAlMPxiqfpbQsL8c+pSR
+         837PqU+s8cBn/WsFGsjDKFfCFkOo3Im5qQIk5g2OJZZjQ0Z+IBzLiW510ltN34+fHLbH
+         8aRg==
+X-Gm-Message-State: ABy/qLZpqLDWXjr/Ydin7N8332STig1znqC4V2mbNV01jutoauH8JrHQ
+        5gJGTQx76NKPqZ8Xb2qfidmkKw==
+X-Google-Smtp-Source: APBJJlE1W6VrvNMEAYVSOZboYKWVsbHOe8AbEMmgsilYjN5vpN6zPYrlGXq8JnnGi2n8wqADFlER+A==
+X-Received: by 2002:a05:6512:6d5:b0:4fd:d18f:2d93 with SMTP id u21-20020a05651206d500b004fdd18f2d93mr2322118lff.6.1690551299263;
+        Fri, 28 Jul 2023 06:34:59 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
-        by smtp.gmail.com with ESMTPSA id y17-20020a2e9d51000000b002b8639fe729sm912377ljj.106.2023.07.28.06.32.15
+        by smtp.gmail.com with ESMTPSA id i18-20020ac25d32000000b004fe15185b67sm830153lfb.229.2023.07.28.06.34.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 06:32:15 -0700 (PDT)
-Message-ID: <b491c17b-75b8-dda2-c70d-3fb8e4dafb73@linaro.org>
-Date:   Fri, 28 Jul 2023 16:32:15 +0300
+        Fri, 28 Jul 2023 06:34:58 -0700 (PDT)
+Message-ID: <5eecab7a-0d14-de96-f0ef-7de95c68aa62@linaro.org>
+Date:   Fri, 28 Jul 2023 16:34:58 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH 00/33] Qualcomm video decoder/encoder driver
+Subject: Re: [PATCH 03/33] iris: vidc: add v4l2 wrapper file
 Content-Language: en-GB
 To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         stanimir.k.varbanov@gmail.com, agross@kernel.org,
@@ -64,14 +64,15 @@ To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Cc:     quic_dikshita@quicinc.com
 References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
+ <1690550624-14642-4-git-send-email-quic_vgarodia@quicinc.com>
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
+In-Reply-To: <1690550624-14642-4-git-send-email-quic_vgarodia@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -79,219 +80,1066 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 28/07/2023 16:23, Vikash Garodia wrote:
-> This patch series introduces support for Qualcomm new video acceleration
-> hardware architecture, used for video stream decoding/encoding. This driver
-> is based on new communication protocol between video hardware and application
-> processor.
-> 
-> This driver comes with below capabilities:
-> - V4L2 complaint video driver with M2M and STREAMING capability.
-> - Supports H264, H265, VP9 decoders.
-> - Supports H264, H265 encoders.
-> 
-> This driver comes with below features:
-> - Centralized resource and memory management.
-> - Centralized management of core and instance states.
-> - Defines platform specific capabilities and features. As a results, it provides
->    a single point of control to enable/disable a given feature depending on
->    specific platform capabilities.
-> - Handles hardware interdependent configurations. For a given configuration from
->    client, the driver checks for hardware dependent configuration/s and updates
->    the same.
-> - Handles multiple complex video scenarios involving state transitions - DRC,
->    Drain, Seek, back to back DRC, DRC during Drain sequence, DRC during Seek
->    sequence.
-> - Introduces a flexible way for driver to subscribe for any property with
->    hardware. Hardware would inform driver with those subscribed property with any
->    change in value.
-> - Introduces performance (clock and bus) model based on new hardware
->    architecture.
-> - Introduces multi thread safe design to handle communication between client and
->    hardware.
-> - Adapts encoder quality improvements available in new hardware architecture.
-> - Implements asynchronous communication with hardware to achieve better
->    experience in low latency usecases.
-> - Supports multi stage hardware architecture for encode/decode.
-> - Output and capture planes are controlled independently. Thereby providing a
->    way to reconfigure individual plane.
-> - Hardware packetization layer supports synchronization between configuration
->    packet and data packet.
-> - Introduces a flexibility to receive a hardware response for a given command
->    packet.
-> - Native hardware support of LAST flag which is mandatory to align with port
->    reconfiguration and DRAIN sequence as per V4L guidelines.
-> - Native hardware support for drain sequence.
-> 
-> I think that the driver is in good shape for mainline kernel, and I hope the
-> review comments will help to improve it, so please do review, and make comments.
+> Here is the implementation of v4l2 wrapper functions for all
+> v4l2 IOCTLs.
 
-No bindings, no driver. Please post start the series from the bindings.
+Please do not describe the patch. "Here is..." , "This patch...", "This 
+commit..." is a bad style. Please describe _why_ you are doing this. In 
+other words, what is the purpose of adding such wrappers. Please rewrite 
+your commit messages describing the reasons, not the patch contents.
 
 > 
-> Dikshita Agarwal (17):
->    iris: vidc: add core functions
->    iris: add vidc wrapper file
->    iris: vidc: add vb2 ops
->    iris: vidc: add helpers for memory management
->    iris: vidc: add helper functions for resource management
->    iris: vidc: add helper functions for power management
->    iris: add helpers for media format
->    iris: vidc: add PIL functionality for video firmware
->    iris: platform: add platform files
->    iris: platform: sm8550: add capability file for sm8550
->    iris: variant: add helper functions for register handling
->    iris: variant: iris3: add iris3 specific ops
->    iris: variant: iris3: add helpers for buffer size calculations
->    iris: variant: iris3: add helper for bus and clock calculation
->    iris: variant: iris: implement the logic to compute bus bandwidth
->    iris: variant: iris3: implement logic to compute clock frequency
->    iris: enable building of iris video driver
-> 
-> Vikash Garodia (16):
->    MAINTAINERS: Add Qualcomm Iris video accelerator driver
->    iris: vidc: add v4l2 wrapper file
->    iris: vidc: define video core and instance context
->    iris: iris: add video encoder files
->    iris: vidc: add video decoder files
->    iris: vidc: add control files
->    iris: vidc: add helper functions
->    iris: vidc: add helpers for state management
->    iris: add vidc buffer files
->    iris: vidc: define various structures and enum
->    iris: vidc: hfi: add Host Firmware Interface (HFI)
->    iris: vidc: hfi: add Host Firmware Interface (HFI) response handling
->    iris: vidc: hfi: add helpers for handling shared queues
->    iris: vidc: hfi: Add packetization layer
->    iris: vidc: hfi: defines HFI properties and enums
->    iris: vidc: add debug files
-> 
->   MAINTAINERS                                        |   10 +
->   drivers/media/platform/qcom/Kconfig                |    1 +
->   drivers/media/platform/qcom/Makefile               |    1 +
->   drivers/media/platform/qcom/iris/Kconfig           |   15 +
->   drivers/media/platform/qcom/iris/Makefile          |   46 +
->   .../iris/platform/common/inc/msm_vidc_platform.h   |  305 ++
->   .../iris/platform/common/src/msm_vidc_platform.c   | 2499 ++++++++++++
->   .../iris/platform/sm8550/inc/msm_vidc_sm8550.h     |   14 +
->   .../iris/platform/sm8550/src/msm_vidc_sm8550.c     | 1727 ++++++++
->   .../iris/variant/common/inc/msm_vidc_variant.h     |   22 +
->   .../iris/variant/common/src/msm_vidc_variant.c     |  163 +
->   .../qcom/iris/variant/iris3/inc/hfi_buffer_iris3.h | 1481 +++++++
->   .../iris/variant/iris3/inc/msm_vidc_buffer_iris3.h |   19 +
->   .../qcom/iris/variant/iris3/inc/msm_vidc_iris3.h   |   15 +
->   .../iris/variant/iris3/inc/msm_vidc_power_iris3.h  |   17 +
->   .../iris/variant/iris3/inc/perf_static_model.h     |  229 ++
->   .../iris/variant/iris3/src/msm_vidc_buffer_iris3.c |  595 +++
->   .../iris/variant/iris3/src/msm_vidc_bus_iris3.c    |  884 ++++
->   .../iris/variant/iris3/src/msm_vidc_clock_iris3.c  |  627 +++
->   .../qcom/iris/variant/iris3/src/msm_vidc_iris3.c   |  954 +++++
->   .../iris/variant/iris3/src/msm_vidc_power_iris3.c  |  345 ++
->   .../media/platform/qcom/iris/vidc/inc/firmware.h   |   18 +
->   .../platform/qcom/iris/vidc/inc/hfi_command.h      |  190 +
->   .../media/platform/qcom/iris/vidc/inc/hfi_packet.h |   52 +
->   .../platform/qcom/iris/vidc/inc/hfi_property.h     |  666 +++
->   .../platform/qcom/iris/vidc/inc/msm_media_info.h   |  599 +++
->   .../media/platform/qcom/iris/vidc/inc/msm_vdec.h   |   40 +
->   .../media/platform/qcom/iris/vidc/inc/msm_venc.h   |   34 +
->   .../media/platform/qcom/iris/vidc/inc/msm_vidc.h   |   60 +
->   .../platform/qcom/iris/vidc/inc/msm_vidc_buffer.h  |   32 +
->   .../platform/qcom/iris/vidc/inc/msm_vidc_control.h |   26 +
->   .../platform/qcom/iris/vidc/inc/msm_vidc_core.h    |  165 +
->   .../platform/qcom/iris/vidc/inc/msm_vidc_debug.h   |  186 +
->   .../platform/qcom/iris/vidc/inc/msm_vidc_driver.h  |  352 ++
->   .../platform/qcom/iris/vidc/inc/msm_vidc_inst.h    |  207 +
->   .../qcom/iris/vidc/inc/msm_vidc_internal.h         |  787 ++++
->   .../platform/qcom/iris/vidc/inc/msm_vidc_memory.h  |   83 +
->   .../platform/qcom/iris/vidc/inc/msm_vidc_power.h   |   94 +
->   .../platform/qcom/iris/vidc/inc/msm_vidc_state.h   |  102 +
->   .../platform/qcom/iris/vidc/inc/msm_vidc_v4l2.h    |   77 +
->   .../platform/qcom/iris/vidc/inc/msm_vidc_vb2.h     |   39 +
->   .../media/platform/qcom/iris/vidc/inc/resources.h  |  259 ++
->   .../media/platform/qcom/iris/vidc/inc/venus_hfi.h  |   66 +
->   .../platform/qcom/iris/vidc/inc/venus_hfi_queue.h  |   89 +
->   .../qcom/iris/vidc/inc/venus_hfi_response.h        |   26 +
->   .../media/platform/qcom/iris/vidc/src/firmware.c   |  294 ++
->   .../media/platform/qcom/iris/vidc/src/hfi_packet.c |  657 +++
->   .../media/platform/qcom/iris/vidc/src/msm_vdec.c   | 2091 ++++++++++
->   .../media/platform/qcom/iris/vidc/src/msm_venc.c   | 1484 +++++++
->   .../media/platform/qcom/iris/vidc/src/msm_vidc.c   |  841 ++++
->   .../platform/qcom/iris/vidc/src/msm_vidc_buffer.c  |  290 ++
->   .../platform/qcom/iris/vidc/src/msm_vidc_control.c |  824 ++++
->   .../platform/qcom/iris/vidc/src/msm_vidc_debug.c   |  581 +++
->   .../platform/qcom/iris/vidc/src/msm_vidc_driver.c  | 4276 ++++++++++++++++++++
->   .../platform/qcom/iris/vidc/src/msm_vidc_memory.c  |  448 ++
->   .../platform/qcom/iris/vidc/src/msm_vidc_power.c   |  560 +++
->   .../platform/qcom/iris/vidc/src/msm_vidc_probe.c   |  660 +++
->   .../platform/qcom/iris/vidc/src/msm_vidc_state.c   | 1607 ++++++++
->   .../platform/qcom/iris/vidc/src/msm_vidc_v4l2.c    |  953 +++++
->   .../platform/qcom/iris/vidc/src/msm_vidc_vb2.c     |  605 +++
->   .../media/platform/qcom/iris/vidc/src/resources.c  | 1321 ++++++
->   .../media/platform/qcom/iris/vidc/src/venus_hfi.c  | 1503 +++++++
->   .../platform/qcom/iris/vidc/src/venus_hfi_queue.c  |  537 +++
->   .../qcom/iris/vidc/src/venus_hfi_response.c        | 1607 ++++++++
->   64 files changed, 35357 insertions(+)
->   create mode 100644 drivers/media/platform/qcom/iris/Kconfig
->   create mode 100644 drivers/media/platform/qcom/iris/Makefile
->   create mode 100644 drivers/media/platform/qcom/iris/platform/common/inc/msm_vidc_platform.h
->   create mode 100644 drivers/media/platform/qcom/iris/platform/common/src/msm_vidc_platform.c
->   create mode 100644 drivers/media/platform/qcom/iris/platform/sm8550/inc/msm_vidc_sm8550.h
->   create mode 100644 drivers/media/platform/qcom/iris/platform/sm8550/src/msm_vidc_sm8550.c
->   create mode 100644 drivers/media/platform/qcom/iris/variant/common/inc/msm_vidc_variant.h
->   create mode 100644 drivers/media/platform/qcom/iris/variant/common/src/msm_vidc_variant.c
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/hfi_buffer_iris3.h
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/msm_vidc_buffer_iris3.h
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/msm_vidc_iris3.h
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/msm_vidc_power_iris3.h
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/perf_static_model.h
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_buffer_iris3.c
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_bus_iris3.c
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_iris3.c
->   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_power_iris3.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/firmware.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/hfi_command.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/hfi_packet.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/hfi_property.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_media_info.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vdec.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_venc.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_buffer.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_control.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_core.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_debug.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_driver.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_inst.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_internal.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_memory.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_power.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_state.h
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_v4l2.h    |  77 ++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_v4l2.c    | 953 +++++++++++++++++++++
+>   2 files changed, 1030 insertions(+)
 >   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_v4l2.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_vb2.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/resources.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/venus_hfi.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/venus_hfi_queue.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/venus_hfi_response.h
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/firmware.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/hfi_packet.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vdec.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_venc.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_buffer.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_control.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_debug.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_driver.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_memory.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_power.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_probe.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_state.c
 >   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_v4l2.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_vb2.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/resources.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/venus_hfi.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/venus_hfi_queue.c
->   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/venus_hfi_response.c
 > 
+> diff --git a/drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_v4l2.h b/drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_v4l2.h
+> new file mode 100644
+> index 0000000..3766c9d
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_v4l2.h
+> @@ -0,0 +1,77 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef _MSM_VIDC_V4L2_H_
+> +#define _MSM_VIDC_V4L2_H_
+> +
+> +#include <linux/fs.h>
+> +#include <linux/poll.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-dev.h>
+> +#include <media/v4l2-ioctl.h>
+> +
+> +int msm_v4l2_open(struct file *filp);
+> +int msm_v4l2_close(struct file *filp);
+> +int msm_v4l2_querycap(struct file *filp, void *fh,
+> +		      struct v4l2_capability *cap);
+> +int msm_v4l2_enum_fmt(struct file *file, void *fh,
+> +		      struct v4l2_fmtdesc *f);
+> +int msm_v4l2_try_fmt(struct file *file, void *fh,
+> +		     struct v4l2_format *f);
+> +int msm_v4l2_s_fmt(struct file *file, void *fh,
+> +		   struct v4l2_format *f);
+> +int msm_v4l2_g_fmt(struct file *file, void *fh,
+> +		   struct v4l2_format *f);
+> +int msm_v4l2_s_selection(struct file *file, void *fh,
+> +			 struct v4l2_selection *s);
+> +int msm_v4l2_g_selection(struct file *file, void *fh,
+> +			 struct v4l2_selection *s);
+> +int msm_v4l2_s_parm(struct file *file, void *fh,
+> +		    struct v4l2_streamparm *a);
+> +int msm_v4l2_g_parm(struct file *file, void *fh,
+> +		    struct v4l2_streamparm *a);
+> +int msm_v4l2_reqbufs(struct file *file, void *fh,
+> +		     struct v4l2_requestbuffers *b);
+> +int msm_v4l2_querybuf(struct file *file, void *fh,
+> +		      struct v4l2_buffer *b);
+> +int msm_v4l2_create_bufs(struct file *filp, void *fh,
+> +			 struct v4l2_create_buffers *b);
+> +int msm_v4l2_prepare_buf(struct file *filp, void *fh,
+> +			 struct v4l2_buffer *b);
+> +int msm_v4l2_qbuf(struct file *file, void *fh,
+> +		  struct v4l2_buffer *b);
+> +int msm_v4l2_dqbuf(struct file *file, void *fh,
+> +		   struct v4l2_buffer *b);
+> +int msm_v4l2_streamon(struct file *file, void *fh,
+> +		      enum v4l2_buf_type i);
+> +int msm_v4l2_streamoff(struct file *file, void *fh,
+> +		       enum v4l2_buf_type i);
+> +int msm_v4l2_subscribe_event(struct v4l2_fh *fh,
+> +			     const struct v4l2_event_subscription *sub);
+> +int msm_v4l2_unsubscribe_event(struct v4l2_fh *fh,
+> +			       const struct v4l2_event_subscription *sub);
+> +int msm_v4l2_try_decoder_cmd(struct file *file, void *fh,
+> +			     struct v4l2_decoder_cmd *enc);
+> +int msm_v4l2_decoder_cmd(struct file *file, void *fh,
+> +			 struct v4l2_decoder_cmd *dec);
+> +int msm_v4l2_try_encoder_cmd(struct file *file, void *fh,
+> +			     struct v4l2_encoder_cmd *enc);
+> +int msm_v4l2_encoder_cmd(struct file *file, void *fh,
+> +			 struct v4l2_encoder_cmd *enc);
+> +int msm_v4l2_enum_framesizes(struct file *file, void *fh,
+> +			     struct v4l2_frmsizeenum *fsize);
+> +int msm_v4l2_enum_frameintervals(struct file *file, void *fh,
+> +				 struct v4l2_frmivalenum *fival);
+> +int msm_v4l2_queryctrl(struct file *file, void *fh,
+> +		       struct v4l2_queryctrl *ctrl);
+> +int msm_v4l2_querymenu(struct file *file, void *fh,
+> +		       struct v4l2_querymenu *qmenu);
+> +unsigned int msm_v4l2_poll(struct file *filp,
+> +			   struct poll_table_struct *pt);
+> +void msm_v4l2_m2m_device_run(void *priv);
+> +void msm_v4l2_m2m_job_abort(void *priv);
+> +
+> +#endif // _MSM_VIDC_V4L2_H_
+> diff --git a/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_v4l2.c b/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_v4l2.c
+> new file mode 100644
+> index 0000000..6dfb18b
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_v4l2.c
+> @@ -0,0 +1,953 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include "msm_vidc.h"
+> +#include "msm_vidc_core.h"
+> +#include "msm_vidc_debug.h"
+> +#include "msm_vidc_driver.h"
+> +#include "msm_vidc_inst.h"
+> +#include "msm_vidc_internal.h"
+> +#include "msm_vidc_v4l2.h"
+> +
+> +static struct msm_vidc_inst *get_vidc_inst(struct file *filp, void *fh)
+> +{
+> +	if (!filp || !filp->private_data)
+> +		return NULL;
+> +	return container_of(filp->private_data,
+> +					struct msm_vidc_inst, fh);
+> +}
+> +
+> +unsigned int msm_v4l2_poll(struct file *filp, struct poll_table_struct *pt)
+> +{
+> +	int poll = 0;
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, NULL);
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return POLLERR;
+> +	}
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		poll = POLLERR;
+> +		goto exit;
+> +	}
+> +
+> +	poll = msm_vidc_poll((void *)inst, filp, pt);
+> +	if (poll)
+> +		goto exit;
+> +
+> +exit:
+> +	put_inst(inst);
+> +	return poll;
+> +}
+> +
+> +int msm_v4l2_open(struct file *filp)
+> +{
+> +	struct video_device *vdev = video_devdata(filp);
+> +	struct msm_video_device *vid_dev =
+> +		container_of(vdev, struct msm_video_device, vdev);
+> +	struct msm_vidc_core *core = video_drvdata(filp);
+> +	struct msm_vidc_inst *inst;
+> +
+> +	inst = msm_vidc_open(core, vid_dev->type);
+> +	if (!inst) {
+> +		d_vpr_e("Failed to create instance, type = %d\n",
+> +			vid_dev->type);
+> +		return -ENOMEM;
+> +	}
+> +	filp->private_data = &inst->fh;
+> +	return 0;
+> +}
+> +
+> +int msm_v4l2_close(struct file *filp)
+> +{
+> +	int rc = 0;
+> +	struct msm_vidc_inst *inst;
+> +
+> +	inst = get_vidc_inst(filp, NULL);
+> +	if (!inst) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	rc = msm_vidc_close(inst);
+> +	filp->private_data = NULL;
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_querycap(struct file *filp, void *fh,
+> +		      struct v4l2_capability *cap)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !cap) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_querycap((void *)inst, cap);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_enum_fmt(struct file *filp, void *fh,
+> +		      struct v4l2_fmtdesc *f)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !f) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_enum_fmt((void *)inst, f);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_try_fmt(struct file *filp, void *fh, struct v4l2_format *f)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !f) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = inst->event_handle(inst, MSM_VIDC_TRY_FMT, f);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_s_fmt(struct file *filp, void *fh,
+> +		   struct v4l2_format *f)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !f) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = inst->event_handle(inst, MSM_VIDC_S_FMT, f);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_g_fmt(struct file *filp, void *fh,
+> +		   struct v4l2_format *f)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !f) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_g_fmt((void *)inst, f);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_s_selection(struct file *filp, void *fh,
+> +			 struct v4l2_selection *s)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !s) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_s_selection((void *)inst, s);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_g_selection(struct file *filp, void *fh,
+> +			 struct v4l2_selection *s)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !s) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_g_selection((void *)inst, s);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_s_parm(struct file *filp, void *fh,
+> +		    struct v4l2_streamparm *a)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !a) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_s_param((void *)inst, a);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_g_parm(struct file *filp, void *fh,
+> +		    struct v4l2_streamparm *a)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !a) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_g_param((void *)inst, a);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_reqbufs(struct file *filp, void *fh,
+> +		     struct v4l2_requestbuffers *b)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !b) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = inst->event_handle(inst, MSM_VIDC_REQBUFS, b);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_querybuf(struct file *filp, void *fh,
+> +		      struct v4l2_buffer *b)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !b) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_querybuf((void *)inst, b);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_create_bufs(struct file *filp, void *fh,
+> +			 struct v4l2_create_buffers *b)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !b) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_create_bufs((void *)inst, b);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_prepare_buf(struct file *filp, void *fh,
+> +			 struct v4l2_buffer *b)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	struct video_device *vdev = video_devdata(filp);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !b) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_prepare_buf((void *)inst, vdev->v4l2_dev->mdev, b);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_qbuf(struct file *filp, void *fh,
+> +		  struct v4l2_buffer *b)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	struct video_device *vdev = video_devdata(filp);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !b) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EINVAL;
+> +		goto exit;
+> +	}
+> +
+> +	rc = msm_vidc_qbuf(inst, vdev->v4l2_dev->mdev, b);
+> +	if (rc)
+> +		goto exit;
+> +
+> +exit:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_dqbuf(struct file *filp, void *fh,
+> +		   struct v4l2_buffer *b)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !b) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	rc = msm_vidc_dqbuf(inst, b);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_streamon(struct file *filp, void *fh,
+> +		      enum v4l2_buf_type i)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto exit;
+> +	}
+> +
+> +	rc = msm_vidc_streamon((void *)inst, i);
+> +	if (rc)
+> +		goto exit;
+> +
+> +exit:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_streamoff(struct file *filp, void *fh,
+> +		       enum v4l2_buf_type i)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	rc = msm_vidc_streamoff((void *)inst, i);
+> +	if (rc)
+> +		i_vpr_e(inst, "%s: msm_vidc_stramoff failed\n", __func__);
+> +
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_subscribe_event(struct v4l2_fh *fh,
+> +			     const struct v4l2_event_subscription *sub)
+> +{
+> +	struct msm_vidc_inst *inst;
+> +	int rc = 0;
+> +
+> +	inst = container_of(fh, struct msm_vidc_inst, fh);
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !sub) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_subscribe_event((void *)inst, sub);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_unsubscribe_event(struct v4l2_fh *fh,
+> +			       const struct v4l2_event_subscription *sub)
+> +{
+> +	struct msm_vidc_inst *inst;
+> +	int rc = 0;
+> +
+> +	inst = container_of(fh, struct msm_vidc_inst, fh);
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !sub) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	rc = msm_vidc_unsubscribe_event((void *)inst, sub);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_try_decoder_cmd(struct file *filp, void *fh,
+> +			     struct v4l2_decoder_cmd *dec)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !dec) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_try_cmd(inst, (union msm_v4l2_cmd *)dec);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_decoder_cmd(struct file *filp, void *fh,
+> +			 struct v4l2_decoder_cmd *dec)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	enum msm_vidc_event event;
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	if (!dec) {
+> +		i_vpr_e(inst, "%s: invalid params\n", __func__);
+> +		rc = -EINVAL;
+> +		goto unlock;
+> +	}
+> +	if (dec->cmd != V4L2_DEC_CMD_START &&
+> +	    dec->cmd != V4L2_DEC_CMD_STOP) {
+> +		i_vpr_e(inst, "%s: invalid cmd %#x\n", __func__, dec->cmd);
+> +		rc = -EINVAL;
+> +		goto unlock;
+> +	}
+> +	event = (dec->cmd == V4L2_DEC_CMD_START ? MSM_VIDC_CMD_START : MSM_VIDC_CMD_STOP);
+> +	rc = inst->event_handle(inst, event, NULL);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_try_encoder_cmd(struct file *filp, void *fh,
+> +			     struct v4l2_encoder_cmd *enc)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !enc) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_try_cmd(inst, (union msm_v4l2_cmd *)enc);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_encoder_cmd(struct file *filp, void *fh,
+> +			 struct v4l2_encoder_cmd *enc)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	enum msm_vidc_event event;
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	if (!enc) {
+> +		i_vpr_e(inst, "%s: invalid params\n", __func__);
+> +		rc = -EINVAL;
+> +		goto unlock;
+> +	}
+> +	if (enc->cmd != V4L2_ENC_CMD_START &&
+> +	    enc->cmd != V4L2_ENC_CMD_STOP) {
+> +		i_vpr_e(inst, "%s: invalid cmd %#x\n", __func__, enc->cmd);
+> +		rc = -EINVAL;
+> +		goto unlock;
+> +	}
+> +	event = (enc->cmd == V4L2_ENC_CMD_START ? MSM_VIDC_CMD_START : MSM_VIDC_CMD_STOP);
+> +	rc = inst->event_handle(inst, event, NULL);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_enum_framesizes(struct file *filp, void *fh,
+> +			     struct v4l2_frmsizeenum *fsize)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !fsize) {
+> +		d_vpr_e("%s: invalid params: %pK %pK\n",
+> +			__func__, inst, fsize);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_enum_framesizes((void *)inst, fsize);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_enum_frameintervals(struct file *filp, void *fh,
+> +				 struct v4l2_frmivalenum *fival)
+> +
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !fival) {
+> +		d_vpr_e("%s: invalid params: %pK %pK\n",
+> +			__func__, inst, fival);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_enum_frameintervals((void *)inst, fival);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_queryctrl(struct file *filp, void *fh,
+> +		       struct v4l2_queryctrl *ctrl)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !ctrl) {
+> +		d_vpr_e("%s: invalid instance\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_query_ctrl((void *)inst, ctrl);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +int msm_v4l2_querymenu(struct file *filp, void *fh,
+> +		       struct v4l2_querymenu *qmenu)
+> +{
+> +	struct msm_vidc_inst *inst = get_vidc_inst(filp, fh);
+> +	int rc = 0;
+> +
+> +	inst = get_inst_ref(g_core, inst);
+> +	if (!inst || !qmenu) {
+> +		d_vpr_e("%s: invalid params %pK %pK\n",
+> +			__func__, inst, qmenu);
+> +		return -EINVAL;
+> +	}
+> +
+> +	client_lock(inst, __func__);
+> +	inst_lock(inst, __func__);
+> +	if (is_session_error(inst)) {
+> +		i_vpr_e(inst, "%s: inst in error state\n", __func__);
+> +		rc = -EBUSY;
+> +		goto unlock;
+> +	}
+> +	rc = msm_vidc_query_menu((void *)inst, qmenu);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +unlock:
+> +	inst_unlock(inst, __func__);
+> +	client_unlock(inst, __func__);
+> +	put_inst(inst);
+> +
+> +	return rc;
+> +}
+> +
+> +void msm_v4l2_m2m_device_run(void *priv)
+> +{
+> +	d_vpr_l("%s(): device_run\n", __func__);
+> +}
+> +
+> +void msm_v4l2_m2m_job_abort(void *priv)
+> +{
+> +	struct msm_vidc_inst *inst = priv;
+> +
+> +	if (!inst) {
+> +		d_vpr_e("%s: invalid params\n", __func__);
+> +		return;
+> +	}
+> +	i_vpr_h(inst, "%s: m2m job aborted\n", __func__);
+> +	v4l2_m2m_job_finish(inst->m2m_dev, inst->m2m_ctx);
+> +}
 
 -- 
 With best wishes
