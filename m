@@ -2,62 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0977576725E
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 18:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C620767324
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 19:21:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232365AbjG1Qtr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 12:49:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52598 "EHLO
+        id S232367AbjG1RVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 13:21:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231578AbjG1Qt0 (ORCPT
+        with ESMTP id S229624AbjG1RVY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 12:49:26 -0400
-Received: from mgamail.intel.com (unknown [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA9FD4C1F
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 09:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690562873; x=1722098873;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mseWZlNtJGRrbvOrNZCSIZzeAppJMxwlXbNI4EI0PqM=;
-  b=B16j76ERxl0VZg7ZcI8m4hU2gMh349wickZzei6MiG45Tf5SdvXxJUg8
-   EqAKfgKYsSJ5WmUwZTtzJ2a4tsDPIjqHq3ZPrqvUnbmJqeHvquhDntNNG
-   A0uyIxq22prX8lOvrPu8LV4T+YDGMLixQR6OOKXVT1fxB8CzG2ejTKMgA
-   q/m+q4xtppAVZlsjoac32D1sKC2JoyxmgRl6C9pImMHN9sJ6Yu8izgRYW
-   PE86snsT2VYmhaNdcGxZYv2ym8DTSoWSxFoNB0IeoJtzYzh9QRn4dnavK
-   oKzV4laQlpfko/nBn3aZLRu1t596UDNBNrS9tGVHDHpCe7dDM6t9DoFeV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="372258683"
-X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="372258683"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 09:44:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="841378018"
-X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="841378018"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Jul 2023 09:44:26 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qPQZc-0003OF-2b;
-        Fri, 28 Jul 2023 16:44:25 +0000
-Date:   Sat, 29 Jul 2023 00:44:04 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [sailus-media-tree:master 10/20] ld.lld: error: undefined symbol:
- devm_cci_regmap_init_i2c
-Message-ID: <202307290010.Xjbdp5kg-lkp@intel.com>
+        Fri, 28 Jul 2023 13:21:24 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78ED72D71
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:21:23 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b9aa1d3029so36034041fa.2
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690564881; x=1691169681;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qotOmlrxVnsJ5FI1SleCu8gMwNulnTWErnY/f2pHsMA=;
+        b=BjpBLmM4hMtItbn7OxGcPOq5zApM7tVQvfXCN2TRPidWSHQfcPUiCF3rkOh8dkBkk1
+         jQb+py+PjwrDzEqs4dEOYSRGnQBsv5walFwr87tj3C37qvtLVrK6fvddGQWU84p/WUu5
+         TeTyzdeOiPctsU3TDmW1i0mIiaHT3MPgTEsGIYJM1++Cy9Rt1U5aGZ+CR9GyZGsXgK4x
+         A7YEw7bSZXJBZf+E0gUYjQ58EFrvAGV0onDLb1dKFoDbf9SWpsS0tZPFOXk61jzxRwzt
+         +HZ6RkaOhDPba5eUu3+IsUaq8r4XCjqEwBWY6fm31vL9Is5ajVdlsMiIvBnYkXtUsjj4
+         pF0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690564881; x=1691169681;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qotOmlrxVnsJ5FI1SleCu8gMwNulnTWErnY/f2pHsMA=;
+        b=Bu7zDB1OB3fKxv0sqyAbsjNXmSb6IQowJII2OPi9Nx77C2GW/Jlui445YDBVruomw7
+         qSfDl1WDTZIzjv2kEVD2dW4wlF+5G9awbPzKZ31+6h91mlQSC9OqymkMzAuUydi+6fly
+         lprsOt5aPVceDHGEfGyCcjaPP6ypt/o65yoOgl47smcZZpcXyk/l/7EGrC7fMZ0cmN2g
+         2Oklrfikqd1qy5ovhX6ca2mpH2ZV2cWYXdISTLIdMw5Lf3oLRI4p+zp4FxA2JZpA8EJq
+         8eZ2k70GX/kJWUyzZ4BAeNZey632ALFidSYwERb4XUQWdeSOrcHGsbLQIuodlCBAkEVy
+         S1gQ==
+X-Gm-Message-State: ABy/qLblKbZifhDhvJf9xJbd9JD520oA0+eMpNJWng/HaGg7MlSL7V4a
+        lHYSiZLcZ830GP1igvc3Q0cLvg==
+X-Google-Smtp-Source: APBJJlGEFkRTNrku26JAWEsMEiieT+YNxTTtzHe5wLs03E+D6SkT6/v0ZWykS6umqC1QGVi9UYDvuA==
+X-Received: by 2002:a2e:9b54:0:b0:2b6:e3d5:76a7 with SMTP id o20-20020a2e9b54000000b002b6e3d576a7mr2358259ljj.24.1690564881520;
+        Fri, 28 Jul 2023 10:21:21 -0700 (PDT)
+Received: from [192.168.1.101] (abyk53.neoplus.adsl.tpnet.pl. [83.9.30.53])
+        by smtp.gmail.com with ESMTPSA id x11-20020a2e9dcb000000b002b69f44646bsm1048747ljj.17.2023.07.28.10.21.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jul 2023 10:21:21 -0700 (PDT)
+Message-ID: <1dd53227-4c44-da6c-ab05-9cfaddf58dc1@linaro.org>
+Date:   Fri, 28 Jul 2023 19:21:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/33] iris: vidc: add video decoder files
+Content-Language: en-US
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
+        stanimir.k.varbanov@gmail.com, agross@kernel.org,
+        andersson@kernel.org, mchehab@kernel.org, hans.verkuil@cisco.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     quic_dikshita@quicinc.com
+References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
+ <1690550624-14642-9-git-send-email-quic_vgarodia@quicinc.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <1690550624-14642-9-git-send-email-quic_vgarodia@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,42 +113,14 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   78b5f6f940f213e4139b0c8dbd1499a564f1ea89
-commit: 1bb2f576bc647eff694047bb03b52998221657a6 [10/20] media: imx290: Convert to new CCI register access helpers
-config: i386-randconfig-i012-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290010.Xjbdp5kg-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290010.Xjbdp5kg-lkp@intel.com/reproduce)
+On 28.07.2023 15:23, Vikash Garodia wrote:
+> This implements decoder functionalities of the driver.
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+I see a whole bunch of shifts, ANDs, etc.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307290010.Xjbdp5kg-lkp@intel.com/
+Please convert that to GENMASK + FIELD_PREP/FIELD_GET
 
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: devm_cci_regmap_init_i2c
-   >>> referenced by imx290.c:1526 (drivers/media/i2c/imx290.c:1526)
-   >>>               drivers/media/i2c/imx290.o:(imx290_probe) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: cci_multi_reg_write
-   >>> referenced by imx290.c:614 (drivers/media/i2c/imx290.c:614)
-   >>>               drivers/media/i2c/imx290.o:(imx290_set_stream) in archive vmlinux.a
-   >>> referenced by imx290.c:614 (drivers/media/i2c/imx290.c:614)
-   >>>               drivers/media/i2c/imx290.o:(imx290_set_stream) in archive vmlinux.a
-   >>> referenced by imx290.c:614 (drivers/media/i2c/imx290.c:614)
-   >>>               drivers/media/i2c/imx290.o:(imx290_set_stream) in archive vmlinux.a
-   >>> referenced 2 more times
---
->> ld.lld: error: undefined symbol: cci_write
-   >>> referenced by imx290.c:634 (drivers/media/i2c/imx290.c:634)
-   >>>               drivers/media/i2c/imx290.o:(imx290_set_stream) in archive vmlinux.a
-   >>> referenced by imx290.c:635 (drivers/media/i2c/imx290.c:635)
-   >>>               drivers/media/i2c/imx290.o:(imx290_set_stream) in archive vmlinux.a
-   >>> referenced by imx290.c:636 (drivers/media/i2c/imx290.c:636)
-   >>>               drivers/media/i2c/imx290.o:(imx290_set_stream) in archive vmlinux.a
-   >>> referenced 24 more times
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Konrad
