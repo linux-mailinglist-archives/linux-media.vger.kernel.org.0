@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BA31766EC6
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 15:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C0F766EF8
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 16:01:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236946AbjG1NuU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 09:50:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58348 "EHLO
+        id S235488AbjG1OBe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 10:01:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236917AbjG1NuD (ORCPT
+        with ESMTP id S233570AbjG1OBd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 09:50:03 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 767822D40
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:49:34 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4fb7373dd35so4256829e87.1
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:49:34 -0700 (PDT)
+        Fri, 28 Jul 2023 10:01:33 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9AA2D67
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:01:31 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4fe1a35a135so2982972e87.1
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690552173; x=1691156973;
+        d=linaro.org; s=google; t=1690552889; x=1691157689;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=wutQSG76PbMVHE5Rfy8ol+HSvH+APQ9YE7Onf1XixCg=;
-        b=ltbomSNpcPThb+xGrgR/PX57CpiEB420i1/AUjTUh9ZKIJAkbhrlzpVkxcmNJtoRpV
-         iFp+N5foNfbBzl90dMC4D7WZ3ru/iMqqIHSL6CcrvYsM+3CRhd/VqNadmB6Z+kXFtkCj
-         jiNxWhP6sWgtAve6sc79tJbE2EoEamESUNVVePvRPiZVlWlr2Csh0bYMtFHWHrF9ieMt
-         zzTwq7TbExs4S3TFhdIFB96W1BL7htBAovWS70Ylgaa5/7mevNwdtpZxFqgN+dMA6drF
-         OmzxlvyVQCPUUerc8l43CtyALiWJ0QfrRtNfas619+Hs1+byS0ksMaF9NbAb9IM893bR
-         3/zQ==
+        bh=x9hixi/gQwv5YJ/YHf3v4luoCqI1hnLSa6nP6Mhei18=;
+        b=UC2dej78mnQEdviDpeT7W2JGYxNeSuOFF4S+znTixasREcYc9luKlkkqMRjKoDYYEY
+         lyh5p9lxfdAaslckZO1IhZ3xAo6ZCHD7n1aHrfkLpdfvQ05sAoMlMQFouSEsKvlWH/qk
+         vCxDpmwBhmrrhkPbwF6q0KedRV+iimdYyC5/c9BXVzzHpRb/VdbqtW1w5s3+XewLxhsP
+         mRwblsxZmri74aiQDjJb79BLtP5QzTxsE6GEvElHxT1W/q2IGQwGGfMWebZe8aREU3zq
+         u2sRmXduosCk9EVmZh4tCcQAUIWgo74KtWgjpgtkwHgHVxk68oPs7T3FQYAz+rw/P562
+         U7bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690552173; x=1691156973;
+        d=1e100.net; s=20221208; t=1690552889; x=1691157689;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wutQSG76PbMVHE5Rfy8ol+HSvH+APQ9YE7Onf1XixCg=;
-        b=fqch4ruWpA3xsx1XJ9+pcJW9zf6FKpNVSl8ZkCpHs1qfOjKWRp6ZTxDLfw8/jqJO3+
-         MOMreDzUZtC7/57X+lFcdRF8mg3kd7DaNdKrHaYUxKFVN+WWpLw/usfs9dUXebZhG7o7
-         3sdZnz/7RZ90uvpusxDbBHW1ZULi9dIkuHz6KYwiDCn1B4Ys8lTb16c9d4PDLw4iI+7U
-         epW6JYCSO+z3GMy5LHMgOm/JnvVw2Bf6PE6MFUvnxzg4cG4IHnc23X0BvjlHfUV4vK3F
-         p5Sqav+dPVlg1PoBH4c7tyzIBVAg546sYd9eRXFzv6Jh/ToiYCMftwA9rsQetaQTa/Xr
-         aTww==
-X-Gm-Message-State: ABy/qLaTGuzFy7G+F2JxrPtcpi9i2iju0XeyoK2P/VbuNIaDTQTAugLS
-        n/iXdMhSEp/7IxMiseCg92kPZw==
-X-Google-Smtp-Source: APBJJlF7xRC9b7T+vjceHTPVmFu1z9JrspVFqj9jq0Cmj+rpsA3N4hL+L/jbWCiH5Cr2JP7r7vJ7Ug==
-X-Received: by 2002:a05:6512:398c:b0:4ef:edb4:2c77 with SMTP id j12-20020a056512398c00b004efedb42c77mr2213824lfu.11.1690552172546;
-        Fri, 28 Jul 2023 06:49:32 -0700 (PDT)
+        bh=x9hixi/gQwv5YJ/YHf3v4luoCqI1hnLSa6nP6Mhei18=;
+        b=lZDOfXwFnPqIkA/mF8Q0EIZXTqnk8PKSPczIW0xns5HJBW84v+lsLKwIrwqn0x1xe/
+         zaaGMY8njvlpqwELpFLg7MRkMT8x8eUYBYuQhSfHSgMEkqycXYTVs+qadwbnkAb8lHCE
+         lP3WUpAplMU/knTexHBYZpq+lYezGkAU0tHIpJy7ZUsstpj1RUbX/ZVE75gFZwiXdXr0
+         dctukhhMbVcoGjHGr605sLQkAP3vPgzzjRr7DZH/xXABX+xIVcnLArPanX37BHNHNuRo
+         q+B9hjx0OfXG6pVBVd4bdSN0ecBdltXDMyygsZYkOgurzMQZT1KE4gLdSjerRvUc4R4H
+         I3ew==
+X-Gm-Message-State: ABy/qLaSFPg0rg+kPfrBe4x9wrqU2Xb1tuB7j+kkaliF3j51JRtsVV8b
+        CycQWmDt59CjMD+iZAt4GZnbaQ==
+X-Google-Smtp-Source: APBJJlHwHb+q7A/f5L6SYCXz7IjgUhy7L+2ZIBRJwYoOKtXmQIoGYNh2HOtKmvIzzKfPFTPrR1LYQA==
+X-Received: by 2002:a19:5015:0:b0:4fb:f2d5:467f with SMTP id e21-20020a195015000000b004fbf2d5467fmr1676708lfb.13.1690552888806;
+        Fri, 28 Jul 2023 07:01:28 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
-        by smtp.gmail.com with ESMTPSA id o12-20020a05651238ac00b004f61187363asm830920lft.66.2023.07.28.06.49.31
+        by smtp.gmail.com with ESMTPSA id l14-20020ac2430e000000b004fdfd79e732sm829593lfh.289.2023.07.28.07.01.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 06:49:32 -0700 (PDT)
-Message-ID: <0e344949-1f9b-ca0b-9b19-9daf8e864c5a@linaro.org>
-Date:   Fri, 28 Jul 2023 16:49:31 +0300
+        Fri, 28 Jul 2023 07:01:28 -0700 (PDT)
+Message-ID: <e18b951e-7f15-2c67-9099-c45ea7f67daa@linaro.org>
+Date:   Fri, 28 Jul 2023 17:01:27 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH 02/33] iris: vidc: add core functions
+Subject: Re: [PATCH 00/33] Qualcomm video decoder/encoder driver
 Content-Language: en-GB
 To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         stanimir.k.varbanov@gmail.com, agross@kernel.org,
@@ -64,15 +64,14 @@ To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Cc:     quic_dikshita@quicinc.com
 References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-3-git-send-email-quic_vgarodia@quicinc.com>
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1690550624-14642-3-git-send-email-quic_vgarodia@quicinc.com>
+In-Reply-To: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -80,743 +79,229 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 28/07/2023 16:23, Vikash Garodia wrote:
-> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> This patch series introduces support for Qualcomm new video acceleration
+> hardware architecture, used for video stream decoding/encoding. This driver
+> is based on new communication protocol between video hardware and application
+> processor.
 > 
-> This implements the platform driver methods, file
-> operations and v4l2 registration.
+> This driver comes with below capabilities:
+> - V4L2 complaint video driver with M2M and STREAMING capability.
+> - Supports H264, H265, VP9 decoders.
+> - Supports H264, H265 encoders.
+
+Please describe, why is it impossible to support this hardware in the 
+venus driver. We do not usually add new drivers for the new generations 
+of the hardware, unless it is fully incompatible with the previous 
+generations. Let me point you to camss or drm/msm drivers. They have 
+successfully solved the issue of supporting multiple generations of the 
+hardware in the same driver.
+
+Unless the "iris3" is completely different from all the previous 
+generations, I strongly suggest spending time on restructuring existing 
+venus driver and then adding support for the new hardware there instead 
+of dumping out something completely new.
+
 > 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->   .../platform/qcom/iris/vidc/src/msm_vidc_probe.c   | 660 +++++++++++++++++++++
->   1 file changed, 660 insertions(+)
+> This driver comes with below features:
+> - Centralized resource and memory management.
+> - Centralized management of core and instance states.
+> - Defines platform specific capabilities and features. As a results, it provides
+>    a single point of control to enable/disable a given feature depending on
+>    specific platform capabilities.
+> - Handles hardware interdependent configurations. For a given configuration from
+>    client, the driver checks for hardware dependent configuration/s and updates
+>    the same.
+> - Handles multiple complex video scenarios involving state transitions - DRC,
+>    Drain, Seek, back to back DRC, DRC during Drain sequence, DRC during Seek
+>    sequence.
+> - Introduces a flexible way for driver to subscribe for any property with
+>    hardware. Hardware would inform driver with those subscribed property with any
+>    change in value.
+> - Introduces performance (clock and bus) model based on new hardware
+>    architecture.
+> - Introduces multi thread safe design to handle communication between client and
+>    hardware.
+> - Adapts encoder quality improvements available in new hardware architecture.
+> - Implements asynchronous communication with hardware to achieve better
+>    experience in low latency usecases.
+> - Supports multi stage hardware architecture for encode/decode.
+> - Output and capture planes are controlled independently. Thereby providing a
+>    way to reconfigure individual plane.
+> - Hardware packetization layer supports synchronization between configuration
+>    packet and data packet.
+> - Introduces a flexibility to receive a hardware response for a given command
+>    packet.
+> - Native hardware support of LAST flag which is mandatory to align with port
+>    reconfiguration and DRAIN sequence as per V4L guidelines.
+> - Native hardware support for drain sequence.
+> 
+> I think that the driver is in good shape for mainline kernel, and I hope the
+> review comments will help to improve it, so please do review, and make comments.
+> 
+> Dikshita Agarwal (17):
+>    iris: vidc: add core functions
+>    iris: add vidc wrapper file
+>    iris: vidc: add vb2 ops
+>    iris: vidc: add helpers for memory management
+>    iris: vidc: add helper functions for resource management
+>    iris: vidc: add helper functions for power management
+>    iris: add helpers for media format
+>    iris: vidc: add PIL functionality for video firmware
+>    iris: platform: add platform files
+>    iris: platform: sm8550: add capability file for sm8550
+>    iris: variant: add helper functions for register handling
+>    iris: variant: iris3: add iris3 specific ops
+>    iris: variant: iris3: add helpers for buffer size calculations
+>    iris: variant: iris3: add helper for bus and clock calculation
+>    iris: variant: iris: implement the logic to compute bus bandwidth
+>    iris: variant: iris3: implement logic to compute clock frequency
+>    iris: enable building of iris video driver
+> 
+> Vikash Garodia (16):
+>    MAINTAINERS: Add Qualcomm Iris video accelerator driver
+>    iris: vidc: add v4l2 wrapper file
+>    iris: vidc: define video core and instance context
+>    iris: iris: add video encoder files
+>    iris: vidc: add video decoder files
+>    iris: vidc: add control files
+>    iris: vidc: add helper functions
+>    iris: vidc: add helpers for state management
+>    iris: add vidc buffer files
+>    iris: vidc: define various structures and enum
+>    iris: vidc: hfi: add Host Firmware Interface (HFI)
+>    iris: vidc: hfi: add Host Firmware Interface (HFI) response handling
+>    iris: vidc: hfi: add helpers for handling shared queues
+>    iris: vidc: hfi: Add packetization layer
+>    iris: vidc: hfi: defines HFI properties and enums
+>    iris: vidc: add debug files
+> 
+>   MAINTAINERS                                        |   10 +
+>   drivers/media/platform/qcom/Kconfig                |    1 +
+>   drivers/media/platform/qcom/Makefile               |    1 +
+>   drivers/media/platform/qcom/iris/Kconfig           |   15 +
+>   drivers/media/platform/qcom/iris/Makefile          |   46 +
+>   .../iris/platform/common/inc/msm_vidc_platform.h   |  305 ++
+>   .../iris/platform/common/src/msm_vidc_platform.c   | 2499 ++++++++++++
+>   .../iris/platform/sm8550/inc/msm_vidc_sm8550.h     |   14 +
+>   .../iris/platform/sm8550/src/msm_vidc_sm8550.c     | 1727 ++++++++
+>   .../iris/variant/common/inc/msm_vidc_variant.h     |   22 +
+>   .../iris/variant/common/src/msm_vidc_variant.c     |  163 +
+>   .../qcom/iris/variant/iris3/inc/hfi_buffer_iris3.h | 1481 +++++++
+>   .../iris/variant/iris3/inc/msm_vidc_buffer_iris3.h |   19 +
+>   .../qcom/iris/variant/iris3/inc/msm_vidc_iris3.h   |   15 +
+>   .../iris/variant/iris3/inc/msm_vidc_power_iris3.h  |   17 +
+>   .../iris/variant/iris3/inc/perf_static_model.h     |  229 ++
+>   .../iris/variant/iris3/src/msm_vidc_buffer_iris3.c |  595 +++
+>   .../iris/variant/iris3/src/msm_vidc_bus_iris3.c    |  884 ++++
+>   .../iris/variant/iris3/src/msm_vidc_clock_iris3.c  |  627 +++
+>   .../qcom/iris/variant/iris3/src/msm_vidc_iris3.c   |  954 +++++
+>   .../iris/variant/iris3/src/msm_vidc_power_iris3.c  |  345 ++
+>   .../media/platform/qcom/iris/vidc/inc/firmware.h   |   18 +
+>   .../platform/qcom/iris/vidc/inc/hfi_command.h      |  190 +
+>   .../media/platform/qcom/iris/vidc/inc/hfi_packet.h |   52 +
+>   .../platform/qcom/iris/vidc/inc/hfi_property.h     |  666 +++
+>   .../platform/qcom/iris/vidc/inc/msm_media_info.h   |  599 +++
+>   .../media/platform/qcom/iris/vidc/inc/msm_vdec.h   |   40 +
+>   .../media/platform/qcom/iris/vidc/inc/msm_venc.h   |   34 +
+>   .../media/platform/qcom/iris/vidc/inc/msm_vidc.h   |   60 +
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_buffer.h  |   32 +
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_control.h |   26 +
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_core.h    |  165 +
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_debug.h   |  186 +
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_driver.h  |  352 ++
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_inst.h    |  207 +
+>   .../qcom/iris/vidc/inc/msm_vidc_internal.h         |  787 ++++
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_memory.h  |   83 +
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_power.h   |   94 +
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_state.h   |  102 +
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_v4l2.h    |   77 +
+>   .../platform/qcom/iris/vidc/inc/msm_vidc_vb2.h     |   39 +
+>   .../media/platform/qcom/iris/vidc/inc/resources.h  |  259 ++
+>   .../media/platform/qcom/iris/vidc/inc/venus_hfi.h  |   66 +
+>   .../platform/qcom/iris/vidc/inc/venus_hfi_queue.h  |   89 +
+>   .../qcom/iris/vidc/inc/venus_hfi_response.h        |   26 +
+>   .../media/platform/qcom/iris/vidc/src/firmware.c   |  294 ++
+>   .../media/platform/qcom/iris/vidc/src/hfi_packet.c |  657 +++
+>   .../media/platform/qcom/iris/vidc/src/msm_vdec.c   | 2091 ++++++++++
+>   .../media/platform/qcom/iris/vidc/src/msm_venc.c   | 1484 +++++++
+>   .../media/platform/qcom/iris/vidc/src/msm_vidc.c   |  841 ++++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_buffer.c  |  290 ++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_control.c |  824 ++++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_debug.c   |  581 +++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_driver.c  | 4276 ++++++++++++++++++++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_memory.c  |  448 ++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_power.c   |  560 +++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_probe.c   |  660 +++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_state.c   | 1607 ++++++++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_v4l2.c    |  953 +++++
+>   .../platform/qcom/iris/vidc/src/msm_vidc_vb2.c     |  605 +++
+>   .../media/platform/qcom/iris/vidc/src/resources.c  | 1321 ++++++
+>   .../media/platform/qcom/iris/vidc/src/venus_hfi.c  | 1503 +++++++
+>   .../platform/qcom/iris/vidc/src/venus_hfi_queue.c  |  537 +++
+>   .../qcom/iris/vidc/src/venus_hfi_response.c        | 1607 ++++++++
+>   64 files changed, 35357 insertions(+)
+>   create mode 100644 drivers/media/platform/qcom/iris/Kconfig
+>   create mode 100644 drivers/media/platform/qcom/iris/Makefile
+>   create mode 100644 drivers/media/platform/qcom/iris/platform/common/inc/msm_vidc_platform.h
+>   create mode 100644 drivers/media/platform/qcom/iris/platform/common/src/msm_vidc_platform.c
+>   create mode 100644 drivers/media/platform/qcom/iris/platform/sm8550/inc/msm_vidc_sm8550.h
+>   create mode 100644 drivers/media/platform/qcom/iris/platform/sm8550/src/msm_vidc_sm8550.c
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/common/inc/msm_vidc_variant.h
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/common/src/msm_vidc_variant.c
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/hfi_buffer_iris3.h
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/msm_vidc_buffer_iris3.h
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/msm_vidc_iris3.h
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/msm_vidc_power_iris3.h
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/inc/perf_static_model.h
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_buffer_iris3.c
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_bus_iris3.c
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_iris3.c
+>   create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_power_iris3.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/firmware.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/hfi_command.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/hfi_packet.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/hfi_property.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_media_info.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vdec.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_venc.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_buffer.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_control.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_core.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_debug.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_driver.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_inst.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_internal.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_memory.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_power.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_state.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_v4l2.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_vb2.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/resources.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/venus_hfi.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/venus_hfi_queue.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/venus_hfi_response.h
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/firmware.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/hfi_packet.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vdec.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_venc.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_buffer.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_control.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_debug.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_driver.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_memory.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_power.c
 >   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_probe.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_state.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_v4l2.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_vb2.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/resources.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/venus_hfi.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/venus_hfi_queue.c
+>   create mode 100644 drivers/media/platform/qcom/iris/vidc/src/venus_hfi_response.c
 > 
-> diff --git a/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_probe.c b/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_probe.c
-> new file mode 100644
-> index 0000000..43439cb
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_probe.c
-> @@ -0,0 +1,660 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2020-2022, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/iommu.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/stringify.h>
-> +#include <linux/version.h>
-> +#include <linux/workqueue.h>
-> +
-> +#include "msm_vidc_core.h"
-> +#include "msm_vidc_debug.h"
-> +#include "msm_vidc_driver.h"
-> +#include "msm_vidc_internal.h"
-> +#include "msm_vidc_memory.h"
-> +#include "msm_vidc_platform.h"
-> +#include "msm_vidc_state.h"
-> +#include "venus_hfi.h"
-
-This files are not present yet, so this commit doesn't have a change of 
-being compiled in any way.
-
-> +
-> +#define BASE_DEVICE_NUMBER 32
-> +
-> +struct msm_vidc_core *g_core;
-> +
-> +static inline bool is_video_device(struct device *dev)
-> +{
-> +	return !!(of_device_is_compatible(dev->of_node, "qcom,sm8550-vidc"));
-
-Are you going to add future platforms to this list? Please don't 
-duplicate of_match_data here.
-
-> +}
-> +
-> +static inline bool is_video_context_bank_device(struct device *dev)
-> +{
-> +	return !!(of_device_is_compatible(dev->of_node, "qcom,vidc,cb-ns"));
-> +}
-> +
-> +static int msm_vidc_init_resources(struct msm_vidc_core *core)
-> +{
-> +	struct msm_vidc_resource *res = NULL;
-> +	int rc = 0;
-> +
-> +	res = devm_kzalloc(&core->pdev->dev, sizeof(*res), GFP_KERNEL);
-> +	if (!res) {
-> +		d_vpr_e("%s: failed to alloc memory for resource\n", __func__);
-
-Where is this macro defined? Please structure your comments in a logical 
-way, so that one can read them from the beginning and understand what is 
-going one.
-
-This is not to mention that adding such debugging wrappers doesn't have 
-a lot of value.
-
-> +		return -ENOMEM;
-> +	}
-> +	core->resource = res;
-> +
-> +	rc = call_res_op(core, init, core);
-
-What is call_res_op?
-
-> +	if (rc) {
-> +		d_vpr_e("%s: Failed to init resources: %d\n", __func__, rc);
-> +		return rc;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id msm_vidc_dt_match[] = {
-> +	{.compatible = "qcom,sm8550-vidc"},
-> +	{.compatible = "qcom,vidc,cb-ns"},
-> +	MSM_VIDC_EMPTY_BRACE
-
-NO!!! Please use {} directly.
-
-> +};
-> +MODULE_DEVICE_TABLE(of, msm_vidc_dt_match);
-> +
-> +static void msm_vidc_release_video_device(struct video_device *vdev)
-> +{
-> +	d_vpr_e("%s: video device released\n", __func__);
-> +}
-> +
-> +static void msm_vidc_unregister_video_device(struct msm_vidc_core *core,
-> +					     enum msm_vidc_domain_type type)
-> +{
-> +	int index;
-> +
-> +	if (type == MSM_VIDC_DECODER)
-> +		index = 0;
-> +	else if (type == MSM_VIDC_ENCODER)
-> +		index = 1;
-> +	else
-> +		return;
-
-You can index by the type instead of converting to index.
-
-> +
-> +	v4l2_m2m_release(core->vdev[index].m2m_dev);
-> +
-> +	video_set_drvdata(&core->vdev[index].vdev, NULL);
-> +	video_unregister_device(&core->vdev[index].vdev);
-> +}
-> +
-> +static int msm_vidc_register_video_device(struct msm_vidc_core *core,
-> +					  enum msm_vidc_domain_type type, int nr)
-> +{
-> +	int rc = 0;
-> +	int index;
-> +
-> +	d_vpr_h("%s: domain %d\n", __func__, type);
-> +
-> +	if (type == MSM_VIDC_DECODER)
-> +		index = 0;
-> +	else if (type == MSM_VIDC_ENCODER)
-> +		index = 1;
-> +	else
-> +		return -EINVAL;
-> +
-> +	core->vdev[index].vdev.release =
-> +		msm_vidc_release_video_device;
-> +	core->vdev[index].vdev.fops = core->v4l2_file_ops;
-> +	if (type == MSM_VIDC_DECODER)
-> +		core->vdev[index].vdev.ioctl_ops = core->v4l2_ioctl_ops_dec;
-> +	else
-> +		core->vdev[index].vdev.ioctl_ops = core->v4l2_ioctl_ops_enc;
-> +	core->vdev[index].vdev.vfl_dir = VFL_DIR_M2M;
-> +	core->vdev[index].type = type;
-> +	core->vdev[index].vdev.v4l2_dev = &core->v4l2_dev;
-> +	core->vdev[index].vdev.device_caps = core->capabilities[DEVICE_CAPS].value;
-> +	rc = video_register_device(&core->vdev[index].vdev,
-> +				   VFL_TYPE_VIDEO, nr);
-> +	if (rc) {
-> +		d_vpr_e("Failed to register the video device\n");
-> +		return rc;
-> +	}
-> +	video_set_drvdata(&core->vdev[index].vdev, core);
-> +
-> +	core->vdev[index].m2m_dev = v4l2_m2m_init(core->v4l2_m2m_ops);
-> +	if (IS_ERR(core->vdev[index].m2m_dev)) {
-> +		d_vpr_e("Failed to initialize V4L2 M2M device\n");
-> +		rc = PTR_ERR(core->vdev[index].m2m_dev);
-> +		goto m2m_init_failed;
-> +	}
-> +
-> +	return 0;
-> +
-> +m2m_init_failed:
-> +	video_unregister_device(&core->vdev[index].vdev);
-> +	return rc;
-> +}
-> +
-> +static int msm_vidc_deinitialize_core(struct msm_vidc_core *core)
-> +{
-> +	int rc = 0;
-> +
-> +	if (!core) {
-> +		d_vpr_e("%s: invalid params\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	mutex_destroy(&core->lock);
-> +	msm_vidc_update_core_state(core, MSM_VIDC_CORE_DEINIT, __func__);
-> +
-> +	if (core->batch_workq)
-> +		destroy_workqueue(core->batch_workq);
-> +
-> +	if (core->pm_workq)
-> +		destroy_workqueue(core->pm_workq);
-> +
-> +	core->batch_workq = NULL;
-> +	core->pm_workq = NULL;
-> +
-> +	return rc;
-> +}
-> +
-> +static int msm_vidc_initialize_core(struct msm_vidc_core *core)
-> +{
-> +	int rc = 0;
-> +
-> +	msm_vidc_update_core_state(core, MSM_VIDC_CORE_DEINIT, __func__);
-> +
-> +	core->pm_workq = create_singlethread_workqueue("pm_workq");
-> +	if (!core->pm_workq) {
-> +		d_vpr_e("%s: create pm workq failed\n", __func__);
-> +		rc = -EINVAL;
-> +		goto exit;
-> +	}
-> +
-> +	core->batch_workq = create_singlethread_workqueue("batch_workq");
-> +	if (!core->batch_workq) {
-> +		d_vpr_e("%s: create batch workq failed\n", __func__);
-> +		rc = -EINVAL;
-> +		goto exit;
-> +	}
-> +
-> +	core->packet_size = VIDC_IFACEQ_VAR_HUGE_PKT_SIZE;
-> +	core->packet = devm_kzalloc(&core->pdev->dev, core->packet_size, GFP_KERNEL);
-> +	if (!core->packet) {
-> +		d_vpr_e("%s: failed to alloc core packet\n", __func__);
-> +		rc = -ENOMEM;
-> +		goto exit;
-> +	}
-> +
-> +	core->response_packet = devm_kzalloc(&core->pdev->dev, core->packet_size, GFP_KERNEL);
-> +	if (!core->packet) {
-> +		d_vpr_e("%s: failed to alloc core response packet\n", __func__);
-> +		rc = -ENOMEM;
-> +		goto exit;
-> +	}
-> +
-> +	mutex_init(&core->lock);
-> +	INIT_LIST_HEAD(&core->instances);
-> +	INIT_LIST_HEAD(&core->dangling_instances);
-> +
-> +	INIT_DELAYED_WORK(&core->pm_work, venus_hfi_pm_work_handler);
-> +	INIT_DELAYED_WORK(&core->fw_unload_work, msm_vidc_fw_unload_handler);
-> +
-> +	return 0;
-> +exit:
-> +	if (core->batch_workq)
-> +		destroy_workqueue(core->batch_workq);
-> +	if (core->pm_workq)
-> +		destroy_workqueue(core->pm_workq);
-> +	core->batch_workq = NULL;
-> +	core->pm_workq = NULL;
-> +
-> +	return rc;
-> +}
-> +
-> +static void msm_vidc_devm_deinit_core(void *res)
-> +{
-> +	struct msm_vidc_core *core = res;
-> +
-> +	msm_vidc_deinitialize_core(core);
-> +}
-> +
-> +static int msm_vidc_devm_init_core(struct device *dev, struct msm_vidc_core *core)
-> +{
-> +	int rc = 0;
-> +
-> +	if (!dev || !core) {
-> +		d_vpr_e("%s: invalid params\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	rc = msm_vidc_initialize_core(core);
-> +	if (rc) {
-> +		d_vpr_e("%s: init failed with %d\n", __func__, rc);
-> +		return rc;
-> +	}
-> +
-> +	rc = devm_add_action_or_reset(dev, msm_vidc_devm_deinit_core, (void *)core);
-> +	if (rc)
-> +		return -EINVAL;
-> +
-> +	return rc;
-> +}
-> +
-> +static void msm_vidc_devm_debugfs_put(void *res)
-> +{
-> +	struct dentry *parent = res;
-> +
-> +	debugfs_remove_recursive(parent);
-> +}
-> +
-> +static struct dentry *msm_vidc_devm_debugfs_get(struct device *dev)
-
-Why is it called get?
-
-
-> +{
-> +	struct dentry *parent = NULL;
-> +	int rc = 0;
-> +
-> +	if (!dev) {
-> +		d_vpr_e("%s: invalid params\n", __func__);
-> +		return NULL;
-> +	}
-> +
-> +	parent = msm_vidc_debugfs_init_drv();
-> +	if (!parent)
-> +		return NULL;
-> +
-> +	rc = devm_add_action_or_reset(dev, msm_vidc_devm_debugfs_put, (void *)parent);
-> +	if (rc)
-> +		return NULL;
-> +
-> +	return parent;
-> +}
-> +
-> +static int msm_vidc_setup_context_bank(struct msm_vidc_core *core,
-> +				       struct device *dev)
-> +{
-> +	struct context_bank_info *cb = NULL;
-> +	int rc = 0;
-> +
-> +	cb = msm_vidc_get_context_bank_for_device(core, dev);
-> +	if (!cb) {
-> +		d_vpr_e("%s: Failed to get context bank device for %s\n",
-> +			__func__, dev_name(dev));
-> +		return -EIO;
-> +	}
-> +
-> +	/* populate dev & domain field */
-> +	cb->dev = dev;
-> +	cb->domain = iommu_get_domain_for_dev(cb->dev);
-> +	if (!cb->domain) {
-> +		d_vpr_e("%s: Failed to get iommu domain for %s\n", __func__, dev_name(dev));
-> +		return -EIO;
-> +	}
-> +
-> +	if (cb->dma_mask) {
-> +		rc = dma_set_mask_and_coherent(cb->dev, cb->dma_mask);
-> +		if (rc) {
-> +			d_vpr_e("%s: dma_set_mask_and_coherent failed\n", __func__);
-> +			return rc;
-> +		}
-> +	}
-> +
-> +	/*
-> +	 * configure device segment size and segment boundary to ensure
-> +	 * iommu mapping returns one mapping (which is required for partial
-> +	 * cache operations)
-> +	 */
-> +	if (!dev->dma_parms)
-> +		dev->dma_parms =
-> +			devm_kzalloc(dev, sizeof(*dev->dma_parms), GFP_KERNEL);
-> +	dma_set_max_seg_size(dev, (unsigned int)DMA_BIT_MASK(32));
-> +	dma_set_seg_boundary(dev, (unsigned long)DMA_BIT_MASK(64));
-> +
-> +	iommu_set_fault_handler(cb->domain, msm_vidc_smmu_fault_handler, (void *)core);
-> +
-> +	d_vpr_h("%s: name %s addr start %x size %x secure %d\n",
-> +		__func__, cb->name, cb->addr_range.start,
-> +		cb->addr_range.size, cb->secure);
-> +	d_vpr_h("%s: dma_coherant %d region %d dev_name %s domain %pK dma_mask %llu\n",
-> +		__func__, cb->dma_coherant, cb->region, dev_name(cb->dev),
-> +		cb->domain, cb->dma_mask);
-> +
-> +	return rc;
-> +}
-> +
-> +static int msm_vidc_remove_video_device(struct platform_device *pdev)
-> +{
-> +	struct msm_vidc_core *core;
-> +
-> +	if (!pdev) {
-> +		d_vpr_e("%s: invalid input %pK", __func__, pdev);
-> +		return -EINVAL;
-> +	}
-> +
-> +	core = dev_get_drvdata(&pdev->dev);
-> +	if (!core) {
-> +		d_vpr_e("%s: invalid core\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	msm_vidc_core_deinit(core, true);
-> +	venus_hfi_queue_deinit(core);
-> +
-> +	msm_vidc_unregister_video_device(core, MSM_VIDC_ENCODER);
-> +	msm_vidc_unregister_video_device(core, MSM_VIDC_DECODER);
-> +
-> +	v4l2_device_unregister(&core->v4l2_dev);
-> +
-> +	d_vpr_h("depopulating sub devices\n");
-> +	/*
-> +	 * Trigger remove for each sub-device i.e. qcom,context-bank,xxxx
-> +	 * When msm_vidc_remove is called for each sub-device, destroy
-> +	 * context-bank mappings.
-> +	 */
-> +	of_platform_depopulate(&pdev->dev);
-> +
-> +	dev_set_drvdata(&pdev->dev, NULL);
-> +	g_core = NULL;
-> +	d_vpr_h("%s(): succssful\n", __func__);
-> +
-> +	return 0;
-> +}
-> +
-> +static int msm_vidc_remove_context_bank(struct platform_device *pdev)
-> +{
-> +	d_vpr_h("%s(): %s\n", __func__, dev_name(&pdev->dev));
-> +
-> +	return 0;
-> +}
-> +
-> +static int msm_vidc_remove(struct platform_device *pdev)
-> +{
-> +	/*
-> +	 * Sub devices remove will be triggered by of_platform_depopulate()
-> +	 * after core_deinit(). It return immediately after completing
-> +	 * sub-device remove.
-> +	 */
-> +	if (is_video_device(&pdev->dev))
-> +		return msm_vidc_remove_video_device(pdev);
-> +	else if (is_video_context_bank_device(&pdev->dev))
-> +		return msm_vidc_remove_context_bank(pdev);
-> +
-> +	/* How did we end up here? */
-> +	WARN_ON(1);
-> +	return -EINVAL;
-> +}
-> +
-> +static int msm_vidc_probe_video_device(struct platform_device *pdev)
-> +{
-> +	int rc = 0;
-> +	struct msm_vidc_core *core = NULL;
-> +	int nr = BASE_DEVICE_NUMBER;
-> +
-> +	d_vpr_h("%s: %s\n", __func__, dev_name(&pdev->dev));
-> +
-> +	core = devm_kzalloc(&pdev->dev, sizeof(struct msm_vidc_core), GFP_KERNEL);
-> +	if (!core) {
-> +		d_vpr_e("%s: failed to alloc memory for core\n", __func__);
-> +		return -ENOMEM;
-> +	}
-> +	g_core = core;
-> +
-> +	core->pdev = pdev;
-> +	dev_set_drvdata(&pdev->dev, core);
-> +
-> +	core->debugfs_parent = msm_vidc_devm_debugfs_get(&pdev->dev);
-> +	if (!core->debugfs_parent)
-> +		d_vpr_h("Failed to create debugfs for msm_vidc\n");
-> +
-> +	rc = msm_vidc_devm_init_core(&pdev->dev, core);
-> +	if (rc) {
-> +		d_vpr_e("%s: init core failed with %d\n", __func__, rc);
-> +		goto init_core_failed;
-> +	}
-> +
-> +	rc = msm_vidc_init_platform(core);
-> +	if (rc) {
-> +		d_vpr_e("%s: init platform failed with %d\n", __func__, rc);
-> +		rc = -EINVAL;
-> +		goto init_plat_failed;
-> +	}
-> +
-> +	rc = msm_vidc_init_resources(core);
-> +	if (rc) {
-> +		d_vpr_e("%s: init resource failed with %d\n", __func__, rc);
-> +		goto init_res_failed;
-> +	}
-> +
-> +	rc = msm_vidc_init_core_caps(core);
-> +	if (rc) {
-> +		d_vpr_e("%s: init core caps failed with %d\n", __func__, rc);
-> +		goto init_res_failed;
-> +	}
-> +
-> +	rc = msm_vidc_init_instance_caps(core);
-> +	if (rc) {
-> +		d_vpr_e("%s: init inst cap failed with %d\n", __func__, rc);
-> +		goto init_inst_caps_fail;
-> +	}
-> +
-> +	core->debugfs_root = msm_vidc_debugfs_init_core(core);
-> +	if (!core->debugfs_root)
-> +		d_vpr_h("Failed to init debugfs core\n");
-> +
-> +	d_vpr_h("populating sub devices\n");
-> +	/*
-> +	 * Trigger probe for each sub-device i.e. qcom,msm-vidc,context-bank.
-> +	 * When msm_vidc_probe is called for each sub-device, parse the
-> +	 * context-bank details.
-> +	 */
-> +	rc = of_platform_populate(pdev->dev.of_node, msm_vidc_dt_match, NULL,
-> +				  &pdev->dev);
-> +	if (rc) {
-> +		d_vpr_e("Failed to trigger probe for sub-devices\n");
-> +		goto sub_dev_failed;
-> +	}
-> +
-> +	rc = v4l2_device_register(&pdev->dev, &core->v4l2_dev);
-> +	if (rc) {
-> +		d_vpr_e("Failed to register v4l2 device\n");
-> +		goto v4l2_reg_failed;
-> +	}
-> +
-> +	/* setup the decoder device */
-> +	rc = msm_vidc_register_video_device(core, MSM_VIDC_DECODER, nr);
-> +	if (rc) {
-> +		d_vpr_e("Failed to register video decoder\n");
-> +		goto dec_reg_failed;
-> +	}
-> +
-> +	/* setup the encoder device */
-> +	rc = msm_vidc_register_video_device(core, MSM_VIDC_ENCODER, nr + 1);
-> +	if (rc) {
-> +		d_vpr_e("Failed to register video encoder\n");
-> +		goto enc_reg_failed;
-> +	}
-> +
-> +	rc = venus_hfi_queue_init(core);
-> +	if (rc) {
-> +		d_vpr_e("%s: interface queues init failed\n", __func__);
-> +		goto queues_init_failed;
-> +	}
-> +
-> +	rc = msm_vidc_core_init(core);
-> +	if (rc) {
-> +		d_vpr_e("%s: sys init failed\n", __func__);
-> +		goto core_init_failed;
-> +	}
-> +
-> +	d_vpr_h("%s(): succssful\n", __func__);
-> +
-> +	return rc;
-> +
-> +core_init_failed:
-> +	venus_hfi_queue_deinit(core);
-> +queues_init_failed:
-> +	of_platform_depopulate(&pdev->dev);
-> +sub_dev_failed:
-> +	msm_vidc_unregister_video_device(core, MSM_VIDC_ENCODER);
-> +enc_reg_failed:
-> +	msm_vidc_unregister_video_device(core, MSM_VIDC_DECODER);
-> +dec_reg_failed:
-> +	v4l2_device_unregister(&core->v4l2_dev);
-> +v4l2_reg_failed:
-> +init_inst_caps_fail:
-> +init_res_failed:
-> +init_plat_failed:
-> +init_core_failed:
-> +	dev_set_drvdata(&pdev->dev, NULL);
-> +	g_core = NULL;
-> +
-> +	return rc;
-> +}
-> +
-> +static int msm_vidc_probe_context_bank(struct platform_device *pdev)
-> +{
-> +	struct msm_vidc_core *core = NULL;
-> +	int rc = 0;
-> +
-> +	if (!pdev) {
-> +		d_vpr_e("%s: Invalid platform device %pK", __func__, pdev);
-> +		return -EINVAL;
-> +	} else if (!pdev->dev.parent) {
-> +		d_vpr_e("%s: Failed to find a parent for %s\n",
-> +			__func__, dev_name(&pdev->dev));
-> +		return -ENODEV;
-> +	}
-> +
-> +	d_vpr_h("%s(): %s\n", __func__, dev_name(&pdev->dev));
-> +
-> +	core = dev_get_drvdata(pdev->dev.parent);
-> +	if (!core) {
-> +		d_vpr_e("%s: core not found in device %s",
-> +			__func__, dev_name(pdev->dev.parent));
-> +		return -EINVAL;
-> +	}
-> +
-> +	rc = msm_vidc_setup_context_bank(core, &pdev->dev);
-> +	if (rc) {
-> +		d_vpr_e("%s: Failed to probe context bank %s\n",
-> +			__func__, dev_name(&pdev->dev));
-> +		return rc;
-> +	}
-> +
-> +	return rc;
-> +}
-> +
-> +static int msm_vidc_probe(struct platform_device *pdev)
-> +{
-> +	if (!pdev) {
-> +		d_vpr_e("%s: invalid params\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/*
-> +	 * Sub devices probe will be triggered by of_platform_populate() towards
-> +	 * the end of the probe function after msm-vidc device probe is
-> +	 * completed. Return immediately after completing sub-device probe.
-> +	 */
-> +	if (is_video_device(&pdev->dev))
-> +		return msm_vidc_probe_video_device(pdev);
-> +	else if (is_video_context_bank_device(&pdev->dev))
-> +		return msm_vidc_probe_context_bank(pdev);
-> +
-> +	/* How did we end up here? */
-> +	WARN_ON(1);
-> +	return -EINVAL;
-
-No. Please don't hack around the driver infrastructure and register two 
-separate drivers. They can even come in two separate commits, 
-simplifying the review.
-
-> +}
-> +
-> +static int msm_vidc_pm_suspend(struct device *dev)
-> +{
-> +	int rc = 0;
-> +	struct msm_vidc_core *core;
-> +	enum msm_vidc_allow allow = MSM_VIDC_DISALLOW;
-> +
-> +	/*
-> +	 * Bail out if
-> +	 * - driver possibly not probed yet
-> +	 * - not the main device. We don't support power management on
-> +	 *   subdevices (e.g. context banks)
-> +	 */
-> +	if (!dev || !dev->driver || !is_video_device(dev))
-> +		return 0;
-> +
-> +	core = dev_get_drvdata(dev);
-> +	if (!core) {
-> +		d_vpr_e("%s: invalid core\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	core_lock(core, __func__);
-> +	allow = msm_vidc_allow_pm_suspend(core);
-> +
-> +	if (allow == MSM_VIDC_IGNORE) {
-> +		d_vpr_h("%s: pm already suspended\n", __func__);
-> +		msm_vidc_change_core_sub_state(core, 0, CORE_SUBSTATE_PM_SUSPEND, __func__);
-> +		rc = 0;
-> +		goto unlock;
-> +	} else if (allow != MSM_VIDC_ALLOW) {
-> +		d_vpr_h("%s: pm suspend not allowed\n", __func__);
-> +		rc = 0;
-> +		goto unlock;
-> +	}
-> +
-> +	rc = msm_vidc_suspend(core);
-> +	if (rc == -EOPNOTSUPP)
-> +		rc = 0;
-> +	else if (rc)
-> +		d_vpr_e("Failed to suspend: %d\n", rc);
-> +	else
-> +		msm_vidc_change_core_sub_state(core, 0, CORE_SUBSTATE_PM_SUSPEND, __func__);
-> +
-> +unlock:
-> +	core_unlock(core, __func__);
-> +	return rc;
-> +}
-> +
-> +static int msm_vidc_pm_resume(struct device *dev)
-> +{
-> +	struct msm_vidc_core *core;
-> +
-> +	/*
-> +	 * Bail out if
-> +	 * - driver possibly not probed yet
-> +	 * - not the main device. We don't support power management on
-> +	 *   subdevices (e.g. context banks)
-> +	 */
-> +	if (!dev || !dev->driver || !is_video_device(dev))
-> +		return 0;
-> +
-> +	core = dev_get_drvdata(dev);
-> +	if (!core) {
-> +		d_vpr_e("%s: invalid core\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* remove PM suspend from core sub_state */
-> +	core_lock(core, __func__);
-> +	msm_vidc_change_core_sub_state(core, CORE_SUBSTATE_PM_SUSPEND, 0, __func__);
-> +	core_unlock(core, __func__);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops msm_vidc_pm_ops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(msm_vidc_pm_suspend, msm_vidc_pm_resume)
-
-No runtime PM?
-
-> +};
-> +
-> +struct platform_driver msm_vidc_driver = {
-> +	.probe = msm_vidc_probe,
-> +	.remove = msm_vidc_remove,
-> +	.driver = {
-> +		.name = "msm_vidc_v4l2",
-> +		.of_match_table = msm_vidc_dt_match,
-> +		.pm = &msm_vidc_pm_ops,
-> +	},
-> +};
-> +
-> +module_platform_driver(msm_vidc_driver);
-> +MODULE_LICENSE("GPL");
-
-Unfortunately, after taking a glance at first two patches, I have to 
-stop. It is nearly impossible to review it.
-
-Please start from the beginning, split the driver according to the 
-logical functions, not per-file. Ideally something should be compillable 
-starting from one of the first patches, if not the very first one. This 
-would guarantee that your patchset is structured logically.
-
-Please add DT bindings. New driver series should start from the bindings 
-anyway.
-
-Please drop your custom debugging wrappers. Use dev_info, dev_warn, 
-dev_err and dev_dbg instead.
-
-Please drop the custom multi-device-single-driver scheme. If there are 
-different kinds of devices, there should be different drivers.
-
-Please take a look around. If you are pushing your driver for kernel 
-inclusion, it should not stand out by the style and by the typical code 
-seuqences.
-
 
 -- 
 With best wishes
