@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53F127667E5
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 10:53:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71B73766811
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 11:02:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235262AbjG1Ix4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 04:53:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49112 "EHLO
+        id S234854AbjG1JCX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 05:02:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235398AbjG1IxT (ORCPT
+        with ESMTP id S230243AbjG1JCV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 04:53:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F540E78
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 01:52:29 -0700 (PDT)
+        Fri, 28 Jul 2023 05:02:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD5ACB6
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 02:02:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2D76F62066
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 08:52:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5137BC433C9;
-        Fri, 28 Jul 2023 08:52:22 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7452B62059
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 09:02:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65296C433C8;
+        Fri, 28 Jul 2023 09:02:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690534348;
-        bh=WnKx5b2dYcaG+Eh6WNCuqVjIDJEzl+wAwDZBzXJN8T8=;
+        s=k20201202; t=1690534939;
+        bh=Vhj/BB+DVwglt9+HwG0lLh2yTQy8gagBrdFE6JNuBO0=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=aFBAUPXTkoxVul/P2gf4QTWuBLnklC/yNpy6U5KDIX76YYZJF+UEFVRC7Or9OCxXw
-         y3jn772GGaORIVWb9wikImeGQ/kw/iWHBU3Efx2J2A+s2hFAPofUyeZetIU2g3CVXa
-         eti92qTubtxsMkL2AxqPkYxJejNpSebdvnaKToIe8aMDLts/9BGOjiQHZRslzAPqGY
-         3/7GCnxEBEQNSnYF9VKlosx9BztLPyi3sBKiZzO/k+ZyN4wPxTDoWNm2eHGqEciMVa
-         9fMeRGM+lm8zJhrgYN0y6nP/09GRidq22KecZlVg3HVA6KTMYLTQimZQoChzmpuRXL
-         ljzaW0v3i9pSg==
-Date:   Fri, 28 Jul 2023 10:52:18 +0200
+        b=aWdMPUQbXPkZysC4pEvAfkvy5A82rJgC//SB2MxJuxO7KIu5mZa78eR3Wftkg0Jfv
+         tAMht/N0kzOIu+h4Ai7ODIX8Ftv8Taqav4o1YH0/CWxInOUuBI1fXyvT62tFRewgIK
+         SBAlyvNIh0eFZuEEZ+TjiM8JuPOylVy/zc49q/t0kUuwqknG+GQlfRbpc8N0ymLEtg
+         4bb0TmUgVbbFyB5wpOirNODaPBgz5hKmbGiwIoT6r7Z9DAVa125/bx86sJ7iMrU0MQ
+         abOR78xHaU5i17GiKM4VPncvAtZ698Avl9A9Mb+PbNh0DZecx2cluOE4zjnC1df7+U
+         /leFOH7LhH6Iw==
+Date:   Fri, 28 Jul 2023 11:02:10 +0200
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
@@ -64,17 +64,18 @@ Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v6 26/38] media: v4l: async: Try more connections
-Message-ID: <20230728105218.390d6b0b@coco.lan>
-In-Reply-To: <20230727054255.1183255-27-sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v6 38/38] media: Documentation: v4l: Document sub-device
+ notifiers
+Message-ID: <20230728110210.563a8dd1@coco.lan>
+In-Reply-To: <20230727054255.1183255-39-sakari.ailus@linux.intel.com>
 References: <20230727054255.1183255-1-sakari.ailus@linux.intel.com>
-        <20230727054255.1183255-27-sakari.ailus@linux.intel.com>
+        <20230727054255.1183255-39-sakari.ailus@linux.intel.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -83,12 +84,12 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 27 Jul 2023 08:42:43 +0300
+Em Thu, 27 Jul 2023 08:42:55 +0300
 Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 
-> When an async sub-device is registered, it used to be that the first one
-> of its connections were matched when found. Continue looking for matches
-> until a notifier no longer has any.
+> Document that sub-device notifiers are now registered using
+> v4l2_async_subdev_nf_init(). No documentation is changed as it seems that
+> sub-device notifiers were not documented apart from kernel-doc comments.
 >=20
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > Tested-by: Philipp Zabel <p.zabel@pengutronix.de> # imx6qp
@@ -99,34 +100,43 @@ X6Q with TC358743
 > Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # Rene=
 sas RZ/G2L SMARC
 > ---
->  drivers/media/v4l2-core/v4l2-async.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/driver-api/media/v4l2-subdev.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 >=20
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-co=
-re/v4l2-async.c
-> index 44f72aa75c19..6b3c02d27ebf 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -789,6 +789,7 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
->  		if (!v4l2_dev)
->  			continue;
+> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentati=
+on/driver-api/media/v4l2-subdev.rst
+> index eba5e4468282..e56b50b3f203 100644
+> --- a/Documentation/driver-api/media/v4l2-subdev.rst
+> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
+> @@ -218,6 +218,17 @@ available. There may be one or more async connection=
+s to a given sub-device but
+>  this is not known at the time of adding the connections to the notifier.=
+ Async
+>  connections are bound as matching async sub-devices are found, one by on=
+e.
 > =20
-> +again:
->  		asc =3D v4l2_async_find_match(notifier, sd);
->  		if (!asc)
->  			continue;
-> @@ -801,13 +802,12 @@ int v4l2_async_register_subdev(struct v4l2_subdev *=
-sd)
->  		if (ret)
->  			goto err_unbind;
-> =20
-> -		goto out_unlock;
-> +		goto again;
->  	}
+> +Asynchronous sub-device notifier for sub-devices
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +A driver that registers an asynchronous sub-device may also register an
+> +asynchronous notifier. This is called an asynchronous sub-device notifie=
+r andthe
+> +process is similar to that of a bridge driver apart from that the notifi=
+er is
+> +initialised using :c:func:`v4l2_async_subdev_nf_init` instead. A sub-dev=
+ice
+> +notifier may complete only after the V4L2 device becomes available, i.e.=
+ there's
+> +a path via async sub-devices and notifiers to a notifier that is not an
+> +asynchronous sub-device notifier.
+> +
+>  Asynchronous sub-device registration helper for camera sensor drivers
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>=20
 
-Using a goto here instead of a do {} while is not nice. I'll merge it
-as-is, but please send a followup patch using a proper loop.
-
+Hmm... you did a lot of reorder at the code for async devices. IMO,
+you should be pointing at the documentation what's the expected order
+of kAPI usage: what comes first? V4L2 register? async notifiers? etc.
 
 Regards
 
