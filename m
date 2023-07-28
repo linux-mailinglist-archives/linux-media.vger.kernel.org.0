@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76E7476743C
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 20:09:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BCFA767451
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 20:14:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235535AbjG1SJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 14:09:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53904 "EHLO
+        id S232517AbjG1SOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 14:14:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235375AbjG1SJJ (ORCPT
+        with ESMTP id S232892AbjG1SOE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 14:09:09 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 815E94236
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 11:09:07 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4fdd31bf179so4129207e87.2
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 11:09:07 -0700 (PDT)
+        Fri, 28 Jul 2023 14:14:04 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F274488
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 11:13:55 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b9aa1d3029so36759511fa.2
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 11:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690567746; x=1691172546;
+        d=linaro.org; s=google; t=1690568033; x=1691172833;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=9BYNhW3//lg1Ikuo8ObJy2UxRcTmINHZAuYprvQ6yY4=;
-        b=QMy+U4itZj5qUJJSrVWAAV2y9JYli3UavA9/fKVC9X1KHnAx9XJxrNObVNUXimuUlD
-         qojy2ZOhZXiseSYoBQuEYoPThQfdsNMSeinzGc956K0fQsimMGK9MvGA8Pst585V7G68
-         jnDsLrrmWxXD7DBKJQ6TJlKuz57f1cJLWuaE/ZcSfzhhy56iXEd7mKqN+mtC1V5Fbfbt
-         yRU7uUWGV5n7PB+siDJ6qZZXzi362h2QYRHvfhPBcvE0oovRgTw+TGZMCmMCORb+f/fT
-         a4yqhn0HFT/cNhbgWrTicWwMj46bQjqR3IQC6D/16wcaLFaemLQRelqpsV27wcR3gKIW
-         gH6g==
+        bh=OB/bj30EnQnr6qTMECfih4Nn+rCyljk2OAQ0K7AzNWE=;
+        b=sgkyoIIxxj+BiKxTUEpniRyHaGqsstpWOTmwkVKFUNAqtP4tLHT8ZRHBpUu8PKmTNa
+         fvFhKwPbOw0bafwB1vOtaVPui1FeDZwTt4gT9trORHRUgq+ACJ0e7enxDL0CjC4EzfVt
+         fWqQ1CISQyFxPZ8tORBha8debkONk4Nj9p/Hzh/ACPLTd+/87oAOCPiGjZhZQnRGcaQX
+         hc2cXUD546s8ED0lYDuHnnkGiSDwznkW1VUudgeVkhCVNGyR7encM/+zEQapwokUyZyI
+         1doqxWmH7PN1kxCPNA+DRYpjmpy4FNY+y5AhUpxbLWRIij3ADQAHOk/OQvW681v9P0R5
+         zvMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690567746; x=1691172546;
+        d=1e100.net; s=20221208; t=1690568033; x=1691172833;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9BYNhW3//lg1Ikuo8ObJy2UxRcTmINHZAuYprvQ6yY4=;
-        b=igbW5k4yiC5J0dH/EUFld4f8IBvQOSMNFF7qtn+LS8LD79MtgV9VNpSEUPwpWY/TPL
-         HhHyzbYJop/kGUtWbixGwtSNQQl+VrMytQWUQ0VeXKxp8cmqB50JlaKymBxh9tyZVIoz
-         svPSQzjZrPkZd/aMjLbhn5ci7nvnvO5UcTv54AOCvkwcd270HOIqi4WZ8LJadjXoQk0d
-         nP3SvgbqXvTXzX+Vnim1b33ke/S4NvtizFTGsmaQpHbZRirXeuzFzYiCZIC5UA00tz/x
-         o0FYs3XXqV/nt133sJwVnylIj26ur5/YwVqdUrivQDR3ESNOGslGOoAcYRzQPiMhTaG1
-         Ltfw==
-X-Gm-Message-State: ABy/qLZbDLwDYYKFSqaQiqX6QfM6Y1dtKYqaI7DxpBrnr28QvgbJfieR
-        Lc4EXn9akPzbXeOuSY4RQrotnQ==
-X-Google-Smtp-Source: APBJJlHio7ghTdL9iFAkpRiNSq0lS270OWs4qBtL4ivUgIP6EcsBcwRfX5GcFXa+h91aPVSihZWlrw==
-X-Received: by 2002:a05:6512:5cf:b0:4f8:5ab0:68c4 with SMTP id o15-20020a05651205cf00b004f85ab068c4mr2015469lfo.59.1690567745718;
-        Fri, 28 Jul 2023 11:09:05 -0700 (PDT)
+        bh=OB/bj30EnQnr6qTMECfih4Nn+rCyljk2OAQ0K7AzNWE=;
+        b=OMHgb5iywT+DvdujQQ2P+DU0IFp4CRKO0dQXawSv+YghPiG2tdO0nNWVxAIl+IT4r0
+         dg8qf/0xhLrkUZksMybe7jgzHZ4+BAaOJrGIS2z9RLRUsqo5jUm8XysA+WaZuQa2w5mQ
+         CuJM7w06xhYzwzGiTcppXW1NMaXZYW0dQaYPU6ApPhQlLGzodkY5ZpLWoIPCKvZsTIbV
+         cuHhoHih2ej602VeV3ajbXF8aZ3TVV/C9grcKqdGisMeL2Lp7D5u+DCDRTdzT7JlMoTz
+         gVjDfEVKhIYR4XcG8IhDwnEgR/6mdbAEEUd7jYgnMiIkJi99bDl6E5kiozFry7sp6N+v
+         IdFg==
+X-Gm-Message-State: ABy/qLb84m8ExA1cm8sy4P9BCN1MxM2fP3YAOPDkFf3EfTPYGd2wS4L/
+        nBTdcfQTG6j7ELLFMRkKQ46sfA==
+X-Google-Smtp-Source: APBJJlHZ2xt/9kZ6i7sJ/WW42TO6ZL+VX/STN8Vn819QxWIcAcB46aAFopd7prKIGS3SHkjqImc6vg==
+X-Received: by 2002:a05:6512:3b13:b0:4fe:c53:1824 with SMTP id f19-20020a0565123b1300b004fe0c531824mr3270765lfv.40.1690568033641;
+        Fri, 28 Jul 2023 11:13:53 -0700 (PDT)
 Received: from [192.168.1.101] (abyk53.neoplus.adsl.tpnet.pl. [83.9.30.53])
-        by smtp.gmail.com with ESMTPSA id 17-20020ac24851000000b004fbb424c362sm907671lfy.150.2023.07.28.11.09.04
+        by smtp.gmail.com with ESMTPSA id z5-20020ac24f85000000b004fb74dbbd98sm915772lfs.246.2023.07.28.11.13.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 11:09:05 -0700 (PDT)
-Message-ID: <76420973-1036-3adf-9c0b-94eaf8b5ceff@linaro.org>
-Date:   Fri, 28 Jul 2023 20:09:04 +0200
+        Fri, 28 Jul 2023 11:13:53 -0700 (PDT)
+Message-ID: <df9b1ee4-1462-f37a-1f08-0321a10fc4f9@linaro.org>
+Date:   Fri, 28 Jul 2023 20:13:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 31/33] iris: variant: iris: implement the logic to compute
- bus bandwidth
+Subject: Re: [PATCH 32/33] iris: variant: iris3: implement logic to compute
+ clock frequency
 Content-Language: en-US
 To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         stanimir.k.varbanov@gmail.com, agross@kernel.org,
@@ -64,7 +64,7 @@ To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         linux-arm-msm@vger.kernel.org
 Cc:     quic_dikshita@quicinc.com
 References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-32-git-send-email-quic_vgarodia@quicinc.com>
+ <1690550624-14642-33-git-send-email-quic_vgarodia@quicinc.com>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -101,7 +101,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <1690550624-14642-32-git-send-email-quic_vgarodia@quicinc.com>
+In-Reply-To: <1690550624-14642-33-git-send-email-quic_vgarodia@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -117,28 +117,114 @@ X-Mailing-List: linux-media@vger.kernel.org
 On 28.07.2023 15:23, Vikash Garodia wrote:
 > From: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > 
-> This implements the logic to compute bus bandwidth required by encoder
-> or decoder for a specific usecase. It takes input as various video
-> usecase parameters as configured by clients.
+> This implements the logic to computer the required clock frequency
+> by encoder or decoder for a specific usecase. It considers the input
+> as various parameters configured by client for that usecase.
 > 
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
-[...]
+>  .../iris/variant/iris3/src/msm_vidc_clock_iris3.c  | 627 +++++++++++++++++++++
+>  1 file changed, 627 insertions(+)
+>  create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c
+> 
+> diff --git a/drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c b/drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c
+> new file mode 100644
+> index 0000000..6665aef
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c
+> @@ -0,0 +1,627 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include "msm_vidc_debug.h"
+> +
+> +#define ENABLE_FINEBITRATE_SUBUHD60 0
+> +#include "perf_static_model.h"
+> +
+> +/*
+> + * Chipset Generation Technology: SW/FW overhead profiling
+> + * need update with new numbers
+> + */
+> +static u32 frequency_table_iris3[2][6] = {
+I think it's the third repetition of the same (ftbl + OPP)
 
-> +/* 100x */
-> +static u32 dpbopb_ubwc30_cr_table_cratio_iris3[7][12] = {
-const?
+> +	/* //make lowsvs_D1 as invalid; */
+> +	{533, 444, 366, 338, 240, 0},
+> +	{800, 666, 549, 507, 360, 0},
+> +};
+> +
+> + /* Tensilica cycles */
+> +#define DECODER_VPP_FW_OVERHEAD_IRIS3                                                  66234
+> +
+> +/* Tensilica cycles; this is measured in Lahaina 1stage with FW profiling */
+Is it gonna differ for other SoCs? Especially that 8350 has IRIS2?
+
+> +#define DECODER_VPPVSP1STAGE_FW_OVERHEAD_IRIS3                                         93000
+> +
+> +#define DECODER_VSP_FW_OVERHEAD_IRIS3 \
+> +	(DECODER_VPPVSP1STAGE_FW_OVERHEAD_IRIS3 - DECODER_VPP_FW_OVERHEAD_IRIS3)
+> +
+> +/* Tensilica cycles; encoder has ARP register */
+> +#define ENCODER_VPP_FW_OVERHEAD_IRIS3                                                  48405
+> +
+> +#define ENCODER_VPPVSP1STAGE_FW_OVERHEAD_IRIS3 \
+> +	(ENCODER_VPP_FW_OVERHEAD_IRIS3 + DECODER_VSP_FW_OVERHEAD_IRIS3)
+> +
+> +#define DECODER_SW_OVERHEAD_IRIS3                                                      489583
+> +#define ENCODER_SW_OVERHEAD_IRIS3                                                      489583
+> +
+> +/* Video IP Core Technology: pipefloor and pipe penlaty */
+> +static u32 decoder_vpp_target_clk_per_mb_iris3 = 200;
+Why is this a variable?
 
 [...]
 
 > +
-> +	llc_enabled_ref_y_rd = (codec_input.status_llc_onoff) ? 1 : 0;
-> +	llc_enable_ref_crcb_rd = (codec_input.status_llc_onoff) ? 1 : 0;
-> +	/* H265D BSE tlb in LLC will be pored in Kailua */
-?
+> +/* 8KUHD60; UHD240; 1080p960  with B */
+> +static u32 fp_pixel_count_bar0 = 3840 * 2160 * 240;
+> +/* 8KUHD60; UHD240; 1080p960  without B */
+> +static u32 fp_pixel_count_bar1 = 3840 * 2160 * 240;
+Not sure what the 'B' is, but the entries are the same. And looks like
+there's:
 
-> +	llc_enabled_bse_tlb = (codec_input.status_llc_onoff) ? 1 : 0;
-"? 1 : 0" is fancy bool conversion (!!x)
+- no need for it to be a variable
+- maybe you could make this a macro or just a simple multiplication
+
+[...]
+
+> +u32 get_bitrate_entry(u32 pixle_count)
+pixle -> pixel, checkpatch should point out typos
+
+[...]
+
+> +static int calculate_vsp_min_freq(struct api_calculation_input codec_input,
+> +				  struct api_calculation_freq_output *codec_output)
+> +{
+> +	/*
+> +	 * VSP calculation
+> +	 * different methodology from Lahaina
+> +	 */
+Not sure if that comment is useful to the reader.
+
+[...]
+
+
+> +
+> +static u32 calculate_pipe_penalty(struct api_calculation_input codec_input)
+> +{
+> +	u32 pipe_penalty_codec = 0;
+> +
+> +	/* decoder */
+> +	if (codec_input.decoder_or_encoder == CODEC_DECODER)
+> +		pipe_penalty_codec = pipe_penalty_iris3[0][0];
+> +	else
+> +		pipe_penalty_codec = 101;
+Add a define for this magic number?
+
+Also, return the value instead of assigning it and doing the same
+
 
 Konrad
