@@ -2,59 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D7FD767405
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 19:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2493767415
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 19:58:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230265AbjG1Rzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 13:55:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46340 "EHLO
+        id S234015AbjG1R64 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 13:58:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231324AbjG1Rzi (ORCPT
+        with ESMTP id S230265AbjG1R6z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 13:55:38 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB95F3C1D
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:55:36 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2b9b50be31aso36815391fa.3
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:55:36 -0700 (PDT)
+        Fri, 28 Jul 2023 13:58:55 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C710D19AF
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:58:53 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2b72161c6e9so46077241fa.0
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:58:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690566935; x=1691171735;
+        d=linaro.org; s=google; t=1690567132; x=1691171932;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=J50FXHBVMY76jU86gdZA2hOUW6PaI5nolOLYf+ebiaY=;
-        b=hZdqr3GqH1hXtYipXXVyx+LyNKzCHTAMWViYak7U5KMHQPctf/TwIHCPkL7dpLPh+G
-         As6ugvww8cLF2tv6y3hy6wODKLWIoHdrJWEAwbOOW3n5krErLhgcCshds8/Rco4UgjCr
-         yP96bDZWp7V2CcmmciIYHyS+ZKZPZNUS2+Lz3Say9pMKVj8ai67H+JBQfqXwyo7udZWU
-         dQfObvns/GPXNF1NDDmIWgABDLbe1BMW9r4U/ZjpPRCwS62TKxfiEiKo6ox5sw0Wk9T2
-         oz7tYeA9TagpPie1B6/yfiYmOFlBh84v7oWVeVgiGBqTh91vRfwm56HLahj7NVt6qKPR
-         8dTg==
+        bh=0PCtupfgsAglFpkiVX1w6ol0/6o9i9+s5VwspB80GYo=;
+        b=XDZ7D0tDXdczOXhwYoFMDZtgXk7+4VRhpTP0+jiRWT470cNjw2UE8MoaNoY80DFI82
+         ouqxU9cpTeRclXF2ZLoK05dDy95rlinO4d+QcZ2Fe3Naf2Ld25W7tRgFT24TleMPzpCV
+         WV22cBb520HRReksmKrQXz0VYiM6GLiBAU6RGbEj9jLgulYWNjzSBWbzmiAI1ZSwtGOe
+         pqmWnQBhd+7201bBvESyfvwniwJQ9BvswK092co/3s9A/AtANxsoilK8wmqm/qiIo73c
+         W86bctkcWQSl03GiAuBWnJdKwebz3NAwM4AsxboUNMwVU/W9zJ0p8KpH29nos077+SAp
+         qcSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690566935; x=1691171735;
+        d=1e100.net; s=20221208; t=1690567132; x=1691171932;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J50FXHBVMY76jU86gdZA2hOUW6PaI5nolOLYf+ebiaY=;
-        b=dCEu5QB25x93FrWZfF3V5+8+RebKS4rOZMvPsUbDnyj4Yf1SbUe4qlaR8y5dJ1m4ce
-         ANThxaoHU3aTcUboxIFo2h2hg0Yap8mm+QceljSdG4eOMyLgIEUOH7/IsSN/Y/4qRkP0
-         AOP/vP3ujAqf7ujemzT/ZK93JQ7hkzzpULPmfNmWxCZG4FdIBx/DyRswZw9vsaf/z5Za
-         g3vjBCbZ5tmlPhHLV373HzHr9eTE3NaqDzdJpovgzPLRKI00OPUCje7ZHkixw3kuHCQC
-         guXYMI1eoNgjlVRbv8kksJMENILjR8OOV64gsL/OUpa2ETiuRhKt4k3zMZxCy0WxZwfH
-         UICw==
-X-Gm-Message-State: ABy/qLZZCg+3RGPneO44UCaDVRAHuB6ROvHdsl/WfglqMOiIVlOLOPCm
-        4rTPDT0TSYZozjzlfIRx/KBg+g==
-X-Google-Smtp-Source: APBJJlEdAdkNxm/VMjBas2n7DxBuJYqVKFC6TaGzlwER+arPmE+bBMALlJPr2kpQ/5UXmJ53563PLg==
-X-Received: by 2002:a2e:9b14:0:b0:2b4:7559:32b0 with SMTP id u20-20020a2e9b14000000b002b4755932b0mr2156492lji.19.1690566934940;
-        Fri, 28 Jul 2023 10:55:34 -0700 (PDT)
+        bh=0PCtupfgsAglFpkiVX1w6ol0/6o9i9+s5VwspB80GYo=;
+        b=FlS9ctbU/p7ZJI4KQhbWjXz+/j3e8s1QAZdASKcO8DdMGDbY5KKB/lNDzD/ZHbQtez
+         XbL9crIfUjxKfdSS0q5XdvCdghnX+bNSRReSvTEtIZ2JG7cwOT1L9BHqzDq4KQea+0rx
+         om1X2Z4PruBjnb7JeH2sGpanJ1czf61I+RIIzDzCl4cqyKHVNtC9mKXSYiPfC1/oW9mA
+         kcnYhuFYOyweo8erhGmhllmc4AksArH2IsJn2tQgKzYBz7KpZ8t0Kn4TcXO3IHN0UnhY
+         m+cNxqOl7Tmht0a60I4YD1kGXvAzjh0BbyOglSxxOQF4bYW9dGpLkDDaeWlC1UUipRe2
+         Cjig==
+X-Gm-Message-State: ABy/qLYHHCBwm/OEp/eDCrrZf/FNmyRkUkG3H2dVRMdALivlFtSqc0wC
+        OxwxRJwCb4td4YAxUrYJhh0eDCWalICupbRjaaL2mQ==
+X-Google-Smtp-Source: APBJJlEFFhc7OMeaagWIzDaKbymNsMF85h7Q0x1dUfB5wcoaOwanCYTEGXrPfpMqvjxStJqUBLQFWw==
+X-Received: by 2002:a2e:a27b:0:b0:2b9:aad7:9d89 with SMTP id k27-20020a2ea27b000000b002b9aad79d89mr2745154ljm.15.1690567131952;
+        Fri, 28 Jul 2023 10:58:51 -0700 (PDT)
 Received: from [192.168.1.101] (abyk53.neoplus.adsl.tpnet.pl. [83.9.30.53])
-        by smtp.gmail.com with ESMTPSA id v20-20020a2e9614000000b002b9af8422a8sm1054627ljh.130.2023.07.28.10.55.33
+        by smtp.gmail.com with ESMTPSA id p28-20020a2ea41c000000b002b94327308asm1053770ljn.133.2023.07.28.10.58.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 10:55:34 -0700 (PDT)
-Message-ID: <cd1fea83-3e0c-32c2-dc9f-61569366e212@linaro.org>
-Date:   Fri, 28 Jul 2023 19:55:33 +0200
+        Fri, 28 Jul 2023 10:58:51 -0700 (PDT)
+Message-ID: <9eec378f-9e77-6c08-eb82-2387c77734f1@linaro.org>
+Date:   Fri, 28 Jul 2023 19:58:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/33] iris: add helpers for media format
+Subject: Re: [PATCH 20/33] iris: vidc: hfi: add helpers for handling shared
+ queues
 Content-Language: en-US
 To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         stanimir.k.varbanov@gmail.com, agross@kernel.org,
@@ -63,7 +64,7 @@ To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         linux-arm-msm@vger.kernel.org
 Cc:     quic_dikshita@quicinc.com
 References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-17-git-send-email-quic_vgarodia@quicinc.com>
+ <1690550624-14642-21-git-send-email-quic_vgarodia@quicinc.com>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -100,13 +101,13 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <1690550624-14642-17-git-send-email-quic_vgarodia@quicinc.com>
+In-Reply-To: <1690550624-14642-21-git-send-email-quic_vgarodia@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -114,46 +115,46 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 28.07.2023 15:23, Vikash Garodia wrote:
-> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> 
-> Add helpers to calculate stride, scanline, buffer size
-> etc. for different media formats.
+> This implements functions to allocate and update the shared memory
+> used for sending commands to firmware and receiving messages from
+> firmware.
 > 
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
-[...]
-
-
-> +
-> +#ifndef MSM_MEDIA_ALIGN
-> +#define MSM_MEDIA_ALIGN(__sz, __align) (((__align) & ((__align) - 1)) ?\
-> +	((((__sz) + (__align) - 1) / (__align)) * (__align)) :\
-> +	(((__sz) + (__align) - 1) & (~((__align) - 1))))
-<linux/align.h>?
-
-> +#endif
-> +
-> +#ifndef MSM_MEDIA_ROUNDUP
-> +#define MSM_MEDIA_ROUNDUP(__sz, __r) (((__sz) + ((__r) - 1)) / (__r))
-> +#endif
-> +
+>  .../platform/qcom/iris/vidc/inc/venus_hfi_queue.h  |  89 ++++
+>  .../platform/qcom/iris/vidc/src/venus_hfi_queue.c  | 537 +++++++++++++++++++++
+>  2 files changed, 626 insertions(+)
+>  create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/venus_hfi_queue.h
+>  create mode 100644 drivers/media/platform/qcom/iris/vidc/src/venus_hfi_queue.c
+> 
+> diff --git a/drivers/media/platform/qcom/iris/vidc/inc/venus_hfi_queue.h b/drivers/media/platform/qcom/iris/vidc/inc/venus_hfi_queue.h
+> new file mode 100644
+> index 0000000..f533811
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/vidc/inc/venus_hfi_queue.h
+> @@ -0,0 +1,89 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
 > +/*
-> + * Function arguments:
-> + * @v4l2_fmt
-> + * @width
-> + * Progressive: width
-> + * Interlaced: width
+> + * Copyright (c) 2020-2022, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 > + */
-Kerneldoc would be cooler
-
-[...]
-
-> +static inline unsigned int video_rgb_stride_pix(unsigned int colorformat,
-> +						unsigned int width)
-> +{
-> +	unsigned int bpp = 4;
-Always?
-
+> +
+> +#ifndef _VENUS_HFI_QUEUE_H_
+> +#define _VENUS_HFI_QUEUE_H_
+> +
+> +#include <linux/types.h>
+> +
+> +#include "msm_vidc_internal.h"
+> +
+> +#define HFI_MASK_QHDR_TX_TYPE			0xff000000
+> +#define HFI_MASK_QHDR_RX_TYPE			0x00ff0000
+> +#define HFI_MASK_QHDR_PRI_TYPE			0x0000ff00
+> +#define HFI_MASK_QHDR_Q_ID_TYPE			0x000000ff
+> +#define HFI_Q_ID_HOST_TO_CTRL_CMD_Q		0
+> +#define HFI_Q_ID_CTRL_TO_HOST_MSG_Q		1
+> +#define HFI_Q_ID_CTRL_TO_HOST_DEBUG_Q		2
+> +#define HFI_MASK_QHDR_STATUS			0x000000ff
+GENMASK, BIT()..
 
 Konrad
