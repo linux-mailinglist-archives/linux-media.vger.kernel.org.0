@@ -2,224 +2,438 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 945F47666CA
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 10:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C86C17666D7
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 10:20:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234804AbjG1IT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 04:19:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56008 "EHLO
+        id S234930AbjG1IUQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 04:20:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234809AbjG1ITJ (ORCPT
+        with ESMTP id S234830AbjG1ITd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 04:19:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D847E1BC6;
-        Fri, 28 Jul 2023 01:19:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 634A062046;
-        Fri, 28 Jul 2023 08:19:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BCACC433C8;
-        Fri, 28 Jul 2023 08:18:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690532341;
-        bh=fi+a2t7tNdwyL0bBeVh7ZcTqwoG6vf1Wbk6bUaq+pLc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=AtjGgYEAp+/8NgBK9Vt9i/NstWExo712ZM4PRxLAXz+yMXci14VaBM555GppP8SWM
-         nSnm8b+KUfTZcEeZEg69EpQqnbfKRCiU0D65eygmQSlyyDWFZFWuT+Iy37SmWFCneN
-         xlsHeRiip7ODldMLdmA6E1goHgoLp+zKTqSRAIdG7u0oKUe7O2butxJ3paF/d05tVN
-         xzjARnEXcifNHk7SdOG+IAFPW/8xdtzKjXYL9rw7J4R4QL051WLdwaUiyHgIInzqqu
-         GOqqKjgolWMNzTojYe+LTdEttPWoEcR4PSU0Z4MCpu2ilkrwLYpf0ECDZCsOitNjQs
-         9jvMF3qAmrzLA==
-Message-ID: <7dea9abf-4ab4-55ec-5a00-829840b221c2@kernel.org>
-Date:   Fri, 28 Jul 2023 10:18:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/2] media: dt-bindings: imx519: Add IMX519 DT bindings
-Content-Language: en-US
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Lee Jackson <lee.jackson@arducam.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fri, 28 Jul 2023 04:19:33 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3CA21FC8
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 01:19:30 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1b8b4748fe4so12331285ad.1
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 01:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690532370; x=1691137170;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UTRAUA86DMwPcFqB4EOMcdl/jIuL//Bqgq4yKPwIOVA=;
+        b=k51hjEtGq4Fu6nizolQujtF+RcNWSH3hDh30DbXTZr3CONr1XcJgHrfTWZQxG+I4Vx
+         dACH4eQ9/L/+n4uKtvjbCryuyWZIgZooK5GVYvFJzKxhkoV5oASbxDVkGTwVozSidDzr
+         o4VerURU8BXe5Dw/rZMZfOo2q7kMRjr5oPHdk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690532370; x=1691137170;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UTRAUA86DMwPcFqB4EOMcdl/jIuL//Bqgq4yKPwIOVA=;
+        b=VbnwagzdpUavlHgHv3YcNHjiltzTwsU6vU0i53fe6nsIoVcDHQYGCzP2+w/Kjk9eI/
+         OMHH6Do11myaOBfGnOuGp00Efgmq2/fA/Vi7jKJFC9/rqOVssHZBv1ZVQYkfpVQW9mQ0
+         A5Smm8vRdH7PibD8uQkEo244mDfUsCQn+Ye20lXbNTvFCCQICzGZwg1yED3Jhb1QD81G
+         CThVEN2r9rIqNlVQRERYpgnT4zGjcxfuMREuBzjZsnJ42WUgYyj8gT5f89PPTTTLJgKd
+         z1pCMH00sU/55dZO5FSyQSjtmdizm7SvyhQsynODaRH0ZAC304rgY4mLmxN914KAhfXH
+         w27g==
+X-Gm-Message-State: ABy/qLYPKopF/y5T1LALo4CAIGU2zJVApMJcYdlxkUtqQV8PV1Yl3dh2
+        IRR/WIaCxfGxpKz0sn+5AMjwEg==
+X-Google-Smtp-Source: APBJJlHOywpeSc5O//hdAtSg0dDFk7vLQt3ARelT1cXOcfrU2Xqgy9cN/mspvkUKAPb+7fidjukodg==
+X-Received: by 2002:a17:902:b603:b0:1b8:89fd:6213 with SMTP id b3-20020a170902b60300b001b889fd6213mr601150pls.35.1690532370124;
+        Fri, 28 Jul 2023 01:19:30 -0700 (PDT)
+Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
+        by smtp.gmail.com with ESMTPSA id u9-20020a17090341c900b001bbb25dd3a7sm2967182ple.187.2023.07.28.01.19.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 01:19:29 -0700 (PDT)
+Date:   Fri, 28 Jul 2023 08:19:26 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Christoph Hellwig <hch@lst.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        kieran.bingham@ideasonboard.com,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        jacopo.mondi@ideasonboard.com
-References: <20230727154108.308320-1-umang.jain@ideasonboard.com>
- <20230727154108.308320-2-umang.jain@ideasonboard.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20230727154108.308320-2-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 8/8] videobuf2: handle non-contiguous DMA allocations
+Message-ID: <20230728081926.q5xbacjq5ahqy4da@chromium.org>
+References: <20210302004624.31294-1-senozhatsky@chromium.org>
+ <20210302004624.31294-9-senozhatsky@chromium.org>
+ <08fa86bf-b4bf-408a-89f6-a0ebc222b253@synaptics.com>
+ <CAAFQd5AW8ue4haSn9=yi7gSA6bw2pUtPFVSLpkZXrRu1HFZwsA@mail.gmail.com>
+ <91c7e958-4f58-7f8c-d413-158d691809dc@synaptics.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <91c7e958-4f58-7f8c-d413-158d691809dc@synaptics.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/07/2023 17:41, Umang Jain wrote:
-> From: Lee Jackson <lee.jackson@arducam.com>
+On Mon, Jul 17, 2023 at 05:21:23PM +0800, Hsia-Jun Li wrote:
 > 
-> Add YAML device tree binding documentation for IMX519 CMOS
-> image sensor.
+> On 7/5/23 18:45, Tomasz Figa wrote:
+> > CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
+> > 
+> > 
+> > On Tue, Jul 4, 2023 at 7:51 PM Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
+> > > Hello Sergey
+> > > 
+> > > I known this patch have been merged for a long time. I am thinking
+> > > whether we need this flag in the new v4l2_ext_buffer.
+> > > 
+> > > On 3/2/21 08:46, Sergey Senozhatsky wrote:
+> > > > This adds support for new noncontiguous DMA API, which
+> > > > requires allocators to have two execution branches: one
+> > > > for the current API, and one for the new one.
+> > > There is no way we could allocate a coherent buffer in the platform
+> > > except the x86.
+> > > 
+> > The flag is for requesting the kernel to try allocating *non*-coherent
+> > buffers if possible. If the flag is not given, it's up to the kernel
+> > to choose the right mapping type, which for vb2-dma-contig is
+> > coherent. For compatibility reasons, we need the user space to pass
+> > the flag to change the allocation behavior to avoid UAPI breakages.
+> > 
+> > I don't get what you mean that there is no way to allocate a coherent
+> > buffer on a platform other than x86.
+> 
+> I wonder the case for the x86 platform, does that means we don't need to do
+> dma_sync_*() neither DMA_TO_DEVICE  nor DMA_FROM_DEVICE.
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC (and consider --no-git-fallback argument). It might
-happen, that command when run on an older kernel, gives you outdated
-entries. Therefore please be sure you base your patches on recent Linux
-kernel.
+It's only guaranteed if you allocate the memory using
+dma_alloc_coherent() and friends, regardless of the architecture.
+
+For memory that is not allocated from the coherent memory allocator,
+there is never a guarantee that it would be coherent, so the drivers
+need to always call dma_sync_*(). It's just that on x86, for 99% of the
+cases, the corresponding implementation of the sync ops would be no-op.
 
 > 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../bindings/media/i2c/sony,imx519.yaml       | 113 ++++++++++++++++++
-
-A nit, subject: drop second/last, redundant "DT bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-
->  1 file changed, 113 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+> When a remote device likes a PCIe peer write to the system memory, the CPU's
+> memory controller could be aware of that and invalidate the CPU's cache?
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
-> new file mode 100644
-> index 000000000000..6f38b09890d2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
-> @@ -0,0 +1,113 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/imx519.yaml#
 
-Please test.
+The details are specific to the CPU implementation, but yes, the CPU
+cache would reflect the data as it would be written by the DMA peer.
 
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony 1/2.5-Inch 16Mpixel CMOS Digital Image Sensor
-> +
-> +maintainers:
-> +  - Lee Jackson <lee.jackson@arducam.com>
-> +
-> +description: |-
-> +  The Sony IMX519 is a 1/2.5-inch CMOS active pixel digital image sensor
-> +  with an active array size of 4656H x 3496V. It is programmable through
-> +  I2C interface. The I2C address is fixed to 0x1A as per sensor data sheet.
-> +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
-> +  4 data lanes.
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx519
-> +
-> +  reg:
-> +    description: I2C device address
+> >   Most of the platforms implement
+> > dma_alloc_coherent() by remapping the allocated memory in
+> > uncached/write-combine mode. x86 is an exception because it usually
+> > has the DMAs coherent with the CPU caches and no special handling is
+> > necessary, so dma_alloc_coherent() is just a simple pass-through
+> > allocator.
+> > 
+> > > Should we make this flag a platform compiling time fixed value?
+> > This is not a platform-specific flag. There are use cases which
+> > perform better with coherent buffers (i.e. when there is no CPU access
+> > happening to the buffers or just a linear memcpy)
+> 
+> I wonder how to implement the coherent memory in the platform likes ARMv7 or
+> later. Disable the CPU cache for those pages?
+> 
 
-Drop description, it's obvious.
+Yes, that's exactly how dma_alloc_coherent() does it. It re-maps the
+memory as write-combine.
 
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  VDIG-supply:
+> > and some perform
+> > better when the mapping is non-coherent (i.e. non-linear access from
+> > the CPU, e.g. a software video encoder).
+> 
+> One problem from migration from ION to DMA-heap is that we don't have a flag
+> for allocating non CPU cache buffer(coherent),
+> 
+> I was thinking, marking all the buffer in ARM to be non coherent, it sounds
+> a bad idea now.
+> 
+> Maybe I should send a patch to userspace utils, which let them allocate the
+> non coherent buffer first if no mmap() would be invoked.
+> 
 
-lowercase
-
-> +    description:
-> +      Digital I/O voltage supply, 1.05 volts
-> +
-> +  VANA-supply:
-
-lowercase
-
-> +    description:
-> +      Analog voltage supply, 2.8 volts
-> +
-> +  VDDL-supply:
-
-lowercase
-
-> +    description:
-> +      Digital core voltage supply, 1.8 volts
-> +
-> +  reset-gpios:
-> +    description: |-
-> +      Reference to the GPIO connected to the xclr pin, if any.
-> +      Must be released (set high) after all supplies and INCK are applied.
-> +
-> +  # See ../video-interfaces.txt for more details
-> +  port:
-
-That's not how this is done. Open existing bindings, e.g. imx219, 258 or
-any other and look. Please, do not write patches entirely different than
-all other drivers/bindings. There is a reason why some things work but
-other don't
-
-> +    type: object
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        properties:
-> +          data-lanes:
-> +            description: |-
-> +              The sensor supports either two-lane, or four-lane operation.
-> +              For two-lane operation the property must be set to <1 2>.
-> +            items:
-> +              - const: 1
-> +              - const: 2
-> +
-> +          clock-noncontinuous:
-> +            type: boolean
-> +            description: |-
-> +              MIPI CSI-2 clock is non-continuous if this property is present,
-> +              otherwise it's continuous.
-> +
-> +          link-frequencies:
-> +            allOf:
-> +              - $ref: /schemas/types.yaml#/definitions/uint64-array
-> +            description:
-> +              Allowed data bus frequencies.
-> +
-> +        required:
-> +          - link-frequencies
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - VANA-supply
-> +  - VDIG-supply
-> +  - VDDL-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c0 {
-
-i2c
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        imx519: sensor@1a {
-
-drop the label imx519.
+I have to admit that I'm not really familiar with the DMA-buf heap
+UAPIs, but I think we could add some allocation flag that would be a
+hint from the userspace that the buffer doesn't have to be coherent.
+(Which is exactly what we did for V4L2 MMAP buffers.)
 
 Best regards,
-Krzysztof
+Tomasz
 
+> > 
+> > > And I didn't see Gstreamer nor FFmpeg uses it, it is obvious that they
+> > > are running in many(almost all) embedded devices which are ARM.
+> > > 
+> > It's likely that those generic frameworks don't have any specific
+> > advanced use cases which would benefit from the performance gains of
+> > this flag. FWIW, ChromeOS uses it in the camera and video stack
+> > whenever complex CPU access to the buffers is needed.
+> > 
+> > Best regards,
+> > Tomasz
+> > 
+> > > > Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> > > > [hch: untested conversion to the ne API]
+> > > > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > > > ---
+> > > >    .../common/videobuf2/videobuf2-dma-contig.c   | 141 +++++++++++++++---
+> > > >    1 file changed, 117 insertions(+), 24 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> > > > index 1e218bc440c6..d6a9f7b682f3 100644
+> > > > --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> > > > +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> > > > @@ -17,6 +17,7 @@
+> > > >    #include <linux/sched.h>
+> > > >    #include <linux/slab.h>
+> > > >    #include <linux/dma-mapping.h>
+> > > > +#include <linux/highmem.h>
+> > > > 
+> > > >    #include <media/videobuf2-v4l2.h>
+> > > >    #include <media/videobuf2-dma-contig.h>
+> > > > @@ -42,8 +43,14 @@ struct vb2_dc_buf {
+> > > >        struct dma_buf_attachment       *db_attach;
+> > > > 
+> > > >        struct vb2_buffer               *vb;
+> > > > +     unsigned int                    non_coherent_mem:1;
+> > > >    };
+> > > > 
+> > > > +static bool vb2_dc_is_coherent(struct vb2_dc_buf *buf)
+> > > > +{
+> > > > +     return !buf->non_coherent_mem;
+> > > > +}
+> > > > +
+> > > >    /*********************************************/
+> > > >    /*        scatterlist table functions        */
+> > > >    /*********************************************/
+> > > > @@ -78,12 +85,21 @@ static void *vb2_dc_cookie(struct vb2_buffer *vb, void *buf_priv)
+> > > >    static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
+> > > >    {
+> > > >        struct vb2_dc_buf *buf = buf_priv;
+> > > > -     struct dma_buf_map map;
+> > > > -     int ret;
+> > > > 
+> > > > -     if (!buf->vaddr && buf->db_attach) {
+> > > > -             ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
+> > > > -             buf->vaddr = ret ? NULL : map.vaddr;
+> > > > +     if (buf->vaddr)
+> > > > +             return buf->vaddr;
+> > > > +
+> > > > +     if (buf->db_attach) {
+> > > > +             struct dma_buf_map map;
+> > > > +
+> > > > +             if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
+> > > > +                     buf->vaddr = map.vaddr;
+> > > > +     }
+> > > > +
+> > > > +     if (!vb2_dc_is_coherent(buf)) {
+> > > > +             buf->vaddr = dma_vmap_noncontiguous(buf->dev,
+> > > > +                                                 buf->size,
+> > > > +                                                 buf->dma_sgt);
+> > > >        }
+> > > > 
+> > > >        return buf->vaddr;
+> > > > @@ -101,13 +117,26 @@ static void vb2_dc_prepare(void *buf_priv)
+> > > >        struct vb2_dc_buf *buf = buf_priv;
+> > > >        struct sg_table *sgt = buf->dma_sgt;
+> > > > 
+> > > > +     /* This takes care of DMABUF and user-enforced cache sync hint */
+> > > >        if (buf->vb->skip_cache_sync_on_prepare)
+> > > >                return;
+> > > > 
+> > > > +     /*
+> > > > +      * Coherent MMAP buffers do not need to be synced, unlike coherent
+> > > > +      * USERPTR and non-coherent MMAP buffers.
+> > > > +      */
+> > > > +     if (buf->vb->memory == V4L2_MEMORY_MMAP && vb2_dc_is_coherent(buf))
+> > > > +             return;
+> > > > +
+> > > >        if (!sgt)
+> > > >                return;
+> > > > 
+> > > > +     /* For both USERPTR and non-coherent MMAP */
+> > > >        dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+> > > > +
+> > > > +     /* Non-coherrent MMAP only */
+> > > > +     if (!vb2_dc_is_coherent(buf) && buf->vaddr)
+> > > > +             flush_kernel_vmap_range(buf->vaddr, buf->size);
+> > > >    }
+> > > > 
+> > > >    static void vb2_dc_finish(void *buf_priv)
+> > > > @@ -115,19 +144,46 @@ static void vb2_dc_finish(void *buf_priv)
+> > > >        struct vb2_dc_buf *buf = buf_priv;
+> > > >        struct sg_table *sgt = buf->dma_sgt;
+> > > > 
+> > > > +     /* This takes care of DMABUF and user-enforced cache sync hint */
+> > > >        if (buf->vb->skip_cache_sync_on_finish)
+> > > >                return;
+> > > > 
+> > > > +     /*
+> > > > +      * Coherent MMAP buffers do not need to be synced, unlike coherent
+> > > > +      * USERPTR and non-coherent MMAP buffers.
+> > > > +      */
+> > > > +     if (buf->vb->memory == V4L2_MEMORY_MMAP && vb2_dc_is_coherent(buf))
+> > > > +             return;
+> > > > +
+> > > >        if (!sgt)
+> > > >                return;
+> > > > 
+> > > > +     /* For both USERPTR and non-coherent MMAP */
+> > > >        dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+> > > > +
+> > > > +     /* Non-coherrent MMAP only */
+> > > > +     if (!vb2_dc_is_coherent(buf) && buf->vaddr)
+> > > > +             invalidate_kernel_vmap_range(buf->vaddr, buf->size);
+> > > >    }
+> > > > 
+> > > >    /*********************************************/
+> > > >    /*        callbacks for MMAP buffers         */
+> > > >    /*********************************************/
+> > > > 
+> > > > +static void __vb2_dc_put(struct vb2_dc_buf *buf)
+> > > > +{
+> > > > +     if (vb2_dc_is_coherent(buf)) {
+> > > > +             dma_free_attrs(buf->dev, buf->size, buf->cookie,
+> > > > +                            buf->dma_addr, buf->attrs);
+> > > > +             return;
+> > > > +     }
+> > > > +
+> > > > +     if (buf->vaddr)
+> > > > +             dma_vunmap_noncontiguous(buf->dev, buf->vaddr);
+> > > > +     dma_free_noncontiguous(buf->dev, buf->size,
+> > > > +                            buf->dma_sgt, buf->dma_addr);
+> > > > +}
+> > > > +
+> > > >    static void vb2_dc_put(void *buf_priv)
+> > > >    {
+> > > >        struct vb2_dc_buf *buf = buf_priv;
+> > > > @@ -139,17 +195,47 @@ static void vb2_dc_put(void *buf_priv)
+> > > >                sg_free_table(buf->sgt_base);
+> > > >                kfree(buf->sgt_base);
+> > > >        }
+> > > > -     dma_free_attrs(buf->dev, buf->size, buf->cookie, buf->dma_addr,
+> > > > -                    buf->attrs);
+> > > > +     __vb2_dc_put(buf);
+> > > >        put_device(buf->dev);
+> > > >        kfree(buf);
+> > > >    }
+> > > > 
+> > > > +static int vb2_dc_alloc_coherent(struct vb2_dc_buf *buf)
+> > > > +{
+> > > > +     struct vb2_queue *q = buf->vb->vb2_queue;
+> > > > +
+> > > > +     buf->cookie = dma_alloc_attrs(buf->dev,
+> > > > +                                   buf->size,
+> > > > +                                   &buf->dma_addr,
+> > > > +                                   GFP_KERNEL | q->gfp_flags,
+> > > > +                                   buf->attrs);
+> > > > +     if (!buf->cookie)
+> > > > +             return -ENOMEM;
+> > > > +     if ((q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
+> > > > +             buf->vaddr = buf->cookie;
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static int vb2_dc_alloc_non_coherent(struct vb2_dc_buf *buf)
+> > > > +{
+> > > > +     struct vb2_queue *q = buf->vb->vb2_queue;
+> > > > +
+> > > > +     buf->dma_sgt = dma_alloc_noncontiguous(buf->dev,
+> > > > +                                            buf->size,
+> > > > +                                            buf->dma_dir,
+> > > > +                                            GFP_KERNEL | q->gfp_flags,
+> > > > +                                            buf->attrs);
+> > > > +     if (!buf->dma_sgt)
+> > > > +             return -ENOMEM;
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > >    static void *vb2_dc_alloc(struct vb2_buffer *vb,
+> > > >                          struct device *dev,
+> > > >                          unsigned long size)
+> > > >    {
+> > > >        struct vb2_dc_buf *buf;
+> > > > +     int ret;
+> > > > 
+> > > >        if (WARN_ON(!dev))
+> > > >                return ERR_PTR(-EINVAL);
+> > > > @@ -159,27 +245,28 @@ static void *vb2_dc_alloc(struct vb2_buffer *vb,
+> > > >                return ERR_PTR(-ENOMEM);
+> > > > 
+> > > >        buf->attrs = vb->vb2_queue->dma_attrs;
+> > > > -     buf->cookie = dma_alloc_attrs(dev, size, &buf->dma_addr,
+> > > > -                                   GFP_KERNEL | vb->vb2_queue->gfp_flags,
+> > > > -                                   buf->attrs);
+> > > > -     if (!buf->cookie) {
+> > > > -             dev_err(dev, "dma_alloc_coherent of size %ld failed\n", size);
+> > > > -             kfree(buf);
+> > > > -             return ERR_PTR(-ENOMEM);
+> > > > -     }
+> > > > -
+> > > > -     if ((buf->attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
+> > > > -             buf->vaddr = buf->cookie;
+> > > > +     buf->dma_dir = vb->vb2_queue->dma_dir;
+> > > > +     buf->vb = vb;
+> > > > +     buf->non_coherent_mem = vb->vb2_queue->non_coherent_mem;
+> > > > 
+> > > > +     buf->size = size;
+> > > >        /* Prevent the device from being released while the buffer is used */
+> > > >        buf->dev = get_device(dev);
+> > > > -     buf->size = size;
+> > > > -     buf->dma_dir = vb->vb2_queue->dma_dir;
+> > > > +
+> > > > +     if (vb2_dc_is_coherent(buf))
+> > > > +             ret = vb2_dc_alloc_coherent(buf);
+> > > > +     else
+> > > > +             ret = vb2_dc_alloc_non_coherent(buf);
+> > > > +
+> > > > +     if (ret) {
+> > > > +             dev_err(dev, "dma alloc of size %ld failed\n", size);
+> > > > +             kfree(buf);
+> > > > +             return ERR_PTR(-ENOMEM);
+> > > > +     }
+> > > > 
+> > > >        buf->handler.refcount = &buf->refcount;
+> > > >        buf->handler.put = vb2_dc_put;
+> > > >        buf->handler.arg = buf;
+> > > > -     buf->vb = vb;
+> > > > 
+> > > >        refcount_set(&buf->refcount, 1);
+> > > > 
+> > > > @@ -196,9 +283,12 @@ static int vb2_dc_mmap(void *buf_priv, struct vm_area_struct *vma)
+> > > >                return -EINVAL;
+> > > >        }
+> > > > 
+> > > > -     ret = dma_mmap_attrs(buf->dev, vma, buf->cookie,
+> > > > -             buf->dma_addr, buf->size, buf->attrs);
+> > > > -
+> > > > +     if (vb2_dc_is_coherent(buf))
+> > > > +             ret = dma_mmap_attrs(buf->dev, vma, buf->cookie, buf->dma_addr,
+> > > > +                                  buf->size, buf->attrs);
+> > > > +     else
+> > > > +             ret = dma_mmap_noncontiguous(buf->dev, vma, buf->size,
+> > > > +                                          buf->dma_sgt);
+> > > >        if (ret) {
+> > > >                pr_err("Remapping memory failed, error: %d\n", ret);
+> > > >                return ret;
+> > > > @@ -390,6 +480,9 @@ static struct sg_table *vb2_dc_get_base_sgt(struct vb2_dc_buf *buf)
+> > > >        int ret;
+> > > >        struct sg_table *sgt;
+> > > > 
+> > > > +     if (!vb2_dc_is_coherent(buf))
+> > > > +             return buf->dma_sgt;
+> > > > +
+> > > >        sgt = kmalloc(sizeof(*sgt), GFP_KERNEL);
+> > > >        if (!sgt) {
+> > > >                dev_err(buf->dev, "failed to alloc sg table\n");
+> > > --
+> > > Hsia-Jun(Randy) Li
+> > > 
+> -- 
+> Hsia-Jun(Randy) Li
+> 
