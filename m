@@ -2,198 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D523F766FA2
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 16:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D35A8767075
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 17:25:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237172AbjG1Ok6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 10:40:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
+        id S236948AbjG1PZF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 11:25:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237173AbjG1Ok5 (ORCPT
+        with ESMTP id S236886AbjG1PZE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 10:40:57 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8087C3C2A
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:40:55 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-d18566dc0c1so2073336276.0
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 07:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690555254; x=1691160054;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sERIbIsoa27U7tLUKzRHxHjjan6MTrTpQeERoAPEVqw=;
-        b=ii8/gXRyTwbuFGCUlX210GU0DE8pNLjcjn3vjwPaFv9KdrBca8eikdAmXuN+GY0jc9
-         QPBV4slFT2RcfRIwhALDMSqVbYE92SF6Q6MUExW3Dq7JmLMesRqZZP1AeZ5yI/6HBIQn
-         +ww//XKWiEL/ZtJGDG3Xbt8+DVu5l03INnKV0kykLt1H7AON7GSsqnRDUqU0TBDDCTFQ
-         8nlCxfMdDkmCvrOn1T6wUCoTOSRVYGxYdTbPJjX1NETQTTdY61+QF0eTOa+cay7WwXSa
-         ja/+PnAHGWb1n4SehoMjvnT3wrKk/GZfSs6jfXQFfjX4Wk6awwr5kEoe+PDI9uv9BHUx
-         X0lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690555254; x=1691160054;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sERIbIsoa27U7tLUKzRHxHjjan6MTrTpQeERoAPEVqw=;
-        b=B77FWDrlhWxrTYtykF/k/Zb0DqYOfoknmpXCmIkyhuZI5OxeL3NyxaCBcj3q5/j+TR
-         3rGWbAlbWmARHQbZH02J1tAFcAOgXHgNWmdSTdvUb6NNiByJc0pY8ywKM9xJ/huf1Qqd
-         aPhvajTAJyui3ZLxMi8mYT7JSXaMTgeNUsloYRgkeWzNCMJVljOL4n+6GqA/HxPFURVK
-         26jya5KrTeJKxwgv1KrbKZ/8hfxoGxX0O6g4GoCGbsMl0aVUfMMQdJA8FBMzRd61yWIF
-         MbLRX19aO0Lte/Plel6Hr9V5YQyts3in26q1u021EnETyX1CD2rH340t4g2TkVBqk8J/
-         bqog==
-X-Gm-Message-State: ABy/qLawaD6nVxylsM3EKTuqZsxC1hwY2jqOkfNywJ9qYUfMc7+OSm19
-        wzrkYMtkgckUHNhyS+EaoGGSWxK0qqIb3SMnkr8ePw==
-X-Google-Smtp-Source: APBJJlFlCqhvIbqLQ8v5jXOX7eba+Y3bAB4ZHk7FZyJJxQQ+oWIHj2gevaS3HagVnPpyZL9SH3T55xc+twhIh8HL0sA=
-X-Received: by 2002:a25:455:0:b0:cad:347e:2c8f with SMTP id
- 82-20020a250455000000b00cad347e2c8fmr1922407ybe.39.1690555254663; Fri, 28 Jul
- 2023 07:40:54 -0700 (PDT)
+        Fri, 28 Jul 2023 11:25:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998FF3580;
+        Fri, 28 Jul 2023 08:25:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 37C9062180;
+        Fri, 28 Jul 2023 15:25:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3476CC433C7;
+        Fri, 28 Jul 2023 15:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690557902;
+        bh=xF0X+qCCgDU+aCVXnCNOAuCkm3qHaATyuGP2PvOLG9U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=m+2cgoUp+iR8NzknvyxQ5SoIRUemstGpTeSNqztN3Z8xZbGvw6DTHKdRrjl5kPUYD
+         rRKjMhUz7bIm4bnxk7oTgc13T2hnvqI2cef3AaWJ9lh+hO0Sr19FRCo2JneIFq5QZ7
+         aY+9YKQN3iPZlvGuiOOa4j1YaUDsBs206K9GTR9KmT58U2xwAMwnQBqlK2jyQ25Jk+
+         GPal1r2/A+ue9m9LTeDQm/01wgtSIUp3LayAgIpdHaqxNuZQPDSJelxy8Bl2vNzI1P
+         aAT62Wc4lZSFza4mLhaecD1KvLl+EmIRx2SVqwwS73bLs9hb4eUjwiMid3YPfnsNVJ
+         wLzBv4Upyfncg==
+Date:   Fri, 28 Jul 2023 16:24:55 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>, hverkuil@xs4all.nl,
+        sakari.ailus@iki.fi, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+        nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+        tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [RFC PATCH v2 4/7] media: v4l2: Add audio capture and output
+ support
+Message-ID: <f28f7fa5-b557-4575-9cf0-e5cfb8187bc1@sirena.org.uk>
+References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
+ <1690265540-25999-5-git-send-email-shengjiu.wang@nxp.com>
+ <20230728075933.pdepqspznenazs5f@chromium.org>
 MIME-Version: 1.0
-References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com> <1690550624-14642-34-git-send-email-quic_vgarodia@quicinc.com>
-In-Reply-To: <1690550624-14642-34-git-send-email-quic_vgarodia@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Fri, 28 Jul 2023 17:40:43 +0300
-Message-ID: <CAA8EJpoDrhBtU=xyFEeuUwWnpvG8mjGQRY_T0jZ-9UmvmSZH+A@mail.gmail.com>
-Subject: Re: [PATCH 33/33] iris: enable building of iris video driver
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc:     stanimir.k.varbanov@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        quic_dikshita@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="n2yYRXOnFZknHRi3"
+Content-Disposition: inline
+In-Reply-To: <20230728075933.pdepqspznenazs5f@chromium.org>
+X-Cookie: Ontogeny recapitulates phylogeny.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 28 Jul 2023 at 17:28, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
->
-> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
->
-> This adds iris driver Makefile and Kconfig, also changes
-> v4l2 platform/qcom Makefile/Kconfig in order to
-> enable compilation of the driver.
->
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  drivers/media/platform/qcom/Kconfig       |  1 +
->  drivers/media/platform/qcom/Makefile      |  1 +
->  drivers/media/platform/qcom/iris/Kconfig  | 15 ++++++++++
->  drivers/media/platform/qcom/iris/Makefile | 46 +++++++++++++++++++++++++++++++
->  4 files changed, 63 insertions(+)
->  create mode 100644 drivers/media/platform/qcom/iris/Kconfig
->  create mode 100644 drivers/media/platform/qcom/iris/Makefile
->
-> diff --git a/drivers/media/platform/qcom/Kconfig b/drivers/media/platform/qcom/Kconfig
-> index cc5799b..b86bebd 100644
-> --- a/drivers/media/platform/qcom/Kconfig
-> +++ b/drivers/media/platform/qcom/Kconfig
-> @@ -4,3 +4,4 @@ comment "Qualcomm media platform drivers"
->
->  source "drivers/media/platform/qcom/camss/Kconfig"
->  source "drivers/media/platform/qcom/venus/Kconfig"
-> +source "drivers/media/platform/qcom/iris/Kconfig"
-> diff --git a/drivers/media/platform/qcom/Makefile b/drivers/media/platform/qcom/Makefile
-> index 4f055c3..83eea29 100644
-> --- a/drivers/media/platform/qcom/Makefile
-> +++ b/drivers/media/platform/qcom/Makefile
-> @@ -1,3 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  obj-y += camss/
->  obj-y += venus/
-> +obj-y += iris/
-> diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
-> new file mode 100644
-> index 0000000..d434c31
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/iris/Kconfig
-> @@ -0,0 +1,15 @@
-> +config VIDEO_QCOM_IRIS
-> +       tristate "Qualcomm Iris V4L2 encoder/decoder driver"
-> +       depends on V4L_MEM2MEM_DRIVERS
-> +       depends on VIDEO_DEV && QCOM_SMEM
-> +       depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
-> +       select QCOM_MDT_LOADER if ARCH_QCOM
-> +       select QCOM_SCM
-> +       select VIDEOBUF2_DMA_CONTIG
-> +       select V4L2_MEM2MEM_DEV
-> +       select DMABUF_HEAPS
-> +       help
-> +         This is a V4L2 driver for Qualcomm Iris video accelerator
-> +         hardware. It accelerates encoding and decoding operations
-> +         on various Qualcomm SoCs.
-> +         To compile this driver as a module choose m here.
-> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
-> new file mode 100644
-> index 0000000..e681c4f
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/iris/Makefile
-> @@ -0,0 +1,46 @@
-> +KBUILD_OPTIONS+= VIDEO_ROOT=$(KERNEL_SRC)/$(M)
-> +
-> +VIDEO_COMPILE_TIME = $(shell date)
-> +VIDEO_COMPILE_BY = $(shell whoami | sed 's/\\/\\\\/')
-> +VIDEO_COMPILE_HOST = $(shell uname -n)
-> +VIDEO_GEN_PATH = $(srctree)/$(src)/vidc/inc/video_generated_h
-> +
-> +$(shell echo '#define VIDEO_COMPILE_TIME "$(VIDEO_COMPILE_TIME)"' > $(VIDEO_GEN_PATH))
-> +$(shell echo '#define VIDEO_COMPILE_BY "$(VIDEO_COMPILE_BY)"' >> $(VIDEO_GEN_PATH))
-> +$(shell echo '#define VIDEO_COMPILE_HOST "$(VIDEO_COMPILE_HOST)"' >> $(VIDEO_GEN_PATH))
 
-Why do you need this at all?
+--n2yYRXOnFZknHRi3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +
-> +iris-objs += vidc/src/msm_vidc_v4l2.o \
-> +                  vidc/src/msm_vidc_vb2.o \
-> +                  vidc/src/msm_vidc.o \
-> +                  vidc/src/msm_vdec.o \
-> +                  vidc/src/msm_venc.o \
-> +                  vidc/src/msm_vidc_driver.o \
-> +                  vidc/src/msm_vidc_control.o \
-> +                  vidc/src/msm_vidc_buffer.o \
-> +                  vidc/src/msm_vidc_power.o \
-> +                  vidc/src/msm_vidc_probe.o \
-> +                  vidc/src/resources.o \
-> +                  vidc/src/firmware.o \
-> +                  vidc/src/msm_vidc_debug.o \
-> +                  vidc/src/msm_vidc_memory.o \
-> +                  vidc/src/venus_hfi.o \
-> +                  vidc/src/venus_hfi_queue.o \
-> +                  vidc/src/hfi_packet.o \
-> +                  vidc/src/venus_hfi_response.o \
-> +                  vidc/src/msm_vidc_state.o \
-> +                  platform/common/src/msm_vidc_platform.o \
-> +                  platform/sm8550/src/msm_vidc_sm8550.o \
-> +                  variant/common/src/msm_vidc_variant.o \
-> +                  variant/iris3/src/msm_vidc_buffer_iris3.o \
-> +                  variant/iris3/src/msm_vidc_iris3.o \
-> +                  variant/iris3/src/msm_vidc_power_iris3.o \
-> +                  variant/iris3/src/msm_vidc_bus_iris3.o \
-> +                  variant/iris3/src/msm_vidc_clock_iris3.o
-> +
-> +obj-$(CONFIG_VIDEO_QCOM_IRIS) += iris.o
-> +
-> +ccflags-y += -I$(srctree)/$(src)/vidc/inc
-> +ccflags-y += -I$(srctree)/$(src)/platform/common/inc
-> +ccflags-y += -I$(srctree)/$(src)/platform/sm8550/inc
-> +ccflags-y += -I$(srctree)/$(src)/variant/common/inc
-> +ccflags-y += -I$(srctree)/$(src)/variant/iris3/inc
+On Fri, Jul 28, 2023 at 07:59:33AM +0000, Tomasz Figa wrote:
+> On Tue, Jul 25, 2023 at 02:12:17PM +0800, Shengjiu Wang wrote:
 
-For me this is a sign of the bad structure of the include files.
-Please define proper interfaces between submodules. The parts of the
-driver usually should include files from the top-level dir only (and
-from the local subdirectory of course).
+> > +	case VFL_TYPE_AUDIO:
+> > +		name_base = "audio";
 
-> --
-> 2.7.4
->
+> I think it was mentioned before that "audio" could be confusing. Wasn't
+> there actually some other kind of /dev/audio device long ago?
 
+OSS used /dev/audio.
 
--- 
-With best wishes
-Dmitry
+--n2yYRXOnFZknHRi3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTD3cYACgkQJNaLcl1U
+h9AyAAf/QDvn8GIQGSGSQC1iB0Evn5vRrpuFbeQwz9agsf2Q7hgTr3lRxGTIPRiN
+l2YvkGHBzxVr+euWBjEZHcrlZczWEPpenxQByp7MvurwwQOFpUz+7DFM2CEPQYRe
+HyTiJk7O1W6C/CVLUV74RqG0RmkWcIqJ3DySUZ1TbckRp/1mQb+v8UZeRfU7SkDz
+rBJLMpNEzwcSXy4srbN/IB09tQltPa90V3YUMOUiqiP6K58ree66GvRp9la617UL
+qdJQdzH5qY0W74CqxxQAKMVdkNIl7aXg9p55VQmsghM70IxpvJXHW9E9tU/FwbQh
+iML5/Bu1FlifhcPBbQShVHsZn+Wp+Q==
+=UVLV
+-----END PGP SIGNATURE-----
+
+--n2yYRXOnFZknHRi3--
