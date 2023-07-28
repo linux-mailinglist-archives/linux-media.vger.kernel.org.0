@@ -2,68 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C620767324
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 19:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 343C376732B
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 19:23:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232367AbjG1RVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 13:21:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50338 "EHLO
+        id S229528AbjG1RXE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 13:23:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbjG1RVY (ORCPT
+        with ESMTP id S233199AbjG1RXA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 13:21:24 -0400
+        Fri, 28 Jul 2023 13:23:00 -0400
 Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78ED72D71
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:21:23 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b9aa1d3029so36034041fa.2
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:21:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57EF12688
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:22:58 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b9b50be31aso36392391fa.3
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 10:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690564881; x=1691169681;
+        d=linaro.org; s=google; t=1690564976; x=1691169776;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qotOmlrxVnsJ5FI1SleCu8gMwNulnTWErnY/f2pHsMA=;
-        b=BjpBLmM4hMtItbn7OxGcPOq5zApM7tVQvfXCN2TRPidWSHQfcPUiCF3rkOh8dkBkk1
-         jQb+py+PjwrDzEqs4dEOYSRGnQBsv5walFwr87tj3C37qvtLVrK6fvddGQWU84p/WUu5
-         TeTyzdeOiPctsU3TDmW1i0mIiaHT3MPgTEsGIYJM1++Cy9Rt1U5aGZ+CR9GyZGsXgK4x
-         A7YEw7bSZXJBZf+E0gUYjQ58EFrvAGV0onDLb1dKFoDbf9SWpsS0tZPFOXk61jzxRwzt
-         +HZ6RkaOhDPba5eUu3+IsUaq8r4XCjqEwBWY6fm31vL9Is5ajVdlsMiIvBnYkXtUsjj4
-         pF0w==
+        bh=IO0OFH0oUMMupA6OukcceVhS0L4SRH/Rh0UjiIiLnes=;
+        b=oKD5+5IAOmXR3esQou5EBar56x+DVKWDv6xGRkDAl2V2EuPrZJoP/aI+szj2K3RhhJ
+         FrD/A5qz80ZzcSN0tPI7C7UYdiONl1tjkKftTF2/B7MTALz5xqP4Qbd4shUBC1hyLDxA
+         InsvA2UB6h/m8RBDjYStLTY7RIQlCuvxphTBUMf82x3o2ulB6auyGKhzyN8VUaDJk+we
+         chBmEqtRWVtPIsko+dC/O92lGPVV94+UMYuRu1PxTFgw+Tl1bjkC2nE0/v3BnT23ZXtd
+         Uf+HUwGpJY1jU3bAU6LBpJ53GmOMgFoqlw5+WgfvP+bRfbZqRbUucSLuDi++ZMuufss6
+         NTIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690564881; x=1691169681;
+        d=1e100.net; s=20221208; t=1690564976; x=1691169776;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qotOmlrxVnsJ5FI1SleCu8gMwNulnTWErnY/f2pHsMA=;
-        b=Bu7zDB1OB3fKxv0sqyAbsjNXmSb6IQowJII2OPi9Nx77C2GW/Jlui445YDBVruomw7
-         qSfDl1WDTZIzjv2kEVD2dW4wlF+5G9awbPzKZ31+6h91mlQSC9OqymkMzAuUydi+6fly
-         lprsOt5aPVceDHGEfGyCcjaPP6ypt/o65yoOgl47smcZZpcXyk/l/7EGrC7fMZ0cmN2g
-         2Oklrfikqd1qy5ovhX6ca2mpH2ZV2cWYXdISTLIdMw5Lf3oLRI4p+zp4FxA2JZpA8EJq
-         8eZ2k70GX/kJWUyzZ4BAeNZey632ALFidSYwERb4XUQWdeSOrcHGsbLQIuodlCBAkEVy
-         S1gQ==
-X-Gm-Message-State: ABy/qLblKbZifhDhvJf9xJbd9JD520oA0+eMpNJWng/HaGg7MlSL7V4a
-        lHYSiZLcZ830GP1igvc3Q0cLvg==
-X-Google-Smtp-Source: APBJJlGEFkRTNrku26JAWEsMEiieT+YNxTTtzHe5wLs03E+D6SkT6/v0ZWykS6umqC1QGVi9UYDvuA==
-X-Received: by 2002:a2e:9b54:0:b0:2b6:e3d5:76a7 with SMTP id o20-20020a2e9b54000000b002b6e3d576a7mr2358259ljj.24.1690564881520;
-        Fri, 28 Jul 2023 10:21:21 -0700 (PDT)
+        bh=IO0OFH0oUMMupA6OukcceVhS0L4SRH/Rh0UjiIiLnes=;
+        b=kpMP4EQpgPYG3AVOu1fEzX2mrTReAUboai06M96FSPZCOpRjMnpeOc6HipqAP3n+NS
+         3/3Tfplf1SVNpA1CPKEbpJZE3DSo9ftmLE7OWli9uttec0Y2I3BvlVDRz9iwV/8LEPME
+         zZNGeqRE7+HZvRqJRCpVQCzLdV/cPnwRSWlbDUxws0B0nI0NR0M7JrBWIHf08LWRlhcd
+         AlUfa1LlLBjKSk2/eFw/us/QaE+rCACRatf2BKHdjwsvDJ8xfEXEgYfmP3XlaxAEpbit
+         JDHFj8UF7SHEZcG2ZNtZXTU9VDDvcliX5uokDYh+Jbr0iwuGXhQ/7QFFfgJnneowwxUU
+         Q31Q==
+X-Gm-Message-State: ABy/qLYKZRIUSnzuivJOXhUIZXOeS7LXDFl8Mjc34La1q2hZfLpuSzx5
+        gqCynReTB4t/2aJcFUwrhB0clQ==
+X-Google-Smtp-Source: APBJJlEdL3g1snaMud3XPIopmMyn6HUS3QtiMvOqCpEYQIzAuXD/ripiZDnhzAs2UyvLAr4klpNUNA==
+X-Received: by 2002:a2e:9356:0:b0:2b6:b98e:fe87 with SMTP id m22-20020a2e9356000000b002b6b98efe87mr2188280ljh.16.1690564976596;
+        Fri, 28 Jul 2023 10:22:56 -0700 (PDT)
 Received: from [192.168.1.101] (abyk53.neoplus.adsl.tpnet.pl. [83.9.30.53])
-        by smtp.gmail.com with ESMTPSA id x11-20020a2e9dcb000000b002b69f44646bsm1048747ljj.17.2023.07.28.10.21.20
+        by smtp.gmail.com with ESMTPSA id x11-20020a2e9dcb000000b002b69f44646bsm1048747ljj.17.2023.07.28.10.22.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 10:21:21 -0700 (PDT)
-Message-ID: <1dd53227-4c44-da6c-ab05-9cfaddf58dc1@linaro.org>
-Date:   Fri, 28 Jul 2023 19:21:19 +0200
+        Fri, 28 Jul 2023 10:22:56 -0700 (PDT)
+Message-ID: <9c6e098a-5d7f-4a1a-80d6-116a2c6b8867@linaro.org>
+Date:   Fri, 28 Jul 2023 19:22:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/33] iris: vidc: add video decoder files
+Subject: Re: [PATCH 11/33] iris: vidc: add helpers for memory management
 Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, agross@kernel.org,
+To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc:     stanimir.k.varbanov@gmail.com, agross@kernel.org,
         andersson@kernel.org, mchehab@kernel.org, hans.verkuil@cisco.com,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     quic_dikshita@quicinc.com
+        linux-arm-msm@vger.kernel.org, quic_dikshita@quicinc.com
 References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-9-git-send-email-quic_vgarodia@quicinc.com>
+ <1690550624-14642-12-git-send-email-quic_vgarodia@quicinc.com>
+ <20230728162817.GE1428172@hu-bjorande-lv.qualcomm.com>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -100,27 +101,42 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <1690550624-14642-9-git-send-email-quic_vgarodia@quicinc.com>
+In-Reply-To: <20230728162817.GE1428172@hu-bjorande-lv.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28.07.2023 15:23, Vikash Garodia wrote:
-> This implements decoder functionalities of the driver.
+On 28.07.2023 18:28, Bjorn Andersson wrote:
+> On Fri, Jul 28, 2023 at 06:53:22PM +0530, Vikash Garodia wrote:
+>> diff --git a/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_memory.c b/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_memory.c
+> [..]
+>> +static const struct msm_vidc_memory_ops msm_mem_ops = {
+>> +	.dma_buf_get                    = msm_vidc_dma_buf_get,
+>> +	.dma_buf_put                    = msm_vidc_dma_buf_put,
+>> +	.dma_buf_put_completely         = msm_vidc_dma_buf_put_completely,
+>> +	.dma_buf_attach                 = msm_vidc_dma_buf_attach,
+>> +	.dma_buf_detach                 = msm_vidc_dma_buf_detach,
+>> +	.dma_buf_map_attachment         = msm_vidc_dma_buf_map_attachment,
+>> +	.dma_buf_unmap_attachment       = msm_vidc_dma_buf_unmap_attachment,
+>> +	.memory_alloc_map               = msm_vidc_memory_alloc_map,
+>> +	.memory_unmap_free              = msm_vidc_memory_unmap_free,
+>> +	.buffer_region                  = msm_vidc_buffer_region,
 > 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
-I see a whole bunch of shifts, ANDs, etc.
-
-Please convert that to GENMASK + FIELD_PREP/FIELD_GET
+> Will there ever be more than one implementation of the
+> msm_vidc_memory_ops?
+> 
+> Unless there's a really strong reason, just call the functions directly
+> without the function pointers and call_mem_op(), this will be slightly
+> faster, but more importantly it allows for much faster navigation of the
+> code base.
+Same for HFI ops
 
 Konrad
