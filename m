@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92C19766EA4
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 15:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58A4B766EAB
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 15:47:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235910AbjG1NqF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 09:46:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56426 "EHLO
+        id S236104AbjG1NrI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 09:47:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231280AbjG1NqE (ORCPT
+        with ESMTP id S233918AbjG1NrG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 09:46:04 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FD4FFC
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:46:02 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-4fe04882c66so3756373e87.3
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:46:02 -0700 (PDT)
+        Fri, 28 Jul 2023 09:47:06 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A06481710
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:47:05 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-4fe1344b707so3738326e87.1
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 06:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690551960; x=1691156760;
+        d=linaro.org; s=google; t=1690552024; x=1691156824;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ThGiJ9q0mDo0GTrg1zftQdTtY6zqb1dmL8LzHXfFlSU=;
-        b=YXAy8Za7/A722nDmkAUJA4BA0LvDhPDa8+Bz0ma4mt9vmCQLTbs28GV8CbQf54CTT0
-         p8IRniT12dV8hJBA+vFW059vUiTa8Bm2VVM7Sd4EYTv8SPcMtgRM8fiNq+ThXHiE5vnq
-         zfDz0NKlDZfBheKeOF9eMQNNHmuCYBR7aR+vJQ0PgKWFl1vuXeHzYHV+iXjWQvS9tTnT
-         qEhSayQQ/qBYZTHSD+t6Ub/OyEJbVUzAM74L8nq2dGikUfaHOSW4suTcUZFuaJiPWDLU
-         H0c6V8TGYQd5BHF9JoZNQGOaX1Ssd9JARchDzJpXocQS4eoKZ+QgzRtWRL+EoyYon9c7
-         zBHw==
+        bh=8dCklzQySsgGrzbKRv6dYPHQ8ax4hciSo7gzwbtVmS4=;
+        b=Y2xGrmUH8ayVKeTux80wB9vfJRlwCMjYfVv6QI1UqF8M51dTQUHVFMkNPT5lee+k8l
+         Q3W+EY6xQ1S7mkoIXzuAZ3UFUdC/6qRZjXurqpuvVA4o+HYAruA5I6N0Ar+ieq9O87Gu
+         Mb4Dd1mBw7k4Fo3DnGQe+KzBD1NgsD5nVqf8AFlPNPLrJHNHp6mAD5eDxc8pXZnXSy5c
+         W3YZhyqXPMEEBqanXAZTHnBSfPc5K4gz9mN5YHAVvGefFylTHayC/6MQ8ggVuXA6glHs
+         84W6ZKLynijNjYKQjcn3VKnmaMs9/Ohi67vOa9oVgvhAWY2V3v0BZrZR/D06cFNk3jK5
+         KcBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690551960; x=1691156760;
+        d=1e100.net; s=20221208; t=1690552024; x=1691156824;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ThGiJ9q0mDo0GTrg1zftQdTtY6zqb1dmL8LzHXfFlSU=;
-        b=NXjOe+dNabYlVVQ9dfTsnxtWQXj3LbRzB4scYWBsntJpkU1jfoTSJOSwiqLDvgohmf
-         8Wb23m5IbXBzq9kvDiI69VyQqbby7e00vPl+pUiXy4EjELCwoDqei2EGmktSmhqU7W/7
-         5b5HI71XRjEqZy+fNDqZ6VqU5C0bEU9sh9cWP0P43vc5nqBqrbzWP0gA7doUrEsGqPKp
-         jl+nAfocK/gUXbvJLjEuBrF6vb9rNaGsDEdnHbDufvJxypu1DlQ5stbRUdSdwsAdOGUd
-         BK1Sm4uarYfS2z/3N+s59AA/wTEKdbYPxcytYLozvN6hf8wMp31WhHZgGpvBEpju60PF
-         yM4g==
-X-Gm-Message-State: ABy/qLYIdjGwhcGrX4Zy/5Uf3yidW3DanBeBV0DlQZfw09saQaPLLyHd
-        C3zidYm+iDsg04bDsCc9PaWsXQ==
-X-Google-Smtp-Source: APBJJlHQNcEWMdYfoSsrbEmpZZKua/0m+StkgNdyCDpxvjzKmY/KRyimB7s7ATxsqZj3ArjZ0UrLIA==
-X-Received: by 2002:a05:6512:39c5:b0:4fd:d481:ff35 with SMTP id k5-20020a05651239c500b004fdd481ff35mr2027950lfu.42.1690551960441;
-        Fri, 28 Jul 2023 06:46:00 -0700 (PDT)
+        bh=8dCklzQySsgGrzbKRv6dYPHQ8ax4hciSo7gzwbtVmS4=;
+        b=jo1xPgIxhvIwOInzPQq1vD28MZAeqiyJ+yDzuIhN0DC2CcYsOyXJ9HUlkjQ5TRuumK
+         nWSiAuM/QV1RxqIhsUu0jmh4GsF4H00RVxN3xZ66CpSTlObUWqUxWR7UiRYY9ebrLNCg
+         t/cTNiJTqyTaB3ksB+RrnxqytvV2wXPyafTPaI/kTeLRK2BTokdtUr57Xzmk3I8Cl5W0
+         yOqNUCBnnkA538rZkjWEWRD2mbSckJiZvmAmKxPBy9glvJlzCPsb/c7dQBlVmTVlzTqc
+         F33YvFkMv43cKs1ywhYZFgs0VxxcDzlLw0Zxjq2zu8YN7pXxqJ+sHW7iG5v3jV8RkIpJ
+         DJwQ==
+X-Gm-Message-State: ABy/qLZKE4rzxlhIOKQIcKHsvE+rWnteb4KyAjlOFi6pw5SMVGfUFhtz
+        uMtEQtZ4VeeDk2ZGeYRis2oDWw==
+X-Google-Smtp-Source: APBJJlEfaQwcQm+IhhjDckQiWkjiJsxMewy/fhRPPphwyTbSI0jahKtl/r6RWUbJz8IRN55sKuaBPA==
+X-Received: by 2002:a05:6512:340d:b0:4fd:b223:92c with SMTP id i13-20020a056512340d00b004fdb223092cmr2333178lfr.60.1690552023840;
+        Fri, 28 Jul 2023 06:47:03 -0700 (PDT)
 Received: from [192.168.1.101] (abym224.neoplus.adsl.tpnet.pl. [83.9.32.224])
-        by smtp.gmail.com with ESMTPSA id c2-20020ac24142000000b004fe142ecd61sm827648lfi.139.2023.07.28.06.45.58
+        by smtp.gmail.com with ESMTPSA id c2-20020ac24142000000b004fe142ecd61sm827648lfi.139.2023.07.28.06.47.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 06:45:59 -0700 (PDT)
-Message-ID: <c6a094bc-3032-cfe7-d24b-6e83f53e1771@linaro.org>
-Date:   Fri, 28 Jul 2023 15:45:58 +0200
+        Fri, 28 Jul 2023 06:47:03 -0700 (PDT)
+Message-ID: <a36f31a6-2ecf-7b9b-31d2-5f11549d6fc9@linaro.org>
+Date:   Fri, 28 Jul 2023 15:47:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 02/33] iris: vidc: add core functions
@@ -122,283 +122,9 @@ On 28.07.2023 15:23, Vikash Garodia wrote:
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
-[...]
+>  .../platform/qcom/iris/vidc/src/msm_vidc_probe.c   | 660 +++++++++++++++++++++
+Moreover, this code is never compiled.
 
-> +struct msm_vidc_core *g_core;
-> +
-> +static inline bool is_video_device(struct device *dev)
-> +{
-> +	return !!(of_device_is_compatible(dev->of_node, "qcom,sm8550-vidc"));
-> +}
-Are you expecting this to be expanded each time support for new SoC is added?
-
-> +
-> +static inline bool is_video_context_bank_device(struct device *dev)
-> +{
-> +	return !!(of_device_is_compatible(dev->of_node, "qcom,vidc,cb-ns"));
-> +}
-> +
-> +static int msm_vidc_init_resources(struct msm_vidc_core *core)
-> +{
-> +	struct msm_vidc_resource *res = NULL;
-No need to initialize, you use it right after defining.
-
-> +	int rc = 0;
-I think 'ret' is more common for a return-value-holding variable.
-
-> +
-> +	res = devm_kzalloc(&core->pdev->dev, sizeof(*res), GFP_KERNEL);
-> +	if (!res) {
-> +		d_vpr_e("%s: failed to alloc memory for resource\n", __func__);
-> +		return -ENOMEM;
-> +	}
-> +	core->resource = res;
-I don't think the 'res' variable makes sense.
-
-> +
-> +	rc = call_res_op(core, init, core);
-> +	if (rc) {
-> +		d_vpr_e("%s: Failed to init resources: %d\n", __func__, rc);
-> +		return rc;
-you can omit this line and return rc/ret at the last line of this func.
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id msm_vidc_dt_match[] = {
-> +	{.compatible = "qcom,sm8550-vidc"},
-{ .compatible = .... " },
-
-> +	{.compatible = "qcom,vidc,cb-ns"},
-> +	MSM_VIDC_EMPTY_BRACE
-why?
-
-> +};
-> +MODULE_DEVICE_TABLE(of, msm_vidc_dt_match);
-> +
-> +static void msm_vidc_release_video_device(struct video_device *vdev)
-> +{
-> +	d_vpr_e("%s: video device released\n", __func__);
-> +}
-Doesn't sound too useful? And definitely not with an error print?
-
-> +
-> +static void msm_vidc_unregister_video_device(struct msm_vidc_core *core,
-> +					     enum msm_vidc_domain_type type)
-> +{
-> +	int index;
-> +
-> +	if (type == MSM_VIDC_DECODER)
-I'm not sure this is defined.
-
-> +		index = 0;
-> +	else if (type == MSM_VIDC_ENCODER)
-Or this.
-
-Can't we just assign index = MSM_VIDC_EN/DECODER?
-
-> +		index = 1;
-> +	else
-> +		return;
-> +
-> +	v4l2_m2m_release(core->vdev[index].m2m_dev);
-> +
-> +	video_set_drvdata(&core->vdev[index].vdev, NULL);
-> +	video_unregister_device(&core->vdev[index].vdev);
-> +}
-> +
-> +static int msm_vidc_register_video_device(struct msm_vidc_core *core,
-> +					  enum msm_vidc_domain_type type, int nr)
-> +{
-> +	int rc = 0;
-> +	int index;
-> +
-> +	d_vpr_h("%s: domain %d\n", __func__, type);
-> +
-> +	if (type == MSM_VIDC_DECODER)
-> +		index = 0;
-> +	else if (type == MSM_VIDC_ENCODER)
-> +		index = 1;
-> +	else
-> +		return -EINVAL;
-> +
-> +	core->vdev[index].vdev.release =
-> +		msm_vidc_release_video_device;
-> +	core->vdev[index].vdev.fops = core->v4l2_file_ops;
-> +	if (type == MSM_VIDC_DECODER)
-> +		core->vdev[index].vdev.ioctl_ops = core->v4l2_ioctl_ops_dec;
-> +	else
-> +		core->vdev[index].vdev.ioctl_ops = core->v4l2_ioctl_ops_enc;
-> +	core->vdev[index].vdev.vfl_dir = VFL_DIR_M2M;
-> +	core->vdev[index].type = type;
-> +	core->vdev[index].vdev.v4l2_dev = &core->v4l2_dev;
-> +	core->vdev[index].vdev.device_caps = core->capabilities[DEVICE_CAPS].value;
-> +	rc = video_register_device(&core->vdev[index].vdev,
-> +				   VFL_TYPE_VIDEO, nr);
-> +	if (rc) {
-> +		d_vpr_e("Failed to register the video device\n");
-> +		return rc;
-> +	}
-> +	video_set_drvdata(&core->vdev[index].vdev, core);
-> +
-> +	core->vdev[index].m2m_dev = v4l2_m2m_init(core->v4l2_m2m_ops);
-> +	if (IS_ERR(core->vdev[index].m2m_dev)) {
-> +		d_vpr_e("Failed to initialize V4L2 M2M device\n");
-> +		rc = PTR_ERR(core->vdev[index].m2m_dev);
-> +		goto m2m_init_failed;
-> +	}
-> +
-> +	return 0;
-> +
-> +m2m_init_failed:
-> +	video_unregister_device(&core->vdev[index].vdev);
-> +	return rc;
-> +}
-> +
-> +static int msm_vidc_deinitialize_core(struct msm_vidc_core *core)
-> +{
-> +	int rc = 0;
-> +
-> +	if (!core) {
-Are we expecting to ever hit this?
-
-> +		d_vpr_e("%s: invalid params\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	mutex_destroy(&core->lock);
-> +	msm_vidc_update_core_state(core, MSM_VIDC_CORE_DEINIT, __func__);
-Not defined.
-
-> +
-> +	if (core->batch_workq)
-> +		destroy_workqueue(core->batch_workq);
-> +
-> +	if (core->pm_workq)
-> +		destroy_workqueue(core->pm_workq);
-> +
-> +	core->batch_workq = NULL;
-> +	core->pm_workq = NULL;
-> +
-> +	return rc;
-> +}
-> +
-> +static int msm_vidc_initialize_core(struct msm_vidc_core *core)
-> +{
-> +	int rc = 0;
-> +
-> +	msm_vidc_update_core_state(core, MSM_VIDC_CORE_DEINIT, __func__);
-Not defined.
-
-> +
-> +	core->pm_workq = create_singlethread_workqueue("pm_workq");
-> +	if (!core->pm_workq) {
-> +		d_vpr_e("%s: create pm workq failed\n", __func__);
-> +		rc = -EINVAL;
-> +		goto exit;
-> +	}
-> +
-> +	core->batch_workq = create_singlethread_workqueue("batch_workq");
-> +	if (!core->batch_workq) {
-> +		d_vpr_e("%s: create batch workq failed\n", __func__);
-> +		rc = -EINVAL;
-> +		goto exit;
-> +	}
-> +
-> +	core->packet_size = VIDC_IFACEQ_VAR_HUGE_PKT_SIZE;
-> +	core->packet = devm_kzalloc(&core->pdev->dev, core->packet_size, GFP_KERNEL);
-> +	if (!core->packet) {
-> +		d_vpr_e("%s: failed to alloc core packet\n", __func__);
-> +		rc = -ENOMEM;
-> +		goto exit;
-> +	}
-> +
-> +	core->response_packet = devm_kzalloc(&core->pdev->dev, core->packet_size, GFP_KERNEL);
-> +	if (!core->packet) {
-> +		d_vpr_e("%s: failed to alloc core response packet\n", __func__);
-> +		rc = -ENOMEM;
-> +		goto exit;
-> +	}
-> +
-> +	mutex_init(&core->lock);
-> +	INIT_LIST_HEAD(&core->instances);
-> +	INIT_LIST_HEAD(&core->dangling_instances);
-> +
-> +	INIT_DELAYED_WORK(&core->pm_work, venus_hfi_pm_work_handler);
-> +	INIT_DELAYED_WORK(&core->fw_unload_work, msm_vidc_fw_unload_handler);
-> +
-> +	return 0;
-Either return rc/ret here or don't initialize it at definition.
-
-> +exit:
-> +	if (core->batch_workq)
-> +		destroy_workqueue(core->batch_workq);
-> +	if (core->pm_workq)
-> +		destroy_workqueue(core->pm_workq);
-> +	core->batch_workq = NULL;
-> +	core->pm_workq = NULL;
-> +
-> +	return rc;
-> +}
-[...]
-
-> +
-> +static int msm_vidc_pm_suspend(struct device *dev)
-> +{
-> +	int rc = 0;
-> +	struct msm_vidc_core *core;
-> +	enum msm_vidc_allow allow = MSM_VIDC_DISALLOW;
-> +
-> +	/*
-> +	 * Bail out if
-> +	 * - driver possibly not probed yet
-Would the pm callbacks be registered by then?
-
-> +	 * - not the main device. We don't support power management on
-> +	 *   subdevices (e.g. context banks)
-I'm not sure registering context banks as different kinds of devices
-within the same driver is a good idea, this seems rather convoluted.
-
-> +	 */
-> +	if (!dev || !dev->driver || !is_video_device(dev))
-> +		return 0;
-> +
-> +	core = dev_get_drvdata(dev);
-> +	if (!core) {
-> +		d_vpr_e("%s: invalid core\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	core_lock(core, __func__);
-> +	allow = msm_vidc_allow_pm_suspend(core);
-> +
-> +	if (allow == MSM_VIDC_IGNORE) {
-> +		d_vpr_h("%s: pm already suspended\n", __func__);
-> +		msm_vidc_change_core_sub_state(core, 0, CORE_SUBSTATE_PM_SUSPEND, __func__);
-> +		rc = 0;
-> +		goto unlock;
-> +	} else if (allow != MSM_VIDC_ALLOW) {
-> +		d_vpr_h("%s: pm suspend not allowed\n", __func__);
-> +		rc = 0;
-> +		goto unlock;
-> +	}
-> +
-> +	rc = msm_vidc_suspend(core);
-> +	if (rc == -EOPNOTSUPP)
-> +		rc = 0;
-> +	else if (rc)
-> +		d_vpr_e("Failed to suspend: %d\n", rc);
-> +	else
-> +		msm_vidc_change_core_sub_state(core, 0, CORE_SUBSTATE_PM_SUSPEND, __func__);
-> +
-> +unlock:
-> +	core_unlock(core, __func__);
-> +	return rc;
-> +}
-> +
-> +static int msm_vidc_pm_resume(struct device *dev)
-Same comments as in _suspend
+Sending dead code is almost always wrong.
 
 Konrad
