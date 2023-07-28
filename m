@@ -2,169 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 184BE766824
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 11:06:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1157D7668DF
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 11:29:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235089AbjG1JGQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 05:06:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57006 "EHLO
+        id S235534AbjG1J3B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 05:29:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234304AbjG1JGM (ORCPT
+        with ESMTP id S235598AbjG1J22 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 05:06:12 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E440997;
-        Fri, 28 Jul 2023 02:06:10 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36S8graT013450;
-        Fri, 28 Jul 2023 09:06:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=dDr+mZ5n/+jifFglNaPwWUcpxSJ9ZKrPvbO7Mr0GJ/Q=;
- b=jHLGOfjfJe75dVcfVMwLO6mv4JYVXvVoLeFxA+RwkepHzEnG8GBvIhRhewyCzRPD/sHr
- rL62VI3EBRIvSWDXCdV/IqdT158NSGm2Sb6RNCloztp5KXfxEl+MhlUqdAOop3/rpvHH
- 0A4v3fceGl420yfVixwd2cTqoghC+F3uQUc7dWy8PNqynOGlhu8CoAtw9F5kjeMsODyJ
- 82CZu3AR2uwwCPHHdZBVTlXM14/I2H/JIcSdnU2DDdJPYRDVIDQg5CRTBtJst22r+XGY
- khAd2yKOXRcDZ7LnDA+WqM5h0DclU8NjUWJ8DM8fnWAbveB0Y4eGJJOWQDG6+2YRWm7q uA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s3k7u31cj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 28 Jul 2023 09:06:01 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36S95wZU009730
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 28 Jul 2023 09:05:58 GMT
-Received: from [10.50.49.240] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 28 Jul
- 2023 02:05:53 -0700
-Message-ID: <0ec5202e-02c0-2df4-42bf-e4faa824f243@quicinc.com>
-Date:   Fri, 28 Jul 2023 14:35:48 +0530
+        Fri, 28 Jul 2023 05:28:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3470E5B90;
+        Fri, 28 Jul 2023 02:25:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B26DD620A2;
+        Fri, 28 Jul 2023 09:25:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98F40C433C7;
+        Fri, 28 Jul 2023 09:25:49 +0000 (UTC)
+Message-ID: <2d9eeb0e-71b3-157c-b947-6dd5485f46e3@xs4all.nl>
+Date:   Fri, 28 Jul 2023 11:25:47 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2] media: venus: Fix firmware path for resources
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v7,0/11] media: mediatek: vcodec: separate encoder and
+ decoder
 Content-Language: en-US
-To:     Patrick Whewell <patrick.whewell@sightlineapplications.com>
-CC:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        William Gray <william.gray@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <6afa314b-ca5e-a924-de2f-f1db90770623@linaro.org>
- <20230719214943.22641-1-patrick.whewell@sightlineapplications.com>
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <20230719214943.22641-1-patrick.whewell@sightlineapplications.com>
-Content-Type: text/plain; charset="UTF-8"
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
+        <nfraprado@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230722074230.30558-1-yunfei.dong@mediatek.com>
+ <231e9976-93fe-b8b1-29d9-6c799a8e6a3a@xs4all.nl>
+In-Reply-To: <231e9976-93fe-b8b1-29d9-6c799a8e6a3a@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 0nGPh5Wounlo5MCKK0yHyfKTKBOET5l-
-X-Proofpoint-ORIG-GUID: 0nGPh5Wounlo5MCKK0yHyfKTKBOET5l-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- mlxscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 clxscore=1011 phishscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2307280082
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 7/20/2023 3:19 AM, Patrick Whewell wrote:
-> The firmware path for some of the resources is still the old format. This
-> fixes the path to address the firmware correctly using the new .mbn
-> format.
+On 25/07/2023 11:58, Hans Verkuil wrote:
+> On 22/07/2023 09:42, Yunfei Dong wrote:
+>> From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
+>>
+>> With the driver more and more complex, encoder and decoder need to add more parameter
+>> in shared struct 'mtk_vcodec_ctx' and 'mtk_vcodec_dev'. Encoder use about 40% and
+>> decoder use 60% parameter. Need to allocate extra unused memory when encoder and decoder
+>> working.
+>>
+>> Separate encoder and decoder in different folder and use independent data struct.
+>>
+>> patch 1 remove unused parameter.
+>> patch 2~3 align fw and interrupt related interface.
+>> patch 4~6 remove the dependency of debug log
+>> patch 7~8 separate mtk_vcodec_ctx and mtk_vcodec_dev
+>> patch 9 fix unreasonable parameter
+>> patch 10 removed unused header files
+>> patch 11 separate encoder and decoder in different folder
+>> ---
+>> Changed from v6:
+>> - rebase to: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=fo-v6.6g.
+>> Changed from v5:
+>> - fix some words error for patch 3/6/11.
+>> - rename mtk_vcodec_comm_drv.h to mtk_vcodec_cmn_drv.h for patch 7.
+>> Changed from v4:
+>> - add one parameter to record register base for reg_base for patch 3.
+>> - add debug string for non ctx log for patch 6.
+>> - change the comment of struct mtk_vcodec_dec_ctx and struct mtk_vcodec_enc_ctx for patch 7.
+>> - prefer to use struct mtk_vcodec_dec_dev an current period, will re-construct in the future for patch 8.
+>> Changed from v3:
+>> - re-write commit message for patch 3.
+>> Changed from v2:
+>> - This patch main changed:
+>>   1: add different macro mtk_dec_debug and mtk_enc_debug calling common
+>>      macro mtk_vcodec_debug in order to use dev_dbg instead of pr_debug.
+>>   2: add different macro mtk_v4l2_venc_dbg and mtk_v4l2_vdec_dbg calling common
+>>      macro  in order to use dev_dbg instead of pr_debug.
+>> Changed from v1:
+>> - Change pr_dbg to dev_dbg for mtk_v4l2_level and mtk_vcodec_dbg for patch 4.
+>> - Change pr_err to dev_err for mtk_v4l2_err and mtk_vcodec_err for patch 5.
+>> - Fix unreasonable parameter for patch 8.
+>> ---
+>> Yunfei Dong (11):
+>>   media: mediatek: vcodec: remove unused parameter
+>>   media: mediatek: vcodec: align fw interface
+>>   media: mediatek: vcodec: Removing struct 'mtk_vcodec_ctx/dev' for
+>>     shared interface
+>>   media: mediatek: vcodec: Removing useless debug log
+>>   media: mediatek: vcodec: remove the dependency of vcodec debug log
+>>   media: mediatek: vcodec: replace pr_* with dev_* for v4l2 debug
+>>     message
+>>   media: mediatek: vcodec: separate struct 'mtk_vcodec_ctx'
+>>   media: mediatek: vcodec: separate struct mtk_vcodec_dev
+>>   media: mediatek: vcodec: fix unreasonable parameter definition and
+>>     style
+>>   media: mediatek: vcodec: remove unused include header
+>>   media: mediatek: vcodec: separate decoder and encoder
 > 
-> Signed-off-by: Patrick Whewell <patrick.whewell@sightlineapplications.com>
-> ---
-
-the changes look good to me.
-
-Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-
-> I've updated all .fwname to match the .mbn format. There is a
-> qcom/venus-4.4/venus.mdt for the sdm660 that still remains but the linux-firmware
-> package does not contain that firmware file anymore, so i left as is.
+> Besides the missing argument in patch 6/11 I also get this compiler warning:
 > 
->  drivers/media/platform/qcom/venus/core.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c: In function 'vpu_enc_ipi_handler':
+> drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c:64:31: warning: 'vpu' may be used uninitialized [-Wmaybe-uninitialized]
+>    64 |         struct venc_vpu_inst *vpu;
+>       |                               ^~~
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 2ae867cb4c48..2d62669d99e1 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -548,7 +548,7 @@ static const struct venus_resources msm8916_res = {
->  	.vmem_size = 0,
->  	.vmem_addr = 0,
->  	.dma_mask = 0xddc00000 - 1,
-> -	.fwname = "qcom/venus-1.8/venus.mdt",
-> +	.fwname = "qcom/venus-1.8/venus.mbn",
->  };
->  
->  static const struct freq_tbl msm8996_freq_table[] = {
-> @@ -581,7 +581,7 @@ static const struct venus_resources msm8996_res = {
->  	.vmem_size = 0,
->  	.vmem_addr = 0,
->  	.dma_mask = 0xddc00000 - 1,
-> -	.fwname = "qcom/venus-4.2/venus.mdt",
-> +	.fwname = "qcom/venus-4.2/venus.mbn",
->  };
->  
->  static const struct freq_tbl sdm660_freq_table[] = {
-> @@ -688,7 +688,7 @@ static const struct venus_resources sdm845_res = {
->  	.vmem_size = 0,
->  	.vmem_addr = 0,
->  	.dma_mask = 0xe0000000 - 1,
-> -	.fwname = "qcom/venus-5.2/venus.mdt",
-> +	.fwname = "qcom/venus-5.2/venus.mbn",
->  };
->  
->  static const struct venus_resources sdm845_res_v2 = {
-> @@ -717,7 +717,7 @@ static const struct venus_resources sdm845_res_v2 = {
->  	.cp_size = 0x70800000,
->  	.cp_nonpixel_start = 0x1000000,
->  	.cp_nonpixel_size = 0x24800000,
-> -	.fwname = "qcom/venus-5.2/venus.mdt",
-> +	.fwname = "qcom/venus-5.2/venus.mbn",
->  };
->  
->  static const struct freq_tbl sc7180_freq_table[] = {
-> @@ -760,7 +760,7 @@ static const struct venus_resources sc7180_res = {
->  	.vmem_size = 0,
->  	.vmem_addr = 0,
->  	.dma_mask = 0xe0000000 - 1,
-> -	.fwname = "qcom/venus-5.4/venus.mdt",
-> +	.fwname = "qcom/venus-5.4/venus.mbn",
->  };
->  
->  static const struct freq_tbl sm8250_freq_table[] = {
-> @@ -814,7 +814,7 @@ static const struct venus_resources sm8250_res = {
->  	.vmem_size = 0,
->  	.vmem_addr = 0,
->  	.dma_mask = 0xe0000000 - 1,
-> -	.fwname = "qcom/vpu-1.0/venus.mdt",
-> +	.fwname = "qcom/vpu-1.0/venus.mbn",
->  };
->  
->  static const struct freq_tbl sc7280_freq_table[] = {
+> and this smatch error:
+> 
+> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:138 mtk_vcodec_get_reg_bases() error: buffer overflow 'mtk_dec_reg_names' 11 <= 11
+> 
+> However, I believe that was introduced by Nicolas' patch series.
+> 
+> I'll try to pinpoint the precise patch.
+
+That smatch error is now found and fixed in the staging tree.
+
+Can you post a v8 fixing the other issues?
+
+Thanks!
+
+Regards,
+
+	Hans
+
+> 
+> Regards,
+> 
+> 	Hans
+
