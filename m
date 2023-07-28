@@ -2,252 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AA797675AD
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 20:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00BA27675C9
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 20:47:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232284AbjG1SlC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 14:41:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50362 "EHLO
+        id S233000AbjG1SrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 14:47:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230414AbjG1SlA (ORCPT
+        with ESMTP id S231391AbjG1SrS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 14:41:00 -0400
-Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D99649EB;
-        Fri, 28 Jul 2023 11:40:32 -0700 (PDT)
-Received: from [192.168.10.7] (unknown [10.0.12.132])
-        by kozue.soulik.info (Postfix) with ESMTPSA id 0D21A300F2B;
-        Sat, 29 Jul 2023 03:39:54 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info 0D21A300F2B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
-        t=1690569600; bh=QEElF6mACLvmrZMLZzPmyID0hHQhIMgI9+CjeYDQ86c=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=rp8mROI7RfAp4AoFfb06h8q3qJg0KW9F5F6Q6OVMyFs/7JhUNUJ85Ju5FE1um+XnD
-         N2KzBMvZZ2SxbQ4AstUvjTK5IhOAnKKoMef6RuSCGdFSOGZBoahOn84Xtr+e8KYG6x
-         a3jor715vX/5nE8Pyr40Zo1TNCFGY7jIBPOMF1VA=
-Message-ID: <ca0d1868-feec-75bf-69b2-4b105ca1bf77@soulik.info>
-Date:   Sat, 29 Jul 2023 02:40:11 +0800
+        Fri, 28 Jul 2023 14:47:18 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E33ECE;
+        Fri, 28 Jul 2023 11:47:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1690570020; x=1691174820; i=deller@gmx.de;
+ bh=TWdhuznP6svLtP2k0AYOc8UJXlgY851VcQeWvocX93E=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=krow+iMR5z+8TjUZEv8RoCypmJBthFidne0f0Dr087co9p8ukFhHQqXGQvQSdOtPG5r5gZx
+ IUtY0CLuZYzzfAgro1Oykyq0ZmZQ3IazP4weRKFewTD2m/FUM9/JWLVl24hMIqhoxNEy31cD+
+ Swhuke8JihnXSNJECVgl9O4kL7ANE2nulDrfny5f5Krw6kRiNnA1xY3NYDmVjpojk+M2tha/Z
+ 9vKyu8OQwhVgDc3d/L1iof/zYX5pdjxJoVgiVBV3abgy9q6ieA5dxTI5rFJB1hFCsQeNwxqPR
+ kNPbIhe5phT09iBc2+rVGgcpBBDFZ0lVzpuxw2Yx4trTu7oOSgRQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.159.73]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MHG8m-1qci1s0Q3E-00DDDM; Fri, 28
+ Jul 2023 20:47:00 +0200
+Message-ID: <c1a4b7c9-50f2-c43f-277d-c2af9ccc0b50@gmx.de>
+Date:   Fri, 28 Jul 2023 20:46:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v7 2/9] media: vivid: Convert to v4l2_ext_pix_format
+Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
+To:     Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+        sam@ravnborg.org
+Cc:     linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-geode@lists.infradead.org, linux-omap@vger.kernel.org,
+        kvm@vger.kernel.org
+References: <20230728182234.10680-1-tzimmermann@suse.de>
 Content-Language: en-US
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        randy.li@synaptics.com, Brian.Starkey@arm.com,
-        boris.brezillon@collabora.com, frkoenig@chromium.org,
-        hans.verkuil@cisco.com, hiroh@chromium.org, hverkuil@xs4all.nl,
-        kernel@collabora.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, mchehab@kernel.org,
-        narmstrong@baylibre.com, sakari.ailus@iki.fi,
-        stanimir.varbanov@linaro.org,
-        Helen Koike <helen.koike@collabora.com>
-References: <20230206043308.28365-1-ayaka@soulik.info>
- <20230206043308.28365-3-ayaka@soulik.info>
- <20230713103912.favcnhqwjkzvsa6b@chromium.org>
- <46d15120-6e19-e224-47f3-e0dcbf0aeda5@soulik.info>
- <bbb6660439bb66bd9d81bb8031d9062d3c03fdf0.camel@ndufresne.ca>
- <CAAFQd5Dn97Q-tSUvT5HncV0GTQQYrBYjF-1vsmB6VPv=zrkRkw@mail.gmail.com>
-From:   Randy Li <ayaka@soulik.info>
-In-Reply-To: <CAAFQd5Dn97Q-tSUvT5HncV0GTQQYrBYjF-1vsmB6VPv=zrkRkw@mail.gmail.com>
+From:   Helge Deller <deller@gmx.de>
+In-Reply-To: <20230728182234.10680-1-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mrdzwn1CSRSisnuhJOLPF6uj7/3M6meeGVkXi26o5IsUh8/KUJr
+ fI9auGK009NoI2IebwA2FevOwmrdXHJWCtbqV25eeNHK5TScbrMOlDn8eOHihbluto+n/Px
+ GK5oiYYdUtwzZ5CaxaVtbyW3Cijg0QluO2wEWEea3vq6BFqL7YUgT5OLU2Zn3PVlT6u8GJH
+ uYA4d2+kh6KBNwj845fXg==
+UI-OutboundReport: notjunk:1;M01:P0:Y7TGlYt57KE=;VjOBdZNiXYoebbD38ogCLzcHcmZ
+ T/LRrNaK7ny5ilMErdZG7X22kX2/ZqAGmq3C6orIMb/nAKIje39DIonJ+B5uSWVF5t0DHE5F7
+ pA5MMqbVHMLej5POT52GOB9toBiK4hCCA7S8jS2H/ZQXTUWgq3aePUvUXrz8TvzR8WrviCgoT
+ rxmKmubR0ivh6C9WWoPytQDEd9OMD2bGVvKD230ix3xFnheBp0DNH/pYuFc2IDcHJ4dWz9cT+
+ woDFW1QSht9QUE56FNC4xUV8k4sumi95pbYH54OOq1MOPbIG2w7YEifXM7W9UljmXHyY6G/Af
+ oGHk4dK3WfJNjpfLB+M6QYrkRssRQ6aVSXKfzrpWwJPhIzsOj7AYTFSDGBBGtA3e8HnCzTKT5
+ kNBBVKsIuTC1tOjrvZ78Vim0dt7flPhE9kGFHtCZPzMQ4N6j/cZPdiO7sGve6/nqoIZB+IFNU
+ wVCk4aMjBnvLxthxkEzHUfIfoRZuS12ShDfuiRL+poxtOEit5HnT/9N7i0aCpEUjD1VyZxO22
+ wN0DDidAU/jXhIW+4va+ODz0c9xCkxycPiUcoUCYEeM5G0JLay//34f2AAlPCc70I4+Jf5in+
+ OfepmhEqSMh6sIO33HB5IbWQkLVJuKqODckhZA2OmvU5Uc+GkIcra9Jabb8tGFFPbKJjRBY91
+ vNJZE1CcxW8RosSXBYFttZSX1BXSQNi/+FfpFbrO2bS9yuHRUQ3d5IDbevy6xEPt+why9Q+R5
+ 8V37Sq+QfQrO5ZLc+kMok0OV2bpeE6mY9M1IFN3Hm5RO9drKmdLpzIQUb//FJPgOVbqgibJp0
+ VK21/ASBIOaLqnKrS9/Fknb7dnY5/HCBsJig9OnS6SYC1HQ4WPuHcIvSgJbz4n5tiyojiOMZG
+ tX4h9ZagGGBcrekJKv9JK/qboKnxEC911j58ifgemfSbe91+7eJn0EYA6qx+NSqviE5CcgmhR
+ bdxu+Q==
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 7/28/23 18:39, Thomas Zimmermann wrote:
+> Most fbdev drivers operate on I/O memory.
 
-On 2023/7/28 15:22, Tomasz Figa wrote:
-> On Fri, Jul 21, 2023 at 5:10 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
->> Le mardi 18 juillet 2023 à 00:00 +0800, Randy Li a écrit :
->>> On 2023/7/13 18:39, Tomasz Figa wrote:
->>>> On Mon, Feb 06, 2023 at 12:33:01PM +0800, ayaka wrote:
->>>>> From: Helen Koike <helen.koike@collabora.com>
->>>>>
->>>>> Simplify Multi/Single planer API handling by converting to v4l2_ext_pix_format.
->>>>>
->>>>> Duplicate v4l2_ioctl_ops for touch devices. This is done to force the
->>>>> framework to use the ext hooks when the classic Api is used from
->>>>> userspace in Vid devices, and to keep touch devices with classic hook.
->>>>>
->>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->>>>> ---
->>>>> Changes in v7:
->>>>> - Force the userspace using the new APIs to operate non-touch drivers.
->>>> The primary objective of Linux development is not to break the
->>>> userspace. We can't just remove the old API, especially not from
->>>> existing drivers.
->>> Maybe I should create a new virtual driver here? It is impossible to
->>> support the new fourcc modifier with the old APIs.
->> For MPLANE, where backward compatibility was built into libv4l2 LD_PRELOAD
->> wrapper,
-> Could you refresh my memory on what kind of backwards compatibility we
-> had in libv4l2? Was that to make it possible to use new MPLANE-only
-> drivers with old applications?
+Just nitpicking here:
+What is I/O memory?
+Isn't it either memory, or I/O ?
+I mean, I would never think of the cfb* draw functions under I/O.
 
-lib/libv4l-mplane/libv4l-mplane.c
+> And most of those use the
+> default implementations for file I/O and console drawing. Convert all
+> these low-hanging fruits to the fb_ops initializer macro and Kconfig
+> token for fbdev I/O helpers.
 
-I think application don't need to know the new MPLANE variant of pixel 
-formats or queue type.
+I do see the motivation for your patch, but I think the
+macro names are very misleading.
 
->> it simply failed the cases that could not be supported (non contiguous
->> planes).
->>
->> regards,
->> Nicolas
->>
->>>> [snip]
->>>>>    int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->>>>> -                 struct v4l2_format *f)
->>>>> +                   struct v4l2_ext_pix_format *f)
->>>>>    {
->>>>> - struct v4l2_pix_format_mplane *mp = &f->fmt.pix_mp;
->>>>> - struct v4l2_plane_pix_format *pfmt = mp->plane_fmt;
->>>>>            struct vivid_dev *dev = video_drvdata(file);
->>>>> + struct v4l2_plane_pix_format *pfmt = f->plane_fmt;
->>>>>            const struct vivid_fmt *fmt;
->>>>>            unsigned bytesperline, max_bpl;
->>>>>            unsigned factor = 1;
->>>>>            unsigned w, h;
->>>>>            unsigned p;
->>>>> - bool user_set_csc = !!(mp->flags & V4L2_PIX_FMT_FLAG_SET_CSC);
->>>> Why is this condition being removed?
->>> Because the v4l2_ext_pix has a struct for the colorspace?
->>>
->>> Would you like the idea that driver exports a buffer contains all the
->>> info for an enumeration ?
->>>
->>>> Best regards,
->>>> Tomasz
->>>>
->>>>> - fmt = vivid_get_format(dev, mp->pixelformat);
->>>>> + fmt = vivid_get_format(dev, f->pixelformat);
->>>>>            if (!fmt) {
->>>>>                    dprintk(dev, 1, "Fourcc format (0x%08x) unknown.\n",
->>>>> -                 mp->pixelformat);
->>>>> -         mp->pixelformat = V4L2_PIX_FMT_YUYV;
->>>>> -         fmt = vivid_get_format(dev, mp->pixelformat);
->>>>> +                 f->pixelformat);
->>>>> +         f->pixelformat = V4L2_PIX_FMT_YUYV;
->>>>> +         fmt = vivid_get_format(dev, f->pixelformat);
->>>>>            }
->>>>>
->>>>> - mp->field = vivid_field_cap(dev, mp->field);
->>>>> + f->field = vivid_field_cap(dev, f->field);
->>>>>            if (vivid_is_webcam(dev)) {
->>>>>                    const struct v4l2_frmsize_discrete *sz =
->>>>>                            v4l2_find_nearest_size(webcam_sizes,
->>>>>                                                   VIVID_WEBCAM_SIZES, width,
->>>>> -                                        height, mp->width, mp->height);
->>>>> +                                        height, f->width, f->height);
->>>>>
->>>>>                    w = sz->width;
->>>>>                    h = sz->height;
->>>>> @@ -604,14 +603,14 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->>>>>                    w = dev->src_rect.width;
->>>>>                    h = dev->src_rect.height;
->>>>>            }
->>>>> - if (V4L2_FIELD_HAS_T_OR_B(mp->field))
->>>>> + if (V4L2_FIELD_HAS_T_OR_B(f->field))
->>>>>                    factor = 2;
->>>>>            if (vivid_is_webcam(dev) ||
->>>>>                (!dev->has_scaler_cap && !dev->has_crop_cap && !dev->has_compose_cap)) {
->>>>> -         mp->width = w;
->>>>> -         mp->height = h / factor;
->>>>> +         f->width = w;
->>>>> +         f->height = h / factor;
->>>>>            } else {
->>>>> -         struct v4l2_rect r = { 0, 0, mp->width, mp->height * factor };
->>>>> +         struct v4l2_rect r = { 0, 0, f->width, f->height * factor };
->>>>>
->>>>>                    v4l2_rect_set_min_size(&r, &vivid_min_rect);
->>>>>                    v4l2_rect_set_max_size(&r, &vivid_max_rect);
->>>>> @@ -624,16 +623,15 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->>>>>                    } else if (!dev->has_scaler_cap && !dev->has_crop_cap) {
->>>>>                            v4l2_rect_set_min_size(&r, &dev->src_rect);
->>>>>                    }
->>>>> -         mp->width = r.width;
->>>>> -         mp->height = r.height / factor;
->>>>> +         f->width = r.width;
->>>>> +         f->height = r.height / factor;
->>>>>            }
->>>>>
->>>>>            /* This driver supports custom bytesperline values */
->>>>>
->>>>> - mp->num_planes = fmt->buffers;
->>>>>            for (p = 0; p < fmt->buffers; p++) {
->>>>>                    /* Calculate the minimum supported bytesperline value */
->>>>> -         bytesperline = (mp->width * fmt->bit_depth[p]) >> 3;
->>>>> +         bytesperline = (f->width * fmt->bit_depth[p]) >> 3;
->>>>>                    /* Calculate the maximum supported bytesperline value */
->>>>>                    max_bpl = (MAX_ZOOM * MAX_WIDTH * fmt->bit_depth[p]) >> 3;
->>>>>
->>>>> @@ -642,48 +640,49 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->>>>>                    if (pfmt[p].bytesperline < bytesperline)
->>>>>                            pfmt[p].bytesperline = bytesperline;
->>>>>
->>>>> -         pfmt[p].sizeimage = (pfmt[p].bytesperline * mp->height) /
->>>>> +         pfmt[p].sizeimage = (pfmt[p].bytesperline * f->height) /
->>>>>                                    fmt->vdownsampling[p] + fmt->data_offset[p];
->>>>> -
->>>>> -         memset(pfmt[p].reserved, 0, sizeof(pfmt[p].reserved));
->>>>>            }
->>>>> +
->>>>> + if (p < VIDEO_MAX_PLANES)
->>>>> +         pfmt[p].sizeimage = 0;
->>>>> +
->>>>>            for (p = fmt->buffers; p < fmt->planes; p++)
->>>>> -         pfmt[0].sizeimage += (pfmt[0].bytesperline * mp->height *
->>>>> +         pfmt[0].sizeimage += (pfmt[0].bytesperline * f->height *
->>>>>                            (fmt->bit_depth[p] / fmt->vdownsampling[p])) /
->>>>>                            (fmt->bit_depth[0] / fmt->vdownsampling[0]);
->>>>>
->>>>> - if (!user_set_csc || !v4l2_is_colorspace_valid(mp->colorspace))
->>>>> -         mp->colorspace = vivid_colorspace_cap(dev);
->>>>> + if (!v4l2_is_colorspace_valid(f->colorspace))
->>>>> +         f->colorspace = vivid_colorspace_cap(dev);
->>>>>
->>>>> - if (!user_set_csc || !v4l2_is_xfer_func_valid(mp->xfer_func))
->>>>> -         mp->xfer_func = vivid_xfer_func_cap(dev);
->>>>> + if (!v4l2_is_xfer_func_valid(f->xfer_func))
->>>>> +         f->xfer_func = vivid_xfer_func_cap(dev);
->>>>>
->>>>>            if (fmt->color_enc == TGP_COLOR_ENC_HSV) {
->>>>> -         if (!user_set_csc || !v4l2_is_hsv_enc_valid(mp->hsv_enc))
->>>>> -                 mp->hsv_enc = vivid_hsv_enc_cap(dev);
->>>>> +         if (!v4l2_is_hsv_enc_valid(f->hsv_enc))
->>>>> +                 f->hsv_enc = vivid_hsv_enc_cap(dev);
->>>>>            } else if (fmt->color_enc == TGP_COLOR_ENC_YCBCR) {
->>>>> -         if (!user_set_csc || !v4l2_is_ycbcr_enc_valid(mp->ycbcr_enc))
->>>>> -                 mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->>>>> +         if (!v4l2_is_ycbcr_enc_valid(f->ycbcr_enc))
->>>>> +                 f->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->>>>>            } else {
->>>>> -         mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->>>>> +         f->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->>>>>            }
->>>>>
->>>>>            if (fmt->color_enc == TGP_COLOR_ENC_YCBCR ||
->>>>>                fmt->color_enc == TGP_COLOR_ENC_RGB) {
->>>>> -         if (!user_set_csc || !v4l2_is_quant_valid(mp->quantization))
->>>>> -                 mp->quantization = vivid_quantization_cap(dev);
->>>>> +         if (!v4l2_is_quant_valid(f->quantization))
->>>>> +                 f->quantization = vivid_quantization_cap(dev);
->>>>>            } else {
->>>>> -         mp->quantization = vivid_quantization_cap(dev);
->>>>> +         f->quantization = vivid_quantization_cap(dev);
->>>>>            }
->>>>>
->>>>> - memset(mp->reserved, 0, sizeof(mp->reserved));
->>>>> + memset(f->reserved, 0, sizeof(f->reserved));
->>>>>            return 0;
->>>>>    }
->>>> [snip]
+You have:
+#define __FB_DEFAULT_IO_OPS_RDWR \
+         .fb_read        =3D fb_io_read, \
+         .fb_write       =3D fb_io_write
+
+#define __FB_DEFAULT_IO_OPS_DRAW \
+         .fb_fillrect    =3D cfb_fillrect, \
+         .fb_copyarea    =3D cfb_copyarea, \
+         .fb_imageblit   =3D cfb_imageblit
+
+#define __FB_DEFAULT_IO_OPS_MMAP \
+         .fb_mmap        =3D NULL /* default implementation */
+
+#define FB_DEFAULT_IO_OPS \
+         __FB_DEFAULT_IO_OPS_RDWR, \
+         __FB_DEFAULT_IO_OPS_DRAW, \
+         __FB_DEFAULT_IO_OPS_MMAP
+
+I think FB_DEFAULT_IO_OPS is OK for read/write/mmap.
+But I would suggest to split out __FB_DEFAULT_IO_OPS_DRAW.
+Something like:
+#define FB_DEFAULT_IO_OPS \
+         __FB_DEFAULT_IO_OPS_RDWR, \
+         __FB_DEFAULT_IO_OPS_MMAP
+#define FB_DEFAULT_CFB_OPS \
+         .fb_fillrect    =3D cfb_fillrect, \
+         .fb_copyarea    =3D cfb_copyarea, \
+         .fb_imageblit   =3D cfb_imageblit
+
+and then add FB_DEFAULT_IO_OPS *and* FB_DEFAULT_CFB_OPS
+to the various struct fb_ops in the drivers.
+
+Helge
