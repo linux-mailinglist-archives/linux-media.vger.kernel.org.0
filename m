@@ -2,81 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71B73766811
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 11:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 184BE766824
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 11:06:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234854AbjG1JCX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 05:02:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55058 "EHLO
+        id S235089AbjG1JGQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 05:06:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230243AbjG1JCV (ORCPT
+        with ESMTP id S234304AbjG1JGM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 05:02:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD5ACB6
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 02:02:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7452B62059
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 09:02:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65296C433C8;
-        Fri, 28 Jul 2023 09:02:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690534939;
-        bh=Vhj/BB+DVwglt9+HwG0lLh2yTQy8gagBrdFE6JNuBO0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=aWdMPUQbXPkZysC4pEvAfkvy5A82rJgC//SB2MxJuxO7KIu5mZa78eR3Wftkg0Jfv
-         tAMht/N0kzOIu+h4Ai7ODIX8Ftv8Taqav4o1YH0/CWxInOUuBI1fXyvT62tFRewgIK
-         SBAlyvNIh0eFZuEEZ+TjiM8JuPOylVy/zc49q/t0kUuwqknG+GQlfRbpc8N0ymLEtg
-         4bb0TmUgVbbFyB5wpOirNODaPBgz5hKmbGiwIoT6r7Z9DAVa125/bx86sJ7iMrU0MQ
-         abOR78xHaU5i17GiKM4VPncvAtZ698Avl9A9Mb+PbNh0DZecx2cluOE4zjnC1df7+U
-         /leFOH7LhH6Iw==
-Date:   Fri, 28 Jul 2023 11:02:10 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
-        niklas.soderlund@ragnatech.se,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v6 38/38] media: Documentation: v4l: Document sub-device
- notifiers
-Message-ID: <20230728110210.563a8dd1@coco.lan>
-In-Reply-To: <20230727054255.1183255-39-sakari.ailus@linux.intel.com>
-References: <20230727054255.1183255-1-sakari.ailus@linux.intel.com>
-        <20230727054255.1183255-39-sakari.ailus@linux.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        Fri, 28 Jul 2023 05:06:12 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E440997;
+        Fri, 28 Jul 2023 02:06:10 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36S8graT013450;
+        Fri, 28 Jul 2023 09:06:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=dDr+mZ5n/+jifFglNaPwWUcpxSJ9ZKrPvbO7Mr0GJ/Q=;
+ b=jHLGOfjfJe75dVcfVMwLO6mv4JYVXvVoLeFxA+RwkepHzEnG8GBvIhRhewyCzRPD/sHr
+ rL62VI3EBRIvSWDXCdV/IqdT158NSGm2Sb6RNCloztp5KXfxEl+MhlUqdAOop3/rpvHH
+ 0A4v3fceGl420yfVixwd2cTqoghC+F3uQUc7dWy8PNqynOGlhu8CoAtw9F5kjeMsODyJ
+ 82CZu3AR2uwwCPHHdZBVTlXM14/I2H/JIcSdnU2DDdJPYRDVIDQg5CRTBtJst22r+XGY
+ khAd2yKOXRcDZ7LnDA+WqM5h0DclU8NjUWJ8DM8fnWAbveB0Y4eGJJOWQDG6+2YRWm7q uA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s3k7u31cj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 28 Jul 2023 09:06:01 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36S95wZU009730
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 28 Jul 2023 09:05:58 GMT
+Received: from [10.50.49.240] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 28 Jul
+ 2023 02:05:53 -0700
+Message-ID: <0ec5202e-02c0-2df4-42bf-e4faa824f243@quicinc.com>
+Date:   Fri, 28 Jul 2023 14:35:48 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] media: venus: Fix firmware path for resources
+Content-Language: en-US
+To:     Patrick Whewell <patrick.whewell@sightlineapplications.com>
+CC:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        William Gray <william.gray@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <6afa314b-ca5e-a924-de2f-f1db90770623@linaro.org>
+ <20230719214943.22641-1-patrick.whewell@sightlineapplications.com>
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20230719214943.22641-1-patrick.whewell@sightlineapplications.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 0nGPh5Wounlo5MCKK0yHyfKTKBOET5l-
+X-Proofpoint-ORIG-GUID: 0nGPh5Wounlo5MCKK0yHyfKTKBOET5l-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
+ suspectscore=0 priorityscore=1501 clxscore=1011 phishscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307280082
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,61 +89,82 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 27 Jul 2023 08:42:55 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 
-> Document that sub-device notifiers are now registered using
-> v4l2_async_subdev_nf_init(). No documentation is changed as it seems that
-> sub-device notifiers were not documented apart from kernel-doc comments.
->=20
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Tested-by: Philipp Zabel <p.zabel@pengutronix.de> # imx6qp
-> Tested-by: Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se> # rcar +=
- adv746x
-> Tested-by: Aishwarya Kothari <aishwarya.kothari@toradex.com> # Apalis i.M=
-X6Q with TC358743
-> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> # Rene=
-sas RZ/G2L SMARC
+
+On 7/20/2023 3:19 AM, Patrick Whewell wrote:
+> The firmware path for some of the resources is still the old format. This
+> fixes the path to address the firmware correctly using the new .mbn
+> format.
+> 
+> Signed-off-by: Patrick Whewell <patrick.whewell@sightlineapplications.com>
 > ---
->  Documentation/driver-api/media/v4l2-subdev.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentati=
-on/driver-api/media/v4l2-subdev.rst
-> index eba5e4468282..e56b50b3f203 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -218,6 +218,17 @@ available. There may be one or more async connection=
-s to a given sub-device but
->  this is not known at the time of adding the connections to the notifier.=
- Async
->  connections are bound as matching async sub-devices are found, one by on=
-e.
-> =20
-> +Asynchronous sub-device notifier for sub-devices
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +A driver that registers an asynchronous sub-device may also register an
-> +asynchronous notifier. This is called an asynchronous sub-device notifie=
-r andthe
-> +process is similar to that of a bridge driver apart from that the notifi=
-er is
-> +initialised using :c:func:`v4l2_async_subdev_nf_init` instead. A sub-dev=
-ice
-> +notifier may complete only after the V4L2 device becomes available, i.e.=
- there's
-> +a path via async sub-devices and notifiers to a notifier that is not an
-> +asynchronous sub-device notifier.
-> +
->  Asynchronous sub-device registration helper for camera sensor drivers
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->=20
 
-Hmm... you did a lot of reorder at the code for async devices. IMO,
-you should be pointing at the documentation what's the expected order
-of kAPI usage: what comes first? V4L2 register? async notifiers? etc.
+the changes look good to me.
 
-Regards
+Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
-Thanks,
-Mauro
+> I've updated all .fwname to match the .mbn format. There is a
+> qcom/venus-4.4/venus.mdt for the sdm660 that still remains but the linux-firmware
+> package does not contain that firmware file anymore, so i left as is.
+> 
+>  drivers/media/platform/qcom/venus/core.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 2ae867cb4c48..2d62669d99e1 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -548,7 +548,7 @@ static const struct venus_resources msm8916_res = {
+>  	.vmem_size = 0,
+>  	.vmem_addr = 0,
+>  	.dma_mask = 0xddc00000 - 1,
+> -	.fwname = "qcom/venus-1.8/venus.mdt",
+> +	.fwname = "qcom/venus-1.8/venus.mbn",
+>  };
+>  
+>  static const struct freq_tbl msm8996_freq_table[] = {
+> @@ -581,7 +581,7 @@ static const struct venus_resources msm8996_res = {
+>  	.vmem_size = 0,
+>  	.vmem_addr = 0,
+>  	.dma_mask = 0xddc00000 - 1,
+> -	.fwname = "qcom/venus-4.2/venus.mdt",
+> +	.fwname = "qcom/venus-4.2/venus.mbn",
+>  };
+>  
+>  static const struct freq_tbl sdm660_freq_table[] = {
+> @@ -688,7 +688,7 @@ static const struct venus_resources sdm845_res = {
+>  	.vmem_size = 0,
+>  	.vmem_addr = 0,
+>  	.dma_mask = 0xe0000000 - 1,
+> -	.fwname = "qcom/venus-5.2/venus.mdt",
+> +	.fwname = "qcom/venus-5.2/venus.mbn",
+>  };
+>  
+>  static const struct venus_resources sdm845_res_v2 = {
+> @@ -717,7 +717,7 @@ static const struct venus_resources sdm845_res_v2 = {
+>  	.cp_size = 0x70800000,
+>  	.cp_nonpixel_start = 0x1000000,
+>  	.cp_nonpixel_size = 0x24800000,
+> -	.fwname = "qcom/venus-5.2/venus.mdt",
+> +	.fwname = "qcom/venus-5.2/venus.mbn",
+>  };
+>  
+>  static const struct freq_tbl sc7180_freq_table[] = {
+> @@ -760,7 +760,7 @@ static const struct venus_resources sc7180_res = {
+>  	.vmem_size = 0,
+>  	.vmem_addr = 0,
+>  	.dma_mask = 0xe0000000 - 1,
+> -	.fwname = "qcom/venus-5.4/venus.mdt",
+> +	.fwname = "qcom/venus-5.4/venus.mbn",
+>  };
+>  
+>  static const struct freq_tbl sm8250_freq_table[] = {
+> @@ -814,7 +814,7 @@ static const struct venus_resources sm8250_res = {
+>  	.vmem_size = 0,
+>  	.vmem_addr = 0,
+>  	.dma_mask = 0xe0000000 - 1,
+> -	.fwname = "qcom/vpu-1.0/venus.mdt",
+> +	.fwname = "qcom/vpu-1.0/venus.mbn",
+>  };
+>  
+>  static const struct freq_tbl sc7280_freq_table[] = {
