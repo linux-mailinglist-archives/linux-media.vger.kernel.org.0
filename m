@@ -2,341 +2,290 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A9887664D7
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 09:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F53E766540
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 09:25:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233870AbjG1HJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 03:09:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42636 "EHLO
+        id S234180AbjG1HZ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 03:25:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233875AbjG1HJF (ORCPT
+        with ESMTP id S234236AbjG1HZh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 03:09:05 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2048.outbound.protection.outlook.com [40.107.223.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250D135A0;
-        Fri, 28 Jul 2023 00:09:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QzVKtcDfeJllnvbbj2i8CSCC2NDiuHxOOvY46EFOes0+cPzE6VfpJx/QFx8MpKK5HkZbHB4xPzPVCz0BEuHvj5LMMyBRXaT/RrVSreke85lOQED/jt3RiOhudwOLguHbStAyg/WmwzZsFsuwUUqraYHnvbdjO8m0ufbaOq4dhiHZb2S2gHDE3oF/nzac2bWXkqZy+eZJGl2QCqN7zQmoWTrjxNt7Wkp0/p+0hQ66EobTaO3Bz1Knz6OZFvPlYPn6vtHnZOEyqafUVDzhOkArhLS7osThpxhbg/horSOE+ldZhAANWwjC6/+paZdHPppbRharW5AssCbuyMxaDczofA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rlZZwWae9FkrzYTIpFY3SsiOZmZFbQssEE+iNSMibS4=;
- b=lPO4XCZH/GDxZR3yBFZSu35D1yqRds/J8EQoDQOSwMh1x1TspAjloLtBw8VQJwECkiiO3Y4MJE4qTTtP+1DzWhCe7by4ZWi1knQ3Xzatlyn04Qw4FYcMDPjOO9QsCoH2pfHftAaDyuBvGb5BXAqgvvz+OoScsSwWwMFqFWx1AFh9AY1stkftcSGSjwouswxrOVRloQmlpdwFkWfZ9xBAogGwc9CnjmfAkmW0N5pU3apixVMAvmObXpFz2NdO5Twu3l/Y2WVXqH+7EIw/ZM3AOAzqOdkRhFn0a3SK48LCuT0cpQ+EMaXl3h8vBegE5CMxARW4+n1dkYwSrUbZkLtGxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+        Fri, 28 Jul 2023 03:25:37 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D66772D5F
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 00:25:26 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-63d48c3d242so1998986d6.2
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 00:25:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rlZZwWae9FkrzYTIpFY3SsiOZmZFbQssEE+iNSMibS4=;
- b=IsAptjqcB8tnv6NZJKe2PcjHOzR825k4SYbqRWXoNOmLTwKwvnKKJwdvKG4btXXgBnaFk3a2NfwQOovMIA0jkC3lPwXqAIoVY0qCl8FwbPIsCGa5yVBZUY6ste/qlkIgGTx008BxpnsWMEaqYexgIqzGRay+HyvBRZsC3QYgWOI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synaptics.com;
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
- by PH0PR03MB6349.namprd03.prod.outlook.com (2603:10b6:510:b4::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Fri, 28 Jul
- 2023 07:08:58 +0000
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::411c:e486:3837:cc25]) by DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::411c:e486:3837:cc25%3]) with mapi id 15.20.6631.026; Fri, 28 Jul 2023
- 07:08:58 +0000
-Message-ID: <7d340df3-e14c-24de-4fc2-b7dca619447c@synaptics.com>
-Date:   Fri, 28 Jul 2023 15:08:50 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
-Content-Language: en-GB
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org, ayaka@soulik.info,
-        hans.verkuil@cisco.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org
-References: <20230704040044.681850-1-randy.li@synaptics.com>
- <20230704040044.681850-3-randy.li@synaptics.com>
- <20230712093301.nkj2vok2x7esdhb3@chromium.org>
- <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
- <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
- <583e22718b80cc5e1ae631528c83c95e97de5cae.camel@ndufresne.ca>
- <CAAFQd5CAJ7GxiY5=bBAa+L=1WJth6QZ3+PG83=GX+eEx1S4uhg@mail.gmail.com>
-From:   Hsia-Jun Li <Randy.Li@synaptics.com>
-In-Reply-To: <CAAFQd5CAJ7GxiY5=bBAa+L=1WJth6QZ3+PG83=GX+eEx1S4uhg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR05CA0112.namprd05.prod.outlook.com
- (2603:10b6:a03:334::27) To DM6PR03MB5196.namprd03.prod.outlook.com
- (2603:10b6:5:24a::19)
+        d=chromium.org; s=google; t=1690529125; x=1691133925;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iHP8me6VokRySX8+Juk9IP6BLwxcpF71AvYOtabkpks=;
+        b=CbzJ26aeUmReO+Sp3FlLVAUZHzPeoSzWP5/pnFXq75nvqiG5GHCafAAgDE9FPcdAgD
+         RWFbJG8Ucwaz8i6+0KMIvRhJvuzdVzFHKvxPAsIO/MPv2lsKdpO2W+NlWUieCNblb85P
+         2zirhKF1raJQiQtAB8Fn7Uw7NpxB/EjVPhjYM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690529125; x=1691133925;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iHP8me6VokRySX8+Juk9IP6BLwxcpF71AvYOtabkpks=;
+        b=H0xRuKbb1DS70rIg8TAvknBcpPtHATbHLsY9A/bG6ByJuhVkSA7RoQq0lo4DrWPquS
+         s+haDY7/YxMe1CCIUWM5lKANfsRndfm8HW7eLH6TcILII3e6R8c3pOT/uXgN/WUQB/VE
+         opCOCrZ6r2pH7LmJ8rnJnPjI+khHEEkGnJZ1/lLqO80+GKNjM6fRaiBpV5pt55rbmmzL
+         /cl4zeuRwR+knfwy1Q6BhhZGk0P+H87dbqRC+r2N9y8usC5WAatFVQ/Y1SlmpW9U+jfb
+         4tVvjyYI/Jdl+4QnrMmQtQq9R9F4/ixMnnAeDW55FrwyH88n/8WYPi7ZukWnGI4Lp00u
+         vMng==
+X-Gm-Message-State: ABy/qLb106quvyfMQxBMUtAUCDm+K7QuWFBRMeNEeJoPsPGOvSfAWMTU
+        +35vIQYFeG8nunYmp8S+1WJxp8ByR+SpuuvOxcE+HwQ8
+X-Google-Smtp-Source: APBJJlHR33GtRcwvFKba7t+38KVBt4P2zhVQ+C1Rbm4x//zKKRhrwU9DkqzaXO3/006ZwTKR4dGxVw==
+X-Received: by 2002:a05:6214:21a9:b0:63d:2369:6c41 with SMTP id t9-20020a05621421a900b0063d23696c41mr2063087qvc.55.1690529125306;
+        Fri, 28 Jul 2023 00:25:25 -0700 (PDT)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com. [209.85.219.53])
+        by smtp.gmail.com with ESMTPSA id e30-20020a0caa5e000000b0063d10086876sm1022837qvb.115.2023.07.28.00.25.24
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jul 2023 00:25:24 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-63c70dc7ed2so11689836d6.0
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 00:25:24 -0700 (PDT)
+X-Received: by 2002:a0c:b246:0:b0:63c:ed11:7bf0 with SMTP id
+ k6-20020a0cb246000000b0063ced117bf0mr1593631qve.6.1690528721048; Fri, 28 Jul
+ 2023 00:18:41 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|PH0PR03MB6349:EE_
-X-MS-Office365-Filtering-Correlation-Id: e87302ab-1371-4d10-50b7-08db8f39831d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oL6DXXu9uwahaT5nCtd8kZ4OSbuSZvSyWIPE8e6gtnvUPQ3Vwi93QIIJnsDngOp1XrH8UB2p+QsDescbNwV0LXNacNT1ELiajWIFWs3EGL6i60LKEwjS+vHobEA5p0XMx+DDCf/JkRh6comcHmFBQrIY/vi7wsnfymXzhBJa+hBGqoxBgXbMPiElOS5ncvhCkE2NjKHdTdTJpee1cDAZpfJ5e8uEmGrvUvxAf4ztLo6i9AjyxYQu3/8t8rw6PPmEKfVtf5XhUvwWVs9cHwcXbQpItSXvRW35NOcGC2B4tx69SxWoDG7ecySmkwbn56RInjQAJk32+Zora+k8eCqoC1/6f0ey1hKgzX5qrGVEzPaFY6qflt9v3WWB4zh4pPHFyz9N/yCXzSKTm1KCH4zgpIfeMod1Jhc1l5CV+J4oqnkccsneoh5NCFIkTGKIx3x4CJHi9KWw4vS1HQMdkW7ozTBDI5J26t39nDOduOR1f/baPv3a32tv75578FQwIznOvHOkvyd6s/VReWlY7fTpe35mT2lzbDVxqryWF+U2T6bc+/LwjoQrCemKq8KHAJKjEQDWOkJBzLWuQLFFPEmXENGtTSEp6vuYKosKKFYs2bDuGA9rrtNiiOe0qxcft5tn8/4ehRSp+oJ2oL3ej8SpqzoqnAD+URxWRTp/jvJrLU6dpLrra60txlbCxF66A7gH
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(396003)(39850400004)(376002)(346002)(366004)(451199021)(86362001)(31696002)(26005)(53546011)(6506007)(6916009)(66476007)(4326008)(66946007)(66556008)(186003)(6512007)(83380400001)(2616005)(66574015)(36756003)(31686004)(2906002)(6486002)(66899021)(52116002)(478600001)(6666004)(38350700002)(41300700001)(38100700002)(316002)(7416002)(8676002)(8936002)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXRnVDZic05Cc0YvL3NMbmpQK1RoQXFvellYcFlwV2VSQ0RrbEQrQzFkQlIx?=
- =?utf-8?B?aFVPSHRMYmx1dFMwQ0t5cm8yNzVWK0p0eFB2WTdDV0JsRFhmS0NZODZONzlY?=
- =?utf-8?B?WkhkaTJmd0o3VjVPekVqSkg3bVFLdTNtcUMybXdNdW1RenczaXRuMElMTzNa?=
- =?utf-8?B?YXZPSGVnWVFCUDdhZjc1N1FLOWM1UEljME5oMzJWcUhxcUhZemlLYWRCODRq?=
- =?utf-8?B?dTMwRGxqeWkwWXhVWFNzLy9TSDMyUWo4Yy9heG9WbitlUUVybCtsTy9PUWwv?=
- =?utf-8?B?RUFjYm1JdTdhVkRuaW53ckQrYlJIVng3c3A5V0xLZVZZSlVvNDUvTEx2Qkhx?=
- =?utf-8?B?OEQvVHJBR1YxRXpud05UNmVCVmh2aVg4YXp5K3RsL0RLYjM0c0FPQWxneUc1?=
- =?utf-8?B?M0hlS2lVRmgrZVVWN0hvQUdRelROYzJodkpkemorMXozeUpnMmNOaStVY3pD?=
- =?utf-8?B?ZTFhcFg4OTEzSFdjckN6Rm5odThXZ0dmVVNZOVVjWEtEeU5RUUp4cjdjcHc2?=
- =?utf-8?B?UzZnZGU5WHlEaHlBcXVxbDRMRTNwSFREZ1NKbldTU0JBZTBqWjIyRVJKUVlB?=
- =?utf-8?B?aXY4WWYyRzdsU1JjUnl5ZHVKaFJMekMvMFRrdGJQSS93TEQvTkxDcUVsNVdJ?=
- =?utf-8?B?Y2FSVHV5dUV1Tjc2SkszaEdNWE56NmlXbXZWUW9nT0VYOVhFU3VwMDdoVnIz?=
- =?utf-8?B?bVg1U0Jxb0JXb3NhOHR4MkVweVBLUVZBbDVlbU1GMzRIUTBLWFBna21jWmV3?=
- =?utf-8?B?eE83WGpEdTk5R1lhekVZMG5OR0VlRllHREhtSld3SDRKT0ZKZ3JGemhNSkJy?=
- =?utf-8?B?ZmM0Z1B5KzFMdGVPMy9kc0gxQk5vdENvSytiY3FjODdzWUdoTkpGVU5SaUVs?=
- =?utf-8?B?Z2xnKzUrTUZQRWxubVNwMnM0cktod0crY05jWXNLTXluMHNqZkxYdEpFT2lT?=
- =?utf-8?B?K1diOGFaVlF4eXlybEJJSEU2ZE9jbGFiOTk4aGg2NkRISlFaUHR6TzZob29n?=
- =?utf-8?B?cis0cUNidFE3RVBUeUJrOU1CQ0dxR0hQOW5BN2gyR3VXamhXc1lpQkg5SUtS?=
- =?utf-8?B?NFZieEphRWFSMFNXSDUwV3o4TFFpY2NPYy9xLzFzdjFZakVJbHptSWdNblp6?=
- =?utf-8?B?emphS0dsdlhLQmN5Wi9rQ2ZEZGZDWXk1T2xkVGpZcUNLcEFRaVRGb3NjVGZp?=
- =?utf-8?B?Yk1YblV6UXVjQmpRNDA1ZXJkZzRiNkhaRm5lNm5HWFlpNVlVSFU5UlgxSXFw?=
- =?utf-8?B?MytsQXVDd2JGZElKSGlPdGdHdENDeVdycUx5VTFpK0NJT0dNRDZpZkZJZUo0?=
- =?utf-8?B?cm54VEE3ZFRzOHpTSnNESVpwSEgwM3NkZFpXbzhxeEtUSDVQOFNFYU1adjda?=
- =?utf-8?B?ZlRlVzBMV01XVmplUmF4Nkx3TVl3YjVib0NheDhrQXg0OFJqbUJ2Yk9NOEc1?=
- =?utf-8?B?YksyUHovQWE4MmR1WlQwK0NPWVRXWmp0emdUUGVtS2ZQQTJCQW9FOTQvSlBR?=
- =?utf-8?B?OEw5R20vSlNOeU1KRFZ6WUduQ0hrUGlVMnNBTmhpWDRkQzVFZzVGRi9QdkVo?=
- =?utf-8?B?ZUxLdlNpOXNwT1RUS3pQZ1NDVG9qb0tWSDIxTXNqT3ppeFB6Y2tlaEZleTlG?=
- =?utf-8?B?dzVHazZzMEE4eVEyelpwTCsrOGgzdE4zaE5aeEVEQUY1STR2T0Vtd2I1MVIy?=
- =?utf-8?B?TXJuRW1yeGlBNStpYmJnK1ZSUWlJdkZmMlcxMXk5aVdDeXA4WWx5bDZ6aWJq?=
- =?utf-8?B?NDVEWWVmNTlId1hHZXAvdTRkLzIzNWo0VmxtdXFLeXFLK3Mxb3dVMURhUjNv?=
- =?utf-8?B?QVgyYmVsa1ZkbzZlcWdNOE5qYXhZdnhYYk4rekVsWCt3bDlyVUNPNEhDdDJH?=
- =?utf-8?B?dy90VTBCMWVlbFUvOFFaSXNXY2d3bjh6ZVZCazA2c3lwbUI3TnZXYnNwcU85?=
- =?utf-8?B?d3ZpV2lyNWZGSUhIZWJ4Y1N1ZlgrS0dyTFZyUGsrY1lyMDExYmZUOFc4TXp3?=
- =?utf-8?B?VmxSRlZXYVJSOGpwSmVlVFoxR2hqbTJzVU5YZWtsUjBVMHRZVTljK1habXV1?=
- =?utf-8?B?S1hrN0Q2WkZvOUJrUGxmZS9RZHpDeVdZYVVEdGltODdRTklhMjFhckViU2tD?=
- =?utf-8?Q?F6GpVAO35EB+js2OluuLXiqvn?=
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e87302ab-1371-4d10-50b7-08db8f39831d
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2023 07:08:58.1262
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nnrmYAU8YgF35+z6xSlkXz8XIbXnDz8P8+unNFT2wawg5OVxxNEZcWgt85PMKnWjvTXKZWgV1p5fdoLcHnWaAA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR03MB6349
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230206043308.28365-1-ayaka@soulik.info> <20230206043308.28365-3-ayaka@soulik.info>
+ <20230713103912.favcnhqwjkzvsa6b@chromium.org> <46d15120-6e19-e224-47f3-e0dcbf0aeda5@soulik.info>
+In-Reply-To: <46d15120-6e19-e224-47f3-e0dcbf0aeda5@soulik.info>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 28 Jul 2023 16:18:29 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DwEnKznBcJCiC06dU5xJO0Lw6fJSudEfntgLt8fmc+aQ@mail.gmail.com>
+Message-ID: <CAAFQd5DwEnKznBcJCiC06dU5xJO0Lw6fJSudEfntgLt8fmc+aQ@mail.gmail.com>
+Subject: Re: [PATCH v7 2/9] media: vivid: Convert to v4l2_ext_pix_format
+To:     Randy Li <ayaka@soulik.info>
+Cc:     linux-media@vger.kernel.org, randy.li@synaptics.com,
+        Brian.Starkey@arm.com, boris.brezillon@collabora.com,
+        frkoenig@chromium.org, hans.verkuil@cisco.com, hiroh@chromium.org,
+        hverkuil@xs4all.nl, kernel@collabora.com,
+        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org, narmstrong@baylibre.com, nicolas@ndufresne.ca,
+        sakari.ailus@iki.fi, stanimir.varbanov@linaro.org,
+        Helen Koike <helen.koike@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Jul 18, 2023 at 1:00=E2=80=AFAM Randy Li <ayaka@soulik.info> wrote:
+>
+>
+> On 2023/7/13 18:39, Tomasz Figa wrote:
+> > On Mon, Feb 06, 2023 at 12:33:01PM +0800, ayaka wrote:
+> >> From: Helen Koike <helen.koike@collabora.com>
+> >>
+> >> Simplify Multi/Single planer API handling by converting to v4l2_ext_pi=
+x_format.
+> >>
+> >> Duplicate v4l2_ioctl_ops for touch devices. This is done to force the
+> >> framework to use the ext hooks when the classic Api is used from
+> >> userspace in Vid devices, and to keep touch devices with classic hook.
+> >>
+> >> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> >> ---
+> >> Changes in v7:
+> >> - Force the userspace using the new APIs to operate non-touch drivers.
+> > The primary objective of Linux development is not to break the
+> > userspace. We can't just remove the old API, especially not from
+> > existing drivers.
+> Maybe I should create a new virtual driver here? It is impossible to
+> support the new fourcc modifier with the old APIs.
 
+We need to find a way to make an existing driver support both the old
+and new API. Obviously any new functionality of the new API doesn't
+have to be retrofitted to the old API.
 
-On 7/28/23 12:43, Tomasz Figa wrote:
-> CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
-> 
-> 
-> On Fri, Jul 28, 2023 at 1:58 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
->>
->> Le jeudi 27 juillet 2023 à 16:43 +0900, Tomasz Figa a écrit :
->>> On Mon, Jul 17, 2023 at 11:07 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
->>>>
->>>> Le mercredi 12 juillet 2023 à 09:33 +0000, Tomasz Figa a écrit :
->>>>> On Tue, Jul 04, 2023 at 12:00:38PM +0800, Hsia-Jun Li wrote:
->>>>>> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
->>>>>>
->>>>>> Many drivers have to create its own buf_struct for a
->>>>>> vb2_queue to track such a state. Also driver has to
->>>>>> iterate over rdy_queue every times to find out a buffer
->>>>>> which is not sent to hardware(or firmware), this new
->>>>>> list just offers the driver a place to store the buffer
->>>>>> that hardware(firmware) has acknowledged.
->>>>>>
->>>>>> One important advance about this list, it doesn't like
->>>>>> rdy_queue which both bottom half of the user calling
->>>>>> could operate it, while the v4l2 worker would as well.
->>>>>> The v4l2 core could only operate this queue when its
->>>>>> v4l2_context is not running, the driver would only
->>>>>> access this new hw_queue in its own worker.
->>>>>
->>>>> Could you describe in what case such a list would be useful for a
->>>>> mem2mem driver?
->>>>
->>>> Today all driver must track buffers that are "owned by the hardware". This is a
->>>> concept dictated by the m2m framework and enforced through the ACTIVE flag. All
->>>> buffers from this list must be mark as done/error/queued after streamoff of the
->>>> respective queue in order to acknowledge that they are no longer in use by the
->>>> HW. Not doing so will warn:
->>>>
->>>>    videobuf2_common: driver bug: stop_streaming operation is leaving buf ...
->>>>
->>>> Though, there is no queue to easily iterate them. All driver endup having their
->>>> own queue, or just leaving the buffers in the rdy_queue (which isn't better).
->>>>
->>>
->>> Thanks for the explanation. I see how it could be useful now.
->>>
->>> Although I guess this is a problem specifically for hardware (or
->>> firmware) which can internally queue more than 1 buffer, right?
->>> Otherwise the current buffer could just stay at the top of the
->>> rdy_queue until it's removed by the driver's completion handler,
->>> timeout/error handler or context destruction.
->>
->> Correct, its only an issue when you need to process multiple src buffers before
->> producing a dst buffer. If affects stateful decoder, stateful encoders and
->> deinterlacer as far as I'm aware.
-> 
-> Is it actually necessary to keep those buffers in a list in that case, though?
-> I can see that a deinterlacer would indeed need 2 input buffers to
-> perform the deinterlacing operation, but those would be just known to
-> the driver, since it's running the task currently.
-> For a stateful decoder, wouldn't it just consume the bitstream buffer
-> (producing something partially decoded to its own internal buffers)
-> and return it shortly?
-Display re-order. Firmware could do such batch work, taking a few 
-bitstream buffer, then output a list graphics buffer in the display 
-order also discard the usage of the non-display buffer when it is 
-removed from dpb.
+> >
+> > [snip]
+> >>   int vivid_try_fmt_vid_cap(struct file *file, void *priv,
+> >> -                    struct v4l2_format *f)
+> >> +                      struct v4l2_ext_pix_format *f)
+> >>   {
+> >> -    struct v4l2_pix_format_mplane *mp =3D &f->fmt.pix_mp;
+> >> -    struct v4l2_plane_pix_format *pfmt =3D mp->plane_fmt;
+> >>      struct vivid_dev *dev =3D video_drvdata(file);
+> >> +    struct v4l2_plane_pix_format *pfmt =3D f->plane_fmt;
+> >>      const struct vivid_fmt *fmt;
+> >>      unsigned bytesperline, max_bpl;
+> >>      unsigned factor =3D 1;
+> >>      unsigned w, h;
+> >>      unsigned p;
+> >> -    bool user_set_csc =3D !!(mp->flags & V4L2_PIX_FMT_FLAG_SET_CSC);
+> > Why is this condition being removed?
+>
+> Because the v4l2_ext_pix has a struct for the colorspace?
 
-Even in one input and one output mode, firmware need to do redo, let the 
-driver know when a graphics buffer could be display, so firmware would 
-usually hold the graphics buffer(frame) until its display time.
+What do you mean? I see it has the same enum field for colorspace as
+the original v4l2_pix_format_mplane.
 
-Besides, I hate the driver occupied a large of memory without user's 
-order. I would like to drop those internal buffers.
-> The most realistic scenario would be for stateful encoders which could
-> keep some input buffers as reference frames for further encoding, but
-> then would this patch actually work for them? It would make
-> __v4l2_m2m_try_queue never add the context to the job_queue if there
-> are some buffers in that hw_queue list.
-why?
-> 
-> Maybe what I need here are actual patches modifying some existing
-> drivers. Randy, would you be able to include that in the next version?
-May not. The Synaptics VideoSmart is a secure video platform(DRM), I 
-could release a snapshot of the driver when I got the permission, that 
-would be after the official release of the SDK.
-But you may not be able to compile it because we have our own TEE 
-interface(not optee), also running it because the trusted app would be 
-signed with a per-device key.
-> Thanks.
-> 
-> Best regards,
-> Tomasz
-> 
->>
->> Nicolas
->>
->>>
->>> Best regards,
->>> Tomasz
->>>
->>>> Nicolas
->>>>>
->>>>>>
->>>>>> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
->>>>>> ---
->>>>>>   drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++--------
->>>>>>   include/media/v4l2-mem2mem.h           | 10 +++++++++-
->>>>>>   2 files changed, 26 insertions(+), 9 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
->>>>>> index c771aba42015..b4151147d5bd 100644
->>>>>> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
->>>>>> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
->>>>>> @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev *m2m_dev,
->>>>>>              goto job_unlock;
->>>>>>      }
->>>>>>
->>>>>> -   src = v4l2_m2m_next_src_buf(m2m_ctx);
->>>>>> -   dst = v4l2_m2m_next_dst_buf(m2m_ctx);
->>>>>> -   if (!src && !m2m_ctx->out_q_ctx.buffered) {
->>>>>> -           dprintk("No input buffers available\n");
->>>>>> -           goto job_unlock;
->>>>>> +   if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
->>>>>> +           src = v4l2_m2m_next_src_buf(m2m_ctx);
->>>>>> +
->>>>>> +           if (!src && !m2m_ctx->out_q_ctx.buffered) {
->>>>>> +                   dprintk("No input buffers available\n");
->>>>>> +                   goto job_unlock;
->>>>>> +           }
->>>>>>      }
->>>>>> -   if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
->>>>>> -           dprintk("No output buffers available\n");
->>>>>> -           goto job_unlock;
->>>>>> +
->>>>>> +   if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
->>>>>> +           dst = v4l2_m2m_next_dst_buf(m2m_ctx);
->>>>>> +           if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
->>>>>> +                   dprintk("No output buffers available\n");
->>>>>> +                   goto job_unlock;
->>>>>> +           }
->>>>>>      }
->>>>>
->>>>> src and dst would be referenced unitialized below if neither of the
->>>>> above ifs hits...
->>>>>
->>>>> Best regards,
->>>>> Tomasz
->>>>>
->>>>>>
->>>>>>      m2m_ctx->new_frame = true;
->>>>>> @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->>>>>>      INIT_LIST_HEAD(&q_ctx->rdy_queue);
->>>>>>      q_ctx->num_rdy = 0;
->>>>>>      spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
->>>>>> +   INIT_LIST_HEAD(&q_ctx->hw_queue);
->>>>>>
->>>>>>      if (m2m_dev->curr_ctx == m2m_ctx) {
->>>>>>              m2m_dev->curr_ctx = NULL;
->>>>>> @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct v4l2_m2m_dev *m2m_dev,
->>>>>>
->>>>>>      INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
->>>>>>      INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
->>>>>> +   INIT_LIST_HEAD(&out_q_ctx->hw_queue);
->>>>>> +   INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
->>>>>>      spin_lock_init(&out_q_ctx->rdy_spinlock);
->>>>>>      spin_lock_init(&cap_q_ctx->rdy_spinlock);
->>>>>>
->>>>>> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
->>>>>> index d6c8eb2b5201..2342656e582d 100644
->>>>>> --- a/include/media/v4l2-mem2mem.h
->>>>>> +++ b/include/media/v4l2-mem2mem.h
->>>>>> @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
->>>>>>    * processed
->>>>>>    *
->>>>>>    * @q:             pointer to struct &vb2_queue
->>>>>> - * @rdy_queue:     List of V4L2 mem-to-mem queues
->>>>>> + * @rdy_queue:     List of V4L2 mem-to-mem queues. If v4l2_m2m_buf_queue() is
->>>>>> + *         called in struct vb2_ops->buf_queue(), the buffer enqueued
->>>>>> + *         by user would be added to this list.
->>>>>>    * @rdy_spinlock: spin lock to protect the struct usage
->>>>>>    * @num_rdy:       number of buffers ready to be processed
->>>>>> + * @hw_queue:      A list for tracking the buffer is occupied by the hardware
->>>>>> + *                 (or device's firmware). A buffer could only be in either
->>>>>> + *                 this list or @rdy_queue.
->>>>>> + *                 Driver may choose not to use this list while uses its own
->>>>>> + *                 private data to do this work.
->>>>>>    * @buffered:      is the queue buffered?
->>>>>>    *
->>>>>>    * Queue for buffers ready to be processed as soon as this
->>>>>> @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
->>>>>>      struct list_head        rdy_queue;
->>>>>>      spinlock_t              rdy_spinlock;
->>>>>>      u8                      num_rdy;
->>>>>> +   struct list_head        hw_queue;
->>>>>>      bool                    buffered;
->>>>>>   };
->>>>>>
->>>>>> --
->>>>>> 2.17.1
->>>>>>
->>>>
->>
+The flag was needed for CAPTURE format to tell the driver whether it
+should perform a conversion to the requested colorspace or just fill
+in the color space as inferred from the current configuration (e.g.
+OUTPUT format).
+How was that addressed in the new API?
 
--- 
-Hsia-Jun(Randy) Li
+>
+> Would you like the idea that driver exports a buffer contains all the
+> info for an enumeration ?
+>
+> >
+> > Best regards,
+> > Tomasz
+> >
+> >>
+> >> -    fmt =3D vivid_get_format(dev, mp->pixelformat);
+> >> +    fmt =3D vivid_get_format(dev, f->pixelformat);
+> >>      if (!fmt) {
+> >>              dprintk(dev, 1, "Fourcc format (0x%08x) unknown.\n",
+> >> -                    mp->pixelformat);
+> >> -            mp->pixelformat =3D V4L2_PIX_FMT_YUYV;
+> >> -            fmt =3D vivid_get_format(dev, mp->pixelformat);
+> >> +                    f->pixelformat);
+> >> +            f->pixelformat =3D V4L2_PIX_FMT_YUYV;
+> >> +            fmt =3D vivid_get_format(dev, f->pixelformat);
+> >>      }
+> >>
+> >> -    mp->field =3D vivid_field_cap(dev, mp->field);
+> >> +    f->field =3D vivid_field_cap(dev, f->field);
+> >>      if (vivid_is_webcam(dev)) {
+> >>              const struct v4l2_frmsize_discrete *sz =3D
+> >>                      v4l2_find_nearest_size(webcam_sizes,
+> >>                                             VIVID_WEBCAM_SIZES, width,
+> >> -                                           height, mp->width, mp->hei=
+ght);
+> >> +                                           height, f->width, f->heigh=
+t);
+> >>
+> >>              w =3D sz->width;
+> >>              h =3D sz->height;
+> >> @@ -604,14 +603,14 @@ int vivid_try_fmt_vid_cap(struct file *file, voi=
+d *priv,
+> >>              w =3D dev->src_rect.width;
+> >>              h =3D dev->src_rect.height;
+> >>      }
+> >> -    if (V4L2_FIELD_HAS_T_OR_B(mp->field))
+> >> +    if (V4L2_FIELD_HAS_T_OR_B(f->field))
+> >>              factor =3D 2;
+> >>      if (vivid_is_webcam(dev) ||
+> >>          (!dev->has_scaler_cap && !dev->has_crop_cap && !dev->has_comp=
+ose_cap)) {
+> >> -            mp->width =3D w;
+> >> -            mp->height =3D h / factor;
+> >> +            f->width =3D w;
+> >> +            f->height =3D h / factor;
+> >>      } else {
+> >> -            struct v4l2_rect r =3D { 0, 0, mp->width, mp->height * fa=
+ctor };
+> >> +            struct v4l2_rect r =3D { 0, 0, f->width, f->height * fact=
+or };
+> >>
+> >>              v4l2_rect_set_min_size(&r, &vivid_min_rect);
+> >>              v4l2_rect_set_max_size(&r, &vivid_max_rect);
+> >> @@ -624,16 +623,15 @@ int vivid_try_fmt_vid_cap(struct file *file, voi=
+d *priv,
+> >>              } else if (!dev->has_scaler_cap && !dev->has_crop_cap) {
+> >>                      v4l2_rect_set_min_size(&r, &dev->src_rect);
+> >>              }
+> >> -            mp->width =3D r.width;
+> >> -            mp->height =3D r.height / factor;
+> >> +            f->width =3D r.width;
+> >> +            f->height =3D r.height / factor;
+> >>      }
+> >>
+> >>      /* This driver supports custom bytesperline values */
+> >>
+> >> -    mp->num_planes =3D fmt->buffers;
+> >>      for (p =3D 0; p < fmt->buffers; p++) {
+> >>              /* Calculate the minimum supported bytesperline value */
+> >> -            bytesperline =3D (mp->width * fmt->bit_depth[p]) >> 3;
+> >> +            bytesperline =3D (f->width * fmt->bit_depth[p]) >> 3;
+> >>              /* Calculate the maximum supported bytesperline value */
+> >>              max_bpl =3D (MAX_ZOOM * MAX_WIDTH * fmt->bit_depth[p]) >>=
+ 3;
+> >>
+> >> @@ -642,48 +640,49 @@ int vivid_try_fmt_vid_cap(struct file *file, voi=
+d *priv,
+> >>              if (pfmt[p].bytesperline < bytesperline)
+> >>                      pfmt[p].bytesperline =3D bytesperline;
+> >>
+> >> -            pfmt[p].sizeimage =3D (pfmt[p].bytesperline * mp->height)=
+ /
+> >> +            pfmt[p].sizeimage =3D (pfmt[p].bytesperline * f->height) =
+/
+> >>                              fmt->vdownsampling[p] + fmt->data_offset[=
+p];
+> >> -
+> >> -            memset(pfmt[p].reserved, 0, sizeof(pfmt[p].reserved));
+> >>      }
+> >> +
+> >> +    if (p < VIDEO_MAX_PLANES)
+> >> +            pfmt[p].sizeimage =3D 0;
+> >> +
+> >>      for (p =3D fmt->buffers; p < fmt->planes; p++)
+> >> -            pfmt[0].sizeimage +=3D (pfmt[0].bytesperline * mp->height=
+ *
+> >> +            pfmt[0].sizeimage +=3D (pfmt[0].bytesperline * f->height =
+*
+> >>                      (fmt->bit_depth[p] / fmt->vdownsampling[p])) /
+> >>                      (fmt->bit_depth[0] / fmt->vdownsampling[0]);
+> >>
+> >> -    if (!user_set_csc || !v4l2_is_colorspace_valid(mp->colorspace))
+> >> -            mp->colorspace =3D vivid_colorspace_cap(dev);
+> >> +    if (!v4l2_is_colorspace_valid(f->colorspace))
+> >> +            f->colorspace =3D vivid_colorspace_cap(dev);
+> >>
+> >> -    if (!user_set_csc || !v4l2_is_xfer_func_valid(mp->xfer_func))
+> >> -            mp->xfer_func =3D vivid_xfer_func_cap(dev);
+> >> +    if (!v4l2_is_xfer_func_valid(f->xfer_func))
+> >> +            f->xfer_func =3D vivid_xfer_func_cap(dev);
+> >>
+> >>      if (fmt->color_enc =3D=3D TGP_COLOR_ENC_HSV) {
+> >> -            if (!user_set_csc || !v4l2_is_hsv_enc_valid(mp->hsv_enc))
+> >> -                    mp->hsv_enc =3D vivid_hsv_enc_cap(dev);
+> >> +            if (!v4l2_is_hsv_enc_valid(f->hsv_enc))
+> >> +                    f->hsv_enc =3D vivid_hsv_enc_cap(dev);
+> >>      } else if (fmt->color_enc =3D=3D TGP_COLOR_ENC_YCBCR) {
+> >> -            if (!user_set_csc || !v4l2_is_ycbcr_enc_valid(mp->ycbcr_e=
+nc))
+> >> -                    mp->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
+> >> +            if (!v4l2_is_ycbcr_enc_valid(f->ycbcr_enc))
+> >> +                    f->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
+> >>      } else {
+> >> -            mp->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
+> >> +            f->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
+> >>      }
+> >>
+> >>      if (fmt->color_enc =3D=3D TGP_COLOR_ENC_YCBCR ||
+> >>          fmt->color_enc =3D=3D TGP_COLOR_ENC_RGB) {
+> >> -            if (!user_set_csc || !v4l2_is_quant_valid(mp->quantizatio=
+n))
+> >> -                    mp->quantization =3D vivid_quantization_cap(dev);
+> >> +            if (!v4l2_is_quant_valid(f->quantization))
+> >> +                    f->quantization =3D vivid_quantization_cap(dev);
+> >>      } else {
+> >> -            mp->quantization =3D vivid_quantization_cap(dev);
+> >> +            f->quantization =3D vivid_quantization_cap(dev);
+> >>      }
+> >>
+> >> -    memset(mp->reserved, 0, sizeof(mp->reserved));
+> >> +    memset(f->reserved, 0, sizeof(f->reserved));
+> >>      return 0;
+> >>   }
+> > [snip]
