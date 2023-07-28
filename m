@@ -2,229 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BCFA767451
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 20:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2660B767582
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jul 2023 20:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232517AbjG1SOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jul 2023 14:14:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57618 "EHLO
+        id S231807AbjG1SeZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jul 2023 14:34:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232892AbjG1SOE (ORCPT
+        with ESMTP id S230360AbjG1SeT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jul 2023 14:14:04 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F274488
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 11:13:55 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b9aa1d3029so36759511fa.2
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 11:13:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690568033; x=1691172833;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OB/bj30EnQnr6qTMECfih4Nn+rCyljk2OAQ0K7AzNWE=;
-        b=sgkyoIIxxj+BiKxTUEpniRyHaGqsstpWOTmwkVKFUNAqtP4tLHT8ZRHBpUu8PKmTNa
-         fvFhKwPbOw0bafwB1vOtaVPui1FeDZwTt4gT9trORHRUgq+ACJ0e7enxDL0CjC4EzfVt
-         fWqQ1CISQyFxPZ8tORBha8debkONk4Nj9p/Hzh/ACPLTd+/87oAOCPiGjZhZQnRGcaQX
-         hc2cXUD546s8ED0lYDuHnnkGiSDwznkW1VUudgeVkhCVNGyR7encM/+zEQapwokUyZyI
-         1doqxWmH7PN1kxCPNA+DRYpjmpy4FNY+y5AhUpxbLWRIij3ADQAHOk/OQvW681v9P0R5
-         zvMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690568033; x=1691172833;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OB/bj30EnQnr6qTMECfih4Nn+rCyljk2OAQ0K7AzNWE=;
-        b=OMHgb5iywT+DvdujQQ2P+DU0IFp4CRKO0dQXawSv+YghPiG2tdO0nNWVxAIl+IT4r0
-         dg8qf/0xhLrkUZksMybe7jgzHZ4+BAaOJrGIS2z9RLRUsqo5jUm8XysA+WaZuQa2w5mQ
-         CuJM7w06xhYzwzGiTcppXW1NMaXZYW0dQaYPU6ApPhQlLGzodkY5ZpLWoIPCKvZsTIbV
-         cuHhoHih2ej602VeV3ajbXF8aZ3TVV/C9grcKqdGisMeL2Lp7D5u+DCDRTdzT7JlMoTz
-         gVjDfEVKhIYR4XcG8IhDwnEgR/6mdbAEEUd7jYgnMiIkJi99bDl6E5kiozFry7sp6N+v
-         IdFg==
-X-Gm-Message-State: ABy/qLb84m8ExA1cm8sy4P9BCN1MxM2fP3YAOPDkFf3EfTPYGd2wS4L/
-        nBTdcfQTG6j7ELLFMRkKQ46sfA==
-X-Google-Smtp-Source: APBJJlHZ2xt/9kZ6i7sJ/WW42TO6ZL+VX/STN8Vn819QxWIcAcB46aAFopd7prKIGS3SHkjqImc6vg==
-X-Received: by 2002:a05:6512:3b13:b0:4fe:c53:1824 with SMTP id f19-20020a0565123b1300b004fe0c531824mr3270765lfv.40.1690568033641;
-        Fri, 28 Jul 2023 11:13:53 -0700 (PDT)
-Received: from [192.168.1.101] (abyk53.neoplus.adsl.tpnet.pl. [83.9.30.53])
-        by smtp.gmail.com with ESMTPSA id z5-20020ac24f85000000b004fb74dbbd98sm915772lfs.246.2023.07.28.11.13.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jul 2023 11:13:53 -0700 (PDT)
-Message-ID: <df9b1ee4-1462-f37a-1f08-0321a10fc4f9@linaro.org>
-Date:   Fri, 28 Jul 2023 20:13:51 +0200
+        Fri, 28 Jul 2023 14:34:19 -0400
+Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD584488
+        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 11:34:16 -0700 (PDT)
+Received: from [192.168.10.7] (unknown [10.0.12.132])
+        by kozue.soulik.info (Postfix) with ESMTPSA id 0A755300F2B;
+        Sat, 29 Jul 2023 03:33:49 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info 0A755300F2B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
+        t=1690569234; bh=UupO+/k4HbNKvejj1AVmVwxWXFkzX7lvD90tVfI4E6s=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=IpF8thssD2lt4zAncjz4qycAW8wNwcj0HOogNTK9RLZO/HnkzjvLBJzyb8LdUHdey
+         z/XdXrhM56bRuQKKhcoRXCu4BjnpWXGI5SMvcKNmLOIP8oPtVtra5JqDzyFnG/PJMl
+         OzwrX/AB88Puni9eYHb9bYQDBYluR59+sAm5zu0E=
+Message-ID: <cbc0756a-1a98-545e-7eed-cccfd59289b8@soulik.info>
+Date:   Sat, 29 Jul 2023 02:34:05 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 32/33] iris: variant: iris3: implement logic to compute
- clock frequency
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC]: m2m dec reports the graphics memory requirement
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, Brian.Starkey@arm.com,
+        boris.brezillon@collabora.com, frkoenig@chromium.org,
+        hans.verkuil@cisco.com, hiroh@chromium.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>
+References: <a2ffa1cb-42db-a78a-8bd7-b0e422aade13@synaptics.com>
+ <CAAFQd5AFJwreERs2Hn_A+3g51OLF6F0eWjx2+rgiZV=FR_61fA@mail.gmail.com>
+ <20230728043347.GM955071@google.com>
+ <20230728081824.GC28824@pendragon.ideasonboard.com>
+ <CAAFQd5BqDo41U05pmQ+eQvWa0YpJj2OTyKXDAFPwX2S5s5sqBg@mail.gmail.com>
+ <20230728084205.GD28824@pendragon.ideasonboard.com>
 Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, agross@kernel.org,
-        andersson@kernel.org, mchehab@kernel.org, hans.verkuil@cisco.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     quic_dikshita@quicinc.com
-References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-33-git-send-email-quic_vgarodia@quicinc.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <1690550624-14642-33-git-send-email-quic_vgarodia@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+From:   Randy Li <ayaka@soulik.info>
+In-Reply-To: <20230728084205.GD28824@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28.07.2023 15:23, Vikash Garodia wrote:
-> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> 
-> This implements the logic to computer the required clock frequency
-> by encoder or decoder for a specific usecase. It considers the input
-> as various parameters configured by client for that usecase.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  .../iris/variant/iris3/src/msm_vidc_clock_iris3.c  | 627 +++++++++++++++++++++
->  1 file changed, 627 insertions(+)
->  create mode 100644 drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c
-> 
-> diff --git a/drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c b/drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c
-> new file mode 100644
-> index 0000000..6665aef
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/iris/variant/iris3/src/msm_vidc_clock_iris3.c
-> @@ -0,0 +1,627 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include "msm_vidc_debug.h"
-> +
-> +#define ENABLE_FINEBITRATE_SUBUHD60 0
-> +#include "perf_static_model.h"
-> +
-> +/*
-> + * Chipset Generation Technology: SW/FW overhead profiling
-> + * need update with new numbers
-> + */
-> +static u32 frequency_table_iris3[2][6] = {
-I think it's the third repetition of the same (ftbl + OPP)
 
-> +	/* //make lowsvs_D1 as invalid; */
-> +	{533, 444, 366, 338, 240, 0},
-> +	{800, 666, 549, 507, 360, 0},
-> +};
-> +
-> + /* Tensilica cycles */
-> +#define DECODER_VPP_FW_OVERHEAD_IRIS3                                                  66234
-> +
-> +/* Tensilica cycles; this is measured in Lahaina 1stage with FW profiling */
-Is it gonna differ for other SoCs? Especially that 8350 has IRIS2?
+On 2023/7/28 16:42, Laurent Pinchart wrote:
+> On Fri, Jul 28, 2023 at 05:28:56PM +0900, Tomasz Figa wrote:
+>> On Fri, Jul 28, 2023 at 5:18 PM Laurent Pinchart wrote:
+>>> On Fri, Jul 28, 2023 at 01:33:47PM +0900, Sergey Senozhatsky wrote:
+>>>> On (23/07/27 17:17), Tomasz Figa wrote:
+>>>>> On Fri, Jun 30, 2023 at 7:47 PM Hsia-Jun Li wrote:
+>>>>>> Hello All
+>>>>>>
+>>>>>> This RFC tries to address the following problems:
+>>>>>>
+>>>>>> 1. Application may request too many buffers, increasing pressure to
+>>>>>> system's memory allocator(Thinking about running Android with 8K UHD
+>>>>>> playback in a system with only 2 GiB memory available);
+>>>>> Yeah, I think that's something that has to be addressed. It was also
+>>>>> mentioned recently in the review of the DELETE_BUF series. I think we
+>>>>> need some kind of accounting of the allocations to the processes, so
+>>>>> that the per-process limits of memory usage could apply. Let me add
+>>>>> +Sergey Senozhatsky who often crosses his path with kernel memory
+>>>>> management.
+>>>> That's an interesting topic. The usual approach would be memcg: we
+>>>> create a memory controller, set memory usage limit, then move tasks
+>>>> under that controller. The last part is problematic, as it implies
+>>>> a well-behaving user-space. I'm not aware of a simple way (or any
+>>>> way for that matter) to "automatically enforce" memcg on a process
+>>>> group.
+>>>>
+>>>>  From what I can tell networking code attempts to "enforce" memcg on its
+>>>> allocations, and hence has to manually charge memcg. For instance, take
+>>>> a look at sock_reserve_memory() and corresponding mem_cgroup_charge_skmem()
+>>>> call.
+>>>>
+>>>> So I wonder if we can take a closer look at what networking does and
+>>>> do something similar in vb2.
+>>> It's a long-standing issue that would be nice to solve indeed. I however
+>>> wonder if we should do so in vb2, or instead invest our time and efforts
+>>> in transitioning to DMA heaps and solving the memory accounting issue
+>>> there.
+>> Would we then provide some way to disable MMAP buffer support for
+>> applications? Or you're thinking more about backing MMAP allocations
+>> with DMA-buf heaps internally in the kernel?
+> Long term I'd like to see MMAP going away, replaced with DMA heaps.
+> That's veeeery long term though. In the meantime, maybe an option to
+> disable MMAP support (either a compilation option or a kernel command
+> line option) would be useful.
 
-> +#define DECODER_VPPVSP1STAGE_FW_OVERHEAD_IRIS3                                         93000
-> +
-> +#define DECODER_VSP_FW_OVERHEAD_IRIS3 \
-> +	(DECODER_VPPVSP1STAGE_FW_OVERHEAD_IRIS3 - DECODER_VPP_FW_OVERHEAD_IRIS3)
-> +
-> +/* Tensilica cycles; encoder has ARP register */
-> +#define ENCODER_VPP_FW_OVERHEAD_IRIS3                                                  48405
-> +
-> +#define ENCODER_VPPVSP1STAGE_FW_OVERHEAD_IRIS3 \
-> +	(ENCODER_VPP_FW_OVERHEAD_IRIS3 + DECODER_VSP_FW_OVERHEAD_IRIS3)
-> +
-> +#define DECODER_SW_OVERHEAD_IRIS3                                                      489583
-> +#define ENCODER_SW_OVERHEAD_IRIS3                                                      489583
-> +
-> +/* Video IP Core Technology: pipefloor and pipe penlaty */
-> +static u32 decoder_vpp_target_clk_per_mb_iris3 = 200;
-Why is this a variable?
+MMAP is a confusion name, it means the driver would allocate memory in 
+the device's memory space,
 
-[...]
+which turns out to be the unified memory(system memory) in the most 
+embedded platform.
 
-> +
-> +/* 8KUHD60; UHD240; 1080p960  with B */
-> +static u32 fp_pixel_count_bar0 = 3840 * 2160 * 240;
-> +/* 8KUHD60; UHD240; 1080p960  without B */
-> +static u32 fp_pixel_count_bar1 = 3840 * 2160 * 240;
-Not sure what the 'B' is, but the entries are the same. And looks like
-there's:
+While we can't disable such option even for those embedded platform, a 
+few cache hints are missing in DMA-heap.
 
-- no need for it to be a variable
-- maybe you could make this a macro or just a simple multiplication
+For example, the page contiguous requirement hints(Device's iommu only 
+support large page size).
 
-[...]
-
-> +u32 get_bitrate_entry(u32 pixle_count)
-pixle -> pixel, checkpatch should point out typos
-
-[...]
-
-> +static int calculate_vsp_min_freq(struct api_calculation_input codec_input,
-> +				  struct api_calculation_freq_output *codec_output)
-> +{
-> +	/*
-> +	 * VSP calculation
-> +	 * different methodology from Lahaina
-> +	 */
-Not sure if that comment is useful to the reader.
-
-[...]
-
-
-> +
-> +static u32 calculate_pipe_penalty(struct api_calculation_input codec_input)
-> +{
-> +	u32 pipe_penalty_codec = 0;
-> +
-> +	/* decoder */
-> +	if (codec_input.decoder_or_encoder == CODEC_DECODER)
-> +		pipe_penalty_codec = pipe_penalty_iris3[0][0];
-> +	else
-> +		pipe_penalty_codec = 101;
-Add a define for this magic number?
-
-Also, return the value instead of assigning it and doing the same
-
-
-Konrad
+>
