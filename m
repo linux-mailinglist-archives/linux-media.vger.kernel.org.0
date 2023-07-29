@@ -2,241 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFB23767C10
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jul 2023 06:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70F50767CA5
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jul 2023 08:51:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232018AbjG2ETM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jul 2023 00:19:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55502 "EHLO
+        id S236372AbjG2Gvg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jul 2023 02:51:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjG2ETL (ORCPT
+        with ESMTP id S229582AbjG2Gve (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jul 2023 00:19:11 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D4B7420C
-        for <linux-media@vger.kernel.org>; Fri, 28 Jul 2023 21:19:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690604349; x=1722140349;
-  h=date:from:to:cc:subject:message-id;
-  bh=U3ZyktKt/aiT25Pd/hkRGiHjLB2+bnXrptbobwwRtMI=;
-  b=iNR6HM9RNdPIB3RgaTeRPzZkSQLK8PDNy9JH3/KuYIjGmgskY5XXxpjW
-   i57wG5kYu3BThRQ88CDIQsw17tyNowa6e01HHjCqOxoj8/u0wVBqYXVvT
-   BBGq6nR7vydfgESNHvMQ3xLr9gJOazDCLLu4fOhA2zPemHf7h5A5qbjFN
-   d/2wIKIC1dDymZ3/FrTQuOSdhsMlPmDx+hqm39wqD3km9NDiKqUSIk9Oi
-   hedwXgWSu0u86tDADflfW7463skc+raKTxpo2t/Ka4B/XiVMUuUkDQbEi
-   4F+xDvlxkQaby/IGtrtly2sm93CSA/MYA/Z0Vk/E6E35UPqURNtQgI/wP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="368738384"
-X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="368738384"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 21:19:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="797637228"
-X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="797637228"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jul 2023 21:19:08 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qPbQ3-0003or-18;
-        Sat, 29 Jul 2023 04:19:07 +0000
-Date:   Sat, 29 Jul 2023 12:18:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD REGRESSION
- 78b5f6f940f213e4139b0c8dbd1499a564f1ea89
-Message-ID: <202307291242.61CMUHtm-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 29 Jul 2023 02:51:34 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0980749C4;
+        Fri, 28 Jul 2023 23:51:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1690613477; x=1691218277; i=deller@gmx.de;
+ bh=vGuAkdYCsbJWoTKH20FssiEcqVAS81m1HqBiVTZfsDQ=;
+ h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
+ b=T/4T0165j/rUzJOyu/CVaICXWkvphQzSV9N2zWzVcY0mXEq8Ogb4aITruzyLw4F7Qo5pPy0
+ ybW+RHv54yJwJ0otkPfnue5akbET2vrpBrCOxuNSK3gfpvcsvCOCRBi6dNtSqEn5qAZFcR8yo
+ FX5/jz5R0ZBQ0nOrGR95Ao3Fl+DWc/kjnSR5d7S4WwAE0YlE+eCBIAL/MrKsIByU+OkPerGH4
+ xy9pSXXcEsVPmjXuwBPTEH+mvAR4kitPhTaX9NwGJydoTEc3j2KOOc+9DXNNtxo/TOhTcvaYo
+ oR007SD0p4aH7vP8RicIWbTuKUkOga3vxp7wG9YXbaVf2BSOu7NA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.147.68]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M89Gj-1qUqb00Iz5-005LED; Sat, 29
+ Jul 2023 08:51:17 +0200
+Message-ID: <78da21f8-7d00-797e-363a-736ee53b2eb6@gmx.de>
+Date:   Sat, 29 Jul 2023 08:51:16 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Content-Language: en-US
+To:     Sam Ravnborg <sam@ravnborg.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     javierm@redhat.com, linux-media@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-geode@lists.infradead.org, linux-omap@vger.kernel.org,
+        kvm@vger.kernel.org
+References: <20230728182234.10680-1-tzimmermann@suse.de>
+ <c1a4b7c9-50f2-c43f-277d-c2af9ccc0b50@gmx.de>
+ <20230728210127.GA1156027@ravnborg.org>
+From:   Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
+In-Reply-To: <20230728210127.GA1156027@ravnborg.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fmw9QQ8ArfBeIYoF6/TpEVzoma+xkmASjOG3etSNNCR/kTSWB+0
+ 2Zz+L9Wa5ta7+gBOa0bDm2jIKKaVHbZo2AxaLYka6SvR07z2r8u6+mFa7MJT59VNr5yTP1d
+ xENDgoFt9JFvIKQxGeQXUg2RG7pjngjmKgcv59hphwEZxuI16IJ6CUl/LKFkOwzrqBqwHm4
+ DqiLJt2XiS5CFZURp3C+g==
+UI-OutboundReport: notjunk:1;M01:P0:DSWmJYReKQ4=;E9WydwnCCcxSFwZk/v9aromemUb
+ RvY6yitIf02ATUsA1bfGcfdMVuzH2Tp7RFEKYnutOh4/yL4JKjBRLis/sdtW+heuRf27eScUc
+ D1z/Z1kBcEQrtNFgs0PY7ZdxYpaAvIm8AiizRrTiLXdt+m8is3kPR1c5fXNcfA3OfhUwSqrPa
+ 0xwPuvTaaTaaIOXgvSWieUqQDTz56AcBNxj/kyx3jefCfvNVOaccjvtXsrjHWy+YWGth8Zgv3
+ smaRGrjjG2YDpl1miZ52SQZmJbu9l5XCZkL/+B33jNmHqb5U8ty2pwFRMH++0JG53QKrssrsI
+ keyiu/rtSgKnn1nFYAIjCDaKMa4sL8a5RmSekhMC2KzSJULiOFWrVCpMbrk9Brp2nceIYvttb
+ kMA8D9NDGAAS/ELQ4gF7FzK5+t9AivKeOwXeSpnVpKH0YSQAs0mHOgcy/IUagz5XPhikWFXwq
+ RIZR5Mk6K47k0WoodUmt9IzARMotCjEoHmvfgJZthcipi/9Ig/2Gq1liKLOiK3degTUnUGk7U
+ uny4U94W6MbZcof0LNOrfdi8ehFaHDxg/qP+bLKtU+gkUa/8hR5A2TV+HRFZLEntrWjwK+ID1
+ FroIp8ycYlkaGPbwl6IAZMh5/25xXX+/M0eEnrxtonmvBateM247bedDKbGnmwU3GBH0ntJHL
+ uTnUnF+SJgehtMpl+vV7EYwlHiQENXiDq/unELJncLMIp3Aseuc6d/LHi2OIKHFAq1YbCpqCe
+ h9nqGhvbY6noGtufJRMcLMHbr4yFA6XHMyxR9IJFXzyPv1HSyH2iF9jxi51GqNyDbzR+4antw
+ AujLtxyRVYCf3U0XfTZLc5bl3UOWa3/xNVdeqBG1HsLjH2B1q9oJ8cTRAVZh2Ai+u8ZGTNAu6
+ C5gNp23jG3HnB3FTxRPdrq0b+7yvEYMpOYRInngdsb+/DViKpVDVxQMJll6KxEbAHU2N+VHoG
+ z7oFbNm/CnGAlumaFR2tPl10gSw=
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 78b5f6f940f213e4139b0c8dbd1499a564f1ea89  media: rcar-csi2: Add support for C-PHY on R-Car V4H
+On 7/28/23 23:01, Sam Ravnborg wrote:
+> Hi Helge,
+>
+> On Fri, Jul 28, 2023 at 08:46:59PM +0200, Helge Deller wrote:
+>> On 7/28/23 18:39, Thomas Zimmermann wrote:
+>>> Most fbdev drivers operate on I/O memory.
+>>
+>> Just nitpicking here:
+>> What is I/O memory?
+>> Isn't it either memory, or I/O ?
+>> I mean, I would never think of the cfb* draw functions under I/O.
+>>
+>>> And most of those use the
+>>> default implementations for file I/O and console drawing. Convert all
+>>> these low-hanging fruits to the fb_ops initializer macro and Kconfig
+>>> token for fbdev I/O helpers.
+>>
+>> I do see the motivation for your patch, but I think the
+>> macro names are very misleading.
+>>
+>> You have:
+>> #define __FB_DEFAULT_IO_OPS_RDWR \
+>>          .fb_read        =3D fb_io_read, \
+>>          .fb_write       =3D fb_io_write
+>>
+>> #define __FB_DEFAULT_IO_OPS_DRAW \
+>>          .fb_fillrect    =3D cfb_fillrect, \
+>>          .fb_copyarea    =3D cfb_copyarea, \
+>>          .fb_imageblit   =3D cfb_imageblit
+>>
+>> #define __FB_DEFAULT_IO_OPS_MMAP \
+>>          .fb_mmap        =3D NULL /* default implementation */
+>>
+>> #define FB_DEFAULT_IO_OPS \
+>>          __FB_DEFAULT_IO_OPS_RDWR, \
+>>          __FB_DEFAULT_IO_OPS_DRAW, \
+>>          __FB_DEFAULT_IO_OPS_MMAP
+>>
+>> I think FB_DEFAULT_IO_OPS is OK for read/write/mmap.
+>> But I would suggest to split out __FB_DEFAULT_IO_OPS_DRAW.
+>> Something like:
+>> #define FB_DEFAULT_IO_OPS \
+>>          __FB_DEFAULT_IO_OPS_RDWR, \
+>>          __FB_DEFAULT_IO_OPS_MMAP
+>
+>
+>> #define FB_DEFAULT_CFB_OPS \
+>>          .fb_fillrect    =3D cfb_fillrect, \
+>>          .fb_copyarea    =3D cfb_copyarea, \
+>>          .fb_imageblit   =3D cfb_imageblit
+>
+> The prefix cfb, I have recently learned, equals color frame buffer.
 
-Error/Warning reports:
+correct.
 
-https://lore.kernel.org/oe-kbuild-all/202307271519.XIXA0WQd-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202307271727.smfo1zYW-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202307290010.Xjbdp5kg-lkp@intel.com
+> They are named such for purely historical reasons.
 
-Error/Warning: (recently discovered and may have been fixed)
+well, they operate on MEMORY which represents a (color) frame buffer,
+either in host memory or memory on some card on some bus.
+So, the naming cfb is not historical, but even today correct.
 
-drivers/media/i2c/imx290.c:1526:17: error: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
-drivers/media/i2c/imx290.c:1526:19: error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-drivers/media/i2c/imx290.c:1526:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-drivers/media/i2c/imx290.c:1526:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c'; did you mean 'devm_regmap_init_i2c'? [-Werror=implicit-function-declaration]
-drivers/media/i2c/ov5693.c:1280:17: error: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
-drivers/media/i2c/ov5693.c:1280:19: error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-ld.lld: error: undefined symbol: cci_multi_reg_write
-ld.lld: error: undefined symbol: cci_write
-ld.lld: error: undefined symbol: devm_cci_regmap_init_i2c
+> What is important is where the data are copied as we have two
+> implementations of for example copyarea - one using system memory, the
+> other using IO memory.
 
-Error/Warning ids grouped by kconfigs:
+sys_copyarea() and cfb_copyarea().
 
-gcc_recent_errors
-`-- i386-randconfig-r001-20230728
-    |-- drivers-media-i2c-imx290.c:error:implicit-declaration-of-function-devm_cci_regmap_init_i2c
-    `-- drivers-media-i2c-imx290.c:warning:assignment-to-struct-regmap-from-int-makes-pointer-from-integer-without-a-cast
-clang_recent_errors
-|-- i386-randconfig-i012-20230728
-|   |-- ld.lld:error:undefined-symbol:cci_multi_reg_write
-|   |-- ld.lld:error:undefined-symbol:cci_write
-|   `-- ld.lld:error:undefined-symbol:devm_cci_regmap_init_i2c
-|-- i386-randconfig-i013-20230728
-|   |-- drivers-media-i2c-ov5693.c:error:call-to-undeclared-function-devm_cci_regmap_init_i2c-ISO-C99-and-later-do-not-support-implicit-function-declarations
-|   `-- drivers-media-i2c-ov5693.c:error:incompatible-integer-to-pointer-conversion-assigning-to-struct-regmap-from-int
-`-- x86_64-randconfig-r023-20230728
-    |-- drivers-media-i2c-imx290.c:error:call-to-undeclared-function-devm_cci_regmap_init_i2c-ISO-C99-and-later-do-not-support-implicit-function-declarations
-    `-- drivers-media-i2c-imx290.c:error:incompatible-integer-to-pointer-conversion-assigning-to-struct-regmap-from-int
+> The naming FB_DEFAULT_IO_OPS says this is the defaults to IO memory
+> operations, which tell what they do
 
-elapsed time: 950m
+This is exactly what I find misleading. IO_OPS sounds that it operates
+on file I/O (like file read/write), but not on iomem.
 
-configs tested: 131
-configs skipped: 8
+> and avoid the strange cfb acronym.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r013-20230728   gcc  
-alpha                randconfig-r036-20230728   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r014-20230728   gcc  
-arc                  randconfig-r043-20230728   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r046-20230728   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r006-20230728   gcc  
-csky                 randconfig-r011-20230728   gcc  
-csky                 randconfig-r034-20230728   gcc  
-csky                 randconfig-r035-20230728   gcc  
-hexagon              randconfig-r021-20230728   clang
-hexagon              randconfig-r025-20230728   clang
-hexagon              randconfig-r041-20230728   clang
-hexagon              randconfig-r045-20230728   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230728   gcc  
-i386         buildonly-randconfig-r005-20230728   gcc  
-i386         buildonly-randconfig-r006-20230728   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230728   gcc  
-i386                 randconfig-i002-20230728   gcc  
-i386                 randconfig-i003-20230728   gcc  
-i386                 randconfig-i004-20230728   gcc  
-i386                 randconfig-i005-20230728   gcc  
-i386                 randconfig-i006-20230728   gcc  
-i386                 randconfig-i011-20230728   clang
-i386                 randconfig-i012-20230728   clang
-i386                 randconfig-i013-20230728   clang
-i386                 randconfig-i014-20230728   clang
-i386                 randconfig-i015-20230728   clang
-i386                 randconfig-i016-20230728   clang
-i386                 randconfig-r001-20230728   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r003-20230728   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r002-20230728   gcc  
-m68k                 randconfig-r003-20230728   gcc  
-m68k                 randconfig-r004-20230728   gcc  
-m68k                 randconfig-r021-20230728   gcc  
-m68k                 randconfig-r031-20230728   gcc  
-microblaze           randconfig-r001-20230728   gcc  
-microblaze           randconfig-r002-20230728   gcc  
-microblaze           randconfig-r012-20230728   gcc  
-microblaze           randconfig-r013-20230728   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r005-20230728   gcc  
-nios2                randconfig-r015-20230728   gcc  
-nios2                randconfig-r031-20230728   gcc  
-nios2                randconfig-r036-20230728   gcc  
-openrisc             randconfig-r002-20230728   gcc  
-openrisc             randconfig-r016-20230728   gcc  
-openrisc             randconfig-r026-20230728   gcc  
-openrisc             randconfig-r032-20230728   gcc  
-openrisc             randconfig-r035-20230728   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r011-20230728   gcc  
-parisc               randconfig-r031-20230728   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc              randconfig-r022-20230728   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r004-20230728   gcc  
-riscv                randconfig-r005-20230728   gcc  
-riscv                randconfig-r042-20230728   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r026-20230728   clang
-s390                 randconfig-r032-20230728   gcc  
-s390                 randconfig-r044-20230728   clang
-sh                               allmodconfig   gcc  
-sh                   randconfig-r003-20230728   gcc  
-sh                   randconfig-r005-20230728   gcc  
-sh                   randconfig-r015-20230728   gcc  
-sh                   randconfig-r034-20230728   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64              randconfig-r014-20230728   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230728   gcc  
-x86_64       buildonly-randconfig-r002-20230728   gcc  
-x86_64       buildonly-randconfig-r003-20230728   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r014-20230728   clang
-x86_64               randconfig-r023-20230728   clang
-x86_64               randconfig-r024-20230728   clang
-x86_64               randconfig-r033-20230728   gcc  
-x86_64               randconfig-x001-20230728   clang
-x86_64               randconfig-x002-20230728   clang
-x86_64               randconfig-x003-20230728   clang
-x86_64               randconfig-x004-20230728   clang
-x86_64               randconfig-x005-20230728   clang
-x86_64               randconfig-x006-20230728   clang
-x86_64               randconfig-x011-20230728   gcc  
-x86_64               randconfig-x012-20230728   gcc  
-x86_64               randconfig-x013-20230728   gcc  
-x86_64               randconfig-x014-20230728   gcc  
-x86_64               randconfig-x015-20230728   gcc  
-x86_64               randconfig-x016-20230728   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r035-20230728   gcc  
+> Reserve cfb for color frame buffers only - and maybe in the end rename
+> the three cfbcopyarea, cfbfillrect, cfbimgblt to use the io prefix.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Again, the io prefix is what I think is misleading.
+Why not name it what it really is and what is used in the kernel already, =
+e.g.
+iomem_copyarea() and sysmem_copyarea().
+which would lead to
+FB_DEFAULT_IOMEM_OPS and FB_DEFAULT_SYSMEM_OPS.
+
+> Which is much simpler to do after this series - and nice extra benefit.
+>
+> I hope this properly explains why I like the current naming and
+> acked it when the macros were introduced.
+
+IMHO the naming isn't perfect, but that's just nitpicking.
+Besides that, Thomas' patches are a nice cleanup.
+So, if you want add a
+Acked-by: Helge Deller <deller@gmx.de>
+to the series.
+
+Helge
