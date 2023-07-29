@@ -2,65 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60056767DA7
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jul 2023 11:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56820767E44
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jul 2023 12:42:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231545AbjG2JcA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jul 2023 05:32:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49440 "EHLO
+        id S231285AbjG2KmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jul 2023 06:42:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjG2Jb7 (ORCPT
+        with ESMTP id S230011AbjG2KmW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jul 2023 05:31:59 -0400
-Received: from mgamail.intel.com (unknown [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E076A3A99
-        for <linux-media@vger.kernel.org>; Sat, 29 Jul 2023 02:31:58 -0700 (PDT)
+        Sat, 29 Jul 2023 06:42:22 -0400
+Received: from mgamail.intel.com (unknown [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 837C43598
+        for <linux-media@vger.kernel.org>; Sat, 29 Jul 2023 03:42:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690623118; x=1722159118;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9E5/hXQ/a43ajYHMI2GY6Ykrx/VZGK1+tUN3LvEjnJ0=;
-  b=nqGDHKKeVr/sQ0Cx8CfjWypoa/2/3vLvSKbe9XaZbdL9ZtKY5JrccN7g
-   bWWeV6WhzGcf/zQcdlVvNvmKuoHloKVFAx6ce18vfOIWzmSFjoV3Ri7Vk
-   B7V0rsWkM8qK5R8XyNIfuyd+dyiuMBu47yqYDcPOgf85lqbfvpVKpI8vw
-   HC824y22kRIfw89LiAWNzPYINuiHAFuJa6SNSvrjzaYhl53r+VUa/ZJsk
-   sDts0xGt7N9EzVjUVl7j6SpOPyDoTt74Y/OajhNyW+x9BfeXlzxT2TRnm
-   EZaPV7Nw3n6i/Psrb7sSWYwMi9+IMNIGHIE7zKsjBCwhcbeKnM+dqpSlz
+  t=1690627341; x=1722163341;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=y8KfxXeSfVy6jj0mQyrFTO6bNANEDqbw6U5JjH7p1SM=;
+  b=OKvuo96vOXZOksVY6oWlD4qrVedowMJgXS8aZxzDpYvs/HIPSeF5PISC
+   vOCq+FILPqKlmOhp1NAV1oR+5BEsEAuJg2wj6TTzflfJPhV75xvu8HU7E
+   s1PBc8ONZBW9zFGcRHDt9BeyyyPF7EOT3gWHtG1o8J7QQ835SvAAROcmj
+   V8wm6SqnaZw5oUZ0JD/lPH3ASpblH1AUnoaFIXqTCoGr/vbmlkHxI5XOI
+   CJckam1vTzQEI9zPcmDgYCT0UlJkhgvZ95rd6PQqYj+Ybl9js+u3mn7ce
+   CH1il8Y81sFaJa9Ar4O1dFXQNJ71PHgCKi+0beBCa1rtDwO8PSdcCMzII
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="371445469"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="353658555"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="371445469"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 02:31:58 -0700
+   d="scan'208";a="353658555"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 03:42:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="704849257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="901568534"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="704849257"
+   d="scan'208";a="901568534"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 02:31:56 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 1EC4411F81F;
-        Sat, 29 Jul 2023 12:31:54 +0300 (EEST)
-Date:   Sat, 29 Jul 2023 09:31:54 +0000
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 03:42:19 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id D0D3911F9B6;
+        Sat, 29 Jul 2023 13:42:16 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1qPhNc-004yyv-0R;
+        Sat, 29 Jul 2023 13:41:00 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-        oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [sailus-media-tree:master 9/20]
- drivers/media/i2c/ov5693.c:1280:17: warning: incompatible integer to pointer
- conversion assigning to 'struct regmap *' from 'int'
-Message-ID: <ZMTcirgM3W+C0rag@kekkonen.localdomain>
-References: <202307271517.dPa1bTSi-lkp@intel.com>
- <8848c668-4736-a478-a277-e0cf1aa96ad4@redhat.com>
+To:     linux-media@vger.kernel.org
+Cc:     hdegoede@redhat.com
+Subject: [PATCH 1/2] media: Kconfig: imx290: Correct CCI dependency
+Date:   Sat, 29 Jul 2023 13:40:49 +0300
+Message-Id: <20230729104050.1187715-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8848c668-4736-a478-a277-e0cf1aa96ad4@redhat.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -69,40 +65,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+The Kconfig parts of the original patch converting the IMX290 to use V4L2
+CCI was mis-merged. Correct this.
 
-On Thu, Jul 27, 2023 at 10:57:15AM +0200, Hans de Goede wrote:
-> Hi Sakari,
-> 
-> On 7/27/23 09:34, kernel test robot wrote:
-> > tree:   git://linuxtv.org/sailus/media_tree.git master
-> > head:   215e4463b11d94668b841368cb6882f3a2968148
-> > commit: 6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c [9/20] media: ov5693: Convert to new CCI register access helpers
-> > config: arm-randconfig-r012-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271517.dPa1bTSi-lkp@intel.com/config)
-> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> > reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271517.dPa1bTSi-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202307271517.dPa1bTSi-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    drivers/media/i2c/ov5693.c:1280:19: error: implicit declaration of function 'devm_cci_regmap_init_i2c' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-> >            ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-> 
-> This is caused by a mis-merge:
-> 
-> https://git.linuxtv.org/sailus/media_tree.git/commit/?id=6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c
-> 
-> Shows that the "select V4L2_CCI_I2C" was added to the DW9768 Kconfig block instead of to the OV5693 block.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202307271517.dPa1bTSi-lkp@intel.com/
+Fixes: be02a09c84ad ("media: imx290: Convert to new CCI register access helpers")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/i2c/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Oops. Probably a result of the automatic merge, as both mine and your
-patches changed the surrounding lines. I'll send a patch to fix this as
-well as the other issue. Thanks for pointing this out.
-
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 24cbf35c6fe1..f3453a5da970 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -125,6 +125,7 @@ config VIDEO_IMX274
+ config VIDEO_IMX290
+ 	tristate "Sony IMX290 sensor support"
+ 	select REGMAP_I2C
++	select V4L2_CCI_I2C
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the Sony
+ 	  IMX290 camera sensor.
+@@ -934,7 +935,6 @@ config VIDEO_ADV748X
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select REGMAP_I2C
+ 	select V4L2_FWNODE
+-	select V4L2_CCI_I2C
+ 	help
+ 	  V4L2 subdevice driver for the Analog Devices
+ 	  ADV7481 and ADV7482 HDMI/Analog video decoders.
 -- 
-Kind regards,
+2.39.2
 
-Sakari Ailus
