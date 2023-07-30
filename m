@@ -2,68 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8862C7682B8
-	for <lists+linux-media@lfdr.de>; Sun, 30 Jul 2023 01:44:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44AFC768483
+	for <lists+linux-media@lfdr.de>; Sun, 30 Jul 2023 10:55:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbjG2XoD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jul 2023 19:44:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48454 "EHLO
+        id S229526AbjG3Izq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Jul 2023 04:55:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjG2XoC (ORCPT
+        with ESMTP id S229547AbjG3Izp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jul 2023 19:44:02 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8FD2D61
-        for <linux-media@vger.kernel.org>; Sat, 29 Jul 2023 16:44:01 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1bbf8cb61aeso5606635ad.2
-        for <linux-media@vger.kernel.org>; Sat, 29 Jul 2023 16:44:01 -0700 (PDT)
+        Sun, 30 Jul 2023 04:55:45 -0400
+Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com (mailrelay4-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:403::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C00FBE57
+        for <linux-media@vger.kernel.org>; Sun, 30 Jul 2023 01:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690674241; x=1691279041;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lUt4zTiaWraG/JydWsEsAt041nf65EEi4XPn8lFVCUg=;
-        b=QuX3SsGF5DPdRdZjWytc7xmisu8Mn6LPuCNU4/LpFY7xBldypr1l3oYgRuhWjLYgYE
-         e9jednMUA+/Ll9RZF95VyixYWU0ENDz+NU4ZsG3nCxJ7BXPe17DMTtX6t0xWBoVxpM7d
-         LUkU34KOs8KfFh1dSssVWghenMrFdcj/PtfCYKnaQv6zLMxsokgyjZDkkXjjVB6ApEO4
-         tGFrY4sTTtCK6gyC34FDRY+FcnMD1gD5zXb/8HLKz/a5y5hwSMhybAh7DGUz/cT/JmxA
-         4o0Elj1XmLgYn40/qOXqrxkh3khY4K8IrXMzkpK39JVxBAOiVHx+er4SCfrbVZ5Siw8Y
-         fAwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690674241; x=1691279041;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lUt4zTiaWraG/JydWsEsAt041nf65EEi4XPn8lFVCUg=;
-        b=PqyTr/TiUQ8JOdu101eqRoKxxGcH0YagOEGFn6nohW6TBsX8YVZr5aFoFMRgez0qUJ
-         cbb8O1RxXSqneNtkCVqSYC5SIwbxaF49i5eYX8jZXaq+nwGhZz3xI5S6XEYAGKG5XRhO
-         862PK4QVBTOUnDYy/U8TKKViZVRNUfyd4hDOCUcx4fYCr+/U1SwBNe/2oFmAapB4Zbwd
-         B02w8VFjadn0V1FHH6luwjvM9pk5u1c2e1tHcyEx9Nd6+TQuGieqblD7kwKBk4hpn9bJ
-         S1x3Zurp9sN58J9FXbj3Hwg8HiaU4AS7ep2NfV2NhKbX/xWxfB6Gl1XRLA76TvkEHFGa
-         ptuw==
-X-Gm-Message-State: ABy/qLYv4tBdFZH/N7G52PQm/izKMWIJbx4Xhpm2Nhw/uwDWJ8oMpHaO
-        q++5yw2SFoSLWFI/dSEml3cH/sCCYQrh8sUOBpEuTEXkQUc=
-X-Google-Smtp-Source: APBJJlHZu20OSGthv7kAZseawazaV+PvhYbJN2KrdDk7Vu/ExgOnkscqv6i/x/QnLYG612AFHNpQppb1y6CbRHuBIzM=
-X-Received: by 2002:a17:902:ea82:b0:1bb:79b4:d45e with SMTP id
- x2-20020a170902ea8200b001bb79b4d45emr4966499plb.69.1690674240692; Sat, 29 Jul
- 2023 16:44:00 -0700 (PDT)
+        d=ravnborg.org; s=rsa1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=mFakZeALJNGvZSohmf/wWFUZxBT4BMrnbpl3ezu/8xg=;
+        b=BU2t5HBt6AxOY9DWmwd6uVqDKEE6+EORAWwGLRuq4UorA+nAmmNoiWomF9qfvGspOvbS5ZvS18F1t
+         sk62CSt8rHuLirMkNIcpKQKLW7KrCzbBDjjwykcMa8eZYeSzO/wWRhEl4ModKf6VdkdQ6HCO+OufGP
+         ZQv1d1Ee75zSjQdI2Y3Vhu2MskkhjLvfmey4l70qsJZ1sw2yDfEA6inc15z6WgcmYapS8KN56uoTTq
+         SW+OgaZgrWr0daiw5leZG4aHgHGTzRnYv2HkRLTyTJx68fTSbKyyW03gzmi6+T3qJb1begPp9VdUKt
+         Z4Pvdt0SX24tWwnnDBMxh5Iu9oHsmZw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=ed1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=mFakZeALJNGvZSohmf/wWFUZxBT4BMrnbpl3ezu/8xg=;
+        b=PuqQNp88Cg2L0KD+9U1TyBW/+zsbjIekPa25mUj+6EtxjJ32lV2tqPeMPZhXBf85jc+srwd8PN3mi
+         ADw66rFCA==
+X-HalOne-ID: dbd268c0-2eb6-11ee-a19a-592bb1efe9dc
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+        by mailrelay4 (Halon) with ESMTPSA
+        id dbd268c0-2eb6-11ee-a19a-592bb1efe9dc;
+        Sun, 30 Jul 2023 08:55:41 +0000 (UTC)
+Date:   Sun, 30 Jul 2023 10:55:40 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     linux-fbdev@vger.kernel.org, kvm@vger.kernel.org, deller@gmx.de,
+        javierm@redhat.com, dri-devel@lists.freedesktop.org,
+        linux-geode@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
+Message-ID: <20230730085540.GB1322260@ravnborg.org>
+References: <20230728182234.10680-1-tzimmermann@suse.de>
+ <20230728183541.GA1144760@ravnborg.org>
 MIME-Version: 1.0
-From:   M G <monica.el.gordillo@gmail.com>
-Date:   Sat, 29 Jul 2023 19:43:49 -0400
-Message-ID: <CA+XWB578WvjC3CdDQL0YviLv01tEvFKvhJEmNTxJuPWio-dA8Q@mail.gmail.com>
-Subject: 328f:006d EMEET HD Webcam eMeet C960
-To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230728183541.GA1144760@ravnborg.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Fri, Jul 28, 2023 at 08:35:41PM +0200, Sam Ravnborg wrote:
+> Hi Thomas,
+> 
+> On Fri, Jul 28, 2023 at 06:39:43PM +0200, Thomas Zimmermann wrote:
+> > Most fbdev drivers operate on I/O memory. And most of those use the
+> > default implementations for file I/O and console drawing. Convert all
+> > these low-hanging fruits to the fb_ops initializer macro and Kconfig
+> > token for fbdev I/O helpers.
+> > 
+> > The fbdev I/O helpers are easily grep-able. In a later patch, they can
+> > be left to empty values if the rsp. funtionality, such as file I/O or
+> > console, has been disabled.
+> > 
+> > There are no functional changes. The helpers set the defaults that
+> > the drivers already use.
+> 
+> I have browsed all patches - they all looks good.
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-Is this webcam supported? 328f:006d EMEET HD Webcam eMeet C960
+When you post v2 with MEM added the review still holds true.
 
-Thank you
+	Sam
