@@ -2,147 +2,493 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D3C6768741
-	for <lists+linux-media@lfdr.de>; Sun, 30 Jul 2023 20:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61E5A76883E
+	for <lists+linux-media@lfdr.de>; Sun, 30 Jul 2023 23:26:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230016AbjG3S54 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Jul 2023 14:57:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36468 "EHLO
+        id S229566AbjG3V0T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Jul 2023 17:26:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbjG3S5z (ORCPT
+        with ESMTP id S229472AbjG3V0S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Jul 2023 14:57:55 -0400
-Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E802519B2
-        for <linux-media@vger.kernel.org>; Sun, 30 Jul 2023 11:57:33 -0700 (PDT)
-Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-6bc4dfb93cbso7453785a34.1
-        for <linux-media@vger.kernel.org>; Sun, 30 Jul 2023 11:57:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690743418; x=1691348218;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sn0zJw/bbZ65gP8AMpGCkSg/cxSTCQ8T0dWiqBVVyII=;
-        b=gI770mBP07FkWhkOt4Cu1DnubeKSGZV3hgAQRqtG2IC+MflBsBTjiE1pWNoi0SCy6T
-         4BgBuDFG9btPxb5d5S90jYy+QoyIZQMb7D6zrXaBz+CxgiJy8Ebg6nlX9trllbVK+COT
-         tChoBAVIcIMp51zFX//F3fuHwqvwg7l8vqot6gOgXiQplbo+5B2oeQIqpdu0SDVM1BS3
-         waKhlWzL0G2Ft12UC2UU3MWCSiS4OquU3L6WjM80cmmE2eJN+V9mwtE4QrmaEtQE6kxZ
-         hS1D7QW4C1nhyqPd3tmeJohq1V8nlHjVVqb5NMJ5i0IqNK87Ag3uAMviwCRZ7xYqVeLQ
-         RHVA==
-X-Gm-Message-State: ABy/qLZtfFZNvEL0/cGpsI+dgBVo0vqTg84+nI6rQQ5pGzH/PYnfQwpe
-        5Uy/AgAtfJ+8KJ1N0Gi7QxUIWii2CWdfytqj3av0k2xjANgT
-X-Google-Smtp-Source: APBJJlEDostvNQVls9I/PxnBBcxX+8y1S1gB8lPVgbx8ofgkKXWGpk6BIVtPr/hy07fX1RUcXFWFJfohya5BD63aZXPZwLMqVIim
+        Sun, 30 Jul 2023 17:26:18 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF171702
+        for <linux-media@vger.kernel.org>; Sun, 30 Jul 2023 14:26:15 -0700 (PDT)
+Received: from [192.168.1.109] (unknown [103.251.226.29])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48CED2B3;
+        Sun, 30 Jul 2023 23:25:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1690752311;
+        bh=6iy65BKS29dqwO2GxAvbdZW00GvkiFk6SvN6YMfVfzY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Z8ERPa0akiOFoMYmQfJvtC/IiHVyadg0CpWklH9nNUj01uAkORr7IZ4+yOGhBdPp/
+         5lXUIqRYtqvQ142uCGOSkGDOQJdz0hCsailF8dW32A6XjNEznjHUwnmjDdrsi5fi6H
+         ljUawiXrrPwYYeQDJX4HEA7fZjS6U/UN1bNSjTGA=
+Message-ID: <71072aa0-8d80-ff53-add4-8c37dd2b31d0@ideasonboard.com>
+Date:   Mon, 31 Jul 2023 02:56:06 +0530
 MIME-Version: 1.0
-X-Received: by 2002:a9d:66cb:0:b0:6b8:8894:e4ac with SMTP id
- t11-20020a9d66cb000000b006b88894e4acmr9576754otm.3.1690743418244; Sun, 30 Jul
- 2023 11:56:58 -0700 (PDT)
-Date:   Sun, 30 Jul 2023 11:56:58 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000d9d4560601b8e0d7@google.com>
-Subject: [syzbot] [staging?] WARNING in netdev_open
-From:   syzbot <syzbot+b08315e8cf5a78eed03c@syzkaller.appspotmail.com>
-To:     Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 5/7] media: i2c: imx219: Use subdev active state
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
+References: <20230710155203.92366-1-jacopo.mondi@ideasonboard.com>
+ <20230710155203.92366-6-jacopo.mondi@ideasonboard.com>
+Content-Language: en-US
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20230710155203.92366-6-jacopo.mondi@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Jacopo ,
 
-syzbot found the following issue on:
+On 7/10/23 9:22 PM, Jacopo Mondi wrote:
+> Port the imx219 sensor driver to use the subdev active state.
+>
+> Move all the format configuration to the subdevice state and simplify
+> the format handling, locking and initialization.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>   drivers/media/i2c/imx219.c | 179 ++++++++++---------------------------
+>   1 file changed, 48 insertions(+), 131 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 6963e24e1bc2..73e06583d651 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -460,8 +460,6 @@ struct imx219 {
+>   	struct v4l2_subdev sd;
+>   	struct media_pad pad;
+>   
+> -	struct v4l2_mbus_framefmt fmt;
+> -
+>   	struct clk *xclk; /* system clock to IMX219 */
+>   	u32 xclk_freq;
+>   
+> @@ -481,12 +479,6 @@ struct imx219 {
+>   	/* Current mode */
+>   	const struct imx219_mode *mode;
+>   
+> -	/*
+> -	 * Mutex for serialized access:
+> -	 * Protect sensor module set pad format and start/stop streaming safely.
+> -	 */
+> -	struct mutex mutex;
+> -
+>   	/* Streaming on/off */
+>   	bool streaming;
+>   
+> @@ -576,8 +568,6 @@ static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
+>   {
+>   	unsigned int i;
+>   
+> -	lockdep_assert_held(&imx219->mutex);
+> -
+>   	for (i = 0; i < ARRAY_SIZE(imx219_mbus_formats); i++)
+>   		if (imx219_mbus_formats[i] == code)
+>   			break;
+> @@ -591,20 +581,6 @@ static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
+>   	return imx219_mbus_formats[i];
+>   }
+>   
+> -static void imx219_set_default_format(struct imx219 *imx219)
+> -{
+> -	struct v4l2_mbus_framefmt *fmt;
+> -
+> -	fmt = &imx219->fmt;
+> -	fmt->code = MEDIA_BUS_FMT_SRGGB10_1X10;
+> -	fmt->colorspace = V4L2_COLORSPACE_RAW;
+> -	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> -	fmt->width = supported_modes[0].width;
+> -	fmt->height = supported_modes[0].height;
+> -	fmt->field = V4L2_FIELD_NONE;
+> -	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
+> -}
+> -
+>   static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+>   {
+>   	struct imx219 *imx219 =
+> @@ -701,9 +677,6 @@ static int imx219_init_cfg(struct v4l2_subdev *sd,
+>   	struct v4l2_mbus_framefmt *format;
+>   	struct v4l2_rect *crop;
+>   
+> -	/* imx219_get_format_code() wants mutex locked. */
+> -	mutex_lock(&imx219->mutex);
+> -
+>   	/* Initialize try_fmt */
+>   	format = v4l2_subdev_get_pad_format(sd, state, 0);
+>   	format->width = supported_modes[0].width;
+> @@ -723,8 +696,6 @@ static int imx219_init_cfg(struct v4l2_subdev *sd,
+>   	crop->width = IMX219_PIXEL_ARRAY_WIDTH;
+>   	crop->height = IMX219_PIXEL_ARRAY_HEIGHT;
+>   
+> -	mutex_unlock(&imx219->mutex);
+> -
+>   	return 0;
+>   }
+>   
+> @@ -737,9 +708,7 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+>   	if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
+>   		return -EINVAL;
+>   
+> -	mutex_lock(&imx219->mutex);
+>   	code->code = imx219_get_format_code(imx219, imx219_mbus_formats[code->index * 4]);
+> -	mutex_unlock(&imx219->mutex);
+>   
+>   	return 0;
+>   }
+> @@ -754,9 +723,7 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+>   	if (fse->index >= ARRAY_SIZE(supported_modes))
+>   		return -EINVAL;
+>   
+> -	mutex_lock(&imx219->mutex);
+>   	code = imx219_get_format_code(imx219, fse->code);
+> -	mutex_unlock(&imx219->mutex);
+>   	if (fse->code != code)
+>   		return -EINVAL;
+>   
+> @@ -785,52 +752,16 @@ static void imx219_update_pad_format(struct imx219 *imx219,
+>   	imx219_reset_colorspace(&fmt->format);
+>   }
+>   
+> -static int __imx219_get_pad_format(struct imx219 *imx219,
+> -				   struct v4l2_subdev_state *sd_state,
+> -				   struct v4l2_subdev_format *fmt)
+> -{
+> -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> -		struct v4l2_mbus_framefmt *try_fmt =
+> -			v4l2_subdev_get_try_format(&imx219->sd, sd_state,
+> -						   fmt->pad);
+> -		/* update the code which could change due to vflip or hflip: */
+> -		try_fmt->code = imx219_get_format_code(imx219, try_fmt->code);
+> -		fmt->format = *try_fmt;
+> -	} else {
+> -		imx219_update_pad_format(imx219, imx219->mode, fmt);
+> -		fmt->format.code = imx219_get_format_code(imx219,
+> -							  imx219->fmt.code);
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+> -static int imx219_get_pad_format(struct v4l2_subdev *sd,
+> -				 struct v4l2_subdev_state *sd_state,
+> -				 struct v4l2_subdev_format *fmt)
+> -{
+> -	struct imx219 *imx219 = to_imx219(sd);
+> -	int ret;
+> -
+> -	mutex_lock(&imx219->mutex);
+> -	ret = __imx219_get_pad_format(imx219, sd_state, fmt);
+> -	mutex_unlock(&imx219->mutex);
+> -
+> -	return ret;
+> -}
+> -
+>   static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>   				 struct v4l2_subdev_state *sd_state,
+>   				 struct v4l2_subdev_format *fmt)
+>   {
+>   	struct imx219 *imx219 = to_imx219(sd);
+>   	const struct imx219_mode *mode;
+> -	struct v4l2_mbus_framefmt *framefmt;
+>   	int exposure_max, exposure_def, hblank;
+> +	struct v4l2_mbus_framefmt *format;
+>   	unsigned int i;
+>   
+> -	mutex_lock(&imx219->mutex);
+> -
+>   	for (i = 0; i < ARRAY_SIZE(imx219_mbus_formats); i++)
+>   		if (imx219_mbus_formats[i] == fmt->format.code)
+>   			break;
+> @@ -844,13 +775,14 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>   				      ARRAY_SIZE(supported_modes),
+>   				      width, height,
+>   				      fmt->format.width, fmt->format.height);
+> +
+>   	imx219_update_pad_format(imx219, mode, fmt);
+> -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> -		framefmt = v4l2_subdev_get_try_format(sd, sd_state, fmt->pad);
+> -		*framefmt = fmt->format;
+> -	} else if (imx219->mode != mode ||
+> -		   imx219->fmt.code != fmt->format.code) {
+> -		imx219->fmt = fmt->format;
+> +	format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
+> +
+> +	if (imx219->mode == mode && format->code == fmt->format.code)
+> +		return 0;
+> +
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+>   		imx219->mode = mode;
+>   		/* Update limits and set FPS to default */
+>   		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> @@ -876,14 +808,15 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>   					 hblank);
+>   	}
+>   
+> -	mutex_unlock(&imx219->mutex);
+> +	*format = fmt->format;
+>   
+>   	return 0;
+>   }
+>   
+> -static int imx219_set_framefmt(struct imx219 *imx219)
+> +static int imx219_set_framefmt(struct imx219 *imx219,
+> +			       const struct v4l2_mbus_framefmt *format)
+>   {
+> -	switch (imx219->fmt.code) {
+> +	switch (format->code) {
+>   	case MEDIA_BUS_FMT_SRGGB8_1X8:
+>   	case MEDIA_BUS_FMT_SGRBG8_1X8:
+>   	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> @@ -902,7 +835,8 @@ static int imx219_set_framefmt(struct imx219 *imx219)
+>   	return -EINVAL;
+>   }
+>   
+> -static int imx219_set_binning(struct imx219 *imx219)
+> +static int imx219_set_binning(struct imx219 *imx219,
+> +			      const struct v4l2_mbus_framefmt *format)
+>   {
+>   	if (!imx219->mode->binning) {
+>   		return imx219_write_reg(imx219, IMX219_REG_BINNING_MODE,
+> @@ -910,7 +844,7 @@ static int imx219_set_binning(struct imx219 *imx219)
+>   					IMX219_BINNING_NONE);
+>   	}
+>   
+> -	switch (imx219->fmt.code) {
+> +	switch (format->code) {
+>   	case MEDIA_BUS_FMT_SRGGB8_1X8:
+>   	case MEDIA_BUS_FMT_SGRBG8_1X8:
+>   	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> @@ -931,34 +865,13 @@ static int imx219_set_binning(struct imx219 *imx219)
+>   	return -EINVAL;
+>   }
+>   
+> -static const struct v4l2_rect *
+> -__imx219_get_pad_crop(struct imx219 *imx219,
+> -		      struct v4l2_subdev_state *sd_state,
+> -		      unsigned int pad, enum v4l2_subdev_format_whence which)
+> -{
+> -	switch (which) {
+> -	case V4L2_SUBDEV_FORMAT_TRY:
+> -		return v4l2_subdev_get_try_crop(&imx219->sd, sd_state, pad);
+> -	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> -		return &imx219->mode->crop;
+> -	}
+> -
+> -	return NULL;
+> -}
+> -
+>   static int imx219_get_selection(struct v4l2_subdev *sd,
+>   				struct v4l2_subdev_state *sd_state,
+>   				struct v4l2_subdev_selection *sel)
+>   {
+>   	switch (sel->target) {
+>   	case V4L2_SEL_TGT_CROP: {
+> -		struct imx219 *imx219 = to_imx219(sd);
+> -
+> -		mutex_lock(&imx219->mutex);
+> -		sel->r = *__imx219_get_pad_crop(imx219, sd_state, sel->pad,
+> -						sel->which);
+> -		mutex_unlock(&imx219->mutex);
+> -
+> +		sel->r = *v4l2_subdev_get_pad_crop(sd, sd_state, 0);
+>   		return 0;
+>   	}
+>   
+> @@ -990,9 +903,11 @@ static int imx219_configure_lanes(struct imx219 *imx219)
+>   				IMX219_CSI_2_LANE_MODE : IMX219_CSI_4_LANE_MODE);
+>   };
+>   
+> -static int imx219_start_streaming(struct imx219 *imx219)
+> +static int imx219_start_streaming(struct imx219 *imx219,
+> +				  struct v4l2_subdev_state *state)
+>   {
+>   	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+> +	const struct v4l2_mbus_framefmt *format;
+>   	const struct imx219_reg_list *reg_list;
+>   	int ret;
+>   
+> @@ -1022,14 +937,15 @@ static int imx219_start_streaming(struct imx219 *imx219)
+>   		goto err_rpm_put;
+>   	}
+>   
+> -	ret = imx219_set_framefmt(imx219);
+> +	format = v4l2_subdev_get_pad_format(&imx219->sd, state, 0);
+> +	ret = imx219_set_framefmt(imx219, format);
+>   	if (ret) {
+>   		dev_err(&client->dev, "%s failed to set frame format: %d\n",
+>   			__func__, ret);
+>   		goto err_rpm_put;
+>   	}
+>   
+> -	ret = imx219_set_binning(imx219);
+> +	ret = imx219_set_binning(imx219, format);
+>   	if (ret) {
+>   		dev_err(&client->dev, "%s failed to set binning: %d\n",
+>   			__func__, ret);
+> @@ -1078,35 +994,30 @@ static void imx219_stop_streaming(struct imx219 *imx219)
+>   static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
+>   {
+>   	struct imx219 *imx219 = to_imx219(sd);
+> +	struct v4l2_subdev_state *state;
+>   	int ret = 0;
+>   
+> -	mutex_lock(&imx219->mutex);
+> -	if (imx219->streaming == enable) {
+> -		mutex_unlock(&imx219->mutex);
+> -		return 0;
+> -	}
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> +
+> +	if (imx219->streaming == enable)
+> +		goto unlock;
+>   
+>   	if (enable) {
+>   		/*
+>   		 * Apply default & customized values
+>   		 * and then start streaming.
+>   		 */
+> -		ret = imx219_start_streaming(imx219);
+> +		ret = imx219_start_streaming(imx219, state);
+>   		if (ret)
+> -			goto err_unlock;
+> +			goto unlock;
+>   	} else {
+>   		imx219_stop_streaming(imx219);
+>   	}
+>   
+>   	imx219->streaming = enable;
+>   
+> -	mutex_unlock(&imx219->mutex);
+> -
+> -	return ret;
+> -
+> -err_unlock:
+> -	mutex_unlock(&imx219->mutex);
+> -
+> +unlock:
+> +	v4l2_subdev_unlock_state(state);
+>   	return ret;
+>   }
+>   
+> @@ -1171,10 +1082,13 @@ static int __maybe_unused imx219_resume(struct device *dev)
+>   {
+>   	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>   	struct imx219 *imx219 = to_imx219(sd);
+> +	struct v4l2_subdev_state *state;
+>   	int ret;
+>   
+>   	if (imx219->streaming) {
+> -		ret = imx219_start_streaming(imx219);
+> +		state = v4l2_subdev_lock_and_get_active_state(sd);
+> +		ret = imx219_start_streaming(imx219, state);
+> +		v4l2_subdev_unlock_state(state);
+>   		if (ret)
+>   			goto error;
+>   	}
+> @@ -1237,7 +1151,7 @@ static const struct v4l2_subdev_video_ops imx219_video_ops = {
+>   static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
+>   	.init_cfg = imx219_init_cfg,
+>   	.enum_mbus_code = imx219_enum_mbus_code,
+> -	.get_fmt = imx219_get_pad_format,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+>   	.set_fmt = imx219_set_pad_format,
+>   	.get_selection = imx219_get_selection,
+>   	.enum_frame_size = imx219_enum_frame_size,
+> @@ -1270,9 +1184,6 @@ static int imx219_init_controls(struct imx219 *imx219)
+>   	if (ret)
+>   		return ret;
+>   
+> -	mutex_init(&imx219->mutex);
+> -	ctrl_hdlr->lock = &imx219->mutex;
+> -
+>   	/* By default, PIXEL_RATE is read only */
+>   	imx219->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+>   					       V4L2_CID_PIXEL_RATE,
+> @@ -1369,7 +1280,6 @@ static int imx219_init_controls(struct imx219 *imx219)
+>   
+>   error:
+>   	v4l2_ctrl_handler_free(ctrl_hdlr);
+> -	mutex_destroy(&imx219->mutex);
+>   
+>   	return ret;
+>   }
+> @@ -1377,7 +1287,6 @@ static int imx219_init_controls(struct imx219 *imx219)
+>   static void imx219_free_controls(struct imx219 *imx219)
+>   {
+>   	v4l2_ctrl_handler_free(imx219->sd.ctrl_handler);
+> -	mutex_destroy(&imx219->mutex);
+>   }
+>   
+>   static int imx219_check_hwcfg(struct device *dev, struct imx219 *imx219)
+> @@ -1514,19 +1423,23 @@ static int imx219_probe(struct i2c_client *client)
+>   	/* Initialize source pad */
+>   	imx219->pad.flags = MEDIA_PAD_FL_SOURCE;
+>   
+> -	/* Initialize default format */
+> -	imx219_set_default_format(imx219);
+> -
+>   	ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
+>   	if (ret) {
+>   		dev_err(dev, "failed to init entity pads: %d\n", ret);
+>   		goto error_handler_free;
+>   	}
+>   
+> +	imx219->sd.state_lock = imx219->ctrl_handler.lock;
+> +	ret = v4l2_subdev_init_finalize(&imx219->sd);
+> +	if (ret < 0) {
+> +		dev_err(dev, "subdev init error: %d\n", ret);
 
-HEAD commit:    5f0bc0b042fc mm: suppress mm fault logging if fatal signal..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=116ca2f6a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c7b1aac4a6659b6d
-dashboard link: https://syzkaller.appspot.com/bug?extid=b08315e8cf5a78eed03c
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+maybe dev_err_probe ? other than that,
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0394a19e5a08/disk-5f0bc0b0.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/86e5b158564d/vmlinux-5f0bc0b0.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/612fe43ee34a/bzImage-5f0bc0b0.xz
+> +		goto error_media_entity;
+> +	}
+> +
+>   	ret = v4l2_async_register_subdev_sensor(&imx219->sd);
+>   	if (ret < 0) {
+>   		dev_err(dev, "failed to register sensor sub-device: %d\n", ret);
+> -		goto error_media_entity;
+> +		goto error_subdev_cleanup;
+>   	}
+>   
+>   	/* Enable runtime PM and turn off the device */
+> @@ -1536,6 +1449,9 @@ static int imx219_probe(struct i2c_client *client)
+>   
+>   	return 0;
+>   
+> +error_subdev_cleanup:
+> +	v4l2_subdev_cleanup(&imx219->sd);
+> +
+>   error_media_entity:
+>   	media_entity_cleanup(&imx219->sd.entity);
+>   
+> @@ -1554,6 +1470,7 @@ static void imx219_remove(struct i2c_client *client)
+>   	struct imx219 *imx219 = to_imx219(sd);
+>   
+>   	v4l2_async_unregister_subdev(sd);
+> +	v4l2_subdev_cleanup(sd);
+>   	media_entity_cleanup(&sd->entity);
+>   	imx219_free_controls(imx219);
+>   
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b08315e8cf5a78eed03c@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-WARNING: CPU: 1 PID: 4694 at kernel/locking/mutex.c:582 __mutex_lock_common kernel/locking/mutex.c:582 [inline]
-WARNING: CPU: 1 PID: 4694 at kernel/locking/mutex.c:582 __mutex_lock+0x912/0x1340 kernel/locking/mutex.c:747
-Modules linked in:
-CPU: 1 PID: 4694 Comm: dhcpcd Not tainted 6.5.0-rc3-syzkaller-00025-g5f0bc0b042fc #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2023
-RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:582 [inline]
-RIP: 0010:__mutex_lock+0x912/0x1340 kernel/locking/mutex.c:747
-Code: 08 84 d2 0f 85 d1 09 00 00 8b 05 35 2d 77 04 85 c0 0f 85 50 f8 ff ff 48 c7 c6 20 66 6c 8a 48 c7 c7 e0 63 6c 8a e8 8e b2 18 f7 <0f> 0b e9 36 f8 ff ff 48 8b 85 e0 fe ff ff 48 8d b8 30 09 00 00 48
-RSP: 0018:ffffc900034cf730 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff888020685940 RSI: ffffffff814d3c06 RDI: 0000000000000001
-RBP: ffffc900034cf880 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000000
-R13: dffffc0000000000 R14: ffff88807adecd88 R15: ffffffff8b7133a0
-FS:  00007fc8da519740(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000557c7eb10131 CR3: 000000002951e000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- netdev_open+0x32/0x820 drivers/staging/rtl8712/os_intfs.c:391
- __dev_open+0x2c4/0x4d0 net/core/dev.c:1442
- __dev_change_flags+0x56f/0x730 net/core/dev.c:8530
- dev_change_flags+0x9a/0x170 net/core/dev.c:8602
- devinet_ioctl+0x13ef/0x1f00 net/ipv4/devinet.c:1150
- inet_ioctl+0x3a6/0x3f0 net/ipv4/af_inet.c:980
- sock_do_ioctl+0x115/0x290 net/socket.c:1190
- sock_ioctl+0x205/0x6e0 net/socket.c:1307
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:870 [inline]
- __se_sys_ioctl fs/ioctl.c:856 [inline]
- __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:856
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fc8da5e7d49
-Code: 5c c3 48 8d 44 24 08 48 89 54 24 e0 48 89 44 24 c0 48 8d 44 24 d0 48 89 44 24 c8 b8 10 00 00 00 c7 44 24 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 76 10 48 8b 15 ae 60 0d 00 f7 d8 41 83 c8
-RSP: 002b:00007fffdec67188 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fc8da5196c0 RCX: 00007fc8da5e7d49
-RDX: 00007fffdec77378 RSI: 0000000000008914 RDI: 0000000000000018
-RBP: 00007fffdec87538 R08: 00007fffdec77338 R09: 00007fffdec772e8
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fffdec77378 R14: 0000000000000028 R15: 0000000000008914
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
