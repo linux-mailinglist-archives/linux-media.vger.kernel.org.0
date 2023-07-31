@@ -2,97 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DDCF76910B
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 11:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C91A77691BC
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 11:30:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbjGaJEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jul 2023 05:04:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34724 "EHLO
+        id S232214AbjGaJac (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jul 2023 05:30:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230484AbjGaJDq (ORCPT
+        with ESMTP id S231434AbjGaJa0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jul 2023 05:03:46 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B72D2199B
-        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 02:02:49 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-3177f520802so2788593f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 02:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690794161; x=1691398961;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5+r1edqKvURhfyiI4qxFZeIDXLazkhBYvA4uXUjqgCc=;
-        b=eK+Mtf+lWF87Z3McC7LVXrzCWa3aO4dn00FQAoWzKnGoXt0FzcwsP5T6/PMH5OJhxG
-         iieZfY53Ncm0AvMu1q+eLGxhYmGg4VKFjYy/WEyjMwVq+URaegtdF0nB7XCPQGcisNx5
-         cNN0W7Ck1QWmFWRB/y+NEw2LrgUF4EeaXeOZ2MAXruOMRA1nHjg/i7RLgPSgrx9Rj3Oi
-         Nyn9EDpfwxUgWpVDzHYPGWxRUS5eVNyG1qMCxWeDVoEHZmvIX1GDf5diHTTHgaJRBzNL
-         ZDIOCloXQVxPzDqPs8cR1PmEiwG2fVdPm1ul1f+Ua189LNxvMzXjXxHpR4ahvOIUbrRC
-         /uVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690794161; x=1691398961;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+r1edqKvURhfyiI4qxFZeIDXLazkhBYvA4uXUjqgCc=;
-        b=OrNzI39u1jMEx/I1kDZ4VUbSsCcXs9HUppEji0niv2gMbkAuDx2v/Lumfx/9sySCRj
-         ziWsKrpQAq/jf9SWiI5ie5wV7dvkC5J4ZHdYog40G1yPubDlkeXhPv8JykPSUZ0R75OX
-         1mZKh74+d8x7ScMNcwFfTpZ7LjSJ4GdqL2sR/hMBaHSGrHlcfnHxn/KPRAs3DmFuUP/T
-         JHtdv+V076iZI6hxcdQPvy6+dYymhDINN2KSejfG/ShQmjhoL8FQtBN/hkwpCjU9AS73
-         DgI7pAVJWq5hNgCqUTGldaySuhyd5cBd09pGyLwIGYWYvxjxSBjqEWFNvqzisXmS9yz1
-         hnHA==
-X-Gm-Message-State: ABy/qLYoktB5bLGTNpPGaHhGVhy5W4gSJXb19PHdFbE/ylEPRhJQCbHN
-        dKVug7zYcrE7hP9yQjU6agpUhA==
-X-Google-Smtp-Source: APBJJlG7k6zNm0qkX1tUYP66PohWIF4pMduDAAJNCIb8TGjiznz6duHx0bJf8eizICNgirbhzLLAbg==
-X-Received: by 2002:adf:f182:0:b0:314:3f1:cebf with SMTP id h2-20020adff182000000b0031403f1cebfmr10863530wro.28.1690794161015;
-        Mon, 31 Jul 2023 02:02:41 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id m12-20020adff38c000000b00313f031876esm12442715wro.43.2023.07.31.02.02.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jul 2023 02:02:40 -0700 (PDT)
-Message-ID: <7ca35e2c-d5b7-021f-dbe7-d4e953d0fa10@linaro.org>
-Date:   Mon, 31 Jul 2023 10:02:39 +0100
+        Mon, 31 Jul 2023 05:30:26 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46EA712D;
+        Mon, 31 Jul 2023 02:30:23 -0700 (PDT)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36V9SicD009389;
+        Mon, 31 Jul 2023 11:30:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+        message-id:date:mime-version:subject:to:references:from
+        :in-reply-to:content-type:content-transfer-encoding; s=
+        selector1; bh=h/GRgi2ailuju1SMd2b9nm0JKLl8dc58k4ePkEFhp+w=; b=3n
+        7T8eyElteFmOSi/jGLVEKOOlZ3SGkA39+BesE42g+lH/yQfMiqolbcmcn15+yuLf
+        aeHYYPdqIwFDNVKG1VLZpdXFRyTaHnR2kpfeMTA3io17WRWcErSyDy7EAWrPH/QO
+        u2/7dpydVlgF28yaWiHrLBpsKc2qdcVjnhKUOyeqQi193Nuoz5X9N8W/qgwjW2kv
+        KsNI3a8TVSPGrWZH+9qm7clDpE06InsbP6/r/Ws+AooHgjblmsSRf3T8hc48mkYp
+        Nifuz41R9bvuw0sM2WrG9TXdCGAZ5retA+uPsEZHBqSoA0qaHfVY9LSs2P/xQ74J
+        8hsqmIwKrwQnIdxnY96Q==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3s50ng08db-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 31 Jul 2023 11:30:06 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6D036100034;
+        Mon, 31 Jul 2023 11:30:04 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6472321D3D0;
+        Mon, 31 Jul 2023 11:30:04 +0200 (CEST)
+Received: from [10.129.166.114] (10.129.166.114) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 31 Jul
+ 2023 11:30:03 +0200
+Message-ID: <f8ac8d99-f6fa-2073-4610-3ed845e18da9@foss.st.com>
+Date:   Mon, 31 Jul 2023 11:30:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 18/33] iris: vidc: hfi: add Host Firmware Interface (HFI)
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] media: dt-bindings: drop unneeded status from examples
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        <linux-tegra@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20230725101625.75162-1-krzysztof.kozlowski@linaro.org>
+ <e8138fd1-5d1f-8fc3-e29a-547902c2ab18@foss.st.com>
+ <30d0689f-5a6a-c593-2a30-1ef2dc37f1af@linaro.org>
 Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     quic_dikshita@quicinc.com
-References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-19-git-send-email-quic_vgarodia@quicinc.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <1690550624-14642-19-git-send-email-quic_vgarodia@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <30d0689f-5a6a-c593-2a30-1ef2dc37f1af@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Originating-IP: [10.129.166.114]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-31_03,2023-07-26_01,2023-05-22_02
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/07/2023 14:23, Vikash Garodia wrote:
-> This implements the interface for communication between
-> host driver and firmware through interface commands and messages.
+On 7/26/23 08:33, Krzysztof Kozlowski wrote:
+> On 25/07/2023 12:55, Benjamin Mugnier wrote:
+>> Hi Krzysztof,
+>>
+>> Thank you for your patch.
+>>
+>> For the st-mipid02 :
+>> Reviewed-By: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 > 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> I don't think we have half-reviews. There are half-acks, but not reviews.
+> 
+> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L542
+> 
+> Best regards,
+> Krzysztof
+> 
 
-More dead code here
+I was not aware of this, thanks for pointing it to me.
 
-drivers/media/platform/qcom/iris/vidc/src/venus_hfi.c:542:	//if 
-(core->last_packet_type != HFI_CMD_SYS_PC_PREP)
-drivers/media/platform/qcom/iris/vidc/src/venus_hfi.c:543:	// 
-core->skip_pc_count = 0;
+For the st-mipid02 :
+Acked-By: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
----
-bod
+-- 
+Regards,
 
+Benjamin
