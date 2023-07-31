@@ -2,187 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6F4D769788
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 15:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F14C7697B4
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 15:35:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233067AbjGaN0K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jul 2023 09:26:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60012 "EHLO
+        id S231685AbjGaNfV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jul 2023 09:35:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233014AbjGaNZp (ORCPT
+        with ESMTP id S230044AbjGaNfU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jul 2023 09:25:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D69981986;
-        Mon, 31 Jul 2023 06:25:39 -0700 (PDT)
-Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB7A71B59;
-        Mon, 31 Jul 2023 15:24:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690809869;
-        bh=3+DFmCI8pb7ymXT5ii0dJSIen8bU6FQj2ceug6/EKEE=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=IOHjXx6FaXAt7Uu6vbTeGGehhHkcZ9FNUTfZnQBtZKHdSWMbbcybyw9xFJS1OGwKz
-         tS6hsBBEwMLEO7u9Xrt67Sh1StKlkwZ/Q48RL44Xl8h5G9JtysPp0ea2diX9YGceO0
-         vY90o1EEAFE5Z/E1sdb3JYqXXtblvs+UT00Exn2s=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date:   Mon, 31 Jul 2023 16:24:43 +0300
-Subject: [PATCH v3 9/9] media: i2c: ds90ub960: Rename
- RXPORT_MODE_CSI2_ASYNC to RXPORT_MODE_CSI2_NONSYNC
+        Mon, 31 Jul 2023 09:35:20 -0400
+Received: from mgamail.intel.com (unknown [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BEAD1708
+        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 06:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690810519; x=1722346519;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qyz8CuQxa4vZInHD+ZZ+5+G4XaWJQFwWrYbovRiP/qE=;
+  b=iVug0NVoOQ8h0prSssPV2eEyvtmKSlYn7M50gPV6Hp9Y5dTu1zXsMAty
+   V6tDR4i26oCI/OD4SwN2QJyqWwKg+rN1vdgZ3hG3I59ftisWAXxzCb4rj
+   pUMx+oGkWit5hpFl2ESci+Oa1+Q3YjEMsrV4gDxyJMRoGzsD56Auw+sEp
+   uxf4PnJ1nM0wvQeIIPjHhgR7TeUiOX0hnybio+kdte55dP5lyXhdzlOWC
+   VKfEeUK5HyLrYmMWT2MQ45jIjXlsnDiLa5wC3jzpOK9HmA/1c+EWFKSz7
+   l0XchPd50MIcN+H9EhVsdQfWwIQA190WXZM6ypR5siUHY9i6knPxspdT/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="371728654"
+X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
+   d="scan'208";a="371728654"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 06:35:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="871674971"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 06:35:19 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 82F9A11F863;
+        Mon, 31 Jul 2023 16:35:14 +0300 (EEST)
+Date:   Mon, 31 Jul 2023 13:35:14 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 14/29] media: ov2680: Add support for more clk setups
+Message-ID: <ZMe4kktsgQ7nrr+t@kekkonen.localdomain>
+References: <20230627131830.54601-1-hdegoede@redhat.com>
+ <20230627131830.54601-15-hdegoede@redhat.com>
+ <ZMesmcoad6ez8kst@kekkonen.localdomain>
+ <2593f770-dca5-c368-7776-a2b938fbd09e@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230731-fpdlink-additions-v3-9-8acfc49c215a@ideasonboard.com>
-References: <20230731-fpdlink-additions-v3-0-8acfc49c215a@ideasonboard.com>
-In-Reply-To: <20230731-fpdlink-additions-v3-0-8acfc49c215a@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3571;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=3+DFmCI8pb7ymXT5ii0dJSIen8bU6FQj2ceug6/EKEE=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBkx7ZB1/vsEcUF9lkKQC19r/IgwBZXBjt3id2qM
- l9q6iyPRJGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMe2QQAKCRD6PaqMvJYe
- 9XVvD/40O1Pgk9HsoSDVurU5aSdLuJIDEZlQypyAXxADYQWEHYEXwH1cGg0wZAakHmHBs1VUNUL
- 5CT4k8JjH6SjeyyP+Vl+sGOSi0nQQERhvIb61GkF3F/LfzgQ9zFt5jldkxncNZgCTmxbbRmvA/7
- H8P8ioLQLZR8K0ObhLyFLHOdH6W/LHhYJ0RToB451thZnnSoZfiB+/9io3qo8SXaPoLfcj4vXxL
- xNMejCwtYclvwjBLOwjWycD65Yl01IzdcpphOyyLZ4yRa6kepd3pjukUnTZ6L01FQu44c43Veto
- 5kz4xzVbCcRUtzV5vITGN1jOGDwv+xt3VnBFTMHmTZPWoiYG9UTGN/hDDSly2fjHMSwqtwbWGYX
- Eh0K2hPL8TPPi7WuzXiP9Wszj6BSqNjsxlCjSiXL8aCjgXdTh86GycQ4kG9mqVethowZkasZ6os
- b7gC61POcDmp4WNw9m1rmAEp4lrOHr4KUDE++APqAg2EdUroVu8hEgBtzbRKbyYiszbKfxPvzeD
- F6RDHPZE0ZnQr8OH3n8amPPQYwu9PNQDpaG+S+JAAFnq8EKRgaOPeXqnszjl7R9uAkOK/WZn48y
- 7+WdOHOP5MIDrZeKmXohmTRgVd307lCu4zRO8rbX+sBCg7YGUNAwaOZQKrdVyKaOHD5bJI50vzs
- +ZBHtzZoJZqQ5pg==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2593f770-dca5-c368-7776-a2b938fbd09e@redhat.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-FPD-Link has an operating mode that used to be called "asynchronous" in
-the hardware documentation, but that has been changed to non-synchronous
-already quite a while back. The ub960 driver still had one instance of
-the old naming, so let's rename it.
+Hi Hans,
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/media/i2c/ds90ub960.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+On Mon, Jul 31, 2023 at 02:54:13PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 7/31/23 14:44, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Tue, Jun 27, 2023 at 03:18:15PM +0200, Hans de Goede wrote:
+> >> On ACPI systems the following 2 scenarios are possible:
+> >>
+> >> 1. The xvclk is fully controlled by ACPI powermanagement, so there
+> >>    is no "xvclk" for the driver to get (since it is abstracted away).
+> >>    In this case there will be a "clock-frequency" device property
+> >>    to tell the driver the xvclk rate.
+> >>
+> >> 2. There is a xvclk modelled in the clk framework for the driver,
+> >>    but the clk-generator may not be set to the right frequency
+> >>    yet. In this case there will also be a "clock-frequency" device
+> >>    property and the driver is expected to set the rate of the xvclk
+> >>    through this frequency through the clk framework.
+> >>
+> >> Handle both these scenarios by switching to devm_clk_get_optional()
+> >> and checking for a "clock-frequency" device property.
+> >>
+> >> This is modelled after how the same issue was fixed for the ov8865 in
+> >> commit 73dcffeb2ff9 ("media: i2c: Support 19.2MHz input clock in ov8865").
+> >>
+> >> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >> ---
+> >>  drivers/media/i2c/ov2680.c | 26 ++++++++++++++++++++++++--
+> >>  1 file changed, 24 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+> >> index b7c23286700e..a6a83f0e53f3 100644
+> >> --- a/drivers/media/i2c/ov2680.c
+> >> +++ b/drivers/media/i2c/ov2680.c
+> >> @@ -698,6 +698,7 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
+> >>  {
+> >>  	struct device *dev = sensor->dev;
+> >>  	struct gpio_desc *gpio;
+> >> +	unsigned int rate = 0;
+> >>  	int ret;
+> >>  
+> >>  	/*
+> >> @@ -718,13 +719,34 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
+> >>  
+> >>  	sensor->pwdn_gpio = gpio;
+> >>  
+> >> -	sensor->xvclk = devm_clk_get(dev, "xvclk");
+> >> +	sensor->xvclk = devm_clk_get_optional(dev, "xvclk");
+> >>  	if (IS_ERR(sensor->xvclk)) {
+> >>  		dev_err(dev, "xvclk clock missing or invalid\n");
+> >>  		return PTR_ERR(sensor->xvclk);
+> >>  	}
+> >>  
+> >> -	sensor->xvclk_freq = clk_get_rate(sensor->xvclk);
+> >> +	/*
+> >> +	 * We could have either a 24MHz or 19.2MHz clock rate from either DT or
+> >> +	 * ACPI... but we also need to support the weird IPU3 case which will
+> >> +	 * have an external clock AND a clock-frequency property. Check for the
+> > 
+> > Where does this happen? This puts the driver in an awful situation. :-(
+> 
+> This happens on IPU3 setups where the INT3472 device represents an actual
+> i2c attached sensor PMIC (rather then just some GPIOs) in this case
+> there is a clk generator inside the PMIC which is used and that is programmable,
+> so the driver needs to set the clk-rate.
+> 
+> Note this patch is pretty much a 1:1 copy of the same patch for the ov8865
+> and ov7251 drivers.
+> 
+> I guess it might be good to start a discussion about doing this more
+> elegantly but that seems out of scope for this series.
 
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index c29db59e340b..f619c23e084a 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -415,8 +415,8 @@ enum ub960_rxport_mode {
- 	RXPORT_MODE_RAW12_HF = 1,
- 	RXPORT_MODE_RAW12_LF = 2,
- 	RXPORT_MODE_CSI2_SYNC = 3,
--	RXPORT_MODE_CSI2_ASYNC = 4,
--	RXPORT_MODE_LAST = RXPORT_MODE_CSI2_ASYNC,
-+	RXPORT_MODE_CSI2_NONSYNC = 4,
-+	RXPORT_MODE_LAST = RXPORT_MODE_CSI2_NONSYNC,
- };
- 
- enum ub960_rxport_cdr {
-@@ -1609,7 +1609,7 @@ static unsigned long ub960_calc_bc_clk_rate_ub960(struct ub960_data *priv,
- 		div = 1;
- 		break;
- 
--	case RXPORT_MODE_CSI2_ASYNC:
-+	case RXPORT_MODE_CSI2_NONSYNC:
- 		mult = 2;
- 		div = 5;
- 		break;
-@@ -1633,7 +1633,7 @@ static unsigned long ub960_calc_bc_clk_rate_ub9702(struct ub960_data *priv,
- 	case RXPORT_MODE_CSI2_SYNC:
- 		return 47187500;
- 
--	case RXPORT_MODE_CSI2_ASYNC:
-+	case RXPORT_MODE_CSI2_NONSYNC:
- 		return 9437500;
- 
- 	default:
-@@ -1840,7 +1840,7 @@ static void ub960_init_rx_port_ub960(struct ub960_data *priv,
- 		bc_freq_val = 0;
- 		break;
- 
--	case RXPORT_MODE_CSI2_ASYNC:
-+	case RXPORT_MODE_CSI2_NONSYNC:
- 		bc_freq_val = 2;
- 		break;
- 
-@@ -1878,7 +1878,7 @@ static void ub960_init_rx_port_ub960(struct ub960_data *priv,
- 		return;
- 
- 	case RXPORT_MODE_CSI2_SYNC:
--	case RXPORT_MODE_CSI2_ASYNC:
-+	case RXPORT_MODE_CSI2_NONSYNC:
- 		/* CSI-2 Mode (DS90UB953-Q1 compatible) */
- 		ub960_rxport_update_bits(priv, nport, UB960_RR_PORT_CONFIG, 0x3,
- 					 0x0);
-@@ -1938,7 +1938,7 @@ static void ub960_init_rx_port_ub9702_fpd3(struct ub960_data *priv,
- 		fpd_func_mode = 2;
- 		break;
- 
--	case RXPORT_MODE_CSI2_ASYNC:
-+	case RXPORT_MODE_CSI2_NONSYNC:
- 		bc_freq_val = 2;
- 		fpd_func_mode = 2;
- 		break;
-@@ -2032,7 +2032,7 @@ static void ub960_init_rx_port_ub9702_fpd4(struct ub960_data *priv,
- 		bc_freq_val = 6;
- 		break;
- 
--	case RXPORT_MODE_CSI2_ASYNC:
-+	case RXPORT_MODE_CSI2_NONSYNC:
- 		bc_freq_val = 2;
- 		break;
- 
-@@ -2098,7 +2098,7 @@ static void ub960_init_rx_port_ub9702(struct ub960_data *priv,
- 		return;
- 
- 	case RXPORT_MODE_CSI2_SYNC:
--	case RXPORT_MODE_CSI2_ASYNC:
-+	case RXPORT_MODE_CSI2_NONSYNC:
- 
- 		break;
- 	}
-@@ -2444,7 +2444,7 @@ static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
- 
- 		/* For the rest, we are only interested in parallel busses */
- 		if (rxport->rx_mode == RXPORT_MODE_CSI2_SYNC ||
--		    rxport->rx_mode == RXPORT_MODE_CSI2_ASYNC)
-+		    rxport->rx_mode == RXPORT_MODE_CSI2_NONSYNC)
- 			continue;
- 
- 		if (rx_data[nport].num_streams > 2)
-@@ -2508,7 +2508,7 @@ static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
- 			break;
- 
- 		case RXPORT_MODE_CSI2_SYNC:
--		case RXPORT_MODE_CSI2_ASYNC:
-+		case RXPORT_MODE_CSI2_NONSYNC:
- 			if (!priv->hw_data->is_ub9702) {
- 				/* Map all VCs from this port to the same VC */
- 				ub960_rxport_write(priv, nport, UB960_RR_CSI_VC_MAP,
+Works for me.
+
+Do you happen to know which systems use the clock generator feature of the
+PMIC?
+
+I guess it could be as simple as putting this to tps68470 platform data for
+the clock. And then hope no other PMICs will be used with this format.
 
 -- 
-2.34.1
+Kind regards,
 
+Sakari Ailus
