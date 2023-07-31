@@ -2,62 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB52C769AB1
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 17:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD39B769B10
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 17:47:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbjGaPVG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jul 2023 11:21:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41102 "EHLO
+        id S232447AbjGaPr1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jul 2023 11:47:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjGaPVF (ORCPT
+        with ESMTP id S232420AbjGaPr0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jul 2023 11:21:05 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B442BC3
-        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 08:21:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690816863; x=1722352863;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/EscTkRtD7jAqlvkMCVgNtGWa02l8XolWSZOn4umt9g=;
-  b=ijgyjvv+6pNBPGV2uqVJKM6Wtzm7oY+NBUAOnCS+rtVRNQ6v5U38BY8z
-   ZV/Dy1BKS7JkxmG1s2uXPSlEbTT7mjSdDCsUQ3tNf9P+cPdPBNQRbN/G8
-   3PS1I/e9gTjEe1GmftQPg+gW04cV5oP6k4fUByYiWKXWpD8hq0VG7DYbI
-   TGwVF+VFuT7HIxGAnalcN3wXdpJb/RIz3r6dkdu2cnc4US8cJkhZqr8KQ
-   PcWFk1AGbd6wBQpbS8fn/+Gi8vG7lYKAndH5/hsmOkrON9j6NwbW5L+dU
-   EC0gAuj7PFvQWUJekDD6Ptv1cFq/8V8TgQGVq9gO/NOmQ7HpjSXBiDwqO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="348643320"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="348643320"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 08:21:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="793754615"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="793754615"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 31 Jul 2023 08:21:01 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qQUhh-0005C7-0Y;
-        Mon, 31 Jul 2023 15:21:01 +0000
-Date:   Mon, 31 Jul 2023 23:20:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Wentong Wu <wentong.wu@intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:master 40/41]
- drivers/media/pci/intel/ivsc/mei_csi.c:574:40: warning: 'struct
- v4l2_async_subdev' declared inside parameter list will not be visible
- outside of this definition or declaration
-Message-ID: <202307312307.t1gJlUux-lkp@intel.com>
+        Mon, 31 Jul 2023 11:47:26 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 001B011A
+        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 08:47:24 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id B35B21F385;
+        Mon, 31 Jul 2023 15:47:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1690818443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=t3IBo6+Xh2NmTnvBSm+b5LtxORuubw5R26/pUdx5lvQ=;
+        b=rhCV7DQXwa+unzKT3opzFC6boo5uZYaa4z9NwGfSq4Io7QBHD2ni5op4Z1RNLHOiDDEa2k
+        +KCCws2BT0O1mIOTeJytKqi6Lxmp3k4vkcz4+h9PPq8cwb+RTErNbVqgfUD1hnldMRn4u/
+        Znq7cvbGgSupFudpbC7mCtTWfLq4Oic=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1690818443;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=t3IBo6+Xh2NmTnvBSm+b5LtxORuubw5R26/pUdx5lvQ=;
+        b=1hce7oJgp7vNPcAZisDxdfNeDXcXTojPVPAnbeD684LHbINwF/3jcXav44ynQXxRXqVRWa
+        K9EYUuceH80eoDCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 555E51322C;
+        Mon, 31 Jul 2023 15:47:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id aoTYE4vXx2Q3fwAAMHmgww
+        (envelope-from <tiwai@suse.de>); Mon, 31 Jul 2023 15:47:23 +0000
+From:   Takashi Iwai <tiwai@suse.de>
+To:     alsa-devel@alsa-project.org
+Cc:     Takashi Iwai <tiwai@suse.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andrey Utkin <andrey_utkin@fastmail.com>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+        Banajit Goswami <bgoswami@quicinc.com>,
+        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Ismael Luceno <ismael@iodev.co.uk>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Mark Brown <broonie@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        linux-media@vger.kernel.org, xen-devel@lists.xenproject.org
+Subject: [PATCH 00/24] ALSA: Generic PCM copy ops using sockptr_t
+Date:   Mon, 31 Jul 2023 17:46:54 +0200
+Message-Id: <20230731154718.31048-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,85 +79,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   f6a458a2c82c225125c937cfd5675c2a3c494b33
-commit: cc561f8b16e6ce155c6368eb6bb3497f3d51332b [40/41] media: pci: intel: ivsc: Add CSI submodule
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230731/202307312307.t1gJlUux-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307312307.t1gJlUux-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307312307.t1gJlUux-lkp@intel.com/
+this is a patch set to clean up the PCM copy ops using sockptr_t as a
+"universal" pointer, inspired by the recent patch from Andy
+Shevchenko:
+  https://lore.kernel.org/r/20230721100146.67293-1-andriy.shevchenko@linux.intel.com
 
-All warnings (new ones prefixed by >>):
+Even though it sounds a bit weird, sockptr_t is a generic type that is
+used already in wide ranges, and it can fit our purpose, too.  With
+sockptr_t, the former split of copy_user and copy_kernel PCM ops can
+be unified again gracefully.
 
->> drivers/media/pci/intel/ivsc/mei_csi.c:574:40: warning: 'struct v4l2_async_subdev' declared inside parameter list will not be visible outside of this definition or declaration
-     574 |                                 struct v4l2_async_subdev *asd)
-         |                                        ^~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c: In function 'mei_csi_notify_bound':
-   drivers/media/pci/intel/ivsc/mei_csi.c:579:63: error: invalid use of undefined type 'struct v4l2_async_subdev'
-     579 |         pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
-         |                                                               ^~
-   drivers/media/pci/intel/ivsc/mei_csi.c: At top level:
-   drivers/media/pci/intel/ivsc/mei_csi.c:595:42: warning: 'struct v4l2_async_subdev' declared inside parameter list will not be visible outside of this definition or declaration
-     595 |                                   struct v4l2_async_subdev *asd)
-         |                                          ^~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:603:18: error: initialization of 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
-     603 |         .bound = mei_csi_notify_bound,
-         |                  ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:603:18: note: (near initialization for 'mei_csi_notify_ops.bound')
-   drivers/media/pci/intel/ivsc/mei_csi.c:604:19: error: initialization of 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
-     604 |         .unbind = mei_csi_notify_unbind,
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:604:19: note: (near initialization for 'mei_csi_notify_ops.unbind')
-   drivers/media/pci/intel/ivsc/mei_csi.c: In function 'mei_csi_parse_firmware':
-   drivers/media/pci/intel/ivsc/mei_csi.c:669:9: error: too few arguments to function 'v4l2_async_nf_init'
-     669 |         v4l2_async_nf_init(&csi->notifier);
-         |         ^~~~~~~~~~~~~~~~~~
-   In file included from drivers/media/pci/intel/ivsc/mei_csi.c:28:
-   include/media/v4l2-async.h:159:6: note: declared here
-     159 | void v4l2_async_nf_init(struct v4l2_async_notifier *notifier,
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:673:40: error: invalid application of 'sizeof' to incomplete type 'struct v4l2_async_subdev'
-     673 |                                        struct v4l2_async_subdev);
-         |                                        ^~~~~~
-   include/media/v4l2-async.h:196:70: note: in definition of macro 'v4l2_async_nf_add_fwnode'
-     196 |         ((type *)__v4l2_async_nf_add_fwnode(notifier, fwnode, sizeof(type)))
-         |                                                                      ^~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:685:15: error: implicit declaration of function 'v4l2_async_subdev_nf_register'; did you mean 'v4l2_async_subdev_nf_init'? [-Werror=implicit-function-declaration]
-     685 |         ret = v4l2_async_subdev_nf_register(&csi->subdev, &csi->notifier);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               v4l2_async_subdev_nf_init
-   cc1: some warnings being treated as errors
+The patch set introduces the new PCM ops, converting users, and drops
+the old PCM ops.  Most of conversions are straightforward, simply
+replacing copy_*_user() with copy_*_sockptr() variants.
+
+Note that the conversion in ASoC will fix a potential problem of ASoC
+PCM that has been for long time.  Since ASoC component takes care of
+only copy_user, the conversion form/to kernel space might have been
+missing.  With this patch set, both cases are handled with sockptr_t
+by a single callback.
+
+The patches are lightly tested (with a faked PCM copy implementation
+on HD-audio), while most of patches are only compile-tested.
 
 
-vim +574 drivers/media/pci/intel/ivsc/mei_csi.c
+Takashi
 
-   571	
-   572	static int mei_csi_notify_bound(struct v4l2_async_notifier *notifier,
-   573					struct v4l2_subdev *subdev,
- > 574					struct v4l2_async_subdev *asd)
-   575	{
-   576		struct mei_csi *csi = notifier_to_csi(notifier);
-   577		int pad;
-   578	
-   579		pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
-   580						  MEDIA_PAD_FL_SOURCE);
-   581		if (pad < 0)
-   582			return pad;
-   583	
-   584		csi->remote = subdev;
-   585		csi->remote_pad = pad;
-   586	
-   587		return media_create_pad_link(&subdev->entity, pad,
-   588					     &csi->subdev.entity, 1,
-   589					     MEDIA_LNK_FL_ENABLED |
-   590					     MEDIA_LNK_FL_IMMUTABLE);
-   591	}
-   592	
+===
+
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Andrey Utkin <andrey_utkin@fastmail.com>
+Cc: Anton Sviridenko <anton@corp.bluecherry.net>
+Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+Cc: Banajit Goswami <bgoswami@quicinc.com>
+Cc: Bluecherry Maintainers <maintainers@bluecherrydvr.com>
+Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Ismael Luceno <ismael@iodev.co.uk>
+Cc: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+Cc: Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: xen-devel@lists.xenproject.org
+
+===
+
+Takashi Iwai (24):
+  ALSA: pcm: Add copy ops with universal sockptr_t
+  ALSA: core: Add memory copy helpers between sockptr and iomem
+  ALSA: dummy: Convert to generic PCM copy ops
+  ALSA: gus: Convert to generic PCM copy ops
+  ALSA: emu8000: Convert to generic PCM copy ops
+  ALSA: es1938: Convert to generic PCM copy ops
+  ALSA: korg1212: Convert to generic PCM copy ops
+  ALSA: nm256: Convert to generic PCM copy ops
+  ALSA: rme32: Convert to generic PCM copy ops
+  ALSA: rme96: Convert to generic PCM copy ops
+  ALSA: hdsp: Convert to generic PCM copy ops
+  ALSA: rme9652: Convert to generic PCM copy ops
+  ALSA: sh: Convert to generic PCM copy ops
+  ALSA: xen: Convert to generic PCM copy ops
+  ALSA: pcmtest: Update comment about PCM copy ops
+  media: solo6x10: Convert to generic PCM copy ops
+  ASoC: component: Add generic PCM copy ops
+  ASoC: mediatek: Convert to generic PCM copy ops
+  ASoC: qcom: Convert to generic PCM copy ops
+  ASoC: dmaengine: Convert to generic PCM copy ops
+  ASoC: dmaengine: Use sockptr_t for process callback, too
+  ALSA: doc: Update description for the new PCM copy ops
+  ASoC: pcm: Drop obsoleted PCM copy_user ops
+  ALSA: pcm: Drop obsoleted PCM copy_user and copy_kernel ops
+
+ .../kernel-api/writing-an-alsa-driver.rst     | 59 +++++---------
+ drivers/media/pci/solo6x10/solo6x10-g723.c    | 41 ++--------
+ include/sound/dmaengine_pcm.h                 |  2 +-
+ include/sound/pcm.h                           | 12 +--
+ include/sound/soc-component.h                 | 14 ++--
+ sound/core/memory.c                           | 39 +++++++++
+ sound/core/pcm_lib.c                          | 81 +++++++++----------
+ sound/core/pcm_native.c                       |  2 +-
+ sound/drivers/dummy.c                         | 12 +--
+ sound/drivers/pcmtest.c                       |  2 +-
+ sound/isa/gus/gus_pcm.c                       | 23 +-----
+ sound/isa/sb/emu8000_pcm.c                    | 79 +++++-------------
+ sound/pci/es1938.c                            | 31 ++-----
+ sound/pci/korg1212/korg1212.c                 | 46 +++--------
+ sound/pci/nm256/nm256.c                       | 42 ++--------
+ sound/pci/rme32.c                             | 50 +++---------
+ sound/pci/rme96.c                             | 48 +++--------
+ sound/pci/rme9652/hdsp.c                      | 42 ++--------
+ sound/pci/rme9652/rme9652.c                   | 46 ++---------
+ sound/sh/sh_dac_audio.c                       | 25 +-----
+ sound/soc/atmel/mchp-pdmc.c                   |  2 +-
+ sound/soc/mediatek/common/mtk-btcvsd.c        | 22 ++---
+ sound/soc/qcom/lpass-platform.c               | 12 +--
+ sound/soc/soc-component.c                     | 10 +--
+ sound/soc/soc-generic-dmaengine-pcm.c         | 18 ++---
+ sound/soc/soc-pcm.c                           |  4 +-
+ sound/soc/stm/stm32_sai_sub.c                 |  2 +-
+ sound/xen/xen_snd_front_alsa.c                | 55 +++----------
+ 28 files changed, 251 insertions(+), 570 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.35.3
+
