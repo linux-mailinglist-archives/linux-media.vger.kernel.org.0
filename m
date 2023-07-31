@@ -2,71 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD39B769B10
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 17:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96A2B769B13
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 17:47:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232447AbjGaPr1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jul 2023 11:47:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54950 "EHLO
+        id S232463AbjGaPrb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jul 2023 11:47:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232420AbjGaPr0 (ORCPT
+        with ESMTP id S232420AbjGaPr2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jul 2023 11:47:26 -0400
+        Mon, 31 Jul 2023 11:47:28 -0400
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 001B011A
-        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 08:47:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6720511A
+        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 08:47:27 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id B35B21F385;
-        Mon, 31 Jul 2023 15:47:23 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 128951F8A4;
+        Mon, 31 Jul 2023 15:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1690818443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=t3IBo6+Xh2NmTnvBSm+b5LtxORuubw5R26/pUdx5lvQ=;
-        b=rhCV7DQXwa+unzKT3opzFC6boo5uZYaa4z9NwGfSq4Io7QBHD2ni5op4Z1RNLHOiDDEa2k
-        +KCCws2BT0O1mIOTeJytKqi6Lxmp3k4vkcz4+h9PPq8cwb+RTErNbVqgfUD1hnldMRn4u/
-        Znq7cvbGgSupFudpbC7mCtTWfLq4Oic=
+        t=1690818446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=7xzGyeOqADYuhvj9+f7Ht1+vWxKhBHvAgQBKLm+82Kc=;
+        b=I2b+aLsv1a+mhlVVFFTmUyeFxV3ah6hcx7cpXBJTWxqyXWC4ij1ICKX4xcOa79AL5CU7Mn
+        oTvKXOIiYGT6llyQ0+tcycloVEgQSpi5NTo9Gk15+YK4+rE1NKNK1BSj1MpkZqZo4O6M/k
+        p0thvhXAFIoMstb8CMmrGT6YhtYb5Y4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1690818443;
+        s=susede2_ed25519; t=1690818446;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=t3IBo6+Xh2NmTnvBSm+b5LtxORuubw5R26/pUdx5lvQ=;
-        b=1hce7oJgp7vNPcAZisDxdfNeDXcXTojPVPAnbeD684LHbINwF/3jcXav44ynQXxRXqVRWa
-        K9EYUuceH80eoDCg==
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=7xzGyeOqADYuhvj9+f7Ht1+vWxKhBHvAgQBKLm+82Kc=;
+        b=yWTBfounRAZaa1yN1FUOJOlogvaJkE7A3YoLrkiLvu3mV0+nla53+ok9v0VmwDCd0c7olD
+        p0gT1VPRwL9skQCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 555E51322C;
-        Mon, 31 Jul 2023 15:47:23 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D3CC61322C;
+        Mon, 31 Jul 2023 15:47:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id aoTYE4vXx2Q3fwAAMHmgww
-        (envelope-from <tiwai@suse.de>); Mon, 31 Jul 2023 15:47:23 +0000
+        id OFTwMo3Xx2Q3fwAAMHmgww
+        (envelope-from <tiwai@suse.de>); Mon, 31 Jul 2023 15:47:25 +0000
 From:   Takashi Iwai <tiwai@suse.de>
 To:     alsa-devel@alsa-project.org
 Cc:     Takashi Iwai <tiwai@suse.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Andrey Utkin <andrey_utkin@fastmail.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-        Banajit Goswami <bgoswami@quicinc.com>,
         Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Andrey Utkin <andrey_utkin@fastmail.com>,
         Ismael Luceno <ismael@iodev.co.uk>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Mark Brown <broonie@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        linux-media@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: [PATCH 00/24] ALSA: Generic PCM copy ops using sockptr_t
-Date:   Mon, 31 Jul 2023 17:46:54 +0200
-Message-Id: <20230731154718.31048-1-tiwai@suse.de>
+        linux-media@vger.kernel.org
+Subject: [PATCH 16/24] media: solo6x10: Convert to generic PCM copy ops
+Date:   Mon, 31 Jul 2023 17:47:10 +0200
+Message-Id: <20230731154718.31048-17-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230731154718.31048-1-tiwai@suse.de>
+References: <20230731154718.31048-1-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -79,111 +76,91 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This patch converts the solo6x10 driver code to use the new unified
+PCM copy callback.  It's a straightforward conversion from *_user() to
+*_sockptr() variants.
 
-this is a patch set to clean up the PCM copy ops using sockptr_t as a
-"universal" pointer, inspired by the recent patch from Andy
-Shevchenko:
-  https://lore.kernel.org/r/20230721100146.67293-1-andriy.shevchenko@linux.intel.com
-
-Even though it sounds a bit weird, sockptr_t is a generic type that is
-used already in wide ranges, and it can fit our purpose, too.  With
-sockptr_t, the former split of copy_user and copy_kernel PCM ops can
-be unified again gracefully.
-
-The patch set introduces the new PCM ops, converting users, and drops
-the old PCM ops.  Most of conversions are straightforward, simply
-replacing copy_*_user() with copy_*_sockptr() variants.
-
-Note that the conversion in ASoC will fix a potential problem of ASoC
-PCM that has been for long time.  Since ASoC component takes care of
-only copy_user, the conversion form/to kernel space might have been
-missing.  With this patch set, both cases are handled with sockptr_t
-by a single callback.
-
-The patches are lightly tested (with a faked PCM copy implementation
-on HD-audio), while most of patches are only compile-tested.
-
-
-Takashi
-
-===
-
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andrey Utkin <andrey_utkin@fastmail.com>
-Cc: Anton Sviridenko <anton@corp.bluecherry.net>
-Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-Cc: Banajit Goswami <bgoswami@quicinc.com>
 Cc: Bluecherry Maintainers <maintainers@bluecherrydvr.com>
-Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Anton Sviridenko <anton@corp.bluecherry.net>
+Cc: Andrey Utkin <andrey_utkin@fastmail.com>
 Cc: Ismael Luceno <ismael@iodev.co.uk>
-Cc: Lars-Peter Clausen <lars@metafoo.de>
-Cc: Mark Brown <broonie@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-Cc: Olivier Moysan <olivier.moysan@foss.st.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Cc: linux-media@vger.kernel.org
-Cc: xen-devel@lists.xenproject.org
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ drivers/media/pci/solo6x10/solo6x10-g723.c | 41 +++++-----------------
+ 1 file changed, 8 insertions(+), 33 deletions(-)
 
-===
-
-Takashi Iwai (24):
-  ALSA: pcm: Add copy ops with universal sockptr_t
-  ALSA: core: Add memory copy helpers between sockptr and iomem
-  ALSA: dummy: Convert to generic PCM copy ops
-  ALSA: gus: Convert to generic PCM copy ops
-  ALSA: emu8000: Convert to generic PCM copy ops
-  ALSA: es1938: Convert to generic PCM copy ops
-  ALSA: korg1212: Convert to generic PCM copy ops
-  ALSA: nm256: Convert to generic PCM copy ops
-  ALSA: rme32: Convert to generic PCM copy ops
-  ALSA: rme96: Convert to generic PCM copy ops
-  ALSA: hdsp: Convert to generic PCM copy ops
-  ALSA: rme9652: Convert to generic PCM copy ops
-  ALSA: sh: Convert to generic PCM copy ops
-  ALSA: xen: Convert to generic PCM copy ops
-  ALSA: pcmtest: Update comment about PCM copy ops
-  media: solo6x10: Convert to generic PCM copy ops
-  ASoC: component: Add generic PCM copy ops
-  ASoC: mediatek: Convert to generic PCM copy ops
-  ASoC: qcom: Convert to generic PCM copy ops
-  ASoC: dmaengine: Convert to generic PCM copy ops
-  ASoC: dmaengine: Use sockptr_t for process callback, too
-  ALSA: doc: Update description for the new PCM copy ops
-  ASoC: pcm: Drop obsoleted PCM copy_user ops
-  ALSA: pcm: Drop obsoleted PCM copy_user and copy_kernel ops
-
- .../kernel-api/writing-an-alsa-driver.rst     | 59 +++++---------
- drivers/media/pci/solo6x10/solo6x10-g723.c    | 41 ++--------
- include/sound/dmaengine_pcm.h                 |  2 +-
- include/sound/pcm.h                           | 12 +--
- include/sound/soc-component.h                 | 14 ++--
- sound/core/memory.c                           | 39 +++++++++
- sound/core/pcm_lib.c                          | 81 +++++++++----------
- sound/core/pcm_native.c                       |  2 +-
- sound/drivers/dummy.c                         | 12 +--
- sound/drivers/pcmtest.c                       |  2 +-
- sound/isa/gus/gus_pcm.c                       | 23 +-----
- sound/isa/sb/emu8000_pcm.c                    | 79 +++++-------------
- sound/pci/es1938.c                            | 31 ++-----
- sound/pci/korg1212/korg1212.c                 | 46 +++--------
- sound/pci/nm256/nm256.c                       | 42 ++--------
- sound/pci/rme32.c                             | 50 +++---------
- sound/pci/rme96.c                             | 48 +++--------
- sound/pci/rme9652/hdsp.c                      | 42 ++--------
- sound/pci/rme9652/rme9652.c                   | 46 ++---------
- sound/sh/sh_dac_audio.c                       | 25 +-----
- sound/soc/atmel/mchp-pdmc.c                   |  2 +-
- sound/soc/mediatek/common/mtk-btcvsd.c        | 22 ++---
- sound/soc/qcom/lpass-platform.c               | 12 +--
- sound/soc/soc-component.c                     | 10 +--
- sound/soc/soc-generic-dmaengine-pcm.c         | 18 ++---
- sound/soc/soc-pcm.c                           |  4 +-
- sound/soc/stm/stm32_sai_sub.c                 |  2 +-
- sound/xen/xen_snd_front_alsa.c                | 55 +++----------
- 28 files changed, 251 insertions(+), 570 deletions(-)
-
+diff --git a/drivers/media/pci/solo6x10/solo6x10-g723.c b/drivers/media/pci/solo6x10/solo6x10-g723.c
+index 6cebad665565..cf134810b8ec 100644
+--- a/drivers/media/pci/solo6x10/solo6x10-g723.c
++++ b/drivers/media/pci/solo6x10/solo6x10-g723.c
+@@ -204,12 +204,13 @@ static snd_pcm_uframes_t snd_solo_pcm_pointer(struct snd_pcm_substream *ss)
+ 	return idx * G723_FRAMES_PER_PAGE;
+ }
+ 
+-static int snd_solo_pcm_copy_user(struct snd_pcm_substream *ss, int channel,
+-				  unsigned long pos, void __user *dst,
+-				  unsigned long count)
++static int snd_solo_pcm_copy(struct snd_pcm_substream *ss, int channel,
++			     unsigned long pos, sockptr_t dst,
++			     unsigned long count)
+ {
+ 	struct solo_snd_pcm *solo_pcm = snd_pcm_substream_chip(ss);
+ 	struct solo_dev *solo_dev = solo_pcm->solo_dev;
++	unsigned int off = 0;
+ 	int err, i;
+ 
+ 	for (i = 0; i < (count / G723_FRAMES_PER_PAGE); i++) {
+@@ -223,35 +224,10 @@ static int snd_solo_pcm_copy_user(struct snd_pcm_substream *ss, int channel,
+ 		if (err)
+ 			return err;
+ 
+-		if (copy_to_user(dst, solo_pcm->g723_buf, G723_PERIOD_BYTES))
++		if (copy_to_sockptr_offset(dst, off,
++					   solo_pcm->g723_buf, G723_PERIOD_BYTES))
+ 			return -EFAULT;
+-		dst += G723_PERIOD_BYTES;
+-	}
+-
+-	return 0;
+-}
+-
+-static int snd_solo_pcm_copy_kernel(struct snd_pcm_substream *ss, int channel,
+-				    unsigned long pos, void *dst,
+-				    unsigned long count)
+-{
+-	struct solo_snd_pcm *solo_pcm = snd_pcm_substream_chip(ss);
+-	struct solo_dev *solo_dev = solo_pcm->solo_dev;
+-	int err, i;
+-
+-	for (i = 0; i < (count / G723_FRAMES_PER_PAGE); i++) {
+-		int page = (pos / G723_FRAMES_PER_PAGE) + i;
+-
+-		err = solo_p2m_dma_t(solo_dev, 0, solo_pcm->g723_dma,
+-				     SOLO_G723_EXT_ADDR(solo_dev) +
+-				     (page * G723_PERIOD_BLOCK) +
+-				     (ss->number * G723_PERIOD_BYTES),
+-				     G723_PERIOD_BYTES, 0, 0);
+-		if (err)
+-			return err;
+-
+-		memcpy(dst, solo_pcm->g723_buf, G723_PERIOD_BYTES);
+-		dst += G723_PERIOD_BYTES;
++		off += G723_PERIOD_BYTES;
+ 	}
+ 
+ 	return 0;
+@@ -263,8 +239,7 @@ static const struct snd_pcm_ops snd_solo_pcm_ops = {
+ 	.prepare = snd_solo_pcm_prepare,
+ 	.trigger = snd_solo_pcm_trigger,
+ 	.pointer = snd_solo_pcm_pointer,
+-	.copy_user = snd_solo_pcm_copy_user,
+-	.copy_kernel = snd_solo_pcm_copy_kernel,
++	.copy = snd_solo_pcm_copy,
+ };
+ 
+ static int snd_solo_capture_volume_info(struct snd_kcontrol *kcontrol,
 -- 
 2.35.3
 
