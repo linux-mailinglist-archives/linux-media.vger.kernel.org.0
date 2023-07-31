@@ -2,110 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C91A77691BC
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 11:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B23CE7691C8
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 11:32:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232214AbjGaJac (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jul 2023 05:30:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53252 "EHLO
+        id S232363AbjGaJb7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jul 2023 05:31:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231434AbjGaJa0 (ORCPT
+        with ESMTP id S232359AbjGaJb0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jul 2023 05:30:26 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46EA712D;
-        Mon, 31 Jul 2023 02:30:23 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36V9SicD009389;
-        Mon, 31 Jul 2023 11:30:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-        message-id:date:mime-version:subject:to:references:from
-        :in-reply-to:content-type:content-transfer-encoding; s=
-        selector1; bh=h/GRgi2ailuju1SMd2b9nm0JKLl8dc58k4ePkEFhp+w=; b=3n
-        7T8eyElteFmOSi/jGLVEKOOlZ3SGkA39+BesE42g+lH/yQfMiqolbcmcn15+yuLf
-        aeHYYPdqIwFDNVKG1VLZpdXFRyTaHnR2kpfeMTA3io17WRWcErSyDy7EAWrPH/QO
-        u2/7dpydVlgF28yaWiHrLBpsKc2qdcVjnhKUOyeqQi193Nuoz5X9N8W/qgwjW2kv
-        KsNI3a8TVSPGrWZH+9qm7clDpE06InsbP6/r/Ws+AooHgjblmsSRf3T8hc48mkYp
-        Nifuz41R9bvuw0sM2WrG9TXdCGAZ5retA+uPsEZHBqSoA0qaHfVY9LSs2P/xQ74J
-        8hsqmIwKrwQnIdxnY96Q==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3s50ng08db-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 31 Jul 2023 11:30:06 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6D036100034;
-        Mon, 31 Jul 2023 11:30:04 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6472321D3D0;
-        Mon, 31 Jul 2023 11:30:04 +0200 (CEST)
-Received: from [10.129.166.114] (10.129.166.114) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 31 Jul
- 2023 11:30:03 +0200
-Message-ID: <f8ac8d99-f6fa-2073-4610-3ed845e18da9@foss.st.com>
-Date:   Mon, 31 Jul 2023 11:30:03 +0200
+        Mon, 31 Jul 2023 05:31:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D0B10C7;
+        Mon, 31 Jul 2023 02:31:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB2C460FC9;
+        Mon, 31 Jul 2023 09:31:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC62BC433C7;
+        Mon, 31 Jul 2023 09:31:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690795883;
+        bh=zYigZsP8fdIjtW7KGQQk4Oz0hhJCFy2GrbtMAsuaLbo=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=KJBv/vNCAhFIChIedfaFYMFRDRtEHGnQOutW74PrtN0yINRx9sesgfEIPA76BUurZ
+         2BxelLvPyRG/U2veoAgfBjHzsNLb/CVVUpco2AcA+H5LTVkJe5CMkdaXVxe3bTf1EJ
+         w+9d9ZvuC/76p0wTadBFDg/7BdPgzKtGTM76hNwigrWHgpuGOKif79TmYVf06C/yxs
+         18OqWtVwiimBfyvoi+G8p9vAbgqmIYHxMwzj3vDqBHiG0UPWjAt6mzOjHwGugNKbAQ
+         um6BkRFzBvFr7UKsKOd/Cs/T7Tb1QkLV7FiRYeJ6Ldl9KtlMWrG+Yg4vbayFUt0HdP
+         Uspvuiox1tjZw==
+Received: (nullmailer pid 2176699 invoked by uid 1000);
+        Mon, 31 Jul 2023 09:31:20 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: dt-bindings: drop unneeded status from examples
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+From:   Rob Herring <robh@kernel.org>
+To:     Jai Luthra <j-luthra@ti.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, nm@ti.com, devarsht@ti.com,
+        Vaishnav Achath <vaishnav.a@ti.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
+        Benoit Parrot <bparrot@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        <linux-tegra@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20230725101625.75162-1-krzysztof.kozlowski@linaro.org>
- <e8138fd1-5d1f-8fc3-e29a-547902c2ab18@foss.st.com>
- <30d0689f-5a6a-c593-2a30-1ef2dc37f1af@linaro.org>
-Content-Language: en-US
-From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <30d0689f-5a6a-c593-2a30-1ef2dc37f1af@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.129.166.114]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-31_03,2023-07-26_01,2023-05-22_02
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20230731-upstream_csi-v8-15-fb7d3661c2c9@ti.com>
+References: <20230731-upstream_csi-v8-0-fb7d3661c2c9@ti.com>
+ <20230731-upstream_csi-v8-15-fb7d3661c2c9@ti.com>
+Message-Id: <169079588075.2176682.10224087620577481487.robh@kernel.org>
+Subject: Re: [PATCH v8 15/16] media: dt-bindings: Add TI J721E CSI2RX
+Date:   Mon, 31 Jul 2023 03:31:20 -0600
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/26/23 08:33, Krzysztof Kozlowski wrote:
-> On 25/07/2023 12:55, Benjamin Mugnier wrote:
->> Hi Krzysztof,
->>
->> Thank you for your patch.
->>
->> For the st-mipid02 :
->> Reviewed-By: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+
+On Mon, 31 Jul 2023 13:59:33 +0530, Jai Luthra wrote:
+> From: Pratyush Yadav <p.yadav@ti.com>
 > 
-> I don't think we have half-reviews. There are half-acks, but not reviews.
+> TI's J721E uses the Cadence CSI2RX and DPHY peripherals to facilitate
+> capture over a CSI-2 bus. The TI CSI2RX platform driver glues all the
+> parts together.
 > 
-> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L542
+> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> v7->v8:
+> - Drop "Device Tree Bindings" from title
+> - Rename "Wrapper" to "Shim" in title as that is the name referred in
+>   the TRM and other places
+> - Update maintainer to myself
+> - Drop items from compatible as only a single element is present
+> - Rename compatible to "ti,j721e-csi2rx-shim" to distinguish from the
+>   SoC-specific CSI2RX bridge compatible
 > 
-> Best regards,
-> Krzysztof
+>  .../bindings/media/ti,j721e-csi2rx-shim.yaml       | 100 +++++++++++++++++++++
+>  1 file changed, 100 insertions(+)
 > 
 
-I was not aware of this, thanks for pointing it to me.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-For the st-mipid02 :
-Acked-By: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+yamllint warnings/errors:
 
--- 
-Regards,
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.yaml:
+Error in referenced schema matching $id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.example.dtb: ticsi2rx@4500000: csi-bridge@4504000: False schema does not allow {'compatible': ['ti,j721e-csi2rx', 'cdns,csi2rx'], 'reg': [[72368128, 4096]], 'clocks': [[4294967295, 26, 2], [4294967295, 26, 0], [4294967295, 26, 2], [4294967295, 26, 2], [4294967295, 26, 3], [4294967295, 26, 3]], 'clock-names': ['sys_clk', 'p_clk', 'pixel_if0_clk', 'pixel_if1_clk', 'pixel_if2_clk', 'pixel_if3_clk'], 'phys': [[4294967295]], 'phy-names': ['dphy'], 'ports': {'#address-cells': [[1]], '#size-cells': [[0]], 'port@0': {'reg': [[0]], 'endpoint': {'remote-endpoint': [[4294967295]], 'bus-type': [[4]], 'clock-lanes': [[0]], 'data-lanes': [[1, 2]]}}}}
+	from schema $id: http://devicetree.org/schemas/media/ti,j721e-csi2rx-shim.yaml#
+Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.example.dtb: /example-0/ticsi2rx@4500000/csi-bridge@4504000: failed to match any schema with compatible: ['ti,j721e-csi2rx', 'cdns,csi2rx']
+Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.example.dtb: /example-0/ticsi2rx@4500000/csi-bridge@4504000: failed to match any schema with compatible: ['ti,j721e-csi2rx', 'cdns,csi2rx']
 
-Benjamin
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230731-upstream_csi-v8-15-fb7d3661c2c9@ti.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
