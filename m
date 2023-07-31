@@ -2,336 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EB1576A2DD
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 23:33:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E0CF76A366
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 23:52:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbjGaVdG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jul 2023 17:33:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45752 "EHLO
+        id S230448AbjGaVw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jul 2023 17:52:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231334AbjGaVca (ORCPT
+        with ESMTP id S229612AbjGaVwZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jul 2023 17:32:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C3F1BF9;
-        Mon, 31 Jul 2023 14:31:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9EE0D612E7;
-        Mon, 31 Jul 2023 21:31:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60922C433C8;
-        Mon, 31 Jul 2023 21:31:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690839082;
-        bh=6lP5+Cei+2goByQ2ABFk3N4PaZH64I6jAOzydkz/QyY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=LmcG8qXoZM2ed67Z2dFJogRdJ/NwHB+d/XWKqQWCUPkXA/QLPCj7qQN/emwgnK6fv
-         3e+5rcn3qU6Ga7ddJiELPa9u6LLujs2Jmdl80RteHjjT2FikK72++qtRjXB2EOpRw2
-         3/UTQ0/R40Pqekg/Kn4dOdB52rK9kGHfhAmsudslE7Jze7uhf8Zdxz+hJCL/VO5DXm
-         7HNIaLER8ktQ0y7iDvKsxmIxHwb1/GpAI4AzdoS4x5g3ZIwvav6c9ZyMED6iwq6Zwy
-         7y2LJTWdxLg3hQlJMgKysq0aJMKkGfVChen65n60N6ULzjLTxx64jIRgEO81cDDczo
-         octOy7lLcJcOg==
-Message-ID: <defaff1f-af76-8b02-8d23-534310be16bb@kernel.org>
-Date:   Mon, 31 Jul 2023 23:31:14 +0200
+        Mon, 31 Jul 2023 17:52:25 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E21CE7;
+        Mon, 31 Jul 2023 14:52:21 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3175f17a7baso4494091f8f.0;
+        Mon, 31 Jul 2023 14:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690840339; x=1691445139;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LgpOpS8zPiMqsk7e0dzu/7DJUbx/2+7u802O0JxbEFU=;
+        b=j9/na9J/IBRpLUmvKS2qVcLRYaHgOiOoVAVGyNW4LiHJQPz/vJiOFosZi4eXivz/HZ
+         h6Knd33uYpyoLsr+5B0j24rQZ/sY4DY49h4L0Gz78wCz5KLyRKSPfEUCnyfdcHVLgAi1
+         trIDXt6IwyJtJE3r5W36skOjI0sEdERY+eJIi+1Hlj2DUug6gMp75tpD+HcnvxEg2cE4
+         xlmTpHuK9CrfQG2o1G78oBlwxo+K0B544ZOUNZcBaIJQIEGK4wUIOmpiDTBpJPhppyxw
+         FTfm3v27OLir9Cii64rjzyIgq8PAHq8J7BD85jTCAQMQbHXGYIZLHDEJhK7MdE5/hVG0
+         lUJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690840339; x=1691445139;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LgpOpS8zPiMqsk7e0dzu/7DJUbx/2+7u802O0JxbEFU=;
+        b=GrLhNN0NBeMOqIEpWooM5O2anG/xlAPJ7ywVI4LNO7V2X+6eUEPuVv4nDZ9pr2ppBd
+         FMrvhPQjtPGmMcT2XOCisRrrkVzltVYT51oGfUs9kHNrzdoRLjM6jBwc3WExv3Z3i1tr
+         /kCzz4IH7vVVTplR+dmmh+n4eweW73o7f94hlL0THWbJ+LK9688NIMTovag7LKOX9xbI
+         MZaQ/896vNjHZhbzSh8G0SySlv5sQQyrnwCRpefc+i7VZUjHOB4CDdPxK9sw1Ob89UMS
+         YF9zwodWb+o2LM6sv0ncGXsNLsxx3Zk8Cc63UdNl/i/BecvpqDo8ufIZwg15Z7seb4q9
+         jbPA==
+X-Gm-Message-State: ABy/qLbDBg61PHPXDtGsgITXb0mNBgwdpXcWWZWageLQ4m6efqaIQ9iC
+        ddNyzG3eZcP07gtbvq4lHgCuYC6uc2A=
+X-Google-Smtp-Source: APBJJlHzrakuoVmqaVDMP5XX3A7XiukrqeVKsSpvrDgq2ptFhGBlv2rfpe6hvj8AANvXW1CXzXFZwQ==
+X-Received: by 2002:a5d:5259:0:b0:313:ee2e:dae1 with SMTP id k25-20020a5d5259000000b00313ee2edae1mr689304wrc.18.1690840339311;
+        Mon, 31 Jul 2023 14:52:19 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-188-217-59-106.cust.vodafonedsl.it. [188.217.59.106])
+        by smtp.gmail.com with ESMTPSA id q20-20020a1709060e5400b00992b3ea1ee4sm6858783eji.149.2023.07.31.14.52.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jul 2023 14:52:18 -0700 (PDT)
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     sakari.ailus@linux.intel.com, linuxfancy@googlegroups.com,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: dt-bindings: ov5693: fix maintainer email address
+Date:   Mon, 31 Jul 2023 23:52:15 +0200
+Message-Id: <20230731215215.3045794-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH 24/33] iris: vidc: add debug files
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     quic_dikshita@quicinc.com
-References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-25-git-send-email-quic_vgarodia@quicinc.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <1690550624-14642-25-git-send-email-quic_vgarodia@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/07/2023 15:23, Vikash Garodia wrote:
-> this implements the debugging framework.
+Switch my mail address from a company mail to a personal one.
 
-Your commit msgs are not helping to understand why do you need it and
-what is this doing. Based on this commit description I would ask you to
-drop most of this code as it looks useless. Extend the commit msg to
-provide proper justification and list of features each unit provides.
+Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+---
+ Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please do not use "This commit/patch", but imperative mood. See longer
-explanation here:
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  .../platform/qcom/iris/vidc/inc/msm_vidc_debug.h   | 186 +++++++
->  .../platform/qcom/iris/vidc/src/msm_vidc_debug.c   | 581 +++++++++++++++++++++
->  2 files changed, 767 insertions(+)
->  create mode 100644 drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_debug.h
->  create mode 100644 drivers/media/platform/qcom/iris/vidc/src/msm_vidc_debug.c
-> 
-> diff --git a/drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_debug.h b/drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_debug.h
-> new file mode 100644
-> index 0000000..ffced01
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/iris/vidc/inc/msm_vidc_debug.h
-> @@ -0,0 +1,186 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef __MSM_VIDC_DEBUG__
-> +#define __MSM_VIDC_DEBUG__
-> +
-> +#include <linux/debugfs.h>
-> +#include <linux/delay.h>
-> +#include <linux/errno.h>
-> +#include <linux/module.h>
-> +#include <linux/moduleparam.h>
-> +#include <linux/types.h>
-> +
-> +struct msm_vidc_core;
-> +struct msm_vidc_inst;
-> +
-> +#ifndef VIDC_DBG_LABEL
-> +#define VIDC_DBG_LABEL "msm_vidc"
-> +#endif
-
-Drop these three. Don't re-invent Linux kernel API.
-
-> +
-> +/* Allow only 6 prints/sec */
-> +#define VIDC_DBG_SESSION_RATELIMIT_INTERVAL (1 * HZ)
-> +#define VIDC_DBG_SESSION_RATELIMIT_BURST 6
-> +
-> +#define VIDC_DBG_TAG_INST VIDC_DBG_LABEL ": %4s: %s: "
-> +#define VIDC_DBG_TAG_CORE VIDC_DBG_LABEL ": %4s: %08x: %s: "
-> +#define FW_DBG_TAG VIDC_DBG_LABEL ": %6s: "
-> +#define DEFAULT_SID ((u32)-1)
-> +
-> +#ifndef MSM_VIDC_EMPTY_BRACE
-> +#define MSM_VIDC_EMPTY_BRACE {},
-
-That's the funniest code I saw since some time.
-
-> +#endif
-> +
-> +extern unsigned int msm_vidc_debug;
-
-Nope.
-
-> +extern unsigned int msm_fw_debug;
-
-Nope.
-
-> +extern bool msm_vidc_fw_dump;
-
-Nope.
-
-> +
-> +/* do not modify the log message as it is used in test scripts */
-> +#define FMT_STRING_SET_CTRL \
-> +	"%s: state %s, name %s, id 0x%x value %d\n"
-> +#define FMT_STRING_STATE_CHANGE \
-> +	"%s: state changed to %s from %s\n"
-> +#define FMT_STRING_MSG_SFR \
-> +	"SFR Message from FW: %s\n"
-> +#define FMT_STRING_FAULT_HANDLER \
-> +	"%s: faulting address: %lx\n"
-> +#define FMT_STRING_SET_CAP \
-> +	"set cap: name: %24s, cap value: %#10x, hfi: %#10llx\n"
-> +
-> +/* To enable messages OR these values and
-> + * echo the result to debugfs file.
-> + *
-> + * To enable all messages set msm_vidc_debug = 0x101F
-> + */
-> +
-> +enum vidc_msg_prio_drv {
-> +	VIDC_ERR        = 0x00000001,
-> +	VIDC_HIGH       = 0x00000002,
-> +	VIDC_LOW        = 0x00000004,
-> +	VIDC_PERF       = 0x00000008,
-> +	VIDC_PKT        = 0x00000010,
-> +	VIDC_BUS        = 0x00000020,
-> +	VIDC_STAT       = 0x00000040,
-> +	VIDC_ENCODER    = 0x00000100,
-> +	VIDC_DECODER    = 0x00000200,
-> +	VIDC_PRINTK     = 0x10000000,
-> +	VIDC_FTRACE     = 0x20000000,
-> +};
-> +
-> +enum vidc_msg_prio_fw {
-> +	FW_LOW          = 0x00000001,
-> +	FW_MED          = 0x00000002,
-> +	FW_HIGH         = 0x00000004,
-> +	FW_ERROR        = 0x00000008,
-> +	FW_FATAL        = 0x00000010,
-> +	FW_PERF         = 0x00000020,
-> +	FW_CACHE_LOW    = 0x00000100,
-> +	FW_CACHE_MED    = 0x00000200,
-> +	FW_CACHE_HIGH   = 0x00000400,
-> +	FW_CACHE_ERROR  = 0x00000800,
-> +	FW_CACHE_FATAL  = 0x00001000,
-> +	FW_CACHE_PERF   = 0x00002000,
-> +	FW_PRINTK       = 0x10000000,
-> +	FW_FTRACE       = 0x20000000,
-> +};
-> +
-> +#define DRV_LOG        (VIDC_ERR | VIDC_PRINTK)
-> +#define DRV_LOGSHIFT   (0)
-> +#define DRV_LOGMASK    (0x0FFFFFFF)
-> +
-> +#define FW_LOG         (FW_ERROR | FW_FATAL | FW_PRINTK)
-> +#define FW_LOGSHIFT    (0)
-> +#define FW_LOGMASK     (0x0FFFFFFF)
-> +
-> +#define dprintk_inst(__level, __level_str, inst, __fmt, ...) \
-> +	do { \
-> +		if (inst && (msm_vidc_debug & (__level))) { \
-> +			pr_info(VIDC_DBG_TAG_INST __fmt, \
-> +				__level_str, \
-> +				inst->debug_str, \
-> +				##__VA_ARGS__); \
-> +		} \
-> +	} while (0)
-> +
-> +#define i_vpr_e(inst, __fmt, ...) dprintk_inst(VIDC_ERR,  "err ", inst, __fmt, ##__VA_ARGS__)
-> +#define i_vpr_i(inst, __fmt, ...) dprintk_inst(VIDC_HIGH, "high", inst, __fmt, ##__VA_ARGS__)
-> +#define i_vpr_h(inst, __fmt, ...) dprintk_inst(VIDC_HIGH, "high", inst, __fmt, ##__VA_ARGS__)
-> +#define i_vpr_l(inst, __fmt, ...) dprintk_inst(VIDC_LOW,  "low ", inst, __fmt, ##__VA_ARGS__)
-> +#define i_vpr_p(inst, __fmt, ...) dprintk_inst(VIDC_PERF, "perf", inst, __fmt, ##__VA_ARGS__)
-> +#define i_vpr_t(inst, __fmt, ...) dprintk_inst(VIDC_PKT,  "pkt ", inst, __fmt, ##__VA_ARGS__)
-> +#define i_vpr_b(inst, __fmt, ...) dprintk_inst(VIDC_BUS,  "bus ", inst, __fmt, ##__VA_ARGS__)
-
-NAK for entire interface. Please use standard debugging functions, not
-pr_info for everything.
-
-dev_dbg, dev_info, dev_warn, dev_err. Only these.
-
-
-> +#define i_vpr_s(inst, __fmt, ...) dprintk_inst(VIDC_STAT, "stat", inst, __fmt, ##__VA_ARGS__)
-> +
-> +#define i_vpr_hp(inst, __fmt, ...) \
-> +	dprintk_inst(VIDC_HIGH | VIDC_PERF, "high", inst, __fmt, ##__VA_ARGS__)
-> +#define i_vpr_hs(inst, __fmt, ...) \
-> +	dprintk_inst(VIDC_HIGH | VIDC_STAT, "stat", inst, __fmt, ##__VA_ARGS__)
-> +> +#define dprintk_core(__level, __level_str, __fmt, ...) \
-
-NAK
-
-> +	do { \
-> +		if (msm_vidc_debug & (__level)) { \
-> +			pr_info(VIDC_DBG_TAG_CORE __fmt, \
-> +				__level_str, \
-> +				DEFAULT_SID, \
-> +				"codec", \
-> +				##__VA_ARGS__); \
-> +		} \
-> +	} while (0)
-> +
-> +#define d_vpr_e(__fmt, ...) dprintk_core(VIDC_ERR,  "err ", __fmt, ##__VA_ARGS__)
-> +#define d_vpr_h(__fmt, ...) dprintk_core(VIDC_HIGH, "high", __fmt, ##__VA_ARGS__)
-> +#define d_vpr_l(__fmt, ...) dprintk_core(VIDC_LOW,  "low ", __fmt, ##__VA_ARGS__)
-> +#define d_vpr_p(__fmt, ...) dprintk_core(VIDC_PERF, "perf", __fmt, ##__VA_ARGS__)
-> +#define d_vpr_t(__fmt, ...) dprintk_core(VIDC_PKT,  "pkt ", __fmt, ##__VA_ARGS__)
-> +#define d_vpr_b(__fmt, ...) dprintk_core(VIDC_BUS,  "bus ", __fmt, ##__VA_ARGS__)
-> +#define d_vpr_s(__fmt, ...) dprintk_core(VIDC_STAT, "stat", __fmt, ##__VA_ARGS__)
-> +#define d_vpr_hs(__fmt, ...) \
-> +	dprintk_core(VIDC_HIGH | VIDC_STAT, "high", __fmt, ##__VA_ARGS__)
-> +
-> +#define dprintk_ratelimit(__level, __level_str, __fmt, ...) \
-> +	do { \
-> +		if (msm_vidc_check_ratelimit()) { \
-> +			dprintk_core(__level, __level_str, __fmt, ##__VA_ARGS__); \
-> +		} \
-> +	} while (0)
-> +
-> +#define dprintk_firmware(__level, __fmt, ...)	\
-> +	do { \
-> +		if ((msm_fw_debug & (__level)) & FW_PRINTK) { \
-> +			pr_info(FW_DBG_TAG __fmt, \
-> +				"fw", \
-> +				##__VA_ARGS__); \
-> +		} \
-> +	} while (0)
-> +
-> +enum msm_vidc_debugfs_event {
-> +	MSM_VIDC_DEBUGFS_EVENT_ETB,
-> +	MSM_VIDC_DEBUGFS_EVENT_EBD,
-> +	MSM_VIDC_DEBUGFS_EVENT_FTB,
-> +	MSM_VIDC_DEBUGFS_EVENT_FBD,
-> +};
-> +
-> +enum msm_vidc_bug_on_error {
-> +	MSM_VIDC_BUG_ON_FATAL             = BIT(0),
-> +	MSM_VIDC_BUG_ON_NOC               = BIT(1),
-> +	MSM_VIDC_BUG_ON_WD_TIMEOUT        = BIT(2),
-> +};
-> +
-> +struct dentry *msm_vidc_debugfs_init_drv(void);
-> +struct dentry *msm_vidc_debugfs_init_core(struct msm_vidc_core *core);
-> +struct dentry *msm_vidc_debugfs_init_inst(struct msm_vidc_inst *inst,
-> +					  struct dentry *parent);
-> +void msm_vidc_debugfs_deinit_inst(struct msm_vidc_inst *inst);
-> +void msm_vidc_debugfs_update(struct msm_vidc_inst *inst,
-> +			     enum msm_vidc_debugfs_event e);
-> +int msm_vidc_check_ratelimit(void);
-> +
-> +static inline bool is_stats_enabled(void)
-> +{
-> +	return !!(msm_vidc_debug & VIDC_STAT);
-
-...
-
-> +struct dentry *msm_vidc_debugfs_init_core(struct msm_vidc_core *core)
-> +{
-> +	struct dentry *dir = NULL;
-> +	char debugfs_name[MAX_DEBUGFS_NAME];
-> +	struct dentry *parent;
-> +
-> +	if (!core->debugfs_parent) {
-> +		d_vpr_e("%s: invalid params\n", __func__);
-> +		goto failed_create_dir;
-> +	}
-> +	parent = core->debugfs_parent;
-> +
-> +	snprintf(debugfs_name, MAX_DEBUGFS_NAME, "core");
-> +	dir = debugfs_create_dir(debugfs_name, parent);
-> +	if (IS_ERR_OR_NULL(dir)) {
-> +		dir = NULL;
-> +		d_vpr_e("Failed to create debugfs for msm_vidc\n");
-> +		goto failed_create_dir;
-> +	}
-> +	if (!debugfs_create_file("info", 0444, dir, core, &core_info_fops)) {
-> +		d_vpr_e("debugfs_create_file: fail\n");
-> +		goto failed_create_dir;
-> +	}
-> +
-> +	if (!debugfs_create_file("stats_delay_ms", 0644, dir, core, &stats_delay_fops)) {
-> +		d_vpr_e("debugfs_create_file: fail\n");
-
-
-What is this entire debugfs supposed to provide?
-
-
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+index 359dc08440a8..d3df4fde34ba 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+@@ -8,7 +8,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: Omnivision OV5693 CMOS Sensor
+ 
+ maintainers:
+-  - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
++  - Tommaso Merciai <tomm.merciai@gmail.com>
+ 
+ description: |
+   The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
+-- 
+2.34.1
 
