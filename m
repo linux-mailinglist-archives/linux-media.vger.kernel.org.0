@@ -2,73 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96A2B769B13
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 17:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E2C2769BC5
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 18:04:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232463AbjGaPrb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jul 2023 11:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54958 "EHLO
+        id S233299AbjGaQEE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jul 2023 12:04:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232420AbjGaPr2 (ORCPT
+        with ESMTP id S233356AbjGaQDx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jul 2023 11:47:28 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6720511A
-        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 08:47:27 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 128951F8A4;
-        Mon, 31 Jul 2023 15:47:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1690818446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7xzGyeOqADYuhvj9+f7Ht1+vWxKhBHvAgQBKLm+82Kc=;
-        b=I2b+aLsv1a+mhlVVFFTmUyeFxV3ah6hcx7cpXBJTWxqyXWC4ij1ICKX4xcOa79AL5CU7Mn
-        oTvKXOIiYGT6llyQ0+tcycloVEgQSpi5NTo9Gk15+YK4+rE1NKNK1BSj1MpkZqZo4O6M/k
-        p0thvhXAFIoMstb8CMmrGT6YhtYb5Y4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1690818446;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7xzGyeOqADYuhvj9+f7Ht1+vWxKhBHvAgQBKLm+82Kc=;
-        b=yWTBfounRAZaa1yN1FUOJOlogvaJkE7A3YoLrkiLvu3mV0+nla53+ok9v0VmwDCd0c7olD
-        p0gT1VPRwL9skQCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D3CC61322C;
-        Mon, 31 Jul 2023 15:47:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id OFTwMo3Xx2Q3fwAAMHmgww
-        (envelope-from <tiwai@suse.de>); Mon, 31 Jul 2023 15:47:25 +0000
-From:   Takashi Iwai <tiwai@suse.de>
-To:     alsa-devel@alsa-project.org
-Cc:     Takashi Iwai <tiwai@suse.de>,
-        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Andrey Utkin <andrey_utkin@fastmail.com>,
-        Ismael Luceno <ismael@iodev.co.uk>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH 16/24] media: solo6x10: Convert to generic PCM copy ops
-Date:   Mon, 31 Jul 2023 17:47:10 +0200
-Message-Id: <20230731154718.31048-17-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230731154718.31048-1-tiwai@suse.de>
-References: <20230731154718.31048-1-tiwai@suse.de>
+        Mon, 31 Jul 2023 12:03:53 -0400
+Received: from mgamail.intel.com (unknown [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F811BD2
+        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 09:03:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690819415; x=1722355415;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=REwXaTrc9DrEQJyU3ZSNpbQ6T+OlGjj3Kmewbegq26o=;
+  b=d5ZrBs2jtySv/wD8Rdm6waVLkjogUe/OoSB2nSD2DqFaHrYJPL1JChwk
+   szaa3Qpy31zLNK7xvvGC29x7zVnrXcx6mfpdm3DE4YyAaQ6iwdLjIZQfM
+   nrOJBQL44vCuRjQ8iCSuiav8R7E/0qfxjecfQ6GVfHCJNrBDcyi+34ShL
+   Uy4Wd4ZVjtno29htSvz0l2Us8/qrZAp8VVGmODInYPKCTf/lyNJQL+GNa
+   EQCPmKFqMriAtLN03URARiadFGXAEAp0z1+y1xuP5ho1j1Uzl6MAZgn5o
+   BFNPzx8IgiCdlTJAEV2nZRyU8EVf9Uy3dy1/2gE8cUW4E0SrHCUhe1xZ/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="348655047"
+X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
+   d="scan'208";a="348655047"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 09:03:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="842318617"
+X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
+   d="scan'208";a="842318617"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 31 Jul 2023 09:03:10 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qQVMT-0005DJ-2c;
+        Mon, 31 Jul 2023 16:03:09 +0000
+Date:   Tue, 1 Aug 2023 00:02:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Wentong Wu <wentong.wu@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:master 41/41]
+ drivers/media/pci/intel/ivsc/mei_ace.c:444:41: warning: implicit conversion
+ from 'enum ace_cmd_id' to 'enum ace_camera_owner'
+Message-ID: <202308010053.Fi9ibMjW-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,91 +64,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch converts the solo6x10 driver code to use the new unified
-PCM copy callback.  It's a straightforward conversion from *_user() to
-*_sockptr() variants.
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   f6a458a2c82c225125c937cfd5675c2a3c494b33
+commit: f6a458a2c82c225125c937cfd5675c2a3c494b33 [41/41] media: pci: intel: ivsc: Add ACE submodule
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230801/202308010053.Fi9ibMjW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230801/202308010053.Fi9ibMjW-lkp@intel.com/reproduce)
 
-Cc: Bluecherry Maintainers <maintainers@bluecherrydvr.com>
-Cc: Anton Sviridenko <anton@corp.bluecherry.net>
-Cc: Andrey Utkin <andrey_utkin@fastmail.com>
-Cc: Ismael Luceno <ismael@iodev.co.uk>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/media/pci/solo6x10/solo6x10-g723.c | 41 +++++-----------------
- 1 file changed, 8 insertions(+), 33 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308010053.Fi9ibMjW-lkp@intel.com/
 
-diff --git a/drivers/media/pci/solo6x10/solo6x10-g723.c b/drivers/media/pci/solo6x10/solo6x10-g723.c
-index 6cebad665565..cf134810b8ec 100644
---- a/drivers/media/pci/solo6x10/solo6x10-g723.c
-+++ b/drivers/media/pci/solo6x10/solo6x10-g723.c
-@@ -204,12 +204,13 @@ static snd_pcm_uframes_t snd_solo_pcm_pointer(struct snd_pcm_substream *ss)
- 	return idx * G723_FRAMES_PER_PAGE;
- }
- 
--static int snd_solo_pcm_copy_user(struct snd_pcm_substream *ss, int channel,
--				  unsigned long pos, void __user *dst,
--				  unsigned long count)
-+static int snd_solo_pcm_copy(struct snd_pcm_substream *ss, int channel,
-+			     unsigned long pos, sockptr_t dst,
-+			     unsigned long count)
- {
- 	struct solo_snd_pcm *solo_pcm = snd_pcm_substream_chip(ss);
- 	struct solo_dev *solo_dev = solo_pcm->solo_dev;
-+	unsigned int off = 0;
- 	int err, i;
- 
- 	for (i = 0; i < (count / G723_FRAMES_PER_PAGE); i++) {
-@@ -223,35 +224,10 @@ static int snd_solo_pcm_copy_user(struct snd_pcm_substream *ss, int channel,
- 		if (err)
- 			return err;
- 
--		if (copy_to_user(dst, solo_pcm->g723_buf, G723_PERIOD_BYTES))
-+		if (copy_to_sockptr_offset(dst, off,
-+					   solo_pcm->g723_buf, G723_PERIOD_BYTES))
- 			return -EFAULT;
--		dst += G723_PERIOD_BYTES;
--	}
--
--	return 0;
--}
--
--static int snd_solo_pcm_copy_kernel(struct snd_pcm_substream *ss, int channel,
--				    unsigned long pos, void *dst,
--				    unsigned long count)
--{
--	struct solo_snd_pcm *solo_pcm = snd_pcm_substream_chip(ss);
--	struct solo_dev *solo_dev = solo_pcm->solo_dev;
--	int err, i;
--
--	for (i = 0; i < (count / G723_FRAMES_PER_PAGE); i++) {
--		int page = (pos / G723_FRAMES_PER_PAGE) + i;
--
--		err = solo_p2m_dma_t(solo_dev, 0, solo_pcm->g723_dma,
--				     SOLO_G723_EXT_ADDR(solo_dev) +
--				     (page * G723_PERIOD_BLOCK) +
--				     (ss->number * G723_PERIOD_BYTES),
--				     G723_PERIOD_BYTES, 0, 0);
--		if (err)
--			return err;
--
--		memcpy(dst, solo_pcm->g723_buf, G723_PERIOD_BYTES);
--		dst += G723_PERIOD_BYTES;
-+		off += G723_PERIOD_BYTES;
- 	}
- 
- 	return 0;
-@@ -263,8 +239,7 @@ static const struct snd_pcm_ops snd_solo_pcm_ops = {
- 	.prepare = snd_solo_pcm_prepare,
- 	.trigger = snd_solo_pcm_trigger,
- 	.pointer = snd_solo_pcm_pointer,
--	.copy_user = snd_solo_pcm_copy_user,
--	.copy_kernel = snd_solo_pcm_copy_kernel,
-+	.copy = snd_solo_pcm_copy,
- };
- 
- static int snd_solo_capture_volume_info(struct snd_kcontrol *kcontrol,
+All warnings (new ones prefixed by >>):
+
+   drivers/media/pci/intel/ivsc/mei_ace.c: In function 'mei_ace_post_probe_work':
+>> drivers/media/pci/intel/ivsc/mei_ace.c:444:41: warning: implicit conversion from 'enum ace_cmd_id' to 'enum ace_camera_owner' [-Wenum-conversion]
+     444 |         ret = ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_HOST);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_ace.c: In function 'mei_ace_remove':
+   drivers/media/pci/intel/ivsc/mei_ace.c:529:35: warning: implicit conversion from 'enum ace_cmd_id' to 'enum ace_camera_owner' [-Wenum-conversion]
+     529 |         ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_IVSC);
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_ace.c: In function 'mei_ace_runtime_suspend':
+   drivers/media/pci/intel/ivsc/mei_ace.c:538:42: warning: implicit conversion from 'enum ace_cmd_id' to 'enum ace_camera_owner' [-Wenum-conversion]
+     538 |         return ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_IVSC);
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_ace.c: In function 'mei_ace_runtime_resume':
+   drivers/media/pci/intel/ivsc/mei_ace.c:545:42: warning: implicit conversion from 'enum ace_cmd_id' to 'enum ace_camera_owner' [-Wenum-conversion]
+     545 |         return ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_HOST);
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +444 drivers/media/pci/intel/ivsc/mei_ace.c
+
+   432	
+   433	/* switch camera to host before probe sensor device */
+   434	static void mei_ace_post_probe_work(struct work_struct *work)
+   435	{
+   436		struct acpi_device *adev;
+   437		struct mei_ace *ace;
+   438		struct device *dev;
+   439		int ret;
+   440	
+   441		ace = container_of(work, struct mei_ace, work);
+   442		dev = &ace->cldev->dev;
+   443	
+ > 444		ret = ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_HOST);
+   445		if (ret) {
+   446			dev_err(dev, "switch camera to host failed: %d\n", ret);
+   447			return;
+   448		}
+   449	
+   450		adev = ACPI_COMPANION(dev->parent);
+   451		if (!adev)
+   452			return;
+   453	
+   454		acpi_dev_clear_dependencies(adev);
+   455	}
+   456	
+
 -- 
-2.35.3
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
