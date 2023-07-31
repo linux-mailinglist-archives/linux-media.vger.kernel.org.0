@@ -2,155 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBF23768FE7
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 10:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C73CE76901B
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jul 2023 10:29:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230113AbjGaITh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jul 2023 04:19:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39306 "EHLO
+        id S230154AbjGaI3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jul 2023 04:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230138AbjGaITC (ORCPT
+        with ESMTP id S229889AbjGaI3v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jul 2023 04:19:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 676D71B1
-        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 01:17:23 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70CB62E4;
-        Mon, 31 Jul 2023 10:16:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690791379;
-        bh=ATWeDfMM6NipHRtD8jZ0lB2SDYzoHFkP/Mv0B30QAI0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Bsvvhz5/Y2KO4o8dP7tnOKFvEXr7N07lztucMS6P377nnwWfEqzFkSrtvFrrLWARC
-         tIRiiV4tI+djX833VuLF+rmpXRqKV+keAa64/CQEJ9ivVry5SqlS6nf785GmRQR24a
-         vWODHJZkK9lqD9OXDsQCjfJyKor+wB/08q7J8Ja4=
-Date:   Mon, 31 Jul 2023 11:17:27 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-Subject: Re: [PATCH v2 4/7] media: i2c: imx219: Fix colorspace info
-Message-ID: <20230731081727.GD5094@pendragon.ideasonboard.com>
-References: <20230710155203.92366-1-jacopo.mondi@ideasonboard.com>
- <20230710155203.92366-5-jacopo.mondi@ideasonboard.com>
- <20230729171300.GC5094@pendragon.ideasonboard.com>
- <f3hrtvxi5z4zyuislnks5zidnhcunqyewrubuvexwstghxh6om@vjw6ofij3dxv>
+        Mon, 31 Jul 2023 04:29:51 -0400
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CAB8123;
+        Mon, 31 Jul 2023 01:29:48 -0700 (PDT)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 36V8TWVV048149;
+        Mon, 31 Jul 2023 03:29:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1690792172;
+        bh=qe9LfvfFWShZ5aa9sG+qMWQHfXQ7cLIsXeOBSSXoZ4s=;
+        h=From:To:CC:Subject:Date;
+        b=kVLGa/ZZcqM56IXOasQwC/81wgqRUnnY6HBIZVmA451n1t339yWA5Vm+O4yqhMZLq
+         zeZalrvlae4RtkR3HdWIks3AN6mvgi53YWtTHp8xW0sCHDUM3LcvW6sUNBuvmsWrIs
+         xabzMwufR1997MKpRb92/YaMgMeEMYZMefxXt70U=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 36V8TWbK106629
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 31 Jul 2023 03:29:32 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 31
+ Jul 2023 03:29:31 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 31 Jul 2023 03:29:32 -0500
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 36V8TUFM041788;
+        Mon, 31 Jul 2023 03:29:31 -0500
+From:   Jai Luthra <j-luthra@ti.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Benoit Parrot <bparrot@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>, <nm@ti.com>,
+        <devarsht@ti.com>, <j-luthra@ti.com>
+Subject: [PATCH v8 00/16] CSI2RX support on J721E and AM62
+Date:   Mon, 31 Jul 2023 13:59:18 +0530
+Message-ID: <20230731-upstream_csi-v8-0-fb7d3661c2c9@ti.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f3hrtvxi5z4zyuislnks5zidnhcunqyewrubuvexwstghxh6om@vjw6ofij3dxv>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 31, 2023 at 09:32:08AM +0200, Jacopo Mondi wrote:
-> On Sat, Jul 29, 2023 at 08:13:00PM +0300, Laurent Pinchart wrote:
-> > On Mon, Jul 10, 2023 at 05:52:00PM +0200, Jacopo Mondi wrote:
-> > > The IMX219 is a RAW sensor. Fix the colorspace configuration by
-> > > using V4L2_COLORSPACE_RAW and adjust the quantization and transfer
-> > > function values. Drop ycbcr_enc as it doesn't apply to RAW sensors.
-> >
-> > So this addresses part of my comments for 3/7, nice :-)
-> >
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > ---
-> > >  drivers/media/i2c/imx219.c | 26 +++++++++-----------------
-> > >  1 file changed, 9 insertions(+), 17 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > index cd43a897391c..6963e24e1bc2 100644
-> > > --- a/drivers/media/i2c/imx219.c
-> > > +++ b/drivers/media/i2c/imx219.c
-> > > @@ -597,15 +597,12 @@ static void imx219_set_default_format(struct imx219 *imx219)
-> > >
-> > >  	fmt = &imx219->fmt;
-> > >  	fmt->code = MEDIA_BUS_FMT_SRGGB10_1X10;
-> > > -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> > > -	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-> > > -	fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
-> > > -							  fmt->colorspace,
-> > > -							  fmt->ycbcr_enc);
-> > > -	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
-> > > +	fmt->colorspace = V4L2_COLORSPACE_RAW;
-> > > +	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> > >  	fmt->width = supported_modes[0].width;
-> > >  	fmt->height = supported_modes[0].height;
-> > >  	fmt->field = V4L2_FIELD_NONE;
-> > > +	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
-> >
-> > Any reason to not group xfer_func with colorspace and quantization ?
-> >
-> > >  }
-> > >
-> > >  static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > @@ -714,12 +711,10 @@ static int imx219_init_cfg(struct v4l2_subdev *sd,
-> > >  	format->code = imx219_get_format_code(imx219,
-> > >  					      MEDIA_BUS_FMT_SRGGB10_1X10);
-> > >  	format->field = V4L2_FIELD_NONE;
-> > > -	format->colorspace = V4L2_COLORSPACE_SRGB;
-> > > +	format->colorspace = V4L2_COLORSPACE_RAW;
-> > >  	format->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(format->colorspace);
-> >
-> > You're keeping ycbcr_enc here while you've dropped it in the two other
-> > locations. Was that on purpose ?
-> 
-> Umang had the same comment, and I clearly forgot to remove this one
-> 
-> > While the encoding doesn't apply to raw formats, I think it should still
-> > be set explicitly, or it will end up having a random value.
-> 
-> Should I use V4L2_YCBCR_ENC_DEFAULT even if for RAW sensors it doesn't
-> make much sense ?
+Hi,
 
-For the transfer function we have V4L2_XFER_FUNC_NONE, but for the
-encoding we have no similar value. I recall that V4L2_YCBCR_ENC_DEFAULT
-is meant for applications only, and that drivers must always return an
-appropriate non-default value, but I can't find at the moment where that
-is documented. It may have been from a discussion with Hans, and
-v4l2-compliance may enforce it, I haven't checked.
+This series adds support for CSI2 capture on J721E. It includes some
+fixes to the Cadence CSI2RX driver, and adds the TI CSI2RX wrapper driver.
 
-We could add a new V4L2_YCBCR_ENC_NONE value, allow
-V4L2_YCBCR_ENC_DEFAULT for this use case, or return V4L2_YCBCR_ENC_601
-as done by other drivers (this is the value returned by
-V4L2_MAP_YCBCR_ENC_DEFAULT() for a RAW colorspace).
+This is a V8 of the below V7 series,
+https://lore.kernel.org/all/20230314115516.667-1-vaishnav.a@ti.com/
 
-> > > -	format->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
-> > > -							     format->colorspace,
-> > > -							     format->ycbcr_enc);
-> > > -	format->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(format->colorspace);
-> > > +	format->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> > > +	format->xfer_func = V4L2_XFER_FUNC_NONE;
-> > >
-> > >  	/* Initialize crop rectangle. */
-> > >  	crop = v4l2_subdev_get_pad_crop(sd, state, 0);
-> > > @@ -775,12 +770,9 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
-> > >
-> > >  static void imx219_reset_colorspace(struct v4l2_mbus_framefmt *fmt)
-> > >  {
-> > > -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> > > -	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-> > > -	fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
-> > > -							  fmt->colorspace,
-> > > -							  fmt->ycbcr_enc);
-> > > -	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
-> > > +	fmt->colorspace = V4L2_COLORSPACE_RAW;
-> > > +	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> > > +	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
-> > >  }
-> > >
-> > >  static void imx219_update_pad_format(struct imx219 *imx219,
+Since Pratyush moved out of TI, Vaishnav & I have been working on
+this driver, and I will be maintaining it upstream.
 
+J721E CSI2RX driver can also be extended to support multi-stream
+capture, filtering different CSI Virtual Channels (VC) or Data Types
+(DT) to different DMA channels. A WIP series based on v7 is available
+for reference at https://github.com/jailuthra/linux/commits/csi_multi_wip
+
+I will rebase the multi-stream patches on the current series (v8) and
+post them as RFC in the coming weeks.
+
+Testing logs: https://gist.github.com/jailuthra/eaeb3af3c65b67e1bc0d5db28180131d
+
+Signed-off-by: Jai Luthra <j-luthra@ti.com>
+---
+
+Range-diff from v7 -> v8: http://0x0.st/H21u.diff
+
+New Patches:
+[01/16]	   Export v4l2_subdev_link_validate_get_format() helper
+[03-04/16] Add new compatible for TI-specific SoC intergration of the
+           Cadence CSI2RX bridge IP
+[14/16]    Add support for RAW8 and RAW10 formats in Cadence CSI2RX
+
+For [07/16] media: cadence: csi2rx: Add get_fmt and set_fmt pad ops:
+- Use active subdev state to use v4l2_subdev_get_fmt
+- Propagate formats from sink to source pads
+- Drop Laurent's R-by because of the above changes
+
+For [08/16] media: cadence: csi2rx: Configure DPHY using link freq:
+- Drop original patch in-lieu of already merged
+  https://lore.kernel.org/linux-media/20230523085626.3295-5-jack.zhu@starfivetech.com/
+- Add a new patch to configure DPHY using link_freq control from the
+  source
+
+For [10/16] media: cadence: csi2rx: Set the STOP bit when stopping a stream:
+- Fix bug where intention was to wait till stream status is idle, i.e.
+  STREAM_STATUS[31] -> 0 - but we were instead checking the opposite
+
+For [15/16] media: dt-bindings: Add DT bindings for TI J721E CSI2RX driver:
+- Drop "Device Tree Bindings" from title
+- Rename "Wrapper" to "Shim" in title as that is the name referred in
+  the TRM and other places
+- Update maintainer to myself
+- Drop items from compatible as only a single element is present
+- Rename compatible to "ti,j721e-csi2rx-shim" to distinguish from the
+  SoC-specific CSI2RX bridge compatible
+
+For [16/16] media: ti: Add CSI2RX support for J721E:
+- Move after dt-bindings to keep the series bisectable
+- Rename compatible to "ti,j721e-csi2rx-shim" to distinguish from the
+  SoC-specific CSI2RX bridge compatible
+- Make myself the Maintainer
+- Support RAW8 and RAW10 formats, and setting the pixel-unwrap size on
+  SHIM (RAW10 is stored in 16-bit containers, while RAW8 in 8-bit containers)
+- Fix enum_fmt_vid_cap() to respect CAP_IO_MC and only list pixelformats
+  matching the mbus formats set on the subdev.
+- Fix enum_framesizes() to stop enumerating more than a single framesize
+  (reject non-zero fsize->index)
+- Simplify notifier bound fucntion to use v4l2_create_fwnode_links_to_pad()
+  and inline the video_register() method
+- Add support for draining the DMA with an extra buffer, to get rid of
+  stale data in the pipeline on stream stop (or when frames start
+  getting dropped due to load)
+- Queue all available buffers to DMAEngine in the callback, also use a
+  separate "submitted" queue to track all buffers submitted to DMA
+- Use video_device_pipeline_start() instead of media_pipeline_start()
+- Drop support for VB_READ
+- Print issues in link validation as DEBUG instead of ERROR
+- s/async_subdev/async_connection
+
+For [v7 13/13] media: dt-bindings: Convert Cadence CSI2RX binding to YAML:
+ - Drop patch in-lieu of
+   https://lore.kernel.org/linux-media/20230523085626.3295-2-jack.zhu@starfivetech.com/
+
+---
+Jai Luthra (4):
+      media: subdev: Export get_format helper for link validation
+      media: dt-bindings: cadence-csi2rx: Add TI compatible string
+      media: cadence: Add support for TI SoCs
+      media: cadence: csi2rx: Support RAW8 and RAW10 formats
+
+Pratyush Yadav (12):
+      media: dt-bindings: Make sure items in data-lanes are unique
+      media: cadence: csi2rx: Unregister v4l2 async notifier
+      media: cadence: csi2rx: Cleanup media entity properly
+      media: cadence: csi2rx: Add get_fmt and set_fmt pad ops
+      media: cadence: csi2rx: Configure DPHY using link freq
+      media: cadence: csi2rx: Soft reset the streams before starting capture
+      media: cadence: csi2rx: Set the STOP bit when stopping a stream
+      media: cadence: csi2rx: Fix stream data configuration
+      media: cadence: csi2rx: Populate subdev devnode
+      media: cadence: csi2rx: Add link validation
+      media: dt-bindings: Add TI J721E CSI2RX
+      media: ti: Add CSI2RX support for J721E
+
+ .../devicetree/bindings/media/cdns,csi2rx.yaml     |    1 +
+ .../bindings/media/ti,j721e-csi2rx-shim.yaml       |  100 ++
+ .../bindings/media/video-interfaces.yaml           |    1 +
+ MAINTAINERS                                        |    7 +
+ drivers/media/platform/cadence/cdns-csi2rx.c       |  217 +++-
+ drivers/media/platform/ti/Kconfig                  |   12 +
+ drivers/media/platform/ti/Makefile                 |    1 +
+ drivers/media/platform/ti/j721e-csi2rx/Makefile    |    2 +
+ .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 1127 ++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-subdev.c              |    8 +-
+ include/media/v4l2-subdev.h                        |   12 +
+ 11 files changed, 1478 insertions(+), 10 deletions(-)
+---
+base-commit: ec89391563792edd11d138a853901bce76d11f44
+change-id: 20230727-upstream_csi-acbeabe038d8
+
+Best regards,
 -- 
-Regards,
-
-Laurent Pinchart
+Jai Luthra <j-luthra@ti.com>
