@@ -2,212 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C7BA76BBB2
-	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 19:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A989E76BCDB
+	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 20:46:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229828AbjHARvv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Aug 2023 13:51:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50146 "EHLO
+        id S231779AbjHASqO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Aug 2023 14:46:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbjHARvt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 13:51:49 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00046126
-        for <linux-media@vger.kernel.org>; Tue,  1 Aug 2023 10:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690912308; x=1722448308;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=23Wc3k0mFLbrQycUcEsHy3FEUV7003iJlGRdyTKc6ms=;
-  b=WRT98ZQu3pv8AFD8jErVRk4p2F2YMeWXWW4WZXNHoottfqAMptBK5Eb3
-   SY7S6f5DbP8QZKFOGEBYgSLBpRvZ3NpBX8kCRC0TgY8ftrric6qPuCdhv
-   RR3A8n4ArcwdEgYUWEj6J97lgtwKPzEggdkXqia+CAYuHWrDQge6TlDOu
-   6Q5ZjtFQk9igu4TZENavKNnBKL56d8tupVsGGvXh76WkmZXrJyxiyhpsH
-   r8BZhamH1Nk8F9xDBHfatuuJHXhgSIu7uRopfe08w8/rKpNs6F2TFOmBD
-   J91LpdzkFobur3VDVF74fxG/mJPvq4X5vzTAlRNvZ38t1D2yfdyNEPsOL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="368273817"
-X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; 
-   d="scan'208";a="368273817"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 10:51:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="758441153"
-X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; 
-   d="scan'208";a="758441153"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 01 Aug 2023 10:51:43 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qQtX2-00DKb2-0b;
-        Tue, 01 Aug 2023 20:51:40 +0300
-Date:   Tue, 1 Aug 2023 20:51:39 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Mark Brown <broonie@kernel.org>, alsa-devel@alsa-project.org,
-        Andrey Utkin <andrey_utkin@fastmail.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-        Banajit Goswami <bgoswami@quicinc.com>,
-        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Ismael Luceno <ismael@iodev.co.uk>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        linux-media@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 00/24] ALSA: Generic PCM copy ops using sockptr_t
-Message-ID: <ZMlGKy7ibjkQ6ii7@smile.fi.intel.com>
-References: <20230731154718.31048-1-tiwai@suse.de>
- <b906d60b-ece4-45b5-8167-2046c8dc00f4@sirena.org.uk>
- <87h6pjj2ui.wl-tiwai@suse.de>
- <a02cf5c3-1fac-4ec6-9d9c-f8e8d0c067e0@sirena.org.uk>
- <87leeugbxm.wl-tiwai@suse.de>
+        with ESMTP id S231795AbjHASqK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 14:46:10 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFE852698;
+        Tue,  1 Aug 2023 11:45:48 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 349848D;
+        Tue,  1 Aug 2023 20:44:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1690915483;
+        bh=X6Z9dROheZMRqOSaTMkT68TI3brpeZO9mR1sRPIFCcM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=csdQq+JqFul5p6+JKxqlsE2xXtJMwZ5nYMTh2rXGYbDMnRoLCst7BJ/uhuyFI5JAq
+         I4+44LLzopkKOYbyiOsNf5KUNq4fxkTTLl2ltvT0ra4p+bbeMpxdO/5kI+84LBYCAt
+         CEPy6oo3rL2uHPAj7x3m0wDkqZW4JYpk+3Q3l8Kg=
+Date:   Tue, 1 Aug 2023 21:45:52 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jack Zhu <jack.zhu@starfivetech.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
+Subject: Re: [PATCH v7 3/6] media: starfive: camss: Add basic driver
+Message-ID: <20230801184552.GA30382@pendragon.ideasonboard.com>
+References: <20230619112838.19797-1-jack.zhu@starfivetech.com>
+ <20230619112838.19797-4-jack.zhu@starfivetech.com>
+ <20230727113315.GH25174@pendragon.ideasonboard.com>
+ <e8a1b30a-af1b-692b-f5e6-5fe4ba13da93@starfivetech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87leeugbxm.wl-tiwai@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <e8a1b30a-af1b-692b-f5e6-5fe4ba13da93@starfivetech.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 01, 2023 at 02:54:45PM +0200, Takashi Iwai wrote:
-> On Mon, 31 Jul 2023 21:40:20 +0200,
-> Mark Brown wrote:
-> > On Mon, Jul 31, 2023 at 09:30:29PM +0200, Takashi Iwai wrote:
-> > > Mark Brown wrote:
+Hi Jack,
+
+On Tue, Aug 01, 2023 at 11:24:22AM +0800, Jack Zhu wrote:
+> On 2023/7/27 19:33, Laurent Pinchart wrote:
+> > On Mon, Jun 19, 2023 at 07:28:35PM +0800, Jack Zhu wrote:
+> >> Add basic platform driver for StarFive Camera Subsystem.
+> >> 
+> >> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> >> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+> >> ---
+> >>  MAINTAINERS                                   |   1 +
+> >>  drivers/media/platform/Kconfig                |   1 +
+> >>  drivers/media/platform/Makefile               |   1 +
+> >>  drivers/media/platform/starfive/Kconfig       |   5 +
+> >>  drivers/media/platform/starfive/Makefile      |   2 +
+> >>  drivers/media/platform/starfive/camss/Kconfig |  16 +
+> >>  .../media/platform/starfive/camss/Makefile    |   8 +
+> >>  .../media/platform/starfive/camss/stf_camss.c | 338 ++++++++++++++++++
+> >>  .../media/platform/starfive/camss/stf_camss.h | 146 ++++++++
+> >>  9 files changed, 518 insertions(+)
+> >>  create mode 100644 drivers/media/platform/starfive/Kconfig
+> >>  create mode 100644 drivers/media/platform/starfive/Makefile
+> >>  create mode 100644 drivers/media/platform/starfive/camss/Kconfig
+> >>  create mode 100644 drivers/media/platform/starfive/camss/Makefile
+> >>  create mode 100644 drivers/media/platform/starfive/camss/stf_camss.c
+> >>  create mode 100644 drivers/media/platform/starfive/camss/stf_camss.h
+
+[snip]
+
+> >> diff --git a/drivers/media/platform/starfive/camss/Kconfig b/drivers/media/platform/starfive/camss/Kconfig
+> >> new file mode 100644
+> >> index 000000000000..dafe1d24324b
+> >> --- /dev/null
+> >> +++ b/drivers/media/platform/starfive/camss/Kconfig
+> >> @@ -0,0 +1,16 @@
+> >> +# SPDX-License-Identifier: GPL-2.0-only
+> >> +config VIDEO_STARFIVE_CAMSS
+> >> +	tristate "Starfive Camera Subsystem driver"
+> >> +	depends on V4L_PLATFORM_DRIVERS
+> >> +	depends on VIDEO_DEV && OF
+> >> +	depends on HAS_DMA
 > > 
-> > > > It really feels like we ought to rename, or add an alias for, the type
-> > > > if we're going to start using it more widely - it's not helping to make
-> > > > the code clearer.
-> > 
-> > > That was my very first impression, too, but I changed my mind after
-> > > seeing the already used code.  An alias might work, either typedef or
-> > > define genptr_t or such as sockptr_t.  But we'll need to copy the
-> > > bunch of helper functions, too...
-> > 
-> > I would predict that if the type becomes more widely used that'll happen
-> > eventually and the longer it's left the more work it'll be.
+> > You need to depend on PM, otherwise the runtime PM operations will be
+> > no-ops and the driver won't work as clocks won't be enabled.
 > 
-> That's true.  The question is how more widely it'll be used, then.
+> OK, I will add dependency.
+
+By the way, if it makes it easier for you, you don't need to acknowledge
+every single review comment. You can reply to comments you disagree
+with, or comments that you find unclear. Anything that you agree with
+and will address in the next version can be left unanswered in your
+e-mail replies. It's entirely up to you.
+
+> >> +	select MEDIA_CONTROLLER
+> >> +	select VIDEO_V4L2_SUBDEV_API
+> >> +	select VIDEOBUF2_DMA_CONTIG
+> >> +	select V4L2_FWNODE
+> >> +	help
+> >> +	   Enable this to support for the Starfive Camera subsystem
+> >> +	   found on Starfive JH7110 SoC.
+> >> +
+> >> +	   To compile this driver as a module, choose M here: the
+> >> +	   module will be called stf-camss.
+
+[snip]
+
+> >> diff --git a/drivers/media/platform/starfive/camss/stf_camss.c b/drivers/media/platform/starfive/camss/stf_camss.c
+> >> new file mode 100644
+> >> index 000000000000..dc2b5dba7bd4
+> >> --- /dev/null
+> >> +++ b/drivers/media/platform/starfive/camss/stf_camss.c
+> >> @@ -0,0 +1,338 @@
+
+[snip]
+
+> >> +/*
+> >> + * stfcamss_probe - Probe STFCAMSS platform device
+> >> + * @pdev: Pointer to STFCAMSS platform device
+> >> + *
+> >> + * Return 0 on success or a negative error code on failure
+> >> + */
+> >> +static int stfcamss_probe(struct platform_device *pdev)
+> >> +{
+> >> +	struct stfcamss *stfcamss;
+> >> +	struct device *dev = &pdev->dev;
+> >> +	int ret, num_subdevs;
+> >> +	unsigned int i;
+> >> +
+> >> +	stfcamss = devm_kzalloc(dev, sizeof(*stfcamss), GFP_KERNEL);
+> >> +	if (!stfcamss)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	for (i = 0; i < ARRAY_SIZE(stfcamss->irq); ++i) {
+> >> +		stfcamss->irq[i] = platform_get_irq(pdev, i);
+> >> +		if (stfcamss->irq[i] < 0)
+> >> +			return dev_err_probe(&pdev->dev, stfcamss->irq[i],
+> >> +					     "Failed to get irq%d", i);
+> >> +	}
+> >> +
+> >> +	stfcamss->nclks = ARRAY_SIZE(stfcamss->sys_clk);
+> >> +	for (i = 0; i < stfcamss->nclks; ++i)
+> >> +		stfcamss->sys_clk[i].id = stfcamss_clocks[i];
+> >> +	ret = devm_clk_bulk_get(dev, stfcamss->nclks, stfcamss->sys_clk);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "Failed to get clk controls\n");
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	stfcamss->nrsts = ARRAY_SIZE(stfcamss->sys_rst);
+> >> +	for (i = 0; i < stfcamss->nrsts; ++i)
+> >> +		stfcamss->sys_rst[i].id = stfcamss_resets[i];
+> >> +	ret = devm_reset_control_bulk_get_shared(dev, stfcamss->nrsts,
+> >> +						 stfcamss->sys_rst);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "Failed to get reset controls\n");
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	ret = stfcamss_get_mem_res(pdev, stfcamss);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "Could not map registers\n");
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	stfcamss->dev = dev;
+> > 
+> > Move this right after allocating stfcamss, and drop the pdev argument to
+> > stfcamss_get_mem_res(). The platform device can be retrieved in the
+> > function using to_platform_device().
 > 
-> Is something like below what you had in mind, too?
+> OK, I will modify.
+> 
+> >> +	platform_set_drvdata(pdev, stfcamss);
+> >> +
+> >> +	v4l2_async_nf_init(&stfcamss->notifier);
+> >> +
+> >> +	num_subdevs = stfcamss_of_parse_ports(stfcamss);
+> >> +	if (num_subdevs < 0) {
+> >> +		ret = -ENODEV;
+> > 
+> > An error message would be useful, silent errors are hard to debug.
+> 
+> OK, will add error printing information.
+> 
+> >> +		goto err_cleanup_notifier;
+> >> +	}
+> >> +
+> >> +	stfcamss_mc_init(pdev, stfcamss);
+> >> +
+> >> +	ret = v4l2_device_register(stfcamss->dev, &stfcamss->v4l2_dev);
+> >> +	if (ret < 0) {
+> >> +		dev_err(dev, "Failed to register V4L2 device: %d\n", ret);
+> >> +		goto err_cleanup_notifier;
+> >> +	}
+> >> +
+> >> +	ret = media_device_register(&stfcamss->media_dev);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "Failed to register media device: %d\n", ret);
+> >> +		goto err_unregister_device;
+> >> +	}
+> >> +
+> >> +	pm_runtime_enable(dev);
+> > 
+> > Would it be useful to enable autosuspend too, to avoid expensive
+> > suspend/resume cycles when userspace wants to briefly stop capture and
+> > restart it immediately ?
+> 
+> It seems rare to use autosuspend in the Linux camera system.
 
-I agree with your proposal (uniptr_t also works for me), but see below.
+It's a relatively recent practice, and is more common in sensor drivers
+than ISP drivers, but I think it's a good practice nonetheless. It makes
+stop-reconfigure-start cycles much faster.
 
-...
+> >> +
+> >> +	stfcamss->notifier.ops = &stfcamss_subdev_notifier_ops;
+> >> +	ret = v4l2_async_nf_register(&stfcamss->v4l2_dev, &stfcamss->notifier);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "Failed to register async subdev nodes: %d\n",
+> >> +			ret);
+> >> +		goto err_unregister_media_dev;
+> > 
+> > You need to disable runtime PM in this error path.
+> 
+> OK, will fix it.
+> 
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +
+> >> +err_unregister_media_dev:
+> >> +	media_device_unregister(&stfcamss->media_dev);
+> >> +err_unregister_device:
+> >> +	v4l2_device_unregister(&stfcamss->v4l2_dev);
+> >> +err_cleanup_notifier:
+> >> +	v4l2_async_nf_cleanup(&stfcamss->notifier);
+> >> +	return ret;
+> >> +}
 
-> +#include <linux/slab.h>
-> +#include <linux/uaccess.h>
-
-But let make the list of the headers right this time.
-
-It seems to me that
-
-err.h
-minmax.h // maybe not, see a remark at the bottom
-string.h
-types.h
-
-are missing.
-
-More below.
-
-...
-
-> +	void *p = kmalloc_track_caller(len, GFP_USER | __GFP_NOWARN);
-> +
-> +	if (!p)
-> +		return ERR_PTR(-ENOMEM);
-
-This can use cleanup.h.
-
-> +	if (copy_from_uniptr(p, src, len)) {
-> +		kfree(p);
-> +		return ERR_PTR(-EFAULT);
-> +	}
-> +	return p;
-> +}
-> +
-> +static inline void *memdup_uniptr_nul(uniptr_t src, size_t len)
-> +{
-> +	char *p = kmalloc_track_caller(len + 1, GFP_KERNEL);
-
-Ditto.
-
-> +	if (!p)
-> +		return ERR_PTR(-ENOMEM);
-> +	if (copy_from_uniptr(p, src, len)) {
-> +		kfree(p);
-> +		return ERR_PTR(-EFAULT);
-> +	}
-> +	p[len] = '\0';
-> +	return p;
-> +}
-
-...
-
-> +static inline long strncpy_from_uniptr(char *dst, uniptr_t src, size_t count)
-> +{
-> +	if (uniptr_is_kernel(src)) {
-> +		size_t len = min(strnlen(src.kernel, count - 1) + 1, count);
-
-I didn't get why do we need min()? To check the count == 0 case?
-
-Wouldn't
-
-		size_t len;
-
-		len = strnlen(src.kernel, count);
-		if (len == 0)
-			return 0;
-
-		/* Copy a trailing NUL if found */
-		if (len < count)
-			len++;
-
-be a good equivalent?
-
-> +		memcpy(dst, src.kernel, len);
-> +		return len;
-> +	}
-> +	return strncpy_from_user(dst, src.user, count);
-> +}
-
-...
-
-> +static inline int check_zeroed_uniptr(uniptr_t src, size_t offset, size_t size)
-> +{
-> +	if (!uniptr_is_kernel(src))
-
-Why not to align all the functions to use same conditional (either always
-positive or negative)?
-
-> +		return check_zeroed_user(src.user + offset, size);
-> +	return memchr_inv(src.kernel + offset, 0, size) == NULL;
-> +}
-
-...
-
-Taking all remarks into account I would rather go with sockptr.h being
-untouched for now, just a big
-
-/* DO NOT USE, it's obsolete, use uniptr.h instead! */
-
-to be added.
+[snip]
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Laurent Pinchart
