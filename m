@@ -2,69 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE24376B67D
-	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 15:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24D1676B6A8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 16:03:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232107AbjHAN6k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Aug 2023 09:58:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55232 "EHLO
+        id S234404AbjHAODu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Aug 2023 10:03:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230305AbjHAN6k (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 09:58:40 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC07DC;
-        Tue,  1 Aug 2023 06:58:38 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4fe1489ced6so9275245e87.0;
-        Tue, 01 Aug 2023 06:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690898317; x=1691503117;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9LCAsr2bIL8kLMgkEwkdI+MgOLqKLakMLSAWcTBAIPs=;
-        b=VwPraxCeRIr2mAW9uLS3E1/rWkUsOFaKUUwtl5DRFP4MAwgK6s8t3MTB+pSty7hiU0
-         vAbe3m1AJM5QMtYLXqCLXQtDM9GKEKyysMuWgczAMYNGC6kNV7bucErLjdVFC4TSUM3p
-         P9fgJGHDX8mAw16H57HZcG1xNLdIMVZBMBDoU7NBBtSLC8V6RJYR5G2xDvjQJq4ljzAL
-         kACOqBSZewUf3PNLkJtg//OAJKCuvTXRSjsPLj6vPsqsJNzhbpDizI9uwnYcTzbFp/o3
-         Ga5RHWYQabbaAgpChUI9ZoT52HMfbp9guSuW0o0v7GfpGa+pY8vlrmWeWfbC/kIDH2Lc
-         3AMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690898317; x=1691503117;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9LCAsr2bIL8kLMgkEwkdI+MgOLqKLakMLSAWcTBAIPs=;
-        b=H6WGqHj8FabhYS/hjNtYOlMiXVkfFfLzClmx6lKqd91G+bCscCyZtKSDxA2baoYNO+
-         tUH3oKi0g36h1i3FMDy919hmy8zYrkIjis4Kt1bi78JJdUkkZCQzNOEoLj930TPJ08pV
-         27hjRZ7hYciKYAXMocGv5o1CfgwaqbaHF2qYKu+1gPP2UZeQL5+b4cPMQihp4bPwCxjZ
-         k+J/wLBvme+2ncvTu1ysJ7IfZXsSFWK8vBMve/28c5yU5ZJU1HBqSNT8KYNVPgNolFR6
-         ocdEx6RhKu001cF+ui0DX+NvxOUnFs2548qCsx882EYKmDHym0AaQ8xW/PrRGd4ifs3r
-         cctw==
-X-Gm-Message-State: ABy/qLYZ8t9p+9NVPpOHNkSj4kQ08yCgS0Ev0AuKmnzZF/CNV8RsFAjI
-        ZdvsyDrydGNdcxu/jwvW82a+17GO+UBTsOHPxI0=
-X-Google-Smtp-Source: APBJJlEoNwnh+Ebgn0hDAnQlavgKTJxX9UrRWcPCk34A/XO9GiTaGag7RkbaBBxz7XtW7k0d504mj057GMahDehAfac=
-X-Received: by 2002:a19:6514:0:b0:4fb:845d:9e8f with SMTP id
- z20-20020a196514000000b004fb845d9e8fmr1871744lfb.53.1690898316655; Tue, 01
- Aug 2023 06:58:36 -0700 (PDT)
+        with ESMTP id S234188AbjHAODj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 10:03:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97F7213D;
+        Tue,  1 Aug 2023 07:03:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 572046158F;
+        Tue,  1 Aug 2023 14:03:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D135C433C8;
+        Tue,  1 Aug 2023 14:03:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690898615;
+        bh=J1Kv0/7tNUUdsgbJSV348cn2wjwWWI28VoiCD919J1w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cRKTjP5gMBMuoyifvof5VTmSNc6vDWI9l5DkvIxTqN4QHv+XXe7n40Rbnar0jyB4E
+         rhzGXQd0Q8thtuaf289xIFb0DvaVXzgJVlzdMSSBd/iKa+Qsk6cZ4BASCYKiYFl7Lv
+         4LeI9+5CILuHfqT6mu+1xMMp4xTeO/aq+4C5lV+nn+MyUx9K2nZm5fqbFE0jMorNaY
+         F4Y0KAz2vf1Y5mAyR0sUaDzx6kSNKGJcFwA2RFubIphJqnavP/xqSqNA6BPYP0PgPL
+         xsAaz/2mMR9o2fYVFrN8Ywj0stbVbxxK9a6VfXgdK5h9RXbPUX4BczmD/9tT+6NkRX
+         7BnuQyIex18Pw==
+Date:   Tue, 1 Aug 2023 15:03:27 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Keith Zhao <keith.zhao@starfivetech.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>
+Subject: Re: [PATCH v1 v1 2/7] dt-bindings: display: Add yamls for JH7110
+ display system
+Message-ID: <20230801-cash-squad-8a2e9154af8b@spud>
+References: <20230801101030.2040-1-keith.zhao@starfivetech.com>
+ <20230801101030.2040-3-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
-References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com> <1690265540-25999-2-git-send-email-shengjiu.wang@nxp.com>
-In-Reply-To: <1690265540-25999-2-git-send-email-shengjiu.wang@nxp.com>
-From:   Daniel Baluta <daniel.baluta@gmail.com>
-Date:   Tue, 1 Aug 2023 16:58:24 +0300
-Message-ID: <CAEnQRZCzUkpE-ppSDqBzhTXZHphr+twSju=snSiMii9gR=v0nA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/7] ASoC: fsl_asrc: define functions for memory to
- memory usage
-To:     Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc:     hverkuil@xs4all.nl, sakari.ailus@iki.fi, tfiga@chromium.org,
-        m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-        nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-        perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-        linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="e6NUZOkjskRZqTKd"
+Content-Disposition: inline
+In-Reply-To: <20230801101030.2040-3-keith.zhao@starfivetech.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,90 +79,252 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> +static int fsl_asrc_m2m_check_format(u8 dir, u32 rate, u32 channels, u32 format)
-> +{
-> +       u64 support_format = FSL_ASRC_FORMATS;
-> +
-> +       if (channels < 1 || channels > 10)
-> +               return -EINVAL;
-> +
-> +       if (rate < 5512 || rate > 192000)
-> +               return -EINVAL;
-> +
 
-I think we can avoid using magic numbers. Instead we could do:
+--e6NUZOkjskRZqTKd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-#define FSL_ASRC_MIN_CHANNELS 1
-/...
-#define FSL_ASRC_MAX_RATE 192000
+On Tue, Aug 01, 2023 at 06:10:25PM +0800, Keith Zhao wrote:
+> StarFive SoCs JH7110 display system:
+> lcd-controller bases verisilicon dc8200 IP,
+> and hdmi bases Innosilicon IP.
+> Add bindings for them.
 
+Please, you can use more than 46 characters in a line!
 
-> +       if (dir == IN)
-> +               support_format |= SNDRV_PCM_FMTBIT_S8;
-> +
-> +       if (!(1 << format & support_format))
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +
-> +/* calculate capture data length according to output data length and sample rate */
-> +static int fsl_asrc_m2m_calc_out_len(struct fsl_asrc_pair *pair, int input_buffer_length)
-> +{
-> +       unsigned int in_width, out_width;
-> +       unsigned int channels = pair->channels;
-> +       unsigned int in_samples, out_samples;
-> +       unsigned int out_length;
-> +
-> +       in_width = snd_pcm_format_physical_width(pair->sample_format[IN]) / 8;
-> +       out_width = snd_pcm_format_physical_width(pair->sample_format[OUT]) / 8;
-> +
-> +       in_samples = input_buffer_length / in_width / channels;
-> +       out_samples = pair->rate[OUT] * in_samples / pair->rate[IN];
-> +       out_length = (out_samples - ASRC_OUTPUT_LAST_SAMPLE) * out_width * channels;
-> +
-> +       return out_length;
-> +}
-> +
-> +static int fsl_asrc_m2m_get_maxburst(u8 dir, struct fsl_asrc_pair *pair)
-> +{
-> +       struct fsl_asrc *asrc = pair->asrc;
-> +       struct fsl_asrc_priv *asrc_priv = asrc->private;
-> +       int wml = (dir == IN) ? ASRC_M2M_INPUTFIFO_WML : ASRC_M2M_OUTPUTFIFO_WML;
-> +
-> +       if (!asrc_priv->soc->use_edma)
-> +               return wml * pair->channels;
-> +       else
-> +               return 1;
-> +}
-> +
-> +static int fsl_asrc_m2m_pair_resume(struct fsl_asrc_pair *pair)
-> +{
-> +       struct fsl_asrc *asrc = pair->asrc;
-> +       int i;
-> +
-> +       for (i = 0; i < pair->channels * 4; i++)
-> +               regmap_write(asrc->regmap, REG_ASRDI(pair->index), 0);
-> +
-> +       return 0;
-> +}
-> +
->  static int fsl_asrc_runtime_resume(struct device *dev);
->  static int fsl_asrc_runtime_suspend(struct device *dev);
+Also, "v1 v1" does not a v2 make.
 
-<snip>
+>=20
+> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> ---
+>  .../starfive/starfive,display-subsystem.yaml  |  41 +++++++
+>  .../starfive/starfive,jh7110-dc8200.yaml      | 107 ++++++++++++++++++
+>  .../starfive/starfive,jh7110-inno-hdmi.yaml   |  92 +++++++++++++++
+>  3 files changed, 240 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
+arfive,display-subsystem.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
+arfive,jh7110-dc8200.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
+arfive,jh7110-inno-hdmi.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,=
+display-subsystem.yaml b/Documentation/devicetree/bindings/display/starfive=
+/starfive,display-subsystem.yaml
+> new file mode 100644
+> index 000000000..86018a8e6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,display=
+-subsystem.yaml
+> @@ -0,0 +1,41 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/starfive/starfive,display-sub=
+system.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Starfive DRM master device
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
+> +
+> +description:
+> +  The Starfive DRM master device is a virtual device needed to list all
+> +  display controller or other display interface nodes that comprise the
+> +  graphics subsystem.
+> +
+> +properties:
+> +  compatible:
+> +    const: starfive,display-subsystem
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    description: |
 
-There is no implementation for _suspend although you mention it
-in the commit message.
+A | is not needed when you do not have formatting to preserve.
 
-> + * @complete: dma task complete
-> + * @sample_format: format of m2m
-> + * @rate: rate of m2m
-> + * @buf_len: buffer length of m2m
-> + * @req_pair: flag for request pair
+> +      Should contain a list of phandles pointing to display interface po=
+rts
+> +      of display controller devices. Display controller definitions as d=
+efined
+> +      in Documentation/devicetree/bindings/display/starfive/
+> +      starfive,jh7110-dc8200.yaml
+> +
+> +required:
+> +  - compatible
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    display-subsystem {
+> +        compatible =3D "starfive,display-subsystem";
+> +        ports =3D <&dc_out>;
+> +    };
 
+Given Rob's bot complains, it looks like you never tested this.
 
-For example @complete field is not used in this patch. Maybe add it in the patch
-that uses it?
+> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,=
+jh7110-dc8200.yaml b/Documentation/devicetree/bindings/display/starfive/sta=
+rfive,jh7110-dc8200.yaml
+> new file mode 100644
+> index 000000000..bebe2050c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-=
+dc8200.yaml
+> @@ -0,0 +1,107 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-dc82=
+00.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: StarFive display controller
+> +
+> +description:
+> +  The StarFive SoC uses the display controller based on Verisilicon IP
+> +  to transfer the image data from a video memory
+> +  buffer to an external LCD interface.
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: starfive,jh7110-dc8200
+> +
+> +  reg:
+> +    maxItems: 3
 
-I think is the same for other fields.
+What do each of these represent?
+
+> +
+> +  interrupts:
+> +    items:
+> +      - description: The interrupt will be generated when DC finish one =
+frame
+> +
+> +  clocks:
+> +    items:
+> +      - description: Clock for display system noc bus.
+> +      - description: Pixel clock for display channel 0.
+> +      - description: Pixel clock for display channel 1.
+> +      - description: Clock for axi interface of display controller.
+> +      - description: Core clock for display controller.
+> +      - description: Clock for ahb interface of display controller.
+> +      - description: External HDMI pixel clock.
+> +      - description: Parent clock for pixel clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: vout_noc_disp
+> +      - const: vout_pix0
+> +      - const: vout_pix1
+> +      - const: vout_axi
+> +      - const: vout_core
+> +      - const: vout_vout_ahb
+> +      - const: hdmitx0_pixel
+> +      - const: vout_dc8200
+> +
+> +  resets:
+> +    items:
+> +      - description: Reset for axi interface of display controller.
+> +      - description: Reset for ahb interface of display controller.
+> +      - description: Core reset of display controller.
+> +
+> +  reset-names:
+> +    items:
+> +      - const: vout_axi
+> +      - const: vout_ahb
+> +      - const: vout_core
+
+Please trim all the vouts from here & the clocks - especially the one
+named "vout_vout_ahb".
+
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description:
+> +      A port node with endpoint definitions as defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+
+This file is empty, it has been converted to yaml.
+
+> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,=
+jh7110-inno-hdmi.yaml b/Documentation/devicetree/bindings/display/starfive/=
+starfive,jh7110-inno-hdmi.yaml
+> new file mode 100644
+> index 000000000..f6927acf6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-=
+inno-hdmi.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-inno=
+-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Starfive JH7110 HDMI controller
+> +
+> +description:
+> +  The StarFive JH7110 SoC uses the HDMI signal transmiter based on innos=
+ilicon IP
+> +  to generate HDMI signal from its input and transmit the signal to the =
+screen.
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: "starfive,jh7110-inno-hdmi"
+> +
+> +  reg:
+> +    minItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: The HDMI hot plug detection interrupt.
+> +
+> +  clocks:
+> +    items:
+> +      - description: System clock of HDMI module.
+> +      - description: Mclk clock of HDMI audio.
+> +      - description: Bclk clock of HDMI audio.
+> +      - description: Pixel clock generated by HDMI module.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: mclk
+> +      - const: bclk
+> +      - const: pclk
+> +
+> +  resets:
+> +    items:
+> +      - description: Reset for HDMI module.
+
+For this & resets, you don't have a list & don't need items:
+
+Cheers,
+Conor.
+
+--e6NUZOkjskRZqTKd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZMkQrwAKCRB4tDGHoIJi
+0hF/AQC/1GTXuwyc+w2g9RKifKromVQFlvBvFI0JlmYNLu6I9gEAqVJE6rLiklf3
+jktEbPFxEUmQR4+8/IvlY0DbYWbksgw=
+=bnBb
+-----END PGP SIGNATURE-----
+
+--e6NUZOkjskRZqTKd--
