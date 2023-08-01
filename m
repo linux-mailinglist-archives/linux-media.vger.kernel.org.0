@@ -2,39 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9807576C035
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 00:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E20BF76C07B
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 00:36:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232782AbjHAWLb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Aug 2023 18:11:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37716 "EHLO
+        id S230197AbjHAWgH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Aug 2023 18:36:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232518AbjHAWLM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 18:11:12 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C67212C
-        for <linux-media@vger.kernel.org>; Tue,  1 Aug 2023 15:11:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 190D45A4
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 00:10:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690927803;
-        bh=4OSPoVk/OrB7CepCPif4xDO3BsYLWPdFHVkk3KZrP4w=;
-        h=Date:From:To:Subject:From;
-        b=KFXhCw3/ZOW0ElJTqs9DB5Ky2fiP7XVjH5HH+3OwPJXXrcO9leWHnC42AIoY34Qai
-         BbdwPDehL4/QRe3YplE/i1crPdly9p3yLdFGmKU5+g57xUPsKGazdY7jARtKHL5QOr
-         HNhpxaVH9wmyJEV+zqzgWkebz7v7wTV2Lmg1MgNw=
-Date:   Wed, 2 Aug 2023 01:11:12 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v6.6] media: NXP miscellaneous changes
-Message-ID: <20230801221112.GB31500@pendragon.ideasonboard.com>
+        with ESMTP id S229685AbjHAWgG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 18:36:06 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE211BF1
+        for <linux-media@vger.kernel.org>; Tue,  1 Aug 2023 15:36:04 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qQxyE-008ZYX-Je; Tue, 01 Aug 2023 22:36:02 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qQxyC-002m4o-1U;
+        Tue, 01 Aug 2023 22:36:00 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v6.5] imx7-media-csi regression fix (#93731)
+Date:   Tue,  1 Aug 2023 22:35:58 +0000
+Message-Id: <20230801223558.661453-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230801220601.GA31500@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,60 +46,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-The following changes since commit 60a25e001759c90f35e2e7704f3e8b0d4fb10f96:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230801220601.GA31500@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/327171/
+Build time: 00:20:22
+Link: https://lore.kernel.org/linux-media/20230801220601.GA31500@pendragon.ideasonboard.com
 
-  media: atomisp: Fix me->stages error checking in sh_css_sp_init_pipeline() (2023-07-31 11:39:28 +0200)
+gpg: Signature made Tue 01 Aug 2023 10:04:38 PM UTC
+gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-are available in the Git repository at:
+Summary: got 1/1 patches with issues, being 1 at build time
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-next-imx-20230802
+Error/warnings:
 
-for you to fetch changes up to 0e217f58c7c9a4a881c69c56ec4a85c623a54682:
+patches/0001-media-imx-imx7-media-csi-Fix-applying-format-constra.patch:
 
-  media: imx: imx7-media-csi: Fix frame sizes enumeration (2023-08-02 01:08:19 +0300)
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
 
-----------------------------------------------------------------
-Miscellaneous changes for NXP media drivers
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v1'.
+	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v2'.
+	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_local_data'.
+	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_input_ctrl'.
+	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_pin_sts'.
+	../drivers/media/i2c/ds90ub960.c: ../drivers/media/i2c/ds90ub960.c:1780 ub960_init_tx_ports() error: uninitialized symbol 'pll_div'.
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2772 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000004Kb sm_state_count = 1971198
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+	  Locked on  : 326,387
+	  Unlocked on: 465,467
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
 
-----------------------------------------------------------------
-Guoniu.zhou (3):
-      media: dt-bindings: nxp,imx8-isi: Add i.MX93 ISI compatible string
-      media: nxp: imx8-isi: Move i.MX8 gasket configuration to an ops structure
-      media: nxp: imx8-isi: Add ISI support for i.MX93
-
-Laurent Pinchart (3):
-      staging: media: imx: Merge VIDEO_IMX_CSI into VIDEO_IMX_MEDIA
-      arm64: defconfig: Drop CONFIG_VIDEO_IMX_MEDIA
-      media: imx: imx7-media-csi: Fix frame sizes enumeration
-
-Lukas Bulwahn (1):
-      MAINTAINERS: correct file entry in MEDIA DRIVERS FOR FREESCALE IMX7/8
-
-Ruan Jinjie (1):
-      media: nxp: Remove redundant dev_err()
-
-Yang Yingliang (1):
-      media: nxp: Fix wrong return pointer check in mxc_isi_crossbar_init()
-
- .../devicetree/bindings/media/nxp,imx8-isi.yaml    |  5 +-
- MAINTAINERS                                        |  2 +-
- arch/arm64/configs/defconfig                       |  1 -
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c     |  1 -
- drivers/media/platform/nxp/imx7-media-csi.c        | 14 ++--
- drivers/media/platform/nxp/imx8-isi/Makefile       |  4 +-
- .../media/platform/nxp/imx8-isi/imx8-isi-core.c    | 21 +++++-
- .../media/platform/nxp/imx8-isi/imx8-isi-core.h    | 14 +++-
- .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      | 38 ++--------
- .../media/platform/nxp/imx8-isi/imx8-isi-gasket.c  | 85 ++++++++++++++++++++++
- .../media/platform/nxp/imx8-isi/imx8-isi-pipe.c    |  1 -
- drivers/staging/media/imx/Kconfig                  | 17 +----
- drivers/staging/media/imx/Makefile                 |  7 +-
- 13 files changed, 144 insertions(+), 66 deletions(-)
- create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-
--- 
-Regards,
-
-Laurent Pinchart
