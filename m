@@ -2,65 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 290F176A5CC
-	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 02:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AE5B76A675
+	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 03:39:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231312AbjHAAzG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jul 2023 20:55:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50876 "EHLO
+        id S231879AbjHABjq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jul 2023 21:39:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjHAAzF (ORCPT
+        with ESMTP id S231405AbjHABjp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jul 2023 20:55:05 -0400
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0D06EE;
-        Mon, 31 Jul 2023 17:55:03 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R741e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VoiHKO._1690851300;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VoiHKO._1690851300)
-          by smtp.aliyun-inc.com;
-          Tue, 01 Aug 2023 08:55:01 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     p.zabel@pengutronix.de, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] media: coda: Remove duplicated include in coda-common.c
-Date:   Tue,  1 Aug 2023 08:54:52 +0800
-Message-Id: <20230801005452.79707-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 31 Jul 2023 21:39:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46DF019AA
+        for <linux-media@vger.kernel.org>; Mon, 31 Jul 2023 18:39:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E5D861337
+        for <linux-media@vger.kernel.org>; Tue,  1 Aug 2023 01:39:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA58C433C7
+        for <linux-media@vger.kernel.org>; Tue,  1 Aug 2023 01:39:41 +0000 (UTC)
+Date:   Tue, 01 Aug 2023 03:39:39 +0200
+Message-ID: <5330a117acbefd847dcd427aaf8ab47d.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-./drivers/media/platform/chips-media/coda-common.c: linux/of.h is included more than once.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=6040
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/media/platform/chips-media/coda-common.c | 1 -
- 1 file changed, 1 deletion(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
-index 4c7608f1b98d..cc4892129aaf 100644
---- a/drivers/media/platform/chips-media/coda-common.c
-+++ b/drivers/media/platform/chips-media/coda-common.c
-@@ -25,7 +25,6 @@
- #include <linux/pm_runtime.h>
- #include <linux/slab.h>
- #include <linux/videodev2.h>
--#include <linux/of.h>
- #include <linux/ratelimit.h>
- #include <linux/reset.h>
- 
--- 
-2.20.1.7.g153144c
+date:			Tue Aug  1 03:00:08 CEST 2023
+media-tree git branch:	media_stage/master
+media-tree git hash:	60a25e001759c90f35e2e7704f3e8b0d4fb10f96
+v4l-utils git hash:	f94ee0b644a464f5142e93400bddb1f5106afbd0
+edid-decode git hash:	a31e680438789d45207497bf999a20cf6e2c0ec1
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8436-gabbd0aab
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: bc8d962e4e77123689512b159528638733a23c29
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: OK
+smatch.config: ERRORS
+sparse.config: WARNINGS
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+utils: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 4
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+Check pahole: ABI OK
+kerneldoc: OK
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
