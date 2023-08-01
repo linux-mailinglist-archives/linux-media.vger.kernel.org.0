@@ -2,110 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE69776BD08
-	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 20:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A2EB76BF90
+	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 23:54:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231151AbjHASz5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Aug 2023 14:55:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36046 "EHLO
+        id S232294AbjHAVyb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Aug 2023 17:54:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjHASz4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 14:55:56 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C64C187;
-        Tue,  1 Aug 2023 11:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=ZcHJoyOnSyStBYXLxjKo9vGFu+ive0GAxmxsAXs0Erc=; b=fBKF6RRyzycU76I/LkqFaOlU3u
-        QIUo9yM61JDHkELJ1pnhRtC4QwFuYkmsdXwlzXeK20DcCHwwxpmEjYa78GxpKHHKjk9bVv4LYrcJq
-        jB/hkbqhCpyTS9uVfH6TwkFxGnJcJnyq8KlVbwwoXjX0A8dgvqGiTkoZnYgFlWtkS00xIpqrLTRL7
-        4QHaMFvmGICvFrinJYgiJ6z3UzcdZFwfSoSBvDl7T4yroi8FU95d5WvnruBmCocjLYUPJnQsbrhHw
-        30F9/cD6Vud5SxrQ8X/fUjyVstb0u7kO0QDHGjUH/+zCQegLy6u7Vn9caDweSrjeXL0FbbC0wDC2Y
-        jQXTZg3g==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qQuXA-0034zE-0r;
-        Tue, 01 Aug 2023 18:55:52 +0000
-Message-ID: <6286077f-bd7e-8a78-deca-3442bd987ad4@infradead.org>
-Date:   Tue, 1 Aug 2023 11:55:50 -0700
+        with ESMTP id S230429AbjHAVyb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 17:54:31 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365D32122;
+        Tue,  1 Aug 2023 14:54:29 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 339228D;
+        Tue,  1 Aug 2023 23:53:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1690926804;
+        bh=zM/2eMhf5eioUukG/7WSadNDzeMn4OBtQlc27LCD7Po=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PtJjv5/0gD0e715LuTArMdDv0SOJOsNzf1Y9t8LN4ElEjR65V0vQZCpTU2uC1ZS0h
+         FXKgokYU/PiYGzSBR9UbvKwrLxNq7a9ulZnP03WjE/WagW5VdLX5bRQ/JiMJhKZltR
+         TAWggA5dU78pvhzoMC046sP0r/1o0oidmQ56q24U=
+Date:   Wed, 2 Aug 2023 00:54:33 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: correct file entry in MEDIA DRIVERS FOR
+ FREESCALE IMX7/8
+Message-ID: <20230801215433.GH8578@pendragon.ideasonboard.com>
+References: <20230731131427.601-1-lukas.bulwahn@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v1 v1 1/7] MAINTAINERS: Update starfive maintainers
-Content-Language: en-US
-To:     Keith Zhao <keith.zhao@starfivetech.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Jack Zhu <jack.zhu@starfivetech.com>,
-        Shengyang Chen <shengyang.chen@starfivetech.com>,
-        Changhuang Liang <changhuang.liang@starfivetech.com>
-References: <20230801101030.2040-1-keith.zhao@starfivetech.com>
- <20230801101030.2040-2-keith.zhao@starfivetech.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230801101030.2040-2-keith.zhao@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230731131427.601-1-lukas.bulwahn@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Lukas,
 
+Thank you for the patch.
 
-On 8/1/23 03:10, Keith Zhao wrote:
-> update starfive maintainers
+On Mon, Jul 31, 2023 at 03:14:27PM +0200, Lukas Bulwahn wrote:
+> Commit cd063027c304 ("media: imx: Unstage the imx8mq-mipi-csi2 driver")
+> adds a file entry for the driver code to MEDIA DRIVERS FOR FREESCALE
+> IMX7/8, but misses the number '2' suffix in that entry. Hence,
+> ./scripts/get_maintainer.pl --self-test=patterns complains about a broken
+> reference.
 > 
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> Correct the file entry in MEDIA DRIVERS FOR FREESCALE IMX7/8.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  MAINTAINERS | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3be1bdfe8..daadd1707 100644
+> index 97db167eeaa7..5ba24f88a214 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -6760,6 +6760,13 @@ S:	Supported
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
->  F:	drivers/gpu/drm/udl/
+> @@ -13094,7 +13094,7 @@ F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+>  F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+>  F:	drivers/media/platform/nxp/imx-mipi-csis.c
+>  F:	drivers/media/platform/nxp/imx7-media-csi.c
+> -F:	drivers/media/platform/nxp/imx8mq-mipi-csi.c
+> +F:	drivers/media/platform/nxp/imx8mq-mipi-csi2.c
 >  
-
-This new entry should be in alphabetical order (hint: it's not).
-
-> +DRM DRIVERS FOR STARFIVE
-> +M:	Keith Zhao <keith.zhao@starfivetech.com>
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Maintained
-> +T:	git git://anongit.freedesktop.org/drm/drm-misc
-> +F:	Documentation/devicetree/bindings/display/starfive/
-> +
->  DRM DRIVER FOR VIRTUAL KERNEL MODESETTING (VKMS)
->  M:	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
->  M:	Melissa Wen <melissa.srw@gmail.com>
+>  MEDIA DRIVERS FOR HELENE
+>  M:	Abylay Ospan <aospan@netup.ru>
 
 -- 
-~Randy
+Regards,
+
+Laurent Pinchart
