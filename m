@@ -2,80 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47E7076B53B
-	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 14:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 010B876B53F
+	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 14:55:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231171AbjHAMyv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Aug 2023 08:54:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52532 "EHLO
+        id S231925AbjHAMzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Aug 2023 08:55:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230026AbjHAMyt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 08:54:49 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45938193
-        for <linux-media@vger.kernel.org>; Tue,  1 Aug 2023 05:54:48 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id BBEB01FD7C;
-        Tue,  1 Aug 2023 12:54:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1690894486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1+eWlQeeVC2euHUSOeWbcjmCz76Xb9mTKJnw2WhwjLg=;
-        b=t7s75b7DrHPYfkCXw7FDYSyFbZ+eFfBMn15m7OYOVuSyyLrlrCbVEtuSsgMFKIyIvv5Ho5
-        CXs2jrmvNmzRG22y9IPvSJeuTYeoARHIdanewOkoZNAj1zOai/qIhM0+qzi/l1cfU0dgBj
-        nlIvHEHnHQqn+SrpvAfOym8rWB7ZtPY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1690894486;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1+eWlQeeVC2euHUSOeWbcjmCz76Xb9mTKJnw2WhwjLg=;
-        b=L/+EhMg6JTslMiA7SDZmOv5ox9H011tP9374Q3zbVOlIKn4lUfyKLSfdapnaVSEAMmM1w9
-        gR5xSz+JTBsoWoDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 600F1139BD;
-        Tue,  1 Aug 2023 12:54:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id sr9XFpYAyWQSNAAAMHmgww
-        (envelope-from <tiwai@suse.de>); Tue, 01 Aug 2023 12:54:46 +0000
-Date:   Tue, 01 Aug 2023 14:54:45 +0200
-Message-ID: <87leeugbxm.wl-tiwai@suse.de>
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     alsa-devel@alsa-project.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Andrey Utkin <andrey_utkin@fastmail.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-        Banajit Goswami <bgoswami@quicinc.com>,
-        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Ismael Luceno <ismael@iodev.co.uk>,
-        Lars-Peter Clausen <lars@metafoo.de>,
+        with ESMTP id S230026AbjHAMzf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 08:55:35 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D3EDE6
+        for <linux-media@vger.kernel.org>; Tue,  1 Aug 2023 05:55:34 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso62187385e9.0
+        for <linux-media@vger.kernel.org>; Tue, 01 Aug 2023 05:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690894533; x=1691499333;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mDkOVF5dVkccZSSx3uF9S9mQpuBVPeaNHuRfTVTMyuw=;
+        b=NcN067f5r7UOgh2B7Fx9rwvfjtyFPcvE7eUZKkpkMiS8IlqwRSDTuBDBgNpjo+m5AY
+         tdKLxPrZbkYzNtB772wmIf8F86y2Fk0VB6sYk66ZBS5lOCg3grMJ6X3Rx0+fQztT+xGk
+         LgtJQ+RYCvytpkStP3v6XJ6gZIhQlxZD+rAZP9cHuCwEa1i3SMQGMt/WWVJSAtha28Vx
+         P1iXsnUfc28qp7SEbewRosL1S5S1GNDdMSPMCAF+xM9xozZURYfIOMvlFGmSC7EjszGz
+         tDgmdJifpVwrzpgFN3Kpp1hpfepzksML6ZiQqbf+QtRB18ByUmL/7NRnhUDCPQFVttb1
+         wOTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690894533; x=1691499333;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mDkOVF5dVkccZSSx3uF9S9mQpuBVPeaNHuRfTVTMyuw=;
+        b=eLkAN5cYvnyS0FNeSWT6Ug/QYCamYEfvcuRYBNcoYVBazQ8phymXXs2NZXvp1Aj0I3
+         bxJwYmKTAFLMbhR1wvrNq1aE55rTYh8/1DB2RExuivFoNrHR2zJQuaIoN8Vp2BP5DwFE
+         GZojBB8L9riEKmbES9oieJIYNn9ieDRvtOdjsVD+JWyT/QUVkC0LOF38tP6siBKIk453
+         jX0KKH4u4jfTkVDdk8vJQstwX5jJEsO9/1Bvh8LdzlQkFJ12VzQLEQw4mf50M6In+kgw
+         UupRtGo6N6UGYj8ZNjJ3eFWmT5vZbv3gc3Uf5SBBrK80ERwKvHzlqK8fQ5Xm643+Focy
+         tC5A==
+X-Gm-Message-State: ABy/qLZPVY1wBDMf1Z+mkPuEwK+XCz2BwNBRZAGO8oawXBdkCjWc4q3K
+        EDQ1Q/46eurzbH32JjzwNNSaRg==
+X-Google-Smtp-Source: APBJJlGuxtGGetdaut4uheRF3ll32vx6ed24rJA1ZTPwJSDD6l8me/IrAWVI//zpqmaPfkXykinuxA==
+X-Received: by 2002:a1c:ed0c:0:b0:3fb:9ef1:34ef with SMTP id l12-20020a1ced0c000000b003fb9ef134efmr2496596wmh.37.1690894532910;
+        Tue, 01 Aug 2023 05:55:32 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id 9-20020a05600c230900b003fbe561f6a3sm16759367wmo.37.2023.08.01.05.55.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Aug 2023 05:55:32 -0700 (PDT)
+Date:   Tue, 1 Aug 2023 15:55:29 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Kate Hsuan <hpa@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        linux-media@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 00/24] ALSA: Generic PCM copy ops using sockptr_t
-In-Reply-To: <a02cf5c3-1fac-4ec6-9d9c-f8e8d0c067e0@sirena.org.uk>
-References: <20230731154718.31048-1-tiwai@suse.de>
-        <b906d60b-ece4-45b5-8167-2046c8dc00f4@sirena.org.uk>
-        <87h6pjj2ui.wl-tiwai@suse.de>
-        <a02cf5c3-1fac-4ec6-9d9c-f8e8d0c067e0@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v2 1/2] media: atomisp: Fix smatch warnings caused by
+ atomisp custom assert() usage
+Message-ID: <65b19c92-fc5b-4767-81c5-0077aa3ec90f@kadam.mountain>
+References: <20230730153343.22033-1-hdegoede@redhat.com>
+ <CAEth8oFe1QFfbZ=COzT=BLJtoAXAgqVMZtTM6qe4aNvQ0ZNVPw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEth8oFe1QFfbZ=COzT=BLJtoAXAgqVMZtTM6qe4aNvQ0ZNVPw@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -84,311 +80,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 31 Jul 2023 21:40:20 +0200,
-Mark Brown wrote:
+On Tue, Aug 01, 2023 at 08:32:18PM +0800, Kate Hsuan wrote:
+> > diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> > index b20acaab0595..ced21dedf7ac 100644
+> > --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> > +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> > @@ -351,15 +351,6 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
+> >         ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+> >                             "allocate_mipi_frames(%p) enter:\n", pipe);
+> >
+> > -       assert(pipe);
+> > -       assert(pipe->stream);
+> > -       if ((!pipe) || (!pipe->stream)) {
+> > -               ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+> > -                                   "allocate_mipi_frames(%p) exit: pipe or stream is null.\n",
+> > -                                   pipe);
+> > -               return -EINVAL;
+> > -       }
 > 
-> On Mon, Jul 31, 2023 at 09:30:29PM +0200, Takashi Iwai wrote:
-> > Mark Brown wrote:
+> Thank you for working on this.
 > 
-> > > It really feels like we ought to rename, or add an alias for, the type
-> > > if we're going to start using it more widely - it's not helping to make
-> > > the code clearer.
+> The NULL test for pipe could be kept here since the caller only tests
+> "stream" but not test "main_pipe" is NULL. (sh_css.c line: 1799)
 > 
-> > That was my very first impression, too, but I changed my mind after
-> > seeing the already used code.  An alias might work, either typedef or
-> > define genptr_t or such as sockptr_t.  But we'll need to copy the
-> > bunch of helper functions, too...
-> 
-> I would predict that if the type becomes more widely used that'll happen
-> eventually and the longer it's left the more work it'll be.
 
-That's true.  The question is how more widely it'll be used, then.
+It dereferences main_pipe on the next line so this check would be too
+late.
 
-Is something like below what you had in mind, too?
+drivers/staging/media/atomisp/pci/sh_css.c
+  1799          main_pipe       = stream->last_pipe;
+  1800          pipe_id = main_pipe->mode;
 
+Smatch says that ->last_pipe is known to be non-NULL as well.
 
-Takashi
+$ smdb.py create_host_pipeline
+drivers/staging/media/atomisp/pci/sh_css.c |  ia_css_stream_start | create_host_pipeline |        PARAM_VALUE |  0 | stream->last_pipe | 4096-ptr_max
 
--- 8< --
-From: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH] Introduce uniptr_t as replacement of sockptr_t
-
-Although sockptr_t is used already in several places as a "universal"
-pointer, it's still too confusing as if were related with network
-stuff.
-
-Make a more generic type, uniptr_t, that does exactly as same as
-sockptr_t for a wider use.  sockptr_t becomes now alias to uniptr_t.
-
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- include/linux/sockptr.h | 124 +++++-----------------------------------
- include/linux/uniptr.h  | 117 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 132 insertions(+), 109 deletions(-)
- create mode 100644 include/linux/uniptr.h
-
-diff --git a/include/linux/sockptr.h b/include/linux/sockptr.h
-index bae5e2369b4f..dc803989a4d6 100644
---- a/include/linux/sockptr.h
-+++ b/include/linux/sockptr.h
-@@ -1,118 +1,24 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * Copyright (c) 2020 Christoph Hellwig.
-- *
-- * Support for "universal" pointers that can point to either kernel or userspace
-- * memory.
-+ * Aliases for the old sockptr_t and its helpers for the new uniptr_t
-  */
- #ifndef _LINUX_SOCKPTR_H
- #define _LINUX_SOCKPTR_H
- 
--#include <linux/slab.h>
--#include <linux/uaccess.h>
-+#include <linux/uniptr.h>
- 
--typedef struct {
--	union {
--		void		*kernel;
--		void __user	*user;
--	};
--	bool		is_kernel : 1;
--} sockptr_t;
--
--static inline bool sockptr_is_kernel(sockptr_t sockptr)
--{
--	return sockptr.is_kernel;
--}
--
--static inline sockptr_t KERNEL_SOCKPTR(void *p)
--{
--	return (sockptr_t) { .kernel = p, .is_kernel = true };
--}
--
--static inline sockptr_t USER_SOCKPTR(void __user *p)
--{
--	return (sockptr_t) { .user = p };
--}
--
--static inline bool sockptr_is_null(sockptr_t sockptr)
--{
--	if (sockptr_is_kernel(sockptr))
--		return !sockptr.kernel;
--	return !sockptr.user;
--}
--
--static inline int copy_from_sockptr_offset(void *dst, sockptr_t src,
--		size_t offset, size_t size)
--{
--	if (!sockptr_is_kernel(src))
--		return copy_from_user(dst, src.user + offset, size);
--	memcpy(dst, src.kernel + offset, size);
--	return 0;
--}
--
--static inline int copy_from_sockptr(void *dst, sockptr_t src, size_t size)
--{
--	return copy_from_sockptr_offset(dst, src, 0, size);
--}
--
--static inline int copy_to_sockptr_offset(sockptr_t dst, size_t offset,
--		const void *src, size_t size)
--{
--	if (!sockptr_is_kernel(dst))
--		return copy_to_user(dst.user + offset, src, size);
--	memcpy(dst.kernel + offset, src, size);
--	return 0;
--}
--
--static inline int copy_to_sockptr(sockptr_t dst, const void *src, size_t size)
--{
--	return copy_to_sockptr_offset(dst, 0, src, size);
--}
--
--static inline void *memdup_sockptr(sockptr_t src, size_t len)
--{
--	void *p = kmalloc_track_caller(len, GFP_USER | __GFP_NOWARN);
--
--	if (!p)
--		return ERR_PTR(-ENOMEM);
--	if (copy_from_sockptr(p, src, len)) {
--		kfree(p);
--		return ERR_PTR(-EFAULT);
--	}
--	return p;
--}
--
--static inline void *memdup_sockptr_nul(sockptr_t src, size_t len)
--{
--	char *p = kmalloc_track_caller(len + 1, GFP_KERNEL);
--
--	if (!p)
--		return ERR_PTR(-ENOMEM);
--	if (copy_from_sockptr(p, src, len)) {
--		kfree(p);
--		return ERR_PTR(-EFAULT);
--	}
--	p[len] = '\0';
--	return p;
--}
--
--static inline long strncpy_from_sockptr(char *dst, sockptr_t src, size_t count)
--{
--	if (sockptr_is_kernel(src)) {
--		size_t len = min(strnlen(src.kernel, count - 1) + 1, count);
--
--		memcpy(dst, src.kernel, len);
--		return len;
--	}
--	return strncpy_from_user(dst, src.user, count);
--}
--
--static inline int check_zeroed_sockptr(sockptr_t src, size_t offset,
--				       size_t size)
--{
--	if (!sockptr_is_kernel(src))
--		return check_zeroed_user(src.user + offset, size);
--	return memchr_inv(src.kernel + offset, 0, size) == NULL;
--}
-+#define sockptr_t		uniptr_t
-+#define sockptr_is_kernel	uniptr_is_kernel
-+#define KERNEL_SOCKPTR		KERNEL_UNIPTR
-+#define USER_SOCKPTR		USER_UNIPTR
-+#define sockptr_is_null		uniptr_is_null
-+#define copy_from_sockptr_offset copy_from_uniptr_offset
-+#define copy_from_sockptr	copy_from_uniptr
-+#define copy_to_sockptr_offset	copy_to_uniptr_offset
-+#define copy_to_sockptr		copy_to_uniptr
-+#define memdup_sockptr		memdup_uniptr
-+#define memdup_sockptr_nul	memdup_uniptr_nul
-+#define strncpy_from_sockptr	strncpy_from_uniptr
-+#define check_zeroed_sockptr	check_zeroed_uniptr
- 
- #endif /* _LINUX_SOCKPTR_H */
-diff --git a/include/linux/uniptr.h b/include/linux/uniptr.h
-new file mode 100644
-index 000000000000..3ca9fc8eab4e
---- /dev/null
-+++ b/include/linux/uniptr.h
-@@ -0,0 +1,117 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2020 Christoph Hellwig.
-+ *
-+ * Support for "universal" pointers that can point to either kernel or userspace
-+ * memory.
-+ */
-+#ifndef _LINUX_UNIPTR_H
-+#define _LINUX_UNIPTR_H
-+
-+#include <linux/slab.h>
-+#include <linux/uaccess.h>
-+
-+typedef struct {
-+	union {
-+		void		*kernel;
-+		void __user	*user;
-+	};
-+	bool		is_kernel : 1;
-+} uniptr_t;
-+
-+static inline bool uniptr_is_kernel(uniptr_t uniptr)
-+{
-+	return uniptr.is_kernel;
-+}
-+
-+static inline uniptr_t KERNEL_UNIPTR(void *p)
-+{
-+	return (uniptr_t) { .kernel = p, .is_kernel = true };
-+}
-+
-+static inline uniptr_t USER_UNIPTR(void __user *p)
-+{
-+	return (uniptr_t) { .user = p };
-+}
-+
-+static inline bool uniptr_is_null(uniptr_t uniptr)
-+{
-+	if (uniptr_is_kernel(uniptr))
-+		return !uniptr.kernel;
-+	return !uniptr.user;
-+}
-+
-+static inline int copy_from_uniptr_offset(void *dst, uniptr_t src,
-+					  size_t offset, size_t size)
-+{
-+	if (!uniptr_is_kernel(src))
-+		return copy_from_user(dst, src.user + offset, size);
-+	memcpy(dst, src.kernel + offset, size);
-+	return 0;
-+}
-+
-+static inline int copy_from_uniptr(void *dst, uniptr_t src, size_t size)
-+{
-+	return copy_from_uniptr_offset(dst, src, 0, size);
-+}
-+
-+static inline int copy_to_uniptr_offset(uniptr_t dst, size_t offset,
-+					const void *src, size_t size)
-+{
-+	if (!uniptr_is_kernel(dst))
-+		return copy_to_user(dst.user + offset, src, size);
-+	memcpy(dst.kernel + offset, src, size);
-+	return 0;
-+}
-+
-+static inline int copy_to_uniptr(uniptr_t dst, const void *src, size_t size)
-+{
-+	return copy_to_uniptr_offset(dst, 0, src, size);
-+}
-+
-+static inline void *memdup_uniptr(uniptr_t src, size_t len)
-+{
-+	void *p = kmalloc_track_caller(len, GFP_USER | __GFP_NOWARN);
-+
-+	if (!p)
-+		return ERR_PTR(-ENOMEM);
-+	if (copy_from_uniptr(p, src, len)) {
-+		kfree(p);
-+		return ERR_PTR(-EFAULT);
-+	}
-+	return p;
-+}
-+
-+static inline void *memdup_uniptr_nul(uniptr_t src, size_t len)
-+{
-+	char *p = kmalloc_track_caller(len + 1, GFP_KERNEL);
-+
-+	if (!p)
-+		return ERR_PTR(-ENOMEM);
-+	if (copy_from_uniptr(p, src, len)) {
-+		kfree(p);
-+		return ERR_PTR(-EFAULT);
-+	}
-+	p[len] = '\0';
-+	return p;
-+}
-+
-+static inline long strncpy_from_uniptr(char *dst, uniptr_t src, size_t count)
-+{
-+	if (uniptr_is_kernel(src)) {
-+		size_t len = min(strnlen(src.kernel, count - 1) + 1, count);
-+
-+		memcpy(dst, src.kernel, len);
-+		return len;
-+	}
-+	return strncpy_from_user(dst, src.user, count);
-+}
-+
-+static inline int check_zeroed_uniptr(uniptr_t src, size_t offset, size_t size)
-+{
-+	if (!uniptr_is_kernel(src))
-+		return check_zeroed_user(src.user + offset, size);
-+	return memchr_inv(src.kernel + offset, 0, size) == NULL;
-+}
-+
-+#endif /* _LINUX_UNIPTR_H */
--- 
-2.35.3
-
-
+regards,
+dan carpenter
