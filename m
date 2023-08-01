@@ -2,127 +2,286 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D6A476B31C
-	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 13:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CD0576B397
+	for <lists+linux-media@lfdr.de>; Tue,  1 Aug 2023 13:44:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233757AbjHALXy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Aug 2023 07:23:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53844 "EHLO
+        id S232864AbjHALon (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Aug 2023 07:44:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233013AbjHALXg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 07:23:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3086CEA;
-        Tue,  1 Aug 2023 04:22:52 -0700 (PDT)
+        with ESMTP id S232003AbjHALom (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Aug 2023 07:44:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 429A292;
+        Tue,  1 Aug 2023 04:44:41 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8026661541;
-        Tue,  1 Aug 2023 11:22:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABD8BC433C8;
-        Tue,  1 Aug 2023 11:22:48 +0000 (UTC)
-Message-ID: <ee03c6c9-4e6a-2732-0416-43fd5418c950@xs4all.nl>
-Date:   Tue, 1 Aug 2023 13:22:46 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CCA596156E;
+        Tue,  1 Aug 2023 11:44:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0C58C433C8;
+        Tue,  1 Aug 2023 11:44:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690890280;
+        bh=dbodHSwIgKgpR708XhGtQfRJC68lUns//VtMieKP9nc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mIPN/0FlrywKoIvGuj184pORf/lD8hhwluBTGh+LkJQPCLledF7sFrBYwGV/lqUS1
+         523bB6efo7rFR3KMuWoIJhQr4Bdcgm9DWfXIm7yGqW2lahDabJWA2iv5BlA4oi9H6I
+         E1J608KbtQ3ZReXwf9vUfA6ouEDGz27xA4f6lSvhMoRmPdcW72n4i/q07LTV+DtI4k
+         khUoBRy5gFFucKponYrQlQ2svb9z4sncsgjZNL59SYR06uNZWn9aiJbYOEgGForKMM
+         ve6Ez9aeP1r+xBgk7F+Ee+2DMbgCNEv20Uz60Ak6AlyqGQ5nxLVj8l+HlfWckYM9BT
+         haR5vtYw/l+kA==
+Date:   Tue, 1 Aug 2023 13:44:37 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Keith Zhao <keith.zhao@starfivetech.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>
+Subject: Re: [PATCH v1 v1 2/7] dt-bindings: display: Add yamls for JH7110
+ display system
+Message-ID: <hsuuag25psaxd6wgtaohpakxi3pppg6xk4w7x64ubwjir5pjb3@vrqns6ptrzzm>
+References: <20230801101030.2040-1-keith.zhao@starfivetech.com>
+ <20230801101030.2040-3-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 01/47] media/vivid: Use fbdev I/O helpers
-Content-Language: en-US
-To:     Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
-        javierm@redhat.com, sam@ravnborg.org
-Cc:     linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-geode@lists.infradead.org, linux-omap@vger.kernel.org,
-        kvm@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20230801101541.900-1-tzimmermann@suse.de>
- <20230801101541.900-2-tzimmermann@suse.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230801101541.900-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dan5yrpicomxdg2s"
+Content-Disposition: inline
+In-Reply-To: <20230801101030.2040-3-keith.zhao@starfivetech.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/08/2023 12:13, Thomas Zimmermann wrote:
-> Set struct fb_ops and with FB_DEFAULT_IO_OPS, fbdev's initializer
-> for I/O memory. Sets the callbacks to the cfb_ and fb_io_ functions.
-> Select the correct modules with Kconfig's FB_IO_HELPERS token.
-> 
-> The macro and token set the currently selected values, so there is
-> no functional change.
-> 
-> v2:
-> 	* updated to use _IOMEM_ tokens
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Acked-by: Helge Deller <deller@gmx.de>
-> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
->  drivers/media/test-drivers/vivid/Kconfig     | 4 +---
->  drivers/media/test-drivers/vivid/vivid-osd.c | 4 +---
->  2 files changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/test-drivers/vivid/Kconfig b/drivers/media/test-drivers/vivid/Kconfig
-> index 318799d317ba..5b08a5ad291e 100644
-> --- a/drivers/media/test-drivers/vivid/Kconfig
-> +++ b/drivers/media/test-drivers/vivid/Kconfig
-> @@ -3,11 +3,9 @@ config VIDEO_VIVID
->  	tristate "Virtual Video Test Driver"
->  	depends on VIDEO_DEV && !SPARC32 && !SPARC64 && FB
->  	depends on HAS_DMA
-> +	select FB_IOMEM_HELPERS
->  	select FONT_SUPPORT
->  	select FONT_8x16
-> -	select FB_CFB_FILLRECT
-> -	select FB_CFB_COPYAREA
-> -	select FB_CFB_IMAGEBLIT
->  	select VIDEOBUF2_VMALLOC
->  	select VIDEOBUF2_DMA_CONTIG
->  	select VIDEO_V4L2_TPG
-> diff --git a/drivers/media/test-drivers/vivid/vivid-osd.c b/drivers/media/test-drivers/vivid/vivid-osd.c
-> index 051f1805a16d..5c931b94a7b5 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-osd.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-osd.c
-> @@ -246,12 +246,10 @@ static int vivid_fb_blank(int blank_mode, struct fb_info *info)
->  
->  static const struct fb_ops vivid_fb_ops = {
->  	.owner = THIS_MODULE,
-> +	FB_DEFAULT_IOMEM_OPS,
 
-This macro also sets fb_read and fb_write ops here, in addition to the
-cfb_* ops, based on this patch:
+--dan5yrpicomxdg2s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-https://lore.kernel.org/all/20230729193157.15446-2-tzimmermann@suse.de/#Z2e.:20230729193157.15446-2-tzimmermann::40suse.de:1include:linux:fb.h
+Hi,
 
-But those two ops were never set in this driver before.
+On Tue, Aug 01, 2023 at 06:10:25PM +0800, Keith Zhao wrote:
+> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
+> new file mode 100644
+> index 000000000..bebe2050c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
+> @@ -0,0 +1,107 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-dc8200.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: StarFive display controller
+> +
+> +description:
+> +  The StarFive SoC uses the display controller based on Verisilicon IP
+> +  to transfer the image data from a video memory
+> +  buffer to an external LCD interface.
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: starfive,jh7110-dc8200
+> +
+> +  reg:
+> +    maxItems: 3
 
-It's been ages since I last worked with this, so I can't tell whether that's
-good or bad, all I know is that it makes what appears to be a functional change.
+What these registers are used for must be documented.
 
-Can you explain a bit more? Am I missing something?
+> +
+> +  interrupts:
+> +    items:
+> +      - description: The interrupt will be generated when DC finish one frame
+> +
+> +  clocks:
+> +    items:
+> +      - description: Clock for display system noc bus.
+> +      - description: Pixel clock for display channel 0.
+> +      - description: Pixel clock for display channel 1.
+> +      - description: Clock for axi interface of display controller.
+> +      - description: Core clock for display controller.
+> +      - description: Clock for ahb interface of display controller.
+> +      - description: External HDMI pixel clock.
+> +      - description: Parent clock for pixel clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: vout_noc_disp
+> +      - const: vout_pix0
+> +      - const: vout_pix1
+> +      - const: vout_axi
+> +      - const: vout_core
+> +      - const: vout_vout_ahb
+> +      - const: hdmitx0_pixel
+> +      - const: vout_dc8200
 
-Regards,
+The clock-names should reflect what they are used for on the device, not
+what their name is in the system. So it should rather be something like
+"noc-bus", "channel0", "channel1", etc.
 
-	Hans
+vout, or the soc model, shouldn't appear there.
 
->  	.fb_check_var   = vivid_fb_check_var,
->  	.fb_set_par     = vivid_fb_set_par,
->  	.fb_setcolreg   = vivid_fb_setcolreg,
-> -	.fb_fillrect    = cfb_fillrect,
-> -	.fb_copyarea    = cfb_copyarea,
-> -	.fb_imageblit   = cfb_imageblit,
->  	.fb_cursor      = NULL,
->  	.fb_ioctl       = vivid_fb_ioctl,
->  	.fb_pan_display = vivid_fb_pan_display,
+> +  resets:
+> +    items:
+> +      - description: Reset for axi interface of display controller.
+> +      - description: Reset for ahb interface of display controller.
+> +      - description: Core reset of display controller.
+> +
+> +  reset-names:
+> +    items:
+> +      - const: vout_axi
+> +      - const: vout_ahb
+> +      - const: vout_core
 
+Ditto.
+
+Also, I'm a bit confused, how can a device be attached to both an AXI
+and AHB bus? That, plus the multiple registers spaces, make me think
+that this is multiple devices glued together in a single node, which
+isn't ok.
+
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description:
+> +      A port node with endpoint definitions as defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - reset-names
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    dc8200: lcd-controller@29400000 {
+> +        compatible = "starfive,jh7110-dc8200";
+> +        reg = <0x29400000 0x100>, <0x29400800 0x2000>, <0x295b0000 0x90>;
+> +        interrupts = <95>;
+> +        clocks = <&syscrg 60>,
+> +               <&voutcrg 7>,
+> +               <&voutcrg 8>,
+> +               <&voutcrg 4>,
+> +               <&voutcrg 5>,
+> +               <&voutcrg 6>,
+> +               <&hdmitx0_pixelclk>,
+> +               <&voutcrg 1>;
+> +        clock-names = "vout_noc_disp", "vout_pix0", "vout_pix1",
+> +                      "vout_axi", "vout_core", "vout_vout_ahb",
+> +                      "hdmitx0_pixel","vout_dc8200";
+> +        resets = <&voutcrg 0>, <&voutcrg 1>, <&voutcrg 2>;
+> +        reset-names = "vout_axi", "vout_ahb", "vout_core";
+> +        dc_out: port {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            dc_out_hdmi: endpoint@0 {
+> +                reg = <0>;
+> +                remote-endpoint = <&hdmi_in_dc>;
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+> new file mode 100644
+> index 000000000..f6927acf6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-inno-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Starfive JH7110 HDMI controller
+> +
+> +description:
+> +  The StarFive JH7110 SoC uses the HDMI signal transmiter based on innosilicon IP
+> +  to generate HDMI signal from its input and transmit the signal to the screen.
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: "starfive,jh7110-inno-hdmi"
+> +
+> +  reg:
+> +    minItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: The HDMI hot plug detection interrupt.
+> +
+> +  clocks:
+> +    items:
+> +      - description: System clock of HDMI module.
+> +      - description: Mclk clock of HDMI audio.
+> +      - description: Bclk clock of HDMI audio.
+> +      - description: Pixel clock generated by HDMI module.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: mclk
+> +      - const: bclk
+> +      - const: pclk
+> +
+> +  resets:
+> +    items:
+> +      - description: Reset for HDMI module.
+> +
+> +  reset-names:
+> +    items:
+> +      - const: hdmi_tx
+
+If there's only one you don't need reset-names
+
+Maxime
+
+--dan5yrpicomxdg2s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMjwJQAKCRDj7w1vZxhR
+xZBQAPwPOEedmxWZJ27iqcESJscaRD6CHACzB6No3CR39QnaDgD/bbKScqVg2wHb
+dTG9DGpqq1ezLI5zfPLEM3steJgVlg4=
+=A6ek
+-----END PGP SIGNATURE-----
+
+--dan5yrpicomxdg2s--
