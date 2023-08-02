@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B81B276C9FD
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 11:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C94D276C9FF
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 11:58:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233658AbjHBJ6I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 05:58:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56000 "EHLO
+        id S233665AbjHBJ6N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 05:58:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234204AbjHBJ6C (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 05:58:02 -0400
+        with ESMTP id S230228AbjHBJ6L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 05:58:11 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0703B2101
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 02:57:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C8C9212B
+        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 02:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690970237;
+        s=mimecast20190719; t=1690970241;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=fLJ4hA2Aat2rQAsWQHeOUvFWufmK3+WVRD6IXgYHqYo=;
-        b=VXMfotUxRCG5Tv3YCIcu624KebktrbKYetkchfrPBLIiQBwd7qnGrXqjB9PJludWbH/kjp
-        C/BTh2iOGvlDCW+kG4b4ryxX3V4FjsuY/b1cvCPw9eTcxoitPv6xqsQK5KkIL/ZZl20KkS
-        NkuUwILnUA2zGONG1+EQktx1kIz5n+8=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-RLfzqmJ9OL67NZuUwJYB0w-1; Wed, 02 Aug 2023 05:57:14 -0400
-X-MC-Unique: RLfzqmJ9OL67NZuUwJYB0w-1
+        bh=k9qSic862Nk3tMDWqLsyed75V+JXQ5nY3jYute7snIk=;
+        b=Iae+4dPhybJCUwPtJBlejyoW/j6CMfnzEnN86pEwzv7CrEi9Ug79vKCXJrkLaJ1m+XjOi+
+        KvxkZXFUwcgTjFVSX+cxSSFXzyaocTCGrstQSPfYHXeR+t3pkkMGA5yJ0LfsD3bCNPOYGG
+        gjb1GuhhzfwxHMCFdmb5vg+ecPxpAhU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-688-JLrzmYuaPsqgmWNpYMlM6w-1; Wed, 02 Aug 2023 05:57:18 -0400
+X-MC-Unique: JLrzmYuaPsqgmWNpYMlM6w-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD77729AA3B0;
-        Wed,  2 Aug 2023 09:57:13 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 40CDA830DB4;
+        Wed,  2 Aug 2023 09:57:18 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.67.24.18])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 020A3401061;
-        Wed,  2 Aug 2023 09:57:10 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 44F57401DA9;
+        Wed,  2 Aug 2023 09:57:14 +0000 (UTC)
 From:   Kate Hsuan <hpa@redhat.com>
 To:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -44,9 +44,9 @@ To:     Hans de Goede <hdegoede@redhat.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 Cc:     Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH 07/12] media: atomisp: sh_css_sp: Remove #ifdef ISP2401 to make driver generic
-Date:   Wed,  2 Aug 2023 17:56:01 +0800
-Message-ID: <20230802095606.1298152-8-hpa@redhat.com>
+Subject: [PATCH 08/12] media: atomisp: sh_css: Removed #ifdef ISP2401 to make driver generic
+Date:   Wed,  2 Aug 2023 17:56:02 +0800
+Message-ID: <20230802095606.1298152-9-hpa@redhat.com>
 In-Reply-To: <20230802095606.1298152-1-hpa@redhat.com>
 References: <20230802095606.1298152-1-hpa@redhat.com>
 MIME-Version: 1.0
@@ -62,156 +62,125 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Removed #ifdef ISP2401 to make the driver generic. The uncessary codes
-were removed and the types of the ISP is determines in runtime.
+Removed #ifdef ISP2401 to expose ia_css_stream_configure_rx() for ISP2400.
 
 Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/sh_css_sp.c | 60 +++++++------------
- drivers/staging/media/atomisp/pci/sh_css_sp.h |  2 -
- 2 files changed, 21 insertions(+), 41 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c | 54 +++++++++-------------
+ 1 file changed, 22 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 4ef1c9e61ea8..b225e33592f8 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -17,9 +17,7 @@
- 
- #include "sh_css_sp.h"
- 
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 8b5fb3703d59..e2e608d4c8a5 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -56,9 +56,7 @@
+ #include "assert_support.h"
+ #include "math_support.h"
+ #include "sw_event_global.h"			/* Event IDs.*/
 -#if !defined(ISP2401)
- #include "input_formatter.h"
+ #include "ia_css_ifmtr.h"
 -#endif
- 
- #include "dma.h"	/* N_DMA_CHANNEL_ID */
- 
-@@ -227,11 +225,8 @@ sh_css_sp_start_binary_copy(unsigned int pipe_num,
- 	IA_CSS_LOG("pipe_id %d port_config %08x",
- 		   pipe->pipe_id, pipe->inout_port_config);
- 
--#if !defined(ISP2401)
--	sh_css_sp_group.config.input_formatter.isp_2ppc = (uint8_t)two_ppc;
--#else
--	(void)two_ppc;
--#endif
-+	if (!IS_ISP2401)
-+		sh_css_sp_group.config.input_formatter.isp_2ppc = (uint8_t)two_ppc;
- 
- 	sh_css_sp_stage.num = stage_num;
- 	sh_css_sp_stage.stage_type = SH_CSS_SP_STAGE_TYPE;
-@@ -305,11 +300,8 @@ sh_css_sp_start_raw_copy(struct ia_css_frame *out_frame,
- 	IA_CSS_LOG("pipe_id %d port_config %08x",
- 		   pipe->pipe_id, pipe->inout_port_config);
- 
--#if !defined(ISP2401)
--	sh_css_sp_group.config.input_formatter.isp_2ppc = (uint8_t)two_ppc;
--#else
--	(void)two_ppc;
--#endif
-+	if (!IS_ISP2401)
-+		sh_css_sp_group.config.input_formatter.isp_2ppc = (uint8_t)two_ppc;
- 
- 	sh_css_sp_stage.num = stage_num;
- 	sh_css_sp_stage.xmem_bin_addr = 0x0;
-@@ -654,7 +646,6 @@ void sh_css_sp_set_if_configs(
- 	return;
- }
- 
--#if !defined(ISP2401)
- void
- sh_css_sp_program_input_circuit(int fmt_type,
- 				int ch_id,
-@@ -671,9 +662,7 @@ sh_css_sp_program_input_circuit(int fmt_type,
- 	sh_css_sp_group.config.input_circuit_cfg_changed = true;
- 	sh_css_sp_stage.program_input_circuit = true;
- }
--#endif
- 
--#if !defined(ISP2401)
- void
- sh_css_sp_configure_sync_gen(int width, int height,
- 			     int hblank_cycles,
-@@ -704,7 +693,6 @@ sh_css_sp_configure_prbs(int seed)
- {
- 	sh_css_sp_group.config.prbs.seed = seed;
- }
--#endif
- 
- void
- sh_css_sp_configure_enable_raw_pool_locking(bool lock_all)
-@@ -754,22 +742,18 @@ sh_css_sp_init_group(bool two_ppc,
- 		     bool no_isp_sync,
- 		     uint8_t if_config_index)
- {
--#if !defined(ISP2401)
--	sh_css_sp_group.config.input_formatter.isp_2ppc = two_ppc;
--#else
--	(void)two_ppc;
--#endif
-+	if (!IS_ISP2401)
-+		sh_css_sp_group.config.input_formatter.isp_2ppc = two_ppc;
- 
- 	sh_css_sp_group.config.no_isp_sync = (uint8_t)no_isp_sync;
- 	/* decide whether the frame is processed online or offline */
- 	if (if_config_index == SH_CSS_IF_CONFIG_NOT_NEEDED) return;
--#if !defined(ISP2401)
--	assert(if_config_index < SH_CSS_MAX_IF_CONFIGS);
--	sh_css_sp_group.config.input_formatter.set[if_config_index].stream_format =
--	    input_format;
--#else
--	(void)input_format;
--#endif
-+
-+	if (!IS_ISP2401) {
-+		assert(if_config_index < SH_CSS_MAX_IF_CONFIGS);
-+		sh_css_sp_group.config.input_formatter.set[if_config_index].stream_format =
-+		    input_format;
-+	}
- }
- 
- void
-@@ -1028,18 +1012,16 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
- 	if (err)
- 		return err;
+ #include "input_system.h"
+ #include "mmu_device.h"		/* mmu_set_page_table_base_index(), ... */
+ #include "ia_css_mmu_private.h" /* sh_css_mmu_set_page_table_base_index() */
+@@ -345,7 +343,6 @@ static struct sh_css_hmm_buffer_record
+ *sh_css_hmm_buffer_record_validate(ia_css_ptr ddr_buffer_addr,
+ 				   enum ia_css_buffer_type type);
  
 -#ifdef ISP2401
--	pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
--	if (!pipe)
--		return -EINVAL;
-+	if (IS_ISP2401) {
-+		pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
-+		if (!pipe)
-+			return -EINVAL;
+ static unsigned int get_crop_lines_for_bayer_order(const struct
+ 	ia_css_stream_config *config);
+ static unsigned int get_crop_columns_for_bayer_order(const struct
+@@ -353,8 +350,6 @@ static unsigned int get_crop_columns_for_bayer_order(const struct
+ static void get_pipe_extra_pixel(struct ia_css_pipe *pipe,
+ 				 unsigned int *extra_row, unsigned int *extra_column);
  
--	if (args->in_frame)
--		ia_css_get_crop_offsets(pipe, &args->in_frame->frame_info);
--	else
--		ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
--#else
--	(void)pipe; /*avoid build warning*/
 -#endif
-+		if (args->in_frame)
-+			ia_css_get_crop_offsets(pipe, &args->in_frame->frame_info);
-+		else
-+			ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
-+	}
+-
+ static void
+ sh_css_pipe_free_shading_table(struct ia_css_pipe *pipe)
+ {
+@@ -7971,7 +7966,6 @@ ia_css_pipe_override_frame_format(struct ia_css_pipe *pipe,
+ 	return err;
+ }
  
- 	err = configure_isp_from_args(&sh_css_sp_group.pipe[thread_id],
- 				      binary, args, two_ppc, sh_css_sp_stage.deinterleaved);
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.h b/drivers/staging/media/atomisp/pci/sh_css_sp.h
-index b052c40e69bc..36b693bd916a 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.h
-@@ -18,9 +18,7 @@
- 
- #include <system_global.h>
- #include <type_support.h>
 -#if !defined(ISP2401)
- #include "input_formatter.h"
+ /* Configuration of INPUT_SYSTEM_VERSION_2401 is done on SP */
+ static int
+ ia_css_stream_configure_rx(struct ia_css_stream *stream)
+@@ -8014,7 +8008,6 @@ ia_css_stream_configure_rx(struct ia_css_stream *stream)
+ 	stream->reconfigure_css_rx = true;
+ 	return 0;
+ }
 -#endif
  
- #include "ia_css_binary.h"
- #include "ia_css_types.h"
+ static struct ia_css_pipe *
+ find_pipe(struct ia_css_pipe *pipes[], unsigned int num_pipes,
+@@ -8100,9 +8093,7 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
+ 
+ 	/* check if mipi size specified */
+ 	if (stream_config->mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR)
+-#ifdef ISP2401
+-		if (!stream_config->online)
+-#endif
++		if (!IS_ISP2401 || (IS_ISP2401 && !stream_config->online))
+ 		{
+ 			unsigned int port = (unsigned int)stream_config->source.port.port;
+ 
+@@ -8203,32 +8194,31 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
+ 	switch (curr_stream->config.mode) {
+ 	case IA_CSS_INPUT_MODE_SENSOR:
+ 	case IA_CSS_INPUT_MODE_BUFFERED_SENSOR:
+-#if !defined(ISP2401)
+-		ia_css_stream_configure_rx(curr_stream);
+-#endif
++		if (!IS_ISP2401)
++			ia_css_stream_configure_rx(curr_stream);
+ 		break;
+ 	case IA_CSS_INPUT_MODE_TPG:
+-#if !defined(ISP2401)
+-		IA_CSS_LOG("tpg_configuration: x_mask=%d, y_mask=%d, x_delta=%d, y_delta=%d, xy_mask=%d",
+-			   curr_stream->config.source.tpg.x_mask,
+-			   curr_stream->config.source.tpg.y_mask,
+-			   curr_stream->config.source.tpg.x_delta,
+-			   curr_stream->config.source.tpg.y_delta,
+-			   curr_stream->config.source.tpg.xy_mask);
+-
+-		sh_css_sp_configure_tpg(
+-		    curr_stream->config.source.tpg.x_mask,
+-		    curr_stream->config.source.tpg.y_mask,
+-		    curr_stream->config.source.tpg.x_delta,
+-		    curr_stream->config.source.tpg.y_delta,
+-		    curr_stream->config.source.tpg.xy_mask);
+-#endif
++		if (!IS_ISP2401) {
++			IA_CSS_LOG("tpg_configuration: x_mask=%d, y_mask=%d, x_delta=%d, y_delta=%d, xy_mask=%d",
++				   curr_stream->config.source.tpg.x_mask,
++				   curr_stream->config.source.tpg.y_mask,
++				   curr_stream->config.source.tpg.x_delta,
++				   curr_stream->config.source.tpg.y_delta,
++				   curr_stream->config.source.tpg.xy_mask);
++
++			sh_css_sp_configure_tpg(
++			    curr_stream->config.source.tpg.x_mask,
++			    curr_stream->config.source.tpg.y_mask,
++			    curr_stream->config.source.tpg.x_delta,
++			    curr_stream->config.source.tpg.y_delta,
++			    curr_stream->config.source.tpg.xy_mask);
++		}
+ 		break;
+ 	case IA_CSS_INPUT_MODE_PRBS:
+-#if !defined(ISP2401)
+-		IA_CSS_LOG("mode prbs");
+-		sh_css_sp_configure_prbs(curr_stream->config.source.prbs.seed);
+-#endif
++		if (!IS_ISP2401) {
++			IA_CSS_LOG("mode prbs");
++			sh_css_sp_configure_prbs(curr_stream->config.source.prbs.seed);
++		}
+ 		break;
+ 	case IA_CSS_INPUT_MODE_MEMORY:
+ 		IA_CSS_LOG("mode memory");
 -- 
 2.41.0
 
