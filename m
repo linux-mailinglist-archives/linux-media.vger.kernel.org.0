@@ -2,102 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 821E476CC6D
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 14:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1750576CCA2
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 14:28:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230317AbjHBMQk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 08:16:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47486 "EHLO
+        id S233886AbjHBM2X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 08:28:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229806AbjHBMQj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 08:16:39 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB16C126
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 05:16:37 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qRAmK-008sUd-BS; Wed, 02 Aug 2023 12:16:36 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.96)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qRAmI-005ucb-0l;
-        Wed, 02 Aug 2023 12:16:34 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.6] Venus updates - part2 (#93748)
-Date:   Wed,  2 Aug 2023 12:16:33 +0000
-Message-Id: <20230802121633.1409284-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230802115328.25435-1-stanimir.k.varbanov@gmail.com>
-References: 
+        with ESMTP id S232732AbjHBM2W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 08:28:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4560E9B;
+        Wed,  2 Aug 2023 05:28:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C6B8261947;
+        Wed,  2 Aug 2023 12:28:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6596C433C7;
+        Wed,  2 Aug 2023 12:28:15 +0000 (UTC)
+Message-ID: <d038360b-22a2-3869-cd64-2da827736faa@xs4all.nl>
+Date:   Wed, 2 Aug 2023 14:28:13 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
+Content-Language: en-US
+To:     Shengjiu Wang <shengjiu.wang@gmail.com>,
+        Takashi Iwai <tiwai@suse.de>
+Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+        tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
+ <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl>
+ <87il9xu1ro.wl-tiwai@suse.de>
+ <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 02/08/2023 14:02, Shengjiu Wang wrote:
+> On Wed, Aug 2, 2023 at 7:22 PM Takashi Iwai <tiwai@suse.de> wrote:
+>>
+>> On Wed, 02 Aug 2023 09:32:37 +0200,
+>> Hans Verkuil wrote:
+>>>
+>>> Hi all,
+>>>
+>>> On 25/07/2023 08:12, Shengjiu Wang wrote:
+>>>> Audio signal processing has the requirement for memory to
+>>>> memory similar as Video.
+>>>>
+>>>> This patch is to add this support in v4l2 framework, defined
+>>>> new buffer type V4L2_BUF_TYPE_AUDIO_CAPTURE and
+>>>> V4L2_BUF_TYPE_AUDIO_OUTPUT, defined new format v4l2_audio_format
+>>>> for audio case usage.
+>>>>
+>>>> The created audio device is named "/dev/audioX".
+>>>>
+>>>> And add memory to memory support for two kinds of i.MX ASRC
+>>>> module
+>>>
+>>> Before I spend time on this: are the audio maintainers OK with doing
+>>> this in V4L2?
+>>>
+>>> I do want to have a clear statement on this as it is not something I
+>>> can decide.
+>>
+>> Well, I personally don't mind to have some audio capability in v4l2
+>> layer.  But, the only uncertain thing for now is whether this is a
+>> must-have or not.
+>>
+> 
+> Thanks,  I am also not sure about this.  I am also confused that why
+> there is no m2m implementation for audio in the kernel.  Audio also
+> has similar decoder encoder post-processing as video.
+> 
+>>
+>> IIRC, the implementation in the sound driver side was never done just
+>> because there was no similar implementation?  If so, and if the
+>> extension to the v4l2 core layer is needed, shouldn't it be more
+>> considered for the possible other route?
+>>
+> 
+> Actually I'd like someone could point me to the other route. I'd like to
+> try.
+> 
+> The reason why I select to extend v4l2 for such audio usage is that v4l2
+> looks best for this audio m2m implementation.  v4l2 is designed for m2m
+> usage.  if we need implement another 'route',  I don't think it can do better
+> that v4l2.
+> 
+> I appreciate that someone can share his ideas or doable solutions.
+> And please don't ignore my request, ignore my patch.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230802115328.25435-1-stanimir.k.varbanov@gmail.com/
-Build log: https://builder.linuxtv.org/job/patchwork/327322/
-Build time: 00:19:05
-Link: https://lore.kernel.org/linux-media/20230802115328.25435-1-stanimir.k.varbanov@gmail.com
+To give a bit more background: if it is decided to use the v4l API for this
+(and I have no objection to this from my side since API/framework-wise it is a
+good fit for this), then there are a number of things that need to be done to
+get this into the media subsystem:
 
-gpg: Signature made Wed 02 Aug 2023 11:46:52 AM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
-gpg: Note: This key has expired!
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+- documentation for the new uAPI
+- add support for this to v4l2-ctl
+- add v4l2-compliance tests for the new device
+- highly desirable: have a virtual driver (similar to vim2m) that supports this:
+  it could be as simple as just copy input to output. This helps regression
+  testing.
+- it might need media controller support as well. TBD.
 
-Summary: got 1/2 patches with issues, being 1 at build time
+None of this is particularly complex, but taken all together it is a fair
+amount of work that also needs a lot of review time from our side.
 
-Error/warnings:
+I want to add one more option to the mix: drivers/media/core/v4l2-mem2mem.c is
+the main m2m framework, but it relies heavily on the videobuf2 framework for
+the capture and output queues.
 
-patches/0001-media-venus-firmware-Use-of_reserved_mem_lookup.patch:
+The core vb2 implementation in drivers/media/common/videobuf2/videobuf2-core.c
+is independent of V4L2 and can be used by other subsystems (in our case, it is
+also used by the DVB API). It is a possibility to create an alsa version of
+v4l2-mem2mem.c that uses the core vb2 code with an ALSA uAPI on top.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+So in drivers/media/common/videobuf2/ you would have a videobuf2-alsa.c besides
+the already existing videobuf2-v4l2.c and -dvb.c.
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v1'.
-	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v2'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_local_data'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_input_ctrl'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_pin_sts'.
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/i2c/ds90ub960.c: ../drivers/media/i2c/ds90ub960.c:1780 ub960_init_tx_ports() error: uninitialized symbol 'pll_div'.
-	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
-	  Locked on  : 326,387
-	  Unlocked on: 465,467
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2772 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1970848
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 53 seconds
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+Perhaps parts of v4l2-mem2mem.c can be reused as well in that case, but I am
+not sure if it is worth the effort. I suspect copying it to an alsa-mem2mem.c
+and adapting it for alsa is easiest if you want to go that way.
 
+Regards,
+
+	Hans
