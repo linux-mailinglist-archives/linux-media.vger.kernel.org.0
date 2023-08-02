@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE82976D7C1
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 21:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D926176D802
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 21:38:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbjHBTbt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 15:31:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40620 "EHLO
+        id S231907AbjHBTiM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 15:38:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbjHBTbs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 15:31:48 -0400
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B420F123
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 12:31:47 -0700 (PDT)
-Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-1bb58b4c513so66441fac.0
-        for <linux-media@vger.kernel.org>; Wed, 02 Aug 2023 12:31:47 -0700 (PDT)
+        with ESMTP id S233881AbjHBTiD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 15:38:03 -0400
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E645213D
+        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 12:38:02 -0700 (PDT)
+Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-56ce1bd7fc4so72868eaf.2
+        for <linux-media@vger.kernel.org>; Wed, 02 Aug 2023 12:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691004707; x=1691609507;
+        d=gmail.com; s=20221208; t=1691005082; x=1691609882;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fD/zxkhWhIfWTbDZHemynycph1nfShny4+nyWzApQM0=;
-        b=Iv37mGNYuO9QuvThWEId4PY+KLvrmixKSmqXNHsRURBzqZAnhD7Xeg8+KtHFEt5Hyo
-         vxBplWjq669G74rEBuPNzUsX2js+pew4cuO0Z+/mHiOSdsdrHtNR3YMFHd4SHQP+4ONL
-         VhPqN7OSQPOT3mZ5JOWH3BzcLJg2jp/fH4FHKzloXOh94iY7EEJpWa68Nay5tVxdXU2v
-         G3SPluv0XUkTa+ipIMnjAFmGiK9bbIQvqn+sxnfEa9rvJWsvuEm7bslJ/l/GTUuNzznm
-         LWc55eSlp4IPEzQ3nFS+8XjtTB6O3n1JYlebv55M6qK3tp//WDMKcJKMDXFJtE2mmpH3
-         b/0g==
+        bh=RQWBYItDM3IpMYj280RjhkrKn4zwz2mAJ2QKY3r7sCY=;
+        b=dLxeoQv15cRZRqH7c0jR/6veDK4uPtMWr3u+CFxaR4Zwz5A6rlMyfLcCh60pZNrv7e
+         3/try1jP/2YrlYriBFrgdPS8kyjY8WPdHG8Ree1VAbhJfX5nldLmpXR/DO8liTElZ+ks
+         WX2HzzHA8sxaDMnJbM81Fd80ijTBTZ4bs9fzMeOkoYt5MRRsjLYbqZ/DqdDl+UMRwrKT
+         6oGPJoFNWKIvRflOzK8xsVfNI7HbtFkTwaRVmBOi3PulNqIeTRvZ3qZMzWKjmKR+WR1i
+         qloNwyi+ST5oPmh6loU2O4fJ/YAAbznFQJbdR8u9Z6vWFoUO4v/IEJssijMx4Rwhol+d
+         OU/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691004707; x=1691609507;
+        d=1e100.net; s=20221208; t=1691005082; x=1691609882;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fD/zxkhWhIfWTbDZHemynycph1nfShny4+nyWzApQM0=;
-        b=Hn9/QPOTqUe3PfqxWpg1O/XRX0+28a5qdTg0xDU0xONjQhcepkk/n9O5G9FUWTU6j0
-         zyXWU4hF8o8xescMSCYRzWXWg19KICXligcfl4Qtbtt686xcpU66Qd+lr8jd7FT/SEj3
-         fxiZzGQlSsRWad0I2D3dlOl787yS6SbU4mUFya9jSET2L3MKNDUZVKFY3wHoFoLR5obC
-         KURgOIJDY8otUp8xU0n9gGGJrsiZMmO2omYaPTxpfiT1m17eX9rN8cimoXvQfyOHIbWW
-         ofzApICyWNcmXB9SEpT0DmrE3ae46X+6q7d6TEG5XXN8OHEtzZVOFt7EC1umPef5s+PY
-         MPTA==
-X-Gm-Message-State: ABy/qLYmN/eVTmq/RkXbi+thbp+TuAyZvChVn+44qroT7ned+iqWQO3a
-        CvOzot7H5OvuQfyS0+Xpq4A9UOBax1j8GtMtuKo=
-X-Google-Smtp-Source: APBJJlFd6jVGfQAhO7o8jC+F5USTEZWBj5E8d7cA//+TKXknqBPOKiH10o7UJOqGTiq/IuqH3oUnYRq7svtoF8MbJRs=
-X-Received: by 2002:a05:6871:5c9:b0:1bb:4a22:7ae5 with SMTP id
- v9-20020a05687105c900b001bb4a227ae5mr20097429oan.55.1691004706985; Wed, 02
- Aug 2023 12:31:46 -0700 (PDT)
+        bh=RQWBYItDM3IpMYj280RjhkrKn4zwz2mAJ2QKY3r7sCY=;
+        b=GdkedcCgA3510iIo8qLL00izF6OZ80aCliME7PS+bbRd5UbWBu74lbPClsxVswAFx2
+         e0tpPfPZb5FmzppZpvmm2b7xyGHw3QNPQhrDwPoWT9F5fQcXiNr+FokAY991a+RlNtx3
+         pVuv8bnOYHp8bgAsTme6bk2tUuE1nvEjd5/Ozd90VKD452IMMI9PSz8zHLhFcFeV5POD
+         usGHQkqmweHpi2iICQfAAQqEkkngAzzMuDqFXp3JxQQvSu152uEDREnKtigFDu2CntQe
+         c9sHwC75kgw9hPEIwbAUeGkVayb+wKjUdeekzuqtYE8beNgKdYHr3M9GxxY9oU/giuSg
+         WmMw==
+X-Gm-Message-State: ABy/qLZDuQNE5vrVVEf8HlJFcR6j4U7pYcaASoh7lTU5Hvu+SwB4pMiD
+        fAYrnu6PFFJnQQ5lrLy3XMCUDPbLRqNBko4R97g=
+X-Google-Smtp-Source: APBJJlGc+Xm46RrnjzDUi1XginMvYLT3uk13HEQK2R7mHIUEoqxNWY9JmY2q+xJWIMqYzKbnmjteRS5pcVn86qE+VKE=
+X-Received: by 2002:a4a:8299:0:b0:565:cf26:5a10 with SMTP id
+ e25-20020a4a8299000000b00565cf265a10mr12550397oog.0.1691005082212; Wed, 02
+ Aug 2023 12:38:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802173046.368434-1-hdegoede@redhat.com> <20230802173046.368434-18-hdegoede@redhat.com>
-In-Reply-To: <20230802173046.368434-18-hdegoede@redhat.com>
+References: <20230802173046.368434-1-hdegoede@redhat.com> <20230802173046.368434-22-hdegoede@redhat.com>
+In-Reply-To: <20230802173046.368434-22-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 2 Aug 2023 22:31:10 +0300
-Message-ID: <CAHp75Vfyx89HsN_U=TjOGSrGXa8BgDNnZZhxyBCwUmNvYcss1w@mail.gmail.com>
-Subject: Re: [PATCH v4 17/32] media: ov2680: Add support for ACPI enumeration
+Date:   Wed, 2 Aug 2023 22:37:26 +0300
+Message-ID: <CAHp75VcxOTP-rdWy5CVq4m-DPCoB3fuGfBf5uP8sxqBa4v1WRQ@mail.gmail.com>
+Subject: Re: [PATCH v4 21/32] media: ov2680: Make setting the mode algorithm based
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -78,12 +78,58 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Wed, Aug 2, 2023 at 8:31=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
 wrote:
 >
-> Add an acpi_match_table now that all the other bits necessary for
-> ACPI support are in place.
+> Instead of using a long fixed register settings list for each resolution,
+> calculate the register settings based on the requested width + height.
+>
+> This is based on atomisp-ov2680 commit 0611888592df ("media: atomisp:
+> ov2680: Make setting the modes algorithm based").
+>
+> This will allow future enhancements like adding hblank and vblank control=
+s
+> and adding selection support.
+>
+> This also adds properly programming the ISP window and setting
+> the manual ISP window control bit in register 0x5708, this is
+> necessary for the hflip and vflip conrols to work properly.
 
-Would be good to add a couple of words about ID itself:
-- is it the correct ACPI ID or not (confirmation from OmniVision, if any)?
-- is there a product with that ID in the wild (mention, if any)?
+...
+
+>  struct ov2680_mode {
+>         struct v4l2_mbus_framefmt       fmt;
+>         struct v4l2_fract               frame_interval;
+
+> +       bool                            binning;
+
+You might save a (few) byte(s) by moving this to be the last one.
+
+> +       u16                             h_start;
+> +       u16                             v_start;
+> +       u16                             h_end;
+> +       u16                             v_end;
+> +       u16                             h_output_size;
+> +       u16                             v_output_size;
+> +       u16                             hts;
+> +       u16                             vts;
+>  };
+
+
+> +       sensor->mode.h_start =3D ((OV2680_NATIVE_WIDTH - width) / 2) & ~1=
+;
+> +       sensor->mode.v_start =3D ((OV2680_NATIVE_HEIGHT - height) / 2) & =
+~1;
+
+~BIT(0) in both cases?
+
+...
+
+> +       width =3D min_t(unsigned int, ALIGN(format->format.width, 2),
+> +                     OV2680_NATIVE_WIDTH);
+> +       height =3D min_t(unsigned int, ALIGN(format->format.height, 2),
+> +                      OV2680_NATIVE_HEIGHT);
+
+Wondering if you can switch these to use min() (with a strict type checking=
+).
+It might require adding U/UL to the respective constants.
 
 --=20
 With Best Regards,
