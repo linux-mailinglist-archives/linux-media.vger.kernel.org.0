@@ -2,55 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3B3976CE0E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 15:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4261676CE26
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 15:15:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232773AbjHBNNO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 09:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51552 "EHLO
+        id S232363AbjHBNPl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 09:15:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231744AbjHBNNN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 09:13:13 -0400
+        with ESMTP id S232130AbjHBNPk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 09:15:40 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3F4E6F
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 06:13:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA3521718;
+        Wed,  2 Aug 2023 06:15:38 -0700 (PDT)
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1733E2AC;
-        Wed,  2 Aug 2023 15:12:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4ACA9A8;
+        Wed,  2 Aug 2023 15:14:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690981926;
-        bh=QhKnXjvwKQNU4i8mt6haALaFL4nO5u/oAtRYNkltQIA=;
+        s=mail; t=1690982073;
+        bh=JszemgPDEdIW82pNw1iQtVg+iB75Wl8ojD8c8Ol0eKg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fvuN34wsCv+ZREIAryo6IEQj+VLz+9Fg7PWXKM7DCpptqGicmcB4e/U5tLcUfbtTm
-         t/wULOBYhHckY2A46S0F5r7Y2q/QNXeyb+GC+159N9Fzy/EejCG6GPQDa9JLY7rS1e
-         G3iCKtg7ioQRaho8KU2XIHNM8nr5ZXAM3wsLFcx8=
-Date:   Wed, 2 Aug 2023 15:13:06 +0200
+        b=aaCmJdNpjhQHSwxMc/Ap68buhkTTofHonRCnKyEFcQ9h+fOhiorHT09KHWp40Kjad
+         WFQ+ieVt9YKm9ZGa0sYb2obaQgPVqwDNFs3j1h7LEPXFeTuiS0mXTFnmPvJ8BmfNwb
+         YlOLKqWY4j8RF42BRSHeGtIVj3bOFP4jRvw2oXKc=
+Date:   Wed, 2 Aug 2023 15:15:33 +0200
 From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Marek Vasut <marex@denx.de>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Jai Luthra <j-luthra@ti.com>,
-        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
-        Marcel Ziswiler <marcel@ziswiler.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Francesco Dolcini <francesco@dolcini.it>,
-        Aishwarya Kothari <aishwarya.kothari@toradex.com>
-Subject: Re: [PATCH] media: ov5640: Enable MIPI interface in
- ov5640_set_power_mipi()
-Message-ID: <4kekhixn3gvz3lpsdlnvvhjam3zt6mscpywtczxem4zzothwwi@nabn5dojksmc>
-References: <20230724222210.162785-1-marex@denx.de>
- <c5oh3axckaqfenwm3cq5tictl5ra2hda5dmf65gsrjfxuj7crk@dgdlnph5fxvp>
- <47c49ef5-c77b-cd76-62e7-0d488d667636@denx.de>
- <sopwu4d3sx2wjuixp4fvts5urc3lqcfywoz7fgnp5jq77qhucp@ur4gn6g2vwds>
- <24b03db9-237e-117b-b059-e719e1727177@denx.de>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 2/2] media: video-mux: update driver to active state
+Message-ID: <wy4tvjl7tsfkbb6q544omgbzyk7xb746znyuos3nezrychq64b@zitkjug7hd3s>
+References: <20230524-video-mux-active-state-v1-0-325c69937ac3@pengutronix.de>
+ <20230524-video-mux-active-state-v1-2-325c69937ac3@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <24b03db9-237e-117b-b059-e719e1727177@denx.de>
+In-Reply-To: <20230524-video-mux-active-state-v1-2-325c69937ac3@pengutronix.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -61,110 +50,285 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marek
+Hello
 
-On Tue, Jul 25, 2023 at 12:35:00PM +0200, Marek Vasut wrote:
-> On 7/25/23 12:04, Jacopo Mondi wrote:
-> > Hi Marek
+On Wed, May 24, 2023 at 03:29:25PM +0200, Philipp Zabel wrote:
+> Drop the open coded pad format array, use subdev active state instead.
 >
-> Hi,
->
-> > On Tue, Jul 25, 2023 at 11:41:18AM +0200, Marek Vasut wrote:
-> > > On 7/25/23 11:04, Jacopo Mondi wrote:
-> > > > Hi Marek
-> > >
-> > > Hi,
-> > >
-> > > > On Tue, Jul 25, 2023 at 12:22:10AM +0200, Marek Vasut wrote:
-> > > > > Set OV5640_REG_IO_MIPI_CTRL00 bit 2 to 1 instead of 0, since 1 means
-> > > > > MIPI CSI2 interface, while 0 means CPI parallel interface.
-> > > > >
-> > > > > In the ov5640_set_power_mipi() the interface should obviously be set
-> > > > > to MIPI CSI2 since this functions is used to power up the sensor when
-> > > > > operated in MIPI CSI2 mode. The sensor should not be in CPI mode in
-> > > > > that case.
-> > > >
-> > > > Does this actually help fixing your 'first frame corrupted issue' ?
-> > >
-> > > Yes it does.
-> > >
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-Do you think it's worth mentioning it in the commit message ?
+I get a WARN with this patch applied when testing iMX6Q with OV5640
 
-> > > > I think the logic here was to power up the interface here  in
-> > > > ov5640_set_power_mipi() with the CSI-2 interface disabled to enter
-> > > > LP-11 mode (something some receivers like the imx6 one are
-> > > > particularly sensible to).
-> > >
-> > > Per OV5640 datasheet.
-> > >
-> > > Register 0x300e bit 2 selects sensor interface mode between MIPI CSI2 and
-> > > CPI (parallel), it has nothing to do with LP modes .
-> > >
-> > > Register 0x3019 bits [6:4] control LP00/LP11 mode on CSI2 lines.
-> > >
-> > > > Then at stream time the CSI-2 interface is actually enabled in
-> > > > ov5640_set_stream_mipi() just before streaming is started.
-> > > >
-> > > > Also the register documentation is very confusing and as reported in
-> > > > ov5640_set_stream_mipi() it is also probably wrong (at least in the
-> > > > datasheet version I have).
-> > > >
-> > > > I would be particularly cautious in touching this sequence as it has
-> > > > been validated to work with multiple receivers. Of course if it
-> > > > actually fixes an issue for you it should be taken in, but ideally, as
-> > > > this sensor is still used in a large number of evaluation boards, it
-> > > > should be validated by other consumers of this driver (st, imx,
-> > > > microchip and rensas to name a few).
 
-Ok, I've been able to test on i.MX6Q which I was concerned for because
-of its sensitivness to LP-11 detection.
+ media-ctl --links ''\''imx6-mipi-csi2'\'':1->'\''ipu1_csi0_mux'\'':0[1]'
+[   85.377504]
+[   85.379019] ======================================================
+[   85.385208] WARNING: possible circular locking dependency detected
+[   85.391397] 6.4.0-rc5-00109-gd716bd480968 #2 Not tainted
+[   85.396719] ------------------------------------------------------
+[   85.402905] media-ctl/199 is trying to acquire lock:
+[   85.407879] c397d6b8 (video_mux:448:sd->active_state->lock){+.+.}-{3:3}, at: video_mux_link_setup+0xac/0x260
+[   85.417770]
+[   85.417770] but task is already holding lock:
+[   85.423609] c2fcb780 (&vmux->lock){+.+.}-{3:3}, at: video_mux_link_setup+0x48/0x260
+[   85.431305]
+[   85.431305] which lock already depends on the new lock.
+[   85.431305]
+[   85.439489]
+[   85.439489] the existing dependency chain (in reverse order) is:
+[   85.446978]
+[   85.446978] -> #1 (&vmux->lock){+.+.}-{3:3}:
+[   85.452754]        __mutex_lock+0x84/0x8c4
+[   85.456875]        mutex_lock_nested+0x1c/0x24
+[   85.461336]        video_mux_init_cfg+0x1c/0xe0
+[   85.465883]        __v4l2_subdev_state_alloc+0xbc/0x138
+[   85.471135]        __v4l2_subdev_init_finalize+0xc/0x20
+[   85.476379]        video_mux_probe+0x190/0x320
+[   85.480838]        platform_probe+0x58/0xb0
+[   85.485036]        really_probe+0xd8/0x3fc
+[   85.489152]        __driver_probe_device+0x94/0x1f0
+[   85.494047]        driver_probe_device+0x2c/0xc4
+[   85.498679]        __device_attach_driver+0xa4/0x11c
+[   85.503663]        bus_for_each_drv+0x84/0xdc
+[   85.508036]        __device_attach+0xa8/0x1dc
+[   85.512409]        bus_probe_device+0x8c/0x90
+[   85.516782]        deferred_probe_work_func+0x88/0xd4
+[   85.521850]        process_one_work+0x2a4/0x6a0
+[   85.526399]        worker_thread+0x28/0x4ac
+[   85.530596]        kthread+0xf4/0x114
+[   85.534272]        ret_from_fork+0x14/0x28
+[   85.538382]
+[   85.538382] -> #0 (video_mux:448:sd->active_state->lock){+.+.}-{3:3}:
+[   85.546328]        __lock_acquire+0x14b8/0x28e8
+[   85.550873]        lock_acquire.part.0+0xb4/0x250
+[   85.555591]        __mutex_lock+0x84/0x8c4
+[   85.559704]        mutex_lock_nested+0x1c/0x24
+[   85.564163]        video_mux_link_setup+0xac/0x260
+[   85.568969]        __media_entity_setup_link+0x14c/0x1b4
+[   85.574305]        media_device_ioctl+0x158/0x190
+[   85.579027]        sys_ioctl+0x4a8/0xee8
+[   85.582971]        ret_fast_syscall+0x0/0x1c
+[   85.587253]
+[   85.587253] other info that might help us debug this:
+[   85.587253]
+[   85.595263]  Possible unsafe locking scenario:
+[   85.595263]
+[   85.601186]        CPU0                    CPU1
+[   85.605722]        ----                    ----
+[   85.610258]   lock(&vmux->lock);
+[   85.613501]                                lock(video_mux:448:sd->active_state->lock);
+[   85.621434]                                lock(&vmux->lock);
+[   85.627195]   lock(video_mux:448:sd->active_state->lock);
+[   85.632609]
+[   85.632609]  *** DEADLOCK ***
+[   85.632609]
+[   85.638535] 2 locks held by media-ctl/199:
+[   85.642640]  #0: c3856174 (&mdev->graph_mutex){+.+.}-{3:3}, at: media_device_ioctl+0x148/0x190
+[   85.651299]  #1: c2fcb780 (&vmux->lock){+.+.}-{3:3}, at: video_mux_link_setup+0x48/0x260
+[   85.659434]
+[   85.659434] stack backtrace:
+[   85.663800] CPU: 1 PID: 199 Comm: media-ctl Not tainted 6.4.0-rc5-00109-gd716bd480968 #2
+[   85.671904] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+[   85.678445]  unwind_backtrace from show_stack+0x10/0x14
+[   85.683700]  show_stack from dump_stack_lvl+0x60/0x90
+[   85.688769]  dump_stack_lvl from check_noncircular+0xf4/0x164
+[   85.694547]  check_noncircular from __lock_acquire+0x14b8/0x28e8
+[   85.700576]  __lock_acquire from lock_acquire.part.0+0xb4/0x250
+[   85.706510]  lock_acquire.part.0 from __mutex_lock+0x84/0x8c4
+[   85.712279]  __mutex_lock from mutex_lock_nested+0x1c/0x24
+[   85.717791]  mutex_lock_nested from video_mux_link_setup+0xac/0x260
+[   85.724085]  video_mux_link_setup from __media_entity_setup_link+0x14c/0x1b4
+[   85.731164]  __media_entity_setup_link from media_device_ioctl+0x158/0x190
+[   85.738063]  media_device_ioctl from sys_ioctl+0x4a8/0xee8
+[   85.743577]  sys_ioctl from ret_fast_syscall+0x0/0x1c
+[   85.748649] Exception stack(0xe0f41fa8 to 0xe0f41ff0)
+[   85.753716] 1fa0:                   00e233b8 00000079 00000003 c0347c03 bef629d0 00000001
+[   85.761908] 1fc0: 00e233b8 00000079 00e21150 00000036 bef629d0 00e23230 00000001 00000000
+[   85.770096] 1fe0: 004d9f5c bef629cc 004c37c8 b6e79f4c
 
-Let alone that imx6 with ov5640 is broken on mainline because of
-unrelated reasons [1] I've been able to confirm that the sensor still
-works on this platform
+Please note that in my tree I have reverted
+"media: v4l2-async: Use endpoints in __v4l2_async_nf_add_fwnode_remote()"
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-[Test on imx6q]
-Tested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Can you confirm you have tested with iMX8MP as well ?
-
-Let me cc a few people that might be interested in testing this and
-give them a bit of time to do so. After that let's collect this patch!
+to have the imx6 media graph to probe correctly, but I presume this is
+not related to the error here above.
 
 Thanks
   j
 
 
-[1] My tree looks like:
-6205990fa14e media: ov5640: Enable MIPI interface in ov5640_set_power_mipi()
-91f44d7815aa media: ov5640: Fix initial RESETB state and annotate timings
-015497e35950 media: i2c: ov5640: Implement get_mbus_config
-cd4415af64e7 Revert "media: video-mux: update driver to active state"
-d716bd480968 Revert "media: v4l2-async: Use endpoints in __v4l2_async_nf_add_fwnode_remote()"
-
-> > >
-> > > That's quite a tall order which effectively makes it impossible to change or
-> > > fix anything in this driver.
-> >
-> > Really? Asking other people which use this driver to test a patch before
-> > merging it to make sure it doesn't break their setup makes "impossibile to
-> > change of fix anything" ?
-> >
-> > And it's not an order of any sort, but there are a lot of users of
-> > this driver and multiple times fixing a thing on one side breaks
-> > things for others, I'm just trying to coordinate between multiple
-> > developers.
+> ---
+>  drivers/media/platform/video-mux.c | 78 ++++++++++++--------------------------
+>  1 file changed, 24 insertions(+), 54 deletions(-)
 >
-> I'm afraid my expression of skepticism to the expected amount of testing has
-> been misinterpreted, and so was the message you were trying to convey, i.e.
-> communication breakdown.
+> diff --git a/drivers/media/platform/video-mux.c b/drivers/media/platform/video-mux.c
+> index 4fe31386afc7..6d273abfe16c 100644
+> --- a/drivers/media/platform/video-mux.c
+> +++ b/drivers/media/platform/video-mux.c
+> @@ -24,7 +24,6 @@ struct video_mux {
+>  	struct v4l2_subdev subdev;
+>  	struct v4l2_async_notifier notifier;
+>  	struct media_pad *pads;
+> -	struct v4l2_mbus_framefmt *format_mbus;
+>  	struct mux_control *mux;
+>  	struct mutex lock;
+>  	int active;
+> @@ -71,6 +70,9 @@ static int video_mux_link_setup(struct media_entity *entity,
+>  	mutex_lock(&vmux->lock);
 >
-> So let me rephrase.
+>  	if (flags & MEDIA_LNK_FL_ENABLED) {
+> +		struct v4l2_subdev_state *sd_state;
+> +		struct v4l2_mbus_framefmt *source_mbusformat;
+> +
+>  		if (vmux->active == local->index)
+>  			goto out;
 >
-> If the expectation is that every change to this driver has to be tested by
-> all aforementioned parties, then it will be very hard to get changes in,
-> based on my previous experience.
+> @@ -86,7 +88,12 @@ static int video_mux_link_setup(struct media_entity *entity,
+>  		vmux->active = local->index;
 >
-> Maybe let's stop this part of the thread here, and focus on the upper part?
+>  		/* Propagate the active format to the source */
+> -		vmux->format_mbus[source_pad] = vmux->format_mbus[vmux->active];
+> +		sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+> +		source_mbusformat = v4l2_subdev_get_pad_format(sd, sd_state,
+> +							       source_pad);
+> +		*source_mbusformat = *v4l2_subdev_get_pad_format(sd, sd_state,
+> +								 vmux->active);
+> +		v4l2_subdev_unlock_state(sd_state);
+>  	} else {
+>  		if (vmux->active != local->index)
+>  			goto out;
+> @@ -138,40 +145,6 @@ static const struct v4l2_subdev_video_ops video_mux_subdev_video_ops = {
+>  	.s_stream = video_mux_s_stream,
+>  };
+>
+> -static struct v4l2_mbus_framefmt *
+> -__video_mux_get_pad_format(struct v4l2_subdev *sd,
+> -			   struct v4l2_subdev_state *sd_state,
+> -			   unsigned int pad, u32 which)
+> -{
+> -	struct video_mux *vmux = v4l2_subdev_to_video_mux(sd);
+> -
+> -	switch (which) {
+> -	case V4L2_SUBDEV_FORMAT_TRY:
+> -		return v4l2_subdev_get_try_format(sd, sd_state, pad);
+> -	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> -		return &vmux->format_mbus[pad];
+> -	default:
+> -		return NULL;
+> -	}
+> -}
+> -
+> -static int video_mux_get_format(struct v4l2_subdev *sd,
+> -			    struct v4l2_subdev_state *sd_state,
+> -			    struct v4l2_subdev_format *sdformat)
+> -{
+> -	struct video_mux *vmux = v4l2_subdev_to_video_mux(sd);
+> -
+> -	mutex_lock(&vmux->lock);
+> -
+> -	sdformat->format = *__video_mux_get_pad_format(sd, sd_state,
+> -						       sdformat->pad,
+> -						       sdformat->which);
+> -
+> -	mutex_unlock(&vmux->lock);
+> -
+> -	return 0;
+> -}
+> -
+>  static int video_mux_set_format(struct v4l2_subdev *sd,
+>  			    struct v4l2_subdev_state *sd_state,
+>  			    struct v4l2_subdev_format *sdformat)
+> @@ -181,14 +154,11 @@ static int video_mux_set_format(struct v4l2_subdev *sd,
+>  	struct media_pad *pad = &vmux->pads[sdformat->pad];
+>  	u16 source_pad = sd->entity.num_pads - 1;
+>
+> -	mbusformat = __video_mux_get_pad_format(sd, sd_state, sdformat->pad,
+> -						sdformat->which);
+> +	mbusformat = v4l2_subdev_get_pad_format(sd, sd_state, sdformat->pad);
+>  	if (!mbusformat)
+>  		return -EINVAL;
+>
+> -	source_mbusformat = __video_mux_get_pad_format(sd, sd_state,
+> -						       source_pad,
+> -						       sdformat->which);
+> +	source_mbusformat = v4l2_subdev_get_pad_format(sd, sd_state, source_pad);
+>  	if (!source_mbusformat)
+>  		return -EINVAL;
+>
+> @@ -298,7 +268,8 @@ static int video_mux_set_format(struct v4l2_subdev *sd,
+>
+>  	/* Source pad mirrors active sink pad, no limitations on sink pads */
+>  	if ((pad->flags & MEDIA_PAD_FL_SOURCE) && vmux->active >= 0)
+> -		sdformat->format = vmux->format_mbus[vmux->active];
+> +		sdformat->format = *v4l2_subdev_get_pad_format(sd, sd_state,
+> +							       vmux->active);
+>
+>  	*mbusformat = sdformat->format;
+>
+> @@ -321,7 +292,7 @@ static int video_mux_init_cfg(struct v4l2_subdev *sd,
+>  	mutex_lock(&vmux->lock);
+>
+>  	for (i = 0; i < sd->entity.num_pads; i++) {
+> -		mbusformat = v4l2_subdev_get_try_format(sd, sd_state, i);
+> +		mbusformat = v4l2_subdev_get_pad_format(sd, sd_state, i);
+>  		*mbusformat = video_mux_format_mbus_default;
+>  	}
+>
+> @@ -332,7 +303,7 @@ static int video_mux_init_cfg(struct v4l2_subdev *sd,
+>
+>  static const struct v4l2_subdev_pad_ops video_mux_pad_ops = {
+>  	.init_cfg = video_mux_init_cfg,
+> -	.get_fmt = video_mux_get_format,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+>  	.set_fmt = video_mux_set_format,
+>  };
+>
+> @@ -462,17 +433,9 @@ static int video_mux_probe(struct platform_device *pdev)
+>  	if (!vmux->pads)
+>  		return -ENOMEM;
+>
+> -	vmux->format_mbus = devm_kcalloc(dev, num_pads,
+> -					 sizeof(*vmux->format_mbus),
+> -					 GFP_KERNEL);
+> -	if (!vmux->format_mbus)
+> -		return -ENOMEM;
+> -
+> -	for (i = 0; i < num_pads; i++) {
+> +	for (i = 0; i < num_pads; i++)
+>  		vmux->pads[i].flags = (i < num_pads - 1) ? MEDIA_PAD_FL_SINK
+>  							 : MEDIA_PAD_FL_SOURCE;
+> -		vmux->format_mbus[i] = video_mux_format_mbus_default;
+> -	}
+>
+>  	vmux->subdev.entity.function = MEDIA_ENT_F_VID_MUX;
+>  	ret = media_entity_pads_init(&vmux->subdev.entity, num_pads,
+> @@ -482,12 +445,18 @@ static int video_mux_probe(struct platform_device *pdev)
+>
+>  	vmux->subdev.entity.ops = &video_mux_ops;
+>
+> +	ret = v4l2_subdev_init_finalize(&vmux->subdev);
+> +	if (ret < 0)
+> +		goto err_entity_cleanup;
+> +
+>  	ret = video_mux_async_register(vmux, num_pads - 1);
+>  	if (ret)
+> -		goto err_entity_cleanup;
+> +		goto err_subdev_cleanup;
+>
+>  	return 0;
+>
+> +err_subdev_cleanup:
+> +	v4l2_subdev_cleanup(&vmux->subdev);
+>  err_entity_cleanup:
+>  	media_entity_cleanup(&vmux->subdev.entity);
+>  	return ret;
+> @@ -501,6 +470,7 @@ static void video_mux_remove(struct platform_device *pdev)
+>  	v4l2_async_nf_unregister(&vmux->notifier);
+>  	v4l2_async_nf_cleanup(&vmux->notifier);
+>  	v4l2_async_unregister_subdev(sd);
+> +	v4l2_subdev_cleanup(sd);
+>  	media_entity_cleanup(&sd->entity);
+>  }
+>
+>
+> --
+> 2.39.2
