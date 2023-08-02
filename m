@@ -2,43 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C89E76D4A9
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 19:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 902C576D558
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 19:31:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229788AbjHBRFI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 13:05:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59144 "EHLO
+        id S233187AbjHBRbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 13:31:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230481AbjHBRFE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 13:05:04 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3581A123
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 10:04:48 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qRFGc-008yfu-Dc; Wed, 02 Aug 2023 17:04:10 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.96)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qRFGX-007Q1J-0f;
-        Wed, 02 Aug 2023 17:04:06 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.6] mediatek vcodec rework and add 10 bit support (#93752)
-Date:   Wed,  2 Aug 2023 17:04:04 +0000
-Message-Id: <20230802170404.1768308-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <970c5f07-f18b-cb0d-0f5d-49c69b2e070e@xs4all.nl>
-References: 
+        with ESMTP id S231604AbjHBRar (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 13:30:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6BF4482;
+        Wed,  2 Aug 2023 10:28:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D1BB661A7E;
+        Wed,  2 Aug 2023 17:28:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39DCEC433CD;
+        Wed,  2 Aug 2023 17:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690997308;
+        bh=fZOqG176cU7NTL9kF5IUl1tJY6WVyVd2yvYUysK5c4Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=s2qTYnVTVxmoM/7E/k8f+YVgG+VoGlUIkCW4hUuPFLuW45Gpukag9xjM4G3yNBRFf
+         F9fCcepA0IJAxVfYgBXTi8XC7/fq7AcFLOvA/w5RvjjHUI+sm7qsyIdmxRSymToi9l
+         yElDU1nHeyyAjVpoQg5Q5NsbrP+YDFUWrR1m5qES87cZqrJ3NPRmGCKpcEEFbO18tz
+         PjSrySyhW7OxIuJFh+AsVT0s3SIttTqOByGvWzsj/DE8J1hbh+ezaer48zzC6FqYxG
+         UbTNdG7cNb+U30jy6EPoOvwQU08wmaPJKQecvoO+Q9ZB6nl+DEYqcINItbtYUY9/HA
+         OxkuVgfo611Cg==
+Date:   Wed, 2 Aug 2023 18:28:21 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc:     Takashi Iwai <tiwai@suse.de>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
+Message-ID: <844ef9b6-d5e2-46a9-b7a5-7ee86a2e449c@sirena.org.uk>
+References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
+ <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl>
+ <87il9xu1ro.wl-tiwai@suse.de>
+ <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com>
+ <87il9xoddo.wl-tiwai@suse.de>
+ <CAA+D8AOVEpGxO0YNeS1p+Ym86k6VP-CNQB3JmbeT7mPKg0R99A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="MdG0m2yIP0FKio4T"
+Content-Disposition: inline
+In-Reply-To: <CAA+D8AOVEpGxO0YNeS1p+Ym86k6VP-CNQB3JmbeT7mPKg0R99A@mail.gmail.com>
+X-Cookie: Humpty Dumpty was pushed.
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,213 +66,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/970c5f07-f18b-cb0d-0f5d-49c69b2e070e@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/327365/
-Build time: 00:15:55
-Link: https://lore.kernel.org/linux-media/970c5f07-f18b-cb0d-0f5d-49c69b2e070e@xs4all.nl
+--MdG0m2yIP0FKio4T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-gpg: Signature made Wed 02 Aug 2023 03:39:13 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+On Wed, Aug 02, 2023 at 10:41:43PM +0800, Shengjiu Wang wrote:
 
-Summary: got 13/16 patches with issues, being 10 at build time
+> Currently the ASRC in ALSA is to connect to another I2S device as
+> a sound card.  But we'd like to the ASRC can be used by user space directly
+> that user space application can get the output after conversion from ASRC.
 
-Error/warnings:
+That sort of use case would be handled via DPCM at the minute, though
+persuading it to connect two front ends together might be fun (which is
+the sort of reason why we want to push digital information down into
+DAPM and make everything a component).
 
-patches/0001-media-mediatek-vcodec-remove-unused-parameter.patch:
+--MdG0m2yIP0FKio4T
+Content-Type: application/pgp-signature; name="signature.asc"
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+-----BEGIN PGP SIGNATURE-----
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
-	  Locked on  : 326,387
-	  Unlocked on: 465,467
-	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v1'.
-	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v2'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_local_data'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_input_ctrl'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_pin_sts'.
-	../drivers/media/i2c/ds90ub960.c: ../drivers/media/i2c/ds90ub960.c:1780 ub960_init_tx_ports() error: uninitialized symbol 'pll_div'.
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2772 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000004Kb sm_state_count = 1971478
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2831 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTKkjQACgkQJNaLcl1U
+h9A05Qf8DvVF+7HkTrWpZeLLTiun4dI0bUwdJ7dBv/9eO2gLeD8aonbFN/iOGUS3
+6HQafM/WVAHT67s9CThpIHGG8oWuubOG2Na3mKSs3xD+zRf4NVxpUN9+2JclaYtt
+zKwBd+OYExLP/x/6qTGyqQi5BC0pmgpk73+mQtRRVClGOdjsfE3ke6TWvOBsIUsZ
++l3hAMxeKmIgczEq5MkPahD2mfN0CZgbCwaFA2zriaJXCPxPP/YFvYf+Mli8KDBK
+6eRZS7e6SHICYPyqngTDICpj6MbiIxCHm7qIKEboyK5C0cW8PR52o6fbyN0XAHxc
+sNfbpJop+bjYwFJQnjwlPTzGqO5cgg==
+=0H5v
+-----END PGP SIGNATURE-----
 
-patches/0005-media-mediatek-vcodec-remove-the-dependency-of-vcode.patch:
-
-   checkpatch.pl:
-	$ cat patches/0005-media-mediatek-vcodec-remove-the-dependency-of-vcode.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:77: CHECK: Macro argument reuse 'ctx' - possible side-effects?
-	-:80: CHECK: Macro argument reuse 'ctx' - possible side-effects?
-	-:83: CHECK: Macro argument reuse 'ctx' - possible side-effects?
-	-:86: CHECK: Macro argument reuse 'ctx' - possible side-effects?
-
-patches/0006-media-mediatek-vcodec-replace-pr_-with-dev_-for-v4l2.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c: ../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c:94 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 93)
-
-patches/0007-media-mediatek-vcodec-separate-struct-mtk_vcodec_ctx.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c: ../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c:94 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 93)
-
-   checkpatch.pl:
-	$ cat patches/0007-media-mediatek-vcodec-separate-struct-mtk_vcodec_ctx.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:66: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:702: CHECK: struct mutex definition without comment
-	-:1930: CHECK: struct mutex definition without comment
-
-patches/0008-media-mediatek-vcodec-separate-struct-mtk_vcodec_dev.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c: ../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c:93 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 92)
-
-   checkpatch.pl:
-	$ cat patches/0008-media-mediatek-vcodec-separate-struct-mtk_vcodec_dev.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:607: CHECK: struct mutex definition without comment
-	-:610: CHECK: spinlock_t definition without comment
-	-:798: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:1316: CHECK: struct mutex definition without comment
-	-:1320: CHECK: spinlock_t definition without comment
-
-patches/0009-media-mediatek-vcodec-fix-unreasonable-parameter-def.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c: ../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c:93 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 92)
-
-patches/0010-media-mediatek-vcodec-remove-unused-include-header.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c: ../drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c:92 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 91)
-
-patches/0011-media-mediatek-vcodec-separate-decoder-and-encoder.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c: ../drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c:92 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 91)
-
-   checkpatch.pl:
-	$ cat patches/0011-media-mediatek-vcodec-separate-decoder-and-encoder.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:19: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:483: CHECK: Macro argument reuse 'ctx' - possible side-effects?
-	-:486: CHECK: Macro argument reuse 'ctx' - possible side-effects?
-	-:782: CHECK: Macro argument reuse 'ctx' - possible side-effects?
-	-:785: CHECK: Macro argument reuse 'ctx' - possible side-effects?
-
-patches/0012-media-mediatek-vcodec-Add-capture-format-to-support-.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v1'.
-	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v2'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_local_data'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_input_ctrl'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_pin_sts'.
-	../drivers/media/i2c/ds90ub960.c: ../drivers/media/i2c/ds90ub960.c:1780 ub960_init_tx_ports() error: uninitialized symbol 'pll_div'.
-	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
-	  Locked on  : 326,387
-	  Unlocked on: 465,467
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2772 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c: ../drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c:92 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 91)
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000004Kb sm_state_count = 1971044
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0012-media-mediatek-vcodec-Add-capture-format-to-support-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:46: WARNING: line length of 190 exceeds 100 columns
-	-:59: ERROR: trailing statements should be on next line
-
-patches/0013-media-mediatek-vcodec-Add-capture-format-to-support-.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v1'.
-	../drivers/media/i2c/ds90ub913.c: ../drivers/media/i2c/ds90ub913.c:479 ub913_log_status() error: uninitialized symbol 'v2'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_local_data'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_input_ctrl'.
-	../drivers/media/i2c/ds90ub953.c: ../drivers/media/i2c/ds90ub953.c:642 ub953_log_status() error: uninitialized symbol 'gpio_pin_sts'.
-	../drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c: ../drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c:92 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 91)
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2772 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/i2c/ds90ub960.c: ../drivers/media/i2c/ds90ub960.c:1780 ub960_init_tx_ports() error: uninitialized symbol 'pll_div'.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000004Kb sm_state_count = 1971566
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
-	  Locked on  : 326,387
-	  Unlocked on: 465,467
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0013-media-mediatek-vcodec-Add-capture-format-to-support-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:45: WARNING: line length of 190 exceeds 100 columns
-	-:58: ERROR: trailing statements should be on next line
-	-:70: WARNING: line length of 101 exceeds 100 columns
-
-patches/0014-media-mediatek-vcodec-Add-driver-to-support-10bit.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c: ../drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c:92 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 91)
-
-patches/0015-media-mediatek-vcodec-Fix-possible-invalid-memory-ac.patch:
-
-   checkpatch.pl:
-	$ cat patches/0015-media-mediatek-vcodec-Fix-possible-invalid-memory-ac.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:12: WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
-
-patches/0016-media-mediatek-vcodec-Fix-possible-invalid-memory-ac.patch:
-
-   checkpatch.pl:
-	$ cat patches/0016-media-mediatek-vcodec-Fix-possible-invalid-memory-ac.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:12: WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
-
+--MdG0m2yIP0FKio4T--
