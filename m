@@ -2,72 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E94176D050
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 16:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDFDA76D072
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 16:46:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234214AbjHBOmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 10:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41842 "EHLO
+        id S234437AbjHBOq4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 10:46:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234009AbjHBOmA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 10:42:00 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 962AC139;
-        Wed,  2 Aug 2023 07:41:55 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-56486669643so294627a12.1;
-        Wed, 02 Aug 2023 07:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690987315; x=1691592115;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GIjRCuFSh10TgeuSUQ8r4PrErxnjVCdj/TIwnacZN1M=;
-        b=mGgnebdB8kAVU+E2H5mynakxO+gKdMPzTPPnfuycCqzcB/1PHsmMTkSVCSiU7lhUUI
-         ISo1GIYfQ9Vuzwy8IAUdLxEsRQEHulbbs8YpB1j9NdhX3ghVb/GEf8HZbQJhgD42L9W6
-         J4tUmzOl3xNsWNsHob/Tg4tYwVVPoAH96k8sbSAmz9k1hDHaRLJWk5/a3Z2KIeJhmIRi
-         P+wPPxwgb78DmyFbaOR+m8bYtICXyyJ/vHR5WzzWclsB1Fkx0e3wIXtATQwz9fbBhNY/
-         pxq8WWRyFUd899J75q5wG/Hbanlc6WKpRWN+aVkgpq3ePXpaLkvsg0rYB/HkBA6FX4fW
-         CiOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690987315; x=1691592115;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GIjRCuFSh10TgeuSUQ8r4PrErxnjVCdj/TIwnacZN1M=;
-        b=blxLzVdtVSxL6bLN525vSYc6QEMTG4M+7U1lwGthL4t7ocDyYUULxhjVG5KGE/lh7X
-         cxxbbSU+vhQkzN48BdMtVbBMC6an3IRp4As9Hk7jw36mWo3CpDLpwODx0mCN8TPh0id3
-         qLCd5KJtrhS7KOSV0Wn3fWglEGAVgCmaRo2DpArpRxIdRAiyZPBCCLIzuqvApvWrrM+V
-         TU6StA5Ng3yrvbEr2GPt3AlotY86BSVP4Qqlc0383v0x2qqk6NBbFEboMPz+uKWZ1KVN
-         Hqe8fdwXEq1zsqZCubpLpfUiqJ2CfoyB2CO8/hw+5aMO+NSdCMold6u8ZSzAYPbIR17R
-         A6ig==
-X-Gm-Message-State: ABy/qLY1SCRdEgwpHR9YwMCgFeLuJEgQ7GjJknSsD1+SuSTzhKfoTQYJ
-        fYlhXFkVgvOKkSu1ItcAztNzSuFceOhQOlkc9Qg=
-X-Google-Smtp-Source: APBJJlFz2P+Hhh/+gr4lvaHd8cYOPbmuxQXrmDFhh17NWbkyLYYcpfmWzMEWjHFqCWqAW1bGM/Mh7zG6bY8iwCpx2CU=
-X-Received: by 2002:a17:90a:fa05:b0:268:21c3:4fd8 with SMTP id
- cm5-20020a17090afa0500b0026821c34fd8mr19933605pjb.20.1690987314959; Wed, 02
- Aug 2023 07:41:54 -0700 (PDT)
+        with ESMTP id S234384AbjHBOqy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 10:46:54 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC5726AD
+        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 07:46:51 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id D317D867F0;
+        Wed,  2 Aug 2023 16:46:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1690987609;
+        bh=pcJqspZzDNcjMoanaeRTWhx5vjh6MDRW2PvtqD/rOf8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=QS8/DxtxKIijyE7/+EBkpetjFEpwM7k+wBqc7eO6UJJTud86K1bhheB2bZRp/Smxf
+         OntgL8SOeMkQ9wKiBij3FPCo5+POp8KO2KAKFTCLdJ8poAOgeZjJPLRwb7hzH0Ug+9
+         /GJWL2qYdgqOGQJqTJ293mn+4+D+Ep3SXN/V5ycqG7AAMgRGHPyZ9ly2eXAyPgPI5Y
+         6OWgKrUbXWUtfA1rqMvqw2cMkixKY00WNKbTHbOS9DuqdAtq5W6hL8uvqzSjrrIIjR
+         1ggE6WoXEkmYe87HcksrHgvAlo6xz0nANHGrCkPTD9hISqSyQM7640k+rrvLpSjePX
+         LaoeD8gYxO/qA==
+Message-ID: <363a7a51-d55b-3a63-dd35-441ede0acc4f@denx.de>
+Date:   Wed, 2 Aug 2023 16:46:48 +0200
 MIME-Version: 1.0
-References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
- <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl> <87il9xu1ro.wl-tiwai@suse.de>
- <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com> <87il9xoddo.wl-tiwai@suse.de>
-In-Reply-To: <87il9xoddo.wl-tiwai@suse.de>
-From:   Shengjiu Wang <shengjiu.wang@gmail.com>
-Date:   Wed, 2 Aug 2023 22:41:43 +0800
-Message-ID: <CAA+D8AOVEpGxO0YNeS1p+Ym86k6VP-CNQB3JmbeT7mPKg0R99A@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-        tiwai@suse.com, alsa-devel@alsa-project.org,
-        linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH] media: ov5640: Enable MIPI interface in
+ ov5640_set_power_mipi()
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Jai Luthra <j-luthra@ti.com>,
+        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
+        Marcel Ziswiler <marcel@ziswiler.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Francesco Dolcini <francesco@dolcini.it>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>
+References: <20230724222210.162785-1-marex@denx.de>
+ <c5oh3axckaqfenwm3cq5tictl5ra2hda5dmf65gsrjfxuj7crk@dgdlnph5fxvp>
+ <47c49ef5-c77b-cd76-62e7-0d488d667636@denx.de>
+ <sopwu4d3sx2wjuixp4fvts5urc3lqcfywoz7fgnp5jq77qhucp@ur4gn6g2vwds>
+ <24b03db9-237e-117b-b059-e719e1727177@denx.de>
+ <4kekhixn3gvz3lpsdlnvvhjam3zt6mscpywtczxem4zzothwwi@nabn5dojksmc>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <4kekhixn3gvz3lpsdlnvvhjam3zt6mscpywtczxem4zzothwwi@nabn5dojksmc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -76,85 +72,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 2, 2023 at 8:08=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
->
-> On Wed, 02 Aug 2023 14:02:29 +0200,
-> Shengjiu Wang wrote:
-> >
-> > On Wed, Aug 2, 2023 at 7:22=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wro=
-te:
-> > >
-> > > On Wed, 02 Aug 2023 09:32:37 +0200,
-> > > Hans Verkuil wrote:
-> > > >
-> > > > Hi all,
-> > > >
-> > > > On 25/07/2023 08:12, Shengjiu Wang wrote:
-> > > > > Audio signal processing has the requirement for memory to
-> > > > > memory similar as Video.
-> > > > >
-> > > > > This patch is to add this support in v4l2 framework, defined
-> > > > > new buffer type V4L2_BUF_TYPE_AUDIO_CAPTURE and
-> > > > > V4L2_BUF_TYPE_AUDIO_OUTPUT, defined new format v4l2_audio_format
-> > > > > for audio case usage.
-> > > > >
-> > > > > The created audio device is named "/dev/audioX".
-> > > > >
-> > > > > And add memory to memory support for two kinds of i.MX ASRC
-> > > > > module
-> > > >
-> > > > Before I spend time on this: are the audio maintainers OK with doin=
-g
-> > > > this in V4L2?
-> > > >
-> > > > I do want to have a clear statement on this as it is not something =
-I
-> > > > can decide.
-> > >
-> > > Well, I personally don't mind to have some audio capability in v4l2
-> > > layer.  But, the only uncertain thing for now is whether this is a
-> > > must-have or not.
-> > >
-> >
-> > Thanks,  I am also not sure about this.  I am also confused that why
-> > there is no m2m implementation for audio in the kernel.  Audio also
-> > has similar decoder encoder post-processing as video.
-> >
-> > >
-> > > IIRC, the implementation in the sound driver side was never done just
-> > > because there was no similar implementation?  If so, and if the
-> > > extension to the v4l2 core layer is needed, shouldn't it be more
-> > > considered for the possible other route?
-> > >
-> >
-> > Actually I'd like someone could point me to the other route. I'd like t=
-o
-> > try.
-> >
-> > The reason why I select to extend v4l2 for such audio usage is that v4l=
-2
-> > looks best for this audio m2m implementation.  v4l2 is designed for m2m
-> > usage.  if we need implement another 'route',  I don't think it can do =
-better
-> > that v4l2.
-> >
-> > I appreciate that someone can share his ideas or doable solutions.
-> > And please don't ignore my request, ignore my patch.
->
-> Can you explain a bit more details of your demand?
-> At least, a "big picture" showing how your hardware is implemented and
-> what is exactly necessary would be helpful for understanding the
-> problem.
->
+On 8/2/23 15:13, Jacopo Mondi wrote:
+> Hi Marek
 
-We have the hardware IP: ASRC,  asynchronous sample rate converter.
+Hi,
 
-Currently the ASRC in ALSA is to connect to another I2S device as
-a sound card.  But we'd like to the ASRC can be used by user space directly
-that user space application can get the output after conversion from ASRC.
+> On Tue, Jul 25, 2023 at 12:35:00PM +0200, Marek Vasut wrote:
+>> On 7/25/23 12:04, Jacopo Mondi wrote:
+>>> Hi Marek
+>>
+>> Hi,
+>>
+>>> On Tue, Jul 25, 2023 at 11:41:18AM +0200, Marek Vasut wrote:
+>>>> On 7/25/23 11:04, Jacopo Mondi wrote:
+>>>>> Hi Marek
+>>>>
+>>>> Hi,
+>>>>
+>>>>> On Tue, Jul 25, 2023 at 12:22:10AM +0200, Marek Vasut wrote:
+>>>>>> Set OV5640_REG_IO_MIPI_CTRL00 bit 2 to 1 instead of 0, since 1 means
+>>>>>> MIPI CSI2 interface, while 0 means CPI parallel interface.
+>>>>>>
+>>>>>> In the ov5640_set_power_mipi() the interface should obviously be set
+>>>>>> to MIPI CSI2 since this functions is used to power up the sensor when
+>>>>>> operated in MIPI CSI2 mode. The sensor should not be in CPI mode in
+>>>>>> that case.
+>>>>>
+>>>>> Does this actually help fixing your 'first frame corrupted issue' ?
+>>>>
+>>>> Yes it does.
+>>>>
+> 
+> Do you think it's worth mentioning it in the commit message ?
 
-The ASRC can be integrated into a multimedia framework (gstreamer) as a plu=
-gin.
+Done in V2
 
-best regards
-wang shengjiu
+>>>>> I think the logic here was to power up the interface here  in
+>>>>> ov5640_set_power_mipi() with the CSI-2 interface disabled to enter
+>>>>> LP-11 mode (something some receivers like the imx6 one are
+>>>>> particularly sensible to).
+>>>>
+>>>> Per OV5640 datasheet.
+>>>>
+>>>> Register 0x300e bit 2 selects sensor interface mode between MIPI CSI2 and
+>>>> CPI (parallel), it has nothing to do with LP modes .
+>>>>
+>>>> Register 0x3019 bits [6:4] control LP00/LP11 mode on CSI2 lines.
+>>>>
+>>>>> Then at stream time the CSI-2 interface is actually enabled in
+>>>>> ov5640_set_stream_mipi() just before streaming is started.
+>>>>>
+>>>>> Also the register documentation is very confusing and as reported in
+>>>>> ov5640_set_stream_mipi() it is also probably wrong (at least in the
+>>>>> datasheet version I have).
+>>>>>
+>>>>> I would be particularly cautious in touching this sequence as it has
+>>>>> been validated to work with multiple receivers. Of course if it
+>>>>> actually fixes an issue for you it should be taken in, but ideally, as
+>>>>> this sensor is still used in a large number of evaluation boards, it
+>>>>> should be validated by other consumers of this driver (st, imx,
+>>>>> microchip and rensas to name a few).
+> 
+> Ok, I've been able to test on i.MX6Q which I was concerned for because
+> of its sensitivness to LP-11 detection.
+> 
+> Let alone that imx6 with ov5640 is broken on mainline because of
+> unrelated reasons [1] I've been able to confirm that the sensor still
+> works on this platform
+> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> [Test on imx6q]
+> Tested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+> Can you confirm you have tested with iMX8MP as well ?
+
+I tested this great sensor on MN/MP/STM32MP15xx
+
+[...]
