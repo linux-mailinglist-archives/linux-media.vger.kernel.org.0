@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E26076D5A0
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 19:39:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C74376D5AE
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 19:40:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233733AbjHBRjX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 13:39:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58398 "EHLO
+        id S233657AbjHBRkq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 13:40:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233676AbjHBRjG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 13:39:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C9E21999
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 10:37:55 -0700 (PDT)
+        with ESMTP id S233741AbjHBRkk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 13:40:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECB1F1FCF
+        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 10:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690997838;
+        s=mimecast20190719; t=1690997934;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=6Sh5AlyH1vXZe95z/Hl5DBWQk2sI0ipnCQ+0VvbPDFQ=;
-        b=Xfm8VE/nKNVKusT99PWBCwG/vINsqcQrilvubHPFwdT2Mq9ccu0sFOJ9SMqVSiUTFffO8E
-        JKgOluIR8bH94xWzrgJmjLseQlSHwtdXckGE4rPTWIgf9E7bdUsYD/gnOqQjhmQO1ueRaR
-        VJh4Xy1h/8pTyOdHt1z3tu2HARW7YU8=
+        bh=6J1MAl5LFCsWVV56Ff0o/oZh8s2Y7U6u7psoOGTAky4=;
+        b=YoZGef+SE3l+aR6Rt6qTQ9jD8/XQU1qUuph/8kjRGhH+gSUkvNf0rPNulE+itn94NR1aYk
+        AoabWVwYo3QHV8Vxq4SkMGW3K0NoPKegJlatOrEHO138wzOyDrZLHfC13PYIe37TIJPovw
+        ugHr68rsPAtW7Hn2f24vaU0LfiNwn4w=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-388-hInokOKKMZaCHEYpdt-uCQ-1; Wed, 02 Aug 2023 13:31:09 -0400
-X-MC-Unique: hInokOKKMZaCHEYpdt-uCQ-1
+ us-mta-333-Ltcf3WtsNquZ1QiRJiwL4w-1; Wed, 02 Aug 2023 13:31:12 -0400
+X-MC-Unique: Ltcf3WtsNquZ1QiRJiwL4w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09D0F104458D;
-        Wed,  2 Aug 2023 17:31:09 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 967F5185A78F;
+        Wed,  2 Aug 2023 17:31:10 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.110])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A5C87140E949;
-        Wed,  2 Aug 2023 17:31:07 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3AC341454143;
+        Wed,  2 Aug 2023 17:31:09 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v4 13/32] media: ov2680: Drop is_enabled flag
-Date:   Wed,  2 Aug 2023 19:30:27 +0200
-Message-ID: <20230802173046.368434-14-hdegoede@redhat.com>
+Subject: [PATCH v4 14/32] media: ov2680: Add support for more clk setups
+Date:   Wed,  2 Aug 2023 19:30:28 +0200
+Message-ID: <20230802173046.368434-15-hdegoede@redhat.com>
 In-Reply-To: <20230802173046.368434-1-hdegoede@redhat.com>
 References: <20230802173046.368434-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,115 +66,82 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With runtime-pm it is guaranteed that ov2680_power_on() and
-ov2680_power_off() will always be called in a balanced way;
-and the is_enabled check in ov2680_s_ctrl() can be replaced
-by checking the runtime-suspend state.
+On ACPI systems the following 2 scenarios are possible:
 
-So there is no more need for the is_enabled flag, remove it.
+1. The xvclk is fully controlled by ACPI powermanagement, so there
+   is no "xvclk" for the driver to get (since it is abstracted away).
+   In this case there will be a "clock-frequency" device property
+   to tell the driver the xvclk rate.
 
-While at it also make sure that flip control changes while
-suspended still lead to the bayer-order getting updated so
-that get_fmt returns the correct bayer-order.
+2. There is a xvclk modelled in the clk framework for the driver,
+   but the clk-generator may not be set to the right frequency
+   yet. In this case there will also be a "clock-frequency" device
+   property and the driver is expected to set the rate of the xvclk
+   through this frequency through the clk framework.
+
+Handle both these scenarios by switching to devm_clk_get_optional()
+and checking for a "clock-frequency" device property.
+
+This is modelled after how the same issue was fixed for the ov8865 in
+commit 73dcffeb2ff9 ("media: i2c: Support 19.2MHz input clock in ov8865").
 
 Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ drivers/media/i2c/ov2680.c | 26 ++++++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index b912ae7a63da..cf84701a6a5a 100644
+index cf84701a6a5a..42be7b094d5d 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -100,7 +100,6 @@ struct ov2680_dev {
- 	struct gpio_desc		*pwdn_gpio;
- 	struct mutex			lock; /* protect members */
- 
--	bool				is_enabled;
- 	bool				is_streaming;
- 
- 	struct ov2680_ctrls		ctrls;
-@@ -312,14 +311,9 @@ static int ov2680_stream_disable(struct ov2680_dev *sensor)
- 
- static int ov2680_power_off(struct ov2680_dev *sensor)
+@@ -698,6 +698,7 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
  {
--	if (!sensor->is_enabled)
--		return 0;
--
- 	clk_disable_unprepare(sensor->xvclk);
- 	ov2680_power_down(sensor);
- 	regulator_bulk_disable(OV2680_NUM_SUPPLIES, sensor->supplies);
--	sensor->is_enabled = false;
--
- 	return 0;
- }
- 
-@@ -327,9 +321,6 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
- {
+ 	struct device *dev = sensor->dev;
+ 	struct gpio_desc *gpio;
++	unsigned int rate = 0;
  	int ret;
  
--	if (sensor->is_enabled)
--		return 0;
--
- 	ret = regulator_bulk_enable(OV2680_NUM_SUPPLIES, sensor->supplies);
- 	if (ret < 0) {
- 		dev_err(sensor->dev, "failed to enable regulators: %d\n", ret);
-@@ -353,8 +344,6 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
- 	if (ret < 0)
- 		goto err_disable_regulators;
+ 	/*
+@@ -718,13 +719,34 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
  
--	sensor->is_enabled = true;
--
- 	return 0;
+ 	sensor->pwdn_gpio = gpio;
  
- err_disable_regulators:
-@@ -541,26 +530,37 @@ static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
- 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
-+	int ret;
- 
--	if (!sensor->is_enabled)
-+	/* Only apply changes to the controls if the device is powered up */
-+	if (!pm_runtime_get_if_in_use(sensor->sd.dev)) {
-+		ov2680_set_bayer_order(sensor, &sensor->fmt);
- 		return 0;
-+	}
- 
- 	switch (ctrl->id) {
- 	case V4L2_CID_GAIN:
--		return ov2680_gain_set(sensor, ctrl->val);
-+		ret = ov2680_gain_set(sensor, ctrl->val);
-+		break;
- 	case V4L2_CID_EXPOSURE:
--		return ov2680_exposure_set(sensor, ctrl->val);
-+		ret = ov2680_exposure_set(sensor, ctrl->val);
-+		break;
- 	case V4L2_CID_VFLIP:
--		return ov2680_set_vflip(sensor, ctrl->val);
-+		ret = ov2680_set_vflip(sensor, ctrl->val);
-+		break;
- 	case V4L2_CID_HFLIP:
--		return ov2680_set_hflip(sensor, ctrl->val);
-+		ret = ov2680_set_hflip(sensor, ctrl->val);
-+		break;
- 	case V4L2_CID_TEST_PATTERN:
--		return ov2680_test_pattern_set(sensor, ctrl->val);
-+		ret = ov2680_test_pattern_set(sensor, ctrl->val);
-+		break;
- 	default:
-+		ret = -EINVAL;
- 		break;
+-	sensor->xvclk = devm_clk_get(dev, "xvclk");
++	sensor->xvclk = devm_clk_get_optional(dev, "xvclk");
+ 	if (IS_ERR(sensor->xvclk)) {
+ 		dev_err(dev, "xvclk clock missing or invalid\n");
+ 		return PTR_ERR(sensor->xvclk);
  	}
  
--	return -EINVAL;
-+	pm_runtime_put(sensor->sd.dev);
-+	return ret;
- }
- 
- static const struct v4l2_ctrl_ops ov2680_ctrl_ops = {
+-	sensor->xvclk_freq = clk_get_rate(sensor->xvclk);
++	/*
++	 * We could have either a 24MHz or 19.2MHz clock rate from either DT or
++	 * ACPI... but we also need to support the weird IPU3 case which will
++	 * have an external clock AND a clock-frequency property. Check for the
++	 * clock-frequency property and if found, set that rate if we managed
++	 * to acquire a clock. This should cover the ACPI case. If the system
++	 * uses devicetree then the configured rate should already be set, so
++	 * we can just read it.
++	 */
++	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
++				       &rate);
++	if (ret && !sensor->xvclk)
++		return dev_err_probe(dev, ret, "invalid clock config\n");
++
++	if (!ret && sensor->xvclk) {
++		ret = clk_set_rate(sensor->xvclk, rate);
++		if (ret)
++			return dev_err_probe(dev, ret,
++					     "failed to set clock rate\n");
++	}
++
++	sensor->xvclk_freq = rate ?: clk_get_rate(sensor->xvclk);
+ 	if (sensor->xvclk_freq != OV2680_XVCLK_VALUE) {
+ 		dev_err(dev, "wrong xvclk frequency %d HZ, expected: %d Hz\n",
+ 			sensor->xvclk_freq, OV2680_XVCLK_VALUE);
 -- 
 2.41.0
 
