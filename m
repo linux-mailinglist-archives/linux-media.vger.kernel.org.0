@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2193B76D58F
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 19:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0D9276D59D
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 19:38:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233700AbjHBRhQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 13:37:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54638 "EHLO
+        id S232476AbjHBRi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 13:38:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232429AbjHBRg4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 13:36:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37C953C31
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 10:35:07 -0700 (PDT)
+        with ESMTP id S233911AbjHBRh4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 13:37:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA8A49C1
+        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 10:36:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690997652;
+        s=mimecast20190719; t=1690997726;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=O9w4uNOwbqzVoyjEtyPAFZuh3Lv5724m4ELXWMJyChI=;
-        b=YcRBMGEWomL2l5eRAhTEhJ38oHXCY72v6bsWrs4A0O5HYSiw/+htYUKFTix/SVPDA1/KfZ
-        qe8C3+zOdRUNWR1KUVJZUKppw2Z8Jhdqj7Tujtx+GBFX7+HMcSInBU0yKaOuFCuZF4lLWB
-        RpfN2lyn0kQc8xXp6gLh4pISDlgm3dQ=
+        bh=kemH3TIGjsRjAmEGqlg6Np7m9pndL4C5+2GpW0YrgzE=;
+        b=GQ5FvgC3Ogk+Jmvp7zJ0FRfX4zjRSB4oevXXXhSO0jn1v87mrQ5br5Hf7plhJHJf7iHvyo
+        W81ic96TydJpPcA3BQdX63VcvcOGDw4Ss/MDd6P+8E77iTtHaXmy2DfsVd+H+Si8BNDP0u
+        3bC9rWGAUVgkZ/D2mmcLDIKRdsGyA6s=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-uoE781QaOmWIcD6sBCv7wA-1; Wed, 02 Aug 2023 13:31:00 -0400
-X-MC-Unique: uoE781QaOmWIcD6sBCv7wA-1
+ us-mta-440-9io5KmnQPjuxh3OcjKnBUQ-1; Wed, 02 Aug 2023 13:31:02 -0400
+X-MC-Unique: 9io5KmnQPjuxh3OcjKnBUQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 932AF90E420;
-        Wed,  2 Aug 2023 17:30:59 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C2ED104458F;
+        Wed,  2 Aug 2023 17:31:01 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.110])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3A532140E949;
-        Wed,  2 Aug 2023 17:30:58 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C463C1454143;
+        Wed,  2 Aug 2023 17:30:59 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v4 07/32] media: ov2680: Fix ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY not working
-Date:   Wed,  2 Aug 2023 19:30:21 +0200
-Message-ID: <20230802173046.368434-8-hdegoede@redhat.com>
+Subject: [PATCH v4 08/32] media: ov2680: Fix regulators being left enabled on ov2680_power_on() errors
+Date:   Wed,  2 Aug 2023 19:30:22 +0200
+Message-ID: <20230802173046.368434-9-hdegoede@redhat.com>
 In-Reply-To: <20230802173046.368434-1-hdegoede@redhat.com>
 References: <20230802173046.368434-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,85 +66,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY was getting
-the try_fmt v4l2_mbus_framefmt struct from the passed in sd_state
-and then storing the contents of that into the return by reference
-format->format struct.
+When the ov2680_power_on() "sensor soft reset failed" path is hit during
+probe() the WARN() about putting an enabled regulator at
+drivers/regulator/core.c:2398 triggers 3 times (once for each regulator),
+filling dmesg with backtraces.
 
-While the right thing to do would be filling format->format based on
-the just looked up mode and then store the results of that in
-sd_state->pads[0].try_fmt .
-
-Before the previous change introducing ov2680_fill_format() this
-resulted in ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY always
-returning the zero-ed out sd_state->pads[0].try_fmt in format->format
-breaking callers using this.
-
-After the introduction of ov2680_fill_format() which at least
-initializes sd_state->pads[0].try_fmt properly, format->format
-is now always being filled with the default 800x600 mode set by
-ov2680_init_cfg() independent of the actual requested mode.
-
-Move the filling of format->format with ov2680_fill_format() to
-before the if (which == V4L2_SUBDEV_FORMAT_TRY) and then store
-the filled in format->format in sd_state->pads[0].try_fmt to
-fix this.
-
-Note this removes the fmt local variable because IMHO having a local
-variable which points to a sub-struct of one of the function arguments
-just leads to confusion when reading the code.
+Fix this by properly disabling the regulators on ov2680_power_on() errors.
 
 Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/media/i2c/ov2680.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index f2eb8d85a7e4..e3652b5394c4 100644
+index e3652b5394c4..1f923acbbc07 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -603,7 +603,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 			  struct v4l2_subdev_format *format)
- {
- 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
--	struct v4l2_mbus_framefmt *fmt = &format->format;
- 	struct v4l2_mbus_framefmt *try_fmt;
- 	const struct ov2680_mode_info *mode;
- 	int ret = 0;
-@@ -612,14 +611,18 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
+@@ -475,7 +475,7 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
+ 		ret = ov2680_write_reg(sensor, OV2680_REG_SOFT_RESET, 0x01);
+ 		if (ret != 0) {
+ 			dev_err(dev, "sensor soft reset failed\n");
+-			return ret;
++			goto err_disable_regulators;
+ 		}
+ 		usleep_range(1000, 2000);
+ 	} else {
+@@ -485,7 +485,7 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
  
- 	mode = v4l2_find_nearest_size(ov2680_mode_data,
--				      ARRAY_SIZE(ov2680_mode_data), width,
--				      height, fmt->width, fmt->height);
-+				      ARRAY_SIZE(ov2680_mode_data),
-+				      width, height,
-+				      format->format.width,
-+				      format->format.height);
- 	if (!mode)
- 		return -EINVAL;
+ 	ret = clk_prepare_enable(sensor->xvclk);
+ 	if (ret < 0)
+-		return ret;
++		goto err_disable_regulators;
  
-+	ov2680_fill_format(sensor, &format->format, mode->width, mode->height);
+ 	sensor->is_enabled = true;
+ 
+@@ -495,6 +495,10 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
+ 	ov2680_stream_disable(sensor);
+ 
+ 	return 0;
 +
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
--		format->format = *try_fmt;
-+		*try_fmt = format->format;
- 		return 0;
- 	}
++err_disable_regulators:
++	regulator_bulk_disable(OV2680_NUM_SUPPLIES, sensor->supplies);
++	return ret;
+ }
  
-@@ -630,8 +633,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 		goto unlock;
- 	}
- 
--	ov2680_fill_format(sensor, fmt, mode->width, mode->height);
--
- 	sensor->current_mode = mode;
- 	sensor->fmt = format->format;
- 	sensor->mode_pending_changes = true;
+ static int ov2680_s_power(struct v4l2_subdev *sd, int on)
 -- 
 2.41.0
 
