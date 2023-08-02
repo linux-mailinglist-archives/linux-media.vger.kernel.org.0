@@ -2,101 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A6D876CC1F
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 13:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5423176CC3A
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 14:02:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234411AbjHBLz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 07:55:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37960 "EHLO
+        id S234282AbjHBMCq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 08:02:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232209AbjHBLzY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 07:55:24 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B8610C1;
-        Wed,  2 Aug 2023 04:55:24 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-52227884855so10286610a12.1;
-        Wed, 02 Aug 2023 04:55:23 -0700 (PDT)
+        with ESMTP id S231897AbjHBMCp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 08:02:45 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7870010C1;
+        Wed,  2 Aug 2023 05:02:41 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-2681223aaacso610718a91.0;
+        Wed, 02 Aug 2023 05:02:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690977322; x=1691582122;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fg0YpcOtBUtEKMYPGJH2ccsPOpJLUWE6oV7KZ4RIkBY=;
-        b=sxL8jAWNHpZKH1kgVp7WtInxNhdYc10cPQtW3bdSnBLzYGpKwexkVHPruJSFotXs0T
-         LxjVyz0nsjFZgw0khNVJC8M822cUyaPZaoWmMtiam52oW82Fi48M3tsAbM0bbd76v5Oq
-         gsfvJtYlTlfoIhJDStqNNjrcs3VK7zNSUiR8NkUO4c4wMYDWRAp0/peP39FfNmF8PVnA
-         9qBjrofEzp5O9eQdTJAsDlNDdIznk+Gkc/Vc/ZYgc/F9Vsmzn3DqrHlalPiVc1/c9UBO
-         DFfm5uk4anZpqbGobIGzqC84wzWIK5yglQovCxQc9y7ziH/qTr0Lmk7ssHqjBvTB6lra
-         LQdA==
+        d=gmail.com; s=20221208; t=1690977761; x=1691582561;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pZ819GwVCo9zR5ZzAiYSpFVr/sz2KTIAVN8PAALo4bo=;
+        b=U8PZHqu5zyydy1mgddoFG96L9VW8L25yjDa/lyNEO64ddWZ33KemFAEis0ddxf/nnj
+         IzU5ZRpsCImPTyezgGd7zS1yY3i/OnsPjP4evLfghD7NT6SOddqlW88ztwBDlvIHEENC
+         pHhiwFrPAayjmeq6e0/mdL0Hr6x3h3ystMpFTt94VESAkM86o0k2zKJAHap0jZBkBhi5
+         +jdI0W3//hHvQOspRYgjhvXtgziuuLO/YVbrv7uLzXp4HrWWc2DpHe1XqWbUMgWa7m/U
+         +/dyWeT0JVoeKPgsSVi3YQA4Pgw23byHNoJCX9MDb9ozZUwx3ltbr4Sr4V6VUCpBrpbb
+         wknw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690977322; x=1691582122;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fg0YpcOtBUtEKMYPGJH2ccsPOpJLUWE6oV7KZ4RIkBY=;
-        b=OTUsAaeDctOwsDmyxoxZQW8G3K8PN/FfwuCoUXFEHWU8hskTAkW7NSl8cNLctuKrL8
-         SLujEA2R02qu+nfcBDXIo+HOzW5xitg6ifBiLBks0df4KJW1nNZsRM57bsx1jmZnyFPA
-         EDaHQm0PCSsELzch4rQjtM0dHNbgaxa0MObQkIV2pEG/J+9eeiTqVCqJUTdX9uUnaWxp
-         u7I+7kkvaRndPDKQsmnggAKa/fEBZ1nT1vnMFAXirVyvy/hKEGAwDJhVEmdYAq1gM1/F
-         ui7yBSK/1YoK2hjqTuBzTInkTWaKyC8oyZ532/s6WHN3mW5FV3DJbZ/zzy1LZow/batg
-         2OLA==
-X-Gm-Message-State: ABy/qLZxEC9//0C/uGijQSsrebdyPSwRd0zMQH7unqmixzLtJBqij+o1
-        uGiwhB4Gks0cgIB1etQKR57js9y7O9s=
-X-Google-Smtp-Source: APBJJlFAdvAaDjxvCM5PvcAsGwsuvHU/MEEusmZmMUEt48yqwiy3h8p/XqFqbmX/s9jRY4+xORcupw==
-X-Received: by 2002:a05:6402:8d5:b0:51d:d4c3:6858 with SMTP id d21-20020a05640208d500b0051dd4c36858mr5012317edz.12.1690977322422;
-        Wed, 02 Aug 2023 04:55:22 -0700 (PDT)
-Received: from [192.168.1.19] (62-73-122-38.ip.btc-net.bg. [62.73.122.38])
-        by smtp.gmail.com with ESMTPSA id g12-20020a056402180c00b00522ce914f51sm3823937edy.67.2023.08.02.04.55.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Aug 2023 04:55:22 -0700 (PDT)
-Message-ID: <21fad6fd-eddf-9edd-6dd8-58a32b9be9ef@gmail.com>
-Date:   Wed, 2 Aug 2023 14:55:21 +0300
+        d=1e100.net; s=20221208; t=1690977761; x=1691582561;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pZ819GwVCo9zR5ZzAiYSpFVr/sz2KTIAVN8PAALo4bo=;
+        b=RfSYLMHN5c43mzualzUILBVCW72okHumt+UTLCpHN6eH3Iis4cPKkl3bUnk2XdWt+c
+         kMl8/e8Ox9BAxTEisNv465ZWP+N4BVQ21Jwo3UW5VN21vek8QzQU5rbTCuFIfYiNtnCu
+         XQ/ICNpHsekT+74W8FugL46ogwSVvZC/eMAHdR1bGwbQviOX+GbhOb6/MEGSnUiJ/oiO
+         FD6pHRZpyXhLv5PWN/5jRQWdMGy6dfTKLlGWdgQ3AVjK1SPBVO/aYdWviRBaLGNH3WQX
+         SeKo30xRx3eQYE7FiwBMvN6P6RLLhxyi6rVn3C8zsH7gcN8BMabvpNxp7h1GOCtA2G+z
+         c+Ug==
+X-Gm-Message-State: ABy/qLbMsp0YyUufoOPYEVgEoaaLq2+VWThWC0KguFqNX8+moWZt/NdN
+        sHnVcn9hN/iWEZRhJ7Jl7ro9tNjHhubUdAzAvfM=
+X-Google-Smtp-Source: APBJJlHuloA0HTsPSoNz24gU6TOurNeBITpKadl1FpEMN3ek0OYWAF6+FL7hx/VdWb7RYwujlTuWhOvWXMHfDiFVaSw=
+X-Received: by 2002:a17:90a:c210:b0:267:f8f4:73ab with SMTP id
+ e16-20020a17090ac21000b00267f8f473abmr19375725pjt.16.1690977760816; Wed, 02
+ Aug 2023 05:02:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: venus: firmware: Use of_reserved_mem_lookup()
-To:     Stephan Gerhold <stephan@gerhold.net>
-Cc:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230529-venus-of-rmem-v1-1-dfcdc5047ffb@gerhold.net>
- <ZMoak_qaUSX-pkP2@gerhold.net>
-Content-Language: en-US, bg-BG
-From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-In-Reply-To: <ZMoak_qaUSX-pkP2@gerhold.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
+ <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl> <87il9xu1ro.wl-tiwai@suse.de>
+In-Reply-To: <87il9xu1ro.wl-tiwai@suse.de>
+From:   Shengjiu Wang <shengjiu.wang@gmail.com>
+Date:   Wed, 2 Aug 2023 20:02:29 +0800
+Message-ID: <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+        tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stephan,
+On Wed, Aug 2, 2023 at 7:22=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Wed, 02 Aug 2023 09:32:37 +0200,
+> Hans Verkuil wrote:
+> >
+> > Hi all,
+> >
+> > On 25/07/2023 08:12, Shengjiu Wang wrote:
+> > > Audio signal processing has the requirement for memory to
+> > > memory similar as Video.
+> > >
+> > > This patch is to add this support in v4l2 framework, defined
+> > > new buffer type V4L2_BUF_TYPE_AUDIO_CAPTURE and
+> > > V4L2_BUF_TYPE_AUDIO_OUTPUT, defined new format v4l2_audio_format
+> > > for audio case usage.
+> > >
+> > > The created audio device is named "/dev/audioX".
+> > >
+> > > And add memory to memory support for two kinds of i.MX ASRC
+> > > module
+> >
+> > Before I spend time on this: are the audio maintainers OK with doing
+> > this in V4L2?
+> >
+> > I do want to have a clear statement on this as it is not something I
+> > can decide.
+>
+> Well, I personally don't mind to have some audio capability in v4l2
+> layer.  But, the only uncertain thing for now is whether this is a
+> must-have or not.
+>
 
-On 2.08.23 г. 11:57 ч., Stephan Gerhold wrote:
-> Hi Stanimir,
-> 
-> I see that you already tagged the Venus updates for 6.6, but could you
-> try to still apply this patch as well for 6.6? It's a requirement for
-> some DT cleanup I'm working on and ideally needs to go in a kernel
-> release earlier to avoid bisect problems.
-> 
-> AFAICT it's been on the list for more than two months now with two
-> Reviewed-by, so should be fine to just apply it. :)
-> 
+Thanks,  I am also not sure about this.  I am also confused that why
+there is no m2m implementation for audio in the kernel.  Audio also
+has similar decoder encoder post-processing as video.
 
-Done, thanks for the reminder.
+>
+> IIRC, the implementation in the sound driver side was never done just
+> because there was no similar implementation?  If so, and if the
+> extension to the v4l2 core layer is needed, shouldn't it be more
+> considered for the possible other route?
+>
 
--- 
-regards,
-Stan
+Actually I'd like someone could point me to the other route. I'd like to
+try.
+
+The reason why I select to extend v4l2 for such audio usage is that v4l2
+looks best for this audio m2m implementation.  v4l2 is designed for m2m
+usage.  if we need implement another 'route',  I don't think it can do bett=
+er
+that v4l2.
+
+I appreciate that someone can share his ideas or doable solutions.
+And please don't ignore my request, ignore my patch.
+
+Best regards
+Wang shengjiu
