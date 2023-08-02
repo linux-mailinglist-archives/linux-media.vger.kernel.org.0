@@ -2,125 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEA9176C9C7
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 11:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73DAF76C9CA
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 11:47:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232694AbjHBJrG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 05:47:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51596 "EHLO
+        id S232464AbjHBJrf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 05:47:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231171AbjHBJrF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 05:47:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1000D210D;
-        Wed,  2 Aug 2023 02:46:54 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5039A2AC;
-        Wed,  2 Aug 2023 11:45:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1690969549;
-        bh=mWLrVrwIENQP6yWA740jG3Jkt4JmjdTN4/c8G9DqSSI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=uySHVHN5SHkxBg4EUtkJjR8WiiSPxy+vFXV3TL4W/jLBDWIYLH41f/KbGr8snh/Ev
-         QvSKJBHF5CRIsybGJ2mgpA15oPU/eI359SFrIIDFHW2GuNr5hgB26ds6TC3MWEc90h
-         yiWn8x5hopHZdzBdFenMQR/uPYvmu0H9POvuXw5Q=
-Message-ID: <96a8ca70-9957-bb4f-088c-c0895a9e7347@ideasonboard.com>
-Date:   Wed, 2 Aug 2023 12:46:48 +0300
+        with ESMTP id S231426AbjHBJrd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 05:47:33 -0400
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A18211FF3;
+        Wed,  2 Aug 2023 02:47:31 -0700 (PDT)
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 2B29368AFE; Wed,  2 Aug 2023 11:47:26 +0200 (CEST)
+Date:   Wed, 2 Aug 2023 11:47:25 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     John Stultz <jstultz@google.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Pintu Agarwal <pintu.ping@gmail.com>,
+        Pintu Kumar <quic_pintu@quicinc.com>,
+        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        iommu@lists.linux.dev, Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2] dma-contiguous: define proper name for global cma
+ region
+Message-ID: <20230802094725.GA28241@lst.de>
+References: <1690598115-26287-1-git-send-email-quic_pintu@quicinc.com> <20230731112155.GA3662@lst.de> <CAOuPNLjnfq1JefngtNrg0Q+JdMTSRz+eEqxGQJFfx9+af+k9WA@mail.gmail.com> <20230801171838.GA14599@lst.de> <CANDhNCq+3OEosUcQJ5GFgk+5OyG+JqXKM43UAo0aPz-V27OgAA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v8 14/16] media: cadence: csi2rx: Support RAW8 and RAW10
- formats
-Content-Language: en-US
-To:     Jai Luthra <j-luthra@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Benoit Parrot <bparrot@ti.com>,
-        Vaishnav Achath <vaishnav.a@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>, nm@ti.com,
-        devarsht@ti.com
-References: <20230731-upstream_csi-v8-0-fb7d3661c2c9@ti.com>
- <20230731-upstream_csi-v8-14-fb7d3661c2c9@ti.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230731-upstream_csi-v8-14-fb7d3661c2c9@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANDhNCq+3OEosUcQJ5GFgk+5OyG+JqXKM43UAo0aPz-V27OgAA@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31/07/2023 11:29, Jai Luthra wrote:
-> Many CSI-2 sensors (specifically IMX219) send RAW bayer data instead of
-> processed YUV or RGB, so add support for 8-bit and 10-bit bayer formats.
-> 
-> Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> ---
-> New in v8
-> 
->   drivers/media/platform/cadence/cdns-csi2rx.c | 32 ++++++++++++++++++++++++++++
->   1 file changed, 32 insertions(+)
-> 
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index aec33d28a66f..bac74474841a 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -122,6 +122,38 @@ static const struct csi2rx_fmt formats[] = {
->   		.code	= MEDIA_BUS_FMT_VYUY8_1X16,
->   		.bpp	= 16,
->   	},
-> +	{
-> +		.code	= MEDIA_BUS_FMT_SBGGR8_1X8,
-> +		.bpp	= 8,
-> +	},
-> +	{
-> +		.code	= MEDIA_BUS_FMT_SGBRG8_1X8,
-> +		.bpp	= 8,
-> +	},
-> +	{
-> +		.code	= MEDIA_BUS_FMT_SGRBG8_1X8,
-> +		.bpp	= 8,
-> +	},
-> +	{
-> +		.code	= MEDIA_BUS_FMT_SRGGB8_1X8,
-> +		.bpp	= 8,
-> +	},
-> +	{
-> +		.code	= MEDIA_BUS_FMT_SBGGR10_1X10,
-> +		.bpp	= 10,
-> +	},
-> +	{
-> +		.code	= MEDIA_BUS_FMT_SGBRG10_1X10,
-> +		.bpp	= 10,
-> +	},
-> +	{
-> +		.code	= MEDIA_BUS_FMT_SGRBG10_1X10,
-> +		.bpp	= 10,
-> +	},
-> +	{
-> +		.code	= MEDIA_BUS_FMT_SRGGB10_1X10,
-> +		.bpp	= 10,
-> +	},
->   };
->   
->   static const struct csi2rx_fmt *csi2rx_get_fmt_by_code(u32 code)
-> 
+On Tue, Aug 01, 2023 at 10:39:04PM -0700, John Stultz wrote:
+> So, forgive me, I've not had a chance to look into this, but my
+> recollection was "reserved" is the name we see on x86, but other names
+> are possibly provided via the dts node?
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Indeed, dma_contiguous_default_area can also be set through
+rmem_cma_setup, which then takes the name from DT.
 
-  Tomi
+> I believe on the hikey board its "linux,cma" is the name, so forcing
+> it to reserved would break that.
+> 
+> Maybe instead add a compat config option to force the cma name (so x86
+> can set it to "default" if needed)?
 
+
+I think we'll just need to leave it as-is.  I with dma-heaps had never
+exposed the name to userspace, but we'll have to lіve with it now.
