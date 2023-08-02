@@ -2,177 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CDE076D0C1
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 16:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE69176D250
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 17:41:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234362AbjHBO7o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 10:59:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52562 "EHLO
+        id S234157AbjHBPlW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 11:41:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234105AbjHBO7n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 10:59:43 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD341FF0
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 07:59:41 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-40fd2de0ddcso14869931cf.2
-        for <linux-media@vger.kernel.org>; Wed, 02 Aug 2023 07:59:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1690988380; x=1691593180;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kYt/Og8p2momDhgHcuYS5iX+cpuUqKiX9hwxMzS4blc=;
-        b=Xi+WBCiziQ3cHF88fwmCmkWvQI4yv33QxIjWVB51ktnlyBEAsL28b4oQ1BUdZaK+JF
-         nYbXVEI1IGoSZKvYjJDrZnj+uDpTze3WdybGoiBgC83QaiCL/YWh2RlxRCdkgOzvXCaz
-         VEgvXPDbTkYrVUc6FvsfNSIvLofL7CMKqg4yzMLGxjx50ssakplERt+G1CwdMJlGbbta
-         XnndwNq881nOEH5sWbRYEzqVPQkzQe7rXBdTcvanlWM0NOLfGm+FhYwQfUZF5OA25rf5
-         UfVpGn3qACVSexIk5541LPj2bx9+EoBerbxih3qj+iuXzCrRoxWS7cKgnwY25ARbwrWD
-         kbnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690988380; x=1691593180;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kYt/Og8p2momDhgHcuYS5iX+cpuUqKiX9hwxMzS4blc=;
-        b=Y7PxBazYpTg/m2R6S4uYktDOcdFON0ViXzdK3aBGSdYeJ13gYsTMv2D0semONYCCqQ
-         S6OKcAoGP8W3lCxdSvSnNOHPxB69pnO7KZKqI3eH/kBNjopCg/JmbZInyFf3rl7gR4S4
-         EDzlSncvdm4+jkrmHSbkCA7mf8RzG5zxiDiMPuO1DExYNijKXoViaPXsBDWJkzmUHv0f
-         r9vgomXvdBPGBpthAzyVBkEA7g8F0+4kKX3bJhwH90Np3sFG9UELBw3/bn929KOxJcgb
-         LnFtMYZ1RAKfilx1+F2h2Xz6OORjcFMTKOhW7fe5KdZZA3j+e/yxTQnxVtKkUnUR8tlg
-         v4mA==
-X-Gm-Message-State: ABy/qLa8g4D1FEBrSQGLD/6c9CcVln02yziLtLBDcrA6uFoKqkPbMXDp
-        FVokj/QGjYPxdXEzzTwcf6Mcqg==
-X-Google-Smtp-Source: APBJJlEtOXevsfG2Yv79DAn4/lz0ItSRpvVSeZStBYQZom93mQdmljLYQZ2CJSUmNHoJL/XXeyC+Qg==
-X-Received: by 2002:a05:622a:1786:b0:403:aa49:606e with SMTP id s6-20020a05622a178600b00403aa49606emr21938733qtk.30.1690988380513;
-        Wed, 02 Aug 2023 07:59:40 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:10:2688::7a9])
-        by smtp.gmail.com with ESMTPSA id z1-20020ac83e01000000b003e3918f350dsm5438001qtf.25.2023.08.02.07.59.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Aug 2023 07:59:40 -0700 (PDT)
-Message-ID: <95eb0ff22da269ad6df5685aee6fa8d4ad0ca738.camel@ndufresne.ca>
-Subject: Re: [v2] media: mediatek: vcodec: fix AV1 decode fail for 36bit iova
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Wed, 02 Aug 2023 10:59:39 -0400
-In-Reply-To: <20230704015135.31850-1-xiaoyong.lu@mediatek.com>
-References: <20230704015135.31850-1-xiaoyong.lu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        with ESMTP id S233956AbjHBPlV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 11:41:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BFAD103
+        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 08:41:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1ECD961A0C
+        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 15:41:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0841C433C8;
+        Wed,  2 Aug 2023 15:41:16 +0000 (UTC)
+Message-ID: <970c5f07-f18b-cb0d-0f5d-49c69b2e070e@xs4all.nl>
+Date:   Wed, 2 Aug 2023 17:41:14 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mingjia Zhang <mingjia.zhang@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.6] mediatek vcodec rework and add 10 bit support
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+The following changes since commit 4fa89c318e5b93f784ca85f92e245bbf7b5749db:
 
-Le mardi 04 juillet 2023 =C3=A0 09:51 +0800, Xiaoyong Lu a =C3=A9crit=C2=A0=
-:
-> Fix av1 decode fail when iova is 36bit.
+  media: pci: ipu3-cio2: Initialise timing struct to avoid a compiler warning (2023-08-01 12:12:35 +0200)
 
-I'd change the subject to "media: mediatek: vcodec: fix AV1 decoding on MT8=
-188"
-And rephrase this one to:
+are available in the Git repository at:
 
-  Fix AV1 decoding failure when the iova is 36bit.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.6h
 
->=20
-> Decoder hardware will access incorrect iova address when tile buffer is
-> 36bit, it will lead to iommu fault when hardware access dram data.
+for you to fetch changes up to 98eb892dc0513d8018d5df6bccd1923e47949892:
 
-Suggest to rephrase this:
+  media: mediatek: vcodec: Fix possible invalid memory access for encoder (2023-08-02 17:04:14 +0200)
 
-   Before this fix, the decoder was accessing incorrect addresses with 36bi=
-t
-   iova tile buffer, leading to iommu faults.
+----------------------------------------------------------------
+Tag branch
 
->=20
-> Fixes: 2f5d0aef37c6 ("media: mediatek: vcodec: support stateless AV1 deco=
-der")
-> Signed-off-by: Xiaoyong Lu<xiaoyong.lu@mediatek.com>
+----------------------------------------------------------------
+Mingjia Zhang (3):
+      media: mediatek: vcodec: Add capture format to support 10bit tile mode
+      media: mediatek: vcodec: Add capture format to support 10bit raster mode
+      media: mediatek: vcodec: Add driver to support 10bit
 
-With some rework of the commit message, see my suggestions above:
+Yunfei Dong (13):
+      media: mediatek: vcodec: remove unused parameter
+      media: mediatek: vcodec: align fw interface
+      media: mediatek: vcodec: Removing struct 'mtk_vcodec_ctx/dev' for shared interface
+      media: mediatek: vcodec: Removing useless debug log
+      media: mediatek: vcodec: remove the dependency of vcodec debug log
+      media: mediatek: vcodec: replace pr_* with dev_* for v4l2 debug message
+      media: mediatek: vcodec: separate struct 'mtk_vcodec_ctx'
+      media: mediatek: vcodec: separate struct mtk_vcodec_dev
+      media: mediatek: vcodec: fix unreasonable parameter definition and style
+      media: mediatek: vcodec: remove unused include header
+      media: mediatek: vcodec: separate decoder and encoder
+      media: mediatek: vcodec: Fix possible invalid memory access for decoder
+      media: mediatek: vcodec: Fix possible invalid memory access for encoder
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-> ---
-> Changes from v1
->=20
-> - prefer '|' rather than '+'
-> - prefer '&' rather than shift operation
-> - add comments for address operations
->=20
-> v1:
-> - VDEC HW can access tile buffer and decode normally.
-> - Test ok by mt8195 32bit and mt8188 36bit iova.
->=20
-> ---
->  .../mediatek/vcodec/vdec/vdec_av1_req_lat_if.c       | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat=
-_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-> index 404a1a23fd402..e9f2393f6a883 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-> @@ -1658,9 +1658,9 @@ static void vdec_av1_slice_setup_tile_buffer(struct=
- vdec_av1_slice_instance *ins
->  	u32 allow_update_cdf =3D 0;
->  	u32 sb_boundary_x_m1 =3D 0, sb_boundary_y_m1 =3D 0;
->  	int tile_info_base;
-> -	u32 tile_buf_pa;
-> +	u64 tile_buf_pa;
->  	u32 *tile_info_buf =3D instance->tile.va;
-> -	u32 pa =3D (u32)bs->dma_addr;
-> +	u64 pa =3D (u64)bs->dma_addr;
-> =20
->  	if (uh->disable_cdf_update =3D=3D 0)
->  		allow_update_cdf =3D 1;
-> @@ -1673,8 +1673,12 @@ static void vdec_av1_slice_setup_tile_buffer(struc=
-t vdec_av1_slice_instance *ins
->  		tile_info_buf[tile_info_base + 0] =3D (tile_group->tile_size[tile_num]=
- << 3);
->  		tile_buf_pa =3D pa + tile_group->tile_start_offset[tile_num];
-> =20
-> -		tile_info_buf[tile_info_base + 1] =3D (tile_buf_pa >> 4) << 4;
-> -		tile_info_buf[tile_info_base + 2] =3D (tile_buf_pa % 16) << 3;
-> +		/* save av1 tile high 4bits(bit 32-35) address in lower 4 bits positio=
-n
-> +		 * and clear original for hw requirement.
-> +		 */
-> +		tile_info_buf[tile_info_base + 1] =3D (tile_buf_pa & 0xFFFFFFF0ull) |
-> +			((tile_buf_pa & 0xF00000000ull) >> 32);
-> +		tile_info_buf[tile_info_base + 2] =3D (tile_buf_pa & 0xFull) << 3;
-> =20
->  		sb_boundary_x_m1 =3D
->  			(tile->mi_col_starts[tile_col + 1] - tile->mi_col_starts[tile_col] - =
-1) &
-
+ Documentation/userspace-api/media/v4l/pixfmt-reserved.rst                          |  13 +
+ drivers/media/platform/mediatek/vcodec/Makefile                                    |  55 +----
+ drivers/media/platform/mediatek/vcodec/common/Makefile                             |  21 ++
+ drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_cmn_drv.h                 | 147 +++++++++++
+ drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_dbgfs.c             |  55 +++--
+ drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_dbgfs.h             |  24 +-
+ drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw.c                |  21 +-
+ drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw.h                |   8 +-
+ drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_priv.h           |  14 +-
+ drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_scp.c            |  26 +-
+ drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_vpu.c            |  72 ++++--
+ drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_intr.c                    |  68 ++++++
+ drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_intr.h              |   6 +-
+ drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_util.c              |  71 +++---
+ drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.h                    |  75 ++++++
+ drivers/media/platform/mediatek/vcodec/decoder/Makefile                            |  25 ++
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec.c              | 204 ++++++++--------
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec.h              |  10 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_drv.c          |  87 +++----
+ drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h                | 324 +++++++++++++++++++++++++
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_hw.c           |  19 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_hw.h           |   6 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_pm.c           |  38 ++-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_pm.h           |   6 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_stateful.c     | 176 +++++++-------
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_stateless.c    | 235 ++++++++++++++----
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_av1_req_lat_if.c    | 158 ++++++------
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_if.c           |  79 +++---
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_common.c   |   4 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_common.h   |   6 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_if.c       |  75 +++---
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_multi_if.c | 155 ++++++------
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_hevc_req_multi_if.c | 129 +++++-----
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp8_if.c            |  70 +++---
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp8_req_if.c        |  81 +++----
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp9_if.c            | 132 +++++-----
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp9_req_lat_if.c    | 129 +++++-----
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_base.h               |   2 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_if.c                 |  12 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_if.h                 |  10 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_ipi_msg.h                |   0
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_msg_queue.c              |  64 +++--
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_msg_queue.h              |  14 +-
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_vpu_if.c                 | 138 ++++++-----
+ drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_vpu_if.h                 |   6 +-
+ drivers/media/platform/mediatek/vcodec/encoder/Makefile                            |  11 +
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc.c              | 296 ++++++++++-------------
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc.h              |  12 +-
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_drv.c          |  73 +++---
+ drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h                | 248 +++++++++++++++++++
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_pm.c           |  12 +-
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_pm.h           |   4 +-
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/venc/venc_h264_if.c           | 110 ++++-----
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/venc/venc_vp8_if.c            |  69 ++----
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_base.h               |   4 +-
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_if.c                 |  10 +-
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_if.h                 |  11 +-
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_ipi_msg.h                |   0
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_vpu_if.c                 | 110 +++++----
+ drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_vpu_if.h                 |   3 +-
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h                            | 550 ------------------------------------------
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c                           |  43 ----
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h                           |  85 -------
+ drivers/media/v4l2-core/v4l2-common.c                                              |   4 +
+ drivers/media/v4l2-core/v4l2-ioctl.c                                               |   2 +
+ include/uapi/linux/videodev2.h                                                     |   2 +
+ 66 files changed, 2503 insertions(+), 2226 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/Makefile
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_cmn_drv.h
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_dbgfs.c (77%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_dbgfs.h (62%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw.c (75%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw.h (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_priv.h (75%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_scp.c (70%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_vpu.c (58%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_intr.c
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_intr.h (68%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_util.c (56%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.h
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/Makefile
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec.c (82%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec.h (91%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_drv.c (84%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_hw.c (91%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_hw.h (92%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_pm.c (81%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_pm.h (61%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_stateful.c (73%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_stateless.c (67%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_av1_req_lat_if.c (93%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_if.c (84%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_common.c (98%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_common.h (97%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_if.c (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_multi_if.c (85%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_hevc_req_multi_if.c (90%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp8_if.c (88%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp8_req_if.c (81%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp9_if.c (87%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp9_req_lat_if.c (94%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_base.h (95%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_if.c (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_if.h (89%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_ipi_msg.h (100%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_msg_queue.c (82%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_msg_queue.h (95%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_vpu_if.c (67%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_vpu_if.h (97%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/encoder/Makefile
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc.c (82%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc.h (78%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_drv.c (86%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_pm.c (83%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_pm.h (78%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc/venc_h264_if.c (88%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc/venc_vp8_if.c (88%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_base.h (94%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_if.c (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_if.h (94%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_ipi_msg.h (100%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_vpu_if.c (75%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_vpu_if.h (96%)
+ delete mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
+ delete mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c
+ delete mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
