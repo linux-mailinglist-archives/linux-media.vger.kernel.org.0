@@ -2,75 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A415E76CB8B
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 13:14:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EB9F76CBAB
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 13:23:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233769AbjHBLOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 07:14:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45342 "EHLO
+        id S232421AbjHBLXH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 07:23:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232692AbjHBLOs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 07:14:48 -0400
-Received: from mgamail.intel.com (unknown [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 136A32D4E;
-        Wed,  2 Aug 2023 04:14:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690974871; x=1722510871;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h/cs+jJte6HO7usFj7kMbMOyqZ6ySurFpnQ9adQ5vBQ=;
-  b=dyMhi2UDruns4JEJefzPSUnQUtHPcwFchcdIup3lrTNcNlYOrxXmnwhZ
-   o3Ex0oKDs9Fg19r43gvnEDKhZYXJghqDHJro8k0DNuzgpklEFI/WCOT5P
-   0Qc2Z1a43xp2zyKe5GpwxI9GdDLLQmLwiLznox08Jzv9ZNwspoHkfEYjW
-   Vf0CDRWS5xo//f/zPN5hs0eHsGX+9lVzq/ufdU1HIPHcF4ZGKUzcThEDs
-   LEPqMhpP+tOBsUuQJij2L8B6guoUBdAKc09IETKpORI2ETNndgcpkCuVQ
-   fnvQR2CbO3SJu9HVC59fJbw3YLAdTFS2kXOzrS8bg5Rn173pd/ET7A9gl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="349155844"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="349155844"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 04:14:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="722825000"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="722825000"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 04:14:12 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 43A0811FBE7;
-        Wed,  2 Aug 2023 14:14:10 +0300 (EEST)
-Date:   Wed, 2 Aug 2023 11:14:10 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Jai Luthra <j-luthra@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        with ESMTP id S234215AbjHBLW5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 07:22:57 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C288D13D;
+        Wed,  2 Aug 2023 04:22:53 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 7B37D21ABA;
+        Wed,  2 Aug 2023 11:22:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1690975372; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5r1CpNIAJIEW3BpMhgShJ14F48fAU7qslpZkFUD+rwk=;
+        b=CBvW/AhkgcCD5eWfqToZIUCdl0qQ9bihx77+ptxjqXd3s8JAEJ3P3EuwPcIDBTeV8zaMa8
+        +8NG+elmSNZo8llvlBvULzXRfhcW6+jBK+7ljSl2IB11xf9OeH4jNleJiRbJwySEA2G1y7
+        hzMitlzqKdGewuKCHsm3hzmmZsdaKmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1690975372;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5r1CpNIAJIEW3BpMhgShJ14F48fAU7qslpZkFUD+rwk=;
+        b=hpeZK5XRODX9CLvc13p+tye6dirc1m+7cnLpsMl3lmifUvBm1kbRmBamK3d6M0mwM5L5+b
+        2591pHTdBsSr4NAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4E82013909;
+        Wed,  2 Aug 2023 11:22:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id SCeaEow8ymSAJQAAMHmgww
+        (envelope-from <tiwai@suse.de>); Wed, 02 Aug 2023 11:22:52 +0000
+Date:   Wed, 02 Aug 2023 13:22:51 +0200
+Message-ID: <87il9xu1ro.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Benoit Parrot <bparrot@ti.com>,
-        Vaishnav Achath <vaishnav.a@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>, nm@ti.com,
-        devarsht@ti.com
-Subject: Re: [PATCH v8 16/16] media: ti: Add CSI2RX support for J721E
-Message-ID: <ZMo6gtN/4sQz44tH@kekkonen.localdomain>
-References: <20230731-upstream_csi-v8-0-fb7d3661c2c9@ti.com>
- <20230731-upstream_csi-v8-16-fb7d3661c2c9@ti.com>
- <d5d9f2cb-9879-9f25-9b5c-b3b43d551658@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d5d9f2cb-9879-9f25-9b5c-b3b43d551658@ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+        nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+        perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
+In-Reply-To: <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl>
+References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
+        <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,42 +74,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
-
-On Wed, Aug 02, 2023 at 02:04:57PM +0300, Tomi Valkeinen wrote:
-> > +static int ti_csi2rx_enum_fmt_vid_cap(struct file *file, void *priv,
-> > +				      struct v4l2_fmtdesc *f)
-> > +{
-> > +	const struct ti_csi2rx_fmt *fmt = NULL;
-> > +
-> > +	if (f->mbus_code) {
-> > +		if (f->index > 0)
-> > +			return -EINVAL;
+On Wed, 02 Aug 2023 09:32:37 +0200,
+Hans Verkuil wrote:
 > 
-> This fails to enumerate the formats if mbus_code is set, doesn't it?
-
-This is intentional: if the mbus_code field is set, you're supposed to get
-only format(s) corresponding to that mbus code.
-
+> Hi all,
 > 
-> > +
-> > +		fmt = find_format_by_code(f->mbus_code);
-> > +	} else {
-> > +		if (f->index >= num_formats)
-> > +			return -EINVAL;
-> > +
-> > +		fmt = &formats[f->index];
-> > +	}
-> > +
-> > +	if (!fmt)
-> > +		return -EINVAL;
-> > +
-> > +	f->pixelformat = fmt->fourcc;
-> > +	memset(f->reserved, 0, sizeof(f->reserved));
-> > +	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> > +
-> > +	return 0;
-> > +}
+> On 25/07/2023 08:12, Shengjiu Wang wrote:
+> > Audio signal processing has the requirement for memory to
+> > memory similar as Video.
+> > 
+> > This patch is to add this support in v4l2 framework, defined
+> > new buffer type V4L2_BUF_TYPE_AUDIO_CAPTURE and
+> > V4L2_BUF_TYPE_AUDIO_OUTPUT, defined new format v4l2_audio_format
+> > for audio case usage.
+> > 
+> > The created audio device is named "/dev/audioX".
+> > 
+> > And add memory to memory support for two kinds of i.MX ASRC
+> > module
+> 
+> Before I spend time on this: are the audio maintainers OK with doing
+> this in V4L2?
+> 
+> I do want to have a clear statement on this as it is not something I
+> can decide.
 
--- 
-Sakari Ailus
+Well, I personally don't mind to have some audio capability in v4l2
+layer.  But, the only uncertain thing for now is whether this is a
+must-have or not.
+
+IIRC, the implementation in the sound driver side was never done just
+because there was no similar implementation?  If so, and if the
+extension to the v4l2 core layer is needed, shouldn't it be more
+considered for the possible other route?
+
+
+thanks,
+
+Takashi
