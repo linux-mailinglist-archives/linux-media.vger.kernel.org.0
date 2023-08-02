@@ -2,242 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED6C876C8B9
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 10:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7E7576C8EA
+	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 11:01:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232364AbjHBIvf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 04:51:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52698 "EHLO
+        id S234015AbjHBJB0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 05:01:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjHBIvd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 04:51:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78ED8D9;
-        Wed,  2 Aug 2023 01:51:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E4E4061898;
-        Wed,  2 Aug 2023 08:51:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19D5EC433CD;
-        Wed,  2 Aug 2023 08:51:26 +0000 (UTC)
-Message-ID: <dca6f8c2-7d80-14fb-0090-7b10b1da13c2@xs4all.nl>
-Date:   Wed, 2 Aug 2023 10:51:25 +0200
+        with ESMTP id S233857AbjHBJBQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 05:01:16 -0400
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE417272D;
+        Wed,  2 Aug 2023 02:01:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1690966682; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=Q/k3Lgf/XlQYCG7loQ+KXywduAQQ8jt4jdt0K4Bmyp96B0XhRj6/fJyzeHdiBZVWm/
+    A1gqIZJWsbmZtj/RzgAVrmaW6lOn3XejDEnGbOieh85XQ4m/AWlP/8BrV21KRMN29Eib
+    bEToRUX0S5IOM5pTFwPVmwl2oqk9rhO9hCWkNiemEB0CePhJp5GE4OQqtpWYjNpPi9c/
+    DUMr6FWJWk/0RLuOs+eXEGkr6AngLw3VGNf9eTgE6f8YsnHmbFJagXmgFOVwz4isN6ab
+    9gk5NaMrq1XEogUFprm0QQ4DdJPog6Zhy6hVBHWKevHKBXJ096gT5qa1GGG0IfihixrS
+    Pskw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1690966682;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=9gfOXaLYqA7n9aISMUCYty1dCdYf8XP7q3JR+0afV78=;
+    b=TBM4bzuNNvnf2mN6J/mrB0Urxdz4kxECtMh9fEDzNxNoLyYL/OObQX7/71Px/zPHYK
+    cKMHMFXtsRlnpwdWdBpR8C6hghghjuYVSxPr/mwkmhXt9ujCOMfHYwU/thfTP1/Jm89T
+    KealC43swfdxc4Klg5V+6I7POiLIrIvhXFgIqC6Qwh/+uriAaIXq3wYsz6dfvVGFg8Xp
+    q0F9I6uTeXI6/C9up1Tn0uA81uzjM3F6aMXa2W4/9InxY65hFdDKFAD0SeUgrSLHLtNM
+    HDE8JRTI4O+eblP0/J1OUBZO64IBNXy95Y5exXS4IuwmWx98AvO+m+nZo7CWYo0i8RLv
+    dU8A==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1690966682;
+    s=strato-dkim-0002; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=9gfOXaLYqA7n9aISMUCYty1dCdYf8XP7q3JR+0afV78=;
+    b=qmf6NbDKKZXq8jOWnBS+EkUoVSiww0DwU4Vta9uVyvrAv1SKlqoEEvjejf9EqhVNe4
+    /zE/SB1LKsx1kig3Ti0KThWux6V9FioqnSTtvOVakB1IyXN9MPRH6LerxZXUKwUyrOBZ
+    yxf/6Vr17T11RUVLqq0/vU/e3/qknm+a6WMPwrZFY3P3624f/DMtYcGzV9i8gxROLhLM
+    I/eoh4rKFPxM1eDuHghQc3J22CvCtv4uc2Cm7QQ2u8h7E5KUguUyBOijeWl20PmTy5JS
+    mCJYtPakTK0w3QX2NAWlhtELugwZv89KJUGWHnBLn57xh/Ky3n6GDF+XQPuX5F5Y1DqL
+    Hgcw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1690966682;
+    s=strato-dkim-0003; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=9gfOXaLYqA7n9aISMUCYty1dCdYf8XP7q3JR+0afV78=;
+    b=9MLYpKfWhe9Wts/vrosi5h558l5IYUze+jap/igK0RvNaTgHKTrR+rZ6Mouo0vhihO
+    buwaFmlH0zNjDLvlxaCA==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u261EJF5OxJD4paA8Z+P1A=="
+Received: from gerhold.net
+    by smtp.strato.de (RZmta 49.6.6 DYNA|AUTH)
+    with ESMTPSA id k61817z728w2RE1
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Wed, 2 Aug 2023 10:58:02 +0200 (CEST)
+Date:   Wed, 2 Aug 2023 10:57:55 +0200
+From:   Stephan Gerhold <stephan@gerhold.net>
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc:     Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: venus: firmware: Use of_reserved_mem_lookup()
+Message-ID: <ZMoak_qaUSX-pkP2@gerhold.net>
+References: <20230529-venus-of-rmem-v1-1-dfcdc5047ffb@gerhold.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3,1/2] media: mediatek: vcodec: Fix possible invalid
- memory access for decoder
-Content-Language: en-US
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
-        <nfraprado@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nathan Hebert <nhebert@chromium.org>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20230729034735.17213-1-yunfei.dong@mediatek.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230729034735.17213-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230529-venus-of-rmem-v1-1-dfcdc5047ffb@gerhold.net>
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+Hi Stanimir,
 
-On 29/07/2023 05:47, Yunfei Dong wrote:
-> The vpu maybe null pointer or unreasonable value when scp crash, need to
-> validate that the vpu pointer and the vpu instance within this context is
-> valid in case of leading to kernel reboot.
+I see that you already tagged the Venus updates for 6.6, but could you
+try to still apply this patch as well for 6.6? It's a requirement for
+some DT cleanup I'm working on and ideally needs to go in a kernel
+release earlier to avoid bisect problems.
+
+AFAICT it's been on the list for more than two months now with two
+Reviewed-by, so should be fine to just apply it. :)
+
+Thanks!
+Stephan
+
+On Mon, May 29, 2023 at 08:16:14PM +0200, Stephan Gerhold wrote:
+> Reserved memory can be either looked up using the generic function
+> of_address_to_resource() or using the special of_reserved_mem_lookup().
+> The latter has the advantage that it ensures that the referenced memory
+> region was really reserved and is not e.g. status = "disabled".
 > 
-> Fixes: 590577a4e525 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Decoder Driver")
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> Reported-by: Steve Cho <stevecho@google.com>
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
-> - compared with v2:
-> - rewrite the commit message for patch 01 and 02.
-> - add Reported-by and Fixes tag.
-> - fix smatch fail for patch 02/2.
-> ---
->  .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  2 +
->  .../mediatek/vcodec/decoder/vdec_vpu_if.c     | 77 ++++++++++++-------
->  2 files changed, 52 insertions(+), 27 deletions(-)
+> of_reserved_mem also supports allocating reserved memory dynamically at
+> boot time. This works only when using of_reserved_mem_lookup() since
+> there won't be a fixed address in the device tree.
 > 
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> index 6c318de25a55e..7e36b2c69b7d1 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> @@ -161,6 +161,7 @@ struct mtk_vcodec_dec_pdata {
->   * @hw_id: hardware index used to identify different hardware.
->   *
->   * @msg_queue: msg queue used to store lat buffer information.
-> + * @vpu_inst: vpu instance pointer.
->   *
->   * @is_10bit_bitstream: set to true if it's 10bit bitstream
->   */
-> @@ -205,6 +206,7 @@ struct mtk_vcodec_dec_ctx {
->  	int hw_id;
->  
->  	struct vdec_msg_queue msg_queue;
-> +	void *vpu_inst;
->  
->  	bool is_10bit_bitstream;
->  };
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> index 82c3dc8c41273..23cfe5c6c90b7 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> @@ -72,6 +72,21 @@ static void handle_get_param_msg_ack(const struct vdec_vpu_ipi_get_param_ack *ms
->  	}
->  }
->  
-> +static bool vpu_dec_check_ap_inst(struct mtk_vcodec_dec_dev *dec_dev, struct vdec_vpu_inst *vpu)
-> +{
-> +	struct mtk_vcodec_dec_ctx *ctx;
-> +	int ret = false;
-> +
-> +	list_for_each_entry(ctx, &dec_dev->ctx_list, list) {
-> +		if (!IS_ERR_OR_NULL(ctx) && ctx->vpu_inst == vpu) {
-> +			ret = true;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * vpu_dec_ipi_handler - Handler for VPU ipi message.
->   *
-> @@ -84,44 +99,51 @@ static void handle_get_param_msg_ack(const struct vdec_vpu_ipi_get_param_ack *ms
->   */
->  static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv)
+> Switch the code to use of_reserved_mem_lookup(). There is no functional
+> difference for static reserved memory allocations.
+> 
+> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+> ---
+> See e.g. [1] for an example of dynamically allocated reserved memory.
+> (This patch does *not* depend on [1] and is useful without as well...)
+> 
+> [1]: https://lore.kernel.org/linux-arm-msm/20230510-dt-resv-bottom-up-v1-5-3bf68873dbed@gerhold.net/
+> ---
+>  drivers/media/platform/qcom/venus/firmware.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+> index cfb11c551167..2e7ffdaff7b2 100644
+> --- a/drivers/media/platform/qcom/venus/firmware.c
+> +++ b/drivers/media/platform/qcom/venus/firmware.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/io.h>
+>  #include <linux/of.h>
+>  #include <linux/of_address.h>
+> +#include <linux/of_reserved_mem.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/of_device.h>
+>  #include <linux/firmware/qcom/qcom_scm.h>
+> @@ -82,9 +83,9 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
+>  			 phys_addr_t *mem_phys, size_t *mem_size)
 >  {
-> +	struct mtk_vcodec_dec_dev *dec_dev;
->  	const struct vdec_vpu_ipi_ack *msg = data;
-> -	struct vdec_vpu_inst *vpu = (struct vdec_vpu_inst *)
-> -					(unsigned long)msg->ap_inst_addr;
-> +	struct vdec_vpu_inst *vpu;
->  
-> -	if (!vpu) {
-> +	dec_dev = (struct mtk_vcodec_dec_dev *)priv;
-> +	vpu = (struct vdec_vpu_inst *)(unsigned long)msg->ap_inst_addr;
-> +	if (!priv || !vpu) {
->  		mtk_v4l2_vdec_err(vpu->ctx, "ap_inst_addr is NULL, did the SCP hang or crash?");
->  		return;
+>  	const struct firmware *mdt;
+> +	struct reserved_mem *rmem;
+>  	struct device_node *node;
+>  	struct device *dev;
+> -	struct resource r;
+>  	ssize_t fw_size;
+>  	void *mem_va;
+>  	int ret;
+> @@ -99,13 +100,16 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
+>  		return -EINVAL;
 >  	}
-
-This change results in a smatch error:
-
-drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c:109 vpu_dec_ipi_handler() error: we previously assumed 'vpu' could be null (see line 108)
-
-The same happens in the next patch for vpu_enc_ipi_handler.
-
-Can you post a v4 fixing this?
-
-Thank you!
-
-	Hans
-
 >  
-> -	mtk_vdec_debug(vpu->ctx, "+ id=%X", msg->msg_id);
-> +	if (!vpu_dec_check_ap_inst(dec_dev, vpu) || msg->msg_id < VPU_IPIMSG_DEC_INIT_ACK ||
-> +	    msg->msg_id > VPU_IPIMSG_DEC_GET_PARAM_ACK) {
-> +		mtk_v4l2_vdec_err(vpu->ctx, "vdec msg id not correctly => 0x%x", msg->msg_id);
-> +		vpu->failure = -EINVAL;
-> +		goto error;
+> -	ret = of_address_to_resource(node, 0, &r);
+> -	if (ret)
+> -		goto err_put_node;
+> +	rmem = of_reserved_mem_lookup(node);
+> +	of_node_put(node);
+> +	if (!rmem) {
+> +		dev_err(dev, "failed to lookup reserved memory-region\n");
+> +		return -EINVAL;
 > +	}
 >  
->  	vpu->failure = msg->status;
-> -	vpu->signaled = 1;
-> +	if (msg->status != 0)
-> +		goto error;
+>  	ret = request_firmware(&mdt, fwname, dev);
+>  	if (ret < 0)
+> -		goto err_put_node;
+> +		return ret;
 >  
-> -	if (msg->status == 0) {
-> -		switch (msg->msg_id) {
-> -		case VPU_IPIMSG_DEC_INIT_ACK:
-> -			handle_init_ack_msg(data);
-> -			break;
-> +	switch (msg->msg_id) {
-> +	case VPU_IPIMSG_DEC_INIT_ACK:
-> +		handle_init_ack_msg(data);
-> +		break;
->  
-> -		case VPU_IPIMSG_DEC_START_ACK:
-> -		case VPU_IPIMSG_DEC_END_ACK:
-> -		case VPU_IPIMSG_DEC_DEINIT_ACK:
-> -		case VPU_IPIMSG_DEC_RESET_ACK:
-> -		case VPU_IPIMSG_DEC_CORE_ACK:
-> -		case VPU_IPIMSG_DEC_CORE_END_ACK:
-> -			break;
-> +	case VPU_IPIMSG_DEC_START_ACK:
-> +	case VPU_IPIMSG_DEC_END_ACK:
-> +	case VPU_IPIMSG_DEC_DEINIT_ACK:
-> +	case VPU_IPIMSG_DEC_RESET_ACK:
-> +	case VPU_IPIMSG_DEC_CORE_ACK:
-> +	case VPU_IPIMSG_DEC_CORE_END_ACK:
-> +		break;
->  
-> -		case VPU_IPIMSG_DEC_GET_PARAM_ACK:
-> -			handle_get_param_msg_ack(data);
-> -			break;
-> -		default:
-> -			mtk_vdec_err(vpu->ctx, "invalid msg=%X", msg->msg_id);
-> -			break;
-> -		}
-> +	case VPU_IPIMSG_DEC_GET_PARAM_ACK:
-> +		handle_get_param_msg_ack(data);
-> +		break;
-> +	default:
-> +		mtk_vdec_err(vpu->ctx, "invalid msg=%X", msg->msg_id);
-> +		break;
+>  	fw_size = qcom_mdt_get_size(mdt);
+>  	if (fw_size < 0) {
+> @@ -113,17 +117,17 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
+>  		goto err_release_fw;
 >  	}
 >  
-> -	mtk_vdec_debug(vpu->ctx, "- id=%X", msg->msg_id);
-> +error:
-> +	vpu->signaled = 1;
+> -	*mem_phys = r.start;
+> -	*mem_size = resource_size(&r);
+> +	*mem_phys = rmem->base;
+> +	*mem_size = rmem->size;
+>  
+>  	if (*mem_size < fw_size || fw_size > VENUS_FW_MEM_SIZE) {
+>  		ret = -EINVAL;
+>  		goto err_release_fw;
+>  	}
+>  
+> -	mem_va = memremap(r.start, *mem_size, MEMREMAP_WC);
+> +	mem_va = memremap(*mem_phys, *mem_size, MEMREMAP_WC);
+>  	if (!mem_va) {
+> -		dev_err(dev, "unable to map memory region: %pR\n", &r);
+> +		dev_err(dev, "unable to map memory region %pa size %#zx\n", mem_phys, *mem_size);
+>  		ret = -ENOMEM;
+>  		goto err_release_fw;
+>  	}
+> @@ -138,8 +142,6 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
+>  	memunmap(mem_va);
+>  err_release_fw:
+>  	release_firmware(mdt);
+> -err_put_node:
+> -	of_node_put(node);
+>  	return ret;
 >  }
 >  
->  static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int len)
-> @@ -182,9 +204,10 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
->  
->  	init_waitqueue_head(&vpu->wq);
->  	vpu->handler = vpu_dec_ipi_handler;
-> +	vpu->ctx->vpu_inst = vpu;
->  
->  	err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
-> -					 vpu->handler, "vdec", NULL);
-> +					 vpu->handler, "vdec", vpu->ctx->dev);
->  	if (err) {
->  		mtk_vdec_err(vpu->ctx, "vpu_ipi_register fail status=%d", err);
->  		return err;
-> @@ -193,7 +216,7 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
->  	if (vpu->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_LAT_SINGLE_CORE) {
->  		err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler,
->  						 vpu->core_id, vpu->handler,
-> -						 "vdec", NULL);
-> +						 "vdec", vpu->ctx->dev);
->  		if (err) {
->  			mtk_vdec_err(vpu->ctx, "vpu_ipi_register core fail status=%d", err);
->  			return err;
-
+> 
+> ---
+> base-commit: 9f9f8ca6f012d25428f8605cb36369a449db8508
+> change-id: 20230529-venus-of-rmem-f649885114fd
+> 
+> Best regards,
+> -- 
+> Stephan Gerhold <stephan@gerhold.net>
+> 
