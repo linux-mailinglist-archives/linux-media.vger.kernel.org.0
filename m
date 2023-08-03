@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69BAE76E4A0
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 11:37:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E56C976E49D
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 11:37:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230335AbjHCJhX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 05:37:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33380 "EHLO
+        id S235180AbjHCJhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 05:37:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235143AbjHCJgT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 05:36:19 -0400
+        with ESMTP id S235142AbjHCJgS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 05:36:18 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38F483A81
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 02:34:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02F523A80
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 02:34:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691055280;
+        s=mimecast20190719; t=1691055279;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=yFx6BYu9bpB75AJ8M6xQoqsHjFu/31ufoi+KwnL/ToM=;
-        b=UGWkxAJxxGwpiTLPm3Wxte2qsdJsFt/1ViWQW2KQg/nJ4VGA/xZD5OO4rnxgre6UXmvnaL
-        /WSpg22jnZClkRxSQgsBsTfKb6z413U6mXDoW7/4AuOmfwcU+yKjaZcqKssFv6qdjCyFFC
-        nVqAMJJ7qZg0vmlO99ZVMJ6EnL3G0rE=
+        bh=9UcsjB5rRPcjxgnzDxzmeaRvxgVPxqS4oDq/b3K3X2k=;
+        b=e39QAVj7R5k+QQ3enxh7Q+noQMYaC4q2jcXvfQD/0/0G3kiEjcSjdaCMdydB/9FDQlD3Zx
+        m3MhcOKp3BPgjR4YcWD4dUQbTcXB83lWvPaNrfGM2M2MP+20T+nwtpF1MP5V5De4VBy+R8
+        caLfMewkDYcBa6GaxwzHuzHyp5rOwNk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-3xI8MB2rNiOmVShyzHez0g-1; Thu, 03 Aug 2023 05:34:35 -0400
-X-MC-Unique: 3xI8MB2rNiOmVShyzHez0g-1
+ us-mta-530-uC17vZzQPPGpVI4ThMGEVA-1; Thu, 03 Aug 2023 05:34:36 -0400
+X-MC-Unique: uC17vZzQPPGpVI4ThMGEVA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5A44856506;
-        Thu,  3 Aug 2023 09:34:33 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BE4F810BB2;
+        Thu,  3 Aug 2023 09:34:35 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.193.2])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7DDDD2166B25;
-        Thu,  3 Aug 2023 09:34:32 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 254592166B25;
+        Thu,  3 Aug 2023 09:34:34 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v5 26/32] media: ov2680: Drop unnecessary pad checks
-Date:   Thu,  3 Aug 2023 11:33:41 +0200
-Message-ID: <20230803093348.15679-27-hdegoede@redhat.com>
+Subject: [PATCH v5 27/32] media: ov2680: Read and log sensor revision during probe
+Date:   Thu,  3 Aug 2023 11:33:42 +0200
+Message-ID: <20230803093348.15679-28-hdegoede@redhat.com>
 In-Reply-To: <20230803093348.15679-1-hdegoede@redhat.com>
 References: <20230803093348.15679-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,50 +66,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Drop unnecessary pad checks in enum_mbus_code, get_fmt, set_fmt
-this is already checked by check_pad() from
-drivers/media/v4l2-core/v4l2-subdev.c.
+Read and log sensor revision during probe.
+
+Since this means that the driver will now already log a message on
+successful probe drop the "ov2680 init correctly" log message.
 
 Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/media/i2c/ov2680.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index e6c99c14da8f..c09a0e7f7787 100644
+index c09a0e7f7787..1f59013e440c 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -591,7 +591,7 @@ static int ov2680_enum_mbus_code(struct v4l2_subdev *sd,
+@@ -33,6 +33,7 @@
+ #define OV2680_REG_SOFT_RESET			CCI_REG8(0x0103)
+ 
+ #define OV2680_REG_CHIP_ID			CCI_REG16(0x300a)
++#define OV2680_REG_SC_CMMN_SUB_ID		CCI_REG8(0x302a)
+ #define OV2680_REG_PLL_MULTIPLIER		CCI_REG16(0x3081)
+ 
+ #define OV2680_REG_EXPOSURE_PK			CCI_REG24(0x3500)
+@@ -966,13 +967,14 @@ static int ov2680_get_regulators(struct ov2680_dev *sensor)
+ 
+ static int ov2680_check_id(struct ov2680_dev *sensor)
  {
- 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
+-	u64 chip_id;
+-	int ret;
++	u64 chip_id, rev;
++	int ret = 0;
  
--	if (code->pad != 0 || code->index != 0)
-+	if (code->index != 0)
- 		return -EINVAL;
+-	ret = cci_read(sensor->regmap, OV2680_REG_CHIP_ID, &chip_id, NULL);
++	cci_read(sensor->regmap, OV2680_REG_CHIP_ID, &chip_id, &ret);
++	cci_read(sensor->regmap, OV2680_REG_SC_CMMN_SUB_ID, &rev, &ret);
+ 	if (ret < 0) {
+ 		dev_err(sensor->dev, "failed to read chip id\n");
+-		return -ENODEV;
++		return ret;
+ 	}
  
- 	code->code = sensor->mode.fmt.code;
-@@ -606,9 +606,6 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
- 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
- 	struct v4l2_mbus_framefmt *fmt;
+ 	if (chip_id != OV2680_CHIP_ID) {
+@@ -981,6 +983,9 @@ static int ov2680_check_id(struct ov2680_dev *sensor)
+ 		return -ENODEV;
+ 	}
  
--	if (format->pad != 0)
--		return -EINVAL;
++	dev_info(sensor->dev, "sensor_revision id = 0x%llx, rev= %lld\n",
++		 chip_id, rev & 0x0f);
++
+ 	return 0;
+ }
+ 
+@@ -1121,8 +1126,6 @@ static int ov2680_probe(struct i2c_client *client)
+ 	pm_runtime_use_autosuspend(&client->dev);
+ 	pm_runtime_put_autosuspend(&client->dev);
+ 
+-	dev_info(dev, "ov2680 init correctly\n");
 -
- 	fmt = __ov2680_get_pad_format(sensor, sd_state, format->pad,
- 				      format->which);
+ 	return 0;
  
-@@ -629,9 +626,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 	unsigned int width, height;
- 	int ret = 0;
- 
--	if (format->pad != 0)
--		return -EINVAL;
--
- 	crop = __ov2680_get_pad_crop(sensor, sd_state, format->pad,
- 				     format->which);
- 
+ err_pm_runtime:
 -- 
 2.41.0
 
