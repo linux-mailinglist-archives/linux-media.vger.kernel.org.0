@@ -2,195 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 266A776E917
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 15:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54E8776E9B8
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 15:13:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235898AbjHCNDx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 09:03:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53770 "EHLO
+        id S236077AbjHCNNw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 09:13:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232507AbjHCNDp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 09:03:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E2235A8;
-        Thu,  3 Aug 2023 06:03:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5ABE861D85;
-        Thu,  3 Aug 2023 13:03:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37721C433C7;
-        Thu,  3 Aug 2023 13:03:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691067804;
-        bh=EM39itBcbN7Mjgyn0t1kV7w4owOpAntw0KP1b1TLh4o=;
-        h=From:To:Cc:Subject:Date:From;
-        b=QBdn5p711H9F06/aTeC6MyfO1S9DU2slkYUbUsY/ELHurAJ+cJ/BILBUgDVbilh5R
-         6+LsYkKrENWqX5NOAQViGs8zzn/1sLqsndB95AB/kTqfs3Gjxf42B9bvpiSQju560f
-         lFtZQV0kEE1/52uXdcXWehAZWjY/JTMhdye3TmBJkwM50UhASeXg/e1XLsLiMrRAPx
-         F5eK9Tj2vPlDxklBjilV4Zp7UbPemftVUGy1TYq7f5+fK+KxTY0feTNkKPOVslU5Yf
-         soIbHVGZ12OgS6AA5LvTrXu8HJs+LbIiKYK3/Impko8/8xqoKlztn+ULtOLn7EjbGK
-         49Xwr0yFlbb4g==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Frank Binns <frank.binns@imgtec.com>,
-        Sarah Walker <sarah.walker@imgtec.com>,
-        Donald Robson <donald.robson@imgtec.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.4 1/7] drm/sched: Make sure we wait for all dependencies in kill_jobs_cb()
-Date:   Thu,  3 Aug 2023 09:03:14 -0400
-Message-Id: <20230803130321.641516-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.40.1
+        with ESMTP id S236375AbjHCNNO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 09:13:14 -0400
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AAE04495;
+        Thu,  3 Aug 2023 06:11:42 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-790bed44880so31373439f.0;
+        Thu, 03 Aug 2023 06:11:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691068291; x=1691673091;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7lC0SW0eAGcjrPelcOslL8Ss4E31DBBOJeX5ruPDUDU=;
+        b=OgeQqTU3eLsToIFQqpnPIA8g1WCwq6zItGL9mntQIrUxGhjbBitttp4rPonWdcsfxP
+         iRu6lmPdnlStCJoOCDCEuv4opy0zlLNTWrDmAEXCgmXENtRx5rA/fBxUCmTnEEXn1s3d
+         +b7fpiJVshrK7ErQ0MD+MO4FLFbHFFpyzV69Zs7aLy44fmoU9jTLoK5MvRuK820kS5RG
+         J+SRnf5gQSlsbchEYrjWURjn7aZhSZjoQmyVb5mdk1f9ajw0rn3vuOWoAlhOae+REEzD
+         zfGk59orqaoBC1o2Oruv8/rVXoVQYP4t+5ttTB6qg7JIglPFNGEO+kjJ6kcvnW4QH0jw
+         r2EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691068291; x=1691673091;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7lC0SW0eAGcjrPelcOslL8Ss4E31DBBOJeX5ruPDUDU=;
+        b=hFbOT7tAeS/COxdSU20i3JjhUwsJzQ9PcnJxapPWhtpp/juWr3OA2Med5XdZRaK1Nl
+         VNelsEXIAuxm8jnWVtA6u2t/JQ+JoJ9yxdeLLmf0ioZLgWgnkMEJLeXdWIujM46sdM1E
+         W7hoXnvcOXYUMKr2CGDMlSxp1XLONEwhLz3SdRSmgRUBJMIPeQBI05kAFA4XRVqN0zzE
+         SJEylf58e/TM9CcYfTvZ9+k+4IC4/WA5oqFM/DufIV8GZWgvQo6sn3F/i2/PwAqJmz7q
+         1WrGlHclab2y5htWIQ8ZSy9ZjJQx+tzhQkGd0zJVAXpkehhKgq5a1QcriM8GjFofUIhT
+         nzZg==
+X-Gm-Message-State: ABy/qLYxWEqNTu1b6vJsWzud3JK+hxiY1lnWWiAulCGlUgg7Dwc3NLju
+        26stkc1Xxe2g9WN03F+0KuSD2DrUE+hQGmskrto=
+X-Google-Smtp-Source: APBJJlEtqzIxYCVUFEvV5fgDCP81fGeD3GZpt6levaG9H4upWh9g5EvLMYrqL4ob+7IT6h4Vjry/EVcjmBnCK9V7HJM=
+X-Received: by 2002:a05:6e02:1569:b0:348:c041:abd7 with SMTP id
+ k9-20020a056e02156900b00348c041abd7mr15797226ilu.13.1691068290064; Thu, 03
+ Aug 2023 06:11:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.7
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
+ <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl> <87il9xu1ro.wl-tiwai@suse.de>
+ <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com>
+ <87il9xoddo.wl-tiwai@suse.de> <CAA+D8AOVEpGxO0YNeS1p+Ym86k6VP-CNQB3JmbeT7mPKg0R99A@mail.gmail.com>
+ <844ef9b6-d5e2-46a9-b7a5-7ee86a2e449c@sirena.org.uk>
+In-Reply-To: <844ef9b6-d5e2-46a9-b7a5-7ee86a2e449c@sirena.org.uk>
+From:   Shengjiu Wang <shengjiu.wang@gmail.com>
+Date:   Thu, 3 Aug 2023 21:11:16 +0800
+Message-ID: <CAA+D8AOnsx+7t3MrWm42waxtetL07nbKURLsh1hBx39LUDm+Zg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Takashi Iwai <tiwai@suse.de>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Boris Brezillon <boris.brezillon@collabora.com>
+On Thu, Aug 3, 2023 at 1:28=E2=80=AFAM Mark Brown <broonie@kernel.org> wrot=
+e:
+>
+> On Wed, Aug 02, 2023 at 10:41:43PM +0800, Shengjiu Wang wrote:
+>
+> > Currently the ASRC in ALSA is to connect to another I2S device as
+> > a sound card.  But we'd like to the ASRC can be used by user space dire=
+ctly
+> > that user space application can get the output after conversion from AS=
+RC.
+>
+> That sort of use case would be handled via DPCM at the minute, though
+> persuading it to connect two front ends together might be fun (which is
+> the sort of reason why we want to push digital information down into
+> DAPM and make everything a component).
 
-[ Upstream commit e30cb0599799aac099209e3b045379613c80730e ]
+Thanks.
 
-drm_sched_entity_kill_jobs_cb() logic is omitting the last fence popped
-from the dependency array that was waited upon before
-drm_sched_entity_kill() was called (drm_sched_entity::dependency field),
-so we're basically waiting for all dependencies except one.
+ASRC M2M case needs to run as fast as possible, no sync clock control.
+If use sound card to handle ASRC M2M case,  the user application
+should be aplay/arecord, then we need to consider xrun issue, buffer
+may timeout, sync between aplay and arecord,  these should't be
+considered by pure memory to memory operation.
 
-In theory, this wait shouldn't be needed because resources should have
-their users registered to the dma_resv object, thus guaranteeing that
-future jobs wanting to access these resources wait on all the previous
-users (depending on the access type, of course). But we want to keep
-these explicit waits in the kill entity path just in case.
+DPCM may achitect all the audio things in components and sound
+card,  it is good. but for the M2M case, it is complcated. not sure
+it is doable.
 
-Let's make sure we keep all dependencies in the array in
-drm_sched_job_dependency(), so we can iterate over the array and wait
-in drm_sched_entity_kill_jobs_cb().
-
-We also make sure we wait on drm_sched_fence::finished if we were
-originally asked to wait on drm_sched_fence::scheduled. In that case,
-we assume the intent was to delegate the wait to the firmware/GPU or
-rely on the pipelining done at the entity/scheduler level, but when
-killing jobs, we really want to wait for completion not just scheduling.
-
-v2:
-- Don't evict deps in drm_sched_job_dependency()
-
-v3:
-- Always wait for drm_sched_fence::finished fences in
-  drm_sched_entity_kill_jobs_cb() when we see a sched_fence
-
-v4:
-- Fix commit message
-- Fix a use-after-free bug
-
-v5:
-- Flag deps on which we should only wait for the scheduled event
-  at insertion time
-
-v6:
-- Back to v4 implementation
-- Add Christian's R-b
-
-Cc: Frank Binns <frank.binns@imgtec.com>
-Cc: Sarah Walker <sarah.walker@imgtec.com>
-Cc: Donald Robson <donald.robson@imgtec.com>
-Cc: Luben Tuikov <luben.tuikov@amd.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Suggested-by: "Christian König" <christian.koenig@amd.com>
-Reviewed-by: "Christian König" <christian.koenig@amd.com>
-Acked-by: Luben Tuikov <luben.tuikov@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230619071921.3465992-1-boris.brezillon@collabora.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 41 +++++++++++++++++++-----
- 1 file changed, 33 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index e0a8890a62e23..42021d1f7e016 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -155,16 +155,32 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- {
- 	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
- 						 finish_cb);
--	int r;
-+	unsigned long index;
- 
- 	dma_fence_put(f);
- 
- 	/* Wait for all dependencies to avoid data corruptions */
--	while (!xa_empty(&job->dependencies)) {
--		f = xa_erase(&job->dependencies, job->last_dependency++);
--		r = dma_fence_add_callback(f, &job->finish_cb,
--					   drm_sched_entity_kill_jobs_cb);
--		if (!r)
-+	xa_for_each(&job->dependencies, index, f) {
-+		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
-+
-+		if (s_fence && f == &s_fence->scheduled) {
-+			/* The dependencies array had a reference on the scheduled
-+			 * fence, and the finished fence refcount might have
-+			 * dropped to zero. Use dma_fence_get_rcu() so we get
-+			 * a NULL fence in that case.
-+			 */
-+			f = dma_fence_get_rcu(&s_fence->finished);
-+
-+			/* Now that we have a reference on the finished fence,
-+			 * we can release the reference the dependencies array
-+			 * had on the scheduled fence.
-+			 */
-+			dma_fence_put(&s_fence->scheduled);
-+		}
-+
-+		xa_erase(&job->dependencies, index);
-+		if (f && !dma_fence_add_callback(f, &job->finish_cb,
-+						 drm_sched_entity_kill_jobs_cb))
- 			return;
- 
- 		dma_fence_put(f);
-@@ -394,8 +410,17 @@ static struct dma_fence *
- drm_sched_job_dependency(struct drm_sched_job *job,
- 			 struct drm_sched_entity *entity)
- {
--	if (!xa_empty(&job->dependencies))
--		return xa_erase(&job->dependencies, job->last_dependency++);
-+	struct dma_fence *f;
-+
-+	/* We keep the fence around, so we can iterate over all dependencies
-+	 * in drm_sched_entity_kill_jobs_cb() to ensure all deps are signaled
-+	 * before killing the job.
-+	 */
-+	f = xa_load(&job->dependencies, job->last_dependency);
-+	if (f) {
-+		job->last_dependency++;
-+		return dma_fence_get(f);
-+	}
- 
- 	if (job->sched->ops->prepare_job)
- 		return job->sched->ops->prepare_job(job, entity);
--- 
-2.40.1
-
+best regards
+wang shengjiu
