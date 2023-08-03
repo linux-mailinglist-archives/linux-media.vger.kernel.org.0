@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C672C76E495
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 11:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C62776E497
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 11:37:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235137AbjHCJhF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 05:37:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33298 "EHLO
+        id S235211AbjHCJhJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 05:37:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235136AbjHCJgF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 05:36:05 -0400
+        with ESMTP id S235104AbjHCJgQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 05:36:16 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF5CB35A5
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 02:34:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB28635B5
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 02:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691055265;
+        s=mimecast20190719; t=1691055271;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=OU0ELlj18DaO7z7eFjreRnwtZGmvkS2ThEX3kD1fe7I=;
-        b=KgLrh8AvEmi0hZ7VVvfV9wWA3/F420rIdBKo0bUU7vOWnqFkiKGIyKdBX3US3+EqwPIQHB
-        vT9P9qyIdQCR+8UD/BkqZ1QQiQnNVEXWiMULFwadU8RVv40uTJp8DroOJaXXBrH0+WLd9x
-        6ckXW9mKTT7T6TAtHMA9xRjYUBOEYgo=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207--WfbfLPSPnqff240Uztyww-1; Thu, 03 Aug 2023 05:34:23 -0400
-X-MC-Unique: -WfbfLPSPnqff240Uztyww-1
+        bh=uUprhVBja7nZeiW0CAnKUaW64QHkdPVI2IpjVXsFGuo=;
+        b=H5uP+V0LQs7RKVdYDWEih1vsD1XA7cKpyg91Hofy4b3FeGQtDkJKKa8p3RS6qyCpTiMJSC
+        MrU5jMwb3teRg3n5W4npXJt9/IMlmn2XQ9mBqAZID7Qb1Kxi1WwCCrtZ6rVU3kASY/W6ji
+        8+Cr+/4ofOL3xW5xbrmwXOy2u+00FFE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-573-mlTnI9MvN9OK0szWtD89kQ-1; Thu, 03 Aug 2023 05:34:24 -0400
+X-MC-Unique: mlTnI9MvN9OK0szWtD89kQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 773C02A59578;
-        Thu,  3 Aug 2023 09:34:22 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FCED856F66;
+        Thu,  3 Aug 2023 09:34:24 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.193.2])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 11DB42166B25;
-        Thu,  3 Aug 2023 09:34:20 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A9EA62166B25;
+        Thu,  3 Aug 2023 09:34:22 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v5 19/32] media: ov2680: Annotate the per mode register setting lists
-Date:   Thu,  3 Aug 2023 11:33:34 +0200
-Message-ID: <20230803093348.15679-20-hdegoede@redhat.com>
+Subject: [PATCH v5 20/32] media: ov2680: Add ov2680_mode struct
+Date:   Thu,  3 Aug 2023 11:33:35 +0200
+Message-ID: <20230803093348.15679-21-hdegoede@redhat.com>
 In-Reply-To: <20230803093348.15679-1-hdegoede@redhat.com>
 References: <20230803093348.15679-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,157 +66,134 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Annotate the per mode register setting lists.
+Add an ov2680_mode struct to group together mode related state.
+
+For now this only containst the v4l2_mbus_framefmt and
+the frame_interval.
 
 This is a preparation patch for moving to calculating the per mode
-settings, allowing to set any mode through cropping.
-
-The annotations make it easier to see which registers are mode
-dependent and which are fixed.
+settings, which will store more info in the new ov2680_mode struct.
 
 Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 118 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 104 insertions(+), 14 deletions(-)
+ drivers/media/i2c/ov2680.c | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index a83efd449993..e7d2e555e1c6 100644
+index e7d2e555e1c6..76f97d053e45 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -140,27 +140,117 @@ static const int ov2680_hv_flip_bayer_order[] = {
+@@ -101,6 +101,11 @@ struct ov2680_ctrls {
+ 	struct v4l2_ctrl *test_pattern;
  };
  
- static const struct reg_sequence ov2680_setting_30fps_QUXGA_800_600[] = {
--	{0x3086, 0x01}, {0x370a, 0x23}, {0x3808, 0x03}, {0x3809, 0x20},
--	{0x380a, 0x02}, {0x380b, 0x58}, {0x380c, 0x06}, {0x380d, 0xac},
--	{0x380e, 0x02}, {0x380f, 0x84}, {0x3811, 0x04}, {0x3813, 0x04},
--	{0x3814, 0x31}, {0x3815, 0x31}, {0x3820, 0xc0}, {0x4008, 0x00},
--	{0x4009, 0x03}, {0x4837, 0x1e}, {0x3501, 0x4e}, {0x3502, 0xe0},
-+	/* Set PLL SP DIV to 1 for binning mode */
-+	{0x3086, 0x01},
++struct ov2680_mode {
++	struct v4l2_mbus_framefmt	fmt;
++	struct v4l2_fract		frame_interval;
++};
 +
-+	/* Sensor control register 0x0a to 0x23 for binning mode */
-+	{0x370a, 0x23},
-+
-+	/* Set X and Y output size to 800x600 */
-+	{0x3808, 0x03},
-+	{0x3809, 0x20},
-+	{0x380a, 0x02},
-+	{0x380b, 0x58},
-+
-+	/* Set HTS + VTS to 1708x644 */
-+	{0x380c, 0x06},
-+	{0x380d, 0xac},
-+	{0x380e, 0x02},
-+	{0x380f, 0x84},
-+
-+	/* Set ISP WIN X and Y start to 4x4 */
-+	{0x3811, 0x04},
-+	{0x3813, 0x04},
-+
-+	/* Set X INC and Y INC for binning */
-+	{0x3814, 0x31},
-+	{0x3815, 0x31},
-+
-+	/* Initialize FORMAT1 to default/reset value (vflip disabled) */
-+	{0x3820, 0xc0},
-+
-+	/* Set black level compensation range to 0 - 3 (default 0 - 11) */
-+	{0x4008, 0x00},
-+	{0x4009, 0x03},
-+
-+	/* Set MIPI pclk period to 0x1e (default/reset is 0x18) */
-+	{0x4837, 0x1e},
-+
-+	/* Initialize exposure to 0x4ee (overridden by the ctrl, drop this */
-+	{0x3501, 0x4e},
-+	{0x3502, 0xe0},
-+
-+	/* R MANUAL set exposure and gain to manual (hw does not do auto) */
- 	{0x3503, 0x03},
- };
+ struct ov2680_dev {
+ 	struct device			*dev;
+ 	struct regmap			*regmap;
+@@ -118,8 +123,7 @@ struct ov2680_dev {
+ 	bool				is_streaming;
  
- static const struct reg_sequence ov2680_setting_30fps_720P_1280_720[] = {
--	{0x3086, 0x00}, {0x3808, 0x05}, {0x3809, 0x00}, {0x380a, 0x02},
--	{0x380b, 0xd0}, {0x380c, 0x06}, {0x380d, 0xa8}, {0x380e, 0x05},
--	{0x380f, 0x0e}, {0x3811, 0x08}, {0x3813, 0x06}, {0x3814, 0x11},
--	{0x3815, 0x11}, {0x3820, 0xc0}, {0x4008, 0x00},
-+	/* Set PLL SP DIV to 0 for not binning mode */
-+	{0x3086, 0x00},
-+
-+	/* Set X and Y output size to 1280x720 */
-+	{0x3808, 0x05},
-+	{0x3809, 0x00},
-+	{0x380a, 0x02},
-+	{0x380b, 0xd0},
-+
-+	/* Set HTS + VTS to 1704x1294 */
-+	{0x380c, 0x06},
-+	{0x380d, 0xa8},
-+	{0x380e, 0x05},
-+	{0x380f, 0x0e},
-+
-+	/* Set ISP WIN X and Y start to 8x6 */
-+	{0x3811, 0x08},
-+	{0x3813, 0x06},
-+
-+	/* Set X INC and Y INC for non binning */
-+	{0x3814, 0x11},
-+	{0x3815, 0x11},
-+
-+	/* Initialize FORMAT1 to default/reset value (vflip disabled) */
-+	{0x3820, 0xc0},
-+
-+	/* Set backlight compensation range start to 0 */
-+	{0x4008, 0x00},
- };
+ 	struct ov2680_ctrls		ctrls;
+-	struct v4l2_mbus_framefmt	fmt;
+-	struct v4l2_fract		frame_interval;
++	struct ov2680_mode		mode;
  
- static const struct reg_sequence ov2680_setting_30fps_UXGA_1600_1200[] = {
--	{0x3086, 0x00}, {0x3501, 0x4e}, {0x3502, 0xe0}, {0x3808, 0x06},
--	{0x3809, 0x40}, {0x380a, 0x04}, {0x380b, 0xb0}, {0x380c, 0x06},
--	{0x380d, 0xa8}, {0x380e, 0x05}, {0x380f, 0x0e}, {0x3811, 0x00},
--	{0x3813, 0x00}, {0x3814, 0x11}, {0x3815, 0x11}, {0x3820, 0xc0},
--	{0x4008, 0x00}, {0x4837, 0x18}
-+	/* Set PLL SP DIV to 0 for not binning mode */
-+	{0x3086, 0x00},
-+
-+	/* Initialize exposure to 0x4ee (overridden by the ctrl, drop this */
-+	{0x3501, 0x4e},
-+	{0x3502, 0xe0},
-+
-+	/* Set X and Y output size to 1600x1200 */
-+	{0x3808, 0x06},
-+	{0x3809, 0x40},
-+	{0x380a, 0x04},
-+	{0x380b, 0xb0},
-+
-+	/* Set HTS + VTS to 1704x1294 */
-+	{0x380c, 0x06},
-+	{0x380d, 0xa8},
-+	{0x380e, 0x05},
-+	{0x380f, 0x0e},
-+
-+	/* Set ISP WIN X and Y start to 0x0 */
-+	{0x3811, 0x00},
-+	{0x3813, 0x00},
-+
-+	/* Set X INC and Y INC for non binning */
-+	{0x3814, 0x11},
-+	{0x3815, 0x11},
-+
-+	/* Initialize FORMAT1 to default/reset value (vflip disabled) */
-+	{0x3820, 0xc0},
-+
-+	/* Set backlight compensation range start to 0 */
-+	{0x4008, 0x00},
-+
-+	/* Set MIPI pclk period to default/reset value of 0x18 */
-+	{0x4837, 0x18}
+ 	const struct ov2680_mode_info	*current_mode;
  };
+@@ -338,7 +342,7 @@ static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
+ 	if (ret < 0)
+ 		return ret;
  
- static const struct ov2680_mode_info ov2680_mode_init_data = {
+-	ov2680_set_bayer_order(sensor, &sensor->fmt);
++	ov2680_set_bayer_order(sensor, &sensor->mode.fmt);
+ 	return 0;
+ }
+ 
+@@ -354,7 +358,7 @@ static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ov2680_set_bayer_order(sensor, &sensor->fmt);
++	ov2680_set_bayer_order(sensor, &sensor->mode.fmt);
+ 	return 0;
+ }
+ 
+@@ -467,7 +471,7 @@ static int ov2680_s_g_frame_interval(struct v4l2_subdev *sd,
+ 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
+ 
+ 	mutex_lock(&sensor->lock);
+-	fi->interval = sensor->frame_interval;
++	fi->interval = sensor->mode.frame_interval;
+ 	mutex_unlock(&sensor->lock);
+ 
+ 	return 0;
+@@ -515,7 +519,7 @@ static int ov2680_enum_mbus_code(struct v4l2_subdev *sd,
+ 	if (code->pad != 0 || code->index != 0)
+ 		return -EINVAL;
+ 
+-	code->code = sensor->fmt.code;
++	code->code = sensor->mode.fmt.code;
+ 
+ 	return 0;
+ }
+@@ -536,7 +540,7 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
+ 		fmt = v4l2_subdev_get_try_format(&sensor->sd, sd_state,
+ 						 format->pad);
+ 	} else {
+-		fmt = &sensor->fmt;
++		fmt = &sensor->mode.fmt;
+ 	}
+ 
+ 	format->format = *fmt;
+@@ -582,7 +586,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 	}
+ 
+ 	sensor->current_mode = mode;
+-	sensor->fmt = format->format;
++	sensor->mode.fmt = format->format;
+ 
+ unlock:
+ 	mutex_unlock(&sensor->lock);
+@@ -640,7 +644,7 @@ static int ov2680_enum_frame_interval(struct v4l2_subdev *sd,
+ 	if (fie->index || !ov2680_valid_frame_size(fie))
+ 		return -EINVAL;
+ 
+-	fie->interval = sensor->frame_interval;
++	fie->interval = sensor->mode.frame_interval;
+ 
+ 	return 0;
+ }
+@@ -653,7 +657,7 @@ static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+ 
+ 	/* Only apply changes to the controls if the device is powered up */
+ 	if (!pm_runtime_get_if_in_use(sensor->sd.dev)) {
+-		ov2680_set_bayer_order(sensor, &sensor->fmt);
++		ov2680_set_bayer_order(sensor, &sensor->mode.fmt);
+ 		return 0;
+ 	}
+ 
+@@ -711,11 +715,11 @@ static int ov2680_mode_init(struct ov2680_dev *sensor)
+ 	const struct ov2680_mode_info *init_mode;
+ 
+ 	/* set initial mode */
+-	ov2680_fill_format(sensor, &sensor->fmt,
++	ov2680_fill_format(sensor, &sensor->mode.fmt,
+ 			   OV2680_DEFAULT_WIDTH, OV2680_DEFAULT_HEIGHT);
+ 
+-	sensor->frame_interval.denominator = OV2680_FRAME_RATE;
+-	sensor->frame_interval.numerator = 1;
++	sensor->mode.frame_interval.denominator = OV2680_FRAME_RATE;
++	sensor->mode.frame_interval.numerator = 1;
+ 
+ 	init_mode = &ov2680_mode_init_data;
+ 
 -- 
 2.41.0
 
