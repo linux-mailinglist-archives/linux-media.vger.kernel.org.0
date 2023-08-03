@@ -2,61 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DFE676EF3F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 18:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E346B76F0B4
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 19:34:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236186AbjHCQRJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 12:17:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55350 "EHLO
+        id S234961AbjHCReR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 13:34:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235637AbjHCQRJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 12:17:09 -0400
-Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3253C1F;
-        Thu,  3 Aug 2023 09:16:59 -0700 (PDT)
-Received: from [192.168.10.7] (unknown [10.0.12.132])
-        by kozue.soulik.info (Postfix) with ESMTPSA id 5F27830655C;
-        Fri,  4 Aug 2023 01:16:29 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info 5F27830655C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
-        t=1691079393; bh=2cRhygiJP5Ea8at7WCEJOX/seT0t5ZCVIJQiiVgTye8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RwcIFxkmdqxOmD7qQFp4NXbbgfhmgargeAW3z7leK46sUduca52bOTGMg6O6UKVQ1
-         TbKRNaP5EhtLY6scwEVKOKjmaT+PeeaTdCm8LT2GGhw1rUkeytEx7J+AuFqXAA7Kpq
-         iJYSUNRNG6Z/TfzyGw8ITKEv02kkJpvhZSDsz5wc=
-Message-ID: <585fdf97-4ed9-7d9a-78a8-e271d5b05301@soulik.info>
-Date:   Fri, 4 Aug 2023 00:16:49 +0800
+        with ESMTP id S229837AbjHCReP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 13:34:15 -0400
+Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125EE10B;
+        Thu,  3 Aug 2023 10:34:15 -0700 (PDT)
+Received: by mail-vs1-xe2e.google.com with SMTP id ada2fe7eead31-44799de68f3so1534419137.1;
+        Thu, 03 Aug 2023 10:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691084054; x=1691688854;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s8Xa9pYsN9q26Cy2OfWksmVuBviyVuvzRMdasYi4RPE=;
+        b=ieYA6bVxf1lbXkgHAn+hXhVfxzKe711nmI2r+8a2Pkje45GQmKLftZmaLt0qar82gg
+         SFBl/K1845mX6+FAqPkGcjyrpBXYikncS74nQOppvoyKSHXe0rCclfsEAXrPauDBdjLV
+         e25KI/Uu6/whFSVJCUzOwGJkV3uYaP9OmOzDMNjjkk1ts8gnSQW1ex6gNo+0kzwO65XL
+         HyypX83EJT7/21befwOJ9uRlgd3lhXqtj1LN6iNBdvKWKSCrS9QQZFXiZGxHkCMMLy82
+         +seRRUC93Y1mRKPJn8r746QD8Gi1bfCC2+B+iopA0nXA09o5X8xylmqFAP/A/rLnnA0P
+         /oIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691084054; x=1691688854;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s8Xa9pYsN9q26Cy2OfWksmVuBviyVuvzRMdasYi4RPE=;
+        b=Khj1CqU68ZW5JL7jvi+pAiIgubbQcSdOSioCHUAfRRrEK3wEQEOBOXhiHNa782xOK0
+         UPqwiB2NmMmM+twM72bGE9FgzVc86HK7WqMXgv2w2QuRxYGJss8qW1y6++gwGcDCifNl
+         NAV3m7xO/s3fyfEcrgTatPMe9m95tBFPB1vErPL0r+tQnVzkgRPuL4sGeI6HkUbr9cAv
+         j1cu7XVp3wBaRjUz0qXRSN0X1OTpbe4G8n/iqzjOvLdESagGXKE+Q5TDU8WgkdB69xhd
+         N9l72PSsrm+EPi9hScYKgRe44/8Et89Jy2gZlyHu6T+Mpc5AYt/8GRAlAKE3sxDoXJ/w
+         J9QQ==
+X-Gm-Message-State: ABy/qLbF3wRyFXbaDCQ1CE+Hrhe1CxHK2awnp4p/B09UvgIkaA7y0xCK
+        ktLpTVM4KCBwMeU/FIXCz435PMTD55CY+t0AsoU=
+X-Google-Smtp-Source: APBJJlG6pjOoG0q6RAsawh+9qeUBUHt8XE1GKbQlIBPYmQFLRffHoU6WGPDLy5lU6fh2CQ1SS4cFWeU/BvylteONzOI=
+X-Received: by 2002:a05:6102:d8a:b0:443:5524:8f8b with SMTP id
+ d10-20020a0561020d8a00b0044355248f8bmr4828038vst.4.1691084054017; Thu, 03 Aug
+ 2023 10:34:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Hsia-Jun Li <Randy.Li@synaptics.com>, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hans.verkuil@cisco.com, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org,
+References: <1690598115-26287-1-git-send-email-quic_pintu@quicinc.com>
+ <20230731112155.GA3662@lst.de> <CAOuPNLjnfq1JefngtNrg0Q+JdMTSRz+eEqxGQJFfx9+af+k9WA@mail.gmail.com>
+ <20230801171838.GA14599@lst.de> <CANDhNCq+3OEosUcQJ5GFgk+5OyG+JqXKM43UAo0aPz-V27OgAA@mail.gmail.com>
+ <20230802094725.GA28241@lst.de>
+In-Reply-To: <20230802094725.GA28241@lst.de>
+From:   Pintu Agarwal <pintu.ping@gmail.com>
+Date:   Thu, 3 Aug 2023 23:04:02 +0530
+Message-ID: <CAOuPNLjAOk0BOXDcjbY+evX_uxbZyptrJXMf0ULhReECzEX0CQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-contiguous: define proper name for global cma region
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     John Stultz <jstultz@google.com>,
+        Pintu Kumar <quic_pintu@quicinc.com>,
+        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        iommu@lists.linux.dev, Sumit Semwal <sumit.semwal@linaro.org>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, ezequiel@vanguardiasur.com.ar,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230704040044.681850-1-randy.li@synaptics.com>
- <20230704040044.681850-3-randy.li@synaptics.com>
- <20230712093301.nkj2vok2x7esdhb3@chromium.org>
- <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
- <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
- <583e22718b80cc5e1ae631528c83c95e97de5cae.camel@ndufresne.ca>
- <CAAFQd5CAJ7GxiY5=bBAa+L=1WJth6QZ3+PG83=GX+eEx1S4uhg@mail.gmail.com>
- <7d340df3-e14c-24de-4fc2-b7dca619447c@synaptics.com>
- <CAAFQd5BKHQPNVpDvpQaFn-q721BJknJCUB72urc2=EKsAH=OCg@mail.gmail.com>
- <10ad26e6-b2d0-d0e6-40c8-2cc70613188b@synaptics.com>
- <70ed7b3197f34c9f3dce9c83c527884c89df5449.camel@ndufresne.ca>
-Content-Language: en-US
-From:   Randy Li <ayaka@soulik.info>
-In-Reply-To: <70ed7b3197f34c9f3dce9c83c527884c89df5449.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -65,73 +81,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
-On 2023/7/29 00:19, Nicolas Dufresne wrote:
-> Le vendredi 28 juillet 2023 à 15:37 +0800, Hsia-Jun Li a écrit :
->>> I think this is one reason to migrate to the stateless decoder design.
->>>
->> I didn't know such plan here. I don't think the current stateless API
->> could export the reconstruction buffers for encoder or post-processing
->> buffer for decoder to us.
-> Someone suggested introduce auxiliary queues in our meeting in Lyon a while ago,
-> but I bet everyone got too busy with finalizing APIs, fixing fluster tests etc.
-> The suggestion felt like it would be possible to add it after the fact. This was
-> also being discussed in the context of supporting multi-scalers (standalone our
-> inline with the codec, like VC8000D+). It could also cover for primary and
-> secondary buffers, along with encoder primary, and reconstruction buffers, but
-> also auxiliary reference data. This would also be needed to properly support
-> Vulkan Video fwiw, and could also help with a transition to DMABuf Heaps and
-> memory accounting.
+On Wed, 2 Aug 2023 at 15:17, Christoph Hellwig <hch@lst.de> wrote:
 >
-> I've also had corridor discussion around having multi-instance media constroller
-> devices. It wasn't clear how to bind the media instance to the video node
-> instances, but assuming there is a way, it would be a tad more flexible (but
-> massively more complex).
-
-I think we should answer to those questions before we decided what we want:
-
-A. Should a queue only has the buffers for the same format and sizes?
-
-B. How does an application handle those drivers requests additional queue?
-
-C. How to sync multiple buffers in a v4l2 job.
-
-I asked the same question A when I discuss this with media: v4l2: Add 
-DELETE_BUF ioctl.
-
-If we would not add extra queue here, how does the driver filter out the 
-most proper buffer for the current hardware output(CAPTURE) buffer.
-
-If we have multiple queues in a direction, how to make driver select 
-between them?
-
-
-The question B is the debt we made, some applications have gotten used 
-to the case they can't control the lifetime of reconstruction buffer in 
-encoding or turn the post-processing off when the display pipeline could 
-support tile format output.
-
-We know allow the userspace could decide where we allocate those 
-buffers, but could the userspace decided not to handle their lifetime?
-
-
-The question C may more be more related to the complex case like camera 
-senor and ISP. With this auxiliary queue, multiple video nodes are not 
-necessary anymore.
-
-But ISP may not request all the data finish its path, ex. the ISP are 
-not satisfied with the focus point that its senor detected or the light 
-level, it may just drop the image data then shot again.
-
-Also the poll event could only tell us which direction could do the 
-dequeue/enqueue work, it can't tell us which queue is ready. Should we 
-introduce something likes sync point(fence fd) here?
-
-
-We may lead way to V4L3 as Tomasz suggested although I don't want to 
-take the risk to be. If we would make a V4L3 like thing, we have better 
-to decide it correct and could handle any future problem.
-
+> On Tue, Aug 01, 2023 at 10:39:04PM -0700, John Stultz wrote:
+> > So, forgive me, I've not had a chance to look into this, but my
+> > recollection was "reserved" is the name we see on x86, but other names
+> > are possibly provided via the dts node?
 >
-> Nicolas
+No, I think "reserved" is the name hard-coded (for all arch) in Kernel
+for global-cma.
+So, I don't think this is x86 specific. I am checking on arm32 itself.
+When we can dma_alloc_coherent we see these in the logs (if dts region
+is not present).
+cma: cma_alloc(cma (ptrval), name: reserved, count 64, align 6)
+Now, with this change we will see this:
+cma: cma_alloc(cma (ptrval), name: global-cma-region, count 64, align 6)
+
+> Indeed, dma_contiguous_default_area can also be set through
+> rmem_cma_setup, which then takes the name from DT.
 >
+I think this is a different case. If DT entry is present we get this:
+Reserved memory: created CMA memory pool at 0x98000000, name: name:
+linux,cma, size 128 MiB
+cma: cma_alloc(cma (ptrval), name: linux,cma, count 64, align 6)
+
+Here we are talking about the default hard-coded name in Kernel code
+if DT is not defined.
+So, in one of the boards, this DT entry was not present and it shows
+as "reserved".
+
+> > I believe on the hikey board its "linux,cma" is the name, so forcing
+> > it to reserved would break that.
+> >
+Yes, everywhere in the DT it's defined as "linux,cma".
+You mean this also should be changed to "linux,cma-global-region"
+everywhere with this change ?
+
+> > Maybe instead add a compat config option to force the cma name (so x86
+> > can set it to "default" if needed)?
+>
+Yes, having it in config is also a good option instead of hard-coding in Ke=
+rnel.
+>
+> I think we'll just need to leave it as-is.  I with dma-heaps had never
+> exposed the name to userspace, but we'll have to l=D1=96ve with it now.
+
+Can you point me to the userspace utility we are talking about here ?
+I think we should not worry much about userspace name exposure.
+I guess it should fetch whatever is declared in Kernel or DTS, right ?
