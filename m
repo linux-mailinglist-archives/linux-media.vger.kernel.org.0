@@ -2,173 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82C9876E3CB
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 10:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B35476E413
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 11:15:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234922AbjHCI6n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 04:58:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43100 "EHLO
+        id S233786AbjHCJPw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 05:15:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234889AbjHCI6b (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 04:58:31 -0400
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C7671716
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 01:58:27 -0700 (PDT)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3738w3t3129881;
-        Thu, 3 Aug 2023 03:58:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1691053083;
-        bh=yqmUKaQcFDvtcj130y5CWNavo9WcO/eGmSFurPPaJ18=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=aIlIkuJBRM0c4WvjU5Da8Ye9HH7R0F6kx3mA1U175fq5mLrtl9tsX7//nMG3/dtJm
-         +OsiV51XOAjzB/reGowezmKcMW897irALIKGAl3KLltz5apWovcAud4iiIfQnKovAo
-         9k0DeAHfZeeOa5muDhFWVlvgSSMwhwMZ7jFnrrbw=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3738w39G082632
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 3 Aug 2023 03:58:03 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 3
- Aug 2023 03:58:01 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 3 Aug 2023 03:58:01 -0500
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3738w0os015752;
-        Thu, 3 Aug 2023 03:58:01 -0500
-Date:   Thu, 3 Aug 2023 14:28:05 +0530
-From:   Jai Luthra <j-luthra@ti.com>
-To:     Marek Vasut <marex@denx.de>
-CC:     <linux-media@vger.kernel.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
-        Francesco Dolcini <francesco@dolcini.it>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
-        Marcel Ziswiler <marcel@ziswiler.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Subject: Re: [PATCH v2] media: ov5640: Enable MIPI interface in
- ov5640_set_power_mipi()
-Message-ID: <dxagorolo3qkq3oqqosjl7ljkrdw5wgzafteumcueoonl5gtjj@jrmdi4ho5b5w>
-References: <20230802144725.34099-1-marex@denx.de>
+        with ESMTP id S232258AbjHCJPu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 05:15:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86BA9DA
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 02:15:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691054103;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=qenpH05CMTFMah/ZsfQQOjptnPSTkcxy9wGpGUuSsNs=;
+        b=BUV6xv4fJlW+mZoKC3h3oMjBDTygZQ0cFs3IzPDQx31gA4H+8ZJCJMwHhUPpx/CoUU9HUg
+        vJcJb5ljlqSSHZ3LFYjTB3FS0mLSrla0YyCdBMzKB5XN7hvobvUOvQTZbmlhy0vU4Z65r/
+        Ff0M1pbxaFPsMg4m/zVFXUaW1zY/D9A=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-35-evLf8ATrNsOOTzDabfunBQ-1; Thu, 03 Aug 2023 05:15:02 -0400
+X-MC-Unique: evLf8ATrNsOOTzDabfunBQ-1
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-522c1b1e7bbso498117a12.1
+        for <linux-media@vger.kernel.org>; Thu, 03 Aug 2023 02:15:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691054101; x=1691658901;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qenpH05CMTFMah/ZsfQQOjptnPSTkcxy9wGpGUuSsNs=;
+        b=hVatUGuK58OSvfQaUF/DosZduX7IEpHCIWaNeDjsqQ+0OsPz8NxP0BgwoC8UQRRlgj
+         ZLAXvy5pI7bUTuGXqsji4B9sUyiYvXWlCkDyUIpZoW1RE3ntyNt87eFhiCVkk+eMqdQ8
+         W76bOFKfj98tb/THAG8sBKtuhUdEQPcgBoHCM9vrG2gLhUlusLfcNPoyDj3RaaDOuDVl
+         /pxx58KtDszSk3WvdCMPahqyi63vZWPhcKV7C3uOB9ay8LfmeXZn8K1JFh/ehVJBqNzz
+         mGU1kAV62f32Zy7FJU0VE9NtjM1ixmxJM4JdXIvv/g3eX9fE0Eu/1WUhAuH85y5KIFF0
+         lMzQ==
+X-Gm-Message-State: ABy/qLbKtPbH/aGsrVx0zUdrDIf/EfVy2Nrxil3dv4uCQyJc02GbexYC
+        WF7E0SbmG2euGeI6QQcf4exQLDy4zu2OFxExkoEF52VljwK2WA99DQp8v+ECXH5/A2pNjaykM1V
+        ZKzzmh2R6gv4PjoguNkmv9fKC5iJK+aE=
+X-Received: by 2002:aa7:c919:0:b0:522:b1a6:4aa8 with SMTP id b25-20020aa7c919000000b00522b1a64aa8mr7134880edt.41.1691054101132;
+        Thu, 03 Aug 2023 02:15:01 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEqDdTyk2QVSOT2Ft5HdFufGIaaHqXKih+Y8B0WZoqSFtWl3BWa83V1KAOHRdi617w5I2tgHQ==
+X-Received: by 2002:aa7:c919:0:b0:522:b1a6:4aa8 with SMTP id b25-20020aa7c919000000b00522b1a64aa8mr7134867edt.41.1691054100784;
+        Thu, 03 Aug 2023 02:15:00 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id o12-20020aa7d3cc000000b00522d88e8c55sm4451121edr.91.2023.08.03.02.14.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Aug 2023 02:14:59 -0700 (PDT)
+Message-ID: <dec04f64-b89a-c639-21d5-4583c5414e6c@redhat.com>
+Date:   Thu, 3 Aug 2023 11:14:58 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="quo6hak4ga76txec"
-Content-Disposition: inline
-In-Reply-To: <20230802144725.34099-1-marex@denx.de>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 17/32] media: ov2680: Add support for ACPI enumeration
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+References: <20230802173046.368434-1-hdegoede@redhat.com>
+ <20230802173046.368434-18-hdegoede@redhat.com>
+ <CAHp75Vfyx89HsN_U=TjOGSrGXa8BgDNnZZhxyBCwUmNvYcss1w@mail.gmail.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75Vfyx89HsN_U=TjOGSrGXa8BgDNnZZhxyBCwUmNvYcss1w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---quo6hak4ga76txec
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi Marek,
+On 8/2/23 21:31, Andy Shevchenko wrote:
+> On Wed, Aug 2, 2023 at 8:31 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Add an acpi_match_table now that all the other bits necessary for
+>> ACPI support are in place.
+> 
+> Would be good to add a couple of words about ID itself:
+> - is it the correct ACPI ID or not (confirmation from OmniVision, if any)?
+> - is there a product with that ID in the wild (mention, if any)?
 
-Thanks for the patch.
+Ok, I'll add some text about this to the commit msg for v5.
 
-On Aug 02, 2023 at 16:47:25 +0200, Marek Vasut wrote:
-> Set OV5640_REG_IO_MIPI_CTRL00 bit 2 to 1 instead of 0, since 1 means
-> MIPI CSI2 interface, while 0 means CPI parallel interface.
->=20
-> In the ov5640_set_power_mipi() the interface should obviously be set
-> to MIPI CSI2 since this functions is used to power up the sensor when
-> operated in MIPI CSI2 mode. The sensor should not be in CPI mode in
-> that case.
->=20
-> This fixes a corner case where capturing the first frame on i.MX8MN
-> with CSI/ISI resulted in corrupted frame.
->=20
-> Fixes: aa4bb8b8838f ("media: ov5640: Re-work MIPI startup sequence")
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Tested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com> # [Test on imx6q]
+Regards,
 
-Tested-by: Jai Luthra <j-luthra@ti.com> # [Test on bplay, sk-am62]
+Hans
 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Aishwarya Kothari <aishwarya.kothari@toradex.com>
-> Cc: Francesco Dolcini <francesco@dolcini.it>
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Hugues FRUCHET <hugues.fruchet@foss.st.com>
-> Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Cc: Jai Luthra <j-luthra@ti.com>
-> Cc: Marcel Ziswiler <marcel@ziswiler.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Steve Longerbeam <slongerbeam@gmail.com>
-> Cc: linux-media@vger.kernel.org
-> ---
-> V2: - Update commit message to mention this fixes the first corrupted fra=
-me
->     - Collect RB/TB
->     - Expand CC list
-> ---
->  drivers/media/i2c/ov5640.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index ff0aef915fca5..5fe85aa2d2ec4 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -2539,9 +2539,9 @@ static int ov5640_set_power_mipi(struct ov5640_dev =
-*sensor, bool on)
->  	 *		  "ov5640_set_stream_mipi()")
->  	 * [4] =3D 0	: Power up MIPI HS Tx
->  	 * [3] =3D 0	: Power up MIPI LS Rx
-> -	 * [2] =3D 0	: MIPI interface disabled
-> +	 * [2] =3D 1	: MIPI interface enabled
->  	 */
-> -	ret =3D ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x40);
-> +	ret =3D ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x44);
->  	if (ret)
->  		return ret;
-> =20
-> --=20
-> 2.40.1
->=20
->=20
-
---=20
-Thanks,
-Jai
-
-GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
-
---quo6hak4ga76txec
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmTLbBwACgkQQ96R+SSa
-cUXDnw/5AfvHkaXIMHJBhvnD8RQjAsCOiiwoG0S640EyAQNpKHeBX+pbBOqYL/bc
-llG2Tqr/saLQ58PEnqNBXP5g6xnV47MUPuM/hYo+hhpLxJiCstMb1CcD0DHBjWDw
-PC5hpxYn7tPbDsh0VSlZROJoYZ3TErG45UZag+RBzW/W/7b7DKO/nDJG5vIbn0+P
-64SdzIOlsgM4LRqzsQkunkhZMqTz7t42zhEat6JuHIjoYUGae3f6QX+zQopPnrOr
-Uk9L3TjVlMLb6j2/PQRl6QhUSW9Yd3yGycruXCobj49XPMsVZDn0SxEFr+vhwyk+
-o6kPEQnqf0rMZKseYgQoPuaRfCitjQhAcqzdAmxK6ctNy9XExZiaNPMqzG6BhwsQ
-gO5v7bFuOpCqrxW9X2i9KNnE+Vfs3Jc0V7LrCWA6+1wp58NXfaHtAulgHJ62vpMr
-T4BGlv1aZxkSsTZpRm38EVTtaMGClhKNtx5l4qKESO57HrJr/bQUzn3Szog/6jx0
-Id74s5nYkCRnCk3rvxwpGiKgwaiTguyr5jK4FabhO71aKQtpKcS3mR3cF3Gnw5kN
-DNgxkQv6ggZhKFzkHBjsqtXlXR0ZavIka4uJzepr3ZchUyEnYXhN7ls1/gjTuYpc
-mZhSKP5zkpI3kXCXygGMJNtVd+sFH6zU7P69TrrmrHAw3XPCpwM=
-=QFEG
------END PGP SIGNATURE-----
-
---quo6hak4ga76txec--
