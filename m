@@ -2,196 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1011676D9F6
-	for <lists+linux-media@lfdr.de>; Wed,  2 Aug 2023 23:48:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41B3276DD60
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 03:41:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbjHBVsT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Aug 2023 17:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44328 "EHLO
+        id S232240AbjHCBlH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Aug 2023 21:41:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233483AbjHBVrt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 17:47:49 -0400
-Received: from mgamail.intel.com (unknown [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E8A144BD
-        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 14:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691012820; x=1722548820;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=j/FhNB9GQTqscFHP++EqCTzRgo1b4t+aQsBmTdrG1RM=;
-  b=jna0kNZsYC3qT1S8Q1BywtqaG9Qz81c+vBCBaS8SVbspTuODMSugcGuh
-   vRKtslXIKCjTWWmzHxdTi+bP6Xf/N08V9fenvtwXGUBWdA3DIlHO8DGZI
-   WQUAzJimUn8ic/RCwp+M7SGqojijiJNd3iO4OZafzSSOAjNnOp+0iVT3T
-   rKfu+DBCr+D5+kdITVbvp8nxlv++2PibbSJEsE3v6OGc1SKCA3xawPLhh
-   Dcb0GkBptl/sWu5zVTr+j4yeIhwBZten0Ku2biVfcat2qz/HhgrWlVkHm
-   ST3JU36qX7xR0/EdNGV5/MEDV6fiNdGIFDjgpFt/BRZE1JhumvpEF2nrF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="372442111"
-X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="372442111"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 14:46:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="853009428"
-X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="853009428"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 14:46:15 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 527181204CF;
-        Thu,  3 Aug 2023 00:46:10 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        with ESMTP id S233321AbjHCBkW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Aug 2023 21:40:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD41630DB
+        for <linux-media@vger.kernel.org>; Wed,  2 Aug 2023 18:39:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 604C861AC0
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 01:39:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73165C433C7
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 01:39:42 +0000 (UTC)
+Date:   Thu, 03 Aug 2023 03:39:40 +0200
+Message-ID: <d3fedb5b2b28e56b7415f34fed1e1508.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>
-Subject: [PATCH v2 9/9] media: v4l: Support line-based metadata capture
-Date:   Thu,  3 Aug 2023 00:45:56 +0300
-Message-Id: <20230802214556.180589-10-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230802214556.180589-1-sakari.ailus@linux.intel.com>
-References: <20230802214556.180589-1-sakari.ailus@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-many camera sensors, among other devices, transmit embedded data and image
-data for each CSI-2 frame. This embedded data typically contains register
-configuration of the sensor that has been used to capture the image data
-of the same frame.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-The embedded data is received by the CSI-2 receiver and has the same
-properties as the image data, including that it is line based: it has
-width, height and bytesperline (stride).
+Results of the daily build of media_tree:
 
-Add these fields to struct v4l2_meta_format and document them.
+date:			Thu Aug  3 03:00:08 CEST 2023
+media-tree git branch:	media_stage/master
+media-tree git hash:	4fa89c318e5b93f784ca85f92e245bbf7b5749db
+v4l-utils git hash:	f94ee0b644a464f5142e93400bddb1f5106afbd0
+edid-decode git hash:	a31e680438789d45207497bf999a20cf6e2c0ec1
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8446-g178bea2c
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: bce6c6ed2b0d48750ab583be1146374234e6c680
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-Also add V4L2_FMT_FLAG_META_LINE_BASED to tell a given format is
-line-based i.e. these fields of struct v4l2_meta_format are valid for it.
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+smatch.config: ERRORS
+sparse.config: WARNINGS
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+utils: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+Check pahole: ABI OK
+kerneldoc: OK
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../userspace-api/media/v4l/dev-meta.rst          | 15 +++++++++++++++
- .../userspace-api/media/v4l/vidioc-enum-fmt.rst   |  7 +++++++
- .../media/videodev2.h.rst.exceptions              |  1 +
- drivers/media/v4l2-core/v4l2-ioctl.c              |  5 +++--
- include/uapi/linux/videodev2.h                    | 10 ++++++++++
- 5 files changed, 36 insertions(+), 2 deletions(-)
+Detailed results are available here:
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-meta.rst b/Documentation/userspace-api/media/v4l/dev-meta.rst
-index 0e7e1ee1471a..4b24bae6e171 100644
---- a/Documentation/userspace-api/media/v4l/dev-meta.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-meta.rst
-@@ -65,3 +65,18 @@ to 0.
-       - ``buffersize``
-       - Maximum buffer size in bytes required for data. The value is set by the
-         driver.
-+    * - __u32
-+      - ``width``
-+      - Width of a line of metadata in samples. Valid when :c:type`v4l2_fmtdesc`
-+	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-+	:c:func:`VIDIOC_ENUM_FMT`.
-+    * - __u32
-+      - ``height``
-+      - Number of rows of metadata. Valid when :c:type`v4l2_fmtdesc` flag
-+	``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-+	:c:func:`VIDIOC_ENUM_FMT`.
-+    * - __u32
-+      - ``bytesperline``
-+      - Offset in bytes between the beginning of two consecutive lines. Valid
-+	when :c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is
-+	set, otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-index 000c154b0f98..6d7664345a4e 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-@@ -227,6 +227,13 @@ the ``mbus_code`` field is handled differently:
- 	The application can ask to configure the quantization of the capture
- 	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
- 	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
-+    * - ``V4L2_FMT_FLAG_META_LINE_BASED``
-+      - 0x0200
-+      - The metadata format is line-based. In this case the ``width``,
-+	``height`` and ``bytesperline`` fields of :c:type:`v4l2_meta_format` are
-+	valid. The buffer consists of ``height`` lines, each having ``width``
-+	bytes of data and offset between the beginning of each two consecutive
-+	lines is ``bytesperline``.
- 
- Return Value
- ============
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index 3e58aac4ef0b..bdc628e8c1d6 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -215,6 +215,7 @@ replace define V4L2_FMT_FLAG_CSC_XFER_FUNC fmtdesc-flags
- replace define V4L2_FMT_FLAG_CSC_YCBCR_ENC fmtdesc-flags
- replace define V4L2_FMT_FLAG_CSC_HSV_ENC fmtdesc-flags
- replace define V4L2_FMT_FLAG_CSC_QUANTIZATION fmtdesc-flags
-+replace define V4L2_FMT_FLAG_META_LINE_BASED fmtdesc-flags
- 
- # V4L2 timecode types
- replace define V4L2_TC_TYPE_24FPS timecode-type
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 7174a590428f..cb4eb99a94ab 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -343,8 +343,9 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_META_OUTPUT:
- 		meta = &p->fmt.meta;
- 		pixelformat = meta->dataformat;
--		pr_cont(", dataformat=%p4cc, buffersize=%u\n",
--			&pixelformat, meta->buffersize);
-+		pr_cont(", dataformat=%p4cc, buffersize=%u, width=%u, height=%u, bytesperline=%u\n",
-+			&pixelformat, meta->buffersize, meta->width,
-+			meta->height, meta->bytesperline);
- 		break;
- 	}
- }
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index b890b99d6146..9cadcf97886c 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -875,6 +875,7 @@ struct v4l2_fmtdesc {
- #define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0080
- #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
- #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
-+#define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
- 
- 	/* Frame Size and frame rate enumeration */
- /*
-@@ -2418,10 +2419,19 @@ struct v4l2_sdr_format {
-  * struct v4l2_meta_format - metadata format definition
-  * @dataformat:		little endian four character code (fourcc)
-  * @buffersize:		maximum size in bytes required for data
-+ * @width:		number of bytes of data per line (valid for line based
-+ *			formats only, see format documentation)
-+ * @height:		number of lines of data per buffer (valid for line based
-+ *			formats only)
-+ * @bytesperline:	offset between the beginnings of two adjacent lines in
-+ *			bytes (valid for line based formats only)
-  */
- struct v4l2_meta_format {
- 	__u32				dataformat;
- 	__u32				buffersize;
-+	__u32				width;
-+	__u32				height;
-+	__u32				bytesperline;
- } __attribute__ ((packed));
- 
- /**
--- 
-2.39.2
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
 
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
