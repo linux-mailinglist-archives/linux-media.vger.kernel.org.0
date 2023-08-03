@@ -2,107 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB1CE76ED9B
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 17:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2D0476EE1A
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 17:28:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236839AbjHCPJS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 11:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41438 "EHLO
+        id S235000AbjHCP2N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 11:28:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236843AbjHCPJQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 11:09:16 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CBCB30D2
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 08:09:15 -0700 (PDT)
+        with ESMTP id S237134AbjHCP16 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 11:27:58 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CE8E69
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 08:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691075355; x=1722611355;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kI9H1yc/9bNpMN+HwGub69+Yqf0y768F1K3B2iJehKg=;
-  b=cNaFZYRat5GisDqy3z6xzQrPzV8o/84A0O9Ca5zjcqKu3Fs6JOHVRpQh
-   i65DutHxMuq3IJJhAAMw2po6ldquOvlSRiE5/69FUPJKyWcCbk+blupJE
-   tGq+0LHE0facEDYV6gS9gbW4smMIXXi/t0FAgY8N2tqGCA6MhkhgWPBm5
-   pDxTC+wMfRSpjqocq77bRVt8Z5A+6+20H7mzjp69BY7gtSP6nEA/IcX3I
-   M43gGg2IU4WGjNyVhy1Ch71fVlS0Puwlxv0BR9gmMk8caYq4k8nqsLaJj
-   4tyiGElXjvLMC/wA/tQS7A18wMWuPLtwuknfPMvBhHgj7h7AvHhqD68SE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="436222947"
+  t=1691076477; x=1722612477;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ncxvzd3ro6XwEOYJyJ7eLCBTYtFifxjwo+/mJCcOoN0=;
+  b=Kad/c2Q+FAuaNQpEWKffIFtz3RbPT7itOrmVSma2v+1cFoNcZ6ZitNDs
+   8/9q7U4jQWJT2+YWJaSTaPwIaXQfZvSjy4bCEzPiZ/GFRgDSV3Qfl/59c
+   fPhQ6FpKebPyCJuUVuvg2i9IkK0oexzR0zgM7RDeb98Vv5XnCUEervTVR
+   Rgq9TM97KoYtCKih4UTDO05iInCHq59MbYuJvnJDGrFekdhc0QrjYTVSJ
+   +wn6nwq8k9Mj65cCyTAKudk0u6vu0SKG8rw45VWzPT+bt1SjF9szS0s7T
+   f87QElmYh/DMHMS6/H87BX0drOWXSfJv7u6NBexs2t39fV0bwQMwuZg/P
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="359961962"
 X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
-   d="scan'208";a="436222947"
+   d="scan'208";a="359961962"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 08:07:57 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 08:27:05 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="872966055"
+   d="scan'208";a="872973328"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 08:07:57 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 19A4E1204CF;
-        Thu,  3 Aug 2023 18:07:52 +0300 (EEST)
-Date:   Thu, 3 Aug 2023 15:07:52 +0000
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 08:27:03 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 182B61204CF;
+        Thu,  3 Aug 2023 18:26:58 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1qRaE1-006rrF-2w;
+        Thu, 03 Aug 2023 18:26:53 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andy@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 17/32] media: ov2680: Add support for ACPI enumeration
-Message-ID: <ZMvCyGM8K0iH2egl@kekkonen.localdomain>
-References: <20230803093348.15679-1-hdegoede@redhat.com>
- <20230803093348.15679-18-hdegoede@redhat.com>
- <ZMuoVeni2dSSM9xb@smile.fi.intel.com>
- <28263f7c-ae07-3d17-4c45-92af29c3144a@redhat.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl
+Subject: [PATCH v2 1/1] media: i2c: ccs: Check rules is non-NULL
+Date:   Thu,  3 Aug 2023 18:26:43 +0300
+Message-Id: <20230803152643.1636981-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28263f7c-ae07-3d17-4c45-92af29c3144a@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Fix the following smatch warning:
 
-On Thu, Aug 03, 2023 at 04:57:24PM +0200, Hans de Goede wrote:
-> Hi andy,
-> 
-> On 8/3/23 15:15, Andy Shevchenko wrote:
-> > On Thu, Aug 03, 2023 at 11:33:32AM +0200, Hans de Goede wrote:
-> >> Add an acpi_match_table now that all the other bits necessary for
-> >> ACPI support are in place.
-> > 
-> >> The OVTI prefix used for the ACPI-HID is used for various OmniVision
-> >> sensors on many generations x86 tablets and laptops.
-> > 
-> > "OVTI is the official ACPI vendor ID for OmniVision Technologies, Inc."
-> 
-> Is it though? Is there a list of official ACPI vendor IDs
-> published somewhere were we can check this ?
-> 
-> I think the Intel MIPI camera driver team may have come up with
-> the OVTI prefix independently ?
-> 
-> Just because it is used quite a lot does not mean that it is
-> official ...
+drivers/media/i2c/ccs/ccs-data.c:524 ccs_data_parse_rules() warn: address
+of NULL pointer 'rules'
 
-It is. Only ACPI and PNP vendor IDs allocated to vendors should be used
-(and HIDs allocated by that vendor only).
+The CCS static data rule parser does not check an if rule has been
+obtained before checking for other rule types (which depend on the if
+rule). In practice this means parsing invalid CCS static data could lead
+to dereferencing a NULL pointer.
 
-<URL:https://uefi.org/acpi_id_list>
-<URL:https://uefi.org/pnp_id_list>
+Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+Fixes: a6b396f410b1 ("media: ccs: Add CCS static data parser library")
+Cc: stable@vger.kernel.org # for 5.11 and up
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+I'm still running tests on this, but expect it to be good. The smatch
+warning is gone now.
 
+since v1:
+
+- Explicitly check for non-NULL rules in referencing rules.
+
+ drivers/media/i2c/ccs/ccs-data.c | 101 +++++++++++++++++--------------
+ 1 file changed, 56 insertions(+), 45 deletions(-)
+
+diff --git a/drivers/media/i2c/ccs/ccs-data.c b/drivers/media/i2c/ccs/ccs-data.c
+index 45f2b2f55ec5..08400edf77ce 100644
+--- a/drivers/media/i2c/ccs/ccs-data.c
++++ b/drivers/media/i2c/ccs/ccs-data.c
+@@ -464,8 +464,7 @@ static int ccs_data_parse_rules(struct bin_container *bin,
+ 		rule_payload = __rule_type + 1;
+ 		rule_plen2 = rule_plen - sizeof(*__rule_type);
+ 
+-		switch (*__rule_type) {
+-		case CCS_DATA_BLOCK_RULE_ID_IF: {
++		if (*__rule_type == CCS_DATA_BLOCK_RULE_ID_IF) {
+ 			const struct __ccs_data_block_rule_if *__if_rules =
+ 				rule_payload;
+ 			const size_t __num_if_rules =
+@@ -514,49 +513,61 @@ static int ccs_data_parse_rules(struct bin_container *bin,
+ 				rules->if_rules = if_rule;
+ 				rules->num_if_rules = __num_if_rules;
+ 			}
+-			break;
+-		}
+-		case CCS_DATA_BLOCK_RULE_ID_READ_ONLY_REGS:
+-			rval = ccs_data_parse_reg_rules(bin, &rules->read_only_regs,
+-							&rules->num_read_only_regs,
+-							rule_payload,
+-							rule_payload + rule_plen2,
+-							dev);
+-			if (rval)
+-				return rval;
+-			break;
+-		case CCS_DATA_BLOCK_RULE_ID_FFD:
+-			rval = ccs_data_parse_ffd(bin, &rules->frame_format,
+-						  rule_payload,
+-						  rule_payload + rule_plen2,
+-						  dev);
+-			if (rval)
+-				return rval;
+-			break;
+-		case CCS_DATA_BLOCK_RULE_ID_MSR:
+-			rval = ccs_data_parse_reg_rules(bin,
+-							&rules->manufacturer_regs,
+-							&rules->num_manufacturer_regs,
+-							rule_payload,
+-							rule_payload + rule_plen2,
+-							dev);
+-			if (rval)
+-				return rval;
+-			break;
+-		case CCS_DATA_BLOCK_RULE_ID_PDAF_READOUT:
+-			rval = ccs_data_parse_pdaf_readout(bin,
+-							   &rules->pdaf_readout,
+-							   rule_payload,
+-							   rule_payload + rule_plen2,
+-							   dev);
+-			if (rval)
+-				return rval;
+-			break;
+-		default:
+-			dev_dbg(dev,
+-				"Don't know how to handle rule type %u!\n",
+-				*__rule_type);
+-			return -EINVAL;
++		} else {
++			/* Check there was an if rule before any other rules */
++			if (bin->base && !rules)
++				return -EINVAL;
++
++			switch (*__rule_type) {
++			case CCS_DATA_BLOCK_RULE_ID_READ_ONLY_REGS:
++				rval = ccs_data_parse_reg_rules(bin,
++								rules ?
++								&rules->read_only_regs : NULL,
++								rules ?
++								&rules->num_read_only_regs : NULL,
++								rule_payload,
++								rule_payload + rule_plen2,
++								dev);
++				if (rval)
++					return rval;
++				break;
++			case CCS_DATA_BLOCK_RULE_ID_FFD:
++				rval = ccs_data_parse_ffd(bin, rules ?
++							  &rules->frame_format : NULL,
++							  rule_payload,
++							  rule_payload + rule_plen2,
++							  dev);
++				if (rval)
++					return rval;
++				break;
++			case CCS_DATA_BLOCK_RULE_ID_MSR:
++				rval = ccs_data_parse_reg_rules(bin,
++								rules ?
++								&rules->manufacturer_regs : NULL,
++								rules ?
++								&rules->num_manufacturer_regs : NULL,
++								rule_payload,
++								rule_payload + rule_plen2,
++								dev);
++				if (rval)
++					return rval;
++				break;
++			case CCS_DATA_BLOCK_RULE_ID_PDAF_READOUT:
++				rval = ccs_data_parse_pdaf_readout(bin,
++								   rules ?
++								   &rules->pdaf_readout : NULL,
++								   rule_payload,
++								   rule_payload + rule_plen2,
++								   dev);
++				if (rval)
++					return rval;
++				break;
++			default:
++				dev_dbg(dev,
++					"Don't know how to handle rule type %u!\n",
++					*__rule_type);
++				return -EINVAL;
++			}
+ 		}
+ 		__next_rule = __next_rule + rule_hlen + rule_plen;
+ 	}
 -- 
-Regards,
+2.39.2
 
-Sakari Ailus
