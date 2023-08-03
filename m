@@ -2,62 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A876276E3B4
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 10:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82C9876E3CB
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 10:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234857AbjHCI42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 04:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41402 "EHLO
+        id S234922AbjHCI6n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 04:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234854AbjHCI4X (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 04:56:23 -0400
+        with ESMTP id S234889AbjHCI6b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 04:58:31 -0400
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 432DCE46
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 01:56:21 -0700 (PDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3738uA1W129631;
-        Thu, 3 Aug 2023 03:56:10 -0500
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C7671716
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 01:58:27 -0700 (PDT)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3738w3t3129881;
+        Thu, 3 Aug 2023 03:58:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1691052970;
-        bh=7ke8E0923ouTuKawO+UVRBv9qNC3IdcBYhbv62fSSCo=;
+        s=ti-com-17Q1; t=1691053083;
+        bh=yqmUKaQcFDvtcj130y5CWNavo9WcO/eGmSFurPPaJ18=;
         h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=dAL4jJm5qZdsDUtQa0nXDFToWZkjylsjkyzo92EgSPRSbbAwpGRXEGfwTUOGvqV9c
-         mueu7IbjspsUuV6Bi7FSy3FzV44oW+30GP4ZYGi/IK2aFu6lNd3nBnzmQ3+DZi60I/
-         idc+CeIRFCH38JVIJg2u16wk48qbVDOqh9A93SPU=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3738uAsr124085
+        b=aIlIkuJBRM0c4WvjU5Da8Ye9HH7R0F6kx3mA1U175fq5mLrtl9tsX7//nMG3/dtJm
+         +OsiV51XOAjzB/reGowezmKcMW897irALIKGAl3KLltz5apWovcAud4iiIfQnKovAo
+         9k0DeAHfZeeOa5muDhFWVlvgSSMwhwMZ7jFnrrbw=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3738w39G082632
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 3 Aug 2023 03:56:10 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+        Thu, 3 Aug 2023 03:58:03 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 3
- Aug 2023 03:56:09 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2023 03:58:01 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 3 Aug 2023 03:56:09 -0500
+ Frontend Transport; Thu, 3 Aug 2023 03:58:01 -0500
 Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3738u8K0014523;
-        Thu, 3 Aug 2023 03:56:09 -0500
-Date:   Thu, 3 Aug 2023 14:26:13 +0530
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3738w0os015752;
+        Thu, 3 Aug 2023 03:58:01 -0500
+Date:   Thu, 3 Aug 2023 14:28:05 +0530
 From:   Jai Luthra <j-luthra@ti.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Marek Vasut <marex@denx.de>
+To:     Marek Vasut <marex@denx.de>
 CC:     <linux-media@vger.kernel.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
+        Francesco Dolcini <francesco@dolcini.it>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hugues FRUCHET <hugues.fruchet@foss.st.com>,
+        Marcel Ziswiler <marcel@ziswiler.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Steve Longerbeam <slongerbeam@gmail.com>
-Subject: Re: [PATCH] media: ov5640: Fix initial RESETB state and annotate
- timings
-Message-ID: <c5qeirmofhsfcef5oz32h76z4jcud6bklg3sixcvfpu2dobxpt@dxlnvlcgti42>
-References: <20230724222116.162555-1-marex@denx.de>
- <4ileh7epyghpyy4sldufzgbssdplpli7motchwo2gosf3grxst@dnvnxfdm5mlv>
+Subject: Re: [PATCH v2] media: ov5640: Enable MIPI interface in
+ ov5640_set_power_mipi()
+Message-ID: <dxagorolo3qkq3oqqosjl7ljkrdw5wgzafteumcueoonl5gtjj@jrmdi4ho5b5w>
+References: <20230802144725.34099-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="22cdyahyuy6soi3q"
+        protocol="application/pgp-signature"; boundary="quo6hak4ga76txec"
 Content-Disposition: inline
-In-Reply-To: <4ileh7epyghpyy4sldufzgbssdplpli7motchwo2gosf3grxst@dnvnxfdm5mlv>
+In-Reply-To: <20230802144725.34099-1-marex@denx.de>
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -69,132 +73,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---22cdyahyuy6soi3q
+--quo6hak4ga76txec
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Marek, Jacopo,
-On Jul 25, 2023 at 11:09:20 +0200, Jacopo Mondi wrote:
-> Cc Jai which has recently changed this part to accomodate a design
-> where RESETB and PWDN are not exposed as separate lines
+Hi Marek,
+
+Thanks for the patch.
+
+On Aug 02, 2023 at 16:47:25 +0200, Marek Vasut wrote:
+> Set OV5640_REG_IO_MIPI_CTRL00 bit 2 to 1 instead of 0, since 1 means
+> MIPI CSI2 interface, while 0 means CPI parallel interface.
 >=20
-> On Tue, Jul 25, 2023 at 12:21:16AM +0200, Marek Vasut wrote:
-> > The initial state of RESETB input signal of OV5640 should be
-> > asserted, i.e. the sensor should be in reset. This is not the
-> > case, make it so.
-> >
-> > Since the subsequent assertion of RESETB signal is no longer
-> > necessary and the timing of the power sequencing could be
-> > slightly adjusted, add annotations to the delays which match
-> > OV5640 datasheet rev. 2.03, both:
-> >   figure 2-3 power up timing with internal DVDD
-> >   figure 2-4 power up timing with external DVDD source
-> >
-> > The 5..10ms delay between PWDN assertion and RESETB assertion
-> > is not even documented in the power sequencing diagram, and
-> > with this reset fix, it is no longer even necessary.
-> >
-> > Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
-> > Reported-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > ---
-> > Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Cc: Steve Longerbeam <slongerbeam@gmail.com>
-> > Cc: linux-media@vger.kernel.org
-> > ---
-> >  drivers/media/i2c/ov5640.c | 11 ++++-------
-> >  1 file changed, 4 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index 7c065c39082dd..74b58380b5e69 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -2452,16 +2452,13 @@ static void ov5640_power(struct ov5640_dev *sen=
-sor, bool enable)
-> >  static void ov5640_powerup_sequence(struct ov5640_dev *sensor)
-> >  {
-> >  	if (sensor->pwdn_gpio) {
-> > -		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
-> > +		gpiod_set_value_cansleep(sensor->reset_gpio, 1);
-> >
-> >  		/* camera power cycle */
-> >  		ov5640_power(sensor, false);
+> In the ov5640_set_power_mipi() the interface should obviously be set
+> to MIPI CSI2 since this functions is used to power up the sensor when
+> operated in MIPI CSI2 mode. The sensor should not be in CPI mode in
+> that case.
 >=20
-> This is also probably a NOP for most designs but the one Jai had, as
-> in his case a single "powerdown" line controls both PWDN and RESETB
-> with some internal circuitry that handles signals inversions and
-> delays. So I guess it is fine to have it here.
+> This fixes a corner case where capturing the first frame on i.MX8MN
+> with CSI/ISI resulted in corrupted frame.
 >=20
-
-Yes the modules in question are -
-    - Digilent PCam 5C
-    - ALINX AN5641
-    - TEVI-OV5640-*-RPI
-
-All of them have a 15-pin FFC (RPi) compatible connector.
-
-> > -		usleep_range(5000, 10000);
-> > +		usleep_range(5000, 10000);	/* t2 */
-> >  		ov5640_power(sensor, true);
-> > -		usleep_range(5000, 10000);
-
-I remember noticing this before, but chose to keep it around as the=20
-above mentioned modules have a 5.5ms + 1ms delay mentioned in the=20
-schematics [1] between toggling the weird "PWUP" gpio to the RESET=20
-actually getting toggled.
-
-But in my tests your patch is not breaking any of those modules, and=20
-this delay does look very redundant from driver p.o.v. so I am happy=20
-with removing it here.
-
-In future if I face any issues I will try to come up with a better=20
-approach that does not add redundant delays for modules that don't=20
-perform magical delays on-board like those three special ones :)
-
-[1]=20
-https://digilent.com/reference/_media/reference/add-ons/pcam-5c/pcam_5c_sch=
-=2Epdf
-
-> > -
-> > -		gpiod_set_value_cansleep(sensor->reset_gpio, 1);
-> > -		usleep_range(1000, 2000);
-> > +		usleep_range(1000, 2000);	/* t3 */
-> >
-> >  		gpiod_set_value_cansleep(sensor->reset_gpio, 0);
-> >  	} else {
-> > @@ -2469,7 +2466,7 @@ static void ov5640_powerup_sequence(struct ov5640=
-_dev *sensor)
-> >  		ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0,
-> >  				 OV5640_REG_SYS_CTRL0_SW_RST);
-> >  	}
-> > -	usleep_range(20000, 25000);
-> > +	usleep_range(20000, 25000);	/* t4 */
->=20
->=20
-> This all looks good to me
+> Fixes: aa4bb8b8838f ("media: ov5640: Re-work MIPI startup sequence")
 > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->=20
-> Jai could you give this a run to make sure this works on your setup as
-> well ?
->=20
+> Tested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com> # [Test on imx6q]
 
-Works on BeaglePlay and SK-AM62 (with my CSI v8 series applied on next)
+Tested-by: Jai Luthra <j-luthra@ti.com> # [Test on bplay, sk-am62]
 
-Tested-by: Jai Luthra <j-luthra@ti.com>
-
-> Thanks
->   j
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+> Cc: Francesco Dolcini <francesco@dolcini.it>
+> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: Hugues FRUCHET <hugues.fruchet@foss.st.com>
+> Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Cc: Jai Luthra <j-luthra@ti.com>
+> Cc: Marcel Ziswiler <marcel@ziswiler.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Steve Longerbeam <slongerbeam@gmail.com>
+> Cc: linux-media@vger.kernel.org
+> ---
+> V2: - Update commit message to mention this fixes the first corrupted fra=
+me
+>     - Collect RB/TB
+>     - Expand CC list
+> ---
+>  drivers/media/i2c/ov5640.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> >
-> >  	/*
-> >  	 * software standby: allows registers programming;
-> > --
-> > 2.40.1
-> >
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index ff0aef915fca5..5fe85aa2d2ec4 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -2539,9 +2539,9 @@ static int ov5640_set_power_mipi(struct ov5640_dev =
+*sensor, bool on)
+>  	 *		  "ov5640_set_stream_mipi()")
+>  	 * [4] =3D 0	: Power up MIPI HS Tx
+>  	 * [3] =3D 0	: Power up MIPI LS Rx
+> -	 * [2] =3D 0	: MIPI interface disabled
+> +	 * [2] =3D 1	: MIPI interface enabled
+>  	 */
+> -	ret =3D ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x40);
+> +	ret =3D ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x44);
+>  	if (ret)
+>  		return ret;
+> =20
+> --=20
+> 2.40.1
+>=20
 >=20
 
 --=20
@@ -203,24 +151,24 @@ Jai
 
 GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
 
---22cdyahyuy6soi3q
+--quo6hak4ga76txec
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmTLa6oACgkQQ96R+SSa
-cUVsfw//RQAUUbQbmnFVoEKsnHythj8lMWMqLPUipOKdgTKOlOCS7SFdDxI510QV
-gKwefl8RhJ8JsN0Gtx6ZRMA9oqSCKMs/mNzyeZE36M2DWOHE4b8jNxLvSPdfVV90
-66rMTzxGhFjwbij5Snqu4S3qL/4rHNqmTk6XyVJ+B5SJMwNJPTOHmS5r2mBTSsGx
-gTNYFoirTV+Bhw7Cng3gzy228vYlzMqmWfAU782cBTtXSqpOt+ngeVl6jkXC5O12
-+3Yj7fi5fVxDrYUgZ2el94+XwYx2GoG7oeqJA/5v+59Fc9npFUiF+ZU+WPL5mphu
-KlGD3Pdn5zZUCdGa95dKaPfKi4joDvJ/fZ4JJbcUKrPZSmKa6ak9JX5/iB/I1h19
-iITKvKFm5kHgbYNJxYw4tRN1bZjgzLUFGM0QO1CbVfUeMr14ScrEWzdiShUU/2JK
-laZQh8lIYXYFnQm5aLWQ3jQ9f1rrGGGncKQfkfAqnNKI/7CIRjnhP5EP5plXxvTK
-Fy5mF4A71XcCvjRdDdz6TbzTv4HIjBZ/5SG9a5z16p1ewV65rCCRQU2eKUsJQbRs
-OsHCPB6XcPt96rffCipFT7lAleYjYtNE2vBHWOH+wiPccAsyPjp1bkA7aZo9YLRk
-6mxLtWEt7nLfaolPkjBcNBC6RgzW+htbKTGiE+lDfZ7GHmBbBMU=
-=xbUK
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmTLbBwACgkQQ96R+SSa
+cUXDnw/5AfvHkaXIMHJBhvnD8RQjAsCOiiwoG0S640EyAQNpKHeBX+pbBOqYL/bc
+llG2Tqr/saLQ58PEnqNBXP5g6xnV47MUPuM/hYo+hhpLxJiCstMb1CcD0DHBjWDw
+PC5hpxYn7tPbDsh0VSlZROJoYZ3TErG45UZag+RBzW/W/7b7DKO/nDJG5vIbn0+P
+64SdzIOlsgM4LRqzsQkunkhZMqTz7t42zhEat6JuHIjoYUGae3f6QX+zQopPnrOr
+Uk9L3TjVlMLb6j2/PQRl6QhUSW9Yd3yGycruXCobj49XPMsVZDn0SxEFr+vhwyk+
+o6kPEQnqf0rMZKseYgQoPuaRfCitjQhAcqzdAmxK6ctNy9XExZiaNPMqzG6BhwsQ
+gO5v7bFuOpCqrxW9X2i9KNnE+Vfs3Jc0V7LrCWA6+1wp58NXfaHtAulgHJ62vpMr
+T4BGlv1aZxkSsTZpRm38EVTtaMGClhKNtx5l4qKESO57HrJr/bQUzn3Szog/6jx0
+Id74s5nYkCRnCk3rvxwpGiKgwaiTguyr5jK4FabhO71aKQtpKcS3mR3cF3Gnw5kN
+DNgxkQv6ggZhKFzkHBjsqtXlXR0ZavIka4uJzepr3ZchUyEnYXhN7ls1/gjTuYpc
+mZhSKP5zkpI3kXCXygGMJNtVd+sFH6zU7P69TrrmrHAw3XPCpwM=
+=QFEG
 -----END PGP SIGNATURE-----
 
---22cdyahyuy6soi3q--
+--quo6hak4ga76txec--
