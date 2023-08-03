@@ -2,88 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A99676E506
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 11:53:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C118776E589
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 12:23:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234994AbjHCJxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 05:53:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43942 "EHLO
+        id S235402AbjHCKXY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 06:23:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234023AbjHCJxj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 05:53:39 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A61E630C7
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 02:53:37 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3fe1fc8768aso8042195e9.1
-        for <linux-media@vger.kernel.org>; Thu, 03 Aug 2023 02:53:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1691056416; x=1691661216;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o/B0ToLExP+DiR9D97raY/1J2KSwUj5aVQTHcLopPW4=;
-        b=hnii72+lRfd3fIj8r+WNkTKXqcHLxpE84fpR4zovZr6d4FRi/cSQ8Df191YVGBlsiC
-         IPFvADsBsCMlNrZJpT+HaTU6fxodvjHbwmFhyc/GefTUYpyhqMwD6dfR9zehmjFhwrmw
-         msdRDz9+zNRfViEUhW0t8UmAfACzDQ506jBsy7sNzGDXVMXQKpxQ5+AdQ2vDOvMnavNh
-         Hjfoe/NerLWkfc4mvnQCJTDqil9W4pPKxArj8d+xZfnhMotyOtFHcJICur+WCDMpuvi9
-         i5TI2AB2rTgc0HsXoYOABVfqAd4JlCS6zbRPUuVrdVHBC2/06xza3GFHWBz36B4uSC1B
-         lzZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691056416; x=1691661216;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o/B0ToLExP+DiR9D97raY/1J2KSwUj5aVQTHcLopPW4=;
-        b=AmaiqObxmOAzroDqI2O9U1ub/IXxjPV00hCsW/ShCmXIm07cTEIV1s7Fhi+eBfNEj/
-         QajgF52iVYYtha1OemSBlUI3xczmgM4B7OTjDqLggnfMpKtpd2aJJjO97F0WSl/4klyZ
-         VhZw9lcR8FIVnmc5GDyjBFXSLCfgQsV1Xfr+O1livq9xOCsyj/fOshzYbgFqQvC3VEwz
-         UF2V+NWxXNLbYGmQxC5+X44DOvtS3ZdcmH7VNTjJmZfz4uUQh455JwAs0nXGeUkZ7WOn
-         dNm2U8mPdcW1D5n+n4eRhe0Yecqt0NLFZlaYXNRzUvN0JffbK2AoMJUe0EnY9VXq5tFC
-         XMqA==
-X-Gm-Message-State: ABy/qLaxL4wJONelLomeqfBgoGI4+sbRTPIqVfluniyNCW2j1jmSmc5x
-        OdjUD7Rl9VfUOeC2EtUySLkigw==
-X-Google-Smtp-Source: APBJJlEypDBS9JVFp+B8z1U3CVh5JzhVEqfWbu5Fxsi6niCNxUT0RBG20ys8Q2wWkY0Xe2Z09A8w2A==
-X-Received: by 2002:a1c:7c0e:0:b0:3fe:2b69:fc6c with SMTP id x14-20020a1c7c0e000000b003fe2b69fc6cmr5373711wmc.39.1691056416186;
-        Thu, 03 Aug 2023 02:53:36 -0700 (PDT)
-Received: from localhost ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id t12-20020a7bc3cc000000b003fbc30825fbsm3800361wmj.39.2023.08.03.02.53.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 02:53:35 -0700 (PDT)
-Date:   Thu, 3 Aug 2023 11:53:35 +0200
-From:   Julien Stephan <jstephan@baylibre.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     Phi-bang Nguyen <pnguyen@baylibre.com>,
-        Florian Sylvestre <fsylvestre@baylibre.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andy Hsieh <andy.hsieh@mediatek.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        devicetree@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Subject: Re: [PATCH v2 4/4] media: platform: mediatek: isp_30: add mediatek
- ISP3.0 camsv
-Message-ID: <iq7jffjeaejdfb26a4ysjgjzuopov4ji2ecgzmv4563tdveaep@hh2gzgzkbdzj>
-References: <20230630100321.1951138-1-jstephan@baylibre.com>
- <20230630100321.1951138-5-jstephan@baylibre.com>
- <0430ddab-6a6c-9fa3-95bd-05ce8ac5b94f@collabora.com>
+        with ESMTP id S235323AbjHCKVk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 06:21:40 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9575D30FD
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 03:20:22 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4RGlGH2mLjz49Q3P;
+        Thu,  3 Aug 2023 13:20:07 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1691058008;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UFlV9LD3IycUiW4qcU5Xq83XAYPggnSzN8z9jeQGFv4=;
+        b=Lm9sn1JbYhTtkaIZwZQ4uhyq9m02WLHaIZRpqALOwfc0BX2jX4zXlCrTJdDx/rES5KqKmj
+        /2Xt4KVTcygcCvE9H5R1UglPD37bcZwn94EGJ1jd4sMm0pKWEdIkKmMyKgeudm2KwNQPBo
+        T3cpHxex++v3bBMjbBa3WbZ/IyQNmH1/7G5Dq6XwUo8jsLsTa08Dh9eYEo5kuKNYoOVeLw
+        TxU73dwBN0W/3BvjpdBmN0YQ4UjcBvn5Q0QNL3nOtvKjo2h8nv60aQfwLIke8GeYe2J++d
+        hFn1+rWofOIKEmCF9A469A2Al6vfRv52NmsTEZFgd/1zgKskrxXH7rDAhcDGpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1691058008;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UFlV9LD3IycUiW4qcU5Xq83XAYPggnSzN8z9jeQGFv4=;
+        b=lJMXZhtLwlk4Tu7yzBTR/xCGWJ2BQ0bHYptqhDUIEhQ4w9O772UoYxy0UJ/Q8jGibQhng7
+        GIuTfPX7v09U7LqqZB7v3/5kTOQ2BNWFB/rwdi89egivW8Vx6aZcLjAPZWWGqZFSU11w9q
+        x/+X9MX8TRHn+4sWd+g+XDvKwQDchcsfSWLiwpcTM/WcNl1yXCMw7fSDrdWKSZjVq5kLQO
+        jaidGBLiRa1BWluw1iq7gZW21jDFFIXpf9LZLgnzh6b6RgmOoOubU/zb4uaNcFMo0mtab/
+        P/x9udHK0NOMUFp4ffPnFT527T6noC9d+28H1rzyG8xC/X0elu2zMA3qaOokMw==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1691058008; a=rsa-sha256;
+        cv=none;
+        b=gM/P7/WI4zLBcDPaFdJMCIeLSOwaoucAC1907UApNVAmYzuQZndS6xL1WQjEq3VcbxvuUg
+        cMB4j9gpwbVovWmUVHyY96nHBHo2uvN9vOHuuoaqs9+NQiOGlAJ6iaqaXEdBCFcuWGh9dd
+        SgMKV3owIEKvzUFZiRZvsxc7+walKc+cgtrzRDhOwNv04fdRI4Le2SbHXFW0HqGQ2sXodd
+        hnvD25OUGyzDXuwnYvUZduIFsjx4xVpQcJqQA4G1Fs+wypkxsNrjkhka9tDCs0VVSoW2Rs
+        FjQrRX9LDfC+p66Ky39FgpG5BCn1ZBxStkJPQ4CrgnP0eqpttKn8B8ZjghXGSw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E753F634C23;
+        Thu,  3 Aug 2023 13:20:06 +0300 (EEST)
+Date:   Thu, 3 Aug 2023 10:20:06 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Ruan Jinjie <ruanjinjie@huawei.com>, prabhakar.csengg@gmail.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH -next] media: platform: ti: fix the return value handle
+ for platform_get_irq()
+Message-ID: <ZMt/Vh5ZYjozZ9Ef@valkosipuli.retiisi.eu>
+References: <20230731120212.2017996-1-ruanjinjie@huawei.com>
+ <20230802210444.GF29718@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0430ddab-6a6c-9fa3-95bd-05ce8ac5b94f@collabora.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+In-Reply-To: <20230802210444.GF29718@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,35 +83,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 02:21:17PM +0200, AngeloGioacchino Del Regno wrote:
-..snip..
-> > +
-> > +	mtk_cam_init_cfg(&cam->subdev, NULL);
->
-> mtk_cam_init_cfg() returns an integer, and this is probably because you expect
-> it to get logic to fail: in that case, check the result of that call here,
-> otherwise, make that function void.
->
+On Thu, Aug 03, 2023 at 12:04:44AM +0300, Laurent Pinchart wrote:
+> Hi Ruan,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Jul 31, 2023 at 08:02:12PM +0800, Ruan Jinjie wrote:
+> > There is no possible for platform_get_irq() to return 0,
+> > and the return value of platform_get_irq() is more sensible
+> > to show the error reason.
+> > 
+> > Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+> > ---
+> >  drivers/media/platform/ti/am437x/am437x-vpfe.c | 4 +---
+> >  drivers/media/platform/ti/omap3isp/isp.c       | 4 +---
+> >  2 files changed, 2 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+> > index 81a63a3865cf..a85b97107de7 100644
+> > --- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
+> > +++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+> > @@ -2420,10 +2420,8 @@ static int vpfe_probe(struct platform_device *pdev)
+> >  	}
+> >  
+> >  	ret = platform_get_irq(pdev, 0);
+> > -	if (ret <= 0) {
+> > -		ret = -ENODEV;
+> > +	if (ret < 0)
+> >  		goto probe_out_cleanup;
+> > -	}
+> >  	vpfe->irq = ret;
+> >  
+> >  	ret = devm_request_irq(vpfe->pdev, vpfe->irq, vpfe_isr, 0,
+> > diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+> > index f3aaa9e76492..226db75221cd 100644
+> > --- a/drivers/media/platform/ti/omap3isp/isp.c
+> > +++ b/drivers/media/platform/ti/omap3isp/isp.c
+> > @@ -2398,10 +2398,8 @@ static int isp_probe(struct platform_device *pdev)
+> >  
+> >  	/* Interrupt */
+> >  	ret = platform_get_irq(pdev, 0);
+> > -	if (ret <= 0) {
+> > -		ret = -ENODEV;
+> > +	if (ret < 0)
+> >  		goto error_iommu;
+> > -	}
+> >  	isp->irq_num = ret;
+> >  
+> >  	if (devm_request_irq(isp->dev, isp->irq_num, isp_isr, IRQF_SHARED,
+> 
+> The changes look fine to me.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Sakari, would you like to merge this through your tree ?
 
-Hi Angelo,
+Done, thanks. I'll push it this afternoon to my git.linuxtv.org tree.
 
-mtk_cam_init_cfg returns an int because it should match v4l2_subdev_pad_ops->init_cfg prototype..
-
-mtk_cam_init does not fail, always return 0, so I though it would be ok
-to discard the return value here. What do you think?
-
-> > +
-
-..snip..
-
-> > +	unsigned int bpp;
->
-> Can we get any format that uses a billion bits per pixel? :-P
->
-> u8 bpp;
->
-
-I am preparing the driver for futur upgrades.. in a billion years ;)
-
-Cheers
-Julien
+-- 
+Sakari Ailus
