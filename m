@@ -2,105 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E5F76EB20
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 15:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C2C776ED02
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 16:45:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232097AbjHCNtW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 09:49:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37686 "EHLO
+        id S235297AbjHCOpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 10:45:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235177AbjHCNtD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 09:49:03 -0400
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3759128
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 06:48:43 -0700 (PDT)
-Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-348ddac3a09so5449725ab.1
-        for <linux-media@vger.kernel.org>; Thu, 03 Aug 2023 06:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691070523; x=1691675323;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OjPv6NeAztrmE8O+eVvEub4H1HrwyGtxAtjwiZVT5zU=;
-        b=XQpkgxK7Au2lhbM1Ay4nayIMoZrNDfVymbOzHDG0sL2PQmd6PtqqMRR4l1sSU28wO8
-         /hHN1pCFx3O+UBiu6QHhnbk5sgnX+ZVjLmTmR6jol1juLNkag1qBxseLcw7tvtzRzycw
-         p4dIxHlS7zfnhXXgbPp8Z0Ka0DuICTqm1OnxCPSkeiZerK4QYZErzzFmZbVSG+7VAhl4
-         S11HrdXQe83mpEWBAFotOH7lblNlcnJZvpbR84J5LaQE6Ie9PbXGmuZKcBSfUgObpz24
-         Tdh9kamjE3CZ2zM1JtM+muqC24Jtd9DZaReGUvnjUTSLG8pO6AJj3STUFxMf/NYOaD/q
-         T/Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691070523; x=1691675323;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OjPv6NeAztrmE8O+eVvEub4H1HrwyGtxAtjwiZVT5zU=;
-        b=JlC8uMG5E/lNOSCl4MmtfkAtY4w4QV8T0TMYjuPmguQOGGwoY1I+ElhDtrvCowydHs
-         0Vz9JF3gzrJpBk6wLy8bTblXHjKlfC8sdtwWiShPDPiUUbOoNf/EvPHZDEPy0vWX4z7u
-         xFVN5MBzdROUkNX4QeBiGnKQVbOnVTHAtH3RLM0dAsPcyFUmW7mfI0JTvRzBCnsOOBOI
-         SVKOx55bzcXIWTch94XPNHugkEviHLrrANBk8MLGAhNG/VnQD4clwnVtg1hLEil7x67D
-         zgUQkMYqsOF5UJ7UigbmK9dRWK/+9O6PDg1kYCIxErtD+XO4Tii7Uyp/htFQU2m8l8wu
-         M8pQ==
-X-Gm-Message-State: ABy/qLZtcYmtOYA4SPDenvkm2ctKvc4sW+9DLqN0+wRUm4FHz09gvrvl
-        37RPDiXBEk5dEVTyqn7Ah38okyb+N68knWoLGN1fl8AfmkJDDg==
-X-Google-Smtp-Source: APBJJlGv5t0Epw3YK5/Ks4pStjxtjbTBFVgefSGT6nUiHELU151cQOiVix4p8++JxivjnQmuwLXouzEsmi5ceAnCsiw=
-X-Received: by 2002:a05:6e02:1569:b0:346:390a:1ce6 with SMTP id
- k9-20020a056e02156900b00346390a1ce6mr17707318ilu.8.1691070522975; Thu, 03 Aug
- 2023 06:48:42 -0700 (PDT)
+        with ESMTP id S234450AbjHCOpl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 10:45:41 -0400
+Received: from mgamail.intel.com (unknown [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1A4A3
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 07:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691073936; x=1722609936;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ovrlGJ12b18LAlolEMoshW4Xj9yqKZtCfdHfQT8zcog=;
+  b=mG3xvnR3FfC9qcERClhSrskzzB71qy54AcTMbG1JIiN/mfprg/YUP8Ly
+   undDoeCDS/Me/90W9uGdWNBz3aRm4hI5UjQH9WFMdshr5hPh7+c9cXAJk
+   8HSa8YYE1eQ4r/UWWnQ2yT+6+kSDVV5jjOD4Ka/HaODjk8LpFBa86g8ed
+   fjdDryNf2cnEWfSNqF1Ig6qVuAS1RpCHrG8r8DncFxuobwLsdzIM3e2mx
+   ddduMBVIMowOgCKoL0bl8oOKj27cg9n5oIoL6xCAbr4rYHnIykPPoQrkj
+   x+iGajwD1JFEGfScp5/FjTtbCo+Yt4Dzf5ruClHoTy87m/YJixlNKeXuG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="433743286"
+X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
+   d="scan'208";a="433743286"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 07:45:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="819694463"
+X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
+   d="scan'208";a="819694463"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 07:45:33 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id B80141204CF;
+        Thu,  3 Aug 2023 17:45:30 +0300 (EEST)
+Date:   Thu, 3 Aug 2023 14:45:30 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andy@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 17/32] media: ov2680: Add support for ACPI enumeration
+Message-ID: <ZMu9ir+vYOo8jSUz@kekkonen.localdomain>
+References: <20230803093348.15679-1-hdegoede@redhat.com>
+ <20230803093348.15679-18-hdegoede@redhat.com>
+ <ZMuoVeni2dSSM9xb@smile.fi.intel.com>
 MIME-Version: 1.0
-References: <20230803021835.3740766-1-yangyingliang@huawei.com>
-In-Reply-To: <20230803021835.3740766-1-yangyingliang@huawei.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 3 Aug 2023 14:47:40 +0100
-Message-ID: <CA+V-a8tjO_Horua90Rq4HgZx880bn2RXa=K85S2tRE7+U6ukkA@mail.gmail.com>
-Subject: Re: [PATCH -next] media: davinci: vpif_capture: fix error return code
- in vpif_probe()
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZMuoVeni2dSSM9xb@smile.fi.intel.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 3, 2023 at 3:21=E2=80=AFAM Yang Yingliang <yangyingliang@huawei=
-.com> wrote:
->
-> Set error return code, when get platform data failed.
->
-> Fixes: b4a4547371b9 ("media: davinci: Init async notifier after registeri=
-ng V4L2 device")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/media/platform/ti/davinci/vpif_capture.c | 1 +
->  1 file changed, 1 insertion(+)
->
-Reviewed-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
+Hi Andy,
 
-Cheers,
-Prabhakar
+On Thu, Aug 03, 2023 at 04:15:01PM +0300, Andy Shevchenko wrote:
+> On Thu, Aug 03, 2023 at 11:33:32AM +0200, Hans de Goede wrote:
+> > Add an acpi_match_table now that all the other bits necessary for
+> > ACPI support are in place.
+> 
+> > The OVTI prefix used for the ACPI-HID is used for various OmniVision
+> > sensors on many generations x86 tablets and laptops.
+> 
+> "OVTI is the official ACPI vendor ID for OmniVision Technologies, Inc."
+> 
+> > The OVTI2680 HID specifically is used on multiple models spanning at
+> > least 4 different Intel CPU models (2 ISP2, 2 IPU3).
+> 
+> With or without above (as it's still the official vendor ID :-)
+> Reviewed-by: Andy Shevchenko <andy@kernel.org>
+> from ACPI ID rules perspective.
+> 
+> But add that in case you need to send a new version.
 
-> diff --git a/drivers/media/platform/ti/davinci/vpif_capture.c b/drivers/m=
-edia/platform/ti/davinci/vpif_capture.c
-> index bf5330b6fcd5..99fae8830c41 100644
-> --- a/drivers/media/platform/ti/davinci/vpif_capture.c
-> +++ b/drivers/media/platform/ti/davinci/vpif_capture.c
-> @@ -1644,6 +1644,7 @@ static __init int vpif_probe(struct platform_device=
- *pdev)
->         pdev->dev.platform_data =3D
->                 vpif_capture_get_pdata(pdev, &vpif_obj.v4l2_dev);
->         if (!pdev->dev.platform_data) {
-> +               err =3D -EINVAL;
->                 dev_warn(&pdev->dev, "Missing platform data. Giving up.\n=
-");
->                 goto vpif_unregister;
->         }
-> --
-> 2.25.1
->
+Thanks, Andy!
+
+I'll take this version then, it's "just" a sensor driver patch.
+
+-- 
+Sakari Ailus
