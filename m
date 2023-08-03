@@ -2,100 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00DA376E35F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 10:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 299BE76E365
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 10:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232850AbjHCImG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 04:42:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60722 "EHLO
+        id S230150AbjHCInc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 04:43:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232768AbjHCImD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 04:42:03 -0400
+        with ESMTP id S234901AbjHCInL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 04:43:11 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D346DB0;
-        Thu,  3 Aug 2023 01:42:02 -0700 (PDT)
-Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D645EEA;
-        Thu,  3 Aug 2023 10:40:55 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F1D7B0
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 01:43:09 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DA275A4;
+        Thu,  3 Aug 2023 10:42:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1691052056;
-        bh=X/zAB0Jj0qtm9fUujGG3j4YnlOSerudhleIY+ZFE7Pk=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=qH1DE64u4YxQCM+dwmrEBINgZ/TmMqlH24BICuVvHn12qvLSOxkSGGIqR9Yglz8vS
-         Sdrq0EeescYNU2YxfqFdqhoSWg74ap6eSCvglBOzdxUjkFozQmtRCwJoDfCYGoXr4b
-         TkzgtFHLBERyr29hO43Bv94Q1EDORIDSLshTqyg4=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date:   Thu, 03 Aug 2023 11:41:39 +0300
-Subject: [PATCH 2/2] media: i2c: ds90ub960: Fix PLL config for 1200 MHz CSI
- rate
+        s=mail; t=1691052124;
+        bh=b+njT2Ztw+1dGB49xUnkqEmKpsSmxKcIxWQXqoUtIMs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Kdl0Vf4l16VXPH6z0RFL59iwExNaUpp16WgVDw9E1lVI75an+7GVpkQWWkMMdBgzA
+         /i3RVVCSFdyVlP7S1CYKG1IXb7vKifisG01+EFQDI/ktuFRA54bTzM3nJB6WtcTECI
+         BQiJTdg+70tYVy+HQd5wcjleZLYVhsX28fnr4glo=
+Message-ID: <54555ef9-1281-d2ef-dd92-cd9847194256@ideasonboard.com>
+Date:   Thu, 3 Aug 2023 11:43:05 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: smatch errors in ds90ub913
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <8d6daeb1-b62a-bbb2-b840-8759c84f2085@xs4all.nl>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <8d6daeb1-b62a-bbb2-b840-8759c84f2085@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-ub9xx-uninit-vars-v1-2-284a5455260f@ideasonboard.com>
-References: <20230803-ub9xx-uninit-vars-v1-0-284a5455260f@ideasonboard.com>
-In-Reply-To: <20230803-ub9xx-uninit-vars-v1-0-284a5455260f@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=958;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=X/zAB0Jj0qtm9fUujGG3j4YnlOSerudhleIY+ZFE7Pk=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBky2hVH4mzodkwHQDT/qFB0cXR6NAIPQ86YdBFQ
- KAmu7DI6SqJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMtoVQAKCRD6PaqMvJYe
- 9R2BEACAlP22T4NNeiUW0lczthwN5yziGaJMShZlaAoa/AvhqHDrFqEAMBQVNj40TgcWmf4nZBF
- 7lG4B1P7tOKiZC+4iDylMUQXCDd0wEqFfuqhvQ00HxLIZfR5gKnZ8CsufqRmY4a4qJZRVd9JAle
- 3Km9ubgxQOA1hNFk2Cgf0lHT0jn+nNKNk0asKXQ2EYJem+JKfvB5Y/C2jKhR3/h++R1hdXcPeg6
- 7aHc30rZ6IJ/Rllijgp8kCRXSm2HZzfj5rPM2a6SecNBQyyy5xBQRWUlS/wTRKtoOS64Ovzgsbd
- WRQtoUyfafxDLO4zQ+tt06K7+IIghRS2G7cYqQY3YswpZ7fXt42LXdBvhF/zYhKZIBGRgh1umAs
- PuLAjcldLmgeJx6AsIXu3cJj59HzmHzjLthzr+bRp3KvF6MLaWZJ9nAPDGQtyC0MS9AOFQEHqi3
- lliSJ9jLgmiH6chImqyIcf0LRoDan5m99d3FUuuOvm3tJCagC8Jf7kRwSyUGeEomIYvYTyl4j89
- Bk3JRvVBsw39SfBCT47IO2UeX/jIAvJlO0sJVzaf0zn5CwjUqFkPJxiQ51nQog4zU99i4oKFWNe
- 2KJ5lNJDejaV7C9KEXkBsTiIOiFBYfQnCpb24TJNnuLfDawrKX8cg7iaDfO33mr4g0iXsMTLL9z
- hdhXW5f7UGYTT8g==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-smatch reports:
+On 03/08/2023 10:55, Hans Verkuil wrote:
+> Hi Tomi,
+> 
+> I discovered that this driver was disabled in the smatch build, and after I enabled
+> it I got these smatch errors:
+> 
+> drivers/media/i2c/ds90ub913.c:481 ub913_log_status() error: uninitialized symbol 'v1'.
+> drivers/media/i2c/ds90ub913.c:481 ub913_log_status() error: uninitialized symbol 'v2'.
+> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_local_data'.
+> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_input_ctrl'.
+> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_pin_sts'.
+> drivers/media/i2c/ds90ub960.c:1788 ub960_init_tx_ports() error: uninitialized symbol 'pll_div'.
+> 
+> That's also the case with the fixes PR for this driver that Sakari posted.
+> 
+> Can you take a look?
 
-drivers/media/i2c/ds90ub960.c:1788 ub960_init_tx_ports() error: uninitialized symbol 'pll_div'.
+I have sent fixes for these. And added smatch to my toolset...
 
-This is caused by 'pll_div' not being set for 1200 MHz CSI rate. Set the
-'pll_div' correctly.
-
-Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
-Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
-Closes: https://lore.kernel.org/all/8d6daeb1-b62a-bbb2-b840-8759c84f2085@xs4all.nl/
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/i2c/ds90ub960.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index 4833b39b9178..4ab45e326d80 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -1763,6 +1763,7 @@ static int ub960_init_tx_ports(struct ub960_data *priv)
- 		break;
- 	case MHZ(1200):
- 		speed_select = 1;
-+		pll_div = 0x18;
- 		break;
- 	case MHZ(800):
- 		speed_select = 2;
-
--- 
-2.34.1
+  Tomi
 
