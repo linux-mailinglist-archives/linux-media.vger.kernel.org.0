@@ -2,132 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E346B76F0B4
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 19:34:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0975576F1F9
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 20:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234961AbjHCReR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 13:34:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47890 "EHLO
+        id S233191AbjHCSkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 14:40:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229837AbjHCReP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 13:34:15 -0400
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125EE10B;
-        Thu,  3 Aug 2023 10:34:15 -0700 (PDT)
-Received: by mail-vs1-xe2e.google.com with SMTP id ada2fe7eead31-44799de68f3so1534419137.1;
-        Thu, 03 Aug 2023 10:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691084054; x=1691688854;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s8Xa9pYsN9q26Cy2OfWksmVuBviyVuvzRMdasYi4RPE=;
-        b=ieYA6bVxf1lbXkgHAn+hXhVfxzKe711nmI2r+8a2Pkje45GQmKLftZmaLt0qar82gg
-         SFBl/K1845mX6+FAqPkGcjyrpBXYikncS74nQOppvoyKSHXe0rCclfsEAXrPauDBdjLV
-         e25KI/Uu6/whFSVJCUzOwGJkV3uYaP9OmOzDMNjjkk1ts8gnSQW1ex6gNo+0kzwO65XL
-         HyypX83EJT7/21befwOJ9uRlgd3lhXqtj1LN6iNBdvKWKSCrS9QQZFXiZGxHkCMMLy82
-         +seRRUC93Y1mRKPJn8r746QD8Gi1bfCC2+B+iopA0nXA09o5X8xylmqFAP/A/rLnnA0P
-         /oIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691084054; x=1691688854;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s8Xa9pYsN9q26Cy2OfWksmVuBviyVuvzRMdasYi4RPE=;
-        b=Khj1CqU68ZW5JL7jvi+pAiIgubbQcSdOSioCHUAfRRrEK3wEQEOBOXhiHNa782xOK0
-         UPqwiB2NmMmM+twM72bGE9FgzVc86HK7WqMXgv2w2QuRxYGJss8qW1y6++gwGcDCifNl
-         NAV3m7xO/s3fyfEcrgTatPMe9m95tBFPB1vErPL0r+tQnVzkgRPuL4sGeI6HkUbr9cAv
-         j1cu7XVp3wBaRjUz0qXRSN0X1OTpbe4G8n/iqzjOvLdESagGXKE+Q5TDU8WgkdB69xhd
-         N9l72PSsrm+EPi9hScYKgRe44/8Et89Jy2gZlyHu6T+Mpc5AYt/8GRAlAKE3sxDoXJ/w
-         J9QQ==
-X-Gm-Message-State: ABy/qLbF3wRyFXbaDCQ1CE+Hrhe1CxHK2awnp4p/B09UvgIkaA7y0xCK
-        ktLpTVM4KCBwMeU/FIXCz435PMTD55CY+t0AsoU=
-X-Google-Smtp-Source: APBJJlG6pjOoG0q6RAsawh+9qeUBUHt8XE1GKbQlIBPYmQFLRffHoU6WGPDLy5lU6fh2CQ1SS4cFWeU/BvylteONzOI=
-X-Received: by 2002:a05:6102:d8a:b0:443:5524:8f8b with SMTP id
- d10-20020a0561020d8a00b0044355248f8bmr4828038vst.4.1691084054017; Thu, 03 Aug
- 2023 10:34:14 -0700 (PDT)
+        with ESMTP id S229473AbjHCSkk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 14:40:40 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57F642D4C;
+        Thu,  3 Aug 2023 11:40:39 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id E8B232189D;
+        Thu,  3 Aug 2023 18:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1691088037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=OtTqFXBQhlrG+PZAvHxivPSqb0Fo/vxr7QReG0BjreQ=;
+        b=uqV8yhMEb4iL193tfXjqv5+X4ARxnhBjn/KyK/krKa931N538DnrW6jSuuJbdPMnqVWEz6
+        rG1Lwbat9vFKhDkieHbSaBNKRflX54LJgot4HF7ACTyA3TL1Jl/ubURaeNxTelysKhUcL8
+        tfSLHdEolxQ8h09FzS78SYwc1diPX+o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1691088037;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=OtTqFXBQhlrG+PZAvHxivPSqb0Fo/vxr7QReG0BjreQ=;
+        b=du5u9+OHtnBg+RMsEpDMTVwG8N1kRebeeHEvq+egzUBYpUTgNJW0CiqTllKzfzFEcZEXR+
+        FAn2X86CkwCkf6AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE7491333C;
+        Thu,  3 Aug 2023 18:40:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 7zagKaX0y2TLGAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 03 Aug 2023 18:40:37 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     deller@gmx.de, javierm@redhat.com, sam@ravnborg.org
+Cc:     linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-geode@lists.infradead.org, linux-omap@vger.kernel.org,
+        kvm@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 00/47] fbdev: Use I/O helpers
+Date:   Thu,  3 Aug 2023 20:35:25 +0200
+Message-ID: <20230803184034.6456-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <1690598115-26287-1-git-send-email-quic_pintu@quicinc.com>
- <20230731112155.GA3662@lst.de> <CAOuPNLjnfq1JefngtNrg0Q+JdMTSRz+eEqxGQJFfx9+af+k9WA@mail.gmail.com>
- <20230801171838.GA14599@lst.de> <CANDhNCq+3OEosUcQJ5GFgk+5OyG+JqXKM43UAo0aPz-V27OgAA@mail.gmail.com>
- <20230802094725.GA28241@lst.de>
-In-Reply-To: <20230802094725.GA28241@lst.de>
-From:   Pintu Agarwal <pintu.ping@gmail.com>
-Date:   Thu, 3 Aug 2023 23:04:02 +0530
-Message-ID: <CAOuPNLjAOk0BOXDcjbY+evX_uxbZyptrJXMf0ULhReECzEX0CQ@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-contiguous: define proper name for global cma region
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     John Stultz <jstultz@google.com>,
-        Pintu Kumar <quic_pintu@quicinc.com>,
-        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-        linux-mm@kvack.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        iommu@lists.linux.dev, Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Most fbdev drivers operate on I/O memory. And most of those use the
+default implementations for file I/O and console drawing. Convert all
+these low-hanging fruits to the fb_ops initializer macro and Kconfig
+token for fbdev I/O helpers.
 
-On Wed, 2 Aug 2023 at 15:17, Christoph Hellwig <hch@lst.de> wrote:
->
-> On Tue, Aug 01, 2023 at 10:39:04PM -0700, John Stultz wrote:
-> > So, forgive me, I've not had a chance to look into this, but my
-> > recollection was "reserved" is the name we see on x86, but other names
-> > are possibly provided via the dts node?
->
-No, I think "reserved" is the name hard-coded (for all arch) in Kernel
-for global-cma.
-So, I don't think this is x86 specific. I am checking on arm32 itself.
-When we can dma_alloc_coherent we see these in the logs (if dts region
-is not present).
-cma: cma_alloc(cma (ptrval), name: reserved, count 64, align 6)
-Now, with this change we will see this:
-cma: cma_alloc(cma (ptrval), name: global-cma-region, count 64, align 6)
+The fbdev I/O helpers are easily grep-able. In a later patch, they can
+be left to empty values if the rsp. functionality, such as file I/O or
+console, has been disabled.
 
-> Indeed, dma_contiguous_default_area can also be set through
-> rmem_cma_setup, which then takes the name from DT.
->
-I think this is a different case. If DT entry is present we get this:
-Reserved memory: created CMA memory pool at 0x98000000, name: name:
-linux,cma, size 128 MiB
-cma: cma_alloc(cma (ptrval), name: linux,cma, count 64, align 6)
+There are no functional changes. The helpers set the defaults that
+the drivers already use. The fb_io_*() functions that the initializer
+macro sets are the defaults if struct fb_ops.fb_read or .fb_write are
+NULL. After all drivers have been updated to set them explicitly, the
+defaults can be dropped and the functions can be made optional.
 
-Here we are talking about the default hard-coded name in Kernel code
-if DT is not defined.
-So, in one of the boards, this DT entry was not present and it shows
-as "reserved".
+v3:
+	* use _IOMEM_ in commit message
+v2:
+	* updated to use _IOMEM_ tokens
 
-> > I believe on the hikey board its "linux,cma" is the name, so forcing
-> > it to reserved would break that.
-> >
-Yes, everywhere in the DT it's defined as "linux,cma".
-You mean this also should be changed to "linux,cma-global-region"
-everywhere with this change ?
+Thomas Zimmermann (47):
+  media/vivid: Use fbdev I/O helpers
+  fbdev/acornfb: Use fbdev I/O helpers
+  fbdev/asiliantfb: Use fbdev I/O helpers
+  fbdev/atmel_lcdfb: Use fbdev I/O helpers
+  fbdev/aty128fb: Use fbdev I/O helpers
+  fbdev/carminefb: Use fbdev I/O helpers
+  fbdev/chipsfb: Use fbdev I/O helpers
+  fbdev/da8xx-fb: Use fbdev I/O helpers
+  fbdev/efifb: Use fbdev I/O helpers
+  fbdev/fm2fb: Use fbdev I/O helpers
+  fbdev/fsl-diu-fb: Use fbdev I/O helpers
+  fbdev/g364fb: Use fbdev I/O helpers
+  fbdev/geode/gx1fb: Use fbdev I/O helpers
+  fbdev/geode/gxfb: Use fbdev I/O helpers
+  fbdev/geode/lxfb: Use fbdev I/O helpers
+  fbdev/goldfishfb: Use fbdev I/O helpers
+  fbdev/grvga: Use fbdev I/O helpers
+  fbdev/gxt4500: Use fbdev I/O helpers
+  fbdev/i740fb: Use fbdev I/O helpers
+  fbdev/imxfb: Use fbdev I/O helpers
+  fbdev/kyro: Use fbdev I/O helpers
+  fbdev/macfb: Use fbdev I/O helpers
+  fbdev/maxinefb: Use fbdev I/O helpers
+  fbdev/mb862xxfb: Use fbdev I/O helpers
+  fbdev/mmpfb: Use fbdev I/O helpers
+  fbdev/mx3fb: Use fbdev I/O helpers
+  fbdev/ocfb: Use fbdev I/O helpers
+  fbdev/offb: Use fbdev I/O helpers
+  fbdev/omapfb: Use fbdev I/O helpers
+  fbdev/platinumfb: Use fbdev I/O helpers
+  fbdev/pmag-aa-fb: Use fbdev I/O helpers
+  fbdev/pmag-ba-fb: Use fbdev I/O helpers
+  fbdev/pmagb-b-fb: Use fbdev I/O helpers
+  fbdev/pxa168fb: Use fbdev I/O helpers
+  fbdev/pxafb: Use fbdev I/O helpers
+  fbdev/q40fb: Use fbdev I/O helpers
+  fbdev/s3cfb: Use fbdev I/O helpers
+  fbdev/sh7760fb: Use fbdev I/O helpers
+  fbdev/simplefb: Use fbdev I/O helpers
+  fbdev/sstfb: Use fbdev I/O helpers
+  fbdev/sunxvr1000: Use fbdev I/O helpers
+  fbdev/sunxvr2500: Use fbdev I/O helpers
+  fbdev/uvesafb: Use fbdev I/O helpers
+  fbdev/valkyriefb: Use fbdev I/O helpers
+  fbdev/vesafb: Use fbdev I/O helpers
+  fbdev/xilinxfb: Use fbdev I/O helpers
+  vfio-dev/mdpy-fb: Use fbdev I/O helpers
 
-> > Maybe instead add a compat config option to force the cma name (so x86
-> > can set it to "default" if needed)?
->
-Yes, having it in config is also a good option instead of hard-coding in Ke=
-rnel.
->
-> I think we'll just need to leave it as-is.  I with dma-heaps had never
-> exposed the name to userspace, but we'll have to l=D1=96ve with it now.
+ drivers/media/test-drivers/vivid/Kconfig     |   4 +-
+ drivers/media/test-drivers/vivid/vivid-osd.c |   4 +-
+ drivers/video/fbdev/Kconfig                  | 160 +++++--------------
+ drivers/video/fbdev/acornfb.c                |   4 +-
+ drivers/video/fbdev/asiliantfb.c             |   4 +-
+ drivers/video/fbdev/atmel_lcdfb.c            |   4 +-
+ drivers/video/fbdev/aty/aty128fb.c           |   4 +-
+ drivers/video/fbdev/carminefb.c              |   5 +-
+ drivers/video/fbdev/chipsfb.c                |   4 +-
+ drivers/video/fbdev/da8xx-fb.c               |   4 +-
+ drivers/video/fbdev/efifb.c                  |   4 +-
+ drivers/video/fbdev/fm2fb.c                  |   4 +-
+ drivers/video/fbdev/fsl-diu-fb.c             |   4 +-
+ drivers/video/fbdev/g364fb.c                 |   4 +-
+ drivers/video/fbdev/geode/Kconfig            |  12 +-
+ drivers/video/fbdev/geode/gx1fb_core.c       |   5 +-
+ drivers/video/fbdev/geode/gxfb_core.c        |   5 +-
+ drivers/video/fbdev/geode/lxfb_core.c        |   5 +-
+ drivers/video/fbdev/goldfishfb.c             |   4 +-
+ drivers/video/fbdev/grvga.c                  |   4 +-
+ drivers/video/fbdev/gxt4500.c                |   4 +-
+ drivers/video/fbdev/i740fb.c                 |   4 +-
+ drivers/video/fbdev/imxfb.c                  |   4 +-
+ drivers/video/fbdev/kyro/fbdev.c             |   4 +-
+ drivers/video/fbdev/macfb.c                  |   4 +-
+ drivers/video/fbdev/maxinefb.c               |   4 +-
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c   |   4 +-
+ drivers/video/fbdev/mmp/fb/Kconfig           |   4 +-
+ drivers/video/fbdev/mmp/fb/mmpfb.c           |   4 +-
+ drivers/video/fbdev/mx3fb.c                  |   4 +-
+ drivers/video/fbdev/ocfb.c                   |   4 +-
+ drivers/video/fbdev/offb.c                   |   4 +-
+ drivers/video/fbdev/omap/Kconfig             |   4 +-
+ drivers/video/fbdev/omap/omapfb_main.c       |   4 +-
+ drivers/video/fbdev/platinumfb.c             |   4 +-
+ drivers/video/fbdev/pmag-aa-fb.c             |   4 +-
+ drivers/video/fbdev/pmag-ba-fb.c             |   4 +-
+ drivers/video/fbdev/pmagb-b-fb.c             |   4 +-
+ drivers/video/fbdev/pxa168fb.c               |   4 +-
+ drivers/video/fbdev/pxafb.c                  |   4 +-
+ drivers/video/fbdev/q40fb.c                  |   4 +-
+ drivers/video/fbdev/s3c-fb.c                 |   4 +-
+ drivers/video/fbdev/sh7760fb.c               |   4 +-
+ drivers/video/fbdev/simplefb.c               |   4 +-
+ drivers/video/fbdev/sstfb.c                  |   4 +-
+ drivers/video/fbdev/sunxvr1000.c             |   4 +-
+ drivers/video/fbdev/sunxvr2500.c             |   4 +-
+ drivers/video/fbdev/uvesafb.c                |   4 +-
+ drivers/video/fbdev/valkyriefb.c             |   4 +-
+ drivers/video/fbdev/vesafb.c                 |   4 +-
+ drivers/video/fbdev/xilinxfb.c               |   4 +-
+ samples/Kconfig                              |   4 +-
+ samples/vfio-mdev/mdpy-fb.c                  |   4 +-
+ 53 files changed, 94 insertions(+), 286 deletions(-)
 
-Can you point me to the userspace utility we are talking about here ?
-I think we should not worry much about userspace name exposure.
-I guess it should fetch whatever is declared in Kernel or DTS, right ?
+
+base-commit: 194cd63362db9ed2cbdd3deaa7a8752b86d95f3b
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+prerequisite-patch-id: 9e45f32f01ebd4d3a927038e52b91a389673b9bb
+prerequisite-patch-id: b0b735b6e10a12816cea5ea15e3292c6342ed2f2
+prerequisite-patch-id: 3997b2a71240d34ccf6990cf133cad39d4efc8f4
+prerequisite-patch-id: d64b3896ffd91137df0c4311a8b7aa0d5fa40a11
+prerequisite-patch-id: 5c8669f6947f5a44d19f4f8bd36b77c31163eda7
+-- 
+2.41.0
+
