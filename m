@@ -2,70 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 050D276F3A9
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 21:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B97F676F40A
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 22:31:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231409AbjHCTst (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 15:48:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38402 "EHLO
+        id S231573AbjHCUbM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 16:31:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230172AbjHCTss (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 15:48:48 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 477AE273E
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 12:48:37 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2b95d5ee18dso21304711fa.1
-        for <linux-media@vger.kernel.org>; Thu, 03 Aug 2023 12:48:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1691092115; x=1691696915;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Z7RavCZaOPDwL16SmZAwND6YT5Gjm/jHSJPLs+Fz01M=;
-        b=zCM/TAo7Jx2wU0k+b/XTTp0NzbDDvI3nTi3zkPvW2vP2s8tg5WpZ0zSpHbKDXaOQKp
-         Z/Z6POoPyaZq6UqoxCEhUFCMXscPn1LsUztXXukya2gVor7DA5V8QBxs5J9kqXLfcPXN
-         q8z3pX3M6Yba5jauyoCL205Y2x9jjYV/uzJaiWY8FkQNP9rnteMNX8FN+aXmyc0u2YN9
-         VFDp38L8UOmSyyB3R7nQpFqyGTSs+iX5abHLG6XldBNO/eeUHEZnbjxjoZeTt/IpmVTY
-         Ukl4XUF2z/Rgs9/0iKV+SrlgCK1n32QIabJI6hbQBAJ4Rtg3liYEDP2jy7uVQOv3RVpN
-         7hfw==
+        with ESMTP id S229578AbjHCUbK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 16:31:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9803510CA
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 13:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691094620;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Z3CFgGOgP9O/o8Jr9VZXMJJ8J/clTiGmzIo1gFvhvOU=;
+        b=K8TIHHmo3vHx7pSdJTrJNc0AzjUJaeE6cBS0uOgBRk72QIRfcCfWxLINvEuU9ndfrcmLMx
+        9LiTO4Hh4Xx2/jU1l0hahdNYxGbRg6FRUJX42t2HqR/NWYyiNryp4amGxIRoScV58RienE
+        m0hUp8m8K81Wxv4gPmVeh20oQLio+Tc=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-3-eJva-A8RPFSzNzDEGJl8Wg-1; Thu, 03 Aug 2023 16:30:18 -0400
+X-MC-Unique: eJva-A8RPFSzNzDEGJl8Wg-1
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2b9b00a80e9so13221031fa.1
+        for <linux-media@vger.kernel.org>; Thu, 03 Aug 2023 13:30:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691092115; x=1691696915;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z7RavCZaOPDwL16SmZAwND6YT5Gjm/jHSJPLs+Fz01M=;
-        b=KHzm1ARMr3kRUJvbVTyES8ZPMjBDTB2MI/i7qWRyvp5mNl4UtLyvjfiW55I6HLc/1K
-         Q1bXP9+j2NK8/U563RrhSk1Az/l8d+wlPhWH13KuU69RiayBWbXyPi4+mwFBQX47p56P
-         N4l8THl7aAXMlMSRd75WXFyD2U9xvIepuQRYcU+T028GxHdEtLlNzhKE5TowUPj03OT1
-         PwUJAQMIpQQM7unGXQQd0kEw7fasZodcCYGVXv849hgtCUGNNbg6Dra3Drdu+fZus4Lg
-         plW9OXTmMXmJB+0s1Y9+cSPfqLKweRn+EkZkq8sd9GmoxPnQ4WzlM06OVOtbGneX3oof
-         nGQQ==
-X-Gm-Message-State: ABy/qLaeu58Nts51omSDDDwTcPwmNXec2gb2/Kq9TD2dAC6Dk0IeDp+i
-        58KNN0LQ1ftrjsfpZVyEsEGJhA==
-X-Google-Smtp-Source: APBJJlGr+fqW/4srT5C+9tYUdBGhMx4PnovCOePBRG9QiO13v6bQFJ/Jxuc6mvXH7UCglebqCNGGrg==
-X-Received: by 2002:a2e:94d0:0:b0:2b9:54e1:6711 with SMTP id r16-20020a2e94d0000000b002b954e16711mr8229168ljh.7.1691092115437;
-        Thu, 03 Aug 2023 12:48:35 -0700 (PDT)
-Received: from localhost (h-46-59-36-206.A463.priv.bahnhof.se. [46.59.36.206])
-        by smtp.gmail.com with ESMTPSA id r19-20020a2e9953000000b002b6cdbd9e35sm96138ljj.55.2023.08.03.12.48.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Aug 2023 12:48:34 -0700 (PDT)
-Date:   Thu, 3 Aug 2023 21:48:34 +0200
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3] media: rcar-csi2: Add support for C-PHY on R-Car V4H
-Message-ID: <ZMwEktpQeverQJbK@oden.dyn.berto.se>
-References: <20230715201239.29014-1-niklas.soderlund+renesas@ragnatech.se>
- <ZMVwhYmXkubetq8p@valkosipuli.retiisi.eu>
+        d=1e100.net; s=20221208; t=1691094617; x=1691699417;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z3CFgGOgP9O/o8Jr9VZXMJJ8J/clTiGmzIo1gFvhvOU=;
+        b=fneraYn6Adi7L5W1XcmNwJaJ/DNcqCneULApuyvyn5bRTWJLP6e7brrvCo8yToecpG
+         9/4zshVV4v5Iseywn0r1uXrVkRNPDm8MXFwBPhFcUmGB/WcVYkBgvhO5iBAfnS712Ko0
+         ejmkcWSfR6LObiKvcuMaJhcwdAXOnnOpMDN9u/+b0cSv/lxjCFZL0Dak2uX6E/D4fuVZ
+         W56SZy3YJARcsLaN3fkg0oUOlM18QABAAeogp8QsvDsnWAOepcELjxmfaX/zzI5GiF7i
+         kvKOGNVqyt94dqJG8ALKsm/kbC9+me5iZFMHf6+JDM0x6QiSpRuFLe+HR51jBg6W6Kqd
+         /Ijw==
+X-Gm-Message-State: ABy/qLabr/dry9783Uv5vt4nL7CUHiJWpvysinPn1/Kwlek0jqAZa9X6
+        cCw90v9iCdK/pn2dOgB/Foewph3iItQh7QUqLW6Uq2vI5UPgnGkvvu4lBeGlrH1XltItWSd1x5C
+        el6yNGg46v3c+YmoLE38tR8zqsWWyNaBT/BPpWkM=
+X-Received: by 2002:a05:651c:201:b0:2b9:ee3e:2412 with SMTP id y1-20020a05651c020100b002b9ee3e2412mr9032197ljn.22.1691094616904;
+        Thu, 03 Aug 2023 13:30:16 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFM4juzjmI/t4LIfnWZp4pccCs9/wTL0bDPxsm4o+yqeKOP9b5fXamEn0GjXpG4q5lVC9pLiWFObW4UxjOMP80=
+X-Received: by 2002:a05:651c:201:b0:2b9:ee3e:2412 with SMTP id
+ y1-20020a05651c020100b002b9ee3e2412mr9032184ljn.22.1691094616597; Thu, 03 Aug
+ 2023 13:30:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZMVwhYmXkubetq8p@valkosipuli.retiisi.eu>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+References: <20210905122742.86029-1-daniels@collabora.com> <20230803154908.105124-2-daniels@collabora.com>
+In-Reply-To: <20230803154908.105124-2-daniels@collabora.com>
+From:   Sebastian Wick <sebastian.wick@redhat.com>
+Date:   Thu, 3 Aug 2023 22:30:05 +0200
+Message-ID: <CA+hFU4yAb=kx18AQpSLQGV37vTt44rmzt+n5XzPee9uWCEg_fA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] doc: uapi: Document dma-buf interop design & semantics
+To:     Daniel Stone <daniels@collabora.com>
+Cc:     dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,45 +74,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hej Sakari,
+For what it's worth this series is
 
-On 2023-07-29 20:03:17 +0000, Sakari Ailus wrote:
-> Hejssan Niklas,
-> 
-> On Sat, Jul 15, 2023 at 10:12:39PM +0200, Niklas Söderlund wrote:
-> > Add support for C-PHY on R-Car V4H. While the V4H supports both D-PHY
-> > and C-PHY this patch only adds support for the C-PHY mode due to lack of
-> > documentation and hardware to test on.
-> > 
-> > The V4H is the first Gen4 device that is enabled in the rcar-csi2
-> > driver. There is much overlap with the Gen3 driver, the primary
-> > difference is in how the receiver is started. The V4H have a much larger
-> > register space and some addresses overlap with Gen3.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> I've made this change to the patch, it won't build otherwise (arm arch):
+Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
 
-Super, thanks a bunch! Sorry I did not test this.
+On Thu, Aug 3, 2023 at 5:49=E2=80=AFPM Daniel Stone <daniels@collabora.com>=
+ wrote:
+>
+> Hi all,
+> This is v2 to the linked patch series; thanks to everyone for reviewing
+> the initial version. I've moved this out of a pure DRM scope and into
+> the general userspace-API design section. Hopefully it helps others and
+> answers a bunch of questions.
+>
+> I think it'd be great to have input/links/reflections from other
+> subsystems as well here.
+>
+> Cheers,
+> Daniel
+>
+>
 
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> index 99d190a9e637..f6326df0b09b 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> @@ -756,7 +756,7 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
->  
->  	/* Adjust for C-PHY, divide by 2.8. */
->  	if (priv->cphy)
-> -		mbps = (mbps * 5) / 14;
-> +		mbps = div_u64(mbps * 5, 14);
->  
->  	return mbps;
->  }
-> 
-> -- 
-> Sakari Ailus
-
--- 
-Kind Regards,
-Niklas Söderlund
