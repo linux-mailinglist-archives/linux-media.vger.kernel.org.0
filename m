@@ -2,108 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54E8776E9B8
-	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 15:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D89A76E9CD
+	for <lists+linux-media@lfdr.de>; Thu,  3 Aug 2023 15:16:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236077AbjHCNNw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Aug 2023 09:13:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59814 "EHLO
+        id S236214AbjHCNQn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Aug 2023 09:16:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236375AbjHCNNO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 09:13:14 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AAE04495;
-        Thu,  3 Aug 2023 06:11:42 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-790bed44880so31373439f.0;
-        Thu, 03 Aug 2023 06:11:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691068291; x=1691673091;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7lC0SW0eAGcjrPelcOslL8Ss4E31DBBOJeX5ruPDUDU=;
-        b=OgeQqTU3eLsToIFQqpnPIA8g1WCwq6zItGL9mntQIrUxGhjbBitttp4rPonWdcsfxP
-         iRu6lmPdnlStCJoOCDCEuv4opy0zlLNTWrDmAEXCgmXENtRx5rA/fBxUCmTnEEXn1s3d
-         +b7fpiJVshrK7ErQ0MD+MO4FLFbHFFpyzV69Zs7aLy44fmoU9jTLoK5MvRuK820kS5RG
-         J+SRnf5gQSlsbchEYrjWURjn7aZhSZjoQmyVb5mdk1f9ajw0rn3vuOWoAlhOae+REEzD
-         zfGk59orqaoBC1o2Oruv8/rVXoVQYP4t+5ttTB6qg7JIglPFNGEO+kjJ6kcvnW4QH0jw
-         r2EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691068291; x=1691673091;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7lC0SW0eAGcjrPelcOslL8Ss4E31DBBOJeX5ruPDUDU=;
-        b=hFbOT7tAeS/COxdSU20i3JjhUwsJzQ9PcnJxapPWhtpp/juWr3OA2Med5XdZRaK1Nl
-         VNelsEXIAuxm8jnWVtA6u2t/JQ+JoJ9yxdeLLmf0ioZLgWgnkMEJLeXdWIujM46sdM1E
-         W7hoXnvcOXYUMKr2CGDMlSxp1XLONEwhLz3SdRSmgRUBJMIPeQBI05kAFA4XRVqN0zzE
-         SJEylf58e/TM9CcYfTvZ9+k+4IC4/WA5oqFM/DufIV8GZWgvQo6sn3F/i2/PwAqJmz7q
-         1WrGlHclab2y5htWIQ8ZSy9ZjJQx+tzhQkGd0zJVAXpkehhKgq5a1QcriM8GjFofUIhT
-         nzZg==
-X-Gm-Message-State: ABy/qLYxWEqNTu1b6vJsWzud3JK+hxiY1lnWWiAulCGlUgg7Dwc3NLju
-        26stkc1Xxe2g9WN03F+0KuSD2DrUE+hQGmskrto=
-X-Google-Smtp-Source: APBJJlEtqzIxYCVUFEvV5fgDCP81fGeD3GZpt6levaG9H4upWh9g5EvLMYrqL4ob+7IT6h4Vjry/EVcjmBnCK9V7HJM=
-X-Received: by 2002:a05:6e02:1569:b0:348:c041:abd7 with SMTP id
- k9-20020a056e02156900b00348c041abd7mr15797226ilu.13.1691068290064; Thu, 03
- Aug 2023 06:11:30 -0700 (PDT)
+        with ESMTP id S236213AbjHCNQ3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Aug 2023 09:16:29 -0400
+Received: from mgamail.intel.com (unknown [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CED4493
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 06:15:23 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="354786314"
+X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
+   d="scan'208";a="354786314"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 06:15:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="759113963"
+X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
+   d="scan'208";a="759113963"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 03 Aug 2023 06:15:03 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1qRYAP-00Dm4i-25;
+        Thu, 03 Aug 2023 16:15:01 +0300
+Date:   Thu, 3 Aug 2023 16:15:01 +0300
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 17/32] media: ov2680: Add support for ACPI enumeration
+Message-ID: <ZMuoVeni2dSSM9xb@smile.fi.intel.com>
+References: <20230803093348.15679-1-hdegoede@redhat.com>
+ <20230803093348.15679-18-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
- <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl> <87il9xu1ro.wl-tiwai@suse.de>
- <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com>
- <87il9xoddo.wl-tiwai@suse.de> <CAA+D8AOVEpGxO0YNeS1p+Ym86k6VP-CNQB3JmbeT7mPKg0R99A@mail.gmail.com>
- <844ef9b6-d5e2-46a9-b7a5-7ee86a2e449c@sirena.org.uk>
-In-Reply-To: <844ef9b6-d5e2-46a9-b7a5-7ee86a2e449c@sirena.org.uk>
-From:   Shengjiu Wang <shengjiu.wang@gmail.com>
-Date:   Thu, 3 Aug 2023 21:11:16 +0800
-Message-ID: <CAA+D8AOnsx+7t3MrWm42waxtetL07nbKURLsh1hBx39LUDm+Zg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Takashi Iwai <tiwai@suse.de>, Hans Verkuil <hverkuil@xs4all.nl>,
-        Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230803093348.15679-18-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,MAY_BE_FORGED,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 3, 2023 at 1:28=E2=80=AFAM Mark Brown <broonie@kernel.org> wrot=
-e:
->
-> On Wed, Aug 02, 2023 at 10:41:43PM +0800, Shengjiu Wang wrote:
->
-> > Currently the ASRC in ALSA is to connect to another I2S device as
-> > a sound card.  But we'd like to the ASRC can be used by user space dire=
-ctly
-> > that user space application can get the output after conversion from AS=
-RC.
->
-> That sort of use case would be handled via DPCM at the minute, though
-> persuading it to connect two front ends together might be fun (which is
-> the sort of reason why we want to push digital information down into
-> DAPM and make everything a component).
+On Thu, Aug 03, 2023 at 11:33:32AM +0200, Hans de Goede wrote:
+> Add an acpi_match_table now that all the other bits necessary for
+> ACPI support are in place.
 
-Thanks.
+> The OVTI prefix used for the ACPI-HID is used for various OmniVision
+> sensors on many generations x86 tablets and laptops.
 
-ASRC M2M case needs to run as fast as possible, no sync clock control.
-If use sound card to handle ASRC M2M case,  the user application
-should be aplay/arecord, then we need to consider xrun issue, buffer
-may timeout, sync between aplay and arecord,  these should't be
-considered by pure memory to memory operation.
+"OVTI is the official ACPI vendor ID for OmniVision Technologies, Inc."
 
-DPCM may achitect all the audio things in components and sound
-card,  it is good. but for the M2M case, it is complcated. not sure
-it is doable.
+> The OVTI2680 HID specifically is used on multiple models spanning at
+> least 4 different Intel CPU models (2 ISP2, 2 IPU3).
 
-best regards
-wang shengjiu
+With or without above (as it's still the official vendor ID :-)
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
+from ACPI ID rules perspective.
+
+But add that in case you need to send a new version.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
