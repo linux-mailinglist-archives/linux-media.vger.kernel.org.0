@@ -2,45 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FDBC76FA8B
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 08:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEDA576FB44
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 09:35:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233832AbjHDG4L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 02:56:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50164 "EHLO
+        id S233351AbjHDHfX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 03:35:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233791AbjHDG4K (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 02:56:10 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 050AA1B9
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 23:56:09 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.56])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RHGdG5HY3zJrNM;
-        Fri,  4 Aug 2023 14:53:22 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 4 Aug
- 2023 14:56:06 +0800
-From:   Ruan Jinjie <ruanjinjie@huawei.com>
-To:     <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <j.neuschaefer@gmx.net>, <u.kleine-koenig@pengutronix.de>,
-        <linux-media@vger.kernel.org>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH -next v2 3/3] media: dvb-usb: gp8psk: Remove an unnecessary ternary operator
-Date:   Fri, 4 Aug 2023 14:55:23 +0800
-Message-ID: <20230804065523.2986884-4-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230804065523.2986884-1-ruanjinjie@huawei.com>
-References: <20230804065523.2986884-1-ruanjinjie@huawei.com>
+        with ESMTP id S234004AbjHDHfD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 03:35:03 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D90BD4ED7;
+        Fri,  4 Aug 2023 00:34:50 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6B6D366071B9;
+        Fri,  4 Aug 2023 08:34:48 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1691134489;
+        bh=MXbusVUsaCgkKBWlp45fgfQiAF4swbRrk9BMMk9IFdM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=mq+OvgPmNdNb5U2BdRb7h+9YCFOmonTNcfmb6SEl352eZJBvgy6lCgJADLaU+XCtl
+         WufTLrs/KPODEoOh3DGPz9FIquGjpms8x2+u4HGNluiFQy/JrGOsaW0moyx2K8blAl
+         JRfCTTMp7PR1d0+L5mRmITZVBr/LPiCA2/YqiNIiCP5yBBhG87GX9+s9G+INO61gKD
+         TjAD5qYOFB4GT/3YJSjTUq1C4JCpvfrlzuQtkupYu2xcXhWDpBPvZSEBXn2FYyNDFG
+         Oa+COXPZh0UOqoai2z7nwKLu28ihrwj5lLmHfr5deUKt0wiAz8w+nH8EegePDa7fTO
+         D8DPraXxpCHPQ==
+Message-ID: <52744f4c-9344-d49a-755a-cc7f7962bc9e@collabora.com>
+Date:   Fri, 4 Aug 2023 09:34:45 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 4/4] media: platform: mediatek: isp_30: add mediatek
+ ISP3.0 camsv
+Content-Language: en-US
+To:     Julien Stephan <jstephan@baylibre.com>
+Cc:     Phi-bang Nguyen <pnguyen@baylibre.com>,
+        Florian Sylvestre <fsylvestre@baylibre.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andy Hsieh <andy.hsieh@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        devicetree@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vasily Gorbik <gor@linux.ibm.com>
+References: <20230630100321.1951138-1-jstephan@baylibre.com>
+ <20230630100321.1951138-5-jstephan@baylibre.com>
+ <0430ddab-6a6c-9fa3-95bd-05ce8ac5b94f@collabora.com>
+ <iq7jffjeaejdfb26a4ysjgjzuopov4ji2ecgzmv4563tdveaep@hh2gzgzkbdzj>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <iq7jffjeaejdfb26a4ysjgjzuopov4ji2ecgzmv4563tdveaep@hh2gzgzkbdzj>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,27 +78,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a ternary operator, the true or false judgement of which
-is unnecessary in C language semantics.
+Il 03/08/23 11:53, Julien Stephan ha scritto:
+> On Mon, Jul 03, 2023 at 02:21:17PM +0200, AngeloGioacchino Del Regno wrote:
+> ..snip..
+>>> +
+>>> +	mtk_cam_init_cfg(&cam->subdev, NULL);
+>>
+>> mtk_cam_init_cfg() returns an integer, and this is probably because you expect
+>> it to get logic to fail: in that case, check the result of that call here,
+>> otherwise, make that function void.
+>>
+> 
+> Hi Angelo,
+> 
+> mtk_cam_init_cfg returns an int because it should match v4l2_subdev_pad_ops->init_cfg prototype..
+> 
+> mtk_cam_init does not fail, always return 0, so I though it would be ok
+> to discard the return value here. What do you think?
+> 
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
----
- drivers/media/usb/dvb-usb/gp8psk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Right, I was thinking to make a void __mtk_cam_init_cfg(), but as an afterthought
+it's just better to leave it as it is, let's go with your solution.
 
-diff --git a/drivers/media/usb/dvb-usb/gp8psk.c b/drivers/media/usb/dvb-usb/gp8psk.c
-index b2b27a86dfe5..4cd21bb8805e 100644
---- a/drivers/media/usb/dvb-usb/gp8psk.c
-+++ b/drivers/media/usb/dvb-usb/gp8psk.c
-@@ -287,7 +287,7 @@ static int gp8psk_frontend_attach(struct dvb_usb_adapter *adap)
- 	int id = le16_to_cpu(d->udev->descriptor.idProduct);
- 	int is_rev1;
- 
--	is_rev1 = (id == USB_PID_GENPIX_8PSK_REV_1_WARM) ? true : false;
-+	is_rev1 = id == USB_PID_GENPIX_8PSK_REV_1_WARM;
- 
- 	adap->fe_adap[0].fe = dvb_attach(gp8psk_fe_attach,
- 					 &gp8psk_fe_ops, d, is_rev1);
--- 
-2.34.1
+Cheers,
+Angelo
+
+>>> +
+> 
+> ..snip..
+> 
+>>> +	unsigned int bpp;
+>>
+>> Can we get any format that uses a billion bits per pixel? :-P
+>>
+>> u8 bpp;
+>>
+> 
+> I am preparing the driver for futur upgrades.. in a billion years ;)
+> 
+> Cheers
+> Julien
 
