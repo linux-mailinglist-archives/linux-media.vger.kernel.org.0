@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D79A770AAE
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 23:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8ED1770AB3
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 23:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229697AbjHDVRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 17:17:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41558 "EHLO
+        id S230386AbjHDVRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 17:17:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjHDVRR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 17:17:17 -0400
+        with ESMTP id S230004AbjHDVRh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 17:17:37 -0400
 Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9F04E42
-        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 14:17:15 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4fe21e7f3d1so4378235e87.3
-        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 14:17:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B67574EC7
+        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 14:17:33 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4fe216edaf7so4478863e87.0
+        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 14:17:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691183834; x=1691788634;
+        d=linaro.org; s=google; t=1691183852; x=1691788652;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/XfrhzVsq1lxmetBrBK4LHhFpJPANU+eEjHyukBGvM=;
-        b=F0wodDlEwpQqhEqJMdrY3wlI7ehrOmxtFn+Ce1vHp5Xu449KzEJo0q9hJmTkW6Egf0
-         DtSWeRAfKogxwt+M7OJh09bSE2wpqPjvDY3+VDINj2S08oGu8o4B9/wH4G7yQx3FmoXf
-         zzAf/ItrbF/rhkuLjZlSd4Ar40cR5RhUe7PVZpwRbSLity2wYLyr4T1BVbl6Tbp2VyU/
-         71/6UnXOkr3O3i26togWnZYYV6KDtUJfnqGo7cHA6Kyo/E8HpxXj+wDzBesysMDqvuXE
-         vwwn2rzkIynbVcZIOuKDcryigl0jyoQpzF1fBYtdR81XmzxHK1LHGSnBKbFntnxXhrmB
-         bfCA==
+        bh=VQQNNTkGGuIpGptIHRUTKivXZOA3xrBxA/+eEPnjbao=;
+        b=VxRzprOQeu0XINwtDmqLXoBMHnr+vIoCVtcmZFAFuAdn0/gSZ4kVCge+G1RKvUM632
+         aDKZ1blBvrtfjaVr+jKFM50HstoiufXdaIunyJUiQorLVKxG+beflF3yjyFGtnX7pkRi
+         FsohI2TmZhmzqwZfNt6WgByRVRNpNdx4VCNCkjS09EYGlLKWigxdXf26uJ5rRBnblNZT
+         g/pxPs/90y8WGQnmR1EtUGJeFbipValGNrK6KeAT/h0VbbsctULZpSyI6retoKQy9kh2
+         URSFJMivNRnPMaCIgjQBSUQ6iz8OyKilA87PA4upl3SLd4YlXRFIP2qSmQnsX39/Zxx+
+         VeRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691183834; x=1691788634;
+        d=1e100.net; s=20221208; t=1691183852; x=1691788652;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/XfrhzVsq1lxmetBrBK4LHhFpJPANU+eEjHyukBGvM=;
-        b=jlYq6DRPnLC0OGamuuY0adUtWOvLdOUJOGQ97Sb3yIX+eulSBYVwI1u6TULRsGV1uF
-         7rLpe3hHr3Nbo0W+fZglNjo7uPF4dJBPAj5EHRhRjUXnz0i51cdM15SMNoxr5wKegQhd
-         6fR0Ij0PhxJKPhnQg6TEh1HqHw17LrYqbyyhGOOxALARfdxPcdHl5YqP0VSXpgthMwFB
-         2qxIJXg4svidu6sRAdMXYsET/rBvwUaXzb6zycgwTO5Q77gvsvnB1eFM2shmEhOc31Su
-         pSvsdQVztFDlKpIWs3pFwSsEx0d9BngifRQVGR8LcsgDomS8g1DlBBSFGzf5EOMN+OPS
-         BwOw==
-X-Gm-Message-State: AOJu0Yw9EF9K9atO8Ic/xorhSCHFv0FTVKsG/PTidjIfnZujGD3JnJFX
-        IsBAedxPxFcBSneNKwsTM5vBNw==
-X-Google-Smtp-Source: AGHT+IE8ISivSgXuWUL7FRktRkKtR6UtMqT2hYyFpwOr6wim5oRD6JxrJne9LinA+sGHoFtlngWQTA==
-X-Received: by 2002:ac2:4f0b:0:b0:4f9:cd02:4aec with SMTP id k11-20020ac24f0b000000b004f9cd024aecmr2873744lfr.29.1691183834095;
-        Fri, 04 Aug 2023 14:17:14 -0700 (PDT)
+        bh=VQQNNTkGGuIpGptIHRUTKivXZOA3xrBxA/+eEPnjbao=;
+        b=dHVwZHgaNpChoAlDUvHZm+bhcbAQ94f/+KkouVnE+vs9e9oSge+3FLyU3WpupfzZZG
+         LSDNokX0ie3faSoeEern10s9pZ2o5fuekXmyXC8daq5aLMVCBqJRqZqItU9nwAmSWK0z
+         LrhFDh76bI1wWBOAHzVgvHOzG7bHxgS3qYrZoqNPYWqkIXmriSUfSju51turkAmitdGv
+         kQnUY2va1U02IeAElJyooKYu+CeQi7Vr5Lf5bF9CxWY0ukiSAX9JbSCxbl1MuTfC5gD3
+         en6wLA9KBRdqTg9Yzp3o3omjkUe+VJTr52DcxUTceYb9yks0tJ+UeyPr9Zl7C8dDcBtt
+         jG2w==
+X-Gm-Message-State: AOJu0YyFgfnlRC3tQOm9+yfSRU4UtQgC8uTk90mBNJGPKIlWuI2KpRr/
+        BkONhAcsM17T6RGHTGXTC8g0aw==
+X-Google-Smtp-Source: AGHT+IEu8yt5gWTYKYAbcMc7va5/wl/2xWEXAYgeFX9DFp/2SxRbHChnHNQxu5w9sWS7eZG7bIQOHQ==
+X-Received: by 2002:a05:6512:39c3:b0:4fe:28cd:b3f with SMTP id k3-20020a05651239c300b004fe28cd0b3fmr207915lfu.5.1691183851959;
+        Fri, 04 Aug 2023 14:17:31 -0700 (PDT)
 Received: from [192.168.1.101] (abym15.neoplus.adsl.tpnet.pl. [83.9.32.15])
-        by smtp.gmail.com with ESMTPSA id j3-20020ac24543000000b004fbc2ffdef8sm514473lfm.174.2023.08.04.14.17.12
+        by smtp.gmail.com with ESMTPSA id j3-20020ac24543000000b004fbc2ffdef8sm514473lfm.174.2023.08.04.14.17.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Aug 2023 14:17:13 -0700 (PDT)
-Message-ID: <172bce60-6581-4832-b489-7497989fc91e@linaro.org>
-Date:   Fri, 4 Aug 2023 23:17:12 +0200
+        Fri, 04 Aug 2023 14:17:31 -0700 (PDT)
+Message-ID: <8cbae274-5549-4e5a-848a-c69eac3053a3@linaro.org>
+Date:   Fri, 4 Aug 2023 23:17:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] media: venus: core: Add SC8280XP resource struct
+Subject: Re: [PATCH 5/6] media: venus: core: Add SM8350 resource struct
 Content-Language: en-US
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -69,10 +69,8 @@ Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
- <20230731-topic-8280_venus-v1-6-8c8bbe1983a5@linaro.org>
- <989aea4c-50e7-8141-dd60-3f41058192f8@linaro.org>
- <c0d4845d-d290-4082-b5c5-996637bcac2c@linaro.org>
- <c2bdc6a5-2f97-9c7b-d620-ff3e361f1f07@linaro.org>
+ <20230731-topic-8280_venus-v1-5-8c8bbe1983a5@linaro.org>
+ <8997bb22-e132-0870-7fe7-cca0258ae660@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -109,33 +107,31 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <c2bdc6a5-2f97-9c7b-d620-ff3e361f1f07@linaro.org>
+In-Reply-To: <8997bb22-e132-0870-7fe7-cca0258ae660@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4.08.2023 23:12, Bryan O'Donoghue wrote:
-> On 04/08/2023 22:10, Konrad Dybcio wrote:
->>> Would it not be more legitimate and logical to have 8350 use 8280xp's frequency table, instead of 8250 ?
->> top freq is higher on 8280
+On 4.08.2023 23:08, Bryan O'Donoghue wrote:
+> On 04/08/2023 21:09, Konrad Dybcio wrote:
+>> +    .freq_tbl = sm8250_freq_table,
+>> +    .freq_tbl_size = ARRAY_SIZE(sm8250_freq_table),
+>> +    .reg_tbl = sm8350_reg_preset,
+>> +    .reg_tbl_size = ARRAY_SIZE(sm8350_reg_preset),
+>> +    .bw_tbl_enc = sm8250_bw_table_enc,
+>> +    .bw_tbl_enc_size = ARRAY_SIZE(sm8250_bw_table_enc),
+>> +    .bw_tbl_dec = sm8250_bw_table_dec,
+>> +    .bw_tbl_dec_size = ARRAY_SIZE(sm8250_bw_table_dec),
 > 
-> Still though its a bit suspicious 8350 doesn't have its own table.
-> 
-> Are we missing the downstream reference ?
-8250:
-qcom,allowed-clock-rates = <239999999 338000000 366000000 444000000>;
-
-8350:
-qcom,allowed-clock-rates = <239999999 338000000 366000000 444000000>;
-
-(identical)
+> The very same freq and bandwidth tables ?
+yep!
 
 Konrad
