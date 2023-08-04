@@ -2,60 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8962B770384
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 16:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA5F37703DF
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 17:05:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230523AbjHDOuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 10:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36248 "EHLO
+        id S230099AbjHDPFH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 11:05:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229909AbjHDOuL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 10:50:11 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8D9049C1
-        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 07:50:08 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2b9338e4695so35396951fa.2
-        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 07:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1691160607; x=1691765407;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SMo6gMfYlM/VNtFOwn/e5G1+vIj8kyfLio8gxupX/74=;
-        b=Mfog46uUvnC1c3rJIRnxVP4Rn1RbM25sv6wJsTw/NSVKIwWmjjCO90AC35/gzaa/Y5
-         F3rZRVvXDuuGz6MMqir/9Eh0mflOU0TgDqPn9elrJExaK5oBz588NIunZgMZIHUVzB/G
-         54NpDe2kPhOJN3NU+NolDhb/A3wovEabDWmtdgXv8KGTCPee+zgTuRPt533tcJFlA1i6
-         XRq8+VcfmJaRwMDSYHJ4QfTZl/APXx0z8YuY8Vqr5gY407AiuxzAQB490bCFp3dlR39b
-         aW8l1/6W0FrEM1CVF9+wIoB1ktl2ZJhCjkqt/OpAIYpjy0mln0oczHM5luyUJBt6gvXD
-         12hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691160607; x=1691765407;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SMo6gMfYlM/VNtFOwn/e5G1+vIj8kyfLio8gxupX/74=;
-        b=GRipcmJyE/zlxZCkVeVT78ak93VG9uL+ll64itzS+Q9npa/LkY6F+yAK2bzkudMwOS
-         c+Ri6uVnJudeUQFlebuW9QPJOJx2OV4VD/BsbWX6rtzhXBIv0H3smG4ZlNDev8sbqlj3
-         33TmTFkSxOl6pbDM2lg1MLGLJfSeSaC6dCVT34fn/Qy7crVxbOwNTbzE+ISaREl9VaGf
-         JMu9CMvjS2761Kney8p1RLjZQwLKRGya1LdcI0U1SGkx343anFHCNAxmQkWyV+DutB3G
-         e+2bm84kHNL7I1RTyGNwBv/ykrwyd3d1lC+FdhsvgYQja3c1XzcB9NSRjgeNQJsci6I7
-         R/VQ==
-X-Gm-Message-State: AOJu0Yw9eU5bi/L5JRxM+eu9WM95j3kHlDqdou+wT7Dn3lXZTelLsKLQ
-        yNVLxYMdvODT6jEG6xp4bCOg9Q==
-X-Google-Smtp-Source: AGHT+IH9U6AIT6bF+8F9r2Z0sZcprmA3N5tubjVSO8iveevPtXWr9d3p3tebi9qlowrLhtjtfMqA8Q==
-X-Received: by 2002:a2e:a176:0:b0:2b9:ee3e:2407 with SMTP id u22-20020a2ea176000000b002b9ee3e2407mr1664532ljl.38.1691160606509;
-        Fri, 04 Aug 2023 07:50:06 -0700 (PDT)
-Received: from localhost ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id l26-20020a1c791a000000b003fbb06af219sm2540259wme.32.2023.08.04.07.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 07:50:06 -0700 (PDT)
-Date:   Fri, 4 Aug 2023 16:50:05 +0200
-From:   Julien Stephan <jstephan@baylibre.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     Louis Kuo <louis.kuo@mediatek.com>,
+        with ESMTP id S229610AbjHDPFG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 11:05:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF0846B2;
+        Fri,  4 Aug 2023 08:05:04 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C141012E4;
+        Fri,  4 Aug 2023 17:03:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1691161437;
+        bh=tr+A81mL8nDcTz82HPvWaHO5DYHcvkl8gnXU6YqP/oA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NwnKqGOISSHCoT4g/onIOtdggT3c8VNVe6JntI6V+8rCGpENwgWORyCFsw5KPHQPn
+         z9aUrJ9sF4Ag2/bqkXDyI2JmTZAejBZ21hI2p9CWsqv8wQDHzHf9Ryv+MgK5XnDPal
+         Bm3mUPZxQnzBSY8IvBa5/qa4AO6u5zgCBJbM3K2k=
+Date:   Fri, 4 Aug 2023 18:05:07 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Julien Stephan <jstephan@baylibre.com>
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Louis Kuo <louis.kuo@mediatek.com>,
         Phi-bang Nguyen <pnguyen@baylibre.com>,
         Florian Sylvestre <fsylvestre@baylibre.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Alexander Gordeev <agordeev@linux.ibm.com>,
         Andy Hsieh <andy.hsieh@mediatek.com>,
         Conor Dooley <conor+dt@kernel.org>,
@@ -72,78 +48,84 @@ Cc:     Louis Kuo <louis.kuo@mediatek.com>,
         Vasily Gorbik <gor@linux.ibm.com>
 Subject: Re: [PATCH v2 2/4] media: platform: mediatek: isp_30: add mediatek
  ISP3.0 sensor interface
-Message-ID: <72ixohoacq4vgj7nqg4l5gt5bs5e5ewain6a5ovqs3winx3qzz@sbg5lfohq5mq>
+Message-ID: <20230804150507.GI12951@pendragon.ideasonboard.com>
 References: <20230630100321.1951138-1-jstephan@baylibre.com>
  <20230630100321.1951138-3-jstephan@baylibre.com>
  <da891ec5-473c-5bef-d88b-661fac70ed25@collabora.com>
+ <72ixohoacq4vgj7nqg4l5gt5bs5e5ewain6a5ovqs3winx3qzz@sbg5lfohq5mq>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <da891ec5-473c-5bef-d88b-661fac70ed25@collabora.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+In-Reply-To: <72ixohoacq4vgj7nqg4l5gt5bs5e5ewain6a5ovqs3winx3qzz@sbg5lfohq5mq>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 01:02:02PM +0200, AngeloGioacchino Del Regno wrote:
-> Il 30/06/23 12:01, Julien Stephan ha scritto:
-..snip..
-> > +
-> > +static const struct mtk_seninf_format_info mtk_seninf_formats[] = {
-> > +	{
-> > +		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> > +		.flags = MTK_SENINF_FORMAT_BAYER,
->
-> Each entry fits in one line.
->
-> 	{ .code = MEDIA_BUS_FMT_SBGGR8_1X8, .flags = MTK_SENINF_FORMAT_BAYER },
->
+On Fri, Aug 04, 2023 at 04:50:05PM +0200, Julien Stephan wrote:
+> On Mon, Jul 03, 2023 at 01:02:02PM +0200, AngeloGioacchino Del Regno wrote:
+> > Il 30/06/23 12:01, Julien Stephan ha scritto:
+> ..snip..
+> > > +
+> > > +static const struct mtk_seninf_format_info mtk_seninf_formats[] = {
+> > > +	{
+> > > +		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> > > +		.flags = MTK_SENINF_FORMAT_BAYER,
+> >
+> > Each entry fits in one line.
+> >
+> > 	{ .code = MEDIA_BUS_FMT_SBGGR8_1X8, .flags = MTK_SENINF_FORMAT_BAYER },
+> >
+> 
+> Hi Angelo,
+> 
+> Actually not all entries fit in one line. The last 4 ones don't:
+> 
+>        { .code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8, .flags = MTK_SENINF_FORMAT_DPCM | MTK_SENINF_FORMAT_INPUT_ONLY },
+> which is 115 chars..
+> 
+> so what is the best? put all in one line except the last 4 one? or keep
+> them all as is?
 
-Hi Angelo,
+I'd keep them all as is.
 
-Actually not all entries fit in one line. The last 4 ones don't:
+> > > +	}, {
+> ..snip..
+> > > +	udelay(1);
+> > > +	mtk_seninf_input_update(input, SENINF_CTRL, CSI2_SW_RST, 0);
+> >
+> > Is there any way to check if the CSI port did reset, or is it *guaranteed* to get
+> > out of reset in a microsecond after deasserting SW_RST?
+> 
+> I will double check this
+> 
+> > > +}
+> > > +
+> ..snip..
+> > > +
+> > > +	val = mtk_seninf_mux_read(mux, SENINF_MUX_CTRL);
+> >
+> > rst_mask = SENINF_MUX_CTRL_SENINF_IRQ_SW_RST | SENINF_MUX_CTRL_SENINF_MUX_SW_RST;
+> >
+> > writel(mux->base + SENINF_MUX_CTRL, val | rst_mask);
+> > writel(mux->base + SENINFMUX_CTRL, val & ~rst_mask);
+> >
+> > that's better, right? :-)
 
-       { .code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8, .flags = MTK_SENINF_FORMAT_DPCM | MTK_SENINF_FORMAT_INPUT_ONLY },
-which is 115 chars..
+With mtk_seninf_mux_write() instead of writel(), yes :-)
 
-so what is the best? put all in one line except the last 4 one? or keep
-them all as is?
+> right :)
+> 
+> > > +	mtk_seninf_mux_write(mux, SENINF_MUX_CTRL, val |
+> > > +			     SENINF_MUX_CTRL_SENINF_IRQ_SW_RST |
+> > > +			     SENINF_MUX_CTRL_SENINF_MUX_SW_RST);
 
+-- 
+Regards,
 
-> > +	}, {
-..snip..
-> > +	udelay(1);
-> > +	mtk_seninf_input_update(input, SENINF_CTRL, CSI2_SW_RST, 0);
->
-> Is there any way to check if the CSI port did reset, or is it *guaranteed* to get
-> out of reset in a microsecond after deasserting SW_RST?
->
-
-I will double check this
-
-> > +}
-> > +
-..snip..
-> > +
-> > +	val = mtk_seninf_mux_read(mux, SENINF_MUX_CTRL);
->
-> rst_mask = SENINF_MUX_CTRL_SENINF_IRQ_SW_RST | SENINF_MUX_CTRL_SENINF_MUX_SW_RST;
->
-> writel(mux->base + SENINF_MUX_CTRL, val | rst_mask);
-> writel(mux->base + SENINFMUX_CTRL, val & ~rst_mask);
->
-> that's better, right? :-)
->
-
-right :)
-
-Cheers
-Julien
-
-> > +	mtk_seninf_mux_write(mux, SENINF_MUX_CTRL, val |
-> > +			     SENINF_MUX_CTRL_SENINF_IRQ_SW_RST |
-> > +			     SENINF_MUX_CTRL_SENINF_MUX_SW_RST);
+Laurent Pinchart
