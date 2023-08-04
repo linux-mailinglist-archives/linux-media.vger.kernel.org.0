@@ -2,146 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A609E7709E8
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 22:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73762770A0F
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 22:51:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230247AbjHDUmN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 16:42:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49758 "EHLO
+        id S229761AbjHDUvB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 16:51:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230240AbjHDUmJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 16:42:09 -0400
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5B804ED6
-        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 13:42:07 -0700 (PDT)
-Received: by mail-oo1-xc2a.google.com with SMTP id 006d021491bc7-56ca4d7079aso1749671eaf.0
-        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 13:42:07 -0700 (PDT)
+        with ESMTP id S229618AbjHDUvA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 16:51:00 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E02B4C2F
+        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 13:50:58 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fe2ba3e260so24039505e9.2
+        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 13:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1691181727; x=1691786527;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=249ycHqM4buC+8/ZQ59dw3xP72SAUA6j7QbwO1h3mxE=;
-        b=e590hj7kADFb6FxZuo+skH4jnJ+Tsa3qg1V8Dm4GZkVonzuFxtn4AqlBK1DnQkgCEx
-         Xprgo6Xo4IZ4tnfQr8ZTvF4mJ8E8YB+AgQ4DilFzN0Kas3lC2WeeRHfoxzArd5kJW+3l
-         /m68zffVG4IlFkE06iEMBW6+paEKQXjyNrxoqNoEV4chmovILplQTmdPEIHOtTBRNp6Y
-         imMI23+y/unnHcF1jKx7huqcooPdkou+KalSrxSihc9THbGGtWUwziioZyi6TOUMSp/X
-         9F7MICnQDNdBvscvnzrudEJ+gsTgrJOSjz032BG+pMJ0Je10PfSlWLyCnqUfe9u7Wnut
-         a9aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691181727; x=1691786527;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=nexus-software-ie.20221208.gappssmtp.com; s=20221208; t=1691182257; x=1691787057;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=249ycHqM4buC+8/ZQ59dw3xP72SAUA6j7QbwO1h3mxE=;
-        b=PnIc5ba53ulFyJjbDun0Yw0q7A+SGfjR2OKwKoG7N+gduXQL2digJ+/ebYp8XVjNXL
-         uhe2ODw9PX0RjE59pAWsUHaa94fovgXoauMtXKhvbN8M3X3OClTgE/GMdY9Mqt4rAiEt
-         6X9jGo2pzbEJTBW5g1UQAIXitK2essigIgItPtm4RbCeUWJvMwcb6uLzFyaQR3clxkta
-         Cdd2P9mV8lldl25s+SWXeGShrPyQh9iMpA0ETs9UP19G0TybMRAwwT/wlHb/O7wHbvzb
-         HYSB3UFBowIdJ6bidaDoS4/cz2qDQ2TP/QDpa00qDxjBqFEobbWLfNUViZrOzlVCMqlT
-         FpJQ==
-X-Gm-Message-State: AOJu0YyAZNlf9aPl2/4WGyOf0821hvj/s/iwap4xjUBvfPdy8AcMx9NO
-        yVYGBaiCfjnZYy11KdsriRup4g==
-X-Google-Smtp-Source: AGHT+IHwpOK1vj2nnOOjZdZJHGclvpYw6PjaHLgkacsGSRe+RKgyaXlCV2IWiLU0F17xr357n3DikQ==
-X-Received: by 2002:a05:6358:3384:b0:139:9d20:9f60 with SMTP id i4-20020a056358338400b001399d209f60mr2305107rwd.11.1691181727176;
-        Fri, 04 Aug 2023 13:42:07 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
-        by smtp.gmail.com with ESMTPSA id c17-20020a0cf2d1000000b0063d1f967268sm918458qvm.111.2023.08.04.13.42.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 13:42:06 -0700 (PDT)
-Message-ID: <8a2b68f1e8da19a8d81535e0ff4391e99691e141.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Randy Li <ayaka@soulik.info>
-Cc:     linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Hsia-Jun Li <Randy.Li@synaptics.com>, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hans.verkuil@cisco.com, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, ezequiel@vanguardiasur.com.ar
-Date:   Fri, 04 Aug 2023 16:42:05 -0400
-In-Reply-To: <585fdf97-4ed9-7d9a-78a8-e271d5b05301@soulik.info>
-References: <20230704040044.681850-1-randy.li@synaptics.com>
-         <20230704040044.681850-3-randy.li@synaptics.com>
-         <20230712093301.nkj2vok2x7esdhb3@chromium.org>
-         <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
-         <CAAFQd5CO4TS6wMsnaL7ob4CXogj5KT52x85YUUN1ZwDkOxW0oQ@mail.gmail.com>
-         <583e22718b80cc5e1ae631528c83c95e97de5cae.camel@ndufresne.ca>
-         <CAAFQd5CAJ7GxiY5=bBAa+L=1WJth6QZ3+PG83=GX+eEx1S4uhg@mail.gmail.com>
-         <7d340df3-e14c-24de-4fc2-b7dca619447c@synaptics.com>
-         <CAAFQd5BKHQPNVpDvpQaFn-q721BJknJCUB72urc2=EKsAH=OCg@mail.gmail.com>
-         <10ad26e6-b2d0-d0e6-40c8-2cc70613188b@synaptics.com>
-         <70ed7b3197f34c9f3dce9c83c527884c89df5449.camel@ndufresne.ca>
-         <585fdf97-4ed9-7d9a-78a8-e271d5b05301@soulik.info>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        bh=oRdtvajcr0+92CY77W3iHbJU9XUO/PBM1l9BDnbFdFc=;
+        b=xs8zzZqm1qGHId3LlKUmwK5FOhtA0omVwvGrdA1ntw5jFrQfqgQoGr3y/s+EEF0uHO
+         Bdt4pWHgGB11RE9UkjVl8kf8u/EFSl/7pa+X9c2x6ZF3tSOpFJ7tAe03nuR+7ddrRCuy
+         Po61hPXefC4YtgUWH3mLtGMwLObmQ7NDS4+EUm8LEEC754QIJWmu/Xkrj5t8Qjfkuzbk
+         xJDAcRAZpRQaS0mFivlN5Ti3XEAcocC/3uotIq6NjLfFFfsK6GcUuh9JoLTcu9nnAJ1R
+         SoiXG/a2ShqUuoNpYzJpb/ze/AKDS3H/LIKLK3RgTLc7P+69T6hBe0S8/bLb546Lfm/B
+         l+iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691182257; x=1691787057;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oRdtvajcr0+92CY77W3iHbJU9XUO/PBM1l9BDnbFdFc=;
+        b=H4BR55FYbzsq1j8+JcygOQbuyNgFKoS2IM46MBnkAg7QzyGWb75zd4QnjspQBLT9E2
+         p/nrdLo4vEw6TBaA3TRNDpm3jk9mQ0gypN8+/7MuyNTKiV4z5rJZNj4BQwR6uhbP23HP
+         6ROYtZQHPguv9kE3wzFB2JRfb3xzxgj17d/hEfMwZbnultKf+cbMudiKiXRMKfDRsz+Z
+         6G0kbkfS3OWaySHeWKMUWmIj8n74DKbW/6mEM+f1OjrBPhKz/b8mQvMjft9ziN02FrvU
+         tKbjfNlcIEINHUmSxkU5xgK1czVaRh4gRjWTUYkxUZZQp/gPXZxt+A02qgQNoBc10wxe
+         YTGA==
+X-Gm-Message-State: AOJu0Yy6Z4mpE8kR0MOmOnBZcZmg/jXhBxY7c2P4SfH3faOzwqrd3jER
+        X06fKjP+HkN4lNhasnpINQTtNQ==
+X-Google-Smtp-Source: AGHT+IG9nktERXD1XuryHQ2ywTah8rg+BCMhCDCxvrQusPr01OSsEg0ZZxE1+OpK3eP+FA9bGulG8Q==
+X-Received: by 2002:a7b:ce0e:0:b0:3fb:b56b:470f with SMTP id m14-20020a7bce0e000000b003fbb56b470fmr2187419wmc.14.1691182256933;
+        Fri, 04 Aug 2023 13:50:56 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id u7-20020a5d5147000000b0031437ec7ec1sm3355379wrt.2.2023.08.04.13.50.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Aug 2023 13:50:56 -0700 (PDT)
+Message-ID: <ef61906d-98f2-2806-9ad7-2a99f7928bb1@nexus-software.ie>
+Date:   Fri, 4 Aug 2023 21:50:55 +0100
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 3/6] media: venus: hfi_venus: Support only updating
+ certain bits with presets
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
+ <20230731-topic-8280_venus-v1-3-8c8bbe1983a5@linaro.org>
+From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <20230731-topic-8280_venus-v1-3-8c8bbe1983a5@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Randy,
+On 04/08/2023 21:09, Konrad Dybcio wrote:
+> On some platforms (like SM8350) we're expected to only touch certain bits
+> (such as 0 and 4 corresponding to mask 0x11). Add support for doing so.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>   drivers/media/platform/qcom/venus/core.h      |  1 +
+>   drivers/media/platform/qcom/venus/hfi_venus.c | 15 ++++++++++++---
+>   2 files changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index d996abd339e1..2999c24392f5 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -38,6 +38,7 @@ struct freq_tbl {
+>   struct reg_val {
+>   	u32 reg;
+>   	u32 value;
+> +	u32 mask;
+>   };
+>   
+>   struct bw_tbl {
+> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+> index 19fc6575a489..d4bad66f7293 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+> @@ -349,10 +349,19 @@ static void venus_set_registers(struct venus_hfi_device *hdev)
+>   	const struct venus_resources *res = hdev->core->res;
+>   	const struct reg_val *tbl = res->reg_tbl;
+>   	unsigned int count = res->reg_tbl_size;
+> -	unsigned int i;
+> +	unsigned int i, val;
 
-Le vendredi 04 ao=C3=BBt 2023 =C3=A0 00:16 +0800, Randy Li a =C3=A9crit=C2=
-=A0:
-> On 2023/7/29 00:19, Nicolas Dufresne wrote:
-> > Le vendredi 28 juillet 2023 =C3=A0 15:37 +0800, Hsia-Jun Li a =C3=A9cri=
-t=C2=A0:
-> > > > I think this is one reason to migrate to the stateless decoder desi=
-gn.
-> > > >=20
-> > > I didn't know such plan here. I don't think the current stateless API
-> > > could export the reconstruction buffers for encoder or post-processin=
-g
-> > > buffer for decoder to us.
-> > Someone suggested introduce auxiliary queues in our meeting in Lyon a w=
-hile ago,
-> > but I bet everyone got too busy with finalizing APIs, fixing fluster te=
-sts etc.
-> > The suggestion felt like it would be possible to add it after the fact.=
- This was
-> > also being discussed in the context of supporting multi-scalers (standa=
-lone our
-> > inline with the codec, like VC8000D+). It could also cover for primary =
-and
-> > secondary buffers, along with encoder primary, and reconstruction buffe=
-rs, but
-> > also auxiliary reference data. This would also be needed to properly su=
-pport
-> > Vulkan Video fwiw, and could also help with a transition to DMABuf Heap=
-s and
-> > memory accounting.
-> >=20
-> > I've also had corridor discussion around having multi-instance media co=
-nstroller
-> > devices. It wasn't clear how to bind the media instance to the video no=
-de
-> > instances, but assuming there is a way, it would be a tad more flexible=
- (but
-> > massively more complex).
->=20
-> I think we should answer to those questions before we decided what we wan=
-t:
->=20
-> A. Should a queue only has the buffers for the same format and sizes?
+u32 val;
 
-I initially started answering these, but ended up concluding this is more s=
-ome
-sort of personal notes. I believe the discussion is diverging. Remember tha=
-t in
-an existing API, one cannot fix all theoretical issues in one go. In order =
-to
-move forward, you have to tackle very specific use case and find a way forw=
-ard.
-If you are to break compatibility as much as you suggest, you'd rather look=
- into
-writing a new API.
+> +
+> +	for (i = 0; i < count; i++) {
+> +		val = tbl[i].value;
 
-[...]
+struct reg_val looks like this
+
+struct reg_val {
+         u32 reg;
+         u32 value;
+};
+
+val should be declared a u32
+
+> -	for (i = 0; i < count; i++)
+> -		writel(tbl[i].value, hdev->core->base + tbl[i].reg);
+> +		/* In some cases, we only want to update certain bits */
+
+I'll trust this is a legitimate and true statement.
+
+> +		if (tbl[i].mask) {
+> +			val = readl(hdev->core->base + tbl[i].reg);
+> +			val = (val & ~tbl[i].mask) | (tbl[i].value & tbl[i].mask);
+
+feels like something regmap_update_bits() already does though, I prefer 
+this because there's less code in it.
+
+> +		}
+> +
+> +		writel(val, hdev->core->base + tbl[i].reg);
+> +	}
+
+With the val declaration fix
+
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
