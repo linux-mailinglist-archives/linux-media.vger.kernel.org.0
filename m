@@ -2,151 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA6C276FB78
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 09:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF07376FBE5
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 10:25:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233893AbjHDHze (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 03:55:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45206 "EHLO
+        id S234151AbjHDIZc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 04:25:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234011AbjHDHzc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 03:55:32 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C0884488;
-        Fri,  4 Aug 2023 00:55:30 -0700 (PDT)
-Received: from [172.20.10.2] (unknown [109.166.131.29])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ehristev)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id D642E66071B9;
-        Fri,  4 Aug 2023 08:55:26 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1691135728;
-        bh=7r9GShoKmneDSmX53QgcnbJVa5KPZiLE0eJ/AjUQWvY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Cbn7oSahDKki5y/OmUcpKp1jjzOPgQjLRBIMBYtWUBhNzAoQNrEbfAe/ryEDD2Jw+
-         UXMrqXfCnRqixCkB+NRgSHiLoWpeCaWW/7Czx/dTgFIYPFdbc/dCs+fOg33O4tqvWY
-         P2fckGcjMJAEpb7Qpu2CVAY2/G9/c+zJspITRV+EvZrsYFhZzBFGjWERkCHyHXfRQ6
-         Ku4wHjtMJHvkWbyuTNNSLtGxUSbsvMSy3B8RcwjaRpRBx3wcYcuZYkXpzfK8E3+PzN
-         h4u9HbgqI5TN+l2oxA6ymCSvR2Rq8kjCkJpAQxb42d4i88mJeJOPBJ2wTrSOggpBDZ
-         YarRuShh65W8A==
-Message-ID: <d986cba3-5feb-079c-dd07-e4a2c2cbf2b1@collabora.com>
-Date:   Fri, 4 Aug 2023 10:55:23 +0300
+        with ESMTP id S231743AbjHDIZb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 04:25:31 -0400
+Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA25D2D4C
+        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 01:25:30 -0700 (PDT)
+Received: by mail-vk1-xa35.google.com with SMTP id 71dfb90a1353d-4870df0bae0so592128e0c.0
+        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 01:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691137530; x=1691742330;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TwrSD7E0Txvv5/0HFMAsIjR13HmLVie0jKEmwAkz0BU=;
+        b=uvXKlUowkt+z9B10HM3NilZ/g/ZXRFu7iRUriu+afgGaBZkHW0qHFkI4Qm31ZLEUS+
+         T7AHi98LhNsGiTMncZ/avvyE7RC5i9j7bkrQnfcAb6ajwK6V+sGndZtd42WBfO3Vf9g+
+         ty4jshRNeC5XLZWT9A677OLLXNmiMrp1jFdnB6VJNuTHTFzOuoDjJ2sdyxU6hDznILvK
+         hdJ9FKZ02Uiglf8ZxUdv/qMlbcF7XMuNdbJfkBkoWTNjXY47XkhH16IMCm+YmcDsJarC
+         VTZFyHTQjFXYelcwNu5pLHCTiEv+4pyOyiX093K/fp7cuq5tSfkeFCRMd8Y+pEH2wk+3
+         /fmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691137530; x=1691742330;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TwrSD7E0Txvv5/0HFMAsIjR13HmLVie0jKEmwAkz0BU=;
+        b=OqvqyKzUjkdcXXiKGR9v7UbUG8vkFMLT9Y+rKolIzvyA0i+vroxPGWSYY1W0OSwABX
+         +aczJwQ456xqbR1gf2Uh64tRNb3qvaqjaKV/HGf2fwsmfFXK+tmh6j+p6OugafHHZPc0
+         I7oEm3Zs8urKIrZEd/TKahtXYf9nwZXlDu8kOun8McWEbLvlBJjTpLYVesSnXX4yQms6
+         vh35I0YzsB0myaLrvDv5MP5wVdChoUeYZH3Vjr/4d9UXFxTyBO/s1CGLwwbgwejl/J24
+         TZEkE2JC7FH+20apS6T2iu0W/19yMAgLd47S595yDHk/HYwpj2aa+wmtvixpi3f6heAu
+         oBWQ==
+X-Gm-Message-State: AOJu0YyObvXg4RB3htGOTtsK/20gx9aohIiVn9Frink0mBd393C9QFva
+        xvCdo1rHqAoEFMfdlg6fHNMLovWiUKRYlkPmzh5tuQ==
+X-Google-Smtp-Source: AGHT+IHg0XA9lOZoNjxeCzkrVNkbmXRaA3I5KXvS0ch5IjjHNULP4cSqm6pUDNr0hmIb4ztGPiR/sc46phRQG7EMT0Q=
+X-Received: by 2002:a1f:e343:0:b0:487:1ce5:3be with SMTP id
+ a64-20020a1fe343000000b004871ce503bemr414441vkh.6.1691137529997; Fri, 04 Aug
+ 2023 01:25:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [v3] media: mediatek: vcodec: fix AV1 decoding on MT8188
-To:     Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20230803111017.2418-1-xiaoyong.lu@mediatek.com>
-Content-Language: en-US
-From:   Eugen Hristev <eugen.hristev@collabora.com>
-In-Reply-To: <20230803111017.2418-1-xiaoyong.lu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <B15AD941-B2E4-4C65-9D84-C58D3E34EBCE@noisolation.com>
+ <a4b188b8-afb1-df2b-5237-026650279f10@xs4all.nl> <c48ff175-4c89-833a-c1cf-496ab26f7e6b@linaro.org>
+In-Reply-To: <c48ff175-4c89-833a-c1cf-496ab26f7e6b@linaro.org>
+From:   "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Date:   Fri, 4 Aug 2023 09:25:18 +0100
+Message-ID: <CABDeQ7GP5b_8wvD77Wd=3_yXxB-OxP5z3-oL62je6++EE_RBcQ@mail.gmail.com>
+Subject: Re: [PATCH] qcom/camss: use 1X16 formats instead of 2X8
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        =?UTF-8?Q?Martin_D=C3=B8rum?= <dorum@noisolation.com>,
+        rfoss@kernel.org, todor.too@gmail.com
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xiaoyong,
-
-On 8/3/23 14:10, Xiaoyong Lu wrote:
-> Fix AV1 decoding failure when the iova is 36bit.
-> 
-> Before this fix, the decoder was accessing incorrect addresses with 36bit
-> iova tile buffer, leading to iommu faults.
-> 
-> Fixes: 2f5d0aef37c6 ("media: mediatek: vcodec: support stateless AV1 decoder")
-> Signed-off-by: Xiaoyong Lu<xiaoyong.lu@mediatek.com>
+On Wed, 24 May 2023 at 09:59, Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
+>
+> On 24/05/2023 09:48, Hans Verkuil wrote:
+> > On 13/04/2023 12:54, Martin D=C3=B8rum wrote:
+> >> Platforms with qcom-camss use CSI-2, which means 1X16 is more correct
+> >> than 2X8. The fact that qcom-camss supported only 2X8 meant it was
+> >> incompatible with camera sensors it should have been compatible with.
+> >>
+> >> For example, the ov5645 driver (correctly) reports that its format is
+> >> UYVY8_1X16 (after ba449bb56203aedc4530a82b0f3f83358808b7f2).
+> >> Since qcom-camss only supports 2X8, the qcom-camss system is
+> >> incompatible with the ov5645 driver, even though they should be
+> >> compatible.
+> >>
+> >> This patch replaces all uses of UYVY8_2X8/VYUY8_2X8/YUYV8_2X8/YVYU8_2X=
+8
+> >> with the equivalent 1X16 formats.
+> >>
+> >> Signed-off-by: Martin D=C3=B8rum <dorum@noisolation.com  <mailto:dorum=
+@noisolation.com>>
+> > Can one of the driver maintainers review this?
+> >
+> > It sounds reasonable, but I wonder if this can break existing setups wh=
+ere
+> > the sensor only supports 2X8 and not 1X16.
+> >
+> > Regards,
+> >
+> >       Hans
+> >
+>
+> This hasn't hit my inbox but, I'll give it a test sometime this week.
+>
 > ---
-> Changes from v2:
-> 
-> - refine commit subject and message
-> 
-> Changes from v1:
-> 
-> - prefer '|' rather than '+'
-> - prefer '&' rather than shift operation
-> - add comments for address operations
-> 
-> v1:
-> - VDEC HW can access tile buffer and decode normally.
-> - Test ok by mt8195 32bit and mt8188 36bit iova.
-> 
-> ---
->   .../mediatek/vcodec/vdec/vdec_av1_req_lat_if.c       | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-> index 404a1a23fd402..e9f2393f6a883 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-> @@ -1658,9 +1658,9 @@ static void vdec_av1_slice_setup_tile_buffer(struct vdec_av1_slice_instance *ins
->   	u32 allow_update_cdf = 0;
->   	u32 sb_boundary_x_m1 = 0, sb_boundary_y_m1 = 0;
->   	int tile_info_base;
-> -	u32 tile_buf_pa;
-> +	u64 tile_buf_pa;
->   	u32 *tile_info_buf = instance->tile.va;
-> -	u32 pa = (u32)bs->dma_addr;
-> +	u64 pa = (u64)bs->dma_addr;
+> bod
 
-If it this is a dma address, can't we use dma_addr_t ? isn't it more 
-generic? Or maybe you have a specific reason not to ?
+This patch is fine. The only concern I had with upstream was
+drivers/media/i2c/ov5640 which is a default sensor on apq8016/db410c
+ov5640 looks fine.
 
->   
->   	if (uh->disable_cdf_update == 0)
->   		allow_update_cdf = 1;
-> @@ -1673,8 +1673,12 @@ static void vdec_av1_slice_setup_tile_buffer(struct vdec_av1_slice_instance *ins
->   		tile_info_buf[tile_info_base + 0] = (tile_group->tile_size[tile_num] << 3);
->   		tile_buf_pa = pa + tile_group->tile_start_offset[tile_num];
->   
-> -		tile_info_buf[tile_info_base + 1] = (tile_buf_pa >> 4) << 4;
-> -		tile_info_buf[tile_info_base + 2] = (tile_buf_pa % 16) << 3;
-> +		/* save av1 tile high 4bits(bit 32-35) address in lower 4 bits position
-> +		 * and clear original for hw requirement.
-> +		 */
-> +		tile_info_buf[tile_info_base + 1] = (tile_buf_pa & 0xFFFFFFF0ull) |
-> +			((tile_buf_pa & 0xF00000000ull) >> 32);
-> +		tile_info_buf[tile_info_base + 2] = (tile_buf_pa & 0xFull) << 3;
+Please apply
 
-Would it be better to use GENMASK if you plan to mask out some of the 
-bits in the tile_buf_pa ?
-
-
->   
->   		sb_boundary_x_m1 =
->   			(tile->mi_col_starts[tile_col + 1] - tile->mi_col_starts[tile_col] - 1) &
-
-Greetings,
-Eugen
+Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
