@@ -2,59 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09345770A59
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 23:04:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5E2B770A62
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 23:05:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229441AbjHDVEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 17:04:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32886 "EHLO
+        id S230414AbjHDVFt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 17:05:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbjHDVEx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 17:04:53 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 879C74ECA
-        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 14:04:18 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3fb4146e8fcso15564515e9.0
-        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 14:04:18 -0700 (PDT)
+        with ESMTP id S230327AbjHDVFi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 17:05:38 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C2215597
+        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 14:05:12 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-3fe1a17f983so23603585e9.3
+        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 14:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691183057; x=1691787857;
+        d=linaro.org; s=google; t=1691183111; x=1691787911;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Qj00refZhLuErTSKNSGUW/qZ75TMCYbmVyutlgVJHgQ=;
-        b=MO4H8yS+K+Xm2FffRCOiWPEJvYNH7Yf7+h3x+U9xYZzfFgMmpZUQjWTjHfVrozc7h/
-         r1kIzVT+FkUPql+u9EMpPdrjjCTYY50SCKB075W4lYtmEMBBON6Mwe1fweQqDzZFhQKs
-         TZLIqkK3tgJASIB/1nKvF4hVv68QZ2OHtPtMKeseCJa2IOV7/dsH0rXH/FGlxYGVpAwB
-         B7TzAF8GYgSCieLZwqMmc5pGKF0wh96lIx4r/RpmDlZQgNaggzYGFNi/jB+ngNy2WXGp
-         Zub3xDQbXD1LD2ZyCJ6NJ60UoLo8DKr/C7lBZLwJphAv6FfM3pm37PCChO9Fo+kRigSu
-         wf1Q==
+        bh=3tY2x5jOA5MdZIZQOU+BSDgMhCiPCQJMMt53eXPrT6A=;
+        b=ToYJOdJ5fj7DrMiQyzjHrRm8CPjZtUeDWLgCVQMEWcK2D7SHvzCTpvT+G3YXVFJzL0
+         PQqRKhfW+CTxP2e9x7tnro/ca9kFlHutp3C0KJ81cvc9Io2DQva9Nmtv0bjQwPvVWUeG
+         mRpa8udRCVui1Ng0juDV7Wp5ePMmaK5r0KYHEEteDixsLvf/IAclFd1C98D+SDgY+NtU
+         +b1bW3iwo1osF8yTZrK8t0CkVyJj5QcMCT85lTGhoB0f6unJ0MeqzTH65Q1uh2RU2NWt
+         4NIWyrx+cctBsmuiw2vutTcdq0faJu5MKLHYTHqgv6kIbjzUo9uLZDDvfPfUSipnJt2R
+         3Sxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691183057; x=1691787857;
+        d=1e100.net; s=20221208; t=1691183111; x=1691787911;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qj00refZhLuErTSKNSGUW/qZ75TMCYbmVyutlgVJHgQ=;
-        b=TNTx2N2CRtH6SIDkTuRT/Pv1cILAcEPAHOf+L7o3PKn4QndW4yWYjeL7OBjmggcdtl
-         zSA+hX7HRle7DPFMvhDjhTAUrqKfJgh5qKgR51d7ksZq70MGofXr3fyzZEB9hEf60V2h
-         i3zObWmYQQntnj2RLD/zUZcwA29u6DDQeNKLjcfBSbORZrfXNdvop6iZsCFfC4KZrdtM
-         JijZwSPIqEhtvlgTZ7N5O8X4m1VuHslYtBNyhDAsDNpjy4kEOTgAZFIIFaepeRRAQ/bK
-         sdfpcWqJRNM509oK2WN3n2tEmxlbSooVxVXwa2n8yxn+ntkeJmizcdL/73smxA05fW1q
-         VLAw==
-X-Gm-Message-State: AOJu0Yw0WODB8VPANDB4EjfsyDTbdFz6HudwLRf2UmUqELJ5Vre16mC9
-        EMeowFhubnk+bUO5Cck7S4OUiA==
-X-Google-Smtp-Source: AGHT+IGyA0Q3+2Nb2ODfW2rz93zZN2wGnB+YRvJRjvFlRWp31BI5vk2MXcuURK8UbD0Ovp4v/kCKnw==
-X-Received: by 2002:a05:600c:2609:b0:3fb:416d:7324 with SMTP id h9-20020a05600c260900b003fb416d7324mr617463wma.6.1691183056759;
-        Fri, 04 Aug 2023 14:04:16 -0700 (PDT)
+        bh=3tY2x5jOA5MdZIZQOU+BSDgMhCiPCQJMMt53eXPrT6A=;
+        b=SOj0mZIIaNvSxLjxgd9M1qjHrenaaDgEC7GtKeHgCjtyojR5SdzDHkkdFkGqKnbhh1
+         r9/Xgr09lyNVMMp41dGuLWzwyhsVfLJ2Zzqw+DzlR905CvgsPWlpVDCi1fSmNjqSsh8v
+         k4WyN2pul30CniBYaODrYqReEpr4ApS5qC7XJ3JJZxQGIzQ6vslkf8vrSYnRSFAbhs+g
+         eehupnF+PRr6ClDfBsiGfYHXTfH14IxiYz7Dsee7V7C2RoyzBZrgnX76dS3bvDBh5z6w
+         d1txphbAODHM2Z7YtrldCiQU3N+KgBbBQTxw3xfWGG9tr9X0RGJaKPJC8nH36sJru5so
+         lbXQ==
+X-Gm-Message-State: AOJu0YyZroBUi0LBnD+ESNwUFMMaVG75f7ukZgN7iXDUB7uvAiMnkDBr
+        SepWu8x6EYFSHfn7e7igwYPOYg==
+X-Google-Smtp-Source: AGHT+IGhQzTlOvnyUH7z13hhyfjdj82sVmoev7p0mQju8BbwDFXwFx+c7okVHM5ncHB2MgwoXMueow==
+X-Received: by 2002:a5d:4e03:0:b0:314:3ad6:2327 with SMTP id p3-20020a5d4e03000000b003143ad62327mr2025995wrt.12.1691183110969;
+        Fri, 04 Aug 2023 14:05:10 -0700 (PDT)
 Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id l22-20020a7bc456000000b003fc06169ab3sm7556830wmi.20.2023.08.04.14.04.15
+        by smtp.gmail.com with ESMTPSA id l12-20020adff48c000000b0030ada01ca78sm3372266wro.10.2023.08.04.14.05.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Aug 2023 14:04:16 -0700 (PDT)
-Message-ID: <78d2fd56-804d-827b-d074-b139cf62a498@linaro.org>
-Date:   Fri, 4 Aug 2023 22:04:15 +0100
+        Fri, 04 Aug 2023 14:05:10 -0700 (PDT)
+Message-ID: <9dc7d386-2922-0fb5-171f-1dd19505c092@linaro.org>
+Date:   Fri, 4 Aug 2023 22:05:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 4/6] media: platform: venus: Add optional LLCC path
+Subject: Re: [PATCH 2/6] media: venus: core: Remove trailing commas from of
+ match entries
 Content-Language: en-US
 To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -71,9 +72,9 @@ Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
- <20230731-topic-8280_venus-v1-4-8c8bbe1983a5@linaro.org>
+ <20230731-topic-8280_venus-v1-2-8c8bbe1983a5@linaro.org>
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230731-topic-8280_venus-v1-4-8c8bbe1983a5@linaro.org>
+In-Reply-To: <20230731-topic-8280_venus-v1-2-8c8bbe1983a5@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -87,100 +88,41 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 04/08/2023 21:09, Konrad Dybcio wrote:
-> Some newer SoCs (such as SM8350) have a third interconnect path. Add
-> it and make it optional.
+> Even though it has zero effect on functionality, remove them for coherency
+> with other drivers.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->   drivers/media/platform/qcom/venus/core.c       | 19 +++++++++++++++++++
->   drivers/media/platform/qcom/venus/core.h       |  3 +++
->   drivers/media/platform/qcom/venus/pm_helpers.c |  3 +++
->   3 files changed, 25 insertions(+)
+>   drivers/media/platform/qcom/venus/core.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
 > 
 > diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 0af45faec247..db363061748f 100644
+> index 3cc38881d4f6..0af45faec247 100644
 > --- a/drivers/media/platform/qcom/venus/core.c
 > +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -302,6 +302,15 @@ static int venus_probe(struct platform_device *pdev)
->   	if (IS_ERR(core->cpucfg_path))
->   		return PTR_ERR(core->cpucfg_path);
+> @@ -884,14 +884,14 @@ static const struct venus_resources sc7280_res = {
+>   };
 >   
-> +	core->llcc_path = devm_of_icc_get(dev, "video-llcc");
-> +	if (IS_ERR(core->llcc_path)) {
-> +		/* LLCC path is optional */
-> +		if (PTR_ERR(core->llcc_path) == -ENODATA)
-> +			core->llcc_path = NULL;
-> +		else
-> +			return PTR_ERR(core->llcc_path);
-> +	}
-> +
->   	core->irq = platform_get_irq(pdev, 0);
->   	if (core->irq < 0)
->   		return core->irq;
-> @@ -479,12 +488,18 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
->   	if (ret)
->   		goto err_cpucfg_path;
->   
-> +	ret = icc_set_bw(core->llcc_path, 0, 0);
-> +	if (ret)
-> +		goto err_llcc_path;
-> +
->   	ret = icc_set_bw(core->video_path, 0, 0);
->   	if (ret)
->   		goto err_video_path;
->   
->   	return ret;
->   
-> +err_llcc_path:
-> +	icc_set_bw(core->video_path, kbps_to_icc(20000), 0);
->   err_video_path:
->   	icc_set_bw(core->cpucfg_path, kbps_to_icc(1000), 0);
->   err_cpucfg_path:
-> @@ -504,6 +519,10 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
->   	if (ret)
->   		return ret;
->   
-> +	ret = icc_set_bw(core->llcc_path, kbps_to_icc(20000), 0);
-> +	if (ret)
-> +		return ret;
-> +
+>   static const struct of_device_id venus_dt_match[] = {
+> -	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+> -	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+> -	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+> -	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+> -	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+> -	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res, },
+> -	{ .compatible = "qcom,sc7280-venus", .data = &sc7280_res, },
+> -	{ .compatible = "qcom,sm8250-venus", .data = &sm8250_res, },
+> +	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res },
+> +	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res },
+> +	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res },
+> +	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res },
+> +	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2 },
+> +	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res },
+> +	{ .compatible = "qcom,sc7280-venus", .data = &sc7280_res },
+> +	{ .compatible = "qcom,sm8250-venus", .data = &sm8250_res },
+>   	{ }
+>   };
+>   MODULE_DEVICE_TABLE(of, venus_dt_match);
 
-I would scream if someone left me this comment but...
 
-In probe we have
-
-video_path =
-cpu_cfgpath =
-
-llc_path =
-
-suspend
-
-icc_set_bw(cpu_cfgpath,);
-icc_set_bw(llc_path,);
-icc_set_bw(video_path,);
-
-resume
-icc_set_bw(video_path,);
-icc_set_bw(llc_path,);
-icc_set_bw(cpu_cfgpath,);
-
-it would be nice to have probe match the ordering ...
-
->   	ret = icc_set_bw(core->cpucfg_path, kbps_to_icc(1000), 0);
->   	if (ret)
->   		return ret;
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 2999c24392f5..45ed1551c2db 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -65,6 +65,7 @@ struct venus_resources {
->   	unsigned int bw_tbl_enc_size;
->   	const struct bw_tbl *bw_tbl_dec;
->   	unsigned int bw_tbl_dec_size;
-> +	bool has_llcc_path;
-
-Why do you need this bool, you can get for llc_path == NULL
-
----
-bod
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
