@@ -2,130 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA5F37703DF
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 17:05:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E882177042A
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 17:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230099AbjHDPFH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 11:05:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45024 "EHLO
+        id S231137AbjHDPPW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 11:15:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjHDPFG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 11:05:06 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF0846B2;
-        Fri,  4 Aug 2023 08:05:04 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C141012E4;
-        Fri,  4 Aug 2023 17:03:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1691161437;
-        bh=tr+A81mL8nDcTz82HPvWaHO5DYHcvkl8gnXU6YqP/oA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NwnKqGOISSHCoT4g/onIOtdggT3c8VNVe6JntI6V+8rCGpENwgWORyCFsw5KPHQPn
-         z9aUrJ9sF4Ag2/bqkXDyI2JmTZAejBZ21hI2p9CWsqv8wQDHzHf9Ryv+MgK5XnDPal
-         Bm3mUPZxQnzBSY8IvBa5/qa4AO6u5zgCBJbM3K2k=
-Date:   Fri, 4 Aug 2023 18:05:07 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Julien Stephan <jstephan@baylibre.com>
-Cc:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        Phi-bang Nguyen <pnguyen@baylibre.com>,
-        Florian Sylvestre <fsylvestre@baylibre.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andy Hsieh <andy.hsieh@mediatek.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        devicetree@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Subject: Re: [PATCH v2 2/4] media: platform: mediatek: isp_30: add mediatek
- ISP3.0 sensor interface
-Message-ID: <20230804150507.GI12951@pendragon.ideasonboard.com>
-References: <20230630100321.1951138-1-jstephan@baylibre.com>
- <20230630100321.1951138-3-jstephan@baylibre.com>
- <da891ec5-473c-5bef-d88b-661fac70ed25@collabora.com>
- <72ixohoacq4vgj7nqg4l5gt5bs5e5ewain6a5ovqs3winx3qzz@sbg5lfohq5mq>
+        with ESMTP id S229726AbjHDPPU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 11:15:20 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB2846B2;
+        Fri,  4 Aug 2023 08:15:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1691162119; x=1722698119;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=atf6awQZSaLep4xKPbRypTbT3WBxXblEP6kiO8HAjXs=;
+  b=kEAHQwNrbR2VvfZ3fxQZdL4/bkvzoIf7k/5U54GcL7/DhszfpA1wIDJQ
+   7wbO3xfIS9ko7teYq+7PZ2sB8/am2O7Xv+J1pUH9lWOCAbKx1GeEkuv2m
+   mFavwuHGYfgL2DtopfKW3gL+Br3qTGmPkpQSEY2+r/Y1J2IKQyTtKRNVT
+   HVfS6BJRq1fCFodmccg8o6GldlwVNN+SBTH0VSvwRPnEPU5HXopTQsHrc
+   srMBTbZcGz6UVxAnTWktoFoJJvYBPYxeeCsE3Ewhw5hxRr7m9Rj8uGulA
+   sc2r1jza6/C4Ig2tBWmfJcOVrA5pAyKyV3WdEvolo4oXrWLkxWMSnKX2c
+   g==;
+X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
+   d="scan'208";a="228222022"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 04 Aug 2023 08:15:18 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 4 Aug 2023 08:15:18 -0700
+Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.21 via Frontend Transport; Fri, 4 Aug 2023 08:15:15 -0700
+From:   shravan kumar <shravan.chippa@microchip.com>
+To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
+        <mchehab@kernel.org>
+CC:     <sakari.ailus@iki.fi>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Shravan Chippa <shravan.chippa@microchip.com>
+Subject: [PATCH v2] media: i2c: imx334: add support for test pattern generator
+Date:   Fri, 4 Aug 2023 20:45:41 +0530
+Message-ID: <20230804151541.3162667-1-shravan.chippa@microchip.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <72ixohoacq4vgj7nqg4l5gt5bs5e5ewain6a5ovqs3winx3qzz@sbg5lfohq5mq>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 04, 2023 at 04:50:05PM +0200, Julien Stephan wrote:
-> On Mon, Jul 03, 2023 at 01:02:02PM +0200, AngeloGioacchino Del Regno wrote:
-> > Il 30/06/23 12:01, Julien Stephan ha scritto:
-> ..snip..
-> > > +
-> > > +static const struct mtk_seninf_format_info mtk_seninf_formats[] = {
-> > > +	{
-> > > +		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> > > +		.flags = MTK_SENINF_FORMAT_BAYER,
-> >
-> > Each entry fits in one line.
-> >
-> > 	{ .code = MEDIA_BUS_FMT_SBGGR8_1X8, .flags = MTK_SENINF_FORMAT_BAYER },
-> >
-> 
-> Hi Angelo,
-> 
-> Actually not all entries fit in one line. The last 4 ones don't:
-> 
->        { .code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8, .flags = MTK_SENINF_FORMAT_DPCM | MTK_SENINF_FORMAT_INPUT_ONLY },
-> which is 115 chars..
-> 
-> so what is the best? put all in one line except the last 4 one? or keep
-> them all as is?
+From: Shravan Chippa <shravan.chippa@microchip.com>
 
-I'd keep them all as is.
+Add support for the imx334's test pattern generator.
+By default the test pattern generator is disabled, so add support for
+enabling and disabling horizontal and vertical colour bars.
 
-> > > +	}, {
-> ..snip..
-> > > +	udelay(1);
-> > > +	mtk_seninf_input_update(input, SENINF_CTRL, CSI2_SW_RST, 0);
-> >
-> > Is there any way to check if the CSI port did reset, or is it *guaranteed* to get
-> > out of reset in a microsecond after deasserting SW_RST?
-> 
-> I will double check this
-> 
-> > > +}
-> > > +
-> ..snip..
-> > > +
-> > > +	val = mtk_seninf_mux_read(mux, SENINF_MUX_CTRL);
-> >
-> > rst_mask = SENINF_MUX_CTRL_SENINF_IRQ_SW_RST | SENINF_MUX_CTRL_SENINF_MUX_SW_RST;
-> >
-> > writel(mux->base + SENINF_MUX_CTRL, val | rst_mask);
-> > writel(mux->base + SENINFMUX_CTRL, val & ~rst_mask);
-> >
-> > that's better, right? :-)
+Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+---
+ drivers/media/i2c/imx334.c | 57 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 56 insertions(+), 1 deletion(-)
 
-With mtk_seninf_mux_write() instead of writel(), yes :-)
-
-> right :)
-> 
-> > > +	mtk_seninf_mux_write(mux, SENINF_MUX_CTRL, val |
-> > > +			     SENINF_MUX_CTRL_SENINF_IRQ_SW_RST |
-> > > +			     SENINF_MUX_CTRL_SENINF_MUX_SW_RST);
-
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index d722c9b7cd31..91c79af70734 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -56,6 +56,24 @@
+ #define IMX334_REG_MIN		0x00
+ #define IMX334_REG_MAX		0xfffff
+ 
++/* Test Pattern Control */
++#define IMX334_REG_TP		0x329e
++#define IMX334_TP_COLOR_HBARS	0xA
++#define IMX334_TP_COLOR_VBARS	0xB
++
++#define IMX334_TPG_EN_DOUT	0x329c
++#define IMX334_TP_ENABLE	0x1
++#define IMX334_TP_DISABLE	0x0
++
++#define IMX334_TPG_COLORW	0x32a0
++#define IMX334_TPG_COLORW_120P	0x13
++
++#define IMX334_TP_CLK_EN	0x3148
++#define IMX334_TP_CLK_EN_VAL	0x10
++#define IMX334_TP_CLK_DIS_VAL	0x0
++
++#define IMX334_DIG_CLP_MODE	0x3280
++
+ /**
+  * struct imx334_reg - imx334 sensor register
+  * @address: Register address
+@@ -430,6 +448,18 @@ static const struct imx334_reg mode_3840x2160_regs[] = {
+ 	{0x3a29, 0x00},
+ };
+ 
++static const char * const imx334_test_pattern_menu[] = {
++	"Disabled",
++	"Vertical Color Bars",
++	"Horizontal Color Bars",
++};
++
++static const int imx334_test_pattern_val[] = {
++	IMX334_TP_DISABLE,
++	IMX334_TP_COLOR_HBARS,
++	IMX334_TP_COLOR_VBARS,
++};
++
+ static const struct imx334_reg raw10_framefmt_regs[] = {
+ 	{0x3050, 0x00},
+ 	{0x319d, 0x00},
+@@ -716,6 +746,26 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_HBLANK:
+ 		ret = 0;
+ 		break;
++	case V4L2_CID_TEST_PATTERN:
++		if (ctrl->val) {
++			imx334_write_reg(imx334, IMX334_TP_CLK_EN, 1,
++					 IMX334_TP_CLK_EN_VAL);
++			imx334_write_reg(imx334, IMX334_DIG_CLP_MODE, 1, 0x0);
++			imx334_write_reg(imx334, IMX334_TPG_COLORW, 1,
++					 IMX334_TPG_COLORW_120P);
++			imx334_write_reg(imx334, IMX334_REG_TP, 1,
++					 imx334_test_pattern_val[ctrl->val]);
++			imx334_write_reg(imx334, IMX334_TPG_EN_DOUT, 1,
++					 IMX334_TP_ENABLE);
++		} else {
++			imx334_write_reg(imx334, IMX334_DIG_CLP_MODE, 1, 0x1);
++			imx334_write_reg(imx334, IMX334_TP_CLK_EN, 1,
++					 IMX334_TP_CLK_DIS_VAL);
++			imx334_write_reg(imx334, IMX334_TPG_EN_DOUT, 1,
++					 IMX334_TP_DISABLE);
++		}
++		ret = 0;
++		break;
+ 	default:
+ 		dev_err(imx334->dev, "Invalid control %d", ctrl->id);
+ 		ret = -EINVAL;
+@@ -1222,7 +1272,7 @@ static int imx334_init_controls(struct imx334 *imx334)
+ 	u32 lpfr;
+ 	int ret;
+ 
+-	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 6);
++	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1282,6 +1332,11 @@ static int imx334_init_controls(struct imx334 *imx334)
+ 	if (imx334->hblank_ctrl)
+ 		imx334->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 
++	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx334_ctrl_ops,
++				     V4L2_CID_TEST_PATTERN,
++				     ARRAY_SIZE(imx334_test_pattern_menu) - 1,
++				     0, 0, imx334_test_pattern_menu);
++
+ 	if (ctrl_hdlr->error) {
+ 		dev_err(imx334->dev, "control init failed: %d",
+ 			ctrl_hdlr->error);
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
