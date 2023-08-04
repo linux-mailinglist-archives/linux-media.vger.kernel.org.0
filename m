@@ -2,122 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E80A176F9AC
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 07:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AC1176F9C9
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 08:05:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230344AbjHDFti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 01:49:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51560 "EHLO
+        id S231952AbjHDGFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 02:05:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjHDFtf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 01:49:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CDBF30D7;
-        Thu,  3 Aug 2023 22:49:33 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1252E2CF;
-        Fri,  4 Aug 2023 07:48:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1691128106;
-        bh=lAMV8anyoLm//D1QEDEkcoNfvdTfOigvth20upjkcdg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=sFa9erxP3TkKsb88wEPZWMFnpcPnBvEmd9RGCIlNUO+JNtWxEQ26uyI/1IC0Pup/3
-         3BrJHmESmJcCMIwE5pli4QW4UJPMQrQxb/4HXZAvle0NpLwVIMxHvoO+RUMwUwLz9p
-         B67bQmcVYDx7D5hkTooiUxRmptKbmCOlTMIPwW3M=
-Message-ID: <f2a438ca-73ff-5412-f985-763122dd3651@ideasonboard.com>
-Date:   Fri, 4 Aug 2023 08:49:28 +0300
+        with ESMTP id S229634AbjHDGFT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 02:05:19 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D273C0A
+        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 23:05:17 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qRnvv-00089Q-MD; Fri, 04 Aug 2023 08:05:07 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qRnvs-0010gf-Go; Fri, 04 Aug 2023 08:05:04 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qRnvr-00AJkM-8K; Fri, 04 Aug 2023 08:05:03 +0200
+Date:   Fri, 4 Aug 2023 08:05:00 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Ruan Jinjie <ruanjinjie@huawei.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        j.neuschaefer@gmx.net, linux-media@vger.kernel.org
+Subject: Re: [PATCH -next 1/3] media: dvb-frontends: drx39xyj: Remove an
+ unnecessary ternary operator
+Message-ID: <20230804060500.mxnjbvwemucudpd5@pengutronix.de>
+References: <20230804031323.2105187-1-ruanjinjie@huawei.com>
+ <20230804031323.2105187-2-ruanjinjie@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/2] media: i2c: ds90ub9x3: Fix use of uninitialized
- variables
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230803-ub9xx-uninit-vars-v1-0-284a5455260f@ideasonboard.com>
- <20230803-ub9xx-uninit-vars-v1-1-284a5455260f@ideasonboard.com>
- <20230803214646.GG27752@pendragon.ideasonboard.com>
-Content-Language: en-US
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230803214646.GG27752@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="fkcrrvhimzjib7bc"
+Content-Disposition: inline
+In-Reply-To: <20230804031323.2105187-2-ruanjinjie@huawei.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/08/2023 00:46, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Aug 03, 2023 at 11:41:38AM +0300, Tomi Valkeinen wrote:
->> smatch reports some uninitialized variables:
->>
->> drivers/media/i2c/ds90ub913.c:481 ub913_log_status() error: uninitialized symbol 'v1'.
->> drivers/media/i2c/ds90ub913.c:481 ub913_log_status() error: uninitialized symbol 'v2'.
->> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_local_data'.
->> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_input_ctrl'.
->> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_pin_sts'.
->>
->> These are used only for printing debug information, and the use of an
->> uninitialized variable only happens if an i2c transaction has failed,
->> which will print an error. Thus, fix the errors just by initializing the
->> variables to 0.
->>
->> Fixes: 6363db1c9d45 ("media: i2c: add DS90UB953 driver")
->> Fixes: c158d0d4ff15 ("media: i2c: add DS90UB913 driver")
->> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
->> Closes: https://lore.kernel.org/all/8d6daeb1-b62a-bbb2-b840-8759c84f2085@xs4all.nl/
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/i2c/ds90ub913.c | 2 +-
->>   drivers/media/i2c/ds90ub953.c | 6 +++---
->>   2 files changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
->> index 80d9cf6dd945..b2115e3519e2 100644
->> --- a/drivers/media/i2c/ds90ub913.c
->> +++ b/drivers/media/i2c/ds90ub913.c
->> @@ -469,7 +469,7 @@ static int ub913_log_status(struct v4l2_subdev *sd)
->>   {
->>   	struct ub913_data *priv = sd_to_ub913(sd);
->>   	struct device *dev = &priv->client->dev;
->> -	u8 v = 0, v1, v2;
->> +	u8 v = 0, v1 = 0, v2 = 0;
-> 
-> This seems to work around the lack of error checking when calling
 
-Yes.
+--fkcrrvhimzjib7bc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ub913_read(). Wouldn't it be better to check for errors there ? Or,
-> because this is ub913_log_status(), do you consider that we can print an
-> invalid CRC errors count, given that the ub913_read() function will have
-> printed an error message before ?
+On Fri, Aug 04, 2023 at 11:13:21AM +0800, Ruan Jinjie wrote:
+> There is a ternary operator, the true or false judgement of which
+> is unnecessary in C language semantics.
+>=20
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+> ---
+>  drivers/media/dvb-frontends/drx39xyj/drxj.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/dvb-frontends/drx39xyj/drxj.c b/drivers/media/=
+dvb-frontends/drx39xyj/drxj.c
+> index 68f4e8b5a0ab..e54e61c3518a 100644
+> --- a/drivers/media/dvb-frontends/drx39xyj/drxj.c
+> +++ b/drivers/media/dvb-frontends/drx39xyj/drxj.c
+> @@ -4779,7 +4779,7 @@ set_frequency(struct drx_demod_instance *demod,
+>  	bool image_to_select;
+>  	s32 fm_frequency_shift =3D 0;
+> =20
+> -	rf_mirror =3D (ext_attr->mirror =3D=3D DRX_MIRROR_YES) ? true : false;
+> +	rf_mirror =3D ext_attr->mirror =3D=3D DRX_MIRROR_YES;
+>  	tuner_mirror =3D demod->my_common_attr->mirror_freq_spect ? false : tru=
+e;
 
-Yes, that was my thinking. Adding proper error handling would complicate 
-the function (more visibly so in ub953 and ub960, which have more 
-printing done), and what would be the benefit? Not much, in my opinion. 
-If the i2c transactions start to fail, we're in a bad situation anyway 
-(and, as you mention, ub913_read() will print errors).
+Maybe also do:
 
-However, I guess the "benefit" depends on the use a bit. If log status 
-is used as a debug aid, I think my reasoning is fine. But if it's used 
-by some automated script, to collect data, it may be more difficult for 
-the script to detect that an error has happened in the log status.
+-	tuner_mirror =3D demod->my_common_attr->mirror_freq_spect ? false : true;
++	tuner_mirror =3D !demod->my_common_attr->mirror_freq_spect;
 
-That said, I have to say this ignore-errors code somewhat bugs me, so 
-maybe I'll improve the log-status functions later. But I think these are 
-acceptable fixes to get rid of the smatch errors.
+?
 
-  Tomi
+Best regards
+Uwe
 
+>  	/*
+>  	   Program frequency shifter
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--fkcrrvhimzjib7bc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmTMlQsACgkQj4D7WH0S
+/k5YEQf9E8bkCeH/Of6lL7tO3ghSVv5/9SKesVyTw+Ju4Wm1Pe/A8BvPztFamKhN
+k24UiXp/NwdCtIKt3N6j5dpYEwj2tGrzL2OtH3gLKJ2HGyABPwTqnXHoqHKFCHOR
+28LNw/Zeq0+OTNm5q7wjppow6DcUYmIifPVnMOwLwGKmr6+/qyNI1yXJGtZQ5IhG
+WFjPYJdFwCwsvkmDBTSyvK2Rsj9274T7YUcHQLvX7BIAJ0F5wGR6daWxbBk/1UtO
+7x3JXTQC61qwvUsT2Ci/lPaLs8OrfXOZQ17ZFgMDYYbGeDF9CMUWEKjCq8secKxv
+WNUa78DgudDyhO+trtIA3ycIMLEScA==
+=dAMb
+-----END PGP SIGNATURE-----
+
+--fkcrrvhimzjib7bc--
