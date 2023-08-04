@@ -2,185 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3314376F901
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 06:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E80A176F9AC
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 07:49:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231260AbjHDEeM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 00:34:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35376 "EHLO
+        id S230344AbjHDFti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 01:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232559AbjHDEeK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 00:34:10 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1123A4228
-        for <linux-media@vger.kernel.org>; Thu,  3 Aug 2023 21:34:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691123648; x=1722659648;
-  h=date:from:to:cc:subject:message-id;
-  bh=oS/fEIaZ/CoQusUVbB2lghOPwG0/PakbCp/PuFhXwS0=;
-  b=Ic53Q21Nca+5ZzrtFiXhDdvuzHvuROuo2xCz5Y3CdqKzQXUToFI3iD/E
-   iQJc4Pv7LyA/nny7QmxrmS4A6NPRFJax0AjGfpWHf+E8k/PbGGMtiEd3a
-   wJ7D71nnHCJBC9yFlSFttynuvSx08UJxq/zIOermRmTGMTgQXfgrjJJro
-   Qirkz4f9n+0iThA+ofoxRqjGFUeJmNWsf61vPJNe3ADd+N0pwYCsSpwcg
-   Zj+oopgoxUq6XpLZtmjAroCmU5amM6awSYT6HCXIdL+oO5CVZdjwXkzsy
-   tcwUNXm4o9rlYnGBaoJ5eKibT00j1eOe/R5mqRcUEhP1i89FnrS2NCaX+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="373708587"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="373708587"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 21:34:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="759386131"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="759386131"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 03 Aug 2023 21:34:04 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qRmVo-0002cn-0w;
-        Fri, 04 Aug 2023 04:34:04 +0000
-Date:   Fri, 04 Aug 2023 12:33:41 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 10dd3e5d4ff6c841431e785c5c2fc39360bc7bc5
-Message-ID: <202308041239.8xMq8Wx9-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229907AbjHDFtf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 01:49:35 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CDBF30D7;
+        Thu,  3 Aug 2023 22:49:33 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1252E2CF;
+        Fri,  4 Aug 2023 07:48:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1691128106;
+        bh=lAMV8anyoLm//D1QEDEkcoNfvdTfOigvth20upjkcdg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=sFa9erxP3TkKsb88wEPZWMFnpcPnBvEmd9RGCIlNUO+JNtWxEQ26uyI/1IC0Pup/3
+         3BrJHmESmJcCMIwE5pli4QW4UJPMQrQxb/4HXZAvle0NpLwVIMxHvoO+RUMwUwLz9p
+         B67bQmcVYDx7D5hkTooiUxRmptKbmCOlTMIPwW3M=
+Message-ID: <f2a438ca-73ff-5412-f985-763122dd3651@ideasonboard.com>
+Date:   Fri, 4 Aug 2023 08:49:28 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/2] media: i2c: ds90ub9x3: Fix use of uninitialized
+ variables
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230803-ub9xx-uninit-vars-v1-0-284a5455260f@ideasonboard.com>
+ <20230803-ub9xx-uninit-vars-v1-1-284a5455260f@ideasonboard.com>
+ <20230803214646.GG27752@pendragon.ideasonboard.com>
+Content-Language: en-US
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230803214646.GG27752@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 10dd3e5d4ff6c841431e785c5c2fc39360bc7bc5  media: i2c: ccs: Check rules is non-NULL
+On 04/08/2023 00:46, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Aug 03, 2023 at 11:41:38AM +0300, Tomi Valkeinen wrote:
+>> smatch reports some uninitialized variables:
+>>
+>> drivers/media/i2c/ds90ub913.c:481 ub913_log_status() error: uninitialized symbol 'v1'.
+>> drivers/media/i2c/ds90ub913.c:481 ub913_log_status() error: uninitialized symbol 'v2'.
+>> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_local_data'.
+>> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_input_ctrl'.
+>> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_pin_sts'.
+>>
+>> These are used only for printing debug information, and the use of an
+>> uninitialized variable only happens if an i2c transaction has failed,
+>> which will print an error. Thus, fix the errors just by initializing the
+>> variables to 0.
+>>
+>> Fixes: 6363db1c9d45 ("media: i2c: add DS90UB953 driver")
+>> Fixes: c158d0d4ff15 ("media: i2c: add DS90UB913 driver")
+>> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+>> Closes: https://lore.kernel.org/all/8d6daeb1-b62a-bbb2-b840-8759c84f2085@xs4all.nl/
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/i2c/ds90ub913.c | 2 +-
+>>   drivers/media/i2c/ds90ub953.c | 6 +++---
+>>   2 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
+>> index 80d9cf6dd945..b2115e3519e2 100644
+>> --- a/drivers/media/i2c/ds90ub913.c
+>> +++ b/drivers/media/i2c/ds90ub913.c
+>> @@ -469,7 +469,7 @@ static int ub913_log_status(struct v4l2_subdev *sd)
+>>   {
+>>   	struct ub913_data *priv = sd_to_ub913(sd);
+>>   	struct device *dev = &priv->client->dev;
+>> -	u8 v = 0, v1, v2;
+>> +	u8 v = 0, v1 = 0, v2 = 0;
+> 
+> This seems to work around the lack of error checking when calling
 
-elapsed time: 726m
+Yes.
 
-configs tested: 109
-configs skipped: 2
+> ub913_read(). Wouldn't it be better to check for errors there ? Or,
+> because this is ub913_log_status(), do you consider that we can print an
+> invalid CRC errors count, given that the ub913_read() function will have
+> printed an error message before ?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Yes, that was my thinking. Adding proper error handling would complicate 
+the function (more visibly so in ub953 and ub960, which have more 
+printing done), and what would be the benefit? Not much, in my opinion. 
+If the i2c transactions start to fail, we're in a bad situation anyway 
+(and, as you mention, ub913_read() will print errors).
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r043-20230731   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r004-20230731   clang
-arm                  randconfig-r033-20230731   clang
-arm                  randconfig-r046-20230731   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r026-20230731   clang
-csky                                defconfig   gcc  
-hexagon              randconfig-r013-20230731   clang
-hexagon              randconfig-r025-20230731   clang
-hexagon              randconfig-r041-20230731   clang
-hexagon              randconfig-r045-20230731   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230731   gcc  
-i386         buildonly-randconfig-r005-20230731   gcc  
-i386         buildonly-randconfig-r006-20230731   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230731   gcc  
-i386                 randconfig-i002-20230731   gcc  
-i386                 randconfig-i003-20230731   gcc  
-i386                 randconfig-i004-20230731   gcc  
-i386                 randconfig-i005-20230731   gcc  
-i386                 randconfig-i006-20230731   gcc  
-i386                 randconfig-i011-20230731   clang
-i386                 randconfig-i012-20230731   clang
-i386                 randconfig-i013-20230731   clang
-i386                 randconfig-i014-20230731   clang
-i386                 randconfig-i015-20230731   clang
-i386                 randconfig-i016-20230731   clang
-i386                 randconfig-r014-20230731   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze           randconfig-r011-20230731   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r036-20230731   clang
-nios2                               defconfig   gcc  
-nios2                randconfig-r002-20230731   gcc  
-nios2                randconfig-r005-20230731   gcc  
-nios2                randconfig-r006-20230731   gcc  
-nios2                randconfig-r012-20230731   gcc  
-openrisc             randconfig-r016-20230731   gcc  
-openrisc             randconfig-r024-20230731   gcc  
-openrisc             randconfig-r032-20230731   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc              randconfig-r035-20230731   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230731   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r015-20230731   clang
-s390                 randconfig-r031-20230731   gcc  
-s390                 randconfig-r044-20230731   clang
-sh                               allmodconfig   gcc  
-sh                   randconfig-r021-20230731   gcc  
-sh                   randconfig-r022-20230731   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64              randconfig-r003-20230731   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r001-20230731   clang
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230731   gcc  
-x86_64       buildonly-randconfig-r002-20230731   gcc  
-x86_64       buildonly-randconfig-r003-20230731   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-x001-20230731   clang
-x86_64               randconfig-x002-20230731   clang
-x86_64               randconfig-x003-20230731   clang
-x86_64               randconfig-x004-20230731   clang
-x86_64               randconfig-x005-20230731   clang
-x86_64               randconfig-x006-20230731   clang
-x86_64               randconfig-x011-20230731   gcc  
-x86_64               randconfig-x012-20230731   gcc  
-x86_64               randconfig-x013-20230731   gcc  
-x86_64               randconfig-x014-20230731   gcc  
-x86_64               randconfig-x015-20230731   gcc  
-x86_64               randconfig-x016-20230731   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r023-20230731   gcc  
-xtensa               randconfig-r034-20230731   gcc  
+However, I guess the "benefit" depends on the use a bit. If log status 
+is used as a debug aid, I think my reasoning is fine. But if it's used 
+by some automated script, to collect data, it may be more difficult for 
+the script to detect that an error has happened in the log status.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That said, I have to say this ignore-errors code somewhat bugs me, so 
+maybe I'll improve the log-status functions later. But I think these are 
+acceptable fixes to get rid of the smatch errors.
+
+  Tomi
+
