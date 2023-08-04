@@ -2,226 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E71A276FF52
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 13:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C00876FFAD
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 13:50:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbjHDLTm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 07:19:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37202 "EHLO
+        id S229479AbjHDLt5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 07:49:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbjHDLTk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 07:19:40 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F3FAE7
-        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 04:19:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691147979; x=1722683979;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ks/ViRGT7n4Jf5ef/xpfknGbxBDk+NADMwwBGxrhOk8=;
-  b=B2WuwcYsoeyWQu3UXwM+1F0BKHNATWyRKTVQPhrmnOaTs07L4WKjJCkt
-   0Uipz33Z2s9h5XC6mFld+WAQMh9mXk/a7ir6fSsJBNARYkUn5kr2TTQcE
-   +McjEmxiAhkF/Cvx4iPuzvc5XoyBmEvCEogBGCtD+Okz4A94GdJDolHBC
-   oBTXdMuJhtLL2ykB42HRfsn5fvBa5pNT/zMQ1XV+UF/I0eed3/VWIloRG
-   MXg49pWhgxpriak2JeLhZHNpTvm163Ho5Rg7rALMuO0L+cPFge4cgpjMp
-   mDL+stV443VTO3W+EpwbdMCFRGOYgubdt6IVrJwUU7xboAuEBitgFuqkG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="456505351"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="456505351"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 04:19:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="800036222"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="800036222"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 04:19:37 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 7B193120356;
-        Fri,  4 Aug 2023 14:19:34 +0300 (EEST)
-Date:   Fri, 4 Aug 2023 11:19:34 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Wentong Wu <wentong.wu@intel.com>, hdegoede@redhat.com,
-        djrscally@gmail.com, linux-media@vger.kernel.org,
-        bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
-        tian.shu.qiu@intel.com
-Subject: Re: [PATCH v11 1/2] media: pci: intel: ivsc: Add CSI submodule
-Message-ID: <ZMzexlUmYTYxRqDK@kekkonen.localdomain>
-References: <20230803115550.1601965-1-sakari.ailus@linux.intel.com>
- <20230803115550.1601965-2-sakari.ailus@linux.intel.com>
- <20230803215842.GJ27752@pendragon.ideasonboard.com>
- <ZMwkMP/QlaKiFhsp@kekkonen.localdomain>
- <20230803220840.GE9722@pendragon.ideasonboard.com>
- <ZMyYtDOb3otZ4iWG@kekkonen.localdomain>
- <20230804103243.GD12951@pendragon.ideasonboard.com>
+        with ESMTP id S229863AbjHDLtz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 07:49:55 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA327E77;
+        Fri,  4 Aug 2023 04:49:21 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4RHPBj1G6lzyWs;
+        Fri,  4 Aug 2023 14:49:17 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1691149757;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=b0UMGikCOwPi2Cg7B7z5dyNKxMM2SEVt8S0+qyO4JLA=;
+        b=A3o3lFXj8b7TFO4ZFnczWGtOrfcCUYSWBgBm3WkzEVoRRYWNsx7HiLZ0xbDrsDFncQOQ08
+        OcBf2mP+8qkDaSNS301Ot4ppj597MPemgNzCoiG3O1th2uwbwIAoT8ue2qdl8atfpcdnaK
+        aNqvpw1dGY7qMGB+2LmMi/I/5uADMO0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1691149757;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=b0UMGikCOwPi2Cg7B7z5dyNKxMM2SEVt8S0+qyO4JLA=;
+        b=LqYI5qy8U/ye5KYW6LCXy+7drILgsnjdVgJazLla+khcb24yq51eRQKtw0BU+dfKj9cVDs
+        7eu0zbiDky8505UFF7iyXRi0XOByXrZDmvGIOO7/bbgP4fAl/hSzVeDcmNLg9DESpsYlWG
+        bQmWvyR44tbQCy5tnvomeVR3fc2jSOU=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1691149757; a=rsa-sha256; cv=none;
+        b=A0QuZMAbAwDJPN4dyZOA1JMGLoocVy9ZxoTOFjAlvjX/4aNXHDOUBtw36sNIhwsOpvcN0r
+        x/29ERAZ32tlv7JGUbBcKIay1RQnhIGdnnxLGaAanQMv3XH9vKPjbhaIb7VTtk/g68kP+H
+        EUSpD3qONbo486rzz1vKWmsfZe+HvvQ=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 82E68634C23;
+        Fri,  4 Aug 2023 14:49:16 +0300 (EEST)
+Date:   Fri, 4 Aug 2023 11:49:16 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     shravan kumar <shravan.chippa@microchip.com>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: imx334: add support for test pattern
+ generator
+Message-ID: <ZMzlvMrxEZTlc/w+@valkosipuli.retiisi.eu>
+References: <20230710095111.2994969-1-shravan.chippa@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230804103243.GD12951@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230710095111.2994969-1-shravan.chippa@microchip.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 04, 2023 at 01:32:43PM +0300, Laurent Pinchart wrote:
-> On Fri, Aug 04, 2023 at 06:20:36AM +0000, Sakari Ailus wrote:
-> > On Fri, Aug 04, 2023 at 01:08:40AM +0300, Laurent Pinchart wrote:
-> > > > > > +static int mei_csi_set_fmt(struct v4l2_subdev *sd,
-> > > > > > +			   struct v4l2_subdev_state *sd_state,
-> > > > > > +			   struct v4l2_subdev_format *format)
-> > > > > > +{
-> > > > > > +	struct v4l2_mbus_framefmt *source_mbusformat;
-> > > > > > +	struct v4l2_mbus_framefmt *mbusformat;
-> > > > > > +	struct mei_csi *csi = sd_to_csi(sd);
-> > > > > > +	struct media_pad *pad;
-> > > > > > +
-> > > > > > +	mbusformat = mei_csi_get_pad_format(sd, sd_state, format->pad,
-> > > > > > +					    format->which);
-> > > > > > +	if (!mbusformat)
-> > > > > > +		return -EINVAL;
-> > > > > > +
-> > > > > > +	source_mbusformat = mei_csi_get_pad_format(sd, sd_state, CSI_PAD_SOURCE,
-> > > > > > +						   format->which);
-> > > > > > +	if (!source_mbusformat)
-> > > > > > +		return -EINVAL;
-> > > > > > +
-> > > > > > +	v4l_bound_align_image(&format->format.width, 1, 65536, 0,
-> > > > > > +			      &format->format.height, 1, 65536, 0, 0);
-> > > > > > +
-> > > > > > +	switch (format->format.code) {
-> > > > > > +	case MEDIA_BUS_FMT_RGB444_1X12:
-> > > > > > +	case MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE:
-> > > > > > +	case MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE:
-> > > > > > +	case MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE:
-> > > > > > +	case MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE:
-> > > > > > +	case MEDIA_BUS_FMT_RGB565_1X16:
-> > > > > > +	case MEDIA_BUS_FMT_BGR565_2X8_BE:
-> > > > > > +	case MEDIA_BUS_FMT_BGR565_2X8_LE:
-> > > > > > +	case MEDIA_BUS_FMT_RGB565_2X8_BE:
-> > > > > > +	case MEDIA_BUS_FMT_RGB565_2X8_LE:
-> > > > > > +	case MEDIA_BUS_FMT_RGB666_1X18:
-> > > > > > +	case MEDIA_BUS_FMT_RBG888_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
-> > > > > > +	case MEDIA_BUS_FMT_BGR888_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_GBR888_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_RGB888_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_RGB888_2X12_BE:
-> > > > > > +	case MEDIA_BUS_FMT_RGB888_2X12_LE:
-> > > > > > +	case MEDIA_BUS_FMT_ARGB8888_1X32:
-> > > > > > +	case MEDIA_BUS_FMT_RGB888_1X32_PADHI:
-> > > > > > +	case MEDIA_BUS_FMT_RGB101010_1X30:
-> > > > > > +	case MEDIA_BUS_FMT_RGB121212_1X36:
-> > > > > > +	case MEDIA_BUS_FMT_RGB161616_1X48:
-> > > > > > +	case MEDIA_BUS_FMT_Y8_1X8:
-> > > > > > +	case MEDIA_BUS_FMT_UV8_1X8:
-> > > > > > +	case MEDIA_BUS_FMT_UYVY8_1_5X8:
-> > > > > > +	case MEDIA_BUS_FMT_VYUY8_1_5X8:
-> > > > > > +	case MEDIA_BUS_FMT_YUYV8_1_5X8:
-> > > > > > +	case MEDIA_BUS_FMT_YVYU8_1_5X8:
-> > > > > > +	case MEDIA_BUS_FMT_UYVY8_2X8:
-> > > > > > +	case MEDIA_BUS_FMT_VYUY8_2X8:
-> > > > > > +	case MEDIA_BUS_FMT_YUYV8_2X8:
-> > > > > > +	case MEDIA_BUS_FMT_YVYU8_2X8:
-> > > > > > +	case MEDIA_BUS_FMT_Y10_1X10:
-> > > > > > +	case MEDIA_BUS_FMT_UYVY10_2X10:
-> > > > > > +	case MEDIA_BUS_FMT_VYUY10_2X10:
-> > > > > > +	case MEDIA_BUS_FMT_YUYV10_2X10:
-> > > > > > +	case MEDIA_BUS_FMT_YVYU10_2X10:
-> > > > > > +	case MEDIA_BUS_FMT_Y12_1X12:
-> > > > > > +	case MEDIA_BUS_FMT_UYVY12_2X12:
-> > > > > > +	case MEDIA_BUS_FMT_VYUY12_2X12:
-> > > > > > +	case MEDIA_BUS_FMT_YUYV12_2X12:
-> > > > > > +	case MEDIA_BUS_FMT_YVYU12_2X12:
-> > > > > > +	case MEDIA_BUS_FMT_UYVY8_1X16:
-> > > > > > +	case MEDIA_BUS_FMT_VYUY8_1X16:
-> > > > > > +	case MEDIA_BUS_FMT_YUYV8_1X16:
-> > > > > > +	case MEDIA_BUS_FMT_YVYU8_1X16:
-> > > > > > +	case MEDIA_BUS_FMT_YDYUYDYV8_1X16:
-> > > > > > +	case MEDIA_BUS_FMT_UYVY10_1X20:
-> > > > > > +	case MEDIA_BUS_FMT_VYUY10_1X20:
-> > > > > > +	case MEDIA_BUS_FMT_YUYV10_1X20:
-> > > > > > +	case MEDIA_BUS_FMT_YVYU10_1X20:
-> > > > > > +	case MEDIA_BUS_FMT_VUY8_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_YUV8_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-> > > > > > +	case MEDIA_BUS_FMT_UYVY12_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_VYUY12_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_YUYV12_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_YVYU12_1X24:
-> > > > > > +	case MEDIA_BUS_FMT_YUV10_1X30:
-> > > > > > +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-> > > > > > +	case MEDIA_BUS_FMT_AYUV8_1X32:
-> > > > > > +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
-> > > > > > +	case MEDIA_BUS_FMT_YUV12_1X36:
-> > > > > > +	case MEDIA_BUS_FMT_YUV16_1X48:
-> > > > > > +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
-> > > > > > +	case MEDIA_BUS_FMT_JPEG_1X8:
-> > > > > > +	case MEDIA_BUS_FMT_AHSV8888_1X32:
-> > > > > > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> > > > > > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> > > > > > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
-> > > > > > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > > > > > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
-> > > > > > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
-> > > > > > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
-> > > > > > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> > > > > > +	case MEDIA_BUS_FMT_SBGGR12_1X12:
-> > > > > > +	case MEDIA_BUS_FMT_SGBRG12_1X12:
-> > > > > > +	case MEDIA_BUS_FMT_SGRBG12_1X12:
-> > > > > > +	case MEDIA_BUS_FMT_SRGGB12_1X12:
-> > > > > > +	case MEDIA_BUS_FMT_SBGGR14_1X14:
-> > > > > > +	case MEDIA_BUS_FMT_SGBRG14_1X14:
-> > > > > > +	case MEDIA_BUS_FMT_SGRBG14_1X14:
-> > > > > > +	case MEDIA_BUS_FMT_SRGGB14_1X14:
-> > > > > > +	case MEDIA_BUS_FMT_SBGGR16_1X16:
-> > > > > > +	case MEDIA_BUS_FMT_SGBRG16_1X16:
-> > > > > > +	case MEDIA_BUS_FMT_SGRBG16_1X16:
-> > > > > > +	case MEDIA_BUS_FMT_SRGGB16_1X16:
-> > > > > > +		break;
-> > > > > > +	default:
-> > > > > > +		format->format.code = MEDIA_BUS_FMT_Y8_1X8;
-> > > > > > +		break;
-> > > > > > +	}
-> > > > > 
-> > > > > I wonder if we should simply accept all formats. The IVSC doesn't seem
-> > > > > to cara.
-> > > > 
-> > > > The video mux needs something similar. I was thinking of adding a generic
-> > > > helper for such functions, perhaps with flags to suggest which formats to
-> > > > accept.
-> > > 
-> > > What would be the drawbacks of accepting all formats ?
-> > 
-> > Also the ones that aren't defined at the moment?
-> > 
-> > They're not valid, although in practice there might not be issues, as they
-> > are compared across links in any case.
-> 
-> That was my reasoning too.
-> 
-> > I guess there should also be support for enum_mbus_codes, and for that we
-> > need a list of some sort.
-> 
-> Hmmm... If a subdev really implements pass-through for video data, I
-> wonder if we could lift the requirement of implementing format
-> enumeration.
+Hi Shravan,
 
-v4l2-compliance tests for that.
+On Mon, Jul 10, 2023 at 03:21:11PM +0530, shravan kumar wrote:
+> From: Shravan Chippa <shravan.chippa@microchip.com>
+> 
+> Add support for the imx334's test pattern generator.
+> By default the test pattern generator is disabled, so add support for
+> enabling and disabling horizontal and vertical colour bars.
+> 
+> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+> ---
+>  drivers/media/i2c/imx334.c | 57 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 56 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+> index b65c526a5f1c..248ab65a6725 100644
+> --- a/drivers/media/i2c/imx334.c
+> +++ b/drivers/media/i2c/imx334.c
+> @@ -56,6 +56,24 @@
+>  #define IMX334_REG_MIN		0x00
+>  #define IMX334_REG_MAX		0xfffff
+>  
+> +/* Test Pattern Control */
+> +#define IMX334_REG_TP		0x329e
+> +#define IMX334_TP_COLOR_HBARS	0xA
+> +#define IMX334_TP_COLOR_VBARS	0xB
+> +
+> +#define IMX334_TPG_EN_DOUT	0x329c
+> +#define IMX334_TP_ENABLE	0x1
+> +#define IMX334_TP_DISABLE	0x0
+> +
+> +#define IMX334_TPG_COLORW	0x32a0
+> +#define IMX334_TPG_COLORW_120P	0x13
+> +
+> +#define IMX334_TP_CLK_EN	0x3148
+> +#define IMX334_TP_CLK_EN_VAL	0x10
+> +#define IMX334_TP_CLK_DIS_VAL	0x0
+> +
+> +#define IMX334_DIG_CLP_MODE	0x3280
+> +
+>  /**
+>   * struct imx334_reg - imx334 sensor register
+>   * @address: Register address
+> @@ -429,6 +447,18 @@ static const struct imx334_reg mode_3840x2160_regs[] = {
+>  	{0x3a29, 0x00},
+>  };
+>  
+> +static const char * const imx334_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Color Bars Ver",
+> +	"Color Bars Hor",
 
-There are also other drivers that don't implement it but they're mostly
-old.
+I'd try to align this with what's already there.
 
-I guess libcamera wouldn't need this, is that right?
+E.g. "Vertical Color Bars" and "Horizontal Color Bars".
+
+Seems fine otherwise. Please cc me for v2.
+
+> +};
+> +
+> +static const int imx334_test_pattern_val[] = {
+> +	IMX334_TP_DISABLE,
+> +	IMX334_TP_COLOR_HBARS,
+> +	IMX334_TP_COLOR_VBARS,
+> +};
+> +
+>  static const struct imx334_reg raw10_framefmt_regs[] = {
+>  	{0x3050, 0x00},
+>  	{0x319d, 0x00},
+> @@ -711,6 +741,26 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_HBLANK:
+>  		ret = 0;
+>  		break;
+> +	case V4L2_CID_TEST_PATTERN:
+> +		if (ctrl->val) {
+> +			imx334_write_reg(imx334, IMX334_TP_CLK_EN, 1,
+> +					 IMX334_TP_CLK_EN_VAL);
+> +			imx334_write_reg(imx334, IMX334_DIG_CLP_MODE, 1, 0x0);
+> +			imx334_write_reg(imx334, IMX334_TPG_COLORW, 1,
+> +					 IMX334_TPG_COLORW_120P);
+> +			imx334_write_reg(imx334, IMX334_REG_TP, 1,
+> +					 imx334_test_pattern_val[ctrl->val]);
+> +			imx334_write_reg(imx334, IMX334_TPG_EN_DOUT, 1,
+> +					 IMX334_TP_ENABLE);
+> +		} else {
+> +			imx334_write_reg(imx334, IMX334_DIG_CLP_MODE, 1, 0x1);
+> +			imx334_write_reg(imx334, IMX334_TP_CLK_EN, 1,
+> +					 IMX334_TP_CLK_DIS_VAL);
+> +			imx334_write_reg(imx334, IMX334_TPG_EN_DOUT, 1,
+> +					 IMX334_TP_DISABLE);
+> +		}
+> +		ret = 0;
+> +		break;
+>  	default:
+>  		dev_err(imx334->dev, "Invalid control %d", ctrl->id);
+>  		ret = -EINVAL;
+> @@ -1217,7 +1267,7 @@ static int imx334_init_controls(struct imx334 *imx334)
+>  	u32 lpfr;
+>  	int ret;
+>  
+> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 6);
+> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1277,6 +1327,11 @@ static int imx334_init_controls(struct imx334 *imx334)
+>  	if (imx334->hblank_ctrl)
+>  		imx334->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>  
+> +	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx334_ctrl_ops,
+> +				     V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(imx334_test_pattern_menu) - 1,
+> +				     0, 0, imx334_test_pattern_menu);
+> +
+>  	if (ctrl_hdlr->error) {
+>  		dev_err(imx334->dev, "control init failed: %d",
+>  			ctrl_hdlr->error);
+> -- 
+> 2.34.1
+> 
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
