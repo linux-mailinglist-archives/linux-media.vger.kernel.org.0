@@ -2,55 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4C5477004C
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 14:34:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 935A2770220
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 15:45:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbjHDMeV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 08:34:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37316 "EHLO
+        id S230163AbjHDNp5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 09:45:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230100AbjHDMeT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 08:34:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30DB749C7;
-        Fri,  4 Aug 2023 05:34:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AB5C661F5C;
-        Fri,  4 Aug 2023 12:34:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88DF8C433C8;
-        Fri,  4 Aug 2023 12:34:11 +0000 (UTC)
-Message-ID: <6ae7a8eb-1de2-4c76-4943-831fa99b1bee@xs4all.nl>
-Date:   Fri, 4 Aug 2023 14:34:09 +0200
+        with ESMTP id S230047AbjHDNpz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 09:45:55 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86310D1
+        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 06:45:54 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48CA92E4;
+        Fri,  4 Aug 2023 15:44:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1691156687;
+        bh=9ZRTKbC4HwhM0Gw8jnARup7Y2xmHgYvjnHT1TQo96nk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QFRfoMFTRkPKikUu+wH4K6pFFoDNDEHRp2qrsN2iTBfX0Zg7w5lbdtVkZSLKnhK92
+         PEm7wFDN0KG02rImc87GrNUe6JwoRY7vwQYtm4j2j9pyTpeG+7SPV9J53SaxY8/wHS
+         kKUTDfCzuIBmD80wodHRP9Mp9J2EU0buZKb6F2ig=
+Date:   Fri, 4 Aug 2023 16:45:57 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Wentong Wu <wentong.wu@intel.com>, hdegoede@redhat.com,
+        djrscally@gmail.com, linux-media@vger.kernel.org,
+        bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
+        tian.shu.qiu@intel.com
+Subject: Re: [PATCH v11 1/2] media: pci: intel: ivsc: Add CSI submodule
+Message-ID: <20230804134557.GE12951@pendragon.ideasonboard.com>
+References: <20230803115550.1601965-1-sakari.ailus@linux.intel.com>
+ <20230803115550.1601965-2-sakari.ailus@linux.intel.com>
+ <20230803215842.GJ27752@pendragon.ideasonboard.com>
+ <ZMwkMP/QlaKiFhsp@kekkonen.localdomain>
+ <20230803220840.GE9722@pendragon.ideasonboard.com>
+ <ZMyYtDOb3otZ4iWG@kekkonen.localdomain>
+ <20230804103243.GD12951@pendragon.ideasonboard.com>
+ <ZMzexlUmYTYxRqDK@kekkonen.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
-Content-Language: en-US
-To:     Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc:     Takashi Iwai <tiwai@suse.de>,
-        Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-        tiwai@suse.com, alsa-devel@alsa-project.org,
-        linuxppc-dev@lists.ozlabs.org
-References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
- <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl>
- <87il9xu1ro.wl-tiwai@suse.de>
- <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com>
- <d038360b-22a2-3869-cd64-2da827736faa@xs4all.nl>
- <CAA+D8ANSihjxvqkATE9z460sPz4nbcUqhDrR3eiEjPaU6ytrXQ@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <CAA+D8ANSihjxvqkATE9z460sPz4nbcUqhDrR3eiEjPaU6ytrXQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZMzexlUmYTYxRqDK@kekkonen.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,123 +55,164 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/08/2023 14:19, Shengjiu Wang wrote:
-> On Wed, Aug 2, 2023 at 8:28 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 02/08/2023 14:02, Shengjiu Wang wrote:
->>> On Wed, Aug 2, 2023 at 7:22 PM Takashi Iwai <tiwai@suse.de> wrote:
->>>>
->>>> On Wed, 02 Aug 2023 09:32:37 +0200,
->>>> Hans Verkuil wrote:
->>>>>
->>>>> Hi all,
->>>>>
->>>>> On 25/07/2023 08:12, Shengjiu Wang wrote:
->>>>>> Audio signal processing has the requirement for memory to
->>>>>> memory similar as Video.
->>>>>>
->>>>>> This patch is to add this support in v4l2 framework, defined
->>>>>> new buffer type V4L2_BUF_TYPE_AUDIO_CAPTURE and
->>>>>> V4L2_BUF_TYPE_AUDIO_OUTPUT, defined new format v4l2_audio_format
->>>>>> for audio case usage.
->>>>>>
->>>>>> The created audio device is named "/dev/audioX".
->>>>>>
->>>>>> And add memory to memory support for two kinds of i.MX ASRC
->>>>>> module
->>>>>
->>>>> Before I spend time on this: are the audio maintainers OK with doing
->>>>> this in V4L2?
->>>>>
->>>>> I do want to have a clear statement on this as it is not something I
->>>>> can decide.
->>>>
->>>> Well, I personally don't mind to have some audio capability in v4l2
->>>> layer.  But, the only uncertain thing for now is whether this is a
->>>> must-have or not.
->>>>
->>>
->>> Thanks,  I am also not sure about this.  I am also confused that why
->>> there is no m2m implementation for audio in the kernel.  Audio also
->>> has similar decoder encoder post-processing as video.
->>>
->>>>
->>>> IIRC, the implementation in the sound driver side was never done just
->>>> because there was no similar implementation?  If so, and if the
->>>> extension to the v4l2 core layer is needed, shouldn't it be more
->>>> considered for the possible other route?
->>>>
->>>
->>> Actually I'd like someone could point me to the other route. I'd like to
->>> try.
->>>
->>> The reason why I select to extend v4l2 for such audio usage is that v4l2
->>> looks best for this audio m2m implementation.  v4l2 is designed for m2m
->>> usage.  if we need implement another 'route',  I don't think it can do better
->>> that v4l2.
->>>
->>> I appreciate that someone can share his ideas or doable solutions.
->>> And please don't ignore my request, ignore my patch.
->>
->> To give a bit more background: if it is decided to use the v4l API for this
->> (and I have no objection to this from my side since API/framework-wise it is a
->> good fit for this), then there are a number of things that need to be done to
->> get this into the media subsystem:
->>
->> - documentation for the new uAPI
->> - add support for this to v4l2-ctl
->> - add v4l2-compliance tests for the new device
->> - highly desirable: have a virtual driver (similar to vim2m) that supports this:
->>   it could be as simple as just copy input to output. This helps regression
->>   testing.
->> - it might need media controller support as well. TBD.
->>
->> None of this is particularly complex, but taken all together it is a fair
->> amount of work that also needs a lot of review time from our side.
->>
->> I want to add one more option to the mix: drivers/media/core/v4l2-mem2mem.c is
->> the main m2m framework, but it relies heavily on the videobuf2 framework for
->> the capture and output queues.
->>
->> The core vb2 implementation in drivers/media/common/videobuf2/videobuf2-core.c
->> is independent of V4L2 and can be used by other subsystems (in our case, it is
->> also used by the DVB API). It is a possibility to create an alsa version of
->> v4l2-mem2mem.c that uses the core vb2 code with an ALSA uAPI on top.
->>
->> So in drivers/media/common/videobuf2/ you would have a videobuf2-alsa.c besides
->> the already existing videobuf2-v4l2.c and -dvb.c.
->>
->> Perhaps parts of v4l2-mem2mem.c can be reused as well in that case, but I am
->> not sure if it is worth the effort. I suspect copying it to an alsa-mem2mem.c
->> and adapting it for alsa is easiest if you want to go that way.
->>
+On Fri, Aug 04, 2023 at 11:19:34AM +0000, Sakari Ailus wrote:
+> On Fri, Aug 04, 2023 at 01:32:43PM +0300, Laurent Pinchart wrote:
+> > On Fri, Aug 04, 2023 at 06:20:36AM +0000, Sakari Ailus wrote:
+> > > On Fri, Aug 04, 2023 at 01:08:40AM +0300, Laurent Pinchart wrote:
+> > > > > > > +static int mei_csi_set_fmt(struct v4l2_subdev *sd,
+> > > > > > > +			   struct v4l2_subdev_state *sd_state,
+> > > > > > > +			   struct v4l2_subdev_format *format)
+> > > > > > > +{
+> > > > > > > +	struct v4l2_mbus_framefmt *source_mbusformat;
+> > > > > > > +	struct v4l2_mbus_framefmt *mbusformat;
+> > > > > > > +	struct mei_csi *csi = sd_to_csi(sd);
+> > > > > > > +	struct media_pad *pad;
+> > > > > > > +
+> > > > > > > +	mbusformat = mei_csi_get_pad_format(sd, sd_state, format->pad,
+> > > > > > > +					    format->which);
+> > > > > > > +	if (!mbusformat)
+> > > > > > > +		return -EINVAL;
+> > > > > > > +
+> > > > > > > +	source_mbusformat = mei_csi_get_pad_format(sd, sd_state, CSI_PAD_SOURCE,
+> > > > > > > +						   format->which);
+> > > > > > > +	if (!source_mbusformat)
+> > > > > > > +		return -EINVAL;
+> > > > > > > +
+> > > > > > > +	v4l_bound_align_image(&format->format.width, 1, 65536, 0,
+> > > > > > > +			      &format->format.height, 1, 65536, 0, 0);
+> > > > > > > +
+> > > > > > > +	switch (format->format.code) {
+> > > > > > > +	case MEDIA_BUS_FMT_RGB444_1X12:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB565_1X16:
+> > > > > > > +	case MEDIA_BUS_FMT_BGR565_2X8_BE:
+> > > > > > > +	case MEDIA_BUS_FMT_BGR565_2X8_LE:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB565_2X8_BE:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB565_2X8_LE:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB666_1X18:
+> > > > > > > +	case MEDIA_BUS_FMT_RBG888_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
+> > > > > > > +	case MEDIA_BUS_FMT_BGR888_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_GBR888_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB888_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB888_2X12_BE:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB888_2X12_LE:
+> > > > > > > +	case MEDIA_BUS_FMT_ARGB8888_1X32:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB888_1X32_PADHI:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB101010_1X30:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB121212_1X36:
+> > > > > > > +	case MEDIA_BUS_FMT_RGB161616_1X48:
+> > > > > > > +	case MEDIA_BUS_FMT_Y8_1X8:
+> > > > > > > +	case MEDIA_BUS_FMT_UV8_1X8:
+> > > > > > > +	case MEDIA_BUS_FMT_UYVY8_1_5X8:
+> > > > > > > +	case MEDIA_BUS_FMT_VYUY8_1_5X8:
+> > > > > > > +	case MEDIA_BUS_FMT_YUYV8_1_5X8:
+> > > > > > > +	case MEDIA_BUS_FMT_YVYU8_1_5X8:
+> > > > > > > +	case MEDIA_BUS_FMT_UYVY8_2X8:
+> > > > > > > +	case MEDIA_BUS_FMT_VYUY8_2X8:
+> > > > > > > +	case MEDIA_BUS_FMT_YUYV8_2X8:
+> > > > > > > +	case MEDIA_BUS_FMT_YVYU8_2X8:
+> > > > > > > +	case MEDIA_BUS_FMT_Y10_1X10:
+> > > > > > > +	case MEDIA_BUS_FMT_UYVY10_2X10:
+> > > > > > > +	case MEDIA_BUS_FMT_VYUY10_2X10:
+> > > > > > > +	case MEDIA_BUS_FMT_YUYV10_2X10:
+> > > > > > > +	case MEDIA_BUS_FMT_YVYU10_2X10:
+> > > > > > > +	case MEDIA_BUS_FMT_Y12_1X12:
+> > > > > > > +	case MEDIA_BUS_FMT_UYVY12_2X12:
+> > > > > > > +	case MEDIA_BUS_FMT_VYUY12_2X12:
+> > > > > > > +	case MEDIA_BUS_FMT_YUYV12_2X12:
+> > > > > > > +	case MEDIA_BUS_FMT_YVYU12_2X12:
+> > > > > > > +	case MEDIA_BUS_FMT_UYVY8_1X16:
+> > > > > > > +	case MEDIA_BUS_FMT_VYUY8_1X16:
+> > > > > > > +	case MEDIA_BUS_FMT_YUYV8_1X16:
+> > > > > > > +	case MEDIA_BUS_FMT_YVYU8_1X16:
+> > > > > > > +	case MEDIA_BUS_FMT_YDYUYDYV8_1X16:
+> > > > > > > +	case MEDIA_BUS_FMT_UYVY10_1X20:
+> > > > > > > +	case MEDIA_BUS_FMT_VYUY10_1X20:
+> > > > > > > +	case MEDIA_BUS_FMT_YUYV10_1X20:
+> > > > > > > +	case MEDIA_BUS_FMT_YVYU10_1X20:
+> > > > > > > +	case MEDIA_BUS_FMT_VUY8_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_YUV8_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+> > > > > > > +	case MEDIA_BUS_FMT_UYVY12_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_VYUY12_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_YUYV12_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_YVYU12_1X24:
+> > > > > > > +	case MEDIA_BUS_FMT_YUV10_1X30:
+> > > > > > > +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+> > > > > > > +	case MEDIA_BUS_FMT_AYUV8_1X32:
+> > > > > > > +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
+> > > > > > > +	case MEDIA_BUS_FMT_YUV12_1X36:
+> > > > > > > +	case MEDIA_BUS_FMT_YUV16_1X48:
+> > > > > > > +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
+> > > > > > > +	case MEDIA_BUS_FMT_JPEG_1X8:
+> > > > > > > +	case MEDIA_BUS_FMT_AHSV8888_1X32:
+> > > > > > > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > > > > > > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > > > > > > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > > > > > > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > > > > > > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > > > > > > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > > > > > > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > > > > > > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > > > > > > +	case MEDIA_BUS_FMT_SBGGR12_1X12:
+> > > > > > > +	case MEDIA_BUS_FMT_SGBRG12_1X12:
+> > > > > > > +	case MEDIA_BUS_FMT_SGRBG12_1X12:
+> > > > > > > +	case MEDIA_BUS_FMT_SRGGB12_1X12:
+> > > > > > > +	case MEDIA_BUS_FMT_SBGGR14_1X14:
+> > > > > > > +	case MEDIA_BUS_FMT_SGBRG14_1X14:
+> > > > > > > +	case MEDIA_BUS_FMT_SGRBG14_1X14:
+> > > > > > > +	case MEDIA_BUS_FMT_SRGGB14_1X14:
+> > > > > > > +	case MEDIA_BUS_FMT_SBGGR16_1X16:
+> > > > > > > +	case MEDIA_BUS_FMT_SGBRG16_1X16:
+> > > > > > > +	case MEDIA_BUS_FMT_SGRBG16_1X16:
+> > > > > > > +	case MEDIA_BUS_FMT_SRGGB16_1X16:
+> > > > > > > +		break;
+> > > > > > > +	default:
+> > > > > > > +		format->format.code = MEDIA_BUS_FMT_Y8_1X8;
+> > > > > > > +		break;
+> > > > > > > +	}
+> > > > > > 
+> > > > > > I wonder if we should simply accept all formats. The IVSC doesn't seem
+> > > > > > to cara.
+> > > > > 
+> > > > > The video mux needs something similar. I was thinking of adding a generic
+> > > > > helper for such functions, perhaps with flags to suggest which formats to
+> > > > > accept.
+> > > > 
+> > > > What would be the drawbacks of accepting all formats ?
+> > > 
+> > > Also the ones that aren't defined at the moment?
+> > > 
+> > > They're not valid, although in practice there might not be issues, as they
+> > > are compared across links in any case.
+> > 
+> > That was my reasoning too.
+> > 
+> > > I guess there should also be support for enum_mbus_codes, and for that we
+> > > need a list of some sort.
+> > 
+> > Hmmm... If a subdev really implements pass-through for video data, I
+> > wonder if we could lift the requirement of implementing format
+> > enumeration.
 > 
-> Thanks.
+> v4l2-compliance tests for that.
+
+If we officially lift the requirement, we would also update
+v4l2-compliance accordingly. We should then have a way to report to
+userspace that the subdev operates in pass-through mode.
+
+> There are also other drivers that don't implement it but they're mostly
+> old.
 > 
-> Does this means that videobuf2-v4l2.c and v4l2-mem2mem.c are dedicate
-> for video device? if audio want to use v4l2 framework,  need to create
-> videobuf2-alsa.c and alsa-mem2mem.c, but it may cause a lot of function
-> duplicate.
+> I guess libcamera wouldn't need this, is that right?
 
-The videobuf2-v4l2.c sits on top of videobuf2-core.c and provides the V4L2
-uAPI for the streaming functionality. If you don't want to use the V4L2
-uAPI for this, then you would need a videobuf2-alsa.c that provides a
-(possibly new) ALSA uAPI. Whether that makes sense is something I cannot
-decide.
+No, it shouldn't need it.
 
-v4l2-mem2mem.c uses videobuf2-v4l2.c, so if you need a ALSA version, then
-you probably need to create an alsa-mem2mem.c (possibly some functionality
-can be shared).
-
-It's just a third option, and it can be useful if there is a strong desire
-to keep the uAPI for this functionality entirely within the ALSA subsystem,
-but you want to reuse the streaming I/O functionality that the videobuf2
-core provides.
-
-If the decision is that it is fine to use the V4L2 uAPI for this type
-of audio functionality through a /dev/v4l-audioX device, then just ignore
-this option and use V4L2.
-
+-- 
 Regards,
 
-	Hans
+Laurent Pinchart
