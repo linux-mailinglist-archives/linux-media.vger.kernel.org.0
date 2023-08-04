@@ -2,67 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF07376FBE5
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 10:25:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E9C876FCC9
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 11:04:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234151AbjHDIZc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 04:25:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58822 "EHLO
+        id S230071AbjHDJEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 05:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231743AbjHDIZb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 04:25:31 -0400
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA25D2D4C
-        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 01:25:30 -0700 (PDT)
-Received: by mail-vk1-xa35.google.com with SMTP id 71dfb90a1353d-4870df0bae0so592128e0c.0
-        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 01:25:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691137530; x=1691742330;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TwrSD7E0Txvv5/0HFMAsIjR13HmLVie0jKEmwAkz0BU=;
-        b=uvXKlUowkt+z9B10HM3NilZ/g/ZXRFu7iRUriu+afgGaBZkHW0qHFkI4Qm31ZLEUS+
-         T7AHi98LhNsGiTMncZ/avvyE7RC5i9j7bkrQnfcAb6ajwK6V+sGndZtd42WBfO3Vf9g+
-         ty4jshRNeC5XLZWT9A677OLLXNmiMrp1jFdnB6VJNuTHTFzOuoDjJ2sdyxU6hDznILvK
-         hdJ9FKZ02Uiglf8ZxUdv/qMlbcF7XMuNdbJfkBkoWTNjXY47XkhH16IMCm+YmcDsJarC
-         VTZFyHTQjFXYelcwNu5pLHCTiEv+4pyOyiX093K/fp7cuq5tSfkeFCRMd8Y+pEH2wk+3
-         /fmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691137530; x=1691742330;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TwrSD7E0Txvv5/0HFMAsIjR13HmLVie0jKEmwAkz0BU=;
-        b=OqvqyKzUjkdcXXiKGR9v7UbUG8vkFMLT9Y+rKolIzvyA0i+vroxPGWSYY1W0OSwABX
-         +aczJwQ456xqbR1gf2Uh64tRNb3qvaqjaKV/HGf2fwsmfFXK+tmh6j+p6OugafHHZPc0
-         I7oEm3Zs8urKIrZEd/TKahtXYf9nwZXlDu8kOun8McWEbLvlBJjTpLYVesSnXX4yQms6
-         vh35I0YzsB0myaLrvDv5MP5wVdChoUeYZH3Vjr/4d9UXFxTyBO/s1CGLwwbgwejl/J24
-         TZEkE2JC7FH+20apS6T2iu0W/19yMAgLd47S595yDHk/HYwpj2aa+wmtvixpi3f6heAu
-         oBWQ==
-X-Gm-Message-State: AOJu0YyObvXg4RB3htGOTtsK/20gx9aohIiVn9Frink0mBd393C9QFva
-        xvCdo1rHqAoEFMfdlg6fHNMLovWiUKRYlkPmzh5tuQ==
-X-Google-Smtp-Source: AGHT+IHg0XA9lOZoNjxeCzkrVNkbmXRaA3I5KXvS0ch5IjjHNULP4cSqm6pUDNr0hmIb4ztGPiR/sc46phRQG7EMT0Q=
-X-Received: by 2002:a1f:e343:0:b0:487:1ce5:3be with SMTP id
- a64-20020a1fe343000000b004871ce503bemr414441vkh.6.1691137529997; Fri, 04 Aug
- 2023 01:25:29 -0700 (PDT)
+        with ESMTP id S229483AbjHDJDm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 05:03:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79AF05BA7;
+        Fri,  4 Aug 2023 01:59:59 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E5CF15E9;
+        Fri,  4 Aug 2023 10:58:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1691139532;
+        bh=Nf2jOIjmL6GdHJuQQM3P3z1ArTv+j+iXjXc5dsPWDns=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Y1U7XALtdTfiq7Vjsdmmez4zcICb4H8lZwTpo+83Empn+dUodx1mwhifqBmhyl9G2
+         vXOCC2i186CYdaeezROBYEDtIAbtQyw371/6ZkqyTv1Dl9senZT3caCednaqNKzzMn
+         dIgkVbPiEH67a+4TM4K0qJoN3ecmqmx00rOHbwn4=
+Date:   Fri, 4 Aug 2023 12:00:02 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: i2c: ds90ub9x3: Fix use of uninitialized
+ variables
+Message-ID: <20230804090002.GA12951@pendragon.ideasonboard.com>
+References: <20230803-ub9xx-uninit-vars-v1-0-284a5455260f@ideasonboard.com>
+ <20230803-ub9xx-uninit-vars-v1-1-284a5455260f@ideasonboard.com>
+ <20230803214646.GG27752@pendragon.ideasonboard.com>
+ <f2a438ca-73ff-5412-f985-763122dd3651@ideasonboard.com>
 MIME-Version: 1.0
-References: <B15AD941-B2E4-4C65-9D84-C58D3E34EBCE@noisolation.com>
- <a4b188b8-afb1-df2b-5237-026650279f10@xs4all.nl> <c48ff175-4c89-833a-c1cf-496ab26f7e6b@linaro.org>
-In-Reply-To: <c48ff175-4c89-833a-c1cf-496ab26f7e6b@linaro.org>
-From:   "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Date:   Fri, 4 Aug 2023 09:25:18 +0100
-Message-ID: <CABDeQ7GP5b_8wvD77Wd=3_yXxB-OxP5z3-oL62je6++EE_RBcQ@mail.gmail.com>
-Subject: Re: [PATCH] qcom/camss: use 1X16 formats instead of 2X8
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?Q?Martin_D=C3=B8rum?= <dorum@noisolation.com>,
-        rfoss@kernel.org, todor.too@gmail.com
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f2a438ca-73ff-5412-f985-763122dd3651@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,47 +53,75 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 24 May 2023 at 09:59, Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 24/05/2023 09:48, Hans Verkuil wrote:
-> > On 13/04/2023 12:54, Martin D=C3=B8rum wrote:
-> >> Platforms with qcom-camss use CSI-2, which means 1X16 is more correct
-> >> than 2X8. The fact that qcom-camss supported only 2X8 meant it was
-> >> incompatible with camera sensors it should have been compatible with.
+On Fri, Aug 04, 2023 at 08:49:28AM +0300, Tomi Valkeinen wrote:
+> On 04/08/2023 00:46, Laurent Pinchart wrote:
+> > Hi Tomi,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Thu, Aug 03, 2023 at 11:41:38AM +0300, Tomi Valkeinen wrote:
+> >> smatch reports some uninitialized variables:
 > >>
-> >> For example, the ov5645 driver (correctly) reports that its format is
-> >> UYVY8_1X16 (after ba449bb56203aedc4530a82b0f3f83358808b7f2).
-> >> Since qcom-camss only supports 2X8, the qcom-camss system is
-> >> incompatible with the ov5645 driver, even though they should be
-> >> compatible.
+> >> drivers/media/i2c/ds90ub913.c:481 ub913_log_status() error: uninitialized symbol 'v1'.
+> >> drivers/media/i2c/ds90ub913.c:481 ub913_log_status() error: uninitialized symbol 'v2'.
+> >> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_local_data'.
+> >> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_input_ctrl'.
+> >> drivers/media/i2c/ds90ub953.c:655 ub953_log_status() error: uninitialized symbol 'gpio_pin_sts'.
 > >>
-> >> This patch replaces all uses of UYVY8_2X8/VYUY8_2X8/YUYV8_2X8/YVYU8_2X=
-8
-> >> with the equivalent 1X16 formats.
+> >> These are used only for printing debug information, and the use of an
+> >> uninitialized variable only happens if an i2c transaction has failed,
+> >> which will print an error. Thus, fix the errors just by initializing the
+> >> variables to 0.
 > >>
-> >> Signed-off-by: Martin D=C3=B8rum <dorum@noisolation.com  <mailto:dorum=
-@noisolation.com>>
-> > Can one of the driver maintainers review this?
-> >
-> > It sounds reasonable, but I wonder if this can break existing setups wh=
-ere
-> > the sensor only supports 2X8 and not 1X16.
-> >
-> > Regards,
-> >
-> >       Hans
-> >
->
-> This hasn't hit my inbox but, I'll give it a test sometime this week.
->
-> ---
-> bod
+> >> Fixes: 6363db1c9d45 ("media: i2c: add DS90UB953 driver")
+> >> Fixes: c158d0d4ff15 ("media: i2c: add DS90UB913 driver")
+> >> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+> >> Closes: https://lore.kernel.org/all/8d6daeb1-b62a-bbb2-b840-8759c84f2085@xs4all.nl/
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >> ---
+> >>   drivers/media/i2c/ds90ub913.c | 2 +-
+> >>   drivers/media/i2c/ds90ub953.c | 6 +++---
+> >>   2 files changed, 4 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
+> >> index 80d9cf6dd945..b2115e3519e2 100644
+> >> --- a/drivers/media/i2c/ds90ub913.c
+> >> +++ b/drivers/media/i2c/ds90ub913.c
+> >> @@ -469,7 +469,7 @@ static int ub913_log_status(struct v4l2_subdev *sd)
+> >>   {
+> >>   	struct ub913_data *priv = sd_to_ub913(sd);
+> >>   	struct device *dev = &priv->client->dev;
+> >> -	u8 v = 0, v1, v2;
+> >> +	u8 v = 0, v1 = 0, v2 = 0;
+> > 
+> > This seems to work around the lack of error checking when calling
+> 
+> Yes.
+> 
+> > ub913_read(). Wouldn't it be better to check for errors there ? Or,
+> > because this is ub913_log_status(), do you consider that we can print an
+> > invalid CRC errors count, given that the ub913_read() function will have
+> > printed an error message before ?
+> 
+> Yes, that was my thinking. Adding proper error handling would complicate 
+> the function (more visibly so in ub953 and ub960, which have more 
+> printing done), and what would be the benefit? Not much, in my opinion. 
+> If the i2c transactions start to fail, we're in a bad situation anyway 
+> (and, as you mention, ub913_read() will print errors).
+> 
+> However, I guess the "benefit" depends on the use a bit. If log status 
+> is used as a debug aid, I think my reasoning is fine. But if it's used 
+> by some automated script, to collect data, it may be more difficult for 
+> the script to detect that an error has happened in the log status.
 
-This patch is fine. The only concern I had with upstream was
-drivers/media/i2c/ov5640 which is a default sensor on apq8016/db410c
-ov5640 looks fine.
+I see log status as a debugging aid only, so I'm fine with your
+reasoning.
 
-Please apply
+> That said, I have to say this ignore-errors code somewhat bugs me, so 
+> maybe I'll improve the log-status functions later. But I think these are 
+> acceptable fixes to get rid of the smatch errors.
 
-Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+-- 
+Regards,
+
+Laurent Pinchart
