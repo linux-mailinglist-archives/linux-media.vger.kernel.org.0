@@ -2,64 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41FE8770A96
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 23:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B304770A9B
+	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 23:11:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbjHDVLb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 17:11:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35702 "EHLO
+        id S231166AbjHDVLl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 17:11:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230400AbjHDVL0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 17:11:26 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E2D1525C
-        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 14:10:54 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso24437105e9.0
-        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 14:10:54 -0700 (PDT)
+        with ESMTP id S231126AbjHDVLg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 17:11:36 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D09F5584
+        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 14:11:06 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4fe4762173bso4280120e87.3
+        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 14:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691183414; x=1691788214;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1691183442; x=1691788242;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=4BY93P7UHnCVF314RaxxZf9G+0fFQim54qLdD3evbkg=;
-        b=PzgpS1DX6aKrIudT/jiawRyDxUQU6WO2fhLKfrvLJ6lbG8b/2xgem5S0qyz3ty3LuC
-         RPpO3dMWq1pM/xmnJoEvrtF92eqI1F02sUrn4c178joE2kI5IKGgyXj2mnQNBStLeW2u
-         4Gk2WiAR0dFMUjNSYah8+SJWcrwG8TxWqR0fDKedTea6EYBuCr8gCOONiGgvY5cRExWn
-         dPX7PAxr3njfmtpUL6d8+56S9po0awk7R1NGrnC4lx2wNfneqL+BiKNaj0nF0JMJHfWu
-         C/WK7cTngrrbkSI5IFE1WP2iWf9/En+F0A57RlJ13mJ1zbriJG+eTzA0Ndm/OVybH0cM
-         q2Mg==
+        bh=3pAAFrNjUFX5uaGpX/gQIlOcT4v1PlKV5UonfdEa3vA=;
+        b=oaVqo5vFxp+4uzQaWaG/Q2PS1fr7oDoaF2YCkr/g5UkrhM2V5vFsmmdXlsStPFoOLv
+         Luv/mAk39CNXShF+2sap+TPnhcu5gXaSJN8yj5Qh3eSie7wcOM3G4Mz0PtPld7WIwx7E
+         C9Dygv5xAjbCXz/9nLdgQbhTIGgqybet4OkN9c8mej7MAyaGP1i/TsOJQRqKywTcJZB7
+         5xGV+0UURKMt6NL8TNS+Bm6XYiQDbXN/gW33XVHySDQfkMfRwCu6FR2vKjek4TopbJsc
+         dpJxOu+zzDLiZ62mDA/w6Ew68P7lPr0e487XZLa/jPFg+Dp/udjuSiiOk0GQVJOaKAc6
+         nBKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691183414; x=1691788214;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1691183442; x=1691788242;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4BY93P7UHnCVF314RaxxZf9G+0fFQim54qLdD3evbkg=;
-        b=X/dO+HzUKdnzlpeJTghqdHhA/CuiVw5dqukavOSh4gKPQUVl1L7VtN330uO9+Skkru
-         KBffO/dl3ulR2t+TPflHYq0IZaC630f/HsOLyEhfBVuJLMptNYVICY+55cQdWlK2ZOm5
-         M22VHkZ7bOa/uVFxdsZBhJdDCLa2Qt589LncVbaylE9Q5Ix4yA9aPpgDCeKmy1FW1ilv
-         nGpWjiTh2cwvtM27QPKvqsIa7AdXsA3ekQuqOWDp/9Qp0aRUDvei6pBvoV+3p7JMYSwh
-         3ZY4QipgpZWUuNi4i63iBX06G/gbks4ZDjPeNUog3hle5NumILWPhAi7HfQCV7l4xrP9
-         38xg==
-X-Gm-Message-State: AOJu0YxHRjJqO4bFkGNfMiePjhwVOL4uRxuM2YwXADiXqgly/gfMczU3
-        gsIe/tyrcOgTHv8DNUMx9HfTkw==
-X-Google-Smtp-Source: AGHT+IEplYG8VNYd6oXQL+qTc4J6NbxCuxN0tO2WG5BTlllULHzIak8a0WVBKf7RehUFkiByHy1TjQ==
-X-Received: by 2002:a05:6000:367:b0:317:734e:3614 with SMTP id f7-20020a056000036700b00317734e3614mr1997556wrf.39.1691183414573;
-        Fri, 04 Aug 2023 14:10:14 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id 25-20020a05600c029900b003fba2734f1esm7573095wmk.1.2023.08.04.14.10.13
+        bh=3pAAFrNjUFX5uaGpX/gQIlOcT4v1PlKV5UonfdEa3vA=;
+        b=KLD7uGFbn9iHgliH8zZdkblEc+Bswrux4rS+/eJWYKbSJNUqeK9f9lyYa0JrFvzmh/
+         fvU2LGgcUu72eJf/N5VWuVZ2z6VlAkOZ0qJd69p2dx7TLAvxS/zTmws9O8DJWOzDRYq3
+         Qu5Qo8TodF1staCJPe49O6OfvFRMrfx6LdQpcUNap5lzLBpEGMH4XGV0ESD6RRS/lqyp
+         vJLwXjrsGVXh46WMifAV9/eQiZIltXYoRwJYykphqjN4IcTAaUa3lqm2Oxqa2NBnZq+f
+         z1Uv2ofNCLbP8EbJ1EcIgr1OomaoED1G+lXmOHSy0VkefiA6PD81sFpHxTQA8Kj0KG6O
+         KZvw==
+X-Gm-Message-State: AOJu0YyA1b/jkLrjuxLqd2rjm6+1nzsdW0Ntiem3LZYxJ1yCw93ZGJoJ
+        k79t4Vri6OFbsf6tECl7hrQ+fuY7ptRiP+ZPz1c=
+X-Google-Smtp-Source: AGHT+IHAEkDjqB/pVNYabo3UBPSdbDg1g10WAWmKyIhINmsmcfsMbiV53psSouDScjc2849Cb1Vt4A==
+X-Received: by 2002:a19:6705:0:b0:4fd:bdf8:930d with SMTP id b5-20020a196705000000b004fdbdf8930dmr1812658lfc.22.1691183442471;
+        Fri, 04 Aug 2023 14:10:42 -0700 (PDT)
+Received: from [192.168.1.101] (abym15.neoplus.adsl.tpnet.pl. [83.9.32.15])
+        by smtp.gmail.com with ESMTPSA id y18-20020a197512000000b004fe15a18df6sm515919lfe.185.2023.08.04.14.10.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Aug 2023 14:10:13 -0700 (PDT)
-Message-ID: <989aea4c-50e7-8141-dd60-3f41058192f8@linaro.org>
-Date:   Fri, 4 Aug 2023 22:10:12 +0100
+        Fri, 04 Aug 2023 14:10:41 -0700 (PDT)
+Message-ID: <c0d4845d-d290-4082-b5c5-996637bcac2c@linaro.org>
+Date:   Fri, 4 Aug 2023 23:10:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 6/6] media: venus: core: Add SC8280XP resource struct
 Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
         Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -72,26 +70,62 @@ Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
  <20230731-topic-8280_venus-v1-6-8c8bbe1983a5@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230731-topic-8280_venus-v1-6-8c8bbe1983a5@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+ <989aea4c-50e7-8141-dd60-3f41058192f8@linaro.org>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <989aea4c-50e7-8141-dd60-3f41058192f8@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/08/2023 21:09, Konrad Dybcio wrote:
-> +	.freq_tbl = sc8280xp_freq_table,
-> +	.freq_tbl_size = ARRAY_SIZE(sc8280xp_freq_table),
+On 4.08.2023 23:10, Bryan O'Donoghue wrote:
+> On 04/08/2023 21:09, Konrad Dybcio wrote:
+>> +    .freq_tbl = sc8280xp_freq_table,
+>> +    .freq_tbl_size = ARRAY_SIZE(sc8280xp_freq_table),
+> 
+> Would it not be more legitimate and logical to have 8350 use 8280xp's frequency table, instead of 8250 ?
+top freq is higher on 8280
 
-Would it not be more legitimate and logical to have 8350 use 8280xp's 
-frequency table, instead of 8250 ?
-
----
-bod
+Konrad
