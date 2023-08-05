@@ -2,99 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90602770E33
-	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 08:53:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0BB4770F6F
+	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 13:24:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjHEGxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Aug 2023 02:53:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39930 "EHLO
+        id S229760AbjHELXp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Aug 2023 07:23:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjHEGxj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Aug 2023 02:53:39 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C1D3E70
-        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 23:53:38 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-317dcdae365so131296f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 23:53:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691218417; x=1691823217;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ch+LYFfCHiYUj/1ZiC56FaiBDJ/SRdM9J5pvgGpfX2c=;
-        b=VXTTokOB4KxAUdHpMUn2YlateQftqj27ZsjzrtDk2T16y9cmXaHyN7UsPKCR+anBnf
-         G7Bnv0YIMGdGC0jjpz3/3wL7CyG18t6qiKj3bw+N7QOOHJFNAfWJEoZzLZDmnWglpWRw
-         8infLY+bZmQJLrrybf6yUtQ+JKppZ0CIxdarUl2oR6nmGLsJAF1GeXphx5qHJa3PmwLL
-         n61besyQ7QULbTvsY+Rdg9Z2U2G6MHIbypafpnyxU8VK6JlPbC+kZhiifEBFEDuJluEs
-         dacec1W4wEp1iAWaFiaHU8mlD8ci1k0F5ppELUZ3vr2pzXtauaQCMi6jJqH/ji7KLACg
-         8HNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691218417; x=1691823217;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ch+LYFfCHiYUj/1ZiC56FaiBDJ/SRdM9J5pvgGpfX2c=;
-        b=l7zgo9lMjihGf/4WAJQRdUVQPUiNgT9zL+gZYDhqFbrLLCxkP+JVcG6ZOGCiUM70tA
-         xfGMq1/ECxvsg9vL2Pcg7soRpv8hTvQ21QHQUjw27doyW04O7HG20TSfiNU1E2tA7ZV1
-         0lKvkFeRbnZ9fHSq9eU/o2b0hCw4UB9O9TfuLyfJPl+NxSFpLE5gg/FPLt/FtHDWAK9h
-         uIhJr9vSXzUUNEO+0zs5piwAkAqfq8iC45RyirMSLuu8GWH0OvIK/lbccnd3p6eKujf9
-         G6okOMvrCE1ZxsB73eIS0MmMVEooYpqcD2Sy1cD69V0qg9ixaPvU10JeZdi9gCqTTYDi
-         uzRA==
-X-Gm-Message-State: AOJu0Yz/qpz0d+WRK3OGyE0FlYknOqNX8DR0CUIDUFjxAfhbZek8khKf
-        20qiR4ayh0qEa9KA0tUFB2Lt1g==
-X-Google-Smtp-Source: AGHT+IF+9RXWcwNkyjwN686javCYpMC7EW6x2zR6vdp/vwRab72ojLtpmuNDVltocAtktvnB3qpYnw==
-X-Received: by 2002:adf:dd4a:0:b0:317:60f2:c08b with SMTP id u10-20020adfdd4a000000b0031760f2c08bmr2651966wrm.31.1691218416697;
-        Fri, 04 Aug 2023 23:53:36 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h6-20020a5d6e06000000b0031435731dfasm4345492wrz.35.2023.08.04.23.53.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 23:53:36 -0700 (PDT)
-Date:   Sat, 5 Aug 2023 09:53:32 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: atomisp: csi2-bridge: check for negative port values
-Message-ID: <8bc2ab0f-88ac-42f1-876b-147da525b1eb@moroto.mountain>
+        with ESMTP id S229511AbjHELXp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Aug 2023 07:23:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C143468C;
+        Sat,  5 Aug 2023 04:23:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D985160CBB;
+        Sat,  5 Aug 2023 11:23:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2CD83C433C7;
+        Sat,  5 Aug 2023 11:23:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691234623;
+        bh=qtEzDzm2HSlThXBY/D+hEKZQ8unmvVQ0kOBMd51+yZ4=;
+        h=From:Date:Subject:To:Cc:Reply-To:From;
+        b=pOPnzo+6btPq/Pb3T0rnzxF1TMp0Uuj+y8CFGD+O561+mn46CYkOgrlwjnk+89Ado
+         g8ZnBTlvJKEHdVp9kaF2Ru+jcAIlWcCP5LwDyNd3kyXJC+DHuw2NMDtzL3RwSenfpu
+         RycFJTNVbt2XVM64IIziQQkIak0uEDRJOtyGlJPb/y+GnbX7XoitfDHlWcmJ8tXZX3
+         HIjveo0wUor/w3MGaCYMSXRxUbKYy8HzkkpPDNUr7vI2Mc1350dAL80KNt5gSRoEU1
+         NbGnUX9cGJMYTa6QbyhwlaG7bX+U61Q8HUaVn0r51TCsaE+47nGVghwadoCeJ1d5eh
+         CBKGG/mUiv7CQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by smtp.lore.kernel.org (Postfix) with ESMTP id 1A7AAC001DB;
+        Sat,  5 Aug 2023 11:23:43 +0000 (UTC)
+From:   Xilin Wu via B4 Relay <devnull+wuxilin123.gmail.com@kernel.org>
+Date:   Sat, 05 Aug 2023 19:23:35 +0800
+Subject: [PATCH] media: rc: ir-spi: Correct regulator name
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230805-ir-spi-v1-1-33af4a556139@gmail.com>
+X-B4-Tracking: v=1; b=H4sIADYxzmQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDCwNT3cwi3eKCTF1jE3PjZNM0IGVmogRUXFCUmpZZATYoOra2FgDzgm5
+ UWAAAAA==
+To:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xilin Wu <wuxilin123@gmail.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1691234622; l=927;
+ i=wuxilin123@gmail.com; s=20230805; h=from:subject:message-id;
+ bh=+DkvKMI3r/F0yMEERA2wc0VwRO9F51Sgxxn9bTGF1zY=;
+ b=BbC1D3biwOPvuRARvE7eVazY2c5pGzMwarU0ZE2bB7HXUn7mFqo97HHVYSIm9uvGwABB96jB0
+ fQXhqbBV//pAH72/mrgujnR0wnvxKgz/IUkxTRTEQcJh2bElZBiXX6U
+X-Developer-Key: i=wuxilin123@gmail.com; a=ed25519;
+ pk=OZIrHT2qWm7yEdp5fsVR7GsFx1wxciIii20H06Ud088=
+X-Endpoint-Received: by B4 Relay for wuxilin123@gmail.com/20230805 with auth_id=73
+X-Original-From: Xilin Wu <wuxilin123@gmail.com>
+Reply-To: <wuxilin123@gmail.com>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The atomisp_csi2_get_port() function reads an integer value from the
-firmware.  We check for invalid positive values but we should also
-check for negatives.
+From: Xilin Wu <wuxilin123@gmail.com>
 
-Fixes: 8d28ec7e9145 ("media: atomisp: Add support for v4l2-async sensor registration")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+The driver wrongly assumes regulator is called "irda_regulator"
+instead of "power".
+
+Change it to "power" to match device tree binding.
+
+Signed-off-by: Xilin Wu <wuxilin123@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c | 2 +-
+ drivers/media/rc/ir-spi.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-index 46d9f31986c9..0f0ec5d7e49d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-@@ -626,7 +626,7 @@ static int atomisp_csi2_connect_sensor(const struct atomisp_csi2_sensor_config *
- 			goto err_put_adev;
+diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
+index bbc81bed4f90..a447bb36100d 100644
+--- a/drivers/media/rc/ir-spi.c
++++ b/drivers/media/rc/ir-spi.c
+@@ -119,7 +119,7 @@ static int ir_spi_probe(struct spi_device *spi)
+ 	if (!idata)
+ 		return -ENOMEM;
  
- 		sensor->port = atomisp_csi2_get_port(adev, clock_num);
--		if (sensor->port >= ATOMISP_CAMERA_NR_PORTS) {
-+		if (sensor->port < 0 || sensor->port >= ATOMISP_CAMERA_NR_PORTS) {
- 			acpi_handle_err(adev->handle, "Invalid port: %d\n", sensor->port);
- 			ret = -EINVAL;
- 			goto err_put_adev;
+-	idata->regulator = devm_regulator_get(&spi->dev, "irda_regulator");
++	idata->regulator = devm_regulator_get(&spi->dev, "power");
+ 	if (IS_ERR(idata->regulator))
+ 		return PTR_ERR(idata->regulator);
+ 
+
+---
+base-commit: 024ff300db33968c133435a146d51ac22db27374
+change-id: 20230805-ir-spi-3473c5f34764
+
+Best regards,
 -- 
-2.39.2
+Xilin Wu <wuxilin123@gmail.com>
 
