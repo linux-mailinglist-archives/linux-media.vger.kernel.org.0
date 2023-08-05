@@ -2,124 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0EF1771246
-	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 23:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5982577126C
+	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 23:40:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230107AbjHEVGv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Aug 2023 17:06:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48200 "EHLO
+        id S229662AbjHEVk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Aug 2023 17:40:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbjHEVGu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Aug 2023 17:06:50 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A18F7171F
-        for <linux-media@vger.kernel.org>; Sat,  5 Aug 2023 14:06:48 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fe4ad22e36so15112195e9.2
-        for <linux-media@vger.kernel.org>; Sat, 05 Aug 2023 14:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691269607; x=1691874407;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7bQWyorKrsAyTYwSEr05KzsqtWIhFwBSuW+LToiflyQ=;
-        b=urnNl0V9kas1yV3Bnm4XUiLjXd3e7p1tpR/zWTWZApJFL7Rf1VbI3hWvWoY1bjXpSz
-         2+LAVdn6ukkicg0yY2qPw7b+e8whqR0SIMeSIiL5WTxuLwq3rNZ8WNEr4wLtcgMWYaR2
-         ZADglGlIoVHQsSWa5fpz30yv+rVjNZ0rt2i2DHkGgPgS9vWZOtzd6+qDvYTW/gI2bdRy
-         kCpwewow2HPjCpF7noCc2fcg6uX1BGweP7CbTJqUmNxrUsw64AyQcgFOwMZxC2QAaAMz
-         r0MJ93EEQ7vDKdpteQK1DLAppiK94NwhqAHUi66px8WxNDLBKOoUnluPSuXWSj7mgi70
-         e+eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691269607; x=1691874407;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7bQWyorKrsAyTYwSEr05KzsqtWIhFwBSuW+LToiflyQ=;
-        b=jrq93ak5OepuVqMSneuNqQihDmSQYGEyZ34XD69pycr7rKjxFmUvYQ4dtWWlsdkxQ6
-         FJjHHBvWmOpqWkOuR6+kJptH0y+75yVNFRmvWuLl2Q85vKe8fncdGb9RHD4iswZi0BT/
-         qfLE6DLKbPtAZF+ZvHVZ3fKHjhul/plsexJ0jP4sZv0Q+MO4btesJbvFPvdK+b/BzAmn
-         aCGoVOKi8fzwi567UryDHPnbNPbcbHkkE6lnZs+9Y+77WponbEH19zNbpxunUL/GJcKe
-         DLv2J8LgyipXTxx39w3bi0FQZBeKTxpWBrNuDcBhqdO4roVBMH1phYboW8GARws9TIer
-         zS0w==
-X-Gm-Message-State: AOJu0Yzt0FMnRT+Np7nik6n0DAR3xKmFSJfivIU2oQyzOHuLtcpCq2Dy
-        48QYWZBlLy/kw+nyVzvLuHVYAA==
-X-Google-Smtp-Source: AGHT+IGBFr8NySeTwyPsNV646xsK3/GAjBh+mi0q0UZ3HrUugcDHoZRLvIbht/mcU3b6eaKo7B9hrg==
-X-Received: by 2002:a7b:cbc7:0:b0:3fb:bc6d:41f1 with SMTP id n7-20020a7bcbc7000000b003fbbc6d41f1mr4242361wmi.17.1691269606259;
-        Sat, 05 Aug 2023 14:06:46 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.245])
-        by smtp.gmail.com with ESMTPSA id n22-20020a7bc5d6000000b003fe195cecb3sm10258351wmk.38.2023.08.05.14.06.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Aug 2023 14:06:45 -0700 (PDT)
-Message-ID: <000f45c5-d7dd-237e-1e1b-72056acd4af1@linaro.org>
-Date:   Sat, 5 Aug 2023 23:06:43 +0200
+        with ESMTP id S229436AbjHEVkZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Aug 2023 17:40:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8810D1735;
+        Sat,  5 Aug 2023 14:40:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1CB8260D38;
+        Sat,  5 Aug 2023 21:40:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E4C2C433C8;
+        Sat,  5 Aug 2023 21:40:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691271623;
+        bh=k64VRgGuJDKrIA65xa+FHVrwoVlo+w3ZLCxnjg6dZfQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZDXoqey1jOtrvd4DCRrmYiAIbh0sf46tBBQW2W2XV9D9vez79lWwVsHeTtomkX9je
+         dn+LspPo0W9nvUXfV4a6t15pn0XKKDT019pW4OqPMKe+3QXXg2dlFiVsTsm9PRRP+o
+         1gmfsM2vNp23+Y/dT2uEPrAb90Sk8PerUntuGUpkSFxgQHnqf9AP+L4KCnYi8bjVXq
+         AxfVlBzjlEJ/w7D2QJsMJtlgF/dazkgm/GqNLvPrAo8blTNyzFHUZcE9D3fHZHhnkX
+         I9g+cDnBzOQUNwPfqtzFU7SsnZ5XffiTN2CtOZZ1QJfS5X94UuIbx8OxzFYyg4a6xz
+         ikuNWhCG8BfwA==
+Date:   Sat, 5 Aug 2023 23:40:19 +0200
+From:   Andi Shyti <andi.shyti@kernel.org>
+To:     Ruan Jinjie <ruanjinjie@huawei.com>
+Cc:     sylvester.nawrocki@gmail.com, mchehab@kernel.org,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH -next 1/2] media: camif-core: Do not check for 0 return
+ after calling platform_get_irq()
+Message-ID: <20230805214019.vidikqlccitiddxa@intel.intel>
+References: <20230803024645.2716057-1-ruanjinjie@huawei.com>
+ <20230803024645.2716057-2-ruanjinjie@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v8 04/16] media: cadence: Add support for TI SoCs
-Content-Language: en-US
-To:     Jai Luthra <j-luthra@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Benoit Parrot <bparrot@ti.com>,
-        Vaishnav Achath <vaishnav.a@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>, nm@ti.com,
-        devarsht@ti.com
-References: <20230731-upstream_csi-v8-0-fb7d3661c2c9@ti.com>
- <20230731-upstream_csi-v8-4-fb7d3661c2c9@ti.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230731-upstream_csi-v8-4-fb7d3661c2c9@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230803024645.2716057-2-ruanjinjie@huawei.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31/07/2023 10:29, Jai Luthra wrote:
-> Multiple TI SoCs (J721E, AM62) use this CSI2RX receiver, integrated with
-> an external DPHY and a pixel-grabber IP that unwraps the pixel data and
-> send it to memory via DMA.
+Hi Ruan,
+
+On Thu, Aug 03, 2023 at 10:46:44AM +0800, Ruan Jinjie wrote:
+> It is not possible for platform_get_irq() to return 0. Use the
+> return value from platform_get_irq().
 > 
-> Add a separate compatible for the TI-specific version of this IP.
-> 
-> Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> ---
-> New in v8
-> 
->  drivers/media/platform/cadence/cdns-csi2rx.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index 0d879d71d818..b087583d636f 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -559,6 +559,7 @@ static void csi2rx_remove(struct platform_device *pdev)
->  
->  static const struct of_device_id csi2rx_of_table[] = {
->  	{ .compatible = "starfive,jh7110-csi2rx" },
-> +	{ .compatible = "ti,j721e-csi2rx" },
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 
-Why do you need it? It's redundant - already compatible with cdns. No
-need to add empty match entries.
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org> 
 
->  	{ .compatible = "cdns,csi2rx" },
->  	{ },
-
-
-Best regards,
-Krzysztof
-
+Thanks,
+Andi
