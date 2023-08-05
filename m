@@ -2,64 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57EFF770F8A
-	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 14:11:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA27B7711BF
+	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 21:29:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229932AbjHEMLk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Aug 2023 08:11:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58126 "EHLO
+        id S230258AbjHET3S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Aug 2023 15:29:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbjHEMLj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Aug 2023 08:11:39 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72CA94680
-        for <linux-media@vger.kernel.org>; Sat,  5 Aug 2023 05:11:35 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3fe426b8583so22747165e9.2
-        for <linux-media@vger.kernel.org>; Sat, 05 Aug 2023 05:11:35 -0700 (PDT)
+        with ESMTP id S229891AbjHET3R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Aug 2023 15:29:17 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED4AE19B
+        for <linux-media@vger.kernel.org>; Sat,  5 Aug 2023 12:29:15 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-99bf91956cdso418221866b.3
+        for <linux-media@vger.kernel.org>; Sat, 05 Aug 2023 12:29:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691237494; x=1691842294;
+        d=linaro.org; s=google; t=1691263754; x=1691868554;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZxBP0feVH6uC2ORtGS9BSJOQoNg5tL9xY28BGMfIX6s=;
-        b=f5WrVWP+ourzePHp24/NJ0Jh86Q6FuElfYOQPPTG3aqE3hOQCQY2+xQuTH/arVDFs9
-         POkpPo/6GwaHc7aiZYcM5e8dY3mE9hDPSwaKjbNwInh4zHnxzJhFLhAsmTTfY1O6oNGW
-         KDpYmYgW1rR70uGB3rIkl7WgGHw6jmO6+VnTAaDSUhGUzodCUWCUlUMfhtd1wFLCjsE7
-         O1hD+sJPFABmVkMus+AB7wohF9+l5/Y3HbPkapskKKrFQtvpypqH4aG3ji7+Hgj1FaEb
-         cyf+qxq1PDYGX2tyDYp8SYha+vTuFvEmshUT537VwlXu1thwkov3WGHpfhdX1YXd6JT4
-         OcXg==
+        bh=/eoTXNan9hfBAk2ItnV/fDUtgs5cEoo72FK2KNJihNY=;
+        b=Uca7hOTLTk7euoSoTKTGOqfB4yjWqKMmMs4VO2gJI8oXhqZClqtXPcoT/F9QQ08R7H
+         ccedeVD3vclOa2IzY9XWJ/LuxCmtnm96Dkxjwq6ZC44WE/B7sYCRhi81RjKlMDOLSisN
+         MVJelXZ+6l26ceWKle3LeG+092nvf2l63+PyHcK2KqUXX+ZL3w8C45zWUvNA3dzmuc1d
+         gfZg+0uq6yX8R32XBE5jhcrXRq9bSZoPYZyHOcT7iSJwqO9FRq7c5XZNzMh1IQDzG2Yc
+         QUsvG9lSmDA9MeceK1Yw4wP2vPWHW2b3ngNqdk+JoV6F1REQUYH49lKCkUulj68HlOad
+         7J+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691237494; x=1691842294;
+        d=1e100.net; s=20221208; t=1691263754; x=1691868554;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZxBP0feVH6uC2ORtGS9BSJOQoNg5tL9xY28BGMfIX6s=;
-        b=j5nJNY0ZTQ6Bv68SRPGNw0AqNKkz/RkCxrzsswwtyg/vWszK0sjbKzZiBnPqO2m6k1
-         c/pyTqYaprvEccFh/EE3qTIMpxK+b41hxT1kXfFc1E7uKLjEUHdZz33ttxG99P5UMY3F
-         A+YXlhC//+w8wBfw8r1Ts9/+d/tBxXKSJVEFlGC1O0vaK2cA9TnKC+vtvn+CiGT5rUxJ
-         IqdtVEWEppwPTMS6gHQi4oPIRnLgrmugzbsEq4RFh475e5Y1CQoKyQIeEk5OKHVLZgGv
-         RujzQ8tlPnUhmAm9iSn95bhHagUBZMG2xTimoSMZi1NtxTcog0JPV81ksU88OWYzbvPW
-         gwqQ==
-X-Gm-Message-State: AOJu0YzR8kKoMZUltoTJIqnOMnfX0vyWcNX3OvoS2GuKAD8nm7C7USez
-        eX/SlcBuj2H6KsPyWp0SqFO5Rw==
-X-Google-Smtp-Source: AGHT+IFInS8TEVpw8at3nnFmeIOA264PuHBbiEjhb4uEc3ufRCS8Se9DI9mdwo2KzkeTrYqD5yxYkA==
-X-Received: by 2002:a7b:cd96:0:b0:3fe:1cac:37d5 with SMTP id y22-20020a7bcd96000000b003fe1cac37d5mr3563058wmj.4.1691237493833;
-        Sat, 05 Aug 2023 05:11:33 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id x8-20020a05600c2a4800b003fbc30825fbsm4829034wme.39.2023.08.05.05.11.32
+        bh=/eoTXNan9hfBAk2ItnV/fDUtgs5cEoo72FK2KNJihNY=;
+        b=XdpuW++mLvD2zW455PolVvIaFSbZa5on15OMFGbXkdAyD3GNAVPdaksgi9/VOwRPzi
+         VQYHSjBpAKpkR15F0m5CZtnffHViaIkU95KhFPOOC6v7djtK4MuDtIvOVdvWPlvPlZRp
+         rrV0FJd+3OBIaegnGlu88FDZT8vW4bBxGjNDuW2ksy1IEBDbRxiOAISaZk05WxlgSIrl
+         aiNYiVz4dqomSwAvDVHlL7V50AlaZhVMw0KZqCYq2gI0pqb6VXDUSt1jc0n06TPUjavG
+         XPP4jG/+u2w9EJFS2Sbq1mmeVBIyDRQpTZBzYxhOtW38ifcWX/Hvi5bv6nB1WL2jMAbv
+         5gmQ==
+X-Gm-Message-State: AOJu0Yw1KfB7VTnk8P74vpLO/uplDG/5uLljLvYxZISuckjjQCNYcvZu
+        QXHWniyFtFZQ+4Line0BWC19qA==
+X-Google-Smtp-Source: AGHT+IH5DaN+pUCthq7k0rScxSZtePibiRU16HS8B5XCsuNpeTErg++bLF9XrOuvbAdXrXQTS6HjqA==
+X-Received: by 2002:a17:906:cc5a:b0:99b:cb7a:c164 with SMTP id mm26-20020a170906cc5a00b0099bcb7ac164mr3770450ejb.62.1691263754388;
+        Sat, 05 Aug 2023 12:29:14 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.245])
+        by smtp.gmail.com with ESMTPSA id b13-20020a17090636cd00b0099bcf9c2ec6sm3059491ejc.75.2023.08.05.12.29.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Aug 2023 05:11:33 -0700 (PDT)
-Message-ID: <1eec01ce-5d14-e6f0-c399-ad14e6d176a9@linaro.org>
-Date:   Sat, 5 Aug 2023 13:11:32 +0100
+        Sat, 05 Aug 2023 12:29:13 -0700 (PDT)
+Message-ID: <84ab9380-2fb2-76f9-2eb9-71d9202718cc@linaro.org>
+Date:   Sat, 5 Aug 2023 21:29:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 6/6] media: venus: core: Add SC8280XP resource struct
+ Thunderbird/102.14.0
+Subject: Re: [PATCH 1/6] media: dt-bindings: Document SC8280XP/SM8350 Venus
 Content-Language: en-US
 To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
         Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -71,44 +71,121 @@ Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
- <20230731-topic-8280_venus-v1-6-8c8bbe1983a5@linaro.org>
- <989aea4c-50e7-8141-dd60-3f41058192f8@linaro.org>
- <c0d4845d-d290-4082-b5c5-996637bcac2c@linaro.org>
- <c2bdc6a5-2f97-9c7b-d620-ff3e361f1f07@linaro.org>
- <172bce60-6581-4832-b489-7497989fc91e@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <172bce60-6581-4832-b489-7497989fc91e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20230731-topic-8280_venus-v1-1-8c8bbe1983a5@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230731-topic-8280_venus-v1-1-8c8bbe1983a5@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/08/2023 22:17, Konrad Dybcio wrote:
-> On 4.08.2023 23:12, Bryan O'Donoghue wrote:
->> On 04/08/2023 22:10, Konrad Dybcio wrote:
->>>> Would it not be more legitimate and logical to have 8350 use 8280xp's frequency table, instead of 8250 ?
->>> top freq is higher on 8280
->>
->> Still though its a bit suspicious 8350 doesn't have its own table.
->>
->> Are we missing the downstream reference ?
-> 8250:
-> qcom,allowed-clock-rates = <239999999 338000000 366000000 444000000>;
+On 04/08/2023 22:09, Konrad Dybcio wrote:
+> Both of these SoCs implement an IRIS2 block, with SC8280XP being able
+> to clock it a bit higher.
 > 
-> 8350:
-> qcom,allowed-clock-rates = <239999999 338000000 366000000 444000000>;
-> 
-> (identical)
-> 
-> Konrad
 
-Fair enough
+...
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  video-decoder:
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: venus-decoder
+
+That's not how compatibles are constructed... missing vendor prefix, SoC
+or IP block name.
+
+> +
+> +    required:
+> +      - compatible
+> +
+> +    additionalProperties: false
+
+Why do you need this child node? Child nodes without properties are
+usually useless.
+
+> +
+> +  video-encoder:
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: venus-encoder
+> +
+> +    required:
+> +      - compatible
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - power-domain-names
+> +  - iommus
+> +  - video-decoder
+> +  - video-encoder
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,gcc-sm8350.h>
+> +    #include <dt-bindings/clock/qcom,sm8350-videocc.h>
+> +    #include <dt-bindings/interconnect/qcom,sm8350.h>
+> +    #include <dt-bindings/power/qcom-rpmpd.h>
+> +
+> +    venus: video-codec@aa00000 {
+> +        compatible = "qcom,sm8350-venus";
+> +        reg = <0x0aa00000 0x100000>;
+> +        interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +        clocks = <&gcc GCC_VIDEO_AXI0_CLK>,
+> +                 <&videocc VIDEO_CC_MVS0C_CLK>,
+> +                 <&videocc VIDEO_CC_MVS0_CLK>;
+> +        clock-names = "iface",
+> +                      "core",
+> +                      "vcodec0_core";
+> +
+> +        resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>;
+> +        reset-names = "core";
+> +
+> +        power-domains = <&videocc MVS0C_GDSC>,
+> +                        <&videocc MVS0_GDSC>,
+> +                        <&rpmhpd SM8350_MX>;
+> +        power-domain-names = "venus",
+> +                             "vcodec0",
+> +                             "mx";
+> +
+> +        interconnects = <&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_VENUS_CFG 0>,
+> +                        <&mmss_noc MASTER_VIDEO_P0 0 &mc_virt SLAVE_EBI1 0>,
+> +                        <&mmss_noc MASTER_VIDEO_P0 0 &gem_noc SLAVE_LLCC 0>;
+> +        interconnect-names = "cpu-cfg",
+> +                             "video-mem",
+> +                             "video-llcc";
+> +
+> +        operating-points-v2 = <&venus_opp_table>;
+> +        iommus = <&apps_smmu 0x2100 0x400>;
+> +        memory-region = <&pil_video_mem>;
+> +
+> +        status = "disabled";
+
+Drop status.
+
+> +
+> +        video-decoder {
+
+Best regards,
+Krzysztof
+
