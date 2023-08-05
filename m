@@ -2,105 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 016E2770B07
-	for <lists+linux-media@lfdr.de>; Fri,  4 Aug 2023 23:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 562A4770CDA
+	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 03:06:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbjHDVds convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 4 Aug 2023 17:33:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49834 "EHLO
+        id S229841AbjHEBGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Aug 2023 21:06:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjHDVds (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 17:33:48 -0400
-Received: from irl.hu (irl.hu [95.85.9.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CAFCC5;
-        Fri,  4 Aug 2023 14:33:46 -0700 (PDT)
-Received: from [192.168.2.4] (51b69adf.dsl.pool.telekom.hu [::ffff:81.182.154.223])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000072F66.0000000064CD6EB7.0001EB4C; Fri, 04 Aug 2023 23:33:43 +0200
-Message-ID: <39e3ed9f0c3fee61bd99788cdc7cf6cdcd1ee65c.camel@irl.hu>
-Subject: Re: [RFC PATCH 0/2] media: v4l2: map UVC_CT_ROLL_ABSOLUTE_CONTROL
-From:   =?UTF-8?Q?Gerg=C5=91_K=C3=B6teles?= <soyer@irl.hu>
-To:     Michael Riesch <michael.riesch@wolfvision.net>,
+        with ESMTP id S229558AbjHEBGH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 21:06:07 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B794EDD;
+        Fri,  4 Aug 2023 18:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691197565; x=1722733565;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ibSjDREM3KSlm2Zd9jBWEnIiB5S/qWcUN0yFt86xipE=;
+  b=ex0SG4KKlWO/L6cUiNGTXDbv/GCiP0vzIJL53fv5YWDOfxmNuo+7ZIMp
+   wQK2+4JsxIT2Zw7o/skGT8bAPznJgh2w3afvk/qvUbvGTs9wVEj+Efo4e
+   bYVgyET0eDaJY68WjJITEIs2FRuV1Ugo4vP5BRFTAi3sDvVhhCUMXQbKj
+   gee0XLEmetJ6YB4Melwyycs/Tq5PcneMfdmfrv2Zacq8xo1NgAZbbQCoP
+   EyKffajuGDe3AuiNsxWRwxO+oaGqxObxB4hNVVT9xWnO+x9vR+1zn9m47
+   81zSWESxOquyWJGZmeW9TcrRd0TXEDOAeLvxBdqZ7V3zJehYUfsWBP6cw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="456657222"
+X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
+   d="scan'208";a="456657222"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 18:06:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="854003292"
+X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
+   d="scan'208";a="854003292"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 04 Aug 2023 18:06:02 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qS5k1-0003EB-0M;
+        Sat, 05 Aug 2023 01:06:01 +0000
+Date:   Sat, 5 Aug 2023 09:05:04 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <davidgow@google.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 04 Aug 2023 23:33:42 +0200
-In-Reply-To: <caeddb66-6bac-3621-6a92-dbeca16261c3@wolfvision.net>
-References: <cover.1691096157.git.soyer@irl.hu>
-         <caeddb66-6bac-3621-6a92-dbeca16261c3@wolfvision.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        linux-media@vger.kernel.org, igt-dev@lists.freedesktop.org,
+        intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Rae Moar <rmoar@google.com>,
+        Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: Re: [PATCH v4 1/3] kunit: Report the count of test suites in a module
+Message-ID: <202308050802.0wKtrhu1-lkp@intel.com>
+References: <20230804225220.8005-6-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230804225220.8005-6-janusz.krzysztofik@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+Hi Janusz,
 
-On Fri, 2023-08-04 at 20:45 +0200, Michael Riesch wrote:
-> Hi Gergő,
-> 
-> Interesting work! I would guess that there are a lot of cameras with an
-> accelerometer or gyroscope that could report the rotation.
-> 
+kernel test robot noticed the following build errors:
 
-I think only the Streamcam in the UVC world, but who knows. :)
+[auto build test ERROR on 5a175d369c702ce08c9feb630125c9fc7a9e1370]
 
-> On 8/3/23 23:28, Gergő Köteles wrote:
-> > Hi,
-> > 
-> > Logitech Streamcam can be mounted in 'portrait mode' as well.
-> > It reports the current roll (-90, 0, 90, 180) with
-> > UVC_CT_ROLL_ABSOLUTE_CONTROL.
-> > 
-> > This RFC defines V4L2_CID_ROLL_ABSOLUTE, and maps
-> > UVC_CT_ROLL_ABSOLUTE_CONTROL to make it available to
-> > userspace.
-> > Then, the userspace can rotate the stream based on the roll.
-> 
-> Should we also discuss pitch and yaw while we are at it?
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Janusz-Krzysztofik/kunit-Report-the-count-of-test-suites-in-a-module/20230805-065602
+base:   5a175d369c702ce08c9feb630125c9fc7a9e1370
+patch link:    https://lore.kernel.org/r/20230804225220.8005-6-janusz.krzysztofik%40linux.intel.com
+patch subject: [PATCH v4 1/3] kunit: Report the count of test suites in a module
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230805/202308050802.0wKtrhu1-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050802.0wKtrhu1-lkp@intel.com/reproduce)
 
-They are there with V4L2_CID_PAN_ABSOLUTE and V4L2_CID_TILT_ABSOLUTE.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308050802.0wKtrhu1-lkp@intel.com/
 
-> As far as I know there are controls to set pan and tilt of a PTZ camera,
-> but there are no controls that report those angles.
-> 
+All errors (new ones prefixed by >>):
 
-Aren't real PTZ cameras using the CT_PANTILT_ABSOLUTE_CONTROL for
-panning and tilting? Or just to move the crop window?
+   In file included from lib/kunit/executor.c:296:
+   lib/kunit/executor_test.c: In function 'filter_suites_test':
+>> lib/kunit/executor_test.c:46:16: error: variable 'suite_set' has initializer but incomplete type
+      46 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                ^~~~~~~~~
+>> lib/kunit/executor_test.c:46:40: error: 'struct suite_set' has no member named 'start'
+      46 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                        ^~~~~
+   lib/kunit/executor_test.c:46:48: warning: excess elements in struct initializer
+      46 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                                ^~~~~~~~
+   lib/kunit/executor_test.c:46:48: note: (near initialization for 'suite_set')
+>> lib/kunit/executor_test.c:46:59: error: 'struct suite_set' has no member named 'end'
+      46 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                                           ^~~
+   lib/kunit/executor_test.c:46:65: warning: excess elements in struct initializer
+      46 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                                                 ^
+   lib/kunit/executor_test.c:46:65: note: (near initialization for 'suite_set')
+>> lib/kunit/executor_test.c:46:26: error: storage size of 'suite_set' isn't known
+      46 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                          ^~~~~~~~~
+>> lib/kunit/executor_test.c:47:26: error: storage size of 'got' isn't known
+      47 |         struct suite_set got;
+         |                          ^~~
+   In file included from lib/kunit/executor.c:4:
+   include/kunit/test.h:797:29: warning: passing argument 1 of 'IS_ERR_OR_NULL' makes pointer from integer without a cast [-Wint-conversion]
+     797 |         if (!IS_ERR_OR_NULL(__ptr))                                            \
+         |                             ^~~~~
+         |                             |
+         |                             int
+   include/kunit/test.h:1478:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1478 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1475:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1475 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:55:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      55 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/rwsem.h:17,
+                    from include/linux/notifier.h:15,
+                    from include/linux/reboot.h:6,
+                    from lib/kunit/executor.c:3:
+   include/linux/err.h:70:68: note: expected 'const void *' but argument is of type 'int'
+      70 | static inline bool __must_check IS_ERR_OR_NULL(__force const void *ptr)
+         |                                                        ~~~~~~~~~~~~^~~
+   include/kunit/test.h:804:64: warning: initialization of 'const void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     804 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:570:49: note: in definition of macro '_KUNIT_FAILED'
+     570 |         const struct assert_class __assertion = INITIALIZER;                   \
+         |                                                 ^~~~~~~~~~~
+   include/kunit/test.h:804:23: note: in expansion of macro 'KUNIT_INIT_ASSERT'
+     804 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                       ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1478:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1478 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1475:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1475 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:55:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      55 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:804:64: note: (near initialization for '__assertion.value')
+     804 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:570:49: note: in definition of macro '_KUNIT_FAILED'
+     570 |         const struct assert_class __assertion = INITIALIZER;                   \
+         |                                                 ^~~~~~~~~~~
+   include/kunit/test.h:804:23: note: in expansion of macro 'KUNIT_INIT_ASSERT'
+     804 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                       ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1478:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1478 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1475:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1475 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:55:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      55 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:797:29: warning: passing argument 1 of 'IS_ERR_OR_NULL' makes pointer from integer without a cast [-Wint-conversion]
+     797 |         if (!IS_ERR_OR_NULL(__ptr))                                            \
+         |                             ^~~~~
+         |                             |
+         |                             int
+   include/kunit/test.h:1478:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1478 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1475:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1475 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:60:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      60 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start[0]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/err.h:70:68: note: expected 'const void *' but argument is of type 'int'
+      70 | static inline bool __must_check IS_ERR_OR_NULL(__force const void *ptr)
+         |                                                        ~~~~~~~~~~~~^~~
+   include/kunit/test.h:804:64: warning: initialization of 'const void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     804 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:570:49: note: in definition of macro '_KUNIT_FAILED'
+     570 |         const struct assert_class __assertion = INITIALIZER;                   \
+         |                                                 ^~~~~~~~~~~
+   include/kunit/test.h:804:23: note: in expansion of macro 'KUNIT_INIT_ASSERT'
+     804 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                       ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1478:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1478 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1475:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1475 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:60:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      60 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start[0]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:804:64: note: (near initialization for '__assertion.value')
+     804 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:570:49: note: in definition of macro '_KUNIT_FAILED'
+     570 |         const struct assert_class __assertion = INITIALIZER;                   \
 
-> > Is it better to use V4L2_CID_CAMERA_SENSOR_ROTATION for this?
-> 
-> IMHO that would make sense.
-> 
-> Best regards,
-> Michael
-> 
-> > The value set matches that control.
-> > If yes, is it worth mapping UVC_CT_ROLL_ABSOLUTE_CONTROL to
-> > V4L2_CID_CAMERA_SENSOR_ROTATION for this camera only?
-> > 
-> > Any feedback is greately appreciated.
-> > 
-> > 
-> > Gergő Köteles (2):
-> >   media: v4l2: ctrls: Add ROLL_ABSOLUTE control
-> >   media: v4l2: map UVC_CT_ROLL_ABSOLUTE_CONTROL
-> > 
-> >  .../userspace-api/media/v4l/ext-ctrls-camera.rst         | 5 +++++
-> >  drivers/media/usb/uvc/uvc_ctrl.c                         | 9 +++++++++
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c                | 1 +
-> >  include/uapi/linux/v4l2-controls.h                       | 2 ++
-> >  4 files changed, 17 insertions(+)
-> > 
-> > 
-> > base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
 
+vim +/suite_set +46 lib/kunit/executor_test.c
+
+1d71307a6f94df Daniel Latypov 2021-04-20  42  
+e5857d396f35e5 Daniel Latypov 2022-07-09  43  static void filter_suites_test(struct kunit *test)
+1d71307a6f94df Daniel Latypov 2021-04-20  44  {
+e5857d396f35e5 Daniel Latypov 2022-07-09  45  	struct kunit_suite *subsuite[3] = {NULL, NULL};
+e5857d396f35e5 Daniel Latypov 2022-07-09 @46  	struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+e5857d396f35e5 Daniel Latypov 2022-07-09 @47  	struct suite_set got;
+e5857d396f35e5 Daniel Latypov 2022-07-09  48  	int err = 0;
+1d71307a6f94df Daniel Latypov 2021-04-20  49  
+a127b154a8f231 Daniel Latypov 2021-09-14  50  	subsuite[0] = alloc_fake_suite(test, "suite1", dummy_test_cases);
+a127b154a8f231 Daniel Latypov 2021-09-14  51  	subsuite[1] = alloc_fake_suite(test, "suite2", dummy_test_cases);
+1d71307a6f94df Daniel Latypov 2021-04-20  52  
+1d71307a6f94df Daniel Latypov 2021-04-20  53  	/* Want: suite1, suite2, NULL -> suite2, NULL */
+529534e8cba3e6 Rae Moar       2023-07-25  54  	got = kunit_filter_suites(&suite_set, "suite2", NULL, NULL, &err);
+e5857d396f35e5 Daniel Latypov 2022-07-09  55  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+e5857d396f35e5 Daniel Latypov 2022-07-09  56  	KUNIT_ASSERT_EQ(test, err, 0);
+e5857d396f35e5 Daniel Latypov 2022-07-09  57  	kfree_at_end(test, got.start);
+1d71307a6f94df Daniel Latypov 2021-04-20  58  
+a127b154a8f231 Daniel Latypov 2021-09-14  59  	/* Validate we just have suite2 */
+e5857d396f35e5 Daniel Latypov 2022-07-09  60  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start[0]);
+e5857d396f35e5 Daniel Latypov 2022-07-09  61  	KUNIT_EXPECT_STREQ(test, (const char *)got.start[0]->name, "suite2");
+e5857d396f35e5 Daniel Latypov 2022-07-09  62  
+e5857d396f35e5 Daniel Latypov 2022-07-09  63  	/* Contains one element (end is 1 past end) */
+e5857d396f35e5 Daniel Latypov 2022-07-09  64  	KUNIT_ASSERT_EQ(test, got.end - got.start, 1);
+a127b154a8f231 Daniel Latypov 2021-09-14  65  }
+a127b154a8f231 Daniel Latypov 2021-09-14  66  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
