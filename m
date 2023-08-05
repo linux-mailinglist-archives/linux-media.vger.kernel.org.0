@@ -2,106 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54C8A770D2D
-	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 03:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90602770E33
+	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 08:53:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbjHEBnH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Aug 2023 21:43:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54512 "EHLO
+        id S229685AbjHEGxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Aug 2023 02:53:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbjHEBnG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Aug 2023 21:43:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5714EE3
-        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 18:42:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 658E162191
-        for <linux-media@vger.kernel.org>; Sat,  5 Aug 2023 01:42:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76C10C433C8
-        for <linux-media@vger.kernel.org>; Sat,  5 Aug 2023 01:42:54 +0000 (UTC)
-Date:   Sat, 05 Aug 2023 03:42:52 +0200
-Message-ID: <568ca7c1eade94709e6db4e18acac86a.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+        with ESMTP id S229570AbjHEGxj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Aug 2023 02:53:39 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C1D3E70
+        for <linux-media@vger.kernel.org>; Fri,  4 Aug 2023 23:53:38 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-317dcdae365so131296f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 04 Aug 2023 23:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691218417; x=1691823217;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ch+LYFfCHiYUj/1ZiC56FaiBDJ/SRdM9J5pvgGpfX2c=;
+        b=VXTTokOB4KxAUdHpMUn2YlateQftqj27ZsjzrtDk2T16y9cmXaHyN7UsPKCR+anBnf
+         G7Bnv0YIMGdGC0jjpz3/3wL7CyG18t6qiKj3bw+N7QOOHJFNAfWJEoZzLZDmnWglpWRw
+         8infLY+bZmQJLrrybf6yUtQ+JKppZ0CIxdarUl2oR6nmGLsJAF1GeXphx5qHJa3PmwLL
+         n61besyQ7QULbTvsY+Rdg9Z2U2G6MHIbypafpnyxU8VK6JlPbC+kZhiifEBFEDuJluEs
+         dacec1W4wEp1iAWaFiaHU8mlD8ci1k0F5ppELUZ3vr2pzXtauaQCMi6jJqH/ji7KLACg
+         8HNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691218417; x=1691823217;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ch+LYFfCHiYUj/1ZiC56FaiBDJ/SRdM9J5pvgGpfX2c=;
+        b=l7zgo9lMjihGf/4WAJQRdUVQPUiNgT9zL+gZYDhqFbrLLCxkP+JVcG6ZOGCiUM70tA
+         xfGMq1/ECxvsg9vL2Pcg7soRpv8hTvQ21QHQUjw27doyW04O7HG20TSfiNU1E2tA7ZV1
+         0lKvkFeRbnZ9fHSq9eU/o2b0hCw4UB9O9TfuLyfJPl+NxSFpLE5gg/FPLt/FtHDWAK9h
+         uIhJr9vSXzUUNEO+0zs5piwAkAqfq8iC45RyirMSLuu8GWH0OvIK/lbccnd3p6eKujf9
+         G6okOMvrCE1ZxsB73eIS0MmMVEooYpqcD2Sy1cD69V0qg9ixaPvU10JeZdi9gCqTTYDi
+         uzRA==
+X-Gm-Message-State: AOJu0Yz/qpz0d+WRK3OGyE0FlYknOqNX8DR0CUIDUFjxAfhbZek8khKf
+        20qiR4ayh0qEa9KA0tUFB2Lt1g==
+X-Google-Smtp-Source: AGHT+IF+9RXWcwNkyjwN686javCYpMC7EW6x2zR6vdp/vwRab72ojLtpmuNDVltocAtktvnB3qpYnw==
+X-Received: by 2002:adf:dd4a:0:b0:317:60f2:c08b with SMTP id u10-20020adfdd4a000000b0031760f2c08bmr2651966wrm.31.1691218416697;
+        Fri, 04 Aug 2023 23:53:36 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id h6-20020a5d6e06000000b0031435731dfasm4345492wrz.35.2023.08.04.23.53.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 23:53:36 -0700 (PDT)
+Date:   Sat, 5 Aug 2023 09:53:32 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: atomisp: csi2-bridge: check for negative port values
+Message-ID: <8bc2ab0f-88ac-42f1-876b-147da525b1eb@moroto.mountain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+The atomisp_csi2_get_port() function reads an integer value from the
+firmware.  We check for invalid positive values but we should also
+check for negatives.
 
-Results of the daily build of media_tree:
+Fixes: 8d28ec7e9145 ("media: atomisp: Add support for v4l2-async sensor registration")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-date:			Sat Aug  5 03:00:08 CEST 2023
-media-tree git branch:	media_stage/master
-media-tree git hash:	a0e657a03ffbd26332f316f13c3e5dbc98cb1fca
-v4l-utils git hash:	a0c26a97308ea1c5e809245df570e2f04e668168
-edid-decode git hash:	5f723267e04deb3aa9610483514a02bcee10d9c2
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8446-g178bea2c
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 55df69025551225abe155826f8bc401f24809992
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+index 46d9f31986c9..0f0ec5d7e49d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+@@ -626,7 +626,7 @@ static int atomisp_csi2_connect_sensor(const struct atomisp_csi2_sensor_config *
+ 			goto err_put_adev;
+ 
+ 		sensor->port = atomisp_csi2_get_port(adev, clock_num);
+-		if (sensor->port >= ATOMISP_CAMERA_NR_PORTS) {
++		if (sensor->port < 0 || sensor->port >= ATOMISP_CAMERA_NR_PORTS) {
+ 			acpi_handle_err(adev->handle, "Invalid port: %d\n", sensor->port);
+ 			ret = -EINVAL;
+ 			goto err_put_adev;
+-- 
+2.39.2
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: ERRORS:
-
-drivers/media/firewire/firedtv-avc.c:602 avc_tuner_dsd() error: uninitialized symbol 'pos'.
-drivers/media/v4l2-core/videobuf-core.c:66 videobuf_alloc_vb() error: we previously assumed 'q->int_ops' could be null (see line 61)
-drivers/media/i2c/ccs/ccs-data.c:524 ccs_data_parse_rules() warn: address of NULL pointer 'rules'
-drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 4
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
