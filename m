@@ -2,105 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0BB4770F6F
-	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 13:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57EFF770F8A
+	for <lists+linux-media@lfdr.de>; Sat,  5 Aug 2023 14:11:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbjHELXp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Aug 2023 07:23:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54108 "EHLO
+        id S229932AbjHEMLk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Aug 2023 08:11:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjHELXp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Aug 2023 07:23:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C143468C;
-        Sat,  5 Aug 2023 04:23:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D985160CBB;
-        Sat,  5 Aug 2023 11:23:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2CD83C433C7;
-        Sat,  5 Aug 2023 11:23:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691234623;
-        bh=qtEzDzm2HSlThXBY/D+hEKZQ8unmvVQ0kOBMd51+yZ4=;
-        h=From:Date:Subject:To:Cc:Reply-To:From;
-        b=pOPnzo+6btPq/Pb3T0rnzxF1TMp0Uuj+y8CFGD+O561+mn46CYkOgrlwjnk+89Ado
-         g8ZnBTlvJKEHdVp9kaF2Ru+jcAIlWcCP5LwDyNd3kyXJC+DHuw2NMDtzL3RwSenfpu
-         RycFJTNVbt2XVM64IIziQQkIak0uEDRJOtyGlJPb/y+GnbX7XoitfDHlWcmJ8tXZX3
-         HIjveo0wUor/w3MGaCYMSXRxUbKYy8HzkkpPDNUr7vI2Mc1350dAL80KNt5gSRoEU1
-         NbGnUX9cGJMYTa6QbyhwlaG7bX+U61Q8HUaVn0r51TCsaE+47nGVghwadoCeJ1d5eh
-         CBKGG/mUiv7CQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by smtp.lore.kernel.org (Postfix) with ESMTP id 1A7AAC001DB;
-        Sat,  5 Aug 2023 11:23:43 +0000 (UTC)
-From:   Xilin Wu via B4 Relay <devnull+wuxilin123.gmail.com@kernel.org>
-Date:   Sat, 05 Aug 2023 19:23:35 +0800
-Subject: [PATCH] media: rc: ir-spi: Correct regulator name
+        with ESMTP id S229775AbjHEMLj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Aug 2023 08:11:39 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72CA94680
+        for <linux-media@vger.kernel.org>; Sat,  5 Aug 2023 05:11:35 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3fe426b8583so22747165e9.2
+        for <linux-media@vger.kernel.org>; Sat, 05 Aug 2023 05:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691237494; x=1691842294;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZxBP0feVH6uC2ORtGS9BSJOQoNg5tL9xY28BGMfIX6s=;
+        b=f5WrVWP+ourzePHp24/NJ0Jh86Q6FuElfYOQPPTG3aqE3hOQCQY2+xQuTH/arVDFs9
+         POkpPo/6GwaHc7aiZYcM5e8dY3mE9hDPSwaKjbNwInh4zHnxzJhFLhAsmTTfY1O6oNGW
+         KDpYmYgW1rR70uGB3rIkl7WgGHw6jmO6+VnTAaDSUhGUzodCUWCUlUMfhtd1wFLCjsE7
+         O1hD+sJPFABmVkMus+AB7wohF9+l5/Y3HbPkapskKKrFQtvpypqH4aG3ji7+Hgj1FaEb
+         cyf+qxq1PDYGX2tyDYp8SYha+vTuFvEmshUT537VwlXu1thwkov3WGHpfhdX1YXd6JT4
+         OcXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691237494; x=1691842294;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZxBP0feVH6uC2ORtGS9BSJOQoNg5tL9xY28BGMfIX6s=;
+        b=j5nJNY0ZTQ6Bv68SRPGNw0AqNKkz/RkCxrzsswwtyg/vWszK0sjbKzZiBnPqO2m6k1
+         c/pyTqYaprvEccFh/EE3qTIMpxK+b41hxT1kXfFc1E7uKLjEUHdZz33ttxG99P5UMY3F
+         A+YXlhC//+w8wBfw8r1Ts9/+d/tBxXKSJVEFlGC1O0vaK2cA9TnKC+vtvn+CiGT5rUxJ
+         IqdtVEWEppwPTMS6gHQi4oPIRnLgrmugzbsEq4RFh475e5Y1CQoKyQIeEk5OKHVLZgGv
+         RujzQ8tlPnUhmAm9iSn95bhHagUBZMG2xTimoSMZi1NtxTcog0JPV81ksU88OWYzbvPW
+         gwqQ==
+X-Gm-Message-State: AOJu0YzR8kKoMZUltoTJIqnOMnfX0vyWcNX3OvoS2GuKAD8nm7C7USez
+        eX/SlcBuj2H6KsPyWp0SqFO5Rw==
+X-Google-Smtp-Source: AGHT+IFInS8TEVpw8at3nnFmeIOA264PuHBbiEjhb4uEc3ufRCS8Se9DI9mdwo2KzkeTrYqD5yxYkA==
+X-Received: by 2002:a7b:cd96:0:b0:3fe:1cac:37d5 with SMTP id y22-20020a7bcd96000000b003fe1cac37d5mr3563058wmj.4.1691237493833;
+        Sat, 05 Aug 2023 05:11:33 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id x8-20020a05600c2a4800b003fbc30825fbsm4829034wme.39.2023.08.05.05.11.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Aug 2023 05:11:33 -0700 (PDT)
+Message-ID: <1eec01ce-5d14-e6f0-c399-ad14e6d176a9@linaro.org>
+Date:   Sat, 5 Aug 2023 13:11:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 6/6] media: venus: core: Add SC8280XP resource struct
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
+ <20230731-topic-8280_venus-v1-6-8c8bbe1983a5@linaro.org>
+ <989aea4c-50e7-8141-dd60-3f41058192f8@linaro.org>
+ <c0d4845d-d290-4082-b5c5-996637bcac2c@linaro.org>
+ <c2bdc6a5-2f97-9c7b-d620-ff3e361f1f07@linaro.org>
+ <172bce60-6581-4832-b489-7497989fc91e@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <172bce60-6581-4832-b489-7497989fc91e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230805-ir-spi-v1-1-33af4a556139@gmail.com>
-X-B4-Tracking: v=1; b=H4sIADYxzmQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2MDCwNT3cwi3eKCTF1jE3PjZNM0IGVmogRUXFCUmpZZATYoOra2FgDzgm5
- UWAAAAA==
-To:     Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xilin Wu <wuxilin123@gmail.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1691234622; l=927;
- i=wuxilin123@gmail.com; s=20230805; h=from:subject:message-id;
- bh=+DkvKMI3r/F0yMEERA2wc0VwRO9F51Sgxxn9bTGF1zY=;
- b=BbC1D3biwOPvuRARvE7eVazY2c5pGzMwarU0ZE2bB7HXUn7mFqo97HHVYSIm9uvGwABB96jB0
- fQXhqbBV//pAH72/mrgujnR0wnvxKgz/IUkxTRTEQcJh2bElZBiXX6U
-X-Developer-Key: i=wuxilin123@gmail.com; a=ed25519;
- pk=OZIrHT2qWm7yEdp5fsVR7GsFx1wxciIii20H06Ud088=
-X-Endpoint-Received: by B4 Relay for wuxilin123@gmail.com/20230805 with auth_id=73
-X-Original-From: Xilin Wu <wuxilin123@gmail.com>
-Reply-To: <wuxilin123@gmail.com>
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Xilin Wu <wuxilin123@gmail.com>
+On 04/08/2023 22:17, Konrad Dybcio wrote:
+> On 4.08.2023 23:12, Bryan O'Donoghue wrote:
+>> On 04/08/2023 22:10, Konrad Dybcio wrote:
+>>>> Would it not be more legitimate and logical to have 8350 use 8280xp's frequency table, instead of 8250 ?
+>>> top freq is higher on 8280
+>>
+>> Still though its a bit suspicious 8350 doesn't have its own table.
+>>
+>> Are we missing the downstream reference ?
+> 8250:
+> qcom,allowed-clock-rates = <239999999 338000000 366000000 444000000>;
+> 
+> 8350:
+> qcom,allowed-clock-rates = <239999999 338000000 366000000 444000000>;
+> 
+> (identical)
+> 
+> Konrad
 
-The driver wrongly assumes regulator is called "irda_regulator"
-instead of "power".
+Fair enough
 
-Change it to "power" to match device tree binding.
-
-Signed-off-by: Xilin Wu <wuxilin123@gmail.com>
----
- drivers/media/rc/ir-spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
-index bbc81bed4f90..a447bb36100d 100644
---- a/drivers/media/rc/ir-spi.c
-+++ b/drivers/media/rc/ir-spi.c
-@@ -119,7 +119,7 @@ static int ir_spi_probe(struct spi_device *spi)
- 	if (!idata)
- 		return -ENOMEM;
- 
--	idata->regulator = devm_regulator_get(&spi->dev, "irda_regulator");
-+	idata->regulator = devm_regulator_get(&spi->dev, "power");
- 	if (IS_ERR(idata->regulator))
- 		return PTR_ERR(idata->regulator);
- 
-
----
-base-commit: 024ff300db33968c133435a146d51ac22db27374
-change-id: 20230805-ir-spi-3473c5f34764
-
-Best regards,
--- 
-Xilin Wu <wuxilin123@gmail.com>
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
