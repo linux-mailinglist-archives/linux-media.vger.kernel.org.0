@@ -2,582 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 220C477192F
-	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 06:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24F09771B69
+	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 09:25:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbjHGE4Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Aug 2023 00:56:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40800 "EHLO
+        id S231250AbjHGHZH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Aug 2023 03:25:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjHGE4X (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 00:56:23 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8CDF10FA;
-        Sun,  6 Aug 2023 21:56:21 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-63d0bf91362so17494846d6.0;
-        Sun, 06 Aug 2023 21:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691384181; x=1691988981;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oi3EV0tOoJkjoxq1L5OBiiCYkYCKXXR7N7CE/jB6lMQ=;
-        b=aaPu78AYKLluiayVqsvQznBXCLA88N5XZchOdyG0munM/Bwzc1DZ4QUHl24h3YnTRG
-         ILwCTFpoeRCY2X0K6pLdAPWJgwWnqnUUIt/Yyqvm/Zx5oS01t35tWdPxd5xL5y21/OBp
-         axvOvfv3J+VsmWDAfs2sHgsHtj+zZRF6/hZUHl2ftBBRtMhR1HMYWnpcTDyNL8DvN9u9
-         4TxjY6SVf6yuSsPxTNUfYdxM/1FKpKu+4WQWM7c0XDlTtw0BcWZE4V8CYmz6Rv5QXMsB
-         dLUuic9x8tzAZRsCLTV/h9Wurq4dRPlDk9XUIkIGa+2pSkZv3NiJbpjnBPQipMAiEbqU
-         1ToQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691384181; x=1691988981;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oi3EV0tOoJkjoxq1L5OBiiCYkYCKXXR7N7CE/jB6lMQ=;
-        b=bwLo0N+jZ4DKYMGPOav7Oo7zXjZOE4hMhrNLswaCOfhPgJMVhibnQEvZApLWB+pj0H
-         QqSHAZ6bWM+frNt3CBDA5aUFUHm6X4ClHeO8CSYdFqHZ9KOaBwvPVCdu6KNY8ojRQj4N
-         okW5KtfmMz99W+2qxYnKicxtINhwO8u0It66wiwneV5ZTApFHEfgldXVR8tpmVqXYnlI
-         I5g1AV1zpc2T5ARpfsrItRMtmCNBT8+8iENULjUozdWW9BjY0hEPLHdf3/X6s5V/Arq0
-         YH59pUiti0F5Usr7CxPeDHBbQuMnP2Uai+jjl1sT8/GqdyOKPtisumvjUHZJZlC9fC8r
-         AojQ==
-X-Gm-Message-State: AOJu0YxyhpsevYgz1v/cUNaHV+6ms8O5tSJryc5Lf3MUstjhmiI9zwjK
-        uAUw44ldCamVYrNs4mkYHDw=
-X-Google-Smtp-Source: AGHT+IGY48TmFz+ohOAJ9icghf4UxtHTiG+Y8huxdeyR67+5z7+tSThWXRzFg1wOdi4f8/OakE0RJA==
-X-Received: by 2002:a0c:f18b:0:b0:63c:ec39:13d0 with SMTP id m11-20020a0cf18b000000b0063cec3913d0mr4750467qvl.64.1691384180834;
-        Sun, 06 Aug 2023 21:56:20 -0700 (PDT)
-Received: from localhost.localdomain ([191.96.150.37])
-        by smtp.gmail.com with ESMTPSA id v14-20020a0cdd8e000000b0063d366b0300sm2590313qvk.89.2023.08.06.21.56.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Aug 2023 21:56:20 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        torvalds@linux-foundation.org, randy.dunlap@oracle.com,
-        paulmck@kernel.org, corbet@lwn.net, markus.heiser@darmarIT.de
-Subject: [PATCH]upi:media: Added rest of the Generic Error Codes to the existing list
-Date:   Mon,  7 Aug 2023 10:03:16 +0530
-Message-ID: <20230807045212.32489-2-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S230515AbjHGHZG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 03:25:06 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09420A7
+        for <linux-media@vger.kernel.org>; Mon,  7 Aug 2023 00:25:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691393104; x=1722929104;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PIlDaKCu2b6XMctQHqG1hQlNRMrYp6DvNb5wM4NIMoQ=;
+  b=LqBqN+EPFiT2lnOtacBQvsJVqg94fvYtzSy/QdWjjEQRzJtrVZxo3HC2
+   XTAmxMZyu9c1VxnFtLTP7ikZhPku1AkL26hMQRJiUMza1eapbaJvl3Lnb
+   sWU2Ev1+acuGbKUUwssOQbOfjNESlTrcdiowhxJDDe7UNuFD8qbQtesvZ
+   /YUVi79q2FNnZev+HDJgi5U2xufmsHRxFykiqoWBaOxwE1xEwU1sT8nmr
+   lFt93crqjlPqVRYOq4Yd6TFlOYa6GKbINyO7zhYM5xUAvNPRS7yWLgUlN
+   PoFvDsiWJdeTKTE4cEPjzGDfyniWaUbPDQusE3idSsVvfLLuktsavVHF1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="434324022"
+X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
+   d="scan'208";a="434324022"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 00:25:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="800845850"
+X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
+   d="scan'208";a="800845850"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 00:25:02 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id C1B3C11FBE7;
+        Mon,  7 Aug 2023 10:24:59 +0300 (EEST)
+Date:   Mon, 7 Aug 2023 07:24:59 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, wentong.wu@intel.com
+Subject: Re: [PATCH 1/1] media: ivsc: Improve Kconfig help text
+Message-ID: <ZNCcSzR2+SRVeI49@kekkonen.localdomain>
+References: <20230804105226.3022473-1-sakari.ailus@linux.intel.com>
+ <20230804134825.GF12951@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230804134825.GF12951@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Added rest of the Generic Error Codes to the existing list of codes.
+Hi Laurent,
 
-cc: torvalds@linux-foundation.org
-cc: randy.dunlap@oracle.com
-cc: paulmck@kernel.org
-cc: corbet@lwn.net
-cc: markus.heiser@darmarIT.de
+On Fri, Aug 04, 2023 at 04:48:25PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Aug 04, 2023 at 01:52:26PM +0300, Sakari Ailus wrote:
+> > Improve the Kconfig help text to convey the ACE is for changing camera
+> > sensor ownership and CSI for configuring the CSI-2 rx and tx.
+> > 
+> > Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/pci/intel/ivsc/Kconfig | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/pci/intel/ivsc/Kconfig b/drivers/media/pci/intel/ivsc/Kconfig
+> > index 9535ac10f4f7..e9d94dbb4305 100644
+> > --- a/drivers/media/pci/intel/ivsc/Kconfig
+> > +++ b/drivers/media/pci/intel/ivsc/Kconfig
+> > @@ -8,5 +8,9 @@ config INTEL_VSC
+> >  	  This adds support for Intel Visual Sensing Controller (IVSC).
+> >  
+> >  	  Enables the IVSC firmware services required for controlling
+> > -	  camera sensor ownership and CSI-2 link through Image Processing
+> > -	  Unit(IPU) driver of Intel.
+> > +	  camera sensor ownership between IVSC and host CPU (ACE) as well
+> 
+> What does ACE stand for ?
+> 
+> > +	  as configuring the CSI-2 link (CSI) towards the Image Processing
+> > +	  Unit (IPU) driver of Intel.
+> 
+> If I understand things correctly, this is about routing the data from
+> the sensor to the IVSC output towards the host. Is that right ? If so,
+> let's make that explicit.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- There is a "moreutils" package across the Linux distribution, if you
- installed it and that package has a binary name "errno",if you run it with
- "-l" or "--list" option, it will show all the error codes.In my system, while
- running it shows me precisely, 134 of such codes.YMMV
+Yes, I'll add that for v2.
 
- .../userspace-api/media/gen-errors.rst        | 479 ++++++++++++++++++
- 1 file changed, 479 insertions(+)
+> 
+> > +
+> > +	  The modules will be called ivsc-csi and ivsc-ace.
+> > +
+> 
 
-diff --git a/Documentation/userspace-api/media/gen-errors.rst b/Documentation/userspace-api/media/gen-errors.rst
-index e595d0bea109..2d5dd8f7faea 100644
---- a/Documentation/userspace-api/media/gen-errors.rst
-+++ b/Documentation/userspace-api/media/gen-errors.rst
-@@ -85,6 +85,485 @@ Generic Error Codes
-        -  No device corresponding to this device special file exists.
+-- 
+Regards,
 
-
-+    -  - ``ENOENT``
-+
-+       -  No such file or directory.
-+
-+    -  - ``ESRCH``
-+
-+       -  No such process.
-+
-+    -  - ``EIO``
-+
-+       -  Input/output error.
-+
-+    -  - ``E2BIG``
-+
-+       -  Argument list too long.
-+
-+    -  - ``ENOEXEC``
-+
-+       -  Exec format error.
-+
-+    -  - ``ECHILD``
-+
-+       -  No child processes.
-+
-+    -  - ``EACCES``
-+
-+       -  Permission denied.
-+
-+    -  - ``ENOTBLK``
-+
-+       -  Block device required.
-+
-+    -  - ``EEXIST``
-+
-+       -  File Exists.
-+
-+    -  - ``EXDEV``
-+
-+       -  Invalid cross device link.
-+
-+    -  - ``ENOTDIR``
-+
-+       -  Not a directory.
-+
-+    -  - ``EISDIR``
-+
-+       -  Is a directory.
-+
-+    -  - ``ENFILE``
-+
-+       -  Too many open files in system.
-+
-+    -  - ``EMFILE``
-+
-+       -  Too many open files.
-+
-+    -  - ``ETXTBSY``
-+
-+       -  Text file busy.
-+
-+    -  - ``EFBIG``
-+
-+       -  File too large.
-+
-+    -  - ``ESPIPE``
-+
-+       -  Illegal seek.
-+
-+    -  - ``EROFS``
-+
-+       -  Read-only file system.
-+
-+    -  - ``EMLINK``
-+
-+       -  Too many links.
-+
-+    -  - ``EPIPE``
-+
-+       -  Broken pipe.
-+
-+    -  - ``EDOM``
-+
-+       -  Numerical argument out of domain.
-+
-+    -  - ``ERANGE``
-+
-+       -  Numerical result out of range.
-+
-+    -  - ``EDEADLK``
-+
-+       -  Resourse deadlock avoided.
-+
-+    -  - ``ENAMETOOLONG``
-+
-+       -  File name too long.
-+
-+    -  - ``ENOLCK``
-+
-+       -  No locks available.
-+
-+    -  - ``ENOSYS``
-+
-+       -  Function not implemented.
-+
-+    -  - ``ENOTEMPTY``
-+
-+       -  Directory not empty.
-+
-+    -  - ``ELOOP``
-+
-+       -  Too many levels of symbolic links.
-+
-+    -  - ``ENOMSG``
-+
-+       -  No message of desired type.
-+
-+    -  - ``EIDRM``
-+
-+       -  Identifier removed.
-+
-+    -  - ``ECHRNG``
-+
-+       -  Channel number out of range.
-+
-+    -  - ``EL2NSYNC``
-+
-+       -  Level 2 not syncronized.
-+
-+    -  - ``EL3HLT``
-+
-+       -  Level 3 halted.
-+
-+    -  - ``EL3RST``
-+
-+       -  Level 3 reset.
-+
-+    -  - ``ELNRNG``
-+
-+       -  Link number out of range.
-+
-+    -  - ``EUNATCH``
-+
-+       -  Protocol driver not attached.
-+
-+    -  - ``ENOCSI``
-+
-+       -  No CSI structure available.
-+
-+    -  - ``EL2HLT``
-+
-+       -  Level 2 halted.
-+
-+    -  - ``EBADE``
-+
-+       -  Invalid exchnage.
-+
-+    -  - ``EBDR``
-+
-+       -  Invalid request descriptor.
-+
-+    -  - ``EXFULL``
-+
-+       -  Exchange full.
-+
-+    -  - ``ENOANO``
-+
-+       -  No anode.
-+
-+    -  - ``EBADRQC``
-+
-+       -  Invalid request code.
-+
-+    -  - ``EBADSLT``
-+
-+       -  Invalid slot.
-+
-+    -  - ``EBFONT``
-+
-+       -  Bad font file format.
-+
-+    -  - ``ENOSTR``
-+
-+       -  Device not a stream.
-+
-+    -  - ``ENODATA``
-+
-+       -  No data available.
-+
-+    -  - ``ETIME``
-+
-+       -  Time expired.
-+
-+    -  - ``ENOSR``
-+
-+       -  Out of stream resources.
-+
-+    -  - ``ENONET``
-+
-+       -  Machine is not on the network.
-+
-+    -  - ``ENOPKG``
-+
-+       -  Package not installed.
-+
-+    -  - ``EREMOTE``
-+
-+       -  Object is remote.
-+
-+    -  - ``ENOLINK``
-+
-+       -  Link has been severed.
-+
-+    -  - ``EADV``
-+
-+       -  Advertise error.
-+
-+    -  - ``ESRMNT``
-+
-+       -  Srmount error.
-+
-+    -  - ``ECOMM``
-+
-+       -  Communication error on send.
-+
-+    -  - ``EPROTO``
-+
-+       -  Protocol error.
-+
-+    -  - ``EMULTIHOP``
-+
-+       -  Multihop attempted.
-+
-+    -  - ``EDOTDOT``
-+
-+       -  RFS specific error.
-+
-+    -  - ``EBADMSG``
-+
-+       -  Bad message.
-+
-+    -  - ``EOVERFLOW``
-+
-+       -  Value too large for defined data type.
-+
-+    -  - ``ENOTUNIQ``
-+
-+       -  Name not uniq on network.
-+
-+    -  - ``EBADFD``
-+
-+       -  File descriptor in bad state.
-+
-+    -  - ``EREMCHG``
-+
-+       -  Remote address changed.
-+
-+    -  - ``ELIBACC``
-+
-+       -  Can not access a needed shared library.
-+
-+    -  - ``ELIBBAD``
-+
-+       -  Accessing a corrupted shared library.
-+
-+    -  - ``ELIBSCN``
-+
-+       -  .lib section in a.out corrupted.
-+
-+    -  - ``ELIBMAX``
-+
-+       -  Attempting to link in too many shared libraries.
-+
-+    -  - ``ELIBEXEC``
-+
-+       -  Can not exec a shared library directly.
-+
-+    -  - ``ELIBSEQ``
-+
-+       -  Invalid or incomplete multibyte or wide character.
-+
-+    -  - ``ERESTART``
-+
-+       -  Interrupted system call should be restarted.
-+
-+    -  - ``ESTRPIPE``
-+
-+       -  Stream pipe error.
-+
-+    -  - ``EUSERS``
-+
-+       -  Too many users.
-+
-+    -  - ``ENOTSOCK``
-+
-+       -  Socker operation on non-socket.
-+
-+    -  - ``EDESTADDREQ``
-+
-+       -  Destination address required.
-+
-+    -  - ``EMSGSIZE``
-+
-+       -  Message too long.
-+
-+    -  - ``EPROTOTYPE``
-+
-+       -  protocol wrong type for socket.
-+
-+    -  - ``ENOPROTOOPT``
-+
-+       -  Protocol not available.
-+
-+    -  - ``EPROTNOSUPPORT``
-+
-+       -  Protocol not supported.
-+
-+    -  - ``ESOCKTNOSUPPORT``
-+
-+       -  Socket type not supported.
-+
-+    -  - ``EOPNOTSUPP``
-+
-+       -  Operation not supported.
-+
-+    -  - ``EPFNOSUPPORT``
-+
-+       -  Protocol family not supported.
-+
-+    -  - ``EAFNOSUPPORT``
-+
-+       -  Address family not supported by protocol.
-+
-+    -  - ``EADDRINUSE``
-+
-+       -  Address already in use.
-+
-+    -  - ``EADDRNOTAVAIL``
-+
-+       -  Cannot assign requested address.
-+
-+    -  - ``ENETDOWN``
-+
-+       -  Network is down.
-+
-+    -  - ``ENETUNREACH``
-+
-+       -  Network is unreachable.
-+
-+    -  - ``ENETRESET``
-+
-+       -  Network dropped connection on reset.
-+
-+    -  - ``ECONNABORTED``
-+
-+       -  Software caused connection abort.
-+
-+    -  - ``ECONNRESET``
-+
-+       -  Connection reset by peer.
-+
-+    -  - ``ENOBUFS``
-+
-+       -  No buffer space available.
-+
-+    -  - ``EISCONN``
-+
-+       -   Transport endpoint is already connected.
-+
-+    -  - ``ENOTCONN``
-+
-+       -  Transport endpoint is not connected.
-+
-+    -  - ``ESHUTDOWN``
-+
-+       -  Cannot send after transport endpoint shutdown.
-+
-+    -  - ``ETOOMANYREFS``
-+
-+       -   Too many references: cannot splice.
-+
-+    -  - ``ETIMEDOUT``
-+
-+       -  Connection timed out.
-+
-+    -  - ``ECONNREFUSED``
-+
-+       -  Connection refused.
-+
-+    -  - ``EHOSTDOWN``
-+
-+       -  Host is down.
-+
-+    -  - ``EHOSTUNREACH``
-+
-+       -  No route to host.
-+
-+    -  - ``EALREADY``
-+
-+       -  Operation already in progress.
-+
-+    -  - ``EINPROGRESS``
-+
-+       -  Operation now in progress.
-+
-+    -  - ``ESTALE``
-+
-+       -  Stale file handle.
-+
-+    -  - ``EUCLEAN``
-+
-+       -  Structure needs cleaning.
-+
-+    -  - ``ENOTNAM``
-+
-+       -   Not a XENIX named type file.
-+
-+    -  - ``ENAVAIL``
-+
-+       -   No XENIX semaphores available.
-+
-+    -  - ``EISNAM``
-+
-+       -  Is a named type file.
-+
-+    -  - ``EREMOTEIO``
-+
-+       -  Remote I/O error.
-+
-+    -  - ``EDQUOT``
-+
-+       -  Disk quota exceeded.
-+
-+    -  - ``ENOMEDIUM``
-+
-+       -  No medium found.
-+
-+    -  - ``EMEDIUMTYPE``
-+
-+       -  Wrong medium type.
-+
-+    -  - ``ECANCELED``
-+
-+       -  Operation canceled.
-+
-+    -  - ``ENOKEY``
-+
-+       -  Required key not available.
-+
-+    -  - ``EKEYEXPIRED``
-+
-+       -   Key has expired.
-+
-+    -  - ``EKEYREVOKED``
-+
-+       -  Key has been revoked.
-+
-+    -  - ``EKEYREJECTED``
-+
-+       -  Key was rejected by service.
-+
-+    -  - ``EOWNERDEAD``
-+
-+       -   Owner died.
-+
-+    -  - ``ENOTRECOVERABLE``
-+
-+       -  State not recoverable.
-+
-+    -  - ``ERFKILL``
-+
-+       -   Operation not possible due to RF-kill.
-+
-+    -  - ``EHWPOISON``
-+
-+       -  Memory page has hardware error.
-+
-+    -  - ``ENOTSUP``
-+
-+       -  Operation not supported.
- .. note::
-
-   #. This list is not exhaustive; ioctls may return other error codes.
---
-2.41.0
-
+Sakari Ailus
