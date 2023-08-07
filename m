@@ -2,102 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B2CD771E67
-	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 12:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40B16771EDA
+	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 12:52:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231616AbjHGKnH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Aug 2023 06:43:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58316 "EHLO
+        id S231389AbjHGKwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Aug 2023 06:52:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230201AbjHGKnF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 06:43:05 -0400
+        with ESMTP id S231512AbjHGKwM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 06:52:12 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ED29E76;
-        Mon,  7 Aug 2023 03:43:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1198F97;
+        Mon,  7 Aug 2023 03:52:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BFFC6617A8;
-        Mon,  7 Aug 2023 10:43:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19753C433C7;
-        Mon,  7 Aug 2023 10:43:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691404984;
-        bh=lmODyoRJKtcj4W24Dy7/v+c4Qi+PYMon9fdimxp0sfA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TcAlo+cX6hfeF5SQjcMoJTO/A3veK/VokyY/xoYVELPGtPmAfZr3lv5EKQnc+nlKl
-         N9DfLtgJiO0p+FxuZiWGLCthpEAOHDN1beOfa7BRs4inIEr36QtWmDDuwDkEytuYUY
-         HECYro3S5eSBPetbByRDw3EPrGFIZRGwhmedZ3A5ll7A6jVQjTVL1Z6MntVAQEiLgk
-         GpLoeaLn3CgTN7DvNktJ8quypGM2/aTH7eRWtZiagMfPIxwYoFosUpfcFLhynRROxO
-         SvJVIylIvWH3Uqvq2d7uqS2bX0QaLexDcXjvYQkBJGnalkgxv7HbKxOJHiLz/2Ffhr
-         i2wmRN4CXuhlw==
-Received: from johan by xi.lan with local (Exim 4.96)
-        (envelope-from <johan@kernel.org>)
-        id 1qSxhX-0005L0-14;
-        Mon, 07 Aug 2023 12:43:03 +0200
-Date:   Mon, 7 Aug 2023 12:43:03 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/6] media: platform: venus: Add optional LLCC path
-Message-ID: <ZNDKtwO3tWNIFIhz@hovoldconsulting.com>
-References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
- <20230731-topic-8280_venus-v1-4-8c8bbe1983a5@linaro.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9FB666177E;
+        Mon,  7 Aug 2023 10:52:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA53C433C8;
+        Mon,  7 Aug 2023 10:52:07 +0000 (UTC)
+Message-ID: <1cb55979-b2a9-9a1f-067e-1ea898229203@xs4all.nl>
+Date:   Mon, 7 Aug 2023 12:52:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230731-topic-8280_venus-v1-4-8c8bbe1983a5@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] media: mediatek: vcodec: Fix an error handling path in
+ vdec_msg_queue_init()
+Content-Language: en-US
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+References: <efa0d4910998931a2ec9d933117fa71482d7b33a.1689624542.git.christophe.jaillet@wanadoo.fr>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <efa0d4910998931a2ec9d933117fa71482d7b33a.1689624542.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 04, 2023 at 10:09:11PM +0200, Konrad Dybcio wrote:
+Hi Christophe,
 
-> @@ -479,12 +488,18 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
->  	if (ret)
->  		goto err_cpucfg_path;
+This no longer applies after some major rework of the driver from Yunfei that
+was merged to our media_stage tree.
+
+Can you rebase this patch (if it is even still relevant)?
+
+Thanks,
+
+	Hans
+
+On 17/07/2023 22:09, Christophe JAILLET wrote:
+> All errors go to the error handling path, except this one. Be consistent
+> and also branch to it.
+> 
+> Fixes: 2f5d0aef37c6 ("media: mediatek: vcodec: support stateless AV1 decoder")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> index 04e6dc6cfa1d..c6cc2785e0e8 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> @@ -338,14 +338,16 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_queue,
+>  			err = mtk_vcodec_mem_alloc(ctx, &lat_buf->rd_mv_addr);
+>  			if (err) {
+>  				mtk_v4l2_err("failed to allocate rd_mv_addr buf[%d]", i);
+> -				return -ENOMEM;
+> +				err = -ENOMEM;
+> +				goto mem_alloc_err;
+>  			}
 >  
-> +	ret = icc_set_bw(core->llcc_path, 0, 0);
-> +	if (ret)
-> +		goto err_llcc_path;
-> +
->  	ret = icc_set_bw(core->video_path, 0, 0);
->  	if (ret)
->  		goto err_video_path;
+>  			lat_buf->tile_addr.size = VDEC_LAT_TILE_SZ;
+>  			err = mtk_vcodec_mem_alloc(ctx, &lat_buf->tile_addr);
+>  			if (err) {
+>  				mtk_v4l2_err("failed to allocate tile_addr buf[%d]", i);
+> -				return -ENOMEM;
+> +				err = -ENOMEM;
+> +				goto mem_alloc_err;
+>  			}
+>  		}
 >  
->  	return ret;
->  
-> +err_llcc_path:
-> +	icc_set_bw(core->video_path, kbps_to_icc(20000), 0);
 
-This looks wrong; you should not try to restore the video path bw which
-you have not yet updated here.
-
-Also error labels should be named after what they do, not after where
-you jump from (e.g. to avoid mistakes like the above). Perhaps you can
-clean up the existing labels before adding the new one.
-
->  err_video_path:
->  	icc_set_bw(core->cpucfg_path, kbps_to_icc(1000), 0);
->  err_cpucfg_path:
-
-Johan
