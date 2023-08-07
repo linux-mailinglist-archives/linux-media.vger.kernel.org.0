@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC92E772461
-	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 14:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FE7E7724E0
+	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 15:04:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232266AbjHGMl6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Aug 2023 08:41:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41380 "EHLO
+        id S229894AbjHGNEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Aug 2023 09:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231470AbjHGMl5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 08:41:57 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E8F10D9
-        for <linux-media@vger.kernel.org>; Mon,  7 Aug 2023 05:41:50 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4fe216edaf7so6708949e87.0
-        for <linux-media@vger.kernel.org>; Mon, 07 Aug 2023 05:41:50 -0700 (PDT)
+        with ESMTP id S231728AbjHGNEL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 09:04:11 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E4310FD
+        for <linux-media@vger.kernel.org>; Mon,  7 Aug 2023 06:04:09 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-4fe2de785e7so7418131e87.1
+        for <linux-media@vger.kernel.org>; Mon, 07 Aug 2023 06:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691412109; x=1692016909;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=oJnaxQIHCtUwxvq/1ZncB26HRZEwTNC8HkQm0K1lF9Y=;
-        b=Y22yNqLd7TWrKia65/DB1YefQkhEqfMEjOXtD/U9QhCvfumHOChPYe79Mx7KS/B2o5
-         A9irjl8YwQmUh7/OozBtD7xYHDwTdexpxxjj/wZ8eWtKEAW8MuXbIGSiY5Z9zPzfircT
-         Go8jgSyPnhJVsGdCfhQJKZUaA60B1e82sX5P4Zbgz5DrADoMbBsqksayXWPsUb9QnMZx
-         ta9/9Kjf9YnzNn8xDI+bYYo5xWrYfpWbLoiyiknMoO6A26znfl3HH1VVuIdoDwxbqmPu
-         KOYtkkKVujgP8zkUGrvLYIicgl+RBv/UuJ6nOGhe7HpEvRKIlmYs899+WlFi5w9XdoJH
-         Yg1g==
+        d=linaro.org; s=google; t=1691413448; x=1692018248;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8fw0ysUuRGQmdYsHgBJKqqkV1K0A5L6FDJbFcuo1480=;
+        b=MJy29QYA/VD6U+CY7J3IJ5cz3bNN7TmAPbf77MJGd3kkYzf9gZadG6tHXfcbfrz3DU
+         XNfpy7dt0w1j5asGH8FWu9wn4psO5TC0kAFU9OTmkLrPldK3oXwQVYcCH8QHJbz3v7VW
+         kd/N8TSA3sccU7kOxYCq753ePdQCoQGY9Io7duwoBYFwyRwTPWnThIg0Z6PCMZP11DFN
+         UcSz3Qw/z6rDlpS7gTGl+TyXFSxMuOBZXouH0lmGm7e3KxLD97KaWgQhb/5+8ro0SnF3
+         fpH2vTaqv5KyAquLeJ59UxOFVXoj4MAyecyTJ6o3Vos3bJRmtrbGCyUfLL8NGxAFdOFm
+         L7MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691412109; x=1692016909;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oJnaxQIHCtUwxvq/1ZncB26HRZEwTNC8HkQm0K1lF9Y=;
-        b=Ql/+ePgtBiwbvPlOLxsJWu/MAGW7c9wN1BHjRo5CdRAtkXU/nf2K6Z50xKsdFpBjT5
-         5JvAUtyxszpTIjvrWzPQGAAdQnhhGmP2q4AeJzRuq3CZFs1F/53PM4NJtL0jo/AJVuak
-         6kSi7sRJAA2vT9FUzRagf4k+5TiuMHROVrrbiivEecUDyEiRcEHWiMDd0o1eGItqcPww
-         VVipZQ2pSPnnGgLAX7C+5fxAOK7XOjkZkcaf0UjVF7B2+7A6dMyTDaTaZ8q2QdFycO/n
-         ci9GDc/CROETCTH1lkAQcIrEbE/FbSU8G4o2wWVW0028oTdtAdbLge4WLJdfwkA63Ns6
-         ucRQ==
-X-Gm-Message-State: AOJu0YyPQFYzwR64nvoGhNatkwN8NnrFaI4WsVyifdxL6YL4Zv8alM5f
-        bZk8XYxMacXBbe0ihvKxV6p96A==
-X-Google-Smtp-Source: AGHT+IGd/bA+WdoXr2RtB9cVfw2LRTOMcdEI9g4vHgHZKXbuqyq+n/lPuSuf1r5s8S6n1UQWJNJWoA==
-X-Received: by 2002:a05:6512:3b85:b0:4fe:56d8:631e with SMTP id g5-20020a0565123b8500b004fe56d8631emr2387130lfv.28.1691412108950;
-        Mon, 07 Aug 2023 05:41:48 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691413448; x=1692018248;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8fw0ysUuRGQmdYsHgBJKqqkV1K0A5L6FDJbFcuo1480=;
+        b=fuov7UfocXesa/9P02oHR4qjOj3uc9B9WvklPFCE66S0qFaUcqh6XmpdrzMdXF0UU8
+         VGHaHoHm3RPPydxWVvmWddpGDnx3m2zZuILRDlbmCTDJ9UG/fx1cRgUaWD1u9ZbdqnWD
+         8bQf9WQUrOMgaIcG70LmWv5r5pnFeoj/3/4JMaMaSeOOrMdKVqG/Zox+U3900wmfVylM
+         lx7nYhYPK3YEZh9/aDbQRR6jZm1Y6d7NQYankjj0YKp6o0vR201FVx6kvHCD/h/CB98a
+         HdajjINyQXKehqdTnvB/oWDuq+uncqKBXgHHOxTKoZJXJRhBp7sV/WcoanNYVItljA01
+         ER0Q==
+X-Gm-Message-State: AOJu0YzmRs0RbAmhwP6+V7koqxvIUN0GKPpQUrDkD0D9J3EAVO3gVbuN
+        6K76ukoILmmX9qzpVEouRa9+Ww==
+X-Google-Smtp-Source: AGHT+IFANa3hBy+WjggbiPeaU4RZbBasyq8DPreopiF5u4h3sdQbfn6LOIasEwL96ek3TlV6MRoBRg==
+X-Received: by 2002:a19:f817:0:b0:4fe:590:53ca with SMTP id a23-20020a19f817000000b004fe059053camr5806148lff.4.1691413448165;
+        Mon, 07 Aug 2023 06:04:08 -0700 (PDT)
 Received: from [192.168.1.101] (abxi185.neoplus.adsl.tpnet.pl. [83.9.2.185])
-        by smtp.gmail.com with ESMTPSA id o15-20020a056512050f00b004fe36bae2d6sm1491498lfb.81.2023.08.07.05.41.47
+        by smtp.gmail.com with ESMTPSA id b17-20020ac25631000000b004fdc6f03c6dsm1477693lff.37.2023.08.07.06.04.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Aug 2023 05:41:48 -0700 (PDT)
-Message-ID: <659e30a7-80f7-4fd8-af58-45505213a2ef@linaro.org>
-Date:   Mon, 7 Aug 2023 14:41:46 +0200
+        Mon, 07 Aug 2023 06:04:07 -0700 (PDT)
+Message-ID: <f710487d-7f35-448d-b2e9-7f008e040607@linaro.org>
+Date:   Mon, 7 Aug 2023 15:04:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] media: dt-bindings: Document SC8280XP/SM8350 Venus
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+Subject: Re: [PATCH 4/6] media: platform: venus: Add optional LLCC path
+Content-Language: en-US
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
         Vikash Garodia <quic_vgarodia@quicinc.com>,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Andy Gross <agross@kernel.org>,
@@ -64,15 +64,14 @@ To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
         Konrad Dybcio <konradybcio@kernel.org>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
- <20230731-topic-8280_venus-v1-1-8c8bbe1983a5@linaro.org>
- <84ab9380-2fb2-76f9-2eb9-71d9202718cc@linaro.org>
-Content-Language: en-US
+ <20230731-topic-8280_venus-v1-4-8c8bbe1983a5@linaro.org>
+ <ZNDKtwO3tWNIFIhz@hovoldconsulting.com>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -109,54 +108,47 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <84ab9380-2fb2-76f9-2eb9-71d9202718cc@linaro.org>
+In-Reply-To: <ZNDKtwO3tWNIFIhz@hovoldconsulting.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5.08.2023 21:29, Krzysztof Kozlowski wrote:
-> On 04/08/2023 22:09, Konrad Dybcio wrote:
->> Both of these SoCs implement an IRIS2 block, with SC8280XP being able
->> to clock it a bit higher.
->>
+On 7.08.2023 12:43, Johan Hovold wrote:
+> On Fri, Aug 04, 2023 at 10:09:11PM +0200, Konrad Dybcio wrote:
 > 
-> ...
+>> @@ -479,12 +488,18 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
+>>  	if (ret)
+>>  		goto err_cpucfg_path;
+>>  
+>> +	ret = icc_set_bw(core->llcc_path, 0, 0);
+>> +	if (ret)
+>> +		goto err_llcc_path;
+>> +
+>>  	ret = icc_set_bw(core->video_path, 0, 0);
+>>  	if (ret)
+>>  		goto err_video_path;
+>>  
+>>  	return ret;
+>>  
+>> +err_llcc_path:
+>> +	icc_set_bw(core->video_path, kbps_to_icc(20000), 0);
 > 
->> +
->> +  iommus:
->> +    maxItems: 1
->> +
->> +  video-decoder:
->> +    type: object
->> +
->> +    properties:
->> +      compatible:
->> +        const: venus-decoder
-> 
-> That's not how compatibles are constructed... missing vendor prefix, SoC
-> or IP block name.
-> 
->> +
->> +    required:
->> +      - compatible
->> +
->> +    additionalProperties: false
-> 
-> Why do you need this child node? Child nodes without properties are
-> usually useless.
-For both comments: I aligned with what was there..
+> This looks wrong; you should not try to restore the video path bw which
+> you have not yet updated here.
+Oh whoops :D
 
-The driver abuses these compats to probe enc/dec submodules, even though
-every Venus implementation (to my knowledge) is implicitly enc/dec capable..
-
-Perhaps a bigger clean-up is due. I guess I could just create the venc/vdec
-devices from the venus core probe and get rid of this fake stuff?
+> 
+> Also error labels should be named after what they do, not after where
+> you jump from (e.g. to avoid mistakes like the above). Perhaps you can
+> clean up the existing labels before adding the new one.
+Ack, I wouldn't mind giving this some cleanup.
 
 Konrad
