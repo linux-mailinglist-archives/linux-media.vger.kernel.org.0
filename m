@@ -2,62 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63D71772518
-	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 15:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6423F77252D
+	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 15:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233874AbjHGNJs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Aug 2023 09:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57306 "EHLO
+        id S232259AbjHGNNI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Aug 2023 09:13:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231255AbjHGNJr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 09:09:47 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0CC31701
-        for <linux-media@vger.kernel.org>; Mon,  7 Aug 2023 06:09:44 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-986d8332f50so615191966b.0
-        for <linux-media@vger.kernel.org>; Mon, 07 Aug 2023 06:09:44 -0700 (PDT)
+        with ESMTP id S231559AbjHGNNH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 09:13:07 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC887EB
+        for <linux-media@vger.kernel.org>; Mon,  7 Aug 2023 06:13:01 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fe4b45a336so22308485e9.1
+        for <linux-media@vger.kernel.org>; Mon, 07 Aug 2023 06:13:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691413783; x=1692018583;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OUBX0M73wFHT9eoECwDsnUeuQ/GOufxE2TDJPi/hBi4=;
-        b=CwY2YCXlMDtzQMebTwv7Ckjxds6YTVDHwGNS5YtrmZA4PmSJ/ycHgSkYcVgoWDliT4
-         UVBTr3vEfsIYoOlvXhyz0ir/u+DA6IiXumxTV5Cl+OTarcmOWyunKGwZlIUxlO0x3F41
-         hzVz2vEg4/uLUgoZHp8FTWjhUhw7dfJfNYivPid+KP5TWrr9O5eyq0cvuENoKjBiG7aJ
-         1Cq+v+c6HF8VkPWnYVlGpZAHnGA0POZKB2pezEhj7wP+kfnsOV4uZlxFxoRBCe91iYZD
-         ZmwCtYXU+lBdFXpbn/JDa9rome/yfaB270MCMFxRSlGKlttEn/5V0nj3V+3+3mAZ048i
-         1YEQ==
+        d=linaro.org; s=google; t=1691413980; x=1692018780;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZW8bAZOpofrAZ+E1cERRtB886PDebwGsovf/Pz2sHNY=;
+        b=NBFvLuOfuqii+YsiP6fAqg2jYNwaUOzi+zy+p6hiHsBwUqsGaqC+jifC8WkeFzHJ3p
+         9bGi50BRrixhKZ/AGczbT2D3DNDVj03v9oFDRRHS2WkCOxSgt0ReT/fFhGpFPPQaiYse
+         HjxvkP/NPV8DohAp7J6hq4SeaAVItFAQMsVt+SfbSHFhqvYCiX33LEnBwSQkefvkpPrQ
+         yAG2arWbsqrzYzjfXZ0MuU6zVyGjf0a83K1Qw76IAac7k0Q0bdpmgA3og9NEk19823Rs
+         PFfEj+kknB+PamtZqAc8GhCIC/I8vL8fk56b6X5XQc+PMdXeDdJWaaRsa4824aUoVD8b
+         8PLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691413783; x=1692018583;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OUBX0M73wFHT9eoECwDsnUeuQ/GOufxE2TDJPi/hBi4=;
-        b=exlgak8Z9rEPzolHz8m1WDT4JYLoSJFzl/hYZesyaSCcb45p1CSJKQBW2+3dIQrLq2
-         2gL85bxVwXCUjV5BqrOD/kwY7hhsJRnshwWV/Wr2llDwuxQFwkfuh1W/5mSRz443A7CE
-         +YeUiKQa0VcsyHclBWJyMhbeT9WDM/Czg3krVrn35H6so8ls2clT019yz/VAgQCkWeUc
-         sO6xKDLRb8m/KRceDRkzfyGKXMkJ36H22vA00B7aNFYFYKoMOE5/xypp35j081T2VHLJ
-         CM25Ahy4DCbPm1ac0NLusQIMp88sSl1bMbDJpE1fEuFUM3U4NO59+kXSwUug5RStfWtB
-         Qe4w==
-X-Gm-Message-State: AOJu0YxQu8non7dEfSCGXNCEZf6AEYVSFupQN0mp9eqQSDckMhRG3Akj
-        2QxSnSazaIokEkvDNfzJ9xf2TQ==
-X-Google-Smtp-Source: AGHT+IE2cGa7ZQhye3Rv8ehiG2rTumLO8Og+QEsxDBnUJkU/mU8QmIulq6RaJ48j6i1orRq+apPqgw==
-X-Received: by 2002:a17:907:7757:b0:99b:499d:4635 with SMTP id kx23-20020a170907775700b0099b499d4635mr7903641ejc.75.1691413783095;
-        Mon, 07 Aug 2023 06:09:43 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.113])
-        by smtp.gmail.com with ESMTPSA id o17-20020a17090611d100b0099bd0b5a2bcsm5231021eja.101.2023.08.07.06.09.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Aug 2023 06:09:42 -0700 (PDT)
-Message-ID: <9c878317-18d6-c483-d182-4c25200ee305@linaro.org>
-Date:   Mon, 7 Aug 2023 15:09:40 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH 3/3] media: exynos4-is: fimc-is: replace duplicate pmu
- node with phandle
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        d=1e100.net; s=20221208; t=1691413980; x=1692018780;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZW8bAZOpofrAZ+E1cERRtB886PDebwGsovf/Pz2sHNY=;
+        b=A2Elt6dIU3Tre7+o/aBg57glbvBAg+qKqbikMs7LQnvEwPRPDa4k8urag2VPXA3Mm+
+         zl0bo9P44SZEa8LVdehJpBn+hhNiaGqBvSNVlL0NMj1aXdQXy6N6n5iQP79JmpytbjVZ
+         HTFaiFHGO3BXCTA/wkBX/9T3+kuLGnyNMAIo/Ncw0WRYxaFhmQGDT+4JNRNEbgF3ysxl
+         JziYYkbECxIw23xkvf3J1sDJysijHVlMJVLEt/HR088E0at2wicDhhwG0nZiocglfx46
+         IiC5Jw7W3amEmoVpDrhYmxd44NzioMSxFSnEHnEu79Y+QTifJtgcxByvHfK0yum3L8Wk
+         TBWA==
+X-Gm-Message-State: AOJu0YxKt0lOyUUmlZSR9ylzhE2x1j0W49ajkqf8vViCZojKvPaJPkqn
+        9CmaWuGz0QA/9HXXiYLlTs/9rg==
+X-Google-Smtp-Source: AGHT+IFgUw/IsPxcji669Ya7tWBBXSklfkr9EK6+mKTk1ImVlXR/2gF4Mefli/6npyXEZ+Id6V2QeA==
+X-Received: by 2002:a1c:f60b:0:b0:3fa:991c:2af9 with SMTP id w11-20020a1cf60b000000b003fa991c2af9mr5860825wmc.16.1691413980429;
+        Mon, 07 Aug 2023 06:13:00 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.222.113])
+        by smtp.gmail.com with ESMTPSA id j9-20020a5d4489000000b0031411b7087dsm10618428wrq.20.2023.08.07.06.12.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Aug 2023 06:13:00 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -66,89 +58,130 @@ To:     Hans Verkuil <hverkuil@xs4all.nl>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230722115441.139628-1-krzysztof.kozlowski@linaro.org>
- <20230722115441.139628-3-krzysztof.kozlowski@linaro.org>
- <0b361e6c-d141-4758-edc2-c75b6f0efbe3@xs4all.nl>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <0b361e6c-d141-4758-edc2-c75b6f0efbe3@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 1/3] media: dt-bindings: samsung,exynos4212-fimc-is: replace duplicate pmu node with phandle
+Date:   Mon,  7 Aug 2023 15:12:54 +0200
+Message-Id: <20230807131256.254243-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/08/2023 15:06, Hans Verkuil wrote:
-> Hi Krzysztof,
-> 
-> On 22/07/2023 13:54, Krzysztof Kozlowski wrote:
->> Devicetree for the FIMC IS camera included duplicated PMU node as its
->> child like:
->>
->>   soc@0 {
->>     system-controller@10020000 { ... }; // Real PMU
->>
->>     camera@11800000 {
->>       fimc-is@12000000 {
->>         // FIMC IS camera node
->>         pmu@10020000 {
->>           reg = <0x10020000 0x3000>; // Fake PMU node
->>         };
->>       };
->>     };
->>   };
->>
->> This is not a correct representation of the hardware.  Mapping the PMU
->> (Power Management Unit) IO memory should be via syscon-like phandle
->> (samsung,pmu-syscon, already used for other drivers), not by duplicating
->> "pmu" Devicetree node inside the FIMC IS.  Backward compatibility is
->> preserved.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>  .../platform/samsung/exynos4-is/fimc-is.c     | 33 ++++++++++++++-----
->>  1 file changed, 24 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is.c b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
->> index 530a148fe4d3..c4c191771093 100644
->> --- a/drivers/media/platform/samsung/exynos4-is/fimc-is.c
->> +++ b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
->> @@ -767,12 +767,32 @@ static void fimc_is_debugfs_create(struct fimc_is *is)
->>  static int fimc_is_runtime_resume(struct device *dev);
->>  static int fimc_is_runtime_suspend(struct device *dev);
->>  
->> +static void __iomem *fimc_is_get_pmu_regs(struct device *dev)
->> +{
->> +	struct device_node *node;
->> +	void __iomem *regs;
->> +
->> +	node = of_parse_phandle(dev->of_node, "samsung,pmu-syscon", 0);
->> +	if (!node) {
->> +		dev_warn(dev, "Finding PMU node via deprecated method, update your DTB\n");
->> +		node = of_get_child_by_name(dev->of_node, "pmu");
->> +		if (!node)
->> +			return ERR_PTR(-ENODEV);
->> +	}
->> +
->> +	regs = of_iomap(node, 0);
->> +	of_node_put(node);
->> +	if (!regs)
->> +		return ERR_PTR(-ENOMEM);
-> 
-> sparse gives me these warnings for these ERR_PTR returns:
-> 
-> drivers/media/platform/samsung/exynos4-is/fimc-is.c:780:39: warning: incorrect type in return expression (different address spaces)
-> drivers/media/platform/samsung/exynos4-is/fimc-is.c:780:39:    expected void [noderef] __iomem *
-> drivers/media/platform/samsung/exynos4-is/fimc-is.c:780:39:    got void *
+The FIMC IS camera must access the PMU (Power Management Unit) IO memory
+to control camera power.  This was achieved by duplicating the PMU node
+as its child like:
 
-Thanks, indeed. I will use IOMEM_ERR_PTR()
+  soc@0 {
+    system-controller@10020000 { ... }; // Real PMU
 
-Best regards,
-Krzysztof
+    camera@11800000 {
+      fimc-is@12000000 {
+        // FIMC IS camera node
+        pmu@10020000 {
+          reg = <0x10020000 0x3000>; // Fake PMU node
+        };
+      };
+    };
+  };
+
+This is not a correct representation of the hardware.  Mapping the PMU
+(Power Management Unit) IO memory should be via syscon-like phandle
+(samsung,pmu-syscon, already used for other drivers), not by duplicating
+"pmu" Devicetree node inside the FIMC IS.
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+---
+
+Changes in v2:
+1. Add Rb tag.
+---
+ .../media/samsung,exynos4212-fimc-is.yaml         | 15 ++++++++++-----
+ .../devicetree/bindings/media/samsung,fimc.yaml   |  5 +----
+ 2 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.yaml b/Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.yaml
+index 3691cd4962b2..3a5ff3f47060 100644
+--- a/Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.yaml
++++ b/Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.yaml
+@@ -75,13 +75,20 @@ properties:
+   power-domains:
+     maxItems: 1
+ 
++  samsung,pmu-syscon:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Power Management Unit (PMU) system controller interface, used to
++      power/start the ISP.
++
+ patternProperties:
+   "^pmu@[0-9a-f]+$":
+     type: object
+     additionalProperties: false
++    deprecated: true
+     description:
+       Node representing the SoC's Power Management Unit (duplicated with the
+-      correct PMU node in the SoC).
++      correct PMU node in the SoC). Deprecated, use samsung,pmu-syscon.
+ 
+     properties:
+       reg:
+@@ -131,6 +138,7 @@ required:
+   - clock-names
+   - interrupts
+   - ranges
++  - samsung,pmu-syscon
+   - '#size-cells'
+ 
+ additionalProperties: false
+@@ -179,15 +187,12 @@ examples:
+                  <&sysmmu_fimc_fd>, <&sysmmu_fimc_mcuctl>;
+         iommu-names = "isp", "drc", "fd", "mcuctl";
+         power-domains = <&pd_isp>;
++        samsung,pmu-syscon = <&pmu_system_controller>;
+ 
+         #address-cells = <1>;
+         #size-cells = <1>;
+         ranges;
+ 
+-        pmu@10020000 {
+-            reg = <0x10020000 0x3000>;
+-        };
+-
+         i2c-isp@12140000 {
+             compatible = "samsung,exynos4212-i2c-isp";
+             reg = <0x12140000 0x100>;
+diff --git a/Documentation/devicetree/bindings/media/samsung,fimc.yaml b/Documentation/devicetree/bindings/media/samsung,fimc.yaml
+index 79ff6d83a9fd..530a08f5d3fe 100644
+--- a/Documentation/devicetree/bindings/media/samsung,fimc.yaml
++++ b/Documentation/devicetree/bindings/media/samsung,fimc.yaml
+@@ -236,15 +236,12 @@ examples:
+                      <&sysmmu_fimc_fd>, <&sysmmu_fimc_mcuctl>;
+             iommu-names = "isp", "drc", "fd", "mcuctl";
+             power-domains = <&pd_isp>;
++            samsung,pmu-syscon = <&pmu_system_controller>;
+ 
+             #address-cells = <1>;
+             #size-cells = <1>;
+             ranges;
+ 
+-            pmu@10020000 {
+-                reg = <0x10020000 0x3000>;
+-            };
+-
+             i2c-isp@12140000 {
+                 compatible = "samsung,exynos4212-i2c-isp";
+                 reg = <0x12140000 0x100>;
+-- 
+2.34.1
 
