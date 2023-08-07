@@ -2,54 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6361772903
-	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 17:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EBF67729FA
+	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 18:00:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbjHGPWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Aug 2023 11:22:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48228 "EHLO
+        id S231324AbjHGQAS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Aug 2023 12:00:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjHGPWV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 11:22:21 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D7510FC
-        for <linux-media@vger.kernel.org>; Mon,  7 Aug 2023 08:22:20 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id E97531FE64;
-        Mon,  7 Aug 2023 15:22:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1691421738; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GoN726XQvVM3O4Jmru+mvY7j3YKAGZ0sihu6ZlArcy0=;
-        b=Wf8vbcxp47efBkbpPARn1+tyjp1K9lorjSr6zw+RUXpkkx+j0xlBWJ9rkdEOqOtRtGzpmj
-        uD8r9u5a9VUJhpu4h+I1ovMLnfeBugWTqwj6SC9dbpUGexeKDmpZiY5rwZ8k4P7esevqv1
-        9h78CD6apzj7JVb1++2c0R0Z6vsTkSU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1691421738;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GoN726XQvVM3O4Jmru+mvY7j3YKAGZ0sihu6ZlArcy0=;
-        b=wsLdYZZzxzxpdYpNL5x4TK1cl7YIjiVlFWpaWYUIk0YcmOWEPxN3CihrdAW8Pcs2lZf0+0
-        FtN529EXC9vkz6Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9031713487;
-        Mon,  7 Aug 2023 15:22:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id /zcDIioM0WQqUwAAMHmgww
-        (envelope-from <tiwai@suse.de>); Mon, 07 Aug 2023 15:22:18 +0000
-Date:   Mon, 07 Aug 2023 17:22:18 +0200
-Message-ID: <87pm3yj2s5.wl-tiwai@suse.de>
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        with ESMTP id S229578AbjHGQAQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 12:00:16 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9609CE74
+        for <linux-media@vger.kernel.org>; Mon,  7 Aug 2023 09:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691424015; x=1722960015;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z/4FddksZRjYPF/sctXV9wacx6/6dUIpgpIazoNeWKI=;
+  b=Ler+P97WXiKPIiofElnKirzLqAr1z/jdkIPw6u7vmKqc/XN6nJP/vtaY
+   G38zXwAzRu8YXALfU5j+O47ZZZ/iFXJy3mVmXaoALnrM3rR2y+MbRhK5Z
+   ZbchTHoYSA5DTP92G8ktYvKGPPqv2GoO0fHxenjKfCD6YY1evU0WUT3Az
+   RWOGOuYgPvl32WZRD2gz9/dIHhCaHQMpN5xdGZHaa0U4jraHqIsN3DhIf
+   PZgs3IFI9Q2sN1pqgB9PsojOAQk4jSzyMu+kFj0Np/jcbSwzVyYhCmq2y
+   7pnQJtdpL3czIUdW+HXoCNTco4OOh1zbyNIqEZ4ALSqv1g/aNnAkpVh/S
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="401553715"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="401553715"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 09:00:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="977491938"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="977491938"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga006.fm.intel.com with ESMTP; 07 Aug 2023 09:00:10 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qT2eN-000sgs-2E;
+        Mon, 07 Aug 2023 19:00:07 +0300
+Date:   Mon, 7 Aug 2023 19:00:07 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Takashi Iwai <tiwai@suse.de>
 Cc:     Mark Brown <broonie@kernel.org>, alsa-devel@alsa-project.org,
         Andrey Utkin <andrey_utkin@fastmail.com>,
         Anton Sviridenko <anton@corp.bluecherry.net>,
@@ -65,172 +60,62 @@ Cc:     Mark Brown <broonie@kernel.org>, alsa-devel@alsa-project.org,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         linux-media@vger.kernel.org, xen-devel@lists.xenproject.org
 Subject: Re: [PATCH 00/24] ALSA: Generic PCM copy ops using sockptr_t
-In-Reply-To: <ZMlGKy7ibjkQ6ii7@smile.fi.intel.com>
+Message-ID: <ZNEVB8ZJah9Y9Bua@smile.fi.intel.com>
 References: <20230731154718.31048-1-tiwai@suse.de>
-        <b906d60b-ece4-45b5-8167-2046c8dc00f4@sirena.org.uk>
-        <87h6pjj2ui.wl-tiwai@suse.de>
-        <a02cf5c3-1fac-4ec6-9d9c-f8e8d0c067e0@sirena.org.uk>
-        <87leeugbxm.wl-tiwai@suse.de>
-        <ZMlGKy7ibjkQ6ii7@smile.fi.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <b906d60b-ece4-45b5-8167-2046c8dc00f4@sirena.org.uk>
+ <87h6pjj2ui.wl-tiwai@suse.de>
+ <a02cf5c3-1fac-4ec6-9d9c-f8e8d0c067e0@sirena.org.uk>
+ <87leeugbxm.wl-tiwai@suse.de>
+ <ZMlGKy7ibjkQ6ii7@smile.fi.intel.com>
+ <87pm3yj2s5.wl-tiwai@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87pm3yj2s5.wl-tiwai@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 01 Aug 2023 19:51:39 +0200,
-Andy Shevchenko wrote:
-> 
-> On Tue, Aug 01, 2023 at 02:54:45PM +0200, Takashi Iwai wrote:
-> > On Mon, 31 Jul 2023 21:40:20 +0200,
-> > Mark Brown wrote:
-> > > On Mon, Jul 31, 2023 at 09:30:29PM +0200, Takashi Iwai wrote:
-> > > > Mark Brown wrote:
-> > > 
-> > > > > It really feels like we ought to rename, or add an alias for, the type
-> > > > > if we're going to start using it more widely - it's not helping to make
-> > > > > the code clearer.
-> > > 
-> > > > That was my very first impression, too, but I changed my mind after
-> > > > seeing the already used code.  An alias might work, either typedef or
-> > > > define genptr_t or such as sockptr_t.  But we'll need to copy the
-> > > > bunch of helper functions, too...
-> > > 
-> > > I would predict that if the type becomes more widely used that'll happen
-> > > eventually and the longer it's left the more work it'll be.
+On Mon, Aug 07, 2023 at 05:22:18PM +0200, Takashi Iwai wrote:
+> On Tue, 01 Aug 2023 19:51:39 +0200, Andy Shevchenko wrote:
+> > On Tue, Aug 01, 2023 at 02:54:45PM +0200, Takashi Iwai wrote:
+
+...
+
+> I rather wonder why it can't be simple strncpy().
+
+This is obvious. To avoid compiler warning about 0 (possible) truncation.
+
+...
+
+> > Taking all remarks into account I would rather go with sockptr.h being
+> > untouched for now, just a big
 > > 
-> > That's true.  The question is how more widely it'll be used, then.
+> > /* DO NOT USE, it's obsolete, use uniptr.h instead! */
 > > 
-> > Is something like below what you had in mind, too?
+> > to be added.
 > 
-> I agree with your proposal (uniptr_t also works for me), but see below.
+> Possibly that's a safer choice.  But the biggest question is whether
+> we want a generic type or not.  Let's try to ask it first.
 > 
-> ...
-> 
-> > +#include <linux/slab.h>
-> > +#include <linux/uaccess.h>
-> 
-> But let make the list of the headers right this time.
-> 
-> It seems to me that
-> 
-> err.h
-> minmax.h // maybe not, see a remark at the bottom
-> string.h
-> types.h
-> 
-> are missing.
+> Interestingly, this file doesn't belong to any subsystem in
+> MAINTAINERS, so I'm not sure who to be Cc'ed.  Chirstoph as the
+> original author and net dev, maybe.
 
-OK, makes sense to add them.
+Yes, but actually it's fine to just copy and change sockptr.h to say
+"that's blablabla for net subsystem" (maybe this is implied by the name?).
+In that case we just introduce our copy and can do whatever modifications
+we want (see previous reply).
 
-> 
-> More below.
-> 
-> ...
-> 
-> > +	void *p = kmalloc_track_caller(len, GFP_USER | __GFP_NOWARN);
-> > +
-> > +	if (!p)
-> > +		return ERR_PTR(-ENOMEM);
-> 
-> This can use cleanup.h.
-
-Hm, I don't think it can be replaced with that.
-There may be more use of cleanup.h, but it's no direct alternative for
-kmalloc_track_caller()...
-
-> > +	if (copy_from_uniptr(p, src, len)) {
-> > +		kfree(p);
-> > +		return ERR_PTR(-EFAULT);
-> > +	}
-> > +	return p;
-> > +}
-> > +
-> > +static inline void *memdup_uniptr_nul(uniptr_t src, size_t len)
-> > +{
-> > +	char *p = kmalloc_track_caller(len + 1, GFP_KERNEL);
-> 
-> Ditto.
-> 
-> > +	if (!p)
-> > +		return ERR_PTR(-ENOMEM);
-> > +	if (copy_from_uniptr(p, src, len)) {
-> > +		kfree(p);
-> > +		return ERR_PTR(-EFAULT);
-> > +	}
-> > +	p[len] = '\0';
-> > +	return p;
-> > +}
-> 
-> ...
-> 
-> > +static inline long strncpy_from_uniptr(char *dst, uniptr_t src, size_t count)
-> > +{
-> > +	if (uniptr_is_kernel(src)) {
-> > +		size_t len = min(strnlen(src.kernel, count - 1) + 1, count);
-> 
-> I didn't get why do we need min()? To check the count == 0 case?
-> 
-> Wouldn't
-> 
-> 		size_t len;
-> 
-> 		len = strnlen(src.kernel, count);
-> 		if (len == 0)
-> 			return 0;
-> 
-> 		/* Copy a trailing NUL if found */
-> 		if (len < count)
-> 			len++;
-> 
-> be a good equivalent?
-
-A good question.  I rather wonder why it can't be simple strncpy().
-
-> > +		memcpy(dst, src.kernel, len);
-> > +		return len;
-> > +	}
-> > +	return strncpy_from_user(dst, src.user, count);
-> > +}
-> 
-> ...
-> 
-> > +static inline int check_zeroed_uniptr(uniptr_t src, size_t offset, size_t size)
-> > +{
-> > +	if (!uniptr_is_kernel(src))
-> 
-> Why not to align all the functions to use same conditional (either always
-> positive or negative)?
-
-A different person, a different taste :)  But it's trivial to fix.
-
-> > +		return check_zeroed_user(src.user + offset, size);
-> > +	return memchr_inv(src.kernel + offset, 0, size) == NULL;
-> > +}
-> 
-> ...
-> 
-> Taking all remarks into account I would rather go with sockptr.h being
-> untouched for now, just a big
-> 
-> /* DO NOT USE, it's obsolete, use uniptr.h instead! */
-> 
-> to be added.
-
-Possibly that's a safer choice.  But the biggest question is whether
-we want a generic type or not.  Let's try to ask it first.
-
-Interestingly, this file doesn't belong to any subsystem in
-MAINTAINERS, so I'm not sure who to be Cc'ed.  Chirstoph as the
-original author and net dev, maybe.
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-thanks,
-
-Takashi
