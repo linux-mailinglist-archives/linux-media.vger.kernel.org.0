@@ -2,50 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DCFE7721E6
-	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 13:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFD06772251
+	for <lists+linux-media@lfdr.de>; Mon,  7 Aug 2023 13:32:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232654AbjHGL0h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Aug 2023 07:26:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35822 "EHLO
+        id S232731AbjHGLcQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Aug 2023 07:32:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232538AbjHGL0Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 07:26:24 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13B22D6B;
-        Mon,  7 Aug 2023 04:23:15 -0700 (PDT)
+        with ESMTP id S232840AbjHGLb5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Aug 2023 07:31:57 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56AE35B8E;
+        Mon,  7 Aug 2023 04:29:16 -0700 (PDT)
 Received: from [192.168.0.192] (unknown [194.146.248.75])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8E93966071C9;
-        Mon,  7 Aug 2023 12:22:16 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id EEFCA66071C9;
+        Mon,  7 Aug 2023 12:28:06 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1691407336;
-        bh=EduguPENzSxmgsBewzA4df/6CWp9o9Q0g5H0KphcdYo=;
+        s=mail; t=1691407687;
+        bh=56gVYcaazTrYHIsA62HDQJBwlVRjju6wr+3l6jBJIO8=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=PDAGssn/jCO3m36zBchc8GjEsbihDqh2oqXN8o8D8f/09JCExEZdtUh+pd7ZejvsM
-         4DhEU8GroyfohDAkh7UiOmPk6zcgCvmvo4UP0BUoelKPxF8U+2IRuUK8MYiwfTKfSb
-         slr2DaR3dyouk3Vx9P8Vw4ldXVlHotz+kTedSe00JJv+/1m3PFDzTydpIc8dexzoFr
-         9vVMrwln6SqvnsZ9oeWxdjxHmngNS5gEaygcigDHwREQaZUXMT9qQegRFK3tjv03Vk
-         9M001uC6yhcj7XpicYSVpvbKGc07tZAH35Q0M0lLDUeZOw6o+QzfXwI8IIHV0/AitR
-         YbgP+zurEe9hA==
-Message-ID: <135d7bc4-c6a0-30fd-428a-20bd886efa58@collabora.com>
-Date:   Mon, 7 Aug 2023 13:22:14 +0200
+        b=HnjuxLv1rnNTd4l05rPxR/wWm8WHB2/x4L9dapjnflads/l+tW5yfjevSBkKfa6SF
+         GWwVr8FnMQlz0F75R2JD5omvQxSgsmHCdtMAIG1IhfZFFR83lIdZ+50xYym5LdQDXn
+         mtNa4bAsO4EWedDeR8s8/fHo4Zv/dN1vIQQM/V2gI9i5vyxWu8Iueqlkekmp8sje71
+         FVNrpBMH37Yf1NbaUXx96yTPxAEpd6O7P4LD4YYU2BnmDEumJu8tXU62DqEec+zRSn
+         B7CDKoo0woT+35IN6QBEtz+uu9s+S4slRgOkeXrCnvuZviGFG2dL139EIAmNw4yDiZ
+         rV4sli6X2HnDg==
+Message-ID: <fa3fd17d-570b-fd5f-1c35-3e4004333383@collabora.com>
+Date:   Mon, 7 Aug 2023 13:28:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH 1/5] docs: uapi: media: Properly locate NV12MT diagram
+Subject: Re: [PATCH 2/5] docs: uapi: media: Move NV12_10BE_8L128 to NV15
+ section
+Content-Language: en-US
 To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     kernel@collabora.com, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230804192737.19016-1-nicolas.dufresne@collabora.com>
- <20230804192737.19016-2-nicolas.dufresne@collabora.com>
-Content-Language: en-US
+ <20230804192737.19016-3-nicolas.dufresne@collabora.com>
 From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20230804192737.19016-2-nicolas.dufresne@collabora.com>
+In-Reply-To: <20230804192737.19016-3-nicolas.dufresne@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -59,65 +60,76 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 W dniu 4.08.2023 o 21:27, Nicolas Dufresne pisze:
-> The diagram have been pushed back at the end of a list of unrelated
-> pixels formats. Move it back next its related pixel format.
+> This is a 15 bits per pixel (or packed 10 bit format), so move it
+> into the relevant section.
 > 
 > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
 > ---
->   .../media/v4l/pixfmt-yuv-planar.rst           | 32 +++++++++----------
->   1 file changed, 16 insertions(+), 16 deletions(-)
+>   .../media/v4l/pixfmt-yuv-planar.rst           | 36 ++++++++++---------
+>   1 file changed, 19 insertions(+), 17 deletions(-)
 > 
 > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> index 1840224faa41..fb826923ff1d 100644
+> index fb826923ff1d..1d43532095c0 100644
 > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
 > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> @@ -322,6 +322,22 @@ If the vertical resolution is an odd number of tiles, the last row of
->   tiles is stored in linear order. The layouts of the luma and chroma
->   planes are identical.
+> @@ -295,8 +295,6 @@ of the luma plane.
+>   .. _V4L2-PIX-FMT-NV12-32L32:
+>   .. _V4L2-PIX-FMT-NV12M-8L128:
+>   .. _V4L2-PIX-FMT-NV12-8L128:
+> -.. _V4L2-PIX-FMT-NV12M-10BE-8L128:
+> -.. _V4L2-PIX-FMT-NV12-10BE-8L128:
+>   .. _V4L2-PIX-FMT-MM21:
 >   
-> +.. _nv12mt:
-> +
-> +.. kernel-figure:: nv12mt.svg
-> +    :alt:    nv12mt.svg
-> +    :align:  center
-> +
-> +    V4L2_PIX_FMT_NV12MT macroblock Z shape memory layout
-> +
-> +.. _nv12mt_ex:
-> +
-> +.. kernel-figure:: nv12mt_example.svg
-> +    :alt:    nv12mt_example.svg
-> +    :align:  center
-> +
-> +    Example V4L2_PIX_FMT_NV12MT memory layout of tiles
-> +
->   ``V4L2_PIX_FMT_NV12_4L4`` stores pixels in 4x4 tiles, and stores
->   tiles linearly in memory. The line stride and image height must be
->   aligned to a multiple of 4. The layouts of the luma and chroma planes are
-> @@ -369,22 +385,6 @@ image height must be aligned to a multiple of 32. The number of luma and chroma
->   tiles are identical, even though the tile size differ. The image is formed of
->   two non-contiguous planes.
+>   Tiled NV12
+> @@ -361,6 +359,25 @@ The layouts of the luma and chroma planes are identical.
+>   ``V4L2_PIX_FMT_NV12_8L128`` is similar to ``V4L2_PIX_FMT_NV12M_8L128`` but stores
+>   two planes in one memory.
 >   
-> -.. _nv12mt:
-> -
-> -.. kernel-figure:: nv12mt.svg
-> -    :alt:    nv12mt.svg
-> -    :align:  center
-> -
-> -    V4L2_PIX_FMT_NV12MT macroblock Z shape memory layout
-> -
-> -.. _nv12mt_ex:
-> -
-> -.. kernel-figure:: nv12mt_example.svg
-> -    :alt:    nv12mt_example.svg
-> -    :align:  center
-> -
-> -    Example V4L2_PIX_FMT_NV12MT memory layout of tiles
-> -
->   .. _V4L2-PIX-FMT-NV15-4L4:
+> +``V4L2_PIX_FMT_MM21`` store luma pixel in 16x32 tiles, and chroma pixels
+> +in 16x16 tiles. The line stride must be aligned to a multiple of 16 and the
+> +image height must be aligned to a multiple of 32. The number of luma and chroma
+> +tiles are identical, even though the tile size differ. The image is formed of
+> +two non-contiguous planes.
+> +
+> +
+> +.. _V4L2-PIX-FMT-NV15-4L4:
+> +.. _V4L2-PIX-FMT-NV12M-10BE-8L128:
+> +.. _V4L2-PIX-FMT-NV12-10BE-8L128:
+> +
+> +Tiled NV15
+> +----------
+> +
+> +``V4L2_PIX_FMT_NV15_4L4`` Semi-planar 10-bit YUV 4:2:0 formats, using 4x4 tiling.
+> +All components are packed without any padding between each other.
+> +As a side-effect, each group of 4 components are stored over 5 bytes
+> +(YYYY or UVUV = 4 * 10 bits = 40 bits = 5 bytes).
+> +
+>   ``V4L2_PIX_FMT_NV12M_10BE_8L128`` is similar to ``V4L2_PIX_FMT_NV12M`` but stores
+>   10 bits pixels in 2D 8x128 tiles, and stores tiles linearly in memory.
+>   the data is arranged in big endian order.
+> @@ -379,21 +396,6 @@ byte 4: Y3(bits 7-0)
+>   ``V4L2_PIX_FMT_NV12_10BE_8L128`` is similar to ``V4L2_PIX_FMT_NV12M_10BE_8L128`` but stores
+>   two planes in one memory.
 >   
->   Tiled NV15
+> -``V4L2_PIX_FMT_MM21`` store luma pixel in 16x32 tiles, and chroma pixels
+> -in 16x16 tiles. The line stride must be aligned to a multiple of 16 and the
+> -image height must be aligned to a multiple of 32. The number of luma and chroma
+> -tiles are identical, even though the tile size differ. The image is formed of
+> -two non-contiguous planes.
+> -
+> -.. _V4L2-PIX-FMT-NV15-4L4:
+> -
+> -Tiled NV15
+> -----------
+> -
+> -Semi-planar 10-bit YUV 4:2:0 formats, using 4x4 tiling.
+> -All components are packed without any padding between each other.
+> -As a side-effect, each group of 4 components are stored over 5 bytes
+> -(YYYY or UVUV = 4 * 10 bits = 40 bits = 5 bytes).
+>   
+>   .. _V4L2-PIX-FMT-NV16:
+>   .. _V4L2-PIX-FMT-NV61:
 
