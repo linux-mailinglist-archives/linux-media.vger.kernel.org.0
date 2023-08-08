@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC36E7747F5
-	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 21:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2EB67747B8
+	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 21:18:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235991AbjHHTWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Aug 2023 15:22:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47120 "EHLO
+        id S236007AbjHHTSd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Aug 2023 15:18:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236273AbjHHTWK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 15:22:10 -0400
+        with ESMTP id S231838AbjHHTRc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 15:17:32 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D32410F218
-        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 09:45:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C9FD41201
+        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 09:40:45 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 711C362384
-        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 07:15:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41822C433C8;
-        Tue,  8 Aug 2023 07:15:46 +0000 (UTC)
-Message-ID: <155a002b-49fd-3af2-c005-895eab63016d@xs4all.nl>
-Date:   Tue, 8 Aug 2023 09:15:44 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A0FFF62434
+        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 08:22:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26BBEC433C9;
+        Tue,  8 Aug 2023 08:22:22 +0000 (UTC)
+Message-ID: <9d3f512c-69c6-3789-83af-d151acd58ebe@xs4all.nl>
+Date:   Tue, 8 Aug 2023 10:22:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v6 5/8] v4l2-ctl/compliance: Add simple routing test
+Subject: Re: [PATCH v3 07/10] media: uapi: Add generic 8-bit metadata format
+ definitions
 Content-Language: en-US, nl
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        satish.nagireddy@getcruise.com
-References: <20230720075044.442021-1-tomi.valkeinen@ideasonboard.com>
- <20230720075044.442021-6-tomi.valkeinen@ideasonboard.com>
- <2c282976-5890-8da9-ac6b-cdc642ab9d99@xs4all.nl>
- <94fefde1-02c9-6034-72cc-e6a30aa3f786@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <94fefde1-02c9-6034-72cc-e6a30aa3f786@ideasonboard.com>
+        Dmitry Perchanov <dmitry.perchanov@intel.com>
+References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
+ <20230808075538.3043934-8-sakari.ailus@linux.intel.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230808075538.3043934-8-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,183 +53,421 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/08/2023 07:56, Tomi Valkeinen wrote:
-> On 02/08/2023 16:54, Hans Verkuil wrote:
->> On 20/07/2023 09:50, Tomi Valkeinen wrote:
->>> Add a simple test for VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING.
->>>
->>> We can't (at least at the moment) really know here what kind of routings
->>> the driver would accept, but we can test a VIDIOC_SUBDEV_G_ROUTING call,
->>> followed by a VIDIOC_SUBDEV_S_ROUTING call with the routing we
->>> received.
->>>
->>> Additionally, we can check that the returned pads and flags look fine,
->>> and also that setting obviously invalid routing will fail.
->>>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>>   utils/v4l2-compliance/v4l2-compliance.cpp   | 12 ++++
->>>   utils/v4l2-compliance/v4l2-compliance.h     |  1 +
->>>   utils/v4l2-compliance/v4l2-test-subdevs.cpp | 74 +++++++++++++++++++++
->>>   3 files changed, 87 insertions(+)
->>>
->>> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
->>> index e8359b2f..4b232314 100644
->>> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
->>> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
->>> @@ -1249,6 +1249,18 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
->>>           node.is_passthrough_subdev = has_source && has_sink;
->>>             if (has_routes) {
->>> +            printf("Sub-Device routing ioctls:\n");
->>> +
->>> +            for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
->>> +                which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
->>> +
->>> +                printf("\ttest %s VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: %s\n",
->>> +                       which ? "Active" : "Try",
->>> +                       ok(testSubDevRouting(&node, which)));
->>> +            }
->>> +
->>> +            printf("\n");
->>> +
->>>               for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
->>>                   which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
->>>   diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
->>> index 0cd43980..35b2274b 100644
->>> --- a/utils/v4l2-compliance/v4l2-compliance.h
->>> +++ b/utils/v4l2-compliance/v4l2-compliance.h
->>> @@ -375,6 +375,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned str
->>>   int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream);
->>>   int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream);
->>>   int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream);
->>> +int testSubDevRouting(struct node *node, unsigned which);
->>>     // Buffer ioctl tests
->>>   int testReqBufs(struct node *node);
->>> diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
->>> index 5545b0dc..e59d67f7 100644
->>> --- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
->>> +++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
->>> @@ -551,3 +551,77 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigne
->>>         return have_sel ? 0 : ENOTTY;
->>>   }
->>> +
->>> +int testSubDevRouting(struct node *node, unsigned which)
->>> +{
->>> +    const uint32_t all_route_flags_mask = V4L2_SUBDEV_ROUTE_FL_ACTIVE;
->>> +    struct v4l2_subdev_routing routing = {};
->>> +    struct v4l2_subdev_route routes[NUM_ROUTES_MAX] = {};
->>> +    unsigned int i;
->>> +    int ret;
->>> +
->>> +    routing.which = which;
->>> +    routing.routes = (__u64)&routes;
->>> +    routing.num_routes = 0;
->>> +    memset(routing.reserved, 0xff, sizeof(routing.reserved));
->>> +
->>> +    /*
->>> +     * First test that G_ROUTING either returns success, or ENOSPC and
->>> +     * updates num_routes.
->>> +     */
->>> +
->>> +    ret = doioctl(node, VIDIOC_SUBDEV_G_ROUTING, &routing);
->>> +    fail_on_test(ret && ret != ENOSPC);
->>> +    fail_on_test(ret == ENOSPC && routing.num_routes == 0);
->>> +    fail_on_test(check_0(routing.reserved, sizeof(routing.reserved)));
->>> +
->>> +    if (routing.num_routes)
->>> +        return 0;
->>
->> Shouldn't this be 'if (!routing.num_routes)'?
+On 08/08/2023 09:55, Sakari Ailus wrote:
+> Generic 8-bit metadata formats define the in-memory data layout but not
+> the format of the data itself. The reasoning for having such formats is to
+> allow CSI-2 receiver drivers to receive and DMA drivers to write the data
+> to memory without knowing a large number of device specific formats.
 > 
-> Yes...
+> These formats may be used only in conjunction of a Media controller
+> pipeline where the internal pad of the source sub-device defines the
+> specific format of the data (using an mbus code).
 > 
->>> +
->>> +    /* Then get the actual routes */
->>> +
->>> +    routing.num_routes = NUM_ROUTES_MAX;
->>> +    fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_ROUTING, &routing));
->>
->> I assume that num_routes is always updated to the actual number of routes, right?
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../userspace-api/media/v4l/meta-formats.rst  |   1 +
+>  .../media/v4l/metafmt-generic.rst             | 331 ++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   8 +
+>  include/uapi/linux/videodev2.h                |   9 +
+>  4 files changed, 349 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
 > 
-> If VIDIOC_SUBDEV_G_ROUTING succeeds, yes, num_routes is updated.
-> 
->> That's not actually explained clearly in the spec. It says that if the app provided
->> num_routes is too small, then it is updated, but it says nothing about what happens
->> if the app provided value is too large.
-> 
-> Ok. I need to update the doc.
-> 
->> Assuming I am right, then I would rewrite this code as follows:
->>
->>     __u32 num_routes = routing.num_routes;
->>     routing.num_routes = num_routes + 1;
->>     fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_ROUTING, &routing));
->>     fail_on_test(routing.num_routes != num_routes);
-> 
-> Yes, I think this looks fine.
-> 
-> Btw, you use __u32 above. Is there any style guide for these? I used uint32_t in this function for another variable, and I'd use it here too.
+> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> index 0bb61fc5bc00..919f595576b9 100644
+> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> @@ -19,3 +19,4 @@ These formats are used for the :ref:`metadata` interface only.
+>      metafmt-vsp1-hgo
+>      metafmt-vsp1-hgt
+>      metafmt-vivid
+> +    metafmt-generic
+> diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
+> new file mode 100644
+> index 000000000000..a27bfc721edf
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
+> @@ -0,0 +1,331 @@
+> +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
+> +
+> +**************************************************************************************************************************************************************************************************************************************************************************************************************************
+> +V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_META_FMT_GENERIC_CSI2_12 ('MC1C'), V4L2_META_FMT_GENERIC_CSI2_14 ('MC1E'), V4L2_META_FMT_GENERIC_CSI2_16 ('MC1G'), V4L2_META_FMT_GENERIC_CSI2_20 ('MC1K'), V4L2_META_FMT_GENERIC_CSI2_24 ('MC1O'), V4L2_META_FMT_GENERIC_CSI2_2_24 ('MC2O')
+> +**************************************************************************************************************************************************************************************************************************************************************************************************************************
+> +
+> +
+> +Generic line-based metadata formats
+> +
+> +
+> +Description
+> +===========
+> +
+> +These generic line-based metadata formats define the memory layout of the data
+> +without defining the format or meaning of the metadata itself. These formats may
+> +only be used with a Media controller pipeline where the more specific format is
+> +defined in an :ref:`internal source pad <MEDIA-PAD-FL-INTERNAL>` of the source
+> +sub-device. See also :ref:`source routes <v4l2-subdev-source-routes>`.
+> +
+> +.. _v4l2-meta-fmt-generic-8:
+> +
+> +V4L2_META_FMT_GENERIC_8
+> +-----------------------
+> +
+> +The V4L2_META_FMT_GENERIC_8 format is a plain 8-bit metadata format.
+> +
+> +This format is also used on CSI-2 on both 8 bits per sample as well as on
 
-It is derived from a kernel structure, and the kernel API uses __u32. So I prefer to
-use __u32 for such things. I personally think that is good practice since it helps
-indicate that it is a kernel-API-related variable.
+on both 8 bits per sample as well as on ->
+for both 8 bits per sample as well as for
 
-I also like it because it is shorter than uint32_t :-)
+Same elsewhere.
+
+> +16 bits per sample when two bytes of metadata are packed into one sample.
+> +
+> +**Byte Order Of V4L2_META_FMT_GENERIC_8.**
+> +Each cell is one byte. "M" denotes a byte of metadata.
+> +
+> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths: 12 8 8 8 8
+> +
+> +    * - start + 0:
+> +      - M\ :sub:`00`
+> +      - M\ :sub:`10`
+> +      - M\ :sub:`20`
+> +      - M\ :sub:`30`
+> +    * - start + 4:
+> +      - M\ :sub:`01`
+> +      - M\ :sub:`11`
+> +      - M\ :sub:`21`
+> +      - M\ :sub:`31`
+> +
+> +.. _v4l2-meta-fmt-generic-csi2-10:
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_10
+> +-----------------------------
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_10 contains packed 8-bit generic metadata, 10 bits
+> +for each 8 bits of data. Every four bytes of metadata is followed by a single
+> +byte of padding. The way the data is stored follows the CSI-2 specification.
+> +
+> +This format is also used on CSI-2 on 20 bits per sample format that packs two
+> +bytes of metadata into one sample.
+> +
+> +This format is little endian.
+> +
+> +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_10.**
+> +Each cell is one byte. "M" denotes a byte of metadata and "p" a byte of padding.
+
+I think you should document whether the padding is always 0 or can be any value.
+Perhaps 'X' is a better 'name' for the padding byte in the latter case.
+
+> +
+> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths: 12 8 8 8 8 8
+> +
+> +    * - start + 0:
+> +      - M\ :sub:`00`
+> +      - M\ :sub:`10`
+> +      - M\ :sub:`20`
+> +      - M\ :sub:`30`
+> +      - p
+> +    * - start + 5:
+> +      - M\ :sub:`01`
+> +      - M\ :sub:`11`
+> +      - M\ :sub:`21`
+> +      - M\ :sub:`31`
+> +      - p
+> +
+> +.. _v4l2-meta-fmt-generic-csi2-12:
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_12
+> +-----------------------------
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_12 contains packed 8-bit generic metadata, 12 bits
+> +for each 8 bits of data. Every four bytes of metadata is followed by two bytes
+> +of padding. The way the data is stored follows the CSI-2 specification.
+> +
+> +This format is little endian.
+> +
+> +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_12.**
+> +Each cell is one byte. "M" denotes a byte of metadata and "p" a byte of padding.
+> +
+> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths: 12 8 8 8 8 8 8
+> +
+> +    * - start + 0:
+> +      - M\ :sub:`00`
+> +      - M\ :sub:`10`
+> +      - M\ :sub:`20`
+> +      - M\ :sub:`30`
+> +      - p
+> +      - p
+> +    * - start + 6:
+> +      - M\ :sub:`01`
+> +      - M\ :sub:`11`
+> +      - M\ :sub:`21`
+> +      - M\ :sub:`31`
+> +      - p
+> +      - p
+> +
+> +.. _v4l2-meta-fmt-generic-csi2-14:
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_14
+> +-----------------------------
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_14 contains packed 8-bit generic metadata, 14 bits
+> +for each 8 bits of data. Every four bytes of metadata is followed by three
+> +bytes of padding. The way the data is stored follows the CSI-2 specification.
+> +
+> +This format is little endian.
+> +
+> +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_14.**
+> +Each cell is one byte. "M" denotes a byte of metadata and "p" a byte of padding.
+> +
+> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{.8cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths: 12 8 8 8 8 8 8 8
+> +
+> +    * - start + 0:
+> +      - M\ :sub:`00`
+> +      - M\ :sub:`10`
+> +      - M\ :sub:`20`
+> +      - M\ :sub:`30`
+> +      - p
+> +      - p
+> +      - p
+> +    * - start + 7:
+> +      - M\ :sub:`01`
+> +      - M\ :sub:`11`
+> +      - M\ :sub:`21`
+> +      - M\ :sub:`31`
+> +      - p
+> +      - p
+> +      - p
+> +
+> +.. _v4l2-meta-fmt-generic-csi2-16:
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_16
+> +-----------------------------
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_16 contains packed 8-bit generic metadata, 16 bits
+> +for each 8 bits of data. Every byte of metadata is followed by one byte of
+> +padding. The way the data is stored follows the CSI-2 specification.
+> +
+> +This format is little endian.
+> +
+> +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_16.**
+> +Each cell is one byte. "M" denotes a byte of metadata and "p" a byte of padding.
+> +
+> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths: 12 8 8 8 8 8 8 8 8
+> +
+> +    * - start + 0:
+> +      - M\ :sub:`00`
+> +      - p
+> +      - M\ :sub:`10`
+> +      - p
+> +      - M\ :sub:`20`
+> +      - p
+> +      - M\ :sub:`30`
+> +      - p
+> +    * - start + 8:
+> +      - M\ :sub:`01`
+> +      - p
+> +      - M\ :sub:`11`
+> +      - p
+> +      - M\ :sub:`21`
+> +      - p
+> +      - M\ :sub:`31`
+> +      - p
+> +
+> +.. _v4l2-meta-fmt-generic-csi2-20:
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_20
+> +-----------------------------
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_20 contains packed 8-bit generic metadata, 20 bits
+> +for each 8 bits of data. Every byte of metadata is followed by alternating one
+> +and two bytes of padding. The way the data is stored follows the CSI-2
+> +specification.
+> +
+> +This format is little endian.
+> +
+> +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_20.**
+> +Each cell is one byte. "M" denotes a byte of metadata and "p" a byte of padding.
+> +
+> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths: 12 8 8 8 8 8 8 8 8 8 8
+> +
+> +    * - start + 0:
+> +      - M\ :sub:`00`
+> +      - p
+> +      - M\ :sub:`10`
+> +      - p
+> +      - p
+> +      - M\ :sub:`20`
+> +      - p
+> +      - M\ :sub:`30`
+> +      - p
+> +      - p
+> +    * - start + 10:
+> +      - M\ :sub:`01`
+> +      - p
+> +      - M\ :sub:`11`
+> +      - p
+> +      - p
+> +      - M\ :sub:`21`
+> +      - p
+> +      - M\ :sub:`31`
+> +      - p
+> +      - p
+> +
+> +.. _v4l2-meta-fmt-generic-csi2-24:
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_24
+> +-----------------------------
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_24 contains packed 8-bit generic metadata, 24 bits
+> +for each 8 bits of data. Every byte of metadata is followed by two bytes of
+> +padding. The way the data is stored follows the CSI-2 specification.
+> +
+> +This format is little endian.
+> +
+> +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_24.**
+> +Each cell is one byte. "M" denotes a byte of metadata and "p" a byte of padding.
+> +
+> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths: 12 8 8 8 8 8 8 8 8 8 8 8 8
+> +
+> +    * - start + 0:
+> +      - M\ :sub:`00`
+> +      - p
+> +      - p
+> +      - M\ :sub:`10`
+> +      - p
+> +      - p
+> +      - M\ :sub:`20`
+> +      - p
+> +      - p
+> +      - M\ :sub:`30`
+> +      - p
+> +      - p
+> +    * - start + 12:
+> +      - M\ :sub:`01`
+> +      - p
+> +      - p
+> +      - M\ :sub:`11`
+> +      - p
+> +      - p
+> +      - M\ :sub:`21`
+> +      - p
+> +      - p
+> +      - M\ :sub:`31`
+> +      - p
+> +      - p
+> +
+> +.. _v4l2-meta-fmt-generic-csi2-2-24:
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_2_24
+> +-------------------------------
+> +
+> +V4L2_META_FMT_GENERIC_CSI2_2_24 contains packed 8-bit generic metadata, 24 bits
+> +for each two times 8 bits of data. Every two bytes of metadata are followed by
+> +one byte of padding. The way the data is stored follows the CSI-2
+> +specification.
+> +
+> +This format is little endian.
+> +
+> +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_2_24.**
+> +Each cell is one byte. "M" denotes a byte of metadata and "p" a byte of padding.
+> +
+> +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths: 12 8 8 8 8 8 8
+> +
+> +    * - start + 0:
+> +      - M\ :sub:`00`
+> +      - M\ :sub:`10`
+> +      - p
+> +      - M\ :sub:`20`
+> +      - M\ :sub:`30`
+> +      - p
+> +    * - start + 6:
+> +      - M\ :sub:`01`
+> +      - M\ :sub:`11`
+> +      - p
+> +      - M\ :sub:`21`
+> +      - M\ :sub:`31`
+> +      - p
+> +
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index f4d9d6279094..fbbddc333a30 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1452,6 +1452,14 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_Y210:		descr = "10-bit YUYV Packed"; break;
+>  	case V4L2_PIX_FMT_Y212:		descr = "12-bit YUYV Packed"; break;
+>  	case V4L2_PIX_FMT_Y216:		descr = "16-bit YUYV Packed"; break;
+> +	case V4L2_META_FMT_GENERIC_8:	descr = "8-bit Generic Metadata"; break;
+> +	case V4L2_META_FMT_GENERIC_CSI2_10:	descr = "8b Generic Meta, 10b CSI-2"; break;
+> +	case V4L2_META_FMT_GENERIC_CSI2_12:	descr = "8b Generic Meta, 12b CSI-2"; break;
+> +	case V4L2_META_FMT_GENERIC_CSI2_14:	descr = "8b Generic Meta, 14b CSI-2"; break;
+> +	case V4L2_META_FMT_GENERIC_CSI2_16:	descr = "8b Generic Meta, 16b CSI-2"; break;
+> +	case V4L2_META_FMT_GENERIC_CSI2_20:	descr = "8b Generic Meta, 20b CSI-2"; break;
+> +	case V4L2_META_FMT_GENERIC_CSI2_24:	descr = "8b Generic Meta, 24b CSI-2"; break;
+> +	case V4L2_META_FMT_GENERIC_CSI2_2_24:	descr = "2x8b Generic Meta, 24b CSI-2"; break;
+>  
+>  	default:
+>  		/* Compressed formats */
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 78260e5d9985..b4284a564025 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -838,6 +838,15 @@ struct v4l2_pix_format {
+>  #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
+>  #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
+>  
+> +#define V4L2_META_FMT_GENERIC_8		v4l2_fourcc('M', 'E', 'T', '8') /* Generic 8-bit metadata */
+> +#define V4L2_META_FMT_GENERIC_CSI2_10	v4l2_fourcc('M', 'C', '1', 'A') /* 10-bit CSI-2 packed 8-bit metadata */
+> +#define V4L2_META_FMT_GENERIC_CSI2_12	v4l2_fourcc('M', 'C', '1', 'C') /* 12-bit CSI-2 packed 8-bit metadata */
+> +#define V4L2_META_FMT_GENERIC_CSI2_14	v4l2_fourcc('M', 'C', '1', 'E') /* 14-bit CSI-2 packed 8-bit metadata */
+> +#define V4L2_META_FMT_GENERIC_CSI2_16	v4l2_fourcc('M', 'C', '1', 'G') /* 16-bit CSI-2 packed 8-bit metadata */
+> +#define V4L2_META_FMT_GENERIC_CSI2_20	v4l2_fourcc('M', 'C', '1', 'K') /* 20-bit CSI-2 packed 8-bit metadata */
+> +#define V4L2_META_FMT_GENERIC_CSI2_24	v4l2_fourcc('M', 'C', '1', 'O') /* 24-bit CSI-2 packed 8-bit metadata */
+> +#define V4L2_META_FMT_GENERIC_CSI2_2_24	v4l2_fourcc('M', 'C', '2', 'O') /* 2 bytes of 8-bit metadata, 24-bit CSI-2 packed */
+> +
+>  /* priv field value to indicates that subsequent fields are valid. */
+>  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+>  
 
 Regards,
 
 	Hans
-
-> 
->>> +
->>> +    /* Check the validity of route pads and flags */
->>> +
->>> +    if (node->pads) {
->>> +        for (i = 0; i < routing.num_routes; ++i) {
->>> +            const struct v4l2_subdev_route *route = &routes[i];
->>> +            const struct media_pad_desc *sink;
->>> +            const struct media_pad_desc *source;
->>> +
->>> +            fail_on_test(route->sink_pad >= node->entity.pads);
->>> +            fail_on_test(route->source_pad >= node->entity.pads);
->>> +
->>> +            sink = &node->pads[route->sink_pad];
->>> +            source = &node->pads[route->source_pad];
->>> +
->>> +            fail_on_test(!(sink->flags & MEDIA_PAD_FL_SINK));
->>> +            fail_on_test(!(source->flags & MEDIA_PAD_FL_SOURCE));
->>> +            fail_on_test(route->flags & ~all_route_flags_mask);
->>> +        }
->>> +    }
->>> +
->>> +    /* Set the same routes back, which should always succeed. */
->>> +
->>> +    memset(routing.reserved, 0xff, sizeof(routing.reserved));
->>> +    fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_ROUTING, &routing));
->>> +    fail_on_test(check_0(routing.reserved, sizeof(routing.reserved)));
->>> +
->>> +    /* Test setting invalid pads */
->>> +
->>> +    if (node->pads) {
->>> +        for (i = 0; i < routing.num_routes; ++i) {
->>> +            struct v4l2_subdev_route *route = &routes[i];
->>> +
->>> +            route->sink_pad = node->entity.pads + 1;
->>> +        }
->>> +
->>> +        memset(routing.reserved, 0xff, sizeof(routing.reserved));
->>> +        fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_ROUTING, &routing) != EINVAL);
->>> +        fail_on_test(check_0(routing.reserved, sizeof(routing.reserved)));
-> 
-> After fixing the num_routes check, I noticed that this one is broken too. If S_ROUTING fails early enough, the reserved field won't get cleared, so we can't have this check here.
-> 
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>
->> Regards,
->>
->>     Hans
-> 
-
