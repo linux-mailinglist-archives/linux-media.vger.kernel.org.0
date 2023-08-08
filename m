@@ -2,132 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 082EA77431F
-	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 19:57:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC36E7747F5
+	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 21:22:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231622AbjHHR5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Aug 2023 13:57:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44296 "EHLO
+        id S235991AbjHHTWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Aug 2023 15:22:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234058AbjHHR4r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 13:56:47 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CC012AF02
-        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 09:25:41 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-99bed101b70so840250566b.3
-        for <linux-media@vger.kernel.org>; Tue, 08 Aug 2023 09:25:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691511929; x=1692116729;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rh7yiDqz5JOnOPNrSWe6RNtd/mULecCxFtp8KEyVNnw=;
-        b=FmBXaoxliTAroLLQnPmtIsw+AlmuclRXo5FPQq2UxqEKXujM1S/196SsoYiHzCbhje
-         pdvlgs52dJ4YCaUwOChM97vPnsllKJwx1UJF8kl3V0XGciDb83ZIWEUCsepkqTs+Eb4P
-         UYd8rTGzXsq8DaAxHOPQ3Y7j08KVMVBZ2dxldSLHUZ38EptIhz5AXpGeKkp08XP3ypSP
-         dXyQBcji0jHbGTZOYswTA06GXMISRtwNSIv+s7hvBHVTS1yMnL9eIWVesx++O0IN47wU
-         NYsEmmfB68tzRcHeYAGYXFCZVImW49BOpQs5+1nWYjBtC6NAQWwiso3JZSp1yIWBKwWa
-         GhUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691511929; x=1692116729;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rh7yiDqz5JOnOPNrSWe6RNtd/mULecCxFtp8KEyVNnw=;
-        b=Z0+SgujtK36ek0jXNjV8UdCULCTYGKNYvVl0g5pRQYkAoGhXNbm0RlqTkIBngwH9Ol
-         soPJ541goOMIRVp65HilRfEH0mx5tVaCOwqpkShxaItJJaVi8Rw0e1dc0ujxhIZwwfn6
-         DLwbVS5c1KtvN9ihGqLnkDBoAfzk5ILs43yF/7yHPyBoE7a0JELbhl8TTNsBmLArfM4M
-         Q87OHPcHbRKOmL1PDwNK16W0R/DYp/T4vheEyFRexrXDl1F3lkGWav9DGd8+qdTMyQev
-         UbPTVUiV7x6wsT7GfjfuB6YKHnojvwmZi+9gwBLLc/9/jZsnGZtx4pgarYhyc8kYfHLQ
-         Rfng==
-X-Gm-Message-State: AOJu0YxBvY9TqTz1xSERc1lr6u8Ulyj7gLKaXTAfSrcXUfZlqk0PdVLO
-        S68o71UVg+ni1VjNRBUnmK2Fd4a7hRKiqGbfnLc=
-X-Google-Smtp-Source: AGHT+IEbOCg9xyA18ITMblbIWlyzPFYOlii2hEzw3GovA2rrE4kb5tpZlfY7zxAoe7VitoQW3rEUTg==
-X-Received: by 2002:a2e:914b:0:b0:2b9:4476:ab28 with SMTP id q11-20020a2e914b000000b002b94476ab28mr9271044ljg.38.1691501487657;
-        Tue, 08 Aug 2023 06:31:27 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.113])
-        by smtp.gmail.com with ESMTPSA id l26-20020a1c791a000000b003fe4548188bsm13716497wme.48.2023.08.08.06.31.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Aug 2023 06:31:27 -0700 (PDT)
-Message-ID: <d198429e-d8ca-aeea-e59b-a241dacde658@linaro.org>
-Date:   Tue, 8 Aug 2023 15:31:24 +0200
+        with ESMTP id S236273AbjHHTWK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 15:22:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D32410F218
+        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 09:45:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 711C362384
+        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 07:15:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41822C433C8;
+        Tue,  8 Aug 2023 07:15:46 +0000 (UTC)
+Message-ID: <155a002b-49fd-3af2-c005-895eab63016d@xs4all.nl>
+Date:   Tue, 8 Aug 2023 09:15:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v2 3/3] media: exynos4-is: fimc-is: replace duplicate pmu
- node with phandle
-Content-Language: en-US
-To:     Andi Shyti <andi.shyti@kernel.org>
-Cc:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v6 5/8] v4l2-ctl/compliance: Add simple routing test
+Content-Language: en-US, nl
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230807131256.254243-1-krzysztof.kozlowski@linaro.org>
- <20230807131256.254243-3-krzysztof.kozlowski@linaro.org>
- <20230807231320.svssge6uymw3jiho@intel.intel>
- <84fbcc37-d226-b637-caa1-b24ebaf03d58@linaro.org>
- <20230808114201.ztr22migzzyfsfwq@intel.intel>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230808114201.ztr22migzzyfsfwq@intel.intel>
+        satish.nagireddy@getcruise.com
+References: <20230720075044.442021-1-tomi.valkeinen@ideasonboard.com>
+ <20230720075044.442021-6-tomi.valkeinen@ideasonboard.com>
+ <2c282976-5890-8da9-ac6b-cdc642ab9d99@xs4all.nl>
+ <94fefde1-02c9-6034-72cc-e6a30aa3f786@ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <94fefde1-02c9-6034-72cc-e6a30aa3f786@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/08/2023 13:42, Andi Shyti wrote:
->>>> +static void __iomem *fimc_is_get_pmu_regs(struct device *dev)
->>>> +{
->>>> +	struct device_node *node;
->>>> +	void __iomem *regs;
->>>> +
->>>> +	node = of_parse_phandle(dev->of_node, "samsung,pmu-syscon", 0);
->>>> +	if (!node) {
->>>> +		dev_warn(dev, "Finding PMU node via deprecated method, update your DTB\n");
->>>> +		node = of_get_child_by_name(dev->of_node, "pmu");
->>>> +		if (!node)
->>>> +			return IOMEM_ERR_PTR(-ENODEV);
+On 08/08/2023 07:56, Tomi Valkeinen wrote:
+> On 02/08/2023 16:54, Hans Verkuil wrote:
+>> On 20/07/2023 09:50, Tomi Valkeinen wrote:
+>>> Add a simple test for VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING.
 >>>
->>> in my opinion this should be:
+>>> We can't (at least at the moment) really know here what kind of routings
+>>> the driver would accept, but we can test a VIDIOC_SUBDEV_G_ROUTING call,
+>>> followed by a VIDIOC_SUBDEV_S_ROUTING call with the routing we
+>>> received.
 >>>
->>> 		...
->>> 		if (!node)
->>> 			return IOMEM_ERR_PTR(-ENODEV);
+>>> Additionally, we can check that the returned pads and flags look fine,
+>>> and also that setting obviously invalid routing will fail.
 >>>
->>> 		dev_warn(dev, "Finding PMU node via deprecated method, update your DTB\n");
+>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> ---
+>>>   utils/v4l2-compliance/v4l2-compliance.cpp   | 12 ++++
+>>>   utils/v4l2-compliance/v4l2-compliance.h     |  1 +
+>>>   utils/v4l2-compliance/v4l2-test-subdevs.cpp | 74 +++++++++++++++++++++
+>>>   3 files changed, 87 insertions(+)
 >>>
->>> Because if you don't have both "samsung,pmu-syscon and "pmu" then
->>> the warning should not be printed and you need to return -ENODEV.
+>>> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+>>> index e8359b2f..4b232314 100644
+>>> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
+>>> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+>>> @@ -1249,6 +1249,18 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+>>>           node.is_passthrough_subdev = has_source && has_sink;
+>>>             if (has_routes) {
+>>> +            printf("Sub-Device routing ioctls:\n");
+>>> +
+>>> +            for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
+>>> +                which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
+>>> +
+>>> +                printf("\ttest %s VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: %s\n",
+>>> +                       which ? "Active" : "Try",
+>>> +                       ok(testSubDevRouting(&node, which)));
+>>> +            }
+>>> +
+>>> +            printf("\n");
+>>> +
+>>>               for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
+>>>                   which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
+>>>   diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+>>> index 0cd43980..35b2274b 100644
+>>> --- a/utils/v4l2-compliance/v4l2-compliance.h
+>>> +++ b/utils/v4l2-compliance/v4l2-compliance.h
+>>> @@ -375,6 +375,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned str
+>>>   int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream);
+>>>   int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream);
+>>>   int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream);
+>>> +int testSubDevRouting(struct node *node, unsigned which);
+>>>     // Buffer ioctl tests
+>>>   int testReqBufs(struct node *node);
+>>> diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+>>> index 5545b0dc..e59d67f7 100644
+>>> --- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+>>> +++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+>>> @@ -551,3 +551,77 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigne
+>>>         return have_sel ? 0 : ENOTTY;
+>>>   }
+>>> +
+>>> +int testSubDevRouting(struct node *node, unsigned which)
+>>> +{
+>>> +    const uint32_t all_route_flags_mask = V4L2_SUBDEV_ROUTE_FL_ACTIVE;
+>>> +    struct v4l2_subdev_routing routing = {};
+>>> +    struct v4l2_subdev_route routes[NUM_ROUTES_MAX] = {};
+>>> +    unsigned int i;
+>>> +    int ret;
+>>> +
+>>> +    routing.which = which;
+>>> +    routing.routes = (__u64)&routes;
+>>> +    routing.num_routes = 0;
+>>> +    memset(routing.reserved, 0xff, sizeof(routing.reserved));
+>>> +
+>>> +    /*
+>>> +     * First test that G_ROUTING either returns success, or ENOSPC and
+>>> +     * updates num_routes.
+>>> +     */
+>>> +
+>>> +    ret = doioctl(node, VIDIOC_SUBDEV_G_ROUTING, &routing);
+>>> +    fail_on_test(ret && ret != ENOSPC);
+>>> +    fail_on_test(ret == ENOSPC && routing.num_routes == 0);
+>>> +    fail_on_test(check_0(routing.reserved, sizeof(routing.reserved)));
+>>> +
+>>> +    if (routing.num_routes)
+>>> +        return 0;
 >>
->> Why not? Warning is correct - the driver is trying to find, thus
->> continuous tense "Finding", PMU node via old method.
+>> Shouldn't this be 'if (!routing.num_routes)'?
 > 
-> Alright, I'll go along with what you're suggesting, but I have to
-> say, I find it misleading.
+> Yes...
 > 
-> From what I understand, you're requesting an update to the dtb
-> because it's using deprecated methods. However, the reality might 
-> be that the node is not present in any method at all.
+>>> +
+>>> +    /* Then get the actual routes */
+>>> +
+>>> +    routing.num_routes = NUM_ROUTES_MAX;
+>>> +    fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_ROUTING, &routing));
+>>
+>> I assume that num_routes is always updated to the actual number of routes, right?
 > 
-> Your statement would be accurate if you failed to find the
-> previous method but then did end up finding it.
+> If VIDIOC_SUBDEV_G_ROUTING succeeds, yes, num_routes is updated.
 > 
-> Relying on the present continuous tense for clarity is a bold
-> move, don't you think? :)
+>> That's not actually explained clearly in the spec. It says that if the app provided
+>> num_routes is too small, then it is updated, but it says nothing about what happens
+>> if the app provided value is too large.
+> 
+> Ok. I need to update the doc.
+> 
+>> Assuming I am right, then I would rewrite this code as follows:
+>>
+>>     __u32 num_routes = routing.num_routes;
+>>     routing.num_routes = num_routes + 1;
+>>     fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_ROUTING, &routing));
+>>     fail_on_test(routing.num_routes != num_routes);
+> 
+> Yes, I think this looks fine.
+> 
+> Btw, you use __u32 above. Is there any style guide for these? I used uint32_t in this function for another variable, and I'd use it here too.
 
-I just don't think it matters and is not worth resending.
+It is derived from a kernel structure, and the kernel API uses __u32. So I prefer to
+use __u32 for such things. I personally think that is good practice since it helps
+indicate that it is a kernel-API-related variable.
 
-Best regards,
-Krzysztof
+I also like it because it is shorter than uint32_t :-)
+
+Regards,
+
+	Hans
+
+> 
+>>> +
+>>> +    /* Check the validity of route pads and flags */
+>>> +
+>>> +    if (node->pads) {
+>>> +        for (i = 0; i < routing.num_routes; ++i) {
+>>> +            const struct v4l2_subdev_route *route = &routes[i];
+>>> +            const struct media_pad_desc *sink;
+>>> +            const struct media_pad_desc *source;
+>>> +
+>>> +            fail_on_test(route->sink_pad >= node->entity.pads);
+>>> +            fail_on_test(route->source_pad >= node->entity.pads);
+>>> +
+>>> +            sink = &node->pads[route->sink_pad];
+>>> +            source = &node->pads[route->source_pad];
+>>> +
+>>> +            fail_on_test(!(sink->flags & MEDIA_PAD_FL_SINK));
+>>> +            fail_on_test(!(source->flags & MEDIA_PAD_FL_SOURCE));
+>>> +            fail_on_test(route->flags & ~all_route_flags_mask);
+>>> +        }
+>>> +    }
+>>> +
+>>> +    /* Set the same routes back, which should always succeed. */
+>>> +
+>>> +    memset(routing.reserved, 0xff, sizeof(routing.reserved));
+>>> +    fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_ROUTING, &routing));
+>>> +    fail_on_test(check_0(routing.reserved, sizeof(routing.reserved)));
+>>> +
+>>> +    /* Test setting invalid pads */
+>>> +
+>>> +    if (node->pads) {
+>>> +        for (i = 0; i < routing.num_routes; ++i) {
+>>> +            struct v4l2_subdev_route *route = &routes[i];
+>>> +
+>>> +            route->sink_pad = node->entity.pads + 1;
+>>> +        }
+>>> +
+>>> +        memset(routing.reserved, 0xff, sizeof(routing.reserved));
+>>> +        fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_ROUTING, &routing) != EINVAL);
+>>> +        fail_on_test(check_0(routing.reserved, sizeof(routing.reserved)));
+> 
+> After fixing the num_routes check, I noticed that this one is broken too. If S_ROUTING fails early enough, the reserved field won't get cleared, so we can't have this check here.
+> 
+>>> +    }
+>>> +
+>>> +    return 0;
+>>> +}
+>>
+>> Regards,
+>>
+>>     Hans
+> 
 
