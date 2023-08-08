@@ -2,64 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29DC1774A42
-	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 22:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B5D0774EB8
+	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 00:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234719AbjHHUXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Aug 2023 16:23:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46980 "EHLO
+        id S230458AbjHHW4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Aug 2023 18:56:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233036AbjHHUX3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 16:23:29 -0400
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 003A86F496;
-        Tue,  8 Aug 2023 12:32:44 -0700 (PDT)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 378AKTV7058696;
-        Tue, 8 Aug 2023 05:20:29 -0500
+        with ESMTP id S229943AbjHHW4Q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 18:56:16 -0400
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84ABF1982;
+        Tue,  8 Aug 2023 15:56:14 -0700 (PDT)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 378MtmE6052417;
+        Tue, 8 Aug 2023 17:55:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1691490029;
-        bh=Za0MR4v1fVOF2qHn0ewCYkUS5wpEICwto9vMGMpyJpQ=;
-        h=Date:Subject:From:To:CC:References:In-Reply-To;
-        b=D7rwNMDnZ06kElLOcu30L/VbcKK1hjUnlhcJ4CumEwM+xSsjXF1MI/JeqhZSBDm0y
-         eWE4OCl66SbQxSRFD+/acdxeDFEcaKyn/CNnCvbRUUPNb0Bla9u8raR9DDXvX/oS3z
-         obnV7nSS47kO1c2UQy/fLUDtJHBgg3YtXHOY+IMk=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 378AKTBY130443
+        s=ti-com-17Q1; t=1691535348;
+        bh=gn/RlHO0agg8ZMQ2jXn9GbN0dKI57+e4J4guDc2I+a4=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=raCDqDMQwtc2aZBfj+fjR7CYJzw97gNMMvJQ/27XZEFsPHTAJIr+52L/deBtei6Po
+         wgQr+OnNQKYDlRV1UK/czkH8bxCsIaGNZQSntBf6vdsU77+xGFDz64t3VkFjrJCp7i
+         jS6sXORfWX4oZgDBarJEVuIRSwRx1/OdavkE7wRA=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 378Mtmw8013590
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 8 Aug 2023 05:20:29 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+        Tue, 8 Aug 2023 17:55:48 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 8
- Aug 2023 05:20:29 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2023 17:55:47 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 8 Aug 2023 05:20:29 -0500
-Received: from [172.24.227.6] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 378AKO4I007292;
-        Tue, 8 Aug 2023 05:20:24 -0500
-Message-ID: <50d97c30-4926-0bbf-1209-dfd25043e359@ti.com>
-Date:   Tue, 8 Aug 2023 15:50:23 +0530
+ Frontend Transport; Tue, 8 Aug 2023 17:55:47 -0500
+Received: from [10.24.69.141] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 378MtfSI033110;
+        Tue, 8 Aug 2023 17:55:42 -0500
+Message-ID: <fcf19efc-2e3c-1b5d-37c2-ddd1d8b4981a@ti.com>
+Date:   Wed, 9 Aug 2023 04:25:41 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH] dt-bindings: media: Add bindings for Imagination E5010
- JPEG Encoder driver
+Subject: Re: [PATCH v8 00/16] CSI2RX support on J721E and AM62
 Content-Language: en-US
-From:   Devarsh Thakkar <devarsht@ti.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <mchehab@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>,
-        <a-bhatia1@ti.com>, <j-luthra@ti.com>, <b-brnich@ti.com>,
-        <detheridge@ti.com>, <p-mantena@ti.com>, <vijayp@ti.com>
-References: <20230726162615.1270075-1-devarsht@ti.com>
- <b6bddd59-ac78-3f75-828e-cff54766fc72@linaro.org>
- <8fef77fb-d3bf-eab1-0734-919ebf2e61af@ti.com>
-In-Reply-To: <8fef77fb-d3bf-eab1-0734-919ebf2e61af@ti.com>
+To:     Jai Luthra <j-luthra@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Benoit Parrot <bparrot@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>, <nm@ti.com>,
+        <devarsht@ti.com>
+References: <20230731-upstream_csi-v8-0-fb7d3661c2c9@ti.com>
+From:   Vaishnav Achath <vaishnav.a@ti.com>
+In-Reply-To: <20230731-upstream_csi-v8-0-fb7d3661c2c9@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
@@ -73,199 +79,140 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
 
-On 27/07/23 19:58, Devarsh Thakkar wrote:
-> Hi Krzysztof,
+On 31/07/23 13:59, Jai Luthra wrote:
+> Hi,
 > 
-> Thanks for the quick review.
+> This series adds support for CSI2 capture on J721E. It includes some
+> fixes to the Cadence CSI2RX driver, and adds the TI CSI2RX wrapper driver.
 > 
-> On 26/07/23 22:03, Krzysztof Kozlowski wrote:
->> On 26/07/2023 18:26, Devarsh Thakkar wrote:
->>> Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
->>> implemented as stateful V4L2 M2M driver.
->>>
->>> Co-developed-by: David Huang <d-huang@ti.com>
->>> Signed-off-by: David Huang <d-huang@ti.com>
->>
->> A nit, subject: drop second/last, redundant "bindings for". The
->> "dt-bindings" prefix is already stating that these are bindings.
->>
->> Drop also "driver". Bindings are for hardware, not drivers.
->>
->> Prefix starts with media and then dt-bindings.
->>
+> This is a V8 of the below V7 series,
+> https://lore.kernel.org/all/20230314115516.667-1-vaishnav.a@ti.com/
 > 
-> Agreed.
->>
->>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->>> ---
->>>  .../bindings/media/img,e5010-jpeg-enc.yaml    | 79 +++++++++++++++++++
->>>  MAINTAINERS                                   |  5 ++
->>>  2 files changed, 84 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>> new file mode 100644
->>> index 000000000000..0060373eace7
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>> @@ -0,0 +1,79 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Imagination E5010 JPEG Encoder
->>> +
->>> +maintainers:
->>> +  - Devarsh Thakkar <devarsht@ti.com>
->>> +
->>> +description: |
->>> +  The E5010 is a JPEG encoder from Imagination Technologies implemented on
->>> +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
->>> +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
->>> +  8Kx8K resolution.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: img,e5010-jpeg-enc
->>
->> Your description suggests that this is part of TI SoC. Pretty often
->> licensed blocks cannot be used on their own and need some
->> customizations. Are you sure your block does not need any customization
->> thus no dedicated compatible is needed?
->>
+> Since Pratyush moved out of TI, Vaishnav & I have been working on
+> this driver, and I will be maintaining it upstream.
 > 
-> There is a wrapper for interfacing this core with TI SoC, I will recheck this
-> interfacing but I believe nothing changes from programming perspective as
-> there is 1-to-1 maintained between the clocks and signals w.r.t actual E5010
-> core.
+> J721E CSI2RX driver can also be extended to support multi-stream
+> capture, filtering different CSI Virtual Channels (VC) or Data Types
+> (DT) to different DMA channels. A WIP series based on v7 is available
+> for reference at https://github.com/jailuthra/linux/commits/csi_multi_wip
+> 
+> I will rebase the multi-stream patches on the current series (v8) and
+> post them as RFC in the coming weeks.
+> 
+> Testing logs: https://gist.github.com/jailuthra/eaeb3af3c65b67e1bc0d5db28180131d
 > 
 
-Just to add to above, on a second thought we think it would be  better to
-still have a separate compatible for TI as you suggested (since we have a
-wrapper) so that it allows any customization needed for future. So compatible
-enum would look like :
+Hi Jai,
 
-    oneOf:
-      - items:
-        - const: ti,e5010-jpeg-enc
-        - const: img,e5010-jpeg-enc
-      - const: img,e5010-jpeg-enc
+Thank you for the series,
 
-Thanks for the suggestion.
+Tested the series for capture with OV5640 (LI-OV5640 module) on J721E EVM,
+Logs and captured images available here:
+https://gist.github.com/vaishnavachath/0b70bc5aaef6a3a88be4900979c788d6
 
-Regards
-Devarsh
+Tested-by: Vaishnav Achath <vaishnav.a@ti.com>
 
->>> +
->>> +  reg:
->>> +    items:
->>> +      - description: The E5010 main register region
->>> +      - description: The E5010 mmu register region
->>> +
->>> +  reg-names:
->>> +    items:
->>> +      - const: regjasper
->>> +      - const: regmmu
->>> +
->>
->> Drop reg from both
->>
+Thanks and Regards,
+Vaishnav
+
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> ---
 > 
-> Agreed.
+> Range-diff from v7 -> v8: http://0x0.st/H21u.diff
 > 
->>> +  power-domains:
->>> +    maxItems: 1
->>> +
->>> +  resets:
->>> +    maxItems: 1
->>> +
->>> +  clocks:
->>> +    minItems: 1
->>> +    maxItems: 2
->>
->> You need to specify the items. Also, no variable number of clocks. Why
->> would they vary if block is strictly defined?
->>
+> New Patches:
+> [01/16]	   Export v4l2_subdev_link_validate_get_format() helper
+> [03-04/16] Add new compatible for TI-specific SoC intergration of the
+>            Cadence CSI2RX bridge IP
+> [14/16]    Add support for RAW8 and RAW10 formats in Cadence CSI2RX
 > 
-> Agreed, I believe this version of E5010 core only supports single clock, so we
-> can get rid of maxItems: 2.
+> For [07/16] media: cadence: csi2rx: Add get_fmt and set_fmt pad ops:
+> - Use active subdev state to use v4l2_subdev_get_fmt
+> - Propagate formats from sink to source pads
+> - Drop Laurent's R-by because of the above changes
 > 
->>> +
->>> +  clock-names:
->>> +    minItems: 1
->>> +    maxItems: 2
->>
->> Instead list the names.
->>
+> For [08/16] media: cadence: csi2rx: Configure DPHY using link freq:
+> - Drop original patch in-lieu of already merged
+>   https://lore.kernel.org/linux-media/20230523085626.3295-5-jack.zhu@starfivetech.com/
+> - Add a new patch to configure DPHY using link_freq control from the
+>   source
 > 
-> Agreed.
+> For [10/16] media: cadence: csi2rx: Set the STOP bit when stopping a stream:
+> - Fix bug where intention was to wait till stream status is idle, i.e.
+>   STREAM_STATUS[31] -> 0 - but we were instead checking the opposite
 > 
->>> +
->>> +  interrupts:
->>> +    maxItems: 1
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - reg-names
->>> +  - interrupts
->>> +  - clocks
->>> +  - clock-names
->>> +  - power-domains
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
->>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>> +
->>> +    cbass_main {
->>
->> That's some weird name. Probably you meant soc. Anyway, underscores are
->> not allowed.
+> For [15/16] media: dt-bindings: Add DT bindings for TI J721E CSI2RX driver:
+> - Drop "Device Tree Bindings" from title
+> - Rename "Wrapper" to "Shim" in title as that is the name referred in
+>   the TRM and other places
+> - Update maintainer to myself
+> - Drop items from compatible as only a single element is present
+> - Rename compatible to "ti,j721e-csi2rx-shim" to distinguish from the
+>   SoC-specific CSI2RX bridge compatible
 > 
-> Yes, I think I can put soc. cbass_main is specific to TI (soc interconnect bus).
+> For [16/16] media: ti: Add CSI2RX support for J721E:
+> - Move after dt-bindings to keep the series bisectable
+> - Rename compatible to "ti,j721e-csi2rx-shim" to distinguish from the
+>   SoC-specific CSI2RX bridge compatible
+> - Make myself the Maintainer
+> - Support RAW8 and RAW10 formats, and setting the pixel-unwrap size on
+>   SHIM (RAW10 is stored in 16-bit containers, while RAW8 in 8-bit containers)
+> - Fix enum_fmt_vid_cap() to respect CAP_IO_MC and only list pixelformats
+>   matching the mbus formats set on the subdev.
+> - Fix enum_framesizes() to stop enumerating more than a single framesize
+>   (reject non-zero fsize->index)
+> - Simplify notifier bound fucntion to use v4l2_create_fwnode_links_to_pad()
+>   and inline the video_register() method
+> - Add support for draining the DMA with an extra buffer, to get rid of
+>   stale data in the pipeline on stream stop (or when frames start
+>   getting dropped due to load)
+> - Queue all available buffers to DMAEngine in the callback, also use a
+>   separate "submitted" queue to track all buffers submitted to DMA
+> - Use video_device_pipeline_start() instead of media_pipeline_start()
+> - Drop support for VB_READ
+> - Print issues in link validation as DEBUG instead of ERROR
+> - s/async_subdev/async_connection
 > 
->>
->>> +      #address-cells = <2>;
->>> +      #size-cells = <2>;
->>> +      e5010: e5010@fd20000 {
->>
->> Node names should be generic. See also an explanation and list of
->> examples (not exhaustive) in DT specification:
->> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->>
+> For [v7 13/13] media: dt-bindings: Convert Cadence CSI2RX binding to YAML:
+>  - Drop patch in-lieu of
+>    https://lore.kernel.org/linux-media/20230523085626.3295-2-jack.zhu@starfivetech.com/
 > 
-> Yes, video-codec is the nearest one, but this is not really a codec as it only
-> supports encoding, is it fine to name node as jpeg-enc ?
+> ---
+> Jai Luthra (4):
+>       media: subdev: Export get_format helper for link validation
+>       media: dt-bindings: cadence-csi2rx: Add TI compatible string
+>       media: cadence: Add support for TI SoCs
+>       media: cadence: csi2rx: Support RAW8 and RAW10 formats
 > 
->>
->> Drop the label.
->>
+> Pratyush Yadav (12):
+>       media: dt-bindings: Make sure items in data-lanes are unique
+>       media: cadence: csi2rx: Unregister v4l2 async notifier
+>       media: cadence: csi2rx: Cleanup media entity properly
+>       media: cadence: csi2rx: Add get_fmt and set_fmt pad ops
+>       media: cadence: csi2rx: Configure DPHY using link freq
+>       media: cadence: csi2rx: Soft reset the streams before starting capture
+>       media: cadence: csi2rx: Set the STOP bit when stopping a stream
+>       media: cadence: csi2rx: Fix stream data configuration
+>       media: cadence: csi2rx: Populate subdev devnode
+>       media: cadence: csi2rx: Add link validation
+>       media: dt-bindings: Add TI J721E CSI2RX
+>       media: ti: Add CSI2RX support for J721E
 > 
-> Agreed.
+>  .../devicetree/bindings/media/cdns,csi2rx.yaml     |    1 +
+>  .../bindings/media/ti,j721e-csi2rx-shim.yaml       |  100 ++
+>  .../bindings/media/video-interfaces.yaml           |    1 +
+>  MAINTAINERS                                        |    7 +
+>  drivers/media/platform/cadence/cdns-csi2rx.c       |  217 +++-
+>  drivers/media/platform/ti/Kconfig                  |   12 +
+>  drivers/media/platform/ti/Makefile                 |    1 +
+>  drivers/media/platform/ti/j721e-csi2rx/Makefile    |    2 +
+>  .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 1127 ++++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-subdev.c              |    8 +-
+>  include/media/v4l2-subdev.h                        |   12 +
+>  11 files changed, 1478 insertions(+), 10 deletions(-)
+> ---
+> base-commit: ec89391563792edd11d138a853901bce76d11f44
+> change-id: 20230727-upstream_csi-acbeabe038d8
 > 
-> Best Regards,
-> Devarsh
-> 
->>> +          compatible = "img,e5010-jpeg-enc";
->>> +          reg = <0x00 0xfd20000 0x00 0x100>,
->>> +                <0x00 0xfd20200 0x00 0x200>;
->>> +          reg-names = "regjasper", "regmmu";
->>> +          clocks = <&k3_clks 201 0>;
->>> +          clock-names = "core_clk";
->>> +          power-domains = <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
->>> +          interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
->>> +      };
->>> +    };
->>
->>
->> Best regards,
->> Krzysztof
->>
+> Best regards,
