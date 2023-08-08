@@ -2,155 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DDB2774B5F
-	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 22:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29DC1774A42
+	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 22:23:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233904AbjHHUp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Aug 2023 16:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49834 "EHLO
+        id S234719AbjHHUXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Aug 2023 16:23:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233273AbjHHUpm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 16:45:42 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11D635DCD
-        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 09:36:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 875C36242A
-        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 08:15:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36A29C433C8;
-        Tue,  8 Aug 2023 08:15:47 +0000 (UTC)
-Message-ID: <e20a1335-6e6f-6c64-9640-8984c50338ca@xs4all.nl>
-Date:   Tue, 8 Aug 2023 10:15:45 +0200
+        with ESMTP id S233036AbjHHUX3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 16:23:29 -0400
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 003A86F496;
+        Tue,  8 Aug 2023 12:32:44 -0700 (PDT)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 378AKTV7058696;
+        Tue, 8 Aug 2023 05:20:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1691490029;
+        bh=Za0MR4v1fVOF2qHn0ewCYkUS5wpEICwto9vMGMpyJpQ=;
+        h=Date:Subject:From:To:CC:References:In-Reply-To;
+        b=D7rwNMDnZ06kElLOcu30L/VbcKK1hjUnlhcJ4CumEwM+xSsjXF1MI/JeqhZSBDm0y
+         eWE4OCl66SbQxSRFD+/acdxeDFEcaKyn/CNnCvbRUUPNb0Bla9u8raR9DDXvX/oS3z
+         obnV7nSS47kO1c2UQy/fLUDtJHBgg3YtXHOY+IMk=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 378AKTBY130443
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 8 Aug 2023 05:20:29 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 8
+ Aug 2023 05:20:29 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 8 Aug 2023 05:20:29 -0500
+Received: from [172.24.227.6] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 378AKO4I007292;
+        Tue, 8 Aug 2023 05:20:24 -0500
+Message-ID: <50d97c30-4926-0bbf-1209-dfd25043e359@ti.com>
+Date:   Tue, 8 Aug 2023 15:50:23 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 03/10] media: mc: Add INTERNAL pad flag
-Content-Language: en-US, nl
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>
-References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
- <20230808075538.3043934-4-sakari.ailus@linux.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230808075538.3043934-4-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] dt-bindings: media: Add bindings for Imagination E5010
+ JPEG Encoder driver
+Content-Language: en-US
+From:   Devarsh Thakkar <devarsht@ti.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <mchehab@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>,
+        <a-bhatia1@ti.com>, <j-luthra@ti.com>, <b-brnich@ti.com>,
+        <detheridge@ti.com>, <p-mantena@ti.com>, <vijayp@ti.com>
+References: <20230726162615.1270075-1-devarsht@ti.com>
+ <b6bddd59-ac78-3f75-828e-cff54766fc72@linaro.org>
+ <8fef77fb-d3bf-eab1-0734-919ebf2e61af@ti.com>
+In-Reply-To: <8fef77fb-d3bf-eab1-0734-919ebf2e61af@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/08/2023 09:55, Sakari Ailus wrote:
-> Internal source pads will be used as routing endpoints in V4L2
-> [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
+Hi Krzysztof,
+
+On 27/07/23 19:58, Devarsh Thakkar wrote:
+> Hi Krzysztof,
 > 
-> Also prevent creating links to pads that have been flagged as internal.
+> Thanks for the quick review.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  Documentation/userspace-api/media/glossary.rst             | 6 ++++++
->  Documentation/userspace-api/media/mediactl/media-types.rst | 6 ++++++
->  drivers/media/mc/mc-entity.c                               | 6 +++++-
->  include/uapi/linux/media.h                                 | 1 +
->  4 files changed, 18 insertions(+), 1 deletion(-)
+> On 26/07/23 22:03, Krzysztof Kozlowski wrote:
+>> On 26/07/2023 18:26, Devarsh Thakkar wrote:
+>>> Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
+>>> implemented as stateful V4L2 M2M driver.
+>>>
+>>> Co-developed-by: David Huang <d-huang@ti.com>
+>>> Signed-off-by: David Huang <d-huang@ti.com>
+>>
+>> A nit, subject: drop second/last, redundant "bindings for". The
+>> "dt-bindings" prefix is already stating that these are bindings.
+>>
+>> Drop also "driver". Bindings are for hardware, not drivers.
+>>
+>> Prefix starts with media and then dt-bindings.
+>>
 > 
-> diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
-> index 96a360edbf3b..f7b99a4527c7 100644
-> --- a/Documentation/userspace-api/media/glossary.rst
-> +++ b/Documentation/userspace-api/media/glossary.rst
-> @@ -173,6 +173,12 @@ Glossary
->  	An integrated circuit that integrates all components of a computer
->  	or other electronic systems.
->  
-> +_media-glossary-stream:
-> +    Stream
-> +	A distinct flow of data (image data or metadata) over a media pipeline
-> +	from source to sink. A source may be e.g. an image sensor and a sink
-> +	e.g. a memory buffer.
-> +
->      V4L2 API
->  	**V4L2 userspace API**
->  
-> diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-> index 0ffeece1e0c8..28941da27790 100644
-> --- a/Documentation/userspace-api/media/mediactl/media-types.rst
-> +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-> @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
->  .. _MEDIA-PAD-FL-SINK:
->  .. _MEDIA-PAD-FL-SOURCE:
->  .. _MEDIA-PAD-FL-MUST-CONNECT:
-> +.. _MEDIA-PAD-FL-INTERNAL:
->  
->  .. flat-table:: Media pad flags
->      :header-rows:  0
-> @@ -382,6 +383,11 @@ Types and flags used to represent the media graph elements
->  	  when this flag isn't set; the absence of the flag doesn't imply
->  	  there is none.
->  
-> +    *  -  ``MEDIA_PAD_FL_INTERNAL``
-> +       -  The internal flag indicates an internal pad that has no external
-> +	  connections. Such a pad shall not be connected with a link. The
-> +	  internal flag indicates that the :ref:``stream
-> +	  <media-glossary-stream>`` either starts or ends in the entity.
->  
->  One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
->  must be set for every pad.
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 4991281dcccc..03a9e0b8ebab 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -1071,7 +1071,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
->  
->  	for (i = 0; i < entity->num_pads; i++) {
->  		if ((entity->pads[i].flags &
-> -		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
-> +		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
-> +		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
->  			continue;
->  
->  		if (entity->pads[i].sig_type == sig_type)
-> @@ -1094,6 +1095,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
->  		return -EINVAL;
->  	if (WARN_ON(!(source->pads[source_pad].flags & MEDIA_PAD_FL_SOURCE)))
->  		return -EINVAL;
-> +	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_SOURCE &&
-> +		    source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL))
+> Agreed.
+>>
+>>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+>>> ---
+>>>  .../bindings/media/img,e5010-jpeg-enc.yaml    | 79 +++++++++++++++++++
+>>>  MAINTAINERS                                   |  5 ++
+>>>  2 files changed, 84 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>> new file mode 100644
+>>> index 000000000000..0060373eace7
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>> @@ -0,0 +1,79 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Imagination E5010 JPEG Encoder
+>>> +
+>>> +maintainers:
+>>> +  - Devarsh Thakkar <devarsht@ti.com>
+>>> +
+>>> +description: |
+>>> +  The E5010 is a JPEG encoder from Imagination Technologies implemented on
+>>> +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
+>>> +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
+>>> +  8Kx8K resolution.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: img,e5010-jpeg-enc
+>>
+>> Your description suggests that this is part of TI SoC. Pretty often
+>> licensed blocks cannot be used on their own and need some
+>> customizations. Are you sure your block does not need any customization
+>> thus no dedicated compatible is needed?
+>>
+> 
+> There is a wrapper for interfacing this core with TI SoC, I will recheck this
+> interfacing but I believe nothing changes from programming perspective as
+> there is 1-to-1 maintained between the clocks and signals w.r.t actual E5010
+> core.
+> 
 
-Even though this code is correct, I prefer to have () around the 'x & y' parts.
-It avoids confusion for the reader.
+Just to add to above, on a second thought we think it would be  better to
+still have a separate compatible for TI as you suggested (since we have a
+wrapper) so that it allows any customization needed for future. So compatible
+enum would look like :
 
-Up to you, though.
+    oneOf:
+      - items:
+        - const: ti,e5010-jpeg-enc
+        - const: img,e5010-jpeg-enc
+      - const: img,e5010-jpeg-enc
 
-Regards,
+Thanks for the suggestion.
 
-	Hans
+Regards
+Devarsh
 
-> +		return -EINVAL;
->  	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
->  		return -EINVAL;
->  
-> diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-> index 1c80b1d6bbaf..80cfd12a43fc 100644
-> --- a/include/uapi/linux/media.h
-> +++ b/include/uapi/linux/media.h
-> @@ -208,6 +208,7 @@ struct media_entity_desc {
->  #define MEDIA_PAD_FL_SINK			(1U << 0)
->  #define MEDIA_PAD_FL_SOURCE			(1U << 1)
->  #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
-> +#define MEDIA_PAD_FL_INTERNAL			(1U << 3)
->  
->  struct media_pad_desc {
->  	__u32 entity;		/* entity ID */
-
+>>> +
+>>> +  reg:
+>>> +    items:
+>>> +      - description: The E5010 main register region
+>>> +      - description: The E5010 mmu register region
+>>> +
+>>> +  reg-names:
+>>> +    items:
+>>> +      - const: regjasper
+>>> +      - const: regmmu
+>>> +
+>>
+>> Drop reg from both
+>>
+> 
+> Agreed.
+> 
+>>> +  power-domains:
+>>> +    maxItems: 1
+>>> +
+>>> +  resets:
+>>> +    maxItems: 1
+>>> +
+>>> +  clocks:
+>>> +    minItems: 1
+>>> +    maxItems: 2
+>>
+>> You need to specify the items. Also, no variable number of clocks. Why
+>> would they vary if block is strictly defined?
+>>
+> 
+> Agreed, I believe this version of E5010 core only supports single clock, so we
+> can get rid of maxItems: 2.
+> 
+>>> +
+>>> +  clock-names:
+>>> +    minItems: 1
+>>> +    maxItems: 2
+>>
+>> Instead list the names.
+>>
+> 
+> Agreed.
+> 
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - reg
+>>> +  - reg-names
+>>> +  - interrupts
+>>> +  - clocks
+>>> +  - clock-names
+>>> +  - power-domains
+>>> +
+>>> +additionalProperties: false
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
+>>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>>> +
+>>> +    cbass_main {
+>>
+>> That's some weird name. Probably you meant soc. Anyway, underscores are
+>> not allowed.
+> 
+> Yes, I think I can put soc. cbass_main is specific to TI (soc interconnect bus).
+> 
+>>
+>>> +      #address-cells = <2>;
+>>> +      #size-cells = <2>;
+>>> +      e5010: e5010@fd20000 {
+>>
+>> Node names should be generic. See also an explanation and list of
+>> examples (not exhaustive) in DT specification:
+>> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+>>
+> 
+> Yes, video-codec is the nearest one, but this is not really a codec as it only
+> supports encoding, is it fine to name node as jpeg-enc ?
+> 
+>>
+>> Drop the label.
+>>
+> 
+> Agreed.
+> 
+> Best Regards,
+> Devarsh
+> 
+>>> +          compatible = "img,e5010-jpeg-enc";
+>>> +          reg = <0x00 0xfd20000 0x00 0x100>,
+>>> +                <0x00 0xfd20200 0x00 0x200>;
+>>> +          reg-names = "regjasper", "regmmu";
+>>> +          clocks = <&k3_clks 201 0>;
+>>> +          clock-names = "core_clk";
+>>> +          power-domains = <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
+>>> +          interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
+>>> +      };
+>>> +    };
+>>
+>>
+>> Best regards,
+>> Krzysztof
+>>
