@@ -2,397 +2,453 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A07BB77479D
-	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 21:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EB69774776
+	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 21:15:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231354AbjHHTRc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Aug 2023 15:17:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60552 "EHLO
+        id S235601AbjHHTPK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Aug 2023 15:15:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231180AbjHHTQS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 15:16:18 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73A635244;
-        Tue,  8 Aug 2023 09:39:04 -0700 (PDT)
-Received: from [192.168.0.192] (unknown [194.146.248.75])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id DD3206607205;
-        Tue,  8 Aug 2023 12:46:51 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1691495212;
-        bh=4dORhiAb1e4NGjwwINdcxjyAgqLtFCQXF43zipS7tmc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ixxVfvUxrpp3dAMWGwXJ+yAmn3KGSU7CuvwISpyoclLNq757jpirsV8RajgxC8fgs
-         pd8SwO8raFOKghjNf269/OMe757HAmEGtHfohVZExTMaMXbYFjxqMBSZEh398faYkj
-         XxtousaLqRU61TejpvLjz3de3zo7wITYELNsqk9bs+RzPfoVU1d3upYFQ4zsnv0JPX
-         kEoEdvjLCK3QR/s4QuMQwDPTCFbxkBZDcYdv10md+hpqDOXDVMI8RsV4jO7NMWIPDr
-         szMn6hmP7CmNjNOsrBaYlTEq2n02A6gEpCZOM5ywRq568TG14uYcWfmXhZR6is0poJ
-         unXFgc5cd5kfg==
-Message-ID: <3c69cdf0-c79e-f3b9-44f7-1dec0eb6a312@collabora.com>
-Date:   Tue, 8 Aug 2023 13:46:49 +0200
+        with ESMTP id S230410AbjHHTOm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 15:14:42 -0400
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCF9647C5;
+        Tue,  8 Aug 2023 09:37:35 -0700 (PDT)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 378Dbj70082394;
+        Tue, 8 Aug 2023 08:37:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1691501865;
+        bh=sZejJA4vhaC229GWf2rhf5iLRS2/t+vCTkqb0tBJxlQ=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=Q8U719CJTNH3o5jBKVfSddXBgQLSdROVwAjpoh6Wxmq1dvsyPd4QcIJjqC+X30Sr0
+         Yo3/WxFry7Ntqga6Rj9IqG3gskkR4chR9LWpA6jfKDFLTmriaEkUXsS7u7yiWpqHMM
+         L8E6QPKIuZT9KNkpQMigO9zFeYRhEY/Fn8RcSjMI=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 378Dbjnn029784
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 8 Aug 2023 08:37:45 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 8
+ Aug 2023 08:37:41 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 8 Aug 2023 08:37:41 -0500
+Received: from [172.24.227.6] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 378DbYrQ035020;
+        Tue, 8 Aug 2023 08:37:35 -0500
+Message-ID: <1ab288af-f977-bf44-aecd-36ce0b498db2@ti.com>
+Date:   Tue, 8 Aug 2023 19:07:34 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 4/5] docs: uapi: media: Add a layout diagram for MT2110T
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     kernel@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <20230804192737.19016-1-nicolas.dufresne@collabora.com>
- <20230804192737.19016-5-nicolas.dufresne@collabora.com>
- <2e08b843-d1f3-a095-8e5c-cc4997773040@collabora.com>
- <cb78eb426c1008690fabbba37020d7828a6e11b1.camel@collabora.com>
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 2/2] media: imagination: Add E5010 JPEG Encoder driver
 Content-Language: en-US
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <cb78eb426c1008690fabbba37020d7828a6e11b1.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <mchehab@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <laurent.pinchart@ideasonboard.com>,
+        <eugen.hristev@collabora.com>, <ezequiel@vanguardiasur.com.ar>,
+        <u.kleine-koenig@pengutronix.de>, <sakari.ailus@linux.intel.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>,
+        <a-bhatia1@ti.com>, <j-luthra@ti.com>, <b-brnich@ti.com>,
+        <detheridge@ti.com>, <p-mantena@ti.com>, <vijayp@ti.com>
+References: <20230727112546.2201995-1-devarsht@ti.com>
+ <20230727112546.2201995-3-devarsht@ti.com>
+ <ef4825d6-1016-cbf2-0cd3-94b0fc4165f4@linaro.org>
+From:   Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <ef4825d6-1016-cbf2-0cd3-94b0fc4165f4@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Krzysztof,
 
-W dniu 7.08.2023 o 21:29, Nicolas Dufresne pisze:
-> Le lundi 07 août 2023 à 20:40 +0200, Andrzej Pietrasiewicz a écrit :
->> Hi Nicolas,
+Thanks for the review.
+
+On 27/07/23 17:43, Krzysztof Kozlowski wrote:
+> On 27/07/2023 13:25, Devarsh Thakkar wrote:
+>> This adds support for stateful V4L2 M2M based driver
+>> for Imagination E5010 JPEG Encoder [1] which supports baseline
+>> encoding with two different quantization tables and compression
+>> ratio as demanded.
 >>
->> W dniu 4.08.2023 o 21:27, Nicolas Dufresne pisze:
->>> This diagram details the partitioning done in each tiles.
+>> Support for both contigous and non-contigous YUV420 and YUV422
+>> semiplanar formats is added along with alignment restrictions
+>> as required by the hardware.
 >>
->> If I understand correctly there are 8 partitions in the diagram, each partition
->> consists of 80 bytes, 64 bytes containing MSB data and 16 bytes containing LSB
->> data. The diagram says "MSB 8 bits" and "LSB 2 bits" which might be confusing
->> because it suggests that the length of the partitions is maybe 8 bits plus 2
->> bits. IOW it is not clear that the numbers (8 and 2) refer to the kind of
->> contents rather than lengths. Maybe to the left of the diagram should be some
->> arrows/curly braces describing the partitions' lengths?
-> 
-> You mean you'd add the partition height (4) in pixels ? Note, I'm thinking of
-
-I thought of the partition size in bytes.
-
-
-> using "8 MSB of pixel data", as it seem to translate to a better english "8 most
-> significant bits of pixel data".
-
-"8 most significant bits of each pixel data"?
-
-Maybe it's just me, but when I see "8 MSB" I imagine exactly 8 bytes, whereas
-this partition chunk is probably 64 bytes long and the following one is 16 bytes
-long (and not 2). That is why I would imagine partition sizes to the left of the
-diagram - so that it is clear which number is partition length and which numbers
-are NOT lengths (8 and 2) but description of each partition contents.
-
-Regards,
-
-Andrzej
-
-I'm trying to avoid replacing the text, it only
-> meant to be a visual support. An alternative, is really to leave the details in
-> the text, and label it "MSB of pixel data" and "LSB of pixel data". Any
-> preference ?
-> 
-> Nicolas
-> 
+>> System and runtime PM hooks are added in the driver along with v4l2
+>> crop and selection API support.
 >>
->> Regards,
->>
->> Andrzej
->>
->>>
->>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> ---
->>>    .../userspace-api/media/v4l/mt2110t.svg       | 268 ++++++++++++++++++
->>>    1 file changed, 268 insertions(+)
->>>    create mode 100644 Documentation/userspace-api/media/v4l/mt2110t.svg
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/mt2110t.svg b/Documentation/userspace-api/media/v4l/mt2110t.svg
->>> new file mode 100644
->>> index 000000000000..d4fc223f5fde
->>> --- /dev/null
->>> +++ b/Documentation/userspace-api/media/v4l/mt2110t.svg
->>> @@ -0,0 +1,268 @@
->>> +<?xml version="1.0" encoding="UTF-8"?>
->>> +<!-- SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later -->
->>> +<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
->>> +<svg version="1.2" width="110mm" height="215mm" viewBox="0 0 11000 21500" preserveAspectRatio="xMidYMid" fill-rule="evenodd" stroke-width="28.222" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" xmlns:ooo="http://xml.openoffice.org/svg/export" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:presentation="http://sun.com/xmlns/staroffice/presentation" xmlns:smil="http://www.w3.org/2001/SMIL20/" xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xml:space="preserve">
->>> + <defs class="ClipPathGroup">
->>> +  <clipPath id="presentation_clip_path" clipPathUnits="userSpaceOnUse">
->>> +   <rect x="0" y="0" width="11000" height="21500"/>
->>> +  </clipPath>
->>> +  <clipPath id="presentation_clip_path_shrink" clipPathUnits="userSpaceOnUse">
->>> +   <rect x="11" y="21" width="10978" height="21457"/>
->>> +  </clipPath>
->>> + </defs>
->>> + <defs>
->>> +  <font id="EmbeddedFont_1" horiz-adv-x="2048">
->>> +   <font-face font-family="Liberation Sans embedded" units-per-em="2048" font-weight="normal" font-style="normal" ascent="1852" descent="423"/>
->>> +   <missing-glyph horiz-adv-x="2048" d="M 0,0 L 2047,0 2047,2047 0,2047 0,0 Z"/>
->>> +   <glyph unicode="x" horiz-adv-x="1006" d="M 801,0 L 510,444 217,0 23,0 408,556 41,1082 240,1082 510,661 778,1082 979,1082 612,558 1002,0 801,0 Z"/>
->>> +   <glyph unicode="t" horiz-adv-x="531" d="M 554,8 C 495,-8 434,-16 372,-16 228,-16 156,66 156,229 L 156,951 31,951 31,1082 163,1082 216,1324 336,1324 336,1082 536,1082 536,951 336,951 336,268 C 336,216 345,180 362,159 379,138 408,127 450,127 474,127 509,132 554,141 L 554,8 Z"/>
->>> +   <glyph unicode="s" horiz-adv-x="901" d="M 950,299 C 950,197 912,118 835,63 758,8 650,-20 511,-20 376,-20 273,2 200,47 127,91 79,160 57,254 L 216,285 C 231,227 263,185 311,158 359,131 426,117 511,117 602,117 669,131 712,159 754,187 775,229 775,285 775,328 760,362 731,389 702,416 654,438 589,455 L 460,489 C 357,516 283,542 240,568 196,593 162,624 137,661 112,698 100,743 100,796 100,895 135,970 206,1022 276,1073 378,1099 513,1099 632,1099 727,1078 798,1036 868,994 912,927 931,834 L 769,814 C 759,862 732,899 689,925 645,950 586,963 513,963 432,963 372,951 333,926 294,901 275,864 275,814 275,783 283,758 299,738 315,718 339,701 370,687 401,673 467,654 568,629 663,605 732,583 774,563 816,542 849,520 874,495 898,470 917,442 930,410 943,377 950,340 950,299 Z"/>
->>> +   <glyph unicode="p" horiz-adv-x="953" d="M 1053,546 C 1053,169 920,-20 655,-20 488,-20 376,43 319,168 L 314,168 C 317,163 318,106 318,-2 L 318,-425 138,-425 138,861 C 138,972 136,1046 132,1082 L 306,1082 C 307,1079 308,1070 309,1054 310,1037 312,1012 314,978 315,944 316,921 316,908 L 320,908 C 352,975 394,1024 447,1055 500,1086 569,1101 655,1101 788,1101 888,1056 954,967 1020,878 1053,737 1053,546 Z M 864,542 C 864,693 844,800 803,865 762,930 698,962 609,962 538,962 482,947 442,917 401,887 371,840 350,777 329,713 318,630 318,528 318,386 341,281 386,214 431,147 505,113 607,113 696,113 762,146 803,212 844,277 864,387 864,542 Z"/>
->>> +   <glyph unicode="i" horiz-adv-x="187" d="M 137,1312 L 137,1484 317,1484 317,1312 137,1312 Z M 137,0 L 137,1082 317,1082 317,0 137,0 Z"/>
->>> +   <glyph unicode="b" horiz-adv-x="953" d="M 1053,546 C 1053,169 920,-20 655,-20 573,-20 505,-5 451,25 396,54 352,102 318,168 L 316,168 C 316,147 315,116 312,74 309,31 307,7 306,0 L 132,0 C 136,36 138,110 138,223 L 138,1484 318,1484 318,1061 C 318,1018 317,967 314,908 L 318,908 C 351,977 396,1027 451,1057 506,1087 574,1102 655,1102 792,1102 892,1056 957,964 1021,872 1053,733 1053,546 Z M 864,540 C 864,691 844,800 804,865 764,930 699,963 609,963 508,963 434,928 388,859 341,790 318,680 318,529 318,387 341,282 386,215 431,147 505,113 607,113 698,113 763,147 804,214 844,281 864,389 864,540 Z"/>
->>> +   <glyph unicode="S" horiz-adv-x="1192" d="M 1272,389 C 1272,259 1221,158 1120,87 1018,16 875,-20 690,-20 347,-20 148,99 93,338 L 278,375 C 299,290 345,228 414,189 483,149 578,129 697,129 820,129 916,150 983,193 1050,235 1083,297 1083,379 1083,425 1073,462 1052,491 1031,520 1001,543 963,562 925,581 880,596 827,609 774,622 716,635 652,650 541,675 456,699 399,724 341,749 295,776 262,807 229,837 203,872 186,913 168,954 159,1000 159,1053 159,1174 205,1267 298,1332 390,1397 522,1430 694,1430 854,1430 976,1406 1061,1357 1146,1308 1205,1224 1239,1106 L 1051,1073 C 1030,1148 991,1202 933,1236 875,1269 795,1286 692,1286 579,1286 493,1267 434,1230 375,1193 345,1137 345,1063 345,1020 357,984 380,956 403,927 436,903 479,884 522,864 609,840 738,811 781,801 825,791 868,781 911,770 952,758 991,744 1030,729 1067,712 1102,693 1136,674 1166,650 1191,622 1216,594 1236,561 1251,523 1265,485 1272,440 1272,389 Z"/>
->>> +   <glyph unicode="M" horiz-adv-x="1377" d="M 1366,0 L 1366,940 C 1366,1044 1369,1144 1375,1240 1342,1121 1313,1027 1287,960 L 923,0 789,0 420,960 364,1130 331,1240 334,1129 338,940 338,0 168,0 168,1409 419,1409 794,432 C 807,393 820,351 833,306 845,261 853,228 857,208 862,235 874,275 891,330 908,384 919,418 925,432 L 1293,1409 1538,1409 1538,0 1366,0 Z"/>
->>> +   <glyph unicode="L" horiz-adv-x="927" d="M 168,0 L 168,1409 359,1409 359,156 1071,156 1071,0 168,0 Z"/>
->>> +   <glyph unicode="B" horiz-adv-x="1112" d="M 1258,397 C 1258,272 1212,174 1121,105 1030,35 903,0 740,0 L 168,0 168,1409 680,1409 C 1011,1409 1176,1295 1176,1067 1176,984 1153,914 1106,857 1059,800 993,762 908,743 1020,730 1106,692 1167,631 1228,569 1258,491 1258,397 Z M 984,1044 C 984,1120 958,1174 906,1207 854,1240 779,1256 680,1256 L 359,1256 359,810 680,810 C 782,810 858,829 909,868 959,906 984,965 984,1044 Z M 1065,412 C 1065,578 948,661 715,661 L 359,661 359,153 730,153 C 847,153 932,175 985,218 1038,261 1065,326 1065,412 Z"/>
->>> +   <glyph unicode="8" horiz-adv-x="980" d="M 1050,393 C 1050,263 1009,162 926,89 843,16 725,-20 570,-20 419,-20 302,16 217,87 132,158 89,260 89,391 89,483 115,560 168,623 221,686 288,724 370,737 L 370,741 C 293,759 233,798 189,858 144,918 122,988 122,1069 122,1176 162,1263 243,1330 323,1397 431,1430 566,1430 705,1430 814,1397 895,1332 975,1267 1015,1178 1015,1067 1015,986 993,916 948,856 903,796 842,758 765,743 L 765,739 C 855,724 925,686 975,625 1025,563 1050,486 1050,393 Z M 828,1057 C 828,1216 741,1296 566,1296 481,1296 417,1276 373,1236 328,1196 306,1136 306,1057 306,976 329,915 375,873 420,830 485,809 568,809 653,809 717,829 762,868 806,907 828,970 828,1057 Z M 863,410 C 863,497 837,563 785,608 733,652 660,674 566,674 475,674 403,650 352,603 301,555 275,489 275,406 275,212 374,115 572,115 670,115 743,139 791,186 839,233 863,307 863,410 Z"/>
->>> +   <glyph unicode="6" horiz-adv-x="980" d="M 1049,461 C 1049,312 1009,195 928,109 847,23 736,-20 594,-20 435,-20 314,39 230,157 146,275 104,447 104,672 104,916 148,1103 235,1234 322,1365 447,1430 608,1430 821,1430 955,1334 1010,1143 L 838,1112 C 803,1227 725,1284 606,1284 503,1284 424,1236 368,1141 311,1045 283,906 283,725 316,786 362,832 421,864 480,895 548,911 625,911 755,911 858,870 935,789 1011,708 1049,598 1049,461 Z M 866,453 C 866,555 841,634 791,689 741,744 671,772 582,772 498,772 430,748 379,699 327,650 301,582 301,496 301,387 328,298 382,229 435,160 504,125 588,125 675,125 743,154 792,213 841,271 866,351 866,453 Z"/>
->>> +   <glyph unicode="3" horiz-adv-x="1006" d="M 1049,389 C 1049,259 1008,158 925,87 842,16 724,-20 571,-20 428,-20 315,12 230,77 145,141 94,236 78,362 L 264,379 C 288,212 390,129 571,129 662,129 733,151 785,196 836,241 862,307 862,395 862,472 833,532 774,575 715,618 629,639 518,639 L 416,639 416,795 514,795 C 613,795 689,817 744,860 798,903 825,962 825,1038 825,1113 803,1173 759,1217 714,1260 648,1282 561,1282 482,1282 418,1262 369,1221 320,1180 291,1123 283,1049 L 102,1063 C 115,1178 163,1268 246,1333 328,1398 434,1430 563,1430 704,1430 814,1397 893,1332 971,1266 1010,1174 1010,1057 1010,967 985,894 935,838 884,781 811,743 715,723 L 715,719 C 820,708 902,672 961,613 1020,554 1049,479 1049,389 Z"/>
->>> +   <glyph unicode="2" horiz-adv-x="954" d="M 103,0 L 103,127 C 137,205 179,274 228,334 277,393 328,447 382,496 436,544 490,589 543,630 596,671 643,713 686,754 729,795 763,839 790,884 816,929 829,981 829,1038 829,1115 806,1175 761,1218 716,1261 653,1282 572,1282 495,1282 432,1261 383,1220 333,1178 304,1119 295,1044 L 111,1061 C 124,1174 172,1263 255,1330 337,1397 443,1430 572,1430 714,1430 823,1397 900,1330 976,1263 1014,1167 1014,1044 1014,989 1002,935 977,881 952,827 914,773 865,719 816,665 721,581 582,468 505,405 444,349 399,299 354,248 321,200 301,153 L 1036,153 1036,0 103,0 Z"/>
->>> +   <glyph unicode="1" horiz-adv-x="927" d="M 156,0 L 156,153 515,153 515,1237 197,1010 197,1180 530,1409 696,1409 696,153 1039,153 1039,0 156,0 Z"/>
->>> +   <glyph unicode=" " horiz-adv-x="556"/>
->>> +  </font>
->>> + </defs>
->>> + <defs class="TextShapeIndex">
->>> +  <g ooo:slide="id1" ooo:id-list="id3 id4 id5 id6 id7 id8 id9 id10 id11 id12 id13 id14 id15 id16 id17 id18 id19 id20 id21 id22 id23 id24 id25 id26 id27 id28"/>
->>> + </defs>
->>> + <defs class="EmbeddedBulletChars">
->>> +  <g id="bullet-char-template-57356" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M 580,1141 L 1163,571 580,0 -4,571 580,1141 Z"/>
->>> +  </g>
->>> +  <g id="bullet-char-template-57354" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M 8,1128 L 1137,1128 1137,0 8,0 8,1128 Z"/>
->>> +  </g>
->>> +  <g id="bullet-char-template-10146" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M 174,0 L 602,739 174,1481 1456,739 174,0 Z M 1358,739 L 309,1346 659,739 1358,739 Z"/>
->>> +  </g>
->>> +  <g id="bullet-char-template-10132" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M 2015,739 L 1276,0 717,0 1260,543 174,543 174,936 1260,936 717,1481 1274,1481 2015,739 Z"/>
->>> +  </g>
->>> +  <g id="bullet-char-template-10007" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M 0,-2 C -7,14 -16,27 -25,37 L 356,567 C 262,823 215,952 215,954 215,979 228,992 255,992 264,992 276,990 289,987 310,991 331,999 354,1012 L 381,999 492,748 772,1049 836,1024 860,1049 C 881,1039 901,1025 922,1006 886,937 835,863 770,784 769,783 710,716 594,584 L 774,223 C 774,196 753,168 711,139 L 727,119 C 717,90 699,76 672,76 641,76 570,178 457,381 L 164,-76 C 142,-110 111,-127 72,-127 30,-127 9,-110 8,-76 1,-67 -2,-52 -2,-32 -2,-23 -1,-13 0,-2 Z"/>
->>> +  </g>
->>> +  <g id="bullet-char-template-10004" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M 285,-33 C 182,-33 111,30 74,156 52,228 41,333 41,471 41,549 55,616 82,672 116,743 169,778 240,778 293,778 328,747 346,684 L 369,508 C 377,444 397,411 428,410 L 1163,1116 C 1174,1127 1196,1133 1229,1133 1271,1133 1292,1118 1292,1087 L 1292,965 C 1292,929 1282,901 1262,881 L 442,47 C 390,-6 338,-33 285,-33 Z"/>
->>> +  </g>
->>> +  <g id="bullet-char-template-9679" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M 813,0 C 632,0 489,54 383,161 276,268 223,411 223,592 223,773 276,916 383,1023 489,1130 632,1184 813,1184 992,1184 1136,1130 1245,1023 1353,916 1407,772 1407,592 1407,412 1353,268 1245,161 1136,54 992,0 813,0 Z"/>
->>> +  </g>
->>> +  <g id="bullet-char-template-8226" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M 346,457 C 273,457 209,483 155,535 101,586 74,649 74,723 74,796 101,859 155,911 209,963 273,989 346,989 419,989 480,963 531,910 582,859 608,796 608,723 608,648 583,586 532,535 482,483 420,457 346,457 Z"/>
->>> +  </g>
->>> +  <g id="bullet-char-template-8211" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M -4,459 L 1135,459 1135,606 -4,606 -4,459 Z"/>
->>> +  </g>
->>> +  <g id="bullet-char-template-61548" transform="scale(0.00048828125,-0.00048828125)">
->>> +   <path d="M 173,740 C 173,903 231,1043 346,1159 462,1274 601,1332 765,1332 928,1332 1067,1274 1183,1159 1299,1043 1357,903 1357,740 1357,577 1299,437 1183,322 1067,206 928,148 765,148 601,148 462,206 346,322 231,437 173,577 173,740 Z"/>
->>> +  </g>
->>> + </defs>
->>> + <g>
->>> +  <g id="id2" class="Master_Slide">
->>> +   <g id="bg-id2" class="Background"/>
->>> +   <g id="bo-id2" class="BackgroundObjects"/>
->>> +  </g>
->>> + </g>
->>> + <g class="SlideGroup">
->>> +  <g>
->>> +   <g id="container-id1">
->>> +    <g id="id1" class="Slide" clip-path="url(#presentation_clip_path)">
->>> +     <g class="Page">
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id3">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="1349" width="10003" height="1753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,3100 L 50,3100 50,1350 10050,1350 10050,3100 5050,3100 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3515" y="2445"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSB 8 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id4">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="3099" width="10003" height="753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,3850 L 50,3850 50,3100 10050,3100 10050,3850 5050,3850 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3604" y="3695"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">LSB 2 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id5">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="3849" width="10003" height="1753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,5600 L 50,5600 50,3850 10050,3850 10050,5600 5050,5600 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3515" y="4945"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSB 8 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id6">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="5599" width="10003" height="753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,6350 L 50,6350 50,5600 10050,5600 10050,6350 5050,6350 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3604" y="6195"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">LSB 2 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id7">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="6349" width="10003" height="1753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,8100 L 50,8100 50,6350 10050,6350 10050,8100 5050,8100 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3515" y="7445"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSB 8 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id8">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="8099" width="10003" height="753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,8850 L 50,8850 50,8100 10050,8100 10050,8850 5050,8850 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3604" y="8695"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">LSB 2 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id9">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="8849" width="10003" height="1753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,10600 L 50,10600 50,8850 10050,8850 10050,10600 5050,10600 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3515" y="9945"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSB 8 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id10">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="10599" width="10003" height="753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,11350 L 50,11350 50,10600 10050,10600 10050,11350 5050,11350 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3604" y="11195"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">LSB 2 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id11">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="11349" width="10003" height="1753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,13100 L 50,13100 50,11350 10050,11350 10050,13100 5050,13100 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3515" y="12445"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSB 8 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id12">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="13099" width="10003" height="753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,13850 L 50,13850 50,13100 10050,13100 10050,13850 5050,13850 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3604" y="13695"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">LSB 2 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id13">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="13849" width="10003" height="1753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,15600 L 50,15600 50,13850 10050,13850 10050,15600 5050,15600 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3515" y="14945"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSB 8 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id14">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="15599" width="10003" height="753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,16350 L 50,16350 50,15600 10050,15600 10050,16350 5050,16350 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3604" y="16195"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">LSB 2 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id15">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="16349" width="10003" height="1753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,18100 L 50,18100 50,16350 10050,16350 10050,18100 5050,18100 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3515" y="17445"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSB 8 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id16">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="18099" width="10003" height="753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,18850 L 50,18850 50,18100 10050,18100 10050,18850 5050,18850 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3604" y="18695"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">LSB 2 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id17">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="18849" width="10003" height="1753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,20600 L 50,20600 50,18850 10050,18850 10050,20600 5050,20600 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3515" y="19945"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSB 8 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id18">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="20599" width="10003" height="753"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" d="M 5050,21350 L 50,21350 50,20600 10050,20600 10050,21350 5050,21350 Z"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="3604" y="21195"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">LSB 2 bits</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.MeasureShape">
->>> +       <g id="id19">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="49" y="25" width="10003" height="15477"/>
->>> +        <path fill="none" stroke="rgb(0,0,0)" d="M 337,650 L 9763,650"/>
->>> +        <path fill="rgb(0,0,0)" stroke="none" d="M 50,650 L 350,750 350,550 50,650 Z"/>
->>> +        <path fill="rgb(0,0,0)" stroke="none" d="M 10050,650 L 9750,550 9750,750 10050,650 Z"/>
->>> +        <path fill="none" stroke="rgb(0,0,0)" d="M 50,15500 L 50,450"/>
->>> +        <path fill="none" stroke="rgb(0,0,0)" d="M 10050,1350 L 10050,450"/>
->>> +        <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="4253" y="468"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">16 px</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.MeasureShape">
->>> +       <g id="id20">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="10049" y="1349" width="903" height="20003"/>
->>> +        <path fill="none" stroke="rgb(0,0,0)" d="M 10750,1637 L 10750,21063"/>
->>> +        <path fill="rgb(0,0,0)" stroke="none" d="M 10750,1350 L 10650,1650 10850,1650 10750,1350 Z"/>
->>> +        <path fill="rgb(0,0,0)" stroke="none" d="M 10750,21350 L 10850,21050 10650,21050 10750,21350 Z"/>
->>> +        <path fill="none" stroke="rgb(0,0,0)" d="M 10050,1350 L 10950,1350"/>
->>> +        <path fill="none" stroke="rgb(0,0,0)" d="M 10050,21350 L 10950,21350"/>
->>> +        <text class="SVGTextShape" transform="rotate(-90 10699 12114)"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="635px" font-weight="400"><tspan class="TextPosition" x="10699" y="12114"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">32 px</tspan></tspan></tspan></text>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id21">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="9" y="1309" width="10083" height="2583"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" stroke-width="81" stroke-linejoin="round" d="M 5050,3850 L 50,3850 50,1350 10050,1350 10050,3850 5050,3850 Z"/>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id22">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="9" y="3809" width="10083" height="2583"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" stroke-width="81" stroke-linejoin="round" d="M 5050,6350 L 50,6350 50,3850 10050,3850 10050,6350 5050,6350 Z"/>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id23">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="9" y="6309" width="10083" height="2583"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" stroke-width="81" stroke-linejoin="round" d="M 5050,8850 L 50,8850 50,6350 10050,6350 10050,8850 5050,8850 Z"/>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id24">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="9" y="8809" width="10083" height="2583"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" stroke-width="81" stroke-linejoin="round" d="M 5050,11350 L 50,11350 50,8850 10050,8850 10050,11350 5050,11350 Z"/>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id25">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="9" y="11309" width="10083" height="2583"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" stroke-width="81" stroke-linejoin="round" d="M 5050,13850 L 50,13850 50,11350 10050,11350 10050,13850 5050,13850 Z"/>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id26">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="9" y="13809" width="10083" height="2583"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" stroke-width="81" stroke-linejoin="round" d="M 5050,16350 L 50,16350 50,13850 10050,13850 10050,16350 5050,16350 Z"/>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id27">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="9" y="16309" width="10083" height="2583"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" stroke-width="81" stroke-linejoin="round" d="M 5050,18850 L 50,18850 50,16350 10050,16350 10050,18850 5050,18850 Z"/>
->>> +       </g>
->>> +      </g>
->>> +      <g class="com.sun.star.drawing.CustomShape">
->>> +       <g id="id28">
->>> +        <rect class="BoundingBox" stroke="none" fill="none" x="9" y="18809" width="10083" height="2583"/>
->>> +        <path fill="none" stroke="rgb(52,101,164)" stroke-width="81" stroke-linejoin="round" d="M 5050,21350 L 50,21350 50,18850 10050,18850 10050,21350 5050,21350 Z"/>
->>> +       </g>
->>> +      </g>
->>> +     </g>
->>> +    </g>
->>> +   </g>
->>> +  </g>
->>> + </g>
->>> +</svg>
+>> Minimum resolution supported is 64x64 and
+>> Maximum resolution supported is 8192x8192.
 >>
 > 
+> 
+> ...
+> 
+>> +
+>> +static int e5010_release(struct file *file)
+>> +{
+>> +	struct e5010_dev *dev = video_drvdata(file);
+>> +	struct e5010_context *ctx = file->private_data;
+>> +
+>> +	dprintk(dev, 1, "Releasing instance: 0x%p, m2m_ctx: 0x%p\n", ctx, ctx->fh.m2m_ctx);
+> 
+> Why do you print pointers? Looks like code is buggy and you still keep
+> debugging it.
+> 
 
+This are dynamic debug prints to debug/analyze v4l2 drivers, It's a general
+mechanism used in v4l2 drivers for debugging as Nicholas mentioned.
+
+>> +	mutex_lock(&dev->mutex);
+>> +	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+>> +	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+>> +	v4l2_fh_del(&ctx->fh);
+>> +	v4l2_fh_exit(&ctx->fh);
+>> +	kfree(ctx);
+>> +	mutex_unlock(&dev->mutex);
+>> +
+>> +	return 0;
+>> +}
+>> +
+> 
+> ...
+> 
+>> +static int e5010_init_device(struct e5010_dev *dev)
+>> +{
+>> +	int ret = 0;
+>> +
+>> +	/*TODO: Set MMU in bypass mode until support for the same is added in driver*/
+>> +	e5010_hw_bypass_mmu(dev->mmu_base, 1);
+>> +
+>> +	if (e5010_hw_enable_auto_clock_gating(dev->jasper_base, 1))
+>> +		dev_warn(dev->dev, "Failed to enable auto clock gating\n");
+>> +
+>> +	if (e5010_hw_enable_manual_clock_gating(dev->jasper_base, 0))
+>> +		dev_warn(dev->dev, "Failed to disable manual clock gating\n");
+>> +
+>> +	if (e5010_hw_enable_crc_check(dev->jasper_base, 0))
+>> +		dev_warn(dev->dev, "Failed to disable CRC check\n");
+>> +
+>> +	if (e5010_hw_enable_output_address_error_irq(dev->jasper_base, 1))
+>> +		dev_err(dev->dev, "Failed to enable Output Address Error interrupts\n");
+>> +
+>> +	ret = e5010_hw_set_input_source_to_memory(dev->jasper_base, 1);
+>> +	if (ret) {
+>> +		dev_err(dev->dev, "Failed to set input source to memory\n");
+>> +		goto fail;
+> 
+> retturn ret;
+> 
+>> +	}
+>> +
+>> +	ret = e5010_hw_enable_picture_done_irq(dev->jasper_base, 1);
+>> +	if (ret)
+>> +		dev_err(dev->dev, "Failed to enable Picture Done interrupts\n");
+>> +fail:
+>> +	return ret;
+>> +}
+>> +
+>> +static int e5010_probe(struct platform_device *pdev)
+>> +{
+>> +	const struct of_device_id *of_dev_id;
+>> +	struct e5010_dev *dev;
+> 
+> dev is struct device, so call it differently.
+> 
+
+Agreed, will change the name.
+
+>> +	struct resource *res;
+>> +	int irq, ret = 0;
+>> +
+>> +	of_dev_id = of_match_device(e5010_of_match, &pdev->dev);
+>> +	if (!of_dev_id) {
+>> +		dev_err(&pdev->dev, "%s: Unable to match device\n", __func__);
+> 
+> I don't think this can happen.
+
+Ok, will remove of_match_device altogether as not needed.
+
+> 
+>> +		return -ENODEV;
+>> +	}
+>> +
+>> +	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+>> +	if (ret) {
+>> +		dev_err(&pdev->dev, "32-bit consistent DMA enable failed\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+>> +	if (!dev)
+>> +		return -ENOMEM;
+>> +
+>> +	platform_set_drvdata(pdev, dev);
+>> +
+>> +	dev->dev = &pdev->dev;
+>> +
+>> +	mutex_init(&dev->mutex);
+>> +	spin_lock_init(&dev->hw_lock);
+>> +
+>> +	dev->vdev = &e5010_videodev;
+>> +	dev->vdev->v4l2_dev = &dev->v4l2_dev;
+>> +	dev->vdev->lock = &dev->mutex;
+>> +	dev->vdev->queue = NULL;
+>> +	dev->vdev->prio = NULL;
+>> +	dev->vdev->dev_parent = NULL;
+>> +	dev->vdev->minor = -1;
+>> +
+>> +	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+>> +	if (ret) {
+>> +		dev_err(dev->dev, "Failed to register v4l2 device\n");
+>> +		return ret;
+> 
+> return dev_err_probe
+> 
+
+Ok, will check on this.
+
+>> +	}
+>> +
+>> +	dev->m2m_dev = v4l2_m2m_init(&e5010_m2m_ops);
+>> +	if (!dev->m2m_dev) {
+> 
+> This cannot happen. Read the function.
+
+Agreed will use IS_ERR here.
+> 
+>> +		dev_err(dev->dev, "Failed to initialize m2m device\n");
+>> +		ret = -ENOMEM;
+>> +		goto fail_after_v4l2_register;
+>> +	}
+>> +
+>> +	video_set_drvdata(dev->vdev, dev);
+>> +
+>> +	ret = video_register_device(dev->vdev, VFL_TYPE_VIDEO, 0);
+>> +	if (ret) {
+>> +		dev_err(dev->dev, "Failed to register video device\n");
+>> +		ret = -ENOMEM;
+> 
+> Why?
+> 
+
+Will propagate the return value instead.
+
+>> +		goto fail_after_v4l2_register;
+>> +	}
+>> +
+>> +	dev_info(dev->dev, "Device registered as /dev/video%d\n",
+>> +		 dev->vdev->num);
+>> +
+>> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "regjasper");
+>> +	if (!res) {
+>> +		dev_err(dev->dev, "Missing 'regjasper' resources area\n");
+>> +		ret = -ENOMEM;
+>> +		goto fail_after_video_register_device;
+>> +	}
+>> +	dev->jasper_base = devm_ioremap_resource(&pdev->dev, res);
+> 
+> Use helper function to combine two calls into one.
+
+Ok will try using devm_platform_ioremap_resource_byname().
+
+> 
+>> +	if (!dev->jasper_base) {
+>> +		ret = -ENOMEM;
+> 
+> This shouldn't be ENOMEM
+> 
+
+Ok, will return the error.
+
+>> +		goto fail_after_video_register_device;
+>> +	}
+>> +
+>> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "regmmu");
+>> +	if (!res) {
+>> +		dev_err(dev->dev, "Missing 'regmmu' resources area\n");
+>> +		ret = -ENOMEM;
+>> +		goto fail_after_video_register_device;
+>> +	}
+>> +	dev->mmu_base = devm_ioremap_resource(&pdev->dev, res);
+>> +	if (!dev->mmu_base) {
+>> +		ret = -ENOMEM;
+> 
+> The same.
+> 
+
+Ok, will return the error.
+>> +		goto fail_after_video_register_device;
+>> +	}
+>> +
+>> +	dev->last_context_run = NULL;
+>> +
+>> +	irq = platform_get_irq(pdev, 0);
+>> +	ret = devm_request_irq(dev->dev, irq, e5010_irq, 0,
+>> +			       E5010_MODULE_NAME, dev);
+>> +	if (ret) {
+>> +		dev_err(dev->dev, "Failed to register IRQ %d\n", irq);
+>> +		goto fail_after_video_register_device;
+>> +	}
+>> +
+>> +	dev->clk = devm_clk_get(&pdev->dev, "core_clk");
+>> +	if (IS_ERR(dev->clk)) {
+>> +		dev_err(dev->dev, "failed to get clock\n");
+>> +		ret = PTR_ERR(dev->clk);
+> 
+> ret = dev_err_probe
+> 
+
+Ok, will use above helper.
+
+>> +		goto fail_after_video_register_device;
+>> +	}
+>> +
+>> +	pm_runtime_enable(dev->dev);
+>> +
+>> +	return 0;
+>> +
+>> +fail_after_video_register_device:
+>> +	v4l2_m2m_release(dev->m2m_dev);
+>> +fail_after_v4l2_register:
+>> +	v4l2_device_unregister(&dev->v4l2_dev);
+>> +	return ret;
+>> +}
+>> +
+>> +static int e5010_remove(struct platform_device *pdev)
+>> +{
+>> +	struct e5010_dev *dev = platform_get_drvdata(pdev);
+>> +
+>> +	pm_runtime_disable(dev->dev);
+>> +	video_unregister_device(dev->vdev);
+>> +	v4l2_m2m_release(dev->m2m_dev);
+>> +	v4l2_device_unregister(&dev->v4l2_dev);
+>> +
+>> +	return 0;
+>> +}
+> 
+> ...
+> 
+>> +#define MAX_PLANES			2
+>> +#define HEADER_SIZE			0x025E
+>> +#define MIN_DIMENSION			64
+>> +#define MAX_DIMENSION			8192
+>> +#define DEFAULT_WIDTH			640
+>> +#define DEFAULT_HEIGHT			480
+>> +#define E5010_MODULE_NAME		"e5010"
+>> +
+>> +/* JPEG marker definitions */
+>> +#define START_OF_IMAGE			0xFFD8
+>> +#define SOF_BASELINE_DCT		0xFFC0
+>> +#define END_OF_IMAGE			0xFFD9
+>> +#define START_OF_SCAN			0xFFDA
+>> +
+>> +/* Definitions for the huffman table specification in the Marker segment */
+>> +#define DHT_MARKER			0xFFC4
+>> +#define LH_DC				0x001F
+>> +#define LH_AC				0x00B5
+>> +
+>> +/* Definitions for the quantization table specification in the Marker segment */
+>> +#define DQT_MARKER			0xFFDB
+>> +#define ACMAX				0x03FF
+>> +#define DCMAX				0x07FF
+>> +
+>> +/* Length and precision of the quantization table parameters */
+>> +#define LQPQ				0x00430
+>> +#define QMAX				255
+>> +
+>> +/* Misc JPEG header definitions */
+>> +#define UC_NUM_COMP			3
+>> +#define PRECISION			8
+>> +#define HORZ_SAMPLING_FACTOR		(2 << 4)
+>> +#define VERT_SAMPLING_FACTOR_422	1
+>> +#define VERT_SAMPLING_FACTOR_420	2
+>> +#define COMPONENTS_IN_SCAN		3
+>> +#define PELS_IN_BLOCK			64
+>> +
+>> +/* Used for Qp table generation */
+>> +#define LUMINOSITY			10
+>> +#define CONTRAST			1
+>> +#define INCREASE			2
+>> +#define QP_TABLE_SIZE			(8 * 8)
+>> +#define QP_TABLE_FIELD_OFFSET		0x04
+>> +
+>> +/*
+>> + * vb2 queue structure
+>> + * contains queue data information
+>> + *
+>> + * @fmt: format info
+>> + * @width: frame width
+>> + * @height: frame height
+>> + * @bytesperline: bytes per line in memory
+>> + * @size_image: image size in memory
+>> + */
+>> +struct e5010_q_data {
+>> +	struct e5010_fmt *fmt;
+>> +	u32 width;
+>> +	u32 height;
+>> +	u32 width_adjusted;
+>> +	u32 height_adjusted;
+>> +	u32 sizeimage[MAX_PLANES];
+>> +	u32 bytesperline[MAX_PLANES];
+>> +	bool format_set;
+>> +	bool streaming;
+>> +	u32			sequence;
+>> +	struct v4l2_rect	crop;
+> 
+> Unexpected indentation.
+
+Agreed, will correct.
+
+> 
+>> +};
+>> +
+>> +/*
+>> + * Driver device structure
+>> + * Holds all memory handles and global parameters
+>> + * Shared by all instances
+>> + */
+>> +struct e5010_dev {
+>> +	struct device *dev;
+>> +	struct v4l2_device v4l2_dev;
+>> +	struct v4l2_m2m_dev *m2m_dev;
+>> +	struct video_device *vdev;
+>> +	void __iomem *jasper_base;
+>> +	void __iomem *mmu_base;
+>> +	struct clk   *clk;
+> 
+> Please keep style consistent.
+
+Agreed, will correct.
+
+Best Regards
+Devarsh
+> 
+>> +	struct e5010_context *last_context_run;
+>> +	/* Protect access to device data */
+>> +	struct mutex mutex;
+>> +	/* Protect access to hardware*/
+>> +	spinlock_t hw_lock;
+>> +};
+>> +
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
