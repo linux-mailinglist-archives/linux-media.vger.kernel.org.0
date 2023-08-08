@@ -2,67 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F66773D0C
-	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 18:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 557B6773FD0
+	for <lists+linux-media@lfdr.de>; Tue,  8 Aug 2023 18:53:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232010AbjHHQNW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Aug 2023 12:13:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57450 "EHLO
+        id S233685AbjHHQxo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Aug 2023 12:53:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232166AbjHHQMH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 12:12:07 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 439007AB5
-        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 08:46:57 -0700 (PDT)
-Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C05AD38A8;
-        Tue,  8 Aug 2023 08:18:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1691475531;
-        bh=y4SyayDObfOHUfDN/RQOYZPlUD/FGwsC9Zp+PiL2rM8=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=DR62jbrGN5jGi8eJ/HZ9kiIV981oP0y/C/21lM6ECFb7GaShMMjXxREDs3x8X4p4c
-         9VhJu+K4xLBhAUNKsMy5vXsDaUdVDxKTBR1Jn52fXPDMR6fjwGm0xrYCJW6TeJF1xC
-         KttCqpS9yQCxPtIVPcnkKQEn1xlWANxVQRmmesZE=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date:   Tue, 08 Aug 2023 09:19:27 +0300
-Subject: [PATCH v7 8/8] v4l2-ctl: Check for Streams API support
+        with ESMTP id S233650AbjHHQxH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 12:53:07 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1FC8E5F
+        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 08:58:30 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-31763b2c5a4so5007391f8f.3
+        for <linux-media@vger.kernel.org>; Tue, 08 Aug 2023 08:58:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691510309; x=1692115109;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7/neN/3MAwPWtJfwm6LVkhUVNl60rPtJxXyh7+fqe70=;
+        b=i7BBwkdXriQoAwyGhuQNoP8pToL0dZV7LFjE8qeyJBfD88LbrSvqdc7y5Bclmr9jko
+         FB2AQYE6WSrTIV1TR5hjvpBst1TGzo2GsRjld/wt/FheicLSOmS5p1XZmpRDIKVwmGC8
+         du7lkJvVkznrW8KPrIfEF7StF56K0bACPlefK0cx84xSZA4oUcmsRVp3xySOSTaO2Ek1
+         FjbbSxFcz64NTE7vn7e2/Ua6rDRlZ7nwG1r+DCGWaLI0RFXScLSr6C9/kwvU3/ywAZvf
+         L06mDJsIxh280Kme4TpkdzziNuy7S7FH5xyi5k+PzGnrethKgXouTW3O06znNXrzQgRg
+         VwqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691510309; x=1692115109;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/neN/3MAwPWtJfwm6LVkhUVNl60rPtJxXyh7+fqe70=;
+        b=LLP8NhHma1EPpMfHDbElbVDZ0zm1nR/PiQhbvJTi2HcewKHvraE9hylHZTE8Wtf/Dw
+         eNyfm9hIC/NiQQ+zGlNT4zHbx2XwBMsEBm51ImL8CGiGTswMZ+1OSrxP+54BDbxTo/3F
+         vuVMHFBobWjWthHETsdoI15aY04z0HKlPy/RU2IhOcmGjm8/Dial1K2ztdA3pIF7jwbz
+         H/Y+0QInCNqLCIIfa/xx97zLYZAZvfOy05F9VzaBtRjCcO8LMxJJ8Psgpx7RsHCArdRz
+         y/E+q8p1yrkK3Oc+GrvlhuSzTXuE9TeTRBwSZv3L/kx6LAtvbdoBO2kBs4OZ9mCXfjEu
+         obug==
+X-Gm-Message-State: AOJu0YwbYOyncVtRI73OyXnosrEA4FgB6lkl1yzcRhO3akOToiY+PE1T
+        GKNazHEXsCaueFKwTSta8KnRf8fq/PHzxEOwIGQ=
+X-Google-Smtp-Source: AGHT+IEhz/h88VbIK+Uxv8RtvehzJEb4HtJYyKbQA5Ljg8jQq5fhiYybRtK6Z0XyqhDAHfl5BtRxaw==
+X-Received: by 2002:a17:906:ca:b0:994:47a5:a377 with SMTP id 10-20020a17090600ca00b0099447a5a377mr10240779eji.24.1691475723704;
+        Mon, 07 Aug 2023 23:22:03 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.113])
+        by smtp.gmail.com with ESMTPSA id bw5-20020a170906c1c500b00988f168811bsm6194300ejb.135.2023.08.07.23.22.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Aug 2023 23:22:03 -0700 (PDT)
+Message-ID: <84fbcc37-d226-b637-caa1-b24ebaf03d58@linaro.org>
+Date:   Tue, 8 Aug 2023 08:22:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230808-streams-support-v7-8-bd0b42a5826d@ideasonboard.com>
-References: <20230808-streams-support-v7-0-bd0b42a5826d@ideasonboard.com>
-In-Reply-To: <20230808-streams-support-v7-0-bd0b42a5826d@ideasonboard.com>
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v2 3/3] media: exynos4-is: fimc-is: replace duplicate pmu
+ node with phandle
+Content-Language: en-US
+To:     Andi Shyti <andi.shyti@kernel.org>
+Cc:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4441;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=y4SyayDObfOHUfDN/RQOYZPlUD/FGwsC9Zp+PiL2rM8=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk0d6Ho73QlbUSUAD/AXpoGVgHp3vE9ta4vsOCo
- BrnWb7N6u+JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZNHehwAKCRD6PaqMvJYe
- 9VPBD/95aA5fkHJ0IAuNxJ79TyRPqsL+QYpx/MZBIBk1FqhoKywVb0YBq550BotsQD7Qwq0E3Iq
- /1mvTZpXK225wVrpTIpuuSdgCvovMDmxsy4NzmRPFJJszzg0VcNdIS47yxSIBd8unVYhW96hjrh
- pjMraKvCTVFjJKuFMes39uetwh2gsFfLPwspKti5weBdwUof27/AJd076jVk+k+WRVMtKZzNn5G
- AwKLoSylBfzgwk4WUA0rJwNIp/9ZR7kZVyhSHyyDl0/eisKtV4wJzsfirL824viP+uQi81zVRJR
- sYsEZ/Ppsb3/w3TIC9PWN2OCSgCa6o1/Wtgg8XTLgfgUawwOYNS5wcF0//ZJ0mtrFmhyBi5Mdow
- gQPDhDyXVabwJT9oARCHLL5lrgAzGWXNIuJZnxuiXARBt2ZFhw9pDVOOwCATOwFwlxKCSGbB10K
- RTkT2bPy33U4CzeVhPay7MNam01jH1QVfRjbbm0wR7mLGzrFG6kaiWV6VO5uZa8I/yUke2AIQM1
- 3gbfbjcBBukRNK1FuGyW7w8fy3oIeLnP7mUZ+VLt+D2n0G5dgIWoHz2NKnMwRouoA4wHXJthJzZ
- +M63bCvvxGxHL2kCRSg89pZNu2rmlqg/lselJNv9AwerBfKFZYva48YSzbf1OIZBZG/8BRQtozQ
- naKflGEw/VFVOTg==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230807131256.254243-1-krzysztof.kozlowski@linaro.org>
+ <20230807131256.254243-3-krzysztof.kozlowski@linaro.org>
+ <20230807231320.svssge6uymw3jiho@intel.intel>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230807231320.svssge6uymw3jiho@intel.intel>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,150 +84,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Return an error if the user tries to use streams related features, but
-streams are not supported.
+On 08/08/2023 01:13, Andi Shyti wrote:
+> Hi Krzysztof,
+> 
+> [...]
+> 
+>> +static void __iomem *fimc_is_get_pmu_regs(struct device *dev)
+>> +{
+>> +	struct device_node *node;
+>> +	void __iomem *regs;
+>> +
+>> +	node = of_parse_phandle(dev->of_node, "samsung,pmu-syscon", 0);
+>> +	if (!node) {
+>> +		dev_warn(dev, "Finding PMU node via deprecated method, update your DTB\n");
+>> +		node = of_get_child_by_name(dev->of_node, "pmu");
+>> +		if (!node)
+>> +			return IOMEM_ERR_PTR(-ENODEV);
+> 
+> in my opinion this should be:
+> 
+> 		...
+> 		if (!node)
+> 			return IOMEM_ERR_PTR(-ENODEV);
+> 
+> 		dev_warn(dev, "Finding PMU node via deprecated method, update your DTB\n");
+> 
+> Because if you don't have both "samsung,pmu-syscon and "pmu" then
+> the warning should not be printed and you need to return -ENODEV.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- utils/v4l2-ctl/v4l2-ctl-subdev.cpp | 55 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+Why not? Warning is correct - the driver is trying to find, thus
+continuous tense "Finding", PMU node via old method.
 
-diff --git a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-index d906b72d..b6d115fe 100644
---- a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-@@ -562,6 +562,11 @@ void subdev_set(cv4l_fd &_fd)
- 	if (options[OptSetSubDevFormat] || options[OptTrySubDevFormat]) {
- 		struct v4l2_subdev_format fmt;
- 
-+		if (!_fd.has_streams() && set_fmt_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&fmt, 0, sizeof(fmt));
- 		fmt.pad = set_fmt_pad;
- 		fmt.stream = set_fmt_stream;
-@@ -610,6 +615,11 @@ void subdev_set(cv4l_fd &_fd)
- 	if (options[OptSetSubDevSelection] || options[OptTrySubDevSelection]) {
- 		struct v4l2_subdev_selection sel;
- 
-+		if (!_fd.has_streams() && vsel.stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&sel, 0, sizeof(sel));
- 		sel.pad = vsel.pad;
- 		sel.stream = vsel.stream;
-@@ -642,6 +652,11 @@ void subdev_set(cv4l_fd &_fd)
- 	if (options[OptSetSubDevFPS]) {
- 		struct v4l2_subdev_frame_interval fival;
- 
-+		if (!_fd.has_streams() && set_fps_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&fival, 0, sizeof(fival));
- 		fival.pad = set_fps_pad;
- 		fival.stream = set_fps_stream;
-@@ -667,6 +682,11 @@ void subdev_set(cv4l_fd &_fd)
- 		}
- 	}
- 	if (options[OptSetRouting]) {
-+		if (!_fd.has_streams()) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		if (doioctl(fd, VIDIOC_SUBDEV_S_ROUTING, &routing) == 0)
- 			printf("Routing set\n");
- 	}
-@@ -724,6 +744,11 @@ void subdev_get(cv4l_fd &_fd)
- 	if (options[OptGetSubDevFormat]) {
- 		struct v4l2_subdev_format fmt;
- 
-+		if (!_fd.has_streams() && get_fmt_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&fmt, 0, sizeof(fmt));
- 		fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
- 		fmt.pad = get_fmt_pad;
-@@ -738,6 +763,11 @@ void subdev_get(cv4l_fd &_fd)
- 		struct v4l2_subdev_selection sel;
- 		unsigned idx = 0;
- 
-+		if (!_fd.has_streams() && get_sel_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&sel, 0, sizeof(sel));
- 		sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
- 		sel.pad = get_sel_pad;
-@@ -760,6 +790,11 @@ void subdev_get(cv4l_fd &_fd)
- 	if (options[OptGetSubDevFPS]) {
- 		struct v4l2_subdev_frame_interval fival;
- 
-+		if (!_fd.has_streams() && get_fps_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&fival, 0, sizeof(fival));
- 		fival.pad = get_fps_pad;
- 		fival.stream = get_fps_stream;
-@@ -777,6 +812,11 @@ void subdev_get(cv4l_fd &_fd)
- 	}
- 
- 	if (options[OptGetRouting]) {
-+		if (!_fd.has_streams()) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&routing, 0, sizeof(routing));
- 		memset(routes, 0, sizeof(routes[0]) * NUM_ROUTES_MAX);
- 		routing.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-@@ -860,11 +900,21 @@ void subdev_list(cv4l_fd &_fd)
- 	int fd = _fd.g_fd();
- 
- 	if (options[OptListSubDevMBusCodes]) {
-+		if (!_fd.has_streams() && list_mbus_codes_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		printf("ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=%u,stream=%u)\n",
- 		       list_mbus_codes_pad, list_mbus_codes_stream);
- 		print_mbus_codes(fd, list_mbus_codes_pad, list_mbus_codes_stream);
- 	}
- 	if (options[OptListSubDevFrameSizes]) {
-+		if (!_fd.has_streams() && frmsize.stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=%u,stream=%u)\n",
- 		       frmsize.pad, frmsize.stream);
- 		frmsize.index = 0;
-@@ -875,6 +925,11 @@ void subdev_list(cv4l_fd &_fd)
- 		}
- 	}
- 	if (options[OptListSubDevFrameIntervals]) {
-+		if (!_fd.has_streams() && frmival.stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL (pad=%u,stream=%u)\n",
- 		       frmival.pad, frmival.stream);
- 		frmival.index = 0;
+> 
+> ... and... "*please* update your DTB", the user might get upset
+> and out of sheer spite, decides not to do it – just because! :)
 
--- 
-2.34.1
+The message is already long enough, why making it longer? Anyone who
+ships DTS outside of Linux kernel is doomed anyway...
+
+Best regards,
+Krzysztof
 
