@@ -2,104 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A2B1775079
-	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 03:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCEBF77517E
+	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 05:44:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbjHIBmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Aug 2023 21:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60306 "EHLO
+        id S230078AbjHIDoC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Aug 2023 23:44:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229769AbjHIBmy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 21:42:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 309BF1982
-        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 18:42:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ACB7361F8D
-        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 01:42:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCCD4C433C7
-        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 01:42:51 +0000 (UTC)
-Date:   Wed, 09 Aug 2023 03:42:49 +0200
-Message-ID: <f21a581c0afc6a64f4d4a715cd2517ab.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+        with ESMTP id S229830AbjHIDoB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Aug 2023 23:44:01 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2363F19A1
+        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 20:43:59 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-686ba29ccb1so364190b3a.1
+        for <linux-media@vger.kernel.org>; Tue, 08 Aug 2023 20:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1691552638; x=1692157438;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9oG4d/I8ir4/ruptehuylR56CYQvHC70jqVbzmkpk3I=;
+        b=m0M9ESztIHd3k/4YAEahMQomo6yS3F+Z9cnYY9pM75iWtstE5bi9Po13NS3EXiM21r
+         m4pY71hARK8luqnGo58LY6/hxXAVNtN58gy1tW5UBmG5vCJHq1FArK6iULv7VFqzRdiL
+         QSgHmTtAvJANKMWjYGv0kTKGMtSpjSMVQYb40=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691552638; x=1692157438;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9oG4d/I8ir4/ruptehuylR56CYQvHC70jqVbzmkpk3I=;
+        b=lGoooHz04NscOlUabFWhpHrlIPu98fd9cpZMqACQt3MDnGGZ6BrZzMmJnL7DgpfDbi
+         uXqSs0lf0laMogDVIYNiU5DSVxK0OTyemseX3Em9bvffaSg6uRekVsZ3s+YypTswVN4j
+         dtEo9OadgBh3MWhF2r3647yrZNTgsdY5xAlM6ZQZF2QcMU79vWPgJELWnHXHYjHA6xVT
+         Xj44QvCCi5jsBKl0CXV+WhN3yaFX0yNfdR4vq2fSDmxgLW1bLnPWOiy5J+tvBhmOpGwd
+         d1Mh6IvFmLpF9bNXPRsfrrvTPKp+0wBJJAAaYCB93ds4YkVG+lRJW5WbrK0XqlU9F7rA
+         W6hw==
+X-Gm-Message-State: AOJu0YyMz6X5avwZRSTaChGFwYNeQtES6LYH0X2FWD7KLycpL88N4+qL
+        358ANFq3U7gi7/j4gdTl8fsg9w==
+X-Google-Smtp-Source: AGHT+IFHhyziILszxrpiAnFzHo8VltBiti0umAg2qsyWqMRc7sZaS1IAqOQed/uisVP/DuAKoVJv7w==
+X-Received: by 2002:a05:6a00:2347:b0:684:bb4a:b86e with SMTP id j7-20020a056a00234700b00684bb4ab86emr2217159pfj.1.1691552638606;
+        Tue, 08 Aug 2023 20:43:58 -0700 (PDT)
+Received: from google.com ([2401:fa00:1:10:eed6:5c4f:9687:371])
+        by smtp.gmail.com with ESMTPSA id h3-20020a633843000000b00564aee22f33sm7217056pgn.14.2023.08.08.20.43.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 20:43:58 -0700 (PDT)
+Date:   Wed, 9 Aug 2023 11:43:55 +0800
+From:   Chen-Yu Tsai <wenst@chromium.org>
+To:     Wei Chen <harperchen1110@gmail.com>
+Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+        yunfei.dong@mediatek.com, mchehab@kernel.org,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] media: vcodec: Fix potential array out-of-bounds in
+ vb2ops_venc_queue_setup
+Message-ID: <20230809034355.GA589411@google.com>
+References: <20230328092608.523933-1-harperchen1110@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230328092608.523933-1-harperchen1110@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FSL_HELO_FAKE,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On Tue, Mar 28, 2023 at 09:26:08AM +0000, Wei Chen wrote:
+> variable *nplanes is provided by user via system call argument. The
+> possible value of q_data->fmt->num_planes is 1-3, while the value
+> of *nplanes can be 1-8. The array access by index i can cause array
+> out-of-bounds.
+> 
+> Fix this bug by checking *nplanes against the array size.
 
-Results of the daily build of media_tree:
+This should have a fixes tag:
 
-date:			Wed Aug  9 03:00:08 CEST 2023
-media-tree git branch:	media_stage/master
-media-tree git hash:	c0f209bc6ce60d4662436100a263e82dfae76a8e
-v4l-utils git hash:	6423a8f9116407494128032c79733aaf7ecc69ea
-edid-decode git hash:	5f723267e04deb3aa9610483514a02bcee10d9c2
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8446-g178bea2c
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d6242670a0296c2b72d9f1aff78ad73b8a13cc0b
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+Fixes: 4e855a6efa54 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Encoder Driver")
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+And also CC the stable list:
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+Cc: stable@vger.kernel.org
 
-smatch: ERRORS:
+> Signed-off-by: Wei Chen <harperchen1110@gmail.com>
 
-drivers/media/i2c/ccs/ccs-data.c:524 ccs_data_parse_rules() warn: address of NULL pointer 'rules'
-drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
-drivers/media/v4l2-core/videobuf-core.c:66 videobuf_alloc_vb() error: we previously assumed 'q->int_ops' could be null (see line 61)
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
-COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+> ---
+>  drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> index d65800a3b89d..1ea02f9136f6 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> @@ -821,6 +821,8 @@ static int vb2ops_venc_queue_setup(struct vb2_queue *vq,
+>  		return -EINVAL;
+>  
+>  	if (*nplanes) {
+> +		if (*nplanes != q_data->fmt->num_planes)
+> +			return -EINVAL;
+>  		for (i = 0; i < *nplanes; i++)
+>  			if (sizes[i] < q_data->sizeimage[i])
+>  				return -EINVAL;
+> -- 
+> 2.25.1
+> 
