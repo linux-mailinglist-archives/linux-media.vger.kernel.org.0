@@ -2,102 +2,407 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 055F07751C5
-	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 06:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABBA97751DF
+	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 06:19:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbjHIEEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Aug 2023 00:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35550 "EHLO
+        id S229623AbjHIETw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Aug 2023 00:19:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjHIEEa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 00:04:30 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 114AF1986
-        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 21:04:30 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-686b643df5dso4470408b3a.1
-        for <linux-media@vger.kernel.org>; Tue, 08 Aug 2023 21:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1691553869; x=1692158669;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NrVp1jDmwrDvr4OTz+PTItqUNwIKfiRztkLayBKMM4E=;
-        b=RgarN0QgsrvWqiZ6K8o3D5L7+YEDVR84S/iCyXNq6ox/klmTXr0soOSaHyQUBKoXS3
-         1RkK0BN1r9ILG8JLdHEK+iBZRvisl5uxdHN8DIu5sza7R+Go3La6gcrLr618rUvHUGZs
-         k8AEGtjxpuqoEImeQw8+HGdLaWC+1rwcIq+7A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691553869; x=1692158669;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NrVp1jDmwrDvr4OTz+PTItqUNwIKfiRztkLayBKMM4E=;
-        b=eg+hmepcmr7FZT880JVmk+xe70PpBxKlh8dJOKt6z59DWevRfTRtXoOVXXPmMajHBP
-         kphJ7g9qeZgXhGyIs43U/zESJa5oQNZWfZqFLZTak/Py43jSemce9fVj2r7X9uiruxC1
-         S8Jfyxej70AuYBp1/kFHCFttOjjolP5c3NKtoZgDKShp8AUdWzdHkRUY42FOB/j+C8CI
-         3cecJCbsIAv3cgvyOFWX1B8UNpIFIBVIaIGP1UrN2NlT6lzwAoPCBJlpxW22M1F+Tzy5
-         Ew3Z67sSu3qSkkjihu0nnYv/erTOevqRAXWyG2hL6FhJW4v8FE56ATW/qIcyNhqhaOy8
-         ovAQ==
-X-Gm-Message-State: AOJu0YwZjS/SGgpCXWvZgk5Hogts8M20V1mReK6TvSZuTqYH5infs1BX
-        TrCnVAA+JC7tf6kW3GkDY1JLmonMGCTByngz8A0=
-X-Google-Smtp-Source: AGHT+IGBoD9wlCXJGgqFMeXoN+jQmkDUmd0KcW0HMfGjPtgSRl0FBSK+2gflfdhfSZkte9h+owl3VA==
-X-Received: by 2002:a05:6a00:2301:b0:687:40bd:561 with SMTP id h1-20020a056a00230100b0068740bd0561mr1562114pfh.20.1691553869509;
-        Tue, 08 Aug 2023 21:04:29 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:fdf2:7f85:e85a:4c61])
-        by smtp.gmail.com with ESMTPSA id f12-20020aa78b0c000000b0068790e58edfsm8837062pfd.56.2023.08.08.21.04.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 21:04:29 -0700 (PDT)
-Date:   Wed, 9 Aug 2023 13:04:25 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Daniel Scally <dan.scally@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, Yunke Cao <yunkec@chromium.org>,
-        Yunke Cao <yunkec@google.com>
-Subject: Re: [PATCH v11 00/11] media: Implement UVC v1.5 ROI
-Message-ID: <20230809040425.GA681074@google.com>
-References: <20230426082923.132909-1-yunkec@google.com>
+        with ESMTP id S230003AbjHIETu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 00:19:50 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C4119A1
+        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 21:19:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691554786; x=1723090786;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=BEN+8sFTncIHCjkhmEw3uvdZ8wUEsJQyOWPCRF4I1yg=;
+  b=FL3KZbMocsLKpLf7nme6P4pBj7DOba6KCax4nj5KGMCs266l7VvfGkjL
+   g/C4JYcQYE29Xs4EuxpCqqnI7kMaoM+b9qvnJkVGvygWT6MPO526yriID
+   KxV4di30goTDiBcAM0jXKLlMOuS7Z2PeaytheOn4+ixYAzvQcgAikiLqW
+   wV3dbIU4Xfezaa78xkps8Ny34rAhwOnjIMjjbwZirlXSmSVbBrRnkniwA
+   X6rJOwQjO91L6vQqhgafz/IXyKSxsqfB4uKMOrU+SJ92Stl4eRms5shob
+   /Qqcopqm4mO6EfkeiwL7Rq7CJxQQqilQZrJCXUA9Wa5xGQ89zY2xDEfER
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="361141083"
+X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
+   d="scan'208";a="361141083"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 21:13:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="801590857"
+X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
+   d="scan'208";a="801590857"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
+  by fmsmga004.fm.intel.com with ESMTP; 08 Aug 2023 21:12:58 -0700
+Subject: Re: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice in
+ the stripes
+To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        "Cao, Bingbu" <bingbu.cao@intel.com>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "tfiga@google.com" <tfiga@google.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+References: <20210916172504.677919-1-jeanmichel.hautbois@ideasonboard.com>
+ <YUm82RNBbu9VbQj9@paasikivi.fi.intel.com>
+ <19a2a09a-dcdd-fc32-0410-7f752cceffb5@ideasonboard.com>
+ <YUntTJQwZJ7U3m/E@pendragon.ideasonboard.com>
+ <DM8PR11MB5653D63F3F76CA1D9E80E01199A29@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <a8a0ee6f-e83c-7f99-6967-f017c549ff05@ideasonboard.com>
+ <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
+ <SJ0PR11MB5664666D6D4C573D2D4A406D99A39@SJ0PR11MB5664.namprd11.prod.outlook.com>
+ <YUxbrFDvdI68Te8q@pendragon.ideasonboard.com>
+ <502ca584-0dd8-018b-14b1-6cf4658d9668@gmail.com>
+ <DM8PR11MB5653363BCFD75A7CE82B150899B59@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <6da57396-800f-52bf-f8ec-934138d97729@ideasonboard.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <aa92edf7-1b51-fbc9-4029-2af016ce6260@linux.intel.com>
+Date:   Wed, 9 Aug 2023 12:11:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230426082923.132909-1-yunkec@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <6da57396-800f-52bf-f8ec-934138d97729@ideasonboard.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (23/04/26 17:29), Yunke Cao wrote:
-> Hi,
-> 
-> This patch set implements UVC v1.5 region of interest using V4L2
-> control API. I rebased v10 and resended.
-> 
-> ROI control is consisted two uvc specific controls.
-> 1. A rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
-> 2. An auto control with type bitmask.
-> 
-> V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
-> 
-> Tested on two different usb cameras using v4l2-compliance, v4l2-ctl
-> and calling ioctls.
-> 
-> 1/11 adds V4L2_CTRL_TYPE_RECT.
-> 2/11, 3/11, 4/11 refactors uvc_ctrl.c.
-> 5/11 adds support for compound controls.
-> 6/11 is a cherry-pick for Hans' implementation of
-> V4L2_CTRL_WHICH_MIN/MAX_VAL in v4l2-core.
-> 7/11 documents min/max for the rectangle control.
-> 8/11 supports MIN/MAX in UVC.
-> 9/11 implements ROI in UVC.
-> 10/11 initializes ROI control to default value.
-> 11/11 documents the changes.
+Jean-Michel,
 
-Hello folks,
+I remember you resolved the problem about awb in libcamhal, so is this
+patch still necessary or valid for Imgu? :)
 
-Can we please get some reviews/feedback on this?
+On 10/14/21 2:57 PM, Jean-Michel Hautbois wrote:
+> Hi Bingbu (and Tomasz),
+> 
+> On 11/10/2021 04:42, Cao, Bingbu wrote:
+>> Hi, Jean-Michel and Laurent,
+>>
+>> Sorry for reply late as I am just back from holiday.
+>>
+>> ________________________
+>> BRs,  
+>> Bingbu Cao 
+>>
+>>> -----Original Message-----
+>>> From: Jean-Michel Hautbois <jeanmichel.hautbois@gmail.com>
+>>> Sent: Thursday, September 30, 2021 5:31 PM
+>>> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>; Cao, Bingbu
+>>> <bingbu.cao@intel.com>
+>>> Cc: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>; Sakari
+>>> Ailus <sakari.ailus@linux.intel.com>; tfiga@google.com; linux-
+>>> media@vger.kernel.org; Qiu, Tian Shu <tian.shu.qiu@intel.com>
+>>> Subject: Re: [PATCH] media: staging: ipu3-imgu: Initialise
+>>> height_per_slice in the stripes
+>>>
+>>> Hi Bingbu,
+>>>
+>>> On 23/09/2021 12:49, Laurent Pinchart wrote:
+>>>> Hi Bingbu,
+>>>>
+>>>> On Thu, Sep 23, 2021 at 10:29:33AM +0000, Cao, Bingbu wrote:
+>>>>> On Thursday, September 23, 2021 5:46 PM, Laurent Pinchart wrote:
+>>>>>> On Thu, Sep 23, 2021 at 09:06:32AM +0000, Cao, Bingbu wrote:
+>>>>>>> Jean-Michel,
+>>>>>>>
+>>>>>>> Firstly, the .height_per_slice could be 0 if your .grid.width
+>>>>>>> larger than 32.
+>>>>>>
+>>>>>> Which .height_per_slice are you talking about ? A field of that name
+>>>>>> exists in both ipu3_uapi_acc_param.awb.config.grid and struct
+>>>>>> ipu3_uapi_grid_config and imgu_abi_awb_config.stripes.grid.
+>>>>>>
+>>>>>> They are both computed by the driver, in imgu_css_cfg_acc(). The
+>>>>>> former is set to
+>>>>>>
+>>>>>> 	acc->awb.config.grid.height_per_slice =
+>>>>>> 		IMGU_ABI_AWB_MAX_CELLS_PER_SET / acc->awb.config.grid.width,
+>>>>>>
+>>>>>> IMGU_ABI_AWB_MAX_CELLS_PER_SET is equal to 160, so it can only be 0
+>>>>>> if grid.width > 160, which is invalid.
+>>>>>
+>>>>> For awb_fr and af, it could be 0 if the .config.grid_cfg.width > 32.
+>>>>
+>>>> Indeed, my bad. I was focussing on the AWB statistics.
+>>>>
+>>>> What are the implications of a height_per_slice value of 0 ?
+>>>>
+>>>> While we are on this topic, what is a "slice" ? Does it matter for the
+>>>> user, as in does it have an impact on the statistics values, or on how
+>>>> they're arranged in memory, or is it an implementation detail of the
+>>>> firmware that has no consequence on what can be seen by the user ?
+>>>> (The "user" here is the code that reads the statistics in userspace).
+>>>>
+>>>
+>>> Gentle ping on these specific questions from Laurent :-) ?
+>>
+>> I am not an expert on this statistics algo.
+>>
+>> My understanding:
+>> height_per_slice means number of blocks in vertical axis per Metadata slice.
+>> ImgU divide grid-based Metadata into slices, each slice refers to 
+>> grid_width * height_per_slice blocks, if height_per_slice is 0, that means
+>> the grid_width is too large to use. IOW, it is an invalid parameter, we
+>> need check this invalid value instead of just setting to 1.
+>>
+> 
+> Is it true only for awb_fr and af, or also for awb ?
+> If it is not for awb, the patch could be only for awb, as it really
+> solves an issue ?
+> 
+> Tomasz, do you think it may introduce a regression in the binary library
+> ? Would it be possible to test it ? I can send a v2 with only awb if it
+> is needed.
+> 
+>>>
+>>>>>>> From your configuration, looks like something wrong in the stripe
+>>>>>>> configuration cause not entering the 2 stripes branch.
+>>>>>>
+>>>>>> Why is that ? Isn't it valid for a grid configuration to use a
+>>>>>> single stripe, if the image is small enough, or if the grid only
+>>>>>> covers the left part of the image ?
+>>>>>>
+>>>>>>> On Wednesday, September 22, 2021 1:54 PM, Jean-Michel Hautbois wrote:
+>>>>>>>> On 22/09/2021 06:33, Cao, Bingbu wrote:
+>>>>>>>>> Jean-Michel,
+>>>>>>>>>
+>>>>>>>>> Thanks for you patch.
+>>>>>>>>> What is the value of .config.grid_cfg.width for your low
+>>> resolutions?
+>>>>>>>>
+>>>>>>>> I don't know if a 1920x1280 output is a low resolution, but the
+>>>>>>>> grid is configured as:
+>>>>>>>> - grid_cfg.width = 79
+>>>>>>>> - grid_cfg.height = 24
+>>>>>>>> - grid_cfg.block_width_log2 = 4
+>>>>>>>> - grid_cfg.block_height_log2 = 6
+>>>>>>>>
+>>>>>>>> Here is a full debug output of the AWB part in imgu_css_cfg_acc():
+>>>>>>>>
+>>>>>>>> acc->stripe.down_scaled_stripes[0].width: 1280
+>>>>>>>> acc->stripe.down_scaled_stripes[0].height: 1536
+>>>>>>>> acc->stripe.down_scaled_stripes[0].offset: 0
+>>>>>>>> acc->stripe.bds_out_stripes[0].width: 1280
+>>>>>>>> acc->stripe.bds_out_stripes[0].height: 1536
+>>>>>>>> acc->stripe.bds_out_stripes[0].offset: 0
+>>>>>>>> acc->acc->awb.stripes[0].grid.width: 79
+>>>>>>>> acc->awb.stripes[0].grid.block_width_log2: 4
+>>>>>>>> acc->acc->awb.stripes[0].grid.height: 24
+>>>>>>>> acc->awb.stripes[0].grid.block_height_log2: 6
+>>>>>>>> acc->awb.stripes[0].grid.x_start: 0
+>>>>>>>> acc->awb.stripes[0].grid.x_end: 1263
+>>>>>>>> acc->awb.stripes[0].grid.y_start: 0
+>>>>>>>> acc->awb.stripes[0].grid.y_end: 1535
+>>>>>>>> acc->stripe.down_scaled_stripes[1].width: 1280
+>>>>>>>> acc->stripe.down_scaled_stripes[1].height: 1536
+>>>>>>>> acc->stripe.down_scaled_stripes[1].offset: 1024
+>>>>>>>> acc->stripe.bds_out_stripes[1].width: 1280
+>>>>>>>> acc->stripe.bds_out_stripes[1].height: 1536
+>>>>>>>> acc->stripe.bds_out_stripes[1].offset: 1024
+>>>>>>>> acc->acc->awb.stripes[1].grid.width: 79
+>>>>>>>> acc->awb.stripes[1].grid.block_width_log2: 4
+>>>>>>>> acc->acc->awb.stripes[1].grid.height: 24
+>>>>>>>> acc->awb.stripes[1].grid.block_height_log2: 6
+>>>>>>>> acc->awb.stripes[1].grid.x_start: 0
+>>>>>>>> acc->awb.stripes[1].grid.x_end: 1263
+>>>>>>>> acc->awb.stripes[1].grid.y_start: 0
+>>>>>>>> acc->awb.stripes[1].grid.y_end: 1535
+>>>>>
+>>>>> Are these dumps from 1920x1280 output?
+>>>>
+>>>> Jean-Michel, could you comment on this ?
+>>>>
+>>>> Note that the grid is configured with 79 cells of 16 pixels, covering
+>>>> 1264 pixels horizontally. That's not the full image for a 1920 pixels
+>>>> output, and will probably not be done in practice, but there's nothing
+>>>> preventing the grid from covering part of the image only.
+>>>>
+>>>>>>>> This has been outputted with: https://paste.debian.net/1212791/
+>>>>>>>>
+>>>>>>>> The examples I gave before were 1280x720 output and not 1920x1080,
+>>>>>>>> here are they:
+>>>>>>>> - without the patch: https://pasteboard.co/hHo4QkVUSk8e.png
+>>>>>>>> - with the patch: https://pasteboard.co/YUGUvS5tD0bo.png
+>>>>>>>>
+>>>>>>>> As you can see we have the same behaviour.
+>>>>>>>>
+>>>>>>>>> On Tuesday, September 21, 2021 10:34 PM, Laurent Pinchart wrote:
+>>>>>>>>>> On Tue, Sep 21, 2021 at 03:04:37PM +0200, Jean-Michel Hautbois
+>>> wrote:
+>>>>>>>>>>> On 21/09/2021 13:07, Sakari Ailus wrote:
+>>>>>>>>>>>> On Thu, Sep 16, 2021 at 07:25:04PM +0200, Jean-Michel Hautbois
+>>> wrote:
+>>>>>>>>>>>>> While playing with low resolutions for the grid, it appeared
+>>>>>>>>>>>>> that height_per_slice is not initialised if we are not using
+>>>>>>>>>>>>> both stripes for the calculations. This pattern occurs three
+>>> times:
+>>>>>>>>>>>>> - for the awb_fr processing block
+>>>>>>>>>>>>> - for the af processing block
+>>>>>>>>>>>>> - for the awb processing block
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> The idea of this small portion of code is to reduce
+>>>>>>>>>>>>> complexity in loading the statistics, it could be done also
+>>>>>>>>>>>>> when only one stripe is used. Fix it by getting this
+>>>>>>>>>>>>> initialisation code outside of the
+>>>>>>>>>>>>> else() test case.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Signed-off-by: Jean-Michel Hautbois
+>>>>>>>>>>>>> <jeanmichel.hautbois@ideasonboard.com>
+>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>  drivers/staging/media/ipu3/ipu3-css-params.c | 44 >>>>>
+>>>>>>>>>>>>> ++++++++++----------
+>>>>>>>>>>>>>  1 file changed, 22 insertions(+), 22 deletions(-)
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c
+>>>>>>>>>>>>> b/drivers/staging/media/ipu3/ipu3-css-params.c
+>>>>>>>>>>>>> index e9d6bd9e9332..05da7dbdca78 100644
+>>>>>>>>>>>>> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
+>>>>>>>>>>>>> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+>>>>>>>>>>>>> @@ -2428,16 +2428,16 @@ int imgu_css_cfg_acc(struct imgu_css
+>>> *css, unsigned int pipe,
+>>>>>>>>>>>>>  					acc-
+>>>> awb_fr.stripes[1].grid_cfg.width,
+>>>>>>>>>>>>>  					b_w_log2);
+>>>>>>>>>>>>>  		acc->awb_fr.stripes[1].grid_cfg.x_end = end;
+>>>>>>>>>>>>> -
+>>>>>>>>>>>>> -		/*
+>>>>>>>>>>>>> -		 * To reduce complexity of debubbling and loading
+>>>>>>>>>>>>> -		 * statistics fix grid_height_per_slice to 1 for both
+>>>>>>>>>>>>> -		 * stripes.
+>>>>>>>>>>>>> -		 */
+>>>>>>>>>>>>> -		for (i = 0; i < stripes; i++)
+>>>>>>>>>>>>> -			acc-
+>>>> awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
+>>>>>>>>>>>>>  	}
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> +	/*
+>>>>>>>>>>>>> +	 * To reduce complexity of debubbling and loading
+>>>>>>>>>>>>> +	 * statistics fix grid_height_per_slice to 1 for both
+>>>>>>>>>>>>> +	 * stripes.
+>>>>>>>>>>>>> +	 */
+>>>>>>>>>>>>> +	for (i = 0; i < stripes; i++)
+>>>>>>>>>>>>> +		acc->awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>>  	if (imgu_css_awb_fr_ops_calc(css, pipe, &acc->awb_fr))
+>>>>>>>>>>>>>  		return -EINVAL;
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> @@ -2591,15 +2591,15 @@ int imgu_css_cfg_acc(struct imgu_css
+>>> *css, unsigned int pipe,
+>>>>>>>>>>>>>  			imgu_css_grid_end(acc-
+>>>> af.stripes[1].grid_cfg.x_start,
+>>>>>>>>>>>>>  					  acc-
+>>>> af.stripes[1].grid_cfg.width,
+>>>>>>>>>>>>>  					  b_w_log2);
+>>>>>>>>>>>>> -
+>>>>>>>>>>>>> -		/*
+>>>>>>>>>>>>> -		 * To reduce complexity of debubbling and loading
+>>> statistics
+>>>>>>>>>>>>> -		 * fix grid_height_per_slice to 1 for both stripes
+>>>>>>>>>>>>> -		 */
+>>>>>>>>>>>>> -		for (i = 0; i < stripes; i++)
+>>>>>>>>>>>>> -			acc->af.stripes[i].grid_cfg.height_per_slice =
+>>> 1;
+>>>>>>>>>>>>>  	}
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> +	/*
+>>>>>>>>>>>>> +	 * To reduce complexity of debubbling and loading statistics
+>>>>>>>>>>>>> +	 * fix grid_height_per_slice to 1 for both stripes
+>>>>>>>>>>>>> +	 */
+>>>>>>>>>>>>> +	for (i = 0; i < stripes; i++)
+>>>>>>>>>>>>> +		acc->af.stripes[i].grid_cfg.height_per_slice = 1;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>>  	if (imgu_css_af_ops_calc(css, pipe, &acc->af))
+>>>>>>>>>>>>>  		return -EINVAL;
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> @@ -2660,15 +2660,15 @@ int imgu_css_cfg_acc(struct imgu_css
+>>> *css, unsigned int pipe,
+>>>>>>>>>>>>>  			imgu_css_grid_end(acc-
+>>>> awb.stripes[1].grid.x_start,
+>>>>>>>>>>>>>  					  acc->awb.stripes[1].grid.width,
+>>>>>>>>>>>>>  					  b_w_log2);
+>>>>>>>>>>>>> -
+>>>>>>>>>>>>> -		/*
+>>>>>>>>>>>>> -		 * To reduce complexity of debubbling and loading
+>>> statistics
+>>>>>>>>>>>>> -		 * fix grid_height_per_slice to 1 for both stripes
+>>>>>>>>>>>>> -		 */
+>>>>>>>>>>>>> -		for (i = 0; i < stripes; i++)
+>>>>>>>>>>>>> -			acc->awb.stripes[i].grid.height_per_slice = 1;
+>>>>>>>>>>>>>  	}
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> +	/*
+>>>>>>>>>>>>> +	 * To reduce complexity of debubbling and loading statistics
+>>>>>>>>>>>>> +	 * fix grid_height_per_slice to 1 for both stripes
+>>>>>>>>>>>>> +	 */
+>>>>>>>>>>>>> +	for (i = 0; i < stripes; i++)
+>>>>>>>>>>>>> +		acc->awb.stripes[i].grid.height_per_slice = 1;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>>  	if (imgu_css_awb_ops_calc(css, pipe, &acc->awb))
+>>>>>>>>>>>>>  		return -EINVAL;
+>>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> While it seems like a sensible idea to initialise arguments to
+>>>>>>>>>>>> firmware, does this have an effect on the statistics format?
+>>>>>>>>>>>> If so, can the existing user space cope with that?
+>>>>>>>>>>>
+>>>>>>>>>>> To try and figure that out, we have tested several grid
+>>>>>>>>>>> configurations and inspected the captured statistics. We have
+>>>>>>>>>>> converted the statistics in an image, rendering each cell as a
+>>>>>>>>>>> pixel whose red, green and blue components are the cell's red,
+>>> green and blue averages.
+>>>>>>>>>>> This turned out to be a very effectice tool to quickly
+>>>>>>>>>>> visualize AWB statistics.
+>>>>>>>>>>> We have made a lot of tests with different output resolutions,
+>>>>>>>>>>> from a small one up to the full-scale one.
+>>>>>>>>>>>
+>>>>>>>>>>> Here is one example of a statistics output with a ViewFinder
+>>>>>>>>>>> configured as 1920x1280, with a BDS output configuration set to
+>>>>>>>>>>> 2304x1536 (sensor is 2592x1944).
+>>>>>>>>>>>
+>>>>>>>>>>> Without the patch, configuring a 79x45 grid of 16x16 cells we
+>>>>>>>>>>> obtain the
+>>>>>>>>>>> image: https://pasteboard.co/g4nC4fHjbVER.png.
+>>>>>>>>>>> We can notice a weird padding every two lines and it seems to
+>>>>>>>>>>> be missing half of the frame.
+>>>>>>>>>>>
+>>>>>>>>>>> With the patch applied, the same configuration gives us the
+>>> image:
+>>>>>>>>>>> https://pasteboard.co/rzap6axIvVdu.png
+>>>>>>>>>>>
+>>>>>>>>>>> We can clearly see the one padding pixel on the right, and the
+>>>>>>>>>>> frame is all there, as expected.
+>>>>>>>>>>>
+>>>>>>>>>>> Tomasz: We're concerned that this patch may have an impact on
+>>>>>>>>>>> the ChromeOS Intel Camera HAL with the IPU3. Is it possible for
+>>>>>>>>>>> someone to review and test this please?
+>>>>>>>>>>
+>>>>>>>>>> As shown by the images above, this is a real fix. It only
+>>>>>>>>>> affects grid configurations that use a single stripe (left or
+>>>>>>>>>> right), so either "small" resolutions (less than 1280 pixels at
+>>>>>>>>>> the BDS output if I recall correctly), or grid configurations
+>>>>>>>>>> that span the left part of the image with higher resolutions.
+>>>>>>>>>> The latter is probably unlikely. For the former, it may affect
+>>>>>>>>>> the binary library, especially if it includes a workaround for
+>>> the bug.
+>>>>>>>>>>
+>>>>>>>>>> Still, this change is good I believe, so it should be upstreamed.
+>>>>
+>>
+
+-- 
+Best regards,
+Bingbu Cao
