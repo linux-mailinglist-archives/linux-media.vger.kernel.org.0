@@ -2,209 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAA92775F6E
-	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 14:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6AAE775FFB
+	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 14:57:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbjHIMlx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Aug 2023 08:41:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34938 "EHLO
+        id S230038AbjHIM5t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Aug 2023 08:57:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbjHIMlw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 08:41:52 -0400
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 904A910D2
-        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 05:41:49 -0700 (PDT)
-X-KPN-MessageId: fe087893-36b1-11ee-8606-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id fe087893-36b1-11ee-8606-005056999439;
-        Wed, 09 Aug 2023 14:40:59 +0200 (CEST)
+        with ESMTP id S229615AbjHIM5s (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 08:57:48 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60F9E1FF9
+        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 05:57:47 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3fbea14700bso57697365e9.3
+        for <linux-media@vger.kernel.org>; Wed, 09 Aug 2023 05:57:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=YPHH5+uNC3ojnTZ8cwa7F9MHcmd804++/uMKskEMZpg=;
-        b=etJtjS+JAPjNW6l4XxMUbPOocADQITkS34Wj9NHlsQUDzHZJ1UvkU2UEDs6ekgES/NW/vp/pQwJP3
-         i6YIKw1ZHvyGrWuNC++W0ToQWlw0wgFbeQWv1neJ392Fe84vJAAMS3R5+0iI+lBi/M/izOTlfwFgw7
-         GGwIzj0G0k3v9b/z24tyBLE7Ubz3dHTpRpsy9ROxUc/qYwYrnCukVYXhv3DYm7DCcfk9+SMCPTub9E
-         Fb42PZQLfT29vUxfmXamxxdAfT8qKc7VrnfIugSq6aFmZOdUeCfVdjBt6dzZXTKXDSX9L9Wm/3FOkd
-         1oD/PBO9m7iy3lPO2qkJq1H8BkuY5ZQ==
-X-KPN-MID: 33|s3m9Q+Z13ecfzB9cmqNNybI38OF8K4i2v2iMaUkJX+H+/jR7g+HJy4BCxuBbU2Q
- q0SM0AGUTDtMowSULONAlBagGUKy+vXBjH8eh30RGtIk=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|LnRqfE2zdBn1JE9yu7r3AMmmYR7KTAwqrZNdIGzJXra3MXHuPb3pvWbksjoB9of
- Zdki298aWps0MgpziCYrqyw==
-X-Originating-IP: 173.38.220.44
-Received: from [10.47.77.214] (unknown [173.38.220.44])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 1a2c4d80-36b2-11ee-aefe-00505699b758;
-        Wed, 09 Aug 2023 14:41:47 +0200 (CEST)
-Message-ID: <3c2611bd-524b-b3ae-1255-c638501e390f@xs4all.nl>
-Date:   Wed, 9 Aug 2023 14:41:46 +0200
+        d=linaro.org; s=google; t=1691585866; x=1692190666;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=k3HCAasWYNZ9LIAV78A4uCkjkoES5nhFv19HRBaFI6k=;
+        b=fX3JzYgvoKYGPBgcz0f+IYGmYExjSmBy3BOiiNf6s40id+N4R52jbkj181Dozf/GLc
+         wNsVfZOBJTjDahe2Ls2wsyzmQ6LjZIxtAwMGM0WdP8Lk71sziB3Ri5fhoirK/civ4c/a
+         m5EoiH1uQord24EXslz5SGXYNbuwJbTuZbRF/CgadyQ580EDQgzaVMNvHfW5U4ExtJ3F
+         OkC7UF1KGDcU69sDJxYihx0i72Iy6WpXt8z+IZPnh3V79YNfbRkBMKoTRqlRVQEOSNl7
+         WSLmb3aFcJncSprqNp+N5epGpECMQRca75BpiUd7y44DemZZPfJ5dMMBZcy5N1vV4Ovw
+         FFhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691585866; x=1692190666;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k3HCAasWYNZ9LIAV78A4uCkjkoES5nhFv19HRBaFI6k=;
+        b=lQlno8AyhxdHJYs+jepHzY7I0UVCYrl6Net6OH89UGd8OgMlTinaGj2OssaL8yGjVA
+         2G/EEjObIqXJvR0bmGFAqpB77JB0OzNJoAHu//HJ/mNx9K9mMyOf/XCAisuM5N5tFDPX
+         MqgZUejkaTDXOG0uOnar92GCoyuQET55pDPf49XxA2cMbv8x8FEoGEqoWGEgnb4aAY2w
+         AFGteLwaTNVRfmTD4hlt4CwcUUlwque0fafbeYO+QsCK8Fw9DwilFZYsh6oJhd6NwtvE
+         uZ1cdkMzuqR7HInTAMQyofDB9dTROGRi/8EZiWcMrnxt6h857uMV9z4sDg9ccENys/T+
+         sKmw==
+X-Gm-Message-State: AOJu0YwVApJ0BKsCxwwcOKk10PRqQ52ZDm4Yw4Lxqd804BOF4I/vELjo
+        yuWhS9l2IwuI17jfbkAaM8NlwQ==
+X-Google-Smtp-Source: AGHT+IHedHvibQt77m5n/KV7nE497zImStSAb9zFe5FDYuP7zTmHWVEJ7Tma3hVOXsTr0kchK2up7g==
+X-Received: by 2002:a5d:46ce:0:b0:317:6b92:26b5 with SMTP id g14-20020a5d46ce000000b003176b9226b5mr1723146wrs.23.1691585865844;
+        Wed, 09 Aug 2023 05:57:45 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id c17-20020adfe711000000b00317afc7949csm16574445wrm.50.2023.08.09.05.57.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Aug 2023 05:57:45 -0700 (PDT)
+Message-ID: <6807f8c8-0503-cf79-7ef0-653ebafc81e3@linaro.org>
+Date:   Wed, 9 Aug 2023 13:57:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v11 06/11] v4l2-ctrls: add support for
- V4L2_CTRL_WHICH_MIN/MAX_VAL
+Subject: Re: [PATCH 1/6] media: dt-bindings: Document SC8280XP/SM8350 Venus
 Content-Language: en-US
-To:     Yunke Cao <yunkec@google.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-References: <20230426082923.132909-1-yunkec@google.com>
- <20230426082923.132909-7-yunkec@google.com>
- <da90bdb2-45f4-2ffe-2d62-1190b43fccd5@xs4all.nl>
- <CANqU6Fds77JBjkq5epiL5iyEBgC-goVAXXfFGK_-fnZx04z8WQ@mail.gmail.com>
- <04a11648-fc00-bb29-774d-d1ba0f199872@xs4all.nl>
- <20230809101535.GA5737@pendragon.ideasonboard.com>
- <caefa8ad-7ae4-6ef0-e247-fcc5d49d6c54@xs4all.nl>
- <CANqU6FeRUkDr0ssAbXVBBgPzxThCEU0H5yCGOVda_3P5s3nb9A@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CANqU6FeRUkDr0ssAbXVBBgPzxThCEU0H5yCGOVda_3P5s3nb9A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
+ <20230731-topic-8280_venus-v1-1-8c8bbe1983a5@linaro.org>
+ <84ab9380-2fb2-76f9-2eb9-71d9202718cc@linaro.org>
+ <659e30a7-80f7-4fd8-af58-45505213a2ef@linaro.org>
+ <ba40de82-b308-67b1-5751-bb2d95f2b8a5@linaro.org>
+ <fa5dc696-6c67-49d0-b158-f1e3398813e2@linaro.org>
+ <816359f7-ad4d-659f-db39-c971e1b1cd9a@linaro.org>
+ <0feda32e-5430-4f35-b18a-7afce63a970c@linaro.org>
+ <d09df249-cc6d-9708-bfa6-ae5cc7929697@linaro.org>
+ <4bd04709-155f-4750-8638-e73b653b1482@linaro.org>
+ <0cba0158-8a9f-68b6-6bb3-dab0272a5ce0@linaro.org>
+ <15b545a2-14be-47ba-a665-8ae986a7f9cd@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <15b545a2-14be-47ba-a665-8ae986a7f9cd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/9/23 14:32, Yunke Cao wrote:
-> On Wed, Aug 9, 2023 at 7:59 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+On 09/08/2023 13:15, Konrad Dybcio wrote:
+>> Hmm.
 >>
->> On 8/9/23 12:15, Laurent Pinchart wrote:
->>> Hello,
->>>
->>> On Wed, Aug 09, 2023 at 10:36:16AM +0200, Hans Verkuil wrote:
->>>> On 8/9/23 09:34, Yunke Cao wrote:
->>>>> On Wed, Aug 9, 2023 at 4:05 PM Hans Verkuil wrote:
->>>>>> On 26/04/2023 10:29, Yunke Cao wrote:
->>>>>>> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>>>>>>
->>>>>>> Add the capability of retrieving the min and max values of a
->>>>>>> compound control.
->>>>>>>
->>>>>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>>>>>> Signed-off-by: Yunke Cao <yunkec@google.com>
->>>>>>> ---
->>>>>>> Changelog since v10:
->>>>>>> - No change.
->>>>>>> Changelog since v9:
->>>>>>> - No change.
->>>>>>> Changelog since v8:
->>>>>>> - Return ENODATA when min/max is not implemented. Document this behavior.
->>>>>>> - Created a shared helper function __v4l2_ctrl_type_op_init that takes "which"
->>>>>>>   as a parameter. Call it in def, min and max operations.
->>>>>>> Changelog since v7:
->>>>>>> - Document that the definition of the min/max are provided by compound controls
->>>>>>>   are defined in control documentation.
->>>>>>> - Return error, instead of zeroed memory for v4l2_ctrl_ptr_create(NULL).
->>>>>>>
->>>>>>> git am from https://lore.kernel.org/all/20191119113457.57833-3-hverkuil-cisco@xs4all.nl/
->>>>>>> - Fixed some merge conflits.
->>>>>>> - Fixed the build error in drivers/media/platform/qcom/venus.
->>>>>>>
->>>>>>>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  11 +-
->>>>>>>  .../media/videodev2.h.rst.exceptions          |   2 +
->>>>>>>  drivers/media/i2c/imx214.c                    |   5 +-
->>>>>>>  .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
->>>>>>>  drivers/media/v4l2-core/v4l2-ctrls-api.c      |  57 +++++--
->>>>>>>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 156 +++++++++++++++---
->>>>>>>  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
->>>>>>>  include/media/v4l2-ctrls.h                    |  34 +++-
->>>>>>>  include/uapi/linux/videodev2.h                |   2 +
->>>>>>>  9 files changed, 236 insertions(+), 44 deletions(-)
->>>>>>>
->>>>>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>>>>>> index 927ef397f1ce..1cc21ee229aa 100644
->>>>>>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>>>>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>>>>>> @@ -304,14 +304,21 @@ still cause this situation.
->>>>>>>        - Which value of the control to get/set/try.
->>>>>>>      * - :cspan:`2` ``V4L2_CTRL_WHICH_CUR_VAL`` will return the current value of
->>>>>>>       the control, ``V4L2_CTRL_WHICH_DEF_VAL`` will return the default
->>>>>>> +     value of the control, ``V4L2_CTRL_WHICH_MIN_VAL`` will return the minimum
->>>>>>> +     value of the control, ``V4L2_CTRL_WHICH_MAX_VAL`` will return the maximum
->>>>>>>       value of the control and ``V4L2_CTRL_WHICH_REQUEST_VAL`` indicates that
->>>>>>>       these controls have to be retrieved from a request or tried/set for
->>>>>>>       a request. In the latter case the ``request_fd`` field contains the
->>>>>>>       file descriptor of the request that should be used. If the device
->>>>>>>       does not support requests, then ``EACCES`` will be returned.
->>>>>>>
->>>>>>> -     When using ``V4L2_CTRL_WHICH_DEF_VAL`` be aware that you can only
->>>>>>> -     get the default value of the control, you cannot set or try it.
->>>>>>> +     When using ``V4L2_CTRL_WHICH_DEF_VAL``, ``V4L2_CTRL_WHICH_MIN_VAL``
->>>>>>> +     or ``V4L2_CTRL_WHICH_MAX_VAL`` be aware that you can only get the
->>>>>>> +     default/minimum/maximum value of the control, you cannot set or try it.
->>>>>>> +     The definition of minimum/maximum values for compound types are provided by
->>>>>>> +     the control documentation. If the control documentation does not
->>>>>>> +     document the meaning of minimum/maximum value, then it is not supported.
->>>>>>> +     Querying its minmimum/maximum value will result in -ENODATA.
->>>>>>
->>>>>> typo: minmimum -> minimum
->>>>>>
->>>>>> That last line is a bit ambiguous, I suggest this:
->>>>>>
->>>>>> If  ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` are not supported,
->>>>>> then querying the minimum or maximum value will result in -ENODATA.
->>>>>
->>>>> This sounds clearer indeed! I will change it in the next version.
->>>>
->>>> Thinking some more about this, I believe it would be better to add a flag
->>>> indicating WHICH_MIN/MAX support. I never like relying on an error to
->>>> discover a feature. You still need this error, but in addition we need a new
->>>> flag:
->>>>
->>>> #define V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX 0x1000
->>>>
->>>> that is set for any control that supports this.
->>>
->>> I think the intent here was to indicate that drivers must return
->>> -ENODATA for V4L2_CTRL_WHICH_MIN_VAL and V4L2_CTRL_WHICH_MAX_VAL if the
->>> control's documentation doesn't specify the meaning of minimum and
->>> maximum for a control. A flag to indicate support for this new API is
->>> likely a good idea, but the documentation here should still clearly
->>> indicate that only controls that have defined minimum and maximum
->>> concepts in the API documentation can implement this API.
+>> Well from earlier in the thread the question "why do we have these compat strings" is because we can have any combination of encoder/decoder assigned.
 >>
->> This flag is specific to the control ID: so if set, then you can get
->> the min/max value using V4L2_CTRL_WHICH_MIN/MAX_VAL for that control ID.
+>> If there's a cogent argument_still_  to be made to transition to some new way of assignment then fine so long as we don't break that basic flexibility.
 >>
->> This flag must be set for any control that uses the s64 minimum/maximum
->> fields in struct v4l2_ext_query_ctrl, and for any compound control that
->> has explicit support for MIN/MAX_VAL (the UVC rectangle control in this
->> case).
+>> Though my own €0.02 is that a module parameter is more of a PITA than a compat string.
+>>
+>> OTOH I could make the argument, that the high probability is most people - probably all, just instantiate a single encoder and decoder and aren't aware of or using the inbuilt flexibility.
+>>
+>> @stan probably has the right idea what to do.
+> Actually..
 > 
->> any control that uses the s64 minimum/maximum fields
-> Noob question: does this include all the non-compound controls?
+> Has anybody tested this, ever, with the mainline driver?
 
-Yes. Almost all of those have valid and always present min/max ranges.
+I assume Stan has.
 
-> Are drivers responsible for setting this flag for these controls?
+> Do we have anyone using this?
+Can't say.
 
-No, the v4l2 control framework provides that automatically. It just needs
-to set the flag. Note that there are some standard types that do not
-support this (BUTTON, CTRL_CLASS are the only ones I think), so those should
-not set this flag. I think so, at least. Might have to sleep on it for a bit.
-
-Regards,
-
-	Hans
-
+> Is anybody willing to maintain that, test for regressions and
+> fix them in a reasonable amount of time?
 > 
-> Best,
-> Yunke
 > 
->>
->> Regards,
->>
->>         Hans
->>
->>
+> If we don't have at least 2x "yes" here, I don't think it makes sense
+> to worry about it..
 
+Hmm.
+
+We decide if we are encoding or decoding when we init a session and the 
+blocks are symmetrical. The hw blocks themselves are not bound to a 
+particular encode/decode mode.
+
+Having two parallel encoders or decoders is exactly the same effort as 
+having a parallel encoder/decoder.
+
+We don't test parallel encoding/decoding but we should. I'd not be 
+surprised to find there are bugs but, that's not a reason to exclude 
+rather to find and fix bugs.
+
+---
+bod
