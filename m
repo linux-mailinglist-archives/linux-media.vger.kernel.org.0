@@ -2,50 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CC067756FC
-	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 12:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 652D077594D
+	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 12:59:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229795AbjHIKVE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Aug 2023 06:21:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60934 "EHLO
+        id S232820AbjHIK7S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Aug 2023 06:59:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231309AbjHIKVC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 06:21:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F252107
-        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 03:21:00 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E29B896;
-        Wed,  9 Aug 2023 12:19:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1691576390;
-        bh=fCEaM9ZrRWphEiKJiywBc6h3Slc4y3Mkslhyk+MT4fY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p7xUJp3GDkqmam3zYBP2u6+wjCE4bU28FDM9O1XVkpSMp7POZyInrwzajADvDekFi
-         3aZbbC6YBvuhg05sxH80wnqb9HS16OwVp9XpxDzSgXJcn6D61NQyJJ9f5cpMgqHJvi
-         8mHeSDq01Ytx04dt16f6UNxEYZXjimEmkxOMhCEs=
-Date:   Wed, 9 Aug 2023 13:21:05 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+        with ESMTP id S232815AbjHIK7R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 06:59:17 -0400
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC1F62100
+        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 03:59:15 -0700 (PDT)
+X-KPN-MessageId: c2624ad9-36a3-11ee-849a-005056abad63
+Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id c2624ad9-36a3-11ee-849a-005056abad63;
+        Wed, 09 Aug 2023 12:59:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=tzi/Khrm1mjD22uZkcujIBjpTKTnnvixSuO83y7cu8w=;
+        b=mxcmc+ytDZSCEAowvdY00pIqlkvTk7nHAavO65hA0OQlwDtX9uyauXPi7Pd3kxcGsya71u149dxs0
+         e8BMDJsEMRkHnnH4DCdK3WcdwLcFjRfxBEDBxQOje68TbHx0quOY6dGhsmQa8YrVMXvd6HnRIUxEK8
+         fN8sb3a/JcYdianit7LAEkQ7nzNbzNZwQkL76oDW24FBE5QWgwPfBBNihg9pOWZ55CcnxtkW4GoUAm
+         aeLa2k3ayc35jBeOl3ZaebTeg3j9aFh3L8hw01GuWU/fv4AXZ/00X5fU1dYB3XTZfnEPEd2SLLE8pz
+         zAdCcTYr7O0uo0gHzT26ZSMqiyAV0Bg==
+X-KPN-MID: 33|VA1VoYHUXxKx8X+Zrea6gotqrTZHKJbTCMmdRr82kXQSWuLSjHsH25m0RL8vJXy
+ EICnXikRhM4iosRQjGWJS6blfF2GPad5w0lLXedyhvxM=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|G3Sms/njorebu0kmT+rWUkiL/yokX4rhYJcgknHZwVNM+W694S25aZ2q03MLgbw
+ 6VxfGjoQOL5DY5Tjel3Tlag==
+X-Originating-IP: 173.38.220.44
+Received: from [10.47.77.214] (unknown [173.38.220.44])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id c6b3589f-36a3-11ee-8a21-005056ab1411;
+        Wed, 09 Aug 2023 12:59:14 +0200 (CEST)
+Message-ID: <caefa8ad-7ae4-6ef0-e247-fcc5d49d6c54@xs4all.nl>
+Date:   Wed, 9 Aug 2023 12:59:13 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v11 06/11] v4l2-ctrls: add support for
+ V4L2_CTRL_WHICH_MIN/MAX_VAL
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Yunke Cao <yunkec@google.com>,
         Daniel Scally <dan.scally@ideasonboard.com>,
         Tomasz Figa <tfiga@chromium.org>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
         Ricardo Ribalda <ribalda@chromium.org>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v11 01/11] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
-Message-ID: <20230809102105.GB5737@pendragon.ideasonboard.com>
 References: <20230426082923.132909-1-yunkec@google.com>
- <20230426082923.132909-2-yunkec@google.com>
- <3bba5445-4a9a-af9c-ea5d-82be3ab0468b@xs4all.nl>
- <5c747f4c-accf-1cea-24dc-0e45d8c019eb@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5c747f4c-accf-1cea-24dc-0e45d8c019eb@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+ <20230426082923.132909-7-yunkec@google.com>
+ <da90bdb2-45f4-2ffe-2d62-1190b43fccd5@xs4all.nl>
+ <CANqU6Fds77JBjkq5epiL5iyEBgC-goVAXXfFGK_-fnZx04z8WQ@mail.gmail.com>
+ <04a11648-fc00-bb29-774d-d1ba0f199872@xs4all.nl>
+ <20230809101535.GA5737@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230809101535.GA5737@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,195 +74,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 09, 2023 at 10:35:46AM +0200, Hans Verkuil wrote:
-> On 8/9/23 08:51, Hans Verkuil wrote:
-> > On 26/04/2023 10:29, Yunke Cao wrote:
-> >> Add p_rect to struct v4l2_ext_control with basic support in
-> >> v4l2-ctrls.
-> >>
-> >> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> >> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> >> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-> >> Signed-off-by: Yunke Cao <yunkec@google.com>
-> > 
-> > Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > 
-> > Regards,
-> > 
-> > 	Hans
-> > 
-> >> ---
-> >> Changelog since v10:
-> >> - Added reviewed-by from Sergey and Daniel.
-> >> Changelog since v9:
-> >> - No Change.
-> >> Changelog since v8:
-> >> - No change.
-> >> Changelog since v7:
-> >> - Document V4L2_CTRL_TYPE_RECT in vidioc-queryctrl.rst.
-> >> - Rebased to media-stage master.
-> >> - Do not assign each field in std_equal
-> >>
-> >>  .../media/v4l/vidioc-g-ext-ctrls.rst              |  4 ++++
-> >>  .../userspace-api/media/v4l/vidioc-queryctrl.rst  |  7 +++++++
-> >>  .../media/videodev2.h.rst.exceptions              |  1 +
-> >>  drivers/media/v4l2-core/v4l2-ctrls-core.c         | 15 +++++++++++++++
-> >>  include/media/v4l2-ctrls.h                        |  2 ++
-> >>  include/uapi/linux/videodev2.h                    |  2 ++
-> >>  6 files changed, 31 insertions(+)
-> >>
-> >> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >> index 892cfeb8b988..927ef397f1ce 100644
-> >> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >> @@ -189,6 +189,10 @@ still cause this situation.
-> >>        - ``p_area``
-> >>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
-> >>          of type ``V4L2_CTRL_TYPE_AREA``.
-> >> +    * - struct :c:type:`v4l2_rect` *
-> >> +      - ``p_rect``
-> >> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
-> >> +        of type ``V4L2_CTRL_TYPE_RECT``.
-> >>      * - struct :c:type:`v4l2_ctrl_h264_sps` *
-> >>        - ``p_h264_sps``
-> >>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
-> >> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> >> index a20dfa2a933b..58982cd382e3 100644
-> >> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> >> @@ -441,6 +441,13 @@ See also the examples in :ref:`control`.
-> >>        - n/a
-> >>        - A struct :c:type:`v4l2_area`, containing the width and the height
-> >>          of a rectangular area. Units depend on the use case.
-> >> +    * - ``V4L2_CTRL_TYPE_RECT``
-> >> +      - n/a
-> >> +      - n/a
-> >> +      - n/a
+On 8/9/23 12:15, Laurent Pinchart wrote:
+> Hello,
 > 
-> Actually, the min/max entries here should be 'optional'.
+> On Wed, Aug 09, 2023 at 10:36:16AM +0200, Hans Verkuil wrote:
+>> On 8/9/23 09:34, Yunke Cao wrote:
+>>> On Wed, Aug 9, 2023 at 4:05 PM Hans Verkuil wrote:
+>>>> On 26/04/2023 10:29, Yunke Cao wrote:
+>>>>> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>>>>
+>>>>> Add the capability of retrieving the min and max values of a
+>>>>> compound control.
+>>>>>
+>>>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>>>> Signed-off-by: Yunke Cao <yunkec@google.com>
+>>>>> ---
+>>>>> Changelog since v10:
+>>>>> - No change.
+>>>>> Changelog since v9:
+>>>>> - No change.
+>>>>> Changelog since v8:
+>>>>> - Return ENODATA when min/max is not implemented. Document this behavior.
+>>>>> - Created a shared helper function __v4l2_ctrl_type_op_init that takes "which"
+>>>>>   as a parameter. Call it in def, min and max operations.
+>>>>> Changelog since v7:
+>>>>> - Document that the definition of the min/max are provided by compound controls
+>>>>>   are defined in control documentation.
+>>>>> - Return error, instead of zeroed memory for v4l2_ctrl_ptr_create(NULL).
+>>>>>
+>>>>> git am from https://lore.kernel.org/all/20191119113457.57833-3-hverkuil-cisco@xs4all.nl/
+>>>>> - Fixed some merge conflits.
+>>>>> - Fixed the build error in drivers/media/platform/qcom/venus.
+>>>>>
+>>>>>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  11 +-
+>>>>>  .../media/videodev2.h.rst.exceptions          |   2 +
+>>>>>  drivers/media/i2c/imx214.c                    |   5 +-
+>>>>>  .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
+>>>>>  drivers/media/v4l2-core/v4l2-ctrls-api.c      |  57 +++++--
+>>>>>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 156 +++++++++++++++---
+>>>>>  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
+>>>>>  include/media/v4l2-ctrls.h                    |  34 +++-
+>>>>>  include/uapi/linux/videodev2.h                |   2 +
+>>>>>  9 files changed, 236 insertions(+), 44 deletions(-)
+>>>>>
+>>>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+>>>>> index 927ef397f1ce..1cc21ee229aa 100644
+>>>>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+>>>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+>>>>> @@ -304,14 +304,21 @@ still cause this situation.
+>>>>>        - Which value of the control to get/set/try.
+>>>>>      * - :cspan:`2` ``V4L2_CTRL_WHICH_CUR_VAL`` will return the current value of
+>>>>>       the control, ``V4L2_CTRL_WHICH_DEF_VAL`` will return the default
+>>>>> +     value of the control, ``V4L2_CTRL_WHICH_MIN_VAL`` will return the minimum
+>>>>> +     value of the control, ``V4L2_CTRL_WHICH_MAX_VAL`` will return the maximum
+>>>>>       value of the control and ``V4L2_CTRL_WHICH_REQUEST_VAL`` indicates that
+>>>>>       these controls have to be retrieved from a request or tried/set for
+>>>>>       a request. In the latter case the ``request_fd`` field contains the
+>>>>>       file descriptor of the request that should be used. If the device
+>>>>>       does not support requests, then ``EACCES`` will be returned.
+>>>>>
+>>>>> -     When using ``V4L2_CTRL_WHICH_DEF_VAL`` be aware that you can only
+>>>>> -     get the default value of the control, you cannot set or try it.
+>>>>> +     When using ``V4L2_CTRL_WHICH_DEF_VAL``, ``V4L2_CTRL_WHICH_MIN_VAL``
+>>>>> +     or ``V4L2_CTRL_WHICH_MAX_VAL`` be aware that you can only get the
+>>>>> +     default/minimum/maximum value of the control, you cannot set or try it.
+>>>>> +     The definition of minimum/maximum values for compound types are provided by
+>>>>> +     the control documentation. If the control documentation does not
+>>>>> +     document the meaning of minimum/maximum value, then it is not supported.
+>>>>> +     Querying its minmimum/maximum value will result in -ENODATA.
+>>>>
+>>>> typo: minmimum -> minimum
+>>>>
+>>>> That last line is a bit ambiguous, I suggest this:
+>>>>
+>>>> If  ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` are not supported,
+>>>> then querying the minimum or maximum value will result in -ENODATA.
+>>>
+>>> This sounds clearer indeed! I will change it in the next version.
+>>
+>> Thinking some more about this, I believe it would be better to add a flag
+>> indicating WHICH_MIN/MAX support. I never like relying on an error to
+>> discover a feature. You still need this error, but in addition we need a new
+>> flag:
+>>
+>> #define V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX 0x1000
+>>
+>> that is set for any control that supports this.
 > 
-> >> +      - A struct :c:type:`v4l2_rect`, containing a rectangle described by
-> >> +	the position of its top-left corner, the width and the height. Units
-> >> +	depend on the use case.
-> 
-> And here add something along the lines of:
-> 
-> "Support for ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` is optional
-> and depends on the ``V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX`` flag. See the documentation
-> of the specific control on how to interpret the minimum and maximum values."
+> I think the intent here was to indicate that drivers must return
+> -ENODATA for V4L2_CTRL_WHICH_MIN_VAL and V4L2_CTRL_WHICH_MAX_VAL if the
+> control's documentation doesn't specify the meaning of minimum and
+> maximum for a control. A flag to indicate support for this new API is
+> likely a good idea, but the documentation here should still clearly
+> indicate that only controls that have defined minimum and maximum
+> concepts in the API documentation can implement this API.
 
-Did you mean optional as in decided for each individual control of this
-type (that is, a V4L2_CID_FOO of type RECT would define in its
-documentation if the MIN/MAX API is used or not, and all instances of
-that control must comply), or each control instance ?
+This flag is specific to the control ID: so if set, then you can get
+the min/max value using V4L2_CTRL_WHICH_MIN/MAX_VAL for that control ID.
 
-> This change should be made to patch 06/11 which introduces WHICH_MIN/MAX_VAL.
-> 
-> >>      * - ``V4L2_CTRL_TYPE_H264_SPS``
-> >>        - n/a
-> >>        - n/a
-> >> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >> index 2a589d34b80e..828cca8e2daa 100644
-> >> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >> @@ -150,6 +150,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
-> >>  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
-> >>  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
-> >>  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
-> >> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
-> >>  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
-> >>  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
-> >>  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
-> >> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >> index 29169170880a..e7f232842376 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >> @@ -350,6 +350,11 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
-> >>  	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
-> >>  		pr_cont("HEVC_DECODE_PARAMS");
-> >>  		break;
-> >> +	case V4L2_CTRL_TYPE_RECT:
-> >> +		pr_cont("%ux%u@%dx%d",
-> >> +			ptr.p_rect->width, ptr.p_rect->height,
-> >> +			ptr.p_rect->left, ptr.p_rect->top);
-> >> +		break;
-> >>  	default:
-> >>  		pr_cont("unknown type %d", ctrl->type);
-> >>  		break;
-> >> @@ -569,6 +574,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
-> >>  	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
-> >>  	struct v4l2_area *area;
-> >> +	struct v4l2_rect *rect;
-> >>  	void *p = ptr.p + idx * ctrl->elem_size;
-> >>  	unsigned int i;
-> >>  
-> >> @@ -918,6 +924,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >>  			return -EINVAL;
-> >>  		break;
-> >>  
-> >> +	case V4L2_CTRL_TYPE_RECT:
-> >> +		rect = p;
-> >> +		if (!rect->width || !rect->height)
-> >> +			return -EINVAL;
-> >> +		break;
-> >> +
-> >>  	default:
-> >>  		return -EINVAL;
-> >>  	}
-> >> @@ -1605,6 +1617,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
-> >>  	case V4L2_CTRL_TYPE_AREA:
-> >>  		elem_size = sizeof(struct v4l2_area);
-> >>  		break;
-> >> +	case V4L2_CTRL_TYPE_RECT:
-> >> +		elem_size = sizeof(struct v4l2_rect);
-> >> +		break;
-> >>  	default:
-> >>  		if (type < V4L2_CTRL_COMPOUND_TYPES)
-> >>  			elem_size = sizeof(s32);
-> >> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> >> index e59d9a234631..1846caf9dd53 100644
-> >> --- a/include/media/v4l2-ctrls.h
-> >> +++ b/include/media/v4l2-ctrls.h
-> >> @@ -52,6 +52,7 @@ struct video_device;
-> >>   * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
-> >>   * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
-> >>   * @p_area:			Pointer to an area.
-> >> + * @p_rect:			Pointer to a rectangle.
-> >>   * @p:				Pointer to a compound value.
-> >>   * @p_const:			Pointer to a constant compound value.
-> >>   */
-> >> @@ -81,6 +82,7 @@ union v4l2_ctrl_ptr {
-> >>  	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
-> >>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
-> >>  	struct v4l2_area *p_area;
-> >> +	struct v4l2_rect *p_rect;
-> >>  	void *p;
-> >>  	const void *p_const;
-> >>  };
-> >> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> >> index 17a9b975177a..ce2bd9ac4c47 100644
-> >> --- a/include/uapi/linux/videodev2.h
-> >> +++ b/include/uapi/linux/videodev2.h
-> >> @@ -1797,6 +1797,7 @@ struct v4l2_ext_control {
-> >>  		__u32 __user *p_s32;
-> >>  		__u32 __user *p_s64;
-> >>  		struct v4l2_area __user *p_area;
-> >> +		struct v4l2_rect __user *p_rect;
-> >>  		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
-> >>  		struct v4l2_ctrl_h264_pps *p_h264_pps;
-> >>  		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
-> >> @@ -1861,6 +1862,7 @@ enum v4l2_ctrl_type {
-> >>  	V4L2_CTRL_TYPE_U16	     = 0x0101,
-> >>  	V4L2_CTRL_TYPE_U32	     = 0x0102,
-> >>  	V4L2_CTRL_TYPE_AREA          = 0x0106,
-> >> +	V4L2_CTRL_TYPE_RECT	     = 0x0107,
-> >>  
-> >>  	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
-> >>  	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
+This flag must be set for any control that uses the s64 minimum/maximum
+fields in struct v4l2_ext_query_ctrl, and for any compound control that
+has explicit support for MIN/MAX_VAL (the UVC rectangle control in this
+case).
 
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+
