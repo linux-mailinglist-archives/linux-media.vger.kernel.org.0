@@ -2,255 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 010F9775A25
-	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 13:05:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CA2E775D9E
+	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 13:39:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233092AbjHILFl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Aug 2023 07:05:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37654 "EHLO
+        id S234162AbjHILje (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Aug 2023 07:39:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233073AbjHILFl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 07:05:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3061E1702
-        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 04:05:40 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8CD4D512;
-        Wed,  9 Aug 2023 13:04:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1691579070;
-        bh=TG3enfdJsfcR3mHPQ6omKMJM/vWn40HsmUB373/lLGQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZsWljg71W3rgrMFhLrH+PBog0URabsjyxfOqW+t9hp0jkyR2vZhpA5qNItOO5Ewev
-         DwaPOsC528od3F/Yfo/qHLToU+uNTDSDeFpdTm6S+pVeTTnRELdrU9+PUmUfcoPLh9
-         EjLSqI1mQOaYT6+g38bmy+CR1Lw6EcPR4fNY3Heg=
-Date:   Wed, 9 Aug 2023 14:05:44 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Yunke Cao <yunkec@google.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v11 01/11] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
-Message-ID: <20230809110544.GA12068@pendragon.ideasonboard.com>
-References: <20230426082923.132909-1-yunkec@google.com>
- <20230426082923.132909-2-yunkec@google.com>
- <3bba5445-4a9a-af9c-ea5d-82be3ab0468b@xs4all.nl>
- <5c747f4c-accf-1cea-24dc-0e45d8c019eb@xs4all.nl>
- <20230809102105.GB5737@pendragon.ideasonboard.com>
- <8efe79ef-ed09-3cae-b504-1a273b5ffa96@xs4all.nl>
+        with ESMTP id S234165AbjHILjd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 07:39:33 -0400
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06EA1FEF
+        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 04:39:32 -0700 (PDT)
+Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-4475df91bb1so2752829137.3
+        for <linux-media@vger.kernel.org>; Wed, 09 Aug 2023 04:39:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1691581172; x=1692185972;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BRQ6NjZyQjeZDGl39p2pKwDouZef7V1LtBmtjwtmY04=;
+        b=VUgb+B4/bTf0rzviElXGMN1ZOGdex9RkG1yPpnZKwLWIC9ITbJHHEQeTjw9S6IJhC8
+         41SXx8TOMhBFJ3NHj3O0D7t8f47yGwTW7hPLxqiiDfRAWQXufAoSFCHkhXzgf3lbDgTS
+         qYjUIpqIYKhdEcWqFblpcj6q+h0uQLhLLMR2g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691581172; x=1692185972;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BRQ6NjZyQjeZDGl39p2pKwDouZef7V1LtBmtjwtmY04=;
+        b=e3AXV+OMgf1AV6BwvQ8+cPv/bhOwH3DjjS7UGtI1HxbygDUKs/yXVvWExevzloqh89
+         3MN9lrRlOfRs5myO/yuUOgTHd5tRuO9afjdjvNAjoUeMreyWPo/FvKl1w9sJ2QQHEeEZ
+         9Md8oi2mTPyu9DorJh3AccMbKvT9Vk5GCh+za6q3IGQOWGyU5xsZ1MwxDLC1vUnoDB3d
+         Tjuf+u9EPh1sh5X7P9nfQHuigChHuF97WtJoFEIJoRO0duu1kHunLokJUi1Mg8CKUwgC
+         Tos4N/BMlA35yaZlJes9XFKPSzIk/EL0Uug4j4vpkk+37AKjOymVH6O74QgCm9Xl1VMb
+         1B+w==
+X-Gm-Message-State: AOJu0Yx09k8x7NnRJvUNvHCbfpxD4irePDKDLPOyxqmuNuldPtk/OK9I
+        hVoIad4gIrjGY3qjp5SAYPglRz3S7BYGaIabvSskKA==
+X-Google-Smtp-Source: AGHT+IFrvQctFfeZbaarZF+F92De9q0MFeQ2WGc5phw6pcumQPeSLeSvBLhYltsGOxKuaIYffkD54Q==
+X-Received: by 2002:a67:ffcd:0:b0:443:5f9e:9864 with SMTP id w13-20020a67ffcd000000b004435f9e9864mr2522611vsq.17.1691581171771;
+        Wed, 09 Aug 2023 04:39:31 -0700 (PDT)
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
+        by smtp.gmail.com with ESMTPSA id x3-20020ab05ac3000000b0078ceb7066efsm2159213uae.10.2023.08.09.04.39.29
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Aug 2023 04:39:29 -0700 (PDT)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-4871e8fdcfeso1751266e0c.2
+        for <linux-media@vger.kernel.org>; Wed, 09 Aug 2023 04:39:29 -0700 (PDT)
+X-Received: by 2002:a1f:3fd7:0:b0:487:173d:63db with SMTP id
+ m206-20020a1f3fd7000000b00487173d63dbmr3247087vka.4.1691581169152; Wed, 09
+ Aug 2023 04:39:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8efe79ef-ed09-3cae-b504-1a273b5ffa96@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230728045935epcms5p8f40b56f2c9100c7ea280c6f26b40d4fb@epcms5p8>
+ <CGME20230720113203epcas5p1eb52bec9c076d1a2f3dac5e317d0361b@epcms5p1>
+ <347f9810-a9b7-8ef0-0442-6d22261d3ff5@suse.com> <20230802052245epcms5p1a526743669b21f2425edcd735bbf0292@epcms5p1>
+In-Reply-To: <20230802052245epcms5p1a526743669b21f2425edcd735bbf0292@epcms5p1>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 9 Aug 2023 13:39:18 +0200
+X-Gmail-Original-Message-ID: <CANiDSCuzP7aBd5F71-52hb-SmNDc8S2f35N_kXRnw5RYS5Ecyg@mail.gmail.com>
+Message-ID: <CANiDSCuzP7aBd5F71-52hb-SmNDc8S2f35N_kXRnw5RYS5Ecyg@mail.gmail.com>
+Subject: Re: Re: [PATCH] USB: Fix race condition during UVC webcam disconnect
+To:     aman.deep@samsung.com
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Anuj Gupta <anuj01.gupta@samsung.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 09, 2023 at 01:01:21PM +0200, Hans Verkuil wrote:
-> On 8/9/23 12:21, Laurent Pinchart wrote:
-> > On Wed, Aug 09, 2023 at 10:35:46AM +0200, Hans Verkuil wrote:
-> >> On 8/9/23 08:51, Hans Verkuil wrote:
-> >>> On 26/04/2023 10:29, Yunke Cao wrote:
-> >>>> Add p_rect to struct v4l2_ext_control with basic support in
-> >>>> v4l2-ctrls.
-> >>>>
-> >>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> >>>> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> >>>> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-> >>>> Signed-off-by: Yunke Cao <yunkec@google.com>
-> >>>
-> >>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >>>
-> >>> Regards,
-> >>>
-> >>> 	Hans
-> >>>
-> >>>> ---
-> >>>> Changelog since v10:
-> >>>> - Added reviewed-by from Sergey and Daniel.
-> >>>> Changelog since v9:
-> >>>> - No Change.
-> >>>> Changelog since v8:
-> >>>> - No change.
-> >>>> Changelog since v7:
-> >>>> - Document V4L2_CTRL_TYPE_RECT in vidioc-queryctrl.rst.
-> >>>> - Rebased to media-stage master.
-> >>>> - Do not assign each field in std_equal
-> >>>>
-> >>>>  .../media/v4l/vidioc-g-ext-ctrls.rst              |  4 ++++
-> >>>>  .../userspace-api/media/v4l/vidioc-queryctrl.rst  |  7 +++++++
-> >>>>  .../media/videodev2.h.rst.exceptions              |  1 +
-> >>>>  drivers/media/v4l2-core/v4l2-ctrls-core.c         | 15 +++++++++++++++
-> >>>>  include/media/v4l2-ctrls.h                        |  2 ++
-> >>>>  include/uapi/linux/videodev2.h                    |  2 ++
-> >>>>  6 files changed, 31 insertions(+)
-> >>>>
-> >>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >>>> index 892cfeb8b988..927ef397f1ce 100644
-> >>>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >>>> @@ -189,6 +189,10 @@ still cause this situation.
-> >>>>        - ``p_area``
-> >>>>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
-> >>>>          of type ``V4L2_CTRL_TYPE_AREA``.
-> >>>> +    * - struct :c:type:`v4l2_rect` *
-> >>>> +      - ``p_rect``
-> >>>> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
-> >>>> +        of type ``V4L2_CTRL_TYPE_RECT``.
-> >>>>      * - struct :c:type:`v4l2_ctrl_h264_sps` *
-> >>>>        - ``p_h264_sps``
-> >>>>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
-> >>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> >>>> index a20dfa2a933b..58982cd382e3 100644
-> >>>> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> >>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> >>>> @@ -441,6 +441,13 @@ See also the examples in :ref:`control`.
-> >>>>        - n/a
-> >>>>        - A struct :c:type:`v4l2_area`, containing the width and the height
-> >>>>          of a rectangular area. Units depend on the use case.
-> >>>> +    * - ``V4L2_CTRL_TYPE_RECT``
-> >>>> +      - n/a
-> >>>> +      - n/a
-> >>>> +      - n/a
-> >>
-> >> Actually, the min/max entries here should be 'optional'.
-> >>
-> >>>> +      - A struct :c:type:`v4l2_rect`, containing a rectangle described by
-> >>>> +	the position of its top-left corner, the width and the height. Units
-> >>>> +	depend on the use case.
-> >>
-> >> And here add something along the lines of:
-> >>
-> >> "Support for ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` is optional
-> >> and depends on the ``V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX`` flag. See the documentation
-> >> of the specific control on how to interpret the minimum and maximum values."
-> > 
-> > Did you mean optional as in decided for each individual control of this
-> > type (that is, a V4L2_CID_FOO of type RECT would define in its
-> > documentation if the MIN/MAX API is used or not, and all instances of
-> > that control must comply), or each control instance ?
-> 
-> Each individual control, so this is associated with the control ID. Any driver
-> implementing a control with that ID must behave the same.
+Hi Aman
 
-Sounds good to me.
+Could you check if this patchset fixes the problem for you
+https://patchwork.linuxtv.org/project/linux-media/list/?series=10038 ?
 
-> >> This change should be made to patch 06/11 which introduces WHICH_MIN/MAX_VAL.
-> >>
-> >>>>      * - ``V4L2_CTRL_TYPE_H264_SPS``
-> >>>>        - n/a
-> >>>>        - n/a
-> >>>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >>>> index 2a589d34b80e..828cca8e2daa 100644
-> >>>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >>>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >>>> @@ -150,6 +150,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
-> >>>>  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
-> >>>>  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
-> >>>>  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
-> >>>> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
-> >>>>  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
-> >>>>  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
-> >>>>  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
-> >>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>>> index 29169170880a..e7f232842376 100644
-> >>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>>> @@ -350,6 +350,11 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
-> >>>>  	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
-> >>>>  		pr_cont("HEVC_DECODE_PARAMS");
-> >>>>  		break;
-> >>>> +	case V4L2_CTRL_TYPE_RECT:
-> >>>> +		pr_cont("%ux%u@%dx%d",
-> >>>> +			ptr.p_rect->width, ptr.p_rect->height,
-> >>>> +			ptr.p_rect->left, ptr.p_rect->top);
-> >>>> +		break;
-> >>>>  	default:
-> >>>>  		pr_cont("unknown type %d", ctrl->type);
-> >>>>  		break;
-> >>>> @@ -569,6 +574,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >>>>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
-> >>>>  	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
-> >>>>  	struct v4l2_area *area;
-> >>>> +	struct v4l2_rect *rect;
-> >>>>  	void *p = ptr.p + idx * ctrl->elem_size;
-> >>>>  	unsigned int i;
-> >>>>  
-> >>>> @@ -918,6 +924,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >>>>  			return -EINVAL;
-> >>>>  		break;
-> >>>>  
-> >>>> +	case V4L2_CTRL_TYPE_RECT:
-> >>>> +		rect = p;
-> >>>> +		if (!rect->width || !rect->height)
-> >>>> +			return -EINVAL;
-> >>>> +		break;
-> >>>> +
-> >>>>  	default:
-> >>>>  		return -EINVAL;
-> >>>>  	}
-> >>>> @@ -1605,6 +1617,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
-> >>>>  	case V4L2_CTRL_TYPE_AREA:
-> >>>>  		elem_size = sizeof(struct v4l2_area);
-> >>>>  		break;
-> >>>> +	case V4L2_CTRL_TYPE_RECT:
-> >>>> +		elem_size = sizeof(struct v4l2_rect);
-> >>>> +		break;
-> >>>>  	default:
-> >>>>  		if (type < V4L2_CTRL_COMPOUND_TYPES)
-> >>>>  			elem_size = sizeof(s32);
-> >>>> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> >>>> index e59d9a234631..1846caf9dd53 100644
-> >>>> --- a/include/media/v4l2-ctrls.h
-> >>>> +++ b/include/media/v4l2-ctrls.h
-> >>>> @@ -52,6 +52,7 @@ struct video_device;
-> >>>>   * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
-> >>>>   * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
-> >>>>   * @p_area:			Pointer to an area.
-> >>>> + * @p_rect:			Pointer to a rectangle.
-> >>>>   * @p:				Pointer to a compound value.
-> >>>>   * @p_const:			Pointer to a constant compound value.
-> >>>>   */
-> >>>> @@ -81,6 +82,7 @@ union v4l2_ctrl_ptr {
-> >>>>  	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
-> >>>>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
-> >>>>  	struct v4l2_area *p_area;
-> >>>> +	struct v4l2_rect *p_rect;
-> >>>>  	void *p;
-> >>>>  	const void *p_const;
-> >>>>  };
-> >>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> >>>> index 17a9b975177a..ce2bd9ac4c47 100644
-> >>>> --- a/include/uapi/linux/videodev2.h
-> >>>> +++ b/include/uapi/linux/videodev2.h
-> >>>> @@ -1797,6 +1797,7 @@ struct v4l2_ext_control {
-> >>>>  		__u32 __user *p_s32;
-> >>>>  		__u32 __user *p_s64;
-> >>>>  		struct v4l2_area __user *p_area;
-> >>>> +		struct v4l2_rect __user *p_rect;
-> >>>>  		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
-> >>>>  		struct v4l2_ctrl_h264_pps *p_h264_pps;
-> >>>>  		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
-> >>>> @@ -1861,6 +1862,7 @@ enum v4l2_ctrl_type {
-> >>>>  	V4L2_CTRL_TYPE_U16	     = 0x0101,
-> >>>>  	V4L2_CTRL_TYPE_U32	     = 0x0102,
-> >>>>  	V4L2_CTRL_TYPE_AREA          = 0x0106,
-> >>>> +	V4L2_CTRL_TYPE_RECT	     = 0x0107,
-> >>>>  
-> >>>>  	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
-> >>>>  	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
+Regards!
 
--- 
-Regards,
 
-Laurent Pinchart
+On Wed, 2 Aug 2023 at 09:56, AMAN DEEP <aman.deep@samsung.com> wrote:
+>
+>
+> Hi Oliver,
+>
+>
+> Thanks for analysis. I got your point about changes required in UVC driver to handle this race condition.
+> Alan and Greg also pointed it out, so i tried to handle this race condition in UVC driver.
+> I am testing my new changes done in only UVC driver to resolve this issue.
+> After checking new patch for this race condition, I will share it.
+>
+>
+> >>On 28.07.23 06:59, AMAN DEEP wrote:
+> >
+> >Hi,
+> >
+> >> [1-221.1822] [    msg: 4788] PC is at usb_ifnum_to_if+0x30/0x74 [usbcore]
+> >
+> >This has to fail if the device is gone, but the question is why the driver
+> >is doing this. Hence we need to look at the backtrace.
+> >
+> >> [1-221.1822] [    msg: 4788] LR is at 0x5
+> >> [1-221.1822] [    msg: 4788] pc : [<bede1300>]    lr : [<00000005>]    psr: 20000113
+> >> [1-221.1822] [    msg: 4788] sp : ca443c18  ip : ca443c28  fp : ca443c24
+> >> [1-221.1822] [    msg: 4788] r10: e668b6c8  r9 : 00000000  r8 : e668b7e0
+> >> [1-221.1822] [    msg: 4788] r7 : e7b78880  r6 : bf1d9db0  r5 : e668b6c8  r4 : e690c000
+> >> [1-221.1822] [    msg: 4788] r3 : 00002000  r2 : e696ac40  r1 : 00000001  r0 : 00000000
+> >> [1-221.1822] [    msg: 4788] Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
+> >> [1-221.1822] [    msg: 4788] Control: 30c5383d  Table: 261f8a80  DAC: e45d65d5
+> >> [1-221.1822] [    msg: 4788] Process msg (pid: 4788, stack limit = 0xa0153238)
+> >> [1-221.1822] [    msg: 4788] Stack: (0xca443c18 to 0xca444000)
+> >> [1-221.1822] [    msg: 4788] 3c00:                                                       ca443c64 ca443c28
+> >> [1-221.1822] [    msg: 4788] 3c20: bedee6e4 bede12dc 00000000 bee0ae78 ca443c54 ca443c40 c083c894 e7b78880
+> >> [1-221.1822] [    msg: 4788] 3c40: e6b88340 00000000 bee0ae78 00000001 e690c000 e668b6c8 ca443cb4 ca443c68
+> >> [1-221.1822] [    msg: 4788] 3c60: bedf22ac bedee64c e5cf1508 e5cf1508 e5cf0000 e5cf0330 00000001 e5cf0330
+> >> [1-221.1822] [    msg: 4788] 3c80: ca443ca4 ca443c90 c083c894 e5cf0000 e5cf0330 00000001 e5cf0330 00000000
+> >> [1-221.1822] [    msg: 4788] 3ca0: 00000001 c08d1b3c ca443ccc ca443cb8 bfb3f958 bedf1ff4 e5cf0330 e5cf0330
+> >> [1-221.1822] [    msg: 4788] 3cc0: ca443ce4 ca443cd0 bfb3a024 bfb3f8a8 e5cf0330 e5cf0330 ca443d14 ca443ce8
+> >> [1-221.1823] [    msg: 4788] 3ce0: be3661e0 bfb3a004 00000001 e5cf0330 e5cf0330 00000001 c05d6260 00000000
+> >> [1-221.1823] [    msg: 4788] 3d00: 00000001 c08d1b3c ca443d2c ca443d18 be367994 be3661b4 e5cf0484 e5cf0330
+> >> [1-221.1823] [    msg: 4788] 3d20: ca443d3c ca443d30 be37e3e4 be367978 ca443d5c ca443d40 bfb3a518 be37e3cc
+> >> [1-221.1823] [    msg: 4788] 3d40: e5cf030c e5cf0000 00000001 c05d6260 ca443d7c ca443d60 bfb3b628 bfb3a4f0
+> >> [1-221.1823] [    msg: 4788] 3d60: bfb3b5e8 40045613 00000000 c05d6260 ca443d94 ca443d80 c05d6288 bfb3b5f4
+> >> [1-221.1823] [    msg: 4788] 3d80: e5cf0010 40045613 ca443dfc ca443d98 c05d9b84 c05d626c 00000068 ca443deb
+> >> [1-221.1823] [    msg: 4788] 3da0: c08d1b3c 00000001 ca443e24 bfb44680 00000000 e2fa3780 c01a926c 031e1090
+> >> [1-221.1823] [    msg: 4788] 3dc0: ca443df4 ffffffff c01e0048 0000072c 000012b4 00000000 40045613 00000000
+> >> [1-221.1823] [    msg: 4788] 3de0: 00000000 00000001 00000004 ca443e24 ca443ed4 ca443e00 c05db320 c05d9a04
+> >> [1-221.1823] [    msg: 4788] 3e00: 00000000 00000000 c05d99f8 e77a6700 ab8fd26c 00000000 00000000 00000000
+> >> [1-221.1823] [    msg: 4788] 3e20: ca443f60 00000001 ca443ee0 00000000 ca443e9c ca443e40 c02390a8 be211e84
+> >> [1-221.1823] [    msg: 4788] 3e40: 00000000 00000001 e2861600 00000000 00000000 00000000 00000000 00000000
+> >> [1-221.1823] [    msg: 4788] 3e60: 00000000 00000000 00000000 c03681bc 00000008 00000000 ca443ee0 c0bbd748
+> >> [1-221.1823] [    msg: 4788] 3e80: 00000000 c0be9a14 ca443ef4 00000002 ca443ed4 ca443ea0 c03681bc c036790c
+> >> [1-221.1823] [    msg: 4788] 3ea0: ca443ef4 c0bbd748 e2861600 c05db7dc e6695448 40045613 ab8fd26c e77a6700
+> >> [1-221.1823] [    msg: 4788] 3ec0: 00000021 00000036 ca443ee4 ca443ed8 c05db7fc c05db0f8 ca443efc ca443ee8
+> >> [1-221.1823] [    msg: 4788] 3ee0: c05d4728 c05db7e8 ab8fd26c e6695448 ca443f6c ca443f00 c02506a0 c05d46e8
+> >> [1-221.1823] [    msg: 4788] 3f00: ca443f04 c08a7a00 00000000 00000000 00000000 00000000 00000000 00000000
+> >> [1-221.1823] [    msg: 4788] 3f20: 00000000 00000000 00000000 00000000 ab8fd26c c0abb6ec ab8fd26c e77a6700
+> >> [1-221.1823] [    msg: 4788] 3f40: ca443f6c e77a6701 00000000 40045613 ab8fd26c e77a6700 00000021 00000036
+> >> [1-221.1824] [    msg: 4788] 3f60: ca443f94 ca443f70 c0250b3c c02502fc 00000000 000006f7 00000000 00000036
+> >> [1-221.1824] [    msg: 4788] 3f80: c000924c ca442000 ca443fa4 ca443f98 c0250b78 c0250adc 00000000 ca443fa8
+> >> [1-221.1824] [    msg: 4788] 3fa0: c0009230 c0250b6c 00000000 000006f7 00000021 40045613 ab8fd26c 00000021
+> >> [1-221.1824] [    msg: 4788] 3fc0: 00000000 000006f7 00000000 00000036 abb79e30 00000000 00000001 abb79e28
+> >> [1-221.1824] [    msg: 4788] 3fe0: aeca607c ab8fd24c aec8e749 b5f1ed1c 20000010 00000021 00000000 00000000
+> >> [1-221.1824] [    msg: 4788] Backtrace:
+> >> [1-221.1824] [    msg: 4788] [<bede12d0>] (usb_ifnum_to_if [usbcore]) from [<bedee6e4>] (usb_hcd_alloc_bandwidth+0xa4/0x564 [usbcore])
+> >> [1-221.1824] [    msg: 4788] [<bedee640>] (usb_hcd_alloc_bandwidth [usbcore]) from [<bedf22ac>] (usb_set_interface+0x2c4/0x61c [usbcore])
+> >
+> >This is the proximate cause.
+> >
+> >> [1-221.1824] [    msg: 4788]  r10:e668b6c8 r9:e690c000 r8:00000001 r7:bee0ae78 r6:00000000 r5:e6b88340
+> >> [1-221.1824] [    msg: 4788]  r4:e7b78880
+> >> [1-221.1825] [    msg: 4788] [<bedf1fe8>] (usb_set_interface [usbcore]) from [<bfb3f958>] (uvc_video_stop_streaming+0xbc/0xc4 [uvcvideo])
+> >> [1-221.1825] [    msg: 4788]  r10:c08d1b3c r9:00000001 r8:00000000 r7:e5cf0330 r6:00000001 r5:e5cf0330
+> >> [1-221.1825] [    msg: 4788]  r4:e5cf0000
+> >> [1-221.1825] [    msg: 4788] [<bfb3f89c>] (uvc_video_stop_streaming [uvcvideo]) from [<bfb3a024>] (uvc_stop_streaming+0x2c/0x50 [uvcvideo])
+> >
+> >triggered from here
+> >> [1-221.1826] [    msg: 4788] [<bfb3b5e8>] (uvc_ioctl_streamoff [uvcvideo]) from [<c05d6288>] (v4l_streamoff+0x28/0x2c)
+> >> [1-221.1826] [    msg: 4788]  r7:c05d6260 r6:00000000 r5:40045613 r4:bfb3b5e8
+> >
+> >User space is trying to execute an ioctl() on a device whose
+> >disconnect() method has run. A driver has to either prevent or fail such calls.
+> >
+> >> I thought this issue can occur with other devices in simillar race conditions so i thought it will be fixed for all drivers.
+> >
+> >No, this will not work. You are failing to take into consideration
+> >that the life time of the device is different from its association
+> >with a particular device driver.
+> >
+> >> Please suggest if we need to add locking mechanism to cover such cases.
+> >> i will try accordingly.
+> >
+> >For the reason I stated above this is not fixable with locking
+> >at this level. The test for the device state is the wrong test.
+> >Consequently no amount of locking can correct that. The conditions
+> >only happen to conincide because your testing replicates the most
+> >common code path. It is not the only one.
+> >
+> >You need to fix uvc_disconnect()
+> >
+> >        HTH
+> >                Oliver
+> >
+>
+> Thanks,
+> Aman Deep
+>
+
+
+--
+Ricardo Ribalda
