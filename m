@@ -2,203 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CA2E775D9E
-	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 13:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05C3E775EA4
+	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 14:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234162AbjHILje (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Aug 2023 07:39:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47302 "EHLO
+        id S231361AbjHIMPV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Aug 2023 08:15:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234165AbjHILjd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 07:39:33 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06EA1FEF
-        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 04:39:32 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-4475df91bb1so2752829137.3
-        for <linux-media@vger.kernel.org>; Wed, 09 Aug 2023 04:39:32 -0700 (PDT)
+        with ESMTP id S231164AbjHIMPU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 08:15:20 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 425D21999
+        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 05:15:19 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4fe7e67cc77so1989225e87.2
+        for <linux-media@vger.kernel.org>; Wed, 09 Aug 2023 05:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1691581172; x=1692185972;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BRQ6NjZyQjeZDGl39p2pKwDouZef7V1LtBmtjwtmY04=;
-        b=VUgb+B4/bTf0rzviElXGMN1ZOGdex9RkG1yPpnZKwLWIC9ITbJHHEQeTjw9S6IJhC8
-         41SXx8TOMhBFJ3NHj3O0D7t8f47yGwTW7hPLxqiiDfRAWQXufAoSFCHkhXzgf3lbDgTS
-         qYjUIpqIYKhdEcWqFblpcj6q+h0uQLhLLMR2g=
+        d=linaro.org; s=google; t=1691583317; x=1692188117;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bxw/xaaJV3+Iip8T6jKXtUBlM5YfX4PgIk+tvcp/OHk=;
+        b=mszWcv2iLSFJ0r4IjdINd8g0daJ4ysdCRmK04/kRytVSaUX65tI7NDjdr+6v5zIe+T
+         xALfbDF2m1ZMGnIMC16uPQVXdbkwUEu05G4Vv8ZVZAe/b8pVeVYZsa8x8OiqpZJdHvzl
+         XbX3t4Mv+cUHGxM4ohfT01p6z5IC3PfbBiqM41wNqCr+0tIb/zdjkaODMfcyU3AQEfVz
+         HBgzc1mY2qMaO3V8sfQfqvvyU29Wiisf1K8hyqJ4BpMwoyGC8mI64W+xZzMW+AGAWeQI
+         Zmkfa+6YS11NaWm3A8zQX8ZfrX3W1sl3nsQvvVi3YRtXf5UhXejkQt1lgxnzGY836ZKS
+         7FIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691581172; x=1692185972;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BRQ6NjZyQjeZDGl39p2pKwDouZef7V1LtBmtjwtmY04=;
-        b=e3AXV+OMgf1AV6BwvQ8+cPv/bhOwH3DjjS7UGtI1HxbygDUKs/yXVvWExevzloqh89
-         3MN9lrRlOfRs5myO/yuUOgTHd5tRuO9afjdjvNAjoUeMreyWPo/FvKl1w9sJ2QQHEeEZ
-         9Md8oi2mTPyu9DorJh3AccMbKvT9Vk5GCh+za6q3IGQOWGyU5xsZ1MwxDLC1vUnoDB3d
-         Tjuf+u9EPh1sh5X7P9nfQHuigChHuF97WtJoFEIJoRO0duu1kHunLokJUi1Mg8CKUwgC
-         Tos4N/BMlA35yaZlJes9XFKPSzIk/EL0Uug4j4vpkk+37AKjOymVH6O74QgCm9Xl1VMb
-         1B+w==
-X-Gm-Message-State: AOJu0Yx09k8x7NnRJvUNvHCbfpxD4irePDKDLPOyxqmuNuldPtk/OK9I
-        hVoIad4gIrjGY3qjp5SAYPglRz3S7BYGaIabvSskKA==
-X-Google-Smtp-Source: AGHT+IFrvQctFfeZbaarZF+F92De9q0MFeQ2WGc5phw6pcumQPeSLeSvBLhYltsGOxKuaIYffkD54Q==
-X-Received: by 2002:a67:ffcd:0:b0:443:5f9e:9864 with SMTP id w13-20020a67ffcd000000b004435f9e9864mr2522611vsq.17.1691581171771;
-        Wed, 09 Aug 2023 04:39:31 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id x3-20020ab05ac3000000b0078ceb7066efsm2159213uae.10.2023.08.09.04.39.29
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20221208; t=1691583317; x=1692188117;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bxw/xaaJV3+Iip8T6jKXtUBlM5YfX4PgIk+tvcp/OHk=;
+        b=euDNV/ZPIFzRGTIdUsJG6dhKZZ5qa6qLz46MGmTxeSaw6NnvelRrX+yiDjP6g5QkPw
+         YS+3eaaJQGe6RunB1oa1Ifa2xVSsjUxuZDkgLEavXqNCiKZEaPqGNOp8TUQ3n02R52wQ
+         ehVSeLD+E8FpC9hpEl4vs7DEFsTtftCan/0J83vUznkIreX3QmGBLVb5DBFtWGQ1EME3
+         D8Z+m7OSpKHvrESFwoMVDQek5mFz3/C8Lh61qteM2fb6ilF4HRUafN6hLYuWHd70KpCs
+         Vj64zaPfpkTz2302nqK5LxXSVY7AOO/TVTHMULJe0PUY6GhixXake22/XughBDWD1lB4
+         5JcQ==
+X-Gm-Message-State: AOJu0YyjH3gVmqghh7rcVofTs+C1M7OCm+jo0vJr8kV0Mmk38clYEdZI
+        psWoyambB+Vo8x0qyDNfDQbf/A==
+X-Google-Smtp-Source: AGHT+IGf4sBYoS7qaPzoTQs2A+62/45io7Ja4q7AitEu8asjTCMlx/qzuiMy0oGQJpzCNjcoywPIYw==
+X-Received: by 2002:a19:770a:0:b0:4f8:bfb4:e4c4 with SMTP id s10-20020a19770a000000b004f8bfb4e4c4mr1526108lfc.19.1691583317486;
+        Wed, 09 Aug 2023 05:15:17 -0700 (PDT)
+Received: from [192.168.1.101] (abxi185.neoplus.adsl.tpnet.pl. [83.9.2.185])
+        by smtp.gmail.com with ESMTPSA id e6-20020ac25466000000b004f85d247069sm2274348lfn.218.2023.08.09.05.15.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 04:39:29 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-4871e8fdcfeso1751266e0c.2
-        for <linux-media@vger.kernel.org>; Wed, 09 Aug 2023 04:39:29 -0700 (PDT)
-X-Received: by 2002:a1f:3fd7:0:b0:487:173d:63db with SMTP id
- m206-20020a1f3fd7000000b00487173d63dbmr3247087vka.4.1691581169152; Wed, 09
- Aug 2023 04:39:29 -0700 (PDT)
+        Wed, 09 Aug 2023 05:15:16 -0700 (PDT)
+Message-ID: <15b545a2-14be-47ba-a665-8ae986a7f9cd@linaro.org>
+Date:   Wed, 9 Aug 2023 14:15:14 +0200
 MIME-Version: 1.0
-References: <20230728045935epcms5p8f40b56f2c9100c7ea280c6f26b40d4fb@epcms5p8>
- <CGME20230720113203epcas5p1eb52bec9c076d1a2f3dac5e317d0361b@epcms5p1>
- <347f9810-a9b7-8ef0-0442-6d22261d3ff5@suse.com> <20230802052245epcms5p1a526743669b21f2425edcd735bbf0292@epcms5p1>
-In-Reply-To: <20230802052245epcms5p1a526743669b21f2425edcd735bbf0292@epcms5p1>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 9 Aug 2023 13:39:18 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuzP7aBd5F71-52hb-SmNDc8S2f35N_kXRnw5RYS5Ecyg@mail.gmail.com>
-Message-ID: <CANiDSCuzP7aBd5F71-52hb-SmNDc8S2f35N_kXRnw5RYS5Ecyg@mail.gmail.com>
-Subject: Re: Re: [PATCH] USB: Fix race condition during UVC webcam disconnect
-To:     aman.deep@samsung.com
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Anuj Gupta <anuj01.gupta@samsung.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] media: dt-bindings: Document SC8280XP/SM8350 Venus
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
+ <20230731-topic-8280_venus-v1-1-8c8bbe1983a5@linaro.org>
+ <84ab9380-2fb2-76f9-2eb9-71d9202718cc@linaro.org>
+ <659e30a7-80f7-4fd8-af58-45505213a2ef@linaro.org>
+ <ba40de82-b308-67b1-5751-bb2d95f2b8a5@linaro.org>
+ <fa5dc696-6c67-49d0-b158-f1e3398813e2@linaro.org>
+ <816359f7-ad4d-659f-db39-c971e1b1cd9a@linaro.org>
+ <0feda32e-5430-4f35-b18a-7afce63a970c@linaro.org>
+ <d09df249-cc6d-9708-bfa6-ae5cc7929697@linaro.org>
+ <4bd04709-155f-4750-8638-e73b653b1482@linaro.org>
+ <0cba0158-8a9f-68b6-6bb3-dab0272a5ce0@linaro.org>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <0cba0158-8a9f-68b6-6bb3-dab0272a5ce0@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Aman
+On 7.08.2023 21:05, Bryan O'Donoghue wrote:
+> On 07/08/2023 19:55, Konrad Dybcio wrote:
+>> On 7.08.2023 20:49, Bryan O'Donoghue wrote:
+>>> On 07/08/2023 19:45, Konrad Dybcio wrote:
+>>>> That can be taken care of with match data.
+>>>>
+>>>> Konrad
+>>>
+>>> Well perhaps.
+>>>
+>>> I'm just sticking my oar in, to elucidate.
+>>>
+>>> The compat sub-nodes aren't just a random choice with no logic. They exist to select between what you assign the blocks to be, encoder, decoder or any admixture thereof.
+>>>
+>>> A functionality we want to maintain.
+>> Surely something like a modparam would be more suitable here?
+>>
+>> Konrad
+> 
+> Hmm.
+> 
+> Well from earlier in the thread the question "why do we have these compat strings" is because we can have any combination of encoder/decoder assigned.
+> 
+> If there's a cogent argument _still_ to be made to transition to some new way of assignment then fine so long as we don't break that basic flexibility.
+> 
+> Though my own €0.02 is that a module parameter is more of a PITA than a compat string.
+> 
+> OTOH I could make the argument, that the high probability is most people - probably all, just instantiate a single encoder and decoder and aren't aware of or using the inbuilt flexibility.
+> 
+> @stan probably has the right idea what to do.
+Actually..
 
-Could you check if this patchset fixes the problem for you
-https://patchwork.linuxtv.org/project/linux-media/list/?series=10038 ?
+Has anybody tested this, ever, with the mainline driver?
 
-Regards!
+Do we have anyone using this?
 
-
-On Wed, 2 Aug 2023 at 09:56, AMAN DEEP <aman.deep@samsung.com> wrote:
->
->
-> Hi Oliver,
->
->
-> Thanks for analysis. I got your point about changes required in UVC driver to handle this race condition.
-> Alan and Greg also pointed it out, so i tried to handle this race condition in UVC driver.
-> I am testing my new changes done in only UVC driver to resolve this issue.
-> After checking new patch for this race condition, I will share it.
->
->
-> >>On 28.07.23 06:59, AMAN DEEP wrote:
-> >
-> >Hi,
-> >
-> >> [1-221.1822] [    msg: 4788] PC is at usb_ifnum_to_if+0x30/0x74 [usbcore]
-> >
-> >This has to fail if the device is gone, but the question is why the driver
-> >is doing this. Hence we need to look at the backtrace.
-> >
-> >> [1-221.1822] [    msg: 4788] LR is at 0x5
-> >> [1-221.1822] [    msg: 4788] pc : [<bede1300>]    lr : [<00000005>]    psr: 20000113
-> >> [1-221.1822] [    msg: 4788] sp : ca443c18  ip : ca443c28  fp : ca443c24
-> >> [1-221.1822] [    msg: 4788] r10: e668b6c8  r9 : 00000000  r8 : e668b7e0
-> >> [1-221.1822] [    msg: 4788] r7 : e7b78880  r6 : bf1d9db0  r5 : e668b6c8  r4 : e690c000
-> >> [1-221.1822] [    msg: 4788] r3 : 00002000  r2 : e696ac40  r1 : 00000001  r0 : 00000000
-> >> [1-221.1822] [    msg: 4788] Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
-> >> [1-221.1822] [    msg: 4788] Control: 30c5383d  Table: 261f8a80  DAC: e45d65d5
-> >> [1-221.1822] [    msg: 4788] Process msg (pid: 4788, stack limit = 0xa0153238)
-> >> [1-221.1822] [    msg: 4788] Stack: (0xca443c18 to 0xca444000)
-> >> [1-221.1822] [    msg: 4788] 3c00:                                                       ca443c64 ca443c28
-> >> [1-221.1822] [    msg: 4788] 3c20: bedee6e4 bede12dc 00000000 bee0ae78 ca443c54 ca443c40 c083c894 e7b78880
-> >> [1-221.1822] [    msg: 4788] 3c40: e6b88340 00000000 bee0ae78 00000001 e690c000 e668b6c8 ca443cb4 ca443c68
-> >> [1-221.1822] [    msg: 4788] 3c60: bedf22ac bedee64c e5cf1508 e5cf1508 e5cf0000 e5cf0330 00000001 e5cf0330
-> >> [1-221.1822] [    msg: 4788] 3c80: ca443ca4 ca443c90 c083c894 e5cf0000 e5cf0330 00000001 e5cf0330 00000000
-> >> [1-221.1822] [    msg: 4788] 3ca0: 00000001 c08d1b3c ca443ccc ca443cb8 bfb3f958 bedf1ff4 e5cf0330 e5cf0330
-> >> [1-221.1822] [    msg: 4788] 3cc0: ca443ce4 ca443cd0 bfb3a024 bfb3f8a8 e5cf0330 e5cf0330 ca443d14 ca443ce8
-> >> [1-221.1823] [    msg: 4788] 3ce0: be3661e0 bfb3a004 00000001 e5cf0330 e5cf0330 00000001 c05d6260 00000000
-> >> [1-221.1823] [    msg: 4788] 3d00: 00000001 c08d1b3c ca443d2c ca443d18 be367994 be3661b4 e5cf0484 e5cf0330
-> >> [1-221.1823] [    msg: 4788] 3d20: ca443d3c ca443d30 be37e3e4 be367978 ca443d5c ca443d40 bfb3a518 be37e3cc
-> >> [1-221.1823] [    msg: 4788] 3d40: e5cf030c e5cf0000 00000001 c05d6260 ca443d7c ca443d60 bfb3b628 bfb3a4f0
-> >> [1-221.1823] [    msg: 4788] 3d60: bfb3b5e8 40045613 00000000 c05d6260 ca443d94 ca443d80 c05d6288 bfb3b5f4
-> >> [1-221.1823] [    msg: 4788] 3d80: e5cf0010 40045613 ca443dfc ca443d98 c05d9b84 c05d626c 00000068 ca443deb
-> >> [1-221.1823] [    msg: 4788] 3da0: c08d1b3c 00000001 ca443e24 bfb44680 00000000 e2fa3780 c01a926c 031e1090
-> >> [1-221.1823] [    msg: 4788] 3dc0: ca443df4 ffffffff c01e0048 0000072c 000012b4 00000000 40045613 00000000
-> >> [1-221.1823] [    msg: 4788] 3de0: 00000000 00000001 00000004 ca443e24 ca443ed4 ca443e00 c05db320 c05d9a04
-> >> [1-221.1823] [    msg: 4788] 3e00: 00000000 00000000 c05d99f8 e77a6700 ab8fd26c 00000000 00000000 00000000
-> >> [1-221.1823] [    msg: 4788] 3e20: ca443f60 00000001 ca443ee0 00000000 ca443e9c ca443e40 c02390a8 be211e84
-> >> [1-221.1823] [    msg: 4788] 3e40: 00000000 00000001 e2861600 00000000 00000000 00000000 00000000 00000000
-> >> [1-221.1823] [    msg: 4788] 3e60: 00000000 00000000 00000000 c03681bc 00000008 00000000 ca443ee0 c0bbd748
-> >> [1-221.1823] [    msg: 4788] 3e80: 00000000 c0be9a14 ca443ef4 00000002 ca443ed4 ca443ea0 c03681bc c036790c
-> >> [1-221.1823] [    msg: 4788] 3ea0: ca443ef4 c0bbd748 e2861600 c05db7dc e6695448 40045613 ab8fd26c e77a6700
-> >> [1-221.1823] [    msg: 4788] 3ec0: 00000021 00000036 ca443ee4 ca443ed8 c05db7fc c05db0f8 ca443efc ca443ee8
-> >> [1-221.1823] [    msg: 4788] 3ee0: c05d4728 c05db7e8 ab8fd26c e6695448 ca443f6c ca443f00 c02506a0 c05d46e8
-> >> [1-221.1823] [    msg: 4788] 3f00: ca443f04 c08a7a00 00000000 00000000 00000000 00000000 00000000 00000000
-> >> [1-221.1823] [    msg: 4788] 3f20: 00000000 00000000 00000000 00000000 ab8fd26c c0abb6ec ab8fd26c e77a6700
-> >> [1-221.1823] [    msg: 4788] 3f40: ca443f6c e77a6701 00000000 40045613 ab8fd26c e77a6700 00000021 00000036
-> >> [1-221.1824] [    msg: 4788] 3f60: ca443f94 ca443f70 c0250b3c c02502fc 00000000 000006f7 00000000 00000036
-> >> [1-221.1824] [    msg: 4788] 3f80: c000924c ca442000 ca443fa4 ca443f98 c0250b78 c0250adc 00000000 ca443fa8
-> >> [1-221.1824] [    msg: 4788] 3fa0: c0009230 c0250b6c 00000000 000006f7 00000021 40045613 ab8fd26c 00000021
-> >> [1-221.1824] [    msg: 4788] 3fc0: 00000000 000006f7 00000000 00000036 abb79e30 00000000 00000001 abb79e28
-> >> [1-221.1824] [    msg: 4788] 3fe0: aeca607c ab8fd24c aec8e749 b5f1ed1c 20000010 00000021 00000000 00000000
-> >> [1-221.1824] [    msg: 4788] Backtrace:
-> >> [1-221.1824] [    msg: 4788] [<bede12d0>] (usb_ifnum_to_if [usbcore]) from [<bedee6e4>] (usb_hcd_alloc_bandwidth+0xa4/0x564 [usbcore])
-> >> [1-221.1824] [    msg: 4788] [<bedee640>] (usb_hcd_alloc_bandwidth [usbcore]) from [<bedf22ac>] (usb_set_interface+0x2c4/0x61c [usbcore])
-> >
-> >This is the proximate cause.
-> >
-> >> [1-221.1824] [    msg: 4788]  r10:e668b6c8 r9:e690c000 r8:00000001 r7:bee0ae78 r6:00000000 r5:e6b88340
-> >> [1-221.1824] [    msg: 4788]  r4:e7b78880
-> >> [1-221.1825] [    msg: 4788] [<bedf1fe8>] (usb_set_interface [usbcore]) from [<bfb3f958>] (uvc_video_stop_streaming+0xbc/0xc4 [uvcvideo])
-> >> [1-221.1825] [    msg: 4788]  r10:c08d1b3c r9:00000001 r8:00000000 r7:e5cf0330 r6:00000001 r5:e5cf0330
-> >> [1-221.1825] [    msg: 4788]  r4:e5cf0000
-> >> [1-221.1825] [    msg: 4788] [<bfb3f89c>] (uvc_video_stop_streaming [uvcvideo]) from [<bfb3a024>] (uvc_stop_streaming+0x2c/0x50 [uvcvideo])
-> >
-> >triggered from here
-> >> [1-221.1826] [    msg: 4788] [<bfb3b5e8>] (uvc_ioctl_streamoff [uvcvideo]) from [<c05d6288>] (v4l_streamoff+0x28/0x2c)
-> >> [1-221.1826] [    msg: 4788]  r7:c05d6260 r6:00000000 r5:40045613 r4:bfb3b5e8
-> >
-> >User space is trying to execute an ioctl() on a device whose
-> >disconnect() method has run. A driver has to either prevent or fail such calls.
-> >
-> >> I thought this issue can occur with other devices in simillar race conditions so i thought it will be fixed for all drivers.
-> >
-> >No, this will not work. You are failing to take into consideration
-> >that the life time of the device is different from its association
-> >with a particular device driver.
-> >
-> >> Please suggest if we need to add locking mechanism to cover such cases.
-> >> i will try accordingly.
-> >
-> >For the reason I stated above this is not fixable with locking
-> >at this level. The test for the device state is the wrong test.
-> >Consequently no amount of locking can correct that. The conditions
-> >only happen to conincide because your testing replicates the most
-> >common code path. It is not the only one.
-> >
-> >You need to fix uvc_disconnect()
-> >
-> >        HTH
-> >                Oliver
-> >
->
-> Thanks,
-> Aman Deep
->
+Is anybody willing to maintain that, test for regressions and
+fix them in a reasonable amount of time?
 
 
---
-Ricardo Ribalda
+If we don't have at least 2x "yes" here, I don't think it makes sense
+to worry about it..
+
+Konrad
