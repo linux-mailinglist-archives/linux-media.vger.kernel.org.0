@@ -2,407 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABBA97751DF
-	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 06:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F414C77533C
+	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 08:51:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229623AbjHIETw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Aug 2023 00:19:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47454 "EHLO
+        id S229650AbjHIGvy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Aug 2023 02:51:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230003AbjHIETu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 00:19:50 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C4119A1
-        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 21:19:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691554786; x=1723090786;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=BEN+8sFTncIHCjkhmEw3uvdZ8wUEsJQyOWPCRF4I1yg=;
-  b=FL3KZbMocsLKpLf7nme6P4pBj7DOba6KCax4nj5KGMCs266l7VvfGkjL
-   g/C4JYcQYE29Xs4EuxpCqqnI7kMaoM+b9qvnJkVGvygWT6MPO526yriID
-   KxV4di30goTDiBcAM0jXKLlMOuS7Z2PeaytheOn4+ixYAzvQcgAikiLqW
-   wV3dbIU4Xfezaa78xkps8Ny34rAhwOnjIMjjbwZirlXSmSVbBrRnkniwA
-   X6rJOwQjO91L6vQqhgafz/IXyKSxsqfB4uKMOrU+SJ92Stl4eRms5shob
-   /Qqcopqm4mO6EfkeiwL7Rq7CJxQQqilQZrJCXUA9Wa5xGQ89zY2xDEfER
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="361141083"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="361141083"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 21:13:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="801590857"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="801590857"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
-  by fmsmga004.fm.intel.com with ESMTP; 08 Aug 2023 21:12:58 -0700
-Subject: Re: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice in
- the stripes
-To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        "Cao, Bingbu" <bingbu.cao@intel.com>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "tfiga@google.com" <tfiga@google.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-References: <20210916172504.677919-1-jeanmichel.hautbois@ideasonboard.com>
- <YUm82RNBbu9VbQj9@paasikivi.fi.intel.com>
- <19a2a09a-dcdd-fc32-0410-7f752cceffb5@ideasonboard.com>
- <YUntTJQwZJ7U3m/E@pendragon.ideasonboard.com>
- <DM8PR11MB5653D63F3F76CA1D9E80E01199A29@DM8PR11MB5653.namprd11.prod.outlook.com>
- <a8a0ee6f-e83c-7f99-6967-f017c549ff05@ideasonboard.com>
- <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
- <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
- <SJ0PR11MB5664666D6D4C573D2D4A406D99A39@SJ0PR11MB5664.namprd11.prod.outlook.com>
- <YUxbrFDvdI68Te8q@pendragon.ideasonboard.com>
- <502ca584-0dd8-018b-14b1-6cf4658d9668@gmail.com>
- <DM8PR11MB5653363BCFD75A7CE82B150899B59@DM8PR11MB5653.namprd11.prod.outlook.com>
- <6da57396-800f-52bf-f8ec-934138d97729@ideasonboard.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <aa92edf7-1b51-fbc9-4029-2af016ce6260@linux.intel.com>
-Date:   Wed, 9 Aug 2023 12:11:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        with ESMTP id S229450AbjHIGvx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 02:51:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B9B10CF
+        for <linux-media@vger.kernel.org>; Tue,  8 Aug 2023 23:51:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CBB9662F9E
+        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 06:51:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C64C5C433C7;
+        Wed,  9 Aug 2023 06:51:49 +0000 (UTC)
+Message-ID: <3bba5445-4a9a-af9c-ea5d-82be3ab0468b@xs4all.nl>
+Date:   Wed, 9 Aug 2023 08:51:48 +0200
 MIME-Version: 1.0
-In-Reply-To: <6da57396-800f-52bf-f8ec-934138d97729@ideasonboard.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v11 01/11] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+Content-Language: en-US, nl
+To:     Yunke Cao <yunkec@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+References: <20230426082923.132909-1-yunkec@google.com>
+ <20230426082923.132909-2-yunkec@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230426082923.132909-2-yunkec@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jean-Michel,
+On 26/04/2023 10:29, Yunke Cao wrote:
+> Add p_rect to struct v4l2_ext_control with basic support in
+> v4l2-ctrls.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> Signed-off-by: Yunke Cao <yunkec@google.com>
 
-I remember you resolved the problem about awb in libcamhal, so is this
-patch still necessary or valid for Imgu? :)
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-On 10/14/21 2:57 PM, Jean-Michel Hautbois wrote:
-> Hi Bingbu (and Tomasz),
-> 
-> On 11/10/2021 04:42, Cao, Bingbu wrote:
->> Hi, Jean-Michel and Laurent,
->>
->> Sorry for reply late as I am just back from holiday.
->>
->> ________________________
->> BRs,  
->> Bingbu Cao 
->>
->>> -----Original Message-----
->>> From: Jean-Michel Hautbois <jeanmichel.hautbois@gmail.com>
->>> Sent: Thursday, September 30, 2021 5:31 PM
->>> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>; Cao, Bingbu
->>> <bingbu.cao@intel.com>
->>> Cc: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>; Sakari
->>> Ailus <sakari.ailus@linux.intel.com>; tfiga@google.com; linux-
->>> media@vger.kernel.org; Qiu, Tian Shu <tian.shu.qiu@intel.com>
->>> Subject: Re: [PATCH] media: staging: ipu3-imgu: Initialise
->>> height_per_slice in the stripes
->>>
->>> Hi Bingbu,
->>>
->>> On 23/09/2021 12:49, Laurent Pinchart wrote:
->>>> Hi Bingbu,
->>>>
->>>> On Thu, Sep 23, 2021 at 10:29:33AM +0000, Cao, Bingbu wrote:
->>>>> On Thursday, September 23, 2021 5:46 PM, Laurent Pinchart wrote:
->>>>>> On Thu, Sep 23, 2021 at 09:06:32AM +0000, Cao, Bingbu wrote:
->>>>>>> Jean-Michel,
->>>>>>>
->>>>>>> Firstly, the .height_per_slice could be 0 if your .grid.width
->>>>>>> larger than 32.
->>>>>>
->>>>>> Which .height_per_slice are you talking about ? A field of that name
->>>>>> exists in both ipu3_uapi_acc_param.awb.config.grid and struct
->>>>>> ipu3_uapi_grid_config and imgu_abi_awb_config.stripes.grid.
->>>>>>
->>>>>> They are both computed by the driver, in imgu_css_cfg_acc(). The
->>>>>> former is set to
->>>>>>
->>>>>> 	acc->awb.config.grid.height_per_slice =
->>>>>> 		IMGU_ABI_AWB_MAX_CELLS_PER_SET / acc->awb.config.grid.width,
->>>>>>
->>>>>> IMGU_ABI_AWB_MAX_CELLS_PER_SET is equal to 160, so it can only be 0
->>>>>> if grid.width > 160, which is invalid.
->>>>>
->>>>> For awb_fr and af, it could be 0 if the .config.grid_cfg.width > 32.
->>>>
->>>> Indeed, my bad. I was focussing on the AWB statistics.
->>>>
->>>> What are the implications of a height_per_slice value of 0 ?
->>>>
->>>> While we are on this topic, what is a "slice" ? Does it matter for the
->>>> user, as in does it have an impact on the statistics values, or on how
->>>> they're arranged in memory, or is it an implementation detail of the
->>>> firmware that has no consequence on what can be seen by the user ?
->>>> (The "user" here is the code that reads the statistics in userspace).
->>>>
->>>
->>> Gentle ping on these specific questions from Laurent :-) ?
->>
->> I am not an expert on this statistics algo.
->>
->> My understanding:
->> height_per_slice means number of blocks in vertical axis per Metadata slice.
->> ImgU divide grid-based Metadata into slices, each slice refers to 
->> grid_width * height_per_slice blocks, if height_per_slice is 0, that means
->> the grid_width is too large to use. IOW, it is an invalid parameter, we
->> need check this invalid value instead of just setting to 1.
->>
-> 
-> Is it true only for awb_fr and af, or also for awb ?
-> If it is not for awb, the patch could be only for awb, as it really
-> solves an issue ?
-> 
-> Tomasz, do you think it may introduce a regression in the binary library
-> ? Would it be possible to test it ? I can send a v2 with only awb if it
-> is needed.
-> 
->>>
->>>>>>> From your configuration, looks like something wrong in the stripe
->>>>>>> configuration cause not entering the 2 stripes branch.
->>>>>>
->>>>>> Why is that ? Isn't it valid for a grid configuration to use a
->>>>>> single stripe, if the image is small enough, or if the grid only
->>>>>> covers the left part of the image ?
->>>>>>
->>>>>>> On Wednesday, September 22, 2021 1:54 PM, Jean-Michel Hautbois wrote:
->>>>>>>> On 22/09/2021 06:33, Cao, Bingbu wrote:
->>>>>>>>> Jean-Michel,
->>>>>>>>>
->>>>>>>>> Thanks for you patch.
->>>>>>>>> What is the value of .config.grid_cfg.width for your low
->>> resolutions?
->>>>>>>>
->>>>>>>> I don't know if a 1920x1280 output is a low resolution, but the
->>>>>>>> grid is configured as:
->>>>>>>> - grid_cfg.width = 79
->>>>>>>> - grid_cfg.height = 24
->>>>>>>> - grid_cfg.block_width_log2 = 4
->>>>>>>> - grid_cfg.block_height_log2 = 6
->>>>>>>>
->>>>>>>> Here is a full debug output of the AWB part in imgu_css_cfg_acc():
->>>>>>>>
->>>>>>>> acc->stripe.down_scaled_stripes[0].width: 1280
->>>>>>>> acc->stripe.down_scaled_stripes[0].height: 1536
->>>>>>>> acc->stripe.down_scaled_stripes[0].offset: 0
->>>>>>>> acc->stripe.bds_out_stripes[0].width: 1280
->>>>>>>> acc->stripe.bds_out_stripes[0].height: 1536
->>>>>>>> acc->stripe.bds_out_stripes[0].offset: 0
->>>>>>>> acc->acc->awb.stripes[0].grid.width: 79
->>>>>>>> acc->awb.stripes[0].grid.block_width_log2: 4
->>>>>>>> acc->acc->awb.stripes[0].grid.height: 24
->>>>>>>> acc->awb.stripes[0].grid.block_height_log2: 6
->>>>>>>> acc->awb.stripes[0].grid.x_start: 0
->>>>>>>> acc->awb.stripes[0].grid.x_end: 1263
->>>>>>>> acc->awb.stripes[0].grid.y_start: 0
->>>>>>>> acc->awb.stripes[0].grid.y_end: 1535
->>>>>>>> acc->stripe.down_scaled_stripes[1].width: 1280
->>>>>>>> acc->stripe.down_scaled_stripes[1].height: 1536
->>>>>>>> acc->stripe.down_scaled_stripes[1].offset: 1024
->>>>>>>> acc->stripe.bds_out_stripes[1].width: 1280
->>>>>>>> acc->stripe.bds_out_stripes[1].height: 1536
->>>>>>>> acc->stripe.bds_out_stripes[1].offset: 1024
->>>>>>>> acc->acc->awb.stripes[1].grid.width: 79
->>>>>>>> acc->awb.stripes[1].grid.block_width_log2: 4
->>>>>>>> acc->acc->awb.stripes[1].grid.height: 24
->>>>>>>> acc->awb.stripes[1].grid.block_height_log2: 6
->>>>>>>> acc->awb.stripes[1].grid.x_start: 0
->>>>>>>> acc->awb.stripes[1].grid.x_end: 1263
->>>>>>>> acc->awb.stripes[1].grid.y_start: 0
->>>>>>>> acc->awb.stripes[1].grid.y_end: 1535
->>>>>
->>>>> Are these dumps from 1920x1280 output?
->>>>
->>>> Jean-Michel, could you comment on this ?
->>>>
->>>> Note that the grid is configured with 79 cells of 16 pixels, covering
->>>> 1264 pixels horizontally. That's not the full image for a 1920 pixels
->>>> output, and will probably not be done in practice, but there's nothing
->>>> preventing the grid from covering part of the image only.
->>>>
->>>>>>>> This has been outputted with: https://paste.debian.net/1212791/
->>>>>>>>
->>>>>>>> The examples I gave before were 1280x720 output and not 1920x1080,
->>>>>>>> here are they:
->>>>>>>> - without the patch: https://pasteboard.co/hHo4QkVUSk8e.png
->>>>>>>> - with the patch: https://pasteboard.co/YUGUvS5tD0bo.png
->>>>>>>>
->>>>>>>> As you can see we have the same behaviour.
->>>>>>>>
->>>>>>>>> On Tuesday, September 21, 2021 10:34 PM, Laurent Pinchart wrote:
->>>>>>>>>> On Tue, Sep 21, 2021 at 03:04:37PM +0200, Jean-Michel Hautbois
->>> wrote:
->>>>>>>>>>> On 21/09/2021 13:07, Sakari Ailus wrote:
->>>>>>>>>>>> On Thu, Sep 16, 2021 at 07:25:04PM +0200, Jean-Michel Hautbois
->>> wrote:
->>>>>>>>>>>>> While playing with low resolutions for the grid, it appeared
->>>>>>>>>>>>> that height_per_slice is not initialised if we are not using
->>>>>>>>>>>>> both stripes for the calculations. This pattern occurs three
->>> times:
->>>>>>>>>>>>> - for the awb_fr processing block
->>>>>>>>>>>>> - for the af processing block
->>>>>>>>>>>>> - for the awb processing block
->>>>>>>>>>>>>
->>>>>>>>>>>>> The idea of this small portion of code is to reduce
->>>>>>>>>>>>> complexity in loading the statistics, it could be done also
->>>>>>>>>>>>> when only one stripe is used. Fix it by getting this
->>>>>>>>>>>>> initialisation code outside of the
->>>>>>>>>>>>> else() test case.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Signed-off-by: Jean-Michel Hautbois
->>>>>>>>>>>>> <jeanmichel.hautbois@ideasonboard.com>
->>>>>>>>>>>>> ---
->>>>>>>>>>>>>  drivers/staging/media/ipu3/ipu3-css-params.c | 44 >>>>>
->>>>>>>>>>>>> ++++++++++----------
->>>>>>>>>>>>>  1 file changed, 22 insertions(+), 22 deletions(-)
->>>>>>>>>>>>>
->>>>>>>>>>>>> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c
->>>>>>>>>>>>> b/drivers/staging/media/ipu3/ipu3-css-params.c
->>>>>>>>>>>>> index e9d6bd9e9332..05da7dbdca78 100644
->>>>>>>>>>>>> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
->>>>>>>>>>>>> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
->>>>>>>>>>>>> @@ -2428,16 +2428,16 @@ int imgu_css_cfg_acc(struct imgu_css
->>> *css, unsigned int pipe,
->>>>>>>>>>>>>  					acc-
->>>> awb_fr.stripes[1].grid_cfg.width,
->>>>>>>>>>>>>  					b_w_log2);
->>>>>>>>>>>>>  		acc->awb_fr.stripes[1].grid_cfg.x_end = end;
->>>>>>>>>>>>> -
->>>>>>>>>>>>> -		/*
->>>>>>>>>>>>> -		 * To reduce complexity of debubbling and loading
->>>>>>>>>>>>> -		 * statistics fix grid_height_per_slice to 1 for both
->>>>>>>>>>>>> -		 * stripes.
->>>>>>>>>>>>> -		 */
->>>>>>>>>>>>> -		for (i = 0; i < stripes; i++)
->>>>>>>>>>>>> -			acc-
->>>> awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
->>>>>>>>>>>>>  	}
->>>>>>>>>>>>>
->>>>>>>>>>>>> +	/*
->>>>>>>>>>>>> +	 * To reduce complexity of debubbling and loading
->>>>>>>>>>>>> +	 * statistics fix grid_height_per_slice to 1 for both
->>>>>>>>>>>>> +	 * stripes.
->>>>>>>>>>>>> +	 */
->>>>>>>>>>>>> +	for (i = 0; i < stripes; i++)
->>>>>>>>>>>>> +		acc->awb_fr.stripes[i].grid_cfg.height_per_slice = 1;
->>>>>>>>>>>>> +
->>>>>>>>>>>>>  	if (imgu_css_awb_fr_ops_calc(css, pipe, &acc->awb_fr))
->>>>>>>>>>>>>  		return -EINVAL;
->>>>>>>>>>>>>
->>>>>>>>>>>>> @@ -2591,15 +2591,15 @@ int imgu_css_cfg_acc(struct imgu_css
->>> *css, unsigned int pipe,
->>>>>>>>>>>>>  			imgu_css_grid_end(acc-
->>>> af.stripes[1].grid_cfg.x_start,
->>>>>>>>>>>>>  					  acc-
->>>> af.stripes[1].grid_cfg.width,
->>>>>>>>>>>>>  					  b_w_log2);
->>>>>>>>>>>>> -
->>>>>>>>>>>>> -		/*
->>>>>>>>>>>>> -		 * To reduce complexity of debubbling and loading
->>> statistics
->>>>>>>>>>>>> -		 * fix grid_height_per_slice to 1 for both stripes
->>>>>>>>>>>>> -		 */
->>>>>>>>>>>>> -		for (i = 0; i < stripes; i++)
->>>>>>>>>>>>> -			acc->af.stripes[i].grid_cfg.height_per_slice =
->>> 1;
->>>>>>>>>>>>>  	}
->>>>>>>>>>>>>
->>>>>>>>>>>>> +	/*
->>>>>>>>>>>>> +	 * To reduce complexity of debubbling and loading statistics
->>>>>>>>>>>>> +	 * fix grid_height_per_slice to 1 for both stripes
->>>>>>>>>>>>> +	 */
->>>>>>>>>>>>> +	for (i = 0; i < stripes; i++)
->>>>>>>>>>>>> +		acc->af.stripes[i].grid_cfg.height_per_slice = 1;
->>>>>>>>>>>>> +
->>>>>>>>>>>>>  	if (imgu_css_af_ops_calc(css, pipe, &acc->af))
->>>>>>>>>>>>>  		return -EINVAL;
->>>>>>>>>>>>>
->>>>>>>>>>>>> @@ -2660,15 +2660,15 @@ int imgu_css_cfg_acc(struct imgu_css
->>> *css, unsigned int pipe,
->>>>>>>>>>>>>  			imgu_css_grid_end(acc-
->>>> awb.stripes[1].grid.x_start,
->>>>>>>>>>>>>  					  acc->awb.stripes[1].grid.width,
->>>>>>>>>>>>>  					  b_w_log2);
->>>>>>>>>>>>> -
->>>>>>>>>>>>> -		/*
->>>>>>>>>>>>> -		 * To reduce complexity of debubbling and loading
->>> statistics
->>>>>>>>>>>>> -		 * fix grid_height_per_slice to 1 for both stripes
->>>>>>>>>>>>> -		 */
->>>>>>>>>>>>> -		for (i = 0; i < stripes; i++)
->>>>>>>>>>>>> -			acc->awb.stripes[i].grid.height_per_slice = 1;
->>>>>>>>>>>>>  	}
->>>>>>>>>>>>>
->>>>>>>>>>>>> +	/*
->>>>>>>>>>>>> +	 * To reduce complexity of debubbling and loading statistics
->>>>>>>>>>>>> +	 * fix grid_height_per_slice to 1 for both stripes
->>>>>>>>>>>>> +	 */
->>>>>>>>>>>>> +	for (i = 0; i < stripes; i++)
->>>>>>>>>>>>> +		acc->awb.stripes[i].grid.height_per_slice = 1;
->>>>>>>>>>>>> +
->>>>>>>>>>>>>  	if (imgu_css_awb_ops_calc(css, pipe, &acc->awb))
->>>>>>>>>>>>>  		return -EINVAL;
->>>>>>>>>>>>>
->>>>>>>>>>>>
->>>>>>>>>>>> While it seems like a sensible idea to initialise arguments to
->>>>>>>>>>>> firmware, does this have an effect on the statistics format?
->>>>>>>>>>>> If so, can the existing user space cope with that?
->>>>>>>>>>>
->>>>>>>>>>> To try and figure that out, we have tested several grid
->>>>>>>>>>> configurations and inspected the captured statistics. We have
->>>>>>>>>>> converted the statistics in an image, rendering each cell as a
->>>>>>>>>>> pixel whose red, green and blue components are the cell's red,
->>> green and blue averages.
->>>>>>>>>>> This turned out to be a very effectice tool to quickly
->>>>>>>>>>> visualize AWB statistics.
->>>>>>>>>>> We have made a lot of tests with different output resolutions,
->>>>>>>>>>> from a small one up to the full-scale one.
->>>>>>>>>>>
->>>>>>>>>>> Here is one example of a statistics output with a ViewFinder
->>>>>>>>>>> configured as 1920x1280, with a BDS output configuration set to
->>>>>>>>>>> 2304x1536 (sensor is 2592x1944).
->>>>>>>>>>>
->>>>>>>>>>> Without the patch, configuring a 79x45 grid of 16x16 cells we
->>>>>>>>>>> obtain the
->>>>>>>>>>> image: https://pasteboard.co/g4nC4fHjbVER.png.
->>>>>>>>>>> We can notice a weird padding every two lines and it seems to
->>>>>>>>>>> be missing half of the frame.
->>>>>>>>>>>
->>>>>>>>>>> With the patch applied, the same configuration gives us the
->>> image:
->>>>>>>>>>> https://pasteboard.co/rzap6axIvVdu.png
->>>>>>>>>>>
->>>>>>>>>>> We can clearly see the one padding pixel on the right, and the
->>>>>>>>>>> frame is all there, as expected.
->>>>>>>>>>>
->>>>>>>>>>> Tomasz: We're concerned that this patch may have an impact on
->>>>>>>>>>> the ChromeOS Intel Camera HAL with the IPU3. Is it possible for
->>>>>>>>>>> someone to review and test this please?
->>>>>>>>>>
->>>>>>>>>> As shown by the images above, this is a real fix. It only
->>>>>>>>>> affects grid configurations that use a single stripe (left or
->>>>>>>>>> right), so either "small" resolutions (less than 1280 pixels at
->>>>>>>>>> the BDS output if I recall correctly), or grid configurations
->>>>>>>>>> that span the left part of the image with higher resolutions.
->>>>>>>>>> The latter is probably unlikely. For the former, it may affect
->>>>>>>>>> the binary library, especially if it includes a workaround for
->>> the bug.
->>>>>>>>>>
->>>>>>>>>> Still, this change is good I believe, so it should be upstreamed.
->>>>
->>
+Regards,
 
--- 
-Best regards,
-Bingbu Cao
+	Hans
+
+> ---
+> Changelog since v10:
+> - Added reviewed-by from Sergey and Daniel.
+> Changelog since v9:
+> - No Change.
+> Changelog since v8:
+> - No change.
+> Changelog since v7:
+> - Document V4L2_CTRL_TYPE_RECT in vidioc-queryctrl.rst.
+> - Rebased to media-stage master.
+> - Do not assign each field in std_equal
+> 
+>  .../media/v4l/vidioc-g-ext-ctrls.rst              |  4 ++++
+>  .../userspace-api/media/v4l/vidioc-queryctrl.rst  |  7 +++++++
+>  .../media/videodev2.h.rst.exceptions              |  1 +
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c         | 15 +++++++++++++++
+>  include/media/v4l2-ctrls.h                        |  2 ++
+>  include/uapi/linux/videodev2.h                    |  2 ++
+>  6 files changed, 31 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index 892cfeb8b988..927ef397f1ce 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -189,6 +189,10 @@ still cause this situation.
+>        - ``p_area``
+>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_AREA``.
+> +    * - struct :c:type:`v4l2_rect` *
+> +      - ``p_rect``
+> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
+> +        of type ``V4L2_CTRL_TYPE_RECT``.
+>      * - struct :c:type:`v4l2_ctrl_h264_sps` *
+>        - ``p_h264_sps``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> index a20dfa2a933b..58982cd382e3 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> @@ -441,6 +441,13 @@ See also the examples in :ref:`control`.
+>        - n/a
+>        - A struct :c:type:`v4l2_area`, containing the width and the height
+>          of a rectangular area. Units depend on the use case.
+> +    * - ``V4L2_CTRL_TYPE_RECT``
+> +      - n/a
+> +      - n/a
+> +      - n/a
+> +      - A struct :c:type:`v4l2_rect`, containing a rectangle described by
+> +	the position of its top-left corner, the width and the height. Units
+> +	depend on the use case.
+>      * - ``V4L2_CTRL_TYPE_H264_SPS``
+>        - n/a
+>        - n/a
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index 2a589d34b80e..828cca8e2daa 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -150,6 +150,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
+> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index 29169170880a..e7f232842376 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -350,6 +350,11 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+>  	case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
+>  		pr_cont("HEVC_DECODE_PARAMS");
+>  		break;
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		pr_cont("%ux%u@%dx%d",
+> +			ptr.p_rect->width, ptr.p_rect->height,
+> +			ptr.p_rect->left, ptr.p_rect->top);
+> +		break;
+>  	default:
+>  		pr_cont("unknown type %d", ctrl->type);
+>  		break;
+> @@ -569,6 +574,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>  	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+>  	struct v4l2_area *area;
+> +	struct v4l2_rect *rect;
+>  	void *p = ptr.p + idx * ctrl->elem_size;
+>  	unsigned int i;
+>  
+> @@ -918,6 +924,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  			return -EINVAL;
+>  		break;
+>  
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		rect = p;
+> +		if (!rect->width || !rect->height)
+> +			return -EINVAL;
+> +		break;
+> +
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -1605,6 +1617,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  	case V4L2_CTRL_TYPE_AREA:
+>  		elem_size = sizeof(struct v4l2_area);
+>  		break;
+> +	case V4L2_CTRL_TYPE_RECT:
+> +		elem_size = sizeof(struct v4l2_rect);
+> +		break;
+>  	default:
+>  		if (type < V4L2_CTRL_COMPOUND_TYPES)
+>  			elem_size = sizeof(s32);
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index e59d9a234631..1846caf9dd53 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -52,6 +52,7 @@ struct video_device;
+>   * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
+>   * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
+>   * @p_area:			Pointer to an area.
+> + * @p_rect:			Pointer to a rectangle.
+>   * @p:				Pointer to a compound value.
+>   * @p_const:			Pointer to a constant compound value.
+>   */
+> @@ -81,6 +82,7 @@ union v4l2_ctrl_ptr {
+>  	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+>  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>  	struct v4l2_area *p_area;
+> +	struct v4l2_rect *p_rect;
+>  	void *p;
+>  	const void *p_const;
+>  };
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 17a9b975177a..ce2bd9ac4c47 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1797,6 +1797,7 @@ struct v4l2_ext_control {
+>  		__u32 __user *p_s32;
+>  		__u32 __user *p_s64;
+>  		struct v4l2_area __user *p_area;
+> +		struct v4l2_rect __user *p_rect;
+>  		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+>  		struct v4l2_ctrl_h264_pps *p_h264_pps;
+>  		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
+> @@ -1861,6 +1862,7 @@ enum v4l2_ctrl_type {
+>  	V4L2_CTRL_TYPE_U16	     = 0x0101,
+>  	V4L2_CTRL_TYPE_U32	     = 0x0102,
+>  	V4L2_CTRL_TYPE_AREA          = 0x0106,
+> +	V4L2_CTRL_TYPE_RECT	     = 0x0107,
+>  
+>  	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
+>  	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
+
