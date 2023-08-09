@@ -2,188 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB0A87761CE
-	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 15:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 782FF7762C7
+	for <lists+linux-media@lfdr.de>; Wed,  9 Aug 2023 16:44:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231529AbjHINzX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Aug 2023 09:55:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55042 "EHLO
+        id S233966AbjHIOoM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Aug 2023 10:44:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232738AbjHINzV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 09:55:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25D41213C
-        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 06:55:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BA68461FA5
-        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 13:55:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0845C433C7;
-        Wed,  9 Aug 2023 13:55:11 +0000 (UTC)
-Message-ID: <e43eb479-60cb-7520-cafa-12dd7e2e0d6e@xs4all.nl>
-Date:   Wed, 9 Aug 2023 15:55:09 +0200
+        with ESMTP id S233941AbjHIOoJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 10:44:09 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 857002127;
+        Wed,  9 Aug 2023 07:44:03 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A9CE81BF203;
+        Wed,  9 Aug 2023 14:43:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1691592242;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=FZxV3UFMeGyDsNdwjJumfIpW8uOR/MFWbZ/4b+SKd9g=;
+        b=jR7AlSufdFSWkDHzoPBOoaekD48cJ2XesAnJETdAziH/WLCjpfXnALcTGC6nPtoBAnpT4Q
+        CeSwpI8yllHZhRm5Wg0EcYgv7v4OytXOp4oT5/XJH2l7sC2DW6lS6q3Q7cpvLZ6fcQvK30
+        l3FZaJmIjp4JcJh7vs3co3kOUy9vAbDSXZ3Lgog1ljb6Yav+xDOjVeW+flCVXo60sNIaQi
+        X+Q6cABgfmdK1u6De5euoOXvK0dHi0pyoOWwwB0GEADlxfq3qCBf9qrDC1QZUQ4cgD8FGE
+        +CfDtniBC41XfeY71dckK3KO8RcXVNHzvqibAxz8XUcQRCjmLsWLcOQQvygOcA==
+Date:   Wed, 9 Aug 2023 16:43:59 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: Stateless Encoding uAPI Discussion and Proposal
+Message-ID: <ZNOmL_mZdYhmFsJI@aptenodytes>
+References: <ZK2NiQd1KnraAr20@aptenodytes>
+ <c46d0c53b7e5dc8dcdf7925f3d892024390a8b2b.camel@collabora.com>
+ <0b5717cb-8f30-c38c-f20e-e8a81d29423a@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v11 06/11] v4l2-ctrls: add support for
- V4L2_CTRL_WHICH_MIN/MAX_VAL
-Content-Language: en-US, nl
-To:     Yunke Cao <yunkec@google.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-References: <20230426082923.132909-1-yunkec@google.com>
- <20230426082923.132909-7-yunkec@google.com>
- <da90bdb2-45f4-2ffe-2d62-1190b43fccd5@xs4all.nl>
- <CANqU6Fds77JBjkq5epiL5iyEBgC-goVAXXfFGK_-fnZx04z8WQ@mail.gmail.com>
- <04a11648-fc00-bb29-774d-d1ba0f199872@xs4all.nl>
- <20230809101535.GA5737@pendragon.ideasonboard.com>
- <caefa8ad-7ae4-6ef0-e247-fcc5d49d6c54@xs4all.nl>
- <CANqU6FeRUkDr0ssAbXVBBgPzxThCEU0H5yCGOVda_3P5s3nb9A@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CANqU6FeRUkDr0ssAbXVBBgPzxThCEU0H5yCGOVda_3P5s3nb9A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="aWuj40h1KBiOheuV"
+Content-Disposition: inline
+In-Reply-To: <0b5717cb-8f30-c38c-f20e-e8a81d29423a@xs4all.nl>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/08/2023 14:32, Yunke Cao wrote:
-> On Wed, Aug 9, 2023 at 7:59 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> On 8/9/23 12:15, Laurent Pinchart wrote:
->>> Hello,
->>>
->>> On Wed, Aug 09, 2023 at 10:36:16AM +0200, Hans Verkuil wrote:
->>>> On 8/9/23 09:34, Yunke Cao wrote:
->>>>> On Wed, Aug 9, 2023 at 4:05 PM Hans Verkuil wrote:
->>>>>> On 26/04/2023 10:29, Yunke Cao wrote:
->>>>>>> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>>>>>>
->>>>>>> Add the capability of retrieving the min and max values of a
->>>>>>> compound control.
->>>>>>>
->>>>>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>>>>>> Signed-off-by: Yunke Cao <yunkec@google.com>
->>>>>>> ---
->>>>>>> Changelog since v10:
->>>>>>> - No change.
->>>>>>> Changelog since v9:
->>>>>>> - No change.
->>>>>>> Changelog since v8:
->>>>>>> - Return ENODATA when min/max is not implemented. Document this behavior.
->>>>>>> - Created a shared helper function __v4l2_ctrl_type_op_init that takes "which"
->>>>>>>   as a parameter. Call it in def, min and max operations.
->>>>>>> Changelog since v7:
->>>>>>> - Document that the definition of the min/max are provided by compound controls
->>>>>>>   are defined in control documentation.
->>>>>>> - Return error, instead of zeroed memory for v4l2_ctrl_ptr_create(NULL).
->>>>>>>
->>>>>>> git am from https://lore.kernel.org/all/20191119113457.57833-3-hverkuil-cisco@xs4all.nl/
->>>>>>> - Fixed some merge conflits.
->>>>>>> - Fixed the build error in drivers/media/platform/qcom/venus.
->>>>>>>
->>>>>>>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  11 +-
->>>>>>>  .../media/videodev2.h.rst.exceptions          |   2 +
->>>>>>>  drivers/media/i2c/imx214.c                    |   5 +-
->>>>>>>  .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
->>>>>>>  drivers/media/v4l2-core/v4l2-ctrls-api.c      |  57 +++++--
->>>>>>>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 156 +++++++++++++++---
->>>>>>>  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
->>>>>>>  include/media/v4l2-ctrls.h                    |  34 +++-
->>>>>>>  include/uapi/linux/videodev2.h                |   2 +
->>>>>>>  9 files changed, 236 insertions(+), 44 deletions(-)
->>>>>>>
->>>>>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>>>>>> index 927ef397f1ce..1cc21ee229aa 100644
->>>>>>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>>>>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>>>>>> @@ -304,14 +304,21 @@ still cause this situation.
->>>>>>>        - Which value of the control to get/set/try.
->>>>>>>      * - :cspan:`2` ``V4L2_CTRL_WHICH_CUR_VAL`` will return the current value of
->>>>>>>       the control, ``V4L2_CTRL_WHICH_DEF_VAL`` will return the default
->>>>>>> +     value of the control, ``V4L2_CTRL_WHICH_MIN_VAL`` will return the minimum
->>>>>>> +     value of the control, ``V4L2_CTRL_WHICH_MAX_VAL`` will return the maximum
->>>>>>>       value of the control and ``V4L2_CTRL_WHICH_REQUEST_VAL`` indicates that
->>>>>>>       these controls have to be retrieved from a request or tried/set for
->>>>>>>       a request. In the latter case the ``request_fd`` field contains the
->>>>>>>       file descriptor of the request that should be used. If the device
->>>>>>>       does not support requests, then ``EACCES`` will be returned.
->>>>>>>
->>>>>>> -     When using ``V4L2_CTRL_WHICH_DEF_VAL`` be aware that you can only
->>>>>>> -     get the default value of the control, you cannot set or try it.
->>>>>>> +     When using ``V4L2_CTRL_WHICH_DEF_VAL``, ``V4L2_CTRL_WHICH_MIN_VAL``
->>>>>>> +     or ``V4L2_CTRL_WHICH_MAX_VAL`` be aware that you can only get the
->>>>>>> +     default/minimum/maximum value of the control, you cannot set or try it.
->>>>>>> +     The definition of minimum/maximum values for compound types are provided by
->>>>>>> +     the control documentation. If the control documentation does not
->>>>>>> +     document the meaning of minimum/maximum value, then it is not supported.
->>>>>>> +     Querying its minmimum/maximum value will result in -ENODATA.
->>>>>>
->>>>>> typo: minmimum -> minimum
->>>>>>
->>>>>> That last line is a bit ambiguous, I suggest this:
->>>>>>
->>>>>> If  ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` are not supported,
->>>>>> then querying the minimum or maximum value will result in -ENODATA.
 
-I realized that ENODATA is wrong: ENODATA implies that while there is no data
-now, there might be in the future. That's not the case here. I think the correct
-error code is EINVAL: the value of the 'which' field is invalid for this control.
+--aWuj40h1KBiOheuV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
+Hi Hans,
 
-	Hans
+On Wed 26 Jul 23, 10:18, Hans Verkuil wrote:
+> On 11/07/2023 20:18, Nicolas Dufresne wrote:
+> > Le mardi 11 juillet 2023 =C3=A0 19:12 +0200, Paul Kocialkowski a =C3=A9=
+crit=C2=A0:
+> >> Hi everyone!
+> >>
+> >> After various discussions following Andrzej's talk at EOSS, feedback f=
+rom the
+> >> Media Summit (which I could not attend unfortunately) and various dire=
+ct
+> >> discussions, I have compiled some thoughts and ideas about stateless e=
+ncoders
+> >> support with various proposals. This is the result of a few years of i=
+nterest
+> >> in the topic, after working on a PoC for the Hantro H1 using the hantr=
+o driver,
+> >> which turned out to have numerous design issues.
+> >>
+> >> I am now working on a H.264 encoder driver for Allwinner platforms (cu=
+rrently
+> >> focusing on the V3/V3s), which already provides some usable bitstream =
+and will
+> >> be published soon.
+> >>
+> >> This is a very long email where I've tried to split things into distin=
+ct topics
+> >> and explain a few concepts to make sure everyone is on the same page.
+> >>
+> >> # Bitstream Headers
+> >>
+> >> Stateless encoders typically do not generate all the bitstream headers=
+ and
+> >> sometimes no header at all (e.g. Allwinner encoder does not even produ=
+ce slice
+> >> headers). There's often some hardware block that makes bit-level writi=
+ng to the
+> >> destination buffer easier (deals with alignment, etc).
+> >>
+> >> The values of the bitstream headers must be in line with how the compr=
+essed
+> >> data bitstream is generated and generally follow the codec specificati=
+on.
+> >> Some encoders might allow configuring all the fields found in the head=
+ers,
+> >> others may only allow configuring a few or have specific constraints r=
+egarding
+> >> which values are allowed.
+> >>
+> >> As a result, we cannot expect that any given encoder is able to produc=
+e frames
+> >> for any set of headers. Reporting related constraints and limitations =
+(beyond
+> >> profile/level) seems quite difficult and error-prone.
+> >>
+> >> So it seems that keeping header generation in-kernel only (close to wh=
+ere the
+> >> hardware is actually configured) is the safest approach.
+> >=20
+> > This seems to match with what happened with the Hantro VP8 proof of con=
+cept. The
+> > encoder does not produce the frame header, but also, it produces 2 enco=
+ded
+> > buffers which cannot be made contiguous at the hardware level. This not=
+ion of
+> > plane in coded data wasn't something that blended well with the rest of=
+ the API
+> > and we didn't want to copy in the kernel while the userspace would also=
+ be
+> > forced to copy to align the headers. Our conclusion was that it was bes=
+t to
+> > generate the headers and copy both segment before delivering to userspa=
+ce. I
+> > suspect this type of situation will be quite common.
+> >=20
+> >>
+> >> # Codec Features
+> >>
+> >> Codecs have many variable features that can be enabled or not and spec=
+ific
+> >> configuration fields that can take various values. There is usually so=
+me
+> >> top-level indication of profile/level that restricts what can be used.
+> >>
+> >> This is a very similar situation to stateful encoding, where codec-spe=
+cific
+> >> controls are used to report and set profile/level and configure these =
+aspects.
+> >> A particularly nice thing about it is that we can reuse these existing=
+ controls
+> >> and add new ones in the future for features that are not yet covered.
+> >>
+> >> This approach feels more flexible than designing new structures with a=
+ selected
+> >> set of parameters (that could match the existing controls) for each co=
+dec.
+> >=20
+> > Though, reading more into this emails, we still have a fair amount of c=
+ontrols
+> > to design and add, probably some compound controls too ?
+>=20
+> I expect that for stateless encoders support for read-only requests will =
+be needed:
+>=20
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=3D5647
+>=20
+> I worked on that in the past together with dynamic control arrays. The dy=
+namic
+> array part was merged, but the read-only request part wasn't (there was n=
+ever a
+> driver that actually needed it).
+>=20
+> I don't know if that series still applies, but if there is a need for it =
+then I
+> can rebase it and post an RFCv3.
 
->>>>>
->>>>> This sounds clearer indeed! I will change it in the next version.
->>>>
->>>> Thinking some more about this, I believe it would be better to add a flag
->>>> indicating WHICH_MIN/MAX support. I never like relying on an error to
->>>> discover a feature. You still need this error, but in addition we need a new
->>>> flag:
->>>>
->>>> #define V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX 0x1000
->>>>
->>>> that is set for any control that supports this.
->>>
->>> I think the intent here was to indicate that drivers must return
->>> -ENODATA for V4L2_CTRL_WHICH_MIN_VAL and V4L2_CTRL_WHICH_MAX_VAL if the
->>> control's documentation doesn't specify the meaning of minimum and
->>> maximum for a control. A flag to indicate support for this new API is
->>> likely a good idea, but the documentation here should still clearly
->>> indicate that only controls that have defined minimum and maximum
->>> concepts in the API documentation can implement this API.
->>
->> This flag is specific to the control ID: so if set, then you can get
->> the min/max value using V4L2_CTRL_WHICH_MIN/MAX_VAL for that control ID.
->>
->> This flag must be set for any control that uses the s64 minimum/maximum
->> fields in struct v4l2_ext_query_ctrl, and for any compound control that
->> has explicit support for MIN/MAX_VAL (the UVC rectangle control in this
->> case).
-> 
->> any control that uses the s64 minimum/maximum fields
-> Noob question: does this include all the non-compound controls?
-> Are drivers responsible for setting this flag for these controls?
-> 
-> Best,
-> Yunke
-> 
->>
->> Regards,
->>
->>         Hans
->>
->>
+So if I understand this correctly (from a quick look), this would be to all=
+ow
+stateless encoder drivers to attach a particular control value to a specific
+returned frame?
 
+I guess this would be a good match to return statistics about the encoded f=
+rame.
+However that would probably be expressed in a hardware-specific way so it
+seems preferable to not expose this to userspace and handle it in-kernel
+instead.
+
+What's really important for userspace to know (in order to do user-side
+rate-control, which we definitely want to support) is the resulting bitstre=
+am
+size. This is already available with bytesused.
+
+So all in all I think we're good with the current status of request support.
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--aWuj40h1KBiOheuV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmTTpi8ACgkQ3cLmz3+f
+v9GEdAf/avLc1Cx2s9I2b1sF2Caqh/fuL4ef2D7gFNGzZzR0Uju4QiAOsAFbMD8K
+Zkd4Ti8lOCvlJOsZIthNnCoCkHGv05vkaES3yysF4MWg6SJgKvZ4m7gdi4u5Xid4
+8wqY4HjbccJGeMbdTU0M72euuT8kdTG4lFLBdLUGFmDefIKFisDY2hPBlgGO1uP+
+sYte2KySWBhL0Vc6+7KkO42uF4KjJ2kFOx6n+1T6poCnlDHFZ92zWEClMIIK7CdE
+cAMywTSrwhHekHkPoiTki0tufju6TjDENlsWHsAq1YNekKH8qc0L5zcSOGb1C8nE
+CUVjZx2+BXehlrDO8Uiwb+2thYODcw==
+=swV6
+-----END PGP SIGNATURE-----
+
+--aWuj40h1KBiOheuV--
