@@ -2,120 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84AF4776D39
-	for <lists+linux-media@lfdr.de>; Thu, 10 Aug 2023 02:54:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B044C776D42
+	for <lists+linux-media@lfdr.de>; Thu, 10 Aug 2023 02:57:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbjHJAyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Aug 2023 20:54:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51556 "EHLO
+        id S230391AbjHJA5f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Aug 2023 20:57:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjHJAyB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 20:54:01 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7948F5
-        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 17:54:00 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-79095499a17so13103739f.3
-        for <linux-media@vger.kernel.org>; Wed, 09 Aug 2023 17:54:00 -0700 (PDT)
+        with ESMTP id S229540AbjHJA5f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Aug 2023 20:57:35 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFDEA1982
+        for <linux-media@vger.kernel.org>; Wed,  9 Aug 2023 17:57:33 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-5232ce75e26so2867a12.1
+        for <linux-media@vger.kernel.org>; Wed, 09 Aug 2023 17:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691628840; x=1692233640;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+Wdkzj6p3rOK19FTNdQYtbs5FYuyIuVaMEM34fKjnrw=;
-        b=cIzA+RQ5GYT9m8eHdPBnG5Xb1kdLF7gc0cro+p9hEUnwS9VoYa+qwJrGruNF28IOGl
-         NqXwp/hHXXJlvU2vvqnHXqkzemmmUG1ixzGuYmoTxG1hu930+XK6bo8AuJe7EysOAgcY
-         BpK4mHTcKCjg5gXTLPAY1EsMTF1ebzmlUnT2PQlQcErNuwgChn3iBc0yJa4ZL4fFtwUx
-         e7tpQNGZLOFgsmecmyhWQsb7fOgczdl9vKFCHrFOGk21tUyZgSFAYQDmToRXlTyEoaFV
-         6Tp0/vCIj9rrw83yqZ8j+KsMZaUTrOqWSUdxhcUIiCTtbNg0PH5DCk6DVNxTW/RtFIGe
-         I6vw==
+        d=google.com; s=20221208; t=1691629052; x=1692233852;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pENb1t85EdhZr2S/NRQldNOIuogVZkW2tw0vSMoDYS4=;
+        b=DcyoSSCwJwp9vWokfe6dcIcLr97RyCLwBKjCbSskay0ACsx3/Izc9hLNsxwGuAVej/
+         wB2ynNNpnWSk9rjEmycLvjbxhdjuGCr4gLKPNdtYax8aYtgx0roYCOdnsQxs2XvY8Kyz
+         zm4+OHdnDZS1cSMHKnWNLEjHVbE+tLFR1H4cuVpsMI7fqGM3Rm7czFUMk2/pAODSkQ8h
+         qpa6v2aLXK8WqWZ0zBc0vDg3ZDBlNkD+nEgNFbauOexdn14Eul3ITgPmwpU+k0aY3DlC
+         U695WvJ65wCg4BdHjT1N2bzpnjEz1BPQGdzsN8A21gHFmb8YSwAg7Z0RT6ewZLnRVqRo
+         JX5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691628840; x=1692233640;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1691629052; x=1692233852;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+Wdkzj6p3rOK19FTNdQYtbs5FYuyIuVaMEM34fKjnrw=;
-        b=VQbLE2Tz9YcPW22Z/8LsAmQ6xZxnhlpND1EFIzA0OmiZ8sAwKsAmjhWnc/e1QP6ZFU
-         djR/UsOKjbW/IiQfaLmD/PSB3AEg6Emh2m7Qcyn1EQZd4zHusKuEntV5dMJttZF7oLcx
-         reP+OZYcDZg01WFWQz/jQNjwdIb71MUCSquFuO24xpFt0VIwHUDQIMQK+fKWVMyssIEi
-         gMup7WIC8qoWV33bxenZWOZCHRMTPswQgWr8/Qf3eLW5gX6kH0Yxh5sW+QnBmphmD5Ma
-         76DpGaRnnm/bRg3RiAw1YyJUU4XVgI8JKcu9z7FQ8t1/HGNUDcdF9lGZLFzhzbW9uuYp
-         r0rg==
-X-Gm-Message-State: AOJu0YzVLOYQcCvs9GOz0ezImsG0UMdD7E3QZJcZrzBlPE/24zarhflN
-        Ww3dxN/xmEv0JgN9kMMH8rukfgPKw2h6Z3wZ
-X-Google-Smtp-Source: AGHT+IHxMC3OGJc3+b4jFSQSwvOvIxZ6B3nqToTMwFj447QAXRRd1IxIRqngUfD9WMEYcrNu0jXfJg==
-X-Received: by 2002:a5e:8907:0:b0:786:7100:72de with SMTP id k7-20020a5e8907000000b00786710072demr1395441ioj.16.1691628839859;
-        Wed, 09 Aug 2023 17:53:59 -0700 (PDT)
-Received: from smtpclient.apple ([195.252.220.43])
-        by smtp.gmail.com with ESMTPSA id y8-20020a6be508000000b007836e9ff198sm115417ioc.55.2023.08.09.17.53.59
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Aug 2023 17:53:59 -0700 (PDT)
-From:   Sishuai Gong <sishuai.system@gmail.com>
-Content-Type: text/plain;
-        charset=us-ascii
+        bh=pENb1t85EdhZr2S/NRQldNOIuogVZkW2tw0vSMoDYS4=;
+        b=PqR6Vs2X5BXRY6XXwHXGs/TPBvegdVwmUBb1v1NnynPPGubDBW8BXwj4kpESjwztqc
+         Tp01RkUTOPxAzPkq3iHCvpVEundf1kFc9oBLvwEaTI56VHt1yoW9gZlGqta2HqTCX79O
+         nNc39mkmRdHJ64RqIAIB5wNkqRx1Gov5CKpftB+3RqL77+hX9HvnSWhTBWwKY0VijkxF
+         yBcPpmz6T/m7PSHpYHt6JTYDCfZLgGW5QmzMmtYp5tfT5WNyVptpLBRnQvTH7fQ/e2Pb
+         MI4v90erRfxBXYeFRKh2gPWgcuc0ovTMwAnmeLhj/HHYvWt2m43QZvi9xYJSkE+Kzin1
+         IUdg==
+X-Gm-Message-State: AOJu0YyI50kOkFkFKkOdtF5mx0ZG8YEK6K9JzlaGuI++lrZQltvviP80
+        stdCKwkr839hUM11x5A/8j9MWLsckCxnQ9gQwI79tva1p5YCwWcplpVo
+X-Google-Smtp-Source: AGHT+IGC3Ojhu3H3wyaJnO0AFrfMJr5XHWFXJ1jg2Nd0krAXKutumnTRxviNOopna7nevL3OGuuOsnupTL3vhP1snHY=
+X-Received: by 2002:a50:99db:0:b0:522:28a1:2095 with SMTP id
+ n27-20020a5099db000000b0052228a12095mr191965edb.3.1691629052118; Wed, 09 Aug
+ 2023 17:57:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <1690598115-26287-1-git-send-email-quic_pintu@quicinc.com>
+ <20230731112155.GA3662@lst.de> <CAOuPNLjnfq1JefngtNrg0Q+JdMTSRz+eEqxGQJFfx9+af+k9WA@mail.gmail.com>
+ <20230801171838.GA14599@lst.de> <CANDhNCq+3OEosUcQJ5GFgk+5OyG+JqXKM43UAo0aPz-V27OgAA@mail.gmail.com>
+ <20230802094725.GA28241@lst.de> <CAOuPNLjAOk0BOXDcjbY+evX_uxbZyptrJXMf0ULhReECzEX0CQ@mail.gmail.com>
+ <CAOuPNLjn3b3YSgy=ObnF+cE7kj-9vdZ+6fFzMp-bJYLFq3MgWw@mail.gmail.com>
+In-Reply-To: <CAOuPNLjn3b3YSgy=ObnF+cE7kj-9vdZ+6fFzMp-bJYLFq3MgWw@mail.gmail.com>
+From:   John Stultz <jstultz@google.com>
+Date:   Wed, 9 Aug 2023 17:57:19 -0700
+Message-ID: <CANDhNCpJ_di5sjyExPw8itoSOfSoG5syy-t8CmKHzHBSp4qqFQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-contiguous: define proper name for global cma region
+To:     Pintu Agarwal <pintu.ping@gmail.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Pintu Kumar <quic_pintu@quicinc.com>,
+        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        iommu@lists.linux.dev, Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.700.6\))
-Subject: [PATCH] media: vivid: fix the racy dev->radio_tx_rds_owner
-Message-Id: <CC482542-3C3F-4755-ABB2-DB96735CFA74@gmail.com>
-Date:   Wed, 9 Aug 2023 20:53:48 -0400
-Cc:     linux-media@vger.kernel.org
-To:     hverkuil@xs4all.nl, mchehab@kernel.org
-X-Mailer: Apple Mail (2.3731.700.6)
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a race over dev->radio_tx_rds_owner between the two functions
-mentioned below:
+On Wed, Aug 9, 2023 at 8:04=E2=80=AFAM Pintu Agarwal <pintu.ping@gmail.com>=
+ wrote:
+>
+> Hi,
+>
+> On Thu, 3 Aug 2023 at 23:04, Pintu Agarwal <pintu.ping@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > On Wed, 2 Aug 2023 at 15:17, Christoph Hellwig <hch@lst.de> wrote:
+> > >
+> > > On Tue, Aug 01, 2023 at 10:39:04PM -0700, John Stultz wrote:
+> > > > So, forgive me, I've not had a chance to look into this, but my
+> > > > recollection was "reserved" is the name we see on x86, but other na=
+mes
+> > > > are possibly provided via the dts node?
+> > >
+> > No, I think "reserved" is the name hard-coded (for all arch) in Kernel
+> > for global-cma.
+> > So, I don't think this is x86 specific. I am checking on arm32 itself.
+> > When we can dma_alloc_coherent we see these in the logs (if dts region
+> > is not present).
+> > cma: cma_alloc(cma (ptrval), name: reserved, count 64, align 6)
+> > Now, with this change we will see this:
+> > cma: cma_alloc(cma (ptrval), name: global-cma-region, count 64, align 6=
+)
+> >
+> > > Indeed, dma_contiguous_default_area can also be set through
+> > > rmem_cma_setup, which then takes the name from DT.
+> > >
+> > I think this is a different case. If DT entry is present we get this:
+> > Reserved memory: created CMA memory pool at 0x98000000, name: name:
+> > linux,cma, size 128 MiB
+> > cma: cma_alloc(cma (ptrval), name: linux,cma, count 64, align 6)
+> >
+> > Here we are talking about the default hard-coded name in Kernel code
+> > if DT is not defined.
+> > So, in one of the boards, this DT entry was not present and it shows
+> > as "reserved".
+> >
+> > > > I believe on the hikey board its "linux,cma" is the name, so forcin=
+g
+> > > > it to reserved would break that.
+> > > >
+> > Yes, everywhere in the DT it's defined as "linux,cma".
+> > You mean this also should be changed to "linux,cma-global-region"
+> > everywhere with this change ?
+> >
+> > > > Maybe instead add a compat config option to force the cma name (so =
+x86
+> > > > can set it to "default" if needed)?
+> > >
+> > Yes, having it in config is also a good option instead of hard-coding i=
+n Kernel.
+> > >
+> > > I think we'll just need to leave it as-is.  I with dma-heaps had neve=
+r
+> > > exposed the name to userspace, but we'll have to l=D1=96ve with it no=
+w.
+> >
+> > Can you point me to the userspace utility we are talking about here ?
+> > I think we should not worry much about userspace name exposure.
+> > I guess it should fetch whatever is declared in Kernel or DTS, right ?
+>
+> Just to follow-up on this.
+> For now, can we change the Kernel hard-coded value from "reserved" to
+> "global-cma-region" ?
+> Later, for the DTS defined name let it be "linux,cma" or change that
+> also to "linux,global-cma-region" ?
+>
+> Will this make sense ?
 
-Thread-1                Thread-2
-vivid_fop_release()     vivid_radio_rx_read()
-mutex_unlock(&dev->mutex)
-                        mutex_lock_interruptible(&dev->mutex)
-                        ...
-                        dev->radio_rx_rds_owner =3D file->private_data;
-...
-if (file->private_data =3D=3D dev->radio_rx_rds_owner) {
-        dev->radio_tx_rds_last_block =3D 0;
-        dev->radio_tx_rds_owner =3D NULL;
-}
+Apologies, sorry for not responding to your earlier message, it slipped by.
 
-This race can be fixed by only releasing the lock after =
-vivid_fop_release()
-finishes the checks.
+So, the concern is there may be allocators (like gralloc in Android)
+that allocate from the CMA region via the dma-buf heaps interface.
 
-Signed-off-by: Sishuai Gong <sishuai.system@gmail.com>
----
- drivers/media/test-drivers/vivid/vivid-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So by changing the name (either hardcoded or DTS names), you'll change
+the user-visible heap name, potentially breaking those userland
+allocators.
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c =
-b/drivers/media/test-drivers/vivid/vivid-core.c
-index c2167ccfd222..e95bdccfc18e 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -628,7 +628,6 @@ static int vivid_fop_release(struct file *file)
- 		v4l2_info(&dev->v4l2_dev, "reconnect\n");
- 		vivid_reconnect(dev);
- 	}
--	mutex_unlock(&dev->mutex);
- 	if (file->private_data =3D=3D dev->radio_rx_rds_owner) {
- 		dev->radio_rx_rds_last_block =3D 0;
- 		dev->radio_rx_rds_owner =3D NULL;
-@@ -637,6 +636,7 @@ static int vivid_fop_release(struct file *file)
- 		dev->radio_tx_rds_last_block =3D 0;
- 		dev->radio_tx_rds_owner =3D NULL;
- 	}
-+	mutex_unlock(&dev->mutex);
- 	if (vdev->queue)
- 		return vb2_fop_release(file);
- 	return v4l2_fh_release(file);
---=20
-2.39.2 (Apple Git-143)
+Now, the dmabuf heaps are designed to be like other dynamic devices
+(like disks or partitions), which may be different from device to
+device. However, changing the name would still be an inconvenience for
+folks who have hard-coded that name in their userland allocator which
+was designed for a single device.  This would be similar to the old
+issue of an existing fstab breaking from the ide (hda) to sata (sda)
+driver transition.  Or similar to what folks went through a while back
+with network device names changing from eth0 -> ens0 or whatever.
 
+That said, most android devices historically haven't upreved to new
+kernel versions wihtout major userspace changes, so the impact might
+be minimal, but that is likely to change in the future so we should be
+careful here.
+
+What I'd propose instead is to either leave it alone as Christoph
+suggested, or have a build option/boot argument so folks can preserve
+the legacy name if they need.
+
+thanks
+-john
