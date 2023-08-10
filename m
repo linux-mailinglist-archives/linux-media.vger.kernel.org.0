@@ -2,110 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D19FC7779ED
-	for <lists+linux-media@lfdr.de>; Thu, 10 Aug 2023 15:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E2CD7779FA
+	for <lists+linux-media@lfdr.de>; Thu, 10 Aug 2023 15:58:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235437AbjHJNys (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Aug 2023 09:54:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60918 "EHLO
+        id S235508AbjHJN6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Aug 2023 09:58:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235279AbjHJNyr (ORCPT
+        with ESMTP id S234557AbjHJN6U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Aug 2023 09:54:47 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D09626A9
-        for <linux-media@vger.kernel.org>; Thu, 10 Aug 2023 06:54:46 -0700 (PDT)
-Received: from ideasonboard.com (mob-5-90-14-125.net.vodafone.it [5.90.14.125])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0582DD51;
-        Thu, 10 Aug 2023 15:53:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1691675616;
-        bh=+1cx3BAiMbM6h5eWry2ExLAxaL33Q6jH+06aYrX9P1s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qjLRFi85okqZ5/AjDy9BXw2SPM21DGHunLW6iwS36mYrl42zse69DJJjmuHjSPGaI
-         AODZUahSCPzPUnV1/eQEQDR9q7D48NpPNJNsbf0XOpRX9qvPJ9EWlr5gH1mTzdu7A3
-         fwRvU093a2b6YqUVsD8n0wHKc62LXiwFVYEd2iD0=
-Date:   Thu, 10 Aug 2023 15:54:40 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>
-Subject: Re: [PATCH v3 02/10] media: mc: Check pad flag validity
-Message-ID: <lk7muh5ptwxfyujwwr7mon4tw23bexgvgtx4rfju34fycgl7xb@fzor6lkcvem6>
-References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
- <20230808075538.3043934-3-sakari.ailus@linux.intel.com>
+        Thu, 10 Aug 2023 09:58:20 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E823A10C7
+        for <linux-media@vger.kernel.org>; Thu, 10 Aug 2023 06:58:19 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-63cf9eddbc6so9981596d6.0
+        for <linux-media@vger.kernel.org>; Thu, 10 Aug 2023 06:58:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1691675899; x=1692280699;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1rJTz5bg4rzwnI3ff4rWN2qUwfmBH27c5Qh2BAvyn5w=;
+        b=ndjuLFarKWmxp0QE3j1BO1vhYb4/6pLnad8C4kQcrHaNNL88TKuLQ2SHjDEgt7l443
+         aI5Krkq3C5BHh/B/BhChf+P5jqieFmbgL0r75qd30KDOFJGLBdXoFPnGKQ7/5XyBPaWd
+         KgkF3cIkg6+HlWTUvoCLuhb2GSjAY2SffLX2d+8bbCy1aLKL7h93+OGBseelXC26cO0V
+         90vgtnJ+OqIZI1kHXmFraAd510MMGIf/X7wG/q8v7g6StOnSATFU6/IqUcSHMvqmgJma
+         r8E9ge5QwC45LQawKQbILJIoaKFnQmkDB4dmz6UnFLf+1EDLH1x/VIHX3XsCj6eLVWkt
+         NYFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691675899; x=1692280699;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1rJTz5bg4rzwnI3ff4rWN2qUwfmBH27c5Qh2BAvyn5w=;
+        b=jzh6JY9oNX2BhalwpFtZAafIgVVJd/fzYo5h3OaIqwb3OGSycP2/cDhvthRpR3vdqc
+         dioAkWcKeet8j8qErya/ZbJXslGvtORtbbm3AYgwnJ0piLbXTuFq+OSq6OKNhCVetL6T
+         U6be2ywEoR72Bi833BpEMPYfylWt0tiB/LL358fFUxnY1tMHcN1crWjdop3S7UFEAdhy
+         THI2LnqyN9Ic4149ke4iFtR/fL3nELivADprFwKx1zIK1VBNl85PddVbq6HROBMhJZA5
+         MeVgl7RjEFUDmwk6paFKfyCvRvqYCSo+6pVlPsHY/GjyrNngbceL1QtThCk/imHC/eKF
+         GsyQ==
+X-Gm-Message-State: AOJu0Yy0eAeH1pFn0KzH024YwNutWAtRS7aWltOFqHA1CMhH+swcwNAR
+        5KgjKNRQWinSeKvYiu1KPYgdZw==
+X-Google-Smtp-Source: AGHT+IGy90htbxaGVBLfMsqw9TjY9f1KySdKUMqiW6L1VOLB4Zx6hUjqKjFiwiogcvkiBUNYIqIvVg==
+X-Received: by 2002:a0c:e54f:0:b0:63f:c070:492f with SMTP id n15-20020a0ce54f000000b0063fc070492fmr1963509qvm.8.1691675898960;
+        Thu, 10 Aug 2023 06:58:18 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
+        by smtp.gmail.com with ESMTPSA id y3-20020a0cf143000000b0063d4631d1e4sm173766qvl.68.2023.08.10.06.58.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 06:58:18 -0700 (PDT)
+Message-ID: <5a70c141736e91f635f71d9922a3bbe993a76c69.camel@ndufresne.ca>
+Subject: Re: [PATCH v2] media: vcodec: Fix potential array out-of-bounds in
+ encoder queue_setup
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Wei Chen <harperchen1110@gmail.com>, tiffany.lin@mediatek.com
+Cc:     andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+        mchehab@kernel.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, stable@vger.kernel.org
+Date:   Thu, 10 Aug 2023 09:58:17 -0400
+In-Reply-To: <20230810082333.972165-1-harperchen1110@gmail.com>
+References: <20230810082333.972165-1-harperchen1110@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230808075538.3043934-3-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+Hi,
 
-On Tue, Aug 08, 2023 at 10:55:30AM +0300, Sakari Ailus wrote:
-> Check the validity of pad flags on entity init. Exactly one of the flags
-> must be set.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Le jeudi 10 ao=C3=BBt 2023 =C3=A0 08:23 +0000, Wei Chen a =C3=A9crit=C2=A0:
+> variable *nplanes is provided by user via system call argument. The
+> possible value of q_data->fmt->num_planes is 1-3, while the value
+> of *nplanes can be 1-8. The array access by index i can cause array
+> out-of-bounds.
+>=20
+> Fix this bug by checking *nplanes against the array size.
+>=20
+> Fixes: 4e855a6efa54 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video E=
+ncoder Driver")
+> Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+> Cc: stable@vger.kernel.org
 > ---
->  drivers/media/mc/mc-entity.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 83468d4a440b..4991281dcccc 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -197,6 +197,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
->  	struct media_device *mdev = entity->graph_obj.mdev;
->  	struct media_pad *iter;
->  	unsigned int i = 0;
-> +	int ret = 0;
->
->  	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
->  		return -E2BIG;
-> @@ -210,6 +211,14 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
->  	media_entity_for_each_pad(entity, iter) {
->  		iter->entity = entity;
->  		iter->index = i++;
-> +
-> +		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
-> +					     MEDIA_PAD_FL_SOURCE))
-> +		    != 1) {
+> Changes in v2:
+> - Add Fixes tag and CC stable email address
+> - Change the title to be more expressive
+>=20
+>  drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/dr=
+ivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> index 9ff439a50f53..9e8817863cb8 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> @@ -821,6 +821,8 @@ static int vb2ops_venc_queue_setup(struct vb2_queue *=
+vq,
+>  		return -EINVAL;
+> =20
+>  	if (*nplanes) {
+> +		if (*nplanes !=3D q_data->fmt->num_planes)
+> +			return -EINVAL;
 
-Fits on the previous line, if you like it
+I don't think the claim really exists. 	For this driver, when *nplane is se=
+t,
+it will be:
 
-> +			ret = -EINVAL;
-> +			break;
 
-Now that we can interrupt the for loop earlier, do you need to cleanup
-objects appended to the mdev list with the media_gobj_create() call here below ?
+        case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+                requested_planes =3D f->fmt.pix_mp.num_planes;
+                if (requested_planes =3D=3D 0 ||
+                    requested_planes > VIDEO_MAX_PLANES)
+                        return -EINVAL;
+                for (i =3D 0; i < requested_planes; i++)
+                        requested_sizes[i] =3D
+                                f->fmt.pix_mp.plane_fmt[i].sizeimage;
+                break;
 
-> +		}
-> +
->  		if (mdev)
->  			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
->  					  &iter->graph_obj);
-> @@ -218,7 +227,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
->  	if (mdev)
->  		mutex_unlock(&mdev->graph_mutex);
->
-> -	return 0;
-> +	return ret;
->  }
->  EXPORT_SYMBOL_GPL(media_entity_pads_init);
->
-> --
-> 2.39.2
->
+Or the value the driver have set it in the previous call with *nplane =3D=
+=3D 0. So
+unless there is a bug, this should not happen, and more importantly, the co=
+re
+should not let that happen, meaning it should not be driver jobs to validat=
+e
+this.
+
+my 2 cents,
+Nicolas
+
+
+>  		for (i =3D 0; i < *nplanes; i++)
+>  			if (sizes[i] < q_data->sizeimage[i])
+>  				return -EINVAL;
+
