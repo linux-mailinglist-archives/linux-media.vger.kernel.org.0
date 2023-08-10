@@ -2,196 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85B1B777DC4
-	for <lists+linux-media@lfdr.de>; Thu, 10 Aug 2023 18:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25D97777DB8
+	for <lists+linux-media@lfdr.de>; Thu, 10 Aug 2023 18:09:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236367AbjHJQKd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Aug 2023 12:10:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34594 "EHLO
+        id S233002AbjHJQI7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Aug 2023 12:08:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjHJQKS (ORCPT
+        with ESMTP id S236612AbjHJQIo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Aug 2023 12:10:18 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A4D54209;
-        Thu, 10 Aug 2023 09:09:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691683775; x=1723219775;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=eKavocPbhkIobKDNKtkOTikmrjFs6qNsC6AkjSsnoIE=;
-  b=bjgI2RJTly5Hy2K3yoy41kiiMTd3E4l5wqOs9iENFSJeRHEhLKzdENvE
-   GQMwxg0TAPP8HqGgV034DZLFzhy2neYtLWXjyw3M6uTxnAmFj0RiQuWH1
-   UYGWTiucYEnAUCj18mByT5XJ4u9s85AUnavxZVmtZc4FEKcWRcAI8Yo7l
-   jJlVhHndJU4nlrSW0jcUIUCjp6Wd1FAUPnPVRsJXkVlD2n9iZssps3O0z
-   EOk4HMF7I5xTxrqvqukD7WPNGahfxABV1rERSPqJlnuUM98A/8aKtd/7M
-   d90qGC9KwMsAm2hWsExMEcUtjeYAu3Ly9B65qAJ3OBPKJ/KzSUvqyz5QQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="374213292"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="374213292"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 09:05:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="709214911"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="709214911"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga006.jf.intel.com with ESMTP; 10 Aug 2023 09:05:35 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 10 Aug 2023 09:05:35 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 10 Aug 2023 09:05:35 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Thu, 10 Aug 2023 09:05:35 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Thu, 10 Aug 2023 09:05:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NOZ8fvUBiSU0bx4fRBrUibxBzmx9PZzqbJGY4nPxGEUGot9fiQuQJrFRSQZEU7iyf6DiwqbgDyjjZUPi/tnZlxlUJfDmH3Ps8QeJONQYtHw8R7/49W3vGv37wqwIxdnmaR27tsdbdnpkfpZBJd7Nyq2RiizVTwxNEGNFUUPlCgUcOuRh2e3fMNz/Maskrw74vdiXr82gMgxsB6XA5C+Mipvv/9BRXv5UkdJJjVnuPPqdTyVZqFOQK908m5WM4hJRoeXRDQZcaF9yc1IQ7xMIArLJd2C9ny9eFBRk2E+nbGjaZCbow0QwieOimv6xVNaPl8UXnqXo1huTBts7W/ckfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h39YyWFJn65uPO0prpJIN9+6VGui+NZub4qfxa2L6rw=;
- b=QQ7fAKJUWEZt+Slt1ii1Q1khAuVMAm+y4QPx9WiV7uf25eQy+Qu8HGmdMAHvC55DmOKUFk7lft3yYci6/wE432MLkmYAlTJUcr7He3Px3+oUAWmcomrvjDhqXS+8ovk345x1Xk5Hp3iPSnJqqveWVksIKAJeElLhtZaoYzT0r9D1oDLnj6chPf1eIWYmeOnYFNobPEb7hEsgAL9PSGeUJqexK1kYbbA+gdt+zamf/v0h9JuNZEGLVE7kzn9LmBc5T6uC80kwarG852qzzQoYpyJ5XCC0kqp9TZI3+VPc5sxYwI172WQ/i8O042pPNYtTDFnvShbcnPg1agAkPerXxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB4886.namprd11.prod.outlook.com (2603:10b6:510:33::22)
- by SN7PR11MB8282.namprd11.prod.outlook.com (2603:10b6:806:269::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Thu, 10 Aug
- 2023 16:05:03 +0000
-Received: from PH0PR11MB4886.namprd11.prod.outlook.com
- ([fe80::c5df:b8c3:8976:c817]) by PH0PR11MB4886.namprd11.prod.outlook.com
- ([fe80::c5df:b8c3:8976:c817%7]) with mapi id 15.20.6652.029; Thu, 10 Aug 2023
- 16:05:03 +0000
-Message-ID: <97bf5b80-ca0c-638b-9b5d-1cae70f3df58@intel.com>
-Date:   Thu, 10 Aug 2023 09:04:59 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [RFC PATCH v2 01/11] net: add netdev netlink api to bind dma-buf
- to a net device
-Content-Language: en-US
-To:     Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-CC:     "David S. Miller" <davem@davemloft.net>,
+        Thu, 10 Aug 2023 12:08:44 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0502F46AE
+        for <linux-media@vger.kernel.org>; Thu, 10 Aug 2023 09:07:26 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1bbc64f9a91so9669335ad.0
+        for <linux-media@vger.kernel.org>; Thu, 10 Aug 2023 09:07:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1691683619; x=1692288419;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Bkl7A8nIZ4dLxOcY6GpHpFtX+viPmkaZX3wq6XxPfxg=;
+        b=JL9PB5YetmewwFt4dDybaPdzwmRNljhoEiaIvSyobmvxBnbUSrib0/OLZrInyO+/1c
+         WxEb27kvGab0U19ny3qjovhvp4KPMhmrM2Jqtl/Sybe5g/zIKFpOOF62rMgIkHHf4UbB
+         VKhhEHQLs4ges87nYRT9ch0zp7xExv1gT874o21HXlD6fq1w4HfWb5w6aIB4k6n17BS6
+         sHwCkyxjqIF/8NI5kQBcfC3SRO7xYSESm9CyKct1e2y0kTPD1OEFcZVOieF6bi0mgKVN
+         nkDDYLgPl8A0tzyRQn+5DPmETmTTMEvWVvuuyb3zFt2rluHyUxJ0uPc6WGGARgxW4JyZ
+         JPcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691683619; x=1692288419;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bkl7A8nIZ4dLxOcY6GpHpFtX+viPmkaZX3wq6XxPfxg=;
+        b=ZdUm5nRQJ1cELDoANw06gbx2hyf6KUrV4Kf5H0pznR7hsBgRwVrJaUgB2ijAvBRkI0
+         egVYm946vni+9MsxeeMCnY2NYBevGgFb9AFilHcHfdvjxMW6pYHwo4MMR1i5neiisCAx
+         btWW4rep9I0VQAU4ZiMHkQhdm9F2nnqCDFBLE0Y/UoQt1yZLpS6G4uO4bZ1a24pvCKZX
+         bcGIb+EBLsNUNwXZxklJmtPtq+rrjtGmILg5yIrkvA69RoO5anNQM1EfSTRwDcJbmsnN
+         9O9+us+MxCsQB7YSLKZB1rJ7cflXmQdXvc04n5dxQcxxfQdX9f83YUJVuUvtwaRccQ++
+         cMQg==
+X-Gm-Message-State: AOJu0YwHQfT8UC4NjOZHcQsXyGWqePrcK5QuMWnk1ebblGGvyMbsXNFI
+        cthXOk35IPImqV1d7DCv+jlstA==
+X-Google-Smtp-Source: AGHT+IF4hyqWBe3EdaSGly2P8UCzQ7nDhJe1xj0NdzWbJpW3WsvHw4tGYB8oXfKwdLOgDTGQE6RMzw==
+X-Received: by 2002:a17:903:182:b0:1bb:ed65:5e0d with SMTP id z2-20020a170903018200b001bbed655e0dmr3656999plg.56.1691683619216;
+        Thu, 10 Aug 2023 09:06:59 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+        by smtp.gmail.com with ESMTPSA id j16-20020a170902da9000b001b8a1a25e6asm1955107plx.128.2023.08.10.09.06.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 09:06:57 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1qU8Bc-005Glp-95;
+        Thu, 10 Aug 2023 13:06:56 -0300
+Date:   Thu, 10 Aug 2023 13:06:56 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
         Jesper Dangaard Brouer <hawk@kernel.org>,
-        "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>,
         David Ahern <dsahern@kernel.org>,
         Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
         Hari Ramakrishnan <rharix@google.com>,
         Dan Williams <dan.j.williams@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        <stephen@networkplumber.org>, <sdf@google.com>,
-        Amritha Nambiar <amritha.nambiar@intel.com>
+        Andy Lutomirski <luto@kernel.org>, stephen@networkplumber.org,
+        sdf@google.com
+Subject: Re: [RFC PATCH v2 00/11] Device Memory TCP
+Message-ID: <ZNULIDzuVVyfyMq2@ziepe.ca>
 References: <20230810015751.3297321-1-almasrymina@google.com>
- <20230810015751.3297321-2-almasrymina@google.com>
-From:   "Samudrala, Sridhar" <sridhar.samudrala@intel.com>
-In-Reply-To: <20230810015751.3297321-2-almasrymina@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0319.namprd03.prod.outlook.com
- (2603:10b6:303:dd::24) To PH0PR11MB4886.namprd11.prod.outlook.com
- (2603:10b6:510:33::22)
+ <1009bd5b-d577-ca7b-8eff-192ee89ad67d@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB4886:EE_|SN7PR11MB8282:EE_
-X-MS-Office365-Filtering-Correlation-Id: 26475419-15a5-4b98-9151-08db99bb8eb0
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ODKVx7uRQCurVgPpeEy5o8JrJHWnSA6yQzNgLHXIKwIf3vbU4eIaQrTW7RhXD8guxaF+mkX+NkSj2NYMDgowuRzY4z9LCUp0+W6x89joFfowkdg7qpvZ/EoOeeXX8y6Zd7/VpkJt8gvGGCfyHKROgx9W9RqDl5p5y9xPLpY2DO8ozdkj2Zb/xcAmihFxnv5ZurzkTfF4SBo46SNuV9aDc1qLXdbl+4NOkZBe+T4FAQtaBuopnc7eYRMT0kSvmysV24X0pds3F2k8oXTejG5LPQT+O/E4ccObwopkadT8PQ36xhLDBNbm5/WV0aJ3CVXy24Ev+9KKxFcxvz15Pwx6X8X4V0jCkrnOSgkzuek+IcVUDCl2lzVLzwEVTxI+WYzcDXSBlA1JywbzRZNvwBtA5QFn5aiDekwRvPnFfaAr698miBZtK3AVEG+bgDkX70DA3LckKoqSbco+G0yxMjFinX7sDUZZRqDJnrfZvzSt4jF2jE0j2Nnr8eY+zuMP6gSqHk414bZYyfZh7cR0MsmMqWS0bjLnRRexGhErHaHMMsHi2MJgkzhu3WlNJFlgq3G+j+F0j2bNUMpEbCJiTNUrl93vHuB94QLzjgy5kxxsNgSPC2btQqFtSh7i/6r7UQObTgkk6x+SL2LSMuVns/08Iw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB4886.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(366004)(136003)(39860400002)(346002)(396003)(186006)(1800799006)(451199021)(66476007)(66556008)(54906003)(66946007)(41300700001)(8676002)(316002)(8936002)(966005)(6486002)(86362001)(2616005)(38100700002)(31696002)(26005)(82960400001)(6512007)(4326008)(6666004)(53546011)(6506007)(107886003)(36756003)(478600001)(31686004)(7416002)(5660300002)(2906002)(4744005)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0h2WjNMRmJNeTdmb3ZmWFpaS0hMZ1dqRmRTM0N1MmE5Z0lxNGtVNTVjcXpR?=
- =?utf-8?B?Qmd5UzRDY09aZWpaYjMvMmFHVDJUcjhKQmt2VDIwRmFyNjUyQlVoajFadWJ0?=
- =?utf-8?B?QjJyZTROa2IxMkxGMlAzWFpYTWYyQWZmMjlQRmg0Z1BQZlY3bHVxNTdObCtG?=
- =?utf-8?B?WGc3RnFPUHgxWkpRSlpYVkpyL04wMDRGQkhpYmsyRWVQZHlBcHRmS0hrRFZn?=
- =?utf-8?B?WkV6Y2dXd2VEZmpCQjQ0ZXBlV2Q5dEdaY3cxaURnUnhsUno0V29qYUkxMGVU?=
- =?utf-8?B?Ymo4ZTdVa3pYUDFJL2YxNVFHdjBPc3FiMzNYVXNVdDVGeU1YakoySXNDeE5K?=
- =?utf-8?B?RURRRFlPVmdZb3RPQUZSZ2dzdWxHeVF6Vi9vbm9vQlZKdHYrS1lIaDgyaWpM?=
- =?utf-8?B?SGZ6UXdXMDVZUDhwRXJ4NmMxZzArUUNVMUc2Z3JJbk01NTU5emtxaklyOWZ5?=
- =?utf-8?B?TmdlTEJxcHUxV1dSZXJvZjliUHh0WlNnK1BTcmFkbk5NYXFXemdmQytDMGRo?=
- =?utf-8?B?ZjRPN2IycWxkTWljS3BkcDdLYkZWZFVDZ0w1UWtTSlFndnZOdkhoMVpnTzN1?=
- =?utf-8?B?WDJCb3ZraTBraVVZVW1mNmtwV2lRQkZUZzR0ajB5Y09PSSthK1A1OGx1WTl0?=
- =?utf-8?B?UitFYmpWZEpLTjdHbitDeVhnbjdDMGxBZnRpM3ZqM1hhV0cweHAzVjhJMkVv?=
- =?utf-8?B?RDN0cEVZT2FaR0JjRkp3dkV3VkoxcGNFeFhQc3BNZlR0YzFhTDUvVGJkZlp5?=
- =?utf-8?B?aWV5YWkwMjlOVGFZTEZZak4wQ2wzT2Y5Y1hDU3EvRnJrRHZaMzJBMThqaTBx?=
- =?utf-8?B?bjBGM2JTWGY5ZTBWbjZEM3Bma21hQWpYelN2S25xNHUzL1V2VVM4NS9kTGRE?=
- =?utf-8?B?b05kOTF4SExERDBGQkQ3YUNqMGwwY1V2QTBnSDhHWmdhM2tIS2FlZy9JZmlF?=
- =?utf-8?B?bGJZTWxyUWVwRWY1U2hlZGtNOU41anJPNXpQSDZoRHpuUC9IV0IrQWlYN0ow?=
- =?utf-8?B?eWhnbDJiNXJONUYwMTZ5Nit5UTVwc2RpdHRsZmdTaGplYVBrVDhMOTQ3L0to?=
- =?utf-8?B?NFNuVG1zL2gvV0M5Q3l2TVIvWFVLNWxsYWpGY0ROMmh1SmJOUHZobWdUdzBa?=
- =?utf-8?B?RHJFRGdqMG5LRjJ4cTNjZFc4dDhlTlduWGdxUFhvZ1BYL0pucWVMcTJjY1Ny?=
- =?utf-8?B?TWlCNXZnQUR6SEkvaWo2V1N0bzZEZ2dFR2JMMzBZY0g0RlA2UUpjSFpXVkhh?=
- =?utf-8?B?aXFNQkNucVcxbzU4Nmh6NUJrQ2xoQlF1dW0rWmJsR014QzJlUE1DdmhPUTBW?=
- =?utf-8?B?QWRSTFFJRXliRVRLcDdKTTh4VFRpcUZqSE1jcCt2TWM5bEJXTkc0b0xlZ0NN?=
- =?utf-8?B?bVRqYXRtVEpCRXY0bEtkQ05Od0RPR3RlTUxQZjI5OVVWclRVaUZORTF4ZnJ5?=
- =?utf-8?B?NEVHd0x0R01adHpJNjBVTVVBc2pUUzhxak93UDdNS3FnRWlxSno4VVpUbmlw?=
- =?utf-8?B?OUlVZDY2MWJDNVV2TGwzOXlhdnVnQi84QzNNZHRMZ3VXOVozNEVzTDlmRXVI?=
- =?utf-8?B?R2xHY0xaSmtvQ1ErVDVpQStEOXFmamZGWTVObzJyUGlBRDNwOUpBY04yQVpR?=
- =?utf-8?B?RElTTFdIMnBHVDVVNDlEZzV0eDgxSUJZZjIxTXpyRUYvb1h3NUJSdkc3MnZM?=
- =?utf-8?B?b3RMUHZyV2EweEFLcVNNa1Q0M3NJc3JSRnF2YzNtb0FBV1FwYVRZWGVLTlU2?=
- =?utf-8?B?V3phT21lZWg0Nk5OeU1QdWZOc0hnemRRUVF0aGh6dEswMFpBWkhPbmtjZytv?=
- =?utf-8?B?K2Y0a20wdVkrRUZHU21pRTJjMUdsc1EvMUdyb1Ayb1J0NmhrdjlmS0EyUTBK?=
- =?utf-8?B?bFZIdU5SdHV1QmlOSmxHOXAzMkJ1K29YWXl0UldNS2hpSlJtS1NlNWhENG1B?=
- =?utf-8?B?UGl6RE9sM3NuTGJMSEROYmh0SUFESUU3djZQUzFPTGJZcVloZkY2aGZqS3Zj?=
- =?utf-8?B?cnppQnlobk54c3hHcjl0Yng2K3MrVi81d3hraFAzTzZ4RERhTDRHV3d0VkFt?=
- =?utf-8?B?WlU3YmQrMXVnYmdjSTFiRGJScmsvUWhCMkpXaUhYc2ZBSGxKYmptMmFCVGhC?=
- =?utf-8?B?REFJaXVnNEJ3YmdLSlRpWHZteWxuZnJ4T2ZxcmV0cWl1cjJsZjlIaUJRZkRS?=
- =?utf-8?B?alE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26475419-15a5-4b98-9151-08db99bb8eb0
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4886.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2023 16:05:03.6976
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CCg5Zk+r6w/IjLVgzNyE3rVCUZU6lxdcbI5+BQlMzrLM3JXSXfUjiDTpN+Ek0ep9Q4f3RH2SJMPBY/348SRGqpVyt+BPnmNpJwdgWL9nQBo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8282
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1009bd5b-d577-ca7b-8eff-192ee89ad67d@amd.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Aug 10, 2023 at 12:29:08PM +0200, Christian König wrote:
+> Am 10.08.23 um 03:57 schrieb Mina Almasry:
+> > Changes in RFC v2:
+> > ------------------
+> > 
+> > The sticking point in RFC v1[1] was the dma-buf pages approach we used to
+> > deliver the device memory to the TCP stack. RFC v2 is a proof-of-concept
+> > that attempts to resolve this by implementing scatterlist support in the
+> > networking stack, such that we can import the dma-buf scatterlist
+> > directly.
+> 
+> Impressive work, I didn't thought that this would be possible that "easily".
+> 
+> Please note that we have considered replacing scatterlists with simple
+> arrays of DMA-addresses in the DMA-buf framework to avoid people trying to
+> access the struct page inside the scatterlist.
+> 
+> It might be a good idea to push for that first before this here is finally
+> implemented.
+> 
+> GPU drivers already convert the scatterlist used to arrays of DMA-addresses
+> as soon as they get them. This leaves RDMA and V4L as the other two main
+> users which would need to be converted.
 
+Oh that would be a nightmare for RDMA.
 
-On 8/9/2023 6:57 PM, Mina Almasry wrote:
-> API takes the dma-buf fd as input, and binds it to the netdevice. The
-> user can specify the rx queue to bind the dma-buf to. The user should be
-> able to bind the same dma-buf to multiple queues, but that is left as
-> a (minor) TODO in this iteration.
+We need a standard based way to have scalable lists of DMA addresses :(
 
-To support binding dma-buf fd to multiple queues, can we extend/change 
-this interface to bind dma-buf fd to a napi_id? Amritha is currently 
-working on a patchset that exposes napi_id's and their association with 
-the queues.
+> > 2. Netlink API (Patch 1 & 2).
+> 
+> How does netlink manage the lifetime of objects?
 
-https://lore.kernel.org/netdev/169059098829.3736.381753570945338022.stgit@anambiarhost.jf.intel.com/
+And access control..
 
+Jason
