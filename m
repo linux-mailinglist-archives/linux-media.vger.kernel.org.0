@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E291D7776E6
-	for <lists+linux-media@lfdr.de>; Thu, 10 Aug 2023 13:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B86D777708
+	for <lists+linux-media@lfdr.de>; Thu, 10 Aug 2023 13:31:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234567AbjHJL03 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Aug 2023 07:26:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54038 "EHLO
+        id S235020AbjHJLbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Aug 2023 07:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234385AbjHJL02 (ORCPT
+        with ESMTP id S234954AbjHJLbN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Aug 2023 07:26:28 -0400
+        Thu, 10 Aug 2023 07:31:13 -0400
 Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84213269F
-        for <linux-media@vger.kernel.org>; Thu, 10 Aug 2023 04:26:26 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fe4b95c371so4409575e9.1
-        for <linux-media@vger.kernel.org>; Thu, 10 Aug 2023 04:26:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C23210DC
+        for <linux-media@vger.kernel.org>; Thu, 10 Aug 2023 04:31:12 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fe426b86a8so7131335e9.3
+        for <linux-media@vger.kernel.org>; Thu, 10 Aug 2023 04:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691666785; x=1692271585;
+        d=linaro.org; s=google; t=1691667071; x=1692271871;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0tTnJRznSRZRdOph0O6zcCrYZpGpbt3RxvxZjdVmHkE=;
-        b=fKJ+XgKfS6t6OZDf5M7jPUsCyW9CxjMy/rf5IpsMyVGixbslL5/c8+CUJ+pDk7tHoa
-         V/JUS2s0qjrb8TP01tAcL0IcZ8nIuK0TX3bIQ4J6vUorWnmDmJDtpOR6R8JQSNFzDZlY
-         LOYoRSc3UzkxNvrE4Sebp/Frl0mAnRt4+H5sX1rsq/Lx1iMtyq9MakfrVXzpxSOnzjUH
-         PaeH7rWr9u4HkiJdSbkqvoCKE4IArcLZU6ef/2qZVCpIj4e7Spx4VTAmVcIswwyLIyrS
-         ZMRjj5yg3V4yGMTXu4mys6kQi65osuj0z7DD+ZvJkDiStuGoigYzxgr4n7zmr8qu0pmR
-         2m7g==
+        bh=3RXPprJU2hE5cjuYnx4i6Sk1OK80+5yCKiP5CQ+QSgM=;
+        b=iHF2MTU5fL8hJmdrBzYuTDiTez4b+1cyTh51MWBygiHIGstB79dxwzTB2UpKguaPnv
+         mYhPMMCrBzaZUl4dkAw7An9j4KAUZe6AE38e6Qx8huGrEZ3SqQP3VboHcogkhB7ts2o2
+         abIsgI8h7upMpFwml6siZTv81Ms63FP4nlxDIAsPCaUI9UYFBClborQFOHHjgR4IWfw6
+         OOzEQYWw+ywLBi6WYE1WfPGfd/e6Fs8DJaBih2HAZXGgiw1YKmxUY98mqozGXCi7LW2h
+         MFzNCj++scnSkxiXk/VKN30pMezoAR9LLAHOnjSFl/Afg2RH+vRj+U13bsTKVk2vDG94
+         enTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691666785; x=1692271585;
+        d=1e100.net; s=20221208; t=1691667071; x=1692271871;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0tTnJRznSRZRdOph0O6zcCrYZpGpbt3RxvxZjdVmHkE=;
-        b=Va5NQibbS+DAuIP3ePdbiCxXuOR8+Z47CsrEm6vduViBGD0PE3G1JjGFh2tfvNGEHS
-         TBkwDwPQokeQWwr0V1km3Ej2his7r1ihil+Y0GBSN0zQmmyimReMPP2/gDdGvN+anFn+
-         j13FLrdwmpUgI6h5buAQ02Ar5K6wPNEb0KmDvkVvewxV70zuFCX+M77z87ZjqM9FVKXZ
-         cfbKZyBjQLu3XbQaaVWsoOj9Wdup343Jiin+/XBmtKhez5KpqrLqHxse1YWOiTY8tBlX
-         xDEpxq/tFIZ0476JUYdAX1o5D0t86movL5iYVrIxSCWSLuqWby0gmkXyy822y4jrrD7f
-         McUw==
-X-Gm-Message-State: AOJu0YxX6+3EU7ZbbU7wvSzriF8PPYm3y85053/ls53lkeLECcqEC3cy
-        RiyqqvJ00Ivd4WVOcw0UGfsyMQ==
-X-Google-Smtp-Source: AGHT+IHdFYAAEgnvQD6jGM2SnDVCS+3Wzj/A1stVZmaHIXLVFIBuw9so+aEaH6Q6sDmmr8ES3lrCEw==
-X-Received: by 2002:a05:600c:a3a1:b0:3fb:b18a:f32d with SMTP id hn33-20020a05600ca3a100b003fbb18af32dmr1453763wmb.17.1691666785048;
-        Thu, 10 Aug 2023 04:26:25 -0700 (PDT)
+        bh=3RXPprJU2hE5cjuYnx4i6Sk1OK80+5yCKiP5CQ+QSgM=;
+        b=XCgFhRcYcuxzpveaVs7cCJlN+mYLXdEcGLY+5MHzi5MVcXmjD+RnK5sdy8RtjQqjje
+         CWba5iYm0kOwSxmiwFSCaNh2eaMIyRAjezI8H9sH/xn0oof7eHcCxzsVcBXalt3+mnZw
+         ysjuMiVq11iVr0jrMnoAuBl/E5Jt2F6UbFL604YtvdxQtT46SKvPRNBh/3ISM5sVfA8N
+         lI9KOg3jaO0+egZjMc1WsIl++s2wFIRW22N0WTNhA5ZEeKcj9s/JxagyE03AEl4jY+Zs
+         YXYFldALBSaDtxou1wh+vUUocAzs3reMfoJ+Dqx1IZrz8/qxoyzJ6lyinlddrIGjl+8y
+         cNUQ==
+X-Gm-Message-State: AOJu0YwBK03albBSLmcNpMXT5Kl0J23Es5hdAHtw0+1pB2PZG6FYFHFQ
+        6Q6WT1es+vy0jYmOJKddVkTVXg==
+X-Google-Smtp-Source: AGHT+IGgoU7CaH3jrKEgzmN3TkhCvzlo2bonJN+g/P6j6+GtXJDgXP7CtM9BrRR4HEoPTcmlS4OBlQ==
+X-Received: by 2002:a7b:c859:0:b0:3fe:1232:93fa with SMTP id c25-20020a7bc859000000b003fe123293famr1692343wml.22.1691667071069;
+        Thu, 10 Aug 2023 04:31:11 -0700 (PDT)
 Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id o13-20020a05600c378d00b003fe2de3f94fsm1839494wmr.12.2023.08.10.04.26.23
+        by smtp.gmail.com with ESMTPSA id x1-20020a05600c21c100b003fe1e3937aesm1831728wmj.20.2023.08.10.04.31.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Aug 2023 04:26:24 -0700 (PDT)
-Message-ID: <e8b53000-8640-5345-1d8f-2a75f2ee0805@linaro.org>
-Date:   Thu, 10 Aug 2023 12:26:23 +0100
+        Thu, 10 Aug 2023 04:31:10 -0700 (PDT)
+Message-ID: <59b61d65-a827-d252-cdc2-a256f99cb4d9@linaro.org>
+Date:   Thu, 10 Aug 2023 12:31:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/4] venus: hfi: fix the check to handle session buffer
- requirement
+Subject: Re: [PATCH v2 3/4] venus: hfi: add checks to handle capabilities from
+ firmware
 Content-Language: en-US
 To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
         stanimir.k.varbanov@gmail.com, agross@kernel.org,
@@ -65,9 +65,9 @@ To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, stable@vger.kernel.org
 References: <1691634304-2158-1-git-send-email-quic_vgarodia@quicinc.com>
- <1691634304-2158-3-git-send-email-quic_vgarodia@quicinc.com>
+ <1691634304-2158-4-git-send-email-quic_vgarodia@quicinc.com>
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <1691634304-2158-3-git-send-email-quic_vgarodia@quicinc.com>
+In-Reply-To: <1691634304-2158-4-git-send-email-quic_vgarodia@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -81,31 +81,45 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 10/08/2023 03:25, Vikash Garodia wrote:
-> Buffer requirement, for different buffer type, comes from video firmware.
-> While copying these requirements, there is an OOB possibility when the
-> payload from firmware is more than expected size. Fix the check to avoid
-> the OOB possibility.
+> The hfi parser, parses the capabilities received from venus firmware and
+> copies them to core capabilities. Consider below api, for example,
+> fill_caps - In this api, caps in core structure gets updated with the
+> number of capabilities received in firmware data payload. If the same api
+> is called multiple times, there is a possibility of copying beyond the max
+> allocated size in core caps.
+> Similar possibilities in fill_raw_fmts and fill_profile_level functions.
 > 
 > Cc: stable@vger.kernel.org
-> Fixes: 09c2845e8fe4 ("[media] media: venus: hfi: add Host Firmware Interface (HFI)")
-> Reviewed-by: Nathan Hebert <nhebert@chromium.org>
+> Fixes: 1a73374a04e5 ("media: venus: hfi_parser: add common capability parser")
 > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
->   drivers/media/platform/qcom/venus/hfi_msgs.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/media/platform/qcom/venus/hfi_parser.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
 > 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> index 3d5dadf..3e85bd8 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> @@ -398,7 +398,7 @@ session_get_prop_buf_req(struct hfi_msg_session_property_info_pkt *pkt,
->   		memcpy(&bufreq[idx], buf_req, sizeof(*bufreq));
->   		idx++;
+> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+> index 6cf74b2..9d6ba22 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+> @@ -86,6 +86,9 @@ static void fill_profile_level(struct hfi_plat_caps *cap, const void *data,
+>   {
+>   	const struct hfi_profile_level *pl = data;
 >   
-> -		if (idx > HFI_BUFFER_TYPE_MAX)
-> +		if (idx >= HFI_BUFFER_TYPE_MAX)
->   			return HFI_ERR_SESSION_INVALID_PARAMETER;
->   
->   		req_bytes -= sizeof(struct hfi_buffer_requirements);
+> +	if (cap->num_pl + num >= HFI_MAX_PROFILE_COUNT)
+> +		return;
+> +
+>   	memcpy(&cap->pl[cap->num_pl], pl, num * sizeof(*pl));
+>   	cap->num_pl += num;
+>   }
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Why append and discard though ?
+
+Couldn't we reset/reinitalise the relevant indexes in hfi_sys_init_done() ?
+
+Can subsequent notifications from the firmware give a new capability set 
+? Presumably not.
+
+IMO though instead of throwing away the new data, we should throw away 
+the old data, no ?
+
+---
+bod
