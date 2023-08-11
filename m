@@ -2,190 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E827F778D36
-	for <lists+linux-media@lfdr.de>; Fri, 11 Aug 2023 13:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ADF6778E2E
+	for <lists+linux-media@lfdr.de>; Fri, 11 Aug 2023 13:48:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236161AbjHKLMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Aug 2023 07:12:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60210 "EHLO
+        id S232238AbjHKLsw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Aug 2023 07:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233928AbjHKLMs (ORCPT
+        with ESMTP id S235203AbjHKLsq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Aug 2023 07:12:48 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED6F5E64
-        for <linux-media@vger.kernel.org>; Fri, 11 Aug 2023 04:12:42 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fe4762173bso2991241e87.3
-        for <linux-media@vger.kernel.org>; Fri, 11 Aug 2023 04:12:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691752361; x=1692357161;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cZU6zi2nPFzYLNoD/G2lzwzZB0LUCeWtjqe+ZzV6G1g=;
-        b=vOIfIHBPyS0NU/kYqHQxLPGm6HTJRG4Oj4vnVzUkG1zOivm8As+n26T8YZ2Lyy8rin
-         al5t+SM3jqP57I3vERvtQgB6x5uE9npApfqYDag9BpV/Qr5E6aEdXfdylt7TP9aRvRoO
-         BF23I/8JyFL7TNQJp3E396X2ofleNygIRxNUQD8zc24CCXXIoguUZ1XjsPkQBcKo1Wpa
-         WMWUdbaKYHxMIf0GY+UmUCN9IyS99wPbKY0NVGfh9FDZDxg5s8fUnBb6HmvnwqDPO/8+
-         Ohl0RFzkgfGaNH1jtr0YGUf+X8M244uZ5R7r5ATUqKGxcEJ0Cqf2+T6e4vIASFiN7MUw
-         zisA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691752361; x=1692357161;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cZU6zi2nPFzYLNoD/G2lzwzZB0LUCeWtjqe+ZzV6G1g=;
-        b=ZRNlqRohvwkqib+mi+Aq0P7lpW+jqvuL3UmB4R/qECx1qMDSJoLJd6s8MvVA0SH3pp
-         epfgXG0DBr257kVX0BmFMqNExaSwswrG1S1wUTaEshGdwqJRZTZcoQFC2TuR9WBzmWMa
-         9pv54sefW9fIKWvn/slzQqnGx2wGyec181haVlRHhTGVENwszW0y8mmXhQPtSbQ5cahV
-         UOJpo0pSq+OJ5lRjujrHkaCbCM8Aa0jhey+yzKqOp8zcrSlbaKEcmrqIOqGCn7NlWJnO
-         pwPKaseSXB1ZW7HgVlyEH4KPGKk6b4UZnctkKygNQhO6qsRWlF11Ylicl3jC574mIcTk
-         TtRA==
-X-Gm-Message-State: AOJu0YwBVSgVM9wwGlbafpo7ljQTF8XkcKDCfI9Up72S8zyXwcj6FDkA
-        MiNBf92KelYDl6iT7rq3RwvmRg==
-X-Google-Smtp-Source: AGHT+IEZHbUb7GrSaO9dtbl5/CH1M6CKJ/V1RryGx0Mm+BnmseSTLxKoHhdZBXWWV4cYC+HLlTywhQ==
-X-Received: by 2002:a05:6512:3994:b0:4fe:958:88ad with SMTP id j20-20020a056512399400b004fe095888admr1530951lfu.10.1691752361092;
-        Fri, 11 Aug 2023 04:12:41 -0700 (PDT)
-Received: from [192.168.1.101] (abyj188.neoplus.adsl.tpnet.pl. [83.9.29.188])
-        by smtp.gmail.com with ESMTPSA id m8-20020ac24288000000b004fcddf3671dsm687780lfh.177.2023.08.11.04.12.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Aug 2023 04:12:40 -0700 (PDT)
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Fri, 11 Aug 2023 13:12:38 +0200
-Subject: [PATCH] media: venus: pm_helpers: Unify v3 and v4 venc/vdec_get
+        Fri, 11 Aug 2023 07:48:46 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E233EFB
+        for <linux-media@vger.kernel.org>; Fri, 11 Aug 2023 04:48:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691754525; x=1723290525;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oKpwrmED1pRx1XsZkuMuLKX5I70twYEP7w4zlPZhLXU=;
+  b=jraPc9hRaXfiBxTaUbj30L5ciaunCDha/WfaCQnVBXYBU7MCCQHH/tCS
+   3qPDLELGeIFQbh27Ml+Y856pHLIeD49cEOmTIZ/Kxx2VuP0SehwwsqGXP
+   jekuDvPF/rwpGlxs6OXkPVT25WtD6igkG7MA8YFEu5EQauSPvUC61YZLY
+   AMBGn1tRBJyqiNbqIBkruy5ZpOnM1/NBU5jBmC0k2jrayN82m1hWKqIYU
+   jRj2NYZi9oev/R/TB8ktFmJGC4fV8E/2nwuuTanBcStcl23JJwBtplC+z
+   cfIOPnGU7ObcQPblNL7pyjTPFtiUmrpo7vnfRu5bVnfRvlYUZQMC5DX+K
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="356619537"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="356619537"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 04:48:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="767647619"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="767647619"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 04:48:43 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 753231213C1;
+        Fri, 11 Aug 2023 14:48:40 +0300 (EEST)
+Date:   Fri, 11 Aug 2023 11:48:40 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>
+Subject: Re: [PATCH v3 03/10] media: mc: Add INTERNAL pad flag
+Message-ID: <ZNYgGKFncrwnn3qD@kekkonen.localdomain>
+References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
+ <20230808075538.3043934-4-sakari.ailus@linux.intel.com>
+ <e20a1335-6e6f-6c64-9640-8984c50338ca@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230811-topic-venus_dedup-v1-1-c4b4af499ef2@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAKYX1mQC/x2N0QqDMAwAf0XyvEBjYZT9yhijtnEGpJZmFUH89
- 4U93sFxJyg3YYXHcELjXVS2YkC3AdISy4dRsjGMbvQuEOF3q5Jw59L1nTn3ii7MFHz28U4E1k1
- RGacWS1qsLH1dTdbGsxz/0fN1XT+YbcsYeAAAAA==
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1691752359; l=2860;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=uyxymekY3d16mvMpRx8+gp/jIwxJUIC361Pq17TAh/M=;
- b=jcrrvya02orIr1hZgvW49M7Pw4iD9SyGsN8Giott5VDaCFr3j6WZh6tT1rNX+GKqmREo/LN6H
- FSdt3fc8RjJD6IYdB3nHhdOuW4O1PvhQ2NsRmvukXeVnHKpxvTpi6kl
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e20a1335-6e6f-6c64-9640-8984c50338ca@xs4all.nl>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-They do the same thing, except v3 and earlier are expected to have the
-old style of bindings (i.e. core clock per core under video-enc/decoder
-subnode).
+Hi Hans,
 
-Unify them to stop duplicating needlessly.
+On Tue, Aug 08, 2023 at 10:15:45AM +0200, Hans Verkuil wrote:
+> On 08/08/2023 09:55, Sakari Ailus wrote:
+> > Internal source pads will be used as routing endpoints in V4L2
+> > [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
+> > 
+> > Also prevent creating links to pads that have been flagged as internal.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  Documentation/userspace-api/media/glossary.rst             | 6 ++++++
+> >  Documentation/userspace-api/media/mediactl/media-types.rst | 6 ++++++
+> >  drivers/media/mc/mc-entity.c                               | 6 +++++-
+> >  include/uapi/linux/media.h                                 | 1 +
+> >  4 files changed, 18 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
+> > index 96a360edbf3b..f7b99a4527c7 100644
+> > --- a/Documentation/userspace-api/media/glossary.rst
+> > +++ b/Documentation/userspace-api/media/glossary.rst
+> > @@ -173,6 +173,12 @@ Glossary
+> >  	An integrated circuit that integrates all components of a computer
+> >  	or other electronic systems.
+> >  
+> > +_media-glossary-stream:
+> > +    Stream
+> > +	A distinct flow of data (image data or metadata) over a media pipeline
+> > +	from source to sink. A source may be e.g. an image sensor and a sink
+> > +	e.g. a memory buffer.
+> > +
+> >      V4L2 API
+> >  	**V4L2 userspace API**
+> >  
+> > diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > index 0ffeece1e0c8..28941da27790 100644
+> > --- a/Documentation/userspace-api/media/mediactl/media-types.rst
+> > +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
+> >  .. _MEDIA-PAD-FL-SINK:
+> >  .. _MEDIA-PAD-FL-SOURCE:
+> >  .. _MEDIA-PAD-FL-MUST-CONNECT:
+> > +.. _MEDIA-PAD-FL-INTERNAL:
+> >  
+> >  .. flat-table:: Media pad flags
+> >      :header-rows:  0
+> > @@ -382,6 +383,11 @@ Types and flags used to represent the media graph elements
+> >  	  when this flag isn't set; the absence of the flag doesn't imply
+> >  	  there is none.
+> >  
+> > +    *  -  ``MEDIA_PAD_FL_INTERNAL``
+> > +       -  The internal flag indicates an internal pad that has no external
+> > +	  connections. Such a pad shall not be connected with a link. The
+> > +	  internal flag indicates that the :ref:``stream
+> > +	  <media-glossary-stream>`` either starts or ends in the entity.
+> >  
+> >  One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
+> >  must be set for every pad.
+> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > index 4991281dcccc..03a9e0b8ebab 100644
+> > --- a/drivers/media/mc/mc-entity.c
+> > +++ b/drivers/media/mc/mc-entity.c
+> > @@ -1071,7 +1071,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
+> >  
+> >  	for (i = 0; i < entity->num_pads; i++) {
+> >  		if ((entity->pads[i].flags &
+> > -		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
+> > +		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
+> > +		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
+> >  			continue;
+> >  
+> >  		if (entity->pads[i].sig_type == sig_type)
+> > @@ -1094,6 +1095,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
+> >  		return -EINVAL;
+> >  	if (WARN_ON(!(source->pads[source_pad].flags & MEDIA_PAD_FL_SOURCE)))
+> >  		return -EINVAL;
+> > +	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_SOURCE &&
+> > +		    source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL))
+> 
+> Even though this code is correct, I prefer to have () around the 'x & y' parts.
+> It avoids confusion for the reader.
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/media/platform/qcom/venus/pm_helpers.c | 34 ++++++++------------------
- 1 file changed, 10 insertions(+), 24 deletions(-)
+There actually should be a check here that neither of the pads have
+internal flag set --- internal pads may not be connected by a link. I'll
+fix that for v4. This was actually a leftover from the "internal source"
+flag.
 
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index 48c9084bb4db..83d1e68bb9ca 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.c
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -295,6 +295,8 @@ static int core_get_v1(struct venus_core *core)
- {
- 	int ret;
- 
-+	legacy_binding = true;
-+
- 	ret = core_clks_get(core);
- 	if (ret)
- 		return ret;
-@@ -349,6 +351,9 @@ static int vdec_get_v3(struct device *dev)
- {
- 	struct venus_core *core = dev_get_drvdata(dev);
- 
-+	if (!legacy_binding)
-+		return 0;
-+
- 	return vcodec_clks_get(core, dev, core->vcodec0_clks,
- 			       core->res->vcodec0_clks);
- }
-@@ -374,6 +379,9 @@ static int venc_get_v3(struct device *dev)
- {
- 	struct venus_core *core = dev_get_drvdata(dev);
- 
-+	if (!legacy_binding)
-+		return 0;
-+
- 	return vcodec_clks_get(core, dev, core->vcodec1_clks,
- 			       core->res->vcodec1_clks);
- }
-@@ -764,17 +772,6 @@ static int coreid_power_v4(struct venus_inst *inst, int on)
- 	return ret;
- }
- 
--static int vdec_get_v4(struct device *dev)
--{
--	struct venus_core *core = dev_get_drvdata(dev);
--
--	if (!legacy_binding)
--		return 0;
--
--	return vcodec_clks_get(core, dev, core->vcodec0_clks,
--			       core->res->vcodec0_clks);
--}
--
- static void vdec_put_v4(struct device *dev)
- {
- 	struct venus_core *core = dev_get_drvdata(dev);
-@@ -809,17 +806,6 @@ static int vdec_power_v4(struct device *dev, int on)
- 	return ret;
- }
- 
--static int venc_get_v4(struct device *dev)
--{
--	struct venus_core *core = dev_get_drvdata(dev);
--
--	if (!legacy_binding)
--		return 0;
--
--	return vcodec_clks_get(core, dev, core->vcodec1_clks,
--			       core->res->vcodec1_clks);
--}
--
- static void venc_put_v4(struct device *dev)
- {
- 	struct venus_core *core = dev_get_drvdata(dev);
-@@ -1180,10 +1166,10 @@ static const struct venus_pm_ops pm_ops_v4 = {
- 	.core_get = core_get_v4,
- 	.core_put = core_put_v4,
- 	.core_power = core_power_v4,
--	.vdec_get = vdec_get_v4,
-+	.vdec_get = vdec_get_v3,
- 	.vdec_put = vdec_put_v4,
- 	.vdec_power = vdec_power_v4,
--	.venc_get = venc_get_v4,
-+	.venc_get = venc_get_v3,
- 	.venc_put = venc_put_v4,
- 	.venc_power = venc_power_v4,
- 	.coreid_power = coreid_power_v4,
+> 
+> Up to you, though.
 
----
-base-commit: 21ef7b1e17d039053edaeaf41142423810572741
-change-id: 20230811-topic-venus_dedup-08f183d3a611
+I'd prefer to keep it as-is. :-)
 
-Best regards,
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+Regards,
 
+Sakari Ailus
