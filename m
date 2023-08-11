@@ -2,94 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94729778A72
-	for <lists+linux-media@lfdr.de>; Fri, 11 Aug 2023 11:57:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DE5D778A7B
+	for <lists+linux-media@lfdr.de>; Fri, 11 Aug 2023 11:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232953AbjHKJ5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Aug 2023 05:57:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47616 "EHLO
+        id S235402AbjHKJ62 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Aug 2023 05:58:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjHKJ5V (ORCPT
+        with ESMTP id S235244AbjHKJ6T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Aug 2023 05:57:21 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF9182728;
-        Fri, 11 Aug 2023 02:57:20 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 4A09C1000CD; Fri, 11 Aug 2023 10:57:18 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1691747838; bh=3HIl4Pdh0akdtOgpVnRFUOW7CwtiPKkOA8CKhy7hI/A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Qkr8lCMAGEaqpCpngAHqvXTtpXOGS2bhOeWvr3pavCW7Hg8CyqLS1sg88amOsEiap
-         EIpGqPeRwQzLQZ9RhyHh0BPI7hVIvar6bUebjb0ztk85Ybk76L/BcH/Vo03HzuoMes
-         LgClZ+PuaoXPZHksxqSR3P6QBUFaoGiqSvZ1dmimYsO9JL9cSxcIwX1AKZZH6f2w7I
-         zNeiLHoLhNs1R4rwJWySqM1yNa004ctGBayIThlC+UG1GNWPL5c4cj0TOfxcGo18Kx
-         XMASHz1DbTSNOk/bAm8ccq27tU1vC5PtGzSRx54bqzZGBqNClc2xXSfnlQj8idYXbX
-         STJBe4e19p3Ug==
-Date:   Fri, 11 Aug 2023 10:57:18 +0100
-From:   Sean Young <sean@mess.org>
-To:     wuxilin123@gmail.com
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] media: rc: ir-spi: Correct regulator name
-Message-ID: <ZNYF/iGqrBQrV3IT@gofer.mess.org>
-References: <20230805-ir-spi-v1-1-33af4a556139@gmail.com>
+        Fri, 11 Aug 2023 05:58:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD72E30D2;
+        Fri, 11 Aug 2023 02:58:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4280166D49;
+        Fri, 11 Aug 2023 09:58:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67194C433CD;
+        Fri, 11 Aug 2023 09:58:15 +0000 (UTC)
+Message-ID: <87b8b82a-f9ff-f539-be46-a2ba8714395b@xs4all.nl>
+Date:   Fri, 11 Aug 2023 11:58:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230805-ir-spi-v1-1-33af4a556139@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] media: usb: go7007: Fix warning: passing freed memory
+ 'fw'
+Content-Language: en-US, nl
+To:     Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     skhan@linuxfoundation.org, ivan.orlov0322@gmail.com
+References: <20230809010026.GA4770@madhu-kernel>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230809010026.GA4770@madhu-kernel>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Aug 05, 2023 at 07:23:35PM +0800, Xilin Wu via B4 Relay wrote:
-> From: Xilin Wu <wuxilin123@gmail.com>
+On 09/08/2023 03:00, Madhumitha Prabakaran wrote:
+> Fix smatch warning - go7007_loader_probe() warn: passing freed memory 'fw'
 > 
-> The driver wrongly assumes regulator is called "irda_regulator"
-> instead of "power".
+> The 'fw' pointer is released using release_firmware(fw) and then being used
+> again in another request_firmware() call without being reassigned to a new
+> memory allocation. To resolve it, use separate variables for each request.
+
+Hmm, I don't get this smatch warning. And it doesn't appear to be an actual
+bug either, so that warning would be a false positive.
+
+I wonder if you tested with an older smatch version?
+
+Regards,
+
+	Hans
+
 > 
-> Change it to "power" to match device tree binding.
-> 
-> Signed-off-by: Xilin Wu <wuxilin123@gmail.com>
+> Signed-off-by: Madhumitha Prabakaran <madhumithabiw@gmail.com>
 > ---
->  drivers/media/rc/ir-spi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/usb/go7007/go7007-loader.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
-> index bbc81bed4f90..a447bb36100d 100644
-> --- a/drivers/media/rc/ir-spi.c
-> +++ b/drivers/media/rc/ir-spi.c
-> @@ -119,7 +119,7 @@ static int ir_spi_probe(struct spi_device *spi)
->  	if (!idata)
->  		return -ENOMEM;
+> diff --git a/drivers/media/usb/go7007/go7007-loader.c b/drivers/media/usb/go7007/go7007-loader.c
+> index 243aa0ad074c..5f5c425f4d45 100644
+> --- a/drivers/media/usb/go7007/go7007-loader.c
+> +++ b/drivers/media/usb/go7007/go7007-loader.c
+> @@ -35,7 +35,7 @@ static int go7007_loader_probe(struct usb_interface *interface,
+>  				const struct usb_device_id *id)
+>  {
+>  	struct usb_device *usbdev;
+> -	const struct firmware *fw;
+> +	const struct firmware *fw_1, *fw_2;
+>  	u16 vendor, product;
+>  	const char *fw1, *fw2;
+>  	int ret;
+> @@ -67,13 +67,13 @@ static int go7007_loader_probe(struct usb_interface *interface,
 >  
-> -	idata->regulator = devm_regulator_get(&spi->dev, "irda_regulator");
-> +	idata->regulator = devm_regulator_get(&spi->dev, "power");
-
-I agree that irda_regulator is not a great name and it probably should have
-been picked up in review. However, is it safe to change without breaking
-backwards compatibility?
-
-Rob, what do you think?
-
-Thanks
-Sean
-
->  	if (IS_ERR(idata->regulator))
->  		return PTR_ERR(idata->regulator);
+>  	dev_info(&interface->dev, "loading firmware %s\n", fw1);
 >  
-> 
-> ---
-> base-commit: 024ff300db33968c133435a146d51ac22db27374
-> change-id: 20230805-ir-spi-3473c5f34764
-> 
-> Best regards,
-> -- 
-> Xilin Wu <wuxilin123@gmail.com>
+> -	if (request_firmware(&fw, fw1, &usbdev->dev)) {
+> +	if (request_firmware(&fw_1, fw1, &usbdev->dev)) {
+>  		dev_err(&interface->dev,
+>  			"unable to load firmware from file \"%s\"\n", fw1);
+>  		goto failed2;
+>  	}
+> -	ret = cypress_load_firmware(usbdev, fw, CYPRESS_FX2);
+> -	release_firmware(fw);
+> +	ret = cypress_load_firmware(usbdev, fw_1, CYPRESS_FX2);
+> +	release_firmware(fw_1);
+>  	if (0 != ret) {
+>  		dev_err(&interface->dev, "loader download failed\n");
+>  		goto failed2;
+> @@ -82,13 +82,13 @@ static int go7007_loader_probe(struct usb_interface *interface,
+>  	if (fw2 == NULL)
+>  		return 0;
+>  
+> -	if (request_firmware(&fw, fw2, &usbdev->dev)) {
+> +	if (request_firmware(&fw_2, fw2, &usbdev->dev)) {
+>  		dev_err(&interface->dev,
+>  			"unable to load firmware from file \"%s\"\n", fw2);
+>  		goto failed2;
+>  	}
+> -	ret = cypress_load_firmware(usbdev, fw, CYPRESS_FX2);
+> -	release_firmware(fw);
+> +	ret = cypress_load_firmware(usbdev, fw_2, CYPRESS_FX2);
+> +	release_firmware(fw_2);
+>  	if (0 != ret) {
+>  		dev_err(&interface->dev, "firmware download failed\n");
+>  		goto failed2;
+
