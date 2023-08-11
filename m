@@ -2,333 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CA9E778C35
-	for <lists+linux-media@lfdr.de>; Fri, 11 Aug 2023 12:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F3D5778C60
+	for <lists+linux-media@lfdr.de>; Fri, 11 Aug 2023 12:48:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234975AbjHKKos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Aug 2023 06:44:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54056 "EHLO
+        id S236037AbjHKKsu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Aug 2023 06:48:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234069AbjHKKoq (ORCPT
+        with ESMTP id S235812AbjHKKsW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Aug 2023 06:44:46 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF3E12C
-        for <linux-media@vger.kernel.org>; Fri, 11 Aug 2023 03:44:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691750686; x=1723286686;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LEQrvtoib1rbvRYfpkhq9+Wnda+vuEaahoHEU5oSvu8=;
-  b=n/0/QJksE4bZBaJQIf2OBQH8TeTg5Cfbi+wZtYi2ggR4U/pBfG0rHgHv
-   0F2Iw6nSvGBTgC6WRkEKzasv980XnvaP81ZzaXgXICPkZYtcDm/DCh55N
-   qAykOwyyIATjs3AOrqeI8AqVixNTPGX01eVtMhS99dD86d4YaXc5T+6cB
-   1rQX3iDcgH4uwt8BI7pHPSuoefvo+YGkRm2mu6F3Y3cpo5w108Zi/UWmx
-   FqKbL/RPvY9iGsBadkT0hf+1PRk81SFDRAQvlmiKGP0f4TBoFI1QOqypP
-   Gvt1QWXuwvAd8mn/tNAQoQl+UEWQlGaLP9aoMpRZGmys934vz6BhsgpDU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="356610355"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="356610355"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 03:44:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="762161782"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="762161782"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 03:44:43 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id A6A8B11FAE0;
-        Fri, 11 Aug 2023 13:44:40 +0300 (EEST)
-Date:   Fri, 11 Aug 2023 10:44:40 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
+        Fri, 11 Aug 2023 06:48:22 -0400
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26B1E52;
+        Fri, 11 Aug 2023 03:48:18 -0700 (PDT)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37BAlecL078804;
+        Fri, 11 Aug 2023 05:47:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1691750860;
+        bh=gWdzohStJakm8fkiUaFNT/N6HgY5M+Mg9KxrYsNgKY8=;
+        h=From:To:CC:Subject:Date;
+        b=ygugaX7yJsQQiIP4bowxk+kvPZQbYVW2ZMiYsiwV8GNGwHD8FrUYeWf153qzay7LE
+         mlFvCuf3dPYS7S1WNDd3kMLNQNu0J/VOTcQ9B8b4znNr4irT5lAmy0ktGFWmHBbj42
+         13WlC4rKBWOo30ORm05sFEq2VOrw3pQChY2ozAxo=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37BAleKb110647
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 11 Aug 2023 05:47:40 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 11
+ Aug 2023 05:47:39 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 11 Aug 2023 05:47:39 -0500
+Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37BAlcMs008153;
+        Fri, 11 Aug 2023 05:47:39 -0500
+From:   Jai Luthra <j-luthra@ti.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>
-Subject: Re: [PATCH v3 10/10] media: uapi: v4l: Document source routes
-Message-ID: <ZNYRGA1KAzTrBmkX@kekkonen.localdomain>
-References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
- <20230808075538.3043934-11-sakari.ailus@linux.intel.com>
- <b91681ec-89e0-4347-c289-51498d8b3788@xs4all.nl>
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Benoit Parrot <bparrot@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>, <nm@ti.com>,
+        <devarsht@ti.com>, <j-luthra@ti.com>, <a-bhatia1@ti.com>,
+        Martyn Welch <martyn.welch@collabora.com>,
+        Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH v9 00/13] CSI2RX support on J721E and AM62
+Date:   Fri, 11 Aug 2023 16:17:22 +0530
+Message-ID: <20230811-upstream_csi-v9-0-8943f7a68a81@ti.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b91681ec-89e0-4347-c289-51498d8b3788@xs4all.nl>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4066; i=j-luthra@ti.com;
+ h=from:subject:message-id; bh=A6DGSRxxAnDtk2gp8ks/OfUKwbpzv+G2XLoFgp2gxyI=;
+ b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBk1g7xHLBPfJIO1L8TK4tpV5NjpwwsaVKRe8JWN
+ ZbAmAyw+DeJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZNYO8QAKCRBD3pH5JJpx
+ RXnPD/9tEogxFv/j/ywArVFE09Tgdm+i1/dt6g9UiNoLvTNy/VUOg8EUurtnzzyXYblMcvRrNxY
+ oF38LMa9YeiPyfEKQz46BW3bcAGl4XnV/wymPc6X7Vd2KIsmyLNKi8LRQZryKJ7eqVW/bpOp75q
+ 6iaYTnvxuJa+rXla8z0AQb59Y4uku31NjjuJxIzXq+Gtu7mtBndeNud2+ZCxMlj/56RHzEYJHYr
+ Ux8zdpDazhI5aA02r2n7bbWwnuKzdUQf6us2j7yU/cblebSOPsZutF1Taqo/5PnPLidQLudBjNe
+ kjcuXYANVl4wrkGqBOWv5UVeuO7q0yp/VqM2+4ovZkfEwySr6VwkLKNmznx7pOBQmWxbzvPYcX5
+ a/vbiTq79MJde1PlJwW0bGrId9ViNv6iJMcOJQbLR82cK+gnJak5B0GhTGJXjyrU4yMPY7bpEWj
+ cmA2wbOPZMQUYfJ9hSuOJoFBWddr0YF+tBIMKr3061WVPjJ6sckw7TaUFPqCPqU0QV1EVhFx7GE
+ 63+idltGqnnGEeS7RcS92OIypi69JUTrxKVdknHsWQSNLEAvsZwNwwM4iJR8//KzqTvDh+UsOQ9
+ 0akxBXW2Rdiz8mIarZ/k+6mC4JFypXNM2mqc9RU+njXp+4qgyzCYPvpSmsg+yf9FcgUh9zQi3AP
+ 2Xu45WN4tvWdX9Q==
+X-Developer-Key: i=j-luthra@ti.com; a=openpgp; fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+From: Pratyush Yadav <p.yadav@ti.com>
 
-Thank you for the review.
+Hi,
 
-On Tue, Aug 08, 2023 at 10:55:24AM +0200, Hans Verkuil wrote:
-> On 08/08/2023 09:55, Sakari Ailus wrote:
-> > Document how internal pads are used on source routes.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../userspace-api/media/v4l/dev-subdev.rst    | 179 ++++++++++++++++++
-> >  1 file changed, 179 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > index b023918177b5..27b0fe2dc83a 100644
-> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > @@ -551,6 +551,27 @@ A stream at a specific point in the media pipeline is identified by the
-> >  sub-device and a (pad, stream) pair. For sub-devices that do not support
-> >  multiplexed streams the 'stream' field is always 0.
-> >  
-> > +.. _v4l2-subdev-source-routes:
-> > +
-> > +Internal pads and source routes
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +Cases where a single sub-device source pad is traversed by multiple streams one
-> > +or more of which originate from within the sub-device itself are special as
-> > +there is no external sink pad for such routes. In those cases, the sources of
-> > +the internally generated streams are represented by internal sink pads, which
-> > +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
-> > +pad flag set.
-> > +
-> > +Internal pads have all the properties of an external pad, including formats and
-> > +selections. The format in this case is the source format of the stream. An
-> > +internal pad always has a single stream only (0).
-> > +
-> > +/Source routes/ are routes from an internal sink pad to a(n external) source
-> 
-> '/Source routes/' appears just like that in the generated documentation, that's
-> probably not what you intended.
+This series adds support for CSI2 capture on J721E. It includes some
+fixes to the Cadence CSI2RX driver, and adds the TI CSI2RX wrapper driver.
 
-This was intended to be *Source routes*. I'll address it in v4.
+This is the v9 of the below v8 series,
+https://lore.kernel.org/r/20230731-upstream_csi-v8-0-fb7d3661c2c9@ti.com
 
-> 
-> > +pad. Generally source routes are not modifiable but they can be activated and
-> > +deactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +<v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
-> > +
-> >  Interaction between routes, streams, formats and selections
-> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >  
-> > @@ -666,3 +687,161 @@ A common way to accomplish this is to start from the sensors and propagate the
-> >  configurations along the stream towards the receiver,
-> >  using :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
-> >  stream endpoint in each sub-device.
-> > +
-> > +Internal pads setup example
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +A simple example of a multiplexed stream setup might be as follows:
-> > +
-> > +- A CCS camera sensor source sub-device, with one sink pad (0), one source pad
-> 
-> Explain what 'CCS' means: probably a link to MIPI CCS is sufficient, but for newbies
-> 'CCS' doesn't provide any information.
-> 
-> > +  (1), an internal sink pad (2) that represents the source of embedded
-> 
-> So since the INTERNAL flag is associated with a sink pad, this is now called an
-> 'internal sink' instead of 'internal source' as it was before. I agree with that,
-> but note that the phrase 'internal source' is still used in several places,
-> including the cover letter. For the next version you post, please check for that
-> and change the terminology since mixing the two is very confusing :-)
+Testing logs: https://gist.github.com/jailuthra/eaeb3af3c65b67e1bc0d5db28180131d
 
-Are you referring to this patch? There don't seem to be any references to
-"intenal source pads" left.
+J721E CSI2RX driver can also be extended to support multi-stream
+capture, filtering different CSI Virtual Channels (VC) or Data Types
+(DT) to different DMA channels. A WIP series based on v7 is available
+for reference at https://github.com/jailuthra/linux/commits/csi_multi_wip
 
-> 
-> > +  data. There are two routes, one from the sink pad to the source, and another
-> > +  from the internal sink pad to the source pad. The embedded data stream needs
-> > +  to be enabled by activating the related route. The configuration of the rest
-> > +  of the CCS sub-devices is omitted from this example.
-> > +
-> > +- Multiplexer bridge (Bridge). The bridge has one sink pad, connected to the
-> > +  sensor (pad 0), and one source pad (pad 1), which outputs two streams.
-> > +
-> > +- Receiver in the SoC (Receiver). The receiver has a single sink pad (pad 0),
-> > +  connected to the bridge, and two source pads (pads 1-2), going to the DMA
-> > +  engine. The receiver demultiplexes the incoming streams to the source pads.
-> > +
-> > +- DMA Engines in the SoC (DMA Engine), one for each stream. Each DMA engine is
-> > +  connected to a single source pad in the receiver.
-> > +
-> > +The sensor, the bridge and the receiver are modeled as V4L2 sub-devices,
-> > +exposed to userspace via /dev/v4l-subdevX device nodes. The DMA engines are
-> > +modeled as V4L2 devices, exposed to userspace via /dev/videoX nodes.
-> > +
-> > +To configure this pipeline, the userspace must take the following steps:
-> > +
-> > +1) Set up media links between entities: connect the sensors to the bridge,
-> > +   bridge to the receiver, and the receiver to the DMA engines. This step does
-> > +   not differ from normal non-multiplexed media controller setup.
-> > +
-> > +2) Configure routing
-> > +
-> > +.. flat-table:: Camera sensor
-> > +    :header-rows: 1
-> > +
-> > +    * - Sink Pad/Stream
-> > +      - Source Pad/Stream
-> > +      - Routing Flags
-> > +      - Comments
-> > +    * - 0/0
-> > +      - 1/0
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Pixel data stream from the sink pad
-> 
-> Huh? It is a sensor subdev, so aren't both pixel data and metadata
-> coming from an internal sink?
+I will rebase the multi-stream patches on the current series (v9) and
+post them as RFC in the coming weeks.
 
-The CCS driver exposes three sub-devices, so in this case the sink pad
-isn't internal. Almost (?) all other sensor drivers have a single
-sub-device only, perhaps I'll change the example to align with one of
-those.
+Signed-off-by: Jai Luthra <j-luthra@ti.com>
+---
 
-> 
-> I think you are actually describing the internal subdev of a CCS
-> sensor here, but that is not clear from the description at all.
-> 
-> Since CCS sensors are relatively common (I think), it might be
-> good to give a fully fledged example.
-> 
-> But suppose you have a non-CCS sensor that generates the pixel data
-> and metadata, then you would have two internal sink pads and one
-> source pad for two streams, right?
-> 
-> And very simple sensors that currently just have a single source pad
-> could be describes as having an internal sink pad connected to the
-> source pad by a fixed route. But we don't do that, because it is
-> overkill. Correct? If so, then this might be useful information to add
-> to answer the question why some sensors have internal sinks and others
-> do not.
-> 
-> > +    * - 2/0
-> > +      - 1/1
-> > +      - **V4L2_SUBDEV_ROUTE_FL_ACTIVE**
-> > +      - Metadata stream from the internal sink pad
-> > +
-> > +.. flat-table:: Bridge routing table
-> > +    :header-rows: 1
-> > +
-> > +    * - Sink Pad/Stream
-> > +      - Source Pad/Stream
-> > +      - Routing Flags
-> > +      - Comments
-> > +    * - 0/0
-> > +      - 1/0
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Pixel data stream from camera sensor
-> > +    * - 0/1
-> > +      - 1/1
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Metadata stream from camera sensor
-> > +
-> > +.. flat-table:: Receiver routing table
-> > +    :header-rows:  1
-> > +
-> > +    * - Sink Pad/Stream
-> > +      - Source Pad/Stream
-> > +      - Routing Flags
-> > +      - Comments
-> > +    * - 0/0
-> > +      - 1/0
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Pixel data stream from camera sensor
-> > +    * - 0/1
-> > +      - 2/0
-> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +      - Metadata stream from camera sensor
-> > +
-> > +The options available in sensor's routing configuration are dictated by hardware
-> > +capabilities: typically camera sensors always produce image data stream while
-> > +the embedded data stream typically can be either enabled or disabled.
-> > +
-> > +3) Configure formats and selections
-> > +
-> > +This example assumes that the formats are propagated from sink pad to the source
-> > +pad as-is. The tables contain fields of both struct v4l2_subdev_format and
-> > +struct v4l2_mbus_framefmt. The full configuration of CCS camera sensor is out of
-> > +scope of this example.
-> > +
-> > +.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
-> > +                static or propagated.
-> > +    :header-rows: 1
-> > +    :fill-cells:
-> > +
-> > +    * - Sub-device
-> > +      - Pad/Stream
-> > +      - Width
-> > +      - Height
-> > +      - Code
-> > +    * - :rspan:`3` Camera sensor sub-device (CCS source sub-device)
-> > +      - 0/0
-> > +      - 640
-> > +      - 480
-> > +      - MEDIA_BUS_FMT_SGRBG10
-> > +    * - 1/0
-> > +      - 640
-> > +      - 480
-> > +      - **MEDIA_BUS_FMT_SGRBG10**
-> > +    * - 2/0
-> > +      - 640
-> > +      - 2
-> > +      - MEDIA_BUS_FMT_CCS_EMBEDDED_10
-> > +    * - 1/1
-> > +      - 640
-> > +      - 2
-> > +      - MEDIA_BUS_FMT_META_10
-> > +    * - :rspan:`3` Bridge
-> > +      - 0/0
-> > +      - **640**
-> > +      - **480**
-> > +      - **MEDIA_BUS_FMT_SGRBG10**
-> > +    * - 1/0
-> > +      - 640
-> > +      - 480
-> > +      - MEDIA_BUS_FMT_SGRBG10
-> > +    * - 0/1
-> > +      - **640**
-> > +      - **2**
-> > +      - **MEDIA_BUS_FMT_META_10**
-> > +    * - 1/1
-> > +      - 640
-> > +      - 2
-> > +      - MEDIA_BUS_FMT_META_10
-> > +    * - :rspan:`3` Receiver
-> > +      - 0/0
-> > +      - **640**
-> > +      - **480**
-> > +      - **MEDIA_BUS_FMT_SGRBG10**
-> > +    * - 1/0
-> > +      - 640
-> > +      - 480
-> > +      - MEDIA_BUS_FMT_SGRBG10
-> > +    * - 0/1
-> > +      - **640**
-> > +      - **2**
-> > +      - **MEDIA_BUS_FMT_META_10**
-> > +    * - 2/0
-> > +      - 640
-> > +      - 2
-> > +      - MEDIA_BUS_FMT_META_10
-> > +
-> > +The embedded data format does not need to be configured as the format is
-> > +dictated by the pixel data format in this case.
+Changelog from v8
+=================
 
+Range-diff: https://0x0.st/H_xh.diff
+
+Dropped the following patches:
+[v8 01/16] media: subdev: Export get_format helper for link validation
+	- Using subdev's get_fmt directly instead
+[v8 04/16] media: cadence: Add support for TI SoCs
+	- Don't add a compatible if we are not using it in the driver
+[v8 14/16] media: cadence: csi2rx: Support RAW8 and RAW10 formats
+	- Squashed into a previous patch [v8 07/16]
+
+For [05/13] media: cadence: csi2rx: Add get_fmt and set_fmt pad ops:
+- Squash the patch adding RAW8 and RAW10 formats within this one
+- Single line struct entries in formats[] array
+- Skip specifiying redundant format.which entry in init_cfg()
+
+For [06/13] media: cadence: csi2rx: Configure DPHY using link freq:
+- Don't specify stream while calling .get_fmt()
+
+For [07/13] media: cadence: csi2rx: Soft reset the streams before starting capture:
+- Simplify reset sequence, minimizing delays
+
+For [08/13] media: cadence: csi2rx: Set the STOP bit when stopping a stream:
+- Better log message to avoid confusion between cadence streams and v4l2
+  streams
+
+For [13/13] media: ti: Add CSI2RX support for J721E:
+- Allocate drain buffer at start of stream instead of doing it in the
+  middle, and document why it is needed in comments
+- Call subdev's get_fmt directly for link_validation()
+- Cleanup height/width clamping and rounding code, document it in comments
+- Return and check errors from setup_shim()
+- s/subdev/source for cadence csi2rx's v4l2_subdev
+- s/ti_csi2rx_init_subdev/ti_csi2rx_notifier_register
+- Change copyright year/author list
+
+---
+Jai Luthra (1):
+      media: dt-bindings: cadence-csi2rx: Add TI compatible string
+
+Pratyush Yadav (12):
+      media: dt-bindings: Make sure items in data-lanes are unique
+      media: cadence: csi2rx: Unregister v4l2 async notifier
+      media: cadence: csi2rx: Cleanup media entity properly
+      media: cadence: csi2rx: Add get_fmt and set_fmt pad ops
+      media: cadence: csi2rx: Configure DPHY using link freq
+      media: cadence: csi2rx: Soft reset the streams before starting capture
+      media: cadence: csi2rx: Set the STOP bit when stopping a stream
+      media: cadence: csi2rx: Fix stream data configuration
+      media: cadence: csi2rx: Populate subdev devnode
+      media: cadence: csi2rx: Add link validation
+      media: dt-bindings: Add TI J721E CSI2RX
+      media: ti: Add CSI2RX support for J721E
+
+ .../devicetree/bindings/media/cdns,csi2rx.yaml     |    1 +
+ .../bindings/media/ti,j721e-csi2rx-shim.yaml       |  100 ++
+ .../bindings/media/video-interfaces.yaml           |    1 +
+ MAINTAINERS                                        |    7 +
+ drivers/media/platform/cadence/cdns-csi2rx.c       |  181 ++-
+ drivers/media/platform/ti/Kconfig                  |   12 +
+ drivers/media/platform/ti/Makefile                 |    1 +
+ drivers/media/platform/ti/j721e-csi2rx/Makefile    |    2 +
+ .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 1150 ++++++++++++++++++++
+ 9 files changed, 1448 insertions(+), 7 deletions(-)
+---
+base-commit: 21ef7b1e17d039053edaeaf41142423810572741
+change-id: 20230727-upstream_csi-acbeabe038d8
+
+Best regards,
 -- 
-Kind regards,
-
-Sakari Ailus
+Jai Luthra <j-luthra@ti.com>
