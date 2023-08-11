@@ -2,126 +2,333 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 591A4778C27
-	for <lists+linux-media@lfdr.de>; Fri, 11 Aug 2023 12:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CA9E778C35
+	for <lists+linux-media@lfdr.de>; Fri, 11 Aug 2023 12:44:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234425AbjHKKlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Aug 2023 06:41:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46632 "EHLO
+        id S234975AbjHKKos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Aug 2023 06:44:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230254AbjHKKll (ORCPT
+        with ESMTP id S234069AbjHKKoq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Aug 2023 06:41:41 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDEA110
-        for <linux-media@vger.kernel.org>; Fri, 11 Aug 2023 03:41:40 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-31956020336so602056f8f.0
-        for <linux-media@vger.kernel.org>; Fri, 11 Aug 2023 03:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691750499; x=1692355299;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RncF6ccyWdgiKANFFFDRTdDe2RHMHSG6x0t3CEmTPBc=;
-        b=zgFghbc3TnB5zV77tCtSvgULe6XORX612ZhELOiTxS9Z5kCfXgFNkcEPGmf3vd5c5y
-         idLe7HgE7ZUhRka5QdwCgjZCG20AbjSKAsgmivGH97AkCxyg4o9dqSAEiKDlIY5shZ0c
-         1lOu86MGtyqvb/sIRqg9VIHKHWRtBltIHDqx5V1dKV6aNCmxdXL9eLOuv3DGVwnpkukt
-         LrhMsEeMG4FmC5N9u9do2SQi7FfBTVS05cXBZqqFPfCB0SfwLz4SG4dxoFMN5CgiC0O6
-         1JHwJMGYR8ibZRRk5xYmXfOidPhdbH/wKsGKIOSZzHuWk9nx/ldtksRgUqUh+r+mp/QY
-         av1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691750499; x=1692355299;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RncF6ccyWdgiKANFFFDRTdDe2RHMHSG6x0t3CEmTPBc=;
-        b=Y6poqz4fqqofz1XC5LU/itjqeFS8aQzjg2olqcIeOMSJJQiXW9iL0GTSMuXeoQ2bfw
-         1tTUdn09tzbFxnLTNxACkRDJEuutKOO3wjYXQxXbFSAnI36+eseu9Uy61rnScx+3RaUc
-         UXWGG9GdVD1sfnxPcEVq7EeoZ7O1gmvdgUqadfbCMJQboN/5IY+QK7kaTX57XN7NE7Pu
-         ucRepKLPZrDR6qxWsi/nM8QJGKyuMjIhV2nAZY2T6zhktByMlnYaNTRvb1tjKAMO8TmC
-         ouDUyrgNW3BSvCbt32MBn77fEliS4B5OvQCFs/F1gM9Xfy2g5gsaJqJoQ/yb4J+V3qwv
-         LTpg==
-X-Gm-Message-State: AOJu0YwcZ0xAucn9ChFYS9tCzBSCb8ruxKx1L1V/QTY8kzyqoW3cn5Z7
-        +UfItQyC8Ik+OprtQpSzIw1qJw==
-X-Google-Smtp-Source: AGHT+IHHj4vcpFwgQZNe6OP5GFfkkYEm8iojN1TMcxqbt4fTf8CpEhLGaCo/Aq6a/Tws9yLqCchyHw==
-X-Received: by 2002:adf:f384:0:b0:317:de66:259b with SMTP id m4-20020adff384000000b00317de66259bmr4206750wro.15.1691750499215;
-        Fri, 11 Aug 2023 03:41:39 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id o11-20020a056000010b00b0031431fb40fasm5007824wrx.89.2023.08.11.03.41.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Aug 2023 03:41:38 -0700 (PDT)
-Message-ID: <8f1a4ca0-dde8-fa5d-bca3-d317886609de@linaro.org>
-Date:   Fri, 11 Aug 2023 11:41:37 +0100
+        Fri, 11 Aug 2023 06:44:46 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF3E12C
+        for <linux-media@vger.kernel.org>; Fri, 11 Aug 2023 03:44:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691750686; x=1723286686;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LEQrvtoib1rbvRYfpkhq9+Wnda+vuEaahoHEU5oSvu8=;
+  b=n/0/QJksE4bZBaJQIf2OBQH8TeTg5Cfbi+wZtYi2ggR4U/pBfG0rHgHv
+   0F2Iw6nSvGBTgC6WRkEKzasv980XnvaP81ZzaXgXICPkZYtcDm/DCh55N
+   qAykOwyyIATjs3AOrqeI8AqVixNTPGX01eVtMhS99dD86d4YaXc5T+6cB
+   1rQX3iDcgH4uwt8BI7pHPSuoefvo+YGkRm2mu6F3Y3cpo5w108Zi/UWmx
+   FqKbL/RPvY9iGsBadkT0hf+1PRk81SFDRAQvlmiKGP0f4TBoFI1QOqypP
+   Gvt1QWXuwvAd8mn/tNAQoQl+UEWQlGaLP9aoMpRZGmys934vz6BhsgpDU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="356610355"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="356610355"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 03:44:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="762161782"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="762161782"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 03:44:43 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id A6A8B11FAE0;
+        Fri, 11 Aug 2023 13:44:40 +0300 (EEST)
+Date:   Fri, 11 Aug 2023 10:44:40 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>
+Subject: Re: [PATCH v3 10/10] media: uapi: v4l: Document source routes
+Message-ID: <ZNYRGA1KAzTrBmkX@kekkonen.localdomain>
+References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
+ <20230808075538.3043934-11-sakari.ailus@linux.intel.com>
+ <b91681ec-89e0-4347-c289-51498d8b3788@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 4/4] venus: hfi_parser: Add check to keep the number of
- codecs within range
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hans.verkuil@cisco.com, tfiga@chromium.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <1691634304-2158-1-git-send-email-quic_vgarodia@quicinc.com>
- <1691634304-2158-5-git-send-email-quic_vgarodia@quicinc.com>
- <fec4a8c7-206f-7af8-4ea9-c919a677bf7e@linaro.org>
- <2214c31b-eca2-012e-a100-21252a724e7c@quicinc.com>
- <8b72ce47-c338-2061-f11a-c0a608686d8c@linaro.org>
- <e880da07-ccd4-e427-ed34-20b284dc7838@quicinc.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <e880da07-ccd4-e427-ed34-20b284dc7838@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b91681ec-89e0-4347-c289-51498d8b3788@xs4all.nl>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/08/2023 09:49, Vikash Garodia wrote:
-> 
-> On 8/11/2023 2:12 PM, Bryan O'Donoghue wrote:
->> On 11/08/2023 07:04, Vikash Garodia wrote:
->>>
->>> On 8/10/2023 5:03 PM, Bryan O'Donoghue wrote:
->>>> On 10/08/2023 03:25, Vikash Garodia wrote:
->>>>> +    if (hweight_long(core->dec_codecs) + hweight_long(core->enc_codecs) >
->>>>> MAX_CODEC_NUM)
->>>>> +        return;
->>>>> +
->>>>
->>>> Shouldn't this be >= ?
->>> Not needed. Lets take a hypothetical case when core->dec_codecs has initial 16
->>> (0-15) bits set and core->enc_codecs has next 16 bits (16-31) set. The bit count
->>> would be 32. The codec loop after this check would run on caps array index 0-31.
->>> I do not see a possibility for OOB access in this case.
->>>
->>>>
->>>> struct hfi_plat_caps caps[MAX_CODEC_NUM];
->>>>
->>>> ---
->>>> bod
->>>>
->>
->> Are you not doing a general defensive coding pass in this series ie
->>
->> "[PATCH v2 2/4] venus: hfi: fix the check to handle session buffer requirement"
-> 
-> In "PATCH v2 2/4", there is a possibility if the check does not consider "=".
-> Here in this patch, I do not see a possibility.
-> 
->>
->> ---
->> bod
+Hi Hans,
 
-But surely hweight_long(core->dec_codecs) + 
-hweight_long(core->enc_codecs) == MAX_CODEC_NUM is an invalid offset ?
+Thank you for the review.
 
----
-bod
+On Tue, Aug 08, 2023 at 10:55:24AM +0200, Hans Verkuil wrote:
+> On 08/08/2023 09:55, Sakari Ailus wrote:
+> > Document how internal pads are used on source routes.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../userspace-api/media/v4l/dev-subdev.rst    | 179 ++++++++++++++++++
+> >  1 file changed, 179 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > index b023918177b5..27b0fe2dc83a 100644
+> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > @@ -551,6 +551,27 @@ A stream at a specific point in the media pipeline is identified by the
+> >  sub-device and a (pad, stream) pair. For sub-devices that do not support
+> >  multiplexed streams the 'stream' field is always 0.
+> >  
+> > +.. _v4l2-subdev-source-routes:
+> > +
+> > +Internal pads and source routes
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +Cases where a single sub-device source pad is traversed by multiple streams one
+> > +or more of which originate from within the sub-device itself are special as
+> > +there is no external sink pad for such routes. In those cases, the sources of
+> > +the internally generated streams are represented by internal sink pads, which
+> > +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
+> > +pad flag set.
+> > +
+> > +Internal pads have all the properties of an external pad, including formats and
+> > +selections. The format in this case is the source format of the stream. An
+> > +internal pad always has a single stream only (0).
+> > +
+> > +/Source routes/ are routes from an internal sink pad to a(n external) source
+> 
+> '/Source routes/' appears just like that in the generated documentation, that's
+> probably not what you intended.
+
+This was intended to be *Source routes*. I'll address it in v4.
+
+> 
+> > +pad. Generally source routes are not modifiable but they can be activated and
+> > +deactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > +<v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
+> > +
+> >  Interaction between routes, streams, formats and selections
+> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> >  
+> > @@ -666,3 +687,161 @@ A common way to accomplish this is to start from the sensors and propagate the
+> >  configurations along the stream towards the receiver,
+> >  using :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
+> >  stream endpoint in each sub-device.
+> > +
+> > +Internal pads setup example
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +A simple example of a multiplexed stream setup might be as follows:
+> > +
+> > +- A CCS camera sensor source sub-device, with one sink pad (0), one source pad
+> 
+> Explain what 'CCS' means: probably a link to MIPI CCS is sufficient, but for newbies
+> 'CCS' doesn't provide any information.
+> 
+> > +  (1), an internal sink pad (2) that represents the source of embedded
+> 
+> So since the INTERNAL flag is associated with a sink pad, this is now called an
+> 'internal sink' instead of 'internal source' as it was before. I agree with that,
+> but note that the phrase 'internal source' is still used in several places,
+> including the cover letter. For the next version you post, please check for that
+> and change the terminology since mixing the two is very confusing :-)
+
+Are you referring to this patch? There don't seem to be any references to
+"intenal source pads" left.
+
+> 
+> > +  data. There are two routes, one from the sink pad to the source, and another
+> > +  from the internal sink pad to the source pad. The embedded data stream needs
+> > +  to be enabled by activating the related route. The configuration of the rest
+> > +  of the CCS sub-devices is omitted from this example.
+> > +
+> > +- Multiplexer bridge (Bridge). The bridge has one sink pad, connected to the
+> > +  sensor (pad 0), and one source pad (pad 1), which outputs two streams.
+> > +
+> > +- Receiver in the SoC (Receiver). The receiver has a single sink pad (pad 0),
+> > +  connected to the bridge, and two source pads (pads 1-2), going to the DMA
+> > +  engine. The receiver demultiplexes the incoming streams to the source pads.
+> > +
+> > +- DMA Engines in the SoC (DMA Engine), one for each stream. Each DMA engine is
+> > +  connected to a single source pad in the receiver.
+> > +
+> > +The sensor, the bridge and the receiver are modeled as V4L2 sub-devices,
+> > +exposed to userspace via /dev/v4l-subdevX device nodes. The DMA engines are
+> > +modeled as V4L2 devices, exposed to userspace via /dev/videoX nodes.
+> > +
+> > +To configure this pipeline, the userspace must take the following steps:
+> > +
+> > +1) Set up media links between entities: connect the sensors to the bridge,
+> > +   bridge to the receiver, and the receiver to the DMA engines. This step does
+> > +   not differ from normal non-multiplexed media controller setup.
+> > +
+> > +2) Configure routing
+> > +
+> > +.. flat-table:: Camera sensor
+> > +    :header-rows: 1
+> > +
+> > +    * - Sink Pad/Stream
+> > +      - Source Pad/Stream
+> > +      - Routing Flags
+> > +      - Comments
+> > +    * - 0/0
+> > +      - 1/0
+> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > +      - Pixel data stream from the sink pad
+> 
+> Huh? It is a sensor subdev, so aren't both pixel data and metadata
+> coming from an internal sink?
+
+The CCS driver exposes three sub-devices, so in this case the sink pad
+isn't internal. Almost (?) all other sensor drivers have a single
+sub-device only, perhaps I'll change the example to align with one of
+those.
+
+> 
+> I think you are actually describing the internal subdev of a CCS
+> sensor here, but that is not clear from the description at all.
+> 
+> Since CCS sensors are relatively common (I think), it might be
+> good to give a fully fledged example.
+> 
+> But suppose you have a non-CCS sensor that generates the pixel data
+> and metadata, then you would have two internal sink pads and one
+> source pad for two streams, right?
+> 
+> And very simple sensors that currently just have a single source pad
+> could be describes as having an internal sink pad connected to the
+> source pad by a fixed route. But we don't do that, because it is
+> overkill. Correct? If so, then this might be useful information to add
+> to answer the question why some sensors have internal sinks and others
+> do not.
+> 
+> > +    * - 2/0
+> > +      - 1/1
+> > +      - **V4L2_SUBDEV_ROUTE_FL_ACTIVE**
+> > +      - Metadata stream from the internal sink pad
+> > +
+> > +.. flat-table:: Bridge routing table
+> > +    :header-rows: 1
+> > +
+> > +    * - Sink Pad/Stream
+> > +      - Source Pad/Stream
+> > +      - Routing Flags
+> > +      - Comments
+> > +    * - 0/0
+> > +      - 1/0
+> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > +      - Pixel data stream from camera sensor
+> > +    * - 0/1
+> > +      - 1/1
+> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > +      - Metadata stream from camera sensor
+> > +
+> > +.. flat-table:: Receiver routing table
+> > +    :header-rows:  1
+> > +
+> > +    * - Sink Pad/Stream
+> > +      - Source Pad/Stream
+> > +      - Routing Flags
+> > +      - Comments
+> > +    * - 0/0
+> > +      - 1/0
+> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > +      - Pixel data stream from camera sensor
+> > +    * - 0/1
+> > +      - 2/0
+> > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > +      - Metadata stream from camera sensor
+> > +
+> > +The options available in sensor's routing configuration are dictated by hardware
+> > +capabilities: typically camera sensors always produce image data stream while
+> > +the embedded data stream typically can be either enabled or disabled.
+> > +
+> > +3) Configure formats and selections
+> > +
+> > +This example assumes that the formats are propagated from sink pad to the source
+> > +pad as-is. The tables contain fields of both struct v4l2_subdev_format and
+> > +struct v4l2_mbus_framefmt. The full configuration of CCS camera sensor is out of
+> > +scope of this example.
+> > +
+> > +.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
+> > +                static or propagated.
+> > +    :header-rows: 1
+> > +    :fill-cells:
+> > +
+> > +    * - Sub-device
+> > +      - Pad/Stream
+> > +      - Width
+> > +      - Height
+> > +      - Code
+> > +    * - :rspan:`3` Camera sensor sub-device (CCS source sub-device)
+> > +      - 0/0
+> > +      - 640
+> > +      - 480
+> > +      - MEDIA_BUS_FMT_SGRBG10
+> > +    * - 1/0
+> > +      - 640
+> > +      - 480
+> > +      - **MEDIA_BUS_FMT_SGRBG10**
+> > +    * - 2/0
+> > +      - 640
+> > +      - 2
+> > +      - MEDIA_BUS_FMT_CCS_EMBEDDED_10
+> > +    * - 1/1
+> > +      - 640
+> > +      - 2
+> > +      - MEDIA_BUS_FMT_META_10
+> > +    * - :rspan:`3` Bridge
+> > +      - 0/0
+> > +      - **640**
+> > +      - **480**
+> > +      - **MEDIA_BUS_FMT_SGRBG10**
+> > +    * - 1/0
+> > +      - 640
+> > +      - 480
+> > +      - MEDIA_BUS_FMT_SGRBG10
+> > +    * - 0/1
+> > +      - **640**
+> > +      - **2**
+> > +      - **MEDIA_BUS_FMT_META_10**
+> > +    * - 1/1
+> > +      - 640
+> > +      - 2
+> > +      - MEDIA_BUS_FMT_META_10
+> > +    * - :rspan:`3` Receiver
+> > +      - 0/0
+> > +      - **640**
+> > +      - **480**
+> > +      - **MEDIA_BUS_FMT_SGRBG10**
+> > +    * - 1/0
+> > +      - 640
+> > +      - 480
+> > +      - MEDIA_BUS_FMT_SGRBG10
+> > +    * - 0/1
+> > +      - **640**
+> > +      - **2**
+> > +      - **MEDIA_BUS_FMT_META_10**
+> > +    * - 2/0
+> > +      - 640
+> > +      - 2
+> > +      - MEDIA_BUS_FMT_META_10
+> > +
+> > +The embedded data format does not need to be configured as the format is
+> > +dictated by the pixel data format in this case.
+
+-- 
+Kind regards,
+
+Sakari Ailus
