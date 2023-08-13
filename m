@@ -2,136 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FDB277A652
-	for <lists+linux-media@lfdr.de>; Sun, 13 Aug 2023 14:15:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 223B477A679
+	for <lists+linux-media@lfdr.de>; Sun, 13 Aug 2023 15:14:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbjHMMPV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Aug 2023 08:15:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51888 "EHLO
+        id S230496AbjHMNO1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Aug 2023 09:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjHMMPU (ORCPT
+        with ESMTP id S229441AbjHMNO0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Aug 2023 08:15:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE091702
-        for <linux-media@vger.kernel.org>; Sun, 13 Aug 2023 05:14:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1691928876;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dmugjsA8FZEOjalRazZ5wFhN6kcXS5shyKkbplJZcqY=;
-        b=E/BNsatvXqVBkYGHbwUAJauzOIUWDQFFsXqricvlgviyNLNGSk1x2fukEOL6P3qnL2DSjy
-        K3ArRI1eKlI2A34THk0K7SP+lkT1CNQ9NaPEaFn+Wyh9teNFOVqbLSso7nX3BfT7IaGLet
-        2zqKVKknELAcEci586y97sDlj0l+W10=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-12-Yu4YBp-8MvKdd8f3hnhbkg-1; Sun, 13 Aug 2023 08:14:34 -0400
-X-MC-Unique: Yu4YBp-8MvKdd8f3hnhbkg-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-4fe6141914cso3003439e87.1
-        for <linux-media@vger.kernel.org>; Sun, 13 Aug 2023 05:14:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691928873; x=1692533673;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dmugjsA8FZEOjalRazZ5wFhN6kcXS5shyKkbplJZcqY=;
-        b=DxKYAWYvJH95dAgmDyTKE0nORfZheMY5qUwW1HHlftW91NCL8yuqxsKj9PQ0OIEaoY
-         3ZHL5L9WyqoAbO3r7Sk2lfbWHXiCuG/t4fhgsiYl9Czuir9VgiI4iz0K9uENDmdpn+oV
-         wszpzdmkh3C+ynq19S/aI9I2srTPblfDCxK4//M/sS3/EqLozlOR1bnZyMqvHoEpdzCE
-         1jpoM+Lt8Vx8PCZjVSI0xliAlTJizNUHbeHTNioQTxgx5W0yVWVYtKWdB1uyronpwSUS
-         Rodg13oS0bV7DXTN7T0wTDejxThShFuPpF4044J8gZVM9uhCw9k64u6+Wn65axUxF4v0
-         821g==
-X-Gm-Message-State: AOJu0YwQ/FMrjYNCn/G+zG+doASfgeUMwg2jOA/F2BgPlI6jsf4k4cBQ
-        T6gPaTZNxroTmz1OMaVhI47TwfGG+t/wdThKpa4VvREi9NyT8NYQjeN9uUSzMEY3gHZ0dCHv6hf
-        M2r4ErPOFj/H35hVrTIndAX7Bf3dhvLc=
-X-Received: by 2002:a05:6512:3e26:b0:4ff:7004:545e with SMTP id i38-20020a0565123e2600b004ff7004545emr1365672lfv.4.1691928873108;
-        Sun, 13 Aug 2023 05:14:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG5th2mtGQEuLIdrq+uZxJRyQAJhDgR3NgIxEgSmvSEXVTPabvOC++mBuWNe6S+9y1efRsK1Q==
-X-Received: by 2002:a05:6512:3e26:b0:4ff:7004:545e with SMTP id i38-20020a0565123e2600b004ff7004545emr1365664lfv.4.1691928872760;
-        Sun, 13 Aug 2023 05:14:32 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id i23-20020a170906265700b00991bba473e2sm4511951ejc.85.2023.08.13.05.14.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Aug 2023 05:14:32 -0700 (PDT)
-Message-ID: <62c59a37-c317-4c91-9576-56d2ab063c7d@redhat.com>
-Date:   Sun, 13 Aug 2023 14:14:31 +0200
+        Sun, 13 Aug 2023 09:14:26 -0400
+Received: from mx.treblig.org (unknown [IPv6:2a00:1098:5b::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F321710;
+        Sun, 13 Aug 2023 06:14:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+        ; s=bytemarkmx; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID
+        :Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID
+        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+        Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+        :List-Post:List-Owner:List-Archive;
+        bh=32c6Mm00cywxiQeEBwm2QcUwjGNrZK2x4F4KY6NgXho=; b=E7FGsiYTH3wPJ7Tmf2adP5WNyD
+        Cvv102lMqPh9YoKqH5L2ogeYt3RCS2/hUkkZmskEj/JhuCoRmRcYpUFYybYargIzOnUfDWxaKr7/6
+        BYnAc/XGL+tHscgWuishetwlPG+GvANno729NutZ85R/sTfZdPkcIW0gYb6oPtmjWi1MXvTcU3Bwj
+        BTG1b3+mCaL4yvhQa3qasMCnEzFKCYDaR2jatUnmC5o7dABQ/yvuTOqFuqJG1cSLJ5+9DoJWrvW9F
+        VtM/QAkcsu1UHGbFxCJY+K9U2GojcUcSxiuU5Kr2Q5VX+tW4s/oBZhhS9vTjAJS3o/M3w40N5OeY5
+        eeYHjumQ==;
+Received: from dg by mx.treblig.org with local (Exim 4.94.2)
+        (envelope-from <dg@treblig.org>)
+        id 1qVAvC-006cZ6-8i; Sun, 13 Aug 2023 13:14:18 +0000
+Date:   Sun, 13 Aug 2023 13:14:18 +0000
+From:   "Dr. David Alan Gilbert" <dave@treblig.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Christoph Hellwig <hch@lst.de>, iommu@lists.linux.dev,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: Regression: v4l/bttv vbi vs iommu
+Message-ID: <ZNjXKjCx3lH0s1m3@gallifrey>
+References: <Y9qSwkLxeMpffZK/@gallifrey>
+ <d363902d-e465-8411-0c1e-58411b3a19b0@xs4all.nl>
+ <20230203063500.GA23520@lst.de>
+ <3a59ffba-a7fe-97b0-af76-7194f7b3896a@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 0/2] Removal of the old videobuf framework
-Content-Language: en-US, nl
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     Deborah Brouwer <deborahbrouwer3563@gmail.com>
-References: <20230813085708.305770-1-hverkuil-cisco@xs4all.nl>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230813085708.305770-1-hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <3a59ffba-a7fe-97b0-af76-7194f7b3896a@xs4all.nl>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/5.10.0-23-amd64 (x86_64)
+X-Uptime: 13:14:01 up 37 days, 22:45,  1 user,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-On 8/13/23 10:57, Hans Verkuil wrote:
-> Now that the last driver (bttv) that used the videobuf framework has been
-> converted to vb2 (Deb, thank you very, very much for all your work on
-> this!) we can remove the framework.
+* Hans Verkuil (hverkuil@xs4all.nl) wrote:
+> On 03/02/2023 07:35, Christoph Hellwig wrote:
+> > On Wed, Feb 01, 2023 at 09:48:46PM +0100, Hans Verkuil wrote:
+> >> In fact, the plan is to replace the old and deprecated videobuf framework by the vb2
+> >> framework in the bttv driver in the next 2-3 months or so. That will also automatically
+> >> solve this problem.
+> > 
+> > It would be great to expedite removal of the old videbuf code given
+> > how many problems it has.
 > 
-> This series does that. The first patch removes an unused videobuf include
-> that apparently was missed. The second actually removes all references to
-> videobuf.
-
-Thanks, the series looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-for the series.
-
-Regards,
-
-Hans
-
-
-
-
-> Hans Verkuil (2):
->   media: atomisp: remove left-over videobuf include
->   media: remove the old videobuf framework
+> We're working on it. A lot of old drivers in drivers/staging/media/deprecated will
+> be removed in 6.3, and that leaves the cx18, bttv and saa7146 drivers that still use
+> vb1.
 > 
->  Documentation/driver-api/media/v4l2-core.rst  |    1 -
->  Documentation/driver-api/media/v4l2-dev.rst   |    8 -
->  .../driver-api/media/v4l2-videobuf.rst        |  403 ------
->  drivers/media/v4l2-core/Kconfig               |   16 -
->  drivers/media/v4l2-core/Makefile              |    5 -
->  drivers/media/v4l2-core/videobuf-core.c       | 1198 -----------------
->  drivers/media/v4l2-core/videobuf-dma-contig.c |  402 ------
->  drivers/media/v4l2-core/videobuf-dma-sg.c     |  681 ----------
->  drivers/media/v4l2-core/videobuf-vmalloc.c    |  326 -----
->  .../media/atomisp/pci/atomisp_compat_css20.c  |    1 -
->  include/media/videobuf-core.h                 |  233 ----
->  include/media/videobuf-dma-contig.h           |   30 -
->  include/media/videobuf-dma-sg.h               |  102 --
->  include/media/videobuf-vmalloc.h              |   43 -
->  14 files changed, 3449 deletions(-)
->  delete mode 100644 Documentation/driver-api/media/v4l2-videobuf.rst
->  delete mode 100644 drivers/media/v4l2-core/videobuf-core.c
->  delete mode 100644 drivers/media/v4l2-core/videobuf-dma-contig.c
->  delete mode 100644 drivers/media/v4l2-core/videobuf-dma-sg.c
->  delete mode 100644 drivers/media/v4l2-core/videobuf-vmalloc.c
->  delete mode 100644 include/media/videobuf-core.h
->  delete mode 100644 include/media/videobuf-dma-contig.h
->  delete mode 100644 include/media/videobuf-dma-sg.h
->  delete mode 100644 include/media/videobuf-vmalloc.h
+> This week I posted patches converting cx18 to vb2 and someone else will work on the
+> bttv conversion. We thought we could remove saa7146 as well, but it turns out that
+> that is still very much in use (somewhat unexpectedly), so I plan to convert that
+> one this month (I hope).
 > 
+> I aim for removing vb1 in kernel 6.4 or 6.5.
 
+Did this go in, I'm happy to give it a go if this is a world to test.
+
+Dave
+
+> Regards,
+> 
+> 	Hans
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
