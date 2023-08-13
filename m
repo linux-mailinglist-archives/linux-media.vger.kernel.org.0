@@ -2,141 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 051B377A62E
-	for <lists+linux-media@lfdr.de>; Sun, 13 Aug 2023 13:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FDB277A652
+	for <lists+linux-media@lfdr.de>; Sun, 13 Aug 2023 14:15:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbjHML0y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Aug 2023 07:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55634 "EHLO
+        id S229562AbjHMMPV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Aug 2023 08:15:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjHML0y (ORCPT
+        with ESMTP id S229478AbjHMMPU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Aug 2023 07:26:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FEBEE6A
-        for <linux-media@vger.kernel.org>; Sun, 13 Aug 2023 04:26:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2E9C8622EA
-        for <linux-media@vger.kernel.org>; Sun, 13 Aug 2023 11:26:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B695DC433C8;
-        Sun, 13 Aug 2023 11:26:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691926015;
-        bh=rlKj/mDDGKn6pmmyFelrGiNR0L9ITP4m+ZN6VYvbJrk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WolvVV7Zms7r1VD9RiBM/rRhIdlsuIc+RDBfAAsVZQOvqR8GFnNCviUepG/8k5esh
-         cRDFzp0mefIay1+vX9Cp+hTbcM6uQ4XUtvijYAGwGxLRoPIVwg02EMPBClWK7YX1xE
-         54mRg9S4jibe2lwVDP0maXvF7P+S4Z4tpVTVOu1lzekdL968uq8RcsanpDcZ+4ccQ2
-         HqbGbZPx/eC/Z++o6cZPXHD4tPqHj+HXJ9SbxfUf+JikicgY7TFdaLEuxNf8tSZOGX
-         iQ45e7TYh2ZhNerrY3mlc9bfYrVjsQ0bI5MPLOUXEYyAFcBYKaMZ1+V4+dSAWYLgzR
-         GK2ozQYZzH0Kw==
-Date:   Sun, 13 Aug 2023 14:26:50 +0300
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Mina Almasry <almasrymina@google.com>
-Cc:     netdev@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Ahern <dsahern@kernel.org>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Hari Ramakrishnan <rharix@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Lutomirski <luto@kernel.org>, stephen@networkplumber.org,
-        sdf@google.com, Willem de Bruijn <willemb@google.com>,
-        Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [RFC PATCH v2 02/11] netdev: implement netlink api to bind
- dma-buf to netdevice
-Message-ID: <20230813112650.GK7707@unreal>
-References: <20230810015751.3297321-1-almasrymina@google.com>
- <20230810015751.3297321-3-almasrymina@google.com>
+        Sun, 13 Aug 2023 08:15:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE091702
+        for <linux-media@vger.kernel.org>; Sun, 13 Aug 2023 05:14:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1691928876;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dmugjsA8FZEOjalRazZ5wFhN6kcXS5shyKkbplJZcqY=;
+        b=E/BNsatvXqVBkYGHbwUAJauzOIUWDQFFsXqricvlgviyNLNGSk1x2fukEOL6P3qnL2DSjy
+        K3ArRI1eKlI2A34THk0K7SP+lkT1CNQ9NaPEaFn+Wyh9teNFOVqbLSso7nX3BfT7IaGLet
+        2zqKVKknELAcEci586y97sDlj0l+W10=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-12-Yu4YBp-8MvKdd8f3hnhbkg-1; Sun, 13 Aug 2023 08:14:34 -0400
+X-MC-Unique: Yu4YBp-8MvKdd8f3hnhbkg-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-4fe6141914cso3003439e87.1
+        for <linux-media@vger.kernel.org>; Sun, 13 Aug 2023 05:14:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691928873; x=1692533673;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dmugjsA8FZEOjalRazZ5wFhN6kcXS5shyKkbplJZcqY=;
+        b=DxKYAWYvJH95dAgmDyTKE0nORfZheMY5qUwW1HHlftW91NCL8yuqxsKj9PQ0OIEaoY
+         3ZHL5L9WyqoAbO3r7Sk2lfbWHXiCuG/t4fhgsiYl9Czuir9VgiI4iz0K9uENDmdpn+oV
+         wszpzdmkh3C+ynq19S/aI9I2srTPblfDCxK4//M/sS3/EqLozlOR1bnZyMqvHoEpdzCE
+         1jpoM+Lt8Vx8PCZjVSI0xliAlTJizNUHbeHTNioQTxgx5W0yVWVYtKWdB1uyronpwSUS
+         Rodg13oS0bV7DXTN7T0wTDejxThShFuPpF4044J8gZVM9uhCw9k64u6+Wn65axUxF4v0
+         821g==
+X-Gm-Message-State: AOJu0YwQ/FMrjYNCn/G+zG+doASfgeUMwg2jOA/F2BgPlI6jsf4k4cBQ
+        T6gPaTZNxroTmz1OMaVhI47TwfGG+t/wdThKpa4VvREi9NyT8NYQjeN9uUSzMEY3gHZ0dCHv6hf
+        M2r4ErPOFj/H35hVrTIndAX7Bf3dhvLc=
+X-Received: by 2002:a05:6512:3e26:b0:4ff:7004:545e with SMTP id i38-20020a0565123e2600b004ff7004545emr1365672lfv.4.1691928873108;
+        Sun, 13 Aug 2023 05:14:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG5th2mtGQEuLIdrq+uZxJRyQAJhDgR3NgIxEgSmvSEXVTPabvOC++mBuWNe6S+9y1efRsK1Q==
+X-Received: by 2002:a05:6512:3e26:b0:4ff:7004:545e with SMTP id i38-20020a0565123e2600b004ff7004545emr1365664lfv.4.1691928872760;
+        Sun, 13 Aug 2023 05:14:32 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id i23-20020a170906265700b00991bba473e2sm4511951ejc.85.2023.08.13.05.14.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Aug 2023 05:14:32 -0700 (PDT)
+Message-ID: <62c59a37-c317-4c91-9576-56d2ab063c7d@redhat.com>
+Date:   Sun, 13 Aug 2023 14:14:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230810015751.3297321-3-almasrymina@google.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 0/2] Removal of the old videobuf framework
+Content-Language: en-US, nl
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Deborah Brouwer <deborahbrouwer3563@gmail.com>
+References: <20230813085708.305770-1-hverkuil-cisco@xs4all.nl>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230813085708.305770-1-hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 09, 2023 at 06:57:38PM -0700, Mina Almasry wrote:
-> Add a netdev_dmabuf_binding struct which represents the
-> dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
-> an rx queue on the netdevice. On the binding, the dma_buf_attach
-> & dma_buf_map_attachment will occur. The entries in the sg_table from
-> mapping will be inserted into a genpool to make it ready
-> for allocation.
-> 
-> The chunks in the genpool are owned by a dmabuf_chunk_owner struct which
-> holds the dma-buf offset of the base of the chunk and the dma_addr of
-> the chunk. Both are needed to use allocations that come from this chunk.
-> 
-> We create a new type that represents an allocation from the genpool:
-> page_pool_iov. We setup the page_pool_iov allocation size in the
-> genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
-> allocated by the page pool and given to the drivers.
-> 
-> The user can unbind the dmabuf from the netdevice by closing the netlink
-> socket that established the binding. We do this so that the binding is
-> automatically unbound even if the userspace process crashes.
-> 
-> The binding and unbinding leaves an indicator in struct netdev_rx_queue
-> that the given queue is bound, but the binding doesn't take effect until
-> the driver actually reconfigures its queues, and re-initializes its page
-> pool. This issue/weirdness is highlighted in the memory provider
-> proposal[1], and I'm hoping that some generic solution for all
-> memory providers will be discussed; this patch doesn't address that
-> weirdness again.
-> 
-> The netdev_dmabuf_binding struct is refcounted, and releases its
-> resources only when all the refs are released.
-> 
-> [1] https://lore.kernel.org/netdev/20230707183935.997267-1-kuba@kernel.org/
-> 
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> ---
->  include/linux/netdevice.h |  57 ++++++++++++
->  include/net/page_pool.h   |  27 ++++++
->  net/core/dev.c            | 178 ++++++++++++++++++++++++++++++++++++++
->  net/core/netdev-genl.c    | 101 ++++++++++++++++++++-
->  4 files changed, 361 insertions(+), 2 deletions(-)
+Hi Hans,
 
-<...>
+On 8/13/23 10:57, Hans Verkuil wrote:
+> Now that the last driver (bttv) that used the videobuf framework has been
+> converted to vb2 (Deb, thank you very, very much for all your work on
+> this!) we can remove the framework.
+> 
+> This series does that. The first patch removes an unused videobuf include
+> that apparently was missed. The second actually removes all references to
+> videobuf.
 
-> +void __netdev_devmem_binding_free(struct netdev_dmabuf_binding *binding);
-> +
-> +static inline void
-> +netdev_devmem_binding_get(struct netdev_dmabuf_binding *binding)
-> +{
-> +	refcount_inc(&binding->ref);
-> +}
-> +
-> +static inline void
-> +netdev_devmem_binding_put(struct netdev_dmabuf_binding *binding)
-> +{
-> +	if (!refcount_dec_and_test(&binding->ref))
-> +		return;
-> +
-> +	__netdev_devmem_binding_free(binding);
-> +}
+Thanks, the series looks good to me:
 
-Not a big deal, but it looks like reimplemented version of kref_get/kref_put to me.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-Thanks
+for the series.
+
+Regards,
+
+Hans
+
+
+
+
+> Hans Verkuil (2):
+>   media: atomisp: remove left-over videobuf include
+>   media: remove the old videobuf framework
+> 
+>  Documentation/driver-api/media/v4l2-core.rst  |    1 -
+>  Documentation/driver-api/media/v4l2-dev.rst   |    8 -
+>  .../driver-api/media/v4l2-videobuf.rst        |  403 ------
+>  drivers/media/v4l2-core/Kconfig               |   16 -
+>  drivers/media/v4l2-core/Makefile              |    5 -
+>  drivers/media/v4l2-core/videobuf-core.c       | 1198 -----------------
+>  drivers/media/v4l2-core/videobuf-dma-contig.c |  402 ------
+>  drivers/media/v4l2-core/videobuf-dma-sg.c     |  681 ----------
+>  drivers/media/v4l2-core/videobuf-vmalloc.c    |  326 -----
+>  .../media/atomisp/pci/atomisp_compat_css20.c  |    1 -
+>  include/media/videobuf-core.h                 |  233 ----
+>  include/media/videobuf-dma-contig.h           |   30 -
+>  include/media/videobuf-dma-sg.h               |  102 --
+>  include/media/videobuf-vmalloc.h              |   43 -
+>  14 files changed, 3449 deletions(-)
+>  delete mode 100644 Documentation/driver-api/media/v4l2-videobuf.rst
+>  delete mode 100644 drivers/media/v4l2-core/videobuf-core.c
+>  delete mode 100644 drivers/media/v4l2-core/videobuf-dma-contig.c
+>  delete mode 100644 drivers/media/v4l2-core/videobuf-dma-sg.c
+>  delete mode 100644 drivers/media/v4l2-core/videobuf-vmalloc.c
+>  delete mode 100644 include/media/videobuf-core.h
+>  delete mode 100644 include/media/videobuf-dma-contig.h
+>  delete mode 100644 include/media/videobuf-dma-sg.h
+>  delete mode 100644 include/media/videobuf-vmalloc.h
+> 
+
