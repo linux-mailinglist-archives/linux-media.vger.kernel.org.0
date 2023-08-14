@@ -2,69 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0274E77BC3D
-	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 17:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C291A77BC99
+	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 17:13:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229666AbjHNPAX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Aug 2023 11:00:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42464 "EHLO
+        id S232692AbjHNPNO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Aug 2023 11:13:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232372AbjHNPAR (ORCPT
+        with ESMTP id S232746AbjHNPMt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Aug 2023 11:00:17 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E206D1B5
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 08:00:15 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-d66f105634eso1945842276.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 08:00:15 -0700 (PDT)
+        Mon, 14 Aug 2023 11:12:49 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD1E0E6E
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 08:12:47 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fe4a89e8c4so40680465e9.3
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 08:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692025215; x=1692630015;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d+a164Lo/xnprShByrSc9v2/KWRvgiRosUcq4zImKgk=;
-        b=jGPGgviFdfRHR1RB7ogSGrhVlh9dgstF8M/lqAgP92B9OoZHUismmpwroR9vYrUOIr
-         cZAT7fOYY9Q0QQWAstMVpZPTwJMfhUGWpjndreP6meso8qz71becKD8MgTTpoTsvaljW
-         3xWQWqXjlBmkjCr6R/Q4Au+jI7pMm2sN/d1kD8i57SU30HS5t/68afFVCfBCvdF7Bipr
-         LQe0ZmYDiYfo+yKRwFwZpRbbxYO+V8nm2s/Fz2fh4BqcmdU0CFi+TSOdF38RkQmZMQZ4
-         GcAF4FMtHzyvuBdKiG5edblCTsM4R2+bb//4ODxk5CAuMvfP6pxDjB7ZIJKqnBEXxtRM
-         F/qw==
+        d=linaro.org; s=google; t=1692025966; x=1692630766;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RL8uW/i+vD2pJKOZ8MhjURQoVYYBJH2Wn25O5mxE3sc=;
+        b=W8sSGddp3Db1uk2FUMTNriElEU8D3HcGTFl7rl8i+0hlJlD3CzmGogjI/BP1Z6wNTi
+         txd4E13/vQqJJzXoVf0qde/UHdikHRGvLI1T7GsABcFfNeOlc3B7SSTA5wTPtzwBrGCC
+         HaBSppcnEJPfFOFPs8tuY/TXDlDMzhvoJPA13lgGIPZ1/c56ESx7AhQZ5pw1u6HoriXG
+         Md1orUzCfWpgZuZZt4Ldk8OkusX7k6y0vJwlFkQbsUeeCS7cGxtliSTD7yNaQ4HixjQR
+         0TL9CwVP3MPSWtulwZAEG5x0LSsRp3HYUf3t5s1AW5x9wqW9OfgcNx5XVDn6nc43uig8
+         CaXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692025215; x=1692630015;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d+a164Lo/xnprShByrSc9v2/KWRvgiRosUcq4zImKgk=;
-        b=eGExfgZ3Qdi7hOuD0aLaBcSSK3FJn9hSt35UuRD5g2VMBs8xj8/67ZNEMrwSxN2tzx
-         maLc8BWcjTx1w9FmAO6SXGXehUagvcTo00r72z13JItgLmGeGML6HylscTRr2RclK/IZ
-         SAojv3JV1zVN6/M7CKhm894xgtq3XPN1nDeX0sn7FIM/RybFNhaUmQXPDg3PEREaBYFx
-         4ZgQZmSpud6LMYmmg0S6Z17nxKothkQEhv+m1UJnHnvZnJlVHB1Gfetzl0YMVYG09n7+
-         x0vex0cckJYQ1WxDaWc8gv/xsIsiP7M8roi2+V+VwyKTrjv92a/jgsefwehQAp2eRt8j
-         e9xw==
-X-Gm-Message-State: AOJu0Yyqcz5/LizNI5vfWMsM/PtZ7AEHE0vKhCVxllEiraTWwwk5Y07b
-        +uMw8ZhurY5vI0nXBiOugmxbJBgDh7OWLXHhUaaq1Q==
-X-Google-Smtp-Source: AGHT+IFcDjGY5t1TUEHJGqfbRGCrBRK0ocLIGx+5jH3QxiqiM4XdKAspdv5ouADbx68wpvwKtwPgEzDBxLTXcNycy88=
-X-Received: by 2002:a25:4291:0:b0:d21:fa08:d683 with SMTP id
- p139-20020a254291000000b00d21fa08d683mr7550886yba.35.1692025215074; Mon, 14
- Aug 2023 08:00:15 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692025966; x=1692630766;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RL8uW/i+vD2pJKOZ8MhjURQoVYYBJH2Wn25O5mxE3sc=;
+        b=DpZNLFwhIaJoS5VnXX/4gy7a7iQ2rtb7T75aWce2lXlDCCoN4jI39YMpQPA2snQ7v8
+         w/TigotJyfFeLFRCSOF2USvrbECB8NZFcRb2U6bx+9OvXAz5WJPNAVCj7QDM4pSQD9eD
+         /3zXAYRV9XNYQ27nwUGHq8ln6aFSQFtPXNlPJuhMGdZPJVavor/A0aQwQfRN8NB6J9DP
+         qtdsaZhoKCK9jMLnnz3AtoCjv9zmK7mnPJPnQxchMF0ez4YEihy8hI3bSbeI/WYKPcOb
+         RguujiwH6gwtTU2nUYJ/BYgB+T+8eLa0yz2NyXax+yKNVT3RY5dfzNT63L5ymCJGOtfz
+         bKgA==
+X-Gm-Message-State: AOJu0Yw8oyVNJBYDDHZLFyeVuAI0RpYr2pvMssc8TWQrA/tWI3jTBWGr
+        iaIPKOJRc9D4CjkH/NbFFQZGTQ==
+X-Google-Smtp-Source: AGHT+IGrWi8yDMGvnyI/h/pnxgHlDDJk4q/bcPsOgY+08reUDpTPRq24qQX5JfjBEfXa12qO5HYr/g==
+X-Received: by 2002:adf:e685:0:b0:316:f25c:d0c0 with SMTP id r5-20020adfe685000000b00316f25cd0c0mr7714740wrm.16.1692025966328;
+        Mon, 14 Aug 2023 08:12:46 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id 17-20020a05600c021100b003fe1c332810sm17644572wmi.33.2023.08.14.08.12.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Aug 2023 08:12:45 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v0 00/13] media: qcom: camss: Add parameter passing to remove several outstanding bugs
+Date:   Mon, 14 Aug 2023 16:12:30 +0100
+Message-ID: <20230814151243.3801456-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <e18b951e-7f15-2c67-9099-c45ea7f67daa@linaro.org> <d80b5338-2eca-0223-d2a7-d6f7d39a28ba@gmail.com>
-In-Reply-To: <d80b5338-2eca-0223-d2a7-d6f7d39a28ba@gmail.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Mon, 14 Aug 2023 18:00:03 +0300
-Message-ID: <CAA8EJpqArfMcxvJV2zxea8_C4VHY06MsU-Jw3pPXbu5Gxw-ccg@mail.gmail.com>
-Subject: Re: [PATCH 00/33] Qualcomm video decoder/encoder driver
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-Cc:     Vikash Garodia <quic_vgarodia@quicinc.com>, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        quic_dikshita@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,74 +72,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stan,
+This second series of bugfixes stacks ontop of the Fixes series sent earlier.
 
-On Mon, 14 Aug 2023 at 15:58, Stanimir Varbanov
-<stanimir.k.varbanov@gmail.com> wrote:
->
-> Hi Dmitry,
->
-> On 28.07.23 =D0=B3. 17:01 =D1=87., Dmitry Baryshkov wrote:
-> > On 28/07/2023 16:23, Vikash Garodia wrote:
-> >> This patch series introduces support for Qualcomm new video accelerati=
-on
-> >> hardware architecture, used for video stream decoding/encoding. This
-> >> driver
-> >> is based on new communication protocol between video hardware and
-> >> application
-> >> processor.
-> >>
-> >> This driver comes with below capabilities:
-> >> - V4L2 complaint video driver with M2M and STREAMING capability.
-> >> - Supports H264, H265, VP9 decoders.
-> >> - Supports H264, H265 encoders.
-> >
-> > Please describe, why is it impossible to support this hardware in the
-> > venus driver. We do not usually add new drivers for the new generations
-> > of the hardware, unless it is fully incompatible with the previous
-> > generations. Let me point you to camss or drm/msm drivers. They have
-> > successfully solved the issue of supporting multiple generations of the
-> > hardware in the same driver.
-> >
-> > Unless the "iris3" is completely different from all the previous
-> > generations, I strongly suggest spending time on restructuring existing
-> > venus driver and then adding support for the new hardware there instead
-> > of dumping out something completely new.
->
-> AFAIK the major differences are HW IP and firmware interface (by
-> firmware interface I mean a protocol, API and API behavior). The
-> firmware and its interface has been re-written to align closely with the
-> current v4l2 specs for encoders/decoders state machines [1][2]. On the
-> other side current mainline Venus driver firmware is following interface
-> similar to OpenMAX.
->
-> There are incompatibilities between both firmware interfaces which
-> cannot easily combined in a common driver. Even if there is a
-> possibility to do that it will lead us to a unreadable driver source
-> code and maintenance burden.
+Link: https://lore.kernel.org/linux-arm-msm/20230814141007.3721197-1-bryan.odonoghue@linaro.org/T/#t
 
-Thank you for your explanation!
+Rather than send both series as one giant series, I opted to send a pure
+Fixes series above, with this second series a non-backport series i.e. no
+Fixes tags in this series.
 
-If the hardware is more or less the same, then the existing venus
-driver should be refactored and split into hardware driver and the
-firmware interface. Then iris3 can come up as a second driver
-implementing support for new firmware interface but utilising common
-hardware-related code.
+The existing CAMSS code relies on some hard-coded parameters buried inside
+of the driver, instead of passed via compat .data as arguably ought to be
+the case.
 
-> Vikash, could elaborate more on firmware interface differences.
+This brittle model is an extending morass of spaghetti code. More than that
+in CAMSS Video Front Ends (VFEs) and the number of Raw Data Interfaces
+(RDIs) per VFE can vary from SoC to SoC. Indeed sm8250 has VFE and VFE Lite
+blocks which have a different number of RDIs per block.
 
-Do we have any details on firmware versions that implement older
-(OpenMAX-like) interface vs versions implementing new (v4l2-like)
-interface?
+The use of defines as opposed to per-compat parameters inside of ISRs leads
+to either under-polling or over-polling the number of RDIs.
 
-> [1]
-> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-decode=
-r.html
->
-> [2]
-> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-encode=
-r.html
+On top of all of that we have some hard-coded statements for clock names
+which breaks easily.
 
---=20
-With best wishes
-Dmitry
+We can solve the under/over polling loop problem by transitioning loop
+controls from macros to parameters passed via probe().
+
+Similarly and unsurprisingly we can also solve the hard-coded clock problem
+by adding some string processing routines that take passed arguments.
+
+There is still some additional maintenance work to be done in this driver
+but before adding one more SoC the code needs to be made more extensible
+and less brittle.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/dc346c7f46c0680bcfb84fded6db97497fffe49a
+
+Bryan O'Donoghue (13):
+  media: qcom: camss: Amalgamate struct resource with struct
+    resource_ispif
+  media: qcom: camss: Start to move to module compat matched resources
+  media: qcom: camss: Drop useless NULL assignment for ispif resources
+  media: qcom: camss: Pass icc bandwidth table as a platform parameter
+  media: qcom: camss: Pass remainder of variables as resources
+  media: qcom: camss: Pass line_num from compat resources
+  media: qcom: camss: Assign the correct number of RDIs per VFE
+  media: qcom: camss: Use >= CAMSS_SDM845 for vfe_get/vfe_put
+  media: qcom: camss: Untangle if/else spaghetti in camss
+  media: qcom: camss: Improve error printout on icc_get fail
+  media: qcom: camss: Allow clocks vfeN vfe_liteN or vfe_lite
+  media: qcom: camss: Functionally decompose CSIPHY clock lookups
+  media: qcom: camss: Add support for setting CSIPHY clock name csiphyX
+
+ .../media/platform/qcom/camss/camss-csid.c    |  24 +-
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |   8 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |  67 ++--
+ .../media/platform/qcom/camss/camss-ispif.c   |  32 +-
+ .../media/platform/qcom/camss/camss-ispif.h   |   4 +-
+ .../media/platform/qcom/camss/camss-vfe-170.c |   6 +-
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-4-7.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-4-8.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-480.c |   5 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c |  78 +++--
+ .../media/platform/qcom/camss/camss-video.c   |  16 +-
+ drivers/media/platform/qcom/camss/camss.c     | 292 +++++++++---------
+ drivers/media/platform/qcom/camss/camss.h     |  31 +-
+ 14 files changed, 315 insertions(+), 254 deletions(-)
+
+-- 
+2.41.0
+
