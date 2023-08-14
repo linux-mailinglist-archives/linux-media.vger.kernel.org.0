@@ -2,156 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D5C177BB1D
-	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 16:11:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6939977BB52
+	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 16:16:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231944AbjHNOKp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Aug 2023 10:10:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50930 "EHLO
+        id S229766AbjHNOQA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Aug 2023 10:16:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232037AbjHNOK2 (ORCPT
+        with ESMTP id S232276AbjHNOP4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Aug 2023 10:10:28 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 101211702
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 07:10:25 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3812736f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 07:10:24 -0700 (PDT)
+        Mon, 14 Aug 2023 10:15:56 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B131702
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 07:15:32 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fe8a1591c7so28967725e9.3
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 07:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692022223; x=1692627023;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4L+XNvliqOsl1iPZj9oRnADFCbVYElBi7HCIjhmc9Ws=;
-        b=SKB/iQalUvWVCrqR3StDWPdWygoNH8mhPMsC8sF8haLNWDzUNPfLv/wau93s5DJN+/
-         Bwxq36fDFfxkYOxTBsC1/HmdKbz9WJVaImBK0lh0J8aXBs9WB9KeleWYRaJUqspgDZDP
-         xnEAw4RQxtAbm0Y+aTuwM0iXDTrFIt3ndZissBJXPfP2SBDdWldRd4o4/hsZ1q/9NKS5
-         5t1SzzDmVeu2CDUCYN9l63qSygmSdX8EIDm+kU+n5hTzXwIuevkvKk0ctQR+I7ckiuL2
-         Xj0s66HkGTyAXKNjxf9wi6IhcfgRCco6Qk1Akbwb/nJmmROVyYV7bMT0vxxmzJHsjwYQ
-         Dwgg==
+        d=linaro.org; s=google; t=1692022530; x=1692627330;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=53j/5094r03iKS4uZK9mu72IHMP5gEBY2aqqyAGJwsg=;
+        b=jQYADeKY/FfySjh679B5lqdzESsU3vaZWyIkn8/2CkdsmPygJKKPulBPVuvIK/rVJT
+         ZYuXqhNJsmql/F6vi8zujMzC4xtzqhgWLQRfBoaxCl2JWsNrIua1zi4ySrgKq1+nL5V8
+         taqIUgJmfSw7Mje+yOybUDxE97OjiEZsWm1/XfS5mDQWhw47SxQqItQ4CkqCKtGFuydy
+         DqOoNwL6eenKYoGIaVKJOm5Nxnh2Zq+Mv7fzdgda1l8uCC6DH/pap+U9rN2CUbWShxxn
+         W2vo2JfTP2EudCJJ0jUwI4kBCRKJE/xPvDS1b0zjobpxLuXKBQwUXNLTqcDmQmZcX9+k
+         x3dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692022223; x=1692627023;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4L+XNvliqOsl1iPZj9oRnADFCbVYElBi7HCIjhmc9Ws=;
-        b=jSB4kwF3/MhWucWeBa6Ha/182IpiW/tbbyeVFnBdwxm7WSl+NG2WwswALqgwbTtoWH
-         jyVVtEbD9lsOri0vaK8W3oILPqmYCb3TIZXUHRKOrWIiQ+y2pWRL9h+7k151ppLs7raY
-         k2KhwYa0vnxZ0iWPSECN5R0U809MJuO2TLDmuE4gfgfCIlvQhoUB2ri6Xgps7wUyPZxV
-         vy7UHKLtp7DEV/TsllQ8T8pidBfoNm1UfTWoYCKBd4pYxMdoXKdeX1dH6aGPb9PDDMmY
-         P8Xf/gzL/YHq7P5Rx9v13q7b2lnRs1wIj1n4kFSuq9fSea4YjWVFqhcQP6jGoACzdh/R
-         wu9A==
-X-Gm-Message-State: AOJu0YyHoxpddN3Wsz6moVbHiAHwj5BCY9B+Oar+0UrBHXcjNZ8g1Eaw
-        9XnH7MGxh4WbvJmu8h4eLuOINQ==
-X-Google-Smtp-Source: AGHT+IEW3aP7zQFQMYPvIkUXb/PIi58OEAu99alQbeoYvIOnvqOIYxhNBaFZwxk7Be37ehpraF+X5w==
-X-Received: by 2002:a05:6000:90a:b0:30f:b7b4:3e55 with SMTP id cw10-20020a056000090a00b0030fb7b43e55mr7009029wrb.19.1692022223586;
-        Mon, 14 Aug 2023 07:10:23 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id p5-20020a1c7405000000b003fe1630a8f0sm17232749wmc.24.2023.08.14.07.10.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 07:10:23 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
+        d=1e100.net; s=20221208; t=1692022530; x=1692627330;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=53j/5094r03iKS4uZK9mu72IHMP5gEBY2aqqyAGJwsg=;
+        b=QrsWzWxPzBl1yqx4axkyl1xIQlvWA4G/zsK6P+qfcBn6Zy+NJJh0ZZ99qbSzHkqcL/
+         pz49gO4fAaffFCEKhUzQv5Kr1FnxQXOTwDyDw8iF7LyJcjGy7N3/8LzFoUjrcUfAQ1s7
+         HzJy6dpUDMZT3T6VdcjoRThfQS7fF0vrr2201FWRW2We/iX5M/gUN/qSYxL3496x5jBh
+         +Kma0ZTcZ81kfNST457Kc7xJXUvhg7ieslO4m5T9l+QA1CXt7fXaI34NrEbbWYQhhnCo
+         5xiHD1anZEEak/5efyZ3OnUk/AmsYE+YpL/7JiHV8nWYo3NMo5N2jjTIJ1v9zyxfmoYK
+         z6pQ==
+X-Gm-Message-State: AOJu0YzLotDbolKlcfk0DkN4qoea0LAdU7OxJXi8BxidWpMs25Ob3r5p
+        JY0TWN7GDYBhCPFQrR86Uoqy2AEEPxKte9rri1c=
+X-Google-Smtp-Source: AGHT+IGq98nhB7kEk3xjrvjG0zOByhEQOpwZY9relAnXA4NePzVIuBzhokeQ9etQcTU1AAyA7ZN+Mg==
+X-Received: by 2002:a05:600c:230f:b0:3fa:964e:e85 with SMTP id 15-20020a05600c230f00b003fa964e0e85mr7764653wmo.5.1692022530328;
+        Mon, 14 Aug 2023 07:15:30 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id l18-20020a5d4112000000b003144b95e1ecsm14414401wrp.93.2023.08.14.07.15.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Aug 2023 07:15:29 -0700 (PDT)
+Message-ID: <ea587bb1-8ff2-7a92-f948-fd932f6b2769@linaro.org>
+Date:   Mon, 14 Aug 2023 15:15:28 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 4/4] venus: hfi_parser: Add check to keep the number of
+ codecs within range
+Content-Language: en-US
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
+        stanimir.k.varbanov@gmail.com, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
+        hans.verkuil@cisco.com, tfiga@chromium.org
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v0 9/9] media: qcom: camss: Fix csid-gen2 for test pattern generator
-Date:   Mon, 14 Aug 2023 15:10:07 +0100
-Message-ID: <20230814141007.3721197-10-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230814141007.3721197-1-bryan.odonoghue@linaro.org>
-References: <20230814141007.3721197-1-bryan.odonoghue@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <1691634304-2158-1-git-send-email-quic_vgarodia@quicinc.com>
+ <1691634304-2158-5-git-send-email-quic_vgarodia@quicinc.com>
+ <fec4a8c7-206f-7af8-4ea9-c919a677bf7e@linaro.org>
+ <2214c31b-eca2-012e-a100-21252a724e7c@quicinc.com>
+ <8b72ce47-c338-2061-f11a-c0a608686d8c@linaro.org>
+ <e880da07-ccd4-e427-ed34-20b284dc7838@quicinc.com>
+ <8f1a4ca0-dde8-fa5d-bca3-d317886609de@linaro.org>
+ <060f4dbe-63d6-1c60-14ca-553bf1536e5a@quicinc.com>
+ <c5f912a9-cc08-1645-ad04-c7a58c1e47ce@linaro.org>
+ <cd9da205-ccdb-dc71-16a4-83b22ca7fcae@quicinc.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <cd9da205-ccdb-dc71-16a4-83b22ca7fcae@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Andrey Konovalov <andrey.konovalov@linaro.org>
+On 14/08/2023 07:34, Vikash Garodia wrote:
+>> We have two loops that check for up to 32 indexes per loop. Why not have a
+>> capabilities index that can accommodate all 64 bits ?
+> Max codecs supported can be 32, which is also a very high number. At max the
+> hardware supports 5-6 codecs, including both decoder and encoder. 64 indices is
+> would not be needed.
+> 
 
-In the current driver csid Test Pattern Generator (TPG) doesn't work.
-This change:
-- fixes writing frame width and height values into CSID_TPG_DT_n_CFG_0
-- fixes the shift by one between test_pattern control value and the
-  actual pattern.
-So that TPG starts working, but with the below limitations:
-- only test_pattern=9 works as it should
-- test_pattern=8 and test_pattern=7 produce black frame (all zeroes)
-- the rest of test_pattern's don't work (yavta doesn't get the data)
-- regardless of the CFA pattern set by 'media-ctl -V' the actual pixel
-  order is always the same (RGGB for any RAW8 or RAW10P format in
-  4608x2592 resolution).
+But the bug you are fixing here is an overflow where we have received a 
+full range 32 bit for each decode and encode.
 
-Tested with:
+How is the right fix not to extend the storage to the maximum possible 2 
+x 32 ? Or indeed why not constrain the input data to 32/2 for each 
+encode/decode path ?
 
-RAW10P format, VC0:
- media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
- v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video0
+The bug here is that we can copy two arrays of size X into one array of 
+size X.
 
-RAW10P format, VC1:
- media-ctl -V '"msm_csid0":2[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi1":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
- v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video1
+Please consider expanding the size of the storage array to accommodate 
+the full size the protocol supports 2 x 32.
 
-RAW8 format, VC0:
- media-ctl --reset
- media-ctl -V '"msm_csid0":0[fmt:SRGGB8/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB8/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB8 -s 4608x2592 /dev/video0
-
-Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
-Cc: stable@vger.kernel.org
-Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss-csid-gen2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 9ac253111e572..b0890259af4ee 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -355,9 +355,6 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 		u8 dt_id = vc * 4;
- 
- 		if (tg->enabled) {
--			/* Config Test Generator */
--			vc = 0xa;
--
- 			/* configure one DT, infinite frames */
- 			val = vc << TPG_VC_CFG0_VC_NUM;
- 			val |= INTELEAVING_MODE_ONE_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
-@@ -370,14 +367,14 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 
- 			writel_relaxed(0x12345678, csid->base + CSID_TPG_LFSR_SEED);
- 
--			val = input_format->height & 0x1fff << TPG_DT_n_CFG_0_FRAME_HEIGHT;
--			val |= input_format->width & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
-+			val = (input_format->height & 0x1fff) << TPG_DT_n_CFG_0_FRAME_HEIGHT;
-+			val |= (input_format->width & 0x1fff) << TPG_DT_n_CFG_0_FRAME_WIDTH;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
- 
- 			val = format->data_type << TPG_DT_n_CFG_1_DATA_TYPE;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_1(0));
- 
--			val = tg->mode << TPG_DT_n_CFG_2_PAYLOAD_MODE;
-+			val = (tg->mode - 1) << TPG_DT_n_CFG_2_PAYLOAD_MODE;
- 			val |= 0xBE << TPG_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
- 			val |= format->decode_format << TPG_DT_n_CFG_2_ENCODE_FORMAT;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_2(0));
--- 
-2.41.0
-
+bod
