@@ -2,72 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42E0E77BD62
-	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 17:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFDB677BB15
+	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 16:11:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbjHNPrs convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 14 Aug 2023 11:47:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51274 "EHLO
+        id S231910AbjHNOKn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Aug 2023 10:10:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbjHNPrn (ORCPT
+        with ESMTP id S231751AbjHNOKO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Aug 2023 11:47:43 -0400
-X-Greylist: delayed 5249 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Aug 2023 08:47:42 PDT
-Received: from mail.aiabanca.com.vn (unknown [103.35.67.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4540C10D1
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 08:47:42 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.aiabanca.com.vn (Postfix) with ESMTP id 29A7180D1124A;
-        Mon, 14 Aug 2023 20:07:53 +0700 (+07)
-Received: from mail.aiabanca.com.vn ([127.0.0.1])
-        by localhost (mail.aiabanca.com.vn [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id sK0-AXyJTf5b; Mon, 14 Aug 2023 20:07:53 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.aiabanca.com.vn (Postfix) with ESMTP id DE05880D0F2B4;
-        Mon, 14 Aug 2023 20:06:39 +0700 (+07)
-X-Virus-Scanned: amavisd-new at aiabanca.com.vn
-Received: from mail.aiabanca.com.vn ([127.0.0.1])
-        by localhost (mail.aiabanca.com.vn [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id iVzNANQ-QRMv; Mon, 14 Aug 2023 20:06:39 +0700 (+07)
-Received: from ESEB.home (host109-152-165-220.range109-152.btcentralplus.com [109.152.165.220])
-        by mail.aiabanca.com.vn (Postfix) with ESMTPSA id CC451809DCF77;
-        Mon, 14 Aug 2023 20:05:23 +0700 (+07)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 14 Aug 2023 10:10:14 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DBF694
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 07:10:13 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3fe8a1591c8so28891295e9.3
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 07:10:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692022212; x=1692627012;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=anCPsm4yNva38Frhw8+8vdjk1JVd2SdaUxHmeX1k/Pw=;
+        b=Nt9kl0WK5IOZ990jpl3t8Y/d/xjgh/ioONaKZCCl9pNbKNloYsPRSDZLwchUbY1FbC
+         v1J0G762tfpsU2Xtw7BNAhnzw1VjGT9xbhv6BiB4gWw+9svmX0Ftf2vorBsJqAHrZ08B
+         k5Ijf0ku8GavDI6DXoqkgOeTcm4qDf109UDDsDP2bW3N1yx1/RVdRKL1tgxYG25cEF6a
+         1jSP36pJweItLjNBgQRE/JSvnFE8Z4rDkBm60yEh7XsCPqAjVmBwhQ6bdV6GQx6tQocc
+         PK05REf1qQZWlJtlflSDGrvrucPM3mayRRC3fBHBS5oL5jvvpvyK1BtQsibYut1+zTpW
+         HQiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692022212; x=1692627012;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=anCPsm4yNva38Frhw8+8vdjk1JVd2SdaUxHmeX1k/Pw=;
+        b=GbkPvpRgIs61fs4vfdyI8pD4frFV2q5DulgVoDNBrRsMslu94cTLn8at3MX6rjkr9K
+         PfeiKpUCrAkJLXgwVcsRHhJQyz2cuN48PQ0xZVo5za9uou9CWqJ0SfFDvJZxZ59TX0JQ
+         7qF+2C5LncYh623+iEht2SEM9/p9vLf/ZuyathwlzDrF5NQrBmmGrC6ReazL/H5yEJd/
+         SpjUJfAkB/yWgsLaNJuanBKuq0PzozxKOmiHHnC9jEM8mSvoHEIWEnmca7CyaF5619QO
+         73AJjiPSGsZ4eKBboNzK5OCeKkhP988VYq+XiEt8Wo3b5+OAmmtt2c/ZMQCbDioIXbO+
+         ghmQ==
+X-Gm-Message-State: AOJu0Yyjeof4RsrIKKbduHFHqnPhNSDEsZWx7COUqpf8Rvz97s/PftET
+        nbqLfAMuB/LTRziefrrDXzOj1KOL6u+f/di+aUU=
+X-Google-Smtp-Source: AGHT+IHsU2dl4NGJt2bq5Bfm9kfdu+RXTBEZPrPSVxvofWzCrCtT1GypzFwL+0Z//SOlzhA76iU6Fg==
+X-Received: by 2002:a7b:c3cd:0:b0:3fb:e254:b81e with SMTP id t13-20020a7bc3cd000000b003fbe254b81emr8030552wmj.12.1692022211845;
+        Mon, 14 Aug 2023 07:10:11 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id p5-20020a1c7405000000b003fe1630a8f0sm17232749wmc.24.2023.08.14.07.10.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Aug 2023 07:10:11 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v0 0/9] media: qcom: camss: Bugfix series
+Date:   Mon, 14 Aug 2023 15:09:58 +0100
+Message-ID: <20230814141007.3721197-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Gratulujem!!!
-To:     Recipients <hoang-thang.ngo@aiabanca.com.vn>
-From:   hoang-thang.ngo@aiabanca.com.vn
-Date:   Mon, 14 Aug 2023 14:05:15 +0100
-Reply-To: stefanopessina212@gmail.com
-Message-Id: <20230814130523.CC451809DCF77@mail.aiabanca.com.vn>
-X-Spam-Status: Yes, score=6.3 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,
-        MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,SPF_HELO_NONE,
-        T_SPF_PERMERROR autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
-        *      DNSWL was blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [103.35.67.32 listed in list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 T_SPF_PERMERROR SPF: test of record failed (permerror)
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [stefanopessina212[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-        *  2.3 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-X-Spam-Level: ******
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Gratulujem!!! Boli ste náhodne zaradení do daru vo výške 3 000 000 eur, kontaktujte ma pre viac informácií o tom, ako si ho uplatnit. Vdaka.
+This series covers a number of Fixes: all of which are for application to
+stable as well as -next with the exception of the second patch which is a
+fix for a SHA that is still in -next.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-08-07-db410c-rb3-camss-dts-v3
+
+This series is part of a larger set of fixes, improvements developed/found
+when adding a new SoC.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/lenovo-x13s-v6.5-rc4-x13s-camss-patches
+
+First pass on that larger series is to get all of the current Fixes: in the
+branch out.
+
+Andrey Konovalov (1):
+  media: qcom: camss: Fix csid-gen2 for test pattern generator
+
+Bryan O'Donoghue (8):
+  media: qcom: camss: Fix pm_domain_on sequence in probe
+  media: qcom: camss: Fix V4L2 async notifier error path
+  media: qcom: camss: Fix vfe_get() error jump
+  media: qcom: camss: Fix VFE-17x vfe_disable_output()
+  media: qcom: camss: Fix VFE-480 vfe_disable_output()
+  media: qcom: camss: Fix missing vfe_lite clocks check
+  media: qcom: camss: Fix invalid clock enable bit disjunction
+  media: qcom: camss: Fix set CSI2_RX_CFG1_VC_MODE when VC is greater
+    than 3
+
+ .../platform/qcom/camss/camss-csid-gen2.c     | 13 +++++-----
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |  2 +-
+ .../media/platform/qcom/camss/camss-vfe-170.c | 19 +++-----------
+ .../media/platform/qcom/camss/camss-vfe-480.c | 19 +++-----------
+ drivers/media/platform/qcom/camss/camss-vfe.c |  5 ++--
+ drivers/media/platform/qcom/camss/camss.c     | 26 +++++++++----------
+ 6 files changed, 29 insertions(+), 55 deletions(-)
+
+-- 
+2.41.0
+
