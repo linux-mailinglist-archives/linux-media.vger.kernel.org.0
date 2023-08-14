@@ -2,154 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FC7577B698
-	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 12:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9D2A77B709
+	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 12:47:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232758AbjHNKYU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Aug 2023 06:24:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48490 "EHLO
+        id S232382AbjHNKrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Aug 2023 06:47:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236843AbjHNKYL (ORCPT
+        with ESMTP id S235216AbjHNKrF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Aug 2023 06:24:11 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97233EE
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 03:24:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692008644; x=1723544644;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TAQGEj34dCnRguXKfubkwApEHTSIRAXNrjc5XqIrZYE=;
-  b=YIpQoHcFqKoem0SXh/JN4EFC/IXSFwHg9VnZ3GwmNRuKzZAQnhG7HSQW
-   EkHT0KcBn0ui9YKuGPMVq2Q6i6c7TPnLHdv6WJ+FXOhHaIPojMRo8e9Sv
-   Zz/AuqFDi8Omn4o/OeAAA4tEFbrm37Ru0W8l3rggePpZRZOxmgBVCI8c+
-   KdSTQ+qBeFOqYt4Q6FayYWWGYwAJ9oaNHbCjqex4yANi1XCCfEKhVPfL2
-   D4wY4ONbc+uJRvbguJt7nTqRE16cmsW90zC+qhedl9quLEwP9uNBrloz4
-   /mUhQtobFhh9OS/d8n9abhC13TaoAO5BG4pH7XUt6NCj5vt3B47RMqO+c
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="458370218"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="458370218"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 03:24:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="768406497"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="768406497"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 03:24:01 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 2617111FAE0;
-        Mon, 14 Aug 2023 13:23:59 +0300 (EEST)
-Date:   Mon, 14 Aug 2023 10:23:59 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>
-Subject: Re: [PATCH v3 05/10] media: uapi: Document which mbus format fields
- are valid for metadata
-Message-ID: <ZNoAv4i1hG7DBayi@kekkonen.localdomain>
-References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
- <20230808075538.3043934-6-sakari.ailus@linux.intel.com>
- <xh5qpzbzamydaanlmfcqzlpwd7dfaawpxabsnejuoupsbx2yx7@dk3s6zuujtvf>
+        Mon, 14 Aug 2023 06:47:05 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F176BD2
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 03:47:03 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qVV6E-00HHlR-3r; Mon, 14 Aug 2023 10:47:02 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qVV6B-0091Kv-2o;
+        Mon, 14 Aug 2023 10:47:00 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES for v6.6] uvcvideo fix (#94044)
+Date:   Mon, 14 Aug 2023 10:46:59 +0000
+Message-Id: <20230814104659.2150080-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230814102136.GA19907@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xh5qpzbzamydaanlmfcqzlpwd7dfaawpxabsnejuoupsbx2yx7@dk3s6zuujtvf>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+From: builder@linuxtv.org
 
-Thanks for the review.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230814102136.GA19907@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/330696/
+Build time: 00:19:06
+Link: https://lore.kernel.org/linux-media/20230814102136.GA19907@pendragon.ideasonboard.com
 
-On Thu, Aug 10, 2023 at 05:19:02PM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Tue, Aug 08, 2023 at 10:55:33AM +0300, Sakari Ailus wrote:
-> > Now that metadata mbus formats have been added, it is necessary to define
-> > which fields in struct v4l2_mbus_format are applicable to them (not many).
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  include/uapi/linux/v4l2-mediabus.h | 18 ++++++++++++------
-> >  1 file changed, 12 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
-> > index 6b07b73473b5..3cadb3b58b85 100644
-> > --- a/include/uapi/linux/v4l2-mediabus.h
-> > +++ b/include/uapi/linux/v4l2-mediabus.h
-> > @@ -19,12 +19,18 @@
-> >   * @width:	image width
-> >   * @height:	image height
-> >   * @code:	data format code (from enum v4l2_mbus_pixelcode)
-> > - * @field:	used interlacing type (from enum v4l2_field)
-> > - * @colorspace:	colorspace of the data (from enum v4l2_colorspace)
-> > - * @ycbcr_enc:	YCbCr encoding of the data (from enum v4l2_ycbcr_encoding)
-> > - * @hsv_enc:	HSV encoding of the data (from enum v4l2_hsv_encoding)
-> > - * @quantization: quantization of the data (from enum v4l2_quantization)
-> > - * @xfer_func:  transfer function of the data (from enum v4l2_xfer_func)
-> > + * @field:	used interlacing type (from enum v4l2_field), not applicable
-> > + *		to metadata mbus codes
-> 
-> "not applicable" is a bit geeric. Should this be set to
-> V4L2_FIELD_NONE (for metadata, and progressive image formats maybe ?)
+gpg: Signature made Mon 14 Aug 2023 10:20:27 AM UTC
+gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-I actually intended to have the same wording here than for the other fields
-but missed changing this.
+Summary: got 1/1 patches with issues, being 1 at build time
 
-0 corresponds to V4L2_FIELD_ANY.
+Error/warnings:
 
-> 
-> > + * @colorspace:	colorspace of the data (from enum v4l2_colorspace), zero on
-> > + *		metadata mbus codes
-> > + * @ycbcr_enc:	YCbCr encoding of the data (from enum v4l2_ycbcr_encoding), zero
-> > + *		on metadata mbus codes
-> > + * @hsv_enc:	HSV encoding of the data (from enum v4l2_hsv_encoding), zero on
-> > + *		metadata mbus codes
-> 
-> Can this be zero ?
-> 
-> enum v4l2_hsv_encoding {
-> 
-> 	/* Hue mapped to 0 - 179 */
-> 	V4L2_HSV_ENC_180		= 128,
-> 
-> 	/* Hue mapped to 0-255 */
-> 	V4L2_HSV_ENC_256		= 129,
-> };
+patches/0001-media-uvcvideo-Fix-OOB-read.patch:
 
-Good question. Neither value is meaningful for metadata.
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
 
-The values appear to be such in the enum to avoid colliding with ycbcr
-encoding values (another field above).
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+	  Locked on  : 326,387
+	  Unlocked on: 465,467
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2771 mxc_jpeg_probe() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1971214
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
 
-Generally, what doesn't matter will be zero. These fields have been added
-at some point and a lot of drivers do not set them, even for pixel data.
+   checkpatch.pl:
+	$ cat patches/0001-media-uvcvideo-Fix-OOB-read.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+	-:11: WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
 
-I wonder what Hans and Laurent think.
-
-> 
-> > + * @quantization: quantization of the data (from enum v4l2_quantization), zero
-> > + *		on metadata mbus codes
-> > + * @xfer_func:  transfer function of the data (from enum v4l2_xfer_func), zero
-> > + *		on metadata mbus codes
-> >   * @flags:	flags (V4L2_MBUS_FRAMEFMT_*)
-> >   * @reserved:  reserved bytes that can be later used
-> >   */
-
--- 
-Kind regards,
-
-Sakari Ailus
