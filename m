@@ -2,112 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6939977BB52
-	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 16:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0274E77BC3D
+	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 17:00:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbjHNOQA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Aug 2023 10:16:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36228 "EHLO
+        id S229666AbjHNPAX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Aug 2023 11:00:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232276AbjHNOP4 (ORCPT
+        with ESMTP id S232372AbjHNPAR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Aug 2023 10:15:56 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B131702
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 07:15:32 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fe8a1591c7so28967725e9.3
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 07:15:32 -0700 (PDT)
+        Mon, 14 Aug 2023 11:00:17 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E206D1B5
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 08:00:15 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-d66f105634eso1945842276.1
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 08:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692022530; x=1692627330;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=53j/5094r03iKS4uZK9mu72IHMP5gEBY2aqqyAGJwsg=;
-        b=jQYADeKY/FfySjh679B5lqdzESsU3vaZWyIkn8/2CkdsmPygJKKPulBPVuvIK/rVJT
-         ZYuXqhNJsmql/F6vi8zujMzC4xtzqhgWLQRfBoaxCl2JWsNrIua1zi4ySrgKq1+nL5V8
-         taqIUgJmfSw7Mje+yOybUDxE97OjiEZsWm1/XfS5mDQWhw47SxQqItQ4CkqCKtGFuydy
-         DqOoNwL6eenKYoGIaVKJOm5Nxnh2Zq+Mv7fzdgda1l8uCC6DH/pap+U9rN2CUbWShxxn
-         W2vo2JfTP2EudCJJ0jUwI4kBCRKJE/xPvDS1b0zjobpxLuXKBQwUXNLTqcDmQmZcX9+k
-         x3dw==
+        d=linaro.org; s=google; t=1692025215; x=1692630015;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d+a164Lo/xnprShByrSc9v2/KWRvgiRosUcq4zImKgk=;
+        b=jGPGgviFdfRHR1RB7ogSGrhVlh9dgstF8M/lqAgP92B9OoZHUismmpwroR9vYrUOIr
+         cZAT7fOYY9Q0QQWAstMVpZPTwJMfhUGWpjndreP6meso8qz71becKD8MgTTpoTsvaljW
+         3xWQWqXjlBmkjCr6R/Q4Au+jI7pMm2sN/d1kD8i57SU30HS5t/68afFVCfBCvdF7Bipr
+         LQe0ZmYDiYfo+yKRwFwZpRbbxYO+V8nm2s/Fz2fh4BqcmdU0CFi+TSOdF38RkQmZMQZ4
+         GcAF4FMtHzyvuBdKiG5edblCTsM4R2+bb//4ODxk5CAuMvfP6pxDjB7ZIJKqnBEXxtRM
+         F/qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692022530; x=1692627330;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=53j/5094r03iKS4uZK9mu72IHMP5gEBY2aqqyAGJwsg=;
-        b=QrsWzWxPzBl1yqx4axkyl1xIQlvWA4G/zsK6P+qfcBn6Zy+NJJh0ZZ99qbSzHkqcL/
-         pz49gO4fAaffFCEKhUzQv5Kr1FnxQXOTwDyDw8iF7LyJcjGy7N3/8LzFoUjrcUfAQ1s7
-         HzJy6dpUDMZT3T6VdcjoRThfQS7fF0vrr2201FWRW2We/iX5M/gUN/qSYxL3496x5jBh
-         +Kma0ZTcZ81kfNST457Kc7xJXUvhg7ieslO4m5T9l+QA1CXt7fXaI34NrEbbWYQhhnCo
-         5xiHD1anZEEak/5efyZ3OnUk/AmsYE+YpL/7JiHV8nWYo3NMo5N2jjTIJ1v9zyxfmoYK
-         z6pQ==
-X-Gm-Message-State: AOJu0YzLotDbolKlcfk0DkN4qoea0LAdU7OxJXi8BxidWpMs25Ob3r5p
-        JY0TWN7GDYBhCPFQrR86Uoqy2AEEPxKte9rri1c=
-X-Google-Smtp-Source: AGHT+IGq98nhB7kEk3xjrvjG0zOByhEQOpwZY9relAnXA4NePzVIuBzhokeQ9etQcTU1AAyA7ZN+Mg==
-X-Received: by 2002:a05:600c:230f:b0:3fa:964e:e85 with SMTP id 15-20020a05600c230f00b003fa964e0e85mr7764653wmo.5.1692022530328;
-        Mon, 14 Aug 2023 07:15:30 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id l18-20020a5d4112000000b003144b95e1ecsm14414401wrp.93.2023.08.14.07.15.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Aug 2023 07:15:29 -0700 (PDT)
-Message-ID: <ea587bb1-8ff2-7a92-f948-fd932f6b2769@linaro.org>
-Date:   Mon, 14 Aug 2023 15:15:28 +0100
+        d=1e100.net; s=20221208; t=1692025215; x=1692630015;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=d+a164Lo/xnprShByrSc9v2/KWRvgiRosUcq4zImKgk=;
+        b=eGExfgZ3Qdi7hOuD0aLaBcSSK3FJn9hSt35UuRD5g2VMBs8xj8/67ZNEMrwSxN2tzx
+         maLc8BWcjTx1w9FmAO6SXGXehUagvcTo00r72z13JItgLmGeGML6HylscTRr2RclK/IZ
+         SAojv3JV1zVN6/M7CKhm894xgtq3XPN1nDeX0sn7FIM/RybFNhaUmQXPDg3PEREaBYFx
+         4ZgQZmSpud6LMYmmg0S6Z17nxKothkQEhv+m1UJnHnvZnJlVHB1Gfetzl0YMVYG09n7+
+         x0vex0cckJYQ1WxDaWc8gv/xsIsiP7M8roi2+V+VwyKTrjv92a/jgsefwehQAp2eRt8j
+         e9xw==
+X-Gm-Message-State: AOJu0Yyqcz5/LizNI5vfWMsM/PtZ7AEHE0vKhCVxllEiraTWwwk5Y07b
+        +uMw8ZhurY5vI0nXBiOugmxbJBgDh7OWLXHhUaaq1Q==
+X-Google-Smtp-Source: AGHT+IFcDjGY5t1TUEHJGqfbRGCrBRK0ocLIGx+5jH3QxiqiM4XdKAspdv5ouADbx68wpvwKtwPgEzDBxLTXcNycy88=
+X-Received: by 2002:a25:4291:0:b0:d21:fa08:d683 with SMTP id
+ p139-20020a254291000000b00d21fa08d683mr7550886yba.35.1692025215074; Mon, 14
+ Aug 2023 08:00:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 4/4] venus: hfi_parser: Add check to keep the number of
- codecs within range
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, agross@kernel.org,
+References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
+ <e18b951e-7f15-2c67-9099-c45ea7f67daa@linaro.org> <d80b5338-2eca-0223-d2a7-d6f7d39a28ba@gmail.com>
+In-Reply-To: <d80b5338-2eca-0223-d2a7-d6f7d39a28ba@gmail.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Mon, 14 Aug 2023 18:00:03 +0300
+Message-ID: <CAA8EJpqArfMcxvJV2zxea8_C4VHY06MsU-Jw3pPXbu5Gxw-ccg@mail.gmail.com>
+Subject: Re: [PATCH 00/33] Qualcomm video decoder/encoder driver
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc:     Vikash Garodia <quic_vgarodia@quicinc.com>, agross@kernel.org,
         andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hans.verkuil@cisco.com, tfiga@chromium.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <1691634304-2158-1-git-send-email-quic_vgarodia@quicinc.com>
- <1691634304-2158-5-git-send-email-quic_vgarodia@quicinc.com>
- <fec4a8c7-206f-7af8-4ea9-c919a677bf7e@linaro.org>
- <2214c31b-eca2-012e-a100-21252a724e7c@quicinc.com>
- <8b72ce47-c338-2061-f11a-c0a608686d8c@linaro.org>
- <e880da07-ccd4-e427-ed34-20b284dc7838@quicinc.com>
- <8f1a4ca0-dde8-fa5d-bca3-d317886609de@linaro.org>
- <060f4dbe-63d6-1c60-14ca-553bf1536e5a@quicinc.com>
- <c5f912a9-cc08-1645-ad04-c7a58c1e47ce@linaro.org>
- <cd9da205-ccdb-dc71-16a4-83b22ca7fcae@quicinc.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <cd9da205-ccdb-dc71-16a4-83b22ca7fcae@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        quic_dikshita@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/08/2023 07:34, Vikash Garodia wrote:
->> We have two loops that check for up to 32 indexes per loop. Why not have a
->> capabilities index that can accommodate all 64 bits ?
-> Max codecs supported can be 32, which is also a very high number. At max the
-> hardware supports 5-6 codecs, including both decoder and encoder. 64 indices is
-> would not be needed.
-> 
+Hi Stan,
 
-But the bug you are fixing here is an overflow where we have received a 
-full range 32 bit for each decode and encode.
+On Mon, 14 Aug 2023 at 15:58, Stanimir Varbanov
+<stanimir.k.varbanov@gmail.com> wrote:
+>
+> Hi Dmitry,
+>
+> On 28.07.23 =D0=B3. 17:01 =D1=87., Dmitry Baryshkov wrote:
+> > On 28/07/2023 16:23, Vikash Garodia wrote:
+> >> This patch series introduces support for Qualcomm new video accelerati=
+on
+> >> hardware architecture, used for video stream decoding/encoding. This
+> >> driver
+> >> is based on new communication protocol between video hardware and
+> >> application
+> >> processor.
+> >>
+> >> This driver comes with below capabilities:
+> >> - V4L2 complaint video driver with M2M and STREAMING capability.
+> >> - Supports H264, H265, VP9 decoders.
+> >> - Supports H264, H265 encoders.
+> >
+> > Please describe, why is it impossible to support this hardware in the
+> > venus driver. We do not usually add new drivers for the new generations
+> > of the hardware, unless it is fully incompatible with the previous
+> > generations. Let me point you to camss or drm/msm drivers. They have
+> > successfully solved the issue of supporting multiple generations of the
+> > hardware in the same driver.
+> >
+> > Unless the "iris3" is completely different from all the previous
+> > generations, I strongly suggest spending time on restructuring existing
+> > venus driver and then adding support for the new hardware there instead
+> > of dumping out something completely new.
+>
+> AFAIK the major differences are HW IP and firmware interface (by
+> firmware interface I mean a protocol, API and API behavior). The
+> firmware and its interface has been re-written to align closely with the
+> current v4l2 specs for encoders/decoders state machines [1][2]. On the
+> other side current mainline Venus driver firmware is following interface
+> similar to OpenMAX.
+>
+> There are incompatibilities between both firmware interfaces which
+> cannot easily combined in a common driver. Even if there is a
+> possibility to do that it will lead us to a unreadable driver source
+> code and maintenance burden.
 
-How is the right fix not to extend the storage to the maximum possible 2 
-x 32 ? Or indeed why not constrain the input data to 32/2 for each 
-encode/decode path ?
+Thank you for your explanation!
 
-The bug here is that we can copy two arrays of size X into one array of 
-size X.
+If the hardware is more or less the same, then the existing venus
+driver should be refactored and split into hardware driver and the
+firmware interface. Then iris3 can come up as a second driver
+implementing support for new firmware interface but utilising common
+hardware-related code.
 
-Please consider expanding the size of the storage array to accommodate 
-the full size the protocol supports 2 x 32.
+> Vikash, could elaborate more on firmware interface differences.
 
----
-bod
+Do we have any details on firmware versions that implement older
+(OpenMAX-like) interface vs versions implementing new (v4l2-like)
+interface?
+
+> [1]
+> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-decode=
+r.html
+>
+> [2]
+> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-encode=
+r.html
+
+--=20
+With best wishes
+Dmitry
