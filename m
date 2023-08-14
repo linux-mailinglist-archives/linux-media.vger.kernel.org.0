@@ -2,127 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05FD277B446
-	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 10:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3A0677B4F9
+	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 11:01:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232557AbjHNIgz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Aug 2023 04:36:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33882 "EHLO
+        id S235064AbjHNJBD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Aug 2023 05:01:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230180AbjHNIgg (ORCPT
+        with ESMTP id S237114AbjHNJAa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Aug 2023 04:36:36 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C7209C
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 01:36:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=s31663417; t=1692002194; x=1692606994; i=j.neuschaefer@gmx.net;
- bh=oz40fyaPZcE7PqdTckrm2xO8OeYKsBN1zUtcCnjhu40=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=RkhmUQp7tDY2jTDP0igm+Xw51oYcHRwkVn2Q3SQ8Y4qtqrXOUj7muAH5tJoZ3lmnY/s5JSh
- /cbKodGwftwYC3tVIvg8GXuB05AEWf85fFGBqoMJVKn8hGmIXOJJKTCASFoZCUxM61I8I8lDy
- 1KJcXxF1vjC5VJN5TFXjOrEdp3dWt+QpPNycYHp5iE45KEctmLfxVwsU6rpj0LCGs5hFB5w5B
- zQ2Q9WDfjNIB8nxws4iX0t/kbQOB41RzLjUDpNLsBsLK/vgIqD2eudGihQMY1U36HyDGxzHVy
- pYbAWXjrbeGjvQv8bzGP+tMypCq4E0D3mkUTHquG+xaBU1Tp+eRg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from probook ([151.216.154.44]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M6DWi-1qOtHA1dAO-006bF6; Mon, 14
- Aug 2023 10:23:24 +0200
-Date:   Mon, 14 Aug 2023 10:23:23 +0200
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Ruan Jinjie <ruanjinjie@huawei.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        j.neuschaefer@gmx.net, u.kleine-koenig@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH -next 2/3] media: radio-wl1273: Remove an unnecessary
- ternary operator
-Message-ID: <ZNnke/yUmg7xFa+v@probook>
-References: <20230804031323.2105187-1-ruanjinjie@huawei.com>
- <20230804031323.2105187-3-ruanjinjie@huawei.com>
+        Mon, 14 Aug 2023 05:00:30 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C10230C1
+        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 02:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692003609; x=1723539609;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F4y/717dLOWwf475pd76CFUkXQeFAYOnnTesNh9eGtk=;
+  b=a4Ykrv+ItNLX5Kte8tw+UNkcanzb8zvUc/gxBnOaUQZQHyr7jo9KsJry
+   3XCSa/8P65sk5qJEg1H+naDTW8lFqtLOtOk3yZUp9TvtRT04yE9eNTfxv
+   2GjHN6c1VtkLMAmBC8gboFBYo/XANx2Ol7KGYLUBMyOwlvwZfRrU/GmGs
+   CczTqqZ/oVrWPJa6MXxz+2JJ9+Jkc/fivEI2guwBny3l2yHUPPg87i4pc
+   JFzxzd5IFAPChrpdr4H0aqZxK9WAiDs8b88Yvf2oxc5jxpmPkBYgCR0Ni
+   +jU6DJr1cmobuKunwcTrgdKcTHuntQwQLx87ENBu8pLi3MnNG62YxvR2U
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="356958968"
+X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
+   d="scan'208";a="356958968"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 01:59:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="876878679"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 01:59:23 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 28B5E11FAE0;
+        Mon, 14 Aug 2023 11:49:47 +0300 (EEST)
+Date:   Mon, 14 Aug 2023 08:49:47 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com, hverkuil@xs4all.nl,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>
+Subject: Re: [PATCH v3 02/10] media: mc: Check pad flag validity
+Message-ID: <ZNnqq2dCHmPQ8yIs@kekkonen.localdomain>
+References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
+ <20230808075538.3043934-3-sakari.ailus@linux.intel.com>
+ <lk7muh5ptwxfyujwwr7mon4tw23bexgvgtx4rfju34fycgl7xb@fzor6lkcvem6>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="02r1HH4hT38FgzXK"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230804031323.2105187-3-ruanjinjie@huawei.com>
-X-Provags-ID: V03:K1:uMBNvYwdgv5feUZo9EDEmaV4sr0Hrbp7CUZheF0Umv5Spa8/lPm
- +pMRzQ/UU+uinAm95E6tkVy4GCOfFIEi5MwmnT+Q7AbjLPGDLBEzdiI7i0BE1sXwiQrU0C3
- m6KEWM+XDqz3x4cCbSRyaaeUmdXJkB5kf0PrlQLUJbgxdRa1g59DDsMBqfTs4c88sA2coEH
- orlF7+l081FTr99XjNLTg==
-UI-OutboundReport: notjunk:1;M01:P0:TrwOo6XxbG8=;c99V2TjlqjnEstUuYlnTJdvf8R2
- s9wZiWvoRABlaQlEXB3yA3srfprPL+HVgmOM0L+rTrUnGV5BCaeQ68yIC0XyZg+3isFLKuMy3
- DOt1vxupmC0butnDcMmRijblAMTm2h3x2T8w+DX93+/gopFdHXHJWSt46UURJL1tl8Dcvoctb
- V5dh2zFOX+v8IJYkQLX1qjkRf6xlIZITOByWsPyFJ2xpCO2fwCKKTrTVuMKWyxUygBFf03Y/o
- 9EVP4IUJITuNhNSp6MLs7aIfUQKWEgofiCtse9I/hR26MkmFDYvyRakO7vdQS1HkyCe6eI0mc
- i9e943+XVWVC12r/7VhVdXOD/RYovGIjTy9Jx+GqOrN62XMTBs8UZWS3Fq4VqlamaepdTWL0K
- dUcGD4xpAUJKOFK0Uew6twj9wsyMImrGNVxxBpOpCO+AClB640Ofv3T+bJn4IgTngdpH6bOwU
- lOQKb6soNmncF7SuX/ZA7SjngA/R1pwmrFQUhKRSe3NiHXW0CcqsmYQHaTvx+f400MOeAGFC0
- ujJNGGU4+i79PUQUPD52M8wDjFNNoYEPlms7WAn94nIBe/lGIbVQT6Kmag+Eq5f47yjttTYdN
- fQSt6K/tQ0dIVjo1s84WcqiVFMC9vUbaUOWhvb816x3uk4wr1f+/KhTuirnkvD3vcvc0z1vaN
- IJDhwOmaGMHMXpWrxoB/y2RWU4WpddDW5HxF5ROncn+Y6ftVUNPHrFDRJumsxdLuM49btjSHs
- h6IeWrADK16rgFAjMgxxWcyLRiBPLrQzpUQMnZHIATDNiOMC5EbIfj81P1VouetTDsI1fKC7q
- 9RuSTwrbD+pcwyv5NhXZ4xx7X5sfa5Sc5Fw/nwW1dvh02reW69E5CHPjOnaG5/Ya4X9XywqhO
- eGY0ZZ4z6jMVjp9T3DhxAoeEovixFFa/qrT0wJhADYx0TDqfoT0coxqjCtz9q1b/UhbogI8Gz
- szLjfQ==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <lk7muh5ptwxfyujwwr7mon4tw23bexgvgtx4rfju34fycgl7xb@fzor6lkcvem6>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Jacopo,
 
---02r1HH4hT38FgzXK
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Aug 10, 2023 at 03:54:40PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Tue, Aug 08, 2023 at 10:55:30AM +0300, Sakari Ailus wrote:
+> > Check the validity of pad flags on entity init. Exactly one of the flags
+> > must be set.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/mc/mc-entity.c | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > index 83468d4a440b..4991281dcccc 100644
+> > --- a/drivers/media/mc/mc-entity.c
+> > +++ b/drivers/media/mc/mc-entity.c
+> > @@ -197,6 +197,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> >  	struct media_device *mdev = entity->graph_obj.mdev;
+> >  	struct media_pad *iter;
+> >  	unsigned int i = 0;
+> > +	int ret = 0;
+> >
+> >  	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
+> >  		return -E2BIG;
+> > @@ -210,6 +211,14 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> >  	media_entity_for_each_pad(entity, iter) {
+> >  		iter->entity = entity;
+> >  		iter->index = i++;
+> > +
+> > +		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
+> > +					     MEDIA_PAD_FL_SOURCE))
+> > +		    != 1) {
+> 
+> Fits on the previous line, if you like it
 
-On Fri, Aug 04, 2023 at 11:13:22AM +0800, Ruan Jinjie wrote:
-> There is a ternary operator, the true or false judgement of which
-> is unnecessary in C language semantics.
->=20
-> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
-> ---
->  drivers/media/radio/radio-wl1273.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/radio/radio-wl1273.c b/drivers/media/radio/rad=
-io-wl1273.c
-> index e8166eac9efe..f6b98c304b72 100644
-> --- a/drivers/media/radio/radio-wl1273.c
-> +++ b/drivers/media/radio/radio-wl1273.c
-> @@ -1020,7 +1020,7 @@ static int wl1273_fm_set_rds(struct wl1273_device *=
-radio, unsigned int new_mode)
->  	}
-> =20
->  	if (!r)
-> -		radio->rds_on =3D (new_mode =3D=3D WL1273_RDS_ON) ? true : false;
-> +		radio->rds_on =3D new_mode =3D=3D WL1273_RDS_ON;
+Not quite.
 
-Reviewed-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+> 
+> > +			ret = -EINVAL;
+> > +			break;
+> 
+> Now that we can interrupt the for loop earlier, do you need to cleanup
+> objects appended to the mdev list with the media_gobj_create() call here below ?
 
-Thanks.
+Nice find. I'll fix this for v4.
 
---02r1HH4hT38FgzXK
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> > +		}
+> > +
+> >  		if (mdev)
+> >  			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
+> >  					  &iter->graph_obj);
+> > @@ -218,7 +227,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> >  	if (mdev)
+> >  		mutex_unlock(&mdev->graph_mutex);
+> >
+> > -	return 0;
+> > +	return ret;
+> >  }
+> >  EXPORT_SYMBOL_GPL(media_entity_pads_init);
+> >
 
------BEGIN PGP SIGNATURE-----
+-- 
+Kind regards,
 
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmTZ5HsACgkQCDBEmo7z
-X9tNYg/+NgOly4mFpRciEqyK0IK7lFOWjnJhCD5N0N5AgMGbM3mfyoZskKru5EDO
-MfTH80W/dGS3WwjDGrGwDadtmoYxbsVzZe3//GY9+5dL5Te8uTkj9hXjsPQgWW8y
-55v2nGxmMKq/zvzxaIL+Xl2E/T4/EkwnreHqs/kmaTu3b4BS+tGSF2WL2s1PJlgw
-AUbFeIO8nUfzWnzk1U2uqaMYctK7rxp8vaFwyH5RI4xtbkrWMrnfqlm5r/Ds8OtH
-eixj7pOcBPa7X8Tcaim79BJtsBz6Cfflp8Snd6hismM8avpz2cXKwF17M56BhvtG
-RQaOuMcJQqdvImoE19xaNXukt6Sg+F7HV4rBmXuPKWBK04DxhXMk9Yc8+YaRtPj0
-y0rG3RZIp3q1N/fiV3eo7iK6taQR9SYujEDclHcFUmGV3YNIHbBh2Ghl4GpPQARC
-lJSmMxE5j1Q0/5caoQ3wOTFSRUSYVFjgq2hKDaLWSWD6yrTicxMn4JJifmxEP+Qn
-1gTD/Ar1UoBBi1NT9S/2Exa27Ox/l1efl2FwaOw7qe3Vl2z7sR/A7g20Y5M2sHbD
-66an4FoQz1dnhyLStbBXuD2BkMsghxrOYFfEPLBA9CrK+apJvhA4np6XInG0Vd5R
-6txfES7fVf1SlevCGD/bYD2Zz1sX8j84twvd5aWL2EdO8ZqHimk=
-=exkn
------END PGP SIGNATURE-----
-
---02r1HH4hT38FgzXK--
+Sakari Ailus
