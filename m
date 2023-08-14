@@ -2,60 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1D8377BE44
-	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 18:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0159F77BFEF
+	for <lists+linux-media@lfdr.de>; Mon, 14 Aug 2023 20:45:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbjHNQld (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Aug 2023 12:41:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34342 "EHLO
+        id S231613AbjHNSo5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Aug 2023 14:44:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232072AbjHNQlL (ORCPT
+        with ESMTP id S231622AbjHNSot (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Aug 2023 12:41:11 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B29B110;
-        Mon, 14 Aug 2023 09:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692031268; x=1723567268;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8MrcBM4tKoWS6xIUlDV8zq9ctfX+FSX6Tt5r5uFYa1g=;
-  b=S17QJ87TzBsCML0gKrhBfBt3SaRTe2y2/DG+H3yNNdB2LwYHaW0wuTsI
-   /ak/j3XPNsrluWiJDZRp7HAk2x+Awhe99c08U/tvKPKSACmu/JTM7lEiT
-   85g/1Czp4JF17P7NUH0FI8rBE8SquNftDoXntpvPP0aIirgBLNgWknY1g
-   cwOhjxZRfga2HEeulaZr2SCyxvLREMeC0WoRLd4NbVHpZC6RUdQ8JxJ5q
-   Y6ok54U4vNNzZZ40CpY3IOCV/N0U4Xw/6vzSK44h2UcaQY+wiJJ3Kw5GK
-   KPm8eit7djbU0cJtoKFKNBHC4xb6O+h56Ie/oCPJ1Ybe0A1TGV7N1D9Gv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="435970474"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="435970474"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 09:36:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="877028715"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2023 09:36:19 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qVaYB-0000Hl-1G;
-        Mon, 14 Aug 2023 16:36:15 +0000
-Date:   Tue, 15 Aug 2023 00:36:07 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: versioncheck:
- ./drivers/staging/media/atomisp/include/linux/atomisp.h: 25 linux/version.h
- not needed.
-Message-ID: <202308150038.FRryjgG9-lkp@intel.com>
+        Mon, 14 Aug 2023 14:44:49 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF99A1718;
+        Mon, 14 Aug 2023 11:44:28 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37EIKXaw001756;
+        Mon, 14 Aug 2023 18:44:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=SpgGKHaduwL36ft3cIlrRRhxImV4rgAUfwuQWWQnv8k=;
+ b=Zs4hdpsNvDFFGc3m+uyg22lgJxTJwRNUahU6hqosbuAqoAJlzH2970Cux3GsHlZ1eKXU
+ bwAWMO+Is1NJ9Gg44YOp7l3rkMp4JN06/RhmSm57VYWvVE6oe48ehmf9oDRi9Vi6Q9/U
+ 1fGeAoNZ6pzsWeKuYBeoNxKCIAR9dTNxx3xLXnIS2TAixE5v58BdRq7o29D+8e0iD5Vz
+ srEVxdoY2ehJj9DnavHU6ZD+NTdd6LBzkMHqTwsf3d22wLiWtImpbQO5GeI8wKTUpp9+
+ Q3xG1fo8XAY1uwGzrXz9WjHgjGEXkIUszY+6/vBtgnzTwccPt2Iyet/w8aPNu8cm2i43 mA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3se3j94mja-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Aug 2023 18:44:20 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37EIiJ7K009009
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Aug 2023 18:44:19 GMT
+Received: from [10.50.35.106] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 14 Aug
+ 2023 11:44:15 -0700
+Message-ID: <b4de638e-9cab-2662-92b0-e2d1a18018a1@quicinc.com>
+Date:   Tue, 15 Aug 2023 00:14:05 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 01/33] MAINTAINERS: Add Qualcomm Iris video accelerator
+ driver
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        <stanimir.k.varbanov@gmail.com>, <agross@kernel.org>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <mchehab@kernel.org>, <hans.verkuil@cisco.com>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
+ <1690550624-14642-2-git-send-email-quic_vgarodia@quicinc.com>
+ <c29d5e28-5b9d-1327-0feb-e5ed27afcd3a@infradead.org>
+Content-Language: en-US
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <c29d5e28-5b9d-1327-0feb-e5ed27afcd3a@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: rfxZxM8UNtrUJgD6bhcTm9lG7Le3srwM
+X-Proofpoint-GUID: rfxZxM8UNtrUJgD6bhcTm9lG7Le3srwM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-14_15,2023-08-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 adultscore=0 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 clxscore=1011 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308140173
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,92 +86,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2ccdd1b13c591d306f0401d98dedc4bdcd02b421
-commit: ad85094b293e40e7a2f831b0311a389d952ebd5e Revert "media: staging: atomisp: Remove driver"
-date:   3 years, 3 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150038.FRryjgG9-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308150038.FRryjgG9-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 15 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 182: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpio/gpio-mlxbf2.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 62 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
->> ./drivers/staging/media/atomisp/include/linux/atomisp.h: 25 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+On 7/29/2023 4:18 AM, Randy Dunlap wrote:
+> 
+> 
+> On 7/28/23 06:23, Vikash Garodia wrote:
+>> Add an entry for Iris video encoder/decoder accelerator driver.
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>> ---
+>>  MAINTAINERS | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 3be1bdf..ea633b2 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -17671,6 +17671,16 @@ T:	git git://linuxtv.org/media_tree.git
+>>  F:	Documentation/devicetree/bindings/media/*venus*
+>>  F:	drivers/media/platform/qcom/venus/
+>>  
+>> +QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
+> 
+> This entry should immediately follow:
+> QUALCOMM IPQ4019 VQMMC REGULATOR DRIVER
+> 
+> to keep the file in alphabetical order.
+> 
+Sure, will fix this in next version.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Dikshita
+
+>> +M:	Vikash Garodia <quic_vgarodia@quicinc.com>
+>> +M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> +L:	linux-media@vger.kernel.org
+>> +L:	linux-arm-msm@vger.kernel.org
+>> +S:	Maintained
+>> +T:	git git://linuxtv.org/media_tree.git
+>> +F:	Documentation/devicetree/bindings/media/qcom,*-iris.yaml
+>> +F:	drivers/media/platform/qcom/iris/
+>> +
+>>  QUALCOMM WCN36XX WIRELESS DRIVER
+>>  M:	Loic Poulain <loic.poulain@linaro.org>
+>>  L:	wcn36xx@lists.infradead.org
+> 
