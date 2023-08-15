@@ -2,99 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4844577CD62
-	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 15:39:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 254C677CD77
+	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 15:44:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237443AbjHONiy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Aug 2023 09:38:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58914 "EHLO
+        id S237312AbjHONnq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Aug 2023 09:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237446AbjHONia (ORCPT
+        with ESMTP id S237193AbjHONnR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Aug 2023 09:38:30 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E817E52
-        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 06:38:29 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-14-jtYcrbScOx2nz_MMUvypow-1; Tue, 15 Aug 2023 14:38:26 +0100
-X-MC-Unique: jtYcrbScOx2nz_MMUvypow-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 15 Aug
- 2023 14:38:23 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Tue, 15 Aug 2023 14:38:23 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Mina Almasry' <almasrymina@google.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Ahern <dsahern@kernel.org>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
-        "Jason Gunthorpe" <jgg@ziepe.ca>,
-        Hari Ramakrishnan <rharix@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "sdf@google.com" <sdf@google.com>
-Subject: RE: [RFC PATCH v2 00/11] Device Memory TCP
-Thread-Topic: [RFC PATCH v2 00/11] Device Memory TCP
-Thread-Index: AQHZyy4cCyylGqKvQkCWO9kOPAhLv6/rVx7w
-Date:   Tue, 15 Aug 2023 13:38:23 +0000
-Message-ID: <58a93e4e8b8b4ca79c2678a3ae8281cd@AcuMS.aculab.com>
-References: <20230810015751.3297321-1-almasrymina@google.com>
-In-Reply-To: <20230810015751.3297321-1-almasrymina@google.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Tue, 15 Aug 2023 09:43:17 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D08198A
+        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 06:43:16 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BACE86E0;
+        Tue, 15 Aug 2023 15:42:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692106923;
+        bh=gHIwHXKM7hPCUjj7hYd9MrDVv2XnPJXONXIunKzrXW4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=liBpTQoXwd4foKQ7dv0oRJseqfk7NDG66XkCdjTkIEwUEh2c6PpKM4p087Xf+YkLz
+         68Q3kq5ImHTYTdCnowmNS4QAEageyIRGyTf0sPia/dPf+CcZh/cSDnCVLhH6kgLKHO
+         1hwbWVxHzhYL9+ixj7Sojg+IkXkk2gqHui7Je/Kc=
+Date:   Tue, 15 Aug 2023 16:43:22 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 3/5] media: imx290: Convert to new CCI register access
+ helpers
+Message-ID: <20230815134322.GC3128@pendragon.ideasonboard.com>
+References: <20230627125109.52354-1-hdegoede@redhat.com>
+ <20230627125109.52354-4-hdegoede@redhat.com>
+ <20230815131539.GA9702@pendragon.ideasonboard.com>
+ <ZNt+S6dl/rTNLgId@kekkonen.localdomain>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZNt+S6dl/rTNLgId@kekkonen.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogTWluYSBBbG1hc3J5DQo+IFNlbnQ6IDEwIEF1Z3VzdCAyMDIzIDAyOjU4DQouLi4NCj4g
-KiBUTDtEUjoNCj4gDQo+IERldmljZSBtZW1vcnkgVENQIChkZXZtZW0gVENQKSBpcyBhIHByb3Bv
-c2FsIGZvciB0cmFuc2ZlcnJpbmcgZGF0YSB0byBhbmQvb3INCj4gZnJvbSBkZXZpY2UgbWVtb3J5
-IGVmZmljaWVudGx5LCB3aXRob3V0IGJvdW5jaW5nIHRoZSBkYXRhIHRvIGEgaG9zdCBtZW1vcnkN
-Cj4gYnVmZmVyLg0KDQpEb2Vzbid0IHRoYXQgcmVhbGx5IHJlcXVpcmUgcGVlci10by1wZWVyIFBD
-SWUgdHJhbnNmZXJzPw0KSUlSQyB0aGVzZSBhcmVuJ3Qgc3VwcG9ydGVkIGJ5IG1hbnkgcm9vdCBo
-dWJzIGFuZCBoYXZlDQpmdW5kYW1lbnRhbCBmbG93IGNvbnRyb2wgYW5kL29yIFRMUCBjcmVkaXQg
-cHJvYmxlbXMuDQoNCkknZCBndWVzcyB0aGV5IGFyZSBhbHNvIHByZXR0eSBpbmNvbXBhdGlibGUg
-d2l0aCBJT01NVT8NCg0KSSBjYW4gc2VlIGhvdyB5b3UgbWlnaHQgbWFuYWdlIHRvIHRyYW5zbWl0
-IGZyYW1lcyBmcm9tDQpzb21lIGV4dGVybmFsIG1lbW9yeSAoZWcgYWZ0ZXIgZW5jcnlwdGlvbikg
-YnV0IHN1cmVseQ0KcHJvY2Vzc2luZyByZWNlaXZlIGRhdGEgdGhhdCB3YXkgbmVlZHMgdGhlIHBh
-Y2tldHMNCmJlIGZpbHRlcmVkIGJ5IGJvdGggSVAgYWRkcmVzc2VzIGFuZCBwb3J0IG51bWJlcnMg
-YmVmb3JlDQpiZWluZyByZWRpcmVjdGVkIHRvIHRoZSAocHJlc3VtYWJseSBsaW1pdGVkKSBleHRl
-cm5hbA0KbWVtb3J5Lg0KDQpPVE9IIGlzbid0IHRoZSBrZXJuZWwgZ29pbmcgdG8gbmVlZCB0byBy
-dW4gY29kZSBiZWZvcmUNCnRoZSBwYWNrZXQgaXMgYWN0dWFsbHkgc2VudCBhbmQganVzdCBhZnRl
-ciBpdCBpcyByZWNlaXZlZD8NClNvIGFsbCB5b3UgbWlnaHQgZ2FpbiBpcyBhIGJpdCBvZiBsYXRl
-bmN5Pw0KQW5kIGEgYml0IGxlc3MgdXRpbGlzYXRpb24gb2YgaG9zdCBtZW1vcnk/Pw0KQnV0IGlm
-IHlvdXIgc3lzdGVtIGlzIHJlYWxseSBsaW1pdGVkIGJ5IGNwdS1tZW1vcnkgYmFuZHdpZHRoDQp5
-b3UgbmVlZCBtb3JlIGNhY2hlIDotKQ0KDQpTbyBob3cgbXVjaCBiZW5lZml0IGlzIHRoZXJlIG92
-ZXIgZWZmaWNpZW50IHVzZSBvZiBob3N0DQptZW1vcnkgYm91bmNlIGJ1ZmZlcnM/Pw0KDQoJRGF2
-aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50
-IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTcz
-ODYgKFdhbGVzKQ0K
+On Tue, Aug 15, 2023 at 01:31:55PM +0000, Sakari Ailus wrote:
+> On Tue, Aug 15, 2023 at 04:15:39PM +0300, Laurent Pinchart wrote:
+> > On Tue, Jun 27, 2023 at 02:51:06PM +0200, Hans de Goede wrote:
+> > > Use the new comon CCI register access helpers to replace the private
+> > > register access helpers in the imx290 driver.
+> > > 
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > > ---
+> > > Note:
+> > > 1. This is untested
+> > > 2. For reviewers: all the IMX290_REG_?BIT defines in both the register
+> > > address defines as well as in various reg-sequences were automatically
+> > > changed using search replace.
+> > > ---
+> > > Changes in v3:
+> > > - Fixed a couple of lines > 80 chars
+> > > 
+> > > Changes in v2:
+> > > - New patch in v2 of this series
+> > > ---
+> > >  drivers/media/i2c/Kconfig  |   1 +
+> > >  drivers/media/i2c/imx290.c | 360 +++++++++++++++----------------------
+> > >  2 files changed, 150 insertions(+), 211 deletions(-)
+> > 
+> > [snip]
+> > 
+> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > > index b3f832e9d7e1..e78c7b91ae72 100644
+> > > --- a/drivers/media/i2c/imx290.c
+> > > +++ b/drivers/media/i2c/imx290.c
+> > > @@ -21,91 +21,86 @@
+> > 
+> > [snip]
+> > 
+> > > @@ -615,63 +605,15 @@ imx290_format_info(const struct imx290 *imx290, u32 code)
+> > >  	return NULL;
+> > >  }
+> > >  
+> > > -/* -----------------------------------------------------------------------------
+> > > - * Register access
+> > > - */
+> > > -
+> > > -static int __always_unused imx290_read(struct imx290 *imx290, u32 addr, u32 *value)
+> > > -{
+> > > -	u8 data[3] = { 0, 0, 0 };
+> > > -	int ret;
+> > > -
+> > > -	ret = regmap_raw_read(imx290->regmap, addr & IMX290_REG_ADDR_MASK,
+> > > -			      data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
+> > > -	if (ret < 0) {
+> > > -		dev_err(imx290->dev, "%u-bit read from 0x%04x failed: %d\n",
+> > > -			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
+> > > -			 addr & IMX290_REG_ADDR_MASK, ret);
+> > > -		return ret;
+> > > -	}
+> > > -
+> > > -	*value = get_unaligned_le24(data);
+> > > -	return 0;
+> > > -}
+> > > -
+> > > -static int imx290_write(struct imx290 *imx290, u32 addr, u32 value, int *err)
+> > > -{
+> > > -	u8 data[3];
+> > > -	int ret;
+> > > -
+> > > -	if (err && *err)
+> > > -		return *err;
+> > > -
+> > > -	put_unaligned_le24(value, data);
+> > 
+> > We seem to be having a problem here, as the CCI helpers unconditionally
+> > use big endian for the data :-(
+> 
+> Well spotted. This driver needs to address this.
+> 
+> It's a hardware issue though. It's the only sensor ever I've seen to have
+> little endian registers.
 
+I'm not sure I would call that a hardware issue. It may be a peculiarity
+of this sensor, but is it really the only one ?
+
+How would you like to see this addressed ? We could add CCI_REG*_LE
+macros, but I'm not sure to like that. Setting a flag at init time would
+be nicer, but there's nowhere to store it.
+
+> > > -
+> > > -	ret = regmap_raw_write(imx290->regmap, addr & IMX290_REG_ADDR_MASK,
+> > > -			       data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
+> > > -	if (ret < 0) {
+> > > -		dev_err(imx290->dev, "%u-bit write to 0x%04x failed: %d\n",
+> > > -			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
+> > > -			 addr & IMX290_REG_ADDR_MASK, ret);
+> > > -		if (err)
+> > > -			*err = ret;
+> > > -	}
+> > > -
+> > > -	return ret;
+> > > -}
+> > > -
+> > 
+> > [snip]
+
+-- 
+Regards,
+
+Laurent Pinchart
