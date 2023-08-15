@@ -2,42 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F6F677CBFC
-	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 13:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B06C77CC41
+	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 14:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236849AbjHOLr6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Aug 2023 07:47:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59464 "EHLO
+        id S230243AbjHOMCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Aug 2023 08:02:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236939AbjHOLro (ORCPT
+        with ESMTP id S236944AbjHOMC3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Aug 2023 07:47:44 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE591FCA
-        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 04:47:13 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.53])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RQ8Yq1nQdzFqdg;
-        Tue, 15 Aug 2023 19:44:15 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 15 Aug
- 2023 19:47:11 +0800
-From:   Ruan Jinjie <ruanjinjie@huawei.com>
-To:     <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH -next] media: cx231xx: Switch to use kmemdup() helper
-Date:   Tue, 15 Aug 2023 19:46:47 +0800
-Message-ID: <20230815114647.1550908-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 15 Aug 2023 08:02:29 -0400
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C466CB0;
+        Tue, 15 Aug 2023 05:02:25 -0700 (PDT)
+Received: by mail-vs1-xe2b.google.com with SMTP id ada2fe7eead31-447d394d1ebso4144769137.1;
+        Tue, 15 Aug 2023 05:02:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692100945; x=1692705745;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=T7VZKftEzDye9TscT4naX9QKoF2fRXcn75T62khYWWQ=;
+        b=kHJJ+YQzAjdBTWqM+jTaA28DDuduIOmeVIXpjNAxaIzEhEwvkEd46GjFTqAtrQ/5g6
+         EB1vOL2dIeeXoRkOFq8w+Q1Y48BEyCdfsvTG0tKeVS3TPj32zDyikBiLccjWfDKaoH52
+         Pv6te7bjbzUzKMMFaeXsD42CVKKjiDVbwRphDPjH8NWOFb8qslNtI2FH+SjFa7EoXAig
+         zPgR7OXFYCeSa1vtUPiS3iYru2GL8kK1nEaUqthS+snQ5tpIDtrLHNjgfxSvtQxFMwOF
+         ki2VqLZp4f89v4tELG1ksdhDepZGox+b7w+BIA/SNTc08lMTuNlHLkRzzC79vdXWd44j
+         gAqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692100945; x=1692705745;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T7VZKftEzDye9TscT4naX9QKoF2fRXcn75T62khYWWQ=;
+        b=O4ylsPBKQOK4ppjwGHUitruZxFMeVjS0yiQAuCJpnS7TQrFyOIrLVwFdKM9OG0BMwN
+         TJNQY+DDsbYWd4g1yD2EXJcjgS7x/F/0C5V6iUn4BWfTzIyhj+1M3L0+RYTq31fUgdte
+         mCg8hYSoKwkNJr8SHcQ+DYj6KF3S059MUSEbW51xlinqnSmifgswbp9FP4JliHVokVz7
+         eBBR05xk2dtGnKLII3ilkC266L0w9Z7LTWc8xSffqwKvxcKF8Y6+xtJrFu9D+rJkmLsL
+         uuyEZtvsAJ/X5tI+x8BdvPjgUbv/wZsjDmgF4ZuTf0vwo+ZhHNxsY9MkqBqhQ0ZznAdj
+         dhzA==
+X-Gm-Message-State: AOJu0YwA/9Heznpk20LSEoFwBtvQtZtpetgcCgozadBLa/5osS63/lmC
+        VehCeF1TrZCD+RcYQRcZJUFpM8UVZnguwrAXuTJMZXgHZpzcSA==
+X-Google-Smtp-Source: AGHT+IHlWJSL+v1L2lw9VEENTbd7+FniMTJi4YOpjY9+FnmdrwanOpKWjo5sk5MiM49brs0DzL3buQvWYYu/r6wP7K0=
+X-Received: by 2002:a05:6102:418d:b0:445:4a0c:3afb with SMTP id
+ cd13-20020a056102418d00b004454a0c3afbmr1843814vsb.8.1692100944625; Tue, 15
+ Aug 2023 05:02:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+References: <20230704064412.2145181-1-milkfafa@gmail.com> <20230704064412.2145181-8-milkfafa@gmail.com>
+ <d28bd991-5a28-6f0d-a8d6-64169ff7a698@xs4all.nl>
+In-Reply-To: <d28bd991-5a28-6f0d-a8d6-64169ff7a698@xs4all.nl>
+From:   Kun-Fa Lin <milkfafa@gmail.com>
+Date:   Tue, 15 Aug 2023 20:02:13 +0800
+Message-ID: <CADnNmFoxgFZi3c9wGoERW4rrPBvMiGyBvUZ7YFu=MpVHbS97pg@mail.gmail.com>
+Subject: Re: [PATCH v13 7/7] media: nuvoton: Add driver for NPCM video capture
+ and encode engine
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, avifishman70@gmail.com, tmaimon77@gmail.com,
+        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
+        benjaminfair@google.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        kwliu@nuvoton.com, kflin@nuvoton.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -46,30 +74,92 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use kmemdup() helper instead of open-coding to
-simplify the code.
+Hi Hans,
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
----
- drivers/media/usb/cx231xx/cx231xx-core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Thanks for the review.
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-core.c b/drivers/media/usb/cx231xx/cx231xx-core.c
-index 727e6268567f..746727ea1a4c 100644
---- a/drivers/media/usb/cx231xx/cx231xx-core.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-core.c
-@@ -751,10 +751,9 @@ int cx231xx_ep5_bulkout(struct cx231xx *dev, u8 *firmware, u16 size)
- 	int ret = -ENOMEM;
- 	u32 *buffer;
- 
--	buffer = kzalloc(4096, GFP_KERNEL);
-+	buffer = kmemdup(firmware, 4096, GFP_KERNEL);
- 	if (buffer == NULL)
- 		return -ENOMEM;
--	memcpy(&buffer[0], firmware, 4096);
- 
- 	ret = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, 5),
- 			buffer, 4096, &actlen, 2000);
--- 
-2.34.1
+> > can compress the frame data into HEXTITLE format. This driver implements
+>
+> HEXTITLE -> HEXTILE
 
+> > +       data into HEXTITLE format.
+>
+> Ditto.
+
+> > +     video->active_timings = video->detected_timings;
+>
+> Why not let npcm_video_set_resolution() set active_timings?
+> And also update pix_fmt? That will also simplify npcm_video_set_dv_timings().
+
+> > +     .type = V4L2_CTRL_TYPE_INTEGER,
+>
+> This must be of TYPE_MENU. It selects between two
+> modes, so that is typically a MENU control. That way you can list
+> the possible modes and get a human-readable name for each setting.
+
+These problems will be addressed in v14.
+
+
+> > +static const struct v4l2_ctrl_config npcm_ctrl_rect_count = {
+> > +     .ops = &npcm_video_ctrl_ops,
+> > +     .id = V4L2_CID_NPCM_RECT_COUNT,
+> > +     .name = "NPCM Compressed Hextile Rectangle Count",
+> > +     .type = V4L2_CTRL_TYPE_INTEGER,
+> > +     .flags = V4L2_CTRL_FLAG_VOLATILE,
+> > +     .min = 0,
+> > +     .max = (MAX_WIDTH / RECT_W) * (MAX_HEIGHT / RECT_H),
+> > +     .step = 1,
+> > +     .def = 0,
+> > +};
+>
+> I'm wondering if this shouldn't be an INTEGER array control.
+> Either dynamic or just fixed to size VIDEO_MAX_FRAME. That way
+> you can set the rectangle count for each buffer index. You wouldn't
+> need this to be volatile either in that case.
+>
+> I don't really like the way it is set up now since if userspace is
+> slow in processing a frame the control might have been updated already
+> for the next frame and you get the wrong value for the buffer you are
+> processing.
+
+When userspace app dequeues a buffer, it needs to know the count of
+HEXTILE rectangles in the buffer,
+so app will call this control to get the rect count after dequeueing the buffer.
+
+And when a buffer is dequeued, npcm_video_buf_finish() will be called,
+in which the buffer index (vb->index) will be stored.
+Then when userspace app calls this control,
+npcm_video_get_volatile_ctrl() will return the rect count of the
+desired buffer index.
+In this way, I think the buffer index is always correct even if
+userspace is slow.
+
+
+> > +     if (*num_buffers > VIDEO_MAX_FRAME)
+> > +             *num_buffers = VIDEO_MAX_FRAME;
+>
+> You can drop this test, it's done automatically by the vb2 core.
+
+> > +     for (i = 0; i < *num_buffers; i++)
+> > +             INIT_LIST_HEAD(&video->list[i]);
+>
+> This is incomplete: if VIDIOC_CREATE_BUFS is called additional buffers can be added.
+> In that case this function is called with *num_planes already set and *num_buffers
+> being the additional buffers you want to add. So in the 'if (*num_planes)' code
+> above you need to take care of that.
+>
+> However, isn't it much easier to just have a fixed 'video->list[VIDEO_MAX_FRAME]' array
+> rather than dynamically allocating it? It would simplify the code, and all you need to
+> do here is call INIT_LIST_HEAD for all (VIDEO_MAX_FRAME) array elements.
+
+> > +     video->num_buffers = *num_buffers;
+>
+> You can drop the num_buffers field: just use the num_buffers field of vb2_queue.
+>
+> This code is incomplete anyway since it doesn't deal with VIDIOC_CREATE_BUFS.
+> Much easier to just rely on the vb2_queue information.
+
+Will modify as you suggested. Thanks.
+
+Regards,
+Marvin
