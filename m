@@ -2,164 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B06C77CC41
-	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 14:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50BFD77CC4B
+	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 14:06:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230243AbjHOMCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Aug 2023 08:02:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46772 "EHLO
+        id S230243AbjHOMGW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Aug 2023 08:06:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236944AbjHOMC3 (ORCPT
+        with ESMTP id S237015AbjHOMFw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Aug 2023 08:02:29 -0400
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C466CB0;
-        Tue, 15 Aug 2023 05:02:25 -0700 (PDT)
-Received: by mail-vs1-xe2b.google.com with SMTP id ada2fe7eead31-447d394d1ebso4144769137.1;
-        Tue, 15 Aug 2023 05:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692100945; x=1692705745;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=T7VZKftEzDye9TscT4naX9QKoF2fRXcn75T62khYWWQ=;
-        b=kHJJ+YQzAjdBTWqM+jTaA28DDuduIOmeVIXpjNAxaIzEhEwvkEd46GjFTqAtrQ/5g6
-         EB1vOL2dIeeXoRkOFq8w+Q1Y48BEyCdfsvTG0tKeVS3TPj32zDyikBiLccjWfDKaoH52
-         Pv6te7bjbzUzKMMFaeXsD42CVKKjiDVbwRphDPjH8NWOFb8qslNtI2FH+SjFa7EoXAig
-         zPgR7OXFYCeSa1vtUPiS3iYru2GL8kK1nEaUqthS+snQ5tpIDtrLHNjgfxSvtQxFMwOF
-         ki2VqLZp4f89v4tELG1ksdhDepZGox+b7w+BIA/SNTc08lMTuNlHLkRzzC79vdXWd44j
-         gAqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692100945; x=1692705745;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=T7VZKftEzDye9TscT4naX9QKoF2fRXcn75T62khYWWQ=;
-        b=O4ylsPBKQOK4ppjwGHUitruZxFMeVjS0yiQAuCJpnS7TQrFyOIrLVwFdKM9OG0BMwN
-         TJNQY+DDsbYWd4g1yD2EXJcjgS7x/F/0C5V6iUn4BWfTzIyhj+1M3L0+RYTq31fUgdte
-         mCg8hYSoKwkNJr8SHcQ+DYj6KF3S059MUSEbW51xlinqnSmifgswbp9FP4JliHVokVz7
-         eBBR05xk2dtGnKLII3ilkC266L0w9Z7LTWc8xSffqwKvxcKF8Y6+xtJrFu9D+rJkmLsL
-         uuyEZtvsAJ/X5tI+x8BdvPjgUbv/wZsjDmgF4ZuTf0vwo+ZhHNxsY9MkqBqhQ0ZznAdj
-         dhzA==
-X-Gm-Message-State: AOJu0YwA/9Heznpk20LSEoFwBtvQtZtpetgcCgozadBLa/5osS63/lmC
-        VehCeF1TrZCD+RcYQRcZJUFpM8UVZnguwrAXuTJMZXgHZpzcSA==
-X-Google-Smtp-Source: AGHT+IHlWJSL+v1L2lw9VEENTbd7+FniMTJi4YOpjY9+FnmdrwanOpKWjo5sk5MiM49brs0DzL3buQvWYYu/r6wP7K0=
-X-Received: by 2002:a05:6102:418d:b0:445:4a0c:3afb with SMTP id
- cd13-20020a056102418d00b004454a0c3afbmr1843814vsb.8.1692100944625; Tue, 15
- Aug 2023 05:02:24 -0700 (PDT)
+        Tue, 15 Aug 2023 08:05:52 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C76CB173C;
+        Tue, 15 Aug 2023 05:05:46 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FB2D6BE;
+        Tue, 15 Aug 2023 14:04:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692101071;
+        bh=z0PuRlOPSM7m9+UtKr3fBFzofL+sYR2WdbiV0aUsETk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Nzcy/V9oMsRCzey3fPoE4VFz10+o86wZSBRDpsc26jiGD5ubPE6AIYGCYdKHhf3c+
+         ah+TZZ936iSyctp9zUWZp9+G1CJVh008AlMczR9gDu+9VeP2Pp9vZLcUcZDyfQXGpr
+         DoEp8GPaX4naIS08pk9Nv4Ez7gz+/A95COZH+NaY=
+Message-ID: <be652e97-24ec-a9e8-88b0-ca71a596921e@ideasonboard.com>
+Date:   Tue, 15 Aug 2023 15:05:39 +0300
 MIME-Version: 1.0
-References: <20230704064412.2145181-1-milkfafa@gmail.com> <20230704064412.2145181-8-milkfafa@gmail.com>
- <d28bd991-5a28-6f0d-a8d6-64169ff7a698@xs4all.nl>
-In-Reply-To: <d28bd991-5a28-6f0d-a8d6-64169ff7a698@xs4all.nl>
-From:   Kun-Fa Lin <milkfafa@gmail.com>
-Date:   Tue, 15 Aug 2023 20:02:13 +0800
-Message-ID: <CADnNmFoxgFZi3c9wGoERW4rrPBvMiGyBvUZ7YFu=MpVHbS97pg@mail.gmail.com>
-Subject: Re: [PATCH v13 7/7] media: nuvoton: Add driver for NPCM video capture
- and encode engine
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     mchehab@kernel.org, avifishman70@gmail.com, tmaimon77@gmail.com,
-        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
-        benjaminfair@google.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        kwliu@nuvoton.com, kflin@nuvoton.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v9 05/13] media: cadence: csi2rx: Add get_fmt and set_fmt
+ pad ops
+To:     Jai Luthra <j-luthra@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Benoit Parrot <bparrot@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>, nm@ti.com,
+        devarsht@ti.com, a-bhatia1@ti.com,
+        Martyn Welch <martyn.welch@collabora.com>,
+        Julien Massot <julien.massot@collabora.com>
+References: <20230811-upstream_csi-v9-0-8943f7a68a81@ti.com>
+ <20230811-upstream_csi-v9-5-8943f7a68a81@ti.com>
+Content-Language: en-US
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230811-upstream_csi-v9-5-8943f7a68a81@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On 11/08/2023 13:47, Jai Luthra wrote:
+> From: Pratyush Yadav <p.yadav@ti.com>
+> 
+> The format is needed to calculate the link speed for the external DPHY
+> configuration. It is not right to query the format from the source
+> subdev. Add get_fmt and set_fmt pad operations so that the format can be
+> configured and correct bpp be selected.
+> 
+> Initialize and use the v4l2 subdev active state to keep track of the
+> active formats. Also propagate the new format from the sink pad to all
+> the source pads.
+> 
+> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> Co-authored-by: Jai Luthra <j-luthra@ti.com>
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> ---
+> Changes from v8:
+>      - Squash the patch adding RAW8 and RAW10 formats within this one
+>      - Single line struct entries in formats[] array
+>      - Skip specifiying redundant format.which entry in init_cfg()
+> 
 
-Thanks for the review.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-> > can compress the frame data into HEXTITLE format. This driver implements
->
-> HEXTITLE -> HEXTILE
-
-> > +       data into HEXTITLE format.
->
-> Ditto.
-
-> > +     video->active_timings = video->detected_timings;
->
-> Why not let npcm_video_set_resolution() set active_timings?
-> And also update pix_fmt? That will also simplify npcm_video_set_dv_timings().
-
-> > +     .type = V4L2_CTRL_TYPE_INTEGER,
->
-> This must be of TYPE_MENU. It selects between two
-> modes, so that is typically a MENU control. That way you can list
-> the possible modes and get a human-readable name for each setting.
-
-These problems will be addressed in v14.
-
-
-> > +static const struct v4l2_ctrl_config npcm_ctrl_rect_count = {
-> > +     .ops = &npcm_video_ctrl_ops,
-> > +     .id = V4L2_CID_NPCM_RECT_COUNT,
-> > +     .name = "NPCM Compressed Hextile Rectangle Count",
-> > +     .type = V4L2_CTRL_TYPE_INTEGER,
-> > +     .flags = V4L2_CTRL_FLAG_VOLATILE,
-> > +     .min = 0,
-> > +     .max = (MAX_WIDTH / RECT_W) * (MAX_HEIGHT / RECT_H),
-> > +     .step = 1,
-> > +     .def = 0,
-> > +};
->
-> I'm wondering if this shouldn't be an INTEGER array control.
-> Either dynamic or just fixed to size VIDEO_MAX_FRAME. That way
-> you can set the rectangle count for each buffer index. You wouldn't
-> need this to be volatile either in that case.
->
-> I don't really like the way it is set up now since if userspace is
-> slow in processing a frame the control might have been updated already
-> for the next frame and you get the wrong value for the buffer you are
-> processing.
-
-When userspace app dequeues a buffer, it needs to know the count of
-HEXTILE rectangles in the buffer,
-so app will call this control to get the rect count after dequeueing the buffer.
-
-And when a buffer is dequeued, npcm_video_buf_finish() will be called,
-in which the buffer index (vb->index) will be stored.
-Then when userspace app calls this control,
-npcm_video_get_volatile_ctrl() will return the rect count of the
-desired buffer index.
-In this way, I think the buffer index is always correct even if
-userspace is slow.
+  Tomi
 
 
-> > +     if (*num_buffers > VIDEO_MAX_FRAME)
-> > +             *num_buffers = VIDEO_MAX_FRAME;
->
-> You can drop this test, it's done automatically by the vb2 core.
-
-> > +     for (i = 0; i < *num_buffers; i++)
-> > +             INIT_LIST_HEAD(&video->list[i]);
->
-> This is incomplete: if VIDIOC_CREATE_BUFS is called additional buffers can be added.
-> In that case this function is called with *num_planes already set and *num_buffers
-> being the additional buffers you want to add. So in the 'if (*num_planes)' code
-> above you need to take care of that.
->
-> However, isn't it much easier to just have a fixed 'video->list[VIDEO_MAX_FRAME]' array
-> rather than dynamically allocating it? It would simplify the code, and all you need to
-> do here is call INIT_LIST_HEAD for all (VIDEO_MAX_FRAME) array elements.
-
-> > +     video->num_buffers = *num_buffers;
->
-> You can drop the num_buffers field: just use the num_buffers field of vb2_queue.
->
-> This code is incomplete anyway since it doesn't deal with VIDIOC_CREATE_BUFS.
-> Much easier to just rely on the vb2_queue information.
-
-Will modify as you suggested. Thanks.
-
-Regards,
-Marvin
