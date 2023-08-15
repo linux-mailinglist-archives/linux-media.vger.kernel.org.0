@@ -2,128 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 985A877C8B1
-	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 09:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D274F77C928
+	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 10:10:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235313AbjHOHlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Aug 2023 03:41:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34472 "EHLO
+        id S235562AbjHOIKP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Aug 2023 04:10:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233691AbjHOHlq (ORCPT
+        with ESMTP id S234493AbjHOIJn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Aug 2023 03:41:46 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51EC010F9
-        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 00:41:45 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4RQ39y0JjmzyTh
-        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 10:41:40 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1692085302;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=b+3nVLLRudd3M33lNpuI3CgiW6PRXWAaZzbF3lAVudY=;
-        b=Lk6COui/Fi0xud/ATDjvkSbFBKIG8Aq3qeiQIAzlStxmwpivZAe7GRiFcDKuNeLePiBWMY
-        eTiwwL09VsokqBeE9EtC2Lew7PLKu4Mt6FRxoXHgrn0ozI/j9evLRE+PkxEdOBf6zfQTXD
-        MS7antficJob7vu6iVFxDKOymnGiNMc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1692085302;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=b+3nVLLRudd3M33lNpuI3CgiW6PRXWAaZzbF3lAVudY=;
-        b=F74in0xJkAETJSFte5PcqmxEniwF977tX4JeVQmNhfhBqoikH2A2l2GEjUXyNixzZ4p1Xu
-        3zsWnfFjz0zH99ZCvTuX5v0gs7oMvAwUIdZruSUqW+sx8aB8CuLMf4pU9fLfuEWplECnTc
-        cn9TES5ctoliF4Etrrc4xcsozj7fmtk=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1692085302; a=rsa-sha256; cv=none;
-        b=iOFXgay2MZU7dqGK1/PejOw6bk0hoRWLJTCauT5hYzbEv1ii5oV/9DvpKGLJO3cjxnwop6
-        IFnzoOokpocO+N52VYWt9I0f4/Lx/PqGwZ5gg0D7wlcpvvJkef9aZfXadigdhi7toR4+ke
-        CIndUiVPveETZRVC6xkIwSiu79Dkg7Y=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8ED38634C95
-        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 10:41:39 +0300 (EEST)
-Date:   Tue, 15 Aug 2023 07:41:39 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.6] V4L2 fixes
-Message-ID: <ZNssM3RD0j9eMVZn@valkosipuli.retiisi.eu>
+        Tue, 15 Aug 2023 04:09:43 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 275C81703
+        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 01:09:41 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qVp7U-000RX0-9J; Tue, 15 Aug 2023 08:09:40 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qVp7R-00BxoT-2k;
+        Tue, 15 Aug 2023 08:09:37 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR 6.6] V4L2 fixes (#94092)
+Date:   Tue, 15 Aug 2023 08:09:36 +0000
+Message-Id: <20230815080936.2851520-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZNssM3RD0j9eMVZn@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Here's a number of miscellaneous fixes for 6.6. In particular, ipu3-imgu,
-imx219, ov5640 and ov13b10 drivers have functional fixes.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZNssM3RD0j9eMVZn@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/330949/
+Build time: 00:21:26
+Link: https://lore.kernel.org/linux-media/ZNssM3RD0j9eMVZn@valkosipuli.retiisi.eu
 
-Please pull.
+gpg: Signature made Tue 15 Aug 2023 07:38:05 AM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
 
+Summary: got 1/8 patches with issues, being 1 at build time
 
-The following changes since commit b7ec3212a73abc987e8f33aa42988e6c39c38c92:
+Error/warnings:
 
-  media: bttv: convert to vb2 (2023-08-14 20:27:59 +0200)
+patches/0001-MAINTAINERS-fix-file-path-for-Omnvision-OV4689.patch:
 
-are available in the Git repository at:
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.6-3.1-signed
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2771 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+	  Locked on  : 326,387
+	  Unlocked on: 465,467
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000008Kb sm_state_count = 1970829
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
 
-for you to fetch changes up to 1c21b0662547f6548056d0350bbd12570512106d:
-
-  media: i2c: imx219: Fix crop rectangle setting when changing format (2023-08-15 10:37:52 +0300)
-
-----------------------------------------------------------------
-V4L2 fixes for 6.6
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      media: ov13b10: Fix some error checking in probe
-
-Guoniu.zhou (1):
-      media: ov5640: fix vblank unchange issue when work at dvp mode
-
-Jean-Michel Hautbois (1):
-      media: staging: ipu3-imgu: Initialise height_per_slice in the stripes
-
-Laurent Pinchart (2):
-      media: i2c: imx219: Fix a typo referring to a wrong variable
-      media: i2c: imx219: Fix crop rectangle setting when changing format
-
-Mikhail Rudenko (1):
-      MAINTAINERS: fix file path for Omnvision OV4689
-
-Sakari Ailus (1):
-      media: ivsc: Improve Kconfig help text
-
-Tommaso Merciai (1):
-      media: dt-bindings: ov5693: fix maintainer email address
-
- .../devicetree/bindings/media/i2c/ovti,ov5693.yaml |  2 +-
- MAINTAINERS                                        |  2 +-
- drivers/media/i2c/imx219.c                         | 13 ++++---
- drivers/media/i2c/ov13b10.c                        |  2 +-
- drivers/media/i2c/ov5640.c                         | 19 +++++++---
- drivers/media/pci/intel/ivsc/Kconfig               | 12 ++++--
- drivers/staging/media/ipu3/ipu3-css-params.c       | 44 +++++++++++-----------
- 7 files changed, 55 insertions(+), 39 deletions(-)
-
--- 
-Kind regards,
-
-Sakari Ailus
