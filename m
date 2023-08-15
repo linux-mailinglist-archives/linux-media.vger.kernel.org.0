@@ -2,184 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A0E877D217
-	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 20:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE26277D2CB
+	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 21:03:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239189AbjHOSls (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Aug 2023 14:41:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48182 "EHLO
+        id S239462AbjHOTCq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Aug 2023 15:02:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239332AbjHOSll (ORCPT
+        with ESMTP id S239781AbjHOTCj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Aug 2023 14:41:41 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A21F71FF6
-        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 11:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692124878; x=1723660878;
-  h=date:from:to:cc:subject:message-id;
-  bh=SUdGRggRqxgBj6CO7pgqdcRemKkyu49qNp2WoLKmBv0=;
-  b=ewD0KHUUouj0MA8rLQ+apVcwZE3egQG1KCW140OWNPErHXp7yCJFSwPn
-   2ptlUOdnO2klFtNt6YM768lTVZkPf3yXJgsqIsW2UsdTAgs3Boe9DxUKX
-   k7k5hUlEElRW+rmRnc1cSxkFLi/QTNYd5XoWGgMtT/gEjo1mIIshWTnf7
-   tGUh6bosA4JuwjgXZAx6Ks89IYU+M7AwREUNXq045kCnfDtFgBwenaezZ
-   Or3Y3x3wYl5iTi194dbZaQoSqIY2mjmEknrNE8dIkwr3DztL+H4Td/dIQ
-   6tmOxaqQRPNcGOHENbco9zV05WOot+E3J5X/hBsmYRxofHpFFNycqFXjH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375120773"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="375120773"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 11:41:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="803918974"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="803918974"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 15 Aug 2023 11:41:16 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qVyyi-00019T-0q;
-        Tue, 15 Aug 2023 18:41:16 +0000
-Date:   Wed, 16 Aug 2023 02:41:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 3c7c9beedfedbb15ac6859d2194b2dc7c3388745
-Message-ID: <202308160209.vsGmWHG6-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 15 Aug 2023 15:02:39 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557BE268D;
+        Tue, 15 Aug 2023 12:02:20 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 353B5211B8;
+        Tue, 15 Aug 2023 19:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1692126107; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=//6lpnW6sCl4feNuAFbqi6XUsXoCWMdVSeRR25UImmk=;
+        b=lKC4tZf7WG38nR/+S7P0hfukLxRpFMGV/R/rtIcnNlUGsWOO0WmwaXvEWgThkvB1ihsRXm
+        HWmdV0Mo0Bwu13DaVDZt15C+28SU66ST57i/9JfQIAcomGTW0DEn3qM/Z7mh70VWRyUI0a
+        tvIAUJZX0m1q1PB+9pcimyQjlw5iWL8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1692126107;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=//6lpnW6sCl4feNuAFbqi6XUsXoCWMdVSeRR25UImmk=;
+        b=7bAEkFaYSkQrYTqFUCvdJZuyzgiU44+C+bBhhQFbDIcKL7WJ0SParPiABaClmft1Gfd6Kg
+        2o7jLFBIu41otZBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C9CCC1353E;
+        Tue, 15 Aug 2023 19:01:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id XZIxL5rL22QTVAAAMHmgww
+        (envelope-from <tiwai@suse.de>); Tue, 15 Aug 2023 19:01:46 +0000
+From:   Takashi Iwai <tiwai@suse.de>
+To:     alsa-devel@alsa-project.org
+Cc:     linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andrey Utkin <andrey_utkin@fastmail.com>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+        Banajit Goswami <bgoswami@quicinc.com>,
+        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Ismael Luceno <ismael@iodev.co.uk>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Mark Brown <broonie@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        linux-media@vger.kernel.org, xen-devel@lists.xenproject.org
+Subject: [PATCH v2 00/25] ALSA: Generic PCM copy ops using iov_iter
+Date:   Tue, 15 Aug 2023 21:01:11 +0200
+Message-Id: <20230815190136.8987-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 3c7c9beedfedbb15ac6859d2194b2dc7c3388745  media: i2c: imx219: Fix crop rectangle setting when changing format
+Hi,
 
-elapsed time: 722m
+this is a v2 patch set for cleaning up the PCM copy ops using
+iov_iter to deal with kernel / user-space pointers consistently.
 
-configs tested: 107
-configs skipped: 4
+v1->v2:
+* The error condition checks of copy_to/from_iter() are changed to
+  be more strictly
+* Put Acked and Reviewed tags
+* The indents in the patch in dmaengine was slightly changed
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+v1:
+  https://lore.kernel.org/r/20230814115523.15279-1-tiwai@suse.de
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r022-20230815   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r011-20230815   gcc  
-arc                  randconfig-r024-20230815   gcc  
-arc                  randconfig-r036-20230815   gcc  
-arc                  randconfig-r043-20230815   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r032-20230815   gcc  
-arm                  randconfig-r046-20230815   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r002-20230815   gcc  
-csky                 randconfig-r005-20230815   gcc  
-hexagon              randconfig-r033-20230815   clang
-hexagon              randconfig-r041-20230815   clang
-hexagon              randconfig-r045-20230815   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230815   clang
-i386         buildonly-randconfig-r005-20230815   clang
-i386         buildonly-randconfig-r006-20230815   clang
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230815   clang
-i386                 randconfig-i002-20230815   clang
-i386                 randconfig-i003-20230815   clang
-i386                 randconfig-i004-20230815   clang
-i386                 randconfig-i005-20230815   clang
-i386                 randconfig-i006-20230815   clang
-i386                 randconfig-i011-20230815   gcc  
-i386                 randconfig-i012-20230815   gcc  
-i386                 randconfig-i013-20230815   gcc  
-i386                 randconfig-i014-20230815   gcc  
-i386                 randconfig-i015-20230815   gcc  
-i386                 randconfig-i016-20230815   gcc  
-i386                 randconfig-r016-20230815   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r006-20230815   gcc  
-m68k                 randconfig-r025-20230815   gcc  
-microblaze           randconfig-r003-20230815   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r001-20230815   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc              randconfig-r035-20230815   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r004-20230815   clang
-riscv                randconfig-r031-20230815   clang
-riscv                randconfig-r042-20230815   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r044-20230815   gcc  
-sh                               allmodconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r021-20230815   gcc  
-sparc                randconfig-r023-20230815   gcc  
-sparc64              randconfig-r034-20230815   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r014-20230815   clang
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230815   clang
-x86_64       buildonly-randconfig-r002-20230815   clang
-x86_64       buildonly-randconfig-r003-20230815   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-x001-20230815   gcc  
-x86_64               randconfig-x002-20230815   gcc  
-x86_64               randconfig-x003-20230815   gcc  
-x86_64               randconfig-x004-20230815   gcc  
-x86_64               randconfig-x005-20230815   gcc  
-x86_64               randconfig-x006-20230815   gcc  
-x86_64               randconfig-x011-20230815   clang
-x86_64               randconfig-x012-20230815   clang
-x86_64               randconfig-x013-20230815   clang
-x86_64               randconfig-x014-20230815   clang
-x86_64               randconfig-x015-20230815   clang
-x86_64               randconfig-x016-20230815   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r015-20230815   gcc  
-xtensa               randconfig-r026-20230815   gcc  
+
+Takashi
+
+===
+
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Andrey Utkin <andrey_utkin@fastmail.com>
+Cc: Anton Sviridenko <anton@corp.bluecherry.net>
+Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+Cc: Banajit Goswami <bgoswami@quicinc.com>
+Cc: Bluecherry Maintainers <maintainers@bluecherrydvr.com>
+Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Ismael Luceno <ismael@iodev.co.uk>
+Cc: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+Cc: Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: xen-devel@lists.xenproject.org
+
+===
+
+Takashi Iwai (25):
+  iov_iter: Export import_ubuf()
+  ALSA: pcm: Add copy ops with iov_iter
+  ALSA: core: Add memory copy helpers between iov_iter and iomem
+  ALSA: dummy: Convert to generic PCM copy ops
+  ALSA: gus: Convert to generic PCM copy ops
+  ALSA: emu8000: Convert to generic PCM copy ops
+  ALSA: es1938: Convert to generic PCM copy ops
+  ALSA: korg1212: Convert to generic PCM copy ops
+  ALSA: nm256: Convert to generic PCM copy ops
+  ALSA: rme32: Convert to generic PCM copy ops
+  ALSA: rme96: Convert to generic PCM copy ops
+  ALSA: hdsp: Convert to generic PCM copy ops
+  ALSA: rme9652: Convert to generic PCM copy ops
+  ALSA: sh: Convert to generic PCM copy ops
+  ALSA: xen: Convert to generic PCM copy ops
+  ALSA: pcmtest: Update comment about PCM copy ops
+  media: solo6x10: Convert to generic PCM copy ops
+  ASoC: component: Add generic PCM copy ops
+  ASoC: mediatek: Convert to generic PCM copy ops
+  ASoC: qcom: Convert to generic PCM copy ops
+  ASoC: dmaengine: Convert to generic PCM copy ops
+  ASoC: dmaengine: Use iov_iter for process callback, too
+  ALSA: doc: Update description for the new PCM copy ops
+  ASoC: pcm: Drop obsoleted PCM copy_user ops
+  ALSA: pcm: Drop obsoleted PCM copy_user and copy_kernel ops
+
+ .../kernel-api/writing-an-alsa-driver.rst     | 58 ++++-------
+ drivers/media/pci/solo6x10/solo6x10-g723.c    | 39 ++------
+ include/sound/dmaengine_pcm.h                 |  2 +-
+ include/sound/pcm.h                           | 13 ++-
+ include/sound/soc-component.h                 | 14 +--
+ lib/iov_iter.c                                |  1 +
+ sound/core/memory.c                           | 56 +++++++++--
+ sound/core/pcm_lib.c                          | 95 ++++++++++---------
+ sound/core/pcm_native.c                       |  2 +-
+ sound/drivers/dummy.c                         | 12 +--
+ sound/drivers/pcmtest.c                       |  2 +-
+ sound/isa/gus/gus_pcm.c                       | 23 +----
+ sound/isa/sb/emu8000_pcm.c                    | 74 ++++-----------
+ sound/pci/es1938.c                            | 30 +-----
+ sound/pci/korg1212/korg1212.c                 | 50 +++-------
+ sound/pci/nm256/nm256.c                       | 42 ++------
+ sound/pci/rme32.c                             | 50 +++-------
+ sound/pci/rme96.c                             | 42 ++------
+ sound/pci/rme9652/hdsp.c                      | 42 ++------
+ sound/pci/rme9652/rme9652.c                   | 46 ++-------
+ sound/sh/sh_dac_audio.c                       | 25 +----
+ sound/soc/atmel/mchp-pdmc.c                   |  2 +-
+ sound/soc/mediatek/common/mtk-btcvsd.c        | 27 ++----
+ sound/soc/qcom/lpass-platform.c               | 13 +--
+ sound/soc/soc-component.c                     | 16 ++--
+ sound/soc/soc-generic-dmaengine-pcm.c         | 18 ++--
+ sound/soc/soc-pcm.c                           |  4 +-
+ sound/soc/stm/stm32_sai_sub.c                 |  2 +-
+ sound/xen/xen_snd_front_alsa.c                | 56 +++--------
+ 29 files changed, 269 insertions(+), 587 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.35.3
+
