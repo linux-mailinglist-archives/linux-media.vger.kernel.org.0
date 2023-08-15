@@ -2,117 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05FE377D1C2
-	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 20:25:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A0E877D217
+	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 20:42:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239098AbjHOSZM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Aug 2023 14:25:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59676 "EHLO
+        id S239189AbjHOSls (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Aug 2023 14:41:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239096AbjHOSYo (ORCPT
+        with ESMTP id S239332AbjHOSll (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Aug 2023 14:24:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56CD91BC5
-        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 11:24:42 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8419487DD;
-        Tue, 15 Aug 2023 20:23:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692123808;
-        bh=EoiwsvejL7+cuZCqkGG5Ec+xfdCM9jKMQ2xKjUvSoTM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bQMaISrYDrv6rb4rf55Iu2qqsWYndoDXFL7m8q546lVRYIc/mF/ZbD7ceAGBSK2S9
-         As0Fwlz3DX0pRt5KvU489PQlTHtEDOw4ONwkFdydHGIIForh/l79yopGDn1Qsh/0t6
-         cs5xo4OYEUZ1Rorhe2rggrraem6NEUcwIyeSAnzg=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v1 12/12] media: i2c: imx219: Drop IMX219_VTS_* macros
-Date:   Tue, 15 Aug 2023 21:24:31 +0300
-Message-ID: <20230815182431.18409-13-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230815182431.18409-1-laurent.pinchart@ideasonboard.com>
-References: <20230815182431.18409-1-laurent.pinchart@ideasonboard.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Tue, 15 Aug 2023 14:41:41 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A21F71FF6
+        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 11:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692124878; x=1723660878;
+  h=date:from:to:cc:subject:message-id;
+  bh=SUdGRggRqxgBj6CO7pgqdcRemKkyu49qNp2WoLKmBv0=;
+  b=ewD0KHUUouj0MA8rLQ+apVcwZE3egQG1KCW140OWNPErHXp7yCJFSwPn
+   2ptlUOdnO2klFtNt6YM768lTVZkPf3yXJgsqIsW2UsdTAgs3Boe9DxUKX
+   k7k5hUlEElRW+rmRnc1cSxkFLi/QTNYd5XoWGgMtT/gEjo1mIIshWTnf7
+   tGUh6bosA4JuwjgXZAx6Ks89IYU+M7AwREUNXq045kCnfDtFgBwenaezZ
+   Or3Y3x3wYl5iTi194dbZaQoSqIY2mjmEknrNE8dIkwr3DztL+H4Td/dIQ
+   6tmOxaqQRPNcGOHENbco9zV05WOot+E3J5X/hBsmYRxofHpFFNycqFXjH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375120773"
+X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
+   d="scan'208";a="375120773"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 11:41:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="803918974"
+X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
+   d="scan'208";a="803918974"
+Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 15 Aug 2023 11:41:16 -0700
+Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qVyyi-00019T-0q;
+        Tue, 15 Aug 2023 18:41:16 +0000
+Date:   Wed, 16 Aug 2023 02:41:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ 3c7c9beedfedbb15ac6859d2194b2dc7c3388745
+Message-ID: <202308160209.vsGmWHG6-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The IMX219_VTS_* macros define default VTS values for the modes
-supported by the driver. They are used in a single place, and hinder
-readability compared to using the value directly as a decimal number.
-Drop them.
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: 3c7c9beedfedbb15ac6859d2194b2dc7c3388745  media: i2c: imx219: Fix crop rectangle setting when changing format
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/i2c/imx219.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+elapsed time: 722m
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index c9c68a0f3b46..3a742716ddd6 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -71,10 +71,6 @@
- 
- /* V_TIMING internal */
- #define IMX219_REG_VTS			CCI_REG16(0x0160)
--#define IMX219_VTS_15FPS		0x0dc6
--#define IMX219_VTS_30FPS_1080P		0x06e3
--#define IMX219_VTS_30FPS_BINNED		0x06e3
--#define IMX219_VTS_30FPS_640x480	0x06e3
- #define IMX219_VTS_MAX			0xffff
- 
- #define IMX219_VBLANK_MIN		4
-@@ -302,7 +298,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.width = 3280,
- 			.height = 2464
- 		},
--		.vts_def = IMX219_VTS_15FPS,
-+		.vts_def = 3526,
- 	},
- 	{
- 		/* 1080P 30fps cropped */
-@@ -314,7 +310,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.width = 1920,
- 			.height = 1080
- 		},
--		.vts_def = IMX219_VTS_30FPS_1080P,
-+		.vts_def = 1763,
- 	},
- 	{
- 		/* 2x2 binned 30fps mode */
-@@ -326,7 +322,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.width = 3280,
- 			.height = 2464
- 		},
--		.vts_def = IMX219_VTS_30FPS_BINNED,
-+		.vts_def = 1763,
- 	},
- 	{
- 		/* 640x480 30fps mode */
-@@ -338,7 +334,7 @@ static const struct imx219_mode supported_modes[] = {
- 			.width = 1280,
- 			.height = 960
- 		},
--		.vts_def = IMX219_VTS_30FPS_640x480,
-+		.vts_def = 1763,
- 	},
- };
- 
+configs tested: 107
+configs skipped: 4
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r022-20230815   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r011-20230815   gcc  
+arc                  randconfig-r024-20230815   gcc  
+arc                  randconfig-r036-20230815   gcc  
+arc                  randconfig-r043-20230815   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r032-20230815   gcc  
+arm                  randconfig-r046-20230815   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r002-20230815   gcc  
+csky                 randconfig-r005-20230815   gcc  
+hexagon              randconfig-r033-20230815   clang
+hexagon              randconfig-r041-20230815   clang
+hexagon              randconfig-r045-20230815   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230815   clang
+i386         buildonly-randconfig-r005-20230815   clang
+i386         buildonly-randconfig-r006-20230815   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230815   clang
+i386                 randconfig-i002-20230815   clang
+i386                 randconfig-i003-20230815   clang
+i386                 randconfig-i004-20230815   clang
+i386                 randconfig-i005-20230815   clang
+i386                 randconfig-i006-20230815   clang
+i386                 randconfig-i011-20230815   gcc  
+i386                 randconfig-i012-20230815   gcc  
+i386                 randconfig-i013-20230815   gcc  
+i386                 randconfig-i014-20230815   gcc  
+i386                 randconfig-i015-20230815   gcc  
+i386                 randconfig-i016-20230815   gcc  
+i386                 randconfig-r016-20230815   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r006-20230815   gcc  
+m68k                 randconfig-r025-20230815   gcc  
+microblaze           randconfig-r003-20230815   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r001-20230815   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r035-20230815   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r004-20230815   clang
+riscv                randconfig-r031-20230815   clang
+riscv                randconfig-r042-20230815   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230815   gcc  
+sh                               allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r021-20230815   gcc  
+sparc                randconfig-r023-20230815   gcc  
+sparc64              randconfig-r034-20230815   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r014-20230815   clang
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230815   clang
+x86_64       buildonly-randconfig-r002-20230815   clang
+x86_64       buildonly-randconfig-r003-20230815   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-x001-20230815   gcc  
+x86_64               randconfig-x002-20230815   gcc  
+x86_64               randconfig-x003-20230815   gcc  
+x86_64               randconfig-x004-20230815   gcc  
+x86_64               randconfig-x005-20230815   gcc  
+x86_64               randconfig-x006-20230815   gcc  
+x86_64               randconfig-x011-20230815   clang
+x86_64               randconfig-x012-20230815   clang
+x86_64               randconfig-x013-20230815   clang
+x86_64               randconfig-x014-20230815   clang
+x86_64               randconfig-x015-20230815   clang
+x86_64               randconfig-x016-20230815   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r015-20230815   gcc  
+xtensa               randconfig-r026-20230815   gcc  
+
 -- 
-Regards,
-
-Laurent Pinchart
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
