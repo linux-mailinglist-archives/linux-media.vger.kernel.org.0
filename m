@@ -2,175 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 989AF77C7AE
-	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 08:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 985A877C8B1
+	for <lists+linux-media@lfdr.de>; Tue, 15 Aug 2023 09:42:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235099AbjHOGT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Aug 2023 02:19:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39776 "EHLO
+        id S235313AbjHOHlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Aug 2023 03:41:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235124AbjHOGSO (ORCPT
+        with ESMTP id S233691AbjHOHlq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Aug 2023 02:18:14 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C25B2D50
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 23:07:49 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-99c3c8adb27so691333766b.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Aug 2023 23:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692079667; x=1692684467;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1eTUAES+PjBvQLtO17D5OEYj5uIqydF+x2YtGRgLnbo=;
-        b=H72fNmAPH4wHA+OXV+7CNf+53M0fTZ+j8faZ3SCcJnl+auBlnAdFJMhtBWEldoADCA
-         /ka74oywof0otFVGiIi8HkLP0/2FEWTiUk/pFeV4j97ZMARn1TiUIQ96W6aboZzM9Szk
-         zp4WIZe4tw/OYNfIHYeKqUXnWzedWGYucYqlLghdrxakLDrcTfAyEDc8nE8Gc9Y68hgX
-         JPPtFkDi113yOW8iwSNRWf0RzTtKL76dLR47/VjTQEFvTtZYyhELdUdynIHvn1ibj/2d
-         dUHuBaZEQcHhTBvPv8mkM8TcJGIN6B7q/UjbMS9gzcZbmi801Waeh6RdAk97+o7H/4Os
-         UJ0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692079667; x=1692684467;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1eTUAES+PjBvQLtO17D5OEYj5uIqydF+x2YtGRgLnbo=;
-        b=CR+hOjFcacP3Pku0D3rACGAaqwhHu1grWlpkWkgXzVKS0WJg3Xr8VFHzyQfvXDVPyc
-         jmGpY2T/x5TTKpyipj9JfhI0UfV1uikb8HC4TPnypIBANV7GNI2gYZUQAhrj+DN9bfcf
-         8FKdPRZ04khh2Ks0EIerpqjo1m9+AaF0U2oK5qSd5XoZqys/g2oz6cVUmYW1gJL/fWkY
-         eZ+oHmxCAo/9bqb4ndAHn5XspkBqMvWYHrEhxOPVZ1v8WiaNcWx54wDOFAxQKvXOBqwi
-         X8UmNAd5Rn4qyGd0Dq9uslM++nKwccqRatFrFZ439+clYf84xXndEayRDBV0ufWIuZ5b
-         m4/g==
-X-Gm-Message-State: AOJu0YwQuO/1iNSa4jeQ9ZB6V7K2StQ8iI3yJQakI33MqrVHdtzPUF1U
-        nYk4jEJTfZ4yMMX2EBLSSozHow==
-X-Google-Smtp-Source: AGHT+IF6ACgNcnYcHUhfee/MdzJ+x+8yGLtSpa2a0zxQSRfBPFoCSU7DzrJ1eLX6CBZF+rUmeisMow==
-X-Received: by 2002:a17:906:76d1:b0:99c:ad52:b01 with SMTP id q17-20020a17090676d100b0099cad520b01mr9363081ejn.57.1692079667607;
-        Mon, 14 Aug 2023 23:07:47 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id gw4-20020a170906f14400b00993b381f808sm6528093ejb.38.2023.08.14.23.07.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 23:07:47 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 3/3] media: exynos4-is: fimc-is: replace duplicate pmu node with phandle
-Date:   Tue, 15 Aug 2023 08:07:39 +0200
-Message-Id: <20230815060739.30160-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230815060739.30160-1-krzysztof.kozlowski@linaro.org>
-References: <20230815060739.30160-1-krzysztof.kozlowski@linaro.org>
+        Tue, 15 Aug 2023 03:41:46 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51EC010F9
+        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 00:41:45 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4RQ39y0JjmzyTh
+        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 10:41:40 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1692085302;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=b+3nVLLRudd3M33lNpuI3CgiW6PRXWAaZzbF3lAVudY=;
+        b=Lk6COui/Fi0xud/ATDjvkSbFBKIG8Aq3qeiQIAzlStxmwpivZAe7GRiFcDKuNeLePiBWMY
+        eTiwwL09VsokqBeE9EtC2Lew7PLKu4Mt6FRxoXHgrn0ozI/j9evLRE+PkxEdOBf6zfQTXD
+        MS7antficJob7vu6iVFxDKOymnGiNMc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1692085302;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=b+3nVLLRudd3M33lNpuI3CgiW6PRXWAaZzbF3lAVudY=;
+        b=F74in0xJkAETJSFte5PcqmxEniwF977tX4JeVQmNhfhBqoikH2A2l2GEjUXyNixzZ4p1Xu
+        3zsWnfFjz0zH99ZCvTuX5v0gs7oMvAwUIdZruSUqW+sx8aB8CuLMf4pU9fLfuEWplECnTc
+        cn9TES5ctoliF4Etrrc4xcsozj7fmtk=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1692085302; a=rsa-sha256; cv=none;
+        b=iOFXgay2MZU7dqGK1/PejOw6bk0hoRWLJTCauT5hYzbEv1ii5oV/9DvpKGLJO3cjxnwop6
+        IFnzoOokpocO+N52VYWt9I0f4/Lx/PqGwZ5gg0D7wlcpvvJkef9aZfXadigdhi7toR4+ke
+        CIndUiVPveETZRVC6xkIwSiu79Dkg7Y=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8ED38634C95
+        for <linux-media@vger.kernel.org>; Tue, 15 Aug 2023 10:41:39 +0300 (EEST)
+Date:   Tue, 15 Aug 2023 07:41:39 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.6] V4L2 fixes
+Message-ID: <ZNssM3RD0j9eMVZn@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Devicetree for the FIMC IS camera included duplicated PMU node as its
-child like:
+Hi Mauro,
 
-  soc@0 {
-    system-controller@10020000 { ... }; // Real PMU
+Here's a number of miscellaneous fixes for 6.6. In particular, ipu3-imgu,
+imx219, ov5640 and ov13b10 drivers have functional fixes.
 
-    camera@11800000 {
-      fimc-is@12000000 {
-        // FIMC IS camera node
-        pmu@10020000 {
-          reg = <0x10020000 0x3000>; // Fake PMU node
-        };
-      };
-    };
-  };
+Please pull.
 
-This is not a correct representation of the hardware.  Mapping the PMU
-(Power Management Unit) IO memory should be via syscon-like phandle
-(samsung,pmu-syscon, already used for other drivers), not by duplicating
-"pmu" Devicetree node inside the FIMC IS.  Backward compatibility is
-preserved.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The following changes since commit b7ec3212a73abc987e8f33aa42988e6c39c38c92:
 
----
+  media: bttv: convert to vb2 (2023-08-14 20:27:59 +0200)
 
-Changes in v3:
-1. Print deprecated warning only if child node "pmu" is not found.
-   "Finding" -> "Found".
+are available in the Git repository at:
 
-Changes in v2:
-1. Use IOMEM_ERR_PTR (Hans)
----
- .../platform/samsung/exynos4-is/fimc-is.c     | 33 ++++++++++++++-----
- 1 file changed, 24 insertions(+), 9 deletions(-)
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.6-3.1-signed
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is.c b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
-index 530a148fe4d3..a08c87ef6e2d 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-is.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
-@@ -767,12 +767,32 @@ static void fimc_is_debugfs_create(struct fimc_is *is)
- static int fimc_is_runtime_resume(struct device *dev);
- static int fimc_is_runtime_suspend(struct device *dev);
- 
-+static void __iomem *fimc_is_get_pmu_regs(struct device *dev)
-+{
-+	struct device_node *node;
-+	void __iomem *regs;
-+
-+	node = of_parse_phandle(dev->of_node, "samsung,pmu-syscon", 0);
-+	if (!node) {
-+		node = of_get_child_by_name(dev->of_node, "pmu");
-+		if (!node)
-+			return IOMEM_ERR_PTR(-ENODEV);
-+		dev_warn(dev, "Found PMU node via deprecated method, update your DTB\n");
-+	}
-+
-+	regs = of_iomap(node, 0);
-+	of_node_put(node);
-+	if (!regs)
-+		return IOMEM_ERR_PTR(-ENOMEM);
-+
-+	return regs;
-+}
-+
- static int fimc_is_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct fimc_is *is;
- 	struct resource res;
--	struct device_node *node;
- 	int ret;
- 
- 	is = devm_kzalloc(&pdev->dev, sizeof(*is), GFP_KERNEL);
-@@ -794,14 +814,9 @@ static int fimc_is_probe(struct platform_device *pdev)
- 	if (IS_ERR(is->regs))
- 		return PTR_ERR(is->regs);
- 
--	node = of_get_child_by_name(dev->of_node, "pmu");
--	if (!node)
--		return -ENODEV;
--
--	is->pmu_regs = of_iomap(node, 0);
--	of_node_put(node);
--	if (!is->pmu_regs)
--		return -ENOMEM;
-+	is->pmu_regs = fimc_is_get_pmu_regs(dev);
-+	if (IS_ERR(is->pmu_regs))
-+		return PTR_ERR(is->pmu_regs);
- 
- 	is->irq = irq_of_parse_and_map(dev->of_node, 0);
- 	if (!is->irq) {
+for you to fetch changes up to 1c21b0662547f6548056d0350bbd12570512106d:
+
+  media: i2c: imx219: Fix crop rectangle setting when changing format (2023-08-15 10:37:52 +0300)
+
+----------------------------------------------------------------
+V4L2 fixes for 6.6
+
+----------------------------------------------------------------
+Dan Carpenter (1):
+      media: ov13b10: Fix some error checking in probe
+
+Guoniu.zhou (1):
+      media: ov5640: fix vblank unchange issue when work at dvp mode
+
+Jean-Michel Hautbois (1):
+      media: staging: ipu3-imgu: Initialise height_per_slice in the stripes
+
+Laurent Pinchart (2):
+      media: i2c: imx219: Fix a typo referring to a wrong variable
+      media: i2c: imx219: Fix crop rectangle setting when changing format
+
+Mikhail Rudenko (1):
+      MAINTAINERS: fix file path for Omnvision OV4689
+
+Sakari Ailus (1):
+      media: ivsc: Improve Kconfig help text
+
+Tommaso Merciai (1):
+      media: dt-bindings: ov5693: fix maintainer email address
+
+ .../devicetree/bindings/media/i2c/ovti,ov5693.yaml |  2 +-
+ MAINTAINERS                                        |  2 +-
+ drivers/media/i2c/imx219.c                         | 13 ++++---
+ drivers/media/i2c/ov13b10.c                        |  2 +-
+ drivers/media/i2c/ov5640.c                         | 19 +++++++---
+ drivers/media/pci/intel/ivsc/Kconfig               | 12 ++++--
+ drivers/staging/media/ipu3/ipu3-css-params.c       | 44 +++++++++++-----------
+ 7 files changed, 55 insertions(+), 39 deletions(-)
+
 -- 
-2.34.1
+Kind regards,
 
+Sakari Ailus
