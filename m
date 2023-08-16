@@ -2,141 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 474EA77E859
-	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 20:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 435C877E93E
+	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 21:03:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345407AbjHPSKI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 14:10:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56394 "EHLO
+        id S1345588AbjHPTDQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Aug 2023 15:03:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345448AbjHPSJu (ORCPT
+        with ESMTP id S1345584AbjHPTDA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 14:09:50 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC2A2724
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 11:09:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692209387; x=1723745387;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TlYtdN+Z+Wkt4n2fSUjeSF3J884QcalrWBnPWce+AMU=;
-  b=Vcz5XXt/3to5HyvorelwZrg1kQAQua7fxbNf1Jw6kkSiEjZv3o6m2Z/B
-   j7CHj9npqGG7Tz7gZvpk960mI0jWYk5OF5hYpCP6jwrXlw5U4apWPiFnE
-   fxXEAcIDI/w9P0nxdDfB2xh9xnIugjPDRFyBSHritdoQYNsic7CdmuVLv
-   bAifFGswL7VBjowO/jRvaTrQQ5cSM6M5zGKKQ1LpEJqT/ywg6l9fTt+VK
-   2P+uR7XfiNNh0YChziROwq3gr2fUjJqpS64ibUgpyVMfK0ZiIpsEaumBJ
-   TZAZtKDSzS+EA92goEHq9Y2uYvPkeaebHjkv+ccvSlrIvwhRs0Heu9StU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352190493"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="352190493"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 11:09:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1064939788"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="1064939788"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 16 Aug 2023 11:09:45 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qWKxk-0000UJ-2v;
-        Wed, 16 Aug 2023 18:09:44 +0000
-Date:   Thu, 17 Aug 2023 02:09:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Wentong Wu <wentong.wu@intel.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [linux-next:master 9402/10518]
- drivers/media/pci/intel/ivsc/mei_csi.c:342:10: error: call to undeclared
- function 'v4l2_subdev_get_try_format'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202308170227.ymiFlMbT-lkp@intel.com>
+        Wed, 16 Aug 2023 15:03:00 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA512700
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 12:02:58 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fe2ba3e260so67396075e9.2
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 12:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692212577; x=1692817377;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JyfZGIe8QIpo/zFgxfH9BIcgCAtghxQQLdOWakBNcLQ=;
+        b=qzJNTkKp0Z7LDpd4dRWi4Ljdzjh3lIJOWx6ZZMHR5JFGUP8vuRiDd14bUsn1hnbC+A
+         yLgjXwo2k0Wx8iHEFWosVUn/XAC+aIOY3kYqWewL5iW+vs/llm8dex0bl5AN1EWEWalb
+         HZWRW/IKOTyBVkwRSbCM/2pLfHIaIYXrZ8pm23Zj0eUvPD+gZ3ysTjOgc45n3MaT8Aw+
+         A0WJ8OljF4N2IHgSk5RvxiYQcKe1bZAlHaVp9P1kpIKjC1zbxDrPSwV/9JDk+g7Gw8UV
+         aobDkruTMFuwYOIrxT/z8IuJ+6sHq1hJjxM/H2JRCpedagOpFV3aiA6OrAl4ccCvkASn
+         VYYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692212577; x=1692817377;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JyfZGIe8QIpo/zFgxfH9BIcgCAtghxQQLdOWakBNcLQ=;
+        b=UOLwSCVurzVSnAr5EO1jXwbB6q/0YfJ1W37ilOPYcrYcwuZRbgfA499MqLPwVrhWbl
+         4NfXpdaNPDZYwhM2dYU2+3K+L9TyETpjKmeFdqQDlMA1FG8TNKUxEa7+xi+Fk/Sy9hpB
+         5g209dhthFxLtuElTg2o5072QI6z52dhLEV102hAlBAeyNGET6CPiECbH2Y4FL4QHG+2
+         I/qM2lFmMTUAAh+7YAWuhd5kCPpPFaLc7o3sSAH9OicDklH1hGy2usefWMZKQZ8fKtG0
+         b4dcW6eVofnGfqcPMZTpXpQ7F+K4RxkVSH4G9jPvvAx1H2Q5+TiMLpndkPssX7mxfMtk
+         aIIg==
+X-Gm-Message-State: AOJu0YzvayO6xOHsEZLPmdf9nkE/5so4Gwq0ouSoJVtYljAjYhAGh5PN
+        N3m9dbXvxGCtkO1rjzZ95sPlbw/ApOddURET99c=
+X-Google-Smtp-Source: AGHT+IFc2XJDc5VMqSl4gXGVgBhk+WtsXNHc22KMT3tTtcmKPoPvenFckMrirB1W2x7hfD0FXNFjiA==
+X-Received: by 2002:a1c:ed0e:0:b0:3fa:95c7:e891 with SMTP id l14-20020a1ced0e000000b003fa95c7e891mr2307962wmh.35.1692212574096;
+        Wed, 16 Aug 2023 12:02:54 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id 12-20020a05600c230c00b003fbc9d178a8sm287379wmo.4.2023.08.16.12.02.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Aug 2023 12:02:53 -0700 (PDT)
+Message-ID: <0d8ccc53-1a4a-8a0a-6886-f7bf9c5ebd75@linaro.org>
+Date:   Wed, 16 Aug 2023 20:02:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 02/14] media: qcom: camss: Start to move to module
+ compat matched resources
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, rfoss@kernel.org,
+        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230814162907.3878421-1-bryan.odonoghue@linaro.org>
+ <20230814162907.3878421-3-bryan.odonoghue@linaro.org>
+ <0d4d7d4b-9cbc-40df-98f5-3c9696bf6b13@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <0d4d7d4b-9cbc-40df-98f5-3c9696bf6b13@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ef66bf8aeb91fd331cf8f5dca8f9d7bca9ab2849
-commit: 29006e196a5661d9afc8152fa2bf8a5347ac17b4 [9402/10518] media: pci: intel: ivsc: Add CSI submodule
-config: x86_64-randconfig-x074-20230817 (https://download.01.org/0day-ci/archive/20230817/202308170227.ymiFlMbT-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170227.ymiFlMbT-lkp@intel.com/reproduce)
+On 16/08/2023 18:10, Konrad Dybcio wrote:
+> On 14.08.2023 18:28, Bryan O'Donoghue wrote:
+>> There is a lot of unnecessary if/elsing in this code that arguably
+>> should never have made it upstream when adding a second let alone
+>> subsequent SoC.
+>>
+>> I'm guilty of not fixing the mess myself when adding in the sm8250.
+>> Before adding in any new SoCs or resources lets take the time to cleanup
+>> the resource passing.
+>>
+>> First step is to pass the generic struct camss_resources as a parameter
+>> per the compatible list.
+>>
+>> Subsequent patches will address the other somewhat dispirate strutures
+>> which we are also doing if/else on and assigning statically.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+> [...]
+> 
+> 
+>> -
+>>   	for (i = 0; i < camss->csiphy_num; i++) {
+>>   		ret = msm_csiphy_subdev_init(camss, &camss->csiphy[i],
+>> -					     &csiphy_res[i], i);
+>> +					     &camss->res->csiphy_res[i], i);
+> &camss->res is used quite extensively, so I think it may be a good
+> idea to keep the variable there, just make it point to the correct
+> new thing.
+> 
+> Konrad
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308170227.ymiFlMbT-lkp@intel.com/
+Sure that makes sense
 
-All errors (new ones prefixed by >>):
-
->> drivers/media/pci/intel/ivsc/mei_csi.c:342:10: error: call to undeclared function 'v4l2_subdev_get_try_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   return v4l2_subdev_get_try_format(sd, sd_state, pad);
-                          ^
->> drivers/media/pci/intel/ivsc/mei_csi.c:342:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_mbus_framefmt *' [-Wint-conversion]
-                   return v4l2_subdev_get_try_format(sd, sd_state, pad);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:360:16: error: call to undeclared function 'v4l2_subdev_get_try_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   mbusformat = v4l2_subdev_get_try_format(sd, sd_state, i);
-                                ^
->> drivers/media/pci/intel/ivsc/mei_csi.c:360:14: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
-                   mbusformat = v4l2_subdev_get_try_format(sd, sd_state, i);
-                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 errors generated.
-
-
-vim +/v4l2_subdev_get_try_format +342 drivers/media/pci/intel/ivsc/mei_csi.c
-
-   332	
-   333	static struct v4l2_mbus_framefmt *
-   334	mei_csi_get_pad_format(struct v4l2_subdev *sd,
-   335			       struct v4l2_subdev_state *sd_state,
-   336			       unsigned int pad, u32 which)
-   337	{
-   338		struct mei_csi *csi = sd_to_csi(sd);
-   339	
-   340		switch (which) {
-   341		case V4L2_SUBDEV_FORMAT_TRY:
- > 342			return v4l2_subdev_get_try_format(sd, sd_state, pad);
-   343		case V4L2_SUBDEV_FORMAT_ACTIVE:
-   344			return &csi->format_mbus[pad];
-   345		default:
-   346			return NULL;
-   347		}
-   348	}
-   349	
-   350	static int mei_csi_init_cfg(struct v4l2_subdev *sd,
-   351				    struct v4l2_subdev_state *sd_state)
-   352	{
-   353		struct v4l2_mbus_framefmt *mbusformat;
-   354		struct mei_csi *csi = sd_to_csi(sd);
-   355		unsigned int i;
-   356	
-   357		mutex_lock(&csi->lock);
-   358	
-   359		for (i = 0; i < sd->entity.num_pads; i++) {
- > 360			mbusformat = v4l2_subdev_get_try_format(sd, sd_state, i);
-   361			*mbusformat = mei_csi_format_mbus_default;
-   362		}
-   363	
-   364		mutex_unlock(&csi->lock);
-   365	
-   366		return 0;
-   367	}
-   368	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+bod
