@@ -2,121 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AED3C77DE34
-	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 12:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E54BD77DF06
+	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 12:42:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243735AbjHPKKA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 06:10:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45156 "EHLO
+        id S243558AbjHPKmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Aug 2023 06:42:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243742AbjHPKJ5 (ORCPT
+        with ESMTP id S244004AbjHPKmN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 06:09:57 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8666C1
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 03:09:54 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5B9CDFF806;
-        Wed, 16 Aug 2023 10:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1692180593;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=h5lQWAeW+NPtPE1/7EDtPleEl+xEGXup9jpMcYQ0n6M=;
-        b=DlYF10Orb/YRYdAJs40h8geepm6lgzERhMPFuAx1rfJ/3D5mqvGKAigz3jivXKPYWOycQn
-        qpxAjJqFrAc0N299pIhFnHFZHdgK/nvL9HTAX6AZ9bhMxRgSGiwOGvbiQ5XggUY7Yo0wMm
-        oWEo+kO2upJ/QaYtpHrS5Eon0/ocUF6tCrRS5RA1aHOJHnPiLy3qMkcZSPBPSWSheJ65qe
-        H/fSWk1/uHEdaiXI8H0F5lcOYbUqDsyg/lDKX8wUzaV3CfgNe+U5nbe9xR2BN7TsKKUFy3
-        njFLId+hO/MILW2rbPy3ZtCs67tNbZoIXSYuzxmrVTDZP/UGsG6PEk+X5scbOg==
-Date:   Wed, 16 Aug 2023 12:09:47 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Ruan Jinjie <ruanjinjie@huawei.com>
-Cc:     TheSven73@gmail.com, gregkh@linuxfoundation.org,
-        mripard@kernel.org, mchehab@kernel.org, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH -next 2/2] media: staging: media: sunxi: cedrus: Remove
- redundant of_match_ptr()
-Message-ID: <ZNyga6GGlSiKpMqE@aptenodytes>
-References: <20230811024945.2256437-1-ruanjinjie@huawei.com>
- <20230811024945.2256437-3-ruanjinjie@huawei.com>
+        Wed, 16 Aug 2023 06:42:13 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85BC92690
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 03:42:02 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4fe655796faso10269008e87.2
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 03:42:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692182521; x=1692787321;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EEOhlysOvfWNJvIb70cjtnJmAujK5omEn+wIvkrC/Ww=;
+        b=Bbk0jbkCUL6Bw7ExFSdT/GvvQxOPYqWu2Qi9kKF3x77YR8kVSYKCk2aIpdDS+r6Cee
+         uIuFolqUeIt/637IudG876aHUsAzoB2GYFQ+QZOoav2V7ANQtv29i6BhiBYK3WM4MeRt
+         V9o3xWJFwXbTSpcbMFrWGLzNUakLQs//XQFb4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692182521; x=1692787321;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EEOhlysOvfWNJvIb70cjtnJmAujK5omEn+wIvkrC/Ww=;
+        b=kjqAE1H8HDElf7vO+PzpMhsQndsmaBNNe7Pz9oIgtiMBLPnnacs33Q+gO1QT4sylfY
+         dOmmqxmB672wHrZcpuDZTzmVjg4zDBYR4TfYd36zN7lrT/3r4QtYv/9BXddCvBk2Fldv
+         ca0KMYQyC8Z+0LG4gW0Ea6Qjlm3tCOewx4UCbYhrdzDdQBdUMdFoupUrrTl6MyHB1LSM
+         e1gwLBJKiIphX/vpyfhrATYm1ggQ83hfBCM/s3kLUY71JBS4nEvCtGEKEcW2eapH6UL/
+         aYGJi5hySBEdiAsFIV2bcac+TexivhbQsMFi4uKBv4uYlZ/CySkIWM3f2guJuNEaCSqP
+         gSoA==
+X-Gm-Message-State: AOJu0YysT4qvxF8OvoUO9vA0V20tmGo5nC887alvzMx7dt5KyMb+2vaj
+        6TV8yIyL5ZYp9qPIJYfbzG+Ssg==
+X-Google-Smtp-Source: AGHT+IE0uEVDF8E5jme7kg4yNkE/yuuga1yCAg5iZ5Ktjjzp7BITPW2cpxAD8XTiTR9FW2SVEFDFYQ==
+X-Received: by 2002:a05:6512:3d20:b0:4fb:8eec:ce49 with SMTP id d32-20020a0565123d2000b004fb8eecce49mr1765492lfv.31.1692182520687;
+        Wed, 16 Aug 2023 03:42:00 -0700 (PDT)
+Received: from localhost ([2620:0:1043:12:eef1:eea9:c836:8ed9])
+        by smtp.gmail.com with UTF8SMTPSA id k20-20020ac257d4000000b004fe4d122a66sm2861403lfo.187.2023.08.16.03.41.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Aug 2023 03:42:00 -0700 (PDT)
+From:   Stefan Adolfsson <sadolfsson@chromium.org>
+X-Google-Original-From: Stefan Adolfsson <sadolfsson@google.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Reka Norman <rekanorman@chromium.org>,
+        linux-media@vger.kernel.org, chrome-platform@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Stefan Adolfsson <sadolfsson@chromium.org>
+Subject: [PATCH] media: cros-ec-cec: Add Constitution to the match table
+Date:   Wed, 16 Aug 2023 12:41:25 +0200
+Message-ID: <20230816104125.712370-1-sadolfsson@google.com>
+X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="A9Pa7haUiISTifj7"
-Content-Disposition: inline
-In-Reply-To: <20230811024945.2256437-3-ruanjinjie@huawei.com>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Stefan Adolfsson <sadolfsson@chromium.org>
 
---A9Pa7haUiISTifj7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Constitution has two HDMI ports which support CEC:
+    Port B is EC port 0
+    Port A is EC port 1
 
-Hi,
+This patch depends on "media: cros-ec-cec: Add Dibbi to the match
+table".
 
-On Fri 11 Aug 23, 10:49, Ruan Jinjie wrote:
-> The driver depends on CONFIG_OF, it is not necessary to use
-> of_match_ptr() here.
->=20
-> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+Signed-off-by: Stefan Adolfsson <sadolfsson@chromium.org>
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 29f9a464857b..3c27349ce1d6 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -313,6 +313,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Lisbon", "0000:00:02.0", { "Port B" } },
+ 	/* Google Dibbi */
+ 	{ "Google", "Dibbi", "0000:00:02.0", { "Port D", "Port B" } },
++	/* Google Constitution */
++	{ "Google", "Constitution", "0000:00:02.0", { "Port B", "Port A" } },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+-- 
+2.41.0.694.ge786442a9b-goog
 
-Thanks for the patch!
-
-Paul
-
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index 8e248d4a0aec..f52df6836045 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -708,7 +708,7 @@ static struct platform_driver cedrus_driver =3D {
->  	.remove_new	=3D cedrus_remove,
->  	.driver		=3D {
->  		.name		=3D CEDRUS_NAME,
-> -		.of_match_table	=3D of_match_ptr(cedrus_dt_match),
-> +		.of_match_table	=3D cedrus_dt_match,
->  		.pm		=3D &cedrus_dev_pm_ops,
->  	},
->  };
-> --=20
-> 2.34.1
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---A9Pa7haUiISTifj7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmTcoGsACgkQ3cLmz3+f
-v9EqXwf8CN23uyCZvWuHCFCGwyazYagcl06F9igVRFlNx1JcpSilPC0s/vCeZzks
-240k+JQDOqoIeC6sHKJfyfBWSEWwc7j7GnKQRZnVA0+bU5fl4f3/wDWzKl6hnUVR
-aW6ZVyVigGKuTeGw3DwvRXvdFHPvLwAuDJ3SYz2E51XJ06KPaVxZyu2ifoQUqIXk
-RWUJkZR6e/lt/9376J5JItKThqFa8LEe2RBk3E55GeNHBXBr2d/9Q36XW/wdow38
-E84wzyD4jFeO1iRdm1n0rZIojgtwTc2iPxm+OM8vvGaCdgliLpfpezZZ+1zWuJCq
-5+q6bs4Dr5apCGu86U3CcviVi3oL2w==
-=frhy
------END PGP SIGNATURE-----
-
---A9Pa7haUiISTifj7--
