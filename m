@@ -2,133 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4845877E3B9
-	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 16:35:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3B7C77E4FB
+	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 17:23:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343656AbjHPOe7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 10:34:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41042 "EHLO
+        id S1344111AbjHPPWs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Aug 2023 11:22:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343667AbjHPOed (ORCPT
+        with ESMTP id S1344148AbjHPPWl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 10:34:33 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E4B026A1
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 07:34:29 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD170C85;
-        Wed, 16 Aug 2023 16:33:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692196394;
-        bh=ch/klZHDWO7+wfH82u1d/vkSCn7e/idW6e/eLKXAOcM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CWYyocUEZHPl4QsqQwrzXI2aFJhpjS60bm9JqNSp/G3txrZ+vWwJOPwbQl+9NZriA
-         RzqTL3vt03+3MRkKKkWRWQPjgBwUuuUwGcIsIXlIGzmYY5bz121MXVH1AKa8kghUPq
-         UzcNBo3d6EWfoi2B2PZJiLxud8luDeufVKADRWvo=
-Date:   Wed, 16 Aug 2023 17:34:32 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        linux-mediatek@lists.infradead.org,
-        Wei Chen <harperchen1110@gmail.com>, tiffany.lin@mediatek.com,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: Re: [PATCH] media: videobuf2-core.c: check if all buffers have the
- same number of planes
-Message-ID: <20230816143432.GA4436@pendragon.ideasonboard.com>
-References: <e75ff985-2499-9a16-21fe-ee2e81547e6f@xs4all.nl>
+        Wed, 16 Aug 2023 11:22:41 -0400
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6F721987;
+        Wed, 16 Aug 2023 08:22:32 -0700 (PDT)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37GFMC1M112777;
+        Wed, 16 Aug 2023 10:22:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1692199332;
+        bh=AaaVtVTqX2Nn4tIHGRAQK7zVdynaBfAeuskWD0vfCWU=;
+        h=From:To:CC:Subject:Date;
+        b=CXA3r0XgHOPUzeamJsInnZi9yazTrtPbWG1QTHuAudUTY+w3Gqzg8QgYjdkXacC6F
+         zOVuJ+ppCNjH+7VuwuKduc/TtyYAtFMMvKuHDIbtAju9SswsgqgRSpBVxV9BXKG5vM
+         4cB9ZFjfYZDxHl1ibPNdV6b/kue2ZpIoxlowFTfI=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37GFMCmj012127
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 16 Aug 2023 10:22:12 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 16
+ Aug 2023 10:22:12 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 16 Aug 2023 10:22:11 -0500
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37GFMAtl124178;
+        Wed, 16 Aug 2023 10:22:11 -0500
+From:   Devarsh Thakkar <devarsht@ti.com>
+To:     <mchehab@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <laurent.pinchart@ideasonboard.com>, <eugen.hristev@collabora.com>,
+        <ezequiel@vanguardiasur.com.ar>, <u.kleine-koenig@pengutronix.de>,
+        <sakari.ailus@linux.intel.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <devarsht@ti.com>
+Subject: [PATCH v3 0/4] Add V4L2 M2M Driver for E5010 JPEG Encoder
+Date:   Wed, 16 Aug 2023 20:52:06 +0530
+Message-ID: <20230816152210.4080779-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e75ff985-2499-9a16-21fe-ee2e81547e6f@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+This adds support for V4L2 M2M based driver for E5010 JPEG Encoder
+which is a stateful JPEG encoder from Imagination technologies
+and is present in TI AM62A SoC.
 
-Thank you for the patch.
+v4l2-compliance test :
+Link: https://gist.github.com/devarsht/17348fc509fe375a630a798196edbb73
 
-On Wed, Aug 16, 2023 at 02:47:33PM +0200, Hans Verkuil wrote:
-> Currently if VIDIOC_CREATE_BUFS is called to add new buffers, then the requested
-> number of planes per buffer might be different from the already allocated buffers.
-> 
-> However, this does not make a lot of sense and there are no drivers that allow
-> for variable number of planes in the allocated buffers.
-> 
-> While it is possible do this today, when such a buffer is queued it will fail
-> in the buf_prepare() callback where the plane sizes are checked if those are
-> large enough. If fewer planes were allocated, then the size for the missing
-> planes are 0 and the check will return -EINVAL.
-> 
-> But it is much better to do this check in VIDIOC_CREATE_BUFS.
+E5010 JPEG Encoder Manual tests :
 
-I don't think this is a good idea. One important use case for
-VIDIOC_CREATE_BUFS is to allocate buffers for a different format than
-the one currently configured for the device, to prepare for a future
-capture (or output) session with a different configuration. This patch
-would prevent that.
+Performance:
+Link: https://gist.github.com/devarsht/ef5aba211aae45166681b8b4418d4e65
 
-> This patch adds the check to videobuf2-core.c
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-> With this patch the mediatek vcodec patch would no longer be needed:
-> https://patchwork.linuxtv.org/project/linux-media/patch/20230810082333.972165-1-harperchen1110@gmail.com/
-> ---
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index cf6727d9c81f..b88c08319bbe 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -938,6 +938,10 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			dprintk(q, 1, "memory model mismatch\n");
->  			return -EINVAL;
->  		}
-> +		if (requested_planes != q->num_planes) {
-> +			dprintk(q, 1, "num_planes mismatch\n");
-> +			return -EINVAL;
-> +		}
->  		if (!verify_coherency_flags(q, non_coherent_mem))
->  			return -EINVAL;
->  	}
-> @@ -1002,6 +1006,8 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		mutex_unlock(&q->mmap_lock);
->  		return -ENOMEM;
->  	}
-> +	if (no_previous_buffers)
-> +		q->num_planes = num_planes;
->  	mutex_unlock(&q->mmap_lock);
-> 
->  	/*
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 4b6a9d2ea372..799a285447b7 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -558,6 +558,7 @@ struct vb2_buf_ops {
->   * @dma_dir:	DMA mapping direction.
->   * @bufs:	videobuf2 buffer structures
->   * @num_buffers: number of allocated/used buffers
-> + * @num_planes: number of planes in each buffer
->   * @queued_list: list of buffers currently queued from userspace
->   * @queued_count: number of buffers queued and ready for streaming.
->   * @owned_by_drv_count: number of buffers owned by the driver
-> @@ -621,6 +622,7 @@ struct vb2_queue {
->  	enum dma_data_direction		dma_dir;
->  	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
->  	unsigned int			num_buffers;
-> +	unsigned int			num_planes;
-> 
->  	struct list_head		queued_list;
->  	unsigned int			queued_count;
+Functionality:
+Link: https://gist.github.com/devarsht/bfef1e3ead8e858b09cbf418aea753e8
 
+Compression Quality:
+Link: https://gist.github.com/devarsht/345df9bf7157b4ca094293760e257451
+
+Multi Instance:
+Link: https://gist.github.com/devarsht/4b4d734eeb9e0e616837c0836ddbc769
+
+Devarsh Thakkar (4):
+  dt-bindings: media: Add bindings for Imagination E5010 JPEG Encoder
+    driver
+  media: imagination: Add E5010 JPEG Encoder driver
+  arm64: dts: ti: k3-am62a : Add E5010 JPEG Encoder
+  arm64: defconfig: Enable E5010 JPEG Encoder
+
+ .../bindings/media/img,e5010-jpeg-enc.yaml    |   81 +
+ MAINTAINERS                                   |    7 +
+ arch/arm64/boot/dts/ti/k3-am62a-main.dtsi     |   11 +
+ arch/arm64/boot/dts/ti/k3-am62a.dtsi          |    2 +
+ arch/arm64/configs/defconfig                  |  117 +-
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/imagination/Kconfig    |   12 +
+ drivers/media/platform/imagination/Makefile   |    3 +
+ .../platform/imagination/e5010-core-regs.h    |  585 ++++++
+ .../platform/imagination/e5010-jpeg-enc-hw.c  |  320 ++++
+ .../platform/imagination/e5010-jpeg-enc-hw.h  |   42 +
+ .../platform/imagination/e5010-jpeg-enc.c     | 1678 +++++++++++++++++
+ .../platform/imagination/e5010-jpeg-enc.h     |  169 ++
+ .../platform/imagination/e5010-mmu-regs.h     |  311 +++
+ 15 files changed, 3265 insertions(+), 75 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+ create mode 100644 drivers/media/platform/imagination/Kconfig
+ create mode 100644 drivers/media/platform/imagination/Makefile
+ create mode 100644 drivers/media/platform/imagination/e5010-core-regs.h
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.c
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.h
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.c
+ create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.h
+ create mode 100644 drivers/media/platform/imagination/e5010-mmu-regs.h
+
+---
+Changelog:
+V1->V2: 
+No change (sending dt-binding and driver together)
+
+V2->V3:
+- Add DONOTMERGE patches for dts and defconfig
+- Update driver with below changes :
+  - Correct license headers
+  - Use more generic name core instead of jasper for base registers
+  - Add Comment for forward declarations
+  - Simplify quantization table calculations
+  - Use v4l2_apply_frmsize_constraints for updating framesize and remove unrequired functions
+  - Place TODO at top of file and in commit message too
+  - Use dev_err_probe helper in probe function
+  - Fix return value checking for failure scenarios in probe function
+  - Use v4l2_err/info/warn helpers instead of dev_err/info/warn helpers
+  - Fix unexpected indentation
+  - Correct commit message
+- Update dt-bindings with below changes :
+  - Add vendor specific compatible 
+  - Fix commit title and message
+  - Update reg names
+  - Update clocks to 1
+  - Fix dts example with proper naming
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
