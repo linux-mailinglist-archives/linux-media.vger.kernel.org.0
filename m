@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58DF877E74C
-	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 19:11:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E6AC77E750
+	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 19:11:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345017AbjHPRKt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 13:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45018 "EHLO
+        id S1345093AbjHPRKu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Aug 2023 13:10:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345111AbjHPRK3 (ORCPT
+        with ESMTP id S1345155AbjHPRKm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 13:10:29 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA87D26BB
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 10:10:22 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4fe655796faso10950045e87.2
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 10:10:22 -0700 (PDT)
+        Wed, 16 Aug 2023 13:10:42 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 954B019A7
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 10:10:41 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4fe655796faso10950520e87.2
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 10:10:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692205821; x=1692810621;
+        d=linaro.org; s=google; t=1692205840; x=1692810640;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xxCwuqjPcl+IJA8BvbLFYWTyePxgeQPUkGWOK9EtNqI=;
-        b=mkpQ0woCJzp7wN5rDFIqeyIKJOlw6h0u+DTTiJDMtOJW+L32iGlp5pz8fhrqan4Olb
-         XunbnzPLRLro6Jntfn+eLF+sRpgYaiYRK3H2s9Meg83EV5cYy6agudihU/RuvpjT9MHJ
-         grK+uVRMBDEhFsMIztqySA+k7l+rnkvzadbFJvX7kQIAojgnwdqfdvVm32i81Pv8YzkK
-         QuM1qHm5WfxAf0Aga4LCOKUaGDLzgQR/tLsX8Jh9XQfuJ97KaYGJ1EUuSZ4eHI4MoATk
-         9q77ZN721sY7TvPU0kyRHSVJK/3yy+rJTIpWIpRFvsGXUQq103iPi7u8qzsQm+YDUVnf
-         QRMw==
+        bh=vOSBwEf8b3zBWJUJxFHEEIdQkyQR/7l6EISTmPde1tE=;
+        b=y42vFXfApuhki15X4jeRgPXdeHCSDhvS7KvI6b92mmrbgkH/bPHcX5Ja9eoLlAhNyb
+         pwx5s/0fAos/e/n6t8uE6p+HhDprpiG2kRDjdhoP8FdRhHJQLe1ibxS+COaPnjx5/bNT
+         T13ms9rkW3u4zF1Q8p4yaF67ly7lcJ6yog3Uyn2XNoSOeIMekSi04pXjqQMQgk/1xJmf
+         Q4oB9B6gCyVz4st1hxja5ktxsYAzDn416QFmcxAn55Qe9S14ikh9Us/Sst8BbmnEz5i4
+         cylS8splN/ULc2ShEpS9vCwvg9dq5dgGFm0PpYL4o7/MVqowVWTGc1PBuRO0IFO8TrQ5
+         jV6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692205821; x=1692810621;
+        d=1e100.net; s=20221208; t=1692205840; x=1692810640;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xxCwuqjPcl+IJA8BvbLFYWTyePxgeQPUkGWOK9EtNqI=;
-        b=RGLjpBqbZv2fjn5d/b2s+wkH0DE+mT2Wf9KfjPFnH/3fFUeL+FB4BYt+8VWVw3gd1o
-         ANKZpJ1o7io0qomxk+X+Mkjn+dxV03YIXelvhcdp0c7xFWr8UHVNdgYkrCvE1LDrb/K2
-         cw+CJXCbLLvPRzJSNk7HXQkZBf33Y3+tLUtt+CrfnSXdFrZevcv1n8XQCK7UmTH/Qg4M
-         aizxZHQzKIW5mOdGYy/tbM/CXZePgiorcWLhb3Dd2wBeBWSwiDh67pJD0eSJh5UdDtfr
-         JQpePTue0PS5DOHU4TDLGqtHkhiA4/IBDZIBHVQqzVwaHtuS/7psosbcMOZ8RhS4jQYR
-         7oYA==
-X-Gm-Message-State: AOJu0YyeJrBE1jxnftwDdKeI85xI1rQR3xzo75TP3czHfw2SUnhs8FsI
-        ThnoO1rlys/egBFacrBR46fOKw==
-X-Google-Smtp-Source: AGHT+IHWeo2IdfUkhGlh5jDKe2Y0lGdrKg2LDP7fAQshjPpk/ewwT2mUjd86rGsLoKWIDaWS2PvwzQ==
-X-Received: by 2002:a19:430b:0:b0:4fe:17d9:6755 with SMTP id q11-20020a19430b000000b004fe17d96755mr1710122lfa.25.1692205820994;
-        Wed, 16 Aug 2023 10:10:20 -0700 (PDT)
+        bh=vOSBwEf8b3zBWJUJxFHEEIdQkyQR/7l6EISTmPde1tE=;
+        b=kcqtCrp4LwgpxMyoWEdPwYyoQt3YgNXSMfVr/bpMb1t+lEdHnu47YyMiG9KqKo1s58
+         /2wSt+/hD/CeASPvzNxv7vdEatvWkB5evrK8AA0LEiKk68+aAG4173oDbi/JgpcXWyoX
+         i4rUUF99KiqtgKVdUp5mbUjz6LOXSBInoeYJ0cvRaeMLQI17qh7dOR1ju5yjRMVMjbVn
+         SZhXktAbYGTgG9WuZaSweaLmMHe7GMJljcUq0nBb1i/sB9k4RCHcK3kk6NSP+uA5tqgt
+         v3oFE8vzkmiGCHB9PffcFUM3oAJFm7ASxByCAAaJWWir5Zo2RtDptldUpuSWE6rnpx9q
+         1uiw==
+X-Gm-Message-State: AOJu0Yw5cEa2k+lE69ZvMoHRMge2Y9GF9qcHEedVp23tMW+7elofBlRU
+        z6DlHol2PG5K3/jo+xyjouEaNg==
+X-Google-Smtp-Source: AGHT+IFTC5uyVV0E5vnCsIIYJ0Hn9713mzYDnWfs9n/yArGcq6olinZoSqso9+PtasddMiWo3h8nZA==
+X-Received: by 2002:a05:6512:4016:b0:4f8:70d8:28f8 with SMTP id br22-20020a056512401600b004f870d828f8mr2838400lfb.55.1692205839941;
+        Wed, 16 Aug 2023 10:10:39 -0700 (PDT)
 Received: from [192.168.1.101] (abxi8.neoplus.adsl.tpnet.pl. [83.9.2.8])
-        by smtp.gmail.com with ESMTPSA id eo12-20020a056512480c00b004f858249932sm3016609lfb.90.2023.08.16.10.10.19
+        by smtp.gmail.com with ESMTPSA id eo12-20020a056512480c00b004f858249932sm3016609lfb.90.2023.08.16.10.10.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Aug 2023 10:10:20 -0700 (PDT)
-Message-ID: <0d4d7d4b-9cbc-40df-98f5-3c9696bf6b13@linaro.org>
-Date:   Wed, 16 Aug 2023 19:10:19 +0200
+        Wed, 16 Aug 2023 10:10:39 -0700 (PDT)
+Message-ID: <511cb049-4b0a-4005-a1f7-59e0def6855f@linaro.org>
+Date:   Wed, 16 Aug 2023 19:10:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 02/14] media: qcom: camss: Start to move to module
- compat matched resources
+Subject: Re: [PATCH v1 03/14] media: qcom: camss: Drop useless NULL assignment
+ for ispif resources
 Content-Language: en-US
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
@@ -65,7 +65,7 @@ To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230814162907.3878421-1-bryan.odonoghue@linaro.org>
- <20230814162907.3878421-3-bryan.odonoghue@linaro.org>
+ <20230814162907.3878421-4-bryan.odonoghue@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -102,13 +102,13 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230814162907.3878421-3-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230814162907.3878421-4-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -116,32 +116,12 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 14.08.2023 18:28, Bryan O'Donoghue wrote:
-> There is a lot of unnecessary if/elsing in this code that arguably
-> should never have made it upstream when adding a second let alone
-> subsequent SoC.
-> 
-> I'm guilty of not fixing the mess myself when adding in the sm8250.
-> Before adding in any new SoCs or resources lets take the time to cleanup
-> the resource passing.
-> 
-> First step is to pass the generic struct camss_resources as a parameter
-> per the compatible list.
-> 
-> Subsequent patches will address the other somewhat dispirate strutures
-> which we are also doing if/else on and assigning statically.
+> The NULL pointer assignement is a redundant step our compiler will
+> initialize unpopulated fields as zero. We check for logical ! later on
+> in the code as opposed to NULL anyway.
 > 
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
-[...]
-
-
-> -
->  	for (i = 0; i < camss->csiphy_num; i++) {
->  		ret = msm_csiphy_subdev_init(camss, &camss->csiphy[i],
-> -					     &csiphy_res[i], i);
-> +					     &camss->res->csiphy_res[i], i);
-&camss->res is used quite extensively, so I think it may be a good
-idea to keep the variable there, just make it point to the correct
-new thing.
+Just squash it with patch 2?
 
 Konrad
