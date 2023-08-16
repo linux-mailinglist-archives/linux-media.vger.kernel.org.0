@@ -2,186 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9414777DF5C
-	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 12:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AED3C77DE34
+	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 12:10:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243951AbjHPKpg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 06:45:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59210 "EHLO
+        id S243735AbjHPKKA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Aug 2023 06:10:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244060AbjHPKpW (ORCPT
+        with ESMTP id S243742AbjHPKJ5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 06:45:22 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04141212B
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 03:45:11 -0700 (PDT)
-Received: from ramsan.of.borg ([84.195.187.55])
-        by laurent.telenet-ops.be with bizsmtp
-        id aAki2A00N1C8whw01AkiVg; Wed, 16 Aug 2023 12:44:46 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qWE0x-000otE-SG;
-        Wed, 16 Aug 2023 12:44:42 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qWDAw-00674J-Cr;
-        Wed, 16 Aug 2023 11:50:50 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Subject: [PATCH v3 03/41] media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
-Date:   Wed, 16 Aug 2023 11:50:10 +0200
-Message-Id: <a8b8d8763c6d9e6c285e6c540051871816e17823.1692178020.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1692178020.git.geert+renesas@glider.be>
-References: <cover.1692178020.git.geert+renesas@glider.be>
+        Wed, 16 Aug 2023 06:09:57 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8666C1
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 03:09:54 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5B9CDFF806;
+        Wed, 16 Aug 2023 10:09:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1692180593;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=h5lQWAeW+NPtPE1/7EDtPleEl+xEGXup9jpMcYQ0n6M=;
+        b=DlYF10Orb/YRYdAJs40h8geepm6lgzERhMPFuAx1rfJ/3D5mqvGKAigz3jivXKPYWOycQn
+        qpxAjJqFrAc0N299pIhFnHFZHdgK/nvL9HTAX6AZ9bhMxRgSGiwOGvbiQ5XggUY7Yo0wMm
+        oWEo+kO2upJ/QaYtpHrS5Eon0/ocUF6tCrRS5RA1aHOJHnPiLy3qMkcZSPBPSWSheJ65qe
+        H/fSWk1/uHEdaiXI8H0F5lcOYbUqDsyg/lDKX8wUzaV3CfgNe+U5nbe9xR2BN7TsKKUFy3
+        njFLId+hO/MILW2rbPy3ZtCs67tNbZoIXSYuzxmrVTDZP/UGsG6PEk+X5scbOg==
+Date:   Wed, 16 Aug 2023 12:09:47 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Ruan Jinjie <ruanjinjie@huawei.com>
+Cc:     TheSven73@gmail.com, gregkh@linuxfoundation.org,
+        mripard@kernel.org, mchehab@kernel.org, wens@csie.org,
+        jernej.skrabec@gmail.com, samuel@sholland.org,
+        linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH -next 2/2] media: staging: media: sunxi: cedrus: Remove
+ redundant of_match_ptr()
+Message-ID: <ZNyga6GGlSiKpMqE@aptenodytes>
+References: <20230811024945.2256437-1-ruanjinjie@huawei.com>
+ <20230811024945.2256437-3-ruanjinjie@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="A9Pa7haUiISTifj7"
+Content-Disposition: inline
+In-Reply-To: <20230811024945.2256437-3-ruanjinjie@huawei.com>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the RGB666 9:9 format MEDIA_BUS_FMT_RGB666_2X9_BE, which is
-supported by the SH-Mobile LCD Controller.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
+--A9Pa7haUiISTifj7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v3:
-  - No changes,
+Hi,
 
-v2:
-  - Add Reviewed-by,
-  - Drop unused MEDIA_BUS_FMT_RGB666_2X9_LE, as requested by Laurent.
----
- .../media/v4l/subdev-formats.rst              | 72 +++++++++++++++++++
- include/uapi/linux/media-bus-format.h         |  3 +-
- 2 files changed, 74 insertions(+), 1 deletion(-)
+On Fri 11 Aug 23, 10:49, Ruan Jinjie wrote:
+> The driver depends on CONFIG_OF, it is not necessary to use
+> of_match_ptr() here.
+>=20
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 
-diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-index a3a35eeed70846ba..eb3cd20b0cf2e3d6 100644
---- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-@@ -949,6 +949,78 @@ The following tables list existing packed RGB formats.
-       - b\ :sub:`2`
-       - b\ :sub:`1`
-       - b\ :sub:`0`
-+    * .. _MEDIA-BUS-FMT-RGB666-2X9-BE:
-+
-+      - MEDIA_BUS_FMT_RGB666_2X9_BE
-+      - 0x1025
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+      - g\ :sub:`5`
-+      - g\ :sub:`4`
-+      - g\ :sub:`3`
-+    * -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      - g\ :sub:`2`
-+      - g\ :sub:`1`
-+      - g\ :sub:`0`
-+      - b\ :sub:`5`
-+      - b\ :sub:`4`
-+      - b\ :sub:`3`
-+      - b\ :sub:`2`
-+      - b\ :sub:`1`
-+      - b\ :sub:`0`
-     * .. _MEDIA-BUS-FMT-BGR666-1X18:
- 
-       - MEDIA_BUS_FMT_BGR666_1X18
-diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-index a03c543cb072de30..f05f747e444d6686 100644
---- a/include/uapi/linux/media-bus-format.h
-+++ b/include/uapi/linux/media-bus-format.h
-@@ -34,7 +34,7 @@
- 
- #define MEDIA_BUS_FMT_FIXED			0x0001
- 
--/* RGB - next is	0x1025 */
-+/* RGB - next is	0x1026 */
- #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
-@@ -46,6 +46,7 @@
- #define MEDIA_BUS_FMT_RGB565_2X8_BE		0x1007
- #define MEDIA_BUS_FMT_RGB565_2X8_LE		0x1008
- #define MEDIA_BUS_FMT_RGB666_1X18		0x1009
-+#define MEDIA_BUS_FMT_RGB666_2X9_BE		0x1025
- #define MEDIA_BUS_FMT_BGR666_1X18		0x1023
- #define MEDIA_BUS_FMT_RBG888_1X24		0x100e
- #define MEDIA_BUS_FMT_RGB666_1X24_CPADHI	0x1015
--- 
-2.34.1
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
+Thanks for the patch!
+
+Paul
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+> index 8e248d4a0aec..f52df6836045 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -708,7 +708,7 @@ static struct platform_driver cedrus_driver =3D {
+>  	.remove_new	=3D cedrus_remove,
+>  	.driver		=3D {
+>  		.name		=3D CEDRUS_NAME,
+> -		.of_match_table	=3D of_match_ptr(cedrus_dt_match),
+> +		.of_match_table	=3D cedrus_dt_match,
+>  		.pm		=3D &cedrus_dev_pm_ops,
+>  	},
+>  };
+> --=20
+> 2.34.1
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--A9Pa7haUiISTifj7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmTcoGsACgkQ3cLmz3+f
+v9EqXwf8CN23uyCZvWuHCFCGwyazYagcl06F9igVRFlNx1JcpSilPC0s/vCeZzks
+240k+JQDOqoIeC6sHKJfyfBWSEWwc7j7GnKQRZnVA0+bU5fl4f3/wDWzKl6hnUVR
+aW6ZVyVigGKuTeGw3DwvRXvdFHPvLwAuDJ3SYz2E51XJ06KPaVxZyu2ifoQUqIXk
+RWUJkZR6e/lt/9376J5JItKThqFa8LEe2RBk3E55GeNHBXBr2d/9Q36XW/wdow38
+E84wzyD4jFeO1iRdm1n0rZIojgtwTc2iPxm+OM8vvGaCdgliLpfpezZZ+1zWuJCq
+5+q6bs4Dr5apCGu86U3CcviVi3oL2w==
+=frhy
+-----END PGP SIGNATURE-----
+
+--A9Pa7haUiISTifj7--
