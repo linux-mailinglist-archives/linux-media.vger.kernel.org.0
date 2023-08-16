@@ -2,135 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E13177E0FC
-	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 14:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A55F177E1BE
+	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 14:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244931AbjHPMAX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 08:00:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32870 "EHLO
+        id S245268AbjHPMhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Aug 2023 08:37:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244965AbjHPMAR (ORCPT
+        with ESMTP id S243973AbjHPMhJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 08:00:17 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63BF92121
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 05:00:15 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-3fe4ad22e36so60265635e9.2
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 05:00:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692187214; x=1692792014;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JXusQSBkKgzmVX0cQPtu5qS7/vO7l9owbd70EUmEIf0=;
-        b=BO0hYI+W5qp8L20ACZN9H5+4SPrMLXinnG5qBz5wd2WDyBHSsUVNdQIJreJUSNu9Bd
-         SsoxPP15yROXQXoR5IRKazEK/gZraQRJQLEPhNY/+nW2dIQp6jFAcNEsc7wKg/QmoLUE
-         KCp+v6YHUOHa3Nfq3F1R4qtaWDyZyCOnWJWSASqX2+aHBe6U20MFadhLoeeVsAVrTwTN
-         yWz3WTWT03e+ERzJFEak6tGARjzYVGw04Db47Q5uArI1Tu1QqtUJLEeAeNHoaC/h1MaT
-         Vjo2K3KdFuOvmUq5bV04lHp1ssmhuX/uNafuTGYFVQYTLekj1JKN7VI0gYkzUtRQ4bdw
-         ws0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692187214; x=1692792014;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JXusQSBkKgzmVX0cQPtu5qS7/vO7l9owbd70EUmEIf0=;
-        b=QfI5ldlb2gsE8X+vvqOgP4PbZVYE1r+L5Z2TTg9haO+MrAlX2vW78ESoTTahFk6TwX
-         tHfcyJHIn1bLXqcSRJLSbweGBl6tyFerovN6/F67z8IpJEaguU/n1RPUwwuxinmz2HQL
-         CLBf7ZRtrkQJbTPDOaFATIw/5yKrJ043Nq9XoMatRzTZe9EAOKX2Uihd+fRZRn9BjYCc
-         1FGsVUgNL/LuA1XUInCJmGv79wNlcZGxTZVdKN110DYUaU4d7dbln1AvgjMV/5wF4LC+
-         1T0fMQ34g/3RVsYsVeEAcROHVOxLhlH/knKd8LGjH6T5ybe3KeM2QnYzIdxldgxAKHos
-         PeJg==
-X-Gm-Message-State: AOJu0YxSIQj0LwAxbxwttlXp7hRP7fqXRU+jLJPmYqObMldW8rAYtkLv
-        eu46OMtZQs2RC9YkdwTE0N286A==
-X-Google-Smtp-Source: AGHT+IEkAgTt7hKMOaQ6eYP4JU/vbFh5Hmk8g6lwro0vswB6yuqUEdRn3DD5J4Aav2PMognFo3JdPQ==
-X-Received: by 2002:adf:e3c1:0:b0:317:73d3:441a with SMTP id k1-20020adfe3c1000000b0031773d3441amr1268070wrm.46.1692187213814;
-        Wed, 16 Aug 2023 05:00:13 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id b2-20020adfde02000000b0031416362e23sm21092572wrm.3.2023.08.16.05.00.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Aug 2023 05:00:13 -0700 (PDT)
-Message-ID: <540b263a-3a1e-fd09-c6c2-18371e460e5e@linaro.org>
-Date:   Wed, 16 Aug 2023 13:00:10 +0100
+        Wed, 16 Aug 2023 08:37:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 989641FDC;
+        Wed, 16 Aug 2023 05:37:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DDA362081;
+        Wed, 16 Aug 2023 12:37:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67732C433C8;
+        Wed, 16 Aug 2023 12:37:04 +0000 (UTC)
+Message-ID: <89e72ad4-573d-2fa2-9883-9cbedc8c00ff@xs4all.nl>
+Date:   Wed, 16 Aug 2023 14:37:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 01/33] MAINTAINERS: Add Qualcomm Iris video accelerator
- driver
-Content-Language: en-US
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-2-git-send-email-quic_vgarodia@quicinc.com>
- <c29d5e28-5b9d-1327-0feb-e5ed27afcd3a@infradead.org>
- <b4de638e-9cab-2662-92b0-e2d1a18018a1@quicinc.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <b4de638e-9cab-2662-92b0-e2d1a18018a1@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2] media: vcodec: Fix potential array out-of-bounds in
+ encoder queue_setup
+Content-Language: en-US, nl
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Wei Chen <harperchen1110@gmail.com>, tiffany.lin@mediatek.com
+Cc:     andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+        mchehab@kernel.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+References: <20230810082333.972165-1-harperchen1110@gmail.com>
+ <5a70c141736e91f635f71d9922a3bbe993a76c69.camel@ndufresne.ca>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <5a70c141736e91f635f71d9922a3bbe993a76c69.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/08/2023 19:44, Dikshita Agarwal wrote:
+On 10/08/2023 15:58, Nicolas Dufresne wrote:
+> Hi,
+> 
+> Le jeudi 10 août 2023 à 08:23 +0000, Wei Chen a écrit :
+>> variable *nplanes is provided by user via system call argument. The
+>> possible value of q_data->fmt->num_planes is 1-3, while the value
+>> of *nplanes can be 1-8. The array access by index i can cause array
+>> out-of-bounds.
+>>
+>> Fix this bug by checking *nplanes against the array size.
+>>
+>> Fixes: 4e855a6efa54 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Encoder Driver")
+>> Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+>> Cc: stable@vger.kernel.org
+>> ---
+>> Changes in v2:
+>> - Add Fixes tag and CC stable email address
+>> - Change the title to be more expressive
+>>
+>>  drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+>> index 9ff439a50f53..9e8817863cb8 100644
+>> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+>> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+>> @@ -821,6 +821,8 @@ static int vb2ops_venc_queue_setup(struct vb2_queue *vq,
+>>  		return -EINVAL;
+>>  
+>>  	if (*nplanes) {
+>> +		if (*nplanes != q_data->fmt->num_planes)
+>> +			return -EINVAL;
+> 
+> I don't think the claim really exists. 	For this driver, when *nplane is set,
+> it will be:
 > 
 > 
-> On 7/29/2023 4:18 AM, Randy Dunlap wrote:
->>
->>
->> On 7/28/23 06:23, Vikash Garodia wrote:
->>> Add an entry for Iris video encoder/decoder accelerator driver.
->>>
->>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>> ---
->>>   MAINTAINERS | 10 ++++++++++
->>>   1 file changed, 10 insertions(+)
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 3be1bdf..ea633b2 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -17671,6 +17671,16 @@ T:	git git://linuxtv.org/media_tree.git
->>>   F:	Documentation/devicetree/bindings/media/*venus*
->>>   F:	drivers/media/platform/qcom/venus/
->>>   
->>> +QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
->>
->> This entry should immediately follow:
->> QUALCOMM IPQ4019 VQMMC REGULATOR DRIVER
->>
->> to keep the file in alphabetical order.
->>
-> Sure, will fix this in next version.
+>         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+>                 requested_planes = f->fmt.pix_mp.num_planes;
+>                 if (requested_planes == 0 ||
+>                     requested_planes > VIDEO_MAX_PLANES)
+>                         return -EINVAL;
+>                 for (i = 0; i < requested_planes; i++)
+>                         requested_sizes[i] =
+>                                 f->fmt.pix_mp.plane_fmt[i].sizeimage;
+>                 break;
+> 
+> Or the value the driver have set it in the previous call with *nplane == 0. So
+> unless there is a bug, this should not happen, and more importantly, the core
+> should not let that happen, meaning it should not be driver jobs to validate
+> this.
+> 
+> my 2 cents,
+> Nicolas
+> 
+> 
+>>  		for (i = 0; i < *nplanes; i++)
+>>  			if (sizes[i] < q_data->sizeimage[i])
 
-I think TBH before we see a next version, there needs to be a conclusive 
-argument on why a new driver - instead of an update to the existing 
-venus - is the way to go.
+It's q_data->sizeimage that has only 3 elements, so if *nplanes is 4, then
+this will fail with an OOB.
 
-We have an ongoing corpus of working code that people use. The attempt 
-to at least _try_ to integrate 8550 and beyond to upstream venus should 
-be made.
+However, I think the check should really happen in the vb2 core. If no
+buffers have been allocated yet, then the queue_setup callback will set
+the number of planes based on the current format.
 
-If it fails, then we can discuss a branched driver.
+If CREATE_BUFS is called afterwards, then *nplanes is set to the number
+of planes that is specified in the format field of struct v4l2_create_buffers.
 
-Its not up to me but, that's certainly my honest and unvarnished input.
+The core clips that value to the range [1..VIDEO_MAX_PLANES], but otherwise it
+places no restrictions.
 
-Instead of investing time in V2 - please invest time in upstream venus 
-or make the technical argument conclusively _prior_ to V2 as to why V2 
-and beyond is the "only" way forward for 8550 and beyond.
+I was afraid that this would cause serious problems if fewer planes are
+requested than the current format needs, but in that case the size checks
+in the buf_prepare callback of the driver will fail (since one or more planes
+will have size 0).
 
----
-bod
+The idea behind allowing userspace to allocate different number of planes
+in CREATE_BUFS really makes little sense and there are no drivers that rely
+on this. It would be much better if the vb2 core would return -EINVAL if
+the requested number of planes does not match that of what is used for already
+allocated buffers.
+
+If we ever get drivers that for some reason want more flexibility, then those
+drivers can set a special flag indicating that they want to check this themselves.
+
+I'll post a patch adding the check to the vb2 core.
+
+Regards,
+
+	Hans
+
+>>  				return -EINVAL;
+> 
 
