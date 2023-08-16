@@ -2,122 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 688A777E7E2
-	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 19:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 474EA77E859
+	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 20:10:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345116AbjHPRtJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 13:49:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40248 "EHLO
+        id S1345407AbjHPSKI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Aug 2023 14:10:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345068AbjHPRsf (ORCPT
+        with ESMTP id S1345448AbjHPSJu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 13:48:35 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CDD11FD0
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 10:48:34 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4RQwbZ46xfzyks;
-        Wed, 16 Aug 2023 20:48:26 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1692208110;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=uAzcc6JtZWWir62VQppfsDrI6LB9msLvExd+Vrj0NkE=;
-        b=ik9BvtZgVvYQKpz+DPWg8e90mIMelckLYxixu63WVpM4eLRdtV4Cm9buftZES1cwVhgIYV
-        qKO4INr+50SnmUDj65q7evw/y2IQgJbG0NGCKK9w26BTnVhWb7NpM/pKOelHfS3kfGCFIF
-        mGNmpL/nhGjcVSKp9Q2tK3r0gUG15B0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1692208110;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=uAzcc6JtZWWir62VQppfsDrI6LB9msLvExd+Vrj0NkE=;
-        b=g3AZeJAV2OK6+XkzS9JK6bG6oLpe0c5hol91oNaO92Fk4W9SwXK/oYYCpDs51Ec56OG3fd
-        5B1iaStP9AsJ0JVPMsNImEtV+N6LrVJbLS3WK+CsO1Di13wgwTq4xZv7VS+NGpqUsMXGvc
-        YYLPxwSNr2QtIObqCONNnKx89RoAFZc=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1692208110; a=rsa-sha256; cv=none;
-        b=Q/rpJGfDua7E/93eYHsVrjvY5RviHxzBdYJbmunvROjilaiyM8kqIhfNfECJgUZFVAVSIH
-        u/bIMuMtlMvRcq2nOxkcoT3ma0wY8RdLditewq+/PU7eJyqT58nwC/dCeN+kA2nOAMEqdF
-        QZsjfz11RFy0V6bMDhOwGhY0OyudO/0=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C5AEF634C95;
-        Wed, 16 Aug 2023 20:48:25 +0300 (EEST)
-Date:   Wed, 16 Aug 2023 17:48:25 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        linux-mediatek@lists.infradead.org,
-        Wei Chen <harperchen1110@gmail.com>, tiffany.lin@mediatek.com,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: Re: [PATCH] media: videobuf2-core.c: check if all buffers have the
- same number of planes
-Message-ID: <ZN0L6SAWlr+KZTVK@valkosipuli.retiisi.eu>
-References: <e75ff985-2499-9a16-21fe-ee2e81547e6f@xs4all.nl>
- <20230816143432.GA4436@pendragon.ideasonboard.com>
+        Wed, 16 Aug 2023 14:09:50 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC2A2724
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 11:09:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692209387; x=1723745387;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TlYtdN+Z+Wkt4n2fSUjeSF3J884QcalrWBnPWce+AMU=;
+  b=Vcz5XXt/3to5HyvorelwZrg1kQAQua7fxbNf1Jw6kkSiEjZv3o6m2Z/B
+   j7CHj9npqGG7Tz7gZvpk960mI0jWYk5OF5hYpCP6jwrXlw5U4apWPiFnE
+   fxXEAcIDI/w9P0nxdDfB2xh9xnIugjPDRFyBSHritdoQYNsic7CdmuVLv
+   bAifFGswL7VBjowO/jRvaTrQQ5cSM6M5zGKKQ1LpEJqT/ywg6l9fTt+VK
+   2P+uR7XfiNNh0YChziROwq3gr2fUjJqpS64ibUgpyVMfK0ZiIpsEaumBJ
+   TZAZtKDSzS+EA92goEHq9Y2uYvPkeaebHjkv+ccvSlrIvwhRs0Heu9StU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352190493"
+X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
+   d="scan'208";a="352190493"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 11:09:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1064939788"
+X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
+   d="scan'208";a="1064939788"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 16 Aug 2023 11:09:45 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qWKxk-0000UJ-2v;
+        Wed, 16 Aug 2023 18:09:44 +0000
+Date:   Thu, 17 Aug 2023 02:09:17 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Wentong Wu <wentong.wu@intel.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [linux-next:master 9402/10518]
+ drivers/media/pci/intel/ivsc/mei_csi.c:342:10: error: call to undeclared
+ function 'v4l2_subdev_get_try_format'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202308170227.ymiFlMbT-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230816143432.GA4436@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, Laurent,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ef66bf8aeb91fd331cf8f5dca8f9d7bca9ab2849
+commit: 29006e196a5661d9afc8152fa2bf8a5347ac17b4 [9402/10518] media: pci: intel: ivsc: Add CSI submodule
+config: x86_64-randconfig-x074-20230817 (https://download.01.org/0day-ci/archive/20230817/202308170227.ymiFlMbT-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170227.ymiFlMbT-lkp@intel.com/reproduce)
 
-On Wed, Aug 16, 2023 at 05:34:32PM +0300, Laurent Pinchart wrote:
-> Hi Hans,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Aug 16, 2023 at 02:47:33PM +0200, Hans Verkuil wrote:
-> > Currently if VIDIOC_CREATE_BUFS is called to add new buffers, then the requested
-> > number of planes per buffer might be different from the already allocated buffers.
-> > 
-> > However, this does not make a lot of sense and there are no drivers that allow
-> > for variable number of planes in the allocated buffers.
-> > 
-> > While it is possible do this today, when such a buffer is queued it will fail
-> > in the buf_prepare() callback where the plane sizes are checked if those are
-> > large enough. If fewer planes were allocated, then the size for the missing
-> > planes are 0 and the check will return -EINVAL.
-> > 
-> > But it is much better to do this check in VIDIOC_CREATE_BUFS.
-> 
-> I don't think this is a good idea. One important use case for
-> VIDIOC_CREATE_BUFS is to allocate buffers for a different format than
-> the one currently configured for the device, to prepare for a future
-> capture (or output) session with a different configuration. This patch
-> would prevent that.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308170227.ymiFlMbT-lkp@intel.com/
 
-I'd prefer to keep this capability in videobuf2, too. Although... one way
-achieve that could be to add a flag (or an integer field) in struct
-vb2_queue to tell vb2 core that the driver wants to do the num_planes
-checks by itself.
+All errors (new ones prefixed by >>):
 
-It'd be also nicer, considering the end result, to configure this when
-setting up the queue, rather than based on the first buffer created. This
-would involve changing a large number of drivers though.
+>> drivers/media/pci/intel/ivsc/mei_csi.c:342:10: error: call to undeclared function 'v4l2_subdev_get_try_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   return v4l2_subdev_get_try_format(sd, sd_state, pad);
+                          ^
+>> drivers/media/pci/intel/ivsc/mei_csi.c:342:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct v4l2_mbus_framefmt *' [-Wint-conversion]
+                   return v4l2_subdev_get_try_format(sd, sd_state, pad);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_csi.c:360:16: error: call to undeclared function 'v4l2_subdev_get_try_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   mbusformat = v4l2_subdev_get_try_format(sd, sd_state, i);
+                                ^
+>> drivers/media/pci/intel/ivsc/mei_csi.c:360:14: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
+                   mbusformat = v4l2_subdev_get_try_format(sd, sd_state, i);
+                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
+
+
+vim +/v4l2_subdev_get_try_format +342 drivers/media/pci/intel/ivsc/mei_csi.c
+
+   332	
+   333	static struct v4l2_mbus_framefmt *
+   334	mei_csi_get_pad_format(struct v4l2_subdev *sd,
+   335			       struct v4l2_subdev_state *sd_state,
+   336			       unsigned int pad, u32 which)
+   337	{
+   338		struct mei_csi *csi = sd_to_csi(sd);
+   339	
+   340		switch (which) {
+   341		case V4L2_SUBDEV_FORMAT_TRY:
+ > 342			return v4l2_subdev_get_try_format(sd, sd_state, pad);
+   343		case V4L2_SUBDEV_FORMAT_ACTIVE:
+   344			return &csi->format_mbus[pad];
+   345		default:
+   346			return NULL;
+   347		}
+   348	}
+   349	
+   350	static int mei_csi_init_cfg(struct v4l2_subdev *sd,
+   351				    struct v4l2_subdev_state *sd_state)
+   352	{
+   353		struct v4l2_mbus_framefmt *mbusformat;
+   354		struct mei_csi *csi = sd_to_csi(sd);
+   355		unsigned int i;
+   356	
+   357		mutex_lock(&csi->lock);
+   358	
+   359		for (i = 0; i < sd->entity.num_pads; i++) {
+ > 360			mbusformat = v4l2_subdev_get_try_format(sd, sd_state, i);
+   361			*mbusformat = mei_csi_format_mbus_default;
+   362		}
+   363	
+   364		mutex_unlock(&csi->lock);
+   365	
+   366		return 0;
+   367	}
+   368	
 
 -- 
-Regards,
-
-Sakari Ailus
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
