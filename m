@@ -2,72 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C075477E235
-	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 15:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F23B877E252
+	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 15:15:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245386AbjHPNJy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 09:09:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36620 "EHLO
+        id S245418AbjHPNOp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Aug 2023 09:14:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245395AbjHPNJg (ORCPT
+        with ESMTP id S245429AbjHPNOi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 09:09:36 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67FDF1FF3
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 06:09:34 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-40a47e8e38dso242251cf.1
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 06:09:34 -0700 (PDT)
+        Wed, 16 Aug 2023 09:14:38 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 752D32123
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 06:14:34 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id 3f1490d57ef6-d3d729a08e4so6182754276.3
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 06:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692191373; x=1692796173;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xUwAHT07txR6ptb2hVJ8LK/09TxpB4H9kqcF6ppAaE8=;
-        b=rPyfPbkAbWrh3YW4SmnhFMhYUcoYPn3I4h0zOMx2gdulY2aKXYGgVPciDIcr853yAi
-         k7u9TgJLelbpmZvDUxCAwQmNm9Cv5X7wgempRnF2n13nY0rjznc7kPsz/HodJS7JkyrL
-         5Ee/5U4EKh7eMQ1k8NllsSpf7ltlnEH3/26L2oRM3GZc9t5M3T5d7DgT9K+YKg4Ooa8x
-         dasaBw6a/UmHmldv/d5s6lSz6Di90yGxhZ7WRD6TKyQejObx8imUNdd00tGkvgBORBqS
-         FC7rsD5mZJR0ATkHjNvyXOWfpJ0UsoVEWw6NgUFKZQ6MZkmKm4NAW9pc4pdRuWdKnGYW
-         z37Q==
+        d=linaro.org; s=google; t=1692191673; x=1692796473;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ps0ezi6BbE/dOQS5Zv8WHPzCnGOgQGimydMZPi3OwEA=;
+        b=UHQsMab+UKQiY/x4Cvucj/6jRnXY5zYFK2PSNTZNBGfZDXjTsBo9ccfazJjcGGN+AL
+         hfrHdNs0SyBWb7hDrvjoe8aFe9XX75C1CrTdFbjQJouEBBT532gnWK0zj3sIqhV0GJ9c
+         zU9+3u56Eo67easSPJ0ULJ42cRGjSW9zTWQfR2lbkV0hYQowzonlXOgk3lbP+24gHeC7
+         A7kd02YCaSESRQafEid7jn3sinNprYibkrE/+kDGaKlvI0yjxO8AV8ztvg/8hk0Xo/c5
+         TJqdK+CEDIQnIxqYJpu11riGaaIcdtbGLv2p+Frvrw+bOnD3m9fCjCki8a5ns9G1nEYh
+         nWIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692191373; x=1692796173;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xUwAHT07txR6ptb2hVJ8LK/09TxpB4H9kqcF6ppAaE8=;
-        b=kfXRiIVT9UnoZIcHnfdf71kW1Kube2AUDP01d/j9cPrwu7AD3j8+cYypbsFbAqetTE
-         iQY3oIryx1lWUWveoaJdP73ecsIYL9N9e047eFFG3zUFSdspFOyYros7hN3WBW5dyCed
-         e7ZBz7duA9rNoQjb88f65FVEweFT9c5bHq/kNDMPIwUBEy06tt59GZCF8YAqIY4cJKk8
-         OFgI0ZEXMgrdwvCi4kotgnGjJpP2Bn8x2TD7cPRM/JRRzlp6SDvGTHZroPbNbMMkXq/3
-         sqITflA26xmTCH8E9VO3Tpe9pZ0xZsBsPr3IOhricRrDK3QPAYIozIJKd9Y2QBhKDLB8
-         x0WA==
-X-Gm-Message-State: AOJu0YxvNYrLvjUyE2W0KXTlU25da2cnkIrW5Z5092Oq4m4NLvvh0CnI
-        7eTyeSl+4XR6dbiCR2j8Oure6kCa5rU/NEUfP+5C/Q==
-X-Google-Smtp-Source: AGHT+IFsy1XvDp2NA9YFpnEew7M+xp5eAZzId2tM8tvK4Tz07m1370FGZFk9MXz5S+0gKJ3YKaM49mKWC9Yi2k6w/1o=
-X-Received: by 2002:a05:622a:100f:b0:403:affb:3c03 with SMTP id
- d15-20020a05622a100f00b00403affb3c03mr284520qte.10.1692191373497; Wed, 16 Aug
- 2023 06:09:33 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692191673; x=1692796473;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ps0ezi6BbE/dOQS5Zv8WHPzCnGOgQGimydMZPi3OwEA=;
+        b=Vq70qEuHA2ndpW8tWTTEAQc0AiMpbVY5lXRnCjrIvGfIRmwrDb4lnwbSSOJWEj5ot/
+         NwXQx10Yb7W8EB4nxu0ithvVqSitp5x5RlD9qIsoBie9X3kzT6yR1YBRN0K65nWBJ+iR
+         GrDRLlsnHtwg5hCvjkcldbXjz4tz9ovARqAw4ogLWy2RxPGz8CjRahnJCrqE23OhC/nl
+         knfnyWhOJ3pTDpzWjLtkjWcp9BdcND6LD/iflAgwOogNgMhFMfOBd1jHX9pGv+a8WLW6
+         MRXv6G/0XWntpNPLXrg/5Zzpn/Fpv6g+boIFg8GvAcyOpi0OMzBEgmkQl/S2UOw1yTzr
+         ietw==
+X-Gm-Message-State: AOJu0YxH+CCqxdAZykDa3KzFXm+Ud/ynwZEYxWQTiRd819svAiLGG2IA
+        +2z1jzudr5PXAuM0tAiC2vUnFx+S0K4Ss9O3gavtkQ==
+X-Google-Smtp-Source: AGHT+IGKZ4RWnzjsWo4DnKHE3xoKinJgbhJCua6rwHR/iEng6W17crQo1AvKOP5s6UKzGEoNDQw+sgBOpsYORz89Njo=
+X-Received: by 2002:a25:dbc1:0:b0:d62:b91b:10e3 with SMTP id
+ g184-20020a25dbc1000000b00d62b91b10e3mr1670653ybf.48.1692191673659; Wed, 16
+ Aug 2023 06:14:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230816104125.712370-1-sadolfsson@google.com>
-In-Reply-To: <20230816104125.712370-1-sadolfsson@google.com>
-From:   Guenter Roeck <groeck@google.com>
-Date:   Wed, 16 Aug 2023 06:09:20 -0700
-Message-ID: <CABXOdTe53fzK2eZ586cMh93tv+Bt=1+0Gg=-P8yBfWpoxrjf9w@mail.gmail.com>
-Subject: Re: [PATCH] media: cros-ec-cec: Add Constitution to the match table
-To:     Stefan Adolfsson <sadolfsson@chromium.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Reka Norman <rekanorman@chromium.org>,
-        linux-media@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-kernel@vger.kernel.org
+References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
+ <1690550624-14642-2-git-send-email-quic_vgarodia@quicinc.com>
+ <c29d5e28-5b9d-1327-0feb-e5ed27afcd3a@infradead.org> <b4de638e-9cab-2662-92b0-e2d1a18018a1@quicinc.com>
+ <540b263a-3a1e-fd09-c6c2-18371e460e5e@linaro.org>
+In-Reply-To: <540b263a-3a1e-fd09-c6c2-18371e460e5e@linaro.org>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Wed, 16 Aug 2023 16:14:22 +0300
+Message-ID: <CAA8EJpq1o3VRMTgWb-uFf7qTQ897ishiJ9HTNWcxHgLyyfpAOg@mail.gmail.com>
+Subject: Re: [PATCH 01/33] MAINTAINERS: Add Qualcomm Iris video accelerator driver
+To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        stanimir.k.varbanov@gmail.com, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
+        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,42 +75,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 16, 2023 at 3:42=E2=80=AFAM Stefan Adolfsson
-<sadolfsson@chromium.org> wrote:
->
-> From: Stefan Adolfsson <sadolfsson@chromium.org>
->
-> Constitution has two HDMI ports which support CEC:
->     Port B is EC port 0
->     Port A is EC port 1
->
-> This patch depends on "media: cros-ec-cec: Add Dibbi to the match
-> table".
->
-> Signed-off-by: Stefan Adolfsson <sadolfsson@chromium.org>
+Hello,
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+On Wed, 16 Aug 2023 at 15:00, Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
+>
+> On 14/08/2023 19:44, Dikshita Agarwal wrote:
+> >
+> >
+> > On 7/29/2023 4:18 AM, Randy Dunlap wrote:
+> >>
+> >>
+> >> On 7/28/23 06:23, Vikash Garodia wrote:
+> >>> Add an entry for Iris video encoder/decoder accelerator driver.
+> >>>
+> >>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> >>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> >>> ---
+> >>>   MAINTAINERS | 10 ++++++++++
+> >>>   1 file changed, 10 insertions(+)
+> >>>
+> >>> diff --git a/MAINTAINERS b/MAINTAINERS
+> >>> index 3be1bdf..ea633b2 100644
+> >>> --- a/MAINTAINERS
+> >>> +++ b/MAINTAINERS
+> >>> @@ -17671,6 +17671,16 @@ T: git git://linuxtv.org/media_tree.git
+> >>>   F:        Documentation/devicetree/bindings/media/*venus*
+> >>>   F:        drivers/media/platform/qcom/venus/
+> >>>
+> >>> +QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
+> >>
+> >> This entry should immediately follow:
+> >> QUALCOMM IPQ4019 VQMMC REGULATOR DRIVER
+> >>
+> >> to keep the file in alphabetical order.
+> >>
+> > Sure, will fix this in next version.
+>
+> I think TBH before we see a next version, there needs to be a conclusive
+> argument on why a new driver - instead of an update to the existing
+> venus - is the way to go.
+>
+> We have an ongoing corpus of working code that people use. The attempt
+> to at least _try_ to integrate 8550 and beyond to upstream venus should
+> be made.
+>
+> If it fails, then we can discuss a branched driver.
+>
+> Its not up to me but, that's certainly my honest and unvarnished input.
+>
+> Instead of investing time in V2 - please invest time in upstream venus
+> or make the technical argument conclusively _prior_ to V2 as to why V2
+> and beyond is the "only" way forward for 8550 and beyond.
 
-> ---
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/m=
-edia/cec/platform/cros-ec/cros-ec-cec.c
-> index 29f9a464857b..3c27349ce1d6 100644
-> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> @@ -313,6 +313,8 @@ static const struct cec_dmi_match cec_dmi_match_table=
-[] =3D {
->         { "Google", "Lisbon", "0000:00:02.0", { "Port B" } },
->         /* Google Dibbi */
->         { "Google", "Dibbi", "0000:00:02.0", { "Port D", "Port B" } },
-> +       /* Google Constitution */
-> +       { "Google", "Constitution", "0000:00:02.0", { "Port B", "Port A" =
-} },
->  };
->
->  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
-> --
-> 2.41.0.694.ge786442a9b-goog
->
+I'd second this request. At the very least (as I wrote in response to
+another email), consider reworking venus into core and interface
+specific parts and making iris3 use a common base layer.
+We already have drivers which work across multiple platforms, taking
+care of differences. Few to name: GPU, display, sound, DSP, camss.
+
+
+-- 
+With best wishes
+Dmitry
