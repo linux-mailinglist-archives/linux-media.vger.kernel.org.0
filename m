@@ -2,103 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E54BD77DF06
-	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 12:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B3777E0BC
+	for <lists+linux-media@lfdr.de>; Wed, 16 Aug 2023 13:47:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243558AbjHPKmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 06:42:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48412 "EHLO
+        id S244747AbjHPLrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Aug 2023 07:47:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244004AbjHPKmN (ORCPT
+        with ESMTP id S244739AbjHPLqu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 06:42:13 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85BC92690
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 03:42:02 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4fe655796faso10269008e87.2
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 03:42:02 -0700 (PDT)
+        Wed, 16 Aug 2023 07:46:50 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28A011FD0
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 04:46:49 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b9ab1725bbso98007641fa.0
+        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 04:46:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692182521; x=1692787321;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EEOhlysOvfWNJvIb70cjtnJmAujK5omEn+wIvkrC/Ww=;
-        b=Bbk0jbkCUL6Bw7ExFSdT/GvvQxOPYqWu2Qi9kKF3x77YR8kVSYKCk2aIpdDS+r6Cee
-         uIuFolqUeIt/637IudG876aHUsAzoB2GYFQ+QZOoav2V7ANQtv29i6BhiBYK3WM4MeRt
-         V9o3xWJFwXbTSpcbMFrWGLzNUakLQs//XQFb4=
+        d=linaro.org; s=google; t=1692186407; x=1692791207;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JwbPK6uvDQ5KUsB6YxB7kesrVzkL+KaWlF+xSHDLwgg=;
+        b=k0sA6JSrN8PsZkopRof7O2RqdeCrs66aZdsF3mhfF9jNZ0C6AXZPNF9W0nfAeJzvaE
+         uvYMPgERHzjYlq3bkMLt72rlCOxZMCNH7uMOLDphlG6fGp0PV7gHeWJkb5EEeiRbw4bW
+         clJ/oN5jzHajD0xYcvnMr4dgkUu5bsoQSE0/ks/7ax6vPzhv7Vnc1zIUpqL5/zc8CLoQ
+         DBGpuNPn4vSeNCKEnvbKrowp2quHJZpz0UQTPjqJfUkEB1crlP2+pge8kQ/pW5moKCvf
+         eNgsudml0r/DUAGhdaPT1syiPZ7EQP0LH1lAlStc5tVq8p0nOcHtRgn0hUYB9FNDtvjj
+         EwXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692182521; x=1692787321;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EEOhlysOvfWNJvIb70cjtnJmAujK5omEn+wIvkrC/Ww=;
-        b=kjqAE1H8HDElf7vO+PzpMhsQndsmaBNNe7Pz9oIgtiMBLPnnacs33Q+gO1QT4sylfY
-         dOmmqxmB672wHrZcpuDZTzmVjg4zDBYR4TfYd36zN7lrT/3r4QtYv/9BXddCvBk2Fldv
-         ca0KMYQyC8Z+0LG4gW0Ea6Qjlm3tCOewx4UCbYhrdzDdQBdUMdFoupUrrTl6MyHB1LSM
-         e1gwLBJKiIphX/vpyfhrATYm1ggQ83hfBCM/s3kLUY71JBS4nEvCtGEKEcW2eapH6UL/
-         aYGJi5hySBEdiAsFIV2bcac+TexivhbQsMFi4uKBv4uYlZ/CySkIWM3f2guJuNEaCSqP
-         gSoA==
-X-Gm-Message-State: AOJu0YysT4qvxF8OvoUO9vA0V20tmGo5nC887alvzMx7dt5KyMb+2vaj
-        6TV8yIyL5ZYp9qPIJYfbzG+Ssg==
-X-Google-Smtp-Source: AGHT+IE0uEVDF8E5jme7kg4yNkE/yuuga1yCAg5iZ5Ktjjzp7BITPW2cpxAD8XTiTR9FW2SVEFDFYQ==
-X-Received: by 2002:a05:6512:3d20:b0:4fb:8eec:ce49 with SMTP id d32-20020a0565123d2000b004fb8eecce49mr1765492lfv.31.1692182520687;
-        Wed, 16 Aug 2023 03:42:00 -0700 (PDT)
-Received: from localhost ([2620:0:1043:12:eef1:eea9:c836:8ed9])
-        by smtp.gmail.com with UTF8SMTPSA id k20-20020ac257d4000000b004fe4d122a66sm2861403lfo.187.2023.08.16.03.41.59
+        d=1e100.net; s=20221208; t=1692186407; x=1692791207;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JwbPK6uvDQ5KUsB6YxB7kesrVzkL+KaWlF+xSHDLwgg=;
+        b=MQfziXpaJKQyrC7qBEZlrEwCLsbMjN7BzpT1l3y4Pm1Mk1sejS6L5ebVQjKJs74H4O
+         J7pT7D3mkfnTX/9VO9Q+HSDKPp9Vd7V+djvFj0Wj3Midf7ntsi2QuM7zQwgP6QEfWgJ8
+         4K+DUIR2nVsEw9E78COb38USg+Q1Z3lwPDpPIlD9XU46ghChBNIR5upBC25QZgMNyts9
+         PW8jN0KJEB2o16H4AMPCwFDcnhIVr5mZxrCIKFaA5n1r6xHWNKtghAKAuCGC2ZobD7PF
+         /KcZou+QMHrsq2G/h/McZS/7CeL6ar08TH70oGYH4OXDGQYgg5XQ23tNpfSER+Z9Iv9u
+         GVcQ==
+X-Gm-Message-State: AOJu0YwNFJJstekmuaFIRUzuvwwZmUPl7hksXmSzftDtHJfK69+m7H+O
+        NcubqimD7OpUI3Bx+v/LIiu2pQ==
+X-Google-Smtp-Source: AGHT+IH6MxyxiasC64eaoloy2XXiSix/UcoRzoHQK7B4ZRc7UjjFER8ik9vxQVWZxEMrvRQNPr1WpQ==
+X-Received: by 2002:a2e:9785:0:b0:2b6:d603:7667 with SMTP id y5-20020a2e9785000000b002b6d6037667mr1321366lji.8.1692186407379;
+        Wed, 16 Aug 2023 04:46:47 -0700 (PDT)
+Received: from [192.168.1.101] (abxi8.neoplus.adsl.tpnet.pl. [83.9.2.8])
+        by smtp.gmail.com with ESMTPSA id b13-20020a2e848d000000b002b6ad323248sm3470602ljh.10.2023.08.16.04.46.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Aug 2023 03:42:00 -0700 (PDT)
-From:   Stefan Adolfsson <sadolfsson@chromium.org>
-X-Google-Original-From: Stefan Adolfsson <sadolfsson@google.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Reka Norman <rekanorman@chromium.org>,
-        linux-media@vger.kernel.org, chrome-platform@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Stefan Adolfsson <sadolfsson@chromium.org>
-Subject: [PATCH] media: cros-ec-cec: Add Constitution to the match table
-Date:   Wed, 16 Aug 2023 12:41:25 +0200
-Message-ID: <20230816104125.712370-1-sadolfsson@google.com>
-X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
+        Wed, 16 Aug 2023 04:46:47 -0700 (PDT)
+Message-ID: <b1663bc5-5740-4b73-9404-999e868ffecb@linaro.org>
+Date:   Wed, 16 Aug 2023 13:46:45 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/33] iris: vidc: add helper functions
+Content-Language: en-US
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        stanimir.k.varbanov@gmail.com, agross@kernel.org,
+        andersson@kernel.org, mchehab@kernel.org, hans.verkuil@cisco.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
+ <1690550624-14642-11-git-send-email-quic_vgarodia@quicinc.com>
+ <7a727add-6aa6-fe3d-b2bd-7e0bd2f93579@linaro.org>
+ <8d5b117e-4743-c006-7e7b-a15bd3866e6d@quicinc.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <8d5b117e-4743-c006-7e7b-a15bd3866e6d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Stefan Adolfsson <sadolfsson@chromium.org>
+On 14.08.2023 21:15, Dikshita Agarwal wrote:
+> 
+> 
+> On 7/28/2023 11:11 PM, Konrad Dybcio wrote:
+>> On 28.07.2023 15:23, Vikash Garodia wrote:
+>>> This implements common helper functions for v4l2 to vidc and
+>>> vice versa conversion for different enums.
+>>> Add helpers for state checks, buffer management, locks etc.
+>>>
+>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>>> ---
+>> [...]
+>>
+>>> +
+>>> +#define is_odd(val) ((val) % 2 == 1)
+>>> +#define in_range(val, min, max) (((min) <= (val)) && ((val) <= (max)))
+>>> +#define COUNT_BITS(a, out) {       \
+>> hweight.* functions?
+>>
+>> [...]
+>>
+> sure, will replace with hweight.
+>>> +
+>>> +const char *cap_name(enum msm_vidc_inst_capability_type cap_id)
+>>> +{
+>>> +	const char *name = "UNKNOWN CAP";
+>> Perhaps it'd be worth to include the unknown cap id here
+>>
+> could you please elaborate more on this.
+>>> +
+>>> +	if (cap_id >= ARRAY_SIZE(cap_name_arr))
+>>> +		goto exit;
+>>> +
+>>> +	name = cap_name_arr[cap_id];
+>>> +
+>>> +exit:
+>>> +	return name;
+>>> +}
+>> [...]
+>>
+>>> +
+>>> +const char *buf_name(enum msm_vidc_buffer_type type)
+>>> +{
+>>> +	const char *name = "UNKNOWN BUF";
+>> Similarly here
+>>
+> could you please elaborate more on this.
+Something like "UNKNOWN BUF (0x15)" instead of just "UNKNOWN BUF"
+would help us better understand whether the driver or the hardware
+is missing something.
 
-Constitution has two HDMI ports which support CEC:
-    Port B is EC port 0
-    Port A is EC port 1
 
-This patch depends on "media: cros-ec-cec: Add Dibbi to the match
-table".
-
-Signed-off-by: Stefan Adolfsson <sadolfsson@chromium.org>
----
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 29f9a464857b..3c27349ce1d6 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -313,6 +313,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Lisbon", "0000:00:02.0", { "Port B" } },
- 	/* Google Dibbi */
- 	{ "Google", "Dibbi", "0000:00:02.0", { "Port D", "Port B" } },
-+	/* Google Constitution */
-+	{ "Google", "Constitution", "0000:00:02.0", { "Port B", "Port A" } },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
--- 
-2.41.0.694.ge786442a9b-goog
-
+Konrad
