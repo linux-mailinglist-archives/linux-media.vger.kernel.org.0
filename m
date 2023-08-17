@@ -2,119 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE6AC77F4A5
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 13:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A85AB77F4FC
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 13:23:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350100AbjHQLBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Aug 2023 07:01:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58822 "EHLO
+        id S1350223AbjHQLWe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Aug 2023 07:22:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350099AbjHQLA2 (ORCPT
+        with ESMTP id S1350239AbjHQLWZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Aug 2023 07:00:28 -0400
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05DF2D71
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 04:00:26 -0700 (PDT)
-Received: by mail-ua1-x932.google.com with SMTP id a1e0cc1a2514c-78a5384a5daso1772078241.0
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 04:00:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1692270026; x=1692874826;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kwxRHm5oBmJyMH69Edk0zV28C6k57YujgbMy28eNP2U=;
-        b=O12EsVnQBT0CihOHfmWtnzIZjqvTuLaANHmfEyKc0Ca63PZWlA6TmjaTb1X71Qxe64
-         ss+kO3nLGiLltQgZXQnK2r1ZZ6UZplsVtqAmkqz9CpSoBlvysi04/AadxMvVpdTfTpk1
-         cuKsp5YpKQmDNv6N79OSPpvQ03LcujUJbliHsyqaSOPloowWlISyV0+hejMho7nNZCui
-         5SMLR9eYx4zkqwW71zZIR3agLDQJl+LM4EBR/+nRZkh+Do6w2K502YYHd1fU4DLWT7vD
-         sTlIUUk+RO5F2SLv2yh/meo+gllVggAxDyOQK7ZCV9r9TXXYEHyptJ7Ur6vpZwwvETPp
-         twTA==
+        Thu, 17 Aug 2023 07:22:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B19E030CA
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 04:21:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1692271304;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=glxKD+uxNH6EZsGsfBi3qPBBji4XEg2+DVbGwBzUy4k=;
+        b=Y+UoH0K2Pomu3tiqOUSmGb/gZF4gshFTaLLg2BOAiGKF5DrqhbgoHi+hMlQCHFIcIJ6pwi
+        Mj8EA9+j6LEaf+rnlJyUMxoinXFlDNkw7KKc7A0HGwqFNr9VNsypYq0UTdbhmnD2M5dVFp
+        BfvSkhCbbQa4XRZxRx004NyGFBJS24k=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-577-470DaHZoNM-GgVCZji9Oiw-1; Thu, 17 Aug 2023 07:21:43 -0400
+X-MC-Unique: 470DaHZoNM-GgVCZji9Oiw-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-3fe1dadb5d2so48143385e9.1
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 04:21:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692270026; x=1692874826;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1692271287; x=1692876087;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kwxRHm5oBmJyMH69Edk0zV28C6k57YujgbMy28eNP2U=;
-        b=JEqaaRya9DcGEQ81yVaskj0Dm1PoGZT1Dm4OGInskPfepqmk9NfFlHvkmmyNN/uTap
-         4hNmW0ZEJiLMslciGoJkROC78IZqYvSwlHTUQ9+fsxHsnGXSsaqU65fZswmFhYqYAt/L
-         VuhBjXgqMQqarW1Fh7dNPF9hNfJHH28grRAchoMQQ69bqhzxoYy3Mpg9zkZWIy0o1zd/
-         lU/GNqFQwZNxRcA+kgM5+CyIFgRYDcIyKL5NeKBiqhageOMa7CY990UAAubL0HPTKLyK
-         VJfp7mmGloPwwqrxEqB7kfdU+Of+zXESkrSc1Zjib06c9zLDFm4izyB/k4cwiF+g3hiF
-         7iTw==
-X-Gm-Message-State: AOJu0Ywr9rc/1Gf5NtmUHxVDB4KzGb8CZEvzjJWKg4/PT1VLIxUC29g0
-        +c+wpFyNoi5fs3ejcMeMTKvyiYEk00MapFlyrXEo7w==
-X-Google-Smtp-Source: AGHT+IFm7IaVvhvsDqFCsxbP07cxREjvYuSkUnXfhBKp62LxRe/H6vRn9FUdgwxw8ttMTf4bG/yzkqTzKpGxTgkj87A=
-X-Received: by 2002:a1f:5f43:0:b0:488:1eb4:1cdb with SMTP id
- t64-20020a1f5f43000000b004881eb41cdbmr3189167vkb.15.1692270025763; Thu, 17
- Aug 2023 04:00:25 -0700 (PDT)
+        bh=glxKD+uxNH6EZsGsfBi3qPBBji4XEg2+DVbGwBzUy4k=;
+        b=iT/GLtl60VF9TYLsMUkEA2iDXxtRZWFEcxRaZOsRDOAoq0VrpDsfi5TR7jQ/MawLMb
+         0TPE5Q88G/TE7nX5s1TMIIYTiZQR+nE8t5ZxBVq/mmuFmLftuYFWfeoX020SKqr2cleU
+         CNBk2x2BnaIgHng/HK367H0hXPczVM/nx/DZ1yg74kQKSjTr8zbPd7fuGjzPjtRlILzd
+         XXJn9t681OC89EKXPYnN5IjMSIGDGA42cSWXCnWX+JBXAizCrCpx99zd3a+45iqJz8uf
+         AwIbrI3p4FWqE9UEIO6RVfIaDyF3ikLMUhWMuuNAz6RcqzWP+jIkB55W0aIRsRPLABqi
+         rlOg==
+X-Gm-Message-State: AOJu0YyBYn2QKNvlaEgsMhrkw5M7myAoNojbTYJsv90KGRtulciwPyFR
+        RMMdce0pc7acigyQHAVwZlJXh7kXB2HW7xF1OHFt8Np6tkSAXRvAtX7ZA3ID6DI2k1MtFsAR2t/
+        jC/NsLs6TFg+uogtfUxARuu8=
+X-Received: by 2002:adf:ff8f:0:b0:313:f1c8:a968 with SMTP id j15-20020adfff8f000000b00313f1c8a968mr4605015wrr.2.1692271287058;
+        Thu, 17 Aug 2023 04:21:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEuZzI/w+M6KvyuhUGECENVbooRYcJRIVRq7G2eyUWseAU3BId00io4NPwEqdb5BuEA46xAMg==
+X-Received: by 2002:adf:ff8f:0:b0:313:f1c8:a968 with SMTP id j15-20020adfff8f000000b00313f1c8a968mr4604997wrr.2.1692271286640;
+        Thu, 17 Aug 2023 04:21:26 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id k7-20020adfe3c7000000b003176c6e87b1sm24469786wrm.81.2023.08.17.04.21.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Aug 2023 04:21:26 -0700 (PDT)
+Message-ID: <7ad62d3c-7bcb-5248-4fd9-bcab819d51d3@redhat.com>
+Date:   Thu, 17 Aug 2023 13:21:25 +0200
 MIME-Version: 1.0
-References: <20230815182431.18409-1-laurent.pinchart@ideasonboard.com> <20230815182431.18409-8-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230815182431.18409-8-laurent.pinchart@ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 17 Aug 2023 12:00:10 +0100
-Message-ID: <CAPY8ntBe59BfjcoedoVCC0X8-75wo8+RXnpZZS_Z0-6w70_aBQ@mail.gmail.com>
-Subject: Re: [PATCH v1 07/12] media: i2c: imx219: Initialize ycbcr_enc
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] media: vb2: frame_vector.c: replace WARN_ONCE with a
+ comment
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+References: <d5e1ee76-75b3-26cb-23ae-cf6ab40597b7@xs4all.nl>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <d5e1ee76-75b3-26cb-23ae-cf6ab40597b7@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi  Laurent
-
-Thanks for the patch
-
-On Tue, 15 Aug 2023 at 19:24, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> While the ycbcr_enc field doesn't apply to raw formats, leaving it
-> uninitialized makes the driver behave in a less deterministic way. Fix
-> it by picking the default value for the colorspace.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On 17.08.23 12:41, Hans Verkuil wrote:
+> The WARN_ONCE was issued also in cases that had nothing to do with VM_IO
+> (e.g. if the start address was just a random value and uaccess fails with
+> -EFAULT).
+> 
+> There are no reports of WARN_ONCE being issued for actual VM_IO cases, so
+> just drop it and instead add a note to the comment before the function.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  drivers/media/i2c/imx219.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 8c61b748d9a5..976014ed7711 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -499,6 +499,7 @@ static void imx219_update_pad_format(struct imx219 *imx219,
->         fmt->height = mode->height;
->         fmt->field = V4L2_FIELD_NONE;
->         fmt->colorspace = V4L2_COLORSPACE_RAW;
-> +       fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
->         fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->         fmt->xfer_func = V4L2_XFER_FUNC_NONE;
+> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+> index 0f430ddc1f67..fd87747be9b1 100644
+> --- a/drivers/media/common/videobuf2/frame_vector.c
+> +++ b/drivers/media/common/videobuf2/frame_vector.c
+> @@ -31,6 +31,10 @@
+>    * different type underlying the specified range of virtual addresses.
+>    * When the function isn't able to map a single page, it returns error.
+>    *
+> + * Note that get_vaddr_frames() cannot follow VM_IO mappings. It used
+> + * to be able to do that, but that could (racily) return non-refcounted
+> + * pfns.
+> + *
+>    * This function takes care of grabbing mmap_lock as necessary.
+>    */
+>   int get_vaddr_frames(unsigned long start, unsigned int nr_frames, bool write,
+> @@ -59,8 +63,6 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames, bool write,
+>   	if (likely(ret > 0))
+>   		return ret;
+> 
+> -	/* This used to (racily) return non-refcounted pfns. Let people know */
+> -	WARN_ONCE(1, "get_vaddr_frames() cannot follow VM_IO mapping");
+>   	vec->nr_frames = 0;
+>   	return ret ? ret : -EFAULT;
+>   }
+> 
 
-In [1] for imx290 you requested that I change from using the
-V4L2_MAP_xxx_DEFAULT macros to hardcode them, and now you're mixing
-and matching the two in the same driver.
-Could we have some consistency please? Personally I don't mind which
-is used, but mixing and matching within a driver feels wrong.
-(If there is a genuine desire for V4L2_MAP_xxx_DEFAULT or hardcoding
-in sensor drivers, it'd be nice if it was documented to avoid
-additional review cycles).
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-Also just noting that you seem not to be using get_maintainers for
-your patches as I appear not to have been included.
+-- 
+Cheers,
 
-  Dave
+David / dhildenb
 
-[1] https://patchwork.linuxtv.org/project/linux-media/patch/20230131192016.3476937-3-dave.stevenson@raspberrypi.com/#144299
-
->  }
-> --
-> Regards,
->
-> Laurent Pinchart
->
