@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A49E377F960
+	by mail.lfdr.de (Postfix) with ESMTP id 5B33077F95F
 	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 16:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352094AbjHQOiv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Aug 2023 10:38:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51824 "EHLO
+        id S1352096AbjHQOiw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Aug 2023 10:38:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352065AbjHQOic (ORCPT
+        with ESMTP id S1352069AbjHQOie (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Aug 2023 10:38:32 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA4D30D6
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 07:38:30 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-317c3ac7339so6623222f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 07:38:30 -0700 (PDT)
+        Thu, 17 Aug 2023 10:38:34 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8CA2D79
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 07:38:32 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-31771bb4869so7034095f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 07:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692283109; x=1692887909;
+        d=linaro.org; s=google; t=1692283111; x=1692887911;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l9FgIR5BO1ZA/xwnNK7HzsY7163eVVAl221xkKgdSQ4=;
-        b=gHn1w7/7/kZJJa+BfagaRBl9isCxX045mRuFkFIvYM4FnMedoT9l3/wrFOJtzhbqRX
-         9QQJrVOc/+XjKALVj5AzpPOLeaY86TBTWkrfr/QNpn6v+/QE9eI+QKs0e/7XaMKhvcbo
-         n+7PuO9HsJAviH8YIoe1ss4C0dWig7w+pCpmT9NV2DOHQfHZbBc30XG9CR17ifdoA80d
-         Kl3HOhU/lLiuL25gIufh+cISF7MnyLNvPgC+gTXtoynCtGfEZ91x5BhLoq/4OCWCzF87
-         00WsK1ew81/qvZdk911dboHl6CKdbimOAIghLJf9GnerkvYZmIcfZUvFLp8GWxRS7hLE
-         XGCw==
+        bh=5CilnvTYr96ahQ3O2WrOgBxIJx4YDnh0XI4B0xmqb0M=;
+        b=YwTeQTNLM9eIWy12X5K0elLIAsH1jrFwere4LkOVehwSBrbX1XJFXLm0wZ1huOMlcb
+         uYfW7SewcC3PRa0bHyVusBnwdi/KaTsaGMOMOb7bWRQiHlAVgOsFbsFokAbJUyHHutKG
+         t/u6ZAqctzypvbIUGzT9a+qNjkPNFGiU8HYNMRP4rG9a5ZEeZJcL3rRjPDvNSAB1toTH
+         70c0jmDU+8VXtv9LLRlh01FURuoxKwZQwC5UC7y8GZJ7OaRRXSZcLajOgI1hXtqJMzEI
+         FUHcfMBp+XO7/awzpWQGryX3dQfLZF8le+HHkiH8IHxaGwVGVoowAoSxFw5zIXU7t+iT
+         glUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692283109; x=1692887909;
+        d=1e100.net; s=20221208; t=1692283111; x=1692887911;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=l9FgIR5BO1ZA/xwnNK7HzsY7163eVVAl221xkKgdSQ4=;
-        b=ReI/n2qpWeM6y295f6RC4YEqjDoNJRsxUv5agDdUnACQT02XaH+akWrNJGYMorxBRv
-         rXiVce5dp75vMOhv3J04EjdvARrKAZ1hOQjHv189IZva9yB2Ciapj0AOViqmsk2qFk06
-         uGmsA4ACXWaC7qe4EIWM10U2PePpFkFW6Q71KohYl2xW5X/BfaU/lbhEQ8Y1YJaIt3Dg
-         z1d1R79tH8zWWWpkwdqfvsmLTcxiypc7IPc+cWEquDKTM5xzs9kyp8Qkl5uoMI95MmgW
-         RJsuD2OEYgzQSAKjWwnhWUBNfhvBD7LGX5JvYKm3+uYqMkB7Z4f/fhxT7QGjiG/UJzny
-         zMeQ==
-X-Gm-Message-State: AOJu0Yz7gygNgluylUjqUOBIqTDgFlVkn7bUBwAHc84x5waxThcZZDYy
-        rlGHFX+NQN7mfH28JfLZvU569g==
-X-Google-Smtp-Source: AGHT+IG/eZvxOjp+PkSiSxu0cR90gEMe0y3FwMtpT7CulsWnV/I1wCr6YWATi8HlHSiSxq/sxIuSMA==
-X-Received: by 2002:a5d:55c7:0:b0:315:ad1a:5abc with SMTP id i7-20020a5d55c7000000b00315ad1a5abcmr5683508wrw.5.1692283109407;
-        Thu, 17 Aug 2023 07:38:29 -0700 (PDT)
+        bh=5CilnvTYr96ahQ3O2WrOgBxIJx4YDnh0XI4B0xmqb0M=;
+        b=j4ixLyl4EcmV0JryOEewpd68G/I1dNPx6QTpp3nHlzlCVzEOHwkAFpl2NZ37VP0nUg
+         /ixHh+1b4WhW+DB0NR0aCJwRhrpM7vicIiKkIBKsoPpc6sP5HOG7XX2PPVEY8ee+FZMy
+         4zkDeWWxQf5s5V4oKgP3CU9bqXhkV4QBYxlMOlU5JKzKszza6U72R3ODpruDlvjXmj03
+         v65HmLEtiQ8E0P4QnPKDrzhROReHzDeH4VnCGBGBwAlEfQz94hDq6suL+LlRWVz4eLfm
+         stHgESKpRK31DtfYvMZovGsmdnoOXNTjDLNFgDmhCJdZnfTINJ7AGINWYQyJMJvM7eGE
+         njAw==
+X-Gm-Message-State: AOJu0Yyz9YFfun8Hv5RAo8Bzbd6MqZqTw2LwBBcRY3j+4OwlcMfNV44A
+        ePDOAK5/ynwD4gnvYpbPaA37aA==
+X-Google-Smtp-Source: AGHT+IEao7YnjHg3coPXwWG667W6QdSpnb6X8GoTtuIqq6drB5OqPJwYRIplZY8lboMZR68QteUrdw==
+X-Received: by 2002:a5d:4641:0:b0:317:d048:8d87 with SMTP id j1-20020a5d4641000000b00317d0488d87mr3847749wrs.61.1692283110826;
+        Thu, 17 Aug 2023 07:38:30 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id i8-20020a5d4388000000b0030647449730sm25218232wrq.74.2023.08.17.07.38.28
+        by smtp.gmail.com with ESMTPSA id i8-20020a5d4388000000b0030647449730sm25218232wrq.74.2023.08.17.07.38.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 07:38:28 -0700 (PDT)
+        Thu, 17 Aug 2023 07:38:30 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
         agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
@@ -58,9 +58,9 @@ To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
         andrey.konovalov@linaro.org
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 11/13] media: qcom: camss: Functionally decompose CSIPHY clock lookups
-Date:   Thu, 17 Aug 2023 15:38:10 +0100
-Message-ID: <20230817143812.677554-12-bryan.odonoghue@linaro.org>
+Subject: [PATCH v2 12/13] media: qcom: camss: Add support for setting CSIPHY clock name csiphyX
+Date:   Thu, 17 Aug 2023 15:38:11 +0100
+Message-ID: <20230817143812.677554-13-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230817143812.677554-1-bryan.odonoghue@linaro.org>
 References: <20230817143812.677554-1-bryan.odonoghue@linaro.org>
@@ -76,84 +76,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The csiphyX_timer and csiX_phy values need not be hard-coded. We can
-functionally decompose the string matching inside of a loop.
+Several of our upstream and soon-to-be upstream SoC CAMSS dtsi declare
+csiphyX as opposed to the older clock name csiX_phy.
 
-Static string values are brittle, difficult to extend and not required
-anyway since the camss->res->csiphy_num value informs us of the number
-of CSIPHYs and hence the set of potential clocks for a given CSIPHY.
+For newer SoCs csiphyX turns out to be a clock you really need to set.
 
-In simple terms if we have five CSIPHYs we can have no more and no less
-than five csiphy_timer clocks. Similarly csi_phy core clocks have a 1:1
-relationship with the PHY they clock.
+On sc8280xp for example we will encounter difficult to track down and
+root-cause RX CRC errors without setting the csiX_phy clock. On sdm845 and
+sm8250 we declare the csiXphy clock but seem to get away with not setting
+it.
+
+The right approach here is to set the clock when it is declared. If a SoC
+doesn't require or a SoC driver implementer doesn't think we need, then the
+clock ought to simply be omitted from the clock list.
+
+Include csiphyX in the set of permissible strings which will subsequently
+lead to the csiphyX clock being set during csiphy_set_clock_rates() phase.
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- .../media/platform/qcom/camss/camss-csiphy.c  | 37 ++++++++++++-------
- 1 file changed, 23 insertions(+), 14 deletions(-)
+ drivers/media/platform/qcom/camss/camss-csiphy.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index 0e8c2a59ea241..baf78c525fbfc 100644
+index baf78c525fbfc..d9c751f457703 100644
 --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
 +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -536,6 +536,15 @@ static int csiphy_init_formats(struct v4l2_subdev *sd,
- 	return csiphy_set_format(sd, fh ? fh->state : NULL, &format);
- }
- 
-+static bool csiphy_match_clock_name(const char *clock_name, const char *format,
-+				    int index)
-+{
-+	char name[CAMSS_RES_MAX];
+@@ -687,6 +687,10 @@ int msm_csiphy_subdev_init(struct camss *camss,
+ 				if (csiphy->rate_set[i])
+ 					break;
+ 			}
 +
-+	snprintf(name, sizeof(name), format, index);
-+	return !strcmp(clock_name, name);
-+}
-+
- /*
-  * msm_csiphy_subdev_init - Initialize CSIPHY device structure and resources
-  * @csiphy: CSIPHY device
-@@ -550,7 +559,7 @@ int msm_csiphy_subdev_init(struct camss *camss,
- {
- 	struct device *dev = camss->dev;
- 	struct platform_device *pdev = to_platform_device(dev);
--	int i, j;
-+	int i, j, k;
- 	int ret;
- 
- 	csiphy->camss = camss;
-@@ -666,19 +675,19 @@ int msm_csiphy_subdev_init(struct camss *camss,
- 		for (j = 0; j < clock->nfreqs; j++)
- 			clock->freq[j] = res->clock_rate[i][j];
- 
--		if (!strcmp(clock->name, "csiphy0_timer") ||
--		    !strcmp(clock->name, "csiphy1_timer") ||
--		    !strcmp(clock->name, "csiphy2_timer") ||
--		    !strcmp(clock->name, "csiphy3_timer") ||
--		    !strcmp(clock->name, "csiphy4_timer") ||
--		    !strcmp(clock->name, "csiphy5_timer"))
--			csiphy->rate_set[i] = true;
--
--		if (camss->res->version == CAMSS_660 &&
--		    (!strcmp(clock->name, "csi0_phy") ||
--		     !strcmp(clock->name, "csi1_phy") ||
--		     !strcmp(clock->name, "csi2_phy")))
--			csiphy->rate_set[i] = true;
-+		for (k = 0; k < camss->res->csiphy_num; k++) {
-+			csiphy->rate_set[i] = csiphy_match_clock_name(clock->name,
-+								      "csiphy%d_timer", k);
++			csiphy->rate_set[i] = csiphy_match_clock_name(clock->name, "csiphy%d", k);
 +			if (csiphy->rate_set[i])
 +				break;
-+
-+			if (camss->res->version == CAMSS_660) {
-+				csiphy->rate_set[i] = csiphy_match_clock_name(clock->name,
-+									      "csi%d_phy", k);
-+				if (csiphy->rate_set[i])
-+					break;
-+			}
-+		}
+ 		}
  	}
  
- 	return 0;
 -- 
 2.41.0
 
