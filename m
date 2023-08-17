@@ -2,74 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64EEB77FA27
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 17:03:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48A9577FC26
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 18:32:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245738AbjHQPC4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Aug 2023 11:02:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55840 "EHLO
+        id S1352304AbjHQQba convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 17 Aug 2023 12:31:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352729AbjHQPCx (ORCPT
+        with ESMTP id S1352072AbjHQQbI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Aug 2023 11:02:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AFE33A87;
-        Thu, 17 Aug 2023 08:02:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9F996673DE;
-        Thu, 17 Aug 2023 15:02:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0CCBC433C7;
-        Thu, 17 Aug 2023 15:02:33 +0000 (UTC)
-Message-ID: <bacb37eb-16ab-4643-bc67-9ecd9f21f4fc@xs4all.nl>
-Date:   Thu, 17 Aug 2023 17:02:31 +0200
+        Thu, 17 Aug 2023 12:31:08 -0400
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 889E2E2;
+        Thu, 17 Aug 2023 09:31:06 -0700 (PDT)
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-56e280cc606so5964eaf.1;
+        Thu, 17 Aug 2023 09:31:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692289866; x=1692894666;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5eHuxlNkQ41fzp9NxYUnNxWEJyzxxmdJujiZ38s06nE=;
+        b=O7k+zjeSy23Q4uOo6nRda/Vn67zFwQyOqTyGqFEAxKkUa0NTcD/bR7MsIDthkssUtg
+         QoeEJOIAlNOuQAi7gJRjqSYt/KpKlvHFlBd0YHdLnXHPvwkWIEInxNfPxe7WkS2vjbZp
+         Vxwg5QRzRdc56RdCcVgXm9tKz1H/7P37Qxqct37In7xTVa650BHNcbqjYYPxhujjW4Px
+         gCjb2t9ieWlseM9mDMMvr2FDZpBrNZkz0UchahH97NCnCyxTelHT1x0EcFikx/Jvo8RC
+         1/m90CAXxI5or6UM5M8IRk/BjHN2QknJoDf8VUhz8+/2y4a5FJbXaX3CoWVQ2+Mwqwzj
+         Tp8g==
+X-Gm-Message-State: AOJu0YxoWdoVsv2Ptqsalo0HhxBXZdACKdaNw9lwG5PVdahPveueRjmB
+        Iu/A2M8JDszyZPVRERTq5XVxRdjO6LqU+WpsYE0=
+X-Google-Smtp-Source: AGHT+IEQYsPHgL74pnUfu0b6+lkLZQ/2p3fZMDVfBtWKm8xZS/skHl3ZnodUuORtJ2hBqZaii3P2/B/jDyY1ZD+OADc=
+X-Received: by 2002:a4a:bb05:0:b0:569:a08a:d9c5 with SMTP id
+ f5-20020a4abb05000000b00569a08ad9c5mr327442oop.0.1692289865659; Thu, 17 Aug
+ 2023 09:31:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] media: vb2: frame_vector.c: replace WARN_ONCE with a
- comment
-Content-Language: en-US, nl
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, David Hildenbrand <david@redhat.com>
-References: <d5e1ee76-75b3-26cb-23ae-cf6ab40597b7@xs4all.nl>
- <CAHk-=wgR3JSopXha1pJh4dRDH-U+jHgqp1zy1nR8OovUQTJgWw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAHk-=wgR3JSopXha1pJh4dRDH-U+jHgqp1zy1nR8OovUQTJgWw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <1690631575-15124-1-git-send-email-wentong.wu@intel.com>
+ <1690631575-15124-4-git-send-email-wentong.wu@intel.com> <ZMWIKTAuHqHZ3+dc@kekkonen.localdomain>
+In-Reply-To: <ZMWIKTAuHqHZ3+dc@kekkonen.localdomain>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 17 Aug 2023 18:30:54 +0200
+Message-ID: <CAJZ5v0hjZXtkmYnt13E1jizSGu=kkkqYdeS3Y8hc5COUTJtN6w@mail.gmail.com>
+Subject: Re: [PATCH v10 3/3] ACPI: delay enumeration of devices with a _DEP
+ pointing to IVSC device
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Wentong Wu <wentong.wu@intel.com>
+Cc:     hdegoede@redhat.com, djrscally@gmail.com,
+        laurent.pinchart@ideasonboard.com, linux-acpi@vger.kernel.org,
+        linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
+        zhifeng.wang@intel.com, xiang.ye@intel.com, tian.shu.qiu@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/08/2023 16:56, Linus Torvalds wrote:
-> On Thu, 17 Aug 2023 at 12:41, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> There are no reports of WARN_ONCE being issued for actual VM_IO cases, so
->> just drop it and instead add a note to the comment before the function.
-> 
-> Ack. That was meant to catch any (unlikely) strange users, but yeah,
-> it can obviously be triggered by "intentional" strange users, ie
-> syzbot and friends, so since there seems to be no sign of actual
-> real-world use, just removing the WARN_ONCE() is the right thing to
-> do.
-> 
-> I'm assuming I'll get this eventually through the regular media pulls?
-> 
->                 Linus
+On Sat, Jul 29, 2023 at 11:44 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Rafael,
+>
+> On Sat, Jul 29, 2023 at 07:52:55PM +0800, Wentong Wu wrote:
+> > diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> > index 2743444..59c92a9 100644
+> > --- a/drivers/acpi/scan.c
+> > +++ b/drivers/acpi/scan.c
+> > @@ -796,6 +796,9 @@ static const char * const acpi_ignore_dep_ids[] = {
+> >  /* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
+> >  static const char * const acpi_honor_dep_ids[] = {
+> >       "INT3472", /* Camera sensor PMIC / clk and regulator info */
+> > +     "INTC1059", /* IVSC (TGL) driver must be loaded to allow i2c access to camera sensors */
+> > +     "INTC1095", /* IVSC (ADL) driver must be loaded to allow i2c access to camera sensors */
+> > +     "INTC100A", /* IVSC (RPL) driver must be loaded to allow i2c access to camera sensors */
+> >       NULL
+> >  };
+> >
+>
+> Could this patch be merged via the ACPI tree? There's no direct dependency
+> to the two other patches in the set.
+>
+> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Yes, that's the plan.
-
-Regards,
-
-	Hans
+Applied (under a slightly edited subject) as 6.6 material, thanks!
