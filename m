@@ -2,69 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F3B277F67F
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 14:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4929A77F775
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 15:14:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350883AbjHQMik (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Aug 2023 08:38:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50096 "EHLO
+        id S1351251AbjHQNOZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Aug 2023 09:14:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350712AbjHQMiQ (ORCPT
+        with ESMTP id S1351413AbjHQNOL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Aug 2023 08:38:16 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 994352722
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 05:38:14 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-649a11843b3so5866966d6.0
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 05:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692275893; x=1692880693;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jUdVhj0ALIzjhCaAziKr2GAojaQsEAHnyIShQwoSvjs=;
-        b=Ml1CrhZ42fDMxkxMto37w+tczDqJUjteWrLleKqCF2KvReoQMdR1bg/BP//xS/kpde
-         H3NZcnAJtGsSR1Xr4YtIQoTzj9r3bXZiASg8yj6GGj0L8AyystAmt4r64AYt5uWrgX1+
-         V2RGGyB59DHqeY/lxQi5SvJOF4ZDIJ+z/SNcU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692275893; x=1692880693;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jUdVhj0ALIzjhCaAziKr2GAojaQsEAHnyIShQwoSvjs=;
-        b=Nmig8p2B9GtAkjESBP6UxmkrL99FPMip1sjmO12pz2RlyNJty0vxMhUbULuEu8u6D6
-         qhWSADdK8lfx5FJ8ZnoY/jaV7u2tcjbJSv9cSXHMa/m/bowgYaFmXaN8im+BB+LtE/xY
-         VXh9wFDL9kkyVL+A/38TJc3mdRGyFXWrvfZ1KYtCfExLXPWN4bRVQ7pvbjV3JCfGUH3o
-         jAOez4wJjtUL9vtMOpkOcNo11dBp27crwTvUvPXmKUBhrjxZz4S3IuBU5oMCQQuGcsyq
-         YsTc3vfWDuwbmXy1SYf+m47giVnhgDfwrePniDdRG7/2vgSn0AKwlFcZbcMDge+AH87K
-         N0JA==
-X-Gm-Message-State: AOJu0YzOKGrw0HJHu/FI1VCRDydsHlqCaoG7sqdRpEnpzXUGWbgOH4vV
-        fs3GMaN+hzYKAaa4vJncILhsmNKaQVynhZCYcwE=
-X-Google-Smtp-Source: AGHT+IEmdLIBX4TcduDSnebSMlZV9RYUgLFDw6JyS8Q64QUNaAtypqYuQsSEQOyKRfaSNE2ThLHmrw==
-X-Received: by 2002:a0c:aa96:0:b0:649:bf3:6dc0 with SMTP id f22-20020a0caa96000000b006490bf36dc0mr3988634qvb.39.1692275893731;
-        Thu, 17 Aug 2023 05:38:13 -0700 (PDT)
-Received: from denia.c.googlers.com (122.213.145.34.bc.googleusercontent.com. [34.145.213.122])
-        by smtp.gmail.com with ESMTPSA id o12-20020a05620a130c00b00767cd2dbd82sm5108761qkj.15.2023.08.17.05.38.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 05:38:13 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 17 Aug 2023 12:38:04 +0000
-Subject: [PATCH] media: uvcvideo: Fix power line control for a Chicony
- camera
+        Thu, 17 Aug 2023 09:14:11 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8972435A6;
+        Thu, 17 Aug 2023 06:13:53 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A9D1D75;
+        Thu, 17 Aug 2023 06:14:34 -0700 (PDT)
+Received: from [10.57.90.41] (unknown [10.57.90.41])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 607823F6C4;
+        Thu, 17 Aug 2023 06:13:51 -0700 (PDT)
+Message-ID: <2a53e369-c268-7426-ae06-46bd42b04737@arm.com>
+Date:   Thu, 17 Aug 2023 14:13:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v3] misc: sram: Add DMA-BUF Heap exporting of SRAM areas
+Content-Language: en-GB
+To:     Andrew Davis <afd@ti.com>, Arnd Bergmann <arnd@arndb.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        John Stultz <jstultz@google.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20230713191316.116019-1-afd@ti.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230713191316.116019-1-afd@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230817-chicony-v1-1-76bde4d6ff6b@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAKsU3mQC/x2N0QqDMAwAf0XybKDWzam/MnyoWboGRpQUZCL++
- +oejzu4AzKbcIaxOsB4kyyLFmjqCigFfTPKqzB451vXNw+kJLTojgO19+jdraMuQqnnkBlnC0r
- p6tdPRAsb6+VW4yjf/+U5necP/GwcPHUAAAA=
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.2
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,51 +50,366 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The device does not implement the control properly.
+On 2023-07-13 20:13, Andrew Davis wrote:
+> This new export type exposes to userspace the SRAM area as a DMA-BUF Heap,
+> this allows for allocations of DMA-BUFs that can be consumed by various
+> DMA-BUF supporting devices.
+> 
+> Signed-off-by: Andrew Davis <afd@ti.com>
+> ---
+> 
+> Changes from v2:
+>   - Make sram_dma_heap_allocate static (kernel test robot)
+>   - Rebase on v6.5-rc1
+> 
+>   drivers/misc/Kconfig         |   7 +
+>   drivers/misc/Makefile        |   1 +
+>   drivers/misc/sram-dma-heap.c | 245 +++++++++++++++++++++++++++++++++++
+>   drivers/misc/sram.c          |   6 +
+>   drivers/misc/sram.h          |  16 +++
+>   5 files changed, 275 insertions(+)
+>   create mode 100644 drivers/misc/sram-dma-heap.c
+> 
+> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> index 75e427f124b28..ee34dfb61605f 100644
+> --- a/drivers/misc/Kconfig
+> +++ b/drivers/misc/Kconfig
+> @@ -448,6 +448,13 @@ config SRAM
+>   config SRAM_EXEC
+>   	bool
+>   
+> +config SRAM_DMA_HEAP
+> +	bool "Export on-chip SRAM pools using DMA-Heaps"
+> +	depends on DMABUF_HEAPS && SRAM
+> +	help
+> +	  This driver allows the export of on-chip SRAM marked as both pool
+> +	  and exportable to userspace using the DMA-Heaps interface.
+> +
+>   config DW_XDATA_PCIE
+>   	depends on PCI
+>   	tristate "Synopsys DesignWare xData PCIe driver"
+> diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+> index f2a4d1ff65d46..5e7516bfaa8de 100644
+> --- a/drivers/misc/Makefile
+> +++ b/drivers/misc/Makefile
+> @@ -47,6 +47,7 @@ obj-$(CONFIG_VMWARE_VMCI)	+= vmw_vmci/
+>   obj-$(CONFIG_LATTICE_ECP3_CONFIG)	+= lattice-ecp3-config.o
+>   obj-$(CONFIG_SRAM)		+= sram.o
+>   obj-$(CONFIG_SRAM_EXEC)		+= sram-exec.o
+> +obj-$(CONFIG_SRAM_DMA_HEAP)	+= sram-dma-heap.o
+>   obj-$(CONFIG_GENWQE)		+= genwqe/
+>   obj-$(CONFIG_ECHO)		+= echo/
+>   obj-$(CONFIG_CXL_BASE)		+= cxl/
+> diff --git a/drivers/misc/sram-dma-heap.c b/drivers/misc/sram-dma-heap.c
+> new file mode 100644
+> index 0000000000000..c054c04dff33e
+> --- /dev/null
+> +++ b/drivers/misc/sram-dma-heap.c
+> @@ -0,0 +1,245 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * SRAM DMA-Heap userspace exporter
+> + *
+> + * Copyright (C) 2019-2022 Texas Instruments Incorporated - https://www.ti.com/
+> + *	Andrew Davis <afd@ti.com>
+> + */
+> +
+> +#include <linux/dma-mapping.h>
+> +#include <linux/err.h>
+> +#include <linux/genalloc.h>
+> +#include <linux/io.h>
+> +#include <linux/mm.h>
+> +#include <linux/scatterlist.h>
+> +#include <linux/slab.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-heap.h>
+> +
+> +#include "sram.h"
+> +
+> +struct sram_dma_heap {
+> +	struct dma_heap *heap;
+> +	struct gen_pool *pool;
+> +};
+> +
+> +struct sram_dma_heap_buffer {
+> +	struct gen_pool *pool;
+> +	struct list_head attachments;
+> +	struct mutex attachments_lock;
+> +	unsigned long len;
+> +	void *vaddr;
+> +	phys_addr_t paddr;
+> +};
+> +
+> +struct dma_heap_attachment {
+> +	struct device *dev;
+> +	struct sg_table *table;
+> +	struct list_head list;
+> +};
+> +
+> +static int dma_heap_attach(struct dma_buf *dmabuf,
+> +			   struct dma_buf_attachment *attachment)
+> +{
+> +	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
+> +	struct dma_heap_attachment *a;
+> +	struct sg_table *table;
+> +
+> +	a = kzalloc(sizeof(*a), GFP_KERNEL);
+> +	if (!a)
+> +		return -ENOMEM;
+> +
+> +	table = kmalloc(sizeof(*table), GFP_KERNEL);
+> +	if (!table) {
+> +		kfree(a);
+> +		return -ENOMEM;
+> +	}
+> +	if (sg_alloc_table(table, 1, GFP_KERNEL)) {
+> +		kfree(table);
+> +		kfree(a);
+> +		return -ENOMEM;
+> +	}
+> +	sg_set_page(table->sgl, pfn_to_page(PFN_DOWN(buffer->paddr)), buffer->len, 0);
 
-Fixes vl2-compliance error:
+What happens if someone (reasonably) assumes that this struct page 
+pointer isn't completely made up, and dereferences it?
 
-info: checking control 'Power Line Frequency' (0x00980918)
-fail: v4l2-test-controls.cpp(552): could not set valid menu item 3
+(That's if pfn_to_page() itself doesn't blow up, which it potentially 
+might, at least under CONFIG_SPARSEMEM)
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-This camera, like other Chicony devices, do not implement properly the
-Power Line Frequency control.
+I think this needs to be treated as P2PDMA if it's going to have any 
+hope of working robustly.
 
-This time, I do not have direct access to the device, just to the
-report, but since other devices from the same family are showing the
-same error, it is safe to assume that the same fix will work here.
----
- drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> +
+> +	a->table = table;
+> +	a->dev = attachment->dev;
+> +	INIT_LIST_HEAD(&a->list);
+> +
+> +	attachment->priv = a;
+> +
+> +	mutex_lock(&buffer->attachments_lock);
+> +	list_add(&a->list, &buffer->attachments);
+> +	mutex_unlock(&buffer->attachments_lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static void dma_heap_detatch(struct dma_buf *dmabuf,
+> +			     struct dma_buf_attachment *attachment)
+> +{
+> +	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
+> +	struct dma_heap_attachment *a = attachment->priv;
+> +
+> +	mutex_lock(&buffer->attachments_lock);
+> +	list_del(&a->list);
+> +	mutex_unlock(&buffer->attachments_lock);
+> +
+> +	sg_free_table(a->table);
+> +	kfree(a->table);
+> +	kfree(a);
+> +}
+> +
+> +static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
+> +					     enum dma_data_direction direction)
+> +{
+> +	struct dma_heap_attachment *a = attachment->priv;
+> +	struct sg_table *table = a->table;
+> +
+> +	/*
+> +	 * As this heap is backed by uncached SRAM memory we do not need to
+> +	 * perform any sync operations on the buffer before allowing device
+> +	 * domain access. For this reason we use SKIP_CPU_SYNC and also do
+> +	 * not use or provide begin/end_cpu_access() dma-buf functions.
+> +	 */
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 08fcd2ffa727..db2556e95b72 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2592,6 +2592,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-+	/* Chicony Electronics Co., Ltd */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x04f2,
-+	  .idProduct		= 0xb67c,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
- 	/* Chicony EasyCamera */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
+I bet that works really well with SWIOTLB ;)
 
----
-base-commit: 4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-change-id: 20230817-chicony-9c35f2046c6f
+Also note that SKIP_CPU_SYNC is only a hint, so the DMA API 
+implementation is still at liberty to do the fatally dangerous things 
+you're hoping it won't (e.g. dereferencing sg_virt()...)
 
-Best regards,
--- 
-Ricardo Ribalda <ribalda@chromium.org>
+Thanks,
+Robin.
 
+> +	if (!dma_map_sg_attrs(attachment->dev, table->sgl, table->nents,
+> +			      direction, DMA_ATTR_SKIP_CPU_SYNC))
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	return table;
+> +}
+> +
+> +static void dma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
+> +				   struct sg_table *table,
+> +				   enum dma_data_direction direction)
+> +{
+> +	dma_unmap_sg_attrs(attachment->dev, table->sgl, table->nents,
+> +			   direction, DMA_ATTR_SKIP_CPU_SYNC);
+> +}
+> +
+> +static void dma_heap_dma_buf_release(struct dma_buf *dmabuf)
+> +{
+> +	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
+> +
+> +	gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
+> +	kfree(buffer);
+> +}
+> +
+> +static int dma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+> +{
+> +	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
+> +	int ret;
+> +
+> +	/* SRAM mappings are not cached */
+> +	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+> +
+> +	ret = vm_iomap_memory(vma, buffer->paddr, buffer->len);
+> +	if (ret)
+> +		pr_err("Could not map buffer to userspace\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static int dma_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
+> +{
+> +	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
+> +
+> +	iosys_map_set_vaddr(map, buffer->vaddr);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dma_buf_ops sram_dma_heap_buf_ops = {
+> +	.attach = dma_heap_attach,
+> +	.detach = dma_heap_detatch,
+> +	.map_dma_buf = dma_heap_map_dma_buf,
+> +	.unmap_dma_buf = dma_heap_unmap_dma_buf,
+> +	.release = dma_heap_dma_buf_release,
+> +	.mmap = dma_heap_mmap,
+> +	.vmap = dma_heap_vmap,
+> +};
+> +
+> +static struct dma_buf *sram_dma_heap_allocate(struct dma_heap *heap,
+> +					      unsigned long len,
+> +					      unsigned long fd_flags,
+> +					      unsigned long heap_flags)
+> +{
+> +	struct sram_dma_heap *sram_dma_heap = dma_heap_get_drvdata(heap);
+> +	struct sram_dma_heap_buffer *buffer;
+> +
+> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> +	struct dma_buf *dmabuf;
+> +	int ret = 0;
+> +
+> +	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+> +	if (!buffer)
+> +		return ERR_PTR(-ENOMEM);
+> +	buffer->pool = sram_dma_heap->pool;
+> +	INIT_LIST_HEAD(&buffer->attachments);
+> +	mutex_init(&buffer->attachments_lock);
+> +	buffer->len = len;
+> +
+> +	buffer->vaddr = (void *)gen_pool_alloc(buffer->pool, buffer->len);
+> +	if (!buffer->vaddr) {
+> +		ret = -ENOMEM;
+> +		goto free_buffer;
+> +	}
+> +
+> +	buffer->paddr = gen_pool_virt_to_phys(buffer->pool, (unsigned long)buffer->vaddr);
+> +	if (buffer->paddr == -1) {
+> +		ret = -ENOMEM;
+> +		goto free_pool;
+> +	}
+> +
+> +	/* create the dmabuf */
+> +	exp_info.exp_name = dma_heap_get_name(heap);
+> +	exp_info.ops = &sram_dma_heap_buf_ops;
+> +	exp_info.size = buffer->len;
+> +	exp_info.flags = fd_flags;
+> +	exp_info.priv = buffer;
+> +	dmabuf = dma_buf_export(&exp_info);
+> +	if (IS_ERR(dmabuf)) {
+> +		ret = PTR_ERR(dmabuf);
+> +		goto free_pool;
+> +	}
+> +
+> +	return dmabuf;
+> +
+> +free_pool:
+> +	gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
+> +free_buffer:
+> +	kfree(buffer);
+> +
+> +	return ERR_PTR(ret);
+> +}
+> +
+> +static struct dma_heap_ops sram_dma_heap_ops = {
+> +	.allocate = sram_dma_heap_allocate,
+> +};
+> +
+> +int sram_add_dma_heap(struct sram_dev *sram,
+> +		      struct sram_reserve *block,
+> +		      phys_addr_t start,
+> +		      struct sram_partition *part)
+> +{
+> +	struct sram_dma_heap *sram_dma_heap;
+> +	struct dma_heap_export_info exp_info;
+> +
+> +	dev_info(sram->dev, "Exporting SRAM Heap '%s'\n", block->label);
+> +
+> +	sram_dma_heap = kzalloc(sizeof(*sram_dma_heap), GFP_KERNEL);
+> +	if (!sram_dma_heap)
+> +		return -ENOMEM;
+> +	sram_dma_heap->pool = part->pool;
+> +
+> +	exp_info.name = kasprintf(GFP_KERNEL, "sram_%s", block->label);
+> +	exp_info.ops = &sram_dma_heap_ops;
+> +	exp_info.priv = sram_dma_heap;
+> +	sram_dma_heap->heap = dma_heap_add(&exp_info);
+> +	if (IS_ERR(sram_dma_heap->heap)) {
+> +		int ret = PTR_ERR(sram_dma_heap->heap);
+> +		kfree(sram_dma_heap);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/misc/sram.c b/drivers/misc/sram.c
+> index 5757adf418b1d..6dd173a2fba8e 100644
+> --- a/drivers/misc/sram.c
+> +++ b/drivers/misc/sram.c
+> @@ -120,6 +120,12 @@ static int sram_add_partition(struct sram_dev *sram, struct sram_reserve *block,
+>   		ret = sram_add_pool(sram, block, start, part);
+>   		if (ret)
+>   			return ret;
+> +
+> +		if (block->export) {
+> +			ret = sram_add_dma_heap(sram, block, start, part);
+> +			if (ret)
+> +				return ret;
+> +		}
+>   	}
+>   	if (block->export) {
+>   		ret = sram_add_export(sram, block, start, part);
+> diff --git a/drivers/misc/sram.h b/drivers/misc/sram.h
+> index 397205b8bf6ff..062bdd25fa068 100644
+> --- a/drivers/misc/sram.h
+> +++ b/drivers/misc/sram.h
+> @@ -60,4 +60,20 @@ static inline int sram_add_protect_exec(struct sram_partition *part)
+>   	return -ENODEV;
+>   }
+>   #endif /* CONFIG_SRAM_EXEC */
+> +
+> +#ifdef CONFIG_SRAM_DMA_HEAP
+> +int sram_add_dma_heap(struct sram_dev *sram,
+> +		      struct sram_reserve *block,
+> +		      phys_addr_t start,
+> +		      struct sram_partition *part);
+> +#else
+> +static inline int sram_add_dma_heap(struct sram_dev *sram,
+> +				    struct sram_reserve *block,
+> +				    phys_addr_t start,
+> +				    struct sram_partition *part)
+> +{
+> +	return 0;
+> +}
+> +#endif /* CONFIG_SRAM_DMA_HEAP */
+> +
+>   #endif /* __SRAM_H */
