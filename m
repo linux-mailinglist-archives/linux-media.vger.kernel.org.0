@@ -2,55 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC98D77F10C
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 09:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01BFF77F10D
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 09:19:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348418AbjHQHSY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1348379AbjHQHSY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 17 Aug 2023 03:18:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41418 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348379AbjHQHR7 (ORCPT
+        with ESMTP id S1348423AbjHQHSG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Aug 2023 03:17:59 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2EAF272B
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 00:17:58 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-583312344e7so98411747b3.1
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 00:17:58 -0700 (PDT)
+        Thu, 17 Aug 2023 03:18:06 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91FCEFE
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 00:18:05 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d27ac992539so7837779276.3
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 00:18:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692256678; x=1692861478;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=tdPz/seJWqaHRmdkr9LsU5bHxyPcOGPwE6Ge6TgVOvU=;
-        b=Jlz38pPdnswDNOBXIHfuJfiopZ79u0M7lB1xbVnOEmB9ratcGXy2y8BWrvb4MfbzDZ
-         225Kl8P1xXx4V9Yd9u4eoF2mr10/fwwJrNuwgPoJNPQLqihrm08axS41x8C4rl/wH2RT
-         uKBEhysPxBLkzhiUk0F30c6J/82FEKO9lA7EFuH18Q/dzEgVTpzyJv21XWAXcCtsOZoC
-         8tlfPaLqUhzYBgm+aJ50zVQ50u8GPTqNfw7/8mR9CiBmhBFEm4mzEEi+0vjz1Lt6CyI/
-         x2jyEszlptFG4k2sJcmQp9gX3tsnXlThBrmMqj7IvZJEjVJ3wQYwF+243pp9Iw6801kV
-         dtYA==
+        d=google.com; s=20221208; t=1692256685; x=1692861485;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kqxUSEEFJTd9fkaOxFY1aupu2KRW29t3jboJ0MpU3yI=;
+        b=qZt/AJIFRK4hXCfpsNwNgne2B29ywpOOi4APQLJOO/rDeH8dGDb126wmItvvv4sDAS
+         mQd13o0wfJCsV7k+pAvxD62gKeed8LKHDO+koZZNLveWNlHHCdKqhnbJgVIfo7XDfQwG
+         8z+1enQYqvT59QYyJ4fortpS0lgwkIpLGcuPMYA6qQaEt5XGSZo0kkzt1o8zEK9j8ZrX
+         r3UlhmGmayj6Gqa+FAwiSGYAGhn54V5hweBCu/h2JCIr5+F4ANTqER/KRGXUTj0ov8yU
+         0EdzyL4guUp2PphNFt91RzQvibXWbG0LpXHovNZRukBQrtT4WO26Xz1M70+UxWlVqPba
+         T1bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692256678; x=1692861478;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tdPz/seJWqaHRmdkr9LsU5bHxyPcOGPwE6Ge6TgVOvU=;
-        b=bsn5/6r+MkWQEXQl438mae+z5Kz3uD/xc38FoV92PUSOu+KwG6iBbSguy9zQ8fa4aa
-         jN1wa54hvcRxwoxGSvLtxdeDD48z3lRCHzPjIEIE+YOeHNbmy5Cw2x3oiXV3QcJdMksk
-         ArdANGjVqLtBizg955ALzl1mZjibM/UB1+FtLYlDdZ52DavOKfg28sXwBeNvXpVBR/gk
-         40AdfdoWP00Ecs/joLQlSBxkPd6MkW3q7w/fYvJelLpdkSRWJvKTdiYAvSI/1MuFGG9H
-         j5ZqFTlmesJqfsgvLmw7K7JiYPwH78QUpXgv9vm1YiMZQDRKklIwTaFTYPm4m8SiEFEE
-         VV2A==
-X-Gm-Message-State: AOJu0Yxi4TUFzz5pETovYXIr1qf2uph7ecaC+ZTcXwMWTkOcdKIkr9f0
-        8BK2/tIVPdl0DVIri1tniDoCQCP2rFM=
-X-Google-Smtp-Source: AGHT+IFhvWanAqJAzxiuYusgRs4gzcBxd55ROitLntraTb07/Wrd7PMEK5Vb4EmqnhQtnUfrw6uBlplg160=
+        d=1e100.net; s=20221208; t=1692256685; x=1692861485;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kqxUSEEFJTd9fkaOxFY1aupu2KRW29t3jboJ0MpU3yI=;
+        b=Qar4n5KJ5AXT3hGTWEbMBHxrLB5X0oTIQWDpNl+xt6bWS6ZyaU4VbdJm5L692OE1SQ
+         wN+0RA0/sOcDvwsnRJn4AstHRKz40BjJG1pi9kel35RTWvE8E1oauODbDriBN0W0yCpN
+         8UK74eHPbz/DV4ra63xalLZ9G9zYQuhkzOD7VWg9hAIz+xBX7Dt1IS+1AWoVX7iKi4km
+         clh0JZESeW31gIDtATjiM6qP6MpnCTvis4YTjduYUyPGO8aiWNxfnvnq8qRiZO7n8EFo
+         MsIloi4wTZrlqraA6Afky3jwygTB4m/4O17tZPk1fffsL7xjR9BvjVadlUcYH4ToRzfP
+         w9vA==
+X-Gm-Message-State: AOJu0YyJJPaqwjoIObPyIPND2UqhIXxnjRIzw5dFfKc/alS/HDEElsaV
+        LQ5iejx99NzjxqvIHUKKxfHuw/znGjg=
+X-Google-Smtp-Source: AGHT+IFv6R+q8xiJ8jKjElY5bZ2Ya6QfkYeknFzRHqwBBfICTpxwuXRh1TN0eDbX2KdPOOxaU7XZHijx+Jc=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:cb5f:f997:f2a2:88c6])
- (user=yunkec job=sendgmr) by 2002:a81:b666:0:b0:583:591d:3d6c with SMTP id
- h38-20020a81b666000000b00583591d3d6cmr54453ywk.0.1692256677770; Thu, 17 Aug
- 2023 00:17:57 -0700 (PDT)
-Date:   Thu, 17 Aug 2023 16:17:28 +0900
+ (user=yunkec job=sendgmr) by 2002:a25:df07:0:b0:d12:d6e4:a08d with SMTP id
+ w7-20020a25df07000000b00d12d6e4a08dmr49454ybg.7.1692256684854; Thu, 17 Aug
+ 2023 00:18:04 -0700 (PDT)
+Date:   Thu, 17 Aug 2023 16:17:29 +0900
+In-Reply-To: <20230817071750.2830271-1-yunkec@google.com>
 Mime-Version: 1.0
+References: <20230817071750.2830271-1-yunkec@google.com>
 X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
-Message-ID: <20230817071750.2830271-1-yunkec@google.com>
-Subject: [PATCH v12 00/11] Implement UVC v1.5 ROI
+Message-ID: <20230817071750.2830271-2-yunkec@google.com>
+Subject: [PATCH v12 01/11] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
 From:   Yunke Cao <yunkec@google.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -70,73 +72,170 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Add p_rect to struct v4l2_ext_control with basic support in
+v4l2-ctrls.
 
-This patch set implements UVC v1.5 region of interest using V4L2
-control API.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+Signed-off-by: Yunke Cao <yunkec@google.com>
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+Changelog since v11:
+- Added reviewed-by from Hans
+Changelog since v10:
+- Added reviewed-by from Sergey and Daniel.
+Changelog since v9:
+- No Change.
+Changelog since v8:
+- No change.
+Changelog since v7:
+- Document V4L2_CTRL_TYPE_RECT in vidioc-queryctrl.rst.
+- Rebased to media-stage master.
+- Do not assign each field in std_equal
 
-ROI control is consisted two uvc specific controls.
-1. A rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
-2. An auto control with type bitmask.
+ .../media/v4l/vidioc-g-ext-ctrls.rst             |  4 ++++
+ .../userspace-api/media/v4l/vidioc-queryctrl.rst |  7 +++++++
+ .../media/videodev2.h.rst.exceptions             |  1 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c        | 16 +++++++++++++++-
+ include/media/v4l2-ctrls.h                       |  2 ++
+ include/uapi/linux/videodev2.h                   |  2 ++
+ 6 files changed, 31 insertions(+), 1 deletion(-)
 
-V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
-
-A patchset in v4l-utils will be sent separately.
-
-Tested with v4l2-compliance, v4l2-ctl, calling ioctls on usb cameras and
-VIVID with a newly added V4L2_CTRL_TYPE_RECT control.
-
-1/11 adds V4L2_CTRL_TYPE_RECT.
-2/11, 3/11, 4/11 refactors uvc_ctrl.c.
-5/11 adds support for compound controls.
-6/11 is a cherry-pick for Hans' implementation of
-V4L2_CTRL_WHICH_MIN/MAX_VAL in v4l2-core.
-7/11 addes the rectangle control in VIVID.
-8/11 supports MIN/MAX in UVC.
-9/11 implements ROI in UVC.
-10/11 initializes ROI control to default value.
-11/11 documents the ROI changes.
-
-Changes since v11
-- Git rid of media: v4l2: document the usage of min/max for V4L2_CTRL_TYPE_RECT.
-- Added a rectangle control in VIVID.
-- Addressed comments in 6/11, details in patch.
-
-Hans Verkuil (1):
-  v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
-
-Yunke Cao (10):
-  media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
-  media: uvcvideo: add uvc_ctrl_get_boundary for getting default value
-  media: uvcvideo: introduce __uvc_ctrl_get_std()
-  media: uvcvideo: Split uvc_control_mapping.size to v4l2 and data size
-  media: uvcvideo: Add support for compound controls
-  media: vivid: Add an rectangle control
-  media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
-  media: uvcvideo: implement UVC v1.5 ROI
-  media: uvcvideo: initilaize ROI control to default value
-  media: uvcvideo: document UVC v1.5 ROI
-
- .../userspace-api/media/drivers/uvcvideo.rst  |  64 +-
- .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +-
- .../media/v4l/vidioc-queryctrl.rst            |  14 +
- .../media/videodev2.h.rst.exceptions          |   4 +
- drivers/media/i2c/imx214.c                    |   5 +-
- .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
- .../media/test-drivers/vivid/vivid-ctrls.c    |  34 +
- drivers/media/usb/uvc/uvc_ctrl.c              | 721 ++++++++++++++----
- drivers/media/usb/uvc/uvc_v4l2.c              |  18 +-
- drivers/media/usb/uvc/uvcvideo.h              |  24 +-
- drivers/media/v4l2-core/v4l2-ctrls-api.c      |  54 +-
- drivers/media/v4l2-core/v4l2-ctrls-core.c     | 176 ++++-
- drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
- include/media/v4l2-ctrls.h                    |  36 +-
- include/uapi/linux/usb/video.h                |   1 +
- include/uapi/linux/uvcvideo.h                 |  13 +
- include/uapi/linux/v4l2-controls.h            |   9 +
- include/uapi/linux/videodev2.h                |   5 +
- 18 files changed, 1001 insertions(+), 210 deletions(-)
-
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+index f9f73530a6be..7b1001d11f9c 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+@@ -199,6 +199,10 @@ still cause this situation.
+       - ``p_area``
+       - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+         of type ``V4L2_CTRL_TYPE_AREA``.
++    * - struct :c:type:`v4l2_rect` *
++      - ``p_rect``
++      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
++        of type ``V4L2_CTRL_TYPE_RECT``.
+     * - struct :c:type:`v4l2_ctrl_h264_sps` *
+       - ``p_h264_sps``
+       - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+index 4d38acafe8e1..56d5c8b0b88b 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+@@ -441,6 +441,13 @@ See also the examples in :ref:`control`.
+       - n/a
+       - A struct :c:type:`v4l2_area`, containing the width and the height
+         of a rectangular area. Units depend on the use case.
++    * - ``V4L2_CTRL_TYPE_RECT``
++      - n/a
++      - n/a
++      - n/a
++      - A struct :c:type:`v4l2_rect`, containing a rectangle described by
++	the position of its top-left corner, the width and the height. Units
++	depend on the use case.
+     * - ``V4L2_CTRL_TYPE_H264_SPS``
+       - n/a
+       - n/a
+diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+index 3e58aac4ef0b..c46082ef0e4d 100644
+--- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
++++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+@@ -150,6 +150,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
++replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
+ replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+index a662fb60f73f..f1486ab032cf 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+@@ -367,7 +367,11 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+ 	case V4L2_CTRL_TYPE_AV1_FILM_GRAIN:
+ 		pr_cont("AV1_FILM_GRAIN");
+ 		break;
+-
++	case V4L2_CTRL_TYPE_RECT:
++		pr_cont("%ux%u@%dx%d",
++			ptr.p_rect->width, ptr.p_rect->height,
++			ptr.p_rect->left, ptr.p_rect->top);
++		break;
+ 	default:
+ 		pr_cont("unknown type %d", ctrl->type);
+ 		break;
+@@ -812,6 +816,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+ 	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+ 	struct v4l2_area *area;
++	struct v4l2_rect *rect;
+ 	void *p = ptr.p + idx * ctrl->elem_size;
+ 	unsigned int i;
+ 
+@@ -1169,6 +1174,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 			return -EINVAL;
+ 		break;
+ 
++	case V4L2_CTRL_TYPE_RECT:
++		rect = p;
++		if (!rect->width || !rect->height)
++			return -EINVAL;
++		break;
++
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -1868,6 +1879,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+ 	case V4L2_CTRL_TYPE_AREA:
+ 		elem_size = sizeof(struct v4l2_area);
+ 		break;
++	case V4L2_CTRL_TYPE_RECT:
++		elem_size = sizeof(struct v4l2_rect);
++		break;
+ 	default:
+ 		if (type < V4L2_CTRL_COMPOUND_TYPES)
+ 			elem_size = sizeof(s32);
+diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+index 59679a42b3e7..b0db167a3ac4 100644
+--- a/include/media/v4l2-ctrls.h
++++ b/include/media/v4l2-ctrls.h
+@@ -56,6 +56,7 @@ struct video_device;
+  * @p_av1_tile_group_entry:	Pointer to an AV1 tile group entry structure.
+  * @p_av1_frame:		Pointer to an AV1 frame structure.
+  * @p_av1_film_grain:		Pointer to an AV1 film grain structure.
++ * @p_rect:			Pointer to a rectangle.
+  * @p:				Pointer to a compound value.
+  * @p_const:			Pointer to a constant compound value.
+  */
+@@ -89,6 +90,7 @@ union v4l2_ctrl_ptr {
+ 	struct v4l2_ctrl_av1_tile_group_entry *p_av1_tile_group_entry;
+ 	struct v4l2_ctrl_av1_frame *p_av1_frame;
+ 	struct v4l2_ctrl_av1_film_grain *p_av1_film_grain;
++	struct v4l2_rect *p_rect;
+ 	void *p;
+ 	const void *p_const;
+ };
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 3af6a82d0cad..089d553cf736 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1812,6 +1812,7 @@ struct v4l2_ext_control {
+ 		__s32 __user *p_s32;
+ 		__s64 __user *p_s64;
+ 		struct v4l2_area __user *p_area;
++		struct v4l2_rect __user *p_rect;
+ 		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+ 		struct v4l2_ctrl_h264_pps *p_h264_pps;
+ 		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
+@@ -1880,6 +1881,7 @@ enum v4l2_ctrl_type {
+ 	V4L2_CTRL_TYPE_U16	     = 0x0101,
+ 	V4L2_CTRL_TYPE_U32	     = 0x0102,
+ 	V4L2_CTRL_TYPE_AREA          = 0x0106,
++	V4L2_CTRL_TYPE_RECT	     = 0x0107,
+ 
+ 	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
+ 	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
 -- 
 2.41.0.694.ge786442a9b-goog
 
