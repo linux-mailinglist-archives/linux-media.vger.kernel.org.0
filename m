@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0780077F95E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 16:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20AE477F957
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 16:39:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352091AbjHQOiu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1352087AbjHQOiu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 17 Aug 2023 10:38:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51720 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352051AbjHQOia (ORCPT
+        with ESMTP id S1352056AbjHQOib (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Aug 2023 10:38:30 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D92D2D74
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 07:38:28 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-318015ade49so6877387f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 07:38:28 -0700 (PDT)
+        Thu, 17 Aug 2023 10:38:31 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D9922D7D
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 07:38:29 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3198d2745feso1965580f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 07:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692283107; x=1692887907;
+        d=linaro.org; s=google; t=1692283108; x=1692887908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=utritafRnMiaSTyT0IAIApkzIcd4AYRvEhOST/jK4tQ=;
-        b=wzVx8M87EJIxH2/TAQBSfLHDgPeyr6JLs9WhfVtcNUQQ6u50yhEy00vaJ104D6ckuH
-         SlyuED6KH1dAFzAHAoGwQjLskL+MD93hn6Z1D5uXSzBpT7iiO3+E6lKU7EcU2Bsf80sN
-         eqei4zS0ZCzUA7RfTIEFOpdcPjq+tmq0Tz8Jv0BLtk9GpjIo+jqWadLmzO6Lms02AiTZ
-         ivchvM7LwRkp88q9vEJ70boh631oqHMIS3iRfa0w+yzpY1+PlHcf45keovJgzOMtg/80
-         AgCNSKXjxWbO5OEUWsL00imi06kWHQrkrRHw9+9h5pbNO9dXWuON9W1WjaS4PTv/SjNf
-         Astg==
+        bh=rHxvfmBq2wQcZEqJeTw0BxrGFmAlBN3kn0Ir0lpbaw4=;
+        b=kvZxyxAjvY8qC8TUWpoVdXkGMVk79cjTvF/ox5zefhTYVoXgH90ozj4iOLmZTs10/E
+         jJ+T+QN26hulLOlLYJ+eMHWWbW6iWD2GCICY15MTQ/IGYoN0Qc0KUfLWNl9lfG4HkBsF
+         LqHTRQVqFxY4eknv+WPXba2atfOkToXvNyCMn+R1FetlCI90QnWtuL1aTFOFicDh0TVD
+         egYMZ6CyA4FAqXu1fWMueAR3F89YOAKDgCGf0WyHvXXgOkzrQYlhdOviu17szsqUZLgJ
+         iDqPxGFLv3MeWa3n35DNdkHqeu+Uz1HW0Ft5cBH2XZjm1VdP/Uuw2VgqiHaiuB2JCJA2
+         lC1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692283107; x=1692887907;
+        d=1e100.net; s=20221208; t=1692283108; x=1692887908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=utritafRnMiaSTyT0IAIApkzIcd4AYRvEhOST/jK4tQ=;
-        b=elDmoQnuRuVYdO1DxZ2x42yEbKhEqQcbJrmIn1vxzDwB1mU9rsTq8F6i9RCwrYmYbo
-         2KhjCZp/HrSYhS33VHl/li1FkEZD/SNLs2Ada1x3e8OTjAqMPgbbRDj28geOw8cPlZGh
-         z2P4nL70oaQkNra6Fw9aUL9IRLphRP7HMrvsJ33I+FymqGQ6zBza8daNo0axqSJijHVu
-         6Z6LxTAThEKCRB2OBh9+Jx5doN0x+3hzphIh45teySEoBLDeyEsjLZ/Patt90tzr4gQp
-         CQwIm2xGy7xg+06FdoQMpyNmg5eqXvaQ5DdsIexCfD7jBjLy4q6daGgIDLt7+fYctw5/
-         FCiQ==
-X-Gm-Message-State: AOJu0YwzHD4p2fHBieYf5pQuHi41YINQSedaZ4XluPP1vo4UZ9wfxBUI
-        Oe6fkVzXwRjmyh7ecfT9g/P9kw==
-X-Google-Smtp-Source: AGHT+IF3Gtfb77Duh0RwzljBgColyv7QM8smrdcSeZUpNlSJJQPu84Ky2kTdveWklDoH8DpuiZzJbg==
-X-Received: by 2002:a5d:61c1:0:b0:319:71be:9241 with SMTP id q1-20020a5d61c1000000b0031971be9241mr4055783wrv.25.1692283107066;
-        Thu, 17 Aug 2023 07:38:27 -0700 (PDT)
+        bh=rHxvfmBq2wQcZEqJeTw0BxrGFmAlBN3kn0Ir0lpbaw4=;
+        b=PCm09BsUbKbW5e/Nvc7TB37kqEfLLpXbrEb99qkoLDSigy+/PFHdFBvvI4N9kuj7yk
+         dMkhtGUofEhMdp97hcXsDEl9111N86rLsOfheL5snUVsMHqIiqrS8aJKZt4fm1/C+e1R
+         V7zc/JyiypVj0mX+gFDbn3GlPr4bLpPX2CTywLqNjKGwa6YhEU5YkUrlsG2t91DO7hyv
+         KJR78Os2/m8qi+0+Rju0JZz0ITKThvitONYT95StIlnQsOAj7S2Xdx5rPzwUvOyy63oJ
+         h9yvC6NoT/wAebwI6ibrpGoRQjD18IE4NAxnbPRwFXKFpuyImDkCGslw4Vec0vRUkmYs
+         g03g==
+X-Gm-Message-State: AOJu0Yzp4OXDzPHA70+Ab8Cow/PjKcheSnHK9XiGUyAkRT/ZdLUJ5XcB
+        gQFBSeHxIZWOj8l7xQki/f/X4A==
+X-Google-Smtp-Source: AGHT+IEyxDVIBwY0oT/rdz3mmCL7rTHgETgqxNd5B7Q8xsURiW7RqlHt4CgFLCTSP0P3oTvZfLUxeQ==
+X-Received: by 2002:adf:ed0c:0:b0:319:8444:939f with SMTP id a12-20020adfed0c000000b003198444939fmr4103623wro.32.1692283108266;
+        Thu, 17 Aug 2023 07:38:28 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id i8-20020a5d4388000000b0030647449730sm25218232wrq.74.2023.08.17.07.38.25
+        by smtp.gmail.com with ESMTPSA id i8-20020a5d4388000000b0030647449730sm25218232wrq.74.2023.08.17.07.38.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 07:38:26 -0700 (PDT)
+        Thu, 17 Aug 2023 07:38:27 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
         agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
@@ -58,9 +58,9 @@ To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
         andrey.konovalov@linaro.org
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 09/13] media: qcom: camss: Improve error printout on icc_get fail
-Date:   Thu, 17 Aug 2023 15:38:08 +0100
-Message-ID: <20230817143812.677554-10-bryan.odonoghue@linaro.org>
+Subject: [PATCH v2 10/13] media: qcom: camss: Allow clocks vfeN vfe_liteN or vfe_lite
+Date:   Thu, 17 Aug 2023 15:38:09 +0100
+Message-ID: <20230817143812.677554-11-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230817143812.677554-1-bryan.odonoghue@linaro.org>
 References: <20230817143812.677554-1-bryan.odonoghue@linaro.org>
@@ -75,30 +75,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If icc_get() fails print the name of the failing path.
+The number of Video Front End - VFE or Image Front End - IFE supported
+with new SoCs can vary both for the full and lite cases.
+
+For example sdm845 has one vfe_lite and two vfe interfaces with the vfe
+clock called simply "vfe_lite" with no integer postfix. sc8280xp has four
+vfe and four vfe lite blocks.
+
+We need to support the following clock name formats
+
+- vfeN
+- vfe_liteN
+- vfe_lite
+
+with N being any reasonably sized integer.
+
+There are two sites in this code which need to do the same thing,
+constructing and matching strings with the pattern above, so encapsulate
+the logic in one function.
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/platform/qcom/camss/camss-vfe.c | 22 ++++++++++++++-----
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 2452c10261e9f..64de82204db34 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1504,8 +1504,11 @@ static int camss_icc_get(struct camss *camss)
- 	for (i = 0; i < camss->res->icc_path_num; i++) {
- 		camss->icc_path[i] = devm_of_icc_get(camss->dev,
- 						     icc_res[i].name);
--		if (IS_ERR(camss->icc_path[i]))
-+		if (IS_ERR(camss->icc_path[i])) {
-+			dev_err(camss->dev, "Unable to icc_get %s\n",
-+				icc_res[i].name);
- 			return PTR_ERR(camss->icc_path[i]);
-+		}
- 	}
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+index 8f48401e31cd3..73380e75dbb22 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -437,6 +437,20 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
+ 	complete(&vfe->reset_complete);
+ }
  
- 	return 0;
++static int vfe_match_clock_names(struct vfe_device *vfe,
++				 struct camss_clock *clock)
++{
++	char vfe_name[CAMSS_RES_MAX];
++	char vfe_lite_name[CAMSS_RES_MAX];
++
++	snprintf(vfe_name, sizeof(vfe_name), "vfe%d", vfe->id);
++	snprintf(vfe_lite_name, sizeof(vfe_lite_name), "vfe_lite%d", vfe->id);
++
++	return (!strcmp(clock->name, vfe_name) ||
++		!strcmp(clock->name, vfe_lite_name) ||
++		!strcmp(clock->name, "vfe_lite"));
++}
++
+ /*
+  * vfe_set_clock_rates - Calculate and set clock rates on VFE module
+  * @vfe: VFE device
+@@ -460,9 +474,7 @@ static int vfe_set_clock_rates(struct vfe_device *vfe)
+ 	for (i = 0; i < vfe->nclocks; i++) {
+ 		struct camss_clock *clock = &vfe->clock[i];
+ 
+-		if (!strcmp(clock->name, "vfe0") ||
+-		    !strcmp(clock->name, "vfe1") ||
+-		    !strcmp(clock->name, "vfe_lite")) {
++		if (vfe_match_clock_names(vfe, clock)) {
+ 			u64 min_rate = 0;
+ 			long rate;
+ 
+@@ -543,9 +555,7 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
+ 	for (i = 0; i < vfe->nclocks; i++) {
+ 		struct camss_clock *clock = &vfe->clock[i];
+ 
+-		if (!strcmp(clock->name, "vfe0") ||
+-		    !strcmp(clock->name, "vfe1") ||
+-		    !strcmp(clock->name, "vfe_lite")) {
++		if (vfe_match_clock_names(vfe, clock)) {
+ 			u64 min_rate = 0;
+ 			unsigned long rate;
+ 
 -- 
 2.41.0
 
