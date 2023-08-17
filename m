@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DB9377F129
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 09:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 059EB77F12B
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 09:27:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348454AbjHQH0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1348456AbjHQH0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 17 Aug 2023 03:26:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58166 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348460AbjHQH0I (ORCPT
+        with ESMTP id S1348466AbjHQH0P (ORCPT
         <rfc822;linux-media@vger.Kernel.org>);
-        Thu, 17 Aug 2023 03:26:08 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 737951BE7
-        for <linux-media@vger.Kernel.org>; Thu, 17 Aug 2023 00:26:07 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-58d799aa369so11090637b3.0
-        for <linux-media@vger.Kernel.org>; Thu, 17 Aug 2023 00:26:07 -0700 (PDT)
+        Thu, 17 Aug 2023 03:26:15 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D9B1BE7
+        for <linux-media@vger.Kernel.org>; Thu, 17 Aug 2023 00:26:13 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-58daaa2ba65so9750477b3.1
+        for <linux-media@vger.Kernel.org>; Thu, 17 Aug 2023 00:26:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692257166; x=1692861966;
+        d=google.com; s=20221208; t=1692257173; x=1692861973;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h2+TrXen8px/2Uq98vNTZm8pfIgUACjnL8wj6YrRWtg=;
-        b=GiIechT1eASW/3r/T8apoLG4WE1898goZItiJvNeDHxzfBOEzS2VBKOwDHTLykX+yQ
-         9UjGHiAAWtRc2Bjz8iKqfOcSFITiPdpE8sLQ5laOMiFYtV2nnlJ+/gWXgASPzAHT7oD8
-         lzjTxU/0OUryiBIM77U0dNKk9IWkLeOUhf+wCGTgjoCNLNHMtdIwdL6aYnJlgLJvo4ZW
-         RYLMmzX7o98FRMhs+fHJ2BLpM2r4TMjHtLU+vd1BivYkfpnzoSYXg62kThip8Go7JNVa
-         PjQwwByRRO/ICf/p0QcCqYNmuCeyAbPHq36Sf6/8GnT5zpJaHpsmwYVx9gooQvT92And
-         DW7w==
+        bh=vd0LT39H/TFsKaBJhSRGWPMSPLXWCHHW1OrDh0cpK1I=;
+        b=DeziKXlGR3UAkJsWttsfeI4EcVGJeAX7iflP7jEmBYMtGCktkmAwC06eO12/8ha5VU
+         qH0uC73ZDTQEsbgfAUkjfjcy/oiI04KWJaeAaVUZjUtb/2hw173idlr2fhAXf53BMAcj
+         owUnsuoGMhoOAJaNdDPTNN2cG7RfJOX82oC+70gjNRIh30OFLYxqkfMjs9yX5Hb/XdEo
+         tjKg6aOKBB6msOwwIr1ZCKN6j/OXejEiXd4STqntWUUWavJOpUgNFwasUJ9swzjgtUnf
+         PV4dseHzDx+oBrsATwkXx0PzYPSoQhgEVlLp2XBNcRoAuV67c9k1M7+p546OYPnmgq5R
+         P69A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692257166; x=1692861966;
+        d=1e100.net; s=20221208; t=1692257173; x=1692861973;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h2+TrXen8px/2Uq98vNTZm8pfIgUACjnL8wj6YrRWtg=;
-        b=XjQJXHZtWTqp6hlExvy/PSHd5OOR1SS/6JeKOcC+vapgL5PR6Iv7VE5/NnPuxP6vjl
-         niEGkkTYlwQu8nAeo3qVbXsTdnkUdaIT9CrJ3ZJdutgT+4RD9qJ8AYKB+VcaTeY82m5l
-         Ihzq/vuuKYGF0TNzLZKxDUMjSceUNV0HrHLPLom1g/2It3jdyIfeSooqZCmEIMS0kssi
-         0wSxcSekiQJYOlrWUeuUFDU/i4JEXIhHyyXyrXBBbkty2MsMOivu3Bro6yb7SOcalEPE
-         qLldN5WADL9lda7xFX2GBeq6knnR/yJEQgCCjVWaJa+ZFdecqNsQEqwFRyi3rYCWoE9Q
-         HC3g==
-X-Gm-Message-State: AOJu0YzSWU9skewNq/u9D4GN9W4WJMzPEBpmx/p7o6KTfNTBDwfn4dgf
-        urfHBNRFuhJopAWUymcDFRGHgAGuiZLEasintnAtMoQSpimxwvMeA4GdZJW5EBDENHRxaNsO5Az
-        i+UnB7kwUgkkchLt2ma50SDu/BdiVBcQXrKovHV5LTgH3mTjNN1Yz+B+j8Z0JUFNRHTlo
-X-Google-Smtp-Source: AGHT+IF9LskVQ1KUUg8eYmNd8UtsLQAFLDCaziM9MDCsnX6AYuWw8IDQQJdgFsy+G2qiXw3SKzQjyYwg6rs=
+        bh=vd0LT39H/TFsKaBJhSRGWPMSPLXWCHHW1OrDh0cpK1I=;
+        b=eNbSzkM5tYx0MSIk1RI+KJAmmNhLxOTg2LYHkbeKa5wPDna4acLJfJKTE58lb7BP23
+         jWCnSr1HglilkpLMejMa+l3mYWLno1Bmi+HrUDqlA0TmEUzydBqgmrqMSIrjTeAbT70x
+         6ZMz1g0If/0wr/ZnBh50OYQ2gPXHftkajOqtMwWWZGTnegVcrF9GpTkZBJXVdv8U1zUs
+         keqm9bO6i2hR4iYiPPSfD9On6CLQVtAH6K12ijoZqMw/duMts0rnaxDVqyMWfpxQik45
+         Wpc57LwiA7yjh6MFLU20S4hXKaU2UsSSWOxnxRMS2pUyqp6IUBl5NwAVta7OZ5951q6p
+         CZ/w==
+X-Gm-Message-State: AOJu0YxWd9915FAuM1ep+MHo7UB0ED90uCCtKobLhZ1a8frj4APHvZYk
+        wy/HbejlKCIE/H0UdSSlDGaD5fRmW3A4lPoQBp4eNC2JdUgcDhJ7lOjtmdILTBplhrjEHkGXtd4
+        T0CpsFYAYv+IhGvp7oPUIbfzoWFR4jGNTwtVGYfKYKLZQNwV/nNplqOTqrAxGe830ph08
+X-Google-Smtp-Source: AGHT+IGZVeth5gqJGduq0ICd9RyiJWHziJNKASOyA51VwbWx5OiB3pzf/0h7YJLEB1agvEwFAJjOmOHiLMY=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:cb5f:f997:f2a2:88c6])
- (user=yunkec job=sendgmr) by 2002:a05:6902:1828:b0:d4f:d7a5:ba3b with SMTP id
- cf40-20020a056902182800b00d4fd7a5ba3bmr59548ybb.8.1692257166531; Thu, 17 Aug
- 2023 00:26:06 -0700 (PDT)
-Date:   Thu, 17 Aug 2023 16:25:35 +0900
+ (user=yunkec job=sendgmr) by 2002:a81:b245:0:b0:589:9d51:c8c0 with SMTP id
+ q66-20020a81b245000000b005899d51c8c0mr54138ywh.2.1692257172516; Thu, 17 Aug
+ 2023 00:26:12 -0700 (PDT)
+Date:   Thu, 17 Aug 2023 16:25:36 +0900
 In-Reply-To: <20230817072537.2837504-1-yunkec@google.com>
 Mime-Version: 1.0
 References: <20230817072537.2837504-1-yunkec@google.com>
 X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
-Message-ID: <20230817072537.2837504-2-yunkec@google.com>
-Subject: [PATCH 1/2] v4l2-ctl: Support V4L2_CTRL_TYPE_RECT
+Message-ID: <20230817072537.2837504-3-yunkec@google.com>
+Subject: [PATCH 2/2] v4l2-utils: Support V4L2_CTRL_WHICH_MIN/MAX_VAL
 From:   Yunke Cao <yunkec@google.com>
 To:     linux-media@vger.Kernel.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
@@ -72,81 +72,116 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Tested with VIVID
+Add string name for V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX.
 
- ./v4l2-ctl -C rect -d 0
-rect: 300x400@200x100
+Test that V4L2_CTRL_WHICH_MIN/MAX_VAL behaves as expected.
+1. Calling G_EXT_CTRLS successes when V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX is set
+   and returns -ENVALID if the flag is not set.
+2. S_EXT_CTRLS and TRY_EXT_CTRLS always return fail.
 
- ./v4l2-ctl -c rect=1000x2000@0x0
- ./v4l2-ctl -C rect -d 0
-rect: 1000x2000@0x0
+Tested with VIVID:
+
+./v4l2-ctl -l -d 0
+...
+		     area 0x0098f90b (area)   : value=1000x2000 flags=has-payload
+read_only_integer_32_bits 0x0098f90c (int)    : min=0 max=255 step=1 default=0 value=0 flags=read-only, has-min-max
+        u32_dynamic_array 0x0098f90d (u32)    : min=10 max=90 step=1 default=50 elems=1 dims=[100] flags=has-payload, dynamic-array
+	   u8_pixel_array 0x0098f90e (u8)     : min=0 max=255 step=1 default=128 dims=[640][368] flags=has-payload
+      s32_2_element_array 0x0098f90f (int)    : min=-10 max=10 step=1 default=2 dims=[2] flags=has-payload, has-min-max
+      s64_5_element_array 0x0098f910 (int64)  : min=-10 max=10 step=1 default=4 dims=[5] flags=has-payload, has-min-max
+		     rect 0x0098f911 (rect)   : value=300x400@200x100 flags=has-payload, has-min-max
+...
+./v4l2-compliance -d 0
+...
+Total for vivid device /dev/video0: 113, Succeeded: 113, Failed: 0, Warnings: 0
 
 Signed-off-by: Yunke Cao <yunkec@google.com>
 ---
- include/linux/videodev2.h          |  2 ++
- utils/v4l2-ctl/v4l2-ctl-common.cpp | 15 +++++++++++++++
- 2 files changed, 17 insertions(+)
+ include/linux/videodev2.h                    |  3 ++
+ utils/common/v4l2-info.cpp                   |  1 +
+ utils/v4l2-compliance/v4l2-test-controls.cpp | 29 ++++++++++++++++++++
+ 3 files changed, 33 insertions(+)
 
 diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
-index c19441a1..a27ea755 100644
+index a27ea755..28a54e18 100644
 --- a/include/linux/videodev2.h
 +++ b/include/linux/videodev2.h
-@@ -1776,6 +1776,7 @@ struct v4l2_ext_control {
- 		struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
- 		struct v4l2_ctrl_hevc_scaling_matrix *p_hevc_scaling_matrix;
- 		struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
-+		struct v4l2_rect *p_rect;
- 		void *ptr;
- 	};
- } __attribute__ ((packed));
-@@ -1818,6 +1819,7 @@ enum v4l2_ctrl_type {
- 	V4L2_CTRL_TYPE_U16	     = 0x0101,
- 	V4L2_CTRL_TYPE_U32	     = 0x0102,
- 	V4L2_CTRL_TYPE_AREA          = 0x0106,
-+	V4L2_CTRL_TYPE_RECT	     = 0x0107,
+@@ -1801,6 +1801,8 @@ struct v4l2_ext_controls {
+ #define V4L2_CTRL_WHICH_CUR_VAL   0
+ #define V4L2_CTRL_WHICH_DEF_VAL   0x0f000000
+ #define V4L2_CTRL_WHICH_REQUEST_VAL 0x0f010000
++#define V4L2_CTRL_WHICH_MIN_VAL   0x0f020000
++#define V4L2_CTRL_WHICH_MAX_VAL   0x0f030000
  
- 	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
- 	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
-diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-index a1cc93c8..07d2e34b 100644
---- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-@@ -516,6 +516,13 @@ static void print_value(int fd, const v4l2_query_ext_ctrl &qc, const v4l2_ext_co
- 		case V4L2_CTRL_TYPE_AREA:
- 			printf("%dx%d", ctrl.p_area->width, ctrl.p_area->height);
- 			break;
-+		case V4L2_CTRL_TYPE_RECT:
-+			printf("%ux%u@%dx%d",
-+			       ctrl.p_rect->width,
-+			       ctrl.p_rect->height,
-+			       ctrl.p_rect->left,
-+			       ctrl.p_rect->top);
-+			break;
- 		default:
- 			printf("unsupported payload type");
- 			break;
-@@ -604,6 +611,9 @@ static void print_qctrl(int fd, const v4l2_query_ext_ctrl &qc,
- 	case V4L2_CTRL_TYPE_AREA:
- 		printf("%31s %#8.8x (area)   :", s.c_str(), qc.id);
- 		break;
-+	case V4L2_CTRL_TYPE_RECT:
-+		printf("%31s %#8.8x (rect)   :", s.c_str(), qc.id);
-+		break;
- 	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
- 		printf("%31s %#8.8x (hdr10-cll-info):", s.c_str(), qc.id);
- 		break;
-@@ -1157,6 +1167,11 @@ void common_set(cv4l_fd &_fd)
- 					sscanf(set_ctrl.second.c_str(), "%ux%u",
- 					       &ctrl.p_area->width, &ctrl.p_area->height);
- 					break;
-+				case V4L2_CTRL_TYPE_RECT:
-+					sscanf(set_ctrl.second.c_str(), "%ux%u@%dx%d",
-+					       &ctrl.p_rect->width, &ctrl.p_rect->height,
-+					       &ctrl.p_rect->left, &ctrl.p_rect->top);
-+					break;
- 				default:
- 					fprintf(stderr, "%s: unsupported payload type\n",
- 							qc.name);
+ enum v4l2_ctrl_type {
+ 	V4L2_CTRL_TYPE_INTEGER	     = 1,
+@@ -1903,6 +1905,7 @@ struct v4l2_querymenu {
+ #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
+ #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
+ #define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
++#define V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX 0x1000
+ 
+ /*  Query flags, to be ORed with the control ID */
+ #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
+diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
+index 4f8c2aa7..b8785245 100644
+--- a/utils/common/v4l2-info.cpp
++++ b/utils/common/v4l2-info.cpp
+@@ -530,6 +530,7 @@ std::string ctrlflags2s(__u32 flags)
+ 		{ V4L2_CTRL_FLAG_EXECUTE_ON_WRITE, "execute-on-write" },
+ 		{ V4L2_CTRL_FLAG_MODIFY_LAYOUT, "modify-layout" },
+ 		{ V4L2_CTRL_FLAG_DYNAMIC_ARRAY, "dynamic-array" },
++		{ V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX, "has-min-max" },
+ 		{ 0, nullptr }
+ 	};
+ 	return flags2s(flags, def);
+diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
+index d7f6be43..e07269e6 100644
+--- a/utils/v4l2-compliance/v4l2-test-controls.cpp
++++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+@@ -973,6 +973,26 @@ int testExtendedControls(struct node *node)
+ 		if (is_vivid && ctrl.id == VIVID_CID_U32_DYN_ARRAY &&
+ 		    checkVividDynArray(node, ctrl, qctrl))
+ 			return fail("dynamic array tests failed\n");
++
++		ctrls.which = V4L2_CTRL_WHICH_MIN_VAL;
++		ret = doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls);
++		if (qctrl.flags & V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX) {
++			if (ret)
++				return fail("g_ext_ctrls return an error when using WHICH_MIN (%d)\n", ret);
++		} else {
++			if (ret != EINVAL && ret != EACCES)
++				return fail("did not check against HAS_WHICH_MIN_MAX\n");
++		}
++		ctrls.which = V4L2_CTRL_WHICH_MAX_VAL;
++		ret = doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls);
++		if (qctrl.flags & V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX) {
++			if (ret)
++				return fail("g_ext_ctrls return an error when using WHICH_MAX (%d)\n", ret);
++		} else {
++			if (ret != EINVAL && ret != EACCES)
++				return fail("did not check against HAS_WHICH_MIN_MAX\n");
++		}
++
+ 		if (qctrl.flags & V4L2_CTRL_FLAG_HAS_PAYLOAD)
+ 			delete [] ctrl.string;
+ 		ctrl.string = nullptr;
+@@ -1084,6 +1104,15 @@ int testExtendedControls(struct node *node)
+ 	fail_on_test(!doioctl(node, VIDIOC_S_EXT_CTRLS, &ctrls));
+ 	fail_on_test(!doioctl(node, VIDIOC_TRY_EXT_CTRLS, &ctrls));
+ 	fail_on_test(doioctl(node, VIDIOC_G_EXT_CTRLS, &ctrls));
++
++	ctrls.which = V4L2_CTRL_WHICH_MIN_VAL;
++	fail_on_test(!doioctl(node, VIDIOC_S_EXT_CTRLS, &ctrls));
++	fail_on_test(!doioctl(node, VIDIOC_TRY_EXT_CTRLS, &ctrls));
++
++	ctrls.which = V4L2_CTRL_WHICH_MAX_VAL;
++	fail_on_test(!doioctl(node, VIDIOC_S_EXT_CTRLS, &ctrls));
++	fail_on_test(!doioctl(node, VIDIOC_TRY_EXT_CTRLS, &ctrls));
++
+ 	return 0;
+ }
+ 
 -- 
 2.41.0.694.ge786442a9b-goog
 
