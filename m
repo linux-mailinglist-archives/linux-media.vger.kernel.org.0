@@ -2,56 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6E1E77F12A
+	by mail.lfdr.de (Postfix) with ESMTP id 5DB9377F129
 	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 09:27:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348452AbjHQH0d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Aug 2023 03:26:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58066 "EHLO
+        id S1348454AbjHQH0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Aug 2023 03:26:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbjHQH0D (ORCPT
+        with ESMTP id S1348460AbjHQH0I (ORCPT
         <rfc822;linux-media@vger.Kernel.org>);
-        Thu, 17 Aug 2023 03:26:03 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C4A1BFB
-        for <linux-media@vger.Kernel.org>; Thu, 17 Aug 2023 00:26:02 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d683c5f5736so4387578276.3
-        for <linux-media@vger.Kernel.org>; Thu, 17 Aug 2023 00:26:01 -0700 (PDT)
+        Thu, 17 Aug 2023 03:26:08 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 737951BE7
+        for <linux-media@vger.Kernel.org>; Thu, 17 Aug 2023 00:26:07 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-58d799aa369so11090637b3.0
+        for <linux-media@vger.Kernel.org>; Thu, 17 Aug 2023 00:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692257161; x=1692861961;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Z42d69f6YIGMcnsYnj5xPGU0hi6rZ6NjGpWHa63fkeY=;
-        b=vXwY2voKWK71AN7sQxKTJFpO9CCnX7iljdLgzZGrHlzU3bE7/8gEG+gvqj8LIGQ++C
-         t7RfyRC3gU0I6HD2YfXOWmn73zwIBKwqTOPU7QJdJ+nUNCStkkLAU8x/XXf8FlVT/E94
-         vFB+b18V8+G6Wa/HrhYFYJRKd2Y0/TeP0ZYIQf/w4yaoqXHT2Rfdwi5yQsS6FPlwJgkK
-         R3+nDblSqPMXbaRtDwJVRoS7c+c+9biMJfTSjTb+oLit/kMSGNykYViI+IbYnO1cAaw7
-         QrOb5Q8Q/+6EEQISRGBUY5kZM47GtE44TI1CADLsJG48sml7Gs6wcnQfunvOEsKrE+ew
-         K5VA==
+        d=google.com; s=20221208; t=1692257166; x=1692861966;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=h2+TrXen8px/2Uq98vNTZm8pfIgUACjnL8wj6YrRWtg=;
+        b=GiIechT1eASW/3r/T8apoLG4WE1898goZItiJvNeDHxzfBOEzS2VBKOwDHTLykX+yQ
+         9UjGHiAAWtRc2Bjz8iKqfOcSFITiPdpE8sLQ5laOMiFYtV2nnlJ+/gWXgASPzAHT7oD8
+         lzjTxU/0OUryiBIM77U0dNKk9IWkLeOUhf+wCGTgjoCNLNHMtdIwdL6aYnJlgLJvo4ZW
+         RYLMmzX7o98FRMhs+fHJ2BLpM2r4TMjHtLU+vd1BivYkfpnzoSYXg62kThip8Go7JNVa
+         PjQwwByRRO/ICf/p0QcCqYNmuCeyAbPHq36Sf6/8GnT5zpJaHpsmwYVx9gooQvT92And
+         DW7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692257161; x=1692861961;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z42d69f6YIGMcnsYnj5xPGU0hi6rZ6NjGpWHa63fkeY=;
-        b=YrhRzCn2hJLcgvJRET+XGRzJ30MLCdYkTf+q42qDWtzr2T4p0v9gClREzLkZdsCjc9
-         36dWS1WIptF843taab3dSnYYyglf00DamXwldAoZTI6cW91Px89/Dt7HqcDzPBSRzJsm
-         FKcwJP/s6k+sLkRriQi0/67iwfUueeEWJzzjWTHHvslFWyZVUYX6WT9Hk0Aoio36AR2o
-         pDZ3kjjImj6sYtnL5pncsRIng1aQqn0Jlj+71nqNK5V1jPse1kcVTe/nBhMDi6q9818t
-         SifZXzmB3tic4N1skRWrJ9MMSKvgdeF0XojefShbMcUUeQpb8KxeJIPQtLdchnkljvxn
-         6Scg==
-X-Gm-Message-State: AOJu0YxPlP/XWM041NimEjG2KRxytfislM8rdA9akP7SGtY7vs7PfE60
-        OQ5XFzrtySMnN+QHcxgjhcW+bbB/by27lckTG1i/rg69i4WQEB9axmoKmUiR9GnEQZsHP08Ep0x
-        MOkAgwTOEkSxFyqIqRd9sdboWZ05ikNuFclpek1CVzrTrqnWSwE5pvJO41GGBHQqM8GO5
-X-Google-Smtp-Source: AGHT+IFc//5H+1RW8WGoXgPDIyEGFT6subuv1rNDIEPvbBTYdYTG1dP/KDiuFTaBCrp3u9+jOHS38w8xsdA=
+        d=1e100.net; s=20221208; t=1692257166; x=1692861966;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h2+TrXen8px/2Uq98vNTZm8pfIgUACjnL8wj6YrRWtg=;
+        b=XjQJXHZtWTqp6hlExvy/PSHd5OOR1SS/6JeKOcC+vapgL5PR6Iv7VE5/NnPuxP6vjl
+         niEGkkTYlwQu8nAeo3qVbXsTdnkUdaIT9CrJ3ZJdutgT+4RD9qJ8AYKB+VcaTeY82m5l
+         Ihzq/vuuKYGF0TNzLZKxDUMjSceUNV0HrHLPLom1g/2It3jdyIfeSooqZCmEIMS0kssi
+         0wSxcSekiQJYOlrWUeuUFDU/i4JEXIhHyyXyrXBBbkty2MsMOivu3Bro6yb7SOcalEPE
+         qLldN5WADL9lda7xFX2GBeq6knnR/yJEQgCCjVWaJa+ZFdecqNsQEqwFRyi3rYCWoE9Q
+         HC3g==
+X-Gm-Message-State: AOJu0YzSWU9skewNq/u9D4GN9W4WJMzPEBpmx/p7o6KTfNTBDwfn4dgf
+        urfHBNRFuhJopAWUymcDFRGHgAGuiZLEasintnAtMoQSpimxwvMeA4GdZJW5EBDENHRxaNsO5Az
+        i+UnB7kwUgkkchLt2ma50SDu/BdiVBcQXrKovHV5LTgH3mTjNN1Yz+B+j8Z0JUFNRHTlo
+X-Google-Smtp-Source: AGHT+IF9LskVQ1KUUg8eYmNd8UtsLQAFLDCaziM9MDCsnX6AYuWw8IDQQJdgFsy+G2qiXw3SKzQjyYwg6rs=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:cb5f:f997:f2a2:88c6])
- (user=yunkec job=sendgmr) by 2002:a05:6902:41:b0:d07:e80c:412e with SMTP id
- m1-20020a056902004100b00d07e80c412emr51682ybh.12.1692257161230; Thu, 17 Aug
- 2023 00:26:01 -0700 (PDT)
-Date:   Thu, 17 Aug 2023 16:25:34 +0900
+ (user=yunkec job=sendgmr) by 2002:a05:6902:1828:b0:d4f:d7a5:ba3b with SMTP id
+ cf40-20020a056902182800b00d4fd7a5ba3bmr59548ybb.8.1692257166531; Thu, 17 Aug
+ 2023 00:26:06 -0700 (PDT)
+Date:   Thu, 17 Aug 2023 16:25:35 +0900
+In-Reply-To: <20230817072537.2837504-1-yunkec@google.com>
 Mime-Version: 1.0
+References: <20230817072537.2837504-1-yunkec@google.com>
 X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
-Message-ID: <20230817072537.2837504-1-yunkec@google.com>
-Subject: [PATCH 0/2] Support V4L2_CTRL_TYPE_RECT and V4L2_CTRL_WHICH_MIN/MAX_VAL
+Message-ID: <20230817072537.2837504-2-yunkec@google.com>
+Subject: [PATCH 1/2] v4l2-ctl: Support V4L2_CTRL_TYPE_RECT
 From:   Yunke Cao <yunkec@google.com>
 To:     linux-media@vger.Kernel.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
@@ -70,24 +72,81 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+Tested with VIVID
 
-This patchset adds basic support for V4L2_CTRL_TYPE_RECT
-and V4L2_CTRL_WHICH_MIN/MAX_VAL in v4l2-ctl and v4l2-compliance.
+ ./v4l2-ctl -C rect -d 0
+rect: 300x400@200x100
 
-The corresponding linux kernel patchset can be found at
-https://lore.kernel.org/linux-media/20230817071750.2830271-1-yunkec@google.com/
+ ./v4l2-ctl -c rect=1000x2000@0x0
+ ./v4l2-ctl -C rect -d 0
+rect: 1000x2000@0x0
 
-Yunke Cao (2):
-  v4l2-ctl: Support V4L2_CTRL_TYPE_RECT
-  v4l2-utils: Support V4L2_CTRL_WHICH_MIN/MAX_VAL
+Signed-off-by: Yunke Cao <yunkec@google.com>
+---
+ include/linux/videodev2.h          |  2 ++
+ utils/v4l2-ctl/v4l2-ctl-common.cpp | 15 +++++++++++++++
+ 2 files changed, 17 insertions(+)
 
- include/linux/videodev2.h                    |  5 ++++
- utils/common/v4l2-info.cpp                   |  1 +
- utils/v4l2-compliance/v4l2-test-controls.cpp | 29 ++++++++++++++++++++
- utils/v4l2-ctl/v4l2-ctl-common.cpp           | 15 ++++++++++
- 4 files changed, 50 insertions(+)
-
+diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
+index c19441a1..a27ea755 100644
+--- a/include/linux/videodev2.h
++++ b/include/linux/videodev2.h
+@@ -1776,6 +1776,7 @@ struct v4l2_ext_control {
+ 		struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
+ 		struct v4l2_ctrl_hevc_scaling_matrix *p_hevc_scaling_matrix;
+ 		struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
++		struct v4l2_rect *p_rect;
+ 		void *ptr;
+ 	};
+ } __attribute__ ((packed));
+@@ -1818,6 +1819,7 @@ enum v4l2_ctrl_type {
+ 	V4L2_CTRL_TYPE_U16	     = 0x0101,
+ 	V4L2_CTRL_TYPE_U32	     = 0x0102,
+ 	V4L2_CTRL_TYPE_AREA          = 0x0106,
++	V4L2_CTRL_TYPE_RECT	     = 0x0107,
+ 
+ 	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
+ 	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
+diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+index a1cc93c8..07d2e34b 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+@@ -516,6 +516,13 @@ static void print_value(int fd, const v4l2_query_ext_ctrl &qc, const v4l2_ext_co
+ 		case V4L2_CTRL_TYPE_AREA:
+ 			printf("%dx%d", ctrl.p_area->width, ctrl.p_area->height);
+ 			break;
++		case V4L2_CTRL_TYPE_RECT:
++			printf("%ux%u@%dx%d",
++			       ctrl.p_rect->width,
++			       ctrl.p_rect->height,
++			       ctrl.p_rect->left,
++			       ctrl.p_rect->top);
++			break;
+ 		default:
+ 			printf("unsupported payload type");
+ 			break;
+@@ -604,6 +611,9 @@ static void print_qctrl(int fd, const v4l2_query_ext_ctrl &qc,
+ 	case V4L2_CTRL_TYPE_AREA:
+ 		printf("%31s %#8.8x (area)   :", s.c_str(), qc.id);
+ 		break;
++	case V4L2_CTRL_TYPE_RECT:
++		printf("%31s %#8.8x (rect)   :", s.c_str(), qc.id);
++		break;
+ 	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
+ 		printf("%31s %#8.8x (hdr10-cll-info):", s.c_str(), qc.id);
+ 		break;
+@@ -1157,6 +1167,11 @@ void common_set(cv4l_fd &_fd)
+ 					sscanf(set_ctrl.second.c_str(), "%ux%u",
+ 					       &ctrl.p_area->width, &ctrl.p_area->height);
+ 					break;
++				case V4L2_CTRL_TYPE_RECT:
++					sscanf(set_ctrl.second.c_str(), "%ux%u@%dx%d",
++					       &ctrl.p_rect->width, &ctrl.p_rect->height,
++					       &ctrl.p_rect->left, &ctrl.p_rect->top);
++					break;
+ 				default:
+ 					fprintf(stderr, "%s: unsupported payload type\n",
+ 							qc.name);
 -- 
 2.41.0.694.ge786442a9b-goog
 
