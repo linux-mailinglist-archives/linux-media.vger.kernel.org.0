@@ -2,59 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48A9577FC26
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 18:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A917977FC68
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 18:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352304AbjHQQba convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 17 Aug 2023 12:31:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50546 "EHLO
+        id S1353779AbjHQQ6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Aug 2023 12:58:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352072AbjHQQbI (ORCPT
+        with ESMTP id S1353770AbjHQQ54 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Aug 2023 12:31:08 -0400
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 889E2E2;
-        Thu, 17 Aug 2023 09:31:06 -0700 (PDT)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-56e280cc606so5964eaf.1;
-        Thu, 17 Aug 2023 09:31:06 -0700 (PDT)
+        Thu, 17 Aug 2023 12:57:56 -0400
+Received: from mail-pl1-f207.google.com (mail-pl1-f207.google.com [209.85.214.207])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D712D67
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 09:57:54 -0700 (PDT)
+Received: by mail-pl1-f207.google.com with SMTP id d9443c01a7336-1bdc89af101so433375ad.0
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 09:57:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692289866; x=1692894666;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5eHuxlNkQ41fzp9NxYUnNxWEJyzxxmdJujiZ38s06nE=;
-        b=O7k+zjeSy23Q4uOo6nRda/Vn67zFwQyOqTyGqFEAxKkUa0NTcD/bR7MsIDthkssUtg
-         QoeEJOIAlNOuQAi7gJRjqSYt/KpKlvHFlBd0YHdLnXHPvwkWIEInxNfPxe7WkS2vjbZp
-         Vxwg5QRzRdc56RdCcVgXm9tKz1H/7P37Qxqct37In7xTVa650BHNcbqjYYPxhujjW4Px
-         gCjb2t9ieWlseM9mDMMvr2FDZpBrNZkz0UchahH97NCnCyxTelHT1x0EcFikx/Jvo8RC
-         1/m90CAXxI5or6UM5M8IRk/BjHN2QknJoDf8VUhz8+/2y4a5FJbXaX3CoWVQ2+Mwqwzj
-         Tp8g==
-X-Gm-Message-State: AOJu0YxoWdoVsv2Ptqsalo0HhxBXZdACKdaNw9lwG5PVdahPveueRjmB
-        Iu/A2M8JDszyZPVRERTq5XVxRdjO6LqU+WpsYE0=
-X-Google-Smtp-Source: AGHT+IEQYsPHgL74pnUfu0b6+lkLZQ/2p3fZMDVfBtWKm8xZS/skHl3ZnodUuORtJ2hBqZaii3P2/B/jDyY1ZD+OADc=
-X-Received: by 2002:a4a:bb05:0:b0:569:a08a:d9c5 with SMTP id
- f5-20020a4abb05000000b00569a08ad9c5mr327442oop.0.1692289865659; Thu, 17 Aug
- 2023 09:31:05 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692291474; x=1692896274;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kg0QE7WFC8jIy1ZqIe4bmipuDdvn/U9mghxu2TvRjdY=;
+        b=QXB5Dv2QjveZqwHwfPhQfHzQwVfcPkZBxwqQfCXg2I5o39d1jGaHILyEJk4qypxJVU
+         JW2eILChxUtuutMt1uQ9DUxOgtA/A7TattJ+kbkfwnzCjbwmZ0Zc9OAI8JS6bqb1VpiT
+         X2B3FCBxPFV9NK0jVyeMKb7FSWlFfl7XgBsq3w/s7AaoxHH30WHoSs+iX2jJjnX5pKGF
+         WXGZCfP+9h4aUyg0wz5kMbXOgk9eRp+aqaDgHWaSZe9mkkw14xcMX27jsJ+lc9i9NLb8
+         zennRqA6MY2DdxvsdYB1DPyp2Nf9URv7Z/v3jMOxT54seYUOYvk8Zpce+t5Kq4OMF6q2
+         GCHg==
+X-Gm-Message-State: AOJu0YyfFWtHE1HFAmCT3STx1q62cz82Avfd0qI9B0taTeX6q9JU/iy4
+        XFlElLBZ0K1646EY1Tik+kNiRU4w4vxBMxfUG6ckUnFKWV5R
+X-Google-Smtp-Source: AGHT+IHwt0gjkRKpc97W+cfpcU7E3G/whLAz1Nq6YNHExHH4HSBlb2RVSmxU1pev+NrhTqcYtuniymiIAXbyb1Q2yGQcFbNObXPb
 MIME-Version: 1.0
-References: <1690631575-15124-1-git-send-email-wentong.wu@intel.com>
- <1690631575-15124-4-git-send-email-wentong.wu@intel.com> <ZMWIKTAuHqHZ3+dc@kekkonen.localdomain>
-In-Reply-To: <ZMWIKTAuHqHZ3+dc@kekkonen.localdomain>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 17 Aug 2023 18:30:54 +0200
-Message-ID: <CAJZ5v0hjZXtkmYnt13E1jizSGu=kkkqYdeS3Y8hc5COUTJtN6w@mail.gmail.com>
-Subject: Re: [PATCH v10 3/3] ACPI: delay enumeration of devices with a _DEP
- pointing to IVSC device
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Wentong Wu <wentong.wu@intel.com>
-Cc:     hdegoede@redhat.com, djrscally@gmail.com,
-        laurent.pinchart@ideasonboard.com, linux-acpi@vger.kernel.org,
-        linux-media@vger.kernel.org, bingbu.cao@linux.intel.com,
-        zhifeng.wang@intel.com, xiang.ye@intel.com, tian.shu.qiu@intel.com
+X-Received: by 2002:a17:902:ec92:b0:1b9:e8e5:b0a4 with SMTP id
+ x18-20020a170902ec9200b001b9e8e5b0a4mr2156836plg.8.1692291473831; Thu, 17 Aug
+ 2023 09:57:53 -0700 (PDT)
+Date:   Thu, 17 Aug 2023 09:57:53 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000027870106032150f5@google.com>
+Subject: [syzbot] [media?] [usb?] UBSAN: shift-out-of-bounds in set_flicker
+From:   syzbot <syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com>
+To:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
         SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,30 +54,110 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jul 29, 2023 at 11:44 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Rafael,
->
-> On Sat, Jul 29, 2023 at 07:52:55PM +0800, Wentong Wu wrote:
-> > diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-> > index 2743444..59c92a9 100644
-> > --- a/drivers/acpi/scan.c
-> > +++ b/drivers/acpi/scan.c
-> > @@ -796,6 +796,9 @@ static const char * const acpi_ignore_dep_ids[] = {
-> >  /* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
-> >  static const char * const acpi_honor_dep_ids[] = {
-> >       "INT3472", /* Camera sensor PMIC / clk and regulator info */
-> > +     "INTC1059", /* IVSC (TGL) driver must be loaded to allow i2c access to camera sensors */
-> > +     "INTC1095", /* IVSC (ADL) driver must be loaded to allow i2c access to camera sensors */
-> > +     "INTC100A", /* IVSC (RPL) driver must be loaded to allow i2c access to camera sensors */
-> >       NULL
-> >  };
-> >
->
-> Could this patch be merged via the ACPI tree? There's no direct dependency
-> to the two other patches in the set.
->
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Hello,
 
-Applied (under a slightly edited subject) as 6.6 material, thanks!
+syzbot found the following issue on:
+
+HEAD commit:    55c3e571d2a0 USB: gadget: f_mass_storage: Fix unused varia..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=13eead53a80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f7789f2bd4d1e7af
+dashboard link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15dfaeada80000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/5ac7d16ee63e/disk-55c3e571.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ea99a7a9832f/vmlinux-55c3e571.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/6848258d554d/bzImage-55c3e571.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+
+gspca_cpia1: usb_control_msg 03, error -32
+gspca_cpia1: usb_control_msg a1, error -32
+gspca_cpia1: usb_control_msg a1, error -32
+gspca_cpia1: usb_control_msg a1, error -32
+gspca_cpia1: usb_control_msg 05, error -71
+gspca_cpia1: usb_control_msg 03, error -71
+================================================================================
+UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
+shift exponent 245 is too large for 32-bit type 'int'
+CPU: 1 PID: 25 Comm: kworker/1:1 Not tainted 6.5.0-rc4-syzkaller-00118-g55c3e571d2a0 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/26/2023
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x125/0x1b0 lib/dump_stack.c:106
+ ubsan_epilogue lib/ubsan.c:217 [inline]
+ __ubsan_handle_shift_out_of_bounds+0x27a/0x600 lib/ubsan.c:387
+ set_flicker.cold+0x1b/0x20 drivers/media/usb/gspca/cpia1.c:1031
+ sd_s_ctrl+0x2c6/0xbf0 drivers/media/usb/gspca/cpia1.c:1782
+ __v4l2_ctrl_handler_setup+0x511/0x710 drivers/media/v4l2-core/v4l2-ctrls-core.c:2481
+ v4l2_ctrl_handler_setup drivers/media/v4l2-core/v4l2-ctrls-core.c:2498 [inline]
+ v4l2_ctrl_handler_setup+0x50/0xa0 drivers/media/v4l2-core/v4l2-ctrls-core.c:2490
+ gspca_set_default_mode drivers/media/usb/gspca/gspca.c:908 [inline]
+ gspca_dev_probe2+0xdd6/0x1b20 drivers/media/usb/gspca/gspca.c:1541
+ gspca_dev_probe+0x18b/0x270 drivers/media/usb/gspca/gspca.c:1610
+ usb_probe_interface+0x307/0x930 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x234/0xc90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:798
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:828
+ __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:956
+ bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1028
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x11f1/0x1b40 drivers/base/core.c:3625
+ usb_set_configuration+0x10cb/0x1c40 drivers/usb/core/message.c:2207
+ usb_generic_driver_probe+0xca/0x130 drivers/usb/core/generic.c:238
+ usb_probe_device+0xda/0x2c0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x234/0xc90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x4b0 drivers/base/dd.c:798
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:828
+ __device_attach_driver+0x1d4/0x300 drivers/base/dd.c:956
+ bus_for_each_drv+0x157/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e8/0x4b0 drivers/base/dd.c:1028
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x11f1/0x1b40 drivers/base/core.c:3625
+ usb_new_device+0xd80/0x1960 drivers/usb/core/hub.c:2589
+ hub_port_connect drivers/usb/core/hub.c:5440 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5580 [inline]
+ port_event drivers/usb/core/hub.c:5740 [inline]
+ hub_event+0x2e62/0x4f30 drivers/usb/core/hub.c:5822
+ process_one_work+0xaa2/0x16f0 kernel/workqueue.c:2597
+ process_scheduled_works kernel/workqueue.c:2664 [inline]
+ worker_thread+0x896/0x1110 kernel/workqueue.c:2750
+ kthread+0x33a/0x430 kernel/kthread.c:389
+ ret_from_fork+0x2c/0x70 arch/x86/kernel/process.c:145
+ ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:304
+ </TASK>
+================================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
