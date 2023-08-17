@@ -2,83 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE25977F465
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 12:42:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFDF777F495
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 12:58:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349961AbjHQKl6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Aug 2023 06:41:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43998 "EHLO
+        id S1350062AbjHQK5o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Aug 2023 06:57:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242143AbjHQKli (ORCPT
+        with ESMTP id S1344060AbjHQK5O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Aug 2023 06:41:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68C52D5A;
-        Thu, 17 Aug 2023 03:41:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7B97E611D4;
-        Thu, 17 Aug 2023 10:41:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A568AC433C7;
-        Thu, 17 Aug 2023 10:41:34 +0000 (UTC)
-Message-ID: <d5e1ee76-75b3-26cb-23ae-cf6ab40597b7@xs4all.nl>
-Date:   Thu, 17 Aug 2023 12:41:32 +0200
+        Thu, 17 Aug 2023 06:57:14 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F7442D72
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 03:57:13 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3fe8242fc4dso66557305e9.1
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 03:57:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692269831; x=1692874631;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IjVAH+L39jCmTn0TVkHpJ3UBkanw2yXWlt0thMhfDmc=;
+        b=LlMi+qQTpRyCPEKl9t1YJ0W2vus7IY+xJCpZKXvbY2lZnQr3r7eGX/itC7Siw5P33p
+         2adB0tEtvxouSx0wVNSjhHNe4eXRXWuMqllyB0KR88ZIG0YI566mj3OtTZQKvJCgmbmk
+         fT//eThLEdwujAi0yfwpRNJxbGKge0LHPlx6Vh7KKD8CFEPCTuz/IyTOVdsQyShtpSnl
+         7ow3ODNV9yiJNwr8aCkrnknKCJ57Kjflsucxjdg9n8s38qlMJdeMeWfxqEhDqChP9SHc
+         kHCOLxwjUXK7jqeZz6yYsVQPcznUEpB85qpV49oVrcK/R8lGgxkZM4rwhq43MNkr7sly
+         lyLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692269831; x=1692874631;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IjVAH+L39jCmTn0TVkHpJ3UBkanw2yXWlt0thMhfDmc=;
+        b=LveLYzxOpobfeAxDJjLRaW1b+c8AlqSS4H7O3BwjfwyJIwNYMRPeOvrfJN0iMsLaMS
+         K0Y8vBGn06oq834hV9SAFw4vOOievnrv1SBw3OzTxo338AO751v8hhxr1n6xUg1ql23/
+         VQWjYSjkgb7qq6qGIrkFW7DTz0oSTK1l8DvIyExe+drPDRqXNmIjf2cKeuIWEcZoC1lT
+         kVgn1KJXyXsuapjfwkDz3qYLynxgFTM1GxU8qTFtdT5AapVwB8VobgfXxQUYEH5DU/RK
+         PCcRpXh4zuglWvsydWO8ZFBXseuzGAgeqWo8RScGKB4ueljSeYaTiK7XJcg5jX3Wg7ys
+         f6VQ==
+X-Gm-Message-State: AOJu0Yx0iyX9d8dHt1GJoDlnU8UqzmmejJEgcOvezQ19mWvKk3O6i5TH
+        KnUIfD/a5diy3rgEQagfyzGCHw==
+X-Google-Smtp-Source: AGHT+IEEoql9Vvr4zUpU3Cvvlmd/nq5BYhlBhLEUsQc8BCtCCmeQWk/n+2A0RDfCX4a3MgVWPGlASg==
+X-Received: by 2002:a1c:721a:0:b0:3fe:5501:d284 with SMTP id n26-20020a1c721a000000b003fe5501d284mr3734445wmc.11.1692269831663;
+        Thu, 17 Aug 2023 03:57:11 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id s3-20020a1cf203000000b003fe17901fcdsm2498138wmc.32.2023.08.17.03.57.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Aug 2023 03:57:10 -0700 (PDT)
+Message-ID: <f9895948-292e-078e-8a33-1cb18727bbf8@linaro.org>
+Date:   Thu, 17 Aug 2023 11:57:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Content-Language: en-US, nl
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, David Hildenbrand <david@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] media: vb2: frame_vector.c: replace WARN_ONCE with a comment
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 04/14] media: qcom: camss: Pass icc bandwidth table as
+ a platform parameter
+Content-Language: en-US
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, rfoss@kernel.org,
+        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230814162907.3878421-1-bryan.odonoghue@linaro.org>
+ <20230814162907.3878421-5-bryan.odonoghue@linaro.org>
+ <eaed15ca-5c0b-420e-a11e-007ef5608019@linaro.org>
+ <5332efa6-621c-a338-09e7-dfcc86f898ca@linaro.org>
+In-Reply-To: <5332efa6-621c-a338-09e7-dfcc86f898ca@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The WARN_ONCE was issued also in cases that had nothing to do with VM_IO
-(e.g. if the start address was just a random value and uaccess fails with
--EFAULT).
+On 16/08/2023 20:09, Bryan O'Donoghue wrote:
+> On 16/08/2023 18:20, Konrad Dybcio wrote:
+>>> +    icc_res = camss->res->icc_res;
+>> Would initializing at declaration time fit in 100 chars?
+> 
+> Ah yeah, that would be nice.
+> 
+> ---
+> bod
 
-There are no reports of WARN_ONCE being issued for actual VM_IO cases, so
-just drop it and instead add a note to the comment before the function.
+Looking to do this code for this, IDK this would really work.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Going to stick to how its being done in Venus 
+drivers/media/platform/qcom/venus/core.c
+
 ---
-diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
-index 0f430ddc1f67..fd87747be9b1 100644
---- a/drivers/media/common/videobuf2/frame_vector.c
-+++ b/drivers/media/common/videobuf2/frame_vector.c
-@@ -31,6 +31,10 @@
-  * different type underlying the specified range of virtual addresses.
-  * When the function isn't able to map a single page, it returns error.
-  *
-+ * Note that get_vaddr_frames() cannot follow VM_IO mappings. It used
-+ * to be able to do that, but that could (racily) return non-refcounted
-+ * pfns.
-+ *
-  * This function takes care of grabbing mmap_lock as necessary.
-  */
- int get_vaddr_frames(unsigned long start, unsigned int nr_frames, bool write,
-@@ -59,8 +63,6 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames, bool write,
- 	if (likely(ret > 0))
- 		return ret;
-
--	/* This used to (racily) return non-refcounted pfns. Let people know */
--	WARN_ONCE(1, "get_vaddr_frames() cannot follow VM_IO mapping");
- 	vec->nr_frames = 0;
- 	return ret ? ret : -EFAULT;
- }
-
+bod
