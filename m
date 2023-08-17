@@ -2,110 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B58AF77EECF
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 03:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6122C77F100
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 09:12:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347580AbjHQBoC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Aug 2023 21:44:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56180 "EHLO
+        id S1348409AbjHQHL7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Aug 2023 03:11:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242470AbjHQBnw (ORCPT
+        with ESMTP id S1348377AbjHQHLn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Aug 2023 21:43:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE17E2723
-        for <linux-media@vger.kernel.org>; Wed, 16 Aug 2023 18:43:50 -0700 (PDT)
+        Thu, 17 Aug 2023 03:11:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9685272B
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 00:11:41 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8974A61701
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 01:43:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96F97C433C7
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 01:43:49 +0000 (UTC)
-Date:   Thu, 17 Aug 2023 03:43:47 +0200
-Message-ID: <85211f4f233841da24e0f0c2acefb87c.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6FBE463757
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 07:11:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C26F1C433C9;
+        Thu, 17 Aug 2023 07:11:38 +0000 (UTC)
+Message-ID: <532a4f36-ad81-50fb-24d2-1f31f93cc714@xs4all.nl>
+Date:   Thu, 17 Aug 2023 09:11:36 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] media: videobuf2-core.c: check if all buffers have the
+ same number of planes
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        linux-mediatek@lists.infradead.org,
+        Wei Chen <harperchen1110@gmail.com>, tiffany.lin@mediatek.com,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <e75ff985-2499-9a16-21fe-ee2e81547e6f@xs4all.nl>
+ <20230816143432.GA4436@pendragon.ideasonboard.com>
+ <ZN0L6SAWlr+KZTVK@valkosipuli.retiisi.eu>
+Content-Language: en-US, nl
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <ZN0L6SAWlr+KZTVK@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On 16/08/2023 19:48, Sakari Ailus wrote:
+> Hi Hans, Laurent,
+> 
+> On Wed, Aug 16, 2023 at 05:34:32PM +0300, Laurent Pinchart wrote:
+>> Hi Hans,
+>>
+>> Thank you for the patch.
+>>
+>> On Wed, Aug 16, 2023 at 02:47:33PM +0200, Hans Verkuil wrote:
+>>> Currently if VIDIOC_CREATE_BUFS is called to add new buffers, then the requested
+>>> number of planes per buffer might be different from the already allocated buffers.
+>>>
+>>> However, this does not make a lot of sense and there are no drivers that allow
+>>> for variable number of planes in the allocated buffers.
+>>>
+>>> While it is possible do this today, when such a buffer is queued it will fail
+>>> in the buf_prepare() callback where the plane sizes are checked if those are
+>>> large enough. If fewer planes were allocated, then the size for the missing
+>>> planes are 0 and the check will return -EINVAL.
+>>>
+>>> But it is much better to do this check in VIDIOC_CREATE_BUFS.
+>>
+>> I don't think this is a good idea. One important use case for
+>> VIDIOC_CREATE_BUFS is to allocate buffers for a different format than
+>> the one currently configured for the device, to prepare for a future
+>> capture (or output) session with a different configuration. This patch
+>> would prevent that.
+> 
+> I'd prefer to keep this capability in videobuf2, too. Although... one way
+> achieve that could be to add a flag (or an integer field) in struct
+> vb2_queue to tell vb2 core that the driver wants to do the num_planes
+> checks by itself.
 
-Results of the daily build of media_tree:
+Having a flag for this was something I intended to do once we have a
+driver that actually supports this feature. I'm not aware of any driver
+that needs this today. But I'll make a v2 adding this flag, it is simple
+to do and doesn't hurt.
 
-date:			Thu Aug 17 03:00:07 CEST 2023
-media-tree git branch:	media_stage/master
-media-tree git hash:	b7ec3212a73abc987e8f33aa42988e6c39c38c92
-v4l-utils git hash:	dcbaba173ec7446487fa042902627ad64143eb53
-edid-decode git hash:	5f723267e04deb3aa9610483514a02bcee10d9c2
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8455-g78e3bddd
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 64b9acdbeb6231921e825acfde310a83dd3ce225
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+> 
+> It'd be also nicer, considering the end result, to configure this when
+> setting up the queue, rather than based on the first buffer created. This
+> would involve changing a large number of drivers though.
+> 
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: ERRORS:
+"to configure this": what is "this"? The new flag? Or the number of planes?
+And with "setting up the queue" do you mean the queue_setup callback or
+when the vb2_queue is initialized?
 
-drivers/media/pci/intel/ivsc/mei_ace.c: In function 'mei_ace_post_probe_work':
-drivers/media/pci/intel/ivsc/mei_ace.c:454:9: error: implicit declaration of function 'acpi_dev_clear_dependencies' [-Werror=implicit-function-declaration]
-  454 |         acpi_dev_clear_dependencies(adev);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
+Regards,
 
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-COMPILE_TEST: WARNINGS: VIDEOBUF_GEN VIDEOBUF_DMA_SG VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+	Hans
