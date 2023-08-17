@@ -2,109 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9A9777F5CF
-	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 14:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F3B277F67F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Aug 2023 14:39:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350566AbjHQL7w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Aug 2023 07:59:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42062 "EHLO
+        id S1350883AbjHQMik (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Aug 2023 08:38:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350436AbjHQL7X (ORCPT
+        with ESMTP id S1350712AbjHQMiQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Aug 2023 07:59:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC0752112
-        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 04:59:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38EE55A4;
-        Thu, 17 Aug 2023 13:58:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692273485;
-        bh=hB1agavZLMZ+xcZ2KKL4vqf6rk9M8MVoz0XzDX3F5TQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TvJ1qmx2iqZLylAsBacyFcWpjQkGC1gwneW6C4bTAI0TRzKPZLBLRGqMtvdj8qq4j
-         bfAZlU7Y/5I9XFb6jiP5M42VkHGwGuK6nZsFDVzaUxZozq3cD+E/7UOcizWMDrKbsT
-         sE7oH2/IwowK+lIMewrL3oIyVwCyMlG5NkQU+2ng=
-Date:   Thu, 17 Aug 2023 14:59:25 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v1 07/12] media: i2c: imx219: Initialize ycbcr_enc
-Message-ID: <20230817115925.GH21668@pendragon.ideasonboard.com>
-References: <20230815182431.18409-1-laurent.pinchart@ideasonboard.com>
- <20230815182431.18409-8-laurent.pinchart@ideasonboard.com>
- <CAPY8ntBe59BfjcoedoVCC0X8-75wo8+RXnpZZS_Z0-6w70_aBQ@mail.gmail.com>
+        Thu, 17 Aug 2023 08:38:16 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 994352722
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 05:38:14 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-649a11843b3so5866966d6.0
+        for <linux-media@vger.kernel.org>; Thu, 17 Aug 2023 05:38:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692275893; x=1692880693;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jUdVhj0ALIzjhCaAziKr2GAojaQsEAHnyIShQwoSvjs=;
+        b=Ml1CrhZ42fDMxkxMto37w+tczDqJUjteWrLleKqCF2KvReoQMdR1bg/BP//xS/kpde
+         H3NZcnAJtGsSR1Xr4YtIQoTzj9r3bXZiASg8yj6GGj0L8AyystAmt4r64AYt5uWrgX1+
+         V2RGGyB59DHqeY/lxQi5SvJOF4ZDIJ+z/SNcU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692275893; x=1692880693;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jUdVhj0ALIzjhCaAziKr2GAojaQsEAHnyIShQwoSvjs=;
+        b=Nmig8p2B9GtAkjESBP6UxmkrL99FPMip1sjmO12pz2RlyNJty0vxMhUbULuEu8u6D6
+         qhWSADdK8lfx5FJ8ZnoY/jaV7u2tcjbJSv9cSXHMa/m/bowgYaFmXaN8im+BB+LtE/xY
+         VXh9wFDL9kkyVL+A/38TJc3mdRGyFXWrvfZ1KYtCfExLXPWN4bRVQ7pvbjV3JCfGUH3o
+         jAOez4wJjtUL9vtMOpkOcNo11dBp27crwTvUvPXmKUBhrjxZz4S3IuBU5oMCQQuGcsyq
+         YsTc3vfWDuwbmXy1SYf+m47giVnhgDfwrePniDdRG7/2vgSn0AKwlFcZbcMDge+AH87K
+         N0JA==
+X-Gm-Message-State: AOJu0YzOKGrw0HJHu/FI1VCRDydsHlqCaoG7sqdRpEnpzXUGWbgOH4vV
+        fs3GMaN+hzYKAaa4vJncILhsmNKaQVynhZCYcwE=
+X-Google-Smtp-Source: AGHT+IEmdLIBX4TcduDSnebSMlZV9RYUgLFDw6JyS8Q64QUNaAtypqYuQsSEQOyKRfaSNE2ThLHmrw==
+X-Received: by 2002:a0c:aa96:0:b0:649:bf3:6dc0 with SMTP id f22-20020a0caa96000000b006490bf36dc0mr3988634qvb.39.1692275893731;
+        Thu, 17 Aug 2023 05:38:13 -0700 (PDT)
+Received: from denia.c.googlers.com (122.213.145.34.bc.googleusercontent.com. [34.145.213.122])
+        by smtp.gmail.com with ESMTPSA id o12-20020a05620a130c00b00767cd2dbd82sm5108761qkj.15.2023.08.17.05.38.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Aug 2023 05:38:13 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 17 Aug 2023 12:38:04 +0000
+Subject: [PATCH] media: uvcvideo: Fix power line control for a Chicony
+ camera
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntBe59BfjcoedoVCC0X8-75wo8+RXnpZZS_Z0-6w70_aBQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230817-chicony-v1-1-76bde4d6ff6b@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAKsU3mQC/x2N0QqDMAwAf0XybKDWzam/MnyoWboGRpQUZCL++
+ +oejzu4AzKbcIaxOsB4kyyLFmjqCigFfTPKqzB451vXNw+kJLTojgO19+jdraMuQqnnkBlnC0r
+ p6tdPRAsb6+VW4yjf/+U5necP/GwcPHUAAAA=
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.12.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+The device does not implement the control properly.
 
-(CC'ing Hans Verkuil).
+Fixes vl2-compliance error:
 
-On Thu, Aug 17, 2023 at 12:00:10PM +0100, Dave Stevenson wrote:
-> On Tue, 15 Aug 2023 at 19:24, Laurent Pinchart wrote:
-> >
-> > While the ycbcr_enc field doesn't apply to raw formats, leaving it
-> > uninitialized makes the driver behave in a less deterministic way. Fix
-> > it by picking the default value for the colorspace.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/imx219.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 8c61b748d9a5..976014ed7711 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -499,6 +499,7 @@ static void imx219_update_pad_format(struct imx219 *imx219,
-> >         fmt->height = mode->height;
-> >         fmt->field = V4L2_FIELD_NONE;
-> >         fmt->colorspace = V4L2_COLORSPACE_RAW;
-> > +       fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-> >         fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> >         fmt->xfer_func = V4L2_XFER_FUNC_NONE;
-> 
-> In [1] for imx290 you requested that I change from using the
-> V4L2_MAP_xxx_DEFAULT macros to hardcode them, and now you're mixing
-> and matching the two in the same driver.
-> Could we have some consistency please? Personally I don't mind which
-> is used, but mixing and matching within a driver feels wrong.
-> (If there is a genuine desire for V4L2_MAP_xxx_DEFAULT or hardcoding
-> in sensor drivers, it'd be nice if it was documented to avoid
-> additional review cycles).
+info: checking control 'Power Line Frequency' (0x00980918)
+fail: v4l2-test-controls.cpp(552): could not set valid menu item 3
 
-Absolutely, sorry about this. I'll fix it in v2 and use
-V4L2_MAP_YCBCR_ENC_601.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+This camera, like other Chicony devices, do not implement properly the
+Power Line Frequency control.
 
-Hans, should we add a V4L2_YCBCR_ENC_NONE for non-YUV formats ?
+This time, I do not have direct access to the device, just to the
+report, but since other devices from the same family are showing the
+same error, it is safe to assume that the same fix will work here.
+---
+ drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-> Also just noting that you seem not to be using get_maintainers for
-> your patches as I appear not to have been included.
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 08fcd2ffa727..db2556e95b72 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2592,6 +2592,15 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
++	/* Chicony Electronics Co., Ltd */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x04f2,
++	  .idProduct		= 0xb67c,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
+ 	/* Chicony EasyCamera */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
 
-I'm not sure how that happened, as I use get_maintainer.pl. I probably
-made a mistake somewhere. Sorry about that. I was actually looking
-forward to your review of the series :-)
+---
+base-commit: 4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+change-id: 20230817-chicony-9c35f2046c6f
 
-> [1] https://patchwork.linuxtv.org/project/linux-media/patch/20230131192016.3476937-3-dave.stevenson@raspberrypi.com/#144299
-> 
-> >  }
-
+Best regards,
 -- 
-Regards,
+Ricardo Ribalda <ribalda@chromium.org>
 
-Laurent Pinchart
