@@ -2,167 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2071E7806FF
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 10:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0692780802
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 11:10:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358526AbjHRIS6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 04:18:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60406 "EHLO
+        id S1358934AbjHRJJw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 05:09:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358528AbjHRIS3 (ORCPT
+        with ESMTP id S1358932AbjHRJJa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 04:18:29 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3511726BC
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 01:18:27 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-64723bb9e25so8538706d6.0
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 01:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692346707; x=1692951507;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vbd50sC6d9YNA2CFlSsL+HcGC3OFpjFlTXRkR7YTq+Q=;
-        b=HBt53BKee1fcXtwmATkcRv7McKm4Ni8clLiCcPDJQefkvWhLtPHLMbbltqfpvJ2r+y
-         NFYGtGj7FFbs5VgAHapSZSKGMdl597Es5kRjwxjfe3xp9GGmkZu/orp30xbhw+3g51SX
-         i3rn8Rh9TS7keukqs6nQIjun4jOjhewzpE7UY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692346707; x=1692951507;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vbd50sC6d9YNA2CFlSsL+HcGC3OFpjFlTXRkR7YTq+Q=;
-        b=NLh55YfCCU4qfXX3e75nLjS60YbU+/VvAQeDLpyhRpT5BdubDDYxCdOA3gq/MHW4Ie
-         gLZl07Gb13IPjeMlGT3MtsSkfOdt94rb7ucSA1eInl7n9L2CPaFu5OExzo/kzV9t+gYq
-         k7jO2NTlGAZnxVRjv+yXKcpRabF26iQ2a6XGLDZ0yDdkI+JySrzd5bpdOIK96r+OsieI
-         d/yhqydmQfe3YhUeBIDgeTUuf3LYMHCogEkM7rK6+rX4YrV4iMh8WXT1RcVZVhre76FZ
-         HtrviJDXkioCE5pdK5toz9Uj+k+Nnt+3obVD2Pbrw0fefpcAxQEh4bRVPTJaHwa7eES6
-         moZg==
-X-Gm-Message-State: AOJu0YwcUB2M02WOzonu7NsyrQ3s3+Iavuhp5gXfXf3GkRnzE4G9drsT
-        PAso8wHN3X32UIcPRNp0XbeuajIDhIr7vi72mSI=
-X-Google-Smtp-Source: AGHT+IEm82gvYELg4uoIS9VnwSoPC+Ae7UN9jUXLSkwso5r1IrBMXuTJr2hxpftcv9aQWZP6uyRYVA==
-X-Received: by 2002:a05:6214:d64:b0:636:3f18:4c2b with SMTP id 4-20020a0562140d6400b006363f184c2bmr7208763qvs.29.1692346706846;
-        Fri, 18 Aug 2023 01:18:26 -0700 (PDT)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
-        by smtp.gmail.com with ESMTPSA id t25-20020a0cb719000000b0064a7e9ca8b2sm512161qvd.105.2023.08.18.01.18.26
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Aug 2023 01:18:26 -0700 (PDT)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6424c61c80eso2961316d6.1
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 01:18:26 -0700 (PDT)
-X-Received: by 2002:a0c:c981:0:b0:647:2b24:9708 with SMTP id
- b1-20020a0cc981000000b006472b249708mr2765883qvk.3.1692346706111; Fri, 18 Aug
- 2023 01:18:26 -0700 (PDT)
+        Fri, 18 Aug 2023 05:09:30 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2085.outbound.protection.outlook.com [40.107.220.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA0D8E;
+        Fri, 18 Aug 2023 02:09:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LBH6JhwjLwPGmDTJzI7IyfKDOjJQ8qAysHrZRXui3ZvXnFUw/1ZE3Lb4eunM0yRwOiALmsbccK+0nojJ0qPAowphC75TdJWgv97fUr7wQabdAg9GoFp1jShis49uAS5wcQlS8Zd8wTzixUV1B8sKVCoB+xf77U2eNFXdnXZ236JpGFXK3+SwarojBz0cbArNqnnJwjbGX1JZ29MBlVspjNT0cbhIrzqWgwogI+hUf9qs9RkuCZkwk3XHRzGipZbycPBy5JewM+4ybCU5wJpHlDc9Q1ODFWJ+Us11HBEoATrQglIiKO5eTXcB5VFJDHVDIZJ54RFnIUvGHqjzXLLzbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u82SYAi0uDUw2MuJGQ/43lT/dImJBKEedd7j9reyd9Q=;
+ b=AgRtw9SKXFjRFKYuNe9/OR5+OdztxmzFFD1d877Jl3HPSqzuQAYddrdf4Iarnt9DOaKMYyZZXneTVRbS17Jv4yB2XcjE2WtIuC8R0lAGclYOPMrlMWld/fI3BBIb4CWPKas5FLX2AU69JfxAYnwV/a/VrjfXQUuBLZ6JThu//iP5H4JHxhHukn24ydXCU2IaJcZMr4l79ti5nQgR4SCAuO+whZqx+Zt9W8UT3+n+6z6x0+66nNRRIBLRCqMaaNfTzkceSwI1Q209o76kh3cUUhSSwnVQvZ2kxd0s2rDTNrMM+8iK7AERWVnjLEHeE7O6Lv7mtbDkA3J+p/LzGWyzug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u82SYAi0uDUw2MuJGQ/43lT/dImJBKEedd7j9reyd9Q=;
+ b=om8DTllPxvbkLS6W/9v8vrWInb8z2wwKsGTAO44CTME4le7vl2UcGOLGGY0hFJjiXKa4ixBBcF6METV7RRcdAsHJYUYje4HFCLIaCQ/SpUpX21jy2LCYIB4bde+YPHvoNfCucvFxjlI0av28Z7BiZ0r2abVinWTXwpsoiVzYUxg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SJ2PR12MB8806.namprd12.prod.outlook.com (2603:10b6:a03:4d0::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Fri, 18 Aug
+ 2023 09:09:23 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6699.020; Fri, 18 Aug 2023
+ 09:09:23 +0000
+Message-ID: <647d3838-0d9a-d9d0-b057-87cb4b0f9c16@amd.com>
+Date:   Fri, 18 Aug 2023 11:09:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/sw_sync: Avoid recursive lock
+ during fence signal
+Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     Rob Clark <robdclark@chromium.org>,
+        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20230817213729.110087-1-robdclark@gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230817213729.110087-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0067.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::21) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <20230817-chicony-v1-1-76bde4d6ff6b@chromium.org> <20230818081546.GA26285@pendragon.ideasonboard.com>
-In-Reply-To: <20230818081546.GA26285@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Fri, 18 Aug 2023 10:18:13 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtEU2cq5AphSCEsCkkZy8FWSrtZSC_ooaj_vSgarWe0FQ@mail.gmail.com>
-Message-ID: <CANiDSCtEU2cq5AphSCEsCkkZy8FWSrtZSC_ooaj_vSgarWe0FQ@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Fix power line control for a Chicony camera
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ2PR12MB8806:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1105147a-0fe2-4f9a-4567-08db9fcad076
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AIRr6qr49JuWl9ILYI1KmvDU6Wb9Naim7lKxTs00DlRe4gke03J6FgAiHO9OKyyOZrkVFK9KZUlJm62lnU/thGN8T5U30nYZStiIT535woOq8Q8XBKU6m3cxows+M5MFHaqaeyceffC7OGjHeRSb/o4jYTloGqbxfuh7SHDOaHx2JiWnet1yRm9PMtOwSwXgYJkC8c84Y1lZoYGIGCxlcCr39Eq8ZdfWZNBJgnc+o589ILVQIm7STme8I1sSCD5Tgz8+Cq0TLay4RamApMiyI1QgUTsYNcrkyA1W0KbZTMBwQsA7k8018mDJzD8MhzKhJVRF4z09r4QOVjTMlYBTaxukVILdHmeTxpVTaalTL4lhUkniuI53FP4WeiEeWzhdjaQRtk5DTOIQvNJ2EP70mA4UZB11d7NKaoEkkewhmcTTzJ1x0yEKo6GDK/0lnkdSdxBzJqMDlkCXP3TWRkhO9GZjb8992UV1tfAHrYXw85+0FtJAygBbBvfo46c5Fe+6Gs+jQSoadDz9qTyvAd3zRwBUksHjmiCLUgGTwB8iw7U1zlssg2DoKIRpSKG9XGknhmz5032pHTZwuhKU5im//b5oUrbuRCfQPzZkbYGgfq1wzC+0m7Xo21iBxtvQwScN
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(136003)(346002)(366004)(376002)(451199024)(1800799009)(186009)(83380400001)(966005)(66556008)(66946007)(38100700002)(316002)(54906003)(66476007)(478600001)(7416002)(2906002)(41300700001)(8676002)(4326008)(5660300002)(8936002)(2616005)(6512007)(6666004)(6506007)(6486002)(26005)(31696002)(86362001)(36756003)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGZJYlgxMW9OVGNCcGtTam5aUERzYkZqTVJBMzhsQ04yc0tjZHF6OThsQmt1?=
+ =?utf-8?B?NjBiamxxNXpzWUFzelZFdG1UNUkxZ3RraE9FU0lWOWIyT21FN1hZWWpQa0ZL?=
+ =?utf-8?B?YTU2S2J1di81Umt5V2dteWdDeW94SWpWM2c1WmJYZ3haLzFzY1V2Vnl0NlZD?=
+ =?utf-8?B?dlRXQVgwNU9tOXYyYnR3VmFZYTh2czZjeXl0TFJ6dktDMmg1Q25FNlVHUSs0?=
+ =?utf-8?B?c0JYVnZXdVNkcFhMdkJTTGxtRkNnUFZSQm9QWjdiQXBOcGlpNk1JbEFFbVo5?=
+ =?utf-8?B?dEdjUjRxcWhpMlZQQUlHVzhiZEVCUDBoeEFNNXd6aGZZMEhDdzl5bmVzZ3NV?=
+ =?utf-8?B?UVlqTlJwY1U0L1JuQWJ5T0s2QnFKZ1BDTEdQZ1oyMnpVbnZLdXNrNGJpdnhK?=
+ =?utf-8?B?Vm5vWWFJaVREcHEzUWlmU2QyNnZNcjVCcGV1bUJ5ODlrRlFRYSt5SlM0ZUYz?=
+ =?utf-8?B?cE1iRWd0ZU5lc2dkL0dpZzc5TE4xZWEvWTF0Q29COUMzTUN0cmV4RkRqYXY1?=
+ =?utf-8?B?Uld5dGIxVkdGNDZBT3YrRm9scGNuSGEyNmFGczczTlQ0UkxuNW4yZWZQVWkw?=
+ =?utf-8?B?NXl3NDVEamlDaGZhcW45Z3p3eXVLSEZRUkdCMUdWd09qQzB0YzNFVDJOSmdj?=
+ =?utf-8?B?RzRvMzl6OEQ3SjVQUHl4RlZzam9ycWJoYUw1VDVHSHFOcEZqKzFVWWpvNFNz?=
+ =?utf-8?B?S3hKR0pmVmtmUTFHcHhpSyt5WHA5L1psU0Zmcy8raEJNWTZ0SFBvd2h0WndG?=
+ =?utf-8?B?NzF5WmpFN0Y2ZUNpNVN1b2IrcmY5MmRaZlhWYmN3SUtwSGU5WHF6RmZ2Z3JG?=
+ =?utf-8?B?cE93WUJDRTExeWpRQy9ZTmxLWTE4MC9hSG03OTh3VFdWWHhsdnVOTEdmK0Ri?=
+ =?utf-8?B?ZVUyVm1KckFYUGcrU3gyNFM4ckN1V0lJSCtYalRHMTBIcFRSQnhiWERlM2J2?=
+ =?utf-8?B?VldaMTdaYnJzNWR1Z2JWSW5FeFc3amZYaytSY0xkTmFCdTJtVTMrNDZERkpq?=
+ =?utf-8?B?eTRFUkxpclFtVmpFaDZsUjBwN1JkcEF4QitqZkNzVm4zQjN3YWZVdGxLQ05v?=
+ =?utf-8?B?ZjlsVW5DM1NEYUkrODJOVXNNb01OSTMxL0l3QUtHOXJYZUhOdWFXamh6YUta?=
+ =?utf-8?B?bGo1T1BCblA4Ti9pdDd3d1AvVXdQZ0lxakN3ZUdhUjQyZHByWDRSZnVrRmg0?=
+ =?utf-8?B?bEplRkVaZ1pCWU1xbHg5ZmxyNHNzaUlmOFdrdEY3ZXQvMUlGTW52ZTFWYk4z?=
+ =?utf-8?B?VUFsa3VsTjBGNGEzMU8wWjU5RHdxZCtpTjdZRlYyRXZsSzc4MFN5VHZURWdk?=
+ =?utf-8?B?MUd4aUkySk04dFRWVjJmOUFFc093TytiY0N5ZHRRQzMvOXhzeENPTDBoVWNi?=
+ =?utf-8?B?NG5VMXJPWkxjdmJkQ2RmQjR1WnpLMGZNUWVNeElPaUdSY3hMTzFWUEtNWGZh?=
+ =?utf-8?B?bWdCL3JyVk9QM3VDNkEzSWZHS0diRkhZYWcxVVNJNTN3bFdQYURDR0I2em5S?=
+ =?utf-8?B?Z3hPSzNKWnVMTXNUbmRIYkRoNW1DeWlJOS96c2VuVkRXWlhUaGZYdXdUN0ll?=
+ =?utf-8?B?ZUlRMXVJaFVscU5CYkdRcGJqbEJUQ0I1ZitHbDBmeXpkTml1RmI2S1ZTTDIv?=
+ =?utf-8?B?eXp3Vklkb2lUMUUzWTEzV1krQUNWRmRsdWdtcmhQYjREUSt5dnhBenNFelMx?=
+ =?utf-8?B?cVRJRG91UWxNMUdmYU5VYWsvalZzTm1mUjZlUnRobUNFQlJxdHdNZkI4Q3R3?=
+ =?utf-8?B?WmdlWjRlMk0xN0ZxRWYxRTZ1ekpObU5yT1dXZlJ1NVRKUGpUMVQrdGdwUTJX?=
+ =?utf-8?B?T2x1WmJsUnpNQUxNWFZMOEFDak9ESDhIOWR2bG5TSjlsdVpLYWt4MjVnTW9X?=
+ =?utf-8?B?WWNRd3Z3UUhoY3ZIOFdoUHBYWGNjTHY0MGJVcER6Z1o3Y1pCWkJhQityT1FT?=
+ =?utf-8?B?Q09ZcWFRa0piQWp5SldSdjVvZGEwMUc4OG50anFWb0pxNlJOb0doZ3kyNXF6?=
+ =?utf-8?B?elBkQWJkQWIzWXpFa28vVDF4U0tJaTdSTWZZUVVKcm5MSmhiUjNTSGNVRU1o?=
+ =?utf-8?B?SFd3cmlIbTM1MGpNNXN2bTNXZEErTWNJaVd6N1l4K2lvZ0loMjk2bCsxYUhp?=
+ =?utf-8?Q?DPCYCU/AlblaYPOeGqFcfiwcY?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1105147a-0fe2-4f9a-4567-08db9fcad076
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 09:09:23.4764
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PDnHEvih1oLJvpO7pmheAxadG6BYnwvQLBcSA1JvzlAtZ4vX+wZT/aPcbfuCDIdY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8806
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Am 17.08.23 um 23:37 schrieb Rob Clark:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> If a signal callback releases the sw_sync fence, that will trigger a
+> deadlock as the timeline_fence_release recurses onto the fence->lock
+> (used both for signaling and the the timeline tree).
+>
+> To avoid that, temporarily hold an extra reference to the signalled
+> fences until after we drop the lock.
+>
+> (This is an alternative implementation of https://patchwork.kernel.org/patch/11664717/
+> which avoids some potential UAF issues with the original patch.)
+>
+> Reported-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> Fixes: d3c6dd1fb30d ("dma-buf/sw_sync: Synchronize signal vs syncpt free")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/dma-buf/sw_sync.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+>
+> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> index 63f0aeb66db6..ceb6a0408624 100644
+> --- a/drivers/dma-buf/sw_sync.c
+> +++ b/drivers/dma-buf/sw_sync.c
+> @@ -191,6 +191,7 @@ static const struct dma_fence_ops timeline_fence_ops = {
+>    */
+>   static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+>   {
+> +	LIST_HEAD(signalled);
+>   	struct sync_pt *pt, *next;
+>   
+>   	trace_sync_timeline(obj);
+> @@ -203,9 +204,13 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+>   		if (!timeline_fence_signaled(&pt->base))
+>   			break;
+>   
+> +		dma_fence_get(&pt->base);
 
-On Fri, 18 Aug 2023 at 10:15, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the patch.
->
-> On Thu, Aug 17, 2023 at 12:38:04PM +0000, Ricardo Ribalda wrote:
-> > The device does not implement the control properly.
-> >
-> > Fixes vl2-compliance error:
-> >
-> > info: checking control 'Power Line Frequency' (0x00980918)
-> > fail: v4l2-test-controls.cpp(552): could not set valid menu item 3
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> > This camera, like other Chicony devices, do not implement properly the
-> > Power Line Frequency control.
-> >
-> > This time, I do not have direct access to the device, just to the
-> > report, but since other devices from the same family are showing the
-> > same error, it is safe to assume that the same fix will work here.
->
-> Why, =C3=B4 why does UVC not provide a way to query this dynamically ? :-=
-( Of
-> course, even if it did, I'm sure vendors would get it wrong... It sounds
-> like the Windows UVC compliance test suite must be a joke.
->
-> > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc=
-/uvc_driver.c
-> > index 08fcd2ffa727..db2556e95b72 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -2592,6 +2592,15 @@ static const struct usb_device_id uvc_ids[] =3D =
-{
-> >         .bInterfaceSubClass   =3D 1,
-> >         .bInterfaceProtocol   =3D 0,
-> >         .driver_info          =3D (kernel_ulong_t)&uvc_ctrl_power_line_=
-limited },
-> > +     /* Chicony Electronics Co., Ltd */
->
-> I'll write
->
->         /* Chicony Electronics Co., Ltd Integrated Camera */
->
-> as that's what the descriptors expose. Is this integrated in a
-> chromebook by any chance ? If so, could you share which model the camera
-> is found in, and can I add that to the comment ?
+Question is why don't have the fences a reference on the list in the 
+first place?
 
-It is a non-chromebook running ChromeOS Flex.
-https://chromeenterprise.google/os/chromeosflex/
+> +
+>   		list_del_init(&pt->link);
+>   		rb_erase(&pt->node, &obj->pt_tree);
+>   
+> +		list_add_tail(&pt->link, &signalled);
 
-I believe it is a thinkpad, but I am not sure the exact model.
+Instead of list_del()/list_add_tail() you could also use 
+list_move_tail() here.
 
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> > +     { .match_flags          =3D USB_DEVICE_ID_MATCH_DEVICE
-> > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
-> > +       .idVendor             =3D 0x04f2,
-> > +       .idProduct            =3D 0xb67c,
-> > +       .bInterfaceClass      =3D USB_CLASS_VIDEO,
-> > +       .bInterfaceSubClass   =3D 1,
-> > +       .bInterfaceProtocol   =3D 0,
-> > +       .driver_info          =3D (kernel_ulong_t)&uvc_ctrl_power_line_=
-limited },
-> >       /* Chicony EasyCamera */
-> >       { .match_flags          =3D USB_DEVICE_ID_MATCH_DEVICE
-> >                               | USB_DEVICE_ID_MATCH_INT_INFO,
-> >
-> > ---
-> > base-commit: 4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-> > change-id: 20230817-chicony-9c35f2046c6f
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> +
+>   		/*
+>   		 * A signal callback may release the last reference to this
+>   		 * fence, causing it to be freed. That operation has to be
+> @@ -218,6 +223,11 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+>   	}
+>   
+>   	spin_unlock_irq(&obj->lock);
+> +
+> +	list_for_each_entry_safe(pt, next, &signalled, link) {
+> +		list_del(&pt->link);
 
+You must use list_del_init() here or otherwise the pt->link will keep 
+pointing to the prev/next entries and the list_empty() check in 
+timeline_fence_release() will fail and potentially corrupt things.
 
+Regards,
+Christian.
 
---=20
-Ricardo Ribalda
+> +		dma_fence_put(&pt->base);
+> +	}
+>   }
+>   
+>   /**
+
