@@ -2,94 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59F797809AC
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 12:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F22D7809D6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 12:17:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359826AbjHRKIE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 06:08:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57602 "EHLO
+        id S1358423AbjHRKQc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 06:16:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376387AbjHRKHM (ORCPT
+        with ESMTP id S1358543AbjHRKQM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 06:07:12 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A89146A0
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 03:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692353165; x=1723889165;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XbikVz+P6ZW7j4iEprV33Nhu4+Z9m5AGySPzzs4cF8I=;
-  b=egMWR39zRGs/0mw6x4p1yaxsBEWLRMe25rAo5KHE2qzGiJyltivLvHMA
-   VeES9vqnPXNfubI1VMJJ2HivC3xjFa5jrBhgUvVE8V9PvtepmbtGCRIc7
-   NzR2H12Dmv017eB3jM0wdEl1cbHbBO2TQj15iilFnLvXCk6rAnyiOY7OL
-   Vz4hVmOgVxPqqtXUBxqXfWsThdGNQ1gml7s5x9hsMUXkacBpWjGheJSXD
-   oK/xmqnxa5Wmkw+5XhwzVZJjrfn9cbDCafTb0thmbv2HKpfeKak1NJCVY
-   MeaoezLt9Cay1H87z4/kwzgDU5bdACFv5nkefhMtZKldV3/S+XioCz01W
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="353368141"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="353368141"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 03:05:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="738073736"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="738073736"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 03:05:16 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id D9F2312035D;
-        Fri, 18 Aug 2023 13:05:13 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1qWwLT-00GD5P-20;
-        Fri, 18 Aug 2023 13:04:43 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, wentong.wu@intel.com
-Subject: [PATCH 1/1] media: pci: ivsc: Select build dependencies
-Date:   Fri, 18 Aug 2023 13:04:33 +0300
-Message-Id: <20230818100433.3863543-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+        Fri, 18 Aug 2023 06:16:12 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E1530C2
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 03:16:07 -0700 (PDT)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RRyR659bxz1GDtN;
+        Fri, 18 Aug 2023 18:14:42 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 18 Aug
+ 2023 18:16:05 +0800
+From:   Ruan Jinjie <ruanjinjie@huawei.com>
+To:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     <ruanjinjie@huawei.com>
+Subject: [PATCH -next] media: c8sectpfe: Use the devm_clk_get_enabled() helper function
+Date:   Fri, 18 Aug 2023 18:15:40 +0800
+Message-ID: <20230818101541.1129209-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Select MEDIA_CONTROLLER, VIDEO_V4L2_SUBDEV_API and V4L2_ASYNC as the IVSC
-driver depends on all these.
+With devm_clk_get_enabled() the call to clk_disable_unprepare() can be
+dropped from the error path and the remove callback.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202308170227.ymiFlMbT-lkp@intel.com/
-Fixes: 29006e196a56 ("media: pci: intel: ivsc: Add CSI submodule")
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 ---
- drivers/media/pci/intel/ivsc/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+ .../st/sti/c8sectpfe/c8sectpfe-core.c         | 26 +++++--------------
+ 1 file changed, 7 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ivsc/Kconfig b/drivers/media/pci/intel/ivsc/Kconfig
-index 413053175df7..e9ecd0bd99bd 100644
---- a/drivers/media/pci/intel/ivsc/Kconfig
-+++ b/drivers/media/pci/intel/ivsc/Kconfig
-@@ -4,6 +4,9 @@
- config INTEL_VSC
- 	tristate "Intel Visual Sensing Controller"
- 	depends on INTEL_MEI && ACPI
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
- 	help
- 	  This adds support for Intel Visual Sensing Controller (IVSC).
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+index 5dc1f908b49b..e4cf27b5a072 100644
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
++++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+@@ -695,16 +695,10 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, fei);
+ 
+-	fei->c8sectpfeclk = devm_clk_get(dev, "c8sectpfe");
++	fei->c8sectpfeclk = devm_clk_get_enabled(dev, "c8sectpfe");
+ 	if (IS_ERR(fei->c8sectpfeclk)) {
+-		dev_err(dev, "c8sectpfe clk not found\n");
+-		return PTR_ERR(fei->c8sectpfeclk);
+-	}
+-
+-	ret = clk_prepare_enable(fei->c8sectpfeclk);
+-	if (ret) {
+ 		dev_err(dev, "Failed to enable c8sectpfe clock\n");
+-		return ret;
++		return PTR_ERR(fei->c8sectpfeclk);
+ 	}
+ 
+ 	/* to save power disable all IP's (on by default) */
+@@ -722,7 +716,7 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+ 			0, "c8sectpfe-idle-irq", fei);
+ 	if (ret) {
+ 		dev_err(dev, "Can't register c8sectpfe-idle-irq IRQ.\n");
+-		goto err_clk_disable;
++		return ret;
+ 	}
+ 
+ 	ret = devm_request_irq(dev, fei->error_irq,
+@@ -730,7 +724,7 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+ 				"c8sectpfe-error-irq", fei);
+ 	if (ret) {
+ 		dev_err(dev, "Can't register c8sectpfe-error-irq IRQ.\n");
+-		goto err_clk_disable;
++		return ret;
+ 	}
+ 
+ 	fei->tsin_count = of_get_child_count(np);
+@@ -739,16 +733,14 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+ 		fei->tsin_count > fei->hw_stats.num_ib) {
+ 
+ 		dev_err(dev, "More tsin declared than exist on SoC!\n");
+-		ret = -EINVAL;
+-		goto err_clk_disable;
++		return -EINVAL;
+ 	}
+ 
+ 	fei->pinctrl = devm_pinctrl_get(dev);
+ 
+ 	if (IS_ERR(fei->pinctrl)) {
+ 		dev_err(dev, "Error getting tsin pins\n");
+-		ret = PTR_ERR(fei->pinctrl);
+-		goto err_clk_disable;
++		return PTR_ERR(fei->pinctrl);
+ 	}
+ 
+ 	for_each_child_of_node(np, child) {
+@@ -859,7 +851,7 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+ 	if (ret) {
+ 		dev_err(dev, "c8sectpfe_tuner_register_frontend failed (%d)\n",
+ 			ret);
+-		goto err_clk_disable;
++		return ret;
+ 	}
+ 
+ 	c8sectpfe_debugfs_init(fei);
+@@ -868,8 +860,6 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+ 
+ err_node_put:
+ 	of_node_put(child);
+-err_clk_disable:
+-	clk_disable_unprepare(fei->c8sectpfeclk);
+ 	return ret;
+ }
+ 
+@@ -903,8 +893,6 @@ static void c8sectpfe_remove(struct platform_device *pdev)
+ 
+ 	if (readl(fei->io + SYS_OTHER_CLKEN))
+ 		writel(0, fei->io + SYS_OTHER_CLKEN);
+-
+-	clk_disable_unprepare(fei->c8sectpfeclk);
+ }
+ 
  
 -- 
-2.39.2
+2.34.1
 
