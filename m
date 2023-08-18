@@ -2,130 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0692780802
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 11:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B9AF7808E7
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 11:48:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358934AbjHRJJw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 05:09:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40444 "EHLO
+        id S1359341AbjHRJrn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 05:47:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358932AbjHRJJa (ORCPT
+        with ESMTP id S1359363AbjHRJrV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 05:09:30 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2085.outbound.protection.outlook.com [40.107.220.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA0D8E;
-        Fri, 18 Aug 2023 02:09:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LBH6JhwjLwPGmDTJzI7IyfKDOjJQ8qAysHrZRXui3ZvXnFUw/1ZE3Lb4eunM0yRwOiALmsbccK+0nojJ0qPAowphC75TdJWgv97fUr7wQabdAg9GoFp1jShis49uAS5wcQlS8Zd8wTzixUV1B8sKVCoB+xf77U2eNFXdnXZ236JpGFXK3+SwarojBz0cbArNqnnJwjbGX1JZ29MBlVspjNT0cbhIrzqWgwogI+hUf9qs9RkuCZkwk3XHRzGipZbycPBy5JewM+4ybCU5wJpHlDc9Q1ODFWJ+Us11HBEoATrQglIiKO5eTXcB5VFJDHVDIZJ54RFnIUvGHqjzXLLzbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u82SYAi0uDUw2MuJGQ/43lT/dImJBKEedd7j9reyd9Q=;
- b=AgRtw9SKXFjRFKYuNe9/OR5+OdztxmzFFD1d877Jl3HPSqzuQAYddrdf4Iarnt9DOaKMYyZZXneTVRbS17Jv4yB2XcjE2WtIuC8R0lAGclYOPMrlMWld/fI3BBIb4CWPKas5FLX2AU69JfxAYnwV/a/VrjfXQUuBLZ6JThu//iP5H4JHxhHukn24ydXCU2IaJcZMr4l79ti5nQgR4SCAuO+whZqx+Zt9W8UT3+n+6z6x0+66nNRRIBLRCqMaaNfTzkceSwI1Q209o76kh3cUUhSSwnVQvZ2kxd0s2rDTNrMM+8iK7AERWVnjLEHeE7O6Lv7mtbDkA3J+p/LzGWyzug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u82SYAi0uDUw2MuJGQ/43lT/dImJBKEedd7j9reyd9Q=;
- b=om8DTllPxvbkLS6W/9v8vrWInb8z2wwKsGTAO44CTME4le7vl2UcGOLGGY0hFJjiXKa4ixBBcF6METV7RRcdAsHJYUYje4HFCLIaCQ/SpUpX21jy2LCYIB4bde+YPHvoNfCucvFxjlI0av28Z7BiZ0r2abVinWTXwpsoiVzYUxg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SJ2PR12MB8806.namprd12.prod.outlook.com (2603:10b6:a03:4d0::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Fri, 18 Aug
- 2023 09:09:23 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6699.020; Fri, 18 Aug 2023
- 09:09:23 +0000
-Message-ID: <647d3838-0d9a-d9d0-b057-87cb4b0f9c16@amd.com>
-Date:   Fri, 18 Aug 2023 11:09:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/sw_sync: Avoid recursive lock
- during fence signal
-Content-Language: en-US
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     Rob Clark <robdclark@chromium.org>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20230817213729.110087-1-robdclark@gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230817213729.110087-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0067.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:49::21) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Fri, 18 Aug 2023 05:47:21 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 924692D73;
+        Fri, 18 Aug 2023 02:47:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692352039; x=1723888039;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1sGQdov9Rubt3LSKswOeSvLzIi1+88fPMKlhLghEJAM=;
+  b=TEPGFRA18BHwUMCVTKze3d3ccllk4f+w9PVyGgPeSgHiXfaq2hnV2lFH
+   SoP26rD7jIMegf5vsllxe+SBWFd0WHoi6P4Pwqzi7hLnGx+to5fwI7LaR
+   hAvFA174+26C9nFalAOcB7TaDrIIygyTCdl9EFeiBCeZz66G1sEOpIYh+
+   7RRR01BY422iNz00ZiA8cDIKPlnRbs7cIiH+xXix/ZKSiQqb4QKuJtDSH
+   yiKVYy2xu79ZZVkiOz6gZKz7DIOlRr4AGCW3OnuIncqjpET9iqkXEqcIs
+   Pp/Tj7cHdV5lhbsjohH45mpE7dem+n92rFVM5TvlqXZN6bcUSzCibbuww
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="439443012"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="439443012"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 02:47:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="800419534"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="800419534"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 02:47:16 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id DF87E12035D;
+        Fri, 18 Aug 2023 12:47:13 +0300 (EEST)
+Date:   Fri, 18 Aug 2023 09:47:13 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-media@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-next@vger.kernel.org, Wentong Wu <wentong.wu@intel.com>,
+        Zhifeng Wang <zhifeng.wang@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH 1/2] media: v4l: usb: Use correct dependency for camera
+ sensor drivers
+Message-ID: <ZN8+IQheaChc3Ks+@kekkonen.localdomain>
+References: <20230816133526.3859456-1-sakari.ailus@linux.intel.com>
+ <20230816133526.3859456-2-sakari.ailus@linux.intel.com>
+ <363d77a7-ee1a-f4c4-941a-7737568a8042@infradead.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ2PR12MB8806:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1105147a-0fe2-4f9a-4567-08db9fcad076
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AIRr6qr49JuWl9ILYI1KmvDU6Wb9Naim7lKxTs00DlRe4gke03J6FgAiHO9OKyyOZrkVFK9KZUlJm62lnU/thGN8T5U30nYZStiIT535woOq8Q8XBKU6m3cxows+M5MFHaqaeyceffC7OGjHeRSb/o4jYTloGqbxfuh7SHDOaHx2JiWnet1yRm9PMtOwSwXgYJkC8c84Y1lZoYGIGCxlcCr39Eq8ZdfWZNBJgnc+o589ILVQIm7STme8I1sSCD5Tgz8+Cq0TLay4RamApMiyI1QgUTsYNcrkyA1W0KbZTMBwQsA7k8018mDJzD8MhzKhJVRF4z09r4QOVjTMlYBTaxukVILdHmeTxpVTaalTL4lhUkniuI53FP4WeiEeWzhdjaQRtk5DTOIQvNJ2EP70mA4UZB11d7NKaoEkkewhmcTTzJ1x0yEKo6GDK/0lnkdSdxBzJqMDlkCXP3TWRkhO9GZjb8992UV1tfAHrYXw85+0FtJAygBbBvfo46c5Fe+6Gs+jQSoadDz9qTyvAd3zRwBUksHjmiCLUgGTwB8iw7U1zlssg2DoKIRpSKG9XGknhmz5032pHTZwuhKU5im//b5oUrbuRCfQPzZkbYGgfq1wzC+0m7Xo21iBxtvQwScN
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(136003)(346002)(366004)(376002)(451199024)(1800799009)(186009)(83380400001)(966005)(66556008)(66946007)(38100700002)(316002)(54906003)(66476007)(478600001)(7416002)(2906002)(41300700001)(8676002)(4326008)(5660300002)(8936002)(2616005)(6512007)(6666004)(6506007)(6486002)(26005)(31696002)(86362001)(36756003)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGZJYlgxMW9OVGNCcGtTam5aUERzYkZqTVJBMzhsQ04yc0tjZHF6OThsQmt1?=
- =?utf-8?B?NjBiamxxNXpzWUFzelZFdG1UNUkxZ3RraE9FU0lWOWIyT21FN1hZWWpQa0ZL?=
- =?utf-8?B?YTU2S2J1di81Umt5V2dteWdDeW94SWpWM2c1WmJYZ3haLzFzY1V2Vnl0NlZD?=
- =?utf-8?B?dlRXQVgwNU9tOXYyYnR3VmFZYTh2czZjeXl0TFJ6dktDMmg1Q25FNlVHUSs0?=
- =?utf-8?B?c0JYVnZXdVNkcFhMdkJTTGxtRkNnUFZSQm9QWjdiQXBOcGlpNk1JbEFFbVo5?=
- =?utf-8?B?dEdjUjRxcWhpMlZQQUlHVzhiZEVCUDBoeEFNNXd6aGZZMEhDdzl5bmVzZ3NV?=
- =?utf-8?B?UVlqTlJwY1U0L1JuQWJ5T0s2QnFKZ1BDTEdQZ1oyMnpVbnZLdXNrNGJpdnhK?=
- =?utf-8?B?Vm5vWWFJaVREcHEzUWlmU2QyNnZNcjVCcGV1bUJ5ODlrRlFRYSt5SlM0ZUYz?=
- =?utf-8?B?cE1iRWd0ZU5lc2dkL0dpZzc5TE4xZWEvWTF0Q29COUMzTUN0cmV4RkRqYXY1?=
- =?utf-8?B?Uld5dGIxVkdGNDZBT3YrRm9scGNuSGEyNmFGczczTlQ0UkxuNW4yZWZQVWkw?=
- =?utf-8?B?NXl3NDVEamlDaGZhcW45Z3p3eXVLSEZRUkdCMUdWd09qQzB0YzNFVDJOSmdj?=
- =?utf-8?B?RzRvMzl6OEQ3SjVQUHl4RlZzam9ycWJoYUw1VDVHSHFOcEZqKzFVWWpvNFNz?=
- =?utf-8?B?S3hKR0pmVmtmUTFHcHhpSyt5WHA5L1psU0Zmcy8raEJNWTZ0SFBvd2h0WndG?=
- =?utf-8?B?NzF5WmpFN0Y2ZUNpNVN1b2IrcmY5MmRaZlhWYmN3SUtwSGU5WHF6RmZ2Z3JG?=
- =?utf-8?B?cE93WUJDRTExeWpRQy9ZTmxLWTE4MC9hSG03OTh3VFdWWHhsdnVOTEdmK0Ri?=
- =?utf-8?B?ZVUyVm1KckFYUGcrU3gyNFM4ckN1V0lJSCtYalRHMTBIcFRSQnhiWERlM2J2?=
- =?utf-8?B?VldaMTdaYnJzNWR1Z2JWSW5FeFc3amZYaytSY0xkTmFCdTJtVTMrNDZERkpq?=
- =?utf-8?B?eTRFUkxpclFtVmpFaDZsUjBwN1JkcEF4QitqZkNzVm4zQjN3YWZVdGxLQ05v?=
- =?utf-8?B?ZjlsVW5DM1NEYUkrODJOVXNNb01OSTMxL0l3QUtHOXJYZUhOdWFXamh6YUta?=
- =?utf-8?B?bGo1T1BCblA4Ti9pdDd3d1AvVXdQZ0lxakN3ZUdhUjQyZHByWDRSZnVrRmg0?=
- =?utf-8?B?bEplRkVaZ1pCWU1xbHg5ZmxyNHNzaUlmOFdrdEY3ZXQvMUlGTW52ZTFWYk4z?=
- =?utf-8?B?VUFsa3VsTjBGNGEzMU8wWjU5RHdxZCtpTjdZRlYyRXZsSzc4MFN5VHZURWdk?=
- =?utf-8?B?MUd4aUkySk04dFRWVjJmOUFFc093TytiY0N5ZHRRQzMvOXhzeENPTDBoVWNi?=
- =?utf-8?B?NG5VMXJPWkxjdmJkQ2RmQjR1WnpLMGZNUWVNeElPaUdSY3hMTzFWUEtNWGZh?=
- =?utf-8?B?bWdCL3JyVk9QM3VDNkEzSWZHS0diRkhZYWcxVVNJNTN3bFdQYURDR0I2em5S?=
- =?utf-8?B?Z3hPSzNKWnVMTXNUbmRIYkRoNW1DeWlJOS96c2VuVkRXWlhUaGZYdXdUN0ll?=
- =?utf-8?B?ZUlRMXVJaFVscU5CYkdRcGJqbEJUQ0I1ZitHbDBmeXpkTml1RmI2S1ZTTDIv?=
- =?utf-8?B?eXp3Vklkb2lUMUUzWTEzV1krQUNWRmRsdWdtcmhQYjREUSt5dnhBenNFelMx?=
- =?utf-8?B?cVRJRG91UWxNMUdmYU5VYWsvalZzTm1mUjZlUnRobUNFQlJxdHdNZkI4Q3R3?=
- =?utf-8?B?WmdlWjRlMk0xN0ZxRWYxRTZ1ekpObU5yT1dXZlJ1NVRKUGpUMVQrdGdwUTJX?=
- =?utf-8?B?T2x1WmJsUnpNQUxNWFZMOEFDak9ESDhIOWR2bG5TSjlsdVpLYWt4MjVnTW9X?=
- =?utf-8?B?WWNRd3Z3UUhoY3ZIOFdoUHBYWGNjTHY0MGJVcER6Z1o3Y1pCWkJhQityT1FT?=
- =?utf-8?B?Q09ZcWFRa0piQWp5SldSdjVvZGEwMUc4OG50anFWb0pxNlJOb0doZ3kyNXF6?=
- =?utf-8?B?elBkQWJkQWIzWXpFa28vVDF4U0tJaTdSTWZZUVVKcm5MSmhiUjNTSGNVRU1o?=
- =?utf-8?B?SFd3cmlIbTM1MGpNNXN2bTNXZEErTWNJaVd6N1l4K2lvZ0loMjk2bCsxYUhp?=
- =?utf-8?Q?DPCYCU/AlblaYPOeGqFcfiwcY?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1105147a-0fe2-4f9a-4567-08db9fcad076
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 09:09:23.4764
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PDnHEvih1oLJvpO7pmheAxadG6BYnwvQLBcSA1JvzlAtZ4vX+wZT/aPcbfuCDIdY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8806
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <363d77a7-ee1a-f4c4-941a-7737568a8042@infradead.org>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -133,78 +70,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 17.08.23 um 23:37 schrieb Rob Clark:
-> From: Rob Clark <robdclark@chromium.org>
->
-> If a signal callback releases the sw_sync fence, that will trigger a
-> deadlock as the timeline_fence_release recurses onto the fence->lock
-> (used both for signaling and the the timeline tree).
->
-> To avoid that, temporarily hold an extra reference to the signalled
-> fences until after we drop the lock.
->
-> (This is an alternative implementation of https://patchwork.kernel.org/patch/11664717/
-> which avoids some potential UAF issues with the original patch.)
->
-> Reported-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Fixes: d3c6dd1fb30d ("dma-buf/sw_sync: Synchronize signal vs syncpt free")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/dma-buf/sw_sync.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
->
-> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> index 63f0aeb66db6..ceb6a0408624 100644
-> --- a/drivers/dma-buf/sw_sync.c
-> +++ b/drivers/dma-buf/sw_sync.c
-> @@ -191,6 +191,7 @@ static const struct dma_fence_ops timeline_fence_ops = {
->    */
->   static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->   {
-> +	LIST_HEAD(signalled);
->   	struct sync_pt *pt, *next;
->   
->   	trace_sync_timeline(obj);
-> @@ -203,9 +204,13 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->   		if (!timeline_fence_signaled(&pt->base))
->   			break;
->   
-> +		dma_fence_get(&pt->base);
+Hi Randy,
 
-Question is why don't have the fences a reference on the list in the 
-first place?
+On Wed, Aug 16, 2023 at 12:21:31PM -0700, Randy Dunlap wrote:
+> Hi Sakari,
+> 
+> On 8/16/23 06:35, Sakari Ailus wrote:
+> > The Kconfig option that enables compiling camera sensor drivers is
+> > VIDEO_CAMERA_SENSOR rather than MEDIA_CAMERA_SUPPORT as it was previously.
+> > Fix this.
+> > 
+> > Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> > Fixes: 7d3c7d2a2914 ("media: i2c: Add a camera sensor top level menu")
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/usb/em28xx/Kconfig | 4 ++--
+> >  drivers/media/usb/go7007/Kconfig | 2 +-
+> >  2 files changed, 3 insertions(+), 3 deletions(-)
+> > 
+> 
+> This patch reduces the number of kconfig warnings from 4 to 2. I still see these
+> (and these appear to be duplicates, so only one):
+> 
+> WARNING: unmet direct dependencies detected for VIDEO_OV7670
+>   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
+>   Selected by [y]:
+>   - VIDEO_MMP_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && I2C [=y] && VIDEO_DEV [=y] && (ARCH_MMP || COMPILE_TEST [=y]) && COMMON_CLK [=y]
+> 
+> WARNING: unmet direct dependencies detected for VIDEO_OV7670
+>   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
+>   Selected by [y]:
+>   - VIDEO_MMP_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && I2C [=y] && VIDEO_DEV [=y] && (ARCH_MMP || COMPILE_TEST [=y]) && COMMON_CLK [=y]
 
-> +
->   		list_del_init(&pt->link);
->   		rb_erase(&pt->node, &obj->pt_tree);
->   
-> +		list_add_tail(&pt->link, &signalled);
+Oops. I missed this bit.
 
-Instead of list_del()/list_add_tail() you could also use 
-list_move_tail() here.
+Hans has taken the ivsc Kconfig patch already so I'll send v2 for this one
+only.
 
-> +
->   		/*
->   		 * A signal callback may release the last reference to this
->   		 * fence, causing it to be freed. That operation has to be
-> @@ -218,6 +223,11 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->   	}
->   
->   	spin_unlock_irq(&obj->lock);
-> +
-> +	list_for_each_entry_safe(pt, next, &signalled, link) {
-> +		list_del(&pt->link);
-
-You must use list_del_init() here or otherwise the pt->link will keep 
-pointing to the prev/next entries and the list_empty() check in 
-timeline_fence_release() will fail and potentially corrupt things.
-
+-- 
 Regards,
-Christian.
 
-> +		dma_fence_put(&pt->base);
-> +	}
->   }
->   
->   /**
-
+Sakari Ailus
