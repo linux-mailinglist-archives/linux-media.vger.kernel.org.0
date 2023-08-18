@@ -2,49 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ACAD780E0E
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 16:33:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83E6B780E3B
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 16:46:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377092AbjHROdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 10:33:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57832 "EHLO
+        id S1377809AbjHROpe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 10:45:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377796AbjHROc5 (ORCPT
+        with ESMTP id S1377911AbjHROpO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 10:32:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F27F53C3D;
-        Fri, 18 Aug 2023 07:32:48 -0700 (PDT)
+        Fri, 18 Aug 2023 10:45:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FAF513D;
+        Fri, 18 Aug 2023 07:45:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8828165E3D;
-        Fri, 18 Aug 2023 14:32:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3534C433C9;
-        Fri, 18 Aug 2023 14:32:46 +0000 (UTC)
-Message-ID: <1c00196c-e64e-119a-fd30-5e8f797c22ec@xs4all.nl>
-Date:   Fri, 18 Aug 2023 16:32:44 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 39FED67D6E;
+        Fri, 18 Aug 2023 14:45:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C4CC433C7;
+        Fri, 18 Aug 2023 14:45:10 +0000 (UTC)
+Message-ID: <c79a2a0d-9510-b514-3b94-bc1d68e3d53b@xs4all.nl>
+Date:   Fri, 18 Aug 2023 16:45:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH] [media] mxl111sf: Check return value in
- mxl111sf_config_mpeg_in
-To:     Artem Chernyshev <artem.chernyshev@red-soft.ru>,
-        Michael Ira Krufky <mkrufky@linuxtv.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, lvc-project@linuxtesting.org
-References: <20221222214607.39737-1-artem.chernyshev@red-soft.ru>
- <CAOcJUby8i=vRu5-cSe6iBKrnLG8ucmatpiPT=VaMS9etwHH_uw@mail.gmail.com>
- <Y6XXF6gffL9aHTuw@localhost.localdomain>
+Subject: Re: [PATCH 0/2] Improve V4L2 M2M job scheduler
 Content-Language: en-US, nl
+To:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org
+Cc:     ayaka@soulik.info, hans.verkuil@cisco.com, tfiga@chromium.org,
+        mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
+        hiroh@chromium.org, linux-kernel@vger.kernel.org,
+        nicolas@ndufresne.ca
+References: <20230704040044.681850-1-randy.li@synaptics.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <Y6XXF6gffL9aHTuw@localhost.localdomain>
+In-Reply-To: <20230704040044.681850-1-randy.li@synaptics.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+X-Spam-Status: No, score=-10.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,69 +49,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/12/2022 17:28, Artem Chernyshev wrote:
-> Hi,
-> On Fri, Dec 23, 2022 at 07:28:47AM -0500, Michael Ira Krufky wrote:
->> On Thu, Dec 22, 2022, 4:46 PM Artem Chernyshev <artem.chernyshev@red-soft.ru>
->> wrote:
->>
->>> Error check after mxl111sf_read_reg
->>>
->>> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->>>
->>> Fixes: 4c66c9205c07 ("[media] dvb-usb: add ATSC support for the Hauppauge
->>> WinTV-Aero-M")
->>> Signed-off-by: Artem Chernyshev <artem.chernyshev@red-soft.ru>
->>> ---
->>>  drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
->>> b/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
->>> index 40b26712ba4c..ad1888514bd0 100644
->>> --- a/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
->>> +++ b/drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c
->>> @@ -121,7 +121,8 @@ int mxl111sf_config_mpeg_in(struct mxl111sf_state
->>> *state,
->>>         mxl_fail(ret);
->>>
->>>         /* Configure MPEG Clock phase */
->>> -       mxl111sf_read_reg(state, V6_MPEG_IN_CLK_INV_REG, &mode);
->>> +       ret = mxl111sf_read_reg(state, V6_MPEG_IN_CLK_INV_REG, &mode);
->>> +       mxl_fail(ret);
->>>
->>>         if (clock_phase == TSIF_NORMAL)
->>>                 mode &= ~V6_INVERTED_CLK_PHASE;
->>> --
->>> 2.30.3
->>>
->>
->> Artem,
->>
->> Thank you for this.  If I recall correctly, the read from that particular
->> register often returns a failure despite the correct value being read into
->> memory. This needs to be tested before being merged, and if my memory is
->> correct about this we should add a comment about it. Unfortunately, I'm out
->> of town at the moment, I won't be able to test this for some time. Can we
->> hold off on this one for a bit? If you don't hear from me after a few
->> weeks, please feel free to ping me again. Thanks.
->>
->> Best,
->> Michael Krufky
->>
->>>
+On 04/07/2023 06:00, Hsia-Jun Li wrote:
+> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 > 
-> Thanks for reply. I'll be waiting for your decision
+> The first patch is an old patch, I resend it again.
+> I want to make the work thats parses the bitstream
+> to extract the sequence information or video resolution
+> as a part of V4L2 schedule. Such a work would also
+> consume the device's resources likes remote CPU
+> time.
+> 
+> Although reuse a flag which no current driver may
+> not be a good idea. I could add a new flag for that
+> if people like that.
+> 
+> The second is a patch offering a generic solution
+> for tracking buffers which have been pushed to
+> hardware(or firmware). It didn't record which buffer
+> that hardware(firmware) still holds for future
+> decoding(likes the reference buffer), while it
+> has been sent to the user(dequeue). We may need
+> a flag for this work.
 
-I'll drop this patch, I never saw a follow-up on this.
+I am dropping this series from patchwork: clearly this generated
+a lot of discussion, and I think that needs to come to a conclusion.
 
-If this is really needed, then just resend.
+BTW, I believe that at minimum the codec-specific parts in
+v4l2-mem2mem.c should be split off in their own source (v4l2-m2m-codec.c?).
+
+I agree with Tomasz that mem2mem.c was originally for simple m2m devices,
+and adding all sorts of codec specific code to that source doesn't make
+it easier to follow.
 
 Regards,
 
 	Hans
 
 > 
-> Best regards,
-> Artem
+> Hsia-Jun(Randy) Li (1):
+>   media: v4l2-mem2mem: add a list for buf used by hw
+> 
+> Randy Li (1):
+>   media: v4l2-mem2mem: allow device run without buf
+> 
+>  drivers/media/v4l2-core/v4l2-mem2mem.c | 30 +++++++++++++++++---------
+>  include/media/v4l2-mem2mem.h           | 10 ++++++++-
+>  2 files changed, 29 insertions(+), 11 deletions(-)
+> 
 
