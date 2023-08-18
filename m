@@ -2,100 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 611557809D9
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 12:17:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3091A7809DD
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 12:18:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358597AbjHRKRE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 06:17:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34426 "EHLO
+        id S1358634AbjHRKRg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 06:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359550AbjHRKQu (ORCPT
+        with ESMTP id S1359745AbjHRKRV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 06:16:50 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C03A30F5
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 03:16:48 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.53])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RRyQ319bjzFqlB;
-        Fri, 18 Aug 2023 18:13:47 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 18 Aug
- 2023 18:16:46 +0800
-From:   Ruan Jinjie <ruanjinjie@huawei.com>
-To:     <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH -next] media: ov2640: Use the devm_clk_get_enabled() helper function
-Date:   Fri, 18 Aug 2023 18:16:24 +0800
-Message-ID: <20230818101624.1129242-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 18 Aug 2023 06:17:21 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB53330D6;
+        Fri, 18 Aug 2023 03:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692353840; x=1723889840;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=AvsuYEsBzsDcN+MJ7GjND9On0WshWaM0MTCsl1J01hY=;
+  b=fMb/K4PSRZp2HHhlLvSfuDNiO0bA/v+LiNxsN7z+gYZ/ms0AkChPslR6
+   mpU3Wsk304oNtFeOD2kAX0OUsMg9sLKKrkR9osUsF17lpeRLCCcrcoDjZ
+   bZ/bUV1B2bd6LpZjfOUsOrm3C/IyVmjFmye4H5wVTzSXQIxw46INtnQvr
+   dXEZmqB1zdNbkvS5WD4fDjp+VuwBfX5JF9jAZfQQAAKBIy23Sbkx1WtT+
+   dYDp9LngfP07Qq3QIRN5gMCyiezP8tv94N/L+tGFJ+jv9hjlelYepWB7C
+   wXF4y+yErasJJC9t3HcRYGJfsXTQ49hFhsG3BNtVnwq6wOuvDBF1RR6Wh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="352657320"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="352657320"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 03:17:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="770087611"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="770087611"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 03:17:17 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 3EF9E12035D;
+        Fri, 18 Aug 2023 13:17:14 +0300 (EEST)
+Date:   Fri, 18 Aug 2023 10:17:14 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Wentong Wu <wentong.wu@intel.com>, hdegoede@redhat.com,
+        djrscally@gmail.com, laurent.pinchart@ideasonboard.com,
+        linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
+        xiang.ye@intel.com, tian.shu.qiu@intel.com
+Subject: Re: [PATCH v10 3/3] ACPI: delay enumeration of devices with a _DEP
+ pointing to IVSC device
+Message-ID: <ZN9FKrxqQSeNqvl8@kekkonen.localdomain>
+References: <1690631575-15124-1-git-send-email-wentong.wu@intel.com>
+ <1690631575-15124-4-git-send-email-wentong.wu@intel.com>
+ <ZMWIKTAuHqHZ3+dc@kekkonen.localdomain>
+ <CAJZ5v0hjZXtkmYnt13E1jizSGu=kkkqYdeS3Y8hc5COUTJtN6w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0hjZXtkmYnt13E1jizSGu=kkkqYdeS3Y8hc5COUTJtN6w@mail.gmail.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With devm_clk_get_enabled() the call to clk_disable_unprepare() can be
-dropped from the error path and the remove callback.
+On Thu, Aug 17, 2023 at 06:30:54PM +0200, Rafael J. Wysocki wrote:
+> On Sat, Jul 29, 2023 at 11:44 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Rafael,
+> >
+> > On Sat, Jul 29, 2023 at 07:52:55PM +0800, Wentong Wu wrote:
+> > > diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> > > index 2743444..59c92a9 100644
+> > > --- a/drivers/acpi/scan.c
+> > > +++ b/drivers/acpi/scan.c
+> > > @@ -796,6 +796,9 @@ static const char * const acpi_ignore_dep_ids[] = {
+> > >  /* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
+> > >  static const char * const acpi_honor_dep_ids[] = {
+> > >       "INT3472", /* Camera sensor PMIC / clk and regulator info */
+> > > +     "INTC1059", /* IVSC (TGL) driver must be loaded to allow i2c access to camera sensors */
+> > > +     "INTC1095", /* IVSC (ADL) driver must be loaded to allow i2c access to camera sensors */
+> > > +     "INTC100A", /* IVSC (RPL) driver must be loaded to allow i2c access to camera sensors */
+> > >       NULL
+> > >  };
+> > >
+> >
+> > Could this patch be merged via the ACPI tree? There's no direct dependency
+> > to the two other patches in the set.
+> >
+> > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> Applied (under a slightly edited subject) as 6.6 material, thanks!
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
----
- drivers/media/i2c/ov2640.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+Thanks, Rafael!
 
-diff --git a/drivers/media/i2c/ov2640.c b/drivers/media/i2c/ov2640.c
-index bb6c9863a546..2d08d30175c0 100644
---- a/drivers/media/i2c/ov2640.c
-+++ b/drivers/media/i2c/ov2640.c
-@@ -1205,17 +1205,14 @@ static int ov2640_probe(struct i2c_client *client)
- 		return -ENOMEM;
- 
- 	if (client->dev.of_node) {
--		priv->clk = devm_clk_get(&client->dev, "xvclk");
-+		priv->clk = devm_clk_get_enabled(&client->dev, "xvclk");
- 		if (IS_ERR(priv->clk))
- 			return PTR_ERR(priv->clk);
--		ret = clk_prepare_enable(priv->clk);
--		if (ret)
--			return ret;
- 	}
- 
- 	ret = ov2640_probe_dt(client, priv);
- 	if (ret)
--		goto err_clk;
-+		return ret;
- 
- 	priv->win = ov2640_select_win(SVGA_WIDTH, SVGA_HEIGHT);
- 	priv->cfmt_code = MEDIA_BUS_FMT_UYVY8_2X8;
-@@ -1264,8 +1261,6 @@ static int ov2640_probe(struct i2c_client *client)
- err_hdl:
- 	v4l2_ctrl_handler_free(&priv->hdl);
- 	mutex_destroy(&priv->lock);
--err_clk:
--	clk_disable_unprepare(priv->clk);
- 	return ret;
- }
- 
-@@ -1278,7 +1273,6 @@ static void ov2640_remove(struct i2c_client *client)
- 	mutex_destroy(&priv->lock);
- 	media_entity_cleanup(&priv->subdev.entity);
- 	v4l2_device_unregister_subdev(&priv->subdev);
--	clk_disable_unprepare(priv->clk);
- }
- 
- static const struct i2c_device_id ov2640_id[] = {
 -- 
-2.34.1
-
+Sakari Ailus
