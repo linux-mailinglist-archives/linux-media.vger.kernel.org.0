@@ -2,86 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0A5D78067B
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 09:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CD7078067E
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 09:41:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358271AbjHRHkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 03:40:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60016 "EHLO
+        id S239606AbjHRHlY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 03:41:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358311AbjHRHj2 (ORCPT
+        with ESMTP id S1358190AbjHRHkd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 03:39:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E18149EA;
-        Fri, 18 Aug 2023 00:37:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 76FC06477E;
-        Fri, 18 Aug 2023 07:37:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B897CC433C7;
-        Fri, 18 Aug 2023 07:37:04 +0000 (UTC)
-Message-ID: <ba42791b-54d1-7e85-c12c-88332754c10d@xs4all.nl>
-Date:   Fri, 18 Aug 2023 09:37:02 +0200
+        Fri, 18 Aug 2023 03:40:33 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B57435A5
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 00:40:31 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qWu5t-0036yo-Uh; Fri, 18 Aug 2023 07:40:29 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qWu5r-0039Va-0I;
+        Fri, 18 Aug 2023 07:40:27 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v6.5] media: vcodec: Fix potential array out-of-bounds (#94169)
+Date:   Fri, 18 Aug 2023 07:40:26 +0000
+Message-Id: <20230818074026.751525-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <d5414054-36fc-3ade-5384-6ef9278210aa@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH]upi:media: Added rest of the Generic Error Codes to the
- existing list
-Content-Language: en-US, nl
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     torvalds@linux-foundation.org, randy.dunlap@oracle.com,
-        paulmck@kernel.org, markus.heiser@darmarIT.de
-References: <20230807045212.32489-2-unixbhaskar@gmail.com>
- <875y5q67tb.fsf@meer.lwn.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <875y5q67tb.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/08/2023 20:12, Jonathan Corbet wrote:
-> Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
-> 
->> Added rest of the Generic Error Codes to the existing list of codes.
->>
->> cc: torvalds@linux-foundation.org
->> cc: randy.dunlap@oracle.com
->> cc: paulmck@kernel.org
->> cc: corbet@lwn.net
->> cc: markus.heiser@darmarIT.de
->>
->> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->> ---
->>  There is a "moreutils" package across the Linux distribution, if you
->>  installed it and that package has a binary name "errno",if you run it with
->>  "-l" or "--list" option, it will show all the error codes.In my system, while
->>  running it shows me precisely, 134 of such codes.YMMV
->>
->>  .../userspace-api/media/gen-errors.rst        | 479 ++++++++++++++++++
->>  1 file changed, 479 insertions(+)
-> 
-> This document is a list of errors that can be returned by media drivers,
-> with a focus on what those errors mean in the media context.  What is
-> the point of stuffing it full of error numbers that media drivers will
-> never return, along with generic, one-line descriptions?  I'll defer to
-> the media folks on this, but I don't think this helps their users.
+From: builder@linuxtv.org
 
-Indeed, this documents just the media-specific errors, there is no point
-in listing all errors here.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/d5414054-36fc-3ade-5384-6ef9278210aa@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/331805/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/d5414054-36fc-3ade-5384-6ef9278210aa@xs4all.nl
 
-Regards,
+gpg: Signature made Thu 17 Aug 2023 07:47:03 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-	Hans
+
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0001-media-vcodec-Fix-potential-array-out-of-bounds-in-en.patch doesn't apply:
+Applying patch patches/0001-media-vcodec-Fix-potential-array-out-of-bounds-in-en.patch
+can't find file to patch at input line 27
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|From be702f08ce683406765d6e28656d697691a74b59 Mon Sep 17 00:00:00 2001
+|From: Wei Chen <harperchen1110@gmail.com>
+|Date: Thu, 10 Aug 2023 08:23:33 +0000
+|Subject: media: vcodec: Fix potential array out-of-bounds in encoder
+| queue_setup
+|
+|variable *nplanes is provided by user via system call argument. The
+|possible value of q_data->fmt->num_planes is 1-3, while the value
+|of *nplanes can be 1-8. The array access by index i can cause array
+|out-of-bounds.
+|
+|Fix this bug by checking *nplanes against the array size.
+|
+|Fixes: 4e855a6efa54 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Encoder Driver")
+|Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+|Cc: stable@vger.kernel.org
+|Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+|Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+|---
+| drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 2 ++
+| 1 file changed, 2 insertions(+)
+|
+|diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+|index 9ff439a50f53..315e97a2450e 100644
+|--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+|+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+Patch patches/0001-media-vcodec-Fix-potential-array-out-of-bounds-in-en.patch does not apply (enforce with -f)
+
