@@ -2,128 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BA83780BE0
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 14:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0AC1780C16
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 14:46:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359452AbjHRMdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 08:33:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43316 "EHLO
+        id S1359586AbjHRMqK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 08:46:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376959AbjHRMcw (ORCPT
+        with ESMTP id S1376981AbjHRMp4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 08:32:52 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAAFD3A99
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:32:47 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4ff8cf11b90so1274339e87.1
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:32:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692361966; x=1692966766;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DwUEoCbjCXwsP9eBMw0YtwJnYgEwE1SwL6fRTbo8RY0=;
-        b=besaoPKg0yUK1jntvn89T2jPaV7tYp2wNVYtvvmWEAIq3L4MfS5IYjU1kvSX0RUw7u
-         twIXVRmKlX0OI65rnjvVlqzg0DAm9bank9SAdq2GNuLYSFEEW3C7472Wa/gwWLgnLcjS
-         S8QNGgjXNMGdIRwHzRxL/iDfiphO7nNM8i78VVGkWmqLaAGTbyDZ+KMZLQTbD/asQNof
-         XOYVLVgafP6iNqdndsCxAHYxgk6FmwLUrC8r+zzeH6qMGtyGKVn4yYtwZtg1pf8fRXaw
-         3UXTssH9dWip7a+H4uvwPBXLyl9N3zU80s18gW4t2wYLE024eoNOK/SBu7kGNnl10L2V
-         ufrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692361966; x=1692966766;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DwUEoCbjCXwsP9eBMw0YtwJnYgEwE1SwL6fRTbo8RY0=;
-        b=J5HLortA7cSgP8OLnWvJrK8eUBmqngdAIpqR/oqFzvporNx/RDXPjl2YJRwOKmWcmx
-         gEZMZwF+/X9p65RTxrAyVmsOz+dM3ci2Y4aSKt2ymBMSTB2T8rdy1oF2DLkb4vn+rloG
-         MQqaYsaaD0mKCi9UhEAfutN+RyMrr/cp5Yk2wwJ+WBkRdTgjYzNDBZQi5m1bwK8YBytH
-         PoLFjhnbM5moUVSUMe8RMma11HAGKNAFsfdMkfygvERPAnfyzK1Ysi28fB2QLG/X8oxc
-         GF2RQh4JhM/sK7VSjMUIV+eSQOQuH8H4B/DYP8DSfS+uf0MDUIBisK3QjRfoMepTG8Up
-         mJVA==
-X-Gm-Message-State: AOJu0Yzc+qQyhaMzMMmu0T2b+W5oPuRPYYGvQDKQjznMdxoN34A4kRBn
-        7eK36AmacDPNhgP+H+JyycqvQA==
-X-Google-Smtp-Source: AGHT+IEwZsyunp8Op5U02cqKN+P1iPy8XLGjfLCIL4qPUMGHLsfFq8p7aXzmxpjbm0mL+p3flIgi0w==
-X-Received: by 2002:a05:6512:3112:b0:4ff:87f6:6ee5 with SMTP id n18-20020a056512311200b004ff87f66ee5mr1568607lfb.10.1692361966132;
-        Fri, 18 Aug 2023 05:32:46 -0700 (PDT)
-Received: from [192.168.1.101] (abxh52.neoplus.adsl.tpnet.pl. [83.9.1.52])
-        by smtp.gmail.com with ESMTPSA id q4-20020ac25284000000b004fbf5242e8bsm326070lfm.231.2023.08.18.05.32.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Aug 2023 05:32:45 -0700 (PDT)
-Message-ID: <f17e9cbd-4e96-42ee-9dfa-ea0b760e4d7b@linaro.org>
-Date:   Fri, 18 Aug 2023 14:32:44 +0200
+        Fri, 18 Aug 2023 08:45:56 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 754233A9F
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:45:55 -0700 (PDT)
+Received: from canpemm500007.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RS1jL2fWMztRsl;
+        Fri, 18 Aug 2023 20:42:14 +0800 (CST)
+Received: from localhost (10.174.179.215) by canpemm500007.china.huawei.com
+ (7.192.104.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Fri, 18 Aug
+ 2023 20:45:53 +0800
+From:   Yue Haibing <yuehaibing@huawei.com>
+To:     <luben.tuikov@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <sumit.semwal@linaro.org>, <christian.koenig@amd.com>
+CC:     <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
+        <linaro-mm-sig@lists.linaro.org>, <yuehaibing@huawei.com>
+Subject: [PATCH -next] drm/scheduler: Remove unused declarations
+Date:   Fri, 18 Aug 2023 20:45:37 +0800
+Message-ID: <20230818124537.51296-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/13] media: qcom: camss: Support RDI3 for VFE 17x
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
-        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230817143812.677554-1-bryan.odonoghue@linaro.org>
- <20230817143812.677554-14-bryan.odonoghue@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20230817143812.677554-14-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.215]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ canpemm500007.china.huawei.com (7.192.104.62)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17.08.2023 16:38, Bryan O'Donoghue wrote:
-> Some VFEs have four RDIs apiece. Right now the ISR code has a hard-coded
-> value which tops-out at RDI2 meaning only three RDIs can be utilised in
-> practice.
-> 
-> Extend out the various routines in camss-vfe-17x.c to support the higher
-> RDI count.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
-Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Commit 06a2d7cc3f04 ("drm/amdgpu: revert "implement tdr advanced mode"")
+removed drm_sched_reset_karma()/drm_sched_increase_karma_ext() but leave
+the declarations.
+Commit 2cf9886e2816 ("drm/scheduler: remove drm_sched_dependency_optimized")
+removed drm_sched_dependency_optimized() but not its declaration.
 
-Konrad
+Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
+---
+ include/drm/gpu_scheduler.h | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index f9544d9b670d..cd8ac90865fc 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -554,10 +554,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery);
+ void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
+ void drm_sched_increase_karma(struct drm_sched_job *bad);
+-void drm_sched_reset_karma(struct drm_sched_job *bad);
+-void drm_sched_increase_karma_ext(struct drm_sched_job *bad, int type);
+-bool drm_sched_dependency_optimized(struct dma_fence* fence,
+-				    struct drm_sched_entity *entity);
+ void drm_sched_fault(struct drm_gpu_scheduler *sched);
+ 
+ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+-- 
+2.34.1
+
