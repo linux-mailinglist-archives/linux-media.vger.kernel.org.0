@@ -2,146 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89E4F78068C
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 09:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675B47806F3
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 10:16:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358229AbjHRHt2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 03:49:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34132 "EHLO
+        id S1358488AbjHRIPp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 04:15:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352585AbjHRHtF (ORCPT
+        with ESMTP id S1358563AbjHRIPn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 03:49:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C37083A84;
-        Fri, 18 Aug 2023 00:49:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 59D8763D60;
-        Fri, 18 Aug 2023 07:49:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17FB0C433C7;
-        Fri, 18 Aug 2023 07:49:00 +0000 (UTC)
-Message-ID: <096d6149-90d0-e32e-0af4-5b3cc5b818bd@xs4all.nl>
-Date:   Fri, 18 Aug 2023 09:48:59 +0200
+        Fri, 18 Aug 2023 04:15:43 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 380772D73;
+        Fri, 18 Aug 2023 01:15:41 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65E59223;
+        Fri, 18 Aug 2023 10:14:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692346464;
+        bh=SjhLlmQNk8SVJA7m7XXf+wU+y4H03B0e+9YiDJJV15I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=peKjs4r3YI95x1SbNzHxDw0cEI8pvS7xvHhXKbXjYJ58cCqwoRryBsdq8xCoLCmse
+         lZI5QzyoUOZlVuESejMLHIqlrorPPR1CiHXde6rJfwUGIbJOQcO/1lS2Eh+MRaFHRz
+         +RW4S6hjs8792oVK8XBFf8K7aqrdI85l/5/I2q+g=
+Date:   Fri, 18 Aug 2023 11:15:46 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Fix power line control for a Chicony
+ camera
+Message-ID: <20230818081546.GA26285@pendragon.ideasonboard.com>
+References: <20230817-chicony-v1-1-76bde4d6ff6b@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 17/25] media: solo6x10: Convert to generic PCM copy ops
-Content-Language: en-US, nl
-To:     Takashi Iwai <tiwai@suse.de>, alsa-devel@alsa-project.org
-Cc:     linux-kernel@vger.kernel.org, Ismael Luceno <ismael@iodev.co.uk>,
-        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Andrey Utkin <andrey_utkin@fastmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-References: <20230815190136.8987-1-tiwai@suse.de>
- <20230815190136.8987-18-tiwai@suse.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230815190136.8987-18-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230817-chicony-v1-1-76bde4d6ff6b@chromium.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/08/2023 21:01, Takashi Iwai wrote:
-> This patch converts the solo6x10 driver code to use the new unified
-> PCM copy callback.  It's a straightforward conversion from *_user() to
-> *_iter() variants.  As copy_to_iter() updates the internal offest at
-> each write, we can drop the dst counter update in the loop, too.
-> 
-> Note that copy_to_iter() returns the copied bytes, hence the error
-> condition is adjusted accordingly.
-> 
-> Acked-by: Ismael Luceno <ismael@iodev.co.uk>
+Hi Ricardo,
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Thank you for the patch.
 
+On Thu, Aug 17, 2023 at 12:38:04PM +0000, Ricardo Ribalda wrote:
+> The device does not implement the control properly.
+> 
+> Fixes vl2-compliance error:
+> 
+> info: checking control 'Power Line Frequency' (0x00980918)
+> fail: v4l2-test-controls.cpp(552): could not set valid menu item 3
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> This camera, like other Chicony devices, do not implement properly the
+> Power Line Frequency control.
+> 
+> This time, I do not have direct access to the device, just to the
+> report, but since other devices from the same family are showing the
+> same error, it is safe to assume that the same fix will work here.
+
+Why, ô why does UVC not provide a way to query this dynamically ? :-( Of
+course, even if it did, I'm sure vendors would get it wrong... It sounds
+like the Windows UVC compliance test suite must be a joke.
+
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 08fcd2ffa727..db2556e95b72 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2592,6 +2592,15 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceSubClass	= 1,
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
+> +	/* Chicony Electronics Co., Ltd */
+
+I'll write
+
+	/* Chicony Electronics Co., Ltd Integrated Camera */
+
+as that's what the descriptors expose. Is this integrated in a
+chromebook by any chance ? If so, could you share which model the camera
+is found in, and can I add that to the comment ?
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x04f2,
+> +	  .idProduct		= 0xb67c,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
+>  	/* Chicony EasyCamera */
+>  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+>  				| USB_DEVICE_ID_MATCH_INT_INFO,
+> 
+> ---
+> base-commit: 4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+> change-id: 20230817-chicony-9c35f2046c6f
+
+-- 
 Regards,
 
-	Hans
-
-> Cc: Bluecherry Maintainers <maintainers@bluecherrydvr.com>
-> Cc: Anton Sviridenko <anton@corp.bluecherry.net>
-> Cc: Andrey Utkin <andrey_utkin@fastmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  drivers/media/pci/solo6x10/solo6x10-g723.c | 39 ++++------------------
->  1 file changed, 6 insertions(+), 33 deletions(-)
-> 
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-g723.c b/drivers/media/pci/solo6x10/solo6x10-g723.c
-> index 6cebad665565..1db9f40ee0c0 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-g723.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-g723.c
-> @@ -204,9 +204,9 @@ static snd_pcm_uframes_t snd_solo_pcm_pointer(struct snd_pcm_substream *ss)
->  	return idx * G723_FRAMES_PER_PAGE;
->  }
->  
-> -static int snd_solo_pcm_copy_user(struct snd_pcm_substream *ss, int channel,
-> -				  unsigned long pos, void __user *dst,
-> -				  unsigned long count)
-> +static int snd_solo_pcm_copy(struct snd_pcm_substream *ss, int channel,
-> +			     unsigned long pos, struct iov_iter *dst,
-> +			     unsigned long count)
->  {
->  	struct solo_snd_pcm *solo_pcm = snd_pcm_substream_chip(ss);
->  	struct solo_dev *solo_dev = solo_pcm->solo_dev;
-> @@ -223,35 +223,9 @@ static int snd_solo_pcm_copy_user(struct snd_pcm_substream *ss, int channel,
->  		if (err)
->  			return err;
->  
-> -		if (copy_to_user(dst, solo_pcm->g723_buf, G723_PERIOD_BYTES))
-> +		if (copy_to_iter(solo_pcm->g723_buf, G723_PERIOD_BYTES, dst) !=
-> +		    G723_PERIOD_BYTES)
->  			return -EFAULT;
-> -		dst += G723_PERIOD_BYTES;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static int snd_solo_pcm_copy_kernel(struct snd_pcm_substream *ss, int channel,
-> -				    unsigned long pos, void *dst,
-> -				    unsigned long count)
-> -{
-> -	struct solo_snd_pcm *solo_pcm = snd_pcm_substream_chip(ss);
-> -	struct solo_dev *solo_dev = solo_pcm->solo_dev;
-> -	int err, i;
-> -
-> -	for (i = 0; i < (count / G723_FRAMES_PER_PAGE); i++) {
-> -		int page = (pos / G723_FRAMES_PER_PAGE) + i;
-> -
-> -		err = solo_p2m_dma_t(solo_dev, 0, solo_pcm->g723_dma,
-> -				     SOLO_G723_EXT_ADDR(solo_dev) +
-> -				     (page * G723_PERIOD_BLOCK) +
-> -				     (ss->number * G723_PERIOD_BYTES),
-> -				     G723_PERIOD_BYTES, 0, 0);
-> -		if (err)
-> -			return err;
-> -
-> -		memcpy(dst, solo_pcm->g723_buf, G723_PERIOD_BYTES);
-> -		dst += G723_PERIOD_BYTES;
->  	}
->  
->  	return 0;
-> @@ -263,8 +237,7 @@ static const struct snd_pcm_ops snd_solo_pcm_ops = {
->  	.prepare = snd_solo_pcm_prepare,
->  	.trigger = snd_solo_pcm_trigger,
->  	.pointer = snd_solo_pcm_pointer,
-> -	.copy_user = snd_solo_pcm_copy_user,
-> -	.copy_kernel = snd_solo_pcm_copy_kernel,
-> +	.copy = snd_solo_pcm_copy,
->  };
->  
->  static int snd_solo_capture_volume_info(struct snd_kcontrol *kcontrol,
-
+Laurent Pinchart
