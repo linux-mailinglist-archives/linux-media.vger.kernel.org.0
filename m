@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 834A7780BC1
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 14:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F17E3780BC4
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 14:28:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376870AbjHRM0f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 08:26:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55848 "EHLO
+        id S1376885AbjHRM1k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 08:27:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376915AbjHRM0V (ORCPT
+        with ESMTP id S1376912AbjHRM1Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 08:26:21 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250EA4211
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:26:17 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4ff91f2d7e2so1143821e87.0
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:26:17 -0700 (PDT)
+        Fri, 18 Aug 2023 08:27:25 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D68E7C
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:27:22 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4fe21e7f3d1so1245453e87.3
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692361575; x=1692966375;
+        d=linaro.org; s=google; t=1692361641; x=1692966441;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=J6KmHRgXH23/E2oJzrfRM3pg9QNBCmrrdJhjRvSOBuc=;
-        b=DOp10zGGJa2pcqd09Lxc8HM8szx+kfGCWgUmJ6YuVnb2T5LnRPtRFTf6jjsPK1UwCZ
-         hz2uot1YOwCVbCC0FLdAYM+7a0eiAuCvFZnpV32R/a1ImDYYJIvsF33Bo+WPCgdYcH4k
-         xa/2XxGPJTdN9PWEc0UwgLTPe9p+wq0P91LfYThqWWMXu5LmFLDFLMtZLkRvXPjXByDp
-         Y5KMS1bN5A9FSJXEgdyTwZlnECou8D+D3cshv+MWsLwJtgRkgHEGeGw2w1NlW3tZTExn
-         vvxIzgzsIlRocL9uu/APepSzjUiuEeEQNbxxhEVyB74745tSmjxHfde8gXVkC6n08Fq9
-         haxg==
+        bh=kTvTcBS29lgbwKxmkB2wOG5P7bNsotoR/lgWqxsd43Q=;
+        b=YkAQUdmJFC/YJctufca83OHB/WAPjdAZisr74XZV3P/QLFqdFYjptdO9Yr+0x9aQCb
+         oDpIst30YwbRXR3BCWNlFFMAnrbIJfCF1YOO0JTcLkRgJvySMS6F0YbE1X7LF+JnqCKh
+         ZXrvunw7vYpDBzgGm9st/5wVg8VDLq0Y7rkUsS+uC+iLP1fVFoakcarKGxhhGZkbfo1y
+         1JZiZ0H3+BcYbdgROl7jXlSAZhB7WiAr4DlU4WWDxuTQXaqTDSgFBIJwPIUsXgfWG63p
+         6V1iQ8pVnR71QgYrmhukvfs3W0ClbUwWms1hG+xQJfE8XYVWqzdzE2SNdiNgcof7kZSD
+         AsJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692361575; x=1692966375;
+        d=1e100.net; s=20221208; t=1692361641; x=1692966441;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J6KmHRgXH23/E2oJzrfRM3pg9QNBCmrrdJhjRvSOBuc=;
-        b=HcDMsREbajxK9eey4IL9TiTxsxqsZMPzLbfs/h7QEgX5ZVNlbjkr07l63yRjYyx5Op
-         wZ7eudkpyGXhKG57InBrdZpOvGR0IXcR9PxCM/lxC9aVuimqerGEs+/hnVjVViM2VdAJ
-         zT/TMTVnP5eGRVNykwz5pMxoBqxOHZ9qlJMqAPJXUwwipcYu8vxF6oBpDs4LJY+FeayL
-         4Oc0WlX1Q+CzaHWCXfxB6EIC1jNug09LzTvdAAPAM/qi1JYT7Louq8fjKZAKaJMctda+
-         hxNs2dv1ptJIpi5O6rrmXlFWg3uPyLCAnQRIjQfzvjux+FRKnj9F0K7ch3yjrDk7XF4K
-         Fs9w==
-X-Gm-Message-State: AOJu0Yy/IJSWdUynij8OxZKjwPioubO3ybC9tzT2tI6eWQc0y3cX72+o
-        pbzLLcIltavRAALI/BK9EV2C9g==
-X-Google-Smtp-Source: AGHT+IEBfWW5AYEeRPJ0bYuC6gMHst8aJpiKSoBQHqepoicqtRpRJSg7ZWo0RlrC93utwu+nkavAEQ==
-X-Received: by 2002:a05:6512:2314:b0:4fe:8ba9:4c7 with SMTP id o20-20020a056512231400b004fe8ba904c7mr2039541lfu.26.1692361575371;
-        Fri, 18 Aug 2023 05:26:15 -0700 (PDT)
+        bh=kTvTcBS29lgbwKxmkB2wOG5P7bNsotoR/lgWqxsd43Q=;
+        b=b6e8fL3KBgWhGzJeAma9Ouzds+sn2hYzXcukHWBQ8WOhllNb/NE/ado2P06HxFH8eO
+         5MJibULIn9cjNuz1UMvu3kGG1vGNhgRZr++WCe/yWlZvpMwKYnHiQ1kuVzCLYLaVdGo4
+         yMQfiS2V6ZrIT1Cr4kXdq9Fh/x9yM+I6BmZDOKoCCtz5gElU0xscMNAsVcFyWO4g3ugY
+         OQ6tapP2Z544YRNOef/5JBvpEBSkITX0w+J2phTALxWw/CWRu3PLe3SJjY0Qf1W7Dy1T
+         8D8wQ/j27pJJMcij1RJ88u+s2cKEY5XKn86Zsh/i9WQTHTRsXErukUgdBrzeOc4BkIac
+         +5zw==
+X-Gm-Message-State: AOJu0Yy2DYRBe4oZR8KTHoa4nSFELfC5IhMoYbTh8FSL7C1flPL21bdg
+        YFg1YyvpRHbkUFBBa/FYX8rmLQ==
+X-Google-Smtp-Source: AGHT+IGXjAwoCQXIWUsdHYpOF/lJm5LcQA5w+ucWkkdWC1U/Xai05Qv8TIQjnUQUhOJ8F0zQztH6iA==
+X-Received: by 2002:a05:6512:2822:b0:4f6:2317:f387 with SMTP id cf34-20020a056512282200b004f62317f387mr1889663lfb.35.1692361640821;
+        Fri, 18 Aug 2023 05:27:20 -0700 (PDT)
 Received: from [192.168.1.101] (abxh52.neoplus.adsl.tpnet.pl. [83.9.1.52])
-        by smtp.gmail.com with ESMTPSA id q4-20020ac25284000000b004fbf5242e8bsm326070lfm.231.2023.08.18.05.26.14
+        by smtp.gmail.com with ESMTPSA id q4-20020ac25284000000b004fbf5242e8bsm326070lfm.231.2023.08.18.05.27.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Aug 2023 05:26:15 -0700 (PDT)
-Message-ID: <1f52f47a-d3d9-4740-a9c7-ef0bc99d7925@linaro.org>
-Date:   Fri, 18 Aug 2023 14:26:13 +0200
+        Fri, 18 Aug 2023 05:27:20 -0700 (PDT)
+Message-ID: <f88bd7aa-5421-4cca-967e-70efbaa121f4@linaro.org>
+Date:   Fri, 18 Aug 2023 14:27:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/13] media: qcom: camss: Assign the correct number of
- RDIs per VFE
+Subject: Re: [PATCH v2 05/13] media: qcom: camss: Pass line_num from compat
+ resources
 Content-Language: en-US
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
@@ -65,7 +65,7 @@ To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230817143812.677554-1-bryan.odonoghue@linaro.org>
- <20230817143812.677554-7-bryan.odonoghue@linaro.org>
+ <20230817143812.677554-6-bryan.odonoghue@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -102,13 +102,13 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230817143812.677554-7-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230817143812.677554-6-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -116,60 +116,38 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 17.08.2023 16:38, Bryan O'Donoghue wrote:
-> Each Video Front End - VFE - has a variable number of Raw Data Interfaces -
-> RDIs associated with it.
+> line_num indicates the number of RDI - raw data interface channels which
+> are associated with a given IFE/VFE - image/video front end.
 > 
-> The CAMSS code started from a naive implementation where a fixed define was
-> used as a control in a for(){} loop iterating through RDIs.
+> On several SoCs the RDI number is not static for each VFE - for example
+> on sm8250 VFE Lite has four RDIs where regular VFE has three.
 > 
-> That model scales badly. An attempt was made with  VFE_LINE_NUM_GEN2 and
-> VFE_LINE_NUM_GEN1 to differentiate between SoCs but, the problem with that
-> is "gen1" and "gen2" have no meaning in the silicon. There is no fixed
-> constraint in the silicon between VFE and RDI, it is entirely up to the SoC
-> designers how many VFEs are populated and how many RDIs to associate with
-> each VFE.
+> Assigning line_num statically in the subdev_init() phase initialises
+> each VFE to the lower number, meaning in practical terms that we are
+> lobbing off one RDI on some VFEs.
 > 
-> As an example sdm845 has VFE version 175 and sm8250 VFE version 480.
-> sdm845 has 2 VFEs with 4 RDIs and 1 VFE Lite with 4 RDIs.
-> sm8250 has 2 VFEs with 3 RDIs and 2 VFE Lite with 4 RDIs.
+> Interrupt handling uses static for (i = RDI0; i < RDI2; i++) {} in some
+> of our VFE blocks but this can't work for situations where we have a
+> mixture of VFE @ 3 RDI and VFE-lite @ 4 RDI blocks.
 > 
-> Clearly then we need a more granular model to capture the necessary data.
+> First step to remediate is to pass line_num from a compat string
+> controlled data-structure and do so on a per-VFE basis.
 > 
-> The defines have gone away to be replaced with per-SoC data but, we haven't
-> populated the parameter data with the real values.
-> 
-> Let's call those values out now
-> 
-> msm8916:
-> 1 x VFE
-> 3 x RDI per VFE (not 4)
-> 
-> msm8996:
-> 2 x VFE
-> 3 x RDI per VFE (not 4)
-> 
-> sdm660:
-> 2 x VFE
-> 3 x RDI per VFE (not 4)
-> 
-> sdm845:
-> 2 x VFE
-> 4 x RDI per VFE (not 3)
-> 1 x VFE Lite
-> 4 x RDI per VFE Lite (not 3)
-> 
-> sm8250:
-> 2 x VFE
-> 3 x RDI per VFE (not 4)
-> 2 x VFE Lite
-> 4 x RDI per VFE
-> 
-> This more complex and correct mapping was not possible prior to passing
-> values via driver data. Now that we have that change in place we can
-> correctly map VFEs to RDIs for each VFE.
+> Later patches will assign the correct number of RDI blocks per VFE.
 > 
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
-Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+[...]
+
+>  		.reg = { "vfe0" },
+> -		.interrupt = { "vfe0" }
+> +		.interrupt = { "vfe0" },
+> +		.line_num = VFE_LINE_NUM_GEN1,
+If you add the comma at the end of .interrupt in the patch that introduced
+it, this diff will be more readable
+
+Other than that:
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
