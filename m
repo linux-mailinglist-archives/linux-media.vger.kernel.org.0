@@ -2,112 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B9AF7808E7
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 11:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 825A57808F8
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 11:53:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359341AbjHRJrn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 05:47:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56614 "EHLO
+        id S1359379AbjHRJwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 05:52:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359363AbjHRJrV (ORCPT
+        with ESMTP id S1359381AbjHRJwg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 05:47:21 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 924692D73;
-        Fri, 18 Aug 2023 02:47:19 -0700 (PDT)
+        Fri, 18 Aug 2023 05:52:36 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98CD42684;
+        Fri, 18 Aug 2023 02:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692352039; x=1723888039;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1sGQdov9Rubt3LSKswOeSvLzIi1+88fPMKlhLghEJAM=;
-  b=TEPGFRA18BHwUMCVTKze3d3ccllk4f+w9PVyGgPeSgHiXfaq2hnV2lFH
-   SoP26rD7jIMegf5vsllxe+SBWFd0WHoi6P4Pwqzi7hLnGx+to5fwI7LaR
-   hAvFA174+26C9nFalAOcB7TaDrIIygyTCdl9EFeiBCeZz66G1sEOpIYh+
-   7RRR01BY422iNz00ZiA8cDIKPlnRbs7cIiH+xXix/ZKSiQqb4QKuJtDSH
-   yiKVYy2xu79ZZVkiOz6gZKz7DIOlRr4AGCW3OnuIncqjpET9iqkXEqcIs
-   Pp/Tj7cHdV5lhbsjohH45mpE7dem+n92rFVM5TvlqXZN6bcUSzCibbuww
+  t=1692352355; x=1723888355;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=89r1Tcgm0dVg+buxrEGiUacFVVNLeDXV6VH8l4oH+Mc=;
+  b=MM/t912p4CNSLh9BBa8iO2Utws44aPMyFNthUjDemgu8XLEnygxLtfg9
+   yeDA8D5LYW3MRdGUKO0ztFjgalwMYTiqS9UewQ5HfeRprejfsI4kgg7s7
+   1MsFCRUncvBG7vELsbn+RZC2ZqfOikK1ZceQTTHK+Dsq3Hq5t9PskScf+
+   /SMMf3wMQpXudBNEZ2HS8VBgZVzSOQtnjxG5zUD3f2J9CV6WO22mElwTc
+   OBugtHs9QTa0RkvEwoc9F8DDG8KbqGDQbtgdh0ctII9wsYhWgBvkCgz0E
+   aEjNFlJ3I40jxNGY2LPH3ju06XCZdY5EEvbQxQkNihmz06Z4Sh9uCy27Y
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="439443012"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="375840941"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="439443012"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 02:47:19 -0700
+   d="scan'208";a="375840941"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 02:52:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="800419534"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="825063046"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="800419534"
+   d="scan'208";a="825063046"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 02:47:16 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id DF87E12035D;
-        Fri, 18 Aug 2023 12:47:13 +0300 (EEST)
-Date:   Fri, 18 Aug 2023 09:47:13 +0000
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 02:52:32 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id A7B4812035D;
+        Fri, 18 Aug 2023 12:52:29 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1qWw99-00GD1F-1N;
+        Fri, 18 Aug 2023 12:51:59 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-media@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
+To:     linux-media@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Cc:     hverkuil@xs4all.nl, Stephen Rothwell <sfr@canb.auug.org.au>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-next@vger.kernel.org, Wentong Wu <wentong.wu@intel.com>,
         Zhifeng Wang <zhifeng.wang@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 1/2] media: v4l: usb: Use correct dependency for camera
- sensor drivers
-Message-ID: <ZN8+IQheaChc3Ks+@kekkonen.localdomain>
-References: <20230816133526.3859456-1-sakari.ailus@linux.intel.com>
- <20230816133526.3859456-2-sakari.ailus@linux.intel.com>
- <363d77a7-ee1a-f4c4-941a-7737568a8042@infradead.org>
+Subject: [PATCH v2 1/1] media: v4l: usb: Use correct dependency for camera sensor drivers
+Date:   Fri, 18 Aug 2023 12:51:49 +0300
+Message-Id: <20230818095149.3863285-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <363d77a7-ee1a-f4c4-941a-7737568a8042@infradead.org>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Randy,
+The Kconfig option that enables compiling camera sensor drivers is
+VIDEO_CAMERA_SENSOR rather than MEDIA_CAMERA_SUPPORT as it was previously.
+Fix this.
 
-On Wed, Aug 16, 2023 at 12:21:31PM -0700, Randy Dunlap wrote:
-> Hi Sakari,
-> 
-> On 8/16/23 06:35, Sakari Ailus wrote:
-> > The Kconfig option that enables compiling camera sensor drivers is
-> > VIDEO_CAMERA_SENSOR rather than MEDIA_CAMERA_SUPPORT as it was previously.
-> > Fix this.
-> > 
-> > Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> > Fixes: 7d3c7d2a2914 ("media: i2c: Add a camera sensor top level menu")
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/usb/em28xx/Kconfig | 4 ++--
-> >  drivers/media/usb/go7007/Kconfig | 2 +-
-> >  2 files changed, 3 insertions(+), 3 deletions(-)
-> > 
-> 
-> This patch reduces the number of kconfig warnings from 4 to 2. I still see these
-> (and these appear to be duplicates, so only one):
-> 
-> WARNING: unmet direct dependencies detected for VIDEO_OV7670
->   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
->   Selected by [y]:
->   - VIDEO_MMP_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && I2C [=y] && VIDEO_DEV [=y] && (ARCH_MMP || COMPILE_TEST [=y]) && COMMON_CLK [=y]
-> 
-> WARNING: unmet direct dependencies detected for VIDEO_OV7670
->   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
->   Selected by [y]:
->   - VIDEO_MMP_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && I2C [=y] && VIDEO_DEV [=y] && (ARCH_MMP || COMPILE_TEST [=y]) && COMMON_CLK [=y]
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Fixes: 7d3c7d2a2914 ("media: i2c: Add a camera sensor top level menu")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+since v1:
 
-Oops. I missed this bit.
+- Also include MMP camera Kconfig fix.
 
-Hans has taken the ivsc Kconfig patch already so I'll send v2 for this one
-only.
+ drivers/media/platform/marvell/Kconfig | 4 ++--
+ drivers/media/usb/em28xx/Kconfig       | 4 ++--
+ drivers/media/usb/go7007/Kconfig       | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/media/platform/marvell/Kconfig b/drivers/media/platform/marvell/Kconfig
+index ec1a16734a28..d6499ffe30e8 100644
+--- a/drivers/media/platform/marvell/Kconfig
++++ b/drivers/media/platform/marvell/Kconfig
+@@ -7,7 +7,7 @@ config VIDEO_CAFE_CCIC
+ 	depends on V4L_PLATFORM_DRIVERS
+ 	depends on PCI && I2C && VIDEO_DEV
+ 	depends on COMMON_CLK
+-	select VIDEO_OV7670
++	select VIDEO_OV7670 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEOBUF2_DMA_SG
+@@ -22,7 +22,7 @@ config VIDEO_MMP_CAMERA
+ 	depends on I2C && VIDEO_DEV
+ 	depends on ARCH_MMP || COMPILE_TEST
+ 	depends on COMMON_CLK
+-	select VIDEO_OV7670
++	select VIDEO_OV7670 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
+ 	select I2C_GPIO
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+diff --git a/drivers/media/usb/em28xx/Kconfig b/drivers/media/usb/em28xx/Kconfig
+index b3c472b8c5a9..cb61fd6cc6c6 100644
+--- a/drivers/media/usb/em28xx/Kconfig
++++ b/drivers/media/usb/em28xx/Kconfig
+@@ -12,8 +12,8 @@ config VIDEO_EM28XX_V4L2
+ 	select VIDEO_SAA711X if MEDIA_SUBDRV_AUTOSELECT
+ 	select VIDEO_TVP5150 if MEDIA_SUBDRV_AUTOSELECT
+ 	select VIDEO_MSP3400 if MEDIA_SUBDRV_AUTOSELECT
+-	select VIDEO_MT9V011 if MEDIA_SUBDRV_AUTOSELECT && MEDIA_CAMERA_SUPPORT
+-	select VIDEO_OV2640 if MEDIA_SUBDRV_AUTOSELECT && MEDIA_CAMERA_SUPPORT
++	select VIDEO_MT9V011 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
++	select VIDEO_OV2640 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
+ 	help
+ 	  This is a video4linux driver for Empia 28xx based TV cards.
+ 
+diff --git a/drivers/media/usb/go7007/Kconfig b/drivers/media/usb/go7007/Kconfig
+index 4ff79940ad8d..b2a15d9fb1f3 100644
+--- a/drivers/media/usb/go7007/Kconfig
++++ b/drivers/media/usb/go7007/Kconfig
+@@ -12,8 +12,8 @@ config VIDEO_GO7007
+ 	select VIDEO_TW2804 if MEDIA_SUBDRV_AUTOSELECT
+ 	select VIDEO_TW9903 if MEDIA_SUBDRV_AUTOSELECT
+ 	select VIDEO_TW9906 if MEDIA_SUBDRV_AUTOSELECT
+-	select VIDEO_OV7640 if MEDIA_SUBDRV_AUTOSELECT && MEDIA_CAMERA_SUPPORT
+ 	select VIDEO_UDA1342 if MEDIA_SUBDRV_AUTOSELECT
++	select VIDEO_OV7640 if MEDIA_SUBDRV_AUTOSELECT && VIDEO_CAMERA_SENSOR
+ 	help
+ 	  This is a video4linux driver for the WIS GO7007 MPEG
+ 	  encoder chip.
 -- 
-Regards,
+2.39.2
 
-Sakari Ailus
