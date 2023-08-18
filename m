@@ -2,61 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B1D1780BCD
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 14:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28A02780BD0
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 14:30:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376904AbjHRM3Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 08:29:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37120 "EHLO
+        id S1376924AbjHRM3t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 08:29:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376954AbjHRM26 (ORCPT
+        with ESMTP id S1376910AbjHRM3Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 08:28:58 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1DAC4230
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:28:51 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2b9a828c920so12791001fa.1
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:28:51 -0700 (PDT)
+        Fri, 18 Aug 2023 08:29:24 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8250CE7C
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:29:22 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4ffa4f4769fso770985e87.0
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692361730; x=1692966530;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ibGumBoCPdvtlJ039+Of6Mlhpr1bF8NsdBrZ9jaYxjY=;
-        b=DThZtHRldFFkahmRQtsy7Wt9eDI9X934/wGYUtfW64lPO5mbrZxftWunnhDmn1Q4Je
-         +kky2Upwyq+h4izjv2MXtdTtnDMGHH7yCwc0eAEBsAGz2ub7mTpGOcgzhnbkv1lX/B+6
-         0Z3PIhEpc+rYlGpBpSaUqeN5wv0/PRn7J7sBTwHWJKMQA4fnmp+yK2avBs/fUJrr0XhP
-         ettgPqd5Ah3Je5P4aMtqvdbPwr1uFwdaVLdsX2tsftX91WC/ZuJQUhZ+kx32iID6OQ1a
-         drmc9TC3VVVmZAOWZ6OOknhd975/Ok0Qt3qoJaxqMWNboyzsForiofP4XkEuYEuCe1eJ
-         G9Tw==
+        d=linaro.org; s=google; t=1692361761; x=1692966561;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=j4GDMSuzBUkJN6vb3YDloQ10Pm7mdblojzb+ZXz5JBk=;
+        b=X1Y/kmc5+4lIINHmlD0KLxCNbWt5DwPNv7EEXkyIjnS2Ovxvrtzwr3JXIvMBBo6k7R
+         /RozwlP+KROydUGTMfWwW8CrtxQ8k3hwntO8oKgQTJWW+HBB66TkE2XYt+Ze16HRZxbF
+         1AGt3isnN7h0K3/VYXWFKoQSnJZUewQp32ObBW6U9uvDAwvPvVH6w/jv31kcg6kakvEC
+         i2NVBn+rmrxTaflJj03xLpKAwMiHBvTCG3N3jvdbRQ1CfsAHXUixl69vKCZwCsEzbkjH
+         7f+Hg4EuI7/2Fwp1nMIUNuTrfPC92zUTWdiplnulG8V86GpiWAstsiTdhx2+LhWzXNSp
+         /cTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692361730; x=1692966530;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ibGumBoCPdvtlJ039+Of6Mlhpr1bF8NsdBrZ9jaYxjY=;
-        b=YKTQxfGQaFz6gPPmTLFLYaGE2fjoTD7I6TpSI3Z7DZFPzcc4Y9kpaStlljv1Pnl4BI
-         pNuLp7G3s5x+0o1N3PhjBRJQb18QAp/BDPnG6sFdtADjwVyVX0aaxNEg/Eec3DOLvwqW
-         Cbdg5MFN+25IbU1GdemNK1NHlB0wSybv+NdcJ7NEYZWAY+En7HTFM504LyEyeoC7DYxy
-         aWmOTgxQeJeDxLRLkynMd43qA4cin+YjNWFCV5TC4wZKLtN5y3jzVsstlMHxS6wfVP/7
-         P7mDV9wWWX5WJQ7dm/d24eMjTyigcQcepMhLaEN7ZiJM1xnzKhCFlVvJ1AGjcfWUGE3y
-         tCrw==
-X-Gm-Message-State: AOJu0Yz84CS79lW1x0phVE6HDYDfZvE7wllMbnyZR7K26UPnFBxXczNg
-        nR/XIIwHZKBEa6XxNDEnzUcG8TxyAeuK3kHmPFA=
-X-Google-Smtp-Source: AGHT+IF+rbBg548YA06BS9h4nnEZyp7mg0sinhCPmOvzmeaQ6BkJKZiU9PnBeh/HY6jf3L8iwdnnFg==
-X-Received: by 2002:a19:5042:0:b0:4fe:cc0:340 with SMTP id z2-20020a195042000000b004fe0cc00340mr1445158lfj.60.1692361729884;
-        Fri, 18 Aug 2023 05:28:49 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692361761; x=1692966561;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j4GDMSuzBUkJN6vb3YDloQ10Pm7mdblojzb+ZXz5JBk=;
+        b=L8H6fPVEDutTdvk69XfAJEbP4tAnbq84LLL1OEZ8RrfG6Yu9tXZcI6hCNQrdZMwEUV
+         H7oBAX03ZSMLZNLathFdJAyapuZ+WQ9MYkgzTT2xRmhEYihY9fYHxDj71N8qvH8kAcY4
+         H4fMYmblN+JsMeHpQFAe/pKvj1b9CEm/61SThn7XDt/0hgCcW5SpAN6SxxGFki83Leus
+         DzPW2aa8xTxodnXGeFhFOac5h8rNJRUAeJzIgIXTRc1VKeI1CKajIu/knZgNPOvOMQ7N
+         FPguPxAySUemUdBuYNSn9rRVDDX4ByyE9PQttdP26GiUtVUc3+fiPC2trZhH7/ZMw7nZ
+         BJSA==
+X-Gm-Message-State: AOJu0YzB5/1RPZGtP7La6Bip0pzPOxuAtYAWrkXRiqw0z42W2FT4xFxm
+        UxvpmDm27gzJya8Bz1vDiieXcg==
+X-Google-Smtp-Source: AGHT+IG69HWQtnYs+CSy9vMa3/6SjDlDWFcvjF3pYlNyzKb5yEjKVA/zaTO6w5pTNdbSubYZGIi2mA==
+X-Received: by 2002:a19:4f5e:0:b0:4fe:5860:7abe with SMTP id a30-20020a194f5e000000b004fe58607abemr1533689lfk.7.1692361760811;
+        Fri, 18 Aug 2023 05:29:20 -0700 (PDT)
 Received: from [192.168.1.101] (abxh52.neoplus.adsl.tpnet.pl. [83.9.1.52])
-        by smtp.gmail.com with ESMTPSA id q4-20020ac25284000000b004fbf5242e8bsm326070lfm.231.2023.08.18.05.28.48
+        by smtp.gmail.com with ESMTPSA id q4-20020ac25284000000b004fbf5242e8bsm326070lfm.231.2023.08.18.05.29.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Aug 2023 05:28:49 -0700 (PDT)
-Message-ID: <f1a8e7db-ce26-4bdc-beb6-00ae4f0baa78@linaro.org>
-Date:   Fri, 18 Aug 2023 14:28:48 +0200
+        Fri, 18 Aug 2023 05:29:20 -0700 (PDT)
+Message-ID: <4d14de78-16a9-4720-9422-b684f261df01@linaro.org>
+Date:   Fri, 18 Aug 2023 14:29:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 07/13] media: qcom: camss: Use >= CAMSS_SDM845 for
  vfe_get/vfe_put
 Content-Language: en-US
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
         mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
@@ -66,7 +68,7 @@ Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230817143812.677554-1-bryan.odonoghue@linaro.org>
  <20230817143812.677554-8-bryan.odonoghue@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+ <f1a8e7db-ce26-4bdc-beb6-00ae4f0baa78@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
  BB/OmIWU6X+LZW6P88ZmHe+KeyABLMP5s1tJNK1j4ntT7mECcWZDzafPWF4F6m4WJOG27kTJ
@@ -102,38 +104,41 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230817143812.677554-8-bryan.odonoghue@linaro.org>
+In-Reply-To: <f1a8e7db-ce26-4bdc-beb6-00ae4f0baa78@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17.08.2023 16:38, Bryan O'Donoghue wrote:
-> From sdm845 onwards we need to ensure the VFE is powered on prior to
-> switching on the CSID.
-> 
-> Alternatively we could model up the GDSCs and clocks the CSID needs
-> without the VFE but, there's a real question of the legitimacy of such a
-> use-case.
-> 
-> For now drawing a line at sdm845 and switching on the associated VFEs is
-> a perfectly valid thing to do.
-> 
-> Rather than continually extend out this clause for at least two new SoCs
-> with this same model - making the vfe_get/vfe_put path start to look
-> like spaghetti we can simply test for >= sdm845 here.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
-Using >= here is veeery arbitrary and depends on the next person
-adding a SoC in chronological, or used-tech-chronological order
-correctly.. Not a fan!
+On 18.08.2023 14:28, Konrad Dybcio wrote:
+> On 17.08.2023 16:38, Bryan O'Donoghue wrote:
+>> From sdm845 onwards we need to ensure the VFE is powered on prior to
+>> switching on the CSID.
+>>
+>> Alternatively we could model up the GDSCs and clocks the CSID needs
+>> without the VFE but, there's a real question of the legitimacy of such a
+>> use-case.
+>>
+>> For now drawing a line at sdm845 and switching on the associated VFEs is
+>> a perfectly valid thing to do.
+>>
+>> Rather than continually extend out this clause for at least two new SoCs
+>> with this same model - making the vfe_get/vfe_put path start to look
+>> like spaghetti we can simply test for >= sdm845 here.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+> Using >= here is veeery arbitrary and depends on the next person
+> adding a SoC in chronological, or used-tech-chronological order
+> correctly.. Not a fan!
+
+Perhaps some sort of a compatible-bound flag would be better suited
 
 Konrad
