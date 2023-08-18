@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F17E3780BC4
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 14:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B1D1780BCD
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 14:29:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376885AbjHRM1k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 08:27:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58210 "EHLO
+        id S1376904AbjHRM3Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 08:29:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376912AbjHRM1Z (ORCPT
+        with ESMTP id S1376954AbjHRM26 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 08:27:25 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D68E7C
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:27:22 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4fe21e7f3d1so1245453e87.3
-        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:27:22 -0700 (PDT)
+        Fri, 18 Aug 2023 08:28:58 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1DAC4230
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:28:51 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2b9a828c920so12791001fa.1
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 05:28:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692361641; x=1692966441;
+        d=linaro.org; s=google; t=1692361730; x=1692966530;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kTvTcBS29lgbwKxmkB2wOG5P7bNsotoR/lgWqxsd43Q=;
-        b=YkAQUdmJFC/YJctufca83OHB/WAPjdAZisr74XZV3P/QLFqdFYjptdO9Yr+0x9aQCb
-         oDpIst30YwbRXR3BCWNlFFMAnrbIJfCF1YOO0JTcLkRgJvySMS6F0YbE1X7LF+JnqCKh
-         ZXrvunw7vYpDBzgGm9st/5wVg8VDLq0Y7rkUsS+uC+iLP1fVFoakcarKGxhhGZkbfo1y
-         1JZiZ0H3+BcYbdgROl7jXlSAZhB7WiAr4DlU4WWDxuTQXaqTDSgFBIJwPIUsXgfWG63p
-         6V1iQ8pVnR71QgYrmhukvfs3W0ClbUwWms1hG+xQJfE8XYVWqzdzE2SNdiNgcof7kZSD
-         AsJA==
+        bh=ibGumBoCPdvtlJ039+Of6Mlhpr1bF8NsdBrZ9jaYxjY=;
+        b=DThZtHRldFFkahmRQtsy7Wt9eDI9X934/wGYUtfW64lPO5mbrZxftWunnhDmn1Q4Je
+         +kky2Upwyq+h4izjv2MXtdTtnDMGHH7yCwc0eAEBsAGz2ub7mTpGOcgzhnbkv1lX/B+6
+         0Z3PIhEpc+rYlGpBpSaUqeN5wv0/PRn7J7sBTwHWJKMQA4fnmp+yK2avBs/fUJrr0XhP
+         ettgPqd5Ah3Je5P4aMtqvdbPwr1uFwdaVLdsX2tsftX91WC/ZuJQUhZ+kx32iID6OQ1a
+         drmc9TC3VVVmZAOWZ6OOknhd975/Ok0Qt3qoJaxqMWNboyzsForiofP4XkEuYEuCe1eJ
+         G9Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692361641; x=1692966441;
+        d=1e100.net; s=20221208; t=1692361730; x=1692966530;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kTvTcBS29lgbwKxmkB2wOG5P7bNsotoR/lgWqxsd43Q=;
-        b=b6e8fL3KBgWhGzJeAma9Ouzds+sn2hYzXcukHWBQ8WOhllNb/NE/ado2P06HxFH8eO
-         5MJibULIn9cjNuz1UMvu3kGG1vGNhgRZr++WCe/yWlZvpMwKYnHiQ1kuVzCLYLaVdGo4
-         yMQfiS2V6ZrIT1Cr4kXdq9Fh/x9yM+I6BmZDOKoCCtz5gElU0xscMNAsVcFyWO4g3ugY
-         OQ6tapP2Z544YRNOef/5JBvpEBSkITX0w+J2phTALxWw/CWRu3PLe3SJjY0Qf1W7Dy1T
-         8D8wQ/j27pJJMcij1RJ88u+s2cKEY5XKn86Zsh/i9WQTHTRsXErukUgdBrzeOc4BkIac
-         +5zw==
-X-Gm-Message-State: AOJu0Yy2DYRBe4oZR8KTHoa4nSFELfC5IhMoYbTh8FSL7C1flPL21bdg
-        YFg1YyvpRHbkUFBBa/FYX8rmLQ==
-X-Google-Smtp-Source: AGHT+IGXjAwoCQXIWUsdHYpOF/lJm5LcQA5w+ucWkkdWC1U/Xai05Qv8TIQjnUQUhOJ8F0zQztH6iA==
-X-Received: by 2002:a05:6512:2822:b0:4f6:2317:f387 with SMTP id cf34-20020a056512282200b004f62317f387mr1889663lfb.35.1692361640821;
-        Fri, 18 Aug 2023 05:27:20 -0700 (PDT)
+        bh=ibGumBoCPdvtlJ039+Of6Mlhpr1bF8NsdBrZ9jaYxjY=;
+        b=YKTQxfGQaFz6gPPmTLFLYaGE2fjoTD7I6TpSI3Z7DZFPzcc4Y9kpaStlljv1Pnl4BI
+         pNuLp7G3s5x+0o1N3PhjBRJQb18QAp/BDPnG6sFdtADjwVyVX0aaxNEg/Eec3DOLvwqW
+         Cbdg5MFN+25IbU1GdemNK1NHlB0wSybv+NdcJ7NEYZWAY+En7HTFM504LyEyeoC7DYxy
+         aWmOTgxQeJeDxLRLkynMd43qA4cin+YjNWFCV5TC4wZKLtN5y3jzVsstlMHxS6wfVP/7
+         P7mDV9wWWX5WJQ7dm/d24eMjTyigcQcepMhLaEN7ZiJM1xnzKhCFlVvJ1AGjcfWUGE3y
+         tCrw==
+X-Gm-Message-State: AOJu0Yz84CS79lW1x0phVE6HDYDfZvE7wllMbnyZR7K26UPnFBxXczNg
+        nR/XIIwHZKBEa6XxNDEnzUcG8TxyAeuK3kHmPFA=
+X-Google-Smtp-Source: AGHT+IF+rbBg548YA06BS9h4nnEZyp7mg0sinhCPmOvzmeaQ6BkJKZiU9PnBeh/HY6jf3L8iwdnnFg==
+X-Received: by 2002:a19:5042:0:b0:4fe:cc0:340 with SMTP id z2-20020a195042000000b004fe0cc00340mr1445158lfj.60.1692361729884;
+        Fri, 18 Aug 2023 05:28:49 -0700 (PDT)
 Received: from [192.168.1.101] (abxh52.neoplus.adsl.tpnet.pl. [83.9.1.52])
-        by smtp.gmail.com with ESMTPSA id q4-20020ac25284000000b004fbf5242e8bsm326070lfm.231.2023.08.18.05.27.19
+        by smtp.gmail.com with ESMTPSA id q4-20020ac25284000000b004fbf5242e8bsm326070lfm.231.2023.08.18.05.28.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Aug 2023 05:27:20 -0700 (PDT)
-Message-ID: <f88bd7aa-5421-4cca-967e-70efbaa121f4@linaro.org>
-Date:   Fri, 18 Aug 2023 14:27:19 +0200
+        Fri, 18 Aug 2023 05:28:49 -0700 (PDT)
+Message-ID: <f1a8e7db-ce26-4bdc-beb6-00ae4f0baa78@linaro.org>
+Date:   Fri, 18 Aug 2023 14:28:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/13] media: qcom: camss: Pass line_num from compat
- resources
+Subject: Re: [PATCH v2 07/13] media: qcom: camss: Use >= CAMSS_SDM845 for
+ vfe_get/vfe_put
 Content-Language: en-US
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
@@ -65,7 +65,7 @@ To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230817143812.677554-1-bryan.odonoghue@linaro.org>
- <20230817143812.677554-6-bryan.odonoghue@linaro.org>
+ <20230817143812.677554-8-bryan.odonoghue@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -102,13 +102,13 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230817143812.677554-6-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230817143812.677554-8-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -116,38 +116,24 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 17.08.2023 16:38, Bryan O'Donoghue wrote:
-> line_num indicates the number of RDI - raw data interface channels which
-> are associated with a given IFE/VFE - image/video front end.
+> From sdm845 onwards we need to ensure the VFE is powered on prior to
+> switching on the CSID.
 > 
-> On several SoCs the RDI number is not static for each VFE - for example
-> on sm8250 VFE Lite has four RDIs where regular VFE has three.
+> Alternatively we could model up the GDSCs and clocks the CSID needs
+> without the VFE but, there's a real question of the legitimacy of such a
+> use-case.
 > 
-> Assigning line_num statically in the subdev_init() phase initialises
-> each VFE to the lower number, meaning in practical terms that we are
-> lobbing off one RDI on some VFEs.
+> For now drawing a line at sdm845 and switching on the associated VFEs is
+> a perfectly valid thing to do.
 > 
-> Interrupt handling uses static for (i = RDI0; i < RDI2; i++) {} in some
-> of our VFE blocks but this can't work for situations where we have a
-> mixture of VFE @ 3 RDI and VFE-lite @ 4 RDI blocks.
-> 
-> First step to remediate is to pass line_num from a compat string
-> controlled data-structure and do so on a per-VFE basis.
-> 
-> Later patches will assign the correct number of RDI blocks per VFE.
+> Rather than continually extend out this clause for at least two new SoCs
+> with this same model - making the vfe_get/vfe_put path start to look
+> like spaghetti we can simply test for >= sdm845 here.
 > 
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
-[...]
-
->  		.reg = { "vfe0" },
-> -		.interrupt = { "vfe0" }
-> +		.interrupt = { "vfe0" },
-> +		.line_num = VFE_LINE_NUM_GEN1,
-If you add the comma at the end of .interrupt in the patch that introduced
-it, this diff will be more readable
-
-Other than that:
-
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Using >= here is veeery arbitrary and depends on the next person
+adding a SoC in chronological, or used-tech-chronological order
+correctly.. Not a fan!
 
 Konrad
