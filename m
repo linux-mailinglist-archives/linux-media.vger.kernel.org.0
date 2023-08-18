@@ -2,144 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB102780E74
-	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 17:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D917B780F5B
+	for <lists+linux-media@lfdr.de>; Fri, 18 Aug 2023 17:38:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377924AbjHRPAH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 11:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34576 "EHLO
+        id S1378230AbjHRPiD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 11:38:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377915AbjHRO7q (ORCPT
+        with ESMTP id S1378260AbjHRPhp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 10:59:46 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53749CD;
-        Fri, 18 Aug 2023 07:59:45 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1bdf4752c3cso7357245ad.2;
-        Fri, 18 Aug 2023 07:59:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692370785; x=1692975585;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q3cLEemZTaWpxY5Ud6JppKDD+KRnvXP8a0Q/gju7PB0=;
-        b=ouDnn0AyYsSTb5kwn1zqGecGxkqk76B7ZzCQf8wDD7IUFCttgUZqkcKemEy506eST+
-         9gOte6+cVVktahqA9lcFLWCzZD7ZFm8HUKEhcyizBfwzbWAmJjhdtE3++Ukp+eaksvK9
-         a415y8s+AVZ7PO7J/fBQM2D2Ldtxbst0sbFRf8oL3PwcUgeWSlZAt7hbVFRBsdYNts0E
-         iAD2yBLViw/8SzdbXwjngQYLu3mBX3DJNJKZKcLckQl8o/+36+gvbq1pFU6YZHDUg7XK
-         7Bc3sYe2yb2WyEdx2EHrhIxYBsRiL1TFStghefTBqyGr543gEa/0Yo2ungfOcEpqcIpD
-         TKSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692370785; x=1692975585;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q3cLEemZTaWpxY5Ud6JppKDD+KRnvXP8a0Q/gju7PB0=;
-        b=hIrQ7FQE0jVtZe2zurcKIsvvQC3r2darroy4Y/q6+sEpkUL3l180VuTAUiFR197qoi
-         EeDCVlVDg9Cw9rzNeK+QxO6/wP+g1NOgoGyOW5aKmeXXfPKF2fl/NrLR24b4YosOQbCB
-         1JQ+LcO4zECLqazS5hNLgH2d6C+SUB+6dpMoiQZQn/PuXKBcaoKiEQhXQjbWlQYJZ4oX
-         4S3GEg5TpD3H/68nIkdQTP5QbU7VP4V2gTRCAqopt1BUJ9z6ekDRXE+wJ9W0pG+SCefu
-         3/uXo+uQHWK8W2d7/E85oSdxPJBO9Be86GWUCn6NroE3yBY4oL0P/1q2zRDY4G9k4EeM
-         pz2g==
-X-Gm-Message-State: AOJu0YycnmT8zjnQbrNmHMhO3LZW2OrYZwxfQhlowdWxP3439BSbNtDR
-        VCZoqxJObfws2sG43G5ATZY=
-X-Google-Smtp-Source: AGHT+IEx4dcYnmGUbiTQEAo39DjvTIO3+KAAitSZwJ3e8/xFi3fvDLd9aL7Rz1QuxXkeWG44aHO8Sg==
-X-Received: by 2002:a17:902:bd45:b0:1be:e851:c070 with SMTP id b5-20020a170902bd4500b001bee851c070mr2236300plx.22.1692370784595;
-        Fri, 18 Aug 2023 07:59:44 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
-        by smtp.gmail.com with ESMTPSA id l13-20020a170902d34d00b001b8013ed362sm1874349plk.96.2023.08.18.07.59.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 07:59:43 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        linux-media@vger.kernel.org (open list:SYNC FILE FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2] dma-buf/sw_sync: Avoid recursive lock during fence signal
-Date:   Fri, 18 Aug 2023 07:59:38 -0700
-Message-ID: <20230818145939.39697-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        Fri, 18 Aug 2023 11:37:45 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CAD62D5A
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 08:37:43 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37IDWg8o012340;
+        Fri, 18 Aug 2023 17:37:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+        message-id:date:mime-version:subject:to:references:from
+        :in-reply-to:content-type:content-transfer-encoding; s=
+        selector1; bh=a5OxDAAhSez3B+rl/5uOThzi7WkbhuAtIsbFud/WLu8=; b=y4
+        dX7aD3VjHmJJeR/5AUtW3FvO1AGAsAHSxsW5egEB9jVnB45gC11hSopnk10gTvFA
+        jzwGOakSLFizlNto4WzpxZDsHdeiWgrZfJwLhn4RYTomobsYOCxSlnRlaFdPD42s
+        rWRQYzp3c6rMgiKljhWsgR5+h4T6TH8K+PJWdWQTJc3L/QNPxyKR+AhM4pKWsWUx
+        M2VXP9GITueqvZnvmmsKwVYNq2lzuKw/T8Kbyh6swkRRs8BpkfubZqh04FhLj8LK
+        6fI+uSgaY7x3ZS/F/njr38zMynTHAnpazR7wdQl0bTxoUjjySbk3busuW0ge4wLG
+        jzoD9kAEX9q3ooZMXciQ==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3sj9mc8j4t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 18 Aug 2023 17:37:23 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 3ABDB100058;
+        Fri, 18 Aug 2023 17:37:22 +0200 (CEST)
+Received: from Webmail-eu.st.com (eqndag1node4.st.com [10.75.129.133])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2ACA225CE6B;
+        Fri, 18 Aug 2023 17:37:22 +0200 (CEST)
+Received: from [10.201.20.38] (10.201.20.38) by EQNDAG1NODE4.st.com
+ (10.75.129.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 18 Aug
+ 2023 17:37:21 +0200
+Message-ID: <d19fc36a-f2dc-cfee-b2f8-e09952dca332@foss.st.com>
+Date:   Fri, 18 Aug 2023 17:37:21 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH -next] media: c8sectpfe: Use the devm_clk_get_enabled()
+ helper function
+Content-Language: en-US
+To:     Ruan Jinjie <ruanjinjie@huawei.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20230818101541.1129209-1-ruanjinjie@huawei.com>
+From:   Patrice CHOTARD <patrice.chotard@foss.st.com>
+In-Reply-To: <20230818101541.1129209-1-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.201.20.38]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To EQNDAG1NODE4.st.com
+ (10.75.129.133)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-18_19,2023-08-18_01,2023-05-22_02
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
 
-If a signal callback releases the sw_sync fence, that will trigger a
-deadlock as the timeline_fence_release recurses onto the fence->lock
-(used both for signaling and the the timeline tree).
 
-To avoid that, temporarily hold an extra reference to the signalled
-fences until after we drop the lock.
+On 8/18/23 12:15, Ruan Jinjie wrote:
+> With devm_clk_get_enabled() the call to clk_disable_unprepare() can be
+> dropped from the error path and the remove callback.
+> 
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+> ---
+>  .../st/sti/c8sectpfe/c8sectpfe-core.c         | 26 +++++--------------
+>  1 file changed, 7 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+> index 5dc1f908b49b..e4cf27b5a072 100644
+> --- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+> +++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+> @@ -695,16 +695,10 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+>  
+>  	platform_set_drvdata(pdev, fei);
+>  
+> -	fei->c8sectpfeclk = devm_clk_get(dev, "c8sectpfe");
+> +	fei->c8sectpfeclk = devm_clk_get_enabled(dev, "c8sectpfe");
+>  	if (IS_ERR(fei->c8sectpfeclk)) {
+> -		dev_err(dev, "c8sectpfe clk not found\n");
+> -		return PTR_ERR(fei->c8sectpfeclk);
+> -	}
+> -
+> -	ret = clk_prepare_enable(fei->c8sectpfeclk);
+> -	if (ret) {
+>  		dev_err(dev, "Failed to enable c8sectpfe clock\n");
+> -		return ret;
+> +		return PTR_ERR(fei->c8sectpfeclk);
+>  	}
+>  
+>  	/* to save power disable all IP's (on by default) */
+> @@ -722,7 +716,7 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+>  			0, "c8sectpfe-idle-irq", fei);
+>  	if (ret) {
+>  		dev_err(dev, "Can't register c8sectpfe-idle-irq IRQ.\n");
+> -		goto err_clk_disable;
+> +		return ret;
+>  	}
+>  
+>  	ret = devm_request_irq(dev, fei->error_irq,
+> @@ -730,7 +724,7 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+>  				"c8sectpfe-error-irq", fei);
+>  	if (ret) {
+>  		dev_err(dev, "Can't register c8sectpfe-error-irq IRQ.\n");
+> -		goto err_clk_disable;
+> +		return ret;
+>  	}
+>  
+>  	fei->tsin_count = of_get_child_count(np);
+> @@ -739,16 +733,14 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+>  		fei->tsin_count > fei->hw_stats.num_ib) {
+>  
+>  		dev_err(dev, "More tsin declared than exist on SoC!\n");
+> -		ret = -EINVAL;
+> -		goto err_clk_disable;
+> +		return -EINVAL;
+>  	}
+>  
+>  	fei->pinctrl = devm_pinctrl_get(dev);
+>  
+>  	if (IS_ERR(fei->pinctrl)) {
+>  		dev_err(dev, "Error getting tsin pins\n");
+> -		ret = PTR_ERR(fei->pinctrl);
+> -		goto err_clk_disable;
+> +		return PTR_ERR(fei->pinctrl);
+>  	}
+>  
+>  	for_each_child_of_node(np, child) {
+> @@ -859,7 +851,7 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+>  	if (ret) {
+>  		dev_err(dev, "c8sectpfe_tuner_register_frontend failed (%d)\n",
+>  			ret);
+> -		goto err_clk_disable;
+> +		return ret;
+>  	}
+>  
+>  	c8sectpfe_debugfs_init(fei);
+> @@ -868,8 +860,6 @@ static int c8sectpfe_probe(struct platform_device *pdev)
+>  
+>  err_node_put:
+>  	of_node_put(child);
+> -err_clk_disable:
+> -	clk_disable_unprepare(fei->c8sectpfeclk);
+>  	return ret;
+>  }
+>  
+> @@ -903,8 +893,6 @@ static void c8sectpfe_remove(struct platform_device *pdev)
+>  
+>  	if (readl(fei->io + SYS_OTHER_CLKEN))
+>  		writel(0, fei->io + SYS_OTHER_CLKEN);
+> -
+> -	clk_disable_unprepare(fei->c8sectpfeclk);
+>  }
+>  
+>  
 
-(This is an alternative implementation of https://patchwork.kernel.org/patch/11664717/
-which avoids some potential UAF issues with the original patch.)
+Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
 
-v2: Remove now obsolete comment, use list_move_tail() and
-    list_del_init()
-
-Reported-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Fixes: d3c6dd1fb30d ("dma-buf/sw_sync: Synchronize signal vs syncpt free")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/dma-buf/sw_sync.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 63f0aeb66db6..f0a35277fd84 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -191,6 +191,7 @@ static const struct dma_fence_ops timeline_fence_ops = {
-  */
- static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
- {
-+	LIST_HEAD(signalled);
- 	struct sync_pt *pt, *next;
- 
- 	trace_sync_timeline(obj);
-@@ -203,21 +204,20 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
- 		if (!timeline_fence_signaled(&pt->base))
- 			break;
- 
--		list_del_init(&pt->link);
-+		dma_fence_get(&pt->base);
-+
-+		list_move_tail(&pt->link, &signalled);
- 		rb_erase(&pt->node, &obj->pt_tree);
- 
--		/*
--		 * A signal callback may release the last reference to this
--		 * fence, causing it to be freed. That operation has to be
--		 * last to avoid a use after free inside this loop, and must
--		 * be after we remove the fence from the timeline in order to
--		 * prevent deadlocking on timeline->lock inside
--		 * timeline_fence_release().
--		 */
- 		dma_fence_signal_locked(&pt->base);
- 	}
- 
- 	spin_unlock_irq(&obj->lock);
-+
-+	list_for_each_entry_safe(pt, next, &signalled, link) {
-+		list_del_init(&pt->link);
-+		dma_fence_put(&pt->base);
-+	}
- }
- 
- /**
--- 
-2.41.0
-
+Thanks
+Patrice
