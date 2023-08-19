@@ -2,50 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D0D478192B
-	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 12:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E07278193B
+	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 13:21:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231776AbjHSK7Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Aug 2023 06:59:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44808 "EHLO
+        id S231935AbjHSLVb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Aug 2023 07:21:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231696AbjHSK7Q (ORCPT
+        with ESMTP id S231899AbjHSLVa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Aug 2023 06:59:16 -0400
+        Sat, 19 Aug 2023 07:21:30 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F15A26081;
-        Sat, 19 Aug 2023 03:57:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D01B27D24;
+        Sat, 19 Aug 2023 04:19:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 391D561F8B;
-        Sat, 19 Aug 2023 10:57:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63248C433C8;
-        Sat, 19 Aug 2023 10:57:12 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DE2ED60BC0;
+        Sat, 19 Aug 2023 11:19:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 48828C433C8;
+        Sat, 19 Aug 2023 11:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692442633;
-        bh=ixAqLwqxxQ/kYKmNM3dzPjwchZ1HQS2o1Lx8UILxBu0=;
-        h=Date:From:To:Cc:Subject:From;
-        b=uJSR9shfIS+3YjeVA8iIce7R7xbReFGJa+NrL9lSZZ98KkNQhyflBX6HXMkzsRpSo
-         vOeI3bZKJ9IhG76ekKlLEoqVkDJWg7OCY4k2mTyCouaUtHAqdrOs2uQABP8zaDbmU3
-         gzws7UkDQsdhfVHP2HuWqBIMWqYrD+sloT1Dzg7Ay7jo3xpK2tGvXsbHJ7bxrJekN4
-         BK+DPz0PQnIustfFdpEZPooYl27ALsyQBihJrwiRjajzSWWB+SIm4kD4x7oax2hcWg
-         pCRUuUe7d7Ay6iGB37xLtpGqKpL0s30LgQEojVh2Xs0uX6/9vv9o6cWm0WCEd87sxy
-         aW7hGYfOSsIrg==
-Date:   Sat, 19 Aug 2023 12:57:07 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        s=k20201202; t=1692443992;
+        bh=sebaFZtFyNbdvyQFAws1jOFrUmWSioNftD0Z9MnsDo0=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=PZCG+Vj/mZ097Ne8P1lP3KlOVLnWSlV0lcnJA+fpf2MobGN055w+SzXdhO5G90rkX
+         63KYPEDtn89Jd2lEmguJECj9wCkzhfuDiYi1BT2M2ORDarpNnC8RVUMPsqQvQA8pyV
+         lAxilNhUHupl6wiOByoUK1y881KNOgsXaAwlR/75SZoVotmQ7FYKivRYcbAbHSTnX1
+         UpV2SIlIKX9WMK5JalVG4sygPeoiFUBpGIxlXCpJiWVWjihYTVZdkDMFPSVwnvJLvA
+         VY/qiRPYt8HK3ty2saULl1O5ErVpyHtRu3TI3aGjaOF1+CLj4aL4+h6Ull33Csq5jc
+         M6mqyzhE6bpqA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 230E3C59A4C;
+        Sat, 19 Aug 2023 11:19:52 +0000 (UTC)
+Subject: Re: [GIT PULL for v6.5-rc7] media fixes
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20230819125707.25397dd9@coco.lan>
+References: <20230819125707.25397dd9@coco.lan>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20230819125707.25397dd9@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-3
+X-PR-Tracked-Commit-Id: 2908042a37b56d6a9a595eca946e187e9d2df39a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: aa9ea98cca3a56869df1dc6347f3e3bfe0c01f44
+Message-Id: <169244399213.16209.12106383347754725903.pr-tracker-bot@kernel.org>
+Date:   Sat, 19 Aug 2023 11:19:52 +0000
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL for v6.5-rc7] media fixes
-Message-ID: <20230819125707.25397dd9@coco.lan>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -55,50 +64,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+The pull request you sent on Sat, 19 Aug 2023 12:57:07 +0200:
 
-Please pull from:
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-3
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-3
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/aa9ea98cca3a56869df1dc6347f3e3bfe0c01f44
 
-for 3 driver fixes:
+Thank you!
 
-      mtk-jpeg: Set platform driver data earlier
-      imx: imx7-media-csi: Fix applying format constraints
-      uvcvideo: Fix menu count handling for userspace XU mappings
-
-Thanks,
-Mauro
-
----
-
-The following changes since commit 0cb1d9c845110ce638a43a1417c7df5968d1daa3:
-
-  media: verisilicon: change confusingly named relaxed register access (2023-07-14 09:14:10 +0200)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-3
-
-for you to fetch changes up to 2908042a37b56d6a9a595eca946e187e9d2df39a:
-
-  media: imx: imx7-media-csi: Fix applying format constraints (2023-08-09 13:31:37 +0200)
-
-----------------------------------------------------------------
-media fixes for v6.5-rc7
-
-----------------------------------------------------------------
-Chen-Yu Tsai (1):
-      media: mtk-jpeg: Set platform driver data earlier
-
-Fabio Estevam (1):
-      media: imx: imx7-media-csi: Fix applying format constraints
-
-Laurent Pinchart (1):
-      media: uvcvideo: Fix menu count handling for userspace XU mappings
-
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 4 ++--
- drivers/media/platform/nxp/imx7-media-csi.c          | 7 +++++--
- drivers/media/usb/uvc/uvc_v4l2.c                     | 2 +-
- 3 files changed, 8 insertions(+), 5 deletions(-)
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
