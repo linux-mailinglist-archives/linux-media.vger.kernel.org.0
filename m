@@ -2,95 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0C8C781973
-	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 14:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73EB47819BB
+	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 15:33:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232179AbjHSMEl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Aug 2023 08:04:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59966 "EHLO
+        id S232825AbjHSNd4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Aug 2023 09:33:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230289AbjHSMEl (ORCPT
+        with ESMTP id S229436AbjHSNdz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Aug 2023 08:04:41 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC0E5B8F
-        for <linux-media@vger.kernel.org>; Sat, 19 Aug 2023 05:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
- s=s31663417; t=1692446595; x=1693051395; i=aloisio@gmx.com;
- bh=WwH0LThFE1FgN1VXJr5XspvgcvDTB5mp84cbFL6+fR0=;
- h=X-UI-Sender-Class:From:To:Subject:Date;
- b=jpNYukU9vitOivTCp84LQlLjuLz2DYDBRkDDrVDl334vSHMi8KV9j58h2APOl7I+p0d77Yl
- DRv/Chxt+tG64ltU4aUC0ftq5Cy+u4ogTR3rjqMHkR8d0/RyBAB394/Xl/kfMwri40hWbHSEp
- +e4l57GpQWdTh5+jyQVFih5242benOLpeQ2kGMQ4ZMWKQw/rkuDA7cm8UVCIuewPWsnOcxpll
- sD3f1zethwIb1vXJNV9ctLYmLkHKP1vPEjKGdjoQtk4toG+YGNcb8yRUTUv0BXtj0FruSFw7N
- VX9Cx9BiKIxKg2lZGeppLNs9DlvstC+0LKqLTceSmhg00+ae6ZXg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [87.13.190.39] ([87.13.190.39]) by web-mail.gmx.net
- (3c-app-mailcom-bs14.server.lan [172.19.170.182]) (via HTTP); Sat, 19 Aug
- 2023 14:03:15 +0200
+        Sat, 19 Aug 2023 09:33:55 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B980260BE;
+        Sat, 19 Aug 2023 06:31:46 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1bf48546ccfso7660445ad.2;
+        Sat, 19 Aug 2023 06:31:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692451905; x=1693056705;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=354r1E8RomJOmLTWCsnFrWN7S2WMC4vNevjDGwZilNU=;
+        b=FKItqNn7h6xWPDCRRcOmc9Ez68Wlegq31PhjXmfE4aBe1zGReLec7/vKM3nJtqV/T5
+         829EDrd2xlqVK8Tw3nM20/B3p1DNQLLEbNdF91Eyz/WH1w7UEqNan0Kq8R9XQ6jNDjHh
+         RnLEZz0S9PdfnsU0izgs40JpcIGM7pXpTx4/qpx7ZGxtvZ2pLUmJKfekLl6V0yP2eIvJ
+         18Y+YmpU+4IzBF38SRWHzI92pOS1O4AsZVnlGVYM6pvSfBMpm1CgfcfQ6KhVFoIB3K8e
+         9IU5Tbb/hqFzwnMVt2fTO6FmDEfllVLKcVVj5I0wT9n6zZs6WBZWm9uC7jFGB/UabfYG
+         KVtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692451905; x=1693056705;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=354r1E8RomJOmLTWCsnFrWN7S2WMC4vNevjDGwZilNU=;
+        b=hu+rNb+ftIkHEIKNw8drECwwleM2elv3bZjdRkl0pshNT3E9K7FpD2aXflfvMk+5ay
+         wLsX3f0r0cLkiFjkRpMZAyCrP5bR22ukOCjlVr5ezf8wuuyaGcUWNTUr5pwRNQxw+wxp
+         jcmPg51NniHEsDIKUS94e6rE2LE7Qf5tZDo7AdtXACmOFJUqJ8JNfpqW48BZOMl5WJnE
+         bmnjggYpOhrDH7Gvm28mCyPPOrW5uthtG9Ca6wI8TtQYGcZ5o61T/H55goUk9zil1RtL
+         7ieag+uCAORCCsRNpDFdYL3FIV1OhCPT59DTjBieezteWwVw/9d0XpA5XJZYZ7L5zXlZ
+         b8ag==
+X-Gm-Message-State: AOJu0YxfLF+ugyDK+JWh3i1zH9yVJjwP/54R+Joe2P05RZa1mfC9pNeB
+        4ACg3Rzot5Q64d7oUOSdve4=
+X-Google-Smtp-Source: AGHT+IEA9QHCXPRr5498UeC9TcMCKSHe0MOr/n/QkY6SbexlkQEyoRyTDDVMGC1CFHCymOKfzzgTLA==
+X-Received: by 2002:a17:902:b709:b0:1bd:a0cd:1860 with SMTP id d9-20020a170902b70900b001bda0cd1860mr1207022pls.64.1692451905279;
+        Sat, 19 Aug 2023 06:31:45 -0700 (PDT)
+Received: from archlinux.srmu.edu.in ([59.152.80.69])
+        by smtp.gmail.com with ESMTPSA id l6-20020a170902d34600b001b8b26fa6c1sm3663786plk.115.2023.08.19.06.31.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Aug 2023 06:31:44 -0700 (PDT)
+From:   Anshul <anshulusr@gmail.com>
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Cc:     Anshul <anshulusr@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, anshulusr2@gmail.com
+Subject: [PATCH] fixing ERROR: Macros with compex values must be enclosed within parentheses
+Date:   Sat, 19 Aug 2023 19:01:13 +0530
+Message-ID: <20230819133115.23048-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Message-ID: <trinity-4a9cf567-5613-4ace-8e63-fa27d4450df6-1692446595564@3c-app-mailcom-bs14>
-From:   Luigi Baldoni <aloisio@gmx.com>
-To:     linux-media@vger.kernel.org
-Subject: Video glitch with Hanftek Astrometa
-Content-Type: text/plain; charset=UTF-8
-Date:   Sat, 19 Aug 2023 14:03:15 +0200
-Importance: normal
-Sensitivity: Normal
-X-Priority: 3
-X-Provags-ID: V03:K1:sQ4Bn3uXVmMUmOyK6OsNNy4C1HZEKAnCcr/LspP+Kg+E5SC8RBwGB5YeoRfUCK1XtD0Xt
- 1Gg8OlvVvAbm2TrNwhIVJP3eFZoy4kTB7ykru/hRmmSYZsyrNiEUdjMyeCiFByAe1NBw2RlE/OA2
- i8umguYHQXdHjlTaV99hKQTtHWS5O66/fzTAkzJjq0BP3VcPJmUFJsn79vf4w1KwqusaWO7qGjzI
- PkVKES0Gxo4hXMocH+b3ScXaKOiFVYU1o0uc/RGtg7FzVzaDUJzrT83+F7oIBIuZ34Zo4y2rGcYm
- YU=
-UI-OutboundReport: notjunk:1;M01:P0:1IsE6PCL/Hg=;yGpqt5NsDn5MuaQ8FFrFA9rz+Vc
- 9dOUSYZBqYkFx3hZHyfMfGM4mer4MZTCmxZl40NASWhlmHYnDjfCsWJYwEezZR/Gq1C+W7jv3
- Ml8Jhc/8Ddt6H1A8iiJtumcOlS5UaJq2n6ZbP5Ynvzb0ZO3mzNeDDosjnEvtiQ8OzUWUxbt94
- w7cmF9ekkpMk0197IEa2s671w144KDXs7+qYpOqJbgooDTE+zlnu/JfLznohlp1Xsk49oB47o
- aH92AebHej5/bzNvkaIRp9us5ve6AjTHm0kyrlFORrDInSbu67DOXob3YYQXi/3F8eI17uZXD
- HPy9kHbC1HdHn2uptfEcd4IT3keH0KAz9wdqT/R/kCc+wBMGgi/DuEG5R+aCzDUqLqYYluNPe
- mr3s5Pi2hgq/frunRzTFHpIRhwWehuEJRdcX4tRx3k7ysR5rvr2AhKTWD4JE8467+Ib6STxs8
- +Zk1ETgtnTFtpjTyQjEjWps4xLdsI6mpqxdbISMLjJLATvz0xZhMscUACJ0ydP93R8gq1iiM5
- GGpMB/xIPYSCl549E+svY2Mr0I+UnqXlsaW7Zx1bLB9db7qUf061HNjHRZNDnnaG7zCM/mix1
- u6/ZSRgEoOLcTxDwlkL9eWkjN9CgNfLrTXWMKJsimx5/sV6qYlQpQkQlaE830umWUctVFzkgl
- eKNuMol6SH9LVzk3JsOF0NXgJgejRMBGPyoZOAuh3U19js9yG6QA16JKuFQklp9snrqnkbStu
- 1DkJRRhGkHKnnr+Hmp1ZAFe9U4Nhmkoc3GBsMLhFb2dEY8xCbe9C+V1xxaHvdOFxn2Rc/mmtx
- FsTQsrqgEPST7MPEwJlUpZFA==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-   Hello everyone,
-last year I replaced my old RTL2832U/R820T DVB-T dongle (which worked
-perfectly) and replaced it with a Hanftek Astrometa (RTL2832/CXD2837ER)
-DVB-T2 one and my troubles started.
-Every channel I tune to shows a periodic glitch, as per included sample.
+Signed-off-by: Anshul <anshulusr@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-I tried the following things:
- * connected a regular TV set to the same antenna cable and the picture looks
-   fine
- * replaced the usb cable
- * switched distros (from debian to arch)
- * installed a current kernel snapshot
- * replaced the minipc on which it's installed
- * used usbip to access the hardware from my desktop machine and tested
-   it directly with vlc, mpv and kaffeine: at best the stream was glitchy
-   and at worst the app crashed
- * toggled every parameter available for each involved module
- * ran tzap directly
-
-None of the above made the slightest difference, therefore I'm asking you
-if there's something I might have overlooked or if this is truly a bug.
-
-Video sample here, captured with tzap:
-https://www.mediafire.com/file/qantvq916uy7o4k/rai1hd.ts/file
-https://www.4shared.com/s/folTulDcljq
-
-Regards
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 08fcd2ffa727..8d3bcd18b652 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2417,9 +2417,8 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
+ 	.quirks = UVC_QUIRK_FORCE_Y8,
+ };
+ 
+-#define UVC_INFO_QUIRK(q) (kernel_ulong_t)&(struct uvc_device_info){.quirks = q}
+-#define UVC_INFO_META(m) (kernel_ulong_t)&(struct uvc_device_info) \
+-	{.meta_format = m}
++#define UVC_INFO_QUIRK(q) ((kernel_ulong_t)&(struct uvc_device_info){.quirks = q})
++#define UVC_INFO_META(m) ((kernel_ulong_t)&(struct uvc_device_info) {.meta_format = m})
+ 
+ /*
+  * The Logitech cameras listed below have their interface class set to
+-- 
+2.41.0
 
