@@ -2,133 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 316FD781584
-	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 00:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8246C781678
+	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 03:47:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241730AbjHRWrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Aug 2023 18:47:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56958 "EHLO
+        id S241690AbjHSBof (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Aug 2023 21:44:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241708AbjHRWr2 (ORCPT
+        with ESMTP id S242180AbjHSBoC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Aug 2023 18:47:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 471034214;
-        Fri, 18 Aug 2023 15:47:27 -0700 (PDT)
+        Fri, 18 Aug 2023 21:44:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3A4030F5
+        for <linux-media@vger.kernel.org>; Fri, 18 Aug 2023 18:44:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D018763ACE;
-        Fri, 18 Aug 2023 22:47:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5936C433C8;
-        Fri, 18 Aug 2023 22:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692398846;
-        bh=GERRINsAE4jFIhYWdb4073xkrV0e7fJw3JwzPleFkGE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cyuL5Iht3FYQhRsQPZ882/GmkeF4L5szu8lARMrLLwnl/0ywm7mtvMs22mHQfpQEV
-         PfMAoZI9wLWJ88CsiWMyPcyIZlbf2PVYElReCYpEyqPx79/9xEz0p2o24WJqS7cfEd
-         3ppg3GlffC8lgib60tR67hmDMT96+jDVyO7khBg5IfTrrrzO8vR2si+EvKu7D/bwFl
-         BOQJwbKJE47igkOtaP04PX5ASifTwmFRyzEb76CWj1pq1lFsCFcdYnoSNsmw3bbopA
-         jb4Cy2tCBGbxN1MIv7KK7Nkz6ZeGN4hzis7MN6B2iZymCsTslqic6QQ0etjZshT3RI
-         t7o66s2q1HFRw==
-Date:   Fri, 18 Aug 2023 23:47:11 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Andy Gross <agross@kernel.org>, David Airlie <airlied@gmail.com>,
-        alsa-devel@alsa-project.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, devicetree@vger.kernel.org,
-        dmaengine@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
-        etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Frank Rowand <frowand.list@gmail.com>, iommu@lists.linux.dev,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Kalle Valo <kvalo@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sinan Kaya <okaya@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sean Paul <sean@poorly.run>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH] iommu: Remove the device_lock_assert() from
- __iommu_probe_device()
-Message-ID: <1b53ea1e-3522-43db-a7db-dd4b460f0bc6@sirena.org.uk>
-References: <0-v1-98d20e768c66+7-of_dma_lock_jgg@nvidia.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="sBznzgBGlLdaocvC"
-Content-Disposition: inline
-In-Reply-To: <0-v1-98d20e768c66+7-of_dma_lock_jgg@nvidia.com>
-X-Cookie: Your aim is high and to the right.
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E3B860A5C
+        for <linux-media@vger.kernel.org>; Sat, 19 Aug 2023 01:44:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719FCC433C7
+        for <linux-media@vger.kernel.org>; Sat, 19 Aug 2023 01:43:59 +0000 (UTC)
+Date:   Sat, 19 Aug 2023 03:43:57 +0200
+Message-ID: <b0348f3c7ee81ca3ed764f1db9fe71fe.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
---sBznzgBGlLdaocvC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Results of the daily build of media_tree:
 
-On Fri, Aug 18, 2023 at 06:32:28PM -0300, Jason Gunthorpe wrote:
-> It turns out several drivers are calling of_dma_configure() outside the
-> expected bus_type.dma_configure op. This ends up being mis-locked and
-> triggers a lockdep assertion, or instance:
+date:			Sat Aug 19 03:00:10 CEST 2023
+media-tree git branch:	media_stage/master
+media-tree git hash:	8ba283f6c929350e97feaef35dee4bdcf20c8909
+v4l-utils git hash:	dcbaba173ec7446487fa042902627ad64143eb53
+edid-decode git hash:	5f723267e04deb3aa9610483514a02bcee10d9c2
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8455-g78e3bddd
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: c407f8c221e7e7692762fd317c10d949490d9411
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-Acked-by: Mark Brown <broonie@kernel.org>
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
---sBznzgBGlLdaocvC
-Content-Type: application/pgp-signature; name="signature.asc"
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
------BEGIN PGP SIGNATURE-----
+smatch: WARNINGS:
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTf9O4ACgkQJNaLcl1U
-h9CQkgf/U+glO2B163vQwi/fCAxSj8fyw/4Fx89WMOmUEwj0C05hkeR75k8U4pW8
-4U0vPSpT0yaPcjKGpztFpE3uMIf/40CZ1SbbKuvZ4RcYoumOqLIWVcQzYmEiQSml
-M4NjnYXvs3xppLRtxlnWYCzwmvijPoQfs/Ot1VBn9TsoGz70YwLD3JfjHXnztUHF
-y9wAVvMF5OgDayDuWedbuh63H4kRGS7LIhIu9cPgnV14RWL9SmYat6UKcto2FePd
-th2ai/d8CMoJ8oHV7BOaf86sQXul26EvMiWSqgyc9uGX/ag9RYCA465U/QXlVQZc
-M7hwZKW9rlZZsKXxSdbNPklRZ/Mdqg==
-=cHW/
------END PGP SIGNATURE-----
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
---sBznzgBGlLdaocvC--
+COMPILE_TEST: WARNINGS: VIDEOBUF_GEN VIDEOBUF_DMA_SG VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 5
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
