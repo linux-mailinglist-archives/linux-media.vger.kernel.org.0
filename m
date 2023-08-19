@@ -2,111 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBDAF78193D
-	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 13:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0C8C781973
+	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 14:04:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231979AbjHSL0h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Aug 2023 07:26:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50232 "EHLO
+        id S232179AbjHSMEl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Aug 2023 08:04:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231984AbjHSL0h (ORCPT
+        with ESMTP id S230289AbjHSMEl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Aug 2023 07:26:37 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCB9A27D0D
-        for <linux-media@vger.kernel.org>; Sat, 19 Aug 2023 04:25:25 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qXK56-003mwF-Fo; Sat, 19 Aug 2023 11:25:24 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.96)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qXK53-007BAm-2w;
-        Sat, 19 Aug 2023 11:25:21 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for v6.5-rc7] media fixes (#94182)
-Date:   Sat, 19 Aug 2023 11:25:20 +0000
-Message-Id: <20230819112520.1711235-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230819125707.25397dd9@coco.lan>
-References: 
+        Sat, 19 Aug 2023 08:04:41 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC0E5B8F
+        for <linux-media@vger.kernel.org>; Sat, 19 Aug 2023 05:03:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
+ s=s31663417; t=1692446595; x=1693051395; i=aloisio@gmx.com;
+ bh=WwH0LThFE1FgN1VXJr5XspvgcvDTB5mp84cbFL6+fR0=;
+ h=X-UI-Sender-Class:From:To:Subject:Date;
+ b=jpNYukU9vitOivTCp84LQlLjuLz2DYDBRkDDrVDl334vSHMi8KV9j58h2APOl7I+p0d77Yl
+ DRv/Chxt+tG64ltU4aUC0ftq5Cy+u4ogTR3rjqMHkR8d0/RyBAB394/Xl/kfMwri40hWbHSEp
+ +e4l57GpQWdTh5+jyQVFih5242benOLpeQ2kGMQ4ZMWKQw/rkuDA7cm8UVCIuewPWsnOcxpll
+ sD3f1zethwIb1vXJNV9ctLYmLkHKP1vPEjKGdjoQtk4toG+YGNcb8yRUTUv0BXtj0FruSFw7N
+ VX9Cx9BiKIxKg2lZGeppLNs9DlvstC+0LKqLTceSmhg00+ae6ZXg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [87.13.190.39] ([87.13.190.39]) by web-mail.gmx.net
+ (3c-app-mailcom-bs14.server.lan [172.19.170.182]) (via HTTP); Sat, 19 Aug
+ 2023 14:03:15 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Message-ID: <trinity-4a9cf567-5613-4ace-8e63-fa27d4450df6-1692446595564@3c-app-mailcom-bs14>
+From:   Luigi Baldoni <aloisio@gmx.com>
+To:     linux-media@vger.kernel.org
+Subject: Video glitch with Hanftek Astrometa
+Content-Type: text/plain; charset=UTF-8
+Date:   Sat, 19 Aug 2023 14:03:15 +0200
+Importance: normal
+Sensitivity: Normal
+X-Priority: 3
+X-Provags-ID: V03:K1:sQ4Bn3uXVmMUmOyK6OsNNy4C1HZEKAnCcr/LspP+Kg+E5SC8RBwGB5YeoRfUCK1XtD0Xt
+ 1Gg8OlvVvAbm2TrNwhIVJP3eFZoy4kTB7ykru/hRmmSYZsyrNiEUdjMyeCiFByAe1NBw2RlE/OA2
+ i8umguYHQXdHjlTaV99hKQTtHWS5O66/fzTAkzJjq0BP3VcPJmUFJsn79vf4w1KwqusaWO7qGjzI
+ PkVKES0Gxo4hXMocH+b3ScXaKOiFVYU1o0uc/RGtg7FzVzaDUJzrT83+F7oIBIuZ34Zo4y2rGcYm
+ YU=
+UI-OutboundReport: notjunk:1;M01:P0:1IsE6PCL/Hg=;yGpqt5NsDn5MuaQ8FFrFA9rz+Vc
+ 9dOUSYZBqYkFx3hZHyfMfGM4mer4MZTCmxZl40NASWhlmHYnDjfCsWJYwEezZR/Gq1C+W7jv3
+ Ml8Jhc/8Ddt6H1A8iiJtumcOlS5UaJq2n6ZbP5Ynvzb0ZO3mzNeDDosjnEvtiQ8OzUWUxbt94
+ w7cmF9ekkpMk0197IEa2s671w144KDXs7+qYpOqJbgooDTE+zlnu/JfLznohlp1Xsk49oB47o
+ aH92AebHej5/bzNvkaIRp9us5ve6AjTHm0kyrlFORrDInSbu67DOXob3YYQXi/3F8eI17uZXD
+ HPy9kHbC1HdHn2uptfEcd4IT3keH0KAz9wdqT/R/kCc+wBMGgi/DuEG5R+aCzDUqLqYYluNPe
+ mr3s5Pi2hgq/frunRzTFHpIRhwWehuEJRdcX4tRx3k7ysR5rvr2AhKTWD4JE8467+Ib6STxs8
+ +Zk1ETgtnTFtpjTyQjEjWps4xLdsI6mpqxdbISMLjJLATvz0xZhMscUACJ0ydP93R8gq1iiM5
+ GGpMB/xIPYSCl549E+svY2Mr0I+UnqXlsaW7Zx1bLB9db7qUf061HNjHRZNDnnaG7zCM/mix1
+ u6/ZSRgEoOLcTxDwlkL9eWkjN9CgNfLrTXWMKJsimx5/sV6qYlQpQkQlaE830umWUctVFzkgl
+ eKNuMol6SH9LVzk3JsOF0NXgJgejRMBGPyoZOAuh3U19js9yG6QA16JKuFQklp9snrqnkbStu
+ 1DkJRRhGkHKnnr+Hmp1ZAFe9U4Nhmkoc3GBsMLhFb2dEY8xCbe9C+V1xxaHvdOFxn2Rc/mmtx
+ FsTQsrqgEPST7MPEwJlUpZFA==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+   Hello everyone,
+last year I replaced my old RTL2832U/R820T DVB-T dongle (which worked
+perfectly) and replaced it with a Hanftek Astrometa (RTL2832/CXD2837ER)
+DVB-T2 one and my troubles started.
+Every channel I tune to shows a periodic glitch, as per included sample.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230819125707.25397dd9@coco.lan/
-Build log: https://builder.linuxtv.org/job/patchwork/332131/
-Build time: 00:21:49
-Link: https://lore.kernel.org/linux-media/20230819125707.25397dd9@coco.lan
+I tried the following things:
+ * connected a regular TV set to the same antenna cable and the picture looks
+   fine
+ * replaced the usb cable
+ * switched distros (from debian to arch)
+ * installed a current kernel snapshot
+ * replaced the minipc on which it's installed
+ * used usbip to access the hardware from my desktop machine and tested
+   it directly with vlc, mpv and kaffeine: at best the stream was glitchy
+   and at worst the app crashed
+ * toggled every parameter available for each involved module
+ * ran tzap directly
 
-gpg: Signature made Wed 16 Aug 2023 01:44:05 PM UTC
-gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
-gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [ultimate]
-gpg:                 aka "[jpeg image of size 3594]" [ultimate]
+None of the above made the slightest difference, therefore I'm asking you
+if there's something I might have overlooked or if this is truly a bug.
 
-Summary: got 3/3 patches with issues, being 2 at build time
+Video sample here, captured with tzap:
+https://www.mediafire.com/file/qantvq916uy7o4k/rai1hd.ts/file
+https://www.4shared.com/s/folTulDcljq
 
-Error/warnings:
-
-patches/0001-media-mtk-jpeg-Set-platform-driver-data-earlier.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
-	  Locked on  : 326,387
-	  Unlocked on: 465,467
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2771 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1971290
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 56 seconds
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-
-patches/0002-media-uvcvideo-Fix-menu-count-handling-for-userspace.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-
-   checkpatch.pl:
-	$ cat patches/0002-media-uvcvideo-Fix-menu-count-handling-for-userspace.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:15: WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
-
-patches/0003-media-imx-imx7-media-csi-Fix-applying-format-constra.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-media-imx-imx7-media-csi-Fix-applying-format-constra.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:14: WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
+Regards
 
