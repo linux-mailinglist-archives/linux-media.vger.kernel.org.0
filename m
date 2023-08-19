@@ -2,82 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A663F781A1C
-	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 16:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAD2E781A38
+	for <lists+linux-media@lfdr.de>; Sat, 19 Aug 2023 16:49:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233527AbjHSOcI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Aug 2023 10:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57380 "EHLO
+        id S233680AbjHSOtH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Aug 2023 10:49:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231313AbjHSOcI (ORCPT
+        with ESMTP id S233657AbjHSOtH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Aug 2023 10:32:08 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 740341BDD7;
-        Sat, 19 Aug 2023 07:32:06 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EBB45A4;
-        Sat, 19 Aug 2023 16:30:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692455449;
-        bh=PJ9ezBh6LVf1LVfwJCbXodQu9UmpAA8uoBBdA3GVUdg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f9jDTjpzsdwspUkNOCepo1Jd1CJqdOFMwEvYRPfdXUX/un4FsKWJJr0AkudmyxYkj
-         OvgyQbCkki2g69SoU/gk0ELDmlnHsPCwKJ+zDCnSpU4mWzfYEjJU9TDONbQHqlyBQf
-         2XAZgtVIIJnk+7dzC9EugllNZCF0yuBigUPOQZp4=
-Date:   Sat, 19 Aug 2023 17:32:12 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Anshul <anshulusr@gmail.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, anshulusr2@gmail.com
-Subject: Re: [PATCH] fixing ERROR: Macros with compex values must be enclosed
- within parentheses
-Message-ID: <20230819143212.GB31744@pendragon.ideasonboard.com>
-References: <20230819133115.23048-1-anshulusr@gmail.com>
+        Sat, 19 Aug 2023 10:49:07 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F0424C34
+        for <linux-media@vger.kernel.org>; Sat, 19 Aug 2023 07:49:03 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3fe4a89e8c4so17634745e9.3
+        for <linux-media@vger.kernel.org>; Sat, 19 Aug 2023 07:49:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692456542; x=1693061342;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Lai3lzaFQcOUlX6NwcBkA21aZzV1McYrSxoq4Xf4Is=;
+        b=rBA5slir7cZwcjlaP9ww09Q0nNEk9Z0XhnobTPrvB36uqFHtJ+LAexCZlRUT9jAL+b
+         vQIAa1Mt7zdsnL+hSZTQY8zWbwnvU5gfvbkcI88jNVSxg+8BsZB8K6Ru69gfT9RLCpMw
+         jo3wIncGMDEPCEaw9JQLGR2Dk91ThaxnMnMG+1Fe89wfi/pIHPP+mGOwrulAldq09/wK
+         G6kHLkpcwjGu2sp/kK+bLscifIPPCo+CcCAg9s9amureCazRiwzTEAqZY+EgKTGn1o70
+         FXOG5JlM1r+Y/gIeOBdocI2ihY4PKC8M5VOyANWF+NZ4uqzSONOBA5g3jM4myK6titGH
+         DJdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692456542; x=1693061342;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Lai3lzaFQcOUlX6NwcBkA21aZzV1McYrSxoq4Xf4Is=;
+        b=QHmbjGM4ZNGuGE4BaROImPKTtwzSmoRXd30+SNDpVFNeLv7BmW2VTwRW30UpoqCLC5
+         uDhG6oAPK9vRBDFaPpnbW513cbFojrqonwlg2yHknt1yEE8l3MsOSXabWM5DjsBrESPE
+         GwYLezRH+NoSRGkkXOFVYpraGixAhUzSGhgZA3h7ReDltO+oVazMVliMjXx0iZS6FSji
+         UHnSm0i56A4MbSLfXOxfhXQ5DUMC1pU69fbn+7go0Ox8BxFqeQF0rlUgBeCdZksNuyU5
+         V3k3x7qG3DUAFwNO3aQipltPIDQmYUqkU5N76bZCDWBG9eG1orjZDClWcZeVMGxPmQ3C
+         s0Vg==
+X-Gm-Message-State: AOJu0YziLlis8ooczPV+9S7A/zQdx7kwzRW+4yJzTBp0EoWqIhli9AaQ
+        fGNv2k96FmxuAy49mqznM8NBwsSYcIrWH4HVyUE=
+X-Google-Smtp-Source: AGHT+IHJzDhBNu7ctb++Jk4VjdxyvgJXY12TA1cbQ4ejANvmXaRByQ78dFXro7q5SEymjActnoFF4g==
+X-Received: by 2002:a7b:c3c2:0:b0:3fe:df1:5b95 with SMTP id t2-20020a7bc3c2000000b003fe0df15b95mr1601934wmj.19.1692456542262;
+        Sat, 19 Aug 2023 07:49:02 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id s14-20020a05600c044e00b003fa96fe2bd9sm9856581wmb.22.2023.08.19.07.49.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 19 Aug 2023 07:49:01 -0700 (PDT)
+Message-ID: <9e2c597b-171c-448a-b696-382da9834a4f@linaro.org>
+Date:   Sat, 19 Aug 2023 15:49:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230819133115.23048-1-anshulusr@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 10/13] media: qcom: camss: Allow clocks vfeN vfe_liteN
+ or vfe_lite
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, rfoss@kernel.org,
+        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230817143812.677554-1-bryan.odonoghue@linaro.org>
+ <20230817143812.677554-11-bryan.odonoghue@linaro.org>
+ <f0f55093-585f-4270-8ced-2c92a4808c9b@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <f0f55093-585f-4270-8ced-2c92a4808c9b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Anshul,
-
-On Sat, Aug 19, 2023 at 07:01:13PM +0530, Anshul wrote:
-
-The commit message must explain *why* the change is useful. In this
-particular case, I don't think it is.
-
-> Signed-off-by: Anshul <anshulusr@gmail.com>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+On 18/08/2023 13:30, Konrad Dybcio wrote:
+> On 17.08.2023 16:38, Bryan O'Donoghue wrote:
+>> The number of Video Front End - VFE or Image Front End - IFE supported
+>> with new SoCs can vary both for the full and lite cases.
+>>
+>> For example sdm845 has one vfe_lite and two vfe interfaces with the vfe
+>> clock called simply "vfe_lite" with no integer postfix. sc8280xp has four
+>> vfe and four vfe lite blocks.
+>>
+>> We need to support the following clock name formats
+>>
+>> - vfeN
+>> - vfe_liteN
+>> - vfe_lite
+>>
+>> with N being any reasonably sized integer.
+>>
+>> There are two sites in this code which need to do the same thing,
+>> constructing and matching strings with the pattern above, so encapsulate
+>> the logic in one function.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+>>   drivers/media/platform/qcom/camss/camss-vfe.c | 22 ++++++++++++++-----
+>>   1 file changed, 16 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+>> index 8f48401e31cd3..73380e75dbb22 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+>> @@ -437,6 +437,20 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
+>>   	complete(&vfe->reset_complete);
+>>   }
+>>   
+>> +static int vfe_match_clock_names(struct vfe_device *vfe,
+>> +				 struct camss_clock *clock)
+>> +{
+>> +	char vfe_name[CAMSS_RES_MAX];
+> VFE_MAX?
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 08fcd2ffa727..8d3bcd18b652 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2417,9 +2417,8 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
->  	.quirks = UVC_QUIRK_FORCE_Y8,
->  };
->  
-> -#define UVC_INFO_QUIRK(q) (kernel_ulong_t)&(struct uvc_device_info){.quirks = q}
-> -#define UVC_INFO_META(m) (kernel_ulong_t)&(struct uvc_device_info) \
-> -	{.meta_format = m}
-> +#define UVC_INFO_QUIRK(q) ((kernel_ulong_t)&(struct uvc_device_info){.quirks = q})
-> +#define UVC_INFO_META(m) ((kernel_ulong_t)&(struct uvc_device_info) {.meta_format = m})
->  
->  /*
->   * The Logitech cameras listed below have their interface class set to
+> the current value of 17 would be very excessive for VFEs!
+> 
+> Konrad
 
--- 
-Regards,
+Solving these generic and large struct resource strings is something I 
+plan for another series.
 
-Laurent Pinchart
+Good enough ?
+
+---
+bod
