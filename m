@@ -2,162 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F7A6781FB6
-	for <lists+linux-media@lfdr.de>; Sun, 20 Aug 2023 22:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F71D7820AB
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 00:56:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231855AbjHTU2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Aug 2023 16:28:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34182 "EHLO
+        id S232087AbjHTW4A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Aug 2023 18:56:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231849AbjHTU23 (ORCPT
+        with ESMTP id S230445AbjHTWz7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Aug 2023 16:28:29 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48DD1FE9
-        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 13:25:41 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-99c47ef365cso363075766b.0
-        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 13:25:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692563140; x=1693167940;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=StjW9zVJDg/it/2Zx4uZor89taRslW2dT/6diASww+4=;
-        b=vci9yDnl+yyQhiHYI3CMfFxQx7T5f94503EtOwkkLJtDvyORUMezQkNjPxBXYG0+c8
-         1tqiwwDupiRkVCzmvK2ATAiqb5p129sMDGXo3OEbhj14bEv6JXvKo7buPP9PHdnbXKVa
-         xHjSlRpiludjqpyp9CpmF+LIKqMrO1XFDmEtQyMQrTxDtVZVorooYOCVOyWpPV1bbMz/
-         THa5ldcxuDMuE3J8E/qVbqKdR2sG+kodhNT4Cc/hfIcFwZhZHRI28t72ieCGLqWkqrko
-         mxkLgshVAhG4kE8ss1j+DQUS0SLDDDRHrrbltYbk6niHWE+lPpqntcTERnZ1QANv0aay
-         mntg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692563140; x=1693167940;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=StjW9zVJDg/it/2Zx4uZor89taRslW2dT/6diASww+4=;
-        b=D9ctdIc5YCUS7GBUIKGpAX8aOkjEbAWEnu+j6qFRzJhiO+e79fMGmeIUpKiZJl8fVw
-         74w+4TibUSXApqnnFN+mQKwfYUz9pPiIaYrV1vAxbX2AFTYfvyLBiEmXCF3x/kAofdDt
-         4AkYZwNiUl4+6qvRtJSQt1sgp5bdHoP2hpJo2Pgl6iPz2O6qdGWlT+53ojagXj5KOxfN
-         I0/ho7CL5EJtNNhhLBA9Go/Hwaj6kBuC4AbbAK8N8FvA+YASRV5dgSFZzhj4Qpylj5uW
-         yrtx2PdHzekU4keZmH72YV8R3bMIw4cHxOckF5AUT38/ertDIhdF0ph2HR+ZcTOsyiFR
-         iaYA==
-X-Gm-Message-State: AOJu0Yxx1scpdkf1ra2AkfKRFruU+Q3YlF4boU+ELaGNQZAtSgz58tQT
-        VhvLhaww9J0BAc8JL/I/2ebBqX7sNZeNgHhwLsU=
-X-Google-Smtp-Source: AGHT+IG+6nkBP8ESNEiuPFXeg/GVvn41vSGT+I9KbN6KuNmzanEMYwxjP4S2vVKuDBGNIppz79oNiQ==
-X-Received: by 2002:a17:906:23e9:b0:99b:de31:6666 with SMTP id j9-20020a17090623e900b0099bde316666mr3521212ejg.22.1692563140210;
-        Sun, 20 Aug 2023 13:25:40 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.198])
-        by smtp.gmail.com with ESMTPSA id qh10-20020a170906ecaa00b0099caf5bed64sm5211110ejb.57.2023.08.20.13.25.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Aug 2023 13:25:39 -0700 (PDT)
-Message-ID: <879f8bf7-db08-0add-9bff-a56ae07ffc67@linaro.org>
-Date:   Sun, 20 Aug 2023 22:25:37 +0200
+        Sun, 20 Aug 2023 18:55:59 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34630A2
+        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 15:55:58 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B90B3FA2;
+        Mon, 21 Aug 2023 00:54:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692572081;
+        bh=PYDC7FhQJ70s9+YCdKH8lElXaVYhQlPnRYBddCcP4F0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LY7RNC58goh45TNR1kuJgg9ElOerX8K/hex1NftdMhWT1o404OQ13ZfxUuCcWd2z3
+         dBgFDGdSfyVakUege3q/0PXxKgzSacEGw9AZ6gUyLhCz55ru7Yln05O71Fos7p/Anb
+         tlKZo3a3bIlxQ69zX6SAopZzDaS9OyHQo8yhnOVk=
+Date:   Mon, 21 Aug 2023 01:56:04 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH] media: v4l2-subdev: Document that routing support
+ depends on streams
+Message-ID: <20230820225604.GB10135@pendragon.ideasonboard.com>
+References: <20230818155518.440-1-laurent.pinchart@ideasonboard.com>
+ <ZN+Z4aYPNp+ymIw6@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add bindings for Imagination
- E5010 JPEG Encoder driver
-To:     Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, eugen.hristev@collabora.com,
-        ezequiel@vanguardiasur.com.ar, u.kleine-koenig@pengutronix.de,
-        sakari.ailus@linux.intel.com, praneeth@ti.com, nm@ti.com,
-        vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com,
-        b-brnich@ti.com, detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com
-References: <20230816152210.4080779-1-devarsht@ti.com>
- <20230816152210.4080779-2-devarsht@ti.com>
- <7a9bcd78-b544-524c-e944-5fbb0c60e600@linaro.org>
- <530306bc-174e-c75d-40c5-6fa42d69af31@ti.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <530306bc-174e-c75d-40c5-6fa42d69af31@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZN+Z4aYPNp+ymIw6@valkosipuli.retiisi.eu>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/08/2023 18:46, Devarsh Thakkar wrote:
->>> +properties:
->>> +  compatible:
->>> +    oneOf:
->>> +      - items:
->>> +          - const: ti,e5010-jpeg-enc
->>
->> TI did not make e5010. Use SoC-based compatible.
->>
->>> +          - const: img,e5010-jpeg-enc
->>> +      - const: img,e5010-jpeg-enc
->>
->> img,e5010-jpeg-enc cannot be compatible with img,e5010-jpeg-enc. It does
->> not make sense. I guess I did not expect you are going to use what you
->> wrote in v1 directly... I thought it is just about syntax.
->>
-> 
-> Sorry but I did not understand this fully, the possible compatibles are:
-> 
-> 1) "ti,am62a-jpeg-enc", "img,e5010-jpeg-enc"
-> or
-> 2)  "img,e5010-jpeg-enc"
-> 
-> anything else will not comply during dtbs_check as shown below :
+Hi Sakari,
 
-Ah, you are right, ENOTENOUGHCOFFEE or some other issue on my side.
+On Fri, Aug 18, 2023 at 04:18:41PM +0000, Sakari Ailus wrote:
+> On Fri, Aug 18, 2023 at 06:55:18PM +0300, Laurent Pinchart wrote:
+> > Routing support, through the subdev .set_routing() operation, requires
+> > the subdev to support streams. This is however not clearly documented
+> > anywhere. Fix it by expanding the operation's documentation to indicate
+> > that subdevs must set the V4L2_SUBDEV_FL_STREAMS flag.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  include/media/v4l2-subdev.h | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index b325df0d54d6..0b04ed1994b6 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -822,8 +822,9 @@ struct v4l2_subdev_state {
+> >   *		     operation shall fail if the pad index it has been called on
+> >   *		     is not valid or in case of unrecoverable failures.
+> >   *
+> > - * @set_routing: enable or disable data connection routes described in the
+> > - *		 subdevice routing table.
+> > + * @set_routing: Enable or disable data connection routes described in the
+> > + *		 subdevice routing table. Subdevs that implement this operation
+> > + *		 must set the V4L2_SUBDEV_FL_STREAMS flag.
+> 
+> Could we set the flag in the core when this op exists for a sub-device?
 
-> 
-> For e.g. If I use below compatible :
-> "img,e5010-jpeg-enc", "img,e5010-jpeg-enc"
-> 
-> and run dtbs_check, it throw below error  :
-> 
-> make CHECK_DTBS=y DT_SCHEMA_FILES=media/img,e5010-jpeg-enc.yaml 
-> ti/k3-am62a7-sk.dtb
->    LINT    Documentation/devicetree/bindings
->    CHKDT   Documentation/devicetree/bindings/processed-schema.json
->    SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->    DTC_CHK arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
-> /home/devarsht/ti/linux-next2/linux-next/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: 
-> jpeg-encoder@fd20000: compatible: 'oneOf' conditional failed, one must 
-> be fixed:
->          ['img,e5010-jpeg-enc', 'img,e5010-jpeg-enc'] is too long
->          'ti,am62a-jpeg-enc' was expected
->          From schema: 
-> /home/devarsht/ti/linux-next2/linux-next/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-> 
-> 
-> Similarly, if I use below compatible :
-> 
-> "ti,am62a-jpeg-enc",
-> It throw below error :
-> 
-> make CHECK_DTBS=y DT_SCHEMA_FILES=media/img,e5010-jpeg-enc.yaml 
-> ti/k3-am62a7-sk.dtb
->    DTC_CHK arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
-> /home/devarsht/ti/linux-next2/linux-next/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: 
-> jpeg-encoder@fd20000: compatible: 'oneOf' conditional failed, one must 
-> be fixed:
->          ['ti,am62a-jpeg-enc'] is too short
->          'img,e5010-jpeg-enc' was expected
->          From schema: 
-> /home/devarsht/ti/linux-next2/linux-next/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-> 
-> 
-> But If I use either 1) or 2) it does not throw any error.
-> Please let me know if I missed to understand your point.
+That won't work in all cases, as a driver could expose immutable routes
+by creating them in the .init_cfg() function, without implementing
+.set_routing().
 
-Yes, you are right, sorry for that.
+Another option would be to check if the drivers has created routes after
+the .init_cfg() called (indirectly) from v4l2_subdev_init_finalize(). It
+may be a bit fragile though.
 
-However it still should be "ti,am62a-jpeg-enc", not ti,e5010...
+> We could do similarly for events when the sub-device has a control handler.
 
+A subdev could generate non-control events too. In most cases I suppose
+it would still create a control handler, but I don't think we should
+require that.
 
-Best regards,
-Krzysztof
+> The device node should probably exist in almost all cases, but I'm not sure
+> right now whether there is a reasonable test for it.
 
+-- 
+Regards,
+
+Laurent Pinchart
