@@ -2,74 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B60ED781E76
-	for <lists+linux-media@lfdr.de>; Sun, 20 Aug 2023 17:14:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26616781EE1
+	for <lists+linux-media@lfdr.de>; Sun, 20 Aug 2023 18:51:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231318AbjHTPOz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Aug 2023 11:14:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47712 "EHLO
+        id S231433AbjHTQvE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Aug 2023 12:51:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231299AbjHTPOx (ORCPT
+        with ESMTP id S231367AbjHTQvD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Aug 2023 11:14:53 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 865CBCC
-        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 08:10:01 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fe21e7f3d1so3790696e87.3
-        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 08:10:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692544200; x=1693149000;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=C/tRUC8o70zTo7ztx9pTnEl2IxdkZBQc175QcFtoSWM=;
-        b=RnZUt6u04efuH9cwiMQsb82oix7nhrjL6to2XaltDvKBVtiuCjNKr6GYQfbGflJ1kd
-         5okq+pwRrTZfenWyE0y/h2GYPJeGzcgqugYYgrDVPrzEJbs+fIOEaGxR2FrJ1V/cgrZl
-         9zSsZ4br07XKZLPZd6f3PgIg/MRKEdpojpyAkEyTlpdSv0nId8jFgyBAHKvscyULrWkD
-         zjZunYdiyky9m4/zQmBGRTR0zRopm+mkre1/YVAPwYgX+d8+LxyvPQ2G5ZXUC5hTmWsx
-         1qylIucYhZVxlcRS/31vTA5GD6lS2av1HYLnTxrFAhaZ5qMhzb7BWNsArXei6g/25iQF
-         +vGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692544200; x=1693149000;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C/tRUC8o70zTo7ztx9pTnEl2IxdkZBQc175QcFtoSWM=;
-        b=d4KZe4BpqYGiMGbOb7x10M9fOvRoVabTysJ5ufD+3qHWfgEawfPIR3gQ9RRkmhb4wr
-         2C5bW3/8/GFJjm2G0rToSJl3g5bGN7SvDcUngF26ypq/A19lk9MfJF5llJ4lsnKDxrp6
-         uOUgTbIaEJumI+NRhr6CMmEOotLF7gw2wKwFNpJpZgAsE2wT5Dp2tlrS8EbkGyM0ADF6
-         Iig6iXAqQtSBipUUgBfVkaXFpqtITc6aKGdh4EvDhDBLbpk8Kg3iXF+GUc5Z6eTlq+cE
-         PhWJOBdxpelWQLApchlfREpc1+iZj3otuF1Nqwap72i+iHl6HkXA97hGYWmuBcxl4FVh
-         Ie9Q==
-X-Gm-Message-State: AOJu0Yx277Utx9itHOZ2VbtOZmErMlgcEjRvR+35q1rA4IJG9lD2CZ4q
-        0tHy8rTF8bIn8J6MNNGnHrE=
-X-Google-Smtp-Source: AGHT+IGJYUgTHc1lgtCDYW3WxcEuH5W/28CF3gQguAHEHYjY03pyS5w04fJVwITp7DdoCvyTYeWzvA==
-X-Received: by 2002:a05:6512:785:b0:4fd:d7ac:2654 with SMTP id x5-20020a056512078500b004fdd7ac2654mr2275300lfr.13.1692544199408;
-        Sun, 20 Aug 2023 08:09:59 -0700 (PDT)
-Received: from [192.168.1.70] ([87.52.106.165])
-        by smtp.gmail.com with ESMTPSA id q16-20020ac25290000000b004fe1448873asm1284879lfm.27.2023.08.20.08.09.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Aug 2023 08:09:58 -0700 (PDT)
-Message-ID: <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
-Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
-From:   Claus Stovgaard <claus.stovgaard@gmail.com>
-To:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
-        hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com
-Date:   Sun, 20 Aug 2023 17:09:57 +0200
-In-Reply-To: <20230727071558.1148653-1-bingbu.cao@intel.com>
-References: <20230727071558.1148653-1-bingbu.cao@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.3 
+        Sun, 20 Aug 2023 12:51:03 -0400
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A462E173B;
+        Sun, 20 Aug 2023 09:46:59 -0700 (PDT)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37KGkfk9048852;
+        Sun, 20 Aug 2023 11:46:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1692550001;
+        bh=2kROfmY1msGl4GhSS7OfoK4UTRl+GDFpbHoIjtfiL3g=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=erISbEc2JYvvKelclTGUYdtnY/DbSfGwD7wSB91i8xPtImfHEk8n7ydezRSnpsaJa
+         e6CFxFBsynRyY0TMe953D3S07SKsaFO8ORLGnZexOANJP88YEScmjfRh9tbJ8QY1q5
+         965b9oWc+us0+uQfSRN+o/F+Uxbn1U8vYukLWXh8=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37KGkfVt012306
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sun, 20 Aug 2023 11:46:41 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 20
+ Aug 2023 11:46:40 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Sun, 20 Aug 2023 11:46:40 -0500
+Received: from [10.0.2.15] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37KGkKIn025642;
+        Sun, 20 Aug 2023 11:46:21 -0500
+Message-ID: <530306bc-174e-c75d-40c5-6fa42d69af31@ti.com>
+Date:   Sun, 20 Aug 2023 22:16:12 +0530
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add bindings for Imagination
+ E5010 JPEG Encoder driver
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <mchehab@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <laurent.pinchart@ideasonboard.com>, <eugen.hristev@collabora.com>,
+        <ezequiel@vanguardiasur.com.ar>, <u.kleine-koenig@pengutronix.de>,
+        <sakari.ailus@linux.intel.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>
+References: <20230816152210.4080779-1-devarsht@ti.com>
+ <20230816152210.4080779-2-devarsht@ti.com>
+ <7a9bcd78-b544-524c-e944-5fbb0c60e600@linaro.org>
+From:   Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <7a9bcd78-b544-524c-e944-5fbb0c60e600@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-8.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,75 +77,159 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2023-07-27 at 15:15 +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
->=20
-> This patch series adds a driver for Intel IPU6 input system.
-> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
-> device which can be found in some Intel Client Platforms. User can
-> use
-> IPU6 to capture images from MIPI camera sensors.
->=20
->=20
+Hi Krzysztof,
 
-Hello Bingbu.
+Thanks for the review.
 
-First thanks for your work in upstreaming the IPU6 isys driver, and the
-updates with v1 of the patch series.
+On 19/08/23 19:30, Krzysztof Kozlowski wrote:
+> On 16/08/2023 17:22, Devarsh Thakkar wrote:
+>> Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
+>> implemented as stateful V4L2 M2M driver.
+>>
+>> Co-developed-by: David Huang <d-huang@ti.com>
+>> Signed-off-by: David Huang <d-huang@ti.com>
+>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+>> ---
+>> V2: No change
+>> V3:
+>> - Add vendor specific compatible
+>> - Fix commit title and message
+>> - Update reg names
+>> - Update clocks to 1
+>> - Fix dts example with proper naming
+> 
+> I do not see improvements in the subject.
+> 
 
-I am trying to test it on a Dell XPS 9320 (0AF3) laptop
+Sorry, Will correct in v4.
 
-First - The patch series does not apply cleanly on linus 6.5-rc6, nor
-the linux-media master.
+>>
+>>   .../bindings/media/img,e5010-jpeg-enc.yaml    | 81 +++++++++++++++++++
+>>   MAINTAINERS                                   |  5 ++
+>>   2 files changed, 86 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>> new file mode 100644
+>> index 000000000000..d105a71ee2ea
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+>> @@ -0,0 +1,81 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Imagination E5010 JPEG Encoder
+>> +
+>> +maintainers:
+>> +  - Devarsh Thakkar <devarsht@ti.com>
+>> +
+>> +description: |
+>> +  The E5010 is a JPEG encoder from Imagination Technologies implemented on
+>> +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
+>> +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
+>> +  8Kx8K resolution.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    oneOf:
+>> +      - items:
+>> +          - const: ti,e5010-jpeg-enc
+> 
+> TI did not make e5010. Use SoC-based compatible.
+> 
+>> +          - const: img,e5010-jpeg-enc
+>> +      - const: img,e5010-jpeg-enc
+> 
+> img,e5010-jpeg-enc cannot be compatible with img,e5010-jpeg-enc. It does
+> not make sense. I guess I did not expect you are going to use what you
+> wrote in v1 directly... I thought it is just about syntax.
+> 
 
-For v6.5-rc6 I have an issue with
+Sorry but I did not understand this fully, the possible compatibles are:
 
-Patch failed at 0012 media: add Kconfig and Makefile for IPU6
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
-error: drivers/media/pci/intel/Kconfig: does not exist in index
-error: patch failed: drivers/media/pci/intel/Makefile:4
-error: drivers/media/pci/intel/Makefile: patch does not apply
+1) "ti,am62a-jpeg-enc", "img,e5010-jpeg-enc"
+or
+2)  "img,e5010-jpeg-enc"
 
-For linux media it fails after commit=20
-https://git.linuxtv.org/media_tree.git/commit/?id=3Ddd61c2a3800371665172149=
-57790a1486ae5d348
-media: mediatek: vcodec: Consider vdecsys presence in reg range check
+anything else will not comply during dtbs_check as shown below :
 
-As next commit is
-https://git.linuxtv.org/media_tree.git/commit/?id=3Dbda8953e8c3e7ecbbf6cb1b=
-e11790496300e3961
-media: v4l: async: Drop v4l2_async_nf_parse_fwnode_endpoints()
+For e.g. If I use below compatible :
+"img,e5010-jpeg-enc", "img,e5010-jpeg-enc"
 
-It fails on the v4l parts, and of cause the newer commits regarding
-v4l: async in the linux-media master branch. So the IPU6 patch series
-need a refresh to fit the linux-media.
+and run dtbs_check, it throw below error  :
 
-I did a custom branch from linus tag v6.5-rc5 with the commits from
-linux-media up to the "Drop v4l2_async_nf_parse_fwnode_endpoints()" and
-then applied the IPU6 patches on top.
-https://github.com/frosteyes/linux/tree/fe/v6.5-rc5/media_test
+make CHECK_DTBS=y DT_SCHEMA_FILES=media/img,e5010-jpeg-enc.yaml 
+ti/k3-am62a7-sk.dtb
+   LINT    Documentation/devicetree/bindings
+   CHKDT   Documentation/devicetree/bindings/processed-schema.json
+   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+   DTC_CHK arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
+/home/devarsht/ti/linux-next2/linux-next/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: 
+jpeg-encoder@fd20000: compatible: 'oneOf' conditional failed, one must 
+be fixed:
+         ['img,e5010-jpeg-enc', 'img,e5010-jpeg-enc'] is too long
+         'ti,am62a-jpeg-enc' was expected
+         From schema: 
+/home/devarsht/ti/linux-next2/linux-next/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
 
-With this I am able to load the IPU6 modules, but I have problems with
-the sensor.
 
-The sensor module is loaded - named ov01a10 but the probe function is
-not run - as far as I can see
+Similarly, if I use below compatible :
 
-Also in /sys/kernel/debug/v4l2-async/pending_async_subdevices I have it
-as pending
+"ti,am62a-jpeg-enc",
+It throw below error :
 
-ipu6:
- [fwnode] dev=3Dnil, node=3D\_SB.PC00.LNK1
+make CHECK_DTBS=y DT_SCHEMA_FILES=media/img,e5010-jpeg-enc.yaml 
+ti/k3-am62a7-sk.dtb
+   DTC_CHK arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
+/home/devarsht/ti/linux-next2/linux-next/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: 
+jpeg-encoder@fd20000: compatible: 'oneOf' conditional failed, one must 
+be fixed:
+         ['ti,am62a-jpeg-enc'] is too short
+         'img,e5010-jpeg-enc' was expected
+         From schema: 
+/home/devarsht/ti/linux-next2/linux-next/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
 
-Looking at the /sys/bus/acpi/devices I can see the sensor device with a
-status of 15 (cat OVTI01A0\:00/status)
 
-Will continue investigating, but I would like any input in getting the
-driver up an running and testing on this Dell laptop. I think it should
-be very close to working.
+But If I use either 1) or 2) it does not throw any error.
+Please let me know if I missed to understand your point.
+
+>> +
+>> +  reg:
+>> +    items:
+>> +      - description: The E5010 core register region
+>> +      - description: The E5010 mmu register region
+>> +
+>> +  reg-names:
+>> +    items:
+>> +      - const: core
+>> +      - const: mmu
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: core_clk
+> 
+> Drop _clk or even drop clock-names. It brings little benefit for
+> one-entry list.
+> 
+
+Agreed, will drop clock-names altogether.
 
 Regards
-Claus Stovgaaard
+Devarsh
 
+> 
+> Best regards,
+> Krzysztof
+> 
