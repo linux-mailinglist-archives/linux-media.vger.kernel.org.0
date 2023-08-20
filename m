@@ -2,74 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26616781EE1
-	for <lists+linux-media@lfdr.de>; Sun, 20 Aug 2023 18:51:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A61781F10
+	for <lists+linux-media@lfdr.de>; Sun, 20 Aug 2023 19:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231433AbjHTQvE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Aug 2023 12:51:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45906 "EHLO
+        id S231523AbjHTRlt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Aug 2023 13:41:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231367AbjHTQvD (ORCPT
+        with ESMTP id S231522AbjHTRlr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Aug 2023 12:51:03 -0400
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A462E173B;
-        Sun, 20 Aug 2023 09:46:59 -0700 (PDT)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37KGkfk9048852;
-        Sun, 20 Aug 2023 11:46:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1692550001;
-        bh=2kROfmY1msGl4GhSS7OfoK4UTRl+GDFpbHoIjtfiL3g=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To;
-        b=erISbEc2JYvvKelclTGUYdtnY/DbSfGwD7wSB91i8xPtImfHEk8n7ydezRSnpsaJa
-         e6CFxFBsynRyY0TMe953D3S07SKsaFO8ORLGnZexOANJP88YEScmjfRh9tbJ8QY1q5
-         965b9oWc+us0+uQfSRN+o/F+Uxbn1U8vYukLWXh8=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37KGkfVt012306
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 20 Aug 2023 11:46:41 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 20
- Aug 2023 11:46:40 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sun, 20 Aug 2023 11:46:40 -0500
-Received: from [10.0.2.15] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37KGkKIn025642;
-        Sun, 20 Aug 2023 11:46:21 -0500
-Message-ID: <530306bc-174e-c75d-40c5-6fa42d69af31@ti.com>
-Date:   Sun, 20 Aug 2023 22:16:12 +0530
+        Sun, 20 Aug 2023 13:41:47 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647FD422D;
+        Sun, 20 Aug 2023 10:38:47 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4ffa248263cso3860045e87.2;
+        Sun, 20 Aug 2023 10:38:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692553125; x=1693157925;
+        h=in-reply-to:content-disposition:mime-version:mail-followup-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rIr7RBh4/ml00M/dYodkytiKu3g9NjluUKtt0N6VKJM=;
+        b=Fo0k1/S6GFD849p84Y8bd3daQpb0QyUebtOE3cSC5EOtxd6K6jxH6kQk4jme0XpceI
+         lmQJGh0SZobwKQzqfJmuiozO+UQIi4ytjbfJYUDsz3g0p1hWBbKMZwGVHVRY+9NzQ6l6
+         WJM19T6vAOr0bs1GhZQkpnMOZlt0j9A1UZlkVcORpk1UijBW4rXhD5rV0g+peA13NLKt
+         qvHqVYpZnKzNPBr2s+K6RTk8C89rQQu7P3rErQ8Mj1xE42qQQP9OZQhtLxCjcx8Yyu8r
+         lNr9/WbQsDH6oJZnoL0ecHeL4EdriaYDa8R32RrWQfs9enamqtKUok/YzPUdiIw+pnVo
+         zJjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692553125; x=1693157925;
+        h=in-reply-to:content-disposition:mime-version:mail-followup-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rIr7RBh4/ml00M/dYodkytiKu3g9NjluUKtt0N6VKJM=;
+        b=YWb8k/dO5Z7eBsNnKEcLhMEwElB0MzMZo+O89XtXHBVFv/85qGUoOlRIhB4vwM3bUj
+         lvPaXOqRRMBSw21hK2PttS4NUHvXEmjDBPJC90QeCPCsneI9XIE+DOOiPaPgT4YnU0qs
+         tWODYqTeT2elu5xghTpvEwEK5cJ5W646G92p+jhNVK7023d5NkL6m04zw/fRDKHheErt
+         1BpY7YP7fhGyav7d7fxAe79mrSeDJ8sUKLKvjVJ97Q0bc2hoDRx9r95gGSqr77MK+EKF
+         US9xYfvjqDtldTz2NsLZxFUeXMXyEkfwPKSFXhjUhQ5Jv24bMe+562CIYVbKOy2EgHnR
+         hTSg==
+X-Gm-Message-State: AOJu0YyzHBaXN0DvjNRFrVy52wIaF/REN9hTlZWTmcm0vImpS5pEXzpb
+        1FcrmEPxHCYkiA94hp6vWk0=
+X-Google-Smtp-Source: AGHT+IEY+jK9VXQeo68jFfmbeLhhcDVJjqoZoQ6pD+nmHMqQhVZcjPtHV+pjhmzyE/uM0tTzSYGkEQ==
+X-Received: by 2002:ac2:5dc9:0:b0:4fb:7b4c:d38c with SMTP id x9-20020ac25dc9000000b004fb7b4cd38cmr2367546lfq.60.1692553125261;
+        Sun, 20 Aug 2023 10:38:45 -0700 (PDT)
+Received: from localhost ([2a05:3580:f312:6c00:826c:ae47:61a7:8af8])
+        by smtp.gmail.com with ESMTPSA id a11-20020a056512020b00b004fdbb36a677sm1326832lfo.288.2023.08.20.10.38.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Aug 2023 10:38:44 -0700 (PDT)
+Date:   Sun, 20 Aug 2023 20:38:44 +0300
+From:   Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To:     Alain Volmat <alain.volmat@foss.st.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, icenowy@aosc.xyz, martijn@brixit.nl,
+        megous@megous.com, kernel list <linux-kernel@vger.kernel.org>,
+        phone-devel@vger.kernel.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, megi@xff.cz
+Subject: Re: gc2145 camera driver (front camera on PinePhone)
+Message-ID: <ZOJPpBoiC92VsOV+@skv.local>
+Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Pavel Machek <pavel@ucw.cz>, icenowy@aosc.xyz, martijn@brixit.nl,
+        megous@megous.com, kernel list <linux-kernel@vger.kernel.org>,
+        phone-devel@vger.kernel.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, megi@xff.cz
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add bindings for Imagination
- E5010 JPEG Encoder driver
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <mchehab@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <laurent.pinchart@ideasonboard.com>, <eugen.hristev@collabora.com>,
-        <ezequiel@vanguardiasur.com.ar>, <u.kleine-koenig@pengutronix.de>,
-        <sakari.ailus@linux.intel.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>
-References: <20230816152210.4080779-1-devarsht@ti.com>
- <20230816152210.4080779-2-devarsht@ti.com>
- <7a9bcd78-b544-524c-e944-5fbb0c60e600@linaro.org>
-From:   Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <7a9bcd78-b544-524c-e944-5fbb0c60e600@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-8.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y6tGfxrq/Mh1JoA9@duo.ucw.cz>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,159 +79,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+Hi Alain,
 
-Thanks for the review.
-
-On 19/08/23 19:30, Krzysztof Kozlowski wrote:
-> On 16/08/2023 17:22, Devarsh Thakkar wrote:
->> Add dt-bindings for Imagination E5010 JPEG Encoder driver which is
->> implemented as stateful V4L2 M2M driver.
->>
->> Co-developed-by: David Huang <d-huang@ti.com>
->> Signed-off-by: David Huang <d-huang@ti.com>
->> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->> ---
->> V2: No change
->> V3:
->> - Add vendor specific compatible
->> - Fix commit title and message
->> - Update reg names
->> - Update clocks to 1
->> - Fix dts example with proper naming
+> we are also using the GC2145 sensor but in a CSI based environment.
 > 
-> I do not see improvements in the subject.
+> We are in contact with GalaxyCore and following discussions we had with them
+> and data they provided us with, we've made a driver for that, supporting for
+> the time being 3 different resolutions via the CSI interface.
 > 
-
-Sorry, Will correct in v4.
-
->>
->>   .../bindings/media/img,e5010-jpeg-enc.yaml    | 81 +++++++++++++++++++
->>   MAINTAINERS                                   |  5 ++
->>   2 files changed, 86 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->> new file mode 100644
->> index 000000000000..d105a71ee2ea
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
->> @@ -0,0 +1,81 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Imagination E5010 JPEG Encoder
->> +
->> +maintainers:
->> +  - Devarsh Thakkar <devarsht@ti.com>
->> +
->> +description: |
->> +  The E5010 is a JPEG encoder from Imagination Technologies implemented on
->> +  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
->> +  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
->> +  8Kx8K resolution.
->> +
->> +properties:
->> +  compatible:
->> +    oneOf:
->> +      - items:
->> +          - const: ti,e5010-jpeg-enc
+> The driver is available on the STMicroelectronics STM32 github [1].
 > 
-> TI did not make e5010. Use SoC-based compatible.
+> If you are ok with that, we could go further upstreaming it while testing/adding
+> features necessary for the PinePhone.
 > 
->> +          - const: img,e5010-jpeg-enc
->> +      - const: img,e5010-jpeg-enc
-> 
-> img,e5010-jpeg-enc cannot be compatible with img,e5010-jpeg-enc. It does
-> not make sense. I guess I did not expect you are going to use what you
-> wrote in v1 directly... I thought it is just about syntax.
-> 
+> [1] https://github.com/STMicroelectronics/linux/blob/v5.15-stm32mp/drivers/media/i2c/gc2145.c
 
-Sorry but I did not understand this fully, the possible compatibles are:
+I've implemented basic parallel bus support to check your driver [1] on
+the PinePhone. My changes are here [2].
+With your driver results are much better in compare to Megi's
+driver (I'm still glad, that Megi has written one). See pictures for
+comparison here [3]. Access to vendor support and (probably)
+documentation gives great results.
 
-1) "ti,am62a-jpeg-enc", "img,e5010-jpeg-enc"
-or
-2)  "img,e5010-jpeg-enc"
+I'd recommend to replace more of hard-coded parts of initialization
+sequences with functions like in proposed Megi's driver. So this will
+be clearer what different register values mean. Since you have access
+to support channel/documentation it'd be easier for you to do.
 
-anything else will not comply during dtbs_check as shown below :
+It'd be nice to have at least some gc2145 driver in mainline. Do you
+still have plans/time to mainline driver?
 
-For e.g. If I use below compatible :
-"img,e5010-jpeg-enc", "img,e5010-jpeg-enc"
+P.S.
+Alain, I don't see your address in the list of recipients of last Pavel's
+response. In case you have not received it, it's here [4].
 
-and run dtbs_check, it throw below error  :
-
-make CHECK_DTBS=y DT_SCHEMA_FILES=media/img,e5010-jpeg-enc.yaml 
-ti/k3-am62a7-sk.dtb
-   LINT    Documentation/devicetree/bindings
-   CHKDT   Documentation/devicetree/bindings/processed-schema.json
-   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
-   DTC_CHK arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
-/home/devarsht/ti/linux-next2/linux-next/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: 
-jpeg-encoder@fd20000: compatible: 'oneOf' conditional failed, one must 
-be fixed:
-         ['img,e5010-jpeg-enc', 'img,e5010-jpeg-enc'] is too long
-         'ti,am62a-jpeg-enc' was expected
-         From schema: 
-/home/devarsht/ti/linux-next2/linux-next/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-
-
-Similarly, if I use below compatible :
-
-"ti,am62a-jpeg-enc",
-It throw below error :
-
-make CHECK_DTBS=y DT_SCHEMA_FILES=media/img,e5010-jpeg-enc.yaml 
-ti/k3-am62a7-sk.dtb
-   DTC_CHK arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
-/home/devarsht/ti/linux-next2/linux-next/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: 
-jpeg-encoder@fd20000: compatible: 'oneOf' conditional failed, one must 
-be fixed:
-         ['ti,am62a-jpeg-enc'] is too short
-         'img,e5010-jpeg-enc' was expected
-         From schema: 
-/home/devarsht/ti/linux-next2/linux-next/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-
-
-But If I use either 1) or 2) it does not throw any error.
-Please let me know if I missed to understand your point.
-
->> +
->> +  reg:
->> +    items:
->> +      - description: The E5010 core register region
->> +      - description: The E5010 mmu register region
->> +
->> +  reg-names:
->> +    items:
->> +      - const: core
->> +      - const: mmu
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    items:
->> +      - const: core_clk
-> 
-> Drop _clk or even drop clock-names. It brings little benefit for
-> one-entry list.
-> 
-
-Agreed, will drop clock-names altogether.
-
-Regards
-Devarsh
-
-> 
-> Best regards,
-> Krzysztof
-> 
+1. https://github.com/STMicroelectronics/linux/blob/v6.1-stm32mp/drivers/media/i2c/gc2145.c
+2. https://github.com/AndreySV/linux/commit/f06ff60eb7a664dcafa8d40901a1ab0f59071529
+3. https://github.com/AndreySV/linux/issues/1
+4. https://lwn.net/ml/linux-kernel/Y6tGfxrq/Mh1JoA9@duo.ucw.cz
+-- 
+Best regards,
+Andrey Skvortsov
