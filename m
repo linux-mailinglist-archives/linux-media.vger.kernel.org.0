@@ -2,121 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20A61781F10
-	for <lists+linux-media@lfdr.de>; Sun, 20 Aug 2023 19:41:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F7A6781FB6
+	for <lists+linux-media@lfdr.de>; Sun, 20 Aug 2023 22:28:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231523AbjHTRlt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Aug 2023 13:41:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53112 "EHLO
+        id S231855AbjHTU2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Aug 2023 16:28:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231522AbjHTRlr (ORCPT
+        with ESMTP id S231849AbjHTU23 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Aug 2023 13:41:47 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647FD422D;
-        Sun, 20 Aug 2023 10:38:47 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4ffa248263cso3860045e87.2;
-        Sun, 20 Aug 2023 10:38:47 -0700 (PDT)
+        Sun, 20 Aug 2023 16:28:29 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48DD1FE9
+        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 13:25:41 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-99c47ef365cso363075766b.0
+        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 13:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692553125; x=1693157925;
-        h=in-reply-to:content-disposition:mime-version:mail-followup-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rIr7RBh4/ml00M/dYodkytiKu3g9NjluUKtt0N6VKJM=;
-        b=Fo0k1/S6GFD849p84Y8bd3daQpb0QyUebtOE3cSC5EOtxd6K6jxH6kQk4jme0XpceI
-         lmQJGh0SZobwKQzqfJmuiozO+UQIi4ytjbfJYUDsz3g0p1hWBbKMZwGVHVRY+9NzQ6l6
-         WJM19T6vAOr0bs1GhZQkpnMOZlt0j9A1UZlkVcORpk1UijBW4rXhD5rV0g+peA13NLKt
-         qvHqVYpZnKzNPBr2s+K6RTk8C89rQQu7P3rErQ8Mj1xE42qQQP9OZQhtLxCjcx8Yyu8r
-         lNr9/WbQsDH6oJZnoL0ecHeL4EdriaYDa8R32RrWQfs9enamqtKUok/YzPUdiIw+pnVo
-         zJjQ==
+        d=linaro.org; s=google; t=1692563140; x=1693167940;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=StjW9zVJDg/it/2Zx4uZor89taRslW2dT/6diASww+4=;
+        b=vci9yDnl+yyQhiHYI3CMfFxQx7T5f94503EtOwkkLJtDvyORUMezQkNjPxBXYG0+c8
+         1tqiwwDupiRkVCzmvK2ATAiqb5p129sMDGXo3OEbhj14bEv6JXvKo7buPP9PHdnbXKVa
+         xHjSlRpiludjqpyp9CpmF+LIKqMrO1XFDmEtQyMQrTxDtVZVorooYOCVOyWpPV1bbMz/
+         THa5ldcxuDMuE3J8E/qVbqKdR2sG+kodhNT4Cc/hfIcFwZhZHRI28t72ieCGLqWkqrko
+         mxkLgshVAhG4kE8ss1j+DQUS0SLDDDRHrrbltYbk6niHWE+lPpqntcTERnZ1QANv0aay
+         mntg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692553125; x=1693157925;
-        h=in-reply-to:content-disposition:mime-version:mail-followup-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rIr7RBh4/ml00M/dYodkytiKu3g9NjluUKtt0N6VKJM=;
-        b=YWb8k/dO5Z7eBsNnKEcLhMEwElB0MzMZo+O89XtXHBVFv/85qGUoOlRIhB4vwM3bUj
-         lvPaXOqRRMBSw21hK2PttS4NUHvXEmjDBPJC90QeCPCsneI9XIE+DOOiPaPgT4YnU0qs
-         tWODYqTeT2elu5xghTpvEwEK5cJ5W646G92p+jhNVK7023d5NkL6m04zw/fRDKHheErt
-         1BpY7YP7fhGyav7d7fxAe79mrSeDJ8sUKLKvjVJ97Q0bc2hoDRx9r95gGSqr77MK+EKF
-         US9xYfvjqDtldTz2NsLZxFUeXMXyEkfwPKSFXhjUhQ5Jv24bMe+562CIYVbKOy2EgHnR
-         hTSg==
-X-Gm-Message-State: AOJu0YyzHBaXN0DvjNRFrVy52wIaF/REN9hTlZWTmcm0vImpS5pEXzpb
-        1FcrmEPxHCYkiA94hp6vWk0=
-X-Google-Smtp-Source: AGHT+IEY+jK9VXQeo68jFfmbeLhhcDVJjqoZoQ6pD+nmHMqQhVZcjPtHV+pjhmzyE/uM0tTzSYGkEQ==
-X-Received: by 2002:ac2:5dc9:0:b0:4fb:7b4c:d38c with SMTP id x9-20020ac25dc9000000b004fb7b4cd38cmr2367546lfq.60.1692553125261;
-        Sun, 20 Aug 2023 10:38:45 -0700 (PDT)
-Received: from localhost ([2a05:3580:f312:6c00:826c:ae47:61a7:8af8])
-        by smtp.gmail.com with ESMTPSA id a11-20020a056512020b00b004fdbb36a677sm1326832lfo.288.2023.08.20.10.38.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Aug 2023 10:38:44 -0700 (PDT)
-Date:   Sun, 20 Aug 2023 20:38:44 +0300
-From:   Andrey Skvortsov <andrej.skvortzov@gmail.com>
-To:     Alain Volmat <alain.volmat@foss.st.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, icenowy@aosc.xyz, martijn@brixit.nl,
-        megous@megous.com, kernel list <linux-kernel@vger.kernel.org>,
-        phone-devel@vger.kernel.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, megi@xff.cz
-Subject: Re: gc2145 camera driver (front camera on PinePhone)
-Message-ID: <ZOJPpBoiC92VsOV+@skv.local>
-Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Pavel Machek <pavel@ucw.cz>, icenowy@aosc.xyz, martijn@brixit.nl,
-        megous@megous.com, kernel list <linux-kernel@vger.kernel.org>,
-        phone-devel@vger.kernel.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, megi@xff.cz
+        d=1e100.net; s=20221208; t=1692563140; x=1693167940;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=StjW9zVJDg/it/2Zx4uZor89taRslW2dT/6diASww+4=;
+        b=D9ctdIc5YCUS7GBUIKGpAX8aOkjEbAWEnu+j6qFRzJhiO+e79fMGmeIUpKiZJl8fVw
+         74w+4TibUSXApqnnFN+mQKwfYUz9pPiIaYrV1vAxbX2AFTYfvyLBiEmXCF3x/kAofdDt
+         4AkYZwNiUl4+6qvRtJSQt1sgp5bdHoP2hpJo2Pgl6iPz2O6qdGWlT+53ojagXj5KOxfN
+         I0/ho7CL5EJtNNhhLBA9Go/Hwaj6kBuC4AbbAK8N8FvA+YASRV5dgSFZzhj4Qpylj5uW
+         yrtx2PdHzekU4keZmH72YV8R3bMIw4cHxOckF5AUT38/ertDIhdF0ph2HR+ZcTOsyiFR
+         iaYA==
+X-Gm-Message-State: AOJu0Yxx1scpdkf1ra2AkfKRFruU+Q3YlF4boU+ELaGNQZAtSgz58tQT
+        VhvLhaww9J0BAc8JL/I/2ebBqX7sNZeNgHhwLsU=
+X-Google-Smtp-Source: AGHT+IG+6nkBP8ESNEiuPFXeg/GVvn41vSGT+I9KbN6KuNmzanEMYwxjP4S2vVKuDBGNIppz79oNiQ==
+X-Received: by 2002:a17:906:23e9:b0:99b:de31:6666 with SMTP id j9-20020a17090623e900b0099bde316666mr3521212ejg.22.1692563140210;
+        Sun, 20 Aug 2023 13:25:40 -0700 (PDT)
+Received: from [192.168.0.22] ([77.252.47.198])
+        by smtp.gmail.com with ESMTPSA id qh10-20020a170906ecaa00b0099caf5bed64sm5211110ejb.57.2023.08.20.13.25.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 20 Aug 2023 13:25:39 -0700 (PDT)
+Message-ID: <879f8bf7-db08-0add-9bff-a56ae07ffc67@linaro.org>
+Date:   Sun, 20 Aug 2023 22:25:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y6tGfxrq/Mh1JoA9@duo.ucw.cz>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add bindings for Imagination
+ E5010 JPEG Encoder driver
+To:     Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, eugen.hristev@collabora.com,
+        ezequiel@vanguardiasur.com.ar, u.kleine-koenig@pengutronix.de,
+        sakari.ailus@linux.intel.com, praneeth@ti.com, nm@ti.com,
+        vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com,
+        b-brnich@ti.com, detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com
+References: <20230816152210.4080779-1-devarsht@ti.com>
+ <20230816152210.4080779-2-devarsht@ti.com>
+ <7a9bcd78-b544-524c-e944-5fbb0c60e600@linaro.org>
+ <530306bc-174e-c75d-40c5-6fa42d69af31@ti.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <530306bc-174e-c75d-40c5-6fa42d69af31@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alain,
-
-> we are also using the GC2145 sensor but in a CSI based environment.
+On 20/08/2023 18:46, Devarsh Thakkar wrote:
+>>> +properties:
+>>> +  compatible:
+>>> +    oneOf:
+>>> +      - items:
+>>> +          - const: ti,e5010-jpeg-enc
+>>
+>> TI did not make e5010. Use SoC-based compatible.
+>>
+>>> +          - const: img,e5010-jpeg-enc
+>>> +      - const: img,e5010-jpeg-enc
+>>
+>> img,e5010-jpeg-enc cannot be compatible with img,e5010-jpeg-enc. It does
+>> not make sense. I guess I did not expect you are going to use what you
+>> wrote in v1 directly... I thought it is just about syntax.
+>>
 > 
-> We are in contact with GalaxyCore and following discussions we had with them
-> and data they provided us with, we've made a driver for that, supporting for
-> the time being 3 different resolutions via the CSI interface.
+> Sorry but I did not understand this fully, the possible compatibles are:
 > 
-> The driver is available on the STMicroelectronics STM32 github [1].
+> 1) "ti,am62a-jpeg-enc", "img,e5010-jpeg-enc"
+> or
+> 2)  "img,e5010-jpeg-enc"
 > 
-> If you are ok with that, we could go further upstreaming it while testing/adding
-> features necessary for the PinePhone.
+> anything else will not comply during dtbs_check as shown below :
+
+Ah, you are right, ENOTENOUGHCOFFEE or some other issue on my side.
+
 > 
-> [1] https://github.com/STMicroelectronics/linux/blob/v5.15-stm32mp/drivers/media/i2c/gc2145.c
+> For e.g. If I use below compatible :
+> "img,e5010-jpeg-enc", "img,e5010-jpeg-enc"
+> 
+> and run dtbs_check, it throw below error  :
+> 
+> make CHECK_DTBS=y DT_SCHEMA_FILES=media/img,e5010-jpeg-enc.yaml 
+> ti/k3-am62a7-sk.dtb
+>    LINT    Documentation/devicetree/bindings
+>    CHKDT   Documentation/devicetree/bindings/processed-schema.json
+>    SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+>    DTC_CHK arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
+> /home/devarsht/ti/linux-next2/linux-next/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: 
+> jpeg-encoder@fd20000: compatible: 'oneOf' conditional failed, one must 
+> be fixed:
+>          ['img,e5010-jpeg-enc', 'img,e5010-jpeg-enc'] is too long
+>          'ti,am62a-jpeg-enc' was expected
+>          From schema: 
+> /home/devarsht/ti/linux-next2/linux-next/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+> 
+> 
+> Similarly, if I use below compatible :
+> 
+> "ti,am62a-jpeg-enc",
+> It throw below error :
+> 
+> make CHECK_DTBS=y DT_SCHEMA_FILES=media/img,e5010-jpeg-enc.yaml 
+> ti/k3-am62a7-sk.dtb
+>    DTC_CHK arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
+> /home/devarsht/ti/linux-next2/linux-next/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: 
+> jpeg-encoder@fd20000: compatible: 'oneOf' conditional failed, one must 
+> be fixed:
+>          ['ti,am62a-jpeg-enc'] is too short
+>          'img,e5010-jpeg-enc' was expected
+>          From schema: 
+> /home/devarsht/ti/linux-next2/linux-next/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+> 
+> 
+> But If I use either 1) or 2) it does not throw any error.
+> Please let me know if I missed to understand your point.
 
-I've implemented basic parallel bus support to check your driver [1] on
-the PinePhone. My changes are here [2].
-With your driver results are much better in compare to Megi's
-driver (I'm still glad, that Megi has written one). See pictures for
-comparison here [3]. Access to vendor support and (probably)
-documentation gives great results.
+Yes, you are right, sorry for that.
 
-I'd recommend to replace more of hard-coded parts of initialization
-sequences with functions like in proposed Megi's driver. So this will
-be clearer what different register values mean. Since you have access
-to support channel/documentation it'd be easier for you to do.
+However it still should be "ti,am62a-jpeg-enc", not ti,e5010...
 
-It'd be nice to have at least some gc2145 driver in mainline. Do you
-still have plans/time to mainline driver?
 
-P.S.
-Alain, I don't see your address in the list of recipients of last Pavel's
-response. In case you have not received it, it's here [4].
-
-1. https://github.com/STMicroelectronics/linux/blob/v6.1-stm32mp/drivers/media/i2c/gc2145.c
-2. https://github.com/AndreySV/linux/commit/f06ff60eb7a664dcafa8d40901a1ab0f59071529
-3. https://github.com/AndreySV/linux/issues/1
-4. https://lwn.net/ml/linux-kernel/Y6tGfxrq/Mh1JoA9@duo.ucw.cz
--- 
 Best regards,
-Andrey Skvortsov
+Krzysztof
+
