@@ -2,101 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F71D7820AB
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 00:56:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB7827821C5
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 05:17:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232087AbjHTW4A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Aug 2023 18:56:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35088 "EHLO
+        id S232614AbjHUDRs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Aug 2023 23:17:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230445AbjHTWz7 (ORCPT
+        with ESMTP id S232603AbjHUDRr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Aug 2023 18:55:59 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34630A2
-        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 15:55:58 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B90B3FA2;
-        Mon, 21 Aug 2023 00:54:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692572081;
-        bh=PYDC7FhQJ70s9+YCdKH8lElXaVYhQlPnRYBddCcP4F0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LY7RNC58goh45TNR1kuJgg9ElOerX8K/hex1NftdMhWT1o404OQ13ZfxUuCcWd2z3
-         dBgFDGdSfyVakUege3q/0PXxKgzSacEGw9AZ6gUyLhCz55ru7Yln05O71Fos7p/Anb
-         tlKZo3a3bIlxQ69zX6SAopZzDaS9OyHQo8yhnOVk=
-Date:   Mon, 21 Aug 2023 01:56:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] media: v4l2-subdev: Document that routing support
- depends on streams
-Message-ID: <20230820225604.GB10135@pendragon.ideasonboard.com>
-References: <20230818155518.440-1-laurent.pinchart@ideasonboard.com>
- <ZN+Z4aYPNp+ymIw6@valkosipuli.retiisi.eu>
+        Sun, 20 Aug 2023 23:17:47 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF389C
+        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 20:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692587865; x=1724123865;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=3bClO7m6XPtzYpBnOgLtY0G3urlr3dZBjbwYe6BWqyk=;
+  b=nEz/ZcERG0hwIudichP12kW51JAzzHAuCBtnI2rLWoTUB93rFwzK98KR
+   6HOMdRzdn90bW+wqg4oEcM/yZOuUzQxV/OdC9p1uBS4h3L5jLkDA7Xr+r
+   2X4Mk7F6KVJ2ifZBgLOpxJGTopogFbAKiPp3FfT/K0Lsc+2BVFy4rAyF+
+   nnh96eCgvx/tEQf/xiT6TWVJzO9YLX2lYzG6+hVkoyIUL+ydzQVxpznQ3
+   gQDaCFxSrJrCPRUv5T9ZrkjVIxR9mhVzOksDvIO2C3YA0QKb5Tz1+0Gq8
+   yeWyDNelwqWIRj+wRte5vcK0faayzTxTW9Wiy492zSd+d8bJKnoGjoJxL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="372383672"
+X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
+   d="scan'208";a="372383672"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2023 20:17:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="685516425"
+X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
+   d="scan'208";a="685516425"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
+  by orsmga003.jf.intel.com with ESMTP; 20 Aug 2023 20:17:39 -0700
+Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
+To:     Claus Stovgaard <claus.stovgaard@gmail.com>, bingbu.cao@intel.com,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com
+Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
+        hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+References: <20230727071558.1148653-1-bingbu.cao@intel.com>
+ <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
+Date:   Mon, 21 Aug 2023 11:14:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZN+Z4aYPNp+ymIw6@valkosipuli.retiisi.eu>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi, Claus,
 
-On Fri, Aug 18, 2023 at 04:18:41PM +0000, Sakari Ailus wrote:
-> On Fri, Aug 18, 2023 at 06:55:18PM +0300, Laurent Pinchart wrote:
-> > Routing support, through the subdev .set_routing() operation, requires
-> > the subdev to support streams. This is however not clearly documented
-> > anywhere. Fix it by expanding the operation's documentation to indicate
-> > that subdevs must set the V4L2_SUBDEV_FL_STREAMS flag.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  include/media/v4l2-subdev.h | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index b325df0d54d6..0b04ed1994b6 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -822,8 +822,9 @@ struct v4l2_subdev_state {
-> >   *		     operation shall fail if the pad index it has been called on
-> >   *		     is not valid or in case of unrecoverable failures.
-> >   *
-> > - * @set_routing: enable or disable data connection routes described in the
-> > - *		 subdevice routing table.
-> > + * @set_routing: Enable or disable data connection routes described in the
-> > + *		 subdevice routing table. Subdevs that implement this operation
-> > + *		 must set the V4L2_SUBDEV_FL_STREAMS flag.
+Thanks for your mail.
+
+On 8/20/23 11:09 PM, Claus Stovgaard wrote:
+> On Thu, 2023-07-27 at 15:15 +0800, bingbu.cao@intel.com wrote:
+>> From: Bingbu Cao <bingbu.cao@intel.com>
+>>
+>> This patch series adds a driver for Intel IPU6 input system.
+>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
+>> device which can be found in some Intel Client Platforms. User can
+>> use
+>> IPU6 to capture images from MIPI camera sensors.
+>>
+>>
 > 
-> Could we set the flag in the core when this op exists for a sub-device?
+> Hello Bingbu.
+> 
+> First thanks for your work in upstreaming the IPU6 isys driver, and the
+> updates with v1 of the patch series.
+> 
+> I am trying to test it on a Dell XPS 9320 (0AF3) laptop
+> 
+> First - The patch series does not apply cleanly on linus 6.5-rc6, nor
+> the linux-media master.
 
-That won't work in all cases, as a driver could expose immutable routes
-by creating them in the .init_cfg() function, without implementing
-.set_routing().
+I think it is caused by some media changes was queued after I send
+this patch - such as ipu-bridge, ivsc, v4l2-async, etc. So it
+needs some rebase work.
 
-Another option would be to check if the drivers has created routes after
-the .init_cfg() called (indirectly) from v4l2_subdev_init_finalize(). It
-may be a bit fragile though.
+> 
+> For v6.5-rc6 I have an issue with
+> 
+> Patch failed at 0012 media: add Kconfig and Makefile for IPU6
+> When you have resolved this problem, run "git am --continue".
+> If you prefer to skip this patch, run "git am --skip" instead.
+> To restore the original branch and stop patching, run "git am --abort".
+> error: drivers/media/pci/intel/Kconfig: does not exist in index
+> error: patch failed: drivers/media/pci/intel/Makefile:4
+> error: drivers/media/pci/intel/Makefile: patch does not apply
+> 
+> For linux media it fails after commit 
+> https://git.linuxtv.org/media_tree.git/commit/?id=dd61c2a380037166517214957790a1486ae5d348
+> media: mediatek: vcodec: Consider vdecsys presence in reg range check
+> 
+> As next commit is
+> https://git.linuxtv.org/media_tree.git/commit/?id=bda8953e8c3e7ecbbf6cb1be11790496300e3961
+> media: v4l: async: Drop v4l2_async_nf_parse_fwnode_endpoints()
+> 
+> It fails on the v4l parts, and of cause the newer commits regarding
+> v4l: async in the linux-media master branch. So the IPU6 patch series
+> need a refresh to fit the linux-media.
+> 
+> I did a custom branch from linus tag v6.5-rc5 with the commits from
+> linux-media up to the "Drop v4l2_async_nf_parse_fwnode_endpoints()" and
+> then applied the IPU6 patches on top.
+> https://github.com/frosteyes/linux/tree/fe/v6.5-rc5/media_test
+> 
+> With this I am able to load the IPU6 modules, but I have problems with
+> the sensor.
+> 
+> The sensor module is loaded - named ov01a10 but the probe function is
+> not run - as far as I can see
+> 
+> Also in /sys/kernel/debug/v4l2-async/pending_async_subdevices I have it
+> as pending
+> 
+> ipu6:
+>  [fwnode] dev=nil, node=\_SB.PC00.LNK1
+> 
+> Looking at the /sys/bus/acpi/devices I can see the sensor device with a
+> status of 15 (cat OVTI01A0\:00/status)
+> 
+> Will continue investigating, but I would like any input in getting the
+> driver up an running and testing on this Dell laptop. I think it should
+> be very close to working.
 
-> We could do similarly for events when the sub-device has a control handler.
+Do you any failure log for ov01a10?
 
-A subdev could generate non-control events too. In most cases I suppose
-it would still create a control handler, but I don't think we should
-require that.
+For Dell XPS 9320, the camera sensor module has a dependency on Intel
+IVSC driver, so please make sure you have the latest ivsc driver.
+I remember they are already in media tree.
 
-> The device node should probably exist in almost all cases, but I'm not sure
-> right now whether there is a reasonable test for it.
+I will check again with latest IVSC driver, feel free to mail me or
+Wentong Wu meanwhile if you have any problems for camera sensor and
+IVSC.
+
+> 
+> Regards
+> Claus Stovgaaard
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+Bingbu Cao
