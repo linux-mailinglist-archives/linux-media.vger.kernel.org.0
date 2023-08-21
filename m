@@ -2,98 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E5E1782C04
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 16:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5474782C13
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 16:38:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233930AbjHUOg4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 10:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54486 "EHLO
+        id S235993AbjHUOiU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 10:38:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233056AbjHUOgz (ORCPT
+        with ESMTP id S233056AbjHUOiU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 10:36:55 -0400
-Received: from mail.8bytes.org (mail.8bytes.org [IPv6:2a01:238:42d9:3f00:e505:6202:4f0c:f051])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AA649E4;
-        Mon, 21 Aug 2023 07:36:52 -0700 (PDT)
-Received: from 8bytes.org (pd9fe95be.dip0.t-ipconnect.de [217.254.149.190])
+        Mon, 21 Aug 2023 10:38:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2437AE3;
+        Mon, 21 Aug 2023 07:38:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by mail.8bytes.org (Postfix) with ESMTPSA id 4CE0C2819E9;
-        Mon, 21 Aug 2023 16:36:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-        s=default; t=1692628611;
-        bh=+WiTQ5AG7r8y4G1Zww7KAS8SkcWV0o+RqcA6fs2lTPo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cCuzifo9x0D9qOt89G/4/PiqD/F+u4B/70l6IQpdB42jnyWjZAjz6KPgC0KIJ5pot
-         yclZplhO935QvwccMrgOtmFHXq3eiyDLUhMvZiDp7Z1uCnQEBb9DWAMAxasIaPyHYq
-         a4eQTWVPUC2Ofc8zeYGvrhV9slFe/AwBVAzPWiByhFvVRg2Dwo6GYRuq1SDa/M6D2R
-         sY0F1aYmy5lkzE3WB90VPyGeQs8XtRdRd40i7Gqc0UnXnz42dsYsAcZAzCYTfLPIIB
-         IeikCsXnKvSGRsvIQ6KRIPv23/3ONC+w0IGRIkYtlssEYICD4kne0F5md7TvoUKscG
-         Wl6tO+kp8hFKw==
-Date:   Mon, 21 Aug 2023 16:36:49 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>,
-        Andy Gross <agross@kernel.org>,
-        David Airlie <airlied@gmail.com>, alsa-devel@alsa-project.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
-        Mark Brown <broonie@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, devicetree@vger.kernel.org,
-        dmaengine@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
-        etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Frank Rowand <frowand.list@gmail.com>, iommu@lists.linux.dev,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Kalle Valo <kvalo@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sinan Kaya <okaya@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Sean Paul <sean@poorly.run>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH] iommu: Remove the device_lock_assert() from
- __iommu_probe_device()
-Message-ID: <ZON2gRogBhjmpNIl@8bytes.org>
-References: <0-v1-98d20e768c66+7-of_dma_lock_jgg@nvidia.com>
- <78114fd6-9b83-92ba-418f-6cc7bda9df9b@arm.com>
- <ZONdwclGOBaxxqtq@nvidia.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A8D2362D46;
+        Mon, 21 Aug 2023 14:38:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09CBC433C7;
+        Mon, 21 Aug 2023 14:38:13 +0000 (UTC)
+Message-ID: <58c2ee02-153d-c046-f39f-bf39054450d0@xs4all.nl>
+Date:   Mon, 21 Aug 2023 16:38:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZONdwclGOBaxxqtq@nvidia.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v4 04/10] media: verisilicon: Refactor postprocessor to
+ store more buffers
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230705121056.37017-1-benjamin.gaignard@collabora.com>
+ <20230705121056.37017-5-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230705121056.37017-5-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-10.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -101,17 +56,249 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 09:51:13AM -0300, Jason Gunthorpe wrote:
-> So now that Joerg has dropped it - what is your big idea to make the
-> locking actually work right?
+On 05/07/2023 14:10, Benjamin Gaignard wrote:
+> Since vb2 queue can store than VB2_MAX_FRAME buffers postprocessor
+> buffer storage must be capable to store more buffers too.
+> Change static dec_q array to allocated array to be capable to store
+> up to queue 'max_allowed_buffers'.
 
-I am not opposed to the general idea. When putting it into the tree I
-wasn't aware how many users still need to be adapted to properly work
-with this.
+Is there are reason to allocate this dynamically instead of keeping it
+as an array of 64 elements? It takes a bit more memory, but it avoids
+having to allocate extra memory as well.
 
-We can do another try once the issues have been sorted out and you have
-agreed with Robin on a workable way forward.
+And how was the new value of max 64 buffers calculated? What is the
+reasoning behind it?
 
 Regards,
 
-	Joerg
+	Hans
+
+> Keep allocating queue 'num_buffers' at queue setup time but also allows
+> to allocate postprocessors buffers on the fly.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/platform/verisilicon/hantro.h   |   7 +-
+>  .../media/platform/verisilicon/hantro_drv.c   |   4 +-
+>  .../media/platform/verisilicon/hantro_hw.h    |   2 +-
+>  .../platform/verisilicon/hantro_postproc.c    | 103 ++++++++++++++----
+>  .../media/platform/verisilicon/hantro_v4l2.c  |   2 +-
+>  5 files changed, 93 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+> index 2989ebc631cc..c8a3cf10cc64 100644
+> --- a/drivers/media/platform/verisilicon/hantro.h
+> +++ b/drivers/media/platform/verisilicon/hantro.h
+> @@ -461,11 +461,14 @@ hantro_get_dst_buf(struct hantro_ctx *ctx)
+>  bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+>  			   const struct hantro_fmt *fmt);
+>  
+> +dma_addr_t
+> +hantro_postproc_get_dec_buf_addr(struct hantro_ctx *ctx, int index);
+> +
+>  static inline dma_addr_t
+>  hantro_get_dec_buf_addr(struct hantro_ctx *ctx, struct vb2_buffer *vb)
+>  {
+>  	if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+> -		return ctx->postproc.dec_q[vb->index].dma;
+> +		return hantro_postproc_get_dec_buf_addr(ctx, vb->index);
+>  	return vb2_dma_contig_plane_dma_addr(vb, 0);
+>  }
+>  
+> @@ -477,8 +480,8 @@ vb2_to_hantro_decoded_buf(struct vb2_buffer *buf)
+>  
+>  void hantro_postproc_disable(struct hantro_ctx *ctx);
+>  void hantro_postproc_enable(struct hantro_ctx *ctx);
+> +int hantro_postproc_init(struct hantro_ctx *ctx);
+>  void hantro_postproc_free(struct hantro_ctx *ctx);
+> -int hantro_postproc_alloc(struct hantro_ctx *ctx);
+>  int hanto_postproc_enum_framesizes(struct hantro_ctx *ctx,
+>  				   struct v4l2_frmsizeenum *fsize);
+>  
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+> index 09c74a573ddb..d908559817ce 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -234,8 +234,10 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+>  	 * The Kernel needs access to the JPEG destination buffer for the
+>  	 * JPEG encoder to fill in the JPEG headers.
+>  	 */
+> -	if (!ctx->is_encoder)
+> +	if (!ctx->is_encoder) {
+>  		dst_vq->dma_attrs |= DMA_ATTR_NO_KERNEL_MAPPING;
+> +		dst_vq->max_allowed_buffers = 64;
+> +	}
+>  
+>  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+>  	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
+> index e83f0c523a30..6fd6c9d53cec 100644
+> --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> @@ -253,7 +253,7 @@ struct hantro_vp9_dec_hw_ctx {
+>   * @dec_q:		References buffers, in decoder format.
+>   */
+>  struct hantro_postproc_ctx {
+> -	struct hantro_aux_buf dec_q[VB2_MAX_FRAME];
+> +	struct hantro_aux_buf *dec_q;
+>  };
+>  
+>  /**
+> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+> index 6437423ccf3a..9dfe3141a398 100644
+> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+> @@ -173,9 +173,11 @@ static int hantro_postproc_g2_enum_framesizes(struct hantro_ctx *ctx,
+>  void hantro_postproc_free(struct hantro_ctx *ctx)
+>  {
+>  	struct hantro_dev *vpu = ctx->dev;
+> +	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+> +	struct vb2_queue *queue = &m2m_ctx->cap_q_ctx.q;
+>  	unsigned int i;
+>  
+> -	for (i = 0; i < VB2_MAX_FRAME; ++i) {
+> +	for (i = 0; i < queue->max_allowed_buffers; ++i) {
+>  		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
+>  
+>  		if (priv->cpu) {
+> @@ -184,22 +186,21 @@ void hantro_postproc_free(struct hantro_ctx *ctx)
+>  			priv->cpu = NULL;
+>  		}
+>  	}
+> +	kfree(ctx->postproc.dec_q);
+> +	ctx->postproc.dec_q = NULL;
+>  }
+>  
+> -int hantro_postproc_alloc(struct hantro_ctx *ctx)
+> +static unsigned int hantro_postproc_buffer_size(struct hantro_ctx *ctx)
+>  {
+> -	struct hantro_dev *vpu = ctx->dev;
+> -	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+> -	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
+> -	unsigned int num_buffers = cap_queue->num_buffers;
+>  	struct v4l2_pix_format_mplane pix_mp;
+>  	const struct hantro_fmt *fmt;
+> -	unsigned int i, buf_size;
+> +	unsigned int buf_size;
+>  
+>  	/* this should always pick native format */
+>  	fmt = hantro_get_default_fmt(ctx, false, ctx->bit_depth);
+>  	if (!fmt)
+> -		return -EINVAL;
+> +		return 0;
+> +
+>  	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
+>  			    ctx->src_fmt.height);
+>  
+> @@ -214,23 +215,85 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+>  		buf_size += hantro_hevc_mv_size(pix_mp.width,
+>  						pix_mp.height);
+>  
+> -	for (i = 0; i < num_buffers; ++i) {
+> -		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
+> +	return buf_size;
+> +}
+> +
+> +static int hantro_postproc_alloc(struct hantro_ctx *ctx, int index)
+> +{
+> +	struct hantro_dev *vpu = ctx->dev;
+> +	struct hantro_aux_buf *priv = &ctx->postproc.dec_q[index];
+> +	unsigned int buf_size = hantro_postproc_buffer_size(ctx);
+> +
+> +	if (!buf_size)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * The buffers on this queue are meant as intermediate
+> +	 * buffers for the decoder, so no mapping is needed.
+> +	 */
+> +	priv->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+> +	priv->cpu = dma_alloc_attrs(vpu->dev, buf_size, &priv->dma,
+> +				    GFP_KERNEL, priv->attrs);
+> +	if (!priv->cpu)
+> +		return -ENOMEM;
+> +	priv->size = buf_size;
+> +
+> +	return 0;
+> +}
+> +
+> +int hantro_postproc_init(struct hantro_ctx *ctx)
+> +{
+> +	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+> +	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
+> +	unsigned int num_buffers = cap_queue->num_buffers;
+> +	unsigned int i;
+> +	int ret;
+>  
+> -		/*
+> -		 * The buffers on this queue are meant as intermediate
+> -		 * buffers for the decoder, so no mapping is needed.
+> -		 */
+> -		priv->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+> -		priv->cpu = dma_alloc_attrs(vpu->dev, buf_size, &priv->dma,
+> -					    GFP_KERNEL, priv->attrs);
+> -		if (!priv->cpu)
+> -			return -ENOMEM;
+> -		priv->size = buf_size;
+> +	if (!ctx->postproc.dec_q)
+> +		ctx->postproc.dec_q = kcalloc(cap_queue->max_allowed_buffers,
+> +					      sizeof(*ctx->postproc.dec_q),
+> +					      GFP_KERNEL);
+> +
+> +	if (!ctx->postproc.dec_q)
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < num_buffers; i++) {
+> +		ret = hantro_postproc_alloc(ctx, i);
+> +		if (ret)
+> +			return ret;
+>  	}
+> +
+>  	return 0;
+>  }
+>  
+> +dma_addr_t
+> +hantro_postproc_get_dec_buf_addr(struct hantro_ctx *ctx, int index)
+> +{
+> +	struct hantro_aux_buf *priv = &ctx->postproc.dec_q[index];
+> +	unsigned int buf_size = hantro_postproc_buffer_size(ctx);
+> +	struct hantro_dev *vpu = ctx->dev;
+> +	int ret;
+> +
+> +	if (priv->size < buf_size && priv->cpu) {
+> +		/* buffer is too small, release it */
+> +		dma_free_attrs(vpu->dev, priv->size, priv->cpu,
+> +			       priv->dma, priv->attrs);
+> +		priv->cpu = NULL;
+> +	}
+> +
+> +	if (!priv->cpu) {
+> +		/* buffer not already allocated, try getting a new one */
+> +		ret = hantro_postproc_alloc(ctx, index);
+> +		if (ret)
+> +			return 0;
+> +	}
+> +
+> +	if (!priv->cpu)
+> +		return 0;
+> +
+> +	return priv->dma;
+> +}
+> +
+>  static void hantro_postproc_g1_disable(struct hantro_ctx *ctx)
+>  {
+>  	struct hantro_dev *vpu = ctx->dev;
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> index 61cfaaf4e927..898e8763d63a 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -897,7 +897,7 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
+>  		}
+>  
+>  		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt)) {
+> -			ret = hantro_postproc_alloc(ctx);
+> +			ret = hantro_postproc_init(ctx);
+>  			if (ret)
+>  				goto err_codec_exit;
+>  		}
+
