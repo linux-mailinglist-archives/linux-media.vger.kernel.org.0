@@ -2,194 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D4B77829AE
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 14:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB84E782A42
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 15:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235141AbjHUM6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 08:58:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60204 "EHLO
+        id S235275AbjHUNQi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 09:16:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230486AbjHUM6i (ORCPT
+        with ESMTP id S233473AbjHUNQh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 08:58:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD9DFB1;
-        Mon, 21 Aug 2023 05:58:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6CBD76356E;
-        Mon, 21 Aug 2023 12:58:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52CF6C433C8;
-        Mon, 21 Aug 2023 12:58:33 +0000 (UTC)
-Message-ID: <c0c40891-416d-5acd-7a9c-d980c6a24997@xs4all.nl>
-Date:   Mon, 21 Aug 2023 14:58:31 +0200
+        Mon, 21 Aug 2023 09:16:37 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 411CA113
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 06:16:04 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-40a47e8e38dso374801cf.1
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 06:16:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692623743; x=1693228543;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tnSB4QbuCs2L6o1hVVPxHfaphrL2l/lk2QJ6apgrG4E=;
+        b=4pUCD503HaLMzhbdwRIvap/zbRa1LXu/iQU0cWYjedob1cWikSPlvoG/eVzQrzyDqD
+         Yn2HrFl+SuNxHjqb0NOQ8uVQriWnLMknRO7HOkg2Cd1RO/Nj1G4tNNJnWn9uDgkcAGs1
+         6u7aoOP6wkb1CTaK4Nb7TpArBN9XGG/SflZ8scvYZH8CbHN0dkwJzsMBY38a6LUHiNWf
+         Z+EoqfPKOttegPq46S4f/5Sk/HEcTgB3KR3Nc3pJHzDlXz1q+N7dG32nesECZTcZRYGO
+         kSGFv5cjxouIi7KwMWK39JtZln1jxt8iV6SQqJzjXF3kh4/q/jeJDF5ATZ7jgQf93r7A
+         o0vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692623743; x=1693228543;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tnSB4QbuCs2L6o1hVVPxHfaphrL2l/lk2QJ6apgrG4E=;
+        b=cSqO9eQDBtGgwKaDxe9dcULgIVoomZNsaRUWOCrbbSH9jEAla2XMdDtaqYeD0GdVTn
+         xBhtx7CNJnwRnUxNA3OAKnqs00r1esccJ4MVlNG2z0cfYyrZcfon35WJaF6XZmZQsjoe
+         uPePk3l27W3fWdMXBxX9YjEdiOBPBiarLbBaLO+uQ4LwWlmEOaeqpA81masL70uDWzQL
+         8bBGQGLB7KHhVVl7MbjHZ+iOk9TdDxwJ0TN72m/4Wtu4UMEJaodmNPULk78Fgd+13vw6
+         /P7obwjiLr8OFE7RFdqFKirJzOn83FNvg7+YGoaIKbm1pJ+8J7P8/RGP9hd2sQtwv+yA
+         PS3g==
+X-Gm-Message-State: AOJu0YxONY0XZKyceHAnF7OxpyXFdCzSCJXRLra9riLfGCDCEVlJNAqP
+        QFx1u/04E93Y/xjpg9E7epz7jRaLWljQhNyGvmDQTw==
+X-Google-Smtp-Source: AGHT+IH4XJZUBCEpS7xwhb553C3R2A2vLKwXbPhQkBSvPkXEmMejADowiIsZUdBnPNAxTNb4joqq5lmdAKTYN8aw+I8=
+X-Received: by 2002:ac8:7e93:0:b0:40f:c60d:1c79 with SMTP id
+ w19-20020ac87e93000000b0040fc60d1c79mr565484qtj.28.1692623742367; Mon, 21 Aug
+ 2023 06:15:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v7 0/5] Add Toshiba Visconti Video Input Interface driver
-Content-Language: en-US, nl
-To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+References: <20230814043140.1108917-1-rekanorman@chromium.org>
+ <20230814043140.1108917-8-rekanorman@chromium.org> <a834b202-7d5c-2a04-fc69-1913cd063a67@xs4all.nl>
+In-Reply-To: <a834b202-7d5c-2a04-fc69-1913cd063a67@xs4all.nl>
+From:   Guenter Roeck <groeck@google.com>
+Date:   Mon, 21 Aug 2023 06:15:30 -0700
+Message-ID: <CABXOdTdkBM70i=cbBak99ph=P0roaRvhiRpE8O7t4JNkGWUDAw@mail.gmail.com>
+Subject: Re: [PATCH 7/9] media: cros-ec-cec: Allow specifying multiple HDMI connectors
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Reka Norman <rekanorman@chromium.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Daisuke Nojiri <dnojiri@chromium.org>,
+        Stefan Adolfsson <sadolfsson@google.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Mark Brown <broonie@kernel.org>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20230714015059.18775-1-yuji2.ishikawa@toshiba.co.jp>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230714015059.18775-1-yuji2.ishikawa@toshiba.co.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yuji,
+On Mon, Aug 21, 2023 at 2:12=E2=80=AFAM Hans Verkuil <hverkuil-cisco@xs4all=
+.nl> wrote:
+>
+> Hi Reka,
+>
+> On 14/08/2023 06:29, Reka Norman wrote:
+> > Update the cec_dmi_match_table to allow specifying multiple HDMI
+> > connectors for each device.
+> >
+> > Signed-off-by: Reka Norman <rekanorman@chromium.org>
+> > ---
+> >
+> >  .../media/cec/platform/cros-ec/cros-ec-cec.c  | 47 +++++++++++--------
+> >  1 file changed, 28 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers=
+/media/cec/platform/cros-ec/cros-ec-cec.c
+> > index c68ed5d4bda0..f2f397d9a6d8 100644
+> > --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> > +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> > @@ -284,38 +284,41 @@ static SIMPLE_DEV_PM_OPS(cros_ec_cec_pm_ops,
+> >  #if IS_ENABLED(CONFIG_PCI) && IS_ENABLED(CONFIG_DMI)
+> >
+> >  /*
+> > - * The Firmware only handles a single CEC interface tied to a single H=
+DMI
+> > - * connector we specify along with the DRM device name handling the HD=
+MI output
+> > + * Specify the DRM device name handling the HDMI output and the HDMI c=
+onnector
+> > + * corresponding to each CEC port. The order of connectors must match =
+the order
+> > + * in the EC (first connector is EC port 0, ...), and the number of co=
+nnectors
+> > + * must match the number of ports in the EC (which can be queried usin=
+g the
+> > + * EC_CMD_CEC_PORT_COUNT host command).
+> >   */
+> >
+> >  struct cec_dmi_match {
+> >       const char *sys_vendor;
+> >       const char *product_name;
+> >       const char *devname;
+> > -     const char *conn;
+> > +     const char *conns[EC_CEC_MAX_PORTS];
+>
+> Since EC_CEC_MAX_PORTS is 16, this will waste a lot of space here.
+>
+> I would suggest creating a separate define (CEC_MAX_PORTS?) that is set
+> to 2 and is the max port that is actually used.
+>
 
-On 14/07/2023 03:50, Yuji Ishikawa wrote:
-> This series is the Video Input Interface driver
-> for Toshiba's ARM SoC, Visconti[0].
-> This provides DT binding documentation,
-> device driver, documentation and MAINTAINER files.
-> 
-> A visconti VIIF driver instance exposes
-> 1 media control device file and 3 video device files
-> for a VIIF hardware.
-> Detailed HW/SW are described in documentation directory.
-> The VIIF hardware has CSI2 receiver,
-> image signal processor and DMAC inside.
-> The subdevice for image signal processor provides
-> vendor specific V4L2 controls.
-> 
-> The device driver depends on two other drivers under development;
-> clock framework driver and IOMMU driver.
-> Corresponding features will be added later.
+Possibly it could also be declared as const char * const ** and be
+terminated with NULL (though that would require {{ "Port B", NULL } in
+the declarations). Not sure which one is better.
 
-Trying to compile this series on top of our latest staging tree fails
-due to v4l2-async changes that have been merged. So for v8 please
-rebase to the staging tree.
+Guenter
 
-I also got a few kerneldoc warnings:
-
-drivers/media/platform/toshiba/visconti/viif.h:217: warning: Function parameter or member 'ops_lock' not described in 'isp_subdev'
-drivers/media/platform/toshiba/visconti/viif.h:233: warning: Function parameter or member 'ops_lock' not described in 'csi2rx_subdev'
-drivers/media/platform/toshiba/visconti/viif.h:254: warning: Function parameter or member 'post_enable_flag' not described in 'viif_l2_roi_path_info'
-
-Regards,
-
-	Hans
-
-> 
-> Best regards,
-> Yuji
-> 
-> Changelog v2:
-> - Resend v1 because a patch exceeds size limit.
-> 
-> Changelog v3:
-> - Add documentation to describe SW and HW
-> - Adapted to media control framework
-> - Introduced ISP subdevice, capture device
-> - Remove private IOCTLs and add vendor specific V4L2 controls
-> - Change function name avoiding camelcase and uppercase letters
-> 
-> Changelog v4:
-> - Split patches because a patch exceeds size limit
-> - fix dt-bindings document
-> - stop specifying ID numbers for driver instance explicitly at device tree
-> - use pm_runtime to trigger initialization of HW
->   along with open/close of device files.
-> - add a entry for a header file at MAINTAINERS file
-> 
-> Changelog v5:
-> - Fix coding style problem in viif.c (patch 2/6)
-> 
-> Changelog v6:
-> - add register definition of BUS-IF and MPU in dt-bindings
-> - add CSI2RX subdevice (separeted from ISP subdevice)
-> - change directory layout (moved to media/platform/toshiba/visconti)
-> - change source file layout (removed hwd_xxxx.c)
-> - pointer to userland memory is removed from uAPI parameters
-> - change register access (from struct style to macro style)
-> - remove unused macros
-> 
-> Changelog v7:
-> - remove redundant "bindings" from header and description text
-> - fix multiline text of "description"
-> - change "compatible" to "visconti5-viif"
-> - explicitly define allowed properties for port::endpoint
-> - remove unused variables
-> - update kerneldoc comments
-> - update references to headers
-> 
-> Yuji Ishikawa (5):
->   dt-bindings: media: platform: visconti: Add Toshiba Visconti Video
->     Input Interface
->   media: platform: visconti: Add Toshiba Visconti Video Input Interface
->     driver
->   media: add V4L2 vendor specific control handlers
->   documentation: media: add documentation for Toshiba Visconti Video
->     Input Interface driver
->   MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
-> 
->  .../bindings/media/toshiba,visconti-viif.yaml |  108 +
->  .../driver-api/media/drivers/index.rst        |    1 +
->  .../media/drivers/visconti-viif.rst           |  462 +++
->  MAINTAINERS                                   |    4 +
->  drivers/media/platform/Kconfig                |    1 +
->  drivers/media/platform/Makefile               |    1 +
->  drivers/media/platform/toshiba/Kconfig        |    6 +
->  drivers/media/platform/toshiba/Makefile       |    2 +
->  .../media/platform/toshiba/visconti/Kconfig   |   18 +
->  .../media/platform/toshiba/visconti/Makefile  |    8 +
->  .../media/platform/toshiba/visconti/viif.c    |  681 ++++
->  .../media/platform/toshiba/visconti/viif.h    |  375 ++
->  .../platform/toshiba/visconti/viif_capture.c  | 1485 +++++++
->  .../platform/toshiba/visconti/viif_capture.h  |   22 +
->  .../platform/toshiba/visconti/viif_common.c   |  199 +
->  .../platform/toshiba/visconti/viif_common.h   |   38 +
->  .../platform/toshiba/visconti/viif_controls.c | 3407 +++++++++++++++++
->  .../platform/toshiba/visconti/viif_controls.h |   18 +
->  .../platform/toshiba/visconti/viif_csi2rx.c   |  684 ++++
->  .../platform/toshiba/visconti/viif_csi2rx.h   |   24 +
->  .../toshiba/visconti/viif_csi2rx_regs.h       |  102 +
->  .../platform/toshiba/visconti/viif_isp.c      | 1258 ++++++
->  .../platform/toshiba/visconti/viif_isp.h      |   24 +
->  .../platform/toshiba/visconti/viif_regs.h     |  716 ++++
->  include/uapi/linux/v4l2-controls.h            |    6 +
->  include/uapi/linux/visconti_viif.h            | 1800 +++++++++
->  26 files changed, 11450 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
->  create mode 100644 Documentation/driver-api/media/drivers/visconti-viif.rst
->  create mode 100644 drivers/media/platform/toshiba/Kconfig
->  create mode 100644 drivers/media/platform/toshiba/Makefile
->  create mode 100644 drivers/media/platform/toshiba/visconti/Kconfig
->  create mode 100644 drivers/media/platform/toshiba/visconti/Makefile
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_capture.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_capture.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_common.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_common.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_controls.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_controls.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_csi2rx.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_csi2rx.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_csi2rx_regs.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_isp.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_isp.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_regs.h
->  create mode 100644 include/uapi/linux/visconti_viif.h
-> 
-
+> When you get the actual number of ports from the EC you can check if
+> CEC_MAX_PORTS isn't too small and return an error if it is.
+>
+> You can use CEC_MAX_PORTS here and in the ports array of struct cros_ec_c=
+ec.
+>
+> Regards,
+>
+>         Hans
+>
+> >  };
+> >
+> >  static const struct cec_dmi_match cec_dmi_match_table[] =3D {
+> >       /* Google Fizz */
+> > -     { "Google", "Fizz", "0000:00:02.0", "Port B" },
+> > +     { "Google", "Fizz", "0000:00:02.0", { "Port B" } },
+> >       /* Google Brask */
+> > -     { "Google", "Brask", "0000:00:02.0", "Port B" },
+> > +     { "Google", "Brask", "0000:00:02.0", { "Port B" } },
+> >       /* Google Moli */
+> > -     { "Google", "Moli", "0000:00:02.0", "Port B" },
+> > +     { "Google", "Moli", "0000:00:02.0", { "Port B" } },
+> >       /* Google Kinox */
+> > -     { "Google", "Kinox", "0000:00:02.0", "Port B" },
+> > +     { "Google", "Kinox", "0000:00:02.0", { "Port B" } },
+> >       /* Google Kuldax */
+> > -     { "Google", "Kuldax", "0000:00:02.0", "Port B" },
+> > +     { "Google", "Kuldax", "0000:00:02.0", { "Port B" } },
+> >       /* Google Aurash */
+> > -     { "Google", "Aurash", "0000:00:02.0", "Port B" },
+> > +     { "Google", "Aurash", "0000:00:02.0", { "Port B" } },
+> >       /* Google Gladios */
+> > -     { "Google", "Gladios", "0000:00:02.0", "Port B" },
+> > +     { "Google", "Gladios", "0000:00:02.0", { "Port B" } },
+> >       /* Google Lisbon */
+> > -     { "Google", "Lisbon", "0000:00:02.0", "Port B" },
+> > +     { "Google", "Lisbon", "0000:00:02.0", { "Port B" } },
+> >  };
+> >
+> >  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+> > -                                             const char **conn)
+> > +                                             const char * const **conn=
+s)
+> >  {
+> >       int i;
+> >
+> > @@ -332,7 +335,7 @@ static struct device *cros_ec_cec_find_hdmi_dev(str=
+uct device *dev,
+> >                       if (!d)
+> >                               return ERR_PTR(-EPROBE_DEFER);
+> >                       put_device(d);
+> > -                     *conn =3D m->conn;
+> > +                     *conns =3D m->conns;
+> >                       return d;
+> >               }
+> >       }
+> > @@ -346,7 +349,7 @@ static struct device *cros_ec_cec_find_hdmi_dev(str=
+uct device *dev,
+> >  #else
+> >
+> >  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+> > -                                             const char **conn)
+> > +                                             const char * const **conn=
+s)
+> >  {
+> >       return ERR_PTR(-ENODEV);
+> >  }
+> > @@ -388,7 +391,7 @@ static int cros_ec_cec_get_write_cmd_version(struct=
+ cros_ec_cec *cros_ec_cec)
+> >  static int cros_ec_cec_init_port(struct device *dev,
+> >                                struct cros_ec_cec *cros_ec_cec,
+> >                                int port_num, struct device *hdmi_dev,
+> > -                              const char *conn)
+> > +                              const char * const *conns)
+> >  {
+> >       struct cros_ec_cec_port *port;
+> >       int ret;
+> > @@ -406,7 +409,13 @@ static int cros_ec_cec_init_port(struct device *de=
+v,
+> >       if (IS_ERR(port->adap))
+> >               return PTR_ERR(port->adap);
+> >
+> > -     port->notify =3D cec_notifier_cec_adap_register(hdmi_dev, conn,
+> > +     if (!conns[port_num]) {
+> > +             dev_err(dev, "no conn for port %d\n", port_num);
+> > +             ret =3D -ENODEV;
+> > +             goto out_probe_adapter;
+> > +     }
+> > +
+> > +     port->notify =3D cec_notifier_cec_adap_register(hdmi_dev, conns[p=
+ort_num],
+> >                                                     port->adap);
+> >       if (!port->notify) {
+> >               ret =3D -ENOMEM;
+> > @@ -435,10 +444,10 @@ static int cros_ec_cec_probe(struct platform_devi=
+ce *pdev)
+> >       struct cros_ec_cec *cros_ec_cec;
+> >       struct cros_ec_cec_port *port;
+> >       struct device *hdmi_dev;
+> > -     const char *conn =3D NULL;
+> > +     const char * const *conns =3D NULL;
+> >       int ret;
+> >
+> > -     hdmi_dev =3D cros_ec_cec_find_hdmi_dev(&pdev->dev, &conn);
+> > +     hdmi_dev =3D cros_ec_cec_find_hdmi_dev(&pdev->dev, &conns);
+> >       if (IS_ERR(hdmi_dev))
+> >               return PTR_ERR(hdmi_dev);
+> >
+> > @@ -460,7 +469,7 @@ static int cros_ec_cec_probe(struct platform_device=
+ *pdev)
+> >
+> >       for (int i =3D 0; i < cros_ec_cec->num_ports; i++) {
+> >               ret =3D cros_ec_cec_init_port(&pdev->dev, cros_ec_cec, i,
+> > -                                         hdmi_dev, conn);
+> > +                                         hdmi_dev, conns);
+> >               if (ret)
+> >                       goto unregister_ports;
+> >       }
+>
