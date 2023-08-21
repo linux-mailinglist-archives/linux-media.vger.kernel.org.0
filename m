@@ -2,93 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C907783074
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 20:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F379A78309C
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 21:12:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbjHUSxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 14:53:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35260 "EHLO
+        id S229626AbjHUS6O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 14:58:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjHUSx3 (ORCPT
+        with ESMTP id S229621AbjHUS6N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 14:53:29 -0400
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCFD06C37A
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 11:53:22 -0700 (PDT)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-313e742a787so2244237f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 11:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692643921; x=1693248721;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zCtenRCjXXMg5T6uzuSAM+POnJmMfnMhSwDV8nofr7M=;
-        b=iVERGBgjqfA46CdXTSzrqZEX8b3lJrt02ilp+nvqeCCzs9suPzxQrFDFE+JTYqzoZl
-         4JKR4Ud877MnlFzqLNsFeyWZftJIazb5XCvSXmMhxt5GK1BZs2vf8g7DttbDRCPvBs0Y
-         VkbxcIPnQorhIuSzlkoT8IkbSSF1M4pGqI2MW6LlQb9WrUWfebzYilzgvPsyOGKCh7i/
-         NvT2SrktOPoQhtqGCccKXMXndXTNzGVoYO3NfOlLvoSKHTBgdAiwKvPJ31gGQgZxPo+h
-         xbjSG6NM6EpaqZjlkHIZad2rprdGkYyGmdiMr/u19FhV/ULmo1ChIsJdNS5DXMhhkWuQ
-         6zcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692643921; x=1693248721;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zCtenRCjXXMg5T6uzuSAM+POnJmMfnMhSwDV8nofr7M=;
-        b=OT+o3DFeLNYw0eNox2aGL3ESxdHSH6PpbDazFAckk2iQSWUpw+ObKGAU/RDKRGDSrw
-         6iIqD/UBmSFUyfukxPjEbd77ojRe/ZDY5T9doc/q7VHLElKQyBacJHKJb99JDjYqz3jy
-         9RH2jEmONZps6Co8r5Zpq2c+zrHRBvASgJ055SMXjVcbkc4GZ/DBDUzxnyNKoh2t4gjf
-         wyKpuAFtCTDQEen3DJxZyQuSdfus/qyPolgsJZJtkHVs4UJiEot/CJN3hzkwQLPLjQkV
-         +wpQHj7+xHPZkZNNDyR5DqoMtYCUdekRHQuLoYoq1ZBE3rXd32s3UQX5CBrm2//0vPdu
-         rOvA==
-X-Gm-Message-State: AOJu0YyOR6iZ5FMMjZR7iUZDT5AAda8gm6TdWGDE4dCvWnv/YDV/IjFU
-        yqKEQV+AisSfxnZBoN5noIYcBw==
-X-Google-Smtp-Source: AGHT+IEIBL5BILI0Pd6OWt114UByKQoedPY/3p8aG6w/uJFzgAGbmiKQooOd5z2oKWcFGRNX4goGEQ==
-X-Received: by 2002:adf:f74b:0:b0:319:7c17:4c65 with SMTP id z11-20020adff74b000000b003197c174c65mr7259307wrp.12.1692643921096;
-        Mon, 21 Aug 2023 11:52:01 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id p6-20020a5d68c6000000b00317c742ca9asm13494807wrw.43.2023.08.21.11.51.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Aug 2023 11:52:00 -0700 (PDT)
-Message-ID: <62859b0e-cfee-f094-2ae9-bf0e243e2929@linaro.org>
-Date:   Mon, 21 Aug 2023 19:51:59 +0100
+        Mon, 21 Aug 2023 14:58:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60A394C1E
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 11:57:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A428E642B6
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 18:57:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3A7C433D9
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 18:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692644230;
+        bh=TV6VbUlHxg4zo4yUgUTEapoI0MTOb1Ihdyh2Te0cGZY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RYiiPHJ2pf4eKrq/0+/RfNgBj8wDOXV6/VjTdNNiYzJIYJUgcFw5WI3D/T0YU1Jui
+         cYue+e3o7TmIKIcsWSiJp+1cuFguxy2C9mptvikauZxZm82U8ocfkEBb9/l7Z45K7d
+         bEjaluC3HM3bFTIoUSG9MykpdRSlMiWYeAiLXJpD9MPU+6DkPG9mbu+CzxKm4YjOP/
+         2FN2/6F2d7g92eWOceqpqgup1nZj//LmRpFIx2EkNVt22Y6AlzfKO21JC2k/VtyMOb
+         LiLtsVBqjOfywykb1IvFBJCWJrEOdZlBqjj1ye7ZvaMiFzGJzMADFOy72P853iRpO1
+         1pwuiqlmN+tUQ==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2bb734a9081so54159591fa.1
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 11:57:09 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yxd6wtAGeWsC4EjCOaSL+4sql3cmMC7P9qIPnNachkCnWJedWlf
+        tMpGa9pKv9JXaWartAQZZgM/B1tEKCC5U4Ybxg==
+X-Google-Smtp-Source: AGHT+IE5NDQyW6p1fOWHykcH2viQb94bBs7CGEMqf3G36RCCJjVbkUD84mCfsUJAm0FtHjIu/7/J6J1L0hWTB7giniM=
+X-Received: by 2002:a2e:a23b:0:b0:2ba:1286:d99e with SMTP id
+ i27-20020a2ea23b000000b002ba1286d99emr2855433ljm.1.1692644228034; Mon, 21 Aug
+ 2023 11:57:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v0 8/9] media: qcom: camss: Fix set CSI2_RX_CFG1_VC_MODE
- when VC is greater than 3
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, rfoss@kernel.org,
-        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20230814141007.3721197-1-bryan.odonoghue@linaro.org>
- <20230814141007.3721197-9-bryan.odonoghue@linaro.org>
- <edd4bf9b-0e1b-883c-1a4d-50f4102c3924@xs4all.nl>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <edd4bf9b-0e1b-883c-1a4d-50f4102c3924@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230821152623.196541-1-sean@mess.org> <20230821152623.196541-2-sean@mess.org>
+In-Reply-To: <20230821152623.196541-2-sean@mess.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 21 Aug 2023 13:56:56 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+BLdhKZnTZwRN5b3XdkgSHDj53Z1YJfcYxWxTDqzkRRQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+BLdhKZnTZwRN5b3XdkgSHDj53Z1YJfcYxWxTDqzkRRQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: dt-bindings: nokia,n900-ir use generic
+ pwm-ir-tx driver
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, Sicelo <absicsz@gmail.com>,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Timo Kokkonen <timo.t.kokkonen@iki.fi>,
+        Tony Lindgren <tony@atomide.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/08/2023 10:53, Hans Verkuil wrote:
-> +		u8 dt_id = vc * 4;
+Please use get_maintainers.pl and send patches to the right place.
+Like the other DT maintainers and DT list...
 
-You're right.
+On Mon, Aug 21, 2023 at 10:26=E2=80=AFAM Sean Young <sean@mess.org> wrote:
+>
+> The generic pwm-ir-tx driver works for the Nokia n900, so nokia,n900-ir
+> can be removed.
 
-dt_id = vc is wrong but so is dt_id = vc * 4.
+How long has this been true? You are breaking users if they are on a
+version of OS where the pwm-ir-tx driver doesn't work (or didn't exist
+or wasn't enabled). I suspect this is a platform that will care about
+the ABI.
 
-I'll post a fix for the dt_id as a separate patch.
+What you should do is make the "nokia,n900-ir" compatible work with
+the generic driver. Then old driver works still, the generic driver
+works on new OS versions, and the DTB doesn't change.
 
----
-bod
+Rob
