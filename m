@@ -2,117 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CF2E782536
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 10:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 101EB782557
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 10:24:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233913AbjHUIQL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 04:16:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33880 "EHLO
+        id S233937AbjHUIYp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 04:24:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232273AbjHUIQL (ORCPT
+        with ESMTP id S230097AbjHUIYp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 04:16:11 -0400
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64320BB;
-        Mon, 21 Aug 2023 01:16:06 -0700 (PDT)
-Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-1c4d8eaa8ebso2051551fac.0;
-        Mon, 21 Aug 2023 01:16:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692605765; x=1693210565;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6DgAKg3qHk5I2mBtpVL40HuGEIJCVTC6eN4jhKIOAVA=;
-        b=Svh4UXrwWoiKX4ozJj/LL3scNaV2VwZPR+v0kYkp/zdwv10mywINQIC5xuvm05SfZC
-         U4vgNCu+R392TPWJjGDNVNJCMTR6C5CgAkCEBJPfSkU0o4rFJgsp+pNsCugpxbhFFrbY
-         34hcQSG2khZA2CS3HKJ1sCNnYdlFBMuv3Eqdcr7wEnC96w5LG+C1RKTa4XIqB/HVipoh
-         hhLvoUK0K5rzjkXsehk30UxvBfwsVbF8fQVTugKFGz351CIfqCGzBwYArzqqKTDd1I/0
-         u3TxoK1f6u8Yoplrn4pBdRcw1Hew3gXdQiCFiY0n0Vkd0pZPwBULZgbh16pPJPKnqB3s
-         uwfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692605765; x=1693210565;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6DgAKg3qHk5I2mBtpVL40HuGEIJCVTC6eN4jhKIOAVA=;
-        b=O+YVGp5oB8ZwzBxOFr71Jqoppyn1VSxQ3qeB3nIYi3SFAIAvH/udbKfAS9J/2ArymR
-         09nZdHb+vUZvEorrnyRC0WLJqq+5VmJR/ilZuxb6ma8O/mVHR5b4IIpDoviSBYIYwA3q
-         2n91E21njsbQaL8iUG/6HxtVAv1wVtwBLhPSdh88D4oJFEgp/AarJysvlMVtPNbpy77Y
-         egbG0bp4tmWObQ8bNJDf/u0KQFT/113YJ/uqacIfL2E2mlCh+cvEgOuQrMKV2msxhfZc
-         l73J579N7vXo++urWwbW6QRRRCmi0F1ktLi81div0dIm9MYXx7uXV9VGspmCbgB8rDE9
-         3nQw==
-X-Gm-Message-State: AOJu0YzWp6DE2EPfWniuaL1WHgjHoeU3cPdgUd8Xwgz/fwPw2BiLnx3y
-        ic9XcB0UbOegW/5QEnqyyfo=
-X-Google-Smtp-Source: AGHT+IE1dGo58N3EiQ7SvmfNbPEBuUVwI/PVJQEDkDawAlW5SVTKoZL+ZojblsKw8Cuj3hXELxRgGg==
-X-Received: by 2002:a05:6870:d14a:b0:1bb:fd78:4f22 with SMTP id f10-20020a056870d14a00b001bbfd784f22mr7593342oac.34.1692605765589;
-        Mon, 21 Aug 2023 01:16:05 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c2:1010:c230:b0ad:364d:f97a:aa9d])
-        by smtp.gmail.com with ESMTPSA id s2-20020a17090a764200b002630c9d78aasm5510078pjl.5.2023.08.21.01.16.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 01:16:05 -0700 (PDT)
-From:   coolrrsh@gmail.com
-To:     hverkuil@xs4all.nl, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        Rajeshwar R Shinde <coolrrsh@gmail.com>,
-        syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Subject: [PATCH v2] UBSAN: shift-out-of-bounds in set_flicker
-Date:   Mon, 21 Aug 2023 13:45:59 +0530
-Message-Id: <20230821081559.13807-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 21 Aug 2023 04:24:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA3D98
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 01:24:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6629D62D05
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 08:24:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A80C433C8;
+        Mon, 21 Aug 2023 08:24:40 +0000 (UTC)
+Message-ID: <2250c38f-2abf-c712-1352-449ee8d573e0@xs4all.nl>
+Date:   Mon, 21 Aug 2023 10:24:39 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US, nl
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [GIT PULL FOR v6.7] media: various fixes
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+The following changes since commit 8ba283f6c929350e97feaef35dee4bdcf20c8909:
 
-UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
-shift exponent 245 is too large for 32-bit type 'int'
+  media: v4l: Use correct dependency for camera sensor drivers (2023-08-18 13:11:36 +0200)
 
-shift-out-of-bounds error was triggered when variable 
-'sd->params.exposure.gain' is greater than the number of bits of int.
-When the variable 'currentexp' is left shifted beyond 31 bits then
-the error is produced. Therefore added the conditional expression to 
-verify valid range.
+are available in the Git repository at:
 
-Tested via syzbot.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.7a
 
-Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/20230818164522.12806-1-
-coolrrsh@gmail.com/
-Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+for you to fetch changes up to 75aabaf0634a608de4473c644540beff9df7c07b:
 
----
-v1->v2
-changed the patch
-changed commit message and tested with checkpatch 
+  media: imx-jpeg: Remove unused declarations (2023-08-18 16:48:06 +0200)
 
----
- drivers/media/usb/gspca/cpia1.c | 2 ++
- 1 file changed, 2 insertions(+)
+----------------------------------------------------------------
+Tag branch
 
-diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
-index 46ed95483e22..dafc522d5e7b 100644
---- a/drivers/media/usb/gspca/cpia1.c
-+++ b/drivers/media/usb/gspca/cpia1.c
-@@ -1028,6 +1028,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
- 			sd->params.exposure.expMode = 2;
- 			sd->exposure_status = EXPOSURE_NORMAL;
- 		}
-+		if (sd->params.exposure.gain > 31)
-+			return -1;
- 		currentexp = currentexp << sd->params.exposure.gain;
- 		sd->params.exposure.gain = 0;
- 		/* round down current exposure to nearest value */
--- 
-2.25.1
+----------------------------------------------------------------
+Colin Ian King (2):
+      media: bt8xx: make read-only arrays static
+      media: mediatek: vcodec: fix spelling mistake "resonable" -> "reasonable"
 
+Hans Verkuil (1):
+      media: cx25840: simplify cx23885_dif_setup()
+
+Juerg Haefliger (1):
+      media: bttv: Add MODULE_FIRMWARE macro
+
+Krzysztof Kozlowski (3):
+      media: dt-bindings: samsung,exynos4212-fimc-is: replace duplicate pmu node with phandle
+      media: dt-bindings: samsung,fimc: correct unit addresses in DTS example
+      media: exynos4-is: fimc-is: replace duplicate pmu node with phandle
+
+Li Zetao (1):
+      media: nxp: Use devm_kmemdup to replace devm_kmalloc + memcpy
+
+Ruan Jinjie (2):
+      media: staging: media: sunxi: cedrus: Remove redundant of_match_ptr()
+      media: cx231xx: Switch to use kmemdup() helper
+
+Wang Ming (1):
+      media: platform: Use dev_err_probe instead of dev_err
+
+Yu Liao (1):
+      media: use struct_size() helper
+
+Yue Haibing (1):
+      media: imx-jpeg: Remove unused declarations
+
+Zheng Wang (1):
+      media: bttv: fix use after free error due to btv->timeout timer
+
+ Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.yaml |   15 +-
+ Documentation/devicetree/bindings/media/samsung,fimc.yaml               |   27 +-
+ drivers/media/common/videobuf2/frame_vector.c                           |    2 +-
+ drivers/media/i2c/cx25840/cx25840-core.c                                | 3694 ++++++++-----------------------------
+ drivers/media/pci/bt8xx/bttv-cards.c                                    |    1 +
+ drivers/media/pci/bt8xx/bttv-driver.c                                   |    1 +
+ drivers/media/pci/bt8xx/dvb-bt8xx.c                                     |   14 +-
+ drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c       |    2 +-
+ drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c       |    2 +-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h                       |   11 -
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c                     |    4 +-
+ drivers/media/platform/samsung/exynos4-is/fimc-is.c                     |   33 +-
+ drivers/media/platform/xilinx/xilinx-dma.c                              |    5 +-
+ drivers/media/usb/cx231xx/cx231xx-core.c                                |    3 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c                             |    2 +-
+ 15 files changed, 876 insertions(+), 2940 deletions(-)
