@@ -2,183 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22A6E7823AF
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 08:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17E3C78240F
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 08:55:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231479AbjHUGZP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 02:25:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43868 "EHLO
+        id S233539AbjHUGzP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 02:55:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbjHUGZO (ORCPT
+        with ESMTP id S233536AbjHUGzO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 02:25:14 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 921F6A2
-        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 23:25:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692599112; x=1724135112;
-  h=subject:from:to:cc:references:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=0h+a1+akNNzbL12sh/RHE04j6UuqaaFM8lD4RdqvjUQ=;
-  b=YVf1GGA2+vvkGx84IgHt0tTupDY7sGO8mUcu4asRdPDMCoo5B3HrzxsY
-   XE1pigw/R6gwLC2zwx2yncrJqAOIuV5yU2dyDj9Od7ocasABVd3L/wlwm
-   vqdYesCbsPpEAEMh6JkcUIjcrzlX8SHSoNbLXBJ7RiBnl175iMvBk2u7/
-   PDbGLGM0ebBK/NajU+6YaAUpbR05Y9/T7anB0k5lbHOYlCWvoQsBbhFKw
-   masy/KQPfq7SBqBw5rI2W9xTsAdG5EH2viBkU1Gc1zBVGyDWmqiP3nv3G
-   UkkOPY5mdLXR4gP5kSR5CufSVw0LtMwMecA+8w8KaWARWZWbCejUePZF+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="372407839"
-X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="372407839"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2023 23:25:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10808"; a="685541917"
-X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="685541917"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
-  by orsmga003.jf.intel.com with ESMTP; 20 Aug 2023 23:25:07 -0700
+        Mon, 21 Aug 2023 02:55:14 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7442A9
+        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 23:55:12 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-99bf3f59905so389869666b.3
+        for <linux-media@vger.kernel.org>; Sun, 20 Aug 2023 23:55:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692600911; x=1693205711;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=n0znqKZ0BIM+GS8ADupwpjgOORS1VVwFI7Nj18/67iw=;
+        b=Sf08K3nrEo8RGte4P6EfxKP5Twd+7XRc8d/QMT4TArulSd+Zpt/QDguFkBFvdfHEnD
+         xeTIlf/5RXrPg7FFF79A1xH8iiyg3x1mX8/nsROQDrVEN/nfvZMa7ml6QRtCIXXLqe9c
+         8gUaw9D9WkfyPI3zCB8s8yLvoonz5AQok7lyfQNkYAcpOUT6nJq4Bt8VRlXfDpEPFSSH
+         9kVwbSN66oNadite9nYHE7I31p8MrLACIcquUIXv4IOgpKMbmGn41HVDtQ27XwDoDxII
+         4n/HtFTfQ0N6EEbcbtm3zbVOdPPSubo2wCBa3XTMV/m3EtCVE2iveyDoy5nDx8HshAO6
+         v5nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692600911; x=1693205711;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n0znqKZ0BIM+GS8ADupwpjgOORS1VVwFI7Nj18/67iw=;
+        b=aIUAjB72Zoo95O4J33qlZ+SA+7wuuoLXcPY5IYLND05UeMxnj8xBfQV0aaAq7VEDLB
+         XNGwecpmbq+ISg1I+pBPVuHu2K8fyquolc/HZA+8PAyBX5F6fT5D53hBxbAReJjxxwhi
+         sG+d4c4uFeyJUwG5NLXa+KyMbZVrxR+3O9g/fraNOWzwo2Cv+8ZxGdZk1ClimrInD050
+         C8TaG7t+O5sT5m0p7pusf7ug28lfaS3E9hQlHq+cMuUUV6TOUqvZnyJPsMliQsym2fzy
+         xVznvaVJUrfLPUnAEQghoH9YpEeterLFWsdeSzKwkEnehb4/VseXzyQ9KrczxT2Rl/c9
+         LVig==
+X-Gm-Message-State: AOJu0Yy40ZtZjDoQdYP5XtiNwdTqsHjgf31CU/8uol1RfQcIiX09DNXt
+        N7gdKskUllnTmc7y1ta7WuY=
+X-Google-Smtp-Source: AGHT+IH0/qeHX+AziaF1stOkiL6JwUioe7YmrREQFeT680Qog9kgVm3cK8DMvCT/4VKUNH2IVKDYpA==
+X-Received: by 2002:a17:907:a076:b0:99b:d2a9:9a01 with SMTP id ia22-20020a170907a07600b0099bd2a99a01mr4550413ejc.0.1692600910941;
+        Sun, 20 Aug 2023 23:55:10 -0700 (PDT)
+Received: from [192.168.1.70] ([87.52.106.165])
+        by smtp.gmail.com with ESMTPSA id i22-20020a170906445600b009937dbabbdasm5954829ejp.217.2023.08.20.23.55.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Aug 2023 23:55:10 -0700 (PDT)
+Message-ID: <907f992d4e333f090418f39ebd59bf8ac1fb5e3f.camel@gmail.com>
 Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-To:     Claus Stovgaard <claus.stovgaard@gmail.com>, bingbu.cao@intel.com,
+From:   Claus Stovgaard <claus.stovgaard@gmail.com>
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>, bingbu.cao@intel.com,
         linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         laurent.pinchart@ideasonboard.com
 Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
         senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
         hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
         tian.shu.qiu@intel.com, hongju.wang@intel.com
+Date:   Mon, 21 Aug 2023 08:55:08 +0200
+In-Reply-To: <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
 References: <20230727071558.1148653-1-bingbu.cao@intel.com>
- <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
- <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
-Message-ID: <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
-Date:   Mon, 21 Aug 2023 14:22:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+         <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
+         <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
+         <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 
 MIME-Version: 1.0
-In-Reply-To: <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Bingbu
 
-Claus,
+On Mon, 2023-08-21 at 14:22 +0800, Bingbu Cao wrote:
+>=20
+> Claus,
+>=20
+>=20
+> On 8/21/23 11:14 AM, Bingbu Cao wrote:
+> > Hi, Claus,
+> >=20
+> > Thanks for your mail.
+> >=20
+> > On 8/20/23 11:09 PM, Claus Stovgaard wrote:
+> > > On Thu, 2023-07-27 at 15:15 +0800, bingbu.cao@intel.com=C2=A0wrote:
+> > > > From: Bingbu Cao <bingbu.cao@intel.com>
+> > > >=20
+> > > > This patch series adds a driver for Intel IPU6 input system.
+> > > > IPU6 is the sixth generation of Imaging Processing Unit, it is
+> > > > a PCI
+> > > > device which can be found in some Intel Client Platforms. User
+> > > > can
+> > > > use
+> > > > IPU6 to capture images from MIPI camera sensors.
+> > > >=20
+> > > >=20
+> > >=20
+> > > Hello Bingbu.
+> > >=20
+> > > ...=09
+> > >=20
+> > > Will continue investigating, but I would like any input in
+> > > getting the
+> > > driver up an running and testing on this Dell laptop. I think it
+> > > should
+> > > be very close to working.
+> >=20
+> > Do you any failure log for ov01a10?
+> >=20
+> > For Dell XPS 9320, the camera sensor module has a dependency on
+> > Intel
+> > IVSC driver, so please make sure you have the latest ivsc driver.
+> > I remember they are already in media tree.
+> >=20
+> > I will check again with latest IVSC driver, feel free to mail me or
+> > Wentong Wu meanwhile if you have any problems for camera sensor and
+> > IVSC.
+>=20
+> I see that the ivsc driver has not been in master branch. Before
+> that,
+> could you try several hack to check whether camera can work on
+> master?
+>=20
+> https://github.com/bingbucao/linux/commits/ipu_dev
+>=20
+> 7ebff51284d9 media: ov01a10: hack ivsc to make camera can work
+> 01cc9f3d1b61 i2c: ljca: Call acpi_dev_clear_dependencies()
+> 92e5d122e105 vsc: Defer firmware loading to avoid long probing time
+> 5f5d5f0df06b driver: ivsc: add intel ivsc driver
+> 0f4819dec533 Revert "gpio: Add support for Intel LJCA USB GPIO
+> driver"
 
+Thanks for your quick reply.
 
-On 8/21/23 11:14 AM, Bingbu Cao wrote:
-> Hi, Claus,
-> 
-> Thanks for your mail.
-> 
-> On 8/20/23 11:09 PM, Claus Stovgaard wrote:
->> On Thu, 2023-07-27 at 15:15 +0800, bingbu.cao@intel.com wrote:
->>> From: Bingbu Cao <bingbu.cao@intel.com>
->>>
->>> This patch series adds a driver for Intel IPU6 input system.
->>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
->>> device which can be found in some Intel Client Platforms. User can
->>> use
->>> IPU6 to capture images from MIPI camera sensors.
->>>
->>>
->>
->> Hello Bingbu.
->>
->> First thanks for your work in upstreaming the IPU6 isys driver, and the
->> updates with v1 of the patch series.
->>
->> I am trying to test it on a Dell XPS 9320 (0AF3) laptop
->>
->> First - The patch series does not apply cleanly on linus 6.5-rc6, nor
->> the linux-media master.
-> 
-> I think it is caused by some media changes was queued after I send
-> this patch - such as ipu-bridge, ivsc, v4l2-async, etc. So it
-> needs some rebase work.
-> 
->>
->> For v6.5-rc6 I have an issue with
->>
->> Patch failed at 0012 media: add Kconfig and Makefile for IPU6
->> When you have resolved this problem, run "git am --continue".
->> If you prefer to skip this patch, run "git am --skip" instead.
->> To restore the original branch and stop patching, run "git am --abort".
->> error: drivers/media/pci/intel/Kconfig: does not exist in index
->> error: patch failed: drivers/media/pci/intel/Makefile:4
->> error: drivers/media/pci/intel/Makefile: patch does not apply
->>
->> For linux media it fails after commit 
->> https://git.linuxtv.org/media_tree.git/commit/?id=dd61c2a380037166517214957790a1486ae5d348
->> media: mediatek: vcodec: Consider vdecsys presence in reg range check
->>
->> As next commit is
->> https://git.linuxtv.org/media_tree.git/commit/?id=bda8953e8c3e7ecbbf6cb1be11790496300e3961
->> media: v4l: async: Drop v4l2_async_nf_parse_fwnode_endpoints()
->>
->> It fails on the v4l parts, and of cause the newer commits regarding
->> v4l: async in the linux-media master branch. So the IPU6 patch series
->> need a refresh to fit the linux-media.
->>
->> I did a custom branch from linus tag v6.5-rc5 with the commits from
->> linux-media up to the "Drop v4l2_async_nf_parse_fwnode_endpoints()" and
->> then applied the IPU6 patches on top.
->> https://github.com/frosteyes/linux/tree/fe/v6.5-rc5/media_test
->>
->> With this I am able to load the IPU6 modules, but I have problems with
->> the sensor.
->>
->> The sensor module is loaded - named ov01a10 but the probe function is
->> not run - as far as I can see
->>
->> Also in /sys/kernel/debug/v4l2-async/pending_async_subdevices I have it
->> as pending
->>
->> ipu6:
->>  [fwnode] dev=nil, node=\_SB.PC00.LNK1
->>
->> Looking at the /sys/bus/acpi/devices I can see the sensor device with a
->> status of 15 (cat OVTI01A0\:00/status)
->>
->> Will continue investigating, but I would like any input in getting the
->> driver up an running and testing on this Dell laptop. I think it should
->> be very close to working.
-> 
-> Do you any failure log for ov01a10?
-> 
-> For Dell XPS 9320, the camera sensor module has a dependency on Intel
-> IVSC driver, so please make sure you have the latest ivsc driver.
-> I remember they are already in media tree.
-> 
-> I will check again with latest IVSC driver, feel free to mail me or
-> Wentong Wu meanwhile if you have any problems for camera sensor and
-> IVSC.
+I was missing understanding of ivsc when I wrote the mail yesterday.
+Got some basic understanding yesterday after I wrote, and big thanks
+for confirming it, and also thanks for your ipu_dev branch. Has just
+cloned it, and is building as I write.
 
-I see that the ivsc driver has not been in master branch. Before that,
-could you try several hack to check whether camera can work on master?
+Just fyi, I was trying to hack something together yesterday, and got
+further, but not yet working.
 
-https://github.com/bingbucao/linux/commits/ipu_dev
+My hack was to combine the out-of-tree ivsc drivers and firmware from
 
-7ebff51284d9 media: ov01a10: hack ivsc to make camera can work
-01cc9f3d1b61 i2c: ljca: Call acpi_dev_clear_dependencies()
-92e5d122e105 vsc: Defer firmware loading to avoid long probing time
-5f5d5f0df06b driver: ivsc: add intel ivsc driver
-0f4819dec533 Revert "gpio: Add support for Intel LJCA USB GPIO driver"
+* https://github.com/intel/ivsc-firmware.git
+* https://github.com/intel/ivsc-driver.git
 
-> 
->>
->> Regards
->> Claus Stovgaaard
->>
-> 
+Though noticed that I need some changes to the sensor driver so was
+also building all the drivers from ipu6-drivers (with minor changes to
+get_pages) as out-of-tree modules.
 
--- 
-Best regards,
-Bingbu Cao
+* https://github.com/intel/ipu6-drivers.git=20
+
+Here I used everything beside media/pci/*.ko files. I could see the
+sensor and got further, but was missing the last.
+
+Looking forward to try your branch. Looks much cleaner, and would be
+nice to get working :)
+
+/Claus
+> >=20
