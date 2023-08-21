@@ -2,414 +2,317 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7F46782D3A
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 17:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D56DA783032
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 20:22:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236341AbjHUP02 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 11:26:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57444 "EHLO
+        id S237116AbjHUSWY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 14:22:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236336AbjHUP02 (ORCPT
+        with ESMTP id S232317AbjHUSWX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 11:26:28 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8E05EE
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 08:26:25 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 993A71000D1; Mon, 21 Aug 2023 16:26:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1692631583; bh=/x8MfbUaKgL3UQy8bQYSvtxdZZJyX1tw4iugYqTIk58=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dntAOHlqrA9/iYpG+Gwz8378KyxfXmRNzhmWpc+SOkvn+JD46Ec0Vdh7zyYjcVLbb
-         fXy/DUzU4ymAq17uLdTdEuZCkL5vtxlXDa74FhjJudufgJHVIGQiFd5PWCUfdZxNMo
-         /3SxpM+tkYXcq0f9RHAdL5c20DYXzdUPDZ9A2Z9dDh3Spu+FMosJSza+essWQrLMr9
-         wEkfZDS9HW2llZaAntZH5nDh8McQJrQGOgEfjRu/wTsVKTZfvPXtIHXK7ANfl7/oDd
-         0+Q7F0Q4N3/Ng8j9SowZ7e7w684dx4e5tViWJzYQBfTaVAbQPWrNYo1dzzpEevDrlW
-         13vRGCByOeW1w==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Cc:     Sicelo <absicsz@gmail.com>,
-        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Timo Kokkonen <timo.t.kokkonen@iki.fi>,
-        Tony Lindgren <tony@atomide.com>
-Subject: [PATCH 2/2] media: rc: remove ir-rx51 in favour of generic pwm-ir-tx
-Date:   Mon, 21 Aug 2023 16:26:23 +0100
-Message-Id: <20230821152623.196541-3-sean@mess.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230821152623.196541-1-sean@mess.org>
-References: <20230821152623.196541-1-sean@mess.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        Mon, 21 Aug 2023 14:22:23 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2083.outbound.protection.outlook.com [40.107.94.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA0D3A1;
+        Mon, 21 Aug 2023 11:22:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nn6NZEsgSlwemVJV1m8W8K3+Hx5NrdWgxxysyYOEHbiw8ndg/jOAenV6KA9RGsbApJ4eW51aw2a+yZdhqNwansv8P9F540HWxNevl0Rd1uiiDEfrle0SjXZcYKqLT6sNVc/Q1kOcnJ5ilT0U3NXToJEbf3ZPzDfYb22osa1z1F4NwcA68yx1kQuJqWPtjuYiwSUebxx25d5mb1NDTA57IctH5hUvvTGYSvY+AOKsAHcqzOWWHChgWfcjZ+0vt+5FYXcAcd0NurKmpYnd8ywh1qV46y3LPaCBlVoJR+mTst7cWI/n/GrbkSbxsBfandb84PYuW7cKIElrZxsxeK6CJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xaFNWz/aAyeG1dDukOxCeSdR2IGQE/FxnlLNT0zRJ0Q=;
+ b=ISXN1KkVZzY3i7dWsOLtWKULaRiSk/HuC6hNKX5/FpB0DAPjrpH/NKXVgABnGygd22hlpe9rp2tfrSid/FImSFh2osnAj8ZyCLOsAeXBlqNMLmfwsCmx9a8PyI/GiC/xiBDsAciBtJB9A4FPO8AxpxJnj/wK06Z1pdNoYpclS0Ipo2SotTQGSVsOEgYRdbERRldBU0LIm12PmsHogiJO40qUs8VZcfQpxZLuovHEXEF1RNpXgYTASIAeoGC46Qoyv6M01kAyXZcO8y0LsqCh2GuKhcmvr/Mqp2LJiERAan1o4KMFoUzTicYMZVtapLWbxQNlBZuNiVPVvRwemghIoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xaFNWz/aAyeG1dDukOxCeSdR2IGQE/FxnlLNT0zRJ0Q=;
+ b=td5wsx59JG+wZ9PtANchVsTEQcQcqCPYyuZwvHUVLSq8RXizXAFtF1c9sN5tIrZPbKtzMQFNx3XW7ER2HAZjSecAZXGVqHSbbW54Roq0cB5MM6hC9+7P9IBwHqQs8l90ythQPUMdeBbQyqq0SQ0UHDOJSubTFjgTU4A5Y5vg5X8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SA0PR12MB4447.namprd12.prod.outlook.com (2603:10b6:806:9b::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
+ 2023 18:22:18 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6699.022; Mon, 21 Aug 2023
+ 18:22:18 +0000
+Message-ID: <d321918e-6f3b-4984-9163-427b579dc57e@amd.com>
+Date:   Mon, 21 Aug 2023 20:22:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [BUG] KCSAN: data-race in drm_sched_entity_is_ready [gpu_sched] /
+ drm_sched_entity_push_job [gpu_sched]
+Content-Language: en-US
+To:     Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
+        linux-kernel@vger.kernel.org
+Cc:     Luben Tuikov <luben.tuikov@amd.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <43668e49-c2c0-9979-9de3-b4904c2a8f82@alu.unizg.hr>
+ <36b4e667-c287-1614-fe1f-5e772850d1fb@alu.unizg.hr>
+ <b74a5cc3-8174-67f3-17ab-2e8a7d8fa1a6@amd.com>
+ <5d83d59a-3c49-aae7-61ca-de9c2f3ba9c9@alu.unizg.hr>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <5d83d59a-3c49-aae7-61ca-de9c2f3ba9c9@alu.unizg.hr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-ClientProxiedBy: FR3P281CA0006.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::16) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA0PR12MB4447:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c341d8f-ef08-4d36-3d22-08dba2738cf7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: d0fVBhzD/NSz4ycugjPswXih/cXHVwgjJBoa8RU+6/JrAaUd676gLVumJLWdQPLJhWHh94DQLCJb+s9Y/EkplXxFXMlHGRP/DPqPue/bxsQ8ZFdRnvcOlnxNDxhrOUbdf1v82+VsviiMSt+fLiJRAb6V7HtDmhkdwmZCl0wqaH08a25V95TU9J9HeoX+vrVNqPzRv0ejUDMyNhLCmq5b5zxKRrpANowpEbdRiy59SS727KCStcIwHD5gow1nIxZ0RR0DQdS/EBv5S1umEq7xVQ9K4C96JdQOvQzvn8UpGdfD9BKJo8+DwtypKZJStQ/sGlt/oqaPgFBqJ7nzxjo1jv8+Mu04WjruRsUvlaS2snHs654S3qxePUhts4r2XdeJQ92qhQgqls3zeqnfH2vzD1jtvrnoZmkgCDBXvOwMrGorooTXfXLJ5CBdhrJ/+IOfnUwc7VZuXcpSI80qAB13AmZYWY68d0Q2yxoPnEzmIPmOTIkBJpfmCek7NKypeXv5M90inqpaqbILwHt4ibOud7L01W/AAxn1i2u8YnsGlhVbH7z+D016senbMNhBHGtOGvaLwV1XH9clZrLCj3fU7vHU0GlBtSP3JakeaIa4oFJ41vqy0iQaQvT5yKoh/a34cYrrI6KfhBFKs9rD8bhICA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(136003)(346002)(366004)(376002)(186009)(1800799009)(451199024)(54906003)(66946007)(66556008)(6512007)(66476007)(316002)(8936002)(8676002)(2616005)(4326008)(41300700001)(36756003)(478600001)(6666004)(38100700002)(6486002)(53546011)(6506007)(66574015)(2906002)(83380400001)(86362001)(31686004)(31696002)(5660300002)(26005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djNWdzVrVytCSStLcWJ5TDJoWHBzVHhCZmtub3RKeGU0ZFRUSHEvTFpsOGVq?=
+ =?utf-8?B?THBMNDVIRjNkbjYwNkF6cGV6b1dSa1F6RWkxZFcxZW9Sb05KV3N4WlZKOGVQ?=
+ =?utf-8?B?MzkzYmpkWEh2MnBGVnVLYXpzMHdSUlFYREZodUF5R2JoSlN6bWUwL0M4UjVZ?=
+ =?utf-8?B?K3k2aWJaQ1c0MGxhVGNkZUt4aXRMRXpwbWROQXFyODAveGZXdVRlMm4yeEcz?=
+ =?utf-8?B?RVR5TWE5VXNNLy9LTmRqczJWZmJXUGVVblVjS3BvRll1a1lEZ1ZkYWxERDhN?=
+ =?utf-8?B?OGN1QjYrWVRabTdCeGgzc0hFb2lpQy85THlIN1E0NGNNMFlPV3R3L2l3ZXFJ?=
+ =?utf-8?B?L1QwNU1jcXJXOGdOVTJCZ2V1VWJhd2x3Mm1FOGZobFdsaEJGV0daNHdwTk1T?=
+ =?utf-8?B?NGVMdjcwVDBaMUdyNkVFMG5HYUxycVR2VERyNjNBWVBYaGxVdjBySnVZVkJj?=
+ =?utf-8?B?M3dTQVBzQTdFaVdvZHJOQi8yUXYxQS8yNnZBSVdoY0VNeng3eTBXdzNacHo0?=
+ =?utf-8?B?Nm1jQzRId3l1Y25xUExRUTFwa3FCREp3WmU5TGIyUlVBOHFvQVhCNGVMbVpo?=
+ =?utf-8?B?OGxKbitHbDUwQjBmbU1qZjJXU1RSRjgvRk14K1RLZlZOSGgzOFJ6dGtqT0dX?=
+ =?utf-8?B?bkdGbzU3WkNhWHh2eHBVWFNSVG1pRk9WcmdLd2tocmJ5ZU9keDQ4aHdVQnFS?=
+ =?utf-8?B?bGMyNDlXZ2hNMHpnUzV6YzhtcFFuUjJmbE0vMU51Y3FEV3E5b0U4RysweUJs?=
+ =?utf-8?B?eUMzcjJPb0J2TVU0YW1Eb3lyT2VhbVlCTHJmWkV1N21QRVVqWXpYVGRLcXYv?=
+ =?utf-8?B?Njh2eWhaaUdSRnpVVHJ0cG1BN1JNZUtNNnIzYkx5ZHpodGNoc0RnbFB3eEF2?=
+ =?utf-8?B?eGtJZWg3ZE11eG9lQmhid2VBbSs3MjRUdVFGVFVydlF4SVBUS2NSbkxxVzJN?=
+ =?utf-8?B?T3hWaUtoRnN4YlBRdG04M2xQTFZoVWV3aVdVWkRScEUzakZRY2FSWU45Z1ps?=
+ =?utf-8?B?dEl2bmpqSVgrQjJpZ01mKzgzbVo4UGtJaHR1cHg1SkIxNHNOM2FDcitwUTFP?=
+ =?utf-8?B?R2h4RUgyUkY0R01tV1dRV2lOdVNSTXlmRzdNdnVoeEozR1lYSU81OTdXV1FK?=
+ =?utf-8?B?RGhQY1BzZ2RjcmQvTjZlSkR5b2kxV3hMK0FQa2hPNGJGS3BaQWJzZERWVU1I?=
+ =?utf-8?B?dklLRTZid2R1T2RXZ3VSb20ySU9RYXdCdWRRVW5VYjdDaERocHJoSytMeS91?=
+ =?utf-8?B?L0w1TDM3QnlUT1MwSjFkdmRoYWFoalNiRXRlQ29nblk3Y1pGZXkvSmtMY0R6?=
+ =?utf-8?B?NHRtWGxJd0RrRjlPZURuenI0alZZd2ZYUW02U1QyZlZkaGN0ZU1OcEdWakN4?=
+ =?utf-8?B?aFMyRHd2OEprUmtDdkZnOG5hQ0U1eDc2Qmo2alJhSkRsb0sza2U0ZzFOMm9m?=
+ =?utf-8?B?WDRWWHBySFVkcEpKL01YR0FnSHUxUkZJOC9OeHpiNTk4T3p4T2JjdzlFTmVZ?=
+ =?utf-8?B?TE5oV2JwYW9mZWNTc0YwVGZWdSs3anVHcHpKN0VsNUtmdUlxa3gxZStqOU5y?=
+ =?utf-8?B?OUFUQmRjNXlMQjIvdFB1Q0lpYUtVL1FaZVhyK0l4YkxhS2xnQmxvcjYrTzVP?=
+ =?utf-8?B?S25NMnZmd1Z3NWFiWjlzTXZURXo0WExpUFNueTNQeFhpTFd2Z08yVTk1SHlE?=
+ =?utf-8?B?LzlEMHB6eTdhWHFHS2t4eEdudkFmUG9PWEhzM1oxTXNUd25FcHpRRFBwQW5Y?=
+ =?utf-8?B?aEQxdVN4eEdZSHJvUmk5WG96ZGg2SnNQYXVKYVhQVjRhUVVWSWJlazNKd3hv?=
+ =?utf-8?B?cXR0YzBaS2RYTW1YSXZURUk1L1FOaUs2cU1CTG5SVjlsU1EvblpNN01Ka0JB?=
+ =?utf-8?B?STYzdEVuSW1tcDNmcDU5L2tHQXh4bXlYamZtcU0xa1VJblVlNXQxZjVmeGlM?=
+ =?utf-8?B?OGJSbkxic3k0V3lZTmlvNm4wY29DYjIvc3poU29GMjlpUkN4RUVOYVAreVFl?=
+ =?utf-8?B?QVF0NjNPTUxMaXRQU3VEdHFGSnJuOG5SNUJXdDg2d2RTdDZpZDl3RThrbU54?=
+ =?utf-8?B?c0tjd2VBZ1ZENzRkQ0tIZTY4NHdMd0J2TDVna2owbGY4WTVsUjZuLzJtQ3kx?=
+ =?utf-8?Q?gg4zIdk8TBKMzdWq9BwFR1Gif?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c341d8f-ef08-4d36-3d22-08dba2738cf7
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 18:22:18.0858
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cMYVtrZp7+SJcL986NhL2Z4G/WK38Uu5hxUJ+axSVT027cNIvtKzK1lCozm2pzRe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4447
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ir-rx51 is a pwm-based TX driver specific to the N900. This can be
-handled entirely by the generic pwm-ir-tx driver.
+I'm not sure about that.
 
-Note that the suspend code in the ir-rx51 driver is unnecessary, since
-during transmit, the process is not in interruptable sleep. The process
-is not put to sleep until the transmit completes.
+On the one hand it might generate some noise. I know tons of cases where 
+logic is: Ok if we see the updated value immediately it will optimize 
+things, but if not it's unproblematic because there is another check 
+after the next memory barrier.
 
-Cc: Sicelo <absicsz@gmail.com>
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Cc: Pali Rohár <pali.rohar@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Timo Kokkonen <timo.t.kokkonen@iki.fi>
-Cc: Tony Lindgren <tony@atomide.com>
-Signed-off-by: Sean Young <sean@mess.org>
----
- arch/arm/configs/omap2plus_defconfig |   1 -
- drivers/media/rc/Kconfig             |  10 -
- drivers/media/rc/Makefile            |   1 -
- drivers/media/rc/ir-rx51.c           | 285 ---------------------------
- 4 files changed, 297 deletions(-)
- delete mode 100644 drivers/media/rc/ir-rx51.c
+On the other hand we probably have cases where this is not correctly 
+implemented. So double checking those would most like be good idea.
 
-diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
-index 9bd36dd39bd0..b4e3a6d7b606 100644
---- a/arch/arm/configs/omap2plus_defconfig
-+++ b/arch/arm/configs/omap2plus_defconfig
-@@ -484,7 +484,6 @@ CONFIG_LIRC=y
- CONFIG_RC_DEVICES=y
- CONFIG_IR_GPIO_TX=m
- CONFIG_IR_PWM_TX=m
--CONFIG_IR_RX51=m
- CONFIG_IR_SPI=m
- CONFIG_MEDIA_SUPPORT=m
- CONFIG_V4L_PLATFORM_DRIVERS=y
-diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
-index 07bdf649c60d..2afe67ffa285 100644
---- a/drivers/media/rc/Kconfig
-+++ b/drivers/media/rc/Kconfig
-@@ -338,16 +338,6 @@ config IR_REDRAT3
- 	   To compile this driver as a module, choose M here: the
- 	   module will be called redrat3.
- 
--config IR_RX51
--	tristate "Nokia N900 IR transmitter diode"
--	depends on (OMAP_DM_TIMER && PWM_OMAP_DMTIMER && ARCH_OMAP2PLUS || COMPILE_TEST) && RC_CORE
--	help
--	   Say Y or M here if you want to enable support for the IR
--	   transmitter diode built in the Nokia N900 (RX51) device.
--
--	   The driver uses omap DM timers for generating the carrier
--	   wave and pulses.
--
- config IR_SERIAL
- 	tristate "Homebrew Serial Port Receiver"
- 	depends on HAS_IOPORT
-diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
-index a9285266e944..2bca6f7f07bc 100644
---- a/drivers/media/rc/Makefile
-+++ b/drivers/media/rc/Makefile
-@@ -43,7 +43,6 @@ obj-$(CONFIG_IR_MTK) += mtk-cir.o
- obj-$(CONFIG_IR_NUVOTON) += nuvoton-cir.o
- obj-$(CONFIG_IR_PWM_TX) += pwm-ir-tx.o
- obj-$(CONFIG_IR_REDRAT3) += redrat3.o
--obj-$(CONFIG_IR_RX51) += ir-rx51.o
- obj-$(CONFIG_IR_SERIAL) += serial_ir.o
- obj-$(CONFIG_IR_SPI) += ir-spi.o
- obj-$(CONFIG_IR_STREAMZAP) += streamzap.o
-diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
-deleted file mode 100644
-index 13e81bf8005d..000000000000
---- a/drivers/media/rc/ir-rx51.c
-+++ /dev/null
-@@ -1,285 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- *  Copyright (C) 2008 Nokia Corporation
-- *
-- *  Based on lirc_serial.c
-- */
--#include <linux/clk.h>
--#include <linux/module.h>
--#include <linux/platform_device.h>
--#include <linux/wait.h>
--#include <linux/pwm.h>
--#include <linux/of.h>
--#include <linux/hrtimer.h>
--
--#include <media/rc-core.h>
--
--#define WBUF_LEN 256
--
--struct ir_rx51 {
--	struct rc_dev *rcdev;
--	struct pwm_device *pwm;
--	struct pwm_state state;
--	struct hrtimer timer;
--	struct device	     *dev;
--	wait_queue_head_t     wqueue;
--
--	unsigned int	freq;		/* carrier frequency */
--	unsigned int	duty_cycle;	/* carrier duty cycle */
--	int		wbuf[WBUF_LEN];
--	int		wbuf_index;
--	unsigned long	device_is_open;
--};
--
--static inline void ir_rx51_on(struct ir_rx51 *ir_rx51)
--{
--	ir_rx51->state.enabled = true;
--	pwm_apply_state(ir_rx51->pwm, &ir_rx51->state);
--}
--
--static inline void ir_rx51_off(struct ir_rx51 *ir_rx51)
--{
--	ir_rx51->state.enabled = false;
--	pwm_apply_state(ir_rx51->pwm, &ir_rx51->state);
--}
--
--static int init_timing_params(struct ir_rx51 *ir_rx51)
--{
--	ir_rx51->state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
--	pwm_set_relative_duty_cycle(&ir_rx51->state, ir_rx51->duty_cycle, 100);
--
--	return 0;
--}
--
--static enum hrtimer_restart ir_rx51_timer_cb(struct hrtimer *timer)
--{
--	struct ir_rx51 *ir_rx51 = container_of(timer, struct ir_rx51, timer);
--	ktime_t now;
--
--	if (ir_rx51->wbuf_index < 0) {
--		dev_err_ratelimited(ir_rx51->dev,
--				    "BUG wbuf_index has value of %i\n",
--				    ir_rx51->wbuf_index);
--		goto end;
--	}
--
--	/*
--	 * If we happen to hit an odd latency spike, loop through the
--	 * pulses until we catch up.
--	 */
--	do {
--		u64 ns;
--
--		if (ir_rx51->wbuf_index >= WBUF_LEN)
--			goto end;
--		if (ir_rx51->wbuf[ir_rx51->wbuf_index] == -1)
--			goto end;
--
--		if (ir_rx51->wbuf_index % 2)
--			ir_rx51_off(ir_rx51);
--		else
--			ir_rx51_on(ir_rx51);
--
--		ns = US_TO_NS(ir_rx51->wbuf[ir_rx51->wbuf_index]);
--		hrtimer_add_expires_ns(timer, ns);
--
--		ir_rx51->wbuf_index++;
--
--		now = timer->base->get_time();
--
--	} while (hrtimer_get_expires_tv64(timer) < now);
--
--	return HRTIMER_RESTART;
--end:
--	/* Stop TX here */
--	ir_rx51_off(ir_rx51);
--	ir_rx51->wbuf_index = -1;
--
--	wake_up_interruptible(&ir_rx51->wqueue);
--
--	return HRTIMER_NORESTART;
--}
--
--static int ir_rx51_tx(struct rc_dev *dev, unsigned int *buffer,
--		      unsigned int count)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	if (count > WBUF_LEN)
--		return -EINVAL;
--
--	memcpy(ir_rx51->wbuf, buffer, count * sizeof(unsigned int));
--
--	/* Wait any pending transfers to finish */
--	wait_event_interruptible(ir_rx51->wqueue, ir_rx51->wbuf_index < 0);
--
--	init_timing_params(ir_rx51);
--	if (count < WBUF_LEN)
--		ir_rx51->wbuf[count] = -1; /* Insert termination mark */
--
--	/*
--	 * REVISIT: Adjust latency requirements so the device doesn't go in too
--	 * deep sleep states with pm_qos_add_request().
--	 */
--
--	ir_rx51_on(ir_rx51);
--	ir_rx51->wbuf_index = 1;
--	hrtimer_start(&ir_rx51->timer,
--		      ns_to_ktime(US_TO_NS(ir_rx51->wbuf[0])),
--		      HRTIMER_MODE_REL);
--	/*
--	 * Don't return back to the userspace until the transfer has
--	 * finished
--	 */
--	wait_event_interruptible(ir_rx51->wqueue, ir_rx51->wbuf_index < 0);
--
--	/* REVISIT: Remove pm_qos constraint, we can sleep again */
--
--	return count;
--}
--
--static int ir_rx51_open(struct rc_dev *dev)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	if (test_and_set_bit(1, &ir_rx51->device_is_open))
--		return -EBUSY;
--
--	ir_rx51->pwm = pwm_get(ir_rx51->dev, NULL);
--	if (IS_ERR(ir_rx51->pwm)) {
--		int res = PTR_ERR(ir_rx51->pwm);
--
--		dev_err(ir_rx51->dev, "pwm_get failed: %d\n", res);
--		return res;
--	}
--
--	return 0;
--}
--
--static void ir_rx51_release(struct rc_dev *dev)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	hrtimer_cancel(&ir_rx51->timer);
--	ir_rx51_off(ir_rx51);
--	pwm_put(ir_rx51->pwm);
--
--	clear_bit(1, &ir_rx51->device_is_open);
--}
--
--static struct ir_rx51 ir_rx51 = {
--	.duty_cycle	= 50,
--	.wbuf_index	= -1,
--};
--
--static int ir_rx51_set_duty_cycle(struct rc_dev *dev, u32 duty)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	ir_rx51->duty_cycle = duty;
--
--	return 0;
--}
--
--static int ir_rx51_set_tx_carrier(struct rc_dev *dev, u32 carrier)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	if (carrier > 500000 || carrier < 20000)
--		return -EINVAL;
--
--	ir_rx51->freq = carrier;
--
--	return 0;
--}
--
--#ifdef CONFIG_PM
--
--static int ir_rx51_suspend(struct platform_device *dev, pm_message_t state)
--{
--	/*
--	 * In case the device is still open, do not suspend. Normally
--	 * this should not be a problem as lircd only keeps the device
--	 * open only for short periods of time. We also don't want to
--	 * get involved with race conditions that might happen if we
--	 * were in a middle of a transmit. Thus, we defer any suspend
--	 * actions until transmit has completed.
--	 */
--	if (test_and_set_bit(1, &ir_rx51.device_is_open))
--		return -EAGAIN;
--
--	clear_bit(1, &ir_rx51.device_is_open);
--
--	return 0;
--}
--
--static int ir_rx51_resume(struct platform_device *dev)
--{
--	return 0;
--}
--
--#else
--
--#define ir_rx51_suspend	NULL
--#define ir_rx51_resume	NULL
--
--#endif /* CONFIG_PM */
--
--static int ir_rx51_probe(struct platform_device *dev)
--{
--	struct pwm_device *pwm;
--	struct rc_dev *rcdev;
--
--	pwm = pwm_get(&dev->dev, NULL);
--	if (IS_ERR(pwm))
--		return dev_err_probe(&dev->dev, PTR_ERR(pwm), "pwm_get failed\n");
--
--	/* Use default, in case userspace does not set the carrier */
--	ir_rx51.freq = DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm), NSEC_PER_SEC);
--	pwm_init_state(pwm, &ir_rx51.state);
--	pwm_put(pwm);
--
--	hrtimer_init(&ir_rx51.timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
--	ir_rx51.timer.function = ir_rx51_timer_cb;
--
--	ir_rx51.dev = &dev->dev;
--
--	rcdev = devm_rc_allocate_device(&dev->dev, RC_DRIVER_IR_RAW_TX);
--	if (!rcdev)
--		return -ENOMEM;
--
--	rcdev->priv = &ir_rx51;
--	rcdev->open = ir_rx51_open;
--	rcdev->close = ir_rx51_release;
--	rcdev->tx_ir = ir_rx51_tx;
--	rcdev->s_tx_duty_cycle = ir_rx51_set_duty_cycle;
--	rcdev->s_tx_carrier = ir_rx51_set_tx_carrier;
--	rcdev->driver_name = KBUILD_MODNAME;
--
--	ir_rx51.rcdev = rcdev;
--
--	return devm_rc_register_device(&dev->dev, ir_rx51.rcdev);
--}
--
--static const struct of_device_id ir_rx51_match[] = {
--	{
--		.compatible = "nokia,n900-ir",
--	},
--	{},
--};
--MODULE_DEVICE_TABLE(of, ir_rx51_match);
--
--static struct platform_driver ir_rx51_platform_driver = {
--	.probe		= ir_rx51_probe,
--	.suspend	= ir_rx51_suspend,
--	.resume		= ir_rx51_resume,
--	.driver		= {
--		.name	= KBUILD_MODNAME,
--		.of_match_table = ir_rx51_match,
--	},
--};
--module_platform_driver(ir_rx51_platform_driver);
--
--MODULE_DESCRIPTION("IR TX driver for Nokia RX51");
--MODULE_AUTHOR("Nokia Corporation");
--MODULE_LICENSE("GPL");
--- 
-2.41.0
+Regards,
+Christian.
+
+Am 21.08.23 um 16:28 schrieb Mirsad Todorovac:
+> Hi Christian,
+>
+> Thank you for the update.
+>
+> Should I continue reporting what KCSAN gives? I will try to filter 
+> these to save your time for
+> evaluation ...
+>
+> Kind regards,
+> Mirsad
+>
+> On 8/21/23 15:20, Christian König wrote:
+>> Hi Mirsad,
+>>
+>> well this is a false positive.
+>>
+>> That drm_sched_entity_is_ready() doesn't see the data written by 
+>> drm_sched_entity_push_job() is part of the logic here.
+>>
+>> Regards,
+>> Christian.
+>>
+>> Am 18.08.23 um 15:44 schrieb Mirsad Todorovac:
+>>> On 8/17/23 21:54, Mirsad Todorovac wrote:
+>>>> Hi,
+>>>>
+>>>> This is your friendly bug reporter.
+>>>>
+>>>> The environment is vanilla torvalds tree kernel on Ubuntu 22.04 LTS 
+>>>> and a Ryzen 7950X box.
+>>>>
+>>>> Please find attached the complete dmesg output from the ring buffer 
+>>>> and lshw output.
+>>>>
+>>>> NOTE: The kernel reports tainted kernel, but to my knowledge there 
+>>>> are no proprietary (G) modules,
+>>>>        but this taint is turned on by the previous bugs.
+>>>>
+>>>> dmesg excerpt:
+>>>>
+>>>> [ 8791.864576] 
+>>>> ==================================================================
+>>>> [ 8791.864648] BUG: KCSAN: data-race in drm_sched_entity_is_ready 
+>>>> [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
+>>>>
+>>>> [ 8791.864776] write (marked) to 0xffff9b74491b7c40 of 8 bytes by 
+>>>> task 3807 on cpu 18:
+>>>> [ 8791.864788]  drm_sched_entity_push_job+0xf4/0x2a0 [gpu_sched]
+>>>> [ 8791.864852]  amdgpu_cs_ioctl+0x3888/0x3de0 [amdgpu]
+>>>> [ 8791.868731]  drm_ioctl_kernel+0x127/0x210 [drm]
+>>>> [ 8791.869222]  drm_ioctl+0x38f/0x6f0 [drm]
+>>>> [ 8791.869711]  amdgpu_drm_ioctl+0x7e/0xe0 [amdgpu]
+>>>> [ 8791.873660]  __x64_sys_ioctl+0xd2/0x120
+>>>> [ 8791.873676]  do_syscall_64+0x58/0x90
+>>>> [ 8791.873688]  entry_SYSCALL_64_after_hwframe+0x73/0xdd
+>>>>
+>>>> [ 8791.873710] read to 0xffff9b74491b7c40 of 8 bytes by task 1119 
+>>>> on cpu 27:
+>>>> [ 8791.873722]  drm_sched_entity_is_ready+0x16/0x50 [gpu_sched]
+>>>> [ 8791.873786]  drm_sched_select_entity+0x1c7/0x220 [gpu_sched]
+>>>> [ 8791.873849]  drm_sched_main+0xd2/0x500 [gpu_sched]
+>>>> [ 8791.873912]  kthread+0x18b/0x1d0
+>>>> [ 8791.873924]  ret_from_fork+0x43/0x70
+>>>> [ 8791.873939]  ret_from_fork_asm+0x1b/0x30
+>>>>
+>>>> [ 8791.873955] value changed: 0x0000000000000000 -> 0xffff9b750ebcfc00
+>>>>
+>>>> [ 8791.873971] Reported by Kernel Concurrency Sanitizer on:
+>>>> [ 8791.873980] CPU: 27 PID: 1119 Comm: gfx_0.0.0 Tainted: 
+>>>> G             L 6.5.0-rc6-net-cfg-kcsan-00038-g16931859a650 #35
+>>>> [ 8791.873994] Hardware name: ASRock X670E PG Lightning/X670E PG 
+>>>> Lightning, BIOS 1.21 04/26/2023
+>>>> [ 8791.874002] 
+>>>> ==================================================================
+>>>
+>>> P.S.
+>>>
+>>> According to Mr. Heo's instructions, I am adding the unwound trace 
+>>> here:
+>>>
+>>> [ 1879.706518] 
+>>> ==================================================================
+>>> [ 1879.706616] BUG: KCSAN: data-race in drm_sched_entity_is_ready 
+>>> [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
+>>>
+>>> [ 1879.706737] write (marked) to 0xffff8f3672748c40 of 8 bytes by 
+>>> task 4087 on cpu 10:
+>>> [ 1879.706748] drm_sched_entity_push_job 
+>>> (./include/drm/spsc_queue.h:74 
+>>> drivers/gpu/drm/scheduler/sched_entity.c:574) gpu_sched
+>>> [ 1879.706808] amdgpu_cs_ioctl 
+>>> (drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1375 
+>>> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1469) amdgpu
+>>> [ 1879.710589] drm_ioctl_kernel (drivers/gpu/drm/drm_ioctl.c:788) drm
+>>> [ 1879.711068] drm_ioctl (drivers/gpu/drm/drm_ioctl.c:892) drm
+>>> [ 1879.711551] amdgpu_drm_ioctl 
+>>> (drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2748) amdgpu
+>>> [ 1879.715319] __x64_sys_ioctl (fs/ioctl.c:51 fs/ioctl.c:870 
+>>> fs/ioctl.c:856 fs/ioctl.c:856)
+>>> [ 1879.715334] do_syscall_64 (arch/x86/entry/common.c:50 
+>>> arch/x86/entry/common.c:80)
+>>> [ 1879.715345] entry_SYSCALL_64_after_hwframe 
+>>> (arch/x86/entry/entry_64.S:120)
+>>>
+>>> [ 1879.715365] read to 0xffff8f3672748c40 of 8 bytes by task 1098 on 
+>>> cpu 11:
+>>> [ 1879.715376] drm_sched_entity_is_ready 
+>>> (drivers/gpu/drm/scheduler/sched_entity.c:134) gpu_sched
+>>> [ 1879.715435] drm_sched_select_entity 
+>>> (drivers/gpu/drm/scheduler/sched_main.c:248 
+>>> drivers/gpu/drm/scheduler/sched_main.c:893) gpu_sched
+>>> [ 1879.715495] drm_sched_main 
+>>> (drivers/gpu/drm/scheduler/sched_main.c:1019) gpu_sched
+>>> [ 1879.715554] kthread (kernel/kthread.c:389)
+>>> [ 1879.715563] ret_from_fork (arch/x86/kernel/process.c:145)
+>>> [ 1879.715575] ret_from_fork_asm (arch/x86/entry/entry_64.S:312)
+>>>
+>>> [ 1879.715590] value changed: 0x0000000000000000 -> 0xffff8f360663dc00
+>>>
+>>> [ 1879.715604] Reported by Kernel Concurrency Sanitizer on:
+>>> [ 1879.715612] CPU: 11 PID: 1098 Comm: gfx_0.0.0 Tainted: 
+>>> G             L     6.5.0-rc6+ #47
+>>> [ 1879.715624] Hardware name: ASRock X670E PG Lightning/X670E PG 
+>>> Lightning, BIOS 1.21 04/26/2023
+>>> [ 1879.715631] 
+>>> ==================================================================
+>>>
+>>> It seems that the line in question might be:
+>>>
+>>>     first = spsc_queue_push(&entity->job_queue, 
+>>> &sched_job->queue_node);
+>>>
+>>> which expands to:
+>>>
+>>> static inline bool spsc_queue_push(struct spsc_queue *queue, struct 
+>>> spsc_node *node)
+>>> {
+>>>     struct spsc_node **tail;
+>>>
+>>>     node->next = NULL;
+>>>
+>>>     preempt_disable();
+>>>
+>>>     tail = (struct spsc_node **)atomic_long_xchg(&queue->tail, 
+>>> (long)&node->next);
+>>>     WRITE_ONCE(*tail, node);
+>>>     atomic_inc(&queue->job_count);
+>>>
+>>>     /*
+>>>      * In case of first element verify new node will be visible to 
+>>> the consumer
+>>>      * thread when we ping the kernel thread that there is new work 
+>>> to do.
+>>>      */
+>>>     smp_wmb();
+>>>
+>>>     preempt_enable();
+>>>
+>>>     return tail == &queue->head;
+>>> }
+>>>
+>>> According to the manual, preempt_disable() only guaranteed exclusion 
+>>> on a single CPU/core/thread, so
+>>> we might be plagued with the slow, old fashioned locking unless 
+>>> anyone had a better idea.
+>>>
+>>> Best regards,
+>>> Mirsad Todorovac
 
