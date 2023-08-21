@@ -2,303 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5474782C13
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 16:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 081D4782C21
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 16:40:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235993AbjHUOiU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 10:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32846 "EHLO
+        id S236034AbjHUOkT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 10:40:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233056AbjHUOiU (ORCPT
+        with ESMTP id S232388AbjHUOkS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 10:38:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2437AE3;
-        Mon, 21 Aug 2023 07:38:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A8D2362D46;
-        Mon, 21 Aug 2023 14:38:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09CBC433C7;
-        Mon, 21 Aug 2023 14:38:13 +0000 (UTC)
-Message-ID: <58c2ee02-153d-c046-f39f-bf39054450d0@xs4all.nl>
-Date:   Mon, 21 Aug 2023 16:38:12 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v4 04/10] media: verisilicon: Refactor postprocessor to
- store more buffers
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mon, 21 Aug 2023 10:40:18 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2047.outbound.protection.outlook.com [40.107.93.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8004BE2;
+        Mon, 21 Aug 2023 07:40:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FqR6XiXmV3BY+EpAHE8FCJlP0IzPGUnzEgI3sRlDQ48JlHkLFIIidlwWGtRQqQe86U3g7bZ39mdRoNoFx6FXx/0vL7lW8/Um9hIcB2wXycbjV1M7BM5/kKhcSKXu4U/jqXwUO8TKP3eZnKEThhhhHyftAQkAOiY9arTCkV+qMPFbnHREuNvcL7PVEAJSnZswJB8yFHCN9ccn6XsR9RgLbdrvWwHlinh70Kt2rL/EbC9m1iyTU9o5diZKIqURLGu48dWdXV5R6zV8gM5yD9QVBlHM8YJ5HV7BeHig5zRvQEHzqHpeFOBB9aa7f+QK6JfZ5IcTDZc4iy4HapBghUYKXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AzIiINzI5HMFB8guwkBjReqCogCcqivAGWLLHsp41XI=;
+ b=V7+uhSO4S/tgaOdBpRlR8QaCVW6Q/vGFdLzGxswSh7Zj0peAsB9S2R955RgD20AhfEYsyOriE/KrHmwLQvjdgwXmSy6yaxqJ4KqFm3vPRyHbNzr9iR7NOZPROnl4ltZDQs35WBQaY14xLa1PuvNMKwdQgdT6YLkngb5TvZW1RlVoFwGRtOMs9VvaLOKwUnor2WBpInmzmwAmwLBK70mf6ZGxr7e3usflS7/hruaKaXxIhxTiN7wcgeGrimSaKd8ZoYdK/k1mxEBAs6gYiB8VvYzBC6kFKHOgAD4E36Rz25I+SE5LMUP+4FEfQAgVFP1ceki6YFb7M5DssjJLX6hFWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AzIiINzI5HMFB8guwkBjReqCogCcqivAGWLLHsp41XI=;
+ b=FHvQ9kpc8vEvW2BvvKhfwntoMIxoNLb8zILA/7hJEdAID1mYcT6+fHovqN53MTYTldpPW4vwmTRjIWLHN7iifH2qj939AJuMoyFNk48e4X4RCo+zL3uOLDzWxI96iUpPqlthaPB22XMYHm0P5n9Hke56jt+QuVk8DVwCzBX6HwdQHwbfzgmJpKHgVj0B5DGnwQqwBSz+eV1xbkDwpNAwHZ+MgzlOmCDhSZckVGZ0ixw6KiE6btbyGWRfNdJdRsDBEdE6uxeICZXumh/IjXkFgrWZo7I13+zTXx21ukOOjV9U2IRlucAIcSbt+ZdFmsNyvgmOn6jgowM+R46vucF8Tw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by LV8PR12MB9081.namprd12.prod.outlook.com (2603:10b6:408:188::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
+ 2023 14:40:14 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6699.020; Mon, 21 Aug 2023
+ 14:40:14 +0000
+Date:   Mon, 21 Aug 2023 11:40:12 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Joerg Roedel <joro@8bytes.org>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Andy Gross <agross@kernel.org>,
+        David Airlie <airlied@gmail.com>, alsa-devel@alsa-project.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        ath10k@lists.infradead.org, ath11k@lists.infradead.org,
+        Mark Brown <broonie@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, devicetree@vger.kernel.org,
+        dmaengine@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
+        etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        Frank Rowand <frowand.list@gmail.com>, iommu@lists.linux.dev,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Kalle Valo <kvalo@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
         linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230705121056.37017-1-benjamin.gaignard@collabora.com>
- <20230705121056.37017-5-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230705121056.37017-5-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-10.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sinan Kaya <okaya@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Sean Paul <sean@poorly.run>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Joerg Roedel <jroedel@suse.de>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH] iommu: Remove the device_lock_assert() from
+ __iommu_probe_device()
+Message-ID: <ZON3TNmYXqdfovRm@nvidia.com>
+References: <0-v1-98d20e768c66+7-of_dma_lock_jgg@nvidia.com>
+ <78114fd6-9b83-92ba-418f-6cc7bda9df9b@arm.com>
+ <ZONdwclGOBaxxqtq@nvidia.com>
+ <ZON2gRogBhjmpNIl@8bytes.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZON2gRogBhjmpNIl@8bytes.org>
+X-ClientProxiedBy: MN2PR15CA0063.namprd15.prod.outlook.com
+ (2603:10b6:208:237::32) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|LV8PR12MB9081:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8b2e8db9-ab10-42f4-6559-08dba2548788
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HgyALB5deKd/E/UO6KXUDvzjKRMQlrG78YiPcGWRQIR0zeK/GP01IumM+XAWhoGsqAiHJKfXjx2YLxCf85VKcu8mszZQ4H00gNIKZQv5JDnCy7P2Xe/gLdK9r4M+3br2cCvFXE8zTJiuHZ0fEeGfg7i1oAJozpSDzHeUjipuMJInQIVgcs6RkUy52jp6fFiFaPVT1emrSkEPrdYlfhnAlQ0MgrmbDMouk1P7cMRg81pxkrb1udes+/IpSNrVp88Tk/qeU1sok1oxLuD456tBpYB3v/S982HUJJs1VQ7uk9H7AwI8NQ0RFzs6YfGj/OskXXE4MtKd3RNxXmxh/1wiWt9ubxxSFOByqzzM6CB5EZxFsNPqrQCbk/fbXdiD58sRANf7D2JW402N2135nVA3RJaSlCJw+OV1oGJtsZE77rZkvORS49F35ZciUeX75EUUNAu9MvE5ZN+oNUJsCW2IYlvkJKAOyN7OzLRmTzsVaOFDHAsukIlgEtlo9jFGDreLcAeW0oSnsVCL2B+0U5yThPFq6skAmw2J7o+2huVOj1Ycku+4V2JTT+BxR+qEcE8a
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(39860400002)(376002)(136003)(396003)(451199024)(186009)(1800799009)(2906002)(4744005)(7416002)(7366002)(7406005)(38100700002)(6506007)(6486002)(83380400001)(5660300002)(26005)(86362001)(8676002)(2616005)(8936002)(4326008)(316002)(66946007)(6512007)(54906003)(6916009)(66556008)(66476007)(478600001)(36756003)(41300700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0VcySalc7lJMstEA0d6FSbcTBLowbQm6euasl/pSclCA7m6WS0/F5E1n2+Mq?=
+ =?us-ascii?Q?QAVmIAZMcaEmARZsKz9Y2fhB0WMaHf0IuQd+FGvfchH0s0kZrlIqSrx+EURX?=
+ =?us-ascii?Q?yDs+mGIQ0Cm3TQtTXLTu1rZ4DuJkssC23wiwFRIjLuxvddyaV6Ri74Nj7jjL?=
+ =?us-ascii?Q?EVWJo/g1aP2zRsz/259c60JeRQ3S/kFvc2sKJW2zO2W63fVxGXk3E7IexJ+3?=
+ =?us-ascii?Q?dFCsMXFJrBTeXSi+12KbOu9vb5YiR7Sp4ff5PnY3ynVEAU6/nCddVpSoTu0a?=
+ =?us-ascii?Q?SHbujYSHFwFGNJ7f2iAhQsDnMFK+M9xUjD7C+k2apiSffpmIi2Sa3CZKl1kb?=
+ =?us-ascii?Q?w7whXrvkFCxrC3UxhdY8MRRbw+rwIOOlBgArC0bBxmWvFAF/UF3qh+CaatkK?=
+ =?us-ascii?Q?eglMlygQqM6Rg4FXJPioEFYZzsNpSRZXG/F/oO28Du6JphlKrDZNTeLQv3n0?=
+ =?us-ascii?Q?6h6nu2LgrPPyXkxYP/FMm6NoLLhabk4vmH/ZABQLd5OOaQ4IkVIS64mcXKmO?=
+ =?us-ascii?Q?PB8KOGbnYa294AtpyvaIRAJUQzSXfJt2PXVHrXKaCwRA0Lzar631GDO1TJx3?=
+ =?us-ascii?Q?m+6JJXU910a2eBg2ZZu+Rikw66TkSGGcRenR36aOf0w19xe4ueAcUFM6jDPH?=
+ =?us-ascii?Q?qBwr/UbNuN0fehBhdOTI0XHHzeIbS4Gwh6vE6gTnknYgbWzZZ2+LMau5gmc/?=
+ =?us-ascii?Q?GZdW/Gm0id/Z4gKl+eXPyPzCDGABzQGgJWj4twLpxSI3qKJeT6kaLGXwVRPs?=
+ =?us-ascii?Q?Hn3NqI1yfHxk9JBaC6qNZoJppTfYU7tkohfvzojL1Xpxs3Kxms48useG19DV?=
+ =?us-ascii?Q?HQNDqMzI8p63usrTNwo01J5z5LiyRypJ+dCIQg/T/ttxVNvkKpJa/g+CjFUu?=
+ =?us-ascii?Q?7vlXB0SR9lP3nOuNQyDRElPoi1ROZBGcO0TZ/CVZsjoB72EFKlaQc7JqndvF?=
+ =?us-ascii?Q?fuaPbrVUUsBKfVUXZ7KHHA2Xr4Dxdt7KaAcrJXWtG4ydTcR5GymtASVVh/BY?=
+ =?us-ascii?Q?NzpyLJzCKPAXq3fTOEzM+pgwJHBChArLmwzvZ2/yTlQX+/jMmCFHfSTZg0W7?=
+ =?us-ascii?Q?DHAOtfzWv9vUsp2D8NP3aKEhcD+txaTNu76Fr/w/jkTqBwc4Lz7PAIAVVX+u?=
+ =?us-ascii?Q?NRVpFF/0z/NYnTAB4tJq07r9EnoHy7kVsh+HJmLPxXITZ0y71ti8f17GzrsO?=
+ =?us-ascii?Q?qAjMT90xSKfi7ZzJ3cGkjwVINppqjsJqAgzzPduVLvBQp9ADXr6m0vqKcFnY?=
+ =?us-ascii?Q?oCd6elPqK5A8YE98gLuqHg70asPvKu/yWmrWVP3pq59r4fbwN14coD9F8h7n?=
+ =?us-ascii?Q?sV+XuLhePprbsv0Cudx0HXp5TtK3hHp2hO1BZQkhdGkYjiYr35p7tdsMcVm6?=
+ =?us-ascii?Q?/vmb7fQyexrcUKLCwsqlkpRIu3Gtop8pgdbVo41nLwRUSYZPlgxVWN/VIS60?=
+ =?us-ascii?Q?7L3cfHHFfIvlV3rPERQnuYJRJ9GHerFkreGENWXuBasq0Mtmc3GB4A5GtRz+?=
+ =?us-ascii?Q?CoX0jgNLpeq+j0Az0gQUJ7kr9ZrUyyNSIEm0sT6lS44fc41KRCWRkycKAo8+?=
+ =?us-ascii?Q?tuo7itCAqshuDIpL/f43Z+ysvRvU3hSSFC6QTop+?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b2e8db9-ab10-42f4-6559-08dba2548788
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 14:40:14.1021
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SeRmv+15vdiFqIY3c/XgLKw7ymAk1g5vcsz0l6Q6HutXT7nd1PNbo9kmUtsI6u8L
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9081
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/07/2023 14:10, Benjamin Gaignard wrote:
-> Since vb2 queue can store than VB2_MAX_FRAME buffers postprocessor
-> buffer storage must be capable to store more buffers too.
-> Change static dec_q array to allocated array to be capable to store
-> up to queue 'max_allowed_buffers'.
-
-Is there are reason to allocate this dynamically instead of keeping it
-as an array of 64 elements? It takes a bit more memory, but it avoids
-having to allocate extra memory as well.
-
-And how was the new value of max 64 buffers calculated? What is the
-reasoning behind it?
-
-Regards,
-
-	Hans
-
-> Keep allocating queue 'num_buffers' at queue setup time but also allows
-> to allocate postprocessors buffers on the fly.
+On Mon, Aug 21, 2023 at 04:36:49PM +0200, Joerg Roedel wrote:
+> On Mon, Aug 21, 2023 at 09:51:13AM -0300, Jason Gunthorpe wrote:
+> > So now that Joerg has dropped it - what is your big idea to make the
+> > locking actually work right?
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/platform/verisilicon/hantro.h   |   7 +-
->  .../media/platform/verisilicon/hantro_drv.c   |   4 +-
->  .../media/platform/verisilicon/hantro_hw.h    |   2 +-
->  .../platform/verisilicon/hantro_postproc.c    | 103 ++++++++++++++----
->  .../media/platform/verisilicon/hantro_v4l2.c  |   2 +-
->  5 files changed, 93 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-> index 2989ebc631cc..c8a3cf10cc64 100644
-> --- a/drivers/media/platform/verisilicon/hantro.h
-> +++ b/drivers/media/platform/verisilicon/hantro.h
-> @@ -461,11 +461,14 @@ hantro_get_dst_buf(struct hantro_ctx *ctx)
->  bool hantro_needs_postproc(const struct hantro_ctx *ctx,
->  			   const struct hantro_fmt *fmt);
->  
-> +dma_addr_t
-> +hantro_postproc_get_dec_buf_addr(struct hantro_ctx *ctx, int index);
-> +
->  static inline dma_addr_t
->  hantro_get_dec_buf_addr(struct hantro_ctx *ctx, struct vb2_buffer *vb)
->  {
->  	if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
-> -		return ctx->postproc.dec_q[vb->index].dma;
-> +		return hantro_postproc_get_dec_buf_addr(ctx, vb->index);
->  	return vb2_dma_contig_plane_dma_addr(vb, 0);
->  }
->  
-> @@ -477,8 +480,8 @@ vb2_to_hantro_decoded_buf(struct vb2_buffer *buf)
->  
->  void hantro_postproc_disable(struct hantro_ctx *ctx);
->  void hantro_postproc_enable(struct hantro_ctx *ctx);
-> +int hantro_postproc_init(struct hantro_ctx *ctx);
->  void hantro_postproc_free(struct hantro_ctx *ctx);
-> -int hantro_postproc_alloc(struct hantro_ctx *ctx);
->  int hanto_postproc_enum_framesizes(struct hantro_ctx *ctx,
->  				   struct v4l2_frmsizeenum *fsize);
->  
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-> index 09c74a573ddb..d908559817ce 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -234,8 +234,10 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->  	 * The Kernel needs access to the JPEG destination buffer for the
->  	 * JPEG encoder to fill in the JPEG headers.
->  	 */
-> -	if (!ctx->is_encoder)
-> +	if (!ctx->is_encoder) {
->  		dst_vq->dma_attrs |= DMA_ATTR_NO_KERNEL_MAPPING;
-> +		dst_vq->max_allowed_buffers = 64;
-> +	}
->  
->  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
->  	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
-> index e83f0c523a30..6fd6c9d53cec 100644
-> --- a/drivers/media/platform/verisilicon/hantro_hw.h
-> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
-> @@ -253,7 +253,7 @@ struct hantro_vp9_dec_hw_ctx {
->   * @dec_q:		References buffers, in decoder format.
->   */
->  struct hantro_postproc_ctx {
-> -	struct hantro_aux_buf dec_q[VB2_MAX_FRAME];
-> +	struct hantro_aux_buf *dec_q;
->  };
->  
->  /**
-> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
-> index 6437423ccf3a..9dfe3141a398 100644
-> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
-> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-> @@ -173,9 +173,11 @@ static int hantro_postproc_g2_enum_framesizes(struct hantro_ctx *ctx,
->  void hantro_postproc_free(struct hantro_ctx *ctx)
->  {
->  	struct hantro_dev *vpu = ctx->dev;
-> +	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-> +	struct vb2_queue *queue = &m2m_ctx->cap_q_ctx.q;
->  	unsigned int i;
->  
-> -	for (i = 0; i < VB2_MAX_FRAME; ++i) {
-> +	for (i = 0; i < queue->max_allowed_buffers; ++i) {
->  		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
->  
->  		if (priv->cpu) {
-> @@ -184,22 +186,21 @@ void hantro_postproc_free(struct hantro_ctx *ctx)
->  			priv->cpu = NULL;
->  		}
->  	}
-> +	kfree(ctx->postproc.dec_q);
-> +	ctx->postproc.dec_q = NULL;
->  }
->  
-> -int hantro_postproc_alloc(struct hantro_ctx *ctx)
-> +static unsigned int hantro_postproc_buffer_size(struct hantro_ctx *ctx)
->  {
-> -	struct hantro_dev *vpu = ctx->dev;
-> -	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-> -	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
-> -	unsigned int num_buffers = cap_queue->num_buffers;
->  	struct v4l2_pix_format_mplane pix_mp;
->  	const struct hantro_fmt *fmt;
-> -	unsigned int i, buf_size;
-> +	unsigned int buf_size;
->  
->  	/* this should always pick native format */
->  	fmt = hantro_get_default_fmt(ctx, false, ctx->bit_depth);
->  	if (!fmt)
-> -		return -EINVAL;
-> +		return 0;
-> +
->  	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
->  			    ctx->src_fmt.height);
->  
-> @@ -214,23 +215,85 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
->  		buf_size += hantro_hevc_mv_size(pix_mp.width,
->  						pix_mp.height);
->  
-> -	for (i = 0; i < num_buffers; ++i) {
-> -		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
-> +	return buf_size;
-> +}
-> +
-> +static int hantro_postproc_alloc(struct hantro_ctx *ctx, int index)
-> +{
-> +	struct hantro_dev *vpu = ctx->dev;
-> +	struct hantro_aux_buf *priv = &ctx->postproc.dec_q[index];
-> +	unsigned int buf_size = hantro_postproc_buffer_size(ctx);
-> +
-> +	if (!buf_size)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * The buffers on this queue are meant as intermediate
-> +	 * buffers for the decoder, so no mapping is needed.
-> +	 */
-> +	priv->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
-> +	priv->cpu = dma_alloc_attrs(vpu->dev, buf_size, &priv->dma,
-> +				    GFP_KERNEL, priv->attrs);
-> +	if (!priv->cpu)
-> +		return -ENOMEM;
-> +	priv->size = buf_size;
-> +
-> +	return 0;
-> +}
-> +
-> +int hantro_postproc_init(struct hantro_ctx *ctx)
-> +{
-> +	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-> +	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
-> +	unsigned int num_buffers = cap_queue->num_buffers;
-> +	unsigned int i;
-> +	int ret;
->  
-> -		/*
-> -		 * The buffers on this queue are meant as intermediate
-> -		 * buffers for the decoder, so no mapping is needed.
-> -		 */
-> -		priv->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
-> -		priv->cpu = dma_alloc_attrs(vpu->dev, buf_size, &priv->dma,
-> -					    GFP_KERNEL, priv->attrs);
-> -		if (!priv->cpu)
-> -			return -ENOMEM;
-> -		priv->size = buf_size;
-> +	if (!ctx->postproc.dec_q)
-> +		ctx->postproc.dec_q = kcalloc(cap_queue->max_allowed_buffers,
-> +					      sizeof(*ctx->postproc.dec_q),
-> +					      GFP_KERNEL);
-> +
-> +	if (!ctx->postproc.dec_q)
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < num_buffers; i++) {
-> +		ret = hantro_postproc_alloc(ctx, i);
-> +		if (ret)
-> +			return ret;
->  	}
-> +
->  	return 0;
->  }
->  
-> +dma_addr_t
-> +hantro_postproc_get_dec_buf_addr(struct hantro_ctx *ctx, int index)
-> +{
-> +	struct hantro_aux_buf *priv = &ctx->postproc.dec_q[index];
-> +	unsigned int buf_size = hantro_postproc_buffer_size(ctx);
-> +	struct hantro_dev *vpu = ctx->dev;
-> +	int ret;
-> +
-> +	if (priv->size < buf_size && priv->cpu) {
-> +		/* buffer is too small, release it */
-> +		dma_free_attrs(vpu->dev, priv->size, priv->cpu,
-> +			       priv->dma, priv->attrs);
-> +		priv->cpu = NULL;
-> +	}
-> +
-> +	if (!priv->cpu) {
-> +		/* buffer not already allocated, try getting a new one */
-> +		ret = hantro_postproc_alloc(ctx, index);
-> +		if (ret)
-> +			return 0;
-> +	}
-> +
-> +	if (!priv->cpu)
-> +		return 0;
-> +
-> +	return priv->dma;
-> +}
-> +
->  static void hantro_postproc_g1_disable(struct hantro_ctx *ctx)
->  {
->  	struct hantro_dev *vpu = ctx->dev;
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> index 61cfaaf4e927..898e8763d63a 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -897,7 +897,7 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
->  		}
->  
->  		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt)) {
-> -			ret = hantro_postproc_alloc(ctx);
-> +			ret = hantro_postproc_init(ctx);
->  			if (ret)
->  				goto err_codec_exit;
->  		}
+> I am not opposed to the general idea.
 
+Well, I think Robin is opposed to the device_lock, and I don't know
+what his view of the alternative is.
+
+> When putting it into the tree I wasn't aware how many users still
+> need to be adapted to properly work with this.
+
+It is surprising to me too!
+
+> We can do another try once the issues have been sorted out and you have
+> agreed with Robin on a workable way forward.
+
+I will repost just the group part of that series after rc1, as they've
+been in -next for a while now they should be still good. It is a nice
+cleanup that doesn't leak out.
+
+Thanks,
+Jason
