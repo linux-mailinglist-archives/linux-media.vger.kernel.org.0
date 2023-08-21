@@ -2,61 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE932782D0A
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 17:15:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33081782D36
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 17:26:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236237AbjHUPPG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 11:15:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35878 "EHLO
+        id S236329AbjHUP0W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 11:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232461AbjHUPPG (ORCPT
+        with ESMTP id S236324AbjHUP0V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 11:15:06 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41CBDBC;
-        Mon, 21 Aug 2023 08:15:04 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B121766071A2;
-        Mon, 21 Aug 2023 16:15:01 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1692630903;
-        bh=yOP/crzuh324Aakcxxz+eZDVYJZgYrNZoRWG4V5bccQ=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=kxw8+vzPsdiXctTFi0QYl6nsI1jma5ed2T2gzHXgiSoGxahsSOn09uc1WKF59ENtg
-         pdDyTrzmhDgvkXXCErA+3Jwn86Nex+xNS2n4BjX1ONWyIAm5q4DobU9ZkAuIiy2OCi
-         YmfV6/xD1mNcumpRFapH8wU06O/3Unz9CasZn25bJXTPMPm3oCVYQVY5mKLP3M62db
-         yqY0IWo90gmqNqgTlnS4smnKs3B2V2FPWLDYuSSMBmW9CYztsxwzIIdhxyS2y5GLk/
-         mX5E0l25cKdFYtBux03+ubQztI3f89DPz/GLZ8GIXTIAyVMgWQuW8uJjKNFF12Sz4I
-         Za9Zqx9pyTPNg==
-Message-ID: <f21dfae7466a441fbe175db62ad3c9aa4eff3f0c.camel@collabora.com>
-Subject: Re: [PATCH][next] media: mediatek: vcodec: fix spelling mistake
- "resonable" -> "reasonable"
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Colin Ian King <colin.i.king@gmail.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Date:   Mon, 21 Aug 2023 11:14:52 -0400
-In-Reply-To: <20230815121446.742742-1-colin.i.king@gmail.com>
-References: <20230815121446.742742-1-colin.i.king@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Mon, 21 Aug 2023 11:26:21 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7C5D9;
+        Mon, 21 Aug 2023 08:26:20 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-68730bafa6bso2979481b3a.1;
+        Mon, 21 Aug 2023 08:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692631580; x=1693236380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dRNVXVCFNY+UAp3a/7xKqvOgphTENTBOPiaI1Ml0pY8=;
+        b=RCbqm+rF2yaI4yacjZbgZLO+iclVWqLpoMdHPQ5uG6qjCecueeGi5XHOP/Lq99DID6
+         OXpd01nQ/QFbPNCcj2nCJbAs1ebNTcgxfr92qawsKDoZmeDIvaXoFutZoj9EJBBGV4rr
+         SEcoOtmuuT134F4NzOVziWRt+LlvVbao81lV+vYCKA1+67OcGyxFbCOPkYksLqZ1sWxj
+         wU3KIry3h11QkfMaErrUr9UC9wL1sYboSX270peT2/Go/OrYhonLAFHBBr7DpJ92Q4ep
+         UnVvknnuXY+fWJSCgSTKWwNwpqe6cQssL/bfA5EXoPPDcLXdlUvIzrXkhpQqfb6psM6G
+         26Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692631580; x=1693236380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dRNVXVCFNY+UAp3a/7xKqvOgphTENTBOPiaI1Ml0pY8=;
+        b=I/+C38vnvZIesXYNrOpMnSNpYBClJARvZh3KotswgdcmoB7luh0H3LTVFHFbkTEQu+
+         o8n128tC494RLFO4GiHV4i1WVr/u8uJC0WukONp1Vkrk3Rs7h7ZR7LeFGX9d92NmBf2N
+         UbKTUmeMVHsAtgJ1PPyQz+Y7TRci2c34CfhNiYgUJEe6xOKBq91swJYGbp9Ax4kyCFWh
+         M8wUdVwm91cGoXD4eWIkPxpY6MaDAbHfbkCf+UEXBRJDBBjt+i/Q2Wi11GikQq0VZCsL
+         JQ6ZDH0UBQ/dJ3cd7BYYXXsHE6o2xQeQL/72Ri5h5jAtB8JDmtzASsCxijajrs2Rhzuz
+         8iyQ==
+X-Gm-Message-State: AOJu0Yz+nNctSciLXuJhs3yr3Oy9RKrgkVRGIEkT1IT9NAFD7+VKKXja
+        NNqD2e1fI0N88zbU89MTIRU=
+X-Google-Smtp-Source: AGHT+IHVjVgqofdmH1MW157zPEVBDYtOITySPcuMe25EjXsQbquQ+ng+hIi/VKApxARhJ+H3qeMIIg==
+X-Received: by 2002:a05:6a20:8f1e:b0:133:31a5:51e7 with SMTP id b30-20020a056a208f1e00b0013331a551e7mr10088503pzk.15.1692631579772;
+        Mon, 21 Aug 2023 08:26:19 -0700 (PDT)
+Received: from vinayak-ubuntu.. ([2406:7400:81:e7e8:c1a2:4b35:18c4:443d])
+        by smtp.gmail.com with ESMTPSA id p27-20020a63741b000000b005651c9351e1sm6434860pgc.64.2023.08.21.08.26.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Aug 2023 08:26:19 -0700 (PDT)
+From:   Vinayak Hegde <vinayakph123@gmail.com>
+To:     sumit.semwal@linaro.org, gustavo@padovan.org
+Cc:     Vinayak Hegde <vinayakph123@gmail.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Remove the parameter not described warning
+Date:   Mon, 21 Aug 2023 20:56:06 +0530
+Message-Id: <20230821152606.10325-1-vinayakph123@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,48 +70,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 15 ao=C3=BBt 2023 =C3=A0 13:14 +0100, Colin Ian King a =C3=A9crit=
-=C2=A0:
-> There are a couple of spelling mistakes in pr_err error messages. Fix the=
-m.
->=20
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+Signed-off-by: Vinayak Hegde <vinayakph123@gmail.com>
+---
+ include/uapi/linux/sync_file.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-> ---
->  .../media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c   | 2 +-
->  .../media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_=
-scp.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
-> index 9e744d07a1e8..6bbe55de6ce9 100644
-> --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
-> +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
-> @@ -68,7 +68,7 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(void *priv=
-, enum mtk_vcodec_fw_use
-> =20
->  		plat_dev =3D dec_dev->plat_dev;
->  	} else {
-> -		pr_err("Invalid fw_use %d (use a resonable fw id here)\n", fw_use);
-> +		pr_err("Invalid fw_use %d (use a reasonable fw id here)\n", fw_use);
->  		return ERR_PTR(-EINVAL);
->  	}
-> =20
-> diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_=
-vpu.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-> index 5e03b0886559..9f6e4b59455d 100644
-> --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-> +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
-> @@ -109,7 +109,7 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_vpu_init(void *pr=
-iv, enum mtk_vcodec_fw_use
->  		plat_dev =3D dec_dev->plat_dev;
->  		rst_id =3D VPU_RST_DEC;
->  	} else {
-> -		pr_err("Invalid fw_use %d (use a resonable fw id here)\n", fw_use);
-> +		pr_err("Invalid fw_use %d (use a reasonable fw id here)\n", fw_use);
->  		return ERR_PTR(-EINVAL);
->  	}
-> =20
+diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+index 7e42a5b7558b..ff0a931833e2 100644
+--- a/include/uapi/linux/sync_file.h
++++ b/include/uapi/linux/sync_file.h
+@@ -56,7 +56,7 @@ struct sync_fence_info {
+  * @name:	name of fence
+  * @status:	status of fence. 1: signaled 0:active <0:error
+  * @flags:	sync_file_info flags
+- * @num_fences	number of fences in the sync_file
++ * @num_fences:	number of fences in the sync_file
+  * @pad:	padding for 64-bit alignment, should always be zero
+  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+  *		 fences in the sync_file
+-- 
+2.34.1
 
