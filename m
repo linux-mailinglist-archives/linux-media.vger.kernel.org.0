@@ -2,99 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF5847834E9
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 23:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 054977835B6
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 00:30:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbjHUVbg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 17:31:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51774 "EHLO
+        id S231532AbjHUWaB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 18:30:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbjHUVbf (ORCPT
+        with ESMTP id S231401AbjHUWaB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 17:31:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BEB1D9
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 14:31:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D6A1163945
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 21:31:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49769C433C8;
-        Mon, 21 Aug 2023 21:31:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692653493;
-        bh=f+5vIkFIYt/8Mb/mujh4SFMIbfRUdpUkiEbCCcgQey4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=uOH/c7Cm5Rj2zzi8T2hnq1fA5rHGQwcEWMLtruTqRSm1AdiYs5Or+9GUPkP7VDMuQ
-         mC8ga+ui9bOtPFXioDSxy6ujay5hhhXjCL+aTqkUQsulxO0Imrb9PWjHaGFZRnKog0
-         PfCGhMhzqVai5l8pqpsmFp4JbejO1V21MKno2vsM0DYI6blpniXULPz9UuDHD1QQ76
-         MvtPPWd7AJp6lxrnkpUcQrU1ndyvX18oTWU7WArUpX32/greQt5nOgptXAbCy1hkiN
-         tAmNqSqzj29Oj4ByPme63yri6omOAPwCiivBVLjoOHliMzD703yYrybgVZXpCqpE9q
-         p9aVFUoDuj3vQ==
-Date:   Mon, 21 Aug 2023 14:31:31 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc:     David Ahern <dsahern@kernel.org>,
-        Jesper Dangaard Brouer <jbrouer@redhat.com>,
-        brouer@redhat.com, Mina Almasry <almasrymina@google.com>,
-        netdev@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Hari Ramakrishnan <rharix@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Lutomirski <luto@kernel.org>, stephen@networkplumber.org,
-        sdf@google.com
-Subject: Re: [RFC PATCH v2 06/11] page-pool: add device memory support
-Message-ID: <20230821143131.47de8f8f@kernel.org>
-In-Reply-To: <CAF=yD-+wXynvcntVccUAM2+PAumZbRE9E6f3MS6X6qkGrG7_Ow@mail.gmail.com>
-References: <20230810015751.3297321-1-almasrymina@google.com>
-        <20230810015751.3297321-7-almasrymina@google.com>
-        <6adafb5d-0bc5-cb9a-5232-6836ab7e77e6@redhat.com>
-        <CAF=yD-L0ajGVrexnOVvvhC-A7vw6XP9tq5T3HCDTjQMS0mXdTQ@mail.gmail.com>
-        <8f4d276e-470d-6ce8-85d5-a6c08fa22147@redhat.com>
-        <4f19143d-5975-05d4-3697-0218ed2881c6@kernel.org>
-        <CAF=yD-+wXynvcntVccUAM2+PAumZbRE9E6f3MS6X6qkGrG7_Ow@mail.gmail.com>
+        Mon, 21 Aug 2023 18:30:01 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67576127
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 15:29:58 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60D8C899;
+        Tue, 22 Aug 2023 00:28:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692656918;
+        bh=YVBnIasOgrga6p3odMq1pbzZrT+QNxIC363zmQQxSbU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MZ20b9urcUt+AOruuU87scFmIJEH2gHQWlwbBHP/rHWxizc29t35D+kh/j8gKUf3p
+         sKF0ta4TfesjWL60GqGGizXXCB4vyEkjDO4ntL8GNJxV8Tg37BsQfCzdXPc+Y71yDQ
+         CL+8dBTdXSz6sQQfrg0cd0jT1eq5tYWzvBBnQosM=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH v2 00/18] media: i2c: imx219: Miscellaneous cleanups and improvements
+Date:   Tue, 22 Aug 2023 01:29:43 +0300
+Message-ID: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 19 Aug 2023 12:12:16 -0400 Willem de Bruijn wrote:
-> :-) For the record, there is a prior version that added a separate type.
-> 
-> I did not like the churn it brought and asked for this.
+Hello,
 
-It does end up looking cleaner that I personally expected, FWIW.
+This patch series is a collection of miscellaneous cleanups and
+improvements to the imx219 driver.
 
-> > Use of the LSB (or bits depending on alignment expectations) is a common
-> > trick and already done in quite a few places in the networking stack.
-> > This trick is essential to any realistic change here to incorporate gpu
-> > memory; way too much code will have unnecessary churn without it.
+Most notably, the series starts with converting the driver to the new
+CCI helpers ([1]) in 01/18. Unlike the IMX290, IMX296, IMX297 and IMX327
+that have little-endian register values, this sensor adheres to the CCI
+specification, so the conversion was possible. It caused a regression
+that I had a bit of trouble tracking though, which showed that merging
+conversion to the CCI helpers without testing would be dangerous.
 
-We'll end up needing the LSB trick either way, right? The only question
-is whether the "if" is part of page pool or the caller of page pool.
+Patch 04/18 fixes what I believe is an issue with the test pattern
+generator configuration in 640x480 mode, and should be the only
+functional change in the series.
 
-Having seen zctap I'm afraid if we push this out of pp every provider
-will end up re-implementing page pool's recycling/caching functionality
-:(
+For details about other patches, please see their individual commit
+logs.
 
-Maybe we need to "fork" the API? The device memory "ifs" are only needed
-for data pages. Which means that we can retain a faster, "if-less" API
-for headers and XDP. Or is that too much duplication?
+The series is based on the latest media master branch, with two
+additional fixes for the imx219 driver (posted in [2]) that should make
+it to v6.6, while the 18 patches here are v6.7 material.
+
+The changes have been tested on a Raspberry Pi 4, with all the modes
+supproted by the driver.
+
+[1] https://lore.kernel.org/linux-media/20230627125109.52354-1-hdegoede@redhat.com/
+[2] https://lore.kernel.org/linux-media/20230814193435.24158-1-laurent.pinchart@ideasonboard.com
+
+Laurent Pinchart (18):
+  media: i2c: imx219: Convert to CCI register access helpers
+  media: i2c: imx219: Drop unused macros
+  media: i2c: imx219: Replace register addresses with macros
+  media: i2c: imx219: Fix test pattern window for 640x480 mode
+  media: i2c: imx219: Set mode registers programmatically
+  media: i2c: imx219: Merge format and binning setting functions
+  media: i2c: imx219: Initialize ycbcr_enc
+  media: i2c: imx219: Use active crop rectangle to configure registers
+  media: i2c: imx219: Infer binning settings from format and crop
+  media: i2c: imx219: Access height from active format in
+    imx219_set_ctrl
+  media: i2c: imx219: Don't store the current mode in the imx219
+    structure
+  media: i2c: imx219: Drop IMX219_VTS_* macros
+  media: i2c: imx219: Group functions by purpose
+  media: i2c: imx219: Drop system suspend/resume operations
+  media: i2c: imx219: Implement .init_cfg() using .set_fmt()
+  media: i2c: imx219: Calculate crop rectangle dynamically
+  media: i2c: imx219: Name all subdev state variables 'state'
+  media: i2c: imx219: Move variables to inner scope
+
+ drivers/media/i2c/Kconfig  |    1 +
+ drivers/media/i2c/imx219.c | 1497 +++++++++++++++---------------------
+ 2 files changed, 629 insertions(+), 869 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
+
