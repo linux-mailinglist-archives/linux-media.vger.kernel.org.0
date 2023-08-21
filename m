@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDC517835CD
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 00:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F01AA7835CF
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 00:30:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231603AbjHUWat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 18:30:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50820 "EHLO
+        id S231596AbjHUWav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 18:30:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231587AbjHUWat (ORCPT
+        with ESMTP id S231605AbjHUWau (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 18:30:49 -0400
+        Mon, 21 Aug 2023 18:30:50 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95EE9198
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 15:30:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51135E4
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 15:30:43 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66F2287E0;
-        Tue, 22 Aug 2023 00:29:03 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1624396B;
+        Tue, 22 Aug 2023 00:29:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692656943;
-        bh=no4f11jdo6D/pdtmAgTJzpwIesjuSk585mc6h6jjr+Q=;
+        s=mail; t=1692656945;
+        bh=H8AtSEk0aRBGxZIPIdAkMiG8U+UAINzmSknpzWCG8BU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=o+l1PvSLPjphW/YJRV0FMR5axyg997GRclJWvbakmuQuhlxp84ftiZR5br84mUqE1
-         dO6impYisWrctf+f1bNNIKEeA5yyBb2VshxL8SLvNKyh6Q+LJdiV1NYj90APr/N5qx
-         W+PGlTBT8yabVBVx2vEcW3JaY+01AYgYERHMhgGQ=
+        b=EC5pjOFQcJwMRFxWsdlXVgX3JyK23H4DOeSjpdSn3pNrXdZXEtgCNas2ZL/SmdyXq
+         MJYXBoZMXZmLJbBJQ8L9Y0njolo6iYK0iYLhBPIfrFtLZamLipavcJZnl54l9So58w
+         bgV8x4aJM5dHtPBX8JaCq0Df0HZTeHhNsNNGxw7A=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
@@ -32,9 +32,9 @@ Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v2 17/18] media: i2c: imx219: Name all subdev state variables 'state'
-Date:   Tue, 22 Aug 2023 01:30:00 +0300
-Message-ID: <20230821223001.28480-18-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 18/18] media: i2c: imx219: Move variables to inner scope
+Date:   Tue, 22 Aug 2023 01:30:01 +0300
+Message-ID: <20230821223001.28480-19-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com>
 References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com>
@@ -49,78 +49,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Subdev state variables are named with a mix of 'state' and 'sd_state'
-through the driver. To improve consistency, name them all 'state'.
+The exposure_max, exposure_def and hblank variables are only used in an
+inner scope in the imx219_set_pad_format() function. Move them to that
+scope to keep them closer to their usage and improve readability.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/imx219.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/media/i2c/imx219.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 4140d9b78e4c..e2f0d3782e7c 100644
+index e2f0d3782e7c..69908ebed04a 100644
 --- a/drivers/media/i2c/imx219.c
 +++ b/drivers/media/i2c/imx219.c
-@@ -760,7 +760,7 @@ static void imx219_update_pad_format(struct imx219 *imx219,
- }
- 
- static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
--				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_state *state,
- 				 struct v4l2_subdev_mbus_code_enum *code)
+@@ -801,7 +801,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
  {
  	struct imx219 *imx219 = to_imx219(sd);
-@@ -774,7 +774,7 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
- }
+ 	const struct imx219_mode *mode;
+-	int exposure_max, exposure_def, hblank;
+ 	struct v4l2_mbus_framefmt *format;
+ 	struct v4l2_rect *crop;
+ 	unsigned int bin;
+@@ -830,6 +829,10 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+ 	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
  
- static int imx219_enum_frame_size(struct v4l2_subdev *sd,
--				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_state *state,
- 				  struct v4l2_subdev_frame_size_enum *fse)
- {
- 	struct imx219 *imx219 = to_imx219(sd);
-@@ -796,7 +796,7 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
- }
- 
- static int imx219_set_pad_format(struct v4l2_subdev *sd,
--				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_state *state,
- 				 struct v4l2_subdev_format *fmt)
- {
- 	struct imx219 *imx219 = to_imx219(sd);
-@@ -813,7 +813,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 
- 	imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
- 
--	format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
-+	format = v4l2_subdev_get_pad_format(sd, state, 0);
- 	*format = fmt->format;
- 
- 	/*
-@@ -823,7 +823,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 	bin = min3(IMX219_PIXEL_ARRAY_WIDTH / format->width,
- 		   IMX219_PIXEL_ARRAY_HEIGHT / format->height, 2U);
- 
--	crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
-+	crop = v4l2_subdev_get_pad_crop(sd, state, 0);
- 	crop->width = format->width * bin;
- 	crop->height = format->height * bin;
- 	crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
-@@ -858,12 +858,12 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- }
- 
- static int imx219_get_selection(struct v4l2_subdev *sd,
--				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_state *state,
- 				struct v4l2_subdev_selection *sel)
- {
- 	switch (sel->target) {
- 	case V4L2_SEL_TGT_CROP: {
--		sel->r = *v4l2_subdev_get_pad_crop(sd, sd_state, 0);
-+		sel->r = *v4l2_subdev_get_pad_crop(sd, state, 0);
- 		return 0;
- 	}
- 
+ 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
++		int exposure_max;
++		int exposure_def;
++		int hblank;
++
+ 		/* Update limits and set FPS to default */
+ 		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+ 					 IMX219_VTS_MAX - mode->height, 1,
 -- 
 Regards,
 
