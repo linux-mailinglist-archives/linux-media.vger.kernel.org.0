@@ -2,256 +2,278 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB84E782A42
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 15:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A95F8782A50
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 15:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235275AbjHUNQi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 09:16:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37072 "EHLO
+        id S235293AbjHUNTF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 09:19:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233473AbjHUNQh (ORCPT
+        with ESMTP id S232013AbjHUNTE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 09:16:37 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 411CA113
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 06:16:04 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-40a47e8e38dso374801cf.1
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 06:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692623743; x=1693228543;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tnSB4QbuCs2L6o1hVVPxHfaphrL2l/lk2QJ6apgrG4E=;
-        b=4pUCD503HaLMzhbdwRIvap/zbRa1LXu/iQU0cWYjedob1cWikSPlvoG/eVzQrzyDqD
-         Yn2HrFl+SuNxHjqb0NOQ8uVQriWnLMknRO7HOkg2Cd1RO/Nj1G4tNNJnWn9uDgkcAGs1
-         6u7aoOP6wkb1CTaK4Nb7TpArBN9XGG/SflZ8scvYZH8CbHN0dkwJzsMBY38a6LUHiNWf
-         Z+EoqfPKOttegPq46S4f/5Sk/HEcTgB3KR3Nc3pJHzDlXz1q+N7dG32nesECZTcZRYGO
-         kSGFv5cjxouIi7KwMWK39JtZln1jxt8iV6SQqJzjXF3kh4/q/jeJDF5ATZ7jgQf93r7A
-         o0vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692623743; x=1693228543;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tnSB4QbuCs2L6o1hVVPxHfaphrL2l/lk2QJ6apgrG4E=;
-        b=cSqO9eQDBtGgwKaDxe9dcULgIVoomZNsaRUWOCrbbSH9jEAla2XMdDtaqYeD0GdVTn
-         xBhtx7CNJnwRnUxNA3OAKnqs00r1esccJ4MVlNG2z0cfYyrZcfon35WJaF6XZmZQsjoe
-         uPePk3l27W3fWdMXBxX9YjEdiOBPBiarLbBaLO+uQ4LwWlmEOaeqpA81masL70uDWzQL
-         8bBGQGLB7KHhVVl7MbjHZ+iOk9TdDxwJ0TN72m/4Wtu4UMEJaodmNPULk78Fgd+13vw6
-         /P7obwjiLr8OFE7RFdqFKirJzOn83FNvg7+YGoaIKbm1pJ+8J7P8/RGP9hd2sQtwv+yA
-         PS3g==
-X-Gm-Message-State: AOJu0YxONY0XZKyceHAnF7OxpyXFdCzSCJXRLra9riLfGCDCEVlJNAqP
-        QFx1u/04E93Y/xjpg9E7epz7jRaLWljQhNyGvmDQTw==
-X-Google-Smtp-Source: AGHT+IH4XJZUBCEpS7xwhb553C3R2A2vLKwXbPhQkBSvPkXEmMejADowiIsZUdBnPNAxTNb4joqq5lmdAKTYN8aw+I8=
-X-Received: by 2002:ac8:7e93:0:b0:40f:c60d:1c79 with SMTP id
- w19-20020ac87e93000000b0040fc60d1c79mr565484qtj.28.1692623742367; Mon, 21 Aug
- 2023 06:15:42 -0700 (PDT)
+        Mon, 21 Aug 2023 09:19:04 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56268B1;
+        Mon, 21 Aug 2023 06:18:58 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37842B75;
+        Mon, 21 Aug 2023 15:17:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692623860;
+        bh=S5ypuXYh390YEeJE0UqVpKoqDBg1852Ptd6aui4fkS4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K+9LPp42pQavwnfm0WcCEFXzNe/d64SX0oqch7h3a6ttiK44EJ37wOcaMonoUgWWw
+         0TZYgfeOAmOrtGQzQmb556G3pD7rHgFH4afSW3OX14HF9SVpmwATN8ZsIBYGGbmNdM
+         PK7gGZNgySFe7O7WhcrhTsfzL2wA07Ka+b/gad8Y=
+Date:   Mon, 21 Aug 2023 16:19:03 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     yuji2.ishikawa@toshiba.co.jp
+Cc:     krzysztof.kozlowski@linaro.org, hverkuil@xs4all.nl,
+        sakari.ailus@iki.fi, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        nobuhiro1.iwamatsu@toshiba.co.jp, broonie@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v7 2/5] media: platform: visconti: Add Toshiba Visconti
+ Video Input Interface driver
+Message-ID: <20230821131903.GI10135@pendragon.ideasonboard.com>
+References: <20230714015059.18775-1-yuji2.ishikawa@toshiba.co.jp>
+ <20230714015059.18775-3-yuji2.ishikawa@toshiba.co.jp>
+ <0d0cec7f-030f-ebc1-11f0-06214197a351@linaro.org>
+ <TYAPR01MB620105AC2EDF36751EE654C89203A@TYAPR01MB6201.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-References: <20230814043140.1108917-1-rekanorman@chromium.org>
- <20230814043140.1108917-8-rekanorman@chromium.org> <a834b202-7d5c-2a04-fc69-1913cd063a67@xs4all.nl>
-In-Reply-To: <a834b202-7d5c-2a04-fc69-1913cd063a67@xs4all.nl>
-From:   Guenter Roeck <groeck@google.com>
-Date:   Mon, 21 Aug 2023 06:15:30 -0700
-Message-ID: <CABXOdTdkBM70i=cbBak99ph=P0roaRvhiRpE8O7t4JNkGWUDAw@mail.gmail.com>
-Subject: Re: [PATCH 7/9] media: cros-ec-cec: Allow specifying multiple HDMI connectors
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Reka Norman <rekanorman@chromium.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Daisuke Nojiri <dnojiri@chromium.org>,
-        Stefan Adolfsson <sadolfsson@google.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <TYAPR01MB620105AC2EDF36751EE654C89203A@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 2:12=E2=80=AFAM Hans Verkuil <hverkuil-cisco@xs4all=
-.nl> wrote:
->
-> Hi Reka,
->
-> On 14/08/2023 06:29, Reka Norman wrote:
-> > Update the cec_dmi_match_table to allow specifying multiple HDMI
-> > connectors for each device.
-> >
-> > Signed-off-by: Reka Norman <rekanorman@chromium.org>
-> > ---
-> >
-> >  .../media/cec/platform/cros-ec/cros-ec-cec.c  | 47 +++++++++++--------
-> >  1 file changed, 28 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers=
-/media/cec/platform/cros-ec/cros-ec-cec.c
-> > index c68ed5d4bda0..f2f397d9a6d8 100644
-> > --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> > +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> > @@ -284,38 +284,41 @@ static SIMPLE_DEV_PM_OPS(cros_ec_cec_pm_ops,
-> >  #if IS_ENABLED(CONFIG_PCI) && IS_ENABLED(CONFIG_DMI)
-> >
-> >  /*
-> > - * The Firmware only handles a single CEC interface tied to a single H=
-DMI
-> > - * connector we specify along with the DRM device name handling the HD=
-MI output
-> > + * Specify the DRM device name handling the HDMI output and the HDMI c=
-onnector
-> > + * corresponding to each CEC port. The order of connectors must match =
-the order
-> > + * in the EC (first connector is EC port 0, ...), and the number of co=
-nnectors
-> > + * must match the number of ports in the EC (which can be queried usin=
-g the
-> > + * EC_CMD_CEC_PORT_COUNT host command).
-> >   */
-> >
-> >  struct cec_dmi_match {
-> >       const char *sys_vendor;
-> >       const char *product_name;
-> >       const char *devname;
-> > -     const char *conn;
-> > +     const char *conns[EC_CEC_MAX_PORTS];
->
-> Since EC_CEC_MAX_PORTS is 16, this will waste a lot of space here.
->
-> I would suggest creating a separate define (CEC_MAX_PORTS?) that is set
-> to 2 and is the max port that is actually used.
->
+(CC'ing Christoph, Marek and Robin)
 
-Possibly it could also be declared as const char * const ** and be
-terminated with NULL (though that would require {{ "Port B", NULL } in
-the declarations). Not sure which one is better.
+On Tue, Jul 25, 2023 at 06:10:03AM +0000, yuji2.ishikawa@toshiba.co.jp wrote:
+> On Friday, July 14, 2023 5:00 PM, Krzysztof Kozlowski wrote:
+> > On 14/07/2023 03:50, Yuji Ishikawa wrote:
+> > > Add support to Video Input Interface on Toshiba Visconti ARM SoCs.
+> > > The interface device includes CSI2 Receiver, frame grabber, video DMAC
+> > > and image signal processor.
+> > >
+> > > A driver instance provides three /dev/videoX device files; one for RGB
+> > > image capture, another one for optional RGB capture with different
+> > > parameters and the last one for RAW capture.
+> > 
+> > ...
 
-Guenter
+[snip]
 
-> When you get the actual number of ports from the EC you can check if
-> CEC_MAX_PORTS isn't too small and return an error if it is.
->
-> You can use CEC_MAX_PORTS here and in the ports array of struct cros_ec_c=
-ec.
->
-> Regards,
->
->         Hans
->
-> >  };
-> >
-> >  static const struct cec_dmi_match cec_dmi_match_table[] =3D {
-> >       /* Google Fizz */
-> > -     { "Google", "Fizz", "0000:00:02.0", "Port B" },
-> > +     { "Google", "Fizz", "0000:00:02.0", { "Port B" } },
-> >       /* Google Brask */
-> > -     { "Google", "Brask", "0000:00:02.0", "Port B" },
-> > +     { "Google", "Brask", "0000:00:02.0", { "Port B" } },
-> >       /* Google Moli */
-> > -     { "Google", "Moli", "0000:00:02.0", "Port B" },
-> > +     { "Google", "Moli", "0000:00:02.0", { "Port B" } },
-> >       /* Google Kinox */
-> > -     { "Google", "Kinox", "0000:00:02.0", "Port B" },
-> > +     { "Google", "Kinox", "0000:00:02.0", { "Port B" } },
-> >       /* Google Kuldax */
-> > -     { "Google", "Kuldax", "0000:00:02.0", "Port B" },
-> > +     { "Google", "Kuldax", "0000:00:02.0", { "Port B" } },
-> >       /* Google Aurash */
-> > -     { "Google", "Aurash", "0000:00:02.0", "Port B" },
-> > +     { "Google", "Aurash", "0000:00:02.0", { "Port B" } },
-> >       /* Google Gladios */
-> > -     { "Google", "Gladios", "0000:00:02.0", "Port B" },
-> > +     { "Google", "Gladios", "0000:00:02.0", { "Port B" } },
-> >       /* Google Lisbon */
-> > -     { "Google", "Lisbon", "0000:00:02.0", "Port B" },
-> > +     { "Google", "Lisbon", "0000:00:02.0", { "Port B" } },
-> >  };
-> >
-> >  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
-> > -                                             const char **conn)
-> > +                                             const char * const **conn=
-s)
-> >  {
-> >       int i;
-> >
-> > @@ -332,7 +335,7 @@ static struct device *cros_ec_cec_find_hdmi_dev(str=
-uct device *dev,
-> >                       if (!d)
-> >                               return ERR_PTR(-EPROBE_DEFER);
-> >                       put_device(d);
-> > -                     *conn =3D m->conn;
-> > +                     *conns =3D m->conns;
-> >                       return d;
-> >               }
-> >       }
-> > @@ -346,7 +349,7 @@ static struct device *cros_ec_cec_find_hdmi_dev(str=
-uct device *dev,
-> >  #else
-> >
-> >  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
-> > -                                             const char **conn)
-> > +                                             const char * const **conn=
-s)
-> >  {
-> >       return ERR_PTR(-ENODEV);
-> >  }
-> > @@ -388,7 +391,7 @@ static int cros_ec_cec_get_write_cmd_version(struct=
- cros_ec_cec *cros_ec_cec)
-> >  static int cros_ec_cec_init_port(struct device *dev,
-> >                                struct cros_ec_cec *cros_ec_cec,
-> >                                int port_num, struct device *hdmi_dev,
-> > -                              const char *conn)
-> > +                              const char * const *conns)
-> >  {
-> >       struct cros_ec_cec_port *port;
-> >       int ret;
-> > @@ -406,7 +409,13 @@ static int cros_ec_cec_init_port(struct device *de=
-v,
-> >       if (IS_ERR(port->adap))
-> >               return PTR_ERR(port->adap);
-> >
-> > -     port->notify =3D cec_notifier_cec_adap_register(hdmi_dev, conn,
-> > +     if (!conns[port_num]) {
-> > +             dev_err(dev, "no conn for port %d\n", port_num);
-> > +             ret =3D -ENODEV;
-> > +             goto out_probe_adapter;
-> > +     }
-> > +
-> > +     port->notify =3D cec_notifier_cec_adap_register(hdmi_dev, conns[p=
-ort_num],
-> >                                                     port->adap);
-> >       if (!port->notify) {
-> >               ret =3D -ENOMEM;
-> > @@ -435,10 +444,10 @@ static int cros_ec_cec_probe(struct platform_devi=
-ce *pdev)
-> >       struct cros_ec_cec *cros_ec_cec;
-> >       struct cros_ec_cec_port *port;
-> >       struct device *hdmi_dev;
-> > -     const char *conn =3D NULL;
-> > +     const char * const *conns =3D NULL;
-> >       int ret;
-> >
-> > -     hdmi_dev =3D cros_ec_cec_find_hdmi_dev(&pdev->dev, &conn);
-> > +     hdmi_dev =3D cros_ec_cec_find_hdmi_dev(&pdev->dev, &conns);
-> >       if (IS_ERR(hdmi_dev))
-> >               return PTR_ERR(hdmi_dev);
-> >
-> > @@ -460,7 +469,7 @@ static int cros_ec_cec_probe(struct platform_device=
- *pdev)
-> >
-> >       for (int i =3D 0; i < cros_ec_cec->num_ports; i++) {
-> >               ret =3D cros_ec_cec_init_port(&pdev->dev, cros_ec_cec, i,
-> > -                                         hdmi_dev, conn);
-> > +                                         hdmi_dev, conns);
-> >               if (ret)
-> >                       goto unregister_ports;
-> >       }
->
+> > > +static int visconti_viif_probe(struct platform_device *pdev) {
+> > > +	struct device *dev = &pdev->dev;
+> > > +	struct viif_device *viif_dev;
+> > > +	dma_addr_t tables_dma;
+> > > +	int ret, i, num_sd;
+> > > +
+> > > +	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(36));
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	viif_dev = devm_kzalloc(dev, sizeof(*viif_dev), GFP_KERNEL);
+> > > +	if (!viif_dev)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	platform_set_drvdata(pdev, viif_dev);
+> > > +	viif_dev->dev = dev;
+> > > +
+> > > +	spin_lock_init(&viif_dev->regbuf_lock);
+> > > +	mutex_init(&viif_dev->pow_lock);
+> > > +	mutex_init(&viif_dev->stream_lock);
+> > > +
+> > > +	viif_dev->capture_reg = devm_platform_ioremap_resource(pdev, 0);
+> > > +	if (IS_ERR(viif_dev->capture_reg))
+> > > +		return PTR_ERR(viif_dev->capture_reg);
+> > > +
+> > > +	viif_dev->csi2host_reg = devm_platform_ioremap_resource(pdev, 1);
+> > > +	if (IS_ERR(viif_dev->csi2host_reg))
+> > > +		return PTR_ERR(viif_dev->csi2host_reg);
+> > > +
+> > > +	viif_dev->hwaif_reg = devm_platform_ioremap_resource(pdev, 2);
+> > > +	if (IS_ERR(viif_dev->hwaif_reg))
+> > > +		return PTR_ERR(viif_dev->hwaif_reg);
+> > > +
+> > > +	viif_dev->mpu_reg = devm_platform_ioremap_resource(pdev, 3);
+> > > +	if (IS_ERR(viif_dev->mpu_reg))
+> > > +		return PTR_ERR(viif_dev->mpu_reg);
+> > > +
+> > > +	viif_dev->run_flag_main = false;
+> > > +
+> > > +	for (i = 0; i < NUM_IRQS; i++) {
+> > > +		ret = platform_get_irq(pdev, i);
+> > > +		if (ret < 0) {
+> > > +			dev_err(dev, "failed to acquire irq resource\n");
+> > > +			return ret;
+> > 
+> > return dev_err_probe()
+> 
+> I'll use dev_err_probe().
+> Same for other suggestions.
+> 
+> > > +		}
+> > > +		viif_dev->irq[i] = ret;
+> > > +		ret = devm_request_irq(dev, viif_dev->irq[i], visconti_viif_irq, 0, IRQ_ID_STR,
+> > > +				       viif_dev);
+> > > +		if (ret) {
+> > > +			dev_err(dev, "irq request failed\n");
+> > 
+> > return dev_err_probe()
+> 
+> I'll use dev_err_probe().
+> 
+> > > +			return ret;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	viif_dev->tables =
+> > > +		dma_alloc_wc(dev, sizeof(struct viif_table_area), &tables_dma, GFP_KERNEL);
+> > > +	if (!viif_dev->tables) {
+> > > +		dev_err(dev, "dma_alloc_wc failed\n");
+> > 
+> > Are you sure DMA memory allocation errors shall be printed?
+> 
+> Printing this error is useless for users in general?
+> If so, I'll drop this debug output.
+
+Failures to allocate memory in the kernel generally result in warning
+messages being printed by the allocation function, so there's no need to
+do so manually in drivers. This being said, I check dma_alloc_wc()
+(which is a wrapper around dma_alloc_attrs()), and unless I'm missing
+something, it can return NULL without printing any error. I don't know
+if this is an oversight in some code paths taken by dma_alloc_attrs() or
+if it's on purpose. Maybe Christoph, Marek or Roben will known.
+
+> > > +		return -ENOMEM;
+> > > +	}
+> > > +	viif_dev->tables_dma = (struct viif_table_area *)tables_dma;
+> > > +
+> > > +	/* power control */
+> > 
+> > Drop the comment, it is useless.
+> 
+> I'll drop the comment
+> 
+> > > +	pm_runtime_enable(dev);
+> > > +
+> > > +	/* build media_dev */
+> > > +	viif_dev->media_dev.hw_revision = 0;
+> > > +	strscpy(viif_dev->media_dev.model, VIIF_DRIVER_NAME, sizeof(viif_dev->media_dev.model));
+> > > +	viif_dev->media_dev.dev = dev;
+> > > +	/* TODO: platform:visconti-viif-0,1,2,3 for each VIIF driver instance */
+> > > +	snprintf(viif_dev->media_dev.bus_info, sizeof(viif_dev->media_dev.bus_info), "%s-0",
+> > > +		 VIIF_BUS_INFO_BASE);
+> > > +	media_device_init(&viif_dev->media_dev);
+> > > +
+> > > +	/* build v4l2_dev */
+> > > +	viif_dev->v4l2_dev.mdev = &viif_dev->media_dev;
+> > > +	ret = v4l2_device_register(dev, &viif_dev->v4l2_dev);
+> > > +	if (ret)
+> > > +		goto error_dma_free;
+> > > +
+> > > +	ret = media_device_register(&viif_dev->media_dev);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "Failed to register media device: %d\n", ret);
+> > > +		goto error_v4l2_unregister;
+> > 
+> > dev_err_probe
+> 
+> I'll use dev_err_probe().
+> 
+> > > +	}
+> > > +
+> > > +	ret = visconti_viif_csi2rx_register(viif_dev);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "failed to register csi2rx sub node: %d\n", ret);
+> > 
+> > dev_err_probe
+> 
+> I'll use dev_err_probe().
+> 
+> > > +		goto error_media_unregister;
+> > > +	}
+> > > +
+> > > +	ret = visconti_viif_isp_register(viif_dev);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "failed to register isp sub node: %d\n", ret);
+> > 
+> > dev_err_probe
+> 
+> I'll use dev_err_probe().
+> 
+> > > +		goto error_media_unregister;
+> > > +	}
+> > > +	ret = visconti_viif_capture_register(viif_dev);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "failed to register capture node: %d\n", ret);
+> > 
+> > dev_err_probe
+> 
+> I'll use dev_err_probe().
+> 
+> > > +		goto error_media_unregister;
+> > > +	}
+> > > +
+> > > +	/* handle subdevices in device tree */
+> > > +	num_sd = visconti_viif_parse_dt(viif_dev);
+> > > +	if (ret < 0) {
+> > > +		ret = num_sd;
+> > 
+> > ret = dev_err_probe
+> 
+> I'll use dev_err_probe().
+> 
+> > > +		goto error_media_unregister;
+> > > +	}
+> > > +
+> > > +	viif_dev->notifier.v4l2_dev = &viif_dev->v4l2_dev;
+> > > +	v4l2_async_nf_init(&viif_dev->notifier);
+> > > +	for (i = 0; i < num_sd; i++)
+> > > +		__v4l2_async_nf_add_subdev(&viif_dev->notifier, viif_dev->asds[i]);
+> > > +	viif_dev->notifier.ops = &viif_notify_ops;
+> > > +	ret = v4l2_async_nf_register(&viif_dev->v4l2_dev, &viif_dev->notifier);
+> > > +	if (ret)
+> > > +		goto error_media_unregister;
+> > > +
+> > > +	viif_dev->wq = create_workqueue("visconti-viif");
+> > > +	if (!viif_dev->wq)
+> > > +		return -ENOMEM;
+> > 
+> > No error cleanup?
+> 
+> There should be. I'll add cleanup operations.
+> 
+> > > +	INIT_WORK(&viif_dev->work, visconti_viif_wthread_l1info);
+> > > +
+> > > +	return 0;
+> > > +
+> > > +error_media_unregister:
+> > > +	media_device_unregister(&viif_dev->media_dev);
+> > > +error_v4l2_unregister:
+> > > +	v4l2_device_unregister(&viif_dev->v4l2_dev);
+> > > +error_dma_free:
+> > > +	pm_runtime_disable(dev);
+> > > +	dma_free_wc(&pdev->dev, sizeof(struct viif_table_area), viif_dev->tables,
+> > > +		    (dma_addr_t)viif_dev->tables_dma);
+> > > +	return ret;
+> > > +}
+
+[snip]
+
+-- 
+Regards,
+
+Laurent Pinchart
