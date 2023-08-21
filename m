@@ -2,130 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7C3E782860
-	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 13:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 558F97828D6
+	for <lists+linux-media@lfdr.de>; Mon, 21 Aug 2023 14:19:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234026AbjHUL5E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 07:57:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35840 "EHLO
+        id S232306AbjHUMTG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Aug 2023 08:19:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234049AbjHUL5D (ORCPT
+        with ESMTP id S229778AbjHUMTF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 07:57:03 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71FDDCE
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 04:57:01 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4ff882397ecso4751977e87.3
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 04:57:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692619020; x=1693223820;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fTe8WhjRtDtvKnWUy8DQUNNiHCly37L9aOxfVWfr51I=;
-        b=XF7BVjGw4rayXAII/RwNEc0RYR/qTaKbatZCOC8m1yillv73HuEt1VDgLR/3UvlgPM
-         trG01vienb53PUZ3OKewXqP6w6obD7RlvsPrx/X2K+UiLz6we42bhtsPnUeDSr6AOAxa
-         qNcN/xhSqekNVpy1OdUlBDsTvifbA3vbkogy03DFyiQSYFg7+Ip/r+PjtK2QM3eJ/pLR
-         IBoBPaUtKYjuJxLb/BtyMqeoWecUJFGdSlljPGNjL4aSc5nOYlY4BrJKNnw2gQHiyhYI
-         5cP0pSBlrAJE3ciqrxGcD7qIMm4ygGqvQf/hU/56SxBBO1Ih34LY/9csXllYY63AjDu2
-         7/gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692619020; x=1693223820;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fTe8WhjRtDtvKnWUy8DQUNNiHCly37L9aOxfVWfr51I=;
-        b=l3fHBQN4WyTL2wBNZbPyUYiP075bPxdBKJqMYoUF/FNpbA3c87+WL5StK5zf8VlFHm
-         3Bq5jvWIvw45cOA3P5f+vzENRn5Kjt815VlLfZb5Z8z5clmIYH1piBslKI3cpwobfhN8
-         zfkpaX6NK3AE0yEq5j7+EeUX01aBeHd32T9TNHcSPD+G6h7ZJ6Zg0Op8ylwhNUEngUyd
-         oUhufvba4GOGhWxkD8CfUgiyNZOA5nPlE2gvP35fD3kmZAbI0qHuNcHMvmdFYi22km8s
-         fUaPJyclgZbWYJtLzXA/SIN7LC0iIRa3Qav9aYfwfN0HPLQHdJRJ1snw2NVPTsPRkQrd
-         lxFA==
-X-Gm-Message-State: AOJu0YwwDt0q/ZqeDeo3Z+WbUOstBPmuWUpDsgzjI8Tube6Kwf5A+mA1
-        KYWNZLm0b6Gz7AbjrHei8eQHVg==
-X-Google-Smtp-Source: AGHT+IG0T2AjDHN5OsFOZSB3biLx14nIVjHc9Jc5o9uNqCi2+5w0B4twWxLtoP6QfozGZyP02ebPXA==
-X-Received: by 2002:a19:7111:0:b0:4f7:6775:2a66 with SMTP id m17-20020a197111000000b004f767752a66mr3729911lfc.53.1692619019522;
-        Mon, 21 Aug 2023 04:56:59 -0700 (PDT)
-Received: from [192.168.1.101] (abyk181.neoplus.adsl.tpnet.pl. [83.9.30.181])
-        by smtp.gmail.com with ESMTPSA id z7-20020a19f707000000b004fe1e0ded25sm1721276lfe.184.2023.08.21.04.56.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Aug 2023 04:56:58 -0700 (PDT)
-Message-ID: <1f7f00c4-e671-49a7-9cd6-b0cc25b6042c@linaro.org>
-Date:   Mon, 21 Aug 2023 13:56:57 +0200
+        Mon, 21 Aug 2023 08:19:05 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7514CBE
+        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 05:19:03 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1278D741;
+        Mon, 21 Aug 2023 14:17:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692620265;
+        bh=5KePzG/O6w2+kgYF+Cw6Wne+11R+x1O3yUf15F9o78c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nb5Hc8I43DSrMfzq7Y7nQMjt769Ym+AHomV31xSMtM2zd88IWeofXbSHGRU8+7P1U
+         qkKarptW5ucxNEjWKky7g02HEgaU+mdCFcr7frSnp1LGFvU0TSyiPkt9YOWkGSjVlH
+         SY0q2OO4Ije0HCqVIXespKSZOD3mq+Qx6gTRECrM=
+Date:   Mon, 21 Aug 2023 15:19:08 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Claus Stovgaard <claus.stovgaard@gmail.com>
+Cc:     Bingbu Cao <bingbu.cao@linux.intel.com>, bingbu.cao@intel.com,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
+        hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
+Message-ID: <20230821121908.GD10135@pendragon.ideasonboard.com>
+References: <20230727071558.1148653-1-bingbu.cao@intel.com>
+ <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
+ <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
+ <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
+ <907f992d4e333f090418f39ebd59bf8ac1fb5e3f.camel@gmail.com>
+ <d451bbec67358373ca8495544cc0802233108a03.camel@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 7/9] media: qcom: camss: Fix invalid clock enable bit
- disjunction
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
-        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20230814141007.3721197-1-bryan.odonoghue@linaro.org>
- <20230814141007.3721197-8-bryan.odonoghue@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20230814141007.3721197-8-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d451bbec67358373ca8495544cc0802233108a03.camel@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14.08.2023 16:10, Bryan O'Donoghue wrote:
-> define CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE BIT(7)
-> 
-> disjunction for gen2 ? BIT(7) : is a nop we are setting the same bit
-> either way.
-> 
-> Fixes: 4abb21309fda ("media: camss: csiphy: Move to hardcode CSI Clock Lane number")
-> Cc: stable@vger.kernel.org
-"eeeh"
+Hi Claus,
 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+On Mon, Aug 21, 2023 at 12:07:59PM +0200, Claus Stovgaard wrote:
+> On Mon, 2023-08-21 at 08:55 +0200, Claus Stovgaard wrote:
+> > On Mon, 2023-08-21 at 14:22 +0800, Bingbu Cao wrote:
+> > > 
+> > > Claus,
+> > > 
+> > > 
+> > > On 8/21/23 11:14 AM, Bingbu Cao wrote:
+> > > 
+> > > 
+> > > I see that the ivsc driver has not been in master branch. Before
+> > > that,
+> > > could you try several hack to check whether camera can work on
+> > > master?
+> > > 
+> > > https://github.com/bingbucao/linux/commits/ipu_dev
+> > > 
+> > > 7ebff51284d9 media: ov01a10: hack ivsc to make camera can work
+> > > 01cc9f3d1b61 i2c: ljca: Call acpi_dev_clear_dependencies()
+> > > 92e5d122e105 vsc: Defer firmware loading to avoid long probing time
+> > > 5f5d5f0df06b driver: ivsc: add intel ivsc driver
+> > > 0f4819dec533 Revert "gpio: Add support for Intel LJCA USB GPIO
+> > > driver"
+> > 
+> > Thanks for your quick reply.
+> > 
+> > I was missing understanding of ivsc when I wrote the mail yesterday.
+> > Got some basic understanding yesterday after I wrote, and big thanks
+> > for confirming it, and also thanks for your ipu_dev branch. Has just
+> > cloned it, and is building as I write.
+> > 
+> > Just fyi, I was trying to hack something together yesterday, and got
+> > further, but not yet working.
+> > 
+> > My hack was to combine the out-of-tree ivsc drivers and firmware from
+> > 
+> > * https://github.com/intel/ivsc-firmware.git
+> > * https://github.com/intel/ivsc-driver.git
+> > 
+> > Though noticed that I need some changes to the sensor driver so was
+> > also building all the drivers from ipu6-drivers (with minor changes
+> > to
+> > get_pages) as out-of-tree modules.
+> > 
+> > * https://github.com/intel/ipu6-drivers.git 
+> > 
+> > Here I used everything beside media/pci/*.ko files. I could see the
+> > sensor and got further, but was missing the last.
+> > 
+> > Looking forward to try your branch. Looks much cleaner, and would be
+> > nice to get working :)
+> 
+> I got it to work on Dell XPS 9320.
 
-Konrad
+I'm glad to hear this ! Even if PSYS support will be needed to make the
+IPU6 truly usable, it is a very nice step in the right direction.
+
+Would you be interested in adding initial support for the IPU6 in
+libcamera ? :-) Given that only the ISYS is currently available, and
+given the simplicity of the hardware, it may be as easy as a single line
+addition.
+
+> With some minor changes compared to your guide in Documentation/admin-
+> guide/media/ipu6-isys.rst
+> 
+> [root@xps-1 ]# uname -a
+> Linux xps-1 6.5.0-rc7-g7ebff51284d9 #1 SMP PREEMPT_DYNAMIC Mon Aug 21
+> 09:02:20 CEST 2023 x86_64 GNU/Linux
+> 
+> [root@xps-1 ]# media-ctl -d /dev/media0 -p | tail -n10
+> 
+> - entity 2149: ov01a10 16-0036 (1 pad, 1 link)
+>                type V4L2 subdev subtype Sensor flags 0
+>                device node name /dev/v4l-subdev4
+>         pad0: Source
+>                 [fmt:SBGGR10_1X10/1280x800 field:none colorspace:raw
+>                  crop.bounds:(0,0)/1296x816
+>                  crop:(8,8)/1280x800]
+>                 -> "Intel IPU6 CSI2 2":0 []
+> 
+> So i2c is 16-0036 - and we use it for setup like your guide.
+> 
+> export MDEV=/dev/media0
+> 
+> media-ctl -d $MDEV -l "\"ov01a10 17-0036\":0 -> \"Intel IPU6 CSI2
+> 2\":0[1]"
+> 
+> media-ctl -d $MDEV -V "\"ov01a10 17-0036\":0 [fmt:SBGGR10/1280x800]"
+> media-ctl -d $MDEV -V "\"Intel IPU6 CSI2 2\":0 [fmt:SBGGR10/1280x800]"
+> media-ctl -d $MDEV -V "\"Intel IPU6 CSI2 2\":1 [fmt:SBGGR10/1280x800]"
+> 
+> media-ctl -d $MDEV -l "\"ov01a10 17-0036\":0 -> \"Intel IPU6 CSI2
+> 2\":0[1]"
+> media-ctl -d $MDEV -l "\"Intel IPU6 CSI2 2\":1 ->\"Intel IPU6 ISYS
+> Capture 0\":0[5]"
+> 
+> Though yavta does not work in the way as described in the guide.
+> 
+> [root@xps-1 ]# yavta --data-prefix -u -c10 -n5 -I -s 1280x800 --
+> file=/tmp/frame-#.bin -f SBGGR10 /dev/video0
+> Device /dev/video0 opened.
+> Device `ipu6' on `PCI:0000:00:05.0' (driver 'isys') supports video,
+> capture, with mplanes.
+> Video format set: SBGGR10 (30314742) 1280x800 field none, 1 planes: 
+>  * Stride 2560, buffer size 2050560
+> Video format: SBGGR10 (30314742) 1280x800 field none, 1 planes: 
+>  * Stride 2560, buffer size 2050560
+> Unable to request buffers: Invalid argument (22).
+> 
+> 
+> So I changed to use v4l2-ctl
+> 
+> [root@xps-1 ]# v4l2-ctl -d /dev/video0 --set-fmt-video
+> width=1280,height=800,pixelformat=BG10 --stream-mmap --stream-count=1 -
+> -stream-to=frame.bin
+> 
+> With this I created raw data in BG10 format, and later used a small
+> python script with numpy and opencv to look at the data.
+> 
+> #!/usr/bin/env python3
+> # Demosaicing Bayer Raw image
+> 
+> import cv2
+> import numpy as np
+> 
+> width = 1280
+> height = 800
+> 
+> with open("frame.bin", "rb") as rawimg:
+>     # Read the bayer data
+>     data = np.fromfile(rawimg, np.uint16, width * height)
+>     bayer = np.reshape(data, (height, width))
+> 
+>     # Just a offset gain to be able to see something
+>     for x in range(0, len(bayer)):
+>         for y in range(0, len(bayer[0])):
+>             bayer[x, y] = (bayer[x,y] << 8)
+> 
+>     rgb = cv2.cvtColor(bayer, cv2.COLOR_BayerBGGR2RGB)
+> 
+>     cv2.imshow('rgb', rgb)
+>     cv2.waitKey()
+>     cv2.destroyAllWindows()
+> 
+> 
+> Thanks for the help, and now we know what is needed to make it work on
+> top of yesterdays rc7
+
+-- 
+Regards,
+
+Laurent Pinchart
