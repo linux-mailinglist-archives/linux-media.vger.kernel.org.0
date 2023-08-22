@@ -2,167 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1F0D78484A
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 19:16:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD87F784862
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 19:27:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231396AbjHVRQK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 13:16:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52366 "EHLO
+        id S229782AbjHVR11 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 13:27:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231138AbjHVRQK (ORCPT
+        with ESMTP id S229511AbjHVR1Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 13:16:10 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DFE046AF;
-        Tue, 22 Aug 2023 10:16:06 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-522dd6b6438so5719346a12.0;
-        Tue, 22 Aug 2023 10:16:06 -0700 (PDT)
+        Tue, 22 Aug 2023 13:27:25 -0400
+Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FC1359AE2
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 10:27:23 -0700 (PDT)
+Received: by mail-vk1-xa29.google.com with SMTP id 71dfb90a1353d-48d10c504a8so841338e0c.2
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 10:27:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692724565; x=1693329365;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n40OSQ1aOHwb0xjPdR9jQ6wxnoOkYuHmQ4PP3H0EIQU=;
-        b=lySY5a8lyrGGnlYYXmf1l1ocOBL9p7YeIXrDkyjNrsw/anYfz+6MrKn1NRW7rt0Ny1
-         KihWqC/l79F/2GTS93KM2VYg0m+/U4ZVc6uNlRpIjmnSZ0Sut5sNdvCRogdQcnP1Jwjc
-         HaVZ93SoZcSeQMmHWgJdoPfeVJAbkvtXKctBEytkDo8/yyOSFyWLNukLQCZ22UcVLcw9
-         S9oIJ8C5urTiccIpXY4yjOWXK/FgflI2yb/rxybAUkaM2Tg4mU0dn4uJ8eecyyW0k7N1
-         QTNad9C61A1jPmghWekm/9TE/GUQZqqUJr/zFssq50uYC8EQlJ98t5Se/kpQvL2a3A9J
-         5AFw==
+        d=raspberrypi.com; s=google; t=1692725242; x=1693330042;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SU/uCgxrgoRCkEjuffBjFi03auvZp/cwtq4UFkfJvME=;
+        b=WCnKUrErjMNOFBkqfPUm2UPJ9GHFfNm6o9waVFEKUtNcFxJATPL4FK7Fp6+3v1PL/Z
+         f+CDylbfC7YRrhYzeHGtOOBWxjaG2dOuvwdkD0vPGou1M1OiswWf/bDR80fygtdFfV+A
+         R2fHqF4zfAPNyR0yMn1eSgAyGIJYKzyDshG3HwlpkP5fP689Nzbd4EjAXrxENwIAGK2m
+         5JlHtVQzO+JlnKB7HzeCcaDBv7wi1TqGBPdq4uDM4Nn97B2xSfD1sbn2dftmNukGq8h6
+         e6QAIRpxQPOb4aSUCcOfaq5+NgBSz0XiUr37/PFlh+gSOgrAireCtRowwEYcHPyVsems
+         LNBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692724565; x=1693329365;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n40OSQ1aOHwb0xjPdR9jQ6wxnoOkYuHmQ4PP3H0EIQU=;
-        b=CatTWPdtfQMVp1tFMthbG7vKLKtV0bzHgaPyVh+VVphq9W/V/DTPXxVimwpSWu5giw
-         qPCUhq9jk1PaRcTig3Bxa5Ifp3zFJGqQDZZ93HbgM3IG2goKJ2cC9eeOWIYlalCbvYX0
-         u4VmxcOXcN99U9Z+kFb6ITgYWni0Xe8O92gYBOUfOpazbRkE5BqekXEXvMncuQ7vcxP7
-         yJ6clgdHCp53wOPOEMFGctrrt4heND/dUhHR7SOrmPYJ86ZBssPSNoTlXqI+JKMznDbB
-         2pbwDXOGB8kLjcs5tIRjmTWsZExLFPsYgCBoUbEclKpb8LyxTTnJ1MMiwEGgW+JIy9/w
-         DNPw==
-X-Gm-Message-State: AOJu0YyCJcd6ffBv00Z1ccVYgnjnhVzUJFm0EX4pkPTK2M2DE+tSAvxU
-        0hNVrx8FgVcmAEfGkcJQBGlwFfjeeEYPg2WV/+Q=
-X-Google-Smtp-Source: AGHT+IFI95FHGpr6x2Y7yipCMx8Cu+PjNr67/q+7Cwc3a0nItV0XK4fS+gMtRy1kJ5SZXKsg6cGwBCClIR0xrahkDBI=
-X-Received: by 2002:a17:906:28d:b0:99c:3b4:940f with SMTP id
- 13-20020a170906028d00b0099c03b4940fmr8855243ejf.27.1692724564539; Tue, 22 Aug
- 2023 10:16:04 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692725242; x=1693330042;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SU/uCgxrgoRCkEjuffBjFi03auvZp/cwtq4UFkfJvME=;
+        b=d2UKvxGuqBGaoSxXN8Dvv03dihFrPF/2+VxtEmBfQzCIlz0JP4Yb+vGoKpt44bu8gS
+         c6Mnv34ZH1zRE/AMTYrEq8+HOV8YU831W7EWJl79GzH4p0lUK44eH2v2XeOzkn/1RUaD
+         hj+Teuwj9OVeZ8OlvP2yGFmcqFgbxn6cIJdyTIfYrPrO92ceTP/Mj4NnRP0NDxCf0XVn
+         SnDZ+h8Vqwq1R1XfsAuzU+r/0leXp74ENR+EnVU3S/unzqLTSYkm1MTlZ+GBnnGjcjhM
+         q8/VJ8zoNGC3AjGh3V8CKFO47dVa7A99Gbxb3SQbCY7jHXhYGZ7O+MAJdXLe6R3lFxW+
+         0gEA==
+X-Gm-Message-State: AOJu0YymlU6i9luCmEDc+6dwgnFKYaWKqzVfeOIYWtBzAzmtC5RPLzJk
+        xzmkKtlxbgCwaZJnui6Evzr6DVnEIRlKix2z+iVZvQ==
+X-Google-Smtp-Source: AGHT+IGiq+mEzhjgysrmSFvMEsCJnHPf6pM4MO/HFCh63kVjgTzfVJSF77fRNwlM/ruFVWFxtkqG0jeHPGGMpcZ0BGI=
+X-Received: by 2002:a05:6122:320c:b0:48d:eaa:45cf with SMTP id
+ ci12-20020a056122320c00b0048d0eaa45cfmr6755640vkb.1.1692725242653; Tue, 22
+ Aug 2023 10:27:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230818145939.39697-1-robdclark@gmail.com> <a05e0c2e-fd62-4a8e-9fa4-dffaf86f7730@gmail.com>
-In-Reply-To: <a05e0c2e-fd62-4a8e-9fa4-dffaf86f7730@gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Tue, 22 Aug 2023 10:15:52 -0700
-Message-ID: <CAF6AEGs+6cveKbv=onEJSZJERk8m56YJzza6A2+eLd3+6MuWMg@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v2] dma-buf/sw_sync: Avoid recursive lock
- during fence signal
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
+References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com> <20230821223001.28480-13-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230821223001.28480-13-laurent.pinchart@ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 22 Aug 2023 18:27:06 +0100
+Message-ID: <CAPY8ntC1d8U7Obx6643Xm+LyXNVFaQ5xcitNZpd5fnffK7Sgtw@mail.gmail.com>
+Subject: Re: [PATCH v2 12/18] media: i2c: imx219: Drop IMX219_VTS_* macros
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Hans de Goede <hdegoede@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 22, 2023 at 6:01=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+On Mon, 21 Aug 2023 at 23:30, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Am 18.08.23 um 16:59 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > If a signal callback releases the sw_sync fence, that will trigger a
-> > deadlock as the timeline_fence_release recurses onto the fence->lock
-> > (used both for signaling and the the timeline tree).
-> >
-> > To avoid that, temporarily hold an extra reference to the signalled
-> > fences until after we drop the lock.
-> >
-> > (This is an alternative implementation of https://patchwork.kernel.org/=
-patch/11664717/
-> > which avoids some potential UAF issues with the original patch.)
-> >
-> > v2: Remove now obsolete comment, use list_move_tail() and
-> >      list_del_init()
-> >
-> > Reported-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> > Fixes: d3c6dd1fb30d ("dma-buf/sw_sync: Synchronize signal vs syncpt fre=
-e")
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> The IMX219_VTS_* macros define default VTS values for the modes
+> supported by the driver. They are used in a single place, and hinder
+> readability compared to using the value directly as a decimal number.
+> Drop them.
+
+Personally I don't see it as a huge hindrance to readability, but it's
+not that significant either way.
+
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> ---
+>  drivers/media/i2c/imx219.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
 >
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-
-Thanks, any chance you could take this via drm-misc?
-
-BR,
--R
-
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 67a30dc39641..165c5e8473f7 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -71,10 +71,6 @@
 >
-> > ---
-> >   drivers/dma-buf/sw_sync.c | 18 +++++++++---------
-> >   1 file changed, 9 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> > index 63f0aeb66db6..f0a35277fd84 100644
-> > --- a/drivers/dma-buf/sw_sync.c
-> > +++ b/drivers/dma-buf/sw_sync.c
-> > @@ -191,6 +191,7 @@ static const struct dma_fence_ops timeline_fence_op=
-s =3D {
-> >    */
-> >   static void sync_timeline_signal(struct sync_timeline *obj, unsigned =
-int inc)
-> >   {
-> > +     LIST_HEAD(signalled);
-> >       struct sync_pt *pt, *next;
-> >
-> >       trace_sync_timeline(obj);
-> > @@ -203,21 +204,20 @@ static void sync_timeline_signal(struct sync_time=
-line *obj, unsigned int inc)
-> >               if (!timeline_fence_signaled(&pt->base))
-> >                       break;
-> >
-> > -             list_del_init(&pt->link);
-> > +             dma_fence_get(&pt->base);
-> > +
-> > +             list_move_tail(&pt->link, &signalled);
-> >               rb_erase(&pt->node, &obj->pt_tree);
-> >
-> > -             /*
-> > -              * A signal callback may release the last reference to th=
-is
-> > -              * fence, causing it to be freed. That operation has to b=
-e
-> > -              * last to avoid a use after free inside this loop, and m=
-ust
-> > -              * be after we remove the fence from the timeline in orde=
-r to
-> > -              * prevent deadlocking on timeline->lock inside
-> > -              * timeline_fence_release().
-> > -              */
-> >               dma_fence_signal_locked(&pt->base);
-> >       }
-> >
-> >       spin_unlock_irq(&obj->lock);
-> > +
-> > +     list_for_each_entry_safe(pt, next, &signalled, link) {
-> > +             list_del_init(&pt->link);
-> > +             dma_fence_put(&pt->base);
-> > +     }
-> >   }
-> >
-> >   /**
+>  /* V_TIMING internal */
+>  #define IMX219_REG_VTS                 CCI_REG16(0x0160)
+> -#define IMX219_VTS_15FPS               0x0dc6
+> -#define IMX219_VTS_30FPS_1080P         0x06e3
+> -#define IMX219_VTS_30FPS_BINNED                0x06e3
+> -#define IMX219_VTS_30FPS_640x480       0x06e3
+>  #define IMX219_VTS_MAX                 0xffff
+>
+>  #define IMX219_VBLANK_MIN              4
+> @@ -302,7 +298,7 @@ static const struct imx219_mode supported_modes[] = {
+>                         .width = 3280,
+>                         .height = 2464
+>                 },
+> -               .vts_def = IMX219_VTS_15FPS,
+> +               .vts_def = 3526,
+>         },
+>         {
+>                 /* 1080P 30fps cropped */
+> @@ -314,7 +310,7 @@ static const struct imx219_mode supported_modes[] = {
+>                         .width = 1920,
+>                         .height = 1080
+>                 },
+> -               .vts_def = IMX219_VTS_30FPS_1080P,
+> +               .vts_def = 1763,
+>         },
+>         {
+>                 /* 2x2 binned 30fps mode */
+> @@ -326,7 +322,7 @@ static const struct imx219_mode supported_modes[] = {
+>                         .width = 3280,
+>                         .height = 2464
+>                 },
+> -               .vts_def = IMX219_VTS_30FPS_BINNED,
+> +               .vts_def = 1763,
+>         },
+>         {
+>                 /* 640x480 30fps mode */
+> @@ -338,7 +334,7 @@ static const struct imx219_mode supported_modes[] = {
+>                         .width = 1280,
+>                         .height = 960
+>                 },
+> -               .vts_def = IMX219_VTS_30FPS_640x480,
+> +               .vts_def = 1763,
+>         },
+>  };
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 >
