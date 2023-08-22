@@ -2,57 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7036E784951
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 20:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E2B4784956
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 20:18:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbjHVSPl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 14:15:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39662 "EHLO
+        id S229777AbjHVSSl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 14:18:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjHVSPk (ORCPT
+        with ESMTP id S229692AbjHVSSi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 14:15:40 -0400
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C72BC133
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 11:15:38 -0700 (PDT)
-Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-79b191089a3so1541043241.3
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 11:15:38 -0700 (PDT)
+        Tue, 22 Aug 2023 14:18:38 -0400
+Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B02F11F
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 11:18:36 -0700 (PDT)
+Received: by mail-vk1-xa29.google.com with SMTP id 71dfb90a1353d-48d11f47ee6so863756e0c.3
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 11:18:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1692728138; x=1693332938;
+        d=raspberrypi.com; s=google; t=1692728316; x=1693333116;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vBlk0euG2zgpXXhJjyUuX4rA4rxI7pV3Yx0VvTsWKvY=;
-        b=IPMCsUnHLaXl+MD4gySfHFYokpN5gwb29Tj/7M9CpUO9FrrAHWbZWGvpP6UfGwttOq
-         8bJZd1AANT7l1wcJvqTTM6ikVbFLNtLrJwqsmx0KbF7dFE/t5nhzAwTbcRwDMdLoWf01
-         lVi7eaQ7G1GCPSaDPYGZw+Be6AXql4EyLjb7Vc3cHA0/q5i8W+I4vM4rgEirqlbZRgY6
-         csl8qFqfYXDePdfj2jmKqlMvKf/6lER5e465Di89SYbu/5dqkNX8flZMFb5RzK3dkRlW
-         HZb38N3+Mv8P40OR2xciehAaKCkM5ByjbDiY9nRImVLZ+1cGtulfxTWvDhWqZjfOWSVB
-         +Asw==
+        bh=ic4Gc0MYh+vvd7NJp4Y/lHyZETDs0zvwg0Uo0/Qhx3Q=;
+        b=iPuLK0sswYuR4k692buJBoYUc7LOPDpl2WGAFLx8UdRiWbv1pZOZL1GYeRM0iIUDtQ
+         70isjq4ZHq1SUgIycJiLoiM5+ygwpKgzJtQSxhluDujrtqrgKSxRhaB4EclszQ1AoQ/U
+         JehAvgJMi7/HF+8Ad1K3qhOR2l/tL8AgVbvImRGCV6WVgHLN52dyy82AqOF41V2cy9J7
+         A+Pqpx0eoWjrQ3dMuugEgUCkse83gt/qa+iOy4hXEEoqImfyMggDSOaDQk0u0Um2alUH
+         wx0vQH4Lp7xLxxohRNsW2xKdQ0ArGXN1rOJ8yR2ES3LrvtFLGHnHt26muBdYSpm635QA
+         Sc9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692728138; x=1693332938;
+        d=1e100.net; s=20221208; t=1692728316; x=1693333116;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vBlk0euG2zgpXXhJjyUuX4rA4rxI7pV3Yx0VvTsWKvY=;
-        b=kXtlfYRbUQsY6zLT9FWNUzIgn/vDUNw1qO3S+lqEo3i7oYr6nUNkbUnnq/Uxkn4Bpk
-         s1z7AGMHv5SFdN/XasRBVqvJUWxzjG6eCWz20Syv1ykcS0xqNB2P8YT27yxaYz7R1xrK
-         fMWJF/RcFVaBbZgE9dy8JMAUct8Sxtn+RVl+jwbjAksQ1Rzw1Oa2T5reTPmATG1nKfCg
-         XBQLB29Tcx3V9lLCAb10ngDkuGczOyA8+Yoo7twm8u9VREIRLwCOK0dS1wQQZsW1Ucz1
-         i/lTQY/+JYserjtJ88q4zzq0DIxlPQfwWwzXb+Z3KJYGEUuIDBSTaZfUQSIYuW4Qui9b
-         v/mw==
-X-Gm-Message-State: AOJu0YzOtI0iTTvI8Ti5C72CUzmgG2akvHOeQLtLPhCKM+r+334OHLWW
-        fw8Oie5NQqrq6Z4H+jVmej4JNWu2gbMbMMEMnWcRnQYggEYdZbnH
-X-Google-Smtp-Source: AGHT+IERgjILHoXBXDJzj1mlGsCrUVx/iE21EUPIMAx+g8GLP5J/hBUgyBXLgEDtUcU7x9qqpURXc66Iz7r9BxxBhms=
-X-Received: by 2002:a67:de08:0:b0:447:7cb1:3148 with SMTP id
- q8-20020a67de08000000b004477cb13148mr10012613vsk.33.1692728137909; Tue, 22
- Aug 2023 11:15:37 -0700 (PDT)
+        bh=ic4Gc0MYh+vvd7NJp4Y/lHyZETDs0zvwg0Uo0/Qhx3Q=;
+        b=LUDc3f4EQS7a/c3KNPzdx2iUeoS0tL/uWA8fXKuj3QC1D/qEfzeGL5Njm5hRO6Sk21
+         Zr1/Ix2Ul/462QA8lnQ/ysxZylnqn5cEZOS0jOZWmZ32btODBIJKWptvCU2gmrX8LLzr
+         ZhKE7R+iXoK0s75st0k0i75JUHCw/VN8V4K+S3fd/ajeLCC35OU62SNUwCBGiBd9LFzn
+         a1floZy3s9iSge7Goeqod61NR02+wZZolqFExoD+WVVR7v4jrRpD+/wCIqrnnpn5N7vM
+         lBk05Kv2Vjl4412phYeXkitlTsvOhklJO4vWD7OkZWP9b8XgTsroEiPKM+yFgskrRoUC
+         xNvg==
+X-Gm-Message-State: AOJu0Yz/hyp/MPETgrLqOP2en2YtskIhThznAhoyAUMILK3dFeyxPeNv
+        F1pkgdQSIOVIGdQs8MwrCzcdugYAj0EA2cAz9grUYw==
+X-Google-Smtp-Source: AGHT+IE6d5fL4u+c0k36ROe+kb22q5m1oj5oAO3Vsfb2P6/wvfXaStjBqmuBjGpwNB+X2iWQtPqsWh7qHGJEFAmHX8A=
+X-Received: by 2002:a1f:c7c7:0:b0:48d:5be:2869 with SMTP id
+ x190-20020a1fc7c7000000b0048d05be2869mr8519008vkf.7.1692728315743; Tue, 22
+ Aug 2023 11:18:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com> <20230821223001.28480-17-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230821223001.28480-17-laurent.pinchart@ideasonboard.com>
+References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com> <20230821223001.28480-18-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230821223001.28480-18-laurent.pinchart@ideasonboard.com>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 22 Aug 2023 19:15:21 +0100
-Message-ID: <CAPY8ntAmdkSKcGVdCURt-Zae-nQk9Ljwu0Gp28bx-Er6_Vq-AA@mail.gmail.com>
-Subject: Re: [PATCH v2 16/18] media: i2c: imx219: Calculate crop rectangle dynamically
+Date:   Tue, 22 Aug 2023 19:18:19 +0100
+Message-ID: <CAPY8ntAKexsboYurSeT=jjxOg56_PXt9CuWgiPHbjhQbBWqu9g@mail.gmail.com>
+Subject: Re: [PATCH v2 17/18] media: i2c: imx219: Name all subdev state
+ variables 'state'
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -69,130 +70,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
-
 On Mon, 21 Aug 2023 at 23:30, Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Calculate the crop rectangle size and location dynamically when setting
-> the format, instead of storing it in the imx219_mode structure. This
-> removes duplicated information from the mode, to guarantee consistency.
+> Subdev state variables are named with a mix of 'state' and 'sd_state'
+> through the driver. To improve consistency, name them all 'state'.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
 > ---
->  drivers/media/i2c/imx219.c | 45 +++++++++++++-------------------------
->  1 file changed, 15 insertions(+), 30 deletions(-)
+>  drivers/media/i2c/imx219.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 >
 > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 646d73d1e6a3..4140d9b78e4c 100644
+> index 4140d9b78e4c..e2f0d3782e7c 100644
 > --- a/drivers/media/i2c/imx219.c
 > +++ b/drivers/media/i2c/imx219.c
-> @@ -18,6 +18,7 @@
->  #include <linux/delay.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
-> +#include <linux/minmax.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regulator/consumer.h>
-> @@ -152,9 +153,6 @@ struct imx219_mode {
->         /* Frame height */
->         unsigned int height;
+> @@ -760,7 +760,7 @@ static void imx219_update_pad_format(struct imx219 *imx219,
+>  }
 >
-> -       /* Analog crop rectangle. */
-> -       struct v4l2_rect crop;
-> -
->         /* V-timing */
->         unsigned int vts_def;
->  };
-> @@ -292,48 +290,24 @@ static const struct imx219_mode supported_modes[] = {
->                 /* 8MPix 15fps mode */
->                 .width = 3280,
->                 .height = 2464,
-> -               .crop = {
-> -                       .left = IMX219_PIXEL_ARRAY_LEFT,
-> -                       .top = IMX219_PIXEL_ARRAY_TOP,
-> -                       .width = 3280,
-> -                       .height = 2464
-> -               },
->                 .vts_def = 3526,
->         },
->         {
->                 /* 1080P 30fps cropped */
->                 .width = 1920,
->                 .height = 1080,
-> -               .crop = {
-> -                       .left = 688,
-> -                       .top = 700,
-> -                       .width = 1920,
-> -                       .height = 1080
-> -               },
->                 .vts_def = 1763,
->         },
->         {
->                 /* 2x2 binned 30fps mode */
->                 .width = 1640,
->                 .height = 1232,
-> -               .crop = {
-> -                       .left = IMX219_PIXEL_ARRAY_LEFT,
-> -                       .top = IMX219_PIXEL_ARRAY_TOP,
-> -                       .width = 3280,
-> -                       .height = 2464
-> -               },
->                 .vts_def = 1763,
->         },
->         {
->                 /* 640x480 30fps mode */
->                 .width = 640,
->                 .height = 480,
-> -               .crop = {
-> -                       .left = 1008,
-> -                       .top = 760,
-> -                       .width = 1280,
-> -                       .height = 960
-> -               },
->                 .vts_def = 1763,
->         },
->  };
-> @@ -830,6 +804,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->         int exposure_max, exposure_def, hblank;
->         struct v4l2_mbus_framefmt *format;
->         struct v4l2_rect *crop;
-> +       unsigned int bin;
+>  static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+> -                                struct v4l2_subdev_state *sd_state,
+> +                                struct v4l2_subdev_state *state,
+>                                  struct v4l2_subdev_mbus_code_enum *code)
+>  {
+>         struct imx219 *imx219 = to_imx219(sd);
+> @@ -774,7 +774,7 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+>  }
 >
->         mode = v4l2_find_nearest_size(supported_modes,
->                                       ARRAY_SIZE(supported_modes),
-> @@ -839,10 +814,20 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>  static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> -                                 struct v4l2_subdev_state *sd_state,
+> +                                 struct v4l2_subdev_state *state,
+>                                   struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>         struct imx219 *imx219 = to_imx219(sd);
+> @@ -796,7 +796,7 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+>  }
+>
+>  static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> -                                struct v4l2_subdev_state *sd_state,
+> +                                struct v4l2_subdev_state *state,
+>                                  struct v4l2_subdev_format *fmt)
+>  {
+>         struct imx219 *imx219 = to_imx219(sd);
+> @@ -813,7 +813,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>
 >         imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
 >
->         format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
-> -       crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
-> -
+> -       format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
+> +       format = v4l2_subdev_get_pad_format(sd, state, 0);
 >         *format = fmt->format;
-> -       *crop = mode->crop;
-> +
-> +       /*
-> +        * Use binning to maximize the crop rectangle size, and centre it in the
-> +        * sensor. Bin by the same factor horizontally and vertically.
-> +        */
-> +       bin = min3(IMX219_PIXEL_ARRAY_WIDTH / format->width,
-> +                  IMX219_PIXEL_ARRAY_HEIGHT / format->height, 2U);
-
-If you're insisting that binning is by the same factor horizontally
-and vertically, why consider both in the min? Either only look at one,
-or we start looking at making H & V binning independent.
-
-  Dave
-
-> +
-> +       crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
-> +       crop->width = format->width * bin;
-> +       crop->height = format->height * bin;
-> +       crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
-> +       crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
 >
->         if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->                 /* Update limits and set FPS to default */
+>         /*
+> @@ -823,7 +823,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>         bin = min3(IMX219_PIXEL_ARRAY_WIDTH / format->width,
+>                    IMX219_PIXEL_ARRAY_HEIGHT / format->height, 2U);
+>
+> -       crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
+> +       crop = v4l2_subdev_get_pad_crop(sd, state, 0);
+>         crop->width = format->width * bin;
+>         crop->height = format->height * bin;
+>         crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
+> @@ -858,12 +858,12 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>  }
+>
+>  static int imx219_get_selection(struct v4l2_subdev *sd,
+> -                               struct v4l2_subdev_state *sd_state,
+> +                               struct v4l2_subdev_state *state,
+>                                 struct v4l2_subdev_selection *sel)
+>  {
+>         switch (sel->target) {
+>         case V4L2_SEL_TGT_CROP: {
+> -               sel->r = *v4l2_subdev_get_pad_crop(sd, sd_state, 0);
+> +               sel->r = *v4l2_subdev_get_pad_crop(sd, state, 0);
+>                 return 0;
+>         }
+>
 > --
 > Regards,
 >
