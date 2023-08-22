@@ -2,136 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28A26783B53
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 10:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F557783B75
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 10:11:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233651AbjHVIAu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 04:00:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41742 "EHLO
+        id S233724AbjHVILm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 04:11:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233626AbjHVIAG (ORCPT
+        with ESMTP id S233683AbjHVILa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 04:00:06 -0400
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47688CC6
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 01:00:04 -0700 (PDT)
-Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-64a70194fbeso24204326d6.0
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 01:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692691203; x=1693296003;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=asUWMK1gCt6jligLNxv9OySXwdWZpULBiw8f9aYh8OM=;
-        b=K4IEXN15NCW64V9NNsVqPK2d0r9swsPvPTmXHdIp9T5yLutX8kkBwQosrY47bRDjqp
-         n1WG+lNwunxPeCXMMdjDLQW//+PauMumZ4N/x2t9GNvRJY1gw8sO+PxXtGtyRfd/8vnY
-         0kK4CFrzPthHQhTvwO8f/aYUc4CYjqbVpcT8Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692691203; x=1693296003;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=asUWMK1gCt6jligLNxv9OySXwdWZpULBiw8f9aYh8OM=;
-        b=eOkExbG8jkfDXUevC76l+3SW1MLALJH5j7AbCYi6t18A83B3hXVF8eOd5X4wP0F9nm
-         6z4mNvb0k+tPZqUxin7SEO4Ojg49Jqv1gt2sL+Byza5mFPmRAtaHh1DAoaC4Bpm4DgZQ
-         VQZkUUV/M1pqf4m8AUnexG+MR7eIcNnvVP29MQB3l6j/xX0gi4vMJZyp5OZF2jTbKry1
-         0evsOdWY4nODhGW0FyxhRwKa/SM4VlbCyx/aY5gdlV3YuQvFjVTMOeGa03eqRvTfZgHr
-         N7SaRYAADmEdtzNe7saz1Ma8NGQ1y/khRnJCgkv3BlRIf5ot0Jy9Frbq80y91FzAA//0
-         94iQ==
-X-Gm-Message-State: AOJu0YxQtkQkbiHDoNNCRviat+wJJpOSBMS+k173fuVBa5XeqbjWa8hL
-        It1ErgWUJt/EJEeXas9yPOpM1k784Nbyz1EBrWo=
-X-Google-Smtp-Source: AGHT+IHMPD4JZ2SqliVfcFozd2i/GehfIPczMTb8l+z9h+ItbHRVdqVqJCMcAe/kpIqLb58LBpHdzw==
-X-Received: by 2002:a0c:ab5d:0:b0:64f:42eb:92ea with SMTP id i29-20020a0cab5d000000b0064f42eb92eamr4202773qvb.4.1692691203147;
-        Tue, 22 Aug 2023 01:00:03 -0700 (PDT)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com. [209.85.219.41])
-        by smtp.gmail.com with ESMTPSA id z19-20020a05620a101300b00754b7ee6922sm3045234qkj.9.2023.08.22.01.00.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Aug 2023 01:00:02 -0700 (PDT)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-64a8826dde2so24100526d6.1
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 01:00:02 -0700 (PDT)
-X-Received: by 2002:a0c:dc81:0:b0:641:8bf9:e0ec with SMTP id
- n1-20020a0cdc81000000b006418bf9e0ecmr9694353qvk.0.1692691202093; Tue, 22 Aug
- 2023 01:00:02 -0700 (PDT)
+        Tue, 22 Aug 2023 04:11:30 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE661B5;
+        Tue, 22 Aug 2023 01:11:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692691887; x=1724227887;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=I0Xi8EWiHfosLiR78ce7y0rFELPscG4bhDj4AH5OGbo=;
+  b=GbS0lrf4YalU97SE0fmN/9Vtf0FRgiLPKhgBYy3mgomR5YSBZU2HXjd9
+   q5aEIGWJldje/ez8TRFgtSM/mOdOVZ6x6SihYzFvValVYlN75wiW9gR4B
+   Fn5H10UV3XXb3WMC2cL44KGK3XkVxtfx9FXfACgmX1yZGA6uDtZmgeij7
+   o4z2oUEaGtlhqgoklTKbWHHCYD0RL/j5fhN2T4wQTSOybsfpvMhZm1fGn
+   L0oHXL9BgAE4hmGYqgMd67UYNiCrr0Sy5ouwe7ZXWimE1hfsQjOGSiIM/
+   xpt05GPfNDE6tCPd8/be8wzyrbliAPVgF0IqCh2Z6ZvlCaaAELPeXYn85
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="404815320"
+X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
+   d="scan'208";a="404815320"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 01:11:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="739221918"
+X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
+   d="scan'208";a="739221918"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 01:11:24 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 0992311FAB1;
+        Tue, 22 Aug 2023 11:11:22 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1qYMTM-00GEj1-2X;
+        Tue, 22 Aug 2023 11:10:44 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Cc:     hverkuil@xs4all.nl, Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-next@vger.kernel.org, Wentong Wu <wentong.wu@intel.com>,
+        Zhifeng Wang <zhifeng.wang@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 1/1] media: via: Use correct dependency for camera sensor drivers
+Date:   Tue, 22 Aug 2023 11:10:34 +0300
+Message-Id: <20230822081034.3869843-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230704040044.681850-1-randy.li@synaptics.com> <c79a2a0d-9510-b514-3b94-bc1d68e3d53b@xs4all.nl>
-In-Reply-To: <c79a2a0d-9510-b514-3b94-bc1d68e3d53b@xs4all.nl>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 22 Aug 2023 16:59:45 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CS3ZdUikoPgiHAJTfGScWY7Nbqd2Kc=gnTm2P=JTKkbQ@mail.gmail.com>
-Message-ID: <CAAFQd5CS3ZdUikoPgiHAJTfGScWY7Nbqd2Kc=gnTm2P=JTKkbQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Improve V4L2 M2M job scheduler
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
-        ayaka@soulik.info, hans.verkuil@cisco.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        linux-kernel@vger.kernel.org, nicolas@ndufresne.ca
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 18, 2023 at 11:45=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> =
-wrote:
->
-> On 04/07/2023 06:00, Hsia-Jun Li wrote:
-> > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-> >
-> > The first patch is an old patch, I resend it again.
-> > I want to make the work thats parses the bitstream
-> > to extract the sequence information or video resolution
-> > as a part of V4L2 schedule. Such a work would also
-> > consume the device's resources likes remote CPU
-> > time.
-> >
-> > Although reuse a flag which no current driver may
-> > not be a good idea. I could add a new flag for that
-> > if people like that.
-> >
-> > The second is a patch offering a generic solution
-> > for tracking buffers which have been pushed to
-> > hardware(or firmware). It didn't record which buffer
-> > that hardware(firmware) still holds for future
-> > decoding(likes the reference buffer), while it
-> > has been sent to the user(dequeue). We may need
-> > a flag for this work.
->
-> I am dropping this series from patchwork: clearly this generated
-> a lot of discussion, and I think that needs to come to a conclusion.
->
-> BTW, I believe that at minimum the codec-specific parts in
-> v4l2-mem2mem.c should be split off in their own source (v4l2-m2m-codec.c?=
-).
+The via camera controller driver selected ov7670 driver, however now that
+driver has dependencies and may no longer be selected unconditionally.
 
-I like the idea. This way we could possibly evolve the framework more
-towards the codec helpers, reusing as much code as possible, but also
-keeping the basic implementation simple.
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Fixes: 7d3c7d2a2914 ("media: i2c: Add a camera sensor top level menu")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/platform/via/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> I agree with Tomasz that mem2mem.c was originally for simple m2m devices,
-> and adding all sorts of codec specific code to that source doesn't make
-> it easier to follow.
->
-> Regards,
->
->         Hans
->
-> >
-> > Hsia-Jun(Randy) Li (1):
-> >   media: v4l2-mem2mem: add a list for buf used by hw
-> >
-> > Randy Li (1):
-> >   media: v4l2-mem2mem: allow device run without buf
-> >
-> >  drivers/media/v4l2-core/v4l2-mem2mem.c | 30 +++++++++++++++++---------
-> >  include/media/v4l2-mem2mem.h           | 10 ++++++++-
-> >  2 files changed, 29 insertions(+), 11 deletions(-)
-> >
->
+diff --git a/drivers/media/platform/via/Kconfig b/drivers/media/platform/via/Kconfig
+index 8926eb0803b2..6e603c038248 100644
+--- a/drivers/media/platform/via/Kconfig
++++ b/drivers/media/platform/via/Kconfig
+@@ -7,7 +7,7 @@ config VIDEO_VIA_CAMERA
+ 	depends on V4L_PLATFORM_DRIVERS
+ 	depends on FB_VIA && VIDEO_DEV
+ 	select VIDEOBUF2_DMA_SG
+-	select VIDEO_OV7670
++	select VIDEO_OV7670 if VIDEO_CAMERA_SENSOR
+ 	help
+ 	   Driver support for the integrated camera controller in VIA
+ 	   Chrome9 chipsets.  Currently only tested on OLPC xo-1.5 systems
+-- 
+2.39.2
+
