@@ -2,73 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D08DD7846D9
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 18:16:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 179A9784700
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 18:20:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237642AbjHVQQy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 12:16:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57262 "EHLO
+        id S237700AbjHVQUu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 12:20:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237649AbjHVQQv (ORCPT
+        with ESMTP id S237755AbjHVQUp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 12:16:51 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB6FE58
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 09:16:42 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3fef4b063a7so16568995e9.2
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 09:16:42 -0700 (PDT)
+        Tue, 22 Aug 2023 12:20:45 -0400
+Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98197CF2
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 09:20:26 -0700 (PDT)
+Received: by mail-ua1-x934.google.com with SMTP id a1e0cc1a2514c-79ddb700ad4so1457060241.3
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 09:20:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692721001; x=1693325801;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gDNt/WREBTg/eyzelwYJ6xLsaGw8ZLYgXhKH1kRyKTw=;
-        b=SrcUieWkvx4l11Y7NSsd5YrVm6DBreJ7pY3QSlqNeqq1pBS3CnWtdxgAA5rG3GVy6w
-         1c2EEa07wYWSwzzmVsYdNDHS592yV1EBcDVGQKwFls2FFGNWwhXKco/0xamHEhPCEo8I
-         eP0R0Hs5/hEewG0SgDWpzlAjXVdcBKFNGZ2yXmUKRQ35fnxqbUtno95Y67MNSQuiQE4M
-         n/ieAhGvYOvKHsYOMg+q0pC461TZZVA9SezriiUFnB3lRveRq26GlACwjEeYLOlbnGbU
-         JNoou9R6XOm/HoFsJxOC6PGImr4JzsQpy//fUjh1nokt+FSV2ELV7GIjCL01JRxHh+pc
-         9lSQ==
+        d=raspberrypi.com; s=google; t=1692721225; x=1693326025;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eWManty1pE3ezlnEYMKaNwTc0qxTgrVLOJ1OaJXuuvw=;
+        b=YzPGT/YfQr6JWTpSqHbzjGZDosoR5PD+e5az6Myxos1kXCjVpCCPtxu+XpC7bRUAvF
+         jmiiaaYyM8OMWPUgX5iHKly4AtG+G2VI/uqBefAw4fHWp4GzheV9drPkLT39DZI1Oho8
+         kl2BCgX/p5tAwVM8J9+5BJRgRKhs1uH/FNkAdwN2zF4Ztv9PoVZyn7dBjFQImtS4N3SC
+         6pmX5vaqNoJBIurikvFKm4ulSurezxlo/mPbsWjoUGQJxLWNxwwjtTsI9YBC4R45Ko7i
+         X7BH3MwNxMpix2RvjUMwCpBndx8+IdEskPg2t1MhtYrHDAxuRw5AmdRaZd8bXSIswWrA
+         XCsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692721001; x=1693325801;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gDNt/WREBTg/eyzelwYJ6xLsaGw8ZLYgXhKH1kRyKTw=;
-        b=b/Ts+nf9XJXqIom624JOt1/S3Bis9JqGnoe2Fh2avIGn8R0wnpwYl+Qk1XdNL6Vsr3
-         bdsCFMtbfNiOveq/Xsn+nHMgnB9IaSxkTNOzvO8w+95mY2kbZqBDI6l6nKee3G5A5lvU
-         T7DEvFUC7SoCzeNtPfwFgCLHjexweh4YURHln3XFY+Ye+uEmN0ipw5lembkEw2vCOXqg
-         6s70xRJP3xwrGxfyRC2RW9Wx7EiaCpUBXxDspN1yUxjjrJs8GTXO4oW6vt1h1BJRK8xE
-         YdAs/tGxNvMUuLTKzVTiy09skUO7UVoKmyBiNqSYCczi4SSyMz2S0mLhFDiWnYKiPwbM
-         iHcg==
-X-Gm-Message-State: AOJu0YydHZ1FJt9l7mAwMP3ZVXgPYejqNXatRDJgoAbtQ+jNHTkzqcUc
-        VhZp/mg7Qir/ncfayU4N7oIqag==
-X-Google-Smtp-Source: AGHT+IG5OXewEEPzUWd33gPULZFS3altnF3WPO8ofTpd2kse+EYBtvZayWBn7l0QN5DvbWb1xolZvQ==
-X-Received: by 2002:a7b:c4c3:0:b0:3fe:173e:4a53 with SMTP id g3-20020a7bc4c3000000b003fe173e4a53mr7685395wmk.0.1692721001093;
-        Tue, 22 Aug 2023 09:16:41 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id t23-20020a7bc3d7000000b003fe1fe56202sm16516130wmj.33.2023.08.22.09.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Aug 2023 09:16:40 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v1 9/9] media: qcom: camss: Fix csid-gen2 for test pattern generator
-Date:   Tue, 22 Aug 2023 17:16:20 +0100
-Message-ID: <20230822161620.1915110-10-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230822161620.1915110-1-bryan.odonoghue@linaro.org>
-References: <20230822161620.1915110-1-bryan.odonoghue@linaro.org>
+        d=1e100.net; s=20221208; t=1692721225; x=1693326025;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eWManty1pE3ezlnEYMKaNwTc0qxTgrVLOJ1OaJXuuvw=;
+        b=gB/daYdb36kDEHCxTmnqMT8awzjnXoH94enp86yh8x88FESIDy6r/ueWrbtlRgb8dp
+         hvqW0CnkheKZ2xpAbZcW9X6zPU9urq6kYVE6ev031tfU8HOzlTLTcJ1v7fbl8ZF7F0jA
+         QQdxA557Dp8FjtSdS9P7SS+wtexl9PZIV4Q3gbZ7H0vPs7BT8Gr3MSJQ5OhzoguESw7b
+         nGDY+DlVn7XSgoyhz6uSbHlGKE6PwRPhALhVDcwifOOSwFBTIyROH4i5SyHCpDs2arGI
+         bBWg0bbtGT786+5Wln6UJ4FDd9pymXJKbD5mCFg0PBm3HR1JFACq5TkzUgNQ6cKN79fB
+         6bWg==
+X-Gm-Message-State: AOJu0YyH+SajIZ5kNYPFhc+sjknl7vbrQYWwYYIE2VE0nBG5Z5g21Sjw
+        gF+IjsaRa9DL/JJuqJy4Ky0/ZEud72mh1F9Oa9VkkkltuxbyWtNe+SQ=
+X-Google-Smtp-Source: AGHT+IF+i/hIYhlUx8S34j6YPeu3kAIjwGQi2qZkCtz1dOmvq7Q5XppG+CJs4hbivUAQTbcs/4U31UtZ7hmG0770PXI=
+X-Received: by 2002:a67:fb0a:0:b0:443:4e7d:c8db with SMTP id
+ d10-20020a67fb0a000000b004434e7dc8dbmr8361356vsr.2.1692721225701; Tue, 22 Aug
+ 2023 09:20:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com> <20230821223001.28480-6-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230821223001.28480-6-laurent.pinchart@ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 22 Aug 2023 17:20:09 +0100
+Message-ID: <CAPY8ntDifQn2zQLYZRMUrGAupm3L8qgAmT3sbcGOyAudjOO-AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/18] media: i2c: imx219: Set mode registers programmatically
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,84 +69,246 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Andrey Konovalov <andrey.konovalov@linaro.org>
+On Mon, 21 Aug 2023 at 23:30, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Replace the per-mode register arrays with code that sets the same
+> register values using the mode definitions. This avoids duplicating
+> information in two different places.
+>
+> The error check for invalid formats in imx219_set_framefmt() is dropped
+> as the format is guaranteed to be valid.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-In the current driver csid Test Pattern Generator (TPG) doesn't work.
-This change:
-- fixes writing frame width and height values into CSID_TPG_DT_n_CFG_0
-- fixes the shift by one between test_pattern control value and the
-  actual pattern.
-So that TPG starts working, but with the below limitations:
-- only test_pattern=9 works as it should
-- test_pattern=8 and test_pattern=7 produce black frame (all zeroes)
-- the rest of test_pattern's don't work (yavta doesn't get the data)
-- regardless of the CFA pattern set by 'media-ctl -V' the actual pixel
-  order is always the same (RGGB for any RAW8 or RAW10P format in
-  4608x2592 resolution).
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Tested with:
-
-RAW10P format, VC0:
- media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
- v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video0
-
-RAW10P format, VC1:
- media-ctl -V '"msm_csid0":2[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi1":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
- v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video1
-
-RAW8 format, VC0:
- media-ctl --reset
- media-ctl -V '"msm_csid0":0[fmt:SRGGB8/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB8/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB8 -s 4608x2592 /dev/video0
-
-Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
-Cc: stable@vger.kernel.org
-Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/camss-csid-gen2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 140c584bfb8b1..6ba2b10326444 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -355,9 +355,6 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 		u8 dt_id = vc;
- 
- 		if (tg->enabled) {
--			/* Config Test Generator */
--			vc = 0xa;
--
- 			/* configure one DT, infinite frames */
- 			val = vc << TPG_VC_CFG0_VC_NUM;
- 			val |= INTELEAVING_MODE_ONE_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
-@@ -370,14 +367,14 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 
- 			writel_relaxed(0x12345678, csid->base + CSID_TPG_LFSR_SEED);
- 
--			val = input_format->height & 0x1fff << TPG_DT_n_CFG_0_FRAME_HEIGHT;
--			val |= input_format->width & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
-+			val = (input_format->height & 0x1fff) << TPG_DT_n_CFG_0_FRAME_HEIGHT;
-+			val |= (input_format->width & 0x1fff) << TPG_DT_n_CFG_0_FRAME_WIDTH;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
- 
- 			val = format->data_type << TPG_DT_n_CFG_1_DATA_TYPE;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_1(0));
- 
--			val = tg->mode << TPG_DT_n_CFG_2_PAYLOAD_MODE;
-+			val = (tg->mode - 1) << TPG_DT_n_CFG_2_PAYLOAD_MODE;
- 			val |= 0xBE << TPG_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
- 			val |= format->decode_format << TPG_DT_n_CFG_2_ENCODE_FORMAT;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_2(0));
--- 
-2.41.0
-
+> ---
+>  drivers/media/i2c/imx219.c | 134 ++++++++++---------------------------
+>  1 file changed, 36 insertions(+), 98 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 08011192daa6..9490dcba42ab 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -149,11 +149,6 @@
+>  #define IMX219_PIXEL_ARRAY_WIDTH       3280U
+>  #define IMX219_PIXEL_ARRAY_HEIGHT      2464U
+>
+> -struct imx219_reg_list {
+> -       unsigned int num_of_regs;
+> -       const struct cci_reg_sequence *regs;
+> -};
+> -
+>  /* Mode : resolution and related config&values */
+>  struct imx219_mode {
+>         /* Frame width */
+> @@ -167,9 +162,6 @@ struct imx219_mode {
+>         /* V-timing */
+>         unsigned int vts_def;
+>
+> -       /* Default register values */
+> -       struct imx219_reg_list reg_list;
+> -
+>         /* 2x2 binning is used */
+>         bool binning;
+>  };
+> @@ -219,65 +211,6 @@ static const struct cci_reg_sequence imx219_common_regs[] = {
+>         { IMX219_REG_EXCK_FREQ, IMX219_EXCK_FREQ(24) },
+>  };
+>
+> -/*
+> - * Register sets lifted off the i2C interface from the Raspberry Pi firmware
+> - * driver.
+> - * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
+> - */
+> -static const struct cci_reg_sequence mode_3280x2464_regs[] = {
+> -       { IMX219_REG_X_ADD_STA_A, 0 },
+> -       { IMX219_REG_X_ADD_END_A, 3279 },
+> -       { IMX219_REG_Y_ADD_STA_A, 0 },
+> -       { IMX219_REG_Y_ADD_END_A, 2463 },
+> -       { IMX219_REG_X_OUTPUT_SIZE, 3280 },
+> -       { IMX219_REG_Y_OUTPUT_SIZE, 2464 },
+> -       { IMX219_REG_TP_WINDOW_WIDTH, 3280 },
+> -       { IMX219_REG_TP_WINDOW_HEIGHT, 2464 },
+> -};
+> -
+> -static const struct cci_reg_sequence mode_1920_1080_regs[] = {
+> -       { IMX219_REG_X_ADD_STA_A, 680 },
+> -       { IMX219_REG_X_ADD_END_A, 2599 },
+> -       { IMX219_REG_Y_ADD_STA_A, 692 },
+> -       { IMX219_REG_Y_ADD_END_A, 1771 },
+> -       { IMX219_REG_X_OUTPUT_SIZE, 1920 },
+> -       { IMX219_REG_Y_OUTPUT_SIZE, 1080 },
+> -       { IMX219_REG_TP_WINDOW_WIDTH, 1920 },
+> -       { IMX219_REG_TP_WINDOW_HEIGHT, 1080 },
+> -};
+> -
+> -static const struct cci_reg_sequence mode_1640_1232_regs[] = {
+> -       { IMX219_REG_X_ADD_STA_A, 0 },
+> -       { IMX219_REG_X_ADD_END_A, 3279 },
+> -       { IMX219_REG_Y_ADD_STA_A, 0 },
+> -       { IMX219_REG_Y_ADD_END_A, 2463 },
+> -       { IMX219_REG_X_OUTPUT_SIZE, 1640 },
+> -       { IMX219_REG_Y_OUTPUT_SIZE, 1232 },
+> -       { IMX219_REG_TP_WINDOW_WIDTH, 1640 },
+> -       { IMX219_REG_TP_WINDOW_HEIGHT, 1232 },
+> -};
+> -
+> -static const struct cci_reg_sequence mode_640_480_regs[] = {
+> -       { IMX219_REG_X_ADD_STA_A, 1000 },
+> -       { IMX219_REG_X_ADD_END_A, 2279 },
+> -       { IMX219_REG_Y_ADD_STA_A, 752 },
+> -       { IMX219_REG_Y_ADD_END_A, 1711 },
+> -       { IMX219_REG_X_OUTPUT_SIZE, 640 },
+> -       { IMX219_REG_Y_OUTPUT_SIZE, 480 },
+> -       { IMX219_REG_TP_WINDOW_WIDTH, 640 },
+> -       { IMX219_REG_TP_WINDOW_HEIGHT, 480 },
+> -};
+> -
+> -static const struct cci_reg_sequence raw8_framefmt_regs[] = {
+> -       { IMX219_REG_CSI_DATA_FORMAT_A, 0x0808 },
+> -       { IMX219_REG_OPPXCK_DIV, 8 },
+> -};
+> -
+> -static const struct cci_reg_sequence raw10_framefmt_regs[] = {
+> -       { IMX219_REG_CSI_DATA_FORMAT_A, 0x0a0a },
+> -       { IMX219_REG_OPPXCK_DIV, 10 },
+> -};
+> -
+>  static const s64 imx219_link_freq_menu[] = {
+>         IMX219_DEFAULT_LINK_FREQ,
+>  };
+> @@ -373,10 +306,6 @@ static const struct imx219_mode supported_modes[] = {
+>                         .height = 2464
+>                 },
+>                 .vts_def = IMX219_VTS_15FPS,
+> -               .reg_list = {
+> -                       .num_of_regs = ARRAY_SIZE(mode_3280x2464_regs),
+> -                       .regs = mode_3280x2464_regs,
+> -               },
+>                 .binning = false,
+>         },
+>         {
+> @@ -390,10 +319,6 @@ static const struct imx219_mode supported_modes[] = {
+>                         .height = 1080
+>                 },
+>                 .vts_def = IMX219_VTS_30FPS_1080P,
+> -               .reg_list = {
+> -                       .num_of_regs = ARRAY_SIZE(mode_1920_1080_regs),
+> -                       .regs = mode_1920_1080_regs,
+> -               },
+>                 .binning = false,
+>         },
+>         {
+> @@ -407,10 +332,6 @@ static const struct imx219_mode supported_modes[] = {
+>                         .height = 2464
+>                 },
+>                 .vts_def = IMX219_VTS_30FPS_BINNED,
+> -               .reg_list = {
+> -                       .num_of_regs = ARRAY_SIZE(mode_1640_1232_regs),
+> -                       .regs = mode_1640_1232_regs,
+> -               },
+>                 .binning = true,
+>         },
+>         {
+> @@ -424,10 +345,6 @@ static const struct imx219_mode supported_modes[] = {
+>                         .height = 960
+>                 },
+>                 .vts_def = IMX219_VTS_30FPS_640x480,
+> -               .reg_list = {
+> -                       .num_of_regs = ARRAY_SIZE(mode_640_480_regs),
+> -                       .regs = mode_640_480_regs,
+> -               },
+>                 .binning = true,
+>         },
+>  };
+> @@ -699,23 +616,53 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>  static int imx219_set_framefmt(struct imx219 *imx219,
+>                                const struct v4l2_mbus_framefmt *format)
+>  {
+> +       const struct imx219_mode *mode = imx219->mode;
+> +       unsigned int bpp;
+> +       int ret = 0;
+> +
+>         switch (format->code) {
+>         case MEDIA_BUS_FMT_SRGGB8_1X8:
+>         case MEDIA_BUS_FMT_SGRBG8_1X8:
+>         case MEDIA_BUS_FMT_SGBRG8_1X8:
+>         case MEDIA_BUS_FMT_SBGGR8_1X8:
+> -               return cci_multi_reg_write(imx219->regmap, raw8_framefmt_regs,
+> -                                          ARRAY_SIZE(raw8_framefmt_regs), NULL);
+> +               bpp = 8;
+> +               break;
+>
+>         case MEDIA_BUS_FMT_SRGGB10_1X10:
+>         case MEDIA_BUS_FMT_SGRBG10_1X10:
+>         case MEDIA_BUS_FMT_SGBRG10_1X10:
+>         case MEDIA_BUS_FMT_SBGGR10_1X10:
+> -               return cci_multi_reg_write(imx219->regmap, raw10_framefmt_regs,
+> -                                          ARRAY_SIZE(raw10_framefmt_regs), NULL);
+> +       default:
+> +               bpp = 10;
+> +               break;
+>         }
+>
+> -       return -EINVAL;
+> +       cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
+> +                 mode->crop.left - IMX219_PIXEL_ARRAY_LEFT, &ret);
+> +       cci_write(imx219->regmap, IMX219_REG_X_ADD_END_A,
+> +                 mode->crop.left - IMX219_PIXEL_ARRAY_LEFT + mode->crop.width - 1,
+> +                 &ret);
+> +       cci_write(imx219->regmap, IMX219_REG_Y_ADD_STA_A,
+> +                 mode->crop.top - IMX219_PIXEL_ARRAY_TOP, &ret);
+> +       cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
+> +                 mode->crop.top - IMX219_PIXEL_ARRAY_TOP + mode->crop.height - 1,
+> +                 &ret);
+> +
+> +       cci_write(imx219->regmap, IMX219_REG_X_OUTPUT_SIZE,
+> +                 format->width, &ret);
+> +       cci_write(imx219->regmap, IMX219_REG_Y_OUTPUT_SIZE,
+> +                 format->height, &ret);
+> +
+> +       cci_write(imx219->regmap, IMX219_REG_TP_WINDOW_WIDTH,
+> +                 format->width, &ret);
+> +       cci_write(imx219->regmap, IMX219_REG_TP_WINDOW_HEIGHT,
+> +                 format->height, &ret);
+> +
+> +       cci_write(imx219->regmap, IMX219_REG_CSI_DATA_FORMAT_A,
+> +                 (bpp << 8) | bpp, &ret);
+> +       cci_write(imx219->regmap, IMX219_REG_OPPXCK_DIV, bpp, &ret);
+> +
+> +       return ret;
+>  }
+>
+>  static int imx219_set_binning(struct imx219 *imx219,
+> @@ -787,7 +734,6 @@ static int imx219_start_streaming(struct imx219 *imx219,
+>  {
+>         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+>         const struct v4l2_mbus_framefmt *format;
+> -       const struct imx219_reg_list *reg_list;
+>         int ret;
+>
+>         ret = pm_runtime_resume_and_get(&client->dev);
+> @@ -809,15 +755,7 @@ static int imx219_start_streaming(struct imx219 *imx219,
+>                 goto err_rpm_put;
+>         }
+>
+> -       /* Apply default values of current mode */
+> -       reg_list = &imx219->mode->reg_list;
+> -       ret = cci_multi_reg_write(imx219->regmap, reg_list->regs,
+> -                                 reg_list->num_of_regs, NULL);
+> -       if (ret) {
+> -               dev_err(&client->dev, "%s failed to set mode\n", __func__);
+> -               goto err_rpm_put;
+> -       }
+> -
+> +       /* Apply format and crop settings. */
+>         format = v4l2_subdev_get_pad_format(&imx219->sd, state, 0);
+>         ret = imx219_set_framefmt(imx219, format);
+>         if (ret) {
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
