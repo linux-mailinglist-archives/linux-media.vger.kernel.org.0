@@ -2,160 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BB66784B1F
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 22:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2DA0784B62
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 22:31:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbjHVUGw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 16:06:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57242 "EHLO
+        id S229926AbjHVUbt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 16:31:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230354AbjHVUGr (ORCPT
+        with ESMTP id S229667AbjHVUbt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 16:06:47 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FDD7E77
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 13:06:42 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-313e742a787so3007634f8f.1
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 13:06:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692734800; x=1693339600;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UAm2r4m1EsTebzRY6t5OCpWP0E5Jb808dwyNgpcqVGI=;
-        b=PSpyLKJkZsmjOaDV9/+40p9ylHE22PrHUvkC6h41HCisKyae4G3h7j+AWMNfXR6vC/
-         nWvFlYfl+7g6F1x561z5W1LtCKcuUf+/tuXTkndVtH+S5HUSRSTPuFHZJbQRQ7Iw53S9
-         3/ovHJzsXZD8twSSw+hwz1eJS6+WWsIdghIEJENpsRDz7jwoFp3LpG0nh8yBOCKHHIWq
-         KbI/yaKoz/jJd2XoYxTZ6XLgfuebaiQiAOTcshaxjtF+VIGS2JsEA/9y7a0zJ4U2bwk2
-         atopykC7K5jvITxeIhB0T/KjLK5pfGJPwqsyHc/sxhM9TcLJ2kmRZ66ABJFIRz2Dny38
-         Klfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692734800; x=1693339600;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UAm2r4m1EsTebzRY6t5OCpWP0E5Jb808dwyNgpcqVGI=;
-        b=E1BNusv9Bw82Ce4VvojXG89cNqB/ZU7u4wPW/hlY3bVSqp1NckSAw9CR2AGMzIzKpk
-         CRLE+LcHfty1ZeZFBTEARuhelQemuildVbMLoTZ5zLxRZGlruAcTaYeqtSnYRxpXfbot
-         FQnnkDOFQ6L5dx1J+PEGmHi20jEa6Cnlwyy+4iFcLoVwmBDcBPi1T/t3Ty21ntfhtpAC
-         n9JdvPMOswY/ntlJ6BDAaLJMp/5S8WFEIWeScCHH38Emj6q+/sqbSgjf6UE+8LAISq2h
-         Jaye5fDrnjT3OvnI0U6iXzw/mVvTxsGmxOjjLqCEBUvPXU5xTss5ehxBdJkoRKB63VQ9
-         RUuQ==
-X-Gm-Message-State: AOJu0YxoI25QaJdRh6DlptFpX/q+AOII7xzYjZBhYjny3zLF47BmtAkQ
-        tzw+INSM8If8xI9Ts9tyLUkx+g==
-X-Google-Smtp-Source: AGHT+IEXLXT5j7wtHf6axm9zDVMSAFBwgemk0FFwLcAXvuWJE4A95oQcoZk9OJnz11WXuv5wU1VDlQ==
-X-Received: by 2002:adf:ea0a:0:b0:319:7ec8:53ba with SMTP id q10-20020adfea0a000000b003197ec853bamr11616267wrm.14.1692734800568;
-        Tue, 22 Aug 2023 13:06:40 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id y12-20020adfee0c000000b0031aeca90e1fsm12873690wrn.70.2023.08.22.13.06.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Aug 2023 13:06:39 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v2 9/9] media: qcom: camss: Fix csid-gen2 for test pattern generator
-Date:   Tue, 22 Aug 2023 21:06:26 +0100
-Message-ID: <20230822200626.1931129-10-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230822200626.1931129-1-bryan.odonoghue@linaro.org>
-References: <20230822200626.1931129-1-bryan.odonoghue@linaro.org>
+        Tue, 22 Aug 2023 16:31:49 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D76D6CC;
+        Tue, 22 Aug 2023 13:31:46 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 36822660720C;
+        Tue, 22 Aug 2023 21:31:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1692736305;
+        bh=eFMQNZGba+uOQx+8IPFzb+FmChWNc51CVLN7MDsgj2s=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=oV8jlNxBSYhMNHRzZ8i6SE3aIKhvNdUmeiRHo+blnu2JeM+x5IOtEYCrmcit7YTXs
+         ljo0intT/hrpvmFNcw2YZP6+czl703Ta9K4j3Uq2J3fUdZeGxC1DWMmmmHYVF0ueG6
+         GsKcMLcfmAoYXFWnzb3MfdwsDKs7jUpEx77HOM1DU/TNYXYggdx5yS8tx+Km+2s+E/
+         Ml8lHuXz6PrMa0GOZv7zizqGMZFxTZjAeW6jvkzmNjarutMBW3EfaWQ+SPT6cyXPH7
+         b7Q0ATedmp3sjUZF6JldwIoBBaTmGKxY4kCJEAOwEv2rmXoQR5E6GC2C1Khz9cvUYa
+         YYBuIIzSX/mdA==
+Message-ID: <a0fa6559c3933a5a4c8b7502282adae3429e0b57.camel@collabora.com>
+Subject: Re: Stateless Encoding uAPI Discussion and Proposal
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Tue, 22 Aug 2023 16:31:34 -0400
+In-Reply-To: <39270c5e-24ab-8ff6-d925-7718b1fef3c4@synaptics.com>
+References: <ZK2NiQd1KnraAr20@aptenodytes> <ZNTp1e4gJ2zeYmS-@aptenodytes>
+         <a2e8e01ea754232dd3562b34702b6600d7358605.camel@collabora.com>
+         <ZNaVQ-zxIuCpGGha@aptenodytes>
+         <720c476189552596cbd61dd74d6fa12818718036.camel@collabora.com>
+         <39270c5e-24ab-8ff6-d925-7718b1fef3c4@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Andrey Konovalov <andrey.konovalov@linaro.org>
+Hi,
+>=20
 
-In the current driver csid Test Pattern Generator (TPG) doesn't work.
-This change:
-- fixes writing frame width and height values into CSID_TPG_DT_n_CFG_0
-- fixes the shift by one between test_pattern control value and the
-  actual pattern.
-- drops fixed VC of 0x0a which testing showed prohibited some test
-  patterns in the CSID to produce output.
-So that TPG starts working, but with the below limitations:
-- only test_pattern=9 works as it should
-- test_pattern=8 and test_pattern=7 produce black frame (all zeroes)
-- the rest of test_pattern's don't work (yavta doesn't get the data)
-- regardless of the CFA pattern set by 'media-ctl -V' the actual pixel
-  order is always the same (RGGB for any RAW8 or RAW10P format in
-  4608x2592 resolution).
+[...]
 
-Tested with:
+> > In cable streaming notably, the RC job is to monitor the about of bits =
+over a
+> > period of time (the window). This window is defined by the streaming ha=
+rdware
+> > buffering capabilities. Best at this point is to start reading through =
+HRD
+> > specifications, and open source rate control implementation (notably x2=
+64).
+> >=20
+> > I think overall, we can live with adding hints were needed, and if the =
+gop
+> > information is appropriate hint, then we can just reuse the existing co=
+ntrol.
+> >=20
+> Why we still care about GOP here. Hardware have no idea about GOP at=20
+> all. Although in codec likes HEVC, IDR and intra pictures's nalu header=
+=20
+> is different, there is not different in the hardware coding=20
+> configration. NALU header is generated by the userspace usually.
+>=20
+> While future encoding would regard the current encoded picture as an IDR=
+=20
+> is completed decided by the userspace.
 
-RAW10P format, VC0:
- media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
- v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video0
+The discussion was around having basic RC algorithm in the kernel driver,
+possibly making use of hardware specific features without actually exposing=
+ it
+all to userspace. So assuming we do that:
 
-RAW10P format, VC1:
- media-ctl -V '"msm_csid0":2[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi1":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
- v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video1
+Paul's concern is that for best result, an RC algorithm could use knowledge=
+ of
+keyframe placement to preserve bucket space (possibly using the last keyfra=
+me
+size as a hint). Exposing the GOP structure in some form allow "prediction"=
+, so
+the adaption can lookahead future budget without introducing latency. There=
+ is
+an alternative, which is to require ahead of time queuing of encode request=
+s.
+But this does introduce latency since the way it works in V4L2 today, we ne=
+ed
+the picture to be filled by the time we request an encode.
 
-RAW8 format, VC0:
- media-ctl --reset
- media-ctl -V '"msm_csid0":0[fmt:SRGGB8/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB8/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB8 -s 4608x2592 /dev/video0
+Though, if we drop the GOP structure and favour this approach, the latency =
+could
+be regain later by introducing fence base streaming. The technique would be=
+ for
+a video source (like a capture driver) to pass dmabuf that aren't filled ye=
+t,
+but have a companion fence. This would allow queuing requests ahead of time=
+, and
+all we need is enough pre-allocation to accommodate the desired look ahead.=
+ Only
+issue is that perhaps this violates the fundamental of "short term" deliver=
+y of
+fences. But fences can also fail I think, in case the capture was stopped.
 
-Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
-Cc: stable@vger.kernel.org
-Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/camss-csid-gen2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+We can certainly move forward with this as a future solution, or just don't
+implement future aware RC algorithm in term to avoid the huge task this inv=
+olves
+(and possibly patents?)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 140c584bfb8b1..6ba2b10326444 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -355,9 +355,6 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 		u8 dt_id = vc;
- 
- 		if (tg->enabled) {
--			/* Config Test Generator */
--			vc = 0xa;
--
- 			/* configure one DT, infinite frames */
- 			val = vc << TPG_VC_CFG0_VC_NUM;
- 			val |= INTELEAVING_MODE_ONE_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
-@@ -370,14 +367,14 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 
- 			writel_relaxed(0x12345678, csid->base + CSID_TPG_LFSR_SEED);
- 
--			val = input_format->height & 0x1fff << TPG_DT_n_CFG_0_FRAME_HEIGHT;
--			val |= input_format->width & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
-+			val = (input_format->height & 0x1fff) << TPG_DT_n_CFG_0_FRAME_HEIGHT;
-+			val |= (input_format->width & 0x1fff) << TPG_DT_n_CFG_0_FRAME_WIDTH;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
- 
- 			val = format->data_type << TPG_DT_n_CFG_1_DATA_TYPE;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_1(0));
- 
--			val = tg->mode << TPG_DT_n_CFG_2_PAYLOAD_MODE;
-+			val = (tg->mode - 1) << TPG_DT_n_CFG_2_PAYLOAD_MODE;
- 			val |= 0xBE << TPG_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
- 			val |= format->decode_format << TPG_DT_n_CFG_2_ENCODE_FORMAT;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_2(0));
--- 
-2.41.0
+[...]
+> >=20
 
+> > Of course, the subject is much more relevant when there is encoders wit=
+h more
+> > then 1 reference. But you are correct, what the commands do, is allow t=
+o change,
+> > add or remove any reference from the list (random modification), as lon=
+g as they
+> > fit in the codec contraints (like the DPB size notably). This is the on=
+ly way
+> > one can implement temporal SVC reference pattern, robust reference tree=
+s or RTP
+> > RPSI. Note that long term reference also exists, and are less complex t=
+hen these
+> > commands.
+> >=20
+>=20
+> If we the userspace could manage the lifetime of reconstruction=20
+> buffers(assignment, reference), we don't need a command here.
+
+Sorry if I created confusion, the comments was something specific to H.264
+coding. Its a compressed form for the reference lists. This information is =
+coded
+in the slice header and enabled through adaptive_ref_pic_marking_mode_flag
+
+It was suggested so far to leave h264 slice headers writing to the driver. =
+This
+is motivated by H264 slice header not being byte aligned in size, so the
+slice_data() is hard to combine. Also, some hardware actually produce the
+slice_header. This needs actual hardware interface analyses, cause an H.264
+slice header is worth nothing if it cannot instruct the decoder how to main=
+tain
+the desired reference state.
+
+I think this aspect should probably not be generalized to all CODECs, since=
+ the
+packing semantic can largely differ. When the codec header is indeed byte
+aligned, it can easily be seperate and combined by application, improve the
+application flexibility, reducing the kernel API complexity.
+>=20
+> It is just a problem of how to design another request API control=20
+> structure to select which buffers would be used for list0, list1.
+> > I this raises a big question, and I never checked how this worked with =
+let's say
+> > VA. Shall we let the driver resolve the changes into commands (VP8 have
+> > something similar, while VP9 and AV1 are refresh flags, which are just =
+trivial
+> > to compute). I believe I'll have to investigate this further.
+> >=20
+> > > >=20
+> > [...]
+
+regards,
+Nicolas
