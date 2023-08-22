@@ -2,74 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E01B784ACD
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 21:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02358784AE4
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 21:55:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbjHVTsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 15:48:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45144 "EHLO
+        id S229862AbjHVTzg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 15:55:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbjHVTsr (ORCPT
+        with ESMTP id S229816AbjHVTzd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 15:48:47 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74154CD0
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 12:48:45 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-40ff82320a7so31470381cf.3
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 12:48:45 -0700 (PDT)
+        Tue, 22 Aug 2023 15:55:33 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF96CDD
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 12:55:29 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-40f0b412b78so31638911cf.3
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 12:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1692733724; x=1693338524;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1692734129; x=1693338929;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=JZwMs73L9GPVFSghvQPsoUG7Sx2i2yQItRQfIWeacjM=;
-        b=W4HoxWopD2hBY9n4p0llTM7KwBtYD0rVDad64IK2YljBCvh4ZZFnTulTjp6622taN7
-         UNwEj09gBSs/yYKco/7Jq4VBxCgzy/zo/cOses7N6NgkgEhOASkJGL7LtZ1PR5Tjnh0f
-         FFqQTS/gKgWZOiNjVbb79jLhsGXNSEJXb+8hUkh4Yj53HZ4hagLJjiuYRCSZKNtOLXKs
-         FaHnM1BpxnSo0gCgxmbYh2Dpa7/tj+e9m8C1FPt8us7d84VMnUtUmab8ptkDJMOghqQo
-         3bSd2fGUKQcqXhZEuYhEDhJ8QnH3blWU/lcAZzBs3ttjhoQO4RxDkM77PfYZQDmpKZRX
-         f3Jw==
+        bh=1Q9PzSJsZpgiOu1CVR72fJVbG7GMfY5u21uosrtHcwo=;
+        b=e3zMTcqZjXEoGwBVWslC3ZpORwORyOL8dxtzfaTXF0oqIPtpxkjNbFkGpNXZCbEG6V
+         p3l8wskGUPtH5zQuvFZd4rieO5HZAaAumQFvuhWH0dIwYKcQ86kSCVyGCr0XFT08LPPx
+         Hrh/+4VQmxmbCoo0AH+lCdwcW2FXaVSuYhf4JHrSxYSw0cEqa2WqgdzUKn5Re66+AGop
+         JBPDgHVp3djIAPe+8R9TapVgrTkconhjvsKcU+lFzcU9j3914mj1Dq10kAno3MvAcKQe
+         JrFrZ34MWWkV6OShu8/9uWHsOoaCynSGhgZFOMp+y6Cd8gT5+O/7IdZtqX+dS1WD0BBF
+         eBKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692733724; x=1693338524;
+        d=1e100.net; s=20221208; t=1692734129; x=1693338929;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JZwMs73L9GPVFSghvQPsoUG7Sx2i2yQItRQfIWeacjM=;
-        b=eKaI5yOXTNNRj4SyuwWOtoiri1ZmYq47BbosbwCmokzhAXg+p7iDimvMLVYZt56zDQ
-         pNsrKYslgdWek9GgAad01OurBJ/30nLNxpc9h+6ihi0Zs8BD82CtsUxzfw57+NBnCe1/
-         FJnQmJsJTHJZ6PpiItAqDXGgQ7nDq2sAWLnT2FJU2oQrou0tJ0X85B6RSBLPjUCQ5sR7
-         2wXBAW8jQoBe6FgDXhxDJCr2sLienBSfI8Ulbg4mE7b6wBP4MXkPENvvbDNaa+VFso2b
-         qjOf1Nq2VX/Gy6EhFUgkvtN1CjvaAdBBtEwXNszl1x52ZeZoxLAuUT/ygoib6oD03uKt
-         TbJw==
-X-Gm-Message-State: AOJu0YyZRxV1GVsQfhTvEtrhYUymrRPFhYGTfm7XKWQPGLKN66w+3bMG
-        DgEhwHSOGkoqefA4ttDkvswvEQ==
-X-Google-Smtp-Source: AGHT+IGv0rYv5UfhFHx3uwlvRxfChSfhPyqbQZebTtcNl4f6ati86eWvrGHA3H+L3EKNx3W5kYdnSw==
-X-Received: by 2002:a05:622a:10e:b0:40f:e493:534d with SMTP id u14-20020a05622a010e00b0040fe493534dmr15230040qtw.43.1692733724575;
-        Tue, 22 Aug 2023 12:48:44 -0700 (PDT)
+        bh=1Q9PzSJsZpgiOu1CVR72fJVbG7GMfY5u21uosrtHcwo=;
+        b=h0ZiyMIKJeIxmiBN/6phLGOe3dtTozsfHuJZ4plx7SyjCX7YqrorwMJfzTSjyUNhyk
+         OFiO3q6CJfut6Zo6ySsYxWOMhv29Zm8ZVxo+eJCgTFn+dOIo03axlqOz5tlvOpT4rEtE
+         sn052mYw4NzGNcdHbsP9hVta6XpvmgTf16ttyvFj4EJXc8nqD+ZLzoHLk/D6kCGwHSZS
+         LlCz1S5visD4Rp05jBVhfPepT5//Bl9R6v6vDFHxlAV32ZFsEFENRnw6edGa5KxfLzw3
+         F9WTwM+0cHGx3XoiTkugTkh93RmaHTaVTMENTvWq1jjZlzOojViAUryAtWIUdrQ0bwN+
+         PS3w==
+X-Gm-Message-State: AOJu0YzzItE2JsrBGqpoI1k0WU7+kndvmj7KXQ+QhPGvqvd6+VZu6uvr
+        xDR2qTslOcgnGiiZtcQX5Y4WsQ==
+X-Google-Smtp-Source: AGHT+IEObsx+c/lJX6FbQ9Yn/pe9TNRfUYz1pwlmVs/i9iXFeO8P55SdRnWrfg6NgJo4SUTzH6qpmw==
+X-Received: by 2002:a05:622a:1907:b0:3e4:e2ce:526f with SMTP id w7-20020a05622a190700b003e4e2ce526fmr15163657qtc.39.1692734128793;
+        Tue, 22 Aug 2023 12:55:28 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
-        by smtp.gmail.com with ESMTPSA id c2-20020ae9e202000000b0076daaccb7f7sm1364829qkc.135.2023.08.22.12.48.43
+        by smtp.gmail.com with ESMTPSA id e19-20020ac86713000000b00407ffb2c24dsm3227005qtp.63.2023.08.22.12.55.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Aug 2023 12:48:44 -0700 (PDT)
-Message-ID: <7106092378907b360b75f5ffc1c5ecdeeba2d5b4.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: amphion: handle firmware debug message
+        Tue, 22 Aug 2023 12:55:28 -0700 (PDT)
+Message-ID: <9e3c7a11ed1d50c4afdf4f181aae7d4a6a425329.camel@ndufresne.ca>
+Subject: Re: [RFC]: shmem fd for non-DMA buffer sharing cross drivers
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Date:   Tue, 22 Aug 2023 15:48:43 -0400
-In-Reply-To: <20230822055207.31575-1-ming.qian@nxp.com>
-References: <20230822055207.31575-1-ming.qian@nxp.com>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>, linux-mm@kvack.org
+Cc:     dri-devel@lists.freedesktop.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        hughd@google.com, akpm@linux-foundation.org,
+        Simon Ser <contact@emersion.fr>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>, daniels@collabora.com,
+        ayaka <ayaka@soulik.info>, linux-kernel@vger.kernel.org
+Date:   Tue, 22 Aug 2023 15:55:27 -0400
+In-Reply-To: <029b982f-da62-4fa8-66c4-ab11a515574a@synaptics.com>
+References: <029b982f-da62-4fa8-66c4-ab11a515574a@synaptics.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -78,97 +79,72 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-Le mardi 22 ao=C3=BBt 2023 =C3=A0 13:52 +0800, Ming Qian a =C3=A9crit=C2=A0=
-:
-> decoder firmware may notify host some debug message,
-> it can help analyze the state of the firmware in case of error
+Le mardi 22 ao=C3=BBt 2023 =C3=A0 19:14 +0800, Hsia-Jun Li a =C3=A9crit=C2=
+=A0:
+> Hello
 >=20
-> Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  drivers/media/platform/amphion/vpu_defs.h    | 1 +
->  drivers/media/platform/amphion/vpu_helpers.c | 1 +
->  drivers/media/platform/amphion/vpu_malone.c  | 1 +
->  drivers/media/platform/amphion/vpu_msgs.c    | 9 +++++++++
->  4 files changed, 12 insertions(+)
+> I would like to introduce a usage of SHMEM slimier to DMA-buf, the major=
+=20
+> purpose of that is sharing metadata or just a pure container for cross=
+=20
+> drivers.
 >=20
-> diff --git a/drivers/media/platform/amphion/vpu_defs.h b/drivers/media/pl=
-atform/amphion/vpu_defs.h
-> index 667637eedb5d..7320852668d6 100644
-> --- a/drivers/media/platform/amphion/vpu_defs.h
-> +++ b/drivers/media/platform/amphion/vpu_defs.h
-> @@ -71,6 +71,7 @@ enum {
->  	VPU_MSG_ID_TIMESTAMP_INFO,
->  	VPU_MSG_ID_FIRMWARE_XCPT,
->  	VPU_MSG_ID_PIC_SKIPPED,
-> +	VPU_MSG_ID_DBG_MSG,
->  };
-> =20
->  enum VPU_ENC_MEMORY_RESOURSE {
-> diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media=
-/platform/amphion/vpu_helpers.c
-> index af3b336e5dc3..d12310af9ebc 100644
-> --- a/drivers/media/platform/amphion/vpu_helpers.c
-> +++ b/drivers/media/platform/amphion/vpu_helpers.c
-> @@ -489,6 +489,7 @@ const char *vpu_id_name(u32 id)
->  	case VPU_MSG_ID_UNSUPPORTED: return "unsupported";
->  	case VPU_MSG_ID_FIRMWARE_XCPT: return "exception";
->  	case VPU_MSG_ID_PIC_SKIPPED: return "skipped";
-> +	case VPU_MSG_ID_DBG_MSG: return "debug msg";
->  	}
->  	return "<unknown>";
->  }
-> diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/=
-platform/amphion/vpu_malone.c
-> index f771661980c0..d3425de7bccd 100644
-> --- a/drivers/media/platform/amphion/vpu_malone.c
-> +++ b/drivers/media/platform/amphion/vpu_malone.c
-> @@ -745,6 +745,7 @@ static struct vpu_pair malone_msgs[] =3D {
->  	{VPU_MSG_ID_UNSUPPORTED, VID_API_EVENT_UNSUPPORTED_STREAM},
->  	{VPU_MSG_ID_FIRMWARE_XCPT, VID_API_EVENT_FIRMWARE_XCPT},
->  	{VPU_MSG_ID_PIC_SKIPPED, VID_API_EVENT_PIC_SKIPPED},
-> +	{VPU_MSG_ID_DBG_MSG, VID_API_EVENT_DBG_MSG_DEC},
->  };
-> =20
->  static void vpu_malone_pack_fs_alloc(struct vpu_rpc_event *pkt,
-> diff --git a/drivers/media/platform/amphion/vpu_msgs.c b/drivers/media/pl=
-atform/amphion/vpu_msgs.c
-> index d0ead051f7d1..999efeaebfd5 100644
-> --- a/drivers/media/platform/amphion/vpu_msgs.c
-> +++ b/drivers/media/platform/amphion/vpu_msgs.c
-> @@ -180,6 +180,14 @@ static void vpu_session_handle_pic_skipped(struct vp=
-u_inst *inst, struct vpu_rpc
->  	vpu_inst_unlock(inst);
->  }
-> =20
-> +static void vpu_session_handle_dbg_msg(struct vpu_inst *inst, struct vpu=
-_rpc_event *pkt)
-> +{
-> +	char *str =3D (char *)pkt->data;
-> +
-> +	if (strlen(str))
-> +		dev_info(inst->dev, "instance %d firmware dbg msg : %s\n", inst->id, s=
-tr);
+> We need to exchange some sort of metadata between drivers, likes dynamic=
+=20
+> HDR data between video4linux2 and DRM. Or the graphics frame buffer is=
+=20
+> too complex to be described with plain plane's DMA-buf fd.
+> An issue between DRM and V4L2 is that DRM could only support 4 planes=20
+> while it is 8 for V4L2. It would be pretty hard for DRM to expend its=20
+> interface to support that 4 more planes which would lead to revision of=
+=20
+> many standard likes Vulkan, EGL.
+>=20
+> Also, there is no reason to consume a device's memory for the content=20
+> that device can't read it, or wasting an entry of IOMMU for such data.
+> Usually, such a metadata would be the value should be written to a=20
+> hardware's registers, a 4KiB page would be 1024 items of 32 bits register=
+s.
+>=20
+> Still, I have some problems with SHMEM:
+> 1. I don't want thhe userspace modify the context of the SHMEM allocated=
+=20
+> by the kernel, is there a way to do so?
+> 2. Should I create a helper function for installing the SHMEM file as a f=
+d?
 
-I'm always a bit worried when a string is assumed nul-terminated and it com=
-es
-from a third party software (firmware). Perhaps we force it to terminate
-somewhere already ? With this being verified (or corrected):
+Please have a look at memfd and the seal feature, it does cover the reason =
+why
+unsealed shared memory require full trust. For controls, the SEAL_WRITE is =
+even
+needed, as with appropriate timing, a malicous process can modify the data =
+in-
+between validation and allocation, causing possible memory overflow.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+https://man7.org/linux/man-pages/man2/memfd_create.2.html
+File sealing
+       In the absence of file sealing, processes that communicate via
+       shared memory must either trust each other, or take measures to
+       deal with the possibility that an untrusted peer may manipulate
+       the shared memory region in problematic ways.  For example, an
+       untrusted peer might modify the contents of the shared memory at
+       any time, or shrink the shared memory region.  The former
+       possibility leaves the local process vulnerable to time-of-check-
+       to-time-of-use race conditions (typically dealt with by copying
+       data from the shared memory region before checking and using it).
+       The latter possibility leaves the local process vulnerable to
+       SIGBUS signals when an attempt is made to access a now-
+       nonexistent location in the shared memory region.  (Dealing with
+       this possibility necessitates the use of a handler for the SIGBUS
+       signal.)
 
-> +}
-> +
->  static struct vpu_msg_handler handlers[] =3D {
->  	{VPU_MSG_ID_START_DONE, vpu_session_handle_start_done},
->  	{VPU_MSG_ID_STOP_DONE, vpu_session_handle_stop_done},
-> @@ -196,6 +204,7 @@ static struct vpu_msg_handler handlers[] =3D {
->  	{VPU_MSG_ID_UNSUPPORTED, vpu_session_handle_error},
->  	{VPU_MSG_ID_FIRMWARE_XCPT, vpu_session_handle_firmware_xcpt},
->  	{VPU_MSG_ID_PIC_SKIPPED, vpu_session_handle_pic_skipped},
-> +	{VPU_MSG_ID_DBG_MSG, vpu_session_handle_dbg_msg},
->  };
-> =20
->  static int vpu_session_handle_msg(struct vpu_inst *inst, struct vpu_rpc_=
-event *msg)
+       Dealing with untrusted peers imposes extra complexity on code
+       that employs shared memory.  Memory sealing enables that extra
+       complexity to be eliminated, by allowing a process to operate
+       secure in the knowledge that its peer can't modify the shared
+       memory in an undesired fashion.
 
+       [...]
+
+regards,
+Nicolas
