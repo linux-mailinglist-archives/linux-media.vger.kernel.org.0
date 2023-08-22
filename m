@@ -2,164 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A8557849EF
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 21:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF835784ABE
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 21:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230020AbjHVTHf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 15:07:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36124 "EHLO
+        id S230286AbjHVTpk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 15:45:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229783AbjHVTHe (ORCPT
+        with ESMTP id S230284AbjHVTpg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 15:07:34 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0E05CE5
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 12:07:28 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-31aeedbb264so2994551f8f.0
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 12:07:28 -0700 (PDT)
+        Tue, 22 Aug 2023 15:45:36 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B11E45
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 12:45:32 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id d75a77b69052e-4108f11c067so19516811cf.3
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 12:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692731247; x=1693336047;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=obssRPZea66XUVKQdWwZ33dXszmaEL2LdLWjJbTk+Gw=;
-        b=KUnAO4SW42IhcDBvVHqom6OK4Iq7p0gYwp5mGFxDT9egzI1LbAQcHqCtW0SstRVDeb
-         1zbVVW5zPY+apawMt76dvbhZDZ8W8bKio0pkKSrqC5d7b79XY31RkYuocEX6QwBSYcC5
-         l3ef6vUPSNCCP22pAytGYiQ/igsmjE8o5c3mH8RO5+0pZroLCqjZfZsVNORm8Z7LpSNi
-         /QWEPTR80zllG1jA7pkcm+wXLNCTi/qXoFUgHMagt5Zv9qB8xeDwmLUDBYHsxCm9udlM
-         +p7UVlLPYkR7KBGMASVpFEKAr81Vwuok63CqaS+lkOWiF1mghRCcQb+YcikrbTpgPdbc
-         bKdA==
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1692733532; x=1693338332;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=l+j7gUQKGV+hHJ4UF2S6YK4i8VVIsFV3XWKH/WDCxjc=;
+        b=1CUWXwJK/jYi+znojaMO6HycbxnIkk3WXml9qykr03Qf0tB94unmPtW1LqH8vNluh4
+         4n9k1ZjdCKhmdkUdfb85IrZ2kU/atofVKievDSaLIZv3vYd0I8EXZh/XYhX438Mv80Qk
+         9XZq/HMD6nHRrRwh0EjmZUWpSKevioZD44AL0RjKZpEV7n8SqQaVkbRRi6YcsmelIXsz
+         u+HtAb00cuazZrzHLrquoosunHGifcKOfufloqDG9Dq/n79iVIfykaYaFXBjl8bfuyqC
+         o+kv7oePlLudVak3gh6hCRpPg58PA/Ek2IoHoFH9QS6RnaMdr7EV4h1XTfAFmrr3CC58
+         rf/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692731247; x=1693336047;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=obssRPZea66XUVKQdWwZ33dXszmaEL2LdLWjJbTk+Gw=;
-        b=CmaTyZJkSuNbIAQvGHbnuj4R05P66DZqr04Sag+JWISAlo/SXozbn3v2VFG2kgqTW/
-         h6heL/cxZqebbDOBeZs3Kv0GbE+NO0rHdv+wHqhwNSljKdN1C/84aez2LXuOr4TTMxOG
-         2t5X6PiXUnyl5S+/iTlSyOxoPSOCflxAO7p69q/O1ouh7DtSzMn3mx5rasD4yO8LDp43
-         Qjuf6aZVW+Z0L6W3SRTTTlc0ZnWXF6LRwSYbQ3z5/suI4PvDNGriSYaFqx5ZTugscEPy
-         IoNgE8DwzxMe1Qbs7UUo3hswYoiBuWX5u/+hXRmhSe3i+OxYezuf8/dOA91UYbwKfuXP
-         o+7Q==
-X-Gm-Message-State: AOJu0YyKC9R91DylSD3GprRlLNEYIxo3ibv55PJpsjpPBtjEzD2Y1WIu
-        +JA4Ln30sooAw1p03E5CXBrK6w==
-X-Google-Smtp-Source: AGHT+IFM0hpeI/IXnPxfPzo186m7+lcVFbqtZnZp2Y5HLgb7U3nyZZ7vpWSmoR0OU/Yvxo01LBxECA==
-X-Received: by 2002:a5d:65c5:0:b0:319:76a2:36e9 with SMTP id e5-20020a5d65c5000000b0031976a236e9mr8064149wrw.56.1692731246769;
-        Tue, 22 Aug 2023 12:07:26 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id k12-20020adfe3cc000000b0031ad5470f89sm16738544wrm.18.2023.08.22.12.07.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Aug 2023 12:07:26 -0700 (PDT)
-Message-ID: <8a4db962-423a-16c1-5756-66878b50b264@linaro.org>
-Date:   Tue, 22 Aug 2023 20:07:25 +0100
+        d=1e100.net; s=20221208; t=1692733532; x=1693338332;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l+j7gUQKGV+hHJ4UF2S6YK4i8VVIsFV3XWKH/WDCxjc=;
+        b=Jb8FNKjG08NaVfV5h60y4ayWcm1QJOQXMMJ3NZb5ywlENIwSUJ2PnXfaqFmYeHIt0B
+         HVf4K0NoDFSx2T+1MRdBmk6J4m6xngcdSy7ZWg9a0/lkvQEKFJ35zzGAPGDn+pO6y8TJ
+         Oh5dPj2XvCNWSQzZFqRIK3/3wyOVR085u/VST/C0aoY8LN+IXRCL9jGlwVkFrpl2QDAy
+         n0k6kR4+R4RmRk9CQ46ORCUMVjHFNyAbkRbToIMS2lO00b6Wk4sU2Jb+sqaP9TyaqPG/
+         FVmJ0TSHm+G1fo4Pz2Ho5oub/jgLXIF3AigxB8DzqCZLba+HqnmPYNHyaoWfEpt/Ig/J
+         TQNw==
+X-Gm-Message-State: AOJu0YxU3Xa3x55ts4yFdE0HObp10kPzTBbhm/5NryBZmbn54ChKuPRW
+        PneHz1yfIuc4I7CrgiqDeCJvcQ==
+X-Google-Smtp-Source: AGHT+IGStuy5LxC9MNAN11rPMlYtX5+YYIsDcyAzmNaIbzHDZlgPoUbtbqENXbZqukanYEgL4eQt+Q==
+X-Received: by 2002:ac8:5c0c:0:b0:403:66f7:ae66 with SMTP id i12-20020ac85c0c000000b0040366f7ae66mr13185028qti.13.1692733531802;
+        Tue, 22 Aug 2023 12:45:31 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
+        by smtp.gmail.com with ESMTPSA id h20-20020a05622a171400b00410957eaf3csm1749719qtk.21.2023.08.22.12.45.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Aug 2023 12:45:31 -0700 (PDT)
+Message-ID: <5a5fd7df85fd1d8bf0386c04552df63857a7c1ba.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: imx-jpeg: initiate a drain of the capture queue
+ in dynamic resolution change
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        mirela.rabulea@oss.nxp.com, hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
+        tao.jiang_2@nxp.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Date:   Tue, 22 Aug 2023 15:45:30 -0400
+In-Reply-To: <20230822014506.6675-1-ming.qian@nxp.com>
+References: <20230822014506.6675-1-ming.qian@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v1 9/9] media: qcom: camss: Fix csid-gen2 for test pattern
- generator
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>, rfoss@kernel.org,
-        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20230822161620.1915110-1-bryan.odonoghue@linaro.org>
- <20230822161620.1915110-10-bryan.odonoghue@linaro.org>
- <4f271226-c45a-42a8-95ff-8ec008ce7e72@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <4f271226-c45a-42a8-95ff-8ec008ce7e72@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/08/2023 17:38, Konrad Dybcio wrote:
-> On 22.08.2023 18:16, Bryan O'Donoghue wrote:
->> From: Andrey Konovalov <andrey.konovalov@linaro.org>
->>
->> In the current driver csid Test Pattern Generator (TPG) doesn't work.
->> This change:
->> - fixes writing frame width and height values into CSID_TPG_DT_n_CFG_0
->> - fixes the shift by one between test_pattern control value and the
->>    actual pattern.
->> So that TPG starts working, but with the below limitations:
->> - only test_pattern=9 works as it should
->> - test_pattern=8 and test_pattern=7 produce black frame (all zeroes)
->> - the rest of test_pattern's don't work (yavta doesn't get the data)
->> - regardless of the CFA pattern set by 'media-ctl -V' the actual pixel
->>    order is always the same (RGGB for any RAW8 or RAW10P format in
->>    4608x2592 resolution).
->>
->> Tested with:
->>
->> RAW10P format, VC0:
->>   media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4608x2592 field:none]'
->>   media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4608x2592 field:none]'
->>   media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
->>   v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
->>   yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video0
->>
->> RAW10P format, VC1:
->>   media-ctl -V '"msm_csid0":2[fmt:SRGGB10/4608x2592 field:none]'
->>   media-ctl -V '"msm_vfe0_rdi1":0[fmt:SRGGB10/4608x2592 field:none]'
->>   media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
->>   v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
->>   yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video1
->>
->> RAW8 format, VC0:
->>   media-ctl --reset
->>   media-ctl -V '"msm_csid0":0[fmt:SRGGB8/4608x2592 field:none]'
->>   media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB8/4608x2592 field:none]'
->>   media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
->>   yavta -B capture-mplane --capture=3 -n 3 -f SRGGB8 -s 4608x2592 /dev/video0
->>
->> Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
-> That's a whole lot to unroll..
-> 
-> [...]
->>   		if (tg->enabled) {
->> -			/* Config Test Generator */
->> -			vc = 0xa;
->> -
-> Which part does this hunk correlate to?
-> 
->>   			/* configure one DT, infinite frames */
->>   			val = vc << TPG_VC_CFG0_VC_NUM;
->>   			val |= INTELEAVING_MODE_ONE_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
->> @@ -370,14 +367,14 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
->>   
->>   			writel_relaxed(0x12345678, csid->base + CSID_TPG_LFSR_SEED);
->>   
->> -			val = input_format->height & 0x1fff << TPG_DT_n_CFG_0_FRAME_HEIGHT;
->> -			val |= input_format->width & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
->> +			val = (input_format->height & 0x1fff) << TPG_DT_n_CFG_0_FRAME_HEIGHT;
->> +			val |= (input_format->width & 0x1fff) << TPG_DT_n_CFG_0_FRAME_WIDTH;
->>   			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
-> This screams necessity for FIELD_PREP/GET! Could you please convert
-> it in another series if you have time for it?
+Le mardi 22 ao=C3=BBt 2023 =C3=A0 09:45 +0800, Ming Qian a =C3=A9crit=C2=A0=
+:
+> The last buffer from before the change must be marked,
+> with the V4L2_BUF_FLAG_LAST flag,
+> similarly to the Drain sequence above.
+>=20
+> Meanwhile if V4L2_DEC_CMD_STOP is sent before
+> the source change triggered,
+> we need to restore the is_draing flag after
+> the draining in dynamic resolution change.
+>=20
+> Fixes: b4e1fb8643da ("media: imx-jpeg: Support dynamic resolution change"=
+)
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
 
-I mean yes I want to or want it done. To me 1 << somevalue is just silly 
-when you can say BIT(somevalue).
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-There will be a "make it pretty series".
-
-I'll do a V2 of this series and explain in the commit log what's 
-happening with the removal of vc = 0xa; since if someone has to ask, its 
-not obvious whats going on.
-
----
-bod
+> ---
+>  .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 27 ++++++++++++++++---
+>  1 file changed, 24 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/med=
+ia/platform/nxp/imx-jpeg/mxc-jpeg.c
+> index b7a720198ce5..e74b0ed8ec5b 100644
+> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> @@ -1322,6 +1322,20 @@ static bool mxc_jpeg_compare_format(const struct m=
+xc_jpeg_fmt *fmt1,
+>  	return false;
+>  }
+> =20
+> +static void mxc_jpeg_set_last_buffer(struct mxc_jpeg_ctx *ctx)
+> +{
+> +	struct vb2_v4l2_buffer *next_dst_buf;
+> +
+> +	next_dst_buf =3D v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> +	if (!next_dst_buf) {
+> +		ctx->fh.m2m_ctx->is_draining =3D true;
+> +		ctx->fh.m2m_ctx->next_buf_last =3D true;
+> +		return;
+> +	}
+> +
+> +	v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, next_dst_buf);
+> +}
+> +
+>  static bool mxc_jpeg_source_change(struct mxc_jpeg_ctx *ctx,
+>  				   struct mxc_jpeg_src_buf *jpeg_src_buf)
+>  {
+> @@ -1378,6 +1392,8 @@ static bool mxc_jpeg_source_change(struct mxc_jpeg_=
+ctx *ctx,
+>  		mxc_jpeg_sizeimage(q_data_cap);
+>  		notify_src_chg(ctx);
+>  		ctx->source_change =3D 1;
+> +		if (vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
+> +			mxc_jpeg_set_last_buffer(ctx);
+>  	}
+> =20
+>  	return ctx->source_change ? true : false;
+> @@ -1638,8 +1654,13 @@ static void mxc_jpeg_stop_streaming(struct vb2_que=
+ue *q)
+>  		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
+>  	}
+> =20
+> -	if (V4L2_TYPE_IS_OUTPUT(q->type) || !ctx->source_change)
+> -		v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
+> +	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
+> +	/* if V4L2_DEC_CMD_STOP is sent before the source change triggered,
+> +	 * restore the is_draining flag
+> +	 */
+> +	if (V4L2_TYPE_IS_CAPTURE(q->type) && ctx->source_change && ctx->fh.m2m_=
+ctx->last_src_buf)
+> +		ctx->fh.m2m_ctx->is_draining =3D true;
+> +
+>  	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
+>  	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx)) {
+>  		notify_eos(ctx);
+> @@ -1916,7 +1937,7 @@ static int mxc_jpeg_buf_prepare(struct vb2_buffer *=
+vb)
+>  		return -EINVAL;
+>  	for (i =3D 0; i < q_data->fmt->mem_planes; i++) {
+>  		sizeimage =3D mxc_jpeg_get_plane_size(q_data, i);
+> -		if (vb2_plane_size(vb, i) < sizeimage) {
+> +		if (!ctx->source_change && vb2_plane_size(vb, i) < sizeimage) {
+>  			dev_err(dev, "plane %d too small (%lu < %lu)",
+>  				i, vb2_plane_size(vb, i), sizeimage);
+>  			return -EINVAL;
 
