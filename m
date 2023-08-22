@@ -2,164 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 883D87841FA
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 15:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E25C1784232
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 15:38:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236107AbjHVNZh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 09:25:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32942 "EHLO
+        id S234035AbjHVNiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 09:38:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233823AbjHVNZg (ORCPT
+        with ESMTP id S233732AbjHVNiE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 09:25:36 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86604CD5
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 06:25:34 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3fee87dd251so26793985e9.2
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 06:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692710733; x=1693315533;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+hKgghhRN3TguWnTAxKtp6shzze7BpvGg+Ihs5YYqAo=;
-        b=pxi+F9on9zwIuNZd+E/OeriMBFKpthRC9z6LlOKnmpPMDe857SyPgfbe9R2O5o4Tg7
-         fKVN17SzjkGG2tgqpzy15/nCCYUeFIlrDOyMClwv53w8ngdcLR5TBXkEwoi2L1etCsTK
-         EucT7EOXoodspLGY3Q4KObgboypbDopiWFVV/kuHi7R+KObg7zdnFsAW4pbXXnhFR0Nq
-         m0/ZjuT/moZWSWrdI7PDTPMt0y+33JmutmMtcgGpU1iwTCQ9Lfp1+huJTGGgJYzquTYE
-         aiqclt5S2ojFzxZocqz3QBFrbcAjnFgcqHhS1Bd/0y8EG7m9yjhxQguM8sNzvcxGRLZi
-         GQEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692710733; x=1693315533;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+hKgghhRN3TguWnTAxKtp6shzze7BpvGg+Ihs5YYqAo=;
-        b=byeT81hLqalEYDDntfIiYy/mfufcjLVOcdOl5sbdi0NhyGmJVHLvit9Gqmx6AHzlaj
-         +6SxYBfNWc3VDOPz+12rQF73tjUoiC3Djb3C8g3oNk77x8fARvicuux9n/wYLmyDCDuV
-         mBRw7NvmiOgq61rvM0iy9PZM4EPitClJ5adqzNUPVsJs0yybFr/IAAosoMFSuOywi7Qm
-         gJqG6DU9+kmNThPabNmTT3ShROIKyLThgn3SfugFdPMsu72PagWDtbkLQisztvwHIsEj
-         wPShBXoWjWY5WgMZFEXKJPaIwM+Yvj07+EYouNkbSDlio0XvAlx0Cq+yPOd7StBKW4sU
-         Eqsg==
-X-Gm-Message-State: AOJu0YxhHFfS4JfeidPk/386y8bNljbNPn/OUeP8VpafiWesjLWaMz8+
-        6GaEk0TyynM2aXATqnoUann41w==
-X-Google-Smtp-Source: AGHT+IHYXYs2OZ2ZSAys4NpOF3y8Z+bVuY3gup7rcbOoiqes71xbSlrooIH2TJ5s702CU92gT0W8Qg==
-X-Received: by 2002:adf:fe03:0:b0:319:5a7c:6418 with SMTP id n3-20020adffe03000000b003195a7c6418mr7085688wrr.43.1692710732984;
-        Tue, 22 Aug 2023 06:25:32 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:cad:2140:de4a:6da8:c7fc:12c? ([2a01:e0a:cad:2140:de4a:6da8:c7fc:12c])
-        by smtp.gmail.com with ESMTPSA id o2-20020adfcf02000000b00317a04131c5sm15778520wrj.57.2023.08.22.06.25.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Aug 2023 06:25:31 -0700 (PDT)
-Message-ID: <ba6b2484-3180-4f50-a867-6236b025190d@linaro.org>
-Date:   Tue, 22 Aug 2023 15:25:29 +0200
+        Tue, 22 Aug 2023 09:38:04 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF9F6CEB;
+        Tue, 22 Aug 2023 06:38:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
+ s=s31663417; t=1692711460; x=1693316260; i=aloisio@gmx.com;
+ bh=vZFe/YhVzCzHLRdN+xZuTY/bWnwviEA2Erl9M4goUb8=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=OzgRvSZxWKZp90FIuHh5nMh6MbyTU53dV5VZcZyStuzQKYnbkzvsY7hOKUBZoy2bbUXBG+e
+ f65tA5amKzk1xO5F9iHEotMY8A4M/DkkMemblrh3zctllPaFaaJwMcxKWxjH4YBev5YmlFJcr
+ GSLCc3C5FlSikvEwDiq6GQXHL/Knkm0XCIiACJUz8gYfmjXJOpTPkZWMMfQfak2YbS2k8nQda
+ k24Y1Qb6+9k6rv6hPR+f8l4WDWsKW4XlWPkstCasYzc48dXFPBVU2BNhDYOVXTlWxZD15WZMu
+ ESUAnVe5iStWeHwWKWL8J8dpgNleB7FeHX0cZdiM75USf8xtQ/QA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [95.252.97.2] ([95.252.97.2]) by web-mail.gmx.net
+ (3c-app-mailcom-bs04.server.lan [172.19.170.170]) (via HTTP); Tue, 22 Aug
+ 2023 15:37:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From:   neil.armstrong@linaro.org
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 2/3] dt-bindings: media: Add compatible for Meson-S4 IR
- Controller
-Content-Language: en-US, fr
-To:     Zelong Dong <Zelong.Dong@amlogic.com>, Sean Young <sean@mess.org>,
+Message-ID: <trinity-fe969962-25e4-478a-a24f-e9ee3e9ee796-1692711460591@3c-app-mailcom-bs04>
+From:   Luigi Baldoni <aloisio@gmx.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        devicetree@vger.kernel.org
-References: <20230302063402.42708-1-zelong.dong@amlogic.com>
- <20230302063402.42708-3-zelong.dong@amlogic.com>
- <80fe197a-3f15-d1b8-ed99-adeb4a8c24d2@linaro.org>
- <9dc78ceb-3852-e5e8-0b8e-b95f9bec4557@amlogic.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <9dc78ceb-3852-e5e8-0b8e-b95f9bec4557@amlogic.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: Video glitch with Hanftek Astrometa
+Content-Type: text/plain; charset=UTF-8
+Date:   Tue, 22 Aug 2023 15:37:40 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <ZONDguFpqRTHf_UV@debian.me>
+References: <trinity-4a9cf567-5613-4ace-8e63-fa27d4450df6-1692446595564@3c-app-mailcom-bs14>
+ <ZONDguFpqRTHf_UV@debian.me>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:0e8BvXOtvE1iuEHjPVjTT5ytd5rrtN3LxyUFk2drF/b5CoU9BCGtkkQ5vzN5U/lssMQm7
+ 8yWXqoXsXK/Bk+XKjmz6Scowb1mNUzYtuW+PbB78xWo1Kx3WvDspk3Kvi9TBFaCs0s17fV35XPaZ
+ Wz444BZSlAaSwumX1u7QAA3ts0hTibg3+LOBZeWe2lTsIoLuXSW6p2n1vG8XcIm5C0OppQV+NduT
+ bcl3y1ce0DzS796hMGxEHBgePCONMO925dk1sAXFtPvsdybeZIssqeOJNqMdYOLlsTLyz0hFz14+
+ uU=
+UI-OutboundReport: notjunk:1;M01:P0:T4otYL9uvG4=;HvfJYXOnLSM5wsCDGHnlHpAAvCh
+ feVBz/NGpnkGMyL2Jju93enLcD+PqXAqJA05s60kbvuaeXGKX2Ewgz+iU7n6Bf/CM0BAHUpyq
+ M47y2mRpj0TQ6Qekxl7XciJq18iDaYV6RaC0Jmg+zt5zXJPzCqocrkPWXc7nqAjfOs4ThhcmX
+ QEUaXJPMOTXUzcuJ5vPpcciMmlu9tuYbJ4/vQm4XS25jJfeCOu40s525vIW9/fxPtnXiJawiO
+ eqe+DnimDtYdDasXjCUJEbDP+TvdBR1h/bVqRS7RYYGbftiJ/fbptAk2n57qSBm3JtcmItLe+
+ Sjwh2n+ybBUF2SDvy3Zk7Ef5mkW8b/iJCqrxJih75Du300BWA6qj/B3DBviMgKKOnoJ2p8cXt
+ yBc8FQEoLGpm1UjO5lbzpvv9pStABigNr8TAxq3uVvWoV8/NKjkevYqAgYOAEH5lFHyJEpb28
+ W0SkvqHaodO9UeaRSB6VamyZy+N8SkUMu6itWpm6p8QH2PxQR5nHXckAKSs8Z4d1iJWW5dM0Z
+ tn3AREGOsf8vEYi/VRYhMjjXEqo+pH78f//up5FrXhzVXTmwKpp/NEVMs2iRMcVImtIvUppOU
+ /60TYz4rsHH2Ezp+Nblxk2v6MmvVH6/PQ8ZcWFPO/LH+RZYFEnHQrWu4zurUw45xE02OMvzRa
+ sMbGhQak1vECZyN+6EG3O4vxqYFq0yIwW5veo/nT4rpz9tgxxW0cfCIvnXuYPjZ6YGcBXtdh6
+ it20vb7RwHcKPzL227vtbtA4abaVnoecuQEg/hc/Ydrqa5GDtSs0NZqMR9B7QQ8lWLWOyjrT+
+ ac2B1v90E3p9pinKJ5ucho2waxyVcK015hRJVnAOpHql8=
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+> Sent: Monday, August 21, 2023 at 12:59 PM
+> From: "Bagas Sanjaya" <bagasdotme@gmail.com>
+>
+> On Sat, Aug 19, 2023 at 02:03:15PM +0200, Luigi Baldoni wrote:
+> >    Hello everyone,
+> > last year I replaced my old RTL2832U/R820T DVB-T dongle (which worked
+> > perfectly) and replaced it with a Hanftek Astrometa (RTL2832/CXD2837ER=
+)
+> > DVB-T2 one and my troubles started.
+> > Every channel I tune to shows a periodic glitch, as per included sampl=
+e.
+> >
+> > I tried the following things:
+> >  * connected a regular TV set to the same antenna cable and the pictur=
+e looks
+> >    fine
+> >  * replaced the usb cable
+> >  * switched distros (from debian to arch)
+> >  * installed a current kernel snapshot
+> >  * replaced the minipc on which it's installed
+> >  * used usbip to access the hardware from my desktop machine and teste=
+d
+> >    it directly with vlc, mpv and kaffeine: at best the stream was glit=
+chy
+> >    and at worst the app crashed
+> >  * toggled every parameter available for each involved module
+> >  * ran tzap directly
+> >
+> > None of the above made the slightest difference, therefore I'm asking =
+you
+> > if there's something I might have overlooked or if this is truly a bug=
+.
+> >
+> > Video sample here, captured with tzap:
+> > https://www.mediafire.com/file/qantvq916uy7o4k/rai1hd.ts/file
+> > https://www.4shared.com/s/folTulDcljq
+> >
+>
+> (also Cc: RTL2832 and media subsystem maintainers)
+>
+> What kernel version are you running?
 
-On 22/08/2023 13:11, Zelong Dong wrote:
-> 
-> 
-> 在 2023/3/2 17:24, Neil Armstrong 写道:
->> On 02/03/2023 07:34, zelong dong wrote:
->>> From: Zelong Dong <zelong.dong@amlogic.com>
->>>
->>> Add new compatible for Amlogic's Meson-S4 IR Controller
->>>
->>> Signed-off-by: Zelong Dong <zelong.dong@amlogic.com>
->>> ---
->>>   Documentation/devicetree/bindings/media/meson-ir.txt | 3 +++
->>>   1 file changed, 3 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/meson-ir.txt b/Documentation/devicetree/bindings/media/meson-ir.txt
->>> index efd9d29a8f10..2a6662edd04d 100644
->>> --- a/Documentation/devicetree/bindings/media/meson-ir.txt
->>> +++ b/Documentation/devicetree/bindings/media/meson-ir.txt
->>> @@ -5,11 +5,14 @@ Required properties:
->>>             - "amlogic,meson6-ir"
->>>             - "amlogic,meson8b-ir"
->>>             - "amlogic,meson-gxbb-ir"
->>> +          - "amlogic,meson-s4-ir"
->>>    - reg        : physical base address and length of the device registers
->>>    - interrupts    : a single specifier for the interrupt from the device
->>>   Optional properties:
->>>    - linux,rc-map-name:    see rc.txt file in the same directory.
->>> + - amlogic,ir-support-hw-decode: enable hardware IR Decoder, and register
->>> +                 rc driver as type RC_DRIVER_SCANCODE
->>
->> AFAIK this is a software parameter since the HW is capable of decoding,
->> if you want to make the HW decoding a runtime option, please use another way.
-> 
-> Part 1 patch for HW IR Decoder was queued, now I'm preparing part 2.
-> I add a new property "amlogic,ir-support-hw-decode" because I think rc driver don't support change the driver type (enum rc_driver_type) dynamically, it need to declare the type in DTS.
-> Am I right?
+6.1.38-4 on Debian stable.
 
-DT should not have software parameters, it's ok to enable the HW decoding for a specific compatible for example.
+> Also, can you try with different dongle (ideally with different chipset)=
+?
 
-Neil
+Alas no. By the way, I noticed the Sony front end is not exactly the same =
+one mentioned
+in the linuxtv wiki.
 
->>
->>>   Example:
->>
->> Please base changes on top of https://lore.kernel.org/all/20221117-b4-amlogic-bindings-convert-v3-4-e28dd31e3bed@linaro.org/
->>
->> Thanks,
->> Neil
->>
+And I should add, I filed a ticket on bugzilla (https://bugzilla.kernel.or=
+g/show_bug.cgi?id=3D217808)
+if you think that might be a better avenue to continue the discussion.
+
+Regards
 
