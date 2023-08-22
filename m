@@ -2,62 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6036784539
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 17:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 433F9784571
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 17:27:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236703AbjHVPPv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 11:15:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35120 "EHLO
+        id S237062AbjHVP1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 11:27:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234758AbjHVPPu (ORCPT
+        with ESMTP id S232678AbjHVP1X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 11:15:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F0D7198;
-        Tue, 22 Aug 2023 08:15:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0C8B06239C;
-        Tue, 22 Aug 2023 15:15:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630A5C433CA;
-        Tue, 22 Aug 2023 15:15:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692717347;
-        bh=1iRzAJpSnnBKBiSbWj57N8fqiKzuFhsp4EDmCi7qFaY=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=XQ8+sP37Eu74UtMJkVgHgwXXhdEUvWavtMn1bBRtnLEXKu77DUi7napIVTPAYvcDe
-         PfuDfX0pt4ULVGaCYxQCWBCjhgDw7Yb355X0tM5yA7y0ElSEydBmL8S6+RkdnhMXzV
-         vVs8yIPirSl6Gy8MiuYzibZJUHOQWvrYxWQTe/VgLW7hu1QdGFKE9M+3VBIejDo3Hh
-         t2xhfZXUuJOmYNUB0RF3nCC/DV5VQZHUlyJ8EjSL8L9Xzp/Daej3kUtEfOQ1E4xQBa
-         aF1c7zUshwH00jacI6YYTmegXSitDq34EEoq88rqPu2yVBa+8WV3N5kJvVgJDukKuu
-         TK1vyqOApchMw==
-Received: (nullmailer pid 205350 invoked by uid 1000);
-        Tue, 22 Aug 2023 15:15:44 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Tue, 22 Aug 2023 11:27:23 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E101CD7
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 08:27:21 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-977e0fbd742so584358766b.2
+        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 08:27:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692718040; x=1693322840;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/Op230pvRSYsZ/RCsUIoSigOSgDlSJoxapZ0NpWgEc8=;
+        b=a5Pyc7meaT7bUZNBNSEAbCrPrImd2qakaCdtSTvL7R32y3VCU7/RqfFlZ84xGQT1rC
+         bDT1L8JY/bOQbsKLVDO4DMdIjrAeI6lkk+ocbpBHVkAp0Bo8IdpoXoJo9yaxtxcPtwkJ
+         vGhLgXc906wJQwaJhOa529CPHwHoif0oIRtt9NphvFLYTOFPAuG39F5Wy5jI49R2RSFt
+         5ZTUD+rd5YyKxNjg9BM9zCu7979wP7pIRSxRORMpIdlmxuO74pAEOexJadYadXhGGU0N
+         JV1ljeEKlyPfTUbRINM9tNazPrNe/5G1wUTKTCBcGdlDLejc647+IFhfMOqdmNYn3jqF
+         Iv+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692718040; x=1693322840;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/Op230pvRSYsZ/RCsUIoSigOSgDlSJoxapZ0NpWgEc8=;
+        b=dZG8P9TuWdXHKTXms3GIg8Lq7ZXNrNMkkgymPa9UYB8F0I4IlQz7mQWJaMx8r0g+qD
+         trK1CrqyyalO21UE76yxbRmwtZw8fL6Y7cHxyjfLouuUNeyoMoI54AP54Rd7KPozyUqq
+         P36x8boBLQ0YFuSoYrf51KlHACXHL2dD0qJjUrYXr5+LDmxYPb1s9/VzM9esYy7AZ5al
+         rquYjnGg/LWaRXi7eP9pyp+ZM+sup76inMAb/uJ5/cd5+kXsISKptrId7mHRwp4IoT6D
+         eaqTblMGYZB/Iwwzn2Szq4KdKQiBC1GK6fmpI+7pSBDyZUldl0gK2dpFBUvH8rXTx2f7
+         2rFg==
+X-Gm-Message-State: AOJu0YyttNUBE7snqht9Vec3M8wurCncKUU78K5rQm10q5BaIdl7swue
+        SPL+9+GeEbtp3TzEnPuhXcEj0Q==
+X-Google-Smtp-Source: AGHT+IGtQ1rszKdn8JWgP52nGNDE/tvQ2ym2GO6OlSPG08iLWGxnzIuVMaG61l35EbHhRpao7aNxKQ==
+X-Received: by 2002:a17:907:75e3:b0:99c:ae35:ac0 with SMTP id jz3-20020a17090775e300b0099cae350ac0mr7579848ejc.61.1692718039499;
+        Tue, 22 Aug 2023 08:27:19 -0700 (PDT)
+Received: from [192.168.0.22] ([77.252.47.198])
+        by smtp.gmail.com with ESMTPSA id gq6-20020a170906e24600b0099c53c44083sm8325011ejb.79.2023.08.22.08.27.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Aug 2023 08:27:19 -0700 (PDT)
+Message-ID: <0fb06b21-028a-b0c2-85a3-ed7e90d2167d@linaro.org>
+Date:   Tue, 22 Aug 2023 17:27:17 +0200
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Sean Young <sean@mess.org>
-Cc:     Conor Dooley <conor+dt@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v3 2/2] media: dt-bindings: media: remove nokia,n900-ir as
+ pwm-ir-tx is compatible
+Content-Language: en-US
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org
+Cc:     Sicelo <absicsz@gmail.com>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sicelo <absicsz@gmail.com>, Tony Lindgren <tony@atomide.com>,
-        linux-media@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        devicetree@vger.kernel.org,
+        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
         Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
         Timo Kokkonen <timo.t.kokkonen@iki.fi>,
-        =?utf-8?q?Pali_Roh=C3=A1r?= <pali.rohar@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-In-Reply-To: <20230822145644.213589-3-sean@mess.org>
+        Tony Lindgren <tony@atomide.com>
 References: <20230822145644.213589-1-sean@mess.org>
  <20230822145644.213589-3-sean@mess.org>
-Message-Id: <169271734434.205322.10925215324069905304.robh@kernel.org>
-Subject: Re: [PATCH v3 2/2] media: dt-bindings: media: remove nokia,n900-ir
- as pwm-ir-tx is compatible
-Date:   Tue, 22 Aug 2023 10:15:44 -0500
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230822145644.213589-3-sean@mess.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,8 +83,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On Tue, 22 Aug 2023 15:56:44 +0100, Sean Young wrote:
+On 22/08/2023 16:56, Sean Young wrote:
 > The generic pwm-ir-tx driver works for the Nokia n900, so nokia,n900-ir
 > can be removed.
 > 
@@ -76,6 +92,15 @@ On Tue, 22 Aug 2023 15:56:44 +0100, Sean Young wrote:
 > Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 > Cc: Conor Dooley <conor+dt@kernel.org>
 > Cc: devicetree@vger.kernel.org
+
+BTW, There is no single need to store automated output of
+get_maintainers.pl in the git log. It can be easily re-created at any
+given time, thus its presence in the git history is redundant and
+obfuscates the log.
+
+If you need it for your own patch management purposes, keep it under the
+--- separator.
+
 > Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
 > Cc: Pali Rohár <pali.rohar@gmail.com>
 > Cc: Pavel Machek <pavel@ucw.cz>
@@ -88,42 +113,21 @@ On Tue, 22 Aug 2023 15:56:44 +0100, Sean Young wrote:
 >  2 files changed, 3 insertions(+), 21 deletions(-)
 >  delete mode 100644 Documentation/devicetree/bindings/media/nokia,n900-ir
 > 
+> diff --git a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
+> index f2a6fa140f38..dc19b6475ba8 100644
+> --- a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
+> +++ b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
+> @@ -15,7 +15,9 @@ description:
+>  
+>  properties:
+>    compatible:
+> -    const: pwm-ir-tx
+> +    - const: pwm-ir-tx
+> +    - const: nokia,n900-ir
+> +      deprecated: true
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Please test your binding before sending. You miss oneOf.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-doc-validate", line 64, in <module>
-    ret |= check_doc(f)
-           ^^^^^^^^^^^^
-  File "/usr/local/bin/dt-doc-validate", line 32, in check_doc
-    for error in sorted(dtsch.iter_errors(), key=lambda e: e.linecol):
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/dtschema/schema.py", line 135, in iter_errors
-    self.annotate_error(scherr, meta_schema, scherr.schema_path)
-  File "/usr/local/lib/python3.11/dist-packages/dtschema/schema.py", line 114, in annotate_error
-    schema = schema[p]
-             ~~~~~~^^^
-KeyError: 'type'
-Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.example.dtb: /example-0/irled: failed to match any schema with compatible: ['pwm-ir-tx']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230822145644.213589-3-sean@mess.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+Krzysztof
 
