@@ -2,238 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7A3478384A
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 05:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2FF7783988
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 07:52:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232420AbjHVDIZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Aug 2023 23:08:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
+        id S232908AbjHVFwg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 01:52:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjHVDIY (ORCPT
+        with ESMTP id S232898AbjHVFwd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Aug 2023 23:08:24 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D122F185
-        for <linux-media@vger.kernel.org>; Mon, 21 Aug 2023 20:08:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692673701; x=1724209701;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=Ls07CNmR2ckxWd4yyGhD0bmBjcevzYsiB4BsMBZleSo=;
-  b=cE1tle0J/oNR6ahaQ4HzFQJdM6qyJ0VePp+VxmgJSV6mzmzb5Q4WKBgO
-   t2vUE5eYMG9fRj16IDQ2kUUMsR/X2Vk7cssqMcrLK4M46Joucrusf+cQC
-   3E3mlnrAPOEOgLwW0QFaSeh/Ng12r67xvQCyBSp8OwGbF70EslKVEJkNe
-   VXLvinXlyIi0QBa0dnbvYdqntM7DMgt78rfd98MAloVx8KERzvzsuPZUn
-   9orf+OrmYy1QQ1dE4ckTsVw+iJElP5eaBPPO5GJiI9MvnezpkSwvJcpIN
-   HJ8OaMdMd5FKLfkg6DH+l9nlUmBr5GK501ybOyAPz3cV0TCKJWvKmqWOe
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="377516965"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="377516965"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 20:08:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="712994036"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="712994036"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
-  by orsmga006.jf.intel.com with ESMTP; 21 Aug 2023 20:08:18 -0700
-Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
-To:     Claus Stovgaard <claus.stovgaard@gmail.com>, bingbu.cao@intel.com,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com
-Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
-        hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
-        tian.shu.qiu@intel.com, hongju.wang@intel.com
-References: <20230727071558.1148653-1-bingbu.cao@intel.com>
- <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
- <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
- <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
- <907f992d4e333f090418f39ebd59bf8ac1fb5e3f.camel@gmail.com>
- <d451bbec67358373ca8495544cc0802233108a03.camel@gmail.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <8c47de74-a08f-2adc-537d-e30b42cdb45b@linux.intel.com>
-Date:   Tue, 22 Aug 2023 11:05:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 22 Aug 2023 01:52:33 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2086.outbound.protection.outlook.com [40.107.6.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6759D7;
+        Mon, 21 Aug 2023 22:52:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SD4NCXOb+O5xe6rf2tobOqnb5D6oV5GGHr4c+DQs235WvXf7fnm+I4NqebVq4/Fi85JBgw2BC+9B1GlWNHk8dun9NX7VndUQnyt2bKjMB1Na67nUKmE6OfeF61zzajQ7Z7YTw3jJABTo47XYJz2prkppJniky4Yuyny3u2/Nv/CNeKk99FlP7Q8CCIlSbNnj4CU0wZLKeMOrEl0cB08qajXgYgtnN9I6RKk6gFPmcTkQNK++UYH9h8P8pmAEeBK/ULnlBatiJNlmEz7x5YHFAnYuEpMJJgeL9npGzRvFW707uFZs69cwStcHWVopWemJj3N9FprbK/OHtm23TXIR4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TJRABpw7K/3uM5GykpIfxlrlQRy9oTsdBnRJM9QM1FA=;
+ b=cRIR0Fz8GJWCDtszPM+rFSKSc1MyBnBiyh5MjQ7c9HiVPU8HWvJkVw9xWXZpZ9mSrYejIhZI6bd9D5eI///rxhZ9r0WDaJ6O1LX2X6ZIsW+Xo6opkit4Fn5nSKKY4yUaLfku2K0DznGUdCKYgE+mXgz5tu0ygVwrpi3oZK8Z+8JvjC4fmEzQHfiRII1q6DD5ct/eaF8LvA8nTTe8BSlA8lahp/XKIMJg3sKd9iUCEEGKj7BsazJWnu7m+ap3YGiqfg7BfKIpSikp8TleL/a5GmfqorMhcv8cBbaClxX8xoI56rW4K776VbTCS3NFgHGbvJNQjF1b4pUIGM+qGIjjkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TJRABpw7K/3uM5GykpIfxlrlQRy9oTsdBnRJM9QM1FA=;
+ b=Ln6r24mmzJ3U563lp5rTr7e83Ynqc5bCngpcOL0KKzrRurmrZHBxaWJ+e6QU9f7EJ2o03DuxeRTJuzumzLUviJpJi8HvfJ6caUIMb7lV3fN9Oe6VNKJCOWczRBojhKVJwEMZg/zvyls8M0oiodPYogABb+7YlmCfiTlabmPNIB8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by DBBPR04MB7723.eurprd04.prod.outlook.com (2603:10a6:10:20a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Tue, 22 Aug
+ 2023 05:52:28 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::613b:e94b:4ccd:f55a]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::613b:e94b:4ccd:f55a%4]) with mapi id 15.20.6699.022; Tue, 22 Aug 2023
+ 05:52:28 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: amphion: handle firmware debug message
+Date:   Tue, 22 Aug 2023 13:52:07 +0800
+Message-Id: <20230822055207.31575-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.38.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0027.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::22) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
-In-Reply-To: <d451bbec67358373ca8495544cc0802233108a03.camel@gmail.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|DBBPR04MB7723:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6faeb4fa-6046-471f-d874-08dba2d3f785
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RQzdbCLpNxaNAW8nvM9xSnfDNf6OheiZzHzMcz5TKw+3eHpipjao16KOUip7XmBTTPqDvbs4v1EKJSEqEAO9+pSJRpHtcbe4lvkdeEDL9Nz/gBYv4lVAVMRDMySTCHUnJswd6v9RB9Ug4PfIYlCcWK73UMHN43RY9cc8uLauJtOPg+xQPUTyjX4NDG9z0b5tGr2pWUBvdDhu4jLXJF3CY8rFWyj0kNeFIvEzqerQS3x2l5eh9imLd/sh6t9S1SpP7YmyAFReYMhOJ1TNSBlUMf8ZrvS2vEFZn279QGOcfWVDQ96OC06bXLyExTPD+2H5NryqeKuwzaoNVndPB/hONlKIS3MUkAVMwEch/bW2nznJmFdU5BJkTS4IncUeQtaWh8+bEQJQPm+tsOPd47sEsWMBt8aPz/pAdsWxdPG6r/Rult0JaqO7BEDSPVoA/yYednZvhNvhxWzD8rY/vnJ2DIbD66LUtQHsw9pVI9KQPvVsz/TmxVsTREHkwBHouNbWPkQHy7A3jqTnknxh+8vJsMyztDe5mg8BWsnz0x/OaHr2kE2pSBiqjJOFGnoKC5YM2Vghw+FlHYp7ojeV5k5AyKlpQR21wb6xWXG/AYo3EiPrDfpjrp17ZuyjhQbNztij
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(396003)(366004)(346002)(376002)(186009)(1800799009)(451199024)(66476007)(66556008)(316002)(6512007)(66946007)(8676002)(8936002)(2616005)(4326008)(1076003)(36756003)(41300700001)(478600001)(6666004)(38100700002)(52116002)(38350700002)(6506007)(6486002)(83380400001)(15650500001)(2906002)(7416002)(86362001)(44832011)(5660300002)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9gkOB3iCd9/NZT+me+vwXwFyF0qF87KGuSLM4dKC1tqeeJhXLHtMHTHVAFEq?=
+ =?us-ascii?Q?nmOdlC8xRH0e2SxtADW3JR3IdV7J1pWtB98Ly4i1Z8BcUNwvUWYIwHkxe7Cw?=
+ =?us-ascii?Q?uELidpKKfHMDqVvnNe3AMwdEtn9H0yPDXqateB35q7/D8PdNiwd32llrsv9P?=
+ =?us-ascii?Q?T6R8ebCKKctWuRwIPtxYoEl2ej4kWdRiM5PdA8pIhkVySpRGrmwzxiFYDHUU?=
+ =?us-ascii?Q?qf6ebCbIvRUM49ucff0jOcL9/S+95XzsX6U3md9LsqlD56OAQ7ZYRtGN3CKf?=
+ =?us-ascii?Q?XTIGg1X1zB84UE0qLeFooLcNfkccWv0Tq/UCUV8bqQT9d3DrIPRZMw1rzyZ3?=
+ =?us-ascii?Q?bQ2kWURjKovN/xDHRlC59mUBUd/JQENRzWKjdC97QNcmspURQq7pK4ZUllBx?=
+ =?us-ascii?Q?cGgzBMNb/FEnk0orTk0D0LvcX3qbjQiimxu6pjc8EnnxRfEiDLbxaLA+t9NP?=
+ =?us-ascii?Q?FN5TpHsTC9VHyNCuQmMCQarqNAmSpnAff8VFwIkeySgrasDD5/QeTgDH9Ffu?=
+ =?us-ascii?Q?ZbnM71qKjsh9c9YNuM0AYHviZwz5zY1iTGLVefca8irTZrORJlf8uorTNbBU?=
+ =?us-ascii?Q?2tOyBe7Qy+VWBvlUpCBH6DVQ8aeQ7eaByy2oKnTbzB5GlJb4wZnlf9Orrmkm?=
+ =?us-ascii?Q?/v1Tx6/dQcB3u/MAdfBldTZ0JRh5trYomd8ErM3biZsomtYdhuCnq1Ssy0N8?=
+ =?us-ascii?Q?EOjKJJNnKfwBOugKaKfg3Vqow3iggVZAz6CewTuFsQ9NsGWeDMrohqGgoaY5?=
+ =?us-ascii?Q?fBWCFTsFzpwP8DdA2jwvCCDHA9hbC/FWniU4MOqBso8YDOnYMtI/YhERVvac?=
+ =?us-ascii?Q?UeAhmuAiQLNr2yRnccV5JMVt9n2BqS4t9q0uJCZwR1fWcypPWqi6K0e2N4oY?=
+ =?us-ascii?Q?lmX6Es8vr9NF3CiHUJxvkDptrOGPMwuJqKBlQv7wh/bVZeQWRySUeuh/xKvD?=
+ =?us-ascii?Q?sKVsKtqaZ4tg57pMUDMhT0Lu+gYYACstfMtYqrQwlrBMuAlfEIsISYbtxa3t?=
+ =?us-ascii?Q?M55gdPSqE+tZfFPSL4TMqB8p9Ui1ynjBTX0R1DzF4TXXTSBib76Y8ett4ofI?=
+ =?us-ascii?Q?TLXp79El3jJdw6k9s04bZNnrnhHtVf5sFk3AMaIKfEK8lCFaZtaLrwYSpFJZ?=
+ =?us-ascii?Q?mVRLhkS4l7ExIZNzdicReR6FbO61xAaTgLioA5s4wrF+mU1JUUjmPSVIIky6?=
+ =?us-ascii?Q?bJALMjzmcYeOAE6ZOvJ/mC2wDPEO5LbuhQ8J+Larr3lf1ZhYLAROwf7KZAOw?=
+ =?us-ascii?Q?sXhyOmWmgt5WRPm0mKwIY7PeTGx9ek4X/rc4eND50v2zF6ZqHwzuZjbYW+NL?=
+ =?us-ascii?Q?3f/5EP3tl+blBhY174UWIazL5brN2VhDm/ycjHz/O6ETHzJnbPAIiPap4JQ2?=
+ =?us-ascii?Q?89LKgNfxcW9RUIOucfdzVEK5e5zvSeh18f95Kl1BDkqj0AVqjFr82tanpbVL?=
+ =?us-ascii?Q?3WvWc8clwgkzj1Dmf74sWfIAiuHKG9/dVyuQ/tquUG7ijfvvGlsAmONUxxIq?=
+ =?us-ascii?Q?KMQRPWLlO1P28fcS/l/dHTqB/tR0TOQ1NdDitte94OKHy/nkhesq05S01Ocl?=
+ =?us-ascii?Q?ESvf4uZMBmwHJBtX6cfQPx4qIKknoXnG+scjy7YP?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6faeb4fa-6046-471f-d874-08dba2d3f785
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2023 05:52:27.9791
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +JImtRsbTjZWj8nwpLZoQkTpJ/1qUYksgFMAZWof/F+E0k8SSDNcuV2CqYGxO0T3kRz4LVzrD+7uWNgcJH7rtQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7723
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+decoder firmware may notify host some debug message,
+it can help analyze the state of the firmware in case of error
 
-Claus,
+Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+---
+ drivers/media/platform/amphion/vpu_defs.h    | 1 +
+ drivers/media/platform/amphion/vpu_helpers.c | 1 +
+ drivers/media/platform/amphion/vpu_malone.c  | 1 +
+ drivers/media/platform/amphion/vpu_msgs.c    | 9 +++++++++
+ 4 files changed, 12 insertions(+)
 
-On 8/21/23 6:07 PM, Claus Stovgaard wrote:
-> Bingbu
-> 
-> On Mon, 2023-08-21 at 08:55 +0200, Claus Stovgaard wrote:
->> Bingbu
->>
->> On Mon, 2023-08-21 at 14:22 +0800, Bingbu Cao wrote:
->>>
->>> Claus,
->>>
->>>
->>> On 8/21/23 11:14 AM, Bingbu Cao wrote:
->>>
->>>
->>> I see that the ivsc driver has not been in master branch. Before
->>> that,
->>> could you try several hack to check whether camera can work on
->>> master?
->>>
->>> https://github.com/bingbucao/linux/commits/ipu_dev
->>>
->>> 7ebff51284d9 media: ov01a10: hack ivsc to make camera can work
->>> 01cc9f3d1b61 i2c: ljca: Call acpi_dev_clear_dependencies()
->>> 92e5d122e105 vsc: Defer firmware loading to avoid long probing time
->>> 5f5d5f0df06b driver: ivsc: add intel ivsc driver
->>> 0f4819dec533 Revert "gpio: Add support for Intel LJCA USB GPIO
->>> driver"
->>
->> Thanks for your quick reply.
->>
->> I was missing understanding of ivsc when I wrote the mail yesterday.
->> Got some basic understanding yesterday after I wrote, and big thanks
->> for confirming it, and also thanks for your ipu_dev branch. Has just
->> cloned it, and is building as I write.
->>
->> Just fyi, I was trying to hack something together yesterday, and got
->> further, but not yet working.
->>
->> My hack was to combine the out-of-tree ivsc drivers and firmware from
->>
->> * https://github.com/intel/ivsc-firmware.git
->> * https://github.com/intel/ivsc-driver.git
->>
->> Though noticed that I need some changes to the sensor driver so was
->> also building all the drivers from ipu6-drivers (with minor changes
->> to
->> get_pages) as out-of-tree modules.
->>
->> * https://github.com/intel/ipu6-drivers.git 
->>
->> Here I used everything beside media/pci/*.ko files. I could see the
->> sensor and got further, but was missing the last.
->>
->> Looking forward to try your branch. Looks much cleaner, and would be
->> nice to get working :)
->>
-> 
-> I got it to work on Dell XPS 9320.
-> With some minor changes compared to your guide in Documentation/admin-
-> guide/media/ipu6-isys.rst
-> 
-> [root@xps-1 ]# uname -a
-> Linux xps-1 6.5.0-rc7-g7ebff51284d9 #1 SMP PREEMPT_DYNAMIC Mon Aug 21
-> 09:02:20 CEST 2023 x86_64 GNU/Linux
-> 
-> [root@xps-1 ]# media-ctl -d /dev/media0 -p | tail -n10
-> 
-> - entity 2149: ov01a10 16-0036 (1 pad, 1 link)
->                type V4L2 subdev subtype Sensor flags 0
->                device node name /dev/v4l-subdev4
->         pad0: Source
->                 [fmt:SBGGR10_1X10/1280x800 field:none colorspace:raw
->                  crop.bounds:(0,0)/1296x816
->                  crop:(8,8)/1280x800]
->                 -> "Intel IPU6 CSI2 2":0 []
-> 
-> So i2c is 16-0036 - and we use it for setup like your guide.
-> 
-> export MDEV=/dev/media0
-> 
-> media-ctl -d $MDEV -l "\"ov01a10 17-0036\":0 -> \"Intel IPU6 CSI2
-> 2\":0[1]"
-> 
-> media-ctl -d $MDEV -V "\"ov01a10 17-0036\":0 [fmt:SBGGR10/1280x800]"
-> media-ctl -d $MDEV -V "\"Intel IPU6 CSI2 2\":0 [fmt:SBGGR10/1280x800]"
-> media-ctl -d $MDEV -V "\"Intel IPU6 CSI2 2\":1 [fmt:SBGGR10/1280x800]"
-> 
-> media-ctl -d $MDEV -l "\"ov01a10 17-0036\":0 -> \"Intel IPU6 CSI2
-> 2\":0[1]"
-> media-ctl -d $MDEV -l "\"Intel IPU6 CSI2 2\":1 ->\"Intel IPU6 ISYS
-> Capture 0\":0[5]"
-> 
-> Though yavta does not work in the way as described in the guide.
-> 
-> [root@xps-1 ]# yavta --data-prefix -u -c10 -n5 -I -s 1280x800 --
-> file=/tmp/frame-#.bin -f SBGGR10 /dev/video0
-> Device /dev/video0 opened.
-> Device `ipu6' on `PCI:0000:00:05.0' (driver 'isys') supports video,
-> capture, with mplanes.
-> Video format set: SBGGR10 (30314742) 1280x800 field none, 1 planes: 
->  * Stride 2560, buffer size 2050560
-> Video format: SBGGR10 (30314742) 1280x800 field none, 1 planes: 
->  * Stride 2560, buffer size 2050560
-> Unable to request buffers: Invalid argument (22).
-
-Firstly, thanks for your work. I just noticed that we remove the
-userptr buffer support before, that means yavta '-u' will not be
-supported. So I think you can try to remove '-u' to see whether it
-can work. I will update the documentation in next version.
-
-For Dell XPS 9320, we still have some work to make IPU work with
-Intel VSC(upstreaming). My current hack on github is not offical.
-But it can help people on 9320 to verify the camera before
-everything ready. :)
-
-> 
-> 
-> So I changed to use v4l2-ctl
-> 
-> [root@xps-1 ]# v4l2-ctl -d /dev/video0 --set-fmt-video
-> width=1280,height=800,pixelformat=BG10 --stream-mmap --stream-count=1 -
-> -stream-to=frame.bin
-> 
-> With this I created raw data in BG10 format, and later used a small
-> python script with numpy and opencv to look at the data.
-> 
-> #!/usr/bin/env python3
-> # Demosaicing Bayer Raw image
-> 
-> import cv2
-> import numpy as np
-> 
-> width = 1280
-> height = 800
-> 
-> with open("frame.bin", "rb") as rawimg:
->     # Read the bayer data
->     data = np.fromfile(rawimg, np.uint16, width * height)
->     bayer = np.reshape(data, (height, width))
-> 
->     # Just a offset gain to be able to see something
->     for x in range(0, len(bayer)):
->         for y in range(0, len(bayer[0])):
->             bayer[x, y] = (bayer[x,y] << 8)
-> 
->     rgb = cv2.cvtColor(bayer, cv2.COLOR_BayerBGGR2RGB)
-> 
->     cv2.imshow('rgb', rgb)
->     cv2.waitKey()
->     cv2.destroyAllWindows()
-> 
-> 
-> Thanks for the help, and now we know what is needed to make it work on
-> top of yesterdays rc7
-> 
-> /Claus
-> 
-
+diff --git a/drivers/media/platform/amphion/vpu_defs.h b/drivers/media/platform/amphion/vpu_defs.h
+index 667637eedb5d..7320852668d6 100644
+--- a/drivers/media/platform/amphion/vpu_defs.h
++++ b/drivers/media/platform/amphion/vpu_defs.h
+@@ -71,6 +71,7 @@ enum {
+ 	VPU_MSG_ID_TIMESTAMP_INFO,
+ 	VPU_MSG_ID_FIRMWARE_XCPT,
+ 	VPU_MSG_ID_PIC_SKIPPED,
++	VPU_MSG_ID_DBG_MSG,
+ };
+ 
+ enum VPU_ENC_MEMORY_RESOURSE {
+diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media/platform/amphion/vpu_helpers.c
+index af3b336e5dc3..d12310af9ebc 100644
+--- a/drivers/media/platform/amphion/vpu_helpers.c
++++ b/drivers/media/platform/amphion/vpu_helpers.c
+@@ -489,6 +489,7 @@ const char *vpu_id_name(u32 id)
+ 	case VPU_MSG_ID_UNSUPPORTED: return "unsupported";
+ 	case VPU_MSG_ID_FIRMWARE_XCPT: return "exception";
+ 	case VPU_MSG_ID_PIC_SKIPPED: return "skipped";
++	case VPU_MSG_ID_DBG_MSG: return "debug msg";
+ 	}
+ 	return "<unknown>";
+ }
+diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
+index f771661980c0..d3425de7bccd 100644
+--- a/drivers/media/platform/amphion/vpu_malone.c
++++ b/drivers/media/platform/amphion/vpu_malone.c
+@@ -745,6 +745,7 @@ static struct vpu_pair malone_msgs[] = {
+ 	{VPU_MSG_ID_UNSUPPORTED, VID_API_EVENT_UNSUPPORTED_STREAM},
+ 	{VPU_MSG_ID_FIRMWARE_XCPT, VID_API_EVENT_FIRMWARE_XCPT},
+ 	{VPU_MSG_ID_PIC_SKIPPED, VID_API_EVENT_PIC_SKIPPED},
++	{VPU_MSG_ID_DBG_MSG, VID_API_EVENT_DBG_MSG_DEC},
+ };
+ 
+ static void vpu_malone_pack_fs_alloc(struct vpu_rpc_event *pkt,
+diff --git a/drivers/media/platform/amphion/vpu_msgs.c b/drivers/media/platform/amphion/vpu_msgs.c
+index d0ead051f7d1..999efeaebfd5 100644
+--- a/drivers/media/platform/amphion/vpu_msgs.c
++++ b/drivers/media/platform/amphion/vpu_msgs.c
+@@ -180,6 +180,14 @@ static void vpu_session_handle_pic_skipped(struct vpu_inst *inst, struct vpu_rpc
+ 	vpu_inst_unlock(inst);
+ }
+ 
++static void vpu_session_handle_dbg_msg(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
++{
++	char *str = (char *)pkt->data;
++
++	if (strlen(str))
++		dev_info(inst->dev, "instance %d firmware dbg msg : %s\n", inst->id, str);
++}
++
+ static struct vpu_msg_handler handlers[] = {
+ 	{VPU_MSG_ID_START_DONE, vpu_session_handle_start_done},
+ 	{VPU_MSG_ID_STOP_DONE, vpu_session_handle_stop_done},
+@@ -196,6 +204,7 @@ static struct vpu_msg_handler handlers[] = {
+ 	{VPU_MSG_ID_UNSUPPORTED, vpu_session_handle_error},
+ 	{VPU_MSG_ID_FIRMWARE_XCPT, vpu_session_handle_firmware_xcpt},
+ 	{VPU_MSG_ID_PIC_SKIPPED, vpu_session_handle_pic_skipped},
++	{VPU_MSG_ID_DBG_MSG, vpu_session_handle_dbg_msg},
+ };
+ 
+ static int vpu_session_handle_msg(struct vpu_inst *inst, struct vpu_rpc_event *msg)
 -- 
-Best regards,
-Bingbu Cao
+2.38.1
+
