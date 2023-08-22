@@ -2,101 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 376FB7840B2
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 14:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C565C78412E
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 14:49:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235707AbjHVMZ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 08:25:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37726 "EHLO
+        id S235813AbjHVMtJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 08:49:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233313AbjHVMZ0 (ORCPT
+        with ESMTP id S231969AbjHVMtJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 08:25:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95513196
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 05:24:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1692707080;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=shut0sB4pMCgN+T4Qy5JtlRvzp1BLf/ySmWTIcMS3ok=;
-        b=BIzYAbuD4N5piebZw/4xg5Z9L/VhP/dDkjSKHVmzMyO3tOXlpXiFct1renrVe1ZvT97zfe
-        ThcJOkx/2aJhtoGxD+CSdLe9gKcRAReJ5Rmk6c+EbtaGjj2UOutyXS53XADqSAecnPYj2k
-        fH0J5QT3Fes84NYO16nSQ1h5LvVBpaY=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-53-WTrYPb9APPK1iJ_2xzEYzA-1; Tue, 22 Aug 2023 08:24:39 -0400
-X-MC-Unique: WTrYPb9APPK1iJ_2xzEYzA-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9a0955ac1dcso280373466b.0
-        for <linux-media@vger.kernel.org>; Tue, 22 Aug 2023 05:24:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692707078; x=1693311878;
-        h=content-transfer-encoding:in-reply-to:references:to
-         :content-language:subject:cc:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=shut0sB4pMCgN+T4Qy5JtlRvzp1BLf/ySmWTIcMS3ok=;
-        b=MAYnlJ2EmDhz+3MN0wL32FWGK29lrnL9tYSQlOTPCJK5FgtPosK2GHxIdYCUWY36Id
-         6Xo2bWdilAKzUuYNc+UxUbPYeHU75rhF8ios9oyBDh4DoDjsjZfImCyFMgoEGvXGCtzw
-         6+5T7BVlxDIDEUF96EBCL6NRxshonwwvjbotN+2UxaXMvpt83y54zl4xxfjMnlg/ONTp
-         wfSgo8TxdhqN9HU/McPcG0w504Gr4NlFYw4oGeVIffALukjJnGNLafBIIsHkF0RAuI3g
-         5z2Mrs1lvG8MFpDVYqJAJ5jxqakzMHL6P9Je+Ar1MORHElM90cgALasb7q/k27FmWbii
-         5PcQ==
-X-Gm-Message-State: AOJu0YzNM5yngCNXu13RXMNnvPlQsVn3Qizr6Mrn1IRJnnzCn0gO3b7n
-        bszBarR4kMD2UzhiBX+CHZWycyPpQIYcsOT6Bm+aQ4pL4I9dFomjxrsPc/I6cflwutNkVpoGHoT
-        aEDEzconQz22qbUhzJJP/X7o=
-X-Received: by 2002:a17:906:8a74:b0:9a1:b8fc:624a with SMTP id hy20-20020a1709068a7400b009a1b8fc624amr1389440ejc.1.1692707077795;
-        Tue, 22 Aug 2023 05:24:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHNOMJ57qamXU8/cuxBCJwMf1OiVdhlXRSQi7MLD5zfCUfh7/Prp53nPqHzowV6o37lF08KDA==
-X-Received: by 2002:a17:906:8a74:b0:9a1:b8fc:624a with SMTP id hy20-20020a1709068a7400b009a1b8fc624amr1389422ejc.1.1692707077340;
-        Tue, 22 Aug 2023 05:24:37 -0700 (PDT)
-Received: from [192.168.42.222] (83-90-141-187-cable.dk.customer.tdc.net. [83.90.141.187])
-        by smtp.gmail.com with ESMTPSA id l16-20020a170906415000b0098cf565d98asm8074082ejk.22.2023.08.22.05.24.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Aug 2023 05:24:36 -0700 (PDT)
-From:   Jesper Dangaard Brouer <jbrouer@redhat.com>
-X-Google-Original-From: Jesper Dangaard Brouer <brouer@redhat.com>
-Message-ID: <7aedc5d5-0daf-63be-21bc-3b724cc1cab9@redhat.com>
-Date:   Tue, 22 Aug 2023 14:24:34 +0200
+        Tue, 22 Aug 2023 08:49:09 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717A1196;
+        Tue, 22 Aug 2023 05:49:05 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:3563:6666:ae23:a4c4] (unknown [IPv6:2a01:e0a:120:3210:3563:6666:ae23:a4c4])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id B690466071E6;
+        Tue, 22 Aug 2023 13:49:03 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1692708544;
+        bh=0ryuxzhe4ArTHFH45lRS4LhYF5bsxpzC+eGbPpry/sY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=OSxp+hnAoIniQNV5ukGRhQyApL0VFozDRHLjqLaFoJ+9jlQgUYbb9oVNWCecauCJM
+         IqfPwQMDdyTkblfDCon+8Y2JxaQJsS90q6j8hHMaHI0jbOXNBlrMMp0Y2aZrIbqihB
+         0nk6E6JtX8g0U0q/YX8oxBZlZTBx4Q/c6TxfqCYBb/aD35WwbHEIFvf/1l/RgX4ZkX
+         uf7oThrDG+UDsVt3Y6V1cig8GU01QZj3PEmoUHOdeJZ/vR98o5RmOEx9hxrdVGUjGn
+         +hvOuWEfmZv6p3Zu7BB6XJqjPkR0CtkCf5JhgeEwM13WG3iIJUnOBRPYgCAnPVfrpO
+         CmCFxhKMPFSIQ==
+Message-ID: <0ae9aa9b-6857-6237-bd2d-9bb97b044c40@collabora.com>
+Date:   Tue, 22 Aug 2023 14:49:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Cc:     brouer@redhat.com, netdev@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Ahern <dsahern@kernel.org>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Hari Ramakrishnan <rharix@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andy Lutomirski <luto@kernel.org>, stephen@networkplumber.org,
-        sdf@google.com
-Subject: Re: [RFC PATCH v2 06/11] page-pool: add device memory support
+Subject: Re: [PATCH v4 01/10] media: videobuf2: Access vb2_queue bufs array
+ through helper functions
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230705121056.37017-1-benjamin.gaignard@collabora.com>
+ <20230705121056.37017-2-benjamin.gaignard@collabora.com>
+ <e3339c67-4aca-950a-fd4f-ba7835c5d670@xs4all.nl>
+ <845b2617-a09b-a9f3-05b4-596261e6292c@xs4all.nl>
 Content-Language: en-US
-To:     Mina Almasry <almasrymina@google.com>,
-        Jesper Dangaard Brouer <jbrouer@redhat.com>
-References: <20230810015751.3297321-1-almasrymina@google.com>
- <20230810015751.3297321-7-almasrymina@google.com>
- <6adafb5d-0bc5-cb9a-5232-6836ab7e77e6@redhat.com>
- <CAHS8izM4w2UETAwfnV7w+ZzTMxLkz+FKO+xTgRdtYKzV8RzqXw@mail.gmail.com>
-In-Reply-To: <CAHS8izM4w2UETAwfnV7w+ZzTMxLkz+FKO+xTgRdtYKzV8RzqXw@mail.gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <845b2617-a09b-a9f3-05b4-596261e6292c@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -104,442 +68,745 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-
-On 22/08/2023 08.05, Mina Almasry wrote:
-> On Sat, Aug 19, 2023 at 2:51 AM Jesper Dangaard Brouer
-> <jbrouer@redhat.com> wrote:
+Le 21/08/2023 à 16:31, Hans Verkuil a écrit :
+> On 21/08/2023 16:24, Hans Verkuil wrote:
+>> Hi Benjamin,
 >>
->> On 10/08/2023 03.57, Mina Almasry wrote:
->>> Overload the LSB of struct page* to indicate that it's a page_pool_iov.
+>> On 05/07/2023 14:10, Benjamin Gaignard wrote:
+>>> The first step before changing how vb2 buffers are stored into queue
+>>> is to avoid direct access to bufs arrays.
 >>>
->>> Refactor mm calls on struct page * into helpers, and add page_pool_iov
->>> handling on those helpers. Modify callers of these mm APIs with calls to
->>> these helpers instead.
+>>> This patch adds 2 helpers functions to add and remove vb2 buffers
+>>> from a queue. With these 2 and vb2_get_buffer(), bufs field of
+>>> struct vb2_queue becomes like a private member of the structure.
 >>>
->>
->> I don't like of this approach.
->> This is adding code to the PP (page_pool) fast-path in multiple places.
->>
->> I've not had time to run my usual benchmarks, which are here:
->>
->> https://github.com/netoptimizer/prototype-kernel/blob/master/kernel/lib/bench_page_pool_simple.c
->>
-> 
-> I ported over this benchmark to my tree and ran it, my results:
-> 
-
-What CPU is this and GHz?  (I guess 2.6 GHz based on results).
-
-(It looks like this CPU is more efficient, instructions per cycles, than 
-my E5-1650 v4 @ 3.60GHz).
-
-> net-next @ b44693495af8
-> https://pastebin.com/raw/JuU7UQXe
-> 
-> + Jakub's memory-provider APIs:
-> https://pastebin.com/raw/StMBhetn
-> 
-> + devmem TCP changes:
-> https://pastebin.com/raw/mY1L6U4r
-> 
-
-Only a single cycle slowdown for "page_pool01_fast_path".
- From 10 cycles to 11 cycles.
-
-> + intentional regression just to make sure the benchmark is working:
-> https://pastebin.com/raw/wqWhcJdG
-> 
-> I don't seem to be able to detect a regression with this series as-is,
-> but I'm not that familiar with the test and may be doing something
-> wrong or misinterpreting the results. Does this look ok to you?
-> 
-
-The performance results are better than I expected.  The small
-regression from 10 cycles to 11 cycles is actually 10%, but I expect
-with some likely/unlikely instrumentation we can "likely" remove this again.
-
-So, this change actually looks acceptable from a performance PoV.
-I still think this page_pool_iov is very invasive to page_pool, but
-maybe it is better to hide this "uglyness" inside page_pool.
-
-The test primarily tests fast-path, and you also add "if" statements to
-all the DMA operations, which is not part of this benchmark.  Perhaps we 
-can add unlikely statements, or inspect (objdump) the ASM to check code 
-priorities the original page based "provider".
-
->> But I'm sure it will affect performance.
->>
-
-Guess, I was wrong ;-)
-
---Jesper
-
-
->> Regardless of performance, this approach is using ptr-LSB-bits, to hide
->> that page-pointer are not really struct-pages, feels like force feeding
->> a solution just to use the page_pool APIs.
->>
->>
->>> In areas where struct page* is dereferenced, add a check for special
->>> handling of page_pool_iov.
+>>> After each call to vb2_get_buffer() we need to be sure that we get
+>>> a valid pointer so check the return value of all of them.
 >>>
->>> The memory providers producing page_pool_iov can set the LSB on the
->>> struct page* returned to the page pool.
->>>
->>> Note that instead of overloading the LSB of page pointers, we can
->>> instead define a new union between struct page & struct page_pool_iov and
->>> compact it in a new type. However, we'd need to implement the code churn
->>> to modify the page_pool & drivers to use this new type. For this POC
->>> that is not implemented (feedback welcome).
->>>
->>
->> I've said before, that I prefer multiplexing on page->pp_magic.
->> For your page_pool_iov the layout would have to match the offset of
->> pp_magic, to do this. (And if insisting on using PP infra the refcnt
->> would also need to align).
->>
->> On the allocation side, all drivers already use a driver helper
->> page_pool_dev_alloc_pages() or we could add another (better named)
->> helper to multiplex between other types of allocators, e.g. a devmem
->> allocator.
->>
->> On free/return/recycle the functions napi_pp_put_page or skb_pp_recycle
->> could multiplex on pp_magic and call another API.  The API could be an
->> extension to PP helpers, but it could also be a devmap allocator helper.
->>
->> IMHO forcing/piggy-bagging everything into page_pool is not the right
->> solution.  I really think netstack need to support different allocator
->> types. The page pool have been leading the way, yes, but perhaps it is
->> time to add an API layer that e.g. could be named netmem, that gives us
->> the multiplexing between allocators.  In that process some of page_pool
->> APIs would be lifted out as common blocks and others remain.
->>
->> --Jesper
->>
->>> I have a sample implementation of adding a new page_pool_token type
->>> in the page_pool to give a general idea here:
->>> https://github.com/torvalds/linux/commit/3a7628700eb7fd02a117db036003bca50779608d
->>>
->>> Full branch here:
->>> https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-pp-tokens
->>>
->>> (In the branches above, page_pool_iov is called devmem_slice).
->>>
->>> Could also add static_branch to speed up the checks in page_pool_iov
->>> memory providers are being used.
->>>
->>> Signed-off-by: Mina Almasry <almasrymina@google.com>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 >>> ---
->>>    include/net/page_pool.h | 74 ++++++++++++++++++++++++++++++++++-
->>>    net/core/page_pool.c    | 85 ++++++++++++++++++++++++++++-------------
->>>    2 files changed, 131 insertions(+), 28 deletions(-)
+>>>   .../media/common/videobuf2/videobuf2-core.c   | 215 ++++++++++++++----
+>>>   .../media/common/videobuf2/videobuf2-v4l2.c   |  28 ++-
+>>>   drivers/media/platform/amphion/vpu_dbg.c      |  22 +-
+>>>   .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   6 +-
+>>>   .../vcodec/vdec/vdec_vp9_req_lat_if.c         |   2 +-
+>>>   drivers/media/platform/st/sti/hva/hva-v4l2.c  |   4 +
+>>>   drivers/media/test-drivers/visl/visl-dec.c    |  28 ++-
+>>>   .../staging/media/atomisp/pci/atomisp_ioctl.c |   2 +-
+>>>   8 files changed, 240 insertions(+), 67 deletions(-)
 >>>
->>> diff --git a/include/net/page_pool.h b/include/net/page_pool.h
->>> index 537eb36115ed..f08ca230d68e 100644
->>> --- a/include/net/page_pool.h
->>> +++ b/include/net/page_pool.h
->>> @@ -282,6 +282,64 @@ static inline struct page_pool_iov *page_to_page_pool_iov(struct page *page)
->>>        return NULL;
->>>    }
->>>
->>> +static inline int page_pool_page_ref_count(struct page *page)
->>> +{
->>> +     if (page_is_page_pool_iov(page))
->>> +             return page_pool_iov_refcount(page_to_page_pool_iov(page));
+>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+>>> index cf6727d9c81f..42fd3984c2bc 100644
+>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>>> @@ -359,8 +359,16 @@ static void __setup_offsets(struct vb2_buffer *vb)
+>>>   	unsigned long off = 0;
+>>>   
+>>>   	if (vb->index) {
+>>> -		struct vb2_buffer *prev = q->bufs[vb->index - 1];
+>>> -		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
+>>> +		struct vb2_buffer *prev;
+>>> +		struct vb2_plane *p;
 >>> +
->>> +     return page_ref_count(page);
->>> +}
+>>> +		prev = vb2_get_buffer(q, vb->index - 1);
+>>> +		if (!prev) {
+>>> +			dprintk(q, 1, "can't find the requested buffer\n");
+>>> +			return;
+>>> +		}
 >>> +
->>> +static inline void page_pool_page_get_many(struct page *page,
->>> +                                        unsigned int count)
->>> +{
->>> +     if (page_is_page_pool_iov(page))
->>> +             return page_pool_iov_get_many(page_to_page_pool_iov(page),
->>> +                                           count);
->>> +
->>> +     return page_ref_add(page, count);
->>> +}
->>> +
->>> +static inline void page_pool_page_put_many(struct page *page,
->>> +                                        unsigned int count)
->>> +{
->>> +     if (page_is_page_pool_iov(page))
->>> +             return page_pool_iov_put_many(page_to_page_pool_iov(page),
->>> +                                           count);
->>> +
->>> +     if (count > 1)
->>> +             page_ref_sub(page, count - 1);
->>> +
->>> +     put_page(page);
->>> +}
->>> +
->>> +static inline bool page_pool_page_is_pfmemalloc(struct page *page)
->>> +{
->>> +     if (page_is_page_pool_iov(page))
->>> +             return false;
->>> +
->>> +     return page_is_pfmemalloc(page);
->>> +}
->>> +
->>> +static inline bool page_pool_page_is_pref_nid(struct page *page, int pref_nid)
->>> +{
->>> +     /* Assume page_pool_iov are on the preferred node without actually
->>> +      * checking...
->>> +      *
->>> +      * This check is only used to check for recycling memory in the page
->>> +      * pool's fast paths. Currently the only implementation of page_pool_iov
->>> +      * is dmabuf device memory. It's a deliberate decision by the user to
->>> +      * bind a certain dmabuf to a certain netdev, and the netdev rx queue
->>> +      * would not be able to reallocate memory from another dmabuf that
->>> +      * exists on the preferred node, so, this check doesn't make much sense
->>> +      * in this case. Assume all page_pool_iovs can be recycled for now.
->>> +      */
->>> +     if (page_is_page_pool_iov(page))
->>> +             return true;
->>> +
->>> +     return page_to_nid(page) == pref_nid;
->>> +}
->>> +
->>>    struct page_pool {
->>>        struct page_pool_params p;
->>>
->>> @@ -434,6 +492,9 @@ static inline long page_pool_defrag_page(struct page *page, long nr)
->>>    {
->>>        long ret;
->>>
->>> +     if (page_is_page_pool_iov(page))
->>> +             return -EINVAL;
->>> +
->>>        /* If nr == pp_frag_count then we have cleared all remaining
->>>         * references to the page. No need to actually overwrite it, instead
->>>         * we can leave this to be overwritten by the calling function.
->>> @@ -494,7 +555,12 @@ static inline void page_pool_recycle_direct(struct page_pool *pool,
->>>
->>>    static inline dma_addr_t page_pool_get_dma_addr(struct page *page)
->>>    {
->>> -     dma_addr_t ret = page->dma_addr;
->>> +     dma_addr_t ret;
->>> +
->>> +     if (page_is_page_pool_iov(page))
->>> +             return page_pool_iov_dma_addr(page_to_page_pool_iov(page));
->>> +
->>> +     ret = page->dma_addr;
->>>
->>>        if (PAGE_POOL_DMA_USE_PP_FRAG_COUNT)
->>>                ret |= (dma_addr_t)page->dma_addr_upper << 16 << 16;
->>> @@ -504,6 +570,12 @@ static inline dma_addr_t page_pool_get_dma_addr(struct page *page)
->>>
->>>    static inline void page_pool_set_dma_addr(struct page *page, dma_addr_t addr)
->>>    {
->>> +     /* page_pool_iovs are mapped and their dma-addr can't be modified. */
->>> +     if (page_is_page_pool_iov(page)) {
->>> +             DEBUG_NET_WARN_ON_ONCE(true);
->>> +             return;
->>> +     }
->>> +
->>>        page->dma_addr = addr;
->>>        if (PAGE_POOL_DMA_USE_PP_FRAG_COUNT)
->>>                page->dma_addr_upper = upper_32_bits(addr);
->>> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
->>> index 0a7c08d748b8..20c1f74fd844 100644
->>> --- a/net/core/page_pool.c
->>> +++ b/net/core/page_pool.c
->>> @@ -318,7 +318,7 @@ static struct page *page_pool_refill_alloc_cache(struct page_pool *pool)
->>>                if (unlikely(!page))
->>>                        break;
->>>
->>> -             if (likely(page_to_nid(page) == pref_nid)) {
->>> +             if (likely(page_pool_page_is_pref_nid(page, pref_nid))) {
->>>                        pool->alloc.cache[pool->alloc.count++] = page;
->>>                } else {
->>>                        /* NUMA mismatch;
->>> @@ -363,7 +363,15 @@ static void page_pool_dma_sync_for_device(struct page_pool *pool,
->>>                                          struct page *page,
->>>                                          unsigned int dma_sync_size)
->>>    {
->>> -     dma_addr_t dma_addr = page_pool_get_dma_addr(page);
->>> +     dma_addr_t dma_addr;
->>> +
->>> +     /* page_pool_iov memory provider do not support PP_FLAG_DMA_SYNC_DEV */
->>> +     if (page_is_page_pool_iov(page)) {
->>> +             DEBUG_NET_WARN_ON_ONCE(true);
->>> +             return;
->>> +     }
->>> +
->>> +     dma_addr = page_pool_get_dma_addr(page);
->>>
->>>        dma_sync_size = min(dma_sync_size, pool->p.max_len);
->>>        dma_sync_single_range_for_device(pool->p.dev, dma_addr,
->>> @@ -375,6 +383,12 @@ static bool page_pool_dma_map(struct page_pool *pool, struct page *page)
->>>    {
->>>        dma_addr_t dma;
->>>
->>> +     if (page_is_page_pool_iov(page)) {
->>> +             /* page_pool_iovs are already mapped */
->>> +             DEBUG_NET_WARN_ON_ONCE(true);
->>> +             return true;
->>> +     }
->>> +
->>>        /* Setup DMA mapping: use 'struct page' area for storing DMA-addr
->>>         * since dma_addr_t can be either 32 or 64 bits and does not always fit
->>>         * into page private data (i.e 32bit cpu with 64bit DMA caps)
->>> @@ -398,14 +412,24 @@ static bool page_pool_dma_map(struct page_pool *pool, struct page *page)
->>>    static void page_pool_set_pp_info(struct page_pool *pool,
->>>                                  struct page *page)
->>>    {
->>> -     page->pp = pool;
->>> -     page->pp_magic |= PP_SIGNATURE;
->>> +     if (!page_is_page_pool_iov(page)) {
->>> +             page->pp = pool;
->>> +             page->pp_magic |= PP_SIGNATURE;
->>> +     } else {
->>> +             page_to_page_pool_iov(page)->pp = pool;
->>> +     }
->>> +
->>>        if (pool->p.init_callback)
->>>                pool->p.init_callback(page, pool->p.init_arg);
->>>    }
->>>
->>>    static void page_pool_clear_pp_info(struct page *page)
->>>    {
->>> +     if (page_is_page_pool_iov(page)) {
->>> +             page_to_page_pool_iov(page)->pp = NULL;
->>> +             return;
->>> +     }
->>> +
->>>        page->pp_magic = 0;
->>>        page->pp = NULL;
->>>    }
->>> @@ -615,7 +639,7 @@ static bool page_pool_recycle_in_cache(struct page *page,
->>>                return false;
->>>        }
->>>
->>> -     /* Caller MUST have verified/know (page_ref_count(page) == 1) */
->>> +     /* Caller MUST have verified/know (page_pool_page_ref_count(page) == 1) */
->>>        pool->alloc.cache[pool->alloc.count++] = page;
->>>        recycle_stat_inc(pool, cached);
->>>        return true;
->>> @@ -638,9 +662,10 @@ __page_pool_put_page(struct page_pool *pool, struct page *page,
->>>         * refcnt == 1 means page_pool owns page, and can recycle it.
->>>         *
->>>         * page is NOT reusable when allocated when system is under
->>> -      * some pressure. (page_is_pfmemalloc)
->>> +      * some pressure. (page_pool_page_is_pfmemalloc)
->>>         */
->>> -     if (likely(page_ref_count(page) == 1 && !page_is_pfmemalloc(page))) {
->>> +     if (likely(page_pool_page_ref_count(page) == 1 &&
->>> +                !page_pool_page_is_pfmemalloc(page))) {
->>>                /* Read barrier done in page_ref_count / READ_ONCE */
->>>
->>>                if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
->>> @@ -741,7 +766,8 @@ static struct page *page_pool_drain_frag(struct page_pool *pool,
->>>        if (likely(page_pool_defrag_page(page, drain_count)))
->>>                return NULL;
->>>
->>> -     if (page_ref_count(page) == 1 && !page_is_pfmemalloc(page)) {
->>> +     if (page_pool_page_ref_count(page) == 1 &&
->>> +         !page_pool_page_is_pfmemalloc(page)) {
->>>                if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
->>>                        page_pool_dma_sync_for_device(pool, page, -1);
->>>
->>> @@ -818,9 +844,9 @@ static void page_pool_empty_ring(struct page_pool *pool)
->>>        /* Empty recycle ring */
->>>        while ((page = ptr_ring_consume_bh(&pool->ring))) {
->>>                /* Verify the refcnt invariant of cached pages */
->>> -             if (!(page_ref_count(page) == 1))
->>> +             if (!(page_pool_page_ref_count(page) == 1))
->>>                        pr_crit("%s() page_pool refcnt %d violation\n",
->>> -                             __func__, page_ref_count(page));
->>> +                             __func__, page_pool_page_ref_count(page));
->>>
->>>                page_pool_return_page(pool, page);
->>>        }
->>> @@ -977,19 +1003,24 @@ bool page_pool_return_skb_page(struct page *page, bool napi_safe)
->>>        struct page_pool *pp;
->>>        bool allow_direct;
->>>
->>> -     page = compound_head(page);
->>> +     if (!page_is_page_pool_iov(page)) {
->>> +             page = compound_head(page);
->>>
->>> -     /* page->pp_magic is OR'ed with PP_SIGNATURE after the allocation
->>> -      * in order to preserve any existing bits, such as bit 0 for the
->>> -      * head page of compound page and bit 1 for pfmemalloc page, so
->>> -      * mask those bits for freeing side when doing below checking,
->>> -      * and page_is_pfmemalloc() is checked in __page_pool_put_page()
->>> -      * to avoid recycling the pfmemalloc page.
->>> -      */
->>> -     if (unlikely((page->pp_magic & ~0x3UL) != PP_SIGNATURE))
->>> -             return false;
->>> +             /* page->pp_magic is OR'ed with PP_SIGNATURE after the
->>> +              * allocation in order to preserve any existing bits, such as
->>> +              * bit 0 for the head page of compound page and bit 1 for
->>> +              * pfmemalloc page, so mask those bits for freeing side when
->>> +              * doing below checking, and page_pool_page_is_pfmemalloc() is
->>> +              * checked in __page_pool_put_page() to avoid recycling the
->>> +              * pfmemalloc page.
->>> +              */
->>> +             if (unlikely((page->pp_magic & ~0x3UL) != PP_SIGNATURE))
->>> +                     return false;
->>>
->>> -     pp = page->pp;
->>> +             pp = page->pp;
->>> +     } else {
->>> +             pp = page_to_page_pool_iov(page)->pp;
->>> +     }
->>>
->>>        /* Allow direct recycle if we have reasons to believe that we are
->>>         * in the same context as the consumer would run, so there's
->>> @@ -1273,9 +1304,9 @@ static bool mp_huge_busy(struct mp_huge *hu, unsigned int idx)
->>>
->>>        for (j = 0; j < (1 << MP_HUGE_ORDER); j++) {
->>>                page = hu->page[idx] + j;
->>> -             if (page_ref_count(page) != 1) {
->>> +             if (page_pool_page_ref_count(page) != 1) {
->>>                        pr_warn("Page with ref count %d at %u, %u. Can't safely destory, leaking memory!\n",
->>> -                             page_ref_count(page), idx, j);
->>> +                             page_pool_page_ref_count(page), idx, j);
->>>                        return true;
->>>                }
->>>        }
->>> @@ -1330,7 +1361,7 @@ static struct page *mp_huge_alloc_pages(struct page_pool *pool, gfp_t gfp)
->>>                        continue;
->>>
->>>                if ((page->pp_magic & ~0x3UL) == PP_SIGNATURE ||
->>> -                 page_ref_count(page) != 1) {
->>> +                 page_pool_page_ref_count(page) != 1) {
->>>                        atomic_inc(&mp_huge_ins_b);
->>>                        continue;
->>>                }
->>> @@ -1458,9 +1489,9 @@ static void mp_huge_1g_destroy(struct page_pool *pool)
->>>        free = true;
->>>        for (i = 0; i < MP_HUGE_1G_CNT; i++) {
->>>                page = hu->page + i;
->>> -             if (page_ref_count(page) != 1) {
->>> +             if (page_pool_page_ref_count(page) != 1) {
->>>                        pr_warn("Page with ref count %d at %u. Can't safely destory, leaking memory!\n",
->>> -                             page_ref_count(page), i);
->>> +                             page_pool_page_ref_count(page), i);
->>>                        free = false;
->>>                        break;
->>>                }
->>> @@ -1489,7 +1520,7 @@ static struct page *mp_huge_1g_alloc_pages(struct page_pool *pool, gfp_t gfp)
->>>                page = hu->page + page_i;
->>>
->>>                if ((page->pp_magic & ~0x3UL) == PP_SIGNATURE ||
->>> -                 page_ref_count(page) != 1) {
->>> +                 page_pool_page_ref_count(page) != 1) {
->>>                        atomic_inc(&mp_huge_ins_b);
->>>                        continue;
->>>                }
->>> --
->>> 2.41.0.640.ga95def55d0-goog
->>>
+>>> +		p = &prev->planes[prev->num_planes - 1];
+>>>   
+>>>   		off = PAGE_ALIGN(p->m.offset + p->length);
+>> This does not work. Before this patch there should be a patch that changes
+>> the way the offset is determined since it affects this functionality.
 >>
-> 
-> 
-> --
-> Thanks,
-> Mina
-> 
+>> __setup_offsets() fills in the m.offset field for each plane in the buffer.
+>> In the current code it starts with 0 for the first buffer, adds the length
+>> for each plane to it, and for the next buffer it continues doing that. So
+>> the offset for a plane is the total length of all preceding buffers and planes.
+>>
+>> In addition, bit 30 of the offset field is used to signal if it is a capture
+>> or output buffer in the v4l2-mem2mem framework (see the DST_QUEUE_OFF_BASE
+>> define).
+>>
+>> In addition, the offset has to be page aligned, so the lower 12 bits are 0.
+>> That leaves only 32-1-12 = 19 bits for the offset.
+>>
+>> Since we allow 8 planes per buffer, that means that we can't have more than
+>> 65536 buffers given a 32 bit offset.
+>>
+>> I think the way m.offset is calculated should change drastically: it should
+>> instead be something like this:
+>>
+>> m.offset = ((vb->index << 3) | plane) << PAGE_SHIFT;
+>>
+>> and DST_QUEUE_OFF_BASE should use bit 31 instead of 30.
+>>
+>> Parsing the offset would be much simpler as well, since you can just decode
+>> the index and plane numbers directly rather than using the cumbersome
+>> __find_plane_by_offset() function.
+>>
+>> The currently mechanism will fail completely once you can delete buffers,
+>> and this proposal will simplify and improve the code, so I think it should
+>> be done first.
+> I could have saved myself some work if I read the other patches first.
+>
+> I see that patch 3/10 addresses this. But for the v5, just move that patch
+> to the beginning of the series.
 
+I will try to do that but these patches hit the same pieces of code so changing the order isn't that simple.
+
+>
+> I would also suggest changing DST_QUEUE_OFF_BASE to use bit 31 to allow for
+> 16 bits instead of 15 for the buffer index.
+
+DST_QUEUE_OFF_BASE is used with PAGE_SHIFT in v4l2-mem2mem and s5p_mfc in mmap/unmap functions.
+I'm bit afraid to change that.
+With my change each queue can store up to 0xffff (65535) buffers.
+Sound large enough for me ;-)
+
+Benjamin
+
+>
+> Regards,
+>
+> 	Hans
+>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>   	}
+>>> @@ -397,6 +405,37 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
+>>>   		vb->skip_cache_sync_on_finish = 1;
+>>>   }
+>>>   
+>>> +/**
+>>> + * vb2_queue_add_buffer() - add a buffer to a queue
+>>> + * @q:	pointer to &struct vb2_queue with videobuf2 queue.
+>>> + * @vb:	pointer to &struct vb2_buffer to be added to the queue.
+>>> + * @index: index where add vb2_buffer in the queue
+>>> + */
+>>> +static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, int index)
+>>> +{
+>>> +	if (index < VB2_MAX_FRAME && !q->bufs[index]) {
+>>> +		q->bufs[index] = vb;
+>>> +		vb->index = index;
+>>> +		vb->vb2_queue = q;
+>>> +		return true;
+>>> +	}
+>>> +
+>>> +	return false;
+>>> +}
+>>> +
+>>> +/**
+>>> + * vb2_queue_remove_buffer() - remove a buffer from a queue
+>>> + * @q:	pointer to &struct vb2_queue with videobuf2 queue.
+>>> + * @vb:	pointer to &struct vb2_buffer to be removed from the queue.
+>>> + */
+>>> +static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+>>> +{
+>>> +	if (vb->index < VB2_MAX_FRAME) {
+>>> +		q->bufs[vb->index] = NULL;
+>>> +		vb->vb2_queue = NULL;
+>>> +	}
+>>> +}
+>>> +
+>>>   /*
+>>>    * __vb2_queue_alloc() - allocate vb2 buffer structures and (for MMAP type)
+>>>    * video buffer memory for all buffers/planes on the queue and initializes the
+>>> @@ -425,9 +464,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>>   		}
+>>>   
+>>>   		vb->state = VB2_BUF_STATE_DEQUEUED;
+>>> -		vb->vb2_queue = q;
+>>>   		vb->num_planes = num_planes;
+>>> -		vb->index = q->num_buffers + buffer;
+>>>   		vb->type = q->type;
+>>>   		vb->memory = memory;
+>>>   		init_buffer_cache_hints(q, vb);
+>>> @@ -437,7 +474,11 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>>   		}
+>>>   		call_void_bufop(q, init_buffer, vb);
+>>>   
+>>> -		q->bufs[vb->index] = vb;
+>>> +		if (!vb2_queue_add_buffer(q, vb, q->num_buffers + buffer)) {
+>>> +			dprintk(q, 1, "failed adding buffer %d to queue\n", buffer);
+>>> +			kfree(vb);
+>>> +			break;
+>>> +		}
+>>>   
+>>>   		/* Allocate video buffer memory for the MMAP type */
+>>>   		if (memory == VB2_MEMORY_MMAP) {
+>>> @@ -445,7 +486,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>>   			if (ret) {
+>>>   				dprintk(q, 1, "failed allocating memory for buffer %d\n",
+>>>   					buffer);
+>>> -				q->bufs[vb->index] = NULL;
+>>> +				vb2_queue_remove_buffer(q, vb);
+>>>   				kfree(vb);
+>>>   				break;
+>>>   			}
+>>> @@ -460,7 +501,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>>   				dprintk(q, 1, "buffer %d %p initialization failed\n",
+>>>   					buffer, vb);
+>>>   				__vb2_buf_mem_free(vb);
+>>> -				q->bufs[vb->index] = NULL;
+>>> +				vb2_queue_remove_buffer(q, vb);
+>>>   				kfree(vb);
+>>>   				break;
+>>>   			}
+>>> @@ -483,7 +524,7 @@ static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
+>>>   
+>>>   	for (buffer = q->num_buffers - buffers; buffer < q->num_buffers;
+>>>   	     ++buffer) {
+>>> -		vb = q->bufs[buffer];
+>>> +		vb = vb2_get_buffer(q, buffer);
+>>>   		if (!vb)
+>>>   			continue;
+>>>   
+>>> @@ -511,7 +552,7 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>>>   	/* Call driver-provided cleanup function for each buffer, if provided */
+>>>   	for (buffer = q->num_buffers - buffers; buffer < q->num_buffers;
+>>>   	     ++buffer) {
+>>> -		struct vb2_buffer *vb = q->bufs[buffer];
+>>> +		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
+>>>   
+>>>   		if (vb && vb->planes[0].mem_priv)
+>>>   			call_void_vb_qop(vb, buf_cleanup, vb);
+>>> @@ -551,15 +592,20 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>>>   		q->cnt_unprepare_streaming = 0;
+>>>   	}
+>>>   	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
+>>> -		struct vb2_buffer *vb = q->bufs[buffer];
+>>> -		bool unbalanced = vb->cnt_mem_alloc != vb->cnt_mem_put ||
+>>> -				  vb->cnt_mem_prepare != vb->cnt_mem_finish ||
+>>> -				  vb->cnt_mem_get_userptr != vb->cnt_mem_put_userptr ||
+>>> -				  vb->cnt_mem_attach_dmabuf != vb->cnt_mem_detach_dmabuf ||
+>>> -				  vb->cnt_mem_map_dmabuf != vb->cnt_mem_unmap_dmabuf ||
+>>> -				  vb->cnt_buf_queue != vb->cnt_buf_done ||
+>>> -				  vb->cnt_buf_prepare != vb->cnt_buf_finish ||
+>>> -				  vb->cnt_buf_init != vb->cnt_buf_cleanup;
+>>> +		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
+>>> +		bool unbalanced;
+>>> +
+>>> +		if (!vb)
+>>> +			continue;
+>>> +
+>>> +		unbalanced = vb->cnt_mem_alloc != vb->cnt_mem_put ||
+>>> +			     vb->cnt_mem_prepare != vb->cnt_mem_finish ||
+>>> +			     vb->cnt_mem_get_userptr != vb->cnt_mem_put_userptr ||
+>>> +			     vb->cnt_mem_attach_dmabuf != vb->cnt_mem_detach_dmabuf ||
+>>> +			     vb->cnt_mem_map_dmabuf != vb->cnt_mem_unmap_dmabuf ||
+>>> +			     vb->cnt_buf_queue != vb->cnt_buf_done ||
+>>> +			     vb->cnt_buf_prepare != vb->cnt_buf_finish ||
+>>> +			     vb->cnt_buf_init != vb->cnt_buf_cleanup;
+>>>   
+>>>   		if (unbalanced || debug) {
+>>>   			pr_info("   counters for queue %p, buffer %d:%s\n",
+>>> @@ -591,8 +637,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>>>   	/* Free vb2 buffers */
+>>>   	for (buffer = q->num_buffers - buffers; buffer < q->num_buffers;
+>>>   	     ++buffer) {
+>>> -		kfree(q->bufs[buffer]);
+>>> -		q->bufs[buffer] = NULL;
+>>> +		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
+>>> +
+>>> +		if (!vb)
+>>> +			continue;
+>>> +
+>>> +		vb2_queue_remove_buffer(q, vb);
+>>> +		kfree(vb);
+>>>   	}
+>>>   
+>>>   	q->num_buffers -= buffers;
+>>> @@ -628,7 +679,12 @@ static bool __buffers_in_use(struct vb2_queue *q)
+>>>   {
+>>>   	unsigned int buffer;
+>>>   	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
+>>> -		if (vb2_buffer_in_use(q, q->bufs[buffer]))
+>>> +		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
+>>> +
+>>> +		if (!vb)
+>>> +			continue;
+>>> +
+>>> +		if (vb2_buffer_in_use(q, vb))
+>>>   			return true;
+>>>   	}
+>>>   	return false;
+>>> @@ -636,7 +692,10 @@ static bool __buffers_in_use(struct vb2_queue *q)
+>>>   
+>>>   void vb2_core_querybuf(struct vb2_queue *q, unsigned int index, void *pb)
+>>>   {
+>>> -	call_void_bufop(q, fill_user_buffer, q->bufs[index], pb);
+>>> +	struct vb2_buffer *vb = vb2_get_buffer(q, index);
+>>> +
+>>> +	if (vb)
+>>> +		call_void_bufop(q, fill_user_buffer, vb, pb);
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(vb2_core_querybuf);
+>>>   
+>>> @@ -1547,7 +1606,13 @@ int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
+>>>   	struct vb2_buffer *vb;
+>>>   	int ret;
+>>>   
+>>> -	vb = q->bufs[index];
+>>> +	vb = vb2_get_buffer(q, index);
+>>> +
+>>> +	if (!vb) {
+>>> +		dprintk(q, 1, "can't find the requested buffer\n");
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>>   	if (vb->state != VB2_BUF_STATE_DEQUEUED) {
+>>>   		dprintk(q, 1, "invalid buffer state %s\n",
+>>>   			vb2_state_name(vb->state));
+>>> @@ -1618,7 +1683,11 @@ static int vb2_start_streaming(struct vb2_queue *q)
+>>>   		 * correctly return them to vb2.
+>>>   		 */
+>>>   		for (i = 0; i < q->num_buffers; ++i) {
+>>> -			vb = q->bufs[i];
+>>> +			vb = vb2_get_buffer(q, i);
+>>> +
+>>> +			if (!vb)
+>>> +				continue;
+>>> +
+>>>   			if (vb->state == VB2_BUF_STATE_ACTIVE)
+>>>   				vb2_buffer_done(vb, VB2_BUF_STATE_QUEUED);
+>>>   		}
+>>> @@ -1646,7 +1715,12 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+>>>   		return -EIO;
+>>>   	}
+>>>   
+>>> -	vb = q->bufs[index];
+>>> +	vb = vb2_get_buffer(q, index);
+>>> +
+>>> +	if (!vb) {
+>>> +		dprintk(q, 1, "can't find the requested buffer\n");
+>>> +		return -EINVAL;
+>>> +	}
+>>>   
+>>>   	if (!req && vb->state != VB2_BUF_STATE_IN_REQUEST &&
+>>>   	    q->requires_requests) {
+>>> @@ -2022,12 +2096,18 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
+>>>   	 * to vb2 in stop_streaming().
+>>>   	 */
+>>>   	if (WARN_ON(atomic_read(&q->owned_by_drv_count))) {
+>>> -		for (i = 0; i < q->num_buffers; ++i)
+>>> -			if (q->bufs[i]->state == VB2_BUF_STATE_ACTIVE) {
+>>> +		for (i = 0; i < q->num_buffers; ++i) {
+>>> +			struct vb2_buffer *vb = vb2_get_buffer(q, i);
+>>> +
+>>> +			if (!vb)
+>>> +				continue;
+>>> +
+>>> +			if (vb->state == VB2_BUF_STATE_ACTIVE) {
+>>>   				pr_warn("driver bug: stop_streaming operation is leaving buf %p in active state\n",
+>>> -					q->bufs[i]);
+>>> -				vb2_buffer_done(q->bufs[i], VB2_BUF_STATE_ERROR);
+>>> +					vb);
+>>> +				vb2_buffer_done(vb, VB2_BUF_STATE_ERROR);
+>>>   			}
+>>> +		}
+>>>   		/* Must be zero now */
+>>>   		WARN_ON(atomic_read(&q->owned_by_drv_count));
+>>>   	}
+>>> @@ -2061,9 +2141,14 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
+>>>   	 * be changed, so we can't move the buf_finish() to __vb2_dqbuf().
+>>>   	 */
+>>>   	for (i = 0; i < q->num_buffers; ++i) {
+>>> -		struct vb2_buffer *vb = q->bufs[i];
+>>> -		struct media_request *req = vb->req_obj.req;
+>>> +		struct vb2_buffer *vb;
+>>> +		struct media_request *req;
+>>>   
+>>> +		vb = vb2_get_buffer(q, i);
+>>> +		if (!vb)
+>>> +			continue;
+>>> +
+>>> +		req = vb->req_obj.req;
+>>>   		/*
+>>>   		 * If a request is associated with this buffer, then
+>>>   		 * call buf_request_cancel() to give the driver to complete()
+>>> @@ -2215,7 +2300,10 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+>>>   	 * return its buffer and plane numbers.
+>>>   	 */
+>>>   	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
+>>> -		vb = q->bufs[buffer];
+>>> +		vb = vb2_get_buffer(q, buffer);
+>>> +
+>>> +		if (!vb)
+>>> +			continue;
+>>>   
+>>>   		for (plane = 0; plane < vb->num_planes; ++plane) {
+>>>   			if (vb->planes[plane].m.offset == off) {
+>>> @@ -2262,7 +2350,12 @@ int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+>>>   		return -EINVAL;
+>>>   	}
+>>>   
+>>> -	vb = q->bufs[index];
+>>> +	vb = vb2_get_buffer(q, index);
+>>> +
+>>> +	if (!vb) {
+>>> +		dprintk(q, 1, "can't find the requested buffer\n");
+>>> +		return -EINVAL;
+>>> +	}
+>>>   
+>>>   	if (plane >= vb->num_planes) {
+>>>   		dprintk(q, 1, "buffer plane out of range\n");
+>>> @@ -2339,7 +2432,13 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+>>>   	if (ret)
+>>>   		goto unlock;
+>>>   
+>>> -	vb = q->bufs[buffer];
+>>> +	vb = vb2_get_buffer(q, buffer);
+>>> +
+>>> +	if (!vb) {
+>>> +		dprintk(q, 1, "can't find the requested buffer\n");
+>>> +		ret = -EINVAL;
+>>> +		goto unlock;
+>>> +	}
+>>>   
+>>>   	/*
+>>>   	 * MMAP requires page_aligned buffers.
+>>> @@ -2396,7 +2495,12 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+>>>   	if (ret)
+>>>   		goto unlock;
+>>>   
+>>> -	vb = q->bufs[buffer];
+>>> +	vb = vb2_get_buffer(q, buffer);
+>>> +	if (!vb) {
+>>> +		dprintk(q, 1, "can't find the requested buffer\n");
+>>> +		ret = -EINVAL;
+>>> +		goto unlock;
+>>> +	}
+>>>   
+>>>   	vaddr = vb2_plane_vaddr(vb, plane);
+>>>   	mutex_unlock(&q->mmap_lock);
+>>> @@ -2625,6 +2729,7 @@ struct vb2_fileio_data {
+>>>   static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>>   {
+>>>   	struct vb2_fileio_data *fileio;
+>>> +	struct vb2_buffer *vb;
+>>>   	int i, ret;
+>>>   	unsigned int count = 0;
+>>>   
+>>> @@ -2679,7 +2784,13 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>>   	 * Check if plane_count is correct
+>>>   	 * (multiplane buffers are not supported).
+>>>   	 */
+>>> -	if (q->bufs[0]->num_planes != 1) {
+>>> +	vb = vb2_get_buffer(q, 0);
+>>> +	if (!vb) {
+>>> +		ret = -EBUSY;
+>>> +		goto err_reqbufs;
+>>> +	}
+>>> +
+>>> +	if (vb->num_planes != 1) {
+>>>   		ret = -EBUSY;
+>>>   		goto err_reqbufs;
+>>>   	}
+>>> @@ -2688,12 +2799,17 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>>   	 * Get kernel address of each buffer.
+>>>   	 */
+>>>   	for (i = 0; i < q->num_buffers; i++) {
+>>> -		fileio->bufs[i].vaddr = vb2_plane_vaddr(q->bufs[i], 0);
+>>> +		vb = vb2_get_buffer(q, i);
+>>> +
+>>> +		if (!vb)
+>>> +			continue;
+>>> +
+>>> +		fileio->bufs[i].vaddr = vb2_plane_vaddr(vb, 0);
+>>>   		if (fileio->bufs[i].vaddr == NULL) {
+>>>   			ret = -EINVAL;
+>>>   			goto err_reqbufs;
+>>>   		}
+>>> -		fileio->bufs[i].size = vb2_plane_size(q->bufs[i], 0);
+>>> +		fileio->bufs[i].size = vb2_plane_size(vb, 0);
+>>>   	}
+>>>   
+>>>   	/*
+>>> @@ -2821,15 +2937,18 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+>>>   
+>>>   		fileio->cur_index = index;
+>>>   		buf = &fileio->bufs[index];
+>>> -		b = q->bufs[index];
+>>> +		b = vb2_get_buffer(q, index);
+>>> +
+>>> +		if (!b)
+>>> +			return -EINVAL;
+>>>   
+>>>   		/*
+>>>   		 * Get number of bytes filled by the driver
+>>>   		 */
+>>>   		buf->pos = 0;
+>>>   		buf->queued = 0;
+>>> -		buf->size = read ? vb2_get_plane_payload(q->bufs[index], 0)
+>>> -				 : vb2_plane_size(q->bufs[index], 0);
+>>> +		buf->size = read ? vb2_get_plane_payload(b, 0)
+>>> +				 : vb2_plane_size(b, 0);
+>>>   		/* Compensate for data_offset on read in the multiplanar case. */
+>>>   		if (is_multiplanar && read &&
+>>>   				b->planes[0].data_offset < buf->size) {
+>>> @@ -2872,8 +2991,12 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+>>>   	 * Queue next buffer if required.
+>>>   	 */
+>>>   	if (buf->pos == buf->size || (!read && fileio->write_immediately)) {
+>>> -		struct vb2_buffer *b = q->bufs[index];
+>>> +		struct vb2_buffer *b = vb2_get_buffer(q, index);
+>>>   
+>>> +		if (!b) {
+>>> +			dprintk(q, 1, "can't find the requested buffer\n");
+>>> +			return -EINVAL;
+>>> +		}
+>>>   		/*
+>>>   		 * Check if this is the last buffer to read.
+>>>   		 */
+>>> @@ -2899,7 +3022,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+>>>   		 */
+>>>   		buf->pos = 0;
+>>>   		buf->queued = 1;
+>>> -		buf->size = vb2_plane_size(q->bufs[index], 0);
+>>> +		buf->size = vb2_plane_size(b, 0);
+>>>   		fileio->q_count += 1;
+>>>   		/*
+>>>   		 * If we are queuing up buffers for the first time, then
+>>> @@ -2970,7 +3093,9 @@ static int vb2_thread(void *data)
+>>>   		 * Call vb2_dqbuf to get buffer back.
+>>>   		 */
+>>>   		if (prequeue) {
+>>> -			vb = q->bufs[index++];
+>>> +			vb = vb2_get_buffer(q, index++);
+>>> +			if (!vb)
+>>> +				continue;
+>>>   			prequeue--;
+>>>   		} else {
+>>>   			call_void_qop(q, wait_finish, q);
+>>> @@ -2979,7 +3104,7 @@ static int vb2_thread(void *data)
+>>>   			call_void_qop(q, wait_prepare, q);
+>>>   			dprintk(q, 5, "file io: vb2_dqbuf result: %d\n", ret);
+>>>   			if (!ret)
+>>> -				vb = q->bufs[index];
+>>> +				vb = vb2_get_buffer(q, index);
+>>>   		}
+>>>   		if (ret || threadio->stop)
+>>>   			break;
+>>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> index c7a54d82a55e..724135d41f7f 100644
+>>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> @@ -383,8 +383,7 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+>>>   		return -EINVAL;
+>>>   	}
+>>>   
+>>> -	if (q->bufs[b->index] == NULL) {
+>>> -		/* Should never happen */
+>>> +	if (!vb2_get_buffer(q, b->index)) {
+>>>   		dprintk(q, 1, "%s: buffer is NULL\n", opname);
+>>>   		return -EINVAL;
+>>>   	}
+>>> @@ -394,7 +393,7 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+>>>   		return -EINVAL;
+>>>   	}
+>>>   
+>>> -	vb = q->bufs[b->index];
+>>> +	vb = vb2_get_buffer(q, b->index);
+>>>   	vbuf = to_vb2_v4l2_buffer(vb);
+>>>   	ret = __verify_planes_array(vb, b);
+>>>   	if (ret)
+>>> @@ -628,11 +627,18 @@ static const struct vb2_buf_ops v4l2_buf_ops = {
+>>>   struct vb2_buffer *vb2_find_buffer(struct vb2_queue *q, u64 timestamp)
+>>>   {
+>>>   	unsigned int i;
+>>> +	struct vb2_buffer *vb2;
+>>>   
+>>> -	for (i = 0; i < q->num_buffers; i++)
+>>> -		if (q->bufs[i]->copied_timestamp &&
+>>> -		    q->bufs[i]->timestamp == timestamp)
+>>> -			return vb2_get_buffer(q, i);
+>>> +	for (i = 0; i < q->num_buffers; i++) {
+>>> +		vb2 = vb2_get_buffer(q, i);
+>>> +
+>>> +		if (!vb2)
+>>> +			continue;
+>>> +
+>>> +		if (vb2->copied_timestamp &&
+>>> +		    vb2->timestamp == timestamp)
+>>> +			return vb2;
+>>> +	}
+>>>   	return NULL;
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(vb2_find_buffer);
+>>> @@ -664,7 +670,13 @@ int vb2_querybuf(struct vb2_queue *q, struct v4l2_buffer *b)
+>>>   		dprintk(q, 1, "buffer index out of range\n");
+>>>   		return -EINVAL;
+>>>   	}
+>>> -	vb = q->bufs[b->index];
+>>> +	vb = vb2_get_buffer(q, b->index);
+>>> +
+>>> +	if (!vb) {
+>>> +		dprintk(q, 1, "can't find the requested buffer\n");
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>>   	ret = __verify_planes_array(vb, b);
+>>>   	if (!ret)
+>>>   		vb2_core_querybuf(q, b->index, b);
+>>> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
+>>> index 44b830ae01d8..e2c371c2fde5 100644
+>>> --- a/drivers/media/platform/amphion/vpu_dbg.c
+>>> +++ b/drivers/media/platform/amphion/vpu_dbg.c
+>>> @@ -133,11 +133,18 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+>>>   
+>>>   	vq = v4l2_m2m_get_src_vq(inst->fh.m2m_ctx);
+>>>   	for (i = 0; i < vq->num_buffers; i++) {
+>>> -		struct vb2_buffer *vb = vq->bufs[i];
+>>> -		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>>> +		struct vb2_buffer *vb;
+>>> +		struct vb2_v4l2_buffer *vbuf;
+>>> +
+>>> +		vb = vb2_get_buffer(vq, i);
+>>> +		if (!vb)
+>>> +			continue;
+>>>   
+>>>   		if (vb->state == VB2_BUF_STATE_DEQUEUED)
+>>>   			continue;
+>>> +
+>>> +		vbuf = to_vb2_v4l2_buffer(vb);
+>>> +
+>>>   		num = scnprintf(str, sizeof(str),
+>>>   				"output [%2d] state = %10s, %8s\n",
+>>>   				i, vb2_stat_name[vb->state],
+>>> @@ -148,11 +155,18 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+>>>   
+>>>   	vq = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
+>>>   	for (i = 0; i < vq->num_buffers; i++) {
+>>> -		struct vb2_buffer *vb = vq->bufs[i];
+>>> -		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>>> +		struct vb2_buffer *vb;
+>>> +		struct vb2_v4l2_buffer *vbuf;
+>>> +
+>>> +		vb = vb2_get_buffer(vq, i);
+>>> +		if (!vb)
+>>> +			continue;
+>>>   
+>>>   		if (vb->state == VB2_BUF_STATE_DEQUEUED)
+>>>   			continue;
+>>> +
+>>> +		vbuf = to_vb2_v4l2_buffer(vb);
+>>> +
+>>>   		num = scnprintf(str, sizeof(str),
+>>>   				"capture[%2d] state = %10s, %8s\n",
+>>>   				i, vb2_stat_name[vb->state],
+>>> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>>> index 0051f372a66c..ea37069ba355 100644
+>>> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>>> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>>> @@ -603,7 +603,11 @@ static int mtk_jpeg_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
+>>>   		return -EINVAL;
+>>>   	}
+>>>   
+>>> -	vb = vq->bufs[buf->index];
+>>> +	vb = vb2_get_buffer(vq, buf->index);
+>>> +	if (!vb) {
+>>> +		dev_err(ctx->jpeg->dev, "buffer not found\n");
+>>> +		return -EINVAL;
+>>> +	}
+>>>   	jpeg_src_buf = mtk_jpeg_vb2_to_srcbuf(vb);
+>>>   	jpeg_src_buf->bs_size = buf->m.planes[0].bytesused;
+>>>   
+>>> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+>>> index cf16cf2807f0..6532a69f1fa8 100644
+>>> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+>>> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+>>> @@ -1701,7 +1701,7 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
+>>>   
+>>>   	/* update internal buffer's width/height */
+>>>   	for (i = 0; i < vq->num_buffers; i++) {
+>>> -		if (vb == vq->bufs[i]) {
+>>> +		if (vb == vb2_get_buffer(vq, i)) {
+>>>   			instance->dpb[i].width = w;
+>>>   			instance->dpb[i].height = h;
+>>>   			break;
+>>> diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+>>> index 3a848ca32a0e..326be09bdb55 100644
+>>> --- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
+>>> +++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+>>> @@ -577,6 +577,10 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
+>>>   		}
+>>>   
+>>>   		vb2_buf = vb2_get_buffer(vq, buf->index);
+>>> +		if (!vb2_buf) {
+>>> +			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
+>>> +			return -EINVAL;
+>>> +		}
+>>>   		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
+>>>   		stream->bytesused = buf->bytesused;
+>>>   	}
+>>> diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
+>>> index 318d675e5668..ba20ea998d19 100644
+>>> --- a/drivers/media/test-drivers/visl/visl-dec.c
+>>> +++ b/drivers/media/test-drivers/visl/visl-dec.c
+>>> @@ -290,13 +290,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+>>>   	for (i = 0; i < out_q->num_buffers; i++) {
+>>>   		char entry[] = "index: %u, state: %s, request_fd: %d, ";
+>>>   		u32 old_len = len;
+>>> -		char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
+>>> +		struct vb2_buffer *vb2;
+>>> +		char *q_status;
+>>> +
+>>> +		vb2 = vb2_get_buffer(out_q, i);
+>>> +		if (!vb2)
+>>> +			continue;
+>>> +
+>>> +		q_status = visl_get_vb2_state(vb2->state);
+>>>   
+>>>   		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+>>>   				 entry, i, q_status,
+>>> -				 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
+>>> +				 to_vb2_v4l2_buffer(vb2)->request_fd);
+>>>   
+>>> -		len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
+>>> +		len += visl_fill_bytesused(to_vb2_v4l2_buffer(vb2),
+>>>   					   &buf[len],
+>>>   					   TPG_STR_BUF_SZ - len);
+>>>   
+>>> @@ -342,13 +349,20 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+>>>   	len = 0;
+>>>   	for (i = 0; i < cap_q->num_buffers; i++) {
+>>>   		u32 old_len = len;
+>>> -		char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
+>>> +		struct vb2_buffer *vb2;
+>>> +		char *q_status;
+>>> +
+>>> +		vb2 = vb2_get_buffer(cap_q, i);
+>>> +		if (!vb2)
+>>> +			continue;
+>>> +
+>>> +		q_status = visl_get_vb2_state(vb2->state);
+>>>   
+>>>   		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+>>>   				 "index: %u, status: %s, timestamp: %llu, is_held: %d",
+>>> -				 cap_q->bufs[i]->index, q_status,
+>>> -				 cap_q->bufs[i]->timestamp,
+>>> -				 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
+>>> +				 vb2->index, q_status,
+>>> +				 vb2->timestamp,
+>>> +				 to_vb2_v4l2_buffer(vb2)->is_held);
+>>>   
+>>>   		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+>>>   		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+>>> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+>>> index 384f31fc66c5..8df301ab41ad 100644
+>>> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+>>> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+>>> @@ -1077,7 +1077,7 @@ static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
+>>>   	if (ret)
+>>>   		return ret;
+>>>   
+>>> -	vb = pipe->vb_queue.bufs[buf->index];
+>>> +	vb = vb2_get_buffer(&pipe->vb_queue, buf->index);
+>>>   	frame = vb_to_frame(vb);
+>>>   
+>>>   	buf->reserved = asd->frame_status[buf->index];
+>
