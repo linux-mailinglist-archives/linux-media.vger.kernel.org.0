@@ -2,190 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2DA0784B62
-	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 22:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C56E784BBF
+	for <lists+linux-media@lfdr.de>; Tue, 22 Aug 2023 23:01:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbjHVUbt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Aug 2023 16:31:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56504 "EHLO
+        id S230285AbjHVVBV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Aug 2023 17:01:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbjHVUbt (ORCPT
+        with ESMTP id S229929AbjHVVBU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Aug 2023 16:31:49 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D76D6CC;
-        Tue, 22 Aug 2023 13:31:46 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 36822660720C;
-        Tue, 22 Aug 2023 21:31:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1692736305;
-        bh=eFMQNZGba+uOQx+8IPFzb+FmChWNc51CVLN7MDsgj2s=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=oV8jlNxBSYhMNHRzZ8i6SE3aIKhvNdUmeiRHo+blnu2JeM+x5IOtEYCrmcit7YTXs
-         ljo0intT/hrpvmFNcw2YZP6+czl703Ta9K4j3Uq2J3fUdZeGxC1DWMmmmHYVF0ueG6
-         GsKcMLcfmAoYXFWnzb3MfdwsDKs7jUpEx77HOM1DU/TNYXYggdx5yS8tx+Km+2s+E/
-         Ml8lHuXz6PrMa0GOZv7zizqGMZFxTZjAeW6jvkzmNjarutMBW3EfaWQ+SPT6cyXPH7
-         b7Q0ATedmp3sjUZF6JldwIoBBaTmGKxY4kCJEAOwEv2rmXoQR5E6GC2C1Khz9cvUYa
-         YYBuIIzSX/mdA==
-Message-ID: <a0fa6559c3933a5a4c8b7502282adae3429e0b57.camel@collabora.com>
-Subject: Re: Stateless Encoding uAPI Discussion and Proposal
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Date:   Tue, 22 Aug 2023 16:31:34 -0400
-In-Reply-To: <39270c5e-24ab-8ff6-d925-7718b1fef3c4@synaptics.com>
-References: <ZK2NiQd1KnraAr20@aptenodytes> <ZNTp1e4gJ2zeYmS-@aptenodytes>
-         <a2e8e01ea754232dd3562b34702b6600d7358605.camel@collabora.com>
-         <ZNaVQ-zxIuCpGGha@aptenodytes>
-         <720c476189552596cbd61dd74d6fa12818718036.camel@collabora.com>
-         <39270c5e-24ab-8ff6-d925-7718b1fef3c4@synaptics.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Tue, 22 Aug 2023 17:01:20 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF681B0;
+        Tue, 22 Aug 2023 14:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=A8/vJDmnxqneK9l/E7LtDD+PprhiMBOzpHX1desAXDs=; b=aBdwc+wnbyM/Fbk0LQyrKzXMtO
+        6tDJZHqjzVKT0VdJP9YIltqPeMY4fECpuun6hwyMP1yi2Q3ShUFBfCgaEZEmhjhU1vZQ+mKRD6WWh
+        Qh1OBEcVDn84gf7XQQ9iwYkn94NTL2sXtPaxk9+LyNW1M81F5gHgN019Xdzz5GbB0kL2snueS6rtG
+        7/W8oWx9DdTlJmmlAZNccAfQaT+SbimsKC0M8WSGi5PM8GXnKLqmWsd0lTygMcB7RjnQbO7xmdLeZ
+        oLNduG1TEBMXPmfxLvWqQbbRjwofYF2BXbx6uZQWAD8xNUd9kGEHW06ABDwOAf4dVWs63GJDrLjuo
+        EAzE937g==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qYYV3-00GnT7-0l;
+        Tue, 22 Aug 2023 21:01:17 +0000
+Message-ID: <1812e39f-ddbc-d655-5d04-0a13d04437ab@infradead.org>
+Date:   Tue, 22 Aug 2023 14:01:16 -0700
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH 1/1] media: via: Use correct dependency for camera sensor
+ drivers
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-next@vger.kernel.org, Wentong Wu <wentong.wu@intel.com>,
+        Zhifeng Wang <zhifeng.wang@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20230822081034.3869843-1-sakari.ailus@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230822081034.3869843-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
->=20
 
-[...]
 
-> > In cable streaming notably, the RC job is to monitor the about of bits =
-over a
-> > period of time (the window). This window is defined by the streaming ha=
-rdware
-> > buffering capabilities. Best at this point is to start reading through =
-HRD
-> > specifications, and open source rate control implementation (notably x2=
-64).
-> >=20
-> > I think overall, we can live with adding hints were needed, and if the =
-gop
-> > information is appropriate hint, then we can just reuse the existing co=
-ntrol.
-> >=20
-> Why we still care about GOP here. Hardware have no idea about GOP at=20
-> all. Although in codec likes HEVC, IDR and intra pictures's nalu header=
-=20
-> is different, there is not different in the hardware coding=20
-> configration. NALU header is generated by the userspace usually.
->=20
-> While future encoding would regard the current encoded picture as an IDR=
-=20
-> is completed decided by the userspace.
+On 8/22/23 01:10, Sakari Ailus wrote:
+> The via camera controller driver selected ov7670 driver, however now that
+> driver has dependencies and may no longer be selected unconditionally.
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Fixes: 7d3c7d2a2914 ("media: i2c: Add a camera sensor top level menu")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-The discussion was around having basic RC algorithm in the kernel driver,
-possibly making use of hardware specific features without actually exposing=
- it
-all to userspace. So assuming we do that:
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-Paul's concern is that for best result, an RC algorithm could use knowledge=
- of
-keyframe placement to preserve bucket space (possibly using the last keyfra=
-me
-size as a hint). Exposing the GOP structure in some form allow "prediction"=
-, so
-the adaption can lookahead future budget without introducing latency. There=
- is
-an alternative, which is to require ahead of time queuing of encode request=
-s.
-But this does introduce latency since the way it works in V4L2 today, we ne=
-ed
-the picture to be filled by the time we request an encode.
+Thanks.
 
-Though, if we drop the GOP structure and favour this approach, the latency =
-could
-be regain later by introducing fence base streaming. The technique would be=
- for
-a video source (like a capture driver) to pass dmabuf that aren't filled ye=
-t,
-but have a companion fence. This would allow queuing requests ahead of time=
-, and
-all we need is enough pre-allocation to accommodate the desired look ahead.=
- Only
-issue is that perhaps this violates the fundamental of "short term" deliver=
-y of
-fences. But fences can also fail I think, in case the capture was stopped.
+> ---
+>  drivers/media/platform/via/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/via/Kconfig b/drivers/media/platform/via/Kconfig
+> index 8926eb0803b2..6e603c038248 100644
+> --- a/drivers/media/platform/via/Kconfig
+> +++ b/drivers/media/platform/via/Kconfig
+> @@ -7,7 +7,7 @@ config VIDEO_VIA_CAMERA
+>  	depends on V4L_PLATFORM_DRIVERS
+>  	depends on FB_VIA && VIDEO_DEV
+>  	select VIDEOBUF2_DMA_SG
+> -	select VIDEO_OV7670
+> +	select VIDEO_OV7670 if VIDEO_CAMERA_SENSOR
+>  	help
+>  	   Driver support for the integrated camera controller in VIA
+>  	   Chrome9 chipsets.  Currently only tested on OLPC xo-1.5 systems
 
-We can certainly move forward with this as a future solution, or just don't
-implement future aware RC algorithm in term to avoid the huge task this inv=
-olves
-(and possibly patents?)
-
-[...]
-> >=20
-
-> > Of course, the subject is much more relevant when there is encoders wit=
-h more
-> > then 1 reference. But you are correct, what the commands do, is allow t=
-o change,
-> > add or remove any reference from the list (random modification), as lon=
-g as they
-> > fit in the codec contraints (like the DPB size notably). This is the on=
-ly way
-> > one can implement temporal SVC reference pattern, robust reference tree=
-s or RTP
-> > RPSI. Note that long term reference also exists, and are less complex t=
-hen these
-> > commands.
-> >=20
->=20
-> If we the userspace could manage the lifetime of reconstruction=20
-> buffers(assignment, reference), we don't need a command here.
-
-Sorry if I created confusion, the comments was something specific to H.264
-coding. Its a compressed form for the reference lists. This information is =
-coded
-in the slice header and enabled through adaptive_ref_pic_marking_mode_flag
-
-It was suggested so far to leave h264 slice headers writing to the driver. =
-This
-is motivated by H264 slice header not being byte aligned in size, so the
-slice_data() is hard to combine. Also, some hardware actually produce the
-slice_header. This needs actual hardware interface analyses, cause an H.264
-slice header is worth nothing if it cannot instruct the decoder how to main=
-tain
-the desired reference state.
-
-I think this aspect should probably not be generalized to all CODECs, since=
- the
-packing semantic can largely differ. When the codec header is indeed byte
-aligned, it can easily be seperate and combined by application, improve the
-application flexibility, reducing the kernel API complexity.
->=20
-> It is just a problem of how to design another request API control=20
-> structure to select which buffers would be used for list0, list1.
-> > I this raises a big question, and I never checked how this worked with =
-let's say
-> > VA. Shall we let the driver resolve the changes into commands (VP8 have
-> > something similar, while VP9 and AV1 are refresh flags, which are just =
-trivial
-> > to compute). I believe I'll have to investigate this further.
-> >=20
-> > > >=20
-> > [...]
-
-regards,
-Nicolas
+-- 
+~Randy
