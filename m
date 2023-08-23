@@ -2,65 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA040785584
-	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 12:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B26C78559D
+	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 12:44:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233913AbjHWKgU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Aug 2023 06:36:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53258 "EHLO
+        id S233961AbjHWKoy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Aug 2023 06:44:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233855AbjHWKgJ (ORCPT
+        with ESMTP id S230518AbjHWKox (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Aug 2023 06:36:09 -0400
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E51ECC
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:36:06 -0700 (PDT)
-Received: by mail-vk1-xa30.google.com with SMTP id 71dfb90a1353d-48d2c072030so1759626e0c.0
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:36:06 -0700 (PDT)
+        Wed, 23 Aug 2023 06:44:53 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AB4CD5
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:44:50 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-31ad779e6b3so4567209f8f.2
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1692786965; x=1693391765;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6d+7f3MnJT1yn57ZjNVL+PHY0cFyx7NfZeSH/jRGoDY=;
-        b=fmY9pyT+WOn3SNmKu1cRoTcrzjrCDcBY7dJnZydeMEYc2bdUWNISSvwHqFWmjEDlKn
-         hv5dloATqiMrrtCw+hBAFxI8JCNBuXOD2+0bS8Ba+aLwqjjg2GKaSiElhQEm62cOrGM1
-         5ejYRhGxWWD6ZQDTXrjMsahBiEpQzj/nlnZGCPmsaBUr80qqxMpr5TDtlnh7qvQ0neaH
-         RcpJDcjweZVlTz7fmKAeOq0jq1bQv3Svkl/mB/cl+GYMKnPIUVvSMM95/cwCcWhRsRQa
-         j/zzfcjVZhA0McYMQ0zre7VatD/P1sH33/pAEBK2acM7JjwpJszCnNYjedfZZDuLiilC
-         Izsg==
+        d=linaro.org; s=google; t=1692787489; x=1693392289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pw7uRDxDHWzanwFWC6cu/Ic6GDG9gB/18ZN2F+qUjNk=;
+        b=rcV88RdZlHz0sgmgYKGVveY5Y36LWBZYeTAwZJURHThzo1L+grwdQyxTX+0+E3r/W4
+         8LYIB80xP93k3L6UI7F3mxc23P8mxXteumexyr0tjzNAav6mHzKCNghgyS5e9aM8cvtD
+         egLuHZvAyE9ZTur3POhtOKJYSYKYFe5PrtJyEt11pcOiV6gzUJuxnNVSgbqb8p1NfUlM
+         595NSCqh/iPKDspWSJPdoEbRVcRMt9Od7TyzHQQI/EXTZRCNqTFSITaAIx7iMuByqJfd
+         yda/IxLPtuGx3VCFv8B2L6DyDhmhCPd4Jk7cQWO3emdkjPjkJ2ILWNmjvyJKSMU7SKx9
+         iEqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692786965; x=1693391765;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1692787489; x=1693392289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6d+7f3MnJT1yn57ZjNVL+PHY0cFyx7NfZeSH/jRGoDY=;
-        b=anfc0RdVas0b7wAe3YXBQAViJW/r4ZnG4O1JjOGWwSqc9OZyRyvPNB+9dEKmpmbPI0
-         bhOJ+ERcVvz3kF50XmuLgURMuPOSrPolg7OXDXSKQhUzogozgYzFMGIVMR+nhJSg+qdq
-         6c4r58uUz0/D3ERgCH8haXZBXTpBgceVvNxQZ2AQ0tblMyQKoaahemqWvjSxL0uU6/C3
-         CKrek79g4T+taR7SDU5Jvq4p7rVOqGKNmNaIK0w4Qk7J4EVQhin+ppo7nIB1I5P9EgdS
-         j2Xy4C0ZLVVRGZSCR3r6/O2krINcXO/cewcBjhGVvHgTVQTDMhvBfT0g/KbwgOpaVMxz
-         0YPA==
-X-Gm-Message-State: AOJu0Yx7DbUXJxLDTV4LutogkcjnMnNNqg8F6D1ntMC79AOkWU6cZJxE
-        eS6VRtjrBvzj7zWxQMlw/9WOmCzjsYUssmALJO0ljg==
-X-Google-Smtp-Source: AGHT+IHIJxC3/wwNFE/CWuW8hhBnhxqY1LgekqgCn7qM++DbPbZmGq01HC+nuMnkWpxBnTtlVQWptOFmwGsm4b9xjj8=
-X-Received: by 2002:a1f:94c2:0:b0:48c:f9f0:5453 with SMTP id
- w185-20020a1f94c2000000b0048cf9f05453mr5845837vkd.0.1692786965473; Wed, 23
- Aug 2023 03:36:05 -0700 (PDT)
+        bh=Pw7uRDxDHWzanwFWC6cu/Ic6GDG9gB/18ZN2F+qUjNk=;
+        b=TkZKT3kSydxcSDoDcVcHICK+VGNP6GQwc7LiwZcHDh7vRt3UfS2jZ3SlCKBPp2Psw+
+         JLuQBHMPBGPMvggf4EO3LqldbIcudMw1k6OcQ3ghjjnrHrmfO7oLo0CxLSQUP46CM37c
+         klzrRAHVurd9F4/eTFYBFlCueAUhRxYNQyGnZEFsFeBlyyQNi2tBgjdBmrb/r3uA5xYd
+         UyQpZl9q7WYr4Voclp4u3JkS2uwo+zXzds58h0Q4Wfc0YGfop95++Rgor0V6oXOEkAFv
+         pHys16iYNo46GorBfu9v1tT4DPYM5NnLYQFqiV4kR02U0bcK236XcSUcEnCfnmR9bDcJ
+         z2Jw==
+X-Gm-Message-State: AOJu0YwOKIJRlbzfjEtLmimWExc3mKKgh3RihmKCR1+LnH01jJN+n+21
+        bkmIP5865qmOAi7WHoj7oBoQ1Q==
+X-Google-Smtp-Source: AGHT+IFqTpZefIffB9EeZQeRT/4+kTT9Rs1VPpzDq+qAtmn5HLVcgmxta02JnzaOv1j2NOUqz9Unwg==
+X-Received: by 2002:adf:f6c7:0:b0:319:8a21:6f9a with SMTP id y7-20020adff6c7000000b003198a216f9amr9454920wrp.63.1692787489193;
+        Wed, 23 Aug 2023 03:44:49 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id n4-20020a5d4204000000b0031c5dda3aedsm6281213wrq.95.2023.08.23.03.44.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 03:44:48 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/15] media: qcom: camss: Add parameter passing to remove several outstanding bugs
+Date:   Wed, 23 Aug 2023 11:44:29 +0100
+Message-ID: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com>
- <20230821223001.28480-17-laurent.pinchart@ideasonboard.com>
- <CAPY8ntAmdkSKcGVdCURt-Zae-nQk9Ljwu0Gp28bx-Er6_Vq-AA@mail.gmail.com> <20230823090742.GE4143@pendragon.ideasonboard.com>
-In-Reply-To: <20230823090742.GE4143@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Wed, 23 Aug 2023 11:35:49 +0100
-Message-ID: <CAPY8ntBFkksVHa-p97HnwDAW=PARTXKY-rJUjOx5QnKOpMkyPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 16/18] media: i2c: imx219: Calculate crop rectangle dynamically
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -71,144 +73,108 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 23 Aug 2023 at 10:07, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Dave,
->
-> On Tue, Aug 22, 2023 at 07:15:21PM +0100, Dave Stevenson wrote:
-> > On Mon, 21 Aug 2023 at 23:30, Laurent Pinchart wrote:
-> > >
-> > > Calculate the crop rectangle size and location dynamically when setting
-> > > the format, instead of storing it in the imx219_mode structure. This
-> > > removes duplicated information from the mode, to guarantee consistency.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/i2c/imx219.c | 45 +++++++++++++-------------------------
-> > >  1 file changed, 15 insertions(+), 30 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > index 646d73d1e6a3..4140d9b78e4c 100644
-> > > --- a/drivers/media/i2c/imx219.c
-> > > +++ b/drivers/media/i2c/imx219.c
-> > > @@ -18,6 +18,7 @@
-> > >  #include <linux/delay.h>
-> > >  #include <linux/gpio/consumer.h>
-> > >  #include <linux/i2c.h>
-> > > +#include <linux/minmax.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/pm_runtime.h>
-> > >  #include <linux/regulator/consumer.h>
-> > > @@ -152,9 +153,6 @@ struct imx219_mode {
-> > >         /* Frame height */
-> > >         unsigned int height;
-> > >
-> > > -       /* Analog crop rectangle. */
-> > > -       struct v4l2_rect crop;
-> > > -
-> > >         /* V-timing */
-> > >         unsigned int vts_def;
-> > >  };
-> > > @@ -292,48 +290,24 @@ static const struct imx219_mode supported_modes[] = {
-> > >                 /* 8MPix 15fps mode */
-> > >                 .width = 3280,
-> > >                 .height = 2464,
-> > > -               .crop = {
-> > > -                       .left = IMX219_PIXEL_ARRAY_LEFT,
-> > > -                       .top = IMX219_PIXEL_ARRAY_TOP,
-> > > -                       .width = 3280,
-> > > -                       .height = 2464
-> > > -               },
-> > >                 .vts_def = 3526,
-> > >         },
-> > >         {
-> > >                 /* 1080P 30fps cropped */
-> > >                 .width = 1920,
-> > >                 .height = 1080,
-> > > -               .crop = {
-> > > -                       .left = 688,
-> > > -                       .top = 700,
-> > > -                       .width = 1920,
-> > > -                       .height = 1080
-> > > -               },
-> > >                 .vts_def = 1763,
-> > >         },
-> > >         {
-> > >                 /* 2x2 binned 30fps mode */
-> > >                 .width = 1640,
-> > >                 .height = 1232,
-> > > -               .crop = {
-> > > -                       .left = IMX219_PIXEL_ARRAY_LEFT,
-> > > -                       .top = IMX219_PIXEL_ARRAY_TOP,
-> > > -                       .width = 3280,
-> > > -                       .height = 2464
-> > > -               },
-> > >                 .vts_def = 1763,
-> > >         },
-> > >         {
-> > >                 /* 640x480 30fps mode */
-> > >                 .width = 640,
-> > >                 .height = 480,
-> > > -               .crop = {
-> > > -                       .left = 1008,
-> > > -                       .top = 760,
-> > > -                       .width = 1280,
-> > > -                       .height = 960
-> > > -               },
-> > >                 .vts_def = 1763,
-> > >         },
-> > >  };
-> > > @@ -830,6 +804,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > >         int exposure_max, exposure_def, hblank;
-> > >         struct v4l2_mbus_framefmt *format;
-> > >         struct v4l2_rect *crop;
-> > > +       unsigned int bin;
-> > >
-> > >         mode = v4l2_find_nearest_size(supported_modes,
-> > >                                       ARRAY_SIZE(supported_modes),
-> > > @@ -839,10 +814,20 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > >         imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
-> > >
-> > >         format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
-> > > -       crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
-> > > -
-> > >         *format = fmt->format;
-> > > -       *crop = mode->crop;
-> > > +
-> > > +       /*
-> > > +        * Use binning to maximize the crop rectangle size, and centre it in the
-> > > +        * sensor. Bin by the same factor horizontally and vertically.
-> > > +        */
-> > > +       bin = min3(IMX219_PIXEL_ARRAY_WIDTH / format->width,
-> > > +                  IMX219_PIXEL_ARRAY_HEIGHT / format->height, 2U);
-> >
-> > If you're insisting that binning is by the same factor horizontally
-> > and vertically, why consider both in the min? Either only look at one,
-> > or we start looking at making H & V binning independent.
->
-> I was considering making them independent. It should be fairly easy. If
-> you're fine with that, I think that would be my preference.
+V3:
+- Adds RB/AB as indicated - Konrad
+- Replaces >= SDM845 with helper function per discussion - bod/Konrad
+- Leaves out constraining VFE clock names sizes. A full pass for resource strings will happen later. - bod
+- Clarifies commit log resulting in updated patch title also
+  "Add support for setting CSIPHY clock name csiphyX"
+  ->
+  "Fix support for setting CSIPHY clock name csiphyX"
+- Adds patch to remove dead integer return type in vfe_disable()
+- Adds patch to comment CSID dt_id meanining which I personally find non-obvious right now - bod
 
-I haven't tried this sensor with different binning settings between H
-& V, but have no issue with it being investigated.
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/09e7805a733b488c5dc19b301eb3b77cb0fad3d6
 
-It was the combination of stating that they must be the same but then
-considering both that seemed odd.
+V2:
+- Replaces &camss->res with pointer to res - Konrad
+- Squashes patch for NULL removal - Konrad
+- Left suggestion on ICC initialisation points alone, doesn't seem to fit Konrad/bod
 
-  Dave
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-08-07-db410c-rb3-camss-dts-v3+maintenance-bugfixes-v2
 
-> > > +
-> > > +       crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
-> > > +       crop->width = format->width * bin;
-> > > +       crop->height = format->height * bin;
-> > > +       crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
-> > > +       crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> > >
-> > >         if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > >                 /* Update limits and set FPS to default */
->
-> --
-> Regards,
->
-> Laurent Pinchart
+V1:
+- I forgot to include patch # 14 in V0 of this series.
+  This patch leverages previous changes to unwind the fixed polling of
+  RDI[0..2] allowing driver data to articulate on a per-VFE basis how many
+  RDIs to poll.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-08-07-db410c-rb3-camss-dts-v3+maintenance-bugfixes-v1
+
+V0:
+This second series of bugfixes stacks ontop of the Fixes series sent earlier.
+
+Link: https://lore.kernel.org/linux-arm-msm/20230814141007.3721197-1-bryan.odonoghue@linaro.org/T/#t
+
+Rather than send both series as one giant series, I opted to send a pure
+Fixes series above, with this second series a non-backport series i.e. no
+Fixes tags in this series.
+
+The existing CAMSS code relies on some hard-coded parameters buried inside
+of the driver, instead of passed via compat .data as arguably ought to be
+the case.
+
+This brittle model is an extending morass of spaghetti code. More than that
+in CAMSS Video Front Ends (VFEs) and the number of Raw Data Interfaces
+(RDIs) per VFE can vary from SoC to SoC. Indeed sm8250 has VFE and VFE Lite
+blocks which have a different number of RDIs per block.
+
+The use of defines as opposed to per-compat parameters inside of ISRs leads
+to either under-polling or over-polling the number of RDIs.
+
+On top of all of that we have some hard-coded statements for clock names
+which breaks easily.
+
+We can solve the under/over polling loop problem by transitioning loop
+controls from macros to parameters passed via probe().
+
+Similarly and unsurprisingly we can also solve the hard-coded clock problem
+by adding some string processing routines that take passed arguments.
+
+There is still some additional maintenance work to be done in this driver
+but before adding one more SoC the code needs to be made more extensible
+and less brittle.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/dc346c7f46c0680bcfb84fded6db97497fffe49a
+
+Bryan O'Donoghue (15):
+  media: qcom: camss: Amalgamate struct resource with struct
+    resource_ispif
+  media: qcom: camss: Start to move to module compat matched resources
+  media: qcom: camss: Pass icc bandwidth table as a platform parameter
+  media: qcom: camss: Pass remainder of variables as resources
+  media: qcom: camss: Pass line_num from compat resources
+  media: qcom: camss: Assign the correct number of RDIs per VFE
+  media: qcom: camss: Capture VFE CSID dependency in a helper function
+  media: qcom: camss: Untangle if/else spaghetti in camss
+  media: qcom: camss: Improve error printout on icc_get fail
+  media: qcom: camss: Allow clocks vfeN vfe_liteN or vfe_lite
+  media: qcom: camss: Functionally decompose CSIPHY clock lookups
+  media: qcom: camss: Fix support for setting CSIPHY clock name csiphyX
+  media: qcom: camss: Support RDI3 for VFE 17x
+  media: qcom: camss: Convert vfe_disable() from int to void
+  media: qcom: camss: Comment CSID dt_id field
+
+ .../platform/qcom/camss/camss-csid-gen2.c     |   5 +
+ .../media/platform/qcom/camss/camss-csid.c    |  40 ++-
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |   8 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |  67 ++--
+ .../media/platform/qcom/camss/camss-ispif.c   |  32 +-
+ .../media/platform/qcom/camss/camss-ispif.h   |   4 +-
+ .../media/platform/qcom/camss/camss-vfe-170.c |  22 +-
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-4-7.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-4-8.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-480.c |  10 +-
+ .../platform/qcom/camss/camss-vfe-gen1.c      |   5 +-
+ .../platform/qcom/camss/camss-vfe-gen1.h      |   3 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c |  83 +++--
+ drivers/media/platform/qcom/camss/camss-vfe.h |   2 +-
+ .../media/platform/qcom/camss/camss-video.c   |  16 +-
+ drivers/media/platform/qcom/camss/camss.c     | 293 +++++++++---------
+ drivers/media/platform/qcom/camss/camss.h     |  31 +-
+ 18 files changed, 352 insertions(+), 275 deletions(-)
+
+-- 
+2.41.0
+
