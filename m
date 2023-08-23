@@ -2,250 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2375F7862D3
-	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 23:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4463E7863A9
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 00:53:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238475AbjHWV4g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Aug 2023 17:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33454 "EHLO
+        id S238791AbjHWWxZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Aug 2023 18:53:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237931AbjHWV4Q (ORCPT
+        with ESMTP id S238800AbjHWWxF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Aug 2023 17:56:16 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D02E52;
-        Wed, 23 Aug 2023 14:56:15 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-26d2b3860daso4199579a91.1;
-        Wed, 23 Aug 2023 14:56:15 -0700 (PDT)
+        Wed, 23 Aug 2023 18:53:05 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE7F5A8
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 15:53:03 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68bed2c786eso256587b3a.0
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 15:53:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692827774; x=1693432574;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=davidwei-uk.20221208.gappssmtp.com; s=20221208; t=1692831183; x=1693435983;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U38bdq29Dgw0wCI6R6HBdmbsK4pnEF7143GlmYr1GwQ=;
-        b=Mrp6jmUu4GpWFoHogKWjjzeO8Ax1IMjdXWlBJAyGzSAElDqk5H7ZtCmITp4Sqe+vny
-         j6iUs/esYyj3bXbRkTT5SbVQoqkrYQZGOpsIQmhySD/rpljYsfMrd3tkYpMNDvMYTAZi
-         WACdRZ/DJll+s+LvToCsB45E+xQdGvQvDwb12Q8C1Clo9AHvrlgUgzF1YHeCvhEe2Lom
-         jdsyFO7ARX169jOQOcId8oFe7lZthRfWJ+IBIL5H/BA3QmypSNyccRSmpjPsxibGsX2e
-         cz+DNLYhO8WlbsPY2NMwrso3/OTGR+Mi4kLoSqMSO3al8DTWJgpU2Ct8I4vLXXQJxLhy
-         AqSQ==
+        bh=SJ/s2EmqPuWzmlnRND54rc9ryTxh75/w4MTWA7NzKQM=;
+        b=W/h+9fqynP796vzOzX5cmLOv64wPQRrNayfRyhZPMzWQZyYS5fv5yxMB7rgVKhcAg6
+         EgAuhzwYpJ62a0mENcW/lNuqEMPqdby6+6OWIQnz0UKJ/sUIW+KGLji9MbbOZHHtLj7I
+         cXrQQ2PKPibgQ4UXsleHOogOjpLMQsP5rgMO3FXlmHgF7+r5EqCAMEBU6/6ipeiaLeBS
+         QOCcUQz2wYhtqlyyCSBKi90Mea79/HUCmsU1hIWHSWvl5An1PLYHvT38m21GkUbdt9QV
+         sD9lLmJTkLT2aHvz3Dyiq9seSajwk9vplFoX0Bf91JgC6oWPpp4p2plvS7gtidww1xoG
+         kTGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692827774; x=1693432574;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U38bdq29Dgw0wCI6R6HBdmbsK4pnEF7143GlmYr1GwQ=;
-        b=KqhgvTlHqRXZXTk280a9aMFhTxZ0dTadtLPEnKAUH0Mb4Ec8OOpPAnNavcVbPFni2A
-         FlUKDU4ubpR6RvhV4zyY0hnIeCg9fU1GUUUdsZcjPC6PoMGwFAHSdtwdsrm4YeYk+5to
-         20lvMOoURk8M6yLpTD2bqjr+ZVV0oYxIigjutq7uF0yBQLgMUiSGFIoj08cy9NhBn++/
-         N/+uxD0Kq9byZVYPwYooZwA/255MrprvM5UCxXJQJwT2LhiOizPwTak95Eu1eS3wTp5K
-         7reHRnRbUBiv3xMrUqQA4SPuFRov7tkc0ZVmIypVB3xL/3yZYvNk7qqBmfVbHuWztHrh
-         +FmQ==
-X-Gm-Message-State: AOJu0YzQoXeItAXbzm+kbO6C2jF/M+MOI3CTHw4qVxr6TRvbF+d97HoB
-        wbi/P14ufq5aZMYKp57AbcM=
-X-Google-Smtp-Source: AGHT+IEK9f5kg8gg9H6xaZEI7BweoTyMRpa0VDsD1a1KvfcF409tN8lu1SQutdkpLIAzoxCQZvZB/A==
-X-Received: by 2002:a17:90a:bc98:b0:268:b682:23de with SMTP id x24-20020a17090abc9800b00268b68223demr13483090pjr.28.1692827774403;
-        Wed, 23 Aug 2023 14:56:14 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
-        by smtp.gmail.com with ESMTPSA id 23-20020a17090a1a1700b00263e4dc33aasm271029pjk.11.2023.08.23.14.56.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 14:56:13 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Xaver Hugl <xaver.hugl@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org (open list:SYNC FILE FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v9 3/3] dma-buf/sw_sync: Add fence deadline support
-Date:   Wed, 23 Aug 2023 14:54:56 -0700
-Message-ID: <20230823215458.203366-4-robdclark@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230823215458.203366-1-robdclark@gmail.com>
-References: <20230823215458.203366-1-robdclark@gmail.com>
+        d=1e100.net; s=20221208; t=1692831183; x=1693435983;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SJ/s2EmqPuWzmlnRND54rc9ryTxh75/w4MTWA7NzKQM=;
+        b=cza3aeJGcLwgvZGorrpPAiDx+C/UNqpxfFgDss0hBzA3B7M7QFyOh1ljB2BE9s9o+5
+         wTEpUFoSkLtxZEByYzdMAuSJkb7ZH15wlg87gdfZGIdotcY4TRJ8x5Cv/6nUvCzIo+Ug
+         pRysSJjWX9K7LFS7X4Dk3J1Xih0jKvfRvzMuowWw2z7t8SY57fn3EdVZLimLoGGeheF7
+         tDSZsia/qgV9XivDPIoT4DVw09k0H0TikA/aX3XyjIJwC47IgXdpsixMCYN6kI1xVd6F
+         CAdP1wpz5okVJ83A1pMF6EgFkhWmXKwhhLPzWnhzwSXpMauVBG/CtswXQt1s1I41MNU5
+         WWQA==
+X-Gm-Message-State: AOJu0YwQ8kvE2b1NC4VP/Carh8BsTi8Xx6BSrklMs8C2sizrKiUbGpCn
+        vK1Hskjb1NjIic/HYtqpfvtMpA==
+X-Google-Smtp-Source: AGHT+IFc2FokU2VLaRNZT0xsXAi+/Iv/vVSz6ILE07xsMkOT83vrWIz++UyfDE7aQXrHa+PnqgAp4g==
+X-Received: by 2002:a05:6a21:6d86:b0:14b:8b51:44b0 with SMTP id wl6-20020a056a216d8600b0014b8b5144b0mr3502513pzb.37.1692831183369;
+        Wed, 23 Aug 2023 15:53:03 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1156:1:1cbd:da2b:a9f2:881? ([2620:10d:c090:500::5:1af5])
+        by smtp.gmail.com with ESMTPSA id i26-20020aa787da000000b0068a6972ca0esm3562076pfo.106.2023.08.23.15.53.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Aug 2023 15:53:02 -0700 (PDT)
+Message-ID: <1693f35a-b01d-f67c-fb4e-7311c153df4a@davidwei.uk>
+Date:   Wed, 23 Aug 2023 15:52:59 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.14.0
+Subject: Re: [RFC PATCH v2 00/11] Device Memory TCP
+To:     Mina Almasry <almasrymina@google.com>,
+        Pavel Begunkov <asml.silence@gmail.com>
+Cc:     David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Hari Ramakrishnan <rharix@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Lutomirski <luto@kernel.org>, stephen@networkplumber.org,
+        sdf@google.com
+References: <20230810015751.3297321-1-almasrymina@google.com>
+ <7dc4427f-ee99-e401-9ff8-d554999e60ca@kernel.org>
+ <7889b4f8-78d9-9a0a-e2cc-aae4ed8a80fd@gmail.com>
+ <CAHS8izNZ1pJAFqa-3FPiUdMWEPE_md2vP1-6t-KPT6CPbO03+g@mail.gmail.com>
+From:   David Wei <dw@davidwei.uk>
+In-Reply-To: <CAHS8izNZ1pJAFqa-3FPiUdMWEPE_md2vP1-6t-KPT6CPbO03+g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+On 17/08/2023 15:18, Mina Almasry wrote:
+> On Thu, Aug 17, 2023 at 11:04 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>
+>> On 8/14/23 02:12, David Ahern wrote:
+>>> On 8/9/23 7:57 PM, Mina Almasry wrote:
+>>>> Changes in RFC v2:
+>>>> ------------------
+>> ...
+>>>> ** Test Setup
+>>>>
+>>>> Kernel: net-next with this RFC and memory provider API cherry-picked
+>>>> locally.
+>>>>
+>>>> Hardware: Google Cloud A3 VMs.
+>>>>
+>>>> NIC: GVE with header split & RSS & flow steering support.
+>>>
+>>> This set seems to depend on Jakub's memory provider patches and a netdev
+>>> driver change which is not included. For the testing mentioned here, you
+>>> must have a tree + branch with all of the patches. Is it publicly available?
+>>>
+>>> It would be interesting to see how well (easy) this integrates with
+>>> io_uring. Besides avoiding all of the syscalls for receiving the iov and
+>>> releasing the buffers back to the pool, io_uring also brings in the
+>>> ability to seed a page_pool with registered buffers which provides a
+>>> means to get simpler Rx ZC for host memory.
+>>
+>> The patchset sounds pretty interesting. I've been working with David Wei
+>> (CC'ing) on io_uring zc rx (prototype polishing stage) all that is old
+>> similar approaches based on allocating an rx queue. It targets host
+>> memory and device memory as an extra feature, uapi is different, lifetimes
+>> are managed/bound to io_uring. Completions/buffers are returned to user via
+>> a separate queue instead of cmsg, and pushed back granularly to the kernel
+>> via another queue. I'll leave it to David to elaborate
+>>
+>> It sounds like we have space for collaboration here, if not merging then
+>> reusing internals as much as we can, but we'd need to look into the
+>> details deeper.
+>>
+> 
+> I'm happy to look at your implementation and collaborate on something
+> that works for both use cases. Feel free to share unpolished prototype
+> so I can start having a general idea if possible.
 
-This consists of simply storing the most recent deadline, and adding an
-ioctl to retrieve the deadline.  This can be used in conjunction with
-the SET_DEADLINE ioctl on a fence fd for testing.  Ie. create various
-sw_sync fences, merge them into a fence-array, set deadline on the
-fence-array and confirm that it is propagated properly to each fence.
+Hi I'm David and I am working with Pavel on this. We will have something to
+share with you on the mailing list before the end of the week.
 
-v2: Switch UABI to express deadline as u64
-v3: More verbose UAPI docs, show how to convert from timespec
-v4: Better comments, track the soonest deadline, as a normal fence
-    implementation would, return an error if no deadline set.
+I'm also preparing a submission for NetDev conf. I wonder if you and others at
+Google plan to present there as well? If so, then we may want to coordinate our
+submissions and talks (if accepted).
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
----
- drivers/dma-buf/sw_sync.c    | 82 ++++++++++++++++++++++++++++++++++++
- drivers/dma-buf/sync_debug.h |  2 +
- 2 files changed, 84 insertions(+)
+Please let me know this week, thanks!
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index f0a35277fd84..c353029789cf 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -52,12 +52,33 @@ struct sw_sync_create_fence_data {
- 	__s32	fence; /* fd of new fence */
- };
- 
-+/**
-+ * struct sw_sync_get_deadline - get the deadline hint of a sw_sync fence
-+ * @deadline_ns: absolute time of the deadline
-+ * @pad:	must be zero
-+ * @fence_fd:	the sw_sync fence fd (in)
-+ *
-+ * Return the earliest deadline set on the fence.  The timebase for the
-+ * deadline is CLOCK_MONOTONIC (same as vblank).  If there is no deadline
-+ * set on the fence, this ioctl will return -ENOENT.
-+ */
-+struct sw_sync_get_deadline {
-+	__u64	deadline_ns;
-+	__u32	pad;
-+	__s32	fence_fd;
-+};
-+
- #define SW_SYNC_IOC_MAGIC	'W'
- 
- #define SW_SYNC_IOC_CREATE_FENCE	_IOWR(SW_SYNC_IOC_MAGIC, 0,\
- 		struct sw_sync_create_fence_data)
- 
- #define SW_SYNC_IOC_INC			_IOW(SW_SYNC_IOC_MAGIC, 1, __u32)
-+#define SW_SYNC_GET_DEADLINE		_IOWR(SW_SYNC_IOC_MAGIC, 2, \
-+		struct sw_sync_get_deadline)
-+
-+
-+#define SW_SYNC_HAS_DEADLINE_BIT	DMA_FENCE_FLAG_USER_BITS
- 
- static const struct dma_fence_ops timeline_fence_ops;
- 
-@@ -171,6 +192,22 @@ static void timeline_fence_timeline_value_str(struct dma_fence *fence,
- 	snprintf(str, size, "%d", parent->value);
- }
- 
-+static void timeline_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(fence->lock, flags);
-+	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
-+		if (ktime_before(deadline, pt->deadline))
-+			pt->deadline = deadline;
-+	} else {
-+		pt->deadline = deadline;
-+		__set_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags);
-+	}
-+	spin_unlock_irqrestore(fence->lock, flags);
-+}
-+
- static const struct dma_fence_ops timeline_fence_ops = {
- 	.get_driver_name = timeline_fence_get_driver_name,
- 	.get_timeline_name = timeline_fence_get_timeline_name,
-@@ -179,6 +216,7 @@ static const struct dma_fence_ops timeline_fence_ops = {
- 	.release = timeline_fence_release,
- 	.fence_value_str = timeline_fence_value_str,
- 	.timeline_value_str = timeline_fence_timeline_value_str,
-+	.set_deadline = timeline_fence_set_deadline,
- };
- 
- /**
-@@ -387,6 +425,47 @@ static long sw_sync_ioctl_inc(struct sync_timeline *obj, unsigned long arg)
- 	return 0;
- }
- 
-+static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long arg)
-+{
-+	struct sw_sync_get_deadline data;
-+	struct dma_fence *fence;
-+	unsigned long flags;
-+	struct sync_pt *pt;
-+	int ret = 0;
-+
-+	if (copy_from_user(&data, (void __user *)arg, sizeof(data)))
-+		return -EFAULT;
-+
-+	if (data.deadline_ns || data.pad)
-+		return -EINVAL;
-+
-+	fence = sync_file_get_fence(data.fence_fd);
-+	if (!fence)
-+		return -EINVAL;
-+
-+	pt = dma_fence_to_sync_pt(fence);
-+	if (!pt)
-+		return -EINVAL;
-+
-+	spin_lock_irqsave(fence->lock, flags);
-+	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
-+		data.deadline_ns = ktime_to_ns(pt->deadline);
-+	} else {
-+		ret = -ENOENT;
-+	}
-+	spin_unlock_irqrestore(fence->lock, flags);
-+
-+	dma_fence_put(fence);
-+
-+	if (ret)
-+		return ret;
-+
-+	if (copy_to_user((void __user *)arg, &data, sizeof(data)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
- static long sw_sync_ioctl(struct file *file, unsigned int cmd,
- 			  unsigned long arg)
- {
-@@ -399,6 +478,9 @@ static long sw_sync_ioctl(struct file *file, unsigned int cmd,
- 	case SW_SYNC_IOC_INC:
- 		return sw_sync_ioctl_inc(obj, arg);
- 
-+	case SW_SYNC_GET_DEADLINE:
-+		return sw_sync_ioctl_get_deadline(obj, arg);
-+
- 	default:
- 		return -ENOTTY;
- 	}
-diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_debug.h
-index 6176e52ba2d7..a1bdd62efccd 100644
---- a/drivers/dma-buf/sync_debug.h
-+++ b/drivers/dma-buf/sync_debug.h
-@@ -55,11 +55,13 @@ static inline struct sync_timeline *dma_fence_parent(struct dma_fence *fence)
-  * @base: base fence object
-  * @link: link on the sync timeline's list
-  * @node: node in the sync timeline's tree
-+ * @deadline: the earliest fence deadline hint
-  */
- struct sync_pt {
- 	struct dma_fence base;
- 	struct list_head link;
- 	struct rb_node node;
-+	ktime_t deadline;
- };
- 
- extern const struct file_operations sw_sync_debugfs_fops;
--- 
-2.41.0
-
+> 
+>>> Overall I like the intent and possibilities for extensions, but a lot of
+>>> details are missing - perhaps some are answered by seeing an end-to-end
+>>> implementation.
+>>
+>> --
+>> Pavel Begunkov
+> 
+> 
+> 
