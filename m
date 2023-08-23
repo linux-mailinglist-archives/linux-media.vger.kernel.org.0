@@ -2,123 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DA8C7855CA
-	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 12:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 604D4785881
+	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 15:09:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234126AbjHWKp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Aug 2023 06:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59384 "EHLO
+        id S233770AbjHWNJv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Aug 2023 09:09:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234127AbjHWKpi (ORCPT
+        with ESMTP id S231472AbjHWNJv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Aug 2023 06:45:38 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C9710E6
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:45:09 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-31c5c06e8bbso2115182f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:45:09 -0700 (PDT)
+        Wed, 23 Aug 2023 09:09:51 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1551E4A
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 06:09:49 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-26fc5a218daso75411a91.1
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 06:09:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692787508; x=1693392308;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FIu4eWCkEOSVtI8FoLJRLwwONGivM5mrULXtY5Z5HVI=;
-        b=iR1HQqxeBsupmS+Favm4zTSidm2aT6bx7ajaAl8rBuLII87IivTUcR2VWpznpsDE+R
-         MCfdnWtCmOsEpUaFAl5mFZdQSr8nzotudFoQksQixrFdAXdx+r+oGFa8gWcd6vfaQqsH
-         cVvlFANnHEouAyGGiZvq3xN0gruYNTynKcNGRwn4atmVlAZ8QnqQypDcdx2Qqc2Z0EWz
-         RjY67jKMvacBJSfoIgHgxlCjphiFK106NYNXL14qgECQ67n5RjKd9cLiE7X+L30ngvis
-         eil+bTCkEjRUoc1+IzIpjGuQFZp/chrfKSJ2Q6nrTaVUdpR94GxUzhjg/lx22O4He6hQ
-         rQww==
+        d=gmail.com; s=20221208; t=1692796189; x=1693400989;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=s+85iWZZtHxiRTzxqot4mUtWjRMblOX+5DmPEvV7v+k=;
+        b=Oe+XR5+sO1+EoHsLdJFyEgt6C19sa9KTwbe2hDpLnsRgH+KAPxsniTykviaVWjKk2J
+         mb2ByCykwFLlLpkN/266yvw5l7CLt0X+f8LyRxzCnDScrjAUKxV0QV247Yxc4cH3UB+r
+         4VmZZ1/uyhOeCgEE6XQyb/mNnD2jSBKHK6M/KDMHEmYNtz8iwbhzK/Z38n5Q/JQKvWgJ
+         si+fTh3S7SXQ0xBCRenKpxs2dGePEWHSYVpxs4RMEY5buTQj0fr8hZO6YSgaZLUpCj14
+         ynN0VOGdMhNZ6m2MIUWIRRXlyKeuh2goz30liegygS2OvewV6coKwLAsOdG6PxEqBLiF
+         3zvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692787508; x=1693392308;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FIu4eWCkEOSVtI8FoLJRLwwONGivM5mrULXtY5Z5HVI=;
-        b=Reo/dPzJgm2Ku7Z0ZWpRTaCKBR23enQjXG2WFSmTJC+hdPP+GgKz6twXtdagKvAEL8
-         khQ9To2Yb43JKMc6rbj42/TVJY/yvt5u07JGm+rUsYDl3Yf8lOV/DjvHMlWGdoSnHkUP
-         REYWdtH6ezhdrDK/kd0QN8nh92R6bNd036WlGxwZHEoWJT2u/3VBUFeIs4WSQAV+8pq0
-         F7fM3cyLFBEqnYZe/2L8QPfLvN1trr05lundvIUZiFtZ1nIeds2BKKdRGUqGKl+QRymF
-         UC9Dnrz0/gb2xc8ZruoHYSgf+PifP4/EhBSzJ8RoNA9WgqEYxsuxY+zyIuXJ39zk5lKS
-         jf8A==
-X-Gm-Message-State: AOJu0YwcxJldcVbhl45AoxFm3+HUMQOApNc9IriSlG24Fxv41N14d81B
-        GMewI5V1nKHF+qWD8+C+LUiocQ==
-X-Google-Smtp-Source: AGHT+IETgiaFMcrE1JfWFkGdddTyYkNG6PjtSRuCyiFhrM+u1c/VD06R+stwPw8nbB17oeoE3yvOFQ==
-X-Received: by 2002:a5d:6949:0:b0:319:7471:2965 with SMTP id r9-20020a5d6949000000b0031974712965mr9485144wrw.21.1692787508218;
-        Wed, 23 Aug 2023 03:45:08 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id n4-20020a5d4204000000b0031c5dda3aedsm6281213wrq.95.2023.08.23.03.45.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 03:45:07 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 15/15] media: qcom: camss: Comment CSID dt_id field
-Date:   Wed, 23 Aug 2023 11:44:44 +0100
-Message-ID: <20230823104444.1954663-16-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
-References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
+        d=1e100.net; s=20221208; t=1692796189; x=1693400989;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s+85iWZZtHxiRTzxqot4mUtWjRMblOX+5DmPEvV7v+k=;
+        b=YeT6/KcmrOxj7AO4ZyWBow/JEFuar7rE89vI7pg+oRutItWEELIUS1ooZiT6xPp1zC
+         IrcFAlRbn6kqfXwUMtGZnMsKvB9hPLGuVXN0n0yYcyGOmuMU4XGz+C0YoVV8aK5ozBCa
+         VhziuDU5F6AWQNQw7s1Zv8TTvVGBPTUFuSt8pO3YgOJGl6OEDXQy1XkNalomYCpLc9+J
+         BfKCDbxuNK8Ohw/LEv1Egi7Lc1xm1z6wvEsqoEnCe2nsFu23jhJSFuyeBK/lXV7e6zc1
+         PgnHhbdp+SYxE0cS5wgBsF87VGT0Oj33M6fXcwZckXvit9t4vkMyLX1geOgPTE3WcsfO
+         P3mw==
+X-Gm-Message-State: AOJu0YwBgRhntRxBg/0JefUVJ2fhzDzYRGClGjAG7yIWCXoQuU/ZvHt4
+        DzMqkGovtzUHziZTafUF2SYJ20pCd+U++Y4PzaM=
+X-Google-Smtp-Source: AGHT+IEWX0mDw6pMFkD3xnYrWw1pAUWy/JHQth2wGo+uFHEKmVBkGVGXPP0ErcxeQr+WLk4x8nLZTqg8jaTpy0I0/LM=
+X-Received: by 2002:a17:90a:1d08:b0:26d:2fab:1e51 with SMTP id
+ c8-20020a17090a1d0800b0026d2fab1e51mr9270520pjd.21.1692796189310; Wed, 23 Aug
+ 2023 06:09:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Received: by 2002:a05:7301:e0f:b0:e3:28e1:d7c9 with HTTP; Wed, 23 Aug 2023
+ 06:09:48 -0700 (PDT)
+Reply-To: fionahill7364@gmail.com
+From:   Fiona Hill <tinaevan102@gmail.com>
+Date:   Wed, 23 Aug 2023 13:09:48 +0000
+Message-ID: <CAFCgZRsDEVQbLfbg0qwtqnAzUaMBC=qWfCF=c4hZun_RHAjH4w@mail.gmail.com>
+Subject: 
+To:     fionahill7364 <fionahill7364@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_99,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Digging into the documentation we find that the DT_ID bitfield is used to
-map the six bit DT to a two bit ID code. This value is concatenated to the
-VC bitfield to create a CID value. DT_ID is the two least significant bits
-of CID and VC the most significant bits.
-
-Originally we set dt_id = vc * 4 in and then subsequently set dt_id = vc.
-
-commit 3c4ed72a16bc ("media: camss: sm8250: Virtual channels for CSID")
-silently fixed the multiplication by four which would give a better
-value for the generated CID without mentioning what was being done or why.
-
-Next up I haplessly changed the value back to "dt_id = vc * 4" since there
-didn't appear to be any logic behind it.
-
-Hans asked what the change was for and I honestly couldn't remember the
-provenance of it, so I dug in.
-
-Link: https://lore.kernel.org/linux-arm-msm/edd4bf9b-0e1b-883c-1a4d-50f4102c3924@xs4all.nl/
-
-Add a comment so the next hapless programmer doesn't make this same
-mistake.
-
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/camss-csid-gen2.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 6ba2b10326444..cee50fc87e9de 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -352,6 +352,11 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 		phy_sel = csid->phy.csiphy_id;
- 
- 	if (enable) {
-+		/*
-+		 * A value caled 'CID' gets generated internal to CAMSS logic
-+		 * which is a concatenation of [vc:6 | dt_id:2] hence we reuse
-+		 * the least significant two bits of the VC to 'stuff' the CID value.
-+		 */
- 		u8 dt_id = vc;
- 
- 		if (tg->enabled) {
--- 
-2.41.0
-
+44GT44KT44Gr44Gh44GvDQo=
