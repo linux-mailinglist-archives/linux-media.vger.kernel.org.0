@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B05397855B1
-	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 12:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 480E77855B7
+	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 12:45:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234063AbjHWKpN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Aug 2023 06:45:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58094 "EHLO
+        id S234077AbjHWKpT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Aug 2023 06:45:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234043AbjHWKpH (ORCPT
+        with ESMTP id S234032AbjHWKpJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Aug 2023 06:45:07 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97899E72
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:45:02 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3fee8af9cb9so34550355e9.1
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:45:02 -0700 (PDT)
+        Wed, 23 Aug 2023 06:45:09 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DBE1E7B
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:45:03 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-31771bb4869so4897157f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692787501; x=1693392301;
+        d=linaro.org; s=google; t=1692787502; x=1693392302;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CMd5xa502zq+zJtKRyAW8i5LwxGHRj3qKCAl3AH36Ls=;
-        b=kRX+keFShYoh3ikMrf8cieD3HTIbEKNjElXdJfca5/STD+euldcxH9lQw+TGrRxUET
-         663qZveXENmbbe8vJjAgTfwx/sYchdjMcpSYv2uvPbeHu35inNNTglkSaUNWHf2ZL4QI
-         V1+piWmnj8CCcrRA3spBcxae2v3j70cPp5W4I03E11KbYRq/B/2nis/jvNWtmXIIlCFI
-         LXXg8lLQoYSm0cbaHiAn9H6oBhNmgPOo3Vc5VCiKWLFSU3qgSV914GQImUZybOiwQhv/
-         YV4jskSpJFlKZFU2I0Vcv2Kfsc9EndnEtR4lRhw35QGQGwGGZCTx2MOxa1zbuvl4R3ce
-         1UoQ==
+        bh=rHxvfmBq2wQcZEqJeTw0BxrGFmAlBN3kn0Ir0lpbaw4=;
+        b=RK7fSEqchuMcLnME21sx1cAxKm1ohh4rOeH0kFTbeYZNLLOc0KqB2kE/OSFxWbVYlI
+         WQ6FZyX/UIxy+szLwqxEuP7a+1lfwfoMpT8LXtRFBwtkb5rprWjdX+f4ZOf2h6dM1imB
+         5KkUanGpvDxKsV6PY+EM+bYuylgTH48zWM+yC0afo8XJUqRHMq1HWs8K0BzXHLJVVzwF
+         B3Y5QvsiD/JXzmGYBTpBEvXKWAh/b8FPLx3sisw3JIVtJ8wKv/B1lBhskFc71M+HUWzX
+         qBiVGJvx5m6GXcXvBU17GbfPZQb6YJMkMjLZq8XZiks9Vb1aRNSUrHdCFH2oORQsT214
+         hg1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692787501; x=1693392301;
+        d=1e100.net; s=20221208; t=1692787502; x=1693392302;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CMd5xa502zq+zJtKRyAW8i5LwxGHRj3qKCAl3AH36Ls=;
-        b=cY3IuzRedFFZy+tvhosMsal04vmRyJshJXGUOx3uRVrs75eW+R5xcGqkzCe6YavfRc
-         5p5euDeKHU2fIXkHw+uFEUR/h7g2GjTlmvNTKv7G2VCZsD+qb93IykkCeK0Ec7ZgamV/
-         eEQCkpDBBk4Sq+aoeFZ+1vI6/zeqeSGlk/f7Dab4rYdKsrYg2Rf+EAzcwwwlHrXLaLwT
-         nYI+P2x/pEQAzVabsTlAUjtGdo/dEJFcfcvINi7iK4sNXXF7cfdHFA8phRuvMqvc5pDs
-         7uAO0pUHd618wDGQqH9Wb/dCpAK3MgaK3KXDZJfDaAqWcU3la4qe9r6eZ/fk5ce8yTuo
-         iqqA==
-X-Gm-Message-State: AOJu0YxwsL07MW/fSK+mZd76ghRWJPFeSoCzi4YLW/t/smOl+jtuLLxb
-        mXVsJraISDeqgFqC/qr7pRNLXw==
-X-Google-Smtp-Source: AGHT+IGtFeJIM5mGqGxuAXbxR9IEjUJ9fiJWEwAXZ4bsSILfwimb94qbYymylV3hO3wxz5YYWRej1w==
-X-Received: by 2002:adf:dcce:0:b0:319:6b6c:dd01 with SMTP id x14-20020adfdcce000000b003196b6cdd01mr9885635wrm.17.1692787500902;
-        Wed, 23 Aug 2023 03:45:00 -0700 (PDT)
+        bh=rHxvfmBq2wQcZEqJeTw0BxrGFmAlBN3kn0Ir0lpbaw4=;
+        b=dJXbFEDcMp9f1CG4OGgSQoaEaD4tLWcFIuuLUV0MQjPcF6XAXk+c0lmFWiZdtlbgMF
+         bRfwxdYEeSSDRRqiqOWufYYY6YrYhOuH1xPP4oAvyzfTcss3dg22Bj8b35TIfwmFkqHh
+         TK3zeswQwryCV7W9sTD873umDD2jGp38gJaVO8AH2N1yhJd1HLOpT3W//UGPmYtFWnb4
+         7d5LOObE9TkM0EmIjNNbbUJZs/0DMIetrufo0SjsTW/z9k1OyjAIB1Rqdms5vGMBi21e
+         oXoGA/Ffa6a6y8u5j+lRXCy5DnJKJQ7IYVvUO7NQDLneHsShkojYawMjHR7oTwvsGigc
+         YwRQ==
+X-Gm-Message-State: AOJu0YzhRdugnlQW+/YZjHbqRSgjHISPEcRmwXETeGSrTThjpvODrCLh
+        LTojDZOgjq/cA4MJ796dWl29xLZ4yq8Hp+jSjKk=
+X-Google-Smtp-Source: AGHT+IFMOCh8NcCdKiEJDomH2o9MH+X6gGMRhmLARi6n1ID7VDWqrST5NLVd3DdYr49+F4PTrMtOiw==
+X-Received: by 2002:adf:dd90:0:b0:315:9e1b:4ea6 with SMTP id x16-20020adfdd90000000b003159e1b4ea6mr9105973wrl.58.1692787502156;
+        Wed, 23 Aug 2023 03:45:02 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id n4-20020a5d4204000000b0031c5dda3aedsm6281213wrq.95.2023.08.23.03.44.59
+        by smtp.gmail.com with ESMTPSA id n4-20020a5d4204000000b0031c5dda3aedsm6281213wrq.95.2023.08.23.03.45.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 03:45:00 -0700 (PDT)
+        Wed, 23 Aug 2023 03:45:01 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
         agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
@@ -58,48 +58,95 @@ To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
         andrey.konovalov@linaro.org
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 09/15] media: qcom: camss: Improve error printout on icc_get fail
-Date:   Wed, 23 Aug 2023 11:44:38 +0100
-Message-ID: <20230823104444.1954663-10-bryan.odonoghue@linaro.org>
+Subject: [PATCH v3 10/15] media: qcom: camss: Allow clocks vfeN vfe_liteN or vfe_lite
+Date:   Wed, 23 Aug 2023 11:44:39 +0100
+Message-ID: <20230823104444.1954663-11-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
 References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If icc_get() fails print the name of the failing path.
+The number of Video Front End - VFE or Image Front End - IFE supported
+with new SoCs can vary both for the full and lite cases.
+
+For example sdm845 has one vfe_lite and two vfe interfaces with the vfe
+clock called simply "vfe_lite" with no integer postfix. sc8280xp has four
+vfe and four vfe lite blocks.
+
+We need to support the following clock name formats
+
+- vfeN
+- vfe_liteN
+- vfe_lite
+
+with N being any reasonably sized integer.
+
+There are two sites in this code which need to do the same thing,
+constructing and matching strings with the pattern above, so encapsulate
+the logic in one function.
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/platform/qcom/camss/camss-vfe.c | 22 ++++++++++++++-----
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index c8b8ad176ee2b..72a0a9f304bb2 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1504,8 +1504,11 @@ static int camss_icc_get(struct camss *camss)
- 	for (i = 0; i < camss->res->icc_path_num; i++) {
- 		camss->icc_path[i] = devm_of_icc_get(camss->dev,
- 						     icc_res[i].name);
--		if (IS_ERR(camss->icc_path[i]))
-+		if (IS_ERR(camss->icc_path[i])) {
-+			dev_err(camss->dev, "Unable to icc_get %s\n",
-+				icc_res[i].name);
- 			return PTR_ERR(camss->icc_path[i]);
-+		}
- 	}
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+index 8f48401e31cd3..73380e75dbb22 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -437,6 +437,20 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
+ 	complete(&vfe->reset_complete);
+ }
  
- 	return 0;
++static int vfe_match_clock_names(struct vfe_device *vfe,
++				 struct camss_clock *clock)
++{
++	char vfe_name[CAMSS_RES_MAX];
++	char vfe_lite_name[CAMSS_RES_MAX];
++
++	snprintf(vfe_name, sizeof(vfe_name), "vfe%d", vfe->id);
++	snprintf(vfe_lite_name, sizeof(vfe_lite_name), "vfe_lite%d", vfe->id);
++
++	return (!strcmp(clock->name, vfe_name) ||
++		!strcmp(clock->name, vfe_lite_name) ||
++		!strcmp(clock->name, "vfe_lite"));
++}
++
+ /*
+  * vfe_set_clock_rates - Calculate and set clock rates on VFE module
+  * @vfe: VFE device
+@@ -460,9 +474,7 @@ static int vfe_set_clock_rates(struct vfe_device *vfe)
+ 	for (i = 0; i < vfe->nclocks; i++) {
+ 		struct camss_clock *clock = &vfe->clock[i];
+ 
+-		if (!strcmp(clock->name, "vfe0") ||
+-		    !strcmp(clock->name, "vfe1") ||
+-		    !strcmp(clock->name, "vfe_lite")) {
++		if (vfe_match_clock_names(vfe, clock)) {
+ 			u64 min_rate = 0;
+ 			long rate;
+ 
+@@ -543,9 +555,7 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
+ 	for (i = 0; i < vfe->nclocks; i++) {
+ 		struct camss_clock *clock = &vfe->clock[i];
+ 
+-		if (!strcmp(clock->name, "vfe0") ||
+-		    !strcmp(clock->name, "vfe1") ||
+-		    !strcmp(clock->name, "vfe_lite")) {
++		if (vfe_match_clock_names(vfe, clock)) {
+ 			u64 min_rate = 0;
+ 			unsigned long rate;
+ 
 -- 
 2.41.0
 
