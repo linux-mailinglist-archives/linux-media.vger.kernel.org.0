@@ -2,120 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D0C0786215
-	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 23:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0696B78625A
+	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 23:29:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237313AbjHWVQ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Aug 2023 17:16:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36630 "EHLO
+        id S237851AbjHWV2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Aug 2023 17:28:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237902AbjHWVQs (ORCPT
+        with ESMTP id S237822AbjHWV2d (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Aug 2023 17:16:48 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CBF11721
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 14:16:35 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-d665467e134so5995526276.2
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 14:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692825394; x=1693430194;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iEpTjrnLVqxen66G7Uvz7Jyy/E11cVlVrjCW6/VyKj8=;
-        b=ZDmv2BjJU3fBSftYGcNM3tb+ILU/d9+cLODcLN7bJx5jE0GqvFKrPnlSYGlL0k9kWu
-         m0bch7za38IJ+CLWsWjflpljG/O8F9HEsNE/VWjVNStBDOBq3iJDnH2eTLO/dJEAtALA
-         zbXY+4ZWcbcUYtwqB7UctSATyz1sDYmgfZ/uZj88iB4dhaAHsNB4lm1XJShf+lSlTUF4
-         q1mw8cBg/PsTLqlxfYRQ9OdT1JyBSqfrgsLuehUHu9V36ypWdR+RMX9JIQmW7yxqcnfx
-         Bu1+6uVlgAFqvayOjaJa8cEpXa7Hm+cDiofeMeKPmewLASFqzTHTuUzB1cC9zTcv8uzK
-         +bQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692825394; x=1693430194;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iEpTjrnLVqxen66G7Uvz7Jyy/E11cVlVrjCW6/VyKj8=;
-        b=HHRLg9jOrdPNk5oVKNjHH2bVsEXty54axPcZ2e8KCJcTn/rGZZ6DuhpN8Qj9BFGmJi
-         i5LFxUahGEy03jlownmH2rU6nU/ZBj71pWzoN+Lb6/8JmAgId/t5DoSKW+V1zC9Pj72+
-         Add40RpUsUAmsBWisnSQEm1K7kDrTv1edrZwAgc/G0B1tQrjzDbUDQoSXR2CQc2wxMtB
-         2wpBInwXsZFB2vtj3+UxQUb5tFnb+sjT0EijIyeuKKrCxBXHF1iMa2XDF5aLInn3kGXv
-         WAJ7hvXBZcpPVY3R2K5+hYWYUFAhugUPzz/rfCmXYGUsP6St5HFR18s23cIMMCnMl5BK
-         ZT1A==
-X-Gm-Message-State: AOJu0YyuWpQyFtNsn0+PLWFXFH6+QtEfigTfwaqLAok+ZPuZ9iBzhVls
-        k2O8xJ3T69/zkN4/KAXLd4O9A/vb4yGCPFgziU6VEA==
-X-Google-Smtp-Source: AGHT+IGU5hlAbzjKR6dHf8nG7wjH+gLTIhLdkOAR0BQZYCAzmvxO+0vsobrLpwu8+6G8uJRZXAov+P50unjaO9+ZE7g=
-X-Received: by 2002:a25:c08f:0:b0:d09:f39b:cecf with SMTP id
- c137-20020a25c08f000000b00d09f39bcecfmr12862557ybf.9.1692825393910; Wed, 23
- Aug 2023 14:16:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230823183749.2609013-1-robh@kernel.org>
-In-Reply-To: <20230823183749.2609013-1-robh@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 23 Aug 2023 23:16:22 +0200
-Message-ID: <CACRpkdbuB-NotnMXc9vZj-byjk7spCSkZ+Dx=R_eOqoSV5CdTA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Drop remaining unneeded quotes
+        Wed, 23 Aug 2023 17:28:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14850E7A;
+        Wed, 23 Aug 2023 14:28:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9FB4266051;
+        Wed, 23 Aug 2023 21:28:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40ED1C433C8;
+        Wed, 23 Aug 2023 21:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692826110;
+        bh=j3/wED7SS5LyLAoF3Vr2uwBwVuU5WjEy7ZL9ccJLLWU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G7vNBLsT2nzz41R3tz+HY3j6goL87R02FNYI9tt4wTo5Z56kNy1oqBkltW2V42BxV
+         FG/kwe52psZVxh6K/cJEp2C6ShDATtUDr+t1lwx2JVyLOhlXIojf0kqoMJA/nblEzB
+         h9EMpV1frlMtZacT1oDHI/3Lo7MsKOZhbRhuXKVxDy1z8PrWJAXmai6Y8PA2Uv8Fvl
+         NPGbAfTUMxevI1MMoizT8E687Xar0kD/7jEdiz5sCkLvQmv9U9hwd6u6JFPYP2JXbb
+         5cDiOKkRl6b7hmGaeIciIdNhZYP8ZkjbbN0L+VbGI2CfT6lyzNYGFvPNf75kZFQXKr
+         Q9oeMUXA6NucA==
+Date:   Wed, 23 Aug 2023 23:28:27 +0200
+From:   Wolfram Sang <wsa@kernel.org>
 To:     Rob Herring <robh@kernel.org>
-Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>,
+Cc:     Loic Poulain <loic.poulain@linaro.org>,
+        Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Andi Shyti <andi.shyti@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andy@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Corey Minyard <minyard@acm.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        M ark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        Todor Tomov <todor.too@gmail.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-iio@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        alsa-devel@alsa-project.org, linux-scsi@vger.kernel.org,
-        linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: dt-bindings: Convert Omnivision OV7251 to DT
+ schema
+Message-ID: <ZOZ5+1Dm5pZEkF78@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Loic Poulain <loic.poulain@linaro.org>,
+        Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <20230817202713.2180195-1-robh@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="BTbnJp10YoCq6lqH"
+Content-Disposition: inline
+In-Reply-To: <20230817202713.2180195-1-robh@kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 8:38=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
 
-> Cleanup bindings dropping the last remaining unneeded quotes. With this,
-> the check for this can be enabled in yamllint.
->
+--BTbnJp10YoCq6lqH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Aug 17, 2023 at 03:27:13PM -0500, Rob Herring wrote:
+> Convert the OmniVision OV7251 Image Sensor binding to DT schema format.
+>=20
+> vddd-supply was listed as required, but the example and actual user
+> don't have it. Also, the data brief says it has an internal regulator,
+> so perhaps it is truly optional.
+>=20
+> Add missing common "link-frequencies" which is used and required by the
+> Linux driver.
+>=20
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Acked-by: Wolfram Sang <wsa@kernel.org> # for I2C
 
-Yours,
-Linus Walleij
+
+--BTbnJp10YoCq6lqH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmTmefsACgkQFA3kzBSg
+KbZa1BAAps8bLdedGmStheotB2ZVygKPeDI+C8uevYeAQmSSYYViv1x0FlAEegKR
+KVv5QHniGivzlq1JpLWV3etg8RPPE0vUAqpVZMqi4UITguyPT7UmuQAeMTTQY5d4
+PpQUT+TRHtKbEOcWKjvSHu/65SQLScyMnXV+QHJlTPrAAr5Kl0LobSE/HUNEs/EW
+9RzgzZn8tLXLzWuQxhC15+d4kXCvqvx2QJV0//T57rxakJFhziygfxYDP5jvRbkJ
+PnT5ITX0E2+zUeIF+pVjjSqza7f9LHZdq4tr0unViKuvYusC6TcRFuElSGKl+l4b
+NOvQja/o4myzWTPpD9HP9DxJbNIj8SQYFflSedWyIvkomOZpNG5COE48WJnJekiz
+8ebyu4ECxzLRYUXeskf8wl0UlS+SY6bhGxDkvT9qUVI116zkqr8dw4tciyanbTLu
+qXOTCHidDick0EV68zKYf7TJu5/AMMlzliXzz8SCrIYOqe/KdhWRgEqipyCj+QIN
+TqVJtEDu0S/EBJpqTz4hlfraoXgRlw/BE4tXm7PZyrcj2G9DviOdrLyFtWyU/33j
+6tzTC4777jW5uHzkhURSpA1jjCmMvrjl73rmXMCMZuTag4bo3xVmmy9V16mTNjJ/
+XvS6HX4EKQUNy/XrMteAoJZ52kwFt4SPZuLNv6+Gl+aU/JAeELg=
+=UijO
+-----END PGP SIGNATURE-----
+
+--BTbnJp10YoCq6lqH--
