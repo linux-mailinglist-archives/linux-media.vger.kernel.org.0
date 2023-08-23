@@ -2,173 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5A987854C9
-	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 12:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA040785584
+	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 12:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235038AbjHWKBH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Aug 2023 06:01:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60706 "EHLO
+        id S233913AbjHWKgU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Aug 2023 06:36:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235504AbjHWKA6 (ORCPT
+        with ESMTP id S233855AbjHWKgJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Aug 2023 06:00:58 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CE11E4E
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:00:55 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4RW1tt0qL7z49Q2c;
-        Wed, 23 Aug 2023 13:00:53 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1692784854;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UW5ZkYKoTQgrvG7Ff0rLoiMaQ0OK0J3JOhD3JnYftSQ=;
-        b=g/y5o/hdm6kA6/ag9LW5vrTFfOXPQAcP3TXPxl0yIaEkHdTmSQTy6A5amLQhn82SJkxNBt
-        MYnlRZwLa1B7Z/tz8Kj8qTLuPtRJZIB23Fv8CSOPsg+2ENHhphMYdwD91798yMEPjs8EFD
-        +xaNzmopDYrNWjw5sEE/5HudIinL9i9YUjYDqaQFyNenP9KSsDoDN4OhmUSv4wFzOJx6Hf
-        2MtjsT1h+cPdunL5JLxg4FXuB26B6Z8+ZLblSdi6XM8rpgDNgY2OjE3K4e7lXxv2f6IO9p
-        IhoCLvzqBwMtjqOWEqYgVC3MPOzLiENih0YTQV6q20mVyq03Zgh94wpV9TUmhQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1692784854; a=rsa-sha256;
-        cv=none;
-        b=M7iSw4LHibv4upXrOlUrCRFLNb1gHc2BdIXufhhewHxGdDeUfo1PUi6ofXio9II5aRa3K6
-        FLB2ij4Lj5GOlq3Yh+sc8ds9FdNLrFvGib9NbgVTTuV+4DN8S4IaLax2wWI3oj06z/rRrn
-        08vZcKlEuJRGR9fDs2vOWVTeSRxxbiYA8axEubni96Gnd7aC656jLoOHJm+shrrhQDhZPM
-        apgK+kuEAVC2Cv94SUBHaVT42lrM/r6zrR2etVaDPuTWgvFH3ESXf2IrOgHa3+Jq1gsMsL
-        iRr6rbdGQfLNkQtAWSp/9wpb8Q34++bT7S5LWek7F7kbNHtNAeKsYBJ3Il61OA==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1692784854;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UW5ZkYKoTQgrvG7Ff0rLoiMaQ0OK0J3JOhD3JnYftSQ=;
-        b=c/iEKuGnYx0bzGMMF0qNZj2/fICY53P8zuI0juDWIihkuLOFf0oAVxQd7z345WsmuosmjZ
-        xphrF5mnPvWY+ECWF8j5Q1aZcFO5CbgmbS+SGUVDXH2PDpVEUyO3A/Hz8kY6Pq2LLeWq03
-        4sW2M9LUCOTrv/1x3XxOysr9lADvvnk6foR1lUeAVaxZ/oESBevzSk3nR/zMhVASqFENpq
-        RjvGOtDjGAHBUoy5McFG3B90O2JIblIfjxcFO0BmXpvw8KR+7Yt/BHau8T+X/Ztx35nXF1
-        P0sWrMk6sJoaXy4jFCXi4Vk+ejEc+Hg0i3DFy/fZ6SmG4oBz7VnW3Xpf0kyhrw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 64F42634C93;
-        Wed, 23 Aug 2023 13:00:53 +0300 (EEST)
-Date:   Wed, 23 Aug 2023 10:00:53 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
+        Wed, 23 Aug 2023 06:36:09 -0400
+Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E51ECC
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:36:06 -0700 (PDT)
+Received: by mail-vk1-xa30.google.com with SMTP id 71dfb90a1353d-48d2c072030so1759626e0c.0
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 03:36:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1692786965; x=1693391765;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6d+7f3MnJT1yn57ZjNVL+PHY0cFyx7NfZeSH/jRGoDY=;
+        b=fmY9pyT+WOn3SNmKu1cRoTcrzjrCDcBY7dJnZydeMEYc2bdUWNISSvwHqFWmjEDlKn
+         hv5dloATqiMrrtCw+hBAFxI8JCNBuXOD2+0bS8Ba+aLwqjjg2GKaSiElhQEm62cOrGM1
+         5ejYRhGxWWD6ZQDTXrjMsahBiEpQzj/nlnZGCPmsaBUr80qqxMpr5TDtlnh7qvQ0neaH
+         RcpJDcjweZVlTz7fmKAeOq0jq1bQv3Svkl/mB/cl+GYMKnPIUVvSMM95/cwCcWhRsRQa
+         j/zzfcjVZhA0McYMQ0zre7VatD/P1sH33/pAEBK2acM7JjwpJszCnNYjedfZZDuLiilC
+         Izsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692786965; x=1693391765;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6d+7f3MnJT1yn57ZjNVL+PHY0cFyx7NfZeSH/jRGoDY=;
+        b=anfc0RdVas0b7wAe3YXBQAViJW/r4ZnG4O1JjOGWwSqc9OZyRyvPNB+9dEKmpmbPI0
+         bhOJ+ERcVvz3kF50XmuLgURMuPOSrPolg7OXDXSKQhUzogozgYzFMGIVMR+nhJSg+qdq
+         6c4r58uUz0/D3ERgCH8haXZBXTpBgceVvNxQZ2AQ0tblMyQKoaahemqWvjSxL0uU6/C3
+         CKrek79g4T+taR7SDU5Jvq4p7rVOqGKNmNaIK0w4Qk7J4EVQhin+ppo7nIB1I5P9EgdS
+         j2Xy4C0ZLVVRGZSCR3r6/O2krINcXO/cewcBjhGVvHgTVQTDMhvBfT0g/KbwgOpaVMxz
+         0YPA==
+X-Gm-Message-State: AOJu0Yx7DbUXJxLDTV4LutogkcjnMnNNqg8F6D1ntMC79AOkWU6cZJxE
+        eS6VRtjrBvzj7zWxQMlw/9WOmCzjsYUssmALJO0ljg==
+X-Google-Smtp-Source: AGHT+IHIJxC3/wwNFE/CWuW8hhBnhxqY1LgekqgCn7qM++DbPbZmGq01HC+nuMnkWpxBnTtlVQWptOFmwGsm4b9xjj8=
+X-Received: by 2002:a1f:94c2:0:b0:48c:f9f0:5453 with SMTP id
+ w185-20020a1f94c2000000b0048cf9f05453mr5845837vkd.0.1692786965473; Wed, 23
+ Aug 2023 03:36:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com>
+ <20230821223001.28480-17-laurent.pinchart@ideasonboard.com>
+ <CAPY8ntAmdkSKcGVdCURt-Zae-nQk9Ljwu0Gp28bx-Er6_Vq-AA@mail.gmail.com> <20230823090742.GE4143@pendragon.ideasonboard.com>
+In-Reply-To: <20230823090742.GE4143@pendragon.ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 23 Aug 2023 11:35:49 +0100
+Message-ID: <CAPY8ntBFkksVHa-p97HnwDAW=PARTXKY-rJUjOx5QnKOpMkyPQ@mail.gmail.com>
+Subject: Re: [PATCH v2 16/18] media: i2c: imx219: Calculate crop rectangle dynamically
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-media@vger.kernel.org,
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2 14/18] media: i2c: imx219: Drop system suspend/resume
- operations
-Message-ID: <ZOXY1ZGyWTUebaNF@valkosipuli.retiisi.eu>
-References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com>
- <20230821223001.28480-15-laurent.pinchart@ideasonboard.com>
- <CAPY8ntBX5P5SOitehxN-AGb9OaGQkSaW-z4a2R+HZ7LiKDP_Tg@mail.gmail.com>
- <ZOXLBAXVSZsyyNuN@valkosipuli.retiisi.eu>
- <20230823091446.GG4143@pendragon.ideasonboard.com>
- <ZOXTCmANOotlO1nF@valkosipuli.retiisi.eu>
- <20230823095700.GI4143@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230823095700.GI4143@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Wed, 23 Aug 2023 at 10:07, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Dave,
+>
+> On Tue, Aug 22, 2023 at 07:15:21PM +0100, Dave Stevenson wrote:
+> > On Mon, 21 Aug 2023 at 23:30, Laurent Pinchart wrote:
+> > >
+> > > Calculate the crop rectangle size and location dynamically when setting
+> > > the format, instead of storing it in the imx219_mode structure. This
+> > > removes duplicated information from the mode, to guarantee consistency.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > >  drivers/media/i2c/imx219.c | 45 +++++++++++++-------------------------
+> > >  1 file changed, 15 insertions(+), 30 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > > index 646d73d1e6a3..4140d9b78e4c 100644
+> > > --- a/drivers/media/i2c/imx219.c
+> > > +++ b/drivers/media/i2c/imx219.c
+> > > @@ -18,6 +18,7 @@
+> > >  #include <linux/delay.h>
+> > >  #include <linux/gpio/consumer.h>
+> > >  #include <linux/i2c.h>
+> > > +#include <linux/minmax.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/pm_runtime.h>
+> > >  #include <linux/regulator/consumer.h>
+> > > @@ -152,9 +153,6 @@ struct imx219_mode {
+> > >         /* Frame height */
+> > >         unsigned int height;
+> > >
+> > > -       /* Analog crop rectangle. */
+> > > -       struct v4l2_rect crop;
+> > > -
+> > >         /* V-timing */
+> > >         unsigned int vts_def;
+> > >  };
+> > > @@ -292,48 +290,24 @@ static const struct imx219_mode supported_modes[] = {
+> > >                 /* 8MPix 15fps mode */
+> > >                 .width = 3280,
+> > >                 .height = 2464,
+> > > -               .crop = {
+> > > -                       .left = IMX219_PIXEL_ARRAY_LEFT,
+> > > -                       .top = IMX219_PIXEL_ARRAY_TOP,
+> > > -                       .width = 3280,
+> > > -                       .height = 2464
+> > > -               },
+> > >                 .vts_def = 3526,
+> > >         },
+> > >         {
+> > >                 /* 1080P 30fps cropped */
+> > >                 .width = 1920,
+> > >                 .height = 1080,
+> > > -               .crop = {
+> > > -                       .left = 688,
+> > > -                       .top = 700,
+> > > -                       .width = 1920,
+> > > -                       .height = 1080
+> > > -               },
+> > >                 .vts_def = 1763,
+> > >         },
+> > >         {
+> > >                 /* 2x2 binned 30fps mode */
+> > >                 .width = 1640,
+> > >                 .height = 1232,
+> > > -               .crop = {
+> > > -                       .left = IMX219_PIXEL_ARRAY_LEFT,
+> > > -                       .top = IMX219_PIXEL_ARRAY_TOP,
+> > > -                       .width = 3280,
+> > > -                       .height = 2464
+> > > -               },
+> > >                 .vts_def = 1763,
+> > >         },
+> > >         {
+> > >                 /* 640x480 30fps mode */
+> > >                 .width = 640,
+> > >                 .height = 480,
+> > > -               .crop = {
+> > > -                       .left = 1008,
+> > > -                       .top = 760,
+> > > -                       .width = 1280,
+> > > -                       .height = 960
+> > > -               },
+> > >                 .vts_def = 1763,
+> > >         },
+> > >  };
+> > > @@ -830,6 +804,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> > >         int exposure_max, exposure_def, hblank;
+> > >         struct v4l2_mbus_framefmt *format;
+> > >         struct v4l2_rect *crop;
+> > > +       unsigned int bin;
+> > >
+> > >         mode = v4l2_find_nearest_size(supported_modes,
+> > >                                       ARRAY_SIZE(supported_modes),
+> > > @@ -839,10 +814,20 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> > >         imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
+> > >
+> > >         format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
+> > > -       crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
+> > > -
+> > >         *format = fmt->format;
+> > > -       *crop = mode->crop;
+> > > +
+> > > +       /*
+> > > +        * Use binning to maximize the crop rectangle size, and centre it in the
+> > > +        * sensor. Bin by the same factor horizontally and vertically.
+> > > +        */
+> > > +       bin = min3(IMX219_PIXEL_ARRAY_WIDTH / format->width,
+> > > +                  IMX219_PIXEL_ARRAY_HEIGHT / format->height, 2U);
+> >
+> > If you're insisting that binning is by the same factor horizontally
+> > and vertically, why consider both in the min? Either only look at one,
+> > or we start looking at making H & V binning independent.
+>
+> I was considering making them independent. It should be fairly easy. If
+> you're fine with that, I think that would be my preference.
 
-On Wed, Aug 23, 2023 at 12:57:00PM +0300, Laurent Pinchart wrote:
-> On Wed, Aug 23, 2023 at 09:36:10AM +0000, Sakari Ailus wrote:
-> > On Wed, Aug 23, 2023 at 12:14:46PM +0300, Laurent Pinchart wrote:
-> > > On Wed, Aug 23, 2023 at 09:01:56AM +0000, Sakari Ailus wrote:
-> > > > On Tue, Aug 22, 2023 at 06:58:47PM +0100, Dave Stevenson wrote:
-> > > > > On Mon, 21 Aug 2023 at 23:30, Laurent Pinchart wrote:
-> > > > > >
-> > > > > > There is no need to stop streaming at system suspend time, or restart it
-> > > > > > when the system is resumed, as the host-side driver is responsible for
-> > > > > > stopping and restarting the pipeline in a controlled way by calling the
-> > > > > > .s_stream() operation. Drop the system suspend and resume handlers, and
-> > > > > > simplify the .s_stream() handler as a result.
-> > > > > 
-> > > > > I'll believe you, but the docs for power management in camera sensor
-> > > > > drivers [1] state
-> > > > > "Please see examples in e.g. drivers/media/i2c/ov8856.c and
-> > > > > drivers/media/i2c/ccs/ccs-core.c. The two drivers work in both ACPI
-> > > > > and DT based systems."
-> > > > > 
-> > > > > Looking at CCS we find the suspend hook stopping streaming [2], and
-> > > > > resume hook starting it [3]. Same in ov8856 [4].
-> > > > > 
-> > > > > Could you reference the documentation that states that the host-side
-> > > > > driver is responsible for starting and stopping? Is this an ACPI vs DT
-> > > > > difference?
-> > > > 
-> > > > There's no difference between DT and ACPI, no.
-> > > 
-> > > The comment about drivers working with both ACPI- and DT-based systems
-> > > was related, as far as I understand, to usage of runtime PM, I don't
-> > > think it was related to system PM at all.
-> > > 
-> > > > Starting streaming on resume from system suspend is haphazard as there's no
-> > > > guarantee on the timing of resuming devices (if the suspend and resume
-> > > > independently), or similarly if the receiver driver explicitly starts
-> > > > streaming, there's no guarantee the sub-device driver has resumed.
-> > > > 
-> > > > So I think we'd need more than what currently exists on the framework side
-> > > > to do this reliably --- at least when it comes to CSI-2.
-> > > 
-> > > Device links help here. See for instance mxc_isi_async_notifier_bound()
-> > > in drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c. Ideally this
-> > > shouldn't be handled by drivers but by the V4L2 core though. In any
-> > > case, the sensors don't need to deal with it, enforcing correct ordering
-> > > is an issue for the connected receiver.
-> > 
-> > Nice idea. Perhaps this could be integrated somehow to the V4L2 async
-> > framework? And it depends on streaming control --- if you don't have
-> > streaming ongoing, then you don't need that dependency. Also errors in
-> > resuming should only be related to the devices that failed to resume. It's
-> > going to get complicated.
-> 
-> I think the dependency should always be there, regardless of whether
-> there's an active stream or not. It doesn't hurt to ensure the CSI-2 RX
-> will always get suspended before the sensor.
+I haven't tried this sensor with different binning settings between H
+& V, but have no issue with it being investigated.
 
-If you have multiple sensor sub-devices and only a single receiver device
-(with multiple receivers), what do you do if one of the sensors fails to
-resume? I'd think this should be handled similarly to probe case --- but we
-know we have things to fix there.
+It was the combination of stating that they must be the same but then
+considering both that seemed odd.
 
-> 
-> > > Sakari, you didn't explicitly answer whether you think that system
-> > > suspend/resume handlers are needed or not for camera sensor drivers.
-> > > What is your opinion on this ?
-> > 
-> > Streaming needs to be explicitly started and stopped by the downstream
-> > pipeline, so camera sensors shouldn't need suspend or resume handlers (at
-> > least for this reason).
-> 
-> \o/ That's the answer I was hoping for :-)
+  Dave
 
-I don't think it could work otherwise. :-) This should be easy, too:
-receiver drivers do this already when starting and stopping streaming.
-
--- 
-Regards,
-
-Sakari Ailus
+> > > +
+> > > +       crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
+> > > +       crop->width = format->width * bin;
+> > > +       crop->height = format->height * bin;
+> > > +       crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
+> > > +       crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
+> > >
+> > >         if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > >                 /* Update limits and set FPS to default */
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
