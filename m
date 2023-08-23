@@ -2,342 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38CA678541F
-	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 11:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23177785385
+	for <lists+linux-media@lfdr.de>; Wed, 23 Aug 2023 11:10:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235283AbjHWJbt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Aug 2023 05:31:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42368 "EHLO
+        id S231524AbjHWJKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Aug 2023 05:10:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235347AbjHWJaW (ORCPT
+        with ESMTP id S235320AbjHWJHy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Aug 2023 05:30:22 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A4C1FDA
-        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 02:02:10 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 285285A4;
-        Wed, 23 Aug 2023 10:59:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692781186;
-        bh=3jqfRmXIgMRFNZjwekVuTs8esjE88Gv+Mx+0mebbcH0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dU+w4i4hfHBkrp6tRKeRaS1+cKcjqoxSU4AssGWBWap5AJp9ANG08+Nf44WRfaMHw
-         CGAPMsViG5gMtc2fc1xksoWUUZIabxF1gksVqarRzjCvJFUZbCFDCKHxD0SIpSb3qT
-         sPmX3VqBbhrAPVRIjcoa37u1A0VcxMSsSKCik6Ks=
-Date:   Wed, 23 Aug 2023 12:01:10 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Wed, 23 Aug 2023 05:07:54 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF3E31BFD
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 02:02:05 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4RW0Zs6FYTz49Q1F;
+        Wed, 23 Aug 2023 12:01:57 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1692781318;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=F7jlw4riZPUlAa59us81/mK6yShvHnfp7ZKT81EIM7A=;
+        b=c0ndixK9hvgp42r4B2+gYV8hQtE6VXOtjTlUzJLieSu8gGBV7pYNVTm7Uj/vKJFvamws2T
+        ueBAhnizbD4o0TipGIKdcd6ukkJCYjn1/256Jcm/ZIEqWIyIZDvG1P4KVilm5vVYmr6pGY
+        kyj23XFjbBawncpl4Z93ugNGoOxeVzcS2caKlWNFh34GJ6r6bWrInIRppgnJyaxgH51Cnw
+        iegsLMrq36BAmgk1Xwo397zkxrhwcUvhG5/qcmzZoCyh3qlNRmkxxStgIV4b7OLcX2Zk7S
+        fQKzuglIo/28md3BfEJzRIrU87qZ0Pic+c50P3Na+woYCJjmchSn0hATDHFnBg==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1692781318; a=rsa-sha256;
+        cv=none;
+        b=LvHCdS99mVL/I5IXuoP2jYd3AGNBqcJ+WAUTdZfSPdv3jyKu1xEgNlavoQXdXqSmicsZch
+        Y1DVCDZqWQl6aZseLHc14bBQDMVJ/9iD9pmf+PCersZlwG45uNBEkcNzei6Fu5ybKTxeUX
+        qbCOlzAEGHkwcUxNNVwYvWv18VsuxZO+Ihzctr3vlDFSO01kRMEopjsH1jQzGrjwPrfuTm
+        9ZYqyQFh2bw9eVxlsVm2pVNhDaSVAdMgW715ga+yYJJxqjFwD16fMrjlrg+vOG5mA71b0Q
+        lZZ5dRZH4cVSRCpPXXPLN5REvx7sdQ6iY91WTQxZfEBLISjgvnKMsHT481ZXlA==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1692781318;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=F7jlw4riZPUlAa59us81/mK6yShvHnfp7ZKT81EIM7A=;
+        b=Kvr6MCL/pNjWIhWqm64FniwmTo6wSK3TzuHE9aKBQkUm7VL40QttsD+k6NtWxOUwjCWjQP
+        Uj2AXZea0fczP+5p+vgoaDWFV0B6W2pQjLTv9EuE5u7TFn7VGXVj7Ou70aUc8fToQ4HYYe
+        ksSL9RNy6rVHMLu8RYn6jVZA+288ZOxvsKKBp4jVtAweOL4+7EmxqGlej1mLl2r8ApZPzY
+        PQ2166IFgukGPvTXlGbiqoaoWAjvEhSuxqjUznBNbRxbowv78hdm9i/pHXwhFlxvuUbuu8
+        yz1tGKNVjWU+A/XCEZsgX1SmrZRDIiVYkkk/OcMWMEd9XXbYtkpbRjhV94m2NA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id F09E2634C93;
+        Wed, 23 Aug 2023 12:01:56 +0300 (EEST)
+Date:   Wed, 23 Aug 2023 09:01:56 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2 03/18] media: i2c: imx219: Replace register addresses
- with macros
-Message-ID: <20230823090110.GD4143@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 14/18] media: i2c: imx219: Drop system suspend/resume
+ operations
+Message-ID: <ZOXLBAXVSZsyyNuN@valkosipuli.retiisi.eu>
 References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com>
- <20230821223001.28480-4-laurent.pinchart@ideasonboard.com>
- <CAPY8ntD9WPEFOeUXN48OCAgOGJuqGV_z584z2MENzavcvBcapA@mail.gmail.com>
+ <20230821223001.28480-15-laurent.pinchart@ideasonboard.com>
+ <CAPY8ntBX5P5SOitehxN-AGb9OaGQkSaW-z4a2R+HZ7LiKDP_Tg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntD9WPEFOeUXN48OCAgOGJuqGV_z584z2MENzavcvBcapA@mail.gmail.com>
+In-Reply-To: <CAPY8ntBX5P5SOitehxN-AGb9OaGQkSaW-z4a2R+HZ7LiKDP_Tg@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Hi Dave, Laurent,
 
-On Tue, Aug 22, 2023 at 05:04:39PM +0100, Dave Stevenson wrote:
-> On Mon, 21 Aug 2023 at 23:29, Laurent Pinchart wrote:
-> >
-> > Define macros for all the known registers used in the register arrays,
-> > and use them to replace the numerical addresses. This improves
-> > readability.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/imx219.c | 169 ++++++++++++++++++-------------------
-> >  1 file changed, 81 insertions(+), 88 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 229dfe24304b..8cab0251bd6a 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -41,6 +41,13 @@
-> >  #define IMX219_CSI_2_LANE_MODE         0x01
-> >  #define IMX219_CSI_4_LANE_MODE         0x03
-> >
-> > +#define IMX219_REG_DPHY_CTRL           CCI_REG8(0x0128)
-> > +#define IMX219_DPHY_CTRL_TIMING_AUTO   0
-> > +#define IMX219_DPHY_CTRL_TIMING_MANUAL 1
-> > +
-> > +#define IMX219_REG_EXCK_FREQ           CCI_REG16(0x012a)
-> > +#define IMX219_EXCK_FREQ(n)            ((n) * 256)             /* n expressed in MHz */
-> > +
-> >  /* Analog gain control */
-> >  #define IMX219_REG_ANALOG_GAIN         CCI_REG8(0x0157)
-> >  #define IMX219_ANA_GAIN_MIN            0
-> > @@ -75,6 +82,15 @@
-> >  /* HBLANK control - read only */
-> >  #define IMX219_PPL_DEFAULT             3448
-> >
-> > +#define IMX219_REG_LINE_LENGTH_A       CCI_REG16(0x0162)
-> > +#define IMX219_REG_X_ADD_STA_A         CCI_REG16(0x0164)
-> > +#define IMX219_REG_X_ADD_END_A         CCI_REG16(0x0166)
-> > +#define IMX219_REG_Y_ADD_STA_A         CCI_REG16(0x0168)
-> > +#define IMX219_REG_Y_ADD_END_A         CCI_REG16(0x016a)
-> > +#define IMX219_REG_X_OUTPUT_SIZE       CCI_REG16(0x016c)
-> > +#define IMX219_REG_Y_OUTPUT_SIZE       CCI_REG16(0x016e)
-> > +#define IMX219_REG_X_ODD_INC_A         CCI_REG8(0x0170)
-> > +#define IMX219_REG_Y_ODD_INC_A         CCI_REG8(0x0171)
-> >  #define IMX219_REG_ORIENTATION         CCI_REG8(0x0172)
-> >
-> >  /* Binning  Mode */
-> > @@ -83,6 +99,18 @@
-> >  #define IMX219_BINNING_2X2             0x0101
-> >  #define IMX219_BINNING_2X2_ANALOG      0x0303
-> >
-> > +#define IMX219_REG_CSI_DATA_FORMAT_A   CCI_REG16(0x018c)
-> > +
-> > +/* PLL Settings */
-> > +#define IMX219_REG_VTPXCK_DIV          CCI_REG8(0x0301)
-> > +#define IMX219_REG_VTSYCK_DIV          CCI_REG8(0x0303)
-> > +#define IMX219_REG_PREPLLCK_VT_DIV     CCI_REG8(0x0304)
-> > +#define IMX219_REG_PREPLLCK_OP_DIV     CCI_REG8(0x0305)
-> > +#define IMX219_REG_PLL_VT_MPY          CCI_REG16(0x0306)
-> > +#define IMX219_REG_OPPXCK_DIV          CCI_REG8(0x0309)
-> > +#define IMX219_REG_OPSYCK_DIV          CCI_REG8(0x030b)
-> > +#define IMX219_REG_PLL_OP_MPY          CCI_REG16(0x030c)
-> > +
-> >  /* Test Pattern Control */
-> >  #define IMX219_REG_TEST_PATTERN                CCI_REG16(0x0600)
-> >  #define IMX219_TEST_PATTERN_DISABLE    0
-> > @@ -100,6 +128,9 @@
-> >  #define IMX219_TESTP_COLOUR_MAX                0x03ff
-> >  #define IMX219_TESTP_COLOUR_STEP       1
-> >
-> > +#define IMX219_REG_TP_WINDOW_WIDTH     CCI_REG16(0x0624)
-> > +#define IMX219_REG_TP_WINDOW_HEIGHT    CCI_REG16(0x0626)
-> > +
-> >  /* External clock frequency is 24.0M */
-> >  #define IMX219_XCLK_FREQ               24000000
-> >
-> > @@ -144,7 +175,7 @@ struct imx219_mode {
-> >  };
-> >
-> >  static const struct cci_reg_sequence imx219_common_regs[] = {
-> > -       { CCI_REG8(0x0100), 0x00 },     /* Mode Select */
-> > +       { IMX219_REG_MODE_SELECT, 0x00 },       /* Mode Select */
-> >
-> >         /* To Access Addresses 3000-5fff, send the following commands */
-> >         { CCI_REG8(0x30eb), 0x0c },
-> > @@ -155,15 +186,13 @@ static const struct cci_reg_sequence imx219_common_regs[] = {
-> >         { CCI_REG8(0x30eb), 0x09 },
-> >
-> >         /* PLL Clock Table */
-> > -       { CCI_REG8(0x0301), 0x05 },     /* VTPXCK_DIV */
-> > -       { CCI_REG8(0x0303), 0x01 },     /* VTSYSCK_DIV */
-> > -       { CCI_REG8(0x0304), 0x03 },     /* PREPLLCK_VT_DIV 0x03 = AUTO set */
-> > -       { CCI_REG8(0x0305), 0x03 },     /* PREPLLCK_OP_DIV 0x03 = AUTO set */
-> > -       { CCI_REG8(0x0306), 0x00 },     /* PLL_VT_MPY */
-> > -       { CCI_REG8(0x0307), 0x39 },
-> > -       { CCI_REG8(0x030b), 0x01 },     /* OP_SYS_CLK_DIV */
-> > -       { CCI_REG8(0x030c), 0x00 },     /* PLL_OP_MPY */
-> > -       { CCI_REG8(0x030d), 0x72 },
-> > +       { IMX219_REG_VTPXCK_DIV, 5 },
-> > +       { IMX219_REG_VTSYCK_DIV, 1 },
-> > +       { IMX219_REG_PREPLLCK_VT_DIV, 3 },      /* 0x03 = AUTO set */
-> > +       { IMX219_REG_PREPLLCK_OP_DIV, 3 },      /* 0x03 = AUTO set */
-> > +       { IMX219_REG_PLL_VT_MPY, 57 },
-> > +       { IMX219_REG_OPSYCK_DIV, 1 },
-> > +       { IMX219_REG_PLL_OP_MPY, 114 },
-> >
-> >         /* Undocumented registers */
-> >         { CCI_REG8(0x455e), 0x00 },
-> > @@ -180,16 +209,14 @@ static const struct cci_reg_sequence imx219_common_regs[] = {
-> >         { CCI_REG8(0x479b), 0x0e },
-> >
-> >         /* Frame Bank Register Group "A" */
-> > -       { CCI_REG8(0x0162), 0x0d },     /* Line_Length_A */
-> > -       { CCI_REG8(0x0163), 0x78 },
-> > -       { CCI_REG8(0x0170), 0x01 },     /* X_ODD_INC_A */
-> > -       { CCI_REG8(0x0171), 0x01 },     /* Y_ODD_INC_A */
-> > +       { IMX219_REG_LINE_LENGTH_A, 3448 },
-> > +       { IMX219_REG_X_ODD_INC_A, 1 },
-> > +       { IMX219_REG_Y_ODD_INC_A, 1 },
-> >
-> >         /* Output setup registers */
-> > -       { CCI_REG8(0x0114), 0x01 },     /* CSI 2-Lane Mode */
-> > -       { CCI_REG8(0x0128), 0x00 },     /* DPHY Auto Mode */
-> > -       { CCI_REG8(0x012a), 0x18 },     /* EXCK_Freq */
-> > -       { CCI_REG8(0x012b), 0x00 },
-> > +       { IMX219_REG_CSI_LANE_MODE, IMX219_CSI_2_LANE_MODE },
+On Tue, Aug 22, 2023 at 06:58:47PM +0100, Dave Stevenson wrote:
+> Hi Laurent
 > 
-> This line is actually redundant as the setting is made from
-> imx219_configure_lanes.
-> That would be fixes ceddfd4493b3 ("media: i2c: imx219: Support
-> four-lane operation") if you wanted to pick it up as an extra patch.
-
-I'll do that.
-
-> > +       { IMX219_REG_DPHY_CTRL, IMX219_DPHY_CTRL_TIMING_AUTO },
-> > +       { IMX219_REG_EXCK_FREQ, IMX219_EXCK_FREQ(24) },
+> On Mon, 21 Aug 2023 at 23:30, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > There is no need to stop streaming at system suspend time, or restart it
+> > when the system is resumed, as the host-side driver is responsible for
+> > stopping and restarting the pipeline in a controlled way by calling the
+> > .s_stream() operation. Drop the system suspend and resume handlers, and
+> > simplify the .s_stream() handler as a result.
 > 
-> IMX219_XCLK_FREQ / 1000000?
-> If someone comes along later to add support for other XCLK values
-> hopefully they'd work out that this register needs to be updated, but
-> you could spell it out seeing as you've added the macro to produce the
-> register value.
-
-It's a good idea.
-
-With more free time, I would try to make the PLL calculations dynamic,
-but that's not anywhere close to the top of my todo list.
-
-> I'm not that bothered over it though.
+> I'll believe you, but the docs for power management in camera sensor
+> drivers [1] state
+> "Please see examples in e.g. drivers/media/i2c/ov8856.c and
+> drivers/media/i2c/ccs/ccs-core.c. The two drivers work in both ACPI
+> and DT based systems."
 > 
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Looking at CCS we find the suspend hook stopping streaming [2], and
+> resume hook starting it [3]. Same in ov8856 [4].
 > 
-> >  };
-> >
-> >  /*
-> > @@ -198,91 +225,57 @@ static const struct cci_reg_sequence imx219_common_regs[] = {
-> >   * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
-> >   */
-> >  static const struct cci_reg_sequence mode_3280x2464_regs[] = {
-> > -       { CCI_REG8(0x0164), 0x00 },
-> > -       { CCI_REG8(0x0165), 0x00 },
-> > -       { CCI_REG8(0x0166), 0x0c },
-> > -       { CCI_REG8(0x0167), 0xcf },
-> > -       { CCI_REG8(0x0168), 0x00 },
-> > -       { CCI_REG8(0x0169), 0x00 },
-> > -       { CCI_REG8(0x016a), 0x09 },
-> > -       { CCI_REG8(0x016b), 0x9f },
-> > -       { CCI_REG8(0x016c), 0x0c },
-> > -       { CCI_REG8(0x016d), 0xd0 },
-> > -       { CCI_REG8(0x016e), 0x09 },
-> > -       { CCI_REG8(0x016f), 0xa0 },
-> > -       { CCI_REG8(0x0624), 0x0c },
-> > -       { CCI_REG8(0x0625), 0xd0 },
-> > -       { CCI_REG8(0x0626), 0x09 },
-> > -       { CCI_REG8(0x0627), 0xa0 },
-> > +       { IMX219_REG_X_ADD_STA_A, 0 },
-> > +       { IMX219_REG_X_ADD_END_A, 3279 },
-> > +       { IMX219_REG_Y_ADD_STA_A, 0 },
-> > +       { IMX219_REG_Y_ADD_END_A, 2463 },
-> > +       { IMX219_REG_X_OUTPUT_SIZE, 3280 },
-> > +       { IMX219_REG_Y_OUTPUT_SIZE, 2464 },
-> > +       { IMX219_REG_TP_WINDOW_WIDTH, 3280 },
-> > +       { IMX219_REG_TP_WINDOW_HEIGHT, 2464 },
-> >  };
-> >
-> >  static const struct cci_reg_sequence mode_1920_1080_regs[] = {
-> > -       { CCI_REG8(0x0164), 0x02 },
-> > -       { CCI_REG8(0x0165), 0xa8 },
-> > -       { CCI_REG8(0x0166), 0x0a },
-> > -       { CCI_REG8(0x0167), 0x27 },
-> > -       { CCI_REG8(0x0168), 0x02 },
-> > -       { CCI_REG8(0x0169), 0xb4 },
-> > -       { CCI_REG8(0x016a), 0x06 },
-> > -       { CCI_REG8(0x016b), 0xeb },
-> > -       { CCI_REG8(0x016c), 0x07 },
-> > -       { CCI_REG8(0x016d), 0x80 },
-> > -       { CCI_REG8(0x016e), 0x04 },
-> > -       { CCI_REG8(0x016f), 0x38 },
-> > -       { CCI_REG8(0x0624), 0x07 },
-> > -       { CCI_REG8(0x0625), 0x80 },
-> > -       { CCI_REG8(0x0626), 0x04 },
-> > -       { CCI_REG8(0x0627), 0x38 },
-> > +       { IMX219_REG_X_ADD_STA_A, 680 },
-> > +       { IMX219_REG_X_ADD_END_A, 2599 },
-> > +       { IMX219_REG_Y_ADD_STA_A, 692 },
-> > +       { IMX219_REG_Y_ADD_END_A, 1771 },
-> > +       { IMX219_REG_X_OUTPUT_SIZE, 1920 },
-> > +       { IMX219_REG_Y_OUTPUT_SIZE, 1080 },
-> > +       { IMX219_REG_TP_WINDOW_WIDTH, 1920 },
-> > +       { IMX219_REG_TP_WINDOW_HEIGHT, 1080 },
-> >  };
-> >
-> >  static const struct cci_reg_sequence mode_1640_1232_regs[] = {
-> > -       { CCI_REG8(0x0164), 0x00 },
-> > -       { CCI_REG8(0x0165), 0x00 },
-> > -       { CCI_REG8(0x0166), 0x0c },
-> > -       { CCI_REG8(0x0167), 0xcf },
-> > -       { CCI_REG8(0x0168), 0x00 },
-> > -       { CCI_REG8(0x0169), 0x00 },
-> > -       { CCI_REG8(0x016a), 0x09 },
-> > -       { CCI_REG8(0x016b), 0x9f },
-> > -       { CCI_REG8(0x016c), 0x06 },
-> > -       { CCI_REG8(0x016d), 0x68 },
-> > -       { CCI_REG8(0x016e), 0x04 },
-> > -       { CCI_REG8(0x016f), 0xd0 },
-> > -       { CCI_REG8(0x0624), 0x06 },
-> > -       { CCI_REG8(0x0625), 0x68 },
-> > -       { CCI_REG8(0x0626), 0x04 },
-> > -       { CCI_REG8(0x0627), 0xd0 },
-> > +       { IMX219_REG_X_ADD_STA_A, 0 },
-> > +       { IMX219_REG_X_ADD_END_A, 3279 },
-> > +       { IMX219_REG_Y_ADD_STA_A, 0 },
-> > +       { IMX219_REG_Y_ADD_END_A, 2463 },
-> > +       { IMX219_REG_X_OUTPUT_SIZE, 1640 },
-> > +       { IMX219_REG_Y_OUTPUT_SIZE, 1232 },
-> > +       { IMX219_REG_TP_WINDOW_WIDTH, 1640 },
-> > +       { IMX219_REG_TP_WINDOW_HEIGHT, 1232 },
-> >  };
-> >
-> >  static const struct cci_reg_sequence mode_640_480_regs[] = {
-> > -       { CCI_REG8(0x0164), 0x03 },
-> > -       { CCI_REG8(0x0165), 0xe8 },
-> > -       { CCI_REG8(0x0166), 0x08 },
-> > -       { CCI_REG8(0x0167), 0xe7 },
-> > -       { CCI_REG8(0x0168), 0x02 },
-> > -       { CCI_REG8(0x0169), 0xf0 },
-> > -       { CCI_REG8(0x016a), 0x06 },
-> > -       { CCI_REG8(0x016b), 0xaf },
-> > -       { CCI_REG8(0x016c), 0x02 },
-> > -       { CCI_REG8(0x016d), 0x80 },
-> > -       { CCI_REG8(0x016e), 0x01 },
-> > -       { CCI_REG8(0x016f), 0xe0 },
-> > -       { CCI_REG8(0x0624), 0x06 },
-> > -       { CCI_REG8(0x0625), 0x68 },
-> > -       { CCI_REG8(0x0626), 0x04 },
-> > -       { CCI_REG8(0x0627), 0xd0 },
-> > +       { IMX219_REG_X_ADD_STA_A, 1000 },
-> > +       { IMX219_REG_X_ADD_END_A, 2279 },
-> > +       { IMX219_REG_Y_ADD_STA_A, 752 },
-> > +       { IMX219_REG_Y_ADD_END_A, 1711 },
-> > +       { IMX219_REG_X_OUTPUT_SIZE, 640 },
-> > +       { IMX219_REG_Y_OUTPUT_SIZE, 480 },
-> > +       { IMX219_REG_TP_WINDOW_WIDTH, 1640 },
-> > +       { IMX219_REG_TP_WINDOW_HEIGHT, 1232 },
-> >  };
-> >
-> >  static const struct cci_reg_sequence raw8_framefmt_regs[] = {
-> > -       { CCI_REG8(0x018c), 0x08 },
-> > -       { CCI_REG8(0x018d), 0x08 },
-> > -       { CCI_REG8(0x0309), 0x08 },
-> > +       { IMX219_REG_CSI_DATA_FORMAT_A, 0x0808 },
-> > +       { IMX219_REG_OPPXCK_DIV, 8 },
-> >  };
-> >
-> >  static const struct cci_reg_sequence raw10_framefmt_regs[] = {
-> > -       { CCI_REG8(0x018c), 0x0a },
-> > -       { CCI_REG8(0x018d), 0x0a },
-> > -       { CCI_REG8(0x0309), 0x0a },
-> > +       { IMX219_REG_CSI_DATA_FORMAT_A, 0x0a0a },
-> > +       { IMX219_REG_OPPXCK_DIV, 10 },
-> >  };
-> >
-> >  static const s64 imx219_link_freq_menu[] = {
+> Could you reference the documentation that states that the host-side
+> driver is responsible for starting and stopping? Is this an ACPI vs DT
+> difference?
+
+There's no difference between DT and ACPI, no.
+
+Starting streaming on resume from system suspend is haphazard as there's no
+guarantee on the timing of resuming devices (if the suspend and resume
+independently), or similarly if the receiver driver explicitly starts
+streaming, there's no guarantee the sub-device driver has resumed.
+
+So I think we'd need more than what currently exists on the framework side
+to do this reliably --- at least when it comes to CSI-2.
 
 -- 
 Regards,
 
-Laurent Pinchart
+Sakari Ailus
