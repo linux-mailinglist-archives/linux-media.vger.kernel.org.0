@@ -2,139 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C78DF7868BE
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 09:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D35357868C6
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 09:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240383AbjHXHir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 03:38:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51412 "EHLO
+        id S235958AbjHXHnF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 24 Aug 2023 03:43:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240389AbjHXHiZ (ORCPT
+        with ESMTP id S240429AbjHXHml (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 03:38:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893DE1716;
-        Thu, 24 Aug 2023 00:38:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E91462349;
-        Thu, 24 Aug 2023 07:38:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69CD6C433CA;
-        Thu, 24 Aug 2023 07:38:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692862698;
-        bh=qTc11hboeB2aZlOqkN91NN/Dw5CZWbyrOr80wSzYNm4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JvZadWCEBYotqkspkGwfoN/lfsikJ/T6fYB+lxsBQ4+b/7xuDAS+euYAqFWJjjorV
-         nJaf7bDOyNhZLRm3jEvgi+JdXdxxzS9roTINN1HfZo41vRV8EC4z/4GLmh1r3q/RAT
-         gwV4hMG5CwA6dEYGxHZe7CV7AYsnuIf7L1K2fVUfHwsFcPxScxjf8LE9ya9ZtVuewB
-         7I8t1tgs8gXolFV3dApvgXNSvl5c9lqSMMkqraj0/2d3Werd/kFOz6G6cKvASlNYXe
-         uJw42JOzUyihKE3BMX638v9Uw9GDCzksJVdFaGOIElhLbpHTxhaocarxF+4KPLuNti
-         pOPqUkbedTifg==
-From:   Lee Jones <lee@kernel.org>
-To:     lee@kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Danilo Krummrich <dakr@redhat.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 18/20] drm/drm_gpuva_mgr: Remove set but unused variable 'prev'
-Date:   Thu, 24 Aug 2023 08:37:03 +0100
-Message-ID: <20230824073710.2677348-19-lee@kernel.org>
-X-Mailer: git-send-email 2.42.0.rc1.204.g551eb34607-goog
-In-Reply-To: <20230824073710.2677348-1-lee@kernel.org>
-References: <20230824073710.2677348-1-lee@kernel.org>
+        Thu, 24 Aug 2023 03:42:41 -0400
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77C7A170A;
+        Thu, 24 Aug 2023 00:42:26 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-bcb6dbc477eso5955730276.1;
+        Thu, 24 Aug 2023 00:42:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692862929; x=1693467729;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dhv4Bg1fdD4fcuHP4DlJnIZ9JdHOfbSov1NYQWp3Ek8=;
+        b=AUkWWfX/zFe56Yxj+BNMG9GYZd670gyfSKx962grd7skql98XJFT6sYafeF+K5Z5UT
+         uOSKmvz4SSZIBuz5mqlJIuCg1m7IThElJhOyVuw3ickhoASJp57LSq/vhONcjoAzu5DS
+         fJuAxaKSWp9TpgL6jR3raPzeb5LyRJKMzifsIEdYLoKXmiPpU6Qfxu/lmAHFtsYOm+cL
+         DA26NRyOTLp4V8sfKm1CH9KnnpgoD1ArDN88uQ2GUXJ/q7zmPf9FaW3o0Ws2OXLChTub
+         FKdW2N+Kp3V2QocRbp7vgkdQBkENXTXCCyC8bqGPrQelFUg6dYk1WS8VekSuws3VXTt9
+         ipig==
+X-Gm-Message-State: AOJu0Yx9vL8zg2n+aLaEmW1xcn/9o7fif0DG/MxgpsxjIpyozYQSjt2+
+        1CGVEXxp2jYf0iYPVcQKqxHj8MGbeILy8w==
+X-Google-Smtp-Source: AGHT+IFHvPS0ch0Ft+QoIRmYP0ssAD5Obu+K54gJyP4DyMVpin6CXenCeFQLr0zMO2e8H5nv/tKibg==
+X-Received: by 2002:a81:dd02:0:b0:58f:afe5:4c16 with SMTP id e2-20020a81dd02000000b0058fafe54c16mr15233630ywn.30.1692862928821;
+        Thu, 24 Aug 2023 00:42:08 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id i127-20020a819185000000b0058c4e33b2d6sm3798266ywg.90.2023.08.24.00.42.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Aug 2023 00:42:08 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-d77f614243aso478610276.0;
+        Thu, 24 Aug 2023 00:42:08 -0700 (PDT)
+X-Received: by 2002:a25:ae92:0:b0:d3b:e659:5331 with SMTP id
+ b18-20020a25ae92000000b00d3be6595331mr14472125ybj.58.1692862928507; Thu, 24
+ Aug 2023 00:42:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230823183749.2609013-1-robh@kernel.org>
+In-Reply-To: <20230823183749.2609013-1-robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 24 Aug 2023 09:41:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWSrpjUK4Fa9cBiRqsnhh2GxyXK5fCt8B-RmaDgEy6OeA@mail.gmail.com>
+Message-ID: <CAMuHMdWSrpjUK4Fa9cBiRqsnhh2GxyXK5fCt8B-RmaDgEy6OeA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Drop remaining unneeded quotes
+To:     Rob Herring <robh@kernel.org>
+Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        James Clark <james.clark@arm.com>,
+        Leo Yan <leo.yan@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Andy Shevchenko <andy@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Corey Minyard <minyard@acm.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        M ark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-iio@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        alsa-devel@alsa-project.org, linux-scsi@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+On Wed, Aug 23, 2023 at 8:38 PM Rob Herring <robh@kernel.org> wrote:
+> Cleanup bindings dropping the last remaining unneeded quotes. With this,
+> the check for this can be enabled in yamllint.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
- drivers/gpu/drm/drm_gpuva_mgr.c: In function ‘__drm_gpuva_sm_map’:
- drivers/gpu/drm/drm_gpuva_mgr.c:1079:39: warning: variable ‘prev’ set but not used [-Wunused-but-set-variable]
+>  .../bindings/soc/renesas/renesas,rzg2l-sysc.yaml     |  4 ++--
 
-Signed-off-by: Lee Jones <lee@kernel.org>
----
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/gpu/drm/drm_gpuva_mgr.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mgr.c
-index f86bfad74ff8a..ad99c9cfedac7 100644
---- a/drivers/gpu/drm/drm_gpuva_mgr.c
-+++ b/drivers/gpu/drm/drm_gpuva_mgr.c
-@@ -1076,7 +1076,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
- 		   u64 req_addr, u64 req_range,
- 		   struct drm_gem_object *req_obj, u64 req_offset)
- {
--	struct drm_gpuva *va, *next, *prev = NULL;
-+	struct drm_gpuva *va, *next;
- 	u64 req_end = req_addr + req_range;
- 	int ret;
- 
-@@ -1106,7 +1106,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
- 				ret = op_unmap_cb(ops, priv, va, merge);
- 				if (ret)
- 					return ret;
--				goto next;
-+				continue;
- 			}
- 
- 			if (end > req_end) {
-@@ -1151,7 +1151,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
- 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
- 				if (ret)
- 					return ret;
--				goto next;
-+				continue;
- 			}
- 
- 			if (end > req_end) {
-@@ -1184,7 +1184,7 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
- 				ret = op_unmap_cb(ops, priv, va, merge);
- 				if (ret)
- 					return ret;
--				goto next;
-+				continue;
- 			}
- 
- 			if (end > req_end) {
-@@ -1205,8 +1205,6 @@ __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
- 				break;
- 			}
- 		}
--next:
--		prev = va;
- 	}
- 
- 	return op_map_cb(ops, priv,
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.42.0.rc1.204.g551eb34607-goog
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
