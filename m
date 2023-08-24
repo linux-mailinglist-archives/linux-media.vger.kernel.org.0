@@ -2,55 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3094787438
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 17:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 045D17873EA
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 17:19:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242094AbjHXPaZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 11:30:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38888 "EHLO
+        id S238394AbjHXPTL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 11:19:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242223AbjHXPaN (ORCPT
+        with ESMTP id S241587AbjHXPTA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 11:30:13 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F6219BF
-        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 08:30:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692891010; x=1724427010;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=ezlFxE9HhmpFlSbpYo4MIz3IoIPSkWsZ3vj6z3UQC9E=;
-  b=iSI5Y2TaM8TFOoUU7a5f23JKBFZzDqZHkdw/ZfSumqsC0f52xEJF/Dpw
-   2IJApY5wKyY/Jq3iORYLEApTRpYKLsgQgRdJlhhBqEo3S/Wg2j7NiwdwM
-   q4kgQvyBQLmkFSwz6YHwCpB2Nm9npC8Lmo6ki+yNlvkyUXzic5gcBTqFQ
-   PAbUlF66+FLPGCbTSFYQJ61hAYkpjBUaoVpnmI8JWIOq0R2QUgds9rwWG
-   hZ5g7EWw0MmpWGDJDg1yzxQdcXCJeKA82GYaNiySdHend4XDMV7wsqyIk
-   AxuI/HSRLcMbmp0g5dAo1gFmIXQfuBciNj+qsD67GDhSijPvtzjwaWcqz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="374440797"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="374440797"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 08:13:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="851552172"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="851552172"
-Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Aug 2023 08:13:53 -0700
-From:   Wentong Wu <wentong.wu@intel.com>
-To:     sakari.ailus@linux.intel.com, linux-media@vger.kernel.org
-Cc:     zhifeng.wang@intel.com, Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v3 3/3] media: ivsc: ace: probe ace device after IPU bridge is initialized.
-Date:   Thu, 24 Aug 2023 23:13:37 +0800
-Message-Id: <1692890017-15858-3-git-send-email-wentong.wu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1692890017-15858-1-git-send-email-wentong.wu@intel.com>
-References: <1692890017-15858-1-git-send-email-wentong.wu@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        Thu, 24 Aug 2023 11:19:00 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A98BE19B0;
+        Thu, 24 Aug 2023 08:18:58 -0700 (PDT)
+Received: from [IPV6:2a01:cb08:8af8:5b00:626e:5b8f:fa0f:ad38] (2a01cb088af85b00626e5b8ffa0fad38.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:8af8:5b00:626e:5b8f:fa0f:ad38])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: jmassot)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 59CF36607270;
+        Thu, 24 Aug 2023 16:18:56 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1692890337;
+        bh=Ul74XMy1SyVeArYJCdntXaMeCncqGiEeALPF+UlEJtk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=A4XVZ9SvbP27+3dwLEbeSy5Yk2OZcV/funIKpXargd5NQwyBhQ5loyUkwXoS44WVp
+         ZYYTrcnPuB+mTLcDeGC6ilqcxxaWWPLgXDF3uXbB0MlsTTWfFYQoOijgXisIBL6/5j
+         EcIaUu7gGj2gWpkNFa3SdQqq7ZoWCoQfp2eH1soZLdgttpYO9huaRxgQ7copX2Ln+w
+         5MRiwx9q0ZbjTOJTiA8FjOCPtWBUIsCBpUpyuw4S2gkbjDmzfPOrdEyUGDvUKmX8Uj
+         fMjLRBiiLbkA+RUK4+A/TbxyXXxh8NXX1ruzMvEEV5BtacbDnswIbvPMt1rzhO6eYg
+         L2u8f+XLm4mpA==
+Message-ID: <261a603b-576a-9066-828a-34e893394ecf@collabora.com>
+Date:   Thu, 24 Aug 2023 17:18:53 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v9 00/13] CSI2RX support on J721E and AM62
+Content-Language: en-US
+To:     Jai Luthra <j-luthra@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Benoit Parrot <bparrot@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>, nm@ti.com,
+        devarsht@ti.com, a-bhatia1@ti.com,
+        Martyn Welch <martyn.welch@collabora.com>
+References: <20230811-upstream_csi-v9-0-8943f7a68a81@ti.com>
+From:   Julien Massot <julien.massot@collabora.com>
+In-Reply-To: <20230811-upstream_csi-v9-0-8943f7a68a81@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,36 +72,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-During probe ivsc ace device, acpi_dev_clear_dependencies() will be
-called to clear the consumer and supplier relationship between camera
-sensor device and ivsc device. But IPU bridge will setup the connection
-swnodes for ivsc device and camera sensor device based on this consumer
-and supplier relationship. This patch defers ivsc ace's probe to make
-sure IPU bridge is initialized before this consumer and supplier
-relationship between camera sensor device and IVSC device is cleared.
+Hi Jai,
 
-Signed-off-by: Wentong Wu <wentong.wu@intel.com>
----
-v3:
- - make commit message more clear
+On 8/11/23 12:47, Jai Luthra wrote:
+> From: Pratyush Yadav <p.yadav@ti.com>
+> 
+> Hi,
+> 
+> This series adds support for CSI2 capture on J721E. It includes some
+> fixes to the Cadence CSI2RX driver, and adds the TI CSI2RX wrapper driver.
+> 
+> This is the v9 of the below v8 series,
+> https://lore.kernel.org/r/20230731-upstream_csi-v8-0-fb7d3661c2c9@ti.com
+> 
+> Testing logs: https://gist.github.com/jailuthra/eaeb3af3c65b67e1bc0d5db28180131d
+> 
+> J721E CSI2RX driver can also be extended to support multi-stream
+> capture, filtering different CSI Virtual Channels (VC) or Data Types
+> (DT) to different DMA channels. A WIP series based on v7 is available
+> for reference at https://github.com/jailuthra/linux/commits/csi_multi_wip
+> 
+> I will rebase the multi-stream patches on the current series (v9) and
+> post them as RFC in the coming weeks.
+> 
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> ---
 
- drivers/media/pci/intel/ivsc/mei_ace.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks for your patches, I can confirm that the previous issue 
+(repeating frames) that I saw on the v7 version is gone.
 
-diff --git a/drivers/media/pci/intel/ivsc/mei_ace.c b/drivers/media/pci/intel/ivsc/mei_ace.c
-index 7879f1f..627ec40 100644
---- a/drivers/media/pci/intel/ivsc/mei_ace.c
-+++ b/drivers/media/pci/intel/ivsc/mei_ace.c
-@@ -406,6 +406,9 @@ static int mei_ace_setup_dev_link(struct mei_ace *ace)
- 	if (!csi_dev) {
- 		ret = -EPROBE_DEFER;
- 		goto err;
-+	} else if (!dev_fwnode(csi_dev)) {
-+		ret = -EPROBE_DEFER;
-+		goto err_put;
- 	}
- 
- 	/* setup link between mei_ace and mei_csi */
--- 
-2.7.4
+Tested-by: Julien Massot <julien.massot@collabora.com>
 
+Regards,
+Julien
