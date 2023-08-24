@@ -2,166 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1DED786B95
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 11:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB3E3786C34
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 11:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240751AbjHXJWa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 05:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57416 "EHLO
+        id S240480AbjHXJmy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 05:42:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232333AbjHXJVu (ORCPT
+        with ESMTP id S239985AbjHXJmX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 05:21:50 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5660019A5;
-        Thu, 24 Aug 2023 02:21:48 -0700 (PDT)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:672:c310:4c8a:3a97])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C936B6607377;
-        Thu, 24 Aug 2023 10:21:46 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1692868907;
-        bh=KdHmT/N4nUXTUxaDIqPZRUYfKvngYsyv9h4im11GNyE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AX5+5UF6aH3FUNfnQYB6RIdCmMMJCd/9T1Uni+Qh7I8j8JmCKvhqNK5fyQL1vEQ+l
-         EhtS/J07iJ/ewdsPOUrGnBHobOdQ6IQ4PKYmBrSXP7rNw1a0YoHhypbvvuQFP+2uTD
-         c1Elx5Xv5wfSj9FoUzMM2zIosFyvAHqoD6U0L0qM28q1guznpEnKjF0pdG8H1BvueC
-         weBw9Y/HMe1gaR2KXslLvJnXf2zWp4GXLYGE62121n/Ms8vZ9DODIMZMZZVdCjR9xu
-         PRA05uEIa39VBxy1YFtBbNDn3mR6VUhSWJgWVXx9qyc+hvWqa7ycAIMeteSqJMPDRg
-         nW/iKyv0iX06g==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-Date:   Thu, 24 Aug 2023 11:21:33 +0200
-Message-Id: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230824092133.39510-1-benjamin.gaignard@collabora.com>
-References: <20230824092133.39510-1-benjamin.gaignard@collabora.com>
+        Thu, 24 Aug 2023 05:42:23 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A5410F9;
+        Thu, 24 Aug 2023 02:42:21 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-51bece5d935so8319084a12.1;
+        Thu, 24 Aug 2023 02:42:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692870140; x=1693474940;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wjGIWwx9sMqqDG4N0HeXS9byjWgyDyOJOPKv8Cpifs8=;
+        b=sePIHjLQiTnleOV5GoSLYhUfJFrfCxpJXhIB9zbk67whQZHbpN8qokQ5usK23OMfQT
+         araDscwvMtKVxYqkgH2unppqRTai0xCKgCKUmuRdRb29nYgeu2mkNFqxSTxGwVauoBxq
+         zaScxgfi0YtXTYDWIiHmP+BcwSpDy5ME7rEJBAw+RO9LUhQHmhnM0uhQ7pPkax0g+Xmy
+         LkmXjPlv6JOPXVCnp50OUkmELNyNfqX1Xcge1cl6BwODCsOOJV8NWq34FnMKbjf/j55O
+         6uUtqUYwalEfw3vLB0/aWt5+nUZQeOHnGmJzJmH0TFDsMBdezCEPsNXDImldpCPm7YPe
+         IQ2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692870140; x=1693474940;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wjGIWwx9sMqqDG4N0HeXS9byjWgyDyOJOPKv8Cpifs8=;
+        b=F8e5cs1f4sTQx1rt5txwWXEzb1BslWtijOf1ZF5EMdOQMZor7SoERkSBH5iiIcCrDp
+         6TrBW+CBY6Q5DARNSzRwUFeXb7lGI2xt0JUm3Nmzna3eDS4WZycWULe4+/UnAUdX9O3/
+         VDhbqRULf+KbD0CMfCTsYxTLBLuCDvtEvCSXtzA8htWLXshVrj/QUHdYihC5VRNsuJuY
+         1wryzZnobDJIXFosT2KrHVpNNr7vIKV30XCWgNHJzV39/r3tx6aQ+qrAMfH7ujDK+Zxc
+         FUjPJmCEedEumJ3DqxDU5VxQelkEZfqtz92wyHQQcxCE3JAgCC/PZHe1EWCTUvCHpLNs
+         02Wg==
+X-Gm-Message-State: AOJu0YxkwYMbA08MHgKhX76Uk8x9DjQX6Jvq5a1uEK4sDV3UkfNjwPrS
+        F7mKmpnYodgbm6M/39mEF5o=
+X-Google-Smtp-Source: AGHT+IHHj0Z4GE4VEpBXOqxHymqAxmvG7gD4sWN1EVfNANnc4VAKwXJAvMT1o/1+L1vUGkYCIDbXCg==
+X-Received: by 2002:aa7:c54f:0:b0:523:47cf:5034 with SMTP id s15-20020aa7c54f000000b0052347cf5034mr10061173edr.34.1692870140139;
+        Thu, 24 Aug 2023 02:42:20 -0700 (PDT)
+Received: from [192.168.178.25] ([134.19.100.78])
+        by smtp.gmail.com with ESMTPSA id i15-20020a50fc0f000000b0051e1660a34esm10229017edr.51.2023.08.24.02.42.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Aug 2023 02:42:19 -0700 (PDT)
+Message-ID: <d085c6e4-36d2-cd69-bb43-3c8d46da5239@gmail.com>
+Date:   Thu, 24 Aug 2023 11:42:18 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [Linaro-mm-sig] [PATCH 10/20] drm/scheduler/sched_main: Provide
+ short description of missing param 'result'
+Content-Language: en-US
+To:     Lee Jones <lee@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Luben Tuikov <luben.tuikov@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20230824073710.2677348-1-lee@kernel.org>
+ <20230824073710.2677348-11-lee@kernel.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20230824073710.2677348-11-lee@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Create v4l2-mem2mem helpers for VIDIOC_DELETE_BUFS ioctl.
+Am 24.08.23 um 09:36 schrieb Lee Jones:
+> Fixes the following W=1 kernel build warning(s):
+>
+>   drivers/gpu/drm/scheduler/sched_main.c:266: warning: Function parameter or member 'result' not described in 'drm_sched_job_done'
+>
+> Signed-off-by: Lee Jones <lee@kernel.org>
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- .../media/platform/verisilicon/hantro_v4l2.c  |  1 +
- drivers/media/test-drivers/vim2m.c            |  1 +
- drivers/media/v4l2-core/v4l2-mem2mem.c        | 20 +++++++++++++++++++
- include/media/v4l2-mem2mem.h                  | 12 +++++++++++
- 4 files changed, 34 insertions(+)
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 27a1e77cca38..0fd1c2fc78c8 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_bufs = v4l2_m2m_ioctl_delete_bufs,
- 	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index 3e3b424b4860..3014b8ee13d0 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -960,6 +960,7 @@ static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
- 	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 0cc30397fbad..d1d59943680f 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -831,6 +831,17 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
- 
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d)
-+{
-+	struct vb2_queue *vq;
-+
-+	vq = v4l2_m2m_get_vq(m2m_ctx, d->type);
-+
-+	return vb2_delete_bufs(vq, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_delete_bufs);
-+
- int v4l2_m2m_create_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_create_buffers *create)
- {
-@@ -1377,6 +1388,15 @@ int v4l2_m2m_ioctl_create_bufs(struct file *file, void *priv,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_create_bufs);
- 
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d)
-+{
-+	struct v4l2_fh *fh = file->private_data;
-+
-+	return v4l2_m2m_delete_bufs(file, fh->m2m_ctx, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_delete_bufs);
-+
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *priv,
- 				struct v4l2_buffer *buf)
- {
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index d6c8eb2b5201..161f85c42dc8 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -381,6 +381,16 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_buffer *buf);
- 
-+/**
-+ * v4l2_m2m_delete_bufs() - delete buffers from the queue
-+ *
-+ * @file: pointer to struct &file
-+ * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
-+ * @d: pointer to struct &v4l2_delete_buffers
-+ */
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d);
-+
- /**
-  * v4l2_m2m_create_bufs() - create a source or destination buffer, depending
-  * on the type
-@@ -860,6 +870,8 @@ int v4l2_m2m_ioctl_reqbufs(struct file *file, void *priv,
- 				struct v4l2_requestbuffers *rb);
- int v4l2_m2m_ioctl_create_bufs(struct file *file, void *fh,
- 				struct v4l2_create_buffers *create);
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d);
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
- 				struct v4l2_buffer *buf);
- int v4l2_m2m_ioctl_expbuf(struct file *file, void *fh,
--- 
-2.39.2
+> ---
+> Cc: Luben Tuikov <luben.tuikov@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 506371c427451..1ef558cda60ce 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -259,6 +259,7 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
+>   /**
+>    * drm_sched_job_done - complete a job
+>    * @s_job: pointer to the job which is done
+> + * @result: fence error to forward and set
+>    *
+>    * Finish the job's fence and wake up the worker thread.
+>    */
 
