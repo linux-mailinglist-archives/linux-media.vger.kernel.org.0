@@ -2,118 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57E99786838
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 09:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E565C78685B
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 09:32:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240311AbjHXHTp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 03:19:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55274 "EHLO
+        id S234781AbjHXHbp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 03:31:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240317AbjHXHT3 (ORCPT
+        with ESMTP id S240339AbjHXHbU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 03:19:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDA6E66;
-        Thu, 24 Aug 2023 00:19:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B5F26400A;
-        Thu, 24 Aug 2023 07:19:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53527C433C8;
-        Thu, 24 Aug 2023 07:19:24 +0000 (UTC)
-Message-ID: <2b05ceb2-5d95-63bf-fba8-16e68c64089b@xs4all.nl>
-Date:   Thu, 24 Aug 2023 09:19:22 +0200
+        Thu, 24 Aug 2023 03:31:20 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A368B10C8
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 00:31:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692862277; x=1724398277;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5hgJKsiGWl4oq1llW7uZcjQWi9/ldTzf8++Sj3sGCPA=;
+  b=l8c5CALkR09rMNfsvI1UFWtbRzfWuIfTr3tEnBiAcRmV6TQPl9oX9QMf
+   FqLTIfqh0+qUmylpFzZU0HJsGbrS+/dBGOlp80Ji/TUnq5qGSw0VZT2B0
+   4bU6qqP6SOFIFv2C2W1hJGuOBCDdeXd7Vc/XnG0w4aMK7kqJgdZFW4/tR
+   r5GGRAG9PgWGQFkh3KIpmjds94UdP/2o7QsRHlV2hflUuLstiVDuD7Wf/
+   Jp3QqhvI/jCyALGRNgxNEIEAVrWErs4J34jaf51VvRPv8dUJtd1WD4IjW
+   Dkl5Z7G9DOAAuKR9G6eHtBLs7eubr3vdc90s4XnZtJ0X2FBvhs+ipXUeY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="405367660"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="405367660"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 00:31:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="851379731"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="851379731"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 00:31:14 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 0147911F9B6;
+        Thu, 24 Aug 2023 10:24:21 +0300 (EEST)
+Date:   Thu, 24 Aug 2023 07:24:21 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>
+Subject: Re: [PATCH v3 04/10] media: uapi: Add generic serial metadata mbus
+ formats
+Message-ID: <ZOcFpbLmZHh1d6Vt@kekkonen.localdomain>
+References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
+ <20230808075538.3043934-5-sakari.ailus@linux.intel.com>
+ <0d022884-366d-4df0-caa6-2406714d5e07@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2] UBSAN: shift-out-of-bounds in set_flicker
-Content-Language: en-US, nl
-To:     Greg KH <greg@kroah.com>, coolrrsh@gmail.com
-Cc:     mchehab@kernel.org, slark_xiao@163.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-References: <20230824070630.8209-1-coolrrsh@gmail.com>
- <2023082425-argue-tartar-4652@gregkh>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <2023082425-argue-tartar-4652@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-9.3 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0d022884-366d-4df0-caa6-2406714d5e07@ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/08/2023 09:13, Greg KH wrote:
-> On Thu, Aug 24, 2023 at 12:36:30PM +0530, coolrrsh@gmail.com wrote:
->> From: Rajeshwar R Shinde <coolrrsh@gmail.com>
->>
->> Syzkaller reported the following issue:
->>
->> UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
->> shift exponent 245 is too large for 32-bit type 'int'
->>
->> shift-out-of-bounds error was triggered when variable 
->> 'sd->params.exposure.gain' is greater than the number of bits of int.
->> When the variable 'currentexp' is left shifted beyond 31 bits then
->> the error is produced. Therefore added the conditional expression to 
->> verify valid range.
->>
->> Tested via syzbot.
->>
->> Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
->> Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
->>
->> Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
->>
->> Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+Moi,
+
+On Wed, Aug 23, 2023 at 04:16:13PM +0300, Tomi Valkeinen wrote:
+> Hi Sakari,
 > 
-> Please do not have blank lines beween these tags.
+> On 08/08/2023 10:55, Sakari Ailus wrote:
+> > Add generic serial metadata mbus formats. These formats describe data
+> > width and packing but not the content itself. The reason for specifying
+> > such formats is that the formats as such are fairly device specific but
+> > they are still handled by CSI-2 receiver drivers that should not be aware
+> > of device specific formats. What makes generic metadata formats possible
+> > is that these formats are parsed by software only, after capturing the
+> > data to system memory.
 > 
-> You also have trailing whitespace in your changelog text :(
+> If I'm not mistaken, the CSI-2 spec doesn't say much about embedded data,
+> except that it may exist. Afaics, in CSI-2, the embedded data is split into
+> "lines", although the amount of data can be different than in the video
+> lines.
+> 
+> The CCS specs talks more about embedded data. Some of it is quite odd, like:
+> "The length of the embedded data line shall not exceed the length of the
+> image data line. The embedded data line should have the same length as the
+> image data line.". I think it means the embedded line can be shorter than
+> image line, but not longer.
 
-And please mention the driver name in your subject! E.g. something like:
+That's what it means, yes. The CCS also has means to obtain the actual
+length --- frame format descriptors.
 
-"media: gspca/cpia1: UBSAN: shift-out-of-bounds in set_flicker"
+> 
+> CCS also says that an embedded line should use 0x07 as padding at the end of
+> the line, if there's less data than the image line.
+> 
+> CCS also talks about how the embedded data would be packed, and in some
+> cases that packing would be the same as for pixel data.
 
-That way I can actually know that this is a patch for a driver that I
-maintain.
+In fact the packing is the same as for pixel data: the CSI-2 does not
+really differentiate there.
 
+> 
+> But I don't think these formats are generic. They're defined in CCS, so
+> shouldn't the format be, e.g., MEDIA_BUS_FMT_META_CCS_RAW_12 or such?
+
+The reason for having generic definitions is that we do not need receiver
+drivers to be aware of formats that are specific to another driver.
+
+If there is a need for new generic formats that do not match this, we can
+always add more. But the point is: drivers for devices that do not produce
+the data should never deal with (device) specific formats.
+
+What comes to CSI-2 and these formats --- on parallel buses you might have
+the data aligned to the least significant bits instead. But is there a need
+to transport such data on parallel buses, at least so it would be expressed
+in mbus formats?
+
+> 
+> The MEDIA_BUS_FMT_META_8 is quite safe one, as it just means byte data
+> without any padding or packing.
+
+As you're always dealing with 8 bits only, there is of course less room for
+variation.
+
+-- 
 Regards,
 
-	Hans
-
-> 
->> ---
->> v1->v2
->> changed the patch
->> changed commit message and tested with checkpatch 
->>
->> ---
->>  drivers/media/usb/gspca/cpia1.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
->> index 46ed95483e22..dafc522d5e7b 100644
->> --- a/drivers/media/usb/gspca/cpia1.c
->> +++ b/drivers/media/usb/gspca/cpia1.c
->> @@ -1028,6 +1028,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
->>  			sd->params.exposure.expMode = 2;
->>  			sd->exposure_status = EXPOSURE_NORMAL;
->>  		}
->> +		if (sd->params.exposure.gain > 31)
->> +			return -1;
-> 
-> Do not make up error codes, please return a valid one and not a random
-> negative number.  Unless -1 is a valid value for this function?
-> 
-> thanks,
-> 
-> greg k-h
-
+Sakari Ailus
