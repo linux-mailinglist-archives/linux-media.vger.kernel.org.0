@@ -2,119 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90189786819
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 09:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61889786823
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 09:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240167AbjHXHGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 03:06:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44970 "EHLO
+        id S240286AbjHXHOW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 03:14:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229936AbjHXHGj (ORCPT
+        with ESMTP id S240217AbjHXHOF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 03:06:39 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724EE10F;
-        Thu, 24 Aug 2023 00:06:37 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-68bec4c6b22so554983b3a.2;
-        Thu, 24 Aug 2023 00:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692860797; x=1693465597;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jVpZgWWLzSVokb3IOORkGQQJ1vh8iPrio2oddJje49k=;
-        b=RnbrPX94LvmJvCuLmJN20seTHYq2nkQuJUGESbDTbxe1BLhQRuhP9fl9mLSPT7Bec3
-         eIpocE2qnAsbxs4RA0ZSonZtJ6uhJM7dzB8Buqwivkb9ef0sbUbIfa10WsImiyb73+v7
-         rSt8VOhI3OTAuN+X3fhakZQmhzEJxbfFs1h9s5eIluVnIbGvOit2TocsJ28bJbTxMZIb
-         u/e/T8qBf1AfqWMkcQPAWQqCZbfZJKTKoZ7Jr4NjCsY3nXwZCtwdjBa0eMem8X3nUuM+
-         MKRYV3QzJsx8FfwEqB95PR7dlH7nd4/Oa7686mj46O/TOW0WoTYbVyct8fdArisPdWRS
-         GUJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692860797; x=1693465597;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jVpZgWWLzSVokb3IOORkGQQJ1vh8iPrio2oddJje49k=;
-        b=UU1oHdLbeBuy3Xw0lb4ag/lhzon7a45aASIV7cuGNEtzinksjFWMHUljcES1mhZcgE
-         F98kDbCCkc+PV/cZVGHdvC52yFm/uLg3TA3Mmjsg0UnqCX4WBdrunlIWavhOdodGXdpU
-         spDHd0Oh4aYEuroBI13SjLXOD7+YxaOp+uC3C3NyU0lpa7BnE9LTtJ12B85I/CAp9lg9
-         +7hMMDPgFBZli3lfg3GPN+v8SEH6nLLX3U6a9zj2zDxCUYiQ8UBXmola7lY2tgsdkhDj
-         MGNJuOlqZXmGj4tybaqNw0u+IR6UIMiezo+xHQqkZr+t104iyMLITILRS9yBAIkqF6h/
-         zxmA==
-X-Gm-Message-State: AOJu0Yzq1azBpDAGQsZMjqULvG7qOs0DSUQxZs/RiYYcr7Ta8c0IkVhi
-        NxSZkwlCVQIyut8MvyhZaLk=
-X-Google-Smtp-Source: AGHT+IF3P6gF1TSimhQn/Q6PnEh6lEvcZ2jPpvjP0j7NcVYyIZ6+P9/5O2OIuCxu/Qf8zKQlXZ1DbA==
-X-Received: by 2002:a05:6a00:148f:b0:68a:4d66:ca1 with SMTP id v15-20020a056a00148f00b0068a4d660ca1mr12913601pfu.6.1692860796765;
-        Thu, 24 Aug 2023 00:06:36 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c2:1047:2379:8974:f63f:c2f8:6a5b])
-        by smtp.gmail.com with ESMTPSA id d5-20020aa78145000000b00687a4b70d1esm10436179pfn.218.2023.08.24.00.06.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 00:06:36 -0700 (PDT)
-From:   coolrrsh@gmail.com
-To:     hverkuil@xs4all.nl, mchehab@kernel.org, slark_xiao@163.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        Rajeshwar R Shinde <coolrrsh@gmail.com>,
+        Thu, 24 Aug 2023 03:14:05 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F318E4B;
+        Thu, 24 Aug 2023 00:14:02 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id A424F5C00DD;
+        Thu, 24 Aug 2023 03:13:59 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Thu, 24 Aug 2023 03:13:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1692861239; x=1692947639; bh=0M
+        1ggo+Y5uf7UUVSVo0EZMwFgA9JMrcAzE/eU4EniSg=; b=mH1VKkNFAk/EotMeC/
+        eybnamqF4p4Jd5Glywnp+vEbXM2RtRuWwM6l8lhYD+jcmReG78yWAAuvgHzg7OXv
+        G0HMtJFKbCndygI2vqMP6ThULjxlDKnpGDE3LCTd9f96UW71NNPXaiWmsIugz8m4
+        NwJBCvnv/SnG3H5PkjOTD8xmruv7WPKQkY/+MvOGTqpY5uWE522TTHcBtpzB6gXn
+        P2BnmlZYj26cYb1hk7sPAfWMdBq8KAUy8e5Y8VgjGTOGB7y2mJUJLC4c3bYwz+Vn
+        rG7/x8Dp64akDA8AKm7Fu7v3bvg9ihipAFG/A+ICrW9Mg22yz+s+vI69JOP88Hej
+        dOoQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; t=1692861239; x=1692947639; bh=0M1ggo+Y5uf7U
+        UVSVo0EZMwFgA9JMrcAzE/eU4EniSg=; b=f7Pgqc9dTkJixdZ88VhyBjFH/DdIv
+        q0FIdrBU/A6lMB3BDVzypp5O+cEjHfKnQwqQnlnqSduYE+0UyjxMXz/l2Xo7dQDC
+        vj9rXcm2g8U1NnQs5GuKaWZdNenWpuRomUFoTr6BcVOkLAndty9V8gwrF7PN+LK5
+        CWzW8ikcCryreQDkr1w6+Qmj23HtSOMdhytDT4GRyxSvKtBp+HIwW/pkJJW6ymtt
+        dyPt3dJFeVhH5ldUuGrZlgd9bDJBIgFpn8tMvO9PxZqKdQcB4doHbmUVN13R0m+I
+        rm1z74IztXJud9NUHy/6Vis9/xvAEdUZRRtJsX9t1wFHPVamNqfNCHZiQ==
+X-ME-Sender: <xms:NwPnZJ5OZn36HEz27Dz03ZSPDU26oHkTMywluqbvXUNgsgPdNEZ9Ug>
+    <xme:NwPnZG6JzxTB7l-blrTkCWRrtfMlK_pIvxNs1nGNhOBIiXYc8A0HGp40TrhQkne6w
+    oQt7WrQH5hN4w>
+X-ME-Received: <xmr:NwPnZAewnl6GqlqyyAdimjYxb0PSTNYf7B6ju7KBqp4y2hEdMfsOSFSDDy1VPl1PN_HTtpCEHMy0ABJx7nDQVEf6AJYDjOzdJMVh6A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedruddvhedgudduiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesth
+    dtredttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtgho
+    mheqnecuggftrfgrthhtvghrnhephfeugfdthfeijeekveekuefgudfgffevhfehgeehvd
+    ehheetlefgkedtlefghefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpshihiihk
+    rghllhgvrhdrrghpphhsphhothdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:NwPnZCKpDnnNrxpQjgspKw5xYozl9nTfAhFSqSePwTUVhFOHdbYiKg>
+    <xmx:NwPnZNJTzlqxYZg_sxq3ctseECddogb1NhXBI0P4GCdLzEHN94BSng>
+    <xmx:NwPnZLz4pusTJ-edvs_P6FiymCqwDsaEwZJH8LK5jI0xFyc5muqdNg>
+    <xmx:NwPnZPhr4VOwAZrkt29wC6cfAmZoVFammo5ZDAXUvt3HAL6m-y030w>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 24 Aug 2023 03:13:58 -0400 (EDT)
+Date:   Thu, 24 Aug 2023 09:13:54 +0200
+From:   Greg KH <greg@kroah.com>
+To:     coolrrsh@gmail.com
+Cc:     hverkuil@xs4all.nl, mchehab@kernel.org, slark_xiao@163.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
         syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Subject: [PATCH v2] UBSAN: shift-out-of-bounds in set_flicker
-Date:   Thu, 24 Aug 2023 12:36:30 +0530
-Message-Id: <20230824070630.8209-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH v2] UBSAN: shift-out-of-bounds in set_flicker
+Message-ID: <2023082425-argue-tartar-4652@gregkh>
+References: <20230824070630.8209-1-coolrrsh@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230824070630.8209-1-coolrrsh@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+On Thu, Aug 24, 2023 at 12:36:30PM +0530, coolrrsh@gmail.com wrote:
+> From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+> 
+> Syzkaller reported the following issue:
+> 
+> UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
+> shift exponent 245 is too large for 32-bit type 'int'
+> 
+> shift-out-of-bounds error was triggered when variable 
+> 'sd->params.exposure.gain' is greater than the number of bits of int.
+> When the variable 'currentexp' is left shifted beyond 31 bits then
+> the error is produced. Therefore added the conditional expression to 
+> verify valid range.
+> 
+> Tested via syzbot.
+> 
+> Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
+> 
+> Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
+> 
+> Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-Syzkaller reported the following issue:
+Please do not have blank lines beween these tags.
 
-UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
-shift exponent 245 is too large for 32-bit type 'int'
+You also have trailing whitespace in your changelog text :(
 
-shift-out-of-bounds error was triggered when variable 
-'sd->params.exposure.gain' is greater than the number of bits of int.
-When the variable 'currentexp' is left shifted beyond 31 bits then
-the error is produced. Therefore added the conditional expression to 
-verify valid range.
+> ---
+> v1->v2
+> changed the patch
+> changed commit message and tested with checkpatch 
+> 
+> ---
+>  drivers/media/usb/gspca/cpia1.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
+> index 46ed95483e22..dafc522d5e7b 100644
+> --- a/drivers/media/usb/gspca/cpia1.c
+> +++ b/drivers/media/usb/gspca/cpia1.c
+> @@ -1028,6 +1028,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
+>  			sd->params.exposure.expMode = 2;
+>  			sd->exposure_status = EXPOSURE_NORMAL;
+>  		}
+> +		if (sd->params.exposure.gain > 31)
+> +			return -1;
 
-Tested via syzbot.
+Do not make up error codes, please return a valid one and not a random
+negative number.  Unless -1 is a valid value for this function?
 
-Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
+thanks,
 
-Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
-
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
-
----
-v1->v2
-changed the patch
-changed commit message and tested with checkpatch 
-
----
- drivers/media/usb/gspca/cpia1.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
-index 46ed95483e22..dafc522d5e7b 100644
---- a/drivers/media/usb/gspca/cpia1.c
-+++ b/drivers/media/usb/gspca/cpia1.c
-@@ -1028,6 +1028,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
- 			sd->params.exposure.expMode = 2;
- 			sd->exposure_status = EXPOSURE_NORMAL;
- 		}
-+		if (sd->params.exposure.gain > 31)
-+			return -1;
- 		currentexp = currentexp << sd->params.exposure.gain;
- 		sd->params.exposure.gain = 0;
- 		/* round down current exposure to nearest value */
--- 
-2.25.1
-
+greg k-h
