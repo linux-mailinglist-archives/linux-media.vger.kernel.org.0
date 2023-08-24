@@ -2,192 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA2C5787821
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 20:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC1BE787932
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 22:20:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233212AbjHXSji (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 14:39:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60750 "EHLO
+        id S243305AbjHXUTj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 16:19:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235210AbjHXSjY (ORCPT
+        with ESMTP id S239341AbjHXUTX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 14:39:24 -0400
-X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Aug 2023 11:39:21 PDT
-Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F20A119BE
-        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 11:39:21 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id ZF7QqAefwuWDMZF7Rqe7Po; Thu, 24 Aug 2023 20:31:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1692901908;
-        bh=nPsDNUjBoakY0a/VnBFZAypFsdRwpC9qQ/hznAqbH/g=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=VPg0zs3QpX8+1VbR+lNw3MYEEhAA7PHPxtG6IO0tPTiMoUC+tB5S+AbPMwkT4YPrW
-         gMT1XE1GyCj99tRP6zCmczJVRrwCrWXecpfMR2w63qVrU5jktnvAxwUO0kyHe41dE4
-         EkFPetm+uWmlgkV2+Emhfp3XJVG7zFQMZ9mAv52NYzetCRYWC2nGBKcK3vu75+o7CN
-         lZU4ZmqLdwU+L5eO1II6bO/8bF9ppd7zwHsV22JA61zlIPTfnB7pf7xZ2E9O8qk3mr
-         ITF/u93ACO/yi4tTqGx8VZv7KIsgmJbIaaH237zFUCo5jzcds+3ENhtNkWAZO0U+8Z
-         64EQnUi+QWYFQ==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 24 Aug 2023 20:31:48 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <74183f7b-6e53-ba3d-2160-1e526d61073b@wanadoo.fr>
-Date:   Thu, 24 Aug 2023 20:31:44 +0200
+        Thu, 24 Aug 2023 16:19:23 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C951E4B
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 13:19:21 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4ff933f9ca8so300309e87.1
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 13:19:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692908359; x=1693513159;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XdHWGSpZETM2O+ITDteT7UfsUNev9UDh8oQrLbZyR7Q=;
+        b=YKNOKkTbuzrx5SyzXpPv5UBO7FiXuAve62Z0DK9VJOMERNFtEjSgG2Ev3y5symky1+
+         UIEAyTXFMxxYET2Lo9MRUEdlLzPe2oqkKR5dhCU1h17r+bqBfPytUPUPY9dmOysOGgWo
+         CfJVICeUJ+gmQKikgHpVgiIPhXw2kk+3H5Y+dKK3WjF6zeLwe75WB3qJLkdAXa/KfVWN
+         DS+f45dp+0NYOoPutq8NGvpZZShBBr/fnhNJk3apvzvLke3zYKMVOjv/X7pBZPOfzByS
+         aM1NgQTzkr/xcRBc1GwaRAHRDFkNABWnSTnG4HeF2betUV04rNLnbpWJczLa+l/+3UNJ
+         ggIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692908359; x=1693513159;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XdHWGSpZETM2O+ITDteT7UfsUNev9UDh8oQrLbZyR7Q=;
+        b=gWpB9O3kMVpD3N9YEtSQ8X+k2Ry2OAxiNK5PXFQ5bNANbIm5/eo1BDkyhhoMcm1T7D
+         M89BVv8eccR4h/wO1nuUwo/PG2drJcMQJ4CQc+YBX2gEu+79HC6meVCbfHg0w/B5DLtT
+         hlPuDwlKjFhJFR1BFJsjmUjTu9YBb6AaMRoPDqc0rdE7pqYAZvLlslnXhke6OuCdfUQM
+         rOuocjQyWqmzrX1WLMBLLb9Jyn9QILUhafWGpAc3pBg9xmutAjdC+2+RX1mAmau2skg9
+         xtzZJQymS6NcY9kcDNxML6nMxjn2SrGnfbmXTRAskwcLM4QDaRxK121jZWKSL5oWPDH9
+         93gA==
+X-Gm-Message-State: AOJu0YyKvblKtqg9RJ08MUhtKjTenB2YK4NaZ7HdIEL5/01ZzDIkJPv4
+        H52wUvyDrLKNKIG9bTTVQdE=
+X-Google-Smtp-Source: AGHT+IFdGWqLJfNm0nvvvMA9WeaNsGrR/iqt+9lxlpZoGCl3YQNU/XwoswFGiSra+wcQUyli5g2y9g==
+X-Received: by 2002:a19:ca44:0:b0:500:90d1:90a6 with SMTP id h4-20020a19ca44000000b0050090d190a6mr5440973lfj.63.1692908359173;
+        Thu, 24 Aug 2023 13:19:19 -0700 (PDT)
+Received: from [192.168.1.70] ([87.52.106.165])
+        by smtp.gmail.com with ESMTPSA id i9-20020aa7c709000000b0052a198d8a4dsm148843edq.52.2023.08.24.13.19.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Aug 2023 13:19:18 -0700 (PDT)
+Message-ID: <073f6080b1365e3d552186f4921c9d98f32ab106.camel@gmail.com>
+Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
+From:   Claus Stovgaard <claus.stovgaard@gmail.com>
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>, bingbu.cao@intel.com,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com
+Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
+        hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+Date:   Thu, 24 Aug 2023 22:19:16 +0200
+In-Reply-To: <8c47de74-a08f-2adc-537d-e30b42cdb45b@linux.intel.com>
+References: <20230727071558.1148653-1-bingbu.cao@intel.com>
+         <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
+         <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
+         <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
+         <907f992d4e333f090418f39ebd59bf8ac1fb5e3f.camel@gmail.com>
+         <d451bbec67358373ca8495544cc0802233108a03.camel@gmail.com>
+         <8c47de74-a08f-2adc-537d-e30b42cdb45b@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v8 3/8] media: staging: media: starfive: camss: Add core
- driver
-To:     Jack Zhu <jack.zhu@starfivetech.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        changhuang.liang@starfivetech.com
-References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
- <20230824080109.89613-4-jack.zhu@starfivetech.com>
-Content-Language: fr
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230824080109.89613-4-jack.zhu@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 24/08/2023 à 10:01, Jack Zhu a écrit :
-> Add core driver for StarFive Camera Subsystem. The code parses
-> the device platform resources and registers related devices.
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
-> ---
+On Tue, 2023-08-22 at 11:05 +0800, Bingbu Cao wrote:
+>=20
+> Claus,
+>=20
+> On 8/21/23 6:07 PM, Claus Stovgaard wrote:
+> > Bingbu
+> >=20
+> > Though yavta does not work in the way as described in the guide.
+> >=20
+> > [root@xps-1 ]# yavta --data-prefix -u -c10 -n5 -I -s 1280x800 --
+> > file=3D/tmp/frame-#.bin -f SBGGR10 /dev/video0
+> > Device /dev/video0 opened.
+> > Device `ipu6' on `PCI:0000:00:05.0' (driver 'isys') supports video,
+> > capture, with mplanes.
+> > Video format set: SBGGR10 (30314742) 1280x800 field none, 1 planes:
+> > =C2=A0* Stride 2560, buffer size 2050560
+> > Video format: SBGGR10 (30314742) 1280x800 field none, 1 planes:=20
+> > =C2=A0* Stride 2560, buffer size 2050560
+> > Unable to request buffers: Invalid argument (22).
+>=20
+> Firstly, thanks for your work. I just noticed that we remove the
+> userptr buffer support before, that means yavta '-u' will not be
+> supported. So I think you can try to remove '-u' to see whether it
+> can work. I will update the documentation in next version.
 
+Good catch. Removing the -u makes it work.
+
+clst@emb-xps-1:~$ yavta --data-prefix -c10 -n5 -I -s 1280x800 --
+file=3D/tmp/frame-#.bin -f SBGGR10 /dev/video0
+Device /dev/video0 opened.
+Device `ipu6' on `PCI:0000:00:05.0' (driver 'isys') supports video,
+capture, with mplanes.
+Video format set: SBGGR10 (30314742) 1280x800 field none, 1 planes:=20
+ * Stride 2560, buffer size 2050560
+Video format: SBGGR10 (30314742) 1280x800 field none, 1 planes:=20
+ * Stride 2560, buffer size 2050560
+5 buffers requested.
+length: 1 offset: 1815302016 timestamp type/source: mono/EoF
+Buffer 0/0 mapped at address 0x7fa9b040b000.
 ...
-
-> diff --git a/drivers/staging/media/starfive/camss/Kconfig b/drivers/staging/media/starfive/camss/Kconfig
-> new file mode 100644
-> index 000000000000..8d20e2bd2559
-> --- /dev/null
-> +++ b/drivers/staging/media/starfive/camss/Kconfig
-> @@ -0,0 +1,17 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config VIDEO_STARFIVE_CAMSS
-> +	tristate "Starfive Camera Subsystem driver"
-> +	depends on V4L_PLATFORM_DRIVERS
-> +	depends on VIDEO_DEV && OF
-> +	depends on HAS_DMA
-> +	depends on PM
-> +	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	select V4L2_FWNODE
-> +	help
-> +	   Enable this to support for the Starfive Camera subsystem
-> +	   found on Starfive JH7110 SoC.
-> +
-> +	   To compile this driver as a module, choose M here: the
-> +	   module will be called stf-camss.
-
-stf_camss? (s/-/_)
-
-> diff --git a/drivers/staging/media/starfive/camss/Makefile b/drivers/staging/media/starfive/camss/Makefile
-> new file mode 100644
-> index 000000000000..f53c5cbe958f
-> --- /dev/null
-> +++ b/drivers/staging/media/starfive/camss/Makefile
-> @@ -0,0 +1,9 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Makefile for StarFive Camera Subsystem driver
-> +#
-> +
-> +starfive-camss-objs += \
-> +		stf_camss.o
-> +
-> +obj-$(CONFIG_VIDEO_STARFIVE_CAMSS) += starfive-camss.o
-
-I'm not an expert in Makefile files, but this stf_camss.o and 
-starfive-camss.o look strange to me.
-
-> diff --git a/drivers/staging/media/starfive/camss/stf_camss.c b/drivers/staging/media/starfive/camss/stf_camss.c
-> new file mode 100644
-> index 000000000000..75ebc3a35218
-> --- /dev/null
-> +++ b/drivers/staging/media/starfive/camss/stf_camss.c
-
+Warning: bytes used 2048000 !=3D image size 2050560 for plane 0
+0 (0) [-] none 0 2048000 B 183.555047 183.571463 59.641 fps ts mono/EoF
+Warning: bytes used 2048000 !=3D image size 2050560 for plane 0
+1 (1) [-] none 1 2048000 B 183.571675 183.588100 60.140 fps ts mono/EoF
 ...
+Captured 10 frames in 0.182985 seconds (54.649099 fps, 0.000000 B/s).
+5 buffers released.
 
-> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
-> +{
-> +	struct device_node *node = NULL;
-> +	int ret, num_subdevs = 0;
-> +
-> +	for_each_endpoint_of_node(stfcamss->dev->of_node, node) {
-> +		struct stfcamss_async_subdev *csd;
-> +
-> +		if (!of_device_is_available(node))
-> +			continue;
-> +
-> +		csd = v4l2_async_nf_add_fwnode_remote(&stfcamss->notifier,
-> +						      of_fwnode_handle(node),
-> +						      struct stfcamss_async_subdev);
-> +		if (IS_ERR(csd)) {
-> +			ret = PTR_ERR(csd);
-> +			dev_err(stfcamss->dev, "failed to add async notifier\n");
-> +			v4l2_async_nf_cleanup(&stfcamss->notifier);
 
-having it here, looks strange to me.
-It is already called in the error handling path of the probe.
+> For Dell XPS 9320, we still have some work to make IPU work with
+> Intel VSC(upstreaming). My current hack on github is not offical.
+> But it can help people on 9320 to verify the camera before
+> everything ready. :)
+>=20
 
-Should there be a "of_node_put(node);" if we return here?
 
-> +			return ret;
-> +		}
-> +
-> +		ret = stfcamss_of_parse_endpoint_node(stfcamss, node, csd);
-> +		if (ret)
-> +			return ret;
-> +
-> +		num_subdevs++;
-> +	}
-> +
-> +	return num_subdevs;
-> +}
+Yes. Big thanks for the work. I guess that after next merge window, the
+IPU6 patches can be rebased on top of Intel VSC sent upstream, and also
+changed to fit the changes in the V4L2 api.
 
-...
-
-> +static int stfcamss_remove(struct platform_device *pdev)
-> +{
-> +	struct stfcamss *stfcamss = platform_get_drvdata(pdev);
-> +
-> +	v4l2_device_unregister(&stfcamss->v4l2_dev);
-> +	media_device_cleanup(&stfcamss->media_dev);
-
-Is a "v4l2_async_nf_cleanup(&stfcamss->notifier);" missing to match the 
-error handling path of the probe?
-
-> +	pm_runtime_disable(&pdev->dev);
-> +
-> +	return 0;
-> +}
-> +
-
-...
+Regards
+Claus
