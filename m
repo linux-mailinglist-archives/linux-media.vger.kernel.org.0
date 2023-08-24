@@ -2,109 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E71BF7865A1
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 04:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5779A7865CA
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 05:22:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239530AbjHXC5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Aug 2023 22:57:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43020 "EHLO
+        id S237296AbjHXDV2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Aug 2023 23:21:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239464AbjHXC5F (ORCPT
+        with ESMTP id S239587AbjHXDVI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Aug 2023 22:57:05 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43CA5124;
-        Wed, 23 Aug 2023 19:56:59 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-76d92a5e652so383902785a.0;
-        Wed, 23 Aug 2023 19:56:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692845818; x=1693450618;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q9Fv6zMHUmxIJtQTWw3otja3eb7daBbRUnAPWR3+Kws=;
-        b=EVi36tdUqJMlOvMF5BKp2qBduN+pjKuz6Us6qWN0euQMxX//FBn2tkevUvmQ0jT7dy
-         QIYTSLIrOwJJrbwKo9ZkDfR2N+fo2G2cnY9a7T0gyOxaEX87NC1xNeL/UwLcOFtHALic
-         ZLiva7jbc5XlX1Ewghy60+GynWZHY461VYZBL+rKjJr0gJc6PhtDfsvnnfDKMTF+nmSY
-         b67dYc7Ry1QTt8dSvag7E3m3wxL+T/zxdYaloB7x8dxtgj588ko4UqYQcmY36CHVtxWt
-         iYF3G4mM3FFe+F+/+nyQoaPThIAVJk/g4AuxUBKaCu+vIZtlOzjd8HrBF87f6fV68U4J
-         kBtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692845818; x=1693450618;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q9Fv6zMHUmxIJtQTWw3otja3eb7daBbRUnAPWR3+Kws=;
-        b=ZV7JD2PItNNgINa80/2cPivFJfCsfpZfGIJad1Q2T2yg4eReWKFsKl4B0X6bWW7D4I
-         OhZmsSx9ObxvmsBTWRD9ZcbDxS/rVKnnouTItqO5fdednXNYJQvZzySgg/FmAm5vIoS5
-         fD1XcrVk+iYsmC+HCZaleA8ots9wvUaxMZd2Vzc9njnIrXMKNlXffYKnPpQ7UkA/hVXW
-         VrXngXiougdiAAuyvA4arEcFLhGwoZ1Mw2OYpk6ZHrzi6+hT6DYTQv4fEyt4FV52Ophx
-         rknVPTKU1szUH9dAN6r3tcYzHcx6R47JEJ8UI220hxtW4IU9sv61S9mrVPcqbAB7bxoG
-         06ZA==
-X-Gm-Message-State: AOJu0YzTgp518ISLA9kNoOzUEjHuawPPGrRr9RhkCwprc+Z8Fhl/LDe2
-        63VCtALML+m3YuZavTHY1E0=
-X-Google-Smtp-Source: AGHT+IGfrlLR+AVm4rNxdl7JpMbBTxVzD5wv8rDFBbxVFAKSvhzmEDzdpW59h59MCcReusMlyP0fPw==
-X-Received: by 2002:a05:620a:290e:b0:767:261d:1ef6 with SMTP id m14-20020a05620a290e00b00767261d1ef6mr19366337qkp.59.1692845818303;
-        Wed, 23 Aug 2023 19:56:58 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id z137-20020a63338f000000b0055386b1415dsm4743735pgz.51.2023.08.23.19.56.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 19:56:57 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 23 Aug 2023 19:56:56 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andy@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Jean Delvare <jdelvare@suse.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Corey Minyard <minyard@acm.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        M ark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-iio@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        alsa-devel@alsa-project.org, linux-scsi@vger.kernel.org,
-        linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Drop remaining unneeded quotes
-Message-ID: <0f6ee9b9-3792-4865-8183-c50d4f3896e1@roeck-us.net>
-References: <20230823183749.2609013-1-robh@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230823183749.2609013-1-robh@kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        Wed, 23 Aug 2023 23:21:08 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C961910EC
+        for <linux-media@vger.kernel.org>; Wed, 23 Aug 2023 20:21:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692847266; x=1724383266;
+  h=from:to:cc:subject:date:message-id;
+  bh=lMdg0UFrcxtBbXgkKWYS2p3dnsoQT3JYyoMzgshnWjQ=;
+  b=CKJ5IVoKWbqJ+MewRAn2xqp2qOM8OQ3UXz751pisJwPEHeiBgdcYbFqE
+   B9Xu88jRs2n+5IJSSLCepL0mOrWGE46+uzXx2GlmcaTjCwHvjEiMr086T
+   3ihk5Y0KQbvOtzZb55OKe7iK08jAXc2WTHw73mt+/OliNTZ3JhR0sXFRG
+   +XZac6jZKB+rUuiW5Lcc1n/MrkN2ftmn1uL194vBWRuLMhZOUkbpFyJak
+   I9s6cw560CcfWR/L0InVUYRnsAN7LOl2hvoKCpeL3Hz/iukH5ypxrIpcC
+   0zaCDg1axXuLwqV94UE4otWr4Gie/GnkdfMhSZtMCwrZem6y5j9mwkv//
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="354665512"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="354665512"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 20:21:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="826972864"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="826972864"
+Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Aug 2023 20:21:04 -0700
+From:   Wentong Wu <wentong.wu@intel.com>
+To:     sakari.ailus@linux.intel.com, linux-media@vger.kernel.org
+Cc:     Wentong Wu <wentong.wu@intel.com>
+Subject: [PATCH v2 1/3] media: ivsc: csi: remove name identifier
+Date:   Thu, 24 Aug 2023 11:21:00 +0800
+Message-Id: <1692847262-31790-1-git-send-email-wentong.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -112,17 +55,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 01:28:47PM -0500, Rob Herring wrote:
-> Cleanup bindings dropping the last remaining unneeded quotes. With this,
-> the check for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/hwmon/iio-hwmon.yaml         |  4 ++--
->  .../bindings/watchdog/toshiba,visconti-wdt.yaml      |  4 ++--
+Remove name identifier to match the device with the
+defined UUID when load driver module.
 
-For hwmon and watchdog:
+Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+---
+v2:
+ - no change compared with v1
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+ drivers/media/pci/intel/ivsc/mei_csi.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Guenter
+diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
+index 264b85b..648c6a8 100644
+--- a/drivers/media/pci/intel/ivsc/mei_csi.c
++++ b/drivers/media/pci/intel/ivsc/mei_csi.c
+@@ -30,7 +30,6 @@
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-subdev.h>
+ 
+-#define MEI_CSI_DRIVER_NAME "ivsc_csi"
+ #define MEI_CSI_ENTITY_NAME "Intel IVSC CSI"
+ 
+ #define MEI_CSI_LINK_FREQ_400MHZ 400000000ULL
+@@ -804,14 +803,14 @@ static void mei_csi_remove(struct mei_cl_device *cldev)
+ 			     0xAF, 0x93, 0x7b, 0x44, 0x53, 0xAC, 0x29, 0xDA)
+ 
+ static const struct mei_cl_device_id mei_csi_tbl[] = {
+-	{ MEI_CSI_DRIVER_NAME, MEI_CSI_UUID, MEI_CL_VERSION_ANY },
++	{ .uuid = MEI_CSI_UUID, .version = MEI_CL_VERSION_ANY },
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(mei, mei_csi_tbl);
+ 
+ static struct mei_cl_driver mei_csi_driver = {
+ 	.id_table = mei_csi_tbl,
+-	.name = MEI_CSI_DRIVER_NAME,
++	.name = KBUILD_MODNAME,
+ 
+ 	.probe = mei_csi_probe,
+ 	.remove = mei_csi_remove,
+-- 
+2.7.4
+
