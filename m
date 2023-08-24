@@ -2,176 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3975D7869E2
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 10:21:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D8EC786A00
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 10:27:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231207AbjHXIU7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 04:20:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45052 "EHLO
+        id S229871AbjHXI1Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 04:27:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjHXIUj (ORCPT
+        with ESMTP id S240491AbjHXI1G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 04:20:39 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10CFC1710;
-        Thu, 24 Aug 2023 01:20:38 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-565439b6b3fso3348208a12.2;
-        Thu, 24 Aug 2023 01:20:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692865237; x=1693470037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4zGAuBw4gPHtRJdaOH14piD/nNNygF6IcHXj9bWHwdo=;
-        b=sMxR6fZNgXfWTXoyUrfQ6QsnCw0Z46C6iwKKpTEsxiKtRlJRX8qd28LbRaVysRw8Gs
-         1UxR8Zqm9KLnvrx3EnrdFRVIYIKineXAaQpayjZ3amWyD7MhFQL4sgD65+x1aQkC+JUG
-         0ww3TYIOBKani5h5mfwzqg8C2mvfMBywRbsJlPihyPRdvyR0F3F/RToRvchXLtDlF5Ft
-         cJkLE0nuEbSg6hAMgx8Xl+HTyxoJ8C73Ikyk+z/+tYPURXAfMH+wSg2toiIZlGnsjKx2
-         cIQ6oSaD8QH+woubJilDCfaW1DSMpVgB0+6BeagE4TAkYD/s7BIU2dW5vI9xZk4oMKKZ
-         4fgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692865237; x=1693470037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4zGAuBw4gPHtRJdaOH14piD/nNNygF6IcHXj9bWHwdo=;
-        b=BB5NuV/rfqVY8EB57SfzqQj57F7Ijiq/ksfMXHIkw/KC3MkjxrdoYs7Qfw1MyXIq8d
-         1UVksHvz70pDs90mS9N395bEkq/+7dOeE1OKb9Fcr5Rjo4X0pZ6V9X1mA9fahTo8f+vJ
-         7pIfAlSCSYMmD2TPk9AXAeDCTexNh58geSfkqn0twFaCmYOKBtQZuN/utNJ6Lz8Id/X4
-         juHo/kuglcj/HxFMZJFNmb/izdxD+WzIEHomvFwCKP/ovOB+Bh5x/UYEDcGvjVwicvUe
-         6diN8Yz8K8iaSIIOo3fnQu0skgIgZWP1rM5ItwBnolhLjVhNHQSgiwTBCWeLjT8TFkio
-         +e2Q==
-X-Gm-Message-State: AOJu0YzQz7dqv1AL6zF+m4hn9rwvWdxJj9iD1h7dmwAXJRIFzFRZYanM
-        zV/BYzwP8iMU9vxGiYcD2jVl6R8VwkIbFvMYrro=
-X-Google-Smtp-Source: AGHT+IHO5YzRyoB4+yIvpmh8GgGc8xjw1foenCzgCbg3kZnXszrVMNiVTnbEV/o34e2+ssZ9j+QXF4Ki9G3FEjVmOjw=
-X-Received: by 2002:a17:90b:1898:b0:26b:56fa:87d3 with SMTP id
- mn24-20020a17090b189800b0026b56fa87d3mr11873307pjb.31.1692865237319; Thu, 24
- Aug 2023 01:20:37 -0700 (PDT)
+        Thu, 24 Aug 2023 04:27:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56B2A1724
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 01:27:02 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B453483F;
+        Thu, 24 Aug 2023 10:25:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1692865542;
+        bh=dfiVEVDY/B7S03Kg7iU018vl0niovMoJAYXUsExwb6E=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=epRMiFhIuJYr+um/cALVKxQWkJ3KsEsJQ/wZZ+KRfXdNcvnCga9DaRrvRIWiaFW3s
+         3G+7aFJ7PHMTzMWbb0+FzkMJRSlJDJ4lQY+rls13pOWgeW0gIVpyH+CMse+bqSZ7q9
+         XvWoMBkjMe5h2xzAHqW8pOX5SSWgADpMEbHWNsHY=
+Message-ID: <d16ebd3e-4837-3300-1e6b-4bf3e866e312@ideasonboard.com>
+Date:   Thu, 24 Aug 2023 11:26:56 +0300
 MIME-Version: 1.0
-References: <20230707092414.866760-1-zyytlz.wz@163.com> <8c8bd3ec-a5a4-32e4-45b5-ee16eeeac246@collabora.com>
-In-Reply-To: <8c8bd3ec-a5a4-32e4-45b5-ee16eeeac246@collabora.com>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Thu, 24 Aug 2023 16:20:26 +0800
-Message-ID: <CAJedcCxPG1mKtgB7AcJSwaQB_qvODObwq3gz6eM_1w777b2PfQ@mail.gmail.com>
-Subject: Re: [RESEND PATCH v2] media: mtk-jpeg: Fix use after free bug due to
- uncanceled work
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, Kyrie.Wu@mediatek.com,
-        bin.liu@mediatek.com, mchehab@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
-        security@kernel.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com, Collabora Kernel ML <kernel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 04/10] media: uapi: Add generic serial metadata mbus
+ formats
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>
+References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
+ <20230808075538.3043934-5-sakari.ailus@linux.intel.com>
+ <0d022884-366d-4df0-caa6-2406714d5e07@ideasonboard.com>
+ <ZOcFpbLmZHh1d6Vt@kekkonen.localdomain>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <ZOcFpbLmZHh1d6Vt@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dmitry Osipenko <dmitry.osipenko@collabora.com> =E4=BA=8E2023=E5=B9=B48=E6=
-=9C=8823=E6=97=A5=E5=91=A8=E4=B8=89 02:51=E5=86=99=E9=81=93=EF=BC=9A
+On 24/08/2023 10:24, Sakari Ailus wrote:
+> Moi,
+> 
+> On Wed, Aug 23, 2023 at 04:16:13PM +0300, Tomi Valkeinen wrote:
+>> Hi Sakari,
+>>
+>> On 08/08/2023 10:55, Sakari Ailus wrote:
+>>> Add generic serial metadata mbus formats. These formats describe data
+>>> width and packing but not the content itself. The reason for specifying
+>>> such formats is that the formats as such are fairly device specific but
+>>> they are still handled by CSI-2 receiver drivers that should not be aware
+>>> of device specific formats. What makes generic metadata formats possible
+>>> is that these formats are parsed by software only, after capturing the
+>>> data to system memory.
+>>
+>> If I'm not mistaken, the CSI-2 spec doesn't say much about embedded data,
+>> except that it may exist. Afaics, in CSI-2, the embedded data is split into
+>> "lines", although the amount of data can be different than in the video
+>> lines.
+>>
+>> The CCS specs talks more about embedded data. Some of it is quite odd, like:
+>> "The length of the embedded data line shall not exceed the length of the
+>> image data line. The embedded data line should have the same length as the
+>> image data line.". I think it means the embedded line can be shorter than
+>> image line, but not longer.
+> 
+> That's what it means, yes. The CCS also has means to obtain the actual
+> length --- frame format descriptors.
+> 
+>>
+>> CCS also says that an embedded line should use 0x07 as padding at the end of
+>> the line, if there's less data than the image line.
+>>
+>> CCS also talks about how the embedded data would be packed, and in some
+>> cases that packing would be the same as for pixel data.
+> 
+> In fact the packing is the same as for pixel data: the CSI-2 does not
+> really differentiate there.
 
->
-> Hello Zheng,
->
-> On 7/7/23 12:24, Zheng Wang wrote:
-> > In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
-> > mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
-> > and mtk_jpeg_enc_device_run may be called to start the
-> > work.
-> > If we remove the module which will call mtk_jpeg_remove
-> > to make cleanup, there may be a unfinished work. The
-> > possible sequence is as follows, which will cause a
-> > typical UAF bug.
-> >
-> > Fix it by canceling the work before cleanup in the mtk_jpeg_remove
-> >
-> > CPU0                  CPU1
-> >
-> >                     |mtk_jpeg_job_timeout_work
-> > mtk_jpeg_remove     |
-> >   v4l2_m2m_release  |
-> >     kfree(m2m_dev); |
-> >                     |
-> >                     | v4l2_m2m_get_curr_priv
-> >                     |   m2m_dev->curr_ctx //use
-> > Fixes: b2f0d2724ba4 ("[media] vcodec: mediatek: Add Mediatek JPEG Decod=
-er Driver")
-> > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> > ---
-> > - v2: use cancel_delayed_work_sync instead of cancel_delayed_work sugge=
-sted by Kyrie.
-> > ---
-> >  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/dri=
-vers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> > index 0051f372a66c..6069ecf420b0 100644
-> > --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> > +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> > @@ -1816,6 +1816,7 @@ static void mtk_jpeg_remove(struct platform_devic=
-e *pdev)
-> >  {
-> >       struct mtk_jpeg_dev *jpeg =3D platform_get_drvdata(pdev);
-> >
-> > +     cancel_delayed_work_sync(&jpeg->job_timeout_work);
-> >       pm_runtime_disable(&pdev->dev);
-> >       video_unregister_device(jpeg->vdev);
-> >       v4l2_m2m_release(jpeg->m2m_dev);
->
-> AFAICS, there is a fundamental problem here. The job_timeout_work uses
-> v4l2_m2m_get_curr_priv() and at the time when driver module is unloaded,
-> all the v4l contexts must be closed and released. Hence the
-> v4l2_m2m_get_curr_priv() shall return NULL and crash the kernel when
-> work is executed before cancel_delayed_work_sync().
->
+If I understand the CCS spec right, the packing is not the same as for 
+the pixel data. You can have RAW12 pixel data but 8-byte embedded data. 
+But if you meant that the different packing style options are the same 
+for pixel and embedded data, yes.
 
-Hi Dmitry,
+>> But I don't think these formats are generic. They're defined in CCS, so
+>> shouldn't the format be, e.g., MEDIA_BUS_FMT_META_CCS_RAW_12 or such?
+> 
+> The reason for having generic definitions is that we do not need receiver
+> drivers to be aware of formats that are specific to another driver.
 
-Thanks for your reply. I think you're right. As m2m_dev is freed in
-v4l2_m2m_release,
-the invoking in v4l2_m2m_get_curr_priv might cause either UAF or null
-pointer dereference
-bug. I am sure that context is closed when we invoke mtk_jpeg_remove.
-But I'm not sure if
-context is released when mtk_jpegdec_timeout_work running.
+Yes, I agree with that, and that's not my point here. But "generic" 
+doesn't mean the definitions are not for some particular bus or 
+standard, "generic" just means that it doesn't specify the content, only 
+the packing.
 
-> At the time when mtk_jpeg_remove() is invoked, there shall be no
-> job_timeout_work running in background because all jobs should be
-> completed before context is released. If you'll look at
-> v4l2_m2m_cancel_job(), you can see that it waits for the task completion
-> before closing context.
+My point is that these packings seem to be specific to CCS. While 
+non-CCS compliant sensors may use the same packing, the packing itself 
+is still a "CCS packing". So why not call them that? The 8-bit format is 
+fully generic, whereas the rest are CCS packings, as defined in the CCS 
+spec (the CCS spec also specifies the content, but here were only using 
+the CCS packing).
 
-Yes, so I think the better way is to put the cancel_delayed_work_sync
-invoking into
-v4l2_m2m_ctx_release function?
+Maybe they shouldn't be called "generic", but... umm... Content unaware 
+metadata formats... doesn't sound very good =).
 
->
-> You shouldn't be able to remove driver module while it has active/opened
-> v4l contexts. If you can do that, then this is yours bug that needs to
-> be fixed.
->
-> In addition to this all, the job_timeout_work is initialized only for
-> the single-core JPEG device. I'd expect this patch should crash
-> multi-core JPEG devices.
->
+Also, I'm a bit confused about CSI-2 pixel and embedded data formats and 
+how we handle them.
 
-I think that's true. As I'm not familiar with the code here. Could you
-please give me some advice about the patch?
+For MEDIA_BUS_FMT_SBGGR10_1X10, we define that the data contains 10 bits 
+per pixel, from bit 0 to 9. But CSI-2, for RAW10, actually sends it 
+differently, with the higher bits first, and the lowest bits in the 
+fourth byte. So that CSI-2 packing is implicit, kind of hidden here. 
+Which is probably fine, as we're really only interested in the unpacked 
+data, not the CSI-2 packed. And when writing this data to memory, the 
+DMA engine can write it either as is, or unpack each pixel to a 16-bit 
+container.
 
-Best regards,
-Zheng
+For MEDIA_BUS_FMT_META_10, we define it similarly to 
+MEDIA_BUS_FMT_SBGGR10_1X10, except the lowest 2 bits are marked as 
+padding bits. And, I think, MEDIA_BUS_FMT_META_10 implies RAW10 CSI-2 
+format. However, when writing the data to memory, we don't want either 
+of the modes used in the above pixel data case, but rather we want to 
+write the data as it is in the CSI-2 bus. So, the DMA engine can either 
+reverse the RAW10 unpacking to get the wanted output format, or 
+alternatively the CSI-2 receiver could instead use RAW8 mode to avoid 
+any unpacking.
 
-> --
-> Best regards,
-> Dmitry
->
+Does the above make any sense? I'm a bit confused about all the packings 
+and unpackings =). Does MEDIA_BUS_FMT_META_10 mean that the CSI-2 TX 
+uses RAW10 CSI-2 packing, but the receiver uses RAW8 CSI-2 packing?
+
+> If there is a need for new generic formats that do not match this, we can
+> always add more. But the point is: drivers for devices that do not produce
+> the data should never deal with (device) specific formats.
+> 
+> What comes to CSI-2 and these formats --- on parallel buses you might have
+> the data aligned to the least significant bits instead. But is there a need
+> to transport such data on parallel buses, at least so it would be expressed
+> in mbus formats?
+
+I have a parallel sensor that sends embedded data. I'll have a look how 
+it organizes the data.
+
+  Tomi
+
