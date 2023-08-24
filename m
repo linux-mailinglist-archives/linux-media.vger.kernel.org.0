@@ -2,126 +2,378 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D35357868C6
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 09:43:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FB25786944
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 10:02:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235958AbjHXHnF convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 24 Aug 2023 03:43:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40662 "EHLO
+        id S240383AbjHXIB4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 24 Aug 2023 04:01:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240429AbjHXHml (ORCPT
+        with ESMTP id S237094AbjHXIBX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 03:42:41 -0400
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77C7A170A;
-        Thu, 24 Aug 2023 00:42:26 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-bcb6dbc477eso5955730276.1;
-        Thu, 24 Aug 2023 00:42:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692862929; x=1693467729;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dhv4Bg1fdD4fcuHP4DlJnIZ9JdHOfbSov1NYQWp3Ek8=;
-        b=AUkWWfX/zFe56Yxj+BNMG9GYZd670gyfSKx962grd7skql98XJFT6sYafeF+K5Z5UT
-         uOSKmvz4SSZIBuz5mqlJIuCg1m7IThElJhOyVuw3ickhoASJp57LSq/vhONcjoAzu5DS
-         fJuAxaKSWp9TpgL6jR3raPzeb5LyRJKMzifsIEdYLoKXmiPpU6Qfxu/lmAHFtsYOm+cL
-         DA26NRyOTLp4V8sfKm1CH9KnnpgoD1ArDN88uQ2GUXJ/q7zmPf9FaW3o0Ws2OXLChTub
-         FKdW2N+Kp3V2QocRbp7vgkdQBkENXTXCCyC8bqGPrQelFUg6dYk1WS8VekSuws3VXTt9
-         ipig==
-X-Gm-Message-State: AOJu0Yx9vL8zg2n+aLaEmW1xcn/9o7fif0DG/MxgpsxjIpyozYQSjt2+
-        1CGVEXxp2jYf0iYPVcQKqxHj8MGbeILy8w==
-X-Google-Smtp-Source: AGHT+IFHvPS0ch0Ft+QoIRmYP0ssAD5Obu+K54gJyP4DyMVpin6CXenCeFQLr0zMO2e8H5nv/tKibg==
-X-Received: by 2002:a81:dd02:0:b0:58f:afe5:4c16 with SMTP id e2-20020a81dd02000000b0058fafe54c16mr15233630ywn.30.1692862928821;
-        Thu, 24 Aug 2023 00:42:08 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id i127-20020a819185000000b0058c4e33b2d6sm3798266ywg.90.2023.08.24.00.42.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Aug 2023 00:42:08 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-d77f614243aso478610276.0;
-        Thu, 24 Aug 2023 00:42:08 -0700 (PDT)
-X-Received: by 2002:a25:ae92:0:b0:d3b:e659:5331 with SMTP id
- b18-20020a25ae92000000b00d3be6595331mr14472125ybj.58.1692862928507; Thu, 24
- Aug 2023 00:42:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230823183749.2609013-1-robh@kernel.org>
-In-Reply-To: <20230823183749.2609013-1-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 24 Aug 2023 09:41:56 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWSrpjUK4Fa9cBiRqsnhh2GxyXK5fCt8B-RmaDgEy6OeA@mail.gmail.com>
-Message-ID: <CAMuHMdWSrpjUK4Fa9cBiRqsnhh2GxyXK5fCt8B-RmaDgEy6OeA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Drop remaining unneeded quotes
-To:     Rob Herring <robh@kernel.org>
-Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Thu, 24 Aug 2023 04:01:23 -0400
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4961710;
+        Thu, 24 Aug 2023 01:01:20 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id 5B6AF24E339;
+        Thu, 24 Aug 2023 16:01:11 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 24 Aug
+ 2023 16:01:11 +0800
+Received: from xiaofei.localdomain (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 24 Aug
+ 2023 16:01:10 +0800
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andy@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Corey Minyard <minyard@acm.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        M ark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-iio@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        alsa-devel@alsa-project.org, linux-scsi@vger.kernel.org,
-        linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+        <jack.zhu@starfivetech.com>, <changhuang.liang@starfivetech.com>
+Subject: [PATCH v8 0/8] Add StarFive Camera Subsystem driver
+Date:   Thu, 24 Aug 2023 16:01:01 +0800
+Message-ID: <20230824080109.89613-1-jack.zhu@starfivetech.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
 Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 23, 2023 at 8:38 PM Rob Herring <robh@kernel.org> wrote:
-> Cleanup bindings dropping the last remaining unneeded quotes. With this,
-> the check for this can be enabled in yamllint.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hi,
 
->  .../bindings/soc/renesas/renesas,rzg2l-sysc.yaml     |  4 ++--
+This series is the v8 series that attempts to support the Camera Subsystem
+found on StarFive JH7110 SoC.
 
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The following are the media graph for the device and the v4l2-compliance
+output.
 
-Gr{oetje,eeting}s,
+===========================================================================
+[the media graph]:
 
-                        Geert
+digraph board {
+	rankdir=TB
+	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000001:port1 -> n00000008 [style=dashed]
+	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+	n0000000e:port1 -> n00000001:port0 [style=dashed]
+	n0000000e:port1 -> n00000004 [style=dashed]
+	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000018:port0 -> n0000000e:port0 [style=bold]
+}
+
+[the device topology]:
+
+Media controller API version 6.5.0
+
+Media device information
+------------------------
+driver          starfive-camss
+model           Starfive Camera Subsystem
+serial          
+bus info        platform:19840000.camss
+hw revision     0x0
+driver version  6.5.0
+
+Device topology
+- entity 1: stf_isp (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+	pad0: Sink
+		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+	pad1: Source
+		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		-> "capture_yuv":0 []
+
+- entity 4: capture_raw (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+	pad0: Sink
+		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+
+- entity 8: capture_yuv (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+	pad0: Sink
+		<- "stf_isp":1 []
+
+- entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
+             type V4L2 subdev subtype Unknown flags 0
+	pad0: Sink
+		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		-> "stf_isp":0 []
+		-> "capture_raw":0 []
+	pad2: Source
+	pad3: Source
+	pad4: Source
+
+- entity 24: imx219 6-0010 (1 pad, 1 link)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev1
+	pad0: Source
+		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+		 crop.bounds:(8,8)/3280x2464
+		 crop:(8,8)/3280x2464]
+		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
+
+===========================================================================
+[the v4l2-compliance output]:
+
+v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+
+Compliance test for stf camss device /dev/video1:
+
+Driver Info:
+	Driver name      : stf camss
+	Card type        : Starfive Camera Subsystem
+	Bus info         : platform:19840000.camss
+	Driver version   : 6.5.0
+	Capabilities     : 0x84200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : starfive-camss
+	Model            : Starfive Camera Subsystem
+	Serial           : 
+	Bus info         : platform:19840000.camss
+	Media version    : 6.5.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 6.5.0
+Interface Info:
+	ID               : 0x0300000a
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000008 (8)
+	Name             : capture_yuv
+	Function         : V4L2 I/O
+	Pad 0x01000009   : 0: Sink
+	  Link 0x0200000c: from remote pad 0x1000003 of entity 'stf_isp' (Unknown Function (00004009)): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	test MMAP (no poll): OK                           
+	test MMAP (select): OK                            
+	test MMAP (epoll): OK                             
+	test USERPTR (no poll): OK (Not Supported)
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for stf camss device /dev/video1: 53, Succeeded: 53, Failed: 0, Warnings: 0
+
+===========================================================================
+
+Changes in v8:
+- Rebased on v6.5-rc7.
+- Dropped VIN subdev.
+- Created two new video devices: capture_raw and capture_yuv, to replace
+  the previous video devices.
+- Dropped VB2_READ io methods.
+- Recursively called .s_stream() on subdevs.
+
+v7 link: https://lore.kernel.org/all/20230619112838.19797-1-jack.zhu@starfivetech.com/
+
+Changes in v7:
+- HAS_DMA is used instead of DMA_CMA in Kconfig.
+- Dropped some non-essential member variables.
+- Used v4l2_async_nf_add_fwnode_remote() to simplify the relevant code.
+- Modified some Local variable types in the function.
+- Used v4l2_create_fwnode_links_to_pad() to simplify the relevant code.
+- Added error handling for clk_prepare_enable().
+- Simplified stfcamss_format_info struct and modified the relevant code.
+- Dropped enum_input, g_input and s_input.
+- Unified v4l2_ioctl_ops struct.
+- Used v4l2_fh_open()/vb2_fop_release to replace deprecated APIs.
+- Added a camss directory under the starfive directory and modified the
+  patch title.
+
+v6 link: https://lore.kernel.org/all/20230525083202.67933-1-jack.zhu@starfivetech.com/
+
+Changes in v6:
+- Added 'bus-type' in bindings example.
+- Corrected spelling errors.
+- As reviewed by Bryan, used 'nclks' and 'nrsts' variables.
+- Added lccf config for ISP.
+
+v5 link: https://lore.kernel.org/all/20230512102844.51084-1-jack.zhu@starfivetech.com/
+
+Changes in v5:
+- Rebased on v6.4-rc1.
+- Added new patch.
+- Modified ISP driver.
+
+v4 link: https://lore.kernel.org/all/20230413035541.62129-1-jack.zhu@starfivetech.com/
+
+Previous cover letter from v4:
+
+This patch series adds support for the StarFive Camera Subsystem
+found on StarFive JH7110 SoC.
+
+The driver implements V4L2, Media controller and V4L2 subdev interfaces.
+Camera sensor using V4L2 subdev interface in the kernel is supported.
+
+The driver is tested on VisionFive V2 board with IMX219 camera sensor.
+GStreamer 1.18.5 with v4l2src plugin is supported.
+
+Previous version link, missing v1 version:
+
+  v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
+  v2: https://lore.kernel.org/all/20230310120553.60586-1-jack.zhu@starfivetech.com/
+
+Jack Zhu (8):
+  media: dt-bindings: Add JH7110 Camera Subsystem
+  media: admin-guide: Add starfive_camss.rst for Starfive Camera
+    Subsystem
+  media: staging: media: starfive: camss: Add core driver
+  media: staging: media: starfive: camss: Add video driver
+  media: staging: media: starfive: camss: Add ISP driver
+  media: staging: media: starfive: camss: Add capture driver
+  media: staging: media: starfive: camss: Add interrupt handling
+  media: staging: media: starfive: camss: Register devices
+
+ .../admin-guide/media/starfive_camss.rst      |  72 +++
+ .../media/starfive_camss_graph.dot            |  12 +
+ .../admin-guide/media/v4l-drivers.rst         |   1 +
+ .../bindings/media/starfive,jh7110-camss.yaml | 180 ++++++
+ MAINTAINERS                                   |   9 +
+ drivers/staging/media/Kconfig                 |   2 +
+ drivers/staging/media/Makefile                |   1 +
+ drivers/staging/media/starfive/Kconfig        |   5 +
+ drivers/staging/media/starfive/Makefile       |   2 +
+ drivers/staging/media/starfive/camss/Kconfig  |  17 +
+ drivers/staging/media/starfive/camss/Makefile |  13 +
+ .../staging/media/starfive/camss/stf_camss.c  | 432 +++++++++++++
+ .../staging/media/starfive/camss/stf_camss.h  | 134 ++++
+ .../media/starfive/camss/stf_capture.c        | 603 ++++++++++++++++++
+ .../media/starfive/camss/stf_capture.h        |  87 +++
+ .../staging/media/starfive/camss/stf_isp.c    | 407 ++++++++++++
+ .../staging/media/starfive/camss/stf_isp.h    | 428 +++++++++++++
+ .../media/starfive/camss/stf_isp_hw_ops.c     | 445 +++++++++++++
+ .../staging/media/starfive/camss/stf_video.c  | 557 ++++++++++++++++
+ .../staging/media/starfive/camss/stf_video.h  | 100 +++
+ 20 files changed, 3507 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
+ create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
+ create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+ create mode 100644 drivers/staging/media/starfive/Kconfig
+ create mode 100644 drivers/staging/media/starfive/Makefile
+ create mode 100644 drivers/staging/media/starfive/camss/Kconfig
+ create mode 100644 drivers/staging/media/starfive/camss/Makefile
+ create mode 100644 drivers/staging/media/starfive/camss/stf_camss.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf_camss.h
+ create mode 100644 drivers/staging/media/starfive/camss/stf_capture.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf_capture.h
+ create mode 100644 drivers/staging/media/starfive/camss/stf_isp.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf_isp.h
+ create mode 100644 drivers/staging/media/starfive/camss/stf_isp_hw_ops.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf_video.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf_video.h
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
