@@ -2,88 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 609FD787C25
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 01:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33C2C787C57
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 02:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236722AbjHXXyc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 19:54:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51480 "EHLO
+        id S238918AbjHXX7y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 19:59:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238641AbjHXXy1 (ORCPT
+        with ESMTP id S244166AbjHXX7W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 19:54:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB6919BE;
-        Thu, 24 Aug 2023 16:54:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E58846206E;
-        Thu, 24 Aug 2023 23:54:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C45EC433C7;
-        Thu, 24 Aug 2023 23:54:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692921264;
-        bh=OxK2+MP8e8tARBoIM2dWRgGfyxwZp6MH/GWc5Zd/Wtc=;
-        h=Date:From:To:Cc:Subject:From;
-        b=hD9MpVxBcrDVeXbhKTDSDHc18nI0xVC/3OqLrk4qd6lwktjtA8o9i/QBJj5PP2dns
-         Z1VixJ3wzS5K4WXW337B2i/UyuUE2L7RbaHOooCYD0PKHcN9W+D3SPKn8q9g5F54hd
-         2w9BDuJsnR6TbVSMv7DMCErsQryndK9uv3o3C/Hk8kuqAnbpjpcfk1/jWH+sR1LuqM
-         N3kYerUpNirk5jHj0GxfZAy6/6psxoXqQVtmuCbOlqUkt3k/V/K7OCLmRswLiR31he
-         fEyfSiwZkPu1RWVIiuMojRI+NeHBZdNq0u6Rve/cTugkEZlJisouVbLKL7T0lfkzpP
-         i/TbHDGXu4o/g==
-Date:   Fri, 25 Aug 2023 01:54:19 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL for v6.5] media fixes
-Message-ID: <20230825015419.0848a4bc@coco.lan>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        Thu, 24 Aug 2023 19:59:22 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFD931FE9
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 16:58:47 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qZKDu-007Ctd-4D; Thu, 24 Aug 2023 23:58:46 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qZKDr-005KxD-2f;
+        Thu, 24 Aug 2023 23:58:43 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for v6.5] media fixes (#94321)
+Date:   Thu, 24 Aug 2023 23:58:42 +0000
+Message-Id: <20230824235842.1272178-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230825015419.0848a4bc@coco.lan>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+From: builder@linuxtv.org
 
-Please pull from:
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-4
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230825015419.0848a4bc@coco.lan/
+Build log: https://builder.linuxtv.org/job/patchwork/333715/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/20230825015419.0848a4bc@coco.lan
 
-For a potential array out-of-bounds at the mediatek's vcodec driver.
+gpg: Signature made Thu 24 Aug 2023 11:52:18 PM UTC
+gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
+gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [ultimate]
+gpg:                 aka "[jpeg image of size 3594]" [ultimate]
 
-Thanks!
-Mauro
 
-The following changes since commit 2908042a37b56d6a9a595eca946e187e9d2df39a:
-
-  media: imx: imx7-media-csi: Fix applying format constraints (2023-08-09 13:31:37 +0200)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-4
-
-for you to fetch changes up to e7f2e65699e2290fd547ec12a17008764e5d9620:
-
-  media: vcodec: Fix potential array out-of-bounds in encoder queue_setup (2023-08-23 09:56:08 +0200)
-
-----------------------------------------------------------------
-media fixes for v6.5-rc8
-
-----------------------------------------------------------------
-Wei Chen (1):
-      media: vcodec: Fix potential array out-of-bounds in encoder queue_setup
-
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 2 ++
- 1 file changed, 2 insertions(+)
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0001-media-vcodec-Fix-potential-array-out-of-bounds-in-en.patch doesn't apply:
+Applying patch patches/0001-media-vcodec-Fix-potential-array-out-of-bounds-in-en.patch
+can't find file to patch at input line 27
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|From e7f2e65699e2290fd547ec12a17008764e5d9620 Mon Sep 17 00:00:00 2001
+|From: Wei Chen <harperchen1110@gmail.com>
+|Date: Thu, 10 Aug 2023 08:23:33 +0000
+|Subject: media: vcodec: Fix potential array out-of-bounds in encoder
+| queue_setup
+|
+|variable *nplanes is provided by user via system call argument. The
+|possible value of q_data->fmt->num_planes is 1-3, while the value
+|of *nplanes can be 1-8. The array access by index i can cause array
+|out-of-bounds.
+|
+|Fix this bug by checking *nplanes against the array size.
+|
+|Fixes: 4e855a6efa54 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Encoder Driver")
+|Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+|Cc: stable@vger.kernel.org
+|Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+|Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+|---
+| drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 2 ++
+| 1 file changed, 2 insertions(+)
+|
+|diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+|index 9ff439a50f53..315e97a2450e 100644
+|--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+|+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+Patch patches/0001-media-vcodec-Fix-potential-array-out-of-bounds-in-en.patch does not apply (enforce with -f)
 
