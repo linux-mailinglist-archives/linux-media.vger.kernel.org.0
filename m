@@ -2,115 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1B3C786B0F
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 11:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32764786B23
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 11:08:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236015AbjHXJEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 05:04:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36398 "EHLO
+        id S232119AbjHXJIX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 05:08:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237902AbjHXJDe (ORCPT
+        with ESMTP id S240480AbjHXJIM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 05:03:34 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D3B51708;
-        Thu, 24 Aug 2023 02:03:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692867813; x=1724403813;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=1ZAkSY/wD+Wa94fJkUCZoVioGpTkV1ceBb5QI3d2I6E=;
-  b=lMsJWXqzqJuFvqOZhQBdv7/wx8+MUA9Ias5vNAwIUH5rGFGoixmqGZk9
-   eBISrl50Kolk1bN9mHcWgIGa9U0/T/c5IEQtlAsmjgODNGVlXwATrjUku
-   FtBhZ5ycM0PtH1g2J9JAXUuCusXUOuFAQLBIJHBZ7h60BuyM3c89oykHG
-   lAJLInCaPmUy5apyEOWR24dPePiJpX0xilGzf/R9ou0pakv0/7KchYJXM
-   aAemZmCg/7WYSBhSitm7lm6O9UgAvKzqmSK4Y943eF0dDFW2tHw+QYVCH
-   afCkSa734lKW23ho6PkSeMuSWGiWQEAOPvqDKfIdZu7QExoGqRGRherCf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="364561584"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="364561584"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 02:03:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="736973743"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="736973743"
-Received: from andrzejk-mobl.ger.corp.intel.com (HELO localhost) ([10.252.46.90])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 02:03:23 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Lee Jones <lee@kernel.org>, lee@kernel.org
-Cc:     Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Shashank Sharma <shashank.sharma@amd.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        amd-gfx@lists.freedesktop.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Danilo Krummrich <dakr@redhat.com>,
-        Ben Skeggs <bskeggs@redhat.com>, linux-media@vger.kernel.org,
-        Stanley Yang <Stanley.Yang@amd.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        linaro-mm-sig@lists.linaro.org, linux-tegra@vger.kernel.org,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
-        Jerome Glisse <glisse@freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Gourav Samaiya <gsamaiya@nvidia.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
-        Hawking Zhang <Hawking.Zhang@amd.com>
-Subject: Re: [PATCH (set 1) 00/20] Rid W=1 warnings from GPU
-In-Reply-To: <20230824073710.2677348-1-lee@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230824073710.2677348-1-lee@kernel.org>
-Date:   Thu, 24 Aug 2023 12:03:20 +0300
-Message-ID: <87wmxk4xt3.fsf@intel.com>
+        Thu, 24 Aug 2023 05:08:12 -0400
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3527F1986;
+        Thu, 24 Aug 2023 02:08:05 -0700 (PDT)
+Received: from lvc-arm12.ispras.local (unknown [83.149.199.126])
+        by mail.ispras.ru (Postfix) with ESMTPSA id 2597C40737CA;
+        Thu, 24 Aug 2023 09:08:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 2597C40737CA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+        s=default; t=1692868083;
+        bh=N5XlzFD3k304KFtxa7uCO2r9TkozkPaaQCH42q5I3xM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T6FZae99E62YsU3dODYMieXJSIX781qxj33KxFJlFuoRGxwC2ixI9FPkCvvqblU32
+         8bwtg+/a+wfoisq+G153i13m+TGgTUNZhZAKKoeczFbTeXnhwm7HO534IFBt3Qg6Gq
+         ky1pP9pzfscU9Ttomz4oTAgRLx+7ep+EfRUp9BYg=
+From:   Katya Orlova <e.orlova@ispras.ru>
+To:     Sylwester Nawrocki <sylvester.nawrocki@gmail.com>
+Cc:     Katya Orlova <e.orlova@ispras.ru>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: [PATCH] media: s3c-camif: Avoid inappropriate kfree()
+Date:   Thu, 24 Aug 2023 12:07:25 +0300
+Message-Id: <20230824090725.28148-1-e.orlova@ispras.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 24 Aug 2023, Lee Jones <lee@kernel.org> wrote:
-> This set is part of a larger effort attempting to clean-up W=1
-> kernel builds, which are currently overwhelmingly riddled with
-> niggly little warnings.
+s3c_camif_register_video_node() works with video_device structure stored
+as a field of camif_vp,
+so it should not be kfreed. But there is video_device_release() on error
+path that do it.
 
-The next question is, how do we keep it W=1 clean going forward?
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Most people don't use W=1 because it's too noisy, so it's a bit of a
-catch-22.
+Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC series camera interface")
+Signed-off-by: Katya Orlova <e.orlova@ispras.ru>
+---
+ drivers/media/platform/samsung/s3c-camif/camif-capture.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-In i915, we enable a lot of W=1 warnings using subdir-ccflags-y in our
-Makefile. For CI/developer use we also enable kernel-doc warnings by
-default.
-
-Should we start enabling some of those warning flags in drm/Makefile to
-to keep the entire subsystem warning free?
-
-
-BR,
-Jani.
-
-
+diff --git a/drivers/media/platform/samsung/s3c-camif/camif-capture.c b/drivers/media/platform/samsung/s3c-camif/camif-capture.c
+index 76634d242b10..79c8ee845c38 100644
+--- a/drivers/media/platform/samsung/s3c-camif/camif-capture.c
++++ b/drivers/media/platform/samsung/s3c-camif/camif-capture.c
+@@ -1172,7 +1172,6 @@ int s3c_camif_register_video_node(struct camif_dev *camif, int idx)
+ err_me_cleanup:
+ 	media_entity_cleanup(&vfd->entity);
+ err_vd_rel:
+-	video_device_release(vfd);
+ 	return ret;
+ }
+ 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.30.2
+
