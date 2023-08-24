@@ -2,114 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E8E9786AD1
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 10:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07A77786AEF
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 11:00:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235451AbjHXI5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 04:57:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43136 "EHLO
+        id S236579AbjHXJAY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 05:00:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238774AbjHXI5k (ORCPT
+        with ESMTP id S238995AbjHXJAB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 04:57:40 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73AC110FC;
-        Thu, 24 Aug 2023 01:57:38 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1bc3d94d40fso50797505ad.3;
-        Thu, 24 Aug 2023 01:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692867458; x=1693472258;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wONcFGWq+PGpZIkK9NYcTrSr8kaoXLZnug4VTSpfpPY=;
-        b=Tznc5ZWr+3NAD2cD/d5ogGrBOTq3TgjrZld+TW6mk6d+TZXYJDLL4Auc8V/6Il08eL
-         CFGn6otYSEkPncaBfF/lylKc4yQdlxsoLvhlLhj55ZwSwBoapNB6oAegGg3atmr/ZwYw
-         O4jgpo+1QrG+3X4XwixG0r5828IiHdmSTrb3B05pngmFwxlaxC0SK6MAnVgxWSh0SsJ6
-         slWAhrUde5orpCa1ycNpOJEHZqqKPj7f7cKV/NdWsBPjPYhwk+JeRr7Fo19Wc8/O4tKt
-         c8HZD2zgcCyIkRpv/3tGM7t4bgPV7gzozmyIXHsDS/kcyJNx1jMyMsA/JJn+Ezp7N4GJ
-         foPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692867458; x=1693472258;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wONcFGWq+PGpZIkK9NYcTrSr8kaoXLZnug4VTSpfpPY=;
-        b=drwXHqtDeO90PohyLU8gjLSf26X5mc1RioXuIdtAhoot1gssyVpM3stpvsg9GcB6jG
-         wm+oZqCVF1SJtlgkEKMnrN0Tk3IGihAKRG2WU3lighiYYjPU8bEZrdM9h7Z7OskYhH7r
-         csOP0W7cwFpGn6KUhuTnJQOqyZeQW7IxiJnqbq2CuMxVjSGLGqGrCxT11JdP0uIXueq1
-         DLwg+/Zh444fgQrHg+AMZlnoad959FlTKyaR12LSNuJk8F205OxO5tuQBvekBAdGmANj
-         XZ3SGQ3t+EokLwV+vj6Lqzuk358SzxZr8GKhchit59lmXma5TQqXA8loNMZD6s8wJqdX
-         3vtA==
-X-Gm-Message-State: AOJu0YzcW+M9gC3T5amZ5ZtibmNR6VlkBysTTB1nkz+TEROetSvhyeQF
-        X2Y/H/TzulxkyIWcRkx0R6k=
-X-Google-Smtp-Source: AGHT+IHsmAb2LrAKerZ9+R8nOBbMmaVsg9zBo6JFh36BUqIlI7RiLy51goYsL07hTZ4IdFaQPCDi+g==
-X-Received: by 2002:a17:903:234e:b0:1bd:aeb3:9504 with SMTP id c14-20020a170903234e00b001bdaeb39504mr17985769plh.15.1692867457815;
-        Thu, 24 Aug 2023 01:57:37 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c2:1047:2379:8974:f63f:c2f8:6a5b])
-        by smtp.gmail.com with ESMTPSA id l6-20020a170902d34600b001b8b26fa6c1sm12322673plk.115.2023.08.24.01.57.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 01:57:37 -0700 (PDT)
-From:   coolrrsh@gmail.com
-To:     hverkuil@xs4all.nl, mchehab@kernel.org, slark_xiao@163.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        Rajeshwar R Shinde <coolrrsh@gmail.com>,
-        syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Subject: [PATCH v3] media: gspca: UBSAN: shift-out-of-bounds in set_flicker
-Date:   Thu, 24 Aug 2023 14:27:31 +0530
-Message-Id: <20230824085731.9930-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 24 Aug 2023 05:00:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 862AF1987;
+        Thu, 24 Aug 2023 01:59:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2530C664C2;
+        Thu, 24 Aug 2023 08:59:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ED30C433C7;
+        Thu, 24 Aug 2023 08:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692867597;
+        bh=pRjABeYbdZ7kYm0kauhfXEU9jP8GasEtUcwhn21dCxc=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=ectU467xo6X3YBcQDP+/ngOU7WPTPgRDxCHrpluWN392Mlc60axx3vIIX48VsgoDN
+         PpRyrP5/+WdC+2ykQLyOeTetMwu/huJ3eZd8i0LSxlom3CPb3lrf4rgBp8s0eX8avr
+         BGfWzbgxOTfIlW+pAY0WIEqoHeTxo/6sOY5QZAkYbyAkN19q9/PRObJOfOAPQjH1uq
+         yuz+qZ9oGjn0YECu1cNAX2T+ncu2eKxivxlqKZpSZVNj2O7+WanBFUfataSOnZA+79
+         SeT2jrZPjluftwVKxhf8sdBqKhIPd8Cn9wX8U0ZFVrF46L28H4hVpTzZP/2UJTdUE/
+         2QZdbUc7UizJQ==
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Lee Jones <lee@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Danilo Krummrich <dakr@redhat.com>,
+        David Airlie <airlied@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Fabio Estevam <festevam@gmail.com>,
+        Gourav Samaiya <gsamaiya@nvidia.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Jerome Glisse <glisse@freedesktop.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Karol Herbst <kherbst@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-tegra@vger.kernel.org, Luben Tuikov <luben.tuikov@amd.com>,
+        Lyude Paul <lyude@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        nouveau@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shashank Sharma <shashank.sharma@amd.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stanley Yang <Stanley.Yang@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Michal Simek <michal.simek@amd.com>
+In-Reply-To: <20230824073710.2677348-1-lee@kernel.org>
+References: <20230824073710.2677348-1-lee@kernel.org>
+Subject: Re: [PATCH (set 1) 00/20] Rid W=1 warnings from GPU
+Message-Id: <169286759481.453038.12943953579128536191.b4-ty@kernel.org>
+Date:   Thu, 24 Aug 2023 10:59:54 +0200
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Mailer: b4 0.12.3
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+On Thu, 24 Aug 2023 08:36:45 +0100, Lee Jones wrote:
+> This set is part of a larger effort attempting to clean-up W=1
+> kernel builds, which are currently overwhelmingly riddled with
+> niggly little warnings.
+> 
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Gourav Samaiya <gsamaiya@nvidia.com>
+> Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> Cc: Jerome Glisse <glisse@freedesktop.org>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-tegra@vger.kernel.org
+> Cc: Luben Tuikov <luben.tuikov@amd.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: "Maíra Canal" <mairacanal@riseup.net>
+> Cc: Mario Limonciello <mario.limonciello@amd.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Michal Simek <michal.simek@xilinx.com>
+> Cc: Mikko Perttunen <mperttunen@nvidia.com>
+> Cc: nouveau@lists.freedesktop.org
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Shashank Sharma <shashank.sharma@amd.com>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Stanley Yang <Stanley.Yang@amd.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> [...]
 
-Syzkaller reported the following issue:
-							
-UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27 
-shift exponent 245 is too large for 32-bit type 'int'
-						
-When the value of the variable "sd->params.exposure.gain" exceeds the 
-number of bits in an int, a shift-out-of-bounds error occurs. The error is 
-generated when the variable "currentexp" is left-shifted by more than 31 
-bits. In order to confirm the range is valid, the conditional expression 
-was added.
-				
-Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
-Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>							
----
-v1->v2			
-Changed the patch
-v2->v3				
-Changed the commit message	
----
- drivers/media/usb/gspca/cpia1.c | 2 ++
- 1 file changed, 2 insertions(+)
+Applied to drm/drm-misc (drm-misc-fixes).
 
-diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
-index 46ed95483e22..dafc522d5e7b 100644
---- a/drivers/media/usb/gspca/cpia1.c
-+++ b/drivers/media/usb/gspca/cpia1.c
-@@ -1028,6 +1028,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
- 			sd->params.exposure.expMode = 2;
- 			sd->exposure_status = EXPOSURE_NORMAL;
- 		}
-+		if (sd->params.exposure.gain > 31)
-+			return -1;
- 		currentexp = currentexp << sd->params.exposure.gain;
- 		sd->params.exposure.gain = 0;
- 		/* round down current exposure to nearest value */
--- 
-2.25.1
+Thanks!
+Maxime
 
