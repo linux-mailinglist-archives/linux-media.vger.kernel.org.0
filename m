@@ -2,135 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8B20786FE1
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 15:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EFBF786FEF
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 15:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235566AbjHXNEf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 09:04:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52212 "EHLO
+        id S238945AbjHXNIy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 09:08:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239004AbjHXNEb (ORCPT
+        with ESMTP id S239004AbjHXNI0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 09:04:31 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38559E79;
-        Thu, 24 Aug 2023 06:04:29 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4E7B87F3;
-        Thu, 24 Aug 2023 15:03:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692882188;
-        bh=lmURSCwOgg+aQoQ721pMBdHJuBeAn08oT40y6zo6TFo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nhLxMlpiJQnligF7VzMZbyIZ479Gf5a9oQPN1MQ1JhV7umyyImZPnqz2phU5NPO6R
-         zPFdbE6PSH0i6vBC1G24MqZa+ymQNZMdAMc/IXS6mHXp8w7TpO0SQ962ReglrRTc5n
-         xRQ3eqs5mNSqKwlsunRR8VMGN+Nt67RSOXOW6ML4=
-Date:   Thu, 24 Aug 2023 16:04:32 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Philippe CORNU <philippe.cornu@foss.st.com>,
-        Dan Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v1 3/5] media: stm32-dcmipp: STM32 DCMIPP camera
- interface driver
-Message-ID: <20230824130432.GB27092@pendragon.ideasonboard.com>
-References: <20220910144010.34272-1-hugues.fruchet@foss.st.com>
- <20220910144010.34272-4-hugues.fruchet@foss.st.com>
- <ZNC5k3PynnEWL/ou@kekkonen.localdomain>
- <20230824110934.GA18226@gnbcxd0016.gnb.st.com>
- <ZOdMghQXfNgKZ6cN@kekkonen.localdomain>
+        Thu, 24 Aug 2023 09:08:26 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A15E7198A
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 06:08:23 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id F1C1D86418;
+        Thu, 24 Aug 2023 15:08:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1692882501;
+        bh=nO7zXAD+fh+afIFBfu7isdOiAx5EKoa5ejHe8jheNz8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=pRGyFn1iuyON8Kt63CjHWRnzePy/vHXXGJFylekjJsCwLQq3lWPBjU5q3bzx0CO03
+         F6P0Ju/R/AdnGWDUjV8ZU8WJ5+b7EkKX6LTEilV38+uDWWLkQyChpwHEtdWTPXruFn
+         vHno+axKUv5A6HGaHl3ikM16T0KD1zBtMc1m0gE0aP0lyFGMRTiF23UFsx7zFCGcSl
+         nqJWKfKvF2Z1+l1seJE+Fpn0Z6SE1LSgeS2Tl3y0YgT0iHLTqR0XLp38TrJaZRNvpE
+         XKUbHDkcnmIZaZV8RGoTC0ROeL7zi5i4x+vdjwC0zYiZPLd0s9r+jvttgmMsuNA6es
+         LUl4DfMyoKLew==
+Message-ID: <80d9a66f-c703-6057-e084-1a6d2214d775@denx.de>
+Date:   Thu, 24 Aug 2023 15:08:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZOdMghQXfNgKZ6cN@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH] media: hantro: Check whether reset op is defined before
+ use
+To:     Adam Ford <aford173@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-rockchip@lists.infradead.org
+References: <20230824013858.303105-1-marex@denx.de>
+ <CAHCN7xLDmMv7T_fT7vY3iq+KMWuPM9tBP_2AJ-X04L7ZTRWPOw@mail.gmail.com>
+Content-Language: en-US
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <CAHCN7xLDmMv7T_fT7vY3iq+KMWuPM9tBP_2AJ-X04L7ZTRWPOw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 12:26:42PM +0000, Sakari Ailus wrote:
-> On Thu, Aug 24, 2023 at 01:09:34PM +0200, Alain Volmat wrote:
-> > Hi Sakari,
-> > 
-> > thanks a lot for the review.  I've already taken care of the comments I got
-> > from Dan and will also add fixes for your comments as well before
-> > pushing the v2.  Before going into that I thought I'd better clarify the
-> > framerate part which seems the most tricky part.
-> > 
-> > On Mon, Aug 07, 2023 at 09:29:55AM +0000, Sakari Ailus wrote:
+On 8/24/23 12:39, Adam Ford wrote:
+> On Wed, Aug 23, 2023 at 8:39 PM Marek Vasut <marex@denx.de> wrote:
+>>
+>> The i.MX8MM/N/P does not define the .reset op since reset of the VPU is
+>> done by genpd. Check whether the .reset op is defined before calling it
+>> to avoid NULL pointer dereference.
+>>
+>> Note that the Fixes tag is set to the commit which removed the reset op
+>> from i.MX8M Hantro G2 implementation, this is because before this commit
+>> all the implementations did define the .reset op.
 > 
-> ...
-> 
-> > > > +static int dcmipp_byteproc_g_frame_interval(struct v4l2_subdev *sd,
-> > > > +					    struct v4l2_subdev_frame_interval *fi)
-> > > > +{
-> > > > +	struct dcmipp_byteproc_device *byteproc = v4l2_get_subdevdata(sd);
-> > > > +
-> > > > +	if (IS_SINK(fi->pad))
-> > > > +		fi->interval = byteproc->sink_interval;
-> > > > +	else
-> > > > +		fi->interval = byteproc->src_interval;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static int dcmipp_byteproc_s_frame_interval(struct v4l2_subdev *sd,
-> > > > +					    struct v4l2_subdev_frame_interval *fi)
-> > > > +{
-> > > > +	struct dcmipp_byteproc_device *byteproc = v4l2_get_subdevdata(sd);
-> > > > +
-> > > > +	mutex_lock(&byteproc->lock);
-> > > > +
-> > > > +	if (byteproc->streaming) {
-> > > > +		mutex_unlock(&byteproc->lock);
-> > > > +		return -EBUSY;
-> > > > +	}
-> > > > +
-> > > > +	if (fi->interval.numerator == 0 || fi->interval.denominator == 0)
-> > > > +		fi->interval = byteproc->sink_interval;
-> > > > +
-> > > > +	if (IS_SINK(fi->pad)) {
-> > > > +		/*
-> > > > +		 * Setting sink frame interval resets frame skipping.
-> > > > +		 * Sink frame interval is propagated to src.
-> > > > +		 */
-> > > > +		byteproc->frate = 0;
-> > > > +		byteproc->sink_interval = fi->interval;
-> > > > +		byteproc->src_interval = byteproc->sink_interval;
-> > > 
-> > > Is this used for anything else than configure skipping?
-> > > 
-> > > I think I'd just have a control for it in that case.
-> > > 
-> > > I don't think exposing frame interval configuration is necessarily even
-> > > meaningful for a device that just processes data but does not produce it.
-> > 
-> > The DCMIPP is able to perform frame drop, 1/2, 1/4, 1/8 basically.
-> > As Dan pointed me out, indeed setting frame interval as we did on both
-> > sink and source pad isn't a defined behavior.  I first thought that
-> > using the frame interval was the proper way to do that but that is
-> > indeed only used on producers such as sensors ....
-> > Which ctrl would you propose in such case ?
-> 
-> We don't have one, AFAIK, and I think it may be unlikely this will be
-> needed elsewhere. So I'd use a private control.
-> 
-> I wonder what others think. Cc Laurent as well.
+> I am surprised I didn't have issues when I was testing the 8MQ and
+> 8MM, but this makes sense.
 
-What are the use cases for this feature ?
+You need to trigger the VPU watchdog to trigger the crash, that means 
+you have to get the VPU into some weird state where it fails to decode 
+frame. Then it triggers the reset and ... boom.
 
--- 
-Regards,
+See this patch, that contains a gstreamer invocation to generate such 
+trigger condition input data:
 
-Laurent Pinchart
+[PATCH] media: verisilicon: Do not enable G2 postproc downscale if 
+source is narrower than destination
+
+"
+To generate input test data to trigger this bug, use e.g.:
+$ gst-launch-1.0 videotestsrc ! 
+video/x-raw,width=272,height=256,format=I420 ! \
+                  vp9enc ! matroskamux ! filesink location=/tmp/test.vp9
+To trigger the bug upon decoding (note that the NV12 must be forced, as
+that assures the output data would pass the G2 postproc):
+$ gst-launch-1.0 filesrc location=/tmp/test.vp9 ! matroskademux ! 
+vp9parse ! \
+                  v4l2slvp9dec ! video/x-raw,format=NV12 ! videoconvert 
+! fbdevsink
+"
