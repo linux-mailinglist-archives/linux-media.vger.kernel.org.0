@@ -2,34 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6BC1787051
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 15:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D28D78706E
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 15:39:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235899AbjHXNel (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 09:34:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
+        id S237716AbjHXNi2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 09:38:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241234AbjHXNei (ORCPT
+        with ESMTP id S241384AbjHXNiS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 09:34:38 -0400
+        Thu, 24 Aug 2023 09:38:18 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9AFE78;
-        Thu, 24 Aug 2023 06:34:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7836A8;
+        Thu, 24 Aug 2023 06:38:14 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48D7E87F3;
-        Thu, 24 Aug 2023 15:33:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7161487F3;
+        Thu, 24 Aug 2023 15:36:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1692883996;
-        bh=RtNbFIR0XA7+6sM+MvEk7hEJmH/z0Dgzl+g1Q9EPiCw=;
+        s=mail; t=1692884214;
+        bh=oalxeZVFfKSUT8czfbUCm4o1WUQzUESRkV9W4kRfGiw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uPuSFwPzsj0pgdNy1El4Td8QW11v72tF62hBjZQ4LWneTpB4KVpChDuOHTgl8V/bK
-         uhyUGLY53+FCzCGv+gCF62uvQBSmSYkKBsCmyj1/j2O2FycUYzG93/5mTZTHo2vqsf
-         PrdWcKk+nbYQt+9VJMnEdX0yV/LlApMTqz01Fo8k=
-Date:   Thu, 24 Aug 2023 16:34:41 +0300
+        b=IUZ779YsdfuSph7BbBGVTfG0l6pO0U12VD4Jbl1cF/sQuqNXebpETUEM1MogEo+Pk
+         7vXYtXknTMJT6f2LSKl402jkvk9xB7TWOAa6NSyy9a4u+MYfCgiGXwrvYnoIJLJO3T
+         F99xH15/tBRNuqeb1eMYw2hTk3/IcZYVDDUow0QQ=
+Date:   Thu, 24 Aug 2023 16:38:19 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jack Zhu <jack.zhu@starfivetech.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Jack Zhu <jack.zhu@starfivetech.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Robert Foss <rfoss@kernel.org>,
         Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
         Rob Herring <robh+dt@kernel.org>,
@@ -37,19 +36,24 @@ Cc:     Jack Zhu <jack.zhu@starfivetech.com>,
         Conor Dooley <conor+dt@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v8 0/8] Add StarFive Camera Subsystem driver
-Message-ID: <20230824133441.GC27092@pendragon.ideasonboard.com>
-References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
- <2023082436-spendable-reshuffle-878d@gregkh>
- <a6f60dfc-ffbf-da4d-a81c-06caf92955d6@starfivetech.com>
- <2023082416-flanking-requisite-a8ed@gregkh>
+        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
+Subject: Re: [PATCH v7 6/6] media: starfive: camss: Add VIN driver
+Message-ID: <20230824133819.GD27092@pendragon.ideasonboard.com>
+References: <20230619112838.19797-1-jack.zhu@starfivetech.com>
+ <20230619112838.19797-7-jack.zhu@starfivetech.com>
+ <20230727204911.GA7136@pendragon.ideasonboard.com>
+ <696e3fd0-7c89-812b-5cda-c5c46b594bf7@starfivetech.com>
+ <20230802103809.GB5269@pendragon.ideasonboard.com>
+ <73222603-445e-fdb0-e831-219bac1d5865@starfivetech.com>
+ <20230803221833.GF9722@pendragon.ideasonboard.com>
+ <69c1800e-714e-372d-c894-fd060f26b306@starfivetech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2023082416-flanking-requisite-a8ed@gregkh>
+In-Reply-To: <69c1800e-714e-372d-c894-fd060f26b306@starfivetech.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -59,33 +63,116 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 03:08:33PM +0200, Greg Kroah-Hartman wrote:
-> On Thu, Aug 24, 2023 at 08:23:33PM +0800, Jack Zhu wrote:
-> > On 2023/8/24 19:37, Greg Kroah-Hartman wrote:
-> > > On Thu, Aug 24, 2023 at 04:01:01PM +0800, Jack Zhu wrote:
-> > >> Hi,
-> > >> 
-> > >> This series is the v8 series that attempts to support the Camera Subsystem
-> > >> found on StarFive JH7110 SoC.
-> > > 
-> > > I don't see anything here about why this is in drivers/staging/media/
-> > > now and not just in drivers/media/.  What is preventing this to be put
-> > > into the correct place to start with?  What needs to be done to the code
-> > > to get it out of drivers/staging/media/ and who is going to do that
-> > > work?
+Hi Jack,
+
+On Fri, Aug 04, 2023 at 07:14:22PM +0800, Jack Zhu wrote:
+> On 2023/8/4 6:18, Laurent Pinchart wrote:
+> > On Thu, Aug 03, 2023 at 10:44:50AM +0800, Jack Zhu wrote:
+> >> On 2023/8/2 18:38, Laurent Pinchart wrote:
+> >> > On Wed, Aug 02, 2023 at 05:58:26PM +0800, Jack Zhu wrote:
+> >> >> On 2023/7/28 4:49, Laurent Pinchart wrote:
+> >> >> > On Mon, Jun 19, 2023 at 07:28:38PM +0800, Jack Zhu wrote:
+> >> >> >> Add Video In Controller driver for StarFive Camera Subsystem.
+> >> >> > 
+> >> >> > I haven't reviewed this patch in details, as I have a high-level
+> >> >> > question: why do you need VIN subdevs ? They don't seem to represent any
+> >> >> > particular piece of hardware, their input and output formats are always
+> >> >> > identical, and they're not used to configure registers. The contents of
+> >> >> > this patch seems to belong to the video device, I think you can drop the
+> >> >> > VIN subdevs.
+> >> >> 
+> >> >> The VIN module corresponds to a hardware module, which is mainly responsible
+> >> >> for data routing and partial interrupt management (when the image data does
+> >> >> not pass through the isp but directly goes to the ddr), the relevant registers
+> >> >> need to be configured.
+> >> > 
+> >> > That's fine, but I don't think you need a subdev for it. As far as I
+> >> > understand, the VIn modules are (more or less) DMA engines. You can just
+> >> > model them as video devices, connected directly to the CSI-2 RX and ISP
+> >> > source pads.
+> >> 
+> >> The VIN hardware can also route input data, it can decide whether DVP sensor
+> >> or MIPI sensor is used as input data.
+> >> 
+> >> > Does the "vin0_wr" have the ability to capture raw data from the DVP
+> >> > interface as well, or only from the CSI-2 RX ?
+> >> 
+> >> Yes, the "vin0_wr" has the ability to capture raw data from the DVP
+> >> interface.
 > > 
-> > The series does not contain 3A interface. According to Laurent's suggestion,
-> > we put the driver in the staging directory first. In the next stage, we will
-> > continue to submit the 3A interface in the way of incremental development,
-> > and finally expect the code to be placed in the drivers/media/.
+> > Then I would recommend something similar to the following media graph:
+> > 
+> > digraph board {
+> >         rankdir=TB
+> >         imx219 [label="{{} | imx219 6-0010\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> >         imx219:port0 -> csi2rx:port0 [style=bold]
+> >         csi2rx [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+> >         csi2rx:port1 -> vin:port0 [style=bold]
+> >         ov5640 [label="{{} | ov5640 6-0020\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> >         ov5640:port0 -> vin:port1 [style=bold]
+> >         vin [label="{{<port0> 0 | <port1> 1} | stf_vin0\n/dev/v4l-subdev2 | {<port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
+> >         vin:port2 -> raw_capture [style=dashed]
+> >         vin:port2 -> isp:port0 [style=dashed]
+> >         raw_capture [label="stf_vin0_wr_video0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+> >         isp [label="{{<port0> 0} | stf_isp0\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> >         isp:port1 -> yuv_capture [style=bold]
+> >         yuv_capture [label="stf_vin0_isp0_video1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+> > }
+> > 
+> > Here, the stf_vin0 subdev is used to route either the CSI-2 input or the
+> > DVP input to the raw capture video device and the ISP.
+> > 
+> > Does this match the hardware architecture ?
 > 
-> Can you please say that in the changelog text for when you are adding
-> the driver so that we know this?
+> Yes, but I have a question to ask, is there any way for stf_vin0 subdev
+> to distinguish whether the current scene is 'raw_capture' or 'yuv_capture'?
 
-It's also customary to add a TODO file in the driver directory to list
-the work needed before moving the code to drivers/media/. Jack, could
-you please do so ?
+Sorry about the late reply, I had missed your e-mail.
 
+I'm not sure to follow you here. Do you mean differentiating between
+capturing raw frames from stf_vin0_wr_video0 and YUV frames from
+stf_vin0_isp0_video1 ? Are those mutually exclusive, or is it possible
+to capture both raw frames and YUV frames at the same time ?
+
+> > What are ports 2, 3 and 4 for in the CSI-2 RX ?
+> 
+> port2-4 are useless, they should be created by 'cdns-csi2rx.c' by default.
+>  
+> >> >> >> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+> >> >> >> ---
+> >> >> >>  .../media/platform/starfive/camss/Makefile    |    4 +-
+> >> >> >>  .../media/platform/starfive/camss/stf_camss.c |   42 +-
+> >> >> >>  .../media/platform/starfive/camss/stf_camss.h |    2 +
+> >> >> >>  .../media/platform/starfive/camss/stf_vin.c   | 1069 +++++++++++++++++
+> >> >> >>  .../media/platform/starfive/camss/stf_vin.h   |  173 +++
+> >> >> >>  .../platform/starfive/camss/stf_vin_hw_ops.c  |  192 +++
+> >> >> >>  6 files changed, 1478 insertions(+), 4 deletions(-)
+> >> >> >>  create mode 100644 drivers/media/platform/starfive/camss/stf_vin.c
+> >> >> >>  create mode 100644 drivers/media/platform/starfive/camss/stf_vin.h
+> >> >> >>  create mode 100644 drivers/media/platform/starfive/camss/stf_vin_hw_ops.c
+> >> >> >> 
+> >> >> >> diff --git a/drivers/media/platform/starfive/camss/Makefile b/drivers/media/platform/starfive/camss/Makefile
+> >> >> >> index cdf57e8c9546..ef574e01ca47 100644
+> >> >> >> --- a/drivers/media/platform/starfive/camss/Makefile
+> >> >> >> +++ b/drivers/media/platform/starfive/camss/Makefile
+> >> >> >> @@ -7,6 +7,8 @@ starfive-camss-objs += \
+> >> >> >>  		stf_camss.o \
+> >> >> >>  		stf_isp.o \
+> >> >> >>  		stf_isp_hw_ops.o \
+> >> >> >> -		stf_video.o
+> >> >> >> +		stf_video.o \
+> >> >> >> +		stf_vin.o \
+> >> >> >> +		stf_vin_hw_ops.o
+> >> >> >>  
+> >> >> >>  obj-$(CONFIG_VIDEO_STARFIVE_CAMSS) += starfive-camss.o
+> >> >> >> diff --git a/drivers/media/platform/starfive/camss/stf_camss.c b/drivers/media/platform/starfive/camss/stf_camss.c
+> >> >> >> index 6f56b45f57db..834ea63eb833 100644
+> >> >> >> --- a/drivers/media/platform/starfive/camss/stf_camss.c
+> >> >> >> +++ b/drivers/media/platform/starfive/camss/stf_camss.c
+> >> >> >> @@ -131,27 +131,61 @@ static int stfcamss_init_subdevices(struct stfcamss *stfcamss)
+> >> >> >>  		return ret;
+> >> >> >>  	}
+> >> >> >>  
 
 -- 
 Regards,
