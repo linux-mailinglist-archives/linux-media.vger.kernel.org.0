@@ -2,266 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93EDC787745
-	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 19:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA2C5787821
+	for <lists+linux-media@lfdr.de>; Thu, 24 Aug 2023 20:40:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242906AbjHXRre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 13:47:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46464 "EHLO
+        id S233212AbjHXSji (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 14:39:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242918AbjHXRrP (ORCPT
+        with ESMTP id S235210AbjHXSjY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 13:47:15 -0400
-Received: from domac.alu.hr (domac.alu.unizg.hr [IPv6:2001:b68:2:2800::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86AF81BD8;
-        Thu, 24 Aug 2023 10:47:11 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by domac.alu.hr (Postfix) with ESMTP id 2096C60171;
-        Thu, 24 Aug 2023 19:46:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1692899217; bh=SG8+mKVbEcgfNLKMD3sTfdrvi0Bs6j4sRHXdbO+MZaA=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=jsNVjOuA+thOmIkJoCZqrk7Fgxi3+6dfVy8XT2l3rEKff5o8ZHEdUWHVR7WM5UGYb
-         J+Tg9/80+YAuArMEjAk/sQOm14bipM7Ai0TwumGMprBTIrn9wDZVn1j3NXc8hscBZw
-         QBl4ThGLNAih/GgZvV4WWPFt5iTlPqKVLo7aLBS8G56S+e2aqxBPWJCmo4QNA8wDsJ
-         u7bF559fwOs57XSGsB/tJxqU+kQ2ZghG4+dv9O68+Uok1aCUiwrvl8rstifzA3ZkQE
-         SJFH3NXXXYjz1+banKHrf5xQkgspJ46DY5yh4Xm/nGDaS6WsHjhi2qJJJArsngZS3t
-         3dpvdCuT4sLaA==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-        by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id c7Usz9UDj_WJ; Thu, 24 Aug 2023 19:46:53 +0200 (CEST)
-Received: from [192.168.1.4] (unknown [94.250.191.183])
-        by domac.alu.hr (Postfix) with ESMTPSA id 7CBF16016E;
-        Thu, 24 Aug 2023 19:46:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-        t=1692899213; bh=SG8+mKVbEcgfNLKMD3sTfdrvi0Bs6j4sRHXdbO+MZaA=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=d2AYoWmp+bqpu7SmlCsnaN1zRVvEVJucfWqgLjijCFy4Yolci0UGAWySBoj47Yh+x
-         JbpqAABKx2Xl4HKFMZiKFYJrzE7uzX/ORunWCfAAoVrnQ/HI02ZWvvohOwaQXgCtwm
-         UDG7ks7MrsRyKSVv61dTe3VRjhXd/Ix6lx6zCps3C5XFAfF1ImQ8ErslDtWnCuNzpz
-         Kjjv8N/m8m309IhYEqRo3Xta7nltkELA2mT1GWd4MOp97QhE/G3NIoo6nxsAsusOnh
-         cQYmM7fwLMIpJIIQnvXyWK1e59M9SHOzf1AzHPBkeDSIgPy2e4/qcRe0f2mDMRBpP9
-         Y84yoKrtNDc2w==
-Message-ID: <52eb519d-2cb1-2036-65af-0737714967f0@alu.unizg.hr>
-Date:   Thu, 24 Aug 2023 19:46:52 +0200
+        Thu, 24 Aug 2023 14:39:24 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Aug 2023 11:39:21 PDT
+Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F20A119BE
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 11:39:21 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id ZF7QqAefwuWDMZF7Rqe7Po; Thu, 24 Aug 2023 20:31:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1692901908;
+        bh=nPsDNUjBoakY0a/VnBFZAypFsdRwpC9qQ/hznAqbH/g=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=VPg0zs3QpX8+1VbR+lNw3MYEEhAA7PHPxtG6IO0tPTiMoUC+tB5S+AbPMwkT4YPrW
+         gMT1XE1GyCj99tRP6zCmczJVRrwCrWXecpfMR2w63qVrU5jktnvAxwUO0kyHe41dE4
+         EkFPetm+uWmlgkV2+Emhfp3XJVG7zFQMZ9mAv52NYzetCRYWC2nGBKcK3vu75+o7CN
+         lZU4ZmqLdwU+L5eO1II6bO/8bF9ppd7zwHsV22JA61zlIPTfnB7pf7xZ2E9O8qk3mr
+         ITF/u93ACO/yi4tTqGx8VZv7KIsgmJbIaaH237zFUCo5jzcds+3ENhtNkWAZO0U+8Z
+         64EQnUi+QWYFQ==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 24 Aug 2023 20:31:48 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <74183f7b-6e53-ba3d-2160-1e526d61073b@wanadoo.fr>
+Date:   Thu, 24 Aug 2023 20:31:44 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Luben Tuikov <luben.tuikov@amd.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-References: <43668e49-c2c0-9979-9de3-b4904c2a8f82@alu.unizg.hr>
- <36b4e667-c287-1614-fe1f-5e772850d1fb@alu.unizg.hr>
- <b74a5cc3-8174-67f3-17ab-2e8a7d8fa1a6@amd.com>
- <5d83d59a-3c49-aae7-61ca-de9c2f3ba9c9@alu.unizg.hr>
- <d321918e-6f3b-4984-9163-427b579dc57e@amd.com>
-From:   Mirsad Goran Todorovac <mirsad.todorovac@alu.unizg.hr>
-Organization: Academy of Fine Arts, University of Zagreb
-Subject: Re: [BUG] KCSAN: data-race in drm_sched_entity_is_ready [gpu_sched] /
- drm_sched_entity_push_job [gpu_sched]
-In-Reply-To: <d321918e-6f3b-4984-9163-427b579dc57e@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v8 3/8] media: staging: media: starfive: camss: Add core
+ driver
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+        changhuang.liang@starfivetech.com
+References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
+ <20230824080109.89613-4-jack.zhu@starfivetech.com>
+Content-Language: fr
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20230824080109.89613-4-jack.zhu@starfivetech.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URI_LONG_REPEAT autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thank you, Christian.
-
-Glad to hear about that.
-
-However, I guess this assumes that this piece of code between
-
------<>-----
-      preempt_disable();
-
-      tail = (struct spsc_node **)atomic_long_xchg(&queue->tail, (long)&node->next);
-      WRITE_ONCE(*tail, node);
-      atomic_inc(&queue->job_count);
-
-      /*
-       * In case of first element verify new node will be visible to the consumer
-       * thread when we ping the kernel thread that there is new work to do.
-       */
-      smp_wmb();
-
-      preempt_enable();
------<>-----
-
-... executes only on one CPU/core/thread?
-
-I understood that preempt_disable() disables only interrupts on one core/CPU:
-
-https://kernelnewbies.kernelnewbies.narkive.com/6LTlgsAe/preempt-disable-disables-preemption-on-all-processors
-
-So, we might have a race in theory between WRITE_ONCE() and atomic_inc().
-
-Kind regards,
-Mirsad
-
-
-On 8/21/2023 8:22 PM, Christian König wrote:
-> I'm not sure about that.
+Le 24/08/2023 à 10:01, Jack Zhu a écrit :
+> Add core driver for StarFive Camera Subsystem. The code parses
+> the device platform resources and registers related devices.
 > 
-> On the one hand it might generate some noise. I know tons of cases where logic is: Ok if we see the updated value immediately it will optimize things, but if not it's unproblematic because there is another check after the next memory barrier.
-> 
-> On the other hand we probably have cases where this is not correctly implemented. So double checking those would most like be good idea.
-> 
-> Regards,
-> Christian.
-> 
-> Am 21.08.23 um 16:28 schrieb Mirsad Todorovac:
->> Hi Christian,
->>
->> Thank you for the update.
->>
->> Should I continue reporting what KCSAN gives? I will try to filter these to save your time for
->> evaluation ...
->>
->> Kind regards,
->> Mirsad
->>
->> On 8/21/23 15:20, Christian König wrote:
->>> Hi Mirsad,
->>>
->>> well this is a false positive.
->>>
->>> That drm_sched_entity_is_ready() doesn't see the data written by drm_sched_entity_push_job() is part of the logic here.
->>>
->>> Regards,
->>> Christian.
->>>
->>> Am 18.08.23 um 15:44 schrieb Mirsad Todorovac:
->>>> On 8/17/23 21:54, Mirsad Todorovac wrote:
->>>>> Hi,
->>>>>
->>>>> This is your friendly bug reporter.
->>>>>
->>>>> The environment is vanilla torvalds tree kernel on Ubuntu 22.04 LTS and a Ryzen 7950X box.
->>>>>
->>>>> Please find attached the complete dmesg output from the ring buffer and lshw output.
->>>>>
->>>>> NOTE: The kernel reports tainted kernel, but to my knowledge there are no proprietary (G) modules,
->>>>>        but this taint is turned on by the previous bugs.
->>>>>
->>>>> dmesg excerpt:
->>>>>
->>>>> [ 8791.864576] ==================================================================
->>>>> [ 8791.864648] BUG: KCSAN: data-race in drm_sched_entity_is_ready [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
->>>>>
->>>>> [ 8791.864776] write (marked) to 0xffff9b74491b7c40 of 8 bytes by task 3807 on cpu 18:
->>>>> [ 8791.864788]  drm_sched_entity_push_job+0xf4/0x2a0 [gpu_sched]
->>>>> [ 8791.864852]  amdgpu_cs_ioctl+0x3888/0x3de0 [amdgpu]
->>>>> [ 8791.868731]  drm_ioctl_kernel+0x127/0x210 [drm]
->>>>> [ 8791.869222]  drm_ioctl+0x38f/0x6f0 [drm]
->>>>> [ 8791.869711]  amdgpu_drm_ioctl+0x7e/0xe0 [amdgpu]
->>>>> [ 8791.873660]  __x64_sys_ioctl+0xd2/0x120
->>>>> [ 8791.873676]  do_syscall_64+0x58/0x90
->>>>> [ 8791.873688]  entry_SYSCALL_64_after_hwframe+0x73/0xdd
->>>>>
->>>>> [ 8791.873710] read to 0xffff9b74491b7c40 of 8 bytes by task 1119 on cpu 27:
->>>>> [ 8791.873722]  drm_sched_entity_is_ready+0x16/0x50 [gpu_sched]
->>>>> [ 8791.873786]  drm_sched_select_entity+0x1c7/0x220 [gpu_sched]
->>>>> [ 8791.873849]  drm_sched_main+0xd2/0x500 [gpu_sched]
->>>>> [ 8791.873912]  kthread+0x18b/0x1d0
->>>>> [ 8791.873924]  ret_from_fork+0x43/0x70
->>>>> [ 8791.873939]  ret_from_fork_asm+0x1b/0x30
->>>>>
->>>>> [ 8791.873955] value changed: 0x0000000000000000 -> 0xffff9b750ebcfc00
->>>>>
->>>>> [ 8791.873971] Reported by Kernel Concurrency Sanitizer on:
->>>>> [ 8791.873980] CPU: 27 PID: 1119 Comm: gfx_0.0.0 Tainted: G             L 6.5.0-rc6-net-cfg-kcsan-00038-g16931859a650 #35
->>>>> [ 8791.873994] Hardware name: ASRock X670E PG Lightning/X670E PG Lightning, BIOS 1.21 04/26/2023
->>>>> [ 8791.874002] ==================================================================
->>>>
->>>> P.S.
->>>>
->>>> According to Mr. Heo's instructions, I am adding the unwound trace here:
->>>>
->>>> [ 1879.706518] ==================================================================
->>>> [ 1879.706616] BUG: KCSAN: data-race in drm_sched_entity_is_ready [gpu_sched] / drm_sched_entity_push_job [gpu_sched]
->>>>
->>>> [ 1879.706737] write (marked) to 0xffff8f3672748c40 of 8 bytes by task 4087 on cpu 10:
->>>> [ 1879.706748] drm_sched_entity_push_job (./include/drm/spsc_queue.h:74 drivers/gpu/drm/scheduler/sched_entity.c:574) gpu_sched
->>>> [ 1879.706808] amdgpu_cs_ioctl (drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1375 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1469) amdgpu
->>>> [ 1879.710589] drm_ioctl_kernel (drivers/gpu/drm/drm_ioctl.c:788) drm
->>>> [ 1879.711068] drm_ioctl (drivers/gpu/drm/drm_ioctl.c:892) drm
->>>> [ 1879.711551] amdgpu_drm_ioctl (drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2748) amdgpu
->>>> [ 1879.715319] __x64_sys_ioctl (fs/ioctl.c:51 fs/ioctl.c:870 fs/ioctl.c:856 fs/ioctl.c:856)
->>>> [ 1879.715334] do_syscall_64 (arch/x86/entry/common.c:50 arch/x86/entry/common.c:80)
->>>> [ 1879.715345] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:120)
->>>>
->>>> [ 1879.715365] read to 0xffff8f3672748c40 of 8 bytes by task 1098 on cpu 11:
->>>> [ 1879.715376] drm_sched_entity_is_ready (drivers/gpu/drm/scheduler/sched_entity.c:134) gpu_sched
->>>> [ 1879.715435] drm_sched_select_entity (drivers/gpu/drm/scheduler/sched_main.c:248 drivers/gpu/drm/scheduler/sched_main.c:893) gpu_sched
->>>> [ 1879.715495] drm_sched_main (drivers/gpu/drm/scheduler/sched_main.c:1019) gpu_sched
->>>> [ 1879.715554] kthread (kernel/kthread.c:389)
->>>> [ 1879.715563] ret_from_fork (arch/x86/kernel/process.c:145)
->>>> [ 1879.715575] ret_from_fork_asm (arch/x86/entry/entry_64.S:312)
->>>>
->>>> [ 1879.715590] value changed: 0x0000000000000000 -> 0xffff8f360663dc00
->>>>
->>>> [ 1879.715604] Reported by Kernel Concurrency Sanitizer on:
->>>> [ 1879.715612] CPU: 11 PID: 1098 Comm: gfx_0.0.0 Tainted: G             L     6.5.0-rc6+ #47
->>>> [ 1879.715624] Hardware name: ASRock X670E PG Lightning/X670E PG Lightning, BIOS 1.21 04/26/2023
->>>> [ 1879.715631] ==================================================================
->>>>
->>>> It seems that the line in question might be:
->>>>
->>>>     first = spsc_queue_push(&entity->job_queue, &sched_job->queue_node);
->>>>
->>>> which expands to:
->>>>
->>>> static inline bool spsc_queue_push(struct spsc_queue *queue, struct spsc_node *node)
->>>> {
->>>>     struct spsc_node **tail;
->>>>
->>>>     node->next = NULL;
->>>>
->>>>     preempt_disable();
->>>>
->>>>     tail = (struct spsc_node **)atomic_long_xchg(&queue->tail, (long)&node->next);
->>>>     WRITE_ONCE(*tail, node);
->>>>     atomic_inc(&queue->job_count);
->>>>
->>>>     /*
->>>>      * In case of first element verify new node will be visible to the consumer
->>>>      * thread when we ping the kernel thread that there is new work to do.
->>>>      */
->>>>     smp_wmb();
->>>>
->>>>     preempt_enable();
->>>>
->>>>     return tail == &queue->head;
->>>> }
->>>>
->>>> According to the manual, preempt_disable() only guaranteed exclusion on a single CPU/core/thread, so
->>>> we might be plagued with the slow, old fashioned locking unless anyone had a better idea.
->>>>
->>>> Best regards,
->>>> Mirsad Todorovac
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+> ---
 
--- 
-Mirsad Todorovac
-Sistem inženjer
-Grafički fakultet | Akademija likovnih umjetnosti
-Sveučilište u Zagrebu
+...
 
-System engineer
-Faculty of Graphic Arts | Academy of Fine Arts
-University of Zagreb, Republic of Croatia
-tel. +385 (0)1 3711 451
-mob. +385 91 57 88 355
+> diff --git a/drivers/staging/media/starfive/camss/Kconfig b/drivers/staging/media/starfive/camss/Kconfig
+> new file mode 100644
+> index 000000000000..8d20e2bd2559
+> --- /dev/null
+> +++ b/drivers/staging/media/starfive/camss/Kconfig
+> @@ -0,0 +1,17 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config VIDEO_STARFIVE_CAMSS
+> +	tristate "Starfive Camera Subsystem driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV && OF
+> +	depends on HAS_DMA
+> +	depends on PM
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select V4L2_FWNODE
+> +	help
+> +	   Enable this to support for the Starfive Camera subsystem
+> +	   found on Starfive JH7110 SoC.
+> +
+> +	   To compile this driver as a module, choose M here: the
+> +	   module will be called stf-camss.
+
+stf_camss? (s/-/_)
+
+> diff --git a/drivers/staging/media/starfive/camss/Makefile b/drivers/staging/media/starfive/camss/Makefile
+> new file mode 100644
+> index 000000000000..f53c5cbe958f
+> --- /dev/null
+> +++ b/drivers/staging/media/starfive/camss/Makefile
+> @@ -0,0 +1,9 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Makefile for StarFive Camera Subsystem driver
+> +#
+> +
+> +starfive-camss-objs += \
+> +		stf_camss.o
+> +
+> +obj-$(CONFIG_VIDEO_STARFIVE_CAMSS) += starfive-camss.o
+
+I'm not an expert in Makefile files, but this stf_camss.o and 
+starfive-camss.o look strange to me.
+
+> diff --git a/drivers/staging/media/starfive/camss/stf_camss.c b/drivers/staging/media/starfive/camss/stf_camss.c
+> new file mode 100644
+> index 000000000000..75ebc3a35218
+> --- /dev/null
+> +++ b/drivers/staging/media/starfive/camss/stf_camss.c
+
+...
+
+> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
+> +{
+> +	struct device_node *node = NULL;
+> +	int ret, num_subdevs = 0;
+> +
+> +	for_each_endpoint_of_node(stfcamss->dev->of_node, node) {
+> +		struct stfcamss_async_subdev *csd;
+> +
+> +		if (!of_device_is_available(node))
+> +			continue;
+> +
+> +		csd = v4l2_async_nf_add_fwnode_remote(&stfcamss->notifier,
+> +						      of_fwnode_handle(node),
+> +						      struct stfcamss_async_subdev);
+> +		if (IS_ERR(csd)) {
+> +			ret = PTR_ERR(csd);
+> +			dev_err(stfcamss->dev, "failed to add async notifier\n");
+> +			v4l2_async_nf_cleanup(&stfcamss->notifier);
+
+having it here, looks strange to me.
+It is already called in the error handling path of the probe.
+
+Should there be a "of_node_put(node);" if we return here?
+
+> +			return ret;
+> +		}
+> +
+> +		ret = stfcamss_of_parse_endpoint_node(stfcamss, node, csd);
+> +		if (ret)
+> +			return ret;
+> +
+> +		num_subdevs++;
+> +	}
+> +
+> +	return num_subdevs;
+> +}
+
+...
+
+> +static int stfcamss_remove(struct platform_device *pdev)
+> +{
+> +	struct stfcamss *stfcamss = platform_get_drvdata(pdev);
+> +
+> +	v4l2_device_unregister(&stfcamss->v4l2_dev);
+> +	media_device_cleanup(&stfcamss->media_dev);
+
+Is a "v4l2_async_nf_cleanup(&stfcamss->notifier);" missing to match the 
+error handling path of the probe?
+
+> +	pm_runtime_disable(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+
+...
