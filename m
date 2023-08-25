@@ -2,73 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28843787E12
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 04:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24DF4787E05
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 04:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236086AbjHYCyI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 22:54:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47358 "EHLO
+        id S240701AbjHYCwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 22:52:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242516AbjHYCxw (ORCPT
+        with ESMTP id S242577AbjHYCvw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 22:53:52 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A6E1FD3
-        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 19:53:32 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1bf078d5f33so4732395ad.3
-        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 19:53:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692932008; x=1693536808;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ka8P5b/GzyZWqOM50pHONHl9tEIZnwSQ0LsDJccYJvI=;
-        b=BzlEs8cAdigCMb3vJPqRNzIb1J1HMXhrk6+GbBQGA0k1l767wGfP7XvKmyt9yAyOSA
-         4etFUTYoIV32HK7WWxK7y/MW35VnO29t51VsENsZjk8D0lNdCawf9uRWsfhEM9kerzDP
-         pqrTeOgtNfEw/WuzoRZxu8+I4r+gFLu83Og5A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692932008; x=1693536808;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ka8P5b/GzyZWqOM50pHONHl9tEIZnwSQ0LsDJccYJvI=;
-        b=ZpcM7wCXbK6RDJBx/EaG1lg08gVTfVwZ8802nqCaIOCGfBHZRMtU0nIHStQRy4YJfE
-         Y2kLg7w6Jjs2DeYdzpHFx02e80NGkpB27rNK86IeE2nXQE9aIlZzn7DOaxH4iU3IMjnU
-         po3cfiTYtAowz11vxiWnLEvU4fwe98GTRKLxrOGfB/3I9GNEjXfdK9w3HQLA/y6F37TX
-         baO+DJ0JySIrsBHeM0yQ/tl5FQzVpMvDA6fnjq20/7+HKmAUfzAjn+L7SCNpTzMqpsIB
-         eNtqq3ckBqJqgqOZvIo3HzCbp6GwqOMDon4e3mflDFRJ97KgSz8IXgct7mrhUGWukkSw
-         p34w==
-X-Gm-Message-State: AOJu0Yzkn7euc1E0PlmueKZTyQbExOgVan206Sn7AFbBpeJ+kTmfUsax
-        bA4bI18rkj7xG2dY2i9qpuDTBA==
-X-Google-Smtp-Source: AGHT+IH938af/Jkw37fRHmw130aKNQYszXvCGp+5zNX3Tkto4r7N0993i9603PTTX5fDrm5uQLkqvg==
-X-Received: by 2002:a17:902:f54b:b0:1b8:92fc:7429 with SMTP id h11-20020a170902f54b00b001b892fc7429mr20923761plf.53.1692932008269;
-        Thu, 24 Aug 2023 19:53:28 -0700 (PDT)
-Received: from rekanorman3.syd.corp.google.com ([2401:fa00:9:14:9fe1:d4b1:42cc:882f])
-        by smtp.gmail.com with ESMTPSA id q10-20020a170902a3ca00b001bb0eebd90asm420847plb.245.2023.08.24.19.53.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 19:53:27 -0700 (PDT)
-From:   Reka Norman <rekanorman@chromium.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Daisuke Nojiri <dnojiri@chromium.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Stefan Adolfsson <sadolfsson@google.com>,
-        Reka Norman <rekanorman@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2 9/9] media: cros-ec-cec: Add Dibbi to the match table
-Date:   Fri, 25 Aug 2023 12:44:02 +1000
-Message-ID: <20230825024735.1443836-10-rekanorman@chromium.org>
-X-Mailer: git-send-email 2.42.0.rc2.253.gd59a3bf2b4-goog
-In-Reply-To: <20230825024735.1443836-1-rekanorman@chromium.org>
-References: <20230825024735.1443836-1-rekanorman@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 24 Aug 2023 22:51:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1AF5211D;
+        Thu, 24 Aug 2023 19:51:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 03F5064542;
+        Fri, 25 Aug 2023 02:51:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6D1FEC433C8;
+        Fri, 25 Aug 2023 02:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692931872;
+        bh=4wthcCGK7UTEQggqK3+XS02OsVrGnYqqLtMdj3/SRxQ=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=Z6SBrzS6PFZy8neDiEhxfmJqZR5HDhHhkWxumjDXHD2HLLzommJz6j+XVLbFqOv60
+         UIx8jz3LeWLqFfwBYMhQwivxqKMK+LG5K0JupCpTrEJ7mxRoaokVcfW/Y86D5qDd58
+         PEA0XGbh2LI5+EocK/WkMJ5lazEPFKeoNYHIrrOMJQmSUuCMK+2XjsDSCTCUWgYsir
+         QZdKgr9F5XQDVt7SbeFYH0GAjKuIlSj/O+AW4aC9EEEd6oL7tm4ZJig5lt1fWjwAdR
+         CNONwM/SyWnFM2/BgP9lu5Sz4rI7BXnsjX826mQkVkT8qdWu7SqWoqQ/AwqJFvZaRF
+         7nqHDjmfXMXlw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 51680E21EDF;
+        Fri, 25 Aug 2023 02:51:12 +0000 (UTC)
+Subject: Re: [GIT PULL for v6.5] media fixes
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20230825015419.0848a4bc@coco.lan>
+References: <20230825015419.0848a4bc@coco.lan>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20230825015419.0848a4bc@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-4
+X-PR-Tracked-Commit-Id: e7f2e65699e2290fd547ec12a17008764e5d9620
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 14ddccc8a647f0e6b268858c4fe2804ae42aabb0
+Message-Id: <169293187232.29499.8466139975370857444.pr-tracker-bot@kernel.org>
+Date:   Fri, 25 Aug 2023 02:51:12 +0000
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,40 +65,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dibbi has two HDMI ports which support CEC:
-Port D is EC port 0
-Port B is EC port 1
+The pull request you sent on Fri, 25 Aug 2023 01:54:19 +0200:
 
-Signed-off-by: Reka Norman <rekanorman@chromium.org>
----
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-4
 
-Changes in v2:
-- Use a NULL-terminated conns array for the Dibbi match table entry
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/14ddccc8a647f0e6b268858c4fe2804ae42aabb0
 
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thank you!
 
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 993deb85d3e2..21361eff50ff 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -295,6 +295,7 @@ struct cec_dmi_match {
- };
- 
- static const char *const fizz_conns[] = { "Port B", NULL };
-+static const char *const dibbi_conns[] = { "Port D", "Port B", NULL };
- 
- static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	/* Google Fizz */
-@@ -313,6 +314,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Gladios", "0000:00:02.0", fizz_conns },
- 	/* Google Lisbon */
- 	{ "Google", "Lisbon", "0000:00:02.0", fizz_conns },
-+	/* Google Dibbi */
-+	{ "Google", "Dibbi", "0000:00:02.0", dibbi_conns },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
 -- 
-2.42.0.rc2.253.gd59a3bf2b4-goog
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
