@@ -2,153 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AF9A78870F
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 14:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68989788741
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 14:28:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242844AbjHYMWK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Aug 2023 08:22:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57144 "EHLO
+        id S244769AbjHYM2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Aug 2023 08:28:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244855AbjHYMVz (ORCPT
+        with ESMTP id S244848AbjHYM2B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Aug 2023 08:21:55 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E6ED26BD
-        for <linux-media@vger.kernel.org>; Fri, 25 Aug 2023 05:21:28 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9a1de3417acso405314966b.0
-        for <linux-media@vger.kernel.org>; Fri, 25 Aug 2023 05:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar-org.20221208.gappssmtp.com; s=20221208; t=1692966023; x=1693570823;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kWYyngDJ3qSSpaOwkQKw/6S3U2XYLWWAXr/ethxyWfY=;
-        b=fWg8e+jR7J7GfrbzGYj+LejpRt6q8kD5MdO+pdHY0xIB0Y/p2244yhesvkI73MD8SW
-         KuTlzEdwoX1d5TdleWVRkYyvjUdAZ8FxqjAP8Px6CgSSyDWmMSaKzWIgYNMNKd1fTszr
-         ma8rdIxjXD+QIuwdkV5IgjS+/HdBPmY/9l+sGmVTatchUiVSRC4VmQG34lRPMrIj8uEH
-         KFW2vJMnZkPFqML2Qsd3K1+qpz4N+FYXUP8iRpORRpKmsVuSGC1PVfHsJ2IL5HNK1XyK
-         qofYpV/Rc7LlYZghHxTQBiO8b3trAn5cuc15cfdhzSsydx0Gj3nFYvYmdsyOzdvcTHE8
-         IpkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692966023; x=1693570823;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kWYyngDJ3qSSpaOwkQKw/6S3U2XYLWWAXr/ethxyWfY=;
-        b=BVkVpLLCtnIfNpX9iTXYcL5CRThJiF7CRdLfkkZhY6XtBdeEzaweQzpGDe8/vjRF83
-         xquzc2ppZJc85ga80kFMQMa8MVqhe6wLbWt/eDjCG1Ewfi32jMgSlUMybrBLWsow6ue9
-         jVSFaKS8ON7CFsFKDqY03WZpZ0Pm8yRDEGv59skmgWMGT4gWWFKEFdnRuqV5cobok0oW
-         jS+hfZBGUPweFZQSeMgmkd2tdfRDasUWm/aWcA0+uQiFKBkBBLxCo7vY/Iy7f7vZZu3y
-         3Uknk0QWXspB0hsHFCCvYm+kCC0VoX75c81Txy0CpD/u5eVckwGQNzUv3m8iJqn9feLG
-         49iw==
-X-Gm-Message-State: AOJu0YwnAXLo9dWB6H0uD8eYBOQBGw62OXW4U5pM3ho5xLxR+7KkH0x6
-        om23yQiVAzvol8rD6cdIUazYSMW1Hz/xJxPletJlAg==
-X-Google-Smtp-Source: AGHT+IErw8qnClNuZp9zL2W3R5DxEJmB8WAy3evsgCLSL46uQHxCzXGTVd96j/AToUUTTaIwJ1VU4czxprtRlgB5e0w=
-X-Received: by 2002:a17:907:7da3:b0:982:a022:a540 with SMTP id
- oz35-20020a1709077da300b00982a022a540mr19879140ejc.11.1692966022330; Fri, 25
- Aug 2023 05:20:22 -0700 (PDT)
+        Fri, 25 Aug 2023 08:28:01 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00F7D2699;
+        Fri, 25 Aug 2023 05:27:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692966446; x=1724502446;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=psOCa7KDDmybtBbFrOreIdagf4PFHIM8yxTia2JKqqs=;
+  b=X6VNXYhjgtWyUcmY4RelPz4mMn5K3NwI+I7Itb5OzydrDGCuRP7XAkOF
+   FNKGkwK4MXYh/xMUTXwvQXodaEifka2cYOhb05+XqeJH21rMtkOZP7hGd
+   EcDvOw9NtEsgLH6QZhrwiwfNzzqM49PUOdFiDsbTrNHAKbW8BeG0YI87n
+   ul3pH3LvYnVUdfsDf/Qmj8Q3fbYmSxkxPdnRZtE5eybnZf1RX4z1PivNW
+   WDCYClu16hV/vPDYswAzcwW4uGBelzu+FDd/+KEyx0j/zakgnL6HTaRGg
+   IFZpcHNObyD396R2Q03nm6vN7ZWOH8mYwbw2it+PGdgQCjv2QREuweokt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="355030443"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="scan'208";a="355030443"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 05:26:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068223843"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="scan'208";a="1068223843"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 25 Aug 2023 05:26:47 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qZVtn-0003Z4-0l;
+        Fri, 25 Aug 2023 12:26:47 +0000
+Date:   Fri, 25 Aug 2023 20:26:10 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for
+ DELETE_BUFS ioctl
+Message-ID: <202308252057.jcyaKKOJ-lkp@intel.com>
+References: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-References: <029b982f-da62-4fa8-66c4-ab11a515574a@synaptics.com>
- <CAAFQd5CqAvr7ZUdDSYPEOWSgvbttTBjHa0YWDomxJJSaiZxGog@mail.gmail.com>
- <f8a168e8-1a23-c6b3-0f68-baa73396d594@synaptics.com> <20230825104052.4573ab7b@eldfell>
- <65432c20-a6fd-141c-2ced-a7e6599a1e7c@synaptics.com>
-In-Reply-To: <65432c20-a6fd-141c-2ced-a7e6599a1e7c@synaptics.com>
-From:   Daniel Stone <daniel@fooishbar.org>
-Date:   Fri, 25 Aug 2023 13:20:09 +0100
-Message-ID: <CAPj87rPQzRUmLAnu09wm8K6Skjb6KTGwL63b4DXPuwdsYXzbSw@mail.gmail.com>
-Subject: Re: [RFC]: shmem fd for non-DMA buffer sharing cross drivers
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc:     Pekka Paalanen <ppaalanen@gmail.com>, daniels@collabora.com,
-        ayaka <ayaka@soulik.info>, hughd@google.com,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Tomasz Figa <tfiga@chromium.org>, linux-mm@kvack.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        akpm@linux-foundation.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Benjamin,
 
-On Fri, 25 Aug 2023 at 08:56, Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
-> On 8/25/23 15:40, Pekka Paalanen wrote:
-> > if userspace cannot access things like an image's HDR metadata, then it
-> > will be impossible for userspace to program KMS to have the correct
-> > color pipeline, or to send intended HDR metadata to a video sink.
-> >
-> > You cannot leave userspace out of HDR metadata handling, because quite
-> > probably the V4L2 buffer is not the only thing on screen. That means
-> > there must composition of multiple sources with different image
-> > properties and metadata, which means it is no longer obvious what HDR
-> > metadata should be sent to the video sink.
-> >
-> > Even if it is a TV-like application rather than a windowed desktop, you
-> > will still have other contents to composite: OSD (volume indicators,
-> > channels indicators, program guide, ...), sub-titles, channel logos,
-> > notifications... These components ideally should not change their
-> > appearance arbitrarily with the main program content and metadata
-> > changes. Either the metadata sent to the video sink is kept static and
-> > the main program adapted on the fly, or main program metadata is sent
-> > to the video sink and the additional content is adapted on the fly.
-> >
-> > There is only one set of HDR metadata and one composited image that can
-> > be sent to a video sink, so both must be chosen and produced correctly
-> > at the source side. This cannot be done automatically inside KMS kernel
-> > drivers.
->
-> There may be some misunderstanding.
-> Let suppose this HDR data is in a vendor specific format.
-> Both upstream(decoder) and downstream(DRM) hardware devices are coming
-> from the same vendor.
-> Then we just need to delivery the reference to this metadata buffer from
-> the upstream to downstream, both of drivers know how to handle it.
->
-> Despite the userspace, we just need to extend a wayland protocol that
-> making wayland compositor know how to receive the reference to the
-> metadata and set it to the DRM plane.
->
-> If you want a common HDR formats for all HDR variants(HDR10+, DV), I am
-> not against it. But it won't make the userspace be able to fill the HDR
-> metadata even the HDR data comes from the bitstream(likes SEI). We must
-> consider the case of Secure Video Path(Digital Right), the bitstream is
-> not accessible from (REE) userspace nor linux kernel, the downstream
-> must take what the upstream feed.
+kernel test robot noticed the following build errors:
 
-To summarise from IRC, so it's properly documented: the community will
-not accept this.
+[auto build test ERROR on next-20230824]
+[also build test ERROR on v6.5-rc7]
+[cannot apply to linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The mechanism (shmem, dmabuf, copy_from_user, whatever) is _not_ the
-problem. The problem is the concept.
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230824-172416
+base:   next-20230824
+patch link:    https://lore.kernel.org/r/20230824092133.39510-11-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+config: i386-randconfig-r033-20230825 (https://download.01.org/0day-ci/archive/20230825/202308252057.jcyaKKOJ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308252057.jcyaKKOJ-lkp@intel.com/reproduce)
 
-There have been incredibly extensive discussions on this list about
-colour management and HDR, summarised in documentation in the DRM
-repository, as well as three talks at the last XDC. This design is the
-result of discussion between many community participants - including
-hardware vendors - who have all come up with a design which
-prioritises transparency and explicit operation.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308252057.jcyaKKOJ-lkp@intel.com/
 
-What you are suggesting is exactly the opposite of this. A design in
-which opaque magic blobs are passed around and the kernel does unknown
-things based on the contents of those blobs, contradicts this design.
-(This is different to compression, where even if the format is
-proprietary, the effect is well-understood - for the current
-compression mechanisms, it is a lossless transform.)
+All errors (new ones prefixed by >>):
 
-The old Android Display Framework (ADF) was based around the same
-design with blobs of opaque driver-specific data, where generic code -
-either in the kernel or in userspace - could not understand the effect
-of these blobs. This design was rejected, and we made a clear choice
-to follow the DRM design principles instead.
+>> drivers/media/test-drivers/vim2m.c:963:23: error: use of undeclared identifier 'v4l2_m2m_ioctl_delete_buf'; did you mean 'v4l2_m2m_ioctl_delete_bufs'?
+           .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+                                     v4l2_m2m_ioctl_delete_bufs
+   include/media/v4l2-mem2mem.h:873:5: note: 'v4l2_m2m_ioctl_delete_bufs' declared here
+   int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
+       ^
+>> drivers/media/test-drivers/vim2m.c:963:3: error: field designator 'vidioc_delete_buf' does not refer to any field in type 'const struct v4l2_ioctl_ops'; did you mean 'vidioc_delete_bufs'?
+           .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
+            ^~~~~~~~~~~~~~~~~
+            vidioc_delete_bufs
+   include/media/v4l2-ioctl.h:427:8: note: 'vidioc_delete_bufs' declared here
+           int (*vidioc_delete_bufs)(struct file *file, void *fh,
+                 ^
+   2 errors generated.
 
-Upstream will not accept any design which hides magic away. 'GKI is
-hard', 'other vendors won't let us', etc, are not good enough reasons
-to change our mind on this fundamental principle.
 
-Cheers,
-Daniel
+vim +963 drivers/media/test-drivers/vim2m.c
+
+   942	
+   943	static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
+   944		.vidioc_querycap	= vidioc_querycap,
+   945	
+   946		.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt_vid_cap,
+   947		.vidioc_enum_framesizes = vidioc_enum_framesizes,
+   948		.vidioc_g_fmt_vid_cap	= vidioc_g_fmt_vid_cap,
+   949		.vidioc_try_fmt_vid_cap	= vidioc_try_fmt_vid_cap,
+   950		.vidioc_s_fmt_vid_cap	= vidioc_s_fmt_vid_cap,
+   951	
+   952		.vidioc_enum_fmt_vid_out = vidioc_enum_fmt_vid_out,
+   953		.vidioc_g_fmt_vid_out	= vidioc_g_fmt_vid_out,
+   954		.vidioc_try_fmt_vid_out	= vidioc_try_fmt_vid_out,
+   955		.vidioc_s_fmt_vid_out	= vidioc_s_fmt_vid_out,
+   956	
+   957		.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
+   958		.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
+   959		.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
+   960		.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
+   961		.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
+   962		.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
+ > 963		.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
+   964		.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
+   965	
+   966		.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
+   967		.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
+   968	
+   969		.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+   970		.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+   971	};
+   972	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
