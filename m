@@ -2,64 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2398778842A
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 11:59:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF0978849E
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 12:20:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240765AbjHYJ6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Aug 2023 05:58:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51794 "EHLO
+        id S239119AbjHYKT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Aug 2023 06:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240701AbjHYJ6D (ORCPT
+        with ESMTP id S244206AbjHYKTi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Aug 2023 05:58:03 -0400
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBAF91B9;
-        Fri, 25 Aug 2023 02:58:00 -0700 (PDT)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id C026F24E269;
-        Fri, 25 Aug 2023 17:57:59 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 25 Aug
- 2023 17:57:59 +0800
-Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 25 Aug
- 2023 17:57:59 +0800
-Message-ID: <109d69d1-bd64-9157-da6b-a099dbe700fe@starfivetech.com>
-Date:   Fri, 25 Aug 2023 17:57:58 +0800
+        Fri, 25 Aug 2023 06:19:38 -0400
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C57F2270C;
+        Fri, 25 Aug 2023 03:19:00 -0700 (PDT)
+Received: from mail.ispras.ru (unknown [83.149.199.84])
+        by mail.ispras.ru (Postfix) with ESMTPSA id 2A66340737DA;
+        Fri, 25 Aug 2023 10:18:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 2A66340737DA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+        s=default; t=1692958726;
+        bh=uryXDS4nqyFR9SOXfKBV4jwGs2+MiiKOcdfzM+yQBHU=;
+        h=Date:From:To:Subject:From;
+        b=fXucNdLeXndyUqCDYugj424bpQr3cuRMDdbS8ufn/BaTq8IiBXHuwj3UE+ZMDfWhX
+         NWRToZ0JCpB2+AXgORxsFUu9cIhEt2+9n0n25UvguWQ/xGsmCAuPv3QVdC9ZTubY/u
+         7EJWYVAtF/mEC6RGK2fNNhGrD2he4mnfr+6YM0zk=
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v8 0/8] Add StarFive Camera Subsystem driver
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-        <changhuang.liang@starfivetech.com>
-References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
- <2023082436-spendable-reshuffle-878d@gregkh>
- <a6f60dfc-ffbf-da4d-a81c-06caf92955d6@starfivetech.com>
- <2023082416-flanking-requisite-a8ed@gregkh>
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <2023082416-flanking-requisite-a8ed@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+Date:   Fri, 25 Aug 2023 13:18:46 +0300
+From:   e.orlova@ispras.ru
+To:     p.zabel@pengutronix.de, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, lvc-project@linuxtesting.org
+Subject: [QUESTION] drm/crtc: precondition for drm_crtc_init_with_planes()
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <a830685d8b10a00cfe0a86db1ee9fb13@ispras.ru>
+X-Sender: e.orlova@ispras.ru
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,37 +51,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Documentation for drm_crtc_init_with_planes() in
+drivers/gpu/drm/drm_crtc.c states: «The crtc structure should not be
+allocated with devm_kzalloc()».
 
+However, in drivers/gpu/drm/stm/ltdc.c
+the 2nd argument of the function drm_crtc_init_with_planes()
+is a structure allocated with devm_kzalloc()
 
-On 2023/8/24 21:08, Greg Kroah-Hartman wrote:
-> On Thu, Aug 24, 2023 at 08:23:33PM +0800, Jack Zhu wrote:
->> Hi Greg,
->> 
->> On 2023/8/24 19:37, Greg Kroah-Hartman wrote:
->> > On Thu, Aug 24, 2023 at 04:01:01PM +0800, Jack Zhu wrote:
->> >> Hi,
->> >> 
->> >> This series is the v8 series that attempts to support the Camera Subsystem
->> >> found on StarFive JH7110 SoC.
->> > 
->> > I don't see anything here about why this is in drivers/staging/media/
->> > now and not just in drivers/media/.  What is preventing this to be put
->> > into the correct place to start with?  What needs to be done to the code
->> > to get it out of drivers/staging/media/ and who is going to do that
->> > work?
->> > 
->> 
->> The series does not contain 3A interface. According to Laurent's suggestion,
->> we put the driver in the staging directory first. In the next stage, we will
->> continue to submit the 3A interface in the way of incremental development,
->> and finally expect the code to be placed in the drivers/media/.
-> 
-> Can you please say that in the changelog text for when you are adding
-> the driver so that we know this?
-> 
+Also, in
+drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
+drivers/gpu/drm/logicvc/logicvc_crtc.c
+drivers/gpu/drm/meson/meson_crtc.c
+drivers/gpu/drm/mxsfb/lcdif_kms.c
+drivers/gpu/drm/mxsfb/mxsfb_kms.c
+drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+drivers/gpu/drm/sun4i/sun4i_crtc.c
+drivers/gpu/drm/tegra/dc.c
+drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+the 2nd argument of the function drm_crtc_init_with_planes()
+is a field of the structure allocated with devm_kzalloc()
 
-Yes, will do it. Thank you for your suggestion!
+Is it correct or can it lead to any problems?
 
-> thanks,
-> 
-> greg k-h
+--
+Ekaterina Orlova
+Linux Verification Center, ISPRAS
