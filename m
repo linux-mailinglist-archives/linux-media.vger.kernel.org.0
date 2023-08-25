@@ -2,78 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24DF4787E05
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 04:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CE6C787E24
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 04:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240701AbjHYCwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 22:52:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46060 "EHLO
+        id S229599AbjHYC6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 22:58:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242577AbjHYCvw (ORCPT
+        with ESMTP id S231736AbjHYC6s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 22:51:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1AF5211D;
-        Thu, 24 Aug 2023 19:51:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 03F5064542;
-        Fri, 25 Aug 2023 02:51:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6D1FEC433C8;
-        Fri, 25 Aug 2023 02:51:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692931872;
-        bh=4wthcCGK7UTEQggqK3+XS02OsVrGnYqqLtMdj3/SRxQ=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=Z6SBrzS6PFZy8neDiEhxfmJqZR5HDhHhkWxumjDXHD2HLLzommJz6j+XVLbFqOv60
-         UIx8jz3LeWLqFfwBYMhQwivxqKMK+LG5K0JupCpTrEJ7mxRoaokVcfW/Y86D5qDd58
-         PEA0XGbh2LI5+EocK/WkMJ5lazEPFKeoNYHIrrOMJQmSUuCMK+2XjsDSCTCUWgYsir
-         QZdKgr9F5XQDVt7SbeFYH0GAjKuIlSj/O+AW4aC9EEEd6oL7tm4ZJig5lt1fWjwAdR
-         CNONwM/SyWnFM2/BgP9lu5Sz4rI7BXnsjX826mQkVkT8qdWu7SqWoqQ/AwqJFvZaRF
-         7nqHDjmfXMXlw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 51680E21EDF;
-        Fri, 25 Aug 2023 02:51:12 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.5] media fixes
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20230825015419.0848a4bc@coco.lan>
-References: <20230825015419.0848a4bc@coco.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20230825015419.0848a4bc@coco.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-4
-X-PR-Tracked-Commit-Id: e7f2e65699e2290fd547ec12a17008764e5d9620
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 14ddccc8a647f0e6b268858c4fe2804ae42aabb0
-Message-Id: <169293187232.29499.8466139975370857444.pr-tracker-bot@kernel.org>
-Date:   Fri, 25 Aug 2023 02:51:12 +0000
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Thu, 24 Aug 2023 22:58:48 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE499E7A
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 19:58:46 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2bbad32bc79so6904521fa.0
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 19:58:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692932325; x=1693537125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i3zX4Zb+/ffsYg6eBe+TNid4MG/g6LStWIhoKJPVbas=;
+        b=QF971O+bJsLvZ9A2DhNJTQBhjQiiG7vmdQxDxtALAwt1S3XJCKuBQWbZZMAeEWjHiY
+         IOZcpB2pcxcDjQLP0j3gAakDNA7gfDXXNAV5n/R2bT2i1T6mcj4p7VP+RB6dGBz53Tba
+         UBZFoyZNvcXAdk6SNSr6L4g+7vDHss0vKT7HE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692932325; x=1693537125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i3zX4Zb+/ffsYg6eBe+TNid4MG/g6LStWIhoKJPVbas=;
+        b=N4SXBwyrz+pWUjNho2YUWIE6pSk6/BDSFnFii3uaROj8yHYp1hTg0PXfh0rACsCoTg
+         JiKEprihkuVX5iHWwPX5V8kkX8/Qll/gAYrm38NPCmRie6AmctVA7Hi8Oy6RtXx6egyC
+         YFbHtxhoU+EqTA4K/Zmk8sqycXxridy+AgEqbCzGBPGl0HbuM2L5twYuCMubXtHrk3yl
+         0DpDSLF8z1suZEoQolgxNbMv8sIP1fsrfkxoXnela8fjB+NpQnpmeF0GT7tBOoR9BUkE
+         XwLYrR40nxmNNoKlJ7cMWF77G6wTln6WUKezqQQNu74YnBGnvHhr6a1CZbPT8DJwji9b
+         xnuQ==
+X-Gm-Message-State: AOJu0YxdGU6O0lt5qfGKas8x23LJQE58+l7xXbAdujisfpJAFfV32wLW
+        yrTtU00AA64ous9EM9UAPrXesowSBbnM8NlJ5EJKZGc8ntxVGOUO
+X-Google-Smtp-Source: AGHT+IFuAJ8RQxzqoJv6ilDeUOdyzRsdkgYgw1Ez/KEf+jHlvOd98qy2c7Bflc9X1+/D4C1D82gUS0YG3A1fj2lC6uU=
+X-Received: by 2002:a2e:988d:0:b0:2b9:4413:864e with SMTP id
+ b13-20020a2e988d000000b002b94413864emr12811186ljj.53.1692932325114; Thu, 24
+ Aug 2023 19:58:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230814043140.1108917-1-rekanorman@chromium.org>
+ <20230814043140.1108917-6-rekanorman@chromium.org> <67a1657a-e8f4-683c-375d-5ca6b1e75b9a@xs4all.nl>
+In-Reply-To: <67a1657a-e8f4-683c-375d-5ca6b1e75b9a@xs4all.nl>
+From:   Reka Norman <rekanorman@chromium.org>
+Date:   Fri, 25 Aug 2023 12:58:32 +1000
+Message-ID: <CAEmPcwssUgayw4B9Wemr818_zSQB5ir3Hpbvm5vFt8S7cLSE_g@mail.gmail.com>
+Subject: Re: [PATCH 5/9] media: cros-ec-cec: Support multiple ports in MKBP cec_events
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        Daisuke Nojiri <dnojiri@chromium.org>,
+        Stefan Adolfsson <sadolfsson@google.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pull request you sent on Fri, 25 Aug 2023 01:54:19 +0200:
+Hi Hans,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.5-4
+Thanks for the review.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/14ddccc8a647f0e6b268858c4fe2804ae42aabb0
+On Mon, Aug 21, 2023 at 6:51=E2=80=AFPM Hans Verkuil <hverkuil-cisco@xs4all=
+.nl> wrote:
+>
+> Hi Reka,
+>
+> On 14/08/2023 06:29, Reka Norman wrote:
+> > Use the top four bits of the cec_events MKBP event to store the port
+> > number.
+> >
+> > Signed-off-by: Reka Norman <rekanorman@chromium.org>
+> > ---
+> >
+> >  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 13 +++++++++++--
+> >  include/linux/platform_data/cros_ec_commands.h   | 10 ++++++++++
+> >  2 files changed, 21 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers=
+/media/cec/platform/cros-ec/cros-ec-cec.c
+> > index d674a432dfdd..eb4b778f83e9 100644
+> > --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> > +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> > @@ -77,8 +77,17 @@ static void handle_cec_message(struct cros_ec_cec *c=
+ros_ec_cec)
+> >  static void handle_cec_event(struct cros_ec_cec *cros_ec_cec)
+> >  {
+> >       struct cros_ec_device *cros_ec =3D cros_ec_cec->cros_ec;
+> > -     uint32_t events =3D cros_ec->event_data.data.cec_events;
+> > -     struct cros_ec_cec_port *port =3D cros_ec_cec->ports[CEC_PORT];
+> > +     uint32_t cec_events =3D cros_ec->event_data.data.cec_events;
+> > +     int port_num =3D EC_MKBP_EVENT_CEC_GET_PORT(cec_events);
+> > +     uint32_t events =3D EC_MKBP_EVENT_CEC_GET_EVENTS(cec_events);
+> > +     struct cros_ec_cec_port *port;
+> > +
+> > +     if (port_num < 0 || port_num >=3D cros_ec_cec->num_ports) {
+>
+> Since cec_events is unsigned, then I would also keep port_num unsigned.
+> Mixing signed and unsigned for bit shifting is a bit dangerous.
+>
+> That will also mean that you can skip the 'port_num < 0' check.
 
-Thank you!
+Done in v2.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+>
+> Regards,
+>
+>         Hans
+>
+> > +             dev_err(cros_ec->dev,
+> > +                     "received CEC event for invalid port %d\n", port_=
+num);
+> > +             return;
+> > +     }
+> > +     port =3D cros_ec_cec->ports[port_num];
+> >
+> >       if (events & EC_MKBP_CEC_SEND_OK)
+> >               cec_transmit_attempt_done(port->adap, CEC_TX_STATUS_OK);
+> > diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/l=
+inux/platform_data/cros_ec_commands.h
+> > index 9a0c6e28f370..b7e8573a8a49 100644
+> > --- a/include/linux/platform_data/cros_ec_commands.h
+> > +++ b/include/linux/platform_data/cros_ec_commands.h
+> > @@ -4440,6 +4440,16 @@ struct ec_response_i2c_passthru_protect {
+> >
+> >  #define MAX_CEC_MSG_LEN 16
+> >
+> > +/*
+> > + * Helper macros for packing/unpacking cec_events.
+> > + * bits[27:0] : bitmask of events from enum mkbp_cec_event
+> > + * bits[31:28]: port number
+> > + */
+> > +#define EC_MKBP_EVENT_CEC_PACK(events, port) \
+> > +             (((events) & GENMASK(27, 0)) | (((port) & 0xf) << 28))
+> > +#define EC_MKBP_EVENT_CEC_GET_EVENTS(event) ((event) & GENMASK(27, 0))
+> > +#define EC_MKBP_EVENT_CEC_GET_PORT(event) (((event) >> 28) & 0xf)
+> > +
+> >  /* CEC message from the AP to be written on the CEC bus */
+> >  #define EC_CMD_CEC_WRITE_MSG 0x00B8
+> >
+>
