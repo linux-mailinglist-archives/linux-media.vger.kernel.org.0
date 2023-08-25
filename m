@@ -2,156 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68989788741
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 14:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84767788805
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 15:02:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244769AbjHYM2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Aug 2023 08:28:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55946 "EHLO
+        id S244773AbjHYNBc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Aug 2023 09:01:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244848AbjHYM2B (ORCPT
+        with ESMTP id S244800AbjHYNB3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Aug 2023 08:28:01 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00F7D2699;
-        Fri, 25 Aug 2023 05:27:26 -0700 (PDT)
+        Fri, 25 Aug 2023 09:01:29 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1FB1BE2
+        for <linux-media@vger.kernel.org>; Fri, 25 Aug 2023 06:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692966446; x=1724502446;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=psOCa7KDDmybtBbFrOreIdagf4PFHIM8yxTia2JKqqs=;
-  b=X6VNXYhjgtWyUcmY4RelPz4mMn5K3NwI+I7Itb5OzydrDGCuRP7XAkOF
-   FNKGkwK4MXYh/xMUTXwvQXodaEifka2cYOhb05+XqeJH21rMtkOZP7hGd
-   EcDvOw9NtEsgLH6QZhrwiwfNzzqM49PUOdFiDsbTrNHAKbW8BeG0YI87n
-   ul3pH3LvYnVUdfsDf/Qmj8Q3fbYmSxkxPdnRZtE5eybnZf1RX4z1PivNW
-   WDCYClu16hV/vPDYswAzcwW4uGBelzu+FDd/+KEyx0j/zakgnL6HTaRGg
-   IFZpcHNObyD396R2Q03nm6vN7ZWOH8mYwbw2it+PGdgQCjv2QREuweokt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="355030443"
+  t=1692968487; x=1724504487;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=8cmqtqG/EG6R4dOaX1svLnRD0AON8tt76w3UGGR8r9Q=;
+  b=diYg147X0lVLgU06Pz86VgJxIvI8mDkunJqPF3HyAKm6TQpk8m4kdqh6
+   XBGFV1TT44SPKKX548hhMkpgkh/qMbWlvgzXErIz1h+tvq80ljF0FXwXa
+   oPkVW8NB8fSRTqnCeHic6/v2uLWrYFvk9+Obr6IW3xv2B0a/d4G0Z13sG
+   RrZcXwMqK5Y7XgySftqls4Kr2uHPg0ADYNgbe45UMF5Y5E5BOpOhOHn8i
+   k1MRX35klYIXbGrSpLkIGYJelEe4yDtDTZzdndBScawd8/hmE3S+RQvts
+   81fqfq7rcN7ZvosTPSssIfvFdHdX0Zfw27xibMOjWgAOOWYWnB05Zjvxn
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="354236668"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="355030443"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 05:26:52 -0700
+   d="scan'208";a="354236668"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 06:01:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068223843"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="740602738"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="1068223843"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Aug 2023 05:26:47 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qZVtn-0003Z4-0l;
-        Fri, 25 Aug 2023 12:26:47 +0000
-Date:   Fri, 25 Aug 2023 20:26:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for
- DELETE_BUFS ioctl
-Message-ID: <202308252057.jcyaKKOJ-lkp@intel.com>
-References: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
+   d="scan'208";a="740602738"
+Received: from ogbrugge-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.56.56])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 06:01:25 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     Jani Nikula <jani.nikula@intel.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v2] drm/cec: add drm_dp_cec_attach() as the non-edid version of set edid
+Date:   Fri, 25 Aug 2023 16:01:20 +0300
+Message-Id: <20230825130120.1250089-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <f8ed9b38fd2ebcd8344a1889a6c0f288969454ea.1692884619.git.jani.nikula@intel.com>
+References: <f8ed9b38fd2ebcd8344a1889a6c0f288969454ea.1692884619.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Connectors have source physical address available in display
+info. There's no need to parse the EDID again for this. Add
+drm_dp_cec_attach() to do this.
 
-kernel test robot noticed the following build errors:
+Seems like the set_edid/unset_edid naming is a bit specific now that
+there's no need to pass the EDID at all, so aim for attach/detach going
+forward.
 
-[auto build test ERROR on next-20230824]
-[also build test ERROR on v6.5-rc7]
-[cannot apply to linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+v2: Fix the embarrashing build failures
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230824-172416
-base:   next-20230824
-patch link:    https://lore.kernel.org/r/20230824092133.39510-11-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-config: i386-randconfig-r033-20230825 (https://download.01.org/0day-ci/archive/20230825/202308252057.jcyaKKOJ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308252057.jcyaKKOJ-lkp@intel.com/reproduce)
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/display/drm_dp_cec.c | 23 ++++++++++++++++++++---
+ include/drm/display/drm_dp_helper.h  |  6 ++++++
+ 2 files changed, 26 insertions(+), 3 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308252057.jcyaKKOJ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/media/test-drivers/vim2m.c:963:23: error: use of undeclared identifier 'v4l2_m2m_ioctl_delete_buf'; did you mean 'v4l2_m2m_ioctl_delete_bufs'?
-           .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-                                     v4l2_m2m_ioctl_delete_bufs
-   include/media/v4l2-mem2mem.h:873:5: note: 'v4l2_m2m_ioctl_delete_bufs' declared here
-   int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-       ^
->> drivers/media/test-drivers/vim2m.c:963:3: error: field designator 'vidioc_delete_buf' does not refer to any field in type 'const struct v4l2_ioctl_ops'; did you mean 'vidioc_delete_bufs'?
-           .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
-            ^~~~~~~~~~~~~~~~~
-            vidioc_delete_bufs
-   include/media/v4l2-ioctl.h:427:8: note: 'vidioc_delete_bufs' declared here
-           int (*vidioc_delete_bufs)(struct file *file, void *fh,
-                 ^
-   2 errors generated.
-
-
-vim +963 drivers/media/test-drivers/vim2m.c
-
-   942	
-   943	static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
-   944		.vidioc_querycap	= vidioc_querycap,
-   945	
-   946		.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt_vid_cap,
-   947		.vidioc_enum_framesizes = vidioc_enum_framesizes,
-   948		.vidioc_g_fmt_vid_cap	= vidioc_g_fmt_vid_cap,
-   949		.vidioc_try_fmt_vid_cap	= vidioc_try_fmt_vid_cap,
-   950		.vidioc_s_fmt_vid_cap	= vidioc_s_fmt_vid_cap,
-   951	
-   952		.vidioc_enum_fmt_vid_out = vidioc_enum_fmt_vid_out,
-   953		.vidioc_g_fmt_vid_out	= vidioc_g_fmt_vid_out,
-   954		.vidioc_try_fmt_vid_out	= vidioc_try_fmt_vid_out,
-   955		.vidioc_s_fmt_vid_out	= vidioc_s_fmt_vid_out,
-   956	
-   957		.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
-   958		.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
-   959		.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
-   960		.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
-   961		.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
-   962		.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
- > 963		.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
-   964		.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
-   965	
-   966		.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-   967		.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
-   968	
-   969		.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-   970		.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-   971	};
-   972	
-
+diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
+index ae39dc794190..007ceb281d00 100644
+--- a/drivers/gpu/drm/display/drm_dp_cec.c
++++ b/drivers/gpu/drm/display/drm_dp_cec.c
+@@ -14,6 +14,7 @@
+ #include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_device.h>
++#include <drm/drm_edid.h>
+ 
+ /*
+  * Unfortunately it turns out that we have a chicken-and-egg situation
+@@ -297,7 +298,7 @@ static void drm_dp_cec_unregister_work(struct work_struct *work)
+  * were unchanged and just update the CEC physical address. Otherwise
+  * unregister the old CEC adapter and create a new one.
+  */
+-void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
++void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
+ {
+ 	struct drm_connector *connector = aux->cec.connector;
+ 	u32 cec_caps = CEC_CAP_DEFAULTS | CEC_CAP_NEEDS_HPD |
+@@ -339,7 +340,7 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
+ 		if (aux->cec.adap->capabilities == cec_caps &&
+ 		    aux->cec.adap->available_log_addrs == num_las) {
+ 			/* Unchanged, so just set the phys addr */
+-			cec_s_phys_addr_from_edid(aux->cec.adap, edid);
++			cec_s_phys_addr(aux->cec.adap, source_physical_address, false);
+ 			goto unlock;
+ 		}
+ 		/*
+@@ -370,11 +371,27 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
+ 		 * from drm_dp_cec_register_connector() edid == NULL, so in
+ 		 * that case the phys addr is just invalidated.
+ 		 */
+-		cec_s_phys_addr_from_edid(aux->cec.adap, edid);
++		cec_s_phys_addr(aux->cec.adap, source_physical_address, false);
+ 	}
+ unlock:
+ 	mutex_unlock(&aux->cec.lock);
+ }
++EXPORT_SYMBOL(drm_dp_cec_attach);
++
++/*
++ * Note: Prefer calling drm_dp_cec_attach() with
++ * connector->display_info.source_physical_address if possible.
++ */
++void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
++{
++	u16 pa = CEC_PHYS_ADDR_INVALID;
++
++	if (edid && edid->extensions)
++		pa = cec_get_edid_phys_addr((const u8 *)edid,
++					    EDID_LENGTH * (edid->extensions + 1), NULL);
++
++	drm_dp_cec_attach(aux, pa);
++}
+ EXPORT_SYMBOL(drm_dp_cec_set_edid);
+ 
+ /*
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index 86f24a759268..3369104e2d25 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -699,6 +699,7 @@ void drm_dp_cec_irq(struct drm_dp_aux *aux);
+ void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
+ 				   struct drm_connector *connector);
+ void drm_dp_cec_unregister_connector(struct drm_dp_aux *aux);
++void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address);
+ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid);
+ void drm_dp_cec_unset_edid(struct drm_dp_aux *aux);
+ #else
+@@ -716,6 +717,11 @@ static inline void drm_dp_cec_unregister_connector(struct drm_dp_aux *aux)
+ {
+ }
+ 
++static inline void drm_dp_cec_attach(struct drm_dp_aux *aux,
++				     u16 source_physical_address)
++{
++}
++
+ static inline void drm_dp_cec_set_edid(struct drm_dp_aux *aux,
+ 				       const struct edid *edid)
+ {
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
