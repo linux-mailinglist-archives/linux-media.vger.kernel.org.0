@@ -2,47 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FC4D787C8A
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 02:27:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C46B8787DF2
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 04:50:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234170AbjHYA0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Aug 2023 20:26:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49800 "EHLO
+        id S236629AbjHYCtv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Aug 2023 22:49:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233865AbjHYA02 (ORCPT
+        with ESMTP id S233203AbjHYCt1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Aug 2023 20:26:28 -0400
-X-Greylist: delayed 101 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Aug 2023 17:26:25 PDT
-Received: from smtp.bawue.net (relay01.mx.bawue.net [193.7.176.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D328172D
-        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 17:26:25 -0700 (PDT)
-Received: from twin.GNUmatic.de (ip-005-146-193-090.um05.pools.vodafone-ip.de [5.146.193.90])
-        (Authenticated sender: dirk@bawue.de)
-        by smtp.bawue.net (Postfix) with ESMTPSA id F39242172D
-        for <linux-media@vger.kernel.org>; Fri, 25 Aug 2023 02:24:33 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.bawue.net F39242172D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bawue.net;
-        s=default; t=1692923082;
-        bh=YMLs9yBi9zZX086AeQnuLfSShSFhJQ/nzuF8frUrXwo=;
-        h=Subject:From:Reply-To:To:Date:From;
-        b=KfYns4noES1QPz7986P1mCMwX4MS18C6cnUVV/XledwXcR8TGPVhh1F4klHVJ0D3R
-         2bNA0Dah47rdvm0g3QRSFxKigN8yp+74JO1FYGUN0EE4+YEDg+0cPjBJGF4i+T83rs
-         UMm6HDX8bCfdShXikWYtDFugMgMKIAVli8ZIBmo0=
-Message-ID: <3e7467c5674d372d5cc3b9aca38e3aedf24afdf7.camel@GNUmatic.de>
-Subject: DVB-C Scanfiles - =?ISO-8859-1?Q?=C4nderung?= de-Kabel_BW ->
- de-Vodafone_BaWue
-From:   Dirk Ritter <dirk@GNUmatic.de>
-Reply-To: dirk@GNUmatic.de
-To:     linux-media@vger.kernel.org
-Date:   Fri, 25 Aug 2023 02:24:33 +0200
-Content-Type: multipart/mixed; boundary="=-v4tdo8UCuaJvNcVorDQ9"
-User-Agent: Evolution 3.49.2-3 
+        Thu, 24 Aug 2023 22:49:27 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54341FCB
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 19:49:24 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1bba48b0bd2so4404915ad.3
+        for <linux-media@vger.kernel.org>; Thu, 24 Aug 2023 19:49:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692931764; x=1693536564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mXGXLKS3jNZtWjpP8MUeUNI8wguvALNNe8QcWuaTTAc=;
+        b=Mj1W1eqcThgQTlQYu1yvNbtvQH/G5alkFNQy+YuuNyLjj4Hnae2wGWDYKymil8WYMh
+         WCLCxv/Su3Tu4DbXSDGi+N1vhvTsiDpzz/SR9b5Zk4YRuBWqlU1H+0WmeJ3Pyn892zw8
+         WptBDyuOgu2IVHdBERb8/a8/xUD1iCOpwm6Gw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692931764; x=1693536564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mXGXLKS3jNZtWjpP8MUeUNI8wguvALNNe8QcWuaTTAc=;
+        b=bgKFEffZFHsTGMhc0nkoPxZ4kb8vyV8qR+yf95txHx/uTnL+Ko3qZUHZF0CZ3onw6h
+         btKnh/pVKPgYYToK2B+Olw+oDr8Dva38G/njrgO7dxwoOKwBLSUVCTGHN7+afaOUjHKB
+         LD9unapLu5kH4d+MPQ3c++dpPEFl6mIJ4cbDO01zVJSMTMv3l6zeTQ6kBLCPu92Kz8YS
+         vBrgRsmpHmI6Clm4T2tQFzV8tdQtqY4UCXQJ8us7cMwIDwitOskO0nHS1VwZyQ1QvGcO
+         G/++LRsZIkfa+3aIbkHskJ67Sn0OOaNi2/W/ti61jSY4ubigmnEDNSM2inuJYwBXnf3U
+         VP9Q==
+X-Gm-Message-State: AOJu0YxCmIckD22HD8WvADUZCoBEyGzqDtg65bhGMhgdRdA8zq4E/wAS
+        wSdeVTABsPgyUc7tnNoj8hwBUwIiASUIuMvV6DA=
+X-Google-Smtp-Source: AGHT+IGNYtCTR8SWTybJF6A/n55k6TG7mlB9uXu6QZZkx9rf59w+jxMBHqodnR3YX5bLWYANu9sCzA==
+X-Received: by 2002:a17:902:d345:b0:1bb:1e69:28be with SMTP id l5-20020a170902d34500b001bb1e6928bemr13861764plk.42.1692931764287;
+        Thu, 24 Aug 2023 19:49:24 -0700 (PDT)
+Received: from rekanorman3.syd.corp.google.com ([2401:fa00:9:14:9fe1:d4b1:42cc:882f])
+        by smtp.gmail.com with ESMTPSA id q10-20020a170902a3ca00b001bb0eebd90asm420847plb.245.2023.08.24.19.49.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Aug 2023 19:49:23 -0700 (PDT)
+From:   Reka Norman <rekanorman@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Daisuke Nojiri <dnojiri@chromium.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Stefan Adolfsson <sadolfsson@google.com>,
+        Reka Norman <rekanorman@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2 0/9] media: cros-ec-cec: Add support for multiple ports
+Date:   Fri, 25 Aug 2023 12:43:53 +1000
+Message-ID: <20230825024735.1443836-1-rekanorman@chromium.org>
+X-Mailer: git-send-email 2.42.0.rc2.253.gd59a3bf2b4-goog
 MIME-Version: 1.0
-X-Virus-Scanner: SAV Dynamic Interface 2.6.0, Engine: 3.83.1, SAV: 5.89
-        (42D360A6) on relay01.mx.bawue.net using milter-sssp 0.1.0
-X-Virus-Scan: Found to be clean.
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -50,64 +73,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=-v4tdo8UCuaJvNcVorDQ9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi! :-)
+The Google Dibbi chromebox will have two HDMI ports with CEC enabled via
+its EC. Currently, the cros-ec-cec driver and the host command interface
+to the EC assume there is only one port. E.g. the commands have no
+parameter to indicated which port to operate on.
 
-Irgendwie haben die mal wieder Frequenztetris gespielt,
-Telefonie ist auf der urspr=C3=BCnglichen Einstiegsfrequenz
-gelandet und Kabel-BW sowie Unitymedia sind Geschichte.
+This series adds support for multiple ports. The driver is modified to
+manage an array of ports, each with their own CEC adapter and notifier.
+The host command interface is modified to support multiple ports. All
+changes to interface are backwards compatible.
 
-Daraus ergeben sich zwei W=C3=BCnsche:
-- veraltete Datei "de-Kabel_BW" l=C3=B6schen
-- neue Datei (s. Anlage) hinzuf=C3=BCgen als
-  "/usr/share/dvb/dvb-c/de-Vodafone_BaWue"
+Changes in v2:
+- Make port_num unsigned in handle_cec_event
+- Use NULL-terminated arrays for the conns field of cec_dmi_match
+- Use a NULL-terminated conns array for the Dibbi match table entry
 
-Werte habe ich hier vorab manuell direkt im Scanfile angepasst
-und getestet (C 330000000 6900000 NONE QAM256) und IMHO sollte
-das dann mit der neuen Datei im neuen Format wieder tun...
+Reka Norman (9):
+  media: cros-ec-cec: Use cros_ec_cmd to send host commands
+  media: cros-ec-cec: Manage an array of ports
+  media: cros-ec-cec: Support multiple ports in set/get host commands
+  media: cros-ec-cec: Support multiple ports in write command
+  media: cros-ec-cec: Support multiple ports in MKBP cec_events
+  media: cros-ec-cec: Support receiving messages from multiple ports
+  media: cros-ec-cec: Allow specifying multiple HDMI connectors
+  media: cros-ec-cec: Get number of CEC ports from EC
+  media: cros-ec-cec: Add Dibbi to the match table
 
-Quelle:
-https://helpdesk.vodafonekabelforum.de/sendb/belegung.html
+ .../media/cec/platform/cros-ec/cros-ec-cec.c  | 379 ++++++++++++++----
+ .../linux/platform_data/cros_ec_commands.h    |  66 ++-
+ 2 files changed, 357 insertions(+), 88 deletions(-)
 
-Kleinnetze sind rein analog - IMHO nicht ausgebaute oder
-einfach anders als z.B. Stuttgart belegte Netze (Umstellung
-noch ausstehend?) haben auf der Einstiegsfrequenz immerhin
-dieselben Werte (Horb z.B.) - sollten also ebenfalls einen
-Scan liefern.
+-- 
+2.42.0.rc2.253.gd59a3bf2b4-goog
 
-Prinzipiell m=C3=BCsste das ebensogut f=C3=BCr sehr viele andere Gebiete
-von Vodafone laufen. M=C3=BCnchen z.B. verwendet die Frequenz exakt
-so wie Stuttgart - Frankfurt z.B. ist zwar ganz anders belegt,
-hat aber die ARD auf demselben Kanal mit identischen Werten.
-Dresden z.B. sieht wiederum Stuttgart und M=C3=BCnchen sehr =C3=A4hnlich.
-K=C3=B6nnte man ggf. mal durchsehen und dramatisch vereinfachen als
-de_Vodafone?
-
-Herzlichen Dank vorab!
-Dirk Ritter
-
---=-v4tdo8UCuaJvNcVorDQ9
-Content-Disposition: attachment; filename="de-Vodafone_BaWue"
-Content-Type: text/plain; name="de-Vodafone_BaWue"; charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-IyBWb2RhZm9uZSBCYWRlbi1Xw7xydHRlbWJlcmcsIFN0YW5kIDA4LzIwMjMKIwojIE51ciBlaW5l
-IEFuZmFuZ3NmcmVxdWVueiBpc3Qgbm9ldGlnLCB1bSBkZW4gQmFsbCBpbnMKIyBSb2xsZW4genUg
-YnJpbmdlbi4gUXVhc2kgYWxzIEVpbnN0aWVnc3B1bmt0IGZ1ZXIgZWluZQojIHVtZmFzc2VuZGUg
-U3VjaGUuIEVzIGJlc3RlaHQga2VpbiBHcnVuZCwgc2ljaCB1bSBhbGwgZGllCiMgdmllbGVuIGFu
-ZGVyZW4gRnJlcXVlbnplbiB1bmQgZGVyZW4gYWt0dWVsbCB2ZXJ3ZW5kZXRlCiMgUGFyYW1ldGVy
-IHp1IGt1ZW1tZXJuIHVuZCBkaWVzZSBkYW5uIHdvbW9lZ2xpY2ggYXVjaAojIG5vY2ggYXVmIGVp
-bmVtIGFrdHVlbGxlbiBTdGFuZCBoYWx0ZW4genUgd29sbGVuLiBCZWkgZGVyCiMgc2NoaWVyZW4g
-QW56YWhsIGRlciBnZW51dHp0ZW4gRnJlcXVlbnplbiB3YWVyZSBkYXMgbnVyCiMgemVpdHJhdWJl
-bmQgdW5kIGZlaGxlcmFuZmFlbGxpZy4uLiA7LSkKIwojIERpcmsgUml0dGVyIDxkaXJrQEdOVW1h
-dGljLmRlPgojCiMgRGF0ZW5xdWVsbGU6CiMgaHR0cHM6Ly9oZWxwZGVzay52b2RhZm9uZWthYmVs
-Zm9ydW0uZGUvc2VuZGIvYmVsZWd1bmcuaHRtbAojCltDSEFOTkVMXQoJREVMSVZFUllfU1lTVEVN
-ID0gRFZCQy9BTk5FWF9BCglGUkVRVUVOQ1kgPSAzMzAwMDAwMDAKCVNZTUJPTF9SQVRFID0gNjkw
-MDAwMAoJSU5ORVJfRkVDID0gTk9ORQoJTU9EVUxBVElPTiA9IFFBTS8yNTYKCUlOVkVSU0lPTiA9
-IEFVVE8K
-
-
---=-v4tdo8UCuaJvNcVorDQ9--
