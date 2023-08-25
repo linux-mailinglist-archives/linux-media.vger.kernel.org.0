@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09F2678866B
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 13:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 704E7788662
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 13:54:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244462AbjHYLyR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Aug 2023 07:54:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59900 "EHLO
+        id S244391AbjHYLxp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Aug 2023 07:53:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244437AbjHYLyG (ORCPT
+        with ESMTP id S244021AbjHYLxY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Aug 2023 07:54:06 -0400
+        Fri, 25 Aug 2023 07:53:24 -0400
 Received: from mail-sh.amlogic.com (mail-sh.amlogic.com [58.32.228.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F9151BFA;
-        Fri, 25 Aug 2023 04:53:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68EF61FD7;
+        Fri, 25 Aug 2023 04:53:22 -0700 (PDT)
 Received: from droid10-sz.amlogic.com (10.28.11.69) by mail-sh.amlogic.com
  (10.18.11.5) with Microsoft SMTP Server id 15.1.2507.13; Fri, 25 Aug 2023
- 19:53:18 +0800
+ 19:53:20 +0800
 From:   zelong dong <zelong.dong@amlogic.com>
 To:     Neil Armstrong <neil.armstrong@linaro.org>,
         Sean Young <sean@mess.org>,
@@ -33,9 +33,9 @@ CC:     <linux-media@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <Qianggui.Song@amlogic.com>, <Yonghui.Yu@amlogic.com>,
         <kelvin.zhang@amlogic.com>, Zelong Dong <zelong.dong@amlogic.com>
-Subject: [PATCH 2/3] dt-bindings: media: Add compatible for Meson-S4 IR Controller
-Date:   Fri, 25 Aug 2023 19:53:09 +0800
-Message-ID: <20230825115310.39993-3-zelong.dong@amlogic.com>
+Subject: [PATCH 3/3] arm64: dts: meson: add IR controller for Meson-S4 SoC
+Date:   Fri, 25 Aug 2023 19:53:10 +0800
+Message-ID: <20230825115310.39993-4-zelong.dong@amlogic.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20230825115310.39993-1-zelong.dong@amlogic.com>
 References: <20230825115310.39993-1-zelong.dong@amlogic.com>
@@ -54,26 +54,61 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Zelong Dong <zelong.dong@amlogic.com>
 
-Add new compatible for Amlogic's Meson-S4 IR Controller.
-Meson IR Controller supports hardware decoder in Meson-S4 and later SoC.
+Add the IR controller device of Meson-S4 SoC family.
 
 Signed-off-by: Zelong Dong <zelong.dong@amlogic.com>
 ---
- Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts    |  6 ++++++
+ arch/arm64/boot/dts/amlogic/meson-s4.dtsi         | 15 +++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml b/Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml
-index 3f9fa92703bb..0f95fe8dd9ac 100644
---- a/Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml
-+++ b/Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml
-@@ -19,6 +19,7 @@ properties:
-           - amlogic,meson6-ir
-           - amlogic,meson8b-ir
-           - amlogic,meson-gxbb-ir
-+          - amlogic,meson-s4-ir
-       - items:
-           - const: amlogic,meson-gx-ir
-           - const: amlogic,meson-gxbb-ir
+diff --git a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+index 8ffbcb2b1ac5..c1f322c73982 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
++++ b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+@@ -28,3 +28,9 @@ memory@0 {
+ &uart_B {
+ 	status = "okay";
+ };
++
++&ir {
++	status = "okay";
++	pinctrl-0 = <&remote_pins>;
++	pinctrl-names = "default";
++};
+diff --git a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
+index f24460186d3d..5a3abcc08ee5 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
++++ b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
+@@ -106,6 +106,14 @@ gpio: bank@4000 {
+ 					#gpio-cells = <2>;
+ 					gpio-ranges = <&periphs_pinctrl 0 0 82>;
+ 				};
++
++				remote_pins: remote-pin {
++					mux {
++						groups = "remote_in";
++						function = "remote_in";
++						bias-disable;
++					};
++				};
+ 			};
+ 
+ 			gpio_intc: interrupt-controller@4080 {
+@@ -133,6 +141,13 @@ reset: reset-controller@2000 {
+ 				reg = <0x0 0x2000 0x0 0x98>;
+ 				#reset-cells = <1>;
+ 			};
++
++			ir: ir@84040 {
++				compatible = "amlogic,meson-s4-ir";
++				reg = <0x0 0x84040 0x0 0x30>;
++				interrupts = <GIC_SPI 22 IRQ_TYPE_EDGE_RISING>;
++				status = "disabled";
++			};
+ 		};
+ 	};
+ };
 -- 
 2.35.1
 
