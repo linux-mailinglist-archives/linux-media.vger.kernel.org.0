@@ -2,116 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF94178880F
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 15:05:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88692788914
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 15:55:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229851AbjHYNFR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Aug 2023 09:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35572 "EHLO
+        id S238529AbjHYNyz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Aug 2023 09:54:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244993AbjHYNFD (ORCPT
+        with ESMTP id S245361AbjHYNyn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Aug 2023 09:05:03 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6CCE1BF0;
-        Fri, 25 Aug 2023 06:04:57 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1bf7a6509deso6658975ad.3;
-        Fri, 25 Aug 2023 06:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692968697; x=1693573497;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CoViU47zP7yqEj1KNAwCFxEy/0OkP50WBChNobdQpEk=;
-        b=sQCeZG7uH3nYcY9GRHENnPT1vdy5VoPjMwd6NtQHIoP6NwKM//XPBwxEkhNWjdUpRD
-         amDY6MEIj/UtMrkdHxEVjOVVRHBbkwlHD7FbSRbkUnX8jZbtq95YQux5rn/h9vpmSqPf
-         eS0LWQ87xMkTd4xAhnS8oiYpsf3nVgmepuGx0Y2atVv1auCoVon0/sCk7+lVMzx3xUpJ
-         AdjPa03Kf6n5TNvGhrl71La0H+Ttew+jjdiyyn9ybKY28K5zf+neUxFrBlD+r3rP9Zei
-         nG1PQCLTBCwMd6C53KH/EeCaj73s+eqtZL0a9mSjvPrdXpWyNBqMkdTkmoKYxRpgEqvQ
-         zwIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692968697; x=1693573497;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CoViU47zP7yqEj1KNAwCFxEy/0OkP50WBChNobdQpEk=;
-        b=EN/o7IMYQVQYF+TY2phPikDsl1gnG5SVINXw5vCttNvUhU+c58FYN1ALEHHx3qXFuh
-         OnigaHEzYC8Ir0gaGhBB6MpQo+I3MZnFXcg3TPR3mioMRZb/GUCut64W/Kq/oNtjz543
-         q9YtRGu7K40ya1AJ4orwABMkgQeleBmz+5C/MBt2qpsho8Q2gCFabL63sV7vNz8KDq8p
-         DE3zNU1yX3JTKBC+td9B3TY2ldceUrcMfE5hksenOMps84aNMjypktRsnJdgvQxoeoYs
-         QEGN+nPlW9RU3mGbu2ylPAE87+oiJaPM4+QMnkO6XHS6S/rG5NMbepktdePWKWMynrmj
-         RCuw==
-X-Gm-Message-State: AOJu0YwuQuMSLdD520tGda8hm14CeLS5AxUmuu0mOf5Rp8KGsIdDLPbk
-        1TxH8NPJGtIqw8pjndX/1SQ=
-X-Google-Smtp-Source: AGHT+IEbTobU4DbNr3PSeZyqieW87FG8QQedMMZBFS8FhdmFZ42tpRGksnN8q1UwAmrTAvxAKmyBxA==
-X-Received: by 2002:a17:903:22d0:b0:1c0:9bef:4bbd with SMTP id y16-20020a17090322d000b001c09bef4bbdmr11219724plg.14.1692968697146;
-        Fri, 25 Aug 2023 06:04:57 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c2:100b:f444:c0d8:b853:252b:aa3])
-        by smtp.gmail.com with ESMTPSA id jj17-20020a170903049100b001b9d7c8f44dsm1638155plb.182.2023.08.25.06.04.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 06:04:56 -0700 (PDT)
-From:   coolrrsh@gmail.com
-To:     hverkuil@xs4all.nl, mchehab@kernel.org, slark_xiao@163.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        Rajeshwar R Shinde <coolrrsh@gmail.com>,
-        syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Subject: [PATCH v4] media: gspca: UBSAN: shift-out-of-bounds in set_flicker
-Date:   Fri, 25 Aug 2023 18:34:50 +0530
-Message-Id: <20230825130450.5287-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+        Fri, 25 Aug 2023 09:54:43 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45F822137;
+        Fri, 25 Aug 2023 06:54:15 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id B05A11F45E;
+        Fri, 25 Aug 2023 13:54:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1692971653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XKT17FbYypZcEOfeXYaNtZ6Vwk1v8XxDX315rlANfbM=;
+        b=oaXz39cK3qcNjEBK5WwfqkPFOhZhOdCfDdzvyCvqfMG8kYdvk/WFEM8AQgd4KY9W+/Xo2/
+        E+14Ro0lcO4OSf9Zxf0w6da0XFtLFm0z2H4ik4XsNMVFtKFhMI6QmdOl5ydZYav7rGyV2j
+        qQEgupRXOTNkG1M7/ff3FJeiWUtYUfk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1692971653;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XKT17FbYypZcEOfeXYaNtZ6Vwk1v8XxDX315rlANfbM=;
+        b=49KR5S3p5IqEhp4UE32uf1qWdQM0x6sRKyRhKKMSfQBcjoZj/rr1e+PqWIINOHy9PPiXBz
+        Tf09mag9blyJ2gBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 39122138F9;
+        Fri, 25 Aug 2023 13:54:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id tc/pDIWy6GTCBgAAMHmgww
+        (envelope-from <tiwai@suse.de>); Fri, 25 Aug 2023 13:54:13 +0000
+Date:   Fri, 25 Aug 2023 15:54:12 +0200
+Message-ID: <8735076xdn.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc:     Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
+In-Reply-To: <CAA+D8AM_pqbjQaE59n6Qm5gypLb8zPAwOpJR+_ZEG89-q3B8pg@mail.gmail.com>
+References: <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl>
+        <87il9xu1ro.wl-tiwai@suse.de>
+        <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com>
+        <87il9xoddo.wl-tiwai@suse.de>
+        <CAA+D8AOVEpGxO0YNeS1p+Ym86k6VP-CNQB3JmbeT7mPKg0R99A@mail.gmail.com>
+        <844ef9b6-d5e2-46a9-b7a5-7ee86a2e449c@sirena.org.uk>
+        <CAA+D8AOnsx+7t3MrWm42waxtetL07nbKURLsh1hBx39LUDm+Zg@mail.gmail.com>
+        <CAA+D8AMriHO60SD2OqQSDMmi7wm=0MkoW6faR5nyve-j2Q5AEQ@mail.gmail.com>
+        <CAA+D8AN34-NVrgksRAG014PuHGUssTm0p-KR-HYGe+Pt8Yejxg@mail.gmail.com>
+        <87wmxk8jaq.wl-tiwai@suse.de>
+        <ZOe74PO4S6bj/QlV@finisterre.sirena.org.uk>
+        <CAA+D8AM_pqbjQaE59n6Qm5gypLb8zPAwOpJR+_ZEG89-q3B8pg@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+On Fri, 25 Aug 2023 05:46:43 +0200,
+Shengjiu Wang wrote:
+> 
+> On Fri, Aug 25, 2023 at 4:21 AM Mark Brown <broonie@kernel.org> wrote:
+> >
+> > On Thu, Aug 24, 2023 at 07:03:09PM +0200, Takashi Iwai wrote:
+> > > Shengjiu Wang wrote:
+> >
+> > > > But there are several issues:
+> > > > 1. Need to create sound cards.  ASRC module support multi instances, then
+> > > > need to create multi sound cards for each instance.
+> >
+> > > Hm, why can't it be multiple PCM instances instead?
+> >
+> > I'm having a hard time following this one too.
+> >
+> > > > 2. The ASRC is an entirety but with DPCM we need to separate input port and
+> > > > output port to playback substream and capture stream. Synchronous between
+> > > > playback substream and capture substream is a problem.
+> > > > How to start them and stop them at the same time.
+> >
+> > > This could be done by enforcing the full duplex and linking the both
+> > > PCM streams, I suppose.
+> >
+> > > > So shall we make the decision that we can go to the V4L2 solution?
+> >
+> > > Honestly speaking, I don't mind much whether it's implemented in V2L4
+> > > or not -- at least for the kernel part, we can reorganize / refactor
+> > > things internally.  But, the biggest remaining question to me is
+> > > whether this user-space interface is the most suitable one.  Is it
+> > > well defined, usable and maintained for the audio applications?  Or
+> > > is it meant to be a stop-gap for a specific use case?
+> >
+> > I'm having a really hard time summoning much enthusiasm for using v4l
+> > here, it feels like this is heading down the same bodge route as DPCM
+> > but directly as ABI so even harder to fix properly.  That said all the
+> > ALSA APIs are really intended to be used in real time and this sounds
+> > like a non real time application?  I don't fully understand what the
+> > actual use case is here.
+> 
+> Thanks for your reply.
+> 
+> This asrc memory to memory (memory ->asrc->memory) case is a non
+> real time use case.
+> 
+> User fills the input buffer to the asrc module,  after conversion, then asrc
+> sends back the output buffer to user. So it is not a traditional ALSA playback
+> and capture case. I think it is not good to create sound card for it,  it is
+> not a sound card actually.
+> 
+> It is a specific use case,  there is no reference in current kernel.
+> v4l2 memory to memory is the closed implementation,  v4l2 current
+> support video, image, radio, tuner, touch devices, so it is not
+> complicated to add support for this specific audio case.
+> 
+> Maybe you can go through these patches first.  Because we
+> had implemented the "memory -> asrc ->i2s device-> codec"
+> use case in ALSA.  Now the "memory->asrc->memory" needs
+> to reuse the code in asrc driver, so the first 3 patches is for refining
+> the code to make it can be shared by the "memory->asrc->memory"
+> driver.
+> 
+> The main change is in the v4l2 side, A /dev/vl42-audio will be created,
+> user applications only use the ioctl of v4l2 framework.
 
-Syzkaller reported the following issue:
+Ah, now I'm slowly understanding.  So, what you want is to have an
+interface to perform the batch conversion of a data stream from an
+input to an output?  And ALSA PCM interface doesn't fit fully for that
+purpose because the data handling is batched and it's not like a
+normal PCM streaming?
 
-UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
-shift exponent 245 is too large for 32-bit type 'int'
-When the value of the variable "sd->params.exposure.gain" exceeds the
-number of bits in an int, a shift-out-of-bounds error occurs. The error is
-generated when the variable "currentexp" is left-shifted by more than 31
-bits. In order to confirm the range is valid, the conditional expression
-was added.
+Basically the whole M2M arguments are rather subtle.  Those are
+implementation details that can be resolved in several different ways
+in the kernel side.  But the design of the operation is the crucial
+point.
 
-Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
-Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
----
-v1->v2
-Changed the patch. Instead of avoiding shift operation for invalid
-input of 'exposure.gain', throw an error for invalid range.
-v2->v3
-Changed the commit message details
-v3->v4
-Removed the trailing spaces in commit message
----
- drivers/media/usb/gspca/cpia1.c | 2 ++
- 1 file changed, 2 insertions(+)
+Maybe we can consider implementing a similar feature in ALSA API, too.
+But it's too far-stretched for now.
 
-diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
-index 46ed95483e22..dafc522d5e7b 100644
---- a/drivers/media/usb/gspca/cpia1.c
-+++ b/drivers/media/usb/gspca/cpia1.c
-@@ -1028,6 +1028,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
- 			sd->params.exposure.expMode = 2;
- 			sd->exposure_status = EXPOSURE_NORMAL;
- 		}
-+		if (sd->params.exposure.gain > 31)
-+			return -EINVAL;
- 		currentexp = currentexp << sd->params.exposure.gain;
- 		sd->params.exposure.gain = 0;
- 		/* round down current exposure to nearest value */
--- 
-2.25.1
+So, if v4l2 interface provides the requested feature (the batched
+audio stream conversion), it's OK to ride on it.
 
+
+thanks,
+
+Takashi
