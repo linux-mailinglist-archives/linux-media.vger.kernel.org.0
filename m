@@ -2,153 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB4E5788ED6
-	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 20:39:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FE917890A6
+	for <lists+linux-media@lfdr.de>; Fri, 25 Aug 2023 23:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230326AbjHYSi5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Aug 2023 14:38:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56606 "EHLO
+        id S231535AbjHYVou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Aug 2023 17:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbjHYSib (ORCPT
+        with ESMTP id S231521AbjHYVoY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Aug 2023 14:38:31 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 706C8210B
-        for <linux-media@vger.kernel.org>; Fri, 25 Aug 2023 11:38:27 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-50087d47d4dso1882961e87.1
-        for <linux-media@vger.kernel.org>; Fri, 25 Aug 2023 11:38:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692988706; x=1693593506;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pVFvfHEoczn3+8y84rjR34d6BsLX8NOa3XN+/aN6FDk=;
-        b=XD+W6zc3h4/RiT09xm9X/IBwFX3Atmkv7WWhAA7fYGZgBwiQfboLxXs7ENSOx2hyLc
-         xXjuJPD/tRGUydmk7P7BZ/cesz+LVndI1zIcouaE+EJvSJ3OSPH0hVCQfE0x8+Za0qeS
-         TyAsi7gsZJPZhUykXgf43bt5CSHssuYgJHaf+9TGDMKc63RnBjSdYF40kdBdGzEyXlpZ
-         NEmiAieS8um7/IdWcqgbbWjSadsIjrIT2oLuDTCC19qG9M4rF4Bg57KsIh0SJsL9dv9q
-         4R80GW1jTbyFTSNgDlFWkOM3aGOjj2oc9kSSE+jLQb2Ci3+7R1/TAMNsUf9sxip47w0g
-         n9Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692988706; x=1693593506;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pVFvfHEoczn3+8y84rjR34d6BsLX8NOa3XN+/aN6FDk=;
-        b=Orc79sK9agYf6ABfdG1AxoC0sNhV5A1PTHNKDVbr1vbCylJS0nCupjCohwNSXbm2cd
-         ZK1/qQonTIZdOjhsKwfi3/MfbpwumuOOBhMRgGCx3TG83G1EPxe0hAeeR2kyoYYhvBM3
-         v35ujJbp+fvdezJuXnHtZyoM6d5YadGcR5kRCeWhZGr+3HfQIL8V9g1TIzwdn8NIpIfM
-         YtgbD4oGx1g71WXFr8aqCU5/OnrJRBT27s4X24yExU64gE0hU2JIvqb/QYFdtPsS73su
-         A4xs79JTxb9vKPpXsWZcVTTTezwTvBUb0Wc94IPulYR99u9fG5rh4EnUkj1l1/BFl0LM
-         /BTw==
-X-Gm-Message-State: AOJu0YyZk2bPKlCxjr8anKmb3z4DMzfyLQPdx0YiuVneH1ywqx7Hvhew
-        iSe5Tbyy/0XKMPZYtmwTxWYaEw==
-X-Google-Smtp-Source: AGHT+IF2hVCsDfiEKeBvplUJKMk1U4kClvGLKPvWrcdWem8MlJcg7lj0GCij46qeb1fWpCsxUymvDg==
-X-Received: by 2002:ac2:4db9:0:b0:500:8723:e457 with SMTP id h25-20020ac24db9000000b005008723e457mr9276253lfe.30.1692988705754;
-        Fri, 25 Aug 2023 11:38:25 -0700 (PDT)
-Received: from [192.168.1.101] (abxh59.neoplus.adsl.tpnet.pl. [83.9.1.59])
-        by smtp.gmail.com with ESMTPSA id u5-20020ac248a5000000b004fbd39b69adsm378647lfg.199.2023.08.25.11.38.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Aug 2023 11:38:25 -0700 (PDT)
-Message-ID: <070e8d48-1a51-42b3-9ccf-7532412b4864@linaro.org>
-Date:   Fri, 25 Aug 2023 20:38:23 +0200
+        Fri, 25 Aug 2023 17:44:24 -0400
+Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07A8026A3
+        for <linux-media@vger.kernel.org>; Fri, 25 Aug 2023 14:44:21 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id ZebEqI11VuWDMZebFqgFz9; Fri, 25 Aug 2023 23:44:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1692999859;
+        bh=x+5ZPrYbhj5PKPVE2fTXOKBcqKXtsQpYPqOoSU95+TU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=dmH2cbL7pPtsZ6zNKdCHqOfgcHMf6oSHtp/VBv6+ilraxBQHHCT8l9XGK0oTrtxOA
+         eSwSyE17nq/6JNxGAo4SKignN4lJq5vl9LEU39SiRK7NF+TQ46f0p50ZldBRd3WKr3
+         4dUj6R/WgH01yjP2wXovRu7+1hSl4KCyDU7ICRVC9ZIIyuNk9qR6M/ib1kaETWwPy4
+         Nqo9c70hKjyh4ShKmZG7qhxMEz+jpABoO29xfTmc+cTj0xxDC6lvi3J54hglCwz6ZU
+         +d7HQd7DniHnMb1OJL1S3kja6Ihd6GTiqobB3V/rNjAnQ7MTY1n98vKJEl9OJTJvkC
+         RCWp38HK3Tr+g==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 25 Aug 2023 23:44:19 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <bff9e368-9c42-144c-bdbc-9b9fcd04ec6b@wanadoo.fr>
+Date:   Fri, 25 Aug 2023 23:44:12 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/33] iris: vidc: add helpers for memory management
-Content-Language: en-US
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc:     stanimir.k.varbanov@gmail.com, agross@kernel.org,
-        andersson@kernel.org, mchehab@kernel.org, hans.verkuil@cisco.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <1690550624-14642-1-git-send-email-quic_vgarodia@quicinc.com>
- <1690550624-14642-12-git-send-email-quic_vgarodia@quicinc.com>
- <20230728162817.GE1428172@hu-bjorande-lv.qualcomm.com>
- <9c6e098a-5d7f-4a1a-80d6-116a2c6b8867@linaro.org>
- <8efb0013-970d-ebe6-aedd-7b72f3366578@quicinc.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <8efb0013-970d-ebe6-aedd-7b72f3366578@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v8 3/8] media: staging: media: starfive: camss: Add core
+ driver
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+        changhuang.liang@starfivetech.com
+References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
+ <20230824080109.89613-4-jack.zhu@starfivetech.com>
+ <74183f7b-6e53-ba3d-2160-1e526d61073b@wanadoo.fr>
+ <a0c023e0-e145-f6f7-3a84-ac6045a6c495@starfivetech.com>
+Content-Language: fr
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <a0c023e0-e145-f6f7-3a84-ac6045a6c495@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14.08.2023 21:06, Dikshita Agarwal wrote:
+Le 25/08/2023 à 12:44, Jack Zhu a écrit :
+> Hi Christophe,
 > 
+> Thank you for your comment!
 > 
-> On 7/28/2023 10:52 PM, Konrad Dybcio wrote:
->> On 28.07.2023 18:28, Bjorn Andersson wrote:
->>> On Fri, Jul 28, 2023 at 06:53:22PM +0530, Vikash Garodia wrote:
->>>> diff --git a/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_memory.c b/drivers/media/platform/qcom/iris/vidc/src/msm_vidc_memory.c
->>> [..]
->>>> +static const struct msm_vidc_memory_ops msm_mem_ops = {
->>>> +	.dma_buf_get                    = msm_vidc_dma_buf_get,
->>>> +	.dma_buf_put                    = msm_vidc_dma_buf_put,
->>>> +	.dma_buf_put_completely         = msm_vidc_dma_buf_put_completely,
->>>> +	.dma_buf_attach                 = msm_vidc_dma_buf_attach,
->>>> +	.dma_buf_detach                 = msm_vidc_dma_buf_detach,
->>>> +	.dma_buf_map_attachment         = msm_vidc_dma_buf_map_attachment,
->>>> +	.dma_buf_unmap_attachment       = msm_vidc_dma_buf_unmap_attachment,
->>>> +	.memory_alloc_map               = msm_vidc_memory_alloc_map,
->>>> +	.memory_unmap_free              = msm_vidc_memory_unmap_free,
->>>> +	.buffer_region                  = msm_vidc_buffer_region,
+> On 2023/8/25 2:31, Christophe JAILLET wrote:
+>> Le 24/08/2023 à 10:01, Jack Zhu a écrit :
+>>> Add core driver for StarFive Camera Subsystem. The code parses
+>>> the device platform resources and registers related devices.
 >>>
->>> Will there ever be more than one implementation of the
->>> msm_vidc_memory_ops?
->>>
->>> Unless there's a really strong reason, just call the functions directly
->>> without the function pointers and call_mem_op(), this will be slightly
->>> faster, but more importantly it allows for much faster navigation of the
->>> code base.
->> Same for HFI ops
-> Hi Konrad,
-> There are no HFI ops in this driver, are you referring to anything else
-> here, could you please point me to it?
-Sorry, I had that in my brain cache after reading through the downstream
-driver..
+>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+>>> ---
+>>
+>> ...
+>>
+>>> diff --git a/drivers/staging/media/starfive/camss/Kconfig b/drivers/staging/media/starfive/camss/Kconfig
+>>> new file mode 100644
+>>> index 000000000000..8d20e2bd2559
+>>> --- /dev/null
+>>> +++ b/drivers/staging/media/starfive/camss/Kconfig
+>>> @@ -0,0 +1,17 @@
+>>> +# SPDX-License-Identifier: GPL-2.0-only
+>>> +config VIDEO_STARFIVE_CAMSS
+>>> +    tristate "Starfive Camera Subsystem driver"
+>>> +    depends on V4L_PLATFORM_DRIVERS
+>>> +    depends on VIDEO_DEV && OF
+>>> +    depends on HAS_DMA
+>>> +    depends on PM
+>>> +    select MEDIA_CONTROLLER
+>>> +    select VIDEO_V4L2_SUBDEV_API
+>>> +    select VIDEOBUF2_DMA_CONTIG
+>>> +    select V4L2_FWNODE
+>>> +    help
+>>> +       Enable this to support for the Starfive Camera subsystem
+>>> +       found on Starfive JH7110 SoC.
+>>> +
+>>> +       To compile this driver as a module, choose M here: the
+>>> +       module will be called msstf-cas.
+>>
+>> stf_camss? (s/-/_)
+>>
+> 
+> Refer to the writing method of other media drivers, most of them use hyphen.
 
-Konrad
+Forget about my comment. I have been puzzled by "msstf-cas" here, vs 
+"stf_camss" below.
+
+> it may be better to use ‘starfive-camss'？
+
+Yes, I think so.
+
+> 
+>>> diff --git a/drivers/staging/media/starfive/camss/Makefile b/drivers/staging/media/starfive/camss/Makefile
+>>> new file mode 100644
+>>> index 000000000000..f53c5cbe958f
+>>> --- /dev/null
+>>> +++ b/drivers/staging/media/starfive/camss/Makefile
+>>> @@ -0,0 +1,9 @@
+>>> +# SPDX-License-Identifier: GPL-2.0
+>>> +#
+>>> +# Makefile for StarFive Camera Subsystem driver
+>>> +#
+>>> +
+>>> +starfive-camss-objs += \
+>>> +        stf_camss.o
+>>> +
+>>> +obj-$(CONFIG_VIDEO_STARFIVE_CAMSS) += starfive-camss.o
+>>
+>> I'm not an expert in Makefile files, but this stf_camss.o and starfive-camss.o look strange to me.
+>>
+> 
+> Is it better to replace 'stf_camss.o' with 'stf-camss.o', which is consistent
+> with the driving style of other media drivers?
+
+No strong opinion on it.
+Consistency is always good.
+
+> 
+>>> diff --git a/drivers/staging/media/starfive/camss/stf_camss.c b/drivers/staging/media/starfive/camss/stf_camss.c
+>>> new file mode 100644
+>>> index 000000000000..75ebc3a35218
+>>> --- /dev/null
+>>> +++ b/drivers/staging/media/starfive/camss/stf_camss.c
+>>
+>> ...
+>>
+>>> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
+>>> +{
+>>> +    struct device_node *node = NULL;
+>>> +    int ret, num_subdevs = 0;
+>>> +
+>>> +    for_each_endpoint_of_node(stfcamss->dev->of_node, node) {
+>>> +        struct stfcamss_async_subdev *csd;
+>>> +
+>>> +        if (!of_device_is_available(node))
+>>> +            continue;
+>>> +
+>>> +        csd = v4l2_async_nf_add_fwnode_remote(&stfcamss->notifier,
+>>> +                              of_fwnode_handle(node),
+>>> +                              struct stfcamss_async_subdev);
+>>> +        if (IS_ERR(csd)) {
+>>> +            ret = PTR_ERR(csd);
+>>> +            dev_err(stfcamss->dev, "failed to add async notifier\n");
+>>> +            v4l2_async_nf_cleanup(&stfcamss->notifier);
+>>
+>> having it here, looks strange to me.
+>> It is already called in the error handling path of the probe.
+>>
+>> Should there be a "of_node_put(node);" if we return here?
+>>
+> 
+> We do not call a 'get' interface, is it necessary to use the 'put' interface?
+
+for_each_endpoint_of_node() does.
+
+See [1] for doc, and [2] for an example.
+
+[1]: 
+https://elixir.bootlin.com/linux/v6.5-rc7/source/include/linux/of_graph.h#L30
+
+[2]: 
+https://elixir.bootlin.com/linux/v6.5-rc7/source/drivers/gpu/drm/bridge/tc358767.c#L2196
+
+
+
+Also, at least because of the recent b8ec754ae4c5 in -next, your patch 
+does not compile as-is on -next.
+
+CJ
+
+> 
+>>> +            return ret;
+>>> +        }
+>>> +
+>>> +        ret = stfcamss_of_parse_endpoint_node(stfcamss, node, csd);
+>>> +        if (ret)
+>>> +            return ret;
+>>> +
+>>> +        num_subdevs++;
+>>> +    }
+>>> +
+>>> +    return num_subdevs;
+>>> +}
+>>
+>> ...
+>>
+>>> +static int stfcamss_remove(struct platform_device *pdev)
+>>> +{
+>>> +    struct stfcamss *stfcamss = platform_get_drvdata(pdev);
+>>> +
+>>> +    v4l2_device_unregister(&stfcamss->v4l2_dev);
+>>> +    media_device_cleanup(&stfcamss->media_dev);
+>>
+>> Is a "v4l2_async_nf_cleanup(&stfcamss->notifier);" missing to match the error handling path of the probe?
+>>
+>>> +    pm_runtime_disable(&pdev->dev);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>
+>> ...
+> 
+
