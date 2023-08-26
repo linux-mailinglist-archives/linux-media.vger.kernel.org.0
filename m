@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32B1E789679
-	for <lists+linux-media@lfdr.de>; Sat, 26 Aug 2023 14:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2E6B78967E
+	for <lists+linux-media@lfdr.de>; Sat, 26 Aug 2023 14:08:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232742AbjHZMGB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Aug 2023 08:06:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33646 "EHLO
+        id S232748AbjHZMIK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Aug 2023 08:08:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232736AbjHZMFb (ORCPT
+        with ESMTP id S232763AbjHZMHl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Aug 2023 08:05:31 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10A06C3
-        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 05:05:29 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-3fee769fd53so15166715e9.1
-        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 05:05:28 -0700 (PDT)
+        Sat, 26 Aug 2023 08:07:41 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97C6C2105
+        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 05:07:39 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-31c8321c48fso692273f8f.1
+        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 05:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693051527; x=1693656327;
+        d=linaro.org; s=google; t=1693051658; x=1693656458;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pxZ6783DRoORgpEw4bmAN1NBzsg/pJKjg2XMcvaxxgY=;
-        b=rlar3IyM1EE9xaOIjXG+VMGMEGxel8ZTCZ+xn1/qIG7u6U8TQy27yryC/4WtDuCoxH
-         BzU5nKGMDuBUWnDrdc8Y9mks8XRSrZQSobk64EvBRAmhhrAcwXzXYie+FaZuEfKLsQFN
-         Y5kZiDYzCr8dixTJZp/LMzo7LQI6sN1q0vYKt1g9jJ1VK2/qy4m9hbSVSvelCWnT2mIJ
-         B+y90D3YRDmdXFaYKqtM0MDb3JilJrvc/BhfWzFN9KSrtKISLSsHR1UrQ96shxq24C6h
-         8N5V8wOMwZCu4z72yTF6RYPeRGj3/w5H1juGhChn6TtiDDZtUYvQvY5fyA8zw/FyQrU7
-         HS0g==
+        bh=SgjOnn8759o52/0xR2SZGeU49du3p6c+06WsheGV4j4=;
+        b=cz3G1Tf2I0daNU/qdQZgGdJqb9+dvz2XPOebn9ezsblUs6GOyTLhX9VXpiWMqD3K9l
+         ifnVGcIOonu9oa8yDL1MEN8826vPI92uPLQvOd6myLac4XFyKKPpczuh1Y1RLmR/+EBE
+         tsbeifr5TDXiCns0I0b15gZJkwwr3gtN6Cbs1IkHSct8heuEWLsDBq20dcHftyXyqUVQ
+         RWgBdgIeOnwSKIkHYD4DkoHc1an6rjGC6+ZwXfevOSN1hbaRCqT6CCt3TvvnWp4vXGPA
+         xF4U/vW8uVT5oVfdatiG0qDzBj22g7PhBRaBdIWnLJ99bq9DA+MXfoG/Xtz2CJkmnXEQ
+         u6SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693051527; x=1693656327;
+        d=1e100.net; s=20221208; t=1693051658; x=1693656458;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pxZ6783DRoORgpEw4bmAN1NBzsg/pJKjg2XMcvaxxgY=;
-        b=WT8qevegG6m8QyWDqebVHYSyfznHxgDZzg0ai3CsxHfxjeVgy91r6K3G6IRCRMS5SY
-         mYVuwHvVBzxqc2+GiCIvOl+3rEWofDAO1S38L4tJy5bmG9htMQBgvitBFhYIZyltrQUo
-         G7MfZ0k8qurKg9BctjqeHJJAYwN2c1Mj/GFXRdsqdlBVIG2UiaAd2YJKMoMNtot0BGnQ
-         jpoevnnGWq4XLdi5OrwDniGWfXKET82e81yLw0HSneOqD0UDAKQKVRhZVcE4oaHBBIVd
-         6CpSiBBHbJbONv7ev+p7pPipSPlQ/hfIqAidcLdjsHv7StdXtKGPbNRjyPN0G9patCcf
-         jq6Q==
-X-Gm-Message-State: AOJu0YxOnGnaVT5CTLLcHckO0cb8dR9kqRtvjrE255bj26IPBuScxvsk
-        czGLvMeriO5thZNQrRegRPV26A==
-X-Google-Smtp-Source: AGHT+IGZ4o3nzmZZPaMyc1s50h4lEwvlLi/vXTJfE65dIaQLs18ImNEoE6a7c5pwRQNT5F16vOq7Tg==
-X-Received: by 2002:a1c:7303:0:b0:3fa:8db4:91ec with SMTP id d3-20020a1c7303000000b003fa8db491ecmr15561718wmb.10.1693051527274;
-        Sat, 26 Aug 2023 05:05:27 -0700 (PDT)
+        bh=SgjOnn8759o52/0xR2SZGeU49du3p6c+06WsheGV4j4=;
+        b=P9G1QweZdZSElrVgOI6giv6R8XM+joyVLusBu7WsJ83PC+G5SC/SMEXXXMqvA8Hoz7
+         Bt3XVnkV9W8yvxqf/2V+KNEzk/+r0n7OMiAV89j1YzYMzz8UJW8QfNvEBGTLOhP8EWd9
+         S3ELruWBvYAp10LZZKXj8LdvV/Axhs0rPB1xnD2bV3sHgGkQ3MFZNjt5SYuLnR3i8uDA
+         TQ25NIdIaTLYO9ocbmI36yy6dS6GKIYYTNOJBTbRX5uHY5+uey5fM7p+6g2rmEoNyQaX
+         G9WHN+eJglcEBCnV0tAxv0BAjThfepEFOa1pClFyruNMNvd1U4yP97bpkSNeIxWK8BLk
+         a4Pg==
+X-Gm-Message-State: AOJu0Yw23DuUUL5wbTmKpwAhWaLzaAeOkJ+UPrNLg1N+AZRe3zrPgTTV
+        4pMLlxnIOaNHxR6WPvTQp3lgmw==
+X-Google-Smtp-Source: AGHT+IHd4Exu5h9J0XmDWeeqi750ETU8bhPtCzxFplnhIiVlkhJpQeEw9xxbIIb6CYoihBXGSX+5ig==
+X-Received: by 2002:adf:ed51:0:b0:319:55d8:5d51 with SMTP id u17-20020adfed51000000b0031955d85d51mr17212507wro.30.1693051658113;
+        Sat, 26 Aug 2023 05:07:38 -0700 (PDT)
 Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id 7-20020a05600c248700b003fbc30825fbsm4802926wms.39.2023.08.26.05.05.26
+        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0acc00b003fee6f027c7sm7972018wmr.19.2023.08.26.05.07.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Aug 2023 05:05:26 -0700 (PDT)
-Message-ID: <1b5b5bf0-43a5-2ec4-5570-891a710b85dd@linaro.org>
-Date:   Sat, 26 Aug 2023 13:05:25 +0100
+        Sat, 26 Aug 2023 05:07:37 -0700 (PDT)
+Message-ID: <1b15ca0d-0781-c3f8-4822-fce3a7fbb7e7@linaro.org>
+Date:   Sat, 26 Aug 2023 13:07:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v3 10/15] media: qcom: camss: Allow clocks vfeN vfe_liteN
- or vfe_lite
+Subject: Re: [PATCH v3 11/15] media: qcom: camss: Functionally decompose
+ CSIPHY clock lookups
 Content-Language: en-US
 To:     Konrad Dybcio <konrad.dybcio@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
@@ -66,10 +66,10 @@ To:     Konrad Dybcio <konrad.dybcio@linaro.org>, rfoss@kernel.org,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
- <20230823104444.1954663-11-bryan.odonoghue@linaro.org>
- <076d958f-2cf3-4a52-99a2-52a6cdd5443c@linaro.org>
+ <20230823104444.1954663-12-bryan.odonoghue@linaro.org>
+ <d8e54e0a-b176-49eb-9d8d-66324cdcd2e8@linaro.org>
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <076d958f-2cf3-4a52-99a2-52a6cdd5443c@linaro.org>
+In-Reply-To: <d8e54e0a-b176-49eb-9d8d-66324cdcd2e8@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -82,63 +82,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/08/2023 11:08, Konrad Dybcio wrote:
-> On 23.08.2023 12:44, Bryan O'Donoghue wrote:
->> The number of Video Front End - VFE or Image Front End - IFE supported
->> with new SoCs can vary both for the full and lite cases.
->>
->> For example sdm845 has one vfe_lite and two vfe interfaces with the vfe
->> clock called simply "vfe_lite" with no integer postfix. sc8280xp has four
->> vfe and four vfe lite blocks.
->>
->> We need to support the following clock name formats
->>
->> - vfeN
->> - vfe_liteN
->> - vfe_lite
->>
->> with N being any reasonably sized integer.
->>
->> There are two sites in this code which need to do the same thing,
->> constructing and matching strings with the pattern above, so encapsulate
->> the logic in one function.
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
->>   drivers/media/platform/qcom/camss/camss-vfe.c | 22 ++++++++++++++-----
->>   1 file changed, 16 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
->> index 8f48401e31cd3..73380e75dbb22 100644
->> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
->> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
->> @@ -437,6 +437,20 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
->>   	complete(&vfe->reset_complete);
->>   }
->>   
->> +static int vfe_match_clock_names(struct vfe_device *vfe,
->> +				 struct camss_clock *clock)
->> +{
->> +	char vfe_name[CAMSS_RES_MAX];
->> +	char vfe_lite_name[CAMSS_RES_MAX];
-> I don't think using the "number of resources" define to define
-> the maximum length of a resource name is a good idea.
-> 
-> Perhaps we can do:
-> 
-> char vfe_name[5]; /* "vfeX\0" */
-> char vfe_lite_name[10]; /* "vfe_liteX\0" */
-> 
-> if index > 9
->     return INCREASE_THE_BUFFER
-> 
-> Konrad
+On 26/08/2023 11:12, Konrad Dybcio wrote:
+>> -			csiphy->rate_set[i] = true;
+>> +		for (k = 0; k < camss->res->csiphy_num; k++) {
+>> +			csiphy->rate_set[i] = csiphy_match_clock_name(clock->name,
+>> +								      "csiphy%d_timer", k);
+> This entire functions is like.. soooo over-engineered
 
-I'm reluctant to fix only the VFE clock name string length in isolation, 
-plus I'm aware of another patchset coming down the line from other 
-people which will likely address the string length stuff.
+I'm going to accept your compliment there.
 
-But in the interests of consensus I will restrict the length in the helper.
+
+> adding something like csiphy_timer_clks and cisphy_clks and stuff
+> would make this string comparison mess unnecessary
+
+I don't understand your comment.
+
+Having a litany of static comparisons is definitely inferior to a 
+generic helper function.
+
+I'm not sure what you are asking/arguing for here.
 
 ---
 bod
+
+
+
