@@ -2,74 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2B967896C3
-	for <lists+linux-media@lfdr.de>; Sat, 26 Aug 2023 14:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFD667896F1
+	for <lists+linux-media@lfdr.de>; Sat, 26 Aug 2023 15:39:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232153AbjHZMtW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Aug 2023 08:49:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
+        id S232684AbjHZNix (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Aug 2023 09:38:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231376AbjHZMtJ (ORCPT
+        with ESMTP id S232593AbjHZNiS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Aug 2023 08:49:09 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7447C19A0
-        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 05:49:02 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2b9f0b7af65so25756421fa.1
-        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 05:49:02 -0700 (PDT)
+        Sat, 26 Aug 2023 09:38:18 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 500B52117
+        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 06:38:15 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4fe27849e6aso2746162e87.1
+        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 06:38:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693054140; x=1693658940;
+        d=linaro.org; s=google; t=1693057093; x=1693661893;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=OUsdbXVOpL9oK+fCS5eN9mgHW/ZKAW0P2L3s1L4agwE=;
-        b=R7PJ/hvIHo7ihrUCz8w17q7qF/UwP5NqrBigAcbov9l1aMPzyo50SH6vuolYrBnDac
-         xC539I0hK2haPMKGOxXSoAKWjAZbmG9VW54l+aLaQG37m+5O82/ONWuVwbZkqrLofNXx
-         fYlUatoCna+07hU3kZ2g5+TWJNqpSrbZTp6izloA448s3JtaBQuqQrynC65dBLpfkGXQ
-         6q3FjhCKY51f6MMD4h4aSyDu7pTv7EhFqOJzBkzXnhg6DWlPz3AbEXOmm9DEgJKC9Dmo
-         aMoxcIyzZ4FOK0imxaiVmaLSEEFtccU/haLZYGd6Ti+BgpdOGCBgt+ieQ/ZXk81ANVr0
-         B/fA==
+        bh=G9SgFDv7E50+Hpq3nmjKvqF8IQ9dgI58NUkPjP5JpyY=;
+        b=Bv6/6wDWhD8YabIZkVDDIT4xOSLkR+SqRA/51bt56W+8k0L6XZjKivwQfd+cmhSchQ
+         YfQlwmE89P5JBitroJRAPyV5g0sIpaKYf9rmKxTvdV4vK4JmVcYNF5llsmhiOLs0sOzt
+         6oEQVOIeiueSmldFz4fXOMlu03J5+Tf10XDvUkhLIwjlFzWALqlC28rYYuYU2Veb4W4q
+         X7d52oWkKXQnAJFMFULMOOjp4LZAV/FO26zwhLrJJlxPa1tfsGmtoHpDUuMr85hqLCyc
+         jpGWQ2DX09YT0hw1FlvqNXhLohp5V8YiTyc1eeu7e/2OaHPFM21Dnikxfv3DU6yRirF8
+         4faw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693054140; x=1693658940;
+        d=1e100.net; s=20221208; t=1693057093; x=1693661893;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OUsdbXVOpL9oK+fCS5eN9mgHW/ZKAW0P2L3s1L4agwE=;
-        b=ZMpM8K46LNbRg/N9ziGvp0urFtql5328oYaOhPsFqBnmh3tR5jWBWQVYhPuSLE5rnb
-         lIhA6/Z+oLqRN90cyBrLE0nR75SQtZ7z5vryoRVS+mP8s4FXNq8vErKjFdLKYQdKP5v6
-         Qp5eP1JfO0TOcxtv1f0rNAXS5DhsEl8AgnvIYPHjxvC1HcMPWmcOgqlvWqPYKl5Jo2ZZ
-         I8eM0PofPFXNHcCtnO2GEp1HgkRQ0JFhHUh7SATgvQiwH+ea4Z/HtpbBpPlfQ6ODxFxR
-         +LEwk9iUM5nJ1bTOBwWO4BcXMHanY20wRyxtX4A3pKEKv7ffG9xpD+mCNQVi81XBQhtQ
-         C4Wg==
-X-Gm-Message-State: AOJu0Yx9ACRAraPf2n3yr64CpGEwt+WKWlDuoF9gB9c/Hla5pupWOpnG
-        ol+3vlP1ryk16ajA2Yk6qicq4w==
-X-Google-Smtp-Source: AGHT+IGaqLDtcK2WgCeG0m6Qx7xEt9PO8stMJ9x3CQcTH1tW/tvHBcWY/BL8WnDrgMugNr29eklPxw==
-X-Received: by 2002:a2e:9c1a:0:b0:2bc:b224:98ac with SMTP id s26-20020a2e9c1a000000b002bcb22498acmr15236393lji.31.1693054140530;
-        Sat, 26 Aug 2023 05:49:00 -0700 (PDT)
+        bh=G9SgFDv7E50+Hpq3nmjKvqF8IQ9dgI58NUkPjP5JpyY=;
+        b=kj9vWv9PZBnoDwtQyDfWP+qB0kjd9HoPzM3GQKpCSAcgeQQqMHdSVlo42kiC+y0WuX
+         Q14oa1aB8pG60/fgb7eygk2tM8I1E9sgvkK57vdDbwz0Ji5uBur5bsIcvuZvezLd/3qt
+         hWh5CqZD2qHiC7FW49Koip5gusHUh0INry5zw0VgokABjaoXlym19FbrUaY6kJfM6xUD
+         lfZsyY93SOjDN4GxYuZezwGSK7d1GmeSFuixR8CSSI6hIrTUWFhAujrEDPOifLPYb3yY
+         AMxGbqYEcAACpWu4esgvmxt0alqoGka70LZcTZJfpWtR9CBHRYnr8FjYn3HyHjtLzGsC
+         rBvw==
+X-Gm-Message-State: AOJu0YwlBPugsAg0fw1P3rcYljTU5g9p/PBFW6dzM/CdtigM/KxMiRsX
+        pVSAZ8yKeY4s7vI2Pa2Pg9LrYg==
+X-Google-Smtp-Source: AGHT+IGOOe4NRVVciDOLuPW6zZbQIteqXBz8Yh+SmQkl8iB5eV4JI2+u5ly9aQKtcUeyZkQTpITxEQ==
+X-Received: by 2002:a05:6512:11e3:b0:4fb:ca59:42d7 with SMTP id p3-20020a05651211e300b004fbca5942d7mr14104758lfs.33.1693057093505;
+        Sat, 26 Aug 2023 06:38:13 -0700 (PDT)
 Received: from [192.168.1.101] (abyl74.neoplus.adsl.tpnet.pl. [83.9.31.74])
-        by smtp.gmail.com with ESMTPSA id t8-20020a2e7808000000b002b9e20d0356sm776388ljc.114.2023.08.26.05.48.59
+        by smtp.gmail.com with ESMTPSA id e5-20020ac25465000000b005008cd93961sm714187lfn.192.2023.08.26.06.38.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Aug 2023 05:49:00 -0700 (PDT)
-Message-ID: <21610b1d-8294-4c3e-8aaa-b6c8dfaeea58@linaro.org>
-Date:   Sat, 26 Aug 2023 14:48:58 +0200
+        Sat, 26 Aug 2023 06:38:13 -0700 (PDT)
+Message-ID: <fd016130-12c2-4aa3-a19a-24153754b338@linaro.org>
+Date:   Sat, 26 Aug 2023 15:38:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/15] media: qcom: camss: Functionally decompose
- CSIPHY clock lookups
+Subject: Re: [PATCH 4/6] media: platform: venus: Add optional LLCC path
 Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
-        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
- <20230823104444.1954663-12-bryan.odonoghue@linaro.org>
- <d8e54e0a-b176-49eb-9d8d-66324cdcd2e8@linaro.org>
- <1b15ca0d-0781-c3f8-4822-fce3a7fbb7e7@linaro.org>
- <0acf952f-edd4-4f62-8b07-0fe727526d96@linaro.org>
- <0510a774-07b9-e902-ccac-2fcd44a358dc@linaro.org>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org>
+ <20230731-topic-8280_venus-v1-4-8c8bbe1983a5@linaro.org>
+ <78d2fd56-804d-827b-d074-b139cf62a498@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -106,11 +108,11 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <0510a774-07b9-e902-ccac-2fcd44a358dc@linaro.org>
+In-Reply-To: <78d2fd56-804d-827b-d074-b139cf62a498@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -119,26 +121,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26.08.2023 14:14, Bryan O'Donoghue wrote:
-> On 26/08/2023 13:11, Konrad Dybcio wrote:
->>>> adding something like csiphy_timer_clks and cisphy_clks and stuff
->>>> would make this string comparison mess unnecessary
->>> I don't understand your comment.
->>>
->>> Having a litany of static comparisons is definitely inferior to a generic helper function.
->> portray this
+On 4.08.2023 23:04, Bryan O'Donoghue wrote:
+> On 04/08/2023 21:09, Konrad Dybcio wrote:
+>> Some newer SoCs (such as SM8350) have a third interconnect path. Add
+>> it and make it optional.
 >>
->> struct camss_whatever_it_was_called {
->>     struct clk_bulk_data *csiphy_clks;
->>     struct clk_bulk_data *csiphy_timer_clks;
->>     [...]
->> }
->>
->> and then
->>
->> clk_bulk_prepare_enable(csiphy_clks)
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> ---
+[...]
+
+> I would scream if someone left me this comment but...
 > 
-> Ah would be grateful if you had just said "hey could you try using clk_bulk_prepare_enable()"
-Right I could have been more clear
+> In probe we have
+> 
+> video_path =
+> cpu_cfgpath =
+> 
+> llc_path =
+> 
+> suspend
+> 
+> icc_set_bw(cpu_cfgpath,);
+> icc_set_bw(llc_path,);
+> icc_set_bw(video_path,);
+> 
+> resume
+> icc_set_bw(video_path,);
+> icc_set_bw(llc_path,);
+> icc_set_bw(cpu_cfgpath,);
+suspend == resume[::-1] is totally the right thing, but I'll
+reorder things in probe for your viewing pleasure
 
 Konrad
