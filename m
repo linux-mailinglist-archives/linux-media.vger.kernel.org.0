@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A0EA78959E
-	for <lists+linux-media@lfdr.de>; Sat, 26 Aug 2023 11:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7709B7895A8
+	for <lists+linux-media@lfdr.de>; Sat, 26 Aug 2023 11:58:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231280AbjHZJ4I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Aug 2023 05:56:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37306 "EHLO
+        id S230234AbjHZJ5y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Aug 2023 05:57:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231820AbjHZJz5 (ORCPT
+        with ESMTP id S232487AbjHZJ5k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Aug 2023 05:55:57 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A49DE4E
-        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 02:55:55 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4ff9b389677so2542611e87.3
-        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 02:55:55 -0700 (PDT)
+        Sat, 26 Aug 2023 05:57:40 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB8C39B
+        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 02:57:37 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2bcb0b973a5so25073391fa.3
+        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 02:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693043753; x=1693648553;
+        d=linaro.org; s=google; t=1693043856; x=1693648656;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=T4oYN0aRNUVFesn9ULiHfoosoxVcUS1HAOQjXDAGJXM=;
-        b=fvRdAYVPWxjwyTDXvOGS5JsTA52RGbdYBoJQa6SER4ypptydnF96vhkSJFLGLYitS2
-         xIeCGM9ZwhyEutk3GOjxIgwfVROOmeJBz0rbdp/9wNu6Psj+NVz6CRVqJrJrPErmmlDi
-         v1aMPSARzau8xTLKmi4tjxMmBwY3YPn/LaIqlVsLhRALR/1PHNQBPInHV7dy2kY6bMvd
-         hJUR6gNN8WIm2awCKWAgH6u7rdsBq/vjQ2KixZe6B+b7WtPksq4bY75JXNWIy140yxLz
-         2jNcNtWBfNnx08JGC0+A9VR1Z8Pi/i+2Dc+O7O88/ZMPCCn1JVdP1CxytzmyKwviGZ7r
-         BA+A==
+        bh=aua3gYWkAMWJVQyBmIfnLUGEni4FpTIcr8CUf3I7br8=;
+        b=wxhHVISWturkYWnhJLkm2HclL9RtvdH2oHbk/m3KjyHYfVk/RcQS+004zyEGM2hdCA
+         FZ6++DIE52BPaXph8RXd4EeRUZCjwgUzW7DEdCa1EsXTQfsVEM1jmCjgNv0fi8E3JDVS
+         0xnPbL9ZfGU4rIUEkrZmI1fva1TlObm5sXY1sbny8syhvg+f7r/GvWp1/H+O99vpvyjp
+         A9DXjxLo1evicS8+Ymj4A1oB4qOGd+5LxM8uBo1gcR7sY1IS27crbg/5u3lUeUoZTwlu
+         e/zkdxXXr6KfgfWLna+1nk+yKmGEIvBTgQBPMpBPEnNe+lkiOmmpIKTUBm+h2xgwutrw
+         VjEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693043753; x=1693648553;
+        d=1e100.net; s=20221208; t=1693043856; x=1693648656;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=T4oYN0aRNUVFesn9ULiHfoosoxVcUS1HAOQjXDAGJXM=;
-        b=Ip4PY9jnokSnSmzPAMoTXGAzJQ8Up9baTIpwKyQ9KOKxYkxoBK7nVBb4GEZHk0zlrd
-         zsr8BEtILC23eiN98HDGQHpSPxzYAGBOfSt13pspTVfi9YR1pae9+ZEhxidD93ExglYL
-         lrMEU/Ch2soe6vMhD+vzzj98DinpyVfRybgTXgTUjmlUV2JIO/lmqNK2yKfEG072Phy5
-         3u+HIlmjyhIuxtkX6N6ti5Edpnn8ThqtJPqqepBUaOFjK7koL29fi+9FVJGIhUB3898j
-         B3c8+vyH9COL5w8yd8hiIcsfTdosuW49qwSyk6YoG7pbPFpJXUXqLDc+ZvbWW++xc3jr
-         rrOg==
-X-Gm-Message-State: AOJu0YxHDzHE3wShlcSB3Rx3/hH+CNsRbWtczZ2zO3qs+oEK4G51g7S4
-        9vWufTwVS8dFKwJudgEWKqox+w==
-X-Google-Smtp-Source: AGHT+IFh2vL3clE2BQpBYcjvI++VBweBfIt2Vi6CQsdWx7xc8uCW94YZy+lYJ6hp4LzwAsrsEaCuBw==
-X-Received: by 2002:a05:6512:3692:b0:4f9:5ca5:f1a6 with SMTP id d18-20020a056512369200b004f95ca5f1a6mr13670036lfs.17.1693043753393;
-        Sat, 26 Aug 2023 02:55:53 -0700 (PDT)
+        bh=aua3gYWkAMWJVQyBmIfnLUGEni4FpTIcr8CUf3I7br8=;
+        b=PxkYgG65KRTShtufIwoeAb7uiFH1bsnCi9d0z+bdC2F1XiyfugDXgtL8qQl/wamexk
+         Ok8mI4LcwjmsF+LstQNiZGY/pvD84rv7WEEJ6ZGOAkCq/Rh2odEqXUpKWON/Sb0XYDII
+         +PIdrnz91qcyvlLXUwY5EZ6jRxNiH6rsBnrgNRGKK6zfjjIkQEzCh+Mk+7NQQ+7XwBum
+         9K+7gSk1mdckma02+KhJkoCcyWnOKrMRYA4FObVmlYLHJxvbBWSb3VCJUXrY1hUgQT0H
+         aqQiqQBMwP7Q7pRaXkBYVXhSbqAJyOL39VnuJ+tn5OAHTqsJQK5ypvkIw/8fR0+ZpmOn
+         UM/A==
+X-Gm-Message-State: AOJu0Ywe/UjMd8Pd1KL+ELT0EEovRACpkQzsiyttiW22GE8aGMUNOUd3
+        E17aWaSBGAw1tbcBjO0oWBpBcw==
+X-Google-Smtp-Source: AGHT+IHUlsI+c52x3kPtVY3Hzm2nRP68e0I1M7ZcRbEB8udHaYL/9QsQgU42poi0rFc9WI+fxfCNKQ==
+X-Received: by 2002:a2e:3607:0:b0:2bb:9fcf:6f64 with SMTP id d7-20020a2e3607000000b002bb9fcf6f64mr15601874lja.28.1693043855971;
+        Sat, 26 Aug 2023 02:57:35 -0700 (PDT)
 Received: from [192.168.1.101] (abyl74.neoplus.adsl.tpnet.pl. [83.9.31.74])
-        by smtp.gmail.com with ESMTPSA id j8-20020ac253a8000000b005009b979e3dsm642751lfh.303.2023.08.26.02.55.51
+        by smtp.gmail.com with ESMTPSA id d5-20020a2e8905000000b002b6e77e87fcsm701986lji.68.2023.08.26.02.57.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Aug 2023 02:55:53 -0700 (PDT)
-Message-ID: <c1fcaf1c-f25e-496f-a61a-82b4176f2269@linaro.org>
-Date:   Sat, 26 Aug 2023 11:55:51 +0200
+        Sat, 26 Aug 2023 02:57:35 -0700 (PDT)
+Message-ID: <5b53b622-79fe-4249-8309-7e72eec687f0@linaro.org>
+Date:   Sat, 26 Aug 2023 11:57:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/15] media: qcom: camss: Amalgamate struct resource
- with struct resource_ispif
+Subject: Re: [PATCH v3 04/15] media: qcom: camss: Pass remainder of variables
+ as resources
 Content-Language: en-US
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
@@ -65,7 +65,7 @@ To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
- <20230823104444.1954663-2-bryan.odonoghue@linaro.org>
+ <20230823104444.1954663-5-bryan.odonoghue@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -102,13 +102,12 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230823104444.1954663-2-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230823104444.1954663-5-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -116,16 +115,29 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 23.08.2023 12:44, Bryan O'Donoghue wrote:
-> There is no good reason to differentiate the two resource structures
-> here. As part of a general tidyup of the declaration and passing of
-> resources within in the CAMSS driver it will be advantageous to have
-> one unified resource structure.
+> The following variables are being assigned statically based on
+> compatible strings in the probe path.
 > 
-> The two structures are very similar anyway thus leading more credence
-> still to the argument there should be only one.
+> * enum camss_version version;
+> * int csiphy_num;
+> * int csid_num;
+> * int vfe_num;
+> * int vfe_lite_num;
+> * int vfe_total_num;
+> 
+> Migrate those variables to resource parameters passed in on platform
+> probe arguments. The one caveat is for VFE it has been necessary to
+> intoduce a new variable vfe_total_num to capture the aggregate value of
+> vfe_num + vfe_lite_num.
+> 
+> All the rest of the changes are rote camss->variable to
+> camss->res->variable with the parameter tables now populating the listed
+> variables.
 > 
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
+I don't see anything immediately wrong. This was long necessary!
+
 Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
