@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 476E57895D5
-	for <lists+linux-media@lfdr.de>; Sat, 26 Aug 2023 12:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A7C57895E1
+	for <lists+linux-media@lfdr.de>; Sat, 26 Aug 2023 12:17:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231823AbjHZKOJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Aug 2023 06:14:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59248 "EHLO
+        id S231979AbjHZKQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Aug 2023 06:16:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231745AbjHZKNx (ORCPT
+        with ESMTP id S232002AbjHZKQb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Aug 2023 06:13:53 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 747811FC7
-        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 03:13:50 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50078eba7afso2668775e87.0
-        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 03:13:50 -0700 (PDT)
+        Sat, 26 Aug 2023 06:16:31 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F4011FCB
+        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 03:16:29 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-500760b296aso2060433e87.0
+        for <linux-media@vger.kernel.org>; Sat, 26 Aug 2023 03:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693044829; x=1693649629;
+        d=linaro.org; s=google; t=1693044988; x=1693649788;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=y/q3VpPaIaGZ/5dVJno5sHgen3eMV3oIH2SkR9gJCQ4=;
-        b=PSJX5lSLwLq1Kfcfgh0eAhoXich0GScF7Hk+F921GO7FAN0B/05gbY5dRADD1uihRL
-         nj2iyRlDZ9KJ7wlcBC5zNokMHQy5d8tn05uNkW65oZfc9FNarKaT/Ndx1oEa8CqUYQjR
-         XmYqlPr+GG58oFU7CgkN6AmUzy6D+gUIXWj7TTcfKBDFPtmSdp70rpXbEi4snbhGl27C
-         HcB5TciMX8iBxsnG76V/s2bVkUcqH2YiB/mjjU79qOpq3ScABF/ZHcY4j7fuCmNHh4PO
-         cyywuzXBSZKuZ4PU9CSkzKnYV6rGpNIOZ5natqmOfFVsZqTaC6Rytg3B7Y6vpNzp44Jz
-         pX5A==
+        bh=4JjUBaYdPSxFwsO+4WnIkvUUmyhb29fFdO517V2zTpg=;
+        b=gTfYUL5JVbtspwhN/UePvR3q2PQJd+IuzY1JRC9g9GFZn8GeulpqfHPOCtCX7MgYFX
+         +27RaUPHJ+frWPlhLJ1sNYujHSSpHry2yk/KOMyT/9c5UEG0BjvwJuNfrPQrHNQeKLJj
+         bjFkAyNbTygXSuWM2mLbOzPrjJt+Ayj8N7dfYgHNYY2kdU024pDLaNDubP2XoeO3OrVb
+         wyli8Gro7axizoksTrGM4Jb8D3jONfvGFeRRn0dZBt8Bs9vxHu0bgMBzp4yYWkY1tFwn
+         4XKDq8xlXROcmpn9S5w1Bi3T0E+PODPXoZqdz6z57QlX/V4D7VIfOPH1v5CRflBQq+eo
+         NLSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693044829; x=1693649629;
+        d=1e100.net; s=20221208; t=1693044988; x=1693649788;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y/q3VpPaIaGZ/5dVJno5sHgen3eMV3oIH2SkR9gJCQ4=;
-        b=haMY4kG5ihjiSEZpylPaCHXZDVnxEL1IAhMMWePk7FjpvgHr2fls1cFeMdvVOgSbLu
-         U9R3h/aMlIjxwLbsGhrUQqCCaYwq+WYOBpRdZtEbCsMezf7vd6BgAD/sYYaZSyXTpy/Y
-         8XubRratJaTvDmufmJgG8sIxLBfYxYvwIRp6B0V15XMb5Wb5IKR4OB0IQCtdD9Bpf3jV
-         gL+AeBNDr6K16Yh7dU/IhxIg4YB+CgBpIA92vIzCzVkySL2mYIlg7Nw5C+Hqh4u+HHt2
-         1e3R0H0cbWBN+KgBQj1OWWOhYWLwzIeGLy23ySk46R9ItVmqBRyDji79QyZy/vBMz7rC
-         meqw==
-X-Gm-Message-State: AOJu0YxO7s8jFn3cEyyxm5tLI8sb+5Ny2DcdMPQpdMnbjOegvJZu9bLB
-        nLZxnyYlpi735qCdtAXHutgQ9w==
-X-Google-Smtp-Source: AGHT+IGq0h3yY+vcHzc2ndCT191RRQ+hhRMyzA37xr5h+i84hUPVVg+5a1/0Tk6MaLdZU52SXin3SQ==
-X-Received: by 2002:a05:6512:1186:b0:4f8:752f:3722 with SMTP id g6-20020a056512118600b004f8752f3722mr13770862lfr.5.1693044828699;
-        Sat, 26 Aug 2023 03:13:48 -0700 (PDT)
+        bh=4JjUBaYdPSxFwsO+4WnIkvUUmyhb29fFdO517V2zTpg=;
+        b=SFOGzdPBxE43he9hS9J7pAAyy3fJL1pFE8vP3YbSwCm7WLQLJdBBiw8gmV+LL/4glK
+         aHU/FgRQilIRyJbXcAnBB2AnOBZ9xedz0lK7wRtbijFv3DE2T4Y6wUAJUWti7QF3IDqm
+         zTQAOWZKjLNnUp1veLhAVK1tynmdJh4yvXC5CJ4jWN2Tuu3iwiwLJ9+gyCf1fDsu7jg6
+         NoLY0mCRvE2Y3Jy/dmHFPvzyl5i9IK3E5/Y0p++QaTwu8qRcODjlD0a1XDW/cjy6XG3T
+         cCfa9qHKRdMNv5dV6NCfQ4aF4l5rDuA5HIgXwyx/WvB0+8/geN+bF434w4p6Rlfssbrc
+         lQmA==
+X-Gm-Message-State: AOJu0YzuTeUeTe2iiM/709QgkTEqeU2DO4h/uL435zOwEtzPema/b4Lq
+        RwxG61hKO0qqbrqo2ynO358nXw==
+X-Google-Smtp-Source: AGHT+IGtRGMiExpTYje2siebBOhfYj4Z0a2s3NPoLgi6o/rDLWuwAlcGfIicvCPbKKfT6Ps+SfvJyA==
+X-Received: by 2002:a05:6512:2202:b0:500:96bc:be60 with SMTP id h2-20020a056512220200b0050096bcbe60mr3812461lfu.1.1693044987646;
+        Sat, 26 Aug 2023 03:16:27 -0700 (PDT)
 Received: from [192.168.1.101] (abyl74.neoplus.adsl.tpnet.pl. [83.9.31.74])
-        by smtp.gmail.com with ESMTPSA id q26-20020ac24a7a000000b004fe1efe3e38sm647999lfp.225.2023.08.26.03.13.46
+        by smtp.gmail.com with ESMTPSA id i11-20020a056512006b00b004fbad682ffesm665461lfo.88.2023.08.26.03.16.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Aug 2023 03:13:48 -0700 (PDT)
-Message-ID: <6f381a9e-9aac-4a3a-814e-26a230026d66@linaro.org>
-Date:   Sat, 26 Aug 2023 12:13:46 +0200
+        Sat, 26 Aug 2023 03:16:27 -0700 (PDT)
+Message-ID: <aaf9db49-54c4-4c27-8206-61e86ad560c2@linaro.org>
+Date:   Sat, 26 Aug 2023 12:16:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 12/15] media: qcom: camss: Fix support for setting
- CSIPHY clock name csiphyX
+Subject: Re: [PATCH v3 14/15] media: qcom: camss: Convert vfe_disable() from
+ int to void
 Content-Language: en-US
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
@@ -65,7 +65,7 @@ To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
- <20230823104444.1954663-13-bryan.odonoghue@linaro.org>
+ <20230823104444.1954663-15-bryan.odonoghue@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -102,7 +102,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230823104444.1954663-13-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230823104444.1954663-15-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -116,43 +116,14 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 23.08.2023 12:44, Bryan O'Donoghue wrote:
-> Several of our upstream and soon-to-be upstream SoC CAMSS dtsi declare
-> csiphyX as opposed to the older clock name csiX_phy.
-This only reinforces my point about adding like csiphy_clks or so
-
-Konrad
+> No version of vfe_disable() currently returns nor has ever as near as I
+> can discern ever returned a meaningful error code.
 > 
-> Right now the CAMSS code will fail to set the csiphyX clock even if we have
-> declared it in our list of clocks. For sdm845 and sm8250 we appear to "get
-> away" with this error, however on sc8280xp we don't.
+> Convert from the unused int return to void.
 > 
-> The right approach here is to set the clock when it is declared. If a SoC
-> doesn't require or a SoC driver implementer doesn't think we need, then the
-> clock ought to simply be omitted from the clock list.
-> 
-> Include csiphyX in the set of permissible strings which will subsequently
-> lead to the csiphyX clock being set during csiphy_set_clock_rates() phase.
-> 
-> sdm845 and sm8250 will work with the code as-is so I've omitted this from a
-> suggested Fixes list.
-> 
+> Fixes: 633b388f85c5 ("media: camss: Refactor VFE HW version support")
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  drivers/media/platform/qcom/camss/camss-csiphy.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> index baf78c525fbfc..d9c751f457703 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> @@ -687,6 +687,10 @@ int msm_csiphy_subdev_init(struct camss *camss,
->  				if (csiphy->rate_set[i])
->  					break;
->  			}
-> +
-> +			csiphy->rate_set[i] = csiphy_match_clock_name(clock->name, "csiphy%d", k);
-> +			if (csiphy->rate_set[i])
-> +				break;
->  		}
->  	}
->  
+Up the chain, vfe_reset can fail but the error isn't propagated
+
+Konrad
