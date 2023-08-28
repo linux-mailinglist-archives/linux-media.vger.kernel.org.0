@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 802F178B633
-	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 19:18:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AEC478B637
+	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 19:19:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231223AbjH1RRp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Aug 2023 13:17:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39996 "EHLO
+        id S231835AbjH1RSs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Aug 2023 13:18:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231309AbjH1RRU (ORCPT
+        with ESMTP id S232718AbjH1RSc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Aug 2023 13:17:20 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45E9DB0;
-        Mon, 28 Aug 2023 10:17:17 -0700 (PDT)
+        Mon, 28 Aug 2023 13:18:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B609186;
+        Mon, 28 Aug 2023 10:18:29 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A758B5AA;
-        Mon, 28 Aug 2023 19:15:54 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B94185AA;
+        Mon, 28 Aug 2023 19:17:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693242954;
-        bh=7I2oT/qfOhZ+LY5Cj8rxYMYWuH/EJ8Iitoox3qFnAuU=;
+        s=mail; t=1693243026;
+        bh=03vxVlD6sr18yUqkGYFb6o+RQFmVzWKaXnL88iNrzuI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h0nP2UPRkm7jeERQDgJccBsokU2+TqK8wWTgNM2kG2ge6Z9uJNBdb17XIyd4BQSu5
-         yzEToiY2cjT9wUoNeQ7c9NqzxSF+PDtFvv5vmfs1JKeqxDjhABsD+gLKG2JJZfLdi4
-         8yir1Ek0Ni/SycycM0C/EcBYfhaXADq/FSmHpDIw=
-Date:   Mon, 28 Aug 2023 20:17:25 +0300
+        b=oJjti1KWQObkAcNca/Y4otYZikjUpncibe8f/2cdIMOtpdXHjeV0mVFn3MGasHgOE
+         z8QNrRaibiGfoiiEcX3gJ9tZJAa39j1678adspTmiGiiduRkqaUxbeSMsdljbc7gMc
+         88uRvBpbH1G+EmIPomvByJqY+1bmhLn0BZ+tJkfo=
+Date:   Mon, 28 Aug 2023 20:18:37 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc:     rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
@@ -34,15 +34,15 @@ Cc:     rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
         andrey.konovalov@linaro.org, linux-media@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         stable@vger.kernel.org
-Subject: Re: [PATCH v2 5/9] media: qcom: camss: Fix VFE-480
- vfe_disable_output()
-Message-ID: <20230828171725.GZ14596@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 6/9] media: qcom: camss: Fix missing vfe_lite clocks
+ check
+Message-ID: <20230828171837.GA14596@pendragon.ideasonboard.com>
 References: <20230822200626.1931129-1-bryan.odonoghue@linaro.org>
- <20230822200626.1931129-6-bryan.odonoghue@linaro.org>
+ <20230822200626.1931129-7-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230822200626.1931129-6-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230822200626.1931129-7-bryan.odonoghue@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -56,58 +56,35 @@ Hi Bryan,
 
 Thank you for the patch.
 
-On Tue, Aug 22, 2023 at 09:06:22PM +0100, Bryan O'Donoghue wrote:
-> vfe-480 is copied from vfe-17x and has the same racy idle timeout bug as in
-> 17x.
+
+On Tue, Aug 22, 2023 at 09:06:23PM +0100, Bryan O'Donoghue wrote:
+> check_clock doesn't account for vfe_lite which means that vfe_lite will
+> never get validated by this routine. Add the clock name to the expected set
+> to remediate.
 > 
-> Fix the vfe_disable_output() logic to no longer be racy and to conform
-> to the 17x way of quiescing and then resetting the VFE.
-
-How about dropping the duplicate function and share a single
-implementation for the two files ?
-
-> Fixes: 4edc8eae715c ("media: camss: Add initial support for VFE hardware version Titan 480")
+> Fixes: 7319cdf189bb ("media: camss: Add support for VFE hardware version Titan 170")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  .../media/platform/qcom/camss/camss-vfe-480.c | 19 +++----------------
->  1 file changed, 3 insertions(+), 16 deletions(-)
+>  drivers/media/platform/qcom/camss/camss-vfe.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-480.c b/drivers/media/platform/qcom/camss/camss-vfe-480.c
-> index f70aad2e8c237..a64d660abc538 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-480.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-480.c
-> @@ -334,28 +334,15 @@ static int vfe_disable_output(struct vfe_line *line)
->  	struct vfe_output *output = &line->output;
->  	unsigned long flags;
->  	unsigned int i;
-> -	bool done;
-> -	int timeout = 0;
-> -
-> -	do {
-> -		spin_lock_irqsave(&vfe->output_lock, flags);
-> -		done = !output->gen2.active_num;
-> -		spin_unlock_irqrestore(&vfe->output_lock, flags);
-> -		usleep_range(10000, 20000);
-> -
-> -		if (timeout++ == 100) {
-> -			dev_err(vfe->camss->dev, "VFE idle timeout - resetting\n");
-> -			vfe_reset(vfe);
-> -			output->gen2.active_num = 0;
-> -			return 0;
-> -		}
-> -	} while (!done);
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+> index 938f373bcd1fd..b021f81cef123 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+> @@ -535,7 +535,8 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
+>  		struct camss_clock *clock = &vfe->clock[i];
 >  
->  	spin_lock_irqsave(&vfe->output_lock, flags);
->  	for (i = 0; i < output->wm_num; i++)
->  		vfe_wm_stop(vfe, output->wm_idx[i]);
-> +	output->gen2.active_num = 0;
->  	spin_unlock_irqrestore(&vfe->output_lock, flags);
->  
-> +	vfe_reset(vfe);
-> +
->  	return 0;
->  }
+>  		if (!strcmp(clock->name, "vfe0") ||
+> -		    !strcmp(clock->name, "vfe1")) {
+> +		    !strcmp(clock->name, "vfe1") ||
+> +		    !strcmp(clock->name, "vfe_lite")) {
+>  			u64 min_rate = 0;
+>  			unsigned long rate;
 >  
 
 -- 
