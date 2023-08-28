@@ -2,47 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E9DD78B668
-	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 19:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79CDD78B67A
+	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 19:31:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230436AbjH1R1Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Aug 2023 13:27:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60418 "EHLO
+        id S229967AbjH1RbJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Aug 2023 13:31:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232861AbjH1R1B (ORCPT
+        with ESMTP id S232192AbjH1Raw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Aug 2023 13:27:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2BA1103;
-        Mon, 28 Aug 2023 10:26:57 -0700 (PDT)
+        Mon, 28 Aug 2023 13:30:52 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D20EF199;
+        Mon, 28 Aug 2023 10:30:47 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B8CA5AA;
-        Mon, 28 Aug 2023 19:25:35 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38EF75AA;
+        Mon, 28 Aug 2023 19:29:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693243535;
-        bh=ssG+wmaauBYkmFohm0LN3Ai/dsIv1Lk5t8fuUcW/ueY=;
+        s=mail; t=1693243765;
+        bh=+9kR5KSAAXEVqyb3QGonVbpDtX8gMHb1l6U512kVzDs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VghHy9QFYH/wYcJxOTD1E+JY/1v2eDBQZIJKqlyw0FtTwTUhmvrzqBd8abTgS8gGv
-         ZZtReM92yXAeRUe+HeiAxep9pLa3/XYgvgOrG6YuFpqjKdV774+VvwW6eXtjB+uS6K
-         nQqfXYL/0pn8jgLSWmcaDPKo1BmGwngTU/xHnX5A=
-Date:   Mon, 28 Aug 2023 20:27:05 +0300
+        b=Boy4rj9kr50PYEG+J4eCNOS8nstepuA1zvvDtiTKLkF+ezDnLG8x1e/Ynsi+IsEfl
+         QI2ORxTuuCwsWsOYmkMJMnrPHGIHPF5D2dpgQ9YwdOHvfcJQ+l6qvjF9EhjQSfYvPN
+         LZQEoe8SoROu5m3KCv2OOq02EQZyV4s5/vK1smHQ=
+Date:   Mon, 28 Aug 2023 20:30:55 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc:     rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
         andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
         hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
         andrey.konovalov@linaro.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v2 9/9] media: qcom: camss: Fix csid-gen2 for test
- pattern generator
-Message-ID: <20230828172705.GD14596@pendragon.ideasonboard.com>
-References: <20230822200626.1931129-1-bryan.odonoghue@linaro.org>
- <20230822200626.1931129-10-bryan.odonoghue@linaro.org>
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 01/15] media: qcom: camss: Amalgamate struct resource
+ with struct resource_ispif
+Message-ID: <20230828173055.GF14596@pendragon.ideasonboard.com>
+References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
+ <20230823104444.1954663-2-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230822200626.1931129-10-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230823104444.1954663-2-bryan.odonoghue@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -56,90 +55,159 @@ Hi Bryan,
 
 Thank you for the patch.
 
-On Tue, Aug 22, 2023 at 09:06:26PM +0100, Bryan O'Donoghue wrote:
-> From: Andrey Konovalov <andrey.konovalov@linaro.org>
+On Wed, Aug 23, 2023 at 11:44:30AM +0100, Bryan O'Donoghue wrote:
+> There is no good reason to differentiate the two resource structures
+> here. As part of a general tidyup of the declaration and passing of
+> resources within in the CAMSS driver it will be advantageous to have
+> one unified resource structure.
 > 
-> In the current driver csid Test Pattern Generator (TPG) doesn't work.
-> This change:
-> - fixes writing frame width and height values into CSID_TPG_DT_n_CFG_0
-> - fixes the shift by one between test_pattern control value and the
->   actual pattern.
-> - drops fixed VC of 0x0a which testing showed prohibited some test
->   patterns in the CSID to produce output.
-> So that TPG starts working, but with the below limitations:
-> - only test_pattern=9 works as it should
-> - test_pattern=8 and test_pattern=7 produce black frame (all zeroes)
-> - the rest of test_pattern's don't work (yavta doesn't get the data)
-> - regardless of the CFA pattern set by 'media-ctl -V' the actual pixel
->   order is always the same (RGGB for any RAW8 or RAW10P format in
->   4608x2592 resolution).
+> The two structures are very similar anyway thus leading more credence
+> still to the argument there should be only one.
 > 
-> Tested with:
-> 
-> RAW10P format, VC0:
->  media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4608x2592 field:none]'
->  media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4608x2592 field:none]'
->  media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
->  v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
->  yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video0
-> 
-> RAW10P format, VC1:
->  media-ctl -V '"msm_csid0":2[fmt:SRGGB10/4608x2592 field:none]'
->  media-ctl -V '"msm_vfe0_rdi1":0[fmt:SRGGB10/4608x2592 field:none]'
->  media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
->  v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
->  yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video1
-> 
-> RAW8 format, VC0:
->  media-ctl --reset
->  media-ctl -V '"msm_csid0":0[fmt:SRGGB8/4608x2592 field:none]'
->  media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB8/4608x2592 field:none]'
->  media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
->  yavta -B capture-mplane --capture=3 -n 3 -f SRGGB8 -s 4608x2592 /dev/video0
-> 
-> Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  drivers/media/platform/qcom/camss/camss-ispif.c |  4 ++--
+>  drivers/media/platform/qcom/camss/camss-ispif.h |  4 ++--
+>  drivers/media/platform/qcom/camss/camss.c       | 14 +++++++-------
+>  drivers/media/platform/qcom/camss/camss.h       |  8 +-------
+>  4 files changed, 12 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
+> index 1c7e4b1b49401..61765b874b9a2 100644
+> --- a/drivers/media/platform/qcom/camss/camss-ispif.c
+> +++ b/drivers/media/platform/qcom/camss/camss-ispif.c
+> @@ -1095,7 +1095,7 @@ static int ispif_init_formats(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+>   * Return 0 on success or a negative error code otherwise
+>   */
+>  int msm_ispif_subdev_init(struct camss *camss,
+> -			  const struct resources_ispif *res)
+> +			  const struct resources *res)
+>  {
+>  	struct device *dev = camss->dev;
+>  	struct ispif_device *ispif = camss->ispif;
+> @@ -1152,7 +1152,7 @@ int msm_ispif_subdev_init(struct camss *camss,
+>  
+>  	/* Interrupt */
+>  
+> -	ret = platform_get_irq_byname(pdev, res->interrupt);
+> +	ret = platform_get_irq_byname(pdev, res->interrupt[0]);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> diff --git a/drivers/media/platform/qcom/camss/camss-ispif.h b/drivers/media/platform/qcom/camss/camss-ispif.h
+> index fdf28e68cc7d8..c7c41f7afcaad 100644
+> --- a/drivers/media/platform/qcom/camss/camss-ispif.h
+> +++ b/drivers/media/platform/qcom/camss/camss-ispif.h
+> @@ -66,10 +66,10 @@ struct ispif_device {
+>  	struct camss *camss;
+>  };
+>  
+> -struct resources_ispif;
+> +struct resources;
+>  
+>  int msm_ispif_subdev_init(struct camss *camss,
+> -			  const struct resources_ispif *res);
+> +			  const struct resources *res);
+>  
+>  int msm_ispif_register_entities(struct ispif_device *ispif,
+>  				struct v4l2_device *v4l2_dev);
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index f4948bdf3f8f9..de39dc987444f 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -93,14 +93,14 @@ static const struct resources csid_res_8x16[] = {
+>  	},
+>  };
+>  
+> -static const struct resources_ispif ispif_res_8x16 = {
+> +static const struct resources ispif_res_8x16 = {
+>  	/* ISPIF */
+>  	.clock = { "top_ahb", "ahb", "ispif_ahb",
+>  		   "csi0", "csi0_pix", "csi0_rdi",
+>  		   "csi1", "csi1_pix", "csi1_rdi" },
+>  	.clock_for_reset = { "vfe0", "csi_vfe0" },
+>  	.reg = { "ispif", "csi_clk_mux" },
+> -	.interrupt = "ispif"
+> +	.interrupt = { "ispif" }
+>  
+>  };
+>  
+> @@ -234,7 +234,7 @@ static const struct resources csid_res_8x96[] = {
+>  	}
+>  };
+>  
+> -static const struct resources_ispif ispif_res_8x96 = {
+> +static const struct resources ispif_res_8x96 = {
+>  	/* ISPIF */
+>  	.clock = { "top_ahb", "ahb", "ispif_ahb",
+>  		   "csi0", "csi0_pix", "csi0_rdi",
+> @@ -243,7 +243,7 @@ static const struct resources_ispif ispif_res_8x96 = {
+>  		   "csi3", "csi3_pix", "csi3_rdi" },
+>  	.clock_for_reset = { "vfe0", "csi_vfe0", "vfe1", "csi_vfe1" },
+>  	.reg = { "ispif", "csi_clk_mux" },
+> -	.interrupt = "ispif"
+> +	.interrupt = { "ispif" }
+>  };
+>  
+>  static const struct resources vfe_res_8x96[] = {
+> @@ -410,7 +410,7 @@ static const struct resources csid_res_660[] = {
+>  	}
+>  };
+>  
+> -static const struct resources_ispif ispif_res_660 = {
+> +static const struct resources ispif_res_660 = {
+>  	/* ISPIF */
+>  	.clock = { "top_ahb", "ahb", "ispif_ahb",
+>  		   "csi0", "csi0_pix", "csi0_rdi",
+> @@ -419,7 +419,7 @@ static const struct resources_ispif ispif_res_660 = {
+>  		   "csi3", "csi3_pix", "csi3_rdi" },
+>  	.clock_for_reset = { "vfe0", "csi_vfe0", "vfe1", "csi_vfe1" },
+>  	.reg = { "ispif", "csi_clk_mux" },
+> -	.interrupt = "ispif"
+> +	.interrupt = { "ispif" }
+>  };
+>  
+>  static const struct resources vfe_res_660[] = {
+> @@ -1122,7 +1122,7 @@ static int camss_init_subdevices(struct camss *camss)
+>  {
+>  	const struct resources *csiphy_res;
+>  	const struct resources *csid_res;
+> -	const struct resources_ispif *ispif_res;
+> +	const struct resources *ispif_res;
+>  	const struct resources *vfe_res;
+>  	unsigned int i;
+>  	int ret;
+> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+> index f6c326cb853b8..e95211cdb1fd6 100644
+> --- a/drivers/media/platform/qcom/camss/camss.h
+> +++ b/drivers/media/platform/qcom/camss/camss.h
+> @@ -44,18 +44,12 @@
+>  struct resources {
+
+While at it, or in a separate patch, could you rename this to
+camss_resources ? resources is a too generic name, too likely to clash.
+With this fixed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/media/platform/qcom/camss/camss-csid-gen2.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-> index 140c584bfb8b1..6ba2b10326444 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-> @@ -355,9 +355,6 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
->  		u8 dt_id = vc;
+>  	char *regulators[CAMSS_RES_MAX];
+>  	char *clock[CAMSS_RES_MAX];
+> +	char *clock_for_reset[CAMSS_RES_MAX];
+>  	u32 clock_rate[CAMSS_RES_MAX][CAMSS_RES_MAX];
+>  	char *reg[CAMSS_RES_MAX];
+>  	char *interrupt[CAMSS_RES_MAX];
+>  };
 >  
->  		if (tg->enabled) {
-> -			/* Config Test Generator */
-> -			vc = 0xa;
+> -struct resources_ispif {
+> -	char *clock[CAMSS_RES_MAX];
+> -	char *clock_for_reset[CAMSS_RES_MAX];
+> -	char *reg[CAMSS_RES_MAX];
+> -	char *interrupt;
+> -};
 > -
->  			/* configure one DT, infinite frames */
->  			val = vc << TPG_VC_CFG0_VC_NUM;
->  			val |= INTELEAVING_MODE_ONE_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
-> @@ -370,14 +367,14 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
->  
->  			writel_relaxed(0x12345678, csid->base + CSID_TPG_LFSR_SEED);
->  
-> -			val = input_format->height & 0x1fff << TPG_DT_n_CFG_0_FRAME_HEIGHT;
-> -			val |= input_format->width & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
-> +			val = (input_format->height & 0x1fff) << TPG_DT_n_CFG_0_FRAME_HEIGHT;
-> +			val |= (input_format->width & 0x1fff) << TPG_DT_n_CFG_0_FRAME_WIDTH;
->  			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
->  
->  			val = format->data_type << TPG_DT_n_CFG_1_DATA_TYPE;
->  			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_1(0));
->  
-> -			val = tg->mode << TPG_DT_n_CFG_2_PAYLOAD_MODE;
-> +			val = (tg->mode - 1) << TPG_DT_n_CFG_2_PAYLOAD_MODE;
->  			val |= 0xBE << TPG_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
->  			val |= format->decode_format << TPG_DT_n_CFG_2_ENCODE_FORMAT;
->  			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_2(0));
+>  struct icc_bw_tbl {
+>  	u32 avg;
+>  	u32 peak;
 
 -- 
 Regards,
