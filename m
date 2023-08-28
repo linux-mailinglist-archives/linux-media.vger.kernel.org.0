@@ -2,92 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC32A78B1CF
-	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 15:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 549C678B219
+	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 15:39:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbjH1NaI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Aug 2023 09:30:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52352 "EHLO
+        id S229781AbjH1Niw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Aug 2023 09:38:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229758AbjH1N3s (ORCPT
+        with ESMTP id S231455AbjH1Ni2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Aug 2023 09:29:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF0A2A7
-        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 06:29:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 632CE64408
-        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 13:29:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AB30C433C8;
-        Mon, 28 Aug 2023 13:29:43 +0000 (UTC)
-Message-ID: <18989016-6392-a77b-6cf7-1223c9161def@xs4all.nl>
-Date:   Mon, 28 Aug 2023 15:29:41 +0200
+        Mon, 28 Aug 2023 09:38:28 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD3B1B8
+        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 06:38:24 -0700 (PDT)
+Received: from ideasonboard.com (mob-5-91-19-240.net.vodafone.it [5.91.19.240])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9D3322D8;
+        Mon, 28 Aug 2023 15:36:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1693229819;
+        bh=CB52BX1dipmWi/VwsXCzeZkdFYAF8pYH47hEZA3r/Eg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K3kEgDTVE8nWetZ5Zak2Motoqu6W69IgH6yLxFMLZaDDPfi0Xjx1a9gp//xInAjvN
+         iJEJw9aVwJrHYi2VgWZ/jmT2MbIHfZAsYViRCiLgAdSsiQOgueWr0hjNyJP79/GzC/
+         /8KeUKZhoRMGhUqQkxRG+VBMxiZyzOw8PZZ3DiOM=
+Date:   Mon, 28 Aug 2023 15:38:17 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 08/18] media: i2c: imx219: Use active crop rectangle
+ to configure registers
+Message-ID: <7xmbzatak3bjrp7rjj2kkrxejrhuzftz257g26ag4grgmo2pkx@bebssa7r22jp>
+References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com>
+ <20230821223001.28480-9-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Content-Language: en-US, nl
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linuxtv-ci@linuxtv.org
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Introducing build scripts to test
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230821223001.28480-9-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+Hi Laurent
 
-We have been working on simplifying the media maintenance, and one part of that is
-standardizing on build tools, in particular to make it easier for patch submitters
-to run their patches through the same set of tests that the daily build does.
+On Tue, Aug 22, 2023 at 01:29:51AM +0300, Laurent Pinchart wrote:
+> Configure the crop-related registers from the values stored in the
+> active crop rectangle instead of the mode structure. This removes usage
+> of the mode from the imx219_set_framefmt(). No functional change is
+> intended.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx219.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 16776a3ae84d..1205986ce47e 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -615,9 +615,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>  }
+>
+>  static int imx219_set_framefmt(struct imx219 *imx219,
+> -			       const struct v4l2_mbus_framefmt *format)
+> +			       const struct v4l2_mbus_framefmt *format,
+> +			       const struct v4l2_rect *crop)
+>  {
+> -	const struct imx219_mode *mode = imx219->mode;
+>  	unsigned int bpp;
+>  	u16 bin_mode;
+>  	int ret = 0;
+> @@ -640,15 +640,13 @@ static int imx219_set_framefmt(struct imx219 *imx219,
+>  	}
+>
+>  	cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
+> -		  mode->crop.left - IMX219_PIXEL_ARRAY_LEFT, &ret);
+> +		  crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
+>  	cci_write(imx219->regmap, IMX219_REG_X_ADD_END_A,
+> -		  mode->crop.left - IMX219_PIXEL_ARRAY_LEFT + mode->crop.width - 1,
+> -		  &ret);
+> +		  crop->left - IMX219_PIXEL_ARRAY_LEFT + crop->width - 1, &ret);
+>  	cci_write(imx219->regmap, IMX219_REG_Y_ADD_STA_A,
+> -		  mode->crop.top - IMX219_PIXEL_ARRAY_TOP, &ret);
+> +		  crop->top - IMX219_PIXEL_ARRAY_TOP, &ret);
+>  	cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
+> -		  mode->crop.top - IMX219_PIXEL_ARRAY_TOP + mode->crop.height - 1,
+> -		  &ret);
+> +		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
+>
+>  	if (!imx219->mode->binning)
+>  		bin_mode = IMX219_BINNING_NONE;
+> @@ -719,6 +717,7 @@ static int imx219_start_streaming(struct imx219 *imx219,
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+>  	const struct v4l2_mbus_framefmt *format;
+> +	const struct v4l2_rect *crop;
+>  	int ret;
+>
+>  	ret = pm_runtime_resume_and_get(&client->dev);
+> @@ -742,7 +741,8 @@ static int imx219_start_streaming(struct imx219 *imx219,
+>
+>  	/* Apply format and crop settings. */
+>  	format = v4l2_subdev_get_pad_format(&imx219->sd, state, 0);
+> -	ret = imx219_set_framefmt(imx219, format);
+> +	crop = v4l2_subdev_get_pad_crop(&imx219->sd, state, 0);
+> +	ret = imx219_set_framefmt(imx219, format, crop);
 
-This helps detect issues before you submit your patches.
+Nit:
+If I'm not mistaken (I've not been able to apply the series yet)
+'format' and 'crop' are now only used to be passed to
+imx219_set_framefmt(). You could pass the state to
+imx219_set_framefmt().
 
-I have been working since July on transforming my hackish scripts to something
-that is easier to use and of better quality. While there are still a few rough
-edges, I consider it good enough to have others start to use it.
+Apart from that
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-To get the build scripts run:
 
-git clone git://linuxtv.org/hverkuil/build-scripts.git
-
-All the test builds will happen within this directory. It is completely separate
-from where you do you normal development, instead you point it to where your
-git repository is.
-
-See the README contained in the build-scripts git repo for all the details on
-how to set it up.
-
-Currently the scripts expect a debian 12-based distro (likely debian 11 will work
-as well). I have no idea if it works well on Red Hat or Suse. If you use one of
-those distros, and you get it to work, then a patch updating the README file with
-the correct list of packages to install would be welcome.
-
-Please note that running the regression tests using virtme-ng is currently only
-supported on Debian 12, not on e.g. Ubuntu. Someone is looking into that, and
-hopefully we can support that in the future. Running regressions tests are
-primarily useful when making changes to core frameworks and public APIs, and
-it is possible to run them manually (see the README).
-
-Since running this locally can take a fair amount of time, we hope to have
-build servers available in the future so this can be offloaded.
-
-To give an idea of the expected build times:
-
-On an AMD Ryzen 9 6900HX (8 cores) a standard build of the staging tree
-(build.sh -test all) takes 39 minutes.
-
-On an AMD Ryzen Threadripper 3970X (32 cores) it takes a bit over 13 minutes.
-
-Regards,
-
-	Hans
+>  	if (ret) {
+>  		dev_err(&client->dev, "%s failed to set frame format: %d\n",
+>  			__func__, ret);
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
