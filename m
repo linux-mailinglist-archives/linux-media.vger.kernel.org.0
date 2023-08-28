@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AEC478B637
-	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 19:19:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A54478B641
+	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 19:19:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231835AbjH1RSs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Aug 2023 13:18:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49414 "EHLO
+        id S232653AbjH1RTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Aug 2023 13:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232718AbjH1RSc (ORCPT
+        with ESMTP id S232790AbjH1RTE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Aug 2023 13:18:32 -0400
+        Mon, 28 Aug 2023 13:19:04 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B609186;
-        Mon, 28 Aug 2023 10:18:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7469BE1;
+        Mon, 28 Aug 2023 10:19:02 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B94185AA;
-        Mon, 28 Aug 2023 19:17:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 309135AA;
+        Mon, 28 Aug 2023 19:17:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693243026;
-        bh=03vxVlD6sr18yUqkGYFb6o+RQFmVzWKaXnL88iNrzuI=;
+        s=mail; t=1693243060;
+        bh=yVdJKq+mPQjEPUJbQsM/4JUsxmp7xdIZUcCBV6dKcUM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oJjti1KWQObkAcNca/Y4otYZikjUpncibe8f/2cdIMOtpdXHjeV0mVFn3MGasHgOE
-         z8QNrRaibiGfoiiEcX3gJ9tZJAa39j1678adspTmiGiiduRkqaUxbeSMsdljbc7gMc
-         88uRvBpbH1G+EmIPomvByJqY+1bmhLn0BZ+tJkfo=
-Date:   Mon, 28 Aug 2023 20:18:37 +0300
+        b=V+GGH2SYucP2Ci981tQg2Qk0hb9vW8q4soox170kuHwN/iAnkdBl/ZuvhRY7SnVPd
+         mzj4R9Jjvvy6gGCWErXSons9HMYDdTlCT7V4+WWwzPemh9yfZIsgUfhEMLqeCwTmu9
+         2ztPXrNOuwTm+5f5CjCo1ftN569XTrNSiibo3KMg=
+Date:   Mon, 28 Aug 2023 20:19:10 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc:     rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
@@ -34,15 +34,15 @@ Cc:     rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
         andrey.konovalov@linaro.org, linux-media@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         stable@vger.kernel.org
-Subject: Re: [PATCH v2 6/9] media: qcom: camss: Fix missing vfe_lite clocks
- check
-Message-ID: <20230828171837.GA14596@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 7/9] media: qcom: camss: Fix invalid clock enable bit
+ disjunction
+Message-ID: <20230828171910.GB14596@pendragon.ideasonboard.com>
 References: <20230822200626.1931129-1-bryan.odonoghue@linaro.org>
- <20230822200626.1931129-7-bryan.odonoghue@linaro.org>
+ <20230822200626.1931129-8-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230822200626.1931129-7-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230822200626.1931129-8-bryan.odonoghue@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -56,36 +56,39 @@ Hi Bryan,
 
 Thank you for the patch.
 
-
-On Tue, Aug 22, 2023 at 09:06:23PM +0100, Bryan O'Donoghue wrote:
-> check_clock doesn't account for vfe_lite which means that vfe_lite will
-> never get validated by this routine. Add the clock name to the expected set
-> to remediate.
+On Tue, Aug 22, 2023 at 09:06:24PM +0100, Bryan O'Donoghue wrote:
+> define CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE BIT(7)
 > 
-> Fixes: 7319cdf189bb ("media: camss: Add support for VFE hardware version Titan 170")
+> disjunction for gen2 ? BIT(7) : is a nop we are setting the same bit
+> either way.
+> 
+> Fixes: 4abb21309fda ("media: camss: csiphy: Move to hardcode CSI Clock Lane number")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/media/platform/qcom/camss/camss-vfe.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-> index 938f373bcd1fd..b021f81cef123 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-> @@ -535,7 +535,8 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
->  		struct camss_clock *clock = &vfe->clock[i];
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index 04baa80494c66..4dba61b8d3f2a 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -476,7 +476,7 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
 >  
->  		if (!strcmp(clock->name, "vfe0") ||
-> -		    !strcmp(clock->name, "vfe1")) {
-> +		    !strcmp(clock->name, "vfe1") ||
-> +		    !strcmp(clock->name, "vfe_lite")) {
->  			u64 min_rate = 0;
->  			unsigned long rate;
+>  	settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
 >  
+> -	val = is_gen2 ? BIT(7) : CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
+> +	val = CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
+>  	for (i = 0; i < c->num_data; i++)
+>  		val |= BIT(c->data[i].pos * 2);
+>  
+> -- 
+> 2.41.0
+> 
 
 -- 
 Regards,
