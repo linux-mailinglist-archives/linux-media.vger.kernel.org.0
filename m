@@ -2,61 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F07078B49E
-	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 17:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D54CD78B4B1
+	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 17:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231740AbjH1Pii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Aug 2023 11:38:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34610 "EHLO
+        id S232487AbjH1PnY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Aug 2023 11:43:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232528AbjH1Pid (ORCPT
+        with ESMTP id S232457AbjH1PnO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Aug 2023 11:38:33 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB854195
-        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 08:38:20 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2bcb89b476bso49528171fa.1
-        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 08:38:20 -0700 (PDT)
+        Mon, 28 Aug 2023 11:43:14 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF98AD
+        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 08:43:11 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-31dd10c2b8bso293310f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 08:43:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693237099; x=1693841899;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1693237390; x=1693842190;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=oOBUP0ss/TxEKXtPE0CNLju64MbMYbKUX21GZjq3dUc=;
-        b=lRbLphjIATg19N4Za/9tYCX5wc34RXXxp2qF1vRQJkQjxZIV4z+O3cUYAL9oRiaq+9
-         jgvm6t82Ouz6beTFmD/v+hXhyZwlRtGE/lw1ngdaC78p3rAKHzZVZFNIUmJuuUnB20sa
-         XAnuxKp0M/qKyQqgfLEKEdCVCnoZzSCvkzBDvRc1WatYWLRScnyomSjn/VWtwbfYQHSB
-         HzrWjsGV4SxF9Y69lFW05gw5R4TgOn6j7ViToNoW/KOMpNZdOPvaO+Z5twQTd748++q6
-         gnXZZ3uOGce8FATlPZF33J4rDgbUNuIbHPMh/5kXNgVc591A14iLfINZQigT3TtZtcwt
-         vuoA==
+        bh=qSVBmNKujJMQyMHeBx+QDenvXtOk8bzLGjMqef3Lc3A=;
+        b=uKtFQpqf66SmeVq5sIOJaWRGTq95bgboD8NuNJnDkrAZjvlXOPCPqr68JIsJNaMYta
+         aA3nPK/5TZoDoLFz9u3tKE13J93psQY1HOBjk0d9nKT0aYRQ9R1Zx/sJ7LLAPExUHHT5
+         PAHPIHJC15OdJ7/hp3NVYpM4DWysNQeBV6FcIg3zPu1/8AbILIdySZK3sMvGmfKTVC14
+         C+mFGlGb7nVx8Lr6dIw+sxWiHIECEF2PUZiUuMrEBd6idB3CRqDhScbyPqhJDYSdyhh7
+         owLgCvnxtMgc/fk2gt3fnGVUs2uZRjmym/iE3YygqsN0kS8ulectsRRDGYW1ofV3zImj
+         92VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693237099; x=1693841899;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1693237390; x=1693842190;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oOBUP0ss/TxEKXtPE0CNLju64MbMYbKUX21GZjq3dUc=;
-        b=W3Gk354q/wRDgpcvs0/P+N3qwCYXu5jelWDt0FWfSX2q8FMQuSUCkP+N120tkHKDt3
-         cyDB1+5JW5sqvJP1WeVs0VOUaFjvugFe7/f6o2Oz8gCEr7I4Wgm+00gFh6yEkQ70kyiR
-         2m0ZihxszH8EdRoFJ5E6My9lHviFMOtE8EKRXvu4qNQvPiCBR3Iy7e/QIkTkkVkQUq9L
-         Xxi91eZHnfjTDgWg2Ergl3WI6OrfCzGC/vOebxvY401UscEE4P2L8FOZ/IjRHLvyeXlB
-         cwDqyU6KjTcgi7wvgJ4mTx1RYzCgMxEP7A7Cz+X7L7VJsSoV7DetPP0RyJpSMW0iTB52
-         wjgA==
-X-Gm-Message-State: AOJu0YzZ0CLgulmg6wVky0J0TsRH3i+kR6TY8+sq7AwbJyIQ0f2W6xG9
-        789mJIBLP0lnZGzwncbMZqCF1g==
-X-Google-Smtp-Source: AGHT+IF+Xo7ZUXD1LzO6MQw/ppbsocfOjvkWj48oUUWoV0Dei6vTwM1LFGsgzxi+fAENJFq0kzWwLw==
-X-Received: by 2002:a2e:7d12:0:b0:2bc:e51d:89a3 with SMTP id y18-20020a2e7d12000000b002bce51d89a3mr10007385ljc.29.1693237099086;
-        Mon, 28 Aug 2023 08:38:19 -0700 (PDT)
-Received: from [192.168.1.101] (abyl195.neoplus.adsl.tpnet.pl. [83.9.31.195])
-        by smtp.gmail.com with ESMTPSA id z10-20020a2e9b8a000000b002bcda31af0fsm1758578lji.74.2023.08.28.08.38.17
+        bh=qSVBmNKujJMQyMHeBx+QDenvXtOk8bzLGjMqef3Lc3A=;
+        b=IReGpDqG8X/4WfYH1xAhmi44r/s1UeB3jtXfbbq4zTRw0w+iy6g1yGcIfEYYdPr8ZZ
+         1DQIXjshqYbzVcd81rui3eJA1+NOu8V7aDa8yzKEdlGwoVNhoTD322QBZI8YQZBDBPQ6
+         pXZZtMuPuIVPVUVAb9sPKjekW6PI3RZzt1letAPwGSfCTwYysRIem2uGN6YRCUZatWS0
+         CDYvfTIFZ1tBtOioD9nlIkY52zvZOZgEMVChdveaIZChIAt4F4clDfJr5WU+9Ri1/+TZ
+         nAPf6cm3nCSQG8sEPuG8Jf+lEWyVNTKBrVaDMMdEb4+KCW3dza6couzFxIpIi5ec8Yf9
+         OYPA==
+X-Gm-Message-State: AOJu0YwhYAmP1fFO4PzjgOJwzvtd2QaSUJzCtzItW/AmTBxi1A2uzbSx
+        oCCydXZCXQsNNKJzPS7naoYThw==
+X-Google-Smtp-Source: AGHT+IGHWv17wOn1PsuOg4xzx66jRgR52+uidM3fz9INq+GahoiA1e9phDRKx5/MX/0nK8rTrov0mA==
+X-Received: by 2002:adf:e68d:0:b0:31a:d48d:9b97 with SMTP id r13-20020adfe68d000000b0031ad48d9b97mr20851745wrm.5.1693237390048;
+        Mon, 28 Aug 2023 08:43:10 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id x7-20020a1c7c07000000b003ffca80edb8sm11181146wmc.15.2023.08.28.08.43.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 08:38:18 -0700 (PDT)
-Message-ID: <8310417c-bba9-49ed-9049-bee5b23c2e3f@linaro.org>
-Date:   Mon, 28 Aug 2023 17:38:17 +0200
+        Mon, 28 Aug 2023 08:43:09 -0700 (PDT)
+Message-ID: <2d26595f-8a74-04a5-b62b-c4383ffa7dc8@linaro.org>
+Date:   Mon, 28 Aug 2023 16:43:08 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
 Subject: Re: [PATCH v3 15/15] media: qcom: camss: Comment CSID dt_id field
 Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
         mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
@@ -67,83 +68,55 @@ References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
  <20230823104444.1954663-16-bryan.odonoghue@linaro.org>
  <4929aa72-a134-4eeb-850e-46d9255c011b@linaro.org>
  <b4545982-af6c-5460-d662-36b0eb80bb4e@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <b4545982-af6c-5460-d662-36b0eb80bb4e@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+ <8310417c-bba9-49ed-9049-bee5b23c2e3f@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <8310417c-bba9-49ed-9049-bee5b23c2e3f@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28.08.2023 17:34, Bryan O'Donoghue wrote:
-> On 26/08/2023 11:18, Konrad Dybcio wrote:
->>> +        /*
->>> +         * A value caled 'CID' gets generated internal to CAMSS logic
->>> +         * which is a concatenation of [vc:6 | dt_id:2] hence we reuse
->>> +         * the least significant two bits of the VC to 'stuff' the CID value.
->>> +         */
->>>           u8 dt_id = vc;
->> And where are you discarding the non-2-lsb?
+On 28/08/2023 16:38, Konrad Dybcio wrote:
+> On 28.08.2023 17:34, Bryan O'Donoghue wrote:
+>> On 26/08/2023 11:18, Konrad Dybcio wrote:
+>>>> +        /*
+>>>> +         * A value caled 'CID' gets generated internal to CAMSS logic
+>>>> +         * which is a concatenation of [vc:6 | dt_id:2] hence we reuse
+>>>> +         * the least significant two bits of the VC to 'stuff' the CID value.
+>>>> +         */
+>>>>            u8 dt_id = vc;
+>>> And where are you discarding the non-2-lsb?
+>>
+>> At the assignment of dt_id
+>>
+>> vc:6
+>> dt_id:2
+>>
+>> =>
+>>
+>> cid:8 = [vc:6 | dt_id:2]
+>> vc == 00110110
+>> cid = [110110 | 10]
+>>
+>> I have no more information what CID is or how the bitfield is populated than I have already indicated in the comment/commit log.
+>>
+> OK so you're discarding the 2 lsb of the [vc:6|dt_id:2]
 > 
-> At the assignment of dt_id
+> however
 > 
-> vc:6
-> dt_id:2
+> the way I read the comment would suggest that you're taking
+> vc[6:2]
 > 
-> =>
-> 
-> cid:8 = [vc:6 | dt_id:2]
-> vc == 00110110
-> cid = [110110 | 10]
-> 
-> I have no more information what CID is or how the bitfield is populated than I have already indicated in the comment/commit log.
-> 
-OK so you're discarding the 2 lsb of the [vc:6|dt_id:2]
+> Konrad
 
-however
+Fair enough, obvs the comment needs work so.
 
-the way I read the comment would suggest that you're taking
-vc[6:2]
-
-Konrad
+---
+bod
