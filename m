@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBC1978A691
-	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 09:35:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1BCA78A6C0
+	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 09:49:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229738AbjH1He5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Aug 2023 03:34:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53152 "EHLO
+        id S229804AbjH1Hsd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Aug 2023 03:48:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229818AbjH1Hev (ORCPT
+        with ESMTP id S229556AbjH1HsS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Aug 2023 03:34:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B96E10A;
-        Mon, 28 Aug 2023 00:34:48 -0700 (PDT)
+        Mon, 28 Aug 2023 03:48:18 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325FB114;
+        Mon, 28 Aug 2023 00:48:16 -0700 (PDT)
 Received: from ideasonboard.com (mob-5-91-19-240.net.vodafone.it [5.91.19.240])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E95C6B5;
-        Mon, 28 Aug 2023 09:33:25 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D98D1E51;
+        Mon, 28 Aug 2023 09:46:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693208005;
-        bh=1rsSXCqvZ4/X2DpUqa0xnHt/RsZuL51FvPDwOwl1IEQ=;
+        s=mail; t=1693208813;
+        bh=ePUh+9FFj0l+5PveCc6ydNu/nAlr4VfwDuWCBVWfhAM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JxOrOdrW4hcUebkgh5EsYFtGsTv0CsmBEkc7ORijPg/6TVCtQkQ3lwNGedZHpagcp
-         txIeGE7FWB3u9GjdZ/+ZYvuqJpzeIxS3eyX0aKiKHWZHy2r49S21ClleGmErP8TDnA
-         O9S8vWEy9FtjHLbuullKPnTp6xTzzT8eqtjEA3ag=
-Date:   Mon, 28 Aug 2023 09:34:40 +0200
+        b=XRlET+jAH6tyW5sxN6T/qsGqpTGSXoiYIm/TiQdnGCEfBSBCoQS3zL5VjJSJY9p16
+         0QJodWOb2SciAO0uYUy3EhJmPqOm49p1i+i3jrzpIGRIx4ih3D5CywAi+j/fd80n0J
+         Dc6jaTDdIeuExITtPupeeymV0EgxipaELnwVms4s=
+Date:   Mon, 28 Aug 2023 09:48:10 +0200
 From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -36,19 +36,18 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: max9286: Fix some redundant of_node_put()
- calls
-Message-ID: <rveb47frebdzhpcxdt4jnyasiztrhfnee3pzgl5ndafh2jbrsf@za4o23cw3lch>
-References: <084fdd562690c08f1ee72bc08e63e8ee576dc86a.1693001599.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] media: i2c: rdacm2: Remove an incorrect
+ fwnode_handle_put() call
+Message-ID: <zijwh5kcrfsg4q4pmxtkzia7tdpg4wnau53npe2y2xe4j7n7wy@zqwigtmyftu3>
+References: <d9230082aefcb7bab6363c51c08598eb5ab62cfc.1693037086.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <084fdd562690c08f1ee72bc08e63e8ee576dc86a.1693001599.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <d9230082aefcb7bab6363c51c08598eb5ab62cfc.1693037086.git.christophe.jaillet@wanadoo.fr>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -57,88 +56,47 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Christophe
 
-On Sat, Aug 26, 2023 at 12:13:40AM +0200, Christophe JAILLET wrote:
-> This is odd to have a of_node_put() just after a for_each_child_of_node()
-> or a for_each_endpoint_of_node() loop. It should already be called
-> during the last iteration.
-
-Let's unwrap the calls:
-
-#define for_each_child_of_node(parent, child) \
-     for (child = of_get_next_child(parent, NULL); child != NULL; \
-          child = of_get_next_child(parent, child))
-
-static struct device_node *__of_get_next_child(const struct device_node *node,
-						struct device_node *prev)
-{
-	struct device_node *next;
-
-	if (!node)
-		return NULL;
-
-	next = prev ? prev->sibling : node->child;
-	of_node_get(next);
-	of_node_put(prev);
-	return next;
-}
-
-Let's express the C for loop semantic as a while to help following the
-code:
-
-        child = of_get_next_child(parent, NULL);
-        while (child != NULL)
-                child = of_get_next_child(parent, child);
-
-I concur that the last loop iteration the call to
-__of_get_next_child() will expand to
-
-        next = NULL;
-        of_node_get(NULL);
-        of_node_put(prev)
-
-So it seems to me it is not necessary to put the node after
-for_each_child_of_node() ?
-
-In facts none of the other usages of for_each_child_of_node() in the
-kernel (the ones i checked at least) have a put() after the loop.
-
+On Sat, Aug 26, 2023 at 10:05:06AM +0200, Christophe JAILLET wrote:
+> The commit in Fixes has removed an fwnode_handle_put() call in the error
+> handling path of the probe.
 >
-> Remove these calls.
+> Remove the same call from the remove function.
 >
-> Fixes: 66d8c9d2422d ("media: i2c: Add MAX9286 driver")
+> Fixes: 1029939b3782 ("media: v4l: async: Simplify async sub-device fwnode matching")
 > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+> ---
+> /!\   This patch is highly speculative. Review with care.   /!\
+>
+> If it is correct, it is likely that other similar issue lurk in commit
+> 1029939b3782. I've not looked in detail and my cocci script did not
+> trigger on them but drivers/media/i2c/max9286.c also looks like a
+> similar candidate.
+
+I think the call to  fwnode_handle_put(priv->sd.fwnode) in
+max9286_v4l2_unregister() can indeed be removed, yes!
 
 Thanks
   j
 
 > ---
-> /!\  This patch is speculative, review with case  /!\
-> ---
->  drivers/media/i2c/max9286.c | 2 --
->  1 file changed, 2 deletions(-)
+>  drivers/media/i2c/rdacm21.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 20e7c7cf5eeb..f27a69b1b727 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -1450,7 +1450,6 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+> index a36a709243fd..3e22df36354f 100644
+> --- a/drivers/media/i2c/rdacm21.c
+> +++ b/drivers/media/i2c/rdacm21.c
+> @@ -608,7 +608,6 @@ static void rdacm21_remove(struct i2c_client *client)
+>  	v4l2_async_unregister_subdev(&dev->sd);
+>  	v4l2_ctrl_handler_free(&dev->ctrls);
+>  	i2c_unregister_device(dev->isp);
+> -	fwnode_handle_put(dev->sd.fwnode);
+>  }
 >
->  		i2c_mux_mask |= BIT(id);
->  	}
-> -	of_node_put(node);
->  	of_node_put(i2c_mux);
->
->  	/* Parse the endpoints */
-> @@ -1514,7 +1513,6 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  		priv->source_mask |= BIT(ep.port);
->  		priv->nsources++;
->  	}
-> -	of_node_put(node);
->
->  	of_property_read_u32(dev->of_node, "maxim,bus-width", &priv->bus_width);
->  	switch (priv->bus_width) {
+>  static const struct of_device_id rdacm21_of_ids[] = {
 > --
 > 2.34.1
 >
