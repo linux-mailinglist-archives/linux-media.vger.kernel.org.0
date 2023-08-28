@@ -2,171 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 701F278B694
-	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 19:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A3A978B6B4
+	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 19:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229534AbjH1RgE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Aug 2023 13:36:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53490 "EHLO
+        id S232936AbjH1Rrh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Aug 2023 13:47:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232840AbjH1Rfh (ORCPT
+        with ESMTP id S232901AbjH1RrI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Aug 2023 13:35:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 695C2189;
-        Mon, 28 Aug 2023 10:35:33 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF6BB5AA;
-        Mon, 28 Aug 2023 19:34:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693244050;
-        bh=i5yEt1rOz6ejIJ7pTu0XP1EoqHDTe3dEe9m0qZ2IZT8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=npKyvKKuoLAUHAMsUCVnCEoTC5kLRwnv67JFvHRFDd/slgls8dXjFcsGU60/iVbW9
-         DqVWnCRZmn9rhuOZp6BdlcLABRaqVmk0m2EmF/HYNQwSc5gVhGzmgAS7tIWPM18knO
-         Gxi7VSoyV239RAHSTcf276XEF7PKhfkJBUJh9AfU=
-Date:   Mon, 28 Aug 2023 20:35:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 03/15] media: qcom: camss: Pass icc bandwidth table as
- a platform parameter
-Message-ID: <20230828173541.GH14596@pendragon.ideasonboard.com>
-References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
- <20230823104444.1954663-4-bryan.odonoghue@linaro.org>
+        Mon, 28 Aug 2023 13:47:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B5A11A
+        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 10:47:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 187B863D70
+        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 17:47:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B5DEC433C8;
+        Mon, 28 Aug 2023 17:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693244824;
+        bh=Udsk6rRW6qmOaf1OsMVP0jEDLMHrprJcPKPBMNLYlvI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Dm8opDAqyWsisHniHGkc/Y5GKqp54mEejUjaS5P2nuVy3eNrMfmiUB1jg+5oQjp6z
+         PdjyrS5cf6+NKGyFoAHV3f39SC6JF7GtQ3styL9+uXtQEJxUVpzWRXl1Ab2psf3nkN
+         r3t7H8/3yHB7+4N9TklNu2KpGoCI8Qanmh5kPdRtXnUEOg6gB2y9C7GKab/gdSGdRC
+         uuYI59Q5GQtA3QBVR1FoyB2Cv2ZNFJgBqVQvN57moab0Wg4IgFf504NP3ZY8EmGj2h
+         F+0IByfCCK6Waw0/0DcXD1qi+ttod+R9ikZ180f76BC4qwqq6U8c0CAqqd7xHNOUp0
+         TuATC68NO/mcg==
+Date:   Mon, 28 Aug 2023 19:46:58 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linuxtv-ci@linuxtv.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [ANN] Introducing build scripts to test
+Message-ID: <20230828194658.53c3d75c@sal.lan>
+In-Reply-To: <f61cc313-4c5f-46e0-3374-05cf3907f68a@xs4all.nl>
+References: <18989016-6392-a77b-6cf7-1223c9161def@xs4all.nl>
+        <fcag2mca7wkmujw5se5km5da4ns7cxnle3yn7jlu2ca4j2buoy@nxkvnvq4d6y4>
+        <f61cc313-4c5f-46e0-3374-05cf3907f68a@xs4all.nl>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230823104444.1954663-4-bryan.odonoghue@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bryan,
+Em Mon, 28 Aug 2023 16:14:56 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-Thank you for the patch.
-
-On Wed, Aug 23, 2023 at 11:44:32AM +0100, Bryan O'Donoghue wrote:
-> Pass the bandwidth table as a platform parameter not if/else derived
-> pointer to the static table.
+> Hi Jacopo,
 > 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/qcom/camss/camss.c | 29 +++++++----------------
->  drivers/media/platform/qcom/camss/camss.h |  3 ++-
->  2 files changed, 11 insertions(+), 21 deletions(-)
+> On 28/08/2023 16:05, Jacopo Mondi wrote:
+> > Hi Hans
+> > 
+> > On Mon, Aug 28, 2023 at 03:29:41PM +0200, Hans Verkuil wrote:  
+> >> Hi all,
+> >>
+> >> We have been working on simplifying the media maintenance, and one part of that is
+> >> standardizing on build tools, in particular to make it easier for patch submitters
+> >> to run their patches through the same set of tests that the daily build does.
+> >>
+> >> This helps detect issues before you submit your patches.
+> >>
+> >> I have been working since July on transforming my hackish scripts to something
+> >> that is easier to use and of better quality. While there are still a few rough
+> >> edges, I consider it good enough to have others start to use it.
+> >>
+> >> To get the build scripts run:
+> >>
+> >> git clone git://linuxtv.org/hverkuil/build-scripts.git
+> >>
+> >> All the test builds will happen within this directory. It is completely separate
+> >> from where you do you normal development, instead you point it to where your
+> >> git repository is.
+> >>
+> >> See the README contained in the build-scripts git repo for all the details on
+> >> how to set it up.
+> >>  
+> > 
+> > I've been using your scripts since after ELC-E and I can tell they're
+> > useful!
+> >   
+> >> Currently the scripts expect a debian 12-based distro (likely debian 11 will work
+> >> as well). I have no idea if it works well on Red Hat or Suse. If you use one of
+> >> those distros, and you get it to work, then a patch updating the README file with
+> >> the correct list of packages to install would be welcome.
+> >>  
+> > 
+> > Speaking about distros, I was wondering if you still consider a
+> > requirement to build all compiler or we should instead try to use the
+> > distro provided ones when possible to test the distro-shipped version
+> > ?  
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 82e679c8ca011..9a15f2253aa20 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -1485,21 +1485,15 @@ static int camss_configure_pd(struct camss *camss)
->  static int camss_icc_get(struct camss *camss)
->  {
->  	const struct resources_icc *icc_res;
-> -	int nbr_icc_paths = 0;
->  	int i;
->  
-> -	if (camss->version == CAMSS_8250) {
-> -		icc_res = &icc_res_sm8250[0];
-> -		nbr_icc_paths =	ICC_SM8250_COUNT;
-> -	}
-> +	icc_res = camss->res->icc_res;
->  
-> -	for (i = 0; i < nbr_icc_paths; i++) {
-> +	for (i = 0; i < camss->res->icc_path_num; i++) {
->  		camss->icc_path[i] = devm_of_icc_get(camss->dev,
->  						     icc_res[i].name);
->  		if (IS_ERR(camss->icc_path[i]))
->  			return PTR_ERR(camss->icc_path[i]);
-> -
-> -		camss->icc_bw_tbl[i] = icc_res[i].icc_bw_tbl;
->  	}
->  
->  	return 0;
-> @@ -1737,6 +1731,8 @@ static const struct camss_resources sm8250_resources = {
->  	.csiphy_res = csiphy_res_8250,
->  	.csid_res = csid_res_8250,
->  	.vfe_res = vfe_res_8250,
-> +	.icc_res = icc_res_sm8250,
-> +	.icc_path_num = ARRAY_SIZE(icc_res_sm8250),
->  };
->  
->  static const struct of_device_id camss_dt_match[] = {
-> @@ -1753,14 +1749,10 @@ MODULE_DEVICE_TABLE(of, camss_dt_match);
->  static int __maybe_unused camss_runtime_suspend(struct device *dev)
->  {
->  	struct camss *camss = dev_get_drvdata(dev);
-> -	int nbr_icc_paths = 0;
->  	int i;
->  	int ret;
->  
-> -	if (camss->version == CAMSS_8250)
-> -		nbr_icc_paths =	ICC_SM8250_COUNT;
-> -
-> -	for (i = 0; i < nbr_icc_paths; i++) {
-> +	for (i = 0; i < camss->res->icc_path_num; i++) {
->  		ret = icc_set_bw(camss->icc_path[i], 0, 0);
->  		if (ret)
->  			return ret;
-> @@ -1772,17 +1764,14 @@ static int __maybe_unused camss_runtime_suspend(struct device *dev)
->  static int __maybe_unused camss_runtime_resume(struct device *dev)
->  {
->  	struct camss *camss = dev_get_drvdata(dev);
-> -	int nbr_icc_paths = 0;
-> +	const struct resources_icc *icc_res = camss->res->icc_res;
->  	int i;
->  	int ret;
->  
-> -	if (camss->version == CAMSS_8250)
-> -		nbr_icc_paths =	ICC_SM8250_COUNT;
-> -
-> -	for (i = 0; i < nbr_icc_paths; i++) {
-> +	for (i = 0; i < camss->res->icc_path_num; i++) {
->  		ret = icc_set_bw(camss->icc_path[i],
-> -				 camss->icc_bw_tbl[i].avg,
-> -				 camss->icc_bw_tbl[i].peak);
-> +				 icc_res[i].icc_bw_tbl.avg,
-> +				 icc_res[i].icc_bw_tbl.peak);
->  		if (ret)
->  			return ret;
->  	}
-> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-> index f632ee49ad83e..988c313b63551 100644
-> --- a/drivers/media/platform/qcom/camss/camss.h
-> +++ b/drivers/media/platform/qcom/camss/camss.h
-> @@ -84,6 +84,8 @@ struct camss_resources {
->  	const struct resources *csid_res;
->  	const struct resources *ispif_res;
->  	const struct resources *vfe_res;
-> +	const struct resources_icc *icc_res;
-> +	const int icc_path_num;
->  };
->  
->  struct camss {
-> @@ -105,7 +107,6 @@ struct camss {
->  	struct device **genpd;
->  	struct device_link **genpd_link;
->  	struct icc_path *icc_path[ICC_SM8250_COUNT];
-> -	struct icc_bw_tbl icc_bw_tbl[ICC_SM8250_COUNT];
->  	const struct camss_resources *res;
->  };
->  
+> I strongly believe we should build the cross compilers. The reason is that
+> otherwise you get a wide variety of compiler versions, each with typically
+> different compiler warnings. It's a pain for a developer to see different
+> warnings than the person that merges those patches.
 
--- 
-Regards,
+I disagree. We don't want to break build for any supported compiler version. 
+With Werror enabled, this can be tough. So, having people using different
+versions is actually a good thing.
 
-Laurent Pinchart
+> It's a a regular problem that the daily build sees different warnings than
+> you do locally with the distro's compiler.
+
+Sparse (or smatch) will produce different warnings anyway, even with the
+same version, depending on how many times you run it, and if you create
+a database or not.
+
+> 
+> Doing it this way also makes it easier to upgrade to the latest compiler
+> version, certainly quicker than a distro would do.
+
+Usually, Fedora is very quick upgrading to the latest compiler. Yet,
+I don't think this should be the main goal. I bet people will be a lot
+pickier if we break compilation against a gcc version on Ubuntu,
+Suse, Fedora and variants than if you break compilation about an upcoming
+gcc version that are used by just a bunch of early testers.
+
+Btw, there are early testers for both gcc and clang that periodically
+test them during compilers -rc stages. They'll likely identify issues
+before us (as it already happened in the past).
+
+> 
+> It's about reproducibility, really.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> >   
+> >> Please note that running the regression tests using virtme-ng is currently only
+> >> supported on Debian 12, not on e.g. Ubuntu. Someone is looking into that, and
+> >> hopefully we can support that in the future. Running regressions tests are
+> >> primarily useful when making changes to core frameworks and public APIs, and
+> >> it is possible to run them manually (see the README).
+> >>
+> >> Since running this locally can take a fair amount of time, we hope to have
+> >> build servers available in the future so this can be offloaded.
+> >>
+> >> To give an idea of the expected build times:
+> >>
+> >> On an AMD Ryzen 9 6900HX (8 cores) a standard build of the staging tree
+> >> (build.sh -test all) takes 39 minutes.
+> >>
+> >> On an AMD Ryzen Threadripper 3970X (32 cores) it takes a bit over 13 minutes.
+> >>
+> >> Regards,
+> >>
+> >> 	Hans
+> >>
+> >> _______________________________________________
+> >> linuxtv-ci mailing list
+> >> linuxtv-ci@linuxtv.org
+> >> https://www.linuxtv.org/cgi-bin/mailman/listinfo/linuxtv-ci  
+> 
+> 
+> _______________________________________________
+> linuxtv-ci mailing list
+> linuxtv-ci@linuxtv.org
+> https://www.linuxtv.org/cgi-bin/mailman/listinfo/linuxtv-ci
