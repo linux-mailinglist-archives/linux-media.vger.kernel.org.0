@@ -2,101 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1BCA78A6C0
-	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 09:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9901178A864
+	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 10:59:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbjH1Hsd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Aug 2023 03:48:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52376 "EHLO
+        id S229498AbjH1I6s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Aug 2023 04:58:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbjH1HsS (ORCPT
+        with ESMTP id S229616AbjH1I6X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Aug 2023 03:48:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325FB114;
-        Mon, 28 Aug 2023 00:48:16 -0700 (PDT)
-Received: from ideasonboard.com (mob-5-91-19-240.net.vodafone.it [5.91.19.240])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D98D1E51;
-        Mon, 28 Aug 2023 09:46:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693208813;
-        bh=ePUh+9FFj0l+5PveCc6ydNu/nAlr4VfwDuWCBVWfhAM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XRlET+jAH6tyW5sxN6T/qsGqpTGSXoiYIm/TiQdnGCEfBSBCoQS3zL5VjJSJY9p16
-         0QJodWOb2SciAO0uYUy3EhJmPqOm49p1i+i3jrzpIGRIx4ih3D5CywAi+j/fd80n0J
-         Dc6jaTDdIeuExITtPupeeymV0EgxipaELnwVms4s=
-Date:   Mon, 28 Aug 2023 09:48:10 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Mon, 28 Aug 2023 04:58:23 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD4AF3;
+        Mon, 28 Aug 2023 01:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693213100; x=1724749100;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=LD+hCR4+svTbTb5graAPaOfi6+hwkpB7DJZjCWCAi9s=;
+  b=aA4YUymZH1B+rnWYRCdBAeOxZl3/dcUDKGG1GFnc94t5UeQytZkP95rV
+   1QUSpbEfK6v9fXIw70JXrDMJGa5xSCt/JEtU6+3Y3378OUxN8GdyOdcVY
+   QZtJCZsI6bDnA22ab5f8ZIfVYNlRRnTL9mdqtPSYjyhz0nX+Fz1HNIMOk
+   Fh9VWheDmGP83Pz7DkfF6dRrI10lXqvfdIMHe3h+GPWj2Gix2SQnOUS+j
+   XBpEMtipY/1DUk+hpSVFwfWNIoTyqXGO7MjTpG1GWzVRlOraPF1RoUQrC
+   k3JL6GN0n+dSY21+ax1IOo7d5QXUPmj4ZAZgRZpA6LPRsyL4uN+rWefUi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="461424401"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="461424401"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 01:58:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="741311029"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="741311029"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 01:58:18 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 0230311F871;
+        Mon, 28 Aug 2023 11:58:15 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1qaY3s-00GPmN-0I;
+        Mon, 28 Aug 2023 11:57:28 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: rdacm2: Remove an incorrect
- fwnode_handle_put() call
-Message-ID: <zijwh5kcrfsg4q4pmxtkzia7tdpg4wnau53npe2y2xe4j7n7wy@zqwigtmyftu3>
-References: <d9230082aefcb7bab6363c51c08598eb5ab62cfc.1693037086.git.christophe.jaillet@wanadoo.fr>
+Cc:     Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Wentong Wu <wentong.wu@intel.com>
+Subject: [PATCH 1/1] media: ivsc: Depend on VIDEO_DEV
+Date:   Mon, 28 Aug 2023 11:57:18 +0300
+Message-Id: <20230828085718.3912335-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d9230082aefcb7bab6363c51c08598eb5ab62cfc.1693037086.git.christophe.jaillet@wanadoo.fr>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christophe
+CONFIG_VIDEO_DEV is required by other selected symbols. Depend on it.
 
-On Sat, Aug 26, 2023 at 10:05:06AM +0200, Christophe JAILLET wrote:
-> The commit in Fixes has removed an fwnode_handle_put() call in the error
-> handling path of the probe.
->
-> Remove the same call from the remove function.
->
-> Fixes: 1029939b3782 ("media: v4l: async: Simplify async sub-device fwnode matching")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Fixes: 29006e196a56 ("media: pci: intel: ivsc: Add CSI submodule")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/pci/intel/ivsc/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+diff --git a/drivers/media/pci/intel/ivsc/Kconfig b/drivers/media/pci/intel/ivsc/Kconfig
+index e9ecd0bd99bd..0acea4678fc0 100644
+--- a/drivers/media/pci/intel/ivsc/Kconfig
++++ b/drivers/media/pci/intel/ivsc/Kconfig
+@@ -3,7 +3,7 @@
+ 
+ config INTEL_VSC
+ 	tristate "Intel Visual Sensing Controller"
+-	depends on INTEL_MEI && ACPI
++	depends on INTEL_MEI && ACPI && VIDEO_DEV
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select V4L2_ASYNC
+-- 
+2.39.2
 
-> ---
-> /!\   This patch is highly speculative. Review with care.   /!\
->
-> If it is correct, it is likely that other similar issue lurk in commit
-> 1029939b3782. I've not looked in detail and my cocci script did not
-> trigger on them but drivers/media/i2c/max9286.c also looks like a
-> similar candidate.
-
-I think the call to  fwnode_handle_put(priv->sd.fwnode) in
-max9286_v4l2_unregister() can indeed be removed, yes!
-
-Thanks
-  j
-
-> ---
->  drivers/media/i2c/rdacm21.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> index a36a709243fd..3e22df36354f 100644
-> --- a/drivers/media/i2c/rdacm21.c
-> +++ b/drivers/media/i2c/rdacm21.c
-> @@ -608,7 +608,6 @@ static void rdacm21_remove(struct i2c_client *client)
->  	v4l2_async_unregister_subdev(&dev->sd);
->  	v4l2_ctrl_handler_free(&dev->ctrls);
->  	i2c_unregister_device(dev->isp);
-> -	fwnode_handle_put(dev->sd.fwnode);
->  }
->
->  static const struct of_device_id rdacm21_of_ids[] = {
-> --
-> 2.34.1
->
