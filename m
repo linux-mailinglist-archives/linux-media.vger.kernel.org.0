@@ -2,150 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0524678C037
-	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 10:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C15078C1DA
+	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 11:57:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233228AbjH2I0j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Aug 2023 04:26:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32908 "EHLO
+        id S232965AbjH2J4q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Aug 2023 05:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234179AbjH2I0i (ORCPT
+        with ESMTP id S235120AbjH2J4h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Aug 2023 04:26:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE89118D;
-        Tue, 29 Aug 2023 01:26:28 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33B842B3;
-        Tue, 29 Aug 2023 10:25:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693297505;
-        bh=GkLtZxBKd6tNduywTWUucqaPaMBBxTSF9iM8hiFHiEk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Xt5YEJ1beoWI8tslseMTxsEVNrfTEQuJLeZBgnNdi6LSCe7ZNX2SbVshSDZu22zdH
-         7p/rZUP63qv+/gOUhzARJYgom30VzDkeWRIGIUvbImmbFOmqAxTdnc34drDSRAndbw
-         tcfRkqKA5rOYTRKz/fhWJH7s6q2aJG1Au+pURIIQ=
-Date:   Tue, 29 Aug 2023 11:26:35 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alain Volmat <alain.volmat@foss.st.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        devicetree@vger.kernel.org,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [Linux-stm32] [PATCH v1 3/5] media: stm32-dcmipp: STM32 DCMIPP
- camera interface driver
-Message-ID: <20230829082635.GC4698@pendragon.ideasonboard.com>
-References: <20220910144010.34272-1-hugues.fruchet@foss.st.com>
- <20220910144010.34272-4-hugues.fruchet@foss.st.com>
- <ZNC5k3PynnEWL/ou@kekkonen.localdomain>
- <20230824110934.GA18226@gnbcxd0016.gnb.st.com>
- <ZOdMghQXfNgKZ6cN@kekkonen.localdomain>
- <20230824130432.GB27092@pendragon.ideasonboard.com>
- <20230824160506.GA21560@gnbcxd0016.gnb.st.com>
+        Tue, 29 Aug 2023 05:56:37 -0400
+Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 363591BF
+        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 02:56:09 -0700 (PDT)
+Received: by mail-vk1-xa31.google.com with SMTP id 71dfb90a1353d-48d0e332f4dso1293688e0c.2
+        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 02:56:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1693302968; x=1693907768;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5IRJcJ6Kn6IrPrlciJpal4Z2erzVO0JSWl9XCaFGg6M=;
+        b=hRS8yHa1TF5UnDGu8y6p1Z17pZom+zQLI+J8f/xCe/sND9orEflp369HXKsGHAy2bU
+         1ez9tHebUjlz6IgPeEhrKv9tvJjYkB2fUa8gG5lsLf7rfQKkUdDXFE9DRLeUQMuRDjmy
+         WAsCSO5E246GyQ33i4/WebYP+05NjprUDPGUL30BdkQv1akDawuGR1wyP/ruoHTZ1hBz
+         BsZ6yOT7M0hsrHFB4t+FJyJLQmAdmxmJmY0I9pIXu/cncPp3xakxrAtWaZLg699+2yTi
+         gH8Vln7DMadSBGidfZ7EB2HLYQVM0DKD2X+phPdUfRvfwh+cGSF/V7M4GzJ4lI+Di9RE
+         7f1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693302968; x=1693907768;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5IRJcJ6Kn6IrPrlciJpal4Z2erzVO0JSWl9XCaFGg6M=;
+        b=dY9ZTOcZCa2vK4/ZuxbvYQ4UgkWjWp27Bpr1zSzujt0GmYm1ycVW+DQYzlKSigO1k1
+         JESHJ66Jd8uYThgukreeBy3GW8YZYrOMIFKtaoDVo71+Nn4c0tTAII9VawlGk89IsFMW
+         eTmaqEgcyUML0+xxHwpuTbxrwkxjbpuiBdt18geouStoT5MMuCfm7wTbX9DYaJmPdvXe
+         m/RrV/cRYvbVfrHUc+hNc1tvVc83bSLua3x1CqGDjKTCVA5apvCpCiHtMt2ppykKfzpJ
+         yoLQ5LNwABmD18yPLJNunC/uE6OPVUoq7gbW3HJWU5B9SD9wKEEzMv2uaWIChZFpVmce
+         32EQ==
+X-Gm-Message-State: AOJu0YzilPCEdXtb4tpI/YK4JymrWBNOVUy1mQtaR6xmmR/WgAKPcJg8
+        pLpJtgTE/bSu5drK+Ldxs0LoCVNZ2fRjFYDXW490/g==
+X-Google-Smtp-Source: AGHT+IEhrkSx0sXKUnegfKrxSyr2YC08Q2lJPNwHjqQs+BPZc8/+A+mYXKfPr/KM6krX6/5mddzh7Mfh9a3ntatLMx4=
+X-Received: by 2002:a1f:dac4:0:b0:48f:9778:2ba2 with SMTP id
+ r187-20020a1fdac4000000b0048f97782ba2mr18600673vkg.5.1693302968057; Tue, 29
+ Aug 2023 02:56:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230824160506.GA21560@gnbcxd0016.gnb.st.com>
+References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com> <20230821223001.28480-10-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230821223001.28480-10-laurent.pinchart@ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 29 Aug 2023 10:55:53 +0100
+Message-ID: <CAPY8ntCaT5X5E5PKM4C-8uQumBbqr3FRG5aD+trcrF087jbNNQ@mail.gmail.com>
+Subject: Re: [PATCH v2 09/18] media: i2c: imx219: Infer binning settings from
+ format and crop
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 06:05:06PM +0200, Alain Volmat wrote:
-> Hi Laurent,
-> 
-> On Thu, Aug 24, 2023 at 04:04:32PM +0300, Laurent Pinchart wrote:
-> > On Thu, Aug 24, 2023 at 12:26:42PM +0000, Sakari Ailus wrote:
-> > > On Thu, Aug 24, 2023 at 01:09:34PM +0200, Alain Volmat wrote:
-> > > > Hi Sakari,
-> > > > 
-> > > > thanks a lot for the review.  I've already taken care of the comments I got
-> > > > from Dan and will also add fixes for your comments as well before
-> > > > pushing the v2.  Before going into that I thought I'd better clarify the
-> > > > framerate part which seems the most tricky part.
-> > > > 
-> > > > On Mon, Aug 07, 2023 at 09:29:55AM +0000, Sakari Ailus wrote:
-> > > 
-> > > ...
-> > > 
-> > > > > > +static int dcmipp_byteproc_g_frame_interval(struct v4l2_subdev *sd,
-> > > > > > +					    struct v4l2_subdev_frame_interval *fi)
-> > > > > > +{
-> > > > > > +	struct dcmipp_byteproc_device *byteproc = v4l2_get_subdevdata(sd);
-> > > > > > +
-> > > > > > +	if (IS_SINK(fi->pad))
-> > > > > > +		fi->interval = byteproc->sink_interval;
-> > > > > > +	else
-> > > > > > +		fi->interval = byteproc->src_interval;
-> > > > > > +
-> > > > > > +	return 0;
-> > > > > > +}
-> > > > > > +
-> > > > > > +static int dcmipp_byteproc_s_frame_interval(struct v4l2_subdev *sd,
-> > > > > > +					    struct v4l2_subdev_frame_interval *fi)
-> > > > > > +{
-> > > > > > +	struct dcmipp_byteproc_device *byteproc = v4l2_get_subdevdata(sd);
-> > > > > > +
-> > > > > > +	mutex_lock(&byteproc->lock);
-> > > > > > +
-> > > > > > +	if (byteproc->streaming) {
-> > > > > > +		mutex_unlock(&byteproc->lock);
-> > > > > > +		return -EBUSY;
-> > > > > > +	}
-> > > > > > +
-> > > > > > +	if (fi->interval.numerator == 0 || fi->interval.denominator == 0)
-> > > > > > +		fi->interval = byteproc->sink_interval;
-> > > > > > +
-> > > > > > +	if (IS_SINK(fi->pad)) {
-> > > > > > +		/*
-> > > > > > +		 * Setting sink frame interval resets frame skipping.
-> > > > > > +		 * Sink frame interval is propagated to src.
-> > > > > > +		 */
-> > > > > > +		byteproc->frate = 0;
-> > > > > > +		byteproc->sink_interval = fi->interval;
-> > > > > > +		byteproc->src_interval = byteproc->sink_interval;
-> > > > > 
-> > > > > Is this used for anything else than configure skipping?
-> > > > > 
-> > > > > I think I'd just have a control for it in that case.
-> > > > > 
-> > > > > I don't think exposing frame interval configuration is necessarily even
-> > > > > meaningful for a device that just processes data but does not produce it.
-> > > > 
-> > > > The DCMIPP is able to perform frame drop, 1/2, 1/4, 1/8 basically.
-> > > > As Dan pointed me out, indeed setting frame interval as we did on both
-> > > > sink and source pad isn't a defined behavior.  I first thought that
-> > > > using the frame interval was the proper way to do that but that is
-> > > > indeed only used on producers such as sensors ....
-> > > > Which ctrl would you propose in such case ?
-> > > 
-> > > We don't have one, AFAIK, and I think it may be unlikely this will be
-> > > needed elsewhere. So I'd use a private control.
-> > > 
-> > > I wonder what others think. Cc Laurent as well.
-> > 
-> > What are the use cases for this feature ?
-> 
-> This is basically to allow reducing the framerate of the
-> captured stream when this is not possible at the producer
-> (sensor) level and we need to lower down the stress on elements down the
-> pipeline.
+Hi Laurent
 
-I wonder if the frame interval API is a good fit for this. The driver
-accepts frame rates of 1, 2, 4 and 8 fps and maps them to the
-corresponding decimation factor, these values are not the actual frame
-rate.
+Sorry for the delay in reviewing these ones - I got lost in the subdev
+state stuff and the magic associated with "which" changing the state
+passed in.
 
--- 
-Regards,
+On Mon, 21 Aug 2023 at 23:30, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Compare the format and crop rectangle dimensions to infer binning
+> settings, instead of storing the binning mode in the imx219_mode
+> structure. This removes duplicate information from the mode.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Laurent Pinchart
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> ---
+>  drivers/media/i2c/imx219.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 1205986ce47e..0c26cbfe58f3 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -161,9 +161,6 @@ struct imx219_mode {
+>
+>         /* V-timing */
+>         unsigned int vts_def;
+> -
+> -       /* 2x2 binning is used */
+> -       bool binning;
+>  };
+>
+>  static const struct cci_reg_sequence imx219_common_regs[] = {
+> @@ -306,7 +303,6 @@ static const struct imx219_mode supported_modes[] = {
+>                         .height = 2464
+>                 },
+>                 .vts_def = IMX219_VTS_15FPS,
+> -               .binning = false,
+>         },
+>         {
+>                 /* 1080P 30fps cropped */
+> @@ -319,7 +315,6 @@ static const struct imx219_mode supported_modes[] = {
+>                         .height = 1080
+>                 },
+>                 .vts_def = IMX219_VTS_30FPS_1080P,
+> -               .binning = false,
+>         },
+>         {
+>                 /* 2x2 binned 30fps mode */
+> @@ -332,7 +327,6 @@ static const struct imx219_mode supported_modes[] = {
+>                         .height = 2464
+>                 },
+>                 .vts_def = IMX219_VTS_30FPS_BINNED,
+> -               .binning = true,
+>         },
+>         {
+>                 /* 640x480 30fps mode */
+> @@ -345,7 +339,6 @@ static const struct imx219_mode supported_modes[] = {
+>                         .height = 960
+>                 },
+>                 .vts_def = IMX219_VTS_30FPS_640x480,
+> -               .binning = true,
+>         },
+>  };
+>
+> @@ -648,7 +641,7 @@ static int imx219_set_framefmt(struct imx219 *imx219,
+>         cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
+>                   crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
+>
+> -       if (!imx219->mode->binning)
+> +       if (format->width == crop->width && format->height == crop->height)
+>                 bin_mode = IMX219_BINNING_NONE;
+>         else if (bpp == 8)
+>                 bin_mode = IMX219_BINNING_2X2_ANALOG;
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
