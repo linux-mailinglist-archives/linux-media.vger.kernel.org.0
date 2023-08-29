@@ -2,201 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54D8B78C735
-	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 16:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A64F178C7B2
+	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 16:37:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236109AbjH2OSI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Aug 2023 10:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43594 "EHLO
+        id S234589AbjH2Ogd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Aug 2023 10:36:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236783AbjH2ORx (ORCPT
+        with ESMTP id S236938AbjH2OgF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Aug 2023 10:17:53 -0400
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9203CF7;
-        Tue, 29 Aug 2023 07:17:49 -0700 (PDT)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37TC0c4Q012262;
-        Tue, 29 Aug 2023 16:17:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=selector1; bh=kp0YOE09RKKEmrhUW9St1
-        nqG8EmHj1OTHO3cGIKN36M=; b=Vc1SXe1tiL39xXTwA40io/hIVRy5KlSmkRXfT
-        cTdsGiIJRqn1KfAxf4reXX4vz2W/eUB4rZntXJzF5slahxVrG+lXEef0iadmrBAo
-        Rep4G1QuuXUs+pv8i066NH8iZL/FHTUTDfnmVwIYYpI2EqKyJIIg3aJwydSnrzu+
-        gUC34gLGGuY/hSlaEB43lsriD6ipzpTbvbjD0pL/vn2OztppENPg4TDOd+NlD6gq
-        e/5C4aks7JvXG0ymuVRy0mdh0S60Hp3HqCGApwc+mLk6vSXIuxbZFbz+9E4l9q1+
-        oMdCXLOT7aIcDujG5jGKZ++0wBEVepHUrkzmA7ACbkDEpqb1g==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3sqvbha7pt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Aug 2023 16:17:34 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0984610005E;
-        Tue, 29 Aug 2023 16:17:34 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EDC2B22FA2C;
-        Tue, 29 Aug 2023 16:17:33 +0200 (CEST)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 29 Aug
- 2023 16:17:33 +0200
-Date:   Tue, 29 Aug 2023 16:17:28 +0200
-From:   Alain Volmat <alain.volmat@foss.st.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        <devicetree@vger.kernel.org>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        <linux-kernel@vger.kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>
-Subject: Re: [Linux-stm32] [PATCH v1 3/5] media: stm32-dcmipp: STM32 DCMIPP
- camera interface driver
-Message-ID: <20230829141623.GA193536@gnbcxd0016.gnb.st.com>
-Mail-Followup-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        devicetree@vger.kernel.org,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20220910144010.34272-1-hugues.fruchet@foss.st.com>
- <20220910144010.34272-4-hugues.fruchet@foss.st.com>
- <ZNC5k3PynnEWL/ou@kekkonen.localdomain>
- <20230824110934.GA18226@gnbcxd0016.gnb.st.com>
- <ZOdMghQXfNgKZ6cN@kekkonen.localdomain>
- <20230824130432.GB27092@pendragon.ideasonboard.com>
- <20230824160506.GA21560@gnbcxd0016.gnb.st.com>
- <20230829082635.GC4698@pendragon.ideasonboard.com>
+        Tue, 29 Aug 2023 10:36:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF8798;
+        Tue, 29 Aug 2023 07:36:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DEFF06332B;
+        Tue, 29 Aug 2023 14:36:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5489C433C7;
+        Tue, 29 Aug 2023 14:35:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693319761;
+        bh=0l/TKkMM8cuZW7T9AiQkiMQpBOPt3D2MfDWScmErUpI=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=SxI4UVN6zd3vpqlraRiTv8SSelrtWFwZK1lWalU4lFc6HxtBTCz6/n/QfDBzs1zGD
+         Htfn2hJ064dsdOq98TzXB54IYuQr6LJilpamQGNPXy6OEQpxDDzfNQl6f3Dju5Ne62
+         yaRh5SnEWGqDGuuKmIzJYN8kwd6ccHfuUQ1s124ERiy+FUpf+rMOcmku3W31HceycK
+         jk1jDiGshfrO9E3dDhdRLgrnJgvGhGnQLjrGyl19dYEHRahOio8DCSNZRY8qA9/VuF
+         TrHJDS2h23X6u1se3YyfWcRXamsWkhzdVE7fhFCA8iYPClWlV2KN762Ecg29WX5QFg
+         sjqY2TeC/ydag==
+Received: (nullmailer pid 2142027 invoked by uid 1000);
+        Tue, 29 Aug 2023 14:35:58 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230829082635.GC4698@pendragon.ideasonboard.com>
-X-Disclaimer: ce message est personnel / this message is private
-X-Originating-IP: [10.129.178.213]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-29_11,2023-08-29_01,2023-05-22_02
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+From:   Rob Herring <robh@kernel.org>
+To:     Alain Volmat <alain.volmat@foss.st.com>
+Cc:     Dan Scally <dan.scally@ideasonboard.com>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>
+In-Reply-To: <20230829132357.192535-2-alain.volmat@foss.st.com>
+References: <20230829132357.192535-1-alain.volmat@foss.st.com>
+ <20230829132357.192535-2-alain.volmat@foss.st.com>
+Message-Id: <169331975827.2141970.16841461499129826658.robh@kernel.org>
+Subject: Re: [PATCH v2 1/5] dt-bindings: media: add bindings for dcmipp
+ driver
+Date:   Tue, 29 Aug 2023 09:35:58 -0500
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
 
-On Tue, Aug 29, 2023 at 11:26:35AM +0300, Laurent Pinchart wrote:
-> On Thu, Aug 24, 2023 at 06:05:06PM +0200, Alain Volmat wrote:
-> > Hi Laurent,
-> > 
-> > On Thu, Aug 24, 2023 at 04:04:32PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Aug 24, 2023 at 12:26:42PM +0000, Sakari Ailus wrote:
-> > > > On Thu, Aug 24, 2023 at 01:09:34PM +0200, Alain Volmat wrote:
-> > > > > Hi Sakari,
-> > > > > 
-> > > > > thanks a lot for the review.  I've already taken care of the comments I got
-> > > > > from Dan and will also add fixes for your comments as well before
-> > > > > pushing the v2.  Before going into that I thought I'd better clarify the
-> > > > > framerate part which seems the most tricky part.
-> > > > > 
-> > > > > On Mon, Aug 07, 2023 at 09:29:55AM +0000, Sakari Ailus wrote:
-> > > > 
-> > > > ...
-> > > > 
-> > > > > > > +static int dcmipp_byteproc_g_frame_interval(struct v4l2_subdev *sd,
-> > > > > > > +					    struct v4l2_subdev_frame_interval *fi)
-> > > > > > > +{
-> > > > > > > +	struct dcmipp_byteproc_device *byteproc = v4l2_get_subdevdata(sd);
-> > > > > > > +
-> > > > > > > +	if (IS_SINK(fi->pad))
-> > > > > > > +		fi->interval = byteproc->sink_interval;
-> > > > > > > +	else
-> > > > > > > +		fi->interval = byteproc->src_interval;
-> > > > > > > +
-> > > > > > > +	return 0;
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +static int dcmipp_byteproc_s_frame_interval(struct v4l2_subdev *sd,
-> > > > > > > +					    struct v4l2_subdev_frame_interval *fi)
-> > > > > > > +{
-> > > > > > > +	struct dcmipp_byteproc_device *byteproc = v4l2_get_subdevdata(sd);
-> > > > > > > +
-> > > > > > > +	mutex_lock(&byteproc->lock);
-> > > > > > > +
-> > > > > > > +	if (byteproc->streaming) {
-> > > > > > > +		mutex_unlock(&byteproc->lock);
-> > > > > > > +		return -EBUSY;
-> > > > > > > +	}
-> > > > > > > +
-> > > > > > > +	if (fi->interval.numerator == 0 || fi->interval.denominator == 0)
-> > > > > > > +		fi->interval = byteproc->sink_interval;
-> > > > > > > +
-> > > > > > > +	if (IS_SINK(fi->pad)) {
-> > > > > > > +		/*
-> > > > > > > +		 * Setting sink frame interval resets frame skipping.
-> > > > > > > +		 * Sink frame interval is propagated to src.
-> > > > > > > +		 */
-> > > > > > > +		byteproc->frate = 0;
-> > > > > > > +		byteproc->sink_interval = fi->interval;
-> > > > > > > +		byteproc->src_interval = byteproc->sink_interval;
-> > > > > > 
-> > > > > > Is this used for anything else than configure skipping?
-> > > > > > 
-> > > > > > I think I'd just have a control for it in that case.
-> > > > > > 
-> > > > > > I don't think exposing frame interval configuration is necessarily even
-> > > > > > meaningful for a device that just processes data but does not produce it.
-> > > > > 
-> > > > > The DCMIPP is able to perform frame drop, 1/2, 1/4, 1/8 basically.
-> > > > > As Dan pointed me out, indeed setting frame interval as we did on both
-> > > > > sink and source pad isn't a defined behavior.  I first thought that
-> > > > > using the frame interval was the proper way to do that but that is
-> > > > > indeed only used on producers such as sensors ....
-> > > > > Which ctrl would you propose in such case ?
-> > > > 
-> > > > We don't have one, AFAIK, and I think it may be unlikely this will be
-> > > > needed elsewhere. So I'd use a private control.
-> > > > 
-> > > > I wonder what others think. Cc Laurent as well.
-> > > 
-> > > What are the use cases for this feature ?
-> > 
-> > This is basically to allow reducing the framerate of the
-> > captured stream when this is not possible at the producer
-> > (sensor) level and we need to lower down the stress on elements down the
-> > pipeline.
+On Tue, 29 Aug 2023 15:23:45 +0200, Alain Volmat wrote:
+> Add the yaml binding for the DCMIPP driver.
 > 
-> I wonder if the frame interval API is a good fit for this. The driver
-> accepts frame rates of 1, 2, 4 and 8 fps and maps them to the
-> corresponding decimation factor, these values are not the actual frame
-> rate.
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> ---
+>  .../bindings/media/st,stm32-dcmipp.yaml       | 95 +++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
+> 
 
-Not exactly.  The way it was done was that we allow setting frame
-interval on both sink and source pad of the subdev and compute the frame
-skip based on the those two framerates.
-As an example, if the framerate on sink pad is 1/30 and the one on the
-source pad is 1/15 we will skip half of the frames.  The frame interval
-setted via the pads were real framerates.
-The issue here is that it seems there is no such driver implementing frame
-rate adjustments in the kernel and moreover the V4L2 subdev spec says that
-frame interval control should only be done on a single pad of a subdev.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Dan proposed as an alternative to only keep the frame interval setting
-on the source pad of the subdev and have the subdev driver retrieve the
-stream framerate via inter subdev calls down to a subdev implementing the
-get frame interval.
+yamllint warnings/errors:
 
-Regards,
-Alain
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml: title: 'STMicroelectronics STM32 DCMIPP Digital Camera Memory Interface Pixel Processor binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230829132357.192535-2-alain.volmat@foss.st.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
