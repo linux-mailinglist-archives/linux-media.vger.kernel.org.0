@@ -2,99 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F5F178B89C
-	for <lists+linux-media@lfdr.de>; Mon, 28 Aug 2023 21:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6305778BC6D
+	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 03:46:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231401AbjH1TnZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Aug 2023 15:43:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51236 "EHLO
+        id S234899AbjH2BqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Aug 2023 21:46:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233540AbjH1TnW (ORCPT
+        with ESMTP id S235030AbjH2Bp7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Aug 2023 15:43:22 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD07D122
-        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 12:43:19 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-31ad779e6b3so2957688f8f.2
-        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 12:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693251798; x=1693856598;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Xt41DQFO0E5wBX3ReoViKyO+8YvvVKX5ZH0MmV7uKEE=;
-        b=nw8QQMqnU0I3O3PLLtsAB+TBiEZCgHLiszRLLXQu3wvNMAGrxy2PB5nIZsvw6JlduJ
-         KUrb9geySRuQ7IPeYmm4aac2kRDOo+vL86J882/682Sk534zn/MzBHoDFIiMTJbQSwSu
-         kC18H+wOZvYNqsmVfvoC8qtgCpZXpnyyJ61pUF+7N9mciomOj0sk5sQl2PNja1NmgkB9
-         5hd2DZRRmw28bw5ayPElAeoK90V5Yg6kcwpJJPBvYIpH2lVd84JVBPAH6J+rf5lW14WM
-         yGNMKcK05gVc2cN8oQuIZf+Sbar6uM9RqTRmOagLcVzMmiy5bNblA3+Qbk+sLhnQV0sT
-         wJiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693251798; x=1693856598;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xt41DQFO0E5wBX3ReoViKyO+8YvvVKX5ZH0MmV7uKEE=;
-        b=jD/TUuLOu8cGyCqkjX5hXoF1/VaUgAN1rbrzMSdxeMDRv5m++oAD98UyeIa1iVTyDy
-         VJxkgP2cLoNjrcmp0y1SY4oYxBXPzdbYfX8nCHB6t9xmkHvXbt9QiG0Hrun4lrh9X8ik
-         WuGfcHQn40BZPfPs3ZhELN+Exlsr4gNeCDO7tLWQm9abhiCXQ81+1px1oCk+XnkF6tG0
-         DNexNlw6EBLF/Tqv3ECDwcZwfJc/dushpsONnN8yTTFlnlGWkvosJ/Y2pjqEDHy3nexO
-         Zj0KJnX9jMq3c48s0DzUzptOCtUrvDXVUQ7PO4+zDHxjXFzBv494RLY85X1+8xOLEOJT
-         GIZA==
-X-Gm-Message-State: AOJu0YyruMMl/18NM522dwhlJpMycmtBjLvg8iKC3yhz9d855d3sxrMV
-        Ce2Af7/Su/WgSr5/cE3e0ml9ImPqcYbosyNhmLg=
-X-Google-Smtp-Source: AGHT+IFKWGeVbvZgbRjNYEzVCsVwYnw4fy+HcidNACsqMMB0KQzrVRMPWx7VfQiKE4MbxfDzYncpAg==
-X-Received: by 2002:a5d:5308:0:b0:316:f24b:597a with SMTP id e8-20020a5d5308000000b00316f24b597amr18442733wrv.46.1693251798278;
-        Mon, 28 Aug 2023 12:43:18 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id w14-20020a5d544e000000b0031c6581d55esm11407201wrv.91.2023.08.28.12.43.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 12:43:17 -0700 (PDT)
-Message-ID: <7a6222f2-a9e7-1c96-b92b-b21e6c76c205@linaro.org>
-Date:   Mon, 28 Aug 2023 20:43:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 08/15] media: qcom: camss: Untangle if/else spaghetti
- in camss
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
- <20230823104444.1954663-9-bryan.odonoghue@linaro.org>
- <20230828185110.GN14596@pendragon.ideasonboard.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230828185110.GN14596@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Mon, 28 Aug 2023 21:45:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15CFC1A2
+        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 18:45:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A666260B04
+        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 01:45:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACEA0C433C7
+        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 01:45:45 +0000 (UTC)
+Date:   Tue, 29 Aug 2023 03:45:43 +0200
+Message-ID: <052cd076f78926d8d96ba20ce0985f1c.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/08/2023 19:51, Laurent Pinchart wrote:
->> +		break;
->> +	default:
->>   		return -EINVAL;
-> This should never happen, as adding support for a new SoC should come
-> with an update for all the applicable switch/case statements. It's
-> useful to let the compiler complain if someone forgets to do so, but
-> with a default case, you will only see the issue at runtime. Could it be
-> caught at compile time ?
-> 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Off the top of my head, I don't think it could be easily caught.
+Results of the daily build of media_tree:
 
-An assert() would catch it early in runtime..
+date:			Tue Aug 29 03:00:10 CEST 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	bf01dd96201a9430372c414e2efd6cef5cdc5c51
+v4l-utils git hash:	75283d9ec59122ff52e3ccc6d59cdd6f8577ae76
+edid-decode git hash:	5f723267e04deb3aa9610483514a02bcee10d9c2
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8455-g78e3bddd
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 34cb998aab09b747e0985bd42a56e1619928d05d
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
----
-bod
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+COMPILE_TEST: WARNINGS: VIDEOBUF_GEN VIDEOBUF_DMA_SG VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 4
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
