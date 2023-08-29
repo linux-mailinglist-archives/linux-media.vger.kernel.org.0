@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30B9878BDD6
+	by mail.lfdr.de (Postfix) with ESMTP id 9EEF278BDD7
 	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 07:33:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235726AbjH2FY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Aug 2023 01:24:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35986 "EHLO
+        id S235781AbjH2FZA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Aug 2023 01:25:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235744AbjH2FYl (ORCPT
+        with ESMTP id S235750AbjH2FYo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Aug 2023 01:24:41 -0400
+        Tue, 29 Aug 2023 01:24:44 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46D3F198
-        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 22:24:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CE05198
+        for <linux-media@vger.kernel.org>; Mon, 28 Aug 2023 22:24:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693286679; x=1724822679;
+  t=1693286681; x=1724822681;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=UJW4vGbeRBFsjcVSbIjIcDp4j+qb7q2e3F+Im+sDJes=;
-  b=ZPUbKxee8AHQhjLidLqd0jH4JDmZmA2FlPPqitnMy0If9gu+2Gshch4D
-   BTvTXdzKrw8+Og7JWez2WGZyyRwPU4403o7sFXKgoD5V9i9ZTfe2rgxpO
-   a9LYwRlcpsidH2BGISbwAsuD70xxOQMBjGZb8sBl1cuTyNze63uujxAXP
-   afj91r9wcLoT2t1rO1krh54mVRhzHcGhJr9gYMriNFzmdB3BdP3sEOl/8
-   n8Ej1QJtXSzBOuR7iT4b6Dz1senAehJ+NYcs4T2qIBmBduXrSZj3NCoZJ
-   Ga43zdxivIwOm1xARqdYt98RncgQBKyk/n40bW7lIrfF3BWAuVIlghku6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="354792616"
+  bh=1f0RgzpA0h99w+S9RZCzdmHxXCKbrvYqy6tXUg+zwPg=;
+  b=VoP7mkesHqmbr3Wd55NAg6DcjJNBV5UoK1ajqqj6JlZUWQ1sgn/pFJ8I
+   9YFVOwoHGTmQtFj2q3P5mgIjm9OW/3CxoLWyWM/NtRxXSP1hOkT6sY6ZZ
+   mVp+7h6fF+jo/TNJ2fBOy/6ArMfA8YslAEGb/cL0qtZxRfCFVl4yse4bD
+   6p4JBT1do5SYWKffR6L8ErXumXN8Pijvtp45L7n8N2XlRuW3XuRn1S576
+   6pfdymmaNRz3G2fr68qBPr+g/pTvmewWIvBQn1C0G0EoVXgva27NkWspN
+   Z7PiEd9tPd3e4uyDx4Hur2JZIItGGc/0U8DkOasaGkciWjCsP9e1dzcdG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="354792623"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="354792616"
+   d="scan'208";a="354792623"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:24:39 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:24:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="688370908"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="688370918"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="688370908"
+   d="scan'208";a="688370918"
 Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
-  by orsmga003.jf.intel.com with ESMTP; 28 Aug 2023 22:24:37 -0700
+  by orsmga003.jf.intel.com with ESMTP; 28 Aug 2023 22:24:39 -0700
 From:   Wentong Wu <wentong.wu@intel.com>
 To:     sakari.ailus@linux.intel.com, linux-media@vger.kernel.org
 Cc:     zhifeng.wang@intel.com, Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v4 2/3] media: ivsc: ace: remove name identifier
-Date:   Tue, 29 Aug 2023 13:24:27 +0800
-Message-Id: <1693286668-13055-3-git-send-email-wentong.wu@intel.com>
+Subject: [PATCH v4 3/3] media: ivsc: ace: probe ace device after IPU bridge is initialized.
+Date:   Tue, 29 Aug 2023 13:24:28 +0800
+Message-Id: <1693286668-13055-4-git-send-email-wentong.wu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1693286668-13055-1-git-send-email-wentong.wu@intel.com>
 References: <1693286668-13055-1-git-send-email-wentong.wu@intel.com>
@@ -57,44 +57,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove name identifier to match the device with the
-defined UUID when load driver module.
+During probe ivsc ace device, acpi_dev_clear_dependencies() will be
+called to clear the consumer and supplier relationship between camera
+sensor device and ivsc device. But IPU bridge will setup the connection
+swnodes for ivsc device and camera sensor device based on this consumer
+and supplier relationship. This patch defers ivsc ace's probe to make
+sure IPU bridge is initialized before this consumer and supplier
+relationship between camera sensor device and IVSC device is cleared.
 
 Signed-off-by: Wentong Wu <wentong.wu@intel.com>
 ---
- drivers/media/pci/intel/ivsc/mei_ace.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/pci/intel/ivsc/mei_ace.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/media/pci/intel/ivsc/mei_ace.c b/drivers/media/pci/intel/ivsc/mei_ace.c
-index bc37f6d..7879f1f 100644
+index 7879f1f..627ec40 100644
 --- a/drivers/media/pci/intel/ivsc/mei_ace.c
 +++ b/drivers/media/pci/intel/ivsc/mei_ace.c
-@@ -30,8 +30,6 @@
- #include <linux/uuid.h>
- #include <linux/workqueue.h>
+@@ -406,6 +406,9 @@ static int mei_ace_setup_dev_link(struct mei_ace *ace)
+ 	if (!csi_dev) {
+ 		ret = -EPROBE_DEFER;
+ 		goto err;
++	} else if (!dev_fwnode(csi_dev)) {
++		ret = -EPROBE_DEFER;
++		goto err_put;
+ 	}
  
--#define	MEI_ACE_DRIVER_NAME	"ivsc_ace"
--
- /* indicating driver message */
- #define	ACE_DRV_MSG		1
- /* indicating set command */
-@@ -554,14 +552,14 @@ static const struct dev_pm_ops mei_ace_pm_ops = {
- 			     0x9B, 0x78, 0x03, 0x61, 0x63, 0x5E, 0x24, 0x47)
- 
- static const struct mei_cl_device_id mei_ace_tbl[] = {
--	{ MEI_ACE_DRIVER_NAME, MEI_ACE_UUID, MEI_CL_VERSION_ANY },
-+	{ .uuid = MEI_ACE_UUID, .version = MEI_CL_VERSION_ANY },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(mei, mei_ace_tbl);
- 
- static struct mei_cl_driver mei_ace_driver = {
- 	.id_table = mei_ace_tbl,
--	.name = MEI_ACE_DRIVER_NAME,
-+	.name = KBUILD_MODNAME,
- 
- 	.probe = mei_ace_probe,
- 	.remove = mei_ace_remove,
+ 	/* setup link between mei_ace and mei_csi */
 -- 
 2.7.4
 
