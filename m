@@ -2,142 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC08378C1EA
-	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 12:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F93F78C21E
+	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 12:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234818AbjH2KDo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Aug 2023 06:03:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55794 "EHLO
+        id S233053AbjH2KPc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Aug 2023 06:15:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234604AbjH2KDW (ORCPT
+        with ESMTP id S235058AbjH2KPI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Aug 2023 06:03:22 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E9F10E
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 03:03:19 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id 5614622812f47-3a850f07fadso3075835b6e.2
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 03:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693303398; x=1693908198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JLWqkTlNXuRNXbpkTdz35i9a7RBHR+eFx1IjM/IAypg=;
-        b=LdCMcbSsZ3UvW8tljVi3UYEYPSPI3Bew8q6SSIOdgpfPDu3meW0/W5+Ove7WSddYDL
-         CewHmiAHxoacy8hoxqnLXGc95BR03EWAWibLuwrffvQVITvYUbTz9auDy5tuv0pPNYha
-         bjTrFjDB951+U+zWooqc1/XIlj6lmb7my++5g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693303398; x=1693908198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JLWqkTlNXuRNXbpkTdz35i9a7RBHR+eFx1IjM/IAypg=;
-        b=U71k7lnP83CQoHuXgjdCE7/7P2ohXvSy9uHSd2yEcpS6778FHbPojFMxVM8/1zdeJz
-         Zt6C3PBbSJaVMeozeUT1k6wVU7CwZfL1ZWySGRZEOEU9yAXVIHgeeAGtEFucGAVAXsZc
-         LWplNFEKuAT4t6UGwnk2lunyJ3ybOGTDiU1OMsQk83j/pkV/vP3Hv7/aR77a603xuP3J
-         WmzvAfhTFU3Tj//xS8A5RKY2EY+YL+021fStCpEYftbtiRwCz7l21jhvD5s4kuremWCi
-         akJJFWdz2kKMGFwqGW/fVzEjz7oyRhope9XObZbNUGb3J50fsibykhZ0KpWPqVn3hUc6
-         O77g==
-X-Gm-Message-State: AOJu0YyDaT4EEcQ/16FCk+vlKa3hLU9m6qprHivfIsVnbbpcLMJMKBpb
-        35Jm9zc57h1Rdak9ex8UqatHf0lCIb6xNncFan0=
-X-Google-Smtp-Source: AGHT+IFjiaU5u4bg4l1+itR65nYgM4wxHW/ppk955gBbDs933SW54doNj3qsMNKoYqp5hfwdbUIN9Q==
-X-Received: by 2002:a05:6808:1316:b0:3a7:4878:235a with SMTP id y22-20020a056808131600b003a74878235amr15715790oiv.29.1693303397879;
-        Tue, 29 Aug 2023 03:03:17 -0700 (PDT)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com. [209.85.167.171])
-        by smtp.gmail.com with ESMTPSA id bl3-20020a056808308300b003a7a422cb6asm4289840oib.37.2023.08.29.03.03.17
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Aug 2023 03:03:17 -0700 (PDT)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3a7d7de894bso3075843b6e.3
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 03:03:17 -0700 (PDT)
-X-Received: by 2002:a05:6808:2022:b0:3a8:5133:483b with SMTP id
- q34-20020a056808202200b003a85133483bmr15064159oiw.31.1693303396856; Tue, 29
- Aug 2023 03:03:16 -0700 (PDT)
+        Tue, 29 Aug 2023 06:15:08 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD5D103
+        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 03:15:04 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4RZjwP36zsz49Py8;
+        Tue, 29 Aug 2023 13:15:01 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1693304101;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=av5IH3Y0ToH9qHXiJQbazKyS7ZxZfExMtKsWMUwVUIY=;
+        b=jni2IGjMg8+VMzKyzXNvDtC2ICMlnHX2uekwgeBRPcvV7qWs+wQSp9vVJFY5QyVjZ2DElL
+        uiHFW3xpDu3ISiUObCH0Sotp0xjLF1QLsaVe3zWszardvC/y4U6/zoVapR+mO7J42v7Z9l
+        N87zuofuabV0mCwcmw3I7T0mKTNO37wkKmgiZyq21fol9pgaDvvfMnOGlqeJFHbu3NZEsg
+        lVqHHozUVyT5lQiQPpMSsVRYIqv9BokeBLWwJgOmWAWaXSiThX+9pgwKOqrAfvU9/i4es8
+        bASotG9KFxiZ7OmBc5/i4ACYB11IwKqz5Fn5WtlDhxiFYa6Lx47iokDDZhpftQ==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1693304101; a=rsa-sha256;
+        cv=none;
+        b=XfUvo5oH6B52TMAc80UPHRQ/mQY7dwJxGVBvMMyy7lNRw+rmNi14Mk3mSoMTz8aEUOUFYq
+        +g4Tk2BgEGf2foM8ZTK6d9NuIojLSAbH0YBslRZkKiLt0RYwXButM9UsRMz3FT7wBx9EEX
+        ssmwniQhFTGAcdB84JsCksHTLH5NvQ2l9NoTYPXpjNX/6XlKD+w3805afGo/UERrJ3wLXh
+        NQiBMYUmFVTQklZlz8B8AIjH+iIc4F5pJvQ19edekQznRx/gN3H00tNn10pi0qw9skUZhn
+        GZWKxszy58PI9RcobXZmTZyIO3YCprGpHtYJJ34sX8Eq4IroQERSgzBl/3+jDQ==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1693304101;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=av5IH3Y0ToH9qHXiJQbazKyS7ZxZfExMtKsWMUwVUIY=;
+        b=QiMQQVz/bD6PfCHhrt6+kiHbTvOhWwdMhn5Next8QwZlQusCMSNwKsWi3TUOd4dbnsgQas
+        E+JMTtdxG3AQHJ6inFgdzy/fwimY+9pStp93D9+7qcWGENN7XugazC1WEdkWNaJtr3gOaC
+        FwnGZB+PzE3Vk8wEUFhRFCiOMfH/LI+JdYr526GiWxA/S1NfNs4uGBEG9vRo0qHUZUjAdD
+        pT9fARv5m7bUpyPaU/t7QZTFXZ/GATK+JW7vvZq7KF8wP7kcvdVqK35RPEWO2dZZYULe9L
+        5u37K20fNpOEaUwM/gLjW/666aAanXhI5SOtdSLPOfd63bDzFjGFSEAqJWEhCA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8DA52634C99;
+        Tue, 29 Aug 2023 13:15:00 +0300 (EEST)
+Date:   Tue, 29 Aug 2023 10:15:00 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linuxtv-ci@linuxtv.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [ANN] Introducing build scripts to test
+Message-ID: <ZO3FJGdMUKwZtLsO@valkosipuli.retiisi.eu>
+References: <18989016-6392-a77b-6cf7-1223c9161def@xs4all.nl>
+ <fcag2mca7wkmujw5se5km5da4ns7cxnle3yn7jlu2ca4j2buoy@nxkvnvq4d6y4>
+ <f61cc313-4c5f-46e0-3374-05cf3907f68a@xs4all.nl>
+ <20230828142622.GO14596@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20230828075420.2009568-1-anle.pan@nxp.com>
-In-Reply-To: <20230828075420.2009568-1-anle.pan@nxp.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 29 Aug 2023 19:03:00 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Cn3xQroyYtC+m+pk1jOE5i3H+FGr-y8zqhaf0Yo5p-1Q@mail.gmail.com>
-Message-ID: <CAAFQd5Cn3xQroyYtC+m+pk1jOE5i3H+FGr-y8zqhaf0Yo5p-1Q@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2-dma-sg: limit the sg segment size
-To:     Anle Pan <anle.pan@nxp.com>, Robin Murphy <robin.murphy@arm.com>,
-        Christoph Hellwig <hch@lst.de>
-Cc:     m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hui.fang@nxp.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230828142622.GO14596@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Anle,
+Hi Laurent, Hans,
 
-On Mon, Aug 28, 2023 at 8:57=E2=80=AFAM Anle Pan <anle.pan@nxp.com> wrote:
->
-> When allocating from pages, the size of the sg segment is unlimited and
-> the default is UINT_MAX. This will cause the DMA stream mapping failed
-> later with a "swiotlb buffer full" error.
+On Mon, Aug 28, 2023 at 05:26:22PM +0300, Laurent Pinchart wrote:
+> On Mon, Aug 28, 2023 at 04:14:56PM +0200, Hans Verkuil wrote:
+> > On 28/08/2023 16:05, Jacopo Mondi wrote:
+> > > On Mon, Aug 28, 2023 at 03:29:41PM +0200, Hans Verkuil wrote:
+> > >> Hi all,
+> > >>
+> > >> We have been working on simplifying the media maintenance, and one part of that is
+> > >> standardizing on build tools, in particular to make it easier for patch submitters
+> > >> to run their patches through the same set of tests that the daily build does.
+> > >>
+> > >> This helps detect issues before you submit your patches.
+> > >>
+> > >> I have been working since July on transforming my hackish scripts to something
+> > >> that is easier to use and of better quality. While there are still a few rough
+> > >> edges, I consider it good enough to have others start to use it.
+> > >>
+> > >> To get the build scripts run:
+> > >>
+> > >> git clone git://linuxtv.org/hverkuil/build-scripts.git
+> > >>
+> > >> All the test builds will happen within this directory. It is completely separate
+> > >> from where you do you normal development, instead you point it to where your
+> > >> git repository is.
+> > >>
+> > >> See the README contained in the build-scripts git repo for all the details on
+> > >> how to set it up.
+> > >>
+> > > 
+> > > I've been using your scripts since after ELC-E and I can tell they're
+> > > useful!
+> > > 
+> > >> Currently the scripts expect a debian 12-based distro (likely debian 11 will work
+> > >> as well). I have no idea if it works well on Red Hat or Suse. If you use one of
+> > >> those distros, and you get it to work, then a patch updating the README file with
+> > >> the correct list of packages to install would be welcome.
+> > > 
+> > > Speaking about distros, I was wondering if you still consider a
+> > > requirement to build all compiler or we should instead try to use the
+> > > distro provided ones when possible to test the distro-shipped version
+> > > ?
+> > 
+> > I strongly believe we should build the cross compilers. The reason is that
+> > otherwise you get a wide variety of compiler versions, each with typically
+> > different compiler warnings. It's a pain for a developer to see different
+> > warnings than the person that merges those patches.
+> > 
+> > It's a a regular problem that the daily build sees different warnings than
+> > you do locally with the distro's compiler.
+> > 
+> > Doing it this way also makes it easier to upgrade to the latest compiler
+> > version, certainly quicker than a distro would do.
+> > 
+> > It's about reproducibility, really.
+> 
+> There's value in testing with different compiler versions though. The
+> kernel's documented minimum gcc version is v5.1 at the moment. I
+> certainly don't want to build myself with all versions between v5.1 and
+> v13.2, but collectively we could cover more ground.
+> 
+> Regardless of this, I already have recent cross compilers (built with
+> buildroot) for ARM and ARM64, and I'd rather use those than duplicating
+> compilers. Anything that consumes extra disk space is a serious
+> hinderance.
 
-Thanks for the patch. Good catch.
+I have to say nearly all issues I've come across I have not seen myself in
+my own (trivial) tests are related to either different architecture or
+different kernel configuration.
 
-> The default maximum mapping
-> size is 128 slots x 2K =3D 256K, determined by "IO_TLB_SEGSIZE".
-> To fix the issue, limit the sg segment size according to
-> "dma_max_mapping_size" to match the mapping limit.
->
-> Signed-off-by: Anle Pan <anle.pan@nxp.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/=
-media/common/videobuf2/videobuf2-dma-sg.c
-> index fa69158a65b1..b608a7c5f240 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -105,6 +105,7 @@ static void *vb2_dma_sg_alloc(struct vb2_buffer *vb, =
-struct device *dev,
->         struct sg_table *sgt;
->         int ret;
->         int num_pages;
-> +       size_t max_segment =3D 0;
->
->         if (WARN_ON(!dev) || WARN_ON(!size))
->                 return ERR_PTR(-EINVAL);
-> @@ -134,8 +135,12 @@ static void *vb2_dma_sg_alloc(struct vb2_buffer *vb,=
- struct device *dev,
->         if (ret)
->                 goto fail_pages_alloc;
->
-> -       ret =3D sg_alloc_table_from_pages(buf->dma_sgt, buf->pages,
-> -                       buf->num_pages, 0, size, GFP_KERNEL);
-> +       if (dev)
-> +               max_segment =3D dma_max_mapping_size(dev);
-> +       if (max_segment =3D=3D 0)
-> +               max_segment =3D UINT_MAX;
-> +       ret =3D sg_alloc_table_from_pages_segment(buf->dma_sgt, buf->page=
-s,
-> +               buf->num_pages, 0, size, max_segment, GFP_KERNEL);
+There have been a couple of issues that were related to compiling the
+kernel with LLVM, too, but they are much more rare. I suppose there may
+have been some related to different GCC versions but I don't remember any
+over the last ~ 5 years. :-)
 
-One thing that I'm not sure about here is that we use
-sg_alloc_table_from_pages_segment(), but we actually don't pass the
-max segment size (as returned by dma_get_max_seg_size()) to it.
-I'm also not exactly sure what's the difference between "max mapping
-size" and "max seg size".
-+Robin Murphy +Christoph Hellwig I think we could benefit from your
-expertise here.
+So IMO varying configuration and building for more architectures is
+beneficial, possibly compilers, too, but for different compiler versions
+not so much.
 
-Generally looking at videobuf2-dma-sg, I feel like we would benefit
-from some kind of dma_alloc_table_from_pages() that simply takes the
-struct dev pointer and does everything necessary.
+-- 
+Kind regards,
 
-Best regards,
-Tomasz
+Sakari Ailus
