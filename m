@@ -2,113 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B13FA78CDB5
-	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 22:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7589178CDC8
+	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 22:47:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240365AbjH2Umt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Aug 2023 16:42:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
+        id S238802AbjH2Uqd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Aug 2023 16:46:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239873AbjH2Uma (ORCPT
+        with ESMTP id S240598AbjH2UqX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Aug 2023 16:42:30 -0400
-Received: from smtp.smtpout.orange.fr (smtp-14.smtpout.orange.fr [80.12.242.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E2C1BB
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 13:42:27 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id b5XZqcc2VQ296b5Xaq5xos; Tue, 29 Aug 2023 22:42:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1693341744;
-        bh=NSFtOWiCqFXMHVz2Ts71ekjvauIWND+mQAvXMrYTxRo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=JiJGg1XhYATzHEw6lkCs+v8JzG7gkLoK6B2h9GWjgYXoHcLSsWYKWpyXNH9E3NO+X
-         OqG0pgqugAg+DP3GM/hGNuyeGdmd3td054G7PxovknxnSfxzmnx4KCCQ0tniL7ff0q
-         ke+h+AevJ3PVZ9ZICdFkdFptUaOb2KV7OilfTIx8G4wF+9dbIL04DTxN+OsO8d06Hd
-         N3Nz/p5StB2zqeLSCbCkEMMmdy7bCer5unzlFdQtw/0uRASZgiaPKiIkADTlDLlYHV
-         KcxoJpTOMErIlNVHi10adQssTia9qP8BEvUQN+Xqwc8OcNizUoU4ZZqDnNZ3+frfGP
-         UH6mWOgtv5UVA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 29 Aug 2023 22:42:24 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <6875e4e7-085e-fa0c-c0f7-404fb82a872c@wanadoo.fr>
-Date:   Tue, 29 Aug 2023 22:42:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: i2c: rdacm2: Remove an incorrect
- fwnode_handle_put() call
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+        Tue, 29 Aug 2023 16:46:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A90FDCC2;
+        Tue, 29 Aug 2023 13:46:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 480BB6393C;
+        Tue, 29 Aug 2023 20:46:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEC55C433C8;
+        Tue, 29 Aug 2023 20:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693341978;
+        bh=D/5R2gh0UNSBdokYwLYROA4OoUG4+BHEBICEdKyk2AM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fwWP1Wxr8Z625C8Ti+XBiDzYb5J1vibO/NUUMANGvbDaRMWpdyJ5U288G5h2DNhNw
+         zfTO5NBH/YI56Pvc1LDqpv2UDNHMRKVoDOGPMYek0Ge3biGqa5m5IsARtTojV0VTl4
+         bo4B3gfvBUi8gVl/srdsU4ZKv8TfzaqEZDbpRVcBgWwkgW5birFdtH0o8xoKm9ct+4
+         vyXvFjo2lCZsTK9k7nrn6CLEmnc+BbIORKqkzrPY975IBDUn9e0wFa8egVfQwrTmuI
+         QzJCM5JJBIRVZWwCeplwP3tVuGbs5A4hzQfOpsxVswYyV8404q3E5pSnG4zC2uXGli
+         sAn36Vl6X4e/g==
+From:   Ross Zwisler <zwisler@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Ross Zwisler <zwisler@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-media@vger.kernel.org
-References: <d9230082aefcb7bab6363c51c08598eb5ab62cfc.1693037086.git.christophe.jaillet@wanadoo.fr>
- <zijwh5kcrfsg4q4pmxtkzia7tdpg4wnau53npe2y2xe4j7n7wy@zqwigtmyftu3>
- <20230828105723.GF14596@pendragon.ideasonboard.com>
- <20230828111630.GH14596@pendragon.ideasonboard.com>
-Content-Language: fr, en-US
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230828111630.GH14596@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-media@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] visl: use canonical ftrace path
+Date:   Tue, 29 Aug 2023 14:46:01 -0600
+Message-ID: <20230829204600.3210276-2-zwisler@kernel.org>
+X-Mailer: git-send-email 2.42.0.rc2.253.gd59a3bf2b4-goog
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 28/08/2023 à 13:16, Laurent Pinchart a écrit :
-> On Mon, Aug 28, 2023 at 01:57:24PM +0300, Laurent Pinchart wrote:
->> On Mon, Aug 28, 2023 at 09:48:10AM +0200, Jacopo Mondi wrote:
->>> Hi Christophe
->>>
->>> On Sat, Aug 26, 2023 at 10:05:06AM +0200, Christophe JAILLET wrote:
->>>> The commit in Fixes has removed an fwnode_handle_put() call in the error
->>>> handling path of the probe.
->>>>
->>>> Remove the same call from the remove function.
->>>>
->>>> Fixes: 1029939b3782 ("media: v4l: async: Simplify async sub-device fwnode matching")
->>>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->>>
->>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>
->> The subject line should read "rdacm21", not "rdacm2". with that fixed,
->>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>
->>>> ---
->>>> /!\   This patch is highly speculative. Review with care.   /!\
->>>>
->>>> If it is correct, it is likely that other similar issue lurk in commit
->>>> 1029939b3782. I've not looked in detail and my cocci script did not
->>>> trigger on them but drivers/media/i2c/max9286.c also looks like a
->>>> similar candidate.
->>>
->>> I think the call to  fwnode_handle_put(priv->sd.fwnode) in
->>> max9286_v4l2_unregister() can indeed be removed, yes!
->>
->> I agree.
-> 
-> drivers/media/platform/nxp/imx-mipi-csis.c also needs a fix.
-> 
-> Christophe, do you plan to send patches for those ? If not, I can handle
-> it.
+From: Ross Zwisler <zwisler@google.com>
 
-I'll propose patches for both in the coming days.
+The canonical location for the tracefs filesystem is at /sys/kernel/tracing.
 
-CJ
+But, from Documentation/trace/ftrace.rst:
 
+  Before 4.1, all ftrace tracing control files were within the debugfs
+  file system, which is typically located at /sys/kernel/debug/tracing.
+  For backward compatibility, when mounting the debugfs file system,
+  the tracefs file system will be automatically mounted at:
+
+  /sys/kernel/debug/tracing
+
+Update the visl decoder driver documentation to use this tracefs path.
+
+Signed-off-by: Ross Zwisler <zwisler@google.com>
+---
+ Documentation/admin-guide/media/visl.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/media/visl.rst b/Documentation/admin-guide/media/visl.rst
+index 7d2dc78341c9..4328c6c72d30 100644
+--- a/Documentation/admin-guide/media/visl.rst
++++ b/Documentation/admin-guide/media/visl.rst
+@@ -78,7 +78,7 @@ The trace events are defined on a per-codec basis, e.g.:
+ 
+ .. code-block:: bash
+ 
+-        $ ls /sys/kernel/debug/tracing/events/ | grep visl
++        $ ls /sys/kernel/tracing/events/ | grep visl
+         visl_fwht_controls
+         visl_h264_controls
+         visl_hevc_controls
+@@ -90,13 +90,13 @@ For example, in order to dump HEVC SPS data:
+ 
+ .. code-block:: bash
+ 
+-        $ echo 1 >  /sys/kernel/debug/tracing/events/visl_hevc_controls/v4l2_ctrl_hevc_sps/enable
++        $ echo 1 >  /sys/kernel/tracing/events/visl_hevc_controls/v4l2_ctrl_hevc_sps/enable
+ 
+ The SPS data will be dumped to the trace buffer, i.e.:
+ 
+ .. code-block:: bash
+ 
+-        $ cat /sys/kernel/debug/tracing/trace
++        $ cat /sys/kernel/tracing/trace
+         video_parameter_set_id 0
+         seq_parameter_set_id 0
+         pic_width_in_luma_samples 1920
+-- 
+2.42.0.rc2.253.gd59a3bf2b4-goog
 
