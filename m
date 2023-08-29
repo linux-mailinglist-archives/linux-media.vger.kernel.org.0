@@ -2,147 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF1C278C3BE
-	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 13:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7A3578C531
+	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 15:26:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233205AbjH2L7Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Aug 2023 07:59:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45124 "EHLO
+        id S229614AbjH2NZc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Aug 2023 09:25:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234305AbjH2L7I (ORCPT
+        with ESMTP id S236026AbjH2NZD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Aug 2023 07:59:08 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B52FE1B5
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 04:59:03 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-401187f8071so26995015e9.0
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 04:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693310342; x=1693915142;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KLoD04MXzPDvd3uBWHGHq50+QEKQ9VSBhdzvUrQwqIk=;
-        b=bahIsMFSy+IQGQ0Yl0YrSZ57gOJ8bEMz6ZI8AoG4t4XfaG69kamMiT+jNABpqL7HTm
-         3rcuwHk/v8eOhL+/W7r0l5oIwDi3fk58yXDQ/FUFocq/TL56giUDR3iTQ3ECpxylHM9E
-         /wa6esqaafmNhJj4wBK7HROzgbINLz1TZG0l+GC24qKHoAs7CwgjoT51duaHa++auoxx
-         9/bQLsY4xJupC/KTiRA96am4306QzKm98OJ2lVpjjyE3rx05jlY48Bxp2QwVrBW67YmQ
-         4ydo10TLQSRsPXahBG18IJoHf1fLBcRthB1RNCAXE49kkxt14mKf1vBw0M24ZUf4ZcgF
-         sQNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693310342; x=1693915142;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KLoD04MXzPDvd3uBWHGHq50+QEKQ9VSBhdzvUrQwqIk=;
-        b=Z1BsdZAHDJCdLv1N+I3/02aQ79Nr7Tr8gvnHXhBL9+hfTYNoEVobtX9EwguO1YpRRS
-         0zyGYkKGIq52Y2KBez3Cm0BC2lh0dszKBm+s2wyt9N5WzPRuaYNq7rt9aN/N1WjPq8A8
-         R+jqi3v7MU9fbtgFbvqwDh24Q705YGHAcf8GsyA+jyvhRzQbZT/8h6sL8SNkrmi4RSD3
-         hfiJsuQgtvoy+VD0ACbRcaE59CWSD6GiQWfD6nMIktDxXcLulLK5d9/q0sL5TguuOrX9
-         G526ZMm81cSV3dXYr+qmlbR/R0M2/BX7o6BAIdOxuyI6PKrg/pdYMpo7IK9tVD2Wuz6c
-         S0kQ==
-X-Gm-Message-State: AOJu0Yz6fI4VLPdEs34VLPCfgAFk7MiA1LFPKaLHi7emw5r7pTsgstKO
-        TME3oIyJZFRtzsmTDCEvZBkfSA==
-X-Google-Smtp-Source: AGHT+IG3XTGvzlu63R7crie3+qbFU8gRZTMcntaik1BOhE9xjzNYGyVazt67HXt2bJyE142iGySd5Q==
-X-Received: by 2002:a05:600c:3798:b0:3fb:f0b2:20eb with SMTP id o24-20020a05600c379800b003fbf0b220ebmr1872340wmr.1.1693310342111;
-        Tue, 29 Aug 2023 04:59:02 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id p33-20020a05600c1da100b003fef5e76f2csm1585778wms.0.2023.08.29.04.59.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Aug 2023 04:59:01 -0700 (PDT)
-Message-ID: <6ecbd88a-150f-d40e-22bf-4fda921fc483@linaro.org>
-Date:   Tue, 29 Aug 2023 12:59:00 +0100
+        Tue, 29 Aug 2023 09:25:03 -0400
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E769E47;
+        Tue, 29 Aug 2023 06:24:44 -0700 (PDT)
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37TCA4in012205;
+        Tue, 29 Aug 2023 15:24:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding:content-type; s=selector1; bh=HOHMmPN
+        tb2/KAKCNwRrItjo3x21ZNwnn7k1eSYj8xNA=; b=t5NEXiKZeVdWee1K2SAdYQf
+        Lg+c97uGgPTbhHOqD8Nh4SnCl1QMOIluQlBlQbHx3edHcE78qCFchZ2q4KorEGAx
+        jyVGRtOj9xmpWaISIj81R4QDrN8B8z2jwwYPpwqEwbwgcqjdYPxOYDSCTsCOHNUc
+        cxqcklac4OtvUs+TUlI/sklrHyyvBDeZT+UvOR0c5TkalcklJOWYDeOBUSkxELf4
+        8n9vWtjflq5yZINXFfq28zuZxB+sFeWd2Ur8Cx12FKPRQOYKp5G03qWeLb8l47Ez
+        unmHZYfjnRCoYqNOOxB78WNLBCU9Z0LuY4EaCNXlu7fDY8DaGE5coRJ5uSG8RrA=
+        =
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3sqvbha0cs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 29 Aug 2023 15:24:10 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 30DD4100057;
+        Tue, 29 Aug 2023 15:24:07 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4CE3A21ED54;
+        Tue, 29 Aug 2023 15:24:07 +0200 (CEST)
+Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 29 Aug
+ 2023 15:24:07 +0200
+From:   Alain Volmat <alain.volmat@foss.st.com>
+To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Dan Scally <dan.scally@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/5] Add support for DCMIPP camera interface of STMicroelectronics STM32 SoC series
+Date:   Tue, 29 Aug 2023 15:23:44 +0200
+Message-ID: <20230829132357.192535-1-alain.volmat@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 4/4] venus: hfi_parser: Add check to keep the number of
- codecs within range
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        stanimir.k.varbanov@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hans.verkuil@cisco.com, tfiga@chromium.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <1691634304-2158-1-git-send-email-quic_vgarodia@quicinc.com>
- <1691634304-2158-5-git-send-email-quic_vgarodia@quicinc.com>
- <fec4a8c7-206f-7af8-4ea9-c919a677bf7e@linaro.org>
- <2214c31b-eca2-012e-a100-21252a724e7c@quicinc.com>
- <8b72ce47-c338-2061-f11a-c0a608686d8c@linaro.org>
- <e880da07-ccd4-e427-ed34-20b284dc7838@quicinc.com>
- <8f1a4ca0-dde8-fa5d-bca3-d317886609de@linaro.org>
- <060f4dbe-63d6-1c60-14ca-553bf1536e5a@quicinc.com>
- <c5f912a9-cc08-1645-ad04-c7a58c1e47ce@linaro.org>
- <cd9da205-ccdb-dc71-16a4-83b22ca7fcae@quicinc.com>
- <ea587bb1-8ff2-7a92-f948-fd932f6b2769@linaro.org>
- <9391ae4e-afbd-ef52-12dc-7f8875216c85@quicinc.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <9391ae4e-afbd-ef52-12dc-7f8875216c85@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-29_10,2023-08-29_01,2023-05-22_02
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/08/2023 09:00, Vikash Garodia wrote:
-> Hi Bryan,
-> 
-> On 8/14/2023 7:45 PM, Bryan O'Donoghue wrote:
->> On 14/08/2023 07:34, Vikash Garodia wrote:
->>>> We have two loops that check for up to 32 indexes per loop. Why not have a
->>>> capabilities index that can accommodate all 64 bits ?
->>> Max codecs supported can be 32, which is also a very high number. At max the
->>> hardware supports 5-6 codecs, including both decoder and encoder. 64 indices is
->>> would not be needed.
->>>
->>
->> But the bug you are fixing here is an overflow where we have received a full
->> range 32 bit for each decode and encode.
->>
->> How is the right fix not to extend the storage to the maximum possible 2 x 32 ?
->> Or indeed why not constrain the input data to 32/2 for each encode/decode path ?
-> At this point, we agree that there is very less or no possibility to have this
-> as a real usecase i.e having 64 (or more than 32) codecs supported in video
-> hardware. There seem to be no value add if we are extending the cap array from
-> 32 to 64, as anything beyond 32 itself indicates rogue firmware. The idea here
-> is to gracefully come out of such case when firmware is responding with such
-> data payload.
-> Again, lets think of constraining the data to 32/2. We have 2 32 bit masks for
-> decoder and encoder. Malfunctioning firmware could still send payload with all
-> bits enabled in those masks. Then the driver needs to add same check to avoid
-> the memcpy in such case.
-> 
->> The bug here is that we can copy two arrays of size X into one array of size X.
->>
->> Please consider expanding the size of the storage array to accommodate the full
->> size the protocol supports 2 x 32.
-> I see this as an alternate implementation to existing handling. 64 index would
-> never exist practically, so accommodating it only implies to store the data for
-> invalid response and gracefully close the session.
+This patchset introduces support for Digital Camera Memory Interface
+Pixel Processor (DCMIPP) of STMicroelectronics STM32 SoC series.
 
-What's the contractual definition of "this many bits per encoder and 
-decoder" between firmware and APSS in that case ?
+This initial support implements a single capture pipe
+allowing RGB565, YUV, Y, RAW8 and JPEG capture with
+frame skipping, prescaling and cropping.
 
-Where do we get the idea that 32/2 per encoder/decoder is valid but 32 
-per encoder decoder is invalid ?
+DCMIPP is exposed through 3 subdevices:
+- dcmipp_dump_parallel: parallel interface handling
+- dcmipp_dump_postproc: frame skipping, prescaling and cropping control
+- dcmipp_dump_capture: video device capture node
 
-At this moment in time 16 encoder/decoder bits would be equally invalid.
+v2:
+  - removal of pclk-max-frequency from yaml example dts
+  - codying-style fixes
+  - correction in enum functions (format, mbus, frame_size ...) handling
+  - drop of v4l2_pipeline_pm_ calls, and specific open/close handler of
+    vdev
+  - video dev s_stream handling updated to call s_stream of remote subdev
+    instead of loop until sensor subdev
+  - code update following media_pipeline & v4l2_async_ api changes since v1
+  - removal of IP reset call upon error
+  - removal of link_validate handlers
+  - addition of V4L2_CAP_IO_MC device_caps
+  - removal of the frame skip control for the time being, will be added
+    back in another commit once control method will be agreed
+  - change byteproc entity type to MEDIA_ENT_F_PROC_VIDEO_SCALER
+  - various fixes from Dan & Sakari remarks
 
-I suggest the right answer is to buffer the protocol data unit - PDU 
-maximum as an RX or constrain the maximum number of encoder/decoder bits 
-based on HFI version.
+Alain Volmat (2):
+  dt-bindings: media: add bindings for dcmipp driver
+  media: MAINTAINERS: add entry for STM32 DCMIPP driver
 
-ie.
+Hugues Fruchet (3):
+  media: stm32-dcmipp: STM32 DCMIPP camera interface driver
+  ARM: dts: stm32: add dcmipp support to stm32mp135
+  ARM: multi_v7_defconfig: enable STM32 DCMIPP media support
 
-- Either constrain on the PDU or
-- Constrain on the known number of maximum bits per f/w version
+ .../bindings/media/st,stm32-dcmipp.yaml       |   95 ++
+ MAINTAINERS                                   |    9 +
+ arch/arm/boot/dts/st/stm32mp135.dtsi          |    9 +
+ arch/arm/configs/multi_v7_defconfig           |    1 +
+ drivers/media/platform/st/stm32/Kconfig       |   15 +
+ drivers/media/platform/st/stm32/Makefile      |    1 +
+ .../platform/st/stm32/stm32-dcmipp/Makefile   |    5 +
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c    | 1040 +++++++++++++++++
+ .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c   |  692 +++++++++++
+ .../st/stm32/stm32-dcmipp/dcmipp-common.c     |  105 ++
+ .../st/stm32/stm32-dcmipp/dcmipp-common.h     |  227 ++++
+ .../st/stm32/stm32-dcmipp/dcmipp-core.c       |  673 +++++++++++
+ .../st/stm32/stm32-dcmipp/dcmipp-parallel.c   |  523 +++++++++
+ 13 files changed, 3395 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/Makefile
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.h
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c
 
----
-bod
+-- 
+2.25.1
 
