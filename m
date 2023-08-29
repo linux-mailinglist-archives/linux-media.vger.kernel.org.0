@@ -2,124 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E73F678CC44
-	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 20:38:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B13FA78CDB5
+	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 22:43:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238190AbjH2Shy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Aug 2023 14:37:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56282 "EHLO
+        id S240365AbjH2Umt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Aug 2023 16:42:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238525AbjH2Shn (ORCPT
+        with ESMTP id S239873AbjH2Uma (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Aug 2023 14:37:43 -0400
-Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 566D51A3
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 11:37:39 -0700 (PDT)
-Received: from [192.168.10.7] (unknown [10.0.12.132])
-        by kozue.soulik.info (Postfix) with ESMTPSA id 61E44300258;
-        Wed, 30 Aug 2023 03:37:34 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info 61E44300258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
-        t=1693334257; bh=yOYePFpwm5ZzdbszBaU2W/RV218+8lz1ZgrFpNPjUgU=;
-        h=Date:To:Cc:From:Subject:From;
-        b=TsPfpgtU7CNa8beVINNHGx/Frhm1eXOD/mEsYtloovBWB8/rSj+sMdyZvmZyGiJ2Z
-         VA2ffYx30DSohh1CLRIj0+lUQx4NVYaV3pZMxhOEkMwO0kbKbstLS2MfcsHWihcg7C
-         aX32ZyPHLkhIBb0xLgYjfQunyWz6Hbj9UcHwiI3I=
-Message-ID: <f00d2249-df05-a469-52cd-8a81314a38d3@soulik.info>
-Date:   Wed, 30 Aug 2023 02:37:23 +0800
+        Tue, 29 Aug 2023 16:42:30 -0400
+Received: from smtp.smtpout.orange.fr (smtp-14.smtpout.orange.fr [80.12.242.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E2C1BB
+        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 13:42:27 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id b5XZqcc2VQ296b5Xaq5xos; Tue, 29 Aug 2023 22:42:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1693341744;
+        bh=NSFtOWiCqFXMHVz2Ts71ekjvauIWND+mQAvXMrYTxRo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=JiJGg1XhYATzHEw6lkCs+v8JzG7gkLoK6B2h9GWjgYXoHcLSsWYKWpyXNH9E3NO+X
+         OqG0pgqugAg+DP3GM/hGNuyeGdmd3td054G7PxovknxnSfxzmnx4KCCQ0tniL7ff0q
+         ke+h+AevJ3PVZ9ZICdFkdFptUaOb2KV7OilfTIx8G4wF+9dbIL04DTxN+OsO8d06Hd
+         N3Nz/p5StB2zqeLSCbCkEMMmdy7bCer5unzlFdQtw/0uRASZgiaPKiIkADTlDLlYHV
+         KcxoJpTOMErIlNVHi10adQssTia9qP8BEvUQN+Xqwc8OcNizUoU4ZZqDnNZ3+frfGP
+         UH6mWOgtv5UVA==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 29 Aug 2023 22:42:24 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <6875e4e7-085e-fa0c-c0f7-404fb82a872c@wanadoo.fr>
+Date:   Tue, 29 Aug 2023 22:42:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Content-Language: en-US
-To:     contact@emersion.fr
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Tomasz Figa <tfiga@chromium.org>,
-        dri-devel@lists.freedesktop.org, daniels@collabora.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hsia-Jun Li <Randy.Li@synaptics.com>
-From:   Randy Li <ayaka@soulik.info>
-Subject: Allocation Constraints
+Subject: Re: [PATCH] media: i2c: rdacm2: Remove an incorrect
+ fwnode_handle_put() call
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <d9230082aefcb7bab6363c51c08598eb5ab62cfc.1693037086.git.christophe.jaillet@wanadoo.fr>
+ <zijwh5kcrfsg4q4pmxtkzia7tdpg4wnau53npe2y2xe4j7n7wy@zqwigtmyftu3>
+ <20230828105723.GF14596@pendragon.ideasonboard.com>
+ <20230828111630.GH14596@pendragon.ideasonboard.com>
+Content-Language: fr, en-US
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20230828111630.GH14596@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello emersion
+Le 28/08/2023 à 13:16, Laurent Pinchart a écrit :
+> On Mon, Aug 28, 2023 at 01:57:24PM +0300, Laurent Pinchart wrote:
+>> On Mon, Aug 28, 2023 at 09:48:10AM +0200, Jacopo Mondi wrote:
+>>> Hi Christophe
+>>>
+>>> On Sat, Aug 26, 2023 at 10:05:06AM +0200, Christophe JAILLET wrote:
+>>>> The commit in Fixes has removed an fwnode_handle_put() call in the error
+>>>> handling path of the probe.
+>>>>
+>>>> Remove the same call from the remove function.
+>>>>
+>>>> Fixes: 1029939b3782 ("media: v4l: async: Simplify async sub-device fwnode matching")
+>>>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>>>
+>>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>
+>> The subject line should read "rdacm21", not "rdacm2". with that fixed,
+>>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>
+>>>> ---
+>>>> /!\   This patch is highly speculative. Review with care.   /!\
+>>>>
+>>>> If it is correct, it is likely that other similar issue lurk in commit
+>>>> 1029939b3782. I've not looked in detail and my cocci script did not
+>>>> trigger on them but drivers/media/i2c/max9286.c also looks like a
+>>>> similar candidate.
+>>>
+>>> I think the call to  fwnode_handle_put(priv->sd.fwnode) in
+>>> max9286_v4l2_unregister() can indeed be removed, yes!
+>>
+>> I agree.
+> 
+> drivers/media/platform/nxp/imx-mipi-csis.c also needs a fix.
+> 
+> Christophe, do you plan to send patches for those ? If not, I can handle
+> it.
 
+I'll propose patches for both in the coming days.
 
-Since you told me the presentation in XDC 2020, I was thinking what we 
-need  for the video codec hardware, I don't have much experience with 
-the situation that presentation addressed, sharing between GPU.
-
-I think we must cover the case with and without IOMMU attached to the 
-device, besides some page layout information. I would talk it later.
-
-
-About the pitch(in v4l2, it is bytesperline, or stride in some 
-hardware), I think it would indicate three types, one is the menu(a menu 
-of N choices), one is integer(ranging from minimum to maximum inclusive).
-
-The menu type could cover the most of cases with a fixed cache 
-line(likes 16, 64, 256 bytes alignment). While the integer type covers 
-those do no care about cache line, the restriction is about hardware 
-desired size, codec hardware could hardly meet this, usually they need 
-to meet the requirement of CU or MB from a codec. This also enables the 
-padding for vertical direction which could be regarded as the padding 
-bytes behinds a plane.
-
-Still it can ___not _ describe the case happening in Rockchip vdpu34x 
-for HEVC and VP9,  which requests an odd cache line. For example, if the 
-width is 256 (8bit depth) and cache line is 256 bytes as well, the pitch 
-would be 256 bytes, when width becomes 512, the pitch should be 768 
-bytes. You could learn this from Rockchip MPP rkv_hor_align*();
-
-
-In study 2, Local memory, codec has the similar requirement but 
-difference. Is it GPU internal having different regions for 2d texture, 
-3d texture and shader? The non-cache or cached memory (coherence) is 
-also cared by codec sometimes, while the most cases the user could 
-decide that by whether CPU need to access that buffer.
-
-While, the constraint need to tell its capability about whether it 
-supports accessing an secure buffer.
-
-
-Let's back the IOMMU topic, this feature is not mandatory for the codec. 
-And we would like to get rid of M variant pixel formats from V4L2. For 
-the hardware doesn't support scatter list, it may have delegated  
-registers for each plane.
-
-address type: scatter list or one address
-
-relationship with the previous plane: compact(right after the last byte 
-of the previous plane), new page(plane would start in the beginning of a 
-page), or None(it has a delegated  register)
-
-page size: this only applied for sgl address type, hardware may need a 
-larger contiguous page.
-
-
-To make a summary what I think we need here:
-
-1. Alignment requirement for vertical direction
-
-2. whether the device supports scatter list
-
-3. what is the page size if the device would support iommu
-
-4.  plane layout in memory
-
-
-Sincerely
-
-Randy Li
-
+CJ
 
 
