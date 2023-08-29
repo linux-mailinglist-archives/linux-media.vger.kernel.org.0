@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DCB978C1DC
-	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 11:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B447778C1E0
+	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 11:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232499AbjH2J5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Aug 2023 05:57:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34974 "EHLO
+        id S231371AbjH2J5v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Aug 2023 05:57:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235164AbjH2J5L (ORCPT
+        with ESMTP id S235057AbjH2J5j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Aug 2023 05:57:11 -0400
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D66E57
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 02:56:44 -0700 (PDT)
-Received: by mail-vs1-xe35.google.com with SMTP id ada2fe7eead31-44d3cdba3f6so1678788137.2
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 02:56:44 -0700 (PDT)
+        Tue, 29 Aug 2023 05:57:39 -0400
+Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com [IPv6:2607:f8b0:4864:20::a2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB541EC
+        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 02:57:36 -0700 (PDT)
+Received: by mail-vk1-xa2a.google.com with SMTP id 71dfb90a1353d-48d333a18b3so1650958e0c.1
+        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 02:57:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1693302997; x=1693907797;
+        d=raspberrypi.com; s=google; t=1693303056; x=1693907856;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Beyr8ZFICd6hlxkv10D2Ka51YuKsltxYzz2hZIE8y/Y=;
-        b=GJ8JvYA0mxPaOdMcwKt6fIOCNN2KMTIILTN1NKmz+LfD7SBZIOfDKM5eB5z1NLFLfe
-         fFW7W3VhOlmuiQBaMdKKQcKKTn/5HsG1VtXcgTJzvn42I5xiPKt/zDSWcKfHe5u5rJkc
-         XILozqJncNe7PSTAQ4VYYJvJyns6y/y6QB33U79yidYGGG9WzvvNJu65k/bGXzBuNEIh
-         ojVmpXwPPpModQikttSosK/ULRlH8wIFPpQ9CI2mCZ2JYtcW+JluqHyXS0VnjjfpWDu6
-         PkfozIkB5YNggT+LIYMdnWpNqajKWdV7BvaLOL/x35QyyojF1mwz9OusKs5hHuOj7o2m
-         Ln7Q==
+        bh=Bpsge75N+UyUtwFYSbmCGfBGP/goXItUJTbYJtLVbCI=;
+        b=qzINBok7HVoJOBUDx6aKCyGF1tHN1K5LHLWREKNjJ1P8cx5CAm5vKM4VffLOaX0NHC
+         qKK7A/u+xAXdZHbAdT/m2FTzGeFu05ckvJospGacCTg1se1xZr8g+YkfegQ+1gPuLByd
+         g9mz942XgsbAmkwVeJtoTqKRxC4BBCEk+cH1CyDcv6X9DvvCxmbZXwiRyviodEdEknPL
+         nCvmNcgTps7uKCY0w+UTxpwbKjh3SvY+chtXukIsX296tgrtycSicWtZZlc1klmgW6zq
+         vGZaWT86Z0FggZmXOKSx+2Ln08pgcQwIfV/Z397djq6ihjmftEeZsOKD49U1bekEaIfu
+         peZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693302997; x=1693907797;
+        d=1e100.net; s=20221208; t=1693303056; x=1693907856;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Beyr8ZFICd6hlxkv10D2Ka51YuKsltxYzz2hZIE8y/Y=;
-        b=a9OiVC71ZbNc7aO/vZnnakKBxPht+uEz3h/jrFZXmZQVzevxx83nphfytE4Zl6K3DZ
-         0v/vIWczAOU7BlYAdV5f/yrg+BO67RguQXcRbsrTTa5WA62StJB66sfJkzjlOPrR5Njh
-         xzBTzTRd4i43BllqcB6UExmQ6ZCXvK4rw1Ec8ULpuxcGxs/mauSMrKIqdAY6M/Jk5+ra
-         iNZlMVWBvdf0KRQb8x5Vv7qX3+JoGuznuK5JxTg0Wdp3qkX72p/jA1Si18edJSZU0IAp
-         O5gTLuMFswpbbPlfAhvDX9H+Kpfs18oWkzTzLhEBr+r/lDssr8u1vj9sGpnPXEfSr6lo
-         1iKA==
-X-Gm-Message-State: AOJu0YxJKQE+QDs97y2YSYqlM0BvTQJNrCN75SQOdrvlwRqtSeVW6oMh
-        JOaPTyzUuVaPOlXScONZgLmitYThxnlKB4Tlwgsnhg==
-X-Google-Smtp-Source: AGHT+IHYXCLxBEBlRaoZc0bAaxJE0pveRLElT9JyiWzG6Dhe/bIi4y6J3BATslVYL23wsIik+mnPIVhVuaAOWy81rbo=
-X-Received: by 2002:a67:e883:0:b0:44d:6320:f0c7 with SMTP id
- x3-20020a67e883000000b0044d6320f0c7mr17500345vsn.22.1693302996904; Tue, 29
- Aug 2023 02:56:36 -0700 (PDT)
+        bh=Bpsge75N+UyUtwFYSbmCGfBGP/goXItUJTbYJtLVbCI=;
+        b=BY9A9KuGyCcpg4mgELAf0arHqqF/1I5BUF1ViOlDU1frucTFjCw8daU/tcV6QzFRsC
+         p8xPeNaM8Z8J8WSrlVwporxE8JmsDpIkkem2ZDSLyXonWLOGInNKuHMJ+aZlZFlTBQNN
+         JjX2K03yowVhkvmFCLtjYA09o/abpAUeAcyEHCbhReI2XZkes4ittSYnSXvtkuPN+rJl
+         xjBFG8jB/0zKGh0cWNIIYBgy0Wvvl7T3N1imNDdtS8G7q0AuqzVREm33osL4gNahz1q4
+         mTaknU5gINxojxmBfWxogcOKfddvuNFM5bOcP9vlqtpNCdLH2zunpOzP2ENPl2GJbYVn
+         yTTg==
+X-Gm-Message-State: AOJu0YwAEm3BgPkT6LR1j86PpYZMp5sQlow3ys+4qaf8bpRzZ6pZ41B8
+        EHVzu1U7UAWaca560N2w1zmmGxkRUZ4lR5gtH+uLH4Jbb0uh0RCY/A0=
+X-Google-Smtp-Source: AGHT+IHqX8a/N1TQKl39fe7uej7e/3vYTnDpW38WF5r1Ggn8UYY/tBXCFEV+vGwcj8y8rxEbMeIy5OLPvkrHyiqEoUs=
+X-Received: by 2002:a1f:c741:0:b0:48d:659:1029 with SMTP id
+ x62-20020a1fc741000000b0048d06591029mr22825182vkf.3.1693303055876; Tue, 29
+ Aug 2023 02:57:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com> <20230821223001.28480-11-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230821223001.28480-11-laurent.pinchart@ideasonboard.com>
+References: <20230821223001.28480-1-laurent.pinchart@ideasonboard.com> <20230821223001.28480-12-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230821223001.28480-12-laurent.pinchart@ideasonboard.com>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 29 Aug 2023 10:56:22 +0100
-Message-ID: <CAPY8ntDsxkCovdN5yj+so-YeojA4UxXrt7E+ZNxZ-K1C6sFJ3A@mail.gmail.com>
-Subject: Re: [PATCH v2 10/18] media: i2c: imx219: Access height from active
- format in imx219_set_ctrl
+Date:   Tue, 29 Aug 2023 10:57:21 +0100
+Message-ID: <CAPY8ntBZ=jejfkB+AjHtG4yhd=61u3OCHSZ8OjUaB9iEjJruYA@mail.gmail.com>
+Subject: Re: [PATCH v2 11/18] media: i2c: imx219: Don't store the current mode
+ in the imx219 structure
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -72,54 +72,84 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Mon, 21 Aug 2023 at 23:30, Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Use the active format height instead of the mode height in
-> imx219_set_ctrl(). This prepares for dropping the mode field from the
-> imx219 structure.
->
-> The state is retrieved using v4l2_subdev_get_locked_active_state() as
-> the subdev active state and the control handler share the same lock.
+> The mode field of the imx219 structure is only used in
+> imx219_init_controls(), after the probe function sets it to point to the
+> default mode. Use the default mode directly when initializing controls,
+> and drop the mode field from the imx219 structure.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/media/i2c/imx219.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  drivers/media/i2c/imx219.c | 20 +++++++-------------
+>  1 file changed, 7 insertions(+), 13 deletions(-)
 >
 > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 0c26cbfe58f3..4e9a50117a0a 100644
+> index 4e9a50117a0a..67a30dc39641 100644
 > --- a/drivers/media/i2c/imx219.c
 > +++ b/drivers/media/i2c/imx219.c
-> @@ -401,13 +401,18 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
->         struct imx219 *imx219 =
->                 container_of(ctrl->handler, struct imx219, ctrl_handler);
+> @@ -363,9 +363,6 @@ struct imx219 {
+>         struct v4l2_ctrl *vblank;
+>         struct v4l2_ctrl *hblank;
+>
+> -       /* Current mode */
+> -       const struct imx219_mode *mode;
+> -
+>         /* Streaming on/off */
+>         bool streaming;
+>
+> @@ -584,7 +581,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>         *crop = mode->crop;
+>
+>         if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> -               imx219->mode = mode;
+>                 /* Update limits and set FPS to default */
+>                 __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+>                                          IMX219_VTS_MAX - mode->height, 1,
+> @@ -967,8 +963,8 @@ static unsigned long imx219_get_pixel_rate(struct imx219 *imx219)
+>  static int imx219_init_controls(struct imx219 *imx219)
+>  {
 >         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> +       const struct v4l2_mbus_framefmt *format;
-> +       struct v4l2_subdev_state *state;
->         int ret = 0;
+> +       const struct imx219_mode *mode = &supported_modes[0];
+>         struct v4l2_ctrl_handler *ctrl_hdlr;
+> -       unsigned int height = imx219->mode->height;
+>         struct v4l2_fwnode_device_properties props;
+>         int exposure_max, exposure_def, hblank;
+>         int i, ret;
+> @@ -997,15 +993,15 @@ static int imx219_init_controls(struct imx219 *imx219)
+>         /* Initial vblank/hblank/exposure parameters based on current mode */
+>         imx219->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+>                                            V4L2_CID_VBLANK, IMX219_VBLANK_MIN,
+> -                                          IMX219_VTS_MAX - height, 1,
+> -                                          imx219->mode->vts_def - height);
+> -       hblank = IMX219_PPL_DEFAULT - imx219->mode->width;
+> +                                          IMX219_VTS_MAX - mode->height, 1,
+> +                                          mode->vts_def - mode->height);
+> +       hblank = IMX219_PPL_DEFAULT - mode->width;
+>         imx219->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+>                                            V4L2_CID_HBLANK, hblank, hblank,
+>                                            1, hblank);
+>         if (imx219->hblank)
+>                 imx219->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> -       exposure_max = imx219->mode->vts_def - 4;
+> +       exposure_max = mode->vts_def - 4;
+>         exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+>                 exposure_max : IMX219_EXPOSURE_DEFAULT;
+>         imx219->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+> @@ -1192,10 +1188,8 @@ static int imx219_probe(struct i2c_client *client)
+>         if (ret)
+>                 goto error_power_off;
 >
-> +       state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> +       format = v4l2_subdev_get_pad_format(&imx219->sd, state, 0);
-> +
->         if (ctrl->id == V4L2_CID_VBLANK) {
->                 int exposure_max, exposure_def;
->
->                 /* Update max exposure while meeting expected vblanking */
-> -               exposure_max = imx219->mode->height + ctrl->val - 4;
-> +               exposure_max = format->height + ctrl->val - 4;
->                 exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
->                         exposure_max : IMX219_EXPOSURE_DEFAULT;
->                 __v4l2_ctrl_modify_range(imx219->exposure,
-> @@ -447,7 +452,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
->                 break;
->         case V4L2_CID_VBLANK:
->                 cci_write(imx219->regmap, IMX219_REG_VTS,
-> -                         imx219->mode->height + ctrl->val, &ret);
-> +                         format->height + ctrl->val, &ret);
->                 break;
->         case V4L2_CID_TEST_PATTERN_RED:
->                 cci_write(imx219->regmap, IMX219_REG_TESTP_RED,
+> -       /* Set default mode to max resolution */
+> -       imx219->mode = &supported_modes[0];
+> -
+> -       /* sensor doesn't enter LP-11 state upon power up until and unless
+> +       /*
+> +        * Sensor doesn't enter LP-11 state upon power up until and unless
+>          * streaming is started, so upon power up switch the modes to:
+>          * streaming -> standby
+>          */
 > --
 > Regards,
 >
