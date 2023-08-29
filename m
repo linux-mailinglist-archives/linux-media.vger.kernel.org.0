@@ -2,152 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0016178C55D
-	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 15:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F049878C6E5
+	for <lists+linux-media@lfdr.de>; Tue, 29 Aug 2023 16:08:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236095AbjH2Nay (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Aug 2023 09:30:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57054 "EHLO
+        id S236801AbjH2OHv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Aug 2023 10:07:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232732AbjH2NaY (ORCPT
+        with ESMTP id S236798AbjH2OH1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Aug 2023 09:30:24 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADFAAF7
-        for <linux-media@vger.kernel.org>; Tue, 29 Aug 2023 06:30:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ie9NuBZcm6fu5QqZWztO/D1ynYJL4yRyyObdQHPnDFH/MZzqXU+UW/+SUSg+Vg779e7nySUeYzADDSwZOkE3M7vYV9vMUhx8wDLoFtnGZaD2TuqkRuXQmpSMl7/kh4t+mYYf0ntP/9nkxxfZdDCL23OxCEYRVp6xNRvyyC1E0jczcrkSw5X5YMg29JrKNkvS3S7N4CX3hv2nAvJjwadD4lFnIEI19pcZ6cH3kHRH1/WPX5BpkUtf6DDaZ99r6EeQpiJ5TIUf5nsE+mSvXDJXDBU5E6d2KWUjeFStT/CKgjz5dQ2G/bO1i3Tyfyy0zTaJ47h6kZhPh0l9RltnPaJSDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1WbpTfMnPzAdOhLTRAxf0tnMEhOMkNd5WUJXSVKSlWw=;
- b=bb7g4w8ZBNwB0OBRb3Enc4ESWkxkYSLERc6d2zTErod/vkbKgUbB1QtdTwj9m6i6QItxE5KoqtKk7ZgGVARX+4kp3g9ipIdrNbl0eUOsoCfhvY+LiDiVKlWRgXp0oxWscGHeoWLGom0ElgjQx1glFlZUWfxvHLtnaqs8t7EhFWe/nWbpYIDucyDHWynm8YVxq40dHEgcOpo1E+p9fNBzTONI6gBkyanS4ehfB6bKjhNQCtFMuLSMvyR/QmGDjzWk8g9m2RIWglDi+AzlUij0fu76RfI3DR2aVsZL1kxxdbODvisVJi5SjtNpy6Ujv9JDn7Q/kXJ5SYNHI69iuV2PSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1WbpTfMnPzAdOhLTRAxf0tnMEhOMkNd5WUJXSVKSlWw=;
- b=SXnmxi+/AwXpOKC//SF7pSqC0tfwJRByrBeLF3OkKORlIIwEO4MoXhSlc3B3OaHi0BfSOxmO++2saSTR+aaZKXtOtGfFYrtxvZgNlbigv30KMaMPnD2QbLbBnzypNkPQPKwf6hGMTBYqiblY6vfTsq/fTsuF3ILlAD90z2J+QyI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN2PR12MB4159.namprd12.prod.outlook.com (2603:10b6:208:1da::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Tue, 29 Aug
- 2023 13:30:18 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6699.035; Tue, 29 Aug 2023
- 13:30:18 +0000
-Message-ID: <0c62edf8-9f73-ac87-b894-7bd7ee589307@amd.com>
-Date:   Tue, 29 Aug 2023 15:30:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Linaro-mm-sig] [PATCH v2 0/2] doc: uapi: Document dma-buf
- interop design & semantics
-Content-Language: en-US
-To:     Daniel Stone <daniels@collabora.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-References: <20210905122742.86029-1-daniels@collabora.com>
- <20230803154908.105124-2-daniels@collabora.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230803154908.105124-2-daniels@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0167.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b4::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Tue, 29 Aug 2023 10:07:27 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC6DD7;
+        Tue, 29 Aug 2023 07:07:18 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TCfBhj000902;
+        Tue, 29 Aug 2023 14:06:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ux9fxYpJr1hfeG9Nqx7vzyVY9soFUE7yRD8+Xy/HLIA=;
+ b=H73zGt6sGoC/hb60E9vFNh0WIKahymwbexQJ58bA2uunJfLNuYvjGET2W8beJUdJpDBF
+ XMMhvkiV0Lz3y/eKv6HWXTEVl+KwGz5CYLQt8PYh0D3KMZC1w+z2ccdH6G8M7y8EN0Bu
+ 2ootTxRacDFrUQPdMbFJ6ar4LW6wseQdJ7W9qREw2db6JTygtTPJGfgTOxV9DOTUasAd
+ tKqDO5FyYSZwLjrfTPAldfC/s48yT08q+HxBU7HeA1+hNwTfbmsMxALQOmfXcxXb68Vq
+ goZMR2YoWTs6JviXkXrrZPa/iguqIjcyyyRJs0pC3Ax4r9O1AmUpXYkT1XmCA1TR0hdo XA== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ss2xb9xdq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 29 Aug 2023 14:06:55 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37TE6sIs026854
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 29 Aug 2023 14:06:54 GMT
+Received: from [10.50.3.213] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 29 Aug
+ 2023 07:06:50 -0700
+Message-ID: <21e7b893-2b84-f809-9775-f0c9c86c96a2@quicinc.com>
+Date:   Tue, 29 Aug 2023 19:36:47 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN2PR12MB4159:EE_
-X-MS-Office365-Filtering-Correlation-Id: 44b07b6e-67a6-4bb5-051a-08dba89415d7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tZRxwvX10WIUBI8GqWwJUGprWDmqC7Ihq/5h8zRCbcstNEbrjeGlmEiZfuhHKDn/1VrcpfBTSTFc7qLZThtHKbjiV3kZkXF7ooTjx20IbYp+00ZrZyhHmaicfDy2UOqEbj4oxeRv+1yAoFh3zTm5IZMCFd2TgLSwQIII2S2VAeZDs79N6tLcovRdutZhRXKSB6j8LNdHANogXGfwrickVDLlaPCNye3ErsJqn9Aaog5DIr93H7NfwkCbaATMpPuYH/XPRHMNcurugLeLG/aIu6X0OSLWvAxvBoHqaKpd36mbJsei/o0ehGyNUeAzkJfsqAiV9XoUb+eNNZz/yL0coPS8SNYQHSP9VqdgyKUbGkXFNPnnK7nStzI6POc+GcpAqZjxaqUILr9i/HAL2TVwdg2Wj9MUX9QHfIMm+VDqsqSDPHv9RgLWJGZ3PCSV4WCA69Fqk5iWlIT1SR1q6XEaaFfWQu4hHNDVaL+XCWAgk+dMZNG528lAKeTNY9MD0FJpd9J3QuBXUJZuixJOkKcRENeX42hex4PXziagAgR5wt03f8yZbEbKdpjNmf1N99AlufKEsKVLEUrNhCg2veEvKnmyEVSQxIJWt7mYT8D+aAwm/RvQ3pnSUWSLrw5ix4kuPoqkr5ogErdTkxuXhfGixA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(136003)(376002)(39860400002)(366004)(451199024)(1800799009)(186009)(8936002)(6666004)(66946007)(31686004)(478600001)(6506007)(66476007)(66556008)(6486002)(316002)(38100700002)(41300700001)(66899024)(6512007)(36756003)(26005)(8676002)(5660300002)(31696002)(2906002)(86362001)(2616005)(4744005)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUxYOEhtWlY4aURwQ0hybGtNczVLN0x0emEvb1ZpMnV5K2Vla0R3Z3BMcTJt?=
- =?utf-8?B?cW5qUm1ZRnc0NmRIYSs1djAwcC9wbTNzUk9ncDJTQm00WUVVMjdKQ0k0cWFt?=
- =?utf-8?B?WktBYjhmMnVWRzVOQkN4SzRIYk9CdHRmam1EQ1FpVVFLZjRZOWZyZWNEQzJa?=
- =?utf-8?B?a3ZuVWk2V2dqZXc1M2s1aVJPNU1mYnhaTFY2WGdZSDdRNFVqemlYOElGM09L?=
- =?utf-8?B?dmhnNzhhNXhpM0hIV1VUcFBhelRWZS83V3lDM00xcGl4bXFmY2V3ZTc1aUJh?=
- =?utf-8?B?cHVMcENHQzJ3cnltNlI0WEJHV3lEVjJ0cHlia0NrSlF2THdsVSszN2dQS3pY?=
- =?utf-8?B?WG12dFA1clBiTXFOeDAxWXhhQyt4QTREUWdPWkY1aVlTcU5pM1Nqd0lvZ2tm?=
- =?utf-8?B?Zlg2dVhIU3dzbHhUT0E2cW0yWkw4YkU3c2hwbzl2K3RBWjdhTnJ2d2NiM1ZF?=
- =?utf-8?B?R0p2L3ZaRFNjRGtyTytHZlJacUZmOVc4bm9GVVlhcTlQenYyTzBDd0pIQk16?=
- =?utf-8?B?R1BPdDMwNlp5U3FVQU1pUEZsSzZrbU5yd0p3SG1oUFZOMDBQVmNvSCtDc3RZ?=
- =?utf-8?B?Yy9DOU93ejJJRThGeXN2a3FCcUU4NzZPc29yWmFEQVE0Y1BXdlBEd0ZLOTha?=
- =?utf-8?B?c0NTbjJIT0VBT3dwb3lVQXd4d2labUZ4YkppVjlGdVoxaWE0L3UwSjNjaWZ4?=
- =?utf-8?B?WlRlZ2hUNWIzWUtxUjhYQXJyNTVWUm5tVFBEODdBL0FRNkRCY212Y1IzeG5v?=
- =?utf-8?B?SzBTSndvTUpiaUVGaXhkMnY0TnJUWk80dlhZaDd2TUs4TFNvU1NKcUVlM2ZY?=
- =?utf-8?B?SmZ1WUtYRHArVmdFUlM4bGx0WEtWVGdHOW94bGF3QnIxa2pxbFBsMXBZa1F3?=
- =?utf-8?B?Vi9OS2xsclBmRHA1L2pNQWJzanRFOE56TmJwTkVsSER4SHBHU0lrZ2tLUHov?=
- =?utf-8?B?MXRpNUdlcUh1MjJ3RHB3WXVjM3VOOTh6UE0vU0J2Z25HUjI0WnlkUlJjWVcy?=
- =?utf-8?B?eW5aaXI0bVNnbUZGOFN4Zm9hT2xaUEFuSi9GSkVhZW1pOWZ6cm1ZQWpNUmpO?=
- =?utf-8?B?OWtkaUNlR0JtVFJTVUk3Y2xaOHM1NEs4QU9yZDRFTkIxb1RoWklWOVV0ZWNr?=
- =?utf-8?B?a2ZSVkJqWDJ4QnE1N0o0RzZ2RUt6YmRQbXErMWNsQUsyUjAzTnFpekVNTnNS?=
- =?utf-8?B?cE1FWFNRNTJUd1M5K0Y0YWI4UURNeVlsSkpaMS9mVFkrRHBVVmVPS3loRm5u?=
- =?utf-8?B?ZFlpdDR1M0ZiMDR2QXFGTTdhWDNqaCthcyt4VmNrODRHL3p2amxWSVl5NHRP?=
- =?utf-8?B?aVlYN0ZHazJjVXVpM0ZkRFJyREVDZmI1dWIxRnM3eEVwV29qTVpZbjNNenp1?=
- =?utf-8?B?YjlOUHI1SnUwMkUybTR3ekRUTWVsK0g3ajRWNGh0WGR6NGdlb08zTVZ1UVQr?=
- =?utf-8?B?M0dDZG5rVkRZRXhGWFpMNjlEN0s2ZjBCdGY3QlNsaHZIN1Njd1pSM2dnZ2hR?=
- =?utf-8?B?bjU5cTdPVHA0cFYyYU1ObDcyVTlrZDVzK0RRcUM0emtQaGFCYno1NW1ESWEr?=
- =?utf-8?B?VUhHTUF2UHRFNmRwb2pCcHdaL2J1TUdsekE4V3A3MGsyR00yK2hwdmpuZ2M2?=
- =?utf-8?B?SGt1Q3N2bGJKVGZPNHRsdjFaZlFxb1dZN1AvWThjaUJzeVhpSTN0eVpZVlRJ?=
- =?utf-8?B?bG95Nm9SQzhWT2hJeGFDZTI3eVltNlIzRER2djBLMVBqYTk3cm9RNXJ3ZE5G?=
- =?utf-8?B?a2J5ZHp3ZDJkTXJTVGZPRDYzUEJ6ZjVDTE1UZkdBbXgvZC9hbEdNWXZtMjNp?=
- =?utf-8?B?bzdmN29xdlE0RGMxdkdZWE81bWlFOE1JMHdSdkUrZUQxbmNaRUxBRDJXTVpP?=
- =?utf-8?B?blA5TS92QlptMG5tcVVaUm9DeXR4b2NiQTJDNnZPSUZIaytxTEF3ZktpTXZN?=
- =?utf-8?B?K2tRNzRSd0FjT045cVJpeit3cTc1a2tJOEYzUjdDL1lIaG5hUkxGcjF4MUc5?=
- =?utf-8?B?cVl0TkRyOEVLejQrenZKMFlUU1RuRXppQUM2TC8vcGdtY2Z0Vnd4Q0JZNDN6?=
- =?utf-8?B?RDFCcHI0TXNsYUY1L25saVBZRC9hWnhDdnE2WlJ1aWZSZ2xqUmRqdmNXam1a?=
- =?utf-8?Q?ThOA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44b07b6e-67a6-4bb5-051a-08dba89415d7
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 13:30:18.4271
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w1cjohQOEw56q+YpqLlT9F3p34O4S/DQVm8i2lD81+RuyCKOfujMWl5gNAVQgB1l
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4159
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 4/4] venus: hfi_parser: Add check to keep the number of
+ codecs within range
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        <stanimir.k.varbanov@gmail.com>, <agross@kernel.org>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <mchehab@kernel.org>, <hans.verkuil@cisco.com>,
+        <tfiga@chromium.org>
+CC:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+References: <1691634304-2158-1-git-send-email-quic_vgarodia@quicinc.com>
+ <1691634304-2158-5-git-send-email-quic_vgarodia@quicinc.com>
+ <fec4a8c7-206f-7af8-4ea9-c919a677bf7e@linaro.org>
+ <2214c31b-eca2-012e-a100-21252a724e7c@quicinc.com>
+ <8b72ce47-c338-2061-f11a-c0a608686d8c@linaro.org>
+ <e880da07-ccd4-e427-ed34-20b284dc7838@quicinc.com>
+ <8f1a4ca0-dde8-fa5d-bca3-d317886609de@linaro.org>
+ <060f4dbe-63d6-1c60-14ca-553bf1536e5a@quicinc.com>
+ <c5f912a9-cc08-1645-ad04-c7a58c1e47ce@linaro.org>
+ <cd9da205-ccdb-dc71-16a4-83b22ca7fcae@quicinc.com>
+ <ea587bb1-8ff2-7a92-f948-fd932f6b2769@linaro.org>
+ <9391ae4e-afbd-ef52-12dc-7f8875216c85@quicinc.com>
+ <6ecbd88a-150f-d40e-22bf-4fda921fc483@linaro.org>
+From:   Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <6ecbd88a-150f-d40e-22bf-4fda921fc483@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: H60HqpHgS_9o0tz8Oo3wvWWRzjjcMcO6
+X-Proofpoint-GUID: H60HqpHgS_9o0tz8Oo3wvWWRzjjcMcO6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-29_11,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ mlxscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0 bulkscore=0
+ spamscore=0 priorityscore=1501 mlxlogscore=606 adultscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2308290122
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,T_SPF_TEMPERROR autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 03.08.23 um 17:47 schrieb Daniel Stone:
-> Hi all,
-> This is v2 to the linked patch series; thanks to everyone for reviewing
-> the initial version. I've moved this out of a pure DRM scope and into
-> the general userspace-API design section. Hopefully it helps others and
-> answers a bunch of questions.
->
-> I think it'd be great to have input/links/reflections from other
-> subsystems as well here.
 
-Could you send that one to me once more. My mail client seems to have 
-swallowed the patches.
+On 8/29/2023 5:29 PM, Bryan O'Donoghue wrote:
+> On 29/08/2023 09:00, Vikash Garodia wrote:
+>> Hi Bryan,
+>>
+>> On 8/14/2023 7:45 PM, Bryan O'Donoghue wrote:
+>>> On 14/08/2023 07:34, Vikash Garodia wrote:
+>>>>> We have two loops that check for up to 32 indexes per loop. Why not have a
+>>>>> capabilities index that can accommodate all 64 bits ?
+>>>> Max codecs supported can be 32, which is also a very high number. At max the
+>>>> hardware supports 5-6 codecs, including both decoder and encoder. 64 indices is
+>>>> would not be needed.
+>>>>
+>>>
+>>> But the bug you are fixing here is an overflow where we have received a full
+>>> range 32 bit for each decode and encode.
+>>>
+>>> How is the right fix not to extend the storage to the maximum possible 2 x 32 ?
+>>> Or indeed why not constrain the input data to 32/2 for each encode/decode path ?
+>> At this point, we agree that there is very less or no possibility to have this
+>> as a real usecase i.e having 64 (or more than 32) codecs supported in video
+>> hardware. There seem to be no value add if we are extending the cap array from
+>> 32 to 64, as anything beyond 32 itself indicates rogue firmware. The idea here
+>> is to gracefully come out of such case when firmware is responding with such
+>> data payload.
+>> Again, lets think of constraining the data to 32/2. We have 2 32 bit masks for
+>> decoder and encoder. Malfunctioning firmware could still send payload with all
+>> bits enabled in those masks. Then the driver needs to add same check to avoid
+>> the memcpy in such case.
+>>
+>>> The bug here is that we can copy two arrays of size X into one array of size X.
+>>>
+>>> Please consider expanding the size of the storage array to accommodate the full
+>>> size the protocol supports 2 x 32.
+>> I see this as an alternate implementation to existing handling. 64 index would
+>> never exist practically, so accommodating it only implies to store the data for
+>> invalid response and gracefully close the session.
+> 
+> What's the contractual definition of "this many bits per encoder and decoder"
+> between firmware and APSS in that case ?
+> 
+> Where do we get the idea that 32/2 per encoder/decoder is valid but 32 per
+> encoder decoder is invalid ?
+> 
+> At this moment in time 16 encoder/decoder bits would be equally invalid.
+> 
+> I suggest the right answer is to buffer the protocol data unit - PDU maximum as
+> an RX or constrain the maximum number of encoder/decoder bits based on HFI version.
+> 
+> ie.
+> 
+> - Either constrain on the PDU or
+> - Constrain on the known number of maximum bits per f/w version
+
+Let me simply ask this - What benefit we will be getting with above approaches
+over the existing handling ?
 
 Thanks,
-Christian.
-
->
-> Cheers,
-> Daniel
->
->
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
-
+Vikash
+> ---
+> bod
+> 
