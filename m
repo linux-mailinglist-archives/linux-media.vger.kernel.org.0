@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C9EB478D852
-	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6851E78D857
+	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:30:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231496AbjH3SaL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 14:30:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55892 "EHLO
+        id S233740AbjH3SaO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Aug 2023 14:30:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245462AbjH3PQc (ORCPT
+        with ESMTP id S245467AbjH3PQd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 11:16:32 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9C41A6
-        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 08:16:29 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-31c73c21113so5069645f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 08:16:29 -0700 (PDT)
+        Wed, 30 Aug 2023 11:16:33 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EABE1A2
+        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 08:16:30 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-31c8a710545so3825161f8f.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 08:16:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693408588; x=1694013388; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1693408589; x=1694013389; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1zt4EZs7eZDJHyWyeQeAf0MtBSdiw6c6eDKc6JR9WTg=;
-        b=TAHJwBfWd4+GN1O9kilABrT9lwqWGFe7VpkTBqBQF99CtcyXcZNHA0KMfJ7FBAB3wv
-         ZmbTXR8eYuugW2JBiJ4Gs8o3Xxdc3iZBkvq2oYPdC4VQRAV8NxeJs7JH4gyAYZ2KlqHi
-         CE6vPJhItehhPwrl1p8UbenzSmVi6lWl8v8l1Za4Y7TuI0o/kEDKND1we1MxntBp8Z/Y
-         2k6slRPA3SVxWv7lTYPGGmVEdGJ4gZ9z7hqdkX7Ur7iVAEhDAmVYCS7RwKh0dRGmJ0/X
-         NnN9sh9lFJjQ+x1yHgo+zVjzEbW10x9aJDZn70lom0Nr21y1195+jPfWOg12GJD/tLso
-         KRLg==
+        bh=mDUjhNsZiKuiQHQHANm264fa/+Px+b5VJ7MlnK/AAX8=;
+        b=HQzHNxAPNqgPUiCbt2Mb/fHWWjH1lEu3w9iT0MiF7ZaUrpPL4VpcU3wdgROTAbDtif
+         BBiuetDGn+FyV/f/A44dPXbTncbEfu95DB7pJviL9UWjQY1eDlMFYK4UPxsAi6FhuH3/
+         65Q2WePwRm498+VOVrgQpYBOgnZqJ4EJGFZ0oMJcmeE0eZrkIDosYc6eiwj/UaM8pjn+
+         FbP90e1GYiRqsHkW9ilf/gd66lOXaERd5vUJWtd9vRBffLxyTcycHFQqM093nzkfWVax
+         /utKuj0E4GN0OmuX9MT4iOCtQJOJ7SumXdDP+hE42n7yTlb1gi8O5jUG3TVH/i7fwxk4
+         C5tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693408588; x=1694013388;
+        d=1e100.net; s=20221208; t=1693408589; x=1694013389;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1zt4EZs7eZDJHyWyeQeAf0MtBSdiw6c6eDKc6JR9WTg=;
-        b=ZRVJ+TE1ywhhurVO/lzkbnklDyaFVjFNebtkupYR/b+4llEV+VGybT/T007BojGFWq
-         qhLcTso0Mx8ACaB6MoYFFiorbgq0snvPeaK0uK1nvQPV6r+/ARZS99LtLg5yxOQH1Nbk
-         4G32uhjaZwJpH4V550bXO1k3k/PKuqWlP9tNkePZPtI5teOcjXDVXKfRAiNK4hCWL6c0
-         uELeap5XcidG98GhQG5VXqUMS47Wp8JzC3hLzfiZ+fdwm4blBl7tk9Go2KemaV6QEaIm
-         ETefG0w+R+ZQTgEGZGIguSmHHX6JPROxzKM7msdqRUKSH1P6f3+P/NONIGJ/hctYa47S
-         vQNg==
-X-Gm-Message-State: AOJu0YzI0EoxGgEE0qkYXLXdrRH0vBU7iMY9xZCEobvI/wYO0B1HlNdE
-        uVMV5XdyKNAEvh6y46K70rbq3BkGQSD5OCG4TZU=
-X-Google-Smtp-Source: AGHT+IGU+2wE9af9RhhGkjwitXKlTqt4fa5DMpISe4UaxwVC14k1Bi5rske0B9oO1Rfduvv8kMzeJw==
-X-Received: by 2002:a5d:6a4a:0:b0:31a:d8be:d6f4 with SMTP id t10-20020a5d6a4a000000b0031ad8bed6f4mr1823941wrw.10.1693408587975;
-        Wed, 30 Aug 2023 08:16:27 -0700 (PDT)
+        bh=mDUjhNsZiKuiQHQHANm264fa/+Px+b5VJ7MlnK/AAX8=;
+        b=FpRqsC+s+CzyhKWBMcOBLB8l8rS60JTmfaXjzctc9udMzK6rpw8BkgYPBld2NQZsgS
+         pH+/zZL1SC59Swo4P9GCTJ+vL1kGzssAnu53Eq2E1lYxLkeDd22AXQZFxHwMKpc7nnnd
+         Bul3zC/2inifqQXqMAVp/CdtvYvrCuz1ZnzLEl3WkBVDYFibJCp806d8vtetRGHdq1Md
+         x2gCG+ZZxDduZh6omqQGIZ1Z7+SG+xdwHncdMaDCkCBBGM8/ItaDenJbrHu+d9cUTNXD
+         cfVMmXTKVSy5KkX7/QDQ2uGIkgP+Zmea5Vt7Qwlu5yf9afbriF1hGmljVspP6JVhnHud
+         WoPQ==
+X-Gm-Message-State: AOJu0Yz6fC+JtWwSjUNAPrwAl7QGGHCjAw6C//NXucS/IMh216EXjgQh
+        4qjZ4smjd59KLfpWgWQcU66bjw==
+X-Google-Smtp-Source: AGHT+IE9UqrL+pPJP8W2yTx9xqQ4WDHOKHVlKEroNve58lNQAMRLQBg5uzkYo4wAbnbWJdjNwG1UjQ==
+X-Received: by 2002:a5d:4e43:0:b0:317:5182:7b55 with SMTP id r3-20020a5d4e43000000b0031751827b55mr1910128wrt.42.1693408589200;
+        Wed, 30 Aug 2023 08:16:29 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id b16-20020a5d4d90000000b0030fd03e3d25sm16989961wru.75.2023.08.30.08.16.26
+        by smtp.gmail.com with ESMTPSA id b16-20020a5d4d90000000b0030fd03e3d25sm16989961wru.75.2023.08.30.08.16.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Aug 2023 08:16:27 -0700 (PDT)
+        Wed, 30 Aug 2023 08:16:28 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
         agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
@@ -58,9 +58,9 @@ To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
         andrey.konovalov@linaro.org
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v3 08/10] media: qcom: camss: Fix invalid clock enable bit disjunction
-Date:   Wed, 30 Aug 2023 16:16:13 +0100
-Message-ID: <20230830151615.3012325-9-bryan.odonoghue@linaro.org>
+Subject: [PATCH v3 09/10] media: qcom: camss: Fix set CSI2_RX_CFG1_VC_MODE when VC is greater than 3
+Date:   Wed, 30 Aug 2023 16:16:14 +0100
+Message-ID: <20230830151615.3012325-10-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230830151615.3012325-1-bryan.odonoghue@linaro.org>
 References: <20230830151615.3012325-1-bryan.odonoghue@linaro.org>
@@ -75,32 +75,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-define CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE BIT(7)
+VC_MODE = 0 implies a two bit VC address.
+VC_MODE = 1 is required for VCs with a larger address than two bits.
 
-disjunction for gen2 ? BIT(7) : is a nop we are setting the same bit
-either way.
-
-Fixes: 4abb21309fda ("media: camss: csiphy: Move to hardcode CSI Clock Lane number")
+Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
 Cc: stable@vger.kernel.org
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/qcom/camss/camss-csid-gen2.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index 04baa80494c66..4dba61b8d3f2a 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -476,7 +476,7 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
+index 45c7986d4a8d0..140c584bfb8b1 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
+@@ -449,6 +449,8 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
+ 	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
  
- 	settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
- 
--	val = is_gen2 ? BIT(7) : CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
-+	val = CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
- 	for (i = 0; i < c->num_data; i++)
- 		val |= BIT(c->data[i].pos * 2);
+ 	val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
++	if (vc > 3)
++		val |= 1 << CSI2_RX_CFG1_VC_MODE;
+ 	val |= 1 << CSI2_RX_CFG1_MISR_EN;
+ 	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
  
 -- 
 2.41.0
