@@ -2,117 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BC8F78D85F
-	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DB3D78D823
+	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233814AbjH3SaU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 14:30:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54174 "EHLO
+        id S231853AbjH3S3d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Aug 2023 14:29:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242176AbjH3HWg (ORCPT
+        with ESMTP id S242262AbjH3HoK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 03:22:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F01F1BE;
-        Wed, 30 Aug 2023 00:22:32 -0700 (PDT)
-Received: from [192.168.1.110] (unknown [103.251.226.104])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5592EE4;
-        Wed, 30 Aug 2023 09:21:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693380066;
-        bh=F2nGmB1UG3evPTDDcWso39hwyLzIhuxO2BI6OO2Pi+Y=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Z9FqDaEP8P4aOcP88r/iZLjd3ciBk/UzHVOsdLy8KzpG250/90osEOhQ/uw+wHBrb
-         cJKwISNNlCrI5Qb+e7TxagVObySgN8qI7ShaCzzRTvE2dLP8OyJu1TbbSW1S0T7ozg
-         /urT4HY+fUMcBR9AhVG4eEvTh7vIEBdJZSnUbP64=
-Message-ID: <4efee746-f59c-fc61-7811-fc3c7ceb1e7f@ideasonboard.com>
-Date:   Wed, 30 Aug 2023 12:52:21 +0530
+        Wed, 30 Aug 2023 03:44:10 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7756BCD8;
+        Wed, 30 Aug 2023 00:44:08 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-68a520dba33so4193828b3a.0;
+        Wed, 30 Aug 2023 00:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693381448; x=1693986248; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KaI3PfD8joR99TjMB7Mb3TjzWqZ8IotMwduAcjhk/lk=;
+        b=gf77cZ800GC40FJrd0lVKsSlrFpSewybhTXRscHHqeTx6zAvxpnNlaisMmWkFl4Osl
+         M3UxNwQkLofiOajnFYKqof3AxLkkW/7/PJrIR9pXfHSoZzSXxVXJcEqYkIXEDTDFXB3O
+         rZ/fogGfH9kmY9r4k+Z0SzKrbEi1pQVMs8XxsH69xIHEV4l1dPmbOwG1VoxkPFAZoPfa
+         Av877gjC9oTym1LNQ+z9BbT1325IdtMYQ/sFanedqitrnUDXwbsOze5Hq6t2RYXwd6mt
+         90LVEyp6JduYOa/EwKL0oFVu48WbpGlkDMPE5XYFtdmJliT7z0NqOzmz3KCIoQPrmgcn
+         QRww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693381448; x=1693986248;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KaI3PfD8joR99TjMB7Mb3TjzWqZ8IotMwduAcjhk/lk=;
+        b=YhGdIU0JR26B5CydR3A9vwD0oty1BCgJiQ+e0+hhigPNKWel8jQTXLm3rh/tJwMZ9M
+         9tPVJhVb3kdmycjwTPNfbnqUllIC+J0xPK9yYvdPDVqVg9SvDgkgdik8Zs2ixLzhSKzB
+         zIAYFjxIjb8Ag/c7zSOqarTAq5lgPgBRn/22d6yUdoWI1YRcIzddgkiRnOwxewx1FRtM
+         S5cWoiObxr78V68JknP9JilkJn6ej7ZuWqF2LpklMHUmKmWkXMRoMV+mSQBKPTBTcFvF
+         KPO1gDPcqrT0ZQA7XLBm95HGxM2OUn6q+Vq9P6Md8NO1OvR8uCtwhNCCJgasMJbQZp3q
+         UZsA==
+X-Gm-Message-State: AOJu0YwKsgRd+TXnTe8XhBb7p00eonVHCFyZs23QxRG1Xkf+cDRIO4AN
+        DkDg9ZlXjzGpUQrFzDc6qcs=
+X-Google-Smtp-Source: AGHT+IGaQ4P8EvC7PlpIhxszpNMfsVh9XWh9SaGCCo1nYYOFuxiN9tKA8ohVp4yCvqqpSXyx313liA==
+X-Received: by 2002:a05:6a21:7784:b0:14d:f41c:435a with SMTP id bd4-20020a056a21778400b0014df41c435amr1839509pzc.39.1693381447705;
+        Wed, 30 Aug 2023 00:44:07 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40c2:1033:772c:a5cb:ea8f:e44:ec54])
+        by smtp.gmail.com with ESMTPSA id i19-20020a170902eb5300b001b8b26fa6c1sm10467189pli.115.2023.08.30.00.44.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Aug 2023 00:44:07 -0700 (PDT)
+From:   coolrrsh@gmail.com
+To:     hverkuil@xs4all.nl, mchehab@kernel.org, slark_xiao@163.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        Rajeshwar R Shinde <coolrrsh@gmail.com>,
+        syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+Subject: [PATCH v5] media: gspca: cpia1: shift-out-of-bounds in set_flicker
+Date:   Wed, 30 Aug 2023 13:14:01 +0530
+Message-Id: <20230830074401.7696-1-coolrrsh@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 1/2] media: i2c: imx214: Use v4l2_subdev_get_fmt()
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20230830045323.71768-1-umang.jain@ideasonboard.com>
- <20230830045323.71768-2-umang.jain@ideasonboard.com>
- <20230830071929.GI6477@pendragon.ideasonboard.com>
-Content-Language: en-US
-From:   Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20230830071929.GI6477@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-On 8/30/23 12:49 PM, Laurent Pinchart wrote:
-> On Wed, Aug 30, 2023 at 10:23:22AM +0530, Umang Jain wrote:
->> The imx214 driver uses the subdev active state, there's no
-> Does it ? I don't see a call to v4l2_subdev_init_finalize(), and the
-> imx214 struct has fmt and crop fields in which it stores the active
-> format.
+Syzkaller reported the following issue:
+UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
+shift exponent 245 is too large for 32-bit type 'int'
 
-Yes, It doesn't. Got confused with one of the pad ops (.init_cfg) which 
-led me thinking this driver uses active state, whereas I should have 
-checked v4l2_subdev_init_finalize()
+When the value of the variable "sd->params.exposure.gain" exceeds the
+number of bits in an integer, a shift-out-of-bounds error is reported. It
+is triggered because the variable "currentexp" cannot be left-shifted by
+more than the number of bits in an integer. In order to avoid invalid
+range during left-shift, the conditional expression is added.
 
-Apologies for the noise.
 
-This patch should be discarded.
->
->> need to implement the .get_fmt() operation manually. Use the
->> v4l2_subdev_get_fmt() helper instead.
->>
->> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->> ---
->>   drivers/media/i2c/imx214.c | 17 +----------------
->>   1 file changed, 1 insertion(+), 16 deletions(-)
->>
->> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
->> index 2f9c8582f940..d8bdc52f552a 100644
->> --- a/drivers/media/i2c/imx214.c
->> +++ b/drivers/media/i2c/imx214.c
->> @@ -548,21 +548,6 @@ __imx214_get_pad_format(struct imx214 *imx214,
->>   	}
->>   }
->>   
->> -static int imx214_get_format(struct v4l2_subdev *sd,
->> -			     struct v4l2_subdev_state *sd_state,
->> -			     struct v4l2_subdev_format *format)
->> -{
->> -	struct imx214 *imx214 = to_imx214(sd);
->> -
->> -	mutex_lock(&imx214->mutex);
->> -	format->format = *__imx214_get_pad_format(imx214, sd_state,
->> -						  format->pad,
->> -						  format->which);
->> -	mutex_unlock(&imx214->mutex);
->> -
->> -	return 0;
->> -}
->> -
->>   static struct v4l2_rect *
->>   __imx214_get_pad_crop(struct imx214 *imx214,
->>   		      struct v4l2_subdev_state *sd_state,
->> @@ -842,7 +827,7 @@ static const struct v4l2_subdev_pad_ops imx214_subdev_pad_ops = {
->>   	.enum_mbus_code = imx214_enum_mbus_code,
->>   	.enum_frame_size = imx214_enum_frame_size,
->>   	.enum_frame_interval = imx214_enum_frame_interval,
->> -	.get_fmt = imx214_get_format,
->> +	.get_fmt = v4l2_subdev_get_fmt,
->>   	.set_fmt = imx214_set_format,
->>   	.get_selection = imx214_get_selection,
->>   	.init_cfg = imx214_entity_init_cfg,
+Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
+Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
+Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+---
+v1->v2
+Changed the patch. Instead of avoiding shift operation for invalid
+input of 'exposure.gain', throw an error for invalid range.
+v2->v3
+Changed the commit message details
+v3->v4
+Removed the trailing spaces in commit message
+v4->v5
+Replaced the hardcoded value with inbuilt macro
+---
+ drivers/media/usb/gspca/cpia1.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
+index 46ed95483e22..5f5fa851ca64 100644
+--- a/drivers/media/usb/gspca/cpia1.c
++++ b/drivers/media/usb/gspca/cpia1.c
+@@ -18,6 +18,7 @@
+ 
+ #include <linux/input.h>
+ #include <linux/sched/signal.h>
++#include <linux/bitops.h>
+ 
+ #include "gspca.h"
+ 
+@@ -1028,6 +1029,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
+ 			sd->params.exposure.expMode = 2;
+ 			sd->exposure_status = EXPOSURE_NORMAL;
+ 		}
++		if (sd->params.exposure.gain >= BITS_PER_TYPE(currentexp))
++			return -EINVAL;
+ 		currentexp = currentexp << sd->params.exposure.gain;
+ 		sd->params.exposure.gain = 0;
+ 		/* round down current exposure to nearest value */
+-- 
+2.25.1
 
