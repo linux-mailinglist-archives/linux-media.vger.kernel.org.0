@@ -2,130 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3238978D82F
-	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D0EA78D856
+	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:30:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232248AbjH3S3j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 14:29:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39838 "EHLO
+        id S233583AbjH3SaO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Aug 2023 14:30:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343734AbjH3QoD (ORCPT
+        with ESMTP id S1343773AbjH3Qvp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 12:44:03 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC2971A1
-        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 09:43:59 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1c1f7f7151fso19605525ad.1
-        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 09:43:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1693413839; x=1694018639; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lys1zqL5/DflOY2CEUv0l1jES6B5BHfh+5mdgRFaHc0=;
-        b=ntbkGJohnq2XiW0I7u5T7Q03wI2URgpZlXyZrEuCKaZXTL20wzvXjK/322qf5U+47I
-         rJ67qJiNxdCcfhTgQaDSKkgH1ZNMwaj6qF6F0HQ6fr/eS89DKEDQ+Jz3JEl8KuXH7+zv
-         O3mg+bb6gjNUvvSpd/t6h/eDTzxaiNQKgNcUekFruP9EpAahPBo9wXco3hgfDpltYglA
-         yqIXlrnlRRAoBxH2Kyi47NvyVgRxObfyWh410kwb0iSXje6nDN5/Ray2/J5zivoIQVSO
-         9s55bgrT/1nXQt0poinw2DU0kvnoMc2tptog5BxPqMwPwM5Tj5zhr/8djliM/xwuERI7
-         Gtdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693413839; x=1694018639;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lys1zqL5/DflOY2CEUv0l1jES6B5BHfh+5mdgRFaHc0=;
-        b=ErKP/aj6ApuTA2h+6vGAn1ufFnWulIMI1J2QN7JX2KUl7Cr4Wvm+cMNY4k0Y//1ONw
-         g/6ARvTdvGUSJRG4StXcHT/iMR+wDQViNhOQgf2B1qEZPMdS3qqhMTPpkxeu+leL8WxF
-         sMcTS626jkZ2JYVnzW7EDvPbufHY5iXAyB37JDt/vQq4VddLK7sazT+VQXem0eCgt/H9
-         5/cBOt+1vz2+NdgojRLHC5DAiBbHpP/w3xIRS9Xg3I53R3K+rm/xc1lhRFlp36EAUaco
-         AveSxIiAbAIkIsAKn0qBVz4Qa4JYReejR1kYH3Qmn32PreQTXZlom3SCaa439pXSxZNq
-         lx1A==
-X-Gm-Message-State: AOJu0YwQvM6IxjvhYd1BF+UtaYQt4ZDo5bVX75/IimdbYBdAx1gvauP6
-        CXFSV0qhR0/yrOHFOeiMOk+UGg==
-X-Google-Smtp-Source: AGHT+IEgvTm6ZPGyWF9D7X3ASVWWGrWtPIK9lG2unX/1lX5zpfNCJ9O15xyfLMCZkZhVk6ehLCACdA==
-X-Received: by 2002:a17:903:22ca:b0:1bf:d92e:c5a7 with SMTP id y10-20020a17090322ca00b001bfd92ec5a7mr3002630plg.28.1693413839424;
-        Wed, 30 Aug 2023 09:43:59 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id b18-20020a170902d31200b001b53c8659fesm11280968plc.30.2023.08.30.09.43.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Aug 2023 09:43:58 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1qbOIP-0005rb-8y;
-        Wed, 30 Aug 2023 13:43:57 -0300
-Date:   Wed, 30 Aug 2023 13:43:57 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Anle Pan <anle.pan@nxp.com>, m.szyprowski@samsung.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hui.fang@nxp.com
-Subject: Re: [PATCH] media: videobuf2-dma-sg: limit the sg segment size
-Message-ID: <ZO9xzf727b/YvZB/@ziepe.ca>
-References: <20230828075420.2009568-1-anle.pan@nxp.com>
- <CAAFQd5Cn3xQroyYtC+m+pk1jOE5i3H+FGr-y8zqhaf0Yo5p-1Q@mail.gmail.com>
- <deb735ce-7de1-e59a-9de4-1365b374b417@arm.com>
- <20230829150442.GA3929@lst.de>
- <CAAFQd5CiHXvsJugSi+hXY9ESsmxUzBzmbhF6G48iVsOcL5eMtQ@mail.gmail.com>
- <20230830143341.GA25574@lst.de>
+        Wed, 30 Aug 2023 12:51:45 -0400
+Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 143F61A2
+        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 09:51:43 -0700 (PDT)
+Received: from [192.168.10.7] (unknown [10.0.12.132])
+        by kozue.soulik.info (Postfix) with ESMTPSA id 94C17300258;
+        Thu, 31 Aug 2023 01:51:33 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info 94C17300258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
+        t=1693414296; bh=/p9VbuiL48VdjIKgkEFVOwtf0FRTsbtp/z+i1lPIXp4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=iOG+SETOO2liVEdglTsDBAsW0Y93hYVT8hy0hjuMXEyzPcVkUrSMbacRWuYnPDiDu
+         w6849G+MeYHtGkbZXKqwOE4tTS+7UR9AprY+0uMCtqWlT6DEWoh3S/eF76I1xV1i22
+         e97JjPwyom0slXk7kvtj7XrFwBPF/4sGuOosTfJs=
+Message-ID: <e9f01000-d2ed-8193-420c-fb80f0b96f8f@soulik.info>
+Date:   Thu, 31 Aug 2023 00:51:33 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230830143341.GA25574@lst.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: Stateless Encoding uAPI Discussion and Proposal
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <ZK2NiQd1KnraAr20@aptenodytes> <ZNTp1e4gJ2zeYmS-@aptenodytes>
+ <a2e8e01ea754232dd3562b34702b6600d7358605.camel@collabora.com>
+ <ZNaVQ-zxIuCpGGha@aptenodytes>
+ <720c476189552596cbd61dd74d6fa12818718036.camel@collabora.com>
+ <39270c5e-24ab-8ff6-d925-7718b1fef3c4@synaptics.com>
+ <a0fa6559c3933a5a4c8b7502282adae3429e0b57.camel@collabora.com>
+ <52e9b710-5011-656b-aebf-8d57e6496ddd@synaptics.com>
+ <4d08d98d853d78bbb6dba826d30c3386fe0b31e8.camel@collabora.com>
+Content-Language: en-US
+From:   Randy Li <ayaka@soulik.info>
+In-Reply-To: <4d08d98d853d78bbb6dba826d30c3386fe0b31e8.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 30, 2023 at 04:33:41PM +0200, Christoph Hellwig wrote:
-> On Wed, Aug 30, 2023 at 12:47:57PM +0900, Tomasz Figa wrote:
-> > Do we see anything replacing it widely anywhere on the short-middle
-> > term horizon? I think we could possibly migrate vb2 to use that new
-> > thing internally and just provide some compatibility X to scatterlist
-> > conversion function for the drivers.
-> 
-> Jason said at LSF/MM that he had a prototype for a mapping API that
-> takes a phys/len array as input and dma_addr/len a output, which really
-> is the right thing to do, especially for dmabuf.
 
-Yes, still a prototype. Given the change in direction some of the
-assumptions of the list design will need some adjusting.
+On 2023/8/30 23:10, Nicolas Dufresne wrote:
+> CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
+>
+>
+> Le mercredi 23 août 2023 à 11:04 +0800, Hsia-Jun Li a écrit :
+>>> Though, if we drop the GOP structure and favour this approach, the latency could
+>>> be regain later by introducing fence base streaming. The technique would be for
+>>> a video source (like a capture driver) to pass dmabuf that aren't filled yet,
+>>> but have a companion fence. This would allow queuing requests ahead of time, and
+>>> all we need is enough pre-allocation to accommodate the desired look ahead. Only
+>>> issue is that perhaps this violates the fundamental of "short term" delivery of
+>>> fences. But fences can also fail I think, in case the capture was stopped.
+>>>
+>> I don't think it would help. Fence is a thing for DRM/GPU without a queue.
+>> Even with a fence, would the video sink tell us the motion delta here?
+> It helps with the latency since the encoder can start its search and analyzes as
+> soon as frames are available, instead of until you have all N frames available
+> (refer to the MIN_BUFFER_FOR controls used when lookahead is needed).
 
-I felt there wasn't much justification to add a list without also
-supporting the P2P and it was not looking very good to give the DMA
-API proper p2p support without also connecting it to lists somehow.
+I think the fence in GPU is something attached to per frame 
+buffer(IN_FENCE) or completing the render(OUT_FENCE).
 
-Anyhow, I had drafted a basic list datastructure and starting
-implementation that is sort of structured in away that is similar to
-xarray (eg with fixed chunks, generic purpose, etc)
+So when we enqueue a buffer, what are expecting from the fence?
 
-https://github.com/jgunthorpe/linux/commit/58d7e0578a09d9cd2360be515208bcd74ade5958
+I think in KMS, you can't enqueue two buffers for the same plane, you 
+have to wait the OUT_FENCE.
 
-I would still call it an experiment as the auto-sizing entry approach
-needs benchmarking to see what it costs.
+>
+>>> We can certainly move forward with this as a future solution, or just don't
+>>> implement future aware RC algorithm in term to avoid the huge task this involves
+>>> (and possibly patents?)
+>>>
+>> I think we should not restrict how the userspace(vendor) operate the
+>> hardware.
+> Omitting is not restricting. Vendors have to learn to be community members and
+> propose/add the tools and APIs they need to support their features. We cannot
+> fix vendors in this regard, those who jumps over that fence are wining.
 
-> Jason, what's the status of your work?
+That is not about what vendor would do. I was thinking we are planning 
+how we manage the lifetime of the reconstruction buffer, reference 
+selecting based on a simple GOP model.
+What was designed here would become a barrier for a vendor whose 
+hardware has a little capability than this.
 
-After we talked I changed the order of the work, instead of starting
-with the SG list side, I wanted to progress on the DMA API side and
-then build any list infrastructure on that new API.
+All I want to do here is offer my ideas about how we could achieve an 
+open interfaces that could cover the future need.
 
-Your idea to use a new API that could allocate IOVA and then map phys
-to IOVA as a DMA API entry point looked good to me, and it is a
-perfect map for what RDMA's ODP stuff needs. So I changed direction to
-rework ODP and introduce the DMA API parts as the first step.
+Especially it is hard to expand the V4L2 uAPIs.
 
-I had to put it aside due to the volume of iommu/vfio stuff going on
-right now. However, I think I will have someone who can work on the
-ODP driver part this month
-
-Regardless, RDMA really needs some kind of generic lists to hold CPU
-and physical address ranges, so I still see that as being part of the
-ultimate solution.
-
-Jason
+>
+> Nicolas
