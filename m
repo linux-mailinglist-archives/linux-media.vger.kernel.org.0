@@ -2,52 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CADC478D810
-	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5CE278D82A
+	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230417AbjH3S3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 14:29:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52052 "EHLO
+        id S231962AbjH3S3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Aug 2023 14:29:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243333AbjH3KpG (ORCPT
+        with ESMTP id S244051AbjH3MZV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 06:45:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE5C81BB;
-        Wed, 30 Aug 2023 03:45:02 -0700 (PDT)
+        Wed, 30 Aug 2023 08:25:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42450CCB;
+        Wed, 30 Aug 2023 05:25:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 82D5360FE8;
-        Wed, 30 Aug 2023 10:45:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECBC4C433C7;
-        Wed, 30 Aug 2023 10:44:58 +0000 (UTC)
-Message-ID: <d4b12bc1-65b8-6881-3648-85099d9319ec@xs4all.nl>
-Date:   Wed, 30 Aug 2023 12:44:57 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C13A462641;
+        Wed, 30 Aug 2023 12:25:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0634BC433C8;
+        Wed, 30 Aug 2023 12:25:10 +0000 (UTC)
+Message-ID: <01c299f2-8118-5d86-e9b6-a459c1b6c467@xs4all.nl>
+Date:   Wed, 30 Aug 2023 14:25:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v8 3/8] media: staging: media: starfive: camss: Add core
- driver
+Subject: Re: [PATCH v5 01/10] media: videobuf2: Rework offset 'cookie'
+ encoding pattern
 Content-Language: en-US, nl
-To:     Jack Zhu <jack.zhu@starfivetech.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        changhuang.liang@starfivetech.com
-References: <20230824080109.89613-1-jack.zhu@starfivetech.com>
- <20230824080109.89613-4-jack.zhu@starfivetech.com>
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230824092133.39510-1-benjamin.gaignard@collabora.com>
+ <20230824092133.39510-2-benjamin.gaignard@collabora.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230824080109.89613-4-jack.zhu@starfivetech.com>
+In-Reply-To: <20230824092133.39510-2-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,
@@ -59,113 +56,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/08/2023 10:01, Jack Zhu wrote:
-> Add core driver for StarFive Camera Subsystem. The code parses
-> the device platform resources and registers related devices.
+On 24/08/2023 11:21, Benjamin Gaignard wrote:
+> Change how offset 'cookie' field value is computed to make possible
+> to use more buffers (up to 0xffff).
+> With this encoding pattern we know the maximum number that a queue
+> could store so we can check ing at queue init time.
+> It also make easier and faster to find buffer and plane from using
+> the offset field.
 > 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  MAINTAINERS                                   |   1 +
->  drivers/staging/media/Kconfig                 |   2 +
->  drivers/staging/media/Makefile                |   1 +
->  drivers/staging/media/starfive/Kconfig        |   5 +
->  drivers/staging/media/starfive/Makefile       |   2 +
->  drivers/staging/media/starfive/camss/Kconfig  |  17 +
->  drivers/staging/media/starfive/camss/Makefile |   9 +
->  .../staging/media/starfive/camss/stf_camss.c  | 316 ++++++++++++++++++
->  .../staging/media/starfive/camss/stf_camss.h  | 129 +++++++
->  9 files changed, 482 insertions(+)
->  create mode 100644 drivers/staging/media/starfive/Kconfig
->  create mode 100644 drivers/staging/media/starfive/Makefile
->  create mode 100644 drivers/staging/media/starfive/camss/Kconfig
->  create mode 100644 drivers/staging/media/starfive/camss/Makefile
->  create mode 100644 drivers/staging/media/starfive/camss/stf_camss.c
->  create mode 100644 drivers/staging/media/starfive/camss/stf_camss.h
+> v5:
+> - I haven't change DST_QUEUE_OFF_BASE definition because it used in
+>   v4l2-mem2mem and s5p_mfc driver with a shift.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4c63c0a85301..97d3054416ed 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20258,6 +20258,7 @@ L:	linux-media@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/admin-guide/media/starfive_camss.rst
->  F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> +F:	drivers/staging/media/starfive/camss
+>  .../media/common/videobuf2/videobuf2-core.c   | 48 +++++++++----------
+>  1 file changed, 24 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index cf6727d9c81f..e06905533ef4 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -31,6 +31,10 @@
 >  
->  STARFIVE CRYPTO DRIVER
->  M:	Jia Jie Ho <jiajie.ho@starfivetech.com>
-> diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-> index bc6c7b248f86..554c2e475ce3 100644
-> --- a/drivers/staging/media/Kconfig
-> +++ b/drivers/staging/media/Kconfig
-> @@ -36,6 +36,8 @@ source "drivers/staging/media/omap4iss/Kconfig"
+>  #include <trace/events/vb2.h>
 >  
->  source "drivers/staging/media/rkvdec/Kconfig"
->  
-> +source "drivers/staging/media/starfive/Kconfig"
-> +
->  source "drivers/staging/media/sunxi/Kconfig"
->  
->  source "drivers/staging/media/tegra-video/Kconfig"
-> diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-> index 1a4c3a062e3d..dcaeeca0ee6d 100644
-> --- a/drivers/staging/media/Makefile
-> +++ b/drivers/staging/media/Makefile
-> @@ -6,6 +6,7 @@ obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
->  obj-$(CONFIG_VIDEO_MESON_VDEC)	+= meson/vdec/
->  obj-$(CONFIG_VIDEO_OMAP4)	+= omap4iss/
->  obj-$(CONFIG_VIDEO_ROCKCHIP_VDEC)	+= rkvdec/
-> +obj-$(CONFIG_VIDEO_STARFIVE_CAMSS)	+= starfive/
->  obj-$(CONFIG_VIDEO_SUNXI)	+= sunxi/
->  obj-$(CONFIG_VIDEO_TEGRA)	+= tegra-video/
->  obj-$(CONFIG_VIDEO_IPU3_IMGU)	+= ipu3/
-> diff --git a/drivers/staging/media/starfive/Kconfig b/drivers/staging/media/starfive/Kconfig
-> new file mode 100644
-> index 000000000000..34727cf56072
-> --- /dev/null
-> +++ b/drivers/staging/media/starfive/Kconfig
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +comment "StarFive media platform drivers"
-> +
-> +source "drivers/staging/media/starfive/camss/Kconfig"
-> diff --git a/drivers/staging/media/starfive/Makefile b/drivers/staging/media/starfive/Makefile
-> new file mode 100644
-> index 000000000000..4639fa1bca32
-> --- /dev/null
-> +++ b/drivers/staging/media/starfive/Makefile
-> @@ -0,0 +1,2 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +obj-y += camss/
-> diff --git a/drivers/staging/media/starfive/camss/Kconfig b/drivers/staging/media/starfive/camss/Kconfig
-> new file mode 100644
-> index 000000000000..8d20e2bd2559
-> --- /dev/null
-> +++ b/drivers/staging/media/starfive/camss/Kconfig
-> @@ -0,0 +1,17 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config VIDEO_STARFIVE_CAMSS
-> +	tristate "Starfive Camera Subsystem driver"
-> +	depends on V4L_PLATFORM_DRIVERS
-> +	depends on VIDEO_DEV && OF
-> +	depends on HAS_DMA
-> +	depends on PM
-> +	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	select V4L2_FWNODE
-> +	help
-> +	   Enable this to support for the Starfive Camera subsystem
-> +	   found on Starfive JH7110 SoC.
-> +
-> +	   To compile this driver as a module, choose M here: the
-> +	   module will be called stf-camss.
+> +#define PLANE_INDEX_SHIFT	3
+> +#define PLANE_INDEX_MASK	0x7
+> +#define MAX_BUFFERS		0xffff
 
-This is actually called starfive-camss.ko!
+Very poor name, see below.
+
+> +
+>  static int debug;
+>  module_param(debug, int, 0644);
+>  
+> @@ -358,21 +362,23 @@ static void __setup_offsets(struct vb2_buffer *vb)
+>  	unsigned int plane;
+>  	unsigned long off = 0;
+>  
+> -	if (vb->index) {
+> -		struct vb2_buffer *prev = q->bufs[vb->index - 1];
+> -		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
+> -
+> -		off = PAGE_ALIGN(p->m.offset + p->length);
+> -	}
+> +	/*
+> +	 * Offsets cookies value have the following constraints:
+> +	 * - a buffer could have up to 8 planes.
+> +	 * - v4l2 mem2mem use bit 30 to distinguish between source and destination buffers.
+> +	 * - must be page aligned
+> +	 * That led to this bit mapping:
+> +	 * |30                |29        15|14       12|11 0|
+> +	 * |DST_QUEUE_OFF_BASE|buffer index|plane index| 0  |
+> +	 * where there is 16 bits to store buffer index.
+
+16 -> 15: there are 15 (not 16!) bits available for buffer indices. So the maximum
+number of buffers is 32768, given that the indices start at 0.
+
+> +	 */
+> +	off = vb->index << (PLANE_INDEX_SHIFT + PAGE_SHIFT);
+>  
+>  	for (plane = 0; plane < vb->num_planes; ++plane) {
+> -		vb->planes[plane].m.offset = off;
+> +		vb->planes[plane].m.offset = off + (plane << PAGE_SHIFT);
+>  
+>  		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
+>  				vb->index, plane, off);
+> -
+> -		off += vb->planes[plane].length;
+> -		off = PAGE_ALIGN(off);
+>  	}
+>  }
+>  
+> @@ -2209,21 +2215,15 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+>  		return -EBUSY;
+>  	}
+>  
+> -	/*
+> -	 * Go over all buffers and their planes, comparing the given offset
+> -	 * with an offset assigned to each plane. If a match is found,
+> -	 * return its buffer and plane numbers.
+> -	 */
+> -	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
+> -		vb = q->bufs[buffer];
+> +	/* Get buffer and plane from the offset */
+> +	buffer = (off >> (PLANE_INDEX_SHIFT + PAGE_SHIFT)) & MAX_BUFFERS;
+
+Hmm, you use it as a mask. The name MAX_BUFFERS is really confusing.
+How about BUFFER_INDEX_MASK? That is consistent with PLANE_INDEX_MASK.
+
+> +	plane = (off >> PAGE_SHIFT) & PLANE_INDEX_MASK;
+>  
+> -		for (plane = 0; plane < vb->num_planes; ++plane) {
+> -			if (vb->planes[plane].m.offset == off) {
+> -				*_buffer = buffer;
+> -				*_plane = plane;
+> -				return 0;
+> -			}
+> -		}
+> +	vb = q->bufs[buffer];
+> +	if (vb->planes[plane].m.offset == off) {
+> +		*_buffer = buffer;
+> +		*_plane = plane;
+> +		return 0;
+>  	}
+>  
+>  	return -EINVAL;
 
 Regards,
 
 	Hans
-
