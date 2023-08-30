@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43FEA78D832
-	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0667278D83F
+	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232266AbjH3S3l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 14:29:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55146 "EHLO
+        id S232739AbjH3S35 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Aug 2023 14:29:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242110AbjH3HTZ (ORCPT
+        with ESMTP id S242163AbjH3HUm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 03:19:25 -0400
+        Wed, 30 Aug 2023 03:20:42 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 926441BB;
-        Wed, 30 Aug 2023 00:19:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB1D5CE7;
+        Wed, 30 Aug 2023 00:20:38 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34C654E6;
-        Wed, 30 Aug 2023 09:17:57 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 740DA4E6;
+        Wed, 30 Aug 2023 09:19:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693379877;
-        bh=ebYMIXSud5++a5TF9waHihcGKaRw+z3M0sYuJ7iKXlE=;
+        s=mail; t=1693379955;
+        bh=YynOPe7GJ1pEydbC/IRziS1v7VAAof8QC8uKJjmlKhE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IoFOVVsZvrsw3nPoP4ayfGt6FAoG8dZHmmBaxx1AUkRVnE+T5vPNOxTB2yrPoWgmY
-         rLaDciZw3GEYUZXsljjBFHJ8bXvCBsSUBFoY6C68qL6I8X29xbsFWWUTbqGqcNVte4
-         hPD7E2UFKSE3ccvymA+oojg4RufaQEhEVp6LJEug=
-Date:   Wed, 30 Aug 2023 10:19:29 +0300
+        b=WFQSSEoj1j5u/gEIUWAOPLiCyLXMGsDevvhZtmJrT4K9QyY7pHuOSdGfHqdi6i+dR
+         H6M0vpVC/GeNzKw7AGOzfkO2C6btvQdsO/PlBTT8cY4AUi0IMIGSqbAreN2xlziC+N
+         fFW0n51RdoSfF0110UJkedlc5n2Ka5jKjP1nbiOc=
+Date:   Wed, 30 Aug 2023 10:20:47 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Umang Jain <umang.jain@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -34,14 +34,14 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Ricardo Ribalda <ribalda@kernel.org>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH 1/2] media: i2c: imx214: Use v4l2_subdev_get_fmt()
-Message-ID: <20230830071929.GI6477@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/2] media: i2c: imx415: Use v4l2_subdev_get_fmt()
+Message-ID: <20230830072047.GJ6477@pendragon.ideasonboard.com>
 References: <20230830045323.71768-1-umang.jain@ideasonboard.com>
- <20230830045323.71768-2-umang.jain@ideasonboard.com>
+ <20230830045323.71768-3-umang.jain@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230830045323.71768-2-umang.jain@ideasonboard.com>
+In-Reply-To: <20230830045323.71768-3-umang.jain@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -51,56 +51,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 30, 2023 at 10:23:22AM +0530, Umang Jain wrote:
-> The imx214 driver uses the subdev active state, there's no
+Hi Umang,
 
-Does it ? I don't see a call to v4l2_subdev_init_finalize(), and the
-imx214 struct has fmt and crop fields in which it stores the active
-format.
+Thank you for the patch.
 
-> need to implement the .get_fmt() operation manually. Use the
-> v4l2_subdev_get_fmt() helper instead.
+On Wed, Aug 30, 2023 at 10:23:23AM +0530, Umang Jain wrote:
+> The imx415 driver uses the subdev active state, there's
+> no need to implement the .get_fmt() operation manually. Use
+> the v4l2_subdev_get_fmt() helper instead.
 > 
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  drivers/media/i2c/imx214.c | 17 +----------------
->  1 file changed, 1 insertion(+), 16 deletions(-)
+>  drivers/media/i2c/imx415.c | 11 +----------
+>  1 file changed, 1 insertion(+), 10 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index 2f9c8582f940..d8bdc52f552a 100644
-> --- a/drivers/media/i2c/imx214.c
-> +++ b/drivers/media/i2c/imx214.c
-> @@ -548,21 +548,6 @@ __imx214_get_pad_format(struct imx214 *imx214,
->  	}
+> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
+> index 3f00172df3cc..9a7ac81edc28 100644
+> --- a/drivers/media/i2c/imx415.c
+> +++ b/drivers/media/i2c/imx415.c
+> @@ -842,15 +842,6 @@ static int imx415_enum_frame_size(struct v4l2_subdev *sd,
+>  	return 0;
 >  }
 >  
-> -static int imx214_get_format(struct v4l2_subdev *sd,
-> -			     struct v4l2_subdev_state *sd_state,
-> -			     struct v4l2_subdev_format *format)
+> -static int imx415_get_format(struct v4l2_subdev *sd,
+> -			     struct v4l2_subdev_state *state,
+> -			     struct v4l2_subdev_format *fmt)
 > -{
-> -	struct imx214 *imx214 = to_imx214(sd);
-> -
-> -	mutex_lock(&imx214->mutex);
-> -	format->format = *__imx214_get_pad_format(imx214, sd_state,
-> -						  format->pad,
-> -						  format->which);
-> -	mutex_unlock(&imx214->mutex);
+> -	fmt->format = *v4l2_subdev_get_pad_format(sd, state, fmt->pad);
 > -
 > -	return 0;
 > -}
 > -
->  static struct v4l2_rect *
->  __imx214_get_pad_crop(struct imx214 *imx214,
->  		      struct v4l2_subdev_state *sd_state,
-> @@ -842,7 +827,7 @@ static const struct v4l2_subdev_pad_ops imx214_subdev_pad_ops = {
->  	.enum_mbus_code = imx214_enum_mbus_code,
->  	.enum_frame_size = imx214_enum_frame_size,
->  	.enum_frame_interval = imx214_enum_frame_interval,
-> -	.get_fmt = imx214_get_format,
+>  static int imx415_set_format(struct v4l2_subdev *sd,
+>  			     struct v4l2_subdev_state *state,
+>  			     struct v4l2_subdev_format *fmt)
+> @@ -913,7 +904,7 @@ static const struct v4l2_subdev_video_ops imx415_subdev_video_ops = {
+>  static const struct v4l2_subdev_pad_ops imx415_subdev_pad_ops = {
+>  	.enum_mbus_code = imx415_enum_mbus_code,
+>  	.enum_frame_size = imx415_enum_frame_size,
+> -	.get_fmt = imx415_get_format,
 > +	.get_fmt = v4l2_subdev_get_fmt,
->  	.set_fmt = imx214_set_format,
->  	.get_selection = imx214_get_selection,
->  	.init_cfg = imx214_entity_init_cfg,
+>  	.set_fmt = imx415_set_format,
+>  	.get_selection = imx415_get_selection,
+>  	.init_cfg = imx415_init_cfg,
 
 -- 
 Regards,
