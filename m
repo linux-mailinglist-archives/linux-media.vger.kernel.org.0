@@ -2,112 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B755878D826
-	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CC0078D7FF
+	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbjH3S3V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 14:29:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45610 "EHLO
+        id S230022AbjH3S3M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Aug 2023 14:29:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245328AbjH3PLJ (ORCPT
+        with ESMTP id S245432AbjH3PQW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 11:11:09 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80214E8;
-        Wed, 30 Aug 2023 08:11:03 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id E13B566071BE;
-        Wed, 30 Aug 2023 16:11:00 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1693408262;
-        bh=VnXf1LaCN72XTFXRU9tqw/+twmKCXDqgk1FTB/JX2wQ=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=iWZwhEKAM2fxzFVH//VHX0A9ouso0+PgDThTmLUeC86oMtb/TeiMBJQaKk/zUqof0
-         vlsHZozBjM6QXQK7Xruf6WaHlL9ijIspEsuPY/mvkBirK/OmhtC1JQmwSxqDMpbjT2
-         pbQETIq3qzRLrjeSpRgHKPtpjjHur//skEbiNj8wmdEO8SBs6+9bCnwpVyfxRnhTRm
-         qMNLIh38R44ySTG093OyIV0GgxNp/D/RFxjjzM32bfwM/E2L+c0nmAGasemml1Y4x8
-         r+C81rHe16uMQo3Q0uRRKb6dn1NgPp6/HrcIEZPRgvz/VtdxYS1oC+XDCh7iUGCxO5
-         NFi6S2zkqG3ug==
-Message-ID: <4d08d98d853d78bbb6dba826d30c3386fe0b31e8.camel@collabora.com>
-Subject: Re: Stateless Encoding uAPI Discussion and Proposal
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Date:   Wed, 30 Aug 2023 11:10:52 -0400
-In-Reply-To: <52e9b710-5011-656b-aebf-8d57e6496ddd@synaptics.com>
-References: <ZK2NiQd1KnraAr20@aptenodytes> <ZNTp1e4gJ2zeYmS-@aptenodytes>
-         <a2e8e01ea754232dd3562b34702b6600d7358605.camel@collabora.com>
-         <ZNaVQ-zxIuCpGGha@aptenodytes>
-         <720c476189552596cbd61dd74d6fa12818718036.camel@collabora.com>
-         <39270c5e-24ab-8ff6-d925-7718b1fef3c4@synaptics.com>
-         <a0fa6559c3933a5a4c8b7502282adae3429e0b57.camel@collabora.com>
-         <52e9b710-5011-656b-aebf-8d57e6496ddd@synaptics.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Wed, 30 Aug 2023 11:16:22 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E1D91A2
+        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 08:16:19 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-401bbfc05fcso50691975e9.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 08:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693408578; x=1694013378; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=15QT7FaWOs6RuBKa+Vz9gCDzoPPBTXEEtlQ0POIH58Q=;
+        b=fy6XrOjgj2LIt5Y3ZnhYopKUMJPyYP5CpBiQoXh6ywLi7cFSXmpyyNfqIfnVN7z5Cw
+         a407lOJwn6pD61+sxpdw7mcRgzaXmIkiKx9gHz0VNsbch7e4VSRU6Ey8s8ooszxbknfI
+         DYS0zPFHTDdtOmbaqwEVPa4fqfLlvk5nn8lYBJ+w7Tsxj2Iqn02nNXY45WZ33ZPIJTKq
+         GmaGNhHaYlH4YtZlUUur/YUVEsGlhEDCjtCpuSjAlGn4+QAa5M5Lf6x2k7E1bp6XJGW0
+         wm1Ho4gKnx5wncbBtP8U1FUjpcF38Hu0x8my9XVxBPjz9tXYmACOxLloNfGB1SM6J8H0
+         qt0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693408578; x=1694013378;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=15QT7FaWOs6RuBKa+Vz9gCDzoPPBTXEEtlQ0POIH58Q=;
+        b=JUuaAsK7wcCE2IAkhSAph8kzMrJGQtLZbZVFHllxIgvR50vObEWCv+cZAo60EklIpB
+         osyKAVDPjafvNRNb1plIt9ShKCt0LFwPIOyNqrBQcyauHjL5/Qife53MAaMmpOMdhf9R
+         mcYEL1HzV5D38Iue63irdt7sX/i32F3dm6j1/Mi7GXX6LIUxNk/1ktVhEXCYOxOkmv/Q
+         v98Qz+OaQnyzug/V098QBshljzxxkL7jdosQ6LYsC6y9yvJY0yvFkSxUv+vrIPKc+Y5V
+         LrUR1ehVmANl92IHQY87Q7Me4t0ir/dhDBnQfTTHBQYNGmtp1014a6Y6ZLkZvVOqC2rf
+         yuoA==
+X-Gm-Message-State: AOJu0Yx3n4fX4Uqd5K2QbD4rMuu2sJcjO8+t6jXK/PCWvs7E5JHX3vyS
+        A6bhsg3pdihddfaXsiX4Z1iYFw==
+X-Google-Smtp-Source: AGHT+IE6588PqEkrgn+wjL++tLnfWxX9DzYo0tqWXZEgHSAexO9ogm7ql+owEjT4/MIYqQlp2GEWWA==
+X-Received: by 2002:a05:600c:20d:b0:400:57d1:4913 with SMTP id 13-20020a05600c020d00b0040057d14913mr2022835wmi.9.1693408577965;
+        Wed, 30 Aug 2023 08:16:17 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id b16-20020a5d4d90000000b0030fd03e3d25sm16989961wru.75.2023.08.30.08.16.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Aug 2023 08:16:17 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/10] media: qcom: camss: Bugfix series
+Date:   Wed, 30 Aug 2023 16:16:05 +0100
+Message-ID: <20230830151615.3012325-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 23 ao=C3=BBt 2023 =C3=A0 11:04 +0800, Hsia-Jun Li a =C3=A9crit=
-=C2=A0:
-> > Though, if we drop the GOP structure and favour this approach, the late=
-ncy could
-> > be regain later by introducing fence base streaming. The technique woul=
-d be for
-> > a video source (like a capture driver) to pass dmabuf that aren't fille=
-d yet,
-> > but have a companion fence. This would allow queuing requests ahead of =
-time, and
-> > all we need is enough pre-allocation to accommodate the desired look ah=
-ead. Only
-> > issue is that perhaps this violates the fundamental of "short term" del=
-ivery of
-> > fences. But fences can also fail I think, in case the capture was stopp=
-ed.
-> >=20
-> I don't think it would help. Fence is a thing for DRM/GPU without a queue=
-.
-> Even with a fence, would the video sink tell us the motion delta here?
+V3:
+- Adds Reviewed-by where indicated - Laurent
+- Adds a new patch for genpd cleanup. TBH I completely missed this so thanks ! - Laurent
+- "media: qcom: camss: Fix V4L2 async notifier error path" stays the same fixes spalt in -next
+  Fixes: 51397a4ec75d ("media: qcom: Initialise V4L2 async notifier later")
+- I like the suggesting of using a common fix for vfe-17x and vfe-480 however, I believe
+  we need to support multiple write-master/RDI => VCs in 17x which currently we only do
+  in vfe-480 so sharing the code between the two here right now, is	n't possible.
+- Included other suggestions on vfe-17x and vfe-480 - Laurent
+- I didn't change the val |= 1 << CSI2_RX_CFG1_VC_MODE to BIT(2)
+  The reason for that is all of the code uses this odd bit-shifting and I'd rather do
+  the conversion from shifting to BIT(x) as a distinct series instead of piecemeal - bod
 
-It helps with the latency since the encoder can start its search and analyz=
-es as
-soon as frames are available, instead of until you have all N frames availa=
-ble
-(refer to the MIN_BUFFER_FOR controls used when lookahead is needed).
+V2:
+- Amends commit log for TPG fix to cover dropping of fixed
+  VC when setting up a TPG - Konrad
 
-> > We can certainly move forward with this as a future solution, or just d=
-on't
-> > implement future aware RC algorithm in term to avoid the huge task this=
- involves
-> > (and possibly patents?)
-> >=20
-> I think we should not restrict how the userspace(vendor) operate the=20
-> hardware.
+- Leaves GENMASK etc out. I'm happy to do a "make it pretty"
+  series later on. - bod
 
-Omitting is not restricting. Vendors have to learn to be community members =
-and
-propose/add the tools and APIs they need to support their features. We cann=
-ot
-fix vendors in this regard, those who jumps over that fence are wining.
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/Bugfix-series-v2?ref_type=tags
 
-Nicolas
+V1:
+- Drops dt_id = vc * 4 in favour of a patch in a later series - Hans
+  Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commit/d4c382c5d6ee153b410a01e172b3e811011d0b14
+- Adds Konrad's Acked-by as indicated
+
+V0:
+This series covers a number of Fixes: all of which are for application to
+stable as well as -next with the exception of the second patch which is a
+fix for a SHA that is still in -next.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-08-07-db410c-rb3-camss-dts-v3
+
+This series is part of a larger set of fixes, improvements developed/found
+when adding a new SoC.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/lenovo-x13s-v6.5-rc4-x13s-camss-patches
+
+First pass on that larger series is to get all of the current Fixes: in the
+branch out.
+
+Andrey Konovalov (1):
+  media: qcom: camss: Fix csid-gen2 for test pattern generator
+
+Bryan O'Donoghue (9):
+  media: qcom: camss: Fix pm_domain_on sequence in probe
+  media: qcom: camss: Fix V4L2 async notifier error path
+  media: qcom: camss: Fix genpd cleanup
+  media: qcom: camss: Fix vfe_get() error jump
+  media: qcom: camss: Fix VFE-17x vfe_disable_output()
+  media: qcom: camss: Fix VFE-480 vfe_disable_output()
+  media: qcom: camss: Fix missing vfe_lite clocks check
+  media: qcom: camss: Fix invalid clock enable bit disjunction
+  media: qcom: camss: Fix set CSI2_RX_CFG1_VC_MODE when VC is greater
+    than 3
+
+ .../platform/qcom/camss/camss-csid-gen2.c     | 11 ++--
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |  2 +-
+ .../media/platform/qcom/camss/camss-vfe-170.c | 22 +-------
+ .../media/platform/qcom/camss/camss-vfe-480.c | 22 +-------
+ drivers/media/platform/qcom/camss/camss-vfe.c |  5 +-
+ drivers/media/platform/qcom/camss/camss.c     | 55 +++++++++++--------
+ 6 files changed, 46 insertions(+), 71 deletions(-)
+
+-- 
+2.41.0
+
