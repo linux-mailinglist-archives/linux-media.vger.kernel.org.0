@@ -2,161 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5D8C78D813
-	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E57FE78D815
+	for <lists+linux-media@lfdr.de>; Wed, 30 Aug 2023 20:29:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231279AbjH3S3W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 14:29:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55954 "EHLO
+        id S231341AbjH3S3Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Aug 2023 14:29:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245474AbjH3PQh (ORCPT
+        with ESMTP id S245486AbjH3PTH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 11:16:37 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46AC81B1
-        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 08:16:32 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-40037db2fe7so53959265e9.0
-        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 08:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693408591; x=1694013391; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2IkRunNGFvIUJfzmN6ZAOdQYKxHXQcRYO09oUxFh850=;
-        b=c3PT7U7Lj/4oiPhQ21wVDQxLw+K5NmnFvzFWXxuVoicCp/kIimH1f54x7DPy3qq64Y
-         oTJF5m56wLrVPrM6PWqesduc+aSrFEgWRaARLjbxxi3EAR1kl2fUkPf48Qmwvb4uepQo
-         y5axITUR+o2zP6RYewb/0Ge8JjEEpAoloBGpM8/S4OGvTIgCgUJNdFGMLjlGnqYFRcpI
-         CuPYeO2Uy++VYwXNqFwrYs8M9ZO+VsYzOleJ2tq/vnGWs72Vg4M4oIPMGbpHqDIGsB1b
-         GkerDeYyCqIzIiiHHPmfCRdmoO9LbkXYEVyZ50FHWFieWggPzUt99B9ye66W0Wt9O9p2
-         dszg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693408591; x=1694013391;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2IkRunNGFvIUJfzmN6ZAOdQYKxHXQcRYO09oUxFh850=;
-        b=dyY5VrBz7gVHS6SGcISaicVLMWlCPvA7EijXgoxGJSdXbzqqFvJQOdoSQNg/e+FD6i
-         0qya7Re/tWuFm82h5rau4XBF4z0rwjearOpJiJkjrwDxHGUitg87crT5YFDU9B3nw0nq
-         7ZaWbuLnYgMU6F8Cr49/iBTj9RWcxtKa0eHTL6gXsvRB/gzZmzFh/2L5vg+0TT4xYrPU
-         uXaD3/N70QJBGsTn+nrtzEOmgTl2pQqeEvTHWt5RYQGPNSCB1Snw7a1e+CDEndHL26MV
-         kyEzPbX8uaf2p0C5SwwOJZ+f0eOJx5Qo5Gqx9vhfjoCcL5jeL/Q/RgyHqtj+w+0O527B
-         aHJw==
-X-Gm-Message-State: AOJu0Yybu6GoXX8XQW94nGX1yn1pHVwcJ4cvL2VA4seELTTpFdMrT68I
-        fMg1Dl3D6VHwFnlrtwkw2Ztgsw==
-X-Google-Smtp-Source: AGHT+IHFl1yrh0ovBa90KE0kq0+ttmyMeRKswrgsfajAr7QL3hpxWJxBE3YovtaB1CnKt0Tfj4M63Q==
-X-Received: by 2002:a7b:c7c7:0:b0:401:bf62:9456 with SMTP id z7-20020a7bc7c7000000b00401bf629456mr2507971wmk.8.1693408590646;
-        Wed, 30 Aug 2023 08:16:30 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id b16-20020a5d4d90000000b0030fd03e3d25sm16989961wru.75.2023.08.30.08.16.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Aug 2023 08:16:29 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v3 10/10] media: qcom: camss: Fix csid-gen2 for test pattern generator
-Date:   Wed, 30 Aug 2023 16:16:15 +0100
-Message-ID: <20230830151615.3012325-11-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230830151615.3012325-1-bryan.odonoghue@linaro.org>
-References: <20230830151615.3012325-1-bryan.odonoghue@linaro.org>
+        Wed, 30 Aug 2023 11:19:07 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E92DAE8;
+        Wed, 30 Aug 2023 08:19:03 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7C8EB66071BE;
+        Wed, 30 Aug 2023 16:19:01 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1693408742;
+        bh=zp4dOKYj5P2tbc9SOBi3zKYc8MACLC/blDAk7LSJAeU=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=ixeFWC8byNhVcaT8civxVnZbjC3jmIwMDdi5VCHpDwpEJ3oRDENR8qLz5DeCOhFOs
+         Lp1mFL2VzQ99Hw+ATRij+Ne41vFsV9nFpeHcEKzDD0I5cKTzWtbC1hc9Gzljrwemta
+         JR0hc2u/GJaJ1bozL7o8xH4fcHYe1OszsVpAZDSiO9tx/XwOqWbfTDtI6nuLttR6PY
+         oY494YhspwrH8KFmb+HjeKHFF0CrU5logWvPI9kbaTckVsBrjr7/aciPgESqu0+kZJ
+         zwO9o3sRf9DcFcz27ZXaeCXbu/UN6ptg6zyuccJnyom0OjURDwbN3IlVrr+l1aNj+p
+         nkz2AZFeQCqiA==
+Message-ID: <e5b416f54fb18363c88813ab3240e6f9c48081f9.camel@collabora.com>
+Subject: Re: Stateless Encoding uAPI Discussion and Proposal
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Wed, 30 Aug 2023 11:18:52 -0400
+In-Reply-To: <52e9b710-5011-656b-aebf-8d57e6496ddd@synaptics.com>
+References: <ZK2NiQd1KnraAr20@aptenodytes> <ZNTp1e4gJ2zeYmS-@aptenodytes>
+         <a2e8e01ea754232dd3562b34702b6600d7358605.camel@collabora.com>
+         <ZNaVQ-zxIuCpGGha@aptenodytes>
+         <720c476189552596cbd61dd74d6fa12818718036.camel@collabora.com>
+         <39270c5e-24ab-8ff6-d925-7718b1fef3c4@synaptics.com>
+         <a0fa6559c3933a5a4c8b7502282adae3429e0b57.camel@collabora.com>
+         <52e9b710-5011-656b-aebf-8d57e6496ddd@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Andrey Konovalov <andrey.konovalov@linaro.org>
+Le mercredi 23 ao=C3=BBt 2023 =C3=A0 11:04 +0800, Hsia-Jun Li a =C3=A9crit=
+=C2=A0:
+> > It was suggested so far to leave h264 slice headers writing to the driv=
+er. This
+> > is motivated by H264 slice header not being byte aligned in size, so th=
+e
+> H.264, H.265 has the byte_alignment() in nalu. You don't need skip bits=
+=20
+> feature which could be found in H1.
 
-In the current driver csid Test Pattern Generator (TPG) doesn't work.
-This change:
-- fixes writing frame width and height values into CSID_TPG_DT_n_CFG_0
-- fixes the shift by one between test_pattern control value and the
-  actual pattern.
-- drops fixed VC of 0x0a which testing showed prohibited some test
-  patterns in the CSID to produce output.
-So that TPG starts working, but with the below limitations:
-- only test_pattern=9 works as it should
-- test_pattern=8 and test_pattern=7 produce black frame (all zeroes)
-- the rest of test_pattern's don't work (yavta doesn't get the data)
-- regardless of the CFA pattern set by 'media-ctl -V' the actual pixel
-  order is always the same (RGGB for any RAW8 or RAW10P format in
-  4608x2592 resolution).
+As you said so, I rechecked the H.264 grammar.
 
-Tested with:
+...
+  slice_header( )
+  slice_data( )
+...
 
-RAW10P format, VC0:
- media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
- v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video0
+There is lot of variable size items in the slice_header() syntax and no pad=
+ding
+bits. And no padding at the start of any of the slice_data types. So no, th=
+e
+slice_header() syntax in H.264 is not byte aligned like you are claiming he=
+re.
+Its important to be super accurate about these things, as it will cause err=
+ors
+to be made. Please always double check.
 
-RAW10P format, VC1:
- media-ctl -V '"msm_csid0":2[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi1":0[fmt:SRGGB10/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
- v4l2-ctl -d /dev/v4l-subdev6 -c test_pattern=9
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB10P -s 4608x2592 /dev/video1
-
-RAW8 format, VC0:
- media-ctl --reset
- media-ctl -V '"msm_csid0":0[fmt:SRGGB8/4608x2592 field:none]'
- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB8/4608x2592 field:none]'
- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
- yavta -B capture-mplane --capture=3 -n 3 -f SRGGB8 -s 4608x2592 /dev/video0
-
-Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
-Cc: stable@vger.kernel.org
-Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/platform/qcom/camss/camss-csid-gen2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 140c584bfb8b1..6ba2b10326444 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -355,9 +355,6 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 		u8 dt_id = vc;
- 
- 		if (tg->enabled) {
--			/* Config Test Generator */
--			vc = 0xa;
--
- 			/* configure one DT, infinite frames */
- 			val = vc << TPG_VC_CFG0_VC_NUM;
- 			val |= INTELEAVING_MODE_ONE_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
-@@ -370,14 +367,14 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 
- 			writel_relaxed(0x12345678, csid->base + CSID_TPG_LFSR_SEED);
- 
--			val = input_format->height & 0x1fff << TPG_DT_n_CFG_0_FRAME_HEIGHT;
--			val |= input_format->width & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
-+			val = (input_format->height & 0x1fff) << TPG_DT_n_CFG_0_FRAME_HEIGHT;
-+			val |= (input_format->width & 0x1fff) << TPG_DT_n_CFG_0_FRAME_WIDTH;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
- 
- 			val = format->data_type << TPG_DT_n_CFG_1_DATA_TYPE;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_1(0));
- 
--			val = tg->mode << TPG_DT_n_CFG_2_PAYLOAD_MODE;
-+			val = (tg->mode - 1) << TPG_DT_n_CFG_2_PAYLOAD_MODE;
- 			val |= 0xBE << TPG_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
- 			val |= format->decode_format << TPG_DT_n_CFG_2_ENCODE_FORMAT;
- 			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_2(0));
--- 
-2.41.0
-
+Nicolas
