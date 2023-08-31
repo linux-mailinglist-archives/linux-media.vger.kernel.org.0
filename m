@@ -2,90 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BD0578F30A
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 21:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13CC278F439
+	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 22:41:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241165AbjHaTFh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Aug 2023 15:05:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50648 "EHLO
+        id S1345350AbjHaUlx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Aug 2023 16:41:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231875AbjHaTFg (ORCPT
+        with ESMTP id S236345AbjHaUlw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Aug 2023 15:05:36 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851B4E65
-        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 12:05:33 -0700 (PDT)
-Received: from [192.168.0.192] (unknown [194.146.248.75])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id EA45A66072A6;
-        Thu, 31 Aug 2023 20:05:31 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1693508732;
-        bh=Qh342r+wUIL5/ZvLem+1VQxIpFbRNyjDnPlwoIEJImo=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=Gk540ZTm09jlL5PHFMo9p+1kuMpjFBkBz7njihBhBFM4UEXdlaXmLJrblmp+C13Qf
-         iYK3Tjc9n6ZArlJSPujbvkXngxds5PTD2g5O356JkBh8HwSdHTm5tlgD4rUpKkulKB
-         9Dm9F7USOaRvrGI+2yAwotfTpirc5R3bqsLiV++9Uizn2Qln9O/5XBSauwswayatXd
-         +tZDdAmlbHF2AJlfCXPEszNpHeVgfiF9jd5Zz5GWyR+8y3wUStxXlnSGiRhZ5Rschb
-         JCbkaxhTaWEdtVHp6cwUKsSYVdzVWfIyUcurwWnu6V75xrJgZiRKzqUcGlpX0/ehgH
-         ndL0VYgCTTH9w==
-Message-ID: <52da36a4-b69a-931d-2937-164fa99e79c0@collabora.com>
-Date:   Thu, 31 Aug 2023 21:05:29 +0200
+        Thu, 31 Aug 2023 16:41:52 -0400
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C0301B1
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 13:41:49 -0700 (PDT)
+Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-76d80d35762so84027685a.0
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 13:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1693514508; x=1694119308; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MGb8UE4K7J1/tZAx27Ih4ZHLsp9ZwY6jXWa1wmWSSW0=;
+        b=I31qRJi90wozqH18C1R2tr4ll/MxoMmVndKe/6SW3YuG7QaNd1U4Gm8hLS+LBJXvco
+         Slk/Gh2F2dQ9vTYwiAukJdQQdf0CCU41Dfr8G2wzBqLZXgsHSmaGLel8c6Ru1LHn13it
+         ohjZYq3nCmBlzTzxkpD7xowQw9kM2Gte6AmjtOPkW3OtmbsmePmlXAUv/nqwgbKD142k
+         5fxxiUWyB9iNWBlVijTmRSgTTK4B2UDi8I+/xVJ06CFliv4p8gZvDae8+rGOXLQZwZjD
+         UdDSJLXoMigRxUAzUs2aMLJBQxcNfYet7V8KXzV+T2Gv2fqfgP5KAkvL6PsHsl73amVC
+         cURw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693514508; x=1694119308;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MGb8UE4K7J1/tZAx27Ih4ZHLsp9ZwY6jXWa1wmWSSW0=;
+        b=cAe3zsTXtQsnrZ6uXbq5xmV1nlnhzfZt+Lpu9qRVtrisZrGREXVPwVkXJyo3qQ6GyV
+         zvf7PFHYpRIP1+dzMdiK8TSzhr7Z5V/vzXM75cm0cXKDAsgsUpsrRjImt3eWPJstPI2v
+         56czQChdaLSYHkMJm6QaBO2JMDgU1jwkTAuJoCejSCtHytW6+lLZKHk3SlUZnb4KqBf3
+         QS8s++5YWlBl+RyEimgrfsQS7cL10Od34+iYo93ZZJZUg3u2SQbeQh57ABAytrNb9gAH
+         xCmegQNOqQhCFgIxihyeaNcGRrH8IDjROgGC3AGcg2pgSZeqUStq5OXw8zIc6AXZgwzJ
+         3z7g==
+X-Gm-Message-State: AOJu0Yxr6JOzaMaxa52ddgxbeiBrkugmpnE+YEi8u4WAjLmf6789kpMh
+        1DhTjOrV1bssuBrRg5Q5mlwWuw==
+X-Google-Smtp-Source: AGHT+IFU9aOd57XMHkjUfgCesvQh4jI8dOaEF345CS48c+uA4Ci+ij/CalBUYdApLt8nWIG9HHvAmA==
+X-Received: by 2002:a0c:8c8e:0:b0:641:8df1:79e3 with SMTP id p14-20020a0c8c8e000000b006418df179e3mr358262qvb.29.1693514508451;
+        Thu, 31 Aug 2023 13:41:48 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
+        by smtp.gmail.com with ESMTPSA id u11-20020a0c8dcb000000b0064f45b8c02bsm899553qvb.49.2023.08.31.13.41.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Aug 2023 13:41:47 -0700 (PDT)
+Message-ID: <fea0cb4a94ab9ba757f32ad5539d075089dc63e7.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH v2 0/7] Add audio support in v4l2 framework
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Takashi Iwai <tiwai@suse.de>,
+        Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc:     Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+Date:   Thu, 31 Aug 2023 16:41:46 -0400
+In-Reply-To: <87wmxk8jaq.wl-tiwai@suse.de>
+References: <1690265540-25999-1-git-send-email-shengjiu.wang@nxp.com>
+         <47d66c28-1eb2-07f5-d6f9-779d675aefe8@xs4all.nl>
+         <87il9xu1ro.wl-tiwai@suse.de>
+         <CAA+D8ANmBKMp_L2GS=Lp-saMQKja6L4E6No3yP-e=a5YQBD_jQ@mail.gmail.com>
+         <87il9xoddo.wl-tiwai@suse.de>
+         <CAA+D8AOVEpGxO0YNeS1p+Ym86k6VP-CNQB3JmbeT7mPKg0R99A@mail.gmail.com>
+         <844ef9b6-d5e2-46a9-b7a5-7ee86a2e449c@sirena.org.uk>
+         <CAA+D8AOnsx+7t3MrWm42waxtetL07nbKURLsh1hBx39LUDm+Zg@mail.gmail.com>
+         <CAA+D8AMriHO60SD2OqQSDMmi7wm=0MkoW6faR5nyve-j2Q5AEQ@mail.gmail.com>
+         <CAA+D8AN34-NVrgksRAG014PuHGUssTm0p-KR-HYGe+Pt8Yejxg@mail.gmail.com>
+         <87wmxk8jaq.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH -next v2 0/2] media: cx231xx: Add two macros and switch to
- use kmemdup() helper
-To:     Jinjie Ruan <ruanjinjie@huawei.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-References: <20230822111832.822367-1-ruanjinjie@huawei.com>
-Content-Language: en-US
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20230822111832.822367-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SBL_CSS,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jinjie,
+Hi,
 
-W dniu 22.08.2023 o 13:18, Jinjie Ruan pisze:
-> As Andrzej suggested, add BUF_SIZE and TIMEOUT_MS macros to replace
-> the magic constant 4096 and 2000.
-> 
-> On the other hand, use kmemdup() helper instead of open-coding to
-> simplify the code.
-> 
+Le jeudi 24 ao=C3=BBt 2023 =C3=A0 19:03 +0200, Takashi Iwai a =C3=A9crit=C2=
+=A0:
+> > 3. How to handle the xrun issue. pause or resume. which are brought by =
+ALSA.
+>=20
+> Doesn't V4L2 handle the overrun/underrun at all?=C2=A0 Also, no resume
+> support?
 
-Sorry about the delay.
+just a 2 cents comment. All our video m2m are job based. When there is no j=
+ob
+available they stop and resume when there is more work in queues. As there =
+is no
+time constraints coming from the hardware, there is also no API to know tha=
+t
+there has been a period of time without anything being executed (under
+utilization). Only overrun can be detected by application, each chunk of wo=
+rk is
+in its own v4l2_buffer and the application will run out of buffer in that c=
+ase,
+and will have to wait for free space in the queue. Understand though that t=
+he
+larger the queue, the large the latency. There is currently no way to submi=
+t job
+ahead of the data (unlike DRM subsystem).
 
-I think I'd prefer the kmemdup() patch as the first one so that it does not
-depend on the patch adding the macros. And then the one adding the macros
-becomes optional.
+I have slight impression that all this seems rather inefficient for high ra=
+te /
+small buffer. I'd suggest creating a dummy benchmark driver to verify that =
+the
+overhead isn't just too much for an audio use case.
 
-Speaking about the latter, maybe BUF_SIZE and TIMEOUT_MS are a bit too vague?
-No strong opinion, though. Also, BUF_SIZE is suspiciously identical to PAGE_SIZE 
-on some/many architectures. Any thoughts about it?
-
-Regards,
-
-Andrzej
-
-> Jinjie Ruan (2):
->    media: cx231xx: Add BUF_SIZE and TIMEOUT_MS macros
->    media: cx231xx: Switch to use kmemdup() helper
-> 
->   drivers/media/usb/cx231xx/cx231xx-core.c | 7 +++----
->   drivers/media/usb/cx231xx/cx231xx.h      | 3 +++
->   2 files changed, 6 insertions(+), 4 deletions(-)
-> 
-
+Nicolas
