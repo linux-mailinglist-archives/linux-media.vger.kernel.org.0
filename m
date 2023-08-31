@@ -2,53 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA0D978EF3F
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 16:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C0BA78F060
+	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 17:32:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345474AbjHaOG2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Aug 2023 10:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39172 "EHLO
+        id S1346617AbjHaPcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Aug 2023 11:32:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345110AbjHaOG2 (ORCPT
+        with ESMTP id S1344831AbjHaPcq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Aug 2023 10:06:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F20ECC;
-        Thu, 31 Aug 2023 07:06:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B993263F83;
-        Thu, 31 Aug 2023 14:06:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00BEBC433C7;
-        Thu, 31 Aug 2023 14:06:19 +0000 (UTC)
-Message-ID: <ecc13f10-82b9-f99b-8ebf-ff505d65fe2e@xs4all.nl>
-Date:   Thu, 31 Aug 2023 16:06:18 +0200
+        Thu, 31 Aug 2023 11:32:46 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91251E54
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 08:32:41 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68bed2c786eso783474b3a.0
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 08:32:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1693495961; x=1694100761; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6oic3RLhjJLFMRrnh/TLgKdT1bBdDLhHF0St+2zs/cM=;
+        b=PQbw4+MA5oR9V7gfDDgDxXWUekmTc9PXT9hPcfvLEsT0E2WWtota7JLrpDkyYF12qC
+         QGyIsZzcaZUCcIYnYQQfl1p3n7eyxkgARJR5VgCV1T8UObLXUKGB1LIQ++hAxa/TMIOn
+         y6y0WQrl28afU5z3AJPjSG3RhsZIrWWQP8TWsd8Bu3NPSRGLJkC2AKsDkX8qf3gegtfK
+         bu836x1VFxgBvQpsr7sp4Z5MvGrW3DUgVetEBxSHmNWrsylT7y31wXPVIaTUFugQ2kJY
+         mqJ/ALmTY4ifCogB+NsdTnaxKxico+7U1EbXvbL8A9TFTwUxyz+g+YtWjneuXyIMrcrQ
+         65Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693495961; x=1694100761;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6oic3RLhjJLFMRrnh/TLgKdT1bBdDLhHF0St+2zs/cM=;
+        b=hGolYGFdW6oHaSs6rr4y6h5YP8aitsuaxFw5qt2NbzE+bVW+Cqz57OT4xrIQEPNL4y
+         cjYtaD0KqiRHRIlCBq2I8MXQNc68TPF7Y0pZVL9Lx6AnwQfuRI1fKLpUFoM4QXluDr/l
+         D4FoBI3Qlj3hk0MlwXy9oFhPQ93eYZkm7syWVQSXgO0JL6HEGQb4opvLN3KhX3+CKDoR
+         eg43ZHLRYR/yCMOr4cSxP6rETOyZ0Xm952K2zHhXGdRtDA9Oz8jGtCWryk9jWVsV8CJ2
+         9LQA+yRY+GHAWWhjyI7Xz1Du2K3lxQkOLJ/3P9Uzdh6gbW62i0Z45eYTAfidLtvnFnle
+         uJ4g==
+X-Gm-Message-State: AOJu0Yy+CekzdEbJdh5jBr5Z9z23eLUL3LxGk5oMgJyI4YTViwp2mTNM
+        7Q2EdSIgdg6Uhd3XezX1FKHgdg==
+X-Google-Smtp-Source: AGHT+IF5KLLO7/so1cpnK0Z4cYL6heHXJbzhg5chsQzO6cjO+0canVLzcMfdojFa0XNIv4ieQ/49cA==
+X-Received: by 2002:a05:6a00:17a3:b0:68c:3f2:6006 with SMTP id s35-20020a056a0017a300b0068c03f26006mr2563pfg.16.1693495960988;
+        Thu, 31 Aug 2023 08:32:40 -0700 (PDT)
+Received: from ziepe.ca ([207.140.200.197])
+        by smtp.gmail.com with ESMTPSA id bm2-20020a056a00320200b00682a61fa525sm1499015pfb.91.2023.08.31.08.32.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Aug 2023 08:32:40 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1qbjew-000Hon-9J;
+        Thu, 31 Aug 2023 12:32:38 -0300
+Date:   Thu, 31 Aug 2023 12:32:38 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Anle Pan <anle.pan@nxp.com>, m.szyprowski@samsung.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hui.fang@nxp.com
+Subject: Re: [PATCH] media: videobuf2-dma-sg: limit the sg segment size
+Message-ID: <ZPCylmcRD0hwluZf@ziepe.ca>
+References: <20230828075420.2009568-1-anle.pan@nxp.com>
+ <CAAFQd5Cn3xQroyYtC+m+pk1jOE5i3H+FGr-y8zqhaf0Yo5p-1Q@mail.gmail.com>
+ <deb735ce-7de1-e59a-9de4-1365b374b417@arm.com>
+ <20230829150442.GA3929@lst.de>
+ <CAAFQd5CiHXvsJugSi+hXY9ESsmxUzBzmbhF6G48iVsOcL5eMtQ@mail.gmail.com>
+ <20230830143341.GA25574@lst.de>
+ <ZO9xzf727b/YvZB/@ziepe.ca>
+ <20230831123532.GA11156@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v14 7/7] media: nuvoton: Add driver for NPCM video capture
- and encode engine
-Content-Language: en-US, nl
-To:     Kun-Fa Lin <milkfafa@gmail.com>
-Cc:     mchehab@kernel.org, avifishman70@gmail.com, tmaimon77@gmail.com,
-        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
-        benjaminfair@google.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        kwliu@nuvoton.com, kflin@nuvoton.com
-References: <20230828091859.3889817-1-milkfafa@gmail.com>
- <20230828091859.3889817-8-milkfafa@gmail.com>
- <0c91f68d-d172-bd14-9115-b6977ad2d01f@xs4all.nl>
- <CADnNmFqVbRWs5Uf_tJdrM0AopF_CmSHYwBK8-+1go_K6Hefkcw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CADnNmFqVbRWs5Uf_tJdrM0AopF_CmSHYwBK8-+1go_K6Hefkcw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230831123532.GA11156@lst.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,95 +84,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31/08/2023 14:42, Kun-Fa Lin wrote:
-> Hi Hans,
+On Thu, Aug 31, 2023 at 02:35:32PM +0200, Christoph Hellwig wrote:
+> On Wed, Aug 30, 2023 at 01:43:57PM -0300, Jason Gunthorpe wrote:
+> > > > conversion function for the drivers.
+> > > 
+> > > Jason said at LSF/MM that he had a prototype for a mapping API that
+> > > takes a phys/len array as input and dma_addr/len a output, which really
+> > > is the right thing to do, especially for dmabuf.
+> > 
+> > Yes, still a prototype. Given the change in direction some of the
+> > assumptions of the list design will need some adjusting.
+> > 
+> > I felt there wasn't much justification to add a list without also
+> > supporting the P2P and it was not looking very good to give the DMA
+> > API proper p2p support without also connecting it to lists somehow.
+> > 
+> > Anyhow, I had drafted a basic list datastructure and starting
+> > implementation that is sort of structured in away that is similar to
+> > xarray (eg with fixed chunks, generic purpose, etc)
+> > 
+> > https://github.com/jgunthorpe/linux/commit/58d7e0578a09d9cd2360be515208bcd74ade5958
 > 
-> Thanks for the review.
-> 
->>> +     snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s", DEVICE_NAME);
->>
->> You can drop this last line, it is already filled in by the V4L2 core for
->> platform devices.
-> 
->>> +static const char * const npcm_ctrl_capture_mode_menu[] = {
->>> +     "COMPLETE mode",
->>> +     "DIFF mode",
->>
->> Hmm, I would drop the 'mode' bit, since it is already obvious that
->> these are the modes.
-> 
-> OK. Will drop them in the next version.
-> 
->>> +static const struct v4l2_ctrl_config npcm_ctrl_rect_count = {
->>> +     .ops = &npcm_video_ctrl_ops,
->>> +     .id = V4L2_CID_NPCM_RECT_COUNT,
->>> +     .name = "NPCM Compressed Hextile Rectangle Count",
->>> +     .type = V4L2_CTRL_TYPE_INTEGER,
->>> +     .flags = V4L2_CTRL_FLAG_VOLATILE,
->>> +     .min = 0,
->>> +     .max = (MAX_WIDTH / RECT_W) * (MAX_HEIGHT / RECT_H),
->>> +     .step = 1,
->>> +     .def = 0,
->>> +};
->>
->> Just to confirm: you decided against using an integer array control?
->>
->> There is a real danger that if userspace isn't reading this control
->> quickly enough (i.e. before the next frame arrives at the driver), then
->> the control's value is that of that next frame instead of the current
->> frame.
->>
->> It doesn't feel robust to me.
-> 
-> Actually the driver will store the frames and counts for each buffer
-> index till userspace dequeues them.
-> 
-> Ex. assume that driver has captured 3 frames:
-> - 1st capture (buffer index = 0):
->      video->list[0] => store the list of HEXTILE rects for the 1st frame
->      video->rect[0] => store the rect count of video->list[0]
-> - 2nd capture (buffer index = 1):
->      video->list[1] => store the list of HEXTILE rects for the 2nd frame
->      video->rect[1] => store the rect count of video->list[1]
-> - 3rd capture (buffer index = 2):
->      video->list[2] => store the list of HEXTILE rects for the 3rd frame
->      video->rect[2] => store the rect count of video->list[2]
-> 
-> When userspace dequeues the 1st buffer (video->list[0]), it needs to
-> know the count of HEXTILE rectangles in the buffer,
-> so after dequeuing the buffer it will call this control to get the
-> rect count (video->rect[0]). And when a buffer is dequeued,
-> npcm_video_buf_finish() will be called, in which the buffer index (in
-> this example, buffer index = 0) will be stored to video->vb_index.
-> Then when userspace calls this control, npcm_video_get_volatile_ctrl()
-> will return the rect count of vb_index = 0.
-> In this way, I think userspace is always reading the correct control's
-> value even if userspace is slow.
-> Does it make sense to you or is there anything I missed?
+> This seems fairly complicated complicated, and the entry seems pretty large
+> for a bio_vec replacement or a dma_addr_t+len tuple, which both should
+> be (sizeof(phys_addr_t) + sizeof(u32) + the size of flags if needed, which
+> for 64-bit would fit into the padding from 96 bytes to 128 bytes anyway.
 
-Ah, I don't think I have ever seen anyone use buf_finish in that way!
+The entry is variable sized, so it depends on what is stuffed in
+it. For alot of common use cases, especially RDMA page lists, it will
+be able to use an 8 byte entry. This is pretty much the most space
+efficient it could be.
 
-Very inventive, and perfectly legal. Actually a very nice idea!
+There are RDMA use cases where we end up holding huge numbers of pages
+for a long time just so we can eventually unpin them. It is a nice
+outcome if that could use 8 bytes/folio.
 
-So, with that in mind there are still some things that need to change.
+The primary alternative I see is a fixed 16 bytes/entry with a 64 bit
+address and ~60 bit length + ~4 bits of flags. This is closer to bio,
+simpler and faster, but makes the RDMA cases 2x bigger.
 
-First of all, you can drop the 'VOLATILE' flag from the control, instead
-just call v4l2_ctrl_s_ctrl() from buf_finish() to update the control.
-And in stop_streaming the control value should probably be set to 0.
+Which are the right trade offs, or not, I don't know yet. I wanted to
+experiment with what this would look like for a bit.
 
-The use of volatile for a control is a last resort, and in this case it
-is not volatile at all.
+With your direction I felt we could safely keep bio as it is and
+cheaply make a fast DMA mapper for it. Provide something like this as
+the 'kitchen sink' version for dmabuf/rdma/etc that are a little
+different.
 
-Secondly, this behavior has to be documented: in buf_finish add a comment
-along the lines of: "This callback is called when the buffer is dequeued,
-so update this control with the number of rectangles."
-
-And where the control is defined, refer to buf_finish to explain where it
-is set.
-
-Finally the user-facing documentation has to be updated (npcm-video.rst)
-to explain this behavior.
-
-Regards,
-
-	Hans
+Jason
