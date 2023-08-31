@@ -2,129 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B8B278E3C6
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 02:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E871C78E486
+	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 03:46:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345436AbjHaAMh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 20:12:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32828 "EHLO
+        id S242200AbjHaBqW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Aug 2023 21:46:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345041AbjHaAMf (ORCPT
+        with ESMTP id S236116AbjHaBqW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 20:12:35 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70320CD2;
-        Wed, 30 Aug 2023 17:12:32 -0700 (PDT)
+        Wed, 30 Aug 2023 21:46:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20CE39C
+        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 18:46:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 13ABDB8212A;
-        Thu, 31 Aug 2023 00:12:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB14C433CA;
-        Thu, 31 Aug 2023 00:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693440749;
-        bh=LKbULXMgbDL2vsGKUpqOR2SUqLelDscSHdr1xJHh9eY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=QmHiD/tSJMM9tTtxOzVchxvZwWdFBIKtOPcTkggQioP3qsbL+oO11ThCw5gkNOv45
-         MJMEy6vpM7dZ+WeXJmBMHlkGq60PYQdkVjTIDQjM1ZxfP3vLZaYYkX905H91MrZvIs
-         5J3e7XV56ZvF03u+9EhiIccUapNg2AWIRFYXYUKsi11s4jvS0Qbe4TFCbf/0H7ik4k
-         GocemrLAnCFYsl5MtJESdHaRp+vOnx+qVo8paU5hkQdatneqBpCszQJLQ7z0nXWKhT
-         uMfAeLr9rf6RcWUutYPQt0wf7bmWIrRR4/ZdJWEnTqoj/7FG/7SmBsKQMpA34AsNZK
-         C/AwNYWmtU9xw==
-Date:   Thu, 31 Aug 2023 09:12:23 +0900
-From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To:     Ross Zwisler <zwisler@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Ross Zwisler <zwisler@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-media@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] visl: use canonical ftrace path
-Message-Id: <20230831091223.40252af58605862f9ef5726b@kernel.org>
-In-Reply-To: <20230829204600.3210276-2-zwisler@kernel.org>
-References: <20230829204600.3210276-2-zwisler@kernel.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AD0B962A1F
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 01:46:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8300C433C8
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 01:46:17 +0000 (UTC)
+Date:   Thu, 31 Aug 2023 03:46:15 +0200
+Message-ID: <b801d14cb79027bb0055225523663321.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 29 Aug 2023 14:46:01 -0600
-Ross Zwisler <zwisler@kernel.org> wrote:
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-> From: Ross Zwisler <zwisler@google.com>
-> 
-> The canonical location for the tracefs filesystem is at /sys/kernel/tracing.
-> 
-> But, from Documentation/trace/ftrace.rst:
-> 
->   Before 4.1, all ftrace tracing control files were within the debugfs
->   file system, which is typically located at /sys/kernel/debug/tracing.
->   For backward compatibility, when mounting the debugfs file system,
->   the tracefs file system will be automatically mounted at:
-> 
->   /sys/kernel/debug/tracing
-> 
-> Update the visl decoder driver documentation to use this tracefs path.
-> 
-> Signed-off-by: Ross Zwisler <zwisler@google.com>
+Results of the daily build of media_tree:
 
-Looks good to me.
+date:			Thu Aug 31 03:00:15 CEST 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	4c420b729238696d06d39f31fc85a287629a0304
+v4l-utils git hash:	c4ee40f941e0a11a7cbe2ecb1de54091a42e17b5
+edid-decode git hash:	5f723267e04deb3aa9610483514a02bcee10d9c2
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8455-g78e3bddd
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 4ed06391466e815fd6c8197bc02ec2348d8ca735
+host hardware:		x86_64
+host os:		6.4.0-3-amd64
 
-Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-Thanks!
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
-> ---
->  Documentation/admin-guide/media/visl.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/media/visl.rst b/Documentation/admin-guide/media/visl.rst
-> index 7d2dc78341c9..4328c6c72d30 100644
-> --- a/Documentation/admin-guide/media/visl.rst
-> +++ b/Documentation/admin-guide/media/visl.rst
-> @@ -78,7 +78,7 @@ The trace events are defined on a per-codec basis, e.g.:
->  
->  .. code-block:: bash
->  
-> -        $ ls /sys/kernel/debug/tracing/events/ | grep visl
-> +        $ ls /sys/kernel/tracing/events/ | grep visl
->          visl_fwht_controls
->          visl_h264_controls
->          visl_hevc_controls
-> @@ -90,13 +90,13 @@ For example, in order to dump HEVC SPS data:
->  
->  .. code-block:: bash
->  
-> -        $ echo 1 >  /sys/kernel/debug/tracing/events/visl_hevc_controls/v4l2_ctrl_hevc_sps/enable
-> +        $ echo 1 >  /sys/kernel/tracing/events/visl_hevc_controls/v4l2_ctrl_hevc_sps/enable
->  
->  The SPS data will be dumped to the trace buffer, i.e.:
->  
->  .. code-block:: bash
->  
-> -        $ cat /sys/kernel/debug/tracing/trace
-> +        $ cat /sys/kernel/tracing/trace
->          video_parameter_set_id 0
->          seq_parameter_set_id 0
->          pic_width_in_luma_samples 1920
-> -- 
-> 2.42.0.rc2.253.gd59a3bf2b4-goog
-> 
+smatch: WARNINGS:
 
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+COMPILE_TEST: WARNINGS: VIDEOBUF_GEN VIDEOBUF_DMA_SG VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 4
+
+date:			Thu Aug 31 03:45:01 CEST 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
