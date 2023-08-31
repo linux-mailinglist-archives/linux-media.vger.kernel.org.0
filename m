@@ -2,133 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C0BA78F060
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 17:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0F7A78F1D0
+	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 19:23:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346617AbjHaPcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Aug 2023 11:32:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51196 "EHLO
+        id S1346868AbjHaRXX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Aug 2023 13:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344831AbjHaPcq (ORCPT
+        with ESMTP id S238658AbjHaRXX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Aug 2023 11:32:46 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91251E54
-        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 08:32:41 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68bed2c786eso783474b3a.0
-        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 08:32:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1693495961; x=1694100761; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6oic3RLhjJLFMRrnh/TLgKdT1bBdDLhHF0St+2zs/cM=;
-        b=PQbw4+MA5oR9V7gfDDgDxXWUekmTc9PXT9hPcfvLEsT0E2WWtota7JLrpDkyYF12qC
-         QGyIsZzcaZUCcIYnYQQfl1p3n7eyxkgARJR5VgCV1T8UObLXUKGB1LIQ++hAxa/TMIOn
-         y6y0WQrl28afU5z3AJPjSG3RhsZIrWWQP8TWsd8Bu3NPSRGLJkC2AKsDkX8qf3gegtfK
-         bu836x1VFxgBvQpsr7sp4Z5MvGrW3DUgVetEBxSHmNWrsylT7y31wXPVIaTUFugQ2kJY
-         mqJ/ALmTY4ifCogB+NsdTnaxKxico+7U1EbXvbL8A9TFTwUxyz+g+YtWjneuXyIMrcrQ
-         65Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693495961; x=1694100761;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6oic3RLhjJLFMRrnh/TLgKdT1bBdDLhHF0St+2zs/cM=;
-        b=hGolYGFdW6oHaSs6rr4y6h5YP8aitsuaxFw5qt2NbzE+bVW+Cqz57OT4xrIQEPNL4y
-         cjYtaD0KqiRHRIlCBq2I8MXQNc68TPF7Y0pZVL9Lx6AnwQfuRI1fKLpUFoM4QXluDr/l
-         D4FoBI3Qlj3hk0MlwXy9oFhPQ93eYZkm7syWVQSXgO0JL6HEGQb4opvLN3KhX3+CKDoR
-         eg43ZHLRYR/yCMOr4cSxP6rETOyZ0Xm952K2zHhXGdRtDA9Oz8jGtCWryk9jWVsV8CJ2
-         9LQA+yRY+GHAWWhjyI7Xz1Du2K3lxQkOLJ/3P9Uzdh6gbW62i0Z45eYTAfidLtvnFnle
-         uJ4g==
-X-Gm-Message-State: AOJu0Yy+CekzdEbJdh5jBr5Z9z23eLUL3LxGk5oMgJyI4YTViwp2mTNM
-        7Q2EdSIgdg6Uhd3XezX1FKHgdg==
-X-Google-Smtp-Source: AGHT+IF5KLLO7/so1cpnK0Z4cYL6heHXJbzhg5chsQzO6cjO+0canVLzcMfdojFa0XNIv4ieQ/49cA==
-X-Received: by 2002:a05:6a00:17a3:b0:68c:3f2:6006 with SMTP id s35-20020a056a0017a300b0068c03f26006mr2563pfg.16.1693495960988;
-        Thu, 31 Aug 2023 08:32:40 -0700 (PDT)
-Received: from ziepe.ca ([207.140.200.197])
-        by smtp.gmail.com with ESMTPSA id bm2-20020a056a00320200b00682a61fa525sm1499015pfb.91.2023.08.31.08.32.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Aug 2023 08:32:40 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1qbjew-000Hon-9J;
-        Thu, 31 Aug 2023 12:32:38 -0300
-Date:   Thu, 31 Aug 2023 12:32:38 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Anle Pan <anle.pan@nxp.com>, m.szyprowski@samsung.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hui.fang@nxp.com
-Subject: Re: [PATCH] media: videobuf2-dma-sg: limit the sg segment size
-Message-ID: <ZPCylmcRD0hwluZf@ziepe.ca>
-References: <20230828075420.2009568-1-anle.pan@nxp.com>
- <CAAFQd5Cn3xQroyYtC+m+pk1jOE5i3H+FGr-y8zqhaf0Yo5p-1Q@mail.gmail.com>
- <deb735ce-7de1-e59a-9de4-1365b374b417@arm.com>
- <20230829150442.GA3929@lst.de>
- <CAAFQd5CiHXvsJugSi+hXY9ESsmxUzBzmbhF6G48iVsOcL5eMtQ@mail.gmail.com>
- <20230830143341.GA25574@lst.de>
- <ZO9xzf727b/YvZB/@ziepe.ca>
- <20230831123532.GA11156@lst.de>
+        Thu, 31 Aug 2023 13:23:23 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CB17CC5
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 10:23:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693502590; x=1725038590;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=gqXllUO7AW7U7mF5qM7UcsJloq8/qYCwjrZUmWnRqkY=;
+  b=AXf/oguueK7bBO9yzsQWr4LR3bdHtp/xB4u/zjOw7oQiQRvakXu3fwcQ
+   0K5yJ9ZL8ijVwEimzIXFnCFxz4dPbre6r/4MQ9zS/sn5s5JUWbpNueDuy
+   zLJCnWcxIGkB5vzIez2Yq9csIQV+RSUn1g28ppQzT70BfbM1iNQS+fYhN
+   VKD5702N4T/uk3ta1/K0JjZltIc8FK9zrXZTWx51JtR1DGeCo2rNo2yoC
+   WDUYAVmXNCSqshcBLPRI7l5D1i69PDfPRDKoNTLjWXXDD9Vn8gxecoS0Z
+   PhGFtEEl9OZSBW9XREGpkFTy1vWbheyO/Jeb19EruxkrgTQv0sW3dtGDv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="379802113"
+X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
+   d="scan'208";a="379802113"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 10:23:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="733191930"
+X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
+   d="scan'208";a="733191930"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.153])
+  by orsmga007.jf.intel.com with SMTP; 31 Aug 2023 10:23:06 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Thu, 31 Aug 2023 20:23:05 +0300
+Date:   Thu, 31 Aug 2023 20:23:05 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/6] drm/edid: add drm_edid_is_digital()
+Message-ID: <ZPDMefxfuX6SiE9n@intel.com>
+References: <cover.1692884619.git.jani.nikula@intel.com>
+ <4bdb407bf189fd922be022eb2f9564692377c81d.1692884619.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230831123532.GA11156@lst.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4bdb407bf189fd922be022eb2f9564692377c81d.1692884619.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 31, 2023 at 02:35:32PM +0200, Christoph Hellwig wrote:
-> On Wed, Aug 30, 2023 at 01:43:57PM -0300, Jason Gunthorpe wrote:
-> > > > conversion function for the drivers.
-> > > 
-> > > Jason said at LSF/MM that he had a prototype for a mapping API that
-> > > takes a phys/len array as input and dma_addr/len a output, which really
-> > > is the right thing to do, especially for dmabuf.
-> > 
-> > Yes, still a prototype. Given the change in direction some of the
-> > assumptions of the list design will need some adjusting.
-> > 
-> > I felt there wasn't much justification to add a list without also
-> > supporting the P2P and it was not looking very good to give the DMA
-> > API proper p2p support without also connecting it to lists somehow.
-> > 
-> > Anyhow, I had drafted a basic list datastructure and starting
-> > implementation that is sort of structured in away that is similar to
-> > xarray (eg with fixed chunks, generic purpose, etc)
-> > 
-> > https://github.com/jgunthorpe/linux/commit/58d7e0578a09d9cd2360be515208bcd74ade5958
+On Thu, Aug 24, 2023 at 04:46:02PM +0300, Jani Nikula wrote:
+> Checking edid->input & DRM_EDID_INPUT_DIGITAL is common enough to
+> deserve a helper that also lets us abstract the raw EDID a bit better.
 > 
-> This seems fairly complicated complicated, and the entry seems pretty large
-> for a bio_vec replacement or a dma_addr_t+len tuple, which both should
-> be (sizeof(phys_addr_t) + sizeof(u32) + the size of flags if needed, which
-> for 64-bit would fit into the padding from 96 bytes to 128 bytes anyway.
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-The entry is variable sized, so it depends on what is stuffed in
-it. For alot of common use cases, especially RDMA page lists, it will
-be able to use an 8 byte entry. This is pretty much the most space
-efficient it could be.
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-There are RDMA use cases where we end up holding huge numbers of pages
-for a long time just so we can eventually unpin them. It is a nice
-outcome if that could use 8 bytes/folio.
+> ---
+>  drivers/gpu/drm/drm_edid.c | 17 +++++++++++++++--
+>  include/drm/drm_edid.h     |  1 +
+>  2 files changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 340da8257b51..1dbb15439468 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3110,7 +3110,7 @@ drm_monitor_supports_rb(const struct drm_edid *drm_edid)
+>  		return ret;
+>  	}
+>  
+> -	return ((drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL) != 0);
+> +	return drm_edid_is_digital(drm_edid);
+>  }
+>  
+>  static void
+> @@ -6519,7 +6519,7 @@ static void update_display_info(struct drm_connector *connector,
+>  	if (edid->revision < 3)
+>  		goto out;
+>  
+> -	if (!(edid->input & DRM_EDID_INPUT_DIGITAL))
+> +	if (!drm_edid_is_digital(drm_edid))
+>  		goto out;
+>  
+>  	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
+> @@ -7335,3 +7335,16 @@ static void _drm_update_tile_info(struct drm_connector *connector,
+>  		connector->tile_group = NULL;
+>  	}
+>  }
+> +
+> +/**
+> + * drm_edid_is_digital - is digital?
+> + * @drm_edid: The EDID
+> + *
+> + * Return true if input is digital.
+> + */
+> +bool drm_edid_is_digital(const struct drm_edid *drm_edid)
+> +{
+> +	return drm_edid && drm_edid->edid &&
+> +		drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL;
+> +}
+> +EXPORT_SYMBOL(drm_edid_is_digital);
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index 48e93f909ef6..882d2638708e 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -612,6 +612,7 @@ const struct drm_edid *drm_edid_read_switcheroo(struct drm_connector *connector,
+>  int drm_edid_connector_update(struct drm_connector *connector,
+>  			      const struct drm_edid *edid);
+>  int drm_edid_connector_add_modes(struct drm_connector *connector);
+> +bool drm_edid_is_digital(const struct drm_edid *drm_edid);
+>  
+>  const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
+>  				  int ext_id, int *ext_index);
+> -- 
+> 2.39.2
 
-The primary alternative I see is a fixed 16 bytes/entry with a 64 bit
-address and ~60 bit length + ~4 bits of flags. This is closer to bio,
-simpler and faster, but makes the RDMA cases 2x bigger.
-
-Which are the right trade offs, or not, I don't know yet. I wanted to
-experiment with what this would look like for a bit.
-
-With your direction I felt we could safely keep bio as it is and
-cheaply make a fast DMA mapper for it. Provide something like this as
-the 'kitchen sink' version for dmabuf/rdma/etc that are a little
-different.
-
-Jason
+-- 
+Ville Syrjälä
+Intel
