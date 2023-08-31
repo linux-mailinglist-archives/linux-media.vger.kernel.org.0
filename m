@@ -2,51 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BBBA78E6FB
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 09:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2AB478E70E
+	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 09:16:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238212AbjHaHNZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Aug 2023 03:13:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50692 "EHLO
+        id S232153AbjHaHQ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Aug 2023 03:16:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244528AbjHaHNZ (ORCPT
+        with ESMTP id S229577AbjHaHQ1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Aug 2023 03:13:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36362CD6;
-        Thu, 31 Aug 2023 00:13:19 -0700 (PDT)
+        Thu, 31 Aug 2023 03:16:27 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8380AE62;
+        Thu, 31 Aug 2023 00:16:02 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58E87836;
-        Thu, 31 Aug 2023 09:11:53 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75645836;
+        Thu, 31 Aug 2023 09:14:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693465913;
-        bh=eWvI9XuuHEwFgOsSGQ/WEcOhDhVjNa8y7Y5Ie0Lx9Gw=;
+        s=mail; t=1693466054;
+        bh=tVpuZI+y28Ywlldd4PZ6z5BJVpXZjNaH4iaRbuAIPbI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h7p95+vmq6/RjUgHQRz6pzBv9+nKeM5DVOqRJZcIKtYZfwz83YJnvXiYqX9ocdeFP
-         hS0zQVTdACL1LIA13F0sbn874oJAwFRaNOsPuujTT9ezGzKJj2ut4gcsgTG7LsuFVP
-         WTgwUWh4XcyAShJhdZP5bnyy56nvJ5NoKtABZxUE=
-Date:   Thu, 31 Aug 2023 10:13:26 +0300
+        b=Lu2ZvOQ6sdIZ+07h4wvxA+rgmdmI7xLnvfEztbfY4wd9O0X7cNRGhrbrF4SEwlslZ
+         VMvY9qmgXY7M6IuqD93rozTmaHdikGsVeCIu+ej4t8QF3BASPmahKkatNYrDvD+NKA
+         b+Xm8/4rrLr2ZlgJBgLU9eaqIHn2UY1y8/lOkrs8=
+Date:   Thu, 31 Aug 2023 10:15:47 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>,
+        Purism Kernel Team <kernel@puri.sm>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: max9286: Remove an incorrect
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] media: imx-mipi-csis: Remove an incorrect
  fwnode_handle_put() call
-Message-ID: <20230831071326.GB2698@pendragon.ideasonboard.com>
-References: <26387273c902ce938a25647b6ccd9b8584284096.1693428894.git.christophe.jaillet@wanadoo.fr>
+Message-ID: <20230831071547.GC2698@pendragon.ideasonboard.com>
+References: <dd5b741f496d074d342958f14baff5bae8c71531.1693429556.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <26387273c902ce938a25647b6ccd9b8584284096.1693428894.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <dd5b741f496d074d342958f14baff5bae8c71531.1693429556.git.christophe.jaillet@wanadoo.fr>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -57,33 +61,43 @@ Hi Christophe,
 
 Thank you for the patch.
 
-On Wed, Aug 30, 2023 at 10:57:36PM +0200, Christophe JAILLET wrote:
-> The commit in Fixes has removed an fwnode_handle_put() call in the error
-> handling path of max9286_v4l2_register().
+On Wed, Aug 30, 2023 at 11:06:14PM +0200, Christophe JAILLET wrote:
+> The commit in Fixes has removed an fwnode_graph_get_endpoint_by_id() call
+> in mipi_csis_subdev_init().
+> So the reference that was taken should not be released anymore in the
+> error handling path of the probe and in the remove function.
 > 
-> Remove the same call from max9286_v4l2_unregister().
+> Remove the now incorrect fwnode_handle_put() calls.
 > 
 > Fixes: 1029939b3782 ("media: v4l: async: Simplify async sub-device fwnode matching")
 > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/media/i2c/max9286.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/media/platform/nxp/imx-mipi-csis.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index f27a69b1b727..fc1cf196ef01 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -1110,7 +1110,6 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> index 16f19a640130..5f93712bf485 100644
+> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> @@ -1490,7 +1490,6 @@ static int mipi_csis_probe(struct platform_device *pdev)
+>  	v4l2_async_unregister_subdev(&csis->sd);
+>  err_disable_clock:
+>  	mipi_csis_clk_disable(csis);
+> -	fwnode_handle_put(csis->sd.fwnode);
 >  
->  static void max9286_v4l2_unregister(struct max9286_priv *priv)
->  {
-> -	fwnode_handle_put(priv->sd.fwnode);
->  	v4l2_ctrl_handler_free(&priv->ctrls);
->  	v4l2_async_unregister_subdev(&priv->sd);
->  	max9286_v4l2_notifier_unregister(priv);
+>  	return ret;
+>  }
+> @@ -1510,7 +1509,6 @@ static void mipi_csis_remove(struct platform_device *pdev)
+>  	mipi_csis_clk_disable(csis);
+>  	v4l2_subdev_cleanup(&csis->sd);
+>  	media_entity_cleanup(&csis->sd.entity);
+> -	fwnode_handle_put(csis->sd.fwnode);
+>  	pm_runtime_set_suspended(&pdev->dev);
+>  }
+>  
 
 -- 
 Regards,
