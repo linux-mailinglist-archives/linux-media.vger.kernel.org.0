@@ -2,104 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45C0078F2E7
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 20:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BD0578F30A
+	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 21:05:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbjHaSvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Aug 2023 14:51:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41998 "EHLO
+        id S241165AbjHaTFh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Aug 2023 15:05:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346419AbjHaSvh (ORCPT
+        with ESMTP id S231875AbjHaTFg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Aug 2023 14:51:37 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F96CE69
-        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 11:51:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693507893; x=1725043893;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=aK2L0FYFMIs2rz3U06qLaSbuCoImaDU74MHF3sKOzWE=;
-  b=mGE6XxH/GMyVY/IesFOEURBYmJaVOcytGmbabvWeBJfyp7F8w3V9Uc9X
-   2nMs6HmNR6c7bJWR+46Srlt/t+BQnlMoX6bp8m5rPR4EQYRk2bobpedx3
-   nBHvoNdPqEhH9lPTwMRR92m2ow5SqimE/Gq/TXE0ooD6zHaBB0I/KlJpw
-   LESlJxapD6DAOzThd4Z/6J2iDVobLRac5Be4a1iAlX3+SzDHjpAKtCmik
-   ybBNJY1phLGjCBsReYqNoV0hN662d3yhs5eJ9JuQn2BbUFfbe6ELO1oEq
-   yi19+AE15cn4Fx+QPcKN+LHAGKxgEGB0FOA9vbcoWgw0h8waWqmAu8mVI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="355532452"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="355532452"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 11:51:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="863244303"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="863244303"
-Received: from shochwel-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.58.219])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 11:51:29 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     dri-devel@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 0/6] drm, cec and edid updates
-In-Reply-To: <cover.1692884619.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1692884619.git.jani.nikula@intel.com>
-Date:   Thu, 31 Aug 2023 21:51:24 +0300
-Message-ID: <8734zzjb9v.fsf@intel.com>
+        Thu, 31 Aug 2023 15:05:36 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851B4E65
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 12:05:33 -0700 (PDT)
+Received: from [192.168.0.192] (unknown [194.146.248.75])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id EA45A66072A6;
+        Thu, 31 Aug 2023 20:05:31 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1693508732;
+        bh=Qh342r+wUIL5/ZvLem+1VQxIpFbRNyjDnPlwoIEJImo=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=Gk540ZTm09jlL5PHFMo9p+1kuMpjFBkBz7njihBhBFM4UEXdlaXmLJrblmp+C13Qf
+         iYK3Tjc9n6ZArlJSPujbvkXngxds5PTD2g5O356JkBh8HwSdHTm5tlgD4rUpKkulKB
+         9Dm9F7USOaRvrGI+2yAwotfTpirc5R3bqsLiV++9Uizn2Qln9O/5XBSauwswayatXd
+         +tZDdAmlbHF2AJlfCXPEszNpHeVgfiF9jd5Zz5GWyR+8y3wUStxXlnSGiRhZ5Rschb
+         JCbkaxhTaWEdtVHp6cwUKsSYVdzVWfIyUcurwWnu6V75xrJgZiRKzqUcGlpX0/ehgH
+         ndL0VYgCTTH9w==
+Message-ID: <52da36a4-b69a-931d-2937-164fa99e79c0@collabora.com>
+Date:   Thu, 31 Aug 2023 21:05:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH -next v2 0/2] media: cx231xx: Add two macros and switch to
+ use kmemdup() helper
+To:     Jinjie Ruan <ruanjinjie@huawei.com>, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+References: <20230822111832.822367-1-ruanjinjie@huawei.com>
+Content-Language: en-US
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20230822111832.822367-1-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SBL_CSS,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 24 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
-> Avoid accessing the raw edid directly. Pre-parse the source physical
-> address during normal EDID parsing and use that for CEC.
->
-> Jani Nikula (6):
->   drm/edid: add drm_edid_is_digital()
->   drm/i915/display: use drm_edid_is_digital()
->   drm/edid: parse source physical address
->   drm/cec: add drm_dp_cec_attach() as the non-edid version of set edid
->   drm/i915/cec: switch to setting physical address directly
+Hi Jinjie,
 
-Maarten, Maxime, Thomas, ack for merging patches 1, 3 and 4 via via
-drm-intel?
+W dniu 22.08.2023 o 13:18, Jinjie Ruan pisze:
+> As Andrzej suggested, add BUF_SIZE and TIMEOUT_MS macros to replace
+> the magic constant 4096 and 2000.
+> 
+> On the other hand, use kmemdup() helper instead of open-coding to
+> simplify the code.
+> 
 
->   media: cec: core: add note about *_from_edid() function usage in drm
+Sorry about the delay.
 
-Hans, while there's no build dependency here, I think it would make
-sense to merge this together with patches 3 and 4. Ack for merging via
-drm-intel?
+I think I'd prefer the kmemdup() patch as the first one so that it does not
+depend on the patch adding the macros. And then the one adding the macros
+becomes optional.
 
-Thanks,
-Jani.
+Speaking about the latter, maybe BUF_SIZE and TIMEOUT_MS are a bit too vague?
+No strong opinion, though. Also, BUF_SIZE is suspiciously identical to PAGE_SIZE 
+on some/many architectures. Any thoughts about it?
 
+Regards,
 
->
->  drivers/gpu/drm/display/drm_dp_cec.c      | 22 +++++++++++++++++++---
->  drivers/gpu/drm/drm_edid.c                | 22 ++++++++++++++++++++--
->  drivers/gpu/drm/i915/display/intel_crt.c  | 11 ++++-------
->  drivers/gpu/drm/i915/display/intel_dp.c   |  7 ++-----
->  drivers/gpu/drm/i915/display/intel_hdmi.c |  8 +++-----
->  drivers/gpu/drm/i915/display/intel_sdvo.c |  7 ++-----
->  drivers/media/cec/core/cec-adap.c         |  4 ++++
->  drivers/media/cec/core/cec-notifier.c     |  4 ++++
->  include/drm/display/drm_dp_helper.h       |  6 ++++++
->  include/drm/drm_connector.h               |  8 ++++++++
->  include/drm/drm_edid.h                    |  1 +
->  11 files changed, 73 insertions(+), 27 deletions(-)
+Andrzej
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> Jinjie Ruan (2):
+>    media: cx231xx: Add BUF_SIZE and TIMEOUT_MS macros
+>    media: cx231xx: Switch to use kmemdup() helper
+> 
+>   drivers/media/usb/cx231xx/cx231xx-core.c | 7 +++----
+>   drivers/media/usb/cx231xx/cx231xx.h      | 3 +++
+>   2 files changed, 6 insertions(+), 4 deletions(-)
+> 
+
