@@ -2,85 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9908178EA44
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 12:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3D4378EB19
+	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 12:52:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239118AbjHaKfO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Aug 2023 06:35:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50438 "EHLO
+        id S1344808AbjHaKw3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Aug 2023 06:52:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbjHaKfN (ORCPT
+        with ESMTP id S239807AbjHaKwX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Aug 2023 06:35:13 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA861CEA;
-        Thu, 31 Aug 2023 03:35:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7AED1B82171;
-        Thu, 31 Aug 2023 10:35:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 667EFC433C7;
-        Thu, 31 Aug 2023 10:35:07 +0000 (UTC)
-Message-ID: <150a5670-8220-5c2f-351c-181ceeddf307@xs4all.nl>
-Date:   Thu, 31 Aug 2023 12:35:06 +0200
+        Thu, 31 Aug 2023 06:52:23 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4193B10DE
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 03:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693479114; x=1725015114;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=bK0hR2Wo68cckQ3fMMpTh2HEN/1JnSMIe4uhIwiTfAI=;
+  b=R8RUIa7u/GEvmyuBcbCsfX9QRf0+dBLkXnurMCwVQJVgWcqQlAIkDlbG
+   zWVK7hPFngTzLzZJE0kSYg2cHsbUZYLWRK9ZIdzCdjmg7cz1LF9rtt6BR
+   35QTg/47EEtv+kMB0itabHf2P1A8Sxth3zxnNeGlo6vjCS7hw5IZWo61w
+   uNobvTZf0AkvaTs2629rzWMlY881AA5ABX5UFnS2QUBc+i9gEMHFDjot4
+   /4E6zySEE8QSAq0s4Xjfb5pq+CrPc4DvqVkTwAxxngSVR9kxaAeb0wRsR
+   nKwfDoa7jrwikfUSGBVgumv2rovBnlWjr71qFqKV4iprBjJEM4QK+FLnR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="442262233"
+X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
+   d="scan'208";a="442262233"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 03:51:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="774497149"
+X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
+   d="scan'208";a="774497149"
+Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 03:51:50 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     Jani Nikula <jani.nikula@intel.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
+Subject: [PATCH v2] media: cec: core: add note about *_from_edid() function usage in drm
+Date:   Thu, 31 Aug 2023 13:51:44 +0300
+Message-Id: <20230831105144.25923-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <7cebfea8f999d2d0d49533f9849d109830c5d1b6.1692884619.git.jani.nikula@intel.com>
+References: <7cebfea8f999d2d0d49533f9849d109830c5d1b6.1692884619.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: Fwd: in linux 6.3.7-200.fc38.x86_64 goes vlc in time to switch tv
- channels to zombie-process
-Content-Language: en-US, nl
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media <linux-media@vger.kernel.org>,
-        Linux Stable <stable@vger.kernel.org>
-References: <a7f997fc-e7cc-cf67-3ac0-80ed30346511@gmail.com>
- <cdacb249-9d1d-cad9-44a9-ffa7b4b5b887@leemhuis.info>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <cdacb249-9d1d-cad9-44a9-ffa7b4b5b887@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31/08/2023 11:26, Linux regression tracking #update (Thorsten Leemhuis) wrote:
-> [TLDR: This mail in primarily relevant for Linux kernel regression
-> tracking. See link in footer if these mails annoy you.]
-> 
-> On 19.06.23 02:24, Bagas Sanjaya wrote:
->>
->> I notice a regression report on Bugzilla [1]. Quoting from it:
->> [...]
->>
->> #regzbot introduced: v6.3.5..v6.3.7 https://bugzilla.kernel.org/show_bug.cgi?id=217566
->> #regzbot title: switching TV channel causes VLC and firmware loading hang
-> 
-> #regzbot fix: 7cfab4c9dc09ca3a9d57c187894055a22bdcd
-> #regzbot ignore-activity
-> 
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> That page also explains what to do if mails like this annoy you.
-> 
-> 
+In the drm subsystem, the source physical address is, in most cases,
+available without having to parse the EDID again. Add notes about
+preferring to use the pre-parsed address instead.
 
-From what I can gather from the bugzilla report, whatever the issue was appears
-to be resolved or at least improved in later kernels.
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-I can't find any relevant differences for the dvb-usb-v2/dvbsky/si2168 drivers that
-are used here, even if I diff between v6.2.1 and v6.4.1. So either fedora
-applied some patch that is not in linux-stable, or the issue is elsewhere,
-outside the media subsystem.
+---
 
-Regards,
+v2: rephrase comments, in particular indicate cec_s_phys_addr() should
+be false (Hans)
+---
+ drivers/media/cec/core/cec-adap.c     | 5 +++++
+ drivers/media/cec/core/cec-notifier.c | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-	Hans
+diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+index 241b1621b197..1109af525c35 100644
+--- a/drivers/media/cec/core/cec-adap.c
++++ b/drivers/media/cec/core/cec-adap.c
+@@ -1688,6 +1688,11 @@ void cec_s_phys_addr(struct cec_adapter *adap, u16 phys_addr, bool block)
+ }
+ EXPORT_SYMBOL_GPL(cec_s_phys_addr);
+ 
++/*
++ * Note: In the drm subsystem, prefer calling (if possible):
++ *
++ * cec_s_phys_addr(adap, connector->display_info.source_physical_address, false);
++ */
+ void cec_s_phys_addr_from_edid(struct cec_adapter *adap,
+ 			       const struct edid *edid)
+ {
+diff --git a/drivers/media/cec/core/cec-notifier.c b/drivers/media/cec/core/cec-notifier.c
+index 389dc664b211..d600be0f7b67 100644
+--- a/drivers/media/cec/core/cec-notifier.c
++++ b/drivers/media/cec/core/cec-notifier.c
+@@ -195,6 +195,11 @@ void cec_notifier_set_phys_addr(struct cec_notifier *n, u16 pa)
+ }
+ EXPORT_SYMBOL_GPL(cec_notifier_set_phys_addr);
+ 
++/*
++ * Note: In the drm subsystem, prefer calling (if possible):
++ *
++ * cec_notifier_set_phys_addr(n, connector->display_info.source_physical_address);
++ */
+ void cec_notifier_set_phys_addr_from_edid(struct cec_notifier *n,
+ 					  const struct edid *edid)
+ {
+-- 
+2.39.2
+
