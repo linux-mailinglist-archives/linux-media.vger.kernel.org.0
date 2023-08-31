@@ -2,100 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2BFB78E294
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 00:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B8B278E3C6
+	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 02:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244119AbjH3Wti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 18:49:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38336 "EHLO
+        id S1345436AbjHaAMh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Aug 2023 20:12:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233612AbjH3Wth (ORCPT
+        with ESMTP id S1345041AbjHaAMf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 18:49:37 -0400
-Received: from smtp.smtpout.orange.fr (smtp-25.smtpout.orange.fr [80.12.242.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0402EE58
-        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 15:49:18 -0700 (PDT)
-Received: from pop-os.home ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id bSOGqx2PaDlJebSOGqE9lA; Wed, 30 Aug 2023 23:06:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1693429580;
-        bh=RzybfU0boxWYJNuGa1CY2Ynec75IhyC3G31hAEGouPc=;
-        h=From:To:Cc:Subject:Date;
-        b=mPrO5hn5GG5LU77t1k7/5WO5l+CvjJ29N7m9UBTflaCTVNouFpmoUL4y4lf3E3h8m
-         ovmhshCs/5nFfv+13c172HABJvt+Mycl8lymXklGe4kDwQZbwx7GhsuNVENRtPpJCi
-         s+UjqoGzWyHK+pAqfhfhP/VMgN0NZDYoMZEGUaZ+pi0N25nLmnsi+JLOVY1A5Uyiy+
-         Loj8GV28MUlbOiOJ55JPXeS0v/lrF/NC83cg82rQbBA92VoZYCfwrBVL+xBpstl8/t
-         NSC1RCgTCI2l66yzce+gpfX+5v/nGoRQqZl9rfjnrHHjdAqd0AR2WYxTPo2UBp5wpt
-         oz9s9SiN9iAvA==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 30 Aug 2023 23:06:20 +0200
-X-ME-IP: 86.243.2.178
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Martin Kepplinger <martink@posteo.de>,
-        Purism Kernel Team <kernel@puri.sm>,
+        Wed, 30 Aug 2023 20:12:35 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70320CD2;
+        Wed, 30 Aug 2023 17:12:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 13ABDB8212A;
+        Thu, 31 Aug 2023 00:12:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB14C433CA;
+        Thu, 31 Aug 2023 00:12:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693440749;
+        bh=LKbULXMgbDL2vsGKUpqOR2SUqLelDscSHdr1xJHh9eY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=QmHiD/tSJMM9tTtxOzVchxvZwWdFBIKtOPcTkggQioP3qsbL+oO11ThCw5gkNOv45
+         MJMEy6vpM7dZ+WeXJmBMHlkGq60PYQdkVjTIDQjM1ZxfP3vLZaYYkX905H91MrZvIs
+         5J3e7XV56ZvF03u+9EhiIccUapNg2AWIRFYXYUKsi11s4jvS0Qbe4TFCbf/0H7ik4k
+         GocemrLAnCFYsl5MtJESdHaRp+vOnx+qVo8paU5hkQdatneqBpCszQJLQ7z0nXWKhT
+         uMfAeLr9rf6RcWUutYPQt0wf7bmWIrRR4/ZdJWEnTqoj/7FG/7SmBsKQMpA34AsNZK
+         C/AwNYWmtU9xw==
+Date:   Thu, 31 Aug 2023 09:12:23 +0900
+From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To:     Ross Zwisler <zwisler@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Ross Zwisler <zwisler@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] media: imx-mipi-csis: Remove an incorrect fwnode_handle_put() call
-Date:   Wed, 30 Aug 2023 23:06:14 +0200
-Message-Id: <dd5b741f496d074d342958f14baff5bae8c71531.1693429556.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-media@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH] visl: use canonical ftrace path
+Message-Id: <20230831091223.40252af58605862f9ef5726b@kernel.org>
+In-Reply-To: <20230829204600.3210276-2-zwisler@kernel.org>
+References: <20230829204600.3210276-2-zwisler@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The commit in Fixes has removed an fwnode_graph_get_endpoint_by_id() call
-in mipi_csis_subdev_init().
-So the reference that was taken should not be released anymore in the
-error handling path of the probe and in the remove function.
+On Tue, 29 Aug 2023 14:46:01 -0600
+Ross Zwisler <zwisler@kernel.org> wrote:
 
-Remove the now incorrect fwnode_handle_put() calls.
+> From: Ross Zwisler <zwisler@google.com>
+> 
+> The canonical location for the tracefs filesystem is at /sys/kernel/tracing.
+> 
+> But, from Documentation/trace/ftrace.rst:
+> 
+>   Before 4.1, all ftrace tracing control files were within the debugfs
+>   file system, which is typically located at /sys/kernel/debug/tracing.
+>   For backward compatibility, when mounting the debugfs file system,
+>   the tracefs file system will be automatically mounted at:
+> 
+>   /sys/kernel/debug/tracing
+> 
+> Update the visl decoder driver documentation to use this tracefs path.
+> 
+> Signed-off-by: Ross Zwisler <zwisler@google.com>
 
-Fixes: 1029939b3782 ("media: v4l: async: Simplify async sub-device fwnode matching")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/platform/nxp/imx-mipi-csis.c | 2 --
- 1 file changed, 2 deletions(-)
+Looks good to me.
 
-diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-index 16f19a640130..5f93712bf485 100644
---- a/drivers/media/platform/nxp/imx-mipi-csis.c
-+++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-@@ -1490,7 +1490,6 @@ static int mipi_csis_probe(struct platform_device *pdev)
- 	v4l2_async_unregister_subdev(&csis->sd);
- err_disable_clock:
- 	mipi_csis_clk_disable(csis);
--	fwnode_handle_put(csis->sd.fwnode);
- 
- 	return ret;
- }
-@@ -1510,7 +1509,6 @@ static void mipi_csis_remove(struct platform_device *pdev)
- 	mipi_csis_clk_disable(csis);
- 	v4l2_subdev_cleanup(&csis->sd);
- 	media_entity_cleanup(&csis->sd.entity);
--	fwnode_handle_put(csis->sd.fwnode);
- 	pm_runtime_set_suspended(&pdev->dev);
- }
- 
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+Thanks!
+
+> ---
+>  Documentation/admin-guide/media/visl.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/media/visl.rst b/Documentation/admin-guide/media/visl.rst
+> index 7d2dc78341c9..4328c6c72d30 100644
+> --- a/Documentation/admin-guide/media/visl.rst
+> +++ b/Documentation/admin-guide/media/visl.rst
+> @@ -78,7 +78,7 @@ The trace events are defined on a per-codec basis, e.g.:
+>  
+>  .. code-block:: bash
+>  
+> -        $ ls /sys/kernel/debug/tracing/events/ | grep visl
+> +        $ ls /sys/kernel/tracing/events/ | grep visl
+>          visl_fwht_controls
+>          visl_h264_controls
+>          visl_hevc_controls
+> @@ -90,13 +90,13 @@ For example, in order to dump HEVC SPS data:
+>  
+>  .. code-block:: bash
+>  
+> -        $ echo 1 >  /sys/kernel/debug/tracing/events/visl_hevc_controls/v4l2_ctrl_hevc_sps/enable
+> +        $ echo 1 >  /sys/kernel/tracing/events/visl_hevc_controls/v4l2_ctrl_hevc_sps/enable
+>  
+>  The SPS data will be dumped to the trace buffer, i.e.:
+>  
+>  .. code-block:: bash
+>  
+> -        $ cat /sys/kernel/debug/tracing/trace
+> +        $ cat /sys/kernel/tracing/trace
+>          video_parameter_set_id 0
+>          seq_parameter_set_id 0
+>          pic_width_in_luma_samples 1920
+> -- 
+> 2.42.0.rc2.253.gd59a3bf2b4-goog
+> 
+
+
 -- 
-2.34.1
-
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
