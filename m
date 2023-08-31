@@ -2,206 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52EB878E514
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 05:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E32378E5F1
+	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 07:48:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242910AbjHaD1T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Aug 2023 23:27:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
+        id S240580AbjHaFsL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Aug 2023 01:48:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232991AbjHaD1S (ORCPT
+        with ESMTP id S229898AbjHaFsK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Aug 2023 23:27:18 -0400
-Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAFAECEB
-        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 20:27:10 -0700 (PDT)
-Received: by mail-vk1-xa34.google.com with SMTP id 71dfb90a1353d-48d0eb04c8cso153107e0c.0
-        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 20:27:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693452430; x=1694057230; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cktt+6oO4/QGxOpepmZMJD5o/OMk1/3OdHU9NoLOIPI=;
-        b=C1ILpVSUhxpl1mEtuQwYV7nuLgzoYTaddLcVy86PeLxpflxnD6GNVPZSwznwf0EYEs
-         DLaJWY+6mXlXThyNm66iOSsvRApD8VDpVUUWthqO7MXbtHxewUcjNV5MGh0faFFot1rn
-         S287sN8zhLyDj9g0J35qRfRjSAB0yvb0nChBc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693452430; x=1694057230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cktt+6oO4/QGxOpepmZMJD5o/OMk1/3OdHU9NoLOIPI=;
-        b=V00MSid94klCy39wtAwudmkzGkMTG/EAUe36+ZvQeQybljKXQUnLGfQLmiGxmB8KK1
-         /K4mhhiOifE2T+gHdTt/uuQmzJu8eL7J+rkfGwwwCS/72T7T6zEESpopXHULA+WInqG8
-         A/OfuLWBSoDYlsPUiiC5kuhTswgH5oyoOznbC7qkzH4whSon+eXlp9CMvfrkYZR+X8nr
-         DOvUsei0rH/k7YfkNHa5hQZb06UdIoXE6HCwVvhe63N288Y4/SLUmuhGUr4lJvppA8DT
-         dvqTosMae8kxZuv2jaNr8F+Rzpwz8kprbu26rGJuc6shEZK/wqNmcqfWPoTPEO+9FudX
-         w9OA==
-X-Gm-Message-State: AOJu0YzGmnv5XKs8wRxSYGhEylXHxjpUwz54Q/9T5s4D59H/dBkheFEz
-        4pY4lAyqKPogMtsECh59IHYCZYes821odUGRwltmRdLyL+afKKmG
-X-Google-Smtp-Source: AGHT+IFDfFY5SuEgR+07TOP51AB/1qobwysn6FTj5OlGXRe80wUPiDPQ6elLo4yny7JYq4qV58qrU6hngAkS89LGhng=
-X-Received: by 2002:a67:fe93:0:b0:44e:9a71:27a1 with SMTP id
- b19-20020a67fe93000000b0044e9a7127a1mr3335342vsr.17.1693452429873; Wed, 30
- Aug 2023 20:27:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230824013858.303105-1-marex@denx.de> <CAHCN7xLDmMv7T_fT7vY3iq+KMWuPM9tBP_2AJ-X04L7ZTRWPOw@mail.gmail.com>
- <80d9a66f-c703-6057-e084-1a6d2214d775@denx.de> <CAGXv+5GQFtCAYbfSbEJeHA4Os0O6WuD64V-xcZ9uDD33HbuhhQ@mail.gmail.com>
- <f6f55f46-bd6e-4dde-4484-86d1c385c8fe@denx.de> <CAGXv+5EJ1asWymfjNcyLANSgQdJPcjT6MXUVwTYOEQ3PtVtXBQ@mail.gmail.com>
- <a445f1fc-6b38-e58b-a3ca-81c05e19f66e@denx.de> <CAGXv+5ESeqzzGAooMUFLiwJEzLneTRDbLggyzTFeq32NzDDUiw@mail.gmail.com>
- <3a5ef85d-ee82-a1aa-1bf0-9fcb5efec833@denx.de>
-In-Reply-To: <3a5ef85d-ee82-a1aa-1bf0-9fcb5efec833@denx.de>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Thu, 31 Aug 2023 11:26:58 +0800
-Message-ID: <CAGXv+5HqA69qrKmdENnWMawzwm5bzdDQ_8brwci4b5qyReWx6g@mail.gmail.com>
-Subject: Re: [PATCH] media: hantro: Check whether reset op is defined before use
-To:     Marek Vasut <marex@denx.de>
-Cc:     Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 31 Aug 2023 01:48:10 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE98ED7
+        for <linux-media@vger.kernel.org>; Wed, 30 Aug 2023 22:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693460887; x=1724996887;
+  h=date:from:to:cc:subject:message-id;
+  bh=ixLxMrRZexiwT7hAa3SiawdWDPnX7YLZ95fXpHs/QTg=;
+  b=WFRulGtJzsGQwCluy3i55AsIyX5j82L0Mi9Y7lDmBSI7bta5jBXe9JH+
+   zUlT/kb6tlP9uPMGP61ThT+rO1CWH5WyfAJbwTE0fhKpr7LC7AF03tlBw
+   1gcOvhqGbdAWAdOVUIndlPttBe0kgUGhs1jQfN2Wz8tPaSGbb1hSHQBJq
+   NNTwYv6mvrheZNPc1YZWll1eTryHyDHf9/lVgV2ezyod1X8OHxDMWavzI
+   wbToJmg5upssGXrlH6dLgwkMPIKgluiew10azkSRzUUp6tbFyEFBWMhzD
+   vjs5gyugJVuQ7Tlpfgw/I9yyChLXSFeDr6OA4sUetkxMqzo9E/Efge/QP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="374734411"
+X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
+   d="scan'208";a="374734411"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 22:48:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="883009894"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 30 Aug 2023 22:48:11 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qbaXE-000Akh-2W;
+        Thu, 31 Aug 2023 05:48:04 +0000
+Date:   Thu, 31 Aug 2023 13:47:06 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ 4c420b729238696d06d39f31fc85a287629a0304
+Message-ID: <202308311304.YQ1MSwqW-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 31, 2023 at 3:13=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
->
-> On 8/30/23 05:38, Chen-Yu Tsai wrote:
-> > On Sun, Aug 27, 2023 at 5:44=E2=80=AFAM Marek Vasut <marex@denx.de> wro=
-te:
-> >>
-> >> On 8/25/23 10:52, Chen-Yu Tsai wrote:
-> >>> On Fri, Aug 25, 2023 at 4:33=E2=80=AFPM Marek Vasut <marex@denx.de> w=
-rote:
-> >>>>
-> >>>> On 8/25/23 09:09, Chen-Yu Tsai wrote:
-> >>>>> On Thu, Aug 24, 2023 at 9:08=E2=80=AFPM Marek Vasut <marex@denx.de>=
- wrote:
-> >>>>>>
-> >>>>>> On 8/24/23 12:39, Adam Ford wrote:
-> >>>>>>> On Wed, Aug 23, 2023 at 8:39=E2=80=AFPM Marek Vasut <marex@denx.d=
-e> wrote:
-> >>>>>>>>
-> >>>>>>>> The i.MX8MM/N/P does not define the .reset op since reset of the=
- VPU is
-> >>>>>>>> done by genpd. Check whether the .reset op is defined before cal=
-ling it
-> >>>>>>>> to avoid NULL pointer dereference.
-> >>>>>>>>
-> >>>>>>>> Note that the Fixes tag is set to the commit which removed the r=
-eset op
-> >>>>>>>> from i.MX8M Hantro G2 implementation, this is because before thi=
-s commit
-> >>>>>>>> all the implementations did define the .reset op.
-> >>>>>>>
-> >>>>>>> I am surprised I didn't have issues when I was testing the 8MQ an=
-d
-> >>>>>>> 8MM, but this makes sense.
-> >>>>>>
-> >>>>>> You need to trigger the VPU watchdog to trigger the crash, that me=
-ans
-> >>>>>> you have to get the VPU into some weird state where it fails to de=
-code
-> >>>>>> frame. Then it triggers the reset and ... boom.
-> >>>>>>
-> >>>>>> See this patch, that contains a gstreamer invocation to generate s=
-uch
-> >>>>>> trigger condition input data:
-> >>>>>>
-> >>>>>> [PATCH] media: verisilicon: Do not enable G2 postproc downscale if
-> >>>>>> source is narrower than destination
-> >>>>>>
-> >>>>>> "
-> >>>>>> To generate input test data to trigger this bug, use e.g.:
-> >>>>>> $ gst-launch-1.0 videotestsrc !
-> >>>>>> video/x-raw,width=3D272,height=3D256,format=3DI420 ! \
-> >>>>>>                      vp9enc ! matroskamux ! filesink location=3D/t=
-mp/test.vp9
-> >>>>>> To trigger the bug upon decoding (note that the NV12 must be force=
-d, as
-> >>>>>> that assures the output data would pass the G2 postproc):
-> >>>>>> $ gst-launch-1.0 filesrc location=3D/tmp/test.vp9 ! matroskademux =
-!
-> >>>>>> vp9parse ! \
-> >>>>>>                      v4l2slvp9dec ! video/x-raw,format=3DNV12 ! vi=
-deoconvert
-> >>>>>> ! fbdevsink
-> >>>>>> "
-> >>>>>
-> >>>>> Does it completely recover afterwards? In my previous trials the ha=
-rdware
-> >>>>> ended up in some bizzare state: while decoding succeeds, the output=
-'s md5sum
-> >>>>> didn't match up.
-> >>>>
-> >>>> Have you got a testcase that triggers this, one I can try ?
-> >>>>
-> >>>> I am not entirely sure whether this is happening here as well or not=
-,
-> >>>> but I can imagine that the power domain went down and back up betwee=
-n
-> >>>> tests, so the VPU would be power cycled (and therefore reset) that w=
-ay.
-> >>>> So, I think it is worth testing that.
-> >>>
-> >>> This was last year while I was writing HEVC decoding code for Chromiu=
-m.
-> >>> IIRC the SAODBLK_A_MainConcept_4 test vector from the official HEVC t=
-est
-> >>> suite does cause our stack to crash, but Gstreamer seemed to handle i=
-t
-> >>> OK. It could be that the Chromium decoder stack is passing bad values=
- to
-> >>> the decoder.
-> >>
-> >> That can be easily tested with ftrace enabled. I was just tracking dow=
-n
-> >> an issue with gstreamer and added the following patch to the hantro
-> >> driver. Then:
-> >>
-> >> echo > /sys/kernel/debug/tracing/trace
-> >> <run fail test>
-> >> cat /sys/kernel/debug/tracing/trace > /tmp/fail.trace
-> >> echo > /sys/kernel/debug/tracing/trace
-> >> <run pass test>
-> >> cat /sys/kernel/debug/tracing/trace > /tmp/pass.trace
-> >> # remove time stamps etc.
-> >> diff /tmp/{fail,pass}.trace
-> >>
-> >> You should see whether some register programming differs between
-> >> gstreamer and chromium.
-> >
-> > I ended up using VISL to compare the controls set. I did find a bug.
-> > It still hard hangs after a couple frames, so I guess I'd need to use
-> > your method, but do printk instead.
-> >
-> > BTW, I wonder if we shouldn't add a reset op, if only just to stop the
-> > hardware? That is, do the same two register writes as in the Hantro G2
-> > interrupt handler.
->
-> You mean these two ?
->
-> 38         vdpu_write(vpu, 0, G2_REG_INTERRUPT);
-> 39         vdpu_write(vpu, G2_REG_CONFIG_DEC_CLK_GATE_E, G2_REG_CONFIG);
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: 4c420b729238696d06d39f31fc85a287629a0304  media: ivsc: Depend on VIDEO_DEV
 
-Yes.
+elapsed time: 909m
 
-> As far as I understand this, that only clears IRQ and gates the clock
-> off, but it doesn't reset the IP state, does it ?
+configs tested: 197
+configs skipped: 2
 
-That's right, but it would stop the hardware from continuing to do whatever
-it is doing before it gets shut down through runtime PM. I'm not sure it
-would make that much of a difference, but it did seem like something that
-could be done.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-ChenYu
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r035-20230830   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20230830   gcc  
+arc                   randconfig-001-20230831   gcc  
+arc                  randconfig-r015-20230830   gcc  
+arc                  randconfig-r023-20230831   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20230830   clang
+arm                   randconfig-001-20230831   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r034-20230830   clang
+arm64                randconfig-r036-20230830   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r013-20230830   gcc  
+csky                 randconfig-r016-20230830   gcc  
+csky                 randconfig-r031-20230830   gcc  
+hexagon               randconfig-001-20230830   clang
+hexagon               randconfig-001-20230831   clang
+hexagon               randconfig-002-20230830   clang
+hexagon               randconfig-002-20230831   clang
+hexagon              randconfig-r003-20230831   clang
+hexagon              randconfig-r013-20230831   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20230830   clang
+i386         buildonly-randconfig-002-20230830   clang
+i386         buildonly-randconfig-003-20230830   clang
+i386         buildonly-randconfig-004-20230830   clang
+i386         buildonly-randconfig-005-20230830   clang
+i386         buildonly-randconfig-006-20230830   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20230830   clang
+i386                  randconfig-002-20230830   clang
+i386                  randconfig-003-20230830   clang
+i386                  randconfig-004-20230830   clang
+i386                  randconfig-005-20230830   clang
+i386                  randconfig-006-20230830   clang
+i386                  randconfig-011-20230830   gcc  
+i386                  randconfig-011-20230831   clang
+i386                  randconfig-012-20230830   gcc  
+i386                  randconfig-012-20230831   clang
+i386                  randconfig-013-20230830   gcc  
+i386                  randconfig-013-20230831   clang
+i386                  randconfig-014-20230830   gcc  
+i386                  randconfig-014-20230831   clang
+i386                  randconfig-015-20230830   gcc  
+i386                  randconfig-015-20230831   clang
+i386                  randconfig-016-20230830   gcc  
+i386                  randconfig-016-20230831   clang
+i386                 randconfig-r036-20230831   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20230830   gcc  
+loongarch             randconfig-001-20230831   gcc  
+loongarch            randconfig-r022-20230830   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r032-20230831   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+microblaze           randconfig-r003-20230830   gcc  
+microblaze           randconfig-r014-20230831   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r012-20230830   clang
+mips                 randconfig-r024-20230830   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r011-20230830   gcc  
+nios2                randconfig-r021-20230831   gcc  
+nios2                randconfig-r022-20230831   gcc  
+nios2                randconfig-r033-20230830   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc             randconfig-r025-20230830   gcc  
+openrisc             randconfig-r033-20230831   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r032-20230830   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc64            randconfig-r005-20230830   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20230830   clang
+riscv                 randconfig-001-20230831   gcc  
+riscv                randconfig-r014-20230830   gcc  
+riscv                randconfig-r016-20230831   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20230830   gcc  
+s390                  randconfig-001-20230831   clang
+s390                 randconfig-r012-20230831   clang
+s390                 randconfig-r024-20230831   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                   randconfig-r001-20230831   gcc  
+sh                   randconfig-r004-20230831   gcc  
+sh                   randconfig-r005-20230831   gcc  
+sh                   randconfig-r006-20230830   gcc  
+sh                   randconfig-r021-20230830   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r011-20230831   gcc  
+sparc                randconfig-r023-20230830   gcc  
+sparc                randconfig-r034-20230831   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64              randconfig-r006-20230831   gcc  
+sparc64              randconfig-r031-20230831   gcc  
+sparc64              randconfig-r035-20230831   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r001-20230830   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-002-20230830   clang
+x86_64       buildonly-randconfig-003-20230830   clang
+x86_64       buildonly-randconfig-004-20230830   clang
+x86_64       buildonly-randconfig-005-20230830   clang
+x86_64       buildonly-randconfig-006-20230830   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20230830   gcc  
+x86_64                randconfig-002-20230830   gcc  
+x86_64                randconfig-003-20230830   gcc  
+x86_64                randconfig-004-20230830   gcc  
+x86_64                randconfig-005-20230830   gcc  
+x86_64                randconfig-006-20230830   gcc  
+x86_64                randconfig-011-20230831   gcc  
+x86_64                randconfig-012-20230831   gcc  
+x86_64                randconfig-013-20230831   gcc  
+x86_64                randconfig-014-20230831   gcc  
+x86_64                randconfig-015-20230831   gcc  
+x86_64                randconfig-016-20230831   gcc  
+x86_64                randconfig-071-20230830   clang
+x86_64                randconfig-072-20230830   clang
+x86_64                randconfig-073-20230830   clang
+x86_64                randconfig-074-20230830   clang
+x86_64                randconfig-075-20230830   clang
+x86_64                randconfig-076-20230830   clang
+x86_64               randconfig-r002-20230830   clang
+x86_64               randconfig-r004-20230830   clang
+x86_64               randconfig-r015-20230831   clang
+x86_64               randconfig-r026-20230831   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa               randconfig-r002-20230831   gcc  
+xtensa               randconfig-r025-20230831   gcc  
+xtensa               randconfig-r026-20230830   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
