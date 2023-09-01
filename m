@@ -2,165 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5660878FD97
-	for <lists+linux-media@lfdr.de>; Fri,  1 Sep 2023 14:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B07FC78FED7
+	for <lists+linux-media@lfdr.de>; Fri,  1 Sep 2023 16:19:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349532AbjIAMot (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Sep 2023 08:44:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44724 "EHLO
+        id S1349937AbjIAOTf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Sep 2023 10:19:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349546AbjIAMok (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Sep 2023 08:44:40 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D4F10F3;
-        Fri,  1 Sep 2023 05:44:36 -0700 (PDT)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:4d01:31d2:de6b:d217])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2D89666072F1;
-        Fri,  1 Sep 2023 13:44:34 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1693572274;
-        bh=pnW19QGFHas/i7g4P9JRpTYH72fRU9HVTUZzFWqPek8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C3mBe4suL5E0b2t25qMCZTdtcbaV5ROCXucMTvOFZ9vmdT6wqRSQi8CkH+AG6q79U
-         sz5u7q+fGzjrxvAclyQVp5xs6YTJ/uePiRNkH0mJJP+zZoL9hueKLf86+2R58n9zql
-         P8IlPcpKxmHketo7HLdPjDJXA1wg1xRdVu19Xt5lDnuri60medy7a4vmoW7VebNBdX
-         zTZlo+5unmlT+Z8WqEonAL+E4u4BoKkr/3wh13DcDGk1nk77lqaELohndEELtJIYmM
-         uBQrHgJICWH7WtREkkkzn9mapRRHb4rP/5ML67DxIkHeltlMWXvSYrz7MUtdBoq9vc
-         klVSUTvFOwXGA==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v6 18/18] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-Date:   Fri,  1 Sep 2023 14:44:14 +0200
-Message-Id: <20230901124414.48497-19-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
-References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S231482AbjIAOTe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Sep 2023 10:19:34 -0400
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FC9C10FC
+        for <linux-media@vger.kernel.org>; Fri,  1 Sep 2023 07:19:25 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 501)
+        id 93DF9100051; Fri,  1 Sep 2023 15:19:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1693577963; bh=1+AS8VgTF0D8Fb2qH/JEjjvHZ/Tb2Ldqs3q8XHRnqGs=;
+        h=From:To:Subject:Date:From;
+        b=odpbeRl9r14O3JnZZmgROHdm/7Ov9KyrJBXTvFgXM+pFHCagb0rRFrkk1g3y4ijXx
+         LFAdQaMn3BJlGRfmXptw0O/eGTySfXkbjs3+k4sJtUeCOzF11z50/oVPfMJwe+tfzW
+         NXCi5XlpNiG1moAzGPzwWnWBoiH4yntFgPr3LNkdITY4q7FHB6qPRVPfCgt69NmfJS
+         qhWC2ythZJTaq6e5EbSvHEH0R/y1U96NkkYkXgBniPeFVZFf5BEiwsx0b+AZ47JwU/
+         NCg8YfTCJqsvMHrQ3qFFLLpNdM5vZZ0bq/p2mol8gbgEnG3laUD48WnCqrKhE3mEnf
+         djb2DioLZIODg==
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
+X-Spam-Level: 
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Received: from localhost.localdomain (bigcore.mess.org [IPv6:2a02:8011:d000:212:44e0:1480:5a2d:d8ed])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by gofer.mess.org (Postfix) with ESMTPSA id 80E2D100051
+        for <linux-media@vger.kernel.org>; Fri,  1 Sep 2023 15:19:22 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1693577962; bh=1+AS8VgTF0D8Fb2qH/JEjjvHZ/Tb2Ldqs3q8XHRnqGs=;
+        h=From:To:Subject:Date:From;
+        b=AAyw6SNcDih/Q7srZwaervXq6m7hymfVHmryeWboPTHFpv1uXoXYniagvVMcugpgi
+         M1cz9j0nZjh6KBuDOnGsHzeaJxrQ1Zk4ro4mw/FH04HWHGQtRIy8Ni48kzp51frHW0
+         MP8rsGDk1k6FkgRJM2XPz+K7d7oCeaSMuj73P+75KM/fqWXkuFX8QensI6v7G6vJAT
+         +u7FwqY99yEDRKdyK79wCwCxerKV0YDPgH4lYAYJYpjfS4Eo/1wJYdKVQ9bgai8CXd
+         4Hk1y9ZQxd+1LphK2i8RoS6RBUgWyATDuldYcZTyA9oHSSlf2cqZzejswkvlCahPfN
+         2IZ5lXwPzOUVg==
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v5 0/2] Remove ir-rx51 driver
+Date:   Fri,  1 Sep 2023 15:18:54 +0100
+Message-ID: <cover.1693577725.git.sean@mess.org>
+X-Mailer: git-send-email 2.42.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Create v4l2-mem2mem helpers for VIDIOC_DELETE_BUFS ioctl.
+The ir-rx51 driver is no longer necessary, pwm-ir-tx does the same job
+and is more generic.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- .../media/platform/verisilicon/hantro_v4l2.c  |  1 +
- drivers/media/test-drivers/vim2m.c            |  1 +
- drivers/media/v4l2-core/v4l2-mem2mem.c        | 20 +++++++++++++++++++
- include/media/v4l2-mem2mem.h                  | 12 +++++++++++
- 4 files changed, 34 insertions(+)
+changes:
+ v5:
+  - Fix cc/to lists
+ v4:
+  - Fixed issues with pwm-ir-tx.yaml and did some more testing
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 27a1e77cca38..0fd1c2fc78c8 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -756,6 +756,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_bufs = v4l2_m2m_ioctl_delete_bufs,
- 	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index 3e3b424b4860..10bd8c92e340 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -960,6 +960,7 @@ static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
- 	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
- 
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 0cc30397fbad..d1d59943680f 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -831,6 +831,17 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
- 
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d)
-+{
-+	struct vb2_queue *vq;
-+
-+	vq = v4l2_m2m_get_vq(m2m_ctx, d->type);
-+
-+	return vb2_delete_bufs(vq, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_delete_bufs);
-+
- int v4l2_m2m_create_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_create_buffers *create)
- {
-@@ -1377,6 +1388,15 @@ int v4l2_m2m_ioctl_create_bufs(struct file *file, void *priv,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_create_bufs);
- 
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d)
-+{
-+	struct v4l2_fh *fh = file->private_data;
-+
-+	return v4l2_m2m_delete_bufs(file, fh->m2m_ctx, d);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_delete_bufs);
-+
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *priv,
- 				struct v4l2_buffer *buf)
- {
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index d6c8eb2b5201..161f85c42dc8 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -381,6 +381,16 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			 struct v4l2_buffer *buf);
- 
-+/**
-+ * v4l2_m2m_delete_bufs() - delete buffers from the queue
-+ *
-+ * @file: pointer to struct &file
-+ * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
-+ * @d: pointer to struct &v4l2_delete_buffers
-+ */
-+int v4l2_m2m_delete_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+			 struct v4l2_delete_buffers *d);
-+
- /**
-  * v4l2_m2m_create_bufs() - create a source or destination buffer, depending
-  * on the type
-@@ -860,6 +870,8 @@ int v4l2_m2m_ioctl_reqbufs(struct file *file, void *priv,
- 				struct v4l2_requestbuffers *rb);
- int v4l2_m2m_ioctl_create_bufs(struct file *file, void *fh,
- 				struct v4l2_create_buffers *create);
-+int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-+			       struct v4l2_delete_buffers *d);
- int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
- 				struct v4l2_buffer *buf);
- int v4l2_m2m_ioctl_expbuf(struct file *file, void *fh,
+ v3:
+  - Fixed issues with pwm-ir-tx.yaml
+
+ v2:
+  - Made pwm-ir-tx compatible with nokia,n900-ir rather than changing
+    the n900 devicetree
+
+
+Sean Young (2):
+  dt-bindings: media: remove nokia,n900-ir as pwm-ir-tx is compatible
+  media: rc: remove ir-rx51 in favour of generic pwm-ir-tx
+
+ .../bindings/leds/irled/pwm-ir-tx.yaml        |   5 +-
+ .../devicetree/bindings/media/nokia,n900-ir   |  20 --
+ arch/arm/configs/omap2plus_defconfig          |   1 -
+ drivers/media/rc/Kconfig                      |  10 -
+ drivers/media/rc/Makefile                     |   1 -
+ drivers/media/rc/ir-rx51.c                    | 285 ------------------
+ drivers/media/rc/pwm-ir-tx.c                  |   1 +
+ 7 files changed, 5 insertions(+), 318 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/nokia,n900-ir
+ delete mode 100644 drivers/media/rc/ir-rx51.c
+
 -- 
-2.39.2
+2.42.0
 
