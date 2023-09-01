@@ -2,80 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40F9A790284
-	for <lists+linux-media@lfdr.de>; Fri,  1 Sep 2023 21:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFC277903B2
+	for <lists+linux-media@lfdr.de>; Sat,  2 Sep 2023 00:40:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350670AbjIAThT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Sep 2023 15:37:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34706 "EHLO
+        id S1350942AbjIAWk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Sep 2023 18:40:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350659AbjIAThS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Sep 2023 15:37:18 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8C110E4
-        for <linux-media@vger.kernel.org>; Fri,  1 Sep 2023 12:37:15 -0700 (PDT)
-Received: from [192.168.0.192] (unknown [194.146.248.75])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S1350915AbjIAWk0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Sep 2023 18:40:26 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D960E10E0;
+        Fri,  1 Sep 2023 15:40:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8ABC966072B3;
-        Fri,  1 Sep 2023 20:37:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1693597033;
-        bh=mCEL36xnd9J7gIyISZYBdCgvYlBKyi6V8AkvfGn1rTU=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=RfAT7t8p2Uc0v1298x4IJPzd0adSycFmt9tNmk8wipdkmNE0uaVXG4wpQJCNd3evY
-         g60KMNF5APEuiKTJYariLUrEwKmkAe1LseR/SVTLXJDa7omkL2d1bN4zUv4jS/+l8q
-         AlCTs2Pk7sY5kYHWGcYafxyjEYK+mBBUjmCYAZNhHAkT525vXBIdOsqiKbcQ3MnwN0
-         o+uoPFLsUKFBowWBi7c4RDFd5Mofsf7Wl871diM4rm2o7Cv7kRpFYK025nLOS0O5kF
-         g6VQ8Bt/jZakkpVctK2KICxhVGkcIF98ZTdGNH+5r++Swv/Glv64Sjblr4FSs+y9aF
-         8Q7ceHmDG3WAA==
-Message-ID: <9bab73d5-e59a-96a4-e846-9eb3f1c2a95d@collabora.com>
-Date:   Fri, 1 Sep 2023 21:37:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: videobuf2: fix typo: vb2_dbuf -> vb2_qbuf
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <2df54bb9-4d4a-13ba-fa21-c4502a22944d@xs4all.nl>
-Content-Language: en-US
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <2df54bb9-4d4a-13ba-fa21-c4502a22944d@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        by sin.source.kernel.org (Postfix) with ESMTPS id 56ECBCE240F;
+        Fri,  1 Sep 2023 22:40:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E58B9C433C7;
+        Fri,  1 Sep 2023 22:40:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693608017;
+        bh=FX91qLUPL+aqjdwh/qYmQMs0fQruwSMxGsEiL0OqDnw=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=N1afeLzmiBOpNFZcu2733OnX48s/ErdgatvI5jl6gIrdfGMAQTUPrOEqCmjKqML1A
+         ORTWtaWuAXlmzbqEn5IgdFjF83SlVtSVo1tXGR1nxDuHNsw1+4FxZtKX7gg9/LoY32
+         yU7EFCYUYoFEsE67fVQ1trqS2Hh1/kjIDXHJeQKnkLvBwBlOTUAhKAg7IYbZtcNggB
+         AlU7g2Y8P9t8hCiCiFdklkKFm4/YFJqkyZxD6hyuwjBBgsY61tz6CA4h5sz5gTbaOo
+         xtggmM/NawFj52hWyjZL0skEREaYsimprqAAQuFmEaXERuhUIGPHZ9JcUDGqCMMTFn
+         yfDTGdbwH1W+g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BF547C595D2;
+        Fri,  1 Sep 2023 22:40:17 +0000 (UTC)
+Subject: Re: [GIT PULL for v6.6-rc1] media updates
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20230901142147.096c1b57@sal.lan>
+References: <20230901142147.096c1b57@sal.lan>
+X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20230901142147.096c1b57@sal.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.6-1
+X-PR-Tracked-Commit-Id: 9a5d660fdb25d20748d7f9e9559c86073c3bb368
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 307d59039fb26212a84a9aa6a134a7d2bdea34ca
+Message-Id: <169360801774.11463.711568536057455009.pr-tracker-bot@kernel.org>
+Date:   Fri, 01 Sep 2023 22:40:17 +0000
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+The pull request you sent on Fri, 1 Sep 2023 14:21:47 +0200:
 
-W dniu 30.08.2023 o 14:31, Hans Verkuil pisze:
-> Fix a small typo in the debug message: vb2_dbuf -> vb2_qbuf
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.6-1
 
-Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/307d59039fb26212a84a9aa6a134a7d2bdea34ca
 
-> ---
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index cf6727d9c81f..27aee92f3eea 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -2890,7 +2890,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
->   		if (copy_timestamp)
->   			b->timestamp = ktime_get_ns();
->   		ret = vb2_core_qbuf(q, index, NULL, NULL);
-> -		dprintk(q, 5, "vb2_dbuf result: %d\n", ret);
-> +		dprintk(q, 5, "vb2_qbuf result: %d\n", ret);
->   		if (ret)
->   			return ret;
-> 
+Thank you!
 
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
