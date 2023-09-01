@@ -2,103 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFAE978F49F
-	for <lists+linux-media@lfdr.de>; Thu, 31 Aug 2023 23:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FA9078F6D1
+	for <lists+linux-media@lfdr.de>; Fri,  1 Sep 2023 03:46:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235570AbjHaVcb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Aug 2023 17:32:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49336 "EHLO
+        id S1348054AbjIABq6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Aug 2023 21:46:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232586AbjHaVca (ORCPT
+        with ESMTP id S230061AbjIABq5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Aug 2023 17:32:30 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 867F0B8
-        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 14:32:26 -0700 (PDT)
+        Thu, 31 Aug 2023 21:46:57 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2679EE6E
+        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 18:46:54 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 112BFB823E3
-        for <linux-media@vger.kernel.org>; Thu, 31 Aug 2023 21:32:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7809CC433C8;
-        Thu, 31 Aug 2023 21:32:22 +0000 (UTC)
-Message-ID: <f24abf55-7261-f0b5-b95f-bf94ab80ea30@xs4all.nl>
-Date:   Thu, 31 Aug 2023 23:32:20 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 0/6] drm, cec and edid updates
-Content-Language: en-US, nl
-To:     Jani Nikula <jani.nikula@intel.com>,
-        dri-devel@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
-References: <cover.1692884619.git.jani.nikula@intel.com>
- <8734zzjb9v.fsf@intel.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <8734zzjb9v.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        by ams.source.kernel.org (Postfix) with ESMTPS id C5666B82437
+        for <linux-media@vger.kernel.org>; Fri,  1 Sep 2023 01:46:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E18BC433C7
+        for <linux-media@vger.kernel.org>; Fri,  1 Sep 2023 01:46:51 +0000 (UTC)
+Date:   Fri, 01 Sep 2023 03:46:49 +0200
+Message-ID: <b1f3c825b232e53c2d392d5f9845b049.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31/08/2023 20:51, Jani Nikula wrote:
-> On Thu, 24 Aug 2023, Jani Nikula <jani.nikula@intel.com> wrote:
->> Avoid accessing the raw edid directly. Pre-parse the source physical
->> address during normal EDID parsing and use that for CEC.
->>
->> Jani Nikula (6):
->>   drm/edid: add drm_edid_is_digital()
->>   drm/i915/display: use drm_edid_is_digital()
->>   drm/edid: parse source physical address
->>   drm/cec: add drm_dp_cec_attach() as the non-edid version of set edid
->>   drm/i915/cec: switch to setting physical address directly
-> 
-> Maarten, Maxime, Thomas, ack for merging patches 1, 3 and 4 via via
-> drm-intel?
-> 
->>   media: cec: core: add note about *_from_edid() function usage in drm
-> 
-> Hans, while there's no build dependency here, I think it would make
-> sense to merge this together with patches 3 and 4. Ack for merging via
-> drm-intel?
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-That's fine, it makes sense to do that.
+Results of the daily build of media_tree:
 
-If you need it, for this series:
+date:			Fri Sep  1 03:00:13 CEST 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	4c420b729238696d06d39f31fc85a287629a0304
+v4l-utils git hash:	c4ee40f941e0a11a7cbe2ecb1de54091a42e17b5
+edid-decode git hash:	e59b8a2ffd690d6576639365a67e890d91ca443d
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8455-g78e3bddd
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 4ed06391466e815fd6c8197bc02ec2348d8ca735
+host hardware:		x86_64
+host os:		6.4.0-3-amd64
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-Regards,
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
-	Hans
+smatch: WARNINGS:
 
-> 
-> Thanks,
-> Jani.
-> 
-> 
->>
->>  drivers/gpu/drm/display/drm_dp_cec.c      | 22 +++++++++++++++++++---
->>  drivers/gpu/drm/drm_edid.c                | 22 ++++++++++++++++++++--
->>  drivers/gpu/drm/i915/display/intel_crt.c  | 11 ++++-------
->>  drivers/gpu/drm/i915/display/intel_dp.c   |  7 ++-----
->>  drivers/gpu/drm/i915/display/intel_hdmi.c |  8 +++-----
->>  drivers/gpu/drm/i915/display/intel_sdvo.c |  7 ++-----
->>  drivers/media/cec/core/cec-adap.c         |  4 ++++
->>  drivers/media/cec/core/cec-notifier.c     |  4 ++++
->>  include/drm/display/drm_dp_helper.h       |  6 ++++++
->>  include/drm/drm_connector.h               |  8 ++++++++
->>  include/drm/drm_edid.h                    |  1 +
->>  11 files changed, 73 insertions(+), 27 deletions(-)
-> 
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
+COMPILE_TEST: WARNINGS: VIDEOBUF_GEN VIDEOBUF_DMA_SG VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+
+date:			Fri Sep  1 03:45:08 CEST 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
