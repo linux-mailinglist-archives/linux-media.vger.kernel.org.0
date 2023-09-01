@@ -2,446 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73BF378FEDC
-	for <lists+linux-media@lfdr.de>; Fri,  1 Sep 2023 16:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CC2878FF03
+	for <lists+linux-media@lfdr.de>; Fri,  1 Sep 2023 16:26:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349938AbjIAOTj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Sep 2023 10:19:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40928 "EHLO
+        id S238238AbjIAO0o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Sep 2023 10:26:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231776AbjIAOTj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Sep 2023 10:19:39 -0400
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC546173A;
-        Fri,  1 Sep 2023 07:19:28 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 501)
-        id A7D71100803; Fri,  1 Sep 2023 15:19:27 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1693577967; bh=nNEkDW1hd+Pqsob44LPZfPTtMTQ2WjZZgJsrx2Boteo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UXZYx5BN5E/sqWWLu+3ZqYLT3pSI45aCykSIK7zljhgDGxXaStfuk7u6iKP+/eFyM
-         1SXSL40tSc12lJ2WV/S8yzl6uecWwkCxEtWeLPd7dsdj7zlylLpXX6quwvDXfc33oO
-         keYTE2dfvpo+f1OqJpGAEDE2uxZNcDxKBO2p3QFhU0mX0NClu0g9Lm2+4+WMWlyNcn
-         UiL8Yyt2jTtS6oYr/JhvkDrHadoUjtjMxBuAo4anMzjacWa+EFgljCYe7I8Sp4Jgc7
-         pC4bxzkxRP7a6uQvvWsvtlAUNwr9oCLpumUQBTn0LuboZfzeJHqP6eODC4J/5yVV1A
-         w8/eBCdCcgdVA==
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
-X-Spam-Level: 
+        with ESMTP id S231247AbjIAO0o (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Sep 2023 10:26:44 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DD2B10DF
+        for <linux-media@vger.kernel.org>; Fri,  1 Sep 2023 07:26:40 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-68bee12e842so1689174b3a.3
+        for <linux-media@vger.kernel.org>; Fri, 01 Sep 2023 07:26:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1693578400; x=1694183200; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OIjtyLHq79VQ/5r2FFEDeS8KAjlFgkhGZiLhwOfElgI=;
+        b=IwS+U3qRgpdbb9lpi7C5p4oz8bwOdyfqPgVUexXMd1xfxC9wNA3JAfIh13ZQjsWve+
+         pxfj9BDhFciyg7xO5YcNQValJ5O5GdqdmTYCXt72rbklpS0c0MAivZB3hU22Tc398/AB
+         pt0ynHpHxzYvICpRKk19ymhYh0WRq9zoIjL6IZr6pErt5fNPfe/n6LHxzv/jXGF79mR+
+         6GF1LxTvUY3aTd14Ui+5jRoWVf/wb05UGtQIMIyh8xQmphGvYU7ZdxH8Remj43zyjb2e
+         I7fUbKZE/3F4FzzkN9VfTlfiAHcIErlaUNwza8x8W5Gdij/ZG045nyIWw3fdzcHhKUvf
+         oQ+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693578400; x=1694183200;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OIjtyLHq79VQ/5r2FFEDeS8KAjlFgkhGZiLhwOfElgI=;
+        b=GktYlKbMJcphCuAmGSZDHDdrJgdA6q/DZkKsqx0h4U17L9JLCh6+SXCpMQkSj73paF
+         R/xUJfrxey3fpblCHcFe9v3fD5qv2EsV+TB1akhephrd8kzviTRcYKVQNFDWseRpzz1D
+         ShVCRAx67nBjRTma+VRf9MmGaXgdZKR/Y8zrEzMt7mDaTNZg+sart9KYUKBLJv5KVrKh
+         LUdRh3BKuAcRv3lAyqI+JjsScPYZQzjCDI3FJdhRMji3XDUMvg10V4QvBcLJpwVNzCfq
+         8Un+D5K1saNwSJ7JEn21msSWxvJB5xvj6w1o0KObLiKm4Yol50RzS1EYJ7kJgEhnX0iX
+         RZfw==
+X-Gm-Message-State: AOJu0YxT0PBEgoSIP4bAxRaK2eB2eZcfjfz+1vyyqTPER40kQjm3T41h
+        maChrB92lQ6W/6PKFUfzECEEtA==
+X-Google-Smtp-Source: AGHT+IHPsYhe8Nmk9uWjMLuOWHJ8zGuVcKlfSoIXtHKELkiGxjjYs/IEhG4MFhwheaNap4ykm85/iA==
+X-Received: by 2002:a05:6a00:1807:b0:68a:582b:44c4 with SMTP id y7-20020a056a00180700b0068a582b44c4mr3399164pfa.3.1693578399601;
+        Fri, 01 Sep 2023 07:26:39 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.25.194])
+        by smtp.gmail.com with ESMTPSA id c10-20020a62e80a000000b0064fde7ae1ffsm3010466pfi.38.2023.09.01.07.26.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Sep 2023 07:26:38 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1qc56b-000WTO-8v;
+        Fri, 01 Sep 2023 11:26:37 -0300
+Date:   Fri, 1 Sep 2023 11:26:37 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Anle Pan <anle.pan@nxp.com>, m.szyprowski@samsung.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hui.fang@nxp.com
+Subject: Re: [PATCH] media: videobuf2-dma-sg: limit the sg segment size
+Message-ID: <ZPH0nZ+j639oZGK1@ziepe.ca>
+References: <20230828075420.2009568-1-anle.pan@nxp.com>
+ <CAAFQd5Cn3xQroyYtC+m+pk1jOE5i3H+FGr-y8zqhaf0Yo5p-1Q@mail.gmail.com>
+ <deb735ce-7de1-e59a-9de4-1365b374b417@arm.com>
+ <20230829150442.GA3929@lst.de>
+ <CAAFQd5CiHXvsJugSi+hXY9ESsmxUzBzmbhF6G48iVsOcL5eMtQ@mail.gmail.com>
+ <20230830143341.GA25574@lst.de>
+ <ZO9xzf727b/YvZB/@ziepe.ca>
+ <20230831123532.GA11156@lst.de>
+ <ZPCylmcRD0hwluZf@ziepe.ca>
+ <20230901061014.GA32166@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230901061014.GA32166@lst.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
-Received: from localhost.localdomain (bigcore.mess.org [IPv6:2a02:8011:d000:212:44e0:1480:5a2d:d8ed])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by gofer.mess.org (Postfix) with ESMTPSA id 7289D1007F6;
-        Fri,  1 Sep 2023 15:19:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1693577963; bh=nNEkDW1hd+Pqsob44LPZfPTtMTQ2WjZZgJsrx2Boteo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JkIQ9LLXFpXa016/XwlttjNyKOJaO3SP/CTYGhEGtYm8wEyuSb1I4vkN0Bqw0KkoU
-         Z7PS7QEeZgSw89tk1MQSSwXZIX3gGZ+L0xrvSBtFDoJSfpxHxPB/1JI5CiGUpyaK3/
-         yLW7fa3IIlX4dw0DpmBnOm+DHHihdGs2+yphtanSXeWwBlzKIas+yM19u7c9DFAZ1t
-         wrN9wnQSMk4JQjxmTkOYG5e6kZQ5quHnQnrIqPjoRgdPZjoO/cl7a9xd6IqSaj2nc7
-         evp2vq/JsetwsPc4uI2Fju/SE/Z8K3zzxh85kgZjwjZ4JpuoCKLs34NBvXcKxJHA4O
-         mV4rL/TD9TvTA==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Timo Kokkonen <timo.t.kokkonen@iki.fi>,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
-        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-        "Sicelo A . Mhlongo" <absicsz@gmail.com>,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: [PATCH v5 2/2] media: rc: remove ir-rx51 in favour of generic pwm-ir-tx
-Date:   Fri,  1 Sep 2023 15:18:56 +0100
-Message-ID: <e5325e826935f0bd8566152b6a5fa799b2429d43.1693577725.git.sean@mess.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1693577725.git.sean@mess.org>
-References: <cover.1693577725.git.sean@mess.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ir-rx51 is a pwm-based TX driver specific to the N900. This can be
-handled entirely by the generic pwm-ir-tx driver, and in fact the
-pwm-ir-tx driver has been compatible with ir-rx51 from the start.
+On Fri, Sep 01, 2023 at 08:10:14AM +0200, Christoph Hellwig wrote:
+> On Thu, Aug 31, 2023 at 12:32:38PM -0300, Jason Gunthorpe wrote:
+> > The entry is variable sized, so it depends on what is stuffed in
+> > it. For alot of common use cases, especially RDMA page lists, it will
+> > be able to use an 8 byte entry. This is pretty much the most space
+> > efficient it could be.
+> 
+> How do you get away with a 8 byte entry for addr+len?
 
-Note that the suspend code in the ir-rx51 driver is unnecessary, since
-during transmit, the process is not in interruptable sleep. The process
-is not put to sleep until the transmit completes.
+It's a compression. The basic base/length/flags has alot of zero bits
+in common cases.
 
-Cc: Timo Kokkonen <timo.t.kokkonen@iki.fi>
-Cc: Pali Rohár <pali.rohar@gmail.com>
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Tested-by: Sicelo A. Mhlongo <absicsz@gmail.com>
-Signed-off-by: Sean Young <sean@mess.org>
----
- arch/arm/configs/omap2plus_defconfig |   1 -
- drivers/media/rc/Kconfig             |  10 -
- drivers/media/rc/Makefile            |   1 -
- drivers/media/rc/ir-rx51.c           | 285 ---------------------------
- drivers/media/rc/pwm-ir-tx.c         |   1 +
- 5 files changed, 1 insertion(+), 297 deletions(-)
- delete mode 100644 drivers/media/rc/ir-rx51.c
+I was drafting:
 
-diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
-index b685018dcf54..ef39ab57b75a 100644
---- a/arch/arm/configs/omap2plus_defconfig
-+++ b/arch/arm/configs/omap2plus_defconfig
-@@ -484,7 +484,6 @@ CONFIG_LIRC=y
- CONFIG_RC_DEVICES=y
- CONFIG_IR_GPIO_TX=m
- CONFIG_IR_PWM_TX=m
--CONFIG_IR_RX51=m
- CONFIG_IR_SPI=m
- CONFIG_MEDIA_SUPPORT=m
- CONFIG_V4L_PLATFORM_DRIVERS=y
-diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
-index 922c790b577e..d1b98dd5bee6 100644
---- a/drivers/media/rc/Kconfig
-+++ b/drivers/media/rc/Kconfig
-@@ -337,16 +337,6 @@ config IR_REDRAT3
- 	   To compile this driver as a module, choose M here: the
- 	   module will be called redrat3.
- 
--config IR_RX51
--	tristate "Nokia N900 IR transmitter diode"
--	depends on (OMAP_DM_TIMER && PWM_OMAP_DMTIMER && ARCH_OMAP2PLUS || COMPILE_TEST) && RC_CORE
--	help
--	   Say Y or M here if you want to enable support for the IR
--	   transmitter diode built in the Nokia N900 (RX51) device.
--
--	   The driver uses omap DM timers for generating the carrier
--	   wave and pulses.
--
- config IR_SERIAL
- 	tristate "Homebrew Serial Port Receiver"
- 	depends on HAS_IOPORT
-diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
-index a9285266e944..2bca6f7f07bc 100644
---- a/drivers/media/rc/Makefile
-+++ b/drivers/media/rc/Makefile
-@@ -43,7 +43,6 @@ obj-$(CONFIG_IR_MTK) += mtk-cir.o
- obj-$(CONFIG_IR_NUVOTON) += nuvoton-cir.o
- obj-$(CONFIG_IR_PWM_TX) += pwm-ir-tx.o
- obj-$(CONFIG_IR_REDRAT3) += redrat3.o
--obj-$(CONFIG_IR_RX51) += ir-rx51.o
- obj-$(CONFIG_IR_SERIAL) += serial_ir.o
- obj-$(CONFIG_IR_SPI) += ir-spi.o
- obj-$(CONFIG_IR_STREAMZAP) += streamzap.o
-diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
-deleted file mode 100644
-index adbbe639a261..000000000000
---- a/drivers/media/rc/ir-rx51.c
-+++ /dev/null
-@@ -1,285 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- *  Copyright (C) 2008 Nokia Corporation
-- *
-- *  Based on lirc_serial.c
-- */
--#include <linux/clk.h>
--#include <linux/module.h>
--#include <linux/platform_device.h>
--#include <linux/wait.h>
--#include <linux/pwm.h>
--#include <linux/of.h>
--#include <linux/hrtimer.h>
--
--#include <media/rc-core.h>
--
--#define WBUF_LEN 256
--
--struct ir_rx51 {
--	struct rc_dev *rcdev;
--	struct pwm_device *pwm;
--	struct pwm_state state;
--	struct hrtimer timer;
--	struct device	     *dev;
--	wait_queue_head_t     wqueue;
--
--	unsigned int	freq;		/* carrier frequency */
--	unsigned int	duty_cycle;	/* carrier duty cycle */
--	int		wbuf[WBUF_LEN];
--	int		wbuf_index;
--	unsigned long	device_is_open;
--};
--
--static inline void ir_rx51_on(struct ir_rx51 *ir_rx51)
--{
--	ir_rx51->state.enabled = true;
--	pwm_apply_state(ir_rx51->pwm, &ir_rx51->state);
--}
--
--static inline void ir_rx51_off(struct ir_rx51 *ir_rx51)
--{
--	ir_rx51->state.enabled = false;
--	pwm_apply_state(ir_rx51->pwm, &ir_rx51->state);
--}
--
--static int init_timing_params(struct ir_rx51 *ir_rx51)
--{
--	ir_rx51->state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
--	pwm_set_relative_duty_cycle(&ir_rx51->state, ir_rx51->duty_cycle, 100);
--
--	return 0;
--}
--
--static enum hrtimer_restart ir_rx51_timer_cb(struct hrtimer *timer)
--{
--	struct ir_rx51 *ir_rx51 = container_of(timer, struct ir_rx51, timer);
--	ktime_t now;
--
--	if (ir_rx51->wbuf_index < 0) {
--		dev_err_ratelimited(ir_rx51->dev,
--				    "BUG wbuf_index has value of %i\n",
--				    ir_rx51->wbuf_index);
--		goto end;
--	}
--
--	/*
--	 * If we happen to hit an odd latency spike, loop through the
--	 * pulses until we catch up.
--	 */
--	do {
--		u64 ns;
--
--		if (ir_rx51->wbuf_index >= WBUF_LEN)
--			goto end;
--		if (ir_rx51->wbuf[ir_rx51->wbuf_index] == -1)
--			goto end;
--
--		if (ir_rx51->wbuf_index % 2)
--			ir_rx51_off(ir_rx51);
--		else
--			ir_rx51_on(ir_rx51);
--
--		ns = US_TO_NS(ir_rx51->wbuf[ir_rx51->wbuf_index]);
--		hrtimer_add_expires_ns(timer, ns);
--
--		ir_rx51->wbuf_index++;
--
--		now = timer->base->get_time();
--
--	} while (hrtimer_get_expires_tv64(timer) < now);
--
--	return HRTIMER_RESTART;
--end:
--	/* Stop TX here */
--	ir_rx51_off(ir_rx51);
--	ir_rx51->wbuf_index = -1;
--
--	wake_up_interruptible(&ir_rx51->wqueue);
--
--	return HRTIMER_NORESTART;
--}
--
--static int ir_rx51_tx(struct rc_dev *dev, unsigned int *buffer,
--		      unsigned int count)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	if (count > WBUF_LEN)
--		return -EINVAL;
--
--	memcpy(ir_rx51->wbuf, buffer, count * sizeof(unsigned int));
--
--	/* Wait any pending transfers to finish */
--	wait_event_interruptible(ir_rx51->wqueue, ir_rx51->wbuf_index < 0);
--
--	init_timing_params(ir_rx51);
--	if (count < WBUF_LEN)
--		ir_rx51->wbuf[count] = -1; /* Insert termination mark */
--
--	/*
--	 * REVISIT: Adjust latency requirements so the device doesn't go in too
--	 * deep sleep states with pm_qos_add_request().
--	 */
--
--	ir_rx51_on(ir_rx51);
--	ir_rx51->wbuf_index = 1;
--	hrtimer_start(&ir_rx51->timer,
--		      ns_to_ktime(US_TO_NS(ir_rx51->wbuf[0])),
--		      HRTIMER_MODE_REL);
--	/*
--	 * Don't return back to the userspace until the transfer has
--	 * finished
--	 */
--	wait_event_interruptible(ir_rx51->wqueue, ir_rx51->wbuf_index < 0);
--
--	/* REVISIT: Remove pm_qos constraint, we can sleep again */
--
--	return count;
--}
--
--static int ir_rx51_open(struct rc_dev *dev)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	if (test_and_set_bit(1, &ir_rx51->device_is_open))
--		return -EBUSY;
--
--	ir_rx51->pwm = pwm_get(ir_rx51->dev, NULL);
--	if (IS_ERR(ir_rx51->pwm)) {
--		int res = PTR_ERR(ir_rx51->pwm);
--
--		dev_err(ir_rx51->dev, "pwm_get failed: %d\n", res);
--		return res;
--	}
--
--	return 0;
--}
--
--static void ir_rx51_release(struct rc_dev *dev)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	hrtimer_cancel(&ir_rx51->timer);
--	ir_rx51_off(ir_rx51);
--	pwm_put(ir_rx51->pwm);
--
--	clear_bit(1, &ir_rx51->device_is_open);
--}
--
--static struct ir_rx51 ir_rx51 = {
--	.duty_cycle	= 50,
--	.wbuf_index	= -1,
--};
--
--static int ir_rx51_set_duty_cycle(struct rc_dev *dev, u32 duty)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	ir_rx51->duty_cycle = duty;
--
--	return 0;
--}
--
--static int ir_rx51_set_tx_carrier(struct rc_dev *dev, u32 carrier)
--{
--	struct ir_rx51 *ir_rx51 = dev->priv;
--
--	if (carrier > 500000 || carrier < 20000)
--		return -EINVAL;
--
--	ir_rx51->freq = carrier;
--
--	return 0;
--}
--
--#ifdef CONFIG_PM
--
--static int ir_rx51_suspend(struct platform_device *dev, pm_message_t state)
--{
--	/*
--	 * In case the device is still open, do not suspend. Normally
--	 * this should not be a problem as lircd only keeps the device
--	 * open only for short periods of time. We also don't want to
--	 * get involved with race conditions that might happen if we
--	 * were in a middle of a transmit. Thus, we defer any suspend
--	 * actions until transmit has completed.
--	 */
--	if (test_and_set_bit(1, &ir_rx51.device_is_open))
--		return -EAGAIN;
--
--	clear_bit(1, &ir_rx51.device_is_open);
--
--	return 0;
--}
--
--static int ir_rx51_resume(struct platform_device *dev)
--{
--	return 0;
--}
--
--#else
--
--#define ir_rx51_suspend	NULL
--#define ir_rx51_resume	NULL
--
--#endif /* CONFIG_PM */
--
--static int ir_rx51_probe(struct platform_device *dev)
--{
--	struct pwm_device *pwm;
--	struct rc_dev *rcdev;
--
--	pwm = pwm_get(&dev->dev, NULL);
--	if (IS_ERR(pwm))
--		return dev_err_probe(&dev->dev, PTR_ERR(pwm), "pwm_get failed\n");
--
--	/* Use default, in case userspace does not set the carrier */
--	ir_rx51.freq = DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm), NSEC_PER_SEC);
--	pwm_init_state(pwm, &ir_rx51.state);
--	pwm_put(pwm);
--
--	hrtimer_init(&ir_rx51.timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
--	ir_rx51.timer.function = ir_rx51_timer_cb;
--
--	ir_rx51.dev = &dev->dev;
--
--	rcdev = devm_rc_allocate_device(&dev->dev, RC_DRIVER_IR_RAW_TX);
--	if (!rcdev)
--		return -ENOMEM;
--
--	rcdev->priv = &ir_rx51;
--	rcdev->open = ir_rx51_open;
--	rcdev->close = ir_rx51_release;
--	rcdev->tx_ir = ir_rx51_tx;
--	rcdev->s_tx_duty_cycle = ir_rx51_set_duty_cycle;
--	rcdev->s_tx_carrier = ir_rx51_set_tx_carrier;
--	rcdev->driver_name = KBUILD_MODNAME;
--
--	ir_rx51.rcdev = rcdev;
--
--	return devm_rc_register_device(&dev->dev, ir_rx51.rcdev);
--}
--
--static const struct of_device_id ir_rx51_match[] = {
--	{
--		.compatible = "nokia,n900-ir",
--	},
--	{},
--};
--MODULE_DEVICE_TABLE(of, ir_rx51_match);
--
--static struct platform_driver ir_rx51_platform_driver = {
--	.probe		= ir_rx51_probe,
--	.suspend	= ir_rx51_suspend,
--	.resume		= ir_rx51_resume,
--	.driver		= {
--		.name	= KBUILD_MODNAME,
--		.of_match_table = of_match_ptr(ir_rx51_match),
--	},
--};
--module_platform_driver(ir_rx51_platform_driver);
--
--MODULE_DESCRIPTION("IR TX driver for Nokia RX51");
--MODULE_AUTHOR("Nokia Corporation");
--MODULE_LICENSE("GPL");
-diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
-index 7732054c4621..c5f37c03af9c 100644
---- a/drivers/media/rc/pwm-ir-tx.c
-+++ b/drivers/media/rc/pwm-ir-tx.c
-@@ -23,6 +23,7 @@ struct pwm_ir {
- 
- static const struct of_device_id pwm_ir_of_match[] = {
- 	{ .compatible = "pwm-ir-tx", },
-+	{ .compatible = "nokia,n900-ir" },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, pwm_ir_of_match);
--- 
-2.42.0
+ 2 bits for 'encoding == 8 bytes'
+ 2 bits for flags
+ 28 bits for length
+ 32 bits for address >> 12
 
+So if the range has zero bits in the right places then it fits in
+8 bytes.
+
+Otherwise the compressor will choose a 16 byte entry:
+
+ 2 bits for 'encoding == 16 bytes'
+ 2 bits for flags
+ 36 bits for length
+ 64 bits for address
+ 24 bits for offset
+
+And a 24 byte entry with 36 bits of flags and no limitations.
+
+So we can store anything, but common cases of page lists will use only
+8 bytes/entry.
+
+This is a classical compression trade off, better space efficiency for
+long term storage, worse iteration efficiency.
+
+> > With your direction I felt we could safely keep bio as it is and
+> > cheaply make a fast DMA mapper for it. Provide something like this as
+> > the 'kitchen sink' version for dmabuf/rdma/etc that are a little
+> > different.
+> 
+> So for the first version I see no need to change the bio_vec
+> representation as part of this project, 
+
+Right
+
+> but at the same time the bio_vec representation causes problems for
+> other reasons.  So I want to change it anyway.
+
+I don't feel competent in this area, so I'm not sure what this will be.
+
+I was hoping to come with some data and benchmarks and we consider
+options. The appeal of smaller long term memory footprint for the RDMA
+use case is interesting enough to look at it.
+
+Jason
