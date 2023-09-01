@@ -2,108 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE95C790068
-	for <lists+linux-media@lfdr.de>; Fri,  1 Sep 2023 18:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCA9790276
+	for <lists+linux-media@lfdr.de>; Fri,  1 Sep 2023 21:26:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242856AbjIAQDN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Sep 2023 12:03:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59898 "EHLO
+        id S1347987AbjIAT0R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Sep 2023 15:26:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233958AbjIAQDN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Sep 2023 12:03:13 -0400
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55167CDD;
-        Fri,  1 Sep 2023 09:03:10 -0700 (PDT)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 381C16du005074;
-        Fri, 1 Sep 2023 18:02:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding:content-type; s=
-        selector1; bh=vjX0/tsNLNMbPipkdCV1cRUhPSIMyqfeVyK9zOysr+s=; b=nB
-        J4s8GNM9rgjrMXxqK6gbbZU8tbZvdeGCQ8W2wilLgb4eSm8TVwNAeq/AIf8fiCeV
-        1TEbfG5gfOv/Y9hRnXrcDLv52W+g50xuZiigKUpP6lxdu8HCU2SGo1dhG64uolPW
-        GhuzDH5Ghqs06WrysKZt8NmVetKejc0KvX6NKu0H6Kl3Qwi1Vl0dVp43IoAV3TEq
-        qfVs7/1ohtuEkk2BUyHzhrQpdRPQlp7E1QjEANTBhMM1ZoH2xzMwVLDuwS+aEKLJ
-        Rp5GpShN7KMDE9peEutcskP7/CKMYhm9sOEUEyqvlczKt6GPiY8iVodaPPh60N5U
-        DokkeUJ7XPqByC2gf2dw==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3sqvbhs6xm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 01 Sep 2023 18:02:55 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7D90F100056;
-        Fri,  1 Sep 2023 18:02:54 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7387323D41B;
-        Fri,  1 Sep 2023 18:02:54 +0200 (CEST)
-Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 1 Sep
- 2023 18:02:54 +0200
-From:   Alain Volmat <alain.volmat@foss.st.com>
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 5/5] ARM: multi_v7_defconfig: enable STM32 DCMIPP media support
-Date:   Fri, 1 Sep 2023 17:57:24 +0200
-Message-ID: <20230901155732.252436-6-alain.volmat@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230901155732.252436-1-alain.volmat@foss.st.com>
-References: <20230901155732.252436-1-alain.volmat@foss.st.com>
+        with ESMTP id S229750AbjIAT0R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Sep 2023 15:26:17 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3743710E0
+        for <linux-media@vger.kernel.org>; Fri,  1 Sep 2023 12:26:14 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-3a812843f0fso1392277b6e.2
+        for <linux-media@vger.kernel.org>; Fri, 01 Sep 2023 12:26:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693596373; x=1694201173; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HHGVVmsyhgtP/USdgG81z47GsFqLU0aEkIKpPuhjrVY=;
+        b=UfhyjSCO8WixiWY4PW+IfcuhoMYVw9YIgx+CFkuheWDIQ9IHj+M5r/I/onHUZTQuHv
+         3u8XH0R06TM8Yv2I6hWJWT6gNVISePOlz6w+mrv8JEQAcry82pwElw1h/5GCzP+LHM/O
+         3FtqG+kY3b6KT1jXT6ToyiQf6oWC4JwH3OShRgdKkI58JkVhLrCaK9S/GDacfJf5GoZo
+         bahHE0q1h1mnw4D2lRZguPFc154h4pMuFRUsbgIjktoI8t6ig/JGSJJmn6eV0TRHF4ni
+         awZ27kuk3ojvBNadWDIqxu0v6apmxaToCaYJBy1q43XhLzsBniOhFFQhVR9RrwhX9qwF
+         r1hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693596373; x=1694201173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HHGVVmsyhgtP/USdgG81z47GsFqLU0aEkIKpPuhjrVY=;
+        b=Auwsd1MoxYNfUg7715cGoBkxdeYIcNTANyUg9fgIqDTxi4iNCNhZOh3jGA4zFKzoXn
+         z+uHf88Ts1IUlzF2ZQ2t8QocNtrUwaa1PuutZ9oiSjGovjlK0P5fYKzuFhNnGDZo/SEX
+         cSDSbXFC8eceLJRIY8XG7MyIagtYFbIOFyccXvyO2wJs23ag+XKJ2mStiKLyMvA9WOwU
+         iFyoA0JoNyRD+IIdRQsVfcCZFO70YMX2wighsmnXkV+i1dk66hBwsgLKIyWzasuHRvwq
+         k1OPIOYK4+oGb6qYsyMlrE7APn+6YAJsE8CNl33k8UVI19EOxzB0uldRM2jNcCreFt7e
+         hy0A==
+X-Gm-Message-State: AOJu0YzMcDZcXbsdQOib/2GtFb1xF9Kwp0ivjw6b7YK+CnAI5QzLVBJh
+        QIKnYxDwT82Wy9Xjj+Vgtonw65YCYW4ltx32Kdo=
+X-Google-Smtp-Source: AGHT+IELT//9p/zVUwrBfz6CRP8TgEMaXjDDvWWTOQPl8DxQAO2NTl05+hQEulowAVOhrR/GPBiiH7TKQgYbmDX+PAM=
+X-Received: by 2002:a05:6808:14d1:b0:3a4:6691:9340 with SMTP id
+ f17-20020a05680814d100b003a466919340mr4212325oiw.41.1693596373238; Fri, 01
+ Sep 2023 12:26:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.129.178.213]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-01_13,2023-08-31_01,2023-05-22_02
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <cover.1692884619.git.jani.nikula@intel.com> <4bdb407bf189fd922be022eb2f9564692377c81d.1692884619.git.jani.nikula@intel.com>
+In-Reply-To: <4bdb407bf189fd922be022eb2f9564692377c81d.1692884619.git.jani.nikula@intel.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Fri, 1 Sep 2023 15:26:01 -0400
+Message-ID: <CADnq5_OVm2HsLwDuDEU4npLJiZdTUL+_XnbqaoDS50a1LRWXfA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] drm/edid: add drm_edid_is_digital()
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hugues Fruchet <hugues.fruchet@foss.st.com>
+On Thu, Aug 24, 2023 at 9:46=E2=80=AFAM Jani Nikula <jani.nikula@intel.com>=
+ wrote:
+>
+> Checking edid->input & DRM_EDID_INPUT_DIGITAL is common enough to
+> deserve a helper that also lets us abstract the raw EDID a bit better.
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Enables support of STM32 DCMIPP V4L2 media driver.
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
----
- arch/arm/configs/multi_v7_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Seems to be a few additional users of this that could be converted:
 
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index 524ca56f52d9..b044a719bef9 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -689,6 +689,7 @@ CONFIG_VIDEO_STI_BDISP=m
- CONFIG_VIDEO_STI_DELTA=m
- CONFIG_VIDEO_STI_HVA=m
- CONFIG_VIDEO_STM32_DCMI=m
-+CONFIG_VIDEO_STM32_DCMIPP=m
- CONFIG_V4L_TEST_DRIVERS=y
- CONFIG_VIDEO_VIVID=m
- CONFIG_VIDEO_ADV7180=m
--- 
-2.25.1
+drivers/gpu/drm/i915/display/intel_sdvo.c:        if (edid &&
+edid->input & DRM_EDID_INPUT_DIGITAL)
+drivers/gpu/drm/i915/display/intel_sdvo.c:    bool monitor_is_digital
+=3D !!(edid->input & DRM_EDID_INPUT_DIGITAL);
+drivers/gpu/drm/i915/display/intel_crt.c:        bool is_digital =3D
+edid->input & DRM_EDID_INPUT_DIGITAL;
+drivers/gpu/drm/i915/display/intel_hdmi.c:    if (edid && edid->input
+& DRM_EDID_INPUT_DIGITAL) {
+drivers/gpu/drm/gma500/psb_intel_sdvo.c:        if (edid->input &
+DRM_EDID_INPUT_DIGITAL) {
+drivers/gpu/drm/gma500/psb_intel_sdvo.c:            if (edid->input &
+DRM_EDID_INPUT_DIGITAL)
+drivers/gpu/drm/gma500/psb_intel_sdvo.c:        bool
+monitor_is_digital =3D !!(edid->input & DRM_EDID_INPUT_DIGITAL);
+drivers/gpu/drm/gma500/psb_intel_sdvo.c:    if (edid !=3D NULL &&
+edid->input & DRM_EDID_INPUT_DIGITAL)
+drivers/gpu/drm/gma500/cdv_intel_hdmi.c:        if (edid->input &
+DRM_EDID_INPUT_DIGITAL) {
+drivers/gpu/drm/display/drm_dp_helper.c:        edid->input &
+DRM_EDID_INPUT_DIGITAL &&
+drivers/gpu/drm/nouveau/nouveau_connector.c:            if
+(nv_connector->edid->input & DRM_EDID_INPUT_DIGITAL)
+drivers/gpu/drm/radeon/radeon_connectors.c:
+!!(radeon_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
+drivers/gpu/drm/radeon/radeon_connectors.c:
+!!(radeon_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
+drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c:
+!!(amdgpu_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
+drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c:
+!!(amdgpu_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
 
+
+
+
+> ---
+>  drivers/gpu/drm/drm_edid.c | 17 +++++++++++++++--
+>  include/drm/drm_edid.h     |  1 +
+>  2 files changed, 16 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 340da8257b51..1dbb15439468 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3110,7 +3110,7 @@ drm_monitor_supports_rb(const struct drm_edid *drm_=
+edid)
+>                 return ret;
+>         }
+>
+> -       return ((drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL) !=3D 0);
+> +       return drm_edid_is_digital(drm_edid);
+>  }
+>
+>  static void
+> @@ -6519,7 +6519,7 @@ static void update_display_info(struct drm_connecto=
+r *connector,
+>         if (edid->revision < 3)
+>                 goto out;
+>
+> -       if (!(edid->input & DRM_EDID_INPUT_DIGITAL))
+> +       if (!drm_edid_is_digital(drm_edid))
+>                 goto out;
+>
+>         info->color_formats |=3D DRM_COLOR_FORMAT_RGB444;
+> @@ -7335,3 +7335,16 @@ static void _drm_update_tile_info(struct drm_conne=
+ctor *connector,
+>                 connector->tile_group =3D NULL;
+>         }
+>  }
+> +
+> +/**
+> + * drm_edid_is_digital - is digital?
+> + * @drm_edid: The EDID
+> + *
+> + * Return true if input is digital.
+> + */
+> +bool drm_edid_is_digital(const struct drm_edid *drm_edid)
+> +{
+> +       return drm_edid && drm_edid->edid &&
+> +               drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL;
+> +}
+> +EXPORT_SYMBOL(drm_edid_is_digital);
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index 48e93f909ef6..882d2638708e 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -612,6 +612,7 @@ const struct drm_edid *drm_edid_read_switcheroo(struc=
+t drm_connector *connector,
+>  int drm_edid_connector_update(struct drm_connector *connector,
+>                               const struct drm_edid *edid);
+>  int drm_edid_connector_add_modes(struct drm_connector *connector);
+> +bool drm_edid_is_digital(const struct drm_edid *drm_edid);
+>
+>  const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
+>                                   int ext_id, int *ext_index);
+> --
+> 2.39.2
+>
