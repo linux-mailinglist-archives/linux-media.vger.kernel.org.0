@@ -2,58 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFC277903B2
-	for <lists+linux-media@lfdr.de>; Sat,  2 Sep 2023 00:40:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF2AC790771
+	for <lists+linux-media@lfdr.de>; Sat,  2 Sep 2023 12:50:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350942AbjIAWk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Sep 2023 18:40:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35596 "EHLO
+        id S238180AbjIBKuv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Sep 2023 06:50:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350915AbjIAWk0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Sep 2023 18:40:26 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D960E10E0;
-        Fri,  1 Sep 2023 15:40:18 -0700 (PDT)
+        with ESMTP id S1352022AbjIBKut (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Sep 2023 06:50:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1B59172E;
+        Sat,  2 Sep 2023 03:50:44 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 56ECBCE240F;
-        Fri,  1 Sep 2023 22:40:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E58B9C433C7;
-        Fri,  1 Sep 2023 22:40:17 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3206660C77;
+        Sat,  2 Sep 2023 10:50:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C1E6C433C7;
+        Sat,  2 Sep 2023 10:50:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693608017;
-        bh=FX91qLUPL+aqjdwh/qYmQMs0fQruwSMxGsEiL0OqDnw=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=N1afeLzmiBOpNFZcu2733OnX48s/ErdgatvI5jl6gIrdfGMAQTUPrOEqCmjKqML1A
-         ORTWtaWuAXlmzbqEn5IgdFjF83SlVtSVo1tXGR1nxDuHNsw1+4FxZtKX7gg9/LoY32
-         yU7EFCYUYoFEsE67fVQ1trqS2Hh1/kjIDXHJeQKnkLvBwBlOTUAhKAg7IYbZtcNggB
-         AlU7g2Y8P9t8hCiCiFdklkKFm4/YFJqkyZxD6hyuwjBBgsY61tz6CA4h5sz5gTbaOo
-         xtggmM/NawFj52hWyjZL0skEREaYsimprqAAQuFmEaXERuhUIGPHZ9JcUDGqCMMTFn
-         yfDTGdbwH1W+g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BF547C595D2;
-        Fri,  1 Sep 2023 22:40:17 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.6-rc1] media updates
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20230901142147.096c1b57@sal.lan>
-References: <20230901142147.096c1b57@sal.lan>
-X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20230901142147.096c1b57@sal.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.6-1
-X-PR-Tracked-Commit-Id: 9a5d660fdb25d20748d7f9e9559c86073c3bb368
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 307d59039fb26212a84a9aa6a134a7d2bdea34ca
-Message-Id: <169360801774.11463.711568536057455009.pr-tracker-bot@kernel.org>
-Date:   Fri, 01 Sep 2023 22:40:17 +0000
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        s=k20201202; t=1693651842;
+        bh=O3YmJo8FcapnhpQ93VprrOEBLBb9phS36hAcskcOmoM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=khN1kr2gOCIsvMFP2mxg2IHEPDDT6fvKBX+Rm6uDNLl9azTrewe35pRdgoFsWjCUN
+         ZJJbP9cwlemhFGdDCU/SCd+ZEzsTKHp24JXYj2IfMYF6p8nLPS9quaeOMixKap1vF3
+         7nlmw0W/RSNWKZWxDr3JbG0Venlvzn5SgpCntUlLNq+I6rQriVDEa6HZgjtw+phvES
+         2s2UXoRxY3aOo7BCKULrTbkuT5hXy8uQuEX5Rq0lJ6YEpNatAmjfknkysPDcdSCUzG
+         HPData92iKjfS4qn7IES7TWw3XHWNqu2lOCyn5Va/PeJeRtv9qp3i01O+CDSt669Ax
+         rsD8refe/o8dw==
+Date:   Sat, 2 Sep 2023 11:50:38 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: media: remove nokia,n900-ir as
+ pwm-ir-tx is compatible
+Message-ID: <20230902-gender-sandstone-7da75af72f4f@spud>
+References: <cover.1693577725.git.sean@mess.org>
+ <25e8f2626d15199a1bf727fee375b5b149004c8e.1693577725.git.sean@mess.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="2FKLhAY1Fc7AvUtp"
+Content-Disposition: inline
+In-Reply-To: <25e8f2626d15199a1bf727fee375b5b149004c8e.1693577725.git.sean@mess.org>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -63,15 +61,86 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pull request you sent on Fri, 1 Sep 2023 14:21:47 +0200:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.6-1
+--2FKLhAY1Fc7AvUtp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/307d59039fb26212a84a9aa6a134a7d2bdea34ca
+On Fri, Sep 01, 2023 at 03:18:55PM +0100, Sean Young wrote:
+> The generic pwm-ir-tx driver works for the Nokia n900, so nokia,n900-ir
+> can be removed.
+>=20
+> Signed-off-by: Sean Young <sean@mess.org>
 
-Thank you!
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks,
+Conor.
+
+> ---
+>  .../bindings/leds/irled/pwm-ir-tx.yaml        |  5 ++++-
+>  .../devicetree/bindings/media/nokia,n900-ir   | 20 -------------------
+>  2 files changed, 4 insertions(+), 21 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/nokia,n900-ir
+>=20
+> diff --git a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml =
+b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
+> index f2a6fa140f38..7526e3149f72 100644
+> --- a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
+> +++ b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
+> @@ -15,7 +15,10 @@ description:
+> =20
+>  properties:
+>    compatible:
+> -    const: pwm-ir-tx
+> +    oneOf:
+> +      - const: pwm-ir-tx
+> +      - const: nokia,n900-ir
+> +        deprecated: true
+> =20
+>    pwms:
+>      maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/media/nokia,n900-ir b/Docu=
+mentation/devicetree/bindings/media/nokia,n900-ir
+> deleted file mode 100644
+> index 13a18ce37dd1..000000000000
+> --- a/Documentation/devicetree/bindings/media/nokia,n900-ir
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -Device-Tree bindings for LIRC TX driver for Nokia N900(RX51)
+> -
+> -Required properties:
+> -	- compatible: should be "nokia,n900-ir".
+> -	- pwms: specifies PWM used for IR signal transmission.
+> -
+> -Example node:
+> -
+> -	pwm9: dmtimer-pwm@9 {
+> -		compatible =3D "ti,omap-dmtimer-pwm";
+> -		ti,timers =3D <&timer9>;
+> -		ti,clock-source =3D <0x00>; /* timer_sys_ck */
+> -		#pwm-cells =3D <3>;
+> -	};
+> -
+> -	ir: n900-ir {
+> -		compatible =3D "nokia,n900-ir";
+> -
+> -		pwms =3D <&pwm9 0 26316 0>; /* 38000 Hz */
+> -	};
+> --=20
+> 2.42.0
+>=20
+
+--2FKLhAY1Fc7AvUtp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZPMTfQAKCRB4tDGHoIJi
+0p0/AP9ZzLB/zSJoS6xD2RkcZoRzaH8n6vM+cyacmCaUjNkrPQD/XKBiYxaVvTl7
+8g2/2pBmv90wG05kDRzPPMjKwq4B6ws=
+=DKqi
+-----END PGP SIGNATURE-----
+
+--2FKLhAY1Fc7AvUtp--
