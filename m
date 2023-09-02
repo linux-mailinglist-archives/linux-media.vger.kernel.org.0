@@ -2,79 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D759E7907C6
-	for <lists+linux-media@lfdr.de>; Sat,  2 Sep 2023 14:10:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A90D77907D7
+	for <lists+linux-media@lfdr.de>; Sat,  2 Sep 2023 14:40:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344841AbjIBMKa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Sep 2023 08:10:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58316 "EHLO
+        id S1352163AbjIBMko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Sep 2023 08:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbjIBMK3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Sep 2023 08:10:29 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 516F4E58
-        for <linux-media@vger.kernel.org>; Sat,  2 Sep 2023 05:10:26 -0700 (PDT)
+        with ESMTP id S1352121AbjIBMko (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Sep 2023 08:40:44 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B817A10F3
+        for <linux-media@vger.kernel.org>; Sat,  2 Sep 2023 05:40:40 -0700 (PDT)
 Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4RdDHd168nz49Q2P;
-        Sat,  2 Sep 2023 15:10:20 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1693656621;
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4RdDyV3QGmzybw;
+        Sat,  2 Sep 2023 15:40:33 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1693658437;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=Lz6v5S1HVdiZvJNiXVJ+ycK6ldDdyLI/IcCTfmTRr+I=;
-        b=AJFKOb9DX2UuTHKj8N76as/FGXLgUYLwzeb2aoYBVzrSGejFEqUqkPT7D+xtPZz6Xu1oNC
-        x+F/IoD5VDRzfLQpDuQ3s9sd/IWTwHp34fgfVi8vMjFXPQzWn29XV1weoy7jtSK2W2tas6
-        mEZi0FM6kNeptsS5tIys5KtUjs3duFTO2F+AAOkmi+4QggTgG8gtmBB++OxnFTHC5m94h/
-        hpEyT7VCnur/saBrO/sDOtc4MNUjUaRFiRU1cgnCnIYROxIW3S/Ddz2yT7Gl35MVVnFkUw
-        nicUzzZZwpcBQjgB3fcQ0gGoifqb6hbhdOFnySePF59ZwNf429a4IQBHEyg2Pw==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1693656621; a=rsa-sha256;
-        cv=none;
-        b=ZKwWLJ0Vgj/iraxp0JmJY6nOqe7mPlSyhzdV4Z7zdLsRSx/kUq2iQcnpv9SH57jnWTSGS4
-        tT+gaY6l6T7MbiKwyCEZu/5uW2dCEp5hG9UJykBsEDjdS9TI6FMTj9bKZH5jzyBYO0+2LG
-        O7UXiGlb5vuwIzkkSZzxpc1+ylQWprgASIL5Aa9BMMbIWfOn8xb6T7VYg5+IuQ5xED7Dxb
-        O3gchTvspHQvDlIK9/L/RwiEZH+YNmrh84FbWEGV9VwYjytM3x7xZA9h4moscHzaJNXQAT
-        aSGY9jfvyvXPQjfA/eXOGp7bkPEWJikLvIK15AkUGSC91khGdtemCVt07TIkcQ==
+        bh=YY5wTcddqfyox2ECkwFzF7cWlIJ2LZA/PTeCQ10CFUY=;
+        b=ReHRi9GQ9YQD5reW7viAms/nZf8GeKeJBmL6PkHXCXl6ocGGg7SsVX8YubEeRgfE7cITfk
+        TXOmUOoXk/RRBzXqQsSB97ERdkH7LtJgfRI6fqAOoCPA8N9BDKMVv8b2rqawOCcakb3Gci
+        9zYaN264lxVI223oajJ6VhsnexGAbMw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1693658437;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YY5wTcddqfyox2ECkwFzF7cWlIJ2LZA/PTeCQ10CFUY=;
+        b=Jhn/NH8jB74Gg7maonb9QxlMWZ5Cu7OLJcMT++D+aRg+jURLu1jVHCJToWS/o36AecXbrS
+        wogYTrnk5JRyKI3tqnUuOumJMVQwCZURhSjBbEjfwmhtgHt5fixwm3+KuEK+UH9GUKM5K2
+        kF3ggytTZxlPnl+0BBOuuBKeaVPalQw=
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1693656621;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Lz6v5S1HVdiZvJNiXVJ+ycK6ldDdyLI/IcCTfmTRr+I=;
-        b=r0Dev6PBAA06Jiu03i1STZmhW4Veqo8Z2u7xGl5uumvpWGsP4xAlD8z9vMw5btlkqPqld9
-        p8AS5wmnW01XklkdFJFyCB1O2mPCHBPeelzK/0UjtkKtNV9TiDzlK8L/CnAI7RyDn7i8Ho
-        bEXrdA8K2PfdWD1bzuneof0W1Ik7vp1R7KunfykSYYuTZX8qrwOozmhlN758LwsG6GvjLw
-        GB6hgVIMYlK5jgnN0+whHMPjFOJysnZGjhb9IxeWnvyrjw09j9HmEEEllfxbKf4KkIVU/S
-        TuSEub+0wshbRCccec3mNjeIzW/Tlfk2Mi23hqz1XNv/9LDVt3VO4bqi9spDTQ==
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1693658437; a=rsa-sha256; cv=none;
+        b=A20WoSekUJrdw1LOw+eO8Vszh/SM28JcAzKrhvY61LVz1kVzo3v+ZlHmX+KlFDSgcxHq55
+        l3XzbUkXmoflNpLoiCyQiYnqQpeS874ulABsZNaTC+9zh2Bf/kcaLc4qSfeUQHSlSXB4tv
+        X+tR0huQZqTrWjVGvMe2tLVh81jY+Dg=
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6CBB2634C95;
-        Sat,  2 Sep 2023 15:10:20 +0300 (EEST)
-Date:   Sat, 2 Sep 2023 12:10:20 +0000
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 77AAD634C95;
+        Sat,  2 Sep 2023 15:40:33 +0300 (EEST)
+Date:   Sat, 2 Sep 2023 12:40:33 +0000
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] media: v4l2-subdev: Document that routing support
- depends on streams
-Message-ID: <ZPMmLDvCuibZNFkZ@valkosipuli.retiisi.eu>
-References: <20230818155518.440-1-laurent.pinchart@ideasonboard.com>
- <ZN+Z4aYPNp+ymIw6@valkosipuli.retiisi.eu>
- <20230820225604.GB10135@pendragon.ideasonboard.com>
+To:     Umang Jain <umang.jain@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Lee Jackson <lee.jackson@arducam.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        kieran.bingham@ideasonboard.com,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH 1/2] media: dt-bindings: imx519: Add IMX519 DT bindings
+Message-ID: <ZPMtQYEJGHL9kp/k@valkosipuli.retiisi.eu>
+References: <20230727154108.308320-1-umang.jain@ideasonboard.com>
+ <20230727154108.308320-2-umang.jain@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230820225604.GB10135@pendragon.ideasonboard.com>
+In-Reply-To: <20230727154108.308320-2-umang.jain@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -84,66 +85,163 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Umang,
 
-On Mon, Aug 21, 2023 at 01:56:04AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On Thu, Jul 27, 2023 at 09:11:07PM +0530, Umang Jain wrote:
+> From: Lee Jackson <lee.jackson@arducam.com>
 > 
-> On Fri, Aug 18, 2023 at 04:18:41PM +0000, Sakari Ailus wrote:
-> > On Fri, Aug 18, 2023 at 06:55:18PM +0300, Laurent Pinchart wrote:
-> > > Routing support, through the subdev .set_routing() operation, requires
-> > > the subdev to support streams. This is however not clearly documented
-> > > anywhere. Fix it by expanding the operation's documentation to indicate
-> > > that subdevs must set the V4L2_SUBDEV_FL_STREAMS flag.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  include/media/v4l2-subdev.h | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > index b325df0d54d6..0b04ed1994b6 100644
-> > > --- a/include/media/v4l2-subdev.h
-> > > +++ b/include/media/v4l2-subdev.h
-> > > @@ -822,8 +822,9 @@ struct v4l2_subdev_state {
-> > >   *		     operation shall fail if the pad index it has been called on
-> > >   *		     is not valid or in case of unrecoverable failures.
-> > >   *
-> > > - * @set_routing: enable or disable data connection routes described in the
-> > > - *		 subdevice routing table.
-> > > + * @set_routing: Enable or disable data connection routes described in the
-> > > + *		 subdevice routing table. Subdevs that implement this operation
-> > > + *		 must set the V4L2_SUBDEV_FL_STREAMS flag.
-> > 
-> > Could we set the flag in the core when this op exists for a sub-device?
+> Add YAML device tree binding documentation for IMX519 CMOS
+> image sensor.
 > 
-> That won't work in all cases, as a driver could expose immutable routes
-> by creating them in the .init_cfg() function, without implementing
-> .set_routing().
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../bindings/media/i2c/sony,imx519.yaml       | 113 ++++++++++++++++++
+>  1 file changed, 113 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
 > 
-> Another option would be to check if the drivers has created routes after
-> the .init_cfg() called (indirectly) from v4l2_subdev_init_finalize(). It
-> may be a bit fragile though.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+> new file mode 100644
+> index 000000000000..6f38b09890d2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+> @@ -0,0 +1,113 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/imx519.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony 1/2.5-Inch 16Mpixel CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Lee Jackson <lee.jackson@arducam.com>
+> +
+> +description: |-
+> +  The Sony IMX519 is a 1/2.5-inch CMOS active pixel digital image sensor
+> +  with an active array size of 4656H x 3496V. It is programmable through
+> +  I2C interface. The I2C address is fixed to 0x1A as per sensor data sheet.
+> +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
+> +  4 data lanes.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx519
+> +
+> +  reg:
+> +    description: I2C device address
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  VDIG-supply:
+> +    description:
+> +      Digital I/O voltage supply, 1.05 volts
+> +
+> +  VANA-supply:
+> +    description:
+> +      Analog voltage supply, 2.8 volts
+> +
+> +  VDDL-supply:
+> +    description:
+> +      Digital core voltage supply, 1.8 volts
+> +
+> +  reset-gpios:
+> +    description: |-
+> +      Reference to the GPIO connected to the xclr pin, if any.
+> +      Must be released (set high) after all supplies and INCK are applied.
+> +
+> +  # See ../video-interfaces.txt for more details
+> +  port:
+> +    type: object
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
 
-If you have either, then the sub-device does support streams. As otherwise,
-there are no streams exposed to the user space. Right?
+I think you should have, something alike (from mipi-ccs.yaml):
 
-> 
-> > We could do similarly for events when the sub-device has a control handler.
-> 
-> A subdev could generate non-control events too. In most cases I suppose
-> it would still create a control handler, but I don't think we should
-> require that.
+  port:
+    $ref: /schemas/graph.yaml#/$defs/port-base
+    additionalProperties: false
 
-I suggested this mainly as there are tonnes of drivers that expose controls
-(and thus control events) but do not have the events flag set. Doing this
-automatically for almost all drivers would reduce bugs.
+    properties:
+      endpoint:
+        $ref: /schemas/media/video-interfaces.yaml#
+        unevaluatedProperties: false
 
-> 
-> > The device node should probably exist in almost all cases, but I'm not sure
-> > right now whether there is a reasonable test for it.
+
+See mipi-ccs.yaml on examples for some properties below. E.g.
+link-frequencies is described in video-interfaces.yaml, no need to describe
+it here.
+
+> +          data-lanes:
+> +            description: |-
+> +              The sensor supports either two-lane, or four-lane operation.
+> +              For two-lane operation the property must be set to <1 2>.
+> +            items:
+> +              - const: 1
+> +              - const: 2
+
+I guess the device also supports single lane operation?
+
+In any case minItems/maxItems here should be enough.
+
+> +
+> +          clock-noncontinuous:
+> +            type: boolean
+> +            description: |-
+> +              MIPI CSI-2 clock is non-continuous if this property is present,
+> +              otherwise it's continuous.
+> +
+> +          link-frequencies:
+> +            allOf:
+> +              - $ref: /schemas/types.yaml#/definitions/uint64-array
+> +            description:
+> +              Allowed data bus frequencies.
+> +
+> +        required:
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - VANA-supply
+> +  - VDIG-supply
+> +  - VDDL-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        imx519: sensor@1a {
+> +            compatible = "sony,imx519";
+> +            reg = <0x1a>;
+> +            clocks = <&imx519_clk>;
+> +            VANA-supply = <&imx519_vana>;   /* 2.8v */
+> +            VDIG-supply = <&imx519_vdig>;   /* 1.05v */
+> +            VDDL-supply = <&imx519_vddl>;   /* 1.8v */
+> +
+> +            port {
+> +                imx519_0: endpoint {
+> +                    remote-endpoint = <&csi1_ep>;
+> +                    data-lanes = <1 2>;
+> +                    clock-noncontinuous;
+> +                    link-frequencies = /bits/ 64 <408000000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
