@@ -2,97 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91E3D790B2E
-	for <lists+linux-media@lfdr.de>; Sun,  3 Sep 2023 10:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 578FD790B6B
+	for <lists+linux-media@lfdr.de>; Sun,  3 Sep 2023 11:54:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234583AbjICIPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Sep 2023 04:15:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36668 "EHLO
+        id S236289AbjICJyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Sep 2023 05:54:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233751AbjICIO6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Sep 2023 04:14:58 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A06D136
-        for <linux-media@vger.kernel.org>; Sun,  3 Sep 2023 01:14:54 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RdkzS5jYsz1M8Fk;
-        Sun,  3 Sep 2023 16:13:08 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Sun, 3 Sep
- 2023 16:14:51 +0800
-From:   Jinjie Ruan <ruanjinjie@huawei.com>
-To:     <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
-        <andrzej.p@collabora.com>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH -next v3 2/2] media: cx231xx: Add EP5_BUF_SIZE and EP5_TIMEOUT_MS macros
-Date:   Sun, 3 Sep 2023 16:14:40 +0800
-Message-ID: <20230903081440.1564633-3-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230903081440.1564633-1-ruanjinjie@huawei.com>
-References: <20230903081440.1564633-1-ruanjinjie@huawei.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229785AbjICJyk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Sep 2023 05:54:40 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CDA5F1;
+        Sun,  3 Sep 2023 02:54:37 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-31aec0a1a8bso274591f8f.0;
+        Sun, 03 Sep 2023 02:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693734876; x=1694339676; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gchhapWHDBqd6QMRFxPcPK/oyG75NIUSsqZ/Cg1KbbA=;
+        b=VMvOCV+Fh7n4NxrTzZ1tsYxK/MxMGsl7znA/pOocaUZHHTethbtcAuJhREq2pSHeAI
+         sgqW/aCy2BHhCy5uytLJ4+PIjKqYFtM2+VCZf/jEc3mElX2eNWBC1p4KRXX8+ncRJzIP
+         w+/+IZJXvFpWMRxULD9ImTf0J5MiRvQ4YSnSjznazDl2MvSA/4gdTFfLeFscPlduTUbw
+         YsvfihjNSY/3UnoSXS2Y2g7N9Rj9YTIuHARhx6p53V+KJr5u1HTSKvwxNW+ePWkKA5en
+         fIshGn+Z73lh/Q/X/7l9QnjwvwOiTfjz2YjRW31Sw8K9qZ8lu2oxL/2YdGEKDFc95I3G
+         MgkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693734876; x=1694339676;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gchhapWHDBqd6QMRFxPcPK/oyG75NIUSsqZ/Cg1KbbA=;
+        b=b4kBhZXa59VSEQ8U+rIEWdDwzj0PgddT2i1a0zMksmh6Rltr6dggJBgFasirIUoxy2
+         sgDAXtRQDzZPFhG6RcUt4EJGmtvZTE82gC3s5cyxQpEcd+MBqB/POytpfHg4/scx9jzO
+         UxVD4X9+SG7IDtkaP6lPVi4d5lo63cap7X525X80iYFpvsxV/8kavdfk1WTQg57qVdEt
+         en37IT6Whp9H6wDEv383zT6hiw3Oay+cUDxHOAolDAeFu7b3vv9z0dbVEeziw1F5yv6o
+         g15nOH3S2TtBhE0CvVMq+Oyxsu6OVkRSy/bfUYDZxOoTy6ii/EwG4DEt4pEtEb6LULVf
+         IfWw==
+X-Gm-Message-State: AOJu0YzxD6kj8cVcR+13DAZBK+Qyp5Qv9Xg0g5tMCzYRtRfx40JVwXlQ
+        GEeHUpV1z/Yq74mrtXRXByi2o3fIjAA9PgSE
+X-Google-Smtp-Source: AGHT+IELsiCnevuE+RQMgYYDfYMoHSRRZ038CeNJy/2AcfK8VYpPlLaHAkAY/Lp8S/3ZsORaLuT0Wg==
+X-Received: by 2002:a5d:5182:0:b0:319:7b59:8d09 with SMTP id k2-20020a5d5182000000b003197b598d09mr7586523wrv.25.1693734875613;
+        Sun, 03 Sep 2023 02:54:35 -0700 (PDT)
+Received: from localhost.localdomain ([113.203.244.138])
+        by smtp.gmail.com with ESMTPSA id v12-20020a05600c214c00b003fbe791a0e8sm10646715wml.0.2023.09.03.02.54.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Sep 2023 02:54:35 -0700 (PDT)
+From:   fasih0001@gmail.com
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fasih <fasih0001@gmail.com>
+Subject: [PATCH] uvc_driver: Error Fix in the file drivers/media/usb/uvc/uvc_driver.c
+Date:   Sun,  3 Sep 2023 14:54:31 +0500
+Message-Id: <20230903095431.28711-1-fasih0001@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Define EP5_BUF_SIZE and EP5_TIMEOUT_MS macros to make the code
-more readable.
+From: Fasih <fasih0001@gmail.com>
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Suggested-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
----
-v2:
-- Adjust the patch to be the second.
-- Adjust the macro name.
----
- drivers/media/usb/cx231xx/cx231xx-core.c | 4 ++--
- drivers/media/usb/cx231xx/cx231xx.h      | 3 +++
- 2 files changed, 5 insertions(+), 2 deletions(-)
+Error fix for the line 2429 and 2430, The error message indicated that "Macros with complex values should be enclosed in parentheses".
+This typically means that the macro is defined in a way that involves complex expressions or compound literals,
+and the preprocessor requires them to be enclosed in parentheses for clarity and proper evaluation.
+To address this error and comply with the requirement to enclose complex values in parentheses,
+you should wrap the entire expression inside an extra set of parentheses.
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-core.c b/drivers/media/usb/cx231xx/cx231xx-core.c
-index 746727ea1a4c..57a8b4780a7d 100644
---- a/drivers/media/usb/cx231xx/cx231xx-core.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-core.c
-@@ -751,12 +751,12 @@ int cx231xx_ep5_bulkout(struct cx231xx *dev, u8 *firmware, u16 size)
- 	int ret = -ENOMEM;
- 	u32 *buffer;
- 
--	buffer = kmemdup(firmware, 4096, GFP_KERNEL);
-+	buffer = kmemdup(firmware, EP5_BUF_SIZE, GFP_KERNEL);
- 	if (buffer == NULL)
- 		return -ENOMEM;
- 
- 	ret = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, 5),
--			buffer, 4096, &actlen, 2000);
-+			buffer, EP5_BUF_SIZE, &actlen, EP5_TIMEOUT_MS);
- 
- 	if (ret)
- 		dev_err(dev->dev,
-diff --git a/drivers/media/usb/cx231xx/cx231xx.h b/drivers/media/usb/cx231xx/cx231xx.h
-index 6929e4d97067..74339a6a2f71 100644
---- a/drivers/media/usb/cx231xx/cx231xx.h
-+++ b/drivers/media/usb/cx231xx/cx231xx.h
-@@ -120,6 +120,9 @@
- #define CX23417_OSC_EN   8
- #define CX23417_RESET    9
- 
-+#define EP5_BUF_SIZE     4096
-+#define EP5_TIMEOUT_MS   2000
+Signed-off-by: Syed Muhammad Fasih Ul Hassan <fasih0001@gmail.com>
+
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2095,6 +2095,8 @@ static int uvc_probe(struct usb_interface *intf,
+        int function;
+        int ret;
+
++       pr_info("I changed uvcvideo driver in the Linux Kernel\n");
 +
- struct cx23417_fmt {
- 	u32   fourcc;          /* v4l2 format id */
- 	int   depth;
+        /* Allocate memory for the device and initialize it. */
+        dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+        if (dev == NULL)
+@@ -2417,9 +2419,9 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
+        .quirks = UVC_QUIRK_FORCE_Y8,
+ };
+
+-#define UVC_INFO_QUIRK(q) (kernel_ulong_t)&(struct uvc_device_info){.quirks = q}
+-#define UVC_INFO_META(m) (kernel_ulong_t)&(struct uvc_device_info) \
+-       {.meta_format = m}
++#define UVC_INFO_QUIRK(q) ((kernel_ulong_t)&(struct uvc_device_info){.quirks = q})
++#define UVC_INFO_META(m) ((kernel_ulong_t)&(struct uvc_device_info) \
++       {.meta_format = m})
+---
+ drivers/media/usb/uvc/uvc_driver.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 08fcd2ffa727..42d42b211094 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2095,6 +2095,8 @@ static int uvc_probe(struct usb_interface *intf,
+ 	int function;
+ 	int ret;
+ 
++	pr_info("I changed uvcvideo driver in the Linux Kernel\n");
++
+ 	/* Allocate memory for the device and initialize it. */
+ 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+ 	if (dev == NULL)
+@@ -2417,9 +2419,16 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
+ 	.quirks = UVC_QUIRK_FORCE_Y8,
+ };
+ 
+-#define UVC_INFO_QUIRK(q) (kernel_ulong_t)&(struct uvc_device_info){.quirks = q}
+-#define UVC_INFO_META(m) (kernel_ulong_t)&(struct uvc_device_info) \
+-	{.meta_format = m}
++/* For line 2429 and 2430, The error message indicated that "Macros with complex values should be enclosed in parentheses".
++ * This typically means that the macro is defined in a way that involves complex expressions or compound literals,
++ * and the preprocessor requires them to be enclosed in parentheses for clarity and proper evaluation.
++ * To address this error and comply with the requirement to enclose complex values in parentheses,
++ * you should wrap the entire expression inside an extra set of parentheses like that:
++ * #define UVC_INFO_QUIRK(q) ((kernel_ulong_t)&(struct uvc_device_info){.quirks = q})
++ */
++#define UVC_INFO_QUIRK(q) ((kernel_ulong_t)&(struct uvc_device_info){.quirks = q})
++#define UVC_INFO_META(m) ((kernel_ulong_t)&(struct uvc_device_info) \
++	{.meta_format = m})
+ 
+ /*
+  * The Logitech cameras listed below have their interface class set to
 -- 
-2.34.1
+2.17.1
 
