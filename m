@@ -2,216 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02EF3791663
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 13:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6A21791696
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 13:57:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352846AbjIDLqr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 07:46:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58664 "EHLO
+        id S1351265AbjIDL50 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 07:57:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233683AbjIDLqq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 07:46:46 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED951B7;
-        Mon,  4 Sep 2023 04:46:42 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:382e:6df3:d37b:1eec] (unknown [IPv6:2a01:e0a:120:3210:382e:6df3:d37b:1eec])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id AFBA966071DF;
-        Mon,  4 Sep 2023 12:46:40 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1693828001;
-        bh=hQCO/xIio/kzurNq5RHTyCe1+1RPeZDWD4ArPdOFymM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=lORf1Ehz7gHlTgeKDEfjbHuFgW+yGIQ13UKius5aSk6JaTYUtDMidD40/vTQnRy+X
-         OZUn3kpBU1mQouqD5OGT2E4BSzPmxo/p1IE8BYcV8iV0nwsmfWbom3BOEZuJaTrIFG
-         SssTBe4iPUfKtME6tkzXMkXBKDDixXPYB4XpSHs58PpEIU7Vu/TqIhl43njputAg/9
-         x/OgKHvcVSGc4BXtXrvL5dCj2nKxtHAfuM7Lhgn01Cy1OUyOmxyRdZq5NqoLGmWwxE
-         R0BurJpwSNsllPMKLxw0xlwmWjUx/Xp0qMgvGtrQFaE+TsxUYCEaAi93EiCdOyRPP5
-         T++4vKqsCm94g==
-Message-ID: <319d6103-26c3-bc02-3f80-90e653c8ee37@collabora.com>
-Date:   Mon, 4 Sep 2023 13:46:38 +0200
+        with ESMTP id S239271AbjIDL5Z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 07:57:25 -0400
+X-Greylist: delayed 353 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 04 Sep 2023 04:57:22 PDT
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.216])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E24B195
+        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 04:57:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1693828278; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=Re2VABnyguMJkB+MKJE8fc6/8NqutZjzF8+cqJ+ZOS+BzKIz2HP5eV4FoqgJXGceNw
+    X1Gptlp1ZMkIGzdBoP4bopGenfI8CYRNE2NDyayYr4x+jm4W63Mxvh3P9bHIM3OUDbuE
+    oLfGi6hfSzNRGBPItTuYKr3SliU/YCW+udGL3GE4DlL6Y8Lxd386WNqLqh8HcDPHutfj
+    azKV0tJ+7v/wf54f0baxUKVSmIF8fi9QiH6GzdxWXoNB+jCNg2yMkbOpzR/2si1weFGA
+    /f5uw/ZuERpQbEWAwjZc6YL/SXyURfei/DMLlImdVJwMpZEkyPbjoQCdMN+vUxAQ2W/k
+    dKEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1693828278;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=eGrON1NZ5QUmeTrPXtBeohLhsT05T/kNeEB9Am9D+t0=;
+    b=qlnVfa5LC/uDrt9WSAiLEX3QGAWyoWs/50s/ToFVj/1apn1ce8doCQa5K7ul0ulTdd
+    gpZu8pH4obzvmbdHTCcovmBEF2qDm13j5uC4HCRJQclEMv9sdqHOonE3Dbf66kbk+ACR
+    aqY5endnyoOznIg3VY5PIDvlVlTx6z7+NKEH8sOslUmY79Vk5pAh/vZZcyT2hUkkfzgl
+    ju/XDgNw4/nU55ld+C8HE7GAV+Lxs6jt1//You7H61MsCXdETkM5IF47VHhnZ7IUW9OK
+    p/TvEhzydEW3quw+Bn3E/p0SEyP6ihtfNAPMmtJlWNafLhgi6WYkv1b1qbK1cGpQZYHC
+    12jA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1693828278;
+    s=strato-dkim-0002; d=xenosoft.de;
+    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=eGrON1NZ5QUmeTrPXtBeohLhsT05T/kNeEB9Am9D+t0=;
+    b=UHWNdI3lo149oeYgdfuqluNcE98fQLcTdJxBmLPOO/3dIZNu4kBwqt1eMHT7O0/zi1
+    LAl/h5hDa+D1nKu4FmQ52obVJMmo5RNiohFPOezZuICjS+lOgiT4IJtbk4ARlbSAWbUK
+    CbQN6uuQ+vbYSWBYP7QubQ+W/3ZeMCZN8ogvYwsMsNLfBddpqqQBpxaXwGrB0fnU3Ctk
+    9pJBlngVPm1JtGPgNGIqcLnQsouGyrE8Vdhdgqru/ZW0fGnJnpuECT/RVuitTlmeltbj
+    pZbEB4kikcjY+cIhP3QWDJ1z0Oj8fIGmo+53JWye5YmeQFMPuVbCv/lg0FeWisHpMPL1
+    fhIw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1693828278;
+    s=strato-dkim-0003; d=xenosoft.de;
+    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=eGrON1NZ5QUmeTrPXtBeohLhsT05T/kNeEB9Am9D+t0=;
+    b=Ven+4xCdkR8oWlnO2u+Tn8wOxIrWMpmvU8flfjPZ/V0hXHPPNIDXf8K3k5fS65LLwu
+    LkyFlI6h3kpRfLiPZCDw==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfio0GngadwjU7QjNpsZpFYoBv3e+kDWne4OsVw=="
+Received: from [IPV6:2a02:8109:8980:4474:140a:9194:7dc7:10e7]
+    by smtp.strato.de (RZmta 49.8.2 AUTH)
+    with ESMTPSA id 3b5276z84BpIKKl
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Mon, 4 Sep 2023 13:51:18 +0200 (CEST)
+Message-ID: <f3c18b6e-0a3d-49bd-9553-71bd610588c2@xenosoft.de>
+Date:   Mon, 4 Sep 2023 13:51:17 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v6 11/18] media: videobuf2: Be more flexible on the number
- of queue stored buffers
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
-        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
- <20230901124414.48497-12-benjamin.gaignard@collabora.com>
- <37e5e418-c38a-b863-ffdf-72ce300cf227@xs4all.nl>
-Content-Language: en-US
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <37e5e418-c38a-b863-ffdf-72ce300cf227@xs4all.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BTTV] [FSL P50x0] [PASEMI] TV Time doesn't work anymore after
+ dropping the overlay support
+From:   Christian Zigotzky <chzigotzky@xenosoft.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Darren Stevens <darren@stevens-zone.net>,
+        mad skateman <madskateman@gmail.com>,
+        "R.T.Dickinson" <rtd2@xtra.co.nz>,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        Christian Zigotzky <info@xenosoft.de>
+References: <94a617be-00b3-6dc8-eb7d-ae13c6fffae5@xenosoft.de>
+ <cb82b6c1-035c-cc6b-2843-6b87ed6315ac@xenosoft.de>
+ <f23204ec-ff42-5907-fa28-c1975a87f4e6@xs4all.nl>
+ <79ea7cc5-6981-a791-7fed-7a6e27225000@xenosoft.de>
+ <a02d481b-562c-803a-a71d-b8d95ba7ebb5@xs4all.nl>
+ <82799d05-db42-c6a3-51ef-15e262344d4f@xenosoft.de>
+Content-Language: de-DE
+In-Reply-To: <82799d05-db42-c6a3-51ef-15e262344d4f@xenosoft.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-Le 04/09/2023 à 13:24, Hans Verkuil a écrit :
-> Hi Benjamin,
->
-> On 01/09/2023 14:44, Benjamin Gaignard wrote:
->> Add 'max_allowed_buffers' field in vb2_queue struct to let drivers decide
->> how many buffers could be stored in a queue.
->> This request 'bufs' array to be allocated at queue init time and freed
->> when releasing the queue.
->> By default VB2_MAX_FRAME remains the limit.
+On 05 May 2023 at 09:20 am, Christian Zigotzky wrote:
+> On 05 May 2023 at 08:45 am, Hans Verkuil wrote:
+>> On 05/05/2023 08:25, Christian Zigotzky wrote:
+>>> On 02 May 2023 at 08:57 am, Hans Verkuil wrote:
+>>>> If v4l2-ctl fails, then try again
+>>>> after applying this series:
+>>>>
+>>>> https://patchwork.linuxtv.org/project/linux-media/cover/cover.1682995256.git.deborah.brouwer@collabora.com/ 
+>>>>
+>>> Your patch series solved the issue. Thanks a lot!
+>> Nice, but somewhat unexpected :-)
 >>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   .../media/common/videobuf2/videobuf2-core.c   | 25 +++++++++++++------
->>   include/media/videobuf2-core.h                |  4 ++-
->>   2 files changed, 20 insertions(+), 9 deletions(-)
+>> I'm a little bit unsure how to proceed: the 6.4 kernel will remove 
+>> destructive overlay
+>> support, but it won't have this series yet, that's for 6.5. But that 
+>> would make 6.4
+>> unusable for you.
 >>
-> This patch breaks v4l2-compliance. I see lots of issues when running the
-> test-media script in v4l-utils, contrib/test, among them memory leaks
-> and use-after-free.
+>> I might have to revert the overlay removal, at least for bttv.
+>>
+>> Regards,
+>>
+>>     Hans
+> Hans,
 >
-> I actually tested using virtme with the build scripts, but that in turn
-> calls the test-media script in a qemu environment, and it is at the moment
-> a bit tricky to set up, unless you run a debian 12 distro.
+> You don't need to revert the overlay removal because your patch series 
+> work with the latest git kernel (6.4).
 >
-> I will email the test logs directly to you since they are a bit large (>5000 lines).
+> Thanks for your help,
+>
+> Christian
 
-I will try to reproduce this error on my side to fix it.
+Hello Hans,
 
-Regards,
-Benjamin
+I successfully used your patches for the kernel 6.5. Everything works 
+without any problems with your patch series from May.
 
->
-> Regards,
->
-> 	Hans
->
->
->
->> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->> index 15b583ce0c69..dc7f6b59d237 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->> @@ -411,7 +411,7 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
->>    */
->>   static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
->>   {
->> -	if (index < VB2_MAX_FRAME && !q->bufs[index]) {
->> +	if (index < q->max_allowed_buffers && !q->bufs[index]) {
->>   		q->bufs[index] = vb;
->>   		vb->index = index;
->>   		vb->vb2_queue = q;
->> @@ -428,7 +428,7 @@ static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
->>    */
->>   static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->>   {
->> -	if (vb->index < VB2_MAX_FRAME) {
->> +	if (vb->index < q->max_allowed_buffers) {
->>   		q->bufs[vb->index] = NULL;
->>   		vb->vb2_queue = NULL;
->>   	}
->> @@ -449,9 +449,9 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->>   	struct vb2_buffer *vb;
->>   	int ret;
->>   
->> -	/* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
->> +	/* Ensure that q->num_buffers+num_buffers is below q->max_allowed_buffers */
->>   	num_buffers = min_t(unsigned int, num_buffers,
->> -			    VB2_MAX_FRAME - q->num_buffers);
->> +			    q->max_allowed_buffers - q->num_buffers);
->>   
->>   	for (buffer = 0; buffer < num_buffers; ++buffer) {
->>   		/* Allocate vb2 buffer structures */
->> @@ -862,9 +862,9 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>   	/*
->>   	 * Make sure the requested values and current defaults are sane.
->>   	 */
->> -	WARN_ON(q->min_buffers_needed > VB2_MAX_FRAME);
->> +	WARN_ON(q->min_buffers_needed > q->max_allowed_buffers);
->>   	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
->> -	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
->> +	num_buffers = min_t(unsigned int, num_buffers, q->max_allowed_buffers);
->>   	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->>   	/*
->>   	 * Set this now to ensure that drivers see the correct q->memory value
->> @@ -980,7 +980,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>   	bool no_previous_buffers = !q->num_buffers;
->>   	int ret;
->>   
->> -	if (q->num_buffers == VB2_MAX_FRAME) {
->> +	if (q->num_buffers == q->max_allowed_buffers) {
->>   		dprintk(q, 1, "maximum number of buffers already allocated\n");
->>   		return -ENOBUFS;
->>   	}
->> @@ -1009,7 +1009,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>   			return -EINVAL;
->>   	}
->>   
->> -	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
->> +	num_buffers = min(*count, q->max_allowed_buffers - q->num_buffers);
->>   
->>   	if (requested_planes && requested_sizes) {
->>   		num_planes = requested_planes;
->> @@ -2519,6 +2519,14 @@ int vb2_core_queue_init(struct vb2_queue *q)
->>   
->>   	q->memory = VB2_MEMORY_UNKNOWN;
->>   
->> +	if (!q->max_allowed_buffers)
->> +		q->max_allowed_buffers = VB2_MAX_FRAME;
->> +
->> +	/* The maximum is limited by offset cookie encoding pattern */
->> +	q->max_allowed_buffers = min_t(unsigned int, q->max_allowed_buffers, BUFFER_INDEX_MASK);
->> +
->> +	q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
->> +
->>   	if (q->buf_struct_size == 0)
->>   		q->buf_struct_size = sizeof(struct vb2_buffer);
->>   
->> @@ -2543,6 +2551,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
->>   	__vb2_queue_cancel(q);
->>   	mutex_lock(&q->mmap_lock);
->>   	__vb2_queue_free(q, q->num_buffers);
->> +	kfree(q->bufs);
->>   	mutex_unlock(&q->mmap_lock);
->>   }
->>   EXPORT_SYMBOL_GPL(vb2_core_queue_release);
->> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->> index cd3ff1cd759d..97153c69583f 100644
->> --- a/include/media/videobuf2-core.h
->> +++ b/include/media/videobuf2-core.h
->> @@ -558,6 +558,7 @@ struct vb2_buf_ops {
->>    * @dma_dir:	DMA mapping direction.
->>    * @bufs:	videobuf2 buffer structures
->>    * @num_buffers: number of allocated/used buffers
->> + * @max_allowed_buffers: upper limit of number of allocated/used buffers
->>    * @queued_list: list of buffers currently queued from userspace
->>    * @queued_count: number of buffers queued and ready for streaming.
->>    * @owned_by_drv_count: number of buffers owned by the driver
->> @@ -619,8 +620,9 @@ struct vb2_queue {
->>   	struct mutex			mmap_lock;
->>   	unsigned int			memory;
->>   	enum dma_data_direction		dma_dir;
->> -	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
->> +	struct vb2_buffer		**bufs;
->>   	unsigned int			num_buffers;
->> +	unsigned int			max_allowed_buffers;
->>   
->>   	struct list_head		queued_list;
->>   	unsigned int			queued_count;
->
+Your patches have been added with the latest Media updates [1] for the 
+kernel 6.6.
+
+The patches works but I have a green bar in the bottum of the window if 
+I use the composite input. [2]
+
+I don't have this green bar with your May patch series.
+
+Could you please check your latest patches?
+
+Thanks,
+
+Christian
+
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=307d59039fb26212a84a9aa6a134a7d2bdea34ca
+[2] https://i.ibb.co/D4K6j2c/Kernel-6-6-alpha2-Power-PC.png
+
+
