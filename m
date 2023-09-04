@@ -2,71 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38EC679109B
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 06:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 060407910F1
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 07:33:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351859AbjIDEuC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 00:50:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46028 "EHLO
+        id S241009AbjIDFdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 01:33:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242273AbjIDEuB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 00:50:01 -0400
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A459B;
-        Sun,  3 Sep 2023 21:49:58 -0700 (PDT)
-Received: by mail-ua1-x92f.google.com with SMTP id a1e0cc1a2514c-7a0254de2fdso298536241.1;
-        Sun, 03 Sep 2023 21:49:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693802997; x=1694407797; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iacGK+V2SyI7u62NbaMeNw3cu42K5/MOVGdVpsBcQr4=;
-        b=eaQIkP+Bj8DKeudOBnZM4rWwWYme9HVcqV8qEzos/0FQKovM7u3fBGeAwS1zwyoa6s
-         4J4Why4DmfFKCK/Pn4OWw/J4Xm9anhOOcHNIQJQ3Axv5qjtP1qZV/4t/C16uYqPiuAR3
-         TPjXH9OzwLZouhleTBPWfKkaxny1gnRMVdhBf2V2s6wN+JdmKCRTOHIi+jM/WDBfHyQn
-         hLFddyrkegHWOdHJqRdNrBIL6HareTfFPZclk0IDUnAiKGgGVP1bONzuFex0ntRuxFtR
-         DwiHYWWQgWCGaE2nZ31Yq8mu6Tzgz5q94JFU8+ZIcd1CL+FW/3eog3XFazNcDqIH2fBm
-         ikDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693802997; x=1694407797;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iacGK+V2SyI7u62NbaMeNw3cu42K5/MOVGdVpsBcQr4=;
-        b=PR4m0m6cKA3Ao5sLqJLkptohwBEnVTa4bgeztk1rh447PkUhiyp+73Tum1Q5PU+v3u
-         ITuPWXGezdVsYzVixwRgNM+cWQXIYuh26Vbit9V85z3TC4BQn+Qyj2I70sks6rtITONT
-         dygdAd+8IUAwwWfxF+PYHuOQdrJt+l8Sb2tiFrW793XAXWZx67Bp5TEc61L3xGdMPhvT
-         qalPz//GSiAfkJx1/V89QbRtQ+pVeNPV76YaAVkg5U3m4o9y/VXGXwCzp81+CuEv+LPU
-         qwtRS+wSN8ukW03gaYCcZA1sjyZSVXBkOATH4f7ElcM+Pb0qooIFoL3P9+5xMQLNqwrw
-         SoWg==
-X-Gm-Message-State: AOJu0Yz9h3BhsjqQV4kZDA0SweZsozjYI21IdPHoIuCOx4Eu0Rb5guHj
-        dbEKm5AQ+R1jVc1M1WV4zklwK66KrnMdeGB8nlBreq89
-X-Google-Smtp-Source: AGHT+IEzJp2QEDITKv7Z+jdponAfIao6TEeQ9Rfl7fRLOLifmlMjC+/WEbeYvphjh6RikNhq5bcaorABVRljL2aKGqU=
-X-Received: by 2002:a05:6102:3a56:b0:44e:b30a:c0da with SMTP id
- c22-20020a0561023a5600b0044eb30ac0damr7596914vsu.26.1693802997437; Sun, 03
- Sep 2023 21:49:57 -0700 (PDT)
+        with ESMTP id S233541AbjIDFdp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 01:33:45 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4296F9
+        for <linux-media@vger.kernel.org>; Sun,  3 Sep 2023 22:33:42 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E881E497;
+        Mon,  4 Sep 2023 07:32:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1693805535;
+        bh=DN5TjY7jLd/+K8gkbI18+34JBvyDKet/cmH+AZHj+as=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=M0ciasrQlbsia1jG2vWcmWz08AyCv0k0G5dsOCkDiDOKwGN7C5FUNGIrCXC1GP0Hs
+         Raocn8KaLBcAu9TAoRkYDZXhKglCYgYHyXCPqAWIG6MOP78qLgkgOzryYRBC2hQ4qU
+         V3zuGn2bl9FkxZcuE4kIRGvuqc1jNC8g8IUf5Aj8=
+Message-ID: <8906817c-b6a8-ec1d-3b46-17b6d2c512a1@ideasonboard.com>
+Date:   Mon, 4 Sep 2023 08:33:37 +0300
 MIME-Version: 1.0
-References: <20230828091859.3889817-1-milkfafa@gmail.com> <20230828091859.3889817-8-milkfafa@gmail.com>
- <0c91f68d-d172-bd14-9115-b6977ad2d01f@xs4all.nl> <CADnNmFqVbRWs5Uf_tJdrM0AopF_CmSHYwBK8-+1go_K6Hefkcw@mail.gmail.com>
- <ecc13f10-82b9-f99b-8ebf-ff505d65fe2e@xs4all.nl>
-In-Reply-To: <ecc13f10-82b9-f99b-8ebf-ff505d65fe2e@xs4all.nl>
-From:   Kun-Fa Lin <milkfafa@gmail.com>
-Date:   Mon, 4 Sep 2023 12:49:46 +0800
-Message-ID: <CADnNmFoRjyHghQPA72HUmmCEr81oUBJPDG+QtuTFaem_imNB=Q@mail.gmail.com>
-Subject: Re: [PATCH v14 7/7] media: nuvoton: Add driver for NPCM video capture
- and encode engine
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     mchehab@kernel.org, avifishman70@gmail.com, tmaimon77@gmail.com,
-        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
-        benjaminfair@google.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        kwliu@nuvoton.com, kflin@nuvoton.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] media: v4l2-subdev: Document that routing support depends
+ on streams
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20230818155518.440-1-laurent.pinchart@ideasonboard.com>
+ <ZN+Z4aYPNp+ymIw6@valkosipuli.retiisi.eu>
+ <20230820225604.GB10135@pendragon.ideasonboard.com>
+ <ZPMmLDvCuibZNFkZ@valkosipuli.retiisi.eu>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <ZPMmLDvCuibZNFkZ@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,46 +54,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On 02/09/2023 15:10, Sakari Ailus wrote:
+> Hi Laurent,
+> 
+> On Mon, Aug 21, 2023 at 01:56:04AM +0300, Laurent Pinchart wrote:
+>> Hi Sakari,
+>>
+>> On Fri, Aug 18, 2023 at 04:18:41PM +0000, Sakari Ailus wrote:
+>>> On Fri, Aug 18, 2023 at 06:55:18PM +0300, Laurent Pinchart wrote:
+>>>> Routing support, through the subdev .set_routing() operation, requires
+>>>> the subdev to support streams. This is however not clearly documented
+>>>> anywhere. Fix it by expanding the operation's documentation to indicate
+>>>> that subdevs must set the V4L2_SUBDEV_FL_STREAMS flag.
+>>>>
+>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>> ---
+>>>>   include/media/v4l2-subdev.h | 5 +++--
+>>>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>>>> index b325df0d54d6..0b04ed1994b6 100644
+>>>> --- a/include/media/v4l2-subdev.h
+>>>> +++ b/include/media/v4l2-subdev.h
+>>>> @@ -822,8 +822,9 @@ struct v4l2_subdev_state {
+>>>>    *		     operation shall fail if the pad index it has been called on
+>>>>    *		     is not valid or in case of unrecoverable failures.
+>>>>    *
+>>>> - * @set_routing: enable or disable data connection routes described in the
+>>>> - *		 subdevice routing table.
+>>>> + * @set_routing: Enable or disable data connection routes described in the
+>>>> + *		 subdevice routing table. Subdevs that implement this operation
+>>>> + *		 must set the V4L2_SUBDEV_FL_STREAMS flag.
+>>>
+>>> Could we set the flag in the core when this op exists for a sub-device?
+>>
+>> That won't work in all cases, as a driver could expose immutable routes
+>> by creating them in the .init_cfg() function, without implementing
+>> .set_routing().
+>>
+>> Another option would be to check if the drivers has created routes after
+>> the .init_cfg() called (indirectly) from v4l2_subdev_init_finalize(). It
+>> may be a bit fragile though.
+> 
+> If you have either, then the sub-device does support streams. As otherwise,
+> there are no streams exposed to the user space. Right?
 
-Thanks for the reply.
+We need to know the existence of V4L2_SUBDEV_FL_STREAMS flag before 
+calling init_cfg, in __v4l2_subdev_state_alloc.
 
-> > When userspace dequeues the 1st buffer (video->list[0]), it needs to
-> > know the count of HEXTILE rectangles in the buffer,
-> > so after dequeuing the buffer it will call this control to get the
-> > rect count (video->rect[0]). And when a buffer is dequeued,
-> > npcm_video_buf_finish() will be called, in which the buffer index (in
-> > this example, buffer index = 0) will be stored to video->vb_index.
-> > Then when userspace calls this control, npcm_video_get_volatile_ctrl()
-> > will return the rect count of vb_index = 0.
-> > In this way, I think userspace is always reading the correct control's
-> > value even if userspace is slow.
-> > Does it make sense to you or is there anything I missed?
->
-> Ah, I don't think I have ever seen anyone use buf_finish in that way!
->
-> Very inventive, and perfectly legal. Actually a very nice idea!
->
-> So, with that in mind there are still some things that need to change.
->
-> First of all, you can drop the 'VOLATILE' flag from the control, instead
-> just call v4l2_ctrl_s_ctrl() from buf_finish() to update the control.
-> And in stop_streaming the control value should probably be set to 0.
->
-> The use of volatile for a control is a last resort, and in this case it
-> is not volatile at all.
->
-> Secondly, this behavior has to be documented: in buf_finish add a comment
-> along the lines of: "This callback is called when the buffer is dequeued,
-> so update this control with the number of rectangles."
->
-> And where the control is defined, refer to buf_finish to explain where it
-> is set.
->
-> Finally the user-facing documentation has to be updated (npcm-video.rst)
-> to explain this behavior.
+  Tomi
 
-OK. Will drop the VOLATILE flag and update comment/document in the next version.
-
-Regards,
-Marvin
