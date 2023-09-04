@@ -2,182 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ABEB791A8E
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 17:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1276F791D85
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 21:11:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244726AbjIDPXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 11:23:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49562 "EHLO
+        id S241927AbjIDTL6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 15:11:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231171AbjIDPXd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 11:23:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7001BCD4;
-        Mon,  4 Sep 2023 08:23:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0197261870;
-        Mon,  4 Sep 2023 15:23:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A9E3C433BA;
-        Mon,  4 Sep 2023 15:23:19 +0000 (UTC)
-Message-ID: <1f45225f-95ec-626d-3bb5-bf9eafd11e19@xs4all.nl>
-Date:   Mon, 4 Sep 2023 17:23:17 +0200
+        with ESMTP id S241373AbjIDTL5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 15:11:57 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AB57CDA
+        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 12:11:50 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-31c5cac3ae2so1533729f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 04 Sep 2023 12:11:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693854708; x=1694459508; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8pEgA4HrkB9TGKJAWAP66UjBiQGMt4beUYVFuVhy4jg=;
+        b=QJRE+B+/RlcvdOa4osdwyHIWZuLvVIoa23mvYTIjN+1pInHzLJmRJ9GnKoIr6StHT+
+         2Z94cO0f2Z92LyplvrNR/4hMmeTW4ZFTTgqfpfQQBbM1/gy0+dZgvPNhyqviHjdoy92h
+         BFMzmI+Iw01MTn5GCVCdN5Ytr/XLl5K0nfPSSL3UuxRnHpKKemQAmtvErWC7t/YqY4B0
+         DrGWwyOsDnhplNBqnm37UsC/dhzBFTet32Eq+l/JAFkafCTNugxtID3KlaSnHWTfuJsE
+         2RZLYPJRrpqTpXjo1sEoUuLKHK+ha7iamTr/+UzVRak4s7WrUGQWS69S/jRRoTyIM3fn
+         x2/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693854708; x=1694459508;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8pEgA4HrkB9TGKJAWAP66UjBiQGMt4beUYVFuVhy4jg=;
+        b=PfmRBUQZkrJRCfdOf7CM5tshVjXjZHVPipaPNzQstim4AogBwDt/p2IfZtDcjt1Y0C
+         yMYncR2n1e0AqaZAkhj3henXK/DKnOgH2YrSA5oPygqcBmxzrSYIbJrDN/gA/tOLHe/6
+         YnAailFrmqitZ1HEMJriYN0v3Nl7HiejHLe8yLNNe6JLDPV3vvKbUPi24ETlydGRQnhN
+         TF+fr9BL4TUJPR1qM26L6uCnkmbcmRgeDfOJcyRJwLpIphgSZE+8X+cR5HIaZMexP/FA
+         D5s8BKJvxcm4iIyxv8Z8giOg7EVZe/goRaNUYo8fU0foBPOlRzACrJj8w6t112ieFJ94
+         JXVw==
+X-Gm-Message-State: AOJu0YyJO86gkYTWr0bH1dK5nISWlD05y5SGVNRmEV/cfPc7kOSunq5G
+        YqV67QS0GiCioA7q3gq0ASyLLQ==
+X-Google-Smtp-Source: AGHT+IHrmHb5QcFVu/TCsq1UWFkimGdZCJ405IMLyXpUMzoL97twMhbB9End6fI+HCUXW7G+Vm1LIA==
+X-Received: by 2002:adf:f0c5:0:b0:319:743f:c695 with SMTP id x5-20020adff0c5000000b00319743fc695mr8060063wro.12.1693854708310;
+        Mon, 04 Sep 2023 12:11:48 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id c17-20020adfe711000000b0031773a8e5c4sm15173256wrm.37.2023.09.04.12.11.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Sep 2023 12:11:47 -0700 (PDT)
+Message-ID: <3b3682be-5dbd-5e2d-a6c1-7bdf6d3ff8cd@linaro.org>
+Date:   Mon, 4 Sep 2023 20:11:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v6 00/18] Add DELETE_BUF ioctl
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 12/15] media: qcom: camss: Fix support for setting
+ CSIPHY clock name csiphyX
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, rfoss@kernel.org,
+        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
+ <20230823104444.1954663-13-bryan.odonoghue@linaro.org>
+ <6f381a9e-9aac-4a3a-814e-26a230026d66@linaro.org>
+ <5714055d-84b9-f60b-ed58-77d86722d71e@linaro.org>
+ <e51e0d29-f455-463f-9324-6ee0459df067@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <e51e0d29-f455-463f-9324-6ee0459df067@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/09/2023 14:43, Benjamin Gaignard wrote:
-> Unlike when resolution change on keyframes, dynamic resolution change
-> on inter frames doesn't allow to do a stream off/on sequence because
-> it is need to keep all previous references alive to decode inter frames.
-> This constraint have two main problems:
-> - more memory consumption.
-> - more buffers in use.
-> To solve these issue this series introduce DELETE_BUFS ioctl and remove
-> the 32 buffers limit per queue.
+On 26/08/2023 13:12, Konrad Dybcio wrote:
+>> I really don't understand your point. Could you please restate it ?
+> If we categorized the clocks at probe time (these ones go to csiphy, these
+> ones go to vfe or whatever), name matching like this could be avoided
 > 
-> VP9 conformance tests using fluster give a score of 210/305.
-> The 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
-> but require to use postprocessor.
-> 
-> Kernel branch is available here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v6
-> 
-> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
-> change is here:
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+> Konrad
 
-FYI: I still need to review and test patches 17 and 18. Either tomorrow or Wednesday.
+Yes, I like this idea.
 
-Regards,
+I'd like to make that into a separate series. So I'd like to address 
+your concern on the size of the string in the lookup and then punt the 
+clock story over to another series since it will involved churning 
+though a fair chunk of code, yaml and dtsi.
 
-	Hans
-
-> 
-> changes in version 6:
-> - Get a patch per driver to use vb2_get_buffer() instead of directly access
->   to queue buffers array.
-> - Add lock in vb2_core_delete_buf()
-> - Use vb2_buffer instead of index
-> - Fix various comments
-> - Change buffer index name to BUFFER_INDEX_MASK
-> - Stop spamming kernel log with unbalanced counters
-> 
-> changes in version 5:
-> - Rework offset cookie encoding pattern is n ow the first patch of the
->   serie.
-> - Use static array instead of allocated one for postprocessor buffers.
-> 
-> changes in version 4:
-> - Stop using Xarray, instead let queues decide about their own maximum
->   number of buffer and allocate bufs array given that value.
-> - Rework offset cookie encoding pattern.
-> - Change DELETE_BUF to DELETE_BUFS because it now usable for
->   range of buffer to be symetrical of CREATE_BUFS.
-> - Add fixes tags on couple of Verisilicon related patches.
-> - Be smarter in Verisilicon postprocessor buffers management.
-> - Rebase on top of v6.4
-> 
-> changes in version 3:
-> - Use Xarray API to store allocated video buffers.
-> - No module parameter to limit the number of buffer per queue.
-> - Use Xarray inside Verisilicon driver to store postprocessor buffers
->   and remove VB2_MAX_FRAME limit.
-> - Allow Versilicon driver to change of resolution while streaming
-> - Various fixes the Verisilicon VP9 code to improve fluster score.
->  
-> changes in version 2:
-> - Use a dynamic array and not a list to keep trace of allocated buffers.
->   Not use IDR interface because it is marked as deprecated in kernel
->   documentation.
-> - Add a module parameter to limit the number of buffer per queue.
-> - Add DELETE_BUF ioctl and m2m helpers.
-> 
-> Regards,
-> Benjamin
->  
-> Benjamin Gaignard (18):
->   media: videobuf2: Rework offset 'cookie' encoding pattern
->   media: videobuf2: Stop spamming kernel log with all queue counter
->   media: videobuf2: Use vb2_buffer instead of index
->   media: amphion: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
->     to buffers array
->   media: mediatek: vdec: Use vb2_get_buffer() instead of directly access
->     to buffers array
->   media: sti: hva: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: visl: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: atomisp: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: videobuf2: Access vb2_queue bufs array through helper functions
->   media: videobuf2: Be more flexible on the number of queue stored
->     buffers
->   media: verisilicon: Refactor postprocessor to store more buffers
->   media: verisilicon: Store chroma and motion vectors offset
->   media: verisilicon: vp9: Use destination buffer height to compute
->     chroma offset
->   media: verisilicon: postproc: Fix down scale test
->   media: verisilicon: vp9: Allow to change resolution while streaming
->   media: v4l2: Add DELETE_BUFS ioctl
->   media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-> 
->  .../userspace-api/media/v4l/user-func.rst     |   1 +
->  .../media/v4l/vidioc-delete-bufs.rst          |  73 ++++
->  .../media/common/videobuf2/videobuf2-core.c   | 379 ++++++++++++------
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  99 ++++-
->  drivers/media/dvb-core/dvb_vb2.c              |   6 +-
->  drivers/media/platform/amphion/vpu_dbg.c      |  22 +-
->  .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   6 +-
->  .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |   2 +-
->  drivers/media/platform/st/sti/hva/hva-v4l2.c  |   4 +
->  drivers/media/platform/verisilicon/hantro.h   |   9 +-
->  .../media/platform/verisilicon/hantro_drv.c   |   4 +-
->  .../platform/verisilicon/hantro_g2_vp9_dec.c  |  10 +-
->  .../media/platform/verisilicon/hantro_hw.h    |   4 +-
->  .../platform/verisilicon/hantro_postproc.c    |  95 ++++-
->  .../media/platform/verisilicon/hantro_v4l2.c  |  27 +-
->  drivers/media/test-drivers/vim2m.c            |   1 +
->  drivers/media/test-drivers/visl/visl-dec.c    |  28 +-
->  drivers/media/v4l2-core/v4l2-dev.c            |   1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  17 +
->  drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 +
->  .../staging/media/atomisp/pci/atomisp_ioctl.c |   2 +-
->  include/media/v4l2-ioctl.h                    |   4 +
->  include/media/v4l2-mem2mem.h                  |  12 +
->  include/media/videobuf2-core.h                |  29 +-
->  include/media/videobuf2-v4l2.h                |  11 +
->  include/uapi/linux/videodev2.h                |  16 +
->  26 files changed, 664 insertions(+), 218 deletions(-)
->  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
-> 
-
+---
+bod
