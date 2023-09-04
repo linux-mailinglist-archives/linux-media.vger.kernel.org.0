@@ -2,161 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A4597916C5
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 14:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FFBF791708
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 14:24:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352935AbjIDMCs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 08:02:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34764 "EHLO
+        id S1348143AbjIDMYW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 08:24:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352916AbjIDMCn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 08:02:43 -0400
-X-Greylist: delayed 499 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 04 Sep 2023 05:02:39 PDT
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B95ACD4
-        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 05:02:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1693828949; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=G+O44nqXs4X3V4NzKuuWMopM9upPK3runCkL3Snq9aJEkiM4GFw9XZ0YPMt0hPnQG1
-    gIYY/dbIGL4OTfOi9TmQSAvLPooN8okzOuR8lL6Z8WdL/HrmK307wt11eXsOshl1aPYX
-    fCYXqGmn4WQFqQrw4kJBRICil1ynK97RgZo2HfN5GfEJoi6gX95vKI19jznIhEk+g96f
-    LwGFCcJPwTEwOmGmq6QBFxA3xgrSAB1oD4uOorCcSGKwUjyr5wWU96lUU8+xnN31XlKt
-    zfzVDF/C+mYxAcKqxU5IUW1lITg3B5PrjLAcvVpLtLQxWDfaGLc63XsZFt9qZ9504ppq
-    h0YA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1693828949;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=9TzdrilTih4uGXNpepMDwQSY0KnKh+xkAZJcPisyKTA=;
-    b=PmiBAngPen6fSBG5Wh+6L/RC6o6BPXcNy1Of3+w6EMIsqZYmpAxmN8fITH2AUxzQ5D
-    7JNMSg0HLncUkJ0H0HaOnyzOTCLvQNZz5/gVqT7/ZSm8tgQzkXab24kekvdbSxyai9hw
-    BD8EqjWKeoaY0WgRiq13NN6FenDfPizQO/wROdfsfGXhbj4uvgSLaKCyYnx4xouNRhrG
-    mwRghYBvmrQtsd/435H4I7n04hkg0j1H95GXAN9jMHiVnyIiQvWT+AwUqu7BSHfSvszZ
-    8+Qzkf1/DcVaOCdDilylIY4tztPXmX24Ozmvj2NTKoCcgwlmKoi7uPZwPHzf7OoYp3Vl
-    8NzA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1693828949;
-    s=strato-dkim-0002; d=xenosoft.de;
-    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=9TzdrilTih4uGXNpepMDwQSY0KnKh+xkAZJcPisyKTA=;
-    b=fZQdTd0meLI99vnjPVwpb6ffuJqUx60HjJSV7kGxfcIzwCPLSGdrfE9u8wfsWo0Vm4
-    y14HNigKklmzdqWTsRQxTZs+GyF9I2S5uYXnwbIfFvq6tgS0q+7UtZ38B1FsVlc77QMZ
-    b6Mem3MCQiD3AduhANDqCYGEXaJcZWE4CTta+1mTwDVRhxxu1qCtfh89v8aCvpzUClEj
-    zBwjN9wKx4SyxzoxlCXe5LDj1mK75bUukH5drlb6QF2g005QyB+nynp+3JrQ+Eb+Ifs7
-    6XmcNqRcMjTS0CZOpKWsz6mZN9eo9b3dj+ngEZZVMthIRK3pRDZuCmebZY8R0jRxOmrO
-    mM6g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1693828949;
-    s=strato-dkim-0003; d=xenosoft.de;
-    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=9TzdrilTih4uGXNpepMDwQSY0KnKh+xkAZJcPisyKTA=;
-    b=aWPSU37x6+n+jY5covfIRcOvrsNuljbtAEnO2CMEQAzV8Vh95gi4Ti9CqDsAp7r5j9
-    SskvYZSb4cfuZcajyKBQ==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfio0GngadwjU7QjNpsZpFYoBv3e+kDWne4OsVw=="
-Received: from [IPV6:2a02:8109:8980:4474:140a:9194:7dc7:10e7]
-    by smtp.strato.de (RZmta 49.8.2 AUTH)
-    with ESMTPSA id 3b5276z84C2TKP4
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Mon, 4 Sep 2023 14:02:29 +0200 (CEST)
-Message-ID: <70180242-116e-4863-a647-92c96e1a92dd@xenosoft.de>
-Date:   Mon, 4 Sep 2023 14:02:28 +0200
+        with ESMTP id S236887AbjIDMYV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 08:24:21 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B6F1BE
+        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 05:24:17 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-401f503b529so13765455e9.0
+        for <linux-media@vger.kernel.org>; Mon, 04 Sep 2023 05:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693830256; x=1694435056; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bydKmgcfnBrn6zqy9gih0IJ/7f6bZJC6JySV7YICefw=;
+        b=lh+S4vx1Gk8754X7D5VZqIy+ltY82zeu9lTLXi8LgXryAoYXfj3mnZD4ePCohJALlE
+         ZRryLA9KOro48RR1yDJQMQ8jS2p+h+XE+c5tLTq5XtbXoMeD0Gas0T3UPfnQ7ekblgf2
+         74TuAcdlmZd6EcGtDOYvsviJstkbLuKPFqIv1zQDK+Kc5KqyKSrkprR7yiMEe/mrqCki
+         R+cTkSZZpVZd9m/RKIWAe7H28S3pVxCfSAynqzgNr1TtwEETtFEFwqf56PsCEqe+382M
+         R0vvR5wto1DEZAIX0BIrAxKzE1z2MOFAl1byxSux0PhL/f68i6WNpX6XR9tzx8XIhTLh
+         xJVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693830256; x=1694435056;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bydKmgcfnBrn6zqy9gih0IJ/7f6bZJC6JySV7YICefw=;
+        b=VrGd/W05oOTxo4+l2SdBZi59WaUSksg4bKRh/U3hoxl5B/qMnGRiznuW0E3Gn7Mvqv
+         O6PKOVQkGGDuODeDzcDtamv7WR4foZXitp8KxgwrDSFhnZkL1ISp3lkQ8hqrkAXG4xKm
+         xO64LEJ/XDnX3Qwr4hYRFUmYMqTNUWrloO8oGXyIrDxIoeedNu2/HiCXjZJ/nEWm8zp0
+         7CjrEB4v7jX5IMp3A+ME5KxNw3JZaTg1GYg6ZNcZxRDUbJFLXIl5j18jUdwTuekyvK5i
+         6JTvN2T9JyoPaK+MGQg26LmDdRD536rOdQBwkjyt1aJhRxjuUtcsyAiFguLDco9l3kqm
+         8Suw==
+X-Gm-Message-State: AOJu0YyvSmOyQr1MHvmzhDUCZ4F6JVpnMFZ8z1q65/mA3HlHb7QWwxkr
+        i8RhEcZQIgbs9+KF8OJcdAy2lg==
+X-Google-Smtp-Source: AGHT+IFrAgI71dnQ3lucSmJZ8Xj8kwOpEXyGtkrEu61tDg8JukeF/cHgajTlbmEv/Kwm08lwGpV/KQ==
+X-Received: by 2002:a05:600c:2241:b0:401:c436:8999 with SMTP id a1-20020a05600c224100b00401c4368999mr7474061wmm.30.1693830256171;
+        Mon, 04 Sep 2023 05:24:16 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id e16-20020a05600c219000b003fe2a40d287sm13944384wme.1.2023.09.04.05.24.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Sep 2023 05:24:15 -0700 (PDT)
+Message-ID: <d7745ece-bea1-f8f9-a1d2-0f01aa221ade@linaro.org>
+Date:   Mon, 4 Sep 2023 13:24:14 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BTTV] [FSL P50x0] [PASEMI] TV Time doesn't work anymore after
- dropping the overlay support
-From:   Christian Zigotzky <chzigotzky@xenosoft.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     Darren Stevens <darren@stevens-zone.net>,
-        mad skateman <madskateman@gmail.com>,
-        "R.T.Dickinson" <rtd2@xtra.co.nz>,
-        Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        Christian Zigotzky <info@xenosoft.de>
-References: <94a617be-00b3-6dc8-eb7d-ae13c6fffae5@xenosoft.de>
- <cb82b6c1-035c-cc6b-2843-6b87ed6315ac@xenosoft.de>
- <f23204ec-ff42-5907-fa28-c1975a87f4e6@xs4all.nl>
- <79ea7cc5-6981-a791-7fed-7a6e27225000@xenosoft.de>
- <a02d481b-562c-803a-a71d-b8d95ba7ebb5@xs4all.nl>
- <82799d05-db42-c6a3-51ef-15e262344d4f@xenosoft.de>
- <f3c18b6e-0a3d-49bd-9553-71bd610588c2@xenosoft.de>
-Content-Language: de-DE
-In-Reply-To: <f3c18b6e-0a3d-49bd-9553-71bd610588c2@xenosoft.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 08/15] media: qcom: camss: Untangle if/else spaghetti
+ in camss
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
+ <20230823104444.1954663-9-bryan.odonoghue@linaro.org>
+ <20230828185110.GN14596@pendragon.ideasonboard.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20230828185110.GN14596@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04 September 2023 at 01:51 pm, Christian Zigotzky wrote:
-> On 05 May 2023 at 09:20 am, Christian Zigotzky wrote:
->> On 05 May 2023 at 08:45 am, Hans Verkuil wrote:
->>> On 05/05/2023 08:25, Christian Zigotzky wrote:
->>>> On 02 May 2023 at 08:57 am, Hans Verkuil wrote:
->>>>> If v4l2-ctl fails, then try again
->>>>> after applying this series:
->>>>>
->>>>> https://patchwork.linuxtv.org/project/linux-media/cover/cover.1682995256.git.deborah.brouwer@collabora.com/ 
->>>>>
->>>> Your patch series solved the issue. Thanks a lot!
->>> Nice, but somewhat unexpected :-)
->>>
->>> I'm a little bit unsure how to proceed: the 6.4 kernel will remove 
->>> destructive overlay
->>> support, but it won't have this series yet, that's for 6.5. But that 
->>> would make 6.4
->>> unusable for you.
->>>
->>> I might have to revert the overlay removal, at least for bttv.
->>>
->>> Regards,
->>>
->>>     Hans
->> Hans,
->>
->> You don't need to revert the overlay removal because your patch 
->> series work with the latest git kernel (6.4).
->>
->> Thanks for your help,
->>
->> Christian
->
-> Hello Hans,
->
-> I successfully used your patches for the kernel 6.5. Everything works 
-> without any problems with your patch series from May.
->
-> Your patches have been added with the latest Media updates [1] for the 
-> kernel 6.6.
->
-> The patches work but I have a green bar in the bottum of the window if 
-> I use the composite input. [2]
->
-> I don't have this green bar with your May patch series.
->
-> Could you please check your latest patches?
->
-> Thanks,
->
-> Christian
->
-> [1] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=307d59039fb26212a84a9aa6a134a7d2bdea34ca
-> [2] https://i.ibb.co/D4K6j2c/Kernel-6-6-alpha2-Power-PC.png
->
->
-I tested with two bttv TV cards.
+On 28/08/2023 19:51, Laurent Pinchart wrote:
+>> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
+>> @@ -592,15 +592,19 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
+>>   	csid->camss = camss;
+>>   	csid->id = id;
+>>   
+>> -	if (camss->res->version == CAMSS_8x16) {
+>> +	switch (camss->res->version) {
+>> +	case CAMSS_8x16:
+>>   		csid->ops = &csid_ops_4_1;
+>> -	} else if (camss->res->version == CAMSS_8x96 ||
+>> -		   camss->res->version == CAMSS_660) {
+>> +		break;
+>> +	case CAMSS_8x96:
+>> +	case CAMSS_660:
+>>   		csid->ops = &csid_ops_4_7;
+>> -	} else if (camss->res->version == CAMSS_845 ||
+>> -		   camss->res->version == CAMSS_8250) {
+>> +		break;
+>> +	case CAMSS_845:
+>> +	case CAMSS_8250:
+>>   		csid->ops = &csid_ops_gen2;
+>> -	} else {
+>> +		break;
+>> +	default:
+>>   		return -EINVAL;
+> This should never happen, as adding support for a new SoC should come
+> with an update for all the applicable switch/case statements. It's
+> useful to let the compiler complain if someone forgets to do so, but
+> with a default case, you will only see the issue at runtime. Could it be
+> caught at compile time ?
+> 
 
-- Typhoon TView RDS + FM Stereo (BT878 chip)
-- WinTV Express (BT878A chip)
+This can be done in fact.
 
-I have this issue with both TV cards if I use the composite input.
+https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wswitch_002denum-303
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+typedef enum {
+         MO = 0,
+         LARRY,
+         CURLY,
+         BINGO,
+}my_type;
+
+int main (int argc, char *argv[])
+{
+         my_type x;
+         time_t t;
+
+         srand((unsigned) time(&t));
+
+         x = rand() % BINGO;
+
+         switch(x) {
+         case MO:
+                 printf("mo\n");
+                 break;
+         case LARRY:
+                 printf("larry\n");
+                 break;
+         default:
+                 printf("blargh\n");
+                 break;
+
+         }
+
+         return 0;
+}
+
+gcc -o test test.c -Wswitch-enum
+test.c: In function ‘main’:
+test.c:38:9: warning: enumeration value ‘CURLY’ not handled in switch 
+[-Wswitch-enum]
+    38 |         switch(x) {
+       |         ^~~~~~
+
+It looks like we only enable that switch for tools though
+
+grep -r "Wswitch-enum" *
+tools/scripts/Makefile.include:EXTRA_WARNINGS += -Wswitch-enum
+tools/bpf/bpftool/Makefile:CFLAGS += $(filter-out -Wswitch-enum 
+-Wnested-externs,$(EXTRA_WARNINGS))
+
+I'll still implement the code though, since if we do introduce the 
+switch for the kernel it would be caught.
+
+---
+bod
