@@ -2,154 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6A21791696
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 13:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 232CD791683
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 13:55:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351265AbjIDL50 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 07:57:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42504 "EHLO
+        id S238901AbjIDLzZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 07:55:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239271AbjIDL5Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 07:57:25 -0400
-X-Greylist: delayed 353 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 04 Sep 2023 04:57:22 PDT
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.216])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E24B195
-        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 04:57:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1693828278; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=Re2VABnyguMJkB+MKJE8fc6/8NqutZjzF8+cqJ+ZOS+BzKIz2HP5eV4FoqgJXGceNw
-    X1Gptlp1ZMkIGzdBoP4bopGenfI8CYRNE2NDyayYr4x+jm4W63Mxvh3P9bHIM3OUDbuE
-    oLfGi6hfSzNRGBPItTuYKr3SliU/YCW+udGL3GE4DlL6Y8Lxd386WNqLqh8HcDPHutfj
-    azKV0tJ+7v/wf54f0baxUKVSmIF8fi9QiH6GzdxWXoNB+jCNg2yMkbOpzR/2si1weFGA
-    /f5uw/ZuERpQbEWAwjZc6YL/SXyURfei/DMLlImdVJwMpZEkyPbjoQCdMN+vUxAQ2W/k
-    dKEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1693828278;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=eGrON1NZ5QUmeTrPXtBeohLhsT05T/kNeEB9Am9D+t0=;
-    b=qlnVfa5LC/uDrt9WSAiLEX3QGAWyoWs/50s/ToFVj/1apn1ce8doCQa5K7ul0ulTdd
-    gpZu8pH4obzvmbdHTCcovmBEF2qDm13j5uC4HCRJQclEMv9sdqHOonE3Dbf66kbk+ACR
-    aqY5endnyoOznIg3VY5PIDvlVlTx6z7+NKEH8sOslUmY79Vk5pAh/vZZcyT2hUkkfzgl
-    ju/XDgNw4/nU55ld+C8HE7GAV+Lxs6jt1//You7H61MsCXdETkM5IF47VHhnZ7IUW9OK
-    p/TvEhzydEW3quw+Bn3E/p0SEyP6ihtfNAPMmtJlWNafLhgi6WYkv1b1qbK1cGpQZYHC
-    12jA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1693828278;
-    s=strato-dkim-0002; d=xenosoft.de;
-    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=eGrON1NZ5QUmeTrPXtBeohLhsT05T/kNeEB9Am9D+t0=;
-    b=UHWNdI3lo149oeYgdfuqluNcE98fQLcTdJxBmLPOO/3dIZNu4kBwqt1eMHT7O0/zi1
-    LAl/h5hDa+D1nKu4FmQ52obVJMmo5RNiohFPOezZuICjS+lOgiT4IJtbk4ARlbSAWbUK
-    CbQN6uuQ+vbYSWBYP7QubQ+W/3ZeMCZN8ogvYwsMsNLfBddpqqQBpxaXwGrB0fnU3Ctk
-    9pJBlngVPm1JtGPgNGIqcLnQsouGyrE8Vdhdgqru/ZW0fGnJnpuECT/RVuitTlmeltbj
-    pZbEB4kikcjY+cIhP3QWDJ1z0Oj8fIGmo+53JWye5YmeQFMPuVbCv/lg0FeWisHpMPL1
-    fhIw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1693828278;
-    s=strato-dkim-0003; d=xenosoft.de;
-    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=eGrON1NZ5QUmeTrPXtBeohLhsT05T/kNeEB9Am9D+t0=;
-    b=Ven+4xCdkR8oWlnO2u+Tn8wOxIrWMpmvU8flfjPZ/V0hXHPPNIDXf8K3k5fS65LLwu
-    LkyFlI6h3kpRfLiPZCDw==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfio0GngadwjU7QjNpsZpFYoBv3e+kDWne4OsVw=="
-Received: from [IPV6:2a02:8109:8980:4474:140a:9194:7dc7:10e7]
-    by smtp.strato.de (RZmta 49.8.2 AUTH)
-    with ESMTPSA id 3b5276z84BpIKKl
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Mon, 4 Sep 2023 13:51:18 +0200 (CEST)
-Message-ID: <f3c18b6e-0a3d-49bd-9553-71bd610588c2@xenosoft.de>
-Date:   Mon, 4 Sep 2023 13:51:17 +0200
+        with ESMTP id S230301AbjIDLzY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 07:55:24 -0400
+Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com [IPv6:2607:f8b0:4864:20::a2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB602195
+        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 04:55:21 -0700 (PDT)
+Received: by mail-vk1-xa2a.google.com with SMTP id 71dfb90a1353d-490cd6db592so372389e0c.1
+        for <linux-media@vger.kernel.org>; Mon, 04 Sep 2023 04:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1693828520; x=1694433320; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sSGdH7aN8yTo6ZaPJwceLOZ7XnBN+We7swViqH33ceo=;
+        b=HYXb+TwxqR/0m5FFJXnPQCpzG/cZpdWjuY1LNPHTwznviX6HfM6jdlKrsJnNjy9cOG
+         rdC5nv3vXULJDBZ69FU6Al/dXq1E6mbiEuuEoy9eQf0cbLRrlpA/dPL8D393jxLotycC
+         dgBAbbIBJuqsnIldPXwoI8ngJkgPdN0pWEU+k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693828520; x=1694433320;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sSGdH7aN8yTo6ZaPJwceLOZ7XnBN+We7swViqH33ceo=;
+        b=B7gdhNa/rO4i/qmqrvQ3JuIyBxBK9oXohAR7VyhEuBcz3QlqjfhnaKcFj8asIfLfwo
+         UMreVpm6R93CdRpOW8VrS8Yqn8zLbulIF551aia2XXGVm2Q+YHHHpFVi9acqB1GmRYHS
+         r4K9zFCbXlOTjq0yZs0Yfw7kHdnaOaCIbcywrvq6ICxchhKQ2nm7e1fhzm6U+OjPsyXx
+         IFK1vELLJkWfL5ICRkpkHPl8qL2/9cjSVbki7ToKtKuh4L0n0eRxuATsGJFxiaZooW1t
+         1WdjPgEROuTFLgTprvF1yGt8IgNDVAvA0hpurL9vr7yiEYGQEEo2TPdI1MNyBT0koXtu
+         Cthw==
+X-Gm-Message-State: AOJu0YyTYYY5rppiig6Bb04ZsoMobx4xVBQWl8kytOxZBLgjSr4B4s5E
+        Wffkb/IxEiVkCqerHf+aIn3RSZbf6n7Ri68ZVU8=
+X-Google-Smtp-Source: AGHT+IEhUPFJg9AGKv7NVC2XBYqj51UrpDihXVicES+RPixlocNxG9QqQGbN2T1pfpMO/cE3xFSN0Q==
+X-Received: by 2002:a67:f993:0:b0:44e:8b91:5cdf with SMTP id b19-20020a67f993000000b0044e8b915cdfmr8248714vsq.3.1693828520598;
+        Mon, 04 Sep 2023 04:55:20 -0700 (PDT)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
+        by smtp.gmail.com with ESMTPSA id g20-20020ab01054000000b007a019cb1287sm1561522uab.3.2023.09.04.04.55.19
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Sep 2023 04:55:20 -0700 (PDT)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-48d11d1a251so375691e0c.3
+        for <linux-media@vger.kernel.org>; Mon, 04 Sep 2023 04:55:19 -0700 (PDT)
+X-Received: by 2002:a1f:4884:0:b0:48d:1e9:2707 with SMTP id
+ v126-20020a1f4884000000b0048d01e92707mr7816746vka.7.1693828519402; Mon, 04
+ Sep 2023 04:55:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BTTV] [FSL P50x0] [PASEMI] TV Time doesn't work anymore after
- dropping the overlay support
-From:   Christian Zigotzky <chzigotzky@xenosoft.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     Darren Stevens <darren@stevens-zone.net>,
-        mad skateman <madskateman@gmail.com>,
-        "R.T.Dickinson" <rtd2@xtra.co.nz>,
-        Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        Christian Zigotzky <info@xenosoft.de>
-References: <94a617be-00b3-6dc8-eb7d-ae13c6fffae5@xenosoft.de>
- <cb82b6c1-035c-cc6b-2843-6b87ed6315ac@xenosoft.de>
- <f23204ec-ff42-5907-fa28-c1975a87f4e6@xs4all.nl>
- <79ea7cc5-6981-a791-7fed-7a6e27225000@xenosoft.de>
- <a02d481b-562c-803a-a71d-b8d95ba7ebb5@xs4all.nl>
- <82799d05-db42-c6a3-51ef-15e262344d4f@xenosoft.de>
-Content-Language: de-DE
-In-Reply-To: <82799d05-db42-c6a3-51ef-15e262344d4f@xenosoft.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220920-resend-hwtimestamp-v7-0-cf1d78bb8821@chromium.org> <CANiDSCtC2zOKtopkuuqJYqi6+FQ1Kav6LfMH5gGhKrnDeG7GYw@mail.gmail.com>
+In-Reply-To: <CANiDSCtC2zOKtopkuuqJYqi6+FQ1Kav6LfMH5gGhKrnDeG7GYw@mail.gmail.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 4 Sep 2023 13:55:07 +0200
+X-Gmail-Original-Message-ID: <CANiDSCteBUraA0UrLM-cU_GqDSWcWERJNV_xhsi3LNQZNvX5dA@mail.gmail.com>
+Message-ID: <CANiDSCteBUraA0UrLM-cU_GqDSWcWERJNV_xhsi3LNQZNvX5dA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] uvcvideo: Fixes for hw timestamping
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        "hn.chen" <hn.chen@sunplusit.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05 May 2023 at 09:20 am, Christian Zigotzky wrote:
-> On 05 May 2023 at 08:45 am, Hans Verkuil wrote:
->> On 05/05/2023 08:25, Christian Zigotzky wrote:
->>> On 02 May 2023 at 08:57 am, Hans Verkuil wrote:
->>>> If v4l2-ctl fails, then try again
->>>> after applying this series:
->>>>
->>>> https://patchwork.linuxtv.org/project/linux-media/cover/cover.1682995256.git.deborah.brouwer@collabora.com/ 
->>>>
->>> Your patch series solved the issue. Thanks a lot!
->> Nice, but somewhat unexpected :-)
->>
->> I'm a little bit unsure how to proceed: the 6.4 kernel will remove 
->> destructive overlay
->> support, but it won't have this series yet, that's for 6.5. But that 
->> would make 6.4
->> unusable for you.
->>
->> I might have to revert the overlay removal, at least for bttv.
->>
->> Regards,
->>
->>     Hans
-> Hans,
+Hi Again
+
+This has been waiting from March, and it has been already been
+
+Reviewed-by: Sergey
+and
+Tested-by: Sunplus
+
+Is there something that I can do to help merging this patchset?
+
+Thanks!
+
+On Tue, 15 Aug 2023 at 13:26, Ricardo Ribalda <ribalda@chromium.org> wrote:
 >
-> You don't need to revert the overlay removal because your patch series 
-> work with the latest git kernel (6.4).
+> Hi Laurent
 >
-> Thanks for your help,
+> Could you give a look to this patchset?
 >
-> Christian
-
-Hello Hans,
-
-I successfully used your patches for the kernel 6.5. Everything works 
-without any problems with your patch series from May.
-
-Your patches have been added with the latest Media updates [1] for the 
-kernel 6.6.
-
-The patches works but I have a green bar in the bottum of the window if 
-I use the composite input. [2]
-
-I don't have this green bar with your May patch series.
-
-Could you please check your latest patches?
-
-Thanks,
-
-Christian
-
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=307d59039fb26212a84a9aa6a134a7d2bdea34ca
-[2] https://i.ibb.co/D4K6j2c/Kernel-6-6-alpha2-Power-PC.png
+> Thanks!
 
 
+
+-- 
+Ricardo Ribalda
