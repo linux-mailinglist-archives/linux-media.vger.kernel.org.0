@@ -2,221 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D85C791151
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 08:25:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 062F5791167
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 08:33:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352324AbjIDGZN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 02:25:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46294 "EHLO
+        id S235356AbjIDGdS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 02:33:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236592AbjIDGZM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 02:25:12 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CCA1D9;
-        Sun,  3 Sep 2023 23:25:08 -0700 (PDT)
-Received: from localhost (89-26-75-29.dyn.cablelink.at [89.26.75.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B6E33660716C;
-        Mon,  4 Sep 2023 07:25:05 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1693808705;
-        bh=mXRRDOmNtrA4MRanC4rykngazFEjqU3XBXr0ln7fHAQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zn6IPdlA1hgFcTNo0i3RL27CAhcehH/UCdsqyxxZzY513Q74Y03zzQw4eykSBYnNh
-         jP5atZCjymGqthSEVPAaFX/YAKeX3gbUeBob9xRMLqkE38JZyT1gfc5ZXVzkYEqMGq
-         Wb0RtkziY7wHI2fMkhx5CHRY5r944jE/NnyuXyRSDCYpYAfF4mz0QvRosvtBdcifzW
-         hia6C3k5mwPcOUN9cMW6Az0J4mbi6v6Kl30urGtkHTsdbEw+jxXq6RUVpVejhuMe8S
-         dkoMbtdO1Ky8xL9qf0YocqwbjoRi6fiNNQLT3Tv/DgDnBFZtAYNusT7KumTgBKcYE7
-         Dyq64ueQkRKuQ==
-Date:   Mon, 4 Sep 2023 08:25:02 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        kernel@collabora.com, bob.beckett@collabora.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-        nas.chung@chipsnmedia.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 5/6] dt-bindings: media: wave5: add yaml devicetree
- bindings
-Message-ID: <20230904062502.qtajep4zyslnouxv@basti-XPS-13-9310>
-References: <20221207121350.66217-1-sebastian.fricke@collabora.com>
- <20221207121350.66217-6-sebastian.fricke@collabora.com>
- <48d60bd0-4de1-4a5e-eca1-1f8a9303cce0@linaro.org>
+        with ESMTP id S230333AbjIDGdR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 02:33:17 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C80510D;
+        Sun,  3 Sep 2023 23:33:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693809189; x=1725345189;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Hm87bvsrPQVAZfKF5UL9l3c0p/ekBlKRwg6W7XwU9Mk=;
+  b=BE7cYLIED+1eQoY5FQbvabpJVPaipG4KKubU1l8s88M9YpsvFTIjHgQo
+   f/33MPx0zw6QcQ1tyxxJw441ZUIuDsc98bpGLPflVJzUSWMPuLEmZquXP
+   OyiO7n+5GVyvpbKzUfhQ3ysj55kAYa2shqPwc2e2NGMaRva0iND5oF6P+
+   VzC+BXrlrjJwb/jaZzV7unoQ84sFij+NKJKVv7AI9CsmppfxfeJrg2v9B
+   6G5mxuD1xmKHS0uwPj3wUe7rBhSYvCHaNgPpX7zzpieEEC3pc/wG6Xifj
+   yBYHSRefBryxaXYBo1x7vIffjrLPzADDlqmlxLvhYOxHb5ttC10OF1Eq4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="462893867"
+X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
+   d="scan'208";a="462893867"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 23:33:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="806134594"
+X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
+   d="scan'208";a="806134594"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 23:33:05 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 724C511F9DF;
+        Mon,  4 Sep 2023 09:33:02 +0300 (EEST)
+Date:   Mon, 4 Sep 2023 06:33:02 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        oe-kbuild-all@lists.linux.dev,
+        Lee Jackson <lee.jackson@arducam.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        kieran.bingham@ideasonboard.com,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH 2/2] media: i2c: imx519: Support for the Sony IMX519
+ sensor
+Message-ID: <ZPV6HnHj8TkEL1Nb@kekkonen.localdomain>
+References: <20230727154108.308320-3-umang.jain@ideasonboard.com>
+ <202307281538.bqZ5kcV9-lkp@intel.com>
+ <1070170e-830c-4752-bad5-8f653ebd80a4@ideasonboard.com>
+ <20230903212158.GF13794@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <48d60bd0-4de1-4a5e-eca1-1f8a9303cce0@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230903212158.GF13794@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Krzysztof,
+Hi Umang, Laurent,
 
-sorry for digging this mail out of the tombs.
-We have worked for quite a while on a new version of the driver and we
-are currently finishing it up. I have a few questions before I can
-finish the patchset.
+On Mon, Sep 04, 2023 at 12:21:58AM +0300, Laurent Pinchart wrote:
+> Hi Umang,
+> 
+> On Fri, Jul 28, 2023 at 01:47:36PM +0530, Umang Jain wrote:
+> > On 7/28/23 12:56 PM, kernel test robot wrote:
+> > > Hi Umang,
+> > >
+> > > kernel test robot noticed the following build errors:
+> > >
+> > > [auto build test ERROR on media-tree/master]
+> > > [also build test ERROR on soc/for-next linus/master v6.5-rc3 next-20230727]
+> > > [cannot apply to sailus-media-tree/streams]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-dt-bindings-imx519-Add-IMX519-DT-bindings/20230727-234440
+> > > base:   git://linuxtv.org/media_tree.git master
+> > > patch link:    https://lore.kernel.org/r/20230727154108.308320-3-umang.jain%40ideasonboard.com
+> > > patch subject: [PATCH 2/2] media: i2c: imx519: Support for the Sony IMX519 sensor
+> > > config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230728/202307281538.bqZ5kcV9-lkp@intel.com/config)
+> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > > reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281538.bqZ5kcV9-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202307281538.bqZ5kcV9-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > >     drivers/media/i2c/imx519.c: In function 'imx519_open':
+> > >>> drivers/media/i2c/imx519.c:1170:30: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
+> > 
+> > This comes from the bcm2835-unicam for Rpi's that's being worked upon. 
+> > And I was testing this driver on top of it.
+> 
+> Please base the next version on top of Sakari's metadata series, provide
+> a branch with your patches and all dependencies in the cover letter, and
+> use the --base argument to git-format-patch to indicate the base
+> clearly.
 
-Please see below...
+I've pushed my latest development series to
+<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata>.
 
-On 07.12.2022 13:31, Krzysztof Kozlowski wrote:
->On 07/12/2022 13:13, Sebastian Fricke wrote:
->> From: Robert Beckett <bob.beckett@collabora.com>
->>
->> Add bindings for the wave5 chips&media codec driver
->>
->> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->
->What's happening with this patch? Where is the changelog? Why it is v11
->and first time I see it? And why it is v11 with basic mistakes and lack
->of testing?!? I would assume that v11 was already seen and tested...
->
->
->> ---
->>  .../devicetree/bindings/cnm,wave5.yml         | 72 +++++++++++++++++++
->>  1 file changed, 72 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/cnm,wave5.yml
->
->Wrong directory. It wasn't here at all before, so I am really confused
->how this could happen.
->
->Subject: drop redundant pieces: yaml, devicetree and bindings.
->
->
->>
->> diff --git a/Documentation/devicetree/bindings/cnm,wave5.yml b/Documentation/devicetree/bindings/cnm,wave5.yml
->> new file mode 100644
->> index 000000000000..01dddebb162e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/cnm,wave5.yml
->> @@ -0,0 +1,72 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/wave5.yaml#
->
->You clearly did not test them before sending.
->
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Chips&Media Wave 5 Series multi-standard codec IP
->> +
->> +maintainers:
->> +  - Nas Chung <nas.chung@chipsnmedia.com>
->> +  - Robert Beckett <bob.beckett@collabora.com>
->> +  - Sebastian Fricke <sebastian.fricke@collabora.com>
->> +
->> +description: |-
->> +  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
->> +
->> +properties:
->> +  compatible:
->> +    anyOf:
->
->Please start from example-schema or other recently approved bindings. No
->anyOf.
->
->> +      - items:
->
->No items...
->
->> +        - enum:
->> +            - cnm,cm511-vpu
->> +            - cnm,cm517-vpu
->> +            - cnm,cm521-vpu
->> +            - cnm,cm521c-vpu
->> +            - cnm,cm521c-dual-vpu
->
->What's the difference between this and one above?
->
->> +            - cnm,cm521e1-vpu
->> +            - cnm,cm537-vpu
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    minItems: 1
->> +    maxItems: 4
->
->This has to be specific.
->
->> +
->> +  clock-names:
->> +    minItems: 1
->> +    maxItems: 4
->
->You need to list the names.
->
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  sram:
->
->Missing vendor prefix.
-
-After some discussion with the the manufacturer of this CODEC chip, the SRAM
-is not fixed to the CODEC chip but instead part of the SoC, thus the
-vendor can vary. It sounds like the policy is to use the vendor prefix
-of the SoC, that was used for upstreaming. But that policy sounds a bit
-like a potential for future confusion to me, so I wanted to ask what you
-would like to see. The SoC we develop on is from TI and the CODEC chip is from
-C&M, so I could either call it: `ti,sram` or `cnm,sram`
-
->
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description: phandle pointing to the SRAM device node
->
->And what is it for? Why do you need SRAM?
-
-I would write the following here:
-The VPU uses the SRAM to store some of the reference data instead of storing it on DMA memory. It is mainly used for the purpose of reducing bandwidth.
-
-Sincerely,
-Sebastian
-
->
->> +    maxItems: 1
->
->Drop
->
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - clocks
->> +  - clock-names
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    vpu: video-codec@12345678 {
->> +        compatible = "cnm,cm521-vpu";
->> +        reg = <0x12345678 0x1000>;
->> +        interrupts = <42>;
->> +        clocks = <&clks 42>;
->> +        clock-names = "vcodec";
->> +        sram = <&sram>;
->> +    };
->
->Best regards,
->Krzysztof
->
+-- 
+Sakari Ailus
