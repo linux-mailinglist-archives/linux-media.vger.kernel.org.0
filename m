@@ -2,149 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73A91791971
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 16:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7615E7919A0
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 16:28:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235170AbjIDOJW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 10:09:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37530 "EHLO
+        id S241739AbjIDO2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 10:28:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232822AbjIDOJP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 10:09:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8AC9CDB;
-        Mon,  4 Sep 2023 07:09:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 74E07B80E3B;
-        Mon,  4 Sep 2023 14:09:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A9A6C433C8;
-        Mon,  4 Sep 2023 14:09:05 +0000 (UTC)
-Message-ID: <b3561832-b7e4-f612-4729-fd4ca8234602@xs4all.nl>
-Date:   Mon, 4 Sep 2023 16:09:03 +0200
+        with ESMTP id S233251AbjIDO2L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 10:28:11 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C57ACE2
+        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 07:28:08 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-68c0cb00fb3so1279629b3a.2
+        for <linux-media@vger.kernel.org>; Mon, 04 Sep 2023 07:28:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693837688; x=1694442488; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZOtQAgfRN5wcVtshz5ZvILTFmUrWKvgNVBGb1V8AVvY=;
+        b=aXqwHoy64rYqjlW7ZbtMLS99ejKPDb3laR/RiqDEMGsv6AYx7MVdPM8eTijshzNZY2
+         hLIAO2QPlsEi9psWCCqkDFldF0ehhzdk2an3gbZBsQYNRXf+F8u3u2nnJzRTTcxx2lkM
+         /jDFrpZNEjY621kUStKInerKUCmXYNGN2l7/em9VxaNOXJZL4ojNliDLom3BurczMeLJ
+         JDlMsyfFaXvp5lE6S8uwc0LNUkOHLQG+JnC5Mx0+/inEFBFnHOoc4kl3bbdElvqISpq9
+         w8noZGYWDO81tFYWmtoM+bi27nm8mGJ+ldgXPCYzpJJup0xbXocy5RRlnmOrnMLCVQIP
+         FmmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693837688; x=1694442488;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZOtQAgfRN5wcVtshz5ZvILTFmUrWKvgNVBGb1V8AVvY=;
+        b=g748e6kJqlYO/kgCXJNDVdp8EILqXrETFYmhjVvC8xjHhszTi7UbwqaGpMGihSYBc/
+         Vt4a40ojcF0ojMuIbnKoOhgDKQUDdnyddWQMi13G20TNgqZiVI2gEtYcs9RYxLC21ruI
+         QY0N4DsuvunCRNIK0HeFEfy3euWXneJgRbp+05pReSDnHW0HbNWf8nOWPGWaZXktE5bg
+         yx0lr9hmEq/8XAyBYHQwl79F0TkgGOgQOC6zyFr1NEIeqgbovKUtD8oIn1zqlI1k33lW
+         UvzyjSgOozL+Zk8FmMFliFS3BNSuzce49iZwfwQAQoxGTs7kTh798hvEuprB5U0y2kh5
+         vGlg==
+X-Gm-Message-State: AOJu0Yz9Q7K8vtQLb83mXS/P+SR3zQzdyrJduS+9d0OBwg2mFvtXBAWM
+        fnVugrxZfI3SISAXHiPzQySHd8XSTSYiWmsg0Zg=
+X-Google-Smtp-Source: AGHT+IHXtnKpsw5NSxE9qXWfSUUI6wiMEDjmxdFzNnZH80aZCyOSiTYs0/XPotWPmJdNo+bh4mtRAaQhSTGUyg49z+Q=
+X-Received: by 2002:a05:6a00:1ac7:b0:68b:bd56:c78b with SMTP id
+ f7-20020a056a001ac700b0068bbd56c78bmr12466552pfv.10.1693837687773; Mon, 04
+ Sep 2023 07:28:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v6 11/18] media: videobuf2: Be more flexible on the number
- of queue stored buffers
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
- <20230901124414.48497-12-benjamin.gaignard@collabora.com>
- <37e5e418-c38a-b863-ffdf-72ce300cf227@xs4all.nl>
- <319d6103-26c3-bc02-3f80-90e653c8ee37@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <319d6103-26c3-bc02-3f80-90e653c8ee37@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:7022:440e:b0:64:64bd:54e4 with HTTP; Mon, 4 Sep 2023
+ 07:28:07 -0700 (PDT)
+Reply-To: n.rbaker001@gmail.com
+From:   "Noel R. Baker" <demirkol.chambers01@gmail.com>
+Date:   Mon, 4 Sep 2023 07:28:07 -0700
+Message-ID: <CAPyJ9=4bJuQjSQiaRo-8wEkB_Ctns9=yNKfpQOb0ERL_Yh2KwQ@mail.gmail.com>
+Subject: Looking forward to connecting with you please. Thank you.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
-
-This patch can be folded into 11/18 to make it work properly.
-
-vb2_core_queue_release() is also called when the file handle of the video device is
-closed and it is also the owner of the currently allocated buffers. This will free
-q->bufs, but queue_init isn't called a second time for non-m2m devices. So move
-the allocation of q->bufs from queue_init to reqbufs/create_buffers.
-
-And when releasing the file handle we also check if there is no owner at all:
-in that case vb2_queue_release() must still be called to free q->bufs.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/common/videobuf2/videobuf2-core.c | 15 +++++++++++++--
- drivers/media/common/videobuf2/videobuf2-v4l2.c |  4 ++--
- 2 files changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index dc7f6b59d237..202d7c80ffd2 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -859,6 +859,12 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 			return 0;
- 	}
-
-+	if (!q->bufs) {
-+		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
-+		if (!q->bufs)
-+			return -ENOMEM;
-+	}
-+
- 	/*
- 	 * Make sure the requested values and current defaults are sane.
- 	 */
-@@ -985,6 +991,12 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 		return -ENOBUFS;
- 	}
-
-+	if (!q->bufs) {
-+		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
-+		if (!q->bufs)
-+			return -ENOMEM;
-+	}
-+
- 	if (no_previous_buffers) {
- 		if (q->waiting_in_dqbuf && *count) {
- 			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
-@@ -2525,8 +2537,6 @@ int vb2_core_queue_init(struct vb2_queue *q)
- 	/* The maximum is limited by offset cookie encoding pattern */
- 	q->max_allowed_buffers = min_t(unsigned int, q->max_allowed_buffers, BUFFER_INDEX_MASK);
-
--	q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
--
- 	if (q->buf_struct_size == 0)
- 		q->buf_struct_size = sizeof(struct vb2_buffer);
-
-@@ -2552,6 +2562,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
- 	mutex_lock(&q->mmap_lock);
- 	__vb2_queue_free(q, q->num_buffers);
- 	kfree(q->bufs);
-+	q->bufs = NULL;
- 	mutex_unlock(&q->mmap_lock);
- }
- EXPORT_SYMBOL_GPL(vb2_core_queue_release);
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 8ba658ad9891..104fc5c4f574 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -1148,7 +1148,7 @@ int _vb2_fop_release(struct file *file, struct mutex *lock)
-
- 	if (lock)
- 		mutex_lock(lock);
--	if (file->private_data == vdev->queue->owner) {
-+	if (!vdev->queue->owner || file->private_data == vdev->queue->owner) {
- 		vb2_queue_release(vdev->queue);
- 		vdev->queue->owner = NULL;
- 	}
-@@ -1276,7 +1276,7 @@ void vb2_video_unregister_device(struct video_device *vdev)
- 	 */
- 	get_device(&vdev->dev);
- 	video_unregister_device(vdev);
--	if (vdev->queue && vdev->queue->owner) {
-+	if (vdev->queue) {
- 		struct mutex *lock = vdev->queue->lock ?
- 			vdev->queue->lock : vdev->lock;
-
--- 
-2.40.1
-
-
+Hello. I mailed you earlier without a response, please confirm
+validity of your email and respond back to me. Thank you.
