@@ -2,115 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 829857911EA
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 09:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3653E7911FD
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 09:23:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231536AbjIDHQt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 03:16:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45556 "EHLO
+        id S238624AbjIDHXP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 03:23:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231610AbjIDHQs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 03:16:48 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A32211A
-        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 00:16:17 -0700 (PDT)
-Received: from ideasonboard.com (mob-5-90-56-168.net.vodafone.it [5.90.56.168])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FF3F124F;
-        Mon,  4 Sep 2023 09:14:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693811688;
-        bh=vVUa9nZb1vB1oPjYSRaDkqEK0TnLOZHFhcolKnkbLZ0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aLBkZmg3ksLBnWsCaV7zlTPeZn5uWwcxw7NgEIP+xSxgOYrZSG8QcvSrxiAZy7VNX
-         a6RgjgKHnvP47VqpvqE9yN0RmIyC0dWd/fvJEDGmAfBbY35+NzRY/+AhpZfeyTIS/8
-         900QdZWv1nslBX2j7Ap/mJybZPf5NpJAy4aWJJ1c=
-Date:   Mon, 4 Sep 2023 09:15:38 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 2/3] media: i2c: imx219: Fix crop rectangle setting
- when changing format
-Message-ID: <coxooexjhksrawftyl3kyrh6ixrn4eroixy35mqk622b2vho53@exgwgzz2tjpu>
-References: <20230831135747.23148-1-laurent.pinchart@ideasonboard.com>
- <20230831135747.23148-3-laurent.pinchart@ideasonboard.com>
+        with ESMTP id S234854AbjIDHXP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 03:23:15 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12AAF99;
+        Mon,  4 Sep 2023 00:23:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 45EC7CE0E16;
+        Mon,  4 Sep 2023 07:23:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 504BBC433C8;
+        Mon,  4 Sep 2023 07:23:06 +0000 (UTC)
+Message-ID: <ff0475f0-b48e-ad5d-ae66-54308bf98464@xs4all.nl>
+Date:   Mon, 4 Sep 2023 09:23:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230831135747.23148-3-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v5] media: gspca: cpia1: shift-out-of-bounds in
+ set_flicker
+To:     Rajeshwar Shinde <coolrrsh@gmail.com>, mchehab@kernel.org,
+        slark_xiao@163.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+References: <20230830074401.7696-1-coolrrsh@gmail.com>
+ <CA+VNjV0pkR7w5Z_z8wS8WxckfSJ43sN8rGkWO6nxzYNHL4U46Q@mail.gmail.com>
+Content-Language: en-US, nl
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CA+VNjV0pkR7w5Z_z8wS8WxckfSJ43sN8rGkWO6nxzYNHL4U46Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Relax :-) I'll pick it up the next time I go through simple bug fix patches
+like this one, probably in 2-3 weeks or so.
 
-On Thu, Aug 31, 2023 at 04:57:46PM +0300, Laurent Pinchart wrote:
-> When moving the imx219 driver to the subdev active state, commit
-> e8a5b1df000e ("media: i2c: imx219: Use subdev active state") used the
-> pad crop rectangle stored in the subdev state to report the crop
-> rectangle of the active mode. That crop rectangle was however not set in
-> the state when setting the format, which resulted in reporting an
-> incorrect crop rectangle to userspace. Fix it.
->
-> Fixes: e8a5b1df000e ("media: i2c: imx219: Use subdev active state")
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Regards,
 
-LIkewise, let's make sure this lands in v6.6
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+	Hans
 
-Thanks
-  j
+On 02/09/2023 19:56, Rajeshwar Shinde wrote:
+> Remainder 
+> 
+> On Wed, 30 Aug, 2023, 1:14 pm , <coolrrsh@gmail.com <mailto:coolrrsh@gmail.com>> wrote:
+> 
+>     From: Rajeshwar R Shinde <coolrrsh@gmail.com <mailto:coolrrsh@gmail.com>>
+> 
+>     Syzkaller reported the following issue:
+>     UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
+>     shift exponent 245 is too large for 32-bit type 'int'
+> 
+>     When the value of the variable "sd->params.exposure.gain" exceeds the
+>     number of bits in an integer, a shift-out-of-bounds error is reported. It
+>     is triggered because the variable "currentexp" cannot be left-shifted by
+>     more than the number of bits in an integer. In order to avoid invalid
+>     range during left-shift, the conditional expression is added.
+> 
+> 
+>     Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com <mailto:syzbot%2Be27f3dbdab04e43b9f73@syzkaller.appspotmail.com>
+>     Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com <https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com>
+>     Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
+>     Signed-off-by <https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73Signed-off-by>: Rajeshwar R Shinde <coolrrsh@gmail.com <mailto:coolrrsh@gmail.com>>
+>     ---
+>     v1->v2
+>     Changed the patch. Instead of avoiding shift operation for invalid
+>     input of 'exposure.gain', throw an error for invalid range.
+>     v2->v3
+>     Changed the commit message details
+>     v3->v4
+>     Removed the trailing spaces in commit message
+>     v4->v5
+>     Replaced the hardcoded value with inbuilt macro
+>     ---
+>      drivers/media/usb/gspca/cpia1.c | 3 +++
+>      1 file changed, 3 insertions(+)
+> 
+>     diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
+>     index 46ed95483e22..5f5fa851ca64 100644
+>     --- a/drivers/media/usb/gspca/cpia1.c
+>     +++ b/drivers/media/usb/gspca/cpia1.c
+>     @@ -18,6 +18,7 @@
+> 
+>      #include <linux/input.h>
+>      #include <linux/sched/signal.h>
+>     +#include <linux/bitops.h>
+> 
+>      #include "gspca.h"
+> 
+>     @@ -1028,6 +1029,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
+>                             sd->params.exposure.expMode = 2;
+>                             sd->exposure_status = EXPOSURE_NORMAL;
+>                     }
+>     +               if (sd->params.exposure.gain >= BITS_PER_TYPE(currentexp))
+>     +                       return -EINVAL;
+>                     currentexp = currentexp << sd->params.exposure.gain;
+>                     sd->params.exposure.gain = 0;
+>                     /* round down current exposure to nearest value */
+>     -- 
+>     2.25.1
+> 
 
-> ---
->  drivers/media/i2c/imx219.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 6f88e002c8d8..f19c828b6943 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -750,6 +750,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  	const struct imx219_mode *mode;
->  	int exposure_max, exposure_def, hblank;
->  	struct v4l2_mbus_framefmt *format;
-> +	struct v4l2_rect *crop;
->
->  	mode = v4l2_find_nearest_size(supported_modes,
->  				      ARRAY_SIZE(supported_modes),
-> @@ -757,11 +758,16 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  				      fmt->format.width, fmt->format.height);
->
->  	imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
-> +
->  	format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
-> +	crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
->
->  	if (imx219->mode == mode && format->code == fmt->format.code)
->  		return 0;
->
-> +	*format = fmt->format;
-> +	*crop = mode->crop;
-> +
->  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->  		imx219->mode = mode;
->  		/* Update limits and set FPS to default */
-> @@ -788,8 +794,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  					 hblank);
->  	}
->
-> -	*format = fmt->format;
-> -
->  	return 0;
->  }
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
