@@ -2,131 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A898F792547
-	for <lists+linux-media@lfdr.de>; Tue,  5 Sep 2023 18:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03EAF792725
+	for <lists+linux-media@lfdr.de>; Tue,  5 Sep 2023 18:35:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233358AbjIEQCI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Sep 2023 12:02:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60058 "EHLO
+        id S234914AbjIEQBi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Sep 2023 12:01:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354882AbjIEPaI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Sep 2023 11:30:08 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2290128
-        for <linux-media@vger.kernel.org>; Tue,  5 Sep 2023 08:30:03 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-411f5dd7912so17897811cf.3
-        for <linux-media@vger.kernel.org>; Tue, 05 Sep 2023 08:30:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693927803; x=1694532603; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6W+TfrXmtjK34RUfVd7nGUPmJuAkk0DxWpwHLygpJ3U=;
-        b=OZudrJW53VISzHcSQ22P4UL4IoATzRwCV561vMFCBB0S1O1pfKWlzc1lN1DpSlvwbr
-         o111Po6X2gKWlwbvoV4ronrrz0TqveBv64wqI5j9AtjSPauvGI9CJwPTiHMbyVSa1WL1
-         HvEF9HGicQOdha8PrsSrkI9ceGJzqhXyRhNX0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693927803; x=1694532603;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6W+TfrXmtjK34RUfVd7nGUPmJuAkk0DxWpwHLygpJ3U=;
-        b=kdYfwOSYgrjNh2z2cxBsaXC4hh6Y9dmL7Ft5V60PYNY7W6ZpulQxmRfT7ztmVKgotW
-         mggZb1rFdCEfAL9fE5W2dENCqHVG0MSA5EouVAEQ0+8SmSsBQi7Eo6sM8S08k25zqEmM
-         ssx+Iq5ownWZG6/8mypU4xldWpeBTuLKTbvD6ZA3scZZmdS8gC7RhwN+PAx0xvwiwCgM
-         HipVvcoAMifXEzXtXK8TkqjtmmVJsIK0jTUC80VCrllLfh1gDx87712W7riZjyHmpnXX
-         pmjx5qp0PPPLt3mYvSgfowONQgHfMXMPueZFHaa8J5KmEIdW8lklEDOWJqAVBy96WWA7
-         VlUg==
-X-Gm-Message-State: AOJu0Yyl5Uds7waeOPUhDYy9AV4cXBHqMIHBSkdgEyNZ98CNnl8H2omp
-        wOTX06AcQvoBWOcqAzHw2h4s1Q==
-X-Google-Smtp-Source: AGHT+IEQFo3g2YFqBxE2kIB03JTfw9xkEk6xbsE4/FEYCt0KvdZMdDVV1Yv6YqMq8bu3dlKWF0b62A==
-X-Received: by 2002:a05:622a:110:b0:412:6db3:eda9 with SMTP id u16-20020a05622a011000b004126db3eda9mr18573275qtw.58.1693927802873;
-        Tue, 05 Sep 2023 08:30:02 -0700 (PDT)
-Received: from denia.c.googlers.com (122.213.145.34.bc.googleusercontent.com. [34.145.213.122])
-        by smtp.gmail.com with ESMTPSA id d4-20020ac84e24000000b0040ff1b4b400sm2642301qtw.73.2023.09.05.08.30.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 08:30:02 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 05 Sep 2023 15:29:52 +0000
-Subject: [PATCH v2] media: uvcvideo: Fix power line control for a Chicony
- camera
+        with ESMTP id S1354047AbjIEJ2T (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Sep 2023 05:28:19 -0400
+X-Greylist: delayed 4049 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 05 Sep 2023 02:28:16 PDT
+Received: from mail.equinoxrise.pl (mail.equinoxrise.pl [217.61.112.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DBB119B
+        for <linux-media@vger.kernel.org>; Tue,  5 Sep 2023 02:28:16 -0700 (PDT)
+Received: by mail.equinoxrise.pl (Postfix, from userid 1002)
+        id D03F28373D; Mon,  4 Sep 2023 09:41:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=equinoxrise.pl;
+        s=mail; t=1693813389;
+        bh=v6OgBfK5dN7P5dQ0wCu59rOfZaiqziJeLNblJ8dOcGI=;
+        h=Date:From:To:Subject:From;
+        b=IB8MlebvW2EpyRrya6NfiqSRRLVhNtnEK5ijorFAwAO2H1loEztR9bEKIAQ0SU1Ul
+         jwR4l+amUvpJoNDCsBpaixns0NuSwBuYBVCACTKXUQnOA8adGPHqHBCjLn/VqGgvD6
+         HXkyKBAEA0+5ZiGLzt1i30ttW5sZxT4qLPnPveMDJrOHC3OT/Pe8uG5WKE9wJWRUnY
+         z/ZxeFlyHvhe5MzSQS2KgOrXpvuaThEXxPGTdXawcsoMi4Kajcjz4pFgEBsx/6rjCs
+         j+EjDL35XvqWYnh1uFeYwn8hx05uwNESqNHngJp3f+1VKYqnIz7mHEYk9elYh0pkPD
+         fbOWl4uiNB2mQ==
+Received: by mail.equinoxrise.pl for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 07:40:34 GMT
+Message-ID: <20230904084500-0.1.7.rjs.0.whb5f83cp5@equinoxrise.pl>
+Date:   Mon,  4 Sep 2023 07:40:34 GMT
+From:   "Mateusz Talaga" <mateusz.talaga@equinoxrise.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: Prezentacja
+X-Mailer: mail.equinoxrise.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230817-chicony-v2-1-88335519989d@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAHBJ92QC/2WNQQ6DIBREr2JYl0bQYttV79G4APzITyqYT0tqj
- Hcvuu3yzbzMrCwBISR2r1ZGkDFhDAXkqWLW6zACx6Ewk7Vs6qvouPVoY1j4zTYXJ+tWWeVYsY1
- OwA3pYP3uzy/HSWcIezcTOPweL8++sMf0jrQcp1ns6f9+FlzwTpkB2kE5p8zDeooTfqZzpJH12
- 7b9AKWuN8G9AAAA
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.2
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The device does not implement the control properly.
+Dzie=C5=84 dobry!
 
-Fixes v4l2-compliance error:
+Czy m=C3=B3g=C5=82bym przedstawi=C4=87 rozwi=C4=85zanie, kt=C3=B3re umo=C5=
+=BCliwia monitoring ka=C5=BCdego auta w czasie rzeczywistym w tym jego po=
+zycj=C4=99, zu=C5=BCycie paliwa i przebieg?
 
-info: checking control 'Power Line Frequency' (0x00980918)
-fail: v4l2-test-controls.cpp(552): could not set valid menu item 3
+Dodatkowo nasze narz=C4=99dzie minimalizuje koszty utrzymania samochod=C3=
+=B3w, skraca czas przejazd=C3=B3w, a tak=C5=BCe tworzenie planu tras czy =
+dostaw.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-This camera, like other Chicony devices, do not implement properly the
-Power Line Frequency control.
+Z naszej wiedzy i do=C5=9Bwiadczenia korzysta ju=C5=BC ponad 49 tys. Klie=
+nt=C3=B3w. Monitorujemy 809 000 pojazd=C3=B3w na ca=C5=82ym =C5=9Bwiecie,=
+ co jest nasz=C4=85 najlepsz=C4=85 wizyt=C3=B3wk=C4=85.
 
-This time, I do not have direct access to the device, just to the
-report, but since other devices from the same family are showing the
-same error, it is safe to assume that the same fix will work here.
----
-Changes in v2:
-- Fix IntefaceProtocol, the camera is uvc1.5
-- I managed to write 0 to the control, so the proper quirk is uvc11 not
-  limited
-- Changes by Laurent:
-	- Rename device
-	- s/v4l/v4l2
-- Link to v1: https://lore.kernel.org/r/20230817-chicony-v1-1-76bde4d6ff6b@chromium.org
----
- drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Bardzo prosz=C4=99 o e-maila zwrotnego, je=C5=9Bli mogliby=C5=9Bmy wsp=C3=
+=B3lnie om=C3=B3wi=C4=87 potencja=C5=82 wykorzystania takiego rozwi=C4=85=
+zania w Pa=C5=84stwa firmie.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 08fcd2ffa727..4b5ea3501753 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2592,6 +2592,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-+	/* Chicony Electronics Co., Ltd Integrated Camera */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x04f2,
-+	  .idProduct		= 0xb67c,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
-+	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
- 	/* Chicony EasyCamera */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
 
----
-base-commit: 4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-change-id: 20230817-chicony-9c35f2046c6f
-
-Best regards,
--- 
-Ricardo Ribalda <ribalda@chromium.org>
-
+Pozdrawiam
+Mateusz Talaga
