@@ -2,173 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FFBF791708
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 14:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73A91791971
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 16:09:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348143AbjIDMYW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 08:24:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40668 "EHLO
+        id S235170AbjIDOJW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 10:09:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236887AbjIDMYV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 08:24:21 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B6F1BE
-        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 05:24:17 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-401f503b529so13765455e9.0
-        for <linux-media@vger.kernel.org>; Mon, 04 Sep 2023 05:24:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693830256; x=1694435056; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bydKmgcfnBrn6zqy9gih0IJ/7f6bZJC6JySV7YICefw=;
-        b=lh+S4vx1Gk8754X7D5VZqIy+ltY82zeu9lTLXi8LgXryAoYXfj3mnZD4ePCohJALlE
-         ZRryLA9KOro48RR1yDJQMQ8jS2p+h+XE+c5tLTq5XtbXoMeD0Gas0T3UPfnQ7ekblgf2
-         74TuAcdlmZd6EcGtDOYvsviJstkbLuKPFqIv1zQDK+Kc5KqyKSrkprR7yiMEe/mrqCki
-         R+cTkSZZpVZd9m/RKIWAe7H28S3pVxCfSAynqzgNr1TtwEETtFEFwqf56PsCEqe+382M
-         R0vvR5wto1DEZAIX0BIrAxKzE1z2MOFAl1byxSux0PhL/f68i6WNpX6XR9tzx8XIhTLh
-         xJVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693830256; x=1694435056;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bydKmgcfnBrn6zqy9gih0IJ/7f6bZJC6JySV7YICefw=;
-        b=VrGd/W05oOTxo4+l2SdBZi59WaUSksg4bKRh/U3hoxl5B/qMnGRiznuW0E3Gn7Mvqv
-         O6PKOVQkGGDuODeDzcDtamv7WR4foZXitp8KxgwrDSFhnZkL1ISp3lkQ8hqrkAXG4xKm
-         xO64LEJ/XDnX3Qwr4hYRFUmYMqTNUWrloO8oGXyIrDxIoeedNu2/HiCXjZJ/nEWm8zp0
-         7CjrEB4v7jX5IMp3A+ME5KxNw3JZaTg1GYg6ZNcZxRDUbJFLXIl5j18jUdwTuekyvK5i
-         6JTvN2T9JyoPaK+MGQg26LmDdRD536rOdQBwkjyt1aJhRxjuUtcsyAiFguLDco9l3kqm
-         8Suw==
-X-Gm-Message-State: AOJu0YyvSmOyQr1MHvmzhDUCZ4F6JVpnMFZ8z1q65/mA3HlHb7QWwxkr
-        i8RhEcZQIgbs9+KF8OJcdAy2lg==
-X-Google-Smtp-Source: AGHT+IFrAgI71dnQ3lucSmJZ8Xj8kwOpEXyGtkrEu61tDg8JukeF/cHgajTlbmEv/Kwm08lwGpV/KQ==
-X-Received: by 2002:a05:600c:2241:b0:401:c436:8999 with SMTP id a1-20020a05600c224100b00401c4368999mr7474061wmm.30.1693830256171;
-        Mon, 04 Sep 2023 05:24:16 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id e16-20020a05600c219000b003fe2a40d287sm13944384wme.1.2023.09.04.05.24.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 05:24:15 -0700 (PDT)
-Message-ID: <d7745ece-bea1-f8f9-a1d2-0f01aa221ade@linaro.org>
-Date:   Mon, 4 Sep 2023 13:24:14 +0100
+        with ESMTP id S232822AbjIDOJP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 10:09:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8AC9CDB;
+        Mon,  4 Sep 2023 07:09:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 74E07B80E3B;
+        Mon,  4 Sep 2023 14:09:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A9A6C433C8;
+        Mon,  4 Sep 2023 14:09:05 +0000 (UTC)
+Message-ID: <b3561832-b7e4-f612-4729-fd4ca8234602@xs4all.nl>
+Date:   Mon, 4 Sep 2023 16:09:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 08/15] media: qcom: camss: Untangle if/else spaghetti
- in camss
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230823104444.1954663-1-bryan.odonoghue@linaro.org>
- <20230823104444.1954663-9-bryan.odonoghue@linaro.org>
- <20230828185110.GN14596@pendragon.ideasonboard.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230828185110.GN14596@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v6 11/18] media: videobuf2: Be more flexible on the number
+ of queue stored buffers
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
+ <20230901124414.48497-12-benjamin.gaignard@collabora.com>
+ <37e5e418-c38a-b863-ffdf-72ce300cf227@xs4all.nl>
+ <319d6103-26c3-bc02-3f80-90e653c8ee37@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <319d6103-26c3-bc02-3f80-90e653c8ee37@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/08/2023 19:51, Laurent Pinchart wrote:
->> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
->> @@ -592,15 +592,19 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
->>   	csid->camss = camss;
->>   	csid->id = id;
->>   
->> -	if (camss->res->version == CAMSS_8x16) {
->> +	switch (camss->res->version) {
->> +	case CAMSS_8x16:
->>   		csid->ops = &csid_ops_4_1;
->> -	} else if (camss->res->version == CAMSS_8x96 ||
->> -		   camss->res->version == CAMSS_660) {
->> +		break;
->> +	case CAMSS_8x96:
->> +	case CAMSS_660:
->>   		csid->ops = &csid_ops_4_7;
->> -	} else if (camss->res->version == CAMSS_845 ||
->> -		   camss->res->version == CAMSS_8250) {
->> +		break;
->> +	case CAMSS_845:
->> +	case CAMSS_8250:
->>   		csid->ops = &csid_ops_gen2;
->> -	} else {
->> +		break;
->> +	default:
->>   		return -EINVAL;
-> This should never happen, as adding support for a new SoC should come
-> with an update for all the applicable switch/case statements. It's
-> useful to let the compiler complain if someone forgets to do so, but
-> with a default case, you will only see the issue at runtime. Could it be
-> caught at compile time ?
-> 
+Hi Benjamin,
 
-This can be done in fact.
+This patch can be folded into 11/18 to make it work properly.
 
-https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wswitch_002denum-303
+vb2_core_queue_release() is also called when the file handle of the video device is
+closed and it is also the owner of the currently allocated buffers. This will free
+q->bufs, but queue_init isn't called a second time for non-m2m devices. So move
+the allocation of q->bufs from queue_init to reqbufs/create_buffers.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+And when releasing the file handle we also check if there is no owner at all:
+in that case vb2_queue_release() must still be called to free q->bufs.
 
-typedef enum {
-         MO = 0,
-         LARRY,
-         CURLY,
-         BINGO,
-}my_type;
-
-int main (int argc, char *argv[])
-{
-         my_type x;
-         time_t t;
-
-         srand((unsigned) time(&t));
-
-         x = rand() % BINGO;
-
-         switch(x) {
-         case MO:
-                 printf("mo\n");
-                 break;
-         case LARRY:
-                 printf("larry\n");
-                 break;
-         default:
-                 printf("blargh\n");
-                 break;
-
-         }
-
-         return 0;
-}
-
-gcc -o test test.c -Wswitch-enum
-test.c: In function ‘main’:
-test.c:38:9: warning: enumeration value ‘CURLY’ not handled in switch 
-[-Wswitch-enum]
-    38 |         switch(x) {
-       |         ^~~~~~
-
-It looks like we only enable that switch for tools though
-
-grep -r "Wswitch-enum" *
-tools/scripts/Makefile.include:EXTRA_WARNINGS += -Wswitch-enum
-tools/bpf/bpftool/Makefile:CFLAGS += $(filter-out -Wswitch-enum 
--Wnested-externs,$(EXTRA_WARNINGS))
-
-I'll still implement the code though, since if we do introduce the 
-switch for the kernel it would be caught.
-
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
-bod
+ drivers/media/common/videobuf2/videobuf2-core.c | 15 +++++++++++++--
+ drivers/media/common/videobuf2/videobuf2-v4l2.c |  4 ++--
+ 2 files changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index dc7f6b59d237..202d7c80ffd2 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -859,6 +859,12 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 			return 0;
+ 	}
+
++	if (!q->bufs) {
++		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
++		if (!q->bufs)
++			return -ENOMEM;
++	}
++
+ 	/*
+ 	 * Make sure the requested values and current defaults are sane.
+ 	 */
+@@ -985,6 +991,12 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		return -ENOBUFS;
+ 	}
+
++	if (!q->bufs) {
++		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
++		if (!q->bufs)
++			return -ENOMEM;
++	}
++
+ 	if (no_previous_buffers) {
+ 		if (q->waiting_in_dqbuf && *count) {
+ 			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
+@@ -2525,8 +2537,6 @@ int vb2_core_queue_init(struct vb2_queue *q)
+ 	/* The maximum is limited by offset cookie encoding pattern */
+ 	q->max_allowed_buffers = min_t(unsigned int, q->max_allowed_buffers, BUFFER_INDEX_MASK);
+
+-	q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
+-
+ 	if (q->buf_struct_size == 0)
+ 		q->buf_struct_size = sizeof(struct vb2_buffer);
+
+@@ -2552,6 +2562,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
+ 	mutex_lock(&q->mmap_lock);
+ 	__vb2_queue_free(q, q->num_buffers);
+ 	kfree(q->bufs);
++	q->bufs = NULL;
+ 	mutex_unlock(&q->mmap_lock);
+ }
+ EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 8ba658ad9891..104fc5c4f574 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -1148,7 +1148,7 @@ int _vb2_fop_release(struct file *file, struct mutex *lock)
+
+ 	if (lock)
+ 		mutex_lock(lock);
+-	if (file->private_data == vdev->queue->owner) {
++	if (!vdev->queue->owner || file->private_data == vdev->queue->owner) {
+ 		vb2_queue_release(vdev->queue);
+ 		vdev->queue->owner = NULL;
+ 	}
+@@ -1276,7 +1276,7 @@ void vb2_video_unregister_device(struct video_device *vdev)
+ 	 */
+ 	get_device(&vdev->dev);
+ 	video_unregister_device(vdev);
+-	if (vdev->queue && vdev->queue->owner) {
++	if (vdev->queue) {
+ 		struct mutex *lock = vdev->queue->lock ?
+ 			vdev->queue->lock : vdev->lock;
+
+-- 
+2.40.1
+
+
