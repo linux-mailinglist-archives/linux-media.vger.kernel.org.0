@@ -2,105 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C9B9791299
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 09:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F0B9791497
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 11:16:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345923AbjIDHxU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 03:53:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37414 "EHLO
+        id S1352636AbjIDJQ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 05:16:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346336AbjIDHxS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 03:53:18 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D4D111A
-        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 00:53:13 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-529fb04a234so1439326a12.3
-        for <linux-media@vger.kernel.org>; Mon, 04 Sep 2023 00:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693813991; x=1694418791; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hKg+j0ij0bj6tL0Ubk+HvKTshP5Zvzo1++prZoHQU4M=;
-        b=Bv0Cy/Cv4Lz9Mv/lKx/1cWP7Cwa4jvYVvtyPanjJQMhAuHzEc+jPdPCGA7/zg/MoHb
-         Fh03ltRwp2HqkAqR8FWnOjO+QikhymMNJB+gT2Dvj0zsaM7V1J8gQZEv5+HY3rtlD6ZL
-         YpuSJ8K5RC0DYAo2z05SLwF+BsYT1seXXawb6Y42RjXvJxJzo5IYmOV3uLBzZXioxhrE
-         5QGtUp25Wn3HtL6iN5vQFfwsU/itXmtJ3dYCGU/zipG31Sg/krqbz7vTUFXX5IYtn3S0
-         L/8+FGyo3iWiXtEps6Dt4bHlvgjI4sRHEu2O3Sf5OLLlwVR4/nrlG0RiH/C5j4QJ3nwB
-         xf5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693813991; x=1694418791;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hKg+j0ij0bj6tL0Ubk+HvKTshP5Zvzo1++prZoHQU4M=;
-        b=acUG2hlV5dSmmQ/Mv+bUt3dSuLUBMNyH24Ri8AVd6hFYaaQHKjK1e1ZWJRge6ndyya
-         bXifoDoEdLcDkvXlCjL1JYVXuGLzK0qZifkSwDx28twEZXVDCAz4NfsNU+vbfRwDTu6G
-         XvxBRrAcgHsoNq9ugK12aheG/5y7RBDDkafiwp7e3Gp7UtR09DwnLkCTTBLiVe8ZyduY
-         913837PoYqQoY9DaITLY3XBG1CCz5uHp91Bk8hTdP7tHZlrbtvQa67uFIxfpN1HdYda9
-         s/qz4FPkYakgzBi39FeSAVX5/SSU8N1t5mIqzy3+KLzuCK5RUkQNTUDL561dUkdbiNyV
-         lXZQ==
-X-Gm-Message-State: AOJu0YytfFK20AXE0nFtiosR6BJDc8xqi/ozwXSYel1jJjzD9dvuterZ
-        tNhjVSE/p6XpUAob3h3Awo9YSA==
-X-Google-Smtp-Source: AGHT+IG51yyXlEkoIHVtZBQ6BjDgQ9Ot4st5+o3nOo3wNnbxIkT/ovnRE6ZUUWjLC2qouRxMzCXnNQ==
-X-Received: by 2002:aa7:d982:0:b0:525:5ed2:abed with SMTP id u2-20020aa7d982000000b005255ed2abedmr6686818eds.30.1693813991487;
-        Mon, 04 Sep 2023 00:53:11 -0700 (PDT)
-Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
-        by smtp.gmail.com with ESMTPSA id w25-20020aa7cb59000000b005222c6fb512sm5484731edt.1.2023.09.04.00.53.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 00:53:11 -0700 (PDT)
-Message-ID: <4b88a31a-bbff-21b5-a53d-19a3e66e2f3e@linaro.org>
-Date:   Mon, 4 Sep 2023 09:53:09 +0200
+        with ESMTP id S231321AbjIDJQ6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 05:16:58 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6832F0
+        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 02:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693819015; x=1725355015;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A4PN7XeztqzC4/wtj23x3OEnn7M/EltgUmHV7ZtBYdk=;
+  b=LXqqRuGqNFmdM+VHeWA/HH9t6ZQCSB0UEv4bj7KqDlJL8NheiXRjkeQ1
+   /6w7EP9hLo7dfXV8sK9YN+IK7lcizybzqKsFZ2MCXPnsAF5DH+MouSIcv
+   gvL9d8t8srDYsnM3G0TXZqP3eWtSW81AGXAW1qqsMsRh0gFqrq+JHUEAJ
+   Ryt27ssb6f4Gus3RoS8kY7UXE5Cmt1ybfy4XVI1aduGuAt2XvCWjrWLUZ
+   QwNJCfUgYVtzZZhTN8QPjWV6hqWElc65KTARrxlw/SV1o0CjEGzRmZh1e
+   ljYsPv++M2WOZ0G/XFDsIQLtQY97q0apQVJOzXST4auF8T0MQLa3/V5/s
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="442954433"
+X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; 
+   d="scan'208";a="442954433"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 02:16:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="690522627"
+X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; 
+   d="scan'208";a="690522627"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 02:16:52 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qd5hR-006Nod-0Z;
+        Mon, 04 Sep 2023 12:16:49 +0300
+Date:   Mon, 4 Sep 2023 12:16:48 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Claus Stovgaard <claus.stovgaard@gmail.com>,
+        bingbu.cao@intel.com, linux-media@vger.kernel.org,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
+Message-ID: <ZPWggDZ0pmHiHe5O@smile.fi.intel.com>
+References: <20230727071558.1148653-1-bingbu.cao@intel.com>
+ <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
+ <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
+ <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
+ <907f992d4e333f090418f39ebd59bf8ac1fb5e3f.camel@gmail.com>
+ <d451bbec67358373ca8495544cc0802233108a03.camel@gmail.com>
+ <1d03c5f9-1813-40f0-f280-520e2da38e09@hansg.org>
+ <1d46186b-24a6-3ae9-ccc1-0ada0f068313@redhat.com>
+ <253b5ba6-d44d-4ee1-8c18-44159632d023@redhat.com>
+ <fc63b127-d8e5-c278-d17a-3ecc90febbe3@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v11 5/6] dt-bindings: media: wave5: add yaml devicetree
- bindings
-Content-Language: en-US
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        kernel@collabora.com, bob.beckett@collabora.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-        nas.chung@chipsnmedia.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221207121350.66217-1-sebastian.fricke@collabora.com>
- <20221207121350.66217-6-sebastian.fricke@collabora.com>
- <48d60bd0-4de1-4a5e-eca1-1f8a9303cce0@linaro.org>
- <20230904062502.qtajep4zyslnouxv@basti-XPS-13-9310>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230904062502.qtajep4zyslnouxv@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fc63b127-d8e5-c278-d17a-3ecc90febbe3@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/09/2023 08:25, Sebastian Fricke wrote:
+On Mon, Sep 04, 2023 at 02:12:56PM +0800, Bingbu Cao wrote:
+> On 9/3/23 10:32 PM, Hans de Goede wrote:
 
->>> +  sram:
->>
->> Missing vendor prefix.
-> 
-> After some discussion with the the manufacturer of this CODEC chip, the SRAM
-> is not fixed to the CODEC chip but instead part of the SoC, thus the
-> vendor can vary. It sounds like the policy is to use the vendor prefix
-> of the SoC, that was used for upstreaming. But that policy sounds a bit
-> like a potential for future confusion to me, so I wanted to ask what you
-> would like to see. The SoC we develop on is from TI and the CODEC chip is from
-> C&M, so I could either call it: `ti,sram` or `cnm,sram`
+...
 
-I meant vendor prefix of this device. It does not matter what SoC is
-that, however it turns out it is already a generic property, so no
-vendor prefix is needed if you use the same property - phandle points to
-a node which is a sram.yaml.
+> Unfortunately, I did not reproduce this problem on my machine. The interrupt
+> should not be triggered until buttress authentication if need. 
+> So could you help try to move the devm_request_threaded_irq() block before
 
+Maybe it's DEBUG_SHIRQ what is missing?
+You always should use that for any of the code under development.
 
-Best regards,
-Krzysztof
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
