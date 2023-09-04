@@ -2,96 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F0B9791497
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 11:16:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BED67914F2
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 11:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352636AbjIDJQ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 05:16:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55236 "EHLO
+        id S1348055AbjIDJpU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 05:45:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231321AbjIDJQ6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 05:16:58 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6832F0
-        for <linux-media@vger.kernel.org>; Mon,  4 Sep 2023 02:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693819015; x=1725355015;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A4PN7XeztqzC4/wtj23x3OEnn7M/EltgUmHV7ZtBYdk=;
-  b=LXqqRuGqNFmdM+VHeWA/HH9t6ZQCSB0UEv4bj7KqDlJL8NheiXRjkeQ1
-   /6w7EP9hLo7dfXV8sK9YN+IK7lcizybzqKsFZ2MCXPnsAF5DH+MouSIcv
-   gvL9d8t8srDYsnM3G0TXZqP3eWtSW81AGXAW1qqsMsRh0gFqrq+JHUEAJ
-   Ryt27ssb6f4Gus3RoS8kY7UXE5Cmt1ybfy4XVI1aduGuAt2XvCWjrWLUZ
-   QwNJCfUgYVtzZZhTN8QPjWV6hqWElc65KTARrxlw/SV1o0CjEGzRmZh1e
-   ljYsPv++M2WOZ0G/XFDsIQLtQY97q0apQVJOzXST4auF8T0MQLa3/V5/s
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="442954433"
-X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; 
-   d="scan'208";a="442954433"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 02:16:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="690522627"
-X-IronPort-AV: E=Sophos;i="6.02,226,1688454000"; 
-   d="scan'208";a="690522627"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 02:16:52 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qd5hR-006Nod-0Z;
-        Mon, 04 Sep 2023 12:16:49 +0300
-Date:   Mon, 4 Sep 2023 12:16:48 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Claus Stovgaard <claus.stovgaard@gmail.com>,
-        bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
-        tian.shu.qiu@intel.com, hongju.wang@intel.com
-Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
-Message-ID: <ZPWggDZ0pmHiHe5O@smile.fi.intel.com>
-References: <20230727071558.1148653-1-bingbu.cao@intel.com>
- <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
- <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
- <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
- <907f992d4e333f090418f39ebd59bf8ac1fb5e3f.camel@gmail.com>
- <d451bbec67358373ca8495544cc0802233108a03.camel@gmail.com>
- <1d03c5f9-1813-40f0-f280-520e2da38e09@hansg.org>
- <1d46186b-24a6-3ae9-ccc1-0ada0f068313@redhat.com>
- <253b5ba6-d44d-4ee1-8c18-44159632d023@redhat.com>
- <fc63b127-d8e5-c278-d17a-3ecc90febbe3@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fc63b127-d8e5-c278-d17a-3ecc90febbe3@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S230019AbjIDJpU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 05:45:20 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC851A7;
+        Mon,  4 Sep 2023 02:45:16 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-402d0eda361so4173475e9.0;
+        Mon, 04 Sep 2023 02:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693820715; x=1694425515; darn=vger.kernel.org;
+        h=reply-to:references:in-reply-to:message-id:date:subject:cc:to:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yOSRr7K35Hc+UAZpcN45/qFAWoXviUeo887gKFn0P2E=;
+        b=ABwe8/0dsS3LHCn0Gd786d90ZoVpAUnaxzgP2Ck6IdDI+fVkxI9TaWonUOGPmBLu0Q
+         jTCFdWIOrWRlbN1/3oj8LnKzqUGjX4jV6kTHbBXIfBiAJa9iUeaZf8nxxA+dzhJt0fV4
+         cVXlhFYmb+WXva648CF9krgl9WFA063+Tx/mLdzo6kfKyS+ZAnz3ARtTDJpuw4HCmCyL
+         YWO6TnmDNzIlKljvCWe7PZIBYjIXkeCeABc1EerWZ1fvTkkoGsVFg/Z9/xADThRd2TyA
+         +jPruW4MQio7cTmveXYHkIGT4vUL3SzS8FKMjGSd8CEMfn9gAMPyQr+flDxwCf6BL+gN
+         91CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693820715; x=1694425515;
+        h=reply-to:references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yOSRr7K35Hc+UAZpcN45/qFAWoXviUeo887gKFn0P2E=;
+        b=ZNLPrDwjNbTrHSw0/kTLAVWuwtRM0kJdAlVUqF2j2yZt07wOORSy2Fv1baQJnzBYPM
+         rk5sN455hu2NBqVYSlHRALKGDEGkBsa1y4VqHXIQLIrm1Kg3V6ooWqJpJdYQTboOAvQn
+         SinNdhXQ9h6pj/O8g+jG7/U31AtWP2BPolsboQQFte98DXYluvEQA5ze0kirzhK+CCcV
+         Yh7UTn/Q3Z1DISNiUoP3z2jp4tLiIIBo/EyJvlryhAKcNbqauHpmpGPB+/mRW6Eccxn4
+         bgjrLOXVDz/EbfdrpGwb/VrMYjvhcTPTngowMBfAUpmhpJ6k12AR/8pDsFCgCwc7xdT3
+         gLZA==
+X-Gm-Message-State: AOJu0YzndHzXEX1ayRUgnSaaBwEFsJ9A84tZMcJY186ew1OnZ3nei5Xz
+        bDVqQjBjoVN6oxWbSxnxO3QTQ89iNDYuHIZV
+X-Google-Smtp-Source: AGHT+IFIg+83crZXdfCR0PXn/7kTFbHg0Bddl5pIkyUX3GX9dWmDRPiqWBqqes3N/VKAsMLTvukCZQ==
+X-Received: by 2002:a05:600c:2488:b0:3fe:2b8c:9f0b with SMTP id 8-20020a05600c248800b003fe2b8c9f0bmr7548710wms.23.1693820714650;
+        Mon, 04 Sep 2023 02:45:14 -0700 (PDT)
+Received: from localhost.localdomain ([113.203.244.138])
+        by smtp.gmail.com with ESMTPSA id e16-20020a05600c219000b003fe2a40d287sm13528312wme.1.2023.09.04.02.45.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Sep 2023 02:45:14 -0700 (PDT)
+From:   fasih0001@gmail.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Fasih <fasih0001@gmail.com>
+Subject: [PATCH] usb: uvc: Fix macro in uvc_driver.c for complex values
+Date:   Mon,  4 Sep 2023 14:45:11 +0500
+Message-Id: <20230904094511.11880-1-fasih0001@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230903205906.GD13794@pendragon.ideasonboard.com>
+References: <20230903205906.GD13794@pendragon.ideasonboard.com>
+Reply-To: laurent.pinchart@ideasonboard.com
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 04, 2023 at 02:12:56PM +0800, Bingbu Cao wrote:
-> On 9/3/23 10:32 PM, Hans de Goede wrote:
+From: Fasih <fasih0001@gmail.com>
 
-...
+The macro UVC_INFO_QUIRK(q) in uvc_driver.c initializes a structure
+using a compound literal, and the complex value within the macro was
+not properly enclosed in parentheses. This could lead to operator
+precedence issues and reduced code clarity.
 
-> Unfortunately, I did not reproduce this problem on my machine. The interrupt
-> should not be triggered until buttress authentication if need. 
-> So could you help try to move the devm_request_threaded_irq() block before
+This commit adds an extra set of parentheses to the macro definition
+to ensure correct evaluation and adherence to best practices. This
+change also improves code readability and portability.
 
-Maybe it's DEBUG_SHIRQ what is missing?
-You always should use that for any of the code under development.
+Signed-off-by: Syed Muhammad Fasih Ul Hassan <fasih0001@gmail.com>
+Signed-off-by: Fasih <fasih0001@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 08fcd2ffa727..63999f1c8d55 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2417,9 +2417,9 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
+ 	.quirks = UVC_QUIRK_FORCE_Y8,
+ };
+ 
+-#define UVC_INFO_QUIRK(q) (kernel_ulong_t)&(struct uvc_device_info){.quirks = q}
+-#define UVC_INFO_META(m) (kernel_ulong_t)&(struct uvc_device_info) \
+-	{.meta_format = m}
++#define UVC_INFO_QUIRK(q) ((kernel_ulong_t)&(struct uvc_device_info){.quirks = q})
++#define UVC_INFO_META(m) ((kernel_ulong_t)&(struct uvc_device_info) \
++	{.meta_format = m})
+ 
+ /*
+  * The Logitech cameras listed below have their interface class set to
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.17.1
 
