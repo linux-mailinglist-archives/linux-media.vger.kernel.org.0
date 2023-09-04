@@ -2,59 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39EA17919A8
-	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 16:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD84F791A43
+	for <lists+linux-media@lfdr.de>; Mon,  4 Sep 2023 17:05:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233205AbjIDO2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Sep 2023 10:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41108 "EHLO
+        id S1351869AbjIDPFc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Sep 2023 11:05:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345104AbjIDO2r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 10:28:47 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59899CE5;
-        Mon,  4 Sep 2023 07:28:42 -0700 (PDT)
+        with ESMTP id S240568AbjIDPF3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Sep 2023 11:05:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35CD71B7;
+        Mon,  4 Sep 2023 08:05:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 4D834CE0ED3;
-        Mon,  4 Sep 2023 14:28:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56398C433C7;
-        Mon,  4 Sep 2023 14:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693837718;
-        bh=Up07sfErFvj6d+ATkEHYNBDmwHdFvbMBAGVYWlJsRWo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Wcr5RIvKGmcsqGx7hxbCl+2tlzvjsDIh8LjcB2+BcpPBVo2/RCSrbH7KPlgJw04oM
-         9JBD/OA3g89RWKKGo6lNP3gjqgLxlcsWYkrbH/7GiWojDqKVXCzd9ZyTwoDvQ6hRKh
-         a/PREKMgMzt8YTmlXyGqesMNThjqiW3ngRnXjH0dL07EXQpe+UuXdeuB8oCEFr0b8+
-         Q9m8hwJ05cYczviRgmTuOFK9t1sVzDPy2hr5lVTcAxcM5UqMuNE/wnGvrbebXkslSu
-         vQWpKiUjgtfLTyvb7go7fugVVaR54abRRzEpxFmGyajsJmHwgux8ZlusCUhGNTLDHf
-         WCZ87NW5zC2BA==
-Date:   Mon, 4 Sep 2023 15:28:33 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] dt-bindings: media: remove nokia,n900-ir as
- pwm-ir-tx is compatible
-Message-ID: <20230904142833.GE13143@google.com>
-References: <cover.1693577725.git.sean@mess.org>
- <25e8f2626d15199a1bf727fee375b5b149004c8e.1693577725.git.sean@mess.org>
- <20230902-gender-sandstone-7da75af72f4f@spud>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C1FEC61838;
+        Mon,  4 Sep 2023 15:05:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2FFC433C9;
+        Mon,  4 Sep 2023 15:05:22 +0000 (UTC)
+Message-ID: <cbc3645d-a6bc-90eb-b945-54846e03c838@xs4all.nl>
+Date:   Mon, 4 Sep 2023 17:05:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230902-gender-sandstone-7da75af72f4f@spud>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v6 11/18] media: videobuf2: Be more flexible on the number
+ of queue stored buffers
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
+ <20230901124414.48497-12-benjamin.gaignard@collabora.com>
+ <37e5e418-c38a-b863-ffdf-72ce300cf227@xs4all.nl>
+ <319d6103-26c3-bc02-3f80-90e653c8ee37@collabora.com>
+ <b3561832-b7e4-f612-4729-fd4ca8234602@xs4all.nl>
+Content-Language: en-US, nl
+In-Reply-To: <b3561832-b7e4-f612-4729-fd4ca8234602@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,72 +58,93 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 02 Sep 2023, Conor Dooley wrote:
+A follow-up to my follow-up...
 
-> On Fri, Sep 01, 2023 at 03:18:55PM +0100, Sean Young wrote:
-> > The generic pwm-ir-tx driver works for the Nokia n900, so nokia,n900-ir
-> > can be removed.
-> > 
-> > Signed-off-by: Sean Young <sean@mess.org>
-> 
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+I realized that it is wise to do the allocation with mmap_lock held, since that is also
+held when freeing q->bufs.
 
-> > ---
-> >  .../bindings/leds/irled/pwm-ir-tx.yaml        |  5 ++++-
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ .../media/common/videobuf2/videobuf2-core.c   | 28 +++++++++----------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-Acked-by: Lee Jones <lee@kernel.org>
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index fe15e583b52a..dd25937c6dc8 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -818,7 +818,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+ 	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
+ 	unsigned int i;
+-	int ret;
++	int ret = 0;
 
-> >  .../devicetree/bindings/media/nokia,n900-ir   | 20 -------------------
-> >  2 files changed, 4 insertions(+), 21 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/media/nokia,n900-ir
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
-> > index f2a6fa140f38..7526e3149f72 100644
-> > --- a/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/irled/pwm-ir-tx.yaml
-> > @@ -15,7 +15,10 @@ description:
-> >  
-> >  properties:
-> >    compatible:
-> > -    const: pwm-ir-tx
-> > +    oneOf:
-> > +      - const: pwm-ir-tx
-> > +      - const: nokia,n900-ir
-> > +        deprecated: true
-> >  
-> >    pwms:
-> >      maxItems: 1
-> > diff --git a/Documentation/devicetree/bindings/media/nokia,n900-ir b/Documentation/devicetree/bindings/media/nokia,n900-ir
-> > deleted file mode 100644
-> > index 13a18ce37dd1..000000000000
-> > --- a/Documentation/devicetree/bindings/media/nokia,n900-ir
-> > +++ /dev/null
-> > @@ -1,20 +0,0 @@
-> > -Device-Tree bindings for LIRC TX driver for Nokia N900(RX51)
-> > -
-> > -Required properties:
-> > -	- compatible: should be "nokia,n900-ir".
-> > -	- pwms: specifies PWM used for IR signal transmission.
-> > -
-> > -Example node:
-> > -
-> > -	pwm9: dmtimer-pwm@9 {
-> > -		compatible = "ti,omap-dmtimer-pwm";
-> > -		ti,timers = <&timer9>;
-> > -		ti,clock-source = <0x00>; /* timer_sys_ck */
-> > -		#pwm-cells = <3>;
-> > -	};
-> > -
-> > -	ir: n900-ir {
-> > -		compatible = "nokia,n900-ir";
-> > -
-> > -		pwms = <&pwm9 0 26316 0>; /* 38000 Hz */
-> > -	};
-> > -- 
-> > 2.42.0
-> > 
+ 	if (q->streaming) {
+ 		dprintk(q, 1, "streaming active\n");
+@@ -859,12 +859,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 			return 0;
+ 	}
 
+-	if (!q->bufs) {
+-		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
+-		if (!q->bufs)
+-			return -ENOMEM;
+-	}
+-
+ 	/*
+ 	 * Make sure the requested values and current defaults are sane.
+ 	 */
+@@ -877,8 +871,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	 * in the queue_setup op.
+ 	 */
+ 	mutex_lock(&q->mmap_lock);
++	if (!q->bufs)
++		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
++	if (!q->bufs)
++		ret = -ENOMEM;
+ 	q->memory = memory;
+ 	mutex_unlock(&q->mmap_lock);
++	if (ret)
++		return ret;
+ 	set_queue_coherency(q, non_coherent_mem);
 
+ 	/*
+@@ -984,19 +984,13 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+ 	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
+ 	bool no_previous_buffers = !q->num_buffers;
+-	int ret;
++	int ret = 0;
 
+ 	if (q->num_buffers == q->max_allowed_buffers) {
+ 		dprintk(q, 1, "maximum number of buffers already allocated\n");
+ 		return -ENOBUFS;
+ 	}
+
+-	if (!q->bufs) {
+-		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
+-		if (!q->bufs)
+-			return -ENOMEM;
+-	}
+-
+ 	if (no_previous_buffers) {
+ 		if (q->waiting_in_dqbuf && *count) {
+ 			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
+@@ -1009,7 +1003,13 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		 */
+ 		mutex_lock(&q->mmap_lock);
+ 		q->memory = memory;
++		if (!q->bufs)
++			q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
++		if (!q->bufs)
++			ret = -ENOMEM;
+ 		mutex_unlock(&q->mmap_lock);
++		if (ret)
++			return ret;
+ 		q->waiting_for_buffers = !q->is_output;
+ 		set_queue_coherency(q, non_coherent_mem);
+ 	} else {
 -- 
-Lee Jones [李琼斯]
+2.40.1
+
+
