@@ -2,66 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECDEA793B68
-	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 13:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF1D7793B86
+	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 13:37:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239832AbjIFLeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Sep 2023 07:34:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39344 "EHLO
+        id S239832AbjIFLh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Sep 2023 07:37:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236338AbjIFLeW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 07:34:22 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 789791990
-        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 04:33:53 -0700 (PDT)
+        with ESMTP id S229523AbjIFLh2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 07:37:28 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B50595
+        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 04:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694000033; x=1725536033;
+  t=1694000245; x=1725536245;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EZTgseS9/lM/LRu2YDhrW5Ke9nIG6xtkt4keYxC331Y=;
-  b=I33Ms+9fpQerjRyyBY2YwPkw0FjPQ+RMFThIiB7BgrZaS3BOFz77Yc2u
-   hS1hn9FLU341PhByRM0bNW1bh4oWamJ4rrM83IaA50EUSIwEHAUTkfD+j
-   stjgU+7LVKea7rJE9QCp/ze40g1efGOe5/rbNJadxZbKGRpRJWCh0rjgf
-   z4ByZxPSJmBiFlI9mWYYHVNXwnHIzE3BmiRa3KIyJP4Hy5MgZbpdI+NIq
-   miNaXo8SOoCElH7CAAGS7SCkxl21d7EOzR4gUpktd4kufn3TVSajj1kGx
-   BKhnYTRB3ihaq3OY0O8Xmj3IubXTQi4n/Y/TC9r6IvWS1Qlk0Vw1rl0l0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="408043603"
+  bh=SYt+wky+tb+lMIlPCP5QYEAcj8Eli1tI9BwDAQB2YwY=;
+  b=DeNXRXhVADyzLrsuwZc+wJjluj+vF76OiPjrqHgxfyqvxFafCMCCdpI2
+   gWc9GpJZAJml0qk2tn3CvdJYPX4tAJFDm2gL+LLKUHuSZaB+Usli4Sov+
+   i2+vgcZ0R1kI0uumBsyXLqJ9eTInb9NpT7FLFRSCgfcppkc8XGonOVVvy
+   4mLycVyJEZtG5e5l2KrzSpF9K5JZhJls8WgOfnFn88DUPuxutRFNsAKYd
+   Ynh9jEETmWUbF94nusmZcYqbUeCK9Ybmu9tJ7BOUFjiMlBpT+3ojowr7L
+   k/41VTXIeKS8K+SOrB/ApFoMSJFTExpsB+MUMMWEZ2L1KBl5y07NJys/W
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="367267777"
 X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; 
-   d="scan'208";a="408043603"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 04:33:35 -0700
+   d="scan'208";a="367267777"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 04:36:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="988202925"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="856405785"
 X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; 
-   d="scan'208";a="988202925"
+   d="scan'208";a="856405785"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 04:33:33 -0700
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 04:36:48 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 67D2011FC2C;
-        Wed,  6 Sep 2023 14:33:30 +0300 (EEST)
-Date:   Wed, 6 Sep 2023 11:33:30 +0000
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 627F511FC2C;
+        Wed,  6 Sep 2023 14:36:45 +0300 (EEST)
+Date:   Wed, 6 Sep 2023 11:36:45 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, bingbu.cao@intel.com,
-        hongju.wang@intel.com, hverkuil@xs4all.nl,
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com,
         Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>
-Subject: Re: [PATCH v3 06/10] media: uapi: Add a macro to tell whether an
- mbus code is metadata
-Message-ID: <ZPhjipPedxYHxXni@kekkonen.localdomain>
+Subject: Re: [PATCH v3 07/10] media: uapi: Add generic 8-bit metadata format
+ definitions
+Message-ID: <ZPhkTZSGMzGIPgrm@kekkonen.localdomain>
 References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
- <20230808075538.3043934-7-sakari.ailus@linux.intel.com>
- <98069c4c-d2fd-9117-08cd-eb595df77d4a@ideasonboard.com>
- <ZPcE+b3EYWM8G8vE@kekkonen.localdomain>
- <20230905170604.GG7971@pendragon.ideasonboard.com>
+ <20230808075538.3043934-8-sakari.ailus@linux.intel.com>
+ <9d3f512c-69c6-3789-83af-d151acd58ebe@xs4all.nl>
+ <decr6lkgqk3fuxsyq4v3q46idmsfp6mlwfm6zm4fwcnlzcr5tw@ryikjpaazhzp>
+ <ZNX7S7zh0RG2vQOA@kekkonen.localdomain>
+ <20230905164720.GC7971@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230905170604.GG7971@pendragon.ideasonboard.com>
+In-Reply-To: <20230905164720.GC7971@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
@@ -74,44 +75,46 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Tue, Sep 05, 2023 at 08:06:04PM +0300, Laurent Pinchart wrote:
-> On Tue, Sep 05, 2023 at 10:37:45AM +0000, Sakari Ailus wrote:
-> > On Tue, Sep 05, 2023 at 12:47:21PM +0300, Tomi Valkeinen wrote:
-> > > On 08/08/2023 10:55, Sakari Ailus wrote:
-> > > > Add a macro to tell whether a given mbus code is metadata.
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >   include/uapi/linux/media-bus-format.h | 3 +++
-> > > >   1 file changed, 3 insertions(+)
-> > > > 
-> > > > diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> > > > index 9ee031397372..2486b4178c5f 100644
-> > > > --- a/include/uapi/linux/media-bus-format.h
-> > > > +++ b/include/uapi/linux/media-bus-format.h
-> > > > @@ -182,4 +182,7 @@
-> > > >   #define MEDIA_BUS_FMT_META_20			0x8006
-> > > >   #define MEDIA_BUS_FMT_META_24			0x8007
-> > > > +#define MEDIA_BUS_FMT_IS_META(code)		\
-> > > > +	((code) & 0xf000 == 0x7000 || (code) & 0xf000 == 0x8000)
-> > > > +
-> > > >   #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
-> > > 
-> > > mbus code seems to be u32, so the above won't work. Maybe:
-> > > 
-> > > (((code) & ~0xfffULL) == 0x7000 || ((code) & ~0xfffULL) == 0x8000)
-> > > 
-> > > Also, embedded formats with 0x9nnn codes are added later in the series.
-> > 
-> > Thanks, I'll address these for v4.
+On Tue, Sep 05, 2023 at 07:47:20PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> It would be nice to make this an inline function, to avoid evaluating
-> the code twice. I think you can move it to an internal kernel header, it
-> doesn't need to be exposed to userspace.
+> On Fri, Aug 11, 2023 at 09:11:39AM +0000, Sakari Ailus wrote:
+> > On Fri, Aug 11, 2023 at 08:31:16AM +0200, Jacopo Mondi wrote:
+> > > > > +V4L2_META_FMT_GENERIC_CSI2_10
+> > > > > +-----------------------------
+> > > > > +
+> > > > > +V4L2_META_FMT_GENERIC_CSI2_10 contains packed 8-bit generic metadata, 10 bits
+> > > > > +for each 8 bits of data. Every four bytes of metadata is followed by a single
+> > > > > +byte of padding. The way the data is stored follows the CSI-2 specification.
+> > > > > +
+> > > > > +This format is also used on CSI-2 on 20 bits per sample format that packs two
+> > > > > +bytes of metadata into one sample.
+> > > > > +
+> > > > > +This format is little endian.
+> > > > > +
+> > > > > +**Byte Order Of V4L2_META_FMT_GENERIC_CSI2_10.**
+> > > > > +Each cell is one byte. "M" denotes a byte of metadata and "p" a byte of padding.
+> > > >
+> > > > I think you should document whether the padding is always 0 or can be any value.
+> > > > Perhaps 'X' is a better 'name' for the padding byte in the latter case.
+> > > 
+> > > Did I get this right that this format is supposed to work as the RAW10
+> > > CSI-2 packed image format, where 4 bytes contain the higher 8 bits of
+> > > the 10 bits sample and the 5th byte every 4 contains the lower 2 bits of
+> > > the previous 4 sample ?
+> > > 
+> > > If that's the case, is 'padding' the correct term here ?
+> > 
+> > What else would you call it? It'll be zeros that exist just due to the bit
+> > depth used and as such not interesting at all.
+> 
+> It's actually not 0, CCS requires the padding bytes to be 0x55.
+> 
+> I wonder if the conformance test suite tests the contents of the padding
+> bytes.
 
-This was meant for user space consumption for setting the buffer type to
-the video node accordingly. It's certainly possible to do that without this
-macro, too.
+I don't know. I could add the value is unspecified but as it has not been
+specified, there's no change in meaning (just size).
 
 -- 
 Regards,
