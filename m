@@ -2,31 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF4577937A1
-	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 11:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E6447937F4
+	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 11:21:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230523AbjIFJC5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Sep 2023 05:02:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43798 "EHLO
+        id S236410AbjIFJVj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Sep 2023 05:21:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230157AbjIFJC4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 05:02:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49B2D197;
-        Wed,  6 Sep 2023 02:02:50 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (ftip006315900.acc1.colindale.21cn-nte.bt.net [81.134.214.249])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73D14E45;
-        Wed,  6 Sep 2023 11:01:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693990881;
-        bh=FEqLJt1SLh9q/upoErDonLlDQYQfZBgbNazhSJd65yo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jVW0vLoy2eEk59N2hDqpZvHtnUvp4ELgmOjTtX5BgeUeefLAZqWOrcdBQ0wnKEP+G
-         +EYfgXTq85OxUb2LH0Sj8h2gY+e8a2Q77atc0as2ruBKdGXqD+5BBH83mcy+TCRkgm
-         mejUfNkAlPKRo+LXzrb9ezG4Hze3pDHWgzpeSyB4=
-Date:   Wed, 6 Sep 2023 12:03:01 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+        with ESMTP id S231351AbjIFJVi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 05:21:38 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DED21CC2
+        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 02:21:34 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-977e0fbd742so491594766b.2
+        for <linux-media@vger.kernel.org>; Wed, 06 Sep 2023 02:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693992093; x=1694596893; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mosQA1Z8AMW4TgZ1FXhqGU5ILwvCqddYrUv5k/pOamA=;
+        b=IOd6v58ZPrtHsqjUprMVsvMiR5zJ17qkyC1G8K7JLTNvofbDVSxRheg9aSD/SgyrOe
+         SzbAD65CMsOo+8DT1K5OhZPV2IIkLJQdQZGJyod/zjMROB788+xK7F41XEKIDgicB25o
+         rr2eswa1qkkMNt91uA3KUgWl9PeZwZ1g4a9ihmgJxAZ2L8om34paZibyAdVJc+4euIm9
+         NiFIFde3OSEIU7U8weqUajOF6/ChoFB/BARSvng16Dkoasf+E8xiJt6etTbQnKoeuH6V
+         PR9u3f/JxFMgKriNkO2BXt0cnzwwnZGopw0GggvZPcVG3taXQHc1tSWlAki0NdtuPVDw
+         /arQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693992093; x=1694596893;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mosQA1Z8AMW4TgZ1FXhqGU5ILwvCqddYrUv5k/pOamA=;
+        b=Jlf6T0Sx+EbIQ6Uh5KQovceuvcyF79HjkTr9okwz3jVSSk/FSdMsohK+9bE0IinM+I
+         QHs4M01OQ+H71XIwXgCTLKJq6LoCvRDO92ZocomPItpWa3GM4B2FFh4j7QnMryTHUhNa
+         k4bDZ396VuZ7Qu9AxadHvKFRcLcKQy2pye2Opg1GQOxDGRGfK3E//5mO+MKiOy2BquBQ
+         eBgQfEBVdx2oZCXBm4d+pBNR7WIBBM97ljrFiWyUad5jsfQaRkmx9R2nSNyaVlqdE4Vl
+         GKMMIjMJSfLysJ2SHjIzXDsT5DE2qOo5a6snwjxfRK5l7gk/wG2IoDJqrBUmuwjVqoBi
+         CJDg==
+X-Gm-Message-State: AOJu0YwhHzWx11LSXV7X4EBjYn4C5QT4CNFnfMw5oumFzfgYUSI8A4jh
+        N6qlIAkhHW9+y7ZxSTVQn4F56Q==
+X-Google-Smtp-Source: AGHT+IEqN8yumUMQ6iPTk72w0/+TSYnLcyYvOBAXXX38lgfTKbtqWsQSEHcxbrabVrpvOooKpQNTig==
+X-Received: by 2002:a17:906:846a:b0:99c:fb44:d4a9 with SMTP id hx10-20020a170906846a00b0099cfb44d4a9mr1493075ejc.77.1693992093387;
+        Wed, 06 Sep 2023 02:21:33 -0700 (PDT)
+Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
+        by smtp.gmail.com with ESMTPSA id z7-20020a1709060ac700b0098d2d219649sm8882459ejf.174.2023.09.06.02.21.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Sep 2023 02:21:32 -0700 (PDT)
+Message-ID: <59e07c6a-6f1b-0cc7-dddc-96d2a4050843@linaro.org>
+Date:   Wed, 6 Sep 2023 11:21:31 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 3/3] arm64: dts: mediatek: mt8365-pumpkin: Add overlays
+ for thp7312 cameras
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Paul Elder <paul.elder@ideasonboard.com>,
         linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -34,466 +65,93 @@ Cc:     Paul Elder <paul.elder@ideasonboard.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: i2c: Add driver for THine THP7312
-Message-ID: <20230906090301.GM7971@pendragon.ideasonboard.com>
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
 References: <20230905233118.183140-1-paul.elder@ideasonboard.com>
- <20230905233118.183140-3-paul.elder@ideasonboard.com>
- <569755e5-7cce-7077-3078-36c2d1422f97@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <569755e5-7cce-7077-3078-36c2d1422f97@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+ <20230905233118.183140-4-paul.elder@ideasonboard.com>
+ <502fc7b1-a32d-6901-3a45-d2aa0e0c3849@linaro.org>
+ <20230906083237.GL7971@pendragon.ideasonboard.com>
+ <a3ed9856-a87b-5cf6-26b5-ff2b19234a8a@linaro.org>
+ <20230906090058.GB17308@pendragon.ideasonboard.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230906090058.GB17308@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 06, 2023 at 09:25:02AM +0200, Krzysztof Kozlowski wrote:
-> On 06/09/2023 01:31, Paul Elder wrote:
-> > Add driver for the THine THP7312 ISP.
-> > 
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > ---
+On 06/09/2023 11:00, Laurent Pinchart wrote:
+>>> has a regulator@0. There are similar instances for clocks.
+>>>
+>>> I understand why it may not be a good idea, and how the root node is
+>>> indeed not a bus. In some cases, those regulators and clocks are grouped
+>>> in a regulators or clocks node that has a "simple-bus" compatible. I'm
+>>> not sure if that's a good idea, but at least it should validate.
+>>>
+>>> What's the best practice for discrete board-level clocks and regulators
+>>> in overlays ? How do we ensure that their node name will not conflict
+>>> with the board to which the overlay is attached ?
+>>
+>> Top-level nodes (so under /) do not have unit addresses. If they have -
+>> it's an error, because it is not a bus. Also, unit address requires reg.
+>> No reg? No unit address. DTC reports this as warnings as well.
 > 
-> ...
-> 
-> > +
-> > +static int thp7312_change_mode(struct thp7312_isp_dev *isp_dev,
-> > +			       enum thp7312_mode mode)
-> > +{
-> > +	struct i2c_client *client = isp_dev->i2c_client;
-> > +	u8 reg_val = 0;
-> > +	struct reg_value *reg_data;
-> > +	int i;
-> > +	int ret;
-> > +	struct thp7312_mode_info *info = &thp7312_mode_info_data[mode];
-> > +
-> > +	ret = thp7312_read_poll_timeout(isp_dev, THP7312_REG_CAMERA_STATUS, reg_val,
-> 
-> This and many other palces do not look like wrapped according to Linux
-> coding style, so at 80. And please do not use argument "but checkpatch",
-> but read the Coding Style.
+> I agree with all that, but what's the recommended practice to add
+> top-level clocks and regulators in overlays, in a way that avoids
+> namespace clashes with the base board ?
 
-Linus has blessed increasing line lengths to 100 columns. I tend to
-still go for 80 columns personally, with an occasional exception when
-strict wrapping at 80 columns makes the code less readable. At the end
-of the day, unless it contradicts a system-wide policy, I think it's up
-to the driver maintainer.
+Whether you use regulator@0 or regulator-0, you have the same chances of
+clash.
 
-In this specific case, wrapping wouldn't be too bad:
+> 
+>>>>> +		orientation = <0>;
+>>>>> +		rotation = <0>;
+>>>>> +
+>>>>> +		thine,rx,data-lanes = <4 1 3 2>;
+>>>>
+>>>> NAK for this property.
+>>>
+>>> Please explain why. You commented very briefly in the bindings review,
+>>> and it wasn't clear to me if you were happy or not with the property,
+>>> and if not, why.
+>>
+>> Because it is duplicating endpoint. At least from the description.
+> 
+> The THP7312 is an external ISP. At the hardware level, it has an input
+> side, with a CSI-2 receiver and an I2C master controller, and an output
+> side, with a CSI-2 transmitter and an I2C slave controller. A raw camera
+> sensor is connected on the input side, transmitting image data to the
+> THP7312, and being controlled over I2C by the firmware running on the
+> THP7312. From a Linux point of view, only the output side of the THP7312
+> is visible, and the combination of the raw camera sensor and the THP7312
+> acts as a smart camera sensor, producing YUV images.
 
-	ret = thp7312_read_poll_timeout(isp_dev, THP7312_REG_CAMERA_STATUS,
-					reg_val, reg_val == 0x80, 20000,
-					200000);
+None of this was explained in the device description or property field.
+I probably judged to fast but it just looked like duplicated property.
+Then shouldn't it have two ports, even if camera side is not visible for
+the Linux?
 
-> > +					reg_val == 0x80, 20000, 200000);
-> > +	if (ret < 0) {
-> > +		dev_err(&client->dev, "%s(): failed to poll ISP: %d\n",
-> > +			__func__, ret);
-> > +		return ret;
-> > +	}
-> > +
 > 
-> 
-> > +static int thp7312_reset(struct thp7312_isp_dev *isp_dev)
-> > +{
-> > +	struct device *dev = &isp_dev->i2c_client->dev;
-> > +	u8 camera_status = -1;
-> > +	int ret;
-> > +
-> > +	gpiod_set_value_cansleep(isp_dev->reset_gpio, 1);
-> > +	
-> > +	fsleep(10000);
-> > +	
-> > +	gpiod_set_value_cansleep(isp_dev->reset_gpio, 0);
-> > +	
-> > +	fsleep(300000);
-> > +
-> > +	while (camera_status != 0x80) {
-> > +		ret = thp7312_read_reg(isp_dev, 0xF001, &camera_status);
-> > +		if (ret < 0) {
-> > +			dev_err(dev, "Failed to read camera status register\n");
-> > +			return ret;
-> > +		}
-> > +
-> > +		if (camera_status == 0x00) {
-> > +			dev_info(dev, "Camera initializing...");
-> 
-> That's a debug at most.
-> 
-> > +		} else if (camera_status == 0x80) {
-> > +			dev_info(dev, "Camera initialization done");
-> 
-> dev_dbg
-> 
-> > +			break;
-> > +		} else {
-> > +			dev_err(dev,
-> > +				"Camera Status field incorrect; camera_status=%x\n",
-> > +				camera_status);
-> > +		}
-> > +
-> > +		usleep_range(70000, 80000);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int thp7312_set_power_on(struct device *dev)
-> > +{
-> > +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > +	struct thp7312_isp_dev *isp_dev = to_thp7312_dev(sd);
-> > +
-> > +	int ret;
-> > +
-> > +	ret = regulator_bulk_enable(THP7312_NUM_SUPPLIES, isp_dev->supplies);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = clk_prepare_enable(isp_dev->iclk);
-> > +	if (ret < 0) {
-> > +		dev_err(dev, "clk prepare enable failed\n");
-> > +		goto error_pwdn;
-> > +	}
-> > +
-> > +	/*
-> > +	 * We cannot assume that turning off and on again will reset, so do a
-> > +	 * software reset on power up. While at it, reprogram the MIPI lanes,
-> > +	 * in case they get cleared when powered off.
-> > +	 */
-> > +	ret = thp7312_reset(isp_dev);
-> > +	if (ret < 0)
-> > +		goto error_clk_disable;
-> > +
-> > +	ret = thp7312_set_mipi_lanes(isp_dev);
-> > +	if (ret < 0)
-> > +		goto error_clk_disable;
-> > +
-> > +	return 0;
-> > +
-> > +error_clk_disable:
-> > +	clk_disable_unprepare(isp_dev->iclk);
-> > +error_pwdn:
-> > +	regulator_bulk_disable(THP7312_NUM_SUPPLIES, isp_dev->supplies);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int thp7312_set_power_off(struct device *dev)
-> > +{
-> > +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > +	struct thp7312_isp_dev *isp_dev = to_thp7312_dev(sd);
-> > +
-> > +	isp_dev->streaming = false;
-> > +
-> > +	regulator_bulk_disable(THP7312_NUM_SUPPLIES, isp_dev->supplies);
-> > +	clk_disable_unprepare(isp_dev->iclk);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int thp7312_get_regulators(struct thp7312_isp_dev *isp_dev)
-> > +{
-> > +	int i;
-> > +
-> > +	for (i = 0; i < THP7312_NUM_SUPPLIES; i++)
-> > +		isp_dev->supplies[i].supply = thp7312_supply_name[i];
-> > +
-> > +	return devm_regulator_bulk_get(&isp_dev->i2c_client->dev,
-> > +				       THP7312_NUM_SUPPLIES,
-> > +				       isp_dev->supplies);
-> > +}
-> 
-> 
-> ...
-> 
-> > +	case V4L2_CID_POWER_LINE_FREQUENCY:
-> > +		if (ctrl->val == V4L2_CID_POWER_LINE_FREQUENCY_60HZ) {
-> > +			value = THP7312_AE_FLICKER_MODE_60;
-> > +		} else if (ctrl->val==V4L2_CID_POWER_LINE_FREQUENCY_50HZ) {
-> > +			value = THP7312_AE_FLICKER_MODE_50;
-> > +		} else {
-> > +			if (isp_dev->fw_major_version == 40 && isp_dev->fw_minor_version == 03) {
-> > +				/* THP7312_AE_FLICKER_MODE_DISABLE is not supported */
-> > +				value = THP7312_AE_FLICKER_MODE_50; 
-> > +			} else {
-> > +				value = THP7312_AE_FLICKER_MODE_DISABLE;
-> > +			}
-> > +		}
-> > +		ret = thp7312_write_reg(isp_dev, THP7312_REG_AE_FLICKER_MODE, value);
-> > +		break;
-> > +		
-> > +	case V4L2_CID_SATURATION:
-> > +		ret = thp7312_write_reg(isp_dev, THP7312_REG_SATURATION, ctrl->val);
-> > +		break;
-> > +		
-> > +	case V4L2_CID_CONTRAST:
-> > +		ret = thp7312_write_reg(isp_dev, THP7312_REG_CONTRAST, ctrl->val);
-> > +		break;
-> > +		
-> > +	case V4L2_CID_SHARPNESS:
-> > +		ret = thp7312_write_reg(isp_dev, THP7312_REG_SHARPNESS, ctrl->val);
-> > +		break;
-> > +		
-> > +	default:
-> > +		dev_err(dev, "unsupported control id: %d\n", ctrl->id);
-> > +		break;
-> > +	}
-> > +
-> > +	pm_runtime_put(&client->dev);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct v4l2_ctrl_ops thp7312_ctrl_ops = {
-> > +	.s_ctrl = thp7312_s_ctrl,
-> > +};
-> > +
-> > +static const struct v4l2_ctrl_config thp7312_v4l2_ctrls_custom[] = {
-> > +	{
-> > +		.ops = &thp7312_ctrl_ops,
-> > +		.id = V4L2_CID_THINE_LOW_LIGHT_COMPENSATION,
-> > +		.name = "Low Light Compensation",
-> > +		.type = V4L2_CTRL_TYPE_BOOLEAN,
-> > +		.min = 0,
-> > +		.def = 1,
-> > +		.max = 1,
-> > +		.step = 1,
-> > +	},
-> > +		
-> > +	{
-> 
-> }, {
-> 
-> 
-> ...
-> 
-> > +
-> > +static int thp7312_parse_dt(struct thp7312_isp_dev *isp_dev)
-> > +{
-> > +	struct fwnode_handle *endpoint;
-> > +	struct device *dev = &isp_dev->i2c_client->dev;
-> > +	int ret;
-> > +
-> > +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-> > +	if (!endpoint) {
-> > +		dev_err(dev, "endpoint node not found\n");
-> > +		return -EINVAL;
-> 
-> return dev_err_probe
-> 
-> > +	}
-> > +
-> > +	ret = v4l2_fwnode_endpoint_parse(endpoint, &isp_dev->ep);
-> > +	fwnode_handle_put(endpoint);
-> > +	if (ret) {
-> > +		dev_err(dev, "Could not parse endpoint\n");
-> > +		return ret;
-> 
-> return dev_err_probe
-> 
-> > +	}
-> > +
-> > +	if (isp_dev->ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-> > +		dev_err(dev, "Unsupported bus type %d\n", isp_dev->ep.bus_type);
-> > +		return -EINVAL;
-> 
-> return dev_err_probe
-> 
-> 
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int thp7312_probe(struct i2c_client *client)
-> > +{
-> > +	struct device *dev = &client->dev;
-> > +	struct thp7312_isp_dev *isp_dev;
-> > +	int ret;
-> > +
-> > +	dev_info(dev, "Start of probe %s:%d", __func__, __LINE__);
-> 
-> No, no silly tracing messages. Never.
-> 
-> > +	isp_dev = devm_kzalloc(dev, sizeof(*isp_dev), GFP_KERNEL);
-> > +	if (!isp_dev)
-> > +		return -ENOMEM;
-> > +	isp_dev->i2c_client = client;
-> > +
-> > +	thp7312_init_fmt(isp_dev);
-> > +
-> > +	isp_dev->current_mode =
-> > +		(struct thp7312_mode_info *)thp7312_find_mode(isp_dev,
-> > +							      isp_dev->current_fr,
-> > +							      isp_dev->fmt.width,
-> > +							      isp_dev->fmt.height,
-> > +							      true);
-> > +
-> > +	/* TODO fix firmware */
-> > +	/* update mode hardcoded at 0 for now */
-> > +	isp_dev->fw_update_mode = 0;
-> > +	isp_dev->fw_major_version = 0;
-> > +	isp_dev->fw_minor_version = 0;
-> > +	isp_dev->thp7312_register_rw_address = 61440;
-> > +
-> > +	ret = thp7312_parse_dt(isp_dev);
-> > +	if (ret < 0) {
-> > +		dev_err(dev, "Failed to parse DT: %d\n", ret);
-> 
-> Why do you print errors twice?
-> 
-> > +		return ret;
-> 
-> > +	}
-> > +
-> > +	ret = thp7312_get_regulators(isp_dev);
-> > +	if (ret) {
-> > +		dev_err(dev, "Failed to get regulators: %d\n", ret);
-> 
-> return dev_err_probe
-> 
-> > +		return ret;
-> > +	}
-> > +
-> > +	isp_dev->iclk = devm_clk_get(dev, NULL);
-> > +	if (IS_ERR(isp_dev->iclk)) {
-> > +		dev_err(dev, "Failed to get iclk\n");
-> 
-> return dev_err_probe
-> 
-> > +		return PTR_ERR(isp_dev->iclk);
-> > +	}
-> > +
-> > +	/* request reset pin */
-> > +	isp_dev->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> > +	if (IS_ERR(isp_dev->reset_gpio)) {
-> > +		dev_err(dev, "Failed to get reset gpio\n");
-> 
-> Please start from a new driver as base for your code, so all such
-> trivialities do not have to be repeated over and over
+> As there are two CSI-2 buses, the data lanes configuration needs to be
+> specified for both sides. On the output side, connected to the SoC and
+> visible to Linux, the bindings use a port node with an endpoint and the
+> standard data-lanes property. On the input side, which is invisible to
+> Linux, the bindings use the vendor-specific thine,rx,data-lanes
+> property. Its semantics is identical to the standard data-lanes
+> property, but it's not located in an endpoint as there's no port for the
+> input side.
 
-Krzysztof, while your review comments are technically right, and
-appreciated for that, I find the tone borderline aggressive in places
-:-( I wish there was a perfect driver that everybody could look at as an
-example, but the reality is that APIs and best practices evolve all the
-time.
+And how does the property support multiple sensors? What if they data
+lanes are also different between each other?
 
-> return dev_err_probe
-> 
-> > +		return PTR_ERR(isp_dev->reset_gpio);
-> > +	}
-> > +
-> > +	v4l2_i2c_subdev_init(&isp_dev->sd, client, &thp7312_subdev_ops);
-> > +	isp_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
-> > +	isp_dev->pad.flags = MEDIA_PAD_FL_SOURCE;
-> > +	isp_dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> > +
-> > +	mutex_init(&isp_dev->lock);
-> > +
-> > +	ret = media_entity_pads_init(&isp_dev->sd.entity, 1, &isp_dev->pad);
-> > +	if (ret)
-> > +		goto mutex_destroy;
-> > +
-> > +	ret = thp7312_set_power_on(dev);
-> > +	if (ret)
-> > +		goto entity_cleanup;
-> > +
-> > +	ret = thp7312_read_firmware_version(isp_dev);
-> > +	if (ret < 0) {
-> > +		dev_warn(dev, "Camera is not found\n");
-> > +		goto power_off;
-> > +	}
-> > +
-> > +	dev_info(dev, "THP7312 firmware version = %02d.%02d",
-> > +		 isp_dev->fw_major_version, isp_dev->fw_minor_version);
-> > +
-> > +	ret = thp7312_init_controls(isp_dev);
-> > +	if (ret)
-> > +		goto power_off;
-> > +
-> > +	isp_dev->sd.ctrl_handler = &isp_dev->ctrl_handler;
-> > +
-> > +	ret = v4l2_async_register_subdev(&isp_dev->sd);
-> > +	if (ret < 0) {
-> > +		dev_err(dev, "Subdev registeration failed");
-> > +		goto free_ctrls;
-> > +	}
-> > +
-> > +	pm_runtime_set_active(dev);
-> > +	pm_runtime_enable(dev);
-> > +
-> > +	dev_info(dev, "v4l2 async register subdev done");
-> 
-> Drop.
-> 
-> > +
-> > +	return 0;
-> > +
-> > +free_ctrls:
-> > +	v4l2_ctrl_handler_free(&isp_dev->ctrl_handler);
-> > +power_off:
-> > +	thp7312_set_power_off(dev);
-> > +entity_cleanup:
-> > +	media_entity_cleanup(&isp_dev->sd.entity);
-> > +mutex_destroy:
-> > +	mutex_destroy(&isp_dev->lock);
-> > +	return ret;
-> > +}
-> > +
-> > +static void thp7312_remove(struct i2c_client *client)
-> > +{
-> > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > +	struct thp7312_isp_dev *isp_dev = to_thp7312_dev(sd);
-> > +
-> > +	v4l2_async_unregister_subdev(&isp_dev->sd);
-> > +	v4l2_ctrl_handler_free(&isp_dev->ctrl_handler);
-> > +	media_entity_cleanup(&isp_dev->sd.entity);
-> > +	v4l2_device_unregister_subdev(sd);
-> > +	pm_runtime_disable(&client->dev);
-> > +	mutex_destroy(&isp_dev->lock);
-> > +}
-> > +
-> > +static const struct i2c_device_id thp7312_id[] = {
-> > +	{"thp7312", 0},
-> > +	{},
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, thp7312_id);
-> > +
-> > +static const struct of_device_id thp7312_dt_ids[] = {
-> > +	{ .compatible = "thine,thp7312" },
-> > +	{ /* sentinel */ }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, thp7312_dt_ids);
-> > +
-> > +static const struct dev_pm_ops thp7312_pm_ops = {
-> > +	SET_RUNTIME_PM_OPS(thp7312_set_power_off, thp7312_set_power_on, NULL)
-> > +};
-> > +
-> > +static struct i2c_driver thp7312_i2c_driver = {
-> > +	.driver = {
-> > +		.name  = "thp7312",
-> > +		.of_match_table	= thp7312_dt_ids,
-> > +	},
-> > +	.id_table = thp7312_id,
-> > +	.probe_new = thp7312_probe,
-> 
-> probe
-> 
-> > +	.remove   = thp7312_remove,
-> > +};
-> > +
-> > +module_i2c_driver(thp7312_i2c_driver);
-> > +
-> > +MODULE_DESCRIPTION("THP7312 MIPI Camera Subdev Driver");
-> > +MODULE_LICENSE("GPL");
+Best regards,
+Krzysztof
 
--- 
-Regards,
-
-Laurent Pinchart
