@@ -2,79 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC514793D3E
-	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 14:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 521EB793D60
+	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 15:04:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236630AbjIFM6D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Sep 2023 08:58:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33824 "EHLO
+        id S238177AbjIFNEa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Sep 2023 09:04:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231217AbjIFM6C (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 08:58:02 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6760CE43;
-        Wed,  6 Sep 2023 05:57:59 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 21513100091; Wed,  6 Sep 2023 13:57:57 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1694005077; bh=EzwDXWT6RpEhAc2cQpSOJAWS31npZoM+FGVnLWWuX9A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d9dpcAeZ8pOOKfDQlDukibXcSb39g0CeRKcpIy35MfnsTxdyYiTEwIg8fjelsyAQW
-         lH+0vHDb6epJkF5GocbsehtwH79cfzQa0H0NrezjfO0iMMhcOBTZ+JPuephisjoWCw
-         L0fye1+e73KQxlYmasyYkYKACdEVl3HzwnpyCxQDbz+hAqy0pW/H8alirSDdhCW9G7
-         sOftvW9N77Irr1nTP6+k5HNkA7Rs+MLn86MIK7lFmhXE3Ju1ILauWDMIikAs43VSQG
-         Ya0qmAEXiMvlncVkYDq46rnpCYRDfd/nzc9fWA3a80EZoCpwCYw6o3nbNq7/roQglX
-         htXrXNSv9bTdw==
-Date:   Wed, 6 Sep 2023 13:57:57 +0100
-From:   Sean Young <sean@mess.org>
-To:     Zelong Dong <Zelong.Dong@amlogic.com>
-Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
-        kelvin.zhang@amlogic.com
-Subject: Re: [PATCH 1/3] media: rc: meson-ir: support rc driver type
- RC_DRIVER_SCANCODE
-Message-ID: <ZPh3VXPzosk3i3lS@gofer.mess.org>
-References: <20230825115310.39993-1-zelong.dong@amlogic.com>
- <20230825115310.39993-2-zelong.dong@amlogic.com>
- <ZO2gvMl2IS70ve3T@gofer.mess.org>
- <b6e9fc91-0c99-5635-235b-76bc6db55f75@amlogic.com>
- <ZPGahNKlq/31MXbh@gofer.mess.org>
- <448f6dab-4cfe-c840-8c70-adfa217cc7f3@amlogic.com>
+        with ESMTP id S229630AbjIFNEa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 09:04:30 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C6C10CC
+        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 06:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694005463; x=1725541463;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VNnYJ7tj02Pzlw0qiPeqO9GZ25LtQS+/CdYz7/Lg0vE=;
+  b=YUoGW+mgvlcIxehtAlDNDCe2wHurcstECaAgCdeF10UgvSsJqyQNQpJL
+   DGecWyFRNZJWERtDlN4Iz+fcRiuMi0fgBsI/0+wv6NZbq/fslk3I4HNQv
+   S6olcFCs1HxsWpZQkpRCHKDbBNjm82GWQsSv3CNDMp9HkHZ2lIw92qvVc
+   2UDO9qEWQXQLDjOs14PUg62YLAEMc3HL+9w5FDCl43bhPYxgx86uWiYMP
+   RTqvzvR4jYal3HrsEfmLQNcHf71SPdMSooo+wj6YmAOazWF4UUzZ9KL2N
+   pbpkcdNRskdrvD9Mfbu0WXhDKdjW2fU60R/mWDFCgSglwgFNOatOMdPEX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="443452306"
+X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; 
+   d="scan'208";a="443452306"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 06:03:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="741539081"
+X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; 
+   d="scan'208";a="741539081"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 06:03:21 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 246DB11FC2C;
+        Wed,  6 Sep 2023 16:03:18 +0300 (EEST)
+Date:   Wed, 6 Sep 2023 13:03:18 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>
+Subject: Re: [PATCH v3 09/10] media: Add media bus codes for MIPI CCS
+ embedded data
+Message-ID: <ZPh4ln9GkyQDmbfp@kekkonen.localdomain>
+References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
+ <20230808075538.3043934-10-sakari.ailus@linux.intel.com>
+ <20230905172535.GI7971@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <448f6dab-4cfe-c840-8c70-adfa217cc7f3@amlogic.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230905172535.GI7971@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 06, 2023 at 06:37:41PM +0800, Zelong Dong wrote:
-> 在 2023/9/1 16:02, Sean Young 写道:
-> > There are other drivers too which can do hardware decoding and software
-> > decoding. Ideally we should have a mechanism to switch between them at
-> > runtime, but as-is rc-core does not provide for this.
-> Anything else I should update for this patchset?
+Hi Laurent,
 
-I don't think so.
+On Tue, Sep 05, 2023 at 08:25:35PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Aug 08, 2023 at 10:55:37AM +0300, Sakari Ailus wrote:
+> > Add new MIPI CCS embedded data media bus formats.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../media/v4l/subdev-formats.rst              | 32 +++++++++++++++++++
+> >  include/uapi/linux/media-bus-format.h         | 10 +++++-
+> >  2 files changed, 41 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > index c615da08502d..5d5407738af9 100644
+> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > @@ -8491,3 +8491,35 @@ and finally the bit number in subscript. "p" indicates a padding bit.
+> >        - p
+> >        - p
+> >        - p
+> > +
+> > +MIPI CCS Embedded Data Formats
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +`MIPI CCS <https://www.mipi.org/specifications/camera-command-set>`_ defines an
+> 
+> s/an$/a/
 
-I was just saying that it would be great to have runtime switching in the
-future.
+Yes. I think I had "embedded" there in the past...
 
-Thanks,
+> 
+> > +metadata format for sensor embedded data, which is used to store the register
+> > +configuration used for capturing a given frame. The format is defined in the CCS
+> > +specification.
+> 
+> Strictly speaking, the MIPI CCS embedded data format specifies not just
+> the data packing (insertion of padding bytes) and the data encoding (the
+> data format byte and the tag codes), but also the register addresses and
+> values that are reported in the embedded data. Do you envision the media
+> bus formats defined here as being applicable to sensors that use the
+> same packing and encoding as CCS, but different registers, or only to
+> fully compliant CCS sensors ?
 
-Sean
+There are sensors that aren't fully compatible with CCS (including those
+compatible with SMIA and SMIA++) but I wouldn't expect the format to be
+used by devices that are entirely incompatible with CCS.
+
+-- 
+Regards,
+
+Sakari Ailus
