@@ -2,54 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAD037942D7
-	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 20:11:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DC857944E5
+	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 23:01:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243803AbjIFSLG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Sep 2023 14:11:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55544 "EHLO
+        id S244656AbjIFVBO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Sep 2023 17:01:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243769AbjIFSLB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 14:11:01 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAD81997;
-        Wed,  6 Sep 2023 11:10:46 -0700 (PDT)
-Received: from [192.168.68.123] (unknown [177.134.102.128])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: koike)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 10DE76606E9D;
-        Wed,  6 Sep 2023 19:10:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1694023845;
-        bh=+BguOnFMoN0DTEiUJmqvKDEQH9cUWtAs2AUE4hzsEfs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=XGr2l4DMSIi0YKMIThC5xNr6ONwfxb3OkfXw/vDpEqW2rrzxJGnMLFjhl2/tz69aw
-         KG+fXoq0i8viL6lLfhtXmecqrFEOWTN/APQg+SvwQmDs3mH102RBt4to042tiRhOX9
-         ZbviQDzTQqE91t5jmM6B2bZckV3AE0NcS6cGh/HHh9oHVWPCaQ5iP9YxQnnSgv2773
-         lZMwTv0MHFSsq0RVooZcNvzp+GOGMbfOGMPzYJBpBnI8Exdq9f1ybq4VQmpWXcE2Kp
-         ar1MXA5be30LqVbZ6Qrxwz9XF999wq4IyGV1qNj601na7BjhmPOTXHUmI/Vc7YJ+gZ
-         UcfWh66AdcERg==
-Message-ID: <5e44d344-dee0-027d-4766-01515e6ea155@collabora.com>
-Date:   Wed, 6 Sep 2023 15:10:37 -0300
+        with ESMTP id S244647AbjIFVBN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 17:01:13 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2581BC7
+        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 14:01:01 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-99bdcade7fbso18497166b.1
+        for <linux-media@vger.kernel.org>; Wed, 06 Sep 2023 14:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1694034060; x=1694638860; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UQMwCTpNt+KxTz9xWXAiav+VDadxFYUSFtneEl0FIW0=;
+        b=honQmJfnQNDn6f+lswnOQ9mS0rtdYNefJi5k482qV5WOOyOrjhXERyJL9EK3SJxIpn
+         fn6Qw3nEcIZmFwhrmK/OXiUM95F4d0m8bU0tu/o838mt7OiON4V2OMqr0JC2fNn0ZFiT
+         HbjYka5nCgmlyL+U4jsUYvI1Z8ibCIShQCO4U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694034060; x=1694638860;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UQMwCTpNt+KxTz9xWXAiav+VDadxFYUSFtneEl0FIW0=;
+        b=lNcxInEjMEk70+2zHoSXp4xkV8+4EcCoJz/vzSOiYNiclfQ0dVeQVUCafM5T7zjvCt
+         sX4fFSUGTo7PyaWgmBNN05FrEySDAVjbwoNuIBkvdsCzrfj87RqVszfuI8t1rajfc3fI
+         YKuhxMmaepLLu1Gkq1jlGibkh1MOxt4QfrXUuWuXBNi1b7EqqgxiF5XvCCwZjgbfq+hv
+         gp+iBlJ0hYWfoHRCbYf93A8/AtTEP2j9vxCE+THOtLlw1odOwmfmhryCHO7nbPSbwOLH
+         0xwmRm2zmF4POHhAvL1cPa8rtClsJpMq/iHt+QQzuLWPl3HVd8LLH85g5D3gilmjekcA
+         8dtA==
+X-Gm-Message-State: AOJu0YyU2zkV9n3Ipccb7Wr3wvJUUnXvXGFuTT6ibU/auHCYXKhYyVbP
+        GXH5s4s0BCbBllnf3uqxZuE9i4v4z3A/kdH9X70=
+X-Google-Smtp-Source: AGHT+IGFfKHiIpAmQz9+MpAHPQD37PttEOknuJg5vHGVqmeesbpzl3BG/WjXnLxJ99HEw6kAagvxSQ==
+X-Received: by 2002:a17:906:4c9:b0:9a1:e371:e238 with SMTP id g9-20020a17090604c900b009a1e371e238mr2983244eja.64.1694034060080;
+        Wed, 06 Sep 2023 14:01:00 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
+        by smtp.gmail.com with ESMTPSA id r22-20020a170906365600b009a5f1d1564dsm9371694ejb.126.2023.09.06.14.00.58
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Sep 2023 14:00:59 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-31c4d5bd69cso309708f8f.3
+        for <linux-media@vger.kernel.org>; Wed, 06 Sep 2023 14:00:58 -0700 (PDT)
+X-Received: by 2002:adf:e70a:0:b0:315:8f4f:81b2 with SMTP id
+ c10-20020adfe70a000000b003158f4f81b2mr3137778wrm.64.1694034057706; Wed, 06
+ Sep 2023 14:00:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v2] Remove the parameter not described warning
-Content-Language: en-US
-To:     Vinayak Hegde <vinayakph123@gmail.com>, sumit.semwal@linaro.org,
-        gustavo@padovan.org
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org
-References: <ZPiuH+ghqamtwJGA@vinayak-ubuntu>
-From:   Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <ZPiuH+ghqamtwJGA@vinayak-ubuntu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230817-chicony-v2-1-88335519989d@chromium.org> <20230906134435.GA24846@pendragon.ideasonboard.com>
+In-Reply-To: <20230906134435.GA24846@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 6 Sep 2023 23:00:42 +0200
+X-Gmail-Original-Message-ID: <CANiDSCv9wFPW32Y8TfxXWnOWyTtURg-D9F-AUmZeeLBfU1=p=A@mail.gmail.com>
+Message-ID: <CANiDSCv9wFPW32Y8TfxXWnOWyTtURg-D9F-AUmZeeLBfU1=p=A@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Fix power line control for a Chicony camera
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,44 +73,81 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vinayak,
+Hi Laurent
 
-Thanks for you patch
+On Wed, 6 Sept 2023 at 15:44, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> On Tue, Sep 05, 2023 at 03:29:52PM +0000, Ricardo Ribalda wrote:
+> > The device does not implement the control properly.
+> >
+> > Fixes v4l2-compliance error:
+> >
+> > info: checking control 'Power Line Frequency' (0x00980918)
+> > fail: v4l2-test-controls.cpp(552): could not set valid menu item 3
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> This still applies :-)
+>
+> I've taken the patch in my tree and will push it for v6.7.
 
-On 06/09/2023 13:51, Vinayak Hegde wrote:
-> I encountered a warning during kernel documentation compilation
+Thanks!
+>
+> > ---
+> > This camera, like other Chicony devices, do not implement properly the
+> > Power Line Frequency control.
+> >
+> > This time, I do not have direct access to the device, just to the
+> > report, but since other devices from the same family are showing the
+> > same error, it is safe to assume that the same fix will work here.
+> > ---
+> > Changes in v2:
+> > - Fix IntefaceProtocol, the camera is uvc1.5
+> > - I managed to write 0 to the control, so the proper quirk is uvc11 not
+> >   limited
+> > - Changes by Laurent:
+> >       - Rename device
+> >       - s/v4l/v4l2
+> > - Link to v1: https://lore.kernel.org/r/20230817-chicony-v1-1-76bde4d6ff6b@chromium.org
+> > ---
+> >  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > index 08fcd2ffa727..4b5ea3501753 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -2592,6 +2592,15 @@ static const struct usb_device_id uvc_ids[] = {
+> >         .bInterfaceSubClass   = 1,
+> >         .bInterfaceProtocol   = 0,
+> >         .driver_info          = (kernel_ulong_t)&uvc_ctrl_power_line_limited },
+> > +     /* Chicony Electronics Co., Ltd Integrated Camera */
+> > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
+> > +       .idVendor             = 0x04f2,
+> > +       .idProduct            = 0xb67c,
+> > +       .bInterfaceClass      = USB_CLASS_VIDEO,
+> > +       .bInterfaceSubClass   = 1,
+> > +       .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
+> > +       .driver_info          = (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
+> >       /* Chicony EasyCamera */
+> >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> >                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> >
+> > ---
+> > base-commit: 4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+> > change-id: 20230817-chicony-9c35f2046c6f
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-Usually we write the commit message in imperative mood, please check: 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
 
-> due to a missing colon in the documentation for the
-> 'num_fences' variable in the sync_file.h header file.
-> This change adds the missing colon to align with the documentation format.
-> 
-> Signed-off-by: Vinayak Hegde <vinayakph123@gmail.com>
-> ---
->   include/uapi/linux/sync_file.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-> index 7e42a5b7558b..b389a5495181 100644
-> --- a/include/uapi/linux/sync_file.h
-> +++ b/include/uapi/linux/sync_file.h
 
-Since you are modifying this file, if you run:
-     git log --oneline include/uapi/linux/sync_file.h
-you will notice that almost all changes start with "dma-buf/sync_file:" 
-prefix, it would be nice to maintain the style pattern for the commit title.
-
-Regards,
-Helen
-
-> @@ -56,7 +56,7 @@ struct sync_fence_info {
->    * @name:	name of fence
->    * @status:	status of fence. 1: signaled 0:active <0:error
->    * @flags:	sync_file_info flags
-> - * @num_fences	number of fences in the sync_file
-> + * @num_fences: number of fences in the sync_file
->    * @pad:	padding for 64-bit alignment, should always be zero
->    * @sync_fence_info: pointer to array of struct &sync_fence_info with all
->    *		 fences in the sync_file
+-- 
+Ricardo Ribalda
