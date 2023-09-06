@@ -2,81 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA87B79363A
-	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 09:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0324B7936F6
+	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 10:14:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232745AbjIFH1P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Sep 2023 03:27:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32826 "EHLO
+        id S234882AbjIFIN7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Sep 2023 04:13:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232000AbjIFH1P (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 03:27:15 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 213E893
-        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 00:27:11 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9936b3d0286so514978566b.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Sep 2023 00:27:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693985229; x=1694590029; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K/D3S02pV0j69DWmyqjSauKntrk3YcPUrV89cnyW/2M=;
-        b=sYtcyiEL1JTuSC/ZCEWrORbeFahq2hS2aAgAC8pcC7yxeMqbNOXRuq/17L6tiMdDd9
-         gg0iImVO2zUEaglC0X+HC0rbCRr9gfH8LI/CvGYFQF4qvCgRCyBjRt8Kf/FgExAhT9ap
-         XMhLvQGTPgGLF1GOJV1SqMZoIaNaiAML8DM/nxBt6MBD7PXMrdjuzYzTWxnSNq8OKZ2l
-         F1+28c6RlPsdIVlbgFQ4rTx3cAuDhmVlc2TMxVm+XdpCAEQ2FZJZUrSheraZJVjb7X6m
-         PSD+EdJ2q0UIgTm5N6pYSoaletpBRxmGxulmofi8AtS1I6jkEfpcmntIlBZMQNigetzQ
-         TlPw==
+        with ESMTP id S232339AbjIFIN7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 04:13:59 -0400
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462DE137
+        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 01:13:55 -0700 (PDT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-68a628f923dso3933475b3a.2
+        for <linux-media@vger.kernel.org>; Wed, 06 Sep 2023 01:13:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693985229; x=1694590029;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K/D3S02pV0j69DWmyqjSauKntrk3YcPUrV89cnyW/2M=;
-        b=RI2OXo9FruVUNHTxUGqNI59OK76cYRJ+PznzigXfCeRefK3OAFG0zsmvN5oxdire91
-         wmmMEbmEiV1eq44LpLCt+0Hl0/l1vaZOVLZoMb/pNK8Oh3dfMTTvUhdi9IcEInEDZpUZ
-         gAy35v23abj9UxRN1EtybI5JQMNYDoXMdJudrNp+xdS0+VZTI9zVi+Ruo2Ulxr6g/MVU
-         xwu3qsBOpH6L82hwti8wZ1XWImxIFQdg1VBa5O78fbP8C6FAtTgCpxDDp3J0BwvrLBiu
-         EzV2fEKbzxWQbBWQY8EhD4zR63CyUg+jFqcCN4ucu069q82Xlhr+o4oZQJS/nJI/Qt8S
-         a7kw==
-X-Gm-Message-State: AOJu0Yx2035OzOmPHwa0+7QVO6kN018dgfHZvJFb7uFpD9wmEfNBNLdm
-        Yu80Dubx4NYHZDdqyusr6SX68w==
-X-Google-Smtp-Source: AGHT+IFSivZXNYKgOoZ31LkGFVLn7z0ozLSMGOS34alVtKgZpxs2nm8bdPv5Y8/tJvhmbBZRQfgz0Q==
-X-Received: by 2002:a17:907:724b:b0:9a1:d5de:5e3 with SMTP id ds11-20020a170907724b00b009a1d5de05e3mr1621628ejc.54.1693985229558;
-        Wed, 06 Sep 2023 00:27:09 -0700 (PDT)
-Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
-        by smtp.gmail.com with ESMTPSA id qc8-20020a170906d8a800b0099275c59bc9sm8561948ejb.33.2023.09.06.00.27.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Sep 2023 00:27:09 -0700 (PDT)
-Message-ID: <502fc7b1-a32d-6901-3a45-d2aa0e0c3849@linaro.org>
-Date:   Wed, 6 Sep 2023 09:27:07 +0200
+        d=1e100.net; s=20221208; t=1693988035; x=1694592835;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3PbqjKEyaIzdsHKKf1F1QtzondiO+nn2Sqodl0jr3k4=;
+        b=ADlDABLqbYe+4Lb0gnxko3X3agTZ+N4spszC6YOvUg0DiK78Aee+MvEqy7Ny7BCJIi
+         UKqMdbrjktmoS8hrQCOdCqBlydqoU6pwCeYmC4h+nCE4Yay0uuiNL/yAohQfJHWkxBJk
+         9cQWpHUjt6pXXneUrrpu2apQ5IwTwGXlVfz8AwFwh/Udv3DCoPt3/ONKH2sSzJznGN4W
+         8h2UHV9qeN3dJmccH6cbiwJbl+N0HrJc4aiEG1Jsv5wpqSyZZNwT+m0oIf94MFonIX35
+         nNrcE2ZocFvUuSO1P6/6lDr1mHKSFtRxXb82IpAUERAroNVYAYFsK/2mwA64SSouoaHJ
+         p4mA==
+X-Gm-Message-State: AOJu0YzUt1t+dr3DK2KS+knpqs8y4b069R0hXoFpJK3RF2j5/bbnSzwR
+        VEaii+snXfM7k40Q2NdKJYUp+WEQ8h5/eX8I65OCLRU+6tEG
+X-Google-Smtp-Source: AGHT+IE2czLZxJqEKo/LO9dSS9yTYcIjN7DvVjX29vz/b32umfrbalZ3L+eH+mm4dkz8BFuG+DV6Mw1+iEXMH+RxBN25oiIoo0Xi
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 3/3] arm64: dts: mediatek: mt8365-pumpkin: Add overlays
- for thp7312 cameras
-Content-Language: en-US
-To:     Paul Elder <paul.elder@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <20230905233118.183140-1-paul.elder@ideasonboard.com>
- <20230905233118.183140-4-paul.elder@ideasonboard.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230905233118.183140-4-paul.elder@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Received: by 2002:a05:6a00:1d0f:b0:68e:351c:bf00 with SMTP id
+ a15-20020a056a001d0f00b0068e351cbf00mr85435pfx.4.1693988034735; Wed, 06 Sep
+ 2023 01:13:54 -0700 (PDT)
+Date:   Wed, 06 Sep 2023 01:13:54 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001073df0604ac53e0@google.com>
+Subject: [syzbot] Monthly media report (Sep 2023)
+From:   syzbot <syzbot+list941f1f91826499cb3685@syzkaller.appspotmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,139 +53,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/09/2023 01:31, Paul Elder wrote:
-> Add overlays for the Pumpkin i350 to support THP7312 cameras.
-> 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  arch/arm64/boot/dts/mediatek/Makefile         |  4 +
->  .../mt8365-pumpkin-common-thp7312.dtsi        | 23 ++++++
->  .../mt8365-pumpkin-csi0-thp7312-imx258.dtso   | 73 +++++++++++++++++++
->  .../mt8365-pumpkin-csi1-thp7312-imx258.dtso   | 73 +++++++++++++++++++
->  4 files changed, 173 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-pumpkin-common-thp7312.dtsi
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi0-thp7312-imx258.dtso
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi1-thp7312-imx258.dtso
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
-> index 20570bc40de8..ceaf24105001 100644
-> --- a/arch/arm64/boot/dts/mediatek/Makefile
-> +++ b/arch/arm64/boot/dts/mediatek/Makefile
-> @@ -56,4 +56,8 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8365-evk.dtb
->  dtb-$(CONFIG_ARCH_MEDIATEK) += mt8365-pumpkin.dtb
->  dtb-$(CONFIG_ARCH_MEDIATEK) += mt8516-pumpkin.dtb
->  
-> +mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-csi0-thp7312-imx258.dtbo
-> +mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-csi1-thp7312-imx258.dtbo
->  mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-ethernet-usb.dtbo
-> +
-> +dtb-$(CONFIG_ARCH_MEDIATEK) += mtk-mt8365-pumpkin.dtb
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8365-pumpkin-common-thp7312.dtsi b/arch/arm64/boot/dts/mediatek/mt8365-pumpkin-common-thp7312.dtsi
-> new file mode 100644
-> index 000000000000..478697552617
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/mediatek/mt8365-pumpkin-common-thp7312.dtsi
-> @@ -0,0 +1,23 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2023 Ideas on Board
-> + * Author: Paul Elder <paul.elder@ideasonboard.com>
-> + */
-> +
-> +/dts-v1/;
-> +/plugin/;
-> +
-> +&{/} {
-> +	vsys_v4p2: regulator@0 {
+Hello media maintainers/developers,
 
-Hm? Is this a bus?
+This is a 31-day syzbot report for the media subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/media
 
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vsys-v4p2";
-> +		regulator-min-microvolt = <4200000>;
-> +		regulator-max-microvolt = <4200000>;
-> +	};
-> +
-> +	camera61_clk: cam_clk24m {
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 19 issues are still open and 83 have been fixed so far.
 
-And this is not on a bus? It's the same / node!
+Some of the still happening issues:
 
-Please work on mainline, which means take mainline code and change it to
-your needs. Do not take downstream poor code and change it...
+Ref Crashes Repro Title
+<1> 1535    Yes   WARNING in get_vaddr_frames
+                  https://syzkaller.appspot.com/bug?extid=59a71007ccac79e8bb69
+<2> 530     Yes   general protection fault in ir_raw_event_store_with_filter
+                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
+<3> 304     Yes   KASAN: use-after-free Read in v4l2_fh_init
+                  https://syzkaller.appspot.com/bug?extid=c025d34b8eaa54c571b8
+<4> 95      Yes   WARNING in media_create_pad_link
+                  https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
+<5> 83      Yes   WARNING in smsusb_start_streaming/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=12002a39b8c60510f8fb
+<6> 50      Yes   KASAN: use-after-free Read in send_packet
+                  https://syzkaller.appspot.com/bug?extid=f1a69784f6efe748c3bf
+<7> 5       Yes   WARNING in imon_probe
+                  https://syzkaller.appspot.com/bug?extid=1c41b2e045dc086f58be
+<8> 3       Yes   KASAN: use-after-free Read in v4l2_fh_open
+                  https://syzkaller.appspot.com/bug?extid=b2391895514ed9ef4a8e
+<9> 2       Yes   KASAN: slab-out-of-bounds Read in imon_probe
+                  https://syzkaller.appspot.com/bug?extid=59875ffef5cb9c9b29e9
 
-No underscores in node names. Also generic node names, so at least with
-generic prefix or suffix.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-> +		compatible = "fixed-clock";
-> +		clock-frequency = <24000000>;
-> +		#clock-cells = <0>;
-> +	};
-> +};
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi0-thp7312-imx258.dtso b/arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi0-thp7312-imx258.dtso
-> new file mode 100644
-> index 000000000000..740d14a19d75
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi0-thp7312-imx258.dtso
-> @@ -0,0 +1,73 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2023 Ideas on Board
-> + * Author: Paul Elder <paul.elder@ideasonboard.com>
-> + */
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/pinctrl/mt8365-pinfunc.h>
-> +#include "mt8365-pumpkin-common-thp7312.dtsi"
-> +
-> +&i2c3 {
-> +	camera@61 {
-> +		compatible = "thine,thp7312";
-> +		reg = <0x61>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&cam0_pins_default>;
-> +		reset-gpios = <&pio 118 GPIO_ACTIVE_LOW>;
-> +		clocks = <&camera61_clk>;
-> +
-> +		vddcore-supply = <&vsys_v4p2>;
-> +		vhtermrx-supply = <&vsys_v4p2>;
-> +		vddtx-supply = <&vsys_v4p2>;
-> +		vddhost-supply = <&vsys_v4p2>;
-> +		vddcmos-supply = <&vsys_v4p2>;
-> +		vddgpio_0-supply = <&vsys_v4p2>;
-> +		vddgpio_1-supply = <&vsys_v4p2>;
-> +		DOVDD-supply = <&vsys_v4p2>;
-> +		AVDD-supply = <&vsys_v4p2>;
-> +		DVDD-supply = <&vsys_v4p2>;
-> +
-> +		orientation = <0>;
-> +		rotation = <0>;
-> +
-> +		thine,rx,data-lanes = <4 1 3 2>;
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-NAK for this property.
-
-
-> +
-> +		port {
-> +			isp1_out: endpoint {
-> +				remote-endpoint = <&seninf_in1>;
-> +				data-lanes = <4 2 1 3>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&pio {
-> +	cam0_pins_default: cam0_pins_default {
-
-No underscores in node names.
-
-> +		pins_rst {
-
-Ditto
-
-
-Best regards,
-Krzysztof
-
+You may send multiple commands in a single email message.
