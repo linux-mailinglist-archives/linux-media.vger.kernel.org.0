@@ -2,224 +2,507 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50B54793621
-	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 09:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 651AA793631
+	for <lists+linux-media@lfdr.de>; Wed,  6 Sep 2023 09:25:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232103AbjIFHVx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Sep 2023 03:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56752 "EHLO
+        id S231147AbjIFHZg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Sep 2023 03:25:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231725AbjIFHVw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 03:21:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00F0E41
-        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 00:21:46 -0700 (PDT)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A36E3F1;
-        Wed,  6 Sep 2023 09:20:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1693984818;
-        bh=P5F0I9r5G/Lmm+TmGrgc0wFUuOaN00oyJseHUkWLSyo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=F4HN27vXFru5H55bnUyYGHZBMQgLwpAAY+MSk5fWbiRCgXlSfy+LdS638t924zxm5
-         DYP8bShLlEHc8Y4Z2scEzxOUhU3mRE1qsagNKdNmJ2Z0zJnrUSpNftL3KrZhICozVO
-         Nj4S41T6nuSCGVAIl8dDVaoC4eBytDKMDR72xdBo=
-Date:   Wed, 6 Sep 2023 09:21:42 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>
-Subject: Re: [PATCH v3 08/10] media: v4l: Support line-based metadata capture
-Message-ID: <23xi3pdbcuzzdkus6xumdu4z6aue7dwcqdlmazqqzpchnjqyid@lb7zbgmi3ybp>
-References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
- <20230808075538.3043934-9-sakari.ailus@linux.intel.com>
- <ejo4a5dhvdukmle6lqddhsmvge6krezx5mhfq2ghoy23cnjygb@byo2u34seqz3>
- <ZNoJ0Fv/3Ir+sdyf@kekkonen.localdomain>
- <20230905171533.GH7971@pendragon.ideasonboard.com>
+        with ESMTP id S230295AbjIFHZf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 03:25:35 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84F36E53
+        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 00:25:05 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-99bc9e3cbf1so135993066b.0
+        for <linux-media@vger.kernel.org>; Wed, 06 Sep 2023 00:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693985104; x=1694589904; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L1hUUio95wuW9V9qd5PRJ6Ur/vyv480neY2DMXLqJvE=;
+        b=lTTDvUlutzdZLtPqXzpu+RUYklhs6QNIMLPh8qhg4bOju3/SBJilPLq4/5O042qKrO
+         3pQgqKjULGO6R12lReA+fMKt6lkg+rltjUYFR5kwojrioBtzgYhq+ktdLUb1L0CVjCWn
+         mkhv2Ivex72DZFL/l/jV9sSY+wa6f1RCRUB/9pjsD4gEuZGbIXQjFlfQl+d1XXQwRUzw
+         YSHhE4senYVc1c3rZQP9Y1iL4dkm8l2VKBuSxwXgYUj/lvLJs/WyQ2AcU+nQUXaa2ICR
+         Ix1tuKBelTR6x0dI7Ah1TuR2WsasMmxPP4FgsuRm6XsECGXUDdu6wRwisTd1kXc3kFef
+         j8cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693985104; x=1694589904;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L1hUUio95wuW9V9qd5PRJ6Ur/vyv480neY2DMXLqJvE=;
+        b=ByRTG+ttAE22c4BfZwr6Z6IqZZBFL7Wxc9n1zuJswBqMO27ku7fFC+epABRHXn2KgD
+         XENrRiRUjcXesEWNtu0ZQamq/cG+MrZ7dyoCF7SLxxQRtd2YjeaiIkmKksMSJm6zKCKe
+         /4g3YeNeK9lY2w4u0AqdZ8fJAxyL8CiFe/YZbLoOix95lh6sAoiTJ9rXVUkYPjcv35Qr
+         YuEaqUPs3Zl6u6/mCN4FFOZAoHYfVUcFg1P1fP44kkYJJzlDkX88H7u/DnVmXaVcxOjD
+         ITh8fctr/AQr5prnF6xBOA1G6B12NxfnTxXCai9uJ6iA8cca7zBlynGnTvTl3JVikYWH
+         e9Vg==
+X-Gm-Message-State: AOJu0YyNyaKwUx92FYOc4KchYqsh+vlk8vzjfw3QRivOKhs2Ww+bxIFV
+        qe4fNUimWvFnsjFmy8sPiqUyhFx7qpJl1DnJjEk=
+X-Google-Smtp-Source: AGHT+IHJAfBjF3n0DF37CfqLh4KI1JSODUSnTOSTOSgfGl6RzMSyCgbgHLwUbX5ibOFIwoxy1VSwWQ==
+X-Received: by 2002:a17:907:31c9:b0:9a1:e5bf:c907 with SMTP id xf9-20020a17090731c900b009a1e5bfc907mr1967842ejb.2.1693985103706;
+        Wed, 06 Sep 2023 00:25:03 -0700 (PDT)
+Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
+        by smtp.gmail.com with ESMTPSA id j9-20020a170906410900b0099bd5b72d93sm8590614ejk.43.2023.09.06.00.25.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Sep 2023 00:25:03 -0700 (PDT)
+Message-ID: <569755e5-7cce-7077-3078-36c2d1422f97@linaro.org>
+Date:   Wed, 6 Sep 2023 09:25:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230905171533.GH7971@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 2/3] media: i2c: Add driver for THine THP7312
+Content-Language: en-US
+To:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230905233118.183140-1-paul.elder@ideasonboard.com>
+ <20230905233118.183140-3-paul.elder@ideasonboard.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230905233118.183140-3-paul.elder@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+On 06/09/2023 01:31, Paul Elder wrote:
+> Add driver for the THine THP7312 ISP.
+> 
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> ---
 
-On Tue, Sep 05, 2023 at 08:15:33PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
->
-> On Mon, Aug 14, 2023 at 11:02:40AM +0000, Sakari Ailus wrote:
-> > On Thu, Aug 10, 2023 at 05:24:14PM +0200, Jacopo Mondi wrote:
-> > > On Tue, Aug 08, 2023 at 10:55:36AM +0300, Sakari Ailus wrote:
-> > > > many camera sensors, among other devices, transmit embedded data and image
->
-> s/many/Many/
->
-> > > > data for each CSI-2 frame. This embedded data typically contains register
-> > > > configuration of the sensor that has been used to capture the image data
-> > > > of the same frame.
-> > > >
-> > > > The embedded data is received by the CSI-2 receiver and has the same
-> > > > properties as the image data, including that it is line based: it has
-> > > > width, height and bytesperline (stride).
-> > > >
-> > > > Add these fields to struct v4l2_meta_format and document them.
-> > > >
-> > > > Also add V4L2_FMT_FLAG_META_LINE_BASED to tell a given format is
-> > > > line-based i.e. these fields of struct v4l2_meta_format are valid for it.
-> > > >
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  .../userspace-api/media/v4l/dev-meta.rst          | 15 +++++++++++++++
-> > > >  .../userspace-api/media/v4l/vidioc-enum-fmt.rst   |  7 +++++++
-> > > >  .../media/videodev2.h.rst.exceptions              |  1 +
-> > > >  drivers/media/v4l2-core/v4l2-ioctl.c              |  5 +++--
-> > > >  include/uapi/linux/videodev2.h                    | 10 ++++++++++
-> > > >  5 files changed, 36 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/dev-meta.rst b/Documentation/userspace-api/media/v4l/dev-meta.rst
-> > > > index 0e7e1ee1471a..4b24bae6e171 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/dev-meta.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/dev-meta.rst
-> > > > @@ -65,3 +65,18 @@ to 0.
-> > > >        - ``buffersize``
-> > > >        - Maximum buffer size in bytes required for data. The value is set by the
-> > > >          driver.
-> > > > +    * - __u32
-> > > > +      - ``width``
-> > > > +      - Width of a line of metadata in samples. Valid when :c:type`v4l2_fmtdesc`
-> > > > +	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-> > > > +	:c:func:`VIDIOC_ENUM_FMT`.
-> > > > +    * - __u32
-> > > > +      - ``height``
-> > > > +      - Number of rows of metadata. Valid when :c:type`v4l2_fmtdesc` flag
-> > > > +	``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-> > > > +	:c:func:`VIDIOC_ENUM_FMT`.
-> > > > +    * - __u32
-> > > > +      - ``bytesperline``
-> > > > +      - Offset in bytes between the beginning of two consecutive lines. Valid
-> > > > +	when :c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is
-> > > > +	set, otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
-> > > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> > > > index 000c154b0f98..6d7664345a4e 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> > > > @@ -227,6 +227,13 @@ the ``mbus_code`` field is handled differently:
-> > > >  	The application can ask to configure the quantization of the capture
-> > > >  	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
-> > > >  	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
-> > > > +    * - ``V4L2_FMT_FLAG_META_LINE_BASED``
-> > > > +      - 0x0200
-> > > > +      - The metadata format is line-based. In this case the ``width``,
-> > > > +	``height`` and ``bytesperline`` fields of :c:type:`v4l2_meta_format` are
-> > > > +	valid. The buffer consists of ``height`` lines, each having ``width``
-> > > > +	bytes of data and offset between the beginning of each two consecutive
-> > >
-> > > Isn't ``width`` in samples ?
-> >
-> > Indeed, it's better to refer to samples for clarity. I'll fix for v4.
->
-> How do you define a "sample" in this case ? I wonder if it wouldn't be
-> simpler for both userspace and kernel drivers if the width was specified
-> in bytes, including the padding bytes.
+...
 
-Wouldn't this make the image line length (expressed in 'samples')
-different than the embedded data line length ? Would this confuse
-userspace or is it fine ?
+> +
+> +static int thp7312_change_mode(struct thp7312_isp_dev *isp_dev,
+> +			       enum thp7312_mode mode)
+> +{
+> +	struct i2c_client *client = isp_dev->i2c_client;
+> +	u8 reg_val = 0;
+> +	struct reg_value *reg_data;
+> +	int i;
+> +	int ret;
+> +	struct thp7312_mode_info *info = &thp7312_mode_info_data[mode];
+> +
+> +	ret = thp7312_read_poll_timeout(isp_dev, THP7312_REG_CAMERA_STATUS, reg_val,
 
->
-> We need an implementation here to test it out. The good news is that I'm
-> working on it, the bad news is that I'm also busy with other things.
->
-> > I'll also add bytesperline is in bytes (and not in samples).
->
-> Thanks for not messing up (more than needed) with my mental health by
-> not specifying bytesperline in something else than bytes :-)
->
+This and many other palces do not look like wrapped according to Linux
+coding style, so at 80. And please do not use argument "but checkpatch",
+but read the Coding Style.
 
-:)
+> +					reg_val == 0x80, 20000, 200000);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "%s(): failed to poll ISP: %d\n",
+> +			__func__, ret);
+> +		return ret;
+> +	}
+> +
 
-> > > > +	lines is ``bytesperline``.
-> > > >
-> > > >  Return Value
-> > > >  ============
-> > > > diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> > > > index 3e58aac4ef0b..bdc628e8c1d6 100644
-> > > > --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> > > > +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> > > > @@ -215,6 +215,7 @@ replace define V4L2_FMT_FLAG_CSC_XFER_FUNC fmtdesc-flags
-> > > >  replace define V4L2_FMT_FLAG_CSC_YCBCR_ENC fmtdesc-flags
-> > > >  replace define V4L2_FMT_FLAG_CSC_HSV_ENC fmtdesc-flags
-> > > >  replace define V4L2_FMT_FLAG_CSC_QUANTIZATION fmtdesc-flags
-> > > > +replace define V4L2_FMT_FLAG_META_LINE_BASED fmtdesc-flags
-> > > >
-> > > >  # V4L2 timecode types
-> > > >  replace define V4L2_TC_TYPE_24FPS timecode-type
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > index fbbddc333a30..971d784e7429 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > @@ -343,8 +343,9 @@ static void v4l_print_format(const void *arg, bool write_only)
-> > > >  	case V4L2_BUF_TYPE_META_OUTPUT:
-> > > >  		meta = &p->fmt.meta;
-> > > >  		pixelformat = meta->dataformat;
-> > > > -		pr_cont(", dataformat=%p4cc, buffersize=%u\n",
-> > > > -			&pixelformat, meta->buffersize);
-> > > > +		pr_cont(", dataformat=%p4cc, buffersize=%u, width=%u, height=%u, bytesperline=%u\n",
-> > > > +			&pixelformat, meta->buffersize, meta->width,
-> > > > +			meta->height, meta->bytesperline);
-> > > >  		break;
-> > > >  	}
-> > > >  }
-> > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > > > index b4284a564025..d26c0650c6a7 100644
-> > > > --- a/include/uapi/linux/videodev2.h
-> > > > +++ b/include/uapi/linux/videodev2.h
-> > > > @@ -877,6 +877,7 @@ struct v4l2_fmtdesc {
-> > > >  #define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0080
-> > > >  #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
-> > > >  #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
-> > > > +#define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
-> > > >
-> > > >  	/* Frame Size and frame rate enumeration */
-> > > >  /*
-> > > > @@ -2420,10 +2421,19 @@ struct v4l2_sdr_format {
-> > > >   * struct v4l2_meta_format - metadata format definition
-> > > >   * @dataformat:		little endian four character code (fourcc)
-> > > >   * @buffersize:		maximum size in bytes required for data
-> > > > + * @width:		number of bytes of data per line (valid for line based
-> > >
-> > > I'm a bit confused here as well, isn't width in samples ?
-> >
-> > I'll change this one as well.
-> >
-> > > > + *			formats only, see format documentation)
-> > > > + * @height:		number of lines of data per buffer (valid for line based
-> > > > + *			formats only)
-> > > > + * @bytesperline:	offset between the beginnings of two adjacent lines in
-> > > > + *			bytes (valid for line based formats only)
-> > > >   */
-> > > >  struct v4l2_meta_format {
-> > > >  	__u32				dataformat;
-> > > >  	__u32				buffersize;
-> > > > +	__u32				width;
-> > > > +	__u32				height;
-> > > > +	__u32				bytesperline;
-> > > >  } __attribute__ ((packed));
-> > > >
-> > > >  /**
->
-> --
-> Regards,
->
-> Laurent Pinchart
+
+> +static int thp7312_reset(struct thp7312_isp_dev *isp_dev)
+> +{
+> +	struct device *dev = &isp_dev->i2c_client->dev;
+> +	u8 camera_status = -1;
+> +	int ret;
+> +
+> +	gpiod_set_value_cansleep(isp_dev->reset_gpio, 1);
+> +	
+> +	fsleep(10000);
+> +	
+> +	gpiod_set_value_cansleep(isp_dev->reset_gpio, 0);
+> +	
+> +	fsleep(300000);
+> +
+> +	while (camera_status != 0x80) {
+> +		ret = thp7312_read_reg(isp_dev, 0xF001, &camera_status);
+> +		if (ret < 0) {
+> +			dev_err(dev, "Failed to read camera status register\n");
+> +			return ret;
+> +		}
+> +
+> +		if (camera_status == 0x00) {
+> +			dev_info(dev, "Camera initializing...");
+
+That's a debug at most.
+
+> +		} else if (camera_status == 0x80) {
+> +			dev_info(dev, "Camera initialization done");
+
+dev_dbg
+
+> +			break;
+> +		} else {
+> +			dev_err(dev,
+> +				"Camera Status field incorrect; camera_status=%x\n",
+> +				camera_status);
+> +		}
+> +
+> +		usleep_range(70000, 80000);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int thp7312_set_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct thp7312_isp_dev *isp_dev = to_thp7312_dev(sd);
+> +
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(THP7312_NUM_SUPPLIES, isp_dev->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = clk_prepare_enable(isp_dev->iclk);
+> +	if (ret < 0) {
+> +		dev_err(dev, "clk prepare enable failed\n");
+> +		goto error_pwdn;
+> +	}
+> +
+> +	/*
+> +	 * We cannot assume that turning off and on again will reset, so do a
+> +	 * software reset on power up. While at it, reprogram the MIPI lanes,
+> +	 * in case they get cleared when powered off.
+> +	 */
+> +	ret = thp7312_reset(isp_dev);
+> +	if (ret < 0)
+> +		goto error_clk_disable;
+> +
+> +	ret = thp7312_set_mipi_lanes(isp_dev);
+> +	if (ret < 0)
+> +		goto error_clk_disable;
+> +
+> +	return 0;
+> +
+> +error_clk_disable:
+> +	clk_disable_unprepare(isp_dev->iclk);
+> +error_pwdn:
+> +	regulator_bulk_disable(THP7312_NUM_SUPPLIES, isp_dev->supplies);
+> +
+> +	return ret;
+> +}
+> +
+> +static int thp7312_set_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct thp7312_isp_dev *isp_dev = to_thp7312_dev(sd);
+> +
+> +	isp_dev->streaming = false;
+> +
+> +	regulator_bulk_disable(THP7312_NUM_SUPPLIES, isp_dev->supplies);
+> +	clk_disable_unprepare(isp_dev->iclk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int thp7312_get_regulators(struct thp7312_isp_dev *isp_dev)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < THP7312_NUM_SUPPLIES; i++)
+> +		isp_dev->supplies[i].supply = thp7312_supply_name[i];
+> +
+> +	return devm_regulator_bulk_get(&isp_dev->i2c_client->dev,
+> +				       THP7312_NUM_SUPPLIES,
+> +				       isp_dev->supplies);
+> +}
+
+
+...
+
+> +	case V4L2_CID_POWER_LINE_FREQUENCY:
+> +		if (ctrl->val == V4L2_CID_POWER_LINE_FREQUENCY_60HZ) {
+> +			value = THP7312_AE_FLICKER_MODE_60;
+> +		} else if (ctrl->val==V4L2_CID_POWER_LINE_FREQUENCY_50HZ) {
+> +			value = THP7312_AE_FLICKER_MODE_50;
+> +		} else {
+> +			if (isp_dev->fw_major_version == 40 && isp_dev->fw_minor_version == 03) {
+> +				/* THP7312_AE_FLICKER_MODE_DISABLE is not supported */
+> +				value = THP7312_AE_FLICKER_MODE_50; 
+> +			} else {
+> +				value = THP7312_AE_FLICKER_MODE_DISABLE;
+> +			}
+> +		}
+> +		ret = thp7312_write_reg(isp_dev, THP7312_REG_AE_FLICKER_MODE, value);
+> +		break;
+> +		
+> +	case V4L2_CID_SATURATION:
+> +		ret = thp7312_write_reg(isp_dev, THP7312_REG_SATURATION, ctrl->val);
+> +		break;
+> +		
+> +	case V4L2_CID_CONTRAST:
+> +		ret = thp7312_write_reg(isp_dev, THP7312_REG_CONTRAST, ctrl->val);
+> +		break;
+> +		
+> +	case V4L2_CID_SHARPNESS:
+> +		ret = thp7312_write_reg(isp_dev, THP7312_REG_SHARPNESS, ctrl->val);
+> +		break;
+> +		
+> +	default:
+> +		dev_err(dev, "unsupported control id: %d\n", ctrl->id);
+> +		break;
+> +	}
+> +
+> +	pm_runtime_put(&client->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops thp7312_ctrl_ops = {
+> +	.s_ctrl = thp7312_s_ctrl,
+> +};
+> +
+> +static const struct v4l2_ctrl_config thp7312_v4l2_ctrls_custom[] = {
+> +	{
+> +		.ops = &thp7312_ctrl_ops,
+> +		.id = V4L2_CID_THINE_LOW_LIGHT_COMPENSATION,
+> +		.name = "Low Light Compensation",
+> +		.type = V4L2_CTRL_TYPE_BOOLEAN,
+> +		.min = 0,
+> +		.def = 1,
+> +		.max = 1,
+> +		.step = 1,
+> +	},
+> +		
+> +	{
+
+}, {
+
+
+...
+
+> +
+> +static int thp7312_parse_dt(struct thp7312_isp_dev *isp_dev)
+> +{
+> +	struct fwnode_handle *endpoint;
+> +	struct device *dev = &isp_dev->i2c_client->dev;
+> +	int ret;
+> +
+> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+> +	if (!endpoint) {
+> +		dev_err(dev, "endpoint node not found\n");
+> +		return -EINVAL;
+
+return dev_err_probe
+
+
+> +	}
+> +
+> +	ret = v4l2_fwnode_endpoint_parse(endpoint, &isp_dev->ep);
+> +	fwnode_handle_put(endpoint);
+> +	if (ret) {
+> +		dev_err(dev, "Could not parse endpoint\n");
+> +		return ret;
+
+return dev_err_probe
+
+> +	}
+> +
+> +	if (isp_dev->ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
+> +		dev_err(dev, "Unsupported bus type %d\n", isp_dev->ep.bus_type);
+> +		return -EINVAL;
+
+return dev_err_probe
+
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int thp7312_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct thp7312_isp_dev *isp_dev;
+> +	int ret;
+> +
+> +	dev_info(dev, "Start of probe %s:%d", __func__, __LINE__);
+
+No, no silly tracing messages. Never.
+
+> +	isp_dev = devm_kzalloc(dev, sizeof(*isp_dev), GFP_KERNEL);
+> +	if (!isp_dev)
+> +		return -ENOMEM;
+> +	isp_dev->i2c_client = client;
+> +
+> +	thp7312_init_fmt(isp_dev);
+> +
+> +	isp_dev->current_mode =
+> +		(struct thp7312_mode_info *)thp7312_find_mode(isp_dev,
+> +							      isp_dev->current_fr,
+> +							      isp_dev->fmt.width,
+> +							      isp_dev->fmt.height,
+> +							      true);
+> +
+> +	/* TODO fix firmware */
+> +	/* update mode hardcoded at 0 for now */
+> +	isp_dev->fw_update_mode = 0;
+> +	isp_dev->fw_major_version = 0;
+> +	isp_dev->fw_minor_version = 0;
+> +	isp_dev->thp7312_register_rw_address = 61440;
+> +
+> +	ret = thp7312_parse_dt(isp_dev);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to parse DT: %d\n", ret);
+
+Why do you print errors twice?
+
+> +		return ret;
+
+> +	}
+> +
+> +	ret = thp7312_get_regulators(isp_dev);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to get regulators: %d\n", ret);
+
+return dev_err_probe
+
+> +		return ret;
+> +	}
+> +
+> +	isp_dev->iclk = devm_clk_get(dev, NULL);
+> +	if (IS_ERR(isp_dev->iclk)) {
+> +		dev_err(dev, "Failed to get iclk\n");
+
+return dev_err_probe
+
+> +		return PTR_ERR(isp_dev->iclk);
+> +	}
+> +
+> +	/* request reset pin */
+> +	isp_dev->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(isp_dev->reset_gpio)) {
+> +		dev_err(dev, "Failed to get reset gpio\n");
+
+Please start from a new driver as base for your code, so all such
+trivialities do not have to be repeated over and over
+
+return dev_err_probe
+
+> +		return PTR_ERR(isp_dev->reset_gpio);
+> +	}
+> +
+> +	v4l2_i2c_subdev_init(&isp_dev->sd, client, &thp7312_subdev_ops);
+> +	isp_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+> +	isp_dev->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	isp_dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +
+> +	mutex_init(&isp_dev->lock);
+> +
+> +	ret = media_entity_pads_init(&isp_dev->sd.entity, 1, &isp_dev->pad);
+> +	if (ret)
+> +		goto mutex_destroy;
+> +
+> +	ret = thp7312_set_power_on(dev);
+> +	if (ret)
+> +		goto entity_cleanup;
+> +
+> +	ret = thp7312_read_firmware_version(isp_dev);
+> +	if (ret < 0) {
+> +		dev_warn(dev, "Camera is not found\n");
+> +		goto power_off;
+> +	}
+> +
+> +	dev_info(dev, "THP7312 firmware version = %02d.%02d",
+> +		 isp_dev->fw_major_version, isp_dev->fw_minor_version);
+> +
+> +	ret = thp7312_init_controls(isp_dev);
+> +	if (ret)
+> +		goto power_off;
+> +
+> +	isp_dev->sd.ctrl_handler = &isp_dev->ctrl_handler;
+> +
+> +	ret = v4l2_async_register_subdev(&isp_dev->sd);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Subdev registeration failed");
+> +		goto free_ctrls;
+> +	}
+> +
+> +	pm_runtime_set_active(dev);
+> +	pm_runtime_enable(dev);
+> +
+> +	dev_info(dev, "v4l2 async register subdev done");
+
+Drop.
+
+> +
+> +	return 0;
+> +
+> +free_ctrls:
+> +	v4l2_ctrl_handler_free(&isp_dev->ctrl_handler);
+> +power_off:
+> +	thp7312_set_power_off(dev);
+> +entity_cleanup:
+> +	media_entity_cleanup(&isp_dev->sd.entity);
+> +mutex_destroy:
+> +	mutex_destroy(&isp_dev->lock);
+> +	return ret;
+> +}
+> +
+> +static void thp7312_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct thp7312_isp_dev *isp_dev = to_thp7312_dev(sd);
+> +
+> +	v4l2_async_unregister_subdev(&isp_dev->sd);
+> +	v4l2_ctrl_handler_free(&isp_dev->ctrl_handler);
+> +	media_entity_cleanup(&isp_dev->sd.entity);
+> +	v4l2_device_unregister_subdev(sd);
+> +	pm_runtime_disable(&client->dev);
+> +	mutex_destroy(&isp_dev->lock);
+> +}
+> +
+> +static const struct i2c_device_id thp7312_id[] = {
+> +	{"thp7312", 0},
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(i2c, thp7312_id);
+> +
+> +static const struct of_device_id thp7312_dt_ids[] = {
+> +	{ .compatible = "thine,thp7312" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, thp7312_dt_ids);
+> +
+> +static const struct dev_pm_ops thp7312_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(thp7312_set_power_off, thp7312_set_power_on, NULL)
+> +};
+> +
+> +static struct i2c_driver thp7312_i2c_driver = {
+> +	.driver = {
+> +		.name  = "thp7312",
+> +		.of_match_table	= thp7312_dt_ids,
+> +	},
+> +	.id_table = thp7312_id,
+> +	.probe_new = thp7312_probe,
+
+probe
+
+> +	.remove   = thp7312_remove,
+> +};
+> +
+> +module_i2c_driver(thp7312_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("THP7312 MIPI Camera Subdev Driver");
+> +MODULE_LICENSE("GPL");
+
+Best regards,
+Krzysztof
+
