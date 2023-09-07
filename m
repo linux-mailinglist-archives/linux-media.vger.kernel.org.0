@@ -2,180 +2,296 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D66717974AD
-	for <lists+linux-media@lfdr.de>; Thu,  7 Sep 2023 17:40:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F4777974C7
+	for <lists+linux-media@lfdr.de>; Thu,  7 Sep 2023 17:41:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231231AbjIGPkc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Sep 2023 11:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56430 "EHLO
+        id S232201AbjIGPk6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Sep 2023 11:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242813AbjIGP3F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Sep 2023 11:29:05 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792FE19B4
-        for <linux-media@vger.kernel.org>; Thu,  7 Sep 2023 08:28:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694100515; x=1725636515;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5eFw9jyc9/fD2vuNTIcDW/HKQHccsNMrod8reAKMRW4=;
-  b=UI4tg4KzNbZrnqCoKnEkjdWBuSzPa5MZ806hYDAkuJMyeorMaE+VktgW
-   nZhXnq600SoMuOd4OZhg1YoqnrtAA8sjHLZeLT+y8lqVNpHYStdHoOWej
-   ZH18syr3Je23RbHDY4WtejAIjhLwbV0YQP2c2JjmdbQIvxuamIGSvDlsX
-   fCv/RpBC8fdcjxQODN28N+wgJyy7u+MsXj0YdAIVzegebJ3p7XsNTEpBw
-   QDUvTpw5XDmwrWwvCxm6O4zk7Oa+Nd0F042Qh3B/TbCa/PAzIQlBbCcLi
-   VoHCSRivRCBv/GdcIFCyuYP7kOUlc3FYgrgzDC8JsJqsn/p58pG5jOAPS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="381086434"
-X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; 
-   d="scan'208";a="381086434"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 01:58:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="807441596"
-X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; 
-   d="scan'208";a="807441596"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 01:58:26 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 7AFA611F9DF;
-        Thu,  7 Sep 2023 11:48:12 +0300 (EEST)
-Date:   Thu, 7 Sep 2023 08:48:12 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>
-Subject: Re: [PATCH v3 08/10] media: v4l: Support line-based metadata capture
-Message-ID: <ZPmOTLIYvLcZdHFk@kekkonen.localdomain>
-References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
- <20230808075538.3043934-9-sakari.ailus@linux.intel.com>
- <ejo4a5dhvdukmle6lqddhsmvge6krezx5mhfq2ghoy23cnjygb@byo2u34seqz3>
- <ZNoJ0Fv/3Ir+sdyf@kekkonen.localdomain>
- <20230905171533.GH7971@pendragon.ideasonboard.com>
- <23xi3pdbcuzzdkus6xumdu4z6aue7dwcqdlmazqqzpchnjqyid@lb7zbgmi3ybp>
- <ZPhveqkcfkQfcXFE@kekkonen.localdomain>
+        with ESMTP id S242721AbjIGP3E (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Sep 2023 11:29:04 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2412F184;
+        Thu,  7 Sep 2023 08:28:34 -0700 (PDT)
+Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA8E98C2;
+        Thu,  7 Sep 2023 16:48:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694098121;
+        bh=mwT/YTlALEgoSnoEMtAp9n01verTpq/QG6x65B4wxZI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SRNMps/BQCM5fq91KXzRxUuXv1VToF19Wu6UHdGQD488qe6rKSwjbF9nrLgTS2knO
+         I4FQRFjFgU841vaYWoapwUGlxWrCStM2KWk6wCkroG/1llVXJVLNpfS8xBLl2YGoYM
+         RHeac7y0FKP15eatm1bWHoTdksK0T93tDMUKfqgI=
+Date:   Thu, 7 Sep 2023 23:49:57 +0900
+From:   Paul Elder <paul.elder@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: media: Add THine THP7312 ISP
+Message-ID: <ZPnjFf4f1yX8ZZ/s@pyrite.rasen.tech>
+References: <20230905233118.183140-1-paul.elder@ideasonboard.com>
+ <20230905233118.183140-2-paul.elder@ideasonboard.com>
+ <f023767c-aa74-87ca-d333-3dba8a481cb6@linaro.org>
+ <20230906081513.GK7971@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZPhveqkcfkQfcXFE@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230906081513.GK7971@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 06, 2023 at 12:24:26PM +0000, Sakari Ailus wrote:
-> Hi Laurent,
-> 
-> On Wed, Sep 06, 2023 at 09:21:42AM +0200, Jacopo Mondi wrote:
-> > Hi Laurent
+On Wed, Sep 06, 2023 at 11:15:13AM +0300, Laurent Pinchart wrote:
+> On Wed, Sep 06, 2023 at 09:18:30AM +0200, Krzysztof Kozlowski wrote:
+> > On 06/09/2023 01:31, Paul Elder wrote:
+> > > Add bindings for the THine THP7312 ISP.
+> > > 
+> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > > ---
+> > > Since the THP7312 supports multiple sensors, thine,rx-data-lanes alone
+> > > might not be enough. I was consdering using sensor nodes like what the
+> > > AP1302 does [1]. This way we can also move the power supplies that only
+> > > concern the sensor in there as well. I was wondering what to do about
+> > > the model name, though, as the thp7312 completely isolates that from the 
+> > > rest of the system.
+> > > 
+> > > I'm planning to add sensor nodes in somehow in a v2.
+> > > 
+> > > [1] https://lore.kernel.org/linux-media/20211006113254.3470-2-anil.mamidala@xilinx.com/
+> > > 
+> > >  .../bindings/media/thine,thp7312.yaml         | 170 ++++++++++++++++++
+> > >  1 file changed, 170 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/thine,thp7312.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/thine,thp7312.yaml b/Documentation/devicetree/bindings/media/thine,thp7312.yaml
+> > > new file mode 100644
+> > > index 000000000000..e8d203dcda81
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/thine,thp7312.yaml
+> > > @@ -0,0 +1,170 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +# Copyright (c) 2023 Ideas on Board
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/thine,thp7312.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: THine THP7312
+> > > +
+> > > +maintainers:
+> > > +  - Paul Elder <paul.elder@@ideasonboard.com>
+> > > +
+> > > +description:
+> > > +  The THP7312 is a standalone ISP controlled over i2c, and is capable of
+> > > +  various image processing and correction functions, including 3A control. It
+> > > +  can be connected to CMOS image sensors from various vendors, supporting both
+> > > +  MIPI CSI-2 and parallel interfaces. It can also output on either MIPI CSI-2
+> > > +  or parallel. The hardware is capable of transmitting and receiving MIPI
+> > > +  interlaved data strams with data types or multiple virtual channel
+> > > +  identifiers.
+> > > +
+> > > +allOf:
+> > > +  - $ref: ../video-interface-devices.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: thine,thp7312
+> > > +
+> > > +  reg:
+> > > +    description: I2C device address
 > > 
-> > On Tue, Sep 05, 2023 at 08:15:33PM +0300, Laurent Pinchart wrote:
-> > > Hi Sakari,
-> > >
-> > > On Mon, Aug 14, 2023 at 11:02:40AM +0000, Sakari Ailus wrote:
-> > > > On Thu, Aug 10, 2023 at 05:24:14PM +0200, Jacopo Mondi wrote:
-> > > > > On Tue, Aug 08, 2023 at 10:55:36AM +0300, Sakari Ailus wrote:
-> > > > > > many camera sensors, among other devices, transmit embedded data and image
-> > >
-> > > s/many/Many/
-> > >
-> > > > > > data for each CSI-2 frame. This embedded data typically contains register
-> > > > > > configuration of the sensor that has been used to capture the image data
-> > > > > > of the same frame.
-> > > > > >
-> > > > > > The embedded data is received by the CSI-2 receiver and has the same
-> > > > > > properties as the image data, including that it is line based: it has
-> > > > > > width, height and bytesperline (stride).
-> > > > > >
-> > > > > > Add these fields to struct v4l2_meta_format and document them.
-> > > > > >
-> > > > > > Also add V4L2_FMT_FLAG_META_LINE_BASED to tell a given format is
-> > > > > > line-based i.e. these fields of struct v4l2_meta_format are valid for it.
-> > > > > >
-> > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > > ---
-> > > > > >  .../userspace-api/media/v4l/dev-meta.rst          | 15 +++++++++++++++
-> > > > > >  .../userspace-api/media/v4l/vidioc-enum-fmt.rst   |  7 +++++++
-> > > > > >  .../media/videodev2.h.rst.exceptions              |  1 +
-> > > > > >  drivers/media/v4l2-core/v4l2-ioctl.c              |  5 +++--
-> > > > > >  include/uapi/linux/videodev2.h                    | 10 ++++++++++
-> > > > > >  5 files changed, 36 insertions(+), 2 deletions(-)
-> > > > > >
-> > > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-meta.rst b/Documentation/userspace-api/media/v4l/dev-meta.rst
-> > > > > > index 0e7e1ee1471a..4b24bae6e171 100644
-> > > > > > --- a/Documentation/userspace-api/media/v4l/dev-meta.rst
-> > > > > > +++ b/Documentation/userspace-api/media/v4l/dev-meta.rst
-> > > > > > @@ -65,3 +65,18 @@ to 0.
-> > > > > >        - ``buffersize``
-> > > > > >        - Maximum buffer size in bytes required for data. The value is set by the
-> > > > > >          driver.
-> > > > > > +    * - __u32
-> > > > > > +      - ``width``
-> > > > > > +      - Width of a line of metadata in samples. Valid when :c:type`v4l2_fmtdesc`
-> > > > > > +	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-> > > > > > +	:c:func:`VIDIOC_ENUM_FMT`.
-> > > > > > +    * - __u32
-> > > > > > +      - ``height``
-> > > > > > +      - Number of rows of metadata. Valid when :c:type`v4l2_fmtdesc` flag
-> > > > > > +	``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-> > > > > > +	:c:func:`VIDIOC_ENUM_FMT`.
-> > > > > > +    * - __u32
-> > > > > > +      - ``bytesperline``
-> > > > > > +      - Offset in bytes between the beginning of two consecutive lines. Valid
-> > > > > > +	when :c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is
-> > > > > > +	set, otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
-> > > > > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> > > > > > index 000c154b0f98..6d7664345a4e 100644
-> > > > > > --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> > > > > > +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> > > > > > @@ -227,6 +227,13 @@ the ``mbus_code`` field is handled differently:
-> > > > > >  	The application can ask to configure the quantization of the capture
-> > > > > >  	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
-> > > > > >  	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
-> > > > > > +    * - ``V4L2_FMT_FLAG_META_LINE_BASED``
-> > > > > > +      - 0x0200
-> > > > > > +      - The metadata format is line-based. In this case the ``width``,
-> > > > > > +	``height`` and ``bytesperline`` fields of :c:type:`v4l2_meta_format` are
-> > > > > > +	valid. The buffer consists of ``height`` lines, each having ``width``
-> > > > > > +	bytes of data and offset between the beginning of each two consecutive
-> > > > >
-> > > > > Isn't ``width`` in samples ?
-> > > >
-> > > > Indeed, it's better to refer to samples for clarity. I'll fix for v4.
-> > >
-> > > How do you define a "sample" in this case ? I wonder if it wouldn't be
-> > > simpler for both userspace and kernel drivers if the width was specified
-> > > in bytes, including the padding bytes.
+> > You can skip description. It is obvious.
 > > 
-> > Wouldn't this make the image line length (expressed in 'samples')
-> > different than the embedded data line length ? Would this confuse
-> > userspace or is it fine ?
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +      - description: CLKI clock input
+> > 
+> > This was absolutely never tested.
 > 
-> If padding is included to width, then the user needs to calculate how many
-> bytes of metadata there is, apart from the padding (which is redundant).
-> That value is provided to the user for this purpose --- just like for image
-> data.
+> Paul, before sending DT bindings, please test them. The procedure
+> involves running `make dt_binding_check` as described towards the end of
+> Documentation/devicetree/bindings/writing-schema.rst. There's an
+> environment variable that you can use to restrict the test to a
+> particular binding file.
+> 
 
-Think of this: the embedded data parser is split into two, the access
-function that accesses metadata bytes depending on the generic V4L2
-metadata format and the rest, which cares about the specific mbus code. The
-latter will need the information how many bytes of metadata there is,
-instead it calculates the position in the buffer based on bytesperline,
-width and the format itself.
+ack
 
-Of course, the amount of padding can be calculated from the total amount,
-by adding a second function that does it, but still it's somehow backwards
-way to do that. (Makes me think of negabinaries.)
+> > > +
+> > > +  reset-gpios:
+> > > +    maxItems: 1
+> > > +    description: |-
+> > > +      Reference to the GPIO connected to the RESET_N pin, if any.
+> > > +      Must be released (set high) after all supplies are applied.
+> > > +
+> > > +  vddcore-supply:
+> > > +    description:
+> > > +      1.2V supply for core, PLL, MIPI rx and MIPI tx.
+> > > +
+> > > +  vhtermnx-supply:
+> > > +    description:
+> > > +      Supply for input (rx). 1.8V for MIPI, or 1.8/2.8/3.3V for parallel.
+> > > +
+> > > +  vddtx-supply:
+> > > +    description:
+> > > +      Supply for output (tx). 1.8V for MIPI, or 1.8/2.8/3.3V for parallel.
+> > > +
+> > > +  vddhost-supply:
+> > > +    description:
+> > > +      Supply for host interface. 1.8V, 2.8V, or 3.3V.
+> > > +
+> > > +  vddcmos-supply:
+> > > +    description:
+> > > +      Supply for sensor interface. 1.8V, 2.8V, or 3.3V.
+> > > +
+> > > +  vddgpio_0-supply:
+> > 
+> > No, underscores are not allowed in names.
+> > 
+> > > +    description:
+> > > +      Supply for GPIO_0. 1.8V, 2.8V, or 3.3V.
+> > > +
+> > > +  vddgpio_1-supply:
+> > > +    description:
+> > > +      Supply for GPIO_1. 1.8V, 2.8V, or 3.3V.
+> > > +
+> > > +  DOVDD-supply:
+> > 
+> > lowercase. Look at your other supplies. VDD is spelled there "vdd", so
+> > do not introduce random style.
+> > 
+> > > +    description:
+> > > +      Digital I/O (1.8V) supply for image sensor.
+> > > +
+> > > +  AVDD-supply:
+> > 
+> > lowercase
+> > 
+> > > +    description:
+> > > +      Analog (2.8V) supply for image sensor.
+> > > +
+> > > +  DVDD-supply:
+> > 
+> > lowercase
+> > 
+> > > +    description:
+> > > +      Digital Core (1.2V) supply for image sensor.
+> 
+> Are those three supplies required ? It looks like the vdd* supplies are
+> all you need.
 
--- 
-Regards,
+The THSCG101 camera module has these connected to the connector
+connected to the sensor. Which don't even match with the supplies that
+are in the imx258 bindings, so I'm not sure how to express these;
+they're not part of the thp7312 but they're technically necessary for
+the camera module, but they're also not part of the sensor that the ISP
+is connected to.
 
-Sakari Ailus
+
+Paul
+
+> 
+> > > +
+> > > +  orientation: true
+> > > +  rotation: true
+> > > +
+> > > +  thine,rx,data-lanes:
+> > 
+> > Why are you duplicating properties? With wrong name? No, that's not a
+> > property of a device node, but endpoint.
+> > 
+> > > +    minItems: 4
+> > > +    maxItems: 4
+> > > +    $ref: /schemas/media/video-interfaces.yaml#data-lanes
+> > > +    description: |-
+> > 
+> > Drop |- where not needed.
+> > 
+> > > +      This property is for lane reordering between the THP7312 and the imaging
+> > > +      sensor that it is connected to.
+> > > +
+> > > +  port:
+> > > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +    additionalProperties: false
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        $ref: /schemas/media/video-interfaces.yaml#
+> > > +        unevaluatedProperties: false
+> > > +
+> > > +        properties:
+> > > +          data-lanes:
+> > > +            description: |-
+> > > +              The sensor supports either two-lane, or four-lane operation.
+> > > +              This property is for lane reordering between the THP7312 and
+> > > +              the SoC. If this property is omitted four-lane operation is
+> > > +              assumed. For two-lane operation the property must be set to <1 2>.
+> > > +            minItems: 2
+> > > +            maxItems: 4
+> > > +            items:
+> > > +              maximum: 4
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - reset-gpios
+> > > +  - clocks
+> > > +  - vddcore-supply
+> > > +  - vhtermrx-supply
+> > > +  - vddtx-supply
+> > > +  - vddhost-supply
+> > > +  - vddcmos-supply
+> > > +  - vddgpio_0-supply
+> > > +  - vddgpio_1-supply
+> > > +  - DOVDD-supply
+> > > +  - AVDD-supply
+> > > +  - DVDD-supply
+> > > +  - thine,rx,data-lanes
+> > > +  - port
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +    i2c {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        camera@61 {
+> > > +            compatible = "thine,thp7312";
+> > > +            reg = <0x61>;
+> > > +
+> > > +            pinctrl-names = "default";
+> > > +            pinctrl-0 = <&cam1_pins_default>;
+> > > +
+> > > +            reset-gpios = <&pio 119 GPIO_ACTIVE_LOW>;
+> > > +            clocks = <&camera61_clk>;
+> > > +
+> > > +            vddcore-supply = <&vsys_v4p2>;
+> > > +            AVDD-supply = <&vsys_v4p2>;
+> > > +            DVDD-supply = <&vsys_v4p2>;
+> > 
+> > Srlsy, test it before sending. Look how many supplies you require and
+> > what is provided here. How any of this could possibly work?
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
