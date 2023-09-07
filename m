@@ -2,127 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ABF47974C1
-	for <lists+linux-media@lfdr.de>; Thu,  7 Sep 2023 17:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A1927974B7
+	for <lists+linux-media@lfdr.de>; Thu,  7 Sep 2023 17:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231344AbjIGPkr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Sep 2023 11:40:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37446 "EHLO
+        id S235851AbjIGPkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Sep 2023 11:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344756AbjIGPdp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Sep 2023 11:33:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5623CE49;
-        Thu,  7 Sep 2023 08:33:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (ftip006315900.acc1.colindale.21cn-nte.bt.net [81.134.214.249])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC01831B9;
-        Thu,  7 Sep 2023 17:03:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694098987;
-        bh=Tu+mxxpH015oWyJsbCEuUxhFMyaqhb+/X6gaqeEsbwg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oOvU/38KLai0fMlQ+LtyaAWZAT/ZTbDaShtN+HYmdnM9UJCAherctnVcG4dY+shSf
-         5lfCWRyXTOMkthsUqE8/QPfwwyv596Xv6zntZ/ErZ8QcHM3p7c/wTFeaOZq4DkL+c3
-         iHzUolfCJeNpZcM4HSKBw56qOH0sYULK5VmhSPHE=
-Date:   Thu, 7 Sep 2023 18:04:48 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 3/3] arm64: dts: mediatek: mt8365-pumpkin: Add overlays
- for thp7312 cameras
-Message-ID: <20230907150448.GD17610@pendragon.ideasonboard.com>
-References: <502fc7b1-a32d-6901-3a45-d2aa0e0c3849@linaro.org>
- <20230906083237.GL7971@pendragon.ideasonboard.com>
- <a3ed9856-a87b-5cf6-26b5-ff2b19234a8a@linaro.org>
- <20230906090058.GB17308@pendragon.ideasonboard.com>
- <59e07c6a-6f1b-0cc7-dddc-96d2a4050843@linaro.org>
- <20230906093531.GO7971@pendragon.ideasonboard.com>
- <169399810391.277971.691693692840899613@ping.linuxembedded.co.uk>
- <20230906111429.GC17308@pendragon.ideasonboard.com>
- <ZPnkUVmDZYb0ysu0@pyrite.rasen.tech>
- <20230907150408.GC17610@pendragon.ideasonboard.com>
+        with ESMTP id S235721AbjIGPXP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Sep 2023 11:23:15 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40706E47
+        for <linux-media@vger.kernel.org>; Thu,  7 Sep 2023 08:23:08 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C624C433C9;
+        Thu,  7 Sep 2023 15:23:06 +0000 (UTC)
+Message-ID: <0e7d6689-d522-4438-9acb-952995c57f32@xs4all.nl>
+Date:   Thu, 7 Sep 2023 17:23:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230907150408.GC17610@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BTTV] [FSL P50x0] [PASEMI] TV Time doesn't work anymore after
+ dropping the overlay support
+Content-Language: en-US, nl
+To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Cc:     Darren Stevens <darren@stevens-zone.net>,
+        mad skateman <madskateman@gmail.com>,
+        "R.T.Dickinson" <rtd2@xtra.co.nz>,
+        Christian Zigotzky <info@xenosoft.de>,
+        Christian Zigotzky <chzigotzky@xenosoft.de>,
+        linux-media@vger.kernel.org
+References: <94a617be-00b3-6dc8-eb7d-ae13c6fffae5@xenosoft.de>
+ <cb82b6c1-035c-cc6b-2843-6b87ed6315ac@xenosoft.de>
+ <f23204ec-ff42-5907-fa28-c1975a87f4e6@xs4all.nl>
+ <79ea7cc5-6981-a791-7fed-7a6e27225000@xenosoft.de>
+ <a02d481b-562c-803a-a71d-b8d95ba7ebb5@xs4all.nl>
+ <82799d05-db42-c6a3-51ef-15e262344d4f@xenosoft.de>
+ <f3c18b6e-0a3d-49bd-9553-71bd610588c2@xenosoft.de>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <f3c18b6e-0a3d-49bd-9553-71bd610588c2@xenosoft.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 07, 2023 at 06:04:09PM +0300, Laurent Pinchart wrote:
-> On Thu, Sep 07, 2023 at 11:55:13PM +0900, Paul Elder wrote:
-> > On Wed, Sep 06, 2023 at 02:14:29PM +0300, Laurent Pinchart wrote:
-> > > On Wed, Sep 06, 2023 at 12:01:43PM +0100, Kieran Bingham wrote:
-> > > > Quoting Laurent Pinchart (2023-09-06 10:35:31)
-> > > > > On Wed, Sep 06, 2023 at 11:21:31AM +0200, Krzysztof Kozlowski wrote:
-> > > > > > On 06/09/2023 11:00, Laurent Pinchart wrote:
-> > > > > > >>> has a regulator@0. There are similar instances for clocks.
-> > > > > > >>>
-> > > > > > >>> I understand why it may not be a good idea, and how the root node is
-> > > > > > >>> indeed not a bus. In some cases, those regulators and clocks are grouped
-> > > > > > >>> in a regulators or clocks node that has a "simple-bus" compatible. I'm
-> > > > > > >>> not sure if that's a good idea, but at least it should validate.
-> > > > > > >>>
-> > > > > > >>> What's the best practice for discrete board-level clocks and regulators
-> > > > > > >>> in overlays ? How do we ensure that their node name will not conflict
-> > > > > > >>> with the board to which the overlay is attached ?
-> > > > > > >>
-> > > > > > >> Top-level nodes (so under /) do not have unit addresses. If they have -
-> > > > > > >> it's an error, because it is not a bus. Also, unit address requires reg.
-> > > > > > >> No reg? No unit address. DTC reports this as warnings as well.
-> > > > > > > 
-> > > > > > > I agree with all that, but what's the recommended practice to add
-> > > > > > > top-level clocks and regulators in overlays, in a way that avoids
-> > > > > > > namespace clashes with the base board ?
-> > > > > > 
-> > > > > > Whether you use regulator@0 or regulator-0, you have the same chances of
-> > > > > > clash.
-> > > > > 
-> > > > > No disagreement there. My question is whether there's a recommended
-> > > > > practice to avoid clashes, or if it's an unsolved problem that gets
-> > > > > ignored for now because there's only 36h in a day and there are more
-> > > > > urgent things to do.
-> > > > 
-> > > > Should an overlay add these items to a simple-bus specific to that
-> > > > overlay/device that is being supported?
-> > > > 
-> > > > That would 'namespace' the added fixed-clocks/fixed-regulators etc...
-> > > > 
-> > > > But maybe it's overengineering or mis-using the simple-bus.
-> > > 
-> > > You would still need to name the node that groups the regulators and
-> > > clocks in a way that wouldn't clash between multiple overlays and the
-> > > base board. It would be nice to have nodes that are "private" to an
-> > > overlay.
-> > 
-> > What's the best solution to this then :/
+Hi Deb,
+
+On 04/09/2023 13:51, Christian Zigotzky wrote:
+> On 05 May 2023 at 09:20 am, Christian Zigotzky wrote:
+>> On 05 May 2023 at 08:45 am, Hans Verkuil wrote:
+>>> On 05/05/2023 08:25, Christian Zigotzky wrote:
+>>>> On 02 May 2023 at 08:57 am, Hans Verkuil wrote:
+>>>>> If v4l2-ctl fails, then try again
+>>>>> after applying this series:
+>>>>>
+>>>>> https://patchwork.linuxtv.org/project/linux-media/cover/cover.1682995256.git.deborah.brouwer@collabora.com/
+>>>> Your patch series solved the issue. Thanks a lot!
+>>> Nice, but somewhat unexpected :-)
+>>>
+>>> I'm a little bit unsure how to proceed: the 6.4 kernel will remove destructive overlay
+>>> support, but it won't have this series yet, that's for 6.5. But that would make 6.4
+>>> unusable for you.
+>>>
+>>> I might have to revert the overlay removal, at least for bttv.
+>>>
+>>> Regards,
+>>>
+>>>     Hans
+>> Hans,
+>>
+>> You don't need to revert the overlay removal because your patch series work with the latest git kernel (6.4).
+>>
+>> Thanks for your help,
+>>
+>> Christian
 > 
-> It seems we don't have a good solution. For now, I'd recommend just
-> picking a name for the regulator that has a high chance to be unique,
-> like reg-thp7312-1v2 for instance.
+> Hello Hans,
+> 
+> I successfully used your patches for the kernel 6.5. Everything works without any problems with your patch series from May.
+> 
+> Your patches have been added with the latest Media updates [1] for the kernel 6.6.
+> 
+> The patches works but I have a green bar in the bottum of the window if I use the composite input. [2]
+> 
+> I don't have this green bar with your May patch series.
+> 
+> Could you please check your latest patches?
+> 
+> Thanks,
+> 
+> Christian
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=307d59039fb26212a84a9aa6a134a7d2bdea34ca
+> [2] https://i.ibb.co/D4K6j2c/Kernel-6-6-alpha2-Power-PC.png
+> 
+> 
 
-Or reg-cam-1v2, or ... The name doesn't matter much really, as long as
-it's not extremely generic with a high risk of conflict.
+After some testing and debugging I found this change in the bttv vb2 conversion
+patch:
 
-> > > > And the items are still not on a 'bus' with an address - they just exist
-> > > > on a presumably externally provided board....
+https://patchwork.linuxtv.org/project/linux-media/patch/d785cd8b0d8c19c05fcaa1536622e2fdd9f8ede3.1689379982.git.deborah.brouwer@collabora.com/
 
--- 
+> diff --git a/drivers/media/pci/bt8xx/bttv-risc.c b/drivers/media/pci/bt8xx/bttv-risc.c
+> index 3e0dac56de54..436baf6c8b08 100644
+> --- a/drivers/media/pci/bt8xx/bttv-risc.c
+> +++ b/drivers/media/pci/bt8xx/bttv-risc.c
+> @@ -67,8 +67,10 @@ bttv_risc_packed(struct bttv *btv, struct btcx_riscmem *risc,
+>  	/* scan lines */
+>  	sg = sglist;
+>  	for (line = 0; line < store_lines; line++) {
+> -		if ((btv->opt_vcr_hack) &&
+> -		    (line >= (store_lines - VCR_HACK_LINES)))
+> +		if ((line >= (store_lines - VCR_HACK_LINES)) &&
+> +		    (btv->opt_vcr_hack ||
+> +		    (V4L2_FIELD_HAS_BOTH(btv->field) ||
+> +		     btv->field == V4L2_FIELD_ALTERNATE)))
+>  			continue;
+>  		while (offset && offset >= sg_dma_len(sg)) {
+>  			offset -= sg_dma_len(sg);
+
+It is this change that causes the issue: basically the condition
+(V4L2_FIELD_HAS_BOTH(btv->field) || btv->field == V4L2_FIELD_ALTERNATE)
+is almost always true (it is only false for FIELD_TOP/BOTTOM), so it is
+as if vcr_hack is always turned on.
+
+It looks to me like some debug code accidentally ended up in this patch.
+Reverting this change makes everything look good again (Christian, it would
+be great if you can confirm that this also fixes the issue for you!).
+
+Deb, can you remember anything about this change?
+
 Regards,
 
-Laurent Pinchart
+	Hans
+
+
+
