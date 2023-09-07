@@ -2,110 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71BB4796EAE
-	for <lists+linux-media@lfdr.de>; Thu,  7 Sep 2023 03:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EED00796F8C
+	for <lists+linux-media@lfdr.de>; Thu,  7 Sep 2023 06:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240631AbjIGBv3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Sep 2023 21:51:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49168 "EHLO
+        id S239601AbjIGEQC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Sep 2023 00:16:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230271AbjIGBv2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Sep 2023 21:51:28 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2042.outbound.protection.outlook.com [40.107.6.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B33E73;
-        Wed,  6 Sep 2023 18:51:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mrUh+TdSJMMu/8kZh2sKc6UGppvJNGxBIMlyxhSn7sDtZoovLRwyB21jEI02G7Jhgg7yWR0g6vY9a0t1xGqBjwjkQsdMnSOJVDCrPdxYA2ZL55GuRAUEY3Dy3TCyhpFIpNIg3E1lyQo+g/HzUqvWRu6DrURRX5tEzrfATaWJe17vOC6dcXMnP8U+BSzucb/bAFxQLmMZ/66Q9FsqUCblCVZ7Zv6FNQgFmvPUJOWCoY93X99WDkzSfVa/jAbw6w4+NgQ5xSOwYmv+/5HQfZC51tAUyYJyCMQ4pgusndmKEqyE/WrPua9gLp3fa2YepAzdaD33J9Wa4MNZhhmsZQm37Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hp5GYzMlqIYvvXcN3F9wAnd9/VUoH+9Aq3Vyf15109o=;
- b=jQ8VvJfAsKsm9CxE7KSVfBAsl+YtfXQMi0Aj3L3iJ4kOLxdLvH+drrAet5NZ+/C4kyJ7ZvVR4H2dt2Q7CIeAJfOuxsdTYSgHHzDynlwuX8seIb++hzXELKtYSt8XaUsOBoe7VezfqKstSz+a1NwgFdhaXn5ih5i6E4EDEC/9BcNrEK95uIZj6oq63AOj5EOEYOr4Oe+gL/SiHWWKv6oPBxCzHl6jXDoZTg+e6mvGTuWWLbFXlGs2TxcRxNRso8LoZDcSwgncboUBThwFpo2LjvSbWcw2JopBPU5NIu8phaOhovQ1GpTrzGEI7lesf5HEO/J2oKb9F0djZdqr8/6BQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hp5GYzMlqIYvvXcN3F9wAnd9/VUoH+9Aq3Vyf15109o=;
- b=rNyJhghq8H0nL5AmxlSU+vBF7GuDcm6cWqQac/PvRfcCqI7/54gPogIp8lAvsGrP5UnjPiDCp0ZN7lvHRNb/Tx/Bqge0J5eoz2/Qluii73TAUo+sWaLAX79xS4u3ePNVV9qt/a/9hiJB3SHj+8OVlQLHuALOMkCDtJfnHp5YoFw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AS8PR04MB8388.eurprd04.prod.outlook.com (2603:10a6:20b:3f8::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Thu, 7 Sep
- 2023 01:51:21 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::613b:e94b:4ccd:f55a]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::613b:e94b:4ccd:f55a%4]) with mapi id 15.20.6745.034; Thu, 7 Sep 2023
- 01:51:21 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3] media: amphion: handle firmware debug message
-Date:   Thu,  7 Sep 2023 09:51:00 +0800
-Message-Id: <20230907015100.22881-1-ming.qian@nxp.com>
-X-Mailer: git-send-email 2.38.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0038.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::15) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
+        with ESMTP id S232432AbjIGEPu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Sep 2023 00:15:50 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C84A4CF2
+        for <linux-media@vger.kernel.org>; Wed,  6 Sep 2023 21:15:43 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-414b3a1a24aso3989861cf.2
+        for <linux-media@vger.kernel.org>; Wed, 06 Sep 2023 21:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1694060142; x=1694664942; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QHSZVsclUSPq3qNI//pbigdakyCDFL1AOVrJMm5Sok8=;
+        b=M1/LqbIQKejRCgHUVoysXSDbM7GxeUJ52S0fhqkGlZsdU9yS+yCuMOTaflMo6wmCj3
+         wAJ/jp2PnGFIfyPnP2LrpVk6WKEHLKZ7UcnJWW7uV5/z+jatoDuelB7AF+eefFq1U75I
+         v1DeUnhQfVG/EvKwN+7I0P7RoYU0PxEU7vkCM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694060142; x=1694664942;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QHSZVsclUSPq3qNI//pbigdakyCDFL1AOVrJMm5Sok8=;
+        b=NDnENzuu1udcTBnZbdtSpBn4LH/L1hbhAoNxi2GeTURQarl6snUUbGzI07Co3ipvxo
+         lwWXtYvLs6OE6ILYjIWY6MHr6Jy+SoA6870IxA91+6S4TmlvabEaBLkSwhfjaAPZa7la
+         x8d0cfITSlJqA6pnsrwreptDPWeKh/Qx2Fa7jmlWGP/IalHRYmsCQhMvJQHFmKg1GMTz
+         xZ/XDMThdPSEhRnrjW8wXlxnLBalGPJssnoAAqu1GPJTYsgaO32TmemENayfI3n9w4LB
+         KSKSaSgoJPr/YWWs6V7xaPWTzeg4zdHo94yyhqmwxPcuQUMaf4Hdi50qaV3mX30pL3tg
+         Eqig==
+X-Gm-Message-State: AOJu0YwIceG5hDcFEd0HmSba1r/9ZT4VOvxttlgvqxon2CjNzTpnED1J
+        gNKMJnYfyxQitOFvVHMhYlE3KSN5bQq7F+rVJXuINA==
+X-Google-Smtp-Source: AGHT+IFt/jPLfB/boFcssmGghwqlj5KGzjrTgP7zeQezMQI2e15NmK32abZARIAeJgqLle+9wI8svw==
+X-Received: by 2002:ac8:5f12:0:b0:410:9a31:58e7 with SMTP id x18-20020ac85f12000000b004109a3158e7mr22694614qta.40.1694060142419;
+        Wed, 06 Sep 2023 21:15:42 -0700 (PDT)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com. [209.85.219.52])
+        by smtp.gmail.com with ESMTPSA id x9-20020ac85389000000b00403ff38d855sm5848884qtp.4.2023.09.06.21.15.40
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Sep 2023 21:15:41 -0700 (PDT)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-64cca551ae2so3491686d6.0
+        for <linux-media@vger.kernel.org>; Wed, 06 Sep 2023 21:15:40 -0700 (PDT)
+X-Received: by 2002:a0c:f0d4:0:b0:64f:9361:6b19 with SMTP id
+ d20-20020a0cf0d4000000b0064f93616b19mr14561910qvl.9.1694060140283; Wed, 06
+ Sep 2023 21:15:40 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|AS8PR04MB8388:EE_
-X-MS-Office365-Filtering-Correlation-Id: daa4209d-a07a-4724-ab92-08dbaf44ef92
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: W/OJ8lUEzK9PcH8P0qQ6RuOo9gWJAy+EnXTk0g4pJAj4B4cb+FEmkNHVSl4XHpOHl0kdGnAO38GPQmIpRZ3GYXdAoa35GgGtzNpHktJhBl+8LVJ99Qk+/XtJR6NWFYLCYwFeQy4pwz2jPxfOkZvJCxHqAJWN606PKjOV2Wuhn6KZ/vofjmji9EKHPUdwd2pnNrmVcwl+XA/2ltCH2PX7kZ0BIcqDDMH+kcWdI0TQJsvZAiE9kTZO5tjgbVKvqA8M2HrsdupluGsF7htRtll979pa11I3nVWMlnEk+duwtF7+jE67t+cbZrbxDHHeIqS1KN3rA6pBqOfDl2Vd835YhWt5Mc6TsE7C4g+q/jrSZZCse2/35/2qstJ5rcgpz0Z9L/r3GCEorW1Jwq6AegNybz7UdMIWw6BtRxTmxfZ0srTh02W0p3vdjEPpNNotFbot0jXshU0hm5j7vcgT3zUx6YfWLOL7bAeWLOQofDkBAFsi7t7hrhQXqRXkgIp9NOXBWYu8FLJU/gm9VnzmVpjft0ozhaZdMjFWmhuzSWWdqQfKzF2uRMLMTQe6DmZCzoLZTSIC2qMzCdAGJUY0NTAl+wAXtevu7UJkVOIeyTsdG/a/dHp7yeRwqY3rowI/a71G
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(366004)(136003)(346002)(396003)(186009)(451199024)(1800799009)(6666004)(6486002)(6506007)(52116002)(8936002)(36756003)(86362001)(38350700002)(38100700002)(478600001)(7416002)(1076003)(15650500001)(2906002)(26005)(83380400001)(6512007)(2616005)(41300700001)(4326008)(8676002)(316002)(5660300002)(66476007)(66556008)(66946007)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fQkvrbdFC63qVfY0J48M16CFnKOtPyyVwxBEkIcTvXMxiLuf20xZL8bVcoMc?=
- =?us-ascii?Q?uOOH8aNkyJolLehoLZCl1mjWvTFkcnW6U/Q58CqNSRw0TT7FElKqtsY9+J5k?=
- =?us-ascii?Q?l9jy9PoVUwVW8vgfCSALiGCRRNA07/3UCczRYxlP7OYDqcQ5XH8X7ZN75i7r?=
- =?us-ascii?Q?1xkEsMLUiZGBpWTpM1CHalrGdJADO0LAfNsTFsTmvRyadoNm2N4pi/warqEt?=
- =?us-ascii?Q?JdDw0b1y7r17g7ViUcxhU8HofJ7j9K3dYGx48EquzK1PB0mDI7qMsLelzg3I?=
- =?us-ascii?Q?p72C5oyhqNnO/BjCcNKJ/waMDwS193tWisvgLUUqgjYa3mjyDPshe/lObq9B?=
- =?us-ascii?Q?2ETVftkmi8Rfux1rbUG/Gf7U4LY++8Uh0LTPF/wVc++X/5NGZ1guP4WoalGt?=
- =?us-ascii?Q?l6xiAPe7KaXmwRyEIeNnfXpMEBFSCb32CJ18kFDNBUJpKys08vrmIVCQD+rs?=
- =?us-ascii?Q?srWPtXhtxcYhn5le8LiyiEsbbXwuQaEE9nD/UEPuV9zf3KKsbQX1Nr13WpVb?=
- =?us-ascii?Q?ncLE0T4B/YQ0XKnU8/D1w1tRCqaXpk9aqfW+vfZ8U1v6zqhvA/BC03h658+f?=
- =?us-ascii?Q?9DCEmv3zSXSESE1KrzXQMmpRHzlSWACnAkizOhoF/ihkuSMWGOIV1X2mHvxW?=
- =?us-ascii?Q?XVSFlkV4GnEww3zNcrcRKuPCj5c4asWNqCehadXo/yFZ3oaCn11BJ/t8Oltu?=
- =?us-ascii?Q?s2TP6d+3eQNfRpZtlwlZHa6guZEjAe/gi+BuoDY2CWHz1ZgV9HRMXH/m7rwf?=
- =?us-ascii?Q?mXYEVlB55tHBMveQp4WinsKB6PSpiXxsTvIQ7PyPUcuqXe95wqmB6Ew5oU8D?=
- =?us-ascii?Q?4JRIlylOysyYxr1tA18C0TksEMNKBi4LiAiHhCByxzmjJ5gDFIUs8VUDnUuD?=
- =?us-ascii?Q?pbdeiUDPDKniOZZGMrP0zOUqsxDOFmMiQxR+7JBH+0c5+DzqsR2i+7DgzRTs?=
- =?us-ascii?Q?vpkoAE4QiW6j7WZccZjEJr3mlCLbVN57EpGsRiE/iI8+nunS0nT77O9BvBvp?=
- =?us-ascii?Q?GOXH8EmvABuCeM06c/WrGUavzbOX7xrB2O8tL6VkzVa0ouMJ8/EyNbRb+C31?=
- =?us-ascii?Q?pXomtR4OUwZDVJ7/hT4aNTcE1BuQfZEHaiao4BEdg8bEgNfwHvmzjINMB0At?=
- =?us-ascii?Q?MM8NmGqJVoJTWhXT3WUBAfx9NV4FK+RikQw7loctpZpPHaX+cPT8aCviEEYi?=
- =?us-ascii?Q?WQZLPvtU98yflij28BfaDe76VIKn3PAoDWD0TrJg7C2aaxsGaAM92YxYKLmR?=
- =?us-ascii?Q?p3tuqNM/OMuUmOhnkl629aJe1X0K95+orqdN0kVnhfWk9sE1qZ93gDlQqDpQ?=
- =?us-ascii?Q?Qi5XuR8HnR5smk8+6iCZqqb3n/w7Nd+mzXBn2JetJ7/BqB4YwstFVp/bHQPP?=
- =?us-ascii?Q?H42RMkjcpcukKO/au6AVymOC/vMQ7MgoREsVa2W6cKgL+OhrOO+HPh/6hHGI?=
- =?us-ascii?Q?Wcm9ahC9PoJZfrzjyOj0kZMDgpfMzGBMftIj2BprfspThSWhVl0GLI5HLNvQ?=
- =?us-ascii?Q?HwmI8k/mur+k87Zp4CdO8zGNdzOMc1VAofhSHIkW4cMN1+8uaf5dnM4EOHhk?=
- =?us-ascii?Q?bNEjBrgqC9Hjctus/mU/BLSzG5JfATIfMmFXVYYo?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: daa4209d-a07a-4724-ab92-08dbaf44ef92
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2023 01:51:21.7013
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CjB2m0kcROrEscHaT/X0b0dr0zUWnMBeODeI8cQA4juyu4J3PSRSpORRLzYWsh2l5y5FDuE5Xl2OEOTmRwyj8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8388
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
+ <20230622131349.144160-5-benjamin.gaignard@collabora.com> <e7444263-0ce5-1575-8cca-1e51b1cfbe9a@synaptics.com>
+ <5cb3f216-5041-a155-5d2c-059dc1f15024@collabora.com> <25b21252-0d3a-3e50-0012-57055f386fee@synaptics.com>
+ <20230712104801.tgawhexpm53ocgd6@chromium.org> <2d239d33-b05d-1b51-2268-43b2839b64ea@synaptics.com>
+ <CAAFQd5D7oNG8oZB66qEW720fR79paw_q0LGBg7X4jK-ZkgYD_g@mail.gmail.com>
+ <f6a3e3e5-14be-6d5c-48d3-009424e1a49a@synaptics.com> <CAAFQd5D3NUqvkJFYgystFVFRQvq-5S0ZNUOrv1LJqmCA_8+a_w@mail.gmail.com>
+ <9bc67e88-bce1-b812-aa57-76eca764cb38@synaptics.com>
+In-Reply-To: <9bc67e88-bce1-b812-aa57-76eca764cb38@synaptics.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 7 Sep 2023 13:15:23 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DpCfS7RyTbd_kfFz+wQ41=gnLosMMNK_GcH8JO=DbzSQ@mail.gmail.com>
+Message-ID: <CAAFQd5DpCfS7RyTbd_kfFz+wQ41=gnLosMMNK_GcH8JO=DbzSQ@mail.gmail.com>
+Subject: Re: [PATCH v3 04/11] media: videobuf2: Stop define VB2_MAX_FRAME as global
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, linux-staging@lists.linux.dev,
+        ming.qian@nxp.com, kernel@collabora.com,
+        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -113,130 +88,367 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-decoder firmware may notify host some debug message,
-it can help analyze the state of the firmware in case of error
+On Fri, Jul 28, 2023 at 4:25=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics.com=
+> wrote:
+>
+>
+>
+> On 7/28/23 15:03, Tomasz Figa wrote:
+> > CAUTION: Email originated externally, do not click links or open attach=
+ments unless you recognize the sender and know the content is safe.
+> >
+> >
+> > On Fri, Jul 28, 2023 at 3:55=E2=80=AFPM Hsia-Jun Li <Randy.Li@synaptics=
+.com> wrote:
+> >>
+> >>
+> >>
+> >> On 7/28/23 14:46, Tomasz Figa wrote:
+> >>> CAUTION: Email originated externally, do not click links or open atta=
+chments unless you recognize the sender and know the content is safe.
+> >>>
+> >>>
+> >>> On Mon, Jul 17, 2023 at 4:44=E2=80=AFPM Hsia-Jun Li <Randy.Li@synapti=
+cs.com> wrote:
+> >>>>
+> >>>>
+> >>>> On 7/12/23 18:48, Tomasz Figa wrote:
+> >>>>> CAUTION: Email originated externally, do not click links or open at=
+tachments unless you recognize the sender and know the content is safe.
+> >>>>>
+> >>>>>
+> >>>>> On Mon, Jul 03, 2023 at 04:35:30PM +0800, Hsia-Jun Li wrote:
+> >>>>>> On 7/3/23 16:09, Benjamin Gaignard wrote:
+> >>>>>>> CAUTION: Email originated externally, do not click links or open
+> >>>>>>> attachments unless you recognize the sender and know the content =
+is
+> >>>>>>> safe.
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> Le 30/06/2023 =C3=A0 11:51, Hsia-Jun Li a =C3=A9crit :
+> >>>>>>>> On 6/22/23 21:13, Benjamin Gaignard wrote:
+> >>>>>>>>> CAUTION: Email originated externally, do not click links or ope=
+n
+> >>>>>>>>> attachments unless you recognize the sender and know the conten=
+t is
+> >>>>>>>>> safe.
+> >>>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> After changing bufs arrays to a dynamic allocated array
+> >>>>>>>>> VB2_MAX_FRAME doesn't mean anything for videobuf2 core.
+> >>>>>>>> I think make it 64 which is the VB2_MAX_FRAME in Android GKI ker=
+nel is
+> >>>>>>>> more reasonable.
+> >>>>>>>>
+> >>>>>>>> It would be hard to iterate the whole array, it would go worse w=
+ith a
+> >>>>>>>> filter. Such iterate may need to go twice because you mix
+> >>>>>>>> post-processing buffer and decoding buffer(with MV) in the same =
+array.
+> >>>>>>> Here I don't want to change drivers behavior so I keep the same v=
+alue.
+> >>>>>>> If it happens that they need more buffers, like for dynamic resol=
+ution
+> >>>>>>> change
+> >>>>>>> feature for Verisilicon VP9 decoder, case by case patches will be=
+ needed.
+> >>>>>>>
+> >>>>>> I just don't like the idea that using a variant length array here.
+> >>>>>>
+> >>>>> "I don't like" is not an argument. We had a number of arguments for
+> >>>>> using a generic helper (originally idr, but later decided to go wit=
+h
+> >>>>> XArray, because the former is now deprecated) that we pointed out i=
+n
+> >>>>> our review comments for previous revisions. It wasn't really about =
+the
+> >>>>> size being variable, but rather avoiding open coding things in vb2 =
+and
+> >>>>> duplicating what's already implemented in generic code.
+> >>>>
+> >>>> I just want to say I don't think we need a variable length array to
+> >>>> store the buffer here.
+> >>>>
+> >>>> And the below is the reason that such a case could be avoided in the
+> >>>> first place.
+> >>>>
+> >>>>>
+> >>>>>> And I could explain why you won't need so many buffers for the per=
+formance
+> >>>>>> of decoding.
+> >>>>>>
+> >>>>>> VP9 could support 10 reference frames in dpb.
+> >>>>>>
+> >>>>>> Even for those frequent resolution changing test set, it would onl=
+y happen
+> >>>>>> to two resolutions,
+> >>>>>>
+> >>>>>> 32 would be enough for 20 buffers of two resolution plus golden fr=
+ames. It
+> >>>>>> also leaves enough slots for re-order latency.
+> >>>>>>
+> >>>>>> If your case had more two resolutions, likes low->medium->high.
+> >>>>>>
+> >>>>>> I would suggest just skip the medium resolutions, just allocate th=
+e lower
+> >>>>>> one first for fast playback then the highest for all the possible
+> >>>>>>
+> >>>>>> medium cases. Reallocation happens frequently would only cause mem=
+ory
+> >>>>>> fragment, nothing benefits your performance.
+> >>>>>>
+> >>>>> We have mechanisms in the kernel to deal with memory fragmentation
+> >>>>> (migration/compaction) and it would still only matters for the
+> >>>>> pathologic cases of hardware that require physically contiguous mem=
+ory.
+> >>>>> Modern hardware with proper DMA capabilities can either scatter-gat=
+her
+> >>>>> or are equipped with an IOMMU, so the allocation always happens in =
+page
+> >>>>> granularity and fragmentation is avoided.
+> >>>>
+> >>>> Unfortunately, there are more devices that didn't have a IOMMU attac=
+hed
+> >>>> to it, supporting scatter gather is more odd.
+> >>>>
+> >>>> It would be more likely that IOMMU would be disabled for the perform=
+ance
+> >>>> reason.
+> >>>
+> >>> These days IOMMU is totally mandatory if you want to think about
+> >>> having any level of security in your system. Sure, there could be som=
+e
+> >>> systems that are completely isolated from any external environment,
+> >>> like some offline industry automation machines, but then arguably
+> >>> their running conditions would also be quite static and require very
+> >>> little memory re-allocation.
+> >> Vendor just decided not to included such hardware.
+> >> That is why From ION to DMA-heap, people like to allocate from a cavou=
+t
+> >> out memory.
+> >>>
+> >>> I also don't buy the performance reason. CPUs have been behind MMUs
+> >>> for ages and nobody is running them with paging disabled for
+> >>> performance reasons. Similarly, most of the modern consumer systems
+> >> Page lookup would increase the delay. Besides a few upstream devices
+> >> prove them only use a level 1 page table without TBL.
+> >
+> > That's just an excuse for a bad hardware design/implementation. As I
+> > said, there are good IOMMU implementations out there that don't suffer
+> > from performance issues.
+> >
+> I could do nothing about that.
+> Besides, even with TLB, cache missing could happen frequently,
+> especially we need to access many (5~16, 10 usually) buffers and more
+> 11MBytes each in a hardware processing.
+> You can't have a very large TLB.
 
-Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
-v3
-- set the last byte to 0 only for string message
-v2
-- force to terminate string message data
- drivers/media/platform/amphion/vpu_defs.h    |  1 +
- drivers/media/platform/amphion/vpu_helpers.c |  1 +
- drivers/media/platform/amphion/vpu_malone.c  |  1 +
- drivers/media/platform/amphion/vpu_msgs.c    | 31 ++++++++++++++++----
- 4 files changed, 29 insertions(+), 5 deletions(-)
+Right, but as I wrote in my previous emails, we have the right methods
+in the kernel for providing drivers with contiguous memory and those
+can be used for those special cases.
 
-diff --git a/drivers/media/platform/amphion/vpu_defs.h b/drivers/media/platform/amphion/vpu_defs.h
-index 667637eedb5d..7320852668d6 100644
---- a/drivers/media/platform/amphion/vpu_defs.h
-+++ b/drivers/media/platform/amphion/vpu_defs.h
-@@ -71,6 +71,7 @@ enum {
- 	VPU_MSG_ID_TIMESTAMP_INFO,
- 	VPU_MSG_ID_FIRMWARE_XCPT,
- 	VPU_MSG_ID_PIC_SKIPPED,
-+	VPU_MSG_ID_DBG_MSG,
- };
- 
- enum VPU_ENC_MEMORY_RESOURSE {
-diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media/platform/amphion/vpu_helpers.c
-index af3b336e5dc3..d12310af9ebc 100644
---- a/drivers/media/platform/amphion/vpu_helpers.c
-+++ b/drivers/media/platform/amphion/vpu_helpers.c
-@@ -489,6 +489,7 @@ const char *vpu_id_name(u32 id)
- 	case VPU_MSG_ID_UNSUPPORTED: return "unsupported";
- 	case VPU_MSG_ID_FIRMWARE_XCPT: return "exception";
- 	case VPU_MSG_ID_PIC_SKIPPED: return "skipped";
-+	case VPU_MSG_ID_DBG_MSG: return "debug msg";
- 	}
- 	return "<unknown>";
- }
-diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
-index f771661980c0..d3425de7bccd 100644
---- a/drivers/media/platform/amphion/vpu_malone.c
-+++ b/drivers/media/platform/amphion/vpu_malone.c
-@@ -745,6 +745,7 @@ static struct vpu_pair malone_msgs[] = {
- 	{VPU_MSG_ID_UNSUPPORTED, VID_API_EVENT_UNSUPPORTED_STREAM},
- 	{VPU_MSG_ID_FIRMWARE_XCPT, VID_API_EVENT_FIRMWARE_XCPT},
- 	{VPU_MSG_ID_PIC_SKIPPED, VID_API_EVENT_PIC_SKIPPED},
-+	{VPU_MSG_ID_DBG_MSG, VID_API_EVENT_DBG_MSG_DEC},
- };
- 
- static void vpu_malone_pack_fs_alloc(struct vpu_rpc_event *pkt,
-diff --git a/drivers/media/platform/amphion/vpu_msgs.c b/drivers/media/platform/amphion/vpu_msgs.c
-index d0ead051f7d1..b74a407a19f2 100644
---- a/drivers/media/platform/amphion/vpu_msgs.c
-+++ b/drivers/media/platform/amphion/vpu_msgs.c
-@@ -23,6 +23,7 @@
- struct vpu_msg_handler {
- 	u32 id;
- 	void (*done)(struct vpu_inst *inst, struct vpu_rpc_event *pkt);
-+	u32 is_str;
- };
- 
- static void vpu_session_handle_start_done(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
-@@ -154,7 +155,7 @@ static void vpu_session_handle_error(struct vpu_inst *inst, struct vpu_rpc_event
- {
- 	char *str = (char *)pkt->data;
- 
--	if (strlen(str))
-+	if (*str)
- 		dev_err(inst->dev, "instance %d firmware error : %s\n", inst->id, str);
- 	else
- 		dev_err(inst->dev, "instance %d is unsupported stream\n", inst->id);
-@@ -180,6 +181,21 @@ static void vpu_session_handle_pic_skipped(struct vpu_inst *inst, struct vpu_rpc
- 	vpu_inst_unlock(inst);
- }
- 
-+static void vpu_session_handle_dbg_msg(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
-+{
-+	char *str = (char *)pkt->data;
-+
-+	if (*str)
-+		dev_info(inst->dev, "instance %d firmware dbg msg : %s\n", inst->id, str);
-+}
-+
-+static void vpu_terminate_string_msg(struct vpu_rpc_event *pkt)
-+{
-+	if (pkt->hdr.num == ARRAY_SIZE(pkt->data))
-+		pkt->hdr.num--;
-+	pkt->data[pkt->hdr.num] = 0;
-+}
-+
- static struct vpu_msg_handler handlers[] = {
- 	{VPU_MSG_ID_START_DONE, vpu_session_handle_start_done},
- 	{VPU_MSG_ID_STOP_DONE, vpu_session_handle_stop_done},
-@@ -193,9 +209,10 @@ static struct vpu_msg_handler handlers[] = {
- 	{VPU_MSG_ID_PIC_DECODED, vpu_session_handle_pic_decoded},
- 	{VPU_MSG_ID_DEC_DONE, vpu_session_handle_pic_done},
- 	{VPU_MSG_ID_PIC_EOS, vpu_session_handle_eos},
--	{VPU_MSG_ID_UNSUPPORTED, vpu_session_handle_error},
--	{VPU_MSG_ID_FIRMWARE_XCPT, vpu_session_handle_firmware_xcpt},
-+	{VPU_MSG_ID_UNSUPPORTED, vpu_session_handle_error, true},
-+	{VPU_MSG_ID_FIRMWARE_XCPT, vpu_session_handle_firmware_xcpt, true},
- 	{VPU_MSG_ID_PIC_SKIPPED, vpu_session_handle_pic_skipped},
-+	{VPU_MSG_ID_DBG_MSG, vpu_session_handle_dbg_msg, true},
- };
- 
- static int vpu_session_handle_msg(struct vpu_inst *inst, struct vpu_rpc_event *msg)
-@@ -219,8 +236,12 @@ static int vpu_session_handle_msg(struct vpu_inst *inst, struct vpu_rpc_event *m
- 		}
- 	}
- 
--	if (handler && handler->done)
--		handler->done(inst, msg);
-+	if (handler) {
-+		if (handler->is_str)
-+			vpu_terminate_string_msg(msg);
-+		if (handler->done)
-+			handler->done(inst, msg);
-+	}
- 
- 	vpu_response_cmd(inst, msg_id, 1);
- 
--- 
-2.38.1
+> >>> (mobile phones, PCs) run with IOMMUs enabled for pretty much anything
+> >>> because of the security reason and they don't seem to be having any
+> >> If the page is secure, you can't operate it in a insecure IOMMU or MMU=
+.
+> >> The most security way here, we should use a dedicated memory(or a zone
+> >> in unified memory).
+> >
+> > You still need something to enforce that the hardware is not accessing
+> > memory that it's not supposed to access. How do you do that without an
+> > IOMMU?
+> >
+> If you know the arm security pipeline and security controller, you could
+> found we could reserved a range of memory for a security id(devices in
+> secure world may be a different security domain).
+> Besides, a MMU or security MPU could mark some pages for the secure
+> world access only, it doesn't mean the device need an IOMMU to access
+> them. The MPU could filter the access through the AXI id.
+> >> I believe there are more users in mobile for DMA-heap than kernel's dm=
+a
+> >> allocation API.
+> >
+> > Yes, but that's completely separate from whether there is an IOMMU or
+> > not. It's just a different allocation API.
+> >
+> The memory heap would mean a dedicated memory usually(we don't talk
+> about system heap or why there are many vendor heaps). Dedicated memory
+> means contiguous memory in the most of cases.
 
+No, and no.
+First no - DMA-buf heap doesn't imply dedicated memory and usually one
+wants to completely avoid carving out memory, because it becomes
+useless if specific use case is not active.
+Second no - there are ways to provide dedicated memory regions to the
+DMA mapping API, such as shared or restricted DMA pool [1].
+
+[1] https://elixir.bootlin.com/linux/latest/source/Documentation/devicetree=
+/bindings/reserved-memory/shared-dma-pool.yaml
+
+Best regards,
+Tomasz
+
+> >>> performance issues. In fact, it can improve the performance, because
+> >>> memory allocation is much easier and without contiguous careouts (as
+> >>> we used to have long ago on Android devices) the extra memory can be
+> >>> used for buffers and caches to improve system performance.
+> >>>
+> >>> Best regards,
+> >>> Tomasz
+> >>>
+> >>>>
+> >>>>>
+> >>>>> Best regards,
+> >>>>> Tomasz
+> >>>>>
+> >>>>>>>>> Remove it from the core definitions but keep it for drivers int=
+ernal
+> >>>>>>>>> needs.
+> >>>>>>>>>
+> >>>>>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.c=
+om>
+> >>>>>>>>> ---
+> >>>>>>>>>      drivers/media/common/videobuf2/videobuf2-core.c | 2 ++
+> >>>>>>>>>      drivers/media/platform/amphion/vdec.c | 1 +
+> >>>>>>>>> .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c |=
+ 2 ++
+> >>>>>>>>>      drivers/media/platform/qcom/venus/hfi.h | 2 ++
+> >>>>>>>>>      drivers/media/platform/verisilicon/hantro_hw.h | 2 ++
+> >>>>>>>>>      drivers/staging/media/ipu3/ipu3-v4l2.c | 2 ++
+> >>>>>>>>>      include/media/videobuf2-core.h | 1 -
+> >>>>>>>>>      include/media/videobuf2-v4l2.h | 4 ----
+> >>>>>>>>>      8 files changed, 11 insertions(+), 5 deletions(-)
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>>>>>> b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>>>>>> index 86e1e926fa45..899783f67580 100644
+> >>>>>>>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>>>>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>>>>>> @@ -31,6 +31,8 @@
+> >>>>>>>>>
+> >>>>>>>>>      #include <trace/events/vb2.h>
+> >>>>>>>>>
+> >>>>>>>>> +#define VB2_MAX_FRAME  32
+> >>>>>>>>> +
+> >>>>>>>>>      static int debug;
+> >>>>>>>>>      module_param(debug, int, 0644);
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/drivers/media/platform/amphion/vdec.c
+> >>>>>>>>> b/drivers/media/platform/amphion/vdec.c
+> >>>>>>>>> index 3fa1a74a2e20..b3219f6d17fa 100644
+> >>>>>>>>> --- a/drivers/media/platform/amphion/vdec.c
+> >>>>>>>>> +++ b/drivers/media/platform/amphion/vdec.c
+> >>>>>>>>> @@ -28,6 +28,7 @@
+> >>>>>>>>>
+> >>>>>>>>>      #define VDEC_MIN_BUFFER_CAP            8
+> >>>>>>>>>      #define VDEC_MIN_BUFFER_OUT            8
+> >>>>>>>>> +#define VB2_MAX_FRAME                  32
+> >>>>>>>>>
+> >>>>>>>>>      struct vdec_fs_info {
+> >>>>>>>>>             char name[8];
+> >>>>>>>>> diff --git
+> >>>>>>>>> a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_=
+if.c
+> >>>>>>>>> b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_=
+if.c
+> >>>>>>>>> index 6532a69f1fa8..a1e0f24bb91c 100644
+> >>>>>>>>> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_=
+lat_if.c
+> >>>>>>>>> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_=
+lat_if.c
+> >>>>>>>>> @@ -16,6 +16,8 @@
+> >>>>>>>>>      #include "../vdec_drv_if.h"
+> >>>>>>>>>      #include "../vdec_vpu_if.h"
+> >>>>>>>>>
+> >>>>>>>>> +#define VB2_MAX_FRAME  32
+> >>>>>>>>> +
+> >>>>>>>>>      /* reset_frame_context defined in VP9 spec */
+> >>>>>>>>>      #define VP9_RESET_FRAME_CONTEXT_NONE0 0
+> >>>>>>>>>      #define VP9_RESET_FRAME_CONTEXT_NONE1 1
+> >>>>>>>>> diff --git a/drivers/media/platform/qcom/venus/hfi.h
+> >>>>>>>>> b/drivers/media/platform/qcom/venus/hfi.h
+> >>>>>>>>> index f25d412d6553..bd5ca5a8b945 100644
+> >>>>>>>>> --- a/drivers/media/platform/qcom/venus/hfi.h
+> >>>>>>>>> +++ b/drivers/media/platform/qcom/venus/hfi.h
+> >>>>>>>>> @@ -10,6 +10,8 @@
+> >>>>>>>>>
+> >>>>>>>>>      #include "hfi_helper.h"
+> >>>>>>>>>
+> >>>>>>>>> +#define VB2_MAX_FRAME                          32
+> >>>>>>>>> +
+> >>>>>>>>>      #define VIDC_SESSION_TYPE_VPE                  0
+> >>>>>>>>>      #define VIDC_SESSION_TYPE_ENC                  1
+> >>>>>>>>>      #define VIDC_SESSION_TYPE_DEC                  2
+> >>>>>>>>> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>>>>>> b/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>>>>>> index e83f0c523a30..9e8faf7ba6fb 100644
+> >>>>>>>>> --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>>>>>> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> >>>>>>>>> @@ -15,6 +15,8 @@
+> >>>>>>>>>      #include <media/v4l2-vp9.h>
+> >>>>>>>>>      #include <media/videobuf2-core.h>
+> >>>>>>>>>
+> >>>>>>>>> +#define VB2_MAX_FRAME  32
+> >>>>>>>>> +
+> >>>>>>>>>      #define DEC_8190_ALIGN_MASK    0x07U
+> >>>>>>>>>
+> >>>>>>>>>      #define MB_DIM                 16
+> >>>>>>>>> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>>>>>> b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>>>>>> index e530767e80a5..6627b5c2d4d6 100644
+> >>>>>>>>> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>>>>>> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >>>>>>>>> @@ -10,6 +10,8 @@
+> >>>>>>>>>      #include "ipu3.h"
+> >>>>>>>>>      #include "ipu3-dmamap.h"
+> >>>>>>>>>
+> >>>>>>>>> +#define VB2_MAX_FRAME  32
+> >>>>>>>>> +
+> >>>>>>>>>      /******************** v4l2_subdev_ops ********************=
+/
+> >>>>>>>>>
+> >>>>>>>>>      #define IPU3_RUNNING_MODE_VIDEO                0
+> >>>>>>>>> diff --git a/include/media/videobuf2-core.h
+> >>>>>>>>> b/include/media/videobuf2-core.h
+> >>>>>>>>> index 77921cf894ef..080b783d608d 100644
+> >>>>>>>>> --- a/include/media/videobuf2-core.h
+> >>>>>>>>> +++ b/include/media/videobuf2-core.h
+> >>>>>>>>> @@ -20,7 +20,6 @@
+> >>>>>>>>>      #include <media/media-request.h>
+> >>>>>>>>>      #include <media/frame_vector.h>
+> >>>>>>>>>
+> >>>>>>>>> -#define VB2_MAX_FRAME  (32)
+> >>>>>>>>>      #define VB2_MAX_PLANES (8)
+> >>>>>>>>>
+> >>>>>>>>>      /**
+> >>>>>>>>> diff --git a/include/media/videobuf2-v4l2.h
+> >>>>>>>>> b/include/media/videobuf2-v4l2.h
+> >>>>>>>>> index 5a845887850b..88a7a565170e 100644
+> >>>>>>>>> --- a/include/media/videobuf2-v4l2.h
+> >>>>>>>>> +++ b/include/media/videobuf2-v4l2.h
+> >>>>>>>>> @@ -15,10 +15,6 @@
+> >>>>>>>>>      #include <linux/videodev2.h>
+> >>>>>>>>>      #include <media/videobuf2-core.h>
+> >>>>>>>>>
+> >>>>>>>>> -#if VB2_MAX_FRAME !=3D VIDEO_MAX_FRAME
+> >>>>>>>>> -#error VB2_MAX_FRAME !=3D VIDEO_MAX_FRAME
+> >>>>>>>>> -#endif
+> >>>>>>>>> -
+> >>>>>>>>>      #if VB2_MAX_PLANES !=3D VIDEO_MAX_PLANES
+> >>>>>>>>>      #error VB2_MAX_PLANES !=3D VIDEO_MAX_PLANES
+> >>>>>>>>>      #endif
+> >>>>>>>>> --
+> >>>>>>>>> 2.39.2
+> >>>>>>>>>
+> >>>>>> --
+> >>>>>> Hsia-Jun(Randy) Li
+> >>>>>>
+> >>>> --
+> >>>> Hsia-Jun(Randy) Li
+> >>>>
+> >>
+> >> --
+> >> Hsia-Jun(Randy) Li
+>
+> --
+> Hsia-Jun(Randy) Li
