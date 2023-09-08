@@ -2,107 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3DE79914D
-	for <lists+linux-media@lfdr.de>; Fri,  8 Sep 2023 22:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E85B67992AE
+	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 01:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243167AbjIHUwe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Sep 2023 16:52:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57062 "EHLO
+        id S242585AbjIHXJw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Sep 2023 19:09:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240081AbjIHUwe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 16:52:34 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E595C1FFD;
-        Fri,  8 Sep 2023 13:52:24 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87A55C43215;
-        Fri,  8 Sep 2023 20:52:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694206344;
-        bh=TcTQRLCCJ2nI5kBt3Ur/VJ/CjA9qDNAGUbTVoXZ0FFc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KKMs3kuE0jyLhFFImDSGLnNruBWTdUeyW76xuzGn69ruwfKYI6GKbJOaYXOQYZxy0
-         GBLo8zoKCuyc9etWI7P2hqXaoHe1OoTEI/nEhhLmdDq+x7kevRAmSflKjzGx6wKXVK
-         1vmR4jvvx8ZXhKhG4REISHbNAa47cFya9GHyN5fIQRoUJUcmU+7Jmzbx4jzEQhETje
-         tQStBQmAneqHovqRdKrc1FydK3HWBE2FJOZ4bLkJMBCt7W+ZWKEIOBuuAmrCH/FPYb
-         VtvltK95RppdKCbSzGcb7/WprEJRCyAptgDoUFBra9H9TTDJQuiRcYKZ9nAe2QY9Td
-         DUc2Fb76bENog==
-Received: (nullmailer pid 336501 invoked by uid 1000);
-        Fri, 08 Sep 2023 20:52:22 -0000
-Date:   Fri, 8 Sep 2023 15:52:22 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
+        with ESMTP id S231314AbjIHXJv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 19:09:51 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AA5B1FE5;
+        Fri,  8 Sep 2023 16:09:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=r7DXMMG8lphyN1UYT/bdqivjwbJYfjhTJFNgrVjQWJQ=; b=MIVUvcTZhlZQmiAIATHfNHIKVO
+        CJhnk788m6vic6dye+YMPr2UEzzGxKosZEX2+BqKuM1BdlPQHPzRQGrzmxqKTMBxHDr+ZJXS97qeQ
+        xHOnlbO/94akhRCatQ2Zc4pKvw0UH3SbzYruUX/iHZ7JvTS3CIk6ibVxkAuEIAR6rNwgGBBkFnaTp
+        l0l/Zx28gD/dgjZ3owAYXUGk99MlNFCC8/XAV4IhQ1vo9bIAiyU33YEAtMy+Y/zEMzzRoqQa5SRuW
+        zI5XMt1bdzbGutzevigArC3YwxvoAtfLqduxeK7zoWa7mx/vtfv4+scIKgHUDxSEcpP8ujhTnAV+K
+        IMz7pbQw==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1qekbf-00Efj4-2D;
+        Fri, 08 Sep 2023 23:09:43 +0000
+Date:   Fri, 8 Sep 2023 16:09:43 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, stable <stable@kernel.org>,
+        Stefan Lippers-Hollmann <s.l-h@gmx.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 3/3] arm64: dts: mediatek: mt8365-pumpkin: Add overlays
- for thp7312 cameras
-Message-ID: <20230908205222.GA320762-robh@kernel.org>
-References: <20230905233118.183140-1-paul.elder@ideasonboard.com>
- <20230905233118.183140-4-paul.elder@ideasonboard.com>
+        Christoph Hellwig <hch@lst.de>, linux-media@vger.kernel.org,
+        linux-modules@vger.kernel.org
+Subject: Re: [PATCH] media: dvb: symbol fixup for dvb_attach()
+Message-ID: <ZPupt66Ue9PutjTK@bombadil.infradead.org>
+References: <20230908092035.3815268-2-gregkh@linuxfoundation.org>
+ <ZPtKCc2PLi0wdR2+@bombadil.infradead.org>
+ <2023090852-stoppable-jackpot-549f@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230905233118.183140-4-paul.elder@ideasonboard.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <2023090852-stoppable-jackpot-549f@gregkh>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 06, 2023 at 08:31:18AM +0900, Paul Elder wrote:
-> Add overlays for the Pumpkin i350 to support THP7312 cameras.
+On Fri, Sep 08, 2023 at 05:35:07PM +0100, Greg Kroah-Hartman wrote:
+> On Fri, Sep 08, 2023 at 09:21:29AM -0700, Luis Chamberlain wrote:
+> > On Fri, Sep 08, 2023 at 10:20:36AM +0100, Greg Kroah-Hartman wrote:
+> > > In commit 9011e49d54dc ("modules: only allow symbol_get of
+> > > EXPORT_SYMBOL_GPL modules") the use of symbol_get is properly restricted
+> > > to GPL-only marked symbols.  This interacts oddly with the DVB logic
+> > > which only uses dvb_attach() to load the dvb driver which then uses
+> > > symbol_get().
+> > > 
+> > > Fix this up by properly marking all of the dvb_attach attach symbols as
+> > > EXPORT_SYMBOL_GPL().
+> > > 
+> > > Fixes: 9011e49d54dc ("modules: only allow symbol_get of EXPORT_SYMBOL_GPL modules")
+> > > Cc: stable <stable@kernel.org>
+> > > Reported-by: Stefan Lippers-Hollmann <s.l-h@gmx.de>
+> > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > > Cc: Luis Chamberlain <mcgrof@kernel.org>
+> > > Cc: Christoph Hellwig <hch@lst.de>
+> > > Cc: linux-media@vger.kernel.org
+> > > Cc: linux-modules@vger.kernel.org
+> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > ---
+> > > Luis, do you want to take this through your tree?  Or Mauro's?  Or I can
+> > > take it through mine, it should get to Linus soon as this is causing
+> > > regressions in his tree.
+> > 
+> > You've done the work so it is up to you, whatever helps you expedite it
+> > as it already hit stable. Feel free to take it through your tree.
 > 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  arch/arm64/boot/dts/mediatek/Makefile         |  4 +
->  .../mt8365-pumpkin-common-thp7312.dtsi        | 23 ++++++
->  .../mt8365-pumpkin-csi0-thp7312-imx258.dtso   | 73 +++++++++++++++++++
->  .../mt8365-pumpkin-csi1-thp7312-imx258.dtso   | 73 +++++++++++++++++++
->  4 files changed, 173 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-pumpkin-common-thp7312.dtsi
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi0-thp7312-imx258.dtso
->  create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi1-thp7312-imx258.dtso
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
-> index 20570bc40de8..ceaf24105001 100644
-> --- a/arch/arm64/boot/dts/mediatek/Makefile
-> +++ b/arch/arm64/boot/dts/mediatek/Makefile
-> @@ -56,4 +56,8 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8365-evk.dtb
->  dtb-$(CONFIG_ARCH_MEDIATEK) += mt8365-pumpkin.dtb
->  dtb-$(CONFIG_ARCH_MEDIATEK) += mt8516-pumpkin.dtb
->  
-> +mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-csi0-thp7312-imx258.dtbo
-> +mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-csi1-thp7312-imx258.dtbo
->  mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-ethernet-usb.dtbo
+> If you ack it, I can take it now through my tree and send it to Linus
+> tomorrow.
 
-This has no effect. You are assigning the same variable 3 times. It 
-needs to be every overlay applied to its base is a *-dtbs variable and 
-then those are all added to 'dtb-y'. IOW, we don't allow overlays which 
-can't be applied at build time.
+Sorry for the delay:
 
-Assuming the overlays aren't mutually exclusive, you could do:
+Acked-by Luis Chamberlain <mcgrof@kernel.org>
 
-mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-ethernet-usb.dtbo
-mtk-mt8365-pumpkin-dtbs += mt8365-pumpkin-csi0-thp7312-imx258.dtbo
-mtk-mt8365-pumpkin-dtbs += mt8365-pumpkin-csi1-thp7312-imx258.dtbo
-
-This works the same way as '-objs' variables to group .o files into a 
-module.
-
-> +
-> +dtb-$(CONFIG_ARCH_MEDIATEK) += mtk-mt8365-pumpkin.dtb
-
-Looks like mtk-mt8365-pumpkin.dtb failed to get built before. In any 
-case, that's a terrible name. What's the difference between 
-mt8365-pumpkin.dtb and mtk-mt8365-pumpkin.dtb? There's no clue.
-
-Rob
+  Luis
