@@ -2,135 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23AD27985EE
-	for <lists+linux-media@lfdr.de>; Fri,  8 Sep 2023 12:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E22FF7986F1
+	for <lists+linux-media@lfdr.de>; Fri,  8 Sep 2023 14:19:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240085AbjIHKgh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Sep 2023 06:36:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58726 "EHLO
+        id S236549AbjIHMT0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Sep 2023 08:19:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232099AbjIHKgh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 06:36:37 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E078719A6
-        for <linux-media@vger.kernel.org>; Fri,  8 Sep 2023 03:36:31 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-31c7912416bso1944694f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 08 Sep 2023 03:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694169390; x=1694774190; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3365epFx7LcXGmfNolHsodlPpUOyKdHg5aTvRwZxU/8=;
-        b=RQPfZkLNNvPsLzPrIX8dolish6TnsCOKtbfpLNBW5cQ8gOO43842bJpNsn+tFRT706
-         UEOQqJ+9uY26rTCalcLjMHryqKAYViKY3FIjZFE7ZXUYeXf5wSp7i6e8cOToAPUO8+/T
-         wOzY7nLgAmT6AaMJIdu45OzUeiAvD5H9xpx1/g9orrUlGG/rpf3XhJ4VzVA9A58h9BWq
-         g2bFbD7XkdcroFQHLzO7xFOzSGJtSuEgh3DmlTHeyldUJqQFPK7CvWBdN3aqec6clD8+
-         pSSGRj1Jro6b+y2IM8hTLkDnKUrWcqxtxl8WMMvEbgJA0KVHxq5s+28qfs7tI9mCi037
-         X7Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694169390; x=1694774190;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3365epFx7LcXGmfNolHsodlPpUOyKdHg5aTvRwZxU/8=;
-        b=b9Ba1OXE15ajmvvc3UrIwkvYZNsfWGGFD4+2Orpp7tUzY1LbBrv1Gqfs3CjMtzEgZd
-         1YG/yFbKydlYZAbE4abuk77kfGX7xZfUFV7QqqdJnvJb5MqDXxV1hrGG+sbUB5/9Hg+w
-         e/N2RcywYkwnSj5D0ZvDf/AgbSEUO4hcCELD6zpjd5S9svkZz7RQRCCzMuh1vN/O5msT
-         twzKYdIvLc1AOsqB/wu+YSaO2xs17ba6O8sx2gFQ9K88m51RVsbRqRpN2pNfNtRxHLgp
-         yc1cgqIWQWeV0qL0piqgHHOSxiaHQX9r3r8uz6lyTuB+RNjQMdsc+ncPcKa8eeUr5N/h
-         Sxng==
-X-Gm-Message-State: AOJu0Ywn8+mA9f6SkRV80QJh8IFOP0o7ftv2heCuX8LXb5o/w9cfhdk0
-        adbWaM0pmN/Oh0Swz14khH6KAg==
-X-Google-Smtp-Source: AGHT+IGr9AkyYDXkcu9tYUq68tDphkoTHwc/U6PrO7lcJlsZWWeAVyD6ErAsIS/p/pTBMmbdMeEncg==
-X-Received: by 2002:a05:6000:1250:b0:31d:74f8:fae with SMTP id j16-20020a056000125000b0031d74f80faemr1407561wrx.71.1694169390290;
-        Fri, 08 Sep 2023 03:36:30 -0700 (PDT)
-Received: from [192.168.0.163] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id o14-20020a5d58ce000000b0031433443265sm1746955wrf.53.2023.09.08.03.36.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Sep 2023 03:36:29 -0700 (PDT)
-Message-ID: <e1ab1df4-8431-483d-8f20-74de5349cfbc@linaro.org>
-Date:   Fri, 8 Sep 2023 11:36:28 +0100
+        with ESMTP id S229713AbjIHMT0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 08:19:26 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC801BC5
+        for <linux-media@vger.kernel.org>; Fri,  8 Sep 2023 05:19:22 -0700 (PDT)
+Received: from [192.168.0.192] (unknown [194.146.248.75])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 88AD86607286;
+        Fri,  8 Sep 2023 13:19:20 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694175560;
+        bh=o1f6+aNxSQAm0ofRlZZnKiIrSmlP6TaN6BQEuskfCUM=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=e+fp9izT4y68zmtMFi4D1O5EFskiSM1Q3KZhyoHquNmnA5WpW0nTwfNX1CfObCuZz
+         xlKSiNvRIqQhVQXVgnH7FWEs9n/SZyKRUrPHKu/gBuZ2wlCRbPlUEjr2ff5IFNXZ1y
+         fNcFViD7Xd1mMwzEiWloh4zLN27GJccOudSFPUCFjG8UUtBD4MGy6/0pHp/MnNM5QC
+         Ka7RdXG2f4Kfk93mb1yTtvgJ+cTbgwkcz7JMIenjWIQsPbrXdsFY5zwDJVcWmV1XJh
+         t2i+UwZuKYcLoDfqnj22U4poGTb2CgwRMD4SAwoshtoyIYMwgluoVbOCSkHasGNPxm
+         CUEsvyEU+BPSQ==
+Message-ID: <fe386ce3-c1ee-2940-059a-a8705d200d01@collabora.com>
+Date:   Fri, 8 Sep 2023 14:19:17 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 15/17] media: qcom: camss: Move vfe_disable into a
- common routine where applicable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH -next v3 1/2] media: cx231xx: Switch to use kmemdup()
+ helper
+To:     Jinjie Ruan <ruanjinjie@huawei.com>, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+References: <20230903081440.1564633-1-ruanjinjie@huawei.com>
+ <20230903081440.1564633-2-ruanjinjie@huawei.com>
 Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>, rfoss@kernel.org,
-        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230907164410.36651-1-bryan.odonoghue@linaro.org>
- <20230907164410.36651-16-bryan.odonoghue@linaro.org>
- <8b424303-09c9-4270-abfd-4f209f5c41e0@linaro.org>
- <41d1e364-40a4-48b2-97ef-6c76d238002e@linaro.org>
- <c9570c8e-c9a5-43f5-8b69-d5c38d214061@linaro.org>
- <c5d64d12-668a-4d70-85ee-e4111d85a1be@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <c5d64d12-668a-4d70-85ee-e4111d85a1be@linaro.org>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20230903081440.1564633-2-ruanjinjie@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SBL_CSS,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/09/2023 11:24, Konrad Dybcio wrote:
-> On 8.09.2023 12:21, Bryan O'Donoghue wrote:
->> On 08/09/2023 11:04, Konrad Dybcio wrote:
->>> On 8.09.2023 12:02, Konrad Dybcio wrote:
->>>> On 7.09.2023 18:44, Bryan O'Donoghue wrote:
->>>>> We can move vfe_disable() into a common routine in the core VFE file
->>>>> provided we make wm_stop() a VFE specific callback.
->>>>>
->>>>> The callback is required to capture the case where VFE 17x currently isn't
->>>>> VC enabled where as VFE 480 is.
->>>>>
->>>>> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>>>> ---
->>>> Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>>
->>>> Konrad
->>> Actually there's
->>>
->>> ret = vfe_reset(vfe);
->>>
->>> return ret;
->>>
->>>
->>> which could just be
->>>
->>> return vfe_reset(vfe);
->>>
->>>
->>> Konrad
->>
->> On purpose.
->>
->> I prefer the ret = ; return ret; pattern since it makes it easier / less work to
->>
->> ret = fn();
->> if (ret)
->>      goto error;
->>
->> error:
->>      return ret;
-> There's no error label in vfe_disable_output
+Hi,
+
+W dniu 3.09.2023 o 10:14, Jinjie Ruan pisze:
+> Use kmemdup() helper instead of open-coding to
+> simplify the code.
 > 
-> Konrad
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-No there is not. Its a pattern I use to make adding jump labels easier 
-later on.
+I have already reviewed this before, you can add my
 
-Just like you use the pattern of appending "," to aggregate initialisation.
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
----
-bod
+> ---
+> v2:
+> - Adjust use kmemdup() helper to be the first patch as suggested.
+> ---
+>   drivers/media/usb/cx231xx/cx231xx-core.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/cx231xx/cx231xx-core.c b/drivers/media/usb/cx231xx/cx231xx-core.c
+> index 727e6268567f..746727ea1a4c 100644
+> --- a/drivers/media/usb/cx231xx/cx231xx-core.c
+> +++ b/drivers/media/usb/cx231xx/cx231xx-core.c
+> @@ -751,10 +751,9 @@ int cx231xx_ep5_bulkout(struct cx231xx *dev, u8 *firmware, u16 size)
+>   	int ret = -ENOMEM;
+>   	u32 *buffer;
+>   
+> -	buffer = kzalloc(4096, GFP_KERNEL);
+> +	buffer = kmemdup(firmware, 4096, GFP_KERNEL);
+>   	if (buffer == NULL)
+>   		return -ENOMEM;
+> -	memcpy(&buffer[0], firmware, 4096);
+>   
+>   	ret = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, 5),
+>   			buffer, 4096, &actlen, 2000);
+
