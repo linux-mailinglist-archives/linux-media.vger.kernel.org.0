@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CEFA7984A0
-	for <lists+linux-media@lfdr.de>; Fri,  8 Sep 2023 11:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 755B87984AD
+	for <lists+linux-media@lfdr.de>; Fri,  8 Sep 2023 11:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241404AbjIHJO6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Sep 2023 05:14:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37168 "EHLO
+        id S240847AbjIHJTZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Sep 2023 05:19:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234805AbjIHJO4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 05:14:56 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B08FF1BF1
-        for <linux-media@vger.kernel.org>; Fri,  8 Sep 2023 02:14:52 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9a5dff9d2d9so228861166b.3
-        for <linux-media@vger.kernel.org>; Fri, 08 Sep 2023 02:14:52 -0700 (PDT)
+        with ESMTP id S231768AbjIHJTY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 05:19:24 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1212B1997
+        for <linux-media@vger.kernel.org>; Fri,  8 Sep 2023 02:19:20 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-502984f5018so1670067e87.3
+        for <linux-media@vger.kernel.org>; Fri, 08 Sep 2023 02:19:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694164491; x=1694769291; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1694164758; x=1694769558; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=spMrl03aG3cwXrmMb8I0m+ExCCr+3EoDtWgExjSIlcY=;
-        b=AnHZEsPiuoOBbE8vqI3tMfqZV2mDQZFUYIwtFIVzDKdozDrI9Bfy7g4hgCtjSyOLDk
-         OiIITQtPK4/IPPgHN22TfqT4lvr8nQOPOEGOkmE4YQO53HajqaYbrHJOjhnXOQRdesrY
-         XEHZXGOtq2j5Krox+eTnJeIS/c9Qt0aztK6yUwnVvEgVmOJuDr8rxyjN1NBb/ZvLIe+J
-         qoUDCvUZ6KyVmvuNdDUj7jT1xXfFtp0HQX5/ZADxZfKcOwQ0KzztIObHPqs9E7EviZ49
-         PDRDyHmqWmanDxTVOpJ+UrfcMOUBTXpKso02A7wbXJXJO1P6HNEJO4jBhqLunFDZOsyK
-         pxfg==
+        bh=3pz7YnrYQ9h8pdXqneUinQ+W60lk2dx8aKefZV7Gncw=;
+        b=La1uE++0CBXGDkx6quZf0k4iiIMKQuBK42FHJv5CfS0fjtiSjbRWqRBrqE+DT2LkeN
+         177KxwYJcTvjTUO0dXttNU+eBekKGTKfow+x2B4h3kC7VEb3abuH8/dG4GhpJVQFsX3s
+         gXZh88lC8zEKV40SOwqVkPrfmYRV5p1e9qO39kXfmSZcLLZAn27/Z1Reo+ofWvCcpOPP
+         dtqxE1v3nnEb0dIITYhYSmQ9qKFunutlxmAIli7Oj58gGfs2/l723MYDxIJyCuOwkqRY
+         gH0rRvjDGlXsNsrSH5fuU7ANjtvexftZq1g1DZrtKkL9R0KXYN81auJtFfEObr0sfJ7X
+         KytA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694164491; x=1694769291;
+        d=1e100.net; s=20230601; t=1694164758; x=1694769558;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=spMrl03aG3cwXrmMb8I0m+ExCCr+3EoDtWgExjSIlcY=;
-        b=u7mQ20zMdQxeP99PGtH9uz3kbRoDrpKVy6cWm5ccZ+DVV/cZFK5ri0QcF9m17xNaBg
-         n0/Z3x896Vgi7zTFovpy7cIwb6OEIdloIzgBP/94ctHaN8lNHCzslcSgbjJ8rn2ds1Mk
-         f2yJ/gjJ641I3ipS05umXTpVzacd2t//2RNN7/Nb4DQwV+fEqDW4KyWud0zo5JDH2Qg7
-         pNTzyAlLtzY7pr2LiwGV/3ZDfdHM0Q2BdVjwVJPFiy8aiL0sqC7zcSj/PkCoAZlCgcBv
-         FWQNV4Vt+QaUG6A2PafLwG9hXjTleL9xvPjwURE3pN4uC2/xTV+DjSORSWbxEuVaJ9rW
-         TsSA==
-X-Gm-Message-State: AOJu0YwT6oM014YRfzSdlOdDj4Al3UGJPZXr7IweyxJjHl9EMhNmWW6c
-        D/vclfWZrJPduPS27gSLt3lEUg==
-X-Google-Smtp-Source: AGHT+IG+6c5QmxwOy0MLsp6n7CnKVdQLF0rSSStjLcvA94R0Y2CCCMNn2HX344MniLasrTX+78Sd2g==
-X-Received: by 2002:a17:906:318d:b0:9a5:b630:a92a with SMTP id 13-20020a170906318d00b009a5b630a92amr1459179ejy.8.1694164491133;
-        Fri, 08 Sep 2023 02:14:51 -0700 (PDT)
+        bh=3pz7YnrYQ9h8pdXqneUinQ+W60lk2dx8aKefZV7Gncw=;
+        b=r1g7L+OuBIFUHxh6dicZilj7VTzOGwAgvyem2KCb2+WIY8C5kZNRIJb50o0sD/iD2t
+         TrEPzlEAvdNI7xnS32hLFdAVWGo5TAnxDzeCSiqMpyFWAK5Awo7vRsHOunIjrUREUPHs
+         qjLJuleMpo2p3RoaLk2nhbwMJ4LXkal+FdjfroukI4WfZ5Mo4DQARFoIg3za5g120P/2
+         wJMdjPo6MA/+eMelHyoPf887D4N7e3ol5qsEehMzjqeEFVfPz0Uv45hgdos6ExiN+l1e
+         SQCZgZ44vuk8S8tv1QyrPbgd0fHXQCC8oBJeUYJ1VP26RrN6KiWXRmUhwkfOoYbQ0X3d
+         eWKA==
+X-Gm-Message-State: AOJu0YyViduY3AcocCNjyqYj5vl5PMTxCCuDyy8ECefN/kaTyuKNrsPk
+        uWA7FsTb6xneNQHHik/Rpyt/Ow==
+X-Google-Smtp-Source: AGHT+IHBqqwUAgCBfaeMUbYqrP2e0i9oL0jLCeO5BboxNcIeWd756KnqZIUHkQZYxqD3fp0khnnjeQ==
+X-Received: by 2002:ac2:5a45:0:b0:500:dc8d:c344 with SMTP id r5-20020ac25a45000000b00500dc8dc344mr1307265lfn.48.1694164758194;
+        Fri, 08 Sep 2023 02:19:18 -0700 (PDT)
 Received: from [192.168.37.45] (178235177197.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.197])
-        by smtp.gmail.com with ESMTPSA id va17-20020a17090711d100b009929ab17be0sm751029ejb.162.2023.09.08.02.14.48
+        by smtp.gmail.com with ESMTPSA id t14-20020a1709064f0e00b0099e05fb8f95sm765507eju.137.2023.09.08.02.19.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Sep 2023 02:14:50 -0700 (PDT)
-Message-ID: <1253a158-e867-4a9f-b846-d008e2756d74@linaro.org>
-Date:   Fri, 8 Sep 2023 11:14:49 +0200
+        Fri, 08 Sep 2023 02:19:17 -0700 (PDT)
+Message-ID: <904ddacb-266e-46ce-857b-7c44e7573efc@linaro.org>
+Date:   Fri, 8 Sep 2023 11:19:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/17] media: qcom: camss: Pass CAMSS subdev callbacks
- via resource ops pointer
+Subject: Re: [PATCH v4 11/17] media: qcom: camss: Allow clocks vfeN vfe_liteN
+ or vfe_lite
 Content-Language: en-US
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
@@ -64,7 +64,7 @@ To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230907164410.36651-1-bryan.odonoghue@linaro.org>
- <20230907164410.36651-8-bryan.odonoghue@linaro.org>
+ <20230907164410.36651-12-bryan.odonoghue@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -101,13 +101,12 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230907164410.36651-8-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230907164410.36651-12-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -115,32 +114,30 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 7.09.2023 18:44, Bryan O'Donoghue wrote:
-> It is possible to pass all of the CAMSS subdevice internal operations
-> pointers from the controlling resources structure with an additional
-> pointer added to the resources structure.
+> The number of Video Front End - VFE or Image Front End - IFE supported
+> with new SoCs can vary both for the full and lite cases.
 > 
-> This allows for the removal of most of the probe-time control structures.
+> For example sdm845 has one vfe_lite and two vfe interfaces with the vfe
+> clock called simply "vfe_lite" with no integer postfix. sc8280xp has four
+> vfe and four vfe lite blocks.
+> 
+> At the moment we declare vfe_lite0 and vfe_lite1 for sm8250 but never set
+> those clocks because we don't match the strings.
+> 
+> We need to support the following clock name formats
+> 
+> - vfeN
+> - vfe_liteN
+> - vfe_lite
+> 
+> with N being any reasonably sized integer.
+> 
+> There are two sites in this code which need to do the same thing,
+> constructing and matching strings with the pattern above, so encapsulate
+> the logic in one function.
 > 
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
-[...]
-
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 54886a2a449b0..12131d9ea7ca8 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -42,7 +42,8 @@ static const struct camss_subdev_resources csiphy_res_8x16[] = {
->  				{ 0 },
->  				{ 100000000, 200000000 } },
->  		.reg = { "csiphy0", "csiphy0_clk_mux" },
-> -		.interrupt = { "csiphy0" }
-> +		.interrupt = { "csiphy0" },
-> +		.ops = &csiphy_ops_2ph_1_0
-I'd really vouch for adding commas at the end, so that the
-next diffs will be smaller
-
-otherwise
-
 Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
