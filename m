@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A63798560
-	for <lists+linux-media@lfdr.de>; Fri,  8 Sep 2023 12:02:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D2B779856B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Sep 2023 12:04:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238978AbjIHKC7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Sep 2023 06:02:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54138 "EHLO
+        id S241411AbjIHKEU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Sep 2023 06:04:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242744AbjIHKCs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 06:02:48 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F24991FE5
-        for <linux-media@vger.kernel.org>; Fri,  8 Sep 2023 03:02:14 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-51a52a7d859so6439188a12.0
-        for <linux-media@vger.kernel.org>; Fri, 08 Sep 2023 03:02:14 -0700 (PDT)
+        with ESMTP id S241720AbjIHKES (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 06:04:18 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5FB91FC1
+        for <linux-media@vger.kernel.org>; Fri,  8 Sep 2023 03:03:47 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-52a23227567so2575530a12.0
+        for <linux-media@vger.kernel.org>; Fri, 08 Sep 2023 03:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694167333; x=1694772133; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1694167411; x=1694772211; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=y7H2NftFy9wZelr/QVelbZLH6v+xwmxp1eoUbtSpB7A=;
-        b=ZWPpzQ+5yLOx1IRlX4X21WOZJv8eic2Rit0IUMccO8PrvIiGhvI5XI2SwJ2b0zRUQ0
-         gZeQn0FR9BETNcCi1hH579Y8Ruo1kdSD34yuvUxWt8x8Rs0f9hY+9hPW0LgUQMVflIM8
-         dVGhX+ToLyXfd83iV9qk3tY5QyEk0JsdtwahHTemBTvUKnlCWEQNM3M9K/0jUOwaYYZU
-         d8sUHxi5l+WlBodBjWxEvKqY+jAxgrIGohW21TNv/9gc3uUf6krMenOIvGD2x4r+45JG
-         qPgSwKQB5d9073Co0UVH5vLMe1giy3UafdtMvqfFiIok0lgEztRJAw6HY1LrjqAfUjwA
-         qL2Q==
+        bh=x4qgEdtbnjdPojiUcXIeqoLIkozde5NaSEfUo+RghdQ=;
+        b=CbZ6LYuFYvTgA9CICiVzVPZXfq/SOAhCKGj4HKXtunfdeQsMifCFBpBJSi3fHYXOQ7
+         Q7tKi3Ug1Qov1bViiBGt37FDZeBBc3gBfrY37zqkWTnEEhcpBbJvrh/XZgjPrU6ZHw1V
+         VyaqjpicPC+o3lwxjxov7vB4EXqhZJShWYtRVYeKpSFdFvFBRhg4mzlaN7PvpXGyH3n7
+         rDxJ02XVLraxc5CVAjUT8FbIDAYpq3tZwpT7636oapGrbO+rioDYV1NSOVWBwHparvJy
+         KBus+X8CqFRsavF3GVmO6Fvsvexk9ccf2jBkKmUgz33nJ4BXiOazAtN4s6+ijnTL36Js
+         nwFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694167333; x=1694772133;
+        d=1e100.net; s=20230601; t=1694167411; x=1694772211;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y7H2NftFy9wZelr/QVelbZLH6v+xwmxp1eoUbtSpB7A=;
-        b=iG65ecw80BYd1PW5iRQkW2vSlzy+SCiPssy5yQKjekRZ0p2DsHbUfFB4IJG6tCHoh0
-         bgcin+HIuiesTBB1iAWnO0/SWM3EZJfUYs3PcMZrjpe2xxrsFY4EtlecnscmSr7MKgKz
-         ZL0rDytWAxWJ+ZzfwPEc7oLw0xeNq8M2L7cigh016vH8B5kDg/8C/vrsoU+KPHL0xqDo
-         oRKTA9JC8TCgUfMTtqm7ONKhgAaGxA9LioFcSwEQ2JEpWgt2PzPRjoK/PqgoW51Ypf0p
-         lXtKL8CS1laNfvFlssigwvp2LDVPI5hOO7Caz+STgfSlSHOjQp2Jy1yJEBr+FaAaMU5K
-         xoUw==
-X-Gm-Message-State: AOJu0YzEp561yD5oVcj7/AH1I6/FOJbxzq5As1jb+bGUYAieUT9pznyf
-        hlD235TwxzNzMW+6136g3vdXbTXUJ3g+eLbmAM2ITA==
-X-Google-Smtp-Source: AGHT+IFMZaA2pjZ8HaPsDFwoIZ2RPaOkWxpZ9yRsgjb/Zu0UGPCDSoOjcknbi9VaZQXlqB9JCqFyfg==
-X-Received: by 2002:aa7:d646:0:b0:522:18b6:c01f with SMTP id v6-20020aa7d646000000b0052218b6c01fmr2380941edr.3.1694167332659;
-        Fri, 08 Sep 2023 03:02:12 -0700 (PDT)
+        bh=x4qgEdtbnjdPojiUcXIeqoLIkozde5NaSEfUo+RghdQ=;
+        b=gpDbr4PoHm40v4C/RYRXIWI/dQS5Cbvd0IDuj3NcUZ48VYFu3S28D7rjPqQ6AMn4tP
+         kpMIt0z95H7T7aYZwCtG4olB0aT19dofBI5LSAFjzzSfgrywi3ZP9FlATmEKtwmUaWt2
+         NNULjedV2togzok71r1Q33S1Ks+9Rx4DCk3NWTGsW3K4l3/MENldc654WfM1zkDRhNmq
+         ekX/BbOYLwR9TIIuCbbd8+JfgqIt8zKIU11hkQzHo9y7AX8GlTjFuC5EQlBuPyR75Avh
+         R8srlw3m9BmsONjSAtJ1LM9lq8YZBLrG+IYRT2MnqZfXDxZRpkXb6tPxPqjZn+ojhDcx
+         fFTg==
+X-Gm-Message-State: AOJu0Ywui+jWYmS2ngsFrEhBl01kO/xShokIZKFA4uVH4EpkvmBWifzh
+        vbMUM+ey09G6d/nU/Es0/VnqIw==
+X-Google-Smtp-Source: AGHT+IFiiwpjE80rEroXLVcBfEXJnQ7tsfEDzsAgP9dzRWjnTnoVOfkgtcWhgL31dRubU9Z1e7vPYg==
+X-Received: by 2002:aa7:d852:0:b0:523:1e0a:e12e with SMTP id f18-20020aa7d852000000b005231e0ae12emr1518271eds.23.1694167410893;
+        Fri, 08 Sep 2023 03:03:30 -0700 (PDT)
 Received: from [192.168.37.232] (178235177197.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.197])
-        by smtp.gmail.com with ESMTPSA id ca15-20020aa7cd6f000000b005256aaa6e7asm820449edb.78.2023.09.08.03.02.09
+        by smtp.gmail.com with ESMTPSA id ca15-20020aa7cd6f000000b005256aaa6e7asm820449edb.78.2023.09.08.03.03.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Sep 2023 03:02:12 -0700 (PDT)
-Message-ID: <8b424303-09c9-4270-abfd-4f209f5c41e0@linaro.org>
-Date:   Fri, 8 Sep 2023 12:02:08 +0200
+        Fri, 08 Sep 2023 03:03:30 -0700 (PDT)
+Message-ID: <d4bf890b-1e25-4041-9032-1ee138e0d691@linaro.org>
+Date:   Fri, 8 Sep 2023 12:03:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 15/17] media: qcom: camss: Move vfe_disable into a
- common routine where applicable
+Subject: Re: [PATCH v4 16/17] media: qcom: camss: Propagate vfe_reset error up
+ the callstack
 Content-Language: en-US
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
         todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
@@ -64,7 +64,7 @@ To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230907164410.36651-1-bryan.odonoghue@linaro.org>
- <20230907164410.36651-16-bryan.odonoghue@linaro.org>
+ <20230907164410.36651-17-bryan.odonoghue@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -101,7 +101,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20230907164410.36651-16-bryan.odonoghue@linaro.org>
+In-Reply-To: <20230907164410.36651-17-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -115,13 +115,13 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 7.09.2023 18:44, Bryan O'Donoghue wrote:
-> We can move vfe_disable() into a common routine in the core VFE file
-> provided we make wm_stop() a VFE specific callback.
+> A previous patch I had removed the returns from vfe_disable() since we
+> didn't trap any meaningful errors. Konrad pointed out vfe_reset() could
+> return an error, which is true.
 > 
-> The callback is required to capture the case where VFE 17x currently isn't
-> VC enabled where as VFE 480 is.
+> Trap the vfe_reset() error code and throw it up the callstack.
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
 Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
