@@ -2,38 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAA4D799443
-	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 02:43:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1B647994D8
+	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 02:45:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240975AbjIIAlK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Sep 2023 20:41:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33170 "EHLO
+        id S1346047AbjIIAmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Sep 2023 20:42:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346029AbjIIAk2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 20:40:28 -0400
+        with ESMTP id S1345991AbjIIAks (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 20:40:48 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E3E2D74;
-        Fri,  8 Sep 2023 17:39:24 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24E59C433D9;
-        Sat,  9 Sep 2023 00:39:22 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 430551FFD;
+        Fri,  8 Sep 2023 17:39:38 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B2D4C433C7;
+        Sat,  9 Sep 2023 00:39:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694219962;
-        bh=Q23QxNAooLET6K9c29PEVHuY9Qk2bDvBOaqkXQ5fJv0=;
+        s=k20201202; t=1694219978;
+        bh=HKx0qFfB6qal0FsOrYF4xhh4j/5DJ61BIogF21Ky2jA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uX2SxvYxbs+ehqwrhrZXO1CkFscovj8w6hvVtxN5M5DTyLrP6n8411Owy9STJNLy3
-         bBIV482n1rQK8cM37mKFVrKtNrr/owwedfU4Be6Et13jKmcLRf6bofpaNYzVH+vft0
-         nc946LlsENku4EKzZ5gHGXHYS0jxDhRM7Q6Xxyw7GWNfo2NCPTVmD294clJlXiGTVO
-         WFq8YLwdjvBGQagJOCHY0Y05yaRbzOFxPO0Jv6bdOuGA1ZToYoZYR4MPPVOLZ/BnOJ
-         YcsnxE45Dl+BUCVTR+XV5ZbS0YNbGyLNvqn4syqS81UBK7vqIcB+zmRlPE9v1utfRA
-         lAB4DtVlDOoFA==
+        b=ToF4DQmyBFYqokLMxqtLKS97HbSX9XGWIOfvUME54leQcHXcZQTMzvXhk2s+uQnxA
+         EfxPmykBgXCC/oqtpiClzeoq1CCjeK+jO6WmiM9E5zIpP5doV/TCWDkCkXfqPBby2I
+         mORcFlpfjEf4E6QQHSiieJ+YOSKASmpvI1pnRglND2auwxhJ05AGGZ56+58+/a5hgl
+         gd1TDYazraZ9ed9Mp/qRBmgVWtOroye0/FHBpZDT2Z2ucAubftTgN0+Rwl2ZTzTu9U
+         VBKYkLxeglGPQ1yWbZH5YCjIMK5XNm709qJhNWK9RVyd2xP2sv94oC37vmv23mjCEe
+         2HZ1WtHixoaog==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
-        harperchen1110@gmail.com, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 09/19] media: pci: cx23885: replace BUG with error return
-Date:   Fri,  8 Sep 2023 20:38:53 -0400
-Message-Id: <20230909003903.3580394-9-sashal@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sasha Levin <sashal@kernel.org>, yong.zhi@intel.com,
+        bingbu.cao@intel.com, djrscally@gmail.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 17/19] media: pci: ipu3-cio2: Initialise timing struct to avoid a compiler warning
+Date:   Fri,  8 Sep 2023 20:39:01 -0400
+Message-Id: <20230909003903.3580394-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230909003903.3580394-1-sashal@kernel.org>
 References: <20230909003903.3580394-1-sashal@kernel.org>
@@ -52,34 +54,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-[ Upstream commit 2e1796fd4904fdd6062a8e4589778ea899ea0c8d ]
+[ Upstream commit 9d7531be3085a8f013cf173ccc4e72e3cf493538 ]
 
-It was completely unnecessary to use BUG in buffer_prepare().
-Just replace it with an error return. This also fixes a smatch warning:
+Initialise timing struct in cio2_hw_init() to zero in order to avoid a
+compiler warning. The warning was a false positive.
 
-drivers/media/pci/cx23885/cx23885-video.c:422 buffer_prepare() error: uninitialized symbol 'ret'.
-
+Reported-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/cx23885/cx23885-video.c | 2 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/cx23885/cx23885-video.c b/drivers/media/pci/cx23885/cx23885-video.c
-index b01499f810697..6851e01da1c5b 100644
---- a/drivers/media/pci/cx23885/cx23885-video.c
-+++ b/drivers/media/pci/cx23885/cx23885-video.c
-@@ -413,7 +413,7 @@ static int buffer_prepare(struct vb2_buffer *vb)
- 				dev->height >> 1);
- 		break;
- 	default:
--		BUG();
-+		return -EINVAL; /* should not happen */
- 	}
- 	dprintk(2, "[%p/%d] buffer_init - %dx%d %dbpp 0x%08x - dma=0x%08lx\n",
- 		buf, buf->vb.vb2_buf.index,
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+index 3a8af3936e93a..162ab089124f3 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+@@ -345,7 +345,7 @@ static int cio2_hw_init(struct cio2_device *cio2, struct cio2_queue *q)
+ 	void __iomem *const base = cio2->base;
+ 	u8 lanes, csi2bus = q->csi2.port;
+ 	u8 sensor_vc = SENSOR_VIR_CH_DFLT;
+-	struct cio2_csi2_timing timing;
++	struct cio2_csi2_timing timing = { 0 };
+ 	int i, r;
+ 
+ 	fmt = cio2_find_format(NULL, &q->subdev_fmt.code);
 -- 
 2.40.1
 
