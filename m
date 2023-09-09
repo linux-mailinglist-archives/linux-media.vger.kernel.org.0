@@ -2,47 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A7BE79952B
-	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 02:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBCA4799587
+	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 03:23:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245369AbjIIAvK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Sep 2023 20:51:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37048 "EHLO
+        id S231144AbjIIBXa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Sep 2023 21:23:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242875AbjIIAvG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 20:51:06 -0400
+        with ESMTP id S240888AbjIIAoN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 20:44:13 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 036F12109;
-        Fri,  8 Sep 2023 17:42:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A593AC116B3;
-        Sat,  9 Sep 2023 00:41:12 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 288F030D7;
+        Fri,  8 Sep 2023 17:41:38 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8044C116AC;
+        Sat,  9 Sep 2023 00:41:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694220073;
-        bh=+yXZM9YgbhoGVXuCBgduM9ctGvPOR4zaGUTwEejwbQQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=e/vA/4lFwN3OvArf97vlPE/+eulmqRF06SxSU4OxiXLjNekYsuRg0Pf0tjaANU8Vw
-         aNzeMbRNKjAzJjFWL60Z1+ehwQi3HS1g87Tlgqogl/95KYLb+Nr8+UJ5zPDC0mjxvj
-         K0ywJ5sHSF8VYo1YPPTFiuE3oJDsadM1rLCb9Q67zBTi5jZvp4dvupZdvOxwetEZiI
-         /7enV0Cm0fN1nLy5/u6EZadHmWCIuB6rn2/ppxQacjhYHa4Bly1UpGt9ZliojYKoUz
-         I8j+VTCBLwMOnRxgcIKEb4BixvhSrC1e7mn/Hib3l8Q5wzDtHL7AyzKm23divH2GR1
-         M4FYlvRrxELyQ==
+        s=k20201202; t=1694220078;
+        bh=+P//p41L4AtomOnxSnRhn0lU105Wn2sA2lUZ9XmQegQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Tz0D4p3oAkXoQz0KwbMHV6vvLVgqQr3c9UsNdrHS7/EsJw8nQeFY4QeUHvTxK8+iy
+         KRWcz7uRkJvlkgEuFw4mzTVVd4qItMFG/OFQ/mLvKz0FJ9W/KdgCcStJON8yQp4HuT
+         fWSUP+5DXxOssmJ1mSZX15iDxnzNXEeEhJriieu6yHqT5zQZP9kAbVn8Rm2iByQEQT
+         FA90c0AiOOioRB4TuUPz/Y5iQvN7up1BX7tfGyHk8EZf1ORKHfd6ELfUb2CqGyi2RB
+         6aBeDU08cWF+x0i6hcxrvjHJ8x4HHXAzBbYB/QznCUeY6gs63LD3SXEYZQy9oVQkaT
+         fQRZbmBTbLU1w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Zhang Shurong <zhang_shurong@foxmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sasha Levin <sashal@kernel.org>, yong.zhi@intel.com,
-        bingbu.cao@intel.com, djrscally@gmail.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 13/14] media: pci: ipu3-cio2: Initialise timing struct to avoid a compiler warning
-Date:   Fri,  8 Sep 2023 20:40:44 -0400
-Message-Id: <20230909004045.3581014-13-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, crope@iki.fi,
+        mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 01/12] media: dvb-usb-v2: af9035: Fix null-ptr-deref in af9035_i2c_master_xfer
+Date:   Fri,  8 Sep 2023 20:41:04 -0400
+Message-Id: <20230909004115.3581195-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230909004045.3581014-1-sashal@kernel.org>
-References: <20230909004045.3581014-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.294
+X-stable-base: Linux 4.14.325
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -54,34 +51,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+From: Zhang Shurong <zhang_shurong@foxmail.com>
 
-[ Upstream commit 9d7531be3085a8f013cf173ccc4e72e3cf493538 ]
+[ Upstream commit 7bf744f2de0a848fb1d717f5831b03db96feae89 ]
 
-Initialise timing struct in cio2_hw_init() to zero in order to avoid a
-compiler warning. The warning was a false positive.
+In af9035_i2c_master_xfer, msg is controlled by user. When msg[i].buf
+is null and msg[i].len is zero, former checks on msg[i].buf would be
+passed. Malicious data finally reach af9035_i2c_master_xfer. If accessing
+msg[i].buf[0] without sanity check, null ptr deref would happen.
+We add check on msg[i].len to prevent crash.
 
-Reported-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Similar commit:
+commit 0ed554fd769a
+("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()")
+
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/intel/ipu3/ipu3-cio2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/dvb-usb-v2/af9035.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index 070ddb52c8231..2c037538c7d8f 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -361,7 +361,7 @@ static int cio2_hw_init(struct cio2_device *cio2, struct cio2_queue *q)
- 	void __iomem *const base = cio2->base;
- 	u8 lanes, csi2bus = q->csi2.port;
- 	u8 sensor_vc = SENSOR_VIR_CH_DFLT;
--	struct cio2_csi2_timing timing;
-+	struct cio2_csi2_timing timing = { 0 };
- 	int i, r;
+diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
+index 1f6c1eefe3892..55c7e7348869b 100644
+--- a/drivers/media/usb/dvb-usb-v2/af9035.c
++++ b/drivers/media/usb/dvb-usb-v2/af9035.c
+@@ -336,6 +336,8 @@ static int af9035_i2c_master_xfer(struct i2c_adapter *adap,
+ 			ret = -EOPNOTSUPP;
+ 		} else if ((msg[0].addr == state->af9033_i2c_addr[0]) ||
+ 			   (msg[0].addr == state->af9033_i2c_addr[1])) {
++			if (msg[0].len < 3 || msg[1].len < 1)
++				return -EOPNOTSUPP;
+ 			/* demod access via firmware interface */
+ 			u32 reg = msg[0].buf[0] << 16 | msg[0].buf[1] << 8 |
+ 					msg[0].buf[2];
+@@ -395,6 +397,8 @@ static int af9035_i2c_master_xfer(struct i2c_adapter *adap,
+ 			ret = -EOPNOTSUPP;
+ 		} else if ((msg[0].addr == state->af9033_i2c_addr[0]) ||
+ 			   (msg[0].addr == state->af9033_i2c_addr[1])) {
++			if (msg[0].len < 3)
++				return -EOPNOTSUPP;
+ 			/* demod access via firmware interface */
+ 			u32 reg = msg[0].buf[0] << 16 | msg[0].buf[1] << 8 |
+ 					msg[0].buf[2];
+@@ -402,10 +406,7 @@ static int af9035_i2c_master_xfer(struct i2c_adapter *adap,
+ 			if (msg[0].addr == state->af9033_i2c_addr[1])
+ 				reg |= 0x100000;
  
- 	fmt = cio2_find_format(NULL, &q->subdev_fmt.code);
+-			ret = (msg[0].len >= 3) ? af9035_wr_regs(d, reg,
+-							         &msg[0].buf[3],
+-							         msg[0].len - 3)
+-					        : -EOPNOTSUPP;
++			ret = af9035_wr_regs(d, reg, &msg[0].buf[3], msg[0].len - 3);
+ 		} else {
+ 			/* I2C write */
+ 			u8 buf[MAX_XFER_SIZE];
 -- 
 2.40.1
 
