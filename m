@@ -2,50 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A540F799745
-	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 12:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D3FE7999AC
+	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 18:25:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344463AbjIIKTy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Sep 2023 06:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42508 "EHLO
+        id S233385AbjIIQZ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Sep 2023 12:25:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236012AbjIIKTw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Sep 2023 06:19:52 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A859D;
-        Sat,  9 Sep 2023 03:19:48 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77328C433C8;
-        Sat,  9 Sep 2023 10:19:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694254788;
-        bh=6M1owz/Gj9mAJIsLcRR/m5NWPD/hw6rxxJhrE/TdRZU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=WkqUonq1rjkzDIyl8Q006qWDlAYU7gNw6r3Uh9rcIpnIMKQJPgz/6e6qMYrZySiU6
-         0CRfcidlspiCdLh910udacTZO61dNe63yn2OXuWE3r5qdtwTgaU5etPpL+RRbSXNTV
-         NhH93N8hw51FPlcprfuxUadnhl1u1jRBHtvQcSIGCDM211TApJuyif3qfqyv61zrAp
-         NeQvQMj1MIDhFoivreiF3QXCa4GYLvHnXyadEyoOhDEfSai0B2zaf//wOoy7PgI3fK
-         ZaIpRjOTJO/dt7v+TjgtzreLcGI8da5493+HrPaPYMCMJ4lMRYZ6M4V9eruJhCEKug
-         p0jUqyooOVVTg==
-Date:   Sat, 9 Sep 2023 12:19:41 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>, linux-kernel@vger.kernel.org,
-        stable <stable@kernel.org>,
-        Stefan Lippers-Hollmann <s.l-h@gmx.de>,
-        Christoph Hellwig <hch@lst.de>, linux-media@vger.kernel.org,
-        linux-modules@vger.kernel.org
-Subject: Re: [PATCH] media: dvb: symbol fixup for dvb_attach()
-Message-ID: <20230909121941.30a1b1f0@sal.lan>
-In-Reply-To: <2023090852-stoppable-jackpot-549f@gregkh>
-References: <20230908092035.3815268-2-gregkh@linuxfoundation.org>
-        <ZPtKCc2PLi0wdR2+@bombadil.infradead.org>
-        <2023090852-stoppable-jackpot-549f@gregkh>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        with ESMTP id S1346487AbjIIOor (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Sep 2023 10:44:47 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 077DC18F;
+        Sat,  9 Sep 2023 07:44:41 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-52f3ba561d9so321708a12.1;
+        Sat, 09 Sep 2023 07:44:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694270679; x=1694875479; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nej0/398bNZdr2HyvdtcO9BJNRbt3FMJ9LgNhlCfcUs=;
+        b=STu/u5fJHoh98bx5r3xPTxrktEDMwHrCGa+x1lt5WJZy5OhpPKhvKmzu4Atr1BOgaN
+         sLGxsLXS+sWheKbJrkQ/8ucb1l5FZSgwUTUEgNFSk77GJPp5CoUUgIzyTsFd2fmWJTzI
+         y0yTlRJE6qCgCxEoOW5g0/C4NtPybqCDpiU201xCk9a4I7sLvjiLJi6eATU3uB2ZqX8Q
+         DhsfG5ihDh/3WMV+aw4JBtnxStYOpESWgq6IG3ZORizCuwizwo9VJE1Odf5KJ/O7XqLI
+         Jcx0omr6Gzv3HKq3ac2Z5BLaNLbL5/BmNkGbQt1hVt6F6Gu6+bbSMQgLUFxyZE7Hdlmr
+         JUKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694270679; x=1694875479;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Nej0/398bNZdr2HyvdtcO9BJNRbt3FMJ9LgNhlCfcUs=;
+        b=vUQCGsKtq18QNT43FDrzvCsAnSE581ovR3A17v4LHTPOAwwzW+komwAEOXeHo4wLZ3
+         44gx7FlNckycL6QW9AaCdoVV3onfkjkF/fXLnoUKhutr9EdsNn78UHZsqLJxpESq/cZy
+         6tUreRjyoBq3wMMPbJFzgIfwzEZFu6M/sllYlnbgfCudqQ7r/AEP5WFJtf+DGDIPIQbv
+         G86vDq0GERQIzHgUDQhrWs79IGZPIznLzfZ47jU5w98Kya23x73MqkQAAicHAiR9NVj0
+         ZWWuEqGJl+8pONI+tqyQwAi6Jf7w8wsqvxiKmjbnRAy160Pv0WB2e06sS8Nrbttsk5wy
+         x70w==
+X-Gm-Message-State: AOJu0YzvGLTOr7ml3qpquV0beHM4eK0gB9EKFXwv6uyb+m2WKG2ejCCw
+        y7BYKrN5qEMO2Y3+enxGOWk=
+X-Google-Smtp-Source: AGHT+IFHzKC+0At/DYBgP3WZpFSkxW99Svb/7clX08ja8nXiHh59vaxzYeiaEBwvDKoBHvLxw6X0jw==
+X-Received: by 2002:a05:6402:2794:b0:522:582f:91af with SMTP id b20-20020a056402279400b00522582f91afmr10420708ede.9.1694270679307;
+        Sat, 09 Sep 2023 07:44:39 -0700 (PDT)
+Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id d22-20020aa7ce16000000b005233609e39dsm2252399edv.30.2023.09.09.07.44.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Sep 2023 07:44:38 -0700 (PDT)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+        rfoss@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        airlied@gmail.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] drm/bridge: dw-hdmi-cec: Add arbitration lost event
+Date:   Sat,  9 Sep 2023 16:44:32 +0200
+Message-ID: <20230909144432.34972-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,45 +72,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 8 Sep 2023 17:35:07 +0100
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+Add handling of arbitration lost event.
 
-> On Fri, Sep 08, 2023 at 09:21:29AM -0700, Luis Chamberlain wrote:
-> > On Fri, Sep 08, 2023 at 10:20:36AM +0100, Greg Kroah-Hartman wrote:  
-> > > In commit 9011e49d54dc ("modules: only allow symbol_get of
-> > > EXPORT_SYMBOL_GPL modules") the use of symbol_get is properly restricted
-> > > to GPL-only marked symbols.  This interacts oddly with the DVB logic
-> > > which only uses dvb_attach() to load the dvb driver which then uses
-> > > symbol_get().
-> > > 
-> > > Fix this up by properly marking all of the dvb_attach attach symbols as
-> > > EXPORT_SYMBOL_GPL().
-> > > 
-> > > Fixes: 9011e49d54dc ("modules: only allow symbol_get of EXPORT_SYMBOL_GPL modules")
-> > > Cc: stable <stable@kernel.org>
-> > > Reported-by: Stefan Lippers-Hollmann <s.l-h@gmx.de>
-> > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > Cc: Luis Chamberlain <mcgrof@kernel.org>
-> > > Cc: Christoph Hellwig <hch@lst.de>
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: linux-modules@vger.kernel.org
-> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > ---
-> > > Luis, do you want to take this through your tree?  Or Mauro's?  Or I can
-> > > take it through mine, it should get to Linus soon as this is causing
-> > > regressions in his tree.  
-> > 
-> > You've done the work so it is up to you, whatever helps you expedite it
-> > as it already hit stable. Feel free to take it through your tree.  
-> 
-> If you ack it, I can take it now through my tree and send it to Linus
-> tomorrow.
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-You can send it via your trees. So:
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+index be21c11de1f2..673661160e54 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+@@ -145,6 +145,10 @@ static irqreturn_t dw_hdmi_cec_hardirq(int irq, void *data)
+ 		cec->tx_status = CEC_TX_STATUS_NACK;
+ 		cec->tx_done = true;
+ 		ret = IRQ_WAKE_THREAD;
++	} else if (stat & CEC_STAT_ARBLOST) {
++		cec->tx_status = CEC_TX_STATUS_ARB_LOST;
++		cec->tx_done = true;
++		ret = IRQ_WAKE_THREAD;
+ 	}
+ 
+ 	if (stat & CEC_STAT_EOM) {
+@@ -209,7 +213,7 @@ static int dw_hdmi_cec_enable(struct cec_adapter *adap, bool enable)
+ 		cec->ops->enable(cec->hdmi);
+ 
+ 		irqs = CEC_STAT_ERROR_INIT | CEC_STAT_NACK | CEC_STAT_EOM |
+-		       CEC_STAT_DONE;
++		       CEC_STAT_ARBLOST | CEC_STAT_DONE;
+ 		dw_hdmi_write(cec, irqs, HDMI_CEC_POLARITY);
+ 		dw_hdmi_write(cec, ~irqs, HDMI_CEC_MASK);
+ 		dw_hdmi_write(cec, ~irqs, HDMI_IH_MUTE_CEC_STAT0);
+-- 
+2.42.0
 
-Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-> 
-> thanks,
-> 
-> greg k-h
