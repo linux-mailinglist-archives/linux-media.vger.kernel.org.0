@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E85B67992AE
-	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 01:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 901407993B5
+	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 02:37:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242585AbjIHXJw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Sep 2023 19:09:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40350 "EHLO
+        id S240265AbjIIAhO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Sep 2023 20:37:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231314AbjIHXJv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 19:09:51 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AA5B1FE5;
-        Fri,  8 Sep 2023 16:09:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=r7DXMMG8lphyN1UYT/bdqivjwbJYfjhTJFNgrVjQWJQ=; b=MIVUvcTZhlZQmiAIATHfNHIKVO
-        CJhnk788m6vic6dye+YMPr2UEzzGxKosZEX2+BqKuM1BdlPQHPzRQGrzmxqKTMBxHDr+ZJXS97qeQ
-        xHOnlbO/94akhRCatQ2Zc4pKvw0UH3SbzYruUX/iHZ7JvTS3CIk6ibVxkAuEIAR6rNwgGBBkFnaTp
-        l0l/Zx28gD/dgjZ3owAYXUGk99MlNFCC8/XAV4IhQ1vo9bIAiyU33YEAtMy+Y/zEMzzRoqQa5SRuW
-        zI5XMt1bdzbGutzevigArC3YwxvoAtfLqduxeK7zoWa7mx/vtfv4+scIKgHUDxSEcpP8ujhTnAV+K
-        IMz7pbQw==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1qekbf-00Efj4-2D;
-        Fri, 08 Sep 2023 23:09:43 +0000
-Date:   Fri, 8 Sep 2023 16:09:43 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, stable <stable@kernel.org>,
-        Stefan Lippers-Hollmann <s.l-h@gmx.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Christoph Hellwig <hch@lst.de>, linux-media@vger.kernel.org,
-        linux-modules@vger.kernel.org
-Subject: Re: [PATCH] media: dvb: symbol fixup for dvb_attach()
-Message-ID: <ZPupt66Ue9PutjTK@bombadil.infradead.org>
-References: <20230908092035.3815268-2-gregkh@linuxfoundation.org>
- <ZPtKCc2PLi0wdR2+@bombadil.infradead.org>
- <2023090852-stoppable-jackpot-549f@gregkh>
+        with ESMTP id S232141AbjIIAhO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 20:37:14 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11E542698;
+        Fri,  8 Sep 2023 17:36:44 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53DD3C433C7;
+        Sat,  9 Sep 2023 00:36:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694219767;
+        bh=guUZwgwpptycEhh1UBHNkj0x7bnqCz7pkwBOOnAQXcs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lps+1660wPoW5Noj5R6wns2MCbjAaVEQoUfyntA4jxAzVf02vUE13GvUoyv0rdttc
+         pOm2xZuQMW0gSn9W9xS9beH+kf71qusDQ4FQoCo1e++o8VYi904R77APd5sfCrsBWT
+         p/LfOIDEydOMa6Hv2o+4sXaz4pbyrH9/sc6murhs3W1gMEoOR4VMjepXAYwM0aXFbM
+         +uGYOv01zalup7fgJZoC+VIvzt0rv5ECH3h1MayzP+SGx1uk4EN7jb/HeicK3uuYTD
+         YZ19se4gzV9PkL+2wowpL1/QIGLoxxhitvcx7WFfWRgFNsC8C7v0GhA+hqWfaPMK2v
+         Zs4h/CVS3xG1g==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Lu Hongfei <luhongfei@vivo.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
+        matthias.bgg@gmail.com, moudy.ho@mediatek.com,
+        sakari.ailus@linux.intel.com, sunke32@huawei.com, arnd@arndb.de,
+        drv@mailo.com, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.5 01/28] media: mdp3: Fix resource leaks in of_find_device_by_node
+Date:   Fri,  8 Sep 2023 20:35:35 -0400
+Message-Id: <20230909003604.3579407-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023090852-stoppable-jackpot-549f@gregkh>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=no
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.5.2
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,40 +55,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 08, 2023 at 05:35:07PM +0100, Greg Kroah-Hartman wrote:
-> On Fri, Sep 08, 2023 at 09:21:29AM -0700, Luis Chamberlain wrote:
-> > On Fri, Sep 08, 2023 at 10:20:36AM +0100, Greg Kroah-Hartman wrote:
-> > > In commit 9011e49d54dc ("modules: only allow symbol_get of
-> > > EXPORT_SYMBOL_GPL modules") the use of symbol_get is properly restricted
-> > > to GPL-only marked symbols.  This interacts oddly with the DVB logic
-> > > which only uses dvb_attach() to load the dvb driver which then uses
-> > > symbol_get().
-> > > 
-> > > Fix this up by properly marking all of the dvb_attach attach symbols as
-> > > EXPORT_SYMBOL_GPL().
-> > > 
-> > > Fixes: 9011e49d54dc ("modules: only allow symbol_get of EXPORT_SYMBOL_GPL modules")
-> > > Cc: stable <stable@kernel.org>
-> > > Reported-by: Stefan Lippers-Hollmann <s.l-h@gmx.de>
-> > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > Cc: Luis Chamberlain <mcgrof@kernel.org>
-> > > Cc: Christoph Hellwig <hch@lst.de>
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: linux-modules@vger.kernel.org
-> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > ---
-> > > Luis, do you want to take this through your tree?  Or Mauro's?  Or I can
-> > > take it through mine, it should get to Linus soon as this is causing
-> > > regressions in his tree.
-> > 
-> > You've done the work so it is up to you, whatever helps you expedite it
-> > as it already hit stable. Feel free to take it through your tree.
-> 
-> If you ack it, I can take it now through my tree and send it to Linus
-> tomorrow.
+From: Lu Hongfei <luhongfei@vivo.com>
 
-Sorry for the delay:
+[ Upstream commit 35ca8ce495366909b4c2e701d1356570dd40c4e2 ]
 
-Acked-by Luis Chamberlain <mcgrof@kernel.org>
+Use put_device to release the object get through of_find_device_by_node,
+avoiding resource leaks.
 
-  Luis
+Signed-off-by: Lu Hongfei <luhongfei@vivo.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+index a605e80c7dc36..b0ca2b3a8a739 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+@@ -892,11 +892,13 @@ static int mdp_get_subsys_id(struct mdp_dev *mdp, struct device *dev,
+ 	ret = cmdq_dev_get_client_reg(&comp_pdev->dev, &cmdq_reg, index);
+ 	if (ret != 0) {
+ 		dev_err(&comp_pdev->dev, "cmdq_dev_get_subsys fail!\n");
++		put_device(&comp_pdev->dev);
+ 		return -EINVAL;
+ 	}
+ 
+ 	comp->subsys_id = cmdq_reg.subsys;
+ 	dev_dbg(&comp_pdev->dev, "subsys id=%d\n", cmdq_reg.subsys);
++	put_device(&comp_pdev->dev);
+ 
+ 	return 0;
+ }
+-- 
+2.40.1
+
