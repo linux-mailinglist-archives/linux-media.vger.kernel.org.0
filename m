@@ -2,107 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D3FE7999AC
-	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 18:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64E737999AE
+	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 18:25:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233385AbjIIQZ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Sep 2023 12:25:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57926 "EHLO
+        id S233093AbjIIQZ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Sep 2023 12:25:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346487AbjIIOor (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Sep 2023 10:44:47 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 077DC18F;
-        Sat,  9 Sep 2023 07:44:41 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-52f3ba561d9so321708a12.1;
-        Sat, 09 Sep 2023 07:44:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694270679; x=1694875479; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nej0/398bNZdr2HyvdtcO9BJNRbt3FMJ9LgNhlCfcUs=;
-        b=STu/u5fJHoh98bx5r3xPTxrktEDMwHrCGa+x1lt5WJZy5OhpPKhvKmzu4Atr1BOgaN
-         sLGxsLXS+sWheKbJrkQ/8ucb1l5FZSgwUTUEgNFSk77GJPp5CoUUgIzyTsFd2fmWJTzI
-         y0yTlRJE6qCgCxEoOW5g0/C4NtPybqCDpiU201xCk9a4I7sLvjiLJi6eATU3uB2ZqX8Q
-         DhsfG5ihDh/3WMV+aw4JBtnxStYOpESWgq6IG3ZORizCuwizwo9VJE1Odf5KJ/O7XqLI
-         Jcx0omr6Gzv3HKq3ac2Z5BLaNLbL5/BmNkGbQt1hVt6F6Gu6+bbSMQgLUFxyZE7Hdlmr
-         JUKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694270679; x=1694875479;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Nej0/398bNZdr2HyvdtcO9BJNRbt3FMJ9LgNhlCfcUs=;
-        b=vUQCGsKtq18QNT43FDrzvCsAnSE581ovR3A17v4LHTPOAwwzW+komwAEOXeHo4wLZ3
-         44gx7FlNckycL6QW9AaCdoVV3onfkjkF/fXLnoUKhutr9EdsNn78UHZsqLJxpESq/cZy
-         6tUreRjyoBq3wMMPbJFzgIfwzEZFu6M/sllYlnbgfCudqQ7r/AEP5WFJtf+DGDIPIQbv
-         G86vDq0GERQIzHgUDQhrWs79IGZPIznLzfZ47jU5w98Kya23x73MqkQAAicHAiR9NVj0
-         ZWWuEqGJl+8pONI+tqyQwAi6Jf7w8wsqvxiKmjbnRAy160Pv0WB2e06sS8Nrbttsk5wy
-         x70w==
-X-Gm-Message-State: AOJu0YzvGLTOr7ml3qpquV0beHM4eK0gB9EKFXwv6uyb+m2WKG2ejCCw
-        y7BYKrN5qEMO2Y3+enxGOWk=
-X-Google-Smtp-Source: AGHT+IFHzKC+0At/DYBgP3WZpFSkxW99Svb/7clX08ja8nXiHh59vaxzYeiaEBwvDKoBHvLxw6X0jw==
-X-Received: by 2002:a05:6402:2794:b0:522:582f:91af with SMTP id b20-20020a056402279400b00522582f91afmr10420708ede.9.1694270679307;
-        Sat, 09 Sep 2023 07:44:39 -0700 (PDT)
-Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id d22-20020aa7ce16000000b005233609e39dsm2252399edv.30.2023.09.09.07.44.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Sep 2023 07:44:38 -0700 (PDT)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-        rfoss@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-        airlied@gmail.com, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] drm/bridge: dw-hdmi-cec: Add arbitration lost event
-Date:   Sat,  9 Sep 2023 16:44:32 +0200
-Message-ID: <20230909144432.34972-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        with ESMTP id S234610AbjIIPhJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Sep 2023 11:37:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12388138;
+        Sat,  9 Sep 2023 08:37:02 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (unknown [80.194.85.162])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B40E3B1;
+        Sat,  9 Sep 2023 17:35:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694273731;
+        bh=PUBdnMzQWjybgAphbuDj9Jlrd9yGtqWsPZzqidBnMyc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ft7bIvZ0/fpYIbYc8e2rLGyX8E2XpLc8YQUhuVHSLkFrAxBrOa24VYgg8CX8KUPkj
+         D1ZwHL228SitOvlHMUJuudTxcwG3b8BoyrCFp+3Axeq8hPIo1n+cYx4JLYGnsQkQ10
+         oV99kmV1ubblBg2m3Hb0ibZg345RE+/oeSlNEJEs=
+Date:   Sat, 9 Sep 2023 18:37:14 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 3/3] arm64: dts: mediatek: mt8365-pumpkin: Add overlays
+ for thp7312 cameras
+Message-ID: <20230909153714.GA21014@pendragon.ideasonboard.com>
+References: <20230905233118.183140-1-paul.elder@ideasonboard.com>
+ <20230905233118.183140-4-paul.elder@ideasonboard.com>
+ <20230908205222.GA320762-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230908205222.GA320762-robh@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add handling of arbitration lost event.
+On Fri, Sep 08, 2023 at 03:52:22PM -0500, Rob Herring wrote:
+> On Wed, Sep 06, 2023 at 08:31:18AM +0900, Paul Elder wrote:
+> > Add overlays for the Pumpkin i350 to support THP7312 cameras.
+> > 
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > ---
+> >  arch/arm64/boot/dts/mediatek/Makefile         |  4 +
+> >  .../mt8365-pumpkin-common-thp7312.dtsi        | 23 ++++++
+> >  .../mt8365-pumpkin-csi0-thp7312-imx258.dtso   | 73 +++++++++++++++++++
+> >  .../mt8365-pumpkin-csi1-thp7312-imx258.dtso   | 73 +++++++++++++++++++
+> >  4 files changed, 173 insertions(+)
+> >  create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-pumpkin-common-thp7312.dtsi
+> >  create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi0-thp7312-imx258.dtso
+> >  create mode 100644 arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi1-thp7312-imx258.dtso
+> > 
+> > diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
+> > index 20570bc40de8..ceaf24105001 100644
+> > --- a/arch/arm64/boot/dts/mediatek/Makefile
+> > +++ b/arch/arm64/boot/dts/mediatek/Makefile
+> > @@ -56,4 +56,8 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8365-evk.dtb
+> >  dtb-$(CONFIG_ARCH_MEDIATEK) += mt8365-pumpkin.dtb
+> >  dtb-$(CONFIG_ARCH_MEDIATEK) += mt8516-pumpkin.dtb
+> >  
+> > +mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-csi0-thp7312-imx258.dtbo
+> > +mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-csi1-thp7312-imx258.dtbo
+> >  mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-ethernet-usb.dtbo
+> 
+> This has no effect. You are assigning the same variable 3 times. It 
+> needs to be every overlay applied to its base is a *-dtbs variable and 
+> then those are all added to 'dtb-y'. IOW, we don't allow overlays which 
+> can't be applied at build time.
+> 
+> Assuming the overlays aren't mutually exclusive, you could do:
+> 
+> mtk-mt8365-pumpkin-dtbs := mt8365-pumpkin.dtb mt8365-pumpkin-ethernet-usb.dtbo
+> mtk-mt8365-pumpkin-dtbs += mt8365-pumpkin-csi0-thp7312-imx258.dtbo
+> mtk-mt8365-pumpkin-dtbs += mt8365-pumpkin-csi1-thp7312-imx258.dtbo
+> 
+> This works the same way as '-objs' variables to group .o files into a 
+> module.
+> 
+> > +
+> > +dtb-$(CONFIG_ARCH_MEDIATEK) += mtk-mt8365-pumpkin.dtb
+> 
+> Looks like mtk-mt8365-pumpkin.dtb failed to get built before. In any 
+> case, that's a terrible name. What's the difference between 
+> mt8365-pumpkin.dtb and mtk-mt8365-pumpkin.dtb? There's no clue.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+That's a bad name indeed. The cover letter indicates that this patch
+depends on currently out-of-tree DT changes, including a
+work-in-progress commit that adds mt8365-pumpkin-ethernet-usb.dtbo. The
+commits order makes this patch look weird.
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-index be21c11de1f2..673661160e54 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-@@ -145,6 +145,10 @@ static irqreturn_t dw_hdmi_cec_hardirq(int irq, void *data)
- 		cec->tx_status = CEC_TX_STATUS_NACK;
- 		cec->tx_done = true;
- 		ret = IRQ_WAKE_THREAD;
-+	} else if (stat & CEC_STAT_ARBLOST) {
-+		cec->tx_status = CEC_TX_STATUS_ARB_LOST;
-+		cec->tx_done = true;
-+		ret = IRQ_WAKE_THREAD;
- 	}
- 
- 	if (stat & CEC_STAT_EOM) {
-@@ -209,7 +213,7 @@ static int dw_hdmi_cec_enable(struct cec_adapter *adap, bool enable)
- 		cec->ops->enable(cec->hdmi);
- 
- 		irqs = CEC_STAT_ERROR_INIT | CEC_STAT_NACK | CEC_STAT_EOM |
--		       CEC_STAT_DONE;
-+		       CEC_STAT_ARBLOST | CEC_STAT_DONE;
- 		dw_hdmi_write(cec, irqs, HDMI_CEC_POLARITY);
- 		dw_hdmi_write(cec, ~irqs, HDMI_CEC_MASK);
- 		dw_hdmi_write(cec, ~irqs, HDMI_IH_MUTE_CEC_STAT0);
+Paul, in your v2, please indicate in the commit message of this patch
+that it isn't intended to be merged yet. A "[DNI]" prefix in the subject
+line will help.
+
 -- 
-2.42.0
+Regards,
 
+Laurent Pinchart
