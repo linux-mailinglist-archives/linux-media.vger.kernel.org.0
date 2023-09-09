@@ -2,39 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD3917994F6
-	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 02:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E0D87994FA
+	for <lists+linux-media@lfdr.de>; Sat,  9 Sep 2023 02:45:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344476AbjIIAo0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Sep 2023 20:44:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37528 "EHLO
+        id S1346214AbjIIAo2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Sep 2023 20:44:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346240AbjIIAnn (ORCPT
+        with ESMTP id S1346241AbjIIAnn (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Fri, 8 Sep 2023 20:43:43 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EB42D78;
-        Fri,  8 Sep 2023 17:41:13 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77561C433CD;
-        Sat,  9 Sep 2023 00:40:56 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 568E12D7C;
+        Fri,  8 Sep 2023 17:41:14 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1119DC116A8;
+        Sat,  9 Sep 2023 00:40:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694220057;
-        bh=Dr4kmbd/nBLjPEX7DVEU2QK+WQj2BZS5H87ZSAfXG/o=;
+        s=k20201202; t=1694220059;
+        bh=UwfFFqlAl4P8LC4n4jYgLsPONbs3Pyu1lS+l9u6Ibzw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nh7NngvJi78APi6s49X5WeIm0nIiTlb0ATQWmdv1WAo7/5I4lK/WKNMvlfI+eTJgb
-         ZpDDJfrjbXmO1bSk93Nono3t01YIJuiY2+sOxuGg7VuRY88bBcnQ3xPWPijNRPAlt3
-         Xx5c1hrxiTKzaWgIlrOiobVZJsofLqS8RfbLRtg9cgsqUPv7xtltKd/k8b6nBvZ90K
-         7xWEBWE+I7w4RtbmkW2t4ygeXW5+gOMG1hJxWAOC+S45JLNgg2ycvfC/NMKYqCzVc2
-         FWHQ0D5Pjh+nCiqLlSqFSSXnu9reIGmIKtPpnmihHfGmBGgg1fadjLkVGttK3WrEhE
-         wreZVJjo0sq1g==
+        b=vA+lr0rYT36pdSTfQ2hMlJpvlLqb/f5+BHlOelAGa/f/9zVMldYTVeUXSuFZdRpoF
+         SfXjjFd/mxZY4BJXHlutEZjlrELYxBJDfasEL0PcqvNn9uFyWiWgjQau/cDHeTSYc3
+         Wn5voJplBqOw/EBibMWjS4nY5NtUbSuFItgDUV3qhkGc3OC5DzlxRNBBht1fgv4fjT
+         B3z/r6qdNO2VTtVfw6pOs5P1aqDgSUrXUlvK9QNonLABJA6t80Z7o4HOhUFHcLWbJd
+         zEEGZRHpqhWAs9bRBI/o8v+bW+o/RlgM0Iw7WPGoG8u7SY0f7BJQOo8d4GD+P/zUBe
+         uHxjvFTkuQCDw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zhang Shurong <zhang_shurong@foxmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 05/14] media: az6007: Fix null-ptr-deref in az6007_i2c_xfer()
-Date:   Fri,  8 Sep 2023 20:40:36 -0400
-Message-Id: <20230909004045.3581014-5-sashal@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sasha Levin <sashal@kernel.org>, crope@iki.fi,
+        mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 07/14] media: tuners: qt1010: replace BUG_ON with a regular error
+Date:   Fri,  8 Sep 2023 20:40:38 -0400
+Message-Id: <20230909004045.3581014-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230909004045.3581014-1-sashal@kernel.org>
 References: <20230909004045.3581014-1-sashal@kernel.org>
@@ -53,53 +52,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Zhang Shurong <zhang_shurong@foxmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit 1047f9343011f2cedc73c64829686206a7e9fc3f ]
+[ Upstream commit ee630b29ea44d1851bb6c903f400956604834463 ]
 
-In az6007_i2c_xfer, msg is controlled by user. When msg[i].buf
-is null and msg[i].len is zero, former checks on msg[i].buf would be
-passed. Malicious data finally reach az6007_i2c_xfer. If accessing
-msg[i].buf[0] without sanity check, null ptr deref would happen.
-We add check on msg[i].len to prevent crash.
+BUG_ON is unnecessary here, and in addition it confuses smatch.
+Replacing this with an error return help resolve this smatch
+warning:
 
-Similar commit:
-commit 0ed554fd769a
-("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()")
+drivers/media/tuners/qt1010.c:350 qt1010_init() error: buffer overflow 'i2c_data' 34 <= 34
 
-Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/dvb-usb-v2/az6007.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/tuners/qt1010.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
-index 8e914be5b7c5e..2f40eb6bdbb83 100644
---- a/drivers/media/usb/dvb-usb-v2/az6007.c
-+++ b/drivers/media/usb/dvb-usb-v2/az6007.c
-@@ -796,6 +796,10 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
- 			if (az6007_xfer_debug)
- 				printk(KERN_DEBUG "az6007: I2C W addr=0x%x len=%d\n",
- 				       addr, msgs[i].len);
-+			if (msgs[i].len < 1) {
-+				ret = -EIO;
-+				goto err;
-+			}
- 			req = AZ6007_I2C_WR;
- 			index = msgs[i].buf[0];
- 			value = addr | (1 << 8);
-@@ -810,6 +814,10 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
- 			if (az6007_xfer_debug)
- 				printk(KERN_DEBUG "az6007: I2C R addr=0x%x len=%d\n",
- 				       addr, msgs[i].len);
-+			if (msgs[i].len < 1) {
-+				ret = -EIO;
-+				goto err;
-+			}
- 			req = AZ6007_I2C_RD;
- 			index = msgs[i].buf[0];
- 			value = addr;
+diff --git a/drivers/media/tuners/qt1010.c b/drivers/media/tuners/qt1010.c
+index 6d397cc85428d..ab4688f94d8ef 100644
+--- a/drivers/media/tuners/qt1010.c
++++ b/drivers/media/tuners/qt1010.c
+@@ -351,11 +351,12 @@ static int qt1010_init(struct dvb_frontend *fe)
+ 			else
+ 				valptr = &tmpval;
+ 
+-			BUG_ON(i >= ARRAY_SIZE(i2c_data) - 1);
+-
+-			err = qt1010_init_meas1(priv, i2c_data[i+1].reg,
+-						i2c_data[i].reg,
+-						i2c_data[i].val, valptr);
++			if (i >= ARRAY_SIZE(i2c_data) - 1)
++				err = -EIO;
++			else
++				err = qt1010_init_meas1(priv, i2c_data[i + 1].reg,
++							i2c_data[i].reg,
++							i2c_data[i].val, valptr);
+ 			i++;
+ 			break;
+ 		}
 -- 
 2.40.1
 
