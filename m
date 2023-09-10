@@ -2,132 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E032F799DD9
-	for <lists+linux-media@lfdr.de>; Sun, 10 Sep 2023 13:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AD51799E77
+	for <lists+linux-media@lfdr.de>; Sun, 10 Sep 2023 15:21:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346636AbjIJLTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Sep 2023 07:19:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44700 "EHLO
+        id S238970AbjIJNVw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Sep 2023 09:21:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233692AbjIJLTk (ORCPT
+        with ESMTP id S233725AbjIJNVv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Sep 2023 07:19:40 -0400
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D06CACD1
-        for <linux-media@vger.kernel.org>; Sun, 10 Sep 2023 04:19:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1694344772; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=lPNryd9jTR2vYhp/eON7kKBOu+DImVUxW2FOmkc3PHjOzc8Bn9CY7ME/5waHY1nT/V
-    JAdr+EXcScv5pLKfgQRGJhq6emBbNUTxFihIgOz94/vtyG16B1/k543DYQX7ZbDWNF4B
-    VnhwFEfWWpWY1GZTbG1Q1GwlVMx/yJasEEwB2ynFPg3+abhCN4wPwtae42vjHJ6In38C
-    6SXGPzZk0Z9stlezAbU85pCuLYdCc7C2PdP4mB4ExQJ0Jg2/LFxb0LC5yQr7sd04EXil
-    kNxZvplAJr8j1M1eqG8MwlbJWJf2eXpKrGH+ra9xyF9xSX+TA7MCnxpdQbUUeAEp7xqs
-    WAWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1694344772;
-    s=strato-dkim-0002; d=strato.com;
-    h=Subject:From:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
-    bh=5VOr/e+jMf+qV8BS+BY3JYEJ4hm9HIaYlNydQEMLrrk=;
-    b=c0ijWr5g28kUdQTf49lIoRgKEygW3SjELeXRajKRHbKQhQ0hYUHiTZrXVLW2geQEN1
-    GuZy258ayvNwcPOGXHRiKggbkmnxmK/sMgZyaZMTfw7YgNennmJut7M99Q8innh4Zz8I
-    /lcTeC+hHz2etSuqWWIbKuxbO/EyskIOtmA3XXllrSv9N5q2urqvVO6jFMoLpMfuMKgu
-    ZxY988Wb1zRfxGnO0CIPjNhKhuJRoUkj/klvh8kquFX5k6QOUKsH5GdKLG94AoMAR/kn
-    UNVOyr2MOEczfR63gpbEInzTklhEp58/PHA5qjSGKCqrqnjpK5IjXUR2UXmTIMcARtVh
-    fRZg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1694344771;
-    s=strato-dkim-0002; d=xenosoft.de;
-    h=Subject:From:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
-    bh=5VOr/e+jMf+qV8BS+BY3JYEJ4hm9HIaYlNydQEMLrrk=;
-    b=r4sgtZ07lU6dkmh6tITS9Rjo7/bRQiOwPFeOoiaQ7drFBofJqU5rzMo/BmhtFenlEb
-    FRH5b5/iksB6a9bCc7sVGi5+cD9ofuMbjBESZsD+b+JoRnZeT4LrB0pAUTGQfczJeXuL
-    fQrPbtRHTgAZAlUuFRWAeWCEfsmYy0v8wzamsmKe1AjUdAsIB+d7FW4cQDyww3X+FRhO
-    ZgldvrWzjqfA3SeyVBYZ1yh9aUPbArRfs1iZPD1rkPnFDsdt+0mrsIpe4uUeYa/dq33W
-    FWgofucbXvsrrDWJRBrmkxpKVZ6+t8KHuxB1ydGY7qOORLkj4oCzjPPhM85wzj877VOc
-    7GxQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1694344771;
-    s=strato-dkim-0003; d=xenosoft.de;
-    h=Subject:From:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
-    bh=5VOr/e+jMf+qV8BS+BY3JYEJ4hm9HIaYlNydQEMLrrk=;
-    b=v/8GOmHwx8U+In+hirN0BG93b89JZZPu7YUsL6JIRyKDjXmpIHEIdfj5gVDiFa7Zx3
-    uUHZx+pmQctGyzzrYBCw==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfio0GngadwiAuoB3khqHkGFYks0P7Zd2B6G6"
-Received: from [IPV6:2a02:8109:8980:4474:ec4e:f60b:a20:ff01]
-    by smtp.strato.de (RZmta 49.8.2 AUTH)
-    with ESMTPSA id 3b5276z8ABJVf4B
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Sun, 10 Sep 2023 13:19:31 +0200 (CEST)
-Message-ID: <56c8ab9a-9084-40ad-be52-5394708e6755@xenosoft.de>
-Date:   Sun, 10 Sep 2023 13:19:31 +0200
+        Sun, 10 Sep 2023 09:21:51 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC1BCD1;
+        Sun, 10 Sep 2023 06:21:46 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-31fa15f4cc6so267364f8f.2;
+        Sun, 10 Sep 2023 06:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694352105; x=1694956905; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x3yiYILhEuCNUQeqPmsTOJF5pdnP1MyjjDZaseeFDik=;
+        b=Qfsa0ZJkXvfx2fWGbnqj2cvUSoJE+9XvTFJVaX4o3MLsI7RoRclfuWx8bgaBWcM2nt
+         JR/R6Np5tRfM52pCxuYbz/iBQbTF2syYME2My4SABEzgB/bB8hbi6GI702h2qComZZdh
+         rNASCD5EyP5UmSze0t/yJ06lD4Z8fdqYf/yoOGj9ui+82Ipw3uAQTjij8qY+HQpVqWpA
+         dAtr8jjV/N5F4Sd/KW4Dl9ZPWiiVGG8mdKXN9gw3+mNCxoPl1khTtgH4i2qq+qRTVwM3
+         60cc+lcmz1JYs4fR8Q4w8Gp6R9jhL7vu+uHi4K/SIdvqQRjt5sT0CtEXKxTgzAdyicph
+         ipfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694352105; x=1694956905;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x3yiYILhEuCNUQeqPmsTOJF5pdnP1MyjjDZaseeFDik=;
+        b=FcQoc/2CuCo15IkXe8lkrjbVzLthOqyu4qDnyIc9osOdUDqjm7dR7nUB0k6DOavXsG
+         +KHIDxDoFCl6VO5k8yKhC43ZTAL1CNvi70GmrF82DaAjMkavZImlQY+7Cwx7/qT0w8aq
+         Tzaxnrc/E+6Elu9nJRZoN5hR8Bt1Ci7bXkIS/08cNTPWQYetoIhngFPSXRebZwfufJ3s
+         lvfgGKkcuN2CIkWZ4S65cXs4JDP+/jyq3cyYTgkoN6L4bUXvGRHvHiqZH4OX0jYk01+0
+         cjJY5/WNcaCnmyNQ0xShIcL5LM9JQIooNsIDhJQ6nsEwbFpd6RmguKrHfnyaiWntMZev
+         X+Iw==
+X-Gm-Message-State: AOJu0YxgbKU5LV1AKAedFyr/53CewILvfgkp3V1ujm4oJboRIQqivJok
+        gP2keOb/xUfIPHQmUICe1Q+vGenThNMKOLiw
+X-Google-Smtp-Source: AGHT+IHBW5u0oYJcRGEvrYuxS4KJf+ofoX9BINJgRqjlcAtgbTBDPybxSD7j2EjBbYgPCuTfVGTdFA==
+X-Received: by 2002:a5d:4809:0:b0:317:73d3:441a with SMTP id l9-20020a5d4809000000b0031773d3441amr5628694wrq.46.1694352104814;
+        Sun, 10 Sep 2023 06:21:44 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id d22-20020aa7ce16000000b005233609e39dsm3358895edv.30.2023.09.10.06.21.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Sep 2023 06:21:44 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v6 14/18] media: verisilicon: vp9: Use destination buffer height
+ to compute chroma offset
+Date:   Sun, 10 Sep 2023 15:21:41 +0200
+Message-ID: <4856958.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <20230901124414.48497-15-benjamin.gaignard@collabora.com>
+References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
+ <20230901124414.48497-15-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: de-DE
-To:     linux-media@vger.kernel.org,
-        Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-From:   Christian Zigotzky <chzigotzky@xenosoft.de>
-Subject: Re: [BTTV] [FSL P50x0] [PASEMI] TV Time doesn't work anymore after
- dropping the overlay support
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10 September 2023 at 04:33 am, Deborah Brouwer wrote:
- >
- > This is not debug code.  I made the change to fix the latency and
- > frame drop issues
- > that were otherwise occurring with vb2; as I said in the cover letter 
-to v3:
- >
- > "- remove the last four lines in interlaced,
- > sequential top/bottom, and alternating buffers
- > to prevent long latency and frame drops
- > (this is instead of just enabling the existing
- > VCR hack by default);"
- > 
-https://lore.kernel.org/linux-media/cover.1689379982.git.deborah.brouwer@collabora.com/
- >
- > However, if your testing shows that it isn't needed, then it would be
- > fine to remove this
- > code and just let the user enable the "vcr hack" as needed. This was
- > my original approach
- > in v2, but I thought you had said at the time that you were seeing
- > massive framedrops in v2?
- >
- > I didn't notice this green line before because I was testing in qv4l2
- > with the default
- > Pixel Format  : 'BGR3' (24-bit BGR 8-8-8) whereas tvtime is using
- > YUYV' (YUYV 4:2:2)
- >
- > One fix that worked for me was to adjust the "OverScan" configuration 
-in tvtime
- > so that it is at least 3.5.  The /etc/tvtime/tvtime.xml configuration
- > file recommends
- > even higher at 8.0.  Christian, please try adjusting the overscan
- > value to see if
- > that is a possible solution as well.
- >
- > Thanks,
- > Deb
+Hi Benjamin!
 
-Hi Deb,
+Dne petek, 01. september 2023 ob 14:44:10 CEST je Benjamin Gaignard 
+napisal(a):
+> Source and destination buffer height may not be the same because
+> alignment constraint are different.
+> Use destination height to compute chroma offset because we target
+> this buffer as hardware output.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Fixes: e2da465455ce ("media: hantro: Support VP9 on the G2 core")
+> ---
+>  drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c index
+> 6db1c32fce4d..1f3f5e7ce978 100644
+> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> @@ -93,9 +93,7 @@ static int start_prepare_run(struct hantro_ctx *ctx, const
+> struct v4l2_ctrl_vp9_ static size_t chroma_offset(const struct hantro_ctx
+> *ctx,
+>  			    const struct v4l2_ctrl_vp9_frame 
+*dec_params)
+>  {
+> -	int bytes_per_pixel = dec_params->bit_depth == 8 ? 1 : 2;
+> -
+> -	return ctx->src_fmt.width * ctx->src_fmt.height * bytes_per_pixel;
+> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 
+8;
 
-It works! :-)
+Commit message doesn't mention bit_depth change at all. While I think there is 
+no difference between dec_params->bit_depth and ctx->bit_depth, you shouldn't 
+just use ordinary division. If bit_depth is 10, it will be rounded down. And 
+if you decide to use bit_depth from context, please remove dec_params 
+argument.
 
-I adjusted the OverScan configuration to 3.5 today (.tvtime/tvtime.xml) 
-and this solved this issue.
+Best regards,
+Jernej
 
-Thanks a lot!
+>  }
+> 
+>  static size_t mv_offset(const struct hantro_ctx *ctx,
 
-Cheers,
-Christian
+
+
+
