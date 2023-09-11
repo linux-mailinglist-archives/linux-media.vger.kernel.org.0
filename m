@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 252D779AEAD
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 01:45:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B3DE79AF89
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 01:47:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234604AbjIKUsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:48:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52620 "EHLO
+        id S230357AbjIKUrI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:47:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239533AbjIKOXV (ORCPT
+        with ESMTP id S241001AbjIKO7a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 10:23:21 -0400
+        Mon, 11 Sep 2023 10:59:30 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D28DE;
-        Mon, 11 Sep 2023 07:23:13 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5636AC433C8;
-        Mon, 11 Sep 2023 14:23:12 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F225F1B9;
+        Mon, 11 Sep 2023 07:59:23 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19A37C433C9;
+        Mon, 11 Sep 2023 14:59:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1694442192;
-        bh=jMnwx+QZP+n6UI3kBYF5uKG5MYPlkvPr+PwVvuknjsE=;
+        s=korg; t=1694444363;
+        bh=/0IUmUpzpkh1me2q1+X4YOSaqeFWOKy0KQwizwMISqE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UaPPgSQbb9iFZsdzkTOHU13lUgWZPx+QoqI/0yc75bXuhuoWuWaEvl1GTX1js7Bzf
-         KaooY9U0mQ7GfMOWhj5NpgbBYxuiS2K/gNNwEiAJs0MKUM3jTKZ2exhzRjiYKzy4rs
-         39SRSufKoCDJBKPnR5/gOJ21OjGM8nstZvpoHt50=
+        b=xdMBp58YnksBeYEhYzcZ1jrd8cQuRaEi7sGMqxWk3dRi6MLWf2iTw0izP0c6hTv5p
+         qzy13+R3lQNuk0JJzsc2zo+z6fY2Dd11bUS6MFY+PbcMfF38bVDsCCM6vwoo/VBHi6
+         xWiOozo5cJkZuT6LR3ILm2aLU8Kk07FPAEGQfocI=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -34,12 +34,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-modules@vger.kernel.org,
         Luis Chamberlain <mcgrof@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 6.5 679/739] media: dvb: symbol fixup for dvb_attach()
-Date:   Mon, 11 Sep 2023 15:47:58 +0200
-Message-ID: <20230911134710.064844147@linuxfoundation.org>
+Subject: [PATCH 6.4 674/737] media: dvb: symbol fixup for dvb_attach()
+Date:   Mon, 11 Sep 2023 15:48:53 +0200
+Message-ID: <20230911134709.367010296@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230911134650.921299741@linuxfoundation.org>
-References: <20230911134650.921299741@linuxfoundation.org>
+In-Reply-To: <20230911134650.286315610@linuxfoundation.org>
+References: <20230911134650.286315610@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -55,7 +55,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-6.5-stable review patch.  If anyone has any objections, please let me know.
+6.4-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -733,7 +733,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Manu Abraham");
 --- a/drivers/media/dvb-frontends/mb86a20s.c
 +++ b/drivers/media/dvb-frontends/mb86a20s.c
-@@ -2078,7 +2078,7 @@ struct dvb_frontend *mb86a20s_attach(con
+@@ -2081,7 +2081,7 @@ struct dvb_frontend *mb86a20s_attach(con
  	dev_info(&i2c->dev, "Detected a Fujitsu mb86a20s frontend\n");
  	return &state->frontend;
  }
