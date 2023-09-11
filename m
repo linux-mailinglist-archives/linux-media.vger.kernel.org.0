@@ -2,88 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06B6679BD0B
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 694F079B8BF
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:08:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233417AbjIKUrw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:47:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60406 "EHLO
+        id S234919AbjIKUtr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:49:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241631AbjIKPLH (ORCPT
+        with ESMTP id S242511AbjIKPo4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 11:11:07 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9046BCCC
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 08:11:02 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-52bcd4db4c0so9838713a12.0
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 08:11:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694445061; x=1695049861; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=116M1Uf4FxkGVcXqN1wBq1UncYtXwEEG2hN8+ByRx2U=;
-        b=Z+Rk4WRCrsSSqttXHrfsPbU2dGv0kPljBb16JEutqFxIf+yVBmWSrpttdE5mUXy7ZO
-         VqUO65FbRH3ib2FzEsmqJTetjhaMxe8doFOOXVCSfBI9Z8xqpq3GRxWvEus42o1FtA3m
-         SkcG+GtRyqhg9HqsoA6NpOj0PrHVY6wO8ts8qpYszaSG3U1XLL+laULKRXqnzPS91gYZ
-         JbzbmVzc9H3xfJLFdUVKspXGTBloFezXxlncrjv4MBFqwde/OkbLPZirHeXepDIx69LZ
-         RUIc+TN/gKy0lLm4hm9aoKHM8agLxXCg9g4TKNhyETeIWx5R4SKbskROhTZoAoNjuslV
-         UG+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694445061; x=1695049861;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=116M1Uf4FxkGVcXqN1wBq1UncYtXwEEG2hN8+ByRx2U=;
-        b=nUVw8RHd01+dLSaznzxtmlPtOO2vgBY362pbkQlI2KhJszRlb/j6vZzgbRQH1lurSn
-         VOVJRa5oKXE674oOR37g6b6Qp9O4zrUVdS7PSsBaRVR7Xw7PpbJz3Dpg01cG/YUq+aC9
-         /7ycvDo/7hyGvdsrhQk/bDxDm4XKiDH3wOoC6+FaOw/M047K4oiXhGfxUB9rGblRXH+x
-         v/Khi+8e9Jvt1HrrCF4Skl+ijwCy04qU7OOyI9TsenZ0fKDXFPmMjd1hBQ2PrMDURXJh
-         TVrLmgg8K0abNMqAG06L8e1h08DCbHhf9DyNRbhERonZ/wihiSdp7Mjd0DrPxm7bpveT
-         qycg==
-X-Gm-Message-State: AOJu0YzlgzRc+CVKhpd+Hl0/KalFdw53ykiwylCEiPYYJjOlMb5Jw+Eo
-        zWxkMySskOTREmEyyizKcsDaeQ==
-X-Google-Smtp-Source: AGHT+IEvvAGK6lqIPwjV7PEMM+tywxepjWAX/NQ/dlwbyxSX9kJBmKg9i02x5I20YkqjdqPrl/H/Hw==
-X-Received: by 2002:a05:6402:124f:b0:525:8124:20fe with SMTP id l15-20020a056402124f00b00525812420femr14949632edw.18.1694445061156;
-        Mon, 11 Sep 2023 08:11:01 -0700 (PDT)
-Received: from [10.167.154.1] (178235177061.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.61])
-        by smtp.gmail.com with ESMTPSA id n4-20020a056402060400b0052a3ad836basm4681281edv.41.2023.09.11.08.10.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 08:11:00 -0700 (PDT)
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Mon, 11 Sep 2023 17:10:32 +0200
-Subject: [PATCH RFT 18/20] media: venus: pm_helpers: Commonize getting
- clocks and GenPDs
+        Mon, 11 Sep 2023 11:44:56 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61346FB;
+        Mon, 11 Sep 2023 08:44:50 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 662AA660730D;
+        Mon, 11 Sep 2023 16:44:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694447089;
+        bh=Y54cO3Keiy0/M19Pg2PI3OmwZpoo7rXctVpgGOi2oTE=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=c2raOA8o0CsQSjmro9YZXyZsNqpRy95YSTcN91QCUPZnyprbFEAF8LJ6lfk8KFL+U
+         3ISTu7F3OMY7IxYKmkbKCm6cBqOC5ClYwI6rn5HP2QnH6JddjGjsDgh4ktHWX/5J1A
+         LmHYlrLEB95RdJ7j8KMjKHZFVpO8sjucF5HuQylPJM9fXcE7mvvZ/bdH//LXAA0vXX
+         sbyiBVaDh84F4mWUFIoPgpCASZrElMc3d1enm8kfle6m38yzHUhojyvOOKMvya7/Se
+         hf/gvQRBC5pyxXYoZDran6530ebt5M4ET3eYvjDpPXxSUnbeIfbyMmogJmIKptUJpw
+         rDS0JwhU4uDeg==
+Message-ID: <4ff89457cbcc0582d312c8af919dab7a16b1943b.camel@collabora.com>
+Subject: Re: [PATCH 08/14] media: medkatek: vcodec: support one plane
+ capture buffer
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
+        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Mon, 11 Sep 2023 11:44:37 -0400
+In-Reply-To: <20230911125936.10648-9-yunfei.dong@mediatek.com>
+References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
+         <20230911125936.10648-9-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230911-topic-mars-v1-18-a7d38bf87bdb@linaro.org>
-References: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
-In-Reply-To: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694445027; l=3351;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=9AKWBnlvj+Q6WSygovq46dA98O8B8twaOC1bOaWKQLA=;
- b=laMrLpKy/LbvHFS/2/vbvWUy7x94OHugyBeOVM5X6pDzlPuwylz6rzNcHKYsAIXhTmLLk01xT
- kB9YPsDJwwxDP0sYjSuG/sAqkJOojLShhcDAUhZpqAzpWIXt8wnZ0TP
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,98 +69,181 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As has been the story with the past few commits, much of the resource
-acquisition logic is totally identical between different generations
-and there's no good reason to invent a new function for each one.
+Hi,
 
-Commonize core_get() and rename it to venus_get_resources() to be more
-meaningful.
+Le lundi 11 septembre 2023 =C3=A0 20:59 +0800, Yunfei Dong a =C3=A9crit=C2=
+=A0:
+> The capture buffer has two planes for format MM21, but user space only
+> allocate secure memory for plane[0], and the size is Y data + uv data.
+> The driver need to support one plane decoder for svp mode.
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/media/platform/qcom/venus/core.c       | 8 +++-----
- drivers/media/platform/qcom/venus/pm_helpers.c | 5 +----
- drivers/media/platform/qcom/venus/pm_helpers.h | 3 +--
- 3 files changed, 5 insertions(+), 11 deletions(-)
+I'm sorry, but in current V4L2 status, you must introduce a new format. Ass=
+uming
+the second M means MPLANE, this format would be MT21 (though you already us=
+ed
+that fourcc for MT21C) ?
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 42bfcef9449a..e8a16355d39e 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -337,11 +337,9 @@ static int venus_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	if (core->pm_ops->core_get) {
--		ret = core->pm_ops->core_get(core);
--		if (ret)
--			return ret;
--	}
-+	ret = venus_get_resources(core);
-+	if (ret)
-+		return ret;
- 
- 	ret = dma_set_mask_and_coherent(dev, res->dma_mask);
- 	if (ret)
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index 741b29cc76c9..6e282a69c7c5 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.c
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -326,7 +326,6 @@ static int load_scale_v1(struct venus_inst *inst)
- }
- 
- static const struct venus_pm_ops pm_ops_v1 = {
--	.core_get = venus_clks_get,
- 	.load_scale = load_scale_v1,
- };
- 
-@@ -395,7 +394,6 @@ static int venc_power_v3(struct device *dev, int on)
- }
- 
- static const struct venus_pm_ops pm_ops_v3 = {
--	.core_get = venus_clks_get,
- 	.vdec_get = vdec_get_v3,
- 	.vdec_power = vdec_power_v3,
- 	.venc_get = venc_get_v3,
-@@ -926,7 +924,7 @@ static int core_resets_reset(struct venus_core *core)
- 	return reset_control_bulk_deassert(res->resets_num, core->resets);
- }
- 
--static int core_get_v4(struct venus_core *core)
-+int venus_get_resources(struct venus_core *core)
- {
- 	struct device *dev = core->dev;
- 	const struct venus_resources *res = core->res;
-@@ -1114,7 +1112,6 @@ static int load_scale_v4(struct venus_inst *inst)
- }
- 
- static const struct venus_pm_ops pm_ops_v4 = {
--	.core_get = core_get_v4,
- 	.vdec_get = vdec_get_v4,
- 	.vdec_put = vdec_put_v4,
- 	.vdec_power = vdec_power_v4,
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.h b/drivers/media/platform/qcom/venus/pm_helpers.h
-index 3014b39aa6e3..7a55a55029f3 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.h
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.h
-@@ -10,8 +10,6 @@ struct venus_core;
- #define POWER_OFF	0
- 
- struct venus_pm_ops {
--	int (*core_get)(struct venus_core *core);
--
- 	int (*vdec_get)(struct device *dev);
- 	void (*vdec_put)(struct device *dev);
- 	int (*vdec_power)(struct device *dev, int on);
-@@ -28,6 +26,7 @@ struct venus_pm_ops {
- const struct venus_pm_ops *venus_pm_get(enum hfi_version version);
- int venus_core_power(struct venus_core *core, int on);
- void vcodec_domains_put(struct venus_core *core);
-+int venus_get_resources(struct venus_core *core);
- 
- static inline int venus_pm_load_scale(struct venus_inst *inst)
- {
+Nicolas
 
--- 
-2.42.0
+>=20
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 24 ++++++++++++-------
+>  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 13 ++++++----
+>  .../decoder/vdec/vdec_h264_req_common.c       | 16 +++++++------
+>  .../mediatek/vcodec/decoder/vdec_drv_if.c     |  4 ++--
+>  4 files changed, 34 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
+c.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> index 91ed576d6821..457c3e2979c9 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> @@ -541,14 +541,15 @@ static int vidioc_vdec_s_fmt(struct file *file, voi=
+d *priv,
+>  			ctx->q_data[MTK_Q_DATA_DST].bytesperline[0] =3D
+>  				ctx->picinfo.buf_w;
+>  		} else {
+> -			ctx->q_data[MTK_Q_DATA_DST].sizeimage[0] =3D
+> -				ctx->picinfo.fb_sz[0];
+> -			ctx->q_data[MTK_Q_DATA_DST].bytesperline[0] =3D
+> -				ctx->picinfo.buf_w;
+> -			ctx->q_data[MTK_Q_DATA_DST].sizeimage[1] =3D
+> -				ctx->picinfo.fb_sz[1];
+> -			ctx->q_data[MTK_Q_DATA_DST].bytesperline[1] =3D
+> -				ctx->picinfo.buf_w;
+> +			if (ctx->is_svp_mode)
+> +				ctx->q_data[MTK_Q_DATA_DST].sizeimage[0] =3D
+> +					ctx->picinfo.fb_sz[0] + ctx->picinfo.fb_sz[1];
+> +			else
+> +				ctx->q_data[MTK_Q_DATA_DST].sizeimage[0] =3D ctx->picinfo.fb_sz[0];
+> +
+> +			ctx->q_data[MTK_Q_DATA_DST].bytesperline[0] =3D ctx->picinfo.buf_w;
+> +			ctx->q_data[MTK_Q_DATA_DST].sizeimage[1] =3D ctx->picinfo.fb_sz[1];
+> +			ctx->q_data[MTK_Q_DATA_DST].bytesperline[1] =3D ctx->picinfo.buf_w;
+>  		}
+> =20
+>  		ctx->q_data[MTK_Q_DATA_DST].coded_width =3D ctx->picinfo.buf_w;
+> @@ -673,7 +674,12 @@ static int vidioc_vdec_g_fmt(struct file *file, void=
+ *priv,
+>  		 * So we just return picinfo yet, and update picinfo in
+>  		 * stop_streaming hook function
+>  		 */
+> -		q_data->sizeimage[0] =3D ctx->picinfo.fb_sz[0];
+> +
+> +		if (ctx->is_svp_mode)
+> +			q_data->sizeimage[0] =3D ctx->picinfo.fb_sz[0] + ctx->picinfo.fb_sz[1=
+];
+> +		else
+> +			q_data->sizeimage[0] =3D ctx->picinfo.fb_sz[0];
+> +
+>  		q_data->sizeimage[1] =3D ctx->picinfo.fb_sz[1];
+>  		q_data->bytesperline[0] =3D ctx->last_decoded_picinfo.buf_w;
+>  		q_data->bytesperline[1] =3D ctx->last_decoded_picinfo.buf_w;
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
+c_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_d=
+ec_stateless.c
+> index e29c9c58f3da..2ea517883a86 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
+less.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
+less.c
+> @@ -256,11 +256,12 @@ static struct vdec_fb *vdec_get_cap_buffer(struct m=
+tk_vcodec_dec_ctx *ctx)
+>  	framebuf =3D container_of(vb2_v4l2, struct mtk_video_dec_buf, m2m_buf.v=
+b);
+> =20
+>  	pfb =3D &framebuf->frame_buffer;
+> -	pfb->base_y.va =3D vb2_plane_vaddr(dst_buf, 0);
+> +	if (!ctx->is_svp_mode)
+> +		pfb->base_y.va =3D vb2_plane_vaddr(dst_buf, 0);
+>  	pfb->base_y.dma_addr =3D vb2_dma_contig_plane_dma_addr(dst_buf, 0);
+>  	pfb->base_y.size =3D ctx->q_data[MTK_Q_DATA_DST].sizeimage[0];
+> =20
+> -	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes =3D=3D 2) {
+> +	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes =3D=3D 2 && !ctx->is_sv=
+p_mode) {
+>  		pfb->base_c.va =3D vb2_plane_vaddr(dst_buf, 1);
+>  		pfb->base_c.dma_addr =3D
+>  			vb2_dma_contig_plane_dma_addr(dst_buf, 1);
+> @@ -310,16 +311,18 @@ static void mtk_vdec_worker(struct work_struct *wor=
+k)
+>  	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) id=3D%d, vb=3D%p", ctx->id,
+>  			  vb2_src->vb2_queue->type, vb2_src->index, vb2_src);
+> =20
+> -	bs_src->va =3D vb2_plane_vaddr(vb2_src, 0);
+> -	bs_src->dma_addr =3D vb2_dma_contig_plane_dma_addr(vb2_src, 0);
+> -	bs_src->size =3D (size_t)vb2_src->planes[0].bytesused;
+> +	if (!ctx->is_svp_mode) {
+> +		bs_src->va =3D vb2_plane_vaddr(vb2_src, 0);
+>  	if (!bs_src->va) {
+>  		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+>  		mtk_v4l2_vdec_err(ctx, "[%d] id=3D%d source buffer is NULL", ctx->id,
+>  				  vb2_src->index);
+>  		return;
+> +		}
+>  	}
+> =20
+> +	bs_src->dma_addr =3D vb2_dma_contig_plane_dma_addr(vb2_src, 0);
+> +	bs_src->size =3D (size_t)vb2_src->planes[0].bytesused;
+>  	mtk_v4l2_vdec_dbg(3, ctx, "[%d] Bitstream VA=3D%p DMA=3D%pad Size=3D%zx=
+ vb=3D%p",
+>  			  ctx->id, bs_src->va, &bs_src->dma_addr, bs_src->size, vb2_src);
+>  	/* Apply request controls. */
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h26=
+4_req_common.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h=
+264_req_common.c
+> index 5ca20d75dc8e..838f0eeea6e2 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_c=
+ommon.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_c=
+ommon.c
+> @@ -81,13 +81,15 @@ void mtk_vdec_h264_fill_dpb_info(struct mtk_vcodec_de=
+c_ctx *ctx,
+> =20
+>  		h264_dpb_info[index].y_dma_addr =3D
+>  			vb2_dma_contig_plane_dma_addr(vb, 0);
+> -		if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes =3D=3D 2)
+> -			h264_dpb_info[index].c_dma_addr =3D
+> -				vb2_dma_contig_plane_dma_addr(vb, 1);
+> -		else
+> -			h264_dpb_info[index].c_dma_addr =3D
+> -				h264_dpb_info[index].y_dma_addr +
+> -				ctx->picinfo.fb_sz[0];
+> +		if (!ctx->is_svp_mode) {
+> +			if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes =3D=3D 2)
+> +				h264_dpb_info[index].c_dma_addr =3D
+> +					vb2_dma_contig_plane_dma_addr(vb, 1);
+> +			else
+> +				h264_dpb_info[index].c_dma_addr =3D
+> +					h264_dpb_info[index].y_dma_addr +
+> +					ctx->picinfo.fb_sz[0];
+> +		}
+>  	}
+>  }
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c=
+ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
+> index d0b459b1603f..c7d33e540a13 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
+> @@ -73,14 +73,14 @@ int vdec_if_decode(struct mtk_vcodec_dec_ctx *ctx, st=
+ruct mtk_vcodec_mem *bs,
+>  {
+>  	int ret =3D 0;
+> =20
+> -	if (bs) {
+> +	if (bs && !ctx->is_svp_mode) {
+>  		if ((bs->dma_addr & 63) !=3D 0) {
+>  			mtk_v4l2_vdec_err(ctx, "bs dma_addr should 64 byte align");
+>  			return -EINVAL;
+>  		}
+>  	}
+> =20
+> -	if (fb) {
+> +	if (fb && !ctx->is_svp_mode) {
+>  		if (((fb->base_y.dma_addr & 511) !=3D 0) ||
+>  		    ((fb->base_c.dma_addr & 511) !=3D 0)) {
+>  			mtk_v4l2_vdec_err(ctx, "frame buffer dma_addr should 512 byte align")=
+;
 
