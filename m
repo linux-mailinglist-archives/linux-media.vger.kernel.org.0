@@ -2,62 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E501C79B41A
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07ADE79B13F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 01:51:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232775AbjIKUrf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:47:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51580 "EHLO
+        id S233280AbjIKUrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:47:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241544AbjIKPKk (ORCPT
+        with ESMTP id S241588AbjIKPKw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 11:10:40 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82D47E4D
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 08:10:35 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-307d58b3efbso4169983f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 08:10:35 -0700 (PDT)
+        Mon, 11 Sep 2023 11:10:52 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC61E40
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 08:10:47 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-31f7400cb74so3734516f8f.2
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 08:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694445034; x=1695049834; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1694445045; x=1695049845; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7ht2UJ2SrAZEBCW6MQUWYMxu5nJ3shvvrcqqoVglcXI=;
-        b=TzZ3f7VlRPGg7/misLMDmmMiGHgCXV0MOieoPxMZNZeG6oPgaQ/cyw4AB9K/9+ybOJ
-         49quPh6n7b4ZcAdzjzObrGAMBTLBMIBJZIpUwl/PzpZOwb/Ub0tjHuA+bVCOdKQXGTgW
-         bLZZ9XreQQro/fKY3ERiGvYpU45MpbD5aI0qORkm389GDUBbzvSZ9vMvvKLdi0iXZyNZ
-         XuEcdxKnFwsZOaDEerfHotGWK0kztBnaFImPiLc4uSDgR6sI8yLo7HQtcng2WR1PBBIa
-         LjfEfTy36RFefoN4ltX03Pewa7jE8o6DaRiQB4hjzoRRXJqrbxDpX06mx5Mm3WCXB1h5
-         Szeg==
+        bh=spHpGVd+zWE6f7Ydbw/UHW0+Hj7H33rl1DfjyP47SF4=;
+        b=JZcLo7Eg8ALbmFDX5fQEP6gHt0MZgrRZkScd/OEQBWQEKIKaphzqjhvhUTVzCbn3h4
+         //u4HuR8aNC1A6zb26GYTDYB5PWBaQL3i5V6i3yAnQ8KAtPgOHem04rNQK46mCdeOu72
+         28pjKCr7mMR7V/A01ahwOzuSuf0jkDTMvnYjBTgY8KJQlrmthn/kJg24tNPYTF1yTtuT
+         pgOk2tj8gIOz11eQcqF4PzOaV7oakpWqq7WMg89H7kPtiRRmZNUWZoHC819ZrUxmKWsZ
+         UnMgMIs/vDz3QRAlkls4y9Tu6rfPLtRGA+bQYeFX9Shpyr6V0DeK/HhlL/AB2G75O54i
+         lWzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694445034; x=1695049834;
+        d=1e100.net; s=20230601; t=1694445045; x=1695049845;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7ht2UJ2SrAZEBCW6MQUWYMxu5nJ3shvvrcqqoVglcXI=;
-        b=AigvsW9MYOmREMsWPO9XB0XosjjU3ydYjplWQVOcmaS20qikjBHWGTZbPDCod+TJPY
-         OVz7Q/w8ig8zrahELuk01ksCddqXRCCZd1TGmWVF4wyNBSeThfBwGAQ8OOOzMNxkifRR
-         ML8kqnWXWhVLRJ7dFrJSlV+fsY6n2bLyB9qH8qltwOJCE7Y1ZWz+QWNindRxtRzBGr+d
-         ZA76d5C5gfE0+0/p4GRtMDtdOvVqGPF77fBknca7VRW5nbccDgiImcWgsFT4K6okmNHX
-         QHFtlO+QODsv83f722UsNECMTCDoQOd59JbvD7yUrtjP5Dw/+P+LRg8m8R+7MTnYLMg4
-         kuYw==
-X-Gm-Message-State: AOJu0YyHaa2ZTN0OWFXgRZk7GLmjETNDE6wVEl4wI8M8LkDWu0YHXqV6
-        +JgmoxoDWCZj33T1GiW5U6tNsg==
-X-Google-Smtp-Source: AGHT+IE4nKR0UaC4vAJTRWZ8UGSUUnfSj9OlxBtzCtbNOI2rCiLWLB5iH0M/MLPczrSSHlDGkLqR7g==
-X-Received: by 2002:adf:ec42:0:b0:31c:6420:ff4 with SMTP id w2-20020adfec42000000b0031c64200ff4mr7695847wrn.36.1694445033966;
-        Mon, 11 Sep 2023 08:10:33 -0700 (PDT)
+        bh=spHpGVd+zWE6f7Ydbw/UHW0+Hj7H33rl1DfjyP47SF4=;
+        b=J3GWs1eVEiW0A1OwvC2k5PGJhwJpPy6V+rdUjbL7PsIYnFUkoFc0ZmLg3ST7gRmI81
+         W/ra+We71GESGkWKH2Qqegd8z18U75jrAr6DR++YwZar7idwbWnmq6/hb2hP/oU2jvdn
+         GHEsVby/H3XdrIH8z3bZELXLz3ImQHLghlIztOHIUcOC3xup5tTfqZj0tz9VWNEkoE7y
+         BEA8xH6Dr6pn9LPa1w8urL+MKl6bsCEP7wR7G6NtmgdYU0COpTjtszJHJxFI2GJ68OYl
+         djg++ujISzriTCpgfZwQsVxh8nHwEagvriY7pOw4xtst5dNdanyNm1TX3VHoHDGsXmtf
+         yBig==
+X-Gm-Message-State: AOJu0Yz8YUWU2vAQH1Mlgz70Wd8ZgRLdQy9d6iihH09KaX1xEGu8Q9/0
+        M9vSp/ttx+AqjCQlGbaDSmQpIQ==
+X-Google-Smtp-Source: AGHT+IF9n8CHyg52W67gOGjSdWupf5OMQPqUAhCiwoTnkFLT1nNeDkt3jhXGl7lq9AZkswN325E1+w==
+X-Received: by 2002:a5d:5e07:0:b0:31f:accf:bf0d with SMTP id ce7-20020a5d5e07000000b0031faccfbf0dmr2123820wrb.31.1694445045574;
+        Mon, 11 Sep 2023 08:10:45 -0700 (PDT)
 Received: from [10.167.154.1] (178235177061.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.61])
-        by smtp.gmail.com with ESMTPSA id n4-20020a056402060400b0052a3ad836basm4681281edv.41.2023.09.11.08.10.32
+        by smtp.gmail.com with ESMTPSA id n4-20020a056402060400b0052a3ad836basm4681281edv.41.2023.09.11.08.10.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 08:10:33 -0700 (PDT)
+        Mon, 11 Sep 2023 08:10:45 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Mon, 11 Sep 2023 17:10:17 +0200
-Subject: [PATCH RFT 03/20] media: venus: pm_helpers: Add kerneldoc to
- venus_clks_get()
+Date:   Mon, 11 Sep 2023 17:10:24 +0200
+Subject: [PATCH RFT 10/20] media: venus: core: Get rid of vcodec_num
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230911-topic-mars-v1-3-a7d38bf87bdb@linaro.org>
+Message-Id: <20230911-topic-mars-v1-10-a7d38bf87bdb@linaro.org>
 References: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
 In-Reply-To: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
 To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -75,70 +74,101 @@ Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
         linux-kernel@vger.kernel.org,
         Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1694445027; l=2105;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1694445027; l=3392;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=Vha5xF+p9BTPxJus7eqd6sGp8qGoiJe2/C4TA/PBKzk=;
- b=f8G7+PSq8vQ8m0fwoFb7lhAeXAZZFKJlZ2K2ok59naEqYbofKKp6JrLJUliGcyJWrNRkL2vPp
- 0z5kabW6X0jC391xXkpaCqPIoGArBX9faLYDIv0ZpDgQu4zdI6vQRHx
+ bh=E27PEdtMbBCeTz/SFqV5c29UzEMxfDQhGYV4gJ2hkIU=;
+ b=eP4J6G7A9i2lLxLYhcoqh71Uc92r7ve2wbf+NBuVaQNSf9izMM8bxIK75Ts6XO4kACND90Syh
+ 2QQ2fNoX89ABnCC6EQx1ivSgkt68Jdq1uOFNxGL5VRPfGh+iiIZU7DB
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To make it easier to understand the various clock requirements within
-this driver, add kerneldoc to venus_clk_get() explaining the fluff.
+That field was only introduced to differentiate between the legacy and
+non-legacy SDM845 binding. Get rid of it.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/pm_helpers.c | 28 ++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ drivers/media/platform/qcom/venus/core.c       | 5 -----
+ drivers/media/platform/qcom/venus/core.h       | 1 -
+ drivers/media/platform/qcom/venus/pm_helpers.c | 2 +-
+ 3 files changed, 1 insertion(+), 7 deletions(-)
 
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 8aac7f60fc81..e83c790ccc80 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -654,7 +654,6 @@ static const struct venus_resources sdm660_res = {
+ 	.vcodec0_clks = { "vcodec0_core" },
+ 	.vcodec1_clks = { "vcodec0_core" },
+ 	.vcodec_clks_num = 1,
+-	.vcodec_num = 1,
+ 	.max_load = 1036800,
+ 	.hfi_version = HFI_VERSION_3XX,
+ 	.vmem_id = VIDC_RESOURCE_NONE,
+@@ -728,7 +727,6 @@ static const struct venus_resources sdm845_res_v2 = {
+ 	.vcodec_pmdomains = { "venus", "vcodec0", "vcodec1" },
+ 	.vcodec_pmdomains_num = 3,
+ 	.opp_pmdomain = pd_names_cx,
+-	.vcodec_num = 2,
+ 	.max_load = 3110400,	/* 4096x2160@90 */
+ 	.hfi_version = HFI_VERSION_4XX,
+ 	.vpu_version = VPU_VERSION_AR50,
+@@ -777,7 +775,6 @@ static const struct venus_resources sc7180_res = {
+ 	.vcodec_pmdomains = { "venus", "vcodec0" },
+ 	.vcodec_pmdomains_num = 2,
+ 	.opp_pmdomain = pd_names_cx,
+-	.vcodec_num = 1,
+ 	.hfi_version = HFI_VERSION_4XX,
+ 	.vpu_version = VPU_VERSION_AR50,
+ 	.vmem_id = VIDC_RESOURCE_NONE,
+@@ -834,7 +831,6 @@ static const struct venus_resources sm8250_res = {
+ 	.vcodec_pmdomains = { "venus", "vcodec0" },
+ 	.vcodec_pmdomains_num = 2,
+ 	.opp_pmdomain = pd_names_mx,
+-	.vcodec_num = 1,
+ 	.max_load = 7833600,
+ 	.hfi_version = HFI_VERSION_6XX,
+ 	.vpu_version = VPU_VERSION_IRIS2,
+@@ -893,7 +889,6 @@ static const struct venus_resources sc7280_res = {
+ 	.vcodec_pmdomains = { "venus", "vcodec0" },
+ 	.vcodec_pmdomains_num = 2,
+ 	.opp_pmdomain = pd_names_cx,
+-	.vcodec_num = 1,
+ 	.hfi_version = HFI_VERSION_6XX,
+ 	.vpu_version = VPU_VERSION_IRIS2_1,
+ 	.num_vpp_pipes = 1,
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 9a38d568117a..de180f8e7973 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -75,7 +75,6 @@ struct venus_resources {
+ 	const char * const vcodec_pmdomains[VIDC_PMDOMAINS_NUM_MAX];
+ 	const unsigned int vcodec_pmdomains_num;
+ 	const char * const * const opp_pmdomain;
+-	const unsigned int vcodec_num;
+ 	const char * const resets[VIDC_RESETS_NUM_MAX];
+ 	const unsigned int resets_num;
+ 	const enum hfi_version hfi_version;
 diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index e2aec0b46126..59e3eaad97ed 100644
+index 7f22a078b38a..816d16f9153a 100644
 --- a/drivers/media/platform/qcom/venus/pm_helpers.c
 +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -23,6 +23,34 @@
+@@ -622,7 +622,7 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load, bool lo
+ 			VIDC_CORE_ID_1 : VIDC_CORE_ID_2;
+ 	*min_load = min(core1_load, core2_load);
  
- static bool legacy_binding;
- 
-+/**
-+ * venus_clks_get() - Get Venus clocks that are not bound to a vcodec
-+ * @core: A pointer to the venus core resource
-+ *
-+ * The Venus block (depending on the generation) can be split into a couple
-+ * of clock domains: one for "main logic" and one for each video core (0-2pcs).
-+ *
-+ * MSM8916 (and possibly other HFIv1 users) only feature the "main logic"
-+ * domain, so this function is the only kind if clk_get necessary there.
-+ *
-+ * MSM8996 (and other HFIv3 users) feature two video cores, with core0 being
-+ * statically proclaimed a decoder and core1 an encoder, with both having
-+ * their own clock domains.
-+ *
-+ * SDM845 features two video cores, each one of which may or may not be
-+ * subdivided into 2 enc/dec threads.
-+ *
-+ * Other SoCs either feature a single video core (with its own clock domain)
-+ * or 1 video core and 1 CVP (Computer Vision Processor) core. In both cases
-+ * we treat it the same (CVP only happens to live near-by Venus on the SoC).
-+ *
-+ * Due to unfortunate developments in the past, we have to support bindings
-+ * (MSM8996, SDM660, SDM845) that require specifying the clocks and
-+ * power-domains associated with a video core domain in a bogus subnode,
-+ * which means that additional fluff is necessary..
-+ *
-+ * Return: 0 on success, negative errno on failure.
-+ */
- static int venus_clks_get(struct venus_core *core)
- {
- 	const struct venus_resources *res = core->res;
+-	if (cores_max < VIDC_CORE_ID_2 || core->res->vcodec_num < 2) {
++	if (cores_max < VIDC_CORE_ID_2 || legacy_binding) {
+ 		*min_coreid = VIDC_CORE_ID_1;
+ 		*min_load = core1_load;
+ 	}
 
 -- 
 2.42.0
