@@ -2,301 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 507C579AE75
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 01:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3929979B06C
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 01:49:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230416AbjIKUsv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:48:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51760 "EHLO
+        id S235039AbjIKUsd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:48:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236014AbjIKJtD (ORCPT
+        with ESMTP id S236274AbjIKKFz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 05:49:03 -0400
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2087.outbound.protection.outlook.com [40.107.101.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12E2CE4F;
-        Mon, 11 Sep 2023 02:48:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LtKIUNfdgFKIW3NdtH5FsdvbYUjBHABg36MRT0eId2PUVnGuX9n97c4GyzL0idmDazwVMbpftELRuXOvi+NoBpHjajYvZ9f7170YboHZAJXJw+SGlWdkWXB8tTXR/avzM3veUfIKlmb4DD6PH5kCg2T91BDmHrlEMvCVfXcQx1ouSXmFa0pwjspU2cP6UkyCTXZtD0qf7PcykQHo7ApEVtzVxirgYKMPMGW9Lbfo/NFq96NSKwn8S6+vgasPm8OJ7Ny9Bd3D7/HLMqgUxHgqG82kkvj0Ap38GH+90FCqWEPvlkGlb/YaAP3tHXx/ffNTiybaPXgADhrV1flaAYBQqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t2uEhVECCncl7hA37mt7/jWTe1zjpAOxYbT+TCoQozU=;
- b=TpOUCWI4aNNlky/ry3KwonxlOVv/y8tkHOa7MeMH3oeC0oSqsntfpqiyv2fpLXoKvNct0mop7ugmi9A/SPv18G8tf+PLyqFTG9BfBKjtjMy8HV9I3mgZOZH2xajwwyWBXWXuCtkH8NHKRQQCri8VGCYWtiix7qQ3eRE4wM0Ceri4LauDOjDiQK+kawry7LpchqiUQIea2lUJmnbfU6F3+UZvRT4QZuCsWmOELEfNnoC3E5zKxmnH5WnVsKlLtc1KyLnIDdedWKLst9FQwYV24QFDMBqIoRatbyVtb9Vd2pYrWa5gRVYVgfbVkb8e2w+8G0Hrb918D7tK1c8I6T9kxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t2uEhVECCncl7hA37mt7/jWTe1zjpAOxYbT+TCoQozU=;
- b=Nt0pOE5/HlFwD+rUG5Pl2cmEn9aAG3oy/AO1u+RAe/tCBwvB57zA2y/z3YGETg3MTT0PPNdRQplhWuhbnacnztl494UvS9Dy9KwuzciXMBiucJ2LL64OPYyY8saHmO8pVPSashinANaBZpqBIykGNATENW0Wzfatry/D2lCXfB0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by IA1PR12MB6113.namprd12.prod.outlook.com (2603:10b6:208:3eb::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Mon, 11 Sep
- 2023 09:48:55 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::55cb:215b:389e:eced]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::55cb:215b:389e:eced%5]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
- 09:48:55 +0000
-Message-ID: <71c435a6-ba43-5d26-e658-f55bddbb8b98@amd.com>
-Date:   Mon, 11 Sep 2023 11:48:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 2/9] dma-heap: Add proper kref handling on dma-buf heaps
-Content-Language: en-US
-To:     Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>, tjmercier@google.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, jianjiao.zeng@mediatek.com,
-        kuohong.wang@mediatek.com
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-3-yong.wu@mediatek.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230911023038.30649-3-yong.wu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR10CA0110.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:803:28::39) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Mon, 11 Sep 2023 06:05:55 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0F7CE68
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 03:05:50 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8EF6C433C7;
+        Mon, 11 Sep 2023 10:05:49 +0000 (UTC)
+Message-ID: <015ad590-979a-4815-b60a-7506c70e9ee7@xs4all.nl>
+Date:   Mon, 11 Sep 2023 12:05:47 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA1PR12MB6113:EE_
-X-MS-Office365-Filtering-Correlation-Id: 05e2b64d-ebfa-4b2a-40e5-08dbb2ac5046
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L8995o9HvicxA11Js2PxXk8ptf48jmMYy5R2WwEW8EsRoUgwZJv+9MTl+svwfp+i5tWFQkQ4gZIuw9upy2SaB9c02fXQ0Co3Mr9LW4mPTMLaDd5D1ae+zZHhhxsvFL+WaXVPl51Ws6ZkxIHuA0WlOewPLsjEO+WUoNI3d+T6DRXMnmRLRJSMcmVTUhVG7h6o+CwKXnAlpZCkwbYttwuSmq1wjQ0QckAiuil31qU6LFqu+gJ8MM6tEnzIeG91TrDoRU5OpgcM2JrD1VuCy7pAdx1jQUpNma+Xq6aZPVIWx3BZaX9hMX2iX9XFqUPXgh+5BCivwdJiRv/LbltXPEANyW5Y0Z55N0FEOAnE7FtNxp1x1fdXf2r00d2NlvibyWKtcnoBYLXi1L28X71EMjrzCNyNtJExP3OySTV5JWm6HqCxllyX5twaTR8AdXl7azgLwqDBnc64ZuTdvLzz8jTe+ySxnSa+iM/zf4By2aE2UC6VgwDLzO37WAwX+1oopcKQawX+cyfxDyAYoW1Guz/kJu6W1nYs1GAQ82GLjW2W8yt7JCYWQzkML0BPcgHdLMZOFi1z5grio/ulqz4idcN14TFdE6doRq0ETFCtz9hTambW8YcCeBNe/gItOFhnnw/i1NutUQYbZwXkVJlD/OJu+A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(376002)(136003)(366004)(346002)(1800799009)(451199024)(186009)(41300700001)(316002)(7416002)(26005)(31686004)(2906002)(8676002)(66946007)(8936002)(66476007)(4326008)(66556008)(54906003)(110136005)(5660300002)(478600001)(6666004)(6486002)(6506007)(6512007)(36756003)(2616005)(83380400001)(38100700002)(31696002)(86362001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkIxVWdCYTgyUUF4NDJ0dHMwbjdlaHdPWUtzYjRxYXo2UCtEUWNnRld1MzBm?=
- =?utf-8?B?eTAweG9KbDBFN2RKcDI3UmR1YzlraGg3emRiU3NYekVXOFZTTnZHQUJlMVBX?=
- =?utf-8?B?Ty9oWGpraDRyNXZBbFEycW5aVmhkaW5JdWEraHRFd1pnQ0RmWi8vWVQ0Q0Rn?=
- =?utf-8?B?b0RtMksyK2pjMitzN0d1V25FdmVVeHN4VFg1UGNSWVI2ZzJwM1h1YTJLWHk2?=
- =?utf-8?B?SEtMcWN3aHJydGk3KzVhMEhnMSt4Y1lkL2pxMWtZcXdHWXlzeENyeFNuQmdk?=
- =?utf-8?B?akFIclRtaWNyNm93aE1hREc3TUtZLzBJQWttMGNsVVE2MmZGNGY3NDFZSmRV?=
- =?utf-8?B?clRBSitBUEwreVkrUDdES3Q5YjdCU0VuYU9VWXUzOGVYeWlySlBDTk96ZTJk?=
- =?utf-8?B?NnhySGpSMzdpdzFEcDhqVVU0TDBTM09nNFkwVHNYUUdFUXowcW15WEw1TEdL?=
- =?utf-8?B?czlVdGhWN0hqYytxaUllcUJIbUhhQlY5M2FtUnU4ZXNIREE3YVFiNVZhQk5n?=
- =?utf-8?B?ZXd4TXpweE0wSFc4Q0EzeEFiUlFna3ozVk11RDlSRGpXaUJacDU0ZDlnVzY4?=
- =?utf-8?B?clNlUGh4M2dISmRtTU1ZbmpWcHJyNlRYcTFNeitBSXhXUnBnZUZKeGxFTHA2?=
- =?utf-8?B?VURMSGlTQ1A0aTBnYXNuN0xabWpSY0txNFpxLzhUNnZFSEM0ZDhVWjF1NE42?=
- =?utf-8?B?WDdkWWgrUGw5MkIwaFZiQU9COE9pUGtUd2Zpd2NjWDQwRlBYc2xwY3Mvakx3?=
- =?utf-8?B?bnYxOUQvdURLeHd5dHZsd0dHTGhTWnBpOVY0ZkJ5L0RaY0ZyTXBUbjVOUHVN?=
- =?utf-8?B?TkF3MXJaZ1EvTVVtZGRHYmRqUlNCbndicE50eEhPdS8rb0xaNVNWd2tiUHc1?=
- =?utf-8?B?ZjE0VFJaOVgxY0lEUkdnZk80WXNCVkc5QUIybElCNTVKb0JxWnU5Wmxjem8x?=
- =?utf-8?B?Y3F1OGpuWG9JYWUveWJwaC84Y3NGd0tkRHBpWlBzY0diZkRjM3pydm5vaGlJ?=
- =?utf-8?B?QnVLSlh3amdPNm9hcGt6eVJQdXg4aFhNNFZvbFpGSUdEVGRxb1pweVZPUHZw?=
- =?utf-8?B?RUs2Rk4wRXNzYkZ4VUpjR0ZYa24ySS9hdXN1TTFQcWo0QlEwV3pDR1JiSEtS?=
- =?utf-8?B?TitVK1FoRHZVYmpTbTNQTjZucm5RRHJ1ZmdEalM5ZDRpWi9QNUQ1cjZ3T3hi?=
- =?utf-8?B?Nk1GQ1BsOEphUHVBOXhXelRkeWNYeldvK09RanpvOERycXFJNDUrUFZEMXlW?=
- =?utf-8?B?VHdMRGZmL1A5WjA5OXRtNEIzTTYvc3c2cS82bEVTekU0K2RISlQrWUx2b0da?=
- =?utf-8?B?RUtNSzRZdG05NklKL3dPdXVDTGptZ1FNdCtQcVlJbmZYM2lWYjhYWldUdFFF?=
- =?utf-8?B?WlFJYTJOK2Ezd1lYK2h6OC9OVElJdTdGaUdBN2l3UTl2dzZTWXVoVFhiaWxl?=
- =?utf-8?B?a1NnMmh2bHJUZ2l2MlBNNlEwcFl6aldIOWRwV0pqQVdEU1pLTDhwQmpMQk9m?=
- =?utf-8?B?aXhSN3FWTDU5eFZTZTlsVjQvMjh2cnZSRnBabzhRdGhPd2t2ZXhzYWVWaTNI?=
- =?utf-8?B?SWZCazBoLzJCcFlvVmN2Z0xJTTJxTDVFVmZ1Ym1mcWNlTkMwQjRnRnIxNXhU?=
- =?utf-8?B?WGJra0RDVkpodWFYMTdRcUw1alNycVJ4R2F2YTVJYkxNQ0MyZTJSeE92V21G?=
- =?utf-8?B?NlI3VXBYZDhyUGlPVzFVbStyay9mbHo3eGNxdVE1Vld3dUhNWXNHODlwWjJm?=
- =?utf-8?B?dXZNejA5NTJoaGZxSDFoUDU2VVF6NTl6QkxuUVFVV1FwRkdrbWJTanE1NFRj?=
- =?utf-8?B?Z3RzbUE2MmF5elZ3SkttSXdwak9TeG0vdWZUL2dHNGIvSFA1RGhRQ2s2bStD?=
- =?utf-8?B?RnlyWnFhV2dNT0NBTXpmaHkwZG9jNHFVS3RjV3MzTk1UblZrMzNJVjlPMGVQ?=
- =?utf-8?B?MGhuTkRIUlNYdDBxU09QWTZWQ3NVSHRSZnloMjJGRVhzY2w1YnlVUlh4Z0cr?=
- =?utf-8?B?cW9KWEV1VjkxOEFqeGRlVzUyT2VWL0lsWlZnZHkrUHFlclQySGJRZmFiY3Q0?=
- =?utf-8?B?NHQxTWZNQkJ5RHEyVXNPeVZQUkIwOXk5d0I3NVl1azBsTFdvcDVPem50Mksx?=
- =?utf-8?Q?c2ikDHn4/58j9kHE/No3URfaX?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05e2b64d-ebfa-4b2a-40e5-08dbb2ac5046
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 09:48:55.5003
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e5qkUIcT3si3qu33prnjY9GxcDaj2jUbB3UdxWxFM1cjpCHIQMA8VVtv+YufCIUJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6113
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        Christian Zigotzky <chzigotzky@xenosoft.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH for v6.6] media: bt8xx: bttv_risc_packed(): remove field
+ checks
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 11.09.23 um 04:30 schrieb Yong Wu:
-> From: John Stultz <jstultz@google.com>
->
-> Add proper refcounting on the dma_heap structure.
-> While existing heaps are built-in, we may eventually
-> have heaps loaded from modules, and we'll need to be
-> able to properly handle the references to the heaps
->
-> Also moves minor tracking into the heap structure so
-> we can properly free things.
+Do not turn on the vcr_hack based on the btv->field value.
 
-This is completely unnecessary, see below.
+This was a change in the bttv vb2 conversion that caused
+green lines at the bottom of the picture in tvtime.
 
->
-> Signed-off-by: John Stultz <jstultz@google.com>
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> [Yong: Just add comment for "minor" and "refcount"]
-> ---
->   drivers/dma-buf/dma-heap.c | 38 ++++++++++++++++++++++++++++++++++----
->   include/linux/dma-heap.h   |  6 ++++++
->   2 files changed, 40 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> index 51030f6c9d6e..dcc0e38c61fa 100644
-> --- a/drivers/dma-buf/dma-heap.c
-> +++ b/drivers/dma-buf/dma-heap.c
-> @@ -11,6 +11,7 @@
->   #include <linux/dma-buf.h>
->   #include <linux/dma-heap.h>
->   #include <linux/err.h>
-> +#include <linux/kref.h>
->   #include <linux/list.h>
->   #include <linux/nospec.h>
->   #include <linux/syscalls.h>
-> @@ -30,6 +31,8 @@
->    * @heap_devt:		heap device node
->    * @list:		list head connecting to list of heaps
->    * @heap_cdev:		heap char device
-> + * @minor:		heap device node minor number
-> + * @refcount:		reference counter for this heap device
->    *
->    * Represents a heap of memory from which buffers can be made.
->    */
-> @@ -40,6 +43,8 @@ struct dma_heap {
->   	dev_t heap_devt;
->   	struct list_head list;
->   	struct cdev heap_cdev;
-> +	int minor;
-> +	struct kref refcount;
->   };
->   
->   static LIST_HEAD(heap_list);
-> @@ -205,7 +210,6 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->   {
->   	struct dma_heap *heap, *h, *err_ret;
->   	struct device *dev_ret;
-> -	unsigned int minor;
->   	int ret;
->   
->   	if (!exp_info->name || !strcmp(exp_info->name, "")) {
-> @@ -222,12 +226,13 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->   	if (!heap)
->   		return ERR_PTR(-ENOMEM);
->   
-> +	kref_init(&heap->refcount);
->   	heap->name = exp_info->name;
->   	heap->ops = exp_info->ops;
->   	heap->priv = exp_info->priv;
->   
->   	/* Find unused minor number */
-> -	ret = xa_alloc(&dma_heap_minors, &minor, heap,
-> +	ret = xa_alloc(&dma_heap_minors, &heap->minor, heap,
->   		       XA_LIMIT(0, NUM_HEAP_MINORS - 1), GFP_KERNEL);
->   	if (ret < 0) {
->   		pr_err("dma_heap: Unable to get minor number for heap\n");
-> @@ -236,7 +241,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->   	}
->   
->   	/* Create device */
-> -	heap->heap_devt = MKDEV(MAJOR(dma_heap_devt), minor);
-> +	heap->heap_devt = MKDEV(MAJOR(dma_heap_devt), heap->minor);
->   
->   	cdev_init(&heap->heap_cdev, &dma_heap_fops);
->   	ret = cdev_add(&heap->heap_cdev, heap->heap_devt, 1);
-> @@ -280,12 +285,37 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->   err2:
->   	cdev_del(&heap->heap_cdev);
->   err1:
-> -	xa_erase(&dma_heap_minors, minor);
-> +	xa_erase(&dma_heap_minors, heap->minor);
->   err0:
->   	kfree(heap);
->   	return err_ret;
->   }
->   
-> +static void dma_heap_release(struct kref *ref)
-> +{
-> +	struct dma_heap *heap = container_of(ref, struct dma_heap, refcount);
-> +
-> +	/* Note, we already holding the heap_list_lock here */
-> +	list_del(&heap->list);
-> +
-> +	device_destroy(dma_heap_class, heap->heap_devt);
-> +	cdev_del(&heap->heap_cdev);
-> +	xa_erase(&dma_heap_minors, heap->minor);
+It was originally added to the vb2 conversion based on
+faulty information that without this there would be glitches
+in the video. However, later tests suggest that this is a
+problem in the utilities used to test this since tvtime
+behaves fine.
 
-You can just use MINOR(heap->heap_devt) here instead.
+This patch reverts the bttv driver to the original pre-vb2
+behavior w.r.t. vcr_hack.
 
-> +
-> +	kfree(heap);
-> +}
-> +
-> +void dma_heap_put(struct dma_heap *h)
-> +{
-> +	/*
-> +	 * Take the heap_list_lock now to avoid racing with code
-> +	 * scanning the list and then taking a kref.
-> +	 */
+Fixes: b7ec3212a73a ("media: bttv: convert to vb2")
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/pci/bt8xx/bttv-risc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-This is usually considered a bad idea since it makes the kref approach 
-superfluous.
-
-There are multiple possibilities how handle this, the most common one is 
-to use kref_get_unless_zero() in your list traversal code and ignore the 
-entry when that fails.
-
-Alternatively you could use kref_put_mutex() instead. This gives you the 
-same functionality as this here, but as far as I know it's normally only 
-used in a couple of special cases.
-
-> +	mutex_lock(&heap_list_lock);
-> +	kref_put(&h->refcount, dma_heap_release);
-> +	mutex_unlock(&heap_list_lock);
-> +}
-> +
->   static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
->   {
->   	return kasprintf(GFP_KERNEL, "dma_heap/%s", dev_name(dev));
-> diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-> index c7c29b724ad6..f3c678892c5c 100644
-> --- a/include/linux/dma-heap.h
-> +++ b/include/linux/dma-heap.h
-> @@ -64,4 +64,10 @@ const char *dma_heap_get_name(struct dma_heap *heap);
->    */
->   struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
->   
-> +/**
-> + * dma_heap_put - drops a reference to a dmabuf heap, potentially freeing it
-> + * @heap: the heap whose reference count to decrement
-> + */
-
-Please don't add kerneldoc to the definition, add it to the 
-implementation of the function.
-
-Regards,
-Christian.
-
-> +void dma_heap_put(struct dma_heap *heap);
-> +
->   #endif /* _DMA_HEAPS_H */
+diff --git a/drivers/media/pci/bt8xx/bttv-risc.c b/drivers/media/pci/bt8xx/bttv-risc.c
+index 436baf6c8b08..241a696e374a 100644
+--- a/drivers/media/pci/bt8xx/bttv-risc.c
++++ b/drivers/media/pci/bt8xx/bttv-risc.c
+@@ -68,9 +68,7 @@ bttv_risc_packed(struct bttv *btv, struct btcx_riscmem *risc,
+ 	sg = sglist;
+ 	for (line = 0; line < store_lines; line++) {
+ 		if ((line >= (store_lines - VCR_HACK_LINES)) &&
+-		    (btv->opt_vcr_hack ||
+-		    (V4L2_FIELD_HAS_BOTH(btv->field) ||
+-		     btv->field == V4L2_FIELD_ALTERNATE)))
++		    btv->opt_vcr_hack)
+ 			continue;
+ 		while (offset && offset >= sg_dma_len(sg)) {
+ 			offset -= sg_dma_len(sg);
+-- 
+2.40.1
 
