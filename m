@@ -2,61 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D993679AB47
+	by mail.lfdr.de (Postfix) with ESMTP id 8DB5479AB46
 	for <lists+linux-media@lfdr.de>; Mon, 11 Sep 2023 22:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229742AbjIKUrB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52318 "EHLO
+        id S229456AbjIKUrG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:47:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235550AbjIKIzM (ORCPT
+        with ESMTP id S236446AbjIKKkZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 04:55:12 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97131A1;
-        Mon, 11 Sep 2023 01:55:06 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:f6d2:1ce:5613:f24a] (unknown [IPv6:2a01:e0a:120:3210:f6d2:1ce:5613:f24a])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 91D0D6603102;
-        Mon, 11 Sep 2023 09:55:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1694422505;
-        bh=bXZ/y5UwHuIW7LHJ/2UaGAz707yCMlzXFy5iLkMD5KE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=LSvj0uuM7T/1Mnr3Ka3vwgUPI90SIUqU28BQnuh1OWQDZrhsHjfYL8jl60GKQdhfr
-         R14jZlT+4oGAAiDbD0SvczFfNn/jWzYj9K6Yvc4fhOiXf5To04ZZduEF38xYfwbdba
-         orjsx1a2Whu90oN2NAx/5a9CFeFaNNGbpvt2zUhOtDAn2ApK/dIsmJYm+syj84pyso
-         To0uuVEWS9AeZRuwnBoEvzL1M9nmtYQ4dB3OnVRajh78Hbx6pgBZlbNoxAi7GgIxwe
-         tVnBC2pzEoT+aGS7JwYU0dM2IiQbiSa2vhpDtb6vprr1FM7FxZTJB45HDY49iSVOaJ
-         msYSYfexglywQ==
-Message-ID: <7da0a2ab-032a-9de9-e136-58f973238c5b@collabora.com>
-Date:   Mon, 11 Sep 2023 10:55:02 +0200
+        Mon, 11 Sep 2023 06:40:25 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7211EE5F
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 03:40:21 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-403012f27e1so21698875e9.1
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 03:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694428820; x=1695033620; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nZSXoR1SQBbf2X2ttBO0g4HsNPppA2Wq4FfW/XOJFlE=;
+        b=gMx27TDaB1+ztmyOFKUAY5Sxk9KCDzs4IYPDUJpODv1nZgWwPhNcjezhrhxuPWp2SM
+         6DsAa+I/tMMMpN+lGR5g2Z+94Qbgf+VGutcDxUHRCoegw/t8O4IaRara923WexASzL0W
+         rJAr3flM2Pgc5axAwRBjgfX/oSJfFW9cGjM/cTUBLYqGMOrTN/hSRcINFKFvBf/BEYpd
+         DNvekzNCmPp/icsN70VetofzFs/A+nvap1dvibeHn9kgU7vbrlCiUabfLT1dSVBu52MK
+         tVAAzJK54Kzolgix9n1PpuUWspZbh7Ux1eRawUvj5oqqQIvJ/J53mTxcFHrhy99fjDU9
+         nQPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694428820; x=1695033620;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nZSXoR1SQBbf2X2ttBO0g4HsNPppA2Wq4FfW/XOJFlE=;
+        b=sSPud9BWPOD1EQSug4DlHs0F38YsHcxopz+SWXWtcZxBcMomN3nsRobyCbLk9Tg6di
+         gYmRmmSif3nfRo4Pzbyp/4YzRBNBq/rWdPdTKShC+j5SQSaD/tSUBUffiVgdY1Hs8iar
+         hvV2GXmeFynKxz8JqnIg2CEtjmwqjIUsmI7kHhv97MF13esFn64BYRJcOpr50TsRxgwN
+         nUsDidkaZ6WMnKY6LWUVx4KXjiAqml5+bFaIPC61SmpW4cOEzb3M1NoC++dyfWJiLzbS
+         LaObix/0GVUIq3/2x46IPNUNgjMww+Mmnv+E3TzFjd21tfP79i3olF5RoB+AVScKyqFs
+         EPcA==
+X-Gm-Message-State: AOJu0YyjGxfQDRqhlKwFKRrGxQFCg3egFl1ARsd7fUPTDcbMJ/XlxjYq
+        iQRQm7yHUlVd8JkDyxemK/LYuw==
+X-Google-Smtp-Source: AGHT+IEMtjw51WJ6go/mT//XcIW9jxT+cdwMORAppGRhH9+qDFNOXpaVSQf8LSknkwL6HqZrY9iqUg==
+X-Received: by 2002:a5d:4204:0:b0:317:6175:95fd with SMTP id n4-20020a5d4204000000b00317617595fdmr7382285wrq.43.1694428819896;
+        Mon, 11 Sep 2023 03:40:19 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+        by smtp.gmail.com with ESMTPSA id n8-20020a7bcbc8000000b003fe29f6b61bsm9633911wmi.46.2023.09.11.03.40.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Sep 2023 03:40:19 -0700 (PDT)
+Message-ID: <a2cc29fa-4433-30d1-2206-d07672cb1428@linaro.org>
+Date:   Mon, 11 Sep 2023 12:40:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH v6 14/18] media: verisilicon: vp9: Use destination buffer
- height to compute chroma offset
-To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
- <20230901124414.48497-15-benjamin.gaignard@collabora.com>
- <4856958.31r3eYUQgx@jernej-laptop>
+Subject: Re: (subset) [PATCH 0/3] This patchset adds IR controller driver
+ support for
 Content-Language: en-US
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <4856958.31r3eYUQgx@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To:     Sean Young <sean@mess.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        zelong dong <zelong.dong@amlogic.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
+        kelvin.zhang@amlogic.com
+References: <20230825115310.39993-1-zelong.dong@amlogic.com>
+ <169442559302.3235506.15361466537260729684.b4-ty@linaro.org>
+ <ZP7sKdvAWQQSrTmX@gofer.mess.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <ZP7sKdvAWQQSrTmX@gofer.mess.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -67,62 +89,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-Le 10/09/2023 à 15:21, Jernej Škrabec a écrit :
-> Hi Benjamin!
->
-> Dne petek, 01. september 2023 ob 14:44:10 CEST je Benjamin Gaignard
-> napisal(a):
->> Source and destination buffer height may not be the same because
->> alignment constraint are different.
->> Use destination height to compute chroma offset because we target
->> this buffer as hardware output.
+On 11/09/2023 12:30, Sean Young wrote:
+> On Mon, Sep 11, 2023 at 11:46:33AM +0200, Neil Armstrong wrote:
+>> On Fri, 25 Aug 2023 19:53:07 +0800, zelong dong wrote:
+>>> From: Zelong Dong <zelong.dong@amlogic.com>
+>>>
+>>> Meson IR Controller supports hardware decoder in Meson-S4 and later
+>>> SoC. So far, protocol NEC could be decoded by hardware decoder.
+>>>
+>>> Zelong Dong (3):
+>>>   media: rc: meson-ir: support rc driver type RC_DRIVER_SCANCODE
+>>>   dt-bindings: media: Add compatible for Meson-S4 IR Controller
+>>>   arm64: dts: meson: add IR controller for Meson-S4 SoC
+>>>
+>>> [...]
 >>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Fixes: e2da465455ce ("media: hantro: Support VP9 on the G2 core")
->> ---
->>   drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 4 +---
->>   1 file changed, 1 insertion(+), 3 deletions(-)
+>> Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.7/arm64-dt)
 >>
->> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->> b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c index
->> 6db1c32fce4d..1f3f5e7ce978 100644
->> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
->> @@ -93,9 +93,7 @@ static int start_prepare_run(struct hantro_ctx *ctx, const
->> struct v4l2_ctrl_vp9_ static size_t chroma_offset(const struct hantro_ctx
->> *ctx,
->>   			    const struct v4l2_ctrl_vp9_frame
-> *dec_params)
->>   {
->> -	int bytes_per_pixel = dec_params->bit_depth == 8 ? 1 : 2;
->> -
->> -	return ctx->src_fmt.width * ctx->src_fmt.height * bytes_per_pixel;
->> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth /
-> 8;
->
-> Commit message doesn't mention bit_depth change at all. While I think there is
-> no difference between dec_params->bit_depth and ctx->bit_depth, you shouldn't
-> just use ordinary division. If bit_depth is 10, it will be rounded down. And
-> if you decide to use bit_depth from context, please remove dec_params
-> argument.
+>> [3/3] arm64: dts: meson: add IR controller for Meson-S4 SoC
+>>       https://git.kernel.org/amlogic/c/dc8bc779feb5e855421215384f23de90a4fcd622
+> 
+> Would make more sense to have all three patches go in together through a single
+> tree? I was about to apply all three of these patches to the media_stage
 
-I will change this patch and create a helpers function for chroma and motion vectors
-offsets that VP9 and HEVC code will use since they are identical.
-I don't see issue with the division. If you have in mind a solution please write it
-so I could test it.
+No, DTS should not go via driver (non-SoC) tree. If you insist on that,
+it would be a sign your patchset is not bisectable or have ABI break.
 
-Regards,
-Benjamin
+Best regards,
+Krzysztof
 
->
-> Best regards,
-> Jernej
->
->>   }
->>
->>   static size_t mv_offset(const struct hantro_ctx *ctx,
->
->
->
->
