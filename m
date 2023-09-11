@@ -2,134 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2370479B7D1
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5252079B7FA
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:07:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbjIKUrA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:47:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42974 "EHLO
+        id S234803AbjIKUs3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:48:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238827AbjIKOFs (ORCPT
+        with ESMTP id S238894AbjIKOHb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 10:05:48 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8747CF0
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 07:05:43 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1qfhXq-0006np-AR; Mon, 11 Sep 2023 16:05:42 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1qfhXp-005ZV7-T7; Mon, 11 Sep 2023 16:05:41 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.96)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1qfhXp-002tVj-0x;
-        Mon, 11 Sep 2023 16:05:41 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     laurent.pinchart@ideasonboard.com
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        dan.scally@ideasonboard.com, gregkh@linuxfoundation.org,
-        nicolas@ndufresne.ca, kernel@pengutronix.de
-Subject: [PATCH v2 3/3] usb: gadget: uvc: rework pump worker to avoid while loop
-Date:   Mon, 11 Sep 2023 16:05:30 +0200
-Message-Id: <20230911140530.2995138-4-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230911140530.2995138-1-m.grzeschik@pengutronix.de>
-References: <20230911140530.2995138-1-m.grzeschik@pengutronix.de>
+        Mon, 11 Sep 2023 10:07:31 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DDEFCF0;
+        Mon, 11 Sep 2023 07:07:25 -0700 (PDT)
+Received: from www.ideasonboard.com (unknown [103.238.109.17])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74296D51;
+        Mon, 11 Sep 2023 16:05:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694441152;
+        bh=r1n7/4lPzB2GT8jcfXBHIKcAzHyqSpSu9d7J76LCGrQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=S32Xd4x5wQmnD5utvcQjihwTjgSPWnEEqHBdEcqHIbSBnFTvtJs5OfsCQnWKkuLQJ
+         oKUtix42m1bLL+FR4sYZ8H5Ky8Ll7NZSCwSUe1IbNJioNmXF60oWheC9gJfUyHnisb
+         KxbNyAdPTv3xGgp3hJxpgdTdE9HN/+vfgACd1OmI=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     stefan.wahren@i2se.com, gregkh@linuxfoundation.org,
+        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+        kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        dave.stevenson@raspberrypi.com,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v10 0/5] staging: vc04_services: vchiq: Register devices with a custom bus_type
+Date:   Mon, 11 Sep 2023 10:07:07 -0400
+Message-ID: <20230911140712.180751-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The uvc_video_enable function is calling cancel_work_sync which will be
-blocking as long as new requests will be queued with the while loop. To
-ensure an earlier stop in the pumping loop in this particular case we
-rework the worker to requeue itself on every requests. Since the worker
-is already running prioritized, the scheduling overhad did not have real
-impact on the performance.
+The patch series added a new bus type vchiq_bus_type and registers
+child devices in order to move them away from using platform
+device/driver.
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
----
-v1 == v2
+Tested on RPi-3-b with media tree master branch.
 
- drivers/usb/gadget/function/uvc_video.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
+interface
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index c48c904f500fff..97d875c27dcf9a 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -397,7 +397,7 @@ static void uvcg_video_pump(struct work_struct *work)
- 	bool buf_done;
- 	int ret;
- 
--	while (video->ep->enabled && uvc->state == UVC_STATE_STREAMING) {
-+	if (video->ep->enabled && uvc->state == UVC_STATE_STREAMING) {
- 		/*
- 		 * Retrieve the first available USB request, protected by the
- 		 * request lock.
-@@ -409,6 +409,11 @@ static void uvcg_video_pump(struct work_struct *work)
- 		}
- 		req = list_first_entry(&video->req_free, struct usb_request,
- 					list);
-+		if (!req) {
-+			spin_unlock_irqrestore(&video->req_lock, flags);
-+			return;
-+		}
-+
- 		list_del(&req->list);
- 		spin_unlock_irqrestore(&video->req_lock, flags);
- 
-@@ -437,7 +442,7 @@ static void uvcg_video_pump(struct work_struct *work)
- 			 * further.
- 			 */
- 			spin_unlock_irqrestore(&queue->irqlock, flags);
--			break;
-+			goto out;
- 		}
- 
- 		/*
-@@ -470,20 +475,23 @@ static void uvcg_video_pump(struct work_struct *work)
- 		/* Queue the USB request */
- 		ret = uvcg_video_ep_queue(video, req);
- 		spin_unlock_irqrestore(&queue->irqlock, flags);
--
- 		if (ret < 0) {
- 			uvcg_queue_cancel(queue, 0);
--			break;
-+			goto out;
- 		}
- 
- 		/* Endpoint now owns the request */
- 		req = NULL;
- 		video->req_int_count++;
-+	} else {
-+		return;
- 	}
- 
--	if (!req)
--		return;
-+	if (uvc->state == UVC_STATE_STREAMING)
-+		queue_work(video->async_wq, &video->pump);
- 
-+	return;
-+out:
- 	spin_lock_irqsave(&video->req_lock, flags);
- 	list_add_tail(&req->list, &video->req_free);
- 	spin_unlock_irqrestore(&video->req_lock, flags);
+Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
+to the new bus respectively
+
+Patch 5/5 removes a platform registeration helper which is no
+longer required.
+
+Changes in v10:
+- fix dma_attr WARN issue with bcm2835-audio module loading
+- Unregister bus on parent platform device fails to register
+- Reword commit to highlight bcm2835_audio to bcm2835-audio name change
+
+Changes in v9:
+- Fix module autoloading
+- Implement bus_type's probe() callback to load drivers
+- Implement bus_type's uevent() to make sure appropriate drivers are
+  loaded when device are registed from vchiq.
+
+Changes in v8:
+- Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
+
+Changes in v7:
+(5 out of 6 patches from v6 merged)
+- Split the main patch (6/6) as requested.
+- Use struct vchiq_device * instead of struct device * in
+  all bus functions.
+- Drop additional name attribute displayed in sysfs (redundant info)
+- Document vchiq_interface doesn't enumerate device discovery
+- remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
+
+Changes in v6:
+- Split struct device and struct driver wrappers in vchiq_device.[ch]
+- Move vchiq_bus_type definition to vchiq_device.[ch] as well
+- return error on bus_register() failure
+- drop dma_set_mask_and_coherent
+- trivial variable name change
+
+Changes in v5:
+- Fixup missing "staging: " in commits' subject line
+- No code changes from v4
+
+Changes in v4:
+- Introduce patches to drop include directives from Makefile
+
+Changes in v3:
+- Rework entirely to replace platform devices/driver model
+
+-v2:
+https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
+
+-v1:
+https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
+
+Umang Jain (5):
+  staging: vc04_services: vchiq_arm: Add new bus type and device type
+  staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+  staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+  staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
+  staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
+
+ drivers/staging/vc04_services/Makefile        |   1 +
+ .../vc04_services/bcm2835-audio/bcm2835.c     |  20 ++--
+ .../bcm2835-camera/bcm2835-camera.c           |  17 +--
+ .../interface/vchiq_arm/vchiq_arm.c           |  52 ++++----
+ .../interface/vchiq_arm/vchiq_device.c        | 111 ++++++++++++++++++
+ .../interface/vchiq_arm/vchiq_device.h        |  54 +++++++++
+ 6 files changed, 208 insertions(+), 47 deletions(-)
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+
+
+base-commit: 9a5d660fdb25d20748d7f9e9559c86073c3bb368
 -- 
-2.39.2
+2.41.0
 
