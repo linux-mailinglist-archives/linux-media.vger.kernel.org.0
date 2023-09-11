@@ -2,257 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2C7F79BF28
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 212DF79BE4E
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:17:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235789AbjIKUt0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:49:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60886 "EHLO
+        id S236876AbjIKUuG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242552AbjIKPsC (ORCPT
+        with ESMTP id S242953AbjIKQg2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 11:48:02 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE21E121;
-        Mon, 11 Sep 2023 08:47:55 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id A76EE660730D;
-        Mon, 11 Sep 2023 16:47:52 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1694447274;
-        bh=E4HBHzn8alNm5fzzwR5QnPhLQJgodALjT2MB97bXQk4=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=MwU/aQawRxER/8Dix/c7+2LXDW30p1G80OlPZRDfzPT/h1UCGM74ibXR5wNpfw1zT
-         drc1dgS8k3asnVw+gyVjDxTVPCfYd/tQHuGR5w7Uk22+Q+uH+tKeKeVwuoffZCaL40
-         J0WNRYAYBPeMjoAVUBMLJDglfcY9W5+CbrIGcI9iVttA6cTcTUESUEXLh3kfu/DWFC
-         Jk6GCYYM8csYJTeUUoh0HUAziNW4csDkTZDzo1sz6yhymerKXC53g58VfXxmgoCfBv
-         ShEzFAmLG+7wteHBWMtLG6oHl1qDm/jtRbs1qMB4+49uTIepD24f7HG58BxnBma37J
-         Gp4xOsFOGhqFw==
-Message-ID: <4867b91b3bbc9267982dd80ad79f3e73a7bab6fc.camel@collabora.com>
-Subject: Re: [PATCH 11/14] media: medkatek: vcodec: covert secure fd to
- secure handle
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
-        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nathan Hebert <nhebert@chromium.org>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mon, 11 Sep 2023 12:36:28 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37734D3;
+        Mon, 11 Sep 2023 09:36:23 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-986d8332f50so622213066b.0;
+        Mon, 11 Sep 2023 09:36:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694450181; x=1695054981; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tn6ORcYdF7wmn9zYudPCVDeUReDbRM6yHR4pM4CXkGQ=;
+        b=nl5SiwbyX54Hy0jNU+vPyEf2BEHaaAAd9i1P3I2vwU1OLziQBT3fzU/cOsxfZsbsmQ
+         VyLrwQBFVYR63f6gOIkVeTuNNIZGWO2IhhjYmIMqSOwjpDS8FwR6zL+kcgk6EYmS7ElV
+         eWVqgx6SJWsCTYrJaLRGEBMt/Bdtfurq7m9ljkkPsGv4E3MDKgArQQLh5mfeuE0y1IQK
+         0QihY1yWabQutSzCp2U+KV7FeaYgLooYjYJIN+kEZOFWonk0J0TOjEHzFYZoEu0gxe00
+         t8cnev2XHmJoL4DTTVbr+HXNqjRjukjrGs7RPhQinAYnJe01kligiwMaMgXZLp7A1fBM
+         SX3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694450181; x=1695054981;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tn6ORcYdF7wmn9zYudPCVDeUReDbRM6yHR4pM4CXkGQ=;
+        b=M6FNdumC4Wd6AFBx5txdWPgaNTVvQHL8JhMWFV+hGTjR3jO0hdTslKG4Bs8TogilTv
+         qJeKmi/Jr1EQQQzSddlttG/efSHz8l75aaqxhETSJM/LzbVQrMDefjdbGBmuUAVueNfa
+         oojVFBFr0vvVQmQx38TI3J3iTF+2r510pZdE99LM61AC2rwge8yhsGbROubvEgs19FYY
+         RKP/TFBgAu6ly3x898tyAFijZ/iS4EPjFplkRbVScLvzA3bELXoIEpiHyCg9ILtskw9p
+         +Kd/ti5SwxjRxTLbAoZFts4kB+fn4QTwA8DE1L1mxDpz2sG71ZJRlzLHjrtbWxZHcnAM
+         oGaw==
+X-Gm-Message-State: AOJu0YwckpsVrfym9YeXvK9yb2Dr1MYsoBL2CHXxJ7JbTcbZf6+eEs+q
+        ZLaMyuhAMSKxZvF7ytkd7XA=
+X-Google-Smtp-Source: AGHT+IEZkDEwJehDR4fKggLpjoJhnXiAupV9qorq7MLXFhFfk7fRQqvtYUP3Mho6rsQ4juPA6IGloQ==
+X-Received: by 2002:a17:906:224a:b0:9a9:e6c3:ad28 with SMTP id 10-20020a170906224a00b009a9e6c3ad28mr9042772ejr.69.1694450181242;
+        Mon, 11 Sep 2023 09:36:21 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id h17-20020a170906261100b00999bb1e01dfsm5534149ejc.52.2023.09.11.09.36.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 09:36:20 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Mon, 11 Sep 2023 11:47:44 -0400
-In-Reply-To: <20230911125936.10648-12-yunfei.dong@mediatek.com>
-References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
-         <20230911125936.10648-12-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+Subject: Re: [PATCH v6 14/18] media: verisilicon: vp9: Use destination buffer height
+ to compute chroma offset
+Date:   Mon, 11 Sep 2023 18:36:19 +0200
+Message-ID: <3248154.aeNJFYEL58@jernej-laptop>
+In-Reply-To: <7da0a2ab-032a-9de9-e136-58f973238c5b@collabora.com>
+References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
+ <4856958.31r3eYUQgx@jernej-laptop>
+ <7da0a2ab-032a-9de9-e136-58f973238c5b@collabora.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Dne ponedeljek, 11. september 2023 ob 10:55:02 CEST je Benjamin Gaignard=20
+napisal(a):
+> Le 10/09/2023 =C3=A0 15:21, Jernej =C5=A0krabec a =C3=A9crit :
+> > Hi Benjamin!
+> >=20
+> > Dne petek, 01. september 2023 ob 14:44:10 CEST je Benjamin Gaignard
+> >=20
+> > napisal(a):
+> >> Source and destination buffer height may not be the same because
+> >> alignment constraint are different.
+> >> Use destination height to compute chroma offset because we target
+> >> this buffer as hardware output.
+> >>=20
+> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >> Fixes: e2da465455ce ("media: hantro: Support VP9 on the G2 core")
+> >> ---
+> >>=20
+> >>   drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 4 +---
+> >>   1 file changed, 1 insertion(+), 3 deletions(-)
+> >>=20
+> >> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> >> b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c index
+> >> 6db1c32fce4d..1f3f5e7ce978 100644
+> >> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> >> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> >> @@ -93,9 +93,7 @@ static int start_prepare_run(struct hantro_ctx *ctx,
+> >> const struct v4l2_ctrl_vp9_ static size_t chroma_offset(const struct
+> >> hantro_ctx *ctx,
+> >>=20
+> >>   			    const struct v4l2_ctrl_vp9_frame
+> >=20
+> > *dec_params)
+> >=20
+> >>   {
+> >>=20
+> >> -	int bytes_per_pixel =3D dec_params->bit_depth =3D=3D 8 ? 1 : 2;
+> >> -
+> >> -	return ctx->src_fmt.width * ctx->src_fmt.height * bytes_per_pixel;
+> >> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth /
+> >=20
+> > 8;
+> >=20
+> > Commit message doesn't mention bit_depth change at all. While I think
+> > there is no difference between dec_params->bit_depth and ctx->bit_depth,
+> > you shouldn't just use ordinary division. If bit_depth is 10, it will be
+> > rounded down. And if you decide to use bit_depth from context, please
+> > remove dec_params argument.
+>=20
+> I will change this patch and create a helpers function for chroma and mot=
+ion
+> vectors offsets that VP9 and HEVC code will use since they are identical.
+> I don't see issue with the division. If you have in mind a solution please
+> write it so I could test it.
 
-Le lundi 11 septembre 2023 =C3=A0 20:59 +0800, Yunfei Dong a =C3=A9crit=C2=
-=A0:
-> User driver will fill or parse data in optee-os with secure handle,
-> need to covert secure fd to secure handle in kernel.
+Solution is same as the code that you removed:
+int bytes_per_pixel =3D dec_params->bit_depth =3D=3D 8 ? 1 : 2;
 
-A major rework of the wording is needed in this patchset, to fix the obviou=
-s
-typos like covert->convert, but also to stop calling dmabuf allocated from
-secure heap, secure fd, its not precise enough to understand what this patc=
-h is
-going to be about.
+Or alternatively:
+int bytes_per_pixel =3D DIV_ROUND_UP(dec_params->bit_depth, 8);
+
+Consider bit_depth being 10. With old code you get 2, with yours you get 1.
+
+Best regards,
+Jernej
 
 >=20
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  .../vcodec/decoder/mtk_vcodec_dec_drv.c       |  1 +
->  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 54 ++++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  5 ++
->  include/uapi/linux/v4l2-controls.h            |  4 ++
->  4 files changed, 62 insertions(+), 2 deletions(-)
+> Regards,
+> Benjamin
 >=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
-.c
-> index 0a89ce452ac3..64e006820f43 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
-> @@ -571,3 +571,4 @@ module_platform_driver(mtk_vcodec_dec_driver);
-> =20
->  MODULE_LICENSE("GPL v2");
->  MODULE_DESCRIPTION("Mediatek video codec V4L2 decoder driver");
-> +MODULE_IMPORT_NS(DMA_BUF);
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_d=
-ec_stateless.c
-> index 2ea517883a86..d2b09ce9f1cf 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> @@ -426,6 +426,46 @@ static int mtk_vcodec_get_pic_info(struct mtk_vcodec=
-_dec_ctx *ctx)
->  	return ret;
->  }
-> =20
-> +static int mtk_dma_contig_get_secure_handle(struct mtk_vcodec_dec_ctx *c=
-tx, int fd)
-> +{
-> +	int secure_handle =3D 0;
-> +	struct dma_buf *buf;
-> +	struct dma_buf_attachment *dba;
-> +	struct sg_table *sgt;
-> +	struct device *dev =3D &ctx->dev->plat_dev->dev;
-> +
-> +	buf =3D dma_buf_get(fd);
-> +	if (IS_ERR(buf)) {
-> +		mtk_v4l2_vdec_err(ctx, "dma_buf_get fail fd:%d", fd);
-> +		return 0;
-> +	}
-> +
-> +	dba =3D dma_buf_attach(buf, dev);
-> +	if (IS_ERR(dba)) {
-> +		mtk_v4l2_vdec_err(ctx, "dma_buf_attach fail fd:%d", fd);
-> +		goto err_attach;
-> +	}
-> +
-> +	sgt =3D dma_buf_map_attachment(dba, DMA_BIDIRECTIONAL);
-> +	if (IS_ERR(sgt)) {
-> +		mtk_v4l2_vdec_err(ctx, "dma_buf_map_attachment fail fd:%d", fd);
-> +		goto err_map;
-> +	}
-> +	secure_handle =3D sg_dma_address(sgt->sgl);
-> +
-> +	dma_buf_unmap_attachment(dba, sgt, DMA_BIDIRECTIONAL);
-> +	dma_buf_detach(buf, dba);
-> +	dma_buf_put(buf);
-> +
-> +	return secure_handle;
-> +err_map:
-> +	dma_buf_detach(buf, dba);
-> +err_attach:
-> +	dma_buf_put(buf);
-> +
-> +	return 0;
-> +}
-> +
->  static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct mtk_vcodec_dec_ctx *ctx =3D ctrl_to_dec_ctx(ctrl);
-> @@ -436,7 +476,7 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
->  	struct v4l2_ctrl *hdr_ctrl;
->  	const struct mtk_vcodec_dec_pdata *dec_pdata =3D ctx->dev->vdec_pdata;
->  	const struct mtk_video_fmt *fmt;
-> -	int i =3D 0, ret =3D 0;
-> +	int i =3D 0, ret =3D 0, sec_fd;
-> =20
->  	hdr_ctrl =3D ctrl;
->  	if (!hdr_ctrl || !hdr_ctrl->p_new.p)
-> @@ -489,6 +529,12 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
->  			return -EINVAL;
->  		}
->  		break;
-> +	case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:
-> +		sec_fd =3D ctrl->val;
-> +
-> +		ctrl->val =3D mtk_dma_contig_get_secure_handle(ctx, ctrl->val);
-> +		mtk_v4l2_vdec_dbg(3, ctx, "get secure handle: %d =3D> 0x%x", sec_fd, c=
-trl->val);
-> +		break;
->  	default:
->  		mtk_v4l2_vdec_dbg(3, ctx, "Not supported to set ctrl id: 0x%x\n", hdr_=
-ctrl->id);
->  		return ret;
-> @@ -525,8 +571,9 @@ static const struct v4l2_ctrl_ops mtk_vcodec_dec_ctrl=
-_ops =3D {
->  static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_dec_ctx *ctx)
->  {
->  	unsigned int i;
-> +	struct v4l2_ctrl *ctrl;
-> =20
-> -	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS);
-> +	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS + 1);
->  	if (ctx->ctrl_hdl.error) {
->  		mtk_v4l2_vdec_err(ctx, "v4l2_ctrl_handler_init failed\n");
->  		return ctx->ctrl_hdl.error;
-> @@ -543,6 +590,9 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcod=
-ec_dec_ctx *ctx)
->  		}
->  	}
-> =20
-> +	ctrl =3D v4l2_ctrl_new_std(&ctx->ctrl_hdl, &mtk_vcodec_dec_ctrl_ops,
-> +				 V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE, 0, 65535, 1, 0);
-> +
->  	v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
-> =20
->  	return 0;
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4=
-l2-core/v4l2-ctrls-defs.c
-> index 8696eb1cdd61..d8cf01f76aab 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1041,6 +1041,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_HEVC_SIZE_OF_LENGTH_FIELD:	return "HEVC Size o=
-f Length Field";
->  	case V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES:	return "Reference Fram=
-es for a P-Frame";
->  	case V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR:		return "Prepend SPS an=
-d PPS to IDR";
-> +	case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:		return "MediaTek Decoder get=
- secure handle";
-> =20
->  	/* AV1 controls */
->  	case V4L2_CID_MPEG_VIDEO_AV1_PROFILE:			return "AV1 Profile";
-> @@ -1437,6 +1438,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enu=
-m v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_VPX_NUM_REF_FRAMES:
->  		*type =3D V4L2_CTRL_TYPE_INTEGER_MENU;
->  		break;
-> +	case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:
-> +		*type =3D V4L2_CTRL_TYPE_INTEGER;
-> +		*flags |=3D V4L2_CTRL_FLAG_WRITE_ONLY;
-> +		break;
->  	case V4L2_CID_USER_CLASS:
->  	case V4L2_CID_CAMERA_CLASS:
->  	case V4L2_CID_CODEC_CLASS:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
--controls.h
-> index c3604a0a3e30..7b3694985366 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -954,6 +954,10 @@ enum v4l2_mpeg_mfc51_video_force_frame_type {
->  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_ADAPTIVE_RC_STATIC		(V4L2_CID_COD=
-EC_MFC51_BASE+53)
->  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_NUM_REF_PIC_FOR_P		(V4L2_CID_CODE=
-C_MFC51_BASE+54)
-> =20
-> +/*  MPEG-class control IDs specific to the MediaTek Decoder driver as de=
-fined by V4L2 */
-> +#define V4L2_CID_MPEG_MTK_BASE			(V4L2_CTRL_CLASS_CODEC | 0x2000)
-> +#define V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE	(V4L2_CID_MPEG_MTK_BASE+8)
-> +
->  /*  Camera class control IDs */
-> =20
->  #define V4L2_CID_CAMERA_CLASS_BASE	(V4L2_CTRL_CLASS_CAMERA | 0x900)
+> > Best regards,
+> > Jernej
+> >=20
+> >>   }
+> >>  =20
+> >>   static size_t mv_offset(const struct hantro_ctx *ctx,
+
+
+
 
