@@ -2,119 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DB5479AB46
-	for <lists+linux-media@lfdr.de>; Mon, 11 Sep 2023 22:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D374579AB4A
+	for <lists+linux-media@lfdr.de>; Mon, 11 Sep 2023 22:47:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbjIKUrG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:47:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43312 "EHLO
+        id S229630AbjIKUq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236446AbjIKKkZ (ORCPT
+        with ESMTP id S237209AbjIKMPX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 06:40:25 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7211EE5F
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 03:40:21 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-403012f27e1so21698875e9.1
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 03:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694428820; x=1695033620; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nZSXoR1SQBbf2X2ttBO0g4HsNPppA2Wq4FfW/XOJFlE=;
-        b=gMx27TDaB1+ztmyOFKUAY5Sxk9KCDzs4IYPDUJpODv1nZgWwPhNcjezhrhxuPWp2SM
-         6DsAa+I/tMMMpN+lGR5g2Z+94Qbgf+VGutcDxUHRCoegw/t8O4IaRara923WexASzL0W
-         rJAr3flM2Pgc5axAwRBjgfX/oSJfFW9cGjM/cTUBLYqGMOrTN/hSRcINFKFvBf/BEYpd
-         DNvekzNCmPp/icsN70VetofzFs/A+nvap1dvibeHn9kgU7vbrlCiUabfLT1dSVBu52MK
-         tVAAzJK54Kzolgix9n1PpuUWspZbh7Ux1eRawUvj5oqqQIvJ/J53mTxcFHrhy99fjDU9
-         nQPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694428820; x=1695033620;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nZSXoR1SQBbf2X2ttBO0g4HsNPppA2Wq4FfW/XOJFlE=;
-        b=sSPud9BWPOD1EQSug4DlHs0F38YsHcxopz+SWXWtcZxBcMomN3nsRobyCbLk9Tg6di
-         gYmRmmSif3nfRo4Pzbyp/4YzRBNBq/rWdPdTKShC+j5SQSaD/tSUBUffiVgdY1Hs8iar
-         hvV2GXmeFynKxz8JqnIg2CEtjmwqjIUsmI7kHhv97MF13esFn64BYRJcOpr50TsRxgwN
-         nUsDidkaZ6WMnKY6LWUVx4KXjiAqml5+bFaIPC61SmpW4cOEzb3M1NoC++dyfWJiLzbS
-         LaObix/0GVUIq3/2x46IPNUNgjMww+Mmnv+E3TzFjd21tfP79i3olF5RoB+AVScKyqFs
-         EPcA==
-X-Gm-Message-State: AOJu0YyjGxfQDRqhlKwFKRrGxQFCg3egFl1ARsd7fUPTDcbMJ/XlxjYq
-        iQRQm7yHUlVd8JkDyxemK/LYuw==
-X-Google-Smtp-Source: AGHT+IEMtjw51WJ6go/mT//XcIW9jxT+cdwMORAppGRhH9+qDFNOXpaVSQf8LSknkwL6HqZrY9iqUg==
-X-Received: by 2002:a5d:4204:0:b0:317:6175:95fd with SMTP id n4-20020a5d4204000000b00317617595fdmr7382285wrq.43.1694428819896;
-        Mon, 11 Sep 2023 03:40:19 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id n8-20020a7bcbc8000000b003fe29f6b61bsm9633911wmi.46.2023.09.11.03.40.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 03:40:19 -0700 (PDT)
-Message-ID: <a2cc29fa-4433-30d1-2206-d07672cb1428@linaro.org>
-Date:   Mon, 11 Sep 2023 12:40:17 +0200
+        Mon, 11 Sep 2023 08:15:23 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 712E3198;
+        Mon, 11 Sep 2023 05:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694434518; x=1725970518;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=vNTSAGXmwOlVOUYjZEZNHYyqgouEHbaugoCgRtuF0B0=;
+  b=XVQOP2olsx3/GXjzO11w5DY9mVd+RhG3h0fLDcwOvpfxs9dX+o0CkG8f
+   0aXWDa1w/ySZaEv5rH6GhDiB1pYzY4Fuj1lsg6Q+dVJLoEiINZ1QrNt8p
+   ZSqFuOv9JGyJLLvIVYA0+beauGxPvWt+nF5VTvhGzYlQEtgJioq1Ff3XN
+   bnZX2B4F7qku8+QL58Ww4RrFNK28y3fwnDsJJwO5z216hsIFrPpqVytVN
+   oiti1AC//Ch1Fgw79DuM5E7Zxgpu8XNVOJWoqt/6Nii7TCrV4/WojdAm5
+   mg8wNcKrFvoBF7uZuW4u8Wy4a/OJ40E6vPFLKdJ8jq1CPlENnLgX24Vrq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="381863461"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="381863461"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 05:15:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="746383272"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="746383272"
+Received: from mzarkov-mobl3.ger.corp.intel.com (HELO ijarvine-mobl2.ger.corp.intel.com) ([10.252.36.200])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 05:15:16 -0700
+From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 2/8] media: cobalt: Use FIELD_GET() to extract Link Width
+Date:   Mon, 11 Sep 2023 15:14:55 +0300
+Message-Id: <20230911121501.21910-3-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230911121501.21910-1-ilpo.jarvinen@linux.intel.com>
+References: <20230911121501.21910-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: (subset) [PATCH 0/3] This patchset adds IR controller driver
- support for
-Content-Language: en-US
-To:     Sean Young <sean@mess.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        zelong dong <zelong.dong@amlogic.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
-        kelvin.zhang@amlogic.com
-References: <20230825115310.39993-1-zelong.dong@amlogic.com>
- <169442559302.3235506.15361466537260729684.b4-ty@linaro.org>
- <ZP7sKdvAWQQSrTmX@gofer.mess.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <ZP7sKdvAWQQSrTmX@gofer.mess.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/09/2023 12:30, Sean Young wrote:
-> On Mon, Sep 11, 2023 at 11:46:33AM +0200, Neil Armstrong wrote:
->> On Fri, 25 Aug 2023 19:53:07 +0800, zelong dong wrote:
->>> From: Zelong Dong <zelong.dong@amlogic.com>
->>>
->>> Meson IR Controller supports hardware decoder in Meson-S4 and later
->>> SoC. So far, protocol NEC could be decoded by hardware decoder.
->>>
->>> Zelong Dong (3):
->>>   media: rc: meson-ir: support rc driver type RC_DRIVER_SCANCODE
->>>   dt-bindings: media: Add compatible for Meson-S4 IR Controller
->>>   arm64: dts: meson: add IR controller for Meson-S4 SoC
->>>
->>> [...]
->>
->> Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.7/arm64-dt)
->>
->> [3/3] arm64: dts: meson: add IR controller for Meson-S4 SoC
->>       https://git.kernel.org/amlogic/c/dc8bc779feb5e855421215384f23de90a4fcd622
-> 
-> Would make more sense to have all three patches go in together through a single
-> tree? I was about to apply all three of these patches to the media_stage
+Use FIELD_GET() to extract PCIe Negotiated and Maximum Link Width fields
+instead of custom masking and shifting.
 
-No, DTS should not go via driver (non-SoC) tree. If you insist on that,
-it would be a sign your patchset is not bisectable or have ABI break.
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ drivers/media/pci/cobalt/cobalt-driver.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
+index 74edcc76d12f..6e1a0614e6d0 100644
+--- a/drivers/media/pci/cobalt/cobalt-driver.c
++++ b/drivers/media/pci/cobalt/cobalt-driver.c
+@@ -8,6 +8,7 @@
+  *  All rights reserved.
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/delay.h>
+ #include <media/i2c/adv7604.h>
+ #include <media/i2c/adv7842.h>
+@@ -210,17 +211,17 @@ void cobalt_pcie_status_show(struct cobalt *cobalt)
+ 	pcie_capability_read_word(pci_dev, PCI_EXP_LNKSTA, &stat);
+ 	cobalt_info("PCIe link capability 0x%08x: %s per lane and %u lanes\n",
+ 			capa, get_link_speed(capa),
+-			(capa & PCI_EXP_LNKCAP_MLW) >> 4);
++			FIELD_GET(PCI_EXP_LNKCAP_MLW, capa));
+ 	cobalt_info("PCIe link control 0x%04x\n", ctrl);
+ 	cobalt_info("PCIe link status 0x%04x: %s per lane and %u lanes\n",
+ 		    stat, get_link_speed(stat),
+-		    (stat & PCI_EXP_LNKSTA_NLW) >> 4);
++		    FIELD_GET(PCI_EXP_LNKSTA_NLW, stat));
+ 
+ 	/* Bus */
+ 	pcie_capability_read_dword(pci_bus_dev, PCI_EXP_LNKCAP, &capa);
+ 	cobalt_info("PCIe bus link capability 0x%08x: %s per lane and %u lanes\n",
+ 			capa, get_link_speed(capa),
+-			(capa & PCI_EXP_LNKCAP_MLW) >> 4);
++			FIELD_GET(PCI_EXP_LNKCAP_MLW, capa));
+ 
+ 	/* Slot */
+ 	pcie_capability_read_dword(pci_dev, PCI_EXP_SLTCAP, &capa);
+@@ -239,7 +240,7 @@ static unsigned pcie_link_get_lanes(struct cobalt *cobalt)
+ 	if (!pci_is_pcie(pci_dev))
+ 		return 0;
+ 	pcie_capability_read_word(pci_dev, PCI_EXP_LNKSTA, &link);
+-	return (link & PCI_EXP_LNKSTA_NLW) >> 4;
++	return FIELD_GET(PCI_EXP_LNKSTA_NLW, link);
+ }
+ 
+ static unsigned pcie_bus_link_get_lanes(struct cobalt *cobalt)
+@@ -250,7 +251,7 @@ static unsigned pcie_bus_link_get_lanes(struct cobalt *cobalt)
+ 	if (!pci_is_pcie(pci_dev))
+ 		return 0;
+ 	pcie_capability_read_dword(pci_dev, PCI_EXP_LNKCAP, &link);
+-	return (link & PCI_EXP_LNKCAP_MLW) >> 4;
++	return FIELD_GET(PCI_EXP_LNKCAP_MLW, link);
+ }
+ 
+ static void msi_config_show(struct cobalt *cobalt, struct pci_dev *pci_dev)
+-- 
+2.30.2
 
