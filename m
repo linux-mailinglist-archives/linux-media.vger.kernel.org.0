@@ -2,808 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E01B79AFF9
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 01:48:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF37C79B5E9
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:04:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233563AbjIKUrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:47:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47902 "EHLO
+        id S232640AbjIKUrd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:47:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240919AbjIKO5T (ORCPT
+        with ESMTP id S241540AbjIKPKj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 10:57:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43C17E50
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 07:57:13 -0700 (PDT)
-Received: from uno.localdomain (mob-5-90-67-213.net.vodafone.it [5.90.67.213])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A87F9D51;
-        Mon, 11 Sep 2023 16:55:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694444141;
-        bh=+uz0V21ndgaXPG7hUWDBeBceUu5VhSIcasNq5u8Dxg0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PM7PxzQsWXGgK8/9McVSehSS2XNcrZmZbRyB7rDTtRCBMxoU2trAz3YMD4mEgE7rE
-         4f7mdki/9tbErQM1sp9eJh/LPeZ+OgnbMF6JV+9YybfZ0foRblXGJnvP40ofoVB2gI
-         b6FxBsFwG22HeCWrfLNRv4TxcIBRY4hHLET1gshg=
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Arnd Bergmann <arnd@kernel.org>
-Subject: [PATCH] media: i2c: Drop ifdeffery from sensor drivers
-Date:   Mon, 11 Sep 2023 16:56:36 +0200
-Message-ID: <20230911145636.29972-1-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.42.0
+        Mon, 11 Sep 2023 11:10:39 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C754E40
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 08:10:34 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-501eec0a373so7365300e87.3
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 08:10:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694445032; x=1695049832; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cRew6Oc+xnW64sLrM5CmEZevJKHbYAda+Rz+DKx8GYY=;
+        b=c8tBQ5lftp9m9akfa7mZM7dN7m4KwCVDFJq0nKOBeqKJ4yI8VZ56cjYPI7lRFJdCM2
+         FKHAXbwzVjpzJJrcs7ikjGOypdQXAN1qjhL0NFep3l9fXE6K2g2IJDJndET8SnLXDyti
+         4cK3YafaiDpdqvomB6SJVTcu5CR1bn7vQulcO9ozcGrPOPSGfhfg1qI1BvyJGFXA/DR4
+         LWjtvSbIw4QYqDaFILNrBv08Mjl/OzNUTmdgB8xnD9KKtgJwDhr1joGVdqUKkhIQUm5w
+         055VW5VDbpFLSuGBQN9gdoVFDmNtYmmaJAcZ1A/zO913FlmnZD9BXCFwsBvqgopRNx5Z
+         mevw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694445032; x=1695049832;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cRew6Oc+xnW64sLrM5CmEZevJKHbYAda+Rz+DKx8GYY=;
+        b=Y7FvPwXDutewEZ/+SxXu/jQzFDzEfAL3AgNazomkqmf8BNgwpZ8IRR+x5G3tWmJR9T
+         gikmhxv6bum+EAC0THgS2MZEbLpsDWzJU9Na/iJPTbUWp/bw89l+od+ZiSI4hj5AV23n
+         YDFKT6R9M9gN8k60CG+dPB+Llx4kwsRuyE98DnIuGTdfU3ZK9jEbXy/BRQWIob1Me6kD
+         qd16fiTCluMAKWN4gw2oUIw6l9xOH8G+C55zjexoUPKVC/fD8YCkogDLuRLQ8eI1762N
+         6n1+0otBYLWTLV993cHqI3FGLx8ZvImeL2n5pCPs3u/yNEmP80XSyrQetOND0bk4WMlz
+         81wA==
+X-Gm-Message-State: AOJu0YwEzZvJ+bvrG9aMvj8x19jKZd+OxpB2EAjAp2FZ4IKMLOwgNA0N
+        uAbZa342WclfFPMVCuM52feNrw==
+X-Google-Smtp-Source: AGHT+IFfkZSm2SgFnvhjGd4bD/9sLJAIYrIZkLexHdh26IJHuK5vq8c5x59Jkl+1Eo6Zxjq3cqM2ew==
+X-Received: by 2002:ac2:4ac7:0:b0:4fe:3364:6c20 with SMTP id m7-20020ac24ac7000000b004fe33646c20mr7707490lfp.16.1694445032494;
+        Mon, 11 Sep 2023 08:10:32 -0700 (PDT)
+Received: from [10.167.154.1] (178235177061.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.61])
+        by smtp.gmail.com with ESMTPSA id n4-20020a056402060400b0052a3ad836basm4681281edv.41.2023.09.11.08.10.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Sep 2023 08:10:32 -0700 (PDT)
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Date:   Mon, 11 Sep 2023 17:10:16 +0200
+Subject: [PATCH RFT 02/20] media: venus: pm_helpers: Rename core_clks_get
+ to venus_clks_get
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230911-topic-mars-v1-2-a7d38bf87bdb@linaro.org>
+References: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
+In-Reply-To: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1694445027; l=1211;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=TgOAgouGXSGMwv5uLVeiQ7fWctx4QlplbsMWieUzcN8=;
+ b=FYDz7Y0MnR3QEJGVvP5GQ5j94MwMMavqPgl3u+toJr8vc2WU+Y3EduelTYlplNMbzujrBy2KX
+ P8X+Ht03HPVDwOddKScyKYBxKIzjGzq4d9Kg3QwC/YQBudw6SoFLNX9
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since commit 7d3c7d2a2914 ("media: i2c: Add a camera sensor top level
-menu") the CONFIG_MEDIA_CONTROLLER and CONFIG_VIDEO_V4L2_SUBDEV_API are
-selected by the top-level VIDEO_CAMERA_SENSOR menu.
+"core" is used in multiple contexts when talking about Venus, rename
+the function to save on confusion.
 
-Remove all ifdefferies from camera sensor drivers to simplify the code.
-
-Compile-tested only.
-
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
+ drivers/media/platform/qcom/venus/pm_helpers.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/media/i2c/mt9m111.c | 13 +------------
- drivers/media/i2c/mt9v011.c |  6 ------
- drivers/media/i2c/mt9v111.c | 14 --------------
- drivers/media/i2c/ov2640.c  | 11 +----------
- drivers/media/i2c/ov2659.c  | 16 +---------------
- drivers/media/i2c/ov2685.c  | 12 ------------
- drivers/media/i2c/ov5695.c  | 19 -------------------
- drivers/media/i2c/ov7670.c  | 20 --------------------
- drivers/media/i2c/ov772x.c  |  4 ----
- drivers/media/i2c/ov7740.c  | 23 ++---------------------
- 10 files changed, 5 insertions(+), 133 deletions(-)
-
-diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
-index df8d9c9e6a96..1f44b72e8a70 100644
---- a/drivers/media/i2c/mt9m111.c
-+++ b/drivers/media/i2c/mt9m111.c
-@@ -244,9 +244,7 @@ struct mt9m111 {
- 	bool is_streaming;
- 	/* user point of view - 0: falling 1: rising edge */
- 	unsigned int pclk_sample:1;
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	struct media_pad pad;
--#endif
- };
-
- static const struct mt9m111_mode_info mt9m111_mode_data[MT9M111_NUM_MODES] = {
-@@ -527,13 +525,9 @@ static int mt9m111_get_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
-
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		mf = v4l2_subdev_get_try_format(sd, sd_state, format->pad);
- 		format->format = *mf;
- 		return 0;
--#else
--		return -EINVAL;
--#endif
- 	}
-
- 	mf->width	= mt9m111->width;
-@@ -1120,7 +1114,6 @@ static int mt9m111_s_stream(struct v4l2_subdev *sd, int enable)
- static int mt9m111_init_cfg(struct v4l2_subdev *sd,
- 			    struct v4l2_subdev_state *sd_state)
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index 2bd9c63d0253..e2aec0b46126 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -23,7 +23,7 @@
+ 
+ static bool legacy_binding;
+ 
+-static int core_clks_get(struct venus_core *core)
++static int venus_clks_get(struct venus_core *core)
  {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	struct v4l2_mbus_framefmt *format =
- 		v4l2_subdev_get_try_format(sd, sd_state, 0);
-
-@@ -1132,7 +1125,7 @@ static int mt9m111_init_cfg(struct v4l2_subdev *sd,
- 	format->ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT;
- 	format->quantization	= V4L2_QUANTIZATION_DEFAULT;
- 	format->xfer_func	= V4L2_XFER_FUNC_DEFAULT;
--#endif
-+
- 	return 0;
- }
-
-@@ -1315,13 +1308,11 @@ static int mt9m111_probe(struct i2c_client *client)
- 		return ret;
- 	}
-
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	mt9m111->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	mt9m111->subdev.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&mt9m111->subdev.entity, 1, &mt9m111->pad);
- 	if (ret < 0)
- 		goto out_hdlfree;
--#endif
-
- 	mt9m111->current_mode = &mt9m111_mode_data[MT9M111_MODE_SXGA_15FPS];
- 	mt9m111->frame_interval.numerator = 1;
-@@ -1350,10 +1341,8 @@ static int mt9m111_probe(struct i2c_client *client)
- 	return 0;
-
- out_entityclean:
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	media_entity_cleanup(&mt9m111->subdev.entity);
- out_hdlfree:
--#endif
- 	v4l2_ctrl_handler_free(&mt9m111->hdl);
-
- 	return ret;
-diff --git a/drivers/media/i2c/mt9v011.c b/drivers/media/i2c/mt9v011.c
-index 774861ba7747..37a634b92cd5 100644
---- a/drivers/media/i2c/mt9v011.c
-+++ b/drivers/media/i2c/mt9v011.c
-@@ -49,9 +49,7 @@ MODULE_PARM_DESC(debug, "Debug level (0-2)");
-
- struct mt9v011 {
- 	struct v4l2_subdev sd;
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	struct media_pad pad;
--#endif
- 	struct v4l2_ctrl_handler ctrls;
- 	unsigned width, height;
- 	unsigned xtal;
-@@ -483,9 +481,7 @@ static int mt9v011_probe(struct i2c_client *c)
- 	u16 version;
- 	struct mt9v011 *core;
- 	struct v4l2_subdev *sd;
--#ifdef CONFIG_MEDIA_CONTROLLER
+ 	const struct venus_resources *res = core->res;
+ 	struct device *dev = core->dev;
+@@ -294,7 +294,7 @@ static int core_get_v1(struct venus_core *core)
+ {
  	int ret;
--#endif
-
- 	/* Check if the adapter supports the needed features */
- 	if (!i2c_check_functionality(c->adapter,
-@@ -499,14 +495,12 @@ static int mt9v011_probe(struct i2c_client *c)
- 	sd = &core->sd;
- 	v4l2_i2c_subdev_init(sd, c, &mt9v011_ops);
-
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	core->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
-
- 	ret = media_entity_pads_init(&sd->entity, 1, &core->pad);
- 	if (ret < 0)
+ 
+-	ret = core_clks_get(core);
++	ret = venus_clks_get(core);
+ 	if (ret)
  		return ret;
--#endif
-
- 	/* Check if the sensor is really a MT9V011 */
- 	version = mt9v011_read(sd, R00_MT9V011_CHIP_VERSION);
-diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
-index 1f7edc0f5b1a..f859b49e13bf 100644
---- a/drivers/media/i2c/mt9v111.c
-+++ b/drivers/media/i2c/mt9v111.c
-@@ -121,9 +121,7 @@ struct mt9v111_dev {
- 	u8 addr_space;
-
- 	struct v4l2_subdev sd;
--#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
- 	struct media_pad pad;
--#endif
-
- 	struct v4l2_ctrl *auto_awb;
- 	struct v4l2_ctrl *auto_exp;
-@@ -797,11 +795,7 @@ static struct v4l2_mbus_framefmt *__mt9v111_get_pad_format(
- {
- 	switch (which) {
- 	case V4L2_SUBDEV_FORMAT_TRY:
--#if IS_ENABLED(CONFIG_VIDEO_V4L2_SUBDEV_API)
- 		return v4l2_subdev_get_try_format(&mt9v111->sd, sd_state, pad);
--#else
--		return &sd_state->pads->try_fmt;
--#endif
- 	case V4L2_SUBDEV_FORMAT_ACTIVE:
- 		return &mt9v111->fmt;
- 	default:
-@@ -987,11 +981,9 @@ static const struct v4l2_subdev_ops mt9v111_ops = {
- 	.pad	= &mt9v111_pad_ops,
- };
-
--#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
- static const struct media_entity_operations mt9v111_subdev_entity_ops = {
- 	.link_validate = v4l2_subdev_link_validate,
- };
--#endif
-
- /* --- V4L2 ctrl --- */
- static int mt9v111_s_ctrl(struct v4l2_ctrl *ctrl)
-@@ -1203,7 +1195,6 @@ static int mt9v111_probe(struct i2c_client *client)
-
- 	v4l2_i2c_subdev_init(&mt9v111->sd, client, &mt9v111_ops);
-
--#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
- 	mt9v111->sd.flags	|= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	mt9v111->sd.entity.ops	= &mt9v111_subdev_entity_ops;
- 	mt9v111->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-@@ -1212,7 +1203,6 @@ static int mt9v111_probe(struct i2c_client *client)
- 	ret = media_entity_pads_init(&mt9v111->sd.entity, 1, &mt9v111->pad);
- 	if (ret)
- 		goto error_free_entity;
--#endif
-
- 	ret = mt9v111_chip_probe(mt9v111);
- 	if (ret)
-@@ -1225,9 +1215,7 @@ static int mt9v111_probe(struct i2c_client *client)
- 	return 0;
-
- error_free_entity:
--#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
- 	media_entity_cleanup(&mt9v111->sd.entity);
--#endif
-
- error_free_ctrls:
- 	v4l2_ctrl_handler_free(&mt9v111->ctrls);
-@@ -1245,9 +1233,7 @@ static void mt9v111_remove(struct i2c_client *client)
-
- 	v4l2_async_unregister_subdev(sd);
-
--#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
- 	media_entity_cleanup(&sd->entity);
--#endif
-
- 	v4l2_ctrl_handler_free(&mt9v111->ctrls);
-
-diff --git a/drivers/media/i2c/ov2640.c b/drivers/media/i2c/ov2640.c
-index bb6c9863a546..ba96b98ff080 100644
---- a/drivers/media/i2c/ov2640.c
-+++ b/drivers/media/i2c/ov2640.c
-@@ -293,9 +293,7 @@ struct ov2640_win_size {
-
- struct ov2640_priv {
- 	struct v4l2_subdev		subdev;
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	struct media_pad pad;
--#endif
- 	struct v4l2_ctrl_handler	hdl;
- 	u32	cfmt_code;
- 	struct clk			*clk;
-@@ -922,13 +920,9 @@ static int ov2640_get_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
-
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		mf = v4l2_subdev_get_try_format(sd, sd_state, 0);
- 		format->format = *mf;
- 		return 0;
--#else
--		return -EINVAL;
--#endif
- 	}
-
- 	mf->width	= priv->win->width;
-@@ -1005,7 +999,6 @@ static int ov2640_set_fmt(struct v4l2_subdev *sd,
- static int ov2640_init_cfg(struct v4l2_subdev *sd,
- 			   struct v4l2_subdev_state *sd_state)
- {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	struct v4l2_mbus_framefmt *try_fmt =
- 		v4l2_subdev_get_try_format(sd, sd_state, 0);
- 	const struct ov2640_win_size *win =
-@@ -1019,7 +1012,7 @@ static int ov2640_init_cfg(struct v4l2_subdev *sd,
- 	try_fmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
- 	try_fmt->quantization = V4L2_QUANTIZATION_DEFAULT;
- 	try_fmt->xfer_func = V4L2_XFER_FUNC_DEFAULT;
--#endif
-+
- 	return 0;
- }
-
-@@ -1239,13 +1232,11 @@ static int ov2640_probe(struct i2c_client *client)
- 		ret = priv->hdl.error;
- 		goto err_hdl;
- 	}
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	priv->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	priv->subdev.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&priv->subdev.entity, 1, &priv->pad);
- 	if (ret < 0)
- 		goto err_hdl;
--#endif
-
- 	ret = ov2640_video_probe(client);
- 	if (ret < 0)
-diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index 5429bd2eb053..2c3dbe164eb6 100644
---- a/drivers/media/i2c/ov2659.c
-+++ b/drivers/media/i2c/ov2659.c
-@@ -1031,7 +1031,6 @@ static int ov2659_get_fmt(struct v4l2_subdev *sd,
- 	dev_dbg(&client->dev, "ov2659_get_fmt\n");
-
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		struct v4l2_mbus_framefmt *mf;
-
- 		mf = v4l2_subdev_get_try_format(sd, sd_state, 0);
-@@ -1039,9 +1038,6 @@ static int ov2659_get_fmt(struct v4l2_subdev *sd,
- 		fmt->format = *mf;
- 		mutex_unlock(&ov2659->lock);
- 		return 0;
--#else
--		return -EINVAL;
--#endif
- 	}
-
- 	mutex_lock(&ov2659->lock);
-@@ -1113,10 +1109,8 @@ static int ov2659_set_fmt(struct v4l2_subdev *sd,
- 	mutex_lock(&ov2659->lock);
-
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		mf = v4l2_subdev_get_try_format(sd, sd_state, fmt->pad);
- 		*mf = fmt->format;
--#endif
- 	} else {
- 		s64 val;
-
-@@ -1306,7 +1300,6 @@ static int ov2659_power_on(struct device *dev)
-  * V4L2 subdev internal operations
-  */
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- static int ov2659_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
-@@ -1319,7 +1312,6 @@ static int ov2659_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-
- 	return 0;
- }
--#endif
-
- static const struct v4l2_subdev_core_ops ov2659_subdev_core_ops = {
- 	.log_status = v4l2_ctrl_subdev_log_status,
-@@ -1338,7 +1330,6 @@ static const struct v4l2_subdev_pad_ops ov2659_subdev_pad_ops = {
- 	.set_fmt = ov2659_set_fmt,
- };
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- static const struct v4l2_subdev_ops ov2659_subdev_ops = {
- 	.core  = &ov2659_subdev_core_ops,
- 	.video = &ov2659_subdev_video_ops,
-@@ -1348,7 +1339,6 @@ static const struct v4l2_subdev_ops ov2659_subdev_ops = {
- static const struct v4l2_subdev_internal_ops ov2659_subdev_internal_ops = {
- 	.open = ov2659_open,
- };
--#endif
-
- static int ov2659_detect(struct v4l2_subdev *sd)
- {
-@@ -1489,15 +1479,12 @@ static int ov2659_probe(struct i2c_client *client)
-
- 	sd = &ov2659->sd;
- 	client->flags |= I2C_CLIENT_SCCB;
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
--	v4l2_i2c_subdev_init(sd, client, &ov2659_subdev_ops);
-
-+	v4l2_i2c_subdev_init(sd, client, &ov2659_subdev_ops);
- 	sd->internal_ops = &ov2659_subdev_internal_ops;
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
- 		     V4L2_SUBDEV_FL_HAS_EVENTS;
--#endif
-
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	ov2659->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&sd->entity, 1, &ov2659->pad);
-@@ -1505,7 +1492,6 @@ static int ov2659_probe(struct i2c_client *client)
- 		v4l2_ctrl_handler_free(&ov2659->ctrls);
- 		return ret;
- 	}
--#endif
-
- 	mutex_init(&ov2659->lock);
-
-diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
-index 303793e1f97d..de0d34e43969 100644
---- a/drivers/media/i2c/ov2685.c
-+++ b/drivers/media/i2c/ov2685.c
-@@ -547,7 +547,6 @@ static int ov2685_s_stream(struct v4l2_subdev *sd, int on)
- 	return ret;
- }
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- static int ov2685_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
- 	struct ov2685 *ov2685 = to_ov2685(sd);
-@@ -563,7 +562,6 @@ static int ov2685_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-
- 	return 0;
- }
--#endif
-
- static int __maybe_unused ov2685_runtime_resume(struct device *dev)
- {
-@@ -660,11 +658,9 @@ static const struct v4l2_subdev_ops ov2685_subdev_ops = {
- 	.pad	= &ov2685_pad_ops,
- };
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- static const struct v4l2_subdev_internal_ops ov2685_internal_ops = {
- 	.open = ov2685_open,
- };
--#endif
-
- static const struct v4l2_ctrl_ops ov2685_ctrl_ops = {
- 	.s_ctrl = ov2685_set_ctrl,
-@@ -833,17 +829,13 @@ static int ov2685_probe(struct i2c_client *client)
- 	if (ret)
- 		goto err_power_off;
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	ov2685->subdev.internal_ops = &ov2685_internal_ops;
- 	ov2685->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
--#endif
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	ov2685->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	ov2685->subdev.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&ov2685->subdev.entity, 1, &ov2685->pad);
- 	if (ret < 0)
- 		goto err_power_off;
--#endif
-
- 	ret = v4l2_async_register_subdev(&ov2685->subdev);
- 	if (ret) {
-@@ -858,9 +850,7 @@ static int ov2685_probe(struct i2c_client *client)
- 	return 0;
-
- err_clean_entity:
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	media_entity_cleanup(&ov2685->subdev.entity);
--#endif
- err_power_off:
- 	__ov2685_power_off(ov2685);
- err_free_handler:
-@@ -877,9 +867,7 @@ static void ov2685_remove(struct i2c_client *client)
- 	struct ov2685 *ov2685 = to_ov2685(sd);
-
- 	v4l2_async_unregister_subdev(sd);
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	media_entity_cleanup(&sd->entity);
--#endif
- 	v4l2_ctrl_handler_free(&ov2685->ctrl_handler);
- 	mutex_destroy(&ov2685->mutex);
-
-diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-index 3023b7254167..8d1c3a673c23 100644
---- a/drivers/media/i2c/ov5695.c
-+++ b/drivers/media/i2c/ov5695.c
-@@ -821,9 +821,7 @@ static int ov5695_set_fmt(struct v4l2_subdev *sd,
- 	fmt->format.height = mode->height;
- 	fmt->format.field = V4L2_FIELD_NONE;
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		*v4l2_subdev_get_try_format(sd, sd_state, fmt->pad) = fmt->format;
--#endif
- 	} else {
- 		ov5695->cur_mode = mode;
- 		h_blank = mode->hts_def - mode->width;
-@@ -849,13 +847,8 @@ static int ov5695_get_fmt(struct v4l2_subdev *sd,
-
- 	mutex_lock(&ov5695->mutex);
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		fmt->format = *v4l2_subdev_get_try_format(sd, sd_state,
- 							  fmt->pad);
--#else
--		mutex_unlock(&ov5695->mutex);
--		return -EINVAL;
--#endif
- 	} else {
- 		fmt->format.width = mode->width;
- 		fmt->format.height = mode->height;
-@@ -1048,7 +1041,6 @@ static int __maybe_unused ov5695_runtime_suspend(struct device *dev)
- 	return 0;
- }
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- static int ov5695_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
- 	struct ov5695 *ov5695 = to_ov5695(sd);
-@@ -1068,18 +1060,15 @@ static int ov5695_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-
- 	return 0;
- }
--#endif
-
- static const struct dev_pm_ops ov5695_pm_ops = {
- 	SET_RUNTIME_PM_OPS(ov5695_runtime_suspend,
- 			   ov5695_runtime_resume, NULL)
- };
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- static const struct v4l2_subdev_internal_ops ov5695_internal_ops = {
- 	.open = ov5695_open,
- };
--#endif
-
- static const struct v4l2_subdev_video_ops ov5695_video_ops = {
- 	.s_stream = ov5695_s_stream,
-@@ -1322,17 +1311,13 @@ static int ov5695_probe(struct i2c_client *client)
- 	if (ret)
- 		goto err_power_off;
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	sd->internal_ops = &ov5695_internal_ops;
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
--#endif
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	ov5695->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&sd->entity, 1, &ov5695->pad);
- 	if (ret < 0)
- 		goto err_power_off;
--#endif
-
- 	ret = v4l2_async_register_subdev_sensor(sd);
- 	if (ret) {
-@@ -1347,9 +1332,7 @@ static int ov5695_probe(struct i2c_client *client)
- 	return 0;
-
- err_clean_entity:
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	media_entity_cleanup(&sd->entity);
--#endif
- err_power_off:
- 	__ov5695_power_off(ov5695);
- err_free_handler:
-@@ -1366,9 +1349,7 @@ static void ov5695_remove(struct i2c_client *client)
- 	struct ov5695 *ov5695 = to_ov5695(sd);
-
- 	v4l2_async_unregister_subdev(sd);
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	media_entity_cleanup(&sd->entity);
--#endif
- 	v4l2_ctrl_handler_free(&ov5695->ctrl_handler);
- 	mutex_destroy(&ov5695->mutex);
-
-diff --git a/drivers/media/i2c/ov7670.c b/drivers/media/i2c/ov7670.c
-index 2f55491ef571..85bf745c0bad 100644
---- a/drivers/media/i2c/ov7670.c
-+++ b/drivers/media/i2c/ov7670.c
-@@ -217,9 +217,7 @@ struct ov7670_devtype {
- struct ov7670_format_struct;  /* coming later */
- struct ov7670_info {
- 	struct v4l2_subdev sd;
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	struct media_pad pad;
--#endif
- 	struct v4l2_ctrl_handler hdl;
- 	struct {
- 		/* gain cluster */
-@@ -1108,9 +1106,7 @@ static int ov7670_set_fmt(struct v4l2_subdev *sd,
- 		struct v4l2_subdev_format *format)
- {
- 	struct ov7670_info *info = to_state(sd);
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	struct v4l2_mbus_framefmt *mbus_fmt;
--#endif
+ 
+@@ -978,7 +978,7 @@ static int core_get_v4(struct venus_core *core)
+ 	const struct venus_resources *res = core->res;
  	int ret;
-
- 	if (format->pad)
-@@ -1120,11 +1116,9 @@ static int ov7670_set_fmt(struct v4l2_subdev *sd,
- 		ret = ov7670_try_fmt_internal(sd, &format->format, NULL, NULL);
- 		if (ret)
- 			return ret;
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		mbus_fmt = v4l2_subdev_get_try_format(sd, sd_state,
- 						      format->pad);
- 		*mbus_fmt = format->format;
--#endif
- 		return 0;
- 	}
-
-@@ -1148,18 +1142,12 @@ static int ov7670_get_fmt(struct v4l2_subdev *sd,
- 			  struct v4l2_subdev_format *format)
- {
- 	struct ov7670_info *info = to_state(sd);
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	struct v4l2_mbus_framefmt *mbus_fmt;
--#endif
-
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		mbus_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
- 		format->format = *mbus_fmt;
- 		return 0;
--#else
--		return -EINVAL;
--#endif
- 	} else {
- 		format->format = info->format;
- 	}
-@@ -1720,7 +1708,6 @@ static void ov7670_get_default_format(struct v4l2_subdev *sd,
- 	format->field = V4L2_FIELD_NONE;
- }
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- static int ov7670_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
- 	struct v4l2_mbus_framefmt *format =
-@@ -1730,7 +1717,6 @@ static int ov7670_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-
- 	return 0;
- }
--#endif
-
- /* ----------------------------------------------------------------------- */
-
-@@ -1766,11 +1752,9 @@ static const struct v4l2_subdev_ops ov7670_ops = {
- 	.pad = &ov7670_pad_ops,
- };
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- static const struct v4l2_subdev_internal_ops ov7670_subdev_internal_ops = {
- 	.open = ov7670_open,
- };
--#endif
-
- /* ----------------------------------------------------------------------- */
-
-@@ -1861,10 +1845,8 @@ static int ov7670_probe(struct i2c_client *client)
- 	sd = &info->sd;
- 	v4l2_i2c_subdev_init(sd, client, &ov7670_ops);
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	sd->internal_ops = &ov7670_subdev_internal_ops;
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
--#endif
-
- 	info->clock_speed = 30; /* default: a guess */
-
-@@ -1977,13 +1959,11 @@ static int ov7670_probe(struct i2c_client *client)
- 			       V4L2_EXPOSURE_MANUAL, false);
- 	v4l2_ctrl_cluster(2, &info->saturation);
-
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	info->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	info->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&info->sd.entity, 1, &info->pad);
- 	if (ret < 0)
- 		goto hdl_free;
--#endif
-
- 	v4l2_ctrl_handler_setup(&info->hdl);
-
-diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-index 386d69c8e074..7618b58a7ad0 100644
---- a/drivers/media/i2c/ov772x.c
-+++ b/drivers/media/i2c/ov772x.c
-@@ -433,9 +433,7 @@ struct ov772x_priv {
- 	struct mutex			  lock;
- 	int				  power_count;
- 	int				  streaming;
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	struct media_pad pad;
--#endif
- 	enum v4l2_mbus_type		  bus_type;
- };
-
-@@ -1488,13 +1486,11 @@ static int ov772x_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		goto error_gpio_put;
-
--#ifdef CONFIG_MEDIA_CONTROLLER
- 	priv->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	priv->subdev.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&priv->subdev.entity, 1, &priv->pad);
- 	if (ret < 0)
- 		goto error_gpio_put;
--#endif
-
- 	priv->cfmt = &ov772x_cfmts[0];
- 	priv->win = &ov772x_win_sizes[0];
-diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
-index dffdb475e433..78d04ce68971 100644
---- a/drivers/media/i2c/ov7740.c
-+++ b/drivers/media/i2c/ov7740.c
-@@ -83,9 +83,7 @@
-
- struct ov7740 {
- 	struct v4l2_subdev subdev;
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	struct media_pad pad;
--#endif
- 	struct v4l2_mbus_framefmt format;
- 	const struct ov7740_pixfmt *fmt;  /* Current format */
- 	const struct ov7740_framesize *frmsize;
-@@ -807,9 +805,7 @@ static int ov7740_set_fmt(struct v4l2_subdev *sd,
- 	struct ov7740 *ov7740 = container_of(sd, struct ov7740, subdev);
- 	const struct ov7740_pixfmt *ovfmt;
- 	const struct ov7740_framesize *fsize;
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	struct v4l2_mbus_framefmt *mbus_fmt;
--#endif
- 	int ret;
-
- 	mutex_lock(&ov7740->mutex);
-@@ -822,11 +818,10 @@ static int ov7740_set_fmt(struct v4l2_subdev *sd,
- 		ret = ov7740_try_fmt_internal(sd, &format->format, NULL, NULL);
- 		if (ret)
- 			goto error;
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
-+
- 		mbus_fmt = v4l2_subdev_get_try_format(sd, sd_state,
- 						      format->pad);
- 		*mbus_fmt = format->format;
--#endif
- 		mutex_unlock(&ov7740->mutex);
- 		return 0;
- 	}
-@@ -851,26 +846,18 @@ static int ov7740_get_fmt(struct v4l2_subdev *sd,
- 			  struct v4l2_subdev_format *format)
- {
- 	struct ov7740 *ov7740 = container_of(sd, struct ov7740, subdev);
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	struct v4l2_mbus_framefmt *mbus_fmt;
--#endif
--	int ret = 0;
-
- 	mutex_lock(&ov7740->mutex);
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		mbus_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
- 		format->format = *mbus_fmt;
--		ret = 0;
--#else
--		ret = -EINVAL;
--#endif
- 	} else {
- 		format->format = ov7740->format;
- 	}
- 	mutex_unlock(&ov7740->mutex);
-
--	return ret;
-+	return 0;
- }
-
- static const struct v4l2_subdev_pad_ops ov7740_subdev_pad_ops = {
-@@ -899,7 +886,6 @@ static void ov7740_get_default_format(struct v4l2_subdev *sd,
- 	format->field = V4L2_FIELD_NONE;
- }
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- static int ov7740_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
- 	struct ov7740 *ov7740 = container_of(sd, struct ov7740, subdev);
-@@ -916,7 +902,6 @@ static int ov7740_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- static const struct v4l2_subdev_internal_ops ov7740_subdev_internal_ops = {
- 	.open = ov7740_open,
- };
--#endif
-
- static int ov7740_probe_dt(struct i2c_client *client,
- 			   struct ov7740 *ov7740)
-@@ -1094,18 +1079,14 @@ static int ov7740_probe(struct i2c_client *client)
- 	sd = &ov7740->subdev;
- 	v4l2_i2c_subdev_init(sd, client, &ov7740_subdev_ops);
-
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	sd->internal_ops = &ov7740_subdev_internal_ops;
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
--#endif
-
--#if defined(CONFIG_MEDIA_CONTROLLER)
- 	ov7740->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&sd->entity, 1, &ov7740->pad);
+ 
+-	ret = core_clks_get(core);
++	ret = venus_clks_get(core);
  	if (ret)
  		return ret;
--#endif
+ 
 
- 	ret = ov7740_set_power(ov7740, 1);
- 	if (ret)
---
+-- 
 2.42.0
 
