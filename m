@@ -2,147 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3512679BD29
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED9F179BA3E
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:11:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236622AbjIKUtv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:49:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44866 "EHLO
+        id S235287AbjIKUtH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:49:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235703AbjIKJXk (ORCPT
+        with ESMTP id S235753AbjIKJ3c (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 05:23:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06AC8CD3;
-        Mon, 11 Sep 2023 02:23:36 -0700 (PDT)
-Received: from ideasonboard.com (mob-5-90-67-213.net.vodafone.it [5.90.67.213])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ED639D5;
-        Mon, 11 Sep 2023 11:22:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694424124;
-        bh=10Op016e24YbHBoh5oTwtjeE1FfF3dhBUviHYQrKAg0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Dy4ltQ5NGPE2Tu12u6L4m4SLuSL5p063f1+EjUIZDuTVZEXhDpOqOER57aoNWue2b
-         ZlTxrNHEFtLs8cJnqf71X08E0XRUWKK7Nx4fgBKZqMgYBSlewdWflMC2Cmyjz83T0y
-         Xf5dJ/GLPE31uYgjq8a5TrxR5YdHADTcCq5esHMg=
-Date:   Mon, 11 Sep 2023 11:23:31 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Biju Das <biju.das.au@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 1/2] media: tvp541x: Extend match support for OF tables
-Message-ID: <qhe7q6lpoey266iprugqjc2mdsc6wf7rz2e4o72pcpjoxhkdp5@ij47vwvjcxmh>
-References: <20230910174051.85070-1-biju.das.jz@bp.renesas.com>
- <20230910174051.85070-2-biju.das.jz@bp.renesas.com>
+        Mon, 11 Sep 2023 05:29:32 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE373100;
+        Mon, 11 Sep 2023 02:29:26 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C395966072F0;
+        Mon, 11 Sep 2023 10:29:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694424565;
+        bh=PEkfGXDLYefkrpep6+K+sw4moQH4wOvu/m6wtn7s7qE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=hD8i4A7ygMbHzKh2hK4C8OTl2GKieKyk8xGbRPMbHh+6Zkrg0lQgfgxlDZy0HRUJd
+         hEdTk0obzK2Soq+CEJ+T+JLcwnOMUikk0wnKdLVr2vxOLzr9He7w7SYn4K1l3xO6fr
+         /9XwtvQteamqKIqH0Ua418zxn8O/3reRef2Tn5cfAgKXi2NjXIa4UZKoN2ylJKTJve
+         z8tii5c5OgY29mGF7N6lHal7ve+g93RN6lfW2DYL289Pg0knfDSwOkmhpzzOtW8o76
+         EsghCr6u9IYosm3Za/H5v2jfmV2KXgyoLBzSszsENieOawR8bwBqutUX73tcjMXs2U
+         3EGGiwISa2Ncg==
+Message-ID: <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com>
+Date:   Mon, 11 Sep 2023 11:29:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230910174051.85070-2-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
+Content-Language: en-US
+To:     Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        christian.koenig@amd.com, Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>, tjmercier@google.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, jianjiao.zeng@mediatek.com,
+        kuohong.wang@mediatek.com
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-6-yong.wu@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230911023038.30649-6-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju
-
-On Sun, Sep 10, 2023 at 06:40:50PM +0100, Biju Das wrote:
-> The driver has an OF match table, still, it uses an ID lookup table for
-> retrieving match data. Currently, the driver is working on the
-> assumption that an I2C device registered via OF will always match a
-> legacy I2C device ID. The correct approach is to have an OF device ID
-> table using i2c_get_match_data() if the devices are registered via OF/ID.
->
-> Unify the OF/ID table by using tvp514x_reg as match data for both
-> these tables and replace the ID lookup table for the match data by
-> i2c_get_match_data() and simplifly probe().
->
-> While at it, remove the trailing comma in the terminator entry for the OF
-> table making code robust against (theoretical) misrebases or other similar
-> things where the new entry goes _after_ the termination without the
-> compiler noticing.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-
-Thanks
-  j
-
+Il 11/09/23 04:30, Yong Wu ha scritto:
+> The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't work
+> here since this is not a platform driver, therefore initialise the TEE
+> context/session while we allocate the first secure buffer.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > ---
->  drivers/media/i2c/tvp514x.c | 26 ++++++++++++--------------
->  1 file changed, 12 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/media/i2c/tvp514x.c b/drivers/media/i2c/tvp514x.c
-> index aa6d4b67b6d5..4d0ffaa312c5 100644
-> --- a/drivers/media/i2c/tvp514x.c
-> +++ b/drivers/media/i2c/tvp514x.c
-> @@ -118,7 +118,7 @@ struct tvp514x_decoder {
->  	struct media_pad pad;
->  	struct v4l2_mbus_framefmt format;
->
-> -	struct tvp514x_reg *int_seq;
-> +	const struct tvp514x_reg *int_seq;
->  };
->
->  /* TVP514x default register values */
-> @@ -1024,7 +1024,6 @@ tvp514x_get_pdata(struct i2c_client *client)
->  static int
->  tvp514x_probe(struct i2c_client *client)
->  {
-> -	const struct i2c_device_id *id = i2c_client_get_device_id(client);
->  	struct tvp514x_platform_data *pdata = tvp514x_get_pdata(client);
->  	struct tvp514x_decoder *decoder;
->  	struct v4l2_subdev *sd;
-> @@ -1049,7 +1048,7 @@ tvp514x_probe(struct i2c_client *client)
->  	memcpy(decoder->tvp514x_regs, tvp514x_reg_list_default,
->  			sizeof(tvp514x_reg_list_default));
->
-> -	decoder->int_seq = (struct tvp514x_reg *)id->driver_data;
-> +	decoder->int_seq = i2c_get_match_data(client);
->
->  	/* Copy board specific information here */
->  	decoder->pdata = pdata;
-> @@ -1183,22 +1182,21 @@ static const struct tvp514x_reg tvp514xm_init_reg_seq[] = {
->   * driver_data - Driver data
->   */
->  static const struct i2c_device_id tvp514x_id[] = {
-> -	{"tvp5146", (unsigned long)tvp5146_init_reg_seq},
-> -	{"tvp5146m2", (unsigned long)tvp514xm_init_reg_seq},
-> -	{"tvp5147", (unsigned long)tvp5147_init_reg_seq},
-> -	{"tvp5147m1", (unsigned long)tvp514xm_init_reg_seq},
-> -	{},
-> +	{"tvp5146", (kernel_ulong_t)tvp5146_init_reg_seq },
-> +	{"tvp5146m2", (kernel_ulong_t)tvp514xm_init_reg_seq },
-> +	{"tvp5147", (kernel_ulong_t)tvp5147_init_reg_seq },
-> +	{"tvp5147m1", (kernel_ulong_t)tvp514xm_init_reg_seq },
-> +	{ /* sentinel */ }
->  };
-> -
->  MODULE_DEVICE_TABLE(i2c, tvp514x_id);
->
->  #if IS_ENABLED(CONFIG_OF)
->  static const struct of_device_id tvp514x_of_match[] = {
-> -	{ .compatible = "ti,tvp5146", },
-> -	{ .compatible = "ti,tvp5146m2", },
-> -	{ .compatible = "ti,tvp5147", },
-> -	{ .compatible = "ti,tvp5147m1", },
-> -	{ /* sentinel */ },
-> +	{ .compatible = "ti,tvp5146", .data = tvp5146_init_reg_seq },
-> +	{ .compatible = "ti,tvp5146m2", .data = tvp514xm_init_reg_seq },
-> +	{ .compatible = "ti,tvp5147", .data = tvp5147_init_reg_seq },
-> +	{ .compatible = "ti,tvp5147m1", .data = tvp514xm_init_reg_seq },
-> +	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, tvp514x_of_match);
->  #endif
-> --
-> 2.25.1
->
+>   drivers/dma-buf/heaps/mtk_secure_heap.c | 61 +++++++++++++++++++++++++
+>   1 file changed, 61 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c b/drivers/dma-buf/heaps/mtk_secure_heap.c
+> index bbf1c8dce23e..e3da33a3d083 100644
+> --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
+> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
+> @@ -10,6 +10,12 @@
+>   #include <linux/err.h>
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+> +#include <linux/tee_drv.h>
+> +#include <linux/uuid.h>
+> +
+> +#define TZ_TA_MEM_UUID		"4477588a-8476-11e2-ad15-e41f1390d676"
+> +
+
+Is this UUID the same for all SoCs and all TZ versions?
+
+Thanks,
+Angelo
+
+
+> +#define MTK_TEE_PARAM_NUM		4
+>   
+>   /*
+>    * MediaTek secure (chunk) memory type
+> @@ -28,17 +34,72 @@ struct mtk_secure_heap_buffer {
+>   struct mtk_secure_heap {
+>   	const char		*name;
+>   	const enum kree_mem_type mem_type;
+> +	u32			 mem_session;
+> +	struct tee_context	*tee_ctx;
+>   };
+>   
+> +static int mtk_optee_ctx_match(struct tee_ioctl_version_data *ver, const void *data)
+> +{
+> +	return ver->impl_id == TEE_IMPL_ID_OPTEE;
+> +}
+> +
+> +static int mtk_kree_secure_session_init(struct mtk_secure_heap *sec_heap)
+> +{
+> +	struct tee_param t_param[MTK_TEE_PARAM_NUM] = {0};
+> +	struct tee_ioctl_open_session_arg arg = {0};
+> +	uuid_t ta_mem_uuid;
+> +	int ret;
+> +
+> +	sec_heap->tee_ctx = tee_client_open_context(NULL, mtk_optee_ctx_match,
+> +						    NULL, NULL);
+> +	if (IS_ERR(sec_heap->tee_ctx)) {
+> +		pr_err("%s: open context failed, ret=%ld\n", sec_heap->name,
+> +		       PTR_ERR(sec_heap->tee_ctx));
+> +		return -ENODEV;
+> +	}
+> +
+> +	arg.num_params = MTK_TEE_PARAM_NUM;
+> +	arg.clnt_login = TEE_IOCTL_LOGIN_PUBLIC;
+> +	ret = uuid_parse(TZ_TA_MEM_UUID, &ta_mem_uuid);
+> +	if (ret)
+> +		goto close_context;
+> +	memcpy(&arg.uuid, &ta_mem_uuid.b, sizeof(ta_mem_uuid));
+> +
+> +	ret = tee_client_open_session(sec_heap->tee_ctx, &arg, t_param);
+> +	if (ret < 0 || arg.ret) {
+> +		pr_err("%s: open session failed, ret=%d:%d\n",
+> +		       sec_heap->name, ret, arg.ret);
+> +		ret = -EINVAL;
+> +		goto close_context;
+> +	}
+> +	sec_heap->mem_session = arg.session;
+> +	return 0;
+> +
+> +close_context:
+> +	tee_client_close_context(sec_heap->tee_ctx);
+> +	return ret;
+> +}
+> +
+>   static struct dma_buf *
+>   mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
+>   		      unsigned long fd_flags, unsigned long heap_flags)
+>   {
+> +	struct mtk_secure_heap *sec_heap = dma_heap_get_drvdata(heap);
+>   	struct mtk_secure_heap_buffer *sec_buf;
+>   	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+>   	struct dma_buf *dmabuf;
+>   	int ret;
+>   
+> +	/*
+> +	 * TEE probe may be late. Initialise the secure session in the first
+> +	 * allocating secure buffer.
+> +	 */
+> +	if (!sec_heap->mem_session) {
+> +		ret = mtk_kree_secure_session_init(sec_heap);
+> +		if (ret)
+> +			return ERR_PTR(ret);
+> +	}
+> +
+>   	sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
+>   	if (!sec_buf)
+>   		return ERR_PTR(-ENOMEM);
+
