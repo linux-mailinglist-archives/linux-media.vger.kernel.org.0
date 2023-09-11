@@ -2,128 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C92A79BF96
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A58679B7A2
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:07:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbjIKUrK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:47:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56840 "EHLO
+        id S235133AbjIKUsn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:48:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235935AbjIKJqj (ORCPT
+        with ESMTP id S236140AbjIKJv3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 05:46:39 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E087E52
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 02:46:35 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-31dca134c83so4201515f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 02:46:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694425594; x=1695030394; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AR5r3g93Rem7DNpxCNPYXtJX7SM5cWGRWdjy8kq3JwA=;
-        b=Zi7/STSV9/g+grLvAxzksLGbxGcNM1rEHZQIPLG8zq6DY0ndvXYAdnnymoVaQzrVu7
-         YxmwBSoupqVMP9P6q7HPckZBTC+M4u4fqXnLAmvKhCh0mucQGmNWg/7HU/Dgp+wjzwKI
-         PjB2J9Ob/9x4y1szPPDwkpVfjBC8btaZPKY5XqB21xabaHx8HQf8C+AXCxGxImAgHo6l
-         ke3ZbUapLFDB3+iBSOY+lbOTjHpubu96F6xSeycY1kSCWKHKpcGpuAXinI44+TqfnUBg
-         PJW4p2mYSjhh8HTZN1OmqxVaBXRq/mRR+ckPj9B+oC2L7uVUMGO2fl/m3O0gFiCXalxa
-         QdLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694425594; x=1695030394;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AR5r3g93Rem7DNpxCNPYXtJX7SM5cWGRWdjy8kq3JwA=;
-        b=I4aMazRpC31FHlb2bl7it781MwzyaCef+8h85mVEHgFMlIX89cwxKKnVLD/oxjXdqe
-         uMQzngTp8nNWbY6Kvlx520UE7HKX+q8D1IcB9+neSu5zjHf2buX15hpmGXoKJIzY7gFh
-         pRmezSSkNuzqfI29WZekzU6FK3U/dehxZ5iNOHMpD2NnrTjJJbHoz6AnF/Wb4VSGs1sK
-         eDX8Sg7mB+e65g6QYCkuymS4mKMa2IAzYch4psA1VcHFDQWykuoix0uygb4YVZnR1qkM
-         h1tm61ClN7xOivKKubVQpgnN5xe21CG42N05mpgexCKHqYCZ3F4ChhGmtFImXAQyqNSa
-         MKgw==
-X-Gm-Message-State: AOJu0YxHPgWaU69ymvjsXLQRblTVjTdbCG23cfhhQ7Vlykn0GXG8t2hn
-        rZ0s9kAqWep9Tf1h/3alYAjz/w==
-X-Google-Smtp-Source: AGHT+IHIeeGTixGVLQ3w8IGwO+JDDdkg+e9WcxFRAhz+oDKZn61/9t8brHl2PDw0+BRylOKbkUPiTg==
-X-Received: by 2002:adf:ed12:0:b0:317:4cf8:35f9 with SMTP id a18-20020adfed12000000b003174cf835f9mr7111697wro.16.1694425593928;
-        Mon, 11 Sep 2023 02:46:33 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id d13-20020adff84d000000b00317909f9985sm9503496wrq.113.2023.09.11.02.46.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 02:46:33 -0700 (PDT)
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-To:     Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        zelong dong <zelong.dong@amlogic.com>
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
-        kelvin.zhang@amlogic.com
-In-Reply-To: <20230825115310.39993-1-zelong.dong@amlogic.com>
-References: <20230825115310.39993-1-zelong.dong@amlogic.com>
-Subject: Re: (subset) [PATCH 0/3] This patchset adds IR controller driver
- support for
-Message-Id: <169442559302.3235506.15361466537260729684.b4-ty@linaro.org>
-Date:   Mon, 11 Sep 2023 11:46:33 +0200
+        Mon, 11 Sep 2023 05:51:29 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C504FE4F
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 02:51:23 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 110ACC433C8;
+        Mon, 11 Sep 2023 09:51:21 +0000 (UTC)
+Message-ID: <80c2cacb-a2e0-4b77-acc9-6f5d1aa23108@xs4all.nl>
+Date:   Mon, 11 Sep 2023 11:51:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BTTV] [FSL P50x0] [PASEMI] TV Time doesn't work anymore after
+ dropping the overlay support
+Content-Language: en-US, nl
+To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Cc:     Darren Stevens <darren@stevens-zone.net>,
+        mad skateman <madskateman@gmail.com>,
+        "R.T.Dickinson" <rtd2@xtra.co.nz>,
+        Christian Zigotzky <info@xenosoft.de>,
+        Christian Zigotzky <chzigotzky@xenosoft.de>,
+        linux-media@vger.kernel.org
+References: <94a617be-00b3-6dc8-eb7d-ae13c6fffae5@xenosoft.de>
+ <cb82b6c1-035c-cc6b-2843-6b87ed6315ac@xenosoft.de>
+ <f23204ec-ff42-5907-fa28-c1975a87f4e6@xs4all.nl>
+ <79ea7cc5-6981-a791-7fed-7a6e27225000@xenosoft.de>
+ <a02d481b-562c-803a-a71d-b8d95ba7ebb5@xs4all.nl>
+ <82799d05-db42-c6a3-51ef-15e262344d4f@xenosoft.de>
+ <f3c18b6e-0a3d-49bd-9553-71bd610588c2@xenosoft.de>
+ <0e7d6689-d522-4438-9acb-952995c57f32@xs4all.nl>
+ <CAONMFfAyBOoPKo+K-qZG_E5d+_F++Nn7q5LK-sONMd2=XWHCzQ@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CAONMFfAyBOoPKo+K-qZG_E5d+_F++Nn7q5LK-sONMd2=XWHCzQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Deb,
 
-On Fri, 25 Aug 2023 19:53:07 +0800, zelong dong wrote:
-> From: Zelong Dong <zelong.dong@amlogic.com>
+On 10/09/2023 04:33, Deborah Brouwer wrote:
+> On Thu, Sep 7, 2023 at 8:23 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> Hi Deb,
+>>
+>> On 04/09/2023 13:51, Christian Zigotzky wrote:
+>>> On 05 May 2023 at 09:20 am, Christian Zigotzky wrote:
+>>>> On 05 May 2023 at 08:45 am, Hans Verkuil wrote:
+>>>>> On 05/05/2023 08:25, Christian Zigotzky wrote:
+>>>>>> On 02 May 2023 at 08:57 am, Hans Verkuil wrote:
+>>>>>>> If v4l2-ctl fails, then try again
+>>>>>>> after applying this series:
+>>>>>>>
+>>>>>>> https://patchwork.linuxtv.org/project/linux-media/cover/cover.1682995256.git.deborah.brouwer@collabora.com/
+>>>>>> Your patch series solved the issue. Thanks a lot!
+>>>>> Nice, but somewhat unexpected :-)
+>>>>>
+>>>>> I'm a little bit unsure how to proceed: the 6.4 kernel will remove destructive overlay
+>>>>> support, but it won't have this series yet, that's for 6.5. But that would make 6.4
+>>>>> unusable for you.
+>>>>>
+>>>>> I might have to revert the overlay removal, at least for bttv.
+>>>>>
+>>>>> Regards,
+>>>>>
+>>>>>     Hans
+>>>> Hans,
+>>>>
+>>>> You don't need to revert the overlay removal because your patch series work with the latest git kernel (6.4).
+>>>>
+>>>> Thanks for your help,
+>>>>
+>>>> Christian
+>>>
+>>> Hello Hans,
+>>>
+>>> I successfully used your patches for the kernel 6.5. Everything works without any problems with your patch series from May.
+>>>
+>>> Your patches have been added with the latest Media updates [1] for the kernel 6.6.
+>>>
+>>> The patches works but I have a green bar in the bottum of the window if I use the composite input. [2]
+>>>
+>>> I don't have this green bar with your May patch series.
+>>>
+>>> Could you please check your latest patches?
+>>>
+>>> Thanks,
+>>>
+>>> Christian
+>>>
+>>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=307d59039fb26212a84a9aa6a134a7d2bdea34ca
+>>> [2] https://i.ibb.co/D4K6j2c/Kernel-6-6-alpha2-Power-PC.png
+>>>
+>>>
+>>
+>> After some testing and debugging I found this change in the bttv vb2 conversion
+>> patch:
+>>
+>> https://patchwork.linuxtv.org/project/linux-media/patch/d785cd8b0d8c19c05fcaa1536622e2fdd9f8ede3.1689379982.git.deborah.brouwer@collabora.com/
+>>
+>>> diff --git a/drivers/media/pci/bt8xx/bttv-risc.c b/drivers/media/pci/bt8xx/bttv-risc.c
+>>> index 3e0dac56de54..436baf6c8b08 100644
+>>> --- a/drivers/media/pci/bt8xx/bttv-risc.c
+>>> +++ b/drivers/media/pci/bt8xx/bttv-risc.c
+>>> @@ -67,8 +67,10 @@ bttv_risc_packed(struct bttv *btv, struct btcx_riscmem *risc,
+>>>       /* scan lines */
+>>>       sg = sglist;
+>>>       for (line = 0; line < store_lines; line++) {
+>>> -             if ((btv->opt_vcr_hack) &&
+>>> -                 (line >= (store_lines - VCR_HACK_LINES)))
+>>> +             if ((line >= (store_lines - VCR_HACK_LINES)) &&
+>>> +                 (btv->opt_vcr_hack ||
+>>> +                 (V4L2_FIELD_HAS_BOTH(btv->field) ||
+>>> +                  btv->field == V4L2_FIELD_ALTERNATE)))
+>>>                       continue;
+>>>               while (offset && offset >= sg_dma_len(sg)) {
+>>>                       offset -= sg_dma_len(sg);
+>>
+>> It is this change that causes the issue: basically the condition
+>> (V4L2_FIELD_HAS_BOTH(btv->field) || btv->field == V4L2_FIELD_ALTERNATE)
+>> is almost always true (it is only false for FIELD_TOP/BOTTOM), so it is
+>> as if vcr_hack is always turned on.
+>>
+>> It looks to me like some debug code accidentally ended up in this patch.
+>> Reverting this change makes everything look good again (Christian, it would
+>> be great if you can confirm that this also fixes the issue for you!).
+>>
+>> Deb, can you remember anything about this change?
 > 
-> Meson IR Controller supports hardware decoder in Meson-S4 and later
-> SoC. So far, protocol NEC could be decoded by hardware decoder.
+> This is not debug code.  I made the change to fix the latency and
+> frame drop issues
+> that were otherwise occurring with vb2; as I said in the cover letter to v3:
 > 
-> Zelong Dong (3):
->   media: rc: meson-ir: support rc driver type RC_DRIVER_SCANCODE
->   dt-bindings: media: Add compatible for Meson-S4 IR Controller
->   arm64: dts: meson: add IR controller for Meson-S4 SoC
+> "- remove the last four lines in interlaced,
+> sequential top/bottom, and alternating buffers
+> to prevent long latency and frame drops
+> (this is instead of just enabling the existing
+> VCR hack by default);"
+> https://lore.kernel.org/linux-media/cover.1689379982.git.deborah.brouwer@collabora.com/
 > 
-> [...]
+> However, if your testing shows that it isn't needed, then it would be
+> fine to remove this
+> code and just let the user enable the "vcr hack" as needed.  This was
+> my original approach
+> in v2, but I thought you had said at the time that you were seeing
+> massive framedrops in v2?
 
-Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.7/arm64-dt)
+That's not quite what I said:
 
-[3/3] arm64: dts: meson: add IR controller for Meson-S4 SoC
-      https://git.kernel.org/amlogic/c/dc8bc779feb5e855421215384f23de90a4fcd622
+"Another thing I discovered is that for PAL the vcr_hack control has to be enabled,
+otherwise the video is full of glitches. This was present before your series, and
+happens even with a video signal from a proper PAL video generator, so this is really
+strange. I can't remember that I needed this in the past, but it has been years
+since I last tested it.
 
-These changes has been applied on the intermediate git tree [1].
+PAL capture is fine for Top/Bottom/Alternate settings, it only fails for Interlaced
+and Sequential Top/Bottom capture modes."
 
-The v6.7/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
-for inclusion in their intermediate git branches in order to be sent to Linus during
-the next merge window, or sooner if it's a set of fixes.
+This issue was present before your series, so this is not something that should be
+changed in a vb2 conversion, since this has nothing to do with it.
 
-In the cases of fixes, those will be merged in the current release candidate
-kernel and as soon they appear on the Linux master branch they will be
-backported to the previous Stable and Long-Stable kernels [2].
+In addition, it is a PAL only issue, and this change would turn on vcr_hack for NTSC
+as well, and also for FIELD_ALTERNATE, even though that is not affected by it.
 
-The intermediate git branches are merged daily in the linux-next tree [3],
-people are encouraged testing these pre-release kernels and report issues on the
-relevant mailing-lists.
+Interestingly, since I was wondering why Christian didn't see it even though he is
+in a PAL country, I tested with tvtime and that displays it fine, but qv4l2/qvidcap
+show the glitches. This suggests that it is a problem in those utils, and not in the
+driver. I'll dig deeper into this.
 
-If problems are discovered on those changes, please submit a signed-off-by revert
-patch followed by a corrective changeset.
+In the meantime, I'll prepare a patch reverting this change for v6.6.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+Regards,
 
--- 
-Neil
+	Hans
+
+> 
+> I didn't notice this green line before because I was testing in qv4l2
+> with the default
+> Pixel Format  : 'BGR3' (24-bit BGR 8-8-8) whereas tvtime is using
+> YUYV' (YUYV 4:2:2)
+> 
+> One fix that worked for me was to adjust the "OverScan" configuration in tvtime
+> so that it is at least 3.5.  The /etc/tvtime/tvtime.xml configuration
+> file recommends
+> even higher at 8.0.  Christian, please try adjusting the overscan
+> value to see if
+> that is a possible solution as well.
+> 
+> Thanks,
+> Deb
+> 
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+>>
+>>
 
