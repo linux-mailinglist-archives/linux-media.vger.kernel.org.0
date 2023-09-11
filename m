@@ -2,179 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8023179AB4C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Sep 2023 22:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D993679AB47
+	for <lists+linux-media@lfdr.de>; Mon, 11 Sep 2023 22:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbjIKUq6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:46:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54856 "EHLO
+        id S229742AbjIKUrB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:47:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235518AbjIKIuf (ORCPT
+        with ESMTP id S235550AbjIKIzM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 04:50:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D4051A1;
-        Mon, 11 Sep 2023 01:50:30 -0700 (PDT)
-Received: from ideasonboard.com (mob-5-90-67-213.net.vodafone.it [5.90.67.213])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E42119D5;
-        Mon, 11 Sep 2023 10:48:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694422139;
-        bh=c6gEDk2aKjZPyWe/NjuK2yBq8wm3XRZ/ljlRfWc/CcU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jsCMiys8dBcb0HXJfdWXQIR1WfJ8Br5AV5u0SQYmYL/BH1hYPMFpfZqncqJJJpOzj
-         4na+Q9bF9UDECkzt94YQPsthkN/DDSNahNLI0q4tBrCy+8eLB+DfdSyMHXbnQj46YL
-         IH2hETaOOSG6K/+YL0TNQ3yydgA9fG6aAAxqN+7E=
-Date:   Mon, 11 Sep 2023 10:50:25 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.au@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 1/2] media: i2c: adv7180: Extend match support for OF
- tables
-Message-ID: <yjseaijqnczdkglfzv3thizro2u6fzlnd5wg4pzgyhznwv6tyq@345c4mz2mwul>
-References: <20230910152200.56086-1-biju.das.jz@bp.renesas.com>
- <20230910152200.56086-2-biju.das.jz@bp.renesas.com>
+        Mon, 11 Sep 2023 04:55:12 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97131A1;
+        Mon, 11 Sep 2023 01:55:06 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:f6d2:1ce:5613:f24a] (unknown [IPv6:2a01:e0a:120:3210:f6d2:1ce:5613:f24a])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 91D0D6603102;
+        Mon, 11 Sep 2023 09:55:04 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694422505;
+        bh=bXZ/y5UwHuIW7LHJ/2UaGAz707yCMlzXFy5iLkMD5KE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=LSvj0uuM7T/1Mnr3Ka3vwgUPI90SIUqU28BQnuh1OWQDZrhsHjfYL8jl60GKQdhfr
+         R14jZlT+4oGAAiDbD0SvczFfNn/jWzYj9K6Yvc4fhOiXf5To04ZZduEF38xYfwbdba
+         orjsx1a2Whu90oN2NAx/5a9CFeFaNNGbpvt2zUhOtDAn2ApK/dIsmJYm+syj84pyso
+         To0uuVEWS9AeZRuwnBoEvzL1M9nmtYQ4dB3OnVRajh78Hbx6pgBZlbNoxAi7GgIxwe
+         tVnBC2pzEoT+aGS7JwYU0dM2IiQbiSa2vhpDtb6vprr1FM7FxZTJB45HDY49iSVOaJ
+         msYSYfexglywQ==
+Message-ID: <7da0a2ab-032a-9de9-e136-58f973238c5b@collabora.com>
+Date:   Mon, 11 Sep 2023 10:55:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230910152200.56086-2-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v6 14/18] media: verisilicon: vp9: Use destination buffer
+ height to compute chroma offset
+To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230901124414.48497-1-benjamin.gaignard@collabora.com>
+ <20230901124414.48497-15-benjamin.gaignard@collabora.com>
+ <4856958.31r3eYUQgx@jernej-laptop>
+Content-Language: en-US
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <4856958.31r3eYUQgx@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju
 
-On Sun, Sep 10, 2023 at 04:21:59PM +0100, Biju Das wrote:
-> The driver has an OF match table, still, it uses an ID lookup table for
-> retrieving match data. Currently, the driver is working on the
-> assumption that an I2C device registered via OF will always match a
-> legacy I2C device ID. The correct approach is to have an OF device ID
-> table using i2c_get_match_data() if the devices are registered via OF/ID.
+Le 10/09/2023 à 15:21, Jernej Škrabec a écrit :
+> Hi Benjamin!
 >
-> Unify the OF/ID table by using struct adv7180_chip_info as match data for
-> both these tables and replace the ID lookup table for the match data by
-> i2c_get_match_data().
+> Dne petek, 01. september 2023 ob 14:44:10 CEST je Benjamin Gaignard
+> napisal(a):
+>> Source and destination buffer height may not be the same because
+>> alignment constraint are different.
+>> Use destination height to compute chroma offset because we target
+>> this buffer as hardware output.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> Fixes: e2da465455ce ("media: hantro: Support VP9 on the G2 core")
+>> ---
+>>   drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 4 +---
+>>   1 file changed, 1 insertion(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+>> b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c index
+>> 6db1c32fce4d..1f3f5e7ce978 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+>> @@ -93,9 +93,7 @@ static int start_prepare_run(struct hantro_ctx *ctx, const
+>> struct v4l2_ctrl_vp9_ static size_t chroma_offset(const struct hantro_ctx
+>> *ctx,
+>>   			    const struct v4l2_ctrl_vp9_frame
+> *dec_params)
+>>   {
+>> -	int bytes_per_pixel = dec_params->bit_depth == 8 ? 1 : 2;
+>> -
+>> -	return ctx->src_fmt.width * ctx->src_fmt.height * bytes_per_pixel;
+>> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth /
+> 8;
 >
-> While at it, remove the trailing comma in the terminator entry for the OF
-> table making code robust against (theoretical) misrebases or other similar
-> things where the new entry goes _after_ the termination without the
-> compiler noticing.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Commit message doesn't mention bit_depth change at all. While I think there is
+> no difference between dec_params->bit_depth and ctx->bit_depth, you shouldn't
+> just use ordinary division. If bit_depth is 10, it will be rounded down. And
+> if you decide to use bit_depth from context, please remove dec_params
+> argument.
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+I will change this patch and create a helpers function for chroma and motion vectors
+offsets that VP9 and HEVC code will use since they are identical.
+I don't see issue with the division. If you have in mind a solution please write it
+so I could test it.
 
-Thanks
-  j
+Regards,
+Benjamin
 
-> ---
->  drivers/media/i2c/adv7180.c | 60 ++++++++++++++++++-------------------
->  1 file changed, 29 insertions(+), 31 deletions(-)
 >
-> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> index 99ba925e8ec8..fc4f29e74e05 100644
-> --- a/drivers/media/i2c/adv7180.c
-> +++ b/drivers/media/i2c/adv7180.c
-> @@ -1395,7 +1395,6 @@ static int init_device(struct adv7180_state *state)
+> Best regards,
+> Jernej
 >
->  static int adv7180_probe(struct i2c_client *client)
->  {
-> -	const struct i2c_device_id *id = i2c_client_get_device_id(client);
->  	struct device_node *np = client->dev.of_node;
->  	struct adv7180_state *state;
->  	struct v4l2_subdev *sd;
-> @@ -1411,7 +1410,7 @@ static int adv7180_probe(struct i2c_client *client)
+>>   }
+>>
+>>   static size_t mv_offset(const struct hantro_ctx *ctx,
 >
->  	state->client = client;
->  	state->field = V4L2_FIELD_ALTERNATE;
-> -	state->chip_info = (struct adv7180_chip_info *)id->driver_data;
-> +	state->chip_info = i2c_get_match_data(client);
 >
->  	state->pwdn_gpio = devm_gpiod_get_optional(&client->dev, "powerdown",
->  						   GPIOD_OUT_HIGH);
-> @@ -1536,22 +1535,6 @@ static void adv7180_remove(struct i2c_client *client)
->  	mutex_destroy(&state->mutex);
->  }
 >
-> -static const struct i2c_device_id adv7180_id[] = {
-> -	{ "adv7180", (kernel_ulong_t)&adv7180_info },
-> -	{ "adv7180cp", (kernel_ulong_t)&adv7180_info },
-> -	{ "adv7180st", (kernel_ulong_t)&adv7180_info },
-> -	{ "adv7182", (kernel_ulong_t)&adv7182_info },
-> -	{ "adv7280", (kernel_ulong_t)&adv7280_info },
-> -	{ "adv7280-m", (kernel_ulong_t)&adv7280_m_info },
-> -	{ "adv7281", (kernel_ulong_t)&adv7281_info },
-> -	{ "adv7281-m", (kernel_ulong_t)&adv7281_m_info },
-> -	{ "adv7281-ma", (kernel_ulong_t)&adv7281_ma_info },
-> -	{ "adv7282", (kernel_ulong_t)&adv7282_info },
-> -	{ "adv7282-m", (kernel_ulong_t)&adv7282_m_info },
-> -	{},
-> -};
-> -MODULE_DEVICE_TABLE(i2c, adv7180_id);
-> -
->  #ifdef CONFIG_PM_SLEEP
->  static int adv7180_suspend(struct device *dev)
->  {
-> @@ -1585,22 +1568,37 @@ static SIMPLE_DEV_PM_OPS(adv7180_pm_ops, adv7180_suspend, adv7180_resume);
->  #define ADV7180_PM_OPS NULL
->  #endif
->
-> +static const struct i2c_device_id adv7180_id[] = {
-> +	{ "adv7180", (kernel_ulong_t)&adv7180_info },
-> +	{ "adv7180cp", (kernel_ulong_t)&adv7180_info },
-> +	{ "adv7180st", (kernel_ulong_t)&adv7180_info },
-> +	{ "adv7182", (kernel_ulong_t)&adv7182_info },
-> +	{ "adv7280", (kernel_ulong_t)&adv7280_info },
-> +	{ "adv7280-m", (kernel_ulong_t)&adv7280_m_info },
-> +	{ "adv7281", (kernel_ulong_t)&adv7281_info },
-> +	{ "adv7281-m", (kernel_ulong_t)&adv7281_m_info },
-> +	{ "adv7281-ma", (kernel_ulong_t)&adv7281_ma_info },
-> +	{ "adv7282", (kernel_ulong_t)&adv7282_info },
-> +	{ "adv7282-m", (kernel_ulong_t)&adv7282_m_info },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, adv7180_id);
-> +
->  #ifdef CONFIG_OF
->  static const struct of_device_id adv7180_of_id[] = {
-> -	{ .compatible = "adi,adv7180", },
-> -	{ .compatible = "adi,adv7180cp", },
-> -	{ .compatible = "adi,adv7180st", },
-> -	{ .compatible = "adi,adv7182", },
-> -	{ .compatible = "adi,adv7280", },
-> -	{ .compatible = "adi,adv7280-m", },
-> -	{ .compatible = "adi,adv7281", },
-> -	{ .compatible = "adi,adv7281-m", },
-> -	{ .compatible = "adi,adv7281-ma", },
-> -	{ .compatible = "adi,adv7282", },
-> -	{ .compatible = "adi,adv7282-m", },
-> -	{ },
-> +	{ .compatible = "adi,adv7180", &adv7180_info },
-> +	{ .compatible = "adi,adv7180cp", &adv7180_info },
-> +	{ .compatible = "adi,adv7180st", &adv7180_info },
-> +	{ .compatible = "adi,adv7182", &adv7182_info },
-> +	{ .compatible = "adi,adv7280", &adv7280_info },
-> +	{ .compatible = "adi,adv7280-m", &adv7280_m_info },
-> +	{ .compatible = "adi,adv7281", &adv7281_info },
-> +	{ .compatible = "adi,adv7281-m", &adv7281_m_info },
-> +	{ .compatible = "adi,adv7281-ma", &adv7281_ma_info },
-> +	{ .compatible = "adi,adv7282", &adv7282_info },
-> +	{ .compatible = "adi,adv7282-m", &adv7282_m_info },
-> +	{}
->  };
-> -
->  MODULE_DEVICE_TABLE(of, adv7180_of_id);
->  #endif
->
-> --
-> 2.25.1
 >
