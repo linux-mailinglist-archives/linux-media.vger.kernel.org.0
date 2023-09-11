@@ -2,142 +2,320 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72A9479BA21
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2E9F79C098
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:20:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231650AbjIKUtD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:49:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47658 "EHLO
+        id S235098AbjIKUsk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:48:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243946AbjIKS3d (ORCPT
+        with ESMTP id S244402AbjIKUXK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 14:29:33 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6771A2
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 11:29:29 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4009fdc224dso14335e9.1
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 11:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1694456967; x=1695061767; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sVbKwjvYsKayRQfQqnfoMhqs1+0fnsR+3Q13ar61kcQ=;
-        b=4HX7022e45BIAinXcJeURoZv3iGREnhIjTiEsieHHHJZphMJzLupEXqNTFv1f1WFvA
-         K8O1UI0VTjNroGhxdaMv8q7Z/d2Bv8OItMbtshCdIuh2h5vfgIaNjpfDl7p9hHBtvo4d
-         RFt4EOx/999TyLvYeVtUbsJYDr/BpEltA867IZUs9nQ+qs48tGTM7uH6vdSWBQllMYxS
-         BeqFYAZARYVdH2CGaAocdwl0Ren8Ght0Oq5VUL3fj5bC7xTvJ46tmc2c/BQMMx7m/hMd
-         5e0iNKHw/ZhwBzDwC/Bfszio2H0tXDZixk2gSJhEqYJZ+stKYkYCary0YaodWuzNthvJ
-         FBVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694456967; x=1695061767;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sVbKwjvYsKayRQfQqnfoMhqs1+0fnsR+3Q13ar61kcQ=;
-        b=U5g0biB3EXqlGB13QuB1ge+BKiCpwLieaqivGs586DKzE1oS2pNesokHR5A7ZtDIhQ
-         bsz2c5MoiA5cyzWbC55ntJtLHzpV/jGEE5U65RmtbUsOT9sNcNi/Rn8+OL0uTa1s3QNE
-         Vx4w7TBHlt5qcJBXJqO/Tvgov6ve5fLhOT79ZSoyFsTPSTeKucvcIugcfwE6iTkkr6aV
-         UmqTVWEwwxcau6YmOZE9OxQg7mRraL5eNTjycRTJmW2C7SbipEAMfdAlyhlQs45IvVuL
-         ZJ7pIWgG4Vft60Fzju+ZFCaPqA9leSlFsUg/Q7M1mP87Vs3yF/7r87yUq0pBuUtujq75
-         rb1Q==
-X-Gm-Message-State: AOJu0Yyj/y6Z09WZ5iP5xPDPEBrxN9BItqvPUAbM3m0rZ445AR648Aj8
-        V4KjyzFhGqc3Tpg3rS1KR2G0tIgkdi5VPByWmEJv
-X-Google-Smtp-Source: AGHT+IEip61urvwgkKVc4TSjTz4WJ07S5AZ9xWSZrK/2bf3DpFU4C+CemgJRrVeWgKwkbH4wpHkmoqEHFh/enFx67/Q=
-X-Received: by 2002:a05:600c:5122:b0:400:c6de:6a20 with SMTP id
- o34-20020a05600c512200b00400c6de6a20mr18298wms.3.1694456967402; Mon, 11 Sep
- 2023 11:29:27 -0700 (PDT)
+        Mon, 11 Sep 2023 16:23:10 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B78185;
+        Mon, 11 Sep 2023 13:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=s31663417; t=1694463764; x=1695068564; i=wahrenst@gmx.net;
+ bh=zG5Vmw3qiXN8IClSARt1XGb9sZT76BbpMWIHv9WvXs0=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=QqfndfSj46qyTmWtdGJ3SprEE9JK+s61mMT69AeawtU+6nKJAgOAQSYg4wn8gXIfcsg9jQ1
+ ET3bNAujCeJLr4oN4NGYZo/A32YCw4GhuQ70VD1gR0goYZAvhDexfd9XTuVbNeoFNsYJe0iiQ
+ B5Oz87Wd7vRw+LkzNnT7pSXnCx/mHvduibRGvLev3ecQfdJSTqefM8ij3YH8h1Y8SSqtICexQ
+ G6LUur6EKzzgquWDzC22bgWjKijDjKXhBz+p/6alsnj9xAHqZI6YjaNe6qAik3OPkrvsNVuFv
+ mcyVFaee3mepTNCuP72q4syKKTOdrYEKkZj1L0Feq6oAuOq/AIGw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MZkpb-1q8whn0pJH-00Wqjl; Mon, 11
+ Sep 2023 22:22:44 +0200
+Message-ID: <c96262e7-9bd9-c75d-7584-e6ff62f69530@gmx.net>
+Date:   Mon, 11 Sep 2023 22:22:43 +0200
 MIME-Version: 1.0
-References: <20230911023038.30649-1-yong.wu@mediatek.com> <20230911023038.30649-4-yong.wu@mediatek.com>
- <803846bc-fd1d-d2ec-2855-456af22c82f8@amd.com>
-In-Reply-To: <803846bc-fd1d-d2ec-2855-456af22c82f8@amd.com>
-From:   John Stultz <jstultz@google.com>
-Date:   Mon, 11 Sep 2023 11:29:15 -0700
-Message-ID: <CANDhNCrQyiFZ+8DnG0iyKBXC0H1698K1a9d2AxOq4whDsZBn+Q@mail.gmail.com>
-Subject: Re: [PATCH 3/9] dma-heap: Provide accessors so that in-kernel drivers
- can allocate dmabufs from specific heaps
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>, tjmercier@google.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, jianjiao.zeng@mediatek.com,
-        kuohong.wang@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v10 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     gregkh@linuxfoundation.org, f.fainelli@gmail.com,
+        athierry@redhat.com, error27@gmail.com,
+        kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        dave.stevenson@raspberrypi.com, linux-kernel@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20230911140712.180751-1-umang.jain@ideasonboard.com>
+ <20230911140712.180751-2-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From:   Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20230911140712.180751-2-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Provags-ID: V03:K1:++NzSYrVvw3FDACteBIJlbHPCAhvUjPXq4BhR+qkmLZ600Lln2S
+ MaWpfdF84BNqhW6XXbk5Nk19u/8JEHcdG3/lEWq2usC6Gu4CBGkXEFGGVp1fz6+2VM450zi
+ vY/482c7epOoefiA3Gz8lC4IWTrQSmzeRjnTj9WepcFQcJ5C1fng7mRu38yirQjs7pBylzL
+ +9m3lO28BootWFGLvf9Jg==
+UI-OutboundReport: notjunk:1;M01:P0:ztWtLMMskKc=;wxi/aOEAJSmHSypM+1dCpadJ/4/
+ F/KhDDJ/Z46rny+nY/XLwx07J/ozEJ/Qdpfby1ooXkkYQ5e/vyUIx9l4CsCYDc4yOvsQDOdhb
+ OEl1SQNypi+jU6xsz5W73bkOLLk48HJ/X3bY1yFz0I7mZnxBGPoHG7/wh2+mXpd5CPEZOh9Rv
+ tepXreGP6gugPfIe+BZRJf123hOFp8ZI4tssNKt+VnYYZxPy+cOSU0l+PV+DKZ/YGfLumxfEg
+ uN7vJZ5MFAOyChYjT6SQBBHdL339FT7dr1ZvGjVp+7GksAG4Kng9XxNn9xcotUMfxEdEQsP/s
+ /WMO0GbSfPJ/vh5P8vvNxO99Wnlrk47wXeCwx8Q9KJmxYxmxDSbBJ9MRph6VyxROVRFcFfhHK
+ cYJoHAyy6MtqMXsRL0R/3CJjI6TtyI3ptw6zmZAV2WcXApwgMf39FG5HoPdxyEBe+fVwG9ILR
+ w2R3nwn++M9Ird/ycNnq7LKCX9ZikCtjcQ8V6W4zPTg8ojhUCqrncBjU5CNe5e0y03gOahQ/n
+ Q2G2GmLSLH4sSnIBGPNWdjHguE+9WBitE3Zuc2Ad+KjKyUsDN0B+Q+ESLwTui/ntpn1QluMBk
+ w7wOMes+mAkt4JrWiu68zKFYJwpz45nCi2RwgnjlonpYXVfpTUAe0EK4YjL70vmAeEtyNV+7q
+ q8jV+wXihWm44FZzwj4RAVAKgwhLkjnK16lbBG6XWndyZ1aVwjfXc7RsQhb0gcI3jVRoXxc3d
+ 7ncIZl7xxYyzDZdY9tnxUME2tT7NUOLltoEiRNMljzmpP4p4jf5vUXZadVC3nRZQTs85wg9ju
+ JCWjy0NXW6hvFfMYJLDCWmFntcadnjMc9ZCrcW9T16JVY5x0oCjZcF25/TkwOPgOSOg7e/U0E
+ a1f0WFbKagJHtw0ju+16ii6zh4ylAijKMMaPjZmvM163rtt6NHAS8VaskT9j6Pyfx3Wznorw/
+ ywqGAXEoEWJdCs9GB19p9sIiuKM=
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 11, 2023 at 3:14=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
-> Am 11.09.23 um 04:30 schrieb Yong Wu:
-> > From: John Stultz <jstultz@google.com>
-> >
-> > This allows drivers who don't want to create their own
-> > DMA-BUF exporter to be able to allocate DMA-BUFs directly
-> > from existing DMA-BUF Heaps.
-> >
-> > There is some concern that the premise of DMA-BUF heaps is
-> > that userland knows better about what type of heap memory
-> > is needed for a pipeline, so it would likely be best for
-> > drivers to import and fill DMA-BUFs allocated by userland
-> > instead of allocating one themselves, but this is still
-> > up for debate.
+Hi Umang,
+
+Am 11.09.23 um 16:07 schrieb Umang Jain:
+> The devices that the vchiq interface registers (bcm2835-audio,
+> bcm2835-camera) are implemented and exposed by the VC04 firmware.
+> The device tree describes the VC04 itself with the resources required
+> to communicate with it through a mailbox interface. However, the
+> vchiq interface registers these devices as platform devices. This
+> also means the specific drivers for these devices are getting
+> registered as platform drivers. This is not correct and a blatant
+> abuse of platform device/driver.
 >
-> The main design goal of having DMA-heaps in the first place is to avoid
-> per driver allocation and this is not necessary because userland know
-> better what type of memory it wants.
+> Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
+> which will be used to migrate child devices that the vchiq interfaces
+> creates/registers from the platform device/driver.
 >
-> The background is rather that we generally want to decouple allocation
-> from having a device driver connection so that we have better chance
-> that multiple devices can work with the same memory.
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   drivers/staging/vc04_services/Makefile        |   1 +
+>   .../interface/vchiq_arm/vchiq_device.c        | 111 ++++++++++++++++++
+>   .../interface/vchiq_arm/vchiq_device.h        |  54 +++++++++
+>   3 files changed, 166 insertions(+)
+>   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/v=
+chiq_device.c
+>   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/v=
+chiq_device.h
+>
+> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc=
+04_services/Makefile
+> index 44794bdf6173..2d071e55e175 100644
+> --- a/drivers/staging/vc04_services/Makefile
+> +++ b/drivers/staging/vc04_services/Makefile
+> @@ -5,6 +5,7 @@ vchiq-objs :=3D \
+>      interface/vchiq_arm/vchiq_core.o  \
+>      interface/vchiq_arm/vchiq_arm.o \
+>      interface/vchiq_arm/vchiq_debugfs.o \
+> +   interface/vchiq_arm/vchiq_device.o \
+>      interface/vchiq_arm/vchiq_connected.o \
+>
+>   ifdef CONFIG_VCHIQ_CDEV
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev=
+ice.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> new file mode 100644
+> index 000000000000..aad55c461905
+> --- /dev/null
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> @@ -0,0 +1,111 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * vchiq_device.c - VCHIQ generic device and bus-type
+> + *
+> + * Copyright (c) 2023 Ideas On Board Oy
+> + */
+> +
+> +#include <linux/device/bus.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/of_device.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
+> +
+> +#include "vchiq_device.h"
+> +
+> +static int vchiq_bus_type_match(struct device *dev, struct device_drive=
+r *drv)
+> +{
+> +	if (dev->bus =3D=3D &vchiq_bus_type &&
+> +	    strcmp(dev_name(dev), drv->name) =3D=3D 0)
+> +		return 1;
+> +
+> +	return 0;
+> +}
+> +
+> +static int vchiq_bus_uevent(const struct device *dev, struct kobj_ueven=
+t_env *env)
+> +{
+> +	const struct vchiq_device *device =3D container_of_const(dev, struct v=
+chiq_device, dev);
+> +
+> +	return add_uevent_var(env, "MODALIAS=3D%s", dev_name(&device->dev));
+> +}
+> +
+> +static int vchiq_bus_probe(struct device *dev)
+> +{
+> +	struct vchiq_device *device =3D to_vchiq_device(dev);
+> +	struct vchiq_driver *driver =3D to_vchiq_driver(dev->driver);
+> +	int ret;
+> +
+> +	ret =3D driver->probe(device);
+> +	if (ret =3D=3D 0)
+> +		return 0;
+> +
+> +	return ret;
+> +}
+> +
+> +struct bus_type vchiq_bus_type =3D {
+> +	.name   =3D "vchiq-bus",
+> +	.match  =3D vchiq_bus_type_match,
+> +	.uevent =3D vchiq_bus_uevent,
+> +	.probe  =3D vchiq_bus_probe,
+> +};
+> +
+> +static void vchiq_device_release(struct device *dev)
+> +{
+> +	struct vchiq_device *device =3D to_vchiq_device(dev);
+> +
+> +	kfree(device);
+> +}
+> +
+> +struct vchiq_device *
+> +vchiq_device_register(struct device *parent, const char *name)
+> +{
+> +	struct vchiq_device *device;
+> +	int ret;
+> +
+> +	device =3D kzalloc(sizeof(*device), GFP_KERNEL);
+> +	if (!device) {
+> +		dev_err(parent, "Cannot register %s: Insufficient memory\n",
+> +			name);
+> +		return NULL;
+> +	}
+> +
+> +	device->dev.init_name =3D name;
+> +	device->dev.parent =3D parent;
+> +	device->dev.bus =3D &vchiq_bus_type;
+> +	device->dev.release =3D vchiq_device_release;
+> +
+> +	of_dma_configure(&device->dev, parent->of_node, true);
+> +	ret =3D dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
+> +	if (ret) {
+> +		dev_err(&device->dev, "32-bit DMA enable failed\n");
+> +		return NULL;
+> +	}
 
-Yep, very much agreed, and this is what the comment above is trying to desc=
-ribe.
+Unfortunately the call of of_dma_configure() generates warnings likes
+this (Raspberry Pi 3A+ with multi_v7_defconfig + VCHIQ):
 
-Ideally user-allocated buffers would be used to ensure driver's don't
-create buffers with constraints that limit which devices the buffers
-might later be shared with.
+[    9.206802] vchiq-bus bcm2835-audio: DMA mask not set
+[    9.206892] vchiq-bus bcm2835-camera: DMA mask not set
 
-However, this patch was created as a hold-over from the old ION logic
-to help vendors transition to dmabuf heaps, as vendors had situations
-where they still wanted to export dmabufs that were not to be
-generally shared and folks wanted to avoid duplication of logic
-already in existing heaps.  At the time, I never pushed it upstream as
-there were no upstream users.  But I think if there is now a potential
-upstream user, it's worth having the discussion to better understand
-the need.
+In the old platform driver code we had something like
 
-So I think this patch is a little confusing in this series, as I don't
-see much of it actually being used here (though forgive me if I'm
-missing it).
+   pdevinfo.dma_mask =3D DMA_BIT_MASK(32);
 
-Instead, It seems it get used in a separate patch series here:
-  https://lore.kernel.org/all/20230911125936.10648-1-yunfei.dong@mediatek.c=
-om/
+So there is still something missing for our new bus driver.
 
-Yong, I appreciate you sending this out! But maybe if the secure heap
-submission doesn't depend on this functionality, I might suggest
-moving this patch (or at least the majority of it) to be part of the
-vcodec series instead?  That way reviewers will have more context for
-how the code being added is used?
-
-thanks
--john
+> +
+> +	ret =3D device_register(&device->dev);
+> +	if (ret) {
+> +		dev_err(parent, "Cannot register %s: %d\n", name, ret);
+> +		put_device(&device->dev);
+> +		return NULL;
+> +	}
+> +
+> +	return device;
+> +}
+> +
+> +void vchiq_device_unregister(struct vchiq_device *vchiq_dev)
+> +{
+> +	device_unregister(&vchiq_dev->dev);
+> +}
+> +
+> +int vchiq_driver_register(struct vchiq_driver *vchiq_drv)
+> +{
+> +	vchiq_drv->driver.bus =3D &vchiq_bus_type;
+> +
+> +	return driver_register(&vchiq_drv->driver);
+> +}
+> +EXPORT_SYMBOL_GPL(vchiq_driver_register);
+> +
+> +void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv)
+> +{
+> +	driver_unregister(&vchiq_drv->driver);
+> +}
+> +EXPORT_SYMBOL_GPL(vchiq_driver_unregister);
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev=
+ice.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+> new file mode 100644
+> index 000000000000..7eaaf9a91cda
+> --- /dev/null
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+> @@ -0,0 +1,54 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2023 Ideas On Board Oy
+> + */
+> +
+> +#ifndef _VCHIQ_DEVICE_H
+> +#define _VCHIQ_DEVICE_H
+> +
+> +#include <linux/device.h>
+> +
+> +struct vchiq_device {
+> +	struct device dev;
+> +};
+> +
+> +struct vchiq_driver {
+> +	int		(*probe)(struct vchiq_device *device);
+> +	void		(*remove)(struct vchiq_device *device);
+> +	int		(*resume)(struct vchiq_device *device);
+> +	int		(*suspend)(struct vchiq_device *device,
+> +				   pm_message_t state);
+> +	struct device_driver driver;
+> +};
+> +
+> +static inline struct vchiq_device *to_vchiq_device(struct device *d)
+> +{
+> +	return container_of(d, struct vchiq_device, dev);
+> +}
+> +
+> +static inline struct vchiq_driver *to_vchiq_driver(struct device_driver=
+ *d)
+> +{
+> +	return container_of(d, struct vchiq_driver, driver);
+> +}
+> +
+> +extern struct bus_type vchiq_bus_type;
+> +
+> +struct vchiq_device *
+> +vchiq_device_register(struct device *parent, const char *name);
+> +void vchiq_device_unregister(struct vchiq_device *dev);
+> +
+> +int vchiq_driver_register(struct vchiq_driver *vchiq_drv);
+> +void vchiq_driver_unregister(struct vchiq_driver *vchiq_drv);
+> +
+> +/**
+> + * module_vchiq_driver() - Helper macro for registering a vchiq driver
+> + * @__vchiq_driver: vchiq driver struct
+> + *
+> + * Helper macro for vchiq drivers which do not do anything special in
+> + * module init/exit. This eliminates a lot of boilerplate. Each module =
+may only
+> + * use this macro once, and calling it replaces module_init() and modul=
+e_exit()
+> + */
+> +#define module_vchiq_driver(__vchiq_driver) \
+> +	module_driver(__vchiq_driver, vchiq_driver_register, vchiq_driver_unre=
+gister)
+> +
+> +#endif /* _VCHIQ_DEVICE_H */
