@@ -2,92 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A3AE79A164
-	for <lists+linux-media@lfdr.de>; Mon, 11 Sep 2023 04:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C05BF79A28A
+	for <lists+linux-media@lfdr.de>; Mon, 11 Sep 2023 06:36:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233172AbjIKCdI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Sep 2023 22:33:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45692 "EHLO
+        id S232558AbjIKEgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 00:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230007AbjIKCdD (ORCPT
+        with ESMTP id S229551AbjIKEgl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Sep 2023 22:33:03 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1177BCD5;
-        Sun, 10 Sep 2023 19:32:19 -0700 (PDT)
-X-UUID: 6428c00e504b11ee8051498923ad61e6-20230911
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=k7eKKqiU9u1VTQEhbL4g+T+8Z/Im5zTAmaqVcrzlJog=;
-        b=oKAqoGGgHnTwU2Nrzr77Lv7TzaetUwm2zBYVB2mGQH8flZ/fZGDLB2cPKgwRMRTzdzgWxH2poaxG79v5uQ+IVM6mcX2FUiQzRvCQ1UbaPN7RiFQij01a502CP/yNilRPd3s/shqR3mVWpLZ9o4FqblhdHwlWX2yZpexGuDIZUqw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31,REQID:2b9c6210-8e26-4923-9451-89365963a96c,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:0ad78a4,CLOUDID:dc85c713-4929-4845-9571-38c601e9c3c9,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
-        DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 6428c00e504b11ee8051498923ad61e6-20230911
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-        (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 650081513; Mon, 11 Sep 2023 10:32:02 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.194) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 11 Sep 2023 10:32:01 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 11 Sep 2023 10:32:00 +0800
-From:   Yong Wu <yong.wu@mediatek.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        <christian.koenig@amd.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-CC:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>, <tjmercier@google.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Yong Wu <yong.wu@mediatek.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <jianjiao.zeng@mediatek.com>,
-        <kuohong.wang@mediatek.com>
-Subject: [PATCH 9/9] dma_buf: heaps: mtk_sec_heap: Add a new CMA heap
-Date:   Mon, 11 Sep 2023 10:30:38 +0800
-Message-ID: <20230911023038.30649-10-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230911023038.30649-1-yong.wu@mediatek.com>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
+        Mon, 11 Sep 2023 00:36:41 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A098114;
+        Sun, 10 Sep 2023 21:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694406996; x=1725942996;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nPcxyk2hKEwTEQtjoU76AHm6gXnqhI4s6shYkoftTmA=;
+  b=Vd6zZjpCEuaSB2jat+fruQUflwHKT7DBral64wsDuFYWLNmzaW3meNAB
+   iEmGZ7l5rMZPpOHSiRNQk/4Ftf4iRalp/Pm3LAzilIhln0RAQLAtJVNNr
+   NWhntvcF72Lo4iCus2FQPrXLtw36XJQlEVyG0bjJELh7L4yVd4aZGKFe0
+   tXojUuD0SaFe3W6nLCIGrEdPnBv1NQe5k9yvkutaYAUWniKKIIdL4ZQSi
+   kWf0purDJg8YL9L+tGihfsmqSP4GXlMdgSMUXbgD73iselGDYS+SsKc1F
+   amr6n4dilyH5h0UndDp6lCYBQRDOVuCnDRFVpjwR2BASRhEQwapwKARx+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="444407259"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="444407259"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 21:36:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="916897207"
+X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
+   d="scan'208";a="916897207"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 10 Sep 2023 21:36:33 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qfYf1-0005na-11;
+        Mon, 11 Sep 2023 04:36:31 +0000
+Date:   Mon, 11 Sep 2023 12:35:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        laurent.pinchart@ideasonboard.com
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        dan.scally@ideasonboard.com, gregkh@linuxfoundation.org,
+        nicolas@ndufresne.ca, kernel@pengutronix.de
+Subject: Re: [PATCH 1/3] usb: gadget: uvc: stop pump thread on video disable
+Message-ID: <202309111200.k58A3yiK-lkp@intel.com>
+References: <20230911002451.2860049-2-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--7.150000-8.000000
-X-TMASE-MatchedRID: l/nE+SiO7Ibv9W9IPgV+ekKcYi5Qw/RVJNtuyL6mpIWgaf0+XUrNk6jp
-        YrigUiQ3RgA/t103tXOp3RVRr+fKXKawq2pdPD7UA9lly13c/gG94JvJnfFrHg6QlBHhBZuwYXo
-        6e6cMykyCrhXL3UcSds/8MSwnHgK56fubsV+A+k+yntSjDrb64SQwGQSJ46NmXCmcAC8DBrPrio
-        8O85DXBtuU0Ipyd28f+kFR4g8YiAE/eX/eRWk3RZA6S0SjvcYUmyqQJWNsukna+IH8mvgPVEttN
-        R/47hK8ALglGcpZqpxRomVnnmsja5e/bF1ays2S4RtSDjG+z7BzijlDBYeD/Jsoi2XrUn/Jn6Kd
-        MrRsL14qtq5d3cxkNTx61AcxE5RmHl89tzhQNcPdxB32r2oE1NRT50T+gtKLgL5DmE5InGnToZA
-        9tPKpDJ6oP1a0mRIj
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--7.150000-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: D012446BA56B603C0A9C42A245B2817DF015B66332AAB4883A6336DF0FC547C72000:8
-X-MTK:  N
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
-        SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230911002451.2860049-2-m.grzeschik@pengutronix.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -95,239 +68,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Create a new mtk_svp_cma heap from the CMA reserved buffer.
+Hi Michael,
 
-When the first allocating buffer, use cma_alloc to prepare whole the
-CMA range, then send its range to TEE to protect and manage.
-For the later allocating, we just adds the cma_used_size.
+kernel test robot noticed the following build errors:
 
-When SVP done, cma_release will release the buffer, then kernel may
-reuse it.
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus westeri-thunderbolt/next media-tree/master linus/master v6.6-rc1 next-20230911]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
----
- drivers/dma-buf/heaps/Kconfig           |   2 +-
- drivers/dma-buf/heaps/mtk_secure_heap.c | 121 +++++++++++++++++++++++-
- 2 files changed, 119 insertions(+), 4 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Grzeschik/usb-gadget-uvc-stop-pump-thread-on-video-disable/20230911-082623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230911002451.2860049-2-m.grzeschik%40pengutronix.de
+patch subject: [PATCH 1/3] usb: gadget: uvc: stop pump thread on video disable
+config: x86_64-randconfig-005-20230911 (https://download.01.org/0day-ci/archive/20230911/202309111200.k58A3yiK-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230911/202309111200.k58A3yiK-lkp@intel.com/reproduce)
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index 729c0cf3eb7c..e101f788ecbf 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -15,7 +15,7 @@ config DMABUF_HEAPS_CMA
- 
- config DMABUF_HEAPS_MTK_SECURE
- 	bool "DMA-BUF MediaTek Secure Heap"
--	depends on DMABUF_HEAPS && TEE
-+	depends on DMABUF_HEAPS && TEE && CMA
- 	help
- 	  Choose this option to enable dma-buf MediaTek secure heap for Secure
- 	  Video Path. This heap is backed by TEE client interfaces. If in
-diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c b/drivers/dma-buf/heaps/mtk_secure_heap.c
-index daf6cf2121a1..3f568fe6b569 100644
---- a/drivers/dma-buf/heaps/mtk_secure_heap.c
-+++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
-@@ -4,11 +4,12 @@
-  *
-  * Copyright (C) 2023 MediaTek Inc.
-  */
--
-+#include <linux/cma.h>
- #include <linux/dma-buf.h>
- #include <linux/dma-heap.h>
- #include <linux/err.h>
- #include <linux/module.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/tee_drv.h>
-@@ -25,9 +26,11 @@
-  * MediaTek secure (chunk) memory type
-  *
-  * @KREE_MEM_SEC_CM_TZ: static chunk memory carved out for trustzone.
-+ * @KREE_MEM_SEC_CM_CMA: dynamic chunk memory carved out from CMA.
-  */
- enum kree_mem_type {
- 	KREE_MEM_SEC_CM_TZ = 1,
-+	KREE_MEM_SEC_CM_CMA,
- };
- 
- struct mtk_secure_heap_buffer {
-@@ -42,6 +45,13 @@ struct mtk_secure_heap {
- 	const enum kree_mem_type mem_type;
- 	u32			 mem_session;
- 	struct tee_context	*tee_ctx;
-+
-+	struct cma		*cma;
-+	struct page		*cma_page;
-+	unsigned long		cma_paddr;
-+	unsigned long		cma_size;
-+	unsigned long		cma_used_size;
-+	struct mutex		lock; /* lock for cma_used_size */
- };
- 
- struct mtk_secure_heap_attachment {
-@@ -90,6 +100,42 @@ static int mtk_kree_secure_session_init(struct mtk_secure_heap *sec_heap)
- 	return ret;
- }
- 
-+static int mtk_sec_mem_cma_allocate(struct mtk_secure_heap *sec_heap, size_t size)
-+{
-+	/*
-+	 * Allocate CMA only when allocating buffer for the first time, and just
-+	 * increase cma_used_size at the other times.
-+	 */
-+	mutex_lock(&sec_heap->lock);
-+	if (sec_heap->cma_used_size)
-+		goto add_size;
-+
-+	mutex_unlock(&sec_heap->lock);
-+	sec_heap->cma_page = cma_alloc(sec_heap->cma, sec_heap->cma_size >> PAGE_SHIFT,
-+				       get_order(PAGE_SIZE), false);
-+	if (!sec_heap->cma_page)
-+		return -ENOMEM;
-+
-+	mutex_lock(&sec_heap->lock);
-+add_size:
-+	sec_heap->cma_used_size += size;
-+	mutex_unlock(&sec_heap->lock);
-+	return sec_heap->cma_used_size;
-+}
-+
-+static void mtk_sec_mem_cma_free(struct mtk_secure_heap *sec_heap, size_t size)
-+{
-+	bool cma_is_empty;
-+
-+	mutex_lock(&sec_heap->lock);
-+	sec_heap->cma_used_size -= size;
-+	cma_is_empty = !sec_heap->cma_used_size;
-+	mutex_unlock(&sec_heap->lock);
-+
-+	if (cma_is_empty)
-+		cma_release(sec_heap->cma, sec_heap->cma_page, sec_heap->cma_size >> PAGE_SHIFT);
-+}
-+
- static int
- mtk_sec_mem_tee_service_call(struct tee_context *tee_ctx, u32 session,
- 			     unsigned int command, struct tee_param *params)
-@@ -114,23 +160,47 @@ static int mtk_sec_mem_allocate(struct mtk_secure_heap *sec_heap,
- {
- 	struct tee_param params[MTK_TEE_PARAM_NUM] = {0};
- 	u32 mem_session = sec_heap->mem_session;
-+	bool cma_frst_alloc = false;
- 	int ret;
- 
-+	if (sec_heap->cma) {
-+		ret = mtk_sec_mem_cma_allocate(sec_heap, sec_buf->size);
-+		if (ret < 0)
-+			return ret;
-+		/*
-+		 * When CMA allocates for the first time, pass the CMA range to TEE
-+		 * to protect it. It's the first allocating if the cma_used_size is equal
-+		 * to this required buffer size.
-+		 */
-+		cma_frst_alloc = (ret == sec_buf->size);
-+	}
-+
- 	params[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
- 	params[0].u.value.a = SZ_4K;			/* alignment */
- 	params[0].u.value.b = sec_heap->mem_type;	/* memory type */
- 	params[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
- 	params[1].u.value.a = sec_buf->size;
- 	params[2].attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT;
-+	if (sec_heap->cma && cma_frst_alloc) {
-+		params[2].u.value.a = sec_heap->cma_paddr;
-+		params[2].u.value.b = sec_heap->cma_size;
-+	}
- 
- 	/* Always request zeroed buffer */
- 	ret = mtk_sec_mem_tee_service_call(sec_heap->tee_ctx, mem_session,
- 					   TZCMD_MEM_SECURECM_ZALLOC, params);
--	if (ret)
--		return -ENOMEM;
-+	if (ret) {
-+		ret = -ENOMEM;
-+		goto free_cma;
-+	}
- 
- 	sec_buf->sec_handle = params[2].u.value.a;
- 	return 0;
-+
-+free_cma:
-+	if (sec_heap->cma)
-+		mtk_sec_mem_cma_free(sec_heap, sec_buf->size);
-+	return ret;
- }
- 
- static void mtk_sec_mem_release(struct mtk_secure_heap *sec_heap,
-@@ -145,6 +215,9 @@ static void mtk_sec_mem_release(struct mtk_secure_heap *sec_heap,
- 
- 	mtk_sec_mem_tee_service_call(sec_heap->tee_ctx, mem_session,
- 				     TZCMD_MEM_SECURECM_UNREF, params);
-+
-+	if (sec_heap->cma)
-+		mtk_sec_mem_cma_free(sec_heap, sec_buf->size);
- }
- 
- static int mtk_sec_heap_attach(struct dma_buf *dmabuf, struct dma_buf_attachment *attachment)
-@@ -317,8 +390,41 @@ static struct mtk_secure_heap mtk_sec_heap[] = {
- 		.name		= "mtk_svp",
- 		.mem_type	= KREE_MEM_SEC_CM_TZ,
- 	},
-+	{
-+		.name		= "mtk_svp_cma",
-+		.mem_type	= KREE_MEM_SEC_CM_CMA,
-+	},
- };
- 
-+static int __init mtk_secure_cma_init(struct reserved_mem *rmem)
-+{
-+	struct mtk_secure_heap *sec_heap = NULL;
-+	int ret, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(mtk_sec_heap); i++) {
-+		if (mtk_sec_heap[i].mem_type != KREE_MEM_SEC_CM_CMA)
-+			continue;
-+		sec_heap = &mtk_sec_heap[i];
-+		break;
-+	}
-+	if (!sec_heap)
-+		return -ENOENT;
-+
-+	ret = cma_init_reserved_mem(rmem->base, rmem->size, 0, sec_heap->name,
-+				    &sec_heap->cma);
-+	if (ret) {
-+		pr_err("%s: %s set up CMA fail\n", __func__, rmem->name);
-+		return ret;
-+	}
-+	sec_heap->cma_paddr = rmem->base;
-+	sec_heap->cma_size = rmem->size;
-+
-+	return 0;
-+}
-+
-+RESERVEDMEM_OF_DECLARE(mtk_secure_cma, "mediatek,secure_cma_chunkmem",
-+		       mtk_secure_cma_init);
-+
- static int mtk_sec_heap_init(void)
- {
- 	struct mtk_secure_heap *sec_heap = mtk_sec_heap;
-@@ -331,6 +437,15 @@ static int mtk_sec_heap_init(void)
- 		exp_info.ops = &mtk_sec_heap_ops;
- 		exp_info.priv = (void *)sec_heap;
- 
-+		if (sec_heap->mem_type == KREE_MEM_SEC_CM_CMA) {
-+			if (!sec_heap->cma) {
-+				pr_err("CMA is not ready for %s.\n", sec_heap->name);
-+				continue;
-+			} else {
-+				mutex_init(&sec_heap->lock);
-+			}
-+		}
-+
- 		heap = dma_heap_add(&exp_info);
- 		if (IS_ERR(heap))
- 			return PTR_ERR(heap);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309111200.k58A3yiK-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/usb/gadget/function/uvc_video.c:502:3: error: use of undeclared identifier 'uvc'
+                   uvc->state = UVC_STATE_CONNECTED;
+                   ^
+   drivers/usb/gadget/function/uvc_video.c:529:2: error: use of undeclared identifier 'uvc'
+           uvc->state = UVC_STATE_STREAMING;
+           ^
+   2 errors generated.
+
+
+vim +/uvc +502 drivers/usb/gadget/function/uvc_video.c
+
+   486	
+   487	/*
+   488	 * Enable or disable the video stream.
+   489	 */
+   490	int uvcg_video_enable(struct uvc_video *video, int enable)
+   491	{
+   492		unsigned int i;
+   493		int ret;
+   494	
+   495		if (video->ep == NULL) {
+   496			uvcg_info(&video->uvc->func,
+   497				  "Video enable failed, device is uninitialized.\n");
+   498			return -ENODEV;
+   499		}
+   500	
+   501		if (!enable) {
+ > 502			uvc->state = UVC_STATE_CONNECTED;
+   503	
+   504			cancel_work_sync(&video->pump);
+   505			uvcg_queue_cancel(&video->queue, 0);
+   506	
+   507			for (i = 0; i < video->uvc_num_requests; ++i)
+   508				if (video->ureq && video->ureq[i].req)
+   509					usb_ep_dequeue(video->ep, video->ureq[i].req);
+   510	
+   511			uvc_video_free_requests(video);
+   512			uvcg_queue_enable(&video->queue, 0);
+   513			return 0;
+   514		}
+   515	
+   516		if ((ret = uvcg_queue_enable(&video->queue, 1)) < 0)
+   517			return ret;
+   518	
+   519		if ((ret = uvc_video_alloc_requests(video)) < 0)
+   520			return ret;
+   521	
+   522		if (video->max_payload_size) {
+   523			video->encode = uvc_video_encode_bulk;
+   524			video->payload_size = 0;
+   525		} else
+   526			video->encode = video->queue.use_sg ?
+   527				uvc_video_encode_isoc_sg : uvc_video_encode_isoc;
+   528	
+   529		uvc->state = UVC_STATE_STREAMING;
+   530	
+   531		video->req_int_count = 0;
+   532	
+   533		queue_work(video->async_wq, &video->pump);
+   534	
+   535		return ret;
+   536	}
+   537	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
