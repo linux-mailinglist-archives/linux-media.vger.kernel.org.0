@@ -2,149 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57CFA79B513
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 298B379B89A
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 02:08:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231262AbjIKUsY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 16:48:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53992 "EHLO
+        id S235148AbjIKUsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Sep 2023 16:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244022AbjIKSq2 (ORCPT
+        with ESMTP id S235530AbjIKIvs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 14:46:28 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D10E1125;
-        Mon, 11 Sep 2023 11:46:23 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2b9c907bc68so81355461fa.2;
-        Mon, 11 Sep 2023 11:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694457982; x=1695062782; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8TBr4EN5rldaZkHvkd2rnKKqYjv2Um5C+H0942voyCA=;
-        b=HiHPzOiQPoEKiFNMSgeA9fR8GW2TvD4hcfaDPSuQJX/Mqqfv9zdDbyTYHhQ9RDs1+Q
-         QtLGK+IRb10HIuVxDQNs56obVPwSwNzz4nT7uE9EqRaLVtmTJqoKvU+g9iISqp/7M1Su
-         aIQNjvK6Ahn80SL6lXNzWNyrT6Ys92u5lgkGEy8odbYo6d3geNslWIS6w//uCB4m6TwJ
-         tXEOgCGazS/9y+RLs+o41E15tnwutPUSGPNmSYidOF8qwVHk51fWtOmGVKQxOunBjRkU
-         FHdr7CywQns3DQlpSqiNWGJh652rNa8WqbPUVOecuSq0zi4sx4yH/Yep2wYFjUwZo+ZT
-         MfUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694457982; x=1695062782;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8TBr4EN5rldaZkHvkd2rnKKqYjv2Um5C+H0942voyCA=;
-        b=aAPq70oJCv/Y5gnKqWBXJBr9Tu048fZVQ5mRgeepwuZnzV0iKQ427FKcPVbbQuwSaw
-         YUg52PaLB31sNW9Z0Z0FtPsMqdshLsDhliVJ5xVYCqbY8xlcnL4vmhR0QKsXqNE9trsY
-         EojN6yBM6RmNs2H/AhqqmoMVfgBHiSRcwPfglwPWwVYqHi0jmgSEYQLEH4t7rRgw+fj4
-         VuB2CQpx6YubPNhX9JTpZusniAOB5U4brH3mPlKRpGNx03dat61EqHf/HIdZemj3Qp5k
-         76H9GmiVXgdiyhPMg48Kh2RtKYjszCWcFdZU4oPq3vUDXsylHDnjc2daGT5/e233q1a/
-         ALqQ==
-X-Gm-Message-State: AOJu0YxzrhYbNB0xQS7NdDbWKLPeC78NxzbecFoHVo7tN7k+GneZHX6X
-        oVpoDNpgZBx817K6J23ZnQA=
-X-Google-Smtp-Source: AGHT+IEFtUwssM3Wz0EWQngKzY2DsMzQtci8zO+mdro+nrwGTnYM5m/LPUyRsxrerapH+WT+2kbMfQ==
-X-Received: by 2002:a2e:980e:0:b0:2bc:dd96:147d with SMTP id a14-20020a2e980e000000b002bcdd96147dmr9353782ljj.28.1694457981836;
-        Mon, 11 Sep 2023 11:46:21 -0700 (PDT)
-Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id x16-20020a170906135000b009a9f00bdf8dsm5733764ejb.191.2023.09.11.11.46.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 11:46:21 -0700 (PDT)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        samuel@sholland.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: cedrus: Fix clock/reset sequence
-Date:   Mon, 11 Sep 2023 20:46:12 +0200
-Message-ID: <20230911184612.1754373-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        Mon, 11 Sep 2023 04:51:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 384DB1A1;
+        Mon, 11 Sep 2023 01:51:44 -0700 (PDT)
+Received: from ideasonboard.com (mob-5-90-67-213.net.vodafone.it [5.90.67.213])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A3F8A475;
+        Mon, 11 Sep 2023 10:50:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694422212;
+        bh=8uXAO3FzFIcCephXei1u765Sn1EKQC0vRvu9+fY0Qls=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wXcRkp56biKpP1V+2Y+dQ6SvLlYZA0Kl2sUZsHqgqTHusPBDYm3Iq6XjPwd45Qk4A
+         2kMpyKWYHFa7PkfBlX4YvpPFZt8TBTGhfewOLPyDH+UMGrcreZ961atYG3tPV1HWD1
+         BkwPljerJzVwSyabthsP4wnJcYqTFg7MeHqe4CYc=
+Date:   Mon, 11 Sep 2023 10:51:39 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.au@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH 2/2] media: i2c: adv7180: Drop CONFIG_OF ifdeffery
+Message-ID: <kqswttssjf7yswvs6kkg2yob33xfhldunhyff5tknccdgjwqyg@ehhwmcygizmw>
+References: <20230910152200.56086-1-biju.das.jz@bp.renesas.com>
+ <20230910152200.56086-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230910152200.56086-3-biju.das.jz@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to H6 user manual, resets should always be de-asserted before
-clocks are enabled. This is also consistent with vendor driver.
+Hi Biju
 
-Fixes: d5aecd289bab ("media: cedrus: Implement runtime PM")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../staging/media/sunxi/cedrus/cedrus_hw.c    | 24 +++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+On Sun, Sep 10, 2023 at 04:22:00PM +0100, Biju Das wrote:
+> Drop of_match_ptr() from adv7180_driver and get rid of ugly CONFIG_OF
+> if check. This slightly increases the size of adv7180_driver on non-OF
+> system and shouldn't be an issue.
+>
+> Add mod_devicetable.h include.
+>
+> It also allows, in case if needed, to enumerate this device via ACPI with
+> PRP0001 magic.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-index b696bf884cbd..32af0e96e762 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -172,12 +172,12 @@ int cedrus_hw_suspend(struct device *device)
- {
- 	struct cedrus_dev *dev = dev_get_drvdata(device);
- 
--	reset_control_assert(dev->rstc);
--
- 	clk_disable_unprepare(dev->ram_clk);
- 	clk_disable_unprepare(dev->mod_clk);
- 	clk_disable_unprepare(dev->ahb_clk);
- 
-+	reset_control_assert(dev->rstc);
-+
- 	return 0;
- }
- 
-@@ -186,11 +186,18 @@ int cedrus_hw_resume(struct device *device)
- 	struct cedrus_dev *dev = dev_get_drvdata(device);
- 	int ret;
- 
-+	ret = reset_control_reset(dev->rstc);
-+	if (ret) {
-+		dev_err(dev->dev, "Failed to apply reset\n");
-+
-+		return ret;
-+	}
-+
- 	ret = clk_prepare_enable(dev->ahb_clk);
- 	if (ret) {
- 		dev_err(dev->dev, "Failed to enable AHB clock\n");
- 
--		return ret;
-+		goto err_rst;
- 	}
- 
- 	ret = clk_prepare_enable(dev->mod_clk);
-@@ -207,21 +214,14 @@ int cedrus_hw_resume(struct device *device)
- 		goto err_mod_clk;
- 	}
- 
--	ret = reset_control_reset(dev->rstc);
--	if (ret) {
--		dev_err(dev->dev, "Failed to apply reset\n");
--
--		goto err_ram_clk;
--	}
--
- 	return 0;
- 
--err_ram_clk:
--	clk_disable_unprepare(dev->ram_clk);
- err_mod_clk:
- 	clk_disable_unprepare(dev->mod_clk);
- err_ahb_clk:
- 	clk_disable_unprepare(dev->ahb_clk);
-+err_rst:
-+	reset_control_assert(dev->rstc);
- 
- 	return ret;
- }
--- 
-2.42.0
+Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
+Thanks
+  j
+
+> ---
+>  drivers/media/i2c/adv7180.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> index fc4f29e74e05..54134473186b 100644
+> --- a/drivers/media/i2c/adv7180.c
+> +++ b/drivers/media/i2c/adv7180.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2013 Cogent Embedded, Inc.
+>   * Copyright (C) 2013 Renesas Solutions Corp.
+>   */
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+>  #include <linux/init.h>
+>  #include <linux/errno.h>
+> @@ -1584,7 +1585,6 @@ static const struct i2c_device_id adv7180_id[] = {
+>  };
+>  MODULE_DEVICE_TABLE(i2c, adv7180_id);
+>
+> -#ifdef CONFIG_OF
+>  static const struct of_device_id adv7180_of_id[] = {
+>  	{ .compatible = "adi,adv7180", &adv7180_info },
+>  	{ .compatible = "adi,adv7180cp", &adv7180_info },
+> @@ -1600,13 +1600,12 @@ static const struct of_device_id adv7180_of_id[] = {
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, adv7180_of_id);
+> -#endif
+>
+>  static struct i2c_driver adv7180_driver = {
+>  	.driver = {
+>  		   .name = KBUILD_MODNAME,
+>  		   .pm = ADV7180_PM_OPS,
+> -		   .of_match_table = of_match_ptr(adv7180_of_id),
+> +		   .of_match_table = adv7180_of_id,
+>  		   },
+>  	.probe = adv7180_probe,
+>  	.remove = adv7180_remove,
+> --
+> 2.25.1
+>
