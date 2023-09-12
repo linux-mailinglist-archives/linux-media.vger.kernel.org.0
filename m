@@ -2,166 +2,314 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A5B279CBD3
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 11:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41F9B79C93F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 10:07:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233714AbjILJbh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 05:31:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50156 "EHLO
+        id S231883AbjILIHT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 04:07:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233558AbjILJbf (ORCPT
+        with ESMTP id S233045AbjILIGo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 05:31:35 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4F10AA;
-        Tue, 12 Sep 2023 02:31:30 -0700 (PDT)
-X-UUID: 2494a6ce514f11ee8051498923ad61e6-20230912
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=gZL7iqex1BPiM40l8UbNLUZwiQSnwgB+HQLPiQ5jV+M=;
-        b=bcxWN8/scLaZewZDbFomX/jP/je0hghwI+mJXKwTOVFVrDOBiL8j/f9wGaC2bULZFti09F5DokcooQxBpIYJcZ/x8YScaB9kuccyfNIaA8NUgDnMntvxLXnR2wrVa2yMt+Z3GY/PoeSN4WZ/LmRuTPjU2DDfa5g/pZQOr9WZtjk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31,REQID:255cc7b7-1ac8-4ad5-b35c-a1f626ef3eb6,IP:0,U
-        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:-25
-X-CID-META: VersionHash:0ad78a4,CLOUDID:c94ed813-4929-4845-9571-38c601e9c3c9,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
-        DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-UUID: 2494a6ce514f11ee8051498923ad61e6-20230912
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1399160006; Tue, 12 Sep 2023 17:31:25 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id
- 15.2.1118.7; Tue, 12 Sep 2023 09:31:20 +0000
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 12 Sep 2023 15:58:06 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 12 Sep 2023 15:58:06 +0800
-From:   Moudy Ho <moudy.ho@mediatek.com>
-To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        <dri-devel@lists.freedesktop.org>,
-        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Moudy Ho <moudy.ho@mediatek.com>
-Subject: [PATCH v5 00/14] add support MDP3 on MT8195 platform
-Date:   Tue, 12 Sep 2023 15:57:51 +0800
-Message-ID: <20230912075805.11432-1-moudy.ho@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        Tue, 12 Sep 2023 04:06:44 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FBC02701;
+        Tue, 12 Sep 2023 01:04:56 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 79D33660731B;
+        Tue, 12 Sep 2023 09:04:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694505895;
+        bh=Owrv6xswWLSiAz7bBSp0CezmLAzRNkQ/3BHLEIYLO8U=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=IPshnzgNSSTMMq1TX9qNWz7w3ufsDiZcLZXnrXWz6ZyZTpyg2nPcEV+LyrgmMvpg2
+         vdhCycck6mHvwfXgfEZu16tN6lcczfE6yKu6v2a30U70Ep5QcTZ/oeLofGM0xu2WFp
+         Pa8cHM+BerQhiodQ/mLLec8gwmc7SnUbWiLTcMVGWd0WrIfGIdgdZiy9P3ks/N/apR
+         fCw46XTvEUW4TvJT07UcIonmxMylSRoBmgqDFpsr6QdDt6oEYNVMtkQqU6hu6YsAHC
+         BYy4JtHmgFeDFsTqc7yu3SkI6km8C/b1LgBHqRxYivgyXakL+hc05+782mc7h98oj9
+         lwWpF127rcTdA==
+Message-ID: <761d8d69-bfe9-299e-e845-5ba6a6c0e2fd@collabora.com>
+Date:   Tue, 12 Sep 2023 10:04:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 01/14] media: mediatek: vcodec: add tee client interface
+ to communiate with optee-os
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
+        <nfraprado@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
+ <20230911125936.10648-2-yunfei.dong@mediatek.com>
+Content-Language: en-US
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230911125936.10648-2-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Changes since v4:
-- Rebase on v6.6-rc1
-- Remove any unnecessary DTS settings.
-- Adjust the usage of MOD and clock in blending components.
+Il 11/09/23 14:59, Yunfei Dong ha scritto:
+> Open tee context to initialize the environment in order to communiate
+> with optee-os, then open tee session as the communiation pipeline for
+> lat and core to send data for hardware decode.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>   .../platform/mediatek/vcodec/decoder/Makefile |   1 +
+>   .../vcodec/decoder/mtk_vcodec_dec_drv.h       |   5 +
+>   .../vcodec/decoder/mtk_vcodec_dec_optee.c     | 157 ++++++++++++++++++
+>   .../vcodec/decoder/mtk_vcodec_dec_optee.h     |  73 ++++++++
+>   4 files changed, 236 insertions(+)
+>   create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
+>   create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.h
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/Makefile b/drivers/media/platform/mediatek/vcodec/decoder/Makefile
+> index 904cd22def84..1624933dfd5e 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/Makefile
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/Makefile
+> @@ -21,5 +21,6 @@ mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
+>   		mtk_vcodec_dec_stateful.o \
+>   		mtk_vcodec_dec_stateless.o \
+>   		mtk_vcodec_dec_pm.o \
+> +		mtk_vcodec_dec_optee.o \
+>   
+>   mtk-vcodec-dec-hw-y := mtk_vcodec_dec_hw.o
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> index 7e36b2c69b7d..061542c3852c 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> @@ -11,6 +11,7 @@
+>   #include "../common/mtk_vcodec_dbgfs.h"
+>   #include "../common/mtk_vcodec_fw_priv.h"
+>   #include "../common/mtk_vcodec_util.h"
+> +#include "mtk_vcodec_dec_optee.h"
+>   #include "vdec_msg_queue.h"
+>   
+>   #define MTK_VCODEC_DEC_NAME	"mtk-vcodec-dec"
+> @@ -249,6 +250,8 @@ struct mtk_vcodec_dec_ctx {
+>    * @vdec_racing_info: record register value
+>    * @dec_racing_info_mutex: mutex lock used for inner racing mode
+>    * @dbgfs: debug log related information
+> + *
+> + * @tee_private: optee private data
 
-Changes since v3:
-- Depend on :
-  [1] https://patchwork.kernel.org/project/linux-media/list/?series=719841
-- Suggested by Krzysztof, integrating all newly added bindings for
-  the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
-- Revise MDP3 nodes with generic names.
+This should be @optee_private
 
-Changes since v2:
-- Depend on :
-  [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711592
-  [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711618
-- Suggested by Rob to revise MDP3 bindings to pass dtbs check
-- Add parallel paths feature.
-- Add blended components settings.
+>    */
+>   struct mtk_vcodec_dec_dev {
+>   	struct v4l2_device v4l2_dev;
+> @@ -289,6 +292,8 @@ struct mtk_vcodec_dec_dev {
+>   	/* Protects access to vdec_racing_info data */
+>   	struct mutex dec_racing_info_mutex;
+>   	struct mtk_vcodec_dbgfs dbgfs;
+> +
+> +	struct mtk_vdec_optee_private *optee_private;
+>   };
+>   
+>   static inline struct mtk_vcodec_dec_ctx *fh_to_dec_ctx(struct v4l2_fh *fh)
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
+> new file mode 100644
+> index 000000000000..3ee9039d2a5b
+> --- /dev/null
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
+> @@ -0,0 +1,157 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2023 MediaTek Inc.
+> + * Author: Yunfei Dong <yunfei.dong@mediatek.com>
+> + */
+> +
+> +#include "mtk_vcodec_dec_drv.h"
+> +#include "mtk_vcodec_dec_optee.h"
+> +
+> +/*
+> + * Randomly generated, and must correspond to the GUID on the TA side.
+> + */
+> +static const uuid_t mtk_vdec_lat_uuid =
+> +	UUID_INIT(0xBC50D971, 0xD4C9, 0x42C4,
+> +		  0x82, 0xCB, 0x34, 0x3F, 0xB7, 0xF3, 0x78, 0x90);
+> +
+> +static const uuid_t mtk_vdec_core_uuid =
+> +	UUID_INIT(0xBC50D971, 0xD4C9, 0x42C4,
+> +		  0x82, 0xCB, 0x34, 0x3F, 0xB7, 0xF3, 0x78, 0x91);
+> +
+> +/*
+> + * Check whether this driver supports decoder TA in the TEE instance,
+> + * represented by the params (ver/data) of this function.
+> + */
+> +static int mtk_vcodec_dec_optee_match(struct tee_ioctl_version_data *ver_data, const void *not_used)
+> +{
+> +	if (ver_data->impl_id == TEE_IMPL_ID_OPTEE)
+> +		return 1;
+> +	else
+> +		return 0;
+> +}
+> +
+> +int mtk_vcodec_dec_optee_private_init(struct mtk_vcodec_dec_dev *vcodec_dev)
+> +{
+> +	vcodec_dev->optee_private = devm_kzalloc(&vcodec_dev->plat_dev->dev,
+> +						 sizeof(*vcodec_dev->optee_private),
+> +						 GFP_KERNEL);
+> +	if (!vcodec_dev->optee_private)
+> +		return -ENOMEM;
+> +
+> +	vcodec_dev->optee_private->vcodec_dev = vcodec_dev;
+> +
+> +	atomic_set(&vcodec_dev->optee_private->tee_active_cnt, 0);
+> +	mutex_init(&vcodec_dev->optee_private->tee_mutex);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_optee_private_init);
+> +
+> +static int mtk_vcodec_dec_optee_init_hw_info(struct mtk_vdec_optee_private *optee_private,
+> +					     enum mtk_vdec_hw_id hardware_index)
+> +{
+> +	struct tee_ioctl_open_session_arg session_arg;
+> +	struct mtk_vdec_optee_ca_info *ca_info;
+> +	int err = 0, session_func;
+> +
+> +	/* Open lat and core session with vdec TA. */
 
-Changes since v1:
-- Depend on :
-  [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/?series=698872
-  [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=684959
-- Fix compilation failure due to use of undeclared identifier in file "mtk-mdp3-cmdq.c"
+I assume that anything else than CORE or LAT0 cannot use secure sessions, so...
 
-Hello,
+	switch (hardware_index) {
+	case MTK_VDEC_CORE:
+		export_uuid
+		.....
+		break;
+	case MTK_VDEC_LAT0:
+		export_uuid(...
+		......
+		break;
+	default:
+		return -EINVAL;
+	}
 
-This patch is used to add support for MDP3 on the MT8195 platform that
-contains more picture quality components, and can arrange more pipelines
-through two sets of MMSYS and MUTEX respectively.
+> +	if (hardware_index == MTK_VDEC_LAT0) {
+> +		export_uuid(session_arg.uuid, &mtk_vdec_lat_uuid);
+> +		session_func = MTK_VDEC_OPTEE_TA_LAT_SUBMIT_COMMAND;
+> +		ca_info = &optee_private->lat_ca;
+> +	} else {
+> +		export_uuid(session_arg.uuid, &mtk_vdec_core_uuid);
+> +		session_func = MTK_VDEC_OPTEE_TA_CORE_SUBMIT_COMMAND;
+> +		ca_info = &optee_private->core_ca;
+> +	}
+> +
+> +	session_arg.clnt_login = TEE_IOCTL_LOGIN_PUBLIC;
+> +	session_arg.num_params = 0;
+> +
+> +	err = tee_client_open_session(optee_private->tee_vdec_ctx, &session_arg, NULL);
+> +	if (err < 0 || session_arg.ret != 0) {
+> +		pr_err(MTK_DBG_VCODEC_STR "open vdec tee session failed: hw_id(%d) err=%x.\n",
+> +		       hardware_index, session_arg.ret);
 
-Moudy Ho (14):
-  arm64: dts: mediatek: mt8183: correct MDP3 DMA-related nodes
-  arm64: dts: mediatek: mt8195: add MDP3 nodes
-  media: platform: mtk-mdp3: add support second sets of MMSYS
-  media: platform: mtk-mdp3: add support second sets of MUTEX
-  media: platform: mtk-mdp3: introduce more pipelines from MT8195
-  media: platform: mtk-mdp3: introduce more MDP3 components
-  media: platform: mtk-mdp3: add checks for dummy components
-  media: platform: mtk-mdp3: avoid multiple driver registrations
-  media: platform: mtk-mdp3: extend GCE event waiting in RDMA and WROT
-  media: platform: mtk-mdp3: add support for blending multiple
-    components
-  media: platform: mtk-mdp3: add mt8195 platform configuration
-  media: platform: mtk-mdp3: add mt8195 shared memory configurations
-  media: platform: mtk-mdp3: add mt8195 MDP3 component settings
-  media: platform: mtk-mdp3: add support for parallel pipe to improve
-    FPS
+Can we use dev_err() please?
 
- arch/arm64/boot/dts/mediatek/mt8183.dtsi      |   6 +-
- arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 378 ++++++++
- .../platform/mediatek/mdp3/mdp_cfg_data.c     | 729 ++++++++++++++-
- .../platform/mediatek/mdp3/mdp_reg_aal.h      |  25 +
- .../platform/mediatek/mdp3/mdp_reg_color.h    |  31 +
- .../media/platform/mediatek/mdp3/mdp_reg_fg.h |  23 +
- .../platform/mediatek/mdp3/mdp_reg_hdr.h      |  31 +
- .../platform/mediatek/mdp3/mdp_reg_merge.h    |  25 +
- .../platform/mediatek/mdp3/mdp_reg_ovl.h      |  25 +
- .../platform/mediatek/mdp3/mdp_reg_pad.h      |  21 +
- .../platform/mediatek/mdp3/mdp_reg_rdma.h     |  24 +
- .../platform/mediatek/mdp3/mdp_reg_rsz.h      |   2 +
- .../platform/mediatek/mdp3/mdp_reg_tdshp.h    |  34 +
- .../platform/mediatek/mdp3/mdp_reg_wrot.h     |   8 +
- .../platform/mediatek/mdp3/mdp_sm_mt8195.h    | 283 ++++++
- .../platform/mediatek/mdp3/mtk-img-ipi.h      |   4 +
- .../platform/mediatek/mdp3/mtk-mdp3-cfg.h     |   2 +
- .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 447 +++++++--
- .../platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |   1 +
- .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 860 +++++++++++++++++-
- .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  93 +-
- .../platform/mediatek/mdp3/mtk-mdp3-core.c    | 103 ++-
- .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  33 +-
- .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  15 +
- .../platform/mediatek/mdp3/mtk-mdp3-regs.c    |  18 +
- .../platform/mediatek/mdp3/mtk-mdp3-regs.h    |   1 +
- .../platform/mediatek/mdp3/mtk-mdp3-vpu.c     |   3 +-
- 27 files changed, 3051 insertions(+), 174 deletions(-)
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_aal.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_color.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_fg.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_hdr.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_merge.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_ovl.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_pad.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_tdshp.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_sm_mt8195.h
+> +		return -EINVAL;
+> +	}
+> +	ca_info->vdec_session_id = session_arg.session;
+> +	ca_info->hw_id = hardware_index;
+> +	ca_info->vdec_session_func = session_func;
+> +
+> +	pr_debug(MTK_DBG_VCODEC_STR "open vdec tee session: hw_id(%d) session_id=%x.\n",
+> +		 hardware_index, ca_info->vdec_session_id);
+> +
+> +	return err;
+> +}
+> +
+> +static void mtk_vcodec_dec_optee_deinit_hw_info(struct mtk_vdec_optee_private *optee_private,
+> +						enum mtk_vdec_hw_id hw_id)
+> +{
+> +	struct mtk_vdec_optee_ca_info *ca_info;
+> +
+> +	if (hw_id == MTK_VDEC_LAT0)
+> +		ca_info = &optee_private->lat_ca;
+> +	else
+> +		ca_info = &optee_private->core_ca;
+> +
+> +	tee_client_close_session(optee_private->tee_vdec_ctx, ca_info->vdec_session_id);
+> +}
+> +
+> +int mtk_vcodec_dec_optee_open(struct mtk_vdec_optee_private *optee_private)
+> +{
+> +	int err = 0;
 
--- 
-2.18.0
+int err; (but I'd prefer this to be called "ret" instead)
+
+> +
+> +	mutex_lock(&optee_private->tee_mutex);
+> +	if (atomic_inc_return(&optee_private->tee_active_cnt) > 1) {
+> +		mutex_unlock(&optee_private->tee_mutex);
+> +		pr_debug(MTK_DBG_VCODEC_STR "already init vdec optee private data!\n");
+
+dev_dbg()?
+
+> +		return err;
+
+Did you really want to return 0? In that case, don't return err, but just 0.
+
+> +	}
+> +
+> +	/* Open context with TEE driver */
+> +	optee_private->tee_vdec_ctx = tee_client_open_context(NULL, mtk_vcodec_dec_optee_match,
+> +							      NULL, NULL);
+> +	if (IS_ERR(optee_private->tee_vdec_ctx)) {
+> +		pr_err(MTK_DBG_VCODEC_STR "optee vdec tee context failed.\n");
+
+dev_err()?
+		err = PTR_ERR(optee_private->tee_vdec_ctx);
+		goto err_ctx_open;
+	}
+> +		mutex_unlock(&optee_private->tee_mutex);
+> +		return -ENODEV;
+> +	}
+> +
+> +	err = mtk_vcodec_dec_optee_init_hw_info(optee_private, MTK_VDEC_LAT0);
+> +	if (err < 0)
+> +		goto err_lat_init;
+> +
+> +	if (IS_VDEC_LAT_ARCH(optee_private->vcodec_dev->vdec_pdata->hw_arch)) {
+> +		err = mtk_vcodec_dec_optee_init_hw_info(optee_private, MTK_VDEC_CORE);
+> +		if (err < 0)
+> +			goto err_core_init;
+> +	}
+> +
+> +	mutex_unlock(&optee_private->tee_mutex);
+> +	return 0;
+> +err_core_init:
+> +	mtk_vcodec_dec_optee_deinit_hw_info(optee_private, MTK_VDEC_LAT0);
+> +err_lat_init:
+> +	tee_client_close_context(optee_private->tee_vdec_ctx);
+> +
+
+err_ctx_open:
+
+> +	mutex_unlock(&optee_private->tee_mutex);
+> +	return err;
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_optee_open);
+> +
+
+Regards,
+Angelo
 
