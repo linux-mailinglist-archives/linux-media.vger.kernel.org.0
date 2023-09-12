@@ -2,171 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DEC379C352
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 04:52:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05BFB79C4FE
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 06:53:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240773AbjILCwf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Sep 2023 22:52:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46048 "EHLO
+        id S229615AbjILEwa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 00:52:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240748AbjILCwY (ORCPT
+        with ESMTP id S229556AbjILEw3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Sep 2023 22:52:24 -0400
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDDC69A01B
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 19:22:34 -0700 (PDT)
-Received: by mail-qt1-x82c.google.com with SMTP id d75a77b69052e-412195b1e9aso36379171cf.2
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 19:22:34 -0700 (PDT)
+        Tue, 12 Sep 2023 00:52:29 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16996CDB
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 21:52:25 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1c397ed8681so20427465ad.2
+        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 21:52:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694485353; x=1695090153; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YNz9pmUyvYE+1X1z1ltOs+pUz4Ht8e0o4P0Hq1idOMQ=;
-        b=X/MqBaTwfAEO2sld8HqSJdI1jOYkR0ApltkH57SigUiuTTTmHK78ZLIUR244jD3W/H
-         x+r9XTHNGJZhUHMcHpZsJxLy7TQJom3s4pcGbw0RM85SRd/oiTC3Plza73FGi/aW7hu9
-         Zl6drywzUJsqQ0YLspXmCX7tOqcK3cVLHjugQ=
+        d=google.com; s=20230601; t=1694494344; x=1695099144; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pCJ8KYCXw7NsEnwWAsSLTHOcGDS6ZTh29m1HntYNSuU=;
+        b=FdbvvfIW0kmjwVsHiDAJybHWkphj1tab5i6hOtlUdsGc5qUQ+c38QNk5lQD7DfdYcF
+         ySC2axJ4p6LQhUfN8d1mMvaM8rV7NCOC9/+duS0jqUNtOXNAqge7cYJPOoF4+BMJZDop
+         VDrtzSqUzN3/W/DiW1d7niPFDTWNlFQgV+NXMnRzxoU0JJyQuB6RYPjTL1I4dJ+2ld6G
+         THlPk4S/uBMI4Ozhj3+kDz3i5rMiH9Td47F7/m/Ge8CPglxILw/KhTREmrvdDiqPAtWz
+         wCrmcw4MTW1UEpDTHjzqc8SlMS/FOYP3y+K3E/fB6P+2+8SnoL4qXPQDCRAzX8dxsEid
+         29rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694485353; x=1695090153;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YNz9pmUyvYE+1X1z1ltOs+pUz4Ht8e0o4P0Hq1idOMQ=;
-        b=qctki/Qls6D6kNIO44AnAUqtxjDW7ObwSqS+65pM7mL6HpXpm5o0jlSZZSmPVZmu1K
-         X0sj0FcOnK/AYqiA++kKZc+j0C93RabYE6Oq/Ib5XrJDzBHDzXHTHkGcm6LK2AXqjdhV
-         p1H6h6r0ImSqNuSSGR2l8qrfHLuCqBMsGrcpXGiRODtr3ksyvlmo0evKrQP90itQHVyd
-         tyPBkrSpmftrj67Pyuxtg5bXMnIJ6LPjlZKRrPZSB+ns6tovVFD6ImnUZWDbMO7Fbpel
-         hQIPIH7I2HnkiN9wsi5Uj7Ft4sweoz7nif8RKaniBcIjTI4vaUR9uhN7t5e+beOnmGwP
-         gh2Q==
-X-Gm-Message-State: AOJu0YwAIxTJkHvfvTucDMuzwapJclTKdrkGPcfEDFvs1YeJTySWBHcY
-        Kj6IryAf0l9TXuiAzj7XmjFGas2WeBBP12ysE7o1ew==
-X-Google-Smtp-Source: AGHT+IG484wG/8LxP9y28zoQF0ryiBXwz04VhEl3739KPmTydHzAeq80XxeqtblimQtPuqii39u26g==
-X-Received: by 2002:a05:622a:8b:b0:413:5dbd:a926 with SMTP id o11-20020a05622a008b00b004135dbda926mr14633183qtw.2.1694485353459;
-        Mon, 11 Sep 2023 19:22:33 -0700 (PDT)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com. [209.85.219.51])
-        by smtp.gmail.com with ESMTPSA id d21-20020ac86695000000b0040331a24f16sm3010727qtp.3.2023.09.11.19.22.32
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1694494344; x=1695099144;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pCJ8KYCXw7NsEnwWAsSLTHOcGDS6ZTh29m1HntYNSuU=;
+        b=DY7lduqG8WDn347hNHvT2ijoDB7EfyIm1nh+9UQDFkc7l9BL7sMFceAlEx+FE22D7C
+         8ynFRMYwhLECke10d4SEQeqMsSFhZ03JOKzu6++eLeC9av56k2aOBsR7dth1l2xM1xFW
+         ioRW7PjR0nLfvlVC8yez1uwvodZk80I8KL7mXrIdrlMzUOW2iBwpqRIhRYsXd4YAJ1iR
+         xyJom/7c8JB8KGaSyuF07ODSDsS2yPh02XMM+ImeaCQmZ+B4KXXcQZEbdBhlg3MF71TR
+         a7PaNXUSmpWGOfoVf8LWELHPEqL46+yIspB9zJ7/AmtmTpEUIt0cu4d5EKFEKlkdw4/F
+         oC/g==
+X-Gm-Message-State: AOJu0YyZXm8J+eac8ym5cfKRY6t62F8wN6gW1Tj/7+swnuECOeNcsDbW
+        mxx2kdHU0dpJtgooWTaM453T1GpjMmavzz14QYX5daY9
+X-Google-Smtp-Source: AGHT+IHRq1eU5iRIzGmCghBvgIYt3a7PqHAy2No9rFqnep8OOZci3KUJmaop+aZPHxaXNMkKvIzKtw==
+X-Received: by 2002:a17:902:f7cb:b0:1c1:de2b:e1d0 with SMTP id h11-20020a170902f7cb00b001c1de2be1d0mr8587539plw.32.1694494344236;
+        Mon, 11 Sep 2023 21:52:24 -0700 (PDT)
+Received: from [192.168.60.239] (124.190.199.35.bc.googleusercontent.com. [35.199.190.124])
+        by smtp.gmail.com with ESMTPSA id p15-20020a170902e74f00b001bb8be10a84sm3398860plf.304.2023.09.11.21.52.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 19:22:32 -0700 (PDT)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-64c5f5d6f04so28554586d6.3
-        for <linux-media@vger.kernel.org>; Mon, 11 Sep 2023 19:22:32 -0700 (PDT)
-X-Received: by 2002:a05:6214:3281:b0:64f:9421:6c7 with SMTP id
- mu1-20020a056214328100b0064f942106c7mr10033506qvb.21.1694485351756; Mon, 11
- Sep 2023 19:22:31 -0700 (PDT)
+        Mon, 11 Sep 2023 21:52:23 -0700 (PDT)
+Message-ID: <a55b3b0c-2306-4591-8613-7be4927f0d4e@google.com>
+Date:   Mon, 11 Sep 2023 21:52:22 -0700
 MIME-Version: 1.0
-References: <20230828075420.2009568-1-anle.pan@nxp.com> <DB9PR04MB9284AA58AA71655C9C0C7C9A87E6A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5DYxwX+JdXQ_-ba5B9y+gyWPjvUpCBnKM1zz1W2EkO_vA@mail.gmail.com>
- <DB9PR04MB928460023FB3CCCBC3EACE1487E9A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5BGJX7=Z1ukFRq_ktaQ0d7FbvV-ob5gs8hfGaNHUXPTww@mail.gmail.com>
- <DB9PR04MB9284A0CDB1FC7CAADE0A394F87EFA@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5AugUGh7Z=9Qh7SS4=-0ddGBmRAOOyCGDfPdT-=eurtUg@mail.gmail.com> <DB9PR04MB9284A45033B3E24F44C5AA3987F2A@DB9PR04MB9284.eurprd04.prod.outlook.com>
-In-Reply-To: <DB9PR04MB9284A45033B3E24F44C5AA3987F2A@DB9PR04MB9284.eurprd04.prod.outlook.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 12 Sep 2023 11:22:12 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Bk0DUq5jgFDHV2wGYEcfQzNVQ2KYJ2ZYLubwFLgqW4kQ@mail.gmail.com>
-Message-ID: <CAAFQd5Bk0DUq5jgFDHV2wGYEcfQzNVQ2KYJ2ZYLubwFLgqW4kQ@mail.gmail.com>
-Subject: Re: [EXT] Re: [PATCH] media: videobuf2-dma-sg: limit the sg segment size
-To:     Hui Fang <hui.fang@nxp.com>
-Cc:     Anle Pan <anle.pan@nxp.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jindong Yue <jindong.yue@nxp.com>,
-        Xuegang Liu <xuegang.liu@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] usb: gadget: uvc: cleanup request when not in correct
+ state
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        laurent.pinchart@ideasonboard.com
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        dan.scally@ideasonboard.com, gregkh@linuxfoundation.org,
+        nicolas@ndufresne.ca, kernel@pengutronix.de,
+        Jayant Chowdhary <jchowdhary@google.com>
+References: <20230911002451.2860049-1-m.grzeschik@pengutronix.de>
+ <20230911002451.2860049-3-m.grzeschik@pengutronix.de>
+Content-Language: en-US
+From:   Avichal Rakesh <arakesh@google.com>
+In-Reply-To: <20230911002451.2860049-3-m.grzeschik@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 11, 2023 at 3:13=E2=80=AFPM Hui Fang <hui.fang@nxp.com> wrote:
->
-> On Wed, Sep 6, 2023 at 18:28=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> =
-wrote:
-> > That all makes sense, but it still doesn't answer the real question on =
-why
-> > swiotlb ends up being used. I think you may want to trace what happens =
-in
-> > the DMA mapping ops implementation on your system causing it to use
-> > swiotlb.
->
-> Add log and feed invalid data to low buffer on purpose,
-> it's confirmed that swiotlb is actually used.
->
+Hey Michael,
 
-Yes, that we already know. But why?
-
-> Got log as
-> "[  846.570271][  T138] software IO TLB: =3D=3D=3D=3D swiotlb_bounce: DMA=
-_TO_DEVICE,
->  dst 000000004589fa38, src 00000000c6d7e8d8, srcPhy 5504139264, size 4096=
-".
->
-> " srcPhy 5504139264" is larger than 4G (8mp has DRAM over 5G).
-> And "CONFIG_ZONE_DMA32=3Dy" in kernel config, so swiotlb static is used.
-> Also, the host (win10) side can't get valid image.
->
-> Code as below.
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/=
-media/common/videobuf2/videobuf2-dma-sg.c
-> index 7f83a86e6810..de03704ce695 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -98,6 +98,7 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg=
-_buf *buf,
->         return 0;
->  }
->
-> +bool g_v4l2 =3D false;
->  static void *vb2_dma_sg_alloc(struct vb2_buffer *vb, struct device *dev,
->                               unsigned long size)
->  {
-> @@ -144,6 +145,7 @@ static void *vb2_dma_sg_alloc(struct vb2_buffer *vb, =
-struct device *dev,
->         if (ret)
->                 goto fail_table_alloc;
->
-> +       g_v4l2 =3D true;
->         pr_info("=3D=3D=3D=3D vb2_dma_sg_alloc, call sg_alloc_table_from_=
-pages_segment,
->                         size %d, max_segment %d\n", (int)size, (int)max_s=
-egment);
-> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index dac01ace03a0..a2cda646a02f 100644
-> --- a/kernel/dma/swiotlb.c
-> +++ b/kernel/dma/swiotlb.c
-> @@ -523,6 +523,7 @@ static unsigned int swiotlb_align_offset(struct devic=
-e *dev, u64 addr)
->         return addr & dma_get_min_align_mask(dev) & (IO_TLB_SIZE - 1);
->  }
->
-> +extern bool g_v4l2;
->  /*
->   * Bounce: copy the swiotlb buffer from or back to the original dma loca=
-tion
->   */
-> @@ -591,8 +592,19 @@ static void swiotlb_bounce(struct device *dev, phys_=
-addr_t tlb_addr, size_t size
->                 }
->         } else if (dir =3D=3D DMA_TO_DEVICE) {
->                 memcpy(vaddr, phys_to_virt(orig_addr), size);
-> +               if (g_v4l2) {
-> +                       static unsigned char val;
-> +                       val++;
-> +                       memset(vaddr, val, size);
+On 9/10/23 17:24, Michael Grzeschik wrote:
+> The uvc_video_enable function of the uvc-gadget driver is dequeing and
+> immediately deallocs all requests on its disable codepath. This is not
+> save since the dequeue function is async and does not ensure that the
+> requests are left unlinked in the controller driver.
+> 
+> By adding the ep_free_request into the completion path of the requests
+> we ensure that the request will be properly deallocated.
+> 
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> ---
+>  drivers/usb/gadget/function/uvc_video.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+> index 4b6e854e30c58c..52e3666b51f743 100644
+> --- a/drivers/usb/gadget/function/uvc_video.c
+> +++ b/drivers/usb/gadget/function/uvc_video.c
+> @@ -256,6 +256,12 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+>  	struct uvc_device *uvc = video->uvc;
+>  	unsigned long flags;
+>  
+> +	if (uvc->state == UVC_STATE_CONNECTED) {
+> +		usb_ep_free_request(video->ep, ureq->req);
+nit: You can probably just call usb_ep_free_request with req instead of ureq->req.
+> +		ureq->req = NULL;
+> +		return;
+> +	}
 > +
-> +                       pr_info("=3D=3D=3D=3Dxx %s: DMA_TO_DEVICE, dst %p=
-, src %p, srcPhy %llu, size %zu\n",
-> +                               __func__, vaddr, phys_to_virt(orig_addr),=
- orig_addr, size);
-> +               }
->         } else {
->                 memcpy(phys_to_virt(orig_addr), vaddr, size);
->         }
->  }
->
->
-> BRs,
-> Fang Hui
->
+>  	switch (req->status) {
+>  	case 0:
+>  		break;
+
+Perhaps I am missing something here, but I am not sure how this alone 
+fixes the use-after-free issue. uvcg_video_enable still deallocates 
+_all_ usb_requests right after calling usb_ep_dequeue, so it is still 
+possible that an unreturned request is deallocated, and now it is 
+possible that the complete callback accesses a deallocated ureq :(
+
+Regards,
+Avi
