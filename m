@@ -2,99 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7877279D576
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 17:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A12BE79D5C4
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 18:06:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236479AbjILP7t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 11:59:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52492 "EHLO
+        id S234679AbjILQGO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 12:06:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233980AbjILP7s (ORCPT
+        with ESMTP id S231652AbjILQGN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 11:59:48 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6050E10DE;
-        Tue, 12 Sep 2023 08:59:44 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7640C512;
-        Tue, 12 Sep 2023 17:58:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694534290;
-        bh=xfhmlz5ckdLY0YdTm7FkPxuK4u/istlO5fGdwX4PDec=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cFGN96ZpPXODQ1neJ4wrzI5s+h4ebba0YsgFpvlsgdmX1lc6MmDs0OtHtU78+ixek
-         g9Xqbz8+vnK1hg3zqO3VYPQFFFoRgjdooTecIl539xF5F4RMepYkF5iAd6LjRZI0SQ
-         B464Yn4rE0Bz7l32yroHPXWeK9kSXQKxSHQXtr7o=
-Date:   Tue, 12 Sep 2023 18:59:56 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: fix VIDEO_CAMERA_SENSOR dependencies
-Message-ID: <20230912155956.GC30767@pendragon.ideasonboard.com>
-References: <20230912120159.4118842-1-arnd@kernel.org>
- <ZQBWg0Ck1NFIvk7j@kekkonen.localdomain>
+        Tue, 12 Sep 2023 12:06:13 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BDDA010DE;
+        Tue, 12 Sep 2023 09:06:09 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6143AC15;
+        Tue, 12 Sep 2023 09:06:46 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 517A53F738;
+        Tue, 12 Sep 2023 09:06:06 -0700 (PDT)
+Message-ID: <e6f236aa-4a16-baf0-6567-1714248e2fc0@arm.com>
+Date:   Tue, 12 Sep 2023 17:05:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZQBWg0Ck1NFIvk7j@kekkonen.localdomain>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
+ memory for SVP
+Content-Language: en-GB
+To:     Rob Herring <robh@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jstultz@google.com" <jstultz@google.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
+        <kuohong.wang@mediatek.com>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-9-yong.wu@mediatek.com>
+ <20230911154448.GA1279317-robh@kernel.org>
+ <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
+ <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org>
+ <95f9dd3b-1f33-4af5-8757-a97e8b9bb216@arm.com>
+ <20230912155338.GA842444-robh@kernel.org>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230912155338.GA842444-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 12:16:03PM +0000, Sakari Ailus wrote:
-> Hi Arnd,
+On 12/09/2023 4:53 pm, Rob Herring wrote:
+> On Tue, Sep 12, 2023 at 11:13:50AM +0100, Robin Murphy wrote:
+>> On 12/09/2023 9:28 am, Krzysztof Kozlowski wrote:
+>>> On 12/09/2023 08:16, Yong Wu (吴勇) wrote:
+>>>> Hi Rob,
+>>>>
+>>>> Thanks for your review.
+>>>>
+>>>> On Mon, 2023-09-11 at 10:44 -0500, Rob Herring wrote:
+>>>>>    	
+>>>>> External email : Please do not click links or open attachments until
+>>>>> you have verified the sender or the content.
+>>>>>    On Mon, Sep 11, 2023 at 10:30:37AM +0800, Yong Wu wrote:
+>>>>>> This adds the binding for describing a CMA memory for MediaTek
+>>>>> SVP(Secure
+>>>>>> Video Path).
+>>>>>
+>>>>> CMA is a Linux thing. How is this related to CMA?
+>>>>
+>>>>>>
+>>>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>>>> ---
+>>>>>>    .../mediatek,secure_cma_chunkmem.yaml         | 42
+>>>>> +++++++++++++++++++
+>>>>>>    1 file changed, 42 insertions(+)
+>>>>>>    create mode 100644 Documentation/devicetree/bindings/reserved-
+>>>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>>>
+>>>>>> diff --git a/Documentation/devicetree/bindings/reserved-
+>>>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>> b/Documentation/devicetree/bindings/reserved-
+>>>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..cc10e00d35c4
+>>>>>> --- /dev/null
+>>>>>> +++ b/Documentation/devicetree/bindings/reserved-
+>>>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>>> @@ -0,0 +1,42 @@
+>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>>>> +%YAML 1.2
+>>>>>> +---
+>>>>>> +$id:
+>>>>> http://devicetree.org/schemas/reserved-memory/mediatek,secure_cma_chunkmem.yaml#
+>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>>> +
+>>>>>> +title: MediaTek Secure Video Path Reserved Memory
+>>>>>
+>>>>> What makes this specific to Mediatek? Secure video path is fairly
+>>>>> common, right?
+>>>>
+>>>> Here we just reserve a buffer and would like to create a dma-buf secure
+>>>> heap for SVP, then the secure engines(Vcodec and DRM) could prepare
+>>>> secure buffer through it.
+>>>> But the heap driver is pure SW driver, it is not platform device and
+>>>
+>>> All drivers are pure SW.
+>>>
+>>>> we don't have a corresponding HW unit for it. Thus I don't think I
+>>>> could create a platform dtsi node and use "memory-region" pointer to
+>>>> the region. I used RESERVEDMEM_OF_DECLARE currently(The code is in
+>>>> [9/9]). Sorry if this is not right.
+>>>
+>>> If this is not for any hardware and you already understand this (since
+>>> you cannot use other bindings) then you cannot have custom bindings for
+>>> it either.
+>>>
+>>>>
+>>>> Then in our usage case, is there some similar method to do this? or
+>>>> any other suggestion?
+>>>
+>>> Don't stuff software into DTS.
+>>
+>> Aren't most reserved-memory bindings just software policy if you look at it
+>> that way, though? IIUC this is a pool of memory that is visible and
+>> available to the Non-Secure OS, but is fundamentally owned by the Secure
+>> TEE, and pages that the TEE allocates from it will become physically
+>> inaccessible to the OS. Thus the platform does impose constraints on how the
+>> Non-Secure OS may use it, and per the rest of the reserved-memory bindings,
+>> describing it as a "reusable" reservation seems entirely appropriate. If
+>> anything that's *more* platform-related and so DT-relevant than typical
+>> arbitrary reservations which just represent "save some memory to dedicate to
+>> a particular driver" and don't actually bear any relationship to firmware or
+>> hardware at all.
 > 
-> On Tue, Sep 12, 2023 at 02:01:42PM +0200, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > The new Kconfig submenu now guards the visibility of camera sensor drivers,
-> > and any driver that selects one of them runs into a missing dependency warning
-> > if it's disabled:
-> > 
-> > WARNING: unmet direct dependencies detected for VIDEO_OV2640
-> >   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
-> >   Selected by [y]:
-> >   - VIDEO_EM28XX_V4L2 [=y] && USB [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && (MEDIA_CAMERA_SUPPORT [=y] || MEDIA_ANALOG_TV_SUPPORT [=y] || MEDIA_DIGITAL_TV_SUPPORT [=y]) && VIDEO_EM28XX [=y] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_CAMERA_SUPPORT [=y]
-> >   - VIDEO_GO7007 [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && MEDIA_ANALOG_TV_SUPPORT [=y] && VIDEO_DEV [=y] && I2C [=y] && SND [=y] && USB [=y] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_CAMERA_SUPPORT [=y]
-> > 
-> > WARNING: unmet direct dependencies detected for VIDEO_MT9V011
-> >   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
-> >   Selected by [y]:
-> >   - VIDEO_EM28XX_V4L2 [=y] && USB [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && (MEDIA_CAMERA_SUPPORT [=y] || MEDIA_ANALOG_TV_SUPPORT [=y] || MEDIA_DIGITAL_TV_SUPPORT [=y]) && VIDEO_EM28XX [=y] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_CAMERA_SUPPORT [=y]
-> > 
-> > WARNING: unmet direct dependencies detected for VIDEO_OV7670
-> >   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && VIDEO_CAMERA_SENSOR [=n]
-> >   Selected by [y]:
-> >   - VIDEO_CAFE_CCIC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && PCI [=y] && I2C [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
-> >   - VIDEO_MMP_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && I2C [=y] && VIDEO_DEV [=y] && (ARCH_MMP [=y] || COMPILE_TEST [=y]) && COMMON_CLK [=y]
-> >   - VIDEO_VIA_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && FB_VIA [=y] && VIDEO_DEV [=y]
-> > 
-> > Some of these are guarded by 'if MEDIA_SUBDRV_AUTOSELECT &&
-> > MEDIA_CAMERA_SUPPORT', which seems to be the right approach, so update
-> > those to use the new VIDEO_CAMERA_SENSOR symbol instead of
-> > MEDIA_CAMERA_SUPPORT and add the same condition to the ones that
-> > don't already have one.
-> > 
-> > Fixes: 7d3c7d2a2914e ("media: i2c: Add a camera sensor top level menu")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Yes, a memory range defined by hardware or firmware is within scope of
+> DT. (CMA at aribitrary address was questionable.)
 > 
-> I believe these matters have been fixed, but the fixes are only in the
-> media stage tree so far (and not in the fixes branch). They should go to
-> v6.6, not v6.7.
+> My issue here is more that 'secure video memory' is not any way Mediatek
+> specific. AIUI, it's a requirement from certain content providers for
+> video playback to work. So why the Mediatek specific binding?
 
-That would be commits f59933e8b1d1 ("media: via: Use correct dependency
-for camera sensor drivers") and 8ba283f6c929 ("media: v4l: Use correct
-dependency for camera sensor drivers"). The latter is identical to the
-corresponding changes in this patch, but the former lacks the
-MEDIA_SUBDRV_AUTOSELECT check. Is this intentional ?
+Based on the implementation, I'd ask the question the other way round - 
+the way it works looks to be at least somewhat dependent on Mediatek's 
+TEE, in ways where other vendors' equivalent implementations may be 
+functionally incompatible, however nothing suggests it's actually 
+specific to video (beyond that presumably being the primary use-case 
+they had in mind).
 
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Robin.
