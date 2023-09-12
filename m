@@ -2,57 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F40579CE4F
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 12:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B38D779CEA3
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 12:45:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234221AbjILKcH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 06:32:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48352 "EHLO
+        id S234292AbjILKpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 06:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234297AbjILKag (ORCPT
+        with ESMTP id S234471AbjILKow (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 06:30:36 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7C581717
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 03:28:45 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-501bd164fbfso8861814e87.0
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 03:28:45 -0700 (PDT)
+        Tue, 12 Sep 2023 06:44:52 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00B4F173E
+        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 03:44:22 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4013454fa93so61907085e9.0
+        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 03:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694514524; x=1695119324; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PqZA61AZZwHHDn1nGNrzumQDR9UPMkG/AB0OITt853E=;
-        b=MG5+4lTSKNmnbxXmsTexctBRfz3GfXrDVAmzS7RzkcsonGXAcpw50MlhuW7M8gkRHF
-         3dspgnOtRoK9VJX6Vv94QEZy9ZqLVHve06v/lgXBpQZUt36dhEcmI5L39ImEWCn1TLvf
-         Si3S+g/seOQ+EHXwXiQGWJ1M3orwH6enew5bo=
+        d=linaro.org; s=google; t=1694515461; x=1695120261; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VTdB5rC+L5kos1kCslFKv4V1nc0NwlzHiB+VYtRjbQc=;
+        b=z4KIkp6XMOTMxNyr3FL9Mzhx7069FjE6Zo5nrIkzoOOtbU8g74afb3SUs2Q/YTq2DD
+         nQAYTGUE7ZzTC7YzyQ8zehiyfu84dV7hOLo5A2lu58Up9HEuQtqE8wIDHnLjkIo5Fykb
+         oLG0qM9KhDeZyP34Y9UlqUR6A53nZJi372hTsqpq6DFyDAgTOia+8G3NQ9Pp9ldTCjCY
+         v+8Jj3k6USQCvYif+rTnMjA25J4pg8r+26pxgrl7S+56EOExvmeKvoLRTZEKyExTL90N
+         uVPvkAJ/5DH6wbqP8rdpQnEluIFlwyTTsY5FqWN6uYfUAL2hF1Cy5FK2EtJ6bMb2YCIh
+         7k7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694514524; x=1695119324;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PqZA61AZZwHHDn1nGNrzumQDR9UPMkG/AB0OITt853E=;
-        b=mPBl4MTI21qYQ8LTE0PpK6Rg2wMFXQggSGTZIAguUTe7IHQa6tDbsSEdNtHReY+IfC
-         CfvYiTIRBy5Z1hg7q9B+iJcPKarRn7WhT/uPyYRe1URirDzyQF3G0QuPqTBVe9qC+FFy
-         9r74Z60a6FMSmnOTatrPLtvTqo+jl2HqTzcj7uRKsepaeVO1LfNtacAcfnfXd1GK6W/K
-         bNTbhFRQZl4DgAsczY39a43TWDIpYFNj1yDV/u4H8gKfoNgFsVXVD2ovUsfEqLzboNWw
-         Gzg4EGNmt1V+clx/AoYeBEHRPaqBeIsv6waR075MRiUFr8HnOksvaafxv7w20PjW6mfs
-         KVtA==
-X-Gm-Message-State: AOJu0Yybo9pIYfM5mwqHVn1t7HDjB3qpuMJE2O8exE3EbjOm8xJM5C+s
-        Yh27ExLZQ3yBIOc1IPGE42USYcXN2284q7FGWo3T4g==
-X-Google-Smtp-Source: AGHT+IGnsct1TtXsCOP9NVgGwPzYUd7tgDEeTfBIGRUc5NUgd7ZgNlHQ3BbdTYL88E8XR22jOxrW/3zQp9aoCA0z7sA=
-X-Received: by 2002:a05:6512:2016:b0:500:a368:a962 with SMTP id
- a22-20020a056512201600b00500a368a962mr7798675lfb.43.1694514523798; Tue, 12
- Sep 2023 03:28:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694515461; x=1695120261;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VTdB5rC+L5kos1kCslFKv4V1nc0NwlzHiB+VYtRjbQc=;
+        b=JAC61/kSxzBe1PPlyz5t7jHk/ZiV7f8DxiG3HaFhvAf8OfioEVLpHz+XbzNkN1wd8n
+         kWEN6skUtWV1I+EyXyX2AHJyASFd6VK73LerZEQgDOjrJEbJ8BGRy0Xxf8net4T+eZ/W
+         5qTyMnpxaMQ9E12I9mRc356sdM97lXcWcgWVqyv7kEoptCdOgufLekC6mv3y8gAubjFB
+         68xfzS83fgwePoOI/2RcE+zXu+mN9BHnlQTbRIhL7/dg6H96O0gSU8Vt7w0sgqMc87y8
+         uRWEO0aaOg3rptyit8niNfsfrMDE6uP5n5eQhRC3ZqY4VFvwritHlbaiDZGhk3z7J0g5
+         rfDg==
+X-Gm-Message-State: AOJu0YwI8N6Hzxj79wMcqXCJr5soA2yHGpEsM+i51LNWHw3i8xPnIaPL
+        BKJtb7B/atNtGMJPT3lClV5pbQ==
+X-Google-Smtp-Source: AGHT+IFmUaPSQB1JDPwcp1glXmxNaOdHNMq/RaW2YxMYKhbLuySY6XL9AWTg+d2k7jPQno0pliAtWg==
+X-Received: by 2002:a05:600c:d5:b0:401:bf56:8bb2 with SMTP id u21-20020a05600c00d500b00401bf568bb2mr9996207wmm.10.1694515460799;
+        Tue, 12 Sep 2023 03:44:20 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+        by smtp.gmail.com with ESMTPSA id v11-20020a1cf70b000000b00401d8810c8bsm15728900wmh.15.2023.09.12.03.44.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Sep 2023 03:44:20 -0700 (PDT)
+Message-ID: <56c84195-8cb3-df39-ffd2-f9eb8a445cf6@linaro.org>
+Date:   Tue, 12 Sep 2023 12:44:17 +0200
 MIME-Version: 1.0
-References: <20230912075805.11432-1-moudy.ho@mediatek.com> <c0bd7428-1330-58c5-64d2-78af479dfcf4@collabora.com>
- <CAGXv+5FhsKVGwoJxLP=-gV+rSHbQ8DUX0YACy0mPxYw+MC85=g@mail.gmail.com> <d8bfbb5f-07a7-4beb-ac1c-049825caf934@collabora.com>
-In-Reply-To: <d8bfbb5f-07a7-4beb-ac1c-049825caf934@collabora.com>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Tue, 12 Sep 2023 18:28:32 +0800
-Message-ID: <CAGXv+5EJ6W6XCJR3busZ0HVQjLytZvzMMjUhhpR5g6Jc8sJQ+A@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
 Subject: Re: [PATCH v5 00/14] add support MDP3 on MT8195 platform
-To:     AngeloGioacchino Del Regno 
+Content-Language: en-US
+To:     Chen-Yu Tsai <wenst@chromium.org>,
+        AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
 Cc:     Moudy Ho <moudy.ho@mediatek.com>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -69,110 +75,100 @@ Cc:     Moudy Ho <moudy.ho@mediatek.com>,
         linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20230912075805.11432-1-moudy.ho@mediatek.com>
+ <c0bd7428-1330-58c5-64d2-78af479dfcf4@collabora.com>
+ <CAGXv+5FhsKVGwoJxLP=-gV+rSHbQ8DUX0YACy0mPxYw+MC85=g@mail.gmail.com>
+ <d8bfbb5f-07a7-4beb-ac1c-049825caf934@collabora.com>
+ <CAGXv+5EJ6W6XCJR3busZ0HVQjLytZvzMMjUhhpR5g6Jc8sJQ+A@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAGXv+5EJ6W6XCJR3busZ0HVQjLytZvzMMjUhhpR5g6Jc8sJQ+A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 5:43=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 12/09/23 11:37, Chen-Yu Tsai ha scritto:
-> > On Tue, Sep 12, 2023 at 5:00=E2=80=AFPM AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@collabora.com> wrote:
-> >>
-> >> Il 12/09/23 09:57, Moudy Ho ha scritto:
-> >>> Changes since v4:
-> >>> - Rebase on v6.6-rc1
-> >>> - Remove any unnecessary DTS settings.
-> >>> - Adjust the usage of MOD and clock in blending components.
-> >>>
-> >>> Changes since v3:
-> >>> - Depend on :
-> >>>     [1] https://patchwork.kernel.org/project/linux-media/list/?series=
-=3D719841
-> >>> - Suggested by Krzysztof, integrating all newly added bindings for
-> >>>     the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
-> >>> - Revise MDP3 nodes with generic names.
-> >>>
-> >>> Changes since v2:
-> >>> - Depend on :
-> >>>     [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-media=
-tek/list/?series=3D711592
-> >>>     [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/lis=
-t/?series=3D711618
-> >>> - Suggested by Rob to revise MDP3 bindings to pass dtbs check
-> >>> - Add parallel paths feature.
-> >>> - Add blended components settings.
-> >>>
-> >>> Changes since v1:
-> >>> - Depend on :
-> >>>     [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/li=
-st/?series=3D698872
-> >>>     [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-media=
-tek/list/?series=3D684959
-> >>> - Fix compilation failure due to use of undeclared identifier in file=
- "mtk-mdp3-cmdq.c"
-> >>>
-> >>> Hello,
-> >>>
-> >>> This patch is used to add support for MDP3 on the MT8195 platform tha=
-t
-> >>> contains more picture quality components, and can arrange more pipeli=
-nes
-> >>> through two sets of MMSYS and MUTEX respectively.
-> >>>
-> >>> Moudy Ho (14):
-> >>>     arm64: dts: mediatek: mt8183: correct MDP3 DMA-related nodes
-> >>>     arm64: dts: mediatek: mt8195: add MDP3 nodes
-> >>
-> >> Please send the DTS patches separately, those go through a different m=
-aintainer.
-> >
-> > I thought most people prefer the _full_ view in a patchset?
-> >
->
-> Yeah but those going through a different maintainer makes it more straigh=
-tforward
-> to pick; besides, essentially, you can also get a full view with dt-bindi=
-ngs
-> patches instead of devicetrees, as the latter are "constructed from" bind=
-ings
-> anyway.
+On 12/09/2023 12:28, Chen-Yu Tsai wrote:
+> On Tue, Sep 12, 2023 at 5:43 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> Il 12/09/23 11:37, Chen-Yu Tsai ha scritto:
+>>> On Tue, Sep 12, 2023 at 5:00 PM AngeloGioacchino Del Regno
+>>> <angelogioacchino.delregno@collabora.com> wrote:
+>>>>
+>>>> Il 12/09/23 09:57, Moudy Ho ha scritto:
+>>>>> Changes since v4:
+>>>>> - Rebase on v6.6-rc1
+>>>>> - Remove any unnecessary DTS settings.
+>>>>> - Adjust the usage of MOD and clock in blending components.
+>>>>>
+>>>>> Changes since v3:
+>>>>> - Depend on :
+>>>>>     [1] https://patchwork.kernel.org/project/linux-media/list/?series=719841
+>>>>> - Suggested by Krzysztof, integrating all newly added bindings for
+>>>>>     the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
+>>>>> - Revise MDP3 nodes with generic names.
+>>>>>
+>>>>> Changes since v2:
+>>>>> - Depend on :
+>>>>>     [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711592
+>>>>>     [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711618
+>>>>> - Suggested by Rob to revise MDP3 bindings to pass dtbs check
+>>>>> - Add parallel paths feature.
+>>>>> - Add blended components settings.
+>>>>>
+>>>>> Changes since v1:
+>>>>> - Depend on :
+>>>>>     [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/?series=698872
+>>>>>     [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=684959
+>>>>> - Fix compilation failure due to use of undeclared identifier in file "mtk-mdp3-cmdq.c"
+>>>>>
+>>>>> Hello,
+>>>>>
+>>>>> This patch is used to add support for MDP3 on the MT8195 platform that
+>>>>> contains more picture quality components, and can arrange more pipelines
+>>>>> through two sets of MMSYS and MUTEX respectively.
+>>>>>
+>>>>> Moudy Ho (14):
+>>>>>     arm64: dts: mediatek: mt8183: correct MDP3 DMA-related nodes
+>>>>>     arm64: dts: mediatek: mt8195: add MDP3 nodes
+>>>>
+>>>> Please send the DTS patches separately, those go through a different maintainer.
+>>>
+>>> I thought most people prefer the _full_ view in a patchset?
+>>>
+>>
+>> Yeah but those going through a different maintainer makes it more straightforward
+>> to pick; besides, essentially, you can also get a full view with dt-bindings
+>> patches instead of devicetrees, as the latter are "constructed from" bindings
+>> anyway.
+> 
+> Sure, but testing, especially by people not in the recipients or CC list,
+> is a bit painful when the full set of patches isn't bundled together.
+> Having them bundled together shows what the submitter tested and makes
+> it easier for others to reproduce.
+> 
+> AFAIK other ARM platforms have been sending patches all grouped together.
+> It's MediaTek that has been different, as they normally have (for Chromebooks)
+> a system integration engineer handling the device tree stuff, while component
+> driver owners just handle the drivers, and by extension, the DT bindings.
+> 
+>> Moreover, it would be definitely nice to add a link to the devicetree series
+>> in the cover letter of this series, so that people *do* get a full overview
+>> by checking both series :-)
+> 
+> Most maintainers seem to know what to do: apply the subset destined for
+> their tree. At least the subsystems that frequently deal with DT-based
+> platforms anyway.
 
-Sure, but testing, especially by people not in the recipients or CC list,
-is a bit painful when the full set of patches isn't bundled together.
-Having them bundled together shows what the submitter tested and makes
-it easier for others to reproduce.
+Most, but not all. Some maintainers take entire set - including DTS -
+which is not what we want, because *DTS, as a hardware description, must
+be independent of driver changes*. Most notably Greg and netdev folks
+grab everything. Keeping it together with driver changes brings
+confusion and feeling that there are dependency.
 
-AFAIK other ARM platforms have been sending patches all grouped together.
-It's MediaTek that has been different, as they normally have (for Chromeboo=
-ks)
-a system integration engineer handling the device tree stuff, while compone=
-nt
-driver owners just handle the drivers, and by extension, the DT bindings.
+Please don't do this.
 
-> Moreover, it would be definitely nice to add a link to the devicetree ser=
-ies
-> in the cover letter of this series, so that people *do* get a full overvi=
-ew
-> by checking both series :-)
+Best regards,
+Krzysztof
 
-Most maintainers seem to know what to do: apply the subset destined for
-their tree. At least the subsystems that frequently deal with DT-based
-platforms anyway.
-
-
-ChenYu
-
-> Cheers!
->
-> >> P.S.: The dt-bindings patch can be sent inside of this series, please =
-do that.
-> >>
-> >> Thanks!
-> >> Angelo
-> >>
-> >>
->
