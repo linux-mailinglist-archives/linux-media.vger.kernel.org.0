@@ -2,203 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E56BA79CBD0
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 11:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEC7279CBE0
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 11:32:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233681AbjILJbE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 05:31:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48686 "EHLO
+        id S232331AbjILJcc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 05:32:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233499AbjILJbD (ORCPT
+        with ESMTP id S231574AbjILJcb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 05:31:03 -0400
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8CA116
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 02:30:59 -0700 (PDT)
-X-KPN-MessageId: 0d095a7b-514f-11ee-b85c-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 0d095a7b-514f-11ee-b85c-005056992ed3;
-        Tue, 12 Sep 2023 11:30:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=tbcgu7MNJKnt0lu/X9TWh5HxE0+gC7FcDZZymdF80oI=;
-        b=H7c42TRlL3s3WG+vc9ngeulpENmlXoaphkWusMMplUDJyfD71UzUXDikENsTPTBvaJnOlXVAa6c4s
-         4xyBkXjamlisIrvFWjW05OK6+SXEDhiDKlwPuP3nkO4CkHzJVOy//v+RVALQGG/PB3oMvAUa9X2/rD
-         yD/mLPTdoYF7FD74OYt8I8H/U8yAVhfFMltTdBDp/yRKCCp8eCXtIV3wzVG2uSaw08PRteso2mwvUu
-         iCdIzkyQ0SvtogNc25BDMbpmTucUMNp6V79PDQKtJNB8ekKJTmqnmoR7jx618LT3SDUqJeZRWkeO21
-         NIyljCXj5Yg2XJKOHEevWpvcfsP9Zww==
-X-KPN-MID: 33|nrxi0pWqsUgkX9IDvvIcpLP6/oTA2sYu8xIDYeMqD0+oUKUH+mJRjmGv5GVnWZb
- JfKDI28NjYXjugeiwQzDBl7/JzGq6Y3egTWXYVneCbCc=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|vGIDk8wX97GLaFMM2308imONnDauwJOLZSCt15+i5uErzb6+aNZS2o1TFzrqySU
- Y/eFoqhWnOCtnYbNucx+SZQ==
-X-Originating-IP: 173.38.220.60
-Received: from [10.47.77.214] (unknown [173.38.220.60])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 12decda6-514f-11ee-ac77-00505699b758;
-        Tue, 12 Sep 2023 11:30:56 +0200 (CEST)
-Message-ID: <d4cedcb0-32ed-495d-a8cd-a635d5105824@xs4all.nl>
-Date:   Tue, 12 Sep 2023 11:30:55 +0200
+        Tue, 12 Sep 2023 05:32:31 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBE6CCD;
+        Tue, 12 Sep 2023 02:32:27 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id B76C566072F2;
+        Tue, 12 Sep 2023 10:32:25 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694511146;
+        bh=nboqvOkj/fOk7wG5yLQU5h6H3bj8HNMHs3m8cZuPp8g=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=leOPTMb+UgyVQ7uNRBIbc4bummxwqu0liVI46DPr3hA0ZMaSkS1CjLtz/mqVft49Z
+         xFjyoG767NLmgk7EBBdlhCvsO3Te6WxU7aeBJuYEPJfvmXBPzhVmf0BzY9sGPYGJxL
+         5RJTGwtBTYBNd98Ovs9eDiZRp5+fdCSF3shUiUH3eRJC+DAQDfbV0qnzMeWvlAlD54
+         1M/ycX4PoO5ZP+QtowvQgTv5u2NktAquPZCBeJDafxev3n8eNkbQuSci0wkphL+en4
+         lo9PKMFdN0ZAuIQs+tFZnn3yahQ/wGOOoIblTuDuIQTkM4pWBpJBtG8Bi4FwWsRYRB
+         NnAZEo8JCQtcQ==
+Message-ID: <d798b15b-6f35-96db-e3f7-5c0bcc5d46a2@collabora.com>
+Date:   Tue, 12 Sep 2023 11:32:23 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/14] media: medkatek: vcodec: set secure mode to decoder
- driver
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
 Content-Language: en-US
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= 
-        <nfraprado@collabora.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nathan Hebert <nhebert@chromium.org>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
- <20230911125936.10648-13-yunfei.dong@mediatek.com>
- <1df3e79b84933dda0313d0d9719220dbc06c9022.camel@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <1df3e79b84933dda0313d0d9719220dbc06c9022.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+To:     =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jstultz@google.com" <jstultz@google.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
+        <kuohong.wang@mediatek.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-6-yong.wu@mediatek.com>
+ <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com>
+ <a115a2a5d3ac218e6db65ccdb0a1876f9cfca02b.camel@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <a115a2a5d3ac218e6db65ccdb0a1876f9cfca02b.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 9/11/23 17:54, Nicolas Dufresne wrote:
-> Hi,
-> 
-> Le lundi 11 septembre 2023 à 20:59 +0800, Yunfei Dong a écrit :
->> Setting secure mode flag to kernel when trying to play secure video,
->> then decoder driver will initialize tee related interface to support
->> svp.
-> 
-> 
-> This is not what the patch is doing, please rework. This patch is an vendor API
-> addition introducing V4L2_CID_MPEG_MTK_SET_SECURE_MODE. I should not have to
-> read your patch to understand this.
-> 
+Il 12/09/23 08:17, Yong Wu (吴勇) ha scritto:
+> On Mon, 2023-09-11 at 11:29 +0200, AngeloGioacchino Del Regno wrote:
+>> Il 11/09/23 04:30, Yong Wu ha scritto:
+>>> The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't work
+>>> here since this is not a platform driver, therefore initialise the
+>>> TEE
+>>> context/session while we allocate the first secure buffer.
+>>>
+>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>> ---
+>>>    drivers/dma-buf/heaps/mtk_secure_heap.c | 61
+>>> +++++++++++++++++++++++++
+>>>    1 file changed, 61 insertions(+)
+>>>
+>>> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c b/drivers/dma-
+>>> buf/heaps/mtk_secure_heap.c
+>>> index bbf1c8dce23e..e3da33a3d083 100644
+>>> --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
+>>> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
+>>> @@ -10,6 +10,12 @@
+>>>    #include <linux/err.h>
+>>>    #include <linux/module.h>
+>>>    #include <linux/slab.h>
+>>> +#include <linux/tee_drv.h>
+>>> +#include <linux/uuid.h>
+>>> +
+>>> +#define TZ_TA_MEM_UUID		"4477588a-8476-11e2-ad15-
+>>> e41f1390d676"
+>>> +
 >>
->> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->> ---
->>  .../vcodec/decoder/mtk_vcodec_dec_stateless.c     | 15 ++++++++++++++-
->>  drivers/media/v4l2-core/v4l2-ctrls-defs.c         |  5 +++++
->>  include/uapi/linux/v4l2-controls.h                |  1 +
->>  3 files changed, 20 insertions(+), 1 deletion(-)
+>> Is this UUID the same for all SoCs and all TZ versions?
+> 
+> Yes. It is the same for all SoCs and all TZ versions currently.
+> 
+
+That's good news!
+
+Is this UUID used in any userspace component? (example: Android HALs?)
+If it is (and I somehow expect that it is), then this definition should go
+to a UAPI header, as suggested by Christian.
+
+Cheers!
+
 >>
->> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->> index d2b09ce9f1cf..a981178c25d9 100644
->> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->> @@ -535,6 +535,17 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
->>  		ctrl->val = mtk_dma_contig_get_secure_handle(ctx, ctrl->val);
->>  		mtk_v4l2_vdec_dbg(3, ctx, "get secure handle: %d => 0x%x", sec_fd, ctrl->val);
->>  		break;
->> +	case V4L2_CID_MPEG_MTK_SET_SECURE_MODE:
-> 
-> Stepping back a little and focusing on the API, what makes your driver so
-> special that it should be the only one having a "secure mode" ? We are touching
-> in gap in the media pipeline in Linux, and this should come with consideration
-> of the global API.
-> 
-> Why is this API better then let's say Google Android one, were they expose 2
-> device nodes in their fork of the MFC driver (a secure and a non secure one) ?
-
-Perhaps it is a good idea to first post an RFC with an uAPI proposal on how to
-handle secure video. I suspect this isn't mediatek specific, other SoCs with
-tee support could use this as well.
-
-As Nicolas said, it's long known to be a gap in our media support, so it is
-really great that you started work on this, but you need to look at this from
-a more generic point-of-view, and not mediatek-specific.
-
-Regards,
-
-	Hans
-
-> 
-> regards,
-> Nicolas
-> 
-> p.s. you forgot to document your control in the RST doc, please do in following
-> release.
-> 
->> +		ctx->is_svp_mode = ctrl->val;
->> +
->> +		if (ctx->is_svp_mode) {
->> +			ret = mtk_vcodec_dec_optee_open(ctx->dev->optee_private);
->> +			if (ret)
->> +				mtk_v4l2_vdec_err(ctx, "open secure mode failed.");
->> +			else
->> +				mtk_v4l2_vdec_dbg(3, ctx, "decoder in secure mode: %d", ctrl->val);
->> +		}
->> +		break;
->>  	default:
->>  		mtk_v4l2_vdec_dbg(3, ctx, "Not supported to set ctrl id: 0x%x\n", hdr_ctrl->id);
->>  		return ret;
->> @@ -573,7 +584,7 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_dec_ctx *ctx)
->>  	unsigned int i;
->>  	struct v4l2_ctrl *ctrl;
->>  
->> -	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS + 1);
->> +	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS + 2);
->>  	if (ctx->ctrl_hdl.error) {
->>  		mtk_v4l2_vdec_err(ctx, "v4l2_ctrl_handler_init failed\n");
->>  		return ctx->ctrl_hdl.error;
->> @@ -592,6 +603,8 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_dec_ctx *ctx)
->>  
->>  	ctrl = v4l2_ctrl_new_std(&ctx->ctrl_hdl, &mtk_vcodec_dec_ctrl_ops,
->>  				 V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE, 0, 65535, 1, 0);
->> +	ctrl = v4l2_ctrl_new_std(&ctx->ctrl_hdl, &mtk_vcodec_dec_ctrl_ops,
->> +				 V4L2_CID_MPEG_MTK_SET_SECURE_MODE, 0, 65535, 1, 0);
->>  
->>  	v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
->>  
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> index d8cf01f76aab..a507045a3f30 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	case V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES:	return "Reference Frames for a P-Frame";
->>  	case V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR:		return "Prepend SPS and PPS to IDR";
->>  	case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:		return "MediaTek Decoder get secure handle";
->> +	case V4L2_CID_MPEG_MTK_SET_SECURE_MODE:			return "MediaTek Decoder set secure mode";
->>  
->>  	/* AV1 controls */
->>  	case V4L2_CID_MPEG_VIDEO_AV1_PROFILE:			return "AV1 Profile";
->> @@ -1442,6 +1443,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>  		*type = V4L2_CTRL_TYPE_INTEGER;
->>  		*flags |= V4L2_CTRL_FLAG_WRITE_ONLY;
->>  		break;
->> +	case V4L2_CID_MPEG_MTK_SET_SECURE_MODE:
->> +		*type = V4L2_CTRL_TYPE_INTEGER;
->> +		*flags |= V4L2_CTRL_FLAG_WRITE_ONLY;
->> +		break;
->>  	case V4L2_CID_USER_CLASS:
->>  	case V4L2_CID_CAMERA_CLASS:
->>  	case V4L2_CID_CODEC_CLASS:
->> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->> index 7b3694985366..88e90d943e38 100644
->> --- a/include/uapi/linux/v4l2-controls.h
->> +++ b/include/uapi/linux/v4l2-controls.h
->> @@ -957,6 +957,7 @@ enum v4l2_mpeg_mfc51_video_force_frame_type {
->>  /*  MPEG-class control IDs specific to the MediaTek Decoder driver as defined by V4L2 */
->>  #define V4L2_CID_MPEG_MTK_BASE			(V4L2_CTRL_CLASS_CODEC | 0x2000)
->>  #define V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE	(V4L2_CID_MPEG_MTK_BASE+8)
->> +#define V4L2_CID_MPEG_MTK_SET_SECURE_MODE	(V4L2_CID_MPEG_MTK_BASE+9)
->>  
->>  /*  Camera class control IDs */
->>  
-> 
+>> Thanks,
+>> Angelo
+>>
+>>
+>>> +#define MTK_TEE_PARAM_NUM		4
+>>>    
+>>>    /*
+>>>     * MediaTek secure (chunk) memory type
+>>> @@ -28,17 +34,72 @@ struct mtk_secure_heap_buffer {
+>>>    struct mtk_secure_heap {
+>>>    	const char		*name;
+>>>    	const enum kree_mem_type mem_type;
+>>> +	u32			 mem_session;
+>>> +	struct tee_context	*tee_ctx;
+>>>    };
+>>>    
+>>> +static int mtk_optee_ctx_match(struct tee_ioctl_version_data *ver,
+>>> const void *data)
+>>> +{
+>>> +	return ver->impl_id == TEE_IMPL_ID_OPTEE;
+>>> +}
+>>> +
+>>> +static int mtk_kree_secure_session_init(struct mtk_secure_heap
+>>> *sec_heap)
+>>> +{
+>>> +	struct tee_param t_param[MTK_TEE_PARAM_NUM] = {0};
+>>> +	struct tee_ioctl_open_session_arg arg = {0};
+>>> +	uuid_t ta_mem_uuid;
+>>> +	int ret;
+>>> +
+>>> +	sec_heap->tee_ctx = tee_client_open_context(NULL,
+>>> mtk_optee_ctx_match,
+>>> +						    NULL, NULL);
+>>> +	if (IS_ERR(sec_heap->tee_ctx)) {
+>>> +		pr_err("%s: open context failed, ret=%ld\n", sec_heap-
+>>>> name,
+>>> +		       PTR_ERR(sec_heap->tee_ctx));
+>>> +		return -ENODEV;
+>>> +	}
+>>> +
+>>> +	arg.num_params = MTK_TEE_PARAM_NUM;
+>>> +	arg.clnt_login = TEE_IOCTL_LOGIN_PUBLIC;
+>>> +	ret = uuid_parse(TZ_TA_MEM_UUID, &ta_mem_uuid);
+>>> +	if (ret)
+>>> +		goto close_context;
+>>> +	memcpy(&arg.uuid, &ta_mem_uuid.b, sizeof(ta_mem_uuid));
+>>> +
+>>> +	ret = tee_client_open_session(sec_heap->tee_ctx, &arg,
+>>> t_param);
+>>> +	if (ret < 0 || arg.ret) {
+>>> +		pr_err("%s: open session failed, ret=%d:%d\n",
+>>> +		       sec_heap->name, ret, arg.ret);
+>>> +		ret = -EINVAL;
+>>> +		goto close_context;
+>>> +	}
+>>> +	sec_heap->mem_session = arg.session;
+>>> +	return 0;
+>>> +
+>>> +close_context:
+>>> +	tee_client_close_context(sec_heap->tee_ctx);
+>>> +	return ret;
+>>> +}
+>>> +
+>>>    static struct dma_buf *
+>>>    mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
+>>>    		      unsigned long fd_flags, unsigned long heap_flags)
+>>>    {
+>>> +	struct mtk_secure_heap *sec_heap = dma_heap_get_drvdata(heap);
+>>>    	struct mtk_secure_heap_buffer *sec_buf;
+>>>    	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+>>>    	struct dma_buf *dmabuf;
+>>>    	int ret;
+>>>    
+>>> +	/*
+>>> +	 * TEE probe may be late. Initialise the secure session in the
+>>> first
+>>> +	 * allocating secure buffer.
+>>> +	 */
+>>> +	if (!sec_heap->mem_session) {
+>>> +		ret = mtk_kree_secure_session_init(sec_heap);
+>>> +		if (ret)
+>>> +			return ERR_PTR(ret);
+>>> +	}
+>>> +
+>>>    	sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
+>>>    	if (!sec_buf)
+>>>    		return ERR_PTR(-ENOMEM);
+>>
+>>
 
