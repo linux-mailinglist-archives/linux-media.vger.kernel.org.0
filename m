@@ -2,149 +2,306 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49C0379D3F8
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 16:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E3ED79D40C
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 16:50:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235913AbjILOqk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 10:46:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48916 "EHLO
+        id S236090AbjILOuo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 10:50:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230347AbjILOqi (ORCPT
+        with ESMTP id S235913AbjILOuk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 10:46:38 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF87115;
-        Tue, 12 Sep 2023 07:46:34 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-401da71b7c5so64904565e9.2;
-        Tue, 12 Sep 2023 07:46:34 -0700 (PDT)
+        Tue, 12 Sep 2023 10:50:40 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E9AD115
+        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 07:50:36 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-411f5dd7912so38992321cf.3
+        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 07:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694529993; x=1695134793; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K8sFu0+D3E77YJ4z9rbydrUcmzYi8cL1xr3GzlsZe4w=;
-        b=ETyPkG12J1anB4ZBgBf5EYsrYqG109YBS2map2UV8rkE6kplKy4hS+NPQuPEDYmPSL
-         AhSzZHqfytMV6h4BAkfl8LxzxU7QuditBKzokS/jy1wbdqeQ4i2fpXHS/wOx9Ttcwzi2
-         6F1Xh4FNaBEvfZkMYSyLpAyL9sn9RQNcE5Mcze0alGpi1sg5dZkYSVlwoQ0hs3/xWMoK
-         4rryuFiQGpFny/RDdNf+vFb4v2NvldNai9Z3grN/AI4Qq+EgpPXMnxO8Be+uS1QvJOhO
-         VOJkDNwnjOZPnfAtfj1kb0ncQ+afCP4PtA56v5H9fkZyoqc8i5TWG+EusDodprXqD9Q9
-         gG8A==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1694530235; x=1695135035; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=24gu3xnStbF9tnpQJ0WbAGs3/nJ8XhTOFkMY3d7yv8A=;
+        b=uiqtxSGd41W6BSyB5AQR+nLN2s94YmMW3XjmGaHG7bKEPkSqtvif21dFmySilK/CUi
+         fP0twwxf2SZddAJ6l4DqTQ+M5EMS+PrBTCqxGwkUmRvR5BilmsrffW+BbzRusgw7S2C/
+         Eyf7+Ql5PoUrLfxLBm4qAcXm77mDtQh7cIQHuyPAUdXcOhxGOte3YJg90RraxhI+T8tr
+         /1W9df4HnjlIN1jYKFZJXwgPWMQ5gmeI+K+mqYpZAEhZUGkHgX3biJqIWjKprouV1HsQ
+         /KtXesz44mAxuabzcTrfVCwoa9JYpcqU+8QQSeJK8GIp+94APCp4uhK93oxMcmKNf+W+
+         t+Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694529993; x=1695134793;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K8sFu0+D3E77YJ4z9rbydrUcmzYi8cL1xr3GzlsZe4w=;
-        b=l8+fRH1ChLV7nu2AouB3IzBWZk7VnVQu5USWoZRs8oFI1ILJMXI6MQQaas4tyqel15
-         2pcJEKRxxaP4Zq/XKKbBgG7rYnydjd1S3D5HqpW1FGvCdBgFKr85eaZ4y7Cg00JGWMMb
-         BbiIdGoRADNwjH/KDNyyuz3KBNYoRkjDhmFmIq/Ip73ZgcL80mwpY2lxt5fCJt7Xf2x2
-         NXajazz6S97VYR8rLlaHj5Da9uroztzkPH2OiWZbKOknWaiahtPThQ7zSfZRBj5VblhI
-         A+RMgCpdJvweK9v19JH8toyxT4JfwCaWyNm/Kh42E667qGGdcoZAbUDtDO9x5UJPQLyf
-         vQNA==
-X-Gm-Message-State: AOJu0Yxks9++aDSs1s0VJgkwa/9uukxeh9NNUBnYcgy7kvJgDLg0vJVi
-        +7uUQVko0o9sEgccs9kqLcI=
-X-Google-Smtp-Source: AGHT+IGHXQb8saBAd6H+9uYnotfhWfZV5PqBMgupUePv5+BNFjR2MQXXacKt9iDypQAL5TYLBL9epA==
-X-Received: by 2002:a05:600c:3b1e:b0:402:f536:41c5 with SMTP id m30-20020a05600c3b1e00b00402f53641c5mr10911758wms.3.1694529992631;
-        Tue, 12 Sep 2023 07:46:32 -0700 (PDT)
-Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id t15-20020a7bc3cf000000b00402be2666bcsm16448614wmj.6.2023.09.12.07.46.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Sep 2023 07:46:32 -0700 (PDT)
-Message-ID: <95797f3d-65bf-1bd9-9e19-6de42605cfe3@gmail.com>
-Date:   Tue, 12 Sep 2023 16:46:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 3/9] dma-heap: Provide accessors so that in-kernel drivers
- can allocate dmabufs from specific heaps
-Content-Language: en-US
-To:     =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
-        "jstultz@google.com" <jstultz@google.com>
-Cc:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
-        <Jianjiao.Zeng@mediatek.com>,
-        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
-        <kuohong.wang@mediatek.com>,
-        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "tjmercier@google.com" <tjmercier@google.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>
+        d=1e100.net; s=20230601; t=1694530235; x=1695135035;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=24gu3xnStbF9tnpQJ0WbAGs3/nJ8XhTOFkMY3d7yv8A=;
+        b=adHEvCD+UII32mf0OufVbc4KwjfaqgtUBcgQz82xaZfme3hu3VWMH8dgO/p0TzS6N5
+         WX5bBecRe3HDcBmHosnoU1Uv/5ToO3PbbA+J0GOX8Ymfo1Gd14lznj4+j2Ft8Rk/YoQ6
+         o9/to7hFJD8rjP4Xs7nNxH3DgyhrC5I0sNH2YSTQ82DsW808PGMpQ29n0al8xuLbfDLB
+         BprG9Md2hoqTpeGULHHG57GQay/DjjqAPz6gCSFIhQCMlwkkNA3O/SzXm6JoGqL6OjZl
+         yF1/CknugdrEFqNBBo7UO16JWr+lzCh9sGhd5vG3VS3X+d5HilLp3URgSG8gph0uxQ9+
+         9+Pg==
+X-Gm-Message-State: AOJu0YzNnPBEWomC9DMsVp8JBicgKuG99CBOhptB2EwFT0+LwFN0LwqN
+        LGFGuS5FUJSyvjKDCCKyAeSEqw==
+X-Google-Smtp-Source: AGHT+IHIjqtGsqNdxfUolw+Ala7g5YjJUkbLvkQof93NfZ486WisLxIwvrHg6NzE7241vOgooQYo5w==
+X-Received: by 2002:a05:622a:1811:b0:40d:1984:e231 with SMTP id t17-20020a05622a181100b0040d1984e231mr16719179qtc.43.1694530235641;
+        Tue, 12 Sep 2023 07:50:35 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
+        by smtp.gmail.com with ESMTPSA id v12-20020ac8578c000000b0040ff6194ef3sm3352524qta.70.2023.09.12.07.50.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Sep 2023 07:50:35 -0700 (PDT)
+Message-ID: <bbb5af208d08acfb9c7b45283840be8719c4c4e2.camel@ndufresne.ca>
+Subject: Re: [PATCH 3/9] dma-heap: Provide accessors so that in-kernel
+ drivers can allocate dmabufs from specific heaps
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>, tjmercier@google.com,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, jianjiao.zeng@mediatek.com,
+        kuohong.wang@mediatek.com
+Date:   Tue, 12 Sep 2023 10:50:34 -0400
+In-Reply-To: <803846bc-fd1d-d2ec-2855-456af22c82f8@amd.com>
 References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-4-yong.wu@mediatek.com>
- <803846bc-fd1d-d2ec-2855-456af22c82f8@amd.com>
- <CANDhNCrQyiFZ+8DnG0iyKBXC0H1698K1a9d2AxOq4whDsZBn+Q@mail.gmail.com>
- <23e71d1f-08c1-3834-5b1f-2b5714c7bfaa@gmail.com>
- <255ae6b9ac1b6bea9262069747824b8461475e70.camel@mediatek.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <255ae6b9ac1b6bea9262069747824b8461475e70.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+         <20230911023038.30649-4-yong.wu@mediatek.com>
+         <803846bc-fd1d-d2ec-2855-456af22c82f8@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 12.09.23 um 10:52 schrieb Yong Wu (吴勇):
-> [SNIP]
->> But what we should try to avoid is that newly merged drivers provide
->> both a driver specific UAPI and DMA-heaps. The justification that
->> this
->> makes it easier to transit userspace to the new UAPI doesn't really
->> count.
->>
->> That would be adding UAPI already with a plan to deprecate it and
->> that
->> is most likely not helpful considering that UAPI must be supported
->> forever as soon as it is upstream.
-> Sorry, I didn't understand this. I think we have not change the UAPI.
-> Which code are you referring to?
+Le lundi 11 septembre 2023 =C3=A0 12:13 +0200, Christian K=C3=B6nig a =C3=
+=A9crit=C2=A0:
+> Am 11.09.23 um 04:30 schrieb Yong Wu:
+> > From: John Stultz <jstultz@google.com>
+> >=20
+> > This allows drivers who don't want to create their own
+> > DMA-BUF exporter to be able to allocate DMA-BUFs directly
+> > from existing DMA-BUF Heaps.
+> >=20
+> > There is some concern that the premise of DMA-BUF heaps is
+> > that userland knows better about what type of heap memory
+> > is needed for a pipeline, so it would likely be best for
+> > drivers to import and fill DMA-BUFs allocated by userland
+> > instead of allocating one themselves, but this is still
+> > up for debate.
+>=20
+> The main design goal of having DMA-heaps in the first place is to avoid=
+=20
+> per driver allocation and this is not necessary because userland know=20
+> better what type of memory it wants.
 
-Well, what do you need this for if not a new UAPI?
+If the memory is user visible, yes. When I look at the MTK VCODEC changes, =
+this
+seems to be used for internal codec state and SHM buffers used to communica=
+te
+with firmware.
 
-My assumption here is that you need to export the DMA-heap allocation 
-function so that you can server an UAPI in your new driver. Or what else 
-is that good for?
-
-As far as I understand you try to upstream your new vcodec driver. So 
-while this change here seems to be a good idea to clean up existing 
-drivers it doesn't look like a good idea for a newly created driver.
-
-Regards,
-Christian.
-
->>> So I think this patch is a little confusing in this series, as I
->> don't
->>> see much of it actually being used here (though forgive me if I'm
->>> missing it).
->>>
->>> Instead, It seems it get used in a separate patch series here:
->>>     
->> https://lore.kernel.org/all/20230911125936.10648-1-yunfei.dong@mediatek.com/
->>
->> Please try to avoid stuff like that it is really confusing and eats
->> reviewers time.
-> My fault, I thought dma-buf and media belonged to the different tree,
-> so I send them separately. The cover letter just said "The consumers of
-> the new heap and new interface are our codecs and DRM, which will be
-> sent upstream soon", and there was no vcodec link at that time.
->
-> In the next version, we will put the first three patches into the
-> vcodec patchset.
->
-> Thanks.
->
+>=20
+> The background is rather that we generally want to decouple allocation=
+=20
+> from having a device driver connection so that we have better chance=20
+> that multiple devices can work with the same memory.
+>=20
+> I once create a prototype which gives userspace a hint which DMA-heap to=
+=20
+> user for which device:=20
+> https://patchwork.kernel.org/project/linux-media/patch/20230123123756.401=
+692-2-christian.koenig@amd.com/
+>=20
+> Problem is that I don't really have time to look into it and maintain=20
+> that stuff, but I think from the high level design that is rather the=20
+> general direction we should push at.
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Signed-off-by: John Stultz <jstultz@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > [Yong: Fix the checkpatch alignment warning]
+> > ---
+> >   drivers/dma-buf/dma-heap.c | 60 ++++++++++++++++++++++++++++---------=
+-
+> >   include/linux/dma-heap.h   | 25 ++++++++++++++++
+> >   2 files changed, 69 insertions(+), 16 deletions(-)
+> >=20
+> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> > index dcc0e38c61fa..908bb30dc864 100644
+> > --- a/drivers/dma-buf/dma-heap.c
+> > +++ b/drivers/dma-buf/dma-heap.c
+> > @@ -53,12 +53,15 @@ static dev_t dma_heap_devt;
+> >   static struct class *dma_heap_class;
+> >   static DEFINE_XARRAY_ALLOC(dma_heap_minors);
+> >  =20
+> > -static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+> > -				 unsigned int fd_flags,
+> > -				 unsigned int heap_flags)
+> > +struct dma_buf *dma_heap_buffer_alloc(struct dma_heap *heap, size_t le=
+n,
+> > +				      unsigned int fd_flags,
+> > +				      unsigned int heap_flags)
+> >   {
+> > -	struct dma_buf *dmabuf;
+> > -	int fd;
+> > +	if (fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	if (heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
+> > +		return ERR_PTR(-EINVAL);
+> >  =20
+> >   	/*
+> >   	 * Allocations from all heaps have to begin
+> > @@ -66,9 +69,20 @@ static int dma_heap_buffer_alloc(struct dma_heap *he=
+ap, size_t len,
+> >   	 */
+> >   	len =3D PAGE_ALIGN(len);
+> >   	if (!len)
+> > -		return -EINVAL;
+> > +		return ERR_PTR(-EINVAL);
+> >  =20
+> > -	dmabuf =3D heap->ops->allocate(heap, len, fd_flags, heap_flags);
+> > +	return heap->ops->allocate(heap, len, fd_flags, heap_flags);
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_heap_buffer_alloc);
+> > +
+> > +static int dma_heap_bufferfd_alloc(struct dma_heap *heap, size_t len,
+> > +				   unsigned int fd_flags,
+> > +				   unsigned int heap_flags)
+> > +{
+> > +	struct dma_buf *dmabuf;
+> > +	int fd;
+> > +
+> > +	dmabuf =3D dma_heap_buffer_alloc(heap, len, fd_flags, heap_flags);
+> >   	if (IS_ERR(dmabuf))
+> >   		return PTR_ERR(dmabuf);
+> >  =20
+> > @@ -106,15 +120,9 @@ static long dma_heap_ioctl_allocate(struct file *f=
+ile, void *data)
+> >   	if (heap_allocation->fd)
+> >   		return -EINVAL;
+> >  =20
+> > -	if (heap_allocation->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
+> > -		return -EINVAL;
+> > -
+> > -	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
+> > -		return -EINVAL;
+> > -
+> > -	fd =3D dma_heap_buffer_alloc(heap, heap_allocation->len,
+> > -				   heap_allocation->fd_flags,
+> > -				   heap_allocation->heap_flags);
+> > +	fd =3D dma_heap_bufferfd_alloc(heap, heap_allocation->len,
+> > +				     heap_allocation->fd_flags,
+> > +				     heap_allocation->heap_flags);
+> >   	if (fd < 0)
+> >   		return fd;
+> >  =20
+> > @@ -205,6 +213,7 @@ const char *dma_heap_get_name(struct dma_heap *heap=
+)
+> >   {
+> >   	return heap->name;
+> >   }
+> > +EXPORT_SYMBOL_GPL(dma_heap_get_name);
+> >  =20
+> >   struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_=
+info)
+> >   {
+> > @@ -290,6 +299,24 @@ struct dma_heap *dma_heap_add(const struct dma_hea=
+p_export_info *exp_info)
+> >   	kfree(heap);
+> >   	return err_ret;
+> >   }
+> > +EXPORT_SYMBOL_GPL(dma_heap_add);
+> > +
+> > +struct dma_heap *dma_heap_find(const char *name)
+> > +{
+> > +	struct dma_heap *h;
+> > +
+> > +	mutex_lock(&heap_list_lock);
+> > +	list_for_each_entry(h, &heap_list, list) {
+> > +		if (!strcmp(h->name, name)) {
+> > +			kref_get(&h->refcount);
+> > +			mutex_unlock(&heap_list_lock);
+> > +			return h;
+> > +		}
+> > +	}
+> > +	mutex_unlock(&heap_list_lock);
+> > +	return NULL;
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_heap_find);
+> >  =20
+> >   static void dma_heap_release(struct kref *ref)
+> >   {
+> > @@ -315,6 +342,7 @@ void dma_heap_put(struct dma_heap *h)
+> >   	kref_put(&h->refcount, dma_heap_release);
+> >   	mutex_unlock(&heap_list_lock);
+> >   }
+> > +EXPORT_SYMBOL_GPL(dma_heap_put);
+> >  =20
+> >   static char *dma_heap_devnode(const struct device *dev, umode_t *mode=
+)
+> >   {
+> > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+> > index f3c678892c5c..59e70f6c7a60 100644
+> > --- a/include/linux/dma-heap.h
+> > +++ b/include/linux/dma-heap.h
+> > @@ -64,10 +64,35 @@ const char *dma_heap_get_name(struct dma_heap *heap=
+);
+> >    */
+> >   struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_=
+info);
+> >  =20
+> > +/**
+> > + * dma_heap_find - get the heap registered with the specified name
+> > + * @name: Name of the DMA-Heap to find
+> > + *
+> > + * Returns:
+> > + * The DMA-Heap with the provided name.
+> > + *
+> > + * NOTE: DMA-Heaps returned from this function MUST be released using
+> > + * dma_heap_put() when the user is done to enable the heap to be unloa=
+ded.
+> > + */
+> > +struct dma_heap *dma_heap_find(const char *name);
+> > +
+> >   /**
+> >    * dma_heap_put - drops a reference to a dmabuf heap, potentially fre=
+eing it
+> >    * @heap: the heap whose reference count to decrement
+> >    */
+> >   void dma_heap_put(struct dma_heap *heap);
+> >  =20
+> > +/**
+> > + * dma_heap_buffer_alloc - Allocate dma-buf from a dma_heap
+> > + * @heap:	DMA-Heap to allocate from
+> > + * @len:	size to allocate in bytes
+> > + * @fd_flags:	flags to set on returned dma-buf fd
+> > + * @heap_flags: flags to pass to the dma heap
+> > + *
+> > + * This is for internal dma-buf allocations only. Free returned buffer=
+s with dma_buf_put().
+> > + */
+> > +struct dma_buf *dma_heap_buffer_alloc(struct dma_heap *heap, size_t le=
+n,
+> > +				      unsigned int fd_flags,
+> > +				      unsigned int heap_flags);
+> > +
+> >   #endif /* _DMA_HEAPS_H */
+>=20
 
