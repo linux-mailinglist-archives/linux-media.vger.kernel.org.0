@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31CB979C9AD
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 10:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AB8679C9BB
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 10:22:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232237AbjILIUD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 04:20:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37130 "EHLO
+        id S232773AbjILIWY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 04:22:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231971AbjILIUC (ORCPT
+        with ESMTP id S232421AbjILIWG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 04:20:02 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E66E7F
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 01:19:58 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-52889bc61b6so7011196a12.0
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 01:19:58 -0700 (PDT)
+        Tue, 12 Sep 2023 04:22:06 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81D8F10CB
+        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 01:22:02 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-52a1ce52ef4so6803478a12.2
+        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 01:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694506797; x=1695111597; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1694506921; x=1695111721; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=stR6EqZjuV5HhouRZxBMlxYw04Q56qEGFFA6lvC7lcc=;
-        b=dsuj8GAUbRfBH50KySuXMoGnyQGHxHiflORe3L6VZU3PbNgo+AjaHD6jBee02JtVGJ
-         2VSHt83YpzJZPXT0nrHbF8OKU1L5USnRnZkAP/DSNeu0tYotLAz9D/dQsh7k54YUw751
-         VRQ5npAW6/PSDapBme6e1WMVD92FXviG3VZ4zhr8nXEq+Luh45YApMmE5WY2urTLn8XY
-         flpHpX0SbM9iTCdR872rXF9xOY+xhF/8n3sBoPILbWJg2uhsPb1PJBYzDRsbABbTGZec
-         tsWZOlkfz7rfFN8I9Fnvi0dVmu8DI7QfPqRfHIXXbFXi4RQxyTbst9d3AMIfu03qSfu1
-         9eUQ==
+        bh=134sTkyIYJwq60odkndkVX6XDM2LNYnyGhf+IscYT2k=;
+        b=xmx4BB15ZzCthDe7UZX4jn8qu8cXgrtwIqKBKFYOKo3qzxeAv/6etrXvo+Fwc/MoHL
+         sJfebo7UGdPR7GPAxboVT8fFR3nnZLgmHVW2epJJcBq5wknMOKBT7XcCbAsKOhsKUEtJ
+         +5CxIsIbPeFAiPP20HmZ0Oraga/05zvpQbo/QlGGKDVy4z5PL7PZQg2a+McNABaNfL44
+         MUqG9PBF/I7bz0Juk5kX9cylpeq16/LDGjoHIN1APagpcuHTN7bIjqNYo5C53oSiPjzj
+         2iKFL0ZkllgCtfrOoIZYV2JSq9c2Lc4s9D9lx142DA48kXa79BAGflaroWKZd0YritWk
+         6uRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694506797; x=1695111597;
+        d=1e100.net; s=20230601; t=1694506921; x=1695111721;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=stR6EqZjuV5HhouRZxBMlxYw04Q56qEGFFA6lvC7lcc=;
-        b=A+txFE6WftAoy7h5si2bggDdKqzcAEDQau/5pNgHO2PuhfJuAFG88K6LxrblgfQu0P
-         GoEYm03TBj/Tcc28l0OeTdqqT9BopMg5QbxFz3eXLiBTViXPmiHlSJHz9N6QsQPfmIe9
-         FXAXFm8a6T3MxyTfAqJBp25uBuKNc7bN0xDRHaKQalBwRyYmDShklb7VKUTm2Clbg8cS
-         3IZUwWehlDgc9D2Iv4MKViQTwqdSV2peWnY+opCf4RSYXem2aCRahxk+OUqzTzSFt0IM
-         cnijlhLMt3r72y76QH1DZajBrGzZBSwYbYaL6WI/PX5BBiXjBX1joKz7T2ENJ7tfBTjs
-         LB6w==
-X-Gm-Message-State: AOJu0YxawBGsVXYpxjJL4mdcxmJ12aEXBGMtgVvwpjGQUoPDOkumb0uo
-        2QiCglo/NXDfVeqlO2B2iH0nYQ==
-X-Google-Smtp-Source: AGHT+IHxLh1j6/qZJbH3ElIvOS9Ozbj27bZE0UvkopwLq9g/xzJNVDe1VEoNG2+PPxZRq+qjnUzJSg==
-X-Received: by 2002:a17:907:a0c7:b0:9ad:8f26:fdba with SMTP id hw7-20020a170907a0c700b009ad8f26fdbamr477711ejc.15.1694506796686;
-        Tue, 12 Sep 2023 01:19:56 -0700 (PDT)
+        bh=134sTkyIYJwq60odkndkVX6XDM2LNYnyGhf+IscYT2k=;
+        b=VOaz2YzLNIhfBXI5IeKgW0YVfXJijZ3s0a0EzI30RXHy2SjrXHjQAzvq0F2H6WxSTc
+         RzPz+IgwICJ8Oh5aZU8QHeG5dLcy4k9XWABcygRTt7mbWAGuwIyVCoEbomkvRpBH9Vco
+         3sekRSm2lRhzYKNo0vr3RFLjmhwG1+xpPxZfN0Wgd3v++TQGLhRNh97VyYTN/smyB3eT
+         Y8LtsSjCJUl7MKwLoYsYrplSEZtT7KyGdEHIjxw63zkbxvE5mxF1jXtSEhERy9uyOCf7
+         kGN81X8qNTFvoDbLYSKvj/tiYTeXrsEc/7I7ia1+7iRlkA3B8mlSAFyzcKLJIVJKzY4D
+         ea7A==
+X-Gm-Message-State: AOJu0YxSsZ6eTmR55tBywOenh31LJlkAdNnywNMQj3cL5f/WOISUj9Oi
+        5j0ap3jTe2cL5ItKwleezIXqrA==
+X-Google-Smtp-Source: AGHT+IGYjGp3CXvM/xYQNS9e1ApRDKROqociEYndRpvvCGZhoBavvvSx1h696r7SBp0u74hDwV9oCQ==
+X-Received: by 2002:aa7:d8d0:0:b0:52d:212d:78e8 with SMTP id k16-20020aa7d8d0000000b0052d212d78e8mr9546980eds.34.1694506920920;
+        Tue, 12 Sep 2023 01:22:00 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id r12-20020a170906c28c00b00997c1d125fasm6476225ejz.170.2023.09.12.01.19.54
+        by smtp.gmail.com with ESMTPSA id j2-20020aa7ca42000000b0052a401d8ef6sm5611858edt.71.2023.09.12.01.21.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Sep 2023 01:19:55 -0700 (PDT)
-Message-ID: <e4119fa6-a4b7-f59e-7115-044fa83c9063@linaro.org>
-Date:   Tue, 12 Sep 2023 10:19:54 +0200
+        Tue, 12 Sep 2023 01:22:00 -0700 (PDT)
+Message-ID: <6b7a229d-54c9-2450-4b37-9acc659cbd12@linaro.org>
+Date:   Tue, 12 Sep 2023 10:21:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH v5 3/3] dt-binding: mediatek: add MediaTek mt8195 MDP3
- components
+Subject: Re: [PATCH v5 11/14] media: platform: mtk-mdp3: add mt8195 platform
+ configuration
 Content-Language: en-US
 To:     Moudy Ho <moudy.ho@mediatek.com>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -75,386 +75,42 @@ Cc:     AngeloGioacchino Del Regno
         linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-References: <20230912075651.10693-1-moudy.ho@mediatek.com>
- <20230912075651.10693-4-moudy.ho@mediatek.com>
+References: <20230912075805.11432-1-moudy.ho@mediatek.com>
+ <20230912075805.11432-12-moudy.ho@mediatek.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230912075651.10693-4-moudy.ho@mediatek.com>
+In-Reply-To: <20230912075805.11432-12-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/09/2023 09:56, Moudy Ho wrote:
-> Introduce more MDP3 components present in MT8195.
-
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching.
-
+On 12/09/2023 09:58, Moudy Ho wrote:
+> Add MT8195 MDP3 basic configuration in file "mdp_cfg_data.c"
+> and corresponding driver data.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->  .../display/mediatek/mediatek,aal.yaml        |  2 +-
->  .../display/mediatek/mediatek,color.yaml      |  2 +-
->  .../display/mediatek/mediatek,merge.yaml      |  1 +
->  .../display/mediatek/mediatek,ovl.yaml        |  2 +-
->  .../display/mediatek/mediatek,split.yaml      |  1 +
->  .../bindings/media/mediatek,mdp3-fg.yaml      | 61 +++++++++++++++++++
->  .../bindings/media/mediatek,mdp3-hdr.yaml     | 60 ++++++++++++++++++
->  .../bindings/media/mediatek,mdp3-pad.yaml     | 61 +++++++++++++++++++
->  .../bindings/media/mediatek,mdp3-rdma.yaml    | 16 ++---
->  .../bindings/media/mediatek,mdp3-stitch.yaml  | 61 +++++++++++++++++++
->  .../bindings/media/mediatek,mdp3-tcc.yaml     | 60 ++++++++++++++++++
->  .../bindings/media/mediatek,mdp3-tdshp.yaml   | 61 +++++++++++++++++++
->  12 files changed, 378 insertions(+), 10 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-pad.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-> index 7fd42c8fdc32..04b1314d00f2 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-> @@ -24,6 +24,7 @@ properties:
->        - enum:
->            - mediatek,mt8173-disp-aal
->            - mediatek,mt8183-disp-aal
-> +          - mediatek,mt8195-mdp3-aal
->        - items:
->            - enum:
->                - mediatek,mt2712-disp-aal
-> @@ -63,7 +64,6 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - interrupts
 
-Why? commit msg tells nothing about it. Why interrupt is not erquired in
-mt8173? How dropping such requirement is anyhow related to mt8195?
+...
 
+>  	{}
+>  };
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> index 06b7d2b0b814..8b69bd8b91c6 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> @@ -21,6 +21,9 @@ static const struct of_device_id mdp_of_ids[] = {
+>  	{ .compatible = "mediatek,mt8183-mdp3-rdma",
+>  	  .data = &mt8183_mdp_driver_data,
+>  	},
+> +	{ .compatible = "mediatek,mt8195-mdp3-rdma",
 
->    - power-domains
->    - clocks
->  
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-> index f21e44092043..8e97b0a6a7b3 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-> @@ -26,6 +26,7 @@ properties:
->            - mediatek,mt2701-disp-color
->            - mediatek,mt8167-disp-color
->            - mediatek,mt8173-disp-color
-> +          - mediatek,mt8195-mdp3-color
->        - items:
->            - enum:
->                - mediatek,mt7623-disp-color
-> @@ -66,7 +67,6 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - interrupts
+You keep adding undocumented compatibles. Your way of organizing patches
+does not have any sense. DTS should not be mixed with media subsystem -
+they *CANNOT* go via one subsystem. In the same time bindings are always
+going via subsystem, so why are they missing here?
 
-Why?
-
->    - power-domains
->    - clocks
->  
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml
-> index eead5cb8636e..401498523404 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml
-> @@ -24,6 +24,7 @@ properties:
->        - enum:
->            - mediatek,mt8173-disp-merge
->            - mediatek,mt8195-disp-merge
-> +          - mediatek,mt8195-mdp3-merge
->        - items:
->            - const: mediatek,mt6795-disp-merge
->            - const: mediatek,mt8173-disp-merge
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-> index 3e1069b00b56..10d4d4f64e09 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-> @@ -26,6 +26,7 @@ properties:
->            - mediatek,mt8173-disp-ovl
->            - mediatek,mt8183-disp-ovl
->            - mediatek,mt8192-disp-ovl
-> +          - mediatek,mt8195-mdp3-ovl
->        - items:
->            - enum:
->                - mediatek,mt7623-disp-ovl
-> @@ -76,7 +77,6 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - interrupts
-
-Why?
-
->    - power-domains
->    - clocks
->    - iommus
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-> index a8a5c9608598..a96b271e3240 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-> @@ -23,6 +23,7 @@ properties:
->      oneOf:
->        - enum:
->            - mediatek,mt8173-disp-split
-> +          - mediatek,mt8195-mdp3-split
->        - items:
->            - const: mediatek,mt6795-disp-split
->            - const: mediatek,mt8173-disp-split
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
-> new file mode 100644
-> index 000000000000..71fd449de8b4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-fg.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek Media Data Path 3 FG
-> +
-> +maintainers:
-> +  - Matthias Brugger <matthias.bgg@gmail.com>
-> +  - Moudy Ho <moudy.ho@mediatek.com>
-> +
-> +description:
-> +  One of Media Data Path 3 (MDP3) components used to add film grain
-> +  according to AV1 spec.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8195-mdp3-fg
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  mediatek,gce-client-reg:
-> +    description:
-> +      The register of display function block to be set by gce. There are 4 arguments,
-> +      such as gce node, subsys id, offset and register size. The subsys id that is
-> +      mapping to the register of display function blocks is defined in the gce header
-> +      include/dt-bindings/gce/<chip>-gce.h of each chips.
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      items:
-> +        - description: phandle of GCE
-> +        - description: GCE subsys id
-> +        - description: register offset
-> +        - description: register size
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 1
-
-This must be maxItems. Use existing code as an example, do not re-invent it.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - mediatek,gce-client-reg
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    #include <dt-bindings/gce/mt8195-gce.h>
-> +
-> +    display@14002000 {
-> +        compatible = "mediatek,mt8195-mdp3-fg";
-> +        reg = <0x14002000 0x1000>;
-> +        mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x2000 0x1000>;
-> +        clocks = <&vppsys0 CLK_VPP0_MDP_FG>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
-> new file mode 100644
-> index 000000000000..fb1bb5a9e57f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-hdr.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek Media Data Path 3 HDR
-> +
-> +maintainers:
-> +  - Matthias Brugger <matthias.bgg@gmail.com>
-> +  - Moudy Ho <moudy.ho@mediatek.com>
-> +
-> +description:
-> +  One of Media Data Path 3 (MDP3) components used to perform HDR to SDR
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8195-mdp3-hdr
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  mediatek,gce-client-reg:
-> +    description:
-> +      The register of display function block to be set by gce. There are 4 arguments,
-> +      such as gce node, subsys id, offset and register size. The subsys id that is
-> +      mapping to the register of display function blocks is defined in the gce header
-> +      include/dt-bindings/gce/<chip>-gce.h of each chips.
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      items:
-> +        - description: phandle of GCE
-> +        - description: GCE subsys id
-> +        - description: register offset
-> +        - description: register size
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 1
-
-Here as well. Why is this minitems?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - mediatek,gce-client-reg
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    #include <dt-bindings/gce/mt8195-gce.h>
-> +
-> +    display@14004000 {
-> +        compatible = "mediatek,mt8195-mdp3-hdr";
-> +        reg = <0x14004000 0x1000>;
-> +        mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x4000 0x1000>;
-> +        clocks = <&vppsys0 CLK_VPP0_MDP_HDR>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-pad.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-pad.yaml
-> new file mode 100644
-> index 000000000000..13b66c5985fe
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-pad.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-pad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek Media Data Path 3 PADDING
-> +
-> +maintainers:
-> +  - Matthias Brugger <matthias.bgg@gmail.com>
-> +  - Moudy Ho <moudy.ho@mediatek.com>
-> +
-> +description:
-> +  One of Media Data Path 3 (MDP3) components used to insert
-> +  pre-defined color or alpha value to arbitrary side of image.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8195-mdp3-pad
-
-And you cannot add it to existing padding because?
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  mediatek,gce-client-reg:
-> +    description:
-> +      The register of display function block to be set by gce. There are 4 arguments,
-> +      such as gce node, subsys id, offset and register size. The subsys id that is
-> +      mapping to the register of display function blocks is defined in the gce header
-> +      include/dt-bindings/gce/<chip>-gce.h of each chips.
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      items:
-> +        - description: phandle of GCE
-> +        - description: GCE subsys id
-> +        - description: register offset
-> +        - description: register size
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 1
-
-Nope
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - mediatek,gce-client-reg
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    #include <dt-bindings/gce/mt8195-gce.h>
-> +
-> +    display@1400a000 {
-> +        compatible = "mediatek,mt8195-mdp3-pad";
-> +        reg = <0x1400a000 0x1000>;
-> +        mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0xa000 0x1000>;
-> +        clocks = <&vppsys0 CLK_VPP0_PADDING>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> index 0c22571d8c22..17cd5b587e23 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> @@ -23,6 +23,7 @@ properties:
->      enum:
->        - mediatek,mt8183-mdp3-rdma
->        - mediatek,mt8195-vdo1-rdma
-> +      - mediatek,mt8195-mdp3-rdma
-
-m is before v
-
->  
->    reg:
->      maxItems: 1
-> @@ -50,17 +51,19 @@ properties:
->      maxItems: 1
->  
->    clocks:
-> -    items:
-> -      - description: RDMA clock
-> -      - description: RSZ clock
-> +    oneOf:
-> +      - items:
-> +          - description: RDMA clock
-> +          - description: SRAM shared component clock
-> +      - items:
-> +          - description: RDMA clock
-
-Why now mt8183 can have SRAM clock optional? How changing mt8183 is
-related to this patch?
-
-I'll finish the review, sorry fix basics here.
+This does not make any sense and such mess at v5 is confusing.
 
 Best regards,
 Krzysztof
