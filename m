@@ -2,104 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B5DA79C8B2
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 09:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D4BF79C8C4
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 09:57:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231978AbjILHw1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 03:52:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52794 "EHLO
+        id S231824AbjILH5G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 03:57:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232002AbjILHwI (ORCPT
+        with ESMTP id S231186AbjILH5F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 03:52:08 -0400
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C654D171E
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 00:52:04 -0700 (PDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-6491907dbc3so34851086d6.2
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 00:52:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694505123; x=1695109923; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0wfU0nPdaQSnyD0LQvaXmeyB83Sm2OJsXjly/b3WroA=;
-        b=TgIAUi6N7Z9CFefXOTuWM1k+dEN/sh+up1wchuuDoWPP+tvSEh67bEowB6n5vHrmZ9
-         Ge8WsYVt8vRj8sltsPXbMd23vxa+d9RCUaMAF4oZV/XTfva88I6GCIeJgI7g8iWyt7/V
-         Rh/pqvFlGR1sWLg8A2qcT4T2osBPbVl/+s7QE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694505123; x=1695109923;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0wfU0nPdaQSnyD0LQvaXmeyB83Sm2OJsXjly/b3WroA=;
-        b=bY92/gJYOCaFEE0SRh3l/G4bVRRMQd+uHOp899oyTbF9iKyS/titdfH81w1ZBVMDoD
-         f5eLsM8WCWjuBbXXRehXvStPRLL57CePDvCY9g96ERdec9ffE67JJuW5axwqgKF3mAle
-         PSDXbovAi9R2UCi/QRZBOOkxkFfDSXOtiWIOyH5CYdVpoIhmhcWiAK107Ra3O/O44IMb
-         C+s9H8BjObcLLWPdLxBAy6PSC34W33CfUrOIos0+nlxPdFoli4ARUuc/VmaXFZ90pVKj
-         5uNT4yIL3wpJYrAkbe+0F3c7enbVp9Wv8GERkc1F7vDxlqbV8KvLtkHYWUUFQx0n8VOT
-         yHFw==
-X-Gm-Message-State: AOJu0Yw2ruxR3+M8L/r8NXaoN74l4IE3+/Hh+CLHRfe4rf5NdxHyLA/Y
-        sO+krjXqzSyqw7Mt6bHoist8nEtVThH6e8d50McA+Q==
-X-Google-Smtp-Source: AGHT+IEZIPrm0oCKObLzSOnD5ZZD12k0kbjWUMZkY21YTdzRwc+p5UaR9LS4Q51cy87YacHvSIslGA==
-X-Received: by 2002:a05:622a:1917:b0:40f:ffd3:6201 with SMTP id w23-20020a05622a191700b0040fffd36201mr16518578qtc.66.1694505123542;
-        Tue, 12 Sep 2023 00:52:03 -0700 (PDT)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com. [209.85.222.175])
-        by smtp.gmail.com with ESMTPSA id f2-20020ac87f02000000b00411f7da6e1bsm3090454qtk.60.2023.09.12.00.52.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Sep 2023 00:52:03 -0700 (PDT)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-76dcf1d8957so321896485a.1
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 00:52:02 -0700 (PDT)
-X-Received: by 2002:a05:620a:a1c:b0:76f:93e:4b45 with SMTP id
- i28-20020a05620a0a1c00b0076f093e4b45mr11888873qka.69.1694505122529; Tue, 12
- Sep 2023 00:52:02 -0700 (PDT)
+        Tue, 12 Sep 2023 03:57:05 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6A0E73;
+        Tue, 12 Sep 2023 00:57:00 -0700 (PDT)
+X-UUID: f089ca60514111eea33bb35ae8d461a2-20230912
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=sxDC13hCNox3S6xlws8mBAukgeaNZbyMb2eB2sZfjGc=;
+        b=dFL6ydiIGttUFya+PXjfAl8xF9il871Ww9bBPrfsZKsf+VKAqtEbC0i1U6D6HMBve0RvHSYxU5Wn+qZDEYWqFlNmTNXkRiBEOGIx1LO4dvLc/7iosVKAL+6uLbSG3WzpT8R9yE9qOZSpsRgKk6XxEy+3VAnXY7vYSNO2xHyG+ro=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.31,REQID:aece449e-da8d-4ad2-a42a-8d695ab66c43,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:-5
+X-CID-META: VersionHash:0ad78a4,CLOUDID:12a6edc2-1e57-4345-9d31-31ad9818b39f,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+        DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: f089ca60514111eea33bb35ae8d461a2-20230912
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1296828604; Tue, 12 Sep 2023 15:56:54 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 12 Sep 2023 15:56:52 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 12 Sep 2023 15:56:52 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        <dri-devel@lists.freedesktop.org>,
+        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Moudy Ho" <moudy.ho@mediatek.com>
+Subject: [PATCH v5 0/3] introduce more MDP3 components in mt8195
+Date:   Tue, 12 Sep 2023 15:56:48 +0800
+Message-ID: <20230912075651.10693-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20230828075420.2009568-1-anle.pan@nxp.com> <DB9PR04MB9284AA58AA71655C9C0C7C9A87E6A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5DYxwX+JdXQ_-ba5B9y+gyWPjvUpCBnKM1zz1W2EkO_vA@mail.gmail.com>
- <DB9PR04MB928460023FB3CCCBC3EACE1487E9A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5BGJX7=Z1ukFRq_ktaQ0d7FbvV-ob5gs8hfGaNHUXPTww@mail.gmail.com>
- <DB9PR04MB9284A0CDB1FC7CAADE0A394F87EFA@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5AugUGh7Z=9Qh7SS4=-0ddGBmRAOOyCGDfPdT-=eurtUg@mail.gmail.com>
- <DB9PR04MB9284A45033B3E24F44C5AA3987F2A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5Bk0DUq5jgFDHV2wGYEcfQzNVQ2KYJ2ZYLubwFLgqW4kQ@mail.gmail.com>
- <DB9PR04MB92846D75C93A9B2B8C8A998D87F1A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5Ar18TvFE3jXBuphpCiwWAb8O99wqkiwEVDSs3+MXvW0w@mail.gmail.com> <DB9PR04MB9284404C1E1F1300EEF5A70487F1A@DB9PR04MB9284.eurprd04.prod.outlook.com>
-In-Reply-To: <DB9PR04MB9284404C1E1F1300EEF5A70487F1A@DB9PR04MB9284.eurprd04.prod.outlook.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 12 Sep 2023 16:51:43 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Aq=ZrNGQU6psXJXt1ak2SkoRrZ=QBzp+xxHmWre0zBVg@mail.gmail.com>
-Message-ID: <CAAFQd5Aq=ZrNGQU6psXJXt1ak2SkoRrZ=QBzp+xxHmWre0zBVg@mail.gmail.com>
-Subject: Re: [EXT] Re: [PATCH] media: videobuf2-dma-sg: limit the sg segment size
-To:     Hui Fang <hui.fang@nxp.com>
-Cc:     Anle Pan <anle.pan@nxp.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jindong Yue <jindong.yue@nxp.com>,
-        Xuegang Liu <xuegang.liu@nxp.com>, Xu Yang <xu.yang_2@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--6.185700-8.000000
+X-TMASE-MatchedRID: lxKo1glhVxhA90k3OkvQzh+WEMjoO9WWI6PHNDZGGCKna6U74e0+qA42
+        cI60OgkFzP/fGiNMYHUSEYY/Eb/3khnsS71Oo/HwA9lly13c/gF3Bf9JIqsoeMRi+FlXlWiFsk7
+        1rgcu7T4spKJBx9J3JKwxH8BPFMeNkfRhdidsajMURSScn+QSXl1PyA7eE+Ph+gtHj7OwNO2BSJ
+        y8ngwKGc9RwvxNQhb0/u1OPsVHrBSWSDISjkI9kZHHe0WsQTWZSQTg4dNf2V4=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--6.185700-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: A97BFD844A2DBEFEF0FD06966CC60338C9A0F77A08E0794D06F696412DF613902000:8
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 4:43=E2=80=AFPM Hui Fang <hui.fang@nxp.com> wrote:
->
-> On Tue, Sep 12, 2023 at 4:11=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> =
-wrote:
-> > Is your DMA device restricted only to the bottom-most 4 GB (32-bit DMA
-> > address)? If yes, would it make sense to also allocate from that area r=
-ather
-> > than bouncing the memory?
->
-> The DMA device use 32-bit DMA address.
-> From user space, can't control the v4l2 buffer address, may still change =
-the
-> code of vb2_dma_sg_alloc().
+Changes since v4:
+- Rebase on v6.6-rc1
+- Organize identical hardware components into their respective files.
 
-Right. You may want to try modifying vb2_dma_sg_alloc_compacted() to
-use dma_alloc_pages() instead of alloc_pages().
+Hi,
 
-Best regards,
-Tomasz
+The purpose of this patch is to separate the MDP3-related bindings from
+the original mailing list mentioned below:
+https://lore.kernel.org/all/20230208092209.19472-1-moudy.ho@mediatek.com/
+Those binding files describe additional components that
+are present in the mt8195.
+
+Moudy Ho (3):
+  dt-binding: mediatek: correct MDP3 node with generic names
+  dt-binding: mediatek: integrate MDP RDMA to one binding
+  dt-binding: mediatek: add MediaTek mt8195 MDP3 components
+
+ .../display/mediatek/mediatek,aal.yaml        |  2 +-
+ .../display/mediatek/mediatek,color.yaml      |  2 +-
+ .../display/mediatek/mediatek,mdp-rdma.yaml   | 88 -------------------
+ .../display/mediatek/mediatek,merge.yaml      |  1 +
+ .../display/mediatek/mediatek,ovl.yaml        |  2 +-
+ .../display/mediatek/mediatek,split.yaml      |  1 +
+ .../bindings/media/mediatek,mdp3-fg.yaml      | 61 +++++++++++++
+ .../bindings/media/mediatek,mdp3-hdr.yaml     | 60 +++++++++++++
+ .../bindings/media/mediatek,mdp3-pad.yaml     | 61 +++++++++++++
+ .../bindings/media/mediatek,mdp3-rdma.yaml    | 50 ++++++-----
+ .../bindings/media/mediatek,mdp3-stitch.yaml  | 61 +++++++++++++
+ .../bindings/media/mediatek,mdp3-tcc.yaml     | 60 +++++++++++++
+ .../bindings/media/mediatek,mdp3-tdshp.yaml   | 61 +++++++++++++
+ .../bindings/media/mediatek,mdp3-wrot.yaml    | 23 +++--
+ 14 files changed, 412 insertions(+), 121 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-pad.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
+
+-- 
+2.18.0
+
