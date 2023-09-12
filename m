@@ -2,132 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6059A79CC25
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 11:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD6D579CDAF
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 12:14:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232682AbjILJnm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 05:43:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41204 "EHLO
+        id S234195AbjILKOd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 06:14:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229876AbjILJnl (ORCPT
+        with ESMTP id S234067AbjILKOS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 05:43:41 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFF74116;
-        Tue, 12 Sep 2023 02:43:37 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C9A6A66072F2;
-        Tue, 12 Sep 2023 10:43:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1694511816;
-        bh=BjsOvrqInqVTjTyjnWshAGYuXktDNGI1mGGW3h4/K24=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=I2cA2aWMBO0+HKUlBcK8gnwEFtChw4SvongF+zkCIoZ2OwYV7cUMOhixRBYE9PGil
-         u73SA3sioD+5MMLlz3yTZDiaIsAcYcNYbYhF6EywkJv51esPU1Fsq6VJeFfzPa6i1Q
-         4D50bM6PVfB09S+knaMI5b+cpC3U9W44uywrUoTou8Y8Z8Rm87jddEduM8ciFNqdaO
-         BxjSi31T55SUAUjinc4vSbt2yo5NnwrgT5j+LrzC1BnuZrqr5OPwSCVuYtqXKOhCde
-         ilSqgu4y/bf7LpgQG8DUHcR4L/0UVyymcyLBzFjhXDPzBbjlC1ovNpQziBQFKL95mm
-         1Wwkp5K5QSxLg==
-Message-ID: <d8bfbb5f-07a7-4beb-ac1c-049825caf934@collabora.com>
-Date:   Tue, 12 Sep 2023 11:43:32 +0200
+        Tue, 12 Sep 2023 06:14:18 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B2B27271B;
+        Tue, 12 Sep 2023 03:14:07 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 54015C15;
+        Tue, 12 Sep 2023 03:14:44 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3F3373F738;
+        Tue, 12 Sep 2023 03:14:04 -0700 (PDT)
+Message-ID: <95f9dd3b-1f33-4af5-8757-a97e8b9bb216@arm.com>
+Date:   Tue, 12 Sep 2023 11:13:50 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH v5 00/14] add support MDP3 on MT8195 platform
-Content-Language: en-US
-To:     Chen-Yu Tsai <wenst@chromium.org>
-Cc:     Moudy Ho <moudy.ho@mediatek.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        dri-devel@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230912075805.11432-1-moudy.ho@mediatek.com>
- <c0bd7428-1330-58c5-64d2-78af479dfcf4@collabora.com>
- <CAGXv+5FhsKVGwoJxLP=-gV+rSHbQ8DUX0YACy0mPxYw+MC85=g@mail.gmail.com>
-From:   AngeloGioacchino Del Regno 
+Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
+ memory for SVP
+Content-Language: en-GB
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        "robh@kernel.org" <robh@kernel.org>
+Cc:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jstultz@google.com" <jstultz@google.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
+        <kuohong.wang@mediatek.com>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "angelogioacchino.delregno@collabora.com" 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAGXv+5FhsKVGwoJxLP=-gV+rSHbQ8DUX0YACy0mPxYw+MC85=g@mail.gmail.com>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-9-yong.wu@mediatek.com>
+ <20230911154448.GA1279317-robh@kernel.org>
+ <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
+ <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 12/09/23 11:37, Chen-Yu Tsai ha scritto:
-> On Tue, Sep 12, 2023 at 5:00 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
+On 12/09/2023 9:28 am, Krzysztof Kozlowski wrote:
+> On 12/09/2023 08:16, Yong Wu (吴勇) wrote:
+>> Hi Rob,
 >>
->> Il 12/09/23 09:57, Moudy Ho ha scritto:
->>> Changes since v4:
->>> - Rebase on v6.6-rc1
->>> - Remove any unnecessary DTS settings.
->>> - Adjust the usage of MOD and clock in blending components.
->>>
->>> Changes since v3:
->>> - Depend on :
->>>     [1] https://patchwork.kernel.org/project/linux-media/list/?series=719841
->>> - Suggested by Krzysztof, integrating all newly added bindings for
->>>     the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
->>> - Revise MDP3 nodes with generic names.
->>>
->>> Changes since v2:
->>> - Depend on :
->>>     [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711592
->>>     [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711618
->>> - Suggested by Rob to revise MDP3 bindings to pass dtbs check
->>> - Add parallel paths feature.
->>> - Add blended components settings.
->>>
->>> Changes since v1:
->>> - Depend on :
->>>     [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/?series=698872
->>>     [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=684959
->>> - Fix compilation failure due to use of undeclared identifier in file "mtk-mdp3-cmdq.c"
->>>
->>> Hello,
->>>
->>> This patch is used to add support for MDP3 on the MT8195 platform that
->>> contains more picture quality components, and can arrange more pipelines
->>> through two sets of MMSYS and MUTEX respectively.
->>>
->>> Moudy Ho (14):
->>>     arm64: dts: mediatek: mt8183: correct MDP3 DMA-related nodes
->>>     arm64: dts: mediatek: mt8195: add MDP3 nodes
+>> Thanks for your review.
 >>
->> Please send the DTS patches separately, those go through a different maintainer.
+>> On Mon, 2023-09-11 at 10:44 -0500, Rob Herring wrote:
+>>>   	
+>>> External email : Please do not click links or open attachments until
+>>> you have verified the sender or the content.
+>>>   On Mon, Sep 11, 2023 at 10:30:37AM +0800, Yong Wu wrote:
+>>>> This adds the binding for describing a CMA memory for MediaTek
+>>> SVP(Secure
+>>>> Video Path).
+>>>
+>>> CMA is a Linux thing. How is this related to CMA?
+>>
+>>>>
+>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>> ---
+>>>>   .../mediatek,secure_cma_chunkmem.yaml         | 42
+>>> +++++++++++++++++++
+>>>>   1 file changed, 42 insertions(+)
+>>>>   create mode 100644 Documentation/devicetree/bindings/reserved-
+>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/reserved-
+>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>> b/Documentation/devicetree/bindings/reserved-
+>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..cc10e00d35c4
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/reserved-
+>>> memory/mediatek,secure_cma_chunkmem.yaml
+>>>> @@ -0,0 +1,42 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id:
+>>> http://devicetree.org/schemas/reserved-memory/mediatek,secure_cma_chunkmem.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: MediaTek Secure Video Path Reserved Memory
+>>>
+>>> What makes this specific to Mediatek? Secure video path is fairly
+>>> common, right?
+>>
+>> Here we just reserve a buffer and would like to create a dma-buf secure
+>> heap for SVP, then the secure engines(Vcodec and DRM) could prepare
+>> secure buffer through it.
+>>   
+>> But the heap driver is pure SW driver, it is not platform device and
 > 
-> I thought most people prefer the _full_ view in a patchset?
+> All drivers are pure SW.
 > 
-
-Yeah but those going through a different maintainer makes it more straightforward
-to pick; besides, essentially, you can also get a full view with dt-bindings
-patches instead of devicetrees, as the latter are "constructed from" bindings
-anyway.
-
-Moreover, it would be definitely nice to add a link to the devicetree series
-in the cover letter of this series, so that people *do* get a full overview
-by checking both series :-)
-
-Cheers!
-
->> P.S.: The dt-bindings patch can be sent inside of this series, please do that.
+>> we don't have a corresponding HW unit for it. Thus I don't think I
+>> could create a platform dtsi node and use "memory-region" pointer to
+>> the region. I used RESERVEDMEM_OF_DECLARE currently(The code is in
+>> [9/9]). Sorry if this is not right.
+> 
+> If this is not for any hardware and you already understand this (since
+> you cannot use other bindings) then you cannot have custom bindings for
+> it either.
+> 
 >>
->> Thanks!
->> Angelo
->>
->>
+>> Then in our usage case, is there some similar method to do this? or
+>> any other suggestion?
+> 
+> Don't stuff software into DTS.
 
+Aren't most reserved-memory bindings just software policy if you look at 
+it that way, though? IIUC this is a pool of memory that is visible and 
+available to the Non-Secure OS, but is fundamentally owned by the Secure 
+TEE, and pages that the TEE allocates from it will become physically 
+inaccessible to the OS. Thus the platform does impose constraints on how 
+the Non-Secure OS may use it, and per the rest of the reserved-memory 
+bindings, describing it as a "reusable" reservation seems entirely 
+appropriate. If anything that's *more* platform-related and so 
+DT-relevant than typical arbitrary reservations which just represent 
+"save some memory to dedicate to a particular driver" and don't actually 
+bear any relationship to firmware or hardware at all.
+
+However, the fact that Linux's implementation of how to reuse reserved 
+memory areas is called CMA is indeed still irrelevant and has no place 
+in the binding itself.
+
+Thanks,
+Robin.
