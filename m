@@ -2,118 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D010279C7C0
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 09:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE0CA79C817
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 09:21:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbjILHLY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 03:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39132 "EHLO
+        id S231531AbjILHVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 03:21:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231526AbjILHLY (ORCPT
+        with ESMTP id S229965AbjILHVb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 03:11:24 -0400
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BAB3B9
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 00:11:20 -0700 (PDT)
-Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-655e49717c2so12613736d6.0
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 00:11:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694502679; x=1695107479; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=quq3SIopv7Gr1An8E941K4sULqr3zgkgx+h2bKR2keQ=;
-        b=SnUrbJ9vCs306/d1YZZqwVHg3lffHRAhiPKbJvGbpDu927rbFUeJVeHHdp1Aj9IxN4
-         vBnRr4JSRqReZj9c3mYpEXhbgNGCOfbGPxlmgFy55S5pRnHQCLQOJ7vPdsRl3Pp30VW/
-         c6iew/xkfmmXfYTxXig4TboSeIgSP3gkZGVJg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694502679; x=1695107479;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=quq3SIopv7Gr1An8E941K4sULqr3zgkgx+h2bKR2keQ=;
-        b=fpE2S2Vt0JIwjOgZt+0ymEbHJ3iTQqO6QgPXG2WHQ91WnV04WICjQ2qz82dHD7pCFu
-         OWCTX0fqPgohMVkpO7y+mwwvcPgjdh5ECGp4Kqvuyx9L6UdOntlVg1dR+Whsaf02rXmI
-         Me4BcOhKPxUp3PRG1jIP8VbixCusWS2ydP+Mr0ZcRKMzORoxoZxMUy9Bt0c6sg600VeT
-         M7EsHKcakvtYLj+SRFLNnpbxjCAJ48vLyUY//M6a4aQUh6CYPDl87GN8BR/x8ILEg5cC
-         Ou+UIvCuv9PFJ16PCxiiaFaF5FsrbiTPXqoxLhl9HyVzMX0xYR8o6oWB5L7ckyRDbMDB
-         FOFw==
-X-Gm-Message-State: AOJu0YycOi1tPqZco0Zt9K8IYj+lGMaHywhtlAYUkrTrhUAV3RpR3Crr
-        7b/IGuQYIsaW/a/KResbD6ZKsqDENS7TwTE3+uzj7A==
-X-Google-Smtp-Source: AGHT+IFEwe15GT3wfKuwHPqP/ZP7V2O/bCzCTd5QP5yU0OKtRAJGzC4PTKE6EfAoawY28a1Up9kdLw==
-X-Received: by 2002:a0c:eac4:0:b0:63c:f72d:1124 with SMTP id y4-20020a0ceac4000000b0063cf72d1124mr10977302qvp.48.1694502678928;
-        Tue, 12 Sep 2023 00:11:18 -0700 (PDT)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com. [209.85.219.42])
-        by smtp.gmail.com with ESMTPSA id d19-20020a0cdb13000000b0062ffec0a18esm3486171qvk.84.2023.09.12.00.11.18
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Sep 2023 00:11:18 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-655e49717c2so12613616d6.0
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 00:11:18 -0700 (PDT)
-X-Received: by 2002:a0c:f312:0:b0:64f:518d:ac8d with SMTP id
- j18-20020a0cf312000000b0064f518dac8dmr11624045qvl.25.1694502677977; Tue, 12
- Sep 2023 00:11:17 -0700 (PDT)
+        Tue, 12 Sep 2023 03:21:31 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C20A3B9
+        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 00:21:27 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qfxiA-002cTU-7H; Tue, 12 Sep 2023 07:21:26 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qfxi6-0037eo-1Y;
+        Tue, 12 Sep 2023 07:21:23 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sean Young <sean@mess.org>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.7] RC fixes (#94559)
+Date:   Tue, 12 Sep 2023 07:21:23 +0000
+Message-Id: <20230912072123.744409-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZQAK1UxQlcx2ExWr@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-References: <20230828075420.2009568-1-anle.pan@nxp.com> <DB9PR04MB9284AA58AA71655C9C0C7C9A87E6A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5DYxwX+JdXQ_-ba5B9y+gyWPjvUpCBnKM1zz1W2EkO_vA@mail.gmail.com>
- <DB9PR04MB928460023FB3CCCBC3EACE1487E9A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5BGJX7=Z1ukFRq_ktaQ0d7FbvV-ob5gs8hfGaNHUXPTww@mail.gmail.com>
- <DB9PR04MB9284A0CDB1FC7CAADE0A394F87EFA@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5AugUGh7Z=9Qh7SS4=-0ddGBmRAOOyCGDfPdT-=eurtUg@mail.gmail.com>
- <DB9PR04MB9284A45033B3E24F44C5AA3987F2A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5Bk0DUq5jgFDHV2wGYEcfQzNVQ2KYJ2ZYLubwFLgqW4kQ@mail.gmail.com> <DB9PR04MB92846D75C93A9B2B8C8A998D87F1A@DB9PR04MB9284.eurprd04.prod.outlook.com>
-In-Reply-To: <DB9PR04MB92846D75C93A9B2B8C8A998D87F1A@DB9PR04MB9284.eurprd04.prod.outlook.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 12 Sep 2023 16:10:59 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Ar18TvFE3jXBuphpCiwWAb8O99wqkiwEVDSs3+MXvW0w@mail.gmail.com>
-Message-ID: <CAAFQd5Ar18TvFE3jXBuphpCiwWAb8O99wqkiwEVDSs3+MXvW0w@mail.gmail.com>
-Subject: Re: [EXT] Re: [PATCH] media: videobuf2-dma-sg: limit the sg segment size
-To:     Hui Fang <hui.fang@nxp.com>
-Cc:     Anle Pan <anle.pan@nxp.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jindong Yue <jindong.yue@nxp.com>,
-        Xuegang Liu <xuegang.liu@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 4:01=E2=80=AFPM Hui Fang <hui.fang@nxp.com> wrote:
->
-> On Tue, Sep 12 2023 at 11:22=E2=80=AFAM Tomasz Figa <tfiga@chromium.org>
-> > On Mon, Sep 11, 2023 at 3:13=E2=80=AFPM Hui Fang <hui.fang@nxp.com> wro=
-te:
-> > >
-> > > On Wed, Sep 6, 2023 at 18:28=E2=80=AFPM Tomasz Figa <tfiga@chromium.o=
-rg>
-> > wrote:
-> > > > That all makes sense, but it still doesn't answer the real question
-> > > > on why swiotlb ends up being used. I think you may want to trace
-> > > > what happens in the DMA mapping ops implementation on your system
-> > > > causing it to use swiotlb.
-> > >
-> > > Add log and feed invalid data to low buffer on purpose, it's confirme=
-d
-> > > that swiotlb is actually used.
-> > >
-> >
-> > Yes, that we already know. But why?
->
->
-> The physical address of v4l2 buffer is large than 4G (5504139264), so the=
- swiotlb is used.
-> "[  846.570271][  T138] software IO TLB: =3D=3D=3D=3D swiotlb_bounce: DMA=
-_TO_DEVICE,
->  dst 000000004589fa38, src 00000000c6d7e8d8, srcPhy 5504139264, size 4096=
-".
+From: builder@linuxtv.org
 
-Is your DMA device restricted only to the bottom-most 4 GB (32-bit DMA
-address)? If yes, would it make sense to also allocate from that area
-rather than bouncing the memory?
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZQAK1UxQlcx2ExWr@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/338983/
+Build time: 00:22:19
+Link: https://lore.kernel.org/linux-media/ZQAK1UxQlcx2ExWr@gofer.mess.org
 
-Best regards,
-Tomasz
+gpg: Signature made Tue 12 Sep 2023 06:47:44 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
+
+Summary: got 4/4 patches with issues, being 1 at build time
+
+Error/warnings:
+
+patches/0001-dt-bindings-media-remove-nokia-n900-ir-as-pwm-ir-tx-.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+	  Locked on  : 326,387
+	  Unlocked on: 465,467
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000008Kb sm_state_count = 1970648
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+   checkpatch.pl:
+	$ cat patches/0001-dt-bindings-media-remove-nokia-n900-ir-as-pwm-ir-tx-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:35: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:38: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+
+patches/0002-media-rc-remove-ir-rx51-in-favour-of-generic-pwm-ir-.patch:
+
+   checkpatch.pl:
+	$ cat patches/0002-media-rc-remove-ir-rx51-in-favour-of-generic-pwm-ir-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:75: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0003-media-rc-meson-ir-support-rc-driver-type-RC_DRIVER_S.patch:
+
+   checkpatch.pl:
+	$ cat patches/0003-media-rc-meson-ir-support-rc-driver-type-RC_DRIVER_S.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:620: WARNING: DT compatible string "amlogic,meson-s4-ir" appears un-documented -- check ./Documentation/devicetree/bindings/
+
+patches/0004-arm64-dts-meson-add-IR-controller-for-Meson-S4-SoC.patch:
+
+   checkpatch.pl:
+	$ cat patches/0004-arm64-dts-meson-add-IR-controller-for-Meson-S4-SoC.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:55: WARNING: DT compatible string "amlogic,meson-s4-ir" appears un-documented -- check ./Documentation/devicetree/bindings/
+
