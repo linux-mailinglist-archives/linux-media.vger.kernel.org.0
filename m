@@ -2,92 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F1D979D44B
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 17:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72D3F79D484
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 17:13:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236153AbjILPFm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 11:05:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50116 "EHLO
+        id S236252AbjILPN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 11:13:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236119AbjILPFl (ORCPT
+        with ESMTP id S235748AbjILPN2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 11:05:41 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49301CC3
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 08:05:37 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-770ef4d36f2so228726085a.0
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 08:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1694531136; x=1695135936; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vM3oyGRFxtHxm1neHgA67Osk9iJA5NE4DNejEYZfvZ8=;
-        b=bCskFdpgHM/CSy0ZSLzi0ZaVLCc6R02F7zfxu1ulgQ4Gg34Xsjx+sguK855gCPRPAS
-         5y1yU0Qwfc6/NxxYS566OBijR4WiesaFPyUJK3hXcoTppT40C4yi50xnfTJKdfFUHsMA
-         7xR+2P7U2DHyJ6B+5LPtNyK1seerXwe61yGxkFjfVwhT6vWooQDNFoNyBqISh4E9iQF/
-         +nZcFH9cIwj5hr6lONW4p7KUOZajr6Jmt/y8jGZ5SZgXt8Fc/3KqTcKsvwW9RU6rjTFj
-         C0Hx+flROkQpnZTY5Y68ptpw3EEauPLyxugDnm56MhuLj2Ei2QR6UVOoLO0zgfwy9KBB
-         MDOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694531136; x=1695135936;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vM3oyGRFxtHxm1neHgA67Osk9iJA5NE4DNejEYZfvZ8=;
-        b=fLySI0t7VEv+lKUh1B4NzRy3SFGezGtNudqzxDOy0kletDVEeV6cyFy1SgNMcgVui/
-         Su2Bgu6ZmkiPJeVI6gkNclQ2FgHccyjTvz3XNeQkJSGqqvRw8XqFnoTMxSzHdFMBaWbX
-         flqxJ81A+mt+cE6O4rv759N8/PWFLpBYQEK/y1ah9YGn3Hh46W3C6UhJJWnuaUJWPvgy
-         TGky/ktLwrdlUvffshXzy0URrYk4oGdeW5mk6U1PUoYeGsUwzbbBA2nQj74C1dOAzgkZ
-         PUZ+/IGmCl6HeBfXMTH4qyxvpvwii8dIeCt1EJAG3ruH/8Rqkoa5HgEDwGGaqhVRwyp7
-         11Yg==
-X-Gm-Message-State: AOJu0Yysg3KFYGTV0Z3eJucjPWLRayhWE4pSgbFubmKXIPQGq2g2AobL
-        w2OxeCK/s+zTnJZN8zwxgKj6Uw==
-X-Google-Smtp-Source: AGHT+IETEyxKiwuQg/hyiHZWR8ejsoB5rvNcCqFck37LlPZlL1+L6Aam0BaJ+MZGh5Xo6lDDiukNdA==
-X-Received: by 2002:a05:620a:454c:b0:76c:aff9:9f27 with SMTP id u12-20020a05620a454c00b0076caff99f27mr17152733qkp.59.1694531136409;
-        Tue, 12 Sep 2023 08:05:36 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:bae9::7a9])
-        by smtp.gmail.com with ESMTPSA id s41-20020a05622a1aa900b004053bcffe49sm3380085qtc.9.2023.09.12.08.05.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 08:05:36 -0700 (PDT)
-Message-ID: <d15067b12571f8868925aace9dc84473cd74ec1f.camel@ndufresne.ca>
-Subject: Re: [PATCH 3/9] dma-heap: Provide accessors so that in-kernel
- drivers can allocate dmabufs from specific heaps
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Yong Wu =?UTF-8?Q?=28=E5=90=B4=E5=8B=87=29?= 
-        <Yong.Wu@mediatek.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+        Tue, 12 Sep 2023 11:13:28 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F1D0115;
+        Tue, 12 Sep 2023 08:13:24 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1EB30660731E;
+        Tue, 12 Sep 2023 16:13:21 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694531602;
+        bh=MC7lk4l2OzqSdTlMPVDGxUjfcIzaxsBg/cw3NPmOq50=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=UzHG1Pr5oHEQR3arplnRgNVEptjBpJFXBnSFuK6IZB9LgBB+JSjPtPwLlpUe5/AvP
+         hX+NTXY+ZY2UEc8IhvvjpY8A4HH9H/RWUV8jFNCBakGoa2VH/3iMSzUIBbmudDPgLs
+         NperssmTfXPdsHUmPpW7Cr2eRQ6lMdEvAftZmn9xtNT+slfIE62N9r4s10pArXnSuH
+         SutjqjPWW+zuG2nxq52BEaQw6egolwmnCsQhlx8GaUNlAKuahhAXKiRGdYO6BAbKP6
+         AyHatWpLkbQvVFhcWfwC5QpusucEsA15FUFQWpbnj9RYWSnNJYZY/7Ncvin8pNLlY1
+         mknZKWrEtaa6g==
+Message-ID: <e6235c2de5288c695920a9c1d402e494ca0928a1.camel@collabora.com>
+Subject: Re: [PATCH 08/14] media: medkatek: vcodec: support one plane
+ capture buffer
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Yunfei Dong =?UTF-8?Q?=28=E8=91=A3=E4=BA=91=E9=A3=9E=29?= 
+        <Yunfei.Dong@mediatek.com>,
+        "nhebert@chromium.org" <nhebert@chromium.org>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "nfraprado@collabora.com" <nfraprado@collabora.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
 Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-mediatek@lists.infradead.org" 
         <linux-mediatek@lists.infradead.org>,
-        "jstultz@google.com" <jstultz@google.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "frkoenig@chromium.org" <frkoenig@chromium.org>,
+        "stevecho@chromium.org" <stevecho@chromium.org>,
+        "wenst@chromium.org" <wenst@chromium.org>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Jianjiao Zeng =?UTF-8?Q?=28=E6=9B=BE=E5=81=A5=E5=A7=A3=29?= 
-        <Jianjiao.Zeng@mediatek.com>,
-        Kuohong Wang =?UTF-8?Q?=28=E7=8E=8B=E5=9C=8B=E9=B4=BB=29?= 
-        <kuohong.wang@mediatek.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "tjmercier@google.com" <tjmercier@google.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        Project_Global_Chrome_Upstream_Group 
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        "hsinyi@chromium.org" <hsinyi@chromium.org>,
         "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>
-Date:   Tue, 12 Sep 2023 11:05:35 -0400
-In-Reply-To: <8e795311ff93c7a336eb688818f055c5c569741e.camel@mediatek.com>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
-         <20230911023038.30649-4-yong.wu@mediatek.com>
-         <827b859e3ff8176ef0b18c29bc17481b4105e368.camel@ndufresne.ca>
-         <8e795311ff93c7a336eb688818f055c5c569741e.camel@mediatek.com>
+        <linux-arm-kernel@lists.infradead.org>
+Date:   Tue, 12 Sep 2023 11:13:12 -0400
+In-Reply-To: <33daf18157fe1c0b5b2a023a9fb65128915091d1.camel@mediatek.com>
+References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
+         <20230911125936.10648-9-yunfei.dong@mediatek.com>
+         <4ff89457cbcc0582d312c8af919dab7a16b1943b.camel@collabora.com>
+         <33daf18157fe1c0b5b2a023a9fb65128915091d1.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -96,105 +72,237 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 12 septembre 2023 =C3=A0 08:47 +0000, Yong Wu (=E5=90=B4=E5=8B=87)=
- a =C3=A9crit=C2=A0:
-> On Mon, 2023-09-11 at 12:12 -0400, Nicolas Dufresne wrote:
-> >  	=20
-> > External email : Please do not click links or open attachments until
-> > you have verified the sender or the content.
-> >  Hi,
-> >=20
-> > Le lundi 11 septembre 2023 =C3=A0 10:30 +0800, Yong Wu a =C3=A9crit :
-> > > From: John Stultz <jstultz@google.com>
-> > >=20
-> > > This allows drivers who don't want to create their own
-> > > DMA-BUF exporter to be able to allocate DMA-BUFs directly
-> > > from existing DMA-BUF Heaps.
-> > >=20
-> > > There is some concern that the premise of DMA-BUF heaps is
-> > > that userland knows better about what type of heap memory
-> > > is needed for a pipeline, so it would likely be best for
-> > > drivers to import and fill DMA-BUFs allocated by userland
-> > > instead of allocating one themselves, but this is still
-> > > up for debate.
-> >=20
-> >=20
-> > Would be nice for the reviewers to provide the information about the
-> > user of
-> > this new in-kernel API. I noticed it because I was CCed, but
-> > strangely it didn't
-> > make it to the mailing list yet and its not clear in the cover what
-> > this is used
-> > with.=20
-> >=20
-> > I can explain in my words though, my read is that this is used to
-> > allocate both
-> > user visible and driver internal memory segments in MTK VCODEC
-> > driver.
-> >=20
-> > I'm somewhat concerned that DMABuf objects are used to abstract
-> > secure memory
-> > allocation from tee. For framebuffers that are going to be exported
-> > and shared
-> > its probably fair use, but it seems that internal shared memory and
-> > codec
-> > specific reference buffers also endup with a dmabuf fd (often called
-> > a secure fd
-> > in the v4l2 patchset) for data that is not being shared, and requires
-> > a 1:1
-> > mapping to a tee handle anyway. Is that the design we'd like to
-> > follow ?=20
+Le mardi 12 septembre 2023 =C3=A0 02:08 +0000, Yunfei Dong (=E8=91=A3=E4=BA=
+=91=E9=A3=9E) a =C3=A9crit=C2=A0:
+> Hi Nicolas,
 >=20
-> Yes. basically this is right.
+> Thanks for your advice.
+> On Mon, 2023-09-11 at 11:44 -0400, Nicolas Dufresne wrote:
+> > Hi,
+> >=20
+> > Le lundi 11 septembre 2023 =C3=A0 20:59 +0800, Yunfei Dong a =C3=A9crit=
+ :
+> > > The capture buffer has two planes for format MM21, but user space
+> > > only
+> > > allocate secure memory for plane[0], and the size is Y data + uv
+> > > data.
+> > > The driver need to support one plane decoder for svp mode.
+> >=20
+> > I'm sorry, but in current V4L2 status, you must introduce a new
+> > format. Assuming
+> > the second M means MPLANE, this format would be MT21 (though you
+> > already used
+> > that fourcc for MT21C) ?
+> >=20
 >=20
-> > Can't
-> > we directly allocate from the tee, adding needed helper to make this
-> > as simple
-> > as allocating from a HEAP ?
->=20
-> If this happens, the memory will always be inside TEE. Here we create a
-> new _CMA heap, it will cma_alloc/free dynamically. Reserve it before
-> SVP start, and release to kernel after SVP done.
+> Just using the first plane for format MM21 in order to support svp mode
+> according google's suggestion. The plane[1] won't be used to allocate
+> memory. Whether it's better to add one format to support one plane? Not
+> using MM21.
 
-Ok, I see the benefit of having a common driver then. It would add to the
-complexity, but having a driver for the tee allocator and v4l2/heaps would =
-be
-another option?
+Userspace will be confused and will need to have special casing for this
+platform if you do that. MM21 has been defined as 2 planes, 2 allocations, =
+you
+cannot use it for 1 plane/allocation.
 
->  =20
-> Secondly. the v4l2/drm has the mature driver control flow, like
-> drm_gem_prime_import_dev that always use dma_buf ops. So we can use the
-> current flow as much as possible without having to re-plan a flow in
-> the TEE.
-
-From what I've read from Yunfei series, this is only partially true for V4L=
-2.
-The vb2 queue MMAP feature have dmabuf exportation as optional, but its not=
- a
-problem to always back it up with a dmabuf object. But for internal SHM buf=
-fers
-used for firmware communication, I've never seen any driver use a DMABuf.
-
-Same applies for primary decode buffers when frame buffer compression or po=
-st-
-processing it used (or reconstruction buffer in encoders), these are not us=
-er
-visible and are usually not DMABuf.
+Nicolas
 
 >=20
-> >=20
+> Best Regards,
+> Yunfei Dong
 > > Nicolas
 > >=20
 > > >=20
-> > > Signed-off-by: John Stultz <jstultz@google.com>
-> > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > > [Yong: Fix the checkpatch alignment warning]
+> > > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > > > ---
-> > >  drivers/dma-buf/dma-heap.c | 60 ++++++++++++++++++++++++++++----
-> > ------
-> > >  include/linux/dma-heap.h   | 25 ++++++++++++++++
-> > >  2 files changed, 69 insertions(+), 16 deletions(-)
+> > >  .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 24 ++++++++++++---
+> > > ----
+> > >  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 13 ++++++----
+> > >  .../decoder/vdec/vdec_h264_req_common.c       | 16 +++++++------
+> > >  .../mediatek/vcodec/decoder/vdec_drv_if.c     |  4 ++--
+> > >  4 files changed, 34 insertions(+), 23 deletions(-)
 > > >=20
-> [snip]
+> > > diff --git
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> > > index 91ed576d6821..457c3e2979c9 100644
+> > > ---
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> > > +++
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> > > @@ -541,14 +541,15 @@ static int vidioc_vdec_s_fmt(struct file
+> > > *file, void *priv,
+> > >  			ctx->q_data[MTK_Q_DATA_DST].bytesperline[0] =3D
+> > >  				ctx->picinfo.buf_w;
+> > >  		} else {
+> > > -			ctx->q_data[MTK_Q_DATA_DST].sizeimage[0] =3D
+> > > -				ctx->picinfo.fb_sz[0];
+> > > -			ctx->q_data[MTK_Q_DATA_DST].bytesperline[0] =3D
+> > > -				ctx->picinfo.buf_w;
+> > > -			ctx->q_data[MTK_Q_DATA_DST].sizeimage[1] =3D
+> > > -				ctx->picinfo.fb_sz[1];
+> > > -			ctx->q_data[MTK_Q_DATA_DST].bytesperline[1] =3D
+> > > -				ctx->picinfo.buf_w;
+> > > +			if (ctx->is_svp_mode)
+> > > +				ctx-
+> > > > q_data[MTK_Q_DATA_DST].sizeimage[0] =3D
+> > > +					ctx->picinfo.fb_sz[0] + ctx-
+> > > > picinfo.fb_sz[1];
+> > > +			else
+> > > +				ctx-
+> > > > q_data[MTK_Q_DATA_DST].sizeimage[0] =3D ctx->picinfo.fb_sz[0];
+> > > +
+> > > +			ctx->q_data[MTK_Q_DATA_DST].bytesperline[0] =3D
+> > > ctx->picinfo.buf_w;
+> > > +			ctx->q_data[MTK_Q_DATA_DST].sizeimage[1] =3D ctx-
+> > > > picinfo.fb_sz[1];
+> > > +			ctx->q_data[MTK_Q_DATA_DST].bytesperline[1] =3D
+> > > ctx->picinfo.buf_w;
+> > >  		}
+> > > =20
+> > >  		ctx->q_data[MTK_Q_DATA_DST].coded_width =3D ctx-
+> > > > picinfo.buf_w;
+> > > @@ -673,7 +674,12 @@ static int vidioc_vdec_g_fmt(struct file
+> > > *file, void *priv,
+> > >  		 * So we just return picinfo yet, and update picinfo in
+> > >  		 * stop_streaming hook function
+> > >  		 */
+> > > -		q_data->sizeimage[0] =3D ctx->picinfo.fb_sz[0];
+> > > +
+> > > +		if (ctx->is_svp_mode)
+> > > +			q_data->sizeimage[0] =3D ctx->picinfo.fb_sz[0] +
+> > > ctx->picinfo.fb_sz[1];
+> > > +		else
+> > > +			q_data->sizeimage[0] =3D ctx->picinfo.fb_sz[0];
+> > > +
+> > >  		q_data->sizeimage[1] =3D ctx->picinfo.fb_sz[1];
+> > >  		q_data->bytesperline[0] =3D ctx-
+> > > > last_decoded_picinfo.buf_w;
+> > >  		q_data->bytesperline[1] =3D ctx-
+> > > > last_decoded_picinfo.buf_w;
+> > > diff --git
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teless.c
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teless.c
+> > > index e29c9c58f3da..2ea517883a86 100644
+> > > ---
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teless.c
+> > > +++
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teless.c
+> > > @@ -256,11 +256,12 @@ static struct vdec_fb
+> > > *vdec_get_cap_buffer(struct mtk_vcodec_dec_ctx *ctx)
+> > >  	framebuf =3D container_of(vb2_v4l2, struct mtk_video_dec_buf,
+> > > m2m_buf.vb);
+> > > =20
+> > >  	pfb =3D &framebuf->frame_buffer;
+> > > -	pfb->base_y.va =3D vb2_plane_vaddr(dst_buf, 0);
+> > > +	if (!ctx->is_svp_mode)
+> > > +		pfb->base_y.va =3D vb2_plane_vaddr(dst_buf, 0);
+> > >  	pfb->base_y.dma_addr =3D vb2_dma_contig_plane_dma_addr(dst_buf,
+> > > 0);
+> > >  	pfb->base_y.size =3D ctx->q_data[MTK_Q_DATA_DST].sizeimage[0];
+> > > =20
+> > > -	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes =3D=3D 2) {
+> > > +	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes =3D=3D 2 && !ctx-
+> > > > is_svp_mode) {
+> > >  		pfb->base_c.va =3D vb2_plane_vaddr(dst_buf, 1);
+> > >  		pfb->base_c.dma_addr =3D
+> > >  			vb2_dma_contig_plane_dma_addr(dst_buf, 1);
+> > > @@ -310,16 +311,18 @@ static void mtk_vdec_worker(struct
+> > > work_struct *work)
+> > >  	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) id=3D%d, vb=3D%p", ctx->id,
+> > >  			  vb2_src->vb2_queue->type, vb2_src->index,
+> > > vb2_src);
+> > > =20
+> > > -	bs_src->va =3D vb2_plane_vaddr(vb2_src, 0);
+> > > -	bs_src->dma_addr =3D vb2_dma_contig_plane_dma_addr(vb2_src, 0);
+> > > -	bs_src->size =3D (size_t)vb2_src->planes[0].bytesused;
+> > > +	if (!ctx->is_svp_mode) {
+> > > +		bs_src->va =3D vb2_plane_vaddr(vb2_src, 0);
+> > >  	if (!bs_src->va) {
+> > >  		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> > >  		mtk_v4l2_vdec_err(ctx, "[%d] id=3D%d source buffer is
+> > > NULL", ctx->id,
+> > >  				  vb2_src->index);
+> > >  		return;
+> > > +		}
+> > >  	}
+> > > =20
+> > > +	bs_src->dma_addr =3D vb2_dma_contig_plane_dma_addr(vb2_src, 0);
+> > > +	bs_src->size =3D (size_t)vb2_src->planes[0].bytesused;
+> > >  	mtk_v4l2_vdec_dbg(3, ctx, "[%d] Bitstream VA=3D%p DMA=3D%pad
+> > > Size=3D%zx vb=3D%p",
+> > >  			  ctx->id, bs_src->va, &bs_src->dma_addr,
+> > > bs_src->size, vb2_src);
+> > >  	/* Apply request controls. */
+> > > diff --git
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req
+> > > _common.c
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req
+> > > _common.c
+> > > index 5ca20d75dc8e..838f0eeea6e2 100644
+> > > ---
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req
+> > > _common.c
+> > > +++
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req
+> > > _common.c
+> > > @@ -81,13 +81,15 @@ void mtk_vdec_h264_fill_dpb_info(struct
+> > > mtk_vcodec_dec_ctx *ctx,
+> > > =20
+> > >  		h264_dpb_info[index].y_dma_addr =3D
+> > >  			vb2_dma_contig_plane_dma_addr(vb, 0);
+> > > -		if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes =3D=3D 2)
+> > > -			h264_dpb_info[index].c_dma_addr =3D
+> > > -				vb2_dma_contig_plane_dma_addr(vb, 1);
+> > > -		else
+> > > -			h264_dpb_info[index].c_dma_addr =3D
+> > > -				h264_dpb_info[index].y_dma_addr +
+> > > -				ctx->picinfo.fb_sz[0];
+> > > +		if (!ctx->is_svp_mode) {
+> > > +			if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes=20
+> > > =3D=3D 2)
+> > > +				h264_dpb_info[index].c_dma_addr =3D
+> > > +					vb2_dma_contig_plane_dma_addr(v
+> > > b, 1);
+> > > +			else
+> > > +				h264_dpb_info[index].c_dma_addr =3D
+> > > +					h264_dpb_info[index].y_dma_addr
+> > > +
+> > > +					ctx->picinfo.fb_sz[0];
+> > > +		}
+> > >  	}
+> > >  }
+> > > =20
+> > > diff --git
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
+> > > index d0b459b1603f..c7d33e540a13 100644
+> > > --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
+> > > +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
+> > > @@ -73,14 +73,14 @@ int vdec_if_decode(struct mtk_vcodec_dec_ctx
+> > > *ctx, struct mtk_vcodec_mem *bs,
+> > >  {
+> > >  	int ret =3D 0;
+> > > =20
+> > > -	if (bs) {
+> > > +	if (bs && !ctx->is_svp_mode) {
+> > >  		if ((bs->dma_addr & 63) !=3D 0) {
+> > >  			mtk_v4l2_vdec_err(ctx, "bs dma_addr should 64
+> > > byte align");
+> > >  			return -EINVAL;
+> > >  		}
+> > >  	}
+> > > =20
+> > > -	if (fb) {
+> > > +	if (fb && !ctx->is_svp_mode) {
+> > >  		if (((fb->base_y.dma_addr & 511) !=3D 0) ||
+> > >  		    ((fb->base_c.dma_addr & 511) !=3D 0)) {
+> > >  			mtk_v4l2_vdec_err(ctx, "frame buffer dma_addr
+> > > should 512 byte align");
+> >=20
+> >=20
 
