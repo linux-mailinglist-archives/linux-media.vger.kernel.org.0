@@ -2,251 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F073879D354
-	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 16:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49C0379D3F8
+	for <lists+linux-media@lfdr.de>; Tue, 12 Sep 2023 16:46:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235879AbjILOKj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 10:10:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53366 "EHLO
+        id S235913AbjILOqk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Sep 2023 10:46:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235854AbjILOKh (ORCPT
+        with ESMTP id S230347AbjILOqi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 10:10:37 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A780EE
-        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 07:10:34 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 218C6C433C8;
-        Tue, 12 Sep 2023 14:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694527833;
-        bh=UtJNvYZOXc2LbPtaIQvExc8dlUYjkPHwYIDYb0SRsgA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=JKdT0hs1jXxerXSWSe5dARH3+sHkS/+AXczAYNN7Qw/IBzHwUauKfJt1JVqgdeJxV
-         uTyjmZ3oIuwqol6C+8pODtNYNpcnOeuZNB7RAoTQK0J4/7b+pc1y4mcu2/64D8KIEt
-         PqIhzTvuySYtnzY4VO94ZlW5dtgjxSmhp5Q7NowRErHyf+aU/ncOYD8vJ3h100qe95
-         3fi8gl2zXgPemJq1WJyDpsPmoFs2s+9btqGU/9q+sUGWQl/XskkJt4Vew911+04335
-         HU6wVi5g9+9fwfR8CgWm8vwVXvslaynRNzJxb5lt3pWXdldeeQ6xwx69GCImkzc078
-         znvXstht+0fRA==
-Date:   Tue, 12 Sep 2023 16:10:28 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.6-1
-Message-ID: <20230912161028.161446d0@sal.lan>
-In-Reply-To: <ddcdd964-6e06-f352-1e1a-eea967034c89@redhat.com>
-References: <9fbc59f1-abb5-8966-8810-a3b8f57775fc@redhat.com>
-        <ddcdd964-6e06-f352-1e1a-eea967034c89@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        Tue, 12 Sep 2023 10:46:38 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF87115;
+        Tue, 12 Sep 2023 07:46:34 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-401da71b7c5so64904565e9.2;
+        Tue, 12 Sep 2023 07:46:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694529993; x=1695134793; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K8sFu0+D3E77YJ4z9rbydrUcmzYi8cL1xr3GzlsZe4w=;
+        b=ETyPkG12J1anB4ZBgBf5EYsrYqG109YBS2map2UV8rkE6kplKy4hS+NPQuPEDYmPSL
+         AhSzZHqfytMV6h4BAkfl8LxzxU7QuditBKzokS/jy1wbdqeQ4i2fpXHS/wOx9Ttcwzi2
+         6F1Xh4FNaBEvfZkMYSyLpAyL9sn9RQNcE5Mcze0alGpi1sg5dZkYSVlwoQ0hs3/xWMoK
+         4rryuFiQGpFny/RDdNf+vFb4v2NvldNai9Z3grN/AI4Qq+EgpPXMnxO8Be+uS1QvJOhO
+         VOJkDNwnjOZPnfAtfj1kb0ncQ+afCP4PtA56v5H9fkZyoqc8i5TWG+EusDodprXqD9Q9
+         gG8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694529993; x=1695134793;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K8sFu0+D3E77YJ4z9rbydrUcmzYi8cL1xr3GzlsZe4w=;
+        b=l8+fRH1ChLV7nu2AouB3IzBWZk7VnVQu5USWoZRs8oFI1ILJMXI6MQQaas4tyqel15
+         2pcJEKRxxaP4Zq/XKKbBgG7rYnydjd1S3D5HqpW1FGvCdBgFKr85eaZ4y7Cg00JGWMMb
+         BbiIdGoRADNwjH/KDNyyuz3KBNYoRkjDhmFmIq/Ip73ZgcL80mwpY2lxt5fCJt7Xf2x2
+         NXajazz6S97VYR8rLlaHj5Da9uroztzkPH2OiWZbKOknWaiahtPThQ7zSfZRBj5VblhI
+         A+RMgCpdJvweK9v19JH8toyxT4JfwCaWyNm/Kh42E667qGGdcoZAbUDtDO9x5UJPQLyf
+         vQNA==
+X-Gm-Message-State: AOJu0Yxks9++aDSs1s0VJgkwa/9uukxeh9NNUBnYcgy7kvJgDLg0vJVi
+        +7uUQVko0o9sEgccs9kqLcI=
+X-Google-Smtp-Source: AGHT+IGHXQb8saBAd6H+9uYnotfhWfZV5PqBMgupUePv5+BNFjR2MQXXacKt9iDypQAL5TYLBL9epA==
+X-Received: by 2002:a05:600c:3b1e:b0:402:f536:41c5 with SMTP id m30-20020a05600c3b1e00b00402f53641c5mr10911758wms.3.1694529992631;
+        Tue, 12 Sep 2023 07:46:32 -0700 (PDT)
+Received: from [10.254.108.106] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id t15-20020a7bc3cf000000b00402be2666bcsm16448614wmj.6.2023.09.12.07.46.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Sep 2023 07:46:32 -0700 (PDT)
+Message-ID: <95797f3d-65bf-1bd9-9e19-6de42605cfe3@gmail.com>
+Date:   Tue, 12 Sep 2023 16:46:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 3/9] dma-heap: Provide accessors so that in-kernel drivers
+ can allocate dmabufs from specific heaps
+Content-Language: en-US
+To:     =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        "jstultz@google.com" <jstultz@google.com>
+Cc:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
+        <kuohong.wang@mediatek.com>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-4-yong.wu@mediatek.com>
+ <803846bc-fd1d-d2ec-2855-456af22c82f8@amd.com>
+ <CANDhNCrQyiFZ+8DnG0iyKBXC0H1698K1a9d2AxOq4whDsZBn+Q@mail.gmail.com>
+ <23e71d1f-08c1-3834-5b1f-2b5714c7bfaa@gmail.com>
+ <255ae6b9ac1b6bea9262069747824b8461475e70.camel@mediatek.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <255ae6b9ac1b6bea9262069747824b8461475e70.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 12 Sep 2023 12:18:33 +0200
-Hans de Goede <hdegoede@redhat.com> escreveu:
+Am 12.09.23 um 10:52 schrieb Yong Wu (吴勇):
+> [SNIP]
+>> But what we should try to avoid is that newly merged drivers provide
+>> both a driver specific UAPI and DMA-heaps. The justification that
+>> this
+>> makes it easier to transit userspace to the new UAPI doesn't really
+>> count.
+>>
+>> That would be adding UAPI already with a plan to deprecate it and
+>> that
+>> is most likely not helpful considering that UAPI must be supported
+>> forever as soon as it is upstream.
+> Sorry, I didn't understand this. I think we have not change the UAPI.
+> Which code are you referring to?
 
-> Hi.
-> 
-> On 8/13/23 17:45, Hans de Goede wrote:
-> > Hi Mauro,
-> > 
-> > Here are the atomisp changes for 6.6. Most of the patches are from
-> > Kate Hsuan this cycle.
-> > 
-> > Highlights:
-> > - Complete #ifdef ISP2401 removal work (Kate Hsuan),
-> >   no more CONFIG_VIDEO_ATOMISP_ISP2401. Instead a single build
-> >   now works on both the ISP2400(BYT) and ISP2401(CHT)!
-> > - The ACPI DSDT -> v4l2-subdev fwnode translation code (ipu-bridge) is
-> >   now shared with the IPU3 code (already merged through Sakari's tree)
-> > - Drop the atomisp-ov2680 driver, instead the main ov2680 driver
-> >   can now be used (already merged through Sakari's tree)
-> > - Drop the atomisp-ov5693 driver, instead the main ov5693 driver
-> >   can now be used  
-> 
-> It seems that this has not made it into the media pull-req for 6.6 :(
+Well, what do you need this for if not a new UAPI?
 
-Weird. I merged patches until -rc6, which is when we close the media
-merge window. I don't recall having any pull requests opened on that
-time.
+My assumption here is that you need to export the DMA-heap allocation 
+function so that you can server an UAPI in your new driver. Or what else 
+is that good for?
 
-> 
-> I guess I'll just include the changes in my next atomisp pull-req
-> for 6.7 then ?
-
-Well, if the pull request is marked as new on patchwork, no need
-to re-submit. I should be handling the pending PRs there along the
-week (usually on Friday or on Monday, at most).
+As far as I understand you try to upstream your new vcodec driver. So 
+while this change here seems to be a good idea to clean up existing 
+drivers it doesn't look like a good idea for a newly created driver.
 
 Regards,
-Mauro
+Christian.
 
-> 
-> Regards,
->  
-> Hans
-> 
-> 
-> 
-> 
-> 
-> > The following changes since commit c816786c3b46ebe42c4887933e50a79b35c0a1c3:
-> > 
-> >   media: i2c: rdacm21: Fix uninitialized value (2023-08-11 13:36:19 +0200)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/media-atomisp-6.6-1
-> > 
-> > for you to fetch changes up to f0bfb0e19c8921468404a10f3c4e8ee4e417249d:
-> > 
-> >   media: atomisp: Drop atomisp-ov5693 sensor driver (2023-08-13 17:30:38 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > atomisp staging driver changes for 6.6
-> > 
-> > Highlights:
-> > - Complete #ifdef ISP2401 removal work (Kate Hsuan),
-> >   no more CONFIG_VIDEO_ATOMISP_ISP2401. Instead a single build
-> >   now works on both the ISP2400(BYT) and ISP2401(CHT)!
-> > - The ACPI DSDT -> v4l2-subdev fwnode translation code (ipu-bridge) is
-> >   now shared with the IPU3 code (already merged through Sakari's tree)
-> > - Drop the atomisp-ov2680 driver, instead the main ov2680 driver
-> >   can now be used (already merged through Sakari's tree)
-> > - Drop the atomisp-ov5693 driver, instead the main ov5693 driver
-> >   can now be used
-> > 
-> > ----------------------------------------------------------------
-> > Hans de Goede (15):
-> >       media: atomisp: Fix missing v4l2_fh_release() in atomisp_open() error exit
-> >       media: atomisp: Clamp width to max 1920 pixels when in ATOMISP_RUN_MODE_PREVIEW
-> >       media: atomisp: Change atomisp_enum_framesizes() too small cut off from 2/3th to 5/8th
-> >       media: atomisp: Add some higher resolutions to atomisp_enum_framesizes()
-> >       media: atomisp: Remove support for custom run-mode v4l2-ctrl on sensors
-> >       media: atomisp: Remove v4l2_ctrl_s_ctrl(asd->run_mode) calls from atomisp_open()
-> >       media: atomisp: Remove empty isys_public.h
-> >       media: atomisp: Remove aliases for MIPI_FORMAT_2400_CUSTOM0
-> >       media: atomisp: Mark ia_css_isys_240?_init() static
-> >       media: atomisp: Simplify some if (IS_ISP2401...) statements
-> >       media: atomisp: Drop ia_css_debug_dump_debug_info() and functions only used by it
-> >       media: atomisp: Drop VIDEO_ATOMISP_ISP2401 Kconfig option
-> >       media: atomisp: gc0310: Stop setting v4l2_subdev.fwnode to the endpoint fwnode
-> >       media: atomisp: Disable VCM for OV5693 for now
-> >       media: atomisp: Drop atomisp-ov5693 sensor driver
-> > 
-> > Kate Hsuan (26):
-> >       media: atomisp: ia_css_debug: Removed unused codes for debug
-> >       media: atomisp: Removed unused HAS_WATCHDOG_SP_THREAD_DEBUG debug
-> >       media: atomisp: sh_css_internal: sh_css_params: Unifying sh_css_sp_group data structure
-> >       media: atomisp: ia_css_debug: Removed debug codes for dumping status
-> >       media: atomisp: Make two individual enum to define the MIPI format
-> >       media: atomisp: Included both input system headers
-> >       media: atomisp: css_2401_system: Remove #ifdef ISP2401 to make the driver generic
-> >       media: atomisp: isys: Removed #if defined(ISP2401) to make driver generic
-> >       media: atomisp: hive_isp_css_common: Removed #if defined(ISP2401) to make driver generic
-> >       media: atomisp: pipeline: Removed #if defined(ISP2401) to make driver generic
-> >       media: atomisp: ifmtr: Removed #if defined(ISP2401) to make driver generic
-> >       media: atomisp: Compile the object codes for a generic driver
-> >       media: atomisp: rx: Removed #if defined(ISP2401) to make driver generic
-> >       media: atomisp: isys_init: Initiate atomisp in a generic manner
-> >       media: atomisp: ia_css_raw.host: Remove #ifdef ISP2401 to make the driver generic
-> >       media: atomisp: binary: Removed #ifdef ISP2401 to make driver generic
-> >       media: atomisp: hive_isp_css_include: Removed #ifdef ISP2401 to make driver generic
-> >       media: atomisp: atomisp_compat_css20: Removed #ifdef ISP2401 to make driver generic
-> >       media: atomisp: sh_css_mipi: Removed unused code ia_css_mipi_frame_enable_check_on_size()
-> >       media: atomisp: sh_css: Removed #ifdef ISP2401 to make the driver generic
-> >       media: atomisp: sh_css_sp: Remove #ifdef ISP2401 to make driver generic
-> >       media: atomisp: sh_css: Removed #ifdef ISP2401 to make driver generic
-> >       media: atomisp: sh_css: Renamed sh_css_config_input_network()
-> >       media: atomisp: sh_css: Removed #ifdef ISP2401 to make code generic
-> >       media: atomisp: sh_css: Removed #ifdef ISP2401 to make the driver generic
-> >       media: atomisp: atomisp_v4l2: Removed unnecessary code
-> > 
-> >  drivers/staging/media/atomisp/Kconfig              |   12 -
-> >  drivers/staging/media/atomisp/Makefile             |   16 +-
-> >  drivers/staging/media/atomisp/TODO                 |    3 -
-> >  drivers/staging/media/atomisp/i2c/Kconfig          |   12 -
-> >  drivers/staging/media/atomisp/i2c/Makefile         |    1 -
-> >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c |   20 +-
-> >  drivers/staging/media/atomisp/i2c/ov5693/Makefile  |    2 -
-> >  drivers/staging/media/atomisp/i2c/ov5693/ad5823.h  |   63 -
-> >  .../media/atomisp/i2c/ov5693/atomisp-ov5693.c      | 1763 --------------------
-> >  drivers/staging/media/atomisp/i2c/ov5693/ov5693.h  | 1331 ---------------
-> >  .../staging/media/atomisp/include/linux/atomisp.h  |   10 -
-> >  drivers/staging/media/atomisp/pci/atomisp_cmd.c    |   26 +-
-> >  drivers/staging/media/atomisp/pci/atomisp_cmd.h    |   13 -
-> >  .../media/atomisp/pci/atomisp_compat_css20.c       |   14 +-
-> >  .../media/atomisp/pci/atomisp_csi2_bridge.c        |    7 +-
-> >  drivers/staging/media/atomisp/pci/atomisp_fops.c   |    7 +-
-> >  drivers/staging/media/atomisp/pci/atomisp_ioctl.c  |   21 +-
-> >  drivers/staging/media/atomisp/pci/atomisp_subdev.c |   48 -
-> >  drivers/staging/media/atomisp/pci/atomisp_subdev.h |    2 -
-> >  drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |   19 -
-> >  .../pci/css_2401_system/host/isys_irq_local.h      |    3 -
-> >  .../pci/css_2401_system/host/isys_irq_private.h    |    2 -
-> >  .../atomisp/pci/css_2401_system/isys_irq_global.h  |    2 -
-> >  .../atomisp/pci/hive_isp_css_common/debug_global.h |    7 -
-> >  .../atomisp/pci/hive_isp_css_common/host/dma.c     |  266 ---
-> >  .../pci/hive_isp_css_common/host/dma_local.h       |  116 --
-> >  .../pci/hive_isp_css_common/host/input_formatter.c |    2 -
-> >  .../pci/hive_isp_css_common/host/input_system.c    |  446 -----
-> >  .../atomisp/pci/hive_isp_css_common/host/irq.c     |   19 -
-> >  .../pci/hive_isp_css_common/host/irq_local.h       |    8 -
-> >  .../atomisp/pci/hive_isp_css_common/host/isp.c     |   60 -
-> >  .../pci/hive_isp_css_common/host/isp_local.h       |   31 -
-> >  .../atomisp/pci/hive_isp_css_common/host/sp.c      |   47 -
-> >  .../pci/hive_isp_css_common/host/sp_local.h        |   26 -
-> >  .../pci/hive_isp_css_include/host/csi_rx_public.h  |    2 -
-> >  .../pci/hive_isp_css_include/host/dma_public.h     |   13 -
-> >  .../pci/hive_isp_css_include/host/irq_public.h     |   10 -
-> >  .../pci/hive_isp_css_include/host/isp_public.h     |   13 -
-> >  .../hive_isp_css_include/host/isys_dma_public.h    |    2 -
-> >  .../hive_isp_css_include/host/isys_irq_public.h    |    2 -
-> >  .../pci/hive_isp_css_include/host/isys_public.h    |   38 -
-> >  .../hive_isp_css_include/host/pixelgen_public.h    |    2 -
-> >  .../pci/hive_isp_css_include/host/sp_public.h      |   16 -
-> >  .../atomisp/pci/hive_isp_css_include/isys_irq.h    |    2 -
-> >  .../staging/media/atomisp/pci/ia_css_acc_types.h   |    6 +-
-> >  drivers/staging/media/atomisp/pci/ia_css_mipi.h    |   16 -
-> >  .../staging/media/atomisp/pci/input_system_local.h |    7 +-
-> >  .../media/atomisp/pci/input_system_private.h       |    7 +-
-> >  .../media/atomisp/pci/input_system_public.h        |    4 +-
-> >  .../pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c  |   21 +-
-> >  .../media/atomisp/pci/isp2400_input_system_local.h |  198 +--
-> >  .../atomisp/pci/isp2400_input_system_private.h     |    4 +-
-> >  .../atomisp/pci/isp2400_input_system_public.h      |   42 +-
-> >  .../media/atomisp/pci/isp2401_input_system_local.h |   88 +-
-> >  .../atomisp/pci/isp2401_input_system_private.h     |  112 +-
-> >  .../media/atomisp/pci/runtime/binary/src/binary.c  |   15 +-
-> >  .../pci/runtime/debug/interface/ia_css_debug.h     |   85 -
-> >  .../atomisp/pci/runtime/debug/src/ia_css_debug.c   | 1493 -----------------
-> >  .../media/atomisp/pci/runtime/ifmtr/src/ifmtr.c    |    2 -
-> >  .../pci/runtime/isys/interface/ia_css_isys.h       |    9 +-
-> >  .../pci/runtime/isys/interface/ia_css_isys_comm.h  |    2 -
-> >  .../atomisp/pci/runtime/isys/src/csi_rx_rmgr.c     |    2 -
-> >  .../atomisp/pci/runtime/isys/src/isys_dma_rmgr.c   |    2 -
-> >  .../media/atomisp/pci/runtime/isys/src/isys_init.c |   35 +-
-> >  .../pci/runtime/isys/src/isys_stream2mmio_rmgr.c   |    2 -
-> >  .../media/atomisp/pci/runtime/isys/src/rx.c        |  265 +--
-> >  .../atomisp/pci/runtime/isys/src/virtual_isys.c    |    8 +-
-> >  .../runtime/pipeline/interface/ia_css_pipeline.h   |    2 -
-> >  .../atomisp/pci/runtime/pipeline/src/pipeline.c    |    2 -
-> >  drivers/staging/media/atomisp/pci/sh_css.c         |  236 ++-
-> >  .../staging/media/atomisp/pci/sh_css_internal.h    |   41 +-
-> >  drivers/staging/media/atomisp/pci/sh_css_mipi.c    |   29 -
-> >  drivers/staging/media/atomisp/pci/sh_css_params.c  |   41 +-
-> >  drivers/staging/media/atomisp/pci/sh_css_sp.c      |   62 +-
-> >  drivers/staging/media/atomisp/pci/sh_css_sp.h      |    4 -
-> >  75 files changed, 485 insertions(+), 6882 deletions(-)
-> >  delete mode 100644 drivers/staging/media/atomisp/i2c/ov5693/Makefile
-> >  delete mode 100644 drivers/staging/media/atomisp/i2c/ov5693/ad5823.h
-> >  delete mode 100644 drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> >  delete mode 100644 drivers/staging/media/atomisp/i2c/ov5693/ov5693.h
-> >  delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
-> >   
-> 
+>>> So I think this patch is a little confusing in this series, as I
+>> don't
+>>> see much of it actually being used here (though forgive me if I'm
+>>> missing it).
+>>>
+>>> Instead, It seems it get used in a separate patch series here:
+>>>     
+>> https://lore.kernel.org/all/20230911125936.10648-1-yunfei.dong@mediatek.com/
+>>
+>> Please try to avoid stuff like that it is really confusing and eats
+>> reviewers time.
+> My fault, I thought dma-buf and media belonged to the different tree,
+> so I send them separately. The cover letter just said "The consumers of
+> the new heap and new interface are our codecs and DRM, which will be
+> sent upstream soon", and there was no vcodec link at that time.
+>
+> In the next version, we will put the first three patches into the
+> vcodec patchset.
+>
+> Thanks.
+>
+
