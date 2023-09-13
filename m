@@ -2,99 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0B2A79F270
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 21:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E6EF79F297
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 22:09:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232621AbjIMTyi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 15:54:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50588 "EHLO
+        id S231918AbjIMUJP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 16:09:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232591AbjIMTyh (ORCPT
+        with ESMTP id S229642AbjIMUJO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 15:54:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0657819AD;
-        Wed, 13 Sep 2023 12:54:33 -0700 (PDT)
-Received: from umang.jainideasonboard.com (unknown [103.86.18.170])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CB8D755;
-        Wed, 13 Sep 2023 21:52:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694634779;
-        bh=FCHVNEv/n2Q1J9B1s0VB82C7wBBOUPiKQ1IHpgUhfXs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QXAk6thMUafYWMBT5aM0HeH5o7yc3xG/zrdSiGs/NxhFjunwUG/KrBqVMxaN4wKo7
-         auGWunZGl1pViUh/GQYj3Kke9ixvqvNJq70tbrrgvSYlPUygzWV8TlrcudEKDe3EyH
-         GvaBzwbiN6Wt6eXBJQVKtt28lUk+VtSkmDPB7bxo=
-From:   Umang Jain <umang.jain@ideasonboard.com>
-To:     linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v11 5/5] staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
-Date:   Thu, 14 Sep 2023 01:23:54 +0530
-Message-Id: <20230913195354.835884-6-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230913195354.835884-1-umang.jain@ideasonboard.com>
-References: <20230913195354.835884-1-umang.jain@ideasonboard.com>
+        Wed, 13 Sep 2023 16:09:14 -0400
+Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93CD319AC;
+        Wed, 13 Sep 2023 13:09:09 -0700 (PDT)
+Received: from [192.168.10.7] (unknown [10.0.12.132])
+        by kozue.soulik.info (Postfix) with ESMTPSA id A549D300219;
+        Thu, 14 Sep 2023 05:08:56 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info A549D300219
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
+        t=1694635737; bh=8LpVTPUsCPQXr1wiITeRmr4X6XXYzbnyOzSEdKAjgqk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ttd6MdBo3xG/+DtOGGfYck1YuM4HBVhWOleDEu+59FeyRZpaA86Zb4vw5cOiIgreB
+         Uidv7Gl+GevqpR4vQdE+sXGfLIJUw2Wzt1vDHRCWqyLjLi9FyJ5HF4tk183MwhrdRi
+         5EUpJJMm0mtk495jt7KDh7ZaCM2aDTKSPKEaWb0U=
+Message-ID: <c0f75cbb-4d5d-0954-4bb6-20a82cfe5e2f@soulik.info>
+Date:   Thu, 14 Sep 2023 04:09:06 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: USB: DMA: mapping existing buffer is not supported?
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+References: <1e783efe-8659-8be1-82b7-15186302e88c@soulik.info>
+ <2023091323-trombone-storeroom-cbd3@gregkh>
+From:   Randy Li <ayaka@soulik.info>
+In-Reply-To: <2023091323-trombone-storeroom-cbd3@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-vchiq_register_child() is used to registered child devices as platform
-devices. Now that the child devices are migrated to use the
-vchiq_bus_type instead, they will be registered to that. Hence, drop
-vchiq_register_child() as it is no more required.
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
- .../interface/vchiq_arm/vchiq_arm.c           | 22 -------------------
- 1 file changed, 22 deletions(-)
+On 2023/9/14 03:19, Greg KH wrote:
+> On Thu, Sep 14, 2023 at 03:06:58AM +0800, Randy Li wrote:
+>> Hello
+>>
+>> I was trying to understand why USB webcams (UVC) have to copy video data
+>> through the CPU (uvc_video_complete() schedules uvc_video_copy_data_work()
+>> for this purpose). During my investigation, I noticed that functions
+>> like|usb_sg_*() and |usb_buffer_*() are not available since kernel version
+>> 2.6.12.
+> What do you mean by "not available"?  I see them in the tree today, why
+> do you think they are not present?
+>
+usb_buffer_dmasync_sg(), usb_buffer_map(), usb_buffer_dmasync() and usb_buffer_unmap() are all disabled
+by #if 0 in include/usb/usb.h
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 2da470740cda..5eccf5b277e5 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1776,28 +1776,6 @@ static const struct of_device_id vchiq_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, vchiq_of_match);
- 
--static struct platform_device *
--vchiq_register_child(struct platform_device *pdev, const char *name)
--{
--	struct platform_device_info pdevinfo;
--	struct platform_device *child;
--
--	memset(&pdevinfo, 0, sizeof(pdevinfo));
--
--	pdevinfo.parent = &pdev->dev;
--	pdevinfo.name = name;
--	pdevinfo.id = PLATFORM_DEVID_NONE;
--	pdevinfo.dma_mask = DMA_BIT_MASK(32);
--
--	child = platform_device_register_full(&pdevinfo);
--	if (IS_ERR(child)) {
--		dev_warn(&pdev->dev, "%s not registered\n", name);
--		child = NULL;
--	}
--
--	return child;
--}
--
- static int vchiq_probe(struct platform_device *pdev)
- {
- 	struct device_node *fw_node;
--- 
-2.40.1
+usb_buffer_map_sg() and usb_buffer_unmap_sg() are just declaration without definition.
 
+>> I can comprehend that USB host controllers such as xHCI, commonly found in
+>> embedded implementations like dwc3, do not support IOMMU. However, this
+>> should not prevent them from operating on a contiguous buffer.
+> Are you sure that the protocol for these devices allow this?
+I thought that is what hcd_buffer_alloc() does.
+>
+>> If the USB subsystem can no longer work with existing buffers, I propose
+>> that we consider removing the remaining documentation in the "Working with
+>> existing buffers" section of Documentation/driver-api/usb/dma.rst.
+> I don't understand, what is wrong with the information there exactly?
+> Have you tried following the suggestions there?
+Besides my answer to first question, I found no code use them today.
+>
+> thanks,
+>
+> greg k-h
