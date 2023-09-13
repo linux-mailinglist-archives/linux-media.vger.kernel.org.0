@@ -2,305 +2,828 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47AB179E365
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 11:19:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B38ED79E396
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 11:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236505AbjIMJTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 05:19:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34186 "EHLO
+        id S230467AbjIMJ0h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 05:26:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbjIMJTW (ORCPT
+        with ESMTP id S239307AbjIMJ0e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 05:19:22 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0470173E;
-        Wed, 13 Sep 2023 02:19:17 -0700 (PDT)
-X-UUID: 99996dde521611eea33bb35ae8d461a2-20230913
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=GAbS1knFkhtTTH+U9yohkHGElNtig5FOv41QoN4q+dQ=;
-        b=QH9oDvFTEVhgGz9EMrmDT9+iLnXFOtw70HzXcwO/d9SUXhT6ITdToka8pQCJZxyFHgnQsd+DEQ1XjFCFI4WuHXSAS7JeF/2qI91jO6qOorc6okQfHNhUNvW/+feySIEC92pbno+XAWy2gZOujk2lcC8OaEJ/uVHMrv4Q6+3a2D4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31,REQID:79428208-acab-446d-b568-9ed334d948e9,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:0ad78a4,CLOUDID:bfaee313-4929-4845-9571-38c601e9c3c9,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
-        DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 99996dde521611eea33bb35ae8d461a2-20230913
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1293847464; Wed, 13 Sep 2023 17:19:11 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 13 Sep 2023 17:19:10 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 13 Sep 2023 17:19:09 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g3xY0YicZL1lQiGupR7UQ1AnbE4RLv0zdbzF3i0AbhoM3fcHkNBXBEIdtSp8UmFnMcy2MiYS05I8pqWWvOgmJR+Q4cB6JZCJZCR1X9R0DPNiXCk/9GhOEgKphhiuxqWmfEa2XjdpZsV/NrrV8Y0ASp7OGZ2lttHLBWtC1hDCaYpMdfJB0OvRfusTYhJTa92QLIwQ4kkVL6NgdeLM4G2nwZpl0jQimH+h47Bf52mpVeF4bC39ZX6kW5aDNVgH/zhUE2lQAJae8JaMxtlwOgfZ33/YTw7ssiw21Uwjy89I2HB4aU6CoIjlYYrBztougSFy25/8pKOcohxV0oVQMB/3Yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GAbS1knFkhtTTH+U9yohkHGElNtig5FOv41QoN4q+dQ=;
- b=e+h7q6qqGfQJzxXHVFwZPwY7/WL1msPc+E3huMvB92bdN8Caujb3Zg8TVLWvpISgdpG5pQ9e51lZZFNt1JU89R3/T/ITtnaI1vdnQZaF9rXWq8pT9KiHJMthZfMHxtO0BULRl0GssHX8vVnHDPcr9OeLyt+tq5BSmgDeYuu5cjkZ0JGq8pDknQMljuwH3FpbdgJPXWDky2mKFNG2/t+t4XsTSJx+rV3Ww/Iu1pV0m7/YCviJaV09P6u2O8SCZTrGN8MtycJRUEWRUdAtL18EGcDlSXHLMV13KPTpDc19cKmx/ke9hfMGeq/wg5tDgOwxokToqQaSue+RuxEoHSYN9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GAbS1knFkhtTTH+U9yohkHGElNtig5FOv41QoN4q+dQ=;
- b=ExWLrg1WG6rzlPzgvQC3kMC7T+Ay3MLGSfwldUeRpy4gSMMGvaWUvirpG/ne67EukBiY9c3pwuvT+D6jfpicfe+aLBeZ9Qqdh4bJJYI9r/hS8f+fAAMmgnonvIV4Rr8bxVp7LPIopdu8ga3RZUyX2Tq/nuZ0/Zu7LyF2FfnWcWQ=
-Received: from TY0PR03MB6356.apcprd03.prod.outlook.com (2603:1096:400:14c::9)
- by SEYPR03MB8364.apcprd03.prod.outlook.com (2603:1096:101:1af::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Wed, 13 Sep
- 2023 09:19:05 +0000
-Received: from TY0PR03MB6356.apcprd03.prod.outlook.com
- ([fe80::492f:b5e4:51a:5ecc]) by TY0PR03MB6356.apcprd03.prod.outlook.com
- ([fe80::492f:b5e4:51a:5ecc%6]) with mapi id 15.20.6792.019; Wed, 13 Sep 2023
- 09:19:05 +0000
-From:   =?utf-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>
-To:     "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "airlied@gmail.com" <airlied@gmail.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>
-CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v5 03/14] media: platform: mtk-mdp3: add support second
- sets of MMSYS
-Thread-Topic: [PATCH v5 03/14] media: platform: mtk-mdp3: add support second
- sets of MMSYS
-Thread-Index: AQHZ5U7fWoTD/qQRkEaax/EZeY2dEbAW6ZIAgAGSfgA=
-Date:   Wed, 13 Sep 2023 09:19:05 +0000
-Message-ID: <4c8a21f32c37e6cb2360763c6306ba5951e99282.camel@mediatek.com>
-References: <20230912075805.11432-1-moudy.ho@mediatek.com>
-         <20230912075805.11432-4-moudy.ho@mediatek.com>
-         <28285acc-4236-36d6-2784-eac0d9220a5b@collabora.com>
-In-Reply-To: <28285acc-4236-36d6-2784-eac0d9220a5b@collabora.com>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY0PR03MB6356:EE_|SEYPR03MB8364:EE_
-x-ms-office365-filtering-correlation-id: 0ac1d793-80ce-40ea-72ac-08dbb43a7a35
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zZxhi4slRs+9ltnNMPNlYYecK/JcQOws/DkaeQ4I/YgsdH4lfn8UPRjdt9WG/O+ryguwvdb2qZd1xfOXYfdCB8EKvZ1K6/pNJh+DT/+Esi25dJ1MXdc/LGWVRp+D7xHTdWuI1LJLVs0oKn7wYL55aQPxqF8J7Y8AzfULQXo6LdpcoVbWgo/R+xvKLaLkOrqUx0g8OpeGPs6KLBsfQV9XQLshCs9oXrrG3DyH7EKldlssfjh8oX0w7Z3oTC3ICVfB9PXGJsfRwpDzVnF3I5XX8YiA41svJ5uMc2hkDurt7PzKye0+IplRFbc5sN1m3KjYQMfvxcwhAUgWg/q4ErBf2scx1cgzlxwKdlQ6hPn1WIgzActpKtK3aMwVgyt7TJBFRKsI8DHXhw1vW5qWVUWk/o4GK6Zy8reeyxpthARv5xIJE95YihtMJ0NVkyNN3iwOcm7mq5wyVBLhec2QoTV85rc3WT2Id7lVublS0bsTIN55O3OxGuWNdllWF04hviZZaWu/gwXfmrXpDPAT5HMhlC8qnu7Z6kGIXmHuAcSs8ucgSvsBMuk6xHZIlDB1+5g2Un+gEQ5ooq3FANuE5iz9XoSTWsY6WnfCqxTWdafieyZN4Y0mFW6HRUtwX3fsi5LYqnr9yLKcZ/7RC4IEYWdC7nQX/vBrk9lNlhU9Ga1TRGsOLLlDuDMJ5aBJMghtSp9VPATBc7mecLno/AVXfyvKNA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR03MB6356.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(366004)(376002)(346002)(39860400002)(186009)(451199024)(1800799009)(2616005)(83380400001)(38100700002)(8936002)(54906003)(110136005)(66556008)(66476007)(36756003)(6506007)(26005)(85182001)(6512007)(6486002)(8676002)(71200400001)(38070700005)(4326008)(66446008)(122000001)(5660300002)(66946007)(76116006)(2906002)(316002)(478600001)(64756008)(41300700001)(86362001)(921005)(7416002)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a2IxY3g4bzhqTFV4TjlNTk0yTENvY0tSY2hyZmJSUTZXRjdEY1g1YnVZbVk3?=
- =?utf-8?B?NktCNVdORjNva1dMOExVaUZ6Sy9TVFc2NCtFQnpiNVZ5ODRVdWhkeVY5Ykxk?=
- =?utf-8?B?TEdCdEJHUzZyRGZXcVJHMlJIOCtsdzRSQ0dsZzJsbWR3QVh3ZlRRem5EMnZk?=
- =?utf-8?B?bW50TXVKVjFjZ2pOMEtDdG90eUVIeExWU0p1ZXhpRFExdWNMWHhCeWR3dmJt?=
- =?utf-8?B?bDdrTStJOWFWTEttNzh5b0NDTXAzdHlVUnNaSXp0MVRjRjhuN0czQWZMbHVw?=
- =?utf-8?B?MHlmY1luTkVVNHNDbGpsLzBPRTkvQ1ovNU55NW80bXJEdmZhV3I4SHJTdkZm?=
- =?utf-8?B?bXVZM2I1YU44Mm1qVGdCdW1FcmJDc0lIeTMrc20rL2xoMDBMZzM2QllaRFF2?=
- =?utf-8?B?MzF5K0xaTEhuSS9ZdjJEWmV3emdESHowSTJSOHhvbXVaazg5aGVncnR6a20z?=
- =?utf-8?B?c3BDMTgvVmdYSmdDY0x2eWk0S1hBQ0YwQ0M3SzA0OHA3ZCtzMG44VVRYSnh2?=
- =?utf-8?B?VnEzUkVWeUhsdGYzQTV5ZGxHSnI1ZnAzWi8vQXlvL2N6Q1poTmcxSC9SeDZa?=
- =?utf-8?B?bXJXaTZVbVdieUduVndTU3FpRVU3RWVMRXNUSCtHNml4eDdFeG80T0ZwM1lO?=
- =?utf-8?B?dUo5bmdSbWZqS3U1N0RMOUVWdzc5Qjlidkh1d0FnZlBBaHRqT010cGJpbGx3?=
- =?utf-8?B?Qk9KOGg5ZmNFclZVaURXeVRjM0xOQlNYV05Nc2dTNEVYT2c2ZGgzamxudlRs?=
- =?utf-8?B?TGFjQTRDdFNvTFpETzNPM2hGZ0UwdU5MaWcyYTcyaXplRTFReGVOMktvK1hP?=
- =?utf-8?B?dC8yRnpCdVQvbmZBTjVXQzU2b2xISGR6M1VuRDNqak53NExPU0dWc05oRmov?=
- =?utf-8?B?OUV1TTA4Y21NcHZHTzY4enU0RFpNYnJXOXo1QWlVRGtCazdKc3N5My9aMWt3?=
- =?utf-8?B?dC85RG41UWk0blFUUDBMRGNWWEh0NG44eFBrZVZqY3d2NnRuaWo0Q0lvaXZP?=
- =?utf-8?B?bTJOSVQwZWVpelpKcDV3MlJGT2Zid1B1NDZ5YWVhUWxnZjBMT1lPQ0FWS2VY?=
- =?utf-8?B?MjVvR2dVVVJKUnd1MnRBa2VXMTgzTktzcTVnMXJMaFExcUt4T0x3SHNvZnN2?=
- =?utf-8?B?L0lNTlFYNXhqSk5JUlBrdjJxTjRkYUZSb1lVNDAzOXJCSG1ic0pXR2tRSlZ1?=
- =?utf-8?B?L05JeFhuWlJ5VWhJR3p1ckM5dFRQdVFEMmtXMVcvSGkvVnRYeHdsL0ZQaWo5?=
- =?utf-8?B?VVAyQTF6Zm9Ba1FqcnMxSFNBckU5cGRHck9paENGU0U2V1Rxc3RWNWxNWmUy?=
- =?utf-8?B?eXNIaTdWdjk2VU1McXhJUDUxZFN6KzdtRjdPcFFoc2dVVkN0ZDJQbEkrK2ZD?=
- =?utf-8?B?WHJJcmtIZkV2U2dhRC9FY0wvUmROUmJRZkJsU2doWEs4RElKRXRLRS9MdGRw?=
- =?utf-8?B?Q0k2Y0FrS054RjJ2Y0YvQlRiV0o2aGdhNHVnTzljSVlaZkwrZlZoT2w4UEhE?=
- =?utf-8?B?UlA0ejFxc1gzS1hpcUpQMEkrSkZuTGIrWmtmL1BGWXB6V1ZUTnAyc1JkZmVN?=
- =?utf-8?B?N25mYTEzS3pTc0h3T3JVUFdiZTNSVVh6dXNTcXlJbGJhREVnSndTdENSMUFh?=
- =?utf-8?B?dUNXTnZSaDBWa0dxKzNFbUVnRm9KeE8yekpEMWJ6L3FrU1VhZWpJNDhkWGJy?=
- =?utf-8?B?Z3BIcDNzaFc0cHZXWFcyeE9mcmxMMzNacFE1cVdEbFpXV3NBNVY1MHUxb0Zo?=
- =?utf-8?B?VDRLeWtKM2JwYkEvSjVXNWlreUphL2hKcSsyV2lGR1N6c3JuQXl0YTBYVEhl?=
- =?utf-8?B?M2x4OFVNclA1TXlPRVJJNHkyOU1Qa3hVNWFmYWJFaXpuY2dZZ0pJby9EKy82?=
- =?utf-8?B?UFh6b2oxaHc5ell6bVVUYnF1eUtmazh5TTQ3cTNkV0hscjlwak0zcE9hS0FP?=
- =?utf-8?B?SGJvZ3hDVSt0WFFpbkpxajNSVCtydHJLd0NnMVhZUGp4a092aHVCTE5VN3Nu?=
- =?utf-8?B?eGNVUXhpcitNT2ZESmU4THYySUxUWWRXM1lrT3NnNkl4T0tkOUZoejUra0pZ?=
- =?utf-8?B?VVJnYlFabG12YngyNFVOTk5lNUg0RmtiMVhoUVFuTGJxaWNEajZnWHZUaHJF?=
- =?utf-8?B?Z0hwNzlRd3VjdUtOUXpwM1JXQTQ4dzUrUDhuTHpOTDAzWVRMVytpY05UcnlL?=
- =?utf-8?B?ZEE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <24621D296F6E1F4BBADD7EE9E2551FE0@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Wed, 13 Sep 2023 05:26:34 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54131199E
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 02:26:30 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E5CEC433C8;
+        Wed, 13 Sep 2023 09:26:27 +0000 (UTC)
+Message-ID: <5c1dcfe4-413f-486d-bdfb-26f482429f95@xs4all.nl>
+Date:   Wed, 13 Sep 2023 11:26:25 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR03MB6356.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ac1d793-80ce-40ea-72ac-08dbb43a7a35
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Sep 2023 09:19:05.4213
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BBiyYAmsSHFRNPiKrW9CE497ZWWDiSyxZ0TtMDOjKr6NIBVp1/U4CIG6XGkQgcdMq2jIiWbOxIQs9Lwx1G/Jeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB8364
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--20.644900-8.000000
-X-TMASE-MatchedRID: c/HXCguHooHUL3YCMmnG4kD6z8N1m1ALjLOy13Cgb49qSjxROy+AU2yd
-        bY7xfgXYECw8p/maK/z04yiGX/wMF294Ipa1otxoH5YQyOg71Zb4uJ1REX4MHQqiCYa6w8tvVSd
-        AA6mVeIYUp5xe5/mWoR2a9WLoHBuravi5Lq9+Ha2jFYHTfcPkwhLXa2P1m93zNEJplIoT86yF2x
-        YNveuZzS6igz7+K+iZK+OWhFmxeSBHU2fChZKMzVz+axQLnAVB0X0X5dpeBd7zYcyIF7RSVedFU
-        1Vx1p6ZlHQ5WrruXIGwZHMQdNbacUL9tcyTZdAsgxsfzkNRlfKx5amWK2anSPoLR4+zsDTtAqYB
-        E3k9Mpw=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--20.644900-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 58175B11BEE0317E64AE8F3B0F60B7A1598F6B9D08897FC0EE8AA0947213F6B32000:8
-X-MTK:  N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 06/11] v4l2-ctrls: add support for
+ V4L2_CTRL_WHICH_MIN/MAX_VAL
+Content-Language: en-US, nl
+To:     Yunke Cao <yunkec@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+References: <20230817071750.2830271-1-yunkec@google.com>
+ <20230817071750.2830271-7-yunkec@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230817071750.2830271-7-yunkec@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgQW5nZWxvLA0KDQpPbiBUdWUsIDIwMjMtMDktMTIgYXQgMTE6MTggKzAyMDAsIEFuZ2Vsb0dp
-b2FjY2hpbm8gRGVsIFJlZ25vIHdyb3RlOg0KPiBJbCAxMi8wOS8yMyAwOTo1NywgTW91ZHkgSG8g
-aGEgc2NyaXR0bzoNCj4gPiBNVDgxOTUgaGFzIHR3byBNTVNZUyBzZXRzLCBWUFBTWVMwIGFuZCBW
-UFBTWVMxLg0KPiA+IFRoZXNlIHNldHMgY29vcmRpbmF0ZSBhbmQgY29udHJvbCB0aGUgY2xvY2ss
-IHBvd2VyLCBhbmQNCj4gPiByZWdpc3RlciBzZXR0aW5ncyBuZWVkZWQgZm9yIHRoZSBjb21wb25l
-bnRzIG9mIE1EUDMuDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogTW91ZHkgSG8gPG1vdWR5Lmhv
-QG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgIC4uLi9wbGF0Zm9ybS9tZWRpYXRlay9tZHAz
-L21kcF9jZmdfZGF0YS5jICAgICB8IDQ0ICsrKysrKysrKy0tLS0tDQo+ID4gLS0tLS0NCj4gPiAg
-IC4uLi9wbGF0Zm9ybS9tZWRpYXRlay9tZHAzL210ay1tZHAzLWNvbXAuaCAgICB8ICAxICsNCj4g
-PiAgIC4uLi9wbGF0Zm9ybS9tZWRpYXRlay9tZHAzL210ay1tZHAzLWNvcmUuYyAgICB8IDQwICsr
-KysrKysrKysrLS0tDQo+ID4gLS0tDQo+ID4gICAuLi4vcGxhdGZvcm0vbWVkaWF0ZWsvbWRwMy9t
-dGstbWRwMy1jb3JlLmggICAgfCAgMyArKw0KPiA+ICAgNCBmaWxlcyBjaGFuZ2VkLCA1MyBpbnNl
-cnRpb25zKCspLCAzNSBkZWxldGlvbnMoLSkNCg0KKHNuaXApDQoNCj4gPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9tZHAzL210ay1tZHAzLWNvcmUuYw0KPiA+
-IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9tZHAzL210ay1tZHAzLWNvcmUuYw0K
-PiA+IGluZGV4IGNjNDRiZTEwZmRiNy4uOWMzM2QzYWFmOWNkIDEwMDY0NA0KPiA+IC0tLSBhL2Ry
-aXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvbWRwMy9tdGstbWRwMy1jb3JlLmMNCj4gPiAr
-KysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL21kcDMvbXRrLW1kcDMtY29yZS5j
-DQo+ID4gQEAgLTI2LDM5ICsyNiw0NSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9p
-ZCBtZHBfb2ZfaWRzW10gPQ0KPiA+IHsNCj4gPiAgIE1PRFVMRV9ERVZJQ0VfVEFCTEUob2YsIG1k
-cF9vZl9pZHMpOw0KPiA+ICAgDQo+ID4gICBzdGF0aWMgc3RydWN0IHBsYXRmb3JtX2RldmljZSAq
-X19nZXRfcGRldl9ieV9pZChzdHJ1Y3QNCj4gPiBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYsDQo+ID4g
-KwkJCQkJCXN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UNCj4gPiAqZnJvbSwNCj4gPiAgIAkJCQkJCWVu
-dW0gbWRwX2luZnJhX2lkIGlkKQ0KPiA+ICAgew0KPiA+IC0Jc3RydWN0IGRldmljZV9ub2RlICpu
-b2RlOw0KPiA+ICsJc3RydWN0IGRldmljZV9ub2RlICpub2RlLCAqZiA9IE5VTEw7DQo+ID4gICAJ
-c3RydWN0IHBsYXRmb3JtX2RldmljZSAqbWRwX3BkZXYgPSBOVUxMOw0KPiA+ICAgCWNvbnN0IHN0
-cnVjdCBtdGtfbWRwX2RyaXZlcl9kYXRhICptZHBfZGF0YTsNCj4gPiAgIAljb25zdCBjaGFyICpj
-b21wYXQ7DQo+ID4gICANCj4gPiAgIAlpZiAoIXBkZXYpDQo+ID4gLQkJcmV0dXJuIE5VTEw7DQo+
-ID4gKwkJcmV0dXJuIEVSUl9QVFIoLUVOT0RFVik7DQo+ID4gICANCj4gDQo+IEZpeGluZyB0aGUg
-ZXJyb3IgaGFuZGxpbmcgc2hhbGwgYmUgZG9uZSBpbiBhIGRpZmZlcmVudCBjb21taXQsIHdoaWNo
-DQo+IHNoYWxsIGFsc28NCj4gaGF2ZSBhIEZpeGVzIHRhZzogdGhpcyBpcyBib3RoIGZvciBiYWNr
-cG9ydGluZyBwdXJwb3NlcyBhbmQgYmVjYXVzZQ0KPiB0aG9zZSBmaXhlcw0KPiBhcmUgbm90IHJl
-bGV2YW50IHRvIGFkZGluZyBzdXBwb3J0IGZvciBzZWNvbmRhcnkgc2V0cyBvZiBNTVNZUyAoc28s
-DQo+IHRob3NlIGFyZQ0KPiBub3QgcmVsZXZhbnQgZm9yIHRoaXMgc3BlY2lmaWMgY29tbWl0KS4N
-Cj4gDQpUaGFua3MgZm9ycmVtaW5kaW5nIG1lLiBJIHdpbGwgYWRkcmVzcyB0aGlzIGVycm9yIGhh
-bmRpbmcgc2VwYXJhdGVseSBpbg0KYSBkZWRpY2F0ZWQgZml4IHBhdGNoLg0KDQo+ID4gICAJaWYg
-KGlkIDwgTURQX0lORlJBX01NU1lTIHx8IGlkID49IE1EUF9JTkZSQV9NQVgpIHsNCj4gPiAgIAkJ
-ZGV2X2VycigmcGRldi0+ZGV2LCAiSWxsZWdhbCBpbmZyYSBpZCAlZFxuIiwgaWQpOw0KPiA+IC0J
-CXJldHVybiBOVUxMOw0KPiA+ICsJCXJldHVybiBFUlJfUFRSKC1FTk9ERVYpOw0KPiA+ICAgCX0N
-Cj4gPiAgIA0KPiA+ICAgCW1kcF9kYXRhID0gb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRhKCZwZGV2
-LT5kZXYpOw0KPiA+ICAgCWlmICghbWRwX2RhdGEpIHsNCj4gPiAgIAkJZGV2X2VycigmcGRldi0+
-ZGV2LCAiaGF2ZSBubyBkcml2ZXIgZGF0YSB0byBmaW5kDQo+ID4gbm9kZVxuIik7DQo+ID4gLQkJ
-cmV0dXJuIE5VTEw7DQo+ID4gKwkJcmV0dXJuIEVSUl9QVFIoLUVOT0RFVik7DQo+ID4gICAJfQ0K
-PiA+ICsNCj4gPiAgIAljb21wYXQgPSBtZHBfZGF0YS0+bWRwX3Byb2JlX2luZnJhW2lkXS5jb21w
-YXRpYmxlOw0KPiA+ICsJaWYgKHN0cmxlbihjb21wYXQpID09IDApDQo+ID4gKwkJcmV0dXJuIE5V
-TEw7DQo+ID4gICANCj4gPiAtCW5vZGUgPSBvZl9maW5kX2NvbXBhdGlibGVfbm9kZShOVUxMLCBO
-VUxMLCBjb21wYXQpOw0KPiA+ICsJaWYgKGZyb20pDQo+ID4gKwkJZiA9IGZyb20tPmRldi5vZl9u
-b2RlOw0KPiA+ICsJbm9kZSA9IG9mX2ZpbmRfY29tcGF0aWJsZV9ub2RlKGYsIE5VTEwsIGNvbXBh
-dCk7DQo+ID4gICAJaWYgKFdBUk5fT04oIW5vZGUpKSB7DQo+ID4gICAJCWRldl9lcnIoJnBkZXYt
-PmRldiwgImZpbmQgbm9kZSBmcm9tIGlkICVkIGZhaWxlZFxuIiwNCj4gPiBpZCk7DQo+ID4gLQkJ
-cmV0dXJuIE5VTEw7DQo+ID4gKwkJcmV0dXJuIEVSUl9QVFIoLUVOT0RFVik7DQo+ID4gICAJfQ0K
-PiA+ICAgDQo+ID4gICAJbWRwX3BkZXYgPSBvZl9maW5kX2RldmljZV9ieV9ub2RlKG5vZGUpOw0K
-PiA+ICAgCW9mX25vZGVfcHV0KG5vZGUpOw0KPiA+ICAgCWlmIChXQVJOX09OKCFtZHBfcGRldikp
-IHsNCj4gPiAgIAkJZGV2X2VycigmcGRldi0+ZGV2LCAiZmluZCBwZGV2IGZyb20gaWQgJWQgZmFp
-bGVkXG4iLA0KPiA+IGlkKTsNCj4gPiAtCQlyZXR1cm4gTlVMTDsNCj4gPiArCQlyZXR1cm4gRVJS
-X1BUUigtRU5PREVWKTsNCj4gPiAgIAl9DQo+ID4gICANCj4gPiAgIAlyZXR1cm4gbWRwX3BkZXY7
-DQo+ID4gQEAgLTE1Miw3ICsxNTgsNyBAQCBzdGF0aWMgaW50IG1kcF9wcm9iZShzdHJ1Y3QgcGxh
-dGZvcm1fZGV2aWNlDQo+ID4gKnBkZXYpDQo+ID4gICB7DQo+ID4gICAJc3RydWN0IGRldmljZSAq
-ZGV2ID0gJnBkZXYtPmRldjsNCj4gPiAgIAlzdHJ1Y3QgbWRwX2RldiAqbWRwOw0KPiA+IC0Jc3Ry
-dWN0IHBsYXRmb3JtX2RldmljZSAqbW1fcGRldjsNCj4gPiArCXN0cnVjdCBwbGF0Zm9ybV9kZXZp
-Y2UgKm1tX3BkZXYsICptbTJfcGRldjsNCj4gPiAgIAlpbnQgcmV0LCBpLCBtdXRleF9pZDsNCj4g
-PiAgIA0KPiA+ICAgCW1kcCA9IGt6YWxsb2Moc2l6ZW9mKCptZHApLCBHRlBfS0VSTkVMKTsNCj4g
-PiBAQCAtMTY0LDE1ICsxNzAsMjMgQEAgc3RhdGljIGludCBtZHBfcHJvYmUoc3RydWN0IHBsYXRm
-b3JtX2RldmljZQ0KPiA+ICpwZGV2KQ0KPiA+ICAgCW1kcC0+cGRldiA9IHBkZXY7DQo+ID4gICAJ
-bWRwLT5tZHBfZGF0YSA9IG9mX2RldmljZV9nZXRfbWF0Y2hfZGF0YSgmcGRldi0+ZGV2KTsNCj4g
-PiAgIA0KPiA+IC0JbW1fcGRldiA9IF9fZ2V0X3BkZXZfYnlfaWQocGRldiwgTURQX0lORlJBX01N
-U1lTKTsNCj4gPiAtCWlmICghbW1fcGRldikgew0KPiA+ICsJbW1fcGRldiA9IF9fZ2V0X3BkZXZf
-YnlfaWQocGRldiwgTlVMTCwgTURQX0lORlJBX01NU1lTKTsNCj4gPiArCWlmIChJU19FUlJfT1Jf
-TlVMTChtbV9wZGV2KSkgew0KPiA+ICAgCQlyZXQgPSAtRU5PREVWOw0KPiA+ICAgCQlnb3RvIGVy
-cl9kZXN0cm95X2RldmljZTsNCj4gPiAgIAl9DQo+ID4gICAJbWRwLT5tZHBfbW1zeXMgPSAmbW1f
-cGRldi0+ZGV2Ow0KPiA+ICAgDQo+ID4gLQltbV9wZGV2ID0gX19nZXRfcGRldl9ieV9pZChwZGV2
-LCBNRFBfSU5GUkFfTVVURVgpOw0KPiA+IC0JaWYgKFdBUk5fT04oIW1tX3BkZXYpKSB7DQo+ID4g
-KwkvKiBNTVNZUzIgaXMgbm90IGF2YWlsYWJsZSBvbiBhbGwgY2hpcHMsIHNvIHRoZSBjb25maWcg
-bWF5IGJlDQo+ID4gbnVsbC4gKi8NCj4gPiArCW1tMl9wZGV2ID0gX19nZXRfcGRldl9ieV9pZChw
-ZGV2LCBtbV9wZGV2LCBNRFBfSU5GUkFfTU1TWVMyKTsNCj4gPiArCWlmIChJU19FUlIobW0yX3Bk
-ZXYpKSB7DQo+ID4gKwkJcmV0ID0gUFRSX0VSUihtbTJfcGRldik7DQo+ID4gKwkJZ290byBlcnJf
-ZGVzdHJveV9kZXZpY2U7DQo+ID4gKwl9DQo+ID4gKwltZHAtPm1kcF9tbXN5czIgPSAmbW0yX3Bk
-ZXYtPmRldjsNCj4gPiArDQo+ID4gKwltbV9wZGV2ID0gX19nZXRfcGRldl9ieV9pZChwZGV2LCBO
-VUxMLCBNRFBfSU5GUkFfTVVURVgpOw0KPiA+ICsJaWYgKElTX0VSUl9PUl9OVUxMKG1tX3BkZXYp
-KSB7DQo+ID4gICAJCXJldCA9IC1FTk9ERVY7DQo+ID4gICAJCWdvdG8gZXJyX2Rlc3Ryb3lfZGV2
-aWNlOw0KPiA+ICAgCX0NCj4gPiBAQCAtMjA4LDcgKzIyMiw3IEBAIHN0YXRpYyBpbnQgbWRwX3By
-b2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UNCj4gPiAqcGRldikNCj4gPiAgIAkJZ290byBlcnJf
-ZGVzdHJveV9qb2Jfd3E7DQo+ID4gICAJfQ0KPiA+ICAgDQo+ID4gLQltbV9wZGV2ID0gX19nZXRf
-cGRldl9ieV9pZChwZGV2LCBNRFBfSU5GUkFfU0NQKTsNCj4gPiArCW1tX3BkZXYgPSBfX2dldF9w
-ZGV2X2J5X2lkKHBkZXYsIE5VTEwsIE1EUF9JTkZSQV9TQ1ApOw0KPiA+ICAgCWlmIChXQVJOX09O
-KCFtbV9wZGV2KSkgew0KPiA+ICAgCQlkZXZfZXJyKCZwZGV2LT5kZXYsICJDb3VsZCBub3QgZ2V0
-IHNjcCBkZXZpY2VcbiIpOw0KPiA+ICAgCQlyZXQgPSAtRU5PREVWOw0KPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL21kcDMvbXRrLW1kcDMtY29yZS5oDQo+
-ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL21kcDMvbXRrLW1kcDMtY29yZS5o
-DQo+ID4gaW5kZXggN2UyMWQyMjZjZWI4Li4wNDM0YjcwZTFmYzkgMTAwNjQ0DQo+ID4gLS0tIGEv
-ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9tZHAzL210ay1tZHAzLWNvcmUuaA0KPiA+
-ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvbWRwMy9tdGstbWRwMy1jb3Jl
-LmgNCj4gPiBAQCAtMjAsNiArMjAsNyBAQA0KPiA+ICAgDQo+ID4gICBlbnVtIG1kcF9pbmZyYV9p
-ZCB7DQo+ID4gICAJTURQX0lORlJBX01NU1lTLA0KPiA+ICsJTURQX0lORlJBX01NU1lTMiwNCj4g
-PiAgIAlNRFBfSU5GUkFfTVVURVgsDQo+ID4gICAJTURQX0lORlJBX1NDUCwNCj4gPiAgIAlNRFBf
-SU5GUkFfTUFYDQo+ID4gQEAgLTY4LDYgKzY5LDcgQEAgc3RydWN0IG10a19tZHBfZHJpdmVyX2Rh
-dGEgew0KPiA+ICAgc3RydWN0IG1kcF9kZXYgew0KPiA+ICAgCXN0cnVjdCBwbGF0Zm9ybV9kZXZp
-Y2UJCQkqcGRldjsNCj4gPiAgIAlzdHJ1Y3QgZGV2aWNlCQkJCSptZHBfbW1zeXM7DQo+ID4gKwlz
-dHJ1Y3QgZGV2aWNlCQkJCSptZHBfbW1zeXMyOw0KPiANCj4gSSdtIHdvbmRlcmluZyBpZiB0aGlz
-IHdvdWxkIGJlY29tZSBtb3JlIHJlYWRhYmxlIGJ5IGRvaW5nIGl0IGxpa2Ugc286DQo+IA0KPiAJ
-c3RydWN0IG1kcF9kZXZfaW5mcmEgew0KPiAJCXN0cnVjdCBkZXZpY2UgKm1tc3lzOw0KPiAJCXN0
-cnVjdCBtdGtfbXV0ZXggKm10a19tdXRleFtNRFBfUElQRV9NQVhdOw0KPiAJfQ0KPiANCj4gCXN0
-cnVjdCBtZHBfZGV2IHsNCj4gCQlzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2Ow0KPiAJCXN0
-cnVjdCBtZHBfZGV2X2luZnJhIG1kcF9pbmZyYTsNCj4gCQkuLi4uLg0KPiAJfQ0KPiANCj4gc28g
-dGhhdCB5b3UgY2FuIGFkZCB0aGUgc2Vjb25kYXJ5IE1NU1lTICh0aGF0IGdvZXMgYWxvbmcgd2l0
-aCB0aGUNCj4gc2Vjb25kYXJ5DQo+IE1VVEVYIGFueXdheSkgYnkgdGhlbiBjaGFuZ2luZyBtZHBf
-aW5mcmEgdG8NCj4gDQo+IAkJc3RydWN0IG10a19kZXZfaW5mcmEgbWRwX2luZnJhW05VTV9NTVNZ
-U107DQo+IA0KPiBhbmQgdGhlbiByZWZlcmVuY2luZyB0aGF0IGxpa2UNCj4gDQo+IG1kcC0+bWRw
-X2luZnJhW01EUF9JTkZSQV9NTVNZUzBdLT5tbXN5cw0KPiBtZHAtPm1kcF9pbmZyYVtNRFBfSU5G
-UkFfTU1TWVMwXS0+bXRrX211dGV4DQo+IG1kcC0+bWRwX2luZnJhW01EUF9JTkZSQV9NTVNZUzFd
-LT5tbXN5cw0KPiBtZHAtPm1kcF9pbmZyYVtNRFBfSU5GUkFfTU1TWVMxXS0+bXRrX211dGV4DQo+
-IA0KPiBXaGF0IGRvIHlvdSB0aGluaz8NCj4gDQo+IFJlZ2FyZHMsDQo+IEFuZ2Vsbw0KPiANCg0K
-VGhhbmtzIGZvciB0aGUgYWR2aWNlLiBJIHdpbGwgZm9sbG93IHlvdXIgc3VnZ2VzdGlvbiB0byBz
-aW1wbGlmeSB0aGUNCnNldHRpbmdzLg0KDQpTaW5jZXJlbHksDQpNb3VkeQ0KDQo+ID4gICAJc3Ry
-dWN0IG10a19tdXRleAkJCSptZHBfbXV0ZXhbTURQX1BJUEVfTUFYXTsNCj4gPiAgIAlzdHJ1Y3Qg
-bWRwX2NvbXAJCQkJKmNvbXBbTURQX01BWF9DT01QXw0KPiA+IENPVU5UXTsNCj4gPiAgIAljb25z
-dCBzdHJ1Y3QgbXRrX21kcF9kcml2ZXJfZGF0YQkqbWRwX2RhdGE7DQo+ID4gQEAgLTk2LDYgKzk4
-LDcgQEAgc3RydWN0IG1kcF9kZXYgew0KPiA+ICAgDQo+ID4gICBzdHJ1Y3QgbWRwX3BpcGVfaW5m
-byB7DQo+ID4gICAJZW51bSBtZHBfcGlwZV9pZCBwaXBlX2lkOw0KPiA+ICsJdTMyIG1tc3lzX2lk
-Ow0KPiA+ICAgCXUzMiBtdXRleF9pZDsNCj4gPiAgIH07DQo+ID4gICANCj4gDQo+IA0K
+Hi Yunke,
+
+Thank you for the reminder! Since this series is for uvc, I tend to forget that
+it contains a single patch for the V4L2 core that I need to review. Just email
+me a reminder for v13 if you don't see a review after a week.
+
+On 17/08/2023 09:17, Yunke Cao wrote:
+> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+> Add the capability of retrieving the min and max values of a
+> compound control.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Yunke Cao <yunkec@google.com>
+> ---
+> Changelog since v11:
+> - Added a flag V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX.
+> - Modified std_min/max_compound() to be void function. Moved the check of
+>   whether WHICH_MIN/MAX_VAL into prepare_ext_ctrls(), and return EINVAL.
+> - Modified documentations to reflect this change.
+> Changelog since v10:
+> - No change.
+> Changelog since v9:
+> - No change.
+> Changelog since v8:
+> - Return ENODATA when min/max is not implemented. Document this behavior.
+> - Created a shared helper function __v4l2_ctrl_type_op_init that takes "which"
+>   as a parameter. Call it in def, min and max operations.
+> Changelog since v7:
+> - Document that the definition of the min/max are provided by compound controls
+>   are defined in control documentation.
+> - Return error, instead of zeroed memory for v4l2_ctrl_ptr_create(NULL).
+> 
+> git am from https://lore.kernel.org/all/20191119113457.57833-3-hverkuil-cisco@xs4all.nl/
+> - Fixed some merge conflits.
+> - Fixed the build error in drivers/media/platform/qcom/venus.
+> 
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  16 +-
+>  .../media/v4l/vidioc-queryctrl.rst            |   9 +-
+>  .../media/videodev2.h.rst.exceptions          |   3 +
+>  drivers/media/i2c/imx214.c                    |   5 +-
+>  .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c      |  54 ++++--
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 160 +++++++++++++++---
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
+>  include/media/v4l2-ctrls.h                    |  34 +++-
+>  include/uapi/linux/videodev2.h                |   3 +
+>  10 files changed, 252 insertions(+), 45 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index 7b1001d11f9c..b4bf016411d3 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -330,14 +330,26 @@ still cause this situation.
+>        - Which value of the control to get/set/try.
+>      * - :cspan:`2` ``V4L2_CTRL_WHICH_CUR_VAL`` will return the current value of
+>  	the control, ``V4L2_CTRL_WHICH_DEF_VAL`` will return the default
+> +	value of the control, ``V4L2_CTRL_WHICH_MIN_VAL`` will return the minimum
+> +	value of the control, ``V4L2_CTRL_WHICH_MAX_VAL`` will return the maximum
+>  	value of the control and ``V4L2_CTRL_WHICH_REQUEST_VAL`` indicates that
+>  	these controls have to be retrieved from a request or tried/set for
+>  	a request. In the latter case the ``request_fd`` field contains the
+
+This text is getting a bit messy. I propose this instead:
+
+    * - :cspan:`2` ``V4L2_CTRL_WHICH_CUR_VAL`` will return the current value of
+	the control, ``V4L2_CTRL_WHICH_DEF_VAL`` will return the default
+	value of the control, ``V4L2_CTRL_WHICH_MIN_VAL`` will return the minimum
+	value of the control, and ``V4L2_CTRL_WHICH_MAX_VAL`` will return the maximum
+	value of the control. ``V4L2_CTRL_WHICH_REQUEST_VAL`` indicates that
+	the control value has to be retrieved from a request or tried/set for
+	a request. In that case the ``request_fd`` field contains the
+
+It's just a few minor changes, but it makes it easier to read.
+
+>  	file descriptor of the request that should be used. If the device
+>  	does not support requests, then ``EACCES`` will be returned.
+>  
+> -	When using ``V4L2_CTRL_WHICH_DEF_VAL`` be aware that you can only
+> -	get the default value of the control, you cannot set or try it.
+> +	When using ``V4L2_CTRL_WHICH_DEF_VAL``, ``V4L2_CTRL_WHICH_MIN_VAL``
+> +	or ``V4L2_CTRL_WHICH_MAX_VAL`` be aware that you can only get the
+> +	default/minimum/maximum value of the control, you cannot set or try it.
+> +
+> +	Whether a control supports querying the minimum and maximum values using
+> +	``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` is indicated
+> +	by the ``V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX`` flag. Most non-compound
+> +	control types support this. For controls with compound types, the
+> +	definition of minimum/maximum values are provided by
+> +	the control documentation. If a compound control does not document the
+> +	meaning of minimum/maximum value, then querying the minimum or maximum
+> +	value will result in the error code -EINVAL.
+>  
+>  	For backwards compatibility you can also use a control class here
+>  	(see :ref:`ctrl-class`). In that case all controls have to
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> index 56d5c8b0b88b..b39f7e27bbbe 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> @@ -447,7 +447,10 @@ See also the examples in :ref:`control`.
+>        - n/a
+>        - A struct :c:type:`v4l2_rect`, containing a rectangle described by
+>  	the position of its top-left corner, the width and the height. Units
+> -	depend on the use case.
+> +	depend on the use case. Support for ``V4L2_CTRL_WHICH_MIN_VAL`` and
+> +	``V4L2_CTRL_WHICH_MAX_VAL`` is optional and depends on the
+> +	``V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX`` flag. See the documentation of
+> +	the specific control on how to interpret the minimum and maximum values.
+>      * - ``V4L2_CTRL_TYPE_H264_SPS``
+>        - n/a
+>        - n/a
+> @@ -664,6 +667,10 @@ See also the examples in :ref:`control`.
+>  	``dims[0]``. So setting the control with a differently sized
+>  	array will change the ``elems`` field when the control is
+>  	queried afterwards.
+> +    * - ``V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX``
+> +      - 0x1000
+> +      - This control supports getting minimum and maximum values using
+> +      vidioc_g_ext_ctrls with V4L2_CTRL_WHICH_MIN/MAX_VAL.
+>  
+>  Return Value
+>  ============
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index c46082ef0e4d..a417af25e9a4 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -393,6 +393,7 @@ replace define V4L2_CTRL_FLAG_HAS_PAYLOAD control-flags
+>  replace define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE control-flags
+>  replace define V4L2_CTRL_FLAG_MODIFY_LAYOUT control-flags
+>  replace define V4L2_CTRL_FLAG_DYNAMIC_ARRAY control-flags
+> +replace define V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX control-flags
+>  
+>  replace define V4L2_CTRL_FLAG_NEXT_CTRL control
+>  replace define V4L2_CTRL_FLAG_NEXT_COMPOUND control
+> @@ -567,6 +568,8 @@ ignore define V4L2_CTRL_DRIVER_PRIV
+>  ignore define V4L2_CTRL_MAX_DIMS
+>  ignore define V4L2_CTRL_WHICH_CUR_VAL
+>  ignore define V4L2_CTRL_WHICH_DEF_VAL
+> +ignore define V4L2_CTRL_WHICH_MIN_VAL
+> +ignore define V4L2_CTRL_WHICH_MAX_VAL
+>  ignore define V4L2_CTRL_WHICH_REQUEST_VAL
+>  ignore define V4L2_OUT_CAP_CUSTOM_TIMINGS
+>  ignore define V4L2_CID_MAX_CTRLS
+> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+> index 2f9c8582f940..8db4a5eb1737 100644
+> --- a/drivers/media/i2c/imx214.c
+> +++ b/drivers/media/i2c/imx214.c
+> @@ -1037,7 +1037,10 @@ static int imx214_probe(struct i2c_client *client)
+>  	imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
+>  				NULL,
+>  				V4L2_CID_UNIT_CELL_SIZE,
+> -				v4l2_ctrl_ptr_create((void *)&unit_size));
+> +				v4l2_ctrl_ptr_create((void *)&unit_size),
+> +				v4l2_ctrl_ptr_create(NULL),
+> +				v4l2_ctrl_ptr_create(NULL));
+> +
+>  	ret = imx214->ctrls.error;
+>  	if (ret) {
+>  		dev_err(&client->dev, "%s control init failed (%d)\n",
+> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
+> index 7468e43800a9..28eca8f9d148 100644
+> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
+> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+> @@ -607,11 +607,16 @@ int venc_ctrl_init(struct venus_inst *inst)
+>  
+>  	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
+>  				   V4L2_CID_COLORIMETRY_HDR10_CLL_INFO,
+> -				   v4l2_ctrl_ptr_create(&p_hdr10_cll));
+> +				   v4l2_ctrl_ptr_create(&p_hdr10_cll),
+> +				   v4l2_ctrl_ptr_create(NULL),
+> +				   v4l2_ctrl_ptr_create(NULL));
+>  
+>  	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
+>  				   V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY,
+> -				   v4l2_ctrl_ptr_create((void *)&p_hdr10_mastering));
+> +				   v4l2_ctrl_ptr_create((void *)&p_hdr10_mastering),
+> +				   v4l2_ctrl_ptr_create(NULL),
+> +				   v4l2_ctrl_ptr_create(NULL));
+> +
+>  
+>  	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
+>  			       V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE,
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> index 002ea6588edf..d022e1ed4835 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> @@ -94,6 +94,22 @@ static int def_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+>  	return ptr_to_user(c, ctrl, ctrl->p_new);
+>  }
+>  
+> +/* Helper function: copy the minimum control value back to the caller */
+> +static int min_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+> +{
+> +	ctrl->type_ops->minimum(ctrl, 0, ctrl->p_new);
+> +
+> +	return ptr_to_user(c, ctrl, ctrl->p_new);
+> +}
+> +
+> +/* Helper function: copy the maximum control value back to the caller */
+> +static int max_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+> +{
+> +	ctrl->type_ops->maximum(ctrl, 0, ctrl->p_new);
+> +
+> +	return ptr_to_user(c, ctrl, ctrl->p_new);
+> +}
+> +
+>  /* Helper function: copy the caller-provider value as the new control value */
+>  static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+>  {
+> @@ -229,8 +245,8 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+>  		cs->error_idx = i;
+>  
+>  		if (cs->which &&
+> -		    cs->which != V4L2_CTRL_WHICH_DEF_VAL &&
+> -		    cs->which != V4L2_CTRL_WHICH_REQUEST_VAL &&
+> +		    (cs->which < V4L2_CTRL_WHICH_DEF_VAL ||
+> +		     cs->which > V4L2_CTRL_WHICH_MAX_VAL) &&
+>  		    V4L2_CTRL_ID2WHICH(id) != cs->which) {
+>  			dprintk(vdev,
+>  				"invalid which 0x%x or control id 0x%x\n",
+> @@ -259,6 +275,15 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+>  			return -EINVAL;
+>  		}
+>  
+> +		if (!(ctrl->flags & V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX) &&
+> +		    (cs->which == V4L2_CTRL_WHICH_MIN_VAL ||
+> +		     cs->which == V4L2_CTRL_WHICH_MAX_VAL)) {
+> +			dprintk(vdev,
+> +				"invalid which 0x%x or control id 0x%x\n",
+> +				cs->which, id);
+> +			return -EINVAL;
+> +		}
+> +
+>  		if (ctrl->cluster[0]->ncontrols > 1)
+>  			have_clusters = true;
+>  		if (ctrl->cluster[0] != ctrl)
+> @@ -368,8 +393,8 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+>   */
+>  static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
+>  {
+> -	if (which == 0 || which == V4L2_CTRL_WHICH_DEF_VAL ||
+> -	    which == V4L2_CTRL_WHICH_REQUEST_VAL)
+> +	if (which == 0 || (which >= V4L2_CTRL_WHICH_DEF_VAL &&
+> +			   which <= V4L2_CTRL_WHICH_MAX_VAL))
+>  		return 0;
+>  	return find_ref_lock(hdl, which | 1) ? 0 : -EINVAL;
+>  }
+> @@ -389,10 +414,12 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+>  	struct v4l2_ctrl_helper *helpers = helper;
+>  	int ret;
+>  	int i, j;
+> -	bool is_default, is_request;
+> +	bool is_default, is_request, is_min, is_max;
+>  
+>  	is_default = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
+>  	is_request = (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL);
+> +	is_min = (cs->which == V4L2_CTRL_WHICH_MIN_VAL);
+> +	is_max = (cs->which == V4L2_CTRL_WHICH_MAX_VAL);
+>  
+>  	cs->error_idx = cs->count;
+>  	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
+> @@ -432,13 +459,14 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+>  
+>  		/*
+>  		 * g_volatile_ctrl will update the new control values.
+> -		 * This makes no sense for V4L2_CTRL_WHICH_DEF_VAL and
+> +		 * This makes no sense for V4L2_CTRL_WHICH_DEF_VAL,
+> +		 * V4L2_CTRL_WHICH_MIN_VAL, V4L2_CTRL_WHICH_MAX_VAL and
+>  		 * V4L2_CTRL_WHICH_REQUEST_VAL. In the case of requests
+>  		 * it is v4l2_ctrl_request_complete() that copies the
+>  		 * volatile controls at the time of request completion
+>  		 * to the request, so you don't want to do that again.
+>  		 */
+> -		if (!is_default && !is_request &&
+> +		if (!is_default && !is_request && !is_min && !is_max &&
+>  		    ((master->flags & V4L2_CTRL_FLAG_VOLATILE) ||
+>  		    (master->has_volatiles && !is_cur_manual(master)))) {
+>  			for (j = 0; j < master->ncontrols; j++)
+> @@ -467,6 +495,10 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+>  				ret = -ENOMEM;
+>  			else if (is_request && ref->p_req_valid)
+>  				ret = req_to_user(cs->controls + idx, ref);
+> +			else if (is_min)
+> +				ret = min_to_user(cs->controls + idx, ref->ctrl);
+> +			else if (is_max)
+> +				ret = max_to_user(cs->controls + idx, ref->ctrl);
+>  			else if (is_volatile)
+>  				ret = new_to_user(cs->controls + idx, ref->ctrl);
+>  			else
+> @@ -564,9 +596,11 @@ int try_set_ext_ctrls_common(struct v4l2_fh *fh,
+>  
+>  	cs->error_idx = cs->count;
+>  
+> -	/* Default value cannot be changed */
+> -	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL) {
+> -		dprintk(vdev, "%s: cannot change default value\n",
+> +	/* Default/minimum/maximum values cannot be changed */
+> +	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL ||
+> +	    cs->which == V4L2_CTRL_WHICH_MIN_VAL ||
+> +	    cs->which == V4L2_CTRL_WHICH_MAX_VAL) {
+> +		dprintk(vdev, "%s: cannot change default/min/max value\n",
+>  			video_device_node_name(vdev));
+>  		return -EINVAL;
+>  	}
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index f1486ab032cf..f36d54810dbc 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -182,29 +182,69 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	}
+>  }
+>  
+> -void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+> +static void std_min_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> +			    union v4l2_ctrl_ptr ptr)
+> +{
+> +	void *p = ptr.p + idx * ctrl->elem_size;
+> +
+> +	if (ctrl->p_min.p_const)
+> +		memcpy(p, ctrl->p_min.p_const, ctrl->elem_size);
+> +	else
+> +		memset(p, 0, ctrl->elem_size);
+> +}
+> +
+> +static void std_max_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  			    union v4l2_ctrl_ptr ptr)
+> +{
+> +	void *p = ptr.p + idx * ctrl->elem_size;
+> +
+> +	if (ctrl->p_min.p_const)
+
+Typo: p_min -> p_max
+
+> +		memcpy(p, ctrl->p_max.p_const, ctrl->elem_size);
+> +	else
+> +		memset(p, 0, ctrl->elem_size);
+> +}
+> +
+> +static int __v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+
+Just keep this as a void function. The return value is never used anyway.
+
+The assumption is that this function is only called with valid arguments.
+
+> +				    u32 which, union v4l2_ctrl_ptr ptr)
+>  {
+>  	unsigned int i;
+>  	u32 tot_elems = ctrl->elems;
+>  	u32 elems = tot_elems - from_idx;
+> +	s64 value;
+>  
+>  	if (from_idx >= tot_elems)
+> -		return;
+> +		return -EINVAL;
+> +
+> +	switch (which) {
+> +	case V4L2_CTRL_WHICH_DEF_VAL:
+> +		value = ctrl->default_value;
+> +		break;
+> +	case V4L2_CTRL_WHICH_MAX_VAL:
+> +		value = ctrl->maximum;
+> +		break;
+> +	case V4L2_CTRL_WHICH_MIN_VAL:
+> +		value = ctrl->minimum;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+>  
+>  	switch (ctrl->type) {
+>  	case V4L2_CTRL_TYPE_STRING:
+> +		if (which == V4L2_CTRL_WHICH_DEF_VAL)
+> +			value = ctrl->minimum;
+> +
+>  		for (i = from_idx; i < tot_elems; i++) {
+>  			unsigned int offset = i * ctrl->elem_size;
+>  
+> -			memset(ptr.p_char + offset, ' ', ctrl->minimum);
+> -			ptr.p_char[offset + ctrl->minimum] = '\0';
+> +			memset(ptr.p_char + offset, ' ', value);
+> +			ptr.p_char[offset + value] = '\0';
+>  		}
+>  		break;
+>  	case V4L2_CTRL_TYPE_INTEGER64:
+> -		if (ctrl->default_value) {
+> +		if (value) {
+>  			for (i = from_idx; i < tot_elems; i++)
+> -				ptr.p_s64[i] = ctrl->default_value;
+> +				ptr.p_s64[i] = value;
+>  		} else {
+>  			memset(ptr.p_s64 + from_idx, 0, elems * sizeof(s64));
+>  		}
+> @@ -214,9 +254,9 @@ void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+>  	case V4L2_CTRL_TYPE_MENU:
+>  	case V4L2_CTRL_TYPE_BITMASK:
+>  	case V4L2_CTRL_TYPE_BOOLEAN:
+> -		if (ctrl->default_value) {
+> +		if (value) {
+>  			for (i = from_idx; i < tot_elems; i++)
+> -				ptr.p_s32[i] = ctrl->default_value;
+> +				ptr.p_s32[i] = value;
+>  		} else {
+>  			memset(ptr.p_s32 + from_idx, 0, elems * sizeof(s32));
+>  		}
+> @@ -226,32 +266,63 @@ void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+>  		memset(ptr.p_s32 + from_idx, 0, elems * sizeof(s32));
+>  		break;
+>  	case V4L2_CTRL_TYPE_U8:
+> -		memset(ptr.p_u8 + from_idx, ctrl->default_value, elems);
+> +		memset(ptr.p_u8 + from_idx, value, elems);
+>  		break;
+>  	case V4L2_CTRL_TYPE_U16:
+> -		if (ctrl->default_value) {
+> +		if (value) {
+>  			for (i = from_idx; i < tot_elems; i++)
+> -				ptr.p_u16[i] = ctrl->default_value;
+> +				ptr.p_u16[i] = value;
+>  		} else {
+>  			memset(ptr.p_u16 + from_idx, 0, elems * sizeof(u16));
+>  		}
+>  		break;
+>  	case V4L2_CTRL_TYPE_U32:
+> -		if (ctrl->default_value) {
+> +		if (value) {
+>  			for (i = from_idx; i < tot_elems; i++)
+> -				ptr.p_u32[i] = ctrl->default_value;
+> +				ptr.p_u32[i] = value;
+>  		} else {
+>  			memset(ptr.p_u32 + from_idx, 0, elems * sizeof(u32));
+>  		}
+>  		break;
+>  	default:
+> -		for (i = from_idx; i < tot_elems; i++)
+> -			std_init_compound(ctrl, i, ptr);
+> +		for (i = from_idx; i < tot_elems; i++) {
+> +			switch (which) {
+> +			case V4L2_CTRL_WHICH_DEF_VAL:
+> +				std_init_compound(ctrl, i, ptr);
+> +				break;
+> +			case V4L2_CTRL_WHICH_MAX_VAL:
+> +				std_max_compound(ctrl, i, ptr);
+> +				break;
+> +			case V4L2_CTRL_WHICH_MIN_VAL:
+> +				std_min_compound(ctrl, i, ptr);
+> +				break;
+> +			}
+> +		}
+>  		break;
+>  	}
+> +
+> +	return 0;
+> +}
+> +
+> +void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+> +			    union v4l2_ctrl_ptr ptr)
+> +{
+> +	__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_DEF_VAL, ptr);
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_type_op_init);
+>  
+> +void v4l2_ctrl_type_op_minimum(const struct v4l2_ctrl *ctrl, u32 from_idx,
+> +			       union v4l2_ctrl_ptr ptr)
+> +{
+> +	__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MIN_VAL, ptr);
+> +}
+> +
+> +void v4l2_ctrl_type_op_maximum(const struct v4l2_ctrl *ctrl, u32 from_idx,
+> +			       union v4l2_ctrl_ptr ptr)
+> +{
+> +	__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MAX_VAL, ptr);
+> +}
+> +
+>  void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+>  {
+>  	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
+> @@ -1293,6 +1364,8 @@ EXPORT_SYMBOL(v4l2_ctrl_type_op_validate);
+>  static const struct v4l2_ctrl_type_ops std_type_ops = {
+>  	.equal = v4l2_ctrl_type_op_equal,
+>  	.init = v4l2_ctrl_type_op_init,
+> +	.minimum = v4l2_ctrl_type_op_minimum,
+> +	.maximum = v4l2_ctrl_type_op_maximum,
+>  	.log = v4l2_ctrl_type_op_log,
+>  	.validate = v4l2_ctrl_type_op_validate,
+>  };
+> @@ -1764,7 +1837,10 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  			s64 min, s64 max, u64 step, s64 def,
+>  			const u32 dims[V4L2_CTRL_MAX_DIMS], u32 elem_size,
+>  			u32 flags, const char * const *qmenu,
+> -			const s64 *qmenu_int, const union v4l2_ctrl_ptr p_def,
+> +			const s64 *qmenu_int,
+> +			const union v4l2_ctrl_ptr p_def,
+> +			const union v4l2_ctrl_ptr p_min,
+> +			const union v4l2_ctrl_ptr p_max,
+>  			void *priv)
+>  {
+>  	struct v4l2_ctrl *ctrl;
+> @@ -1888,6 +1964,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  		break;
+>  	}
+>  
+> +	if (type < V4L2_CTRL_COMPOUND_TYPES &&
+> +	    type != V4L2_CTRL_TYPE_BUTTON &&
+> +	    type != V4L2_CTRL_TYPE_CTRL_CLASS &&
+> +	    type != V4L2_CTRL_TYPE_STRING)
+> +		flags |= V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX;
+> +
+>  	/* Sanity checks */
+>  	if (id == 0 || name == NULL || !elem_size ||
+>  	    id >= V4L2_CID_PRIVATE_BASE ||
+> @@ -1896,6 +1978,21 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  		handler_set_err(hdl, -ERANGE);
+>  		return NULL;
+>  	}
+> +
+> +	if ((!p_def.p_const && p_min.p_const) ||
+> +	    (p_min.p_const && !p_max.p_const) ||
+> +	    (!p_min.p_const && p_max.p_const)) {
+> +		handler_set_err(hdl, -EINVAL);
+> +		return NULL;
+> +	}
+
+I would drop this. I think p_def, p_min and p_max can all be NULL (in which
+case the corresponding value is a memset(0)).
+
+> +
+> +	if (flags & V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX &&
+> +	    type >= V4L2_CTRL_COMPOUND_TYPES &&
+> +	    (!p_min.p_const || !p_max.p_const)) {
+> +		handler_set_err(hdl, -EINVAL);
+> +		return NULL;
+> +	}
+
+Same here. Suppose you have a compound control that for whatever reason has
+just a single fixed value, that happens to be all zeroes. Then you can set
+leave p_min/p_max to NULL, while still setting V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX.
+
+I'd just drop this test.
+
+> +
+>  	err = check_range(type, min, max, step, def);
+>  	if (err) {
+>  		handler_set_err(hdl, err);
+> @@ -1937,6 +2034,8 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  
+>  	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_def.p_const)
+>  		sz_extra += elem_size;
+> +	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_min.p_const)
+> +		sz_extra += elem_size * 2;
+
+Since one of p_min or p_max can be NULL, just do this:
+
+	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_min.p_const)
+		sz_extra += elem_size;
+	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_max.p_const)
+		sz_extra += elem_size;
+
+>  
+>  	ctrl = kvzalloc(sizeof(*ctrl) + sz_extra, GFP_KERNEL);
+>  	if (ctrl == NULL) {
+> @@ -2002,6 +2101,14 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  		memcpy(ctrl->p_def.p, p_def.p_const, elem_size);
+>  	}
+>  
+> +	if (flags & V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX &&
+> +	    p_min.p_const && p_max.p_const) {
+> +		ctrl->p_min.p = ctrl->p_def.p + elem_size;
+> +		memcpy(ctrl->p_min.p, p_min.p_const, elem_size);
+> +		ctrl->p_max.p = ctrl->p_min.p + elem_size;
+> +		memcpy(ctrl->p_max.p, p_max.p_const, elem_size);
+> +	}
+
+This needs a similar modification.
+
+> +
+>  	ctrl->type_ops->init(ctrl, 0, ctrl->p_cur);
+>  	cur_to_new(ctrl);
+>  
+> @@ -2052,7 +2159,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
+>  			type, min, max,
+>  			is_menu ? cfg->menu_skip_mask : step, def,
+>  			cfg->dims, cfg->elem_size,
+> -			flags, qmenu, qmenu_int, cfg->p_def, priv);
+> +			flags, qmenu, qmenu_int, cfg->p_def, cfg->p_min,
+> +			cfg->p_max, priv);
+>  	if (ctrl)
+>  		ctrl->is_private = cfg->is_private;
+>  	return ctrl;
+> @@ -2077,7 +2185,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     min, max, step, def, NULL, 0,
+> -			     flags, NULL, NULL, ptr_null, NULL);
+> +			     flags, NULL, NULL, ptr_null, ptr_null,
+> +			     ptr_null, NULL);
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_std);
+>  
+> @@ -2110,7 +2219,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     0, max, mask, def, NULL, 0,
+> -			     flags, qmenu, qmenu_int, ptr_null, NULL);
+> +			     flags, qmenu, qmenu_int, ptr_null, ptr_null,
+> +			     ptr_null, NULL);
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_std_menu);
+>  
+> @@ -2142,7 +2252,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     0, max, mask, def, NULL, 0,
+> -			     flags, qmenu, NULL, ptr_null, NULL);
+> +			     flags, qmenu, NULL, ptr_null, ptr_null,
+> +			     ptr_null, NULL);
+>  
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
+> @@ -2150,7 +2261,9 @@ EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
+>  /* Helper function for standard compound controls */
+>  struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+>  				const struct v4l2_ctrl_ops *ops, u32 id,
+> -				const union v4l2_ctrl_ptr p_def)
+> +				const union v4l2_ctrl_ptr p_def,
+> +				const union v4l2_ctrl_ptr p_min,
+> +				const union v4l2_ctrl_ptr p_max)
+>  {
+>  	const char *name;
+>  	enum v4l2_ctrl_type type;
+> @@ -2164,7 +2277,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     min, max, step, def, NULL, 0,
+> -			     flags, NULL, NULL, p_def, NULL);
+> +			     flags, NULL, NULL, p_def, p_min, p_max, NULL);
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_std_compound);
+>  
+> @@ -2188,7 +2301,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     0, max, 0, def, NULL, 0,
+> -			     flags, NULL, qmenu_int, ptr_null, NULL);
+> +			     flags, NULL, qmenu_int, ptr_null, ptr_null,
+> +			     ptr_null, NULL);
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 01ba27f2ef87..aaf68bfaa601 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -884,7 +884,9 @@ static bool check_ext_ctrls(struct v4l2_ext_controls *c, unsigned long ioctl)
+>  			return false;
+>  		break;
+>  	case V4L2_CTRL_WHICH_DEF_VAL:
+> -		/* Default value cannot be changed */
+> +	case V4L2_CTRL_WHICH_MIN_VAL:
+> +	case V4L2_CTRL_WHICH_MAX_VAL:
+> +		/* Default, minimum or maximum value cannot be changed */
+>  		if (ioctl == VIDIOC_S_EXT_CTRLS ||
+>  		    ioctl == VIDIOC_TRY_EXT_CTRLS) {
+>  			c->error_idx = c->count;
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index b0db167a3ac4..6e12493b30d3 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -133,6 +133,8 @@ struct v4l2_ctrl_ops {
+>   *
+>   * @equal: return true if all ctrl->elems array elements are equal.
+>   * @init: initialize the value for array elements from from_idx to ctrl->elems.
+> + * @minimum: set the value to the minimum value of the control.
+> + * @maximum: set the value to the maximum value of the control.
+>   * @log: log the value.
+>   * @validate: validate the value for ctrl->new_elems array elements.
+>   *	Return 0 on success and a negative value otherwise.
+> @@ -142,6 +144,10 @@ struct v4l2_ctrl_type_ops {
+>  		      union v4l2_ctrl_ptr ptr1, union v4l2_ctrl_ptr ptr2);
+>  	void (*init)(const struct v4l2_ctrl *ctrl, u32 from_idx,
+>  		     union v4l2_ctrl_ptr ptr);
+> +	void (*minimum)(const struct v4l2_ctrl *ctrl, u32 idx,
+> +			union v4l2_ctrl_ptr ptr);
+> +	void (*maximum)(const struct v4l2_ctrl *ctrl, u32 idx,
+> +			union v4l2_ctrl_ptr ptr);
+>  	void (*log)(const struct v4l2_ctrl *ctrl);
+>  	int (*validate)(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr ptr);
+>  };
+> @@ -247,6 +253,12 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
+>   * @p_def:	The control's default value represented via a union which
+>   *		provides a standard way of accessing control types
+>   *		through a pointer (for compound controls only).
+> + * @p_min:	The control's minimum value represented via a union which
+> + *		provides a standard way of accessing control types
+> + *		through a pointer (for compound controls only).
+> + * @p_max:	The control's maximum value represented via a union which
+> + *		provides a standard way of accessing control types
+> + *		through a pointer (for compound controls only).
+>   * @p_cur:	The control's current value represented via a union which
+>   *		provides a standard way of accessing control types
+>   *		through a pointer.
+> @@ -306,6 +318,8 @@ struct v4l2_ctrl {
+>  	} cur;
+>  
+>  	union v4l2_ctrl_ptr p_def;
+> +	union v4l2_ctrl_ptr p_min;
+> +	union v4l2_ctrl_ptr p_max;
+>  	union v4l2_ctrl_ptr p_new;
+>  	union v4l2_ctrl_ptr p_cur;
+>  };
+> @@ -425,6 +439,8 @@ struct v4l2_ctrl_handler {
+>   * @step:	The control's step value for non-menu controls.
+>   * @def:	The control's default value.
+>   * @p_def:	The control's default value for compound controls.
+> + * @p_min:	The control's minimum value for compound controls.
+> + * @p_max:	The control's maximum value for compound controls.
+>   * @dims:	The size of each dimension.
+>   * @elem_size:	The size in bytes of the control.
+>   * @flags:	The control's flags.
+> @@ -454,6 +470,8 @@ struct v4l2_ctrl_config {
+>  	u64 step;
+>  	s64 def;
+>  	union v4l2_ctrl_ptr p_def;
+> +	union v4l2_ctrl_ptr p_min;
+> +	union v4l2_ctrl_ptr p_max;
+>  	u32 dims[V4L2_CTRL_MAX_DIMS];
+>  	u32 elem_size;
+>  	u32 flags;
+> @@ -723,17 +741,23 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
+>   * @ops:       The control ops.
+>   * @id:        The control ID.
+>   * @p_def:     The control's default value.
+> + * @p_min:     The control's minimum value.
+> + * @p_max:     The control's maximum value.
+>   *
+> - * Sames as v4l2_ctrl_new_std(), but with support to compound controls, thanks
+> - * to the @p_def field. Use v4l2_ctrl_ptr_create() to create @p_def from a
+> - * pointer. Use v4l2_ctrl_ptr_create(NULL) if the default value of the
+> - * compound control should be all zeroes.
+> + * Same as v4l2_ctrl_new_std(), but with support to compound controls, thanks
+> + * to the @p_def/min/max fields. Use v4l2_ctrl_ptr_create() to create
+> + * @p_def/min/max from a pointer. Use v4l2_ctrl_ptr_create(NULL) if the
+> + * default value of the compound control should be all zeroes. Use
+> + * v4l2_ctrl_ptr_create(NULL) if the min/max value of the compound control
+> + * is not defined, -ENODATA will be returned in this case.
+
+This is outdated and should be:
+
+ * @p_def/min/max from a pointer. Use v4l2_ctrl_ptr_create(NULL) if the
+ * default, minimum or maximum value of the compound control should be all zeroes.
+
+>   *
+>   */
+>  struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+>  					     const struct v4l2_ctrl_ops *ops,
+>  					     u32 id,
+> -					     const union v4l2_ctrl_ptr p_def);
+> +					     const union v4l2_ctrl_ptr p_def,
+> +					     const union v4l2_ctrl_ptr p_min,
+> +					     const union v4l2_ctrl_ptr p_max);
+>  
+>  /**
+>   * v4l2_ctrl_new_int_menu() - Create a new standard V4L2 integer menu control.
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 089d553cf736..d7670aaf3b5f 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1863,6 +1863,8 @@ struct v4l2_ext_controls {
+>  #define V4L2_CTRL_WHICH_CUR_VAL   0
+>  #define V4L2_CTRL_WHICH_DEF_VAL   0x0f000000
+>  #define V4L2_CTRL_WHICH_REQUEST_VAL 0x0f010000
+> +#define V4L2_CTRL_WHICH_MIN_VAL   0x0f020000
+> +#define V4L2_CTRL_WHICH_MAX_VAL   0x0f030000
+>  
+>  enum v4l2_ctrl_type {
+>  	V4L2_CTRL_TYPE_INTEGER	     = 1,
+> @@ -1970,6 +1972,7 @@ struct v4l2_querymenu {
+>  #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
+>  #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
+>  #define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
+> +#define V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX 0x1000
+>  
+>  /*  Query flags, to be ORed with the control ID */
+>  #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
+
+Regards,
+
+	Hans
