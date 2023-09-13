@@ -2,110 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B17879F208
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 21:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30E3479F23C
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 21:39:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232525AbjIMT3Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 15:29:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39734 "EHLO
+        id S232358AbjIMTjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 15:39:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232429AbjIMT3N (ORCPT
+        with ESMTP id S230475AbjIMTju (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 15:29:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A214D19A0;
-        Wed, 13 Sep 2023 12:29:09 -0700 (PDT)
-Received: from [192.168.1.110] (unknown [103.86.18.170])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B5FB72E;
-        Wed, 13 Sep 2023 21:27:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694633255;
-        bh=2PEdmZJVlkIWAZzcOdmGLDTCygP7cmTZ3CudbNNyMNU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=nWQubWVHMeD45QxffS4RL2R2BLxbLOzXQZoW3tmGE9C0iknhslbVvGmY0UBW1wCxT
-         Ckyleni/lqSxJ4xUm6mKc2EPvIR0R07FWiCoOR26Oa1PsRI7L3/R50n07HRH+34C2K
-         pHK+IazdsKq2Mu+5tsigKnCOmfNogzhe/vmJMfQg=
-Message-ID: <de05bdf5-7fec-6d13-9faa-61c4e54f3dad@ideasonboard.com>
-Date:   Thu, 14 Sep 2023 00:59:00 +0530
+        Wed, 13 Sep 2023 15:39:50 -0400
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C215991;
+        Wed, 13 Sep 2023 12:39:46 -0700 (PDT)
+Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-57328758a72so47393eaf.1;
+        Wed, 13 Sep 2023 12:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694633986; x=1695238786; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e8D/pgNTc3BVf0DHz0XjJjKwO6Jo6hWT4KdmFPdaZck=;
+        b=g6nxSri39nxJbWJkt3KHU9F+AdYMkQ4uk973ngebXsYfJUQN4ExR5B8O5++/80Zqjh
+         1ScdRLhP7pLDsy65AlBvJTaR2s9xA2kckU9ltiAWXATQA07lY8rCeUff0du+dTd3iUEt
+         VuzPoeFyhyY8SaWolWfYQTiran66A0TM4aSrgRbUI1U/DZ6qLVBjRKHIpZ5Ap/k+VR+k
+         RiYFiJaF7U8wWZTHkWU1xzLnvJMl8Z1y8r623bfAEnBcQhUyh8EF+d2bMzXSee7RkSRe
+         QJ56fDpeTc8J8Sm4dBCxDMACOkUclNmrs170Krk0S+uwARa+O9jh36I6mNWWRJOra9fn
+         90gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694633986; x=1695238786;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e8D/pgNTc3BVf0DHz0XjJjKwO6Jo6hWT4KdmFPdaZck=;
+        b=TKSPvZcCJe6HC9T/qPB0tAOJsBZ75WnPYoHa14le7REgY+Qk2cTmBWcJwKAZXgASi/
+         4QI2zGMi0FDuBiQo/4SKebD2iPkUNPrNdXAarzHMIZ39sd9XIswfSl8JOVuDrtwzi8Ol
+         2nM4GhTbz0sLTRYd0IIE86eERoCvPkWWHuPPDD63PKCynli/eOH4Rpux/etUJXfl/y8J
+         GzZB2nnzArX/tGZjl92doNsKSZE5XttYhHbS0b5H7n6y0eKHIPBFyYKdm7WW5i5hlGdY
+         dMNHi0YNPXoX18R2V/FfrCPGl5sy46Ekr6ktMgkGeziE5Jfj631CoGaSW7WP98AS7q3j
+         Oclw==
+X-Gm-Message-State: AOJu0Yx2bPt/9ZMVsUK7Nv6T0OWeMK08/KSsNwg+B2KoN2IU1AcgiIdl
+        O/AFH+fjVs1vgpk5oXjdJJtwwmYDcGw=
+X-Google-Smtp-Source: AGHT+IGPZx5X9XfuxLEd5//+B+akMLWBFq7kSqsyIXLcFsB6hG1mKrCyTEVq6199eRqXzFYGsavl+w==
+X-Received: by 2002:a05:6830:6a1a:b0:6bc:a6d0:ab7 with SMTP id cz26-20020a0568306a1a00b006bca6d00ab7mr3431819otb.3.1694633985964;
+        Wed, 13 Sep 2023 12:39:45 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:1764:d532:27a2:10a0])
+        by smtp.gmail.com with ESMTPSA id q21-20020a05683022d500b006bee51de9f6sm2059otc.18.2023.09.13.12.39.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 12:39:45 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     sakari.ailus@iki.fi
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] media: dt-bindings: ovti,ov772x: Make powerdown-gpios active-high
+Date:   Wed, 13 Sep 2023 16:39:32 -0300
+Message-Id: <20230913193932.1947918-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v10 1/5] staging: vc04_services: vchiq_arm: Add new bus
- type and device type
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Stefan Wahren <wahrenst@gmx.net>
-Cc:     gregkh@linuxfoundation.org, f.fainelli@gmail.com,
-        athierry@redhat.com, error27@gmail.com,
-        kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        dave.stevenson@raspberrypi.com, linux-kernel@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20230911140712.180751-1-umang.jain@ideasonboard.com>
- <20230911140712.180751-2-umang.jain@ideasonboard.com>
- <c96262e7-9bd9-c75d-7584-e6ff62f69530@gmx.net>
- <d006e31a-33df-51b1-c8cf-9c7e5590adb6@ideasonboard.com>
- <cd242cf0-a7ae-d980-899e-b89e0cb2d1aa@arm.com>
-Content-Language: en-US
-From:   Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <cd242cf0-a7ae-d980-899e-b89e0cb2d1aa@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robin
+From: Fabio Estevam <festevam@denx.de>
 
-On 9/13/23 5:38 PM, Robin Murphy wrote:
-> On 2023-09-12 06:50, Umang Jain wrote:
-> [...]
->>>> +struct vchiq_device *
->>>> +vchiq_device_register(struct device *parent, const char *name)
->>>> +{
->>>> +    struct vchiq_device *device;
->>>> +    int ret;
->>>> +
->>>> +    device = kzalloc(sizeof(*device), GFP_KERNEL);
->>>> +    if (!device) {
->>>> +        dev_err(parent, "Cannot register %s: Insufficient memory\n",
->>>> +            name);
->>>> +        return NULL;
->>>> +    }
->>>> +
->>>> +    device->dev.init_name = name;
->>>> +    device->dev.parent = parent;
->>>> +    device->dev.bus = &vchiq_bus_type;
->>>> +    device->dev.release = vchiq_device_release;
->>>> +
->>>> +    of_dma_configure(&device->dev, parent->of_node, true);
->>>> +    ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
->>>> +    if (ret) {
->>>> +        dev_err(&device->dev, "32-bit DMA enable failed\n");
->>>> +        return NULL;
->>>> +    }
->>>
->>> Unfortunately the call of of_dma_configure() generates warnings likes
->>> this (Raspberry Pi 3A+ with multi_v7_defconfig + VCHIQ):
->>>
->>> [    9.206802] vchiq-bus bcm2835-audio: DMA mask not set
->>> [    9.206892] vchiq-bus bcm2835-camera: DMA mask not set
->>
->> huh, really weird, as on my RPi-3-b I get these set correctly and I 
->> don't any such warning.
->
-> Can you point to the code above where device->dev.dma_mask gets 
-> initialised between the initial kzalloc() and the call to 
-> of_dma_configure()? ;)
->
-> BTW, bus code shouldn't be calling dma_set_mask_and_coherent() on 
-> behalf of its children, that is for the individual drivers to do, if 
-> and when they intend to actually use DMA. Removing that here will save 
-> you needing to fix the memory leak as well...
+The powerdown-gpios description mentions:
 
-Thanks for this suggestion. I have now set the dma_mask within the child 
-itself!
->
-> Thanks,
-> Robin.
+"Reference to the GPIO connected to the PWDN pin which is active high."
+
+Improve the example by making powerdown-gpios active-high for consistency.
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
+index 5d24edba8f99..5aec65b053af 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
+@@ -114,7 +114,7 @@ examples:
+             compatible = "ovti,ov7725";
+             reg = <0x21>;
+             reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+-            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
++            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_HIGH>;
+             clocks = <&xclk>;
+ 
+             port {
+-- 
+2.34.1
 
