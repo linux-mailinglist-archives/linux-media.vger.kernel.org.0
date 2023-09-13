@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F165879EA30
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 15:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67CEA79EA31
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 15:56:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241126AbjIMN4g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 09:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41440 "EHLO
+        id S241134AbjIMN4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 09:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241084AbjIMN4f (ORCPT
+        with ESMTP id S241130AbjIMN4h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 09:56:35 -0400
+        Wed, 13 Sep 2023 09:56:37 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4CEF19B1
-        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 06:56:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 147BD19B6
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 06:56:33 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8AF0E1AF0;
-        Wed, 13 Sep 2023 15:54:58 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF8E52B66;
+        Wed, 13 Sep 2023 15:54:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694613298;
-        bh=KlkTrlEiC9UxqDYIUDdy0n61YvSJpy2S7v3R4Ecs99U=;
+        s=mail; t=1694613300;
+        bh=kYWHuhF9PRvzXOLA9l+Re4Z2+k+CWdxuX1d+lrt6Zrc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tRT6z8Or3HWVEyAOkVog4ypSFFvWdsz82KXa6bj3gRLnXR54Ud5dPUV1d78abn9Qb
-         WdhHg3V7bl3Gi0J8FSQXOjq9e97TmSgQUp4RDInW5s4U3hQ/MoQooEgMOQIBQFWnY1
-         QyXMIpIOHg8QoxynreYQJYEt413Z54cMLdi8unxo=
+        b=jWruRHVvsGMiF7y+hvf84BG+IPhHu06j8gte9v5kcAmkSzWx/etZwiTf0LdAY41Ji
+         NYkIK5yHuI57O/QhcWy34VoB4gZdIT+0fELWp1WTXtivH3ReipVrRIMiGvoyFejP/i
+         0Jf0nKK6h91EGFNTbaQ4tTZnaMcuFsNqIEZBd5Zs=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
@@ -32,9 +32,9 @@ Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v3 04/20] media: i2c: imx219: Drop IMX219_REG_CSI_LANE_MODE from common regs array
-Date:   Wed, 13 Sep 2023 16:56:22 +0300
-Message-ID: <20230913135638.26277-5-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 05/20] media: i2c: imx219: Fix test pattern window for 640x480 mode
+Date:   Wed, 13 Sep 2023 16:56:23 +0300
+Message-ID: <20230913135638.26277-6-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230913135638.26277-1-laurent.pinchart@ideasonboard.com>
 References: <20230913135638.26277-1-laurent.pinchart@ideasonboard.com>
@@ -44,30 +44,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The IMX219_REG_CSI_LANE_MODE is configured twice, once with a hardcoded
-value in the imx219_common_regs registers array, and once with the value
-appropriate for the system in imx219_configure_lanes(). The latter is
-enough, drop the former.
+The 640x480 mode specifies incorrect values for the TP_WINDOW_WIDTH and
+TP_WINDOW_HEIGHT registers, which likely got copied from the 1640x1232
+mode. They should be identical to the X_OUTPUT_SIZE and Y_OUTPUT_SIZE
+registers as for all the other modes, to avoid cropping the test
+pattern. Fix them.
 
-Fixes: ceddfd4493b3 ("media: i2c: imx219: Support four-lane operation")
-Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/media/i2c/imx219.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/media/i2c/imx219.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index fbf4c69577f7..d8840aa67c42 100644
+index d8840aa67c42..4a25f624d931 100644
 --- a/drivers/media/i2c/imx219.c
 +++ b/drivers/media/i2c/imx219.c
-@@ -214,7 +214,6 @@ static const struct cci_reg_sequence imx219_common_regs[] = {
- 	{ IMX219_REG_Y_ODD_INC_A, 1 },
- 
- 	/* Output setup registers */
--	{ IMX219_REG_CSI_LANE_MODE, IMX219_CSI_2_LANE_MODE },
- 	{ IMX219_REG_DPHY_CTRL, IMX219_DPHY_CTRL_TIMING_AUTO },
- 	{ IMX219_REG_EXCK_FREQ, IMX219_EXCK_FREQ(IMX219_XCLK_FREQ / 1000000) },
+@@ -263,8 +263,8 @@ static const struct cci_reg_sequence mode_640_480_regs[] = {
+ 	{ IMX219_REG_Y_ADD_END_A, 1711 },
+ 	{ IMX219_REG_X_OUTPUT_SIZE, 640 },
+ 	{ IMX219_REG_Y_OUTPUT_SIZE, 480 },
+-	{ IMX219_REG_TP_WINDOW_WIDTH, 1640 },
+-	{ IMX219_REG_TP_WINDOW_HEIGHT, 1232 },
++	{ IMX219_REG_TP_WINDOW_WIDTH, 640 },
++	{ IMX219_REG_TP_WINDOW_HEIGHT, 480 },
  };
+ 
+ static const struct cci_reg_sequence raw8_framefmt_regs[] = {
 -- 
 Regards,
 
