@@ -2,138 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F78579E77D
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 14:03:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D59BB79E792
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 14:08:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240132AbjIMMDP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 08:03:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43832 "EHLO
+        id S240183AbjIMMI2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 08:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236688AbjIMMDO (ORCPT
+        with ESMTP id S235205AbjIMMI2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 08:03:14 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D4119B0
-        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 05:03:10 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9ad8d47ef2fso209736566b.1
-        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 05:03:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694606588; x=1695211388; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=l9TEONYL32X9JEH2VQEx/JROuvGGr8vwhiBLVKKA/iU=;
-        b=X4pp+JBcqhkwdTI/XPm821BuI4HKBb9xJPabxRitBNrVSTkry4diOlKM8FtUwkA9Xs
-         3q4zxqzNGECfx3eHaoV2DF3pc5U4IsAPCQGz7TKzTFgf1EMpkY1282rQ6v3q14J8TdBH
-         UeY1s/ORognx4MoWHl8f4Ohffh7Uk7j4to1w4t5FLbZpPX/UXpQgCHYRlgVujBqe7Ipb
-         H5qT+dAmAKOWOsh9N+YzjZFFl28OFrPq0vDSZGZerwgY/te87lRc2+9JEd8jO/EafhoM
-         JpegUzGCJkXAAiu4J2FHPcvvpJY5uHQJeFDxjJN8brq9EShknYmqOBjpqmFmDxeCGnOO
-         J3qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694606588; x=1695211388;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l9TEONYL32X9JEH2VQEx/JROuvGGr8vwhiBLVKKA/iU=;
-        b=NGuLNCylQ9NGywddRDop203g93Bs1iyvxHCUtgrVk50mGXlIuUw+xLVw4IQ/V5LA/N
-         bBY6w7a32nqM/zKtkqBNeh8wIPIJId4WLFFA2oqhc1WcBfZnj1DFmsawqSCBpKYTi/Zm
-         D4BoujrZ2bh5uiiM8638+Gh6FU6Ralymgetl5hY15JMp9fV6hzxtcumS4M+BCn5/Jd5x
-         zVsWBOMRx7DFRev+DXqABNsgOxlFxQ31tGvyarK8nRlf5eKWgz94f1fdRoq1VCkV7CiW
-         nS+GXTr2cSVlpqXBxKQ92UQCXKNnf+x9x5yo/4FAbehZ9x1JM4SjyhEm2qpVCaFjvup+
-         WcAw==
-X-Gm-Message-State: AOJu0YxPGLb8xLtNJHGCQ+o2gEjCM5YJ/Vi+3BUDuZ/8um45hBuWd0vT
-        CY4zph59FWNlOsgCrVc15nR+kg==
-X-Google-Smtp-Source: AGHT+IEFth6fbGlon+g+am5gy6RRRDBdh1wxN7B4ef+QcEZiqLwPlP/n/BiDzN3krErKmKXnPDF8Bw==
-X-Received: by 2002:a17:906:295:b0:9a1:e58d:73b8 with SMTP id 21-20020a170906029500b009a1e58d73b8mr1700452ejf.72.1694606588562;
-        Wed, 13 Sep 2023 05:03:08 -0700 (PDT)
-Received: from [192.168.37.232] (178235177106.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.106])
-        by smtp.gmail.com with ESMTPSA id eu17-20020a170907299100b009ad88cea750sm2459736ejc.199.2023.09.13.05.03.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Sep 2023 05:03:08 -0700 (PDT)
-Message-ID: <c7c0a8af-30c5-49c9-8212-bf08abc7c3fe@linaro.org>
-Date:   Wed, 13 Sep 2023 14:03:06 +0200
+        Wed, 13 Sep 2023 08:08:28 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 174FC19A7;
+        Wed, 13 Sep 2023 05:08:24 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08DBD1FB;
+        Wed, 13 Sep 2023 05:09:01 -0700 (PDT)
+Received: from [10.57.93.239] (unknown [10.57.93.239])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A10D33F67D;
+        Wed, 13 Sep 2023 05:08:21 -0700 (PDT)
+Message-ID: <cd242cf0-a7ae-d980-899e-b89e0cb2d1aa@arm.com>
+Date:   Wed, 13 Sep 2023 13:08:14 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 00/20] Venus cleanups
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
- <5d13f9c7-665d-4ff5-962d-940898b24754@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <5d13f9c7-665d-4ff5-962d-940898b24754@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v10 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
+Content-Language: en-GB
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        Stefan Wahren <wahrenst@gmx.net>
+Cc:     gregkh@linuxfoundation.org, f.fainelli@gmail.com,
+        athierry@redhat.com, error27@gmail.com,
+        kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        dave.stevenson@raspberrypi.com, linux-kernel@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20230911140712.180751-1-umang.jain@ideasonboard.com>
+ <20230911140712.180751-2-umang.jain@ideasonboard.com>
+ <c96262e7-9bd9-c75d-7584-e6ff62f69530@gmx.net>
+ <d006e31a-33df-51b1-c8cf-9c7e5590adb6@ideasonboard.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <d006e31a-33df-51b1-c8cf-9c7e5590adb6@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12.09.2023 08:19, Bryan O'Donoghue wrote:
-> On 11/09/2023 16:10, Konrad Dybcio wrote:
->> With the driver supporting multiple generations of hardware, some mold
->> has definitely grown over the code..
+On 2023-09-12 06:50, Umang Jain wrote:
+[...]
+>>> +struct vchiq_device *
+>>> +vchiq_device_register(struct device *parent, const char *name)
+>>> +{
+>>> +    struct vchiq_device *device;
+>>> +    int ret;
+>>> +
+>>> +    device = kzalloc(sizeof(*device), GFP_KERNEL);
+>>> +    if (!device) {
+>>> +        dev_err(parent, "Cannot register %s: Insufficient memory\n",
+>>> +            name);
+>>> +        return NULL;
+>>> +    }
+>>> +
+>>> +    device->dev.init_name = name;
+>>> +    device->dev.parent = parent;
+>>> +    device->dev.bus = &vchiq_bus_type;
+>>> +    device->dev.release = vchiq_device_release;
+>>> +
+>>> +    of_dma_configure(&device->dev, parent->of_node, true);
+>>> +    ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
+>>> +    if (ret) {
+>>> +        dev_err(&device->dev, "32-bit DMA enable failed\n");
+>>> +        return NULL;
+>>> +    }
 >>
->> This series attempts to amend this situation a bit by commonizing some
->> code paths and fixing some bugs while at it.
+>> Unfortunately the call of of_dma_configure() generates warnings likes
+>> this (Raspberry Pi 3A+ with multi_v7_defconfig + VCHIQ):
 >>
->> Only tested on SM8250.
->>
->> Definitely needs testing on:
->>
->> - SDM845 with old bindings
->> - SDM845 with new bindings or 7180
->> - MSM8916
->> - MSM8996
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> [    9.206802] vchiq-bus bcm2835-audio: DMA mask not set
+>> [    9.206892] vchiq-bus bcm2835-camera: DMA mask not set
 > 
-> Don't we have both a db410c and db845c in Bjorn's lab you could test this on ?
-None that work
+> huh, really weird, as on my RPi-3-b I get these set correctly and I 
+> don't any such warning.
 
-Konrad
+Can you point to the code above where device->dev.dma_mask gets 
+initialised between the initial kzalloc() and the call to 
+of_dma_configure()? ;)
+
+BTW, bus code shouldn't be calling dma_set_mask_and_coherent() on behalf 
+of its children, that is for the individual drivers to do, if and when 
+they intend to actually use DMA. Removing that here will save you 
+needing to fix the memory leak as well...
+
+Thanks,
+Robin.
