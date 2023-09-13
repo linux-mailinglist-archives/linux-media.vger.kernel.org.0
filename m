@@ -2,85 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B183479F116
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 20:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF42079F175
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 20:55:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231856AbjIMS05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 14:26:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48418 "EHLO
+        id S232025AbjIMSzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 14:55:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbjIMS05 (ORCPT
+        with ESMTP id S229886AbjIMSzs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 14:26:57 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B04B19BF;
-        Wed, 13 Sep 2023 11:26:53 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA822C433C8;
-        Wed, 13 Sep 2023 18:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694629612;
-        bh=UFV7zP5tyJ40jV42UWBAuRyz2SyHbcKwwfIEMcks2k4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JCN4T9sLTQRErWsGDCpzusTPl0ej2CCeg2Yo3JxKlJdSsu5sdTdXb2SvuSMyOzjnV
-         lWrIcBrxFLmJavSmmaGqE+zopvnF/WetN9nQa6zu2I/YYN2fJByWFBplcseW0BFZVJ
-         k8mAL50We/PtivzY2Ms0xsdBJXtrTGByJs8RRkdTsdNzT+sa25y1eDVcijgfBeFfGr
-         GuQvUk3YVuGcR9HGmaG9McBEZV04sbfOaksyIzvO34SxKK8+g7R2+n58kR4lodinPR
-         macn9AsVtQYM+71N8CbT9lyR6GOExm0rAll/ZH9n5XPCjdDPIEh5syE9f/D1/URiW6
-         Qp9GsRPTm3cjw==
-Date:   Wed, 13 Sep 2023 19:26:48 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Fabio Estevam <festevam@denx.de>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v3] dt-bindings: media: Add OV5642
-Message-ID: <20230913-undocked-geek-757dddbbabd7@spud>
-References: <20230802160326.293420-1-festevam@denx.de>
- <ZQHbm4K6tDs6ILo+@valkosipuli.retiisi.eu>
- <19523723a202647d0ab5135581f5090f@denx.de>
+        Wed, 13 Sep 2023 14:55:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D9B1985;
+        Wed, 13 Sep 2023 11:55:44 -0700 (PDT)
+Received: from umang.jainideasonboard.com (unknown [103.86.18.170])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B713B1;
+        Wed, 13 Sep 2023 20:54:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694631249;
+        bh=chNJdd1zcolnNrSINJke77grPOMpV8+bsyYop+wOaRo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HpkUBWIYpxt7jQtUdojaA1KRCB349FRTR7OA4RZpSB9d5yegO54mBmOi+9xxpykCe
+         G75dWHjGhbbNHgjxU0ZYaDrqpubxyzh3u+88NJ5NlD+SB6BBaV/uoocmRXHh52OkqK
+         hwmYDctllIyyvRwk4Z4EdbjdeKeEHH5bFxMjoqCA=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [RFC PATCH v2 0/4] staging: vc04: Drop custom logging
+Date:   Thu, 14 Sep 2023 00:25:24 +0530
+Message-Id: <20230913185528.770634-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Cz26fDXXOWYM34jN"
-Content-Disposition: inline
-In-Reply-To: <19523723a202647d0ab5135581f5090f@denx.de>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
---Cz26fDXXOWYM34jN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series attempts to restart the discussion on custom logging used
+in VC04. In the last feedback gathered in [1] it seems that the logging
+would rather be moved to use dynamic debug. The series tries to move
+in that direction.
 
-On Wed, Sep 13, 2023 at 01:04:06PM -0300, Fabio Estevam wrote:
-> Hi Sakari,
->=20
-> On 13/09/2023 12:56, Sakari Ailus wrote:
->=20
-> > One more little thing. Do you have a driver for this device? In upstream
-> > there doesn't seem to be any.
->=20
-> Correct. There is no driver for OV5642 upstream.
->=20
-> The DT folks asked me to document the OV5642 binding even without an
-> existing driver.
+The elephant in the room is the ability of turning on/off log levels,
+which this series just drops. Compensated by a crude strings
+("error", "warning", "info"... etc) for easier grepping.
 
-IIRC, Fabio wanted to delete it from trivial-devices, and Krzysztof and
-I both felt it was more suitable to document it properly rather than
-delete it.
+The log category are also just strings (which probably can be transformed
+to dynamic debug class names moving forwards?).
 
---Cz26fDXXOWYM34jN
-Content-Type: application/pgp-signature; name="signature.asc"
+To move forwards, I would like feedback on the broader direction.
+There are couple of TODOs in each of the patch (summarised in commit
+messages) which require case-by-case discussion.
 
------BEGIN PGP SIGNATURE-----
+Additional high-level questions to move forwards:
+1. Is loss of log levels by moving to dynamic debug, is actually a
+   concern? Is dynamic debug a valid replacement?
+2. Whether debugfs should be dropped as well, found vestigial in [2]
+3. whether vchiq_log_trace() should actually be tracing support for VC04
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQH+6AAKCRB4tDGHoIJi
-0kkYAQC6vj2RlUbCg0OXQd98YYAr7B/57FlK7szBWiyG9QkyDAEAz0ACHpySb+te
-ROPdsELitYoYGCmrM0rpjRxwELHsRQw=
-=dvWP
------END PGP SIGNATURE-----
+All this is done to elimiate the TODO item in:
+drivers/staging/vc04_services/interface/TODO
+* Cleanup logging mechanism 
 
---Cz26fDXXOWYM34jN--
+Addtional comments/questions are welcome.
+
+Thank you.
+
+Tested over media-tree master with dynamic debug configs enabled and
+drivers/staging/vc04_services/interface/TESTING.
+
+[1] https://lore.kernel.org/lkml/20230118115810.21979-1-umang.jain@ideasonboard.com/
+[2] https://lore.kernel.org/lkml/Y8lHqd9FlxiXTLuW@kroah.com/
+
+Umang Jain (4):
+  staging: vc04: Convert vchiq_log_error() to use dynamic debug
+  staging: vc04: Convert vchiq_log_warning() to use dynamic debug
+  staging: vc04: Convert vchiq_log_info() to use dynamic debug
+  staging: vc04: Convert vchiq_log_trace() to use dynamic debug
+
+ .../interface/vchiq_arm/vchiq_arm.c           | 127 +++++-----
+ .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
+ .../interface/vchiq_arm/vchiq_core.c          | 225 ++++++++----------
+ .../interface/vchiq_arm/vchiq_core.h          |  46 ++--
+ .../interface/vchiq_arm/vchiq_dev.c           |  41 ++--
+ 5 files changed, 232 insertions(+), 213 deletions(-)
+
+
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+-- 
+2.40.1
+
