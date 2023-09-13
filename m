@@ -2,95 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30E3479F23C
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 21:39:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6727379F264
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 21:54:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232358AbjIMTjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 15:39:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42766 "EHLO
+        id S231328AbjIMTyO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 15:54:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230475AbjIMTju (ORCPT
+        with ESMTP id S229642AbjIMTyN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 15:39:50 -0400
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C215991;
-        Wed, 13 Sep 2023 12:39:46 -0700 (PDT)
-Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-57328758a72so47393eaf.1;
-        Wed, 13 Sep 2023 12:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694633986; x=1695238786; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=e8D/pgNTc3BVf0DHz0XjJjKwO6Jo6hWT4KdmFPdaZck=;
-        b=g6nxSri39nxJbWJkt3KHU9F+AdYMkQ4uk973ngebXsYfJUQN4ExR5B8O5++/80Zqjh
-         1ScdRLhP7pLDsy65AlBvJTaR2s9xA2kckU9ltiAWXATQA07lY8rCeUff0du+dTd3iUEt
-         VuzPoeFyhyY8SaWolWfYQTiran66A0TM4aSrgRbUI1U/DZ6qLVBjRKHIpZ5Ap/k+VR+k
-         RiYFiJaF7U8wWZTHkWU1xzLnvJMl8Z1y8r623bfAEnBcQhUyh8EF+d2bMzXSee7RkSRe
-         QJ56fDpeTc8J8Sm4dBCxDMACOkUclNmrs170Krk0S+uwARa+O9jh36I6mNWWRJOra9fn
-         90gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694633986; x=1695238786;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e8D/pgNTc3BVf0DHz0XjJjKwO6Jo6hWT4KdmFPdaZck=;
-        b=TKSPvZcCJe6HC9T/qPB0tAOJsBZ75WnPYoHa14le7REgY+Qk2cTmBWcJwKAZXgASi/
-         4QI2zGMi0FDuBiQo/4SKebD2iPkUNPrNdXAarzHMIZ39sd9XIswfSl8JOVuDrtwzi8Ol
-         2nM4GhTbz0sLTRYd0IIE86eERoCvPkWWHuPPDD63PKCynli/eOH4Rpux/etUJXfl/y8J
-         GzZB2nnzArX/tGZjl92doNsKSZE5XttYhHbS0b5H7n6y0eKHIPBFyYKdm7WW5i5hlGdY
-         dMNHi0YNPXoX18R2V/FfrCPGl5sy46Ekr6ktMgkGeziE5Jfj631CoGaSW7WP98AS7q3j
-         Oclw==
-X-Gm-Message-State: AOJu0Yx2bPt/9ZMVsUK7Nv6T0OWeMK08/KSsNwg+B2KoN2IU1AcgiIdl
-        O/AFH+fjVs1vgpk5oXjdJJtwwmYDcGw=
-X-Google-Smtp-Source: AGHT+IGPZx5X9XfuxLEd5//+B+akMLWBFq7kSqsyIXLcFsB6hG1mKrCyTEVq6199eRqXzFYGsavl+w==
-X-Received: by 2002:a05:6830:6a1a:b0:6bc:a6d0:ab7 with SMTP id cz26-20020a0568306a1a00b006bca6d00ab7mr3431819otb.3.1694633985964;
-        Wed, 13 Sep 2023 12:39:45 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:1764:d532:27a2:10a0])
-        by smtp.gmail.com with ESMTPSA id q21-20020a05683022d500b006bee51de9f6sm2059otc.18.2023.09.13.12.39.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 12:39:45 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     sakari.ailus@iki.fi
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] media: dt-bindings: ovti,ov772x: Make powerdown-gpios active-high
-Date:   Wed, 13 Sep 2023 16:39:32 -0300
-Message-Id: <20230913193932.1947918-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 13 Sep 2023 15:54:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B9E99E;
+        Wed, 13 Sep 2023 12:54:09 -0700 (PDT)
+Received: from umang.jainideasonboard.com (unknown [103.86.18.170])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B4CA755;
+        Wed, 13 Sep 2023 21:52:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694634755;
+        bh=dZQYIYhd8wtDU67jQTMB8G2epHTfgZbmOFawwvBWHRw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XszMOHbWPsFIBRT1kXxrTff9DznD6g3PRD6GPRe0lEe2KDA7CN18WF/Tteogaywxg
+         mzcYCwr3e06DVsU5j83i5VzxBomxEoMuY90hiwpfcGuaa8NZYHwR+DlYHD9VF4d09s
+         8u2EOtD7sgEH4tWCEbVRJ2g8D5v8tEukwlQ99gxo=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v11 0/5] staging: vc04_services: vchiq: Register devices with a custom bus_type
+Date:   Thu, 14 Sep 2023 01:23:49 +0530
+Message-Id: <20230913195354.835884-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Fabio Estevam <festevam@denx.de>
+The patch series added a new bus type vchiq_bus_type and registers
+child devices in order to move them away from using platform
+device/driver.
 
-The powerdown-gpios description mentions:
+Tested on RPi-3-b with media tree master branch.
 
-"Reference to the GPIO connected to the PWDN pin which is active high."
+Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
+interface
 
-Improve the example by making powerdown-gpios active-high for consistency.
+Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
+to the new bus respectively
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patch 5/5 removes a platform registeration helper which is no
+longer required.
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-index 5d24edba8f99..5aec65b053af 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-@@ -114,7 +114,7 @@ examples:
-             compatible = "ovti,ov7725";
-             reg = <0x21>;
-             reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
--            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
-+            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_HIGH>;
-             clocks = <&xclk>;
- 
-             port {
+Changes in v11:
+- Move setting of DMA mask in child devices (3/5 and 4/5)
+- Fixes "DMA mask not set issue" reported in v10.
+
+Changes in v10:
+- fix dma_attr WARN issue with bcm2835-audio module loading
+- Unregister bus on parent platform device fails to register
+- Reword commit to highlight bcm2835_audio to bcm2835-audio name change
+
+Changes in v9:
+- Fix module autoloading
+- Implement bus_type's probe() callback to load drivers
+- Implement bus_type's uevent() to make sure appropriate drivers are
+  loaded when device are registed from vchiq.
+
+Changes in v8:
+- Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
+
+Changes in v7:
+(5 out of 6 patches from v6 merged)
+- Split the main patch (6/6) as requested.
+- Use struct vchiq_device * instead of struct device * in
+  all bus functions.
+- Drop additional name attribute displayed in sysfs (redundant info)
+- Document vchiq_interface doesn't enumerate device discovery
+- remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
+
+Changes in v6:
+- Split struct device and struct driver wrappers in vchiq_device.[ch]
+- Move vchiq_bus_type definition to vchiq_device.[ch] as well
+- return error on bus_register() failure
+- drop dma_set_mask_and_coherent
+- trivial variable name change
+
+Changes in v5:
+- Fixup missing "staging: " in commits' subject line
+- No code changes from v4
+
+Changes in v4:
+- Introduce patches to drop include directives from Makefile
+
+Changes in v3:
+- Rework entirely to replace platform devices/driver model
+
+-v2:
+https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
+
+-v1:
+https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
+
+Umang Jain (5):
+  staging: vc04_services: vchiq_arm: Add new bus type and device type
+  staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+  staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+  staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
+  staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
+
+ drivers/staging/vc04_services/Makefile        |   1 +
+ .../vc04_services/bcm2835-audio/bcm2835.c     |  29 +++--
+ .../bcm2835-camera/bcm2835-camera.c           |  26 +++--
+ .../interface/vchiq_arm/vchiq_arm.c           |  52 ++++-----
+ .../interface/vchiq_arm/vchiq_device.c        | 104 ++++++++++++++++++
+ .../interface/vchiq_arm/vchiq_device.h        |  54 +++++++++
+ 6 files changed, 219 insertions(+), 47 deletions(-)
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+
+
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-2.34.1
+2.40.1
 
