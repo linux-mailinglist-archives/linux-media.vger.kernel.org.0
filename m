@@ -2,196 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CEBD79DECA
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 05:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEE1979E01B
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 08:38:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238226AbjIMDxL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Sep 2023 23:53:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51306 "EHLO
+        id S238443AbjIMGiI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 02:38:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233304AbjIMDxK (ORCPT
+        with ESMTP id S238379AbjIMGiF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Sep 2023 23:53:10 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C71A1725;
-        Tue, 12 Sep 2023 20:53:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694577186; x=1726113186;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6idy3UYoXF16We1idYVG4dqF8greOcgN+lbURYPntWs=;
-  b=oDiHLadFEGl9nvWVEG15V5Bz+JOjS1cpBDFCRtChXNa/PnZzlvW4xD9W
-   bNFBSW0wtePiEvuTJloW7h6xeKdNDqYiQrh374skfEc+MNboHDHrqE+gL
-   Lv9tArrIfkF/0FCpca7Qj4bNEPfdaitJTB6F08skpGh3qXUnuaPoguoh2
-   0u/dw+xhyPHtPMg2XlyMd8TvRfaho1pB0BhRh0+1VFtNUBlfwcC58wiyC
-   8tYP7t9tu9TB3fciVpdQciZshd6olHUYdWguSM2IXnV1EZ9+FAGu2V0MC
-   VQmTvDPIqC0fGyzQRcncfwC4F3p1QwhP+hXhKSvVb6b8qFXTluyMHVhTE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="358829969"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="358829969"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 20:53:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="743960962"
-X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="743960962"
-Received: from lkp-server02.sh.intel.com (HELO e6439d5ea182) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 12 Sep 2023 20:53:02 -0700
-Received: from kbuild by e6439d5ea182 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qgGvz-00003B-2v;
-        Wed, 13 Sep 2023 03:52:59 +0000
-Date:   Wed, 13 Sep 2023 11:52:06 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH RFT 19/20] media: venus: pm_helpers: Commonize vdec_get()
-Message-ID: <202309131132.yfX42orR-lkp@intel.com>
-References: <20230911-topic-mars-v1-19-a7d38bf87bdb@linaro.org>
+        Wed, 13 Sep 2023 02:38:05 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE70B173A
+        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 23:38:01 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-401d80f4ef8so69775075e9.1
+        for <linux-media@vger.kernel.org>; Tue, 12 Sep 2023 23:38:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694587080; x=1695191880; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8My5CApiKeaXtXgjQmnhwf9UqSWZovhHM2oxjC1BrHk=;
+        b=bvXDKjOJ+jepwhbNBqxbEvYEA5Sugze8WUJINIYuk/W9St58tnOimo5IKvNxlIhNcY
+         ULV4VJ1yFhCfK03BVLedNmc+416Wk1BaH15kpfFef2F74bYC9tCD26+ICf1jt9Rew7nq
+         CO1nVlRL1L2D3J3KkXr/14UBi1HlUuH2rda4f/+rqB4AoNHT58Q+I9xN0e7OOXiCtxfa
+         VF1W+VUMKBQG6nFaB54I3XM1YQrtnHiuQE6Lpn2TsKG8RefzZlaq/9mU7dT5KLURo5mB
+         WgCvoNDz5ObGdKZGaY9qSzM0xIvsqnRojiVgLUZFCScSW72yDtUfHzMb8+0HLMAax4hO
+         RERw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694587080; x=1695191880;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8My5CApiKeaXtXgjQmnhwf9UqSWZovhHM2oxjC1BrHk=;
+        b=EwOJF1PEO48C+bamh3HR3jyNf0lw6mHEeYreh0ryH+7eYJqkFQG7DCWpOw27pLGjeh
+         6m5Vr/ME4Iv625bE2MJAMY4x98JS3+6YEJ68tAiAiiVSeQyIRlZ+GGVtN3Yipqhnr9Bf
+         EoH7zN/q8lGXGwiKkxEhqSbZkFKTMQ6qlv7MRXGwKFmAY9R3sShp/TZ0nDtC3p1+4yNG
+         bUqjS6rcAoaui/qpaXgsYEQKWCsu4XDczDwPZVHCqWsJPeDgpGg68nggcFEKQyvmhR8F
+         /qUL0beYW2TgWBEOkRosD5tT5yAMgIjM3eOyyJx4kxdtGkmiQ9M4Gqv7LVrEp9ibT0kc
+         p0kQ==
+X-Gm-Message-State: AOJu0YyDLoovXpgJSFTA00A+wbQutMWeEph+NaoNPKl4F+ERcHL0Gt9Q
+        jHe9TjiU4ULmbO7nTKp7EmZOEQ==
+X-Google-Smtp-Source: AGHT+IEZ2F60h3ihjAJYnXxW24cqpT3tWenIsbGIseVxLMVNVbBJ9+q+xwzYR0l2cvMniL752UbZhQ==
+X-Received: by 2002:a7b:c414:0:b0:402:fe6d:6296 with SMTP id k20-20020a7bc414000000b00402fe6d6296mr1282354wmi.9.1694587080118;
+        Tue, 12 Sep 2023 23:38:00 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.214.188])
+        by smtp.gmail.com with ESMTPSA id n12-20020a05600c294c00b003ff3b964a9asm1029639wmd.39.2023.09.12.23.37.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Sep 2023 23:37:58 -0700 (PDT)
+Message-ID: <0e63b264-1023-7b97-dfc1-91dd6ecef1c0@linaro.org>
+Date:   Wed, 13 Sep 2023 08:37:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230911-topic-mars-v1-19-a7d38bf87bdb@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v5 2/3] dt-binding: mediatek: integrate MDP RDMA to one
+ binding
+To:     =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "airlied@gmail.com" <airlied@gmail.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+Cc:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230912075651.10693-1-moudy.ho@mediatek.com>
+ <20230912075651.10693-3-moudy.ho@mediatek.com>
+ <83b3f2eb-84e3-2daa-c63c-14b6792a1db5@linaro.org>
+ <69ce225d04b1ed3890365c6f684bdbdb5c540e16.camel@mediatek.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <69ce225d04b1ed3890365c6f684bdbdb5c540e16.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Konrad,
+On 13/09/2023 05:04, Moudy Ho (何宗原) wrote:
+> On Tue, 2023-09-12 at 10:16 +0200, Krzysztof Kozlowski wrote:
+>>  	 
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>  On 12/09/2023 09:56, Moudy Ho wrote:
+>>> Due to the same hardware design, MDP RDMA needs to
+>>> be integrated into the same binding.
+>>>
+>>
+>> Please use subject prefixes matching the subsystem. You can get them
+>> for
+>> example with `git log --oneline -- DIRECTORY_OR_FILE` on the
+>> directory
+>> your patch is touching.
+>>
+>> This applies to entire patchset. It is not dt-binding, but dt-
+>> bindings.
+>>
+>>> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+>>> ---
+>>>  .../display/mediatek/mediatek,mdp-rdma.yaml   | 88 -------------
+>> ------
+>>>  .../bindings/media/mediatek,mdp3-rdma.yaml    |  5 +-
+>>>  2 files changed, 3 insertions(+), 90 deletions(-)
+>>>  delete mode 100644
+>> Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+>> rdma.yaml
+>>>
+>>> diff --git
+>> a/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+>> rdma.yaml
+>> b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+>> rdma.yaml
+>>> deleted file mode 100644
+>>> index dd12e2ff685c..000000000000
+>>> ---
+>> a/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+>> rdma.yaml
+>>> +++ /dev/null
+>>> @@ -1,88 +0,0 @@
+>>> -# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> -%YAML 1.2
+>>> ----
+>>> -$id: 
+>> http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+>>> -$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> -
+>>> -title: MediaTek MDP RDMA
+>>> -
+>>> -maintainers:
+>>> -  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+>>> -  - Philipp Zabel <p.zabel@pengutronix.de>
+>>> -
+>>> -description:
+>>> -  The MediaTek MDP RDMA stands for Read Direct Memory Access.
+>>> -  It provides real time data to the back-end panel driver, such as
+>> DSI,
+>>> -  DPI and DP_INTF.
+>>> -  It contains one line buffer to store the sufficient pixel data.
+>>> -  RDMA device node must be siblings to the central MMSYS_CONFIG
+>> node.
+>>> -  For a description of the MMSYS_CONFIG binding, see
+>>>
+>> -  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> for details.
+>>> -
+>>> -properties:
+>>> -  compatible:
+>>> -    const: mediatek,mt8195-vdo1-rdma
+>>> -
+>>> -  reg:
+>>> -    maxItems: 1
+>>> -
+>>> -  interrupts:
+>>> -    maxItems: 1
+>>> -
+>>> -  power-domains:
+>>> -    maxItems: 1
+>>> -
+>>> -  clocks:
+>>> -    items:
+>>> -      - description: RDMA Clock
+>>
+>> This is different and you did not explain it in commit msg.
+>>
+>> Another difference - mboxes. Looks like you did not test your DTS...
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> Hi Krzysztof,
+> 
+> Sorry for the inconvenience.
+> The property you mentioned was removed on [3/3]. This incorrect
+> configuration went unnoticed because I passed the test with the entire
+> series.
+> It will be recified in the next version.
 
-kernel test robot noticed the following build errors:
+Please describe any differences (lost properties etc) in commit msg with
+some explanation.
 
-[auto build test ERROR on 7bc675554773f09d88101bf1ccfc8537dc7c0be9]
+Best regards,
+Krzysztof
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/media-venus-pm_helpers-Only-set-rate-of-the-core-clock-in-core_clks_enable/20230912-051942
-base:   7bc675554773f09d88101bf1ccfc8537dc7c0be9
-patch link:    https://lore.kernel.org/r/20230911-topic-mars-v1-19-a7d38bf87bdb%40linaro.org
-patch subject: [PATCH RFT 19/20] media: venus: pm_helpers: Commonize vdec_get()
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230913/202309131132.yfX42orR-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131132.yfX42orR-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309131132.yfX42orR-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "vcodec_clks_get" [drivers/media/platform/qcom/venus/venus-dec.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
