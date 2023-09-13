@@ -2,98 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D59BB79E792
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 14:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C7DA79E7DE
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 14:26:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240183AbjIMMI2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 08:08:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35592 "EHLO
+        id S240408AbjIMM0r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 08:26:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235205AbjIMMI2 (ORCPT
+        with ESMTP id S240193AbjIMM0q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 08:08:28 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 174FC19A7;
-        Wed, 13 Sep 2023 05:08:24 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08DBD1FB;
-        Wed, 13 Sep 2023 05:09:01 -0700 (PDT)
-Received: from [10.57.93.239] (unknown [10.57.93.239])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A10D33F67D;
-        Wed, 13 Sep 2023 05:08:21 -0700 (PDT)
-Message-ID: <cd242cf0-a7ae-d980-899e-b89e0cb2d1aa@arm.com>
-Date:   Wed, 13 Sep 2023 13:08:14 +0100
+        Wed, 13 Sep 2023 08:26:46 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB7019AD
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 05:26:42 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9ada2e6e75fso83561366b.2
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 05:26:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694608001; x=1695212801; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8E6NTnrAXKpDewa3pGzDd8qfOwRsIkXDy/usDX+LrAg=;
+        b=JBcOBfiM1eiShcLgRR4XdqxLoe4fY/Qwfk3fTG23JCUJK3x27K0odDpGrHq35u03DG
+         G/bXwEsV5fMPNPbz6TcqPXKqjHo5BuepcyITcnPoyDYepzqjQ5tHlHxbk86FBWfd0lM2
+         8AVo2ixwHRXjJg5Q6UWvYvWP0yd0bkvrm4OrX4g9JHU46hVuVMnU+E5bT5HmGzFFZFnx
+         1oRQ5rUGyA0PN9I0oyAF9kpFZGLo9EupPH2e9pMBf2hn/QPppWPnDnP+dGGHlUS8qdq0
+         9Y9+6KQzUBXWnmPfHvici9HK0rY7r5DnjKyXESf3OwdQNGvgX4KlLPibd9r7Q2xcAqlP
+         lVUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694608001; x=1695212801;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8E6NTnrAXKpDewa3pGzDd8qfOwRsIkXDy/usDX+LrAg=;
+        b=Dj8xJCIjkjfYeg+EZa6snjbDcPBzpiLouv1S9Y6ld9ZAcPUqO/EbFzUJzqoBdRGd2o
+         q+zAPjMIyWXMPoZCoZogz2A2I1Wj9cvuB/O9VaQeb8Lj0Ye8O+Ni/PNiQa2DpFA2yM7E
+         RaxjRiqVTqqKA0kMdU1kCktu0DzoLsa2F+hPZfpWXOtc2PNaitngUVlkA+fy+G5fbcOs
+         FIg/wKxbVwrUIjXl1vKWbZcVxo96wkFqmSTJ7qCysGLclWE3bCxCUVIO5diIBfOP13Xq
+         NyG/jUeSkVG885YDuyl2oeTPHYul03STTmRoXlkd/InM1EPEUyPJl5Sh6RIdzT9Cafnh
+         TIKQ==
+X-Gm-Message-State: AOJu0Yz35DLUpoQ4M+JJ1yDzHjW656CthUQZubqJ5Rq7/tdzPGRLU3Fg
+        OFRi50MtzXgPBISofA48oI5tqQ==
+X-Google-Smtp-Source: AGHT+IH/5F1hSY0BAv5EYN86McI3ASqRbm5sCuJy71SqYqBI6pY3zEpfJCSXerOM4dBZMkPUW/SpgQ==
+X-Received: by 2002:a17:907:9686:b0:9a5:7887:ef09 with SMTP id hd6-20020a170907968600b009a57887ef09mr2243739ejc.32.1694608000944;
+        Wed, 13 Sep 2023 05:26:40 -0700 (PDT)
+Received: from [192.168.0.163] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id pk24-20020a170906d7b800b0098d2d219649sm8489928ejb.174.2023.09.13.05.26.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Sep 2023 05:26:40 -0700 (PDT)
+Message-ID: <e91e7d74-c81b-4b72-85bd-be6a5d25b1e7@linaro.org>
+Date:   Wed, 13 Sep 2023 13:26:39 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v10 1/5] staging: vc04_services: vchiq_arm: Add new bus
- type and device type
-Content-Language: en-GB
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        Stefan Wahren <wahrenst@gmx.net>
-Cc:     gregkh@linuxfoundation.org, f.fainelli@gmail.com,
-        athierry@redhat.com, error27@gmail.com,
-        kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        dave.stevenson@raspberrypi.com, linux-kernel@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20230911140712.180751-1-umang.jain@ideasonboard.com>
- <20230911140712.180751-2-umang.jain@ideasonboard.com>
- <c96262e7-9bd9-c75d-7584-e6ff62f69530@gmx.net>
- <d006e31a-33df-51b1-c8cf-9c7e5590adb6@ideasonboard.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <d006e31a-33df-51b1-c8cf-9c7e5590adb6@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT 00/20] Venus cleanups
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
+ <5d13f9c7-665d-4ff5-962d-940898b24754@linaro.org>
+ <c7c0a8af-30c5-49c9-8212-bf08abc7c3fe@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <c7c0a8af-30c5-49c9-8212-bf08abc7c3fe@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023-09-12 06:50, Umang Jain wrote:
-[...]
->>> +struct vchiq_device *
->>> +vchiq_device_register(struct device *parent, const char *name)
->>> +{
->>> +    struct vchiq_device *device;
->>> +    int ret;
->>> +
->>> +    device = kzalloc(sizeof(*device), GFP_KERNEL);
->>> +    if (!device) {
->>> +        dev_err(parent, "Cannot register %s: Insufficient memory\n",
->>> +            name);
->>> +        return NULL;
->>> +    }
->>> +
->>> +    device->dev.init_name = name;
->>> +    device->dev.parent = parent;
->>> +    device->dev.bus = &vchiq_bus_type;
->>> +    device->dev.release = vchiq_device_release;
->>> +
->>> +    of_dma_configure(&device->dev, parent->of_node, true);
->>> +    ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
->>> +    if (ret) {
->>> +        dev_err(&device->dev, "32-bit DMA enable failed\n");
->>> +        return NULL;
->>> +    }
+On 13/09/2023 13:03, Konrad Dybcio wrote:
+> On 12.09.2023 08:19, Bryan O'Donoghue wrote:
+>> On 11/09/2023 16:10, Konrad Dybcio wrote:
+>>> With the driver supporting multiple generations of hardware, some mold
+>>> has definitely grown over the code..
+>>>
+>>> This series attempts to amend this situation a bit by commonizing some
+>>> code paths and fixing some bugs while at it.
+>>>
+>>> Only tested on SM8250.
+>>>
+>>> Definitely needs testing on:
+>>>
+>>> - SDM845 with old bindings
+>>> - SDM845 with new bindings or 7180
+>>> - MSM8916
+>>> - MSM8996
+>>>
+>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 >>
->> Unfortunately the call of of_dma_configure() generates warnings likes
->> this (Raspberry Pi 3A+ with multi_v7_defconfig + VCHIQ):
->>
->> [    9.206802] vchiq-bus bcm2835-audio: DMA mask not set
->> [    9.206892] vchiq-bus bcm2835-camera: DMA mask not set
+>> Don't we have both a db410c and db845c in Bjorn's lab you could test this on ?
+> None that work
 > 
-> huh, really weird, as on my RPi-3-b I get these set correctly and I 
-> don't any such warning.
+> Konrad
 
-Can you point to the code above where device->dev.dma_mask gets 
-initialised between the initial kzalloc() and the call to 
-of_dma_configure()? ;)
+If you agree to bring more Polish candy to Ams, I will test this series 
+for you.
 
-BTW, bus code shouldn't be calling dma_set_mask_and_coherent() on behalf 
-of its children, that is for the individual drivers to do, if and when 
-they intend to actually use DMA. Removing that here will save you 
-needing to fix the memory leak as well...
+Fair exchange.
 
-Thanks,
-Robin.
+---
+bod
