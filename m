@@ -2,256 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79B4E79F202
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 21:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B17879F208
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 21:29:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232394AbjIMT21 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 15:28:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37232 "EHLO
+        id S232525AbjIMT3Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 15:29:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232387AbjIMT20 (ORCPT
+        with ESMTP id S232429AbjIMT3N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 15:28:26 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53A81B7;
-        Wed, 13 Sep 2023 12:28:22 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id 5614622812f47-3a9e49495ddso1797b6e.1;
-        Wed, 13 Sep 2023 12:28:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694633301; x=1695238101; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2WidjAhyzzR914yrMrQA4wjCbGJH0b1DcL9K+jqRrhM=;
-        b=RUp2ytGWv9dp+pir04wEXORIGle/uNVVeLD4qvJpyBeUVi2TzpClNVyFGSZvrj/sUJ
-         qE+n4bPikY/JzxBxCJjoJwVYu4f4ae6dPHCpM4zg0KHsdqPrdlf+clf9oHF74VWoQcmL
-         1rFsy0zaBzny+1MQsUNcCuTMbJJSor/GppemHtG/G+uS0AJpYziyJD8gklLwPY6Tvvyn
-         EWE6cO0vAbj35H0l+0i11kUKfAu/1e3TtcUBZXLQPEncwsvR/zCyZJpkZTyoX0nSKMI5
-         O7bctJ30s9AJ8wOmjux652dIInf69BXf3jp1zIxMHnrWB2a4dvk5/EUZSKJrzvAc+qLg
-         j7FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694633301; x=1695238101;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2WidjAhyzzR914yrMrQA4wjCbGJH0b1DcL9K+jqRrhM=;
-        b=i7GRWNwoSToxdQYoa0Xp3vCRnfplHXBcsb0Z+apDAbaTFvGipgyCQK5Xr/Y4uUkCFs
-         LuuHXr6fARduwR7UzQ/0SSRt7qKXg8/onylpIOMntNP78LAlzOLeVJxr5sBl6DGmM0fT
-         RpPCNO8nh0byxBzFKcNp5B2JAu5bOA1iL/CMUKG9i5eUuJEJqn7JQwtt1jQQ/5mdWwDn
-         15Jm1XhENLhIqkdo63PdaGa5WOwt4tXlCEjPwSCjxFNLJOY7Q2ZS13HvYWAGmtzJm1Ef
-         xDW/12qa3L/ovVHB46nMpNOH1eorIVzteiN2+vbvtUPCxDt1rWK/d5coc582MTjtXGIj
-         OBdA==
-X-Gm-Message-State: AOJu0YyUp5mlcsnFdi9I7Y0A/+hYYf3jQh5hVBRQjeVMuHq1+zxQQvwO
-        SCZ73XENEm7s4AXGJERG54XUVkVCMns=
-X-Google-Smtp-Source: AGHT+IFwuw2AHf3U9dQGwgRAjJ6iGmvB0H3u2uvXpeAufRd0mmf0kzaoTVpzqkcCSkRKNZOb/MCoLg==
-X-Received: by 2002:a05:6808:308c:b0:3a7:72e2:3262 with SMTP id bl12-20020a056808308c00b003a772e23262mr4197780oib.5.1694633301499;
-        Wed, 13 Sep 2023 12:28:21 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:1764:d532:27a2:10a0])
-        by smtp.gmail.com with ESMTPSA id b14-20020a056808010e00b003a1ec14d8c6sm5476622oie.23.2023.09.13.12.28.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 12:28:21 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     sakari.ailus@iki.fi
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v4] media: dt-bindings: Add OV5642
-Date:   Wed, 13 Sep 2023 16:28:11 -0300
-Message-Id: <20230913192811.1946423-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 13 Sep 2023 15:29:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A214D19A0;
+        Wed, 13 Sep 2023 12:29:09 -0700 (PDT)
+Received: from [192.168.1.110] (unknown [103.86.18.170])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B5FB72E;
+        Wed, 13 Sep 2023 21:27:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694633255;
+        bh=2PEdmZJVlkIWAZzcOdmGLDTCygP7cmTZ3CudbNNyMNU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=nWQubWVHMeD45QxffS4RL2R2BLxbLOzXQZoW3tmGE9C0iknhslbVvGmY0UBW1wCxT
+         Ckyleni/lqSxJ4xUm6mKc2EPvIR0R07FWiCoOR26Oa1PsRI7L3/R50n07HRH+34C2K
+         pHK+IazdsKq2Mu+5tsigKnCOmfNogzhe/vmJMfQg=
+Message-ID: <de05bdf5-7fec-6d13-9faa-61c4e54f3dad@ideasonboard.com>
+Date:   Thu, 14 Sep 2023 00:59:00 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v10 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Stefan Wahren <wahrenst@gmx.net>
+Cc:     gregkh@linuxfoundation.org, f.fainelli@gmail.com,
+        athierry@redhat.com, error27@gmail.com,
+        kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        dave.stevenson@raspberrypi.com, linux-kernel@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20230911140712.180751-1-umang.jain@ideasonboard.com>
+ <20230911140712.180751-2-umang.jain@ideasonboard.com>
+ <c96262e7-9bd9-c75d-7584-e6ff62f69530@gmx.net>
+ <d006e31a-33df-51b1-c8cf-9c7e5590adb6@ideasonboard.com>
+ <cd242cf0-a7ae-d980-899e-b89e0cb2d1aa@arm.com>
+Content-Language: en-US
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <cd242cf0-a7ae-d980-899e-b89e0cb2d1aa@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Fabio Estevam <festevam@denx.de>
+Hi Robin
 
-As explained in the description text from trivial-devices.yaml:
+On 9/13/23 5:38 PM, Robin Murphy wrote:
+> On 2023-09-12 06:50, Umang Jain wrote:
+> [...]
+>>>> +struct vchiq_device *
+>>>> +vchiq_device_register(struct device *parent, const char *name)
+>>>> +{
+>>>> +    struct vchiq_device *device;
+>>>> +    int ret;
+>>>> +
+>>>> +    device = kzalloc(sizeof(*device), GFP_KERNEL);
+>>>> +    if (!device) {
+>>>> +        dev_err(parent, "Cannot register %s: Insufficient memory\n",
+>>>> +            name);
+>>>> +        return NULL;
+>>>> +    }
+>>>> +
+>>>> +    device->dev.init_name = name;
+>>>> +    device->dev.parent = parent;
+>>>> +    device->dev.bus = &vchiq_bus_type;
+>>>> +    device->dev.release = vchiq_device_release;
+>>>> +
+>>>> +    of_dma_configure(&device->dev, parent->of_node, true);
+>>>> +    ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
+>>>> +    if (ret) {
+>>>> +        dev_err(&device->dev, "32-bit DMA enable failed\n");
+>>>> +        return NULL;
+>>>> +    }
+>>>
+>>> Unfortunately the call of of_dma_configure() generates warnings likes
+>>> this (Raspberry Pi 3A+ with multi_v7_defconfig + VCHIQ):
+>>>
+>>> [    9.206802] vchiq-bus bcm2835-audio: DMA mask not set
+>>> [    9.206892] vchiq-bus bcm2835-camera: DMA mask not set
+>>
+>> huh, really weird, as on my RPi-3-b I get these set correctly and I 
+>> don't any such warning.
+>
+> Can you point to the code above where device->dev.dma_mask gets 
+> initialised between the initial kzalloc() and the call to 
+> of_dma_configure()? ;)
+>
+> BTW, bus code shouldn't be calling dma_set_mask_and_coherent() on 
+> behalf of its children, that is for the individual drivers to do, if 
+> and when they intend to actually use DMA. Removing that here will save 
+> you needing to fix the memory leak as well...
 
-"This is a list of trivial I2C and SPI devices that have simple device tree
-bindings, consisting only of a compatible field, an address and possibly an
-interrupt line."
-
-A camera device does not fall into this category as it needs other
-properties such as regulators, reset and powerdown GPIOs, clocks,
-media endpoint.
-
-Remove the OV5642 entry from trivial-devices.yaml and add its own
-ovti,ov5642.yaml.
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Changes since v3:
-- Make propeties conditional on parallel verus MIPI CSI-2. (Sakari)
-- Remove clock-names as there is a single clock.
-- Pass bus-type.
-
- .../bindings/media/i2c/ovti,ov5642.yaml       | 141 ++++++++++++++++++
- .../devicetree/bindings/trivial-devices.yaml  |   2 -
- 2 files changed, 141 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5642.yaml
-
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5642.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5642.yaml
-new file mode 100644
-index 000000000000..01f8b2b3fd17
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5642.yaml
-@@ -0,0 +1,141 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ovti,ov5642.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: OmniVision OV5642 Image Sensor
-+
-+maintainers:
-+  - Fabio Estevam <festevam@gmail.com>
-+
-+allOf:
-+  - $ref: /schemas/media/video-interface-devices.yaml#
-+
-+properties:
-+  compatible:
-+    const: ovti,ov5642
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    description: XCLK Input Clock
-+
-+  AVDD-supply:
-+    description: Analog voltage supply, 2.8V.
-+
-+  DVDD-supply:
-+    description: Digital core voltage supply, 1.5V.
-+
-+  DOVDD-supply:
-+    description: Digital I/O voltage supply, 1.8V.
-+
-+  powerdown-gpios:
-+    maxItems: 1
-+    description: Reference to the GPIO connected to the powerdown pin, if any.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description: Reference to the GPIO connected to the reset pin, if any.
-+
-+  port:
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    description: |
-+      Video output port.
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
-+
-+        properties:
-+          bus-type:
-+            enum: [5, 6]
-+
-+          bus-width:
-+            enum: [8, 10]
-+            default: 10
-+
-+          data-shift:
-+            enum: [0, 2]
-+            default: 0
-+
-+          hsync-active:
-+            enum: [0, 1]
-+            default: 1
-+
-+          vsync-active:
-+            enum: [0, 1]
-+            default: 1
-+
-+          pclk-sample:
-+            enum: [0, 1]
-+            default: 1
-+
-+        allOf:
-+          - if:
-+              properties:
-+                bus-type:
-+                  const: 6
-+            then:
-+              properties:
-+                hsync-active: false
-+                vsync-active: false
-+
-+          - if:
-+              properties:
-+                bus-width:
-+                  const: 10
-+            then:
-+              properties:
-+                data-shift:
-+                  const: 0
-+
-+        required:
-+          - bus-type
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+      #include <dt-bindings/gpio/gpio.h>
-+      #include <dt-bindings/media/video-interfaces.h>
-+
-+      i2c {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          camera@3c {
-+              compatible = "ovti,ov5642";
-+              reg = <0x3c>;
-+              pinctrl-names = "default";
-+              pinctrl-0 = <&pinctrl_ov5642>;
-+              clocks = <&clk_ext_camera>;
-+              DOVDD-supply = <&vgen4_reg>;
-+              AVDD-supply = <&vgen3_reg>;
-+              DVDD-supply = <&vgen2_reg>;
-+              powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-+              reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-+
-+              port {
-+                  ov5642_to_parallel: endpoint {
-+                      bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
-+                      remote-endpoint = <&parallel_from_ov5642>;
-+                      bus-width = <8>;
-+                      data-shift = <2>; /* lines 9:2 are used */
-+                      hsync-active = <0>;
-+                      vsync-active = <0>;
-+                      pclk-sample = <1>;
-+                  };
-+              };
-+          };
-+      };
-diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-index cd58179ae337..c665018f55b9 100644
---- a/Documentation/devicetree/bindings/trivial-devices.yaml
-+++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-@@ -311,8 +311,6 @@ properties:
-           - nuvoton,w83773g
-             # OKI ML86V7667 video decoder
-           - oki,ml86v7667
--            # OV5642: Color CMOS QSXGA (5-megapixel) Image Sensor with OmniBSI and Embedded TrueFocus
--          - ovti,ov5642
-             # 48-Lane, 12-Port PCI Express Gen 2 (5.0 GT/s) Switch
-           - plx,pex8648
-             # Pulsedlight LIDAR range-finding sensor
--- 
-2.34.1
+Thanks for this suggestion. I have now set the dma_mask within the child 
+itself!
+>
+> Thanks,
+> Robin.
 
