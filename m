@@ -2,107 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E85F679E403
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 11:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F31C079E59D
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 13:01:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239399AbjIMJoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 05:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54046 "EHLO
+        id S239876AbjIMLBd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 07:01:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239391AbjIMJoi (ORCPT
+        with ESMTP id S239875AbjIMLBc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 05:44:38 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BAA3198C
-        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 02:44:34 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-4142ca41b89so45013311cf.0
-        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 02:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1694598273; x=1695203073; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R9pWS5RKacUJB+Dks28jDzi/RTSOwkJtyGFeCb9s9pw=;
-        b=fFLDJHG/ehIv5uE6W/xrd+cyq4pSuwHnR+Xt81evRx0L6ZqVnSviiCzI1TfVCT+don
-         DCf28hoqRRUvK5iX6e2e41ppB1nZ0CnzmpYR9PUzSFmZXDxzn1fBmowhGRIFujNFfxjX
-         xrlF7Q+jkFOoXbP0nt9sG81QOT24MUyUi3bCw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694598273; x=1695203073;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R9pWS5RKacUJB+Dks28jDzi/RTSOwkJtyGFeCb9s9pw=;
-        b=FbNSNHocCE5K4Car4ZBXgHcl5OK0wmKf8tA5U72Q14+CUrMMsZE+j8vcrlvYQgqYxr
-         lbx3GciJlKP22OR+1NTO0UQ0FDe8tmxfKd1PtXdx6RRSlazLmInumr3/RwpbJm51AkJt
-         S970yDnkKsO76KQiom9JxpM2iPqFXf/ewI0614Kjnq4tWJGeCe865Qrx9sHzOAHgbXJY
-         CLNJKUsKnKIWgrkjmtV7sPgMwDSyxLIRfjzlMZ7GyJ0nkrIz5FmMxIs79veAcc7sGk01
-         nA4SCL2LI65nNIlbsFL99gXRyBFpNdGoW1N8/DL+9mZh6IQNtrYCNI4alxgrp2i7AQvA
-         AQfA==
-X-Gm-Message-State: AOJu0YyC0W1ujhHy1NMxWifFz/ARJGmE4A4qdt+iuA9vfqUsuNucJr9m
-        7Twa+LgkT7R0UcyiadueMLNl2dhP7FFr2mbnfng=
-X-Google-Smtp-Source: AGHT+IHHGbdscZ6mykTaGREyo+GliqTkAKpHHM8usZql38pR3Q5+q49iAX/L4iEqEN1T30H9R7m/dg==
-X-Received: by 2002:ac8:5788:0:b0:3fd:e37c:edea with SMTP id v8-20020ac85788000000b003fde37cedeamr2346596qta.45.1694598273086;
-        Wed, 13 Sep 2023 02:44:33 -0700 (PDT)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com. [209.85.219.41])
-        by smtp.gmail.com with ESMTPSA id g9-20020ac84dc9000000b00410aa0054dfsm3854722qtw.23.2023.09.13.02.44.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Sep 2023 02:44:32 -0700 (PDT)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-655dccc9977so25330936d6.0
-        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 02:44:32 -0700 (PDT)
-X-Received: by 2002:a05:6214:8ce:b0:64f:518d:ac91 with SMTP id
- da14-20020a05621408ce00b0064f518dac91mr2055205qvb.8.1694598271822; Wed, 13
- Sep 2023 02:44:31 -0700 (PDT)
+        Wed, 13 Sep 2023 07:01:32 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A8BD19AF
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 04:01:28 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4RlyDv6zWrz49Q2P
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 14:01:19 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1694602880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=X6cSiKidVlMaVkkaqInxL/0aaJl9CGH6gP1iuXjFkM4=;
+        b=ETtY/49c+bLDtHmyEziVmoey5FQb19Dn0/hxrav4B1ZcSekl3kbrclr6pXlBcpNPbmYJwN
+        UmhWWn//2+hs4MUBZVfeRfQWbhgjTAH+g+t5Gn93PEpf8JgCTrPZXrmBXmknjTaFecAOyj
+        AYfKaSO0OW2BPemUAZlAON2lANGQZkdutaOMwco8fNxbyMx20/IbBFgoOFAjrtbJANl9xw
+        t9AUXDtFdZBFYFlzBE+QpxQzJyUQnL955UP2X2tYncgSb7yt3x/m42RKDxZbpKQ15r5QHU
+        aoYTQ+xtMRC4EhHsm65l6vs1k70tZEhVZnCE8Tmf+R/8VH5103CQ8IO4xeVGwQ==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1694602880; a=rsa-sha256;
+        cv=none;
+        b=gGBMKI3dKyBVyYvVY9i+0QVrzg5pdC3BM4QaiT8typIlyHLtnBgsC1IQqJJ0v+s+mRt+/+
+        c80C1GAaWKd9gE/Y4B/25iaIIlChxjAeCx6ty3u6fYMLKmWSc5SmlD7kwio9ugat6m5tSr
+        sX5PStWEHOxtccf9rViCTwsJ+SIlvSUnnPYKTykb/aU6duBMU4nFsri3vHynfNDHhcnO8N
+        WtHH63evfPAgn5Gg6snIV/eHBRPH1VRpl+YRKZPTjMNn5T66rWCa68lDdAE7YmNOyL9tLc
+        U4r+8ayoq+yH0cXOMfJwxJ702YaSUpkuqA1A68FdRAejGyZWSfJ8EVeD55FBQg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1694602880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=X6cSiKidVlMaVkkaqInxL/0aaJl9CGH6gP1iuXjFkM4=;
+        b=DUTuINT1N+4XSJGMSVQ9u+FHQ+VKe616Xr/r2tQKdhuCkClDjv9qa+/I71RHvZAW8X6smW
+        G/KLge3XeB9tW18hNuTM+NcrPtyP2IFz3bPZG7d0ePX4+OoccJJe5Ohe75/aoAbob65/Vs
+        3oKKqMuPXFvPJuHWUpzwvs+XQAjBCtuL5LTXWGXtctqDGo40p1qO7lvmp5A726kGMAxzFM
+        klM7ZPX4Gn4K6ek6VGa5JVUlRYGFIT0lS3IHo0j56HY/5xQez4JZMrNY/UEYtOsCfiFOF1
+        Zoisr3Yeocktq2Rum7e+q93NOlZYGkaHm/qIxRJL9OFU6QAaYqENrA/4g1SFrA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5116B634C93
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 14:01:19 +0300 (EEST)
+Date:   Wed, 13 Sep 2023 11:01:19 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT FIXES FOR 6.6] V4L2 fixes
+Message-ID: <ZQGWf54Xi2sXlWhB@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-References: <20230828075420.2009568-1-anle.pan@nxp.com> <DB9PR04MB9284AA58AA71655C9C0C7C9A87E6A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5DYxwX+JdXQ_-ba5B9y+gyWPjvUpCBnKM1zz1W2EkO_vA@mail.gmail.com>
- <DB9PR04MB928460023FB3CCCBC3EACE1487E9A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5BGJX7=Z1ukFRq_ktaQ0d7FbvV-ob5gs8hfGaNHUXPTww@mail.gmail.com>
- <DB9PR04MB9284A0CDB1FC7CAADE0A394F87EFA@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5AugUGh7Z=9Qh7SS4=-0ddGBmRAOOyCGDfPdT-=eurtUg@mail.gmail.com>
- <DB9PR04MB9284A45033B3E24F44C5AA3987F2A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5Bk0DUq5jgFDHV2wGYEcfQzNVQ2KYJ2ZYLubwFLgqW4kQ@mail.gmail.com>
- <DB9PR04MB92846D75C93A9B2B8C8A998D87F1A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5Ar18TvFE3jXBuphpCiwWAb8O99wqkiwEVDSs3+MXvW0w@mail.gmail.com>
- <DB9PR04MB9284404C1E1F1300EEF5A70487F1A@DB9PR04MB9284.eurprd04.prod.outlook.com>
- <CAAFQd5Aq=ZrNGQU6psXJXt1ak2SkoRrZ=QBzp+xxHmWre0zBVg@mail.gmail.com> <DB9PR04MB9284A1DAB3C642C57298893A87F0A@DB9PR04MB9284.eurprd04.prod.outlook.com>
-In-Reply-To: <DB9PR04MB9284A1DAB3C642C57298893A87F0A@DB9PR04MB9284.eurprd04.prod.outlook.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 13 Sep 2023 18:44:15 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BQ+FsuKipxE-yh3P-NbPdc_U=FHp7PBkWY-xunxthKuA@mail.gmail.com>
-Message-ID: <CAAFQd5BQ+FsuKipxE-yh3P-NbPdc_U=FHp7PBkWY-xunxthKuA@mail.gmail.com>
-Subject: Re: [EXT] Re: [PATCH] media: videobuf2-dma-sg: limit the sg segment size
-To:     Hui Fang <hui.fang@nxp.com>
-Cc:     Anle Pan <anle.pan@nxp.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jindong Yue <jindong.yue@nxp.com>,
-        Xuegang Liu <xuegang.liu@nxp.com>, Xu Yang <xu.yang_2@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 13, 2023 at 6:14=E2=80=AFPM Hui Fang <hui.fang@nxp.com> wrote:
->
-> On Tue, Sep 12, 2023 at 16:52=E2=80=AFPM Tomasz Figa <tfiga@chromium.org>=
- wrote:
-> > Right. You may want to try modifying vb2_dma_sg_alloc_compacted() to us=
-e
-> > dma_alloc_pages() instead of alloc_pages().
->
-> Thanks for your suggestion, it works. And it's a better resolution since =
-no need
-> an extra copy from high buffer to low buffer.
+Hi Mauro,
 
-Great to hear! Could you submit a patch? Would appreciate adding
+Here are fixes for imx219, max9286 and rdacm21 drivers.
 
-Suggested-by: Tomasz Figa <tfiga@chromium.org>
+Please pull.
 
-above the Signed-off-by line if you don't mind. Thanks.
 
-Best regards,
-Tomasz
+The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
+
+  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.6-1-signed
+
+for you to fetch changes up to a6a10fd65841ee675e7bc1b1ad1f6010af1b4750:
+
+  media: i2c: rdacm21: Remove an incorrect fwnode_handle_put() call (2023-09-13 13:20:46 +0300)
+
+----------------------------------------------------------------
+fixes-6.1-1-signed
+
+----------------------------------------------------------------
+Christophe JAILLET (2):
+      media: i2c: max9286: Remove an incorrect fwnode_handle_put() call
+      media: i2c: rdacm21: Remove an incorrect fwnode_handle_put() call
+
+Laurent Pinchart (3):
+      media: i2c: imx219: Fix a typo referring to a wrong variable
+      media: i2c: imx219: Fix crop rectangle setting when changing format
+      media: i2c: imx219: Perform a full mode set unconditionally
+
+ drivers/media/i2c/imx219.c  | 13 +++++++------
+ drivers/media/i2c/max9286.c |  1 -
+ drivers/media/i2c/rdacm21.c |  1 -
+ 3 files changed, 7 insertions(+), 8 deletions(-)
+
+-- 
+Sakari Ailus
