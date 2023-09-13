@@ -2,202 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EE3279EC30
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 17:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E452979ECCC
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 17:28:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240124AbjIMPJs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 11:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44542 "EHLO
+        id S229486AbjIMP2D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 11:28:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234323AbjIMPJs (ORCPT
+        with ESMTP id S229497AbjIMP2C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 11:09:48 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C0FAB7
-        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 08:09:44 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 535AC755;
-        Wed, 13 Sep 2023 17:08:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694617690;
-        bh=i8LYUj8qOvNquGndj7fWs58ieiAIXPjrwRiqT5I4UcQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q8Ya/mgmyg4LtncZeyEeT8PTdrqf35kIdauH4Tnrk1CcRjx+64yTaI8ulfdQAIv0e
-         5RiUvPUF1eN3wP/57Z1JHZHPf3W7+PfYpD0Z6zorki86/hQSuwL2d65Zzju2z0TcRW
-         RKwekZgLdyzzgse8J1XPZJy2jA6owoWfPJd4K4Dw=
-Date:   Wed, 13 Sep 2023 18:09:56 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v3 18/20] media: i2c: imx219: Calculate crop rectangle
- dynamically
-Message-ID: <20230913150956.GC17108@pendragon.ideasonboard.com>
-References: <20230913135638.26277-1-laurent.pinchart@ideasonboard.com>
- <20230913135638.26277-19-laurent.pinchart@ideasonboard.com>
- <q2gb35evhsznhyp2acvnesw5bqbrujvfgx7zfdnslsitkgcwkr@uf6tggwj473p>
+        Wed, 13 Sep 2023 11:28:02 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DB81BC3;
+        Wed, 13 Sep 2023 08:27:58 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4Rm48T4zjDzyRq;
+        Wed, 13 Sep 2023 18:27:53 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1694618875;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KtJQ13C7aWh7rZj0Lwe+NgyzXlnh8ie4gD9UtoD1Y3E=;
+        b=B//6ZcGsnW8Yq4Zm+3b+tLEMAaBPazwV666r1xdd89TPMSkULwsu0sz+QxZGqOhzA1EZ1c
+        ofuiJ9KuWEcebTzUgva+ucpZf5y8W3ByDlieajrm4r1bZyF5dR/eixLvaV4RXQ5LXTcXtW
+        hEXfBV3FRlBxNA22to/wiy1uQTz9uFk=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1694618875; a=rsa-sha256; cv=none;
+        b=nsz23pU4dYYIegYK7rguZu1M6UP/jWV1WaCQcGP+lT1QupZU15E8MeTGc0UfY+tJoSjq1O
+        2VWm0C8H9Ax9XbxI/ucz2tm8/qkg+tPR++U3guQordJJNtoMbbcoVf1EfkJbxs5F9+ASEd
+        WScrY+jNwMhmxlfU36WYL6QX+ZdXLN4=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1694618875;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KtJQ13C7aWh7rZj0Lwe+NgyzXlnh8ie4gD9UtoD1Y3E=;
+        b=OFixtXpEfoNGrgJuE90rl32J34RqC0Zz4eukLvzINr/Xsn2g1jyju0NDp0D/imx3uc7f2v
+        QomO+I9sSv45LZ5SEhDWsHlfEepDvOEcTL3LdNMepTh/UfnB3CrPVx4wyCfppTBb1z08EG
+        aModKR+kujUj2yoyE7vGjfa5YHYQ8p8=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C600D634C93;
+        Wed, 13 Sep 2023 18:27:52 +0300 (EEST)
+Date:   Wed, 13 Sep 2023 15:27:52 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarrah Gosbell <kernel@undef.tools>,
+        Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+        laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH] media: ov5640: use pm_runtime_force_suspend/resume for
+ system suspend
+Message-ID: <ZQHU+LA+BEB7jzx1@valkosipuli.retiisi.eu>
+References: <20230818173416.2467832-1-andrej.skvortzov@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <q2gb35evhsznhyp2acvnesw5bqbrujvfgx7zfdnslsitkgcwkr@uf6tggwj473p>
+In-Reply-To: <20230818173416.2467832-1-andrej.skvortzov@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 13, 2023 at 05:03:55PM +0200, Jacopo Mondi wrote:
-> Hi Laurent
-> 
-> On Wed, Sep 13, 2023 at 04:56:36PM +0300, Laurent Pinchart wrote:
-> > Calculate the crop rectangle size and location dynamically when setting
-> > the format, instead of storing it in the imx219_mode structure. This
-> > removes duplicated information from the mode, to guarantee consistency.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v2:
-> >
-> > - Handle horizontal and vertical binning separately
-> > ---
-> >  drivers/media/i2c/imx219.c | 45 +++++++++++++-------------------------
-> >  1 file changed, 15 insertions(+), 30 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index bf1c2a1dad95..2b88c5b8a7bf 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -18,6 +18,7 @@
-> >  #include <linux/delay.h>
-> >  #include <linux/gpio/consumer.h>
-> >  #include <linux/i2c.h>
-> > +#include <linux/minmax.h>
-> >  #include <linux/module.h>
-> >  #include <linux/pm_runtime.h>
-> >  #include <linux/regulator/consumer.h>
-> > @@ -153,9 +154,6 @@ struct imx219_mode {
-> >  	/* Frame height */
-> >  	unsigned int height;
-> >
-> > -	/* Analog crop rectangle. */
-> > -	struct v4l2_rect crop;
-> > -
-> >  	/* V-timing */
-> >  	unsigned int vts_def;
-> >  };
-> > @@ -292,48 +290,24 @@ static const struct imx219_mode supported_modes[] = {
-> >  		/* 8MPix 15fps mode */
-> >  		.width = 3280,
-> >  		.height = 2464,
-> > -		.crop = {
-> > -			.left = IMX219_PIXEL_ARRAY_LEFT,
-> > -			.top = IMX219_PIXEL_ARRAY_TOP,
-> > -			.width = 3280,
-> > -			.height = 2464
-> > -		},
-> >  		.vts_def = 3526,
-> >  	},
-> >  	{
-> >  		/* 1080P 30fps cropped */
-> >  		.width = 1920,
-> >  		.height = 1080,
-> > -		.crop = {
-> > -			.left = 688,
-> > -			.top = 700,
-> > -			.width = 1920,
-> > -			.height = 1080
-> > -		},
-> >  		.vts_def = 1763,
-> >  	},
-> >  	{
-> >  		/* 2x2 binned 30fps mode */
-> >  		.width = 1640,
-> >  		.height = 1232,
-> > -		.crop = {
-> > -			.left = IMX219_PIXEL_ARRAY_LEFT,
-> > -			.top = IMX219_PIXEL_ARRAY_TOP,
-> > -			.width = 3280,
-> > -			.height = 2464
-> > -		},
-> >  		.vts_def = 1763,
-> >  	},
-> >  	{
-> >  		/* 640x480 30fps mode */
-> >  		.width = 640,
-> >  		.height = 480,
-> > -		.crop = {
-> > -			.left = 1008,
-> > -			.top = 760,
-> > -			.width = 1280,
-> > -			.height = 960
-> > -		},
-> >  		.vts_def = 1763,
-> >  	},
-> >  };
-> > @@ -844,6 +818,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  	int exposure_max, exposure_def, hblank;
-> >  	struct v4l2_mbus_framefmt *format;
-> >  	struct v4l2_rect *crop;
-> > +	unsigned int bin_h, bin_v;
-> >
-> >  	mode = v4l2_find_nearest_size(supported_modes,
-> >  				      ARRAY_SIZE(supported_modes),
-> > @@ -853,10 +828,20 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  	imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
-> >
-> >  	format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
-> > -	crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
-> > -
-> >  	*format = fmt->format;
-> > -	*crop = mode->crop;
-> > +
-> > +	/*
-> > +	 * Use binning to maximize the crop rectangle size, and centre it in the
-> > +	 * sensor.
-> > +	 */
-> > +	bin_h = min(IMX219_PIXEL_ARRAY_WIDTH / format->width, 2U);
-> > +	bin_v = min(IMX219_PIXEL_ARRAY_HEIGHT / format->height, 2U);
-> 
-> This seems rather fragile and will cause issues once we have a x4
-> binned mode
+Hi Andrey,
 
-Binning is limited to x2 at the moment. I plan to add support for x4
-binning (the change is rather trivial), but haven't been able to test it
-yet.
+On Fri, Aug 18, 2023 at 08:34:16PM +0300, Andrey Skvortsov wrote:
+> If system was suspended while camera sensor was used, data and
+> interrupts were still coming from sensor and that caused unstable
+> system. Sometimes system hanged during a resume. Use
+> pm_runtime_force_* helpers in order to support system suspend.
+> 
+> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
 
-> > +
-> > +	crop = v4l2_subdev_get_pad_crop(sd, sd_state, 0);
-> > +	crop->width = format->width * bin_h;
-> > +	crop->height = format->height * bin_v;
-> > +	crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
-> > +	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> 
-> This changes the currently programmed cropping rectangle position
-> 
-> In example for 640x480
-> 
->         left = 3296 - 640 / 2 = 1328 (was 1008)
->         top = 2480 - 480 / 2 = 1000 (was 760)
-> 
-> Should this be mentioned in the commit message ?
+Thanks for the patch.
 
-Note how, for 640x480, crop->width and crop->height are set to 1280 and
-960 respectively, not 640x480. The crop rectangle position isn't changed
-by this patch.
+It's not been documented really how system suspend and resume should
+work for complex cameras. But I don't think it can be done by drivers
+separately as the CSI-2 bus initialisation requires actions from both
+sender and receiver drivers, at particular points of time.
 
-> Also, should you center the rectangle in the -visible- area of the
-> sensor ?
-> 
->         left = 3280 - 640 / 2 + 8 = 1328
->         top = 2462 - 480 / 2 + 8 = 1000
-> 
-> Ah look! they're the same :)
->
-> >
-> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> >  		/* Update limits and set FPS to default */
+So I think we'll need to initiate this from the driver handling DMA, just
+as starting and stopping streaming. Even then, there needs to be a
+certainty that the sensor device has resumed before streaming is started. I
+recall Laurent suggested device links for that purpose, but I don't think
+any work has been done to implement it that way.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
