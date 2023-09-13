@@ -2,65 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D35D79F1B7
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 21:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F38179F1E4
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 21:19:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232157AbjIMTHI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 15:07:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58218 "EHLO
+        id S232334AbjIMTTO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 15:19:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232209AbjIMTHI (ORCPT
+        with ESMTP id S232321AbjIMTTJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 15:07:08 -0400
-Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 300171999
-        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 12:07:04 -0700 (PDT)
-Received: from [192.168.10.7] (unknown [10.0.12.132])
-        by kozue.soulik.info (Postfix) with ESMTPSA id ADD0E300218;
-        Thu, 14 Sep 2023 04:06:48 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info ADD0E300218
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
-        t=1694632009; bh=kVJeE+icuAC+Qx1WZYGwspbwRiRiM4tiNYeXnybUMW4=;
-        h=Date:To:Cc:From:Subject:From;
-        b=aghtpZ+GcwzcQCa0teVomRA0GAW5AuMu1YXGovCvm79xRlUPpzQ7a0Gx9IdNXzP/7
-         JB+gPNIsH5sYDQLfm8JS44MHVXsT+FJ1P+a0KqNP6MCbYSZYsWxE9RLOHIaYrma3uB
-         IItLUlrlvuMOlGX5fJalmnA8RLLYLB/H7/4n2OXc=
-Message-ID: <1e783efe-8659-8be1-82b7-15186302e88c@soulik.info>
-Date:   Thu, 14 Sep 2023 03:06:58 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-To:     gregkh@linuxfoundation.org
+        Wed, 13 Sep 2023 15:19:09 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C075D170F;
+        Wed, 13 Sep 2023 12:19:05 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7B82C433C7;
+        Wed, 13 Sep 2023 19:19:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1694632745;
+        bh=STPt0r2LX8P4oMatOWW2VAU1UKNgpuQ1Zb3/5nSIrxQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fPr+ZS+S7Wz04A/8ZRdxf68wdQxR2LqO/5h0YNHATF+yC43xUr3o2rpXxNuPn0cQV
+         5AmxTvVSp8gIrjbF+SRguYy+EXqcaUSYXZRZfy4trnat+Uj2A+Wi2EEhWaPW4H8JpU
+         BWzGrTAXUje7B83uAS+0hVOuFIWm0GG2l0rCLR8E=
+Date:   Wed, 13 Sep 2023 21:19:01 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Randy Li <ayaka@soulik.info>
 Cc:     linux-usb@vger.kernel.org,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         linux-kernel@vger.kernel.org, corbet@lwn.net,
         linux-doc@vger.kernel.org
-From:   Randy Li <ayaka@soulik.info>
-Subject: USB: DMA: mapping existing buffer is not supported?
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: USB: DMA: mapping existing buffer is not supported?
+Message-ID: <2023091323-trombone-storeroom-cbd3@gregkh>
+References: <1e783efe-8659-8be1-82b7-15186302e88c@soulik.info>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1e783efe-8659-8be1-82b7-15186302e88c@soulik.info>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
+On Thu, Sep 14, 2023 at 03:06:58AM +0800, Randy Li wrote:
+> Hello
+> 
+> I was trying to understand why USB webcams (UVC) have to copy video data
+> through the CPU (uvc_video_complete() schedules uvc_video_copy_data_work()
+> for this purpose). During my investigation, I noticed that functions
+> like|usb_sg_*() and |usb_buffer_*() are not available since kernel version
+> 2.6.12.
 
-I was trying to understand why USB webcams (UVC) have to copy video data 
-through the CPU (uvc_video_complete() schedules 
-uvc_video_copy_data_work() for this purpose). During my investigation, I 
-noticed that functions like|usb_sg_*() and |usb_buffer_*() are not 
-available since kernel version 2.6.12.
+What do you mean by "not available"?  I see them in the tree today, why
+do you think they are not present?
 
-I can comprehend that USB host controllers such as xHCI, commonly found 
-in embedded implementations like dwc3, do not support IOMMU. However, 
-this should not prevent them from operating on a contiguous buffer.
+> I can comprehend that USB host controllers such as xHCI, commonly found in
+> embedded implementations like dwc3, do not support IOMMU. However, this
+> should not prevent them from operating on a contiguous buffer.
 
-If the USB subsystem can no longer work with existing buffers, I propose 
-that we consider removing the remaining documentation in the "Working 
-with existing buffers" section of Documentation/driver-api/usb/dma.rst.
+Are you sure that the protocol for these devices allow this?
 
-Sincerely
+> If the USB subsystem can no longer work with existing buffers, I propose
+> that we consider removing the remaining documentation in the "Working with
+> existing buffers" section of Documentation/driver-api/usb/dma.rst.
 
-Randy
+I don't understand, what is wrong with the information there exactly?
+Have you tried following the suggestions there?
 
+thanks,
+
+greg k-h
