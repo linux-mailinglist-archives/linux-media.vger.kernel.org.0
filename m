@@ -2,114 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D3B379E6CA
-	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 13:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F78579E77D
+	for <lists+linux-media@lfdr.de>; Wed, 13 Sep 2023 14:03:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240234AbjIMLbk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 07:31:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53440 "EHLO
+        id S240132AbjIMMDP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Sep 2023 08:03:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240194AbjIMLbj (ORCPT
+        with ESMTP id S236688AbjIMMDO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 07:31:39 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 158721726;
-        Wed, 13 Sep 2023 04:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
- t=1694604676; x=1695209476; i=wahrenst@gmx.net;
- bh=28UftcTBRZ6helOYZnhliSx5p5LHun67O1lu6Xhm8Ig=;
- h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
- b=MyagVk0GEzc/rKdlwS5PzESKtkYq0Nf6cWuUra2ZHvtCgX2vjRnEPbU+JsbfJKpDzYbFmGi/McI
- FRPiQ/BgTf2ujLvaJn3sjGkGCNkOozTSokMOeCa/wZ04AbkfGfbOa+qFRQ/0zwE00wavBpdrvL4IY
- w2rhGsFV8Zu7H3nVIIlsQ4OJtcvX1qxLvUUUbx0IKTTT/2xp1k1ug+kOsR8C4piqv64h9pLaw3hfS
- 1lnkBScVLvJjvqZ4e5fIUt/sV2KRgi9ZDf3AOe48Xt8BdPuxQ5PUjC1kj6Y5BXC3RujGb1Wg078/W
- lvffdQHRErnY/l1+xCRziKS2WbtTBDT0AhWA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M6Udt-1qmgYP26np-006vkL; Wed, 13
- Sep 2023 13:31:16 +0200
-Message-ID: <66a6c513-7277-255d-dd56-eed1d6a8efe8@gmx.net>
-Date:   Wed, 13 Sep 2023 13:31:15 +0200
+        Wed, 13 Sep 2023 08:03:14 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D4119B0
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 05:03:10 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9ad8d47ef2fso209736566b.1
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 05:03:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694606588; x=1695211388; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l9TEONYL32X9JEH2VQEx/JROuvGGr8vwhiBLVKKA/iU=;
+        b=X4pp+JBcqhkwdTI/XPm821BuI4HKBb9xJPabxRitBNrVSTkry4diOlKM8FtUwkA9Xs
+         3q4zxqzNGECfx3eHaoV2DF3pc5U4IsAPCQGz7TKzTFgf1EMpkY1282rQ6v3q14J8TdBH
+         UeY1s/ORognx4MoWHl8f4Ohffh7Uk7j4to1w4t5FLbZpPX/UXpQgCHYRlgVujBqe7Ipb
+         H5qT+dAmAKOWOsh9N+YzjZFFl28OFrPq0vDSZGZerwgY/te87lRc2+9JEd8jO/EafhoM
+         JpegUzGCJkXAAiu4J2FHPcvvpJY5uHQJeFDxjJN8brq9EShknYmqOBjpqmFmDxeCGnOO
+         J3qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694606588; x=1695211388;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l9TEONYL32X9JEH2VQEx/JROuvGGr8vwhiBLVKKA/iU=;
+        b=NGuLNCylQ9NGywddRDop203g93Bs1iyvxHCUtgrVk50mGXlIuUw+xLVw4IQ/V5LA/N
+         bBY6w7a32nqM/zKtkqBNeh8wIPIJId4WLFFA2oqhc1WcBfZnj1DFmsawqSCBpKYTi/Zm
+         D4BoujrZ2bh5uiiM8638+Gh6FU6Ralymgetl5hY15JMp9fV6hzxtcumS4M+BCn5/Jd5x
+         zVsWBOMRx7DFRev+DXqABNsgOxlFxQ31tGvyarK8nRlf5eKWgz94f1fdRoq1VCkV7CiW
+         nS+GXTr2cSVlpqXBxKQ92UQCXKNnf+x9x5yo/4FAbehZ9x1JM4SjyhEm2qpVCaFjvup+
+         WcAw==
+X-Gm-Message-State: AOJu0YxPGLb8xLtNJHGCQ+o2gEjCM5YJ/Vi+3BUDuZ/8um45hBuWd0vT
+        CY4zph59FWNlOsgCrVc15nR+kg==
+X-Google-Smtp-Source: AGHT+IEFth6fbGlon+g+am5gy6RRRDBdh1wxN7B4ef+QcEZiqLwPlP/n/BiDzN3krErKmKXnPDF8Bw==
+X-Received: by 2002:a17:906:295:b0:9a1:e58d:73b8 with SMTP id 21-20020a170906029500b009a1e58d73b8mr1700452ejf.72.1694606588562;
+        Wed, 13 Sep 2023 05:03:08 -0700 (PDT)
+Received: from [192.168.37.232] (178235177106.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.106])
+        by smtp.gmail.com with ESMTPSA id eu17-20020a170907299100b009ad88cea750sm2459736ejc.199.2023.09.13.05.03.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Sep 2023 05:03:08 -0700 (PDT)
+Message-ID: <c7c0a8af-30c5-49c9-8212-bf08abc7c3fe@linaro.org>
+Date:   Wed, 13 Sep 2023 14:03:06 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v10 1/5] staging: vc04_services: vchiq_arm: Add new bus
- type and device type
-From:   Stefan Wahren <wahrenst@gmx.net>
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Cc:     gregkh@linuxfoundation.org, f.fainelli@gmail.com,
-        athierry@redhat.com, error27@gmail.com,
-        kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        dave.stevenson@raspberrypi.com, linux-kernel@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20230911140712.180751-1-umang.jain@ideasonboard.com>
- <20230911140712.180751-2-umang.jain@ideasonboard.com>
- <c96262e7-9bd9-c75d-7584-e6ff62f69530@gmx.net>
- <d006e31a-33df-51b1-c8cf-9c7e5590adb6@ideasonboard.com>
- <7b7d322d-5ea6-5048-0cbe-8d292853ba12@gmx.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT 00/20] Venus cleanups
 Content-Language: en-US
-In-Reply-To: <7b7d322d-5ea6-5048-0cbe-8d292853ba12@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:J3aK1TsqiktJsf7+0PTG00rcEOkVlbMc3Ux6kZqx1ZcLBD2VqER
- snLZGlzHKbA1aKZcxgBUjapCgacwK30bDRXQkvZfGtmDSy9thlorNODA7nzs6wq6YxWjhzA
- r3fCuVhgYW5xuZNxbQuOoOlOVMhT4NMh25lcM3LPeUEgLPw3Qbq6IHks5lSZsNtzKIYLbTQ
- qyfZb4FnvwqwmR09bQRsA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Aa5zqFzzW6Q=;TSWzz8UOW2Vrt7q1EYQ7JyeekD0
- M+7Y4SFDSO+xdOqfCDjRpApbN5hZI14riCM5UsU6vFcrmWW82Svc7KuBdelxTx1Z9lBKm/Roe
- QTfAck/dmZYo0L2pam5cPN3OENeHAE5IxL/mJJ0x3ZTx6xQ8UkfGhuGlTDtJ/XZLeRyf7dupD
- ib3VyCS7vkjDODHyKfKrIW5pnlAfKWTWFjNOjMLDJhfqB2mxrxeP5/vdQAbty5/nhHaypPKfI
- hw1vQtloYDs0Xao4EeihkjRxDfUxO8Z8+tzYzmQ1rvWtcM26zxTf3cwKII4NxmwvrZ/E3DT/t
- IfEWI67d0tc6snnI2N6EsgxaysXvK40C7YlB3OqAqGjQE/HtOOM5Ym/rrQzWNyBXrolcC/T9s
- z43f1kotSPl/PT8JXdvI3xRiou7QBYGy8ChoI3xiEwGdHp14kYauzz4O9G0j+vkAubabfve9P
- q0TtwBj4gVZ0i9md8IlMFLWf/u8ez6ddl5+2irvJ9Pr2qrUrsocrRbvUsxhaQP45Wq/e2QCw3
- rMtkkmzOUC0gYVxswc+dxpa1bKazq9E7y3zib0ShUm8u1ZDtoe/bduVvJPiPY750WWtmWmiDN
- bzPrt2TR3uHisyfSy8j2cndFAudj4nqHguL8yAD+MroQLU0TAwV0Av4jGJuwW2TQOVTdTgeBy
- LHzb7sqtc4vBP/OQiWQIoxNUhz2UGA55BK9bHWNodU5OMGGfdpMPike3ENoKlOZNceuT6az9F
- HxWfUR5BOIqftK62M8bVrpwAU00keHnU45XQTlpey0swdgv6b0qKpFF6BQPm+6wEotlPHVZTg
- I1cjzvxWr5Y2Co8ZZygeEfSHXvn5PxmBvwZxCJO3hmc3pksduuzoSXto9DLfn1JLb5Ex8Q0BB
- f8Jf7Q66yFsnREfh8tpHQV7OYVOuRTaICWj8O57GuG3fqfPEtnuMzZBaGmhWWyQakN48S8zqv
- FYfVNkEj5knalnKKuK0vjRYsC90=
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
+ <5d13f9c7-665d-4ff5-962d-940898b24754@linaro.org>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <5d13f9c7-665d-4ff5-962d-940898b24754@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
-
-Am 12.09.23 um 09:23 schrieb Stefan Wahren:
-> Hi Umang,
->
-> Am 12.09.23 um 07:50 schrieb Umang Jain:
->> Hi Stephan
+On 12.09.2023 08:19, Bryan O'Donoghue wrote:
+> On 11/09/2023 16:10, Konrad Dybcio wrote:
+>> With the driver supporting multiple generations of hardware, some mold
+>> has definitely grown over the code..
 >>
->> On 9/12/23 1:52 AM, Stefan Wahren wrote:
->>> Hi Umang,
->>>
->>> Am 11.09.23 um 16:07 schrieb Umang Jain:
->>>> ...
->>>
->>> Unfortunately the call of of_dma_configure() generates warnings likes
->>> this (Raspberry Pi 3A+ with multi_v7_defconfig + VCHIQ):
->>>
->>> [=C2=A0=C2=A0=C2=A0 9.206802] vchiq-bus bcm2835-audio: DMA mask not se=
-t
->>> [=C2=A0=C2=A0=C2=A0 9.206892] vchiq-bus bcm2835-camera: DMA mask not s=
-et
+>> This series attempts to amend this situation a bit by commonizing some
+>> code paths and fixing some bugs while at it.
 >>
->> huh, really weird, as on my RPi-3-b I get these set correctly and I
->> don't any such warning.
-> This warning comes from this line [1]. Did you test with the mainline
-> devicetree from [2] which must be specified in the config.txt? Be
-> aware the arm dts files has moved into a sub directory just like
-> arm64. I don't use U-Boot, just the vendor bootloader from Raspberry
-> Pi OS. Please look at [3] for the details.
-please look at [4], which is possible a solution. AFAIK the dwc2 also
-had the same problem.
+>> Only tested on SM8250.
+>>
+>> Definitely needs testing on:
+>>
+>> - SDM845 with old bindings
+>> - SDM845 with new bindings or 7180
+>> - MSM8916
+>> - MSM8996
+>>
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> 
+> Don't we have both a db410c and db845c in Bjorn's lab you could test this on ?
+None that work
 
-[4] -
-https://elixir.bootlin.com/linux/latest/source/drivers/usb/dwc2/platform.c=
-#L448
+Konrad
