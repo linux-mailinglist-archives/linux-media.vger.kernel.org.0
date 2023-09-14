@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D7AE7A0C95
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF3577A0C96
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:18:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241616AbjINSSN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 14:18:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35712 "EHLO
+        id S241611AbjINSSP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 14:18:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241560AbjINSSM (ORCPT
+        with ESMTP id S241609AbjINSSN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 14:18:12 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 338EA1FF9
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:18:08 -0700 (PDT)
+        Thu, 14 Sep 2023 14:18:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A04CF1FFD
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:18:09 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37339881A;
-        Thu, 14 Sep 2023 20:16:34 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C32E08823;
+        Thu, 14 Sep 2023 20:16:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694715394;
-        bh=Af+2wiSLixntu8mVzpz8AHEPCmd34JdNCw7HXU5olsA=;
+        s=mail; t=1694715395;
+        bh=rkAFeMqLpIu1LCI/KDOSQPoAE8v9CRMmiwbK+LEAaxw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BmIB+PIyLeBTRfif1gKhMabpWuyPDE3aa8sF/dubnloVDuZ0pT+DqSPQuoGrQwzlf
-         OwtHkcBEAPcsRhdXA/vnmL+qKhkHallgpxINQ4lcwv0iggMw49HM5dol0tB+evD/Cm
-         uyJWYAXrlbYEaHOWfu2nOkqRHQjqtjJnOEhvOZnQ=
+        b=ajOhteqScQ0Epo6P49LT0If02dd4V3HRId2Q8jWSC0CmOHW3dSEqgvqGL1666NIkS
+         IWTNk0Bp4NJmIvI56i0QM6UQhZB77LtXzoV5ZPTN4VzMol6HYUI/yCRc2Mn8WuWBg/
+         lZ9IoPIs6ThAGcjmfLE2UxWld9YvRfCYGhrpv3qw=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH 54/57] media: i2c: ov5670: Drop system suspend and resume handlers
-Date:   Thu, 14 Sep 2023 21:17:01 +0300
-Message-ID: <20230914181704.4811-55-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 55/57] media: i2c: ov5675: Drop system suspend and resume handlers
+Date:   Thu, 14 Sep 2023 21:17:02 +0300
+Message-ID: <20230914181704.4811-56-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
 References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
@@ -52,80 +52,80 @@ drop it as well.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5670.c | 34 ----------------------------------
- 1 file changed, 34 deletions(-)
+ drivers/media/i2c/ov5675.c | 41 --------------------------------------
+ 1 file changed, 41 deletions(-)
 
-diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-index afd84c8e5ee7..e80db3ecd4f8 100644
---- a/drivers/media/i2c/ov5670.c
-+++ b/drivers/media/i2c/ov5670.c
-@@ -1882,8 +1882,6 @@ struct ov5670 {
+diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+index f608ee0c0cec..e63d9d402d34 100644
+--- a/drivers/media/i2c/ov5675.c
++++ b/drivers/media/i2c/ov5675.c
+@@ -513,9 +513,6 @@ struct ov5675 {
  	/* To serialize asynchronus callbacks */
  	struct mutex mutex;
  
 -	/* Streaming on/off */
 -	bool streaming;
+-
  	/* True if the device has been identified */
  	bool identified;
  };
-@@ -2484,7 +2482,6 @@ static int ov5670_set_stream(struct v4l2_subdev *sd, int enable)
- 		ret = ov5670_stop_streaming(ov5670);
+@@ -968,7 +965,6 @@ static int ov5675_set_stream(struct v4l2_subdev *sd, int enable)
  		pm_runtime_put(&client->dev);
  	}
--	ov5670->streaming = enable;
- 	goto unlock_and_return;
  
- error:
-@@ -2539,34 +2536,6 @@ static int __maybe_unused ov5670_runtime_suspend(struct device *dev)
+-	ov5675->streaming = enable;
+ 	mutex_unlock(&ov5675->mutex);
+ 
+ 	return ret;
+@@ -1024,42 +1020,6 @@ static int ov5675_power_on(struct device *dev)
  	return 0;
  }
  
--static int __maybe_unused ov5670_suspend(struct device *dev)
+-static int __maybe_unused ov5675_suspend(struct device *dev)
 -{
 -	struct v4l2_subdev *sd = dev_get_drvdata(dev);
--	struct ov5670 *ov5670 = to_ov5670(sd);
+-	struct ov5675 *ov5675 = to_ov5675(sd);
 -
--	if (ov5670->streaming)
--		ov5670_stop_streaming(ov5670);
+-	mutex_lock(&ov5675->mutex);
+-	if (ov5675->streaming)
+-		ov5675_stop_streaming(ov5675);
+-
+-	mutex_unlock(&ov5675->mutex);
 -
 -	return 0;
 -}
 -
--static int __maybe_unused ov5670_resume(struct device *dev)
+-static int __maybe_unused ov5675_resume(struct device *dev)
 -{
 -	struct v4l2_subdev *sd = dev_get_drvdata(dev);
--	struct ov5670 *ov5670 = to_ov5670(sd);
+-	struct ov5675 *ov5675 = to_ov5675(sd);
 -	int ret;
 -
--	if (ov5670->streaming) {
--		ret = ov5670_start_streaming(ov5670);
+-	mutex_lock(&ov5675->mutex);
+-	if (ov5675->streaming) {
+-		ret = ov5675_start_streaming(ov5675);
 -		if (ret) {
--			ov5670_stop_streaming(ov5670);
+-			ov5675->streaming = false;
+-			ov5675_stop_streaming(ov5675);
+-			mutex_unlock(&ov5675->mutex);
 -			return ret;
 -		}
 -	}
 -
+-	mutex_unlock(&ov5675->mutex);
+-
 -	return 0;
 -}
 -
- static const struct v4l2_subdev_core_ops ov5670_core_ops = {
- 	.log_status = v4l2_ctrl_subdev_log_status,
- 	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-@@ -2769,8 +2738,6 @@ static int ov5670_probe(struct i2c_client *client)
- 		goto error_handler_free;
- 	}
- 
--	ov5670->streaming = false;
--
- 	/* Set the device's state to active if it's in D0 state. */
- 	if (full_power)
- 		pm_runtime_set_active(&client->dev);
-@@ -2825,7 +2792,6 @@ static void ov5670_remove(struct i2c_client *client)
+ static int ov5675_set_format(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *sd_state,
+ 			     struct v4l2_subdev_format *fmt)
+@@ -1406,7 +1366,6 @@ static int ov5675_probe(struct i2c_client *client)
  }
  
- static const struct dev_pm_ops ov5670_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(ov5670_suspend, ov5670_resume)
- 	SET_RUNTIME_PM_OPS(ov5670_runtime_suspend, ov5670_runtime_resume, NULL)
+ static const struct dev_pm_ops ov5675_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(ov5675_suspend, ov5675_resume)
+ 	SET_RUNTIME_PM_OPS(ov5675_power_off, ov5675_power_on, NULL)
  };
  
 -- 
