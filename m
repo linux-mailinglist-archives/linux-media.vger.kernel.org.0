@@ -2,129 +2,382 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6BE779F82C
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 04:34:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC09E79F8C4
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 05:16:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233793AbjINCey (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Sep 2023 22:34:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35934 "EHLO
+        id S234382AbjINDQi convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 13 Sep 2023 23:16:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233525AbjINCex (ORCPT
+        with ESMTP id S234198AbjINDQa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Sep 2023 22:34:53 -0400
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01olkn2014.outbound.protection.outlook.com [40.92.53.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C92CE4;
-        Wed, 13 Sep 2023 19:34:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GEGyyA1Dl2iYvI0fiM4WkQQK1+8t2pSikwQQovA1VmVDUPLTwfLDxhVzFobitqIsYTMp+Amc/5u28d1Ze71/tlut6pdDlZDTXXC4g8ct4GTaoBJmBgVRNEjHwRJqYRv+UFJRmI+/itfOaTsOYovjZNa+IrkgJhVeLnV55fbOhvT6eimXZEgmKf+6CCVJ7oemgJYdRw5lrZDYn/O+5/iwZlVy39s4IWO/TxX3ztNcKrW6AE7gNlebrDkdihjV5psZZ+a2x+U7FW9xRQ0DwQKezX9xKu/4Cj7ztIx4IQ6bm9H/Xvx12L3UGcM/svkRQQ+3RgJ+zZ4N6oORZVUOGZJqEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SeuLeap8jPCG1UfUV2qhqMjqctK2pHmaxO9z8yJTCNw=;
- b=ex5+s7h2UPyFtYB1/+SqXYfkwoKte2e/Uc+ir3se2Kff+ZCYg9nERjix8rfJJRdpZlaKv7BGQkeOky6xRgO5QqFSktWKx2uaxjJlC+IoNtuJA+gjN2oXgg98wi4TtQ1UZJhOyHWBs/JNsDAbaIRYVJsh6JNwOFJDnnvSQyl2gc1UkmSwYaSsya3SxbztwncX1mBdUJbs4QHOqM5unPntoqDmWZLfiUtgCIrqzRIKEQnC07CvQaQu758Y3r4UKgTxferheUki3A1uvQDd8MHa1UQDDYJmyVwcurrrzYmWUH5oEoMsb4giWMGXFHJdThyqwuPFhcVDtBZen7DbJaH5AQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SeuLeap8jPCG1UfUV2qhqMjqctK2pHmaxO9z8yJTCNw=;
- b=VwYvBxWq9w8/2LQMgcZy7RMMc/Fv9I1t4RM4R4BdPnPgQ0t/OQYRbUfXJeFADfJYsQF4irKd+YJyAQofCrtNgr9l1hHu35UHP0/GgPwiiCdQH4v1k29YWBvqQKgjzCxnf6UBf3P9eTgExwGWsy14LeV9pcvd+1NPN9TRcyWcgb1l477Gd1gzWkLXNqLf1j7TjtFGKRaBu/rCKU76wWF8CNThMfNo24b8Ii7VMe++bzh5mSnRmmNyp+Iyjzn9FANKEGLGAtbFfgtNkSR0Jy2lUcqW4r/GVXaPCOI00MAJOiqBGjXigqHaxNnV1B00fM2dM02LlL8i7rISxXtuDR/rCg==
-Received: from KL1PR01MB3809.apcprd01.prod.exchangelabs.com
- (2603:1096:820:41::14) by SI2PR01MB4524.apcprd01.prod.exchangelabs.com
- (2603:1096:4:1e3::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.31; Thu, 14 Sep
- 2023 02:34:44 +0000
-Received: from KL1PR01MB3809.apcprd01.prod.exchangelabs.com
- ([fe80::fa4e:3c3d:23cc:79b5]) by KL1PR01MB3809.apcprd01.prod.exchangelabs.com
- ([fe80::fa4e:3c3d:23cc:79b5%6]) with mapi id 15.20.6792.020; Thu, 14 Sep 2023
- 02:34:44 +0000
-From:   Ken Lin <ken_lin5@hotmail.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     groeck@chromium.org, Benson Leung <bleung@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kevin Chiu <kevin.chiu.17802@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rory Liu <hellojacky0226@hotmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Zoey Wu <zoey_wu@wistron.corp-partner.google.com>,
-        chrome-platform@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [PATCH] media: platform: cros-ec: Add Taranza to the match table
-Date:   Thu, 14 Sep 2023 10:32:26 +0800
-Message-ID: <SI2PR01MB38170C8A050C6541900EFE99AEF7A@SI2PR01MB3817.apcprd01.prod.exchangelabs.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN:  [s0ATTfVbYG1oOwHO/UmNkoml8iSJRy3x]
-X-ClientProxiedBy: PU1PR06CA0004.apcprd06.prod.outlook.com
- (2603:1096:803:2a::16) To SI2PR01MB3817.apcprd01.prod.exchangelabs.com
- (2603:1096:4:ee::5)
-X-Microsoft-Original-Message-ID: <20230914103021.1.I407545b93a111516f5b73b8071e3b361ec20cb4d@changeid>
+        Wed, 13 Sep 2023 23:16:30 -0400
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3179E1BDA;
+        Wed, 13 Sep 2023 20:16:25 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id D432724E28E;
+        Thu, 14 Sep 2023 11:16:09 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Sep
+ 2023 11:16:09 +0800
+Received: from xiaofei.localdomain (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Sep
+ 2023 11:16:09 +0800
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+        <jack.zhu@starfivetech.com>, <changhuang.liang@starfivetech.com>
+Subject: [PATCH v9 0/8] Add StarFive Camera Subsystem driver
+Date:   Thu, 14 Sep 2023 11:15:59 +0800
+Message-ID: <20230914031607.34877-1-jack.zhu@starfivetech.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KL1PR01MB3809:EE_|SI2PR01MB4524:EE_
-X-MS-Office365-Filtering-Correlation-Id: 649a75f2-10ec-44ef-b061-08dbb4cb2603
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dS3fEzoI/lsj9Cbab8X3eaKZU6eGMe/StyM2h2Bzc43qY86LCG7S6GwGozBBn4rtWUZ1DFv1/znHes+t+R1YnC4974Kv+SOevUVizDuXIoTbTXyxxrFFqwm+txtrxg7S44fGtrj6kQkILGQwQlM4WVUCIkrpj5LFyUHJHwAu90MUeWEJHwygdG29hyz3wIOse3Z8B+yGoIWX45mRmKWhFttdqN6yWXqo5sCbOzhQAbdJPX6nH+65yt5lTJOnxlpT9HfVl5FE4KLDPJ17NM92+wQLC6cbq+orhWgS/hvVAVvFRzn/6tI6MfbBQBdwBIOpOdHRlHP/9XvjDgW9yTGhVo80ew5ZO2sPdpvtyI8Et1J/mOHtokAIUgZS4fIF0Z9PGh3fmDCTXqy3HJR7xT9zIxZKD12nAtTjl6rs3EyiwJYUUC78uwZZ6bBE3lE8tQJgorfv7TsEuxVLtVeDlUnmGUEgjnRe5gnbV2O+59YCBkRUtUj/2atfzAfiY7pDpaxjEZUv5fFhtIfxGwLJ5cjz7lNhwyncgRyhNaKoKq0oo5O/mieIwUgs1kDuygFS82Vf
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RHUZ9JOAWbIxypUFy5y0VC8RG5HsyULFqeFAE3ZR64/StEfyXWZSD4ekix4I?=
- =?us-ascii?Q?K8m0HDkPzX9qQMPCxPUD+3VIH67bsluGbq3t13tvEuBsvdNI5bo3V2Iib+g0?=
- =?us-ascii?Q?el1J2WVff1kXgROTeJA/vYyJ4VJU74uJb3fqWOuVfKbm1KEWwclfwf/zUo+x?=
- =?us-ascii?Q?dweCPRJbkO5i1wt4ehTu8DvBKtw+5em7WK4KYEbw6koWXPC+hdzK7NWkczYu?=
- =?us-ascii?Q?vFuO4CmKIRnC/dDvoZ7m7gKrzzSUnhRk92OQdH5hncSbA608/tyz2phIjJtM?=
- =?us-ascii?Q?KH+YLDKV47tdQls9raN2Lc8SXGmiv8ROaPkXx3dgA3v5wCYnR+gZ4PQ6LBbH?=
- =?us-ascii?Q?zNYja4W8NK6X9aVdfMEjX7j6h6D5tOres00Lc7cC6imM61pwqubVAYGQ8WOM?=
- =?us-ascii?Q?7ecuNXfkLmtDtxTH4ie3t6ei9tw96QnAAuw/Nkx7DRcuvQd41cv7d3CSci5U?=
- =?us-ascii?Q?if/QSm5h9zt7RpPK29YPSCrAgbJe+ADkP57I417uLi+/8tTjGwcSGf1PNTwb?=
- =?us-ascii?Q?gN/XC956rmmu2fOjSFXR0zKh6f06muVmBdX3Q7WuwG4vcPUnbzWvAyiNBRaB?=
- =?us-ascii?Q?gA/MD9bvmQbvKeXr+AH7GTM4C/u1gm7Q3wRrgCjUndC0fbN+5C5lUEBdEPQ7?=
- =?us-ascii?Q?ikA7HEB7TGThv5dla01lZeX4356qXHVclZBzJJ154V5XFMEdRAgNCWUilMQd?=
- =?us-ascii?Q?l0NyELIpx4XwFHXE02FFE3RWYtqinB18W15gbp7tXqK1dxxS2dC1lF+tc3J9?=
- =?us-ascii?Q?jf7l0g/C+ZpteBYmgFTCKMCYOlprKILB4dgb0+u6vskcEP9eJ4dIxfYfA9KD?=
- =?us-ascii?Q?xGB2JJ1M6RygBJE5CxjfAlcgpYIOZBG+Mx4nbLM3hsjnL+hBvWeTwYsswLKe?=
- =?us-ascii?Q?PdfpPr8ojCrpssieNNJjywefcSx2e69cnUT0augvsIZOv4tk3JXYNboj69/j?=
- =?us-ascii?Q?6MlmFTylIR0oY8Ox7aC4EtOs9wKO+fFHc/Sv9E1eAdihJpcjC8r5H3qPBU6x?=
- =?us-ascii?Q?m0a41zL2F1OLot8lR6FKjn2fKzaWk1fXADfAGg8jWHPZNlv8/Sh1N2sPHsl9?=
- =?us-ascii?Q?KvKVCpg4qD7NBy4yVeFA9rCDeAcaHq3aOL+lHC2XL4pv2UWBbuo16qBoryRt?=
- =?us-ascii?Q?FfowdiEpoVHZdh04QBBGBQvkDjW3L8/6Js0vXiaoknAAj2qENKOP2Cv3myXB?=
- =?us-ascii?Q?PiQWIS32Q0MvIXbccZ/fpsG69xLYtOQIhhTH+A=3D=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 649a75f2-10ec-44ef-b061-08dbb4cb2603
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR01MB3817.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2023 02:34:44.2597
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR01MB4524
+Content-Type: text/plain
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Google Taranza device uses the same approach as the Google Brask
-which enables the HDMI CEC via the cros-ec-cec driver.
+Hi,
 
-Signed-off-by: Ken Lin <ken_lin5@hotmail.com>
----
+This series is the v9 series that attempts to support the Camera Subsystem
+found on StarFive JH7110 SoC.
 
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
- 1 file changed, 2 insertions(+)
+This series is based on top of the master branch of media_stage repository.
 
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index c17faf002877..a65da16c243d 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -231,6 +231,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Gladios", "0000:00:02.0", "Port B" },
- 	/* Google Lisbon */
- 	{ "Google", "Lisbon", "0000:00:02.0", "Port B" },
-+	/* Google Taranza */
-+	{ "Google", "Taranza", "0000:00:02.0", "Port D" },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+The following are the media graph for the device and the v4l2-compliance
+output.
+
+===========================================================================
+[the media graph]:
+
+digraph board {
+	rankdir=TB
+	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000001:port1 -> n00000008 [style=dashed]
+	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+	n0000000e:port1 -> n00000001:port0 [style=dashed]
+	n0000000e:port1 -> n00000004 [style=dashed]
+	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000018:port0 -> n0000000e:port0 [style=bold]
+}
+
+[the device topology]:
+
+Media controller API version 6.5.0
+
+Media device information
+------------------------
+driver          starfive-camss
+model           Starfive Camera Subsystem
+serial          
+bus info        platform:19840000.camss
+hw revision     0x0
+driver version  6.5.0
+
+Device topology
+- entity 1: stf_isp (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+	pad0: Sink
+		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+	pad1: Source
+		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		-> "capture_yuv":0 []
+
+- entity 4: capture_raw (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+	pad0: Sink
+		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+
+- entity 8: capture_yuv (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+	pad0: Sink
+		<- "stf_isp":1 []
+
+- entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
+             type V4L2 subdev subtype Unknown flags 0
+	pad0: Sink
+		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		-> "stf_isp":0 []
+		-> "capture_raw":0 []
+	pad2: Source
+	pad3: Source
+	pad4: Source
+
+- entity 24: imx219 6-0010 (1 pad, 1 link)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev1
+	pad0: Source
+		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+		 crop.bounds:(8,8)/3280x2464
+		 crop:(8,8)/3280x2464]
+		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
+
+===========================================================================
+[the v4l2-compliance output]:
+
+v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+
+Compliance test for stf camss device /dev/video1:
+
+Driver Info:
+	Driver name      : stf camss
+	Card type        : Starfive Camera Subsystem
+	Bus info         : platform:19840000.camss
+	Driver version   : 6.5.0
+	Capabilities     : 0x84200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : starfive-camss
+	Model            : Starfive Camera Subsystem
+	Serial           : 
+	Bus info         : platform:19840000.camss
+	Media version    : 6.5.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 6.5.0
+Interface Info:
+	ID               : 0x0300000a
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000008 (8)
+	Name             : capture_yuv
+	Function         : V4L2 I/O
+	Pad 0x01000009   : 0: Sink
+	  Link 0x0200000c: from remote pad 0x1000003 of entity 'stf_isp' (Unknown Function (00004009)): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	test MMAP (no poll): OK                           
+	test MMAP (select): OK                            
+	test MMAP (epoll): OK                             
+	test USERPTR (no poll): OK (Not Supported)
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for stf camss device /dev/video1: 53, Succeeded: 53, Failed: 0, Warnings: 0
+
+===========================================================================
+Changes in v9:
+- Rebased on top of the master branch of media_stage repository.
+- Renamed file name.
+- Added of_node_put(node) in the error handling path of
+  stfcamss_of_parse_ports().
+
+v8 link: https://lore.kernel.org/all/20230824080109.89613-1-jack.zhu@starfivetech.com/
+
+Changes in v8:
+- Rebased on v6.5-rc7.
+- Dropped VIN subdev.
+- Created two new video devices: capture_raw and capture_yuv, to replace
+  the previous video devices.
+- Dropped VB2_READ io methods.
+- Recursively called .s_stream() on subdevs.
+
+v7 link: https://lore.kernel.org/all/20230619112838.19797-1-jack.zhu@starfivetech.com/
+
+Changes in v7:
+- HAS_DMA is used instead of DMA_CMA in Kconfig.
+- Dropped some non-essential member variables.
+- Used v4l2_async_nf_add_fwnode_remote() to simplify the relevant code.
+- Modified some Local variable types in the function.
+- Used v4l2_create_fwnode_links_to_pad() to simplify the relevant code.
+- Added error handling for clk_prepare_enable().
+- Simplified stfcamss_format_info struct and modified the relevant code.
+- Dropped enum_input, g_input and s_input.
+- Unified v4l2_ioctl_ops struct.
+- Used v4l2_fh_open()/vb2_fop_release to replace deprecated APIs.
+- Added a camss directory under the starfive directory and modified the
+  patch title.
+
+v6 link: https://lore.kernel.org/all/20230525083202.67933-1-jack.zhu@starfivetech.com/
+
+Changes in v6:
+- Added 'bus-type' in bindings example.
+- Corrected spelling errors.
+- As reviewed by Bryan, used 'nclks' and 'nrsts' variables.
+- Added lccf config for ISP.
+
+v5 link: https://lore.kernel.org/all/20230512102844.51084-1-jack.zhu@starfivetech.com/
+
+Changes in v5:
+- Rebased on v6.4-rc1.
+- Added new patch.
+- Modified ISP driver.
+
+v4 link: https://lore.kernel.org/all/20230413035541.62129-1-jack.zhu@starfivetech.com/
+
+Previous cover letter from v4:
+
+This patch series adds support for the StarFive Camera Subsystem
+found on StarFive JH7110 SoC.
+
+The driver implements V4L2, Media controller and V4L2 subdev interfaces.
+Camera sensor using V4L2 subdev interface in the kernel is supported.
+
+The driver is tested on VisionFive V2 board with IMX219 camera sensor.
+GStreamer 1.18.5 with v4l2src plugin is supported.
+
+Previous version link, missing v1 version:
+
+  v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
+  v2: https://lore.kernel.org/all/20230310120553.60586-1-jack.zhu@starfivetech.com/
+
+Jack Zhu (8):
+  media: dt-bindings: Add JH7110 Camera Subsystem
+  media: admin-guide: Add starfive_camss.rst for Starfive Camera
+    Subsystem
+  media: staging: media: starfive: camss: Add core driver
+  media: staging: media: starfive: camss: Add video driver
+  media: staging: media: starfive: camss: Add ISP driver
+  media: staging: media: starfive: camss: Add capture driver
+  media: staging: media: starfive: camss: Add interrupt handling
+  media: staging: media: starfive: camss: Register devices
+
+ .../admin-guide/media/starfive_camss.rst      |  72 +++
+ .../media/starfive_camss_graph.dot            |  12 +
+ .../admin-guide/media/v4l-drivers.rst         |   1 +
+ .../bindings/media/starfive,jh7110-camss.yaml | 180 ++++++
+ MAINTAINERS                                   |   9 +
+ drivers/staging/media/Kconfig                 |   2 +
+ drivers/staging/media/Makefile                |   1 +
+ drivers/staging/media/starfive/Kconfig        |   5 +
+ drivers/staging/media/starfive/Makefile       |   2 +
+ drivers/staging/media/starfive/camss/Kconfig  |  17 +
+ drivers/staging/media/starfive/camss/Makefile |  13 +
+ .../staging/media/starfive/camss/stf-camss.c  | 436 +++++++++++++
+ .../staging/media/starfive/camss/stf-camss.h  | 134 ++++
+ .../media/starfive/camss/stf-capture.c        | 603 ++++++++++++++++++
+ .../media/starfive/camss/stf-capture.h        |  87 +++
+ .../media/starfive/camss/stf-isp-hw-ops.c     | 445 +++++++++++++
+ .../staging/media/starfive/camss/stf-isp.c    | 407 ++++++++++++
+ .../staging/media/starfive/camss/stf-isp.h    | 428 +++++++++++++
+ .../staging/media/starfive/camss/stf-video.c  | 571 +++++++++++++++++
+ .../staging/media/starfive/camss/stf-video.h  | 100 +++
+ 20 files changed, 3525 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
+ create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
+ create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+ create mode 100644 drivers/staging/media/starfive/Kconfig
+ create mode 100644 drivers/staging/media/starfive/Makefile
+ create mode 100644 drivers/staging/media/starfive/camss/Kconfig
+ create mode 100644 drivers/staging/media/starfive/camss/Makefile
+ create mode 100644 drivers/staging/media/starfive/camss/stf-camss.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf-camss.h
+ create mode 100644 drivers/staging/media/starfive/camss/stf-capture.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf-capture.h
+ create mode 100644 drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf-isp.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf-isp.h
+ create mode 100644 drivers/staging/media/starfive/camss/stf-video.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf-video.h
+
 -- 
-2.25.1
+2.34.1
 
