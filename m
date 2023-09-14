@@ -2,75 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5DC67A00E8
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 11:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1076B7A00F0
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 11:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237340AbjINJxb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 05:53:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47432 "EHLO
+        id S237316AbjINJzf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 05:55:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237963AbjINJxZ (ORCPT
+        with ESMTP id S236178AbjINJzf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 05:53:25 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46DB01BFB
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 02:53:17 -0700 (PDT)
-Received: from [192.168.50.82] (91-145-76-168.bb.dnainternet.fi [91.145.76.168])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        (Authenticated sender: vami)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4RmXgv5t2Jz49Q2P
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 12:53:15 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1694685195; h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:mime-version:mime-version:
-         content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
-        bh=jZ93upewPGJi/GrhJf94aJI6l6VlsxNC0nQTsKTPwBc=;
-        b=c060xTUf6KqVn4MsqHVGHDTuloSQgxfIsRTLic5di5DKm2Vd55rX1H2I9uPD6r+XLAxyrE
-        PJhWoIpnoEEWsplk+ah/E9wyxt3dQx90xu/VTEeSAVWnUAndtuEWypiil1tWlcAGfBMQxV
-        0GVsSwcNh0a2WA6taQ/60y4MLQDHeI/McGwXGC0u2GGT14FOx5h6N8ASCqVT1EuWLgtLWV
-        QY0sAYTxk6wRBcuAChqLp8Ot4YOceqqeitYwuRKdtGe5RqNFHFftW5SVUOWBVpy5v3644Y
-        vqFTN0IoRu1r/xxfsKPCQgJW6jEEycnRgYdl9Yr8mxAdNNEL6TGO+0p13s88ng==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1694685195; a=rsa-sha256;
-        cv=none;
-        b=Zp3puwOe/v1Zb4+CnnOAdo0nPVpY4A93Ej4Y0M8v+PA6ZoJkS7gkcBefyLQYpZhkS+z+eG
-        TuF6JNH0JT5PoOncxAYNuPjLg2/+POTLQXBaQAros7NhmYG8uWg/IUBRViTwPsEic1wRn7
-        1mVo0kj1IRoe1GQ0PZFSgW1fLqDqFXe1JfdCVGWKxkV+LGssgMahpM71R6FF0S9er89oeU
-        YSE4ZXDtGW8iJ7hV4pur8ATlbzpQjDbtWPFhLnxM4RAVFc5F4uR+n3HQwRGnktC0ZunHSL
-        XmybaxX32vI2J6BifIgQOeuNQzFOBBbnkIQcfpipFzIZCyeHQcIcuuTwfMn4hg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=vami smtp.mailfrom=mika.vahlberg@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1694685195;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=jZ93upewPGJi/GrhJf94aJI6l6VlsxNC0nQTsKTPwBc=;
-        b=afJcZoyDu1SH0j7HFur8Ks1zx8fYlb6737WOC7ejUp5Mx3Mr2IHRypeKip0l8Zxh3siSzG
-        Qmz/yiGwMc8bdCdde7xVSJkYarJYhZdmP2ye7RGqL1XsGRDxk2NLKyd+aosYRfb7NTubwV
-        FCKe2V96ToyRKUMlnsD+V7Xh05pfmLHox+pd5pKHIlboq3ZEgUnSFDoJ/xnLfRNY1fc9Hm
-        tQHY8EwJsf4VNwAXb7czdgFAFwC+GIrY4WN9EH1p9+SAKK8dffzZa144bKerL/zDZddaxm
-        9gwUi8UafYeSjgHhKl6v5HMPf9uIFMdpejMm3YKdIHtd4Mtu84hQUSBIM6nT9Q==
-Message-ID: <26d1c4fd-b4a3-42e4-8430-e773505d723e@iki.fi>
-Date:   Thu, 14 Sep 2023 12:53:16 +0300
+        Thu, 14 Sep 2023 05:55:35 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65BF083;
+        Thu, 14 Sep 2023 02:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694685331; x=1726221331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/Fu99T9/XDJUIk7rTU/0AQiev26FduZXA7d84BlqrDA=;
+  b=UCnN+yUwkknq/C/WCPmYEcPiZ6+0dB9T/elWiQjMndu4jkQ/RiWFLE7x
+   8bcETK2Rq0dr/tmCotIzhBmQA2tW7xlar3Vr9QUInnPN5lyjRcQ20ULUU
+   Bu+/ZRsUoKTYbq1Cn+c24/09DG68MPi1NuGO8DHWpCV7a5QFzamIeXMkW
+   DhEMy93Vj77kzUUt+gYHSMol6/3AEOCqxsiUk9TrZRU5rDXKAXZPOHqLc
+   HjFHx33+mnVtTY348mVFq4Wwyx+CI5Do/TwaPOv4E5YHWXd/ZkLgoXu5P
+   p3xYXpsDgCdKBxLUT5k01PNKio4/taVssyvnxgmYGPE5j6kBA96Nma12u
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="409860996"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="409860996"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 02:55:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="834696678"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="834696678"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 02:55:28 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 6F4AF11FB8E;
+        Thu, 14 Sep 2023 12:55:25 +0300 (EEST)
+Date:   Thu, 14 Sep 2023 09:55:25 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarrah Gosbell <kernel@undef.tools>,
+        Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Subject: Re: [PATCH] media: ov5640: use pm_runtime_force_suspend/resume for
+ system suspend
+Message-ID: <ZQLYjTkWrW6m1E2r@kekkonen.localdomain>
+References: <20230818173416.2467832-1-andrej.skvortzov@gmail.com>
+ <ZQHU+LA+BEB7jzx1@valkosipuli.retiisi.eu>
+ <ZQIgDb0usm768umH@skv.local>
+ <pvbl7c34njy2bxeb3vjnvvoiaatrfc6jp53iidh2dfogor4h5x@geb7cigsran5>
+ <20230914090241.GA2504@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: mika.vahlberg@iki.fi
-To:     linux-media@vger.kernel.org
-From:   Mika Vahlberg <mika.vahlberg@iki.fi>
-Subject: usb 1-2: dvb_usb_anysee: Unsuported Anysee version. Please
- report.....
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230914090241.GA2504@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Anysee stoped working. No /dev/dvb -folder.
+Hi Laurent,
 
+On Thu, Sep 14, 2023 at 12:02:41PM +0300, Laurent Pinchart wrote:
+> On Thu, Sep 14, 2023 at 10:54:40AM +0200, Jacopo Mondi wrote:
+> > On Wed, Sep 13, 2023 at 11:48:13PM +0300, Andrey Skvortsov wrote:
+> > > On 23-09-13 15:27, Sakari Ailus wrote:
+> > > > On Fri, Aug 18, 2023 at 08:34:16PM +0300, Andrey Skvortsov wrote:
+> > > > > If system was suspended while camera sensor was used, data and
+> > > > > interrupts were still coming from sensor and that caused unstable
+> > > > > system. Sometimes system hanged during a resume. Use
+> > > > > pm_runtime_force_* helpers in order to support system suspend.
+> > > > >
+> > > > > Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+> > > >
+> > > > Thanks for the patch.
+> > > >
+> > > > It's not been documented really how system suspend and resume should
+> > > > work for complex cameras. But I don't think it can be done by drivers
+> > > > separately as the CSI-2 bus initialisation requires actions from both
+> > > > sender and receiver drivers, at particular points of time.
+> > >
+> > > Thanks for the review.
+> > >
+> > > I've tested this on PinePhone A64. It uses DVP, maybe because of that
+> > > system suspend/resume worked good in my case.
+> > > Originally I've implemented system suspend/resume similar to this [1]
+> > > or [2] as I've seen this approach in other mainlined drivers. But some
+> > > drivers reuse pm_runtime_force_* helpers, so I've went with this.
+> > >
+> > > Do you think it would be better to use something like [2] until there
+> > > is better well defined way for system suspend/resume for complex cameras?
+> > >
+> > 
+> > please don't :)
+> > https://patchwork.linuxtv.org/project/linux-media/patch/20230913135638.26277-16-laurent.pinchart@ideasonboard.com/
+> > 
+> > However...
+> > 
+> > > > So I think we'll need to initiate this from the driver handling DMA, just
+> > > > as starting and stopping streaming. Even then, there needs to be a
+> > > > certainty that the sensor device has resumed before streaming is started. I
+> > > > recall Laurent suggested device links for that purpose, but I don't think
+> > > > any work has been done to implement it that way.
+> > 
+> > .. as Sakari suggested, the driver handling the DMA should be in
+> > charge of calling s_stream() on the sensor subdev in its
+> > suspend/resume handlers. There's the risk the receiver resumes while
+> > the sensor is still suspended, and at this time there's no solution in
+> > mainline to handle this correctly.
+> > 
+> > Laurent/Sakari, how should this be handled for the time being ?
+> 
+> device_link() should handle this. See mxc_isi_async_notifier_bound() in
+> drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c.
+> 
+> It would be nice if this could be done in the V4L2 core. I haven't
+> checked if that's possible.
 
-Mika
+I can't see why it wouldn't be, and it seems easy, too. We're still early
+in the cycle so if someone writes the patches, I can't see why we couldn't
+get them for 6.7.
 
+-- 
+Regards,
+
+Sakari Ailus
