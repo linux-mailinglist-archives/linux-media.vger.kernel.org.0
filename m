@@ -2,36 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A314E7A0C7E
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 082017A0C7F
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241438AbjINSRr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 14:17:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57750 "EHLO
+        id S241439AbjINSRs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 14:17:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241400AbjINSRq (ORCPT
+        with ESMTP id S241430AbjINSRr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 14:17:46 -0400
+        Thu, 14 Sep 2023 14:17:47 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 640FC1FF9
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCAD61FD5
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:43 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 821A887E7;
-        Thu, 14 Sep 2023 20:16:08 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6FB9880B;
+        Thu, 14 Sep 2023 20:16:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694715368;
-        bh=nchELTEfC1XbkgObsFmU/st1ELaUMqR9CFCNaJKjoBM=;
+        s=mail; t=1694715370;
+        bh=YeM/F9oburCEfBmlpIPitolNt0JRlmCVR4s+lOD5/No=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bk6XdqS4mrW4iBMeg+deAd1qW9P9H06rrnjj2qtGIQMpUSg7Zq2nKugcEuyKn0nIi
-         gYXtoo90dUp2squjM8dBWk+PqWvIhl9EbQoXGniXqek2kHa+Te6YtjhayIIiU9A2Dy
-         Ie3sEasgvRRJJCKt1gyQ8c2G1RIu6CWX26IeGyeU=
+        b=CsY24zFjmStWlhCX9RUQgfbih2LBDk/UGpjLKAU0vhS5g+JIbPmKrGj6lc8yBtEMb
+         gRM+VTkSOUmFEzj0iHAYWBdQKTbhWWRlsI+nLL+gkzgWNZHE9Ib3TCQk6o2pfql1uZ
+         FB2viMYyrciFsw291y4EkQ/8MwStGjF/Sglpqo6Q=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>
-Subject: [PATCH 35/57] media: i2c: ar0521: Drop system suspend and resume handlers
-Date:   Thu, 14 Sep 2023 21:16:42 +0300
-Message-ID: <20230914181704.4811-36-laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH 36/57] media: i2c: ccs: Drop system suspend and resume handlers
+Date:   Thu, 14 Sep 2023 21:16:43 +0300
+Message-ID: <20230914181704.4811-37-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
 References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
@@ -48,78 +47,66 @@ bridge driver calling the sensor's .s_stream() handler at system suspend
 and resume time. There is thus no need for the sensor to independently
 implement system sleep PM operations. Drop them.
 
-The streaming field of the driver's private structure is now unused,
-drop it as well.
-
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ar0521.c | 30 +-----------------------------
- 1 file changed, 1 insertion(+), 29 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 37 --------------------------------
+ 1 file changed, 37 deletions(-)
 
-diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-index a4e39871e8f7..701f36345f1e 100644
---- a/drivers/media/i2c/ar0521.c
-+++ b/drivers/media/i2c/ar0521.c
-@@ -133,8 +133,6 @@ struct ar0521_dev {
- 		u16 mult2;
- 		u16 vt_pix;
- 	} pll;
--
--	bool streaming;
- };
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 49e0d9a09530..c1b08a758830 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -3152,42 +3152,6 @@ static const struct v4l2_subdev_internal_ops ccs_internal_ops = {
+  * I2C Driver
+  */
  
- static inline struct ar0521_dev *to_ar0521_dev(struct v4l2_subdev *sd)
-@@ -991,12 +989,9 @@ static int ar0521_s_stream(struct v4l2_subdev *sd, int enable)
- 	int ret;
- 
- 	mutex_lock(&sensor->lock);
--
- 	ret = ar0521_set_stream(sensor, enable);
--	if (!ret)
--		sensor->streaming = enable;
--
- 	mutex_unlock(&sensor->lock);
-+
- 	return ret;
- }
- 
-@@ -1023,28 +1018,6 @@ static const struct v4l2_subdev_ops ar0521_subdev_ops = {
- 	.pad = &ar0521_pad_ops,
- };
- 
--static int __maybe_unused ar0521_suspend(struct device *dev)
+-static int __maybe_unused ccs_suspend(struct device *dev)
 -{
--	struct v4l2_subdev *sd = dev_get_drvdata(dev);
--	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
+-	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
+-	bool streaming = sensor->streaming;
+-	int rval;
+-
+-	rval = pm_runtime_resume_and_get(dev);
+-	if (rval < 0)
+-		return rval;
 -
 -	if (sensor->streaming)
--		ar0521_set_stream(sensor, 0);
+-		ccs_stop_streaming(sensor);
+-
+-	/* save state for resume */
+-	sensor->streaming = streaming;
 -
 -	return 0;
 -}
 -
--static int __maybe_unused ar0521_resume(struct device *dev)
+-static int __maybe_unused ccs_resume(struct device *dev)
 -{
--	struct v4l2_subdev *sd = dev_get_drvdata(dev);
--	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
+-	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
+-	int rval = 0;
+-
+-	pm_runtime_put(dev);
 -
 -	if (sensor->streaming)
--		return ar0521_set_stream(sensor, 1);
+-		rval = ccs_start_streaming(sensor);
 -
--	return 0;
+-	return rval;
 -}
 -
- static int ar0521_probe(struct i2c_client *client)
+ static int ccs_get_hwconfig(struct ccs_sensor *sensor, struct device *dev)
  {
- 	struct v4l2_fwnode_endpoint ep = {
-@@ -1183,7 +1156,6 @@ static void ar0521_remove(struct i2c_client *client)
- }
+ 	struct ccs_hwconfig *hwcfg = &sensor->hwcfg;
+@@ -3720,7 +3684,6 @@ static const struct of_device_id ccs_of_table[] = {
+ MODULE_DEVICE_TABLE(of, ccs_of_table);
  
- static const struct dev_pm_ops ar0521_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(ar0521_suspend, ar0521_resume)
- 	SET_RUNTIME_PM_OPS(ar0521_power_off, ar0521_power_on, NULL)
+ static const struct dev_pm_ops ccs_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(ccs_suspend, ccs_resume)
+ 	SET_RUNTIME_PM_OPS(ccs_power_off, ccs_power_on, NULL)
  };
- static const struct of_device_id ar0521_dt_ids[] = {
+ 
 -- 
 Regards,
 
