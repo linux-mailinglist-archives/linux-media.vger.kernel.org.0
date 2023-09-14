@@ -2,223 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E1827A0B20
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 18:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FF687A0B6E
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 19:20:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231243AbjINQ7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 12:59:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44090 "EHLO
+        id S238571AbjINRUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 13:20:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237253AbjINQ7X (ORCPT
+        with ESMTP id S231695AbjINRUr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 12:59:23 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E0D01FDE
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 09:59:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694710759; x=1726246759;
-  h=date:from:to:cc:subject:message-id;
-  bh=RzdAAymjcuV5elbKO7eP4xottd4HX+krU7jza78KsAQ=;
-  b=bZa7e/Dk6gLtatTpvw1d/nWLw3hrpKkVz3mvxxyUzscDTdFeav6obejM
-   0olaeKOJhAz4k7hOZb14RNmL8Hcq/eahrS3jDDl97HRSRSjBgeMCifANP
-   C59Iw0kwonZ/p3+RkP3Su98+WN9794/pyimw9RQE23oSbEKrrquyURkyc
-   La3v2BxZTecfHITjPpmiS/J3CYyWJJZIyIS9VuDnAyPyy2krD7VXE11d9
-   XuKMr1TkGtecODdFVePaWCNjjDmh6qO0L+kHDgNeBZz7GW/gTmAGTykyK
-   MkLbu1Dudkb1LYfyYVIo26bn3EDRcoi3KYBCnNaP3mqkDV6fUjHADXyLA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="377924283"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="377924283"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 09:59:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="773946447"
-X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
-   d="scan'208";a="773946447"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 14 Sep 2023 09:59:17 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qgpgR-0001rT-2B;
-        Thu, 14 Sep 2023 16:59:15 +0000
-Date:   Fri, 15 Sep 2023 00:58:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- 0835b195d034ab98b148b8e9c81a862c0c557bb7
-Message-ID: <202309150020.rcTLSuVy-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+        Thu, 14 Sep 2023 13:20:47 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E74851BFE
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 10:20:42 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17FC110FE;
+        Thu, 14 Sep 2023 19:19:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694711948;
+        bh=Fc8GQd7wu9vCpec/blbvpq56VEPqkFWAPbTUBOFkqc0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KS9/tdcC4zNCxVIGZkWW0ZeTA4CUE9SDYcaLEUnd7D3s89TWTpSgqpR/xfJSO1C+t
+         YPOFtZH/HRfxUCxgmgzzr1iH7smob2G9x0GpaSLZhfE8MgcXB09S7gdAggxTkcJbsq
+         6gUkkxtz5Sa+za1v9xmTVOc2e5sjt3o0t0rcOC8w=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Martin Kepplinger <martink@posteo.de>,
+        Daniel Scally <djrscally@gmail.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>
+Subject: [PATCH] media: i2c: Use pm_runtime_resume_and_get()
+Date:   Thu, 14 Sep 2023 20:20:54 +0300
+Message-ID: <20230914172054.31825-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: 0835b195d034ab98b148b8e9c81a862c0c557bb7  media: ivsc: Depend on VIDEO_DEV
+Simplify error handling by using pm_runtime_resume_and_get() instead of
+pm_runtime_get_sync() with a put call in the error path.
 
-elapsed time: 1651m
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/media/i2c/ccs/ccs-core.c |  6 +++---
+ drivers/media/i2c/hi846.c        |  6 ++----
+ drivers/media/i2c/hi847.c        |  5 ++---
+ drivers/media/i2c/imx208.c       | 14 +++++++-------
+ drivers/media/i2c/og01a1b.c      |  5 ++---
+ drivers/media/i2c/ov5693.c       |  6 +++---
+ drivers/media/i2c/ov7251.c       |  8 +++++---
+ drivers/media/i2c/st-vgxy61.c    |  9 ++-------
+ 8 files changed, 26 insertions(+), 33 deletions(-)
 
-configs tested: 152
-configs skipped: 2
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 49e0d9a09530..569bf9b67539 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -1893,9 +1893,9 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
+ 	 * relies at the returned value to detect if the device was already
+ 	 * active or not.
+ 	 */
+-	rval = pm_runtime_get_sync(&client->dev);
+-	if (rval < 0)
+-		goto error;
++	rval = pm_runtime_resume_and_get(&client->dev);
++	if (rval)
++		return rval;
+ 
+ 	/* Device was already active, so don't set controls */
+ 	if (rval == 1)
+diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
+index fa0038749a3b..8a8ae89a8453 100644
+--- a/drivers/media/i2c/hi846.c
++++ b/drivers/media/i2c/hi846.c
+@@ -1613,11 +1613,9 @@ static int hi846_set_stream(struct v4l2_subdev *sd, int enable)
+ 	mutex_lock(&hi846->mutex);
+ 
+ 	if (enable) {
+-		ret = pm_runtime_get_sync(&client->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(&client->dev);
++		ret = pm_runtime_resume_and_get(&client->dev);
++		if (ret)
+ 			goto out;
+-		}
+ 
+ 		ret = hi846_start_streaming(hi846);
+ 	}
+diff --git a/drivers/media/i2c/hi847.c b/drivers/media/i2c/hi847.c
+index 32547d7a2659..47aa2cd06e32 100644
+--- a/drivers/media/i2c/hi847.c
++++ b/drivers/media/i2c/hi847.c
+@@ -2623,9 +2623,8 @@ static int hi847_set_stream(struct v4l2_subdev *sd, int enable)
+ 
+ 	mutex_lock(&hi847->mutex);
+ 	if (enable) {
+-		ret = pm_runtime_get_sync(&client->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(&client->dev);
++		ret = pm_runtime_resume_and_get(&client->dev);
++		if (ret) {
+ 			mutex_unlock(&hi847->mutex);
+ 			return ret;
+ 		}
+diff --git a/drivers/media/i2c/imx208.c b/drivers/media/i2c/imx208.c
+index ee5a28675388..a6edcae4ef47 100644
+--- a/drivers/media/i2c/imx208.c
++++ b/drivers/media/i2c/imx208.c
+@@ -720,9 +720,11 @@ static int imx208_set_stream(struct v4l2_subdev *sd, int enable)
+ 	}
+ 
+ 	if (enable) {
+-		ret = pm_runtime_get_sync(&client->dev);
+-		if (ret < 0)
+-			goto err_rpm_put;
++		ret = pm_runtime_resume_and_get(&client->dev);
++		if (ret) {
++			mutex_unlock(&imx208->imx208_mx);
++			return ret;
++		}
+ 
+ 		/*
+ 		 * Apply default & customized values
+@@ -819,11 +821,9 @@ static int imx208_read_otp(struct imx208 *imx208)
+ 	if (imx208->otp_read)
+ 		goto out_unlock;
+ 
+-	ret = pm_runtime_get_sync(&client->dev);
+-	if (ret < 0) {
+-		pm_runtime_put_noidle(&client->dev);
++	ret = pm_runtime_resume_and_get(&client->dev);
++	if (ret)
+ 		goto out_unlock;
+-	}
+ 
+ 	ret = imx208_identify_module(imx208);
+ 	if (ret)
+diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
+index 365ce5684583..ccf6731ea2e2 100644
+--- a/drivers/media/i2c/og01a1b.c
++++ b/drivers/media/i2c/og01a1b.c
+@@ -737,9 +737,8 @@ static int og01a1b_set_stream(struct v4l2_subdev *sd, int enable)
+ 
+ 	mutex_lock(&og01a1b->mutex);
+ 	if (enable) {
+-		ret = pm_runtime_get_sync(&client->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(&client->dev);
++		ret = pm_runtime_resume_and_get(&client->dev);
++		if (ret) {
+ 			mutex_unlock(&og01a1b->mutex);
+ 			return ret;
+ 		}
+diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+index 488ee6d9d301..033cf7f14f19 100644
+--- a/drivers/media/i2c/ov5693.c
++++ b/drivers/media/i2c/ov5693.c
+@@ -975,9 +975,9 @@ static int ov5693_s_stream(struct v4l2_subdev *sd, int enable)
+ 	int ret;
+ 
+ 	if (enable) {
+-		ret = pm_runtime_get_sync(ov5693->dev);
+-		if (ret < 0)
+-			goto err_power_down;
++		ret = pm_runtime_resume_and_get(ov5693->dev);
++		if (ret)
++			return ret;
+ 
+ 		mutex_lock(&ov5693->lock);
+ 		ret = __v4l2_ctrl_handler_setup(&ov5693->ctrls.handler);
+diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
+index 675fb37a6fea..6582cc0e2384 100644
+--- a/drivers/media/i2c/ov7251.c
++++ b/drivers/media/i2c/ov7251.c
+@@ -1340,9 +1340,11 @@ static int ov7251_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	mutex_lock(&ov7251->lock);
+ 
+ 	if (enable) {
+-		ret = pm_runtime_get_sync(ov7251->dev);
+-		if (ret < 0)
+-			goto err_power_down;
++		ret = pm_runtime_resume_and_get(ov7251->dev);
++		if (ret) {
++			mutex_unlock(&ov7251->lock);
++			return ret;
++		}
+ 
+ 		ret = ov7251_pll_configure(ov7251);
+ 		if (ret) {
+diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
+index 30f82ca344c4..5dbfb04b3124 100644
+--- a/drivers/media/i2c/st-vgxy61.c
++++ b/drivers/media/i2c/st-vgxy61.c
+@@ -1170,14 +1170,9 @@ static int vgxy61_stream_enable(struct vgxy61_dev *sensor)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = pm_runtime_get_sync(&client->dev);
+-	if (ret < 0) {
+-		pm_runtime_put_autosuspend(&client->dev);
++	ret = pm_runtime_resume_and_get(&client->dev);
++	if (ret)
+ 		return ret;
+-	}
+-
+-	/* pm_runtime_get_sync() can return 1 as a valid return code */
+-	ret = 0;
+ 
+ 	vgxy61_write_reg(sensor, VGXY61_REG_FORMAT_CTRL,
+ 			 get_bpp_by_code(sensor->fmt.code), &ret);
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r014-20230913   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20230913   gcc  
-arc                   randconfig-001-20230914   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20230913   gcc  
-arm                   randconfig-001-20230914   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-hexagon               randconfig-001-20230913   clang
-hexagon               randconfig-002-20230913   clang
-hexagon              randconfig-r012-20230913   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386         buildonly-randconfig-001-20230914   gcc  
-i386         buildonly-randconfig-002-20230914   gcc  
-i386         buildonly-randconfig-003-20230914   gcc  
-i386         buildonly-randconfig-004-20230914   gcc  
-i386         buildonly-randconfig-005-20230914   gcc  
-i386         buildonly-randconfig-006-20230914   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20230914   gcc  
-i386                  randconfig-002-20230914   gcc  
-i386                  randconfig-003-20230914   gcc  
-i386                  randconfig-004-20230914   gcc  
-i386                  randconfig-005-20230914   gcc  
-i386                  randconfig-006-20230914   gcc  
-i386                  randconfig-011-20230914   gcc  
-i386                  randconfig-012-20230914   gcc  
-i386                  randconfig-013-20230914   gcc  
-i386                  randconfig-014-20230914   gcc  
-i386                  randconfig-015-20230914   gcc  
-i386                  randconfig-016-20230914   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20230913   gcc  
-loongarch             randconfig-001-20230914   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-microblaze           randconfig-r015-20230913   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-openrisc             randconfig-r013-20230913   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20230913   gcc  
-riscv                 randconfig-001-20230914   gcc  
-riscv                randconfig-r011-20230913   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20230914   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20230913   gcc  
-sparc                 randconfig-001-20230914   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20230913   gcc  
-x86_64       buildonly-randconfig-001-20230914   gcc  
-x86_64       buildonly-randconfig-002-20230913   gcc  
-x86_64       buildonly-randconfig-002-20230914   gcc  
-x86_64       buildonly-randconfig-003-20230913   gcc  
-x86_64       buildonly-randconfig-003-20230914   gcc  
-x86_64       buildonly-randconfig-004-20230913   gcc  
-x86_64       buildonly-randconfig-004-20230914   gcc  
-x86_64       buildonly-randconfig-005-20230913   gcc  
-x86_64       buildonly-randconfig-005-20230914   gcc  
-x86_64       buildonly-randconfig-006-20230913   gcc  
-x86_64       buildonly-randconfig-006-20230914   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20230914   gcc  
-x86_64                randconfig-003-20230914   gcc  
-x86_64                randconfig-005-20230914   gcc  
-x86_64                randconfig-006-20230914   gcc  
-x86_64                randconfig-011-20230914   gcc  
-x86_64                randconfig-012-20230914   gcc  
-x86_64                randconfig-013-20230914   gcc  
-x86_64                randconfig-014-20230914   gcc  
-x86_64                randconfig-015-20230914   gcc  
-x86_64                randconfig-016-20230914   gcc  
-x86_64                randconfig-071-20230914   gcc  
-x86_64                randconfig-072-20230914   gcc  
-x86_64                randconfig-073-20230914   gcc  
-x86_64                randconfig-074-20230914   gcc  
-x86_64                randconfig-075-20230914   gcc  
-x86_64                randconfig-076-20230914   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa               randconfig-r016-20230913   gcc  
-
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
+
