@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 503447A0C85
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B21D07A0C86
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241521AbjINSRz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 14:17:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54396 "EHLO
+        id S241535AbjINSR4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 14:17:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241500AbjINSRy (ORCPT
+        with ESMTP id S241496AbjINSRz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 14:17:54 -0400
+        Thu, 14 Sep 2023 14:17:55 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69AA71FFB
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B380A1FF9
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:51 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 811F987E8;
-        Thu, 14 Sep 2023 20:16:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0DB8880E;
+        Thu, 14 Sep 2023 20:16:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694715376;
-        bh=li+Vmb2brQUYoBVQ5h0+IwQu258ykmA/Dl+ApxhOlv8=;
+        s=mail; t=1694715378;
+        bh=INdLoKdAMoqgv3bNlMtMOBQIN5g9jwLiuoUZ3pUZ6Ac=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PNuOhecoqOpWxBkuYhuaiCQ2/DAijJK5vUFm3CEaHDG2zLf8f2zjaXO6GqMj5TnIy
-         kZt2qtLi6VIiwSgUW5TLdU9UZRvvwD0IN2T8ez+ilQkaR+rD7MxZQAVHFWn69bBsUG
-         lzuK4RrYMyzJsbybgVsmaHZOVOxwzNcER6jv6CbM=
+        b=Mj0dRFkd6rYpYjoMUOV9karOZQH3Kv82Nc2VBzi2g7RnqhjZRQLfryX8JtviZ1UUh
+         guUSsBxpzwAYlE46xCu1uHwxVcVxkABy6reBwYrLWiFZRmLuZhiEYXbZFxEHoSh27n
+         /xUJyo6MEBO6S5Ws8tJjqFyJN153eiTxg71njHow=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Ricardo Ribalda <ribalda@kernel.org>
-Subject: [PATCH 41/57] media: i2c: imx214: Drop system suspend and resume handlers
-Date:   Thu, 14 Sep 2023 21:16:48 +0300
-Message-ID: <20230914181704.4811-42-laurent.pinchart@ideasonboard.com>
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH 42/57] media: i2c: imx219: Drop system suspend and resume handlers
+Date:   Thu, 14 Sep 2023 21:16:49 +0300
+Message-ID: <20230914181704.4811-43-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
 References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
@@ -53,55 +53,58 @@ drop it as well.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/imx214.c | 37 -------------------------------------
- 1 file changed, 37 deletions(-)
+ drivers/media/i2c/imx219.c | 41 --------------------------------------
+ 1 file changed, 41 deletions(-)
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index e2805173f4b1..4f77ea02cc27 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -58,8 +58,6 @@ struct imx214 {
- 	 * and start streaming.
- 	 */
- 	struct mutex mutex;
--
--	bool streaming;
- };
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index 5715bbbc0820..a431dace0f33 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -479,9 +479,6 @@ struct imx219 {
+ 	/* Current mode */
+ 	const struct imx219_mode *mode;
  
- struct reg_8 {
-@@ -790,7 +788,6 @@ static int imx214_s_stream(struct v4l2_subdev *subdev, int enable)
- 		pm_runtime_put(imx214->dev);
+-	/* Streaming on/off */
+-	bool streaming;
+-
+ 	/* Two or Four lanes */
+ 	u8 lanes;
+ };
+@@ -991,8 +988,6 @@ static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
+ 		imx219_stop_streaming(imx219);
  	}
  
--	imx214->streaming = enable;
- 	return 0;
- 
- err_rpm_put:
-@@ -906,39 +903,6 @@ static int imx214_parse_fwnode(struct device *dev)
+-	imx219->streaming = enable;
+-
+ unlock:
+ 	v4l2_subdev_unlock_state(state);
  	return ret;
+@@ -1044,41 +1039,6 @@ static int imx219_power_off(struct device *dev)
+ 	return 0;
  }
  
--static int __maybe_unused imx214_suspend(struct device *dev)
+-static int __maybe_unused imx219_suspend(struct device *dev)
 -{
--	struct i2c_client *client = to_i2c_client(dev);
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--	struct imx214 *imx214 = to_imx214(sd);
+-	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+-	struct imx219 *imx219 = to_imx219(sd);
 -
--	if (imx214->streaming)
--		imx214_stop_streaming(imx214);
+-	if (imx219->streaming)
+-		imx219_stop_streaming(imx219);
 -
 -	return 0;
 -}
 -
--static int __maybe_unused imx214_resume(struct device *dev)
+-static int __maybe_unused imx219_resume(struct device *dev)
 -{
--	struct i2c_client *client = to_i2c_client(dev);
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--	struct imx214 *imx214 = to_imx214(sd);
+-	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+-	struct imx219 *imx219 = to_imx219(sd);
+-	struct v4l2_subdev_state *state;
 -	int ret;
 -
--	if (imx214->streaming) {
--		ret = imx214_start_streaming(imx214);
+-	if (imx219->streaming) {
+-		state = v4l2_subdev_lock_and_get_active_state(sd);
+-		ret = imx219_start_streaming(imx219, state);
+-		v4l2_subdev_unlock_state(state);
 -		if (ret)
 -			goto error;
 -	}
@@ -109,20 +112,21 @@ index e2805173f4b1..4f77ea02cc27 100644
 -	return 0;
 -
 -error:
--	imx214_stop_streaming(imx214);
--	imx214->streaming = 0;
+-	imx219_stop_streaming(imx219);
+-	imx219->streaming = false;
+-
 -	return ret;
 -}
 -
- static int imx214_probe(struct i2c_client *client)
+ static int imx219_get_regulators(struct imx219 *imx219)
  {
- 	struct device *dev = &client->dev;
-@@ -1099,7 +1063,6 @@ static const struct of_device_id imx214_of_match[] = {
- MODULE_DEVICE_TABLE(of, imx214_of_match);
+ 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+@@ -1464,7 +1424,6 @@ static const struct of_device_id imx219_dt_ids[] = {
+ MODULE_DEVICE_TABLE(of, imx219_dt_ids);
  
- static const struct dev_pm_ops imx214_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(imx214_suspend, imx214_resume)
- 	SET_RUNTIME_PM_OPS(imx214_power_off, imx214_power_on, NULL)
+ static const struct dev_pm_ops imx219_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(imx219_suspend, imx219_resume)
+ 	SET_RUNTIME_PM_OPS(imx219_power_off, imx219_power_on, NULL)
  };
  
 -- 
