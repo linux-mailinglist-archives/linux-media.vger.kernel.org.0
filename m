@@ -2,36 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 293387A0C91
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07DE77A0C92
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:18:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241581AbjINSSI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 14:18:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35538 "EHLO
+        id S241594AbjINSSJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 14:18:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241578AbjINSSG (ORCPT
+        with ESMTP id S241580AbjINSSI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 14:18:06 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A96641FFC
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:18:02 -0700 (PDT)
+        Thu, 14 Sep 2023 14:18:08 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F192B1FFF
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:18:03 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B31B71ABC;
-        Thu, 14 Sep 2023 20:16:28 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1660D87E3;
+        Thu, 14 Sep 2023 20:16:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694715388;
-        bh=QICxH0WfWrFBYxziGkS9/UJYcgIfAhGBjZY8e5wtIhQ=;
+        s=mail; t=1694715390;
+        bh=O902bjCwtHM6V8caEVi13JONVMHxP2kqA85j5l+Ji8w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rFrSS7es2DHQ1YJqnWgzCDxY5Gf/a9G88FKcpzX8pYOEHFm3NUvTHltxIXojEuPmR
-         KCPhPK7+fZTc/VlNH8CJbASDNE7Vcqe7Bn6YSWIMWopijhhc2OkWkfxxsUYkZQaqOo
-         8JWD0HbSGzlVxlzxyVLF/5Ptdvz3puBKsqN6Kd4w=
+        b=ZIrvEvJfnr8hQVrDtLPRTQDZox0yi2Ui+wjo9IVmsu/sAEugmEfjeTqf06WWzTLZU
+         KWrvXARllJLPVyI8a+IylELCoMy92x4zKDMc2ycEnkQZuZXg7JVWcK857ruhLCTMhD
+         Lfe/P9PWWEqllzheP9086Lsbchx4Rv2kNhjeMbrY=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Jason Chen <jason.z.chen@intel.com>
-Subject: [PATCH 50/57] media: i2c: ov08x40: Drop system suspend and resume handlers
-Date:   Thu, 14 Sep 2023 21:16:57 +0300
-Message-ID: <20230914181704.4811-51-laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH 51/57] media: i2c: ov13858: Drop system suspend and resume handlers
+Date:   Thu, 14 Sep 2023 21:16:58 +0300
+Message-ID: <20230914181704.4811-52-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
 References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
@@ -53,14 +52,14 @@ drop it as well.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov08x40.c | 40 -------------------------------------
+ drivers/media/i2c/ov13858.c | 40 -------------------------------------
  1 file changed, 40 deletions(-)
 
-diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-index 1ea402550837..b41b6866a0ab 100644
---- a/drivers/media/i2c/ov08x40.c
-+++ b/drivers/media/i2c/ov08x40.c
-@@ -2432,9 +2432,6 @@ struct ov08x40 {
+diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
+index b90ce338a47a..4c419014dd7b 100644
+--- a/drivers/media/i2c/ov13858.c
++++ b/drivers/media/i2c/ov13858.c
+@@ -1044,9 +1044,6 @@ struct ov13858 {
  
  	/* Mutex for serialized access */
  	struct mutex mutex;
@@ -69,38 +68,38 @@ index 1ea402550837..b41b6866a0ab 100644
 -	bool streaming;
  };
  
- #define to_ov08x40(_sd)	container_of(_sd, struct ov08x40, sd)
-@@ -2933,7 +2930,6 @@ static int ov08x40_set_stream(struct v4l2_subdev *sd, int enable)
+ #define to_ov13858(_sd)	container_of(_sd, struct ov13858, sd)
+@@ -1485,7 +1482,6 @@ static int ov13858_set_stream(struct v4l2_subdev *sd, int enable)
  		pm_runtime_put(&client->dev);
  	}
  
--	ov08x->streaming = enable;
- 	mutex_unlock(&ov08x->mutex);
+-	ov13858->streaming = enable;
+ 	mutex_unlock(&ov13858->mutex);
  
  	return ret;
-@@ -2946,37 +2942,6 @@ static int ov08x40_set_stream(struct v4l2_subdev *sd, int enable)
+@@ -1498,37 +1494,6 @@ static int ov13858_set_stream(struct v4l2_subdev *sd, int enable)
  	return ret;
  }
  
--static int __maybe_unused ov08x40_suspend(struct device *dev)
+-static int __maybe_unused ov13858_suspend(struct device *dev)
 -{
 -	struct v4l2_subdev *sd = dev_get_drvdata(dev);
--	struct ov08x40 *ov08x = to_ov08x40(sd);
+-	struct ov13858 *ov13858 = to_ov13858(sd);
 -
--	if (ov08x->streaming)
--		ov08x40_stop_streaming(ov08x);
+-	if (ov13858->streaming)
+-		ov13858_stop_streaming(ov13858);
 -
 -	return 0;
 -}
 -
--static int __maybe_unused ov08x40_resume(struct device *dev)
+-static int __maybe_unused ov13858_resume(struct device *dev)
 -{
 -	struct v4l2_subdev *sd = dev_get_drvdata(dev);
--	struct ov08x40 *ov08x = to_ov08x40(sd);
+-	struct ov13858 *ov13858 = to_ov13858(sd);
 -	int ret;
 -
--	if (ov08x->streaming) {
--		ret = ov08x40_start_streaming(ov08x);
+-	if (ov13858->streaming) {
+-		ret = ov13858_start_streaming(ov13858);
 -		if (ret)
 -			goto error;
 -	}
@@ -108,33 +107,33 @@ index 1ea402550837..b41b6866a0ab 100644
 -	return 0;
 -
 -error:
--	ov08x40_stop_streaming(ov08x);
--	ov08x->streaming = false;
+-	ov13858_stop_streaming(ov13858);
+-	ov13858->streaming = false;
 -	return ret;
 -}
 -
  /* Verify chip ID */
- static int ov08x40_identify_module(struct ov08x40 *ov08x)
+ static int ov13858_identify_module(struct ov13858 *ov13858)
  {
-@@ -3290,10 +3255,6 @@ static void ov08x40_remove(struct i2c_client *client)
- 	pm_runtime_set_suspended(&client->dev);
- }
+@@ -1783,10 +1748,6 @@ static const struct i2c_device_id ov13858_id_table[] = {
  
--static const struct dev_pm_ops ov08x40_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(ov08x40_suspend, ov08x40_resume)
+ MODULE_DEVICE_TABLE(i2c, ov13858_id_table);
+ 
+-static const struct dev_pm_ops ov13858_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(ov13858_suspend, ov13858_resume)
 -};
 -
  #ifdef CONFIG_ACPI
- static const struct acpi_device_id ov08x40_acpi_ids[] = {
- 	{"OVTI08F4"},
-@@ -3306,7 +3267,6 @@ MODULE_DEVICE_TABLE(acpi, ov08x40_acpi_ids);
- static struct i2c_driver ov08x40_i2c_driver = {
+ static const struct acpi_device_id ov13858_acpi_ids[] = {
+ 	{"OVTID858"},
+@@ -1799,7 +1760,6 @@ MODULE_DEVICE_TABLE(acpi, ov13858_acpi_ids);
+ static struct i2c_driver ov13858_i2c_driver = {
  	.driver = {
- 		.name = "ov08x40",
--		.pm = &ov08x40_pm_ops,
- 		.acpi_match_table = ACPI_PTR(ov08x40_acpi_ids),
+ 		.name = "ov13858",
+-		.pm = &ov13858_pm_ops,
+ 		.acpi_match_table = ACPI_PTR(ov13858_acpi_ids),
  	},
- 	.probe = ov08x40_probe,
+ 	.probe = ov13858_probe,
 -- 
 Regards,
 
