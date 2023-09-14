@@ -2,35 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D55687A0C69
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 430DD7A0C6A
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241088AbjINSRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 14:17:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36208 "EHLO
+        id S241084AbjINSRT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 14:17:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241084AbjINSRR (ORCPT
+        with ESMTP id S241031AbjINSRS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 14:17:17 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B60D1FD7
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:12 -0700 (PDT)
+        Thu, 14 Sep 2023 14:17:18 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C31A1FF9
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:14 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A23E18622;
-        Thu, 14 Sep 2023 20:15:38 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22CD32F6C;
+        Thu, 14 Sep 2023 20:15:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694715338;
-        bh=so2o3/JcMpjgwLRu10OkI0/TOGjok5XT8gjaux+BHDo=;
+        s=mail; t=1694715340;
+        bh=yO49RATq3ScftGSoJUGjwyYMuBS4C7Gx7HFr+hbxs7M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n1o8ltoNZ0MpajBrb0wHYdq4gKNAlCXedw7EbdUgKIZD9PLj1sXhXzuW5WAFynpyj
-         U5hJmXGQCe5ezXRSGmNGMNgO5mWzTkfMZwlcCzwtUk6/AbR0DWkrU2an3sGegHbmzn
-         2DO5fIvJZ96duud8cAUpzUba/dedzrlCGQFhtJOw=
+        b=Gt407EreqEuTpNod626MMGFc+5O5FWEgJbE7Xlf7p130pE4JvPEui4ekP4cwSYXhg
+         s1OuuAVrgg7uTWQE2T8yCYnP+ST8msySvOA/B8EeaQLXaBT1nDzVhGTLadwcGW1uyI
+         XWnOUq/Bj7nlqF9jvjIAeVe78qc8rJbcJj97HDBA=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH 14/57] media: i2c: og01a1b: Drop check for reentrant .s_stream()
-Date:   Thu, 14 Sep 2023 21:16:21 +0300
-Message-ID: <20230914181704.4811-15-laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Bingbu Cao <bingbu.cao@intel.com>
+Subject: [PATCH 15/57] media: i2c: ov01a10: Drop check for reentrant .s_stream()
+Date:   Thu, 14 Sep 2023 21:16:22 +0300
+Message-ID: <20230914181704.4811-16-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
 References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
@@ -46,23 +47,22 @@ Remove the check that guards against that condition.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/og01a1b.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/media/i2c/ov01a10.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-index 365ce5684583..ab8381c52503 100644
---- a/drivers/media/i2c/og01a1b.c
-+++ b/drivers/media/i2c/og01a1b.c
-@@ -732,9 +732,6 @@ static int og01a1b_set_stream(struct v4l2_subdev *sd, int enable)
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
+index 2b9e1b3a3bf4..b43c1c96f47b 100644
+--- a/drivers/media/i2c/ov01a10.c
++++ b/drivers/media/i2c/ov01a10.c
+@@ -672,8 +672,6 @@ static int ov01a10_set_stream(struct v4l2_subdev *sd, int enable)
  	int ret = 0;
  
--	if (og01a1b->streaming == enable)
--		return 0;
--
- 	mutex_lock(&og01a1b->mutex);
+ 	state = v4l2_subdev_lock_and_get_active_state(sd);
+-	if (ov01a10->streaming == enable)
+-		goto unlock;
+ 
  	if (enable) {
- 		ret = pm_runtime_get_sync(&client->dev);
+ 		ret = pm_runtime_resume_and_get(&client->dev);
 -- 
 Regards,
 
