@@ -2,1157 +2,365 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 617CB79FC2D
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 08:40:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4249B79FBA0
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 08:09:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235580AbjINGkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 02:40:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47622 "EHLO
+        id S232779AbjINGJO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 02:09:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235623AbjINGkA (ORCPT
+        with ESMTP id S232171AbjINGJL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 02:40:00 -0400
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08514E58
-        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 23:39:55 -0700 (PDT)
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 9459D1A0646;
-        Thu, 14 Sep 2023 08:30:52 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 309031A063C;
-        Thu, 14 Sep 2023 08:30:52 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 2F5BD1820F58;
-        Thu, 14 Sep 2023 14:30:50 +0800 (+08)
-From:   Shengjiu Wang <shengjiu.wang@nxp.com>
-To:     hverkuil@xs4all.nl, sakari.ailus@iki.fi, tfiga@chromium.org,
-        m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-        nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-        perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-        linuxppc-dev@lists.ozlabs.org
-Subject: [RFC PATCH v3 9/9] media: imx-asrc: Add memory to memory driver
-Date:   Thu, 14 Sep 2023 13:54:05 +0800
-Message-Id: <1694670845-17070-10-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1694670845-17070-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1694670845-17070-1-git-send-email-shengjiu.wang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+        Thu, 14 Sep 2023 02:09:11 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780CBE3
+        for <linux-media@vger.kernel.org>; Wed, 13 Sep 2023 23:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694671747; x=1726207747;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=hvbNys49X3pK754xKjvuzxSpxnXxLn0SVeU0wspwbgI=;
+  b=DJfntsv1/Xdfe3+R5kEbuvBanjAlK6yjSGMaVPgtOHdWSpzYipRyRQEZ
+   hiNuLJ/IxTEJdUPzsQmTBJIcwYIZvh0GM0tq4RWaTSkNeml9nCSXeKjJD
+   96vaVxupEWbQajTC2CkXV0hggaMr6qtsPL8n76XLyFyAb3cy3OVyS9W/o
+   tX8Yuc/gXuM3M9ZY9JBaOe4ck2RT2Jim3B6PeIJV3stYeSYo4aGE6fLDd
+   iN6WDURXbbrrYytyXntMsDdrklqYq4wds8ow+aHkngVdrUgU/pNMoPfk3
+   EKAk4YlPaaPnyVHb3T781t/HxjrQnFaJ20rWgcHJLZkUZGaTt6krB909r
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="369135774"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="369135774"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 23:09:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="918125930"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="918125930"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 Sep 2023 23:09:06 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 13 Sep 2023 23:09:06 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 13 Sep 2023 23:09:05 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 13 Sep 2023 23:09:05 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 13 Sep 2023 23:09:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b6QFj5/Cjl3xCKku84A3VfekctAw5slbndelz4hDvDFd5AXaBv0kzdq64AvQtd1E7YgoLFtVS2QbBuUTpu02yP/I3B+Q8J0BcYHA+dBopUX31mqK6Cy/VqwfAsZQRyz19LZkV8LYSMKEr3NZw+NO6XGf2tvVfxqP1ghHDgf45br5jV4IYS85Axrf3vA2RH51QY6bXC//4afcdY+xGTHZYNJs+TJL8hPhl2sMqz0uzXcU+0BbBDHDu6rHeKa5XdmZ5joOu+t5WLhSzZPhIzDPg0/a8+OZwyTQxvFrZGERTkpp92g0eLdjqDgLZ5xhvTuvIGq7yvIjA4T8LOI9OZZiKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IgYZDfjL2P8kt3MeefAicorxh2eGHSrqzUGA5PplwKU=;
+ b=MW6QwfAG5Bz6gnvMcX0UbjlkmaZWM6T+ms92YbhBk0rSeRYteTF3gt/8Lw1pbfq4+JdlFbILDDVb25AZUHrpy3ha66czFpLDBrUPaNlZzleHYuxW9yzXuOEfNMLU1yq0t1//9A20yvRgSXzMo4UfY2oQQk/E1GD0Z9me2uamxPraWsMAy+Faw/HynbMeG18ITmwiCmzd6DWtzQObySUcfmtN1Dd5OawBD8UEwZPRIfmEygGqEj3xJ5EpzCLzW5iwzK+368l7MirgFdPcDjdvgsxsqMAceQLk7BWz5QUXhnwtTc+vQw1RbpA2tWKr/s39yXkKrgTjJKaPJp8lACggbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DS0PR11MB7459.namprd11.prod.outlook.com (2603:10b6:8:144::22)
+ by DM8PR11MB5574.namprd11.prod.outlook.com (2603:10b6:8:39::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.38; Thu, 14 Sep
+ 2023 06:09:03 +0000
+Received: from DS0PR11MB7459.namprd11.prod.outlook.com
+ ([fe80::1c13:f927:574:8708]) by DS0PR11MB7459.namprd11.prod.outlook.com
+ ([fe80::1c13:f927:574:8708%3]) with mapi id 15.20.6768.029; Thu, 14 Sep 2023
+ 06:09:02 +0000
+From:   "Chen, Jason Z" <jason.z.chen@intel.com>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>
+CC:     "Yeh, Andy" <andy.yeh@intel.com>,
+        "Zhang, Qingwu" <qingwu.zhang@intel.com>
+Subject: RE: [PATCH] media: ov08x40: Modify the tline calculation in 1C mode
+Thread-Topic: [PATCH] media: ov08x40: Modify the tline calculation in 1C mode
+Thread-Index: AQHZ5tEQI+NdGpxQ3keyNvx90uuy8rAZ1Msw
+Date:   Thu, 14 Sep 2023 06:09:02 +0000
+Message-ID: <DS0PR11MB7459B22AE2ED6281C1C17433CCF7A@DS0PR11MB7459.namprd11.prod.outlook.com>
+References: <ZPrsTs59z0tK9e8A@kekkonen.localdomain>
+ <20230914060111.2621750-1-jason.z.chen@intel.com>
+In-Reply-To: <20230914060111.2621750-1-jason.z.chen@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR11MB7459:EE_|DM8PR11MB5574:EE_
+x-ms-office365-filtering-correlation-id: 63b74412-0936-4d1f-45de-08dbb4e91825
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8qf468yQRA9973/ECsU5X79fPqPNSXkJRco3Z9DvIgRh8x0AOgPCWBv32n8AV66WP7zwGwfhUP3fw2o8rbIsSYVJJV3GsM2On5kl9pwxuRS6Fm5ZLIaf95+ItjRFB9eIwxpEWMEyFxQXssFkjJ5cfuiDENk4LsPdrTtn1uMu18D9zHVeEr+xbfNF/Vq8e01izwd3doRxASi1HNM+oSDDJLfFlVnRbh48QoaHZXReK5XO3a3nc7RCPVFcYLz1Um62LRs0lKcMExXDX1HX43eWkkpyEci2cs75Jmvz1Wt0wj59CBEEXSBagYd0Bmb6azHCiiFp/FxsUAlS3SOW+cBWlE/lyvYFzfGAVx3scjJdpkTenQdVKcsqaSMULTduKAn2R1uhf589stLa9goWV7EAYM+Y95XD5Rcb0b2ODF68hT0F8gXWXAmOYr41Ve6xd3osyTl8rNxwgCukslAYe0JPHJ+6gw4O097jF2BeRLo6hVN/kraPt3QZ3mW/TQ4+oaXTWLmxrLTGGdLvEl/PTFZupKvnlwSz7n1Yh8ttNtuD5gQZqpXCeDLI+CRKou++TE3Cvf2rgUfz3ZD45AAzyBeN5TtLRgjHq9aNNEFMbioxKkiQCf4sI8uViSh89Jod9C6P
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7459.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(376002)(136003)(39860400002)(346002)(1800799009)(186009)(451199024)(9686003)(38070700005)(26005)(122000001)(478600001)(38100700002)(83380400001)(82960400001)(7696005)(66446008)(41300700001)(66556008)(110136005)(64756008)(66946007)(76116006)(66476007)(6506007)(53546011)(316002)(54906003)(71200400001)(52536014)(5660300002)(4326008)(8936002)(2906002)(8676002)(86362001)(55016003)(33656002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?hTxCtJ1pxDkWHNRFmDcYdRuDyTfESRGuePQutZ4FUkzY8POzEldo0qtFX4nw?=
+ =?us-ascii?Q?oPTwrKgieXFwEepjWQdwYKkRo2wViFpBrRXUjZ/ZdWK/OU9B0QoGYR+QzJ+k?=
+ =?us-ascii?Q?WjhAZyC/XqQNAVHWioDNTNBrhe97SHRkO01AE1E0H8gKy9MUDkn8IDsqRoaa?=
+ =?us-ascii?Q?Zk2ipJ2dww1VJNy91K5Bqdqev9oR8dvTovV28PeQXNrURxMQb17pxSDEw/ho?=
+ =?us-ascii?Q?QAvZ9DCM5DERhqH97pwX77lKR/niVkxTLw73P3hXMX+oeCbTjbjYN9cX25KF?=
+ =?us-ascii?Q?G3i4dclZ2t4UAVdkoaTX0thVJGaxdLu1qgkqqC1WLIV4VqfFFrhZgMV190Sc?=
+ =?us-ascii?Q?Y+iri/Zo+a0D58cUJpGTV9sW50WtjyvuOra7Qy6CFRPAh8+9ynsphg46z8Tj?=
+ =?us-ascii?Q?REsFryM6Xq0M0amWFdcNgL1FK+mszqddi6QysE1e+whBcbx8us0pccZOQ5Q2?=
+ =?us-ascii?Q?LFyBXKz+/iJKK/u2RB7fjHBZJA/n6NI28lvekqII1DvFglbuGVb2NZwYDDZb?=
+ =?us-ascii?Q?IfwgdZYdKcOxJjA+wwg6MkYJSbDqrhwm/biTLl4zGQ5vggPKdM587OIjzCeL?=
+ =?us-ascii?Q?PE91Nzf238upL/hBIK1CbimOHI0go8hVOktBtn2RdrO8qg4hFDtt8WWyqrO1?=
+ =?us-ascii?Q?LdiKjpw8HtopXahccSpsXaYTeysIb/rDuai0CF/EXXFdqHSEJDVhDzVIYCn8?=
+ =?us-ascii?Q?neFb5AFuTSAW+ho7HO3joNhPld/pAHXhJFpOuCKJ7XIUHNqc2IRxN0TylQ1a?=
+ =?us-ascii?Q?OtCP+7b0Ny497AHuwsp3T1MNAHUNwr5EGdygVW4RgMxHKL/mZcVRZF7d2HvS?=
+ =?us-ascii?Q?xn0rtdSUVNCG7omIDZuquLBxlkiXM8N/Z3JoJ32kICndcnqBhwXRpakGbUcN?=
+ =?us-ascii?Q?qtCc6xHn8TtPu/RBAyDP3Sx7cMMvoLj5W0eMIcAIqvJAHOPHbtto7KubXhpO?=
+ =?us-ascii?Q?2C2d5fxWlw/UAke6E5vAi+0rffZgzTYS5Gj/wG9/lFhtEIUbg5TOd6mn6gbr?=
+ =?us-ascii?Q?mk8i73swgwY7TLALn8uRADaep88ZGohKZm8X0HxdTt0txnN+BLzbaRzzqe2m?=
+ =?us-ascii?Q?BhGcOjG39kjdmJS0C+gs73uokonb6aqkGpkqDtsgWII87s4V3injOxaf453n?=
+ =?us-ascii?Q?ed6vZSGa/IZ3uYEjzM23ZL6MzjEPaw4Rn0HJe6Ft0Vbfh7rLgUAt8kJoO71W?=
+ =?us-ascii?Q?XEYClNcDQaeKtR9PRMMm3ZQQOLNeX49ihhVZgtd8nOWqVlQ2KywdlSNMwM7h?=
+ =?us-ascii?Q?Y8y/f54g2Xiatoniobq/+0euh4aq2KOlyhVjZH7+2b+Jc1MzxLWdqmzCPx2r?=
+ =?us-ascii?Q?jR7Y5EsBYBYf5AD6wkbRMh8c/t9MuywZC47MBpdzwDpGXe3N1TdzipxK+P2B?=
+ =?us-ascii?Q?RJm0iri6f9V+/Eu0wrqG/APAFmBrSW+D+WC4Wnp+dVfNxxTrNN0GXntCvq0f?=
+ =?us-ascii?Q?WHeI9laC/5rePg8fyunQn7Q35TEQcuHmgV0DWWh8/+Rl5ziEfQT3IjG/NPWJ?=
+ =?us-ascii?Q?pEKt9i/q3KriDYUQ6ZZHDjEE/pkNuqoj3Hs+WKVtr9U3gV603+eJtJ9SEF5R?=
+ =?us-ascii?Q?2tx5B5AKxSeAykjaBjvqkPUu3duG6N7JLi27CPn6?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7459.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63b74412-0936-4d1f-45de-08dbb4e91825
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Sep 2023 06:09:02.7990
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SMqNRYiKEGKGfH7tdCgo28zM/1yOJcbScF48MOmehh1prl56huuB+6462mMBbP6tJFJM+8HzcoZQERV9DQq+bA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5574
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Implement the ASRC memory to memory function using
-the v4l2 framework, user can use this function with
-v4l2 ioctl interface.
+Thanks for the review, Bingbu and Sakari.
 
-User send the output and capture buffer to driver and
-driver store the converted data to the capture buffer.
+Because I have also ran the `sensor entry criteria` to make sure the driver=
+ behavior.
+So it takes a delay for feedback.
 
-This feature can be shared by ASRC and EASRC drivers
+I modified most ideas by previous comments.
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+However, we cannot take this part away.
+=20
+> > > +			/* frame length line need to be aligned */
+> > > +			vblank =3D (vblank & 0xfffc) + OV08X40_VTS_ALIGNMENT;
+> >=20
+> > I think there should be an existing macro can help you do that, then=20
+> > you can remove `OV08X40_VTS_ALIGNMENT`.
+>I'd change vblank limits so you don't need this check anymore.
+
+About the alignment, it needs to be added or the flick will appear.
+
+
+
+-----Original Message-----
+From: Chen, Jason Z <jason.z.chen@intel.com>=20
+Sent: Thursday, September 14, 2023 2:01 PM
+To: linux-media@vger.kernel.org; sakari.ailus@linux.intel.com; bingbu.cao@l=
+inux.intel.com
+Cc: Yeh, Andy <andy.yeh@intel.com>; Zhang, Qingwu <qingwu.zhang@intel.com>;=
+ Chen, Jason Z <jason.z.chen@intel.com>
+Subject: [PATCH] media: ov08x40: Modify the tline calculation in 1C mode
+
+From: Jason Chen <jason.z.chen@intel.com>
+
+The tline value need to be doubled in 1C mode.
+To follow the vendor's update for 1C mode:
+
+Tline time =3D 2 * HTS / SCLK
+
+Exposure unit :
+
+1 * HTS =3D 0.5 Tline
+
+Signed-off-by: Jason Chen <jason.z.chen@intel.com>
 ---
- drivers/media/platform/nxp/Kconfig    |   12 +
- drivers/media/platform/nxp/Makefile   |    1 +
- drivers/media/platform/nxp/imx-asrc.c | 1058 +++++++++++++++++++++++++
- 3 files changed, 1071 insertions(+)
- create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+ drivers/media/i2c/ov08x40.c | 55 ++++++++++++++++++++++++++++---------
+ 1 file changed, 42 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
-index 40e3436669e2..8234644ee341 100644
---- a/drivers/media/platform/nxp/Kconfig
-+++ b/drivers/media/platform/nxp/Kconfig
-@@ -67,3 +67,15 @@ config VIDEO_MX2_EMMAPRP
- 
- source "drivers/media/platform/nxp/dw100/Kconfig"
- source "drivers/media/platform/nxp/imx-jpeg/Kconfig"
-+
-+config VIDEO_IMX_ASRC
-+	tristate "NXP i.MX ASRC M2M support"
-+	depends on V4L_MEM2MEM_DRIVERS
-+	depends on MEDIA_SUPPORT
-+	select VIDEOBUF2_DMA_CONTIG
-+	select V4L2_MEM2MEM_DEV
-+	help
-+	    Say Y if you want to add ASRC M2M support for NXP CPUs.
-+	    It is a complement for ASRC M2P and ASRC P2M features.
-+	    This option is only useful for out-of-tree drivers since
-+	    in-tree drivers select it automatically.
-diff --git a/drivers/media/platform/nxp/Makefile b/drivers/media/platform/nxp/Makefile
-index 4d90eb713652..1325675e34f5 100644
---- a/drivers/media/platform/nxp/Makefile
-+++ b/drivers/media/platform/nxp/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
- obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
- obj-$(CONFIG_VIDEO_IMX_PXP) += imx-pxp.o
- obj-$(CONFIG_VIDEO_MX2_EMMAPRP) += mx2_emmaprp.o
-+obj-$(CONFIG_VIDEO_IMX_ASRC) += imx-asrc.o
-diff --git a/drivers/media/platform/nxp/imx-asrc.c b/drivers/media/platform/nxp/imx-asrc.c
-new file mode 100644
-index 000000000000..21079c7abd27
---- /dev/null
-+++ b/drivers/media/platform/nxp/imx-asrc.c
-@@ -0,0 +1,1058 @@
-+// SPDX-License-Identifier: GPL-2.0
-+//
-+// Copyright (C) 2014-2016 Freescale Semiconductor, Inc.
-+// Copyright (C) 2019-2023 NXP
-+//
-+// Freescale ASRC Memory to Memory (M2M) driver
-+
-+#include <linux/dma/imx-dma.h>
-+#include <linux/pm_runtime.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-fh.h>
-+#include <media/v4l2-ioctl.h>
-+#include <media/v4l2-mem2mem.h>
-+#include <media/videobuf2-dma-contig.h>
-+#include <sound/dmaengine_pcm.h>
-+#include <sound/fsl_asrc_common.h>
-+
-+#define V4L_CAP OUT
-+#define V4L_OUT IN
-+
-+/* Flags that indicate a format can be used for capture/output */
-+#define MEM2MEM_CAPTURE	BIT(0)
-+#define MEM2MEM_OUTPUT	BIT(1)
-+
-+#define ASRC_xPUT_DMA_CALLBACK(dir) \
-+	(((dir) == V4L_OUT) ? asrc_input_dma_callback \
-+	: asrc_output_dma_callback)
-+
-+#define DIR_STR(dir) (dir) == V4L_OUT ? "out" : "cap"
-+
-+#define ASRC_M2M_BUFFER_SIZE (512 * 1024)
-+#define ASRC_M2M_PERIOD_SIZE (48 * 1024)
-+#define ASRC_M2M_SG_NUM (20)
-+
-+struct asrc_pair_m2m {
-+	struct fsl_asrc_pair *pair;
-+	struct asrc_m2m *m2m;
-+	struct v4l2_fh fh;
-+	struct v4l2_ctrl_handler ctrl_handler;
-+};
-+
-+struct asrc_m2m {
-+	struct fsl_asrc *asrc;
-+	struct v4l2_device v4l2_dev;
-+	struct v4l2_m2m_dev *m2m_dev;
-+	struct video_device *dec_vdev;
-+	struct mutex mlock; /* v4l2 ioctls serialization */
-+	struct platform_device *pdev;
-+};
-+
-+struct asrc_fmt {
-+	u32	fourcc;
-+	u32     types;
-+};
-+
-+static struct asrc_fmt formats[] = {
-+	{
-+		.fourcc = V4L2_AUDIO_FMT_LPCM,
-+		.types  = MEM2MEM_CAPTURE | MEM2MEM_OUTPUT,
-+	},
-+};
-+
-+#define NUM_FORMATS ARRAY_SIZE(formats)
-+
-+static inline struct asrc_pair_m2m *asrc_m2m_fh_to_ctx(struct v4l2_fh *fh)
-+{
-+	return container_of(fh, struct asrc_pair_m2m, fh);
-+}
-+
-+/**
-+ * asrc_read_last_fifo: read all the remaining data from FIFO
-+ *	@pair: Structure pointer of fsl_asrc_pair
-+ *	@dma_vaddr: virtual address of capture buffer
-+ *	@length: payload length of capture buffer
-+ */
-+static void asrc_read_last_fifo(struct fsl_asrc_pair *pair, void *dma_vaddr, u32 *length)
-+{
-+	struct fsl_asrc *asrc = pair->asrc;
-+	enum asrc_pair_index index = pair->index;
-+	u32 i, reg, size, t_size = 0, width;
-+	u32 *reg32 = NULL;
-+	u16 *reg16 = NULL;
-+	u8  *reg24 = NULL;
-+
-+	width = snd_pcm_format_physical_width(pair->sample_format[V4L_CAP]);
-+	if (width == 32)
-+		reg32 = dma_vaddr + *length;
-+	else if (width == 16)
-+		reg16 = dma_vaddr + *length;
-+	else
-+		reg24 = dma_vaddr + *length;
-+retry:
-+	size = asrc->get_output_fifo_size(pair);
-+	if (size + *length > ASRC_M2M_BUFFER_SIZE)
-+		goto end;
-+
-+	for (i = 0; i < size * pair->channels; i++) {
-+		regmap_read(asrc->regmap, asrc->get_fifo_addr(OUT, index), &reg);
-+		if (reg32) {
-+			*(reg32) = reg;
-+			reg32++;
-+		} else if (reg16) {
-+			*(reg16) = (u16)reg;
-+			reg16++;
-+		} else {
-+			*reg24++ = (u8)reg;
-+			*reg24++ = (u8)(reg >> 8);
-+			*reg24++ = (u8)(reg >> 16);
-+		}
-+	}
-+	t_size += size;
-+
-+	/* In case there is data left in FIFO */
-+	if (size)
-+		goto retry;
-+end:
-+	/* Update payload length */
-+	if (reg32)
-+		*length += t_size * pair->channels * 4;
-+	else if (reg16)
-+		*length += t_size * pair->channels * 2;
-+	else
-+		*length += t_size * pair->channels * 3;
-+}
-+
-+static int asrc_m2m_start_streaming(struct vb2_queue *q, unsigned int count)
-+{
-+	struct asrc_pair_m2m *pair_m2m = vb2_get_drv_priv(q);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+	struct asrc_m2m *m2m = pair_m2m->m2m;
-+	struct fsl_asrc *asrc = pair->asrc;
-+	struct device *dev = &m2m->pdev->dev;
-+	struct vb2_v4l2_buffer *buf;
-+	bool request_flag = false;
-+	int ret;
-+
-+	dev_dbg(dev, "Start streaming pair=%p, %d\n", pair, q->type);
-+
-+	ret = pm_runtime_get_sync(dev);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to power up asrc\n");
-+		goto err_pm_runtime;
-+	}
-+
-+	/* Request asrc pair/context */
-+	if (!pair->req_pair) {
-+		/* flag for error handler of this function */
-+		request_flag = true;
-+
-+		ret = asrc->request_pair(pair->channels, pair);
-+		if (ret) {
-+			dev_err(dev, "failed to request pair: %d\n", ret);
-+			goto err_request_pair;
-+		}
-+
-+		ret = asrc->m2m_start_part_one(pair);
-+		if (ret) {
-+			dev_err(dev, "failed to start pair part one: %d\n", ret);
-+			goto err_start_part_one;
-+		}
-+
-+		pair->req_pair = true;
-+	}
-+
-+	/* Request dma channels */
-+	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
-+		pair->dma_chan[V4L_OUT] = asrc->get_dma_channel(pair, IN);
-+		if (!pair->dma_chan[V4L_OUT]) {
-+			dev_err(dev, "[ctx%d] failed to get input DMA channel\n", pair->index);
-+			ret = -EBUSY;
-+			goto err_dma_channel;
-+		}
-+	} else {
-+		pair->dma_chan[V4L_CAP] = asrc->get_dma_channel(pair, OUT);
-+		if (!pair->dma_chan[V4L_CAP]) {
-+			dev_err(dev, "[ctx%d] failed to get output DMA channel\n", pair->index);
-+			ret = -EBUSY;
-+			goto err_dma_channel;
-+		}
-+	}
-+
-+	v4l2_m2m_update_start_streaming_state(pair_m2m->fh.m2m_ctx, q);
-+
-+	return 0;
-+
-+err_dma_channel:
-+	if (request_flag && asrc->m2m_stop_part_one)
-+		asrc->m2m_stop_part_one(pair);
-+err_start_part_one:
-+	if (request_flag)
-+		asrc->release_pair(pair);
-+err_request_pair:
-+	pm_runtime_put_sync(dev);
-+err_pm_runtime:
-+	/* Release buffers */
-+	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
-+		while ((buf = v4l2_m2m_src_buf_remove(pair_m2m->fh.m2m_ctx)))
-+			v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
-+	} else {
-+		while ((buf = v4l2_m2m_dst_buf_remove(pair_m2m->fh.m2m_ctx)))
-+			v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
-+	}
-+	return ret;
-+}
-+
-+static void asrc_m2m_stop_streaming(struct vb2_queue *q)
-+{
-+	struct asrc_pair_m2m *pair_m2m = vb2_get_drv_priv(q);
-+	struct asrc_m2m *m2m = pair_m2m->m2m;
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+	struct fsl_asrc *asrc = pair->asrc;
-+	struct device *dev = &m2m->pdev->dev;
-+
-+	dev_dbg(dev, "Stop streaming pair=%p, %d\n", pair, q->type);
-+
-+	v4l2_m2m_update_stop_streaming_state(pair_m2m->fh.m2m_ctx, q);
-+
-+	/* Stop & release pair/context */
-+	if (asrc->m2m_stop_part_two)
-+		asrc->m2m_stop_part_two(pair);
-+
-+	if (pair->req_pair) {
-+		if (asrc->m2m_stop_part_one)
-+			asrc->m2m_stop_part_one(pair);
-+		asrc->release_pair(pair);
-+		pair->req_pair = false;
-+	}
-+
-+	/* Release dma channel */
-+	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
-+		if (pair->dma_chan[V4L_OUT])
-+			dma_release_channel(pair->dma_chan[V4L_OUT]);
-+	} else {
-+		if (pair->dma_chan[V4L_CAP])
-+			dma_release_channel(pair->dma_chan[V4L_CAP]);
-+	}
-+
-+	pm_runtime_put_sync(dev);
-+}
-+
-+static int asrc_m2m_queue_setup(struct vb2_queue *q,
-+				unsigned int *num_buffers, unsigned int *num_planes,
-+				unsigned int sizes[], struct device *alloc_devs[])
-+{
-+	struct asrc_pair_m2m *pair_m2m = vb2_get_drv_priv(q);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+
-+	/* single buffer */
-+	*num_planes = 1;
-+
-+	/*
-+	 * The capture buffer size depends on output buffer size
-+	 * and the convert ratio.
-+	 *
-+	 * Here just use a fix length for capture and output buffer.
-+	 * User need to care about it.
-+	 */
-+
-+	if (V4L2_TYPE_IS_OUTPUT(q->type))
-+		sizes[0] = pair->buf_len[V4L_OUT];
-+	else
-+		sizes[0] = pair->buf_len[V4L_CAP];
-+
-+	return 0;
-+}
-+
-+static void asrc_m2m_buf_queue(struct vb2_buffer *vb)
-+{
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+	struct asrc_pair_m2m *pair_m2m = vb2_get_drv_priv(vb->vb2_queue);
-+
-+	/* queue buffer */
-+	v4l2_m2m_buf_queue(pair_m2m->fh.m2m_ctx, vbuf);
-+}
-+
-+static const struct vb2_ops asrc_m2m_qops = {
-+	.wait_prepare		= vb2_ops_wait_prepare,
-+	.wait_finish		= vb2_ops_wait_finish,
-+	.start_streaming	= asrc_m2m_start_streaming,
-+	.stop_streaming		= asrc_m2m_stop_streaming,
-+	.queue_setup		= asrc_m2m_queue_setup,
-+	.buf_queue		= asrc_m2m_buf_queue,
-+};
-+
-+/* Init video buffer queue for src and dst. */
-+static int asrc_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
-+			       struct vb2_queue *dst_vq)
-+{
-+	struct asrc_pair_m2m *pair_m2m = priv;
-+	struct asrc_m2m *m2m = pair_m2m->m2m;
-+	int ret;
-+
-+	src_vq->type = V4L2_BUF_TYPE_AUDIO_OUTPUT;
-+	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-+	src_vq->drv_priv = pair_m2m;
-+	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
-+	src_vq->ops = &asrc_m2m_qops;
-+	src_vq->mem_ops = &vb2_dma_contig_memops;
-+	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-+	src_vq->lock = &m2m->mlock;
-+	src_vq->dev = &m2m->pdev->dev;
-+	src_vq->min_buffers_needed = 1;
-+
-+	ret = vb2_queue_init(src_vq);
-+	if (ret)
-+		return ret;
-+
-+	dst_vq->type = V4L2_BUF_TYPE_AUDIO_CAPTURE;
-+	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-+	dst_vq->drv_priv = pair_m2m;
-+	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
-+	dst_vq->ops = &asrc_m2m_qops;
-+	dst_vq->mem_ops = &vb2_dma_contig_memops;
-+	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-+	dst_vq->lock = &m2m->mlock;
-+	dst_vq->dev = &m2m->pdev->dev;
-+	dst_vq->min_buffers_needed = 1;
-+
-+	ret = vb2_queue_init(dst_vq);
-+	return ret;
-+}
-+
-+static int asrc_m2m_op_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct asrc_pair_m2m *pair_m2m =
-+		container_of(ctrl->handler, struct asrc_pair_m2m, ctrl_handler);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+	struct fsl_asrc *asrc = pair->asrc;
-+	int ret = 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_USER_IMX_ASRC_RATIO_MOD:
-+		if (asrc->m2m_set_ratio_mod)
-+			asrc->m2m_set_ratio_mod(pair, ctrl->val);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops asrc_m2m_ctrl_ops = {
-+	.s_ctrl = asrc_m2m_op_s_ctrl,
-+};
-+
-+/* system callback for open() */
-+static int asrc_m2m_open(struct file *file)
-+{
-+	struct asrc_m2m *m2m = video_drvdata(file);
-+	struct fsl_asrc *asrc = m2m->asrc;
-+	struct video_device *vdev = video_devdata(file);
-+	struct fsl_asrc_pair *pair;
-+	struct asrc_pair_m2m *pair_m2m;
-+	int ret = 0;
-+
-+	if (mutex_lock_interruptible(&m2m->mlock))
-+		return -ERESTARTSYS;
-+
-+	pair = kzalloc(sizeof(*pair) + asrc->pair_priv_size, GFP_KERNEL);
-+	if (!pair) {
-+		ret = -ENOMEM;
-+		goto err_alloc_pair;
-+	}
-+
-+	pair_m2m = kzalloc(sizeof(*pair_m2m), GFP_KERNEL);
-+	if (!pair_m2m) {
-+		ret = -ENOMEM;
-+		goto err_alloc_pair_m2m;
-+	}
-+
-+	pair->private = (void *)pair + sizeof(struct fsl_asrc_pair);
-+	pair->asrc = m2m->asrc;
-+
-+	pair->buf_len[V4L_OUT] = ASRC_M2M_BUFFER_SIZE;
-+	pair->buf_len[V4L_CAP] = ASRC_M2M_BUFFER_SIZE;
-+
-+	pair->channels = 2;
-+	pair->rate[V4L_OUT] = 8000;
-+	pair->rate[V4L_CAP] = 8000;
-+	pair->sample_format[V4L_OUT] = SNDRV_PCM_FORMAT_S16_LE;
-+	pair->sample_format[V4L_CAP] = SNDRV_PCM_FORMAT_S16_LE;
-+
-+	init_completion(&pair->complete[V4L_OUT]);
-+	init_completion(&pair->complete[V4L_CAP]);
-+
-+	v4l2_fh_init(&pair_m2m->fh, vdev);
-+	v4l2_fh_add(&pair_m2m->fh);
-+	file->private_data = &pair_m2m->fh;
-+
-+	pair_m2m->pair = pair;
-+	pair_m2m->m2m = m2m;
-+	/* m2m context init */
-+	pair_m2m->fh.m2m_ctx = v4l2_m2m_ctx_init(m2m->m2m_dev, pair_m2m,
-+						 asrc_m2m_queue_init);
-+	if (IS_ERR(pair_m2m->fh.m2m_ctx)) {
-+		ret = PTR_ERR(pair_m2m->fh.m2m_ctx);
-+		goto err_ctx_init;
-+	}
-+
-+	v4l2_ctrl_handler_init(&pair_m2m->ctrl_handler, 2);
-+
-+	/* use V4L2_CID_GAIN for ratio update control */
-+	v4l2_ctrl_new_std(&pair_m2m->ctrl_handler, &asrc_m2m_ctrl_ops,
-+			  V4L2_CID_USER_IMX_ASRC_RATIO_MOD,
-+			  0xFFFFFFFF80000001, 0x7fffffff, 1, 0);
-+
-+	if (pair_m2m->ctrl_handler.error) {
-+		ret = pair_m2m->ctrl_handler.error;
-+		v4l2_ctrl_handler_free(&pair_m2m->ctrl_handler);
-+		goto err_ctrl_handler;
-+	}
-+
-+	pair_m2m->fh.ctrl_handler = &pair_m2m->ctrl_handler;
-+
-+	mutex_unlock(&m2m->mlock);
-+
-+	return 0;
-+
-+err_ctrl_handler:
-+	v4l2_m2m_ctx_release(pair_m2m->fh.m2m_ctx);
-+err_ctx_init:
-+	v4l2_fh_del(&pair_m2m->fh);
-+	v4l2_fh_exit(&pair_m2m->fh);
-+	kfree(pair_m2m);
-+err_alloc_pair_m2m:
-+	kfree(pair);
-+err_alloc_pair:
-+	mutex_unlock(&m2m->mlock);
-+	return ret;
-+}
-+
-+static int asrc_m2m_release(struct file *file)
-+{
-+	struct asrc_m2m *m2m = video_drvdata(file);
-+	struct asrc_pair_m2m *pair_m2m = asrc_m2m_fh_to_ctx(file->private_data);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+
-+	mutex_lock(&m2m->mlock);
-+	v4l2_ctrl_handler_free(&pair_m2m->ctrl_handler);
-+	v4l2_m2m_ctx_release(pair_m2m->fh.m2m_ctx);
-+	v4l2_fh_del(&pair_m2m->fh);
-+	v4l2_fh_exit(&pair_m2m->fh);
-+	kfree(pair_m2m);
-+	kfree(pair);
-+	mutex_unlock(&m2m->mlock);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_file_operations asrc_m2m_fops = {
-+	.owner          = THIS_MODULE,
-+	.open           = asrc_m2m_open,
-+	.release        = asrc_m2m_release,
-+	.poll           = v4l2_m2m_fop_poll,
-+	.unlocked_ioctl = video_ioctl2,
-+	.mmap           = v4l2_m2m_fop_mmap,
-+};
-+
-+static int asrc_m2m_querycap(struct file *file, void *priv,
-+			     struct v4l2_capability *cap)
-+{
-+	strscpy(cap->driver, "asrc m2m", sizeof(cap->driver));
-+	strscpy(cap->card, "asrc m2m", sizeof(cap->card));
-+	cap->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_AUDIO_M2M;
-+	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
-+
-+	return 0;
-+}
-+
-+static int enum_fmt(struct v4l2_fmtdesc *f, u32 type)
-+{
-+	int i, num;
-+	struct asrc_fmt *fmt;
-+
-+	num = 0;
-+
-+	for (i = 0; i < NUM_FORMATS; ++i) {
-+		if (formats[i].types & type) {
-+			if (num == f->index)
-+				break;
-+			/*
-+			 * Correct type but haven't reached our index yet,
-+			 * just increment per-type index
-+			 */
-+			++num;
-+		}
-+	}
-+
-+	if (i < NUM_FORMATS) {
-+		/* Format found */
-+		fmt = &formats[i];
-+		f->pixelformat = fmt->fourcc;
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int asrc_m2m_enum_fmt_aud_cap(struct file *file, void *fh,
-+				     struct v4l2_fmtdesc *f)
-+{
-+	return enum_fmt(f, MEM2MEM_CAPTURE);
-+}
-+
-+static int asrc_m2m_enum_fmt_aud_out(struct file *file, void *fh,
-+				     struct v4l2_fmtdesc *f)
-+{
-+	return enum_fmt(f, MEM2MEM_OUTPUT);
-+}
-+
-+static int asrc_m2m_g_fmt_aud_cap(struct file *file, void *fh,
-+				  struct v4l2_format *f)
-+{
-+	struct asrc_pair_m2m *pair_m2m = asrc_m2m_fh_to_ctx(fh);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+
-+	f->fmt.audio.channels = pair->channels;
-+	f->fmt.audio.rate = pair->rate[V4L_CAP];
-+	f->fmt.audio.format = pair->sample_format[V4L_CAP];
-+	f->fmt.audio.buffersize = pair->buf_len[V4L_CAP];
-+
-+	return 0;
-+}
-+
-+static int asrc_m2m_g_fmt_aud_out(struct file *file, void *fh,
-+				  struct v4l2_format *f)
-+{
-+	struct asrc_pair_m2m *pair_m2m = asrc_m2m_fh_to_ctx(fh);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+
-+	f->fmt.audio.channels = pair->channels;
-+	f->fmt.audio.rate = pair->rate[V4L_OUT];
-+	f->fmt.audio.format = pair->sample_format[V4L_OUT];
-+	f->fmt.audio.buffersize = pair->buf_len[V4L_OUT];
-+
-+	return 0;
-+}
-+
-+/* output for asrc */
-+static int asrc_m2m_s_fmt_aud_cap(struct file *file, void *fh,
-+				  struct v4l2_format *f)
-+{
-+	struct asrc_pair_m2m *pair_m2m = asrc_m2m_fh_to_ctx(fh);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+	struct asrc_m2m *m2m = pair_m2m->m2m;
-+	struct fsl_asrc *asrc = pair->asrc;
-+	struct device *dev = &m2m->pdev->dev;
-+	int ret;
-+
-+	ret = asrc->m2m_check_format(OUT, f->fmt.audio.format);
-+	if (ret)
-+		f->fmt.audio.format = pair->sample_format[V4L_CAP];
-+
-+	ret = asrc->m2m_check_rate(OUT, f->fmt.audio.rate);
-+	if (ret)
-+		f->fmt.audio.rate = pair->rate[V4L_CAP];
-+
-+	ret = asrc->m2m_check_channel(OUT, f->fmt.audio.channels);
-+	if (ret)
-+		f->fmt.audio.channels = pair->channels;
-+
-+	if (pair->channels > 0 && pair->channels != f->fmt.audio.channels) {
-+		dev_err(dev, "channels don't match for cap and out\n");
-+		return -EINVAL;
-+	}
-+
-+	pair->channels = f->fmt.audio.channels;
-+	pair->rate[V4L_CAP] = f->fmt.audio.rate;
-+	pair->sample_format[V4L_CAP] = f->fmt.audio.format;
-+
-+	return 0;
-+}
-+
-+/* input for asrc */
-+static int asrc_m2m_s_fmt_aud_out(struct file *file, void *fh,
-+				  struct v4l2_format *f)
-+{
-+	struct asrc_pair_m2m *pair_m2m = asrc_m2m_fh_to_ctx(fh);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+	struct asrc_m2m *m2m = pair_m2m->m2m;
-+	struct fsl_asrc *asrc = pair->asrc;
-+	struct device *dev = &m2m->pdev->dev;
-+	int ret;
-+
-+	ret = asrc->m2m_check_format(IN, f->fmt.audio.format);
-+	if (ret)
-+		f->fmt.audio.format = pair->sample_format[V4L_OUT];
-+
-+	ret = asrc->m2m_check_rate(IN, f->fmt.audio.rate);
-+	if (ret)
-+		f->fmt.audio.rate = pair->rate[V4L_OUT];
-+
-+	ret = asrc->m2m_check_channel(IN, f->fmt.audio.channels);
-+	if (ret)
-+		f->fmt.audio.channels = pair->channels;
-+
-+	if (pair->channels > 0 && pair->channels != f->fmt.audio.channels) {
-+		dev_err(dev, "channels don't match for cap and out\n");
-+		return -EINVAL;
-+	}
-+
-+	pair->channels = f->fmt.audio.channels;
-+	pair->rate[V4L_OUT] = f->fmt.audio.rate;
-+	pair->sample_format[V4L_OUT] = f->fmt.audio.format;
-+
-+	return 0;
-+}
-+
-+static int asrc_m2m_try_fmt_audio_cap(struct file *file, void *fh,
-+				      struct v4l2_format *f)
-+{
-+	struct asrc_pair_m2m *pair_m2m = asrc_m2m_fh_to_ctx(fh);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+	struct asrc_m2m *m2m = video_drvdata(file);
-+	struct fsl_asrc *asrc = m2m->asrc;
-+	int ret;
-+
-+	ret = asrc->m2m_check_format(OUT, f->fmt.audio.format);
-+	if (ret)
-+		f->fmt.audio.format = pair->sample_format[V4L_CAP];
-+
-+	ret = asrc->m2m_check_rate(OUT, f->fmt.audio.rate);
-+	if (ret)
-+		f->fmt.audio.rate = pair->rate[V4L_CAP];
-+
-+	ret = asrc->m2m_check_channel(OUT, f->fmt.audio.channels);
-+	if (ret)
-+		f->fmt.audio.channels = pair->channels;
-+
-+	return 0;
-+}
-+
-+static int asrc_m2m_try_fmt_audio_out(struct file *file, void *fh,
-+				      struct v4l2_format *f)
-+{
-+	struct asrc_pair_m2m *pair_m2m = asrc_m2m_fh_to_ctx(fh);
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+	struct asrc_m2m *m2m = video_drvdata(file);
-+	struct fsl_asrc *asrc = m2m->asrc;
-+	int ret;
-+
-+	ret = asrc->m2m_check_format(IN, f->fmt.audio.format);
-+	if (ret)
-+		f->fmt.audio.format = pair->sample_format[V4L_OUT];
-+
-+	ret = asrc->m2m_check_rate(IN, f->fmt.audio.rate);
-+	if (ret)
-+		f->fmt.audio.rate = pair->rate[V4L_OUT];
-+
-+	ret = asrc->m2m_check_channel(IN, f->fmt.audio.channels);
-+	if (ret)
-+		f->fmt.audio.channels = pair->channels;
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_ioctl_ops asrc_m2m_ioctl_ops = {
-+	.vidioc_querycap		= asrc_m2m_querycap,
-+
-+	.vidioc_enum_fmt_audio_cap	= asrc_m2m_enum_fmt_aud_cap,
-+	.vidioc_enum_fmt_audio_out	= asrc_m2m_enum_fmt_aud_out,
-+
-+	.vidioc_g_fmt_audio_cap		= asrc_m2m_g_fmt_aud_cap,
-+	.vidioc_g_fmt_audio_out		= asrc_m2m_g_fmt_aud_out,
-+
-+	.vidioc_s_fmt_audio_cap		= asrc_m2m_s_fmt_aud_cap,
-+	.vidioc_s_fmt_audio_out		= asrc_m2m_s_fmt_aud_out,
-+
-+	.vidioc_try_fmt_audio_cap	= asrc_m2m_try_fmt_audio_cap,
-+	.vidioc_try_fmt_audio_out	= asrc_m2m_try_fmt_audio_out,
-+
-+	.vidioc_qbuf			= v4l2_m2m_ioctl_qbuf,
-+	.vidioc_dqbuf			= v4l2_m2m_ioctl_dqbuf,
-+
-+	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
-+	.vidioc_reqbufs			= v4l2_m2m_ioctl_reqbufs,
-+	.vidioc_querybuf		= v4l2_m2m_ioctl_querybuf,
-+	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
-+	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
-+	.vidioc_subscribe_event		= v4l2_ctrl_subscribe_event,
-+	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
-+};
-+
-+/* dma complete callback */
-+static void asrc_input_dma_callback(void *data)
-+{
-+	struct fsl_asrc_pair *pair = (struct fsl_asrc_pair *)data;
-+
-+	complete(&pair->complete[V4L_OUT]);
-+}
-+
-+/* dma complete callback */
-+static void asrc_output_dma_callback(void *data)
-+{
-+	struct fsl_asrc_pair *pair = (struct fsl_asrc_pair *)data;
-+
-+	complete(&pair->complete[V4L_CAP]);
-+}
-+
-+/* config dma channel */
-+static int asrc_dmaconfig(struct asrc_pair_m2m *pair_m2m,
-+			  struct dma_chan *chan,
-+			  u32 dma_addr, dma_addr_t buf_addr, u32 buf_len,
-+			  int dir, int width)
-+{
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+	struct fsl_asrc *asrc = pair->asrc;
-+	struct asrc_m2m *m2m = pair_m2m->m2m;
-+	struct device *dev = &m2m->pdev->dev;
-+	struct dma_slave_config slave_config;
-+	struct scatterlist sg[ASRC_M2M_SG_NUM];
-+	enum dma_slave_buswidth buswidth;
-+	unsigned int sg_len, max_period_size;
-+	int ret, i;
-+
-+	switch (width) {
-+	case 8:
-+		buswidth = DMA_SLAVE_BUSWIDTH_1_BYTE;
-+		break;
-+	case 16:
-+		buswidth = DMA_SLAVE_BUSWIDTH_2_BYTES;
-+		break;
-+	case 24:
-+		buswidth = DMA_SLAVE_BUSWIDTH_3_BYTES;
-+		break;
-+	case 32:
-+		buswidth = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		break;
-+	default:
-+		dev_err(dev, "invalid word width\n");
-+		return -EINVAL;
-+	}
-+
-+	memset(&slave_config, 0, sizeof(slave_config));
-+	if (dir == V4L_OUT) {
-+		slave_config.direction = DMA_MEM_TO_DEV;
-+		slave_config.dst_addr = dma_addr;
-+		slave_config.dst_addr_width = buswidth;
-+		slave_config.dst_maxburst = asrc->m2m_get_maxburst(IN, pair);
-+	} else {
-+		slave_config.direction = DMA_DEV_TO_MEM;
-+		slave_config.src_addr = dma_addr;
-+		slave_config.src_addr_width = buswidth;
-+		slave_config.src_maxburst = asrc->m2m_get_maxburst(OUT, pair);
-+	}
-+
-+	ret = dmaengine_slave_config(chan, &slave_config);
-+	if (ret) {
-+		dev_err(dev, "failed to config dmaengine for %s task: %d\n",
-+			DIR_STR(dir), ret);
-+		return -EINVAL;
-+	}
-+
-+	max_period_size = rounddown(ASRC_M2M_PERIOD_SIZE, width * pair->channels / 8);
-+	/* scatter gather mode */
-+	sg_len = buf_len / max_period_size;
-+	if (buf_len % max_period_size)
-+		sg_len += 1;
-+
-+	sg_init_table(sg, sg_len);
-+	for (i = 0; i < (sg_len - 1); i++) {
-+		sg_dma_address(&sg[i]) = buf_addr + i * max_period_size;
-+		sg_dma_len(&sg[i]) = max_period_size;
-+	}
-+	sg_dma_address(&sg[i]) = buf_addr + i * max_period_size;
-+	sg_dma_len(&sg[i]) = buf_len - i * max_period_size;
-+
-+	pair->desc[dir] = dmaengine_prep_slave_sg(chan, sg, sg_len,
-+						  slave_config.direction,
-+						  DMA_PREP_INTERRUPT);
-+	if (!pair->desc[dir]) {
-+		dev_err(dev, "failed to prepare dmaengine for %s task\n", DIR_STR(dir));
-+		return -EINVAL;
-+	}
-+
-+	pair->desc[dir]->callback = ASRC_xPUT_DMA_CALLBACK(dir);
-+	pair->desc[dir]->callback_param = pair;
-+
-+	return 0;
-+}
-+
-+/* main function of converter */
-+static void asrc_m2m_device_run(void *priv)
-+{
-+	struct asrc_pair_m2m *pair_m2m = priv;
-+	struct fsl_asrc_pair *pair = pair_m2m->pair;
-+	struct asrc_m2m *m2m = pair_m2m->m2m;
-+	struct fsl_asrc *asrc = pair->asrc;
-+	struct device *dev = &m2m->pdev->dev;
-+	enum asrc_pair_index index = pair->index;
-+	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-+	unsigned int out_buf_len;
-+	unsigned int cap_dma_len;
-+	unsigned int width;
-+	u32 fifo_addr;
-+	int ret;
-+
-+	src_buf = v4l2_m2m_next_src_buf(pair_m2m->fh.m2m_ctx);
-+	dst_buf = v4l2_m2m_next_dst_buf(pair_m2m->fh.m2m_ctx);
-+
-+	width = snd_pcm_format_physical_width(pair->sample_format[V4L_OUT]);
-+	fifo_addr = asrc->paddr + asrc->get_fifo_addr(IN, index);
-+	out_buf_len = vb2_get_plane_payload(&src_buf->vb2_buf, 0);
-+	if (out_buf_len < width * pair->channels / 8 ||
-+	    out_buf_len > ASRC_M2M_BUFFER_SIZE ||
-+	    out_buf_len % (width * pair->channels / 8)) {
-+		dev_err(dev, "out buffer size is error: [%d]\n", out_buf_len);
-+		goto end;
-+	}
-+
-+	/* dma config for output dma channel */
-+	ret = asrc_dmaconfig(pair_m2m,
-+			     pair->dma_chan[V4L_OUT],
-+			     fifo_addr,
-+			     vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0),
-+			     out_buf_len, V4L_OUT, width);
-+	if (ret) {
-+		dev_err(dev, "out dma config error\n");
-+		goto end;
-+	}
-+
-+	width = snd_pcm_format_physical_width(pair->sample_format[V4L_CAP]);
-+	fifo_addr = asrc->paddr + asrc->get_fifo_addr(OUT, index);
-+	cap_dma_len = asrc->m2m_calc_out_len(pair, out_buf_len);
-+	if (cap_dma_len > 0 && cap_dma_len <= ASRC_M2M_BUFFER_SIZE) {
-+		/* dma config for capture dma channel */
-+		ret = asrc_dmaconfig(pair_m2m,
-+				     pair->dma_chan[V4L_CAP],
-+				     fifo_addr,
-+				     vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0),
-+				     cap_dma_len, V4L_CAP, width);
-+		if (ret) {
-+			dev_err(dev, "cap dma config error\n");
-+			goto end;
-+		}
-+	} else if (cap_dma_len > ASRC_M2M_BUFFER_SIZE) {
-+		dev_err(dev, "cap buffer size error\n");
-+		goto end;
-+	}
-+
-+	reinit_completion(&pair->complete[V4L_OUT]);
-+	reinit_completion(&pair->complete[V4L_CAP]);
-+
-+	/* Submit DMA request */
-+	dmaengine_submit(pair->desc[V4L_OUT]);
-+	dma_async_issue_pending(pair->desc[V4L_OUT]->chan);
-+	if (cap_dma_len > 0) {
-+		dmaengine_submit(pair->desc[V4L_CAP]);
-+		dma_async_issue_pending(pair->desc[V4L_CAP]->chan);
-+	}
-+
-+	asrc->m2m_start_part_two(pair);
-+
-+	if (!wait_for_completion_interruptible_timeout(&pair->complete[V4L_OUT], 10 * HZ)) {
-+		dev_err(dev, "out DMA task timeout\n");
-+		goto end;
-+	}
-+
-+	if (cap_dma_len > 0) {
-+		if (!wait_for_completion_interruptible_timeout(&pair->complete[V4L_CAP], 10 * HZ)) {
-+			dev_err(dev, "cap DMA task timeout\n");
-+			goto end;
-+		}
-+	}
-+
-+	/* read the last words from FIFO */
-+	asrc_read_last_fifo(pair, vb2_plane_vaddr(&dst_buf->vb2_buf, 0), &cap_dma_len);
-+	/* update payload length for capture */
-+	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, cap_dma_len);
-+
-+end:
-+	src_buf = v4l2_m2m_src_buf_remove(pair_m2m->fh.m2m_ctx);
-+	dst_buf = v4l2_m2m_dst_buf_remove(pair_m2m->fh.m2m_ctx);
-+
-+	v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
-+	v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
-+
-+	v4l2_m2m_job_finish(m2m->m2m_dev, pair_m2m->fh.m2m_ctx);
-+}
-+
-+static int asrc_m2m_job_ready(void *priv)
-+{
-+	struct asrc_pair_m2m *pair_m2m = priv;
-+
-+	if (v4l2_m2m_num_src_bufs_ready(pair_m2m->fh.m2m_ctx) > 0 &&
-+	    v4l2_m2m_num_dst_bufs_ready(pair_m2m->fh.m2m_ctx) > 0) {
-+		return 1;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_m2m_ops asrc_m2m_ops = {
-+	.job_ready = asrc_m2m_job_ready,
-+	.device_run = asrc_m2m_device_run,
-+};
-+
-+static int asrc_m2m_probe(struct platform_device *pdev)
-+{
-+	struct fsl_asrc_m2m_pdata *data = pdev->dev.platform_data;
-+	struct fsl_asrc *asrc = data->asrc;
-+	struct device *dev = &pdev->dev;
-+	struct asrc_m2m *m2m;
-+	int ret;
-+
-+	m2m = devm_kzalloc(dev, sizeof(struct asrc_m2m), GFP_KERNEL);
-+	if (!m2m)
-+		return -ENOMEM;
-+
-+	m2m->asrc = asrc;
-+	m2m->pdev = pdev;
-+
-+	ret = v4l2_device_register(dev, &m2m->v4l2_dev);
-+	if (ret) {
-+		dev_err(dev, "failed to register v4l2 device\n");
-+		goto err_register;
-+	}
-+
-+	m2m->m2m_dev = v4l2_m2m_init(&asrc_m2m_ops);
-+	if (IS_ERR(m2m->m2m_dev)) {
-+		dev_err(dev, "failed to register v4l2 device\n");
-+		ret = PTR_ERR(m2m->m2m_dev);
-+		goto err_m2m;
-+	}
-+
-+	m2m->dec_vdev = video_device_alloc();
-+	if (!m2m->dec_vdev) {
-+		dev_err(dev, "failed to register v4l2 device\n");
-+		ret = -ENOMEM;
-+		goto err_vdev_alloc;
-+	}
-+
-+	mutex_init(&m2m->mlock);
-+
-+	m2m->dec_vdev->fops = &asrc_m2m_fops;
-+	m2m->dec_vdev->ioctl_ops = &asrc_m2m_ioctl_ops;
-+	m2m->dec_vdev->minor = -1;
-+	m2m->dec_vdev->release = video_device_release;
-+	m2m->dec_vdev->lock = &m2m->mlock; /* lock for ioctl serialization */
-+	m2m->dec_vdev->v4l2_dev = &m2m->v4l2_dev;
-+	m2m->dec_vdev->vfl_dir = VFL_DIR_M2M;
-+	m2m->dec_vdev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_AUDIO_M2M;
-+
-+	ret = video_register_device(m2m->dec_vdev, VFL_TYPE_AUDIO, -1);
-+	if (ret) {
-+		dev_err(dev, "failed to register video device\n");
-+		goto err_vdev_register;
-+	}
-+
-+	video_set_drvdata(m2m->dec_vdev, m2m);
-+	platform_set_drvdata(pdev, m2m);
-+	pm_runtime_enable(&pdev->dev);
-+
-+	return 0;
-+
-+err_vdev_register:
-+	video_device_release(m2m->dec_vdev);
-+err_vdev_alloc:
-+	v4l2_m2m_release(m2m->m2m_dev);
-+err_m2m:
-+	v4l2_device_unregister(&m2m->v4l2_dev);
-+err_register:
-+	return ret;
-+}
-+
-+static void asrc_m2m_remove(struct platform_device *pdev)
-+{
-+	struct asrc_m2m *m2m = platform_get_drvdata(pdev);
-+
-+	pm_runtime_disable(&pdev->dev);
-+	video_unregister_device(m2m->dec_vdev);
-+	video_device_release(m2m->dec_vdev);
-+	v4l2_m2m_release(m2m->m2m_dev);
-+	v4l2_device_unregister(&m2m->v4l2_dev);
-+}
-+
-+/* suspend callback for m2m */
-+static int asrc_m2m_suspend(struct device *dev)
-+{
-+	struct asrc_m2m *m2m = dev_get_drvdata(dev);
-+	struct fsl_asrc *asrc = m2m->asrc;
-+	struct fsl_asrc_pair *pair;
-+	unsigned long lock_flags;
-+	int i;
-+
-+	for (i = 0; i < PAIR_CTX_NUM; i++) {
-+		spin_lock_irqsave(&asrc->lock, lock_flags);
-+		pair = asrc->pair[i];
-+		if (!pair || !pair->req_pair) {
-+			spin_unlock_irqrestore(&asrc->lock, lock_flags);
-+			continue;
-+		}
-+		if (!completion_done(&pair->complete[V4L_OUT])) {
-+			if (pair->dma_chan[V4L_OUT])
-+				dmaengine_terminate_all(pair->dma_chan[V4L_OUT]);
-+			asrc_input_dma_callback((void *)pair);
-+		}
-+		if (!completion_done(&pair->complete[V4L_CAP])) {
-+			if (pair->dma_chan[V4L_CAP])
-+				dmaengine_terminate_all(pair->dma_chan[V4L_CAP]);
-+			asrc_output_dma_callback((void *)pair);
-+		}
-+
-+		if (asrc->m2m_pair_suspend)
-+			asrc->m2m_pair_suspend(pair);
-+
-+		spin_unlock_irqrestore(&asrc->lock, lock_flags);
-+	}
-+
-+	return 0;
-+}
-+
-+static int asrc_m2m_resume(struct device *dev)
-+{
-+	struct asrc_m2m *m2m = dev_get_drvdata(dev);
-+	struct fsl_asrc *asrc = m2m->asrc;
-+	struct fsl_asrc_pair *pair;
-+	unsigned long lock_flags;
-+	int i;
-+
-+	for (i = 0; i < PAIR_CTX_NUM; i++) {
-+		spin_lock_irqsave(&asrc->lock, lock_flags);
-+		pair = asrc->pair[i];
-+		if (!pair || !pair->req_pair) {
-+			spin_unlock_irqrestore(&asrc->lock, lock_flags);
-+			continue;
-+		}
-+		if (asrc->m2m_pair_resume)
-+			asrc->m2m_pair_resume(pair);
-+
-+		spin_unlock_irqrestore(&asrc->lock, lock_flags);
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops asrc_m2m_pm_ops = {
-+	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(asrc_m2m_suspend,
-+				      asrc_m2m_resume)
-+};
-+
-+static struct platform_driver asrc_m2m_driver = {
-+	.probe  = asrc_m2m_probe,
-+	.remove_new = asrc_m2m_remove,
-+	.driver = {
-+		.name = "fsl_asrc_m2m",
-+		.pm = &asrc_m2m_pm_ops,
-+	},
-+};
-+module_platform_driver(asrc_m2m_driver);
-+
-+MODULE_DESCRIPTION("Freescale ASRC M2M driver");
-+MODULE_LICENSE("GPL");
--- 
+diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c inde=
+x 637da4df690..fc7880f60f0 100644
+--- a/drivers/media/i2c/ov08x40.c
++++ b/drivers/media/i2c/ov08x40.c
+@@ -34,7 +34,7 @@
+=20
+ /* V_TIMING internal */
+ #define OV08X40_REG_VTS			0x380e
+-#define OV08X40_VTS_30FPS		0x1388
++#define OV08X40_VTS_30FPS		0x09c4	/* the VTS need to be half in 1c */
+ #define OV08X40_VTS_BIN_30FPS		0x115c
+ #define OV08X40_VTS_MAX			0x7fff
+=20
+@@ -44,7 +44,8 @@
+=20
+ /* Exposure control */
+ #define OV08X40_REG_EXPOSURE		0x3500
+-#define OV08X40_EXPOSURE_MAX_MARGIN 31
++#define OV08X40_EXPOSURE_MAX_MARGIN	8
++#define OV08X40_EXPOSURE_BIN_MAX_MARGIN	2
+ #define OV08X40_EXPOSURE_MIN		1
+ #define OV08X40_EXPOSURE_STEP		1
+ #define OV08X40_EXPOSURE_DEFAULT	0x40
+@@ -126,13 +127,17 @@ struct ov08x40_mode {
+ 	u32 vts_def;
+ 	u32 vts_min;
+=20
+-	/* HTS */
+-	u32 hts;
++	/* Line Length Pixels */
++	u32 llp;
+=20
+ 	/* Index of Link frequency config to be used */
+ 	u32 link_freq_index;
+ 	/* Default register values */
+ 	struct ov08x40_reg_list reg_list;
++
++	/* Exposure calculation */
++	int exposure_margin;
++	int exposure_shift;
+ };
+=20
+ static const struct ov08x40_reg mipi_data_rate_800mbps[] =3D { @@ -2354,7 =
++2359,7 @@ static const char * const ov08x40_test_pattern_menu[] =3D {
+=20
+ /* Configurations for supported link frequencies */
+ #define OV08X40_LINK_FREQ_400MHZ	400000000ULL
+-
++#define OV08X40_SCLK_96MHZ		96000000ULL
+ #define OV08X40_EXT_CLK			19200000
+ #define OV08X40_DATA_LANES		4
+=20
+@@ -2392,26 +2397,30 @@ static const struct ov08x40_mode supported_modes[] =
+=3D {
+ 		.height =3D 2416,
+ 		.vts_def =3D OV08X40_VTS_30FPS,
+ 		.vts_min =3D OV08X40_VTS_30FPS,
+-		.hts =3D 640,
++		.llp =3D 0x10aa, /* in 1c mode, tline time =3D 2 * HTS / SCLK */
+ 		.lanes =3D 4,
+ 		.reg_list =3D {
+ 			.num_of_regs =3D ARRAY_SIZE(mode_3856x2416_regs),
+ 			.regs =3D mode_3856x2416_regs,
+ 		},
+ 		.link_freq_index =3D OV08X40_LINK_FREQ_400MHZ_INDEX,
++		.exposure_shift =3D 1,
++		.exposure_margin =3D OV08X40_EXPOSURE_MAX_MARGIN,
+ 	},
+ 	{
+ 		.width =3D 1928,
+ 		.height =3D 1208,
+ 		.vts_def =3D OV08X40_VTS_BIN_30FPS,
+ 		.vts_min =3D OV08X40_VTS_BIN_30FPS,
+-		.hts =3D 720,
++		.llp =3D 0x960,
+ 		.lanes =3D 4,
+ 		.reg_list =3D {
+ 			.num_of_regs =3D ARRAY_SIZE(mode_1928x1208_regs),
+ 			.regs =3D mode_1928x1208_regs,
+ 		},
+ 		.link_freq_index =3D OV08X40_LINK_FREQ_400MHZ_INDEX,
++		.exposure_shift =3D 0,
++		.exposure_margin =3D OV08X40_EXPOSURE_BIN_MAX_MARGIN,
+ 	},
+ };
+=20
+@@ -2667,13 +2676,21 @@ static int ov08x40_set_ctrl(struct v4l2_ctrl *ctrl)
+ 					     struct ov08x40, ctrl_handler);
+ 	struct i2c_client *client =3D v4l2_get_subdevdata(&ov08x->sd);
+ 	s64 max;
++	int exp, vblank;
+ 	int ret =3D 0;
+=20
+ 	/* Propagate change of current control to all related controls */
+ 	switch (ctrl->id) {
+ 	case V4L2_CID_VBLANK:
+ 		/* Update max exposure while meeting expected vblanking */
+-		max =3D ov08x->cur_mode->height + ctrl->val - OV08X40_EXPOSURE_MAX_MARGI=
+N;
++		/* because in 1c mode, 1 HTS =3D 0.5 tline
++		 * fps =3D sclk / hts / vts
++		 * so the vts value needs to be double
++		 */
++		max =3D ((ov08x->cur_mode->height + ctrl->val) <<
++			ov08x->cur_mode->exposure_shift) -
++			ov08x->cur_mode->exposure_margin;
++
+ 		__v4l2_ctrl_modify_range(ov08x->exposure,
+ 					 ov08x->exposure->minimum,
+ 					 max, ov08x->exposure->step, max); @@ -2697,15 +2714,23 @@ static int=
+ ov08x40_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		ret =3D ov08x40_update_digital_gain(ov08x, ctrl->val);
+ 		break;
+ 	case V4L2_CID_EXPOSURE:
++		exp =3D (ctrl->val << ov08x->cur_mode->exposure_shift) -
++			ov08x->cur_mode->exposure_margin;
++
+ 		ret =3D ov08x40_write_reg(ov08x, OV08X40_REG_EXPOSURE,
+ 					OV08X40_REG_VALUE_24BIT,
+-					ctrl->val);
++					exp);
+ 		break;
+ 	case V4L2_CID_VBLANK:
++		vblank =3D ((ov08x->cur_mode->height + ctrl->val) <<
++			   ov08x->cur_mode->exposure_shift);
++		/* frame length line should be aligned arccording
++		 * to the value provided by the sensor vendor
++		 */
++		vblank =3D (vblank & 0xfffc) + 4;
+ 		ret =3D ov08x40_write_reg(ov08x, OV08X40_REG_VTS,
+ 					OV08X40_REG_VALUE_16BIT,
+-					ov08x->cur_mode->height
+-					+ ctrl->val);
++					vblank);
+ 		break;
+ 	case V4L2_CID_TEST_PATTERN:
+ 		ret =3D ov08x40_enable_test_pattern(ov08x, ctrl->val); @@ -2849,7 +2874,=
+9 @@ ov08x40_set_pad_format(struct v4l2_subdev *sd,
+ 					 1,
+ 					 vblank_def);
+ 		__v4l2_ctrl_s_ctrl(ov08x->vblank, vblank_def);
+-		h_blank =3D ov08x->cur_mode->hts;
++
++		h_blank =3D ov08x->cur_mode->llp - ov08x->cur_mode->width;
++
+ 		__v4l2_ctrl_modify_range(ov08x->hblank, h_blank,
+ 					 h_blank, 1, h_blank);
+ 	}
+@@ -3075,7 +3102,8 @@ static int ov08x40_init_controls(struct ov08x40 *ov08=
+x)
+ 					  OV08X40_VTS_MAX - mode->height, 1,
+ 					  vblank_def);
+=20
+-	hblank =3D ov08x->cur_mode->hts;
++	hblank =3D ov08x->cur_mode->llp - ov08x->cur_mode->width;
++
+ 	ov08x->hblank =3D v4l2_ctrl_new_std(ctrl_hdlr, &ov08x40_ctrl_ops,
+ 					  V4L2_CID_HBLANK,
+ 					  hblank, hblank, 1, hblank);
+@@ -3320,6 +3348,7 @@ static struct i2c_driver ov08x40_i2c_driver =3D {  mo=
+dule_i2c_driver(ov08x40_i2c_driver);
+=20
+ MODULE_AUTHOR("Jason Chen <jason.z.chen@intel.com>");
++MODULE_AUTHOR("Qingwu Zhang <qingwu.zhang@intel.com>");
+ MODULE_AUTHOR("Shawn Tu");
+ MODULE_DESCRIPTION("OmniVision OV08X40 sensor driver");  MODULE_LICENSE("G=
+PL");
+--
 2.34.1
 
