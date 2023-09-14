@@ -2,430 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01B437A0D78
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A14997A0F0B
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 22:33:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241745AbjINSup (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 14:50:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43024 "EHLO
+        id S229628AbjINUde (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 16:33:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239351AbjINSuf (ORCPT
+        with ESMTP id S229516AbjINUde (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 14:50:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA4D30EF
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:44:25 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8E2815EF;
-        Thu, 14 Sep 2023 20:42:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694716972;
-        bh=PNEErvkWvlkXjAVCf9SA4nyBaKQq5kRdJwuxp9SBjCk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IoNWlODEIJ4FmP60etHJedM7dafxumWWJVdsTtvH5sivWtVVSaNHzmrAcUDIZLSZ5
-         OqVHRfiAnCmcClVKxtm5ojVWvLS95zfje3FcL3w4rTWoDxgaedIcj3ZJAMfCpr9kBN
-         Br9pf08OkbtM7yxUMSLT7IENC5np3Ph84zg01bCs=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v2 2/2] media: v4l2-fwnode: Replace pr_*() with dev_*()
-Date:   Thu, 14 Sep 2023 21:44:35 +0300
-Message-ID: <20230914184435.7807-3-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230914184435.7807-1-laurent.pinchart@ideasonboard.com>
-References: <20230914184435.7807-1-laurent.pinchart@ideasonboard.com>
+        Thu, 14 Sep 2023 16:33:34 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B2AB22698
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 13:33:29 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60F1D1FB;
+        Thu, 14 Sep 2023 13:34:06 -0700 (PDT)
+Received: from [10.57.93.68] (unknown [10.57.93.68])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4370E3F738;
+        Thu, 14 Sep 2023 13:33:27 -0700 (PDT)
+Message-ID: <dde29b86-1cca-0712-0f0d-25d7e6d3327e@arm.com>
+Date:   Thu, 14 Sep 2023 21:33:21 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 02/13] media: rockchip: rga: extract helper to fill
+ descriptors
+Content-Language: en-GB
+To:     Michael Tretter <m.tretter@pengutronix.de>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Shengyu Qu <wiagn233@outlook.com>,
+        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        Diederik de Haas <didi.debian@cknow.org>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
+References: <20230914-rockchip-rga-multiplanar-v1-0-abfd77260ae3@pengutronix.de>
+ <20230914-rockchip-rga-multiplanar-v1-2-abfd77260ae3@pengutronix.de>
+ <239e2853-f89f-20da-2492-7f6d33aede63@arm.com>
+ <20230914175724.GB1580188@pengutronix.de>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230914175724.GB1580188@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-v4l2-fwnode prints a large number of debug and warning messages without
-linking them to a device context. Use the device pointer available to
-the functions to replace the pr_*() calls with dev_*() in order to
-indicate better which device the messages relate to.
+On 2023-09-14 18:57, Michael Tretter wrote:
+> Hi Robin,
+> 
+> On Thu, 14 Sep 2023 16:06:27 +0100, Robin Murphy wrote:
+>> On 2023-09-14 13:40, Michael Tretter wrote:
+>>> The IOMMU of the RGA is programmed with a list of DMA descriptors that
+>>> contain an 32 bit address per 4k page in the video buffers. The address
+>>> in the descriptor points to the start address of the page.
+>>>
+>>> Introduce 'struct rga_dma_desc' to make the handling of the DMA
+>>> descriptors explicit instead of hiding them behind standard types.
+>>>
+>>> As the descriptors only handle 32 bit addresses, addresses above 4 GB
+>>> cannot be addressed. If this is detected, stop filling the descriptor
+>>> list and report an error.
+>>
+>> That sounds unnecessary, since the only DMA addresses the RGA should be
+>> seeing are those from a dma_map_sg() call using the RGA device itself, and
+>> that would have failed if it was unable to provide a valid DMA address for
+>> the device.
+>>
+>> The existing rga_buf_map() code is so clearly wrong I can't tell whether
+>> that mapping is done somewhere out in the core framework or whether the
+>> driver's supposed to be doing it for itself.
+> 
+> The sg_table is filled by dma_map_sgtable in
+> drivers/media/common/videobuf2/videobuf2-dma-sg.c.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/v4l2-core/v4l2-fwnode.c | 121 ++++++++++++++------------
- 1 file changed, 63 insertions(+), 58 deletions(-)
+Ah, great - in that case all you should need to do here is fill out the 
+DMA descriptors with the correct DMA address as you are doing. If 
+buf->dev is the right thing and you've set your DMA masks correctly then 
+you can rely on the DMA addresses being appropriate already, since it's 
+vb2-dma-sg's job to get that right (which per another recent thread it 
+will do, but could do better...)
 
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index 99bac45f570b..e747099bc07b 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -121,7 +121,8 @@ v4l2_fwnode_mbus_type_to_string(enum v4l2_mbus_type type)
- 	return conv ? conv->name : "not found";
- }
- 
--static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
-+static int v4l2_fwnode_endpoint_parse_csi2_bus(struct device *dev,
-+					       struct fwnode_handle *fwnode,
- 					       struct v4l2_fwnode_endpoint *vep,
- 					       enum v4l2_mbus_type bus_type)
- {
-@@ -155,7 +156,7 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
- 		}
- 
- 		if (use_default_lane_mapping)
--			pr_debug("no lane mapping given, using defaults\n");
-+			dev_dbg(dev, "no lane mapping given, using defaults\n");
- 	}
- 
- 	rval = fwnode_property_count_u32(fwnode, "data-lanes");
-@@ -168,7 +169,7 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
- 
- 		have_data_lanes = true;
- 		if (use_default_lane_mapping) {
--			pr_debug("data-lanes property exists; disabling default mapping\n");
-+			dev_dbg(dev, "data-lanes property exists; disabling default mapping\n");
- 			use_default_lane_mapping = false;
- 		}
- 	}
-@@ -176,21 +177,21 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
- 	for (i = 0; i < num_data_lanes; i++) {
- 		if (lanes_used & BIT(array[i])) {
- 			if (have_data_lanes || !use_default_lane_mapping)
--				pr_warn("duplicated lane %u in data-lanes, using defaults\n",
--					array[i]);
-+				dev_warn(dev, "duplicated lane %u in data-lanes, using defaults\n",
-+					 array[i]);
- 			use_default_lane_mapping = true;
- 		}
- 		lanes_used |= BIT(array[i]);
- 
- 		if (have_data_lanes)
--			pr_debug("lane %u position %u\n", i, array[i]);
-+			dev_dbg(dev, "lane %u position %u\n", i, array[i]);
- 	}
- 
- 	rval = fwnode_property_count_u32(fwnode, "lane-polarities");
- 	if (rval > 0) {
- 		if (rval != 1 + num_data_lanes /* clock+data */) {
--			pr_warn("invalid number of lane-polarities entries (need %u, got %u)\n",
--				1 + num_data_lanes, rval);
-+			dev_warn(dev, "invalid number of lane-polarities entries (need %u, got %u)\n",
-+				 1 + num_data_lanes, rval);
- 			return -EINVAL;
- 		}
- 
-@@ -199,20 +200,20 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
- 
- 	if (!fwnode_property_read_u32(fwnode, "clock-lanes", &v)) {
- 		clock_lane = v;
--		pr_debug("clock lane position %u\n", v);
-+		dev_dbg(dev, "clock lane position %u\n", v);
- 		have_clk_lane = true;
- 	}
- 
- 	if (have_clk_lane && lanes_used & BIT(clock_lane) &&
- 	    !use_default_lane_mapping) {
--		pr_warn("duplicated lane %u in clock-lanes, using defaults\n",
--			v);
-+		dev_warn(dev, "duplicated lane %u in clock-lanes, using defaults\n",
-+			 v);
- 		use_default_lane_mapping = true;
- 	}
- 
- 	if (fwnode_property_present(fwnode, "clock-noncontinuous")) {
- 		flags |= V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
--		pr_debug("non-continuous clock\n");
-+		dev_dbg(dev, "non-continuous clock\n");
- 	}
- 
- 	if (bus_type == V4L2_MBUS_CSI2_DPHY ||
-@@ -244,11 +245,11 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
- 
- 			for (i = 0; i < 1 + num_data_lanes; i++) {
- 				bus->lane_polarities[i] = array[i];
--				pr_debug("lane %u polarity %sinverted",
--					 i, array[i] ? "" : "not ");
-+				dev_dbg(dev, "lane %u polarity %sinverted",
-+					i, array[i] ? "" : "not ");
- 			}
- 		} else {
--			pr_debug("no lane polarities defined, assuming not inverted\n");
-+			dev_dbg(dev, "no lane polarities defined, assuming not inverted\n");
- 		}
- 	}
- 
-@@ -263,7 +264,8 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
- 			     V4L2_MBUS_FIELD_EVEN_LOW)
- 
- static void
--v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
-+v4l2_fwnode_endpoint_parse_parallel_bus(struct device *dev,
-+					struct fwnode_handle *fwnode,
- 					struct v4l2_fwnode_endpoint *vep,
- 					enum v4l2_mbus_type bus_type)
- {
-@@ -279,7 +281,7 @@ v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
- 			   V4L2_MBUS_HSYNC_ACTIVE_LOW);
- 		flags |= v ? V4L2_MBUS_HSYNC_ACTIVE_HIGH :
- 			V4L2_MBUS_HSYNC_ACTIVE_LOW;
--		pr_debug("hsync-active %s\n", v ? "high" : "low");
-+		dev_dbg(dev, "hsync-active %s\n", v ? "high" : "low");
- 	}
- 
- 	if (!fwnode_property_read_u32(fwnode, "vsync-active", &v)) {
-@@ -287,7 +289,7 @@ v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
- 			   V4L2_MBUS_VSYNC_ACTIVE_LOW);
- 		flags |= v ? V4L2_MBUS_VSYNC_ACTIVE_HIGH :
- 			V4L2_MBUS_VSYNC_ACTIVE_LOW;
--		pr_debug("vsync-active %s\n", v ? "high" : "low");
-+		dev_dbg(dev, "vsync-active %s\n", v ? "high" : "low");
- 	}
- 
- 	if (!fwnode_property_read_u32(fwnode, "field-even-active", &v)) {
-@@ -295,7 +297,7 @@ v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
- 			   V4L2_MBUS_FIELD_EVEN_LOW);
- 		flags |= v ? V4L2_MBUS_FIELD_EVEN_HIGH :
- 			V4L2_MBUS_FIELD_EVEN_LOW;
--		pr_debug("field-even-active %s\n", v ? "high" : "low");
-+		dev_dbg(dev, "field-even-active %s\n", v ? "high" : "low");
- 	}
- 
- 	if (!fwnode_property_read_u32(fwnode, "pclk-sample", &v)) {
-@@ -305,18 +307,18 @@ v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
- 		switch (v) {
- 		case 0:
- 			flags |= V4L2_MBUS_PCLK_SAMPLE_FALLING;
--			pr_debug("pclk-sample low\n");
-+			dev_dbg(dev, "pclk-sample low\n");
- 			break;
- 		case 1:
- 			flags |= V4L2_MBUS_PCLK_SAMPLE_RISING;
--			pr_debug("pclk-sample high\n");
-+			dev_dbg(dev, "pclk-sample high\n");
- 			break;
- 		case 2:
- 			flags |= V4L2_MBUS_PCLK_SAMPLE_DUALEDGE;
--			pr_debug("pclk-sample dual edge\n");
-+			dev_dbg(dev, "pclk-sample dual edge\n");
- 			break;
- 		default:
--			pr_warn("invalid argument for pclk-sample");
-+			dev_warn(dev, "invalid argument for pclk-sample");
- 			break;
- 		}
- 	}
-@@ -326,11 +328,11 @@ v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
- 			   V4L2_MBUS_DATA_ACTIVE_LOW);
- 		flags |= v ? V4L2_MBUS_DATA_ACTIVE_HIGH :
- 			V4L2_MBUS_DATA_ACTIVE_LOW;
--		pr_debug("data-active %s\n", v ? "high" : "low");
-+		dev_dbg(dev, "data-active %s\n", v ? "high" : "low");
- 	}
- 
- 	if (fwnode_property_present(fwnode, "slave-mode")) {
--		pr_debug("slave mode\n");
-+		dev_dbg(dev, "slave mode\n");
- 		flags &= ~V4L2_MBUS_MASTER;
- 		flags |= V4L2_MBUS_SLAVE;
- 	} else {
-@@ -340,12 +342,12 @@ v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
- 
- 	if (!fwnode_property_read_u32(fwnode, "bus-width", &v)) {
- 		bus->bus_width = v;
--		pr_debug("bus-width %u\n", v);
-+		dev_dbg(dev, "bus-width %u\n", v);
- 	}
- 
- 	if (!fwnode_property_read_u32(fwnode, "data-shift", &v)) {
- 		bus->data_shift = v;
--		pr_debug("data-shift %u\n", v);
-+		dev_dbg(dev, "data-shift %u\n", v);
- 	}
- 
- 	if (!fwnode_property_read_u32(fwnode, "sync-on-green-active", &v)) {
-@@ -353,7 +355,7 @@ v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
- 			   V4L2_MBUS_VIDEO_SOG_ACTIVE_LOW);
- 		flags |= v ? V4L2_MBUS_VIDEO_SOG_ACTIVE_HIGH :
- 			V4L2_MBUS_VIDEO_SOG_ACTIVE_LOW;
--		pr_debug("sync-on-green-active %s\n", v ? "high" : "low");
-+		dev_dbg(dev, "sync-on-green-active %s\n", v ? "high" : "low");
- 	}
- 
- 	if (!fwnode_property_read_u32(fwnode, "data-enable-active", &v)) {
-@@ -361,7 +363,7 @@ v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
- 			   V4L2_MBUS_DATA_ENABLE_LOW);
- 		flags |= v ? V4L2_MBUS_DATA_ENABLE_HIGH :
- 			V4L2_MBUS_DATA_ENABLE_LOW;
--		pr_debug("data-enable-active %s\n", v ? "high" : "low");
-+		dev_dbg(dev, "data-enable-active %s\n", v ? "high" : "low");
- 	}
- 
- 	switch (bus_type) {
-@@ -384,7 +386,8 @@ v4l2_fwnode_endpoint_parse_parallel_bus(struct fwnode_handle *fwnode,
- }
- 
- static void
--v4l2_fwnode_endpoint_parse_csi1_bus(struct fwnode_handle *fwnode,
-+v4l2_fwnode_endpoint_parse_csi1_bus(struct device *dev,
-+				    struct fwnode_handle *fwnode,
- 				    struct v4l2_fwnode_endpoint *vep,
- 				    enum v4l2_mbus_type bus_type)
- {
-@@ -393,22 +396,22 @@ v4l2_fwnode_endpoint_parse_csi1_bus(struct fwnode_handle *fwnode,
- 
- 	if (!fwnode_property_read_u32(fwnode, "clock-inv", &v)) {
- 		bus->clock_inv = v;
--		pr_debug("clock-inv %u\n", v);
-+		dev_dbg(dev, "clock-inv %u\n", v);
- 	}
- 
- 	if (!fwnode_property_read_u32(fwnode, "strobe", &v)) {
- 		bus->strobe = v;
--		pr_debug("strobe %u\n", v);
-+		dev_dbg(dev, "strobe %u\n", v);
- 	}
- 
- 	if (!fwnode_property_read_u32(fwnode, "data-lanes", &v)) {
- 		bus->data_lane = v;
--		pr_debug("data-lanes %u\n", v);
-+		dev_dbg(dev, "data-lanes %u\n", v);
- 	}
- 
- 	if (!fwnode_property_read_u32(fwnode, "clock-lanes", &v)) {
- 		bus->clock_lane = v;
--		pr_debug("clock-lanes %u\n", v);
-+		dev_dbg(dev, "clock-lanes %u\n", v);
- 	}
- 
- 	if (bus_type == V4L2_MBUS_CCP2)
-@@ -417,31 +420,32 @@ v4l2_fwnode_endpoint_parse_csi1_bus(struct fwnode_handle *fwnode,
- 		vep->bus_type = V4L2_MBUS_CSI1;
- }
- 
--static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
-+static int __v4l2_fwnode_endpoint_parse(struct device *dev,
-+					struct fwnode_handle *fwnode,
- 					struct v4l2_fwnode_endpoint *vep)
- {
- 	u32 bus_type = V4L2_FWNODE_BUS_TYPE_GUESS;
- 	enum v4l2_mbus_type mbus_type;
- 	int rval;
- 
--	pr_debug("===== begin parsing endpoint %pfw\n", fwnode);
-+	dev_dbg(dev, "===== begin parsing endpoint %pfw\n", fwnode);
- 
- 	fwnode_property_read_u32(fwnode, "bus-type", &bus_type);
--	pr_debug("fwnode video bus type %s (%u), mbus type %s (%u)\n",
--		 v4l2_fwnode_bus_type_to_string(bus_type), bus_type,
--		 v4l2_fwnode_mbus_type_to_string(vep->bus_type),
--		 vep->bus_type);
-+	dev_dbg(dev, "fwnode video bus type %s (%u), mbus type %s (%u)\n",
-+		v4l2_fwnode_bus_type_to_string(bus_type), bus_type,
-+		v4l2_fwnode_mbus_type_to_string(vep->bus_type),
-+		vep->bus_type);
- 	mbus_type = v4l2_fwnode_bus_type_to_mbus(bus_type);
- 	if (mbus_type == V4L2_MBUS_INVALID) {
--		pr_debug("unsupported bus type %u\n", bus_type);
-+		dev_dbg(dev, "unsupported bus type %u\n", bus_type);
- 		return -EINVAL;
- 	}
- 
- 	if (vep->bus_type != V4L2_MBUS_UNKNOWN) {
- 		if (mbus_type != V4L2_MBUS_UNKNOWN &&
- 		    vep->bus_type != mbus_type) {
--			pr_debug("expecting bus type %s\n",
--				 v4l2_fwnode_mbus_type_to_string(vep->bus_type));
-+			dev_dbg(dev, "expecting bus type %s\n",
-+				v4l2_fwnode_mbus_type_to_string(vep->bus_type));
- 			return -ENXIO;
- 		}
- 	} else {
-@@ -450,28 +454,29 @@ static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
- 
- 	switch (vep->bus_type) {
- 	case V4L2_MBUS_UNKNOWN:
--		rval = v4l2_fwnode_endpoint_parse_csi2_bus(fwnode, vep,
-+		rval = v4l2_fwnode_endpoint_parse_csi2_bus(dev, fwnode, vep,
- 							   V4L2_MBUS_UNKNOWN);
- 		if (rval)
- 			return rval;
- 
- 		if (vep->bus_type == V4L2_MBUS_UNKNOWN)
--			v4l2_fwnode_endpoint_parse_parallel_bus(fwnode, vep,
-+			v4l2_fwnode_endpoint_parse_parallel_bus(dev, fwnode, vep,
- 								V4L2_MBUS_UNKNOWN);
- 
--		pr_debug("assuming media bus type %s (%u)\n",
--			 v4l2_fwnode_mbus_type_to_string(vep->bus_type),
--			 vep->bus_type);
-+		dev_dbg(dev, "assuming media bus type %s (%u)\n",
-+			v4l2_fwnode_mbus_type_to_string(vep->bus_type),
-+			vep->bus_type);
- 
- 		break;
- 	case V4L2_MBUS_CCP2:
- 	case V4L2_MBUS_CSI1:
--		v4l2_fwnode_endpoint_parse_csi1_bus(fwnode, vep, vep->bus_type);
-+		v4l2_fwnode_endpoint_parse_csi1_bus(dev, fwnode, vep,
-+						    vep->bus_type);
- 
- 		break;
- 	case V4L2_MBUS_CSI2_DPHY:
- 	case V4L2_MBUS_CSI2_CPHY:
--		rval = v4l2_fwnode_endpoint_parse_csi2_bus(fwnode, vep,
-+		rval = v4l2_fwnode_endpoint_parse_csi2_bus(dev, fwnode, vep,
- 							   vep->bus_type);
- 		if (rval)
- 			return rval;
-@@ -479,12 +484,12 @@ static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
- 		break;
- 	case V4L2_MBUS_PARALLEL:
- 	case V4L2_MBUS_BT656:
--		v4l2_fwnode_endpoint_parse_parallel_bus(fwnode, vep,
-+		v4l2_fwnode_endpoint_parse_parallel_bus(dev, fwnode, vep,
- 							vep->bus_type);
- 
- 		break;
- 	default:
--		pr_warn("unsupported bus type %u\n", mbus_type);
-+		dev_warn(dev, "unsupported bus type %u\n", mbus_type);
- 		return -EINVAL;
- 	}
- 
-@@ -498,9 +503,9 @@ int v4l2_fwnode_endpoint_parse(struct device *dev, struct fwnode_handle *fwnode,
- {
- 	int ret;
- 
--	ret = __v4l2_fwnode_endpoint_parse(fwnode, vep);
-+	ret = __v4l2_fwnode_endpoint_parse(dev, fwnode, vep);
- 
--	pr_debug("===== end parsing endpoint %pfw\n", fwnode);
-+	dev_dbg(dev, "===== end parsing endpoint %pfw\n", fwnode);
- 
- 	return ret;
- }
-@@ -522,7 +527,7 @@ int v4l2_fwnode_endpoint_alloc_parse(struct device *dev,
- {
- 	int rval;
- 
--	rval = __v4l2_fwnode_endpoint_parse(fwnode, vep);
-+	rval = __v4l2_fwnode_endpoint_parse(dev, fwnode, vep);
- 	if (rval < 0)
- 		return rval;
- 
-@@ -548,11 +553,11 @@ int v4l2_fwnode_endpoint_alloc_parse(struct device *dev,
- 		}
- 
- 		for (i = 0; i < vep->nr_of_link_frequencies; i++)
--			pr_debug("link-frequencies %u value %llu\n", i,
--				 vep->link_frequencies[i]);
-+			dev_dbg(dev, "link-frequencies %u value %llu\n", i,
-+				vep->link_frequencies[i]);
- 	}
- 
--	pr_debug("===== end parsing endpoint %pfw\n", fwnode);
-+	dev_dbg(dev, "===== end parsing endpoint %pfw\n", fwnode);
- 
- 	return 0;
- }
--- 
-Regards,
+> Do you suggest to just drop the check for the addresses or is there something
+> fundamentally wrong with filling the descriptor list in the driver? Can you
+> explain what exactly is wrong with this code and do you have a pointer how to
+> implement this correctly?
 
-Laurent Pinchart
+The rest of your patch is frankly more correct than what it's replacing, 
+you can just drop the redundant upper_32_bits() check :)
 
+Cheers,
+Robin.
