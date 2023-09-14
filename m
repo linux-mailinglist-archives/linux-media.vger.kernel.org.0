@@ -2,44 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B68417A0C7D
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A314E7A0C7E
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241412AbjINSRq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 14:17:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57682 "EHLO
+        id S241438AbjINSRr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 14:17:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241334AbjINSRp (ORCPT
+        with ESMTP id S241400AbjINSRq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 14:17:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 342CD1FD7
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:41 -0700 (PDT)
+        Thu, 14 Sep 2023 14:17:46 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 640FC1FF9
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:42 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 31DA42B62;
-        Thu, 14 Sep 2023 20:16:07 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 821A887E7;
+        Thu, 14 Sep 2023 20:16:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694715367;
-        bh=/tQhEf41YxmAZlvRY6/TU/KmcBltbwhjxz1dAz2TpjE=;
+        s=mail; t=1694715368;
+        bh=nchELTEfC1XbkgObsFmU/st1ELaUMqR9CFCNaJKjoBM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iAQ7nhhXh3ms+GN9mRhcheAOXeAUM6/3hnIk3vPe6j/f98cNTKPyhsRF7nrmBuzjC
-         dL/2yT7T/NQbfVhgU+XBkU1Gs6mqm8IJfcZf6YF4jWgXGBrBF8+0K0bW6IHxB7VE8J
-         ajiygp4+/P33D9rJmM0YhAvT6a3tBa3/9GYU07Og=
+        b=bk6XdqS4mrW4iBMeg+deAd1qW9P9H06rrnjj2qtGIQMpUSg7Zq2nKugcEuyKn0nIi
+         gYXtoo90dUp2squjM8dBWk+PqWvIhl9EbQoXGniXqek2kHa+Te6YtjhayIIiU9A2Dy
+         Ie3sEasgvRRJJCKt1gyQ8c2G1RIu6CWX26IeGyeU=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
-        Martin Kepplinger <martink@posteo.de>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Jimmy Su <jimmy.su@intel.com>,
-        Jason Chen <jason.z.chen@intel.com>,
-        Arec Kao <arec.kao@intel.com>
-Subject: [PATCH 34/57] Documentation: media: camera-sensor: Improve power management documentation
-Date:   Thu, 14 Sep 2023 21:16:41 +0300
-Message-ID: <20230914181704.4811-35-laurent.pinchart@ideasonboard.com>
+        =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>
+Subject: [PATCH 35/57] media: i2c: ar0521: Drop system suspend and resume handlers
+Date:   Thu, 14 Sep 2023 21:16:42 +0300
+Message-ID: <20230914181704.4811-36-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
 References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
@@ -49,84 +41,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Camera sensor drivers are highly subject to cargo cult programming, with
-back practices being copied from old to new drivers. In particular, many
-drivers implement system and runtime PM incorrectly. As a first step
-towards fixing this situation, refactor and expand the power management
-documentation to detail correct usage of system and runtime PM.
+Stopping streaming on a camera pipeline at system suspend time, and
+restarting it at system resume time, requires coordinated action between
+the bridge driver and the camera sensor driver. This is handled by the
+bridge driver calling the sensor's .s_stream() handler at system suspend
+and resume time. There is thus no need for the sensor to independently
+implement system sleep PM operations. Drop them.
+
+The streaming field of the driver's private structure is now unused,
+drop it as well.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../driver-api/media/camera-sensor.rst        | 54 ++++++++++++++-----
- 1 file changed, 40 insertions(+), 14 deletions(-)
+ drivers/media/i2c/ar0521.c | 30 +-----------------------------
+ 1 file changed, 1 insertion(+), 29 deletions(-)
 
-diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-index 8ab166a2138d..2acc08142a1a 100644
---- a/Documentation/driver-api/media/camera-sensor.rst
-+++ b/Documentation/driver-api/media/camera-sensor.rst
-@@ -46,22 +46,48 @@ are required to ensure reliability.
- Power management
- ----------------
+diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+index a4e39871e8f7..701f36345f1e 100644
+--- a/drivers/media/i2c/ar0521.c
++++ b/drivers/media/i2c/ar0521.c
+@@ -133,8 +133,6 @@ struct ar0521_dev {
+ 		u16 mult2;
+ 		u16 vt_pix;
+ 	} pll;
+-
+-	bool streaming;
+ };
  
--Always use runtime PM to manage the power states of your device. Camera sensor
--drivers are in no way special in this respect: they are responsible for
--controlling the power state of the device they otherwise control as well. In
--general, the device shall be powered on at least when its registers are being
--accessed and when it is streaming.
-+Camera sensors are used in conjunction with other devices to form a camera
-+pipeline. They must obey the rules listed herein to ensure coherent power
-+management over the pipeline.
+ static inline struct ar0521_dev *to_ar0521_dev(struct v4l2_subdev *sd)
+@@ -991,12 +989,9 @@ static int ar0521_s_stream(struct v4l2_subdev *sd, int enable)
+ 	int ret;
  
--Existing camera sensor drivers may rely on the old
--struct v4l2_subdev_core_ops->s_power() callback for bridge or ISP drivers to
--manage their power state. This is however **deprecated**. If you feel you need
--to begin calling an s_power from an ISP or a bridge driver, instead please add
--runtime PM support to the sensor driver you are using. Likewise, new drivers
--should not use s_power.
-+Camera sensor drivers are responsible for controlling the power state of the
-+device they otherwise control as well. They shall use runtime PM to manage
-+power states. Runtime PM shall be enabled at probe time and disabled at remove
-+time. Drivers should enable runtime PM autosuspend.
+ 	mutex_lock(&sensor->lock);
+-
+ 	ret = ar0521_set_stream(sensor, enable);
+-	if (!ret)
+-		sensor->streaming = enable;
+-
+ 	mutex_unlock(&sensor->lock);
++
+ 	return ret;
+ }
  
--Please see examples in e.g. ``drivers/media/i2c/ov8856.c`` and
--``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI
--and DT based systems.
-+The runtime PM handlers shall handle clocks, regulators, GPIOs, and other
-+system resources required to power the sensor up and down. For drivers that
-+don't use any of those resources (such as drivers that support ACPI systems
-+only), the runtime PM handlers may be left unimplemented.
-+
-+In general, the device shall be powered on at least when its registers are
-+being accessed and when it is streaming. Drivers should use
-+``pm_runtime_resume_and_get()`` when starting streaming and
-+``pm_runtime_put()`` or ``pm_runtime_put_autosuspend()`` when stopping
-+streaming. They may power the device up at probe time (for example to read
-+identification registers), but should not keep it powered unconditionally after
-+probe.
-+
-+At system suspend time, the whole camera pipeline must stop streaming, and
-+restart when the system is resumed. This requires coordination between the
-+camera sensor and the rest of the camera pipeline. Bridge drivers are
-+responsible for this coordination, and instruct camera sensors to stop and
-+restart streaming by calling the appropriate subdev operations
-+(``.s_stream()``, ``.enable_streams()`` or ``.disable_streams()``). Camera
-+sensor drivers shall therefore **not** keep track of the streaming state to
-+stop streaming in the PM suspend handler and restart it in the resume handler.
-+Drivers should in general not implement the system PM handlers.
-+
-+Camera sensor drivers shall **not** implement the subdev ``.s_power()``
-+operation, as it is deprecated. While this operation is implemented in some
-+existing drivers as they predate the deprecation, new drivers shall use runtime
-+PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
-+a bridge driver, instead add runtime PM support to the sensor driver you are
-+using and drop its ``.s_power()`` handler.
-+
-+See examples of runtime PM handling in e.g. ``drivers/media/i2c/ov8856.c`` and
-+``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI and DT
-+based systems.
+@@ -1023,28 +1018,6 @@ static const struct v4l2_subdev_ops ar0521_subdev_ops = {
+ 	.pad = &ar0521_pad_ops,
+ };
  
- Control framework
- ~~~~~~~~~~~~~~~~~
+-static int __maybe_unused ar0521_suspend(struct device *dev)
+-{
+-	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+-	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+-
+-	if (sensor->streaming)
+-		ar0521_set_stream(sensor, 0);
+-
+-	return 0;
+-}
+-
+-static int __maybe_unused ar0521_resume(struct device *dev)
+-{
+-	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+-	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+-
+-	if (sensor->streaming)
+-		return ar0521_set_stream(sensor, 1);
+-
+-	return 0;
+-}
+-
+ static int ar0521_probe(struct i2c_client *client)
+ {
+ 	struct v4l2_fwnode_endpoint ep = {
+@@ -1183,7 +1156,6 @@ static void ar0521_remove(struct i2c_client *client)
+ }
+ 
+ static const struct dev_pm_ops ar0521_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(ar0521_suspend, ar0521_resume)
+ 	SET_RUNTIME_PM_OPS(ar0521_power_off, ar0521_power_on, NULL)
+ };
+ static const struct of_device_id ar0521_dt_ids[] = {
 -- 
 Regards,
 
