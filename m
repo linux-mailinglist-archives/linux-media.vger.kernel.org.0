@@ -2,36 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BE237A0C75
-	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F5A27A0C76
+	for <lists+linux-media@lfdr.de>; Thu, 14 Sep 2023 20:17:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241300AbjINSRe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 14:17:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50474 "EHLO
+        id S241311AbjINSRg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Sep 2023 14:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241283AbjINSRe (ORCPT
+        with ESMTP id S240632AbjINSRf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 14:17:34 -0400
+        Thu, 14 Sep 2023 14:17:35 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 061591FFB
-        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 901E51FD7
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 11:17:31 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12D392F6C;
-        Thu, 14 Sep 2023 20:15:56 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E55887E3;
+        Thu, 14 Sep 2023 20:15:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1694715356;
-        bh=5IKTIBnn1uVKRilkTivCxRNLjhYgDgCaZgCB00CbOCY=;
+        s=mail; t=1694715357;
+        bh=kK+SomDiYNZE87UeT77XObwLhMFo8coI0OWiSdKjg3Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PJrCdlWf/sCYwwfuEEI7g2huOS5jONtX3mFYtFeQbOvqgHQWNYTaI2+XeL+rWf/f/
-         nqryVRy469hefc3Mh96BQV5iA5x0AfQEddmSLhz3+edU1qAEvjzsjurN726dC+raeq
-         EMk/a1tGCEiIAgi3MmAnXDzVoncgHWYgfCkYNexQ=
+        b=W5gDWH1KwgJTno67SlKH7Kpv3rkiuOuvWZ/ZM09t10NlmpLyZJQH6EAyoZAqbBmND
+         QiNuR8NdBAcGiouUgLUB8pU4iqTV2l9SxFuEf2z+AUVn0ypTIpGdVIwq+MkFrms8B9
+         d1tgt49MoAkBG4EgKS3Z4rraB6697pszMy5i6ZMU=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Shunqian Zheng <zhengsq@rock-chips.com>
-Subject: [PATCH 26/57] media: i2c: ov5695: Drop check for reentrant .s_stream()
-Date:   Thu, 14 Sep 2023 21:16:33 +0300
-Message-ID: <20230914181704.4811-27-laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH 27/57] media: i2c: ov7740: Drop check for reentrant .s_stream()
+Date:   Thu, 14 Sep 2023 21:16:34 +0300
+Message-ID: <20230914181704.4811-28-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
 References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
@@ -50,39 +49,40 @@ drop it as well.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5695.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/media/i2c/ov7740.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-index 3023b7254167..13506a4f9500 100644
---- a/drivers/media/i2c/ov5695.c
-+++ b/drivers/media/i2c/ov5695.c
-@@ -108,7 +108,6 @@ struct ov5695 {
- 	struct v4l2_ctrl	*vblank;
- 	struct v4l2_ctrl	*test_pattern;
- 	struct mutex		mutex;
--	bool			streaming;
- 	const struct ov5695_mode *cur_mode;
- };
+diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
+index dffdb475e433..2f76029e9a9b 100644
+--- a/drivers/media/i2c/ov7740.c
++++ b/drivers/media/i2c/ov7740.c
+@@ -120,7 +120,6 @@ struct ov7740 {
+ 	struct v4l2_ctrl *contrast;
  
-@@ -942,9 +941,6 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
+ 	struct mutex mutex;	/* To serialize asynchronus callbacks */
+-	bool streaming;		/* Streaming on/off */
+ 
+ 	struct gpio_desc *resetb_gpio;
+ 	struct gpio_desc *pwdn_gpio;
+@@ -618,10 +617,6 @@ static int ov7740_set_stream(struct v4l2_subdev *sd, int enable)
  	int ret = 0;
  
- 	mutex_lock(&ov5695->mutex);
--	on = !!on;
--	if (on == ov5695->streaming)
--		goto unlock_and_return;
+ 	mutex_lock(&ov7740->mutex);
+-	if (ov7740->streaming == enable) {
+-		mutex_unlock(&ov7740->mutex);
+-		return 0;
+-	}
  
- 	if (on) {
+ 	if (enable) {
  		ret = pm_runtime_resume_and_get(&client->dev);
-@@ -962,8 +958,6 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
+@@ -635,8 +630,6 @@ static int ov7740_set_stream(struct v4l2_subdev *sd, int enable)
  		pm_runtime_put(&client->dev);
  	}
  
--	ov5695->streaming = on;
+-	ov7740->streaming = enable;
 -
- unlock_and_return:
- 	mutex_unlock(&ov5695->mutex);
+ 	mutex_unlock(&ov7740->mutex);
+ 	return ret;
  
 -- 
 Regards,
