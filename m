@@ -2,130 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B67FC7A2745
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 21:36:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F8F37A280F
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 22:26:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236616AbjIOTgC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 15:36:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51494 "EHLO
+        id S235841AbjIOU0W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 16:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237000AbjIOTfu (ORCPT
+        with ESMTP id S237292AbjIOU0M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 15:35:50 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01C2C1BD3
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 12:35:45 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2bfc8c02e82so37502831fa.0
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 12:35:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694806543; x=1695411343; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=FKKMCGnGhukQkPxkpQoHGnDnIDU/MJp5hR5WP/zaXaA=;
-        b=evkl9dGDcyQQ+WamosasqkQa1TeeXJR9XSWXGQ11eHDa2IvskS5lZpBgtv0XFlIpMz
-         Op49CyvxKt5oP9jPAzjf0m/yY7S10N9fKXf+IMNY+60c35khs2YExWL5k5Z2gIV48pc9
-         s4KWeglUyPp2D1BdJAxE+Yi07ysE7XBWgLghvgNZn0EDfyBzPPZzE9ay2HlWv9uta4ij
-         /Ojld/QSMmIa0ZIpNZNJ/LIaGBUjjtrFVqz0vS9aqQMkE4wPJXyg+veM5gtIvNoIJwn/
-         lYeRmvBG7X2fEFh9eQVBHoqMX7EmU72Py+0KjkPkyI3LByGBs+ff3ANMxgV4hYTYF3zp
-         j47w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694806543; x=1695411343;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FKKMCGnGhukQkPxkpQoHGnDnIDU/MJp5hR5WP/zaXaA=;
-        b=BZGASj79a2METe26NHZX4GPi6a7j/IV7GJMrpp7SMHBReu2wTqjUWEIm/bRMXFc+/h
-         Gr3RPbk4n9aPbR2Fr1DThihGZgkpSs0zGCQrqqxtmFIxABpg60EoslTyk538/tI4fsyO
-         wJu4TF20bOp8JdkkBX/aKEB+/tgyYoDeyC/CUKNrMGiDjh0ULwQbAMMSSjZOnKzIVRow
-         UdQRXwHIiOaxNQGMxW+zEifWSOO2jYnZx7x7Hst+9qXq+JGNd9mXu6DhY9D39Auf/iOH
-         2KAczg5DRb5z9ACNelFZER8372lgaFvRcWN6ixdaxQNErxBH2S3lqRvyWis6w1026CGT
-         fRSw==
-X-Gm-Message-State: AOJu0YxDAXfPzhwVz8ectoHG8mw0LbV5FiYTGFZbeencYiGpRyzSAQNi
-        epy//T0Rd+p9s1zWw2X7t80=
-X-Google-Smtp-Source: AGHT+IFsAlzyQURer4VFhL7OZzyqN/nn55yujttUczw17A/UIseUnzObwPdewCrn3UbqDHKSSemjUw==
-X-Received: by 2002:a2e:8816:0:b0:2b6:cff1:cd1c with SMTP id x22-20020a2e8816000000b002b6cff1cd1cmr2354029ljh.34.1694806542713;
-        Fri, 15 Sep 2023 12:35:42 -0700 (PDT)
-Received: from razdolb (95-24-150-208.broadband.corbina.ru. [95.24.150.208])
-        by smtp.gmail.com with ESMTPSA id w12-20020a2e998c000000b002b9e346a152sm838962lji.96.2023.09.15.12.35.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 12:35:42 -0700 (PDT)
-References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
- <20230914181704.4811-23-laurent.pinchart@ideasonboard.com>
-User-agent: mu4e 1.10.7; emacs 29.1
-From:   Mikhail Rudenko <mike.rudenko@gmail.com>
+        Fri, 15 Sep 2023 16:26:12 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35C2FC6
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 13:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694809563; x=1726345563;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8dyjdiV3Ahx6W5DXv+U1LHgGPuBEIG72r6BeNGFU7ic=;
+  b=LnX/OvrIae7b2i2V+Wj81doON2Sf77mqb2pdnL2kylnoC0hFgEmvI+Xh
+   FaPcZvHlbVp8RR5bekQbCliD5jrHLSZde6r0pPPhut/sHejNRM69HnPUN
+   967LBHChqgFQtoACHbCTWPSeli67tIYKd1GiqZk5mXFr3DhTWP6KT4xJX
+   RXTpRpDV867/vUXWStHZEpuohxqgosA6/k4MAHYMGzEpi+hzFDN6L4d2H
+   RVbA4ajqMabkS2l4RucnbG4v5pLc/DEI3Tk3ANvNIEr5IdAqtxghjIENP
+   MrGbbjWfuMev7QJ7cZ2+eCz+XB81LxUhlClyVAYkTHHZSQRSWHqaKXF7w
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="369654897"
+X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; 
+   d="scan'208";a="369654897"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 13:26:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="888336657"
+X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; 
+   d="scan'208";a="888336657"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 13:25:24 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 646011202BB;
+        Fri, 15 Sep 2023 23:25:57 +0300 (EEST)
+Date:   Fri, 15 Sep 2023 20:25:57 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 22/57] media: i2c: ov4689: Drop check for reentrant
- .s_stream()
-Date:   Fri, 15 Sep 2023 22:26:28 +0300
-In-reply-to: <20230914181704.4811-23-laurent.pinchart@ideasonboard.com>
-Message-ID: <87jzsrut4i.fsf@gmail.com>
+Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH 7/7] media: ov2740: Return -EPROBE_DEFER if no endpoint
+ is found
+Message-ID: <ZQS91eeR4dYDTXTA@kekkonen.localdomain>
+References: <20230915072809.37886-1-sakari.ailus@linux.intel.com>
+ <20230915072809.37886-8-sakari.ailus@linux.intel.com>
+ <20230915095027.GH14641@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230915095027.GH14641@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
-On 2023-09-14 at 21:16 +03, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+On Fri, Sep 15, 2023 at 12:50:27PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Sep 15, 2023 at 10:28:09AM +0300, Sakari Ailus wrote:
+> > With ipu bridge, endpoints may only be created when ipu bridge has
+> > initialised. This may happen after the sensor driver has first probed.
+> 
+> That's hard to understand for someone not familiar with the ipu-bridge
+> driver. Could you please expand the commit message ?
+> 
+> Also, is there a way to avoid the ov2740 probing before the required
+> initialization is complete ?
 
-> The subdev .s_stream() operation shall not be called to start streaming
-> on an already started subdev, or stop streaming on a stopped subdev.
-> Remove the check that guards against that condition.
->
-> The streaming field of the driver's private structure is now unused,
-> drop it as well.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/i2c/ov4689.c | 7 -------
->  1 file changed, 7 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
-> index fda217d2cb10..cd8d7131e747 100644
-> --- a/drivers/media/i2c/ov4689.c
-> +++ b/drivers/media/i2c/ov4689.c
-> @@ -100,7 +100,6 @@ struct ov4689 {
->  	u32 clock_rate;
->
->  	struct mutex mutex; /* lock to protect streaming, ctrls and cur_mode */
-> -	bool streaming;
+As of now, nothing else than, well, not having any endpoints as they are
+created by the ipu bridge.
 
-We can now drop the mention of "streaming" from the comment one line
-above. Aside from that,
+The ACPI device node does have a couple of custom objects but I'd rather
+not add checks for those in the ACPI framework itself.
 
-Reviewed-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+The proper solution (from device driver point of view at least) would be to
+squash the ipu bridge to the ACPI framework itself so all this could be
+initialised before any drivers get probed. I'm not sure how that would be
+received, and in any case, as I wrote in a reply to another patch in this
+series, I'd like to have DisCo for Imaging support merged first.
 
->  	struct v4l2_ctrl_handler ctrl_handler;
->  	struct v4l2_ctrl *exposure;
->
-> @@ -468,10 +467,6 @@ static int ov4689_s_stream(struct v4l2_subdev *sd, int on)
->
->  	mutex_lock(&ov4689->mutex);
->
-> -	on = !!on;
-> -	if (on == ov4689->streaming)
-> -		goto unlock_and_return;
-> -
->  	if (on) {
->  		ret = pm_runtime_resume_and_get(&client->dev);
->  		if (ret < 0)
-> @@ -504,8 +499,6 @@ static int ov4689_s_stream(struct v4l2_subdev *sd, int on)
->  		pm_runtime_put(&client->dev);
->  	}
->
-> -	ov4689->streaming = on;
-> -
->  unlock_and_return:
->  	mutex_unlock(&ov4689->mutex);
+-- 
+Regards,
 
-
---
-Best regards,
-Mikhail Rudenko
+Sakari Ailus
