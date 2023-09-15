@@ -2,88 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC4F77A281D
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 22:32:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3A157A2849
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 22:40:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237312AbjIOUbp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 16:31:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59588 "EHLO
+        id S233523AbjIOUjo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 16:39:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237309AbjIOUbe (ORCPT
+        with ESMTP id S237325AbjIOUjS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 16:31:34 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AA2FF9
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 13:31:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694809889; x=1726345889;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vxkaaEO6o/OBEX7JrewSDpqM8r6VwdQ2JW/7zxOI/Rw=;
-  b=YlGu888Eu2s+ABbhjY4sONXqH4lr4YXyFwff1XO7pWL2t845OuqROaPA
-   JKnKcZ7n7xRR0lOo/4wLmjmW4jfChc6qP9O1FrBGb5Hs4xEfwM5N33kp+
-   fYZGc+4c9PtyMmG9NTnQqpVthe6ZJqQQNHiN5KHyWuACNA19nyQeDCv4m
-   NT2wJsPnPlSzTprrizUf1MPao9ePb6AHmxUzWx1w4+Pvky2MuC/MJJmdg
-   N1CZPRG+pQEGrAMqvuebKkuSIeEtfbc/30Xi2RZ+PuWEAInBhywgK8ZuM
-   mn7TfcS4uluo0nTCK8ske2zcHW5em1/jPpL1fVK9rHz/rfeVmCqU6OT8Z
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="364387322"
-X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; 
-   d="scan'208";a="364387322"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 13:31:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10834"; a="815308348"
-X-IronPort-AV: E=Sophos;i="6.02,150,1688454000"; 
-   d="scan'208";a="815308348"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 13:31:26 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 436561202BB;
-        Fri, 15 Sep 2023 23:31:24 +0300 (EEST)
-Date:   Fri, 15 Sep 2023 20:31:24 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Fri, 15 Sep 2023 16:39:18 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 024C92700
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 13:39:11 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87F5FE4;
+        Fri, 15 Sep 2023 22:37:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694810256;
+        bh=68RPUAF6S781w+tPhqoW5nA+BbblDomyHUptdvQZno4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZDyE3NwrGihiglSgcOtwWPGcZJoXUo3jTG9ErawN4mU5wg0nVA/nrh94g462v8alL
+         BqYJP4lnOeGem/cHhSbzE3VihbOGmWEQojtTB8AJCPPtGOsPmNCXagyRQU8MSQ46kH
+         Kat+lpm4FjDYJHgsJooCX23wPO7p29TFr3lU4qdE=
+Date:   Fri, 15 Sep 2023 23:39:24 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
         Bingbu Cao <bingbu.cao@intel.com>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
 Subject: Re: [PATCH 5/7] media: ov2740: Enable runtime PM before registering
  the async subdev
-Message-ID: <ZQS/HMu130H+DBOD@kekkonen.localdomain>
+Message-ID: <20230915203924.GB12131@pendragon.ideasonboard.com>
 References: <20230915072809.37886-1-sakari.ailus@linux.intel.com>
  <20230915072809.37886-6-sakari.ailus@linux.intel.com>
  <20230915094239.GF14641@pendragon.ideasonboard.com>
+ <ZQS/HMu130H+DBOD@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230915094239.GF14641@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <ZQS/HMu130H+DBOD@kekkonen.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 15, 2023 at 12:42:39PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On Fri, Sep 15, 2023 at 08:31:24PM +0000, Sakari Ailus wrote:
+> On Fri, Sep 15, 2023 at 12:42:39PM +0300, Laurent Pinchart wrote:
+> > On Fri, Sep 15, 2023 at 10:28:07AM +0300, Sakari Ailus wrote:
+> > > Enable runtime PM before registering the async sub-device as the ipu
+> > > bridge may try to resume the device immediately after the async sub-device
+> > 
+> > I wouldn't mention ipu bridge there, as this driver is not specific to a
+> > particular CSI-2 receiver.
 > 
-> Thank you for the patch.
+> How exactly would you reword this?
 > 
-> On Fri, Sep 15, 2023 at 10:28:07AM +0300, Sakari Ailus wrote:
-> > Enable runtime PM before registering the async sub-device as the ipu
-> > bridge may try to resume the device immediately after the async sub-device
-> 
-> I wouldn't mention ipu bridge there, as this driver is not specific to a
-> particular CSI-2 receiver.
+> The problem may only happen with the IPU bridge --- ACPI systems otherwise
+> handle device power states.
 
-How exactly would you reword this?
-
-The problem may only happen with the IPU bridge --- ACPI systems otherwise
-handle device power states.
+Once a subdev is registered is could be used immediately by the host
+driver, regardless of what host driver that is. Making sure to finalize
+all initialization before registering the subdev is a good overall
+practice.
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
