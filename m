@@ -2,153 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE7BB7A1280
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 02:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E43857A14C4
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 06:24:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230430AbjIOAsP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Sep 2023 20:48:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42538 "EHLO
+        id S231449AbjIOEYG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 00:24:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbjIOAsP (ORCPT
+        with ESMTP id S229554AbjIOEYF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Sep 2023 20:48:15 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A63C12700;
-        Thu, 14 Sep 2023 17:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694738890; x=1726274890;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0/Y8tr6+72dx/dGIQEQzCuenUy3CT3AAuLaoi6w6Aa4=;
-  b=Zze053DIteOK2ZbYjrABB5HX8yASziIOCb/AM7YnwjthxDnojQ31zRhM
-   DE2S7PmA9GFDeETF3H6v2GptCsu3UCQyX4hTXBJL6UZPvj7ywVt3b6IoG
-   zwuaXoE5eSFMVlRgK935qs1M+APgW9smEc5n5+V3u4kxQNn771HjDvzVq
-   aWmw3cQnsVqyn0xM1QhbaAboyFz1tQXfzKBMMQcH/1HGKAIUJSopXWYQ/
-   ZBQzZjHz9rG9+dvNaTTGivfSD/lZTmpgNFnzJFJXFS3sncL7Cjdf/rAro
-   Mu8J9dUNHMhM3B8k5z4unSFvapXstZ9VAZuAQNntIdeOTNoQfPmK/Utib
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="410063856"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="410063856"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 17:48:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="859950717"
-X-IronPort-AV: E=Sophos;i="6.02,147,1688454000"; 
-   d="scan'208";a="859950717"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Sep 2023 17:48:06 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qgx07-0002Dx-2Z;
-        Fri, 15 Sep 2023 00:48:03 +0000
-Date:   Fri, 15 Sep 2023 08:47:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
- entries
-Message-ID: <202309150835.kxjWQyEU-lkp@intel.com>
-References: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
+        Fri, 15 Sep 2023 00:24:05 -0400
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2061.outbound.protection.outlook.com [40.107.104.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A364C2709
+        for <linux-media@vger.kernel.org>; Thu, 14 Sep 2023 21:23:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N9cp6DpJS/ghA76qJV1ot8Kj13Y5KK10w8YK2t8Vo/f0pAzxmigxLw4AVEBbIaTWm5ds3YM8xDygU3OSXKtY+Q7jtb9FhLM9598L1nmgcyWdzrfAWT4BdWuPMhbO7u+AOQ5P+1BSPwpbc7tNRDa+js1sl4QalfAXavV44XMRBNrdzaJtRVqmmTDWSfDxQsmgDNnEnEM/z/vqEf1mVJ93aROdpr097tQx1URC+n6MLooMGUWwd23k+mApVwQP6hnIEFon6y9/8FI5W7SZfp4sEkKYTnQBem5i9XLD4lidTTc9WZUpjjxYdbBa7f9fH1Nhcmd+GXlQRqnqYGJt1QNRJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4v/+AZsVQ9Sg527rk9X3rv+aOZKngrglR9nJGFmdw9I=;
+ b=oDQpQRS43/9wylWLMnekmO6QeSyEQGFLFKj3/pIs+Dh6w15wqFalRZOkQUNWUaYTnOW1EwPmmqxOWwjbF+vHyZbKhvYfJ/0IhgfqU2dHh+KVtlgLqzoCHEAHcFHjRRRAWFq/mCZ2ZP9J7lp8Xb4MJGKpWGKvwo+5Y3DilpmxScOB4KEXJipz5A1MackpmSNBv90Rpp7nlXLYi2E1XzyKDBmvAa9X3BroqCt9AnAe5+BXm6L51XdlDBbwFJbT6PJI2oSwrJZIZNOY/INdLiO7ISsCHton4CULDzO20e2OEYC8WYEb4fhzAceRy3aMJI77i9H7CGPpoU6YkPaeda3r6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=piap.lukasiewicz.gov.pl; dmarc=pass action=none
+ header.from=piap.pl; dkim=pass header.d=piap.pl; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lukasiewiczgov.onmicrosoft.com; s=selector1-lukasiewiczgov-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4v/+AZsVQ9Sg527rk9X3rv+aOZKngrglR9nJGFmdw9I=;
+ b=k78r/DnQ6SpZ811YncY1u+eh0OpZ0KX8hoebbnPz0rj8so4MjzmX6lkwTlZRUnYhnki5tBKn/eRz//VuO81wXJMdBttQ/VpvkKZaDN5HHE43yFdP+C19aL1wza2EvcbU+SbJgHvtolV9g6Hg711zlyuOXvJil2fQ3bMDM5lOS0I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=piap.pl;
+Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:155::18)
+ by AS8P193MB2190.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:44e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.21; Fri, 15 Sep
+ 2023 04:23:53 +0000
+Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+ ([fe80::579b:2:bf1f:24d]) by VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+ ([fe80::579b:2:bf1f:24d%6]) with mapi id 15.20.6792.020; Fri, 15 Sep 2023
+ 04:23:53 +0000
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH 35/57] media: i2c: ar0521: Drop system suspend and
+ resume handlers
+References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
+        <20230914181704.4811-36-laurent.pinchart@ideasonboard.com>
+Date:   Fri, 15 Sep 2023 06:23:45 +0200
+In-Reply-To: <20230914181704.4811-36-laurent.pinchart@ideasonboard.com>
+        (Laurent Pinchart's message of "Thu, 14 Sep 2023 21:16:42 +0300")
+Message-ID: <m3msxo12um.fsf@t19.piap.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BE0P281CA0009.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:a::19) To VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:155::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0685:EE_|AS8P193MB2190:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b7b5a26-adee-4ed3-8f6a-08dbb5a3916c
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 91FA6bkgGAE/rr3hkIVvv3+iHDr3iSPsBTuiBrpMsK6HocHYzN8lfNOjwmpgdj1tjYVgQQzyj0/LCHwsWhwwKBD8N5kHgfrZlVllwHsVKNCwRYmASxkfxeKfxLQJqBG9/6owbqOu8JoBfh5161HGcfpCOTJ5ICjMV9VrULfDaFitxOooXHbvnphzWW9SvtsiAgXFFM11GjdivLt0UbcAYQvC8SlWeAore+bGy5XTIPO5+bBEkkaYdZpFzmSP/2VARl5NRkB6LPvHgE4K6AIJGOw/xEEslVO5MGA7kgw19QKMcL+tmWMlUF1Gf6LPuakab7V35BZQnKVGeNkWi5LraBxsGgeKIysG72GQfOon1MjOnf9+VoOGZ/v4eVWJ06QO+qjvuoFcQywvsB1twgSifGGdT0y1DBpyIAyzP6k8XQQ2iWF7A3z5OzLSpo47K6iIrVKM4rqWFhr9bTGEzD7osxgDMxLqwCn9Bk6ivYYDaNPz/6b7ycTMY3+1ZVSjiRE19CDa1CjNgX7OXGeHRvTRm5+Ow0o5XTkqGflCCPK2mxqaHjHbIW/9Y5IKxhxgfTjGGve9PTmoeqhbizlnbTMhDQtW5++C/RcEI6nmHyiLPACKL0lqjc/d9UCOEfZTN2Ui
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1P193MB0685.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(39860400002)(136003)(346002)(396003)(1800799009)(186009)(451199024)(5660300002)(8936002)(8676002)(41300700001)(66476007)(316002)(786003)(6916009)(4326008)(66556008)(2906002)(66946007)(6512007)(38100700002)(38350700002)(66574015)(42882007)(83380400001)(6666004)(6506007)(6486002)(52116002)(26005)(478600001)(4744005)(15650500001)(83170400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Mld5UjJ2ZmRwMjE2QjdqT3JNM005V2VOTVIxdzQwN2QvS1NzSzRZdFVEK0R6?=
+ =?utf-8?B?QzVzT3VYMkVhNVhJOW5UV3VrT3lGVklsck5FMDZ3Nkl0aHpRWVFNbXl0bDkz?=
+ =?utf-8?B?czFnMGdRbDJGOUoxbkp6R0tia2h4SUxwK3U2Qk82SVdGVHhFS1VYYjZZTWxR?=
+ =?utf-8?B?bkg4SHVlMllxSWg3bis4eGliUU0vc202NHdGQmlraFJDTDNsVmd1K3pUWHJQ?=
+ =?utf-8?B?Z2RBWW9zRlBvaWVCK0gwV1NxQUg2YkNxWVhrMTA5UzRjUERpRUdGZzhwQUFL?=
+ =?utf-8?B?WHYrWmJDbjRhcWxQU3JwWndjTTJ6Wlk2ZC9oODI3Nm1RQlpLeGQ3NTJkeFNh?=
+ =?utf-8?B?OTRCLzAxRUxacFFnVmRKRlVrZUtPaldHUitiUHBZTVV5NG9rSElWblJLcW1y?=
+ =?utf-8?B?eFZxd3NieUw4TWtST2QrdXBYL2MySi8vK2QwSytsZmNXT1VjYlBCTGd3WGpJ?=
+ =?utf-8?B?aUZFalhINzVoMGJlUUx4R1VGQXBMclgxTnBvT2dsczErWHdPclJLWkM3WHVJ?=
+ =?utf-8?B?UEVBRHZFK3FHV0MxU1cyYWRYR0hkTEZaRENkMEtqQy85VmhKT3dtaUF6NzVt?=
+ =?utf-8?B?VG9ZWTlMTjdvVE9VSW5JS0JtMW1KR0NmTE5OcTFhWDJPTDc4MDJPRlVTeitj?=
+ =?utf-8?B?dzNJbklhYVVZaGtrcFdvM2dad2p1dm1RZlV2TVJ5dG1QempycEZrcXRnZ1o0?=
+ =?utf-8?B?TTVjQzN5NXJCTzVQRkFsK0N2SkI3YnZCQWp0SFRHNVNtZnJyYTJzeXdKMEx3?=
+ =?utf-8?B?d2hWUkF6cjd4QXVZeW9xMmF3S204V2VUUmUxdjBhQjA4cjJxUkt4WDJaTlAy?=
+ =?utf-8?B?WFJLcDZiR0lsdStseGNOY1dxVExQZG9PZjFOcEZTSVJQcVg0emZ6VVE0ajVn?=
+ =?utf-8?B?YXh1bmRlV3Bybmt0czlIbHRuSDJHVTloRndaZlJTQWo5YjdzMnRuTEwwR1Fp?=
+ =?utf-8?B?L0FWR2lmSGUwUW9IeUhiR3IrOHVTOXlPL3dRS1llSUVnV1g4VHJ4cjRnR2lY?=
+ =?utf-8?B?OVBtdmJjWW9NdTJQbXpaMXVTWE9UN2pGdjVkaGc2MFRPWlRRUnFoSjdITndY?=
+ =?utf-8?B?M2VpaGVSdG9SZ3FRVENpemg4ZUV6MFFwVnZ2SEFOdWxITnZNeUtKd3JYV05z?=
+ =?utf-8?B?ZTBEdXQ5QldrUmVJdHBDU1lxcDNIQk83Ni9MWkd3OWtxTzlackFnQjZ6L0gy?=
+ =?utf-8?B?ZnJiZWNzWEtvNGdobGxkM3d0enprSzFRNmxBdm13SG1OelRPQURWWWlxNUJN?=
+ =?utf-8?B?NW1YUmprbzFSbEdna3dobHAxREFIdHMrMXlBNlZJYlBPYnEyQXdQL3FmNnll?=
+ =?utf-8?B?Z1BBOENydVVEVmg2K09aVjI1NmdQZEo5OXpIUSt3dGl6UlkrQ0JlQStuN1I3?=
+ =?utf-8?B?bXNoQUFlUnJKWlplaTVMSDBjRkJXMVJMWm1aV2dPR3lFdm9iNkRmS1pPT1BC?=
+ =?utf-8?B?QTZxTFc3bVcreml6ZU5wTmNLbUp5OHE5K0FOUkhVa2ZqL3prdzQyTUI5c0NO?=
+ =?utf-8?B?QXlTdUJnT2V4akdrUTQ1RkxTRjl2ZTRuNSt4RzE1MjB2WXJNamYzRWY4MGdG?=
+ =?utf-8?B?TEZlUnlFZ1NNSVZONGJ0WU9UUU1lRlFYYUZYYWpZSm9ESUpkbEpLb2ljOERa?=
+ =?utf-8?B?MDIyazFCcURXMU1GajVabSs1L0NvaVVkVllFU1V5SFRXSkxKRmlFeXcvSlFx?=
+ =?utf-8?B?WlI0cWRoNC9wYzRJSlFNenFOanhsamplS1NOUUR2TEVjYzJsNnNxT3lFSm5h?=
+ =?utf-8?B?cTBCT3Z0bXNxV1ROMHlqbUNQejh5RkFpOTBLUXRNeFlSVmVUcjRlbENaSzky?=
+ =?utf-8?B?QkdJNHkxZWlpbHFieW9hcDV1SGhYUlF5elM2R1Z1ak10eVZ6cGYxVWNYSmcv?=
+ =?utf-8?B?OUVYekpTNGZobExTaUxqdkpheCt2UHRicnJZd3RlajMxc3ZFdVBRM1hrSGVk?=
+ =?utf-8?B?UllFMzNvZGxyOERJckZ5WlU3a2FnU1RmeWIzOStuSHNRbml3NnJNUmxEKzhv?=
+ =?utf-8?B?Mk4vaGdURXJYSzR1TDBqRXlWdVBXZ2J2aDZYTnZ0SjI3V0RQOVpIcWZIVTJH?=
+ =?utf-8?B?bEZIN0lZWEZ2eG9nZlpLcERGTWdaTS9RVzBQSU9OT25PdUg1UWc2cEtjaWpk?=
+ =?utf-8?B?UnZYdHVpLzBWYVY1QzhKeXNvT2JVdVhXVDJnSlZ5MXA4cmt0ZmN0OGk0ZXFi?=
+ =?utf-8?Q?gO9nOjIBvffnU169lPoiDuerFjXCILBu4gcbtCwhykNT?=
+X-OriginatorOrg: piap.pl
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b7b5a26-adee-4ed3-8f6a-08dbb5a3916c
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2023 04:23:52.9106
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3e05b101-c6fe-47e5-82e1-c6a410bb95c0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CGNGUjhxiGh9UCc4tUsF8dzIk50YEkKKH7Yt8g7cR1AbwEtDpPtV+dmNwTkq8dYrwWVPhsFIUUdS4gUxo/mNQdMBqjubdI0N3t+SaJ/qh+uNBH7GcOG7EQpGwWjAgqDlq56uB0Et+15ySmtLmxFmvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P193MB2190
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Laurent,
 
-kernel test robot noticed the following build errors:
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> writes:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc1]
-[cannot apply to next-20230914]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Stopping streaming on a camera pipeline at system suspend time, and
+> restarting it at system resume time, requires coordinated action between
+> the bridge driver and the camera sensor driver. This is handled by the
+> bridge driver calling the sensor's .s_stream() handler at system suspend
+> and resume time. There is thus no need for the sensor to independently
+> implement system sleep PM operations. Drop them.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230914-221757
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230914133323.198857-46-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v7 45/49] media: core: Add bitmap manage bufs array entries
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/reproduce)
+If that's the case, good.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309150835.kxjWQyEU-lkp@intel.com/
+> The streaming field of the driver's private structure is now unused,
+> drop it as well.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-All errors (new ones prefixed by >>):
+Acked-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
 
-   samples/v4l/v4l2-pci-skeleton.c: In function 'queue_setup':
->> samples/v4l/v4l2-pci-skeleton.c:170:15: error: 'struct vb2_queue' has no member named 'num_buffers'
-     170 |         if (vq->num_buffers + *nbuffers < 3)
-         |               ^~
-   samples/v4l/v4l2-pci-skeleton.c:171:35: error: 'struct vb2_queue' has no member named 'num_buffers'
-     171 |                 *nbuffers = 3 - vq->num_buffers;
-         |                                   ^~
---
-   drivers/input/touchscreen/sur40.c: In function 'sur40_queue_setup':
->> drivers/input/touchscreen/sur40.c:851:14: error: 'struct vb2_queue' has no member named 'num_buffers'
-     851 |         if (q->num_buffers + *nbuffers < 3)
-         |              ^~
-   drivers/input/touchscreen/sur40.c:852:34: error: 'struct vb2_queue' has no member named 'num_buffers'
-     852 |                 *nbuffers = 3 - q->num_buffers;
-         |                                  ^~
+> ---
+>  drivers/media/i2c/ar0521.c | 30 +-----------------------------
 
+--=20
+Krzysztof "Chris" Ha=C5=82asa
 
-vim +170 samples/v4l/v4l2-pci-skeleton.c
-
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  145  
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  146  /*
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  147   * Setup the constraints of the queue: besides setting the number of planes
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  148   * per buffer and the size and allocation context of each plane, it also
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  149   * checks if sufficient buffers have been allocated. Usually 3 is a good
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  150   * minimum number: many DMA engines need a minimum of 2 buffers in the
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  151   * queue and you need to have another available for userspace processing.
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  152   */
-df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  153  static int queue_setup(struct vb2_queue *vq,
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  154  		       unsigned int *nbuffers, unsigned int *nplanes,
-36c0f8b32c4bd4 samples/v4l/v4l2-pci-skeleton.c               Hans Verkuil 2016-04-15  155  		       unsigned int sizes[], struct device *alloc_devs[])
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  156  {
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  157  	struct skeleton *skel = vb2_get_drv_priv(vq);
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  158  
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  159  	skel->field = skel->format.field;
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  160  	if (skel->field == V4L2_FIELD_ALTERNATE) {
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  161  		/*
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  162  		 * You cannot use read() with FIELD_ALTERNATE since the field
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  163  		 * information (TOP/BOTTOM) cannot be passed back to the user.
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  164  		 */
-3130a28a1568b1 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-23  165  		if (vb2_fileio_is_active(vq))
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  166  			return -EINVAL;
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  167  		skel->field = V4L2_FIELD_TOP;
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  168  	}
-5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  169  
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14 @170  	if (vq->num_buffers + *nbuffers < 3)
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  171  		*nbuffers = 3 - vq->num_buffers;
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  172  
-df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  173  	if (*nplanes)
-df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  174  		return sizes[0] < skel->format.sizeimage ? -EINVAL : 0;
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  175  	*nplanes = 1;
-df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  176  	sizes[0] = skel->format.sizeimage;
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  177  	return 0;
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  178  }
-926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  179  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
