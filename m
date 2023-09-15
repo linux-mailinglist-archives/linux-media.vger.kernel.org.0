@@ -2,84 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE7AD7A2577
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 20:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A148D7A26E4
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 21:05:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234857AbjIOSTC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 14:19:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59256 "EHLO
+        id S232536AbjIOTFG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 15:05:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233822AbjIOSSc (ORCPT
+        with ESMTP id S237002AbjIOTEn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 14:18:32 -0400
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AADD1FD6
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 11:18:27 -0700 (PDT)
-Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-1d6659a4207so1327468fac.0
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 11:18:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694801907; x=1695406707;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2VqufmfxjSUb4XqKQu2eQXU3QONq2sl0HERC26tPXI0=;
-        b=fqOEilfXzHN/Gj5ibf0vZ8qrPYRK/6DZ8Bvc54ly8CITMKYIEKhjssotMDRWW6gygD
-         vaXbPzPGdEm3itkWULQ8bC4uSdTEyer0Dx0YzyzBLXasBZ4ny6wRXuGU6rvhDqvtFjxq
-         wuIhhC7/TI9a49gXBRg0+s51LeRILFq2H6JrGosrVxv8ZQt8MQLSEsTbD71BRhxSGL4H
-         TCM2O/uYao4kQ+I5GnL8zkHkFK2BVeKXQh49o5VhRbra0vRbMenqMFZf1WTzxPvsPYnT
-         wVk59AnkK/YLDtw/WvtHYZX72akLNQhinRrpoOKCJ4UGCCSEQYJ+7gjkpl/hY/ciQKcR
-         vbOQ==
-X-Gm-Message-State: AOJu0Yw3xvF7sDVCYCSqc7b2ZDcYkXuF0ZU0VYTu1GXO51ifdtuRYgSv
-        fTcWsbFKs9m8rsL4DokI1xM4HljKP+PFmz3AiQVaHf1NoYrD
-X-Google-Smtp-Source: AGHT+IHJk3PMmbnZmZM8RAAdi9QO4c+58BuymeUxaU3YwVtig0M8O4dFyhBNpBSzru7Dewszo4NjkQUbjE39n+z4Yr9WF1ychMzG
+        Fri, 15 Sep 2023 15:04:43 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED69B2;
+        Fri, 15 Sep 2023 12:04:38 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD95D1536;
+        Fri, 15 Sep 2023 21:03:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694804582;
+        bh=BTus/aF+ZgDyAZjR1GTDuRFC/QbxDYyGIOGOqzEYQTo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H0CN2sIKSQUudetuONXKVTGFx5JjajdfVh1wcxkz/3ZtaKhuVSzmDIDfuRxgUkIpr
+         742ZRBlET+0MJXTB8U78BT4wASXSTZS7G9liChZD0Z9f7F2jOne1EUHsvcpG2NBahz
+         eVSmQ5AJ3mm+EDIdMDgk39BHiJ4LmkqNcpFg7+hc=
+Date:   Fri, 15 Sep 2023 22:04:49 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jerry Liu <jerry.liu@technexion.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Modified uvc_ctrl_fill_xu_info
+ 'kmalloc' to 'kzalloc'
+Message-ID: <20230915190449.GA12131@pendragon.ideasonboard.com>
+References: <20230915161213.42503-1-jerry.liu@technexion.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6870:c789:b0:1d1:3ad6:bb99 with SMTP id
- dy9-20020a056870c78900b001d13ad6bb99mr738883oab.2.1694801906800; Fri, 15 Sep
- 2023 11:18:26 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 11:18:26 -0700
-In-Reply-To: <000000000000be3c1a0604b53a1c@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009e9e1b060569d17c@google.com>
-Subject: Re: [syzbot] [mm?] kernel BUG in filemap_unaccount_folio
-From:   syzbot <syzbot+17a207d226b8a5fb0fd9@syzkaller.appspotmail.com>
-To:     akpm@linux-foundation.org, christian.koenig@amd.com,
-        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        fengwei.yin@intel.com, gurchetansingh@chromium.org,
-        hughd@google.com, kraxel@redhat.com,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mm@kvack.org,
-        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
-        vivek.kasireddy@intel.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230915161213.42503-1-jerry.liu@technexion.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has bisected this issue to:
+Hi Jerry,
 
-commit 5c074eeabbd332b11559f7fc1e89d456f94801fb
-Author: Gerd Hoffmann <kraxel@redhat.com>
-Date:   Wed Nov 14 12:20:29 2018 +0000
+Thank you for the patch.
 
-    udmabuf: set read/write flag when exporting
+On Fri, Sep 15, 2023 at 09:12:14AM -0700, Jerry Liu wrote:
+> If the request length of UVC XU is 1 (even though this is illegal), due
+> to 'data' may be the non-zero value, UVC_GET_LEN could potentially result
+> in a length that is not 1 because of the high byte is not zero. In order
+> to ensure that 2-byte data array is set to 0, 'kmalloc' is modified to 'kzalloc'.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12b21bbfa80000
-start commit:   db906f0ca6bb Merge tag 'phy-for-6.6' of git://git.kernel.o..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=11b21bbfa80000
-console output: https://syzkaller.appspot.com/x/log.txt?x=16b21bbfa80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3bd57a1ac08277b0
-dashboard link: https://syzkaller.appspot.com/bug?extid=17a207d226b8a5fb0fd9
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11609f38680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14c1fc00680000
+I don't think this can happen. The call to uvc_query_ctrl(UVC_GET_LEN)
+is given a length of 2. If the device responds with less than two bytes,
+the function will return an error, and uvc_ctrl_fill_xu_info() will
+propagate the error to the caller, without accessing the data array.
 
-Reported-by: syzbot+17a207d226b8a5fb0fd9@syzkaller.appspotmail.com
-Fixes: 5c074eeabbd3 ("udmabuf: set read/write flag when exporting")
+> 
+> Signed-off-by: Jerry Liu <jerry.liu@technexion.com>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 5e9d3da862dd..054bc14f7a58 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -2088,7 +2088,7 @@ static int uvc_ctrl_fill_xu_info(struct uvc_device *dev,
+>  	u8 *data;
+>  	int ret;
+>  
+> -	data = kmalloc(2, GFP_KERNEL);
+> +	data = kzalloc(2, GFP_KERNEL);
+>  	if (data == NULL)
+>  		return -ENOMEM;
+>  
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+-- 
+Regards,
+
+Laurent Pinchart
