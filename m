@@ -2,211 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 303797A1F03
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 14:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A9857A1F77
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 15:03:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234995AbjIOMou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 08:44:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32956 "EHLO
+        id S235214AbjIONDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 09:03:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234981AbjIOMou (ORCPT
+        with ESMTP id S235155AbjIONDI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 08:44:50 -0400
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EB205D3;
-        Fri, 15 Sep 2023 05:44:43 -0700 (PDT)
-Received: from [192.168.42.133] (host-178-72-203-90.ip.nej.cz [178.72.203.90])
-        by mx.gpxsee.org (Postfix) with ESMTPSA id A35BE326A6;
-        Fri, 15 Sep 2023 14:44:41 +0200 (CEST)
-Message-ID: <4b0fe0ec-79fd-42fc-afe8-c44eef471621@gpxsee.org>
-Date:   Fri, 15 Sep 2023 14:44:41 +0200
+        Fri, 15 Sep 2023 09:03:08 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E8C10E;
+        Fri, 15 Sep 2023 06:02:58 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:7735:5996:cf40:bca6] (unknown [IPv6:2a01:e0a:120:3210:7735:5996:cf40:bca6])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1D60B66072ED;
+        Fri, 15 Sep 2023 14:02:56 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1694782976;
+        bh=p3dIJk432sgjwEaG99pDgDD1HBalYst4ezbAkgYJyz4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=jqb6/GyVg5IuUKgGjzBkcnNg1wXFDJFiSi6o2rQe5WYoXkRfqvzt8Zinleucikwy+
+         hRA2+5AaN16cDBPUxAABqKfK854lwKRdJYLH8RyKWUWiXqEzYHGLPF9Ys9CeeeBeLt
+         P5ikdtNdI08HzbDRZarbCfotl/dnWAQV31r2PuTklWR/YoAVfZUlHMP4VIrQXpyl1e
+         nK+EOUaUt0FpTB3XBAIdy3He2cwufeUhtmXD+wwrne81yOtRh+7LA8r6ziwG6U/0tg
+         5kKbsqRIMxeBTLzXkSWnJ9ADpe9KeV6QS8W7ybOhnSMEcatthVpy6JUQDM/efEajFH
+         JtGFEwcByqq1A==
+Message-ID: <b048719a-9397-7490-0651-7c1470ef61e0@collabora.com>
+Date:   Fri, 15 Sep 2023 15:02:53 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v9 1/2] Added Digiteq Automotive MGB4 driver
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
+ entries
 Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-References: <20230912120745.902-1-tumic@gpxsee.org>
- <20230912120745.902-2-tumic@gpxsee.org>
- <c38400f8-6193-46b6-9e26-0094af6627ca@xs4all.nl>
-From:   =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <c38400f8-6193-46b6-9e26-0094af6627ca@xs4all.nl>
+To:     kernel test robot <lkp@intel.com>, mchehab@kernel.org,
+        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+        nicolas.dufresne@collabora.com
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230914133323.198857-46-benjamin.gaignard@collabora.com>
+ <202309150835.kxjWQyEU-lkp@intel.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <202309150835.kxjWQyEU-lkp@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
 
-On 15. 09. 23 13:50, Hans Verkuil wrote:
-> Hi Martin,
-> 
-> On 12/09/2023 14:07, tumic@gpxsee.org wrote:
->> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
->>
->> Digiteq Automotive MGB4 is a modular frame grabber PCIe card for automotive
->> video interfaces. As for now, two modules - FPD-Link and GMSL - are
->> available and supported by the driver. The card has two inputs and two
->> outputs (FPD-Link only).
->>
->> In addition to the video interfaces it also provides a trigger signal
->> interface and a MTD interface for FPGA firmware upload.
->>
->> Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
->> ---
-> 
-> <snip>
-> 
->> +static ssize_t video_source_show(struct device *dev,
->> +				 struct device_attribute *attr, char *buf)
->> +{
->> +	struct video_device *vdev = to_video_device(dev);
->> +	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
->> +	u32 config = mgb4_read_reg(&voutdev->mgbdev->video,
->> +	  voutdev->config->regs.config);
->> +
->> +	return sprintf(buf, "%u\n", (config & 0xc) >> 2);
->> +}
->> +
->> +static ssize_t video_source_store(struct device *dev,
->> +				  struct device_attribute *attr,
->> +				  const char *buf, size_t count)
->> +{
->> +	struct video_device *vdev = to_video_device(dev);
->> +	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
->> +	struct mgb4_dev *mgbdev = voutdev->mgbdev;
->> +	struct mgb4_vin_dev *loopin_new = 0, *loopin_old = 0;
->> +	unsigned long val;
->> +	unsigned long flags_in[MGB4_VIN_DEVICES], flags_out[MGB4_VOUT_DEVICES];
->> +	ssize_t ret;
->> +	u32 config;
->> +	int i;
->> +
->> +	memset(flags_in, 0, sizeof(flags_in));
->> +	memset(flags_out, 0, sizeof(flags_out));
->> +
->> +	ret = kstrtoul(buf, 10, &val);
->> +	if (ret)
->> +		return ret;
->> +	if (val > 3)
->> +		return -EINVAL;
->> +
->> +	for (i = 0; i < MGB4_VIN_DEVICES; i++)
->> +		if (mgbdev->vin[i])
->> +			spin_lock_irqsave(&mgbdev->vin[i]->vdev.fh_lock,
->> +					  flags_in[i]);
->> +	for (i = 0; i < MGB4_VOUT_DEVICES; i++)
->> +		if (mgbdev->vout[i])
->> +			spin_lock_irqsave(&mgbdev->vout[i]->vdev.fh_lock,
->> +					  flags_out[i]);
-> 
-> I missed this in my review: never use fh_lock, that's for internal use only.
-> 
-> Instead, use the vdev->lock mutex.
-> 
->> +
->> +	ret = -EBUSY;
->> +	for (i = 0; i < MGB4_VIN_DEVICES; i++)
->> +		if (mgbdev->vin[i] && !list_empty(&mgbdev->vin[i]->vdev.fh_list))
->> +			goto error;
-> 
-> This is also wrong, the key moment at which such changes are no longer allowed
-> is when you allocate buffers for the first time. Use vb2_is_busy() to detect that.
-> 
->  From what I can see in the code most store functions operate on a single video device,
-> so for those using mutex_lock_interruptible(vdev->lock) and vb2_is_busy() will do the
-> trick.
-> 
+Le 15/09/2023 à 02:47, kernel test robot a écrit :
+> Hi Benjamin,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.6-rc1]
+> [cannot apply to next-20230914]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230914-221757
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20230914133323.198857-46-benjamin.gaignard%40collabora.com
+> patch subject: [PATCH v7 45/49] media: core: Add bitmap manage bufs array entries
+> config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230915/202309150835.kxjWQyEU-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309150835.kxjWQyEU-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     samples/v4l/v4l2-pci-skeleton.c: In function 'queue_setup':
+>>> samples/v4l/v4l2-pci-skeleton.c:170:15: error: 'struct vb2_queue' has no member named 'num_buffers'
+>       170 |         if (vq->num_buffers + *nbuffers < 3)
+>           |               ^~
+>     samples/v4l/v4l2-pci-skeleton.c:171:35: error: 'struct vb2_queue' has no member named 'num_buffers'
+>       171 |                 *nbuffers = 3 - vq->num_buffers;
+>           |                                   ^~
+> --
+>     drivers/input/touchscreen/sur40.c: In function 'sur40_queue_setup':
+>>> drivers/input/touchscreen/sur40.c:851:14: error: 'struct vb2_queue' has no member named 'num_buffers'
+>       851 |         if (q->num_buffers + *nbuffers < 3)
+>           |              ^~
+>     drivers/input/touchscreen/sur40.c:852:34: error: 'struct vb2_queue' has no member named 'num_buffers'
+>       852 |                 *nbuffers = 3 - q->num_buffers;
+>           |                                  ^~
+>
+>
+> vim +170 samples/v4l/v4l2-pci-skeleton.c
 
-Ok, I will change the check to vb2_is_busy() under the vdev->lock for 
-all the "standard" cases (which are all, except the video_source_store() 
-case).
+v4l2 drivers outside drivers/media or drivers/staging/media direct directories.
+I have miss them. I will fix that in v8.
 
-> For this store function that needs to check all devices it is more complicated.
-> 
-> I think the best approach would be to create a top-level field 'reconfig_in_progress'
-> (or something along those lines), protected by a spinlock.
-> 
-> At the start this function will take the lock, check if reconfig is already in progress
-> and just return EBUSY here. Otherwise it sets reconfig_in_progress to true and unlocks
-> the lock.
-> 
-> After that for each video device you take the vdev->lock, check if vb2_is_busy() and
-> unlock vdev->lock. If any is busy, then set reconfig_in_progress back to false and
-> return EBUSY here.
-> 
-> To prevent another process from creating buffers, you have to check in the queue_setup
-> functions if a reconfig is in progress and return EBUSY there.
-> 
-> This scheme avoids having to lock ALL video devices (bad practice), and it should
-> also avoid this smatch warning.
-> 
+Regards,
+Benjamin
 
-Ok, for this "ugly" one configuration I will add a PCIe device-based 
-field and check it in all the v4l2 device's queue_setup() functions. 
-Sounds better than locking all the devices at the same time.
-
-Thanks for your help, I will send you a v10 with this two changes 
-(together with the sparse/smatch fixes) soon.
-
-M.
-
-> Note: instead of using a spinlock I think you can also use test_and_set_bit: that's
-> atomic and you can avoid adding a spinlock.
-> 
-> Regards,
-> 
-> 	Hans
-> 
->> +	for (i = 0; i < MGB4_VOUT_DEVICES; i++)
->> +		if (mgbdev->vout[i] && !list_empty(&mgbdev->vout[i]->vdev.fh_list))
->> +			goto error;
->> +
->> +	config = mgb4_read_reg(&mgbdev->video, voutdev->config->regs.config);
->> +
->> +	if (((config & 0xc) >> 2) < MGB4_VIN_DEVICES)
->> +		loopin_old = mgbdev->vin[(config & 0xc) >> 2];
->> +	if (val < MGB4_VIN_DEVICES)
->> +		loopin_new = mgbdev->vin[val];
->> +	if (loopin_old && loopin_cnt(loopin_old) == 1)
->> +		mgb4_mask_reg(&mgbdev->video, loopin_old->config->regs.config,
->> +			      0x2, 0x0);
->> +	if (loopin_new)
->> +		mgb4_mask_reg(&mgbdev->video, loopin_new->config->regs.config,
->> +			      0x2, 0x2);
->> +
->> +	if (val == voutdev->config->id + MGB4_VIN_DEVICES)
->> +		mgb4_write_reg(&mgbdev->video, voutdev->config->regs.config,
->> +			       config & ~(1 << 1));
->> +	else
->> +		mgb4_write_reg(&mgbdev->video, voutdev->config->regs.config,
->> +			       config | (1U << 1));
->> +
->> +	mgb4_mask_reg(&mgbdev->video, voutdev->config->regs.config, 0xc,
->> +		      val << 2);
->> +
->> +	ret = count;
->> +
->> +error:
->> +	for (i = MGB4_VOUT_DEVICES - 1; i >= 0; i--)
->> +		if (mgbdev->vout[i])
->> +			spin_unlock_irqrestore(&mgbdev->vout[i]->vdev.fh_lock,
->> +					       flags_out[i]);
->> +	for (i = MGB4_VIN_DEVICES - 1; i >= 0; i--)
->> +		if (mgbdev->vin[i])
->> +			spin_unlock_irqrestore(&mgbdev->vin[i]->vdev.fh_lock,
->> +					       flags_in[i]);
->> +
->> +	return ret;
->> +}
-> 
-
+>
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  145
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  146  /*
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  147   * Setup the constraints of the queue: besides setting the number of planes
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  148   * per buffer and the size and allocation context of each plane, it also
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  149   * checks if sufficient buffers have been allocated. Usually 3 is a good
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  150   * minimum number: many DMA engines need a minimum of 2 buffers in the
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  151   * queue and you need to have another available for userspace processing.
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  152   */
+> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  153  static int queue_setup(struct vb2_queue *vq,
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  154  		       unsigned int *nbuffers, unsigned int *nplanes,
+> 36c0f8b32c4bd4 samples/v4l/v4l2-pci-skeleton.c               Hans Verkuil 2016-04-15  155  		       unsigned int sizes[], struct device *alloc_devs[])
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  156  {
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  157  	struct skeleton *skel = vb2_get_drv_priv(vq);
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  158
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  159  	skel->field = skel->format.field;
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  160  	if (skel->field == V4L2_FIELD_ALTERNATE) {
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  161  		/*
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  162  		 * You cannot use read() with FIELD_ALTERNATE since the field
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  163  		 * information (TOP/BOTTOM) cannot be passed back to the user.
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  164  		 */
+> 3130a28a1568b1 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-23  165  		if (vb2_fileio_is_active(vq))
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  166  			return -EINVAL;
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  167  		skel->field = V4L2_FIELD_TOP;
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  168  	}
+> 5f26f2501b8119 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-04-11  169
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14 @170  	if (vq->num_buffers + *nbuffers < 3)
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  171  		*nbuffers = 3 - vq->num_buffers;
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  172
+> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  173  	if (*nplanes)
+> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  174  		return sizes[0] < skel->format.sizeimage ? -EINVAL : 0;
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  175  	*nplanes = 1;
+> df9ecb0cad14b9 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2015-10-28  176  	sizes[0] = skel->format.sizeimage;
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  177  	return 0;
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  178  }
+> 926977e0ae7556 Documentation/video4linux/v4l2-pci-skeleton.c Hans Verkuil 2014-03-14  179
+>
