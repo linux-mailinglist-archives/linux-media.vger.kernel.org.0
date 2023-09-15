@@ -2,82 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21C927A1EC8
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 14:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 303797A1F03
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 14:44:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234343AbjIOMdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 08:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42260 "EHLO
+        id S234995AbjIOMou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 08:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234330AbjIOMdu (ORCPT
+        with ESMTP id S234981AbjIOMou (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 08:33:50 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E79BD3
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 05:33:45 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-404c023ef5eso645915e9.2
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 05:33:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694781224; x=1695386024; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RUflmh4qQ8B/WFQpBNSKOdW/4uwxczL/Xulw2wdH1lQ=;
-        b=JQZZKxGk92FEJmN8g7o1OqN8LeEMtOHqzwpVErA9j9HoZnFXRkqHOwKiEzoTj5bGsg
-         tLGwMcGc3lupqMJVUHAiA39b/fBpFgHXgjuUPNlXX6dUq3sG/mlCm3cyWPsQCVLmEaMi
-         GTqZlnZ/biUYJMKtZykaAAdq+aF/K3ztEQOp5/LoBhQwnekJw9Xl/Ozpyv2EM1MgDzm+
-         RVR4/N+pPN2rtI+4vbEH8CwG7JYiXuw4dUc7SXcsCUPfU8gduMwwwUGSr6z3MRkOa4d4
-         uCtWEZ+sIkpmLpF0cR+LbOXBqvfise7csQ2tnrHemdr4pEBbBUgvEJ7vRKpYpl3QsUg2
-         rk0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694781224; x=1695386024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RUflmh4qQ8B/WFQpBNSKOdW/4uwxczL/Xulw2wdH1lQ=;
-        b=CLhPuiMKWA5fq8DqVPUO1BjcKVtJtCTCo/un6ptI8DGByQyaHo1dpAxTq2/6wScXb5
-         SyjRovXFIjy2dOmHwCozOnWjdwV72RZQcvs5sTyi0glTZdiA1l15XRhASzES+J5i+9+5
-         rCo5R2UOY7qHrXEvIdnwLPU7zsyV36xd6ZtqmkU1NYKT87IWOXOweaPE+k2dYmdr7O8E
-         n48EHFyk16OLZlKmhs4nZH9zPnrYDyYe88wN+rFaLNNa8pqU+glkdjZQCXT9m13iTYrx
-         cn3Z2KB3a89Bn/Hewf+PMvC59+w4eG8Q2WMsxQQwQ4q9HUwkjibEmVB/SK9l/FyF9ZVs
-         RkZg==
-X-Gm-Message-State: AOJu0Yy6/0kZ2EtmuwkeJC1tJZVs4Qrv4HaFtEvKjM4BhLEFa3vXFIx4
-        4g5wB+FbQ0q8fiZ98jS5EyrFVg==
-X-Google-Smtp-Source: AGHT+IEXJxeuznECg/KVhjt1QvjvR2Tw2XeeiZ/7QRi2IaCLCcMSwSMos+je8/bQAc+71y5qesI2Uw==
-X-Received: by 2002:a05:600c:364f:b0:400:2dc5:2006 with SMTP id y15-20020a05600c364f00b004002dc52006mr1448236wmq.36.1694781223461;
-        Fri, 15 Sep 2023 05:33:43 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x13-20020a1c7c0d000000b003fc0505be19sm4491795wmc.37.2023.09.15.05.33.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 05:33:43 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 15:33:40 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Ma Ke <make_ruc2021@163.com>
-Cc:     mripard@kernel.org, paul.kocialkowski@bootlin.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] media: cedrus: fix use after free bug in cedrus_remove
- due to race condition
-Message-ID: <6ccc8fb2-4bd9-4df5-afe2-17868c4023f6@kadam.mountain>
-References: <20230915114038.3407953-1-make_ruc2021@163.com>
+        Fri, 15 Sep 2023 08:44:50 -0400
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EB205D3;
+        Fri, 15 Sep 2023 05:44:43 -0700 (PDT)
+Received: from [192.168.42.133] (host-178-72-203-90.ip.nej.cz [178.72.203.90])
+        by mx.gpxsee.org (Postfix) with ESMTPSA id A35BE326A6;
+        Fri, 15 Sep 2023 14:44:41 +0200 (CEST)
+Message-ID: <4b0fe0ec-79fd-42fc-afe8-c44eef471621@gpxsee.org>
+Date:   Fri, 15 Sep 2023 14:44:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230915114038.3407953-1-make_ruc2021@163.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v9 1/2] Added Digiteq Automotive MGB4 driver
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
+References: <20230912120745.902-1-tumic@gpxsee.org>
+ <20230912120745.902-2-tumic@gpxsee.org>
+ <c38400f8-6193-46b6-9e26-0094af6627ca@xs4all.nl>
+From:   =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
+In-Reply-To: <c38400f8-6193-46b6-9e26-0094af6627ca@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-No, the code is okay.  The works is created in probe() and canceled in
-remove().  You've added a new cancel in release() which is the wrong
-place.  probe() pairs with remove().  open() pairs with release().
+Hi Hans,
 
-regards,
-dan carpenter
+On 15. 09. 23 13:50, Hans Verkuil wrote:
+> Hi Martin,
+> 
+> On 12/09/2023 14:07, tumic@gpxsee.org wrote:
+>> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+>>
+>> Digiteq Automotive MGB4 is a modular frame grabber PCIe card for automotive
+>> video interfaces. As for now, two modules - FPD-Link and GMSL - are
+>> available and supported by the driver. The card has two inputs and two
+>> outputs (FPD-Link only).
+>>
+>> In addition to the video interfaces it also provides a trigger signal
+>> interface and a MTD interface for FPGA firmware upload.
+>>
+>> Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+>> ---
+> 
+> <snip>
+> 
+>> +static ssize_t video_source_show(struct device *dev,
+>> +				 struct device_attribute *attr, char *buf)
+>> +{
+>> +	struct video_device *vdev = to_video_device(dev);
+>> +	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
+>> +	u32 config = mgb4_read_reg(&voutdev->mgbdev->video,
+>> +	  voutdev->config->regs.config);
+>> +
+>> +	return sprintf(buf, "%u\n", (config & 0xc) >> 2);
+>> +}
+>> +
+>> +static ssize_t video_source_store(struct device *dev,
+>> +				  struct device_attribute *attr,
+>> +				  const char *buf, size_t count)
+>> +{
+>> +	struct video_device *vdev = to_video_device(dev);
+>> +	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
+>> +	struct mgb4_dev *mgbdev = voutdev->mgbdev;
+>> +	struct mgb4_vin_dev *loopin_new = 0, *loopin_old = 0;
+>> +	unsigned long val;
+>> +	unsigned long flags_in[MGB4_VIN_DEVICES], flags_out[MGB4_VOUT_DEVICES];
+>> +	ssize_t ret;
+>> +	u32 config;
+>> +	int i;
+>> +
+>> +	memset(flags_in, 0, sizeof(flags_in));
+>> +	memset(flags_out, 0, sizeof(flags_out));
+>> +
+>> +	ret = kstrtoul(buf, 10, &val);
+>> +	if (ret)
+>> +		return ret;
+>> +	if (val > 3)
+>> +		return -EINVAL;
+>> +
+>> +	for (i = 0; i < MGB4_VIN_DEVICES; i++)
+>> +		if (mgbdev->vin[i])
+>> +			spin_lock_irqsave(&mgbdev->vin[i]->vdev.fh_lock,
+>> +					  flags_in[i]);
+>> +	for (i = 0; i < MGB4_VOUT_DEVICES; i++)
+>> +		if (mgbdev->vout[i])
+>> +			spin_lock_irqsave(&mgbdev->vout[i]->vdev.fh_lock,
+>> +					  flags_out[i]);
+> 
+> I missed this in my review: never use fh_lock, that's for internal use only.
+> 
+> Instead, use the vdev->lock mutex.
+> 
+>> +
+>> +	ret = -EBUSY;
+>> +	for (i = 0; i < MGB4_VIN_DEVICES; i++)
+>> +		if (mgbdev->vin[i] && !list_empty(&mgbdev->vin[i]->vdev.fh_list))
+>> +			goto error;
+> 
+> This is also wrong, the key moment at which such changes are no longer allowed
+> is when you allocate buffers for the first time. Use vb2_is_busy() to detect that.
+> 
+>  From what I can see in the code most store functions operate on a single video device,
+> so for those using mutex_lock_interruptible(vdev->lock) and vb2_is_busy() will do the
+> trick.
+> 
+
+Ok, I will change the check to vb2_is_busy() under the vdev->lock for 
+all the "standard" cases (which are all, except the video_source_store() 
+case).
+
+> For this store function that needs to check all devices it is more complicated.
+> 
+> I think the best approach would be to create a top-level field 'reconfig_in_progress'
+> (or something along those lines), protected by a spinlock.
+> 
+> At the start this function will take the lock, check if reconfig is already in progress
+> and just return EBUSY here. Otherwise it sets reconfig_in_progress to true and unlocks
+> the lock.
+> 
+> After that for each video device you take the vdev->lock, check if vb2_is_busy() and
+> unlock vdev->lock. If any is busy, then set reconfig_in_progress back to false and
+> return EBUSY here.
+> 
+> To prevent another process from creating buffers, you have to check in the queue_setup
+> functions if a reconfig is in progress and return EBUSY there.
+> 
+> This scheme avoids having to lock ALL video devices (bad practice), and it should
+> also avoid this smatch warning.
+> 
+
+Ok, for this "ugly" one configuration I will add a PCIe device-based 
+field and check it in all the v4l2 device's queue_setup() functions. 
+Sounds better than locking all the devices at the same time.
+
+Thanks for your help, I will send you a v10 with this two changes 
+(together with the sparse/smatch fixes) soon.
+
+M.
+
+> Note: instead of using a spinlock I think you can also use test_and_set_bit: that's
+> atomic and you can avoid adding a spinlock.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>> +	for (i = 0; i < MGB4_VOUT_DEVICES; i++)
+>> +		if (mgbdev->vout[i] && !list_empty(&mgbdev->vout[i]->vdev.fh_list))
+>> +			goto error;
+>> +
+>> +	config = mgb4_read_reg(&mgbdev->video, voutdev->config->regs.config);
+>> +
+>> +	if (((config & 0xc) >> 2) < MGB4_VIN_DEVICES)
+>> +		loopin_old = mgbdev->vin[(config & 0xc) >> 2];
+>> +	if (val < MGB4_VIN_DEVICES)
+>> +		loopin_new = mgbdev->vin[val];
+>> +	if (loopin_old && loopin_cnt(loopin_old) == 1)
+>> +		mgb4_mask_reg(&mgbdev->video, loopin_old->config->regs.config,
+>> +			      0x2, 0x0);
+>> +	if (loopin_new)
+>> +		mgb4_mask_reg(&mgbdev->video, loopin_new->config->regs.config,
+>> +			      0x2, 0x2);
+>> +
+>> +	if (val == voutdev->config->id + MGB4_VIN_DEVICES)
+>> +		mgb4_write_reg(&mgbdev->video, voutdev->config->regs.config,
+>> +			       config & ~(1 << 1));
+>> +	else
+>> +		mgb4_write_reg(&mgbdev->video, voutdev->config->regs.config,
+>> +			       config | (1U << 1));
+>> +
+>> +	mgb4_mask_reg(&mgbdev->video, voutdev->config->regs.config, 0xc,
+>> +		      val << 2);
+>> +
+>> +	ret = count;
+>> +
+>> +error:
+>> +	for (i = MGB4_VOUT_DEVICES - 1; i >= 0; i--)
+>> +		if (mgbdev->vout[i])
+>> +			spin_unlock_irqrestore(&mgbdev->vout[i]->vdev.fh_lock,
+>> +					       flags_out[i]);
+>> +	for (i = MGB4_VIN_DEVICES - 1; i >= 0; i--)
+>> +		if (mgbdev->vin[i])
+>> +			spin_unlock_irqrestore(&mgbdev->vin[i]->vdev.fh_lock,
+>> +					       flags_in[i]);
+>> +
+>> +	return ret;
+>> +}
+> 
 
