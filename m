@@ -2,110 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5E207A1FD0
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 15:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 441AF7A2094
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 16:13:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235281AbjION1C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 09:27:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54978 "EHLO
+        id S235618AbjIOONu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 10:13:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235233AbjION1C (ORCPT
+        with ESMTP id S235588AbjIOONs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 09:27:02 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B188D171C
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 06:26:55 -0700 (PDT)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38FClVHt008712;
-        Fri, 15 Sep 2023 15:26:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-        message-id:date:mime-version:subject:to:cc:references:from
-        :in-reply-to:content-type:content-transfer-encoding; s=
-        selector1; bh=dMmP3dOjMQ2njmdlY/1PCjGVw9QkxSBy90b+exOlfxE=; b=SH
-        VQldM5HMafc1C7bJb+EGz+y+6yHi9pamLxEDkxIXAvRVYlfuFP5Cf/F762iYydOK
-        X50RFtnaenFgfyxYh24FX1XpHvvQUv2Wea0NlpxQyoJBWFJjYc8Kf17Gtn6ld6tL
-        QZyOF3VhWuQaf1AU+XJAXNz+/sSBDwA5FxevXfD215RgN2i++DhQ3RnJtRcB6bfK
-        Pb3WBkFbfjG++P3n8yE0luaAhOG8VX1vZ5hy8qYXGOn4xL1Bb2gf7jRBwLgnuW9Z
-        t7trsoC6f5V+N6+3ykI6B9XDXkw2drxwQQZ+sAimGrk4N7idPVrgw5zIZ49d9iB5
-        QG13YMC9pGSQ35/Yo6Iw==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3t2y7nnnu9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 15 Sep 2023 15:26:41 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 76A5D100056;
-        Fri, 15 Sep 2023 15:26:39 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6EF982309F0;
-        Fri, 15 Sep 2023 15:26:39 +0200 (CEST)
-Received: from [10.252.4.8] (10.252.4.8) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 15 Sep
- 2023 15:26:39 +0200
-Message-ID: <ab2b1627-aaeb-554f-fa94-1574f8d4e607@foss.st.com>
-Date:   Fri, 15 Sep 2023 15:26:38 +0200
+        Fri, 15 Sep 2023 10:13:48 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 649E21FD2
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 07:13:42 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-40479f8325fso10249435e9.1
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 07:13:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694787221; x=1695392021; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K6yZXoqtvOOS4qbu6sLA5FY9z1WwgeTbxy586H6k95M=;
+        b=j84yIcWXOdKxU+LkEhNe7oxpoqjXsxtzJT9btQ8+YveAjK327mIwg4VBnGj3Ubq8YQ
+         e+IupUeZPcvejcc504qaN2D8KOUMVzuxk9o9aj4dYfbHu86rtg0fh7uYvdp+iulw2iec
+         PnURk7w92gv+t9/QEpv56dx0F2FRZgpOQdEj9gZlt/ou9gG6f9EeXdq4Dk78Ng21l1hI
+         6ZWq4cAfrAgDyy4C1aIlbCdRTTZd0LF3kbigXBGLRBeoczMs8tsFQwMUC1oc3QyIFWqN
+         P3zPsOAiknSqJxRy9zceWqPUZfkrOV1GSxyz2E+Ne1iEt13HSXiVWZswhGzp5nFEPjHc
+         mZpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694787221; x=1695392021;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K6yZXoqtvOOS4qbu6sLA5FY9z1WwgeTbxy586H6k95M=;
+        b=X1+i5ddmZ2J/lQgwjBEhze/iVRBbpgZ0tsh5NvFkaiKpsZA/Jo1pVtAplwsKxNbQTW
+         1ZMFiGAhTJ7XRNPWa5O7WQfwIMzk5EMyoR5msrxLAjF86WpetfqtFuA2zyX+GHOPQONm
+         QeG7Uy45CQ51zH7eMu5pG6Sr+NM7ar7TyIkGeZB1ke5yKSKO8vPZq1M2i6huf2B6ntK4
+         qMXm22EVoZngY8mzUKOWcch39d1Jj5ybrxwtYjqLHz0mAszRv7jkfOg81yYnxgYPwEuf
+         E2v0r9Q0kuoROAZtByr+QItDuO/wIM1zoXqSs9rQfbaiSIUt6hg71tG/wM5PHAyTEg1G
+         5sgQ==
+X-Gm-Message-State: AOJu0YyreuoFnOCTPU1V5oMJENr0rkFLkUe8SEpz49gwNDhZLDCNGUcR
+        lQ+/J1qNGIGpf/w+/CwqMBG1lC42cvgZQEa0YDM=
+X-Google-Smtp-Source: AGHT+IGNni64BZTGUnXlSAyqxyh5hPWg10T5R2V9mWZY4Z78EANoT4sztE+/HOPhH4TuL8+x2Y8k7A==
+X-Received: by 2002:a05:600c:144:b0:401:b504:b6a0 with SMTP id w4-20020a05600c014400b00401b504b6a0mr2000348wmm.3.1694787220735;
+        Fri, 15 Sep 2023 07:13:40 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id p18-20020a1c7412000000b00401d6c0505csm4711631wmc.47.2023.09.15.07.13.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Sep 2023 07:13:40 -0700 (PDT)
+Message-ID: <d8d80db6-7010-47c1-a068-f73fbcbc96a0@linaro.org>
+Date:   Fri, 15 Sep 2023 15:13:39 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH] media: i2c: Use pm_runtime_resume_and_get()
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT 00/20] Venus cleanups
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>
-CC:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Martin Kepplinger <martink@posteo.de>,
-        Daniel Scally <djrscally@gmail.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>
-References: <20230914172054.31825-1-laurent.pinchart@ideasonboard.com>
-From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20230914172054.31825-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.252.4.8]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-15_10,2023-09-14_01,2023-05-22_02
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 11/09/2023 16:10, Konrad Dybcio wrote:
+> With the driver supporting multiple generations of hardware, some mold
+> has definitely grown over the code..
+> 
+> This series attempts to amend this situation a bit by commonizing some
+> code paths and fixing some bugs while at it.
+> 
+> Only tested on SM8250.
+> 
+> Definitely needs testing on:
+> 
+> - SDM845 with old bindings
+> - SDM845 with new bindings or 7180
+> - MSM8916
+> - MSM8996
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+> Konrad Dybcio (20):
+>        media: venus: pm_helpers: Only set rate of the core clock in core_clks_enable
+>        media: venus: pm_helpers: Rename core_clks_get to venus_clks_get
+>        media: venus: pm_helpers: Add kerneldoc to venus_clks_get()
+>        media: venus: core: Set OPP clkname in a common code path
+>        media: venus: pm_helpers: Kill dead code
+>        media: venus: pm_helpers: Move reset acquisition to common code
+>        media: venus: pm_helpers: Use reset_bulk API
+>        media: venus: core: Constify all members of the resource struct
+>        media: venus: core: Deduplicate OPP genpd names
+>        media: venus: core: Get rid of vcodec_num
+>        media: venus: core: Drop cache properties in resource struct
+>        media: venus: core: Use GENMASK for dma_mask
+>        media: venus: core: Remove cp_start
+>        media: venus: pm_helpers: Commonize core_power
+>        media: venus: pm_helpers: Remove pm_ops->core_put
+>        media: venus: core: Define a pointer to core->res
+>        media: venus: pm_helpers: Simplify vcodec clock handling
+>        media: venus: pm_helpers: Commonize getting clocks and GenPDs
+>        media: venus: pm_helpers: Commonize vdec_get()
+>        media: venus: pm_helpers: Commonize venc_get()
+> 
+>   drivers/media/platform/qcom/venus/core.c       | 138 ++++-------
+>   drivers/media/platform/qcom/venus/core.h       |  64 +++--
+>   drivers/media/platform/qcom/venus/firmware.c   |   3 +-
+>   drivers/media/platform/qcom/venus/hfi_venus.c  |   7 +-
+>   drivers/media/platform/qcom/venus/pm_helpers.c | 328 +++++++++----------------
+>   drivers/media/platform/qcom/venus/pm_helpers.h |  10 +-
+>   drivers/media/platform/qcom/venus/vdec.c       |   9 +-
+>   drivers/media/platform/qcom/venus/venc.c       |   9 +-
+>   8 files changed, 213 insertions(+), 355 deletions(-)
+> ---
+> base-commit: 7bc675554773f09d88101bf1ccfc8537dc7c0be9
+> change-id: 20230911-topic-mars-e60bb2269411
+> 
+> Best regards,
 
-Just tested it on the vgxy61. Thanks for cleaning the
-pm_runtime_put_autosuspend part.
+b4 shazam 20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org
+Grabbing thread from 
+lore.kernel.org/all/20230911-topic-mars-v1-0-a7d38bf87bdb@linaro.org/t.mbox.gz
+Checking for newer revisions
+Grabbing search results from lore.kernel.org
+Analyzing 27 messages in the thread
+Checking attestation on all messages, may take a moment...
+---
+   [PATCH 1/20] media: venus: pm_helpers: Only set rate of the core 
+clock in core_clks_enable
+   [PATCH 2/20] media: venus: pm_helpers: Rename core_clks_get to 
+venus_clks_get
+   [PATCH 3/20] media: venus: pm_helpers: Add kerneldoc to venus_clks_get()
+   [PATCH 4/20] media: venus: core: Set OPP clkname in a common code path
+   [PATCH 5/20] media: venus: pm_helpers: Kill dead code
+   [PATCH 6/20] media: venus: pm_helpers: Move reset acquisition to 
+common code
+   [PATCH 7/20] media: venus: pm_helpers: Use reset_bulk API
+   [PATCH 8/20] media: venus: core: Constify all members of the resource 
+struct
+   [PATCH 9/20] media: venus: core: Deduplicate OPP genpd names
+   [PATCH 10/20] media: venus: core: Get rid of vcodec_num
+   [PATCH 11/20] media: venus: core: Drop cache properties in resource 
+struct
+   [PATCH 12/20] media: venus: core: Use GENMASK for dma_mask
+   [PATCH 13/20] media: venus: core: Remove cp_start
+   [PATCH 14/20] media: venus: pm_helpers: Commonize core_power
+   [PATCH 15/20] media: venus: pm_helpers: Remove pm_ops->core_put
+   [PATCH 16/20] media: venus: core: Define a pointer to core->res
+   [PATCH 17/20] media: venus: pm_helpers: Simplify vcodec clock handling
+   [PATCH 18/20] media: venus: pm_helpers: Commonize getting clocks and 
+GenPDs
+   [PATCH 19/20] media: venus: pm_helpers: Commonize vdec_get()
+   [PATCH 20/20] media: venus: pm_helpers: Commonize venc_get()
+   ---
+   ✗ No key: ed25519/konrad.dybcio@linaro.org
+   ---
+   NOTE: install dkimpy for DKIM signature verification
+---
+Total patches: 20
+---
+  Base: base-commit 7bc675554773f09d88101bf1ccfc8537dc7c0be9 not known, 
+ignoring
+Applying: media: venus: pm_helpers: Only set rate of the core clock in 
+core_clks_enable
+Applying: media: venus: pm_helpers: Rename core_clks_get to venus_clks_get
+Applying: media: venus: pm_helpers: Add kerneldoc to venus_clks_get()
+Applying: media: venus: core: Set OPP clkname in a common code path
+Applying: media: venus: pm_helpers: Kill dead code
+Applying: media: venus: pm_helpers: Move reset acquisition to common code
+Applying: media: venus: pm_helpers: Use reset_bulk API
+Applying: media: venus: core: Constify all members of the resource struct
+Applying: media: venus: core: Deduplicate OPP genpd names
+Applying: media: venus: core: Get rid of vcodec_num
+Applying: media: venus: core: Drop cache properties in resource struct
+Applying: media: venus: core: Use GENMASK for dma_mask
+Applying: media: venus: core: Remove cp_start
+Applying: media: venus: pm_helpers: Commonize core_power
+Applying: media: venus: pm_helpers: Remove pm_ops->core_put
+Applying: media: venus: core: Define a pointer to core->res
+Applying: media: venus: pm_helpers: Simplify vcodec clock handling
+Applying: media: venus: pm_helpers: Commonize getting clocks and GenPDs
+Applying: media: venus: pm_helpers: Commonize vdec_get()
+Applying: media: venus: pm_helpers: Commonize venc_get()
 
-On 9/14/23 19:20, Laurent Pinchart wrote:
-> diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
-> index 30f82ca344c4..5dbfb04b3124 100644
-> --- a/drivers/media/i2c/st-vgxy61.c
-> +++ b/drivers/media/i2c/st-vgxy61.c
-> @@ -1170,14 +1170,9 @@ static int vgxy61_stream_enable(struct vgxy61_dev *sensor)
->  	if (ret)
->  		return ret;
->  
-> -	ret = pm_runtime_get_sync(&client->dev);
-> -	if (ret < 0) {
-> -		pm_runtime_put_autosuspend(&client->dev);
-> +	ret = pm_runtime_resume_and_get(&client->dev);
-> +	if (ret)
->  		return ret;
-> -	}
-> -
-> -	/* pm_runtime_get_sync() can return 1 as a valid return code */
-> -	ret = 0;
->  
->  	vgxy61_write_reg(sensor, VGXY61_REG_FORMAT_CTRL,
->  			 get_bpp_by_code(sensor->fmt.code), &ret);
+   MODPOST Module.symvers
+^[[BERROR: modpost: "vcodec_clks_get" 
+[drivers/media/platform/qcom/venus/venus-dec.ko] undefined!
+ERROR: modpost: "vcodec_clks_get" 
+[drivers/media/platform/qcom/venus/venus-enc.ko] undefined!
+make[3]: *** 
+[/home/deckard/Development/qualcomm/qlt-kernel/scripts/Makefile.modpost:145: 
+Module.symvers] Error 1
+make[2]: *** 
+[/home/deckard/Development/qualcomm/qlt-kernel/Makefile:1865: modpost] 
+Error 2
+make[1]: *** 
+[/home/deckard/Development/qualcomm/qlt-kernel/Makefile:234: __sub-make] 
+Error 2
 
-Acked-By: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+---
+bod
 
--- 
-Regards,
-
-Benjamin
