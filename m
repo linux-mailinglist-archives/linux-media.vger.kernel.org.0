@@ -2,109 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 779E57A2A4D
-	for <lists+linux-media@lfdr.de>; Sat, 16 Sep 2023 00:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54B0E7A2AAC
+	for <lists+linux-media@lfdr.de>; Sat, 16 Sep 2023 00:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235323AbjIOWQv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 18:16:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57334 "EHLO
+        id S238292AbjIOWop (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 18:44:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237883AbjIOWQa (ORCPT
+        with ESMTP id S238161AbjIOWoM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 18:16:30 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 192F32130;
-        Fri, 15 Sep 2023 15:16:24 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B99B4C433C8;
-        Fri, 15 Sep 2023 22:16:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694816183;
-        bh=8/9Iwnwza/TRWfwL1yVUqZ9VoJBLxQOEU/LTTMOH1uo=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=sEMK1s3t9tnA/d0DfxKpj4ILKrM4XkbQpVBMAw33Jt1RZGdCNa/EHdg1iBRvGan3V
-         HTsU86alti/DlHVApX9rvysY+LpH8P6bYK31QEm6Bj6qEveqkQ+/yct/QDSjy04glz
-         ysJrQdQdr/OxRCwjDZZ6aaYbtWrTnZySVmcYcb/ANH7vah0o2QCE4kmjvSFWwIbUNP
-         yIHaDS5+bNJ/0rEGJxt5rptWAZDtpRLIoY1YKpqhm8pTc28/7sMqFn25ww7l8+1Nkd
-         FJ+yxWRKN6t0DuymdM2a21EWLyHrt2kn6X+WPuwrJ66Ve32o+phQTa3vjB7euHVMvA
-         JkUaoFKHSRqsw==
-Received: (nullmailer pid 236414 invoked by uid 1000);
-        Fri, 15 Sep 2023 22:16:20 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Fri, 15 Sep 2023 18:44:12 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B9F101
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 15:44:07 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F18F110FE
+        for <linux-media@vger.kernel.org>; Sat, 16 Sep 2023 00:42:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694817752;
+        bh=d9xCtJ7/ZedulLlvoo3Zhhu/17QQ7XOmWJtV3oASuao=;
+        h=Date:From:To:Subject:From;
+        b=mBA6Xwp52LiFl5Hg2DxHmKn5HnJyvtu8yo6KQKZ2trbpT+yKprheS6u+Tl3/abdw5
+         fDt66uZPUp766w++UWpxehIyL8rQjaKY19FAq4GI2nNhI2IUInKhObe5ObKRVuvdNd
+         S2V4AqC/hCVJOdHgYKCTXKxQDvd4NKsAv4kBW3BA=
+Date:   Sat, 16 Sep 2023 01:44:19 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Subject: [GIT FIXES FOR v6.6] imx-mipi-csis regression fix
+Message-ID: <20230915224419.GA31632@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     devicetree@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-arm-kernel@lists.infradead.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        linux-media@vger.kernel.org
-In-Reply-To: <20230915-wave5_v12_on_media_master-v12-6-92fc66cd685d@collabora.com>
-References: <20230915-wave5_v12_on_media_master-v12-0-92fc66cd685d@collabora.com>
- <20230915-wave5_v12_on_media_master-v12-6-92fc66cd685d@collabora.com>
-Message-Id: <169481618060.236398.6210891129311691076.robh@kernel.org>
-Subject: Re: [PATCH v12 6/7] dt-bindings: media: wave5: add yaml devicetree
- bindings
-Date:   Fri, 15 Sep 2023 17:16:20 -0500
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
-On Fri, 15 Sep 2023 23:11:35 +0200, Sebastian Fricke wrote:
-> From: Robert Beckett <bob.beckett@collabora.com>
-> 
-> Add bindings for the wave5 chips&media codec driver
-> 
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> ---
->  .../devicetree/bindings/media/cnm,wave5.yaml       | 66 ++++++++++++++++++++++
->  1 file changed, 66 insertions(+)
-> 
+The following changes since commit 735de5caf79e06cc9fb96b1b4f4974674ae3e917:
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+  media: vb2: frame_vector.c: replace WARN_ONCE with a comment (2023-09-14 23:31:55 +0200)
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/cnm,wave5.yaml:19:9: [warning] wrong indentation: expected 6 but found 8 (indentation)
+are available in the Git repository at:
 
-dtschema/dtc warnings/errors:
+  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-fixes-imx-20230916
 
-doc reference errors (make refcheckdocs):
+for you to fetch changes up to efc6a9c89d9234cd674dacf5afd633e8ad00e2c8:
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230915-wave5_v12_on_media_master-v12-6-92fc66cd685d@collabora.com
+  media: imx-mipi-csis: Remove an incorrect fwnode_handle_put() call (2023-09-15 21:54:04 +0300)
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+----------------------------------------------------------------
+Regression fix for the imx-mipi-csis driver
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+----------------------------------------------------------------
+Christophe JAILLET (1):
+      media: imx-mipi-csis: Remove an incorrect fwnode_handle_put() call
 
-pip3 install dtschema --upgrade
+ drivers/media/platform/nxp/imx-mipi-csis.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+Regards,
 
+Laurent Pinchart
