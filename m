@@ -2,136 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A541F7A2AEF
-	for <lists+linux-media@lfdr.de>; Sat, 16 Sep 2023 01:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C7C87A2B00
+	for <lists+linux-media@lfdr.de>; Sat, 16 Sep 2023 01:33:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237994AbjIOXSZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 19:18:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41772 "EHLO
+        id S231819AbjIOXdA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 19:33:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238008AbjIOXSG (ORCPT
+        with ESMTP id S233245AbjIOXcv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 19:18:06 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D68671BEB
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 16:17:59 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        Fri, 15 Sep 2023 19:32:51 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE27A1FF5
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 16:32:46 -0700 (PDT)
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qhI4T-005prr-J8; Fri, 15 Sep 2023 23:17:57 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.96)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qhI4P-00EmJJ-2x;
-        Fri, 15 Sep 2023 23:17:55 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT FIXES FOR v6.6] imx-mipi-csis regression fix (#94815)
-Date:   Fri, 15 Sep 2023 23:17:54 +0000
-Message-Id: <20230915231754.3522288-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230915224419.GA31632@pendragon.ideasonboard.com>
-References: 
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qhIIm-0008Ls-Rq; Sat, 16 Sep 2023 01:32:45 +0200
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qhIIm-003shP-B0; Sat, 16 Sep 2023 01:32:44 +0200
+Date:   Sat, 16 Sep 2023 01:32:44 +0200
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Avichal Rakesh <arakesh@google.com>
+Cc:     laurent.pinchart@ideasonboard.com, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, dan.scally@ideasonboard.com,
+        gregkh@linuxfoundation.org, nicolas@ndufresne.ca,
+        kernel@pengutronix.de, Jayant Chowdhary <jchowdhary@google.com>
+Message-ID: <ZQTpnJvTV+8Ye1si@pengutronix.de>
+References: <20230911002451.2860049-1-m.grzeschik@pengutronix.de>
+ <20230911002451.2860049-3-m.grzeschik@pengutronix.de>
+ <a55b3b0c-2306-4591-8613-7be4927f0d4e@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="G+VlCQh2yJUZDW0S"
+Content-Disposition: inline
+In-Reply-To: <a55b3b0c-2306-4591-8613-7be4927f0d4e@google.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:2:b01:1d::c5
+X-SA-Exim-Mail-From: mgr@pengutronix.de
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 2/3] usb: gadget: uvc: cleanup request when not in
+ correct state
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on metis.whiteo.stw.pengutronix.de)
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230915224419.GA31632@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/340026/
-Build time: 00:19:23
-Link: https://lore.kernel.org/linux-media/20230915224419.GA31632@pendragon.ideasonboard.com
+--G+VlCQh2yJUZDW0S
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-gpg: Signature made Fri 15 Sep 2023 10:26:32 PM UTC
-gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
+Hi Avichal
 
-Summary: got 1/1 patches with issues, being 1 at build time
+On Mon, Sep 11, 2023 at 09:52:22PM -0700, Avichal Rakesh wrote:
+>On 9/10/23 17:24, Michael Grzeschik wrote:
+>> The uvc_video_enable function of the uvc-gadget driver is dequeing and
+>> immediately deallocs all requests on its disable codepath. This is not
+>> save since the dequeue function is async and does not ensure that the
+>> requests are left unlinked in the controller driver.
+>>
+>> By adding the ep_free_request into the completion path of the requests
+>> we ensure that the request will be properly deallocated.
+>>
+>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>> ---
+>>  drivers/usb/gadget/function/uvc_video.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadge=
+t/function/uvc_video.c
+>> index 4b6e854e30c58c..52e3666b51f743 100644
+>> --- a/drivers/usb/gadget/function/uvc_video.c
+>> +++ b/drivers/usb/gadget/function/uvc_video.c
+>> @@ -256,6 +256,12 @@ uvc_video_complete(struct usb_ep *ep, struct usb_re=
+quest *req)
+>>  	struct uvc_device *uvc =3D video->uvc;
+>>  	unsigned long flags;
+>>
+>> +	if (uvc->state =3D=3D UVC_STATE_CONNECTED) {
+>> +		usb_ep_free_request(video->ep, ureq->req);
+>nit: You can probably just call usb_ep_free_request with req instead of ur=
+eq->req.
 
-Error/warnings:
+Thanks, thats a good point.
 
-patches/0001-media-imx-mipi-csis-Remove-an-incorrect-fwnode_handl.patch:
+>> +		ureq->req =3D NULL;
+>> +		return;
+>> +	}
+>> +
+>>  	switch (req->status) {
+>>  	case 0:
+>>  		break;
+>
+>Perhaps I am missing something here, but I am not sure how this alone
+>fixes the use-after-free issue. uvcg_video_enable still deallocates
+>_all_ usb_requests right after calling usb_ep_dequeue, so it is still
+>possible that an unreturned request is deallocated, and now it is
+>possible that the complete callback accesses a deallocated ureq :(
 
-    allyesconfig: return code #512:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/imx/imx-media-capture.c: In function ‘imx_media_capture_device_init’:
-	../drivers/staging/media/imx/imx-media-capture.c:1000:51: error: ‘ capture’ directive output may be truncated writing 8 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/staging/media/imx/imx-media-capture.c:1000:9: note: ‘snprintf’ output between 9 and 40 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/imx/imx-media-capture.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/imx] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c: In function ‘isc_querycap’:
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:496:28: error: ‘%s’ directive output may be truncated writing up to 35 bytes into a region of size 23 [-Werror=format-truncation=]
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:495:9: note: ‘snprintf’ output between 10 and 45 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/deprecated/atmel/atmel-isc-base.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/deprecated/atmel] Error 2
-	../drivers/staging/media/omap4iss/iss_csi2.c: In function ‘csi2_init_entities’:
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:57: error: ‘%s’ directive output may be truncated writing up to 31 bytes into a region of size 22 [-Werror=format-truncation=]
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:9: note: ‘snprintf’ output between 11 and 42 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/omap4iss/iss_csi2.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/omap4iss] Error 2
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: In function ‘ia_css_debug_pipe_graph_dump_stage’:
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2786:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2785:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2772:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2771:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:92: error: ‘snprintf’ output may be truncated before the last format character [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:41: note: ‘snprintf’ output between 3 and 201 bytes into a destination of size 200
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/atomisp] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/staging/media] Error 2
-	make[4]: *** [../scripts/Makefile.build:480: drivers/staging] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
+Since the issue I saw was usually coming from the list_del_entry_valid chec=
+k in
+the list_del_entry of the giveback function, the issue was probably just not
+triggered anymore as the complete function did exit early.
 
-    allyesconfig: return code #512:
-	../drivers/media/cec/core/cec-core.c: In function ‘cec_allocate_adapter’:
-	../drivers/media/cec/core/cec-core.c:317:21: error: ‘/input0’ directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/media/cec/core/cec-core.c:316:9: note: ‘snprintf’ output between 8 and 39 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/cec/core/cec-core.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/cec/core] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/cec] Error 2
-	make[5]: *** Waiting for unfinished jobs....
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/rc/ati_remote.c: In function ‘ati_remote_probe’:
-	../drivers/media/rc/ati_remote.c:876:21: error: ‘ mouse’ directive output may be truncated writing 6 bytes into a region of size between 1 and 80 [-Werror=format-truncation=]
-	../drivers/media/rc/ati_remote.c:875:9: note: ‘snprintf’ output between 7 and 86 bytes into a destination of size 80
-	cc1: all warnings being treated as errors
-	make[6]: *** [../scripts/Makefile.build:243: drivers/media/rc/ati_remote.o] Error 1
-	make[6]: *** Waiting for unfinished jobs....
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/rc] Error 2
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	make[4]: *** [../scripts/Makefile.build:480: drivers/media] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
+So this fix alone is actually bogus without a second patch I had in the sta=
+ck.
+The second patch I am refering should change the actual overall issue:
 
+https://lore.kernel.org/linux-usb/20230915233113.2903645-1-m.grzeschik@peng=
+utronix.de/T/#u
+
+This early list_del and this patch here should ensure that the
+concurrent functions are not handling already freed memory.
+
+Thanks,
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--G+VlCQh2yJUZDW0S
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmUE6ZkACgkQC+njFXoe
+LGTlQA//afZovboxruOyoIxKuqg2TmacTeKJOqfegSxM5aHWYIo+6zgKwRlLiA/z
+Oa1onEQ2fnHsvvIquWw7f+GWTOvbD8+2eF+IBddj0bhhTAIhljedC5tP1sKLAi4u
+Tofriu1HwzMFc5RaC2/iEf/XYy9LpXClrEks6Fc45ljVFcsDmwvgMCH3aqJzxpj9
+BetDeceDMmmaIHC38FHoP0fgaw85mBKBK9A/E6F8QbvWmTc8DkXyV5/W+ORdxB3n
+6/2ZoatMToWb6Tv1nymzpaspu+l2MWVM9+Oc/8Y8ouuMnt4vynZyNLf0KwxXpIoj
+rqMeHTOhEeLQPPYtm4/yzRx0oLR9MY6HJK8/eW8WhX80VdXxeBUxulEgvVeHxGe7
+ugNAAyjs5uFcYrQh+Uf1QBJ1xTigbW5hWMI0sS5AoIFCl0hDeF2kBG+R+5x8zzB3
+PXYbQJD2cWf8TDSYIDLNf4hqm15uZejWv/XOyiMfb5FIyBNh6ceCX8uz1I0SgBe8
+z0HFCrGee3Q2KXGPOeqv9MfFzQizCymEmHMJE/G5DglX/elBcT8sGAC6MhpAxJbb
+NoSK7YaFSbhCpTprxwp3fvYlG6zIUfgAK/zTlezq/OIH1QvWPji5owEuUUmxK1RY
+47jYKi8YDTjrjsIcaVmc2xNSNzMNecLkT+QKwFcOWXnJqrDlgSA=
+=9xfX
+-----END PGP SIGNATURE-----
+
+--G+VlCQh2yJUZDW0S--
