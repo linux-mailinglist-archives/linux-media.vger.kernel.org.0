@@ -2,31 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C7997A1BDB
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 12:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 742CC7A1C42
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 12:30:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234177AbjIOKQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 06:16:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44132 "EHLO
+        id S233609AbjIOKaq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 06:30:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231341AbjIOKQ3 (ORCPT
+        with ESMTP id S234290AbjIOKa3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 06:16:29 -0400
+        Fri, 15 Sep 2023 06:30:29 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B1E6B8;
-        Fri, 15 Sep 2023 03:16:23 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71D74C433C7;
-        Fri, 15 Sep 2023 10:16:19 +0000 (UTC)
-Message-ID: <11cc64e0-ab30-4cb1-ae99-1ef72aff7bfb@xs4all.nl>
-Date:   Fri, 15 Sep 2023 12:16:17 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F4543C3C;
+        Fri, 15 Sep 2023 03:28:07 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15EFC433CC;
+        Fri, 15 Sep 2023 10:27:10 +0000 (UTC)
+Message-ID: <7d882edf-4ae7-4521-a5b2-2781422cff1a@xs4all.nl>
+Date:   Fri, 15 Sep 2023 12:27:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 00/14] add support MDP3 on MT8195 platform
 Content-Language: en-US, nl
-To:     Chen-Yu Tsai <wenst@chromium.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     Moudy Ho <moudy.ho@mediatek.com>,
+To:     Moudy Ho <moudy.ho@mediatek.com>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         David Airlie <airlied@gmail.com>,
@@ -35,20 +32,18 @@ Cc:     Moudy Ho <moudy.ho@mediatek.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
         dri-devel@lists.freedesktop.org,
         linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230912075805.11432-1-moudy.ho@mediatek.com>
- <c0bd7428-1330-58c5-64d2-78af479dfcf4@collabora.com>
- <CAGXv+5FhsKVGwoJxLP=-gV+rSHbQ8DUX0YACy0mPxYw+MC85=g@mail.gmail.com>
- <d8bfbb5f-07a7-4beb-ac1c-049825caf934@collabora.com>
- <CAGXv+5EJ6W6XCJR3busZ0HVQjLytZvzMMjUhhpR5g6Jc8sJQ+A@mail.gmail.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAGXv+5EJ6W6XCJR3busZ0HVQjLytZvzMMjUhhpR5g6Jc8sJQ+A@mail.gmail.com>
+In-Reply-To: <20230912075805.11432-1-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -58,100 +53,124 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/09/2023 12:28, Chen-Yu Tsai wrote:
-> On Tue, Sep 12, 2023 at 5:43 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Il 12/09/23 11:37, Chen-Yu Tsai ha scritto:
->>> On Tue, Sep 12, 2023 at 5:00 PM AngeloGioacchino Del Regno
->>> <angelogioacchino.delregno@collabora.com> wrote:
->>>>
->>>> Il 12/09/23 09:57, Moudy Ho ha scritto:
->>>>> Changes since v4:
->>>>> - Rebase on v6.6-rc1
->>>>> - Remove any unnecessary DTS settings.
->>>>> - Adjust the usage of MOD and clock in blending components.
->>>>>
->>>>> Changes since v3:
->>>>> - Depend on :
->>>>>     [1] https://patchwork.kernel.org/project/linux-media/list/?series=719841
->>>>> - Suggested by Krzysztof, integrating all newly added bindings for
->>>>>     the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
->>>>> - Revise MDP3 nodes with generic names.
->>>>>
->>>>> Changes since v2:
->>>>> - Depend on :
->>>>>     [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711592
->>>>>     [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711618
->>>>> - Suggested by Rob to revise MDP3 bindings to pass dtbs check
->>>>> - Add parallel paths feature.
->>>>> - Add blended components settings.
->>>>>
->>>>> Changes since v1:
->>>>> - Depend on :
->>>>>     [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/?series=698872
->>>>>     [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=684959
->>>>> - Fix compilation failure due to use of undeclared identifier in file "mtk-mdp3-cmdq.c"
->>>>>
->>>>> Hello,
->>>>>
->>>>> This patch is used to add support for MDP3 on the MT8195 platform that
->>>>> contains more picture quality components, and can arrange more pipelines
->>>>> through two sets of MMSYS and MUTEX respectively.
->>>>>
->>>>> Moudy Ho (14):
->>>>>     arm64: dts: mediatek: mt8183: correct MDP3 DMA-related nodes
->>>>>     arm64: dts: mediatek: mt8195: add MDP3 nodes
->>>>
->>>> Please send the DTS patches separately, those go through a different maintainer.
->>>
->>> I thought most people prefer the _full_ view in a patchset?
->>>
->>
->> Yeah but those going through a different maintainer makes it more straightforward
->> to pick; besides, essentially, you can also get a full view with dt-bindings
->> patches instead of devicetrees, as the latter are "constructed from" bindings
->> anyway.
-> 
-> Sure, but testing, especially by people not in the recipients or CC list,
-> is a bit painful when the full set of patches isn't bundled together.
-> Having them bundled together shows what the submitter tested and makes
-> it easier for others to reproduce.
-> 
-> AFAIK other ARM platforms have been sending patches all grouped together.
-> It's MediaTek that has been different, as they normally have (for Chromebooks)
-> a system integration engineer handling the device tree stuff, while component
-> driver owners just handle the drivers, and by extension, the DT bindings.
-> 
->> Moreover, it would be definitely nice to add a link to the devicetree series
->> in the cover letter of this series, so that people *do* get a full overview
->> by checking both series :-)
-> 
-> Most maintainers seem to know what to do: apply the subset destined for
-> their tree. At least the subsystems that frequently deal with DT-based
-> platforms anyway.
+Hi Moudy,
 
-As maintainer I know that I need to skip dts patches, but there is a risk that
-I forget to drop them. So my preference is also to have them as a separate
-patch series, but it's a preference only. If you *do* send it as a separate series,
-then also include the linux-media mailinglist in the CC, that way I do have
-the full overview if I need it.
+On 12/09/2023 09:57, Moudy Ho wrote:
+> Changes since v4:
+> - Rebase on v6.6-rc1
+> - Remove any unnecessary DTS settings.
+> - Adjust the usage of MOD and clock in blending components.
+> 
+> Changes since v3:
+> - Depend on :
+>   [1] https://patchwork.kernel.org/project/linux-media/list/?series=719841
+> - Suggested by Krzysztof, integrating all newly added bindings for
+>   the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
+> - Revise MDP3 nodes with generic names.
+> 
+> Changes since v2:
+> - Depend on :
+>   [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711592
+>   [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711618
+> - Suggested by Rob to revise MDP3 bindings to pass dtbs check
+> - Add parallel paths feature.
+> - Add blended components settings.
+> 
+> Changes since v1:
+> - Depend on :
+>   [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/?series=698872
+>   [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=684959
+> - Fix compilation failure due to use of undeclared identifier in file "mtk-mdp3-cmdq.c"
+> 
+> Hello,
+> 
+> This patch is used to add support for MDP3 on the MT8195 platform that
+> contains more picture quality components, and can arrange more pipelines
+> through two sets of MMSYS and MUTEX respectively.
+
+I ran this series through our build system and I got the following compile warning:
+
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c: In function 'mdp_path_config.isra':
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:449:51: warning: 'ctx' may be used uninitialized [-Wmaybe-uninitialized]
+  449 |                         out = CFG_COMP(MT8195, ctx->param, outputs[0]);
+      |                                                ~~~^~~~~~~
+drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h:137:25: note: in definition of macro 'CFG_COMP'
+  137 |         (IS_ERR_OR_NULL(comp) ? 0 : _CFG_COMP(plat, comp, mem))
+      |                         ^~~~
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:402:30: note: 'ctx' was declared here
+  402 |         struct mdp_comp_ctx *ctx;
+      |                              ^~~
+
+And also a few smatch warnings/errors:
+
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:871 wait_wrot_event() warn: variable dereferenced before check 'mdp_cfg' (see line 864)
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:1024 reset_luma_hist() warn: variable dereferenced before check 'mdp_cfg' (see line 1015)
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:447 mdp_path_config() error: potentially dereferencing uninitialized 'ctx'.
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:449 mdp_path_config() error: potentially dereferencing uninitialized 'ctx'.
+
+You can run the same tests yourself, see this announcement:
+
+https://lore.kernel.org/linux-media/18989016-6392-a77b-6cf7-1223c9161def@xs4all.nl/
 
 Regards,
 
 	Hans
 
 > 
+> Moudy Ho (14):
+>   arm64: dts: mediatek: mt8183: correct MDP3 DMA-related nodes
+>   arm64: dts: mediatek: mt8195: add MDP3 nodes
+>   media: platform: mtk-mdp3: add support second sets of MMSYS
+>   media: platform: mtk-mdp3: add support second sets of MUTEX
+>   media: platform: mtk-mdp3: introduce more pipelines from MT8195
+>   media: platform: mtk-mdp3: introduce more MDP3 components
+>   media: platform: mtk-mdp3: add checks for dummy components
+>   media: platform: mtk-mdp3: avoid multiple driver registrations
+>   media: platform: mtk-mdp3: extend GCE event waiting in RDMA and WROT
+>   media: platform: mtk-mdp3: add support for blending multiple
+>     components
+>   media: platform: mtk-mdp3: add mt8195 platform configuration
+>   media: platform: mtk-mdp3: add mt8195 shared memory configurations
+>   media: platform: mtk-mdp3: add mt8195 MDP3 component settings
+>   media: platform: mtk-mdp3: add support for parallel pipe to improve
+>     FPS
 > 
-> ChenYu
+>  arch/arm64/boot/dts/mediatek/mt8183.dtsi      |   6 +-
+>  arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 378 ++++++++
+>  .../platform/mediatek/mdp3/mdp_cfg_data.c     | 729 ++++++++++++++-
+>  .../platform/mediatek/mdp3/mdp_reg_aal.h      |  25 +
+>  .../platform/mediatek/mdp3/mdp_reg_color.h    |  31 +
+>  .../media/platform/mediatek/mdp3/mdp_reg_fg.h |  23 +
+>  .../platform/mediatek/mdp3/mdp_reg_hdr.h      |  31 +
+>  .../platform/mediatek/mdp3/mdp_reg_merge.h    |  25 +
+>  .../platform/mediatek/mdp3/mdp_reg_ovl.h      |  25 +
+>  .../platform/mediatek/mdp3/mdp_reg_pad.h      |  21 +
+>  .../platform/mediatek/mdp3/mdp_reg_rdma.h     |  24 +
+>  .../platform/mediatek/mdp3/mdp_reg_rsz.h      |   2 +
+>  .../platform/mediatek/mdp3/mdp_reg_tdshp.h    |  34 +
+>  .../platform/mediatek/mdp3/mdp_reg_wrot.h     |   8 +
+>  .../platform/mediatek/mdp3/mdp_sm_mt8195.h    | 283 ++++++
+>  .../platform/mediatek/mdp3/mtk-img-ipi.h      |   4 +
+>  .../platform/mediatek/mdp3/mtk-mdp3-cfg.h     |   2 +
+>  .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 447 +++++++--
+>  .../platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |   1 +
+>  .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 860 +++++++++++++++++-
+>  .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  93 +-
+>  .../platform/mediatek/mdp3/mtk-mdp3-core.c    | 103 ++-
+>  .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  33 +-
+>  .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  15 +
+>  .../platform/mediatek/mdp3/mtk-mdp3-regs.c    |  18 +
+>  .../platform/mediatek/mdp3/mtk-mdp3-regs.h    |   1 +
+>  .../platform/mediatek/mdp3/mtk-mdp3-vpu.c     |   3 +-
+>  27 files changed, 3051 insertions(+), 174 deletions(-)
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_aal.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_color.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_fg.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_hdr.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_merge.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_ovl.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_pad.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_tdshp.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_sm_mt8195.h
 > 
->> Cheers!
->>
->>>> P.S.: The dt-bindings patch can be sent inside of this series, please do that.
->>>>
->>>> Thanks!
->>>> Angelo
->>>>
->>>>
->>
 
