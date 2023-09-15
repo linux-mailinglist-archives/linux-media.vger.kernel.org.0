@@ -2,65 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 592797A1B6B
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 11:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 814457A1BA4
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 12:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234035AbjIOJz2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 05:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49108 "EHLO
+        id S234030AbjIOKDB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 06:03:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234087AbjIOJzP (ORCPT
+        with ESMTP id S233894AbjIOKDA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 05:55:15 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66AAE4215
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 02:54:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694771657; x=1726307657;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=E1xf27adw89tjDv4C4i6Ri7gyjDpziCColEfTVihtNw=;
-  b=Tqo543QArShDF8y4eVtvq+3ihMP2F5h815D38ysQk2zjMIK+0m1tvyKL
-   ZGXRm3gdFXCnx+nGpAwzrXc5ubbxdtmU5BjJyelWnHEyfpwS2qOAjzcbz
-   u/HJh6xz70gncBT7f4Ognov4Z7JqB2aqPypq3hB3Q3K8lEvCE4kkCSy5v
-   rWbKxbyH8nKo2vrIDQLhpL2udNSfeWfILd0ebb4R4yegUJ5fISgwY0pbI
-   U6uIRbjg4qBFIAhvEe+UFdhDru+qeOJR02xxFKwfWY+S11ZNZur1Th8x9
-   E2FborWj6VII6lGpHSjm1E56HwJCDWV/45pr8nAN++V6UFSvGrxXupDIM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="364258714"
-X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
-   d="scan'208";a="364258714"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 02:54:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="738268961"
-X-IronPort-AV: E=Sophos;i="6.02,148,1688454000"; 
-   d="scan'208";a="738268961"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2023 02:54:15 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 5AB5311F831;
-        Fri, 15 Sep 2023 12:54:12 +0300 (EEST)
-Date:   Fri, 15 Sep 2023 09:54:12 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        Fri, 15 Sep 2023 06:03:00 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02BE53A9B
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 02:59:51 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-31fe2c8db0dso1374402f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 02:59:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1694771990; x=1695376790; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8srA2gmpGXuxCaKf9S+kXfIvivT1qXqSgpeOEcBwYIs=;
+        b=i5mMu4WYJP6Q8ly1PJtFU4qXLwt+6u0Gevkbf4GmdEfoKyNqiTlHUWmcADY+8p/UyD
+         igYUzIkz4fL6v6yJhNRyrO/q+v5fKR3DsDCU0xYjz6WEL3LWHWJlVm2s+owvdLhNc+00
+         awzYOJXldvfbMaJKoJEzCzOiN+S0bPMlBMTgKJ7iW/vFKfdBoMtn56N5+qCGc/C095R2
+         X64n6WAMN0c7Rl9XIx+mLaM3eTew542uri5wm2GdJE8DH3HbckkwYqIgbtgSXRkh7iQR
+         kl2qVVfc6UwMp2qRYAWIpEubVv/Y5lcBA2gJUMZpFdUjmvwqzymk/dPqbuNela4d5qOl
+         MOqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694771990; x=1695376790;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8srA2gmpGXuxCaKf9S+kXfIvivT1qXqSgpeOEcBwYIs=;
+        b=Vq5ON4ihN52ayTjnuKxOjw2ikp1y92hB/H86VLSZjzmEYHQ9cZUaFVXrb+eUUWCLax
+         hP2BhMBm+SnnJsbcjnVr35ctmLw1gG+CLG7Jx6wW10W/+/13zRwM3LdebPFRVdV0WRuX
+         /CO6jtgmgMClwi4mk39uoQJkB2br1jfk74P+LQ5uyY+1hdgvHkthEQ+cLuXiOhSGWc/O
+         Uil9TLeDwYObHuht7Y5mE280V4YGJrxDdNA722pvqQIzMBOFU+pEvEMXu11ZtqJOkNCE
+         bUftsGbx3Q3ISiNI133J4JuLCFdALMLhq9771Dc5iTWKVLt31ELO8/sM3QsdrBUjzbuA
+         JLpw==
+X-Gm-Message-State: AOJu0Yxfzn3lP0e5wliTJDN3j5mHQsGk2EENdq7jXlSWcB54RA8FIM3L
+        zN/QimO6S2bL8XTs04+LmUU=
+X-Google-Smtp-Source: AGHT+IHW89bPa4jEgZJgKQNZ0alDirhIBjoRx4/xlKnC7vqZTmLDmYc2NbRGuzkT7sb9g0ydo1x1Rw==
+X-Received: by 2002:adf:fd06:0:b0:316:fc86:28ae with SMTP id e6-20020adffd06000000b00316fc8628aemr870467wrr.15.1694771989893;
+        Fri, 15 Sep 2023 02:59:49 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-54-79.cust.vodafonedsl.it. [188.217.54.79])
+        by smtp.gmail.com with ESMTPSA id m10-20020a7bcb8a000000b00402f7b50517sm4218803wmi.40.2023.09.15.02.59.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 02:59:49 -0700 (PDT)
+Date:   Fri, 15 Sep 2023 11:59:47 +0200
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH 6/7] media: ov2740: Use sub-device active state
-Message-ID: <ZQQpxO1zQeyVhNH2@kekkonen.localdomain>
-References: <20230915072809.37886-1-sakari.ailus@linux.intel.com>
- <20230915072809.37886-7-sakari.ailus@linux.intel.com>
- <20230915094850.GG14641@pendragon.ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH] media: i2c: imx296: Replace streaming flag with runtime
+ PM check
+Message-ID: <ZQQrE4XT11S1hX9t@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20230914174647.954-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230915094850.GG14641@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230914174647.954-1-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,332 +74,91 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Fri, Sep 15, 2023 at 12:48:50PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On Thu, Sep 14, 2023 at 08:46:47PM +0300, Laurent Pinchart wrote:
+> The streaming flag in the driver private structure is used for the sole
+> purpose of gating register writes when setting a V4L2 control. This is
+> better handled by checking if the sensor is powered up using the runtime
+> PM API. Do so and drop the streaming flag.
 > 
-> Thank you for the patch.
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx296.c | 16 +++-------------
+>  1 file changed, 3 insertions(+), 13 deletions(-)
 > 
-> On Fri, Sep 15, 2023 at 10:28:08AM +0300, Sakari Ailus wrote:
-> > Use sub-device active state. Rely on control handler lock to serialise
-> > access to the active state. Also clean up locking on s_stream handler.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/ov2740.c | 121 +++++++++++++++----------------------
-> >  1 file changed, 49 insertions(+), 72 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> > index 319dc00e47b4..de39a66b1b81 100644
-> > --- a/drivers/media/i2c/ov2740.c
-> > +++ b/drivers/media/i2c/ov2740.c
-> > @@ -336,9 +336,6 @@ struct ov2740 {
-> >  	/* Current mode */
-> >  	const struct ov2740_mode *cur_mode;
-> >  
-> > -	/* To serialize asynchronus callbacks */
-> > -	struct mutex mutex;
-> > -
-> >  	/* Streaming on/off */
-> >  	bool streaming;
-> >  
-> > @@ -582,7 +579,6 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > -	ctrl_hdlr->lock = &ov2740->mutex;
-> >  	cur_mode = ov2740->cur_mode;
-> >  	size = ARRAY_SIZE(link_freq_menu_items);
-> >  
-> > @@ -792,18 +788,18 @@ static int ov2740_set_stream(struct v4l2_subdev *sd, int enable)
-> >  {
-> >  	struct ov2740 *ov2740 = to_ov2740(sd);
-> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> > +	struct v4l2_subdev_state *sd_state;
-> >  	int ret = 0;
-> >  
-> > +	sd_state = v4l2_subdev_lock_and_get_active_state(&ov2740->sd);
-> > +
-> >  	if (ov2740->streaming == enable)
-> > -		return 0;
-> > +		goto out_unlock;
-> >  
-> > -	mutex_lock(&ov2740->mutex);
-> >  	if (enable) {
-> >  		ret = pm_runtime_resume_and_get(&client->dev);
-> > -		if (ret < 0) {
-> > -			mutex_unlock(&ov2740->mutex);
-> > -			return ret;
-> > -		}
-> > +		if (ret < 0)
-> > +			goto out_unlock;
-> >  
-> >  		ret = ov2740_start_streaming(ov2740);
-> >  		if (ret) {
-> > @@ -817,7 +813,9 @@ static int ov2740_set_stream(struct v4l2_subdev *sd, int enable)
-> >  	}
-> >  
-> >  	ov2740->streaming = enable;
-> > -	mutex_unlock(&ov2740->mutex);
-> > +
-> > +out_unlock:
-> > +	v4l2_subdev_unlock_state(sd_state);
-> >  
-> >  	return ret;
-> >  }
-> > @@ -826,12 +824,13 @@ static int ov2740_suspend(struct device *dev)
-> >  {
-> >  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> >  	struct ov2740 *ov2740 = to_ov2740(sd);
-> > +	struct v4l2_subdev_state *sd_state;
-> >  
-> > -	mutex_lock(&ov2740->mutex);
-> > +	sd_state = v4l2_subdev_lock_and_get_active_state(&ov2740->sd);
-> >  	if (ov2740->streaming)
-> >  		ov2740_stop_streaming(ov2740);
-> >  
-> > -	mutex_unlock(&ov2740->mutex);
-> > +	v4l2_subdev_unlock_state(sd_state);
-> >  
-> >  	return 0;
-> >  }
+> diff --git a/drivers/media/i2c/imx296.c b/drivers/media/i2c/imx296.c
+> index 3b4539b622b4..94aac9d2732f 100644
+> --- a/drivers/media/i2c/imx296.c
+> +++ b/drivers/media/i2c/imx296.c
+> @@ -201,8 +201,6 @@ struct imx296 {
+>  	const struct imx296_clk_params *clk_params;
+>  	bool mono;
+>  
+> -	bool streaming;
+> -
+>  	struct v4l2_subdev subdev;
+>  	struct media_pad pad;
+>  
+> @@ -321,7 +319,7 @@ static int imx296_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	unsigned int vmax;
+>  	int ret = 0;
+>  
+> -	if (!sensor->streaming)
+> +	if (!pm_runtime_get_if_in_use(sensor->dev))
+>  		return 0;
+>  
+>  	state = v4l2_subdev_get_locked_active_state(&sensor->subdev);
+> @@ -376,6 +374,8 @@ static int imx296_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		break;
+>  	}
+>  
+> +	pm_runtime_put(sensor->dev);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -607,8 +607,6 @@ static int imx296_s_stream(struct v4l2_subdev *sd, int enable)
+>  		pm_runtime_mark_last_busy(sensor->dev);
+>  		pm_runtime_put_autosuspend(sensor->dev);
+>  
+> -		sensor->streaming = false;
+> -
+>  		goto unlock;
+>  	}
+>  
+> @@ -620,13 +618,6 @@ static int imx296_s_stream(struct v4l2_subdev *sd, int enable)
+>  	if (ret < 0)
+>  		goto err_pm;
+>  
+> -	/*
+> -	 * Set streaming to true to ensure __v4l2_ctrl_handler_setup() will set
+> -	 * the controls. The flag is reset to false further down if an error
+> -	 * occurs.
+> -	 */
+> -	sensor->streaming = true;
+> -
+>  	ret = __v4l2_ctrl_handler_setup(&sensor->ctrls);
+>  	if (ret < 0)
+>  		goto err_pm;
+> @@ -646,7 +637,6 @@ static int imx296_s_stream(struct v4l2_subdev *sd, int enable)
+>  	 * likely has no other chance to recover.
+>  	 */
+>  	pm_runtime_put_sync(sensor->dev);
+> -	sensor->streaming = false;
+>  
+>  	goto unlock;
+>  }
 > 
-> This conflicts with a series I've just sent. As my series contains 57
-> patches, I would appreciate not to have to rebase it :-) You could pick
-> up the ov2740 patches and include them in this series, before this one.
+> base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+> -- 
+> Regards,
 > 
-> > @@ -840,9 +839,10 @@ static int ov2740_resume(struct device *dev)
-> >  {
-> >  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> >  	struct ov2740 *ov2740 = to_ov2740(sd);
-> > +	struct v4l2_subdev_state *sd_state;
-> >  	int ret = 0;
-> >  
-> > -	mutex_lock(&ov2740->mutex);
-> > +	sd_state = v4l2_subdev_lock_and_get_active_state(&ov2740->sd);
-> >  	if (!ov2740->streaming)
-> >  		goto exit;
-> >  
-> > @@ -853,7 +853,7 @@ static int ov2740_resume(struct device *dev)
-> >  	}
-> >  
-> >  exit:
-> > -	mutex_unlock(&ov2740->mutex);
-> > +	v4l2_subdev_unlock_state(sd_state);
-> >  	return ret;
-> >  }
-> >  
-> > @@ -870,48 +870,26 @@ static int ov2740_set_format(struct v4l2_subdev *sd,
-> >  				      height, fmt->format.width,
-> >  				      fmt->format.height);
-> >  
-> > -	mutex_lock(&ov2740->mutex);
-> >  	ov2740_update_pad_format(mode, &fmt->format);
-> > -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> > -		*v4l2_subdev_get_try_format(sd, sd_state, fmt->pad) = fmt->format;
-> > -	} else {
-> > -		ov2740->cur_mode = mode;
-> > -		__v4l2_ctrl_s_ctrl(ov2740->link_freq, mode->link_freq_index);
-> > -		__v4l2_ctrl_s_ctrl_int64(ov2740->pixel_rate,
-> > -					 to_pixel_rate(mode->link_freq_index));
-> > -
-> > -		/* Update limits and set FPS to default */
-> > -		vblank_def = mode->vts_def - mode->height;
-> > -		__v4l2_ctrl_modify_range(ov2740->vblank,
-> > -					 mode->vts_min - mode->height,
-> > -					 OV2740_VTS_MAX - mode->height, 1,
-> > -					 vblank_def);
-> > -		__v4l2_ctrl_s_ctrl(ov2740->vblank, vblank_def);
-> > -		h_blank = to_pixels_per_line(mode->hts, mode->link_freq_index) -
-> > -			  mode->width;
-> > -		__v4l2_ctrl_modify_range(ov2740->hblank, h_blank, h_blank, 1,
-> > -					 h_blank);
-> > -	}
-> > -	mutex_unlock(&ov2740->mutex);
-> > -
-> > -	return 0;
-> > -}
-> > +	*v4l2_subdev_get_pad_format(sd, sd_state, fmt->pad) = fmt->format;
-> >  
-> > -static int ov2740_get_format(struct v4l2_subdev *sd,
-> > -			     struct v4l2_subdev_state *sd_state,
-> > -			     struct v4l2_subdev_format *fmt)
-> > -{
-> > -	struct ov2740 *ov2740 = to_ov2740(sd);
-> > -
-> > -	mutex_lock(&ov2740->mutex);
-> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> > -		fmt->format = *v4l2_subdev_get_try_format(&ov2740->sd,
-> > -							  sd_state,
-> > -							  fmt->pad);
-> > -	else
-> > -		ov2740_update_pad_format(ov2740->cur_mode, &fmt->format);
-> > +		return 0;
-> >  
-> > -	mutex_unlock(&ov2740->mutex);
-> > +	ov2740->cur_mode = mode;
-> > +	__v4l2_ctrl_s_ctrl(ov2740->link_freq, mode->link_freq_index);
-> > +	__v4l2_ctrl_s_ctrl_int64(ov2740->pixel_rate,
-> > +				 to_pixel_rate(mode->link_freq_index));
-> > +
-> > +	/* Update limits and set FPS to default */
-> > +	vblank_def = mode->vts_def - mode->height;
-> > +	__v4l2_ctrl_modify_range(ov2740->vblank,
-> > +				 mode->vts_min - mode->height,
-> > +				 OV2740_VTS_MAX - mode->height, 1, vblank_def);
-> > +	__v4l2_ctrl_s_ctrl(ov2740->vblank, vblank_def);
-> > +	h_blank = to_pixels_per_line(mode->hts, mode->link_freq_index) -
-> > +		mode->width;
-> > +	__v4l2_ctrl_modify_range(ov2740->hblank, h_blank, h_blank, 1, h_blank);
-> >  
-> >  	return 0;
-> >  }
-> > @@ -946,14 +924,11 @@ static int ov2740_enum_frame_size(struct v4l2_subdev *sd,
-> >  	return 0;
-> >  }
-> >  
-> > -static int ov2740_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> > +static int ov2740_init_cfg(struct v4l2_subdev *sd,
-> > +			   struct v4l2_subdev_state *sd_state)
-> >  {
-> > -	struct ov2740 *ov2740 = to_ov2740(sd);
-> > -
-> > -	mutex_lock(&ov2740->mutex);
-> >  	ov2740_update_pad_format(&supported_modes[0],
-> > -				 v4l2_subdev_get_try_format(sd, fh->state, 0));
-> > -	mutex_unlock(&ov2740->mutex);
-> > +				 v4l2_subdev_get_pad_format(sd, sd_state, 0));
-> >  
-> >  	return 0;
-> >  }
-> > @@ -963,10 +938,11 @@ static const struct v4l2_subdev_video_ops ov2740_video_ops = {
-> >  };
-> >  
-> >  static const struct v4l2_subdev_pad_ops ov2740_pad_ops = {
-> > +	.get_fmt = v4l2_subdev_get_fmt,
-> >  	.set_fmt = ov2740_set_format,
-> > -	.get_fmt = ov2740_get_format,
-> >  	.enum_mbus_code = ov2740_enum_mbus_code,
-> >  	.enum_frame_size = ov2740_enum_frame_size,
-> > +	.init_cfg = ov2740_init_cfg,
-> >  };
-> >  
-> >  static const struct v4l2_subdev_ops ov2740_subdev_ops = {
-> > @@ -978,10 +954,6 @@ static const struct media_entity_operations ov2740_subdev_entity_ops = {
-> >  	.link_validate = v4l2_subdev_link_validate,
-> >  };
-> >  
-> > -static const struct v4l2_subdev_internal_ops ov2740_internal_ops = {
-> > -	.open = ov2740_open,
-> > -};
-> > -
-> >  static int ov2740_check_hwcfg(struct device *dev)
-> >  {
-> >  	struct fwnode_handle *ep;
-> > @@ -1047,13 +1019,12 @@ static int ov2740_check_hwcfg(struct device *dev)
-> >  static void ov2740_remove(struct i2c_client *client)
-> >  {
-> >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > -	struct ov2740 *ov2740 = to_ov2740(sd);
-> >  
-> >  	v4l2_async_unregister_subdev(sd);
-> >  	media_entity_cleanup(&sd->entity);
-> > +	v4l2_subdev_cleanup(sd);
-> >  	v4l2_ctrl_handler_free(sd->ctrl_handler);
-> >  	pm_runtime_disable(&client->dev);
-> > -	mutex_destroy(&ov2740->mutex);
-> >  }
-> >  
-> >  static int ov2740_nvmem_read(void *priv, unsigned int off, void *val,
-> > @@ -1062,9 +1033,10 @@ static int ov2740_nvmem_read(void *priv, unsigned int off, void *val,
-> >  	struct nvm_data *nvm = priv;
-> >  	struct device *dev = regmap_get_device(nvm->regmap);
-> >  	struct ov2740 *ov2740 = to_ov2740(dev_get_drvdata(dev));
-> > +	struct v4l2_subdev_state *sd_state;
-> >  	int ret = 0;
-> >  
-> > -	mutex_lock(&ov2740->mutex);
-> > +	sd_state = v4l2_subdev_lock_and_get_active_state(&ov2740->sd);
-> 
-> This function seems unrelated to the state. What was the lock protecting
-> against ?
-
-It is. I guess I could acquire the lock directly from the control handler
-but I think this is cleaner.
-
-Acquiring the lock is needed to serialise access to the sensor by other
-users.
-
-> 
-> >  
-> >  	if (nvm->nvm_buffer) {
-> >  		memcpy(val, nvm->nvm_buffer + off, count);
-> > @@ -1082,7 +1054,7 @@ static int ov2740_nvmem_read(void *priv, unsigned int off, void *val,
-> >  
-> >  	pm_runtime_put(dev);
-> >  exit:
-> > -	mutex_unlock(&ov2740->mutex);
-> > +	v4l2_subdev_unlock_state(sd_state);
-> >  	return ret;
-> >  }
-> >  
-> > @@ -1153,7 +1125,6 @@ static int ov2740_probe(struct i2c_client *client)
-> >  			return dev_err_probe(dev, ret, "failed to find sensor\n");
-> >  	}
-> >  
-> > -	mutex_init(&ov2740->mutex);
-> >  	ov2740->cur_mode = &supported_modes[0];
-> >  	ret = ov2740_init_controls(ov2740);
-> >  	if (ret) {
-> > @@ -1161,7 +1132,7 @@ static int ov2740_probe(struct i2c_client *client)
-> >  		goto probe_error_v4l2_ctrl_handler_free;
-> >  	}
-> >  
-> > -	ov2740->sd.internal_ops = &ov2740_internal_ops;
-> > +	ov2740->sd.state_lock = ov2740->ctrl_handler.lock;
-> >  	ov2740->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> >  	ov2740->sd.entity.ops = &ov2740_subdev_entity_ops;
-> >  	ov2740->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> > @@ -1172,6 +1143,10 @@ static int ov2740_probe(struct i2c_client *client)
-> >  		goto probe_error_v4l2_ctrl_handler_free;
-> >  	}
-> >  
-> > +	ret = v4l2_subdev_init_finalize(&ov2740->sd);
-> > +	if (ret)
-> > +		goto probe_error_media_entity_cleanup;
-> > +
-> >  	/* Set the device's state to active if it's in D0 state. */
-> >  	if (full_power)
-> >  		pm_runtime_set_active(&client->dev);
-> > @@ -1181,7 +1156,7 @@ static int ov2740_probe(struct i2c_client *client)
-> >  	ret = v4l2_async_register_subdev_sensor(&ov2740->sd);
-> >  	if (ret < 0) {
-> >  		dev_err_probe(dev, ret, "failed to register V4L2 subdev\n");
-> > -		goto probe_error_media_entity_cleanup;
-> > +		goto probe_error_v4l2_subdev_cleanup;
-> >  	}
-> >  
-> >  	ret = ov2740_register_nvmem(client, ov2740);
-> > @@ -1190,6 +1165,9 @@ static int ov2740_probe(struct i2c_client *client)
-> >  
-> >  	return 0;
-> >  
-> > +probe_error_v4l2_subdev_cleanup:
-> > +	v4l2_subdev_cleanup(&ov2740->sd);
-> > +
-> >  probe_error_media_entity_cleanup:
-> >  	media_entity_cleanup(&ov2740->sd.entity);
-> >  	pm_runtime_disable(&client->dev);
-> > @@ -1197,7 +1175,6 @@ static int ov2740_probe(struct i2c_client *client)
-> >  
-> >  probe_error_v4l2_ctrl_handler_free:
-> >  	v4l2_ctrl_handler_free(ov2740->sd.ctrl_handler);
-> > -	mutex_destroy(&ov2740->mutex);
-> >  
-> >  	return ret;
-> >  }
+> Laurent Pinchart
 > 
 
--- 
-Regards,
+This looks good to me.
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
-Sakari Ailus
+Thanks & Regards,
+Tommaso
+
+
