@@ -2,163 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 814457A1BA4
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 12:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 742F57A1BB6
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 12:05:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234030AbjIOKDB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 06:03:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43298 "EHLO
+        id S234143AbjIOKFz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 06:05:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233894AbjIOKDA (ORCPT
+        with ESMTP id S234081AbjIOKFy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 06:03:00 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02BE53A9B
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 02:59:51 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-31fe2c8db0dso1374402f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 02:59:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694771990; x=1695376790; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8srA2gmpGXuxCaKf9S+kXfIvivT1qXqSgpeOEcBwYIs=;
-        b=i5mMu4WYJP6Q8ly1PJtFU4qXLwt+6u0Gevkbf4GmdEfoKyNqiTlHUWmcADY+8p/UyD
-         igYUzIkz4fL6v6yJhNRyrO/q+v5fKR3DsDCU0xYjz6WEL3LWHWJlVm2s+owvdLhNc+00
-         awzYOJXldvfbMaJKoJEzCzOiN+S0bPMlBMTgKJ7iW/vFKfdBoMtn56N5+qCGc/C095R2
-         X64n6WAMN0c7Rl9XIx+mLaM3eTew542uri5wm2GdJE8DH3HbckkwYqIgbtgSXRkh7iQR
-         kl2qVVfc6UwMp2qRYAWIpEubVv/Y5lcBA2gJUMZpFdUjmvwqzymk/dPqbuNela4d5qOl
-         MOqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694771990; x=1695376790;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8srA2gmpGXuxCaKf9S+kXfIvivT1qXqSgpeOEcBwYIs=;
-        b=Vq5ON4ihN52ayTjnuKxOjw2ikp1y92hB/H86VLSZjzmEYHQ9cZUaFVXrb+eUUWCLax
-         hP2BhMBm+SnnJsbcjnVr35ctmLw1gG+CLG7Jx6wW10W/+/13zRwM3LdebPFRVdV0WRuX
-         /CO6jtgmgMClwi4mk39uoQJkB2br1jfk74P+LQ5uyY+1hdgvHkthEQ+cLuXiOhSGWc/O
-         Uil9TLeDwYObHuht7Y5mE280V4YGJrxDdNA722pvqQIzMBOFU+pEvEMXu11ZtqJOkNCE
-         bUftsGbx3Q3ISiNI133J4JuLCFdALMLhq9771Dc5iTWKVLt31ELO8/sM3QsdrBUjzbuA
-         JLpw==
-X-Gm-Message-State: AOJu0Yxfzn3lP0e5wliTJDN3j5mHQsGk2EENdq7jXlSWcB54RA8FIM3L
-        zN/QimO6S2bL8XTs04+LmUU=
-X-Google-Smtp-Source: AGHT+IHW89bPa4jEgZJgKQNZ0alDirhIBjoRx4/xlKnC7vqZTmLDmYc2NbRGuzkT7sb9g0ydo1x1Rw==
-X-Received: by 2002:adf:fd06:0:b0:316:fc86:28ae with SMTP id e6-20020adffd06000000b00316fc8628aemr870467wrr.15.1694771989893;
-        Fri, 15 Sep 2023 02:59:49 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-54-79.cust.vodafonedsl.it. [188.217.54.79])
-        by smtp.gmail.com with ESMTPSA id m10-20020a7bcb8a000000b00402f7b50517sm4218803wmi.40.2023.09.15.02.59.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 02:59:49 -0700 (PDT)
-Date:   Fri, 15 Sep 2023 11:59:47 +0200
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Subject: Re: [PATCH] media: i2c: imx296: Replace streaming flag with runtime
- PM check
-Message-ID: <ZQQrE4XT11S1hX9t@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20230914174647.954-1-laurent.pinchart@ideasonboard.com>
+        Fri, 15 Sep 2023 06:05:54 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F2E271D;
+        Fri, 15 Sep 2023 03:03:31 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3A7961C0009;
+        Fri, 15 Sep 2023 10:03:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1694772210;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0RJaHCWox609H1viPdZua6BwY1o0hPjtbEeqoNA0ha8=;
+        b=eXSkWgBNTxWofIKNGKxhYddW9tYHgH3Wp9sQ3WMOAJKvh/dFQhFZqiIDlkln+hRu83l/ue
+        97J5B3RGkyDpxjiSLAvDGt6MygKC4qp+WGv0+fesqjQlsHkGvzhhsCJt6JYggG1fzrEgb4
+        VbPT8/jPnvPUDl3wFnTc9b0D2RwZ2nZkDuW36/cyWq3Zv4p62gexn0q74ZZTExxw6N8wBN
+        VAYsOU+TxH4ZojwVepCBGTrweACm2JpVvS3Yz5lR8w+EYx0dyDB0wMY62R28RUGxHVyfxN
+        JW3JF6Ei73lBpHsMoEGL1dXP4YN6AZRkQbJwcFlXPaS6RbGfnapBe6V6yGITuQ==
+Date:   Fri, 15 Sep 2023 12:03:28 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+        wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: cedrus: Fix clock/reset sequence
+Message-ID: <ZQQr8LdOpALMIant@aptenodytes>
+References: <20230911184612.1754373-1-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="U/o0wQSnyl6QuOjI"
 Content-Disposition: inline
-In-Reply-To: <20230914174647.954-1-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230911184612.1754373-1-jernej.skrabec@gmail.com>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
 
-On Thu, Sep 14, 2023 at 08:46:47PM +0300, Laurent Pinchart wrote:
-> The streaming flag in the driver private structure is used for the sole
-> purpose of gating register writes when setting a V4L2 control. This is
-> better handled by checking if the sensor is powered up using the runtime
-> PM API. Do so and drop the streaming flag.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+--U/o0wQSnyl6QuOjI
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Jernej,
+
+On Mon 11 Sep 23, 20:46, Jernej Skrabec wrote:
+> According to H6 user manual, resets should always be de-asserted before
+> clocks are enabled. This is also consistent with vendor driver.
+
+You're right, thanks for the patch!
+
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Cheers,
+
+Paul
+
+> Fixes: d5aecd289bab ("media: cedrus: Implement runtime PM")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  drivers/media/i2c/imx296.c | 16 +++-------------
->  1 file changed, 3 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx296.c b/drivers/media/i2c/imx296.c
-> index 3b4539b622b4..94aac9d2732f 100644
-> --- a/drivers/media/i2c/imx296.c
-> +++ b/drivers/media/i2c/imx296.c
-> @@ -201,8 +201,6 @@ struct imx296 {
->  	const struct imx296_clk_params *clk_params;
->  	bool mono;
->  
-> -	bool streaming;
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 24 +++++++++----------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
+ging/media/sunxi/cedrus/cedrus_hw.c
+> index b696bf884cbd..32af0e96e762 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -172,12 +172,12 @@ int cedrus_hw_suspend(struct device *device)
+>  {
+>  	struct cedrus_dev *dev =3D dev_get_drvdata(device);
+> =20
+> -	reset_control_assert(dev->rstc);
 > -
->  	struct v4l2_subdev subdev;
->  	struct media_pad pad;
->  
-> @@ -321,7 +319,7 @@ static int imx296_s_ctrl(struct v4l2_ctrl *ctrl)
->  	unsigned int vmax;
->  	int ret = 0;
->  
-> -	if (!sensor->streaming)
-> +	if (!pm_runtime_get_if_in_use(sensor->dev))
->  		return 0;
->  
->  	state = v4l2_subdev_get_locked_active_state(&sensor->subdev);
-> @@ -376,6 +374,8 @@ static int imx296_s_ctrl(struct v4l2_ctrl *ctrl)
->  		break;
->  	}
->  
-> +	pm_runtime_put(sensor->dev);
+>  	clk_disable_unprepare(dev->ram_clk);
+>  	clk_disable_unprepare(dev->mod_clk);
+>  	clk_disable_unprepare(dev->ahb_clk);
+> =20
+> +	reset_control_assert(dev->rstc);
 > +
+>  	return 0;
+>  }
+> =20
+> @@ -186,11 +186,18 @@ int cedrus_hw_resume(struct device *device)
+>  	struct cedrus_dev *dev =3D dev_get_drvdata(device);
+>  	int ret;
+> =20
+> +	ret =3D reset_control_reset(dev->rstc);
+> +	if (ret) {
+> +		dev_err(dev->dev, "Failed to apply reset\n");
+> +
+> +		return ret;
+> +	}
+> +
+>  	ret =3D clk_prepare_enable(dev->ahb_clk);
+>  	if (ret) {
+>  		dev_err(dev->dev, "Failed to enable AHB clock\n");
+> =20
+> -		return ret;
+> +		goto err_rst;
+>  	}
+> =20
+>  	ret =3D clk_prepare_enable(dev->mod_clk);
+> @@ -207,21 +214,14 @@ int cedrus_hw_resume(struct device *device)
+>  		goto err_mod_clk;
+>  	}
+> =20
+> -	ret =3D reset_control_reset(dev->rstc);
+> -	if (ret) {
+> -		dev_err(dev->dev, "Failed to apply reset\n");
+> -
+> -		goto err_ram_clk;
+> -	}
+> -
+>  	return 0;
+> =20
+> -err_ram_clk:
+> -	clk_disable_unprepare(dev->ram_clk);
+>  err_mod_clk:
+>  	clk_disable_unprepare(dev->mod_clk);
+>  err_ahb_clk:
+>  	clk_disable_unprepare(dev->ahb_clk);
+> +err_rst:
+> +	reset_control_assert(dev->rstc);
+> =20
 >  	return ret;
 >  }
->  
-> @@ -607,8 +607,6 @@ static int imx296_s_stream(struct v4l2_subdev *sd, int enable)
->  		pm_runtime_mark_last_busy(sensor->dev);
->  		pm_runtime_put_autosuspend(sensor->dev);
->  
-> -		sensor->streaming = false;
-> -
->  		goto unlock;
->  	}
->  
-> @@ -620,13 +618,6 @@ static int imx296_s_stream(struct v4l2_subdev *sd, int enable)
->  	if (ret < 0)
->  		goto err_pm;
->  
-> -	/*
-> -	 * Set streaming to true to ensure __v4l2_ctrl_handler_setup() will set
-> -	 * the controls. The flag is reset to false further down if an error
-> -	 * occurs.
-> -	 */
-> -	sensor->streaming = true;
-> -
->  	ret = __v4l2_ctrl_handler_setup(&sensor->ctrls);
->  	if (ret < 0)
->  		goto err_pm;
-> @@ -646,7 +637,6 @@ static int imx296_s_stream(struct v4l2_subdev *sd, int enable)
->  	 * likely has no other chance to recover.
->  	 */
->  	pm_runtime_put_sync(sensor->dev);
-> -	sensor->streaming = false;
->  
->  	goto unlock;
->  }
-> 
-> base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+> --=20
+> 2.42.0
+>=20
 
-This looks good to me.
-Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-Thanks & Regards,
-Tommaso
+--U/o0wQSnyl6QuOjI
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmUEK/AACgkQ3cLmz3+f
+v9E8hQf9GCb2ltMDDoEoNcg6RITV8kvOIFCVHC3ltcesf2VF+MAj+cVGmfAen28O
+r6UX5rQhptLslyX/0BJGnXhdek/fY+m/UpQuAvRSiML43HkSObcg0FU8hTnerJiF
+v5WXmxrKEmOUTNNRt/OSgbtyOlCm+8rHkvbh0NdHn9T+liNXm84TxCv9GISU+OEs
+8Eynlw/FOakPWImKlXBhxmhxDEs2YQYFN8f7UmjW9BDQkOFIO+kAWQX1/SwEM4ji
+tLB/kcx+vq7XG6yiLmGmfG3vabJD3BMFE9qla210IgJF6NhV+ZMfyYbGVBMm/KOo
+yvYTthou+syRnZfM3tQh519yYnXIbw==
+=bUDq
+-----END PGP SIGNATURE-----
+
+--U/o0wQSnyl6QuOjI--
