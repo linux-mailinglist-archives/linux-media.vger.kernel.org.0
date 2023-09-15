@@ -2,98 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D6207A1AAB
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 11:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 575F57A1AED
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 11:43:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233371AbjIOJhJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 05:37:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54896 "EHLO
+        id S233675AbjIOJnM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 05:43:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233117AbjIOJhI (ORCPT
+        with ESMTP id S233117AbjIOJnM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 05:37:08 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0BA619BC
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 02:37:02 -0700 (PDT)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38F7A2ek008712;
-        Fri, 15 Sep 2023 11:36:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-        message-id:date:mime-version:subject:to:references:from
-        :in-reply-to:content-type:content-transfer-encoding; s=
-        selector1; bh=KmZTADPBnLWCO7iWbPGH5fxL+iNhdLB3MKBrrBIMZR0=; b=zn
-        XO3Id6cBBWvKc/cdc4EConOy/6q4nlKu7JRHRsOAI+3e08oHl5WNPbBTOHw0ehDN
-        44cDr4A5RzKafg3mdpnIEhVNKVYSxLV54q1VGISDi4LCeUiQmnEejiX2+uvKvNxr
-        g9tu95RmQmotr3hocGAQIx88l/aq3oI6BJ3Brogtqn8HAa7lkAKKJJXwC5E/YNYk
-        6BDfo9r8SdzkyUzzcwbMbFUY5nckw2ayvKql0tuNQmSdJinOXyjIwHzXXZA4V30u
-        ofdOc3w8cUZZpeppjXaljr1HgZyQ0pjnIIOI+gOYYgqeXX3NBvILYtO8sIZlf+YY
-        dEm+27G3OYvUdiQvU9bg==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3t2y7nmnst-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 15 Sep 2023 11:36:58 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id ECA0E100040;
-        Fri, 15 Sep 2023 11:36:57 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D115121B53D;
-        Fri, 15 Sep 2023 11:36:57 +0200 (CEST)
-Received: from [10.252.22.235] (10.252.22.235) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 15 Sep
- 2023 11:36:57 +0200
-Message-ID: <1ecf2939-b016-693c-1a8e-71e50bf5ace7@foss.st.com>
-Date:   Fri, 15 Sep 2023 11:36:57 +0200
+        Fri, 15 Sep 2023 05:43:12 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82CD12134
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 02:42:26 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C73A42C6;
+        Fri, 15 Sep 2023 11:40:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694770852;
+        bh=5YFX9Mu6DEKDmK40o7ro4bQEIExfMKgXoYU1ldMtThI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nyMX+NFrabISe1b9puw+fb7PSAfko1ZDA8sl+2xkY0mDCzmdVHRt2AH3Fen0GrfHm
+         AQgeSbkjFWg99r+0HKaccBLMWSOpg/qyBZy9HVP7uecqqTrgW5ufUrPllhfuzzZxqt
+         zCttrKcxkVA8f3WqLdcU5NKdvM3y50/bKjTNxw+k=
+Date:   Fri, 15 Sep 2023 12:42:39 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH 5/7] media: ov2740: Enable runtime PM before registering
+ the async subdev
+Message-ID: <20230915094239.GF14641@pendragon.ideasonboard.com>
+References: <20230915072809.37886-1-sakari.ailus@linux.intel.com>
+ <20230915072809.37886-6-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [ANN] Introducing build scripts to test
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        <linuxtv-ci@linuxtv.org>
-References: <18989016-6392-a77b-6cf7-1223c9161def@xs4all.nl>
-From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <18989016-6392-a77b-6cf7-1223c9161def@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.252.22.235]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-15_06,2023-09-14_01,2023-05-22_02
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230915072809.37886-6-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Sakari,
 
-A bit late to the party, I tried it this morning and everything went
-flawlessly. Instructions are clear and command line tools are well designed.
-This will be useful for us. Thank you for releasing it.
+Thank you for the patch.
 
-On 8/28/23 15:29, Hans Verkuil wrote
-> To give an idea of the expected build times:
+On Fri, Sep 15, 2023 at 10:28:07AM +0300, Sakari Ailus wrote:
+> Enable runtime PM before registering the async sub-device as the ipu
+> bridge may try to resume the device immediately after the async sub-device
+
+I wouldn't mention ipu bridge there, as this driver is not specific to a
+particular CSI-2 receiver.
+
+> has been registered. If runtime PM is still disabled, this will fail.
 > 
-> On an AMD Ryzen 9 6900HX (8 cores) a standard build of the staging tree
-> (build.sh -test all) takes 39 minutes.
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/ov2740.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
 > 
-> On an AMD Ryzen Threadripper 3970X (32 cores) it takes a bit over 13 minutes.
+> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+> index 41d4f85470fd..319dc00e47b4 100644
+> --- a/drivers/media/i2c/ov2740.c
+> +++ b/drivers/media/i2c/ov2740.c
+> @@ -1172,6 +1172,12 @@ static int ov2740_probe(struct i2c_client *client)
+>  		goto probe_error_v4l2_ctrl_handler_free;
+>  	}
+>  
+> +	/* Set the device's state to active if it's in D0 state. */
+> +	if (full_power)
+> +		pm_runtime_set_active(&client->dev);
 
-For the record on my Intel i7-11850H :
+I wonder why we need this in drivers. If ACPI has powered the device on
+prior to calling probe(), couldn't it also set the PM runtime state
+accordingly ?
 
-$ time ./build.sh -test all
-real	36m21.633s
-user	452m2.855s
-sys	39m30.233s
+> +	pm_runtime_enable(&client->dev);
+> +	pm_runtime_idle(&client->dev);
+> +
+
+With the commit message fixed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  	ret = v4l2_async_register_subdev_sensor(&ov2740->sd);
+>  	if (ret < 0) {
+>  		dev_err_probe(dev, ret, "failed to register V4L2 subdev\n");
+> @@ -1182,16 +1188,12 @@ static int ov2740_probe(struct i2c_client *client)
+>  	if (ret)
+>  		dev_warn(&client->dev, "register nvmem failed, ret %d\n", ret);
+>  
+> -	/* Set the device's state to active if it's in D0 state. */
+> -	if (full_power)
+> -		pm_runtime_set_active(&client->dev);
+> -	pm_runtime_enable(&client->dev);
+> -	pm_runtime_idle(&client->dev);
+> -
+>  	return 0;
+>  
+>  probe_error_media_entity_cleanup:
+>  	media_entity_cleanup(&ov2740->sd.entity);
+> +	pm_runtime_disable(&client->dev);
+> +	pm_runtime_set_suspended(&client->dev);
+>  
+>  probe_error_v4l2_ctrl_handler_free:
+>  	v4l2_ctrl_handler_free(ov2740->sd.ctrl_handler);
 
 -- 
 Regards,
 
-Benjamin
+Laurent Pinchart
