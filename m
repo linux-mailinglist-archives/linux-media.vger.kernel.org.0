@@ -2,121 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F8957A1D10
-	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 13:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BFD17A1D76
+	for <lists+linux-media@lfdr.de>; Fri, 15 Sep 2023 13:30:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234065AbjIOLFJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 07:05:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40566 "EHLO
+        id S234325AbjIOLaG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Sep 2023 07:30:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233843AbjIOLFI (ORCPT
+        with ESMTP id S234243AbjIOLaG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 07:05:08 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4BCEE71;
-        Fri, 15 Sep 2023 04:04:38 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4RnBCh4v2zzybD;
-        Fri, 15 Sep 2023 14:04:32 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1694775874;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9FSsWmQrFC61n5NQWQhh9aHTyg8StbZKmyWn6br55MY=;
-        b=Nsv+XqPgW9Hg/IL03sk/hZ3lbGPNtlHJPILaltkPc7bZ1dp0wjTAyRGBjcL1MA/z3IXLaP
-        pAMtNmgFTI3SYI9cGlxwq25wiK+OUgcR3IKauA3twiFqb96R4tEJL3RLcqw/nxgzEZd2MM
-        t615J4xFtVgHpURlDY/cKIaQ7EDHd94=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1694775874; a=rsa-sha256; cv=none;
-        b=wUgC7akW+qVkfjaE+gpHUmBnhZRBY+6UQ8XkikcMzsQ/VnhcJALEvh64U7tKMmMhql+bd6
-        grQYbeThSvREQKmqxz2JsaHAixoqLVgnCBFrs+jLqXLhhWLx+e+2dFPW+LlXAjuPm8eY3P
-        Ey7MvY4gcGBeot5c0mpp33SAUH7XPZw=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1694775874;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9FSsWmQrFC61n5NQWQhh9aHTyg8StbZKmyWn6br55MY=;
-        b=nbDppxZS3lRPtMjrcX611fM+bsNt3ywvvLNx5u+AXE3025cj5yAUYdQEoX+MP0CNJwDdqf
-        36lB73k06ISQhxkvakd1wUyIJn7FOPEJ1LKmvvmnlS4puOFkKeoEhVgf6wA29n3+KTJlgs
-        yOzrQDkWQicxx4ApBV/1uQEtEOte1ig=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B7CE6634C93;
-        Fri, 15 Sep 2023 14:04:31 +0300 (EEST)
-Date:   Fri, 15 Sep 2023 11:04:31 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Fabio Estevam <festevam@gmail.com>, mchehab@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>
-Subject: Re: [PATCH v4] media: dt-bindings: Add OV5642
-Message-ID: <ZQQ6PwO27Qq28KEn@valkosipuli.retiisi.eu>
-References: <20230913192811.1946423-1-festevam@gmail.com>
- <20230914145935.GA1276539-robh@kernel.org>
+        Fri, 15 Sep 2023 07:30:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661181AD
+        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 04:30:00 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB94EE4;
+        Fri, 15 Sep 2023 13:28:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694777305;
+        bh=kcaoTGt0jrV89mq5ALxH0jIw4/ByV0YBfyHZo8RowFY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Yo1l42ajpzY3ZXEpGWxOrhZ/omfdGJ8R1kSrI/xqbr6mGYIyPQw3/NEbYkMcTb46G
+         i8n800HUhucRNhpF8GdQcC5WNfg1xZhDQ2TVx/E7MOf8iKxKP4h7R2o8fynhcP+0x0
+         evPhfURinbRfqrTUp61e8W/cS2RCeO5vDq093/bs=
+Date:   Fri, 15 Sep 2023 14:30:12 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH 5/7] media: ov2740: Enable runtime PM before registering
+ the async subdev
+Message-ID: <20230915113012.GJ14641@pendragon.ideasonboard.com>
+References: <20230915072809.37886-1-sakari.ailus@linux.intel.com>
+ <20230915072809.37886-6-sakari.ailus@linux.intel.com>
+ <20230915094239.GF14641@pendragon.ideasonboard.com>
+ <ZQQtYReBFGpy/Psy@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230914145935.GA1276539-robh@kernel.org>
+In-Reply-To: <ZQQtYReBFGpy/Psy@kekkonen.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
-
-On Thu, Sep 14, 2023 at 09:59:35AM -0500, Rob Herring wrote:
-> On Wed, Sep 13, 2023 at 04:28:11PM -0300, Fabio Estevam wrote:
-> > From: Fabio Estevam <festevam@denx.de>
+On Fri, Sep 15, 2023 at 10:09:37AM +0000, Sakari Ailus wrote:
+> On Fri, Sep 15, 2023 at 12:42:39PM +0300, Laurent Pinchart wrote:
+> > On Fri, Sep 15, 2023 at 10:28:07AM +0300, Sakari Ailus wrote:
+> > > Enable runtime PM before registering the async sub-device as the ipu
+> > > bridge may try to resume the device immediately after the async sub-device
 > > 
-> > As explained in the description text from trivial-devices.yaml:
+> > I wouldn't mention ipu bridge there, as this driver is not specific to a
+> > particular CSI-2 receiver.
 > > 
-> > "This is a list of trivial I2C and SPI devices that have simple device tree
-> > bindings, consisting only of a compatible field, an address and possibly an
-> > interrupt line."
+> > > has been registered. If runtime PM is still disabled, this will fail.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  drivers/media/i2c/ov2740.c | 14 ++++++++------
+> > >  1 file changed, 8 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+> > > index 41d4f85470fd..319dc00e47b4 100644
+> > > --- a/drivers/media/i2c/ov2740.c
+> > > +++ b/drivers/media/i2c/ov2740.c
+> > > @@ -1172,6 +1172,12 @@ static int ov2740_probe(struct i2c_client *client)
+> > >  		goto probe_error_v4l2_ctrl_handler_free;
+> > >  	}
+> > >  
+> > > +	/* Set the device's state to active if it's in D0 state. */
+> > > +	if (full_power)
+> > > +		pm_runtime_set_active(&client->dev);
 > > 
-> > A camera device does not fall into this category as it needs other
-> > properties such as regulators, reset and powerdown GPIOs, clocks,
-> > media endpoint.
-> > 
-> > Remove the OV5642 entry from trivial-devices.yaml and add its own
-> > ovti,ov5642.yaml.
+> > I wonder why we need this in drivers. If ACPI has powered the device on
+> > prior to calling probe(), couldn't it also set the PM runtime state
+> > accordingly ?
 > 
-> Many of these Omnivision sensors have the same supplies and same GPIO 
-> connections, so why can't they share the binding? There are some 
-> differences I've seen that boil down to just what the driver decided to 
-> require or not, but that shouldn't really vary. See commit 44ade291b77c 
-> ("media: dt-bindings: Merge OV5695 into OV5693 binding") for example.
+> What happens here is that the ipu bridge creates a VCM device and it
+> resumes the related sensor before instantiating that device (see
+> ipu_bridge_instantiate_vcm_work()). However this may take place already
+> right after registering the async sub-device. Resuming the sensor will fail
+> if runtime PM isn't enabled.
 > 
-> In any case, the binding looks fine and any merging can be done after.
+> I'll add something along these lines to the commit message.
 
-The sensors differ from interface capabilities (one or more of parallel,
-CSI-2 D-PHY and CSI-2 C-PHY), number of lanes / data lines etc. For
-historical reasons, many have different defaults for vsync and hsync
-polarities, for instance.
+I understand this, but that doesn't answer my question :-) Why is there
+a need to call pm_runtime_set_active(), couldn't it be done somewhere in
+common code ?
 
-I suppose some of these would reasonably be taken into account, if not in a
-single file, in a couple of files. CSI-2 connected sensors are the most
-common these days.
-
-The device for which this patch added the bindings appears to be 15 years
-old.
+> > > +	pm_runtime_enable(&client->dev);
+> > > +	pm_runtime_idle(&client->dev);
+> > > +
+> > 
+> > With the commit message fixed,
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Thank you.
+> 
+> > >  	ret = v4l2_async_register_subdev_sensor(&ov2740->sd);
+> > >  	if (ret < 0) {
+> > >  		dev_err_probe(dev, ret, "failed to register V4L2 subdev\n");
+> > > @@ -1182,16 +1188,12 @@ static int ov2740_probe(struct i2c_client *client)
+> > >  	if (ret)
+> > >  		dev_warn(&client->dev, "register nvmem failed, ret %d\n", ret);
+> > >  
+> > > -	/* Set the device's state to active if it's in D0 state. */
+> > > -	if (full_power)
+> > > -		pm_runtime_set_active(&client->dev);
+> > > -	pm_runtime_enable(&client->dev);
+> > > -	pm_runtime_idle(&client->dev);
+> > > -
+> > >  	return 0;
+> > >  
+> > >  probe_error_media_entity_cleanup:
+> > >  	media_entity_cleanup(&ov2740->sd.entity);
+> > > +	pm_runtime_disable(&client->dev);
+> > > +	pm_runtime_set_suspended(&client->dev);
+> > >  
+> > >  probe_error_v4l2_ctrl_handler_free:
+> > >  	v4l2_ctrl_handler_free(ov2740->sd.ctrl_handler);
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
