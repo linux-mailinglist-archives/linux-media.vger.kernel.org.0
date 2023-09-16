@@ -2,164 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EDDC7A2D89
-	for <lists+linux-media@lfdr.de>; Sat, 16 Sep 2023 04:41:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A53537A328F
+	for <lists+linux-media@lfdr.de>; Sat, 16 Sep 2023 22:56:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237962AbjIPClR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Sep 2023 22:41:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42632 "EHLO
+        id S239412AbjIPU4K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Sep 2023 16:56:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238635AbjIPClO (ORCPT
+        with ESMTP id S232283AbjIPUz5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Sep 2023 22:41:14 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B99BE106
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 19:41:08 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-76f2843260bso179139285a.3
-        for <linux-media@vger.kernel.org>; Fri, 15 Sep 2023 19:41:08 -0700 (PDT)
+        Sat, 16 Sep 2023 16:55:57 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71741194;
+        Sat, 16 Sep 2023 13:55:51 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2bffa8578feso4375121fa.2;
+        Sat, 16 Sep 2023 13:55:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1694832068; x=1695436868; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s7CgLAXDOJ9e6WmF60CbAuG+eWk/KQRBydtpsnTThtA=;
-        b=paTa3fTTwcgz2o8F1WHzsSRD3CsYna9mFbA9oHjO00DxICuVQrwtvFCNbEEr5QA0vo
-         lsuR7vKiRTv21gy2KKl0NpZC/E8+8tKACaVddEMGFRczBcIf/ewHQNvRE88YN+IXk8uW
-         69VdhCrMXhA7ujnLRNCg5UJV/g8nWTKO54noVFlYhEVT96i7dcKve3GSmvwtGptZyZet
-         5ioZyfsNk9gikdekpjfq2l5cpPjQwlQXh+lQj2FCPc2sSLToTtCpIoQA4ERvjLXuOLN4
-         M3d+kTPg1qsAtHS7zbvyNEMej+Hn6QA4SCyx+bmmXK3RQbNBZOmNv+hGl4OvSOwcOn/P
-         9lag==
+        d=gmail.com; s=20230601; t=1694897749; x=1695502549; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OtXy98myC9Xeki202X9z45U3TYQHZBLtWJzwGTAcxHE=;
+        b=lqaMUcTF/w2pd8V7QfC5ZyBCt2sokvGp4sOH9SFAW+nlrw1H1tvWa+Kr3z7C8vrOv1
+         MnImkk8Stx+dBh16eBRlwerZJsoeyBwaGeF/hxaZotO6Jn2Djs2cRdW3lXnuDLSbTWK3
+         /KJeuQHT/n317fdWWZrs4ex6fvBiemMgIulaEOcJG9RV2LWkPCjdEtyvEiTO6Hs0/Drf
+         bELoY5ha5Xj2w/29/pFxCkZaLZMk3HkBXH9gonkISdtKhwAA/Xj05i5ZzxmB36zoDO+E
+         Q1nS0Wz87fzTSQjOw1u5PBxSaxECseoWiC85qN2VnDkNShtB4l2PENm2+bVjxIpQfQFz
+         NXuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694832068; x=1695436868;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s7CgLAXDOJ9e6WmF60CbAuG+eWk/KQRBydtpsnTThtA=;
-        b=utGng0AhJjMISCh77G9uASVGZvu3eolyj2z3rH1LQbbrbF6vEOqnzpex02RFqON1bP
-         tnJpXEfvk/lPJHu9Eapn38WR5dAe8xERXp5XjCx6i1MUd+MJ499EgHnXjVtDlwA3lRH7
-         2K81wpdxTSvea1qv2sHWsi4BMdNXRqHfdImDbd/lHbklTWhR9paDSu4/5cmOU3icc2P3
-         Uk41orekZOiB7G8FfALYWcvUHg0yIoqI8x4/O0s9yJgGvXuzS9N6SQGEP2v5RUYbzRgt
-         jw445VD3zandbM52vG4jZY4YIIyakQ9xNNgKScogID7X5Ym6HGdDi3w2AqSEwZLwszsD
-         n8cQ==
-X-Gm-Message-State: AOJu0YxCsG2QrMx38DowxjZPIADA00BWsYZsQIPrFjslXnMJ47U6ooS5
-        7E3hMscPw1lYwEgldcybKNsD8H9ZU5q5ukAhNTMood5T
-X-Google-Smtp-Source: AGHT+IEthQw2CH9y8Ip3DrZKo9O2XRFB3jpd7fRpmKsa8EFzVQJxBhqXTtxDX3MqoLSM77RrJYiUuA==
-X-Received: by 2002:a05:620a:222e:b0:76c:fc7c:ac5e with SMTP id n14-20020a05620a222e00b0076cfc7cac5emr2963108qkh.74.1694832067759;
-        Fri, 15 Sep 2023 19:41:07 -0700 (PDT)
-Received: from [192.168.60.239] (124.190.199.35.bc.googleusercontent.com. [35.199.190.124])
-        by smtp.gmail.com with ESMTPSA id s24-20020aa78298000000b0068be348e35fsm3578264pfm.166.2023.09.15.19.41.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Sep 2023 19:41:06 -0700 (PDT)
-Message-ID: <587c9b95-a80c-4bf9-b1a0-fe7ef0f4cd60@google.com>
-Date:   Fri, 15 Sep 2023 19:41:05 -0700
+        d=1e100.net; s=20230601; t=1694897749; x=1695502549;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OtXy98myC9Xeki202X9z45U3TYQHZBLtWJzwGTAcxHE=;
+        b=mLNr39E4ssQOCnL+V0J9AaeM+m+96kuEIdHC5aS2H82IuVVaUhxFSeL48D1EiGWzNT
+         C74qz07Ofyz0VlSaMfDdAgGJjBSOji/MqE+Pz+nMUpzJps6oYRDQ7Q672xahMh6OK7sL
+         kxZPa31B7+4EFtPV97KbuInXq+AWpTESecqMHkeLJo221IBKpB+zV9zsUgeYFWAEMAh3
+         QRlqhAwnl7+xofUhkURHeZ2ZaIIQJ7lJb2cEWtl69m7IHim9lBwX6u9p8T6ArU79A0W1
+         wo8ObbUosPrQsNF8Sl2QgV7LAnP47VRfX+EqlLdQc1zg996I7YX7DnwvKZkDLxVQ1Kgi
+         d36A==
+X-Gm-Message-State: AOJu0YyeZqXQWGJklCUUuXUTXUKy0KCu0RnbyW473nlFMYDLXzrFPUBQ
+        4Y089Xdhx6EU/gS7CVCQJmc=
+X-Google-Smtp-Source: AGHT+IHLF2BDHMY5EQ2cLRGY88cc4GRtF1HNeGRvKmupJtgipgh1Tp2VYUmzRaB1Rid1OduuxyxRJA==
+X-Received: by 2002:a05:6512:2fc:b0:4f8:77db:1d9e with SMTP id m28-20020a05651202fc00b004f877db1d9emr4255346lfq.12.1694897749352;
+        Sat, 16 Sep 2023 13:55:49 -0700 (PDT)
+Received: from localhost.localdomain ([78.37.168.140])
+        by smtp.gmail.com with ESMTPSA id br19-20020a056512401300b00502fd9110ffsm454504lfb.294.2023.09.16.13.55.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Sep 2023 13:55:48 -0700 (PDT)
+From:   Ivan Bornyakov <brnkv.i1@gmail.com>
+To:     sebastian.fricke@collabora.com
+Cc:     Ivan Bornyakov <brnkv.i1@gmail.com>, bob.beckett@collabora.com,
+        conor+dt@kernel.org, devicetree@vger.kernel.org,
+        festevam@gmail.com, hverkuil@xs4all.nl,
+        jackson.lee@chipsnmedia.com, kernel@collabora.com,
+        kernel@pengutronix.de, krzysztof.kozlowski+dt@linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, nas.chung@chipsnmedia.com,
+        nicolas.dufresne@collabora.com, p.zabel@pengutronix.de,
+        robh+dt@kernel.org, s.hauer@pengutronix.de, shawnguo@kernel.org
+Subject: Re: [PATCH v12 5/7] media: chips-media: wave5: Add the v4l2 layer
+Date:   Sat, 16 Sep 2023 23:55:40 +0300
+Message-ID: <20230916205542.9410-1-brnkv.i1@gmail.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230915-wave5_v12_on_media_master-v12-5-92fc66cd685d@collabora.com>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] usb: gadget: uvc: cleanup request when not in correct
- state
-Content-Language: en-US
-To:     Michael Grzeschik <mgr@pengutronix.de>
-Cc:     laurent.pinchart@ideasonboard.com, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, dan.scally@ideasonboard.com,
-        gregkh@linuxfoundation.org, nicolas@ndufresne.ca,
-        kernel@pengutronix.de, Jayant Chowdhary <jchowdhary@google.com>
-References: <20230911002451.2860049-1-m.grzeschik@pengutronix.de>
- <20230911002451.2860049-3-m.grzeschik@pengutronix.de>
- <a55b3b0c-2306-4591-8613-7be4927f0d4e@google.com>
- <ZQTpnJvTV+8Ye1si@pengutronix.de>
-From:   Avichal Rakesh <arakesh@google.com>
-In-Reply-To: <ZQTpnJvTV+8Ye1si@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,HK_RANDOM_ENVFROM,HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi, Sebastian,
 
+On Fri, Sep 15, 2023 at 23:11:34 +0200, Sebastian Fricke wrote:
+> From: Nas Chung <nas.chung@chipsnmedia.com>
+> 
+> Add the decoder and encoder implementing the v4l2
+> API. This patch also adds the Makefile and the VIDEO_WAVE_VPU config
+> 
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 
-On 9/15/23 16:32, Michael Grzeschik wrote:
-> Hi Avichal
-> 
-> On Mon, Sep 11, 2023 at 09:52:22PM -0700, Avichal Rakesh wrote:
->> On 9/10/23 17:24, Michael Grzeschik wrote:
->>> The uvc_video_enable function of the uvc-gadget driver is dequeing and
->>> immediately deallocs all requests on its disable codepath. This is not
->>> save since the dequeue function is async and does not ensure that the
->>> requests are left unlinked in the controller driver.
->>>
->>> By adding the ep_free_request into the completion path of the requests
->>> we ensure that the request will be properly deallocated.
->>>
->>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->>> ---
->>>  drivers/usb/gadget/function/uvc_video.c | 6 ++++++
->>>  1 file changed, 6 insertions(+)
->>>
->>> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
->>> index 4b6e854e30c58c..52e3666b51f743 100644
->>> --- a/drivers/usb/gadget/function/uvc_video.c
->>> +++ b/drivers/usb/gadget/function/uvc_video.c
->>> @@ -256,6 +256,12 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
->>>      struct uvc_device *uvc = video->uvc;
->>>      unsigned long flags;
->>>
->>> +    if (uvc->state == UVC_STATE_CONNECTED) {
->>> +        usb_ep_free_request(video->ep, ureq->req);
->> nit: You can probably just call usb_ep_free_request with req instead of ureq->req.
-> 
-> Thanks, thats a good point.
-> 
->>> +        ureq->req = NULL;
->>> +        return;
->>> +    }
->>> +
->>>      switch (req->status) {
->>>      case 0:
->>>          break;
->>
->> Perhaps I am missing something here, but I am not sure how this alone
->> fixes the use-after-free issue. uvcg_video_enable still deallocates
->> _all_ usb_requests right after calling usb_ep_dequeue, so it is still
->> possible that an unreturned request is deallocated, and now it is
->> possible that the complete callback accesses a deallocated ureq :(
-> 
-> Since the issue I saw was usually coming from the list_del_entry_valid check in
-> the list_del_entry of the giveback function, the issue was probably just not
-> triggered anymore as the complete function did exit early.
-> 
-> So this fix alone is actually bogus without a second patch I had in the stack.
-> The second patch I am refering should change the actual overall issue:
-> 
-> https://lore.kernel.org/linux-usb/20230915233113.2903645-1-m.grzeschik@pengutronix.de/T/#u
-> 
-> This early list_del and this patch here should ensure that the
-> concurrent functions are not handling already freed memory.
+[...]
 
-Oh, the patch linked above is interesting. It effectively force removes the dwc3_request
-from whatever list it belongs to? So if DWC3's interrupt handler is delayed past 
-UVC gadget's ep_free_request call, then it won't see the requests in its cancelled 
-list at all. However, this setup is still prone to errors. For example, there is now
-a chance that gadget_ep_free_request is called twice for one request. A scheduling
-like the following might cause double kfree:
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> new file mode 100644
+> index 000000000000..a13d968f5d04
+> --- /dev/null
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
 
-1. uvcg_video_enable calls usb_ep_dequeue for all usb_requests
-2. While the usb_ep_dequeues are being processed, dwc3's interrupt handler starts 
-   calling the complete callbacks.
-3. The complete callback calls gadget_ep_free_request (calling kfree as a result)
-4. Meanwhile, uvcg_video_enable has moved to uvc_video_free_requests which also
-   calls gadget_ep_free_request (calling kfree).
+[...]
 
-There is currently (even in your patches) no synchronization between calls to 
-gadget_ep_free_request via complete callback and uvcg_video_enable, which will 
-inevitably call usb_ep_free_request twice for one request. 
+> +static void wave5_vpu_get_interrupt_for_inst(struct vpu_instance *inst, u32 status)
+> +{
+> +	struct vpu_device *dev = inst->dev;
+> +	u32 seq_done;
+> +	u32 cmd_done;
+> +	int val;
+> +
+> +	seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
+> +	cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
+> +
+> +	if (status & BIT(INT_WAVE5_INIT_SEQ)) {
+> +		if (seq_done & BIT(inst->id)) {
+> +			seq_done &= ~BIT(inst->id);
+> +			wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO, seq_done);
+> +			val = BIT(INT_WAVE5_INIT_SEQ);
+> +			kfifo_in(&inst->irq_status, &val, sizeof(int));
+> +		}
+> +	}
+> +	if (status & BIT(INT_WAVE5_ENC_SET_PARAM)) {
+> +		if (seq_done & BIT(inst->id)) {
+> +			seq_done &= ~BIT(inst->id);
+> +			wave5_vdi_write_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO, seq_done);
+> +			val = BIT(INT_WAVE5_ENC_SET_PARAM);
+> +			kfifo_in(&inst->irq_status, &val, sizeof(int));
+> +		}
+> +	}
+> +	if (status & BIT(INT_WAVE5_DEC_PIC) ||
+> +	    status & BIT(INT_WAVE5_ENC_PIC)) {
+> +		if (cmd_done & BIT(inst->id)) {
+> +			cmd_done &= ~BIT(inst->id);
+> +			wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST, cmd_done);
+> +			val = BIT(INT_WAVE5_DEC_PIC);
+> +			kfifo_in(&inst->irq_status, &val, sizeof(int));
+> +		}
+> +	}
+> +}
+> +
+> +static irqreturn_t wave5_vpu_irq(int irq, void *dev_id)
+> +{
+> +	struct vpu_device *dev = dev_id;
+> +
+> +	if (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS)) {
+> +		struct vpu_instance *inst;
+> +		u32 irq_status = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
+> +
+> +		list_for_each_entry(inst, &dev->instances, list) {
+> +			wave5_vpu_get_interrupt_for_inst(inst, irq_status);
+> +		}
+> +
+> +		wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_status);
+> +		wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
+> +
+> +		return IRQ_WAKE_THREAD;
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
+> +{
+> +	struct vpu_device *dev = dev_id;
+> +	struct vpu_instance *inst;
+> +	int irq_status, ret;
+> +
+> +	list_for_each_entry(inst, &dev->instances, list) {
+> +		while (kfifo_len(&inst->irq_status)) {
+> +			ret = kfifo_out(&inst->irq_status, &irq_status, sizeof(int));
+> +			if (!ret)
+> +				break;
+> +
+> +			if (irq_status == BIT(INT_WAVE5_INIT_SEQ) ||
+> +			    irq_status == BIT(INT_WAVE5_ENC_SET_PARAM))
+> +				complete(&inst->irq_done);
+> +			else /* DEC/ENC_PIC */
+> +				inst->ops->finish_process(inst);
+> +
+> +			wave5_vpu_clear_interrupt(inst, irq_status);
+> +		}
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
 
-Does that make sense, or am I misunderstanding some part of the patch?
+I believe, instead of
+wave5_vpu_irq() + wave5_vpu_get_interrupt_for_inst() + wave5_vpu_irq_thread()
+you can reduce interrupt handling to only threaded part with something like this:
 
-- Avi.
+static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
+{
+	u32 irq_status, seq_done, cmd_done;
+	struct vpu_device *dev = dev_id;
+	struct vpu_instance *inst;
+
+	while (wave5_vdi_read_register(dev, W5_VPU_VPU_INT_STS)) {
+		irq_status = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
+		seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
+		cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
+
+		list_for_each_entry(inst, &dev->instances, list) {
+			if (irq_status & BIT(INT_WAVE5_INIT_SEQ) ||
+			    irq_status & BIT(INT_WAVE5_ENC_SET_PARAM)) {
+				if (seq_done & BIT(inst->id)) {
+					seq_done &= ~BIT(inst->id);
+					wave5_vdi_write_register(dev,
+								 W5_RET_SEQ_DONE_INSTANCE_INFO,
+								 seq_done);
+					complete(&inst->irq_done);
+				}
+			}
+
+			if (status & BIT(INT_WAVE5_DEC_PIC) ||
+			    status & BIT(INT_WAVE5_ENC_PIC)) {
+				if (cmd_done & BIT(inst->id)) {
+					cmd_done &= ~BIT(inst->id);
+					wave5_vdi_write_register(dev,
+								 W5_RET_QUEUE_CMD_DONE_INST,
+								 cmd_done);
+					inst->ops->finish_process(inst);
+				}
+			}
+
+			wave5_vpu_clear_interrupt(inst, irq_status);
+		}
+			
+		wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_status);
+		wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
+	}
+
+	return IRQ_HANDLED;
+}
+
+Is it better?
+
+[...]
+
+> +static int wave5_vpu_probe(struct platform_device *pdev)
+> +{
+> +	int ret;
+> +	struct vpu_device *dev;
+> +	const struct wave5_match_data *match_data;
+> +	u32 fw_revision;
+> +
+> +	match_data = device_get_match_data(&pdev->dev);
+> +	if (!match_data) {
+> +		dev_err(&pdev->dev, "missing device match data\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* physical addresses limited to 32 bits */
+> +	dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+> +	dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+
+dma_set_mask_and_coherent()? Also error check?
 
