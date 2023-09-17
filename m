@@ -2,119 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D6CC7A3663
-	for <lists+linux-media@lfdr.de>; Sun, 17 Sep 2023 17:46:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 106A57A3678
+	for <lists+linux-media@lfdr.de>; Sun, 17 Sep 2023 17:54:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237242AbjIQPhK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Sep 2023 11:37:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41500 "EHLO
+        id S234517AbjIQPyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Sep 2023 11:54:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236852AbjIQPgh (ORCPT
+        with ESMTP id S236146AbjIQPxj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Sep 2023 11:36:37 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8414F7;
-        Sun, 17 Sep 2023 08:36:31 -0700 (PDT)
-Received: from [192.168.1.129] ([37.4.248.43]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M5jA2-1qnvQi1KaQ-007D1k; Sun, 17 Sep 2023 17:36:14 +0200
-Message-ID: <d8395455-44eb-6762-d978-e912bf2cfe73@i2se.com>
-Date:   Sun, 17 Sep 2023 17:36:13 +0200
+        Sun, 17 Sep 2023 11:53:39 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A47D8129
+        for <linux-media@vger.kernel.org>; Sun, 17 Sep 2023 08:53:32 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15FAA128D;
+        Sun, 17 Sep 2023 17:51:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1694965914;
+        bh=8jL+IPvjZnCPgxNKSjzVVaaRs2Mh19kulMj4OehP6Qg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LbCfQAnYPx8eiU0QzuCNCJ7FlACOsHeuiZkl8TQ5iJBlUGifuJZfMR9CJfGtQdPek
+         WsCDx+fhlE31jP0pzfpmctnPtKDV6qUAbLwNAn2SpKpsrEpbbPMoDf+tXJEuc6I3Gf
+         BuA24gT1/TKtltkUhKL3RD2AtfiTw4sV6Q7tSE7Y=
+Date:   Sun, 17 Sep 2023 18:53:42 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v2 2/2] media: i2c: Add driver for onsemi MT9M114 camera
+ sensor
+Message-ID: <20230917155342.GA5256@pendragon.ideasonboard.com>
+References: <20220207012055.15158-1-laurent.pinchart@ideasonboard.com>
+ <20220207012055.15158-3-laurent.pinchart@ideasonboard.com>
+ <YggbHIrgrmBL8NML@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFC PATCH v2 0/4] staging: vc04: Drop custom logging
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Phil Elwell <phil@raspberrypi.com>
-References: <20230913185528.770634-1-umang.jain@ideasonboard.com>
- <1d54715d-25f9-4937-bdff-de0136c95fe8@kadam.mountain>
-Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <1d54715d-25f9-4937-bdff-de0136c95fe8@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:uPuw4stiPpBMOYelFVe2qtzF38EcAPeTCrViqcm3NlXkWZhzOZ0
- lnRBC8e0/8mhwjdFMc30OAJI+h5CV08nCC/h9O57Az0+31d+fXxvmXIH5shRDQWVqCQNuI5
- RZpM7Pn5yh8AxGTEn1BqkJRGQdwiij6WEhjLn3gV3wAN25rievUtmdoHdJlw0XhiEVedt50
- kQvy+lNWkN9hZTPJgq1EA==
-UI-OutboundReport: notjunk:1;M01:P0:+VdWnsPgrrI=;T37xSK4VxoSptZfT7xZGg0iUS14
- JQE1cZm1YURTNMVGQtCROf7RJPspOj4NIGnhfPZcQsUNhh6QEDVWoaPAI2FCmBmyVM2g0bE0E
- E1WsQ7YlN+CCmbJ4ZWidCiY6VhBzkKHOUMP0BeTuDc0j2JfOMWEz6uGKwz0ThDoc4lHf5ZSWG
- Yb96VYx7BRV9PaL4CSiIFk3FUEyHxPdMQ26E1LFW3NhQSotoiGMQmA4tW9QoSAZYJxKo8ivoW
- 7qQrliTagWRa2eNQ+PCPZA8x2/DSzvEuFLTuRpLi8VH1y66KYywGoFIlhoN9LcWrPA9w1IqLl
- clgsC+2bcFXnom/srlkhh709duwNQldehrK93WMi5SarECMRLjM/scRv0fgg+1eVsiPA0vONf
- GGsL/MQh0C/mN1hXa2ovLE22vw4izu54MLh5sHD7Oh07RU9SVar6eF1nGeCQQPsszHCK5vn3l
- XCBg7ss6VT8ekSW1ax21kL4pRO0j6VJuK8WJeG+6RxFiqExtBvI5VX5vQ5kUALAdlHaO0ajyu
- U4aJBr6Up2p2nhSHbCrJAJ2EK9oR98MeaRAGd26IRqY0zmtpsHPedJbRup+jyuVZJIduIvoLd
- 6c1JIqtmjEVL/BatKyj9JNDTaNTb+61rd6qZD3KUNmDKpOStqdlVV+STXlQvk1oiFQtXYbHD7
- wJRvHZRwCjYLm7BoR+G59jnLn830j1ZVNJ1nWRLyQ1GyniaSfmYYjlyz31WCyYKdsJjDcVSTG
- VUL94g7l1j1KG0i3UH6y8Wd6SzVOG9sowtqz+5h0T+YoQ5R5OS1UNMl15bsP7Jie1m5N7GUD8
- lHqCC+oCW7JjE7YOf+5TcGhHyIlXiYszeo9lLPWMDMZYfgWVZ1TwZkE2srMUkadi7bkFLYfvL
- IFPUvTJvPegpBzw==
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YggbHIrgrmBL8NML@paasikivi.fi.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Sakari,
 
-Am 14.09.23 um 08:35 schrieb Dan Carpenter:
-> On Thu, Sep 14, 2023 at 12:25:24AM +0530, Umang Jain wrote:
->> Hello,
->>
->> This series attempts to restart the discussion on custom logging used
->> in VC04. In the last feedback gathered in [1] it seems that the logging
->> would rather be moved to use dynamic debug. The series tries to move
->> in that direction.
->>
->> The elephant in the room is the ability of turning on/off log levels,
->> which this series just drops. Compensated by a crude strings
->> ("error", "warning", "info"... etc) for easier grepping.
->>
->> The log category are also just strings (which probably can be transformed
->> to dynamic debug class names moving forwards?).
->>
->> To move forwards, I would like feedback on the broader direction.
->> There are couple of TODOs in each of the patch (summarised in commit
->> messages) which require case-by-case discussion.
->>
->> Additional high-level questions to move forwards:
->> 1. Is loss of log levels by moving to dynamic debug, is actually a
->>     concern? Is dynamic debug a valid replacement?
-> 
-> Dynamic debug is honestly going to be an improvement.  I guess, Greg and
-> I said this back in Jan.
-> 
->> 2. Whether debugfs should be dropped as well, found vestigial in [2]
-> 
-> Yes. The "vchiq/log" should be removed.  Ideally as part of this
-> patchset so it's easier to understand.
+On Sat, Feb 12, 2022 at 10:39:56PM +0200, Sakari Ailus wrote:
+> On Mon, Feb 07, 2022 at 03:20:55AM +0200, Laurent Pinchart wrote:
+> > The MT9M114 is a CMOS camera sensor that combines a 1296x976 pixel array
+> > with a 10-bit dynamic range together with an internal ISP. The driver
+> > exposes two subdevs, one for the pixel array and one for the ISP (named
+> > IFP for Image Flow Processor). Major supported features are
+> > 
+> > - Full configuration of analog crop and binning in the pixel array
+> > - Full configuration of scaling in the ISP
+> > - Automatic exposure and white balance
+> > - Manual exposure and analog gain
+> > - Horizontal and vertical flip
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> > 
+> > - Add locking to protect formats and selection rectangles
+> > - Move PLL configuration out of register array to code
+> > - Add V4L2_SEL_TGT_NATIVE_SIZE support
+> > - Add V4L2_CID_PIXEL_RATE support
+> > - Set bus_type to V4L2_MBUS_UNKNOWN explicitly
+> > - Add OF match table support
+> > - Rename MAX_FRAME_RATE macro with MT9M114 prefix and use it through the
+> >   driver
+> > - Fix crash if controls initialization fails
+> > - Fix indentation
+> > - Add support for test pattern generator
+> > - Define colorspace-related registers
+> > - Fix typo in comment
+> > - Centralize format information
+> > - Select media bus formats based on bus type
+> > - Add MIPI timing registers
+> > - Print monitor version
+> > - Fix clock retrieval error code
+> > - Manually enter standby in parallel mode
+> > - Use the ISP media entity function for the IFP
+> > - Fix access to 32-bit registers
+> > - Use OF device match unconditionally
+> > - Switch to V4L2_CID_EXPOSURE
+> > - Update to the latest subdev API
+> > - Rename Aptina to onsemi
+> > ---
+> >  MAINTAINERS                 |    3 +-
+> >  drivers/media/i2c/Kconfig   |   11 +
+> >  drivers/media/i2c/Makefile  |    1 +
+> >  drivers/media/i2c/mt9m114.c | 2467 +++++++++++++++++++++++++++++++++++
+> >  4 files changed, 2481 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/media/i2c/mt9m114.c
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index e9919a359c12..ed467d03a0b8 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -13101,7 +13101,8 @@ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >  L:	linux-media@vger.kernel.org
+> >  S:	Maintained
+> >  T:	git git://linuxtv.org/media_tree.git
+> > -F:	Documentation/devicetree/bindings/media/i2c.onnn,mt9m114.yaml
+> > +F:	Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > +F:	drivers/media/i2c/mt9m114.c
+> >  
+> >  MT9P031 APTINA CAMERA SENSOR
+> >  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > index 69c56e24a612..24487e8f94e3 100644
+> > --- a/drivers/media/i2c/Kconfig
+> > +++ b/drivers/media/i2c/Kconfig
+> > @@ -1261,6 +1261,17 @@ config VIDEO_MT9M111
+> >  	  This driver supports MT9M111, MT9M112 and MT9M131 cameras from
+> >  	  Micron/Aptina
+> >  
+> > +config VIDEO_MT9M114
+> > +	tristate "onsemi MT9M114 sensor support"
+> > +	depends on I2C && OF && VIDEO_V4L2
+> > +	select V4L2_FWNODE
+> > +	help
+> > +	  This is a Video4Linux2 sensor-level driver for the onsemi MT9M114
+> > +	  camera.
+> > +
+> > +	  To compile this driver as a module, choose M here: the
+> > +	  module will be called mt9m114.
+> > +
+> >  config VIDEO_MT9P031
+n> >  	tristate "Aptina MT9P031 support"
+> >  	depends on I2C && VIDEO_V4L2
+> > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> > index b01f6cd05ee8..72fc5a7f9ce6 100644
+> > --- a/drivers/media/i2c/Makefile
+> > +++ b/drivers/media/i2c/Makefile
+> > @@ -94,6 +94,7 @@ obj-$(CONFIG_VIDEO_OV13B10) += ov13b10.o
+> >  obj-$(CONFIG_VIDEO_MT9M001) += mt9m001.o
+> >  obj-$(CONFIG_VIDEO_MT9M032) += mt9m032.o
+> >  obj-$(CONFIG_VIDEO_MT9M111) += mt9m111.o
+> > +obj-$(CONFIG_VIDEO_MT9M114) += mt9m114.o
+> >  obj-$(CONFIG_VIDEO_MT9P031) += mt9p031.o
+> >  obj-$(CONFIG_VIDEO_MT9T001) += mt9t001.o
+> >  obj-$(CONFIG_VIDEO_MT9T112) += mt9t112.o
+> > diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> > new file mode 100644
+> > index 000000000000..112f764725bf
+> > --- /dev/null
+> > +++ b/drivers/media/i2c/mt9m114.c
+> > @@ -0,0 +1,2467 @@
 
-Yes, but please do not remote vchiq_debugfs entirely. I'm working on a 
-patch to move the state dump (debug feature) from the character device 
-/dev/vchiq to debugfs /sys/kernel/debug/vchiq/dump_state.
+[snip]
 
+> > +static int mt9m114_ifp_init(struct mt9m114 *sensor)
+> > +{
+> > +	struct v4l2_subdev *sd = &sensor->ifp.sd;
+> > +	struct media_pad *pads = sensor->ifp.pads;
+> > +	struct v4l2_ctrl_handler *hdl = &sensor->ifp.hdl;
+> > +	int ret;
+> > +
+> > +	/* Initialize the subdev. */
+> > +	v4l2_i2c_subdev_init(sd, sensor->client, &mt9m114_ifp_ops);
+> > +	v4l2_i2c_subdev_set_name(sd, sensor->client, "mt9m114", " ifp");
 > 
->> 3. whether vchiq_log_trace() should actually be tracing support for VC04
+> The third argument is the driver name override, you could pass NULL here.
 > 
-> That can be done later if people want.  No need to discuss it now.
+> > +
+> > +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > +	sd->internal_ops = &mt9m114_ifp_internal_ops;
+> > +
+> > +	/* Initialize the media entity. */
+> > +	sd->entity.function = MEDIA_ENT_F_PROC_VIDEO_ISP;
+> > +	sd->entity.ops = &mt9m114_entity_ops;
+> > +	pads[0].flags = MEDIA_PAD_FL_SINK;
+> > +	pads[1].flags = MEDIA_PAD_FL_SOURCE;
+> > +	ret = media_entity_pads_init(&sd->entity, 2, pads);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	/* Initialize the control handler. */
+> > +	v4l2_ctrl_handler_init(hdl, 8);
+> > +	v4l2_ctrl_new_std(hdl, &mt9m114_ifp_ctrl_ops,
+> > +			  V4L2_CID_AUTO_WHITE_BALANCE,
+> > +			  0, 1, 1, 1);
+> > +	v4l2_ctrl_new_std(hdl, &mt9m114_ifp_ctrl_ops,
+> > +			  V4L2_CID_HFLIP,
+> > +			  0, 1, 1, 0);
+> > +	v4l2_ctrl_new_std(hdl, &mt9m114_ifp_ctrl_ops,
+> > +			  V4L2_CID_VFLIP,
+> > +			  0, 1, 1, 0);
+> > +	v4l2_ctrl_new_std_menu(hdl, &mt9m114_ifp_ctrl_ops,
+> > +			       V4L2_CID_EXPOSURE_AUTO,
+> > +			       V4L2_EXPOSURE_MANUAL, 0,
+> > +			       V4L2_EXPOSURE_AUTO);
+> > +	v4l2_ctrl_new_std(hdl, &mt9m114_ifp_ctrl_ops,
+> > +			  V4L2_CID_PIXEL_RATE,
+> > +			  sensor->pixrate, sensor->pixrate, 1,
+> > +			  sensor->pixrate);
+> > +
+> > +	sensor->ifp.tpg[MT9M114_TPG_PATTERN] =
+> > +		v4l2_ctrl_new_std_menu_items(hdl, &mt9m114_ifp_ctrl_ops,
+> > +					     V4L2_CID_TEST_PATTERN,
+> > +					     ARRAY_SIZE(mt9m114_test_pattern_menu) - 1,
+> > +					     0, 0, mt9m114_test_pattern_menu);
+> > +	sensor->ifp.tpg[MT9M114_TPG_RED] =
+> > +		v4l2_ctrl_new_std(hdl, &mt9m114_ifp_ctrl_ops,
+> > +				  V4L2_CID_TEST_PATTERN_RED,
+> > +				  0, 1023, 1, 1023);
+> > +	sensor->ifp.tpg[MT9M114_TPG_GREEN] =
+> > +		v4l2_ctrl_new_std(hdl, &mt9m114_ifp_ctrl_ops,
+> > +				  V4L2_CID_TEST_PATTERN_GREENR,
+> > +				  0, 1023, 1, 1023);
+> > +	sensor->ifp.tpg[MT9M114_TPG_BLUE] =
+> > +		v4l2_ctrl_new_std(hdl, &mt9m114_ifp_ctrl_ops,
+> > +				  V4L2_CID_TEST_PATTERN_BLUE,
+> > +				  0, 1023, 1, 1023);
 > 
-> regards,
-> dan carpenter
-> 
+> Could you add the LINK_FREQ control, please?
+
+I'll give it a try. The sensor documentation isn't very clear on how the
+clock tree operates, so I may get it completely wrong :-)
+
+> > +
+> > +	v4l2_ctrl_cluster(ARRAY_SIZE(sensor->ifp.tpg), sensor->ifp.tpg);
+> > +
+> > +	if (hdl->error)
+> > +		return hdl->error;
+> > +
+> > +	ret = v4l2_ctrl_handler_setup(hdl);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	sd->ctrl_handler = hdl;
+> > +
+> > +	/* Initialize the pads formats and selection rectangles. */
+> > +	mt9m114_ifp_init_cfg(sd, NULL);
+> > +
+> > +	sensor->ifp.frame_rate = MT9M114_MAX_FRAME_RATE;
+> > +
+> > +	return 0;
+> > +}
+
+[snip]
+
+-- 
+Regards,
+
+Laurent Pinchart
