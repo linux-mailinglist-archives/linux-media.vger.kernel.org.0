@@ -2,199 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C5D57A342F
-	for <lists+linux-media@lfdr.de>; Sun, 17 Sep 2023 09:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC8FD7A3481
+	for <lists+linux-media@lfdr.de>; Sun, 17 Sep 2023 10:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231676AbjIQH5J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Sep 2023 03:57:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48636 "EHLO
+        id S234547AbjIQIlV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Sep 2023 04:41:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234411AbjIQH44 (ORCPT
+        with ESMTP id S235045AbjIQIlS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Sep 2023 03:56:56 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8403E126
-        for <linux-media@vger.kernel.org>; Sun, 17 Sep 2023 00:56:49 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-502e6d632b6so5171814e87.0
-        for <linux-media@vger.kernel.org>; Sun, 17 Sep 2023 00:56:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694937408; x=1695542208; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7Ej2iHCcb+ypEII00ww2P8XQzFIB5qKAjUYcnr1yKKc=;
-        b=Hm0awLNgFer2cbs0zZeuYvaMYVRtCDMUGUn4l+MxWwkcQI+UfPc/QtgmLTD947WrnS
-         OQdoJIfaEnSKeUztW+PagF/NUydKfqPY9v96sykdERVYkY8tEm9gBaa92hmopSfH7Z0e
-         vQrR5WH1nYIIr8Rn2D7ztT6+60pRqJ2PKCTQtHiXMP1pqQyat/B+FBzToK8sf2JzoxYc
-         qVnLiGJgpsIWzsyhNGSIKPk1nz/wIAcFoOY4QVNGfIIpXpKfyUWKrstL2PXweNu1c5kq
-         QpxT48oWfazZganXsS5A9GOLqyOXXXo53a4MgxDw+0niLvMHH1A/51MYlv9siA45RRwI
-         +DDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694937408; x=1695542208;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Ej2iHCcb+ypEII00ww2P8XQzFIB5qKAjUYcnr1yKKc=;
-        b=UvFpO8d8ICgdrxTxNUBB+J5JM8wSbxxe1xQRqdEZvqY5IdUz6a7Zswr74FOzj4+zbm
-         mUN0aufsegVVFlDFYKC2L7wkLZqiA8zkowbDhHM19rj8bhkhrRFfD5K7dHxmyYzD8GCR
-         6c0/Ak9Wt8T8ynNiOzCpFHWO8SWPxs6QylC3dbGjKP+mjsGhejIR49PsTeZNIVbccN2U
-         QYi/sqDI1ADSTno+WoeAkYMm0nFJIrQHUaR5TqOdWK32pUk0NDiozucidIEDz1BaBCRg
-         jgsqdkH/i3SaLizJUmCB8//lFHtIZX7wCjWLVPyNGiQtwWPv/MTBCIZI+bKWzeF1zjgi
-         vcLA==
-X-Gm-Message-State: AOJu0YyosXk0zLFPhmFQffoZfRplto7sdYWljeF9IWYtJLIEyGeCNdau
-        v5JopogiIwBcQni7oNX7s2Lyfg==
-X-Google-Smtp-Source: AGHT+IFudRaeaXYQ2g1Ccwo9jy4IEBKqJXaPrIZt3X0RE5wmHPxEid8nhs8QF4ddR+xsS1DIDOaGEA==
-X-Received: by 2002:ac2:5f56:0:b0:503:653:5713 with SMTP id 22-20020ac25f56000000b0050306535713mr2182926lfz.47.1694937407694;
-        Sun, 17 Sep 2023 00:56:47 -0700 (PDT)
-Received: from [192.168.1.77] (150-140-187-31.ftth.glasoperator.nl. [31.187.140.150])
-        by smtp.gmail.com with ESMTPSA id ba30-20020a0564021ade00b00525c01f91b0sm4327201edb.42.2023.09.17.00.56.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Sep 2023 00:56:47 -0700 (PDT)
-Message-ID: <30384744-94d7-2675-63ad-d8531e3156d1@linaro.org>
-Date:   Sun, 17 Sep 2023 09:56:45 +0200
+        Sun, 17 Sep 2023 04:41:18 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D0A6138;
+        Sun, 17 Sep 2023 01:41:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+ t=1694940054; x=1695544854; i=wahrenst@gmx.net;
+ bh=BC5dF8SPTBfjejsROono+ihw4XGqTENhs3mXoQWX3Rg=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=eUk2h3uap6yUCUlNivtJEC8ngP7zSoXreZyGAHa5yEDJ3HEcTgthYoOWuagJ9GfuocmSDM1rNlA
+ sLASDliNAbzmWzJOZUdED+c7bbR3m8WIbKBPlSBi81cz7Otan30IsYrHdgnrz2a/GfKv2oAratI4L
+ OtDN24KrQXe1AwtJ1lVndmv+obh4YN9CybT0aFUcc0YAja1fgl+euoxsXwqnjIMcP845n9ZKwfd5p
+ KG43YNHm1LZ90p/0TctoCB5oSfhxW8dz5cCYs6h/mSWtvMNQ2c4g0m6MPZN7DJ43aBhEiXTh1ytwS
+ 5g53zteYS6tHmY+7AA4rCbaEIjp3NQfilW/Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MxUrx-1rfN0B1SIL-00xsib; Sun, 17
+ Sep 2023 10:40:54 +0200
+Message-ID: <0d2fe28c-27e0-c85a-9bcf-69ee712161d0@gmx.net>
+Date:   Sun, 17 Sep 2023 10:40:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v12 6/7] dt-bindings: media: wave5: add yaml devicetree
- bindings
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v11 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
 Content-Language: en-US
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Robert Beckett <bob.beckett@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20230915-wave5_v12_on_media_master-v12-0-92fc66cd685d@collabora.com>
- <20230915-wave5_v12_on_media_master-v12-6-92fc66cd685d@collabora.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230915-wave5_v12_on_media_master-v12-6-92fc66cd685d@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230913195354.835884-1-umang.jain@ideasonboard.com>
+ <20230913195354.835884-2-umang.jain@ideasonboard.com>
+From:   Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20230913195354.835884-2-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:zvPPD55M2TMVbfHIL+92M8ef1dUkI76EKA/GjkzhSVxi1IVwaTM
+ plbYW/sKFu9eC9b05n1/k4P8s3xnoMwZpQfBM24mLJ94e5L91FR2ZBudm0Dcer3fMXlc5dI
+ aJ49E2s8W6DcZPCe5Ag625xqE0BxIEifh9bBfXZrdP+fGNanlszB/tVUUBKl2JXLrnEkuxN
+ EIiqHu8OFRoq5jGQqHSOQ==
+UI-OutboundReport: notjunk:1;M01:P0:KcpKe48VCG8=;Nc+5w/Kk/BkQNcIobhTdowkhD2V
+ OZq4+vBZOD93+bXCsqyzfVl7N67i6dMY/GkFh5JYr6XbSeCYs5gR7lDuKjKDrVRrMI0zV6wTR
+ 3UYwC4uX1vQkL55Acq8SrbEu2MMBlv4xTcsdaaEsu2h14MojKvdnYMayAE6CG75W9lW3kT9rn
+ 9d0cPCGyeOVDd941mrUjBh4ZDL4RVP1lciNduWL8/q1LZUQXb+wwJgzcqXvfnvu8gNalK9rPw
+ VnMZrgY3Gq+XuSevaRibKQyG58E5B6TWMuywV9iRk5cLLNNSyI0Blyc7AB80jpGMUz+9yX0sI
+ D97BmD3+PA4A9tO37Qpf+CQg8u74l5xAkNEbyjQ/VwAr6G6cebfWc5gI4spdQccLQKsJQXdx5
+ eq7R7bSACikMI4sbRW76PDCz3P4qdJh+BUXCtOXgyT6DVqnMLX5fsKR/yK1ez0DwJFusFG1Q3
+ ckE2QmWFLhOx82OU7XI3C8c045dJQq9TClLBiu0nxECCJ0OrW95wv+bJSJpNXnhchkelCeRf2
+ D3SE/39N3ruPqymVrP8hNdc/21qX8d+veYad78HLe4j0MsDYCMqWZ4u7W1sVlFpkYfr+OTeW4
+ iOnkn3W35j1hgPObTkaPcCke0PKloMIrJuyC5bVmBMOlPZp62GQ0mCDE71YJ5h1F0O1P0PPNJ
+ XLMTqArmJflSKMzOzE9ot5ICzpU068R70Rd/xt3ALCX/9ah+7+BsAT8DxrLOLD9nXxNQFoEr5
+ o1ShndfhjguFSe+KVOimO/UKe9znzwLV6DcxO862NxvFkMHDSo2+WjvYaQdD14X0vU8S24gZM
+ Z9EGDwrWsXTerwGcvv5FD40e67j09shwcHxDSiBjBb/Far6t6iqDDOloIxvXNObTqMNJnvYjL
+ kfqLdiX9Ys4gxKZKIZHfPRBkEuDrVnb2BSmHfL/7MWlvbUphQbcvo57iG3rrzzzpolYXdHv3p
+ 1cRs6Q==
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/09/2023 23:11, Sebastian Fricke wrote:
-> From: Robert Beckett <bob.beckett@collabora.com>
-> 
-> Add bindings for the wave5 chips&media codec driver
-> 
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+Hi Umang,
 
-So this is v12 and still no tested?
-
-A nit, subject: drop second/last, redundant "yaml devicetree indings".
-The "dt-bindings" prefix is already stating that these are bindings.
-Basically three words bringing zero information.
-
+Am 13.09.23 um 21:53 schrieb Umang Jain:
+> The devices that the vchiq interface registers (bcm2835-audio,
+> bcm2835-camera) are implemented and exposed by the VC04 firmware.
+> The device tree describes the VC04 itself with the resources required
+> to communicate with it through a mailbox interface. However, the
+> vchiq interface registers these devices as platform devices. This
+> also means the specific drivers for these devices are getting
+> registered as platform drivers. This is not correct and a blatant
+> abuse of platform device/driver.
+>
+> Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
+> which will be used to migrate child devices that the vchiq interfaces
+> creates/registers from the platform device/driver.
+>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->  .../devicetree/bindings/media/cnm,wave5.yaml       | 66 ++++++++++++++++++++++
->  1 file changed, 66 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/cnm,wave5.yaml b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
+>   drivers/staging/vc04_services/Makefile        |   1 +
+>   .../interface/vchiq_arm/vchiq_device.c        | 111 ++++++++++++++++++
+>   .../interface/vchiq_arm/vchiq_device.h        |  54 +++++++++
+>   3 files changed, 166 insertions(+)
+>   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/v=
+chiq_device.c
+sorry for not noticing this before, but there is already a vchiq_dev.c
+file which represent the character device.
+
+In order to avoid confusion how about renaming vchiq_device.c to
+vchiq_bus.c ? This also matches the function names better.
+>   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/v=
+chiq_device.h
+>
+> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc=
+04_services/Makefile
+> index 44794bdf6173..2d071e55e175 100644
+> --- a/drivers/staging/vc04_services/Makefile
+> +++ b/drivers/staging/vc04_services/Makefile
+> @@ -5,6 +5,7 @@ vchiq-objs :=3D \
+>      interface/vchiq_arm/vchiq_core.o  \
+>      interface/vchiq_arm/vchiq_arm.o \
+>      interface/vchiq_arm/vchiq_debugfs.o \
+> +   interface/vchiq_arm/vchiq_device.o \
+>      interface/vchiq_arm/vchiq_connected.o \
+>
+>   ifdef CONFIG_VCHIQ_CDEV
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev=
+ice.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
 > new file mode 100644
-> index 000000000000..b8f383621805
+> index 000000000000..aad55c461905
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
-> @@ -0,0 +1,66 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/cnm,wave5.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> @@ -0,0 +1,111 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * vchiq_device.c - VCHIQ generic device and bus-type
+> + *
+> + * Copyright (c) 2023 Ideas On Board Oy
+> + */
 > +
-> +title: Chips&Media Wave 5 Series multi-standard codec IP
+> +#include <linux/device/bus.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/of_device.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
 > +
-> +maintainers:
-> +  - Nas Chung <nas.chung@chipsnmedia.com>
-> +  - Jackson Lee <jackson.lee@chipsnmedia.com>
+> +#include "vchiq_device.h"
 > +
-> +description: |-
-
-Do not need '|-' unless you need to preserve formatting.
-
-> +  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
+> +static int vchiq_bus_type_match(struct device *dev, struct device_drive=
+r *drv)
+> +{
+> +	if (dev->bus =3D=3D &vchiq_bus_type &&
+> +	    strcmp(dev_name(dev), drv->name) =3D=3D 0)
+> +		return 1;
 > +
-> +properties:
-> +  compatible:
-> +    enum:
-> +        - cnm,cm521c-vpu
-
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
-
-Missing blank line
-
-> +  reg:
-> +    maxItems: 1
+> +	return 0;
+> +}
 > +
-> +  clocks:
-> +    items:
-> +      - description: VCODEC clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: vcodec
-
-Drop clock-names, not really useful for one entry.
-
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  sram:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +
-
-Drop blank line
-
-> +    description:
-> +      The VPU uses the SRAM to store some of the reference data instead of
-> +      storing it on DMA memory. It is mainly used for the purpose of reducing
-> +      bandwidth.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-
-Keep the same order as listed in properties:
-
-> +  - clocks
-> +  - clock-names
-> +
-> +additionalProperties: false
-> +
-
-Best regards,
-Krzysztof
+>
 
