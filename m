@@ -2,303 +2,333 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C23837A478A
-	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 12:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE4707A4938
+	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 14:08:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241167AbjIRKsg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Sep 2023 06:48:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44042 "EHLO
+        id S241856AbjIRMHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Sep 2023 08:07:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241273AbjIRKsZ (ORCPT
+        with ESMTP id S241951AbjIRMHR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Sep 2023 06:48:25 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9CAA129;
-        Mon, 18 Sep 2023 03:47:58 -0700 (PDT)
-X-UUID: d06e434a561011ee8051498923ad61e6-20230918
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=fhTY7jkITaYXpvi2D58+ILbGypjyC7R4h5bfH4HnNX4=;
-        b=aWoskXGhW7yMP0dTq2UfHBbKT1dHBh778rajxYjeHT8ilL77JAt2DU2BQH4qHkQ/O532dl5tZQ2CCaukPdQ/USsLEM7JAVvD/8y8VmpbZRLs16xpC5+5cAYY2YqO/Bzt7B+v6jx2IYavwNGstgbarDwn+qr6Pw0kxr7xhMjm9Nk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31,REQID:ca79b400-9f59-4b2b-893d-abfb63c108e9,IP:0,U
-        RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:25
-X-CID-META: VersionHash:0ad78a4,CLOUDID:e51c1214-4929-4845-9571-38c601e9c3c9,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-        NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: d06e434a561011ee8051498923ad61e6-20230918
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-        (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 58196763; Mon, 18 Sep 2023 18:47:51 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 18 Sep 2023 18:47:49 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 18 Sep 2023 18:47:49 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RoF+prkx4r648Jys5VOzgtPiJCg4bo26H97rHQ+SvCL2s20aPlPPdQOi6DEJgUflrSQsMYgX53d66TUMs5lawcxB9h9mNVcqSl0od0PtDO7/PX7de4wGr3IGmRqfA0c/T4C0gYWxkCeORlbldAzGx06WPwngmG2RTOFi3cTQZOEjSqP0jkCSzaG021Kh+H/xyCPWFeW7LTni1ns8cChIyaQgZ3FA9Dr7tVuqmA6g+i8D9BNgQlibWgveYHZO46D/HazlFSPpmw8RWVF4V2Pg6GjgDD6NLywaRY0FsqQVcGRhn5oCb5l17FVTIAk59i11eqmwJaxLb3Z0knfHkaiXNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fhTY7jkITaYXpvi2D58+ILbGypjyC7R4h5bfH4HnNX4=;
- b=F+kbhKeDv9bckf4rcLlcG1TG3Uhwx2TCAFgZAnoLz36W0Isr3uryzm3hxOJUgDP5gGozb+FK2T/riw8xmzJflKWvPrLjwVG1OulFMmnhzBcypgVyoQir3BxvUvf7XwH+H6JHn1bUwSUyN7vk0dc2udUGYHqNHqHU8uJwg2AxHBxtQRraJli0ZnXFD32BcdSc15HSaYveOB2wYuAMkiI+9rBMZwvINq6iidDlQ/Xfxaq8yAFPpz48iYgzQHvlDHpkYuwgmDX6YOdYGAULl/hHER3MpDtWnbBoUn9Wu4ijNjvskfWmzyI0eCrlQYP0c19qO9gwTO+jC5qgSY6hz8Fubw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fhTY7jkITaYXpvi2D58+ILbGypjyC7R4h5bfH4HnNX4=;
- b=n3ZArPZTLuCc3ItYCLsfxTBqcpC8SntfPwCsEDnPE98AlDeBz2zPxl+oqpDwsuzBdRlMQySKWf0epwnxyZpbYNhmKDhlt5QxDOWJc2nzYc1iqTTmIoZ6XYal9uiLeKNV0MpkF5JgcoUSpJotYXpRvucDPNPY0lC1EFxdTZUGbJo=
-Received: from SI2PR03MB5885.apcprd03.prod.outlook.com (2603:1096:4:142::7) by
- SEYPR03MB7968.apcprd03.prod.outlook.com (2603:1096:101:168::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.26; Mon, 18 Sep
- 2023 10:47:46 +0000
-Received: from SI2PR03MB5885.apcprd03.prod.outlook.com
- ([fe80::e148:3390:1eb2:28e3]) by SI2PR03MB5885.apcprd03.prod.outlook.com
- ([fe80::e148:3390:1eb2:28e3%7]) with mapi id 15.20.6792.026; Mon, 18 Sep 2023
- 10:47:45 +0000
-From:   =?utf-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>
-To:     "robh@kernel.org" <robh@kernel.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>
-CC:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "jstultz@google.com" <jstultz@google.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?utf-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
-        <Jianjiao.Zeng@mediatek.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        =?utf-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
-        <kuohong.wang@mediatek.com>,
-        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-        "krzysztof.kozlow.ski+dt@linaro.org" 
-        <krzysztof.kozlow.ski+dt@linaro.org>,
-        "jkardatzke@google.com" <jkardatzke@google.com>,
-        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "tjmercier@google.com" <tjmercier@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
- memory for SVP
-Thread-Topic: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
- memory for SVP
-Thread-Index: AQHZ5FgxjegLVruM7kG7VRoFLocLPrAVxRkAgADzaICAACUMgIAAHWgAgABe8QCACRiEgA==
-Date:   Mon, 18 Sep 2023 10:47:45 +0000
-Message-ID: <a63ab61fbf4d2bdadeb68441050ff5187c93ba96.camel@mediatek.com>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
-         <20230911023038.30649-9-yong.wu@mediatek.com>
-         <20230911154448.GA1279317-robh@kernel.org>
-         <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
-         <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org>
-         <95f9dd3b-1f33-4af5-8757-a97e8b9bb216@arm.com>
-         <20230912155338.GA842444-robh@kernel.org>
-In-Reply-To: <20230912155338.GA842444-robh@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SI2PR03MB5885:EE_|SEYPR03MB7968:EE_
-x-ms-office365-filtering-correlation-id: 089eb555-7f84-4f83-1deb-08dbb834b137
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: twqKMMvroONY67PmMpTC8RX1+8zIYlH3UZkDY49FsHH70O8JAkQOPp9E3wqkPLBDniEjRtye8lntw7fjHCFQqAZI+oc2OwWzfHYwGftiQ60YD6Tqbg1UcZtvsad6seGUPclfAyTnFQycuaZTN7P3c1pYyeMUu++W+1zBPW30M5adLR85/RF/lZqp2okT9lZK3ms2jSHG3JWhxMwGk39OHJRZ9zZfvqN2na4Gs0AHYTpphLMpx7ppX8K8dmGVbGaN7uMWhrCJUtmW9nYLq/1JhsqjJ/83nT+C2qIQKBAgETPkC7uxqo/qH1IewqWUJ8TMkJ5DjEg5MfN6ZRVlnBYhC4pH1yexwg8g7jpLCpeZUJZMyI1/ghXJ94OQ2/WBnBRgMJCNwDmLV1osbobwrOgOzdxXA/o4wnA4W+yuRIgbnCPZH9mkj+QR2KkMDCVJfTYXb9PLldkEfWaTrlJxma/VcH2ftmMK+1onbGZUYlkGS9EzODubCgU9C986G1B4snUnC5wwXkRyoznmc+G1TTT1Jkk4oOgA6otMQJNMBHCj/nnpz1yRlVHS65DCi2PUphw6Qis4WQYHXZRAW4VHCyy7I1SaKSkfS/4ZbSC7JQ4LnIxvMAq1GczdXhYBSc3elXh49fKKDd8YOVyBelEB0rw3lk3E9Kv6BX6tPd5dyWk1kL908NbD5cNjRTsbW7r6CJBQx7mztUQpSaWbxdZwu071+g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB5885.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(396003)(376002)(136003)(366004)(1800799009)(186009)(451199024)(6512007)(53546011)(6486002)(6506007)(71200400001)(83380400001)(122000001)(85182001)(86362001)(38100700002)(38070700005)(36756003)(2616005)(26005)(110136005)(66556008)(66946007)(66446008)(64756008)(91956017)(66476007)(54906003)(76116006)(7416002)(41300700001)(316002)(2906002)(5660300002)(8676002)(4326008)(8936002)(966005)(478600001)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ODljMWt6bkVlRVRYalRqazRLTDZETGVYNWs1Znk3YklFZFJUYUdMSEFVVnBO?=
- =?utf-8?B?bFNWaW52aEpCMHljOFFXclRqTjZxUERJMm93eXJ6OGpaYlEzUVgrZU43YlNO?=
- =?utf-8?B?Uk5RV1BqL1pra2hKRXozRkdyNFhpMWQ4ZWtPTTNHOXUydForNEpuaVROVUJI?=
- =?utf-8?B?c3FtSDMrU2FrbjVNTUVCWUllbFZoSVRuaEg3SGhGOWZOZHVmV3RUY3dBSnVG?=
- =?utf-8?B?S1pLU0J6NnMveDRkV0FlYjZwL1k0NVJoakJBd3BzdG9HRzI3aFZPWlE0Z3BM?=
- =?utf-8?B?UTlhbGhuQi9uSWVnWjVHeWNjNjVZdnpkYWhHcGVac3BSU3owT1dIMS8vZTNN?=
- =?utf-8?B?eWpHNFNnREdzZldvOExyeTRxOFZ4TlFyMTlYTlRxaDVoN1I3czZldGgvODZD?=
- =?utf-8?B?cDFBRVdmNytHd3ZXQm13R2RLZ2VONG5HZkl6dmo5SGFUTitkRkhjZVBhbkR6?=
- =?utf-8?B?Vzc4TUJnWWp2V2dBWmdVYkdhMUc0dldRTmU0S0hhcXdtMjJJaFZuQzhwWlRZ?=
- =?utf-8?B?SlhtSEJZeXhiUFJyS08waFFHdGRYQ1JWUVVudm9DdFRLRGdMSFlzRzhmSGNQ?=
- =?utf-8?B?OXFlZTBiZHllcTdZMG1UdWFXZkFOWFVOdFR1REk1N08vb0NxUDJCamJpQVpS?=
- =?utf-8?B?RllYMk5kM2V3WW84OE5HR3J6eERRdmp0NzZ6d2RUSlRlc1hlMkhza3N3ZWxY?=
- =?utf-8?B?WHY4Q2QyWEVnbkgwdHg1UG4wd3FzNlNZR0h0TEIwZ1RDTlBheGwxOU1JOUpH?=
- =?utf-8?B?ZGNlenp6OVBWcHQ5TTQ4ZFM2Qm9SQ3l4cjVrZER2Y0Nsemx1SWlZRG9OcVc3?=
- =?utf-8?B?VXB3M2pLOGVUMllOT1JvTDY5VGlZWkhnRm9mWnNCWWFOWVp2WHBod3p3OEJy?=
- =?utf-8?B?aENVVGdCdzNZNWcrY1F1M21UbWxkSEZmRUNiK0luQ0pJOEpLZDJKKzMycUhG?=
- =?utf-8?B?T0NBQ2M0NDlxYUNheFJ3VVJwUUg0bkdmT1d2T0hiRzZDU3pDdEc0azhQY0VR?=
- =?utf-8?B?Vkd2cVZzRGhVQXJhMDBCdmwrQXhNbDVxVE5HU2VwTWk0MmpxbGd4WXFDTGVi?=
- =?utf-8?B?WVYzVnVXQzYxY003VFlqQUxUcUxjaEcybUNTazFLZUFDQmhXOW5ZTHc5SndW?=
- =?utf-8?B?eUxtNnlZbERHYVBBbmJvOXRuM01BNDdSM0VGbjVwTU5DTWNUL2lyZ3p6L1lL?=
- =?utf-8?B?eDlJTmRkaGVtUks5UkJUeTg5NDM4WmExYTBGMWxibEVLUDZPWG9PaE1ja05z?=
- =?utf-8?B?cGI1ODRYbzVWMFhnQkpRU3FSRi9MYUI0SGZzaGNkQi8zaEQyNWpUdzZPbHpN?=
- =?utf-8?B?NVJlaVE2akNxdmJLZ1BKWDdPK1ZHT040Wmt1bFhIZklEQ2pYREt4VUl3eDRS?=
- =?utf-8?B?ZlRzNnJ3d3A4RGRXUHhZdFFyMUtBdXN0UWppMGswNTlxUVBFYnJHdVlCdFZH?=
- =?utf-8?B?QVpOSW1FdzIxTWswUnFIcEZCQlJaTXpsNFZMSU82YytheVozRlZ1RGxBR1Vh?=
- =?utf-8?B?SnJKK21xbllGM3kvQkMwbHdvK1RLTFh0TXJvV0JsS3VmRTRRTUkzbng1c0ts?=
- =?utf-8?B?U0NXbElyMnlIMWlBVWdFbUJ0czNUbmd1ZXdxKzhRN09ZZGpZOVlWNlNEUllp?=
- =?utf-8?B?anh1RFJ1c2Zaa2J4UExoOU5KSDRrSU9McXQrM3hLVC9Wc2FabHFBdWg0QkJR?=
- =?utf-8?B?U0Z5bFFyUTAvbHF4b1ZXaUQvR1A2U1RUd1lwdGd4YzBTYkY1R0h1OTFob0lp?=
- =?utf-8?B?N2tTczhxZldJV24zYVExbkdNRWY5cm13ZmpIVitqaC9DTWdieEtranROVmVu?=
- =?utf-8?B?dUt1ZlB2SmNla3plcHlpRVhxUmxJMUNUMTRieDcxb1lxeGlFSkVsL1hzVWdq?=
- =?utf-8?B?WWtjN1dsRFZYcUNVZHNxUC9PeTBSajZZcy9DNG44L0JXVVhHMUJoYVRpSjNt?=
- =?utf-8?B?ZFk3MmZjMXFPRWwzVXhvSW9mbGU0d2tQcFA4T2RRUnB2YllsSldkTXVoUFJr?=
- =?utf-8?B?RFA0ZzlOYk16T1I2YWZaaEU4c2g0S0EyRTZwWjlrOFNBclF4RzdlaURjNm9q?=
- =?utf-8?B?amZTM1dUNHRDMVNsYnAyZWtCVDYreWFHNFl4cGxnL3k1aklSOVNaZDBQODdt?=
- =?utf-8?B?ME50cjBYcnRMeTZBYTRNdVlzK3hZY0g2RExPYUNaeWV2WUhjUTZhVFZNaFhY?=
- =?utf-8?B?VkE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D1BB8576DBC80D49962B36E79556A880@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Mon, 18 Sep 2023 08:07:17 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED56E197;
+        Mon, 18 Sep 2023 05:06:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695038817; x=1726574817;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Rp8cq1yXS0m/MrKPrdwoAhoUUVmnHZDZwzHX59VGQkg=;
+  b=MCZpTISK9wtin0yMYkVi/aYfUm87pCRc3t9/9Q/P5CgqnxUVal7r7bsg
+   1ueziWQrh21+xgBUecZQMzaVKZYEypy4uO7/V+9FYjlwkLgXfojUeqeOt
+   nH/ZvjfszytUfbcMNWexdw8zellxz/o8TPZ+rEkWZPX6yz7a3cPvudipM
+   Y3P0E82zSKuniH6MJDb+RFQPxw42p002AGeZnE7dePdW4goEFOi5yoEkD
+   hGfzPR/GbJmxSsYU5JYOQ3rfafAbQckii4YZ4FVU1hKbISr/5te91M+RU
+   jEo3BZP+FXZyzZfCmvCCmWc6HF679ReVxW3HKTNb5CCG5CStC41sdnxec
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="378544668"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="378544668"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:01:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10836"; a="816008522"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="816008522"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:01:28 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 2C20311FAD0;
+        Mon, 18 Sep 2023 15:01:26 +0300 (EEST)
+Date:   Mon, 18 Sep 2023 12:01:26 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] media: i2c: Add ROHM BU64754 Camera Autofocus
+ Actuator
+Message-ID: <ZQg8FugCJfrlmMiR@kekkonen.localdomain>
+References: <20230915165946.4183839-1-kieran.bingham@ideasonboard.com>
+ <20230915165946.4183839-3-kieran.bingham@ideasonboard.com>
+ <CAPY8ntCeo2LVCRbcrx8q+RSvo2B+KcUYRCAkoHCeVywioknM2A@mail.gmail.com>
+ <169480557269.84025.9501931492272338428@ping.linuxembedded.co.uk>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB5885.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 089eb555-7f84-4f83-1deb-08dbb834b137
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2023 10:47:45.4020
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +gpCu02DFx5dkpjIaTwk0CCgxo4i8yqLGZ58sFFtvUVQW0DhGhMkN/QhvRZg/aqLBTyKxSbaj8wlvHzvIXO5NA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7968
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--28.309600-8.000000
-X-TMASE-MatchedRID: CML2QBp/u5TUL3YCMmnG4ia1MaKuob8PCJpCCsn6HCHBnyal/eRn3gzR
-        CsGHURLuwpcJm2NYlPAF6GY0Fb6yCifZYRtbOr2t5gCHftmwEMLWSrKtwxqWpVXWVD8efRM6LIb
-        YUWjS7yjbT4dHnV2cQbvrVFvaS3pvaz+0XDplNBbCz1ymGcrCUcMdI0UcXEHz8QkGgrel/G4QIz
-        eIWm4OKNYl5+U3IeZnRRqEtlXbEyAEQqIqKFLtThWCVBr+Ay98hV0srjoqtx/4JyR+b5tvoHq1v
-        ZPzlqkE9p+FCsxUVBOo2XCvbbzgXT2Rn1xnHewV04Rmz/agfdwpWss5kPUFdFpbYq2f4jz+v9+R
-        vGSUdYDObesvhFq9iCmfkKd1ns/adLTHjoswkhrOUnHdMlbPm+oPCNnw8P0y5kPlQgZZtVOXjmy
-        K2W3kzdpHRIOaj2YjQxNJhQGGn1lOw/F81QRZosFWmsryu9Zf0wYPwm4Fdk9IjvA1/YS+0ZGdFu
-        mu59+H26TlE+g/8cgkmqnza8FwyfZomtZBUIXQOjf3A4DTYuEF15s6prCIu2HZ+cd7VyKX36IBB
-        lSZdcZE2D4rLf+pxZGTpe1iiCJq0u+wqOGzSV1r34lUqic7t/oA9r2LThYYKrauXd3MZDUMFsa+
-        1wyh/JRMZUCEHkRt
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--28.309600-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 73BB92602AA03E46C4D8CA9F22764F12EACFB37B1A9A669A9E373225EA2B2CC82000:8
-X-MTK:  N
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
-        SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <169480557269.84025.9501931492272338428@ping.linuxembedded.co.uk>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gVHVlLCAyMDIzLTA5LTEyIGF0IDEwOjUzIC0wNTAwLCBSb2IgSGVycmluZyB3cm90ZToNCj4g
-IAkgDQo+IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVu
-IGF0dGFjaG1lbnRzIHVudGlsDQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhl
-IGNvbnRlbnQuDQo+ICBPbiBUdWUsIFNlcCAxMiwgMjAyMyBhdCAxMToxMzo1MEFNICswMTAwLCBS
-b2JpbiBNdXJwaHkgd3JvdGU6DQo+ID4gT24gMTIvMDkvMjAyMyA5OjI4IGFtLCBLcnp5c3p0b2Yg
-S296bG93c2tpIHdyb3RlOg0KPiA+ID4gT24gMTIvMDkvMjAyMyAwODoxNiwgWW9uZyBXdSAo5ZC0
-5YuHKSB3cm90ZToNCj4gPiA+ID4gSGkgUm9iLA0KPiA+ID4gPiANCj4gPiA+ID4gVGhhbmtzIGZv
-ciB5b3VyIHJldmlldy4NCj4gPiA+ID4gDQo+ID4gPiA+IE9uIE1vbiwgMjAyMy0wOS0xMSBhdCAx
-MDo0NCAtMDUwMCwgUm9iIEhlcnJpbmcgd3JvdGU6DQo+ID4gPiA+ID4gICANCj4gPiA+ID4gPiBF
-eHRlcm5hbCBlbWFpbCA6IFBsZWFzZSBkbyBub3QgY2xpY2sgbGlua3Mgb3Igb3Blbg0KPiBhdHRh
-Y2htZW50cyB1bnRpbA0KPiA+ID4gPiA+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3Ig
-dGhlIGNvbnRlbnQuDQo+ID4gPiA+ID4gICBPbiBNb24sIFNlcCAxMSwgMjAyMyBhdCAxMDozMDoz
-N0FNICswODAwLCBZb25nIFd1IHdyb3RlOg0KPiA+ID4gPiA+ID4gVGhpcyBhZGRzIHRoZSBiaW5k
-aW5nIGZvciBkZXNjcmliaW5nIGEgQ01BIG1lbW9yeSBmb3INCj4gTWVkaWFUZWsNCj4gPiA+ID4g
-PiBTVlAoU2VjdXJlDQo+ID4gPiA+ID4gPiBWaWRlbyBQYXRoKS4NCj4gPiA+ID4gPiANCj4gPiA+
-ID4gPiBDTUEgaXMgYSBMaW51eCB0aGluZy4gSG93IGlzIHRoaXMgcmVsYXRlZCB0byBDTUE/DQo+
-ID4gPiA+IA0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBZb25nIFd1
-IDx5b25nLnd1QG1lZGlhdGVrLmNvbT4NCj4gPiA+ID4gPiA+IC0tLQ0KPiA+ID4gPiA+ID4gICAu
-Li4vbWVkaWF0ZWssc2VjdXJlX2NtYV9jaHVua21lbS55YW1sICAgICAgICAgfCA0Mg0KPiA+ID4g
-PiA+ICsrKysrKysrKysrKysrKysrKysNCj4gPiA+ID4gPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDQy
-IGluc2VydGlvbnMoKykNCj4gPiA+ID4gPiA+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+IERvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9yZXNlcnZlZC0NCj4gPiA+ID4gPiBtZW1vcnkv
-bWVkaWF0ZWssc2VjdXJlX2NtYV9jaHVua21lbS55YW1sDQo+ID4gPiA+ID4gPiANCj4gPiA+ID4g
-PiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvcmVzZXJ2
-ZWQtDQo+ID4gPiA+ID4gbWVtb3J5L21lZGlhdGVrLHNlY3VyZV9jbWFfY2h1bmttZW0ueWFtbA0K
-PiA+ID4gPiA+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3Jlc2VydmVkLQ0K
-PiA+ID4gPiA+IG1lbW9yeS9tZWRpYXRlayxzZWN1cmVfY21hX2NodW5rbWVtLnlhbWwNCj4gPiA+
-ID4gPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gPiA+ID4gPiBpbmRleCAwMDAwMDAwMDAw
-MDAuLmNjMTBlMDBkMzVjNA0KPiA+ID4gPiA+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ID4gPiA+ID4g
-KysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3Jlc2VydmVkLQ0KPiA+ID4g
-PiA+IG1lbW9yeS9tZWRpYXRlayxzZWN1cmVfY21hX2NodW5rbWVtLnlhbWwNCj4gPiA+ID4gPiA+
-IEBAIC0wLDAgKzEsNDIgQEANCj4gPiA+ID4gPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVy
-OiAoR1BMLTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkNCj4gPiA+ID4gPiA+ICslWUFNTCAxLjIN
-Cj4gPiA+ID4gPiA+ICstLS0NCj4gPiA+ID4gPiA+ICskaWQ6DQo+ID4gPiA+ID4gDQo+IGh0dHA6
-Ly9kZXZpY2V0cmVlLm9yZy9zY2hlbWFzL3Jlc2VydmVkLW1lbW9yeS9tZWRpYXRlayxzZWN1cmVf
-Y21hX2NodW5rbWVtLnlhbWwjDQo+ID4gPiA+ID4gPiArJHNjaGVtYTogaHR0cDovL2RldmljZXRy
-ZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjDQo+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4g
-PiArdGl0bGU6IE1lZGlhVGVrIFNlY3VyZSBWaWRlbyBQYXRoIFJlc2VydmVkIE1lbW9yeQ0KPiA+
-ID4gPiA+IA0KPiA+ID4gPiA+IFdoYXQgbWFrZXMgdGhpcyBzcGVjaWZpYyB0byBNZWRpYXRlaz8g
-U2VjdXJlIHZpZGVvIHBhdGggaXMNCj4gZmFpcmx5DQo+ID4gPiA+ID4gY29tbW9uLCByaWdodD8N
-Cj4gPiA+ID4gDQo+ID4gPiA+IEhlcmUgd2UganVzdCByZXNlcnZlIGEgYnVmZmVyIGFuZCB3b3Vs
-ZCBsaWtlIHRvIGNyZWF0ZSBhIGRtYS0NCj4gYnVmIHNlY3VyZQ0KPiA+ID4gPiBoZWFwIGZvciBT
-VlAsIHRoZW4gdGhlIHNlY3VyZSBlbmdpbmVzKFZjb2RlYyBhbmQgRFJNKSBjb3VsZA0KPiBwcmVw
-YXJlDQo+ID4gPiA+IHNlY3VyZSBidWZmZXIgdGhyb3VnaCBpdC4NCj4gPiA+ID4gQnV0IHRoZSBo
-ZWFwIGRyaXZlciBpcyBwdXJlIFNXIGRyaXZlciwgaXQgaXMgbm90IHBsYXRmb3JtDQo+IGRldmlj
-ZSBhbmQNCj4gPiA+IA0KPiA+ID4gQWxsIGRyaXZlcnMgYXJlIHB1cmUgU1cuDQo+ID4gPiANCj4g
-PiA+ID4gd2UgZG9uJ3QgaGF2ZSBhIGNvcnJlc3BvbmRpbmcgSFcgdW5pdCBmb3IgaXQuIFRodXMg
-SSBkb24ndA0KPiB0aGluayBJDQo+ID4gPiA+IGNvdWxkIGNyZWF0ZSBhIHBsYXRmb3JtIGR0c2kg
-bm9kZSBhbmQgdXNlICJtZW1vcnktcmVnaW9uIg0KPiBwb2ludGVyIHRvDQo+ID4gPiA+IHRoZSBy
-ZWdpb24uIEkgdXNlZCBSRVNFUlZFRE1FTV9PRl9ERUNMQVJFIGN1cnJlbnRseShUaGUgY29kZSBp
-cw0KPiBpbg0KPiA+ID4gPiBbOS85XSkuIFNvcnJ5IGlmIHRoaXMgaXMgbm90IHJpZ2h0Lg0KPiA+
-ID4gDQo+ID4gPiBJZiB0aGlzIGlzIG5vdCBmb3IgYW55IGhhcmR3YXJlIGFuZCB5b3UgYWxyZWFk
-eSB1bmRlcnN0YW5kIHRoaXMNCj4gKHNpbmNlDQo+ID4gPiB5b3UgY2Fubm90IHVzZSBvdGhlciBi
-aW5kaW5ncykgdGhlbiB5b3UgY2Fubm90IGhhdmUgY3VzdG9tDQo+IGJpbmRpbmdzIGZvcg0KPiA+
-ID4gaXQgZWl0aGVyLg0KPiA+ID4gDQo+ID4gPiA+IA0KPiA+ID4gPiBUaGVuIGluIG91ciB1c2Fn
-ZSBjYXNlLCBpcyB0aGVyZSBzb21lIHNpbWlsYXIgbWV0aG9kIHRvIGRvDQo+IHRoaXM/IG9yDQo+
-ID4gPiA+IGFueSBvdGhlciBzdWdnZXN0aW9uPw0KPiA+ID4gDQo+ID4gPiBEb24ndCBzdHVmZiBz
-b2Z0d2FyZSBpbnRvIERUUy4NCj4gPiANCj4gPiBBcmVuJ3QgbW9zdCByZXNlcnZlZC1tZW1vcnkg
-YmluZGluZ3MganVzdCBzb2Z0d2FyZSBwb2xpY3kgaWYgeW91DQo+IGxvb2sgYXQgaXQNCj4gPiB0
-aGF0IHdheSwgdGhvdWdoPyBJSVVDIHRoaXMgaXMgYSBwb29sIG9mIG1lbW9yeSB0aGF0IGlzIHZp
-c2libGUgYW5kDQo+ID4gYXZhaWxhYmxlIHRvIHRoZSBOb24tU2VjdXJlIE9TLCBidXQgaXMgZnVu
-ZGFtZW50YWxseSBvd25lZCBieSB0aGUNCj4gU2VjdXJlDQo+ID4gVEVFLCBhbmQgcGFnZXMgdGhh
-dCB0aGUgVEVFIGFsbG9jYXRlcyBmcm9tIGl0IHdpbGwgYmVjb21lDQo+IHBoeXNpY2FsbHkNCj4g
-PiBpbmFjY2Vzc2libGUgdG8gdGhlIE9TLiBUaHVzIHRoZSBwbGF0Zm9ybSBkb2VzIGltcG9zZSBj
-b25zdHJhaW50cw0KPiBvbiBob3cgdGhlDQo+ID4gTm9uLVNlY3VyZSBPUyBtYXkgdXNlIGl0LCBh
-bmQgcGVyIHRoZSByZXN0IG9mIHRoZSByZXNlcnZlZC1tZW1vcnkNCj4gYmluZGluZ3MsDQo+ID4g
-ZGVzY3JpYmluZyBpdCBhcyBhICJyZXVzYWJsZSIgcmVzZXJ2YXRpb24gc2VlbXMgZW50aXJlbHkN
-Cj4gYXBwcm9wcmlhdGUuIElmDQo+ID4gYW55dGhpbmcgdGhhdCdzICptb3JlKiBwbGF0Zm9ybS1y
-ZWxhdGVkIGFuZCBzbyBEVC1yZWxldmFudCB0aGFuDQo+IHR5cGljYWwNCj4gPiBhcmJpdHJhcnkg
-cmVzZXJ2YXRpb25zIHdoaWNoIGp1c3QgcmVwcmVzZW50ICJzYXZlIHNvbWUgbWVtb3J5IHRvDQo+
-IGRlZGljYXRlIHRvDQo+ID4gYSBwYXJ0aWN1bGFyIGRyaXZlciIgYW5kIGRvbid0IGFjdHVhbGx5
-IGJlYXIgYW55IHJlbGF0aW9uc2hpcCB0bw0KPiBmaXJtd2FyZSBvcg0KPiA+IGhhcmR3YXJlIGF0
-IGFsbC4NCj4gDQo+IFllcywgYSBtZW1vcnkgcmFuZ2UgZGVmaW5lZCBieSBoYXJkd2FyZSBvciBm
-aXJtd2FyZSBpcyB3aXRoaW4gc2NvcGUNCj4gb2YgDQo+IERULiAoQ01BIGF0IGFyaWJpdHJhcnkg
-YWRkcmVzcyB3YXMgcXVlc3Rpb25hYmxlLikNCg0KSSBndWVzcyB0aGUgbWVtb3J5IHJhbmdlIGlz
-IG5vdCAiZGVmaW5lZCIgYnkgSFcgaW4gb3VyIGNhc2UsIGJ1dCB0aGlzDQpyZXNlcnZlIGJ1ZmZl
-ciBpcyBpbmRlZWQgcHJlcGFyZWQgZm9yIGFuZCB1c2VkIGJ5IEhXLg0KDQpJZiB0aGlzIGlzIGEg
-bm9ybWFsIHJlc2VydmVkIGJ1ZmZlciBmb3Igc29tZSBkZXZpY2UsIHdlIGNvdWxkIGRlZmluZSBh
-DQpyZXNlcnZlZC1tZW1vcnkgd2l0aCAic2hhcmVkLWRtYS1wb29sIiwgdGhlbiB0aGUgZGV2aWNl
-IHVzZSBpdCB2aWENCiJtZW1vcnktcmVnaW9uIiBwcm9wZXJ0eSwgaXMgdGhpcyByaWdodD8NCg0K
-SGVyZSBpdCBpcyBhIHNlY3VyZSBidWZmZXIgY2FzZSBhbmQgdGhpcyB1c2FnZSByZWxhdGlvbnNo
-aXAgaXMNCmluZGlyZWN0LiBXZSBjcmVhdGUgYSBuZXcgaGVhcCBmb3IgdGhpcyBuZXcgc2VjdXJl
-IHR5cGUgbWVtb3J5LCBvdGhlcg0KdXNlcnMgc3VjaCBhcyBWQ09ERUMgYW5kIERSTSBhbGxvY2F0
-ZSBzZWN1cmUgbWVtb3J5IHRocm91Z2ggdGhlIG5ldw0KaGVhcC4NCg0KQWJvdXQgdGhlIGFyaWJp
-dHJhcnkgYWRkcmVzcyBpcyBiZWNhdXNlIHdlIGhhdmUgSFcgcmVnaXN0ZXIgZm9yIGl0LiBBcw0K
-bG9uZyBhcyB0aGlzIGlzIGEgbGVnYWwgZHJhbSBhZGRyZXNzLCBpdCBpcyBmaW5lLiBXaGVuIHRo
-aXMgYWRkcmVzcyBpcw0KcGFzc2VkIGludG8gVEVFLCBpdCB3aWxsIGJlIHByb3RlY3RlZCBieSBI
-Vy4NCg0KPiANCj4gTXkgaXNzdWUgaGVyZSBpcyBtb3JlIHRoYXQgJ3NlY3VyZSB2aWRlbyBtZW1v
-cnknIGlzIG5vdCBhbnkgd2F5DQo+IE1lZGlhdGVrIA0KPiBzcGVjaWZpYy4NCg0KU29ycnksIEkg
-ZG9uJ3Qga25vdyBpZiB0aGVyZSBhbHJlYWR5IGlzIGFuIFNWUCBjYXNlIGluIHRoZSBjdXJyZW50
-DQprZXJuZWwuIElmIHNvLCBjb3VsZCB5b3UgaGVscCBzaGFyZSBpdD8NCg0KUmVnYXJkaW5nIG91
-ciBzcGVjaWFsLCB0aGUgbmV3IGhlYXAgZHJpdmVyIG1heSBiZSBkaWZmZXJlbnQsIGFuZCBvdGhl
-cg0KSFdzIHNoYXJlIHRoaXMgcmVzZXJ2ZSBidWZmZXIgYW5kIG1hbmFnZSBpdCB0aHJvdWdoIHRo
-aXMgcHVyZSBTVyBoZWFwLg0KDQo+ICBBSVVJLCBpdCdzIGEgcmVxdWlyZW1lbnQgZnJvbSBjZXJ0
-YWluIGNvbnRlbnQgcHJvdmlkZXJzIGZvciANCj4gdmlkZW8gcGxheWJhY2sgdG8gd29yay4gU28g
-d2h5IHRoZSBNZWRpYXRlayBzcGVjaWZpYyBiaW5kaW5nPw0KPiANCj4gUm9iDQo=
+Hi Kieran, Dave,
+
+On Fri, Sep 15, 2023 at 08:19:32PM +0100, Kieran Bingham wrote:
+> Hi Dave,
+> 
+> Quoting Dave Stevenson (2023-09-15 18:44:02)
+> > Hi Kieran
+> > 
+> > On Fri, 15 Sept 2023 at 18:02, Kieran Bingham
+> > <kieran.bingham@ideasonboard.com> wrote:
+> > >
+> > > Add support for the ROHM BU64754 Motor Driver for Camera Autofocus. A
+> > > V4L2 Subdevice is registered and provides a single
+> > > V4L2_CID_FOCUS_ABSOLUTE control.
+> > >
+> > > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> > > ---
+> > >  MAINTAINERS                 |   1 +
+> > >  drivers/media/i2c/Kconfig   |  13 ++
+> > >  drivers/media/i2c/Makefile  |   1 +
+> > >  drivers/media/i2c/bu64754.c | 308 ++++++++++++++++++++++++++++++++++++
+> > >  4 files changed, 323 insertions(+)
+> > >  create mode 100644 drivers/media/i2c/bu64754.c
+> > >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index f43e0ffcaf56..fd244560c317 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -18576,6 +18576,7 @@ L:      linux-media@vger.kernel.org
+> > >  S:     Maintained
+> > >  T:     git git://linuxtv.org/media_tree.git
+> > >  F:     Documentation/devicetree/bindings/media/i2c/rohm,bu64754.yaml
+> > > +F:     drivers/media/i2c/bu64754.c
+> > >
+> > >  ROHM MULTIFUNCTION BD9571MWV-M PMIC DEVICE DRIVERS
+> > >  M:     Marek Vasut <marek.vasut+renesas@gmail.com>
+> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > index 74ff833ff48c..b7b8004816ed 100644
+> > > --- a/drivers/media/i2c/Kconfig
+> > > +++ b/drivers/media/i2c/Kconfig
+> > > @@ -641,6 +641,19 @@ config VIDEO_AK7375
+> > >           capability. This is designed for linear control of
+> > >           voice coil motors, controlled via I2C serial interface.
+> > >
+> > > +config VIDEO_BU64754
+> > > +       tristate "BU64754 Motor Driver for Camera Autofocus"
+> > > +       depends on I2C && VIDEO_DEV
+> > > +       select MEDIA_CONTROLLER
+> > > +       select VIDEO_V4L2_SUBDEV_API
+> > > +       select V4L2_ASYNC
+> > > +       select V4L2_CCI_I2C
+> > > +       help
+> > > +         This is a driver for the BU64754 Motor Driver for Camera
+> > > +         Autofocus. The BU64754 is an actuator driver IC which can
+> > > +         control the actuator position precisely using an internal
+> > > +         Hall Sensor.
+> > 
+> > I can't find any data on this driver.
+> > Is it still expecting a VCM and hence near instantaneous movement? I
+> > was noting your comment on the hall sensor and thinking you
+> > potentially needed to be able to report whether the target position
+> > had been reached or not. Michael's series at [1] was trying to address
+> > that.
+> 
+> The hall sensor is internal. The component description is just a
+> slightly fixed grammar of the product brief.
+> 
+> As I understand it, this is a VCM yes but I have so little visibility.
+> 
+> > 
+> > [1] https://patchwork.linuxtv.org/project/linux-media/cover/20230406-feature-controls-lens-v2-0-faa8ad2bc404@wolfvision.net/
+> > 
+> > > +
+> > >  config VIDEO_DW9714
+> > >         tristate "DW9714 lens voice coil support"
+> > >         depends on I2C && VIDEO_DEV
+> > > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> > > index 80b00d39b48f..e62aa0df7b1a 100644
+> > > --- a/drivers/media/i2c/Makefile
+> > > +++ b/drivers/media/i2c/Makefile
+> > > @@ -22,6 +22,7 @@ obj-$(CONFIG_VIDEO_AR0521) += ar0521.o
+> > >  obj-$(CONFIG_VIDEO_BT819) += bt819.o
+> > >  obj-$(CONFIG_VIDEO_BT856) += bt856.o
+> > >  obj-$(CONFIG_VIDEO_BT866) += bt866.o
+> > > +obj-$(CONFIG_VIDEO_BU64754) += bu64754.o
+> > >  obj-$(CONFIG_VIDEO_CCS) += ccs/
+> > >  obj-$(CONFIG_VIDEO_CCS_PLL) += ccs-pll.o
+> > >  obj-$(CONFIG_VIDEO_CS3308) += cs3308.o
+> > > diff --git a/drivers/media/i2c/bu64754.c b/drivers/media/i2c/bu64754.c
+> > > new file mode 100644
+> > > index 000000000000..3367b6f17660
+> > > --- /dev/null
+> > > +++ b/drivers/media/i2c/bu64754.c
+> > > @@ -0,0 +1,308 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * The BU64754 is an actuator driver IC which can control the
+> > > + * actuator position precisely using an internal Hall Sensor.
+> > > + */
+> > > +
+> > > +#include <linux/delay.h>
+> > > +#include <linux/i2c.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/pm_runtime.h>
+> > > +#include <linux/regulator/consumer.h>
+> > > +
+> > > +#include <media/v4l2-cci.h>
+> > > +#include <media/v4l2-ctrls.h>
+> > > +#include <media/v4l2-device.h>
+> > > +
+> > > +#define BU64754_REG_ACTIVE     CCI_REG16(0x07)
+> > > +#define BU64754_ACTIVE_MODE    0x8080
+> > > +
+> > > +#define BU64754_REG_SERVE      CCI_REG16(0xd9)
+> > > +#define BU64754_SERVE_ON       0x0404
+> > > +
+> > > +#define BU64754_REG_POSITION   CCI_REG16(0x45)
+> > > +#define BU64753_POSITION_MAX   1023 /* 0x3ff */
+> > > +
+> > > +#define BU64754_POWER_ON_DELAY 800 /* uS : t1, t3 */
+> > > +
+> > > +struct bu64754 {
+> > > +       struct device *dev;
+> > > +
+> > > +       struct v4l2_ctrl_handler ctrls_vcm;
+> > > +       struct v4l2_subdev sd;
+> > > +       struct regmap *cci;
+> > > +
+> > > +       u16 current_val;
+> > > +       struct regulator *vdd;
+> > > +       struct notifier_block notifier;
+> > > +};
+> > > +
+> > > +static inline struct bu64754 *sd_to_bu64754(struct v4l2_subdev *subdev)
+> > > +{
+> > > +       return container_of(subdev, struct bu64754, sd);
+> > > +}
+> > > +
+> > > +static int bu64754_set(struct bu64754 *bu64754, u16 position)
+> > > +{
+> > > +       int ret;
+> > > +
+> > > +       ret = cci_write(bu64754->cci, BU64754_REG_POSITION, position, NULL);
+> > > +       if (ret) {
+> > > +               dev_err(bu64754->dev, "Set position failed ret=%d\n", ret);
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int bu64754_active(struct bu64754 *bu64754)
+> > > +{
+> > > +       int ret;
+> > > +
+> > > +       /* Power on */
+> > > +       ret = cci_write(bu64754->cci, BU64754_REG_ACTIVE, BU64754_ACTIVE_MODE,
+> > > +                       NULL);
+> > > +       if (ret < 0) {
+> > > +               dev_err(bu64754->dev, "Failed to set active mode ret = %d\n",
+> > > +                       ret);
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       /* Serve on */
+> > > +       ret = cci_write(bu64754->cci, BU64754_REG_SERVE, BU64754_SERVE_ON,
+> > > +                       NULL);
+> > > +       if (ret < 0) {
+> > > +               dev_err(bu64754->dev, "Failed to enable serve ret = %d\n",
+> > > +                       ret);
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       return bu64754_set(bu64754, bu64754->current_val);
+> > > +}
+> > > +
+> > > +static int bu64754_standby(struct bu64754 *bu64754)
+> > > +{
+> > > +       int ret;
+> > > +
+> > > +       cci_write(bu64754->cci, BU64754_REG_ACTIVE, 0, &ret);
+> > > +       if (ret < 0)
+> > > +               dev_err(bu64754->dev, "Failed to set active mode ret = %d\n",
+> > > +                       ret);
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static int bu64754_regulator_event(struct notifier_block *nb,
+> > > +                                  unsigned long action, void *data)
+> > > +{
+> > > +       struct bu64754 *bu64754 = container_of(nb, struct bu64754, notifier);
+> > > +
+> > > +       if (action & REGULATOR_EVENT_ENABLE) {
+> > > +               /*
+> > > +                * Initialisation delay between VDD low->high and availability
+> > > +                * i2c operation.
+> > > +                */
+> > > +               usleep_range(BU64754_POWER_ON_DELAY,
+> > > +                            BU64754_POWER_ON_DELAY + 100);
+> > > +
+> > > +               bu64754_active(bu64754);
+> > > +       } else if (action & REGULATOR_EVENT_PRE_DISABLE) {
+> > > +               bu64754_standby(bu64754);
+> > > +       }
+> > 
+> > Presumably this is based on the assumption that the same regulator
+> > controls sensor and lens, so when the sensor is powered up the lens
+> > position gets restored.
+> > I'm sure when I suggested doing the same previously it was shot down
+> > in flames ... found it [2]
+> > 
+> > Personally I think it makes sense that the lens powers up
+> > automagically, and have almost exactly the same code as this in a
+> > couple of our VCM drivers, but others disagree.
+> 
+> I've tested this on the Raspberry Pi, and I expect this design model
+> comes from you originally then. I thought it was a good way to handle
+> things, but I wasn't aware that others had already disagreed.
+> 
+> Being a module that will connect over the RPi interface, with a single
+> POWER_EN, indeed - the regulators are shared with the camera, and
+> synchronising how it is handled seemed reasonable. I guess I have some
+> more reading to do now then.
+
+Consider this is a driver for a VCM that may well be used in other sensors
+and so wired differently.
+
+Is there no reset GPIO? Or another regulator? Add these, and you will start
+having circular dependencies.
+
+In general case, the power up sequence is specific to the camera module.
+We don't have a device for the modules but I think we could for cases where
+you can't correctly execute the power on and off sequences separately for
+the sensor and the lens.
+
+What comes to powering on the lens based on the sensor --- could you use a
+device link for that purpose?
+
+> 
+> I'm already thinking about making a 'simple-vcm' module or parent-driver
+> that can reduce the boilerplate for the vcms though. There's very little
+> difference between them all ... and I think they could be abstracted out
+> substantially to simplify adding new devices.
+
+Either that, or a library to have the helpers modular. That approach could
+produce lots of very small drivers though.
+
+-- 
+Kind regards,
+
+Sakari Ailus
