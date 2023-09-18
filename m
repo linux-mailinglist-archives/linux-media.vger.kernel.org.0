@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A82297A4A2D
+	by mail.lfdr.de (Postfix) with ESMTP id F1B0B7A4A2E
 	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 14:53:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241615AbjIRMwo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Sep 2023 08:52:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37218 "EHLO
+        id S241593AbjIRMwn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Sep 2023 08:52:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241576AbjIRMwJ (ORCPT
+        with ESMTP id S241577AbjIRMwK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Sep 2023 08:52:09 -0400
+        Mon, 18 Sep 2023 08:52:10 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 242759C
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E6EAA
         for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 05:52:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695041524; x=1726577524;
+  t=1695041525; x=1726577525;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=U1Qvq5f9Zk3v7yL6ycYsO2NFkIbbx6Yg2bqzwTxVkWY=;
-  b=jGPLkh1MSrwrXd9VC4Bh3aEvCbsoeoKYVWgXeJkDPun/TGnmKODid37u
-   JxHlEesaXVMqeIC2VDdrqymAcRS3zCL5wvLSyy5+GiHGmh49SrK0BmXTV
-   uzNbtqMCIVT7/sW5UcbyTXc66/Ykumi4k3rze/I0aABCEZ6xam2Wd8xCC
-   ytnSVveKWqg8hLojkKK13cw+rn8yxGAOGqGlw6tAOlGRN29erkxh7Foa6
-   X4Q2N4q0S7++jLCrG+DCFtSwRrSr6mEsZF8MV29LcdCUcR4ebeO2VDq7H
-   Q/YDZDTub5/yLnm7X/JdseivkqzhAGTBMoTk5DlIFjdB6gwZwTrA6KRBF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="364689001"
+  bh=rloQlbyrXzTryrJ/cjDQ9/uyLppmQYbkOvs7NRfHzyE=;
+  b=ksYnFOLryhZzRbJFgabDKP02XsCcqQpixukBfarE7HYSY9XWKvMecGbS
+   nCs5hNjFnmHErXD8GuTJ2N0KKZxt2769RgCL3fJMm/j8avSkuK8vLEYim
+   B52KI+wGEpFf/mq6ngiHb8Aj/kSd9mrpxUiD1JJDHnF9AFdFVflBJrZVF
+   OxIvMzK4DdO7QfzmQ4IPycpNYKvNDR5kmj0GZEYV5ebEEkcJ2ZzD5d/Xv
+   tLwHD2ChSdjEgtEKu/B2QVYZplGTjdzupGjkg09gYO2CBQqhZQQX6xhYz
+   12e+VCFoWMtJ2eHiJIvQZZ25M1QqHWEIXMo80N725LnkRsIQUntRsWjsa
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="364689007"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="364689001"
+   d="scan'208";a="364689007"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:51:59 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:52:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="836005484"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="836005489"
 X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="836005484"
+   d="scan'208";a="836005489"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:51:57 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:51:58 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 3059D11F854;
-        Mon, 18 Sep 2023 15:51:53 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id E624011FB8E;
+        Mon, 18 Sep 2023 15:51:54 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com,
@@ -51,9 +51,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Martin Kepplinger <martink@posteo.de>
-Subject: [PATCH v2 11/12] media: v4l: subdev: Print debug information on frame descriptor
-Date:   Mon, 18 Sep 2023 15:51:37 +0300
-Message-Id: <20230918125138.90002-12-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 12/12] media: mc: Check pad flag validity
+Date:   Mon, 18 Sep 2023 15:51:38 +0300
+Message-Id: <20230918125138.90002-13-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230918125138.90002-1-sakari.ailus@linux.intel.com>
 References: <20230918125138.90002-1-sakari.ailus@linux.intel.com>
@@ -68,61 +68,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Print debug level information on returned frame descriptors.
+Check the validity of pad flags on entity init. Exactly one of the flags
+must be set.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 35 ++++++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+ drivers/media/mc/mc-entity.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 7b087be3ff4f..abd9275febdb 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -309,9 +309,42 @@ static int call_set_selection(struct v4l2_subdev *sd,
- static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 			       struct v4l2_mbus_frame_desc *fd)
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 83468d4a440b..38d5bbae33d7 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -195,8 +195,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+ 			   struct media_pad *pads)
  {
-+	unsigned int i;
-+	int ret;
-+
- 	memset(fd, 0, sizeof(*fd));
+ 	struct media_device *mdev = entity->graph_obj.mdev;
+-	struct media_pad *iter;
++	struct media_pad *iter, *iter2;
+ 	unsigned int i = 0;
++	int ret = 0;
  
--	return sd->ops->pad->get_frame_desc(sd, pad, fd);
-+	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
-+	if (ret)
-+		return ret;
+ 	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
+ 		return -E2BIG;
+@@ -210,15 +211,30 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+ 	media_entity_for_each_pad(entity, iter) {
+ 		iter->entity = entity;
+ 		iter->index = i++;
 +
-+	dev_dbg(sd->dev, "Frame descriptor\n");
-+	dev_dbg(sd->dev, "\ttype %s\n",
-+		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
-+		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
-+		"unknown");
-+	dev_dbg(sd->dev, "\tentries %u\n", fd->num_entries);
++		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
++					     MEDIA_PAD_FL_SOURCE)) != 1) {
++			ret = -EINVAL;
++			break;
++		}
 +
-+	for (i = 0; i < fd->num_entries; i++) {
-+		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
-+
-+		dev_dbg(sd->dev, "\tentry %u\n", i);
-+		dev_dbg(sd->dev, "\tflags%s%s\n",
-+			entry->flags & V4L2_MBUS_FRAME_DESC_FL_LEN_MAX ?
-+			" LEN_MAX" : "",
-+			entry->flags & V4L2_MBUS_FRAME_DESC_FL_BLOB ?
-+			" BLOB" : "");
-+		dev_dbg(sd->dev, "\t\tstream %u\n", entry->stream);
-+		dev_dbg(sd->dev, "\t\tpixelcode 0x%4.4x\n", entry->pixelcode);
-+		dev_dbg(sd->dev, "\t\tlength %u\n", entry->length);
-+
-+		if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
-+			dev_dbg(sd->dev, "\t\tvc %u\n", entry->bus.csi2.vc);
-+			dev_dbg(sd->dev, "\t\tdt 0x%2.2x\n", entry->bus.csi2.dt);
+ 		if (mdev)
+ 			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
+ 					  &iter->graph_obj);
+ 	}
+ 
++	if (ret && mdev) {
++		media_entity_for_each_pad(entity, iter2) {
++			if (iter2 == iter)
++				break;
++			media_gobj_destroy(&iter->graph_obj);
 +		}
 +	}
 +
-+	return 0;
- }
+ 	if (mdev)
+ 		mutex_unlock(&mdev->graph_mutex);
  
- static inline int check_edid(struct v4l2_subdev *sd,
+-	return 0;
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(media_entity_pads_init);
+ 
 -- 
 2.39.2
 
