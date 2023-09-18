@@ -2,49 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9649B7A4ED5
-	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 18:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAADB7A4E5B
+	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 18:11:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229955AbjIRQ1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Sep 2023 12:27:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52566 "EHLO
+        id S229883AbjIRQL3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Sep 2023 12:11:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229970AbjIRQ1c (ORCPT
+        with ESMTP id S229948AbjIRQLO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Sep 2023 12:27:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F892F2D5
-        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 09:24:58 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7DFCA8810;
-        Mon, 18 Sep 2023 15:57:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695045465;
-        bh=6+yXPHBTX7/qRNItlKVPJqXMNFoep8ufbYjgxdg6Otc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=buW7D3WUsZYzuXPSwhf3hYMjDLzY7XrRIFmeRfvL+QC2l4BoT0s9bjGb5N+pHMX2Y
-         HudcEwZDNeuKa29IEGAMPwdNZki32l7dVzW1P9t2Wg3FOwkKlfFJOnlqSdynYxSVes
-         xz4kJKh7mXlW3hoVkX2z651tbsV5zir+1qR3Q45I=
-Date:   Mon, 18 Sep 2023 16:59:33 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH v2 06/12] media: ccs: Use sub-device active state
-Message-ID: <20230918135933.GJ28874@pendragon.ideasonboard.com>
-References: <20230918125138.90002-1-sakari.ailus@linux.intel.com>
- <20230918125138.90002-7-sakari.ailus@linux.intel.com>
+        Mon, 18 Sep 2023 12:11:14 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D2C92735
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 09:08:57 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-6c0b8f42409so2827421a34.0
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 09:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695053336; x=1695658136; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=btWAW5LfQ4zX4uPWHEvhYv653NKJ8tpmpeDql9QQxlg=;
+        b=AKRMatTBCKwuq66iVQ+043W8LkZSAP92Cr6Sz+0jSqZSlBrrN9NyGYSpX7ch8futLX
+         qBBeQeRxonIGfy7OAvtbdxKH48+kqKGpKNvABSUrD5k3wMl6bTWXWOYYK94Vf7XJZzA5
+         NRyxbb94Tus1ldq2Q90TInAgHpMSXmkpvBWuM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695053336; x=1695658136;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=btWAW5LfQ4zX4uPWHEvhYv653NKJ8tpmpeDql9QQxlg=;
+        b=vN/6M83/9+m8aW+Ca7kpQOvsQb7KBF0m8SuNEoe2vzKOVrxd98giEXC6P2WjXEkptV
+         djNolYM53vu4NmXja41SqxNBkajeP/Z11+6KiLri1nPqySLnRrFCoGRFPatboqh6ctVb
+         g2U/3VEF5PQoRcqQSVYfePuA8ZxPDWE8VjQnMcPv4SG2TtLXD67NHBZ/tXxbIr8K38M2
+         AXRE6Bs9pTkJc3b+Yqnc4mSaaVmvL8u29VdpKMPYLP2yTW3aKLA/7ZrYADsuJ4e6vAy7
+         ztL626uVsYi74Mf9jd/f5+BPHVufx8+X32+/N8fRwxbQu3nLsQLOoX+3teiBnWTlBYjD
+         fkfw==
+X-Gm-Message-State: AOJu0YzpACrF+oOV6DAJVF78UcvY+3w31o5O1733w0EfpGYRTcU4dtx7
+        e12o2fpcn9pRrsvtAGNUOZMtt/FHqnRTizFm2VlWRQ==
+X-Google-Smtp-Source: AGHT+IE68P55xvVLM+BSfmWQfbh7+/93buvx/ITGDO+lH5p9lYcpdG14GbwIKW6/PmntBSzskvR80A==
+X-Received: by 2002:a05:6830:1642:b0:6bd:b28:fa1 with SMTP id h2-20020a056830164200b006bd0b280fa1mr10492544otr.32.1695053336150;
+        Mon, 18 Sep 2023 09:08:56 -0700 (PDT)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com. [209.85.167.178])
+        by smtp.gmail.com with ESMTPSA id w14-20020a4aa98e000000b00573c4ea8668sm4230366oom.47.2023.09.18.09.08.41
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Sep 2023 09:08:47 -0700 (PDT)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3ade1c7ffcfso128209b6e.3
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 09:08:41 -0700 (PDT)
+X-Received: by 2002:a05:6358:5bca:b0:143:4ff5:c08a with SMTP id
+ i10-20020a0563585bca00b001434ff5c08amr82424rwf.25.1695053316375; Mon, 18 Sep
+ 2023 09:08:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230918125138.90002-7-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+References: <CAMfZQbzh+o2hn6VgbMsAyjOuMG8PLwwk15neit0t1zC0b-YVKQ@mail.gmail.com>
+ <20230916223736.GA8524@pendragon.ideasonboard.com>
+In-Reply-To: <20230916223736.GA8524@pendragon.ideasonboard.com>
+From:   Fritz Koenig <frkoenig@chromium.org>
+Date:   Mon, 18 Sep 2023 09:08:23 -0700
+X-Gmail-Original-Message-ID: <CAMfZQbwghyQAR78iuNdCfUda_uUxG+85yXMnwg4Kn+GNHddcVw@mail.gmail.com>
+Message-ID: <CAMfZQbwghyQAR78iuNdCfUda_uUxG+85yXMnwg4Kn+GNHddcVw@mail.gmail.com>
+Subject: Re: MEDIA_IOC_REQUEST_ALLOC performance question
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Fritz Koenig <frkoenig@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,598 +77,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Thanks Laurent!
+On Sat, Sep 16, 2023 at 3:37=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Fritz,
+>
+> On Fri, Sep 15, 2023 at 03:07:38PM -0700, Fritz Koenig wrote:
+> > Hi,
+> >
+> > Looking at the documentation[1] it states that the fd returned from
+> > MEDIA_IOC_REQUEST_ALLOC can be close()ed and the kernel will take care
+> > of making sure it is ref counted correctly.
+> >
+> > Because MEDIA_REQUEST_IOC_REINIT needs to be called on an fd before it
+> > can be reused, is there a performance penalty to allocating a new fd
+> > (with MEDIA_IOC_REQUEST_ALLOC) for every frame instead of having a
+> > pool of fd's that are reused, and then immediately after queuing the
+> > buffer, close the file descriptor?
+> >
+> > I have a proof of concept that works, but I haven't tested it for
+> > performance yet.
+> >
+> > It would seem that maybe there is a latency penalty because the
+> > MEDIA_REQUEST_IOC_REINIT is called at the end of a frame while
+> > MEDIA_IOC_REQUEST_ALLOC would be called at the start of a frame.
+>
+> That's up to userspace to decide, you could also call
+> MEDIA_IOC_REQUEST_ALLOC at the end of a frame. That would likely defeit
+> the point though, as you would need to put that fd in a pool to be used
+> later.
+>
+> Allocating a new fd isn't very expensive. The reason why the reinit
+> mechanism was implemented is to avoid fd allocation errors at runtime.
+> By pre-allocating a pool of requests and reusing them, you are
+> guaranteed that you will always have a request available, even if the
+> system runs out of fds.
+>
+This makes sense.  However, I'm not sure decoding video is my highest
+priority if I run out of fd's ;)
 
-Thank you for the patch.
-
-On Mon, Sep 18, 2023 at 03:51:32PM +0300, Sakari Ailus wrote:
-> Make use of sub-device active state. In most cases the effect on need for
-> acquiring the mutex is non-existent as access to the driver's core data
-> structure still needs to be serialised.
-> 
-> This still removes a lot of code as the code paths for active and try
-> state are the same in many cases.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/ccs/ccs-core.c | 278 ++++++++++++-------------------
->  drivers/media/i2c/ccs/ccs.h      |   4 +-
->  2 files changed, 103 insertions(+), 179 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index db461b0e49c8..efed75b6534c 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -508,9 +508,8 @@ static void __ccs_update_exposure_limits(struct ccs_sensor *sensor)
->  	struct v4l2_ctrl *ctrl = sensor->exposure;
->  	int max;
->  
-> -	max = sensor->pixel_array->crop[CCS_PA_PAD_SRC].height
-> -		+ sensor->vblank->val
-> -		- CCS_LIM(sensor, COARSE_INTEGRATION_TIME_MAX_MARGIN);
-> +	max = sensor->pa_src.height + sensor->vblank->val -
-> +		CCS_LIM(sensor, COARSE_INTEGRATION_TIME_MAX_MARGIN);
->  
->  	__v4l2_ctrl_modify_range(ctrl, ctrl->minimum, max, ctrl->step, max);
->  }
-> @@ -728,15 +727,12 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
->  		break;
->  	case V4L2_CID_VBLANK:
->  		rval = ccs_write(sensor, FRAME_LENGTH_LINES,
-> -				 sensor->pixel_array->crop[
-> -					 CCS_PA_PAD_SRC].height
-> -				 + ctrl->val);
-> +				 sensor->pa_src.height + ctrl->val);
->  
->  		break;
->  	case V4L2_CID_HBLANK:
->  		rval = ccs_write(sensor, LINE_LENGTH_PCK,
-> -				 sensor->pixel_array->crop[CCS_PA_PAD_SRC].width
-> -				 + ctrl->val);
-> +				 sensor->pa_src.width + ctrl->val);
->  
->  		break;
->  	case V4L2_CID_TEST_PATTERN:
-> @@ -1214,15 +1210,13 @@ static void ccs_update_blanking(struct ccs_sensor *sensor)
->  
->  	min = max_t(int,
->  		    CCS_LIM(sensor, MIN_FRAME_BLANKING_LINES),
-> -		    min_fll - sensor->pixel_array->crop[CCS_PA_PAD_SRC].height);
-> -	max = max_fll -	sensor->pixel_array->crop[CCS_PA_PAD_SRC].height;
-> +		    min_fll - sensor->pa_src.height);
-> +	max = max_fll -	sensor->pa_src.height;
->  
->  	__v4l2_ctrl_modify_range(vblank, min, max, vblank->step, min);
->  
-> -	min = max_t(int,
-> -		    min_llp - sensor->pixel_array->crop[CCS_PA_PAD_SRC].width,
-> -		    min_lbp);
-> -	max = max_llp - sensor->pixel_array->crop[CCS_PA_PAD_SRC].width;
-> +	min = max_t(int, min_llp - sensor->pa_src.width, min_lbp);
-> +	max = max_llp - sensor->pa_src.width;
->  
->  	__v4l2_ctrl_modify_range(hblank, min, max, hblank->step, min);
->  
-> @@ -1246,10 +1240,8 @@ static int ccs_pll_blanking_update(struct ccs_sensor *sensor)
->  
->  	dev_dbg(&client->dev, "real timeperframe\t100/%d\n",
->  		sensor->pll.pixel_rate_pixel_array /
-> -		((sensor->pixel_array->crop[CCS_PA_PAD_SRC].width
-> -		  + sensor->hblank->val) *
-> -		 (sensor->pixel_array->crop[CCS_PA_PAD_SRC].height
-> -		  + sensor->vblank->val) / 100));
-> +		((sensor->pa_src.width + sensor->hblank->val) *
-> +		 (sensor->pa_src.height + sensor->vblank->val) / 100));
->  
->  	return 0;
->  }
-> @@ -1756,28 +1748,22 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
->  		goto out;
->  
->  	/* Analog crop start coordinates */
-> -	rval = ccs_write(sensor, X_ADDR_START,
-> -			 sensor->pixel_array->crop[CCS_PA_PAD_SRC].left);
-> +	rval = ccs_write(sensor, X_ADDR_START, sensor->pa_src.left);
->  	if (rval < 0)
->  		goto out;
->  
-> -	rval = ccs_write(sensor, Y_ADDR_START,
-> -			 sensor->pixel_array->crop[CCS_PA_PAD_SRC].top);
-> +	rval = ccs_write(sensor, Y_ADDR_START, sensor->pa_src.top);
->  	if (rval < 0)
->  		goto out;
->  
->  	/* Analog crop end coordinates */
-> -	rval = ccs_write(
-> -		sensor, X_ADDR_END,
-> -		sensor->pixel_array->crop[CCS_PA_PAD_SRC].left
-> -		+ sensor->pixel_array->crop[CCS_PA_PAD_SRC].width - 1);
-> +	rval = ccs_write(sensor, X_ADDR_END,
-> +			 sensor->pa_src.left + sensor->pa_src.width - 1);
->  	if (rval < 0)
->  		goto out;
->  
-> -	rval = ccs_write(
-> -		sensor, Y_ADDR_END,
-> -		sensor->pixel_array->crop[CCS_PA_PAD_SRC].top
-> -		+ sensor->pixel_array->crop[CCS_PA_PAD_SRC].height - 1);
-> +	rval = ccs_write(sensor, Y_ADDR_END,
-> +			 sensor->pa_src.top + sensor->pa_src.height - 1);
->  	if (rval < 0)
->  		goto out;
->  
-> @@ -1789,27 +1775,23 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
->  	/* Digital crop */
->  	if (CCS_LIM(sensor, DIGITAL_CROP_CAPABILITY)
->  	    == CCS_DIGITAL_CROP_CAPABILITY_INPUT_CROP) {
-> -		rval = ccs_write(
-> -			sensor, DIGITAL_CROP_X_OFFSET,
-> -			sensor->scaler->crop[CCS_PAD_SINK].left);
-> +		rval = ccs_write(sensor, DIGITAL_CROP_X_OFFSET,
-> +				 sensor->scaler_sink.left);
->  		if (rval < 0)
->  			goto out;
->  
-> -		rval = ccs_write(
-> -			sensor, DIGITAL_CROP_Y_OFFSET,
-> -			sensor->scaler->crop[CCS_PAD_SINK].top);
-> +		rval = ccs_write(sensor, DIGITAL_CROP_Y_OFFSET,
-> +				 sensor->scaler_sink.top);
->  		if (rval < 0)
->  			goto out;
->  
-> -		rval = ccs_write(
-> -			sensor, DIGITAL_CROP_IMAGE_WIDTH,
-> -			sensor->scaler->crop[CCS_PAD_SINK].width);
-> +		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_WIDTH,
-> +				 sensor->scaler_sink.width);
->  		if (rval < 0)
->  			goto out;
->  
-> -		rval = ccs_write(
-> -			sensor, DIGITAL_CROP_IMAGE_HEIGHT,
-> -			sensor->scaler->crop[CCS_PAD_SINK].height);
-> +		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_HEIGHT,
-> +				 sensor->scaler_sink.height);
->  		if (rval < 0)
->  			goto out;
->  	}
-> @@ -1827,12 +1809,10 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
->  	}
->  
->  	/* Output size from sensor */
-> -	rval = ccs_write(sensor, X_OUTPUT_SIZE,
-> -			 sensor->src->crop[CCS_PAD_SRC].width);
-> +	rval = ccs_write(sensor, X_OUTPUT_SIZE, sensor->src_src.width);
->  	if (rval < 0)
->  		goto out;
-> -	rval = ccs_write(sensor, Y_OUTPUT_SIZE,
-> -			 sensor->src->crop[CCS_PAD_SRC].height);
-> +	rval = ccs_write(sensor, Y_OUTPUT_SIZE, sensor->src_src.height);
->  	if (rval < 0)
->  		goto out;
->  
-> @@ -2053,24 +2033,8 @@ static int __ccs_get_format(struct v4l2_subdev *subdev,
->  			    struct v4l2_subdev_state *sd_state,
->  			    struct v4l2_subdev_format *fmt)
->  {
-> -	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-> -
-> -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> -		fmt->format = *v4l2_subdev_get_try_format(subdev, sd_state,
-> -							  fmt->pad);
-> -	} else {
-> -		struct v4l2_rect *r;
-> -
-> -		if (fmt->pad == ssd->source_pad)
-> -			r = &ssd->crop[ssd->source_pad];
-> -		else
-> -			r = &ssd->sink_fmt;
-> -
-> -		fmt->format.code = __ccs_get_mbus_code(subdev, fmt->pad);
-> -		fmt->format.width = r->width;
-> -		fmt->format.height = r->height;
-> -		fmt->format.field = V4L2_FIELD_NONE;
-> -	}
-> +	fmt->format = *v4l2_subdev_get_pad_format(subdev, sd_state, fmt->pad);
-> +	fmt->format.code = __ccs_get_mbus_code(subdev, fmt->pad);
->  
->  	return 0;
->  }
-> @@ -2092,28 +2056,18 @@ static int ccs_get_format(struct v4l2_subdev *subdev,
-
-Please replace ccs_get_format() with v4l2_subdev_get_fmt(). It's a
-drop-in replacement for the .get_fmt() operation, you can drop this
-function. The only remaining caller of __ccs_get_format() can then use
-v4l2_subdev_get_fmt() too.
-
->  static void ccs_get_crop_compose(struct v4l2_subdev *subdev,
->  				 struct v4l2_subdev_state *sd_state,
->  				 struct v4l2_rect **crops,
-> -				 struct v4l2_rect **comps, int which)
-> +				 struct v4l2_rect **comps)
->  {
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
->  	unsigned int i;
->  
-> -	if (which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> -		if (crops)
-> -			for (i = 0; i < subdev->entity.num_pads; i++)
-> -				crops[i] = &ssd->crop[i];
-> -		if (comps)
-> -			*comps = &ssd->compose;
-> -	} else {
-> -		if (crops) {
-> -			for (i = 0; i < subdev->entity.num_pads; i++)
-> -				crops[i] = v4l2_subdev_get_try_crop(subdev,
-> -								    sd_state,
-> -								    i);
-> -		}
-> -		if (comps)
-> -			*comps = v4l2_subdev_get_try_compose(subdev, sd_state,
-> -							     CCS_PAD_SINK);
-> -	}
-> +	if (crops)
-> +		for (i = 0; i < subdev->entity.num_pads; i++)
-> +			crops[i] =
-> +				v4l2_subdev_get_pad_crop(subdev, sd_state, i);
-> +	if (comps)
-> +		*comps = v4l2_subdev_get_pad_compose(subdev, sd_state,
-> +						     ssd->sink_pad);
->  }
->  
->  /* Changes require propagation only on sink pad. */
-> @@ -2125,7 +2079,7 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
->  	struct v4l2_rect *comp, *crops[CCS_PADS];
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, &comp, which);
-> +	ccs_get_crop_compose(subdev, sd_state, crops, &comp);
->  
->  	switch (target) {
->  	case V4L2_SEL_TGT_CROP:
-> @@ -2136,6 +2090,7 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
->  				sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
->  				sensor->scaling_mode =
->  					CCS_SCALING_MODE_NO_SCALING;
-> +				sensor->scaler_sink = *comp;
->  			} else if (ssd == sensor->binner) {
->  				sensor->binning_horizontal = 1;
->  				sensor->binning_vertical = 1;
-> @@ -2144,6 +2099,8 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
->  		fallthrough;
->  	case V4L2_SEL_TGT_COMPOSE:
->  		*crops[CCS_PAD_SRC] = *comp;
-> +		if (which == V4L2_SUBDEV_FORMAT_ACTIVE && ssd == sensor->src)
-> +			sensor->src_src = *crops[CCS_PAD_SRC];
->  		break;
->  	default:
->  		WARN_ON_ONCE(1);
-> @@ -2252,14 +2209,12 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
->  		      CCS_LIM(sensor, MIN_Y_OUTPUT_SIZE),
->  		      CCS_LIM(sensor, MAX_Y_OUTPUT_SIZE));
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, NULL, fmt->which);
-> +	ccs_get_crop_compose(subdev, sd_state, crops, NULL);
->  
->  	crops[ssd->sink_pad]->left = 0;
->  	crops[ssd->sink_pad]->top = 0;
->  	crops[ssd->sink_pad]->width = fmt->format.width;
->  	crops[ssd->sink_pad]->height = fmt->format.height;
-> -	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> -		ssd->sink_fmt = *crops[ssd->sink_pad];
->  	ccs_propagate(subdev, sd_state, fmt->which, V4L2_SEL_TGT_CROP);
->  
->  	mutex_unlock(&sensor->mutex);
-> @@ -2482,7 +2437,7 @@ static int ccs_set_compose(struct v4l2_subdev *subdev,
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
->  	struct v4l2_rect *comp, *crops[CCS_PADS];
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, &comp, sel->which);
-> +	ccs_get_crop_compose(subdev, sd_state, crops, &comp);
->  
->  	sel->r.top = 0;
->  	sel->r.left = 0;
-> @@ -2501,8 +2456,8 @@ static int ccs_set_compose(struct v4l2_subdev *subdev,
->  	return 0;
->  }
->  
-> -static int __ccs_sel_supported(struct v4l2_subdev *subdev,
-> -			       struct v4l2_subdev_selection *sel)
-> +static int ccs_sel_supported(struct v4l2_subdev *subdev,
-> +			     struct v4l2_subdev_selection *sel)
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-> @@ -2545,33 +2500,18 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-> -	struct v4l2_rect *src_size, *crops[CCS_PADS];
-> -	struct v4l2_rect _r;
-> +	struct v4l2_rect src_size = { 0 }, *crops[CCS_PADS], *comp;
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, NULL, sel->which);
-> +	ccs_get_crop_compose(subdev, sd_state, crops, &comp);
->  
-> -	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> -		if (sel->pad == ssd->sink_pad)
-> -			src_size = &ssd->sink_fmt;
-> -		else
-> -			src_size = &ssd->compose;
-> +	if (sel->pad == ssd->sink_pad) {
-> +		struct v4l2_mbus_framefmt *mfmt =
-> +			v4l2_subdev_get_pad_format(subdev, sd_state, sel->pad);
-> +
-> +		src_size.width = mfmt->width;
-> +		src_size.height = mfmt->height;
->  	} else {
-> -		if (sel->pad == ssd->sink_pad) {
-> -			_r.left = 0;
-> -			_r.top = 0;
-> -			_r.width = v4l2_subdev_get_try_format(subdev,
-> -							      sd_state,
-> -							      sel->pad)
-> -				->width;
-> -			_r.height = v4l2_subdev_get_try_format(subdev,
-> -							       sd_state,
-> -							       sel->pad)
-> -				->height;
-> -			src_size = &_r;
-> -		} else {
-> -			src_size = v4l2_subdev_get_try_compose(
-> -				subdev, sd_state, ssd->sink_pad);
-> -		}
-> +		src_size = *comp;
->  	}
->  
->  	if (ssd == sensor->src && sel->pad == CCS_PAD_SRC) {
-> @@ -2579,16 +2519,19 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
->  		sel->r.top = 0;
->  	}
->  
-> -	sel->r.width = min(sel->r.width, src_size->width);
-> -	sel->r.height = min(sel->r.height, src_size->height);
-> +	sel->r.width = min(sel->r.width, src_size.width);
-> +	sel->r.height = min(sel->r.height, src_size.height);
->  
-> -	sel->r.left = min_t(int, sel->r.left, src_size->width - sel->r.width);
-> -	sel->r.top = min_t(int, sel->r.top, src_size->height - sel->r.height);
-> +	sel->r.left = min_t(int, sel->r.left, src_size.width - sel->r.width);
-> +	sel->r.top = min_t(int, sel->r.top, src_size.height - sel->r.height);
->  
->  	*crops[sel->pad] = sel->r;
->  
->  	if (ssd != sensor->pixel_array && sel->pad == CCS_PAD_SINK)
->  		ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_CROP);
-> +	else if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
-> +		 ssd == sensor->pixel_array)
-> +		sensor->pa_src = sel->r;
->  
->  	return 0;
->  }
-> @@ -2601,44 +2544,36 @@ static void ccs_get_native_size(struct ccs_subdev *ssd, struct v4l2_rect *r)
->  	r->height = CCS_LIM(ssd->sensor, Y_ADDR_MAX) + 1;
->  }
->  
-> -static int __ccs_get_selection(struct v4l2_subdev *subdev,
-> -			       struct v4l2_subdev_state *sd_state,
-> -			       struct v4l2_subdev_selection *sel)
-> +static int ccs_get_selection(struct v4l2_subdev *subdev,
-> +			     struct v4l2_subdev_state *sd_state,
-> +			     struct v4l2_subdev_selection *sel)
->  {
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
->  	struct v4l2_rect *comp, *crops[CCS_PADS];
-> -	struct v4l2_rect sink_fmt;
->  	int ret;
->  
-> -	ret = __ccs_sel_supported(subdev, sel);
-> +	ret = ccs_sel_supported(subdev, sel);
->  	if (ret)
->  		return ret;
->  
-> -	ccs_get_crop_compose(subdev, sd_state, crops, &comp, sel->which);
-> -
-> -	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> -		sink_fmt = ssd->sink_fmt;
-> -	} else {
-> -		struct v4l2_mbus_framefmt *fmt =
-> -			v4l2_subdev_get_try_format(subdev, sd_state,
-> -						   ssd->sink_pad);
-> -
-> -		sink_fmt.left = 0;
-> -		sink_fmt.top = 0;
-> -		sink_fmt.width = fmt->width;
-> -		sink_fmt.height = fmt->height;
-> -	}
-> +	ccs_get_crop_compose(subdev, sd_state, crops, &comp);
->  
->  	switch (sel->target) {
->  	case V4L2_SEL_TGT_CROP_BOUNDS:
->  	case V4L2_SEL_TGT_NATIVE_SIZE:
-> -		if (ssd == sensor->pixel_array)
-> +		if (ssd == sensor->pixel_array) {
->  			ccs_get_native_size(ssd, &sel->r);
-> -		else if (sel->pad == ssd->sink_pad)
-> -			sel->r = sink_fmt;
-> -		else
-> +		} else if (sel->pad == ssd->sink_pad) {
-> +			struct v4l2_mbus_framefmt *sink_fmt =
-> +				v4l2_subdev_get_pad_format(subdev, sd_state,
-> +							   ssd->sink_pad);
-> +			sel->r.top = sel->r.left = 0;
-> +			sel->r.width = sink_fmt->width;
-> +			sel->r.height = sink_fmt->height;
-> +		} else {
->  			sel->r = *comp;
-> +		}
->  		break;
->  	case V4L2_SEL_TGT_CROP:
->  	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
-> @@ -2652,20 +2587,6 @@ static int __ccs_get_selection(struct v4l2_subdev *subdev,
->  	return 0;
->  }
->  
-> -static int ccs_get_selection(struct v4l2_subdev *subdev,
-> -			     struct v4l2_subdev_state *sd_state,
-> -			     struct v4l2_subdev_selection *sel)
-> -{
-> -	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> -	int rval;
-> -
-> -	mutex_lock(&sensor->mutex);
-> -	rval = __ccs_get_selection(subdev, sd_state, sel);
-> -	mutex_unlock(&sensor->mutex);
-> -
-> -	return rval;
-> -}
-> -
->  static int ccs_set_selection(struct v4l2_subdev *subdev,
->  			     struct v4l2_subdev_state *sd_state,
->  			     struct v4l2_subdev_selection *sel)
-> @@ -2673,7 +2594,7 @@ static int ccs_set_selection(struct v4l2_subdev *subdev,
->  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	int ret;
->  
-> -	ret = __ccs_sel_supported(subdev, sel);
-> +	ret = ccs_sel_supported(subdev, sel);
->  	if (ret)
->  		return ret;
->  
-> @@ -2964,10 +2885,14 @@ static int ccs_register_subdev(struct ccs_sensor *sensor,
->  		return rval;
->  	}
->  
-> +	rval = v4l2_subdev_init_finalize(&ssd->sd);
-> +	if (rval)
-> +		goto out_media_entity_cleanup;
-> +
->  	rval = v4l2_device_register_subdev(sensor->src->sd.v4l2_dev, &ssd->sd);
->  	if (rval) {
->  		dev_err(&client->dev, "v4l2_device_register_subdev failed\n");
-> -		goto out_media_entity_cleanup;
-> +		goto out_v4l2_subdev_cleanup;
->  	}
->  
->  	rval = media_create_pad_link(&ssd->sd.entity, source_pad,
-> @@ -2983,6 +2908,9 @@ static int ccs_register_subdev(struct ccs_sensor *sensor,
->  out_v4l2_device_unregister_subdev:
->  	v4l2_device_unregister_subdev(&ssd->sd);
->  
-> +out_v4l2_subdev_cleanup:
-> +	v4l2_subdev_cleanup(&ssd->sd);
-> +
->  out_media_entity_cleanup:
->  	media_entity_cleanup(&ssd->sd.entity);
->  
-> @@ -3059,16 +2987,9 @@ static void ccs_create_subdev(struct ccs_sensor *sensor,
->  
->  	v4l2_i2c_subdev_set_name(&ssd->sd, client, sensor->minfo.name, name);
->  
-> -	ccs_get_native_size(ssd, &ssd->sink_fmt);
-> -
-> -	ssd->compose.width = ssd->sink_fmt.width;
-> -	ssd->compose.height = ssd->sink_fmt.height;
-> -	ssd->crop[ssd->source_pad] = ssd->compose;
->  	ssd->pads[ssd->source_pad].flags = MEDIA_PAD_FL_SOURCE;
-> -	if (ssd != sensor->pixel_array) {
-> -		ssd->crop[ssd->sink_pad] = ssd->compose;
-> +	if (ssd != sensor->pixel_array)
->  		ssd->pads[ssd->sink_pad].flags = MEDIA_PAD_FL_SINK;
-> -	}
->  
->  	ssd->sd.entity.ops = &ccs_entity_ops;
->  
-> @@ -3089,24 +3010,24 @@ static int ccs_init_cfg(struct v4l2_subdev *sd, struct v4l2_subdev_state *sd_sta
->  	mutex_lock(&sensor->mutex);
->  
->  	for (i = 0; i < ssd->npads; i++) {
-> -		struct v4l2_mbus_framefmt *try_fmt =
-> -			v4l2_subdev_get_try_format(sd, sd_state, i);
-> -		struct v4l2_rect *try_crop =
-> -			v4l2_subdev_get_try_crop(sd, sd_state, i);
-> -		struct v4l2_rect *try_comp;
-> +		struct v4l2_mbus_framefmt *pad_fmt =
-> +			v4l2_subdev_get_pad_format(sd, sd_state, i);
-> +		struct v4l2_rect *pad_crop =
-> +			v4l2_subdev_get_pad_crop(sd, sd_state, i);
-> +		struct v4l2_rect *pad_comp;
-
-These can simply be called fmt, crop and comp.
-
->  
-> -		ccs_get_native_size(ssd, try_crop);
-> +		ccs_get_native_size(ssd, pad_crop);
->  
-> -		try_fmt->width = try_crop->width;
-> -		try_fmt->height = try_crop->height;
-> -		try_fmt->code = sensor->internal_csi_format->code;
-> -		try_fmt->field = V4L2_FIELD_NONE;
-> +		pad_fmt->width = pad_crop->width;
-> +		pad_fmt->height = pad_crop->height;
-> +		pad_fmt->code = sensor->internal_csi_format->code;
-> +		pad_fmt->field = V4L2_FIELD_NONE;
->  
->  		if (ssd == sensor->pixel_array)
->  			continue;
->  
-> -		try_comp = v4l2_subdev_get_try_compose(sd, sd_state, i);
-> -		*try_comp = *try_crop;
-> +		pad_comp = v4l2_subdev_get_pad_compose(sd, sd_state, i);
-> +		*pad_comp = *pad_crop;
->  	}
->  
->  	mutex_unlock(&sensor->mutex);
-> @@ -3631,6 +3552,10 @@ static int ccs_probe(struct i2c_client *client)
->  	if (rval < 0)
->  		goto out_media_entity_cleanup;
->  
-> +	rval = v4l2_subdev_init_finalize(&sensor->src->sd);
-> +	if (rval)
-> +		goto out_media_entity_cleanup;
-> +
->  	rval = ccs_write_msr_regs(sensor);
->  	if (rval)
->  		goto out_media_entity_cleanup;
-> @@ -3690,6 +3615,7 @@ static void ccs_remove(struct i2c_client *client)
->  
->  	for (i = 0; i < sensor->ssds_used; i++) {
->  		v4l2_device_unregister_subdev(&sensor->ssds[i].sd);
-> +		v4l2_subdev_cleanup(subdev);
->  		media_entity_cleanup(&sensor->ssds[i].sd.entity);
->  	}
->  	ccs_cleanup(sensor);
-> diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
-> index a94c796cea48..9c3587b2fbe7 100644
-> --- a/drivers/media/i2c/ccs/ccs.h
-> +++ b/drivers/media/i2c/ccs/ccs.h
-> @@ -182,9 +182,6 @@ struct ccs_binning_subtype {
->  struct ccs_subdev {
->  	struct v4l2_subdev sd;
->  	struct media_pad pads[CCS_PADS];
-> -	struct v4l2_rect sink_fmt;
-> -	struct v4l2_rect crop[CCS_PADS];
-> -	struct v4l2_rect compose; /* compose on sink */
->  	unsigned short sink_pad;
->  	unsigned short source_pad;
->  	int npads;
-> @@ -220,6 +217,7 @@ struct ccs_sensor {
->  	u32 mbus_frame_fmts;
->  	const struct ccs_csi_data_format *csi_format;
->  	const struct ccs_csi_data_format *internal_csi_format;
-> +	struct v4l2_rect pa_src, scaler_sink, src_src;
-
-The idea of the active state API is to remove all active state from the
-driver private structure. Why do you need these, can't you get them from
-the active state where appropriate ?
-
->  	u32 default_mbus_frame_fmts;
->  	int default_pixel_order;
->  	struct ccs_data_container sdata, mdata;
-
--- 
-Regards,
-
-Laurent Pinchart
+> > [1]: https://docs.kernel.org/userspace-api/media/mediactl/request-api.h=
+tml#recycling-and-destruction
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
