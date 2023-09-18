@@ -2,136 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE9517A4A15
-	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 14:50:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF137A4A1D
+	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 14:52:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240061AbjIRMt5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Sep 2023 08:49:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45318 "EHLO
+        id S240485AbjIRMwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Sep 2023 08:52:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241556AbjIRMtg (ORCPT
+        with ESMTP id S241966AbjIRMwB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Sep 2023 08:49:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2E2D1BD
-        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 05:48:28 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7770A1257;
-        Mon, 18 Sep 2023 14:46:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695041210;
-        bh=UXwlMJbgk6hhsBHhaEzwUSBkyrse5nEW69gE1DWcpbs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=MNevpwxfdFhzCynKnyEHLtTkbsV6zrr0aybPO0fGCUZMhrMdZCeV9XxNT7ClFNJbB
-         MgAIUluGpw+O7k7kRayDCeME6pzdaX2UEGzp7lrVvGirKlHQrlA/KbrZ3BhbKXdJ/8
-         BBoBruRsY89sj5Sc/WYoTofb3GvEhyOLtYa8vyo0=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Mon, 18 Sep 2023 08:52:01 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B2CDD1
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 05:51:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695041505; x=1726577505;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ltVupa4yBGfNSj6Vyll6GyPmLFg9VOaieET5jl+OkV8=;
+  b=bVp+72Rp9QX97D5HY1jBrbhvpsZznlyImC/LJxizQQyPzUxPP0A7ITqn
+   A+pEXTORTsKl3moc/JZAFj2vhhnH2mnfBwiLSXGyd0qOECBboZ2vReoh3
+   CKakluEEkhnKJbMJm6pss8IMirEC6oookqnEal3a6RMexqSvjNY5cf3kc
+   uZTkKSCv6408TpG3yTPRJAT1/sWl0nRWTjkeXisoxhDqd6Grt+qn2/Fra
+   gcY0nlnuXxRr9ubYIiAgz9I+Ze/gzElsLu+IZR0XcDnU6NlPWovwfRqqk
+   baxliH7vu93vjwSHPuW/Ivczl5jP9USx9kVGGaqqVcJ6d9cSxqbknXYe/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="359062374"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="359062374"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:51:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="861057577"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="861057577"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 05:51:42 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 08DF711F854;
+        Mon, 18 Sep 2023 15:51:38 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Martin Kepplinger <martink@posteo.de>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+Cc:     laurent.pinchart@ideasonboard.com,
         Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Jimmy Su <jimmy.su@intel.com>,
-        Jason Chen <jason.z.chen@intel.com>,
-        Arec Kao <arec.kao@intel.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>
-Subject: [PATCH v2] media: v4l2-subdev: Document and enforce .s_stream() requirements
-Date:   Mon, 18 Sep 2023 15:48:38 +0300
-Message-ID: <20230918124838.14210-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>
+Subject: [PATCH v2 00/12] Small fixes and cleanups (ov2740 and ccs)
+Date:   Mon, 18 Sep 2023 15:51:26 +0300
+Message-Id: <20230918125138.90002-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The subdev .s_stream() operation must not be called to start an already
-started subdev, or stop an already stopped one. This requirement has
-never been formally documented. Fix it, and catch possible offenders
-with a WARN_ON() in the call_s_stream() wrapper.
+Hi folks,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Changes since v1:
+This small set contains fixes and cleanups, mainly for the ccs and ov2740
+drivers. I wrote these while working on the metadata set, but these could
+and should be merged earlier.
 
-- Add WARN_ON() in call_s_stream()
-- Fix typo and language in documentation
----
-I'm resending this patch individually to avoid spamming the list with
-the 56 other patches included in v1. You can find the original series at
-https://lore.kernel.org/linux-media/20230914181704.4811-1-laurent.pinchart@ideasonboard.com
----
- drivers/media/v4l2-core/v4l2-subdev.c | 17 ++++++++++++++++-
- include/media/v4l2-subdev.h           |  4 +++-
- 2 files changed, 19 insertions(+), 2 deletions(-)
+since v1:
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index b92348ad61f6..32b7d9cd43e6 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -359,6 +359,18 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
- {
- 	int ret;
- 
-+	/*
-+	 * The .s_stream() operation must never be called to start or stop an
-+	 * already started or stopped subdev. Catch offenders but don't return
-+	 * an error yet to avoid regressions.
-+	 *
-+	 * As .s_stream() is mutually exclusive with the .enable_streams() and
-+	 * .disable_streams() operation, we can use the enabled_streams field
-+	 * to store the subdev streaming state.
-+	 */
-+	if (WARN_ON(!!sd->enabled_streams == !!enable))
-+		return 0;
-+
- #if IS_REACHABLE(CONFIG_LEDS_CLASS)
- 	if (!IS_ERR_OR_NULL(sd->privacy_led)) {
- 		if (enable)
-@@ -372,9 +384,12 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 	if (!enable && ret < 0) {
- 		dev_warn(sd->dev, "disabling streaming failed (%d)\n", ret);
--		return 0;
-+		ret = 0;
- 	}
- 
-+	if (!ret)
-+		sd->enabled_streams = enable ? BIT(0) : 0;
-+
- 	return ret;
- }
- 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index d9fca929c10b..ab2a7ef61d42 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -446,7 +446,9 @@ enum v4l2_subdev_pre_streamon_flags {
-  * @s_stream: start (enabled == 1) or stop (enabled == 0) streaming on the
-  *	sub-device. Failure on stop will remove any resources acquired in
-  *	streaming start, while the error code is still returned by the driver.
-- *	Also see call_s_stream wrapper in v4l2-subdev.c.
-+ *	The caller shall track the subdev state, and shall not start or stop an
-+ *	already started or stopped subdev. Also see call_s_stream wrapper in
-+ *	v4l2-subdev.c.
-  *
-  * @g_pixelaspect: callback to return the pixelaspect ratio.
-  *
+- Add a comment on ov2740 active state patch on serialising sensor access.
 
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+- Improved commit message of ov2740 patch enabling runtime PM earlier.
+
+- Added patches for printing and zeroing frame descriptor, (debug)
+  printing of frame descriptor, switching ccs to init_cfg and sub-device
+  state and checking pad flag validity.
+
+Sakari Ailus (12):
+  media: Documentation: Align numbered list, make it a proper ReST
+  media: ccs: Fix driver quirk struct documentation
+  media: ccs: Correctly initialise try compose rectangle
+  media: ccs: Correct error handling in ccs_register_subdev
+  media: ccs: Switch to init_cfg
+  media: ccs: Use sub-device active state
+  media: ov2740: Enable runtime PM before registering the async subdev
+  media: ov2740: Use sub-device active state
+  media: ov2740: Return -EPROBE_DEFER if no endpoint is found
+  media: v4l: subdev: Clear frame descriptor before get_frame_desc
+  media: v4l: subdev: Print debug information on frame descriptor
+  media: mc: Check pad flag validity
+
+ .../userspace-api/media/v4l/dev-subdev.rst    |  49 ++-
+ drivers/media/i2c/ccs/ccs-core.c              | 301 +++++++-----------
+ drivers/media/i2c/ccs/ccs-quirk.h             |   4 +-
+ drivers/media/i2c/ccs/ccs.h                   |   4 +-
+ drivers/media/i2c/ds90ub913.c                 |   2 -
+ drivers/media/i2c/ds90ub953.c                 |   2 -
+ drivers/media/i2c/ds90ub960.c                 |   2 -
+ drivers/media/i2c/ov2740.c                    | 138 ++++----
+ drivers/media/mc/mc-entity.c                  |  20 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c    |   2 -
+ drivers/media/v4l2-core/v4l2-subdev.c         |  42 +++
+ 11 files changed, 259 insertions(+), 307 deletions(-)
+
 -- 
-Regards,
-
-Laurent Pinchart
+2.39.2
 
