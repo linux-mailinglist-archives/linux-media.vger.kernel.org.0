@@ -2,125 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAADB7A4E5B
-	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 18:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BC687A52B6
+	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 21:09:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229883AbjIRQL3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Sep 2023 12:11:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59306 "EHLO
+        id S229936AbjIRTJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Sep 2023 15:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229948AbjIRQLO (ORCPT
+        with ESMTP id S229770AbjIRTJJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Sep 2023 12:11:14 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D2C92735
-        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 09:08:57 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-6c0b8f42409so2827421a34.0
-        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 09:08:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695053336; x=1695658136; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=btWAW5LfQ4zX4uPWHEvhYv653NKJ8tpmpeDql9QQxlg=;
-        b=AKRMatTBCKwuq66iVQ+043W8LkZSAP92Cr6Sz+0jSqZSlBrrN9NyGYSpX7ch8futLX
-         qBBeQeRxonIGfy7OAvtbdxKH48+kqKGpKNvABSUrD5k3wMl6bTWXWOYYK94Vf7XJZzA5
-         NRyxbb94Tus1ldq2Q90TInAgHpMSXmkpvBWuM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695053336; x=1695658136;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=btWAW5LfQ4zX4uPWHEvhYv653NKJ8tpmpeDql9QQxlg=;
-        b=vN/6M83/9+m8aW+Ca7kpQOvsQb7KBF0m8SuNEoe2vzKOVrxd98giEXC6P2WjXEkptV
-         djNolYM53vu4NmXja41SqxNBkajeP/Z11+6KiLri1nPqySLnRrFCoGRFPatboqh6ctVb
-         g2U/3VEF5PQoRcqQSVYfePuA8ZxPDWE8VjQnMcPv4SG2TtLXD67NHBZ/tXxbIr8K38M2
-         AXRE6Bs9pTkJc3b+Yqnc4mSaaVmvL8u29VdpKMPYLP2yTW3aKLA/7ZrYADsuJ4e6vAy7
-         ztL626uVsYi74Mf9jd/f5+BPHVufx8+X32+/N8fRwxbQu3nLsQLOoX+3teiBnWTlBYjD
-         fkfw==
-X-Gm-Message-State: AOJu0YzpACrF+oOV6DAJVF78UcvY+3w31o5O1733w0EfpGYRTcU4dtx7
-        e12o2fpcn9pRrsvtAGNUOZMtt/FHqnRTizFm2VlWRQ==
-X-Google-Smtp-Source: AGHT+IE68P55xvVLM+BSfmWQfbh7+/93buvx/ITGDO+lH5p9lYcpdG14GbwIKW6/PmntBSzskvR80A==
-X-Received: by 2002:a05:6830:1642:b0:6bd:b28:fa1 with SMTP id h2-20020a056830164200b006bd0b280fa1mr10492544otr.32.1695053336150;
-        Mon, 18 Sep 2023 09:08:56 -0700 (PDT)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com. [209.85.167.178])
-        by smtp.gmail.com with ESMTPSA id w14-20020a4aa98e000000b00573c4ea8668sm4230366oom.47.2023.09.18.09.08.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Sep 2023 09:08:47 -0700 (PDT)
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3ade1c7ffcfso128209b6e.3
-        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 09:08:41 -0700 (PDT)
-X-Received: by 2002:a05:6358:5bca:b0:143:4ff5:c08a with SMTP id
- i10-20020a0563585bca00b001434ff5c08amr82424rwf.25.1695053316375; Mon, 18 Sep
- 2023 09:08:36 -0700 (PDT)
+        Mon, 18 Sep 2023 15:09:09 -0400
+Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC0D10F
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 12:09:03 -0700 (PDT)
+Received: from eig-obgw-6006a.ext.cloudfilter.net ([10.0.30.182])
+        by cmsmtp with ESMTP
+        id iIHBqw2VHQFHRiJcFqD8jX; Mon, 18 Sep 2023 19:09:03 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with ESMTPS
+        id iJcEqg4zqjefgiJcEq4hXN; Mon, 18 Sep 2023 19:09:02 +0000
+X-Authority-Analysis: v=2.4 cv=Aqf9YcxP c=1 sm=1 tr=0 ts=6508a04e
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=VSjF23E3Ok2ZiNtq:21 a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10
+ a=Z0r0GRSmFf-DnjB3DMoA:9 a=QEXdDO2ut3YA:10 a=m8lDLIEVUrKgScV2SIex:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=B5tMPsVfntUMhpYWlnMiaWsyGXw6mb8koJoFx0gfO7o=; b=R5stTqN9xsgrwySPbtSX0O9i5C
+        QSXuTu1SYXfR2ATKJiqLloT737kEr+VHOUSROOe+SqonHTpduxrILJFZITReMz0V7AJKC8gPXobXh
+        0Lm80V938IYFqLDoH4OOx5utnFMKK3wtZ2QU5N/V7kb8wk2MDkp8nAhBQ2y7yagexWD3d489w8jbh
+        sukPkV8YB4hICJgIAdIy4h2WMrWtFa+DoKNeXa8xr2rszFNbYMUehImHzgvi3otIFdDlGM3mApiTW
+        cC28tfr7BXK/TgMPFka4DdmtMKSQrBVlO03OWWt495psWkdTXQV39LiONiRc30iYzRJauvyYrQoAb
+        93C5X22A==;
+Received: from [94.239.20.48] (port=51062 helo=[192.168.1.98])
+        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.96)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1qiJcD-003BP8-0d;
+        Mon, 18 Sep 2023 14:09:01 -0500
+Message-ID: <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
+Date:   Sun, 17 Sep 2023 21:10:05 -0600
 MIME-Version: 1.0
-References: <CAMfZQbzh+o2hn6VgbMsAyjOuMG8PLwwk15neit0t1zC0b-YVKQ@mail.gmail.com>
- <20230916223736.GA8524@pendragon.ideasonboard.com>
-In-Reply-To: <20230916223736.GA8524@pendragon.ideasonboard.com>
-From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Mon, 18 Sep 2023 09:08:23 -0700
-X-Gmail-Original-Message-ID: <CAMfZQbwghyQAR78iuNdCfUda_uUxG+85yXMnwg4Kn+GNHddcVw@mail.gmail.com>
-Message-ID: <CAMfZQbwghyQAR78iuNdCfUda_uUxG+85yXMnwg4Kn+GNHddcVw@mail.gmail.com>
-Subject: Re: MEDIA_IOC_REQUEST_ALLOC performance question
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Fritz Koenig <frkoenig@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] udmabuf: Fix a potential (and unlikely) access to
+ unallocated memory
+Content-Language: en-US
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr>
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 94.239.20.48
+X-Source-L: No
+X-Exim-ID: 1qiJcD-003BP8-0d
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:51062
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 2
+X-Org:  HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfDY8mKfTHrpv3/sH+MSsvAwZUkubSiphKxWT5eLtqeOnICvJ2khqLx+halP0+Qub1AGgEtY1GQ19eD8g/C7UXClucSFABCqxWgh/iLxyU4ZcJ6jnjlZr
+ 2sFBjZPQ04mkomsT2QEJT1bKzWZeLwWKdHztTSHOfyhaWeMhlcKKUX2gUaCzfOhEjRZtRatOAsCSjOYqbPreYTg0lM4+YloryOWWqC45ykGNzI5p+lV5iZcd
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_12_24,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks Laurent!
-On Sat, Sep 16, 2023 at 3:37=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Fritz,
->
-> On Fri, Sep 15, 2023 at 03:07:38PM -0700, Fritz Koenig wrote:
-> > Hi,
-> >
-> > Looking at the documentation[1] it states that the fd returned from
-> > MEDIA_IOC_REQUEST_ALLOC can be close()ed and the kernel will take care
-> > of making sure it is ref counted correctly.
-> >
-> > Because MEDIA_REQUEST_IOC_REINIT needs to be called on an fd before it
-> > can be reused, is there a performance penalty to allocating a new fd
-> > (with MEDIA_IOC_REQUEST_ALLOC) for every frame instead of having a
-> > pool of fd's that are reused, and then immediately after queuing the
-> > buffer, close the file descriptor?
-> >
-> > I have a proof of concept that works, but I haven't tested it for
-> > performance yet.
-> >
-> > It would seem that maybe there is a latency penalty because the
-> > MEDIA_REQUEST_IOC_REINIT is called at the end of a frame while
-> > MEDIA_IOC_REQUEST_ALLOC would be called at the start of a frame.
->
-> That's up to userspace to decide, you could also call
-> MEDIA_IOC_REQUEST_ALLOC at the end of a frame. That would likely defeit
-> the point though, as you would need to put that fd in a pool to be used
-> later.
->
-> Allocating a new fd isn't very expensive. The reason why the reinit
-> mechanism was implemented is to avoid fd allocation errors at runtime.
-> By pre-allocating a pool of requests and reusing them, you are
-> guaranteed that you will always have a request available, even if the
-> system runs out of fds.
->
-This makes sense.  However, I'm not sure decoding video is my highest
-priority if I run out of fd's ;)
 
-> > [1]: https://docs.kernel.org/userspace-api/media/mediactl/request-api.h=
-tml#recycling-and-destruction
->
-> --
-> Regards,
->
-> Laurent Pinchart
+
+On 9/18/23 12:46, Christophe JAILLET wrote:
+> If 'list_limit' is set to a very high value, 'lsize' computation could
+> overflow if 'head.count' is big enough.
+> 
+> In such a case, udmabuf_create() will access to memory beyond 'list'.
+> 
+> Use size_mul() to saturate the value, and have memdup_user() fail.
+> 
+> Fixes: fbb0de795078 ("Add udmabuf misc device")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>   drivers/dma-buf/udmabuf.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index c40645999648..fb4c4b5b3332 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -314,13 +314,13 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
+>   	struct udmabuf_create_list head;
+>   	struct udmabuf_create_item *list;
+>   	int ret = -EINVAL;
+> -	u32 lsize;
+> +	size_t lsize;
+>   
+>   	if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+>   		return -EFAULT;
+>   	if (head.count > list_limit)
+>   		return -EINVAL;
+> -	lsize = sizeof(struct udmabuf_create_item) * head.count;
+> +	lsize = size_mul(sizeof(struct udmabuf_create_item), head.count);
+>   	list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
+>   	if (IS_ERR(list))
+>   		return PTR_ERR(list);
+
+How about this, and we get rid of `lsize`:
+
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index c40645999648..5cf9d849aaa8 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -314,14 +314,13 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
+         struct udmabuf_create_list head;
+         struct udmabuf_create_item *list;
+         int ret = -EINVAL;
+-       u32 lsize;
+
+         if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+                 return -EFAULT;
+         if (head.count > list_limit)
+                 return -EINVAL;
+-       lsize = sizeof(struct udmabuf_create_item) * head.count;
+-       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
++       list = memdup_user((void __user *)(arg + sizeof(head)),
++                          size_mul(sizeof(*list), head.count));
+         if (IS_ERR(list))
+                 return PTR_ERR(list);
+
+
+--
+Gustavo
