@@ -2,144 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22A147A52FC
-	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 21:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA8ED7A5392
+	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 22:14:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbjIRTXE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Sep 2023 15:23:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53110 "EHLO
+        id S229702AbjIRUOz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Sep 2023 16:14:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbjIRTWz (ORCPT
+        with ESMTP id S229632AbjIRUOy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Sep 2023 15:22:55 -0400
-Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr [80.12.242.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52858111
-        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 12:22:49 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id iJpUqXaW8vRSUiJpVqOPuM; Mon, 18 Sep 2023 21:22:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1695064967;
-        bh=qUTILhPdiaRO8mrn/9Xa/LyWEJmc0jgEzY8KobjS0VU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=IOzxAW2lb1j3Wwnmt0nnTQ9t31+qJFPnpTRxYU9+Wupy4Kk82Di9jWTUtPUXyQ48R
-         PvIEWdTX/wwZQY5s+RLBnI/tga8o72m10FsOXACjCxkuxPZNG+wY5TEO5oUW0g+KkE
-         nz5N5o3jtwVqEbus7SQSHMAlLcDb/iJW3QhZjErBHCdDbMuqeRxLtGTSPdEwnCQeR1
-         xCwIs3USoUec9heY2cu3RZ/bcuj3VXmsX4MiYCI/dWA9mdFaUiW1rVygJ09aqNC21n
-         L7cK7pAwtCxzt3irmbIoBQTzRGoJcLhzKyqSq8pa+OEfzXsuWf6BWSdVOvRloEd75X
-         M1lDb3Pv0IOjA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 18 Sep 2023 21:22:47 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <a49f800e-e56f-433a-81d2-6edd68a0a015@wanadoo.fr>
-Date:   Mon, 18 Sep 2023 21:22:44 +0200
+        Mon, 18 Sep 2023 16:14:54 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA2010A
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 13:14:48 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2bffe2840adso29171471fa.2
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 13:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695068087; x=1695672887; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=foir4CYi7UwePbsanUl7EqFTPVU+gOMJyfvtDpuR/qE=;
+        b=ES/kj03omgUBweTWniF9JePXJdplALuWIpGyAJZPQIYSX/R7aS4wIIb05OxcM98I8D
+         Oa6qeB/Z1qc2Yk+KWOVqRdSzzKgEwJ77Yf7YEBrnk0o4ts3raoaHq6/V7nLDJDPK9eVI
+         WxOSV0151SAm2DAZj7RAldPdYaLhameaVbVXJAR8KU/OS4mCYkqqIVcN6PD/czfx8od1
+         DwK1KhVFvoj0ZTqOQehBKqAWHi3w8zCPMt6TEZUdLEDELCQQIz6YGE2vS2hPly/jBZcY
+         FcLqHw8OP1BDHZ2SzfLymYwUvJGoQ3uO2raDAvKTHw8FSF9PSidl/4FLvHgXzEeZ5nSN
+         yKcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695068087; x=1695672887;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=foir4CYi7UwePbsanUl7EqFTPVU+gOMJyfvtDpuR/qE=;
+        b=EZMX0FSDeJmsXyhEKXsOxM2SOIszc6ABoGzkkyRqTC9xiZPb7jrajwvk0UlXTrfG1Z
+         ZIA9S2ORiLPYwPaDOQgzfiznQ9T71dAYD1Dh7UGWIeKzMkh1/9AhMm7kblu4k9800PtQ
+         Da+tOphEqMaMAOoe06yw8KOOmmYqZg+KVu1F39Jpt3UWRvIW0gSETrY0lqw2Y4FcXEO9
+         XO3nfQu7k6qC7eaIXxF09d6Nwa6K1U49/I7VccH6gAsvUUKAksmXDSI7KK5T+fr4G7w6
+         YAj2Yw/okTeTGcvBqOrOIc9nQFQE+EvTpvwn5AELx5eJYQcqpcQqfko5/aQ62eVgZIUm
+         nrwg==
+X-Gm-Message-State: AOJu0YwTGeGhKMuYn4xiMQC+tytK1Dt6efMi/Q0V7qYT6nwO55bk7xip
+        bf2Nf8+0Pk2+PRPVKoiFLMTRjw==
+X-Google-Smtp-Source: AGHT+IESNYwKw/yvTzkMUYIbu+kKT964yTO8C2nh7iIsPR3ZHyrUuYIec+59pv6vLgQaJn81wkR3SQ==
+X-Received: by 2002:a2e:86c2:0:b0:2b9:daa4:f4b6 with SMTP id n2-20020a2e86c2000000b002b9daa4f4b6mr9066399ljj.45.1695068086835;
+        Mon, 18 Sep 2023 13:14:46 -0700 (PDT)
+Received: from [172.25.80.114] ([217.67.225.27])
+        by smtp.gmail.com with ESMTPSA id sd5-20020a170906ce2500b00992a8a54f32sm6792638ejb.139.2023.09.18.13.14.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Sep 2023 13:14:46 -0700 (PDT)
+Message-ID: <7f5021c9-49a8-ad06-5a48-1d531dbda12e@linaro.org>
+Date:   Mon, 18 Sep 2023 22:14:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH] udmabuf: Fix a potential (and unlikely) access to
- unallocated memory
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr>
- <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
-Content-Language: fr, en-US
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v12 6/7] dt-bindings: media: wave5: add yaml devicetree
+ bindings
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jackson Lee <jackson.lee@chipsnmedia.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Robert Beckett <bob.beckett@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <20230915-wave5_v12_on_media_master-v12-0-92fc66cd685d@collabora.com>
+ <20230915-wave5_v12_on_media_master-v12-6-92fc66cd685d@collabora.com>
+ <30384744-94d7-2675-63ad-d8531e3156d1@linaro.org>
+ <20230918064954.iuomunsckduawiay@basti-XPS-13-9310>
+ <6d87034e-6727-09fd-60fc-10f8ca47f85b@linaro.org>
+ <7412a756ee4c83c62b3dc866b5a351e1bc4afa33.camel@collabora.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <7412a756ee4c83c62b3dc866b5a351e1bc4afa33.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 18/09/2023 à 05:10, Gustavo A. R. Silva a écrit :
-> 
-> 
-> On 9/18/23 12:46, Christophe JAILLET wrote:
->> If 'list_limit' is set to a very high value, 'lsize' computation could
->> overflow if 'head.count' is big enough.
+On 18/09/2023 21:16, Nicolas Dufresne wrote:
+>>>>
+>>>> A nit, subject: drop second/last, redundant "yaml devicetree indings".
+>>>> The "dt-bindings" prefix is already stating that these are bindings.
+>>>> Basically three words bringing zero information.
+>>>
+>>> Okay so:
+>>> `dt-bindings: media: wave5: add devicetree`
 >>
->> In such a case, udmabuf_create() will access to memory beyond 'list'.
+>> Still not, because devicetree is duplicating "dt". It's redundant.
 >>
->> Use size_mul() to saturate the value, and have memdup_user() fail.
+>> Instead should be (with correct order of prefixes):
 >>
->> Fixes: fbb0de795078 ("Add udmabuf misc device")
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->>   drivers/dma-buf/udmabuf.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->> index c40645999648..fb4c4b5b3332 100644
->> --- a/drivers/dma-buf/udmabuf.c
->> +++ b/drivers/dma-buf/udmabuf.c
->> @@ -314,13 +314,13 @@ static long udmabuf_ioctl_create_list(struct 
->> file *filp, unsigned long arg)
->>       struct udmabuf_create_list head;
->>       struct udmabuf_create_item *list;
->>       int ret = -EINVAL;
->> -    u32 lsize;
->> +    size_t lsize;
->>       if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
->>           return -EFAULT;
->>       if (head.count > list_limit)
->>           return -EINVAL;
->> -    lsize = sizeof(struct udmabuf_create_item) * head.count;
->> +    lsize = size_mul(sizeof(struct udmabuf_create_item), head.count);
->>       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
->>       if (IS_ERR(list))
->>           return PTR_ERR(list);
+>> media: dt-bindings: wave5: add AzureWaveFooBar XYL ABC10 (whatever
+>> company and full product name it is)
 > 
-> How about this, and we get rid of `lsize`:
-
-Keeping or removing lsize is mostly a matter of taste, I think.
-
-Using sizeof(*list) is better.
-
-Let see if there are some other comments, and I'll send a v2.
-
-Thanks for the feed-back.
-
-CJ
-
+> So maybe this one ?
 > 
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index c40645999648..5cf9d849aaa8 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -314,14 +314,13 @@ static long udmabuf_ioctl_create_list(struct file 
-> *filp, unsigned long arg)
->          struct udmabuf_create_list head;
->          struct udmabuf_create_item *list;
->          int ret = -EINVAL;
-> -       u32 lsize;
-> 
->          if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
->                  return -EFAULT;
->          if (head.count > list_limit)
->                  return -EINVAL;
-> -       lsize = sizeof(struct udmabuf_create_item) * head.count;
-> -       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
-> +       list = memdup_user((void __user *)(arg + sizeof(head)),
-> +                          size_mul(sizeof(*list), head.count));
->          if (IS_ERR(list))
->                  return PTR_ERR(list);
-> 
-> 
-> -- 
-> Gustavo
-> 
+>   media: dt-bindings: wave5: add Chips&Media 521c codec IP support
+
+Sure, sounds good for me.
+
+Best regards,
+Krzysztof
 
