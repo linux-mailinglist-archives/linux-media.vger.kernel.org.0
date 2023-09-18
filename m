@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0C667A4E10
-	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 18:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97EDA7A4F3D
+	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 18:36:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbjIRQGJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Sep 2023 12:06:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39422 "EHLO
+        id S229514AbjIRQgV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Sep 2023 12:36:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbjIRQGD (ORCPT
+        with ESMTP id S230359AbjIRQfy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Sep 2023 12:06:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 385314EFF
-        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 09:05:12 -0700 (PDT)
+        Mon, 18 Sep 2023 12:35:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D302C23CD2
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 09:14:55 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E7FF87F3;
-        Mon, 18 Sep 2023 15:37:38 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A3FFD880D;
+        Mon, 18 Sep 2023 15:46:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695044258;
-        bh=pybjrW1S19prpfdFtFJV7ogIit4PT+O9BWgluUsQQo8=;
+        s=mail; t=1695044774;
+        bh=7SX4NBZGv/KIc9VDRZTQguXMQ/C7k8NXunTfKw0QkCE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KuNldx6eTyVaV509aWl7SMDPv4GrBwPgxHlcV/ZvYzb59zIwuP2kCOfCXNKk31DXL
-         ezECHvrG887SLQqpbeqBNhwgasNfGuT7BZOTwR6VC5cyIs0g0RlCWFBB6YhdbPeVhI
-         gUzCjtO3GxAZBsP2MI+lv/9m18NgdjwEfEDTk0m8=
-Date:   Mon, 18 Sep 2023 16:39:26 +0300
+        b=vuIL4YVsMfTuLWsQ+MDA5eY4ZqKrzK2SLPxr7Qkz5+Hr+k+vDw1qZewuSyL3zDnFC
+         1/jxEAHnpQMJsUXCIfczSSr2OdA3Lrz0F3BT4PYxltqL/dnCjZToiHWbrQdSbg3QL9
+         tEw4T5k1I1cxda850sKryTIppunY+p1WYyshCtk8=
+Date:   Mon, 18 Sep 2023 16:48:02 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
@@ -34,15 +34,19 @@ Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH v2 11/12] media: v4l: subdev: Print debug information on
- frame descriptor
-Message-ID: <20230918133926.GG28874@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 12/12] media: mc: Check pad flag validity
+Message-ID: <20230918134802.GH28874@pendragon.ideasonboard.com>
 References: <20230918125138.90002-1-sakari.ailus@linux.intel.com>
- <20230918125138.90002-12-sakari.ailus@linux.intel.com>
+ <20230918125138.90002-13-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230918125138.90002-12-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230918125138.90002-13-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -51,81 +55,69 @@ Hi Sakari,
 
 Thank you for the patch.
 
-On Mon, Sep 18, 2023 at 03:51:37PM +0300, Sakari Ailus wrote:
-> Print debug level information on returned frame descriptors.
+On Mon, Sep 18, 2023 at 03:51:38PM +0300, Sakari Ailus wrote:
+> Check the validity of pad flags on entity init. Exactly one of the flags
+> must be set.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 35 ++++++++++++++++++++++++++-
->  1 file changed, 34 insertions(+), 1 deletion(-)
+>  drivers/media/mc/mc-entity.c | 20 ++++++++++++++++++--
+>  1 file changed, 18 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 7b087be3ff4f..abd9275febdb 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -309,9 +309,42 @@ static int call_set_selection(struct v4l2_subdev *sd,
->  static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
->  			       struct v4l2_mbus_frame_desc *fd)
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index 83468d4a440b..38d5bbae33d7 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -195,8 +195,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+>  			   struct media_pad *pads)
 >  {
-> +	unsigned int i;
-> +	int ret;
-> +
->  	memset(fd, 0, sizeof(*fd));
+>  	struct media_device *mdev = entity->graph_obj.mdev;
+> -	struct media_pad *iter;
+> +	struct media_pad *iter, *iter2;
+>  	unsigned int i = 0;
+> +	int ret = 0;
 >  
-> -	return sd->ops->pad->get_frame_desc(sd, pad, fd);
-> +	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
-> +	if (ret)
-> +		return ret;
+>  	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
+>  		return -E2BIG;
+> @@ -210,15 +211,30 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+>  	media_entity_for_each_pad(entity, iter) {
+>  		iter->entity = entity;
+>  		iter->index = i++;
 > +
-> +	dev_dbg(sd->dev, "Frame descriptor\n");
-> +	dev_dbg(sd->dev, "\ttype %s\n",
-> +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
-> +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
-> +		"unknown");
-> +	dev_dbg(sd->dev, "\tentries %u\n", fd->num_entries);
+> +		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
+> +					     MEDIA_PAD_FL_SOURCE)) != 1) {
+> +			ret = -EINVAL;
+> +			break;
+> +		}
+> +
+>  		if (mdev)
+>  			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
+>  					  &iter->graph_obj);
+>  	}
+>  
+> +	if (ret && mdev) {
+> +		media_entity_for_each_pad(entity, iter2) {
+> +			if (iter2 == iter)
+> +				break;
+> +			media_gobj_destroy(&iter->graph_obj);
 
-You could skip this line, it's implied by the entries that you print
-below.
+Wrong iterator.
 
-> +
-> +	for (i = 0; i < fd->num_entries; i++) {
-> +		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
-> +
-> +		dev_dbg(sd->dev, "\tentry %u\n", i);
-> +		dev_dbg(sd->dev, "\tflags%s%s\n",
-> +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_LEN_MAX ?
-> +			" LEN_MAX" : "",
-> +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_BLOB ?
-> +			" BLOB" : "");
-> +		dev_dbg(sd->dev, "\t\tstream %u\n", entry->stream);
-> +		dev_dbg(sd->dev, "\t\tpixelcode 0x%4.4x\n", entry->pixelcode);
-> +		dev_dbg(sd->dev, "\t\tlength %u\n", entry->length);
-> +
-> +		if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
-> +			dev_dbg(sd->dev, "\t\tvc %u\n", entry->bus.csi2.vc);
-> +			dev_dbg(sd->dev, "\t\tdt 0x%2.2x\n", entry->bus.csi2.dt);
-
-I'd merge those two in a single line.
+Instead of using a second iterator, which can be error-prone as shown
+here, how about breaking when !iter->graph_obj.mdev, which indicates an
+uninitialized object ?
 
 > +		}
 > +	}
-
-All this is a bit verbose. If it was in a hot path I would be annoyed,
-but in this case I suppose it can be useful for debugging and won't
-affect runtime too much.
-
-It would be nice if we could have a single check and return early. That
-should be possible by using DEFINE_DYNAMIC_DEBUG_METADATA() and
-DYNAMIC_DEBUG_BRANCH(), like done in alloc_contig_dump_pages() for
-instance. It has the additional upside of being able to control all the
-messages with a single flag. I'm not sure it's worth it though, I'll let
-you decide.
-
 > +
-> +	return 0;
->  }
+>  	if (mdev)
+>  		mutex_unlock(&mdev->graph_mutex);
 >  
->  static inline int check_edid(struct v4l2_subdev *sd,
+> -	return 0;
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(media_entity_pads_init);
+>  
 
 -- 
 Regards,
