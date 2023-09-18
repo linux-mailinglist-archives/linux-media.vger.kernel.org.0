@@ -2,128 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 215147A52CC
-	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 21:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A88477A52E4
+	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 21:20:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229988AbjIRTQ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Sep 2023 15:16:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34358 "EHLO
+        id S229524AbjIRTVA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Sep 2023 15:21:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229770AbjIRTQ5 (ORCPT
+        with ESMTP id S229517AbjIRTU7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Sep 2023 15:16:57 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66EFF7;
-        Mon, 18 Sep 2023 12:16:51 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 57D646607186;
-        Mon, 18 Sep 2023 20:16:48 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695064610;
-        bh=ghwssrv6LMhLjo/fzK7LxIyO3gF6PBgn2BzLfbzm+Mo=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ID2KRBKYLpI/a9zZTJxdwIpFGXEC2fMdhddvY4ujyhojlYJE193QalJIvWrvISLFa
-         toBU/GtVYBe1KY4V3YOmIWcTnT8KrNfSefQ/uPR+TlahTk1Lbl6jbHm0cvMofPLTdT
-         QwYAixFqImhO6XzGkRuFdlWj0gaWjpdbAqDK1SH7ughvLgVx9hdsjt8ysFIW6bCtuP
-         ZCQEQaeqyDToXvfBgPBAxEvq98IxEWcmdZ7b38c5cQe7QDPV3UwYNxk8LKcg/NxJGH
-         +QC5FJJNlUrHbf5cFoS+/j5OYBX32aSMsQcTD/GG2ngB0VULiQrwMR9P6N1PA4h8/J
-         /lzwI7J7Sn5lw==
-Message-ID: <7412a756ee4c83c62b3dc866b5a351e1bc4afa33.camel@collabora.com>
-Subject: Re: [PATCH v12 6/7] dt-bindings: media: wave5: add yaml devicetree
- bindings
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Robert Beckett <bob.beckett@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-Date:   Mon, 18 Sep 2023 15:16:39 -0400
-In-Reply-To: <6d87034e-6727-09fd-60fc-10f8ca47f85b@linaro.org>
-References: <20230915-wave5_v12_on_media_master-v12-0-92fc66cd685d@collabora.com>
-         <20230915-wave5_v12_on_media_master-v12-6-92fc66cd685d@collabora.com>
-         <30384744-94d7-2675-63ad-d8531e3156d1@linaro.org>
-         <20230918064954.iuomunsckduawiay@basti-XPS-13-9310>
-         <6d87034e-6727-09fd-60fc-10f8ca47f85b@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 18 Sep 2023 15:20:59 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A26410E
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 12:20:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695064853; x=1726600853;
+  h=date:from:to:cc:subject:message-id;
+  bh=xU959r3KFt0v89nTcex+L1/3LPSaHTDLzYilDTCcO2s=;
+  b=UuYtWMgnkM6cD2bg093tcadMSWTNzVQnYL6JcEFwy5FFJAV5vRF/WaLl
+   SOIKZX55NQwHsWd2yzTgQZYCR0KCYzN+EIAi+DtNFEEldjtdWhenZvsNz
+   hlKf+txybg+HjteQbPG5ckW/1/ovZqL+4efa66lQS32ejPFzTP4oUZoSj
+   LX8Zq5uAa4qsNWQdRl0F1s3bHx8HP0xHd2+y2uao2nrKyCUdmCNcb3SQA
+   varidk5vBQMkl6h4COIhWVXECibRBuKDLExTU08UuvATYuUNVikwBDg8D
+   xXXraXXUj1npJkWTMRZdwlg5ALyV/gCHjtlV/0NZ5v5I/ADIRBgYhY1CU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="446210697"
+X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
+   d="scan'208";a="446210697"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 12:20:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="836146691"
+X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
+   d="scan'208";a="836146691"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2023 12:20:50 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qiJnc-0006Oa-2r;
+        Mon, 18 Sep 2023 19:20:48 +0000
+Date:   Tue, 19 Sep 2023 03:20:38 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ 097304bdbff14705c22e429c2857d9d467b4825d
+Message-ID: <202309190336.olhj7Ruz-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 18 septembre 2023 =C3=A0 14:02 +0200, Krzysztof Kozlowski a =C3=A9=
-crit=C2=A0:
-> On 18/09/2023 08:49, Sebastian Fricke wrote:
-> > Hey Krzysztof,
-> >=20
-> > thanks for your review.
-> >=20
-> > On 17.09.2023 09:56, Krzysztof Kozlowski wrote:
-> > > On 15/09/2023 23:11, Sebastian Fricke wrote:
-> > > > From: Robert Beckett <bob.beckett@collabora.com>
-> > > >=20
-> > > > Add bindings for the wave5 chips&media codec driver
-> > > >=20
-> > > > Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> > > > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> > > > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> > >=20
-> > > So this is v12 and still no tested?
-> >=20
-> > I have tested it, multiple times actually since V11. (For some reason
-> > that indentation issue slipped by me though ...)
-> > If you mean the tested by tag, the patch was completely unnoticed until
-> > v10 by the community, which was partially because me and the previous
-> > commiters didn't use the right recipients for this patch. So from that
-> > point of view this is more like v2.
-> >=20
-> > >=20
-> > > A nit, subject: drop second/last, redundant "yaml devicetree indings"=
-.
-> > > The "dt-bindings" prefix is already stating that these are bindings.
-> > > Basically three words bringing zero information.
-> >=20
-> > Okay so:
-> > `dt-bindings: media: wave5: add devicetree`
->=20
-> Still not, because devicetree is duplicating "dt". It's redundant.
->=20
-> Instead should be (with correct order of prefixes):
->=20
-> media: dt-bindings: wave5: add AzureWaveFooBar XYL ABC10 (whatever
-> company and full product name it is)
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: 097304bdbff14705c22e429c2857d9d467b4825d  media: i2c: ov9734: Drop system suspend and resume handlers
 
-So maybe this one ?
+elapsed time: 736m
 
-  media: dt-bindings: wave5: add Chips&Media 521c codec IP support
+configs tested: 127
+configs skipped: 2
 
->=20
->=20
-> Best regards,
-> Krzysztof
->=20
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20230918   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                        mvebu_v7_defconfig   gcc  
+arm64                            alldefconfig   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20230918   gcc  
+i386         buildonly-randconfig-002-20230918   gcc  
+i386         buildonly-randconfig-003-20230918   gcc  
+i386         buildonly-randconfig-004-20230918   gcc  
+i386         buildonly-randconfig-005-20230918   gcc  
+i386         buildonly-randconfig-006-20230918   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-016-20230918   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20230918   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                      maltasmvp_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc                      bamboo_defconfig   gcc  
+powerpc                      chrp32_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20230918   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                          debug_defconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20230918   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                             espt_defconfig   gcc  
+sh                     magicpanelr2_defconfig   gcc  
+sh                           se7750_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20230918   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20230918   gcc  
+x86_64       buildonly-randconfig-002-20230918   gcc  
+x86_64       buildonly-randconfig-003-20230918   gcc  
+x86_64       buildonly-randconfig-004-20230918   gcc  
+x86_64       buildonly-randconfig-005-20230918   gcc  
+x86_64       buildonly-randconfig-006-20230918   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20230918   gcc  
+x86_64                randconfig-002-20230918   gcc  
+x86_64                randconfig-003-20230918   gcc  
+x86_64                randconfig-004-20230918   gcc  
+x86_64                randconfig-005-20230918   gcc  
+x86_64                randconfig-006-20230918   gcc  
+x86_64                randconfig-015-20230918   gcc  
+x86_64                randconfig-016-20230918   gcc  
+x86_64                randconfig-071-20230918   gcc  
+x86_64                randconfig-072-20230918   gcc  
+x86_64                randconfig-073-20230918   gcc  
+x86_64                randconfig-074-20230918   gcc  
+x86_64                randconfig-075-20230918   gcc  
+x86_64                randconfig-076-20230918   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
