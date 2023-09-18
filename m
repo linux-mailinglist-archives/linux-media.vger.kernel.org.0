@@ -2,203 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A88477A52E4
-	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 21:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22A147A52FC
+	for <lists+linux-media@lfdr.de>; Mon, 18 Sep 2023 21:23:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229524AbjIRTVA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Sep 2023 15:21:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52386 "EHLO
+        id S229483AbjIRTXE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Sep 2023 15:23:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjIRTU7 (ORCPT
+        with ESMTP id S229538AbjIRTWz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Sep 2023 15:20:59 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A26410E
-        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 12:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695064853; x=1726600853;
-  h=date:from:to:cc:subject:message-id;
-  bh=xU959r3KFt0v89nTcex+L1/3LPSaHTDLzYilDTCcO2s=;
-  b=UuYtWMgnkM6cD2bg093tcadMSWTNzVQnYL6JcEFwy5FFJAV5vRF/WaLl
-   SOIKZX55NQwHsWd2yzTgQZYCR0KCYzN+EIAi+DtNFEEldjtdWhenZvsNz
-   hlKf+txybg+HjteQbPG5ckW/1/ovZqL+4efa66lQS32ejPFzTP4oUZoSj
-   LX8Zq5uAa4qsNWQdRl0F1s3bHx8HP0xHd2+y2uao2nrKyCUdmCNcb3SQA
-   varidk5vBQMkl6h4COIhWVXECibRBuKDLExTU08UuvATYuUNVikwBDg8D
-   xXXraXXUj1npJkWTMRZdwlg5ALyV/gCHjtlV/0NZ5v5I/ADIRBgYhY1CU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="446210697"
-X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="446210697"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 12:20:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="836146691"
-X-IronPort-AV: E=Sophos;i="6.02,157,1688454000"; 
-   d="scan'208";a="836146691"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2023 12:20:50 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qiJnc-0006Oa-2r;
-        Mon, 18 Sep 2023 19:20:48 +0000
-Date:   Tue, 19 Sep 2023 03:20:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 097304bdbff14705c22e429c2857d9d467b4825d
-Message-ID: <202309190336.olhj7Ruz-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 18 Sep 2023 15:22:55 -0400
+Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr [80.12.242.30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52858111
+        for <linux-media@vger.kernel.org>; Mon, 18 Sep 2023 12:22:49 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id iJpUqXaW8vRSUiJpVqOPuM; Mon, 18 Sep 2023 21:22:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1695064967;
+        bh=qUTILhPdiaRO8mrn/9Xa/LyWEJmc0jgEzY8KobjS0VU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=IOzxAW2lb1j3Wwnmt0nnTQ9t31+qJFPnpTRxYU9+Wupy4Kk82Di9jWTUtPUXyQ48R
+         PvIEWdTX/wwZQY5s+RLBnI/tga8o72m10FsOXACjCxkuxPZNG+wY5TEO5oUW0g+KkE
+         nz5N5o3jtwVqEbus7SQSHMAlLcDb/iJW3QhZjErBHCdDbMuqeRxLtGTSPdEwnCQeR1
+         xCwIs3USoUec9heY2cu3RZ/bcuj3VXmsX4MiYCI/dWA9mdFaUiW1rVygJ09aqNC21n
+         L7cK7pAwtCxzt3irmbIoBQTzRGoJcLhzKyqSq8pa+OEfzXsuWf6BWSdVOvRloEd75X
+         M1lDb3Pv0IOjA==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 18 Sep 2023 21:22:47 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <a49f800e-e56f-433a-81d2-6edd68a0a015@wanadoo.fr>
+Date:   Mon, 18 Sep 2023 21:22:44 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] udmabuf: Fix a potential (and unlikely) access to
+ unallocated memory
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <3e37f05c7593f1016f0a46de188b3357cbbd0c0b.1695060389.git.christophe.jaillet@wanadoo.fr>
+ <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
+Content-Language: fr, en-US
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <7043f179-b670-db3c-3ab0-a1f3e991add9@embeddedor.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 097304bdbff14705c22e429c2857d9d467b4825d  media: i2c: ov9734: Drop system suspend and resume handlers
+Le 18/09/2023 à 05:10, Gustavo A. R. Silva a écrit :
+> 
+> 
+> On 9/18/23 12:46, Christophe JAILLET wrote:
+>> If 'list_limit' is set to a very high value, 'lsize' computation could
+>> overflow if 'head.count' is big enough.
+>>
+>> In such a case, udmabuf_create() will access to memory beyond 'list'.
+>>
+>> Use size_mul() to saturate the value, and have memdup_user() fail.
+>>
+>> Fixes: fbb0de795078 ("Add udmabuf misc device")
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>> ---
+>>   drivers/dma-buf/udmabuf.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+>> index c40645999648..fb4c4b5b3332 100644
+>> --- a/drivers/dma-buf/udmabuf.c
+>> +++ b/drivers/dma-buf/udmabuf.c
+>> @@ -314,13 +314,13 @@ static long udmabuf_ioctl_create_list(struct 
+>> file *filp, unsigned long arg)
+>>       struct udmabuf_create_list head;
+>>       struct udmabuf_create_item *list;
+>>       int ret = -EINVAL;
+>> -    u32 lsize;
+>> +    size_t lsize;
+>>       if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+>>           return -EFAULT;
+>>       if (head.count > list_limit)
+>>           return -EINVAL;
+>> -    lsize = sizeof(struct udmabuf_create_item) * head.count;
+>> +    lsize = size_mul(sizeof(struct udmabuf_create_item), head.count);
+>>       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
+>>       if (IS_ERR(list))
+>>           return PTR_ERR(list);
+> 
+> How about this, and we get rid of `lsize`:
 
-elapsed time: 736m
+Keeping or removing lsize is mostly a matter of taste, I think.
 
-configs tested: 127
-configs skipped: 2
+Using sizeof(*list) is better.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Let see if there are some other comments, and I'll send a v2.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20230918   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                        mvebu_v7_defconfig   gcc  
-arm64                            alldefconfig   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20230918   gcc  
-i386         buildonly-randconfig-002-20230918   gcc  
-i386         buildonly-randconfig-003-20230918   gcc  
-i386         buildonly-randconfig-004-20230918   gcc  
-i386         buildonly-randconfig-005-20230918   gcc  
-i386         buildonly-randconfig-006-20230918   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-016-20230918   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20230918   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                      maltasmvp_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                      bamboo_defconfig   gcc  
-powerpc                      chrp32_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20230918   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                          debug_defconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20230918   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                             espt_defconfig   gcc  
-sh                     magicpanelr2_defconfig   gcc  
-sh                           se7750_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20230918   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20230918   gcc  
-x86_64       buildonly-randconfig-002-20230918   gcc  
-x86_64       buildonly-randconfig-003-20230918   gcc  
-x86_64       buildonly-randconfig-004-20230918   gcc  
-x86_64       buildonly-randconfig-005-20230918   gcc  
-x86_64       buildonly-randconfig-006-20230918   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20230918   gcc  
-x86_64                randconfig-002-20230918   gcc  
-x86_64                randconfig-003-20230918   gcc  
-x86_64                randconfig-004-20230918   gcc  
-x86_64                randconfig-005-20230918   gcc  
-x86_64                randconfig-006-20230918   gcc  
-x86_64                randconfig-015-20230918   gcc  
-x86_64                randconfig-016-20230918   gcc  
-x86_64                randconfig-071-20230918   gcc  
-x86_64                randconfig-072-20230918   gcc  
-x86_64                randconfig-073-20230918   gcc  
-x86_64                randconfig-074-20230918   gcc  
-x86_64                randconfig-075-20230918   gcc  
-x86_64                randconfig-076-20230918   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
+Thanks for the feed-back.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+CJ
+
+> 
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index c40645999648..5cf9d849aaa8 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -314,14 +314,13 @@ static long udmabuf_ioctl_create_list(struct file 
+> *filp, unsigned long arg)
+>          struct udmabuf_create_list head;
+>          struct udmabuf_create_item *list;
+>          int ret = -EINVAL;
+> -       u32 lsize;
+> 
+>          if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+>                  return -EFAULT;
+>          if (head.count > list_limit)
+>                  return -EINVAL;
+> -       lsize = sizeof(struct udmabuf_create_item) * head.count;
+> -       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
+> +       list = memdup_user((void __user *)(arg + sizeof(head)),
+> +                          size_mul(sizeof(*list), head.count));
+>          if (IS_ERR(list))
+>                  return PTR_ERR(list);
+> 
+> 
+> -- 
+> Gustavo
+> 
+
