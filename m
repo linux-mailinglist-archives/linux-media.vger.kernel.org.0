@@ -2,105 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB2D37A5EF2
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:00:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 682C57A5F56
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:20:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230348AbjISKAE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 06:00:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47052 "EHLO
+        id S231566AbjISKUb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 06:20:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231724AbjISJ7w (ORCPT
+        with ESMTP id S230145AbjISKUa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 05:59:52 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00E2123;
-        Tue, 19 Sep 2023 02:59:46 -0700 (PDT)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 95BC26607083;
-        Tue, 19 Sep 2023 10:59:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695117585;
-        bh=ty1ncJ/gw8hrt51lR2U+TFArnXv5dU7HXDPnYcxw+dw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=StKEpJ45dfYg1hZOjzQqqJo3FpCWv8VqfgMPIQo7ZvtnXXpwzhwgrztPa4NeZ8T+y
-         RVe0zeLcKynvJjpeOEr32ul/Abs0xJAhnwLplgr3pK6paFIQoHo+d8BRTxzH5eiIy/
-         uoj/dHKTDdFsNciQMeVwNuQWAMxOgCYsNlTmqctJA147Sljyda6bWa5UTZ2qvQSR5l
-         xN1cY5vKssh0CdT8wNDCh2jHjufv/peXcgDi8gzlTvsOt9LjIR/nj2x/ayYlNXIS22
-         monR6h0q5f0N2s9ApuGN13f4S9sUCAfPMmpcq0VRzQKPJRa937S0tCb35egfWi9ScY
-         VULyrDJyyqzNQ==
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-To:     mchehab@kernel.org
-Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com, moudy.ho@mediatek.com,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        u.kleine-koenig@pengutronix.de, linqiheng@huawei.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel@collabora.com,
-        wenst@chromium.org
-Subject: [PATCH 2/2] media: platform: mtk-mdp3: Use devicetree phandle to retrieve SCP
-Date:   Tue, 19 Sep 2023 11:59:38 +0200
-Message-ID: <20230919095938.70679-3-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230919095938.70679-1-angelogioacchino.delregno@collabora.com>
-References: <20230919095938.70679-1-angelogioacchino.delregno@collabora.com>
+        Tue, 19 Sep 2023 06:20:30 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F674F4
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 03:20:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695118825; x=1726654825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z4po5FB6qxgI5tFf/ZzFcd7J+HQTIC1ZMvGICybIsSs=;
+  b=HGGJzp0395Z6T59SaSro0yxv/qu5zPWswAqwAjrxnN9C/YvCuDQXgDgV
+   ssQWK/v7bO9PZO8hEQvz3ms23AXBBYXmIcmTMlc94y8PQ7icCXaHCw+KV
+   4F0/C3jZ5SdX434DhJ2+ukjYd5UEDTNOxQaWHhEtEiJOJ6vAbEPtlNsHd
+   TJoC+qPxeSeDUW1o6o/vho87QJ/qqM1BOgtrRVnDtpDtBxDIdPnUTnCev
+   CheExZDA9uWe0YWBQfYZV19fpRizyCd54wBa1QD8cPTvlv+Gy79cF/Seo
+   PcINSi3KjqO1TjvWlW7DI9CFBL1IByDujus1x4ABVwi/nfQQFSWE6Nns1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="378799674"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="378799674"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:20:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="695857163"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="695857163"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:20:22 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id C88C6120BE5;
+        Tue, 19 Sep 2023 13:11:02 +0300 (EEST)
+Date:   Tue, 19 Sep 2023 10:11:02 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>
+Subject: Re: [PATCH v2 09/12] media: ov2740: Return -EPROBE_DEFER if no
+ endpoint is found
+Message-ID: <ZQlztieKQ4SrIjpC@kekkonen.localdomain>
+References: <20230918125138.90002-1-sakari.ailus@linux.intel.com>
+ <20230918125138.90002-10-sakari.ailus@linux.intel.com>
+ <20230918132455.GD28874@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230918132455.GD28874@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of walking the entire parent node for something that has the
-right compatible, use the scp_get() function provided by the MediaTek
-SCP remoteproc driver to retrieve a handle to mtk_scp through the
-devicetree "mediatek,scp" (phandle) property.
+Hi Laurent,
 
-In case of multi-core SCP, this also allows to select a specific core.
+On Mon, Sep 18, 2023 at 04:24:55PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Sep 18, 2023 at 03:51:35PM +0300, Sakari Ailus wrote:
+> > With ipu bridge, endpoints may only be created when ipu bridge has
+> > initialised. This may happen after the sensor driver has first probed.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/i2c/ov2740.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+> > index 2c00e653ec47..ccbb15e730ae 100644
+> > --- a/drivers/media/i2c/ov2740.c
+> > +++ b/drivers/media/i2c/ov2740.c
+> > @@ -976,7 +976,7 @@ static int ov2740_check_hwcfg(struct device *dev)
+> >  
+> >  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> >  	if (!ep)
+> > -		return -ENXIO;
+> > +		return -EPROBE_DEFER;
+> 
+> This is fine as a quick fix, so
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- .../media/platform/mediatek/mdp3/mtk-mdp3-core.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+Thank you.
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-index 8677e7fd5083..d93d3833633e 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-@@ -254,13 +254,17 @@ static int mdp_probe(struct platform_device *pdev)
- 		goto err_destroy_job_wq;
- 	}
- 
--	mm_pdev = __get_pdev_by_id(pdev, NULL, MDP_INFRA_SCP);
--	if (WARN_ON(!mm_pdev)) {
--		dev_err(&pdev->dev, "Could not get scp device\n");
--		ret = -ENODEV;
--		goto err_destroy_clock_wq;
-+	mdp->scp = scp_get(pdev);
-+	if (!mdp->scp) {
-+		mm_pdev = __get_pdev_by_id(pdev, NULL, MDP_INFRA_SCP);
-+		if (WARN_ON(!mm_pdev)) {
-+			dev_err(&pdev->dev, "Could not get scp device\n");
-+			ret = -ENODEV;
-+			goto err_destroy_clock_wq;
-+		}
-+		mdp->scp = platform_get_drvdata(mm_pdev);
- 	}
--	mdp->scp = platform_get_drvdata(mm_pdev);
-+
- 	mdp->rproc_handle = scp_get_rproc(mdp->scp);
- 	dev_dbg(&pdev->dev, "MDP rproc_handle: %pK", mdp->rproc_handle);
- 
+> 
+> but I'm thinking that we need better in the long run, for multiple
+> reasons:
+> 
+> - All sensor drivers that support ACPI should do the same, as they
+>   shouldn't be aware of platform-specific integration details. This
+>   could be done by mass-patching them, with a documentation update to
+>   clearly indicate what error code is appropriate. Another option could
+>   be to return an error pointer from fwnode_graph_get_next_endpoint(),
+>   with the appropriate error being set depending on the platform. Other
+>   solutions may be possible too.
+
+I'd like to see IPU bridge in the ACPI framework but that won't happen
+overnight. Then this issue would disappear. The problem with the error is
+that callers don't expect it and how do you tell if you're expecting
+something you don't know about to appear.
+
+> 
+> - On OF systems, a DT error will result in probe deferral, which is
+>   harder to debug than probe failures. It would be nice to avoid that.
+
+Yes.
+
+I change it for this sensor only as I was otherwise working on it.
+
 -- 
-2.42.0
+Regards,
 
+Sakari Ailus
