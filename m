@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 075867A6100
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 13:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32EFA7A6111
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 13:21:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232169AbjISLQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 07:16:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52592 "EHLO
+        id S231349AbjISLVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 07:21:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232161AbjISLQQ (ORCPT
+        with ESMTP id S229497AbjISLVJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 07:16:16 -0400
+        Tue, 19 Sep 2023 07:21:09 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 740CAFC;
-        Tue, 19 Sep 2023 04:16:09 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 544B8C433C8;
-        Tue, 19 Sep 2023 11:16:05 +0000 (UTC)
-Message-ID: <cbfef598-8faa-40e6-8dc2-a1efd03f9560@xs4all.nl>
-Date:   Tue, 19 Sep 2023 13:16:03 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F03E3;
+        Tue, 19 Sep 2023 04:21:03 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BAAC433C8;
+        Tue, 19 Sep 2023 11:20:59 +0000 (UTC)
+Message-ID: <b7b98f37-f9f0-46ef-8ee2-610e2990dfef@xs4all.nl>
+Date:   Tue, 19 Sep 2023 13:20:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 16/49] media: verisilicon: postproc: Fix down scale
- test
+Subject: Re: [PATCH v7 07/49] media: sti: hva: Use vb2_get_buffer() instead of
+ directly access to buffers array
 Content-Language: en-US, nl
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
@@ -35,11 +35,13 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         kernel@collabora.com
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-17-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-8-benjamin.gaignard@collabora.com>
+ <93e9b143-664c-4fbb-8722-0beabd5b2c0c@xs4all.nl>
+ <ecfd1641-3cce-dfa4-b88c-3619fb12d710@collabora.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230914133323.198857-17-benjamin.gaignard@collabora.com>
+In-Reply-To: <ecfd1641-3cce-dfa4-b88c-3619fb12d710@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -49,49 +51,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/09/2023 15:32, Benjamin Gaignard wrote:
-> Do not allow down scaling if the source buffer resolution is
-> smaller  than destination one.
+On 19/09/2023 12:26, Benjamin Gaignard wrote:
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Fixes: fbb6c848dd89 ("media: destage Hantro VPU driver")
+> Le 19/09/2023 à 11:31, Hans Verkuil a écrit :
+>> On 14/09/2023 15:32, Benjamin Gaignard wrote:
+>>> Use vb2_get_buffer() instead of directly access to vb2_buffer buffer array.
+>>> This could allow to change the type bufs[] field of vb2_buffer structure if
+>>> needed.
+>>> After each call to vb2_get_buffer() we need to be sure that we get
+>>> a valid pointer so check the return value of all of them.
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> ---
+>>>   drivers/media/platform/st/sti/hva/hva-v4l2.c | 4 ++++
+>>>   1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+>>> index 3a848ca32a0e..326be09bdb55 100644
+>>> --- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
+>>> +++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
+>>> @@ -577,6 +577,10 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
+>>>           }
+>> Above this line there is a buf->index check...
+>>
+>>>             vb2_buf = vb2_get_buffer(vq, buf->index);
+>>> +        if (!vb2_buf) {
+>>> +            dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
+>>> +            return -EINVAL;
+>>> +        }
+>> ...I think that check can be dropped since vb2_get_buffer checks that already.
+> 
+> No because in "media: sti: hva: Stop direct calls to queue num_buffers field" patch
+> I remove the above check since it use queue num_buffers field.
 
-Is this really a fix? I gather that this relies on "VP9 resolution change without
-doing stream off/on" support, and support for that is added by these patches.
-
-Adding the Fixes tag would cause stable maintainers to queue this patch up for
-older kernels, but I don't think that is needed here at all.
-
-And related I also think that this really does not belong to this patch series.
-
-As I understand it, patch 13/49 extends the verisilicon driver to support more
-than 32 buffers, so that one makes sense in the context of this series.
-
-But the other verisilicon patches appear to be unrelated and instead add a new
-feature, and I don't believe it relates to this series at all.
-
-If I am right, then please post this as a separate series, possibly mentioning
-that it sits on top of this series.
+Why not do that here? And drop that later patch? It doesn't make sense to
+split it up, and also the commit log of patch 33/49 doesn't match that patch.
 
 Regards,
 
 	Hans
 
-> ---
->  drivers/media/platform/verisilicon/hantro_postproc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
-> index e624cd98f41b..77d8ecfbe12f 100644
-> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
-> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-> @@ -107,7 +107,7 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
->  
->  static int down_scale_factor(struct hantro_ctx *ctx)
->  {
-> -	if (ctx->src_fmt.width == ctx->dst_fmt.width)
-> +	if (ctx->src_fmt.width <= ctx->dst_fmt.width)
->  		return 0;
->  
->  	return DIV_ROUND_CLOSEST(ctx->src_fmt.width, ctx->dst_fmt.width);
+> Regards,
+> Benjamin
+> 
+>>
+>> Regards,
+>>
+>>     Hans
+>>
+>>>           stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
+>>>           stream->bytesused = buf->bytesused;
+>>>       }
+>>
 
