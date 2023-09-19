@@ -2,67 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F58B7A6AAD
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 20:26:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 826827A6AC9
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 20:40:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232362AbjISSZ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 14:25:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35502 "EHLO
+        id S231993AbjISSkq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 14:40:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232237AbjISSZ5 (ORCPT
+        with ESMTP id S229552AbjISSkp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 14:25:57 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDFE79E;
-        Tue, 19 Sep 2023 11:25:51 -0700 (PDT)
-Received: from [192.168.2.59] (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B09AE660319E;
-        Tue, 19 Sep 2023 19:25:49 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695147950;
-        bh=Y03o1iTpNXjxrNlIz4kiT40Tw5yePhhDd5i17lzN0Kw=;
-        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-        b=GRnH7PhbECO0rLL158hqddE6ZOaUKo/ng/abZs9H48AHSNmeK40gf5ez6gx1xw041
-         nqp+KRz6DqSOTsqHpUDUxgTKBLyeTiGRSgz9gzKDDRUuJNshZ3AyQyze5F/zAF8q0x
-         ZS6s4i3RcHcfe1kr9lZMTANKCRcd5Bubg312JW8CYtpeXBaoTxp7PrscI8UxsVyEU9
-         e+LvnicvOCdtFUE8V0aYFeEJjcJe2X2l46TceO+/dVyKX4eFCu2IfFsuuZIsHcqR7n
-         bRNEPW1Q1kw5NE5iZsrtvKxETAhQVf7s114oogG9OC0JUNq2b7tvDqI+KhO7cbEINF
-         6UFAGNAIsSMpQ==
-Message-ID: <9b47d551-991b-5a60-39cf-3d47fbf68ea4@collabora.com>
-Date:   Tue, 19 Sep 2023 21:25:47 +0300
+        Tue, 19 Sep 2023 14:40:45 -0400
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F9209E
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 11:40:39 -0700 (PDT)
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-5733ffbb829so160592eaf.0
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 11:40:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695148838; x=1695753638;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IaIoKNYeLS5sH/XJ+eUU4nVbsgYjjg2oMliRDd8I4aE=;
+        b=mA2WDyAIhP0beaeuG3d4OIqXyVkF1Ttq3a0ISdwNxuDG+ZAJs9yLBO3m+yvSwdtUqs
+         gdSHF5lXlAABrD399Py3VCBPAz1bNwDbzOKRma/dOcMVFFAtj9g+cS6LoD5GHAoWV34C
+         go+jSAuCcmAxPvBNiHSl7wE7WVAlnw9j3J9vdvhtzWtxjSA2Ufn3y8WTS1ITravxbP/4
+         u49a7/b8gBFRuuVYNs8VbQkiZPw896DodVNV+hdrBE5Ua2Xy0F9/UBAJ1us/3hmX2JPj
+         pbu8sYzh+9cvp2j5Xarnk7TL6dzgC475MF/t1jEiEyNKMYKu1GEuM10zXr2I28cg9ZVm
+         7sTQ==
+X-Gm-Message-State: AOJu0YxLiiImxZXjnzOi9LnNN457T0/YikhQqnaUi0yZPbknoc2DESCg
+        bMesXG0Pq15+8Q9fhFoFQLG5KcxfhZEAfedMchM/zqEwKPcK
+X-Google-Smtp-Source: AGHT+IHElozDWZ4ARLzJqH8kpR1ziTXW32liJCwAjlNBPb4ayKMDwuq534Hzpig5uKKXP2Mma1N03Ttr0TNb3hY7/9F5v9jPC8ap
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RESEND PATCH v2] media: mtk-jpeg: Fix use after free bug due to
- uncanceled work
-Content-Language: en-US
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To:     Zheng Hacker <hackerzheng666@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, Kyrie.Wu@mediatek.com,
-        bin.liu@mediatek.com, mchehab@kernel.org, matthias.bgg@gmail.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
-        security@kernel.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com, Collabora Kernel ML <kernel@collabora.com>
-References: <20230707092414.866760-1-zyytlz.wz@163.com>
- <8c8bd3ec-a5a4-32e4-45b5-ee16eeeac246@collabora.com>
- <CAJedcCxPG1mKtgB7AcJSwaQB_qvODObwq3gz6eM_1w777b2PfQ@mail.gmail.com>
- <54b14ebe-b51b-2744-328d-2adcdaaf6d0e@collabora.com>
- <CAJedcCyn+VHxcSXH+HqP3yiXX8L0wjNao+suti5GgyQzYORcYA@mail.gmail.com>
- <4d533beb-f416-1b22-6d9d-cee7f3cfdad1@collabora.com>
-In-Reply-To: <4d533beb-f416-1b22-6d9d-cee7f3cfdad1@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Received: by 2002:a05:6808:30a1:b0:3a7:361:f50 with SMTP id
+ bl33-20020a05680830a100b003a703610f50mr1523003oib.3.1695148838485; Tue, 19
+ Sep 2023 11:40:38 -0700 (PDT)
+Date:   Tue, 19 Sep 2023 11:40:38 -0700
+In-Reply-To: <albu6mqbrom746yngcfgtuhn6ydpf4ewapqj6wk6etlkw7qda4@tzlqwq6u5s54>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000005c048a0605ba98f0@google.com>
+Subject: Re: [syzbot] [media?] [usb?] KASAN: slab-out-of-bounds Read in imon_probe
+From:   syzbot <syzbot+59875ffef5cb9c9b29e9@syzkaller.appspotmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        ricardo@marliere.net, sean@mess.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,51 +57,82 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/19/23 21:24, Dmitry Osipenko wrote:
-> On 8/31/23 11:18, Zheng Hacker wrote:
->>> The v4l2_m2m_ctx_release() already should wait for the job_timeout_work
->>> completion or for the interrupt fire. Apparently it doesn't work in
->>> yours case. You'll need to debug why v4l job or job_timeout_work is
->>> running after v4l2_m2m_ctx_release(), it shouldn't happen.
->>>
->> Yes, v4l2_m2m_cancel_job waits for m2m_ctx->job_flags to be  ~TRANS_RUNNING,
->> the mtk_jpeg_job_timeout_work will finally invoke v4l2_m2m_job_finish
->> to trigger that.
->>
->> However, this is not the only path to call v4l2_m2m_job_finish. Here
->> is a invoking chain:
->> v4l_streamon
->>   ->v4l2_m2m_ioctl_streamon
->>     ->v4l2_m2m_streamon
->>       ->v4l2_m2m_try_schedule
->>         ->v4l2_m2m_try_run
->>           ->mtk_jpeg_dec_device_run
->>             ->schedule_delayed_work(&jpeg->job_timeout_work...
->>             ->error path goto dec_end
->>             ->v4l2_m2m_job_finish
->>
->> In some specific situation, it starts the worker and also calls
->> v4l2_m2m_job_finish, which might
->> make v4l2_m2m_cancel_job continues.
-> 
-> Then the error path should cancel the job_timeout_work, or better job
+Hello,
 
-s/job/timeout work/
+syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+WARNING in imon_probe
 
-> needs to be run after the dec/enc has been started and not before.
-> 
-> Looking further at the code, I'm confused by this hunk:
-> 
-> 	mtk_jpeg_dec_start(comp_jpeg[hw_id]->reg_base);
-> 	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> 
-> The job should be marked as finished when h/w has finished processing
-> the job and not right after the job has been started. So the job is
-> always completed and mtk_jpeg_job_timeout_work() doesn't work as
-> expected, am I missing something?
-> 
+WARNING: CPU: 0 PID: 1384 at kernel/locking/mutex.c:582 __mutex_lock_common kernel/locking/mutex.c:582 [inline]
+WARNING: CPU: 0 PID: 1384 at kernel/locking/mutex.c:582 __mutex_lock+0x63e/0xa56 kernel/locking/mutex.c:747
+Modules linked in:
+CPU: 0 PID: 1384 Comm: kworker/0:2 Not tainted 6.6.0-rc2-next-20230919-syzkaller-g29e400e3ea48 #0
+Hardware name: riscv-virtio,qemu (DT)
+Workqueue: usb_hub_wq hub_event
+epc : __mutex_lock_common kernel/locking/mutex.c:582 [inline]
+epc : __mutex_lock+0x63e/0xa56 kernel/locking/mutex.c:747
+ ra : __mutex_lock_common kernel/locking/mutex.c:582 [inline]
+ ra : __mutex_lock+0x63e/0xa56 kernel/locking/mutex.c:747
+epc : ffffffff8362613e ra : ffffffff8362613e sp : ff200000040e6bc0
+ gp : ffffffff861a8a20 tp : ff60000013168000 t0 : ffffffff852a92a0
+ t1 : 00000000000f0000 t2 : 2d2d2d2d2d2d2d2d s0 : ff200000040e6d40
+ s1 : ff600000223f69a8 a0 : 0000000000000001 a1 : 00000000000f0000
+ a2 : ffffffff80077fb0 a3 : 0000000000000002 a4 : 0000000000000000
+ a5 : 0000000000000000 a6 : 0000000000000003 a7 : 0000000000000000
+ s2 : ff200000040e6cc0 s3 : 0000000000000000 s4 : ff200000040e6c50
+ s5 : ffffffff861d5880 s6 : 0000000000000002 s7 : 0000000000000000
+ s8 : 1fe400000081cd80 s9 : ff60000022f6b000 s10: 0000000000000001
+ s11: ffffffffffffffed t3 : ffffffff80158656 t4 : ffebffff0f9ac56a
+ t5 : ffebffff0f9ac56b t6 : ff200000040e6778
+status: 0000000200000120 badaddr: 0000000000000000 cause: 0000000000000003
+[<ffffffff8362613e>] __mutex_lock_common kernel/locking/mutex.c:582 [inline]
+[<ffffffff8362613e>] __mutex_lock+0x63e/0xa56 kernel/locking/mutex.c:747
+[<ffffffff8362656a>] mutex_lock_nested+0x14/0x1c kernel/locking/mutex.c:799
+[<ffffffff82205abc>] imon_init_intf1 drivers/media/rc/imon.c:2321 [inline]
+[<ffffffff82205abc>] imon_probe+0x128/0x1ab2 drivers/media/rc/imon.c:2449
+[<ffffffff81d8ec8c>] usb_probe_interface+0x208/0x552 drivers/usb/core/driver.c:396
+[<ffffffff816837fa>] call_driver_probe drivers/base/dd.c:579 [inline]
+[<ffffffff816837fa>] really_probe+0x1c8/0x7c6 drivers/base/dd.c:658
+[<ffffffff81683f36>] __driver_probe_device+0x13e/0x2ae drivers/base/dd.c:800
+[<ffffffff81684106>] driver_probe_device+0x60/0x1a6 drivers/base/dd.c:830
+[<ffffffff816843b4>] __device_attach_driver+0x168/0x218 drivers/base/dd.c:958
+[<ffffffff8167f734>] bus_for_each_drv+0x12c/0x1ae drivers/base/bus.c:457
+[<ffffffff81684c30>] __device_attach+0x184/0x390 drivers/base/dd.c:1030
+[<ffffffff81685146>] device_initial_probe+0x1c/0x26 drivers/base/dd.c:1079
+[<ffffffff816817f8>] bus_probe_device+0x120/0x122 drivers/base/bus.c:532
+[<ffffffff8167c302>] device_add+0xce6/0x105c drivers/base/core.c:3624
+[<ffffffff81d8acba>] usb_set_configuration+0xb48/0xfb6 drivers/usb/core/message.c:2207
+[<ffffffff81da5b7a>] usb_generic_driver_probe+0xb2/0x124 drivers/usb/core/generic.c:238
+[<ffffffff81d8e09e>] usb_probe_device+0x9e/0x1fc drivers/usb/core/driver.c:293
+[<ffffffff816837fa>] call_driver_probe drivers/base/dd.c:579 [inline]
+[<ffffffff816837fa>] really_probe+0x1c8/0x7c6 drivers/base/dd.c:658
+[<ffffffff81683f36>] __driver_probe_device+0x13e/0x2ae drivers/base/dd.c:800
+[<ffffffff81684106>] driver_probe_device+0x60/0x1a6 drivers/base/dd.c:830
+[<ffffffff816843b4>] __device_attach_driver+0x168/0x218 drivers/base/dd.c:958
+[<ffffffff8167f734>] bus_for_each_drv+0x12c/0x1ae drivers/base/bus.c:457
+[<ffffffff81684c30>] __device_attach+0x184/0x390 drivers/base/dd.c:1030
+[<ffffffff81685146>] device_initial_probe+0x1c/0x26 drivers/base/dd.c:1079
+[<ffffffff816817f8>] bus_probe_device+0x120/0x122 drivers/base/bus.c:532
+[<ffffffff8167c302>] device_add+0xce6/0x105c drivers/base/core.c:3624
+[<ffffffff81d73702>] usb_new_device+0x5c8/0xd38 drivers/usb/core/hub.c:2589
+[<ffffffff81d77fdc>] hub_port_connect drivers/usb/core/hub.c:5440 [inline]
+[<ffffffff81d77fdc>] hub_port_connect_change drivers/usb/core/hub.c:5580 [inline]
+[<ffffffff81d77fdc>] port_event drivers/usb/core/hub.c:5740 [inline]
+[<ffffffff81d77fdc>] hub_event+0x2016/0x30aa drivers/usb/core/hub.c:5822
+[<ffffffff800c4484>] process_one_work+0x54c/0xd66 kernel/workqueue.c:2630
+[<ffffffff800c51a4>] process_scheduled_works kernel/workqueue.c:2703 [inline]
+[<ffffffff800c51a4>] worker_thread+0x506/0x980 kernel/workqueue.c:2784
+[<ffffffff800db770>] kthread+0x1bc/0x22c kernel/kthread.c:388
+[<ffffffff80005d5a>] ret_from_fork+0xa/0x1c arch/riscv/kernel/entry.S:264
 
--- 
-Best regards,
-Dmitry
 
+Tested on:
+
+commit:         29e400e3 Add linux-next specific files for 20230919
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git next-20230919
+console output: https://syzkaller.appspot.com/x/log.txt?x=15aa5754680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cb7d3cfa08298a9
+dashboard link: https://syzkaller.appspot.com/bug?extid=59875ffef5cb9c9b29e9
+compiler:       riscv64-linux-gnu-gcc (Debian 12.2.0-13) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: riscv64
+
+Note: no patches were applied.
