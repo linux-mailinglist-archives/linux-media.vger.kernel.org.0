@@ -2,101 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7961C7A5FC5
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B75D47A6054
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:57:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230203AbjISKiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 06:38:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43630 "EHLO
+        id S231929AbjISK50 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 06:57:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231678AbjISKiW (ORCPT
+        with ESMTP id S231833AbjISK45 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 06:38:22 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6C05E8
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 03:38:15 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Tue, 19 Sep 2023 06:56:57 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 900C8FB;
+        Tue, 19 Sep 2023 03:54:10 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4RqdRS4W9jzyWs;
-        Tue, 19 Sep 2023 13:38:12 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1695119893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3n9vFemvqZfmdJNKvnR6R2hYzMGPNge32I2NtV3jk4Y=;
-        b=wjrBx65XoqVmBUD9A7B0U2OiDcEqzhTXEyYlpGFjaZn47dkgoNN6ofvPFKWXUeBkwyC/MJ
-        xnqZfr7VfVLPrQVm3zO+C6Y6yftEEnfv52EaG+WbYEjzYTbpj5hfcbgGEsAiNVnglJT8qd
-        5hzxxw4bvd0045R0ySrtc/FHKvqFvbQ=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1695119893; a=rsa-sha256; cv=none;
-        b=qt8NM2IkObeDkxmsSM696Fj9Eehv2r8WreU81WP5UyTLFMLp1Oicr31wnK+/oPUFuIg0iC
-        Np1HmYeO1H0SlXJ8DJAzWeE7rlj5X0nokb/oeEuPhPsbIgkCuMRiGVBZnNebqnR8pMNJxN
-        h92ocI9J62lt7anSN9Go4QQphBZe7kk=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1695119893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3n9vFemvqZfmdJNKvnR6R2hYzMGPNge32I2NtV3jk4Y=;
-        b=iBp9VfcBDP0PLn1eSnEAIY+oBL8t2ahPA9dOcEd73tHJftf5VHQjvt1Sel1wCF5YGgMu9P
-        Dtw9FQBZlbgIxBlyPerTIHKJ7lwVmt3WDH+FwRRtTj/hqCfKaRMYGk1Bf+buxQzOakSv08
-        FaRfzpq/gpzJZnM7WiGWr6OTYxc0iaA=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 43F57634C94;
-        Tue, 19 Sep 2023 13:38:11 +0300 (EEST)
-Date:   Tue, 19 Sep 2023 10:38:11 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     shravan kumar <shravan.chippa@microchip.com>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] media: i2c: imx334: add support for test pattern
- generator
-Message-ID: <ZQl6E3AGzXi5OvGV@valkosipuli.retiisi.eu>
-References: <20230919091740.1821543-1-shravan.chippa@microchip.com>
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 40B8966071A9;
+        Tue, 19 Sep 2023 11:54:08 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1695120849;
+        bh=YIL8CVeCu2phmjTNYbQbVDRE1/tG7w/T7zljvP0+8Uc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=WBGWu/Ab+USWrsW0Z0Uhl+RO5yYIJvHCGPrih+x7pbvCqkRg8r1OfBvmX9xwJAh21
+         4HnvcLBXESSY49rYXVpBZAM3+yKFi/+UytYdQAh1lcX56O1gaC8+VghudX9akkIEBl
+         ++O1Yv7neVxSA7fS2HLIgL4TbofYMrBtt5eGmBk9FUgucvoUgZIsWgwLnHiQlXraQN
+         JPRO1TJQfvU0HSowGaZPUjJ2z/YuFMXkldlIVOm9Dbu8KFf6IHZavvNPt1KT2vssWB
+         8fuHSC2uShhJF67yNVYKBpV3y7KFMT0doAKk+qoFuChJtfNTgkrHbKlQt6/ApoQvk4
+         Hf/FQTa1KdsAQ==
+Message-ID: <766b1ac5-f2c4-0e58-24ff-dafde8e5995b@collabora.com>
+Date:   Tue, 19 Sep 2023 12:54:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230919091740.1821543-1-shravan.chippa@microchip.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 10/10] arm64: dts: mt8195-cherry: Add secure mbox settings
+ for vdosys
+Content-Language: en-US
+To:     "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc:     Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Jason-ch Chen <jason-ch.chen@mediatek.com>,
+        Johnson Wang <johnson.wang@mediatek.com>,
+        Singo Chang <singo.chang@mediatek.com>,
+        Nancy Lin <nancy.lin@mediatek.com>,
+        Shawn Sung <shawn.sung@mediatek.com>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230919030345.8629-1-jason-jh.lin@mediatek.com>
+ <20230919030345.8629-11-jason-jh.lin@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230919030345.8629-11-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shravan,
-
-On Tue, Sep 19, 2023 at 02:47:40PM +0530, shravan kumar wrote:
-> From: Shravan Chippa <shravan.chippa@microchip.com>
+Il 19/09/23 05:03, Jason-JH.Lin ha scritto:
+> Add a secure mailbox channel to support secure video path on
+> vdosys0 and vdosys1.
 > 
-> Add support for the imx334's test pattern generator.
-> By default the test pattern generator is disabled, so add support for
-> enabling and disabling horizontal and vertical colour bars.
-> 
-> Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 > ---
+>   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 > 
-> V2 -> V3
-> Added "Acked-by: Daniele Alessandrelli"
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
+> index 37a3e9de90ff..9b838b2cdb3e 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
+> @@ -1147,6 +1147,16 @@
+>   	status = "okay";
+>   };
+>   
+> +&vdosys0 {
+> +	mboxes = <&gce0 0 CMDQ_THR_PRIO_4>,
+> +		 <&gce0 8 CMDQ_THR_PRIO_4>; /* secure mbox */
+> +};
+> +
+> +&vdosys1 {
+> +	mboxes = <&gce0 1 CMDQ_THR_PRIO_4>,
+> +		 <&gce0 9 CMDQ_THR_PRIO_4>; /* secure mbox */
+> +};
+> +
 
-There's no need to send a new version if you're only adding acks.
+Is the secure mailbox number firmware dependant?
+Otherwise this could go in mt8195.dtsi.
 
-So there are no changes from v2?
-
--- 
 Regards,
+Angelo
 
-Sakari Ailus
+>   &xhci0 {
+>   	status = "okay";
+>   
+
+
