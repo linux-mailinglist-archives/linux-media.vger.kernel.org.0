@@ -2,91 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96A6C7A6E82
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 00:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 851627A6EC0
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 00:38:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233578AbjISWQZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 18:16:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46656 "EHLO
+        id S233454AbjISWip (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 18:38:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233436AbjISWQY (ORCPT
+        with ESMTP id S229935AbjISWio (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 18:16:24 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E233CE
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 15:16:12 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id e9e14a558f8ab-34fa117f92bso19685ab.1
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 15:16:11 -0700 (PDT)
+        Tue, 19 Sep 2023 18:38:44 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DBF9BE
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 15:38:38 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-34fc9b461b6so24825ab.1
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 15:38:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695161771; x=1695766571; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695163117; x=1695767917; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qx6X0xE/S4amLJCM7NtzEUWnlj33ZBkwhJLGl58E30c=;
-        b=HZ630ZmEX+22F3LjchOtzuB9xi6f+TB//pWtQbYis/gOUlil765R9CYh50J9vHjvbZ
-         Ozpb2i29aMFqlHdWTt4VrfcHs74DvlN9+E57DvfuFst4Sab6FF9ZLfVIPAzqQmQQPVXF
-         qEiDQ6AjG1nvKVWZ07Q5PhDZs5hPkH0zm0kvcxv7Jc6PjMVi6FC6sN78XBh6/n7EavBQ
-         41u+jCQ6ghigqupWX/Tvy8O6p2SNqg047W53sbVWLUaL3MIqggjskSYGStgZz3Je4B0d
-         ZIxWYNAzL4/091Ps8TYIk39kvdLV1FUU6I+NSQGLx5Ev4Is0tA32kttNJlWWR38Kem6i
-         t4fA==
+        bh=F5vguMBSrJ46d+8saXwRY5s42Zof/+IY2r1kBZ0z3nA=;
+        b=N839YDhyjtUrPhcaduqvlXDDrl+7lkpgPvLVTFv0552O/Ptwt0pdTBVcqCBAvWi0n8
+         tuxf134FHlHjC5wl2160QFTPeFN0UwQ1d7Vk2uF+6VzTOh4LxGmLB9eezufuJHis3ilI
+         7Y99ry3fQ8eUAkh0IbydE4CwfHFIfL9jigLDPGrPptLeZYnRrnS1RVM7RHMvrszzsh9u
+         eegyIZC5olHxZTGrXv+d+ANSql1qGgi0t+BVPvnFhvzts/3TTfgStsJvd73SondtHB5U
+         AFIKWqXZiws8oJ6SKnO90zoIA/FAaLeq3b48VpGtZj2HeniLhvxLq6/kHCWWELXEmT4d
+         Carg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695161771; x=1695766571;
+        d=1e100.net; s=20230601; t=1695163117; x=1695767917;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qx6X0xE/S4amLJCM7NtzEUWnlj33ZBkwhJLGl58E30c=;
-        b=ebguC1qyDS58l9qyEDZn1sQFQ9dIDJL/gb7R6wRKL9ytTRfUFRvaISAizWWSWHkKa6
-         GXgL77u7CRJo8tB3FKbvF64acgQf6X9It8q5cuA7xHWcwXzUVqbXAyqhbujbccH3F1OO
-         37wzSifUwMoKIcL3My0mYdZ/hPBNgBaIcKlcujM9gLMhHE+KZ2EErCfU8/RDqh+yjLBF
-         S2PWSVde6uvWeeaViqF0RcfNDg6J2mmMM6w94Hnx/mZpfT6J7JYkEAExk5Pr3kjTLQnY
-         rcWmnlnZvQi4duFsjFypx7xr+nFWQn7aaf/erhs09KAs3Ve47wviQ5+v83InMliL6apZ
-         M6NQ==
-X-Gm-Message-State: AOJu0YxaO6RYqCnkz34mOI0/vNUBBrrDdN4gvSl8JjpuzbbK0q5/a+YI
-        pQvqZD1L733HH38hW7IfXmSwksbRUHz7+WpgIDYB
-X-Google-Smtp-Source: AGHT+IFu656+dV482iOm4cZxrrexPRdD0DlnR8zGkINMB46WE10oFo6V8aYZJV2oIbzlETIcCyiXYFcp0DlRO0Dyrxg=
-X-Received: by 2002:a05:6e02:b21:b0:34f:ec9f:dd75 with SMTP id
- e1-20020a056e020b2100b0034fec9fdd75mr90136ilu.28.1695161770968; Tue, 19 Sep
- 2023 15:16:10 -0700 (PDT)
+        bh=F5vguMBSrJ46d+8saXwRY5s42Zof/+IY2r1kBZ0z3nA=;
+        b=oUmbvOvLAMXkTUeZUEU3vqbui/eCwVRA5NpviSF2dPmHJx9Vt9OQVuAJ09cf93mjin
+         c2ifUGdI7TKXXXwEbM1uRYBxVFausQhxzpCLFJWi+C4DdKyEZZGmEXVfd/YlzlhUrV3y
+         LMMsJXLZEQWI86GrxwFV9ohObjLew+6vBZn+EQ9u2mO16wQBJOg4buGoJ4J39xlndMwa
+         4V1Mj71YZow3qBK4Zez29wixPm8cmc/6AollLC7FvoYdt0nSvTz+7XRSfQ6JwsxSXiLO
+         a7hWwWVtoFeInsol4qQ+ed/tTKi8CWHxt8NPSeNA+rf8cXl/iD6RGHCy0+oeaXQP1xUO
+         8ewQ==
+X-Gm-Message-State: AOJu0Yxgqkw78MM8ZHl2rPVKobF9aWtC8jPhpInqXsjMfeYxKlP1JGvq
+        bxXBDjAKeAVkRcVj2DSOVqss7iTQj/TmdlkOEKxZ
+X-Google-Smtp-Source: AGHT+IG9PXLyW1jlJ/gUL7qIkx0sRnnaGmM0DGAJNIwl57QJHVSrJehms1paVo9SNa9dT4k0vAVcexutgaNzu+ezAAo=
+X-Received: by 2002:a05:6e02:1a0a:b0:34c:b203:e3d0 with SMTP id
+ s10-20020a056e021a0a00b0034cb203e3d0mr40601ild.3.1695163117444; Tue, 19 Sep
+ 2023 15:38:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230911023038.30649-1-yong.wu@mediatek.com> <20230911023038.30649-9-yong.wu@mediatek.com>
- <20230911154448.GA1279317-robh@kernel.org> <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
- <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org> <95f9dd3b-1f33-4af5-8757-a97e8b9bb216@arm.com>
- <20230912155338.GA842444-robh@kernel.org> <a63ab61fbf4d2bdadeb68441050ff5187c93ba96.camel@mediatek.com>
-In-Reply-To: <a63ab61fbf4d2bdadeb68441050ff5187c93ba96.camel@mediatek.com>
+References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
+ <20230911125936.10648-12-yunfei.dong@mediatek.com> <d02953725e7ae17e75bff235acfd30327d0fe9ac.camel@collabora.com>
+In-Reply-To: <d02953725e7ae17e75bff235acfd30327d0fe9ac.camel@collabora.com>
 From:   Jeffrey Kardatzke <jkardatzke@google.com>
-Date:   Tue, 19 Sep 2023 15:15:59 -0700
-Message-ID: <CA+ddPcPFFpDA2qtxMg6BNztsXi3mVFRghBwe6556mAL54jB06g@mail.gmail.com>
-Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
- memory for SVP
-To:     =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>
-Cc:     "robh@kernel.org" <robh@kernel.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "jstultz@google.com" <jstultz@google.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
-        <Jianjiao.Zeng@mediatek.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
-        <kuohong.wang@mediatek.com>,
-        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-        "krzysztof.kozlow.ski+dt@linaro.org" 
-        <krzysztof.kozlow.ski+dt@linaro.org>,
-        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "tjmercier@google.com" <tjmercier@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>
+Date:   Tue, 19 Sep 2023 15:38:26 -0700
+Message-ID: <CA+ddPcOFksu6JzXZf0QOFeRDAyX=m0k+t8zwg2DbVmAkweobyg@mail.gmail.com>
+Subject: Re: [PATCH 11/14] media: medkatek: vcodec: covert secure fd to secure handle
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= 
+        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
@@ -100,228 +85,208 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 3:47=E2=80=AFAM Yong Wu (=E5=90=B4=E5=8B=87) <Yong.=
-Wu@mediatek.com> wrote:
+On Tue, Sep 19, 2023 at 12:43=E2=80=AFPM Nicolas Dufresne
+<nicolas.dufresne@collabora.com> wrote:
 >
-> On Tue, 2023-09-12 at 10:53 -0500, Rob Herring wrote:
+> Le lundi 11 septembre 2023 =C3=A0 20:59 +0800, Yunfei Dong a =C3=A9crit :
+> > User driver will fill or parse data in optee-os with secure handle,
+> > need to covert secure fd to secure handle in kernel.
 > >
-> > External email : Please do not click links or open attachments until
-> > you have verified the sender or the content.
-> >  On Tue, Sep 12, 2023 at 11:13:50AM +0100, Robin Murphy wrote:
-> > > On 12/09/2023 9:28 am, Krzysztof Kozlowski wrote:
-> > > > On 12/09/2023 08:16, Yong Wu (=E5=90=B4=E5=8B=87) wrote:
-> > > > > Hi Rob,
-> > > > >
-> > > > > Thanks for your review.
-> > > > >
-> > > > > On Mon, 2023-09-11 at 10:44 -0500, Rob Herring wrote:
-> > > > > >
-> > > > > > External email : Please do not click links or open
-> > attachments until
-> > > > > > you have verified the sender or the content.
-> > > > > >   On Mon, Sep 11, 2023 at 10:30:37AM +0800, Yong Wu wrote:
-> > > > > > > This adds the binding for describing a CMA memory for
-> > MediaTek
-> > > > > > SVP(Secure
-> > > > > > > Video Path).
-> > > > > >
-> > > > > > CMA is a Linux thing. How is this related to CMA?
-> > > > >
-> > > > > > >
-> > > > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > > > > > > ---
-> > > > > > >   .../mediatek,secure_cma_chunkmem.yaml         | 42
-> > > > > > +++++++++++++++++++
-> > > > > > >   1 file changed, 42 insertions(+)
-> > > > > > >   create mode 100644
-> > Documentation/devicetree/bindings/reserved-
-> > > > > > memory/mediatek,secure_cma_chunkmem.yaml
-> > > > > > >
-> > > > > > > diff --git a/Documentation/devicetree/bindings/reserved-
-> > > > > > memory/mediatek,secure_cma_chunkmem.yaml
-> > > > > > b/Documentation/devicetree/bindings/reserved-
-> > > > > > memory/mediatek,secure_cma_chunkmem.yaml
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..cc10e00d35c4
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/Documentation/devicetree/bindings/reserved-
-> > > > > > memory/mediatek,secure_cma_chunkmem.yaml
-> > > > > > > @@ -0,0 +1,42 @@
-> > > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > > > +%YAML 1.2
-> > > > > > > +---
-> > > > > > > +$id:
-> > > > > >
-> > http://devicetree.org/schemas/reserved-memory/mediatek,secure_cma_chunk=
-mem.yaml#
-> > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > > +
-> > > > > > > +title: MediaTek Secure Video Path Reserved Memory
-> > > > > >
-> > > > > > What makes this specific to Mediatek? Secure video path is
-> > fairly
-> > > > > > common, right?
-> > > > >
-> > > > > Here we just reserve a buffer and would like to create a dma-
-> > buf secure
-> > > > > heap for SVP, then the secure engines(Vcodec and DRM) could
-> > prepare
-> > > > > secure buffer through it.
-> > > > > But the heap driver is pure SW driver, it is not platform
-> > device and
-> > > >
-> > > > All drivers are pure SW.
-> > > >
-> > > > > we don't have a corresponding HW unit for it. Thus I don't
-> > think I
-> > > > > could create a platform dtsi node and use "memory-region"
-> > pointer to
-> > > > > the region. I used RESERVEDMEM_OF_DECLARE currently(The code is
-> > in
-> > > > > [9/9]). Sorry if this is not right.
-> > > >
-> > > > If this is not for any hardware and you already understand this
-> > (since
-> > > > you cannot use other bindings) then you cannot have custom
-> > bindings for
-> > > > it either.
-> > > >
-> > > > >
-> > > > > Then in our usage case, is there some similar method to do
-> > this? or
-> > > > > any other suggestion?
-> > > >
-> > > > Don't stuff software into DTS.
-> > >
-> > > Aren't most reserved-memory bindings just software policy if you
-> > look at it
-> > > that way, though? IIUC this is a pool of memory that is visible and
-> > > available to the Non-Secure OS, but is fundamentally owned by the
-> > Secure
-> > > TEE, and pages that the TEE allocates from it will become
-> > physically
-> > > inaccessible to the OS. Thus the platform does impose constraints
-> > on how the
-> > > Non-Secure OS may use it, and per the rest of the reserved-memory
-> > bindings,
-> > > describing it as a "reusable" reservation seems entirely
-> > appropriate. If
-> > > anything that's *more* platform-related and so DT-relevant than
-> > typical
-> > > arbitrary reservations which just represent "save some memory to
-> > dedicate to
-> > > a particular driver" and don't actually bear any relationship to
-> > firmware or
-> > > hardware at all.
+> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > ---
+> >  .../vcodec/decoder/mtk_vcodec_dec_drv.c       |  1 +
+> >  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 54 ++++++++++++++++++-
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  5 ++
+> >  include/uapi/linux/v4l2-controls.h            |  4 ++
+> >  4 files changed, 62 insertions(+), 2 deletions(-)
 > >
-> > Yes, a memory range defined by hardware or firmware is within scope
-> > of
-> > DT. (CMA at aribitrary address was questionable.)
->
-
-Before I reply, my context is that I'm using these patches from
-Mediatek on ChromeOS to implement secure video playback.
-
-> I guess the memory range is not "defined" by HW in our case, but this
-> reserve buffer is indeed prepared for and used by HW.
->
-The memory range is defined in the firmware. The TEE is configured
-with the same address/size that is being set in this DT node. (so
-based on comments already, this is appropriate to put in the DT).
-
-> If this is a normal reserved buffer for some device, we could define a
-> reserved-memory with "shared-dma-pool", then the device use it via
-> "memory-region" property, is this right?
->
-> Here it is a secure buffer case and this usage relationship is
-> indirect. We create a new heap for this new secure type memory, other
-> users such as VCODEC and DRM allocate secure memory through the new
-> heap.
->
-> About the aribitrary address is because we have HW register for it. As
-> long as this is a legal dram address, it is fine. When this address is
-> passed into TEE, it will be protected by HW.
->
+> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_=
+dec_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_d=
+rv.c
+> > index 0a89ce452ac3..64e006820f43 100644
+> > --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
+.c
+> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
+.c
+> > @@ -571,3 +571,4 @@ module_platform_driver(mtk_vcodec_dec_driver);
 > >
-> > My issue here is more that 'secure video memory' is not any way
-> > Mediatek
-> > specific.
->
-> Sorry, I don't know if there already is an SVP case in the current
-> kernel. If so, could you help share it?
-
-I don't think there is any SVP (Secure Video Path) case in the current
-kernel. I agree this shouldn't be a Mediatek specific setting, as this
-could be usable to other SVP implementations.
-
-I do think this should have 'cma' in the DT description, as it does
-relate to what the driver is going to do with this memory region. It
-will establish it as a CMA region in Linux. The reason it needs to be
-a CMA region is that the entire memory region will need to transition
-between secure (i.e. TEE owned) and non-secure (i.e. kernel owned).
-Some chipsets have the ability to change memory states between secure
-& non-secure at page level granularity, and in these cases you don't
-need to worry about having a CMA region like this. That is not the
-case on the Mediatek chips where there is a limit to how many regions
-you can mark as secure. In order to deal with that limitation, once a
-secure allocation needs to be performed, the kernel driver allocates
-the entire CMA region so nothing else will use it. Then it marks that
-whole region secure and the TEE can do its own allocations from that
-region. When all those allocations are freed, it can mark that region
-as non-secure again, drop the whole CMA allocation and the kernel can
-make use of that CMA region again.  (there is the other dma-heap in
-their patches, which is for a smaller region that can always be
-secure...but that one is a permanent carveout, the CMA region is
-available to the kernel while not in use for secure memory)
-
-So maybe something like:
-
-+title:Secure Reserved CMA Region
-+
-+description:
-+  This binding describes a CMA region that can dynamically transition
-between secure and non-secure states that a TEE can allocate memory
-from.
-+
-+maintainers:
-+  - Yong Wu <yong.wu@mediatek.com>
-+
-+allOf:
-+  - $ref: reserved-memory.yaml
-+
-+properties:
-+  compatible:
-+    const: secure_cma_region
-+
-+required:
-+  - compatible
-+  - reg
-+  - reusable
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+
-+    reserved-memory {
-+        #address-cells =3D <1>;
-+        #size-cells =3D <1>;
-+        ranges;
-+
-+        reserved-memory@80000000 {
-+            compatible =3D "secure_cma_region";
-+            reusable;
-+            reg =3D <0x80000000 0x18000000>;
-+        };
-+    };
---=20
-
-
->
-> Regarding our special, the new heap driver may be different, and other
-> HWs share this reserve buffer and manage it through this pure SW heap.
->
-> >  AIUI, it's a requirement from certain content providers for
-> > video playback to work. So why the Mediatek specific binding?
+> >  MODULE_LICENSE("GPL v2");
+> >  MODULE_DESCRIPTION("Mediatek video codec V4L2 decoder driver");
+> > +MODULE_IMPORT_NS(DMA_BUF);
+> > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_=
+dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec=
+_dec_stateless.c
+> > index 2ea517883a86..d2b09ce9f1cf 100644
+> > --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta=
+teless.c
+> > +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta=
+teless.c
+> > @@ -426,6 +426,46 @@ static int mtk_vcodec_get_pic_info(struct mtk_vcod=
+ec_dec_ctx *ctx)
+> >       return ret;
+> >  }
 > >
-> > Rob
+> > +static int mtk_dma_contig_get_secure_handle(struct mtk_vcodec_dec_ctx =
+*ctx, int fd)
+> > +{
+> > +     int secure_handle =3D 0;
+> > +     struct dma_buf *buf;
+> > +     struct dma_buf_attachment *dba;
+> > +     struct sg_table *sgt;
+> > +     struct device *dev =3D &ctx->dev->plat_dev->dev;
+> > +
+> > +     buf =3D dma_buf_get(fd);
+> > +     if (IS_ERR(buf)) {
+> > +             mtk_v4l2_vdec_err(ctx, "dma_buf_get fail fd:%d", fd);
+> > +             return 0;
+> > +     }
+> > +
+> > +     dba =3D dma_buf_attach(buf, dev);
+> > +     if (IS_ERR(dba)) {
+> > +             mtk_v4l2_vdec_err(ctx, "dma_buf_attach fail fd:%d", fd);
+> > +             goto err_attach;
+> > +     }
+> > +
+> > +     sgt =3D dma_buf_map_attachment(dba, DMA_BIDIRECTIONAL);
+> > +     if (IS_ERR(sgt)) {
+> > +             mtk_v4l2_vdec_err(ctx, "dma_buf_map_attachment fail fd:%d=
+", fd);
+> > +             goto err_map;
+> > +     }
+> > +     secure_handle =3D sg_dma_address(sgt->sgl);
+>
+> Does it mean if your secure dmabuf is passed to a driver that didn't know=
+ it was
+> secure it will pick the handle as a memory address and program the HW wit=
+h it ?
+> That seems unsafe, the handle should be stored in a dedicated place and m=
+apping
+> should either fail, or provide a dummy buffer.
+
+Since the secure dmabufs don't support any mmap/cpu access to them and
+return -EPERM in those cases; wouldn't that prevent misuse of them in
+other places? (so the mmap operation and CPU access will fail, but
+getting the SG list from the dmabuf succeeds)
+
+>
+> > +
+> > +     dma_buf_unmap_attachment(dba, sgt, DMA_BIDIRECTIONAL);
+> > +     dma_buf_detach(buf, dba);
+> > +     dma_buf_put(buf);
+> > +
+> > +     return secure_handle;
+> > +err_map:
+> > +     dma_buf_detach(buf, dba);
+> > +err_attach:
+> > +     dma_buf_put(buf);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  {
+> >       struct mtk_vcodec_dec_ctx *ctx =3D ctrl_to_dec_ctx(ctrl);
+> > @@ -436,7 +476,7 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
+> >       struct v4l2_ctrl *hdr_ctrl;
+> >       const struct mtk_vcodec_dec_pdata *dec_pdata =3D ctx->dev->vdec_p=
+data;
+> >       const struct mtk_video_fmt *fmt;
+> > -     int i =3D 0, ret =3D 0;
+> > +     int i =3D 0, ret =3D 0, sec_fd;
+> >
+> >       hdr_ctrl =3D ctrl;
+> >       if (!hdr_ctrl || !hdr_ctrl->p_new.p)
+> > @@ -489,6 +529,12 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
+> >                       return -EINVAL;
+> >               }
+> >               break;
+> > +     case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:
+> > +             sec_fd =3D ctrl->val;
+> > +
+> > +             ctrl->val =3D mtk_dma_contig_get_secure_handle(ctx, ctrl-=
+>val);
+> > +             mtk_v4l2_vdec_dbg(3, ctx, "get secure handle: %d =3D> 0x%=
+x", sec_fd, ctrl->val);
+> > +             break;
+> >       default:
+> >               mtk_v4l2_vdec_dbg(3, ctx, "Not supported to set ctrl id: =
+0x%x\n", hdr_ctrl->id);
+> >               return ret;
+> > @@ -525,8 +571,9 @@ static const struct v4l2_ctrl_ops mtk_vcodec_dec_ct=
+rl_ops =3D {
+> >  static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_dec_ctx *ctx)
+> >  {
+> >       unsigned int i;
+> > +     struct v4l2_ctrl *ctrl;
+> >
+> > -     v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS);
+> > +     v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS + 1);
+> >       if (ctx->ctrl_hdl.error) {
+> >               mtk_v4l2_vdec_err(ctx, "v4l2_ctrl_handler_init failed\n")=
+;
+> >               return ctx->ctrl_hdl.error;
+> > @@ -543,6 +590,9 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vc=
+odec_dec_ctx *ctx)
+> >               }
+> >       }
+> >
+> > +     ctrl =3D v4l2_ctrl_new_std(&ctx->ctrl_hdl, &mtk_vcodec_dec_ctrl_o=
+ps,
+> > +                              V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE, 0, =
+65535, 1, 0);
+> > +
+> >       v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
+> >
+> >       return 0;
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/=
+v4l2-core/v4l2-ctrls-defs.c
+> > index 8696eb1cdd61..d8cf01f76aab 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1041,6 +1041,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >       case V4L2_CID_MPEG_VIDEO_HEVC_SIZE_OF_LENGTH_FIELD:     return "H=
+EVC Size of Length Field";
+> >       case V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES:        return "R=
+eference Frames for a P-Frame";
+> >       case V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR:         return "P=
+repend SPS and PPS to IDR";
+> > +     case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:               return "M=
+ediaTek Decoder get secure handle";
+> >
+> >       /* AV1 controls */
+> >       case V4L2_CID_MPEG_VIDEO_AV1_PROFILE:                   return "A=
+V1 Profile";
+> > @@ -1437,6 +1438,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, e=
+num v4l2_ctrl_type *type,
+> >       case V4L2_CID_MPEG_VIDEO_VPX_NUM_REF_FRAMES:
+> >               *type =3D V4L2_CTRL_TYPE_INTEGER_MENU;
+> >               break;
+> > +     case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:
+> > +             *type =3D V4L2_CTRL_TYPE_INTEGER;
+> > +             *flags |=3D V4L2_CTRL_FLAG_WRITE_ONLY;
+> > +             break;
+> >       case V4L2_CID_USER_CLASS:
+> >       case V4L2_CID_CAMERA_CLASS:
+> >       case V4L2_CID_CODEC_CLASS:
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4=
+l2-controls.h
+> > index c3604a0a3e30..7b3694985366 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -954,6 +954,10 @@ enum v4l2_mpeg_mfc51_video_force_frame_type {
+> >  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_ADAPTIVE_RC_STATIC            (=
+V4L2_CID_CODEC_MFC51_BASE+53)
+> >  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_NUM_REF_PIC_FOR_P             (=
+V4L2_CID_CODEC_MFC51_BASE+54)
+> >
+> > +/*  MPEG-class control IDs specific to the MediaTek Decoder driver as =
+defined by V4L2 */
+> > +#define V4L2_CID_MPEG_MTK_BASE                       (V4L2_CTRL_CLASS_=
+CODEC | 0x2000)
+> > +#define V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE  (V4L2_CID_MPEG_MTK_BASE+8=
+)
+> > +
+> >  /*  Camera class control IDs */
+> >
+> >  #define V4L2_CID_CAMERA_CLASS_BASE   (V4L2_CTRL_CLASS_CAMERA | 0x900)
+>
