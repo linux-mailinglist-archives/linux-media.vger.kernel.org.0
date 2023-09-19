@@ -2,103 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B39387A646D
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 15:09:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A5837A6499
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 15:16:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231952AbjISNJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 09:09:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54244 "EHLO
+        id S232000AbjISNQf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 09:16:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231766AbjISNJK (ORCPT
+        with ESMTP id S229648AbjISNQe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 09:09:10 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB49F0
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 06:09:04 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE9AC433C8
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 13:09:03 +0000 (UTC)
-Date:   Tue, 19 Sep 2023 15:09:01 +0200
-Message-ID: <834142f4f77399965452891188b63fc4.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Tue, 19 Sep 2023 09:16:34 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97136EC
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 06:16:28 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id 46e09a7af769-6c228c9a98dso3384238a34.1
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 06:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1695129388; x=1695734188; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=u/FfNQBAdXLxlEt+X4meeY/e/SunDLocWKSMLQ9/cYg=;
+        b=DVJIHCmcCZ54X/Hx4mCqIf+2jTBfmBsUZ+w3y2ewLN+cWe5lMjVXuaAbAcLtEFiaWe
+         22arSPhncAKKC2hNTjdXRIH0axBhWSd+k7PYDNso9/FOFqlCQ+HeyPaKRtZuPiOFnuVC
+         mNRgf+SCfZA+toDsjda+kuD4CXz/dBU6qSx/dTP9Znz2hh9D+GuKNJZ7xz12XD93AEVm
+         D7AF7KzyP3DueVJz79/rQKWAdlPXiDQi+08rKdjEFgnabzx0iLRBRMZ+MnYbcQKBniQN
+         Fwe2W61+r6o2Mw1OBXtYFqvD86Wfo8JNrvZKvHwmnouBrj+aTx9h1nF0TlTALYArhqoJ
+         DyEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695129388; x=1695734188;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u/FfNQBAdXLxlEt+X4meeY/e/SunDLocWKSMLQ9/cYg=;
+        b=w3e6lW+wqY2MQkWS7CnovFbc+3I8EuQ1iON57BvWMcnSv88r0nXix+P+SsYA+Voyj8
+         GHI4Qkc2ZfQ7nhFh8hsnRfIgngMaSF/QwOpJXkBTuJwoPG3D8bLPol2Gd4FqXTIG+2kg
+         idQtcR3O30ACsJWhdBgLgNn7Q+BziMDFp0v38xKal0nkQcm4212rELQ7S36zamdizIMX
+         rraC0YpJMXWaJFtezOIIi8/bbTg3vClca9PVaHKXYjl9YzScC9+lM3GcVqMlLbCGRIyf
+         fbhzB0yL7dZ9US131RX61RA2bhOwtBwWuX1yoKMipIHpqW/tu2GiBMEpujkkpFPfGy/n
+         5TyA==
+X-Gm-Message-State: AOJu0YxSNp/XUxXZxtesTDLbeVAQcu7Tg43HmKXIt4fzUvzTBF941PbL
+        RtekCTapva3qvVAm8Tx7gC00CbKXjZytabqSU22DMw==
+X-Google-Smtp-Source: AGHT+IFP2ijDSYgWXaTtksJr2ipT1zmBXMhFmPQYf9cSP2q/y3e+ys/ccW7sFc0UFvCconUnwdKexJa6j2G5U9vfAaA=
+X-Received: by 2002:a05:6358:429f:b0:13a:cb52:4837 with SMTP id
+ s31-20020a056358429f00b0013acb524837mr12220500rwc.31.1695129387909; Tue, 19
+ Sep 2023 06:16:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230919111540.2344757-1-sakari.ailus@linux.intel.com> <20230919111540.2344757-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230919111540.2344757-2-sakari.ailus@linux.intel.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 19 Sep 2023 14:16:11 +0100
+Message-ID: <CAPY8ntCVWUoK6vcbRB8Pw_0_pV8tP7dXWZY=OMaBeaMMFjVVqg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: ov9282: Orphan the driver
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        "Alessandrelli, Daniele" <daniele.alessandrelli@intel.com>,
+        "Murphy, Paul J" <paul.j.murphy@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Sakari
 
-Results of the daily build of media_tree:
+On Tue, 19 Sept 2023 at 12:17, Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> The current maintainers won't be looking after this driver anymore. Mark
+> it orphan.
 
-date:			Fri Sep 15 03:19:41 CEST 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	0835b195d034ab98b148b8e9c81a862c0c557bb7
-v4l-utils git hash:	b79e00a74fde35d0c0bb801b78b15664d3f10309
-edid-decode git hash:	e59b8a2ffd690d6576639365a67e890d91ca443d
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8463-g52e9a454
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 92d01fef7a3c5282ea710b84ad337c0944e3d549
-host hardware:		x86_64
-host os:		6.4.13-cobaltpc1
+Seeing as a fair number of Pi users are using OV9281 (same sensor but
+different CRA), I'm prepared to step up as maintainer for this one.
+Do you want me to create a patch to update MAINTAINERS, or are you
+happy to create one and me R-b or Ack it?
 
-linux-git-arm: (18 string truncate warnings) OK
-linux-git-arm64: (16 string truncate warnings) OK
-linux-git-powerpc64: (30 string truncate warnings) OK
-linux-git-i686: OK
-linux-git-x86_64: (54 string truncate warnings) OK
-no-acpi.config: (38 string truncate warnings) OK
-no-of.config: (39 string truncate warnings) OK
-no-pm.config: (41 string truncate warnings) OK
-no-pm-sleep.config: (41 string truncate warnings) OK
-no-debug-fs.config: (40 string truncate warnings) OK
-sparse: WARNINGS:
+  Dave
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: (41 string truncate warnings) WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-COMPILE_TEST: WARNINGS: VIDEOBUF_GEN VIDEOBUF_DMA_SG VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Fri Sep 15 03:35:32 CEST 2023
-virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 5
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-
-date:			Fri Sep 15 04:04:24 CEST 2023
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  MAINTAINERS | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 980b141856e1..9705557b39d4 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15862,10 +15862,8 @@ F:     Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
+>  F:     drivers/media/i2c/ov8858.c
+>
+>  OMNIVISION OV9282 SENSOR DRIVER
+> -M:     Paul J. Murphy <paul.j.murphy@intel.com>
+> -M:     Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+>  L:     linux-media@vger.kernel.org
+> -S:     Maintained
+> +S:     Orphan
+>  T:     git git://linuxtv.org/media_tree.git
+>  F:     Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+>  F:     drivers/media/i2c/ov9282.c
+> --
+> 2.39.2
+>
