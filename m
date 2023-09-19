@@ -2,170 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C20D77A6745
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 16:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 007397A6749
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 16:50:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232977AbjISOty (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 10:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
+        id S232873AbjISOu0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 10:50:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232870AbjISOtk (ORCPT
+        with ESMTP id S231208AbjISOuZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 10:49:40 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38F54BC
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 07:49:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695134975; x=1726670975;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ej99fxi8D6kd2105lfESzqlD/HF6e9y5pQQkEze3SSs=;
-  b=J1dPWrxt8Bs4YZOVNyStQR2O6rgNBYF1BIPdtiZh5/bu5oH9MqXsmw06
-   DNsEhP3VnXLvhcG3d6WseczQQ4IWtFJ8ADva0Kne5C6fyKoGhrZv1/+9t
-   w8yGopTcMxfagIsw1Uz1fO7ns2L5Eg3RwusRDirnHAVMEw+ePZH6qAM7H
-   hNY4iAxYaPuPlznC7Og/0gVEa1FQXrZyMsGqnemF4fjWNRzUK9wxwEIsP
-   Ahj0ySSyaTZM0cZv6vRVmsg6OehWce4FoMY84SE8E8hI0ipSaudsdsCu5
-   jecFl+xSWljzH47KSd8SDHV1LlwR9xleCqg5sKrxrskcn4gsPtNkbRyPh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="379864042"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="379864042"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 07:49:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="889535262"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="889535262"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 07:48:46 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id DADE7120232;
-        Tue, 19 Sep 2023 17:49:29 +0300 (EEST)
-Date:   Tue, 19 Sep 2023 14:49:29 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH v3 11/12] media: v4l: subdev: Print debug information on
- frame descriptor
-Message-ID: <ZQm0+U6n+rE2fjcD@kekkonen.localdomain>
-References: <20230919121728.126781-1-sakari.ailus@linux.intel.com>
- <20230919121728.126781-12-sakari.ailus@linux.intel.com>
- <20230919133248.GD1505@pendragon.ideasonboard.com>
+        Tue, 19 Sep 2023 10:50:25 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24DC1BC;
+        Tue, 19 Sep 2023 07:50:18 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57AD8C433C8;
+        Tue, 19 Sep 2023 14:50:14 +0000 (UTC)
+Message-ID: <bc908b9e-00a8-4e62-8391-36da7b401d3d@xs4all.nl>
+Date:   Tue, 19 Sep 2023 16:50:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230919133248.GD1505@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 20/49] media: core: Rework how create_buf index
+ returned value is computed
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-21-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230914133323.198857-21-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 14/09/2023 15:32, Benjamin Gaignard wrote:
+> When DELETE_BUFS will be introduced holes could created in bufs array.
 
-On Tue, Sep 19, 2023 at 04:32:48PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Sep 19, 2023 at 03:17:27PM +0300, Sakari Ailus wrote:
-> > Print debug level information on returned frame descriptors.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-subdev.c | 32 ++++++++++++++++++++++++++-
-> >  1 file changed, 31 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > index 7b087be3ff4f..504ca625b2bd 100644
-> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > @@ -15,6 +15,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/overflow.h>
-> >  #include <linux/slab.h>
-> > +#include <linux/string.h>
-> >  #include <linux/types.h>
-> >  #include <linux/version.h>
-> >  #include <linux/videodev2.h>
-> > @@ -309,9 +310,38 @@ static int call_set_selection(struct v4l2_subdev *sd,
-> >  static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> >  			       struct v4l2_mbus_frame_desc *fd)
-> >  {
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> >  	memset(fd, 0, sizeof(*fd));
-> >  
-> > -	return sd->ops->pad->get_frame_desc(sd, pad, fd);
-> > +	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	dev_dbg(sd->dev, "Frame descriptor on pad %u, type %s\n", pad,
-> > +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
-> > +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
-> > +		"unknown");
-> > +
-> > +	for (i = 0; i < fd->num_entries; i++) {
-> > +		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
-> > +		char buf[20] = "";
-> 
-> Should this be sized for the worst case ? The vc and dt should not be
-> large, but a buffer overflow on the stack in debug code if a subdev
-> returns an incorrect value would be bad.
+could -> can be
 
-17 should be enough but it's not useful to use a size not divisible by 4 in
-practice here.
-
+> To be able to reuse these unused indices reworking how create->index
+> is set is mandatory.
+> Let __vb2_queue_alloc() decide which first index is correct and
+> forward this to the caller.
 > 
-> > +
-> > +		if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-> > +			snprintf(buf, sizeof(buf), ", vc %u, dt 0x%2.2x",
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   | 24 +++++++++++++------
+>  .../media/common/videobuf2/videobuf2-v4l2.c   | 17 +++++++------
+>  include/media/videobuf2-core.h                |  4 +++-
+>  3 files changed, 30 insertions(+), 15 deletions(-)
 > 
-> 0x%02x would be one character shorter ;-) Same below.
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 70b6b8f8c390..a4c2fae8705d 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -443,15 +443,24 @@ static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+>   */
+>  static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  			     unsigned int num_buffers, unsigned int num_planes,
+> -			     const unsigned plane_sizes[VB2_MAX_PLANES])
+> +			     const unsigned plane_sizes[VB2_MAX_PLANES],
+> +			     unsigned int *first)
 
-It would be, but I prefer the above notation as it's more generic.
+I would rename 'first' to 'first_index',
 
-> 
-> > +				 entry->bus.csi2.vc, entry->bus.csi2.dt);
-> > +
-> > +		dev_dbg(sd->dev,
-> > +			"\tstream %u, code 0x%4.4x, lenght %u, flags%s%s%s\n",
-> 
-> s/lenght/length/
+>  {
+>  	unsigned int buffer, plane;
+>  	struct vb2_buffer *vb;
+> +	unsigned long first_index;
 
-Thanks, I'll fix this.
+and this to just plain 'index'.
 
-> 
-> > +			entry->stream, entry->pixelcode, entry->length,
-> > +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_LEN_MAX ?
-> > +			" LEN_MAX" : "",
-> > +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_BLOB ?
-> > +			" BLOB" : "", buf);
-> 
-> If no flags are set, you will get something like
-> 
-> 	stream 0, code 0x1234, length ..., flags, vc 0, dt 0x2a
-> 
-> Maybe printing the hex value for the flags would be simpler and clearer
-> ?
+>  	int ret;
+>  
+>  	/* Ensure that q->num_buffers+num_buffers is below q->max_allowed_buffers */
+>  	num_buffers = min_t(unsigned int, num_buffers,
+> -			    q->max_allowed_buffers - q->num_buffers);
+> +			    q->max_allowed_buffers - vb2_get_num_buffers(q));
+> +
+> +	first_index = vb2_get_num_buffers(q);
+> +
+> +	if (first_index >= q->max_allowed_buffers)
+> +		return 0;
 
-How about adding the numerical value in addition to the strings?
+I don't think this can ever happen, drop this check.
 
-The use of these flags is rare though. I could just remove the strings,
-too.
+> +
+> +	*first = first_index;
+>  
+>  	for (buffer = 0; buffer < num_buffers; ++buffer) {
+>  		/* Allocate vb2 buffer structures */
+> @@ -472,7 +481,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  		}
+>  		call_void_bufop(q, init_buffer, vb);
+>  
+> -		if (!vb2_queue_add_buffer(q, vb, q->num_buffers + buffer)) {
+> +		if (!vb2_queue_add_buffer(q, vb, first_index++)) {
 
--- 
+The reason for renaming is that seeing 'first_index++' here is really weird.
+But 'index++' makes sense.
+
+>  			dprintk(q, 1, "failed adding buffer %d to queue\n", buffer);
+>  			kfree(vb);
+>  			break;
+> @@ -832,7 +841,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
+>  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+>  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
+> -	unsigned int i;
+> +	unsigned int i, first;
+
+Rename to first_index as well.
+
+>  	int ret = 0;
+>  
+>  	if (q->streaming) {
+> @@ -919,7 +928,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  
+>  	/* Finally, allocate buffers and video memory */
+>  	allocated_buffers =
+> -		__vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes);
+> +		__vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes, &first);
+>  	if (allocated_buffers == 0) {
+>  		dprintk(q, 1, "memory allocation failed\n");
+>  		ret = -ENOMEM;
+> @@ -993,7 +1002,8 @@ EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
+>  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  			 unsigned int flags, unsigned int *count,
+>  			 unsigned int requested_planes,
+> -			 const unsigned int requested_sizes[])
+> +			 const unsigned int requested_sizes[],
+> +			 unsigned int *first)
+
+first_index
+
+>  {
+>  	unsigned int num_planes = 0, num_buffers, allocated_buffers;
+>  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+> @@ -1055,7 +1065,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  
+>  	/* Finally, allocate buffers and video memory */
+>  	allocated_buffers = __vb2_queue_alloc(q, memory, num_buffers,
+> -				num_planes, plane_sizes);
+> +				num_planes, plane_sizes, first);
+>  	if (allocated_buffers == 0) {
+>  		dprintk(q, 1, "memory allocation failed\n");
+>  		ret = -ENOMEM;
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 3eb707abc26b..a88abcea2921 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -762,7 +762,6 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>  
+>  	fill_buf_caps(q, &create->capabilities);
+>  	validate_memory_flags(q, create->memory, &create->flags);
+> -	create->index = q->num_buffers;
+
+I don't think this can be dropped. If create->count == 0, then this should
+be the current number of created buffers according to the spec.
+
+>  	if (create->count == 0)
+>  		return ret != -EBUSY ? ret : 0;
+>  
+> @@ -804,11 +803,16 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>  	for (i = 0; i < requested_planes; i++)
+>  		if (requested_sizes[i] == 0)
+>  			return -EINVAL;
+> -	return ret ? ret : vb2_core_create_bufs(q, create->memory,
+> -						create->flags,
+> -						&create->count,
+> -						requested_planes,
+> -						requested_sizes);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = vb2_core_create_bufs(q, create->memory,
+> +				   create->flags,
+> +				   &create->count,
+> +				   requested_planes,
+> +				   requested_sizes,
+> +				   &create->index);
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_create_bufs);
+>  
+> @@ -1036,7 +1040,6 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
+>  	int res = vb2_verify_memory_type(vdev->queue, p->memory,
+>  			p->format.type);
+>  
+> -	p->index = vdev->queue->num_buffers;
+
+Ditto.
+
+>  	fill_buf_caps(vdev->queue, &p->capabilities);
+>  	validate_memory_flags(vdev->queue, p->memory, &p->flags);
+>  	/*
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 1ecaf4b5a76f..19c93d8eb7c8 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -803,6 +803,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>   * @count: requested buffer count.
+>   * @requested_planes: number of planes requested.
+>   * @requested_sizes: array with the size of the planes.
+> + * @first: index of the first created buffer
+
+Not quite true: it is the index of the first created buffer, and
+all allocated buffers have indices in the range [first..first+count)
+
+Or something along those lines.
+
+>   *
+>   * Videobuf2 core helper to implement VIDIOC_CREATE_BUFS() operation. It is
+>   * called internally by VB2 by an API-specific handler, like
+> @@ -819,7 +820,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  			 unsigned int flags, unsigned int *count,
+>  			 unsigned int requested_planes,
+> -			 const unsigned int requested_sizes[]);
+> +			 const unsigned int requested_sizes[],
+> +			 unsigned int *first);
+>  
+>  /**
+>   * vb2_core_prepare_buf() - Pass ownership of a buffer from userspace
+
 Regards,
 
-Sakari Ailus
+	Hans
