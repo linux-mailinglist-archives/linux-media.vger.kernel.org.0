@@ -2,128 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A5417A63FF
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 14:57:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B39387A646D
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 15:09:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232317AbjISM5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 08:57:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57462 "EHLO
+        id S231952AbjISNJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 09:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232314AbjISM5S (ORCPT
+        with ESMTP id S231766AbjISNJK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 08:57:18 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DD57181;
-        Tue, 19 Sep 2023 05:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695128232; x=1726664232;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=owLTR4BdRMVCw3koAJFrF4ot3jKom6tn6pjCI8DaxDE=;
-  b=BUn2aCvY0PRW97GtYI8KgcrX2dUMFYS3ATs3aGb+N7JKIDzguhR/nWzh
-   NsTRu6wBBs6O7EJwnLcSsIRqSiiypVDfP+2hi28YhNO8IYlpIuk+KTld5
-   0NnZqzZg/5uLrFto3DxkmIUayAFnDt7exRhUG/NGO3veo3QPQjtAxYzxh
-   t0VnVyK6E7vkem3DlO83hxhQ9PqzTITbHX+ZFKQDM7DKrek2R19R1t53+
-   Sky1ENdMhXudDbiieyZH6ch1Y38sCjmKM1swFAg88kpWJgXaHTSv4SdF8
-   DxkmdC/JkGz0ZfMlh5vZPJK7SIPEHJmFgBNsl/whklY3IudMTJ/trrFsg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="359324642"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="359324642"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:57:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746228718"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="746228718"
-Received: from vdesserx-mobl1.ger.corp.intel.com (HELO localhost.localdomain) ([10.249.32.31])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:57:06 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v3 2/8] media: cobalt: Use FIELD_GET() to extract Link Width
-Date:   Tue, 19 Sep 2023 15:56:42 +0300
-Message-Id: <20230919125648.1920-3-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230919125648.1920-1-ilpo.jarvinen@linux.intel.com>
-References: <20230919125648.1920-1-ilpo.jarvinen@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 19 Sep 2023 09:09:10 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB49F0
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 06:09:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE9AC433C8
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 13:09:03 +0000 (UTC)
+Date:   Tue, 19 Sep 2023 15:09:01 +0200
+Message-ID: <834142f4f77399965452891188b63fc4.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use FIELD_GET() to extract PCIe Negotiated and Maximum Link Width fields
-instead of custom masking and shifting.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- drivers/media/pci/cobalt/cobalt-driver.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
-index 74edcc76d12f..6e1a0614e6d0 100644
---- a/drivers/media/pci/cobalt/cobalt-driver.c
-+++ b/drivers/media/pci/cobalt/cobalt-driver.c
-@@ -8,6 +8,7 @@
-  *  All rights reserved.
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/delay.h>
- #include <media/i2c/adv7604.h>
- #include <media/i2c/adv7842.h>
-@@ -210,17 +211,17 @@ void cobalt_pcie_status_show(struct cobalt *cobalt)
- 	pcie_capability_read_word(pci_dev, PCI_EXP_LNKSTA, &stat);
- 	cobalt_info("PCIe link capability 0x%08x: %s per lane and %u lanes\n",
- 			capa, get_link_speed(capa),
--			(capa & PCI_EXP_LNKCAP_MLW) >> 4);
-+			FIELD_GET(PCI_EXP_LNKCAP_MLW, capa));
- 	cobalt_info("PCIe link control 0x%04x\n", ctrl);
- 	cobalt_info("PCIe link status 0x%04x: %s per lane and %u lanes\n",
- 		    stat, get_link_speed(stat),
--		    (stat & PCI_EXP_LNKSTA_NLW) >> 4);
-+		    FIELD_GET(PCI_EXP_LNKSTA_NLW, stat));
- 
- 	/* Bus */
- 	pcie_capability_read_dword(pci_bus_dev, PCI_EXP_LNKCAP, &capa);
- 	cobalt_info("PCIe bus link capability 0x%08x: %s per lane and %u lanes\n",
- 			capa, get_link_speed(capa),
--			(capa & PCI_EXP_LNKCAP_MLW) >> 4);
-+			FIELD_GET(PCI_EXP_LNKCAP_MLW, capa));
- 
- 	/* Slot */
- 	pcie_capability_read_dword(pci_dev, PCI_EXP_SLTCAP, &capa);
-@@ -239,7 +240,7 @@ static unsigned pcie_link_get_lanes(struct cobalt *cobalt)
- 	if (!pci_is_pcie(pci_dev))
- 		return 0;
- 	pcie_capability_read_word(pci_dev, PCI_EXP_LNKSTA, &link);
--	return (link & PCI_EXP_LNKSTA_NLW) >> 4;
-+	return FIELD_GET(PCI_EXP_LNKSTA_NLW, link);
- }
- 
- static unsigned pcie_bus_link_get_lanes(struct cobalt *cobalt)
-@@ -250,7 +251,7 @@ static unsigned pcie_bus_link_get_lanes(struct cobalt *cobalt)
- 	if (!pci_is_pcie(pci_dev))
- 		return 0;
- 	pcie_capability_read_dword(pci_dev, PCI_EXP_LNKCAP, &link);
--	return (link & PCI_EXP_LNKCAP_MLW) >> 4;
-+	return FIELD_GET(PCI_EXP_LNKCAP_MLW, link);
- }
- 
- static void msi_config_show(struct cobalt *cobalt, struct pci_dev *pci_dev)
--- 
-2.30.2
+date:			Fri Sep 15 03:19:41 CEST 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	0835b195d034ab98b148b8e9c81a862c0c557bb7
+v4l-utils git hash:	b79e00a74fde35d0c0bb801b78b15664d3f10309
+edid-decode git hash:	e59b8a2ffd690d6576639365a67e890d91ca443d
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8463-g52e9a454
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 92d01fef7a3c5282ea710b84ad337c0944e3d549
+host hardware:		x86_64
+host os:		6.4.13-cobaltpc1
 
+linux-git-arm: (18 string truncate warnings) OK
+linux-git-arm64: (16 string truncate warnings) OK
+linux-git-powerpc64: (30 string truncate warnings) OK
+linux-git-i686: OK
+linux-git-x86_64: (54 string truncate warnings) OK
+no-acpi.config: (38 string truncate warnings) OK
+no-of.config: (39 string truncate warnings) OK
+no-pm.config: (41 string truncate warnings) OK
+no-pm-sleep.config: (41 string truncate warnings) OK
+no-debug-fs.config: (40 string truncate warnings) OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: (41 string truncate warnings) WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+COMPILE_TEST: WARNINGS: VIDEOBUF_GEN VIDEOBUF_DMA_SG VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Fri Sep 15 03:35:32 CEST 2023
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 5
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+
+date:			Fri Sep 15 04:04:24 CEST 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
