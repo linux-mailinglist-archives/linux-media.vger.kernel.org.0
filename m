@@ -2,50 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 170F17A5FC1
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7961C7A5FC5
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:38:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230287AbjISKhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 06:37:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39630 "EHLO
+        id S230203AbjISKiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 06:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230203AbjISKhh (ORCPT
+        with ESMTP id S231678AbjISKiW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 06:37:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 064A3E8
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 03:37:30 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 991D6842;
-        Tue, 19 Sep 2023 12:35:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695119752;
-        bh=y8/Lbns80HCvzHCSKXUesLd9sYWbBm+YUWh7zHw3IHg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T8uzJxufZW45YgFMzzDB+pTcXWwjZ1AaxrY6rd6dwmIaCY37G428ynSH+ugPji9oX
-         PBEUFalA1o2uQE8ZVdnQTcwcywtcETKU2InDrpOGM4f0GXTXLz3LzkRetJB4GLyAkZ
-         n55/IDDh0XPEmtTv6DNU7p/rlBrBqRdNxiG5CWO4=
-Date:   Tue, 19 Sep 2023 13:37:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH v2 12/12] media: mc: Check pad flag validity
-Message-ID: <20230919103741.GA1505@pendragon.ideasonboard.com>
-References: <20230918125138.90002-1-sakari.ailus@linux.intel.com>
- <20230918125138.90002-13-sakari.ailus@linux.intel.com>
- <20230918134802.GH28874@pendragon.ideasonboard.com>
- <ZQl24DaMGeQSTPRa@kekkonen.localdomain>
+        Tue, 19 Sep 2023 06:38:22 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6C05E8
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 03:38:15 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4RqdRS4W9jzyWs;
+        Tue, 19 Sep 2023 13:38:12 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1695119893;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3n9vFemvqZfmdJNKvnR6R2hYzMGPNge32I2NtV3jk4Y=;
+        b=wjrBx65XoqVmBUD9A7B0U2OiDcEqzhTXEyYlpGFjaZn47dkgoNN6ofvPFKWXUeBkwyC/MJ
+        xnqZfr7VfVLPrQVm3zO+C6Y6yftEEnfv52EaG+WbYEjzYTbpj5hfcbgGEsAiNVnglJT8qd
+        5hzxxw4bvd0045R0ySrtc/FHKvqFvbQ=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1695119893; a=rsa-sha256; cv=none;
+        b=qt8NM2IkObeDkxmsSM696Fj9Eehv2r8WreU81WP5UyTLFMLp1Oicr31wnK+/oPUFuIg0iC
+        Np1HmYeO1H0SlXJ8DJAzWeE7rlj5X0nokb/oeEuPhPsbIgkCuMRiGVBZnNebqnR8pMNJxN
+        h92ocI9J62lt7anSN9Go4QQphBZe7kk=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1695119893;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3n9vFemvqZfmdJNKvnR6R2hYzMGPNge32I2NtV3jk4Y=;
+        b=iBp9VfcBDP0PLn1eSnEAIY+oBL8t2ahPA9dOcEd73tHJftf5VHQjvt1Sel1wCF5YGgMu9P
+        Dtw9FQBZlbgIxBlyPerTIHKJ7lwVmt3WDH+FwRRtTj/hqCfKaRMYGk1Bf+buxQzOakSv08
+        FaRfzpq/gpzJZnM7WiGWr6OTYxc0iaA=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 43F57634C94;
+        Tue, 19 Sep 2023 13:38:11 +0300 (EEST)
+Date:   Tue, 19 Sep 2023 10:38:11 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     shravan kumar <shravan.chippa@microchip.com>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] media: i2c: imx334: add support for test pattern
+ generator
+Message-ID: <ZQl6E3AGzXi5OvGV@valkosipuli.retiisi.eu>
+References: <20230919091740.1821543-1-shravan.chippa@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZQl24DaMGeQSTPRa@kekkonen.localdomain>
+In-Reply-To: <20230919091740.1821543-1-shravan.chippa@microchip.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,84 +76,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 19, 2023 at 10:24:32AM +0000, Sakari Ailus wrote:
-> On Mon, Sep 18, 2023 at 04:48:02PM +0300, Laurent Pinchart wrote:
-> > On Mon, Sep 18, 2023 at 03:51:38PM +0300, Sakari Ailus wrote:
-> > > Check the validity of pad flags on entity init. Exactly one of the flags
-> > > must be set.
-> > > 
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  drivers/media/mc/mc-entity.c | 20 ++++++++++++++++++--
-> > >  1 file changed, 18 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> > > index 83468d4a440b..38d5bbae33d7 100644
-> > > --- a/drivers/media/mc/mc-entity.c
-> > > +++ b/drivers/media/mc/mc-entity.c
-> > > @@ -195,8 +195,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
-> > >  			   struct media_pad *pads)
-> > >  {
-> > >  	struct media_device *mdev = entity->graph_obj.mdev;
-> > > -	struct media_pad *iter;
-> > > +	struct media_pad *iter, *iter2;
-> > >  	unsigned int i = 0;
-> > > +	int ret = 0;
-> > >  
-> > >  	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
-> > >  		return -E2BIG;
-> > > @@ -210,15 +211,30 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
-> > >  	media_entity_for_each_pad(entity, iter) {
-> > >  		iter->entity = entity;
-> > >  		iter->index = i++;
-> > > +
-> > > +		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
-> > > +					     MEDIA_PAD_FL_SOURCE)) != 1) {
-> > > +			ret = -EINVAL;
-> > > +			break;
-> > > +		}
-> > > +
-> > >  		if (mdev)
-> > >  			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
-> > >  					  &iter->graph_obj);
-> > >  	}
-> > >  
-> > > +	if (ret && mdev) {
-> > > +		media_entity_for_each_pad(entity, iter2) {
-> > > +			if (iter2 == iter)
-> > > +				break;
-> > > +			media_gobj_destroy(&iter->graph_obj);
-> > 
-> > Wrong iterator.
-> > 
-> > Instead of using a second iterator, which can be error-prone as shown
-> > here, how about breaking when !iter->graph_obj.mdev, which indicates an
-> > uninitialized object ?
-> 
-> media_gobj_destroy() is actually a no-op if it hasn't been initialised
-> (created).
+Hi Shravan,
 
-I'm fine calling it unconditionally too.
+On Tue, Sep 19, 2023 at 02:47:40PM +0530, shravan kumar wrote:
+> From: Shravan Chippa <shravan.chippa@microchip.com>
+> 
+> Add support for the imx334's test pattern generator.
+> By default the test pattern generator is disabled, so add support for
+> enabling and disabling horizontal and vertical colour bars.
+> 
+> Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+> ---
+> 
+> V2 -> V3
+> Added "Acked-by: Daniele Alessandrelli"
 
-> It'd be still cleaner to make the pad flag checks first and only then call
-> media_gobj_create() on them. But if someone needs something more in the
-> future, then that doesn't mix as well anymore.
-> 
-> Both are fine IMO.
-> 
-> > > +		}
-> > > +	}
-> > > +
-> > >  	if (mdev)
-> > >  		mutex_unlock(&mdev->graph_mutex);
-> > >  
-> > > -	return 0;
-> > > +	return ret;
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(media_entity_pads_init);
-> > >  
+There's no need to send a new version if you're only adding acks.
+
+So there are no changes from v2?
 
 -- 
 Regards,
 
-Laurent Pinchart
+Sakari Ailus
