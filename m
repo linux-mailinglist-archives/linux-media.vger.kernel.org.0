@@ -2,63 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C7087A5D92
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 11:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97FC67A5DAA
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 11:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230325AbjISJRP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 05:17:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35422 "EHLO
+        id S229674AbjISJWd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 05:22:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbjISJRP (ORCPT
+        with ESMTP id S229497AbjISJWb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 05:17:15 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9796BDA;
-        Tue, 19 Sep 2023 02:17:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1695115030; x=1726651030;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RXZnVy9qTKiAdKqhq9D0anZsKhPGWiv072xSkoUwPmo=;
-  b=ZN8sanRdNnVtTRq2A5e6Zk+EakYBtd5CyO01oo3mm/+8XpgjV4IP9454
-   2afEGJqQNb+wKWxPJu7tFULxMeSbeXBgv4CllxSVx82J3O69opIxOyTgz
-   TGN8bIzBpUX5Ggg4Seq0c/BDesub8f968Qmyrb1QNJ/o1u2mWIgNJ4I8m
-   H2ai1kRFTT3TDwk1Qv+0AupZPxQUnNu70016RkImMiHvcxBQpS6XzAY4m
-   MJtsKNefq4WQEVYusEkpeENFpG5N8wBdNJi9vqzmZ91yjb/JYA2Vl1yxK
-   l7dcUkosHkwUPtnfWQxzUgVsa9YQM/4V4TOb9NcRXkRYPTG/HvV2U05s+
-   g==;
-X-CSE-ConnectionGUID: AkaCJQRQRDm43rXS0iI9Fw==
-X-CSE-MsgGUID: icolL1u7Q92PVqAvnbzj0A==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="5394256"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Sep 2023 02:17:10 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 19 Sep 2023 02:16:53 -0700
-Received: from microchip1-OptiPlex-9020.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Tue, 19 Sep 2023 02:16:51 -0700
-From:   shravan kumar <shravan.chippa@microchip.com>
-To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
-        <mchehab@kernel.org>
-CC:     <sakari.ailus@iki.fi>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Shravan Chippa <shravan.chippa@microchip.com>
-Subject: [PATCH v3] media: i2c: imx334: add support for test pattern generator
-Date:   Tue, 19 Sep 2023 14:47:40 +0530
-Message-ID: <20230919091740.1821543-1-shravan.chippa@microchip.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 19 Sep 2023 05:22:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0F4E6;
+        Tue, 19 Sep 2023 02:22:25 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10068C433C8;
+        Tue, 19 Sep 2023 09:22:21 +0000 (UTC)
+Message-ID: <10de339f-dfeb-449f-be69-629bfae9b966@xs4all.nl>
+Date:   Tue, 19 Sep 2023 11:22:20 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 02/49] media: videobuf2: Stop spamming kernel log with
+ all queue counter
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-3-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230914133323.198857-3-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,125 +49,124 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+On 14/09/2023 15:32, Benjamin Gaignard wrote:
+> Only report unbalanced queue counters do avoid spamming kernel log
+> with useless information.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   | 77 +++++++++++--------
+>  1 file changed, 43 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index cf3b9f5b69b7..bedd827c0d9a 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -529,24 +529,25 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>  #ifdef CONFIG_VIDEO_ADV_DEBUG
+>  	/*
+>  	 * Check that all the calls were balances during the life-time of this
 
-Add support for the imx334's test pattern generator.
-By default the test pattern generator is disabled, so add support for
-enabling and disabling horizontal and vertical colour bars.
+typo: balances -> balanced
 
-Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
----
+> -	 * queue. If not (or if the debug level is 1 or up), then dump the
+> -	 * counters to the kernel log.
+> +	 * queue. If not then dump the counters to the kernel log.
+>  	 */
+>  	if (q->num_buffers) {
+>  		bool unbalanced = q->cnt_start_streaming != q->cnt_stop_streaming ||
+>  				  q->cnt_prepare_streaming != q->cnt_unprepare_streaming ||
+>  				  q->cnt_wait_prepare != q->cnt_wait_finish;
+>  
+> -		if (unbalanced || debug) {
+> -			pr_info("counters for queue %p:%s\n", q,
+> -				unbalanced ? " UNBALANCED!" : "");
+> -			pr_info("     setup: %u start_streaming: %u stop_streaming: %u\n",
+> -				q->cnt_queue_setup, q->cnt_start_streaming,
+> -				q->cnt_stop_streaming);
+> -			pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
+> -				q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
+> -			pr_info("     wait_prepare: %u wait_finish: %u\n",
+> -				q->cnt_wait_prepare, q->cnt_wait_finish);
+> +		if (unbalanced) {
+> +			pr_info("unbalanced counters for queue %p:\n", q);
+> +			if (q->cnt_start_streaming != q->cnt_stop_streaming)
+> +				pr_info("     setup: %u start_streaming: %u stop_streaming: %u\n",
+> +					q->cnt_queue_setup, q->cnt_start_streaming,
+> +					q->cnt_stop_streaming);
+> +			if (q->cnt_prepare_streaming != q->cnt_unprepare_streaming)
+> +				pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
+> +					q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
+> +			if (q->cnt_wait_prepare != q->cnt_wait_finish)
+> +				pr_info("     wait_prepare: %u wait_finish: %u\n",
+> +					q->cnt_wait_prepare, q->cnt_wait_finish);
+>  		}
+>  		q->cnt_queue_setup = 0;
+>  		q->cnt_wait_prepare = 0;
+> @@ -567,29 +568,37 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>  				  vb->cnt_buf_prepare != vb->cnt_buf_finish ||
+>  				  vb->cnt_buf_init != vb->cnt_buf_cleanup;
+>  
+> -		if (unbalanced || debug) {
+> -			pr_info("   counters for queue %p, buffer %d:%s\n",
+> -				q, buffer, unbalanced ? " UNBALANCED!" : "");
+> -			pr_info("     buf_init: %u buf_cleanup: %u buf_prepare: %u buf_finish: %u\n",
+> -				vb->cnt_buf_init, vb->cnt_buf_cleanup,
+> -				vb->cnt_buf_prepare, vb->cnt_buf_finish);
+> -			pr_info("     buf_out_validate: %u buf_queue: %u buf_done: %u buf_request_complete: %u\n",
+> -				vb->cnt_buf_out_validate, vb->cnt_buf_queue,
+> -				vb->cnt_buf_done, vb->cnt_buf_request_complete);
+> -			pr_info("     alloc: %u put: %u prepare: %u finish: %u mmap: %u\n",
+> -				vb->cnt_mem_alloc, vb->cnt_mem_put,
+> -				vb->cnt_mem_prepare, vb->cnt_mem_finish,
+> -				vb->cnt_mem_mmap);
+> -			pr_info("     get_userptr: %u put_userptr: %u\n",
+> -				vb->cnt_mem_get_userptr, vb->cnt_mem_put_userptr);
+> -			pr_info("     attach_dmabuf: %u detach_dmabuf: %u map_dmabuf: %u unmap_dmabuf: %u\n",
+> -				vb->cnt_mem_attach_dmabuf, vb->cnt_mem_detach_dmabuf,
+> -				vb->cnt_mem_map_dmabuf, vb->cnt_mem_unmap_dmabuf);
+> -			pr_info("     get_dmabuf: %u num_users: %u vaddr: %u cookie: %u\n",
+> +		if (unbalanced) {
+> +			pr_info("unbalanced counters for queue %p:, buffer %d\n",
 
-V2 -> V3
-Added "Acked-by: Daniele Alessandrelli"
+%p:, buffer %d -> %p, buffer %d:
 
+> +				q, buffer);
+> +			if (vb->cnt_buf_init != vb->cnt_buf_cleanup)
+> +				pr_info("     buf_init: %u buf_cleanup: %u\n",
+> +					vb->cnt_buf_init, vb->cnt_buf_cleanup);
+> +			if (vb->cnt_buf_prepare != vb->cnt_buf_finish)
+> +				pr_info("     buf_prepare: %u buf_finish: %u\n",
+> +					vb->cnt_buf_prepare, vb->cnt_buf_finish);
+> +			if (vb->cnt_buf_queue != vb->cnt_buf_done)
+> +				pr_info("     buf_out_validate: %u buf_queue: %u buf_done: %u buf_request_complete: %u\n",
+> +					vb->cnt_buf_out_validate, vb->cnt_buf_queue,
+> +					vb->cnt_buf_done, vb->cnt_buf_request_complete);
+> +			if (vb->cnt_mem_alloc != vb->cnt_mem_put)
+> +				pr_info("     alloc: %u put: %u\n",
+> +					vb->cnt_mem_alloc, vb->cnt_mem_put);
+> +			if (vb->cnt_mem_prepare != vb->cnt_mem_finish)
+> +				pr_info("     prepare: %u finish: %u\n",
+> +					vb->cnt_mem_prepare, vb->cnt_mem_finish);
+> +			if (vb->cnt_mem_get_userptr != vb->cnt_mem_put_userptr)
+> +				pr_info("     get_userptr: %u put_userptr: %u\n",
+> +					vb->cnt_mem_get_userptr, vb->cnt_mem_put_userptr);
+> +			if (vb->cnt_mem_attach_dmabuf != vb->cnt_mem_detach_dmabuf)
+> +				pr_info("     attach_dmabuf: %u detach_dmabuf: %u\n",
+> +					vb->cnt_mem_attach_dmabuf, vb->cnt_mem_detach_dmabuf);
+> +			if (vb->cnt_mem_map_dmabuf != vb->cnt_mem_unmap_dmabuf)
+> +				pr_info("     map_dmabuf: %u unmap_dmabuf: %u\n",
+> +					vb->cnt_mem_map_dmabuf, vb->cnt_mem_unmap_dmabuf);
+> +			pr_info("     get_dmabuf: %u num_users: %u\n",
+>  				vb->cnt_mem_get_dmabuf,
+> -				vb->cnt_mem_num_users,
+> -				vb->cnt_mem_vaddr,
+> -				vb->cnt_mem_cookie);
+> +				vb->cnt_mem_num_users);
+>  		}
+>  	}
+>  #endif
 
-V1 -> V2
-Rename command from 
-	"Color Bars Ver"  -->  "Vertical Color Bars"
-	"Color Bars Hor"  --> "Horizontal Color Bars".
+Regards,
 
----
- drivers/media/i2c/imx334.c | 57 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 56 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index d722c9b7cd31..91c79af70734 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -56,6 +56,24 @@
- #define IMX334_REG_MIN		0x00
- #define IMX334_REG_MAX		0xfffff
- 
-+/* Test Pattern Control */
-+#define IMX334_REG_TP		0x329e
-+#define IMX334_TP_COLOR_HBARS	0xA
-+#define IMX334_TP_COLOR_VBARS	0xB
-+
-+#define IMX334_TPG_EN_DOUT	0x329c
-+#define IMX334_TP_ENABLE	0x1
-+#define IMX334_TP_DISABLE	0x0
-+
-+#define IMX334_TPG_COLORW	0x32a0
-+#define IMX334_TPG_COLORW_120P	0x13
-+
-+#define IMX334_TP_CLK_EN	0x3148
-+#define IMX334_TP_CLK_EN_VAL	0x10
-+#define IMX334_TP_CLK_DIS_VAL	0x0
-+
-+#define IMX334_DIG_CLP_MODE	0x3280
-+
- /**
-  * struct imx334_reg - imx334 sensor register
-  * @address: Register address
-@@ -430,6 +448,18 @@ static const struct imx334_reg mode_3840x2160_regs[] = {
- 	{0x3a29, 0x00},
- };
- 
-+static const char * const imx334_test_pattern_menu[] = {
-+	"Disabled",
-+	"Vertical Color Bars",
-+	"Horizontal Color Bars",
-+};
-+
-+static const int imx334_test_pattern_val[] = {
-+	IMX334_TP_DISABLE,
-+	IMX334_TP_COLOR_HBARS,
-+	IMX334_TP_COLOR_VBARS,
-+};
-+
- static const struct imx334_reg raw10_framefmt_regs[] = {
- 	{0x3050, 0x00},
- 	{0x319d, 0x00},
-@@ -716,6 +746,26 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_HBLANK:
- 		ret = 0;
- 		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		if (ctrl->val) {
-+			imx334_write_reg(imx334, IMX334_TP_CLK_EN, 1,
-+					 IMX334_TP_CLK_EN_VAL);
-+			imx334_write_reg(imx334, IMX334_DIG_CLP_MODE, 1, 0x0);
-+			imx334_write_reg(imx334, IMX334_TPG_COLORW, 1,
-+					 IMX334_TPG_COLORW_120P);
-+			imx334_write_reg(imx334, IMX334_REG_TP, 1,
-+					 imx334_test_pattern_val[ctrl->val]);
-+			imx334_write_reg(imx334, IMX334_TPG_EN_DOUT, 1,
-+					 IMX334_TP_ENABLE);
-+		} else {
-+			imx334_write_reg(imx334, IMX334_DIG_CLP_MODE, 1, 0x1);
-+			imx334_write_reg(imx334, IMX334_TP_CLK_EN, 1,
-+					 IMX334_TP_CLK_DIS_VAL);
-+			imx334_write_reg(imx334, IMX334_TPG_EN_DOUT, 1,
-+					 IMX334_TP_DISABLE);
-+		}
-+		ret = 0;
-+		break;
- 	default:
- 		dev_err(imx334->dev, "Invalid control %d", ctrl->id);
- 		ret = -EINVAL;
-@@ -1222,7 +1272,7 @@ static int imx334_init_controls(struct imx334 *imx334)
- 	u32 lpfr;
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 6);
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
- 	if (ret)
- 		return ret;
- 
-@@ -1282,6 +1332,11 @@ static int imx334_init_controls(struct imx334 *imx334)
- 	if (imx334->hblank_ctrl)
- 		imx334->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx334_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(imx334_test_pattern_menu) - 1,
-+				     0, 0, imx334_test_pattern_menu);
-+
- 	if (ctrl_hdlr->error) {
- 		dev_err(imx334->dev, "control init failed: %d",
- 			ctrl_hdlr->error);
--- 
-2.34.1
-
+	Hans
