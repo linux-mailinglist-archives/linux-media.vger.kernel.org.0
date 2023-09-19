@@ -2,224 +2,302 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9605C7A6313
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 14:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3052D7A632D
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 14:38:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231431AbjISMe4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 08:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56354 "EHLO
+        id S231344AbjISMi2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 08:38:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231320AbjISMey (ORCPT
+        with ESMTP id S231913AbjISMi1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 08:34:54 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E98FDF5;
-        Tue, 19 Sep 2023 05:34:45 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36D65C433C9;
-        Tue, 19 Sep 2023 12:34:42 +0000 (UTC)
-Message-ID: <50e4bc29-2c2d-48ae-aafc-bcedcba9c104@xs4all.nl>
-Date:   Tue, 19 Sep 2023 14:34:40 +0200
+        Tue, 19 Sep 2023 08:38:27 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF06418F
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 05:38:16 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Rqh5x4swXz49Psw
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 15:38:13 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1695127093;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=WU+vnNNj1djej3VWr3ymem2oRwL9MLd2bQEQPoiKcMA=;
+        b=CiS3zvlpfHzpSileuH1E8HnAdm+9ZArI67PdKmFUKtdjy5ZAzpU9pl/X0udFJD9jdan3/0
+        ow/a/n69N7dwOmjewJmYH4UcIea7iaobcVVK0efzVwDCMxc39j1IOGz9lePe0N5pDUOwWy
+        aMh9l9YT0IhV9uCeb7XOzcScLeor6kZtskTW+yOcN9Cco6Q5GLja4n5W5qFYSaU1UQANCX
+        SJ76GvNx1U5t3xoQVC5V1eY2MvtdWV2NSwf0pKdgb4LWmz/wGwitn7AT0Xku4aVTAI8rXR
+        4nC7y05llh9LjNI5NXCzd/FRnaHUj+d/X8SUPFhWIDn6AeGl7h4FlJ/rNRW3wA==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1695127093; a=rsa-sha256;
+        cv=none;
+        b=vjZypwltptH/Ud49Zm1ilf0pgSEVMufn0lrIGk4bLutGXxp9zUKC4AxcYLyaDfm5THLi0M
+        6KurWD3buD9L/RPuphaYSW7TmUhUVz+JCaIRrWllMnqxyUlUEM4xWHlEDMHHWOd97mJ+/7
+        lQSQ79OiqeYkm8n8bIepKHRKM8r5cjI/J24lW8ClRtS1gNrqg3NrwciCmUTIiXIA4VIrTf
+        /xsyYQMx45og1CKfaKukm4yzn8iIHTKj8TN2Eddpul8bBlKIBS9NrRfwskhkrDZrJQIijW
+        y+t4otzn2Vj9tzv68CAd5X+EcI+MVdUXFX9FVPt5gREaJG4LpWUNw3EqZX6I0g==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1695127093;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=WU+vnNNj1djej3VWr3ymem2oRwL9MLd2bQEQPoiKcMA=;
+        b=TqnDKqoDIwcmK0XnaynPnp7f7RYT1pTwsjPZJS8cAB1T2NJKOueRwQcWtBEcuFlL5RQ4nR
+        v1IKNAvrjs3b+l4JjIDiH4B/ZVUvEFaBXnP80SE0K6uOP7eGI7pehXRbVebaBvciR0eWhB
+        68ZN//eiWf+PInOC+b7oTHx73wvJebegcLaqqBz0UG+VgjcFEdxyXpI5IkWoRbOYccgvFG
+        XbvpWFpRr5MZVQZTv/TIIk02Y2UBV+cUWKB1iu8FfG7WTWv+vNtP08XssYVfcVjmZIv7fD
+        MDzfbDVrMUmtlkV4Ek9AcLsUoMOXZDULTw1R/e6zDyttslE97BjGCeKjGpewnw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E8C87634C94
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 15:38:12 +0300 (EEST)
+Date:   Tue, 19 Sep 2023 12:38:12 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.7] Mostly camera and VCM V4L2 patches
+Message-ID: <ZQmWNBmWw0eQXll6@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 20/49] media: core: Rework how create_buf index
- returned value is computed
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-21-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230914133323.198857-21-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch is too early, it should be moved to after 44/49.
+Hi Mauro,
 
-Up to 44/49 (and excluding this patch), it is all internal rework that can
-fairly easily be merged. This patch + 45-49 is where the actual delete_buf
-implementation happens.
+Here's a nice set of mostly camera sensor related patches for 6.7.
 
-I would like to get all the prep work merged fairly soon (ideally for 6.7).
-At that point we support more than 32 buffers, but not yet deleting buffers.
+In particular, there's a set by Laurent for cleanup and improved
+documentation of sensor drivers (62 patches). The rest are odd fixes,
+cleanups and other improvements. Ov5642 bindings are included but there's
+no driver (at least not yet).
 
-That last step can be worked on separately. But we're dealing with a much
-shorter patch series at that point.
+Please pull.
 
-I'll get back to this patch later for a proper review.
 
-Regards,
+The following changes since commit 0835b195d034ab98b148b8e9c81a862c0c557bb7:
 
-	Hans
+  media: ivsc: Depend on VIDEO_DEV (2023-09-13 15:04:06 +0200)
 
-On 14/09/2023 15:32, Benjamin Gaignard wrote:
-> When DELETE_BUFS will be introduced holes could created in bufs array.
-> To be able to reuse these unused indices reworking how create->index
-> is set is mandatory.
-> Let __vb2_queue_alloc() decide which first index is correct and
-> forward this to the caller.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 24 +++++++++++++------
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 17 +++++++------
->  include/media/videobuf2-core.h                |  4 +++-
->  3 files changed, 30 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 70b6b8f8c390..a4c2fae8705d 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -443,15 +443,24 @@ static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->   */
->  static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  			     unsigned int num_buffers, unsigned int num_planes,
-> -			     const unsigned plane_sizes[VB2_MAX_PLANES])
-> +			     const unsigned plane_sizes[VB2_MAX_PLANES],
-> +			     unsigned int *first)
->  {
->  	unsigned int buffer, plane;
->  	struct vb2_buffer *vb;
-> +	unsigned long first_index;
->  	int ret;
->  
->  	/* Ensure that q->num_buffers+num_buffers is below q->max_allowed_buffers */
->  	num_buffers = min_t(unsigned int, num_buffers,
-> -			    q->max_allowed_buffers - q->num_buffers);
-> +			    q->max_allowed_buffers - vb2_get_num_buffers(q));
-> +
-> +	first_index = vb2_get_num_buffers(q);
-> +
-> +	if (first_index >= q->max_allowed_buffers)
-> +		return 0;
-> +
-> +	*first = first_index;
->  
->  	for (buffer = 0; buffer < num_buffers; ++buffer) {
->  		/* Allocate vb2 buffer structures */
-> @@ -472,7 +481,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  		}
->  		call_void_bufop(q, init_buffer, vb);
->  
-> -		if (!vb2_queue_add_buffer(q, vb, q->num_buffers + buffer)) {
-> +		if (!vb2_queue_add_buffer(q, vb, first_index++)) {
->  			dprintk(q, 1, "failed adding buffer %d to queue\n", buffer);
->  			kfree(vb);
->  			break;
-> @@ -832,7 +841,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
-> -	unsigned int i;
-> +	unsigned int i, first;
->  	int ret = 0;
->  
->  	if (q->streaming) {
-> @@ -919,7 +928,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  
->  	/* Finally, allocate buffers and video memory */
->  	allocated_buffers =
-> -		__vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes);
-> +		__vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes, &first);
->  	if (allocated_buffers == 0) {
->  		dprintk(q, 1, "memory allocation failed\n");
->  		ret = -ENOMEM;
-> @@ -993,7 +1002,8 @@ EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
->  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			 unsigned int flags, unsigned int *count,
->  			 unsigned int requested_planes,
-> -			 const unsigned int requested_sizes[])
-> +			 const unsigned int requested_sizes[],
-> +			 unsigned int *first)
->  {
->  	unsigned int num_planes = 0, num_buffers, allocated_buffers;
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
-> @@ -1055,7 +1065,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  
->  	/* Finally, allocate buffers and video memory */
->  	allocated_buffers = __vb2_queue_alloc(q, memory, num_buffers,
-> -				num_planes, plane_sizes);
-> +				num_planes, plane_sizes, first);
->  	if (allocated_buffers == 0) {
->  		dprintk(q, 1, "memory allocation failed\n");
->  		ret = -ENOMEM;
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 3eb707abc26b..a88abcea2921 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -762,7 +762,6 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  
->  	fill_buf_caps(q, &create->capabilities);
->  	validate_memory_flags(q, create->memory, &create->flags);
-> -	create->index = q->num_buffers;
->  	if (create->count == 0)
->  		return ret != -EBUSY ? ret : 0;
->  
-> @@ -804,11 +803,16 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	for (i = 0; i < requested_planes; i++)
->  		if (requested_sizes[i] == 0)
->  			return -EINVAL;
-> -	return ret ? ret : vb2_core_create_bufs(q, create->memory,
-> -						create->flags,
-> -						&create->count,
-> -						requested_planes,
-> -						requested_sizes);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = vb2_core_create_bufs(q, create->memory,
-> +				   create->flags,
-> +				   &create->count,
-> +				   requested_planes,
-> +				   requested_sizes,
-> +				   &create->index);
-> +	return ret;
->  }
->  EXPORT_SYMBOL_GPL(vb2_create_bufs);
->  
-> @@ -1036,7 +1040,6 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
->  	int res = vb2_verify_memory_type(vdev->queue, p->memory,
->  			p->format.type);
->  
-> -	p->index = vdev->queue->num_buffers;
->  	fill_buf_caps(vdev->queue, &p->capabilities);
->  	validate_memory_flags(vdev->queue, p->memory, &p->flags);
->  	/*
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 1ecaf4b5a76f..19c93d8eb7c8 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -803,6 +803,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->   * @count: requested buffer count.
->   * @requested_planes: number of planes requested.
->   * @requested_sizes: array with the size of the planes.
-> + * @first: index of the first created buffer
->   *
->   * Videobuf2 core helper to implement VIDIOC_CREATE_BUFS() operation. It is
->   * called internally by VB2 by an API-specific handler, like
-> @@ -819,7 +820,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			 unsigned int flags, unsigned int *count,
->  			 unsigned int requested_planes,
-> -			 const unsigned int requested_sizes[]);
-> +			 const unsigned int requested_sizes[],
-> +			 unsigned int *first);
->  
->  /**
->   * vb2_core_prepare_buf() - Pass ownership of a buffer from userspace
+are available in the Git repository at:
 
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.7-1.1-signed
+
+for you to fetch changes up to 210635f038a66dbce55af6ae0a7653ab4a48c552:
+
+  media: i2c: ov9734: Drop system suspend and resume handlers (2023-09-19 15:31:48 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 6.7
+
+----------------------------------------------------------------
+Biju Das (5):
+      media: i2c: video-i2c: Convert enum->pointer for data in the match tables
+      media: i2c: mt9v032: Extend match support for OF tables
+      media: i2c: mt9v032: Drop CONFIG_OF ifdeffery
+      media: i2c: ov7670: Extend match support for OF tables
+      media: i2c: ov7670: Drop CONFIG_OF ifdeffery
+
+Christophe JAILLET (3):
+      media: i2c: max9286: Remove an incorrect fwnode_handle_put() call
+      media: imx-mipi-csis: Remove an incorrect fwnode_handle_put() call
+      media: i2c: max9286: Fix some redundant of_node_put() calls
+
+Dan Carpenter (1):
+      media: ov13b10: Fix some error checking in probe
+
+Fabio Estevam (1):
+      media: dt-bindings: Add OV5642
+
+Guoniu.zhou (1):
+      media: ov5640: fix vblank unchange issue when work at dvp mode
+
+Hao Yao (1):
+      media: ov13b10: Add 1364x768 register settings
+
+Jacopo Mondi (1):
+      media: i2c: Drop ifdeffery from sensor drivers
+
+Jean-Michel Hautbois (1):
+      media: staging: ipu3-imgu: Initialise height_per_slice in the stripes
+
+Krzysztof Kozlowski (1):
+      media: platform: use capital "OR" for multiple licenses in SPDX
+
+Laurent Pinchart (62):
+      media: v4l2-subdev: Document that routing support depends on streams
+      media: i2c: Use pm_runtime_resume_and_get()
+      media: i2c: ov5693: Drop the unused streaming flag
+      media: i2c: imx415: Replace streaming flag with runtime PM check
+      media: i2c: imx296: Replace streaming flag with runtime PM check
+      media: v4l2-subdev: Document and enforce .s_stream() requirements
+      media: i2c: hi556: Drop check for reentrant .s_stream()
+      media: i2c: hi846: Drop check for reentrant .s_stream()
+      media: i2c: imx208: Drop check for reentrant .s_stream()
+      media: i2c: imx214: Drop check for reentrant .s_stream()
+      media: i2c: imx219: Drop check for reentrant .s_stream()
+      media: i2c: imx258: Drop check for reentrant .s_stream()
+      media: i2c: imx319: Drop check for reentrant .s_stream()
+      media: i2c: imx334: Drop check for reentrant .s_stream()
+      media: i2c: imx335: Drop check for reentrant .s_stream()
+      media: i2c: imx355: Drop check for reentrant .s_stream()
+      media: i2c: imx412: Drop check for reentrant .s_stream()
+      media: i2c: mt9m001: Drop check for reentrant .s_stream()
+      media: i2c: og01a1b: Drop check for reentrant .s_stream()
+      media: i2c: ov01a10: Drop check for reentrant .s_stream()
+      media: i2c: ov08d10: Drop check for reentrant .s_stream()
+      media: i2c: ov08x40: Drop check for reentrant .s_stream()
+      media: i2c: ov13858: Drop check for reentrant .s_stream()
+      media: i2c: ov13b10: Drop check for reentrant .s_stream()
+      media: i2c: ov2685: Drop check for reentrant .s_stream()
+      media: i2c: ov2740: Drop check for reentrant .s_stream()
+      media: i2c: ov4689: Drop check for reentrant .s_stream()
+      media: i2c: ov5647: Drop check for reentrant .s_stream()
+      media: i2c: ov5670: Drop check for reentrant .s_stream()
+      media: i2c: ov5675: Drop check for reentrant .s_stream()
+      media: i2c: ov5695: Drop check for reentrant .s_stream()
+      media: i2c: ov7740: Drop check for reentrant .s_stream()
+      media: i2c: ov8856: Drop check for reentrant .s_stream()
+      media: i2c: ov9282: Drop check for reentrant .s_stream()
+      media: i2c: ov9734: Drop check for reentrant .s_stream()
+      Documentation: media: camera-sensor: Fix typo and vocabulary selection
+      Documentation: media: camera-sensor: Use link to upstream DT bindings
+      Documentation: media: camera-sensor: Move power management section
+      Documentation: media: camera-sensor: Improve power management documentation
+      media: i2c: ar0521: Drop system suspend and resume handlers
+      media: i2c: ccs: Drop system suspend and resume handlers
+      media: i2c: hi556: Drop system suspend and resume handlers
+      media: i2c: hi846: Drop system suspend and resume handlers
+      media: i2c: hi847: Drop system suspend and resume handlers
+      media: i2c: imx208: Drop system suspend and resume handlers
+      media: i2c: imx214: Drop system suspend and resume handlers
+      media: i2c: imx219: Drop system suspend and resume handlers
+      media: i2c: imx258: Drop system suspend and resume handlers
+      media: i2c: imx319: Drop system suspend and resume handlers
+      media: i2c: imx355: Drop system suspend and resume handlers
+      media: i2c: og01a1b: Drop system suspend and resume handlers
+      media: i2c: ov01a10: Drop system suspend and resume handlers
+      media: i2c: ov02a10: Drop system suspend and resume handlers
+      media: i2c: ov08d10: Drop system suspend and resume handlers
+      media: i2c: ov08x40: Drop system suspend and resume handlers
+      media: i2c: ov13858: Drop system suspend and resume handlers
+      media: i2c: ov2740: Drop system suspend and resume handlers
+      media: i2c: ov13b10: Drop stream handling in runtime PM handlers
+      media: i2c: ov5670: Drop system suspend and resume handlers
+      media: i2c: ov5675: Drop system suspend and resume handlers
+      media: i2c: ov8856: Drop system suspend and resume handlers
+      media: i2c: ov9734: Drop system suspend and resume handlers
+
+Mikhail Rudenko (1):
+      MAINTAINERS: fix file path for Omnvision OV4689
+
+Ruan Jinjie (1):
+      media: ov2640: Use the devm_clk_get_enabled() helper function
+
+Sakari Ailus (3):
+      media: ivsc: Improve Kconfig help text
+      media: v4l2-mc: Make v4l2_pipeline_pm_{get,put} deprecated
+      media: Documentation: Mention CCS tools
+
+Shravan Chippa (1):
+      media: i2c: imx334: add support for test pattern generator
+
+Suhrid Subramaniam (1):
+      media: v4l: Fix documentation for 12-bit packed Bayer
+
+Tommaso Merciai (1):
+      media: dt-bindings: ov5693: fix maintainer email address
+
+Umang Jain (1):
+      media: i2c: imx415: Use v4l2_subdev_get_fmt()
+
+Wentong Wu (3):
+      media: ivsc: csi: remove name identifier
+      media: ivsc: ace: remove name identifier
+      media: ivsc: ace: probe ace device after IPU bridge is initialized.
+
+Xiaolei Wang (1):
+      media: ov5640: Fix a memory leak when ov5640_probe fails
+
+ .../devicetree/bindings/media/i2c/ovti,ov5642.yaml | 141 +++++++++++++++++++++
+ .../devicetree/bindings/media/i2c/ovti,ov5693.yaml |   2 +-
+ .../devicetree/bindings/trivial-devices.yaml       |   2 -
+ Documentation/driver-api/media/camera-sensor.rst   | 107 ++++++++++------
+ Documentation/driver-api/media/drivers/ccs/ccs.rst |   8 ++
+ .../userspace-api/media/v4l/pixfmt-srggb12p.rst    |   4 +-
+ MAINTAINERS                                        |   2 +-
+ drivers/media/i2c/ar0521.c                         |  30 +----
+ drivers/media/i2c/ccs/ccs-core.c                   |  43 +------
+ drivers/media/i2c/hi556.c                          |  50 --------
+ drivers/media/i2c/hi846.c                          |  34 +----
+ drivers/media/i2c/hi847.c                          |  57 +--------
+ drivers/media/i2c/imx208.c                         |  61 +--------
+ drivers/media/i2c/imx214.c                         |  40 ------
+ drivers/media/i2c/imx219.c                         |  44 -------
+ drivers/media/i2c/imx258.c                         |  40 ------
+ drivers/media/i2c/imx296.c                         |  16 +--
+ drivers/media/i2c/imx319.c                         |  44 -------
+ drivers/media/i2c/imx334.c                         |  66 ++++++++--
+ drivers/media/i2c/imx335.c                         |   9 --
+ drivers/media/i2c/imx355.c                         |  45 -------
+ drivers/media/i2c/imx412.c                         |   9 --
+ drivers/media/i2c/imx415.c                         |  45 +++----
+ drivers/media/i2c/max9286.c                        |   3 -
+ drivers/media/i2c/mt9m001.c                        |   6 -
+ drivers/media/i2c/mt9m111.c                        |  13 +-
+ drivers/media/i2c/mt9v011.c                        |   6 -
+ drivers/media/i2c/mt9v032.c                        |  26 ++--
+ drivers/media/i2c/mt9v111.c                        |  14 --
+ drivers/media/i2c/og01a1b.c                        |  55 +-------
+ drivers/media/i2c/ov01a10.c                        |  59 +--------
+ drivers/media/i2c/ov02a10.c                        |   2 -
+ drivers/media/i2c/ov08d10.c                        |  52 --------
+ drivers/media/i2c/ov08x40.c                        |  44 -------
+ drivers/media/i2c/ov13858.c                        |  44 -------
+ drivers/media/i2c/ov13b10.c                        |  98 ++++++++------
+ drivers/media/i2c/ov2640.c                         |  21 +--
+ drivers/media/i2c/ov2659.c                         |  16 +--
+ drivers/media/i2c/ov2685.c                         |  19 ---
+ drivers/media/i2c/ov2740.c                         |  45 -------
+ drivers/media/i2c/ov4689.c                         |   9 +-
+ drivers/media/i2c/ov5640.c                         |  24 +++-
+ drivers/media/i2c/ov5647.c                         |   6 -
+ drivers/media/i2c/ov5670.c                         |  36 ------
+ drivers/media/i2c/ov5675.c                         |  44 -------
+ drivers/media/i2c/ov5693.c                         |   9 +-
+ drivers/media/i2c/ov5695.c                         |  25 ----
+ drivers/media/i2c/ov7251.c                         |   8 +-
+ drivers/media/i2c/ov7670.c                         |  72 ++++-------
+ drivers/media/i2c/ov772x.c                         |   4 -
+ drivers/media/i2c/ov7740.c                         |  30 +----
+ drivers/media/i2c/ov8856.c                         |  47 -------
+ drivers/media/i2c/ov9282.c                         |   9 --
+ drivers/media/i2c/ov9734.c                         |  50 --------
+ drivers/media/i2c/st-vgxy61.c                      |   9 +-
+ drivers/media/i2c/video-i2c.c                      |  12 +-
+ drivers/media/pci/intel/ivsc/Kconfig               |  12 +-
+ drivers/media/pci/intel/ivsc/mei_ace.c             |   9 +-
+ drivers/media/pci/intel/ivsc/mei_csi.c             |   5 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c         |   2 -
+ .../platform/verisilicon/rockchip_av1_filmgrain.c  |   2 +-
+ drivers/media/v4l2-core/v4l2-subdev.c              |  17 ++-
+ drivers/staging/media/ipu3/ipu3-css-params.c       |  44 +++----
+ include/media/v4l2-mc.h                            |   6 +
+ include/media/v4l2-subdev.h                        |   9 +-
+ 65 files changed, 516 insertions(+), 1406 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5642.yaml
+
+-- 
+Sakari Ailus
