@@ -2,87 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 142CF7A6BC6
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 21:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B796E7A6BDD
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 21:55:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232994AbjISTtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 15:49:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48492 "EHLO
+        id S232805AbjISTzQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 15:55:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232969AbjISTtj (ORCPT
+        with ESMTP id S233133AbjISTzM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 15:49:39 -0400
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 099F7EC
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 12:49:27 -0700 (PDT)
-Received: by mail-il1-x134.google.com with SMTP id e9e14a558f8ab-34fcc39fae1so24885ab.0
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 12:49:27 -0700 (PDT)
+        Tue, 19 Sep 2023 15:55:12 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC74F3
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 12:55:05 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-577e62e2adfso4678577a12.2
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 12:55:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695152966; x=1695757766; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KevI59ZuvC1O6+r+tEg1r1bqNlO0utcnRFy1Zyml1zE=;
-        b=HqP2upef+BtmjExv12AWSI1Sn+G+rR6T9qvJmiIP4KAvktf7D9qGJwkiyUWggYCgl0
-         QmduJSHOcsc2+PfYC12SPqfx28q0gkLcwaoW5mte97L1WSfUvkX6BboKc9JvRyMeteDK
-         37Sn2udGcrvbHTcBFLND9v6PqzNdJXAJrY5gu0OXtArYIjbdGU4pcQFaed8gLUXCK8Qr
-         2YltllXGbKwkd9CiiR88quhs2EgIb2yJqMS7F+vU9rSMmUAkctD9Im/wQ0qeri8HR8/4
-         rcW0cxwUgwrNFzXkEWlzSBtHyCryRWWmTmJdR42gBWlWz1HzhKFr6prxWD1qQ0puPdCd
-         h5vg==
+        d=google.com; s=20230601; t=1695153304; x=1695758104; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fcBvVL3pgNoLhCwpZhCUARJj+A64BFXVJHb3CY6w9Qc=;
+        b=iHT7MU6DMKU7GpEOWXISWThtPqrwQhdk/GIRK7PJIh2hD8KVO+gooRk04YToKXKMNv
+         VLltEXdRP0GF9CvhUJa8UZThGpOrkHJUIxgHxcn24G8qcbnD67ApW/eDoin+IIJHRYBF
+         Ljls4YP/rjunZIhXXIoGkOw0gGlfLuLp0hD4wUUoZ9F7OjBuA7h5/HBx9zYHKvwL+eTk
+         76NYZmIsQrZqSuw6k/ifGGh5zbUOnDFtQ7n8ue6jTtGYjBcGDfiTIOnF1/+a4nUWszUq
+         wQLhBO3OSLHUBBOrljF7plRkaUcSQc0oHGs2++YkpuQiszV1EASukofkSpgSsAL6ugR0
+         sSLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695152966; x=1695757766;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KevI59ZuvC1O6+r+tEg1r1bqNlO0utcnRFy1Zyml1zE=;
-        b=tz6IRjrkr+Zod0Q4cXc2dG2xbVyLSh6qS6tUhVVg48JKFRW2GQYrvGcZzmXNhcCGFo
-         dlgwgzQqi4hrvEWPI7DsMstIJNBQnwG5F3gYWEWfLZGKuUIAM63vW7wwIbzF/nwpLAem
-         IvCgyJVGrT/qA2qJQaMN2xDki7pRI+cbsBzbAIt1pc4cCWuAaJ48+QmF8R0t5OrCk175
-         LB0sSmqjbqHwOTqVZ4vncP9MEQiVsBn+BjWAdj7y4DitA3+apAROdf82Px11V9Acb0MD
-         W3APeA+UZIGnaiHnkIVUEluSUe+rBvP90BTJhYr9mcHwGVM5rjLOdTg0GiEdgY7adiXi
-         EJpg==
-X-Gm-Message-State: AOJu0YzQpn1RvY0oCH3ZM7Evv9qoZ5E6mgf/eo4A07ja5qdJUF2np2Uc
-        acCkpea/NRH6EDHpJsYNlGOThvbJGOnmaffh7wvP
-X-Google-Smtp-Source: AGHT+IE4zDC8W67e9rU/CWkGB7ORq5LciF9ZhG/z1G+fDMxJOZEx38NeOZHB0hSJ8Lf70WMu734JOwj4h80yXFhXooE=
-X-Received: by 2002:a05:6e02:1e0a:b0:349:1dfe:ff2a with SMTP id
- g10-20020a056e021e0a00b003491dfeff2amr37179ila.19.1695152966107; Tue, 19 Sep
- 2023 12:49:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695153304; x=1695758104;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fcBvVL3pgNoLhCwpZhCUARJj+A64BFXVJHb3CY6w9Qc=;
+        b=B4Idk+sFFY4N71ZWYVlo0WF2276H1kMteLWcDhX89UliujsDzkZBMJvx7jWVF5UeW/
+         vGed8o34f11eTXOXEKyus+A6t4QyUWdKBWb3BzA0rJGc0RAFtlykF6g7JJkr5bvg7uJU
+         A/+eDVkhOoptgiFCpldD4rOoh9WEi4v32ZPoeMertnEQApTmEhYtk+7vKwtu9JtzE6tg
+         enuoR4ek7hT+uRFY8iQvG2fOcn804uR2Di/eWG9q8Ly8FiVugj+C0DO+NZ713MfncgWl
+         ioj08yZjTJdGnW2SDxl54xEvSpfu0OMjfODvX/gsFOTYXsi5XjGQeKWfrm5nbYg1E32w
+         tSFQ==
+X-Gm-Message-State: AOJu0Yzv9u75WUNb5kST6r3LaPNQqbb6+ms7uspvbtIP38VXwrHvELqu
+        xS5/m8YepISfvrQcRV4akHRA2A==
+X-Google-Smtp-Source: AGHT+IGpPky7VgBlTkAdP7UsQEAT9Unw8TwWYZMrxBTCimqsn0uDL1DDqLQBeRXdZfwoha3P6Cz9uA==
+X-Received: by 2002:a17:902:7585:b0:1b9:e972:134d with SMTP id j5-20020a170902758500b001b9e972134dmr430130pll.3.1695153304119;
+        Tue, 19 Sep 2023 12:55:04 -0700 (PDT)
+Received: from [192.168.60.239] (124.190.199.35.bc.googleusercontent.com. [35.199.190.124])
+        by smtp.gmail.com with ESMTPSA id n10-20020a170902d2ca00b001bbf7fd354csm10330575plc.213.2023.09.19.12.55.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Sep 2023 12:55:03 -0700 (PDT)
+Message-ID: <1d32914c-3a67-439f-b15d-7c7b7d6fc99b@google.com>
+Date:   Tue, 19 Sep 2023 12:55:02 -0700
 MIME-Version: 1.0
-References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
- <20230911125936.10648-13-yunfei.dong@mediatek.com> <1df3e79b84933dda0313d0d9719220dbc06c9022.camel@collabora.com>
- <d4cedcb0-32ed-495d-a8cd-a635d5105824@xs4all.nl> <5307203d79c0d90cc742a315bb161fa796b9960f.camel@mediatek.com>
- <bafc37e8-96e8-41c0-b805-c6477f0d7c4a@xs4all.nl> <CA+ddPcN6EaFERC60_Z_-ZmWzqyUEwxiDCZwt_U6Y-gpaAu76tA@mail.gmail.com>
- <ff7aa575-c820-4dfa-853f-77438b8b149a@xs4all.nl> <b7d661637eacbda3e83d192b1126fc3970c4f50d.camel@collabora.com>
-In-Reply-To: <b7d661637eacbda3e83d192b1126fc3970c4f50d.camel@collabora.com>
-From:   Jeffrey Kardatzke <jkardatzke@google.com>
-Date:   Tue, 19 Sep 2023 12:49:14 -0700
-Message-ID: <CA+ddPcPq3XrJGPqjZDq0u_ga6Aat1ve5ODBDD-OouO3xPSCFuA@mail.gmail.com>
-Subject: Re: [PATCH 12/14] media: medkatek: vcodec: set secure mode to decoder driver
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>,
-        "nhebert@chromium.org" <nhebert@chromium.org>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "nfraprado@collabora.com" <nfraprado@collabora.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "frkoenig@chromium.org" <frkoenig@chromium.org>,
-        "stevecho@chromium.org" <stevecho@chromium.org>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        "hsinyi@chromium.org" <hsinyi@chromium.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] usb: gadget: uvc: cleanup request when not in correct
+ state
+Content-Language: en-US
+To:     Michael Grzeschik <mgr@pengutronix.de>
+Cc:     laurent.pinchart@ideasonboard.com, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, dan.scally@ideasonboard.com,
+        gregkh@linuxfoundation.org, nicolas@ndufresne.ca,
+        kernel@pengutronix.de, Jayant Chowdhary <jchowdhary@google.com>
+References: <20230911002451.2860049-1-m.grzeschik@pengutronix.de>
+ <20230911002451.2860049-3-m.grzeschik@pengutronix.de>
+ <a55b3b0c-2306-4591-8613-7be4927f0d4e@google.com>
+ <ZQTpnJvTV+8Ye1si@pengutronix.de>
+ <587c9b95-a80c-4bf9-b1a0-fe7ef0f4cd60@google.com>
+ <ZQY5Ab+YB9FLHoQq@pengutronix.de>
+ <d678b644-5f66-4c23-b2ba-6c84ba56012f@google.com>
+ <ZQjEZlk2UFQgA0TF@pengutronix.de>
+ <7cd81649-2795-45b6-8c10-b7df1055020d@google.com>
+ <ZQnyxA1WldcqQ+k5@pengutronix.de>
+From:   Avichal Rakesh <arakesh@google.com>
+In-Reply-To: <ZQnyxA1WldcqQ+k5@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
@@ -94,518 +87,277 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 19, 2023 at 11:51=E2=80=AFAM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> Le mardi 19 septembre 2023 =C3=A0 10:53 +0200, Hans Verkuil a =C3=A9crit =
-:
-> > On 18/09/2023 22:57, Jeffrey Kardatzke wrote:
-> > > On Fri, Sep 15, 2023 at 1:56=E2=80=AFAM Hans Verkuil <hverkuil-cisco@=
-xs4all.nl> wrote:
-> > > >
-> > > > On 15/09/2023 10:25, Yunfei Dong (=E8=91=A3=E4=BA=91=E9=A3=9E) wrot=
-e:
-> > > > > Hi Hans & Nicolas,
-> > > > >
-> > > > > Thanks for your advice.
-> > > > >
-> > > > > On Tue, 2023-09-12 at 11:30 +0200, Hans Verkuil wrote:
-> > > > > >
-> > > > > > External email : Please do not click links or open attachments =
-until
-> > > > > > you have verified the sender or the content.
-> > > > > >  Hi,
-> > > > > >
-> > > > > > On 9/11/23 17:54, Nicolas Dufresne wrote:
-> > > > > > > Hi,
-> > > > > > >
-> > > > > > > Le lundi 11 septembre 2023 =C3=A0 20:59 +0800, Yunfei Dong a =
-=C3=A9crit :
-> > > > > > > > Setting secure mode flag to kernel when trying to play secu=
-re
-> > > > > >
-> > > > > > video,
-> > > > > > > > then decoder driver will initialize tee related interface t=
-o
-> > > > > >
-> > > > > > support
-> > > > > > > > svp.
-> > > > > > >
-> > > > > > >
-> > > > > > > This is not what the patch is doing, please rework. This patc=
-h is
-> > > > > >
-> > > > > > an vendor API
-> > > > > > > addition introducing V4L2_CID_MPEG_MTK_SET_SECURE_MODE. I sho=
-uld
-> > > > > >
-> > > > > > not have to
-> > > > > > > read your patch to understand this.
-> > > > > > >
-> > > > > > > >
-> > > > > > > > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> > > > > > > > ---
-> > > > > > > >  .../vcodec/decoder/mtk_vcodec_dec_stateless.c     | 15
-> > > > > >
-> > > > > > ++++++++++++++-
-> > > > > > > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c         |  5 +++=
-++
-> > > > > > > >  include/uapi/linux/v4l2-controls.h                |  1 +
-> > > > > > > >  3 files changed, 20 insertions(+), 1 deletion(-)
-> > > > > > > >
-> > > > > > > > diff --git
-> > > > > >
-> > > > > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_state
-> > > > > > less.c
-> > > > > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_state
-> > > > > > less.c
-> > > > > > > > index d2b09ce9f1cf..a981178c25d9 100644
-> > > > > > > > ---
-> > > > > >
-> > > > > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_state
-> > > > > > less.c
-> > > > > > > > +++
-> > > > > >
-> > > > > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_state
-> > > > > > less.c
-> > > > > > > > @@ -535,6 +535,17 @@ static int mtk_vdec_s_ctrl(struct v4l2=
-_ctrl
-> > > > > >
-> > > > > > *ctrl)
-> > > > > > > >  ctrl->val =3D mtk_dma_contig_get_secure_handle(ctx, ctrl->=
-val);
-> > > > > > > >  mtk_v4l2_vdec_dbg(3, ctx, "get secure handle: %d =3D> 0x%x=
-",
-> > > > > >
-> > > > > > sec_fd, ctrl->val);
-> > > > > > > >  break;
-> > > > > > > > +case V4L2_CID_MPEG_MTK_SET_SECURE_MODE:
-> > > > > > >
-> > > > > > > Stepping back a little and focusing on the API, what makes yo=
-ur
-> > > > > >
-> > > > > > driver so
-> > > > > > > special that it should be the only one having a "secure mode"=
- ? We
-> > > > > >
-> > > > > > are touching
-> > > > > > > in gap in the media pipeline in Linux, and this should come w=
-ith
-> > > > > >
-> > > > > > consideration
-> > > > > > > of the global API.
-> > > > > > >
-> > > > > > > Why is this API better then let's say Google Android one, wer=
-e they
-> > > > > >
-> > > > > > expose 2
-> > > > > > > device nodes in their fork of the MFC driver (a secure and a =
-non
-> > > > > >
-> > > > > > secure one) ?
-> > > > > >
-> > > > > > Perhaps it is a good idea to first post an RFC with an uAPI pro=
-posal
-> > > > > > on how to
-> > > > > > handle secure video. I suspect this isn't mediatek specific, ot=
-her
-> > > > > > SoCs with
-> > > > > > tee support could use this as well.
-> > > > > >
-> > > > > > As Nicolas said, it's long known to be a gap in our media suppo=
-rt, so
-> > > > > > it is
-> > > > > > really great that you started work on this, but you need to loo=
-k at
-> > > > > > this from
-> > > > > > a more generic point-of-view, and not mediatek-specific.
-> > > > > >
-> > > > >
-> > > > > Whether your have any advice about how to do a more generic drive=
-r to
-> > > > > handle secure video playback?
-> > > > >
-> > > > > There are several kind of buffer: output queue buffer/capture que=
-ue
-> > > > > buffer/working buffer.
-> > > > >
-> > > > > output and capture queue buffer: user space will call tee related
-> > > > > interface to allocate secure handle. Will convert to secure handl=
-e with
-> > > > > v4l2 framework, then send secure handle to optee-os.
-> > > > >
-> > > > > working buffer: calling dma_heap and dma_buf to get secure memory
-> > > > > handle, then covert secure iova in optee-os.
-> > > > >
-> > > > > Using the same kernel driver for svp and non-svp playback, just t=
-he
-> > > > > buffer type are different. Normal is iova and secure is secure ha=
-ndle.
-> > > > >
-> > > > > User driver will tell the kernel driver with CID control whether =
-the
-> > > > > current playback is svp or non-svp.
-> > > >
-> > > > My understanding is that when you switch to secure mode, the driver=
- makes
-> > > > some optee calls to set everything up. And userspace needs a way co=
-nvert a
-> > > > dmabuf fd to a 'secure handle', which appears to be the DMA address=
- of the
-> > > > buffer. Who uses that handle?
-> > >
-> > > The only user space usage for getting the 'secure handle' from an fd
-> > > is when that memory is written to. This is done when the TEE decrypts
-> > > the video contents. User space sends the encrypted video + 'secure
-> > > handle' to the TEE, and the TEE decrypts the contents to the memory
-> > > associated with the 'secure handle'. Then the 'secure handle' is
-> > > passed into the TEE again with the v4l2 driver to use as the source
-> > > for video decoding (but w/ v4l2, user space is passing in fds).
-> >
-> > I think I need some more background. This series is to support a 'Secur=
-e Video
-> > Processor' (at least, that's what svp stands for I believe, something t=
-hat
-> > is not mentioned anywhere in this series, BTW) which is used to decode =
-an
-> > encrypted h264 stream.
-> >
-> > First question: how is that stream encrypted? Is that according to some=
- standard?
-> > Nothing is mentioned about that.
-> >
-> > I gather that the encrypted stream is fed to the codec as usual (i.e. j=
-ust put it
-> > in the output buffer and queue it to the codec), nothing special is nee=
-ded for that.
-> > Except, how does the hardware know it is encrypted? I guess that's wher=
-e the
-> > control comes in, you have to turn on SVP mode first.
->
-> Decryption takes place before the decoder. I suspect there is no dedicate=
-d
-> driver for that, the TEE driver API is similar to smart card API and fits=
- well
-> this task. So the decrytor consume normal memory that is encrypted and is=
- only
-> allowed to decrypt into secure memory. All this is happening before the d=
-ecoder,
-> so is out of scope for this patchset.
->
-> Just a correction :-D.
->
-> >
-> > For the capture buffers you need to provide buffers from secure/trusted=
- memory.
-> > That's a dmabuf fd, but where does that come from?
-> >
-> > I saw this message:
-> >
-> > https://lore.kernel.org/linux-media/CAPj87rOHctwHJM-7HiQpt8Q0b09x0WWw_T=
-4XsL0qT=3DdS+XzyZQ@mail.gmail.com/T/#u
-> >
-> > so I expect that's where it comes from. But I agree that getting this f=
-rom dma-heaps
-> > seems more natural.
-> >
-> > I assume that those capture buffers are inaccessible from the CPU? (Hen=
-ce 'secure')
-> >
-> > For actually displaying these secure buffers you would use drm, and I a=
-ssume that
-> > the hardware would mix in the contents of the secure buffer into the vi=
-deo output
-> > pipeline? I.e., the actual contents remain inaccessible. And that the v=
-ideo output
-> > (HDMI or DisplayPort) is using HDCP?
-> >
-> > >
-> > > >
-> > > > In any case, using a control to switch to secure mode and using a c=
-ontrol
-> > > > to convert a dmabuf fd to a secure handle seems a poor choice to me=
-.
-> > > >
-> > > > I was wondering if it wouldn't be better to create a new V4L2_MEMOR=
-Y_ type,
-> > > > e.g. V4L2_MEMORY_DMABUF_SECURE (or perhaps _DMABUF_OPTEE). That ens=
-ures that
-> > > > once you create buffers for the first time, the driver can switch i=
-nto secure
-> > > > mode, and until all buffers are released again you know that the dr=
-iver will
-> > > > stay in secure mode.
-> > >
-> > > Why do you think the control for setting secure mode is a poor choice=
-?
-> > > There's various places in the driver code where functionality changes
-> > > based on being secure/non-secure mode, so this is very much a 'global=
-'
-> > > setting for the driver. It could be inferred based off a new memory
-> > > type for the queues...which then sets that flag in the driver; but
-> > > that seems like it would be more fragile and would require checking
-> > > for incompatible output/capture memory types. I'm not against another
-> > > way of doing this; but didn't see why you think the proposed method i=
-s
-> > > a poor choice.
-> >
-> > I assume you are either decoding to secure memory all the time, or not
-> > at all. That's something you would want to select the moment you alloca=
-te
-> > the first buffer. Using the V4L2_MEMORY_ value would be the natural pla=
-ce
-> > for that. A control can typically be toggled at any time, and it makes
-> > no sense to do that for secure streaming.
-> >
-> > Related to that: if you pass a dmabuf fd you will need to check somewhe=
-re
-> > if the fd points to secure memory or not. You don't want to mix the two
-> > but you want to check that at VIDIOC_QBUF time.
-> >
-> > Note that the V4L2_MEMORY_ value is already checked in the v4l2 core,
-> > drivers do not need to do that.
->
-> Just to clarify a bit, and make sure I understand this too. You are propo=
-sing to
-> introduce something like:
->
->    V4L2_MEMORY_SECURE_DMABUF
->
-> Which like V4L2_MEMORY_DMABUF is meant to import dmabuf, while telling th=
-e
-> driver that the memory is secure according to the definition of "secure" =
-for the
-> platform its running on.
->
-> This drivers also allocate secure SHM (a standard tee concept) and have i=
-nternal
-> allocation for reconstruction buffer and some hw specific reference metad=
-ata. So
-> the idea would be that it would keep allocation using the dmabuf heap int=
-ernal
-> APIs ? And decide which type of memory based on the memory type found in =
-the
-> queue?
->
-> Stepping back a little, why can't we have a way for drivers to detect tha=
-t
-> dmabuf are secure ? I'm wondering if its actually useful to impose to all
-> userspace component to know that a dmabuf is secure ?
->
-> Also, regarding MTK, these are stateless decoders. I think it would be ni=
-ce to
-> show use example code that can properly parse the un-encrypted header, pa=
-ss the
-> data to the decryptor and decode. There is a bit of mechanic in there tha=
-t lacks
-> clarification, a reference implementation would clearly help. Finally, do=
-es this
-> platform offers some clearkey implementation (or other alternative) so we=
- can do
-> validation and regression testing? It would be very unfortunate to add fe=
-ature
-> upstream that can only be tested by proprietary CDM software.
->
-> Nicolas
 
 
-Here's some links to the current userspace implementation built on top
-of the MTK patches (and yeah, this'll end up changing based on what
-happens upstream).
+On 9/19/23 12:13, Michael Grzeschik wrote:
+> On Mon, Sep 18, 2023 at 04:40:07PM -0700, Avichal Rakesh wrote:
+>>
+>>
+>> On 9/18/23 14:43, Michael Grzeschik wrote:
+>>> On Mon, Sep 18, 2023 at 12:02:11PM -0700, Avichal Rakesh wrote:
+>>>> On 9/16/23 16:23, Michael Grzeschik wrote:
+>>>>> On Fri, Sep 15, 2023 at 07:41:05PM -0700, Avichal Rakesh wrote:
+>>>>>> On 9/15/23 16:32, Michael Grzeschik wrote:
+>>>>>>> On Mon, Sep 11, 2023 at 09:52:22PM -0700, Avichal Rakesh wrote:
+>>>>>>>> On 9/10/23 17:24, Michael Grzeschik wrote:
+>>>>>>>>> The uvc_video_enable function of the uvc-gadget driver is dequeing and
+>>>>>>>>> immediately deallocs all requests on its disable codepath. This is not
+>>>>>>>>> save since the dequeue function is async and does not ensure that the
+>>>>>>>>> requests are left unlinked in the controller driver.
+>>>>>>>>>
+>>>>>>>>> By adding the ep_free_request into the completion path of the requests
+>>>>>>>>> we ensure that the request will be properly deallocated.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>>>>>>>>> ---
+>>>>>>>>>  drivers/usb/gadget/function/uvc_video.c | 6 ++++++
+>>>>>>>>>  1 file changed, 6 insertions(+)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+>>>>>>>>> index 4b6e854e30c58c..52e3666b51f743 100644
+>>>>>>>>> --- a/drivers/usb/gadget/function/uvc_video.c
+>>>>>>>>> +++ b/drivers/usb/gadget/function/uvc_video.c
+>>>>>>>>> @@ -256,6 +256,12 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+>>>>>>>>>      struct uvc_device *uvc = video->uvc;
+>>>>>>>>>      unsigned long flags;
+>>>>>>>>>
+>>>>>>>>> +    if (uvc->state == UVC_STATE_CONNECTED) {
+>>>>>>>>> +        usb_ep_free_request(video->ep, ureq->req);
+>>>>>>>> nit: You can probably just call usb_ep_free_request with req instead of ureq->req.
+>>>>>>>
+>>>>>>> Thanks, thats a good point.
+>>>>>>>
+>>>>>>>>> +        ureq->req = NULL;
+>>>>>>>>> +        return;
+>>>>>>>>> +    }
+>>>>>>>>> +
+>>>>>>>>>      switch (req->status) {
+>>>>>>>>>      case 0:
+>>>>>>>>>          break;
+>>>>>>>>
+>>>>>>>> Perhaps I am missing something here, but I am not sure how this alone
+>>>>>>>> fixes the use-after-free issue. uvcg_video_enable still deallocates
+>>>>>>>> _all_ usb_requests right after calling usb_ep_dequeue, so it is still
+>>>>>>>> possible that an unreturned request is deallocated, and now it is
+>>>>>>>> possible that the complete callback accesses a deallocated ureq :(
+>>>>>>>
+>>>>>>> Since the issue I saw was usually coming from the list_del_entry_valid check in
+>>>>>>> the list_del_entry of the giveback function, the issue was probably just not
+>>>>>>> triggered anymore as the complete function did exit early.
+>>>>>>>
+>>>>>>> So this fix alone is actually bogus without a second patch I had in the stack.
+>>>>>>> The second patch I am refering should change the actual overall issue:
+>>>>>>>
+>>>>>>> https://lore.kernel.org/linux-usb/20230915233113.2903645-1-m.grzeschik@pengutronix.de/T/#u
+>>>>>>>
+>>>>>>> This early list_del and this patch here should ensure that the
+>>>>>>> concurrent functions are not handling already freed memory.
+>>>>>>
+>>>>>> Oh, the patch linked above is interesting. It effectively force removes the dwc3_request
+>>>>>> from whatever list it belongs to? So if DWC3's interrupt handler is delayed past
+>>>>>> UVC gadget's ep_free_request call, then it won't see the requests in its cancelled
+>>>>>> list at all. However, this setup is still prone to errors. For example, there is now
+>>>>>> a chance that gadget_ep_free_request is called twice for one request. A scheduling
+>>>>>> like the following might cause double kfree:
+>>>>>>
+>>>>>> 1. uvcg_video_enable calls usb_ep_dequeue for all usb_requests
+>>>>>> 2. While the usb_ep_dequeues are being processed, dwc3's interrupt handler starts
+>>>>>>   calling the complete callbacks.
+>>>>>> 3. The complete callback calls gadget_ep_free_request (calling kfree as a result)
+>>>>>> 4. Meanwhile, uvcg_video_enable has moved to uvc_video_free_requests which also
+>>>>>>   calls gadget_ep_free_request (calling kfree).
+>>>>>>
+>>>>>> There is currently (even in your patches) no synchronization between calls to
+>>>>>> gadget_ep_free_request via complete callback and uvcg_video_enable, which will
+>>>>>> inevitably call usb_ep_free_request twice for one request.
+>>>>>>
+>>>>>> Does that make sense, or am I misunderstanding some part of the patch?
+>>>>>
+>>>>> The overall concept is correct. But in detail the
+>>>>> uvc_video_free_requests is checking that video->ureq[i].req is not NULL.
+>>>>>
+>>>>> With our previous call of ep_free_request in the complete handler, the
+>>>>> ureq->req pointer in focus was already set to NULL. So the
+>>>>> uvc_video_free_requests function will skip that extra free.
+>>>>>
+>>>>
+>>>> Is there any form of synchronization between uvc_video_request and the
+>>>> complete callback? As I see it, the dwc3 interrupt thread and the v4l2
+>>>> ioctl thread (which calls uvcg_video_enable) are fully independent, so
+>>>> the calls made by them are free to be interleaved arbitrarily, so an
+>>>> interleaving like this is technically possible:
+>>>>
+>>>> +------+------------------------------------+---------------------------------------------+
+>>>> | time |            ioctl_thread            |            dwc3 interrupt handler           |
+>>>> +======+====================================+=============================================+
+>>>> |   1  | -uvc_v4l2_streamoff                |                                             |
+>>>> |   2  | |-uvcg_video_enable                |                                             |
+>>>> |   3  | ||-usb_ep_dequeue                  |                                             |
+>>>> |   4  | ||                                 | -dwc3_process_event_buf                     |
+>>>> |   5  | ||-uvc_video_free_requests         | |                                           |
+>>>> |   6  | |||                                | |-dwc3_gadget_ep_cleanup_cancelled_requests |
+>>>> |   7  | |||                                | ||-dwc3_gadget_giveback                     |
+>>>> |   8  | |||                                | |||-uvc_video_complete                      |
+>>>> |   9  | |||-check ureq->req != NULL [true] | ||||                                        |
+>>>> |  10  | ||||-usb_ep_free_request           | ||||                                        |
+>>>> |  11  | |||||-dwc3_ep_free_request         | ||||                                        |
+>>>> |  12  | ||||||-kfree [first call]          | ||||                                        |
+>>>> |  13  | ||||                               | ||||-usb_ep_free_request                    |
+>>>> |  14  | ||||                               | |||||-dwc3_ep_free_request                  |
+>>>> |  15  | ||||                               | ||||||-kfree [second call]                  |
+>>>> |  16  | ||||                               | ||||-set ureq->req = NULL                   |
+>>>> |  17  | ||||-set ureq->req = NULL          |                                             |
+>>>> +------+------------------------------------+---------------------------------------------+
+>>>>
+>>>> A situation like this means that dwc3_ep_free_request can be called
+>>>> twice for a particular usb_request. This is obviously low probability,
+>>>> but a race condition here means we'll start seeing very vague and hard
+>>>> to repro crashes or memory inconsistencies when using the uvc gadget.
+>>>>
+>>>> I do apologize if I've missed something obvious with your changes that
+>>>> prevents such interleaving. I don't currently see any locking or
+>>>> other synchronization mechanism in your changes. Is there something
+>>>> in dwc3 that prevents this situation?
+>>>
+>>> I think you have pointed it out totally clear. This is obviously the
+>>> case. It just did not trigger here. But the window is there and has to
+>>> be locked in some way.
+>>>
+>>> For now we have two options to solve it.
+>>>
+>>> 1) Trying to avoid this double code path of the complete callback and
+>>> uvc_video_free_requests. This is what your patches are already doing.
+>>>
+>>> But for now I am not so pleased with the timeout concept by waiting for
+>>> the complete interrupt to be called. This is also a shot in the dark as
+>>> the latency depends on the scheduler and the amount of potential
+>>> requests that are being handled.
+>>
+>> I agree, a timeout is not the most elegant of solutions and given a
+>> weird enough scheduler, will run into issues as well.
+>>
+>>>
+>>> 2) Locking both codepathes around the resource in question so the issue
+>>> is avoided.
+>>>
+>>> However, I am also not a fried of many locks.
+>>>
+>>> Perhaps it is possible to use a combination of wait_for_completion in
+>>> the uvc_video_free_requests and a complete callback in
+>>> uvc_video_complete for those requests that are not listed in the
+>>> req_free list.
+>>>
+>>> What do you think?
+>>>
+>> There might be a way that builds on your idea of cleaning up in the complete callback.
+>> It would rely on having a uvc_requests that aren't bulk allocated, which may have a
+>> performance impact.
+> 
+> Since the allocation will only be done once, this performance impact is
+> should not be critical.
+> 
+>> I am imagining something like the following:
+>>  1. Instead of allocating a bulk of uvc_requests, we allocate them
+>>     one at a time and add them to uvc_video.ureq
+>>  2. uvc_video.ureq becomes a list_head containing all the individual
+>>     requests
+>>  3. We add a sentinel flag in uvc_request that says the request is
+>>     now stale. This flag is protected by uvc_video->req_lock
+>>  4. uvc_video_complete looks at  this flag to deallocate both
+>>     usb_request and uvc_request.
+>>  5. uvcg_video_enable looks something like the following:
+>>       uvcg_video_enable(...) {
+>>         ...
+>>         lock(req_lock);
+>>         forall (uvc_requests->ureqs) {ureq->stale = true}
+>>         unlock(req_lock);
+>>         usb_ep_dequeue all reqs
+>>
+>>         uvc_video_free_requests(...)
+>>         ...
+>>       }
+>>  6. uvc_video_complete looks something like:
+>>       uvc_video_complete(...) {
+>>         // at the start
+>>         lock(req_lock)
+>>         is_stale = ureq->stale;
+>>         unlock(req_lock);
+>>
+>>         if (is_stale) {
+>>           usb_ep_free_request();
+>>           dealloc corresponding uvc_request();
+>>           return;
+>>         }
+>>
+>>         ...
+>>
+>>         lock(req_lock);
+>>         // possible that request became stale while we were handling stuff
+>>         if (!ureq->stale) {
+>>           list_add_tail(&req->list, &video->req_free);
+>>         } else {
+>>           usb_ep_free_request();
+>>           dealloc corresponding uvc_request();
+>>         }
+>>         unlock(req_lock);
+>>       }
+>>  7. uvc_video_free_requests can freely dealloc usb_requests/uvc_requests in
+>>     req_free because we can be certain that uvc_video_complete won't modify
+>>     it once requests have been marked stale, and the stale requests in flight
+>>     will be cleaned up by the complete callback.
+>>
+>> Effectively, we freeze the state of req_free before dequeuing, and all
+>> inflight requests are considered the responsibility of the complete handler
+>> from that point onwards. The gadget is only responsible for freeing requests it
+>> currently owns.
+>>
+>> I think this should ensure that we never have a situation where the ownership of the
+>> requests are undefined, and only one thread is responsible for freeing any given request.
+>>
+>> Hope that makes sense!
+> 
+> So you found a way to secure this also with the already available
+> req_lock then. Nice!
+> 
+> Also what you suggest is to move from the array model we currently have
+> to dynamic allocation in a linked list.
+> 
+> I would suggest some more adaptions.
+> 
+> Keep to allocate all requests dynamicaly as you suggest instead of the
+> bulk array.
+> 
+> Rewrite the uvc_video_free_requests to iterate over the video->req_free
+> list instead of all available requests to take care of all requests
+> that are truely freed.
+> 
+> Take this patch we started this thread with and expand it to
+> clean up not only the usb_request but also the uvc_request
+> like you suggested in your pseudo code.
+> 
+> Since we check for UVC_STATE_CONNECTED already in the comlete handler
+> this is a superset of your stale flag anyway. And every request
+> that is currently in flight is not part of the req_free list, which
+> makes the uvc_video_free_requests function free to run without making
+> no harm.
 
-1. This is where we are decrypting the video to a secure buffer, it's
-invoking IPC into a closed source component to do that:
-https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/chromeos=
-/decoder_buffer_transcryptor.cc;l=3D87
-2. This is where we aren enabling secure mode:
-https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/v4l2/v4l=
-2_video_decoder.cc;l=3D412
-3. This is where we are resolving secure buffers to secure handles:
-https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/v4l2/v4l=
-2_video_decoder.cc;l=3D535
-(the allocation of the secure buffers is done in closed source CDM
-code, but it's just opening the dma-buf heap and issuing the ioctl to
-allocate it)
-4. This is where we submit the secure buffers to the output queue:
-https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/v4l2/v4l=
-2_queue.cc;l=3D816
-(this is nothing special, since it's just passing in the fd)
-5. For the capture queue, there's zero changes in Chrome V4L2 code for
-that...it's all transparent to user space that it's a secure surface
-that's being rendered to. We do allocate them w/ different flags via
-minigbm which happens here:
-https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/chromeos=
-/platform_video_frame_pool.cc;l=3D37
+The downside of freeing based on UVC_STATE_CONNECTED and why it might be 
+problematic is that without any other synchronization method, the complete
+callback can be arbitrarily delayed for a given usb_request.
 
->
-> >
-> > >
-> > > >
-> > > > For converting the dmabuf fd into a secure handle: a new ioctl simi=
-lar to
-> > > > VIDIOC_EXPBUF might be more suited for that.
-> > >
-> > > I actually think the best way for converting the dmabuf fd into a
-> > > secure handle would be another ioctl in the dma-heap driver...since
-> > > that's where the memory is actually allocated from. But this really
-> > > depends on upstream maintainers and what they are comfortable with.
-> >
-> > That feels like a more natural place of doing this.
-> >
-> > Regards,
-> >
-> >       Hans
-> >
-> > >
-> > > >
-> > > > Note that I am the first to admit that I have no experience with se=
-cure
-> > > > video pipelines or optee-os, so I am looking at this purely from an=
- uAPI
-> > > > perspective.
-> > > >
-> > > > Regards,
-> > > >
-> > > >         Hans
-> > > >
-> > > > >
-> > > > > Best Regards,
-> > > > > Yunfei Dong
-> > > > > > Regards,
-> > > > > >
-> > > > > > Hans
-> > > > > >
-> > > > > > >
-> > > > > > > regards,
-> > > > > > > Nicolas
-> > > > > > >
-> > > > > > > p.s. you forgot to document your control in the RST doc, plea=
-se do
-> > > > > >
-> > > > > > in following
-> > > > > > > release.
-> > > > > > >
-> > > > > > > > +ctx->is_svp_mode =3D ctrl->val;
-> > > > > > > > +
-> > > > > > > > +if (ctx->is_svp_mode) {
-> > > > > > > > +ret =3D mtk_vcodec_dec_optee_open(ctx->dev->optee_private)=
-;
-> > > > > > > > +if (ret)
-> > > > > > > > +mtk_v4l2_vdec_err(ctx, "open secure mode failed.");
-> > > > > > > > +else
-> > > > > > > > +mtk_v4l2_vdec_dbg(3, ctx, "decoder in secure mode: %d", ct=
-rl-
-> > > > > > >
-> > > > > > > val);
-> > > > > > > > +}
-> > > > > > > > +break;
-> > > > > > > >  default:
-> > > > > > > >  mtk_v4l2_vdec_dbg(3, ctx, "Not supported to set ctrl id:
-> > > > > > > > 0x%x\n",
-> > > > > >
-> > > > > > hdr_ctrl->id);
-> > > > > > > >  return ret;
-> > > > > > > > @@ -573,7 +584,7 @@ static int mtk_vcodec_dec_ctrls_setup(s=
-truct
-> > > > > >
-> > > > > > mtk_vcodec_dec_ctx *ctx)
-> > > > > > > >  unsigned int i;
-> > > > > > > >  struct v4l2_ctrl *ctrl;
-> > > > > > > >
-> > > > > > > > -v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS + 1);
-> > > > > > > > +v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS + 2);
-> > > > > > > >  if (ctx->ctrl_hdl.error) {
-> > > > > > > >  mtk_v4l2_vdec_err(ctx, "v4l2_ctrl_handler_init failed\n");
-> > > > > > > >  return ctx->ctrl_hdl.error;
-> > > > > > > > @@ -592,6 +603,8 @@ static int mtk_vcodec_dec_ctrls_setup(s=
-truct
-> > > > > >
-> > > > > > mtk_vcodec_dec_ctx *ctx)
-> > > > > > > >
-> > > > > > > >  ctrl =3D v4l2_ctrl_new_std(&ctx->ctrl_hdl,
-> > > > > >
-> > > > > > &mtk_vcodec_dec_ctrl_ops,
-> > > > > > > >   V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE, 0, 65535, 1, 0);
-> > > > > > > > +ctrl =3D v4l2_ctrl_new_std(&ctx->ctrl_hdl,
-> > > > > >
-> > > > > > &mtk_vcodec_dec_ctrl_ops,
-> > > > > > > > + V4L2_CID_MPEG_MTK_SET_SECURE_MODE, 0, 65535, 1, 0);
-> > > > > > > >
-> > > > > > > >  v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > > >
-> > > > > > b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > > > > > index d8cf01f76aab..a507045a3f30 100644
-> > > > > > > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > > > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > > > > > @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id=
-)
-> > > > > > > >  case V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES:return
-> > > > > > > > "Reference
-> > > > > >
-> > > > > > Frames for a P-Frame";
-> > > > > > > >  case V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR:return "Pre=
-pend
-> > > > > >
-> > > > > > SPS and PPS to IDR";
-> > > > > > > >  case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:return "MediaTek
-> > > > > > > > Decoder
-> > > > > >
-> > > > > > get secure handle";
-> > > > > > > > +case V4L2_CID_MPEG_MTK_SET_SECURE_MODE:return "MediaTek De=
-coder
-> > > > > >
-> > > > > > set secure mode";
-> > > > > > > >
-> > > > > > > >  /* AV1 controls */
-> > > > > > > >  case V4L2_CID_MPEG_VIDEO_AV1_PROFILE:return "AV1 Profile";
-> > > > > > > > @@ -1442,6 +1443,10 @@ void v4l2_ctrl_fill(u32 id, const ch=
-ar
-> > > > > >
-> > > > > > **name, enum v4l2_ctrl_type *type,
-> > > > > > > >  *type =3D V4L2_CTRL_TYPE_INTEGER;
-> > > > > > > >  *flags |=3D V4L2_CTRL_FLAG_WRITE_ONLY;
-> > > > > > > >  break;
-> > > > > > > > +case V4L2_CID_MPEG_MTK_SET_SECURE_MODE:
-> > > > > > > > +*type =3D V4L2_CTRL_TYPE_INTEGER;
-> > > > > > > > +*flags |=3D V4L2_CTRL_FLAG_WRITE_ONLY;
-> > > > > > > > +break;
-> > > > > > > >  case V4L2_CID_USER_CLASS:
-> > > > > > > >  case V4L2_CID_CAMERA_CLASS:
-> > > > > > > >  case V4L2_CID_CODEC_CLASS:
-> > > > > > > > diff --git a/include/uapi/linux/v4l2-controls.h
-> > > > > >
-> > > > > > b/include/uapi/linux/v4l2-controls.h
-> > > > > > > > index 7b3694985366..88e90d943e38 100644
-> > > > > > > > --- a/include/uapi/linux/v4l2-controls.h
-> > > > > > > > +++ b/include/uapi/linux/v4l2-controls.h
-> > > > > > > > @@ -957,6 +957,7 @@ enum v4l2_mpeg_mfc51_video_force_frame_=
-type {
-> > > > > > > >  /*  MPEG-class control IDs specific to the MediaTek Decode=
-r
-> > > > > >
-> > > > > > driver as defined by V4L2 */
-> > > > > > > >  #define V4L2_CID_MPEG_MTK_BASE(V4L2_CTRL_CLASS_CODEC | 0x2=
-000)
-> > > > > > > >  #define
-> > > > > >
-> > > > > > V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE(V4L2_CID_MPEG_MTK_BASE+8)
-> > > > > > > > +#define
-> > > > > >
-> > > > > > V4L2_CID_MPEG_MTK_SET_SECURE_MODE(V4L2_CID_MPEG_MTK_BASE+9)
-> > > > > > > >
-> > > > > > > >  /*  Camera class control IDs */
-> > > > > > > >
-> > > >
-> > > >
-> > > > _______________________________________________
-> > > > linux-arm-kernel mailing list
-> > > > linux-arm-kernel@lists.infradead.org
-> > > > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> >
->
+A STREAMOFF quickly followed by a STREAMON, might set uvc->state to 
+UVC_STATE_STREAMING before the controller has had a chance to return the 
+stale requests. This won't cause any functional issues AFAICT, but will 
+cause a memory "leak" of sorts where every successive quick 
+STREAMOFF-->STREAMON will lead to some extra usb_requests sticking around.
+They'll eventually get freed, but it doesn't seem very responsible to increase
+the memory load unless required.
+
+The stale flag ensures that this situation never happens and even if the 
+complete callbacks comes back well after  the new STREAMON event, we correctly
+free the associated usb_request and uvc_request.
+
+Hope that makes sense!
+
+- Avi.
+
