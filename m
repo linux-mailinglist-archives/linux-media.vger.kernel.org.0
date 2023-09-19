@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA7E7A65BD
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 15:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4476A7A65F1
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 15:57:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232442AbjISNw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 09:52:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49298 "EHLO
+        id S232520AbjISN5h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 09:57:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232390AbjISNwZ (ORCPT
+        with ESMTP id S232624AbjISN5R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 09:52:25 -0400
+        Tue, 19 Sep 2023 09:57:17 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A257383;
-        Tue, 19 Sep 2023 06:52:19 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA6A9C433C7;
-        Tue, 19 Sep 2023 13:52:15 +0000 (UTC)
-Message-ID: <23f6b3fb-4c9d-485f-bb84-3f97a70c8a71@xs4all.nl>
-Date:   Tue, 19 Sep 2023 15:52:14 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3894B171E;
+        Tue, 19 Sep 2023 06:56:44 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00FC1C433C7;
+        Tue, 19 Sep 2023 13:56:39 +0000 (UTC)
+Message-ID: <14def513-1900-44e8-9b1d-154feccedf62@xs4all.nl>
+Date:   Tue, 19 Sep 2023 15:56:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 25/49] media: pci: netup_unidvb: Stop direct calls to
- queue num_buffers field
+Subject: Re: [PATCH v7 26/49] media: pci: tw68: Stop direct calls to queue
+ num_buffers field
 Content-Language: en-US, nl
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
@@ -35,9 +35,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         kernel@collabora.com
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-26-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-27-benjamin.gaignard@collabora.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230914133323.198857-26-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230914133323.198857-27-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
@@ -49,39 +49,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/09/2023 15:32, Benjamin Gaignard wrote:
+On 14/09/2023 15:33, Benjamin Gaignard wrote:
 > Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  drivers/media/pci/netup_unidvb/netup_unidvb_core.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/media/pci/tw68/tw68-video.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-> index d85bfbb77a25..557985ba25db 100644
-> --- a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-> +++ b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-> @@ -293,12 +293,13 @@ static int netup_unidvb_queue_setup(struct vb2_queue *vq,
->  				    struct device *alloc_devs[])
+> diff --git a/drivers/media/pci/tw68/tw68-video.c b/drivers/media/pci/tw68/tw68-video.c
+> index 773a18702d36..35296c226019 100644
+> --- a/drivers/media/pci/tw68/tw68-video.c
+> +++ b/drivers/media/pci/tw68/tw68-video.c
+> @@ -360,13 +360,13 @@ static int tw68_queue_setup(struct vb2_queue *q,
+>  			   unsigned int sizes[], struct device *alloc_devs[])
 >  {
->  	struct netup_dma *dma = vb2_get_drv_priv(vq);
-> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>  	struct tw68_dev *dev = vb2_get_drv_priv(q);
+> -	unsigned tot_bufs = q->num_buffers + *num_buffers;
+> +	unsigned tot_bufs = vb2_get_num_buffers(q) + *num_buffers;
+>  	unsigned size = (dev->fmt->depth * dev->width * dev->height) >> 3;
 >  
->  	dev_dbg(&dma->ndev->pci_dev->dev, "%s()\n", __func__);
->  
->  	*nplanes = 1;
-> -	if (vq->num_buffers + *nbuffers < VIDEO_MAX_FRAME)
-> -		*nbuffers = VIDEO_MAX_FRAME - vq->num_buffers;
-> +	if (q_num_bufs + *nbuffers < VIDEO_MAX_FRAME)
-> +		*nbuffers = VIDEO_MAX_FRAME - q_num_bufs;
+>  	if (tot_bufs < 2)
+>  		tot_bufs = 2;
 
-Just drop this, the vb2 core tests this already.
+This check can be dropped since vidq.min_buffers_needed is already set to 2.
+
+>  	tot_bufs = tw68_buffer_count(size, tot_bufs);
+> -	*num_buffers = tot_bufs - q->num_buffers;
+> +	*num_buffers = tot_bufs - vb2_get_num_buffers(q);
+>  	/*
+>  	 * We allow create_bufs, but only if the sizeimage is >= as the
+>  	 * current sizeimage. The tw68_buffer_count calculation becomes quite
+
+Otherwise this is fine.
 
 Regards,
 
 	Hans
-
->  	sizes[0] = PAGE_ALIGN(NETUP_DMA_PACKETS_COUNT * 188);
->  	dev_dbg(&dma->ndev->pci_dev->dev, "%s() nbuffers=%d sizes[0]=%d\n",
->  		__func__, *nbuffers, sizes[0]);
-
