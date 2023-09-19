@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 131897A629E
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 14:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63ADA7A629F
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 14:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231962AbjISMTi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 08:19:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59994 "EHLO
+        id S231803AbjISMTw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 08:19:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232031AbjISMTU (ORCPT
+        with ESMTP id S232051AbjISMTV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 08:19:20 -0400
+        Tue, 19 Sep 2023 08:19:21 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02414E7D
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 05:18:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9356E59
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 05:18:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695125893; x=1726661893;
+  t=1695125894; x=1726661894;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=8cbVggliCMljz4AR3Wi4DOr+gzhqEOMJDtqBOtP9z5Y=;
-  b=eses74AMKjYCN8KOsCHjC+ruB8X6OX+FO1YNNPJd3y6FjNnLWdDahZ3k
-   iKsR8TmIym2prQZl/Qgg3ULe3CdkQAcHWxOsQkkjkxIbnA1vs2jGYO6s5
-   z4hVfrZRVpCb0yXzjIaFov7FObQqX7FYM3zqXUzaJb3MWOqR6MbklSsb3
-   /XY5PVBVdyQ6Imb26AdqDMVJvfUZ3BVg9wwfEHm4nrVQ0zLRkwZowcm84
-   goFuZbrHPbP2gNoZInF/IMVgolNjxCn6wzeu3pMXlobsp3DoW5WOwH5Eq
-   aTS3yN1EcOudSBjEhGCgS+1hQI4X2itt2Z18h+EQXB3GNu6deWHQhhbst
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="466250969"
+  bh=aT4pYhBzrkwrq+wXt4wM5+30kGGY1hcpc5dMcXccWAk=;
+  b=N2adbyFq3YQ23A0YeMbR0kPTDcERMKvvR8dAeGY2KREimBgsj80mrD1c
+   CWUKCr6isYKNkyQ/p+PxMTZoeDR1lb5BFTAohh4Pja6d6vllHHLB45jbM
+   FaxCVpdUg6YPJ3t5Cniy4N4lMgBDJtZD4M7vHtWXWaGWHJGWZHNony6Hb
+   t0Sz9+XCvscOjbJaA8N17/c3ck4ibwWtecz7fJAeTdoOaSoaD7EjUIx9c
+   mepI5WfshxxVpiIRnw8OxbK4B4vyPatICgTWR1PKBcEJLyBpBR4hvemjk
+   VBfbqcxURlI5UmnHSd7m7skizB8STqBrEiokIaXejOvJZKxU4GrQjAZW0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="466250978"
 X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="466250969"
+   d="scan'208";a="466250978"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:17:38 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:17:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="811701490"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="811701525"
 X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="811701490"
+   d="scan'208";a="811701525"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:17:36 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:17:37 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 09810120EC6;
-        Tue, 19 Sep 2023 15:17:32 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 356F5121380;
+        Tue, 19 Sep 2023 15:17:34 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com,
@@ -51,9 +51,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Martin Kepplinger <martink@posteo.de>
-Subject: [PATCH v3 03/12] media: ccs: Correctly initialise try compose rectangle
-Date:   Tue, 19 Sep 2023 15:17:19 +0300
-Message-Id: <20230919121728.126781-4-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 04/12] media: ccs: Correct error handling in ccs_register_subdev
+Date:   Tue, 19 Sep 2023 15:17:20 +0300
+Message-Id: <20230919121728.126781-5-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230919121728.126781-1-sakari.ailus@linux.intel.com>
 References: <20230919121728.126781-1-sakari.ailus@linux.intel.com>
@@ -68,32 +68,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Initialise the try sink compose rectangle size to the sink compose
-rectangle for binner and scaler sub-devices. This was missed due to the
-faulty condition that lead to the compose rectangles to be initialised for
-the pixel array sub-device where it is not relevant.
+ccs_register_subdev() did not clean up the media entity in error case, do
+that now. Also switch to goto based error handling.
 
-Fixes: ccfc97bdb5ae ("[media] smiapp: Add driver")
-Cc: stable@vger.kernel.org
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ccs/ccs-core.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 49e0d9a09530..6f8fbd82e21c 100644
+index 6f8fbd82e21c..3fed071b65ab 100644
 --- a/drivers/media/i2c/ccs/ccs-core.c
 +++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -3097,7 +3097,7 @@ static int ccs_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 		try_fmt->code = sensor->internal_csi_format->code;
- 		try_fmt->field = V4L2_FIELD_NONE;
+@@ -2968,7 +2968,7 @@ static int ccs_register_subdev(struct ccs_sensor *sensor,
+ 	rval = v4l2_device_register_subdev(sensor->src->sd.v4l2_dev, &ssd->sd);
+ 	if (rval) {
+ 		dev_err(&client->dev, "v4l2_device_register_subdev failed\n");
+-		return rval;
++		goto out_media_entity_cleanup;
+ 	}
  
--		if (ssd != sensor->pixel_array)
-+		if (ssd == sensor->pixel_array)
- 			continue;
+ 	rval = media_create_pad_link(&ssd->sd.entity, source_pad,
+@@ -2976,11 +2976,18 @@ static int ccs_register_subdev(struct ccs_sensor *sensor,
+ 				     link_flags);
+ 	if (rval) {
+ 		dev_err(&client->dev, "media_create_pad_link failed\n");
+-		v4l2_device_unregister_subdev(&ssd->sd);
+-		return rval;
++		goto out_v4l2_device_unregister_subdev;
+ 	}
  
- 		try_comp = v4l2_subdev_get_try_compose(sd, fh->state, i);
+ 	return 0;
++
++out_v4l2_device_unregister_subdev:
++	v4l2_device_unregister_subdev(&ssd->sd);
++
++out_media_entity_cleanup:
++	media_entity_cleanup(&ssd->sd.entity);
++
++	return rval;
+ }
+ 
+ static void ccs_unregistered(struct v4l2_subdev *subdev)
 -- 
 2.39.2
 
