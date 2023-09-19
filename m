@@ -2,254 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDE287A634E
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 14:42:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A5417A63FF
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 14:57:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232088AbjISMme (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 08:42:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54140 "EHLO
+        id S232317AbjISM5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 08:57:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231913AbjISMmd (ORCPT
+        with ESMTP id S232314AbjISM5S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 08:42:33 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7DFE3;
-        Tue, 19 Sep 2023 05:42:27 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF2FCC433C8;
-        Tue, 19 Sep 2023 12:42:23 +0000 (UTC)
-Message-ID: <c58cdf5a-7176-457e-98f3-85606cec7f09@xs4all.nl>
-Date:   Tue, 19 Sep 2023 14:42:22 +0200
+        Tue, 19 Sep 2023 08:57:18 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DD57181;
+        Tue, 19 Sep 2023 05:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695128232; x=1726664232;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=owLTR4BdRMVCw3koAJFrF4ot3jKom6tn6pjCI8DaxDE=;
+  b=BUn2aCvY0PRW97GtYI8KgcrX2dUMFYS3ATs3aGb+N7JKIDzguhR/nWzh
+   NsTRu6wBBs6O7EJwnLcSsIRqSiiypVDfP+2hi28YhNO8IYlpIuk+KTld5
+   0NnZqzZg/5uLrFto3DxkmIUayAFnDt7exRhUG/NGO3veo3QPQjtAxYzxh
+   t0VnVyK6E7vkem3DlO83hxhQ9PqzTITbHX+ZFKQDM7DKrek2R19R1t53+
+   Sky1ENdMhXudDbiieyZH6ch1Y38sCjmKM1swFAg88kpWJgXaHTSv4SdF8
+   DxkmdC/JkGz0ZfMlh5vZPJK7SIPEHJmFgBNsl/whklY3IudMTJ/trrFsg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="359324642"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="359324642"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:57:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746228718"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="746228718"
+Received: from vdesserx-mobl1.ger.corp.intel.com (HELO localhost.localdomain) ([10.249.32.31])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:57:06 -0700
+From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v3 2/8] media: cobalt: Use FIELD_GET() to extract Link Width
+Date:   Tue, 19 Sep 2023 15:56:42 +0300
+Message-Id: <20230919125648.1920-3-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230919125648.1920-1-ilpo.jarvinen@linux.intel.com>
+References: <20230919125648.1920-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 12/49] media: videobuf2: Be more flexible on the number
- of queue stored buffers
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-13-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230914133323.198857-13-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/09/2023 15:32, Benjamin Gaignard wrote:
-> Add 'max_allowed_buffers' field in vb2_queue struct to let drivers decide
-> how many buffers could be stored in a queue.
-> This request 'bufs' array to be allocated at queue init time and freed
-> when releasing the queue.
-> By default VB2_MAX_FRAME remains the limit.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 40 ++++++++++++++-----
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  4 +-
->  include/media/videobuf2-core.h                |  4 +-
->  3 files changed, 35 insertions(+), 13 deletions(-)
+Use FIELD_GET() to extract PCIe Negotiated and Maximum Link Width fields
+instead of custom masking and shifting.
 
-After this patch I would like to see a patches adding support for this to
-vicodec and vivid. For vivid it might be a good idea to mix this: say
-the video output remains at 32 buffers, but video capture can do more.
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ drivers/media/pci/cobalt/cobalt-driver.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-And the swradio device should be able to handle quite a lot more (try
-1024 there) since these buffers are quite small (32 kB).
-
-The vicodec driver can increase it to 64, just as the verisilicon driver
-does.
-
-This makes it easy to do compliance testing for this new feature.
-
-Regards,
-
-	Hans
-
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index afe76577acc1..ee4df7c68397 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -411,7 +411,7 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
->   */
->  static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
->  {
-> -	if (index < VB2_MAX_FRAME && !q->bufs[index]) {
-> +	if (index < q->max_allowed_buffers && !q->bufs[index]) {
->  		q->bufs[index] = vb;
->  		vb->index = index;
->  		vb->vb2_queue = q;
-> @@ -428,7 +428,7 @@ static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
->   */
->  static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->  {
-> -	if (vb->index < VB2_MAX_FRAME) {
-> +	if (vb->index < q->max_allowed_buffers) {
->  		q->bufs[vb->index] = NULL;
->  		vb->vb2_queue = NULL;
->  	}
-> @@ -449,9 +449,9 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  	struct vb2_buffer *vb;
->  	int ret;
->  
-> -	/* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
-> +	/* Ensure that q->num_buffers+num_buffers is below q->max_allowed_buffers */
->  	num_buffers = min_t(unsigned int, num_buffers,
-> -			    VB2_MAX_FRAME - q->num_buffers);
-> +			    q->max_allowed_buffers - q->num_buffers);
->  
->  	for (buffer = 0; buffer < num_buffers; ++buffer) {
->  		/* Allocate vb2 buffer structures */
-> @@ -814,7 +814,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
->  	unsigned int i;
-> -	int ret;
-> +	int ret = 0;
->  
->  	if (q->streaming) {
->  		dprintk(q, 1, "streaming active\n");
-> @@ -858,17 +858,23 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	/*
->  	 * Make sure the requested values and current defaults are sane.
->  	 */
-> -	WARN_ON(q->min_buffers_needed > VB2_MAX_FRAME);
-> +	WARN_ON(q->min_buffers_needed > q->max_allowed_buffers);
->  	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
-> -	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
-> +	num_buffers = min_t(unsigned int, num_buffers, q->max_allowed_buffers);
->  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->  	/*
->  	 * Set this now to ensure that drivers see the correct q->memory value
->  	 * in the queue_setup op.
->  	 */
->  	mutex_lock(&q->mmap_lock);
-> +	if (!q->bufs)
-> +		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
-> +	if (!q->bufs)
-> +		ret = -ENOMEM;
->  	q->memory = memory;
->  	mutex_unlock(&q->mmap_lock);
-> +	if (ret)
-> +		return ret;
->  	set_queue_coherency(q, non_coherent_mem);
->  
->  	/*
-> @@ -974,9 +980,9 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
->  	bool no_previous_buffers = !q->num_buffers;
-> -	int ret;
-> +	int ret = 0;
->  
-> -	if (q->num_buffers == VB2_MAX_FRAME) {
-> +	if (q->num_buffers == q->max_allowed_buffers) {
->  		dprintk(q, 1, "maximum number of buffers already allocated\n");
->  		return -ENOBUFS;
->  	}
-> @@ -993,7 +999,13 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		 */
->  		mutex_lock(&q->mmap_lock);
->  		q->memory = memory;
-> +		if (!q->bufs)
-> +			q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
-> +		if (!q->bufs)
-> +			ret = -ENOMEM;
->  		mutex_unlock(&q->mmap_lock);
-> +		if (ret)
-> +			return ret;
->  		q->waiting_for_buffers = !q->is_output;
->  		set_queue_coherency(q, non_coherent_mem);
->  	} else {
-> @@ -1005,7 +1017,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			return -EINVAL;
->  	}
->  
-> -	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
-> +	num_buffers = min(*count, q->max_allowed_buffers - q->num_buffers);
->  
->  	if (requested_planes && requested_sizes) {
->  		num_planes = requested_planes;
-> @@ -2515,6 +2527,12 @@ int vb2_core_queue_init(struct vb2_queue *q)
->  
->  	q->memory = VB2_MEMORY_UNKNOWN;
->  
-> +	if (!q->max_allowed_buffers)
-> +		q->max_allowed_buffers = VB2_MAX_FRAME;
-> +
-> +	/* The maximum is limited by offset cookie encoding pattern */
-> +	q->max_allowed_buffers = min_t(unsigned int, q->max_allowed_buffers, BUFFER_INDEX_MASK + 1);
-> +
->  	if (q->buf_struct_size == 0)
->  		q->buf_struct_size = sizeof(struct vb2_buffer);
->  
-> @@ -2539,6 +2557,8 @@ void vb2_core_queue_release(struct vb2_queue *q)
->  	__vb2_queue_cancel(q);
->  	mutex_lock(&q->mmap_lock);
->  	__vb2_queue_free(q, q->num_buffers);
-> +	kfree(q->bufs);
-> +	q->bufs = NULL;
->  	mutex_unlock(&q->mmap_lock);
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index f460cac560f6..87c2d5916960 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -1156,7 +1156,7 @@ int _vb2_fop_release(struct file *file, struct mutex *lock)
->  
->  	if (lock)
->  		mutex_lock(lock);
-> -	if (file->private_data == vdev->queue->owner) {
-> +	if (!vdev->queue->owner || file->private_data == vdev->queue->owner) {
->  		vb2_queue_release(vdev->queue);
->  		vdev->queue->owner = NULL;
->  	}
-> @@ -1284,7 +1284,7 @@ void vb2_video_unregister_device(struct video_device *vdev)
->  	 */
->  	get_device(&vdev->dev);
->  	video_unregister_device(vdev);
-> -	if (vdev->queue && vdev->queue->owner) {
-> +	if (vdev->queue) {
->  		struct mutex *lock = vdev->queue->lock ?
->  			vdev->queue->lock : vdev->lock;
->  
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index cd3ff1cd759d..97153c69583f 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -558,6 +558,7 @@ struct vb2_buf_ops {
->   * @dma_dir:	DMA mapping direction.
->   * @bufs:	videobuf2 buffer structures
->   * @num_buffers: number of allocated/used buffers
-> + * @max_allowed_buffers: upper limit of number of allocated/used buffers
->   * @queued_list: list of buffers currently queued from userspace
->   * @queued_count: number of buffers queued and ready for streaming.
->   * @owned_by_drv_count: number of buffers owned by the driver
-> @@ -619,8 +620,9 @@ struct vb2_queue {
->  	struct mutex			mmap_lock;
->  	unsigned int			memory;
->  	enum dma_data_direction		dma_dir;
-> -	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
-> +	struct vb2_buffer		**bufs;
->  	unsigned int			num_buffers;
-> +	unsigned int			max_allowed_buffers;
->  
->  	struct list_head		queued_list;
->  	unsigned int			queued_count;
+diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
+index 74edcc76d12f..6e1a0614e6d0 100644
+--- a/drivers/media/pci/cobalt/cobalt-driver.c
++++ b/drivers/media/pci/cobalt/cobalt-driver.c
+@@ -8,6 +8,7 @@
+  *  All rights reserved.
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/delay.h>
+ #include <media/i2c/adv7604.h>
+ #include <media/i2c/adv7842.h>
+@@ -210,17 +211,17 @@ void cobalt_pcie_status_show(struct cobalt *cobalt)
+ 	pcie_capability_read_word(pci_dev, PCI_EXP_LNKSTA, &stat);
+ 	cobalt_info("PCIe link capability 0x%08x: %s per lane and %u lanes\n",
+ 			capa, get_link_speed(capa),
+-			(capa & PCI_EXP_LNKCAP_MLW) >> 4);
++			FIELD_GET(PCI_EXP_LNKCAP_MLW, capa));
+ 	cobalt_info("PCIe link control 0x%04x\n", ctrl);
+ 	cobalt_info("PCIe link status 0x%04x: %s per lane and %u lanes\n",
+ 		    stat, get_link_speed(stat),
+-		    (stat & PCI_EXP_LNKSTA_NLW) >> 4);
++		    FIELD_GET(PCI_EXP_LNKSTA_NLW, stat));
+ 
+ 	/* Bus */
+ 	pcie_capability_read_dword(pci_bus_dev, PCI_EXP_LNKCAP, &capa);
+ 	cobalt_info("PCIe bus link capability 0x%08x: %s per lane and %u lanes\n",
+ 			capa, get_link_speed(capa),
+-			(capa & PCI_EXP_LNKCAP_MLW) >> 4);
++			FIELD_GET(PCI_EXP_LNKCAP_MLW, capa));
+ 
+ 	/* Slot */
+ 	pcie_capability_read_dword(pci_dev, PCI_EXP_SLTCAP, &capa);
+@@ -239,7 +240,7 @@ static unsigned pcie_link_get_lanes(struct cobalt *cobalt)
+ 	if (!pci_is_pcie(pci_dev))
+ 		return 0;
+ 	pcie_capability_read_word(pci_dev, PCI_EXP_LNKSTA, &link);
+-	return (link & PCI_EXP_LNKSTA_NLW) >> 4;
++	return FIELD_GET(PCI_EXP_LNKSTA_NLW, link);
+ }
+ 
+ static unsigned pcie_bus_link_get_lanes(struct cobalt *cobalt)
+@@ -250,7 +251,7 @@ static unsigned pcie_bus_link_get_lanes(struct cobalt *cobalt)
+ 	if (!pci_is_pcie(pci_dev))
+ 		return 0;
+ 	pcie_capability_read_dword(pci_dev, PCI_EXP_LNKCAP, &link);
+-	return (link & PCI_EXP_LNKCAP_MLW) >> 4;
++	return FIELD_GET(PCI_EXP_LNKCAP_MLW, link);
+ }
+ 
+ static void msi_config_show(struct cobalt *cobalt, struct pci_dev *pci_dev)
+-- 
+2.30.2
 
