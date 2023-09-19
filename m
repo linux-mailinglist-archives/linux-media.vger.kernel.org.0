@@ -2,148 +2,326 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14DC17A6CFD
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 23:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96A6C7A6E82
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 00:16:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233252AbjISVhQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 17:37:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60050 "EHLO
+        id S233578AbjISWQZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 18:16:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbjISVhP (ORCPT
+        with ESMTP id S233436AbjISWQY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 17:37:15 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A48CCBD
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 14:37:09 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3ade77970a9so627103b6e.2
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 14:37:09 -0700 (PDT)
+        Tue, 19 Sep 2023 18:16:24 -0400
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E233CE
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 15:16:12 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id e9e14a558f8ab-34fa117f92bso19685ab.1
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 15:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695159429; x=1695764229; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mx3VWfKW3EtNyZed4FnlPCOsuD/vA9pv6x4aqpyK3AA=;
-        b=ce7XmMpQbbDMWufsL/y6cOMfs3UrmKQ9245V/4t5LbXGI3H6Y+D3s0mE0ZL5pohQdM
-         Nvg6vM8FaP7IQ3pjnU71SCeQrcqfK5eaqO8AiEoyHIWzyEXsyemD+rIPFFE5m+xhoQ29
-         ul6gOTDY63SrXmPavflGSWdSoTGll5D9IAem45g+sOoQKCEsNydNulseD4FJRzp/rvHQ
-         UrKRzukYBIzneUyz8URFE9ocvt8uFbIGZOgGzJwgt90tvVk/G3fUCOMs1OBuuZ00Av1S
-         2LJRJOTFjAAu1cK3yrh2oDd1M//7VTzGK6u/AKYYavVjRVyQgVCfd35hmBap5eMf1xDU
-         t6vQ==
+        d=google.com; s=20230601; t=1695161771; x=1695766571; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qx6X0xE/S4amLJCM7NtzEUWnlj33ZBkwhJLGl58E30c=;
+        b=HZ630ZmEX+22F3LjchOtzuB9xi6f+TB//pWtQbYis/gOUlil765R9CYh50J9vHjvbZ
+         Ozpb2i29aMFqlHdWTt4VrfcHs74DvlN9+E57DvfuFst4Sab6FF9ZLfVIPAzqQmQQPVXF
+         qEiDQ6AjG1nvKVWZ07Q5PhDZs5hPkH0zm0kvcxv7Jc6PjMVi6FC6sN78XBh6/n7EavBQ
+         41u+jCQ6ghigqupWX/Tvy8O6p2SNqg047W53sbVWLUaL3MIqggjskSYGStgZz3Je4B0d
+         ZIxWYNAzL4/091Ps8TYIk39kvdLV1FUU6I+NSQGLx5Ev4Is0tA32kttNJlWWR38Kem6i
+         t4fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695159429; x=1695764229;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mx3VWfKW3EtNyZed4FnlPCOsuD/vA9pv6x4aqpyK3AA=;
-        b=F3kfhveI94iBxRrHmNa159xoV6m9lAkf+694AzoZxW6LOVe+9B4ON+mdoMadJjmYa3
-         Uyg//XcDhOAf0SfGiWQRh90mVxEd3eOaYsfqnwWNhgIMiER2cuuWgrXYURJc4MoHt0Js
-         6job4zs+O2x7hEBDzZogql/91Sk+k1aqZPiltMPniw1+56AsDKdWIt1IXc75oNhxvClT
-         XyR/GEezf9KvTGAZ0nfNjFnUCJMMVqy1kmbpCHaP+TyaGcA8xPvi7+FIbR/4DgGgx7pl
-         jxxlp++Wo4HZh1B2ArqRjZUNionINyaPd/hWfdecsTp3yvtsSXzr/mbWIjHaXH2u9v1Y
-         6QLg==
-X-Gm-Message-State: AOJu0YxI7UNnCSYqtZKjjYxmLGysbZzbpBKPrZ/hwvpNdei9KZoKHhpH
-        8qNUkbPXkwn5d7UfRYnxHf9wGNv7bDpy6Nn5rAE=
-X-Google-Smtp-Source: AGHT+IENF5sHCBigyi1Eel/+vTKewcU3IKBOuv2G4E44Y2zzi2oVi+9cbS5T6XXPrXRnx0ddgnrL8O9OKYue6CFq1w8=
-X-Received: by 2002:a54:4e0d:0:b0:3a8:6144:2b0c with SMTP id
- a13-20020a544e0d000000b003a861442b0cmr562114oiy.18.1695159428785; Tue, 19 Sep
- 2023 14:37:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695161771; x=1695766571;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qx6X0xE/S4amLJCM7NtzEUWnlj33ZBkwhJLGl58E30c=;
+        b=ebguC1qyDS58l9qyEDZn1sQFQ9dIDJL/gb7R6wRKL9ytTRfUFRvaISAizWWSWHkKa6
+         GXgL77u7CRJo8tB3FKbvF64acgQf6X9It8q5cuA7xHWcwXzUVqbXAyqhbujbccH3F1OO
+         37wzSifUwMoKIcL3My0mYdZ/hPBNgBaIcKlcujM9gLMhHE+KZ2EErCfU8/RDqh+yjLBF
+         S2PWSVde6uvWeeaViqF0RcfNDg6J2mmMM6w94Hnx/mZpfT6J7JYkEAExk5Pr3kjTLQnY
+         rcWmnlnZvQi4duFsjFypx7xr+nFWQn7aaf/erhs09KAs3Ve47wviQ5+v83InMliL6apZ
+         M6NQ==
+X-Gm-Message-State: AOJu0YxaO6RYqCnkz34mOI0/vNUBBrrDdN4gvSl8JjpuzbbK0q5/a+YI
+        pQvqZD1L733HH38hW7IfXmSwksbRUHz7+WpgIDYB
+X-Google-Smtp-Source: AGHT+IFu656+dV482iOm4cZxrrexPRdD0DlnR8zGkINMB46WE10oFo6V8aYZJV2oIbzlETIcCyiXYFcp0DlRO0Dyrxg=
+X-Received: by 2002:a05:6e02:b21:b0:34f:ec9f:dd75 with SMTP id
+ e1-20020a056e020b2100b0034fec9fdd75mr90136ilu.28.1695161770968; Tue, 19 Sep
+ 2023 15:16:10 -0700 (PDT)
 MIME-Version: 1.0
-Sender: aileen.samih221@gmail.com
-Received: by 2002:a05:7010:4581:b0:37d:10d5:31b4 with HTTP; Tue, 19 Sep 2023
- 14:37:08 -0700 (PDT)
-From:   Juliette Morgan <juliettemorgan21@gmail.com>
-Date:   Tue, 19 Sep 2023 23:37:08 +0200
-X-Google-Sender-Auth: vpF44JelSoEXRCJ-DqYBTrQ8O5g
-Message-ID: <CAD5DnU2zMv+s1BEyDV1KSwtB-DdPOUy27MXVy_FAq=vjB52EoQ@mail.gmail.com>
-Subject: READ AND REPLY URGENT
-To:     undisclosed-recipients:;
+References: <20230911023038.30649-1-yong.wu@mediatek.com> <20230911023038.30649-9-yong.wu@mediatek.com>
+ <20230911154448.GA1279317-robh@kernel.org> <c2f1df12cc2dc25b342029e49c6d3f120d380b47.camel@mediatek.com>
+ <c62a7ed8-d80a-3a82-040a-d4c74a71285a@linaro.org> <95f9dd3b-1f33-4af5-8757-a97e8b9bb216@arm.com>
+ <20230912155338.GA842444-robh@kernel.org> <a63ab61fbf4d2bdadeb68441050ff5187c93ba96.camel@mediatek.com>
+In-Reply-To: <a63ab61fbf4d2bdadeb68441050ff5187c93ba96.camel@mediatek.com>
+From:   Jeffrey Kardatzke <jkardatzke@google.com>
+Date:   Tue, 19 Sep 2023 15:15:59 -0700
+Message-ID: <CA+ddPcPFFpDA2qtxMg6BNztsXi3mVFRghBwe6556mAL54jB06g@mail.gmail.com>
+Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
+ memory for SVP
+To:     =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>
+Cc:     "robh@kernel.org" <robh@kernel.org>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jstultz@google.com" <jstultz@google.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
+        <kuohong.wang@mediatek.com>,
+        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
+        "krzysztof.kozlow.ski+dt@linaro.org" 
+        <krzysztof.kozlow.ski+dt@linaro.org>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.2 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,LOTS_OF_MONEY,MONEY_FRAUD_8,
-        MONEY_NOHTML,RCVD_IN_DNSWL_BLOCKED,RISK_FREE,SPF_HELO_NONE,SPF_PASS,
-        SUBJ_ALL_CAPS,T_MONEY_PERCENT,UNDISC_MONEY autolearn=no
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
-        *      DNSWL was blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [2607:f8b0:4864:20:0:0:0:22c listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [aileen.samih221[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [juliettemorgan21[at]gmail.com]
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.0 MONEY_NOHTML Lots of money in plain text
-        *  0.0 RISK_FREE No risk!
-        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
-        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  2.8 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Dear God,s Select Good Day,
+On Mon, Sep 18, 2023 at 3:47=E2=80=AFAM Yong Wu (=E5=90=B4=E5=8B=87) <Yong.=
+Wu@mediatek.com> wrote:
+>
+> On Tue, 2023-09-12 at 10:53 -0500, Rob Herring wrote:
+> >
+> > External email : Please do not click links or open attachments until
+> > you have verified the sender or the content.
+> >  On Tue, Sep 12, 2023 at 11:13:50AM +0100, Robin Murphy wrote:
+> > > On 12/09/2023 9:28 am, Krzysztof Kozlowski wrote:
+> > > > On 12/09/2023 08:16, Yong Wu (=E5=90=B4=E5=8B=87) wrote:
+> > > > > Hi Rob,
+> > > > >
+> > > > > Thanks for your review.
+> > > > >
+> > > > > On Mon, 2023-09-11 at 10:44 -0500, Rob Herring wrote:
+> > > > > >
+> > > > > > External email : Please do not click links or open
+> > attachments until
+> > > > > > you have verified the sender or the content.
+> > > > > >   On Mon, Sep 11, 2023 at 10:30:37AM +0800, Yong Wu wrote:
+> > > > > > > This adds the binding for describing a CMA memory for
+> > MediaTek
+> > > > > > SVP(Secure
+> > > > > > > Video Path).
+> > > > > >
+> > > > > > CMA is a Linux thing. How is this related to CMA?
+> > > > >
+> > > > > > >
+> > > > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > > > > > > ---
+> > > > > > >   .../mediatek,secure_cma_chunkmem.yaml         | 42
+> > > > > > +++++++++++++++++++
+> > > > > > >   1 file changed, 42 insertions(+)
+> > > > > > >   create mode 100644
+> > Documentation/devicetree/bindings/reserved-
+> > > > > > memory/mediatek,secure_cma_chunkmem.yaml
+> > > > > > >
+> > > > > > > diff --git a/Documentation/devicetree/bindings/reserved-
+> > > > > > memory/mediatek,secure_cma_chunkmem.yaml
+> > > > > > b/Documentation/devicetree/bindings/reserved-
+> > > > > > memory/mediatek,secure_cma_chunkmem.yaml
+> > > > > > > new file mode 100644
+> > > > > > > index 000000000000..cc10e00d35c4
+> > > > > > > --- /dev/null
+> > > > > > > +++ b/Documentation/devicetree/bindings/reserved-
+> > > > > > memory/mediatek,secure_cma_chunkmem.yaml
+> > > > > > > @@ -0,0 +1,42 @@
+> > > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > > > +%YAML 1.2
+> > > > > > > +---
+> > > > > > > +$id:
+> > > > > >
+> > http://devicetree.org/schemas/reserved-memory/mediatek,secure_cma_chunk=
+mem.yaml#
+> > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > > > +
+> > > > > > > +title: MediaTek Secure Video Path Reserved Memory
+> > > > > >
+> > > > > > What makes this specific to Mediatek? Secure video path is
+> > fairly
+> > > > > > common, right?
+> > > > >
+> > > > > Here we just reserve a buffer and would like to create a dma-
+> > buf secure
+> > > > > heap for SVP, then the secure engines(Vcodec and DRM) could
+> > prepare
+> > > > > secure buffer through it.
+> > > > > But the heap driver is pure SW driver, it is not platform
+> > device and
+> > > >
+> > > > All drivers are pure SW.
+> > > >
+> > > > > we don't have a corresponding HW unit for it. Thus I don't
+> > think I
+> > > > > could create a platform dtsi node and use "memory-region"
+> > pointer to
+> > > > > the region. I used RESERVEDMEM_OF_DECLARE currently(The code is
+> > in
+> > > > > [9/9]). Sorry if this is not right.
+> > > >
+> > > > If this is not for any hardware and you already understand this
+> > (since
+> > > > you cannot use other bindings) then you cannot have custom
+> > bindings for
+> > > > it either.
+> > > >
+> > > > >
+> > > > > Then in our usage case, is there some similar method to do
+> > this? or
+> > > > > any other suggestion?
+> > > >
+> > > > Don't stuff software into DTS.
+> > >
+> > > Aren't most reserved-memory bindings just software policy if you
+> > look at it
+> > > that way, though? IIUC this is a pool of memory that is visible and
+> > > available to the Non-Secure OS, but is fundamentally owned by the
+> > Secure
+> > > TEE, and pages that the TEE allocates from it will become
+> > physically
+> > > inaccessible to the OS. Thus the platform does impose constraints
+> > on how the
+> > > Non-Secure OS may use it, and per the rest of the reserved-memory
+> > bindings,
+> > > describing it as a "reusable" reservation seems entirely
+> > appropriate. If
+> > > anything that's *more* platform-related and so DT-relevant than
+> > typical
+> > > arbitrary reservations which just represent "save some memory to
+> > dedicate to
+> > > a particular driver" and don't actually bear any relationship to
+> > firmware or
+> > > hardware at all.
+> >
+> > Yes, a memory range defined by hardware or firmware is within scope
+> > of
+> > DT. (CMA at aribitrary address was questionable.)
+>
 
-I apologized, If this mail find's you disturbing, It might not be the
-best way to approach you as we have not met before, but due to the
-urgency of my present situation i decided  to communicate this way, I
-came across your e-mail contact through a private search, so please
-pardon my manna, I am writing this mail to you with heavy tears In my
-eyes and great sorrow in my heart, My Name is Mrs.Juliette Morgan, and
-I am contacting you from my country Norway, I want to tell you this
-because I don't have any other option than to tell you as I was
-touched to open up to you,
+Before I reply, my context is that I'm using these patches from
+Mediatek on ChromeOS to implement secure video playback.
 
-I married to Mr.sami Morgan. Who worked with Norway embassy in Burkina
-Faso for nine years before he died in the year 2020.We were married
-for eleven years without a child He died after a brief illness that
-lasted for only five days. Since his death I decided not to remarry,
-When my late husband was alive he deposited the sum of $12.645 Million
-(Twelve million, six hundred and Forty five thousand Dollars) in a
-bank in Ouagadougou the capital city of Burkina Faso in west Africa
-Presently this money is still in bank, This is
-not a stolen money and there are no dangers involved. It is 100% risk
-free with full legal proof. He made this money available for
-exportation of Gold from Burkina Faso mining.
+> I guess the memory range is not "defined" by HW in our case, but this
+> reserve buffer is indeed prepared for and used by HW.
+>
+The memory range is defined in the firmware. The TEE is configured
+with the same address/size that is being set in this DT node. (so
+based on comments already, this is appropriate to put in the DT).
 
-Recently, My Doctor told me that I would not last for the period of
-seven months due to cancer problem. The one that disturbs me most is
-my stroke sickness.Having known my condition I decided to hand you
-over this money to take care of the less-privileged people, you will
-utilize this money the way I am going to instruct herein.
+> If this is a normal reserved buffer for some device, we could define a
+> reserved-memory with "shared-dma-pool", then the device use it via
+> "memory-region" property, is this right?
+>
+> Here it is a secure buffer case and this usage relationship is
+> indirect. We create a new heap for this new secure type memory, other
+> users such as VCODEC and DRM allocate secure memory through the new
+> heap.
+>
+> About the aribitrary address is because we have HW register for it. As
+> long as this is a legal dram address, it is fine. When this address is
+> passed into TEE, it will be protected by HW.
+>
+> >
+> > My issue here is more that 'secure video memory' is not any way
+> > Mediatek
+> > specific.
+>
+> Sorry, I don't know if there already is an SVP case in the current
+> kernel. If so, could you help share it?
 
-I want you to take 40 Percent of the total money for your personal use
-While 60% of the money will go to charity, people in the street and
-helping the orphanage. I grew up as an Orphan and I don't have any
-body as my family member, just to endeavour that the house of God is
-maintained. Am doing this so that God will forgive my sins and accept
-my soul because these sicknesses have suffered me so much.
+I don't think there is any SVP (Secure Video Path) case in the current
+kernel. I agree this shouldn't be a Mediatek specific setting, as this
+could be usable to other SVP implementations.
 
-As soon as I receive your reply I shall give you the contact of the
-bank in Burkina Faso and I will also instruct the Bank Manager to
-issue you an authority letter that will prove you the present
-beneficiary of the money in the bank that is if you assure me that you
-will act accordingly as I Stated herein.
+I do think this should have 'cma' in the DT description, as it does
+relate to what the driver is going to do with this memory region. It
+will establish it as a CMA region in Linux. The reason it needs to be
+a CMA region is that the entire memory region will need to transition
+between secure (i.e. TEE owned) and non-secure (i.e. kernel owned).
+Some chipsets have the ability to change memory states between secure
+& non-secure at page level granularity, and in these cases you don't
+need to worry about having a CMA region like this. That is not the
+case on the Mediatek chips where there is a limit to how many regions
+you can mark as secure. In order to deal with that limitation, once a
+secure allocation needs to be performed, the kernel driver allocates
+the entire CMA region so nothing else will use it. Then it marks that
+whole region secure and the TEE can do its own allocations from that
+region. When all those allocations are freed, it can mark that region
+as non-secure again, drop the whole CMA allocation and the kernel can
+make use of that CMA region again.  (there is the other dma-heap in
+their patches, which is for a smaller region that can always be
+secure...but that one is a permanent carveout, the CMA region is
+available to the kernel while not in use for secure memory)
 
-Always reply to my alternative for security purposes
+So maybe something like:
 
-Hoping to receive your reply:
-From Mrs.Juliette Morgan,
++title:Secure Reserved CMA Region
++
++description:
++  This binding describes a CMA region that can dynamically transition
+between secure and non-secure states that a TEE can allocate memory
+from.
++
++maintainers:
++  - Yong Wu <yong.wu@mediatek.com>
++
++allOf:
++  - $ref: reserved-memory.yaml
++
++properties:
++  compatible:
++    const: secure_cma_region
++
++required:
++  - compatible
++  - reg
++  - reusable
++
++unevaluatedProperties: false
++
++examples:
++  - |
++
++    reserved-memory {
++        #address-cells =3D <1>;
++        #size-cells =3D <1>;
++        ranges;
++
++        reserved-memory@80000000 {
++            compatible =3D "secure_cma_region";
++            reusable;
++            reg =3D <0x80000000 0x18000000>;
++        };
++    };
+--=20
+
+
+>
+> Regarding our special, the new heap driver may be different, and other
+> HWs share this reserve buffer and manage it through this pure SW heap.
+>
+> >  AIUI, it's a requirement from certain content providers for
+> > video playback to work. So why the Mediatek specific binding?
+> >
+> > Rob
