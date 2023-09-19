@@ -2,141 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B992B7A6522
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 15:32:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CE4A7A656F
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 15:41:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232453AbjISNcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 09:32:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34268 "EHLO
+        id S232414AbjISNlI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 09:41:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232389AbjISNco (ORCPT
+        with ESMTP id S231960AbjISNlH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 09:32:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2BD9F1
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 06:32:36 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 237CBBB2;
-        Tue, 19 Sep 2023 15:30:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695130259;
-        bh=uFmrdA+WvsfZWCuCsanzPXaKijv+Dqkdqd5Ru9tlw/k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eGDofv3J19/sx1PFRhM4bngDJONKc53/czkxN/zMVP4Gc0pr9uBy7OXti7DlSNB4b
-         JICHhgNwlBqq7bn/TK8h7Hgjmzo4qPLWwEtMwp4MfjJBJ7St9L/8YOQzY+iDcL0MtZ
-         Lqy5tKsxn95BJKgvzQ/lXz0yfy8ARk9UeCTWxdcQ=
-Date:   Tue, 19 Sep 2023 16:32:48 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH v3 11/12] media: v4l: subdev: Print debug information on
- frame descriptor
-Message-ID: <20230919133248.GD1505@pendragon.ideasonboard.com>
-References: <20230919121728.126781-1-sakari.ailus@linux.intel.com>
- <20230919121728.126781-12-sakari.ailus@linux.intel.com>
+        Tue, 19 Sep 2023 09:41:07 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDBEF100;
+        Tue, 19 Sep 2023 06:41:01 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EA3CC433C9;
+        Tue, 19 Sep 2023 13:40:57 +0000 (UTC)
+Message-ID: <3652023b-f4ab-4316-ad11-b598ef1f4bd2@xs4all.nl>
+Date:   Tue, 19 Sep 2023 15:40:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230919121728.126781-12-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 21/49] media: dvb: Stop direct calls to queue
+ num_buffers field
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-22-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230914133323.198857-22-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Tue, Sep 19, 2023 at 03:17:27PM +0300, Sakari Ailus wrote:
-> Print debug level information on returned frame descriptors.
+On 14/09/2023 15:32, Benjamin Gaignard wrote:
+> Use vb2_get_num_buffers() to avoid using queue num_buffer field directly.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 32 ++++++++++++++++++++++++++-
->  1 file changed, 31 insertions(+), 1 deletion(-)
+>  drivers/media/dvb-core/dvb_vb2.c          | 1 -
+>  drivers/media/dvb-frontends/rtl2832_sdr.c | 5 +++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 7b087be3ff4f..504ca625b2bd 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -15,6 +15,7 @@
->  #include <linux/module.h>
->  #include <linux/overflow.h>
->  #include <linux/slab.h>
-> +#include <linux/string.h>
->  #include <linux/types.h>
->  #include <linux/version.h>
->  #include <linux/videodev2.h>
-> @@ -309,9 +310,38 @@ static int call_set_selection(struct v4l2_subdev *sd,
->  static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
->  			       struct v4l2_mbus_frame_desc *fd)
+> diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
+> index 3a966fdf814c..a731b755a0b9 100644
+> --- a/drivers/media/dvb-core/dvb_vb2.c
+> +++ b/drivers/media/dvb-core/dvb_vb2.c
+> @@ -177,7 +177,6 @@ int dvb_vb2_init(struct dvb_vb2_ctx *ctx, const char *name, int nonblocking)
+>  	q->ops = &dvb_vb2_qops;
+>  	q->mem_ops = &vb2_vmalloc_memops;
+>  	q->buf_ops = &dvb_vb2_buf_ops;
+> -	q->num_buffers = 0;
+>  	ret = vb2_core_queue_init(q);
+>  	if (ret) {
+>  		ctx->state = DVB_VB2_STATE_NONE;
+
+This touches the dvb-core, and should be in a separate patch.
+
+> diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
+> index 02c619e51641..023db6e793f8 100644
+> --- a/drivers/media/dvb-frontends/rtl2832_sdr.c
+> +++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
+> @@ -439,12 +439,13 @@ static int rtl2832_sdr_queue_setup(struct vb2_queue *vq,
 >  {
-> +	unsigned int i;
-> +	int ret;
-> +
->  	memset(fd, 0, sizeof(*fd));
+>  	struct rtl2832_sdr_dev *dev = vb2_get_drv_priv(vq);
+>  	struct platform_device *pdev = dev->pdev;
+> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
 >  
-> -	return sd->ops->pad->get_frame_desc(sd, pad, fd);
-> +	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	dev_dbg(sd->dev, "Frame descriptor on pad %u, type %s\n", pad,
-> +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
-> +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
-> +		"unknown");
-> +
-> +	for (i = 0; i < fd->num_entries; i++) {
-> +		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
-> +		char buf[20] = "";
-
-Should this be sized for the worst case ? The vc and dt should not be
-large, but a buffer overflow on the stack in debug code if a subdev
-returns an incorrect value would be bad.
-
-> +
-> +		if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-> +			snprintf(buf, sizeof(buf), ", vc %u, dt 0x%2.2x",
-
-0x%02x would be one character shorter ;-) Same below.
-
-> +				 entry->bus.csi2.vc, entry->bus.csi2.dt);
-> +
-> +		dev_dbg(sd->dev,
-> +			"\tstream %u, code 0x%4.4x, lenght %u, flags%s%s%s\n",
-
-s/lenght/length/
-
-> +			entry->stream, entry->pixelcode, entry->length,
-> +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_LEN_MAX ?
-> +			" LEN_MAX" : "",
-> +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_BLOB ?
-> +			" BLOB" : "", buf);
-
-If no flags are set, you will get something like
-
-	stream 0, code 0x1234, length ..., flags, vc 0, dt 0x2a
-
-Maybe printing the hex value for the flags would be simpler and clearer
-?
-
-> +	}
-> +
-> +	return 0;
->  }
+>  	dev_dbg(&pdev->dev, "nbuffers=%d\n", *nbuffers);
 >  
->  static inline int check_edid(struct v4l2_subdev *sd,
+>  	/* Need at least 8 buffers */
+> -	if (vq->num_buffers + *nbuffers < 8)
+> -		*nbuffers = 8 - vq->num_buffers;
+> +	if (q_num_bufs + *nbuffers < 8)
+> +		*nbuffers = 8 - q_num_bufs;
+>  	*nplanes = 1;
+>  	sizes[0] = PAGE_ALIGN(dev->buffersize);
+>  	dev_dbg(&pdev->dev, "nbuffers=%d sizes[0]=%d\n", *nbuffers, sizes[0]);
 
--- 
+This is really a generic issue with most of these patches:
+
+queue_setup checks for a minimum number of buffers, but that should instead
+be configured through the q->min_buffers_needed field.
+
+A lot of older drivers were written before that field was added.
+
+This is a good opportunity to just drop this check from queue_setup
+and instead just set q->min_buffers_needed to 8.
+
 Regards,
 
-Laurent Pinchart
+	Hans
