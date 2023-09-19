@@ -2,135 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E122D7A5F67
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:24:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 008917A5F6B
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:24:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231537AbjISKYK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 06:24:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51860 "EHLO
+        id S231376AbjISKYo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 06:24:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231577AbjISKYI (ORCPT
+        with ESMTP id S230504AbjISKYn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 06:24:08 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40002F2;
-        Tue, 19 Sep 2023 03:24:02 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 08B4666071A9;
-        Tue, 19 Sep 2023 11:23:59 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695119040;
-        bh=vEd/MlguL02ZXOoi5Lbo0eYYX6tjl/mBmpK3ZZEUtB8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ND8iOwdDEuuZr6o5GFR1BcGk2ITNPnArgMvUGFAJohCweD6qZLyhpVjkG1nFoh04l
-         /XF9yMOyv6CmWws+8IYm9fx/12p2Xq/2k/SV/5w5OFfnI4jFkNGEJcSdYZzAg/+KWN
-         +CK+wHtpexMo1hYbB3fasJsYDmxaBSHTUVj5+6VD6YMb9tX1iCteOb2D5gat/q0Pns
-         klLQPVyPR7lNfMzV0OWv8JqGcMaesyHa1qhhO9IRFycI6rtN96iSu7tgG5rDwlQdkR
-         7hdg9gZNBmNeYmn6TQ0mY7FpB1bO2nzFyzSCQcXbqbzlCnDadDg9klsyOHlp6eZ1D2
-         TjzD/OXqZFCzQ==
-Message-ID: <f1e28c8d-c30f-d80b-3d6f-fbfd3e55a64a@collabora.com>
-Date:   Tue, 19 Sep 2023 12:23:57 +0200
+        Tue, 19 Sep 2023 06:24:43 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D88AE8
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 03:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695119078; x=1726655078;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VQlzUWfEIC4dF5w7dC/jVBda80kw2U1PIANOYLHi0hU=;
+  b=JnmDJ4dgQsumns6VIH4pyrsTuMrVHF2YkD/uN7jDy05EwMip33U56ZDn
+   RSiqFitPZVhIwd4DS8PCVi4CKPLsA7BGs5i8sd7k0gEY/q30ysch6QBTe
+   Qu6rRQkCqsbHocqApQw2ViTqB3jUrk6bgyjk0zwv8CskhWzsXbtoUjEb7
+   Jl1W1iODWgWZDuBn8to38pc1awr+rqD56vF/lfdcI0ELKj77LE3W8lLKq
+   a8pOZ7k3SBMbNgv2yVpwPJIVEUfp9lb9Dg+gGZUi9ZUCh3dXSTi3vKL/j
+   IcHA3wO1kSdkwFOntpPUd9UvJ58KRzeOjpMCY68oFWEk37wdRexxsmMwh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="379806451"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="379806451"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:24:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="811675489"
+X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
+   d="scan'208";a="811675489"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:24:35 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id A05C5120BE5;
+        Tue, 19 Sep 2023 13:24:32 +0300 (EEST)
+Date:   Tue, 19 Sep 2023 10:24:32 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>
+Subject: Re: [PATCH v2 12/12] media: mc: Check pad flag validity
+Message-ID: <ZQl24DaMGeQSTPRa@kekkonen.localdomain>
+References: <20230918125138.90002-1-sakari.ailus@linux.intel.com>
+ <20230918125138.90002-13-sakari.ailus@linux.intel.com>
+ <20230918134802.GH28874@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 2/2] media: platform: mtk-mdp3: Use devicetree phandle to
- retrieve SCP
-Content-Language: en-US
-To:     wens@kernel.org
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        matthias.bgg@gmail.com, moudy.ho@mediatek.com,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        u.kleine-koenig@pengutronix.de, linqiheng@huawei.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel@collabora.com,
-        wenst@chromium.org
-References: <20230919095938.70679-1-angelogioacchino.delregno@collabora.com>
- <20230919095938.70679-3-angelogioacchino.delregno@collabora.com>
- <CAGb2v66rEqWBjdMNO3VMZhYj36hhKTxPk+9pborPjnqW0B-=ZA@mail.gmail.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAGb2v66rEqWBjdMNO3VMZhYj36hhKTxPk+9pborPjnqW0B-=ZA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230918134802.GH28874@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 19/09/23 12:21, Chen-Yu Tsai ha scritto:
-> On Tue, Sep 19, 2023 at 6:00 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Instead of walking the entire parent node for something that has the
->> right compatible, use the scp_get() function provided by the MediaTek
->> SCP remoteproc driver to retrieve a handle to mtk_scp through the
->> devicetree "mediatek,scp" (phandle) property.
->>
->> In case of multi-core SCP, this also allows to select a specific core.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   .../media/platform/mediatek/mdp3/mtk-mdp3-core.c | 16 ++++++++++------
->>   1 file changed, 10 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
->> index 8677e7fd5083..d93d3833633e 100644
->> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
->> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
->> @@ -254,13 +254,17 @@ static int mdp_probe(struct platform_device *pdev)
->>                  goto err_destroy_job_wq;
->>          }
->>
->> -       mm_pdev = __get_pdev_by_id(pdev, NULL, MDP_INFRA_SCP);
->> -       if (WARN_ON(!mm_pdev)) {
->> -               dev_err(&pdev->dev, "Could not get scp device\n");
->> -               ret = -ENODEV;
->> -               goto err_destroy_clock_wq;
->> +       mdp->scp = scp_get(pdev);
->> +       if (!mdp->scp) {
->> +               mm_pdev = __get_pdev_by_id(pdev, NULL, MDP_INFRA_SCP);
->> +               if (WARN_ON(!mm_pdev)) {
->> +                       dev_err(&pdev->dev, "Could not get scp device\n");
->> +                       ret = -ENODEV;
->> +                       goto err_destroy_clock_wq;
->> +               }
->> +               mdp->scp = platform_get_drvdata(mm_pdev);
+Hi Laurent,
+
+Thanks for the review.
+
+On Mon, Sep 18, 2023 at 04:48:02PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> You need to keep the original code as a fallback for old device trees.
+> Thank you for the patch.
+> 
+> On Mon, Sep 18, 2023 at 03:51:38PM +0300, Sakari Ailus wrote:
+> > Check the validity of pad flags on entity init. Exactly one of the flags
+> > must be set.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/mc/mc-entity.c | 20 ++++++++++++++++++--
+> >  1 file changed, 18 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > index 83468d4a440b..38d5bbae33d7 100644
+> > --- a/drivers/media/mc/mc-entity.c
+> > +++ b/drivers/media/mc/mc-entity.c
+> > @@ -195,8 +195,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> >  			   struct media_pad *pads)
+> >  {
+> >  	struct media_device *mdev = entity->graph_obj.mdev;
+> > -	struct media_pad *iter;
+> > +	struct media_pad *iter, *iter2;
+> >  	unsigned int i = 0;
+> > +	int ret = 0;
+> >  
+> >  	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
+> >  		return -E2BIG;
+> > @@ -210,15 +211,30 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+> >  	media_entity_for_each_pad(entity, iter) {
+> >  		iter->entity = entity;
+> >  		iter->index = i++;
+> > +
+> > +		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
+> > +					     MEDIA_PAD_FL_SOURCE)) != 1) {
+> > +			ret = -EINVAL;
+> > +			break;
+> > +		}
+> > +
+> >  		if (mdev)
+> >  			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
+> >  					  &iter->graph_obj);
+> >  	}
+> >  
+> > +	if (ret && mdev) {
+> > +		media_entity_for_each_pad(entity, iter2) {
+> > +			if (iter2 == iter)
+> > +				break;
+> > +			media_gobj_destroy(&iter->graph_obj);
+> 
+> Wrong iterator.
+> 
+> Instead of using a second iterator, which can be error-prone as shown
+> here, how about breaking when !iter->graph_obj.mdev, which indicates an
+> uninitialized object ?
+
+media_gobj_destroy() is actually a no-op if it hasn't been initialised
+(created).
+
+It'd be still cleaner to make the pad flag checks first and only then call
+media_gobj_create() on them. But if someone needs something more in the
+future, then that doesn't mix as well anymore.
+
+Both are fine IMO.
+
+> 
+> > +		}
+> > +	}
+> > +
+> >  	if (mdev)
+> >  		mutex_unlock(&mdev->graph_mutex);
+> >  
+> > -	return 0;
+> > +	return ret;
+> >  }
+> >  EXPORT_SYMBOL_GPL(media_entity_pads_init);
+> >  
 > 
 
-I haven't removed the original code, it *is* there as a fallback :-)
-
-mdp->scp = scp_get() <--- new
-if (!mdp->scp) { fallback }
-
+-- 
 Regards,
-Angelo
 
-> ChenYu
-> 
->>          }
->> -       mdp->scp = platform_get_drvdata(mm_pdev);
->> +
->>          mdp->rproc_handle = scp_get_rproc(mdp->scp);
->>          dev_dbg(&pdev->dev, "MDP rproc_handle: %pK", mdp->rproc_handle);
->>
->> --
->> 2.42.0
->>
-> _______________________________________________
-> Kernel mailing list -- kernel@mailman.collabora.com
-> To unsubscribe send an email to kernel-leave@mailman.collabora.com
-
-
+Sakari Ailus
