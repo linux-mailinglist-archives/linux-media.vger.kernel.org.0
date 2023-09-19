@@ -2,49 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 522AB7A67E6
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 17:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15C487A67F9
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 17:24:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233000AbjISPVT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 11:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52762 "EHLO
+        id S233140AbjISPY0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 11:24:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233098AbjISPVS (ORCPT
+        with ESMTP id S232823AbjISPYZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 11:21:18 -0400
+        Tue, 19 Sep 2023 11:24:25 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B794FB
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 08:21:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE1AEE60;
+        Tue, 19 Sep 2023 08:24:17 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 411ECB53;
-        Tue, 19 Sep 2023 17:19:34 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7479B53;
+        Tue, 19 Sep 2023 17:22:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695136774;
-        bh=RBjEl68UqG4JpiJ12BcL1TDdC/O0FwpCqm9PFRnFTJU=;
+        s=mail; t=1695136959;
+        bh=9vIyKWF61Oki0ViP0MM9OtlYNdPRel3PPjwYgBK9PgM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RatCAIXfKsNjiWg9jXg4D4REdLP9EOzu/eV31peLlByRQ3w9KnG+pnZIiqAv3GO2u
-         qqmUe3D6g2Dd3Laz9J5CLH+2j1YK9egtRgKRc6sILMNznCFdJvSEPp63pmv0uuoAAo
-         PjfEHjrtUnczaZNLjQWUtNM+VxGEP66uMyZDv+j4=
-Date:   Tue, 19 Sep 2023 18:21:23 +0300
+        b=fxBxJ7GxeYlxsv1O+e8OcB0xbaq3uqYvHMy6CJ+TAxNH9W/dGWlrG+m/XoCY3m6z6
+         QH/kgnB92SDfVDlD79tXdPCTTTNCgerQ8jVda95uBOVKtQVkPsKmtQuPAwhTeAbQXP
+         BBt/QdZG/1mxqJrUUV1gCD1fW4Gj21NPLG2qfhvI=
+Date:   Tue, 19 Sep 2023 18:24:28 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH v3 11/12] media: v4l: subdev: Print debug information on
- frame descriptor
-Message-ID: <20230919152123.GA18426@pendragon.ideasonboard.com>
-References: <20230919121728.126781-1-sakari.ailus@linux.intel.com>
- <20230919121728.126781-12-sakari.ailus@linux.intel.com>
- <20230919133248.GD1505@pendragon.ideasonboard.com>
- <ZQm0+U6n+rE2fjcD@kekkonen.localdomain>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+Subject: Re: [GIT PULL] drm: renesas: shmobile: Atomic conversion + DT
+ support (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
+ + DT support)
+Message-ID: <20230919152428.GB18426@pendragon.ideasonboard.com>
+References: <cover.1694767208.git.geert+renesas@glider.be>
+ <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZQm0+U6n+rE2fjcD@kekkonen.localdomain>
+In-Reply-To: <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -54,106 +65,122 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 19, 2023 at 02:49:29PM +0000, Sakari Ailus wrote:
-> Hi Laurent,
+On Tue, Sep 19, 2023 at 04:28:40PM +0200, Geert Uytterhoeven wrote:
+> Hi David, Daniel,
 > 
-> On Tue, Sep 19, 2023 at 04:32:48PM +0300, Laurent Pinchart wrote:
-> > Hi Sakari,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Tue, Sep 19, 2023 at 03:17:27PM +0300, Sakari Ailus wrote:
-> > > Print debug level information on returned frame descriptors.
-> > > 
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-subdev.c | 32 ++++++++++++++++++++++++++-
-> > >  1 file changed, 31 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > index 7b087be3ff4f..504ca625b2bd 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > @@ -15,6 +15,7 @@
-> > >  #include <linux/module.h>
-> > >  #include <linux/overflow.h>
-> > >  #include <linux/slab.h>
-> > > +#include <linux/string.h>
-> > >  #include <linux/types.h>
-> > >  #include <linux/version.h>
-> > >  #include <linux/videodev2.h>
-> > > @@ -309,9 +310,38 @@ static int call_set_selection(struct v4l2_subdev *sd,
-> > >  static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> > >  			       struct v4l2_mbus_frame_desc *fd)
-> > >  {
-> > > +	unsigned int i;
-> > > +	int ret;
-> > > +
-> > >  	memset(fd, 0, sizeof(*fd));
-> > >  
-> > > -	return sd->ops->pad->get_frame_desc(sd, pad, fd);
-> > > +	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	dev_dbg(sd->dev, "Frame descriptor on pad %u, type %s\n", pad,
-> > > +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
-> > > +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
-> > > +		"unknown");
-> > > +
-> > > +	for (i = 0; i < fd->num_entries; i++) {
-> > > +		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
-> > > +		char buf[20] = "";
-> > 
-> > Should this be sized for the worst case ? The vc and dt should not be
-> > large, but a buffer overflow on the stack in debug code if a subdev
-> > returns an incorrect value would be bad.
+> The following changes since commit 0663e1da5ba8e6459e3555ac12c62741668c0d30:
 > 
-> 17 should be enough but it's not useful to use a size not divisible by 4 in
-> practice here.
+>   drm/dp_mst: Tune down error message during payload addition
+> (2023-09-18 16:38:21 +0300)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+> tags/shmob-drm-atomic-dt-tag1
+> 
+> for you to fetch changes up to bfea0fa9052aa8d235b24957eb84d9ff20cb87b7:
+> 
+>   drm: renesas: shmobile: Add DT support (2023-09-19 15:58:04 +0200)
+> 
+> ----------------------------------------------------------------
+> drm: renesas: shmobile: Atomic conversion + DT support
+> 
+> Currently, there are two drivers for the LCD controller on Renesas
+> SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+>   1. sh_mobile_lcdcfb, using the fbdev framework,
+>   2. shmob_drm, using the DRM framework.
+> However, only the former driver is used, as all platform support
+> integrates the former.  None of these drivers support DT-based systems.
+> 
+> Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
+> support, complemented by the customary set of fixes and improvements.
+> 
+> Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glider.be/
+> 
+> This PR is based on today's drm-misc/for-linux-next, to avoid a
+> conflict with commit 775b0669e19f2e4a ("drm/shmobile: Convert to
+> platform remove callback returning void") in drm-misc/for-linux-next
+> .
+> Thanks for pulling!
+> ----------------------------------------------------------------
+> Geert Uytterhoeven (36):
+>       MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
 
-18 with the terminating 0. But indeed, it's large enough as vc and dt
-are u8. I'm just a bit worried we're opening the door to hard to debug
-problems if we later change the vc and dt types.
+I'm technically listed as the maintainer for this driver until Geert
+takes over, so for this pull request,
 
-> > > +
-> > > +		if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-> > > +			snprintf(buf, sizeof(buf), ", vc %u, dt 0x%2.2x",
-> > 
-> > 0x%02x would be one character shorter ;-) Same below.
-> 
-> It would be, but I prefer the above notation as it's more generic.
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Out of curiosity, how so ?
+And after that, shmobile won't need my ack to merge further changes :-)
 
-> > > +				 entry->bus.csi2.vc, entry->bus.csi2.dt);
-> > > +
-> > > +		dev_dbg(sd->dev,
-> > > +			"\tstream %u, code 0x%4.4x, lenght %u, flags%s%s%s\n",
-> > 
-> > s/lenght/length/
-> 
-> Thanks, I'll fix this.
-> 
-> > > +			entry->stream, entry->pixelcode, entry->length,
-> > > +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_LEN_MAX ?
-> > > +			" LEN_MAX" : "",
-> > > +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_BLOB ?
-> > > +			" BLOB" : "", buf);
-> > 
-> > If no flags are set, you will get something like
-> > 
-> > 	stream 0, code 0x1234, length ..., flags, vc 0, dt 0x2a
-> > 
-> > Maybe printing the hex value for the flags would be simpler and clearer
-> > ?
-> 
-> How about adding the numerical value in addition to the strings?
-> 
-> The use of these flags is rare though. I could just remove the strings,
-> too.
+This is very nice work Geert. I'm looking forward to dropping the
+sh_mobile_lcdcfb driver.
 
-Up to you.
+>       dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
+>       media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
+>       drm: renesas: shmobile: Fix overlay plane disable
+>       drm: renesas: shmobile: Fix ARGB32 overlay format typo
+>       drm: renesas: shmobile: Correct encoder/connector types
+>       drm: renesas: shmobile: Add support for Runtime PM
+>       drm: renesas: shmobile: Restore indentation of shmob_drm_setup_clocks()
+>       drm: renesas: shmobile: Use %p4cc to print fourcc code
+>       drm: renesas: shmobile: Add missing YCbCr formats
+>       drm: renesas: shmobile: Improve shmob_drm_format_info table
+>       drm: renesas: shmobile: Improve error handling
+>       drm: renesas: shmobile: Convert to use devm_request_irq()
+>       drm: renesas: shmobile: Remove custom plane destroy callback
+>       drm: renesas: shmobile: Use drmm_universal_plane_alloc()
+>       drm: renesas: shmobile: Embed drm_device in shmob_drm_device
+>       drm: renesas: shmobile: Convert container helpers to static inline functions
+>       drm: renesas: shmobile: Replace .dev_private with container_of()
+>       drm: renesas: shmobile: Use media bus formats in platform data
+>       drm: renesas: shmobile: Move interface handling to connector setup
+>       drm: renesas: shmobile: Unify plane allocation
+>       drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
+>       drm: renesas: shmobile: Rename shmob_drm_connector.connector
+>       drm: renesas: shmobile: Rename shmob_drm_plane.plane
+>       drm: renesas: shmobile: Use drm_crtc_handle_vblank()
+>       drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
+>       drm: renesas: shmobile: Wait for page flip when turning CRTC off
+>       drm: renesas: shmobile: Turn vblank on/off when enabling/disabling CRTC
+>       drm: renesas: shmobile: Shutdown the display on remove
+>       drm: renesas: shmobile: Cleanup encoder
+>       drm: renesas: shmobile: Atomic conversion part 1
+>       drm: renesas: shmobile: Atomic conversion part 2
+>       drm: renesas: shmobile: Use suspend/resume helpers
+>       drm: renesas: shmobile: Remove internal CRTC state tracking
+>       drm: renesas: shmobile: Atomic conversion part 3
+>       drm: renesas: shmobile: Add DT support
+> 
+> Laurent Pinchart (5):
+>       drm: renesas: shmobile: Remove backlight support
+>       drm: renesas: shmobile: Don't set display info width and height twice
+>       drm: renesas: shmobile: Rename input clocks
+>       drm: renesas: shmobile: Remove support for SYS panels
+>       drm: renesas: shmobile: Use struct videomode in platform data
+> 
+>  .../bindings/display/renesas,shmobile-lcdc.yaml    | 130 +++++
+>  .../userspace-api/media/v4l/subdev-formats.rst     |  72 +++
+>  MAINTAINERS                                        |  13 +-
+>  drivers/gpu/drm/renesas/shmobile/Kconfig           |   3 +-
+>  drivers/gpu/drm/renesas/shmobile/Makefile          |   3 +-
+>  .../gpu/drm/renesas/shmobile/shmob_drm_backlight.c |  82 ---
+>  .../gpu/drm/renesas/shmobile/shmob_drm_backlight.h |  19 -
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c  | 650 +++++++++------------
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h  |  27 +-
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c   | 179 +++---
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h   |  18 +-
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c   |  77 ++-
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h   |   9 +-
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 326 ++++++-----
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h |   5 +-
+>  include/linux/platform_data/shmob_drm.h            |  57 +-
+>  include/uapi/linux/media-bus-format.h              |   3 +-
+>  17 files changed, 860 insertions(+), 813 deletions(-)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+>  delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
+>  delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
 
 -- 
 Regards,
