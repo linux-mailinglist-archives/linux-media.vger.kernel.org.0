@@ -2,120 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A3B17A62AF
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 14:20:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B8027A62B4
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 14:21:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232210AbjISMUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 08:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60248 "EHLO
+        id S231840AbjISMVz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 08:21:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232233AbjISMUY (ORCPT
+        with ESMTP id S231778AbjISMVy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 08:20:24 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40BB310CF
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 05:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695125983; x=1726661983;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/3L2NxF7OYmSMvxGNO3/dIM9IMpSlNIboV+nvrkDjoU=;
-  b=DmU2LsJuRs2bRpWoSktqc/O+p9hHtjVAMyQnJXLgkUPKYxRU4iusb2Xq
-   V4qnp1NPwqTRxuW4yerhdu5xdE5jLI5oi5YMnDOJGvcJBO5smZuY6EP7w
-   u8NgadefnrnLRD1b/yTDIZg5djEuPbJCFqu7cnL8GHG9TbxTd0N21d08S
-   p6ZgMDtOESGrAKLyZlZY1EREbSXttOCSr4dWVTcr3R18xTmvyuz5duIHc
-   MYPXmvlG26k6rZRW1xufL7jfE85hJLtFVGNoSEyIUbnEIVwr1NySEFPG5
-   9IqrzHtoqRPKIC4KkQDOx7SP81Pf/CBnBGaUF5JXG2OqJV8aAmMSAiPC3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="466251057"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="466251057"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:17:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="811701708"
-X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="811701708"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 05:17:49 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 6B653120C31;
-        Tue, 19 Sep 2023 15:17:46 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Martin Kepplinger <martink@posteo.de>
-Subject: [PATCH v3 12/12] media: mc: Check pad flag validity
-Date:   Tue, 19 Sep 2023 15:17:28 +0300
-Message-Id: <20230919121728.126781-13-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230919121728.126781-1-sakari.ailus@linux.intel.com>
-References: <20230919121728.126781-1-sakari.ailus@linux.intel.com>
+        Tue, 19 Sep 2023 08:21:54 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EEB2F7;
+        Tue, 19 Sep 2023 05:21:47 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA738C433C7;
+        Tue, 19 Sep 2023 12:21:43 +0000 (UTC)
+Message-ID: <90ee9c16-f023-483c-8cc8-f4a15a29ea48@xs4all.nl>
+Date:   Tue, 19 Sep 2023 14:21:41 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 18/49] media: Remove duplicated index vs q->num_buffers
+ check
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-19-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230914133323.198857-19-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Check the validity of pad flags on entity init. Exactly one of the flags
-must be set.
+On 14/09/2023 15:32, Benjamin Gaignard wrote:
+> vb2_get_buffer() already check if the requested index is valid.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/mc/mc-entity.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+typo: check -> checks
 
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 83468d4a440b..0a54cf8bcca2 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -197,6 +197,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
- 	struct media_device *mdev = entity->graph_obj.mdev;
- 	struct media_pad *iter;
- 	unsigned int i = 0;
-+	int ret = 0;
- 
- 	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
- 		return -E2BIG;
-@@ -210,15 +211,26 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
- 	media_entity_for_each_pad(entity, iter) {
- 		iter->entity = entity;
- 		iter->index = i++;
-+
-+		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
-+					     MEDIA_PAD_FL_SOURCE)) != 1) {
-+			ret = -EINVAL;
-+			break;
-+		}
-+
- 		if (mdev)
- 			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
- 					  &iter->graph_obj);
- 	}
- 
-+	if (ret && mdev)
-+		media_entity_for_each_pad(entity, iter)
-+			media_gobj_destroy(&iter->graph_obj);
-+
- 	if (mdev)
- 		mutex_unlock(&mdev->graph_mutex);
- 
--	return 0;
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(media_entity_pads_init);
- 
--- 
-2.39.2
+> Stop duplicating this kind of check everywhere.
+
+Also mention you moved it from the header to videobuf2-core.c.
+
+Although I am not sure if it belongs in this patch, it is not
+needed for this. I think it is better to move it either into a
+separate patch, or move it to the patch where it is really needed.
+
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-core.c |  8 ++++++++
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c | 13 -------------
+>  include/media/videobuf2-core.h                  |  8 +-------
+>  3 files changed, 9 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index ee4df7c68397..2add7a6795e7 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -660,6 +660,14 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>  	}
+>  }
+>  
+> +struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
+> +{
+> +	if (index < q->num_buffers)
+> +		return q->bufs[index];
+> +	return NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(vb2_get_buffer);
+> +
+>  bool vb2_buffer_in_use(struct vb2_queue *q, struct vb2_buffer *vb)
+>  {
+>  	unsigned int plane;
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 87c2d5916960..f10b70d8e66a 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -378,11 +378,6 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (b->index >= q->num_buffers) {
+> -		dprintk(q, 1, "%s: buffer index out of range\n", opname);
+> -		return -EINVAL;
+> -	}
+> -
+>  	vb = vb2_get_buffer(q, b->index);
+>  	if (!vb) {
+>  		dprintk(q, 1, "%s: buffer is NULL\n", opname);
+> @@ -829,10 +824,6 @@ int vb2_qbuf(struct vb2_queue *q, struct media_device *mdev,
+>  		return -EBUSY;
+>  	}
+>  
+> -	if (b->index >= q->num_buffers) {
+> -		dprintk(q, 1, "buffer index out of range\n");
+> -		return -EINVAL;
+> -	}
+>  	vb = vb2_get_buffer(q, b->index);
+>  	if (!vb) {
+>  		dprintk(q, 1, "can't find the requested buffer\n");
+> @@ -904,10 +895,6 @@ int vb2_expbuf(struct vb2_queue *q, struct v4l2_exportbuffer *eb)
+>  {
+>  	struct vb2_buffer *vb;
+>  
+> -	if (eb->index >= q->num_buffers) {
+> -		dprintk(q, 1, "buffer index out of range\n");
+> -		return -EINVAL;
+> -	}
+>  	vb = vb2_get_buffer(q, eb->index);
+>  	if (!vb) {
+>  		dprintk(q, 1, "can't find the requested buffer\n");
+
+This patch should be folded into 11/49. It is 11/49 that introduced these
+duplicate messages, and it should have removed those directly.
+
+Regards,
+
+	Hans
+
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 97153c69583f..25ca395616a7 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -1238,13 +1238,7 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
+>   * operation, so the buffer lifetime should be taken into
+>   * consideration.
+>   */
+> -static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+> -						unsigned int index)
+> -{
+> -	if (index < q->num_buffers)
+> -		return q->bufs[index];
+> -	return NULL;
+> -}
+> +struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index);
+>  
+>  /*
+>   * The following functions are not part of the vb2 core API, but are useful
 
