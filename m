@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC1297A5DF4
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 11:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F9C47A5E37
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 11:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231277AbjISJbi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 05:31:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46594 "EHLO
+        id S231442AbjISJho (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 05:37:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231210AbjISJbh (ORCPT
+        with ESMTP id S231256AbjISJhm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 05:31:37 -0400
+        Tue, 19 Sep 2023 05:37:42 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AEA8100;
-        Tue, 19 Sep 2023 02:31:32 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C0FC433C8;
-        Tue, 19 Sep 2023 09:31:27 +0000 (UTC)
-Message-ID: <93e9b143-664c-4fbb-8722-0beabd5b2c0c@xs4all.nl>
-Date:   Tue, 19 Sep 2023 11:31:26 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1E92F2;
+        Tue, 19 Sep 2023 02:37:35 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20125C433C8;
+        Tue, 19 Sep 2023 09:37:31 +0000 (UTC)
+Message-ID: <22346801-8d09-4f9e-8f5a-1f0bad192476@xs4all.nl>
+Date:   Tue, 19 Sep 2023 11:37:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 07/49] media: sti: hva: Use vb2_get_buffer() instead of
- directly access to buffers array
+Subject: Re: [PATCH v7 06/49] media: mediatek: vdec: Use vb2_get_buffer()
+ instead of directly access to buffers array
 Content-Language: en-US, nl
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
@@ -35,9 +35,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         kernel@collabora.com
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-8-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-7-benjamin.gaignard@collabora.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230914133323.198857-8-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230914133323.198857-7-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
@@ -58,32 +58,33 @@ On 14/09/2023 15:32, Benjamin Gaignard wrote:
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  drivers/media/platform/st/sti/hva/hva-v4l2.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  .../platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-> index 3a848ca32a0e..326be09bdb55 100644
-> --- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
-> +++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-> @@ -577,6 +577,10 @@ static int hva_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
->  		}
-
-Above this line there is a buf->index check...
-
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> index e393e3e668f8..3d2ae0e1b5b6 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+> @@ -1696,7 +1696,7 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
 >  
->  		vb2_buf = vb2_get_buffer(vq, buf->index);
-> +		if (!vb2_buf) {
-> +			dev_dbg(dev, "%s buffer index %d not found\n", ctx->name, buf->index);
-> +			return -EINVAL;
-> +		}
+>  	/* update internal buffer's width/height */
+>  	for (i = 0; i < vq->num_buffers; i++) {
+> -		if (vb == vq->bufs[i]) {
+> +		if (vb == vb2_get_buffer(vq, i)) {
 
-...I think that check can be dropped since vb2_get_buffer checks that already.
+The original code here is silly...
+
+>  			instance->dpb[i].width = w;
+>  			instance->dpb[i].height = h;
+>  			break;
+
+...This can just be changed to:
+
+	instance->dpb[vb->index].width = w;
+	instance->dpb[vb->index].height = h;
+
+No need to loop.
 
 Regards,
 
 	Hans
-
->  		stream = to_hva_stream(to_vb2_v4l2_buffer(vb2_buf));
->  		stream->bytesused = buf->bytesused;
->  	}
-
