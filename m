@@ -2,131 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 682C57A5F56
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD7797A5F61
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 12:21:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231566AbjISKUb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 06:20:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50966 "EHLO
+        id S231634AbjISKWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 06:22:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230145AbjISKUa (ORCPT
+        with ESMTP id S230504AbjISKWB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 06:20:30 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F674F4
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 03:20:25 -0700 (PDT)
+        Tue, 19 Sep 2023 06:22:01 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DC7F4
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 03:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695118825; x=1726654825;
+  t=1695118914; x=1726654914;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Z4po5FB6qxgI5tFf/ZzFcd7J+HQTIC1ZMvGICybIsSs=;
-  b=HGGJzp0395Z6T59SaSro0yxv/qu5zPWswAqwAjrxnN9C/YvCuDQXgDgV
-   ssQWK/v7bO9PZO8hEQvz3ms23AXBBYXmIcmTMlc94y8PQ7icCXaHCw+KV
-   4F0/C3jZ5SdX434DhJ2+ukjYd5UEDTNOxQaWHhEtEiJOJ6vAbEPtlNsHd
-   TJoC+qPxeSeDUW1o6o/vho87QJ/qqM1BOgtrRVnDtpDtBxDIdPnUTnCev
-   CheExZDA9uWe0YWBQfYZV19fpRizyCd54wBa1QD8cPTvlv+Gy79cF/Seo
-   PcINSi3KjqO1TjvWlW7DI9CFBL1IByDujus1x4ABVwi/nfQQFSWE6Nns1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="378799674"
+  bh=CoOz66JvWBqbwn0b+N0HtQwc2thuQVwbK0QEJnvriXs=;
+  b=DG8BymmWQMW7CTsISrEuslyKZNebTyCQRyAsXlL+H9FMZxqHiKRZ1z7k
+   Gr1ahkcBwk8iGXKVM1f2vQMpC3UHAMEwZ27kXwlNkUoVB8hbT9ZKwNUyF
+   bRLgS9ssBM24BMHhNIsP5/kJ09X/s/Qb6uTb+HFmEq9UD0e7dHbotMJJ+
+   ln9/dCAwku681JCjGIcJ8YTIdcCBlkW62TuvReXS6yruFvfdt3K3INdMV
+   45h7cuEqPQfwqqnSPS1OBBaJfhTO6Tn+9coto4v4Iq9ai8Jh2UEIFYwwO
+   Qtguaqz5DaVM4RkwkfwMD+W7dVuwmIacKqOY0TmdLNEWdKBIzM0M9YM+Q
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="359303017"
 X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="378799674"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:20:24 -0700
+   d="scan'208";a="359303017"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:21:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="695857163"
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="869928796"
 X-IronPort-AV: E=Sophos;i="6.02,159,1688454000"; 
-   d="scan'208";a="695857163"
+   d="scan'208";a="869928796"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:20:22 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 03:21:51 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id C88C6120BE5;
-        Tue, 19 Sep 2023 13:11:02 +0300 (EEST)
-Date:   Tue, 19 Sep 2023 10:11:02 +0000
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 13CB2120BE5;
+        Tue, 19 Sep 2023 13:21:48 +0300 (EEST)
+Date:   Tue, 19 Sep 2023 10:21:48 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
         Bingbu Cao <bingbu.cao@intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH v2 09/12] media: ov2740: Return -EPROBE_DEFER if no
- endpoint is found
-Message-ID: <ZQlztieKQ4SrIjpC@kekkonen.localdomain>
+Subject: Re: [PATCH v2 11/12] media: v4l: subdev: Print debug information on
+ frame descriptor
+Message-ID: <ZQl2PBsGfyZyv4A9@kekkonen.localdomain>
 References: <20230918125138.90002-1-sakari.ailus@linux.intel.com>
- <20230918125138.90002-10-sakari.ailus@linux.intel.com>
- <20230918132455.GD28874@pendragon.ideasonboard.com>
+ <20230918125138.90002-12-sakari.ailus@linux.intel.com>
+ <20230918133926.GG28874@pendragon.ideasonboard.com>
+ <749451b9-b754-fd9c-d0e8-4edb3cb613ac@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230918132455.GD28874@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <749451b9-b754-fd9c-d0e8-4edb3cb613ac@ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Tomi, Laurent,
 
-On Mon, Sep 18, 2023 at 04:24:55PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Sep 18, 2023 at 03:51:35PM +0300, Sakari Ailus wrote:
-> > With ipu bridge, endpoints may only be created when ipu bridge has
-> > initialised. This may happen after the sensor driver has first probed.
+Thanks for the review.
+
+On Tue, Sep 19, 2023 at 11:19:36AM +0300, Tomi Valkeinen wrote:
+> On 18/09/2023 16:39, Laurent Pinchart wrote:
+> > Hi Sakari,
 > > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/ov2740.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > Thank you for the patch.
 > > 
-> > diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> > index 2c00e653ec47..ccbb15e730ae 100644
-> > --- a/drivers/media/i2c/ov2740.c
-> > +++ b/drivers/media/i2c/ov2740.c
-> > @@ -976,7 +976,7 @@ static int ov2740_check_hwcfg(struct device *dev)
-> >  
-> >  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> >  	if (!ep)
-> > -		return -ENXIO;
-> > +		return -EPROBE_DEFER;
+> > On Mon, Sep 18, 2023 at 03:51:37PM +0300, Sakari Ailus wrote:
+> > > Print debug level information on returned frame descriptors.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >   drivers/media/v4l2-core/v4l2-subdev.c | 35 ++++++++++++++++++++++++++-
+> > >   1 file changed, 34 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > index 7b087be3ff4f..abd9275febdb 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > @@ -309,9 +309,42 @@ static int call_set_selection(struct v4l2_subdev *sd,
+> > >   static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > >   			       struct v4l2_mbus_frame_desc *fd)
+> > >   {
+> > > +	unsigned int i;
+> > > +	int ret;
+> > > +
+> > >   	memset(fd, 0, sizeof(*fd));
+> > > -	return sd->ops->pad->get_frame_desc(sd, pad, fd);
+> > > +	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	dev_dbg(sd->dev, "Frame descriptor\n");
+> > > +	dev_dbg(sd->dev, "\ttype %s\n",
+> > > +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
+> > > +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
+> > > +		"unknown");
+> > > +	dev_dbg(sd->dev, "\tentries %u\n", fd->num_entries);
+> > 
+> > You could skip this line, it's implied by the entries that you print
+> > below.
+
+I guess that's reasonable if I switch to the format Tomi proposed. You'd
+only need to count lines.
+
+> > 
+> > > +
+> > > +	for (i = 0; i < fd->num_entries; i++) {
+> > > +		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
+> > > +
+> > > +		dev_dbg(sd->dev, "\tentry %u\n", i);
+> > > +		dev_dbg(sd->dev, "\tflags%s%s\n",
+> > > +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_LEN_MAX ?
+> > > +			" LEN_MAX" : "",
+> > > +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_BLOB ?
+> > > +			" BLOB" : "");
+> > > +		dev_dbg(sd->dev, "\t\tstream %u\n", entry->stream);
+> > > +		dev_dbg(sd->dev, "\t\tpixelcode 0x%4.4x\n", entry->pixelcode);
+> > > +		dev_dbg(sd->dev, "\t\tlength %u\n", entry->length);
+> > > +
+> > > +		if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
+> > > +			dev_dbg(sd->dev, "\t\tvc %u\n", entry->bus.csi2.vc);
+> > > +			dev_dbg(sd->dev, "\t\tdt 0x%2.2x\n", entry->bus.csi2.dt);
+> > 
+> > I'd merge those two in a single line.
+> > 
+> > > +		}
+> > > +	}
+> > 
+> > All this is a bit verbose. If it was in a hot path I would be annoyed,
+> > but in this case I suppose it can be useful for debugging and won't
+> > affect runtime too much.
+> > 
+> > It would be nice if we could have a single check and return early. That
+> > should be possible by using DEFINE_DYNAMIC_DEBUG_METADATA() and
+> > DYNAMIC_DEBUG_BRANCH(), like done in alloc_contig_dump_pages() for
+> > instance. It has the additional upside of being able to control all the
+> > messages with a single flag. I'm not sure it's worth it though, I'll let
+> > you decide.
 > 
-> This is fine as a quick fix, so
+> Yes, this is very spammy. Maybe instead of:
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thank you.
-
+> Frame descriptor
+> 	type CSI-2
+> 	entries 2
+> 	entry 0
+> 	flags LEN_MAX
+> 		stream 0
+> 		pixelcode 0x3012
+> 		length 3194400
+> 		vc 0
+> 		dt 0x2c
+> 	entry 1
+> 	flags LEN_MAX
+> 		stream 1
+> 		pixelcode 0x8003
+> 		length 2904
+> 		vc 0
+> 		dt 0x12
 > 
-> but I'm thinking that we need better in the long run, for multiple
-> reasons:
 > 
-> - All sensor drivers that support ACPI should do the same, as they
->   shouldn't be aware of platform-specific integration details. This
->   could be done by mass-patching them, with a documentation update to
->   clearly indicate what error code is appropriate. Another option could
->   be to return an error pointer from fwnode_graph_get_next_endpoint(),
->   with the appropriate error being set depending on the platform. Other
->   solutions may be possible too.
-
-I'd like to see IPU bridge in the ACPI framework but that won't happen
-overnight. Then this issue would disappear. The problem with the error is
-that callers don't expect it and how do you tell if you're expecting
-something you don't know about to appear.
-
+> Frame descriptor type CSI-2:
+>   pad 0 stream 0 code 0x3012 len 3194400 vc 0 dt 0x2c LEN_MAX
+>   pad 0 stream 1 code 0x8003 len 2904 vc 0 dt 0x12 LEN_MAX
 > 
-> - On OF systems, a DT error will result in probe deferral, which is
->   harder to debug than probe failures. It would be nice to avoid that.
+> (note: pad is missing in your patch)
 
-Yes.
-
-I change it for this sensor only as I was otherwise working on it.
+It's indeed much more condensed but still contains all the relevant
+information. I'll switch to this (or something alike).
 
 -- 
 Regards,
