@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F9C47A5E37
-	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 11:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AD3B7A5E5C
+	for <lists+linux-media@lfdr.de>; Tue, 19 Sep 2023 11:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231442AbjISJho (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 05:37:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37782 "EHLO
+        id S231382AbjISJlx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 05:41:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231256AbjISJhm (ORCPT
+        with ESMTP id S231465AbjISJlv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 05:37:42 -0400
+        Tue, 19 Sep 2023 05:41:51 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1E92F2;
-        Tue, 19 Sep 2023 02:37:35 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20125C433C8;
-        Tue, 19 Sep 2023 09:37:31 +0000 (UTC)
-Message-ID: <22346801-8d09-4f9e-8f5a-1f0bad192476@xs4all.nl>
-Date:   Tue, 19 Sep 2023 11:37:30 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71AE1E7;
+        Tue, 19 Sep 2023 02:41:46 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A82BDC433C8;
+        Tue, 19 Sep 2023 09:41:42 +0000 (UTC)
+Message-ID: <ac09a943-5158-463a-8b97-c7b700e946af@xs4all.nl>
+Date:   Tue, 19 Sep 2023 11:41:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/49] media: mediatek: vdec: Use vb2_get_buffer()
- instead of directly access to buffers array
+Subject: Re: [PATCH v7 09/49] media: atomisp: Use vb2_get_buffer() instead of
+ directly access to buffers array
 Content-Language: en-US, nl
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
@@ -35,9 +35,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         kernel@collabora.com
 References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-7-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-10-benjamin.gaignard@collabora.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230914133323.198857-7-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230914133323.198857-10-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
@@ -55,36 +55,36 @@ On 14/09/2023 15:32, Benjamin Gaignard wrote:
 > needed.
 > After each call to vb2_get_buffer() we need to be sure that we get
 > a valid pointer so check the return value of all of them.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> index e393e3e668f8..3d2ae0e1b5b6 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-> @@ -1696,7 +1696,7 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
->  
->  	/* update internal buffer's width/height */
->  	for (i = 0; i < vq->num_buffers; i++) {
-> -		if (vb == vq->bufs[i]) {
-> +		if (vb == vb2_get_buffer(vq, i)) {
 
-The original code here is silly...
+This last paragraph does not apply to this specific patch since we know
+here that the buffer will always be valid.
 
->  			instance->dpb[i].width = w;
->  			instance->dpb[i].height = h;
->  			break;
+Perhaps change this to something along the lines of:
 
-...This can just be changed to:
-
-	instance->dpb[vb->index].width = w;
-	instance->dpb[vb->index].height = h;
-
-No need to loop.
+"No need to check the result of vb2_get_buffer, vb2_ioctl_dqbuf() already
+checked that it is valid."
 
 Regards,
 
 	Hans
+
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> index d2174156573a..4b65c69fa60d 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> @@ -1061,7 +1061,7 @@ static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
+>  	if (ret)
+>  		return ret;
+>  
+> -	vb = pipe->vb_queue.bufs[buf->index];
+> +	vb = vb2_get_buffer(&pipe->vb_queue, buf->index);
+>  	frame = vb_to_frame(vb);
+>  
+>  	buf->reserved = asd->frame_status[buf->index];
+
