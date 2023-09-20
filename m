@@ -2,268 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 482A47A8240
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E2877A8272
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:59:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236064AbjITM66 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 08:58:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33880 "EHLO
+        id S234706AbjITM7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 08:59:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235869AbjITM6x (ORCPT
+        with ESMTP id S236324AbjITM7V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:58:53 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73AE191
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:58:41 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d77ad095f13so6666615276.2
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695214720; x=1695819520; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mhN52Axjfx0WJN6DRSBtDitooqrwltiCdBCv1t2K6iw=;
-        b=JY2/PSYhEtlQxt2+eAz7152Mze5svv8nz3C3yO2YcrQ5VLsuNu7GO1fKra1oMRAWI+
-         LEVnINqQRCW8qCbz2AI6xGNiqDOQm7GldkNeEv+mr19x566cQT3r0tMxGN3G0dA2W12c
-         68ICWDim+AODWjv/NfKdgK8rD8r0BcABqjt7g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695214720; x=1695819520;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mhN52Axjfx0WJN6DRSBtDitooqrwltiCdBCv1t2K6iw=;
-        b=rvD6HPqFknZSYElrtiYFTYzc1vPSJ1pX7X4ZKc5FdaJyH8b74BfNA40Zk+tclPkbsP
-         mRVIT+DQsyT0sNJXrlcWlafDxWttvzanN/cJ2DlopsDJk0xd+ePFEhn0W1FwWZzbm7fT
-         hhhj2Cg7+B0ZXZOQiTBhihPNdEzTHO/y9GSINj4UHZf2/uZSekT7q27UrU6ZHPJPSYmf
-         lJk1LZhgzo+CWuNvBKtSHCuoIv3n8x1imfRNem5gdNlw7NRDG50LWO/amrKAV6SC61Nl
-         iKoZIbHpdsanrzG264d0DnNHx3AE/+vx3UTlJUYkARjhpqI4zU1gB00hLtUuUbYjfMt4
-         RKOw==
-X-Gm-Message-State: AOJu0YxbooExRYGY38EcFizYJQeS7nNe/v2zJay8yxXpSTh89OiaHHRp
-        yj8bl6R2O2pwRJ7GirQFST4MODigXIPaXEjzT72C2g==
-X-Google-Smtp-Source: AGHT+IH/xQwsTLWDF8itzf0ML22Erm4ErjxDBpQS0h8TulQCPwQguSNfETMSWaXvLIrRUiMsJNVlLw==
-X-Received: by 2002:a25:8b0c:0:b0:d62:d6c5:f5ee with SMTP id i12-20020a258b0c000000b00d62d6c5f5eemr2254178ybl.58.1695214720458;
-        Wed, 20 Sep 2023 05:58:40 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id s4-20020a259004000000b00d728a2738f1sm3175934ybl.61.2023.09.20.05.58.39
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Sep 2023 05:58:39 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d857c8a1d50so1585255276.3
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:58:39 -0700 (PDT)
-X-Received: by 2002:a25:9012:0:b0:d6b:6b53:d1ab with SMTP id
- s18-20020a259012000000b00d6b6b53d1abmr2428189ybl.38.1695214719242; Wed, 20
- Sep 2023 05:58:39 -0700 (PDT)
+        Wed, 20 Sep 2023 08:59:21 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4946D129;
+        Wed, 20 Sep 2023 05:59:11 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2A9C433C9;
+        Wed, 20 Sep 2023 12:59:06 +0000 (UTC)
+Message-ID: <a3c61e5a-e5cb-43d5-a3dc-80806f8da672@xs4all.nl>
+Date:   Wed, 20 Sep 2023 14:59:05 +0200
 MIME-Version: 1.0
-References: <20230919140123.6277-1-ricardo@ribalda.com> <ZQn/aXrIx7ItvrXI@valkosipuli.retiisi.eu>
- <CANiDSCvX03=dwmE6jDvfSPzFwrhbKwLmVpwkOY-6k4uGbvZBuw@mail.gmail.com>
- <ZQoDIbeg00j3STdW@valkosipuli.retiisi.eu> <20230919210306.GD24325@pendragon.ideasonboard.com>
- <CANiDSCu6wsoogSd=8MfmyJNkk+Ocs3wfk-b6Yx+G8L1QEHhArw@mail.gmail.com> <ZQroHhGjbOcocsHt@valkosipuli.retiisi.eu>
-In-Reply-To: <ZQroHhGjbOcocsHt@valkosipuli.retiisi.eu>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 20 Sep 2023 14:58:24 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtgb4Ac1bZK39RBRmov7_5rMWGcdvZJjfX7yWD6m9Treg@mail.gmail.com>
-Message-ID: <CANiDSCtgb4Ac1bZK39RBRmov7_5rMWGcdvZJjfX7yWD6m9Treg@mail.gmail.com>
-Subject: Re: [PATCH] yavta: Format type errors for non x86 arches
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, Ricardo Ribalda <ricardo@ribalda.com>,
-        hverkuil@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 1/7] media: v4l2: Add ignore_streaming flag
+Content-Language: en-US, nl
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jackson Lee <jackson.lee@chipsnmedia.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Robert Beckett <bob.beckett@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20230915-wave5_v12_on_media_master-v12-0-92fc66cd685d@collabora.com>
+ <20230915-wave5_v12_on_media_master-v12-1-92fc66cd685d@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20230915-wave5_v12_on_media_master-v12-1-92fc66cd685d@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+On 15/09/2023 23:11, Sebastian Fricke wrote:
+> Add a new flag to the `struct v4l2_m2m_dev` to toggle whether a queue
+> must be streaming in order to allow queuing jobs to the ready queue.
+> Currently, both queues (CAPTURE & OUTPUT) must be streaming in order to
+> allow adding new jobs. This behavior limits the usability of M2M for
+> some drivers, as these have to be able, to perform analysis of the
 
-On Wed, 20 Sept 2023 at 14:40, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Ricardo,
->
-> On Wed, Sep 20, 2023 at 02:19:54PM +0200, Ricardo Ribalda wrote:
-> > Hi Laurent, Hi Sakari
-> >
-> >
-> >
-> > On Tue, 19 Sept 2023 at 23:02, Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > On Tue, Sep 19, 2023 at 08:22:57PM +0000, Sakari Ailus wrote:
-> > > > Hi Ricardo,
-> > > >
-> > > > On Tue, Sep 19, 2023 at 10:10:41PM +0200, Ricardo Ribalda wrote:
-> > > > > Hi Sakari
-> > > > >
-> > > > > On Tue, 19 Sept 2023 at 22:07, Sakari Ailus <sakari.ailus@iki.fi>=
- wrote:
-> > > > > >
-> > > > > > Hi Ricardo,
-> > > > > >
-> > > > > > Thanks for the patch.
-> > > > > >
-> > > > > > On Tue, Sep 19, 2023 at 04:01:23PM +0200, Ricardo Ribalda wrote=
-:
-> > > > > > > mipsel64el, ppc64el, ia64, ppc64, sparc64 and x32 have differ=
-ent lenghts
-> > > > > > > for long long ints, which result in some compilation errors.
-> > > > > > >
-> > > > > > > Lets add some castings to help the compiler deal with this.
-> > > > > > >
-> > > > > > > We cannot use the Format macro constants ffrom inttypes becau=
-se they
-> > > > > > > seem to not be compatible with kernel (__u64 et al) types.
-> > > > > > >
-> > > > > > > Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
-> > > > > > > ---
-> > > > > > >  yavta.c | 35 +++++++++++++++++++++--------------
-> > > > > > >  1 file changed, 21 insertions(+), 14 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/yavta.c b/yavta.c
-> > > > > > > index d562863..bf54e4f 100644
-> > > > > > > --- a/yavta.c
-> > > > > > > +++ b/yavta.c
-> > > > > > > @@ -1313,7 +1313,8 @@ static void video_query_menu(struct dev=
-ice *dev,
-> > > > > > >                       printf("  %u: %.32s%s\n", menu.index, m=
-enu.name,
-> > > > > > >                              menu.index =3D=3D value ? " (*)"=
- : "");
-> > > > > > >               else
-> > > > > > > -                     printf("  %u: %lld%s\n", menu.index, me=
-nu.value,
-> > > > > > > +                     printf("  %u: %lld%s\n", menu.index,
-> > > > > >
-> > > > > > Could you instead use PRId64 for this? You can avoid casting to=
- another
-> > > > > > type this way. Same for the other cases.
-> > > > >
-> > > > > Already tried this:
-> > > > >
-> > > > > @@ -1313,7 +1313,7 @@ static void video_query_menu(struct device =
-*dev,
-> > > > >                         printf("  %u: %.32s%s\n", menu.index, men=
-u.name,
-> > > > >                                menu.index =3D=3D value ? " (*)" :=
- "");
-> > > > >                 else
-> > > > > -                       printf("  %u: %lld%s\n", menu.index, menu=
-.value,
-> > > > > +                       printf("  %u: %" PRId64 "%s\n", menu.inde=
-x, menu.value,
-> > > > >                                menu.index =3D=3D value ? " (*)" :=
- "");
-> > > > >         };
-> > > > >  }
-> > > > >
-> > > > > but gcc was not happy:
-> > > > >
-> > > > > yavta.c: In function =E2=80=98video_query_menu=E2=80=99:
-> > > > > yavta.c:1316:11: warning: format =E2=80=98%ld=E2=80=99 expects ar=
-gument of type =E2=80=98long
-> > > > > int=E2=80=99, but argument 3 has type =E2=80=98__s64=E2=80=99 {ak=
-a =E2=80=98long long int=E2=80=99}
-> > > > > [-Wformat=3D]
-> > > > >  1316 |    printf("  %u: %" PRId64 "%s\n", menu.index, menu.value=
-,
-> > > > >       |           ^~~~~~~~~                            ~~~~~~~~~~
-> > > > >       |                                                    |
-> > > > >       |                                                    __s64 =
-{aka
-> > > > > long long int}
-> > > > > In file included from yavta.c:26:
-> > > > > /usr/include/inttypes.h:57:34: note: format string is defined her=
-e
-> > > > >    57 | # define PRId64  __PRI64_PREFIX "d"
-> > > >
-> > > > I guess I should have expected this...
-> > > >
-> > > > I'm not sure if it'd be prettier but another option is to use the P=
-RI*
-> > > > macros and explicitly cast to a standard type.
-> >
-> > I would like to avoid
-> >
-> >   printf(" Hello %" PRId64 "\n", (uint64_t) value_s64);
-> >
-> > That looks very bad :)
->
-> I actually prefer this. It doesn't look bad either IMO, apart from the PR=
-I*
-> macros that are always ugly, but most importantly you're explicitly using
-> 64-bit types that work everywhere.
+able, to -> able to
 
-I am sending a v2, but it looks uglier (not that v1 was super beauty)
+> sequence to ensure, that userspace prepares the CAPTURE queue correctly.
 
+ensure, that -> ensure that
 
->
-> >
-> > I believe the current casting is the least of the two evils.
-> >
-> >
-> > > >
-> > > > Using the standard types in the V4L2 header would have avoided this=
- issue.
-> > > > I wonder if there's anything to be gained by using the kernel types=
-.
-> > >
-> > > The kernel has defined __s64 as signed int int for a long time now, o=
-n
-> > > all architectures, at least since
-> > >
-> > > commit 0c79a8e29b5fcbcbfd611daf9d500cfad8370fcf
-> > > Author: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > Date:   Thu Jan 23 15:53:43 2014 -0800
-> > >
-> > >     asm/types.h: Remove include/asm-generic/int-l64.h
-> > >
-> > > which was merged in v3.14.
-> > >
-> > > According to https://buildd.debian.org/status/package.php?p=3Dyavta,
-> > > however, __s64 seems to be defined as long int on some platforms.
-> > >
-> > > /me is puzzled
-> >
-> > It does not help that __s64 is long long int and PRId64 is "d". I
-> > guess we can say that inttypes and kernel types do not play along?
->
-> I haven't encountered this issue in the past but I also haven't tried
-> compiling for odd architectures.
+> 
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  include/media/v4l2-mem2mem.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+> index d6c8eb2b5201..97a48e61e358 100644
+> --- a/include/media/v4l2-mem2mem.h
+> +++ b/include/media/v4l2-mem2mem.h
+> @@ -57,6 +57,16 @@ struct v4l2_m2m_dev;
+>   * @rdy_spinlock: spin lock to protect the struct usage
+>   * @num_rdy:	number of buffers ready to be processed
+>   * @buffered:	is the queue buffered?
+> + * @ignore_streaming: Dictates whether the queue must be streaming for a job to
+> + *		      be queued.
+> + *		      This is useful, for example, when the driver requires to
+> + *		      initialize the sequence with a firmware, where only a
+> + *		      queued OUTPUT queue buffer and STREAMON on the OUTPUT
+> + *		      queue is required to perform the anlysis of the bitstream
+> + *		      header.
+> + *		      This means the driver is responsible for implementing the
+> + *		      job_ready callback correctly to make sure that requirements
+> + *		      for actual decoding are met.
 
-Just to make it explicit
+This is a bad description and field name.
 
-PRId64 =3D=3D ld and _s64 =3D=3D long long int
+Basically what this field does is that, if true, the streaming state of the
+capture queue is ignored. So just call it that: ignore_cap_streaming.
 
-is a problem also for x86_64
+And explain that, if true, job_ready() will be called even if the capture
+queue is not streaming, and that that can be used to allow hardware to
+analyze the bitstream header that arrives on the OUTPUT queue.
 
->
-> >
-> > I guess we need kerntypes.h with proper KPRId64 but that is probably
-> > out of scope here.
->
-> This could even depend on the compiler.
->
-> I wonder why we aren't using
->
->         typedef uint64_t __u64;
->
-> in kernel UAPI headers instead. Including inttypes.h should not be an iss=
-ue
-> in 2023 anymore.
->
-> This problem is certainly wider in scope than yavta.
->
-> --
-> Regards,
->
-> Sakari Ailus
+Also, doesn't this field belong to struct v4l2_m2m_ctx? It makes no sense
+for the output queue, this is really a configuration for the m2m context as
+a whole.
 
+>   *
+>   * Queue for buffers ready to be processed as soon as this
+>   * instance receives access to the device.
+> @@ -69,6 +79,7 @@ struct v4l2_m2m_queue_ctx {
+>  	spinlock_t		rdy_spinlock;
+>  	u8			num_rdy;
+>  	bool			buffered;
+> +	bool			ignore_streaming;
+>  };
+>  
+>  /**
+> @@ -564,6 +575,12 @@ static inline void v4l2_m2m_set_dst_buffered(struct v4l2_m2m_ctx *m2m_ctx,
+>  	m2m_ctx->cap_q_ctx.buffered = buffered;
+>  }
+>  
+> +static inline void v4l2_m2m_set_dst_ignore_streaming(struct v4l2_m2m_ctx *m2m_ctx,
+> +						     bool ignore_streaming)
+> +{
+> +	m2m_ctx->cap_q_ctx.ignore_streaming = ignore_streaming;
+> +}
+> +
 
+I think this is overkill, esp. when the field is moved to m2m_ctx. Just clearly
+document that drivers can set this.
 
---=20
-Ricardo Ribalda
+Regards,
+
+	Hans
+
+>  /**
+>   * v4l2_m2m_ctx_release() - release m2m context
+>   *
+> 
+
