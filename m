@@ -2,324 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF4F07A6FA6
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 01:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A6947A700E
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 03:40:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233553AbjISXra (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 19:47:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37666 "EHLO
+        id S229641AbjITBke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Sep 2023 21:40:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233468AbjISXr2 (ORCPT
+        with ESMTP id S229521AbjITBke (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 19:47:28 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D2F1B0
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 16:47:19 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-34fcc39fae1so53655ab.0
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 16:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695167239; x=1695772039; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7LJF4TQQlvwx4ojH6z1jq1dM6I4h5d3t3AXqcpM3/xU=;
-        b=f6Rby23axHUdQpgZwRHacrjGldF6HN9WriTSNI3oZdAgmVO9Crz7ImhBlaLf+edNYm
-         TscL4rURR3DhlY8QTNjRGXtQ8D0ghwQSiWmJ0m0VUN+/P55tAm3afT34LtV/AVbHzlgA
-         GEl3ne9U9bbEZ/cf8Br0cWVTfxUA3WbKuE5U0/A99GwZE4St4cuBNGF3Pi8T4R3Buk67
-         vf0NWiVM/2NOjb1klF48/bNiVUq4TNjuepfEmO76IK5zpetk8ZqRp2NtQtbqqQz7taY5
-         JrprMCdazMKG+5ByEHdByis840lXnKkZ7v6Pcz0SDYn15x2aulZzr7YOjxahLXjTaSWh
-         jJYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695167239; x=1695772039;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7LJF4TQQlvwx4ojH6z1jq1dM6I4h5d3t3AXqcpM3/xU=;
-        b=ZWIo8HvLbu3z6LiPE8FHiRYxYx1LyS6NWfwzJtA6IqwM62PXcdnsOvV3WCV2r0YKUE
-         KEBGJF375e61eVARDDtWHONqkLR6x4Ohsu4jqqKolaPe9XkaBUsB2+N4kLEnjweUwXfk
-         sSHMWVBFNCGULpjwuSx6fqzkCyDJGgBm9gnsxoUenYcdZtufCgQzzP1K8KpvOA/e79Bm
-         2J5joJ2WoQ6lyQFSQQmTxcq2Gr6rLJCcXy8yGdbUzUmyjMXoMy3qK2amdpaCSywkq0ur
-         e01M208dXC3WJZpvdqvjAqt6FxXtnE26g+vmbzhbvYKRj1kje5xHx8D09dTRur9obgyq
-         Sqew==
-X-Gm-Message-State: AOJu0Ywd5Pv+SqrBEg4g4AbuTZIsYkeebsZ0SrPCBNuUzop47yCSPWJe
-        NWhRLawiDlS+6oPenFd6hw76AbvADVm+j/NlKTNU
-X-Google-Smtp-Source: AGHT+IGd+oxQSxw85Bd0zjhKfrnCmqrGPjS7bL32Al57eH/zbnuOVcqZXrWXgoYT+h6WDLt9al1FrU7dkwKZqspXE6Q=
-X-Received: by 2002:a05:6e02:1c4b:b0:349:2d91:e1a2 with SMTP id
- d11-20020a056e021c4b00b003492d91e1a2mr60657ilg.5.1695167238808; Tue, 19 Sep
- 2023 16:47:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
- <20230911125936.10648-12-yunfei.dong@mediatek.com> <d02953725e7ae17e75bff235acfd30327d0fe9ac.camel@collabora.com>
- <CA+ddPcOFksu6JzXZf0QOFeRDAyX=m0k+t8zwg2DbVmAkweobyg@mail.gmail.com> <1d19be1f21d579b529231882d761554d758db5b4.camel@collabora.com>
-In-Reply-To: <1d19be1f21d579b529231882d761554d758db5b4.camel@collabora.com>
-From:   Jeffrey Kardatzke <jkardatzke@google.com>
-Date:   Tue, 19 Sep 2023 16:47:03 -0700
-Message-ID: <CA+ddPcNSa_nW8Gtjck6bdWKHwN6OoASwwEYadR_9Z7eg=Su2rA@mail.gmail.com>
-Subject: Re: [PATCH 11/14] media: medkatek: vcodec: covert secure fd to secure handle
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= 
-        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nathan Hebert <nhebert@chromium.org>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        Tue, 19 Sep 2023 21:40:34 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60E4B3
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 18:40:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695174028; x=1726710028;
+  h=date:from:to:cc:subject:message-id;
+  bh=nLwL2rq4b5G0YWgzcmUh1jRL65lzDlOqzcJNcLwmefU=;
+  b=Z/YyY5sodOeqeV3mLcDotKsJxESJFlzRHWUwJvjAfnTcyJS7XTKt+JI0
+   pzItw7HE2oOtGYndEDgKP7R/wtzE0zvHC1n/HEEeDk8poxyM+UhjssB4M
+   tylf0Nnx4NVupYwbsNrmLeZUeLj/DkC4pCA835TcOGZeGRhb3WJGbbw2l
+   qXqbgFusykjxrqi8mpWBjJ/j3W3ggFiSS63kdIsbeM3hFcykf0PXdvYZp
+   WLnyep0ziTohrxo38EG1q4ygGP7T4GQDup0Kb2Bhpax0bdTMKs/cXVuO0
+   4gfDjJ7BR1+0+C25/Cta6xM3Am8MmmqgzuOXt5QDv24XZB3vuez02QKmT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="382846492"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="382846492"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 18:40:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="696128202"
+X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
+   d="scan'208";a="696128202"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 19 Sep 2023 18:40:27 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qimCX-00089e-0C;
+        Wed, 20 Sep 2023 01:40:25 +0000
+Date:   Wed, 20 Sep 2023 09:40:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ f73dbb357a98c986a8d531d8e4a77b78ac3fc897
+Message-ID: <202309200916.PYd0xcRQ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I do agree having a cleaner mechanism for this is better. So ideally
-this control is dropped from v4l2 and it becomes another ioctl in
-dma-heap instead so there's a uAPI for it. Then for the driver usages
-of sg_dma_address to get secure handles, those could be converted into
-dma-buf heap kernel APIs so they're not trying to reuse the dma_addr.
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: f73dbb357a98c986a8d531d8e4a77b78ac3fc897  media: intel-ipu3: Specify CCM values precision
 
-On Tue, Sep 19, 2023 at 4:03=E2=80=AFPM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> Le mardi 19 septembre 2023 =C3=A0 15:38 -0700, Jeffrey Kardatzke a =C3=A9=
-crit :
-> > On Tue, Sep 19, 2023 at 12:43=E2=80=AFPM Nicolas Dufresne
-> > <nicolas.dufresne@collabora.com> wrote:
-> > >
-> > > Le lundi 11 septembre 2023 =C3=A0 20:59 +0800, Yunfei Dong a =C3=A9cr=
-it :
-> > > > User driver will fill or parse data in optee-os with secure handle,
-> > > > need to covert secure fd to secure handle in kernel.
-> > > >
-> > > > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> > > > ---
-> > > >  .../vcodec/decoder/mtk_vcodec_dec_drv.c       |  1 +
-> > > >  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 54 +++++++++++++++=
-+++-
-> > > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  5 ++
-> > > >  include/uapi/linux/v4l2-controls.h            |  4 ++
-> > > >  4 files changed, 62 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vco=
-dec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_d=
-ec_drv.c
-> > > > index 0a89ce452ac3..64e006820f43 100644
-> > > > --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_drv.c
-> > > > +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_drv.c
-> > > > @@ -571,3 +571,4 @@ module_platform_driver(mtk_vcodec_dec_driver);
-> > > >
-> > > >  MODULE_LICENSE("GPL v2");
-> > > >  MODULE_DESCRIPTION("Mediatek video codec V4L2 decoder driver");
-> > > > +MODULE_IMPORT_NS(DMA_BUF);
-> > > > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vco=
-dec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vc=
-odec_dec_stateless.c
-> > > > index 2ea517883a86..d2b09ce9f1cf 100644
-> > > > --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_stateless.c
-> > > > +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_stateless.c
-> > > > @@ -426,6 +426,46 @@ static int mtk_vcodec_get_pic_info(struct mtk_=
-vcodec_dec_ctx *ctx)
-> > > >       return ret;
-> > > >  }
-> > > >
-> > > > +static int mtk_dma_contig_get_secure_handle(struct mtk_vcodec_dec_=
-ctx *ctx, int fd)
-> > > > +{
-> > > > +     int secure_handle =3D 0;
-> > > > +     struct dma_buf *buf;
-> > > > +     struct dma_buf_attachment *dba;
-> > > > +     struct sg_table *sgt;
-> > > > +     struct device *dev =3D &ctx->dev->plat_dev->dev;
-> > > > +
-> > > > +     buf =3D dma_buf_get(fd);
-> > > > +     if (IS_ERR(buf)) {
-> > > > +             mtk_v4l2_vdec_err(ctx, "dma_buf_get fail fd:%d", fd);
-> > > > +             return 0;
-> > > > +     }
-> > > > +
-> > > > +     dba =3D dma_buf_attach(buf, dev);
-> > > > +     if (IS_ERR(dba)) {
-> > > > +             mtk_v4l2_vdec_err(ctx, "dma_buf_attach fail fd:%d", f=
-d);
-> > > > +             goto err_attach;
-> > > > +     }
-> > > > +
-> > > > +     sgt =3D dma_buf_map_attachment(dba, DMA_BIDIRECTIONAL);
-> > > > +     if (IS_ERR(sgt)) {
-> > > > +             mtk_v4l2_vdec_err(ctx, "dma_buf_map_attachment fail f=
-d:%d", fd);
-> > > > +             goto err_map;
-> > > > +     }
-> > > > +     secure_handle =3D sg_dma_address(sgt->sgl);
-> > >
-> > > Does it mean if your secure dmabuf is passed to a driver that didn't =
-know it was
-> > > secure it will pick the handle as a memory address and program the HW=
- with it ?
-> > > That seems unsafe, the handle should be stored in a dedicated place a=
-nd mapping
-> > > should either fail, or provide a dummy buffer.
-> >
-> > Since the secure dmabufs don't support any mmap/cpu access to them and
-> > return -EPERM in those cases; wouldn't that prevent misuse of them in
-> > other places? (so the mmap operation and CPU access will fail, but
-> > getting the SG list from the dmabuf succeeds)
->
-> My impression is that if userspace can pass this FD to a driver without t=
-elling
-> the driver it is secure memory, the driver may potentially crash trying t=
-o use
-> the handle as an memory address.
->
-> In my opinion, sg_dma_address() should return addresses, like its name st=
-ate. If
-> you want to get something else, you should find another way to obtain it.
->
-> Nicolas
->
-> >
-> > >
-> > > > +
-> > > > +     dma_buf_unmap_attachment(dba, sgt, DMA_BIDIRECTIONAL);
-> > > > +     dma_buf_detach(buf, dba);
-> > > > +     dma_buf_put(buf);
-> > > > +
-> > > > +     return secure_handle;
-> > > > +err_map:
-> > > > +     dma_buf_detach(buf, dba);
-> > > > +err_attach:
-> > > > +     dma_buf_put(buf);
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > >  static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > >  {
-> > > >       struct mtk_vcodec_dec_ctx *ctx =3D ctrl_to_dec_ctx(ctrl);
-> > > > @@ -436,7 +476,7 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ct=
-rl)
-> > > >       struct v4l2_ctrl *hdr_ctrl;
-> > > >       const struct mtk_vcodec_dec_pdata *dec_pdata =3D ctx->dev->vd=
-ec_pdata;
-> > > >       const struct mtk_video_fmt *fmt;
-> > > > -     int i =3D 0, ret =3D 0;
-> > > > +     int i =3D 0, ret =3D 0, sec_fd;
-> > > >
-> > > >       hdr_ctrl =3D ctrl;
-> > > >       if (!hdr_ctrl || !hdr_ctrl->p_new.p)
-> > > > @@ -489,6 +529,12 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *c=
-trl)
-> > > >                       return -EINVAL;
-> > > >               }
-> > > >               break;
-> > > > +     case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:
-> > > > +             sec_fd =3D ctrl->val;
-> > > > +
-> > > > +             ctrl->val =3D mtk_dma_contig_get_secure_handle(ctx, c=
-trl->val);
-> > > > +             mtk_v4l2_vdec_dbg(3, ctx, "get secure handle: %d =3D>=
- 0x%x", sec_fd, ctrl->val);
-> > > > +             break;
-> > > >       default:
-> > > >               mtk_v4l2_vdec_dbg(3, ctx, "Not supported to set ctrl =
-id: 0x%x\n", hdr_ctrl->id);
-> > > >               return ret;
-> > > > @@ -525,8 +571,9 @@ static const struct v4l2_ctrl_ops mtk_vcodec_de=
-c_ctrl_ops =3D {
-> > > >  static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_dec_ctx *c=
-tx)
-> > > >  {
-> > > >       unsigned int i;
-> > > > +     struct v4l2_ctrl *ctrl;
-> > > >
-> > > > -     v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS);
-> > > > +     v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS + 1);
-> > > >       if (ctx->ctrl_hdl.error) {
-> > > >               mtk_v4l2_vdec_err(ctx, "v4l2_ctrl_handler_init failed=
-\n");
-> > > >               return ctx->ctrl_hdl.error;
-> > > > @@ -543,6 +590,9 @@ static int mtk_vcodec_dec_ctrls_setup(struct mt=
-k_vcodec_dec_ctx *ctx)
-> > > >               }
-> > > >       }
-> > > >
-> > > > +     ctrl =3D v4l2_ctrl_new_std(&ctx->ctrl_hdl, &mtk_vcodec_dec_ct=
-rl_ops,
-> > > > +                              V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE,=
- 0, 65535, 1, 0);
-> > > > +
-> > > >       v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
-> > > >
-> > > >       return 0;
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/me=
-dia/v4l2-core/v4l2-ctrls-defs.c
-> > > > index 8696eb1cdd61..d8cf01f76aab 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > @@ -1041,6 +1041,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> > > >       case V4L2_CID_MPEG_VIDEO_HEVC_SIZE_OF_LENGTH_FIELD:     retur=
-n "HEVC Size of Length Field";
-> > > >       case V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES:        retur=
-n "Reference Frames for a P-Frame";
-> > > >       case V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR:         retur=
-n "Prepend SPS and PPS to IDR";
-> > > > +     case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:               retur=
-n "MediaTek Decoder get secure handle";
-> > > >
-> > > >       /* AV1 controls */
-> > > >       case V4L2_CID_MPEG_VIDEO_AV1_PROFILE:                   retur=
-n "AV1 Profile";
-> > > > @@ -1437,6 +1438,10 @@ void v4l2_ctrl_fill(u32 id, const char **nam=
-e, enum v4l2_ctrl_type *type,
-> > > >       case V4L2_CID_MPEG_VIDEO_VPX_NUM_REF_FRAMES:
-> > > >               *type =3D V4L2_CTRL_TYPE_INTEGER_MENU;
-> > > >               break;
-> > > > +     case V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE:
-> > > > +             *type =3D V4L2_CTRL_TYPE_INTEGER;
-> > > > +             *flags |=3D V4L2_CTRL_FLAG_WRITE_ONLY;
-> > > > +             break;
-> > > >       case V4L2_CID_USER_CLASS:
-> > > >       case V4L2_CID_CAMERA_CLASS:
-> > > >       case V4L2_CID_CODEC_CLASS:
-> > > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linu=
-x/v4l2-controls.h
-> > > > index c3604a0a3e30..7b3694985366 100644
-> > > > --- a/include/uapi/linux/v4l2-controls.h
-> > > > +++ b/include/uapi/linux/v4l2-controls.h
-> > > > @@ -954,6 +954,10 @@ enum v4l2_mpeg_mfc51_video_force_frame_type {
-> > > >  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_ADAPTIVE_RC_STATIC         =
-   (V4L2_CID_CODEC_MFC51_BASE+53)
-> > > >  #define V4L2_CID_MPEG_MFC51_VIDEO_H264_NUM_REF_PIC_FOR_P          =
-   (V4L2_CID_CODEC_MFC51_BASE+54)
-> > > >
-> > > > +/*  MPEG-class control IDs specific to the MediaTek Decoder driver=
- as defined by V4L2 */
-> > > > +#define V4L2_CID_MPEG_MTK_BASE                       (V4L2_CTRL_CL=
-ASS_CODEC | 0x2000)
-> > > > +#define V4L2_CID_MPEG_MTK_GET_SECURE_HANDLE  (V4L2_CID_MPEG_MTK_BA=
-SE+8)
-> > > > +
-> > > >  /*  Camera class control IDs */
-> > > >
-> > > >  #define V4L2_CID_CAMERA_CLASS_BASE   (V4L2_CTRL_CLASS_CAMERA | 0x9=
-00)
-> > >
->
+elapsed time: 734m
+
+configs tested: 134
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20230919   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20230919   gcc  
+i386         buildonly-randconfig-002-20230919   gcc  
+i386         buildonly-randconfig-003-20230919   gcc  
+i386         buildonly-randconfig-004-20230919   gcc  
+i386         buildonly-randconfig-005-20230919   gcc  
+i386         buildonly-randconfig-006-20230919   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20230919   gcc  
+i386                  randconfig-002-20230919   gcc  
+i386                  randconfig-003-20230919   gcc  
+i386                  randconfig-004-20230919   gcc  
+i386                  randconfig-005-20230919   gcc  
+i386                  randconfig-006-20230919   gcc  
+i386                  randconfig-011-20230919   gcc  
+i386                  randconfig-012-20230919   gcc  
+i386                  randconfig-013-20230919   gcc  
+i386                  randconfig-014-20230919   gcc  
+i386                  randconfig-015-20230919   gcc  
+i386                  randconfig-016-20230919   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20230919   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20230919   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20230919   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20230919   gcc  
+x86_64       buildonly-randconfig-002-20230919   gcc  
+x86_64       buildonly-randconfig-003-20230919   gcc  
+x86_64       buildonly-randconfig-004-20230919   gcc  
+x86_64       buildonly-randconfig-005-20230919   gcc  
+x86_64       buildonly-randconfig-006-20230919   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20230919   gcc  
+x86_64                randconfig-002-20230919   gcc  
+x86_64                randconfig-003-20230919   gcc  
+x86_64                randconfig-004-20230919   gcc  
+x86_64                randconfig-005-20230919   gcc  
+x86_64                randconfig-006-20230919   gcc  
+x86_64                randconfig-011-20230919   gcc  
+x86_64                randconfig-012-20230919   gcc  
+x86_64                randconfig-013-20230919   gcc  
+x86_64                randconfig-014-20230919   gcc  
+x86_64                randconfig-015-20230919   gcc  
+x86_64                randconfig-016-20230919   gcc  
+x86_64                randconfig-071-20230919   gcc  
+x86_64                randconfig-072-20230919   gcc  
+x86_64                randconfig-073-20230919   gcc  
+x86_64                randconfig-074-20230919   gcc  
+x86_64                randconfig-075-20230919   gcc  
+x86_64                randconfig-076-20230919   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
