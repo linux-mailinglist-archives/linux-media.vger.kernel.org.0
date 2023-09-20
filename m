@@ -2,206 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53FA67A70C0
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 05:00:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 219AB7A7199
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 06:50:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231675AbjITDAr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Sep 2023 23:00:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43956 "EHLO
+        id S231438AbjITEuJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 00:50:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229641AbjITDAq (ORCPT
+        with ESMTP id S229534AbjITEuH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Sep 2023 23:00:46 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85080C6
-        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 20:00:40 -0700 (PDT)
+        Wed, 20 Sep 2023 00:50:07 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B6E09C
+        for <linux-media@vger.kernel.org>; Tue, 19 Sep 2023 21:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695178840; x=1726714840;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ju//gFoehVYhMK4jG3Yy6woEbZdwUr5cGXW1eRE63kc=;
-  b=S9rrorjraUis5xoP1Ry+3JiWM0TzOUe7fhSAddpYFVwdyO5T+0aOKatx
-   DdyDBzH/xE554+RjpAZ6zQpctsnGIgRWMfzt4XFYn5KAMyKI04fRykYV5
-   KNbszvPgcb3E5cMcmdmLU047URVdNda9e0eIb3PQAJp29YN4exNudgFla
-   1Y9s/wxLsbgLJPyDVQuROxKIAyL+6LoVQ+ZucZTxY9ECOq+H4zsj0gi4X
-   HwwJN8GfgMKxqQzlggi1ckBO3qrQR0Mm/pQBCMgI3RW36SpFHTZbceOVu
-   t1dd0bfnYxROaN27WOwlLXeHQS4XRnh/rP+rMFMMUXQsXUPTmxX29niJk
+  t=1695185401; x=1726721401;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=6XDJ1A1BF6BlKxGTNYFSKfnG31afV3bSaZ2yy9oww4c=;
+  b=arFY2dPXdK48Srvu5twBmSVOrwjF1/wsTNVQVTOPxK1HQDGr/eSa27ih
+   IWHZMiEZPZYkYFWJa30HeY1uXliuFnGqgBy642dOlWi05zjTtpQMlLeBw
+   3+HYrrdLKqqbPUbLP8Tlm2YORgAHh6H+dOr4W84AoLGeDCDQYy8pKZzAw
+   1TgvCPS0w5cz9K+xWE8lpiiujNlzGlvZM12GDZimD6SEyFs7hLT4aHIap
+   UWlyVi6opnILjDXK8MIBNWPBuBYynRJfbkuhWqPwNa23MblI+2Oew9xuJ
+   ZeqfO4WfWjZIL5tSN2sFS8Kprt725TIef5Rwl9Na8hwM9mG8OiG3DX/RX
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="378999139"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="378999139"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 20:00:40 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="446594943"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
+   d="scan'208";a="446594943"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 21:50:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="889737334"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="889737334"
-Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2023 19:59:52 -0700
-Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qinS9-0008Ct-0J;
-        Wed, 20 Sep 2023 03:00:37 +0000
-Date:   Wed, 20 Sep 2023 11:00:04 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata-pre] BUILD SUCCESS
- 0c17102518085d25889cb01d17a1b12b8ee8f3ba
-Message-ID: <202309201102.sjI141lG-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="870221609"
+X-IronPort-AV: E=Sophos;i="6.02,161,1688454000"; 
+   d="scan'208";a="870221609"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.146]) ([10.238.232.146])
+  by orsmga004.jf.intel.com with ESMTP; 19 Sep 2023 21:49:56 -0700
+Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Claus Stovgaard <claus.stovgaard@gmail.com>,
+        bingbu.cao@intel.com, linux-media@vger.kernel.org,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
+        tomi.valkeinen@ideasonboard.com, tian.shu.qiu@intel.com,
+        hongju.wang@intel.com
+References: <20230727071558.1148653-1-bingbu.cao@intel.com>
+ <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
+ <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
+ <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
+ <907f992d4e333f090418f39ebd59bf8ac1fb5e3f.camel@gmail.com>
+ <d451bbec67358373ca8495544cc0802233108a03.camel@gmail.com>
+ <1d03c5f9-1813-40f0-f280-520e2da38e09@hansg.org>
+ <1d46186b-24a6-3ae9-ccc1-0ada0f068313@redhat.com>
+ <253b5ba6-d44d-4ee1-8c18-44159632d023@redhat.com>
+ <fc63b127-d8e5-c278-d17a-3ecc90febbe3@linux.intel.com>
+ <d97f7d9a-20f5-5914-4109-f98b9f89b11e@redhat.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <e17fc9ca-9b14-10c1-7425-f7f44407f580@linux.intel.com>
+Date:   Wed, 20 Sep 2023 12:46:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <d97f7d9a-20f5-5914-4109-f98b9f89b11e@redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git metadata-pre
-branch HEAD: 0c17102518085d25889cb01d17a1b12b8ee8f3ba  media: mc: Check pad flag validity
+Hans,
 
-elapsed time: 814m
+On 9/19/23 6:23 PM, Hans de Goede wrote:
+> Hi,
+> 
+> On 9/4/23 08:12, Bingbu Cao wrote:
+>> Hans,
+>>
+>> On 9/3/23 10:32 PM, Hans de Goede wrote:
+>>> Hi All,
+>>>
+>>> On 9/2/23 16:54, Hans de Goede wrote:
+>>>> Attached is one more patch which fixes an oops when
+>>>> using lockdep.
+>>>>
+>>>> With both patches applied this is:
+>>>>
+>>>> Tested-by: Hans de Goede <hdegoede@redhat.com>
+>>>
+>>> I withdraw my Tested-by. After a fresh install the driver crashed,
+>>> messing up the entire machine, due to the firmware not being
+>>> installed.
+>>>
+>>> On missing firmware the driver should simply exit cleanly, not
+>>> take down the entire machine.
+>>>
+>>> Here is a backtrace of the crash:
+>>>
+>>> [   12.549799] intel-ipu6 0000:00:05.0: cpd file name: intel/ipu6ep_fw.bin
+>>> [   12.551859] intel-ipu6 0000:00:05.0: Direct firmware load for intel/ipu6ep_fw.bin failed with error -2
+>>> [   12.551876] intel-ipu6 0000:00:05.0: Requesting signed firmware failed
+>>> [   12.551880] intel-ipu6: probe of 0000:00:05.0 failed with error -2
+>>> [   12.552112] BUG: kernel NULL pointer dereference, address: 0000000000000490
+>>> [   12.552116] #PF: supervisor read access in kernel mode
+>>> [   12.552118] #PF: error_code(0x0000) - not-present page
+>>> [   12.552119] PGD 0 P4D 0 
+>>> [   12.552121] Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>> [   12.552124] CPU: 2 PID: 692 Comm: (udev-worker) Not tainted 6.5.0+ #1
+>>> [   12.552126] Hardware name: LENOVO 21CEZ9Q3US/21CEZ9Q3US, BIOS N3AET72W (1.37 ) 03/02/2023
+>>> [   12.552127] RIP: 0010:ipu6_buttress_isr+0x6d/0x3a0 [intel_ipu6]
+>>> [   12.552137] Code: 34 03 00 00 c7 44 24 04 00 00 00 00 41 bc 64 00 00 00 45 31 ed 48 8b 85 50 04 00 00 89 98 9c 00 00 00 45 31 ff 4a 8b 7c fc 08 <4c> 8b b7 90 04 00 00 48 85 ff 74 46 48 83 bf 88 04 00 00 00 74 3c
+>>> [   12.552138] RSP: 0018:ffffb5928145fb08 EFLAGS: 00010046
+>>> [   12.552140] RAX: ffffb59289000000 RBX: 0000000000000040 RCX: 0000000000000001
+>>> [   12.552142] RDX: 0000000000000000 RSI: ffff90a2c67a2828 RDI: 0000000000000000
+>>> [   12.552143] RBP: ffff90a2c67a2828 R08: 0000000000000001 R09: 0000000000000001
+>>> [   12.552144] R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000064
+>>> [   12.552145] R13: 0000000000000000 R14: ffff90a2c5b79400 R15: 0000000000000000
+>>> [   12.552146] FS:  00007fd5bf725940(0000) GS:ffff90a60f100000(0000) knlGS:0000000000000000
+>>> [   12.552148] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> [   12.552150] CR2: 0000000000000490 CR3: 000000010c28c000 CR4: 0000000000750ee0
+>>> [   12.552152] PKRU: 55555554
+>>> [   12.552153] Call Trace:
+>>> [   12.552155]  <TASK>
+>>> [   12.552157]  ? __die+0x1f/0x70
+>>> [   12.552162]  ? page_fault_oops+0x13d/0x480
+>>> [   12.552167]  ? do_user_addr_fault+0x65/0x830
+>>> [   12.552170]  ? exc_page_fault+0x36/0x200
+>>> [   12.552174]  ? exc_page_fault+0x7b/0x200
+>>> [   12.552176]  ? asm_exc_page_fault+0x22/0x30
+>>> [   12.552180]  ? ipu6_buttress_isr+0x6d/0x3a0 [intel_ipu6]
+>>> [   12.552186]  ? _raw_spin_unlock_irqrestore+0x35/0x60
+>>> [   12.552190]  free_irq+0x256/0x3a0
+>>> [   12.552194]  devres_release_all+0xa5/0xe0
+>>> [   12.552200]  device_unbind_cleanup+0xe/0x70
+>>> [   12.552203]  really_probe+0x145/0x3e0
+>>> [   12.552206]  ? __pfx___driver_attach+0x10/0x10
+>>> [   12.552209]  __driver_probe_device+0x78/0x160
+>>> [   12.552212]  driver_probe_device+0x1f/0x90
+>>> [   12.552215]  __driver_attach+0xd2/0x1c0
+>>> [   12.552218]  bus_for_each_dev+0x63/0xa0
+>>> [   12.552221]  bus_add_driver+0x115/0x210
+>>> [   12.552223]  driver_register+0x55/0x100
+>>> [   12.552226]  ? __pfx_ipu6_init+0x10/0x10 [intel_ipu6]
+>>> [   12.552234]  ipu6_init+0x20/0xff0 [intel_ipu6]
+>>> [   12.552241]  ? __pfx_ipu6_init+0x10/0x10 [intel_ipu6]
+>>> [   12.552247]  do_one_initcall+0x5a/0x360
+>>> [   12.552251]  ? rcu_is_watching+0xd/0x40
+>>> [   12.552254]  ? kmalloc_trace+0xa5/0xb0
+>>> [   12.552258]  do_init_module+0x60/0x230
+>>> [   12.552261]  init_module_from_file+0x75/0xa0
+>>> [   12.552265]  idempotent_init_module+0xf9/0x270
+>>> [   12.552268]  ? subflow_v6_conn_request+0xc0/0x120
+>>> [   12.552273]  __x64_sys_finit_module+0x5a/0xb0
+>>> [   12.552276]  do_syscall_64+0x59/0x90
+>>> [   12.552279]  ? do_syscall_64+0x68/0x90
+>>> [   12.552281]  ? lockdep_hardirqs_on+0x7d/0x100
+>>> [   12.552283]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+>>> [   12.552286] RIP: 0033:0x7fd5bff2cb5d
+>>> [   12.552288] Code: c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 7b 92 0c 00 f7 d8 64 89 01 48
+>>> [   12.552289] RSP: 002b:00007ffc50c03b38 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+>>> [   12.552291] RAX: ffffffffffffffda RBX: 000055e540797f00 RCX: 00007fd5bff2cb5d
+>>> [   12.552292] RDX: 0000000000000000 RSI: 00007fd5c052607d RDI: 000000000000000c
+>>> [   12.552293] RBP: 00007ffc50c03bf0 R08: 0000000000000000 R09: 00007ffc50c03b80
+>>> [   12.552294] R10: 000000000000000c R11: 0000000000000246 R12: 00007fd5c052607d
+>>> [   12.552296] R13: 0000000000020000 R14: 000055e540797030 R15: 000055e540796290
+>>> [   12.552301]  </TASK>
+>>> [   12.552302] Modules linked in: v4l2_async(+) processor_thermal_rfim industrialio_triggered_buffer ecdh_generic(+) processor_thermal_mbox kfifo_buf videodev snd processor_thermal_rapl intel_skl_int3472_tps68470 intel_ipu6(+) industrialio thunderbolt(+) soundcore tps68470_regulator rfkill mc intel_rapl_common ipu_bridge intel_hid int3403_thermal(+) idma64(+) soc_button_array intel_vsec igen6_edac int340x_thermal_zone clk_tps68470 joydev intel_skl_int3472_discrete sparse_keymap int3400_thermal acpi_thermal_rel acpi_pad acpi_tad loop zram hid_sensor_hub intel_ishtp_hid i915 i2c_algo_bit crct10dif_pclmul drm_buddy crc32_pclmul ttm crc32c_intel drm_display_helper intel_ish_ipc video nvme ghash_clmulni_intel ucsi_acpi wacom hid_multitouch sha512_ssse3 typec_ucsi nvme_core intel_ishtp cec typec i2c_hid_acpi i2c_hid wmi pinctrl_tigerlake serio_raw ip6_tables ip_tables fuse
+>>> [   12.552348] CR2: 0000000000000490
+>>> [   12.552351] ---[ end trace 0000000000000000 ]---
+>>> [   12.552352] RIP: 0010:ipu6_buttress_isr+0x6d/0x3a0 [intel_ipu6]
+>>> [   12.552361] Code: 34 03 00 00 c7 44 24 04 00 00 00 00 41 bc 64 00 00 00 45 31 ed 48 8b 85 50 04 00 00 89 98 9c 00 00 00 45 31 ff 4a 8b 7c fc 08 <4c> 8b b7 90 04 00 00 48 85 ff 74 46 48 83 bf 88 04 00 00 00 74 3c
+>>> [   12.552363] RSP: 0018:ffffb5928145fb08 EFLAGS: 00010046
+>>> [   12.552365] RAX: ffffb59289000000 RBX: 0000000000000040 RCX: 0000000000000001
+>>> [   12.552366] RDX: 0000000000000000 RSI: ffff90a2c67a2828 RDI: 0000000000000000
+>>> [   12.552367] RBP: ffff90a2c67a2828 R08: 0000000000000001 R09: 0000000000000001
+>>> [   12.552368] R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000064
+>>> [   12.552369] R13: 0000000000000000 R14: ffff90a2c5b79400 R15: 0000000000000000
+>>> [   12.552370] FS:  00007fd5bf725940(0000) GS:ffff90a60f100000(0000) knlGS:0000000000000000
+>>> [   12.552371] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> [   12.552372] CR2: 0000000000000490 CR3: 000000010c28c000 CR4: 0000000000750ee0
+>>> [   12.552373] PKRU: 55555554
+>>>
+>>> Please fix this for the next version. Reproducing this is easy, just remove the firmware file from under /lib/firmware/intel .
+>>
+>> Unfortunately, I did not reproduce this problem on my machine.
+> 
+> Ok.
+> 
+>> The interrupt
+>> should not be triggered until buttress authentication if need. 
+>> So could you help try to move the devm_request_threaded_irq() block before
+>>
+>> ret = ipu6_buttress_authenticate(isp);
+>>
+>> to check what will happen?
+> 
+> I'm not sure how that will help. You really should not rely on the hw not triggering an IRQ until a cerain point in time, instead you should modify the driver so that the IRQ is only registered once everything has been fully setup and the IRQ handler can safely run, since the IRQ handler can run as soon as you call request_irq(). E.g. the hw might be un an unexpected state causing the hw to immediately trigger the IRQ, which seems to be what happened during my testing.
+> 
+> Since I hit this when firmware loading failed, IMHO the request_irq() should be moved to after loading the fw. I really don't see how registering the IRQ before loading the fw is ready is useful.
 
-configs tested: 130
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20230919   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20230919   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20230919   gcc  
-i386         buildonly-randconfig-002-20230919   gcc  
-i386         buildonly-randconfig-003-20230919   gcc  
-i386         buildonly-randconfig-004-20230919   gcc  
-i386         buildonly-randconfig-005-20230919   gcc  
-i386         buildonly-randconfig-006-20230919   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20230919   gcc  
-i386                  randconfig-002-20230919   gcc  
-i386                  randconfig-003-20230919   gcc  
-i386                  randconfig-004-20230919   gcc  
-i386                  randconfig-005-20230919   gcc  
-i386                  randconfig-006-20230919   gcc  
-i386                  randconfig-011-20230919   gcc  
-i386                  randconfig-012-20230919   gcc  
-i386                  randconfig-013-20230919   gcc  
-i386                  randconfig-014-20230919   gcc  
-i386                  randconfig-015-20230919   gcc  
-i386                  randconfig-016-20230919   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20230919   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20230919   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20230919   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20230919   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20230919   gcc  
-x86_64       buildonly-randconfig-002-20230919   gcc  
-x86_64       buildonly-randconfig-003-20230919   gcc  
-x86_64       buildonly-randconfig-004-20230919   gcc  
-x86_64       buildonly-randconfig-005-20230919   gcc  
-x86_64       buildonly-randconfig-006-20230919   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20230919   gcc  
-x86_64                randconfig-002-20230919   gcc  
-x86_64                randconfig-003-20230919   gcc  
-x86_64                randconfig-004-20230919   gcc  
-x86_64                randconfig-005-20230919   gcc  
-x86_64                randconfig-006-20230919   gcc  
-x86_64                randconfig-071-20230919   gcc  
-x86_64                randconfig-072-20230919   gcc  
-x86_64                randconfig-073-20230919   gcc  
-x86_64                randconfig-074-20230919   gcc  
-x86_64                randconfig-075-20230919   gcc  
-x86_64                randconfig-076-20230919   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
+HW should not trigger any buttress IRQ until firmware authentication. So I think
+it make sense to move the request_irq before buttress_authenticate(). So the
+unexpected IRQ is not related to firmware load, firmware is not ready
+before authentication, so there is no big difference between moving after
+firmware load and before authentication.
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Bingbu Cao
