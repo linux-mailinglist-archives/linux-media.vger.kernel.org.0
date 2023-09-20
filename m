@@ -2,127 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D70A37A7486
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 09:44:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B58917A7537
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 10:02:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233886AbjITHoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 03:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58846 "EHLO
+        id S233419AbjITICy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 04:02:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233894AbjITHoP (ORCPT
+        with ESMTP id S233506AbjITICu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 03:44:15 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F9CFD3;
-        Wed, 20 Sep 2023 00:44:07 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:def9:8f6c:3807:7d89] (unknown [IPv6:2a01:e0a:120:3210:def9:8f6c:3807:7d89])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 47BA36602173;
-        Wed, 20 Sep 2023 08:44:05 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695195845;
-        bh=eSYDs+qZU32e2E7cB12pTV5zRWbHto0dzuV5YKjfLWo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Xalbv7WF546UBvMJ/uGdPNld1qXxWIZmEZBQNskDrTzN3Kc+mJm2K9bvp4I5jtKtk
-         xh/X+B7ucMdy42dseAz54rg4P7I9YJA/3FoQItb9vwQqHPyUNl7fc+dshVakekBHXb
-         QcP1y4mgDUSV5tY2k7TpkbMndUSxWS785NAY9lNPZHJ6xrOwqoVA0akSgEhrXfyBKv
-         Zwaxq58FH2PeIV5GsXJ0NbMHwbSwRC/aW/RyPQ+MIUv1c82tP51tb2XKxB3Y308Gqb
-         6NwPnaeD8HFNYScL6HU9hUz1inEGA8duZz+ac3Je4mIy3XMK6cx+laUynATVkjms8Q
-         FvmXdUFWloOmA==
-Message-ID: <f6332d70-4392-3eee-edaa-0f7e4308fa67@collabora.com>
-Date:   Wed, 20 Sep 2023 09:44:03 +0200
+        Wed, 20 Sep 2023 04:02:50 -0400
+X-Greylist: delayed 379 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Sep 2023 01:02:44 PDT
+Received: from mail.venturelinkage.com (mail.venturelinkage.com [80.211.143.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66B1B4
+        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 01:02:44 -0700 (PDT)
+Received: by mail.venturelinkage.com (Postfix, from userid 1002)
+        id BE56A8283F; Wed, 20 Sep 2023 09:56:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkage.com;
+        s=mail; t=1695196583;
+        bh=7iowqdzve/IIiUUjcEwx8j3uMrVqqiE7R9zbOCKRV9Q=;
+        h=Date:From:To:Subject:From;
+        b=exAzLuF8rhFz5BCuGDgsJgWj4ufPIf6GFdJUXMAfjI9/JqRfgiO0ar9pUYWK8gQz0
+         eh4/fTH6BAxAvgpizO4X0DZtFudSzWkFp7ceOQeemyF+pAU/PP1jwolwDCAFP/pV/k
+         rpKty9bAMxsA8DCdTeOTV8zwU5y0frcbQku22GJ9Ya/UaW7Nd7EM+XFHQWw1MgNMkJ
+         AO7RWiuuf9yW5ELtDEfWWNHrL6o3k2gBsy4D7q2t8i9kGrpnoR/dQ9NzTfejQcp9Nb
+         RHIjkq6ozrk8d7epe41IDb/aIkTM1wv6TagKWbKZFYe26Chj5sdQb4fusDSb/ycuGN
+         7j2ZVL+rr8suw==
+Received: by mail.venturelinkage.com for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 07:56:21 GMT
+Message-ID: <20230920084500-0.1.l.12cq.0.q2ff7krh09@venturelinkage.com>
+Date:   Wed, 20 Sep 2023 07:56:21 GMT
+From:   "Lukas Varga" <lukas.varga@venturelinkage.com>
+To:     <linux-media@vger.kernel.org>
+Subject: =?UTF-8?Q?Popt=C3=A1vka?=
+X-Mailer: mail.venturelinkage.com
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v7 16/49] media: verisilicon: postproc: Fix down scale
- test
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
-        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-17-benjamin.gaignard@collabora.com>
- <cbfef598-8faa-40e6-8dc2-a1efd03f9560@xs4all.nl>
-Content-Language: en-US
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <cbfef598-8faa-40e6-8dc2-a1efd03f9560@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.0 required=5.0 tests=BAYES_05,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
+        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: venturelinkage.com]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [80.211.143.151 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: venturelinkage.com]
+        *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [80.211.143.151 listed in list.dnswl.org]
+        * -0.5 BAYES_05 BODY: Bayes spam probability is 1 to 5%
+        *      [score: 0.0169]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
+        *      days
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Dobr=C3=A9 r=C3=A1no,
 
-Le 19/09/2023 à 13:16, Hans Verkuil a écrit :
-> On 14/09/2023 15:32, Benjamin Gaignard wrote:
->> Do not allow down scaling if the source buffer resolution is
->> smaller  than destination one.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Fixes: fbb6c848dd89 ("media: destage Hantro VPU driver")
-> Is this really a fix? I gather that this relies on "VP9 resolution change without
-> doing stream off/on" support, and support for that is added by these patches.
->
-> Adding the Fixes tag would cause stable maintainers to queue this patch up for
-> older kernels, but I don't think that is needed here at all.
->
-> And related I also think that this really does not belong to this patch series.
->
-> As I understand it, patch 13/49 extends the verisilicon driver to support more
-> than 32 buffers, so that one makes sense in the context of this series.
->
-> But the other verisilicon patches appear to be unrelated and instead add a new
-> feature, and I don't believe it relates to this series at all.
->
-> If I am right, then please post this as a separate series, possibly mentioning
-> that it sits on top of this series.
+Dovolil jsem si V=C3=A1s kontaktovat, proto=C5=BEe m=C3=A1m z=C3=A1jem ov=
+=C4=9B=C5=99it mo=C5=BEnost nav=C3=A1z=C3=A1n=C3=AD spolupr=C3=A1ce.
 
-Marek has send the same patch and got it merged in stage branch:
-https://patchwork.kernel.org/project/linux-media/patch/20230824013935.303132-1-marex@denx.de/
-so I can skip it now.
+Podporujeme firmy p=C5=99i z=C3=ADsk=C3=A1v=C3=A1n=C3=AD nov=C3=BDch obch=
+odn=C3=ADch z=C3=A1kazn=C3=ADk=C5=AF.
 
-The other patches are needed to enable VP9 dynamic resolution change, which is the feature
-I target with this series.
-2 patches fix chroma / motion vector offset issues.
-1 allow to change the resolution while stream.
+M=C5=AF=C5=BEeme si promluvit a poskytnout podrobnosti?
 
-Regards,
-Benjamin
+V p=C5=99=C3=ADpad=C4=9B z=C3=A1jmu V=C3=A1s bude kontaktovat n=C3=A1=C5=A1=
+ anglicky mluv=C3=ADc=C3=AD z=C3=A1stupce.
 
->
-> Regards,
->
-> 	Hans
->
->> ---
->>   drivers/media/platform/verisilicon/hantro_postproc.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
->> index e624cd98f41b..77d8ecfbe12f 100644
->> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
->> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
->> @@ -107,7 +107,7 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
->>   
->>   static int down_scale_factor(struct hantro_ctx *ctx)
->>   {
->> -	if (ctx->src_fmt.width == ctx->dst_fmt.width)
->> +	if (ctx->src_fmt.width <= ctx->dst_fmt.width)
->>   		return 0;
->>   
->>   	return DIV_ROUND_CLOSEST(ctx->src_fmt.width, ctx->dst_fmt.width);
->
+
+Pozdravy
+Lukas Varga
