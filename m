@@ -2,156 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18C1B7A88AF
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 17:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BFF97A89C4
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 18:54:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236432AbjITPnJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 11:43:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46596 "EHLO
+        id S234650AbjITQyi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 12:54:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235497AbjITPnI (ORCPT
+        with ESMTP id S233691AbjITQyh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 11:43:08 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6B0CA;
-        Wed, 20 Sep 2023 08:43:00 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE46DC433C8;
-        Wed, 20 Sep 2023 15:42:56 +0000 (UTC)
-Message-ID: <b8f8876e-d712-4ffb-b082-b8e02363ec33@xs4all.nl>
-Date:   Wed, 20 Sep 2023 17:42:55 +0200
+        Wed, 20 Sep 2023 12:54:37 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 85717CA;
+        Wed, 20 Sep 2023 09:54:29 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 104761FB;
+        Wed, 20 Sep 2023 09:55:06 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE0293F67D;
+        Wed, 20 Sep 2023 09:54:27 -0700 (PDT)
+Message-ID: <353919fd-932e-5d81-6ac5-7b51117366cd@arm.com>
+Date:   Wed, 20 Sep 2023 17:54:26 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 7/7] media: nuvoton: Add driver for NPCM video capture
- and encoding engine
-Content-Language: en-US, nl
-To:     Marvin Lin <milkfafa@gmail.com>, mchehab@kernel.org,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        venture@google.com, yuenn@google.com, benjaminfair@google.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        andrzej.p@collabora.com
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        kwliu@nuvoton.com, kflin@nuvoton.com
-References: <20230920022812.601800-1-milkfafa@gmail.com>
- <20230920022812.601800-8-milkfafa@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230920022812.601800-8-milkfafa@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH] MA-21654 Use dma_alloc_pages in
+ vb2_dma_sg_alloc_compacted
+Content-Language: en-GB
+To:     Tomasz Figa <tfiga@chromium.org>, Fang Hui <hui.fang@nxp.com>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        anle.pan@nxp.com, xuegang.liu@nxp.com
+References: <20230914145812.12851-1-hui.fang@nxp.com>
+ <CAAFQd5CcN+TiVd8vhMxQRbmrJuBGYwL5d6C0fKzOy4ujjM_JMQ@mail.gmail.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <CAAFQd5CcN+TiVd8vhMxQRbmrJuBGYwL5d6C0fKzOy4ujjM_JMQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/09/2023 04:28, Marvin Lin wrote:
-> Add driver for Video Capture/Differentiation Engine (VCD) and Encoding
-> Compression Engine (ECE) present on Nuvoton NPCM SoCs. As described in
-> the datasheet NPCM750D_DS_Rev_1.0, the VCD can capture frames from
-> digital video input and compare two frames in memory, and then the ECE
-> can compress the frame data into HEXTILE format. This driver implements
-> V4L2 interfaces and provides user controls to support KVM feature, also
-> tested with VNC Viewer ver.6.22.826 and openbmc/obmc-ikvm.
+On 20/09/2023 8:41 am, Tomasz Figa wrote:
+> Hi Fang,
 > 
-> Signed-off-by: Marvin Lin <milkfafa@gmail.com>
+> On Thu, Sep 14, 2023 at 4:41 PM Fang Hui <hui.fang@nxp.com> wrote:
+>>
+>> On system with "CONFIG_ZONE_DMA32=y", if the allocated physical address is
+> 
+> First of all, thanks a lot for the patch! Please check my review comments below.
+> 
+> Is CONFIG_ZONE_DMA32 really the factor that triggers the problem? My
+> understanding was that the problem was that the hardware has 32-bit
+> DMA, but the system has physical memory at addresses beyond the first
+> 4G.
 
-I'm getting two sparse warnings:
+Indeed, without ZONE-DMA32 it would be difficult for any allocator to 
+support this at all. SWIOTLB is merely a symptom - if it wasn't enabled, 
+the dma_map_sgtable() operation would just fail entirely when any page 
+is beyond the device's reach.
 
-drivers/media/platform/nuvoton/npcm-video.c:227:27: warning: incorrect type in argument 1 (different address spaces)
-drivers/media/platform/nuvoton/npcm-video.c:227:27:    expected void const volatile [noderef] __iomem *addr
-drivers/media/platform/nuvoton/npcm-video.c:227:27:    got void *
-drivers/media/platform/nuvoton/npcm-video.c:1050:20: warning: context imbalance in 'npcm_video_irq' - different lock contexts for basic block
+>> greater than 4G, swiotlb will be used. It will lead below defects.
+>> 1) Impact performance due to an extra memcpy.
+>> 2) May meet below error due to swiotlb_max_mapping_size()
+>>     is 256K (IO_TLB_SIZE * IO_TLB_SEGSIZE).
+>> "swiotlb buffer is full (sz: 393216 bytes), total 65536 (slots),
+>> used 2358 (slots)"
+>>
+>> To avoid those defects, use dma_alloc_pages() instead of alloc_pages()
+>> in vb2_dma_sg_alloc_compacted().
+>>
+>> Suggested-by: Tomasz Figa <tfiga@chromium.org>
+>> Signed-off-by: Fang Hui <hui.fang@nxp.com>
+>> ---
+>>   drivers/media/common/videobuf2/videobuf2-dma-sg.c | 11 +++++++----
+>>   1 file changed, 7 insertions(+), 4 deletions(-)
+>>
+> 
+> Please remove MA-21654 from the subject and prefix it with the right
+> tags for the path (`git log drivers/media/common/videobuf2` should be
+> helpful to find the right one).
+> 
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> index 28f3fdfe23a2..b938582c68f4 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> @@ -58,7 +58,7 @@ struct vb2_dma_sg_buf {
+>>   static void vb2_dma_sg_put(void *buf_priv);
+>>
+>>   static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg_buf *buf,
+>> -               gfp_t gfp_flags)
+>> +               gfp_t gfp_flags, struct device *dev)
+> 
+> FWIW buf->dev already points to the right device - although we would
+> need to move the assignment in vb2_dma_sg_alloc() to a place higher in
+> that function before calling this function.
+> 
+>>   {
+>>          unsigned int last_page = 0;
+>>          unsigned long size = buf->size;
+>> @@ -67,6 +67,7 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg_buf *buf,
+>>                  struct page *pages;
+>>                  int order;
+>>                  int i;
+>> +               dma_addr_t dma_handle;
+>>
+>>                  order = get_order(size);
+>>                  /* Don't over allocate*/
+>> @@ -75,8 +76,9 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg_buf *buf,
+>>
+>>                  pages = NULL;
+>>                  while (!pages) {
+>> -                       pages = alloc_pages(GFP_KERNEL | __GFP_ZERO |
+>> -                                       __GFP_NOWARN | gfp_flags, order);
+>> +                       pages = dma_alloc_pages(dev, PAGE_SIZE << order, &dma_handle,
+> 
+> Hmm, when I was proposing dma_alloc_pages(), I missed that it returns
+> a DMA handle. That on its own can be handled by saving the returned
+> handles somewhere in struct vb2_dma_sg_buf, but there is a bigger
+> problem - the function would actually create a mapping if the DMA
+> device requires some mapping management (e.g. is behind an IOMMU),
+> which is undesirable, because we create the mapping ourselves below
+> anyway...
+> 
+> @Christoph Hellwig @Robin Murphy  I need your thoughts on this as
+> well. Would it make sense to have a variant of dma_alloc_pages() that
+> only allocates the pages, but doesn't perform the mapping? (Or a flag
+> that tells the implementation to skip creating a mapping.)
 
-That last one is a missing unlock:
+As I mentioned before, I think it might make the most sense to make the 
+whole thing into a "proper" dma_alloc_sgtable() function, which can then 
+be used with dma_sync_sgtable_*() as dma_alloc_pages() is used with 
+dma_sync_single_*() (and then dma_alloc_noncontiguous() clearly falls as 
+the special in-between case).
 
-> +static irqreturn_t npcm_video_irq(int irq, void *arg)
-> +{
-> +	struct npcm_video *video = arg;
-> +	struct regmap *vcd = video->vcd_regmap;
-> +	struct npcm_video_buffer *buf;
-> +	unsigned int index, size, status, fmt;
-> +	dma_addr_t dma_addr;
-> +	void *addr;
-> +	static const struct v4l2_event ev = {
-> +		.type = V4L2_EVENT_SOURCE_CHANGE,
-> +		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
-> +	};
-> +
-> +	regmap_read(vcd, VCD_STAT, &status);
-> +	dev_dbg(video->dev, "VCD irq status 0x%x\n", status);
-> +
-> +	regmap_write(vcd, VCD_STAT, VCD_STAT_CLEAR);
-> +
-> +	if (test_bit(VIDEO_STOPPED, &video->flags) ||
-> +	    !test_bit(VIDEO_STREAMING, &video->flags))
-> +		return IRQ_NONE;
-> +
-> +	if (status & VCD_STAT_DONE) {
-> +		regmap_write(vcd, VCD_INTE, 0);
-> +		spin_lock(&video->lock);
-> +		clear_bit(VIDEO_CAPTURING, &video->flags);
-> +		buf = list_first_entry_or_null(&video->buffers,
-> +					       struct npcm_video_buffer, link);
-> +		if (!buf) {
-> +			spin_unlock(&video->lock);
-> +			return IRQ_NONE;
-> +		}
-> +
-> +		addr = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
-> +		index = buf->vb.vb2_buf.index;
-> +		fmt = video->pix_fmt.pixelformat;
-> +
-> +		switch (fmt) {
-> +		case V4L2_PIX_FMT_RGB565:
-> +			size = npcm_video_raw(video, index, addr);
-> +			break;
-> +		case V4L2_PIX_FMT_HEXTILE:
-> +			dma_addr = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
-> +			size = npcm_video_hextile(video, index, dma_addr, addr);
-> +			break;
-> +		default:
+Thanks,
+Robin.
 
-Missing unlock here.
-
-> +			return IRQ_NONE;
-> +		}
-> +
-> +		vb2_set_plane_payload(&buf->vb.vb2_buf, 0, size);
-> +		buf->vb.vb2_buf.timestamp = ktime_get_ns();
-> +		buf->vb.sequence = video->sequence++;
-> +		buf->vb.field = V4L2_FIELD_NONE;
-> +
-> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-> +		list_del(&buf->link);
-> +		spin_unlock(&video->lock);
-> +
-> +		if (npcm_video_start_frame(video))
-> +			dev_err(video->dev, "Failed to capture next frame\n");
-> +	}
-> +
-> +	/* Resolution changed */
-> +	if (status & VCD_STAT_VHT_CHG || status & VCD_STAT_HAC_CHG) {
-> +		if (!test_bit(VIDEO_RES_CHANGING, &video->flags)) {
-> +			set_bit(VIDEO_RES_CHANGING, &video->flags);
-> +
-> +			vb2_queue_error(&video->queue);
-> +			v4l2_event_queue(&video->vdev, &ev);
-> +		}
-> +	}
-> +
-> +	if (status & VCD_STAT_IFOR || status & VCD_STAT_IFOT) {
-> +		dev_warn(video->dev, "VCD FIFO overrun or over thresholds\n");
-> +		if (npcm_video_start_frame(video))
-> +			dev_err(video->dev, "Failed to recover from FIFO overrun\n");
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-
-Regards,
-
-	Hans
-
+>> +                               DMA_BIDIRECTIONAL,
+> 
+> The right value should be already available in buf->dma_dir.
+> 
+>> +                               GFP_KERNEL | __GFP_ZERO | __GFP_NOWARN | gfp_flags);
+>>                          if (pages)
+>>                                  break;
+>>
+>> @@ -96,6 +98,7 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg_buf *buf,
+>>          }
+>>
+>>          return 0;
+>> +
+> 
+> Unnecessary blank line.
+> 
+>>   }
+>>
+>>   static void *vb2_dma_sg_alloc(struct vb2_buffer *vb, struct device *dev,
+>> @@ -130,7 +133,7 @@ static void *vb2_dma_sg_alloc(struct vb2_buffer *vb, struct device *dev,
+>>          if (!buf->pages)
+>>                  goto fail_pages_array_alloc;
+>>
+>> -       ret = vb2_dma_sg_alloc_compacted(buf, vb->vb2_queue->gfp_flags);
+>> +       ret = vb2_dma_sg_alloc_compacted(buf, vb->vb2_queue->gfp_flags, dev);
+>>          if (ret)
+>>                  goto fail_pages_alloc;
+>>
+>> --
+>> 2.17.1
+>>
+> 
+> We also need to use dma_free_pages() to free the memory.
+> 
+> Best regards,
+> Tomasz
