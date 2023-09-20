@@ -2,311 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 258297A8696
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 16:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9F427A86AB
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 16:35:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235134AbjITObK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 10:31:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35646 "EHLO
+        id S235111AbjITOfs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 10:35:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234994AbjITObK (ORCPT
+        with ESMTP id S232318AbjITOfr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 10:31:10 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFC95B9;
-        Wed, 20 Sep 2023 07:31:02 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:def9:8f6c:3807:7d89] (unknown [IPv6:2a01:e0a:120:3210:def9:8f6c:3807:7d89])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id EC9F76600B9D;
-        Wed, 20 Sep 2023 15:31:00 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695220261;
-        bh=qSxCMCW4YAsLR2FIqziFq6kIetJZ96LBazqTUvh3JSE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=WwrgS797Z2sNCnhv7CF1QbkVYbXZWXZWW2Semdqrfj+CIOX8RAUG9urjunXsJpaUQ
-         bhVQ1YJ/5HxJFiNaUgv+0UcMAClUThvV12CgUsSFeZdmXoLcT7taol1Y1aUZHuSgmO
-         lWQaJnofjNTAYvkLRInzcET0Mxkwi9LU8AeJ+lRgsVeG5pMMO+Sg67LUvRuhlrzVKQ
-         9lo/eIi+TUiMzBpG/6Fn5HBpgPHoepBFlI7145/QTAFhtHJgqYH64P5tdv8rVzQBnh
-         2JTNKf8SrZvLXd0dvZqgyMcHg0H+TN9IUKPF/HbGafOIVtJt/RDYhg0RGKmJM40G/+
-         7Ekw+hJKYoTBA==
-Message-ID: <20b6b93e-eef8-3d7b-a3c2-795f220059d4@collabora.com>
-Date:   Wed, 20 Sep 2023 16:30:57 +0200
+        Wed, 20 Sep 2023 10:35:47 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DB20AD;
+        Wed, 20 Sep 2023 07:35:42 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71722C433C7;
+        Wed, 20 Sep 2023 14:35:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695220542;
+        bh=HFDW8UoD5QLd6nTbuqGijlmAZk0/AapjhKvVeBKKueU=;
+        h=From:Subject:Date:To:Cc:From;
+        b=G+iqEvtI91oD9Gvhu+88PxzS8E24ExbtGQ5fcakyWpDsmhiFwhb0RUSjNDOw8GBoY
+         37EFpMiql+e16zqxJJuPvMkvRKCPmlolTlzAUSznrPjoiDaNbl/UnXmOH4aMFSed4Y
+         CJUh5T/3jVp+BqdeOufDkILWisc2pHuCSHiFSskri3CxtYvRiT1/wRS7fBzCN9sLSp
+         44pIHJyxK7DutAdStUiI75mJQy4B3LJwM3qgjwrfDA4aIAgKqHbitfqn0NAlVF18dF
+         pI44W4LmbLZg9Bu4qdmblOSTDmWj7y/MxikAEim6JJbFxzfFV3fthz3V5KtLyn/nhu
+         dui7/UIfveZjA==
+From:   Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH RFC v2 00/37] drm/connector: Create HDMI Connector
+ infrastructure
+Date:   Wed, 20 Sep 2023 16:35:15 +0200
+Message-Id: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
- entries
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
-        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-46-benjamin.gaignard@collabora.com>
- <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACMDC2UC/4WNQQqDMBBFryKz7pQkxsR2VSj0AN0WF6KjDmpSE
+ pEW8e4NXqDL/z/v/Q0iBaYI12yDQCtH9i4FdcqgGWrXE3KbMiihclFKjeMccWhnxsY7R83iA8a
+ lXgiNNLa0ZOxFWUj4O1DHn0P9gufjDlUqB46J+B53qzym/+ZVokChS1HotstNoW8jBUfT2Yceq
+ n3ff/7/jnPGAAAA
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sandy Huang <hjc@rock-chips.com>,
+        =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5802; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=HFDW8UoD5QLd6nTbuqGijlmAZk0/AapjhKvVeBKKueU=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnczBZcvZvWvvnx9OB3fnaN/W8nFaj9Oz5dIO7b2kjDS
+ baeucd2dJSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiPl8ZGe6lP2ufnP3PYeFl
+ tv7ZBlaV2b6t0usis3xFq2/JeNee9mT4H1tSKODo+Wy7bMD8ZXsip8zcqlN23W1leYiYb7r9yaQ
+ URgA=
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
-Le 19/09/2023 à 17:00, Hans Verkuil a écrit :
-> On 14/09/2023 15:33, Benjamin Gaignard wrote:
->> Add a bitmap field to know which of bufs array entries are
->> used or not.
->> Remove no more used num_buffers field from queue structure.
->> Use bitmap_find_next_zero_area() to find the first possible
->> range when creating new buffers to fill the gaps.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   .../media/common/videobuf2/videobuf2-core.c   | 55 +++++++++++++++----
->>   include/media/videobuf2-core.h                |  9 ++-
->>   2 files changed, 51 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->> index a4c2fae8705d..c5d4a388331b 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->> @@ -411,10 +411,11 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
->>    */
->>   static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
->>   {
->> -	if (index < q->max_allowed_buffers && !q->bufs[index]) {
->> +	if (index < q->max_allowed_buffers && !test_bit(index, q->bufs_map)) {
-> I think bufs_bitmap would be a better name.
+Here's a series that creates a subclass of drm_connector specifically
+targeted at HDMI controllers.
 
-Ok I will change it
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else. 
 
->
->>   		q->bufs[index] = vb;
->>   		vb->index = index;
->>   		vb->vb2_queue = q;
->> +		set_bit(index, q->bufs_map);
->>   		return true;
->>   	}
->>   
->> @@ -428,9 +429,10 @@ static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
->>    */
->>   static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->>   {
->> -	if (vb->index < q->max_allowed_buffers) {
->> +	if (vb->index < q->max_allowed_buffers && test_bit(vb->index, q->bufs_map)) {
-> As mentioned in past reviews, I think these tests can be dropped, it makes no
-> sense that these ever fail.
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
-I will drop them.
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
 
->
->>   		q->bufs[vb->index] = NULL;
->>   		vb->vb2_queue = NULL;
->> +		clear_bit(vb->index, q->bufs_map);
->>   	}
->>   }
->>   
->> @@ -451,11 +453,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->>   	unsigned long first_index;
->>   	int ret;
->>   
->> -	/* Ensure that q->num_buffers+num_buffers is below q->max_allowed_buffers */
->> +	/* Ensure that the number of already queue + num_buffers is below q->max_allowed_buffers */
-> Hmm, how about:
->
-> 	/* Ensure that vb2_get_num_buffers(q) + num_buffers is no more than q->max_allowed_buffers */
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
 
-sure
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
 
->
->>   	num_buffers = min_t(unsigned int, num_buffers,
->>   			    q->max_allowed_buffers - vb2_get_num_buffers(q));
->>   
->> -	first_index = vb2_get_num_buffers(q);
->> +	first_index = bitmap_find_next_zero_area(q->bufs_map, q->max_allowed_buffers,
->> +						 0, num_buffers, 0);
->>   
->>   	if (first_index >= q->max_allowed_buffers)
->>   		return 0;
->> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->>   
->>   struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
->>   {
->> -	if (index < q->num_buffers)
->> +	if (!q->bufs_map || !q->bufs)
->> +		return NULL;
-> I don't think this can ever happen.
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
 
-I got kernel crash without them.
-I will keep them.
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
 
->
->> +
->> +	if (index >= q->max_allowed_buffers)
->> +		return NULL;
->> +
->> +	if (test_bit(index, q->bufs_map))
->>   		return q->bufs[index];
->>   	return NULL;
->>   }
->> @@ -683,7 +692,10 @@ EXPORT_SYMBOL_GPL(vb2_get_buffer);
->>   
->>   unsigned int vb2_get_num_buffers(struct vb2_queue *q)
->>   {
->> -	return q->num_buffers;
->> +	if (!q->bufs_map)
->> +		return 0;
-> Ditto.
->
->> +
->> +	return bitmap_weight(q->bufs_map, q->max_allowed_buffers);
->>   }
->>   EXPORT_SYMBOL_GPL(vb2_get_num_buffers);
->>   
->> @@ -899,6 +911,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>   		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
->>   	if (!q->bufs)
->>   		ret = -ENOMEM;
->> +
->> +	if (!q->bufs_map)
->> +		q->bufs_map = bitmap_zalloc(q->max_allowed_buffers, GFP_KERNEL);
->> +	if (!q->bufs_map) {
->> +		ret = -ENOMEM;
->> +		kfree(q->bufs);
->> +		q->bufs = NULL;
->> +	}
->>   	q->memory = memory;
->>   	mutex_unlock(&q->mmap_lock);
->>   	if (ret)
->> @@ -968,7 +988,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>   	}
->>   
->>   	mutex_lock(&q->mmap_lock);
->> -	q->num_buffers = allocated_buffers;
->>   
->>   	if (ret < 0) {
->>   		/*
->> @@ -995,6 +1014,10 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>   	mutex_lock(&q->mmap_lock);
->>   	q->memory = VB2_MEMORY_UNKNOWN;
->>   	mutex_unlock(&q->mmap_lock);
->> +	kfree(q->bufs);
->> +	q->bufs = NULL;
->> +	bitmap_free(q->bufs_map);
->> +	q->bufs_map = NULL;
->>   	return ret;
->>   }
->>   EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
->> @@ -1031,9 +1054,19 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>   		q->memory = memory;
->>   		if (!q->bufs)
->>   			q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
->> -		if (!q->bufs)
->> +		if (!q->bufs) {
->> +			ret = -ENOMEM;
->> +			goto unlock;
->> +		}
->> +		if (!q->bufs_map)
->> +			q->bufs_map = bitmap_zalloc(q->max_allowed_buffers, GFP_KERNEL);
->> +		if (!q->bufs_map) {
->>   			ret = -ENOMEM;
->> +			kfree(q->bufs);
->> +			q->bufs = NULL;
->> +		}
->>   		mutex_unlock(&q->mmap_lock);
->> +unlock:
->>   		if (ret)
->>   			return ret;
->>   		q->waiting_for_buffers = !q->is_output;
->> @@ -1095,7 +1128,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>   	}
->>   
->>   	mutex_lock(&q->mmap_lock);
->> -	q->num_buffers += allocated_buffers;
->>   
->>   	if (ret < 0) {
->>   		/*
->> @@ -2588,6 +2620,9 @@ void vb2_core_queue_release(struct vb2_queue *q)
->>   	__vb2_queue_free(q, q->max_allowed_buffers);
->>   	kfree(q->bufs);
->>   	q->bufs = NULL;
->> +	bitmap_free(q->bufs_map);
->> +	q->bufs_map = NULL;
->> +
->>   	mutex_unlock(&q->mmap_lock);
->>   }
->>   EXPORT_SYMBOL_GPL(vb2_core_queue_release);
->> @@ -2944,7 +2979,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
->>   	 * Check if we need to dequeue the buffer.
->>   	 */
->>   	index = fileio->cur_index;
->> -	if (index >= q->num_buffers) {
->> +	if (!test_bit(index, q->bufs_map)) {
->>   		struct vb2_buffer *b;
->>   
->>   		/*
->> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->> index 19c93d8eb7c8..734437236cc4 100644
->> --- a/include/media/videobuf2-core.h
->> +++ b/include/media/videobuf2-core.h
->> @@ -557,7 +557,7 @@ struct vb2_buf_ops {
->>    * @memory:	current memory type used
->>    * @dma_dir:	DMA mapping direction.
->>    * @bufs:	videobuf2 buffer structures
->> - * @num_buffers: number of allocated/used buffers
->> + * @bufs_map:	bitmap to manage bufs entries.
->>    * @max_allowed_buffers: upper limit of number of allocated/used buffers
->>    * @queued_list: list of buffers currently queued from userspace
->>    * @queued_count: number of buffers queued and ready for streaming.
->> @@ -621,7 +621,7 @@ struct vb2_queue {
->>   	unsigned int			memory;
->>   	enum dma_data_direction		dma_dir;
->>   	struct vb2_buffer		**bufs;
->> -	unsigned int			num_buffers;
->> +	unsigned long			*bufs_map;
->>   	unsigned int			max_allowed_buffers;
->>   
->>   	struct list_head		queued_list;
->> @@ -1151,7 +1151,10 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
->>    */
->>   static inline bool vb2_is_busy(struct vb2_queue *q)
->>   {
->> -	return (q->num_buffers > 0);
->> +	if (!q->bufs_map)
->> +		return false;
-> I don't think this can happen.
->
->> +
->> +	return (bitmap_weight(q->bufs_map, q->max_allowed_buffers) > 0);
-> How about:
->
-> 	return vb2_get_num_buffers(q) > 0;
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing an
+infoframe-decode tool.
 
-vb2_get_num_buffers is defined in videobuf2-core.c, I'm not sure that
-an inline function could depend of a module function.
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
 
-Regards,
-Benjamin
+This entire series is only build-tested at the moment. Let me know what
+you think,
+Maxime
 
->
->>   }
->>   
->>   /**
-> Regards,
->
-> 	Hans
->
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (37):
+      drm/connector: Introduce an HDMI connector
+      drm/connector: hdmi: Create a custom state
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/connector: hdmi: Add helper to get the RGB range
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/connector: hdmi: Add support for output format
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/connector: hdmi: Add Infoframes generation
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Create destroy state implementation
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/rockchip: inno_hdmi: Remove useless mode_fixup
+      drm/rockchip: inno_hdmi: Remove useless copy of drm_display_mode
+      drm/rockchip: inno_hdmi: Switch encoder hooks to atomic
+      drm/rockchip: inno_hdmi: Get rid of mode_set
+      drm/rockchip: inno_hdmi: no need to store vic
+      drm/rockchip: inno_hdmi: Remove unneeded has audio flag
+      drm/rockchip: inno_hdmi: Remove useless input format
+      drm/rockchip: inno_hdmi: Remove useless output format
+      drm/rockchip: inno_hdmi: Remove useless colorimetry
+      drm/rockchip: inno_hdmi: Remove useless enum
+      drm/rockchip: inno_hdmi: Remove tmds rate from structure
+      drm/rockchip: inno_hdmi: Remove useless coeff_csc matrix
+      drm/rockchip: inno_hdmi: Remove useless mode_valid
+      drm/rockchip: inno_hdmi: Move infoframe disable to separate function
+      drm/rockchip: inno_hdmi: Create mask retrieval functions
+      drm/rockchip: inno_hdmi: Switch to infoframe type
+      drm/rockchip: inno_hdmi: Remove unused drm device pointer
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Convert encoder to atomic
+      drm/sun4i: hdmi: Move mode_set into enable
+      drm/sun4i: hdmi: Switch to container_of_const
+      drm/sun4i: hdmi: Consolidate atomic_check and mode_valid
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv      |   1 -
+ drivers/gpu/drm/Kconfig                   |   1 +
+ drivers/gpu/drm/drm_atomic.c              |  10 +
+ drivers/gpu/drm/drm_atomic_state_helper.c | 634 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c         |   4 +
+ drivers/gpu/drm/drm_connector.c           | 196 +++++++++
+ drivers/gpu/drm/drm_debugfs.c             | 110 ++++++
+ drivers/gpu/drm/rockchip/inno_hdmi.c      | 409 +++++++------------
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c    | 203 +++++-----
+ drivers/gpu/drm/vc4/vc4_hdmi.c            | 624 ++++-------------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h            |  44 +--
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c        |   6 +-
+ include/drm/drm_atomic_state_helper.h     |  15 +
+ include/drm/drm_connector.h               | 245 ++++++++++++
+ 14 files changed, 1557 insertions(+), 945 deletions(-)
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
