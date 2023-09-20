@@ -2,112 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB0E87A8019
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7155D7A807A
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236165AbjITMcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 08:32:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43394 "EHLO
+        id S235972AbjITMhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 08:37:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236172AbjITMcw (ORCPT
+        with ESMTP id S235950AbjITMhf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:32:52 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67B12F2
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:32:45 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2c012232792so49547201fa.0
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695213163; x=1695817963; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Ea/cCcPzYZYXGP2HXNYz8e5upcV7kl0VOiTjgaOoRD8=;
-        b=HqrlQ9kdR7bT/X+SKhHLiVh3no03UNZ61EEfhKTOu7x7vR7ovP/Lu2YeKsfLs6X/ug
-         AUwLhatfGU6W/Yq22Mfo5I3EzOnwCNaMK2Jo1neokyJyZyTnj5dXhdz5vSZayCzR3P2G
-         TGrFM8JjVNVq63eHK+dVi4RNLMWDQ39ilQXYSEjtFTBe9iliKfs8ZQKEQAWYhufbnYQ8
-         xymyih9QyToEsS1I5/pZZrn1idaezuAG+sVi4U+uCioPStLQhhqb1lS6NUPNX+uG0gje
-         c+vmMmz7HnBmenyJDmJfGbbP2yKvcPlyol/1A3LfXzXHEuNPrQvRri7rTkUjh/NZ95lr
-         KSMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695213163; x=1695817963;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ea/cCcPzYZYXGP2HXNYz8e5upcV7kl0VOiTjgaOoRD8=;
-        b=Q5VQm9hgeSKQ7IdfmeMRymLtRFsGCTndILjKSvpFwpVJXff1e4iFzsiqhEqp56ByfK
-         bDDstVluMeeEE8WeNwaIP0wJ3CUgA+aqaK9cj9izbRdSV1d5+gaTXaKnX8IkMiEChDPN
-         hjtPaFxICbjWTbszM0a//lKZivOmVpDz+pX64nFiOGwOayilusB1QykhKhUfoTn9eZaz
-         KgOTBs4uAgBU9pe7DRc1z0xbMvCkqqTsPdkED2TQ2uuNPSgIe9d38jh59AQ1wKr2CDTi
-         AH86NKGsW8rCbPU1M/fYp8Irr1YzfBDjkCYDHQQod2s5cH3tCc3nnAcxHA1Bg90qCXfR
-         Jo7g==
-X-Gm-Message-State: AOJu0YyTQDn6jCuddbN1UhCURy9dGTw3BS31167pNkRU9qykwGXUfuU8
-        D927nLOetIL2rlyEIoEaJgP8oEJ/iHMdxBg9
-X-Google-Smtp-Source: AGHT+IG2qqWu11y3WrSuPZN5bn940m+wMD1sVz0cWFAZOJAAeOOI597t6L6j7wsbYu84duZ+fAMu5g==
-X-Received: by 2002:a2e:860a:0:b0:2b5:80e0:f18e with SMTP id a10-20020a2e860a000000b002b580e0f18emr2253811lji.3.1695213163227;
-        Wed, 20 Sep 2023 05:32:43 -0700 (PDT)
-Received: from [192.168.1.70] ([87.52.106.165])
-        by smtp.gmail.com with ESMTPSA id h24-20020a170906829800b009ae0042e48bsm5163427ejx.5.2023.09.20.05.32.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 05:32:42 -0700 (PDT)
-Message-ID: <8821037492568f97eb258cbb4a6f7b2a81263650.camel@gmail.com>
-Subject: Re: [PATCH 00/15] Intel IPU6 and IPU6 input system drivers
-From:   Claus Stovgaard <claus.stovgaard@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Bingbu Cao <bingbu.cao@linux.intel.com>, bingbu.cao@intel.com,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com
-Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
-        tomi.valkeinen@ideasonboard.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com
-Date:   Wed, 20 Sep 2023 14:32:40 +0200
-In-Reply-To: <88a7d652-354e-2a69-21de-22b32d5d4c1f@redhat.com>
-References: <20230727071558.1148653-1-bingbu.cao@intel.com>
-         <769ebe9f8eb88b2c07eae5910fc7d79c1ff888cb.camel@gmail.com>
-         <5fb07c7d-390c-d7ae-c74b-8e03c75f636c@linux.intel.com>
-         <0a381077-c07a-ed40-c53e-5e36177bd5f2@linux.intel.com>
-         <907f992d4e333f090418f39ebd59bf8ac1fb5e3f.camel@gmail.com>
-         <d451bbec67358373ca8495544cc0802233108a03.camel@gmail.com>
-         <1d03c5f9-1813-40f0-f280-520e2da38e09@hansg.org>
-         <1d46186b-24a6-3ae9-ccc1-0ada0f068313@redhat.com>
-         <253b5ba6-d44d-4ee1-8c18-44159632d023@redhat.com>
-         <fc63b127-d8e5-c278-d17a-3ecc90febbe3@linux.intel.com>
-         <d97f7d9a-20f5-5914-4109-f98b9f89b11e@redhat.com>
-         <e17fc9ca-9b14-10c1-7425-f7f44407f580@linux.intel.com>
-         <88a7d652-354e-2a69-21de-22b32d5d4c1f@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+        Wed, 20 Sep 2023 08:37:35 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 227F992;
+        Wed, 20 Sep 2023 05:37:28 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72EC9C433C9;
+        Wed, 20 Sep 2023 12:37:24 +0000 (UTC)
+Message-ID: <daa98de2-62d3-43a9-9d09-389cf246ee15@xs4all.nl>
+Date:   Wed, 20 Sep 2023 14:37:22 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 0/8] Add StarFive Camera Subsystem driver
+Content-Language: en-US, nl
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+        changhuang.liang@starfivetech.com
+References: <20230914031607.34877-1-jack.zhu@starfivetech.com>
+ <11735008-1adf-4b84-9023-d295371caed5@xs4all.nl>
+ <41370a5d-ffa3-f85b-aa2a-b6dd9cc570f6@starfivetech.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <41370a5d-ffa3-f85b-aa2a-b6dd9cc570f6@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu
+On 18/09/2023 11:30, Jack Zhu wrote:
+> Hi Hans，
+> 
+> Thanks for your comment.
+> 
+> On 2023/9/15 17:26, Hans Verkuil wrote:
+>> On 14/09/2023 05:15, Jack Zhu wrote:
+>>> Hi,
+>>>
+>>> This series is the v9 series that attempts to support the Camera Subsystem
+>>> found on StarFive JH7110 SoC.
+>>>
+>>> This series is based on top of the master branch of media_stage repository.
+>>>
+>>> The following are the media graph for the device and the v4l2-compliance
+>>> output.
+>>>
+>>> ===========================================================================
+>>> [the media graph]:
+>>>
+>>> digraph board {
+>>> 	rankdir=TB
+>>> 	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+>>> 	n00000001:port1 -> n00000008 [style=dashed]
+>>> 	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+>>> 	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+>>> 	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+>>> 	n0000000e:port1 -> n00000001:port0 [style=dashed]
+>>> 	n0000000e:port1 -> n00000004 [style=dashed]
+>>> 	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+>>> 	n00000018:port0 -> n0000000e:port0 [style=bold]
+>>> }
+>>>
+>>> [the device topology]:
+>>>
+>>> Media controller API version 6.5.0
+>>>
+>>> Media device information
+>>> ------------------------
+>>> driver          starfive-camss
+>>> model           Starfive Camera Subsystem
+>>> serial          
+>>> bus info        platform:19840000.camss
+>>> hw revision     0x0
+>>> driver version  6.5.0
+>>>
+>>> Device topology
+>>> - entity 1: stf_isp (2 pads, 2 links)
+>>>             type V4L2 subdev subtype Unknown flags 0
+>>>             device node name /dev/v4l-subdev0
+>>> 	pad0: Sink
+>>> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
+>>> 		 crop.bounds:(0,0)/1920x1080
+>>> 		 crop:(0,0)/1920x1080]
+>>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>>> 	pad1: Source
+>>> 		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
+>>> 		 crop.bounds:(0,0)/1920x1080
+>>> 		 crop:(0,0)/1920x1080]
+>>> 		-> "capture_yuv":0 []
+>>>
+>>> - entity 4: capture_raw (1 pad, 1 link)
+>>>             type Node subtype V4L flags 0
+>>>             device node name /dev/video0
+>>> 	pad0: Sink
+>>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>>>
+>>> - entity 8: capture_yuv (1 pad, 1 link)
+>>>             type Node subtype V4L flags 0
+>>>             device node name /dev/video1
+>>> 	pad0: Sink
+>>> 		<- "stf_isp":1 []
+>>>
+>>> - entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
+>>>              type V4L2 subdev subtype Unknown flags 0
+>>> 	pad0: Sink
+>>> 		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
+>>> 	pad1: Source
+>>> 		-> "stf_isp":0 []
+>>> 		-> "capture_raw":0 []
+>>> 	pad2: Source
+>>> 	pad3: Source
+>>> 	pad4: Source
+>>>
+>>> - entity 24: imx219 6-0010 (1 pad, 1 link)
+>>>              type V4L2 subdev subtype Sensor flags 0
+>>>              device node name /dev/v4l-subdev1
+>>> 	pad0: Source
+>>> 		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+>>> 		 crop.bounds:(8,8)/3280x2464
+>>> 		 crop:(8,8)/3280x2464]
+>>> 		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
+>>>
+>>> ===========================================================================
+>>> [the v4l2-compliance output]:
+>>>
+>>> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+>>
+>> This v4l2-compliance version is from a distro. For driver acceptance you
+>> must test with a v4l2-compliance compiled from the git repo (git://linuxtv.org/v4l-utils.git).
+>>
+> 
+> It is compiled from buildroot, but its source code is also downloaded from the repo tag v4l-utils-1.24.1.
+> Do you mean I should use the latest stable version (stable-1.24) on the repo?
+> 
 
-On Wed, 2023-09-20 at 10:52 +0200, Hans de Goede wrote:
-> Hi Bingbu,
->=20
->=20
-> Yes that sounds good to me, please it move there for the next version
-> of this series.
->=20
-> Regards,
->=20
-> Hans
->=20
+No, you want the latest version, period. So just the master branch of the v4l-utils git repo.
 
-Now Hans mention it. When is the plan for the next version?
-Would love to test my Dell on top of latest rc of 6.6, as the ivsc is
-now merged upstream, and also with the updated v4l2 api changes.
+For the compliance tests you want the latest and greatest, since the stable tags are often
+fairly old.
 
-Regards
-Claus
+Regards,
 
+	Hans
