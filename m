@@ -2,167 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7155D7A807A
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 099EE7A80B8
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:40:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235972AbjITMhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 08:37:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58936 "EHLO
+        id S235933AbjITMk1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 08:40:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235950AbjITMhf (ORCPT
+        with ESMTP id S236409AbjITMkJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:37:35 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 227F992;
-        Wed, 20 Sep 2023 05:37:28 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72EC9C433C9;
-        Wed, 20 Sep 2023 12:37:24 +0000 (UTC)
-Message-ID: <daa98de2-62d3-43a9-9d09-389cf246ee15@xs4all.nl>
-Date:   Wed, 20 Sep 2023 14:37:22 +0200
+        Wed, 20 Sep 2023 08:40:09 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8EEAD
+        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:40:02 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4RrJ5W0dtPzyZn;
+        Wed, 20 Sep 2023 15:39:59 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1695213600;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=79Ei/FRaBoy3rBAVl7+00TgHvZdVKYel1U0Tz+BYqy4=;
+        b=SSrP6Km6i9zerIuIH5b2264p8mU0vYxSOLVYtTgVgXtHBU21YU0gPystw+sO/R3N+nK/82
+        EpidAFDPUo1pPRhhvIV2qnoj+9QVdMC7r7HhratS267siey/Z4X7Nq6or5h2jTul+0Mgxp
+        xzl75ays5u3MtJ58d0y2dZDt5rkuKGg=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1695213600; a=rsa-sha256; cv=none;
+        b=ybZoPmbaf7zf6gLtT07hbMH+TGJcy9NQJ5N2h+e3jA4NBsOrQQg5lVmByLWUnWmnfBxxiS
+        ZT05f4s8374mnXvg83kCVlXRSRgrxYq/OHDGTeGdqV7nPQI5qxh/29cAWTohFOE6DzPQKN
+        oEkmiakIpZ1biZIGIOreSg3k2JovJSo=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1695213600;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=79Ei/FRaBoy3rBAVl7+00TgHvZdVKYel1U0Tz+BYqy4=;
+        b=KFSDlJ2a8lTjWWY4qci/asvdCCqVWc8NdhVH7R7VDBxWHkz7C96eka+SaI74jYQEkv+MXO
+        qaIdyp+Gm7mkSkAkW+AQOEITXNh/sZSGr47H+O/V/ju8BjZ32c4ouHBcAdSufJBCRKW3wE
+        OZfctPYyC3yN1j9yxWjsfLbGi5upUMQ=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7C775634C93;
+        Wed, 20 Sep 2023 15:39:58 +0300 (EEST)
+Date:   Wed, 20 Sep 2023 12:39:58 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, Ricardo Ribalda <ricardo@ribalda.com>,
+        hverkuil@xs4all.nl
+Subject: Re: [PATCH] yavta: Format type errors for non x86 arches
+Message-ID: <ZQroHhGjbOcocsHt@valkosipuli.retiisi.eu>
+References: <20230919140123.6277-1-ricardo@ribalda.com>
+ <ZQn/aXrIx7ItvrXI@valkosipuli.retiisi.eu>
+ <CANiDSCvX03=dwmE6jDvfSPzFwrhbKwLmVpwkOY-6k4uGbvZBuw@mail.gmail.com>
+ <ZQoDIbeg00j3STdW@valkosipuli.retiisi.eu>
+ <20230919210306.GD24325@pendragon.ideasonboard.com>
+ <CANiDSCu6wsoogSd=8MfmyJNkk+Ocs3wfk-b6Yx+G8L1QEHhArw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 0/8] Add StarFive Camera Subsystem driver
-Content-Language: en-US, nl
-To:     Jack Zhu <jack.zhu@starfivetech.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        changhuang.liang@starfivetech.com
-References: <20230914031607.34877-1-jack.zhu@starfivetech.com>
- <11735008-1adf-4b84-9023-d295371caed5@xs4all.nl>
- <41370a5d-ffa3-f85b-aa2a-b6dd9cc570f6@starfivetech.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <41370a5d-ffa3-f85b-aa2a-b6dd9cc570f6@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <CANiDSCu6wsoogSd=8MfmyJNkk+Ocs3wfk-b6Yx+G8L1QEHhArw@mail.gmail.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/09/2023 11:30, Jack Zhu wrote:
-> Hi Hans，
-> 
-> Thanks for your comment.
-> 
-> On 2023/9/15 17:26, Hans Verkuil wrote:
->> On 14/09/2023 05:15, Jack Zhu wrote:
->>> Hi,
->>>
->>> This series is the v9 series that attempts to support the Camera Subsystem
->>> found on StarFive JH7110 SoC.
->>>
->>> This series is based on top of the master branch of media_stage repository.
->>>
->>> The following are the media graph for the device and the v4l2-compliance
->>> output.
->>>
->>> ===========================================================================
->>> [the media graph]:
->>>
->>> digraph board {
->>> 	rankdir=TB
->>> 	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
->>> 	n00000001:port1 -> n00000008 [style=dashed]
->>> 	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
->>> 	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
->>> 	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
->>> 	n0000000e:port1 -> n00000001:port0 [style=dashed]
->>> 	n0000000e:port1 -> n00000004 [style=dashed]
->>> 	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
->>> 	n00000018:port0 -> n0000000e:port0 [style=bold]
->>> }
->>>
->>> [the device topology]:
->>>
->>> Media controller API version 6.5.0
->>>
->>> Media device information
->>> ------------------------
->>> driver          starfive-camss
->>> model           Starfive Camera Subsystem
->>> serial          
->>> bus info        platform:19840000.camss
->>> hw revision     0x0
->>> driver version  6.5.0
->>>
->>> Device topology
->>> - entity 1: stf_isp (2 pads, 2 links)
->>>             type V4L2 subdev subtype Unknown flags 0
->>>             device node name /dev/v4l-subdev0
->>> 	pad0: Sink
->>> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
->>> 		 crop.bounds:(0,0)/1920x1080
->>> 		 crop:(0,0)/1920x1080]
->>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
->>> 	pad1: Source
->>> 		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
->>> 		 crop.bounds:(0,0)/1920x1080
->>> 		 crop:(0,0)/1920x1080]
->>> 		-> "capture_yuv":0 []
->>>
->>> - entity 4: capture_raw (1 pad, 1 link)
->>>             type Node subtype V4L flags 0
->>>             device node name /dev/video0
->>> 	pad0: Sink
->>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
->>>
->>> - entity 8: capture_yuv (1 pad, 1 link)
->>>             type Node subtype V4L flags 0
->>>             device node name /dev/video1
->>> 	pad0: Sink
->>> 		<- "stf_isp":1 []
->>>
->>> - entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
->>>              type V4L2 subdev subtype Unknown flags 0
->>> 	pad0: Sink
->>> 		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
->>> 	pad1: Source
->>> 		-> "stf_isp":0 []
->>> 		-> "capture_raw":0 []
->>> 	pad2: Source
->>> 	pad3: Source
->>> 	pad4: Source
->>>
->>> - entity 24: imx219 6-0010 (1 pad, 1 link)
->>>              type V4L2 subdev subtype Sensor flags 0
->>>              device node name /dev/v4l-subdev1
->>> 	pad0: Source
->>> 		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
->>> 		 crop.bounds:(8,8)/3280x2464
->>> 		 crop:(8,8)/3280x2464]
->>> 		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
->>>
->>> ===========================================================================
->>> [the v4l2-compliance output]:
->>>
->>> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->>
->> This v4l2-compliance version is from a distro. For driver acceptance you
->> must test with a v4l2-compliance compiled from the git repo (git://linuxtv.org/v4l-utils.git).
->>
-> 
-> It is compiled from buildroot, but its source code is also downloaded from the repo tag v4l-utils-1.24.1.
-> Do you mean I should use the latest stable version (stable-1.24) on the repo?
-> 
+Hi Ricardo,
 
-No, you want the latest version, period. So just the master branch of the v4l-utils git repo.
+On Wed, Sep 20, 2023 at 02:19:54PM +0200, Ricardo Ribalda wrote:
+> Hi Laurent, Hi Sakari
+> 
+> 
+> 
+> On Tue, 19 Sept 2023 at 23:02, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > On Tue, Sep 19, 2023 at 08:22:57PM +0000, Sakari Ailus wrote:
+> > > Hi Ricardo,
+> > >
+> > > On Tue, Sep 19, 2023 at 10:10:41PM +0200, Ricardo Ribalda wrote:
+> > > > Hi Sakari
+> > > >
+> > > > On Tue, 19 Sept 2023 at 22:07, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> > > > >
+> > > > > Hi Ricardo,
+> > > > >
+> > > > > Thanks for the patch.
+> > > > >
+> > > > > On Tue, Sep 19, 2023 at 04:01:23PM +0200, Ricardo Ribalda wrote:
+> > > > > > mipsel64el, ppc64el, ia64, ppc64, sparc64 and x32 have different lenghts
+> > > > > > for long long ints, which result in some compilation errors.
+> > > > > >
+> > > > > > Lets add some castings to help the compiler deal with this.
+> > > > > >
+> > > > > > We cannot use the Format macro constants ffrom inttypes because they
+> > > > > > seem to not be compatible with kernel (__u64 et al) types.
+> > > > > >
+> > > > > > Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
+> > > > > > ---
+> > > > > >  yavta.c | 35 +++++++++++++++++++++--------------
+> > > > > >  1 file changed, 21 insertions(+), 14 deletions(-)
+> > > > > >
+> > > > > > diff --git a/yavta.c b/yavta.c
+> > > > > > index d562863..bf54e4f 100644
+> > > > > > --- a/yavta.c
+> > > > > > +++ b/yavta.c
+> > > > > > @@ -1313,7 +1313,8 @@ static void video_query_menu(struct device *dev,
+> > > > > >                       printf("  %u: %.32s%s\n", menu.index, menu.name,
+> > > > > >                              menu.index == value ? " (*)" : "");
+> > > > > >               else
+> > > > > > -                     printf("  %u: %lld%s\n", menu.index, menu.value,
+> > > > > > +                     printf("  %u: %lld%s\n", menu.index,
+> > > > >
+> > > > > Could you instead use PRId64 for this? You can avoid casting to another
+> > > > > type this way. Same for the other cases.
+> > > >
+> > > > Already tried this:
+> > > >
+> > > > @@ -1313,7 +1313,7 @@ static void video_query_menu(struct device *dev,
+> > > >                         printf("  %u: %.32s%s\n", menu.index, menu.name,
+> > > >                                menu.index == value ? " (*)" : "");
+> > > >                 else
+> > > > -                       printf("  %u: %lld%s\n", menu.index, menu.value,
+> > > > +                       printf("  %u: %" PRId64 "%s\n", menu.index, menu.value,
+> > > >                                menu.index == value ? " (*)" : "");
+> > > >         };
+> > > >  }
+> > > >
+> > > > but gcc was not happy:
+> > > >
+> > > > yavta.c: In function ‘video_query_menu’:
+> > > > yavta.c:1316:11: warning: format ‘%ld’ expects argument of type ‘long
+> > > > int’, but argument 3 has type ‘__s64’ {aka ‘long long int’}
+> > > > [-Wformat=]
+> > > >  1316 |    printf("  %u: %" PRId64 "%s\n", menu.index, menu.value,
+> > > >       |           ^~~~~~~~~                            ~~~~~~~~~~
+> > > >       |                                                    |
+> > > >       |                                                    __s64 {aka
+> > > > long long int}
+> > > > In file included from yavta.c:26:
+> > > > /usr/include/inttypes.h:57:34: note: format string is defined here
+> > > >    57 | # define PRId64  __PRI64_PREFIX "d"
+> > >
+> > > I guess I should have expected this...
+> > >
+> > > I'm not sure if it'd be prettier but another option is to use the PRI*
+> > > macros and explicitly cast to a standard type.
+> 
+> I would like to avoid
+> 
+>   printf(" Hello %" PRId64 "\n", (uint64_t) value_s64);
+> 
+> That looks very bad :)
 
-For the compliance tests you want the latest and greatest, since the stable tags are often
-fairly old.
+I actually prefer this. It doesn't look bad either IMO, apart from the PRI*
+macros that are always ugly, but most importantly you're explicitly using
+64-bit types that work everywhere.
 
+> 
+> I believe the current casting is the least of the two evils.
+> 
+> 
+> > >
+> > > Using the standard types in the V4L2 header would have avoided this issue.
+> > > I wonder if there's anything to be gained by using the kernel types.
+> >
+> > The kernel has defined __s64 as signed int int for a long time now, on
+> > all architectures, at least since
+> >
+> > commit 0c79a8e29b5fcbcbfd611daf9d500cfad8370fcf
+> > Author: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Date:   Thu Jan 23 15:53:43 2014 -0800
+> >
+> >     asm/types.h: Remove include/asm-generic/int-l64.h
+> >
+> > which was merged in v3.14.
+> >
+> > According to https://buildd.debian.org/status/package.php?p=yavta,
+> > however, __s64 seems to be defined as long int on some platforms.
+> >
+> > /me is puzzled
+> 
+> It does not help that __s64 is long long int and PRId64 is "d". I
+> guess we can say that inttypes and kernel types do not play along?
+
+I haven't encountered this issue in the past but I also haven't tried
+compiling for odd architectures.
+
+> 
+> I guess we need kerntypes.h with proper KPRId64 but that is probably
+> out of scope here.
+
+This could even depend on the compiler.
+
+I wonder why we aren't using
+
+	typedef uint64_t __u64;
+
+in kernel UAPI headers instead. Including inttypes.h should not be an issue
+in 2023 anymore.
+
+This problem is certainly wider in scope than yavta.
+
+-- 
 Regards,
 
-	Hans
+Sakari Ailus
