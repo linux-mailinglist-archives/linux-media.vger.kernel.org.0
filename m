@@ -2,186 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E2877A8272
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54A607A827F
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:59:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234706AbjITM7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 08:59:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41580 "EHLO
+        id S234753AbjITM7z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 08:59:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236324AbjITM7V (ORCPT
+        with ESMTP id S236232AbjITM7w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:59:21 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4946D129;
-        Wed, 20 Sep 2023 05:59:11 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2A9C433C9;
-        Wed, 20 Sep 2023 12:59:06 +0000 (UTC)
-Message-ID: <a3c61e5a-e5cb-43d5-a3dc-80806f8da672@xs4all.nl>
-Date:   Wed, 20 Sep 2023 14:59:05 +0200
+        Wed, 20 Sep 2023 08:59:52 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD9799
+        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:59:45 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-9adca291f99so690163066b.2
+        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:59:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695214784; x=1695819584; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LV2gN9+eTiXkyca2dO5MxUoq8LWJ1nU2KvHcYErMcdE=;
+        b=KBW7CHiC+c7tX6SZySiFzOqmAbDwCvqUeMX/qgbNN4P+Y6ha5wdKwI0hvuFH0tSPy5
+         Bvp+BeyX2Q936HgYKCVyrbIXy/qIFvlwaHTpgu2yImyTu/6Hnpzpb047YED98O0ALKWi
+         YgtnKWdQ/Prt1V+MdvWJjIGafgdAXEK5vxz3E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695214784; x=1695819584;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LV2gN9+eTiXkyca2dO5MxUoq8LWJ1nU2KvHcYErMcdE=;
+        b=gAnBSLRul+Y3iyQfvhcUNWO0msjnwzSNHjlPxfhu9yJpS3kYrjuf3PIoEeJ71tHhx8
+         HePBr4OupHVv6RGrQbYZl52tzqXy9aUXu9MeOoFZCbgzogVeY95fezqEzKNLet4/Vo0L
+         JNEM+Wqhk8sjPvvmO1A6vTn+PIVv6yM4lh0KonxPdoRURXGNVGeiyxzjoTVrkpK6T5II
+         WNw1CkGmyQBIGu+YYIsEnYdvbE8EcMFzxxqF0EKZySH1bmccvChymZNLzhl8aNuKzmTh
+         czXldG2JircmdQrSj8iTIH+V3JQoFDrtZON3Xiak0gxAxCPuqYEcUnhim0x2BCqLwMuP
+         y0oQ==
+X-Gm-Message-State: AOJu0YxmCGpj9vMAd4KebNMFGdNs84gY86IQc5eqRJmEbN7PdMkNEOLd
+        FKRi9UoqVnVyyAnES19fK5WbC8OI5K2tADTLF/VWoA==
+X-Google-Smtp-Source: AGHT+IHv4DCTnMXjZDl18vyrgEZDeqvs5KBRdiugIQGySfYUM3jWDBacwgRyheAdIANNCfWJiClNmg==
+X-Received: by 2002:a17:907:2ccb:b0:9a2:23b:db60 with SMTP id hg11-20020a1709072ccb00b009a2023bdb60mr1973566ejc.54.1695214783617;
+        Wed, 20 Sep 2023 05:59:43 -0700 (PDT)
+Received: from penguin.lxd ([100.104.168.126])
+        by smtp.gmail.com with ESMTPSA id dk14-20020a170906f0ce00b00992b2c55c67sm9306090ejb.156.2023.09.20.05.59.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Sep 2023 05:59:43 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+X-Google-Original-From: Ricardo Ribalda <ricardo@ribalda.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Cc:     Ricardo Ribalda <ricardo@ribalda.com>
+Subject: [PATCH] yavta: Format type errors for non x86 arches
+Date:   Wed, 20 Sep 2023 14:59:39 +0200
+Message-Id: <20230920125939.1478-1-ricardo@ribalda.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 1/7] media: v4l2: Add ignore_streaming flag
-Content-Language: en-US, nl
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Robert Beckett <bob.beckett@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20230915-wave5_v12_on_media_master-v12-0-92fc66cd685d@collabora.com>
- <20230915-wave5_v12_on_media_master-v12-1-92fc66cd685d@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20230915-wave5_v12_on_media_master-v12-1-92fc66cd685d@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/09/2023 23:11, Sebastian Fricke wrote:
-> Add a new flag to the `struct v4l2_m2m_dev` to toggle whether a queue
-> must be streaming in order to allow queuing jobs to the ready queue.
-> Currently, both queues (CAPTURE & OUTPUT) must be streaming in order to
-> allow adding new jobs. This behavior limits the usability of M2M for
-> some drivers, as these have to be able, to perform analysis of the
+mipsel64el, ppc64el, ia64, ppc64, sparc64 and x32 have different lenghts
+for long long ints, which result in some compilation errors.
 
-able, to -> able to
+Lets add some castings and inttypes macros to help the compiler deal with
+this.
 
-> sequence to ensure, that userspace prepares the CAPTURE queue correctly.
+We have to use the castings, because kernel types (__u64 et al) does not
+seem to be compatible with inttypes macros.
 
-ensure, that -> ensure that
+Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
+---
+ yavta.c | 34 ++++++++++++++++++++--------------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
 
-> 
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  include/media/v4l2-mem2mem.h | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-> index d6c8eb2b5201..97a48e61e358 100644
-> --- a/include/media/v4l2-mem2mem.h
-> +++ b/include/media/v4l2-mem2mem.h
-> @@ -57,6 +57,16 @@ struct v4l2_m2m_dev;
->   * @rdy_spinlock: spin lock to protect the struct usage
->   * @num_rdy:	number of buffers ready to be processed
->   * @buffered:	is the queue buffered?
-> + * @ignore_streaming: Dictates whether the queue must be streaming for a job to
-> + *		      be queued.
-> + *		      This is useful, for example, when the driver requires to
-> + *		      initialize the sequence with a firmware, where only a
-> + *		      queued OUTPUT queue buffer and STREAMON on the OUTPUT
-> + *		      queue is required to perform the anlysis of the bitstream
-> + *		      header.
-> + *		      This means the driver is responsible for implementing the
-> + *		      job_ready callback correctly to make sure that requirements
-> + *		      for actual decoding are met.
-
-This is a bad description and field name.
-
-Basically what this field does is that, if true, the streaming state of the
-capture queue is ignored. So just call it that: ignore_cap_streaming.
-
-And explain that, if true, job_ready() will be called even if the capture
-queue is not streaming, and that that can be used to allow hardware to
-analyze the bitstream header that arrives on the OUTPUT queue.
-
-Also, doesn't this field belong to struct v4l2_m2m_ctx? It makes no sense
-for the output queue, this is really a configuration for the m2m context as
-a whole.
-
->   *
->   * Queue for buffers ready to be processed as soon as this
->   * instance receives access to the device.
-> @@ -69,6 +79,7 @@ struct v4l2_m2m_queue_ctx {
->  	spinlock_t		rdy_spinlock;
->  	u8			num_rdy;
->  	bool			buffered;
-> +	bool			ignore_streaming;
->  };
->  
->  /**
-> @@ -564,6 +575,12 @@ static inline void v4l2_m2m_set_dst_buffered(struct v4l2_m2m_ctx *m2m_ctx,
->  	m2m_ctx->cap_q_ctx.buffered = buffered;
->  }
->  
-> +static inline void v4l2_m2m_set_dst_ignore_streaming(struct v4l2_m2m_ctx *m2m_ctx,
-> +						     bool ignore_streaming)
-> +{
-> +	m2m_ctx->cap_q_ctx.ignore_streaming = ignore_streaming;
-> +}
-> +
-
-I think this is overkill, esp. when the field is moved to m2m_ctx. Just clearly
-document that drivers can set this.
-
-Regards,
-
-	Hans
-
->  /**
->   * v4l2_m2m_ctx_release() - release m2m context
->   *
-> 
+diff --git a/yavta.c b/yavta.c
+index d562863..d8c9d14 100644
+--- a/yavta.c
++++ b/yavta.c
+@@ -1313,7 +1313,8 @@ static void video_query_menu(struct device *dev,
+ 			printf("  %u: %.32s%s\n", menu.index, menu.name,
+ 			       menu.index == value ? " (*)" : "");
+ 		else
+-			printf("  %u: %lld%s\n", menu.index, menu.value,
++			printf("  %u: %" PRId64 "%s\n", menu.index,
++			       (int64_t)menu.value,
+ 			       menu.index == value ? " (*)" : "");
+ 	};
+ }
+@@ -1360,7 +1361,7 @@ static void video_print_control_value(const struct v4l2_query_ext_ctrl *query,
+ 			printf("0x%08x", ctrl->value);
+ 			break;
+ 		case V4L2_CTRL_TYPE_INTEGER64:
+-			printf("%lld", ctrl->value64);
++			printf("%" PRId64, (int64_t)ctrl->value64);
+ 			break;
+ 		case V4L2_CTRL_TYPE_STRING:
+ 			printf("%s", ctrl->string);
+@@ -1399,9 +1400,10 @@ static int video_get_control(struct device *dev,
+ 	}
+ 
+ 	if (full) {
+-		printf("control 0x%08x `%s' min %lld max %lld step %lld default %lld ",
+-			query->id, query->name, query->minimum, query->maximum,
+-			query->step, query->default_value);
++		printf("control 0x%08x `%s' min %" PRId64 " max %" PRId64 " step %" PRIu64 " default %" PRId64 " ",
++		       query->id, query->name, (int64_t)query->minimum,
++		       (int64_t)query->maximum, (uint64_t)query->step,
++		       (int64_t)query->default_value);
+ 		if (query->nr_of_dims) {
+ 			for (i = 0; i < query->nr_of_dims; ++i)
+ 				printf("[%u]", query->dims[i]);
+@@ -2190,13 +2192,16 @@ static int video_do_capture(struct device *dev, unsigned int nframes,
+ 
+ 		clock_gettime(CLOCK_MONOTONIC, &ts);
+ 		get_ts_flags(buf.flags, &ts_type, &ts_source);
+-		printf("%u (%u) [%c] %s %u %u B %ld.%06ld %ld.%06ld %.3f fps ts %s/%s\n", i, buf.index,
+-			(buf.flags & V4L2_BUF_FLAG_ERROR) ? 'E' : '-',
+-			v4l2_field_name(buf.field),
+-			buf.sequence, video_buffer_bytes_used(dev, &buf),
+-			buf.timestamp.tv_sec, buf.timestamp.tv_usec,
+-			ts.tv_sec, ts.tv_nsec/1000, fps,
+-			ts_type, ts_source);
++		printf("%u (%u) [%c] %s %u %u B %" PRId64 ".%06" PRId64 " %" PRId64 ".%06" PRId64 " %.3f fps ts %s/%s\n",
++		       i, buf.index,
++		       (buf.flags & V4L2_BUF_FLAG_ERROR) ? 'E' : '-',
++		       v4l2_field_name(buf.field),
++		       buf.sequence, video_buffer_bytes_used(dev, &buf),
++		       (int64_t)buf.timestamp.tv_sec,
++		       (int64_t)buf.timestamp.tv_usec,
++		       (int64_t)ts.tv_sec,
++		       (int64_t)(ts.tv_nsec / 1000), fps,
++		       ts_type, ts_source);
+ 
+ 		last = buf.timestamp;
+ 
+@@ -2252,8 +2257,9 @@ static int video_do_capture(struct device *dev, unsigned int nframes,
+ 	bps = size/(ts.tv_nsec/1000.0+1000000.0*ts.tv_sec)*1000000.0;
+ 	fps = i/(ts.tv_nsec/1000.0+1000000.0*ts.tv_sec)*1000000.0;
+ 
+-	printf("Captured %u frames in %lu.%06lu seconds (%f fps, %f B/s).\n",
+-		i, ts.tv_sec, ts.tv_nsec/1000, fps, bps);
++	printf("Captured %u frames in %" PRId64 ".%06" PRId64 " seconds (%f fps, %f B/s).\n",
++	       i, (int64_t)ts.tv_sec, (int64_t)(ts.tv_nsec / 1000), fps,
++	       bps);
+ 
+ done:
+ 	video_free_buffers(dev);
+-- 
+2.30.2
 
