@@ -2,198 +2,229 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C76977A7D31
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:07:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABBD87A7EBC
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:20:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235210AbjITMHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 08:07:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51826 "EHLO
+        id S235672AbjITMUV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 08:20:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235278AbjITMHR (ORCPT
+        with ESMTP id S235655AbjITMUS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:07:17 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8753E0;
-        Wed, 20 Sep 2023 05:07:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1695211630; x=1726747630;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=GU/XebSjV3S3gX1Q4IugMFhSnRpjPLJIAcCEzlYgaWI=;
-  b=hA9eR8CzvFpp6IWpjdHAY7+E5jLXsmYWGaMWOjsoHm/aG+JJ/0MiBhz9
-   8yVnSUd0yzaO1hF5xfG6Dn9PgqXus1J2VvMnI7aao11qx7QkFEvEewkC3
-   ekJeFWjDGK49+VBA9szW+tJ7xIEw1jRtT1YjdxoRLMbzjs5jrMMUiZ33e
-   6R8rUEp4RW21QkFyOeis0VKdOdVBBTgNHXZ8SOR+cDZkH+Ngkvv0Ukl0e
-   jaEqLSbPuoW9cV48Y8JqKk725iepjffiAdKipsiFh7FvZdKZEV9FaBZWZ
-   wWLoiXXtXEJUYuDD2KOTsZlqShAM7IzTAmJzOpCI1/xZ821HmA9KPpU7T
-   A==;
-X-CSE-ConnectionGUID: toqJibaqTPGyXYM71ZKLqA==
-X-CSE-MsgGUID: 18vfN9PiQM6GDoUqA92XNA==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
-   d="scan'208";a="172633664"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 20 Sep 2023 05:07:09 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 20 Sep 2023 05:07:09 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Wed, 20 Sep 2023 05:07:08 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jm44oG4Bh+ACOGN731DNMVCbfiduPcJ+adgCFaXUsqEe+jQ0JOmlrkRCGaODa5AD8BG+yE6Rjj+oZ9FetaMMHogtci0vtsn15CugtgNPvlscP+6OjDmibP+3oBexUcZCt6Bsg4di4iaDQV5q+4IYYhjGdV5c3tjtxD0D+/ZiglsczPFSgN+fvwMc4HmNZFgoAtez1qFOcWaYClGCFIe5tYocGbSkpT/mZYj0y+Sge8fBmod3tBfm+VhJJp52BNCVoF/uR4JooPN9eR1ih6neGE41jGAIWgFoIpAYo4uC23OOxpxCnITv7tRw4wdnxjZDNBUyR+mGOsyFpkQgK8Ul5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GU/XebSjV3S3gX1Q4IugMFhSnRpjPLJIAcCEzlYgaWI=;
- b=FFyYNqGUnsDFqQkKfZCBTAZCJA8gTDj7niTxAxgng+ZtcBiHSYcxGV1VQi+tOVM3tjeCwU/u9tQRtOoYSWI57PlWG8Ou7juC31ZYPOSsJ8cauXWqvUp+9djQKfYvaZwIds2lXRkyQt3GAf6s7mnfIEYoIhJqLz7V82k3ElGYDJnAqiMpGfRWJ+dQVeEBltv3Z3nGPcBTSdB4l7pK8a1rKM0xSLF5RdWZ73T1AxfDcu2QwrAclpzbSnMgYoKAg48VPqQJ33b0p8NxZSNlhZN4qxGZIp96/vyDMe6s6tXiGHrcZnp4OcYdgQh9Vulyt0EPnPFmAbfTd6EIwzuEsqZfrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+        Wed, 20 Sep 2023 08:20:18 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D5292
+        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:20:12 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-76f08e302a1so439378385a.1
+        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:20:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GU/XebSjV3S3gX1Q4IugMFhSnRpjPLJIAcCEzlYgaWI=;
- b=DkzyzFDE4Eu5UJ+fPdDwjG56dTczvOMxBvkwNbr6NU+Ke2dXHpWOFs6FwgA3TzGKz6E0T7aIwg1qyzmybVS4o645gcHbPZP9N9w0ezq+g3RHQOwPgRXmElpG2r4yamX6zNn3mtk36zBrHCC3t3FOaTpQgB5iljFeukihoRe54UI=
-Received: from PH0PR11MB5611.namprd11.prod.outlook.com (2603:10b6:510:ed::9)
- by DM3PR11MB8682.namprd11.prod.outlook.com (2603:10b6:8:1ae::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27; Wed, 20 Sep
- 2023 12:07:07 +0000
-Received: from PH0PR11MB5611.namprd11.prod.outlook.com
- ([fe80::1133:b6c0:3f07:84bc]) by PH0PR11MB5611.namprd11.prod.outlook.com
- ([fe80::1133:b6c0:3f07:84bc%7]) with mapi id 15.20.6792.026; Wed, 20 Sep 2023
- 12:07:07 +0000
-From:   <Shravan.Chippa@microchip.com>
-To:     <sakari.ailus@iki.fi>
-CC:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
-        <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3] media: i2c: imx334: add support for test pattern
- generator
-Thread-Topic: [PATCH v3] media: i2c: imx334: add support for test pattern
- generator
-Thread-Index: AQHZ6toVr4ymchptDkKwdXRk/TEGQbAh9RGAgAGq2BA=
-Date:   Wed, 20 Sep 2023 12:07:07 +0000
-Message-ID: <PH0PR11MB5611FF1F6DAC249C6F2D387D81F9A@PH0PR11MB5611.namprd11.prod.outlook.com>
-References: <20230919091740.1821543-1-shravan.chippa@microchip.com>
- <ZQl6E3AGzXi5OvGV@valkosipuli.retiisi.eu>
-In-Reply-To: <ZQl6E3AGzXi5OvGV@valkosipuli.retiisi.eu>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB5611:EE_|DM3PR11MB8682:EE_
-x-ms-office365-filtering-correlation-id: 13785a79-11e0-485b-168e-08dbb9d21c3f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oEz9R13gK9yMVF/StRqhre9ipvqXoIx2ktcPGjIgdVvjV4oOyETs6z0+MDusQ6nc0g1S5mnSiF/D8RsquHg0lsh7GV1mZ/SfhABzSSPepvlr9ugpy3vkOXv2tXtKyln0aE3wm8UlRmLhRbF9aBt7F4KMCglBQC3ZrFXP+iT+98KiLts7wu0WY7wPx7CSk2uQoNvyHFM0RwsnlDwLtHM6yWoHSlaWSmyW8JqykJMwx5M3b5uUDI1Pl7RxttqkjWRBxtDYdvF9uAPHZKVmyHYVLLuYJZxla8ixGO5BgLdfpnXXVYZAv6F15dMMtjH3KIo0GB+relkvcwgtMpakpPW0NYbt7E5fzrJY0BZsSYNelk8XgTlQ4x9mXCJUqSmS46PYDc+V0j+iKsHo6AYNZa+WULofFOfbiehcA07ejtGt+w+1eW2zkGw/bwvDZ26brnwBWE7UIEG/UScyWQ8oflfHDKqEau8sjWXEoraFp297ZtPYzuHTSvRUAAA5WilsjmHJTS2yx9zO/QkALQH26BtdtQV2fvPy02RTKb4vf7KoYV3qf0CZhELPu+VRsobSo1kbna1gET5qIJ086oq0GqkcJLNg/qFv8bBxwqtWz8X6+lfZeHXuMKxcfp6jL6dEEqPi
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5611.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(346002)(39850400004)(376002)(451199024)(186009)(1800799009)(38070700005)(83380400001)(7696005)(6506007)(53546011)(9686003)(478600001)(4326008)(8676002)(26005)(66476007)(64756008)(66556008)(316002)(6916009)(66446008)(66946007)(54906003)(76116006)(5660300002)(52536014)(8936002)(41300700001)(2906002)(122000001)(71200400001)(38100700002)(86362001)(33656002)(55016003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?bosqY0DdtHYsac5en9tw/B2Xnt0ySkOb5ghWb6C0dZ18Er58LlIzvUJnce/C?=
- =?us-ascii?Q?CJSABB11GIRWmMOoATjP1i473LViCVNnuU6kh1jRpfh1pToPyK+mY309HjAB?=
- =?us-ascii?Q?HuK6W79+yjiLscCSoSAVvSc0xToFWzS75gRZdaoKcFXXkLKjPtiZ7+hn1gRp?=
- =?us-ascii?Q?7Fkr/vKF46soWqqPwiut2OlLpkRDUa2kyu1k6B+z1pQ7nJIr1+E2SU80DXe0?=
- =?us-ascii?Q?6i+NFtn3ggVkDW22LKIH8pexeba88Js5g7rqOUBK7knMgxyhfk5NrCdEg6dk?=
- =?us-ascii?Q?xok4FeGqROoyQaIvYYnANgUJE8S7LlutzOXbZV2/LJJo3NP+ERA12/I0iw5f?=
- =?us-ascii?Q?z+WB5VptEiCwZeXfAvjTgHGCLe5QZpkYDRHYk3A1U7hXfELMFXSUVft/Vc/o?=
- =?us-ascii?Q?MW90c6WP167yIa9yAM95/XWqVuNlWcs4xHxDGMpPwYMZ07pFhwUJU+Hg/doG?=
- =?us-ascii?Q?GjtBYSaDDeOAfcem1aAY5vtykOfeYeuruy8tugm1SUZ/F2/PxrGrVS3oXX6T?=
- =?us-ascii?Q?jHaUqwSiOHvcX9Z1gfz7bGQgSVQOWSLBmPm1oYLbQNlD4beW7pMVh5exHm5g?=
- =?us-ascii?Q?1UyoUzup5/dAUPBbT8AlNXe1/48p6ptn8/WCK0v+GGHk3RUdXLPssBceXyEb?=
- =?us-ascii?Q?sEHR3qIFL+sKqkurPf4ONh/cRsbStsimvdqqJVQXr7/ERVT91Ote7KAZXN49?=
- =?us-ascii?Q?4c3KFS5B6L2mnqBezeDdMEjHkB5f7eeF10GD8KWrwBs0OcL9JdqlH1ki+wkN?=
- =?us-ascii?Q?JitvCyjucTS8OtXY7Fb/rrfCZorMt6HCbNHIBejgypILQZROnhR8EtjtP+3B?=
- =?us-ascii?Q?FVSAAbHxOKfKRPquMzCg1CE91IvovHkPt89Ed1QroGNdVc+D4IPNpJUKFAj4?=
- =?us-ascii?Q?02FTbGQ6S9gs7T5pt2lsxr1H4DfQebf+n4ZNpzhwtym0lbp4cmE3JF1bgFy5?=
- =?us-ascii?Q?5qxp+OBcfxYrsGZyOZf14jCLJReUz3bbnxSe97sBC619R6vcUKsnmqku5hlk?=
- =?us-ascii?Q?b/6rcoOS6u8aBw+gV+VppXyz0tqIBT9TaL+S3krLnRdRF9GdlvHVlfExamD+?=
- =?us-ascii?Q?OTho1YgIB6BL/4hY+1rjN3QmPHLID5TvGiVMAs8D4CrcSyeMDq990DvQ/0uA?=
- =?us-ascii?Q?uJPmX0ineREDFcAyfsx9QyTbpQN2o8pKe/zbtgnJcPLgOFXZiL2elZxXqwNe?=
- =?us-ascii?Q?7f5MDqGudKYl07X68jqChV49pbJZIa3dKL05X089Fb/N9RC6HCMoT2RDyUVm?=
- =?us-ascii?Q?zvDsXvvutrtDKSLWEL17b8xHdz54t0WF0KdyePeGFWA7ArzzErudRvr3ZG4e?=
- =?us-ascii?Q?N9xIvsGZhQZlPp0q5hxDzi/B245dxSssT/460CBpqpFNKEW4E/cNd7YdoLqD?=
- =?us-ascii?Q?m/CPKreFDtvr900qujUR/8k6s8JQ/Co27Baw/zSETnNThJDt1wIx4W/p5j3D?=
- =?us-ascii?Q?SyXGu1IjkGZgiX83+HRFlpK1fJ692YTIumIS5yNolXqXVym4mzEhdKmGu2Wv?=
- =?us-ascii?Q?Q1weoXi25Oif4t4WEAcrgefr8WvT1QnPj7bjURmarFsd1Ig/0PhZD7avWIeI?=
- =?us-ascii?Q?cSymhdslpde0gprExLuDiVp7U6EI30sjfiTXojwNZBSfv4dbFL0lKhOWiNkz?=
- =?us-ascii?Q?LA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=chromium.org; s=google; t=1695212411; x=1695817211; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E85Y3wxX4/PuIWHuumYTWFFq1A8urHbmzfEt46MpMUY=;
+        b=cuQsmWMo47x7wLzCR1tO71pEoWh+M8N3iX6lC4LhZunRIHAP8afpvvUbXNwpstEPWi
+         qBusVLA6IM30ynWl903Loxd10FJ/qQG2e7/BrkYXKC00KPMdsAOIeqUJDh5bQHQW+z5c
+         m3ocDnnI0sks5N5eELkdECOzS/Ce8/+sNdm4o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695212411; x=1695817211;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E85Y3wxX4/PuIWHuumYTWFFq1A8urHbmzfEt46MpMUY=;
+        b=LZWAg1sa1mC+q/GIde+/dbQ0jYezEnGAa1NPKZEaCR9PJB74CZkvPNhFYm23qsZZSN
+         klsiVVaRVrGhKFQRRzxLzreecwRynRABI0ivBbybGkuxUigARq7JYHytdh+7YfJrB1SX
+         Tn8w0xOoA1hTmgManwA2fuw/A9EcM4o1z50eDIowSdogk8AyzQwaZbDnU5gxkXqbSNCN
+         T6Lq4U5Z8hm4f+z8g9imA/oNukJRIjvoMazNaoQqCsTYHg89JhXqPtDtFhu+IkBEqN5X
+         YH/6H0H3a3MRbxBorEvdhv+PjXBXbbhEP9N/rvLJRrcyEymn1rqJVkaBSxdvuIcfcN9D
+         Dq7w==
+X-Gm-Message-State: AOJu0YzFyuGQ73WzZxgXP6RrXh0Tb2zxtB+rxpKckJJjCQGj0zqK5AeL
+        kIF4ZBnasDLQqEVTvXhqY/VldUO5V+buQsNJoZsBWA==
+X-Google-Smtp-Source: AGHT+IGjnd3lOUWel+tDauWwhetuGQWHiDT3xQjZTDp0VtKMqEL+Vceyufv/N3IahCu1vpAYyoJ0Uw==
+X-Received: by 2002:a05:620a:22f5:b0:773:f7ad:7e0b with SMTP id p21-20020a05620a22f500b00773f7ad7e0bmr873516qki.58.1695212411119;
+        Wed, 20 Sep 2023 05:20:11 -0700 (PDT)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com. [209.85.219.54])
+        by smtp.gmail.com with ESMTPSA id g12-20020a37e20c000000b0076f12fcb0easm4790558qki.2.2023.09.20.05.20.09
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Sep 2023 05:20:10 -0700 (PDT)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-656307a52e8so28799616d6.1
+        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:20:09 -0700 (PDT)
+X-Received: by 2002:a0c:aac9:0:b0:658:2f85:29c8 with SMTP id
+ g9-20020a0caac9000000b006582f8529c8mr1744599qvb.53.1695212409145; Wed, 20 Sep
+ 2023 05:20:09 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5611.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13785a79-11e0-485b-168e-08dbb9d21c3f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2023 12:07:07.0752
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uBVU+YScEiUgchb91tnQaNyEa85iqCE/GCwFzjT51GIETnjTfugehQlFkCEVCaxeavafDM79cTQoFjT4HaiEtcTdPkWleyLp5gl2z/U9vDs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR11MB8682
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230919140123.6277-1-ricardo@ribalda.com> <ZQn/aXrIx7ItvrXI@valkosipuli.retiisi.eu>
+ <CANiDSCvX03=dwmE6jDvfSPzFwrhbKwLmVpwkOY-6k4uGbvZBuw@mail.gmail.com>
+ <ZQoDIbeg00j3STdW@valkosipuli.retiisi.eu> <20230919210306.GD24325@pendragon.ideasonboard.com>
+In-Reply-To: <20230919210306.GD24325@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 20 Sep 2023 14:19:54 +0200
+X-Gmail-Original-Message-ID: <CANiDSCu6wsoogSd=8MfmyJNkk+Ocs3wfk-b6Yx+G8L1QEHhArw@mail.gmail.com>
+Message-ID: <CANiDSCu6wsoogSd=8MfmyJNkk+Ocs3wfk-b6Yx+G8L1QEHhArw@mail.gmail.com>
+Subject: Re: [PATCH] yavta: Format type errors for non x86 arches
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
+        Ricardo Ribalda <ricardo@ribalda.com>, hverkuil@xs4all.nl
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Laurent, Hi Sakari
 
 
-> -----Original Message-----
-> From: Sakari Ailus <sakari.ailus@iki.fi>
-> Sent: Tuesday, September 19, 2023 4:08 PM
-> To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
-> Cc: paul.j.murphy@intel.com; daniele.alessandrelli@intel.com;
-> mchehab@kernel.org; linux-media@vger.kernel.org; linux-
-> kernel@vger.kernel.org
-> Subject: Re: [PATCH v3] media: i2c: imx334: add support for test pattern
-> generator
->=20
-> EXTERNAL EMAIL: Do not click links or open attachments unless you know th=
-e
-> content is safe
->=20
-> Hi Shravan,
->=20
-> On Tue, Sep 19, 2023 at 02:47:40PM +0530, shravan kumar wrote:
-> > From: Shravan Chippa <shravan.chippa@microchip.com>
+
+On Tue, 19 Sept 2023 at 23:02, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Tue, Sep 19, 2023 at 08:22:57PM +0000, Sakari Ailus wrote:
+> > Hi Ricardo,
 > >
-> > Add support for the imx334's test pattern generator.
-> > By default the test pattern generator is disabled, so add support for
-> > enabling and disabling horizontal and vertical colour bars.
+> > On Tue, Sep 19, 2023 at 10:10:41PM +0200, Ricardo Ribalda wrote:
+> > > Hi Sakari
+> > >
+> > > On Tue, 19 Sept 2023 at 22:07, Sakari Ailus <sakari.ailus@iki.fi> wro=
+te:
+> > > >
+> > > > Hi Ricardo,
+> > > >
+> > > > Thanks for the patch.
+> > > >
+> > > > On Tue, Sep 19, 2023 at 04:01:23PM +0200, Ricardo Ribalda wrote:
+> > > > > mipsel64el, ppc64el, ia64, ppc64, sparc64 and x32 have different =
+lenghts
+> > > > > for long long ints, which result in some compilation errors.
+> > > > >
+> > > > > Lets add some castings to help the compiler deal with this.
+> > > > >
+> > > > > We cannot use the Format macro constants ffrom inttypes because t=
+hey
+> > > > > seem to not be compatible with kernel (__u64 et al) types.
+> > > > >
+> > > > > Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
+> > > > > ---
+> > > > >  yavta.c | 35 +++++++++++++++++++++--------------
+> > > > >  1 file changed, 21 insertions(+), 14 deletions(-)
+> > > > >
+> > > > > diff --git a/yavta.c b/yavta.c
+> > > > > index d562863..bf54e4f 100644
+> > > > > --- a/yavta.c
+> > > > > +++ b/yavta.c
+> > > > > @@ -1313,7 +1313,8 @@ static void video_query_menu(struct device =
+*dev,
+> > > > >                       printf("  %u: %.32s%s\n", menu.index, menu.=
+name,
+> > > > >                              menu.index =3D=3D value ? " (*)" : "=
+");
+> > > > >               else
+> > > > > -                     printf("  %u: %lld%s\n", menu.index, menu.v=
+alue,
+> > > > > +                     printf("  %u: %lld%s\n", menu.index,
+> > > >
+> > > > Could you instead use PRId64 for this? You can avoid casting to ano=
+ther
+> > > > type this way. Same for the other cases.
+> > >
+> > > Already tried this:
+> > >
+> > > @@ -1313,7 +1313,7 @@ static void video_query_menu(struct device *dev=
+,
+> > >                         printf("  %u: %.32s%s\n", menu.index, menu.na=
+me,
+> > >                                menu.index =3D=3D value ? " (*)" : "")=
+;
+> > >                 else
+> > > -                       printf("  %u: %lld%s\n", menu.index, menu.val=
+ue,
+> > > +                       printf("  %u: %" PRId64 "%s\n", menu.index, m=
+enu.value,
+> > >                                menu.index =3D=3D value ? " (*)" : "")=
+;
+> > >         };
+> > >  }
+> > >
+> > > but gcc was not happy:
+> > >
+> > > yavta.c: In function =E2=80=98video_query_menu=E2=80=99:
+> > > yavta.c:1316:11: warning: format =E2=80=98%ld=E2=80=99 expects argume=
+nt of type =E2=80=98long
+> > > int=E2=80=99, but argument 3 has type =E2=80=98__s64=E2=80=99 {aka =
+=E2=80=98long long int=E2=80=99}
+> > > [-Wformat=3D]
+> > >  1316 |    printf("  %u: %" PRId64 "%s\n", menu.index, menu.value,
+> > >       |           ^~~~~~~~~                            ~~~~~~~~~~
+> > >       |                                                    |
+> > >       |                                                    __s64 {aka
+> > > long long int}
+> > > In file included from yavta.c:26:
+> > > /usr/include/inttypes.h:57:34: note: format string is defined here
+> > >    57 | # define PRId64  __PRI64_PREFIX "d"
 > >
-> > Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> > Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-> > ---
+> > I guess I should have expected this...
 > >
-> > V2 -> V3
-> > Added "Acked-by: Daniele Alessandrelli"
->=20
-> There's no need to send a new version if you're only adding acks.
+> > I'm not sure if it'd be prettier but another option is to use the PRI*
+> > macros and explicitly cast to a standard type.
 
-Noted.
+I would like to avoid
 
->=20
-> So there are no changes from v2?
+  printf(" Hello %" PRId64 "\n", (uint64_t) value_s64);
 
-No code changes from V2 -> V3=20
+That looks very bad :)
 
->=20
+I believe the current casting is the least of the two evils.
+
+
+> >
+> > Using the standard types in the V4L2 header would have avoided this iss=
+ue.
+> > I wonder if there's anything to be gained by using the kernel types.
+>
+> The kernel has defined __s64 as signed int int for a long time now, on
+> all architectures, at least since
+>
+> commit 0c79a8e29b5fcbcbfd611daf9d500cfad8370fcf
+> Author: Geert Uytterhoeven <geert@linux-m68k.org>
+> Date:   Thu Jan 23 15:53:43 2014 -0800
+>
+>     asm/types.h: Remove include/asm-generic/int-l64.h
+>
+> which was merged in v3.14.
+>
+> According to https://buildd.debian.org/status/package.php?p=3Dyavta,
+> however, __s64 seems to be defined as long int on some platforms.
+>
+> /me is puzzled
+
+It does not help that __s64 is long long int and PRId64 is "d". I
+guess we can say that inttypes and kernel types do not play along?
+
+I guess we need kerntypes.h with proper KPRId64 but that is probably
+out of scope here.
+
+
+
+Thanks!
+>
+> > Cc Hans, too.
+> >
+> > > So I took the shotgun and fixed it with castings :)
+> >
+> > :-)
+>
 > --
 > Regards,
->=20
-> Sakari Ailus
+>
+> Laurent Pinchart
+
+
+
+--=20
+Ricardo Ribalda
