@@ -2,217 +2,311 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BA0D7A8631
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 16:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 258297A8696
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 16:31:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235042AbjITOIk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 10:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56980 "EHLO
+        id S235134AbjITObK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 10:31:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235041AbjITOIi (ORCPT
+        with ESMTP id S234994AbjITObK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 10:08:38 -0400
+        Wed, 20 Sep 2023 10:31:10 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12FD9AD;
-        Wed, 20 Sep 2023 07:08:32 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:bae9::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFC95B9;
+        Wed, 20 Sep 2023 07:31:02 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:def9:8f6c:3807:7d89] (unknown [IPv6:2a01:e0a:120:3210:def9:8f6c:3807:7d89])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id D08F06607243;
-        Wed, 20 Sep 2023 15:08:28 +0100 (BST)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id EC9F76600B9D;
+        Wed, 20 Sep 2023 15:31:00 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695218910;
-        bh=OVi2+NsVBKyZ5/S8nnWLJaBO7/r+oTXhkjecJHc4TdE=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=O7mf/pBo5KBvGr41uVDtoSVde30LviXmg2OwLYTI966fmx8yLst7NW4unL0LAqFQr
-         Qo+9qHZUeXyawoL4r2lD53Cyiye09l0h0/+KPuGqHf2jfli5v6tDXTd4y884QRuweP
-         4fZ1RouBK0HNDbp/X+g/ydBDEnAbdjxzTAnVcxVpmjCtujPg578aHzkfhFOGTX4AGH
-         Kn70ONzZdtsYzKisSn33PGHuNWvfeENlntWWVqirso0eWOU9Jdmzoc0iS/dvvJgvi3
-         I7+RLwHT2/NA3My2rDlP9yxTv55huscJNI2XXXpOAwcxUogh1VMZ3uDegirF8SX+US
-         8Jj4MxO9gq5Tw==
-Message-ID: <179e88f04257f21b6b723e935231de70415b3301.camel@collabora.com>
-Subject: Re: [PATCH v12 1/7] media: v4l2: Add ignore_streaming flag
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Robert Beckett <bob.beckett@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 20 Sep 2023 10:08:19 -0400
-In-Reply-To: <a3c61e5a-e5cb-43d5-a3dc-80806f8da672@xs4all.nl>
-References: <20230915-wave5_v12_on_media_master-v12-0-92fc66cd685d@collabora.com>
-         <20230915-wave5_v12_on_media_master-v12-1-92fc66cd685d@collabora.com>
-         <a3c61e5a-e5cb-43d5-a3dc-80806f8da672@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        s=mail; t=1695220261;
+        bh=qSxCMCW4YAsLR2FIqziFq6kIetJZ96LBazqTUvh3JSE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=WwrgS797Z2sNCnhv7CF1QbkVYbXZWXZWW2Semdqrfj+CIOX8RAUG9urjunXsJpaUQ
+         bhVQ1YJ/5HxJFiNaUgv+0UcMAClUThvV12CgUsSFeZdmXoLcT7taol1Y1aUZHuSgmO
+         lWQaJnofjNTAYvkLRInzcET0Mxkwi9LU8AeJ+lRgsVeG5pMMO+Sg67LUvRuhlrzVKQ
+         9lo/eIi+TUiMzBpG/6Fn5HBpgPHoepBFlI7145/QTAFhtHJgqYH64P5tdv8rVzQBnh
+         2JTNKf8SrZvLXd0dvZqgyMcHg0H+TN9IUKPF/HbGafOIVtJt/RDYhg0RGKmJM40G/+
+         7Ekw+hJKYoTBA==
+Message-ID: <20b6b93e-eef8-3d7b-a3c2-795f220059d4@collabora.com>
+Date:   Wed, 20 Sep 2023 16:30:57 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
+ entries
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-46-benjamin.gaignard@collabora.com>
+ <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-cc Tomasz Figa
 
-Le mercredi 20 septembre 2023 =C3=A0 14:59 +0200, Hans Verkuil a =C3=A9crit=
-=C2=A0:
-> On 15/09/2023 23:11, Sebastian Fricke wrote:
-> > Add a new flag to the `struct v4l2_m2m_dev` to toggle whether a queue
-> > must be streaming in order to allow queuing jobs to the ready queue.
-> > Currently, both queues (CAPTURE & OUTPUT) must be streaming in order to
-> > allow adding new jobs. This behavior limits the usability of M2M for
-> > some drivers, as these have to be able, to perform analysis of the
->=20
-> able, to -> able to
->=20
-> > sequence to ensure, that userspace prepares the CAPTURE queue correctly=
-.
->=20
-> ensure, that -> ensure that
->=20
-> >=20
-> > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > ---
-> >  include/media/v4l2-mem2mem.h | 17 +++++++++++++++++
-> >  1 file changed, 17 insertions(+)
-> >=20
-> > diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.=
-h
-> > index d6c8eb2b5201..97a48e61e358 100644
-> > --- a/include/media/v4l2-mem2mem.h
-> > +++ b/include/media/v4l2-mem2mem.h
-> > @@ -57,6 +57,16 @@ struct v4l2_m2m_dev;
-> >   * @rdy_spinlock: spin lock to protect the struct usage
-> >   * @num_rdy:	number of buffers ready to be processed
-> >   * @buffered:	is the queue buffered?
-> > + * @ignore_streaming: Dictates whether the queue must be streaming for=
- a job to
-> > + *		      be queued.
-> > + *		      This is useful, for example, when the driver requires to
-> > + *		      initialize the sequence with a firmware, where only a
-> > + *		      queued OUTPUT queue buffer and STREAMON on the OUTPUT
-> > + *		      queue is required to perform the anlysis of the bitstream
-> > + *		      header.
-> > + *		      This means the driver is responsible for implementing the
-> > + *		      job_ready callback correctly to make sure that requirements
-> > + *		      for actual decoding are met.
->=20
-> This is a bad description and field name.
+Le 19/09/2023 à 17:00, Hans Verkuil a écrit :
+> On 14/09/2023 15:33, Benjamin Gaignard wrote:
+>> Add a bitmap field to know which of bufs array entries are
+>> used or not.
+>> Remove no more used num_buffers field from queue structure.
+>> Use bitmap_find_next_zero_area() to find the first possible
+>> range when creating new buffers to fill the gaps.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   .../media/common/videobuf2/videobuf2-core.c   | 55 +++++++++++++++----
+>>   include/media/videobuf2-core.h                |  9 ++-
+>>   2 files changed, 51 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+>> index a4c2fae8705d..c5d4a388331b 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>> @@ -411,10 +411,11 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
+>>    */
+>>   static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
+>>   {
+>> -	if (index < q->max_allowed_buffers && !q->bufs[index]) {
+>> +	if (index < q->max_allowed_buffers && !test_bit(index, q->bufs_map)) {
+> I think bufs_bitmap would be a better name.
 
-I wonder what's your opinion about the buffered one then :-D
+Ok I will change it
 
->=20
-> Basically what this field does is that, if true, the streaming state of t=
-he
-> capture queue is ignored. So just call it that: ignore_cap_streaming.
->=20
-> And explain that, if true, job_ready() will be called even if the capture
-> queue is not streaming, and that that can be used to allow hardware to
-> analyze the bitstream header that arrives on the OUTPUT queue.
+>
+>>   		q->bufs[index] = vb;
+>>   		vb->index = index;
+>>   		vb->vb2_queue = q;
+>> +		set_bit(index, q->bufs_map);
+>>   		return true;
+>>   	}
+>>   
+>> @@ -428,9 +429,10 @@ static bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
+>>    */
+>>   static void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+>>   {
+>> -	if (vb->index < q->max_allowed_buffers) {
+>> +	if (vb->index < q->max_allowed_buffers && test_bit(vb->index, q->bufs_map)) {
+> As mentioned in past reviews, I think these tests can be dropped, it makes no
+> sense that these ever fail.
 
-Ack.
+I will drop them.
 
->=20
-> Also, doesn't this field belong to struct v4l2_m2m_ctx? It makes no sense
-> for the output queue, this is really a configuration for the m2m context =
-as
-> a whole.
+>
+>>   		q->bufs[vb->index] = NULL;
+>>   		vb->vb2_queue = NULL;
+>> +		clear_bit(vb->index, q->bufs_map);
+>>   	}
+>>   }
+>>   
+>> @@ -451,11 +453,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>>   	unsigned long first_index;
+>>   	int ret;
+>>   
+>> -	/* Ensure that q->num_buffers+num_buffers is below q->max_allowed_buffers */
+>> +	/* Ensure that the number of already queue + num_buffers is below q->max_allowed_buffers */
+> Hmm, how about:
+>
+> 	/* Ensure that vb2_get_num_buffers(q) + num_buffers is no more than q->max_allowed_buffers */
 
-Unless we come up with a completely new type of M2M that can behave like a =
-gap
-filler (like a video rate m2m), it indeed makes no sense for output. I'm ju=
-st
-illustrating that this is true "now" but someone can come up with valid
-expectation. So I agree with you, we can move it up in the hierarchy.
+sure
 
-Recently over IRC and other threads, Tomasz raised a concern that CODECs wh=
-ere
-introducing too much complexity into M2M. And I believe buffered (which is
-barely documented) and this mechanism was being pointed.
+>
+>>   	num_buffers = min_t(unsigned int, num_buffers,
+>>   			    q->max_allowed_buffers - vb2_get_num_buffers(q));
+>>   
+>> -	first_index = vb2_get_num_buffers(q);
+>> +	first_index = bitmap_find_next_zero_area(q->bufs_map, q->max_allowed_buffers,
+>> +						 0, num_buffers, 0);
+>>   
+>>   	if (first_index >= q->max_allowed_buffers)
+>>   		return 0;
+>> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>>   
+>>   struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
+>>   {
+>> -	if (index < q->num_buffers)
+>> +	if (!q->bufs_map || !q->bufs)
+>> +		return NULL;
+> I don't think this can ever happen.
 
-My take on that is that adding boolean configuration is what introduce
-complexity, and we can fix it by doing less in the m2m. After this discussi=
-on, I
-came with the idea that we should remove buffered and ignore_streaming. For
-drivers that don't implement job_ready, this logic would be moved inside th=
-e
-default implementation. We can then add a helper to check the common condit=
-ions.
+I got kernel crash without them.
+I will keep them.
 
-The alternative suggested by Tomasz, was to layer two ops. We'd have a
-device_ready() ops and its default implementation would include the check w=
-e
-have and would call job_ready(). Personally, I'd rather remove then add, bu=
-t I
-understadt the reasoning and would be fine committing to that instead.
+>
+>> +
+>> +	if (index >= q->max_allowed_buffers)
+>> +		return NULL;
+>> +
+>> +	if (test_bit(index, q->bufs_map))
+>>   		return q->bufs[index];
+>>   	return NULL;
+>>   }
+>> @@ -683,7 +692,10 @@ EXPORT_SYMBOL_GPL(vb2_get_buffer);
+>>   
+>>   unsigned int vb2_get_num_buffers(struct vb2_queue *q)
+>>   {
+>> -	return q->num_buffers;
+>> +	if (!q->bufs_map)
+>> +		return 0;
+> Ditto.
+>
+>> +
+>> +	return bitmap_weight(q->bufs_map, q->max_allowed_buffers);
+>>   }
+>>   EXPORT_SYMBOL_GPL(vb2_get_num_buffers);
+>>   
+>> @@ -899,6 +911,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>   		q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
+>>   	if (!q->bufs)
+>>   		ret = -ENOMEM;
+>> +
+>> +	if (!q->bufs_map)
+>> +		q->bufs_map = bitmap_zalloc(q->max_allowed_buffers, GFP_KERNEL);
+>> +	if (!q->bufs_map) {
+>> +		ret = -ENOMEM;
+>> +		kfree(q->bufs);
+>> +		q->bufs = NULL;
+>> +	}
+>>   	q->memory = memory;
+>>   	mutex_unlock(&q->mmap_lock);
+>>   	if (ret)
+>> @@ -968,7 +988,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>   	}
+>>   
+>>   	mutex_lock(&q->mmap_lock);
+>> -	q->num_buffers = allocated_buffers;
+>>   
+>>   	if (ret < 0) {
+>>   		/*
+>> @@ -995,6 +1014,10 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>   	mutex_lock(&q->mmap_lock);
+>>   	q->memory = VB2_MEMORY_UNKNOWN;
+>>   	mutex_unlock(&q->mmap_lock);
+>> +	kfree(q->bufs);
+>> +	q->bufs = NULL;
+>> +	bitmap_free(q->bufs_map);
+>> +	q->bufs_map = NULL;
+>>   	return ret;
+>>   }
+>>   EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
+>> @@ -1031,9 +1054,19 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>>   		q->memory = memory;
+>>   		if (!q->bufs)
+>>   			q->bufs = kcalloc(q->max_allowed_buffers, sizeof(*q->bufs), GFP_KERNEL);
+>> -		if (!q->bufs)
+>> +		if (!q->bufs) {
+>> +			ret = -ENOMEM;
+>> +			goto unlock;
+>> +		}
+>> +		if (!q->bufs_map)
+>> +			q->bufs_map = bitmap_zalloc(q->max_allowed_buffers, GFP_KERNEL);
+>> +		if (!q->bufs_map) {
+>>   			ret = -ENOMEM;
+>> +			kfree(q->bufs);
+>> +			q->bufs = NULL;
+>> +		}
+>>   		mutex_unlock(&q->mmap_lock);
+>> +unlock:
+>>   		if (ret)
+>>   			return ret;
+>>   		q->waiting_for_buffers = !q->is_output;
+>> @@ -1095,7 +1128,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>>   	}
+>>   
+>>   	mutex_lock(&q->mmap_lock);
+>> -	q->num_buffers += allocated_buffers;
+>>   
+>>   	if (ret < 0) {
+>>   		/*
+>> @@ -2588,6 +2620,9 @@ void vb2_core_queue_release(struct vb2_queue *q)
+>>   	__vb2_queue_free(q, q->max_allowed_buffers);
+>>   	kfree(q->bufs);
+>>   	q->bufs = NULL;
+>> +	bitmap_free(q->bufs_map);
+>> +	q->bufs_map = NULL;
+>> +
+>>   	mutex_unlock(&q->mmap_lock);
+>>   }
+>>   EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+>> @@ -2944,7 +2979,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+>>   	 * Check if we need to dequeue the buffer.
+>>   	 */
+>>   	index = fileio->cur_index;
+>> -	if (index >= q->num_buffers) {
+>> +	if (!test_bit(index, q->bufs_map)) {
+>>   		struct vb2_buffer *b;
+>>   
+>>   		/*
+>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+>> index 19c93d8eb7c8..734437236cc4 100644
+>> --- a/include/media/videobuf2-core.h
+>> +++ b/include/media/videobuf2-core.h
+>> @@ -557,7 +557,7 @@ struct vb2_buf_ops {
+>>    * @memory:	current memory type used
+>>    * @dma_dir:	DMA mapping direction.
+>>    * @bufs:	videobuf2 buffer structures
+>> - * @num_buffers: number of allocated/used buffers
+>> + * @bufs_map:	bitmap to manage bufs entries.
+>>    * @max_allowed_buffers: upper limit of number of allocated/used buffers
+>>    * @queued_list: list of buffers currently queued from userspace
+>>    * @queued_count: number of buffers queued and ready for streaming.
+>> @@ -621,7 +621,7 @@ struct vb2_queue {
+>>   	unsigned int			memory;
+>>   	enum dma_data_direction		dma_dir;
+>>   	struct vb2_buffer		**bufs;
+>> -	unsigned int			num_buffers;
+>> +	unsigned long			*bufs_map;
+>>   	unsigned int			max_allowed_buffers;
+>>   
+>>   	struct list_head		queued_list;
+>> @@ -1151,7 +1151,10 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
+>>    */
+>>   static inline bool vb2_is_busy(struct vb2_queue *q)
+>>   {
+>> -	return (q->num_buffers > 0);
+>> +	if (!q->bufs_map)
+>> +		return false;
+> I don't think this can happen.
+>
+>> +
+>> +	return (bitmap_weight(q->bufs_map, q->max_allowed_buffers) > 0);
+> How about:
+>
+> 	return vb2_get_num_buffers(q) > 0;
 
-I'd like your feedback on this proposal. If this is something we want, I'll=
- do
-this prior to V13, otherwise we will address your comments and fix the adde=
-d
-mechanism. I think though that we agree that for decoders, this is nice add=
-ition
-to not have to trigger work manually from vb2 ops.
+vb2_get_num_buffers is defined in videobuf2-core.c, I'm not sure that
+an inline function could depend of a module function.
 
-regards,
-Nicolas
+Regards,
+Benjamin
 
->=20
-> >   *
-> >   * Queue for buffers ready to be processed as soon as this
-> >   * instance receives access to the device.
-> > @@ -69,6 +79,7 @@ struct v4l2_m2m_queue_ctx {
-> >  	spinlock_t		rdy_spinlock;
-> >  	u8			num_rdy;
-> >  	bool			buffered;
-> > +	bool			ignore_streaming;
-> >  };
-> > =20
-> >  /**
-> > @@ -564,6 +575,12 @@ static inline void v4l2_m2m_set_dst_buffered(struc=
-t v4l2_m2m_ctx *m2m_ctx,
-> >  	m2m_ctx->cap_q_ctx.buffered =3D buffered;
-> >  }
-> > =20
-> > +static inline void v4l2_m2m_set_dst_ignore_streaming(struct v4l2_m2m_c=
-tx *m2m_ctx,
-> > +						     bool ignore_streaming)
-> > +{
-> > +	m2m_ctx->cap_q_ctx.ignore_streaming =3D ignore_streaming;
-> > +}
-> > +
->=20
-> I think this is overkill, esp. when the field is moved to m2m_ctx. Just c=
-learly
-> document that drivers can set this.
->=20
+>
+>>   }
+>>   
+>>   /**
 > Regards,
->=20
+>
 > 	Hans
->=20
-> >  /**
-> >   * v4l2_m2m_ctx_release() - release m2m context
-> >   *
-> >=20
->=20
-
+>
