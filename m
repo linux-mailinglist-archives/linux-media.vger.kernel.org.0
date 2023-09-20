@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D76B77A8056
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 894D97A7D08
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:06:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235913AbjITMgi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 08:36:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41888 "EHLO
+        id S235151AbjITMGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 08:06:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235917AbjITMgg (ORCPT
+        with ESMTP id S234585AbjITMGA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:36:36 -0400
+        Wed, 20 Sep 2023 08:06:00 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4315CFB;
-        Wed, 20 Sep 2023 05:36:24 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 068D5C433CC;
-        Wed, 20 Sep 2023 12:36:23 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D1EA3;
+        Wed, 20 Sep 2023 05:05:50 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFB49C433C7;
+        Wed, 20 Sep 2023 12:05:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1695213384;
-        bh=DPfEuM+nQ+mvSK07cbWAEXqmamBceOFSaL9uFmlvrYY=;
+        s=korg; t=1695211550;
+        bh=qKGyfp7LAnbdEu/vr85LzgK7PyJ0pGe6xuV64bGA8Ps=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pFufL3yVJ9vpy6TFJc5EtCrgmRkTIgmOJZZgKw5+4GeEF8ckDhw/mqKoba4qw/WBV
-         9YktgAHJ6Tc0PcPfc0l3jX9DGRk1sXcZfTBt+Mzx3bQ6QT7N3KP6UvF61JJQYBomKG
-         y7U3yTYEfPu6QWZBDPp3RtF8EOilh/Ck4C1XoM84=
+        b=ZfOjw15qWNv5rSvXfmwekXgQiS8MV/7WAr3f/3YyJZ/Yz6elvHVnb1MkK0kArxD3m
+         MMHJVm6ngGWqFig7Iv+w4fpK/yz1TDXcmB4cycZPXGkSUIcE9ijcvc7d35xtthFP9L
+         ViOAZoq0vDxsajhai5XoVmwz/RQbp0jEKfwnApQs=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -34,12 +34,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-modules@vger.kernel.org,
         Luis Chamberlain <mcgrof@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 5.4 218/367] media: dvb: symbol fixup for dvb_attach()
-Date:   Wed, 20 Sep 2023 13:29:55 +0200
-Message-ID: <20230920112904.240871962@linuxfoundation.org>
+Subject: [PATCH 4.14 108/186] media: dvb: symbol fixup for dvb_attach()
+Date:   Wed, 20 Sep 2023 13:30:11 +0200
+Message-ID: <20230920112840.923621991@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230920112858.471730572@linuxfoundation.org>
-References: <20230920112858.471730572@linuxfoundation.org>
+In-Reply-To: <20230920112836.799946261@linuxfoundation.org>
+References: <20230920112836.799946261@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -55,7 +55,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-5.4-stable review patch.  If anyone has any objections, please let me know.
+4.14-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -84,114 +84,111 @@ Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Link: https://lore.kernel.org/r/20230908092035.3815268-2-gregkh@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/media/dvb-frontends/ascot2e.c             |    2 +-
- drivers/media/dvb-frontends/atbm8830.c            |    2 +-
- drivers/media/dvb-frontends/au8522_dig.c          |    2 +-
- drivers/media/dvb-frontends/bcm3510.c             |    2 +-
- drivers/media/dvb-frontends/cx22700.c             |    2 +-
- drivers/media/dvb-frontends/cx22702.c             |    2 +-
- drivers/media/dvb-frontends/cx24110.c             |    2 +-
- drivers/media/dvb-frontends/cx24113.c             |    2 +-
- drivers/media/dvb-frontends/cx24116.c             |    2 +-
- drivers/media/dvb-frontends/cx24120.c             |    2 +-
- drivers/media/dvb-frontends/cx24123.c             |    2 +-
- drivers/media/dvb-frontends/cxd2820r_core.c       |    2 +-
- drivers/media/dvb-frontends/cxd2841er.c           |    4 ++--
- drivers/media/dvb-frontends/cxd2880/cxd2880_top.c |    2 +-
- drivers/media/dvb-frontends/dib0070.c             |    2 +-
- drivers/media/dvb-frontends/dib0090.c             |    4 ++--
- drivers/media/dvb-frontends/dib3000mb.c           |    2 +-
- drivers/media/dvb-frontends/dib3000mc.c           |    2 +-
- drivers/media/dvb-frontends/dib7000m.c            |    2 +-
- drivers/media/dvb-frontends/dib7000p.c            |    2 +-
- drivers/media/dvb-frontends/dib8000.c             |    2 +-
- drivers/media/dvb-frontends/dib9000.c             |    2 +-
- drivers/media/dvb-frontends/drx39xyj/drxj.c       |    2 +-
- drivers/media/dvb-frontends/drxd_hard.c           |    2 +-
- drivers/media/dvb-frontends/drxk_hard.c           |    2 +-
- drivers/media/dvb-frontends/ds3000.c              |    2 +-
- drivers/media/dvb-frontends/dvb-pll.c             |    2 +-
- drivers/media/dvb-frontends/ec100.c               |    2 +-
- drivers/media/dvb-frontends/helene.c              |    4 ++--
- drivers/media/dvb-frontends/horus3a.c             |    2 +-
- drivers/media/dvb-frontends/isl6405.c             |    2 +-
- drivers/media/dvb-frontends/isl6421.c             |    2 +-
- drivers/media/dvb-frontends/isl6423.c             |    2 +-
- drivers/media/dvb-frontends/itd1000.c             |    2 +-
- drivers/media/dvb-frontends/ix2505v.c             |    2 +-
- drivers/media/dvb-frontends/l64781.c              |    2 +-
- drivers/media/dvb-frontends/lg2160.c              |    2 +-
- drivers/media/dvb-frontends/lgdt3305.c            |    2 +-
- drivers/media/dvb-frontends/lgdt3306a.c           |    2 +-
- drivers/media/dvb-frontends/lgdt330x.c            |    2 +-
- drivers/media/dvb-frontends/lgs8gxx.c             |    2 +-
- drivers/media/dvb-frontends/lnbh25.c              |    2 +-
- drivers/media/dvb-frontends/lnbp21.c              |    4 ++--
- drivers/media/dvb-frontends/lnbp22.c              |    2 +-
- drivers/media/dvb-frontends/m88ds3103.c           |    2 +-
- drivers/media/dvb-frontends/m88rs2000.c           |    2 +-
- drivers/media/dvb-frontends/mb86a16.c             |    2 +-
- drivers/media/dvb-frontends/mb86a20s.c            |    2 +-
- drivers/media/dvb-frontends/mt312.c               |    2 +-
- drivers/media/dvb-frontends/mt352.c               |    2 +-
- drivers/media/dvb-frontends/nxt200x.c             |    2 +-
- drivers/media/dvb-frontends/nxt6000.c             |    2 +-
- drivers/media/dvb-frontends/or51132.c             |    2 +-
- drivers/media/dvb-frontends/or51211.c             |    2 +-
- drivers/media/dvb-frontends/s5h1409.c             |    2 +-
- drivers/media/dvb-frontends/s5h1411.c             |    2 +-
- drivers/media/dvb-frontends/s5h1420.c             |    2 +-
- drivers/media/dvb-frontends/s5h1432.c             |    2 +-
- drivers/media/dvb-frontends/s921.c                |    2 +-
- drivers/media/dvb-frontends/si21xx.c              |    2 +-
- drivers/media/dvb-frontends/sp887x.c              |    2 +-
- drivers/media/dvb-frontends/stb0899_drv.c         |    2 +-
- drivers/media/dvb-frontends/stb6000.c             |    2 +-
- drivers/media/dvb-frontends/stb6100.c             |    2 +-
- drivers/media/dvb-frontends/stv0288.c             |    2 +-
- drivers/media/dvb-frontends/stv0297.c             |    2 +-
- drivers/media/dvb-frontends/stv0299.c             |    2 +-
- drivers/media/dvb-frontends/stv0367.c             |    6 +++---
- drivers/media/dvb-frontends/stv0900_core.c        |    2 +-
- drivers/media/dvb-frontends/stv090x.c             |    2 +-
- drivers/media/dvb-frontends/stv6110.c             |    2 +-
- drivers/media/dvb-frontends/stv6110x.c            |    2 +-
- drivers/media/dvb-frontends/tda10021.c            |    2 +-
- drivers/media/dvb-frontends/tda10023.c            |    2 +-
- drivers/media/dvb-frontends/tda10048.c            |    2 +-
- drivers/media/dvb-frontends/tda1004x.c            |    4 ++--
- drivers/media/dvb-frontends/tda10086.c            |    2 +-
- drivers/media/dvb-frontends/tda665x.c             |    2 +-
- drivers/media/dvb-frontends/tda8083.c             |    2 +-
- drivers/media/dvb-frontends/tda8261.c             |    2 +-
- drivers/media/dvb-frontends/tda826x.c             |    2 +-
- drivers/media/dvb-frontends/ts2020.c              |    2 +-
- drivers/media/dvb-frontends/tua6100.c             |    2 +-
- drivers/media/dvb-frontends/ves1820.c             |    2 +-
- drivers/media/dvb-frontends/ves1x93.c             |    2 +-
- drivers/media/dvb-frontends/zl10036.c             |    2 +-
- drivers/media/dvb-frontends/zl10039.c             |    2 +-
- drivers/media/dvb-frontends/zl10353.c             |    2 +-
- drivers/media/pci/bt8xx/dst.c                     |    2 +-
- drivers/media/pci/bt8xx/dst_ca.c                  |    2 +-
- drivers/media/tuners/fc0011.c                     |    2 +-
- drivers/media/tuners/fc0012.c                     |    2 +-
- drivers/media/tuners/fc0013.c                     |    2 +-
- drivers/media/tuners/max2165.c                    |    2 +-
- drivers/media/tuners/mc44s803.c                   |    2 +-
- drivers/media/tuners/mt2060.c                     |    2 +-
- drivers/media/tuners/mt2131.c                     |    2 +-
- drivers/media/tuners/mt2266.c                     |    2 +-
- drivers/media/tuners/mxl5005s.c                   |    2 +-
- drivers/media/tuners/qt1010.c                     |    2 +-
- drivers/media/tuners/tda18218.c                   |    2 +-
- drivers/media/tuners/xc4000.c                     |    2 +-
- drivers/media/tuners/xc5000.c                     |    2 +-
- 103 files changed, 110 insertions(+), 110 deletions(-)
+ drivers/media/dvb-frontends/ascot2e.c       |    2 +-
+ drivers/media/dvb-frontends/atbm8830.c      |    2 +-
+ drivers/media/dvb-frontends/au8522_dig.c    |    2 +-
+ drivers/media/dvb-frontends/bcm3510.c       |    2 +-
+ drivers/media/dvb-frontends/cx22700.c       |    2 +-
+ drivers/media/dvb-frontends/cx22702.c       |    2 +-
+ drivers/media/dvb-frontends/cx24110.c       |    2 +-
+ drivers/media/dvb-frontends/cx24113.c       |    2 +-
+ drivers/media/dvb-frontends/cx24116.c       |    2 +-
+ drivers/media/dvb-frontends/cx24120.c       |    2 +-
+ drivers/media/dvb-frontends/cx24123.c       |    2 +-
+ drivers/media/dvb-frontends/cxd2820r_core.c |    2 +-
+ drivers/media/dvb-frontends/cxd2841er.c     |    4 ++--
+ drivers/media/dvb-frontends/dib0070.c       |    2 +-
+ drivers/media/dvb-frontends/dib0090.c       |    4 ++--
+ drivers/media/dvb-frontends/dib3000mb.c     |    2 +-
+ drivers/media/dvb-frontends/dib3000mc.c     |    2 +-
+ drivers/media/dvb-frontends/dib7000m.c      |    2 +-
+ drivers/media/dvb-frontends/dib7000p.c      |    2 +-
+ drivers/media/dvb-frontends/dib8000.c       |    2 +-
+ drivers/media/dvb-frontends/dib9000.c       |    2 +-
+ drivers/media/dvb-frontends/drx39xyj/drxj.c |    2 +-
+ drivers/media/dvb-frontends/drxd_hard.c     |    2 +-
+ drivers/media/dvb-frontends/drxk_hard.c     |    2 +-
+ drivers/media/dvb-frontends/ds3000.c        |    2 +-
+ drivers/media/dvb-frontends/dvb-pll.c       |    2 +-
+ drivers/media/dvb-frontends/ec100.c         |    2 +-
+ drivers/media/dvb-frontends/helene.c        |    4 ++--
+ drivers/media/dvb-frontends/horus3a.c       |    2 +-
+ drivers/media/dvb-frontends/isl6405.c       |    2 +-
+ drivers/media/dvb-frontends/isl6421.c       |    2 +-
+ drivers/media/dvb-frontends/isl6423.c       |    2 +-
+ drivers/media/dvb-frontends/itd1000.c       |    2 +-
+ drivers/media/dvb-frontends/ix2505v.c       |    2 +-
+ drivers/media/dvb-frontends/l64781.c        |    2 +-
+ drivers/media/dvb-frontends/lg2160.c        |    2 +-
+ drivers/media/dvb-frontends/lgdt3305.c      |    2 +-
+ drivers/media/dvb-frontends/lgdt3306a.c     |    2 +-
+ drivers/media/dvb-frontends/lgs8gxx.c       |    2 +-
+ drivers/media/dvb-frontends/lnbh25.c        |    2 +-
+ drivers/media/dvb-frontends/lnbp21.c        |    4 ++--
+ drivers/media/dvb-frontends/lnbp22.c        |    2 +-
+ drivers/media/dvb-frontends/m88ds3103.c     |    2 +-
+ drivers/media/dvb-frontends/m88rs2000.c     |    2 +-
+ drivers/media/dvb-frontends/mb86a16.c       |    2 +-
+ drivers/media/dvb-frontends/mb86a20s.c      |    2 +-
+ drivers/media/dvb-frontends/mt312.c         |    2 +-
+ drivers/media/dvb-frontends/mt352.c         |    2 +-
+ drivers/media/dvb-frontends/nxt200x.c       |    2 +-
+ drivers/media/dvb-frontends/nxt6000.c       |    2 +-
+ drivers/media/dvb-frontends/or51132.c       |    2 +-
+ drivers/media/dvb-frontends/or51211.c       |    2 +-
+ drivers/media/dvb-frontends/s5h1409.c       |    2 +-
+ drivers/media/dvb-frontends/s5h1411.c       |    2 +-
+ drivers/media/dvb-frontends/s5h1420.c       |    2 +-
+ drivers/media/dvb-frontends/s5h1432.c       |    2 +-
+ drivers/media/dvb-frontends/s921.c          |    2 +-
+ drivers/media/dvb-frontends/si21xx.c        |    2 +-
+ drivers/media/dvb-frontends/sp887x.c        |    2 +-
+ drivers/media/dvb-frontends/stb0899_drv.c   |    2 +-
+ drivers/media/dvb-frontends/stb6000.c       |    2 +-
+ drivers/media/dvb-frontends/stb6100.c       |    2 +-
+ drivers/media/dvb-frontends/stv0288.c       |    2 +-
+ drivers/media/dvb-frontends/stv0297.c       |    2 +-
+ drivers/media/dvb-frontends/stv0299.c       |    2 +-
+ drivers/media/dvb-frontends/stv0367.c       |    6 +++---
+ drivers/media/dvb-frontends/stv0900_core.c  |    2 +-
+ drivers/media/dvb-frontends/stv6110.c       |    2 +-
+ drivers/media/dvb-frontends/stv6110x.c      |    2 +-
+ drivers/media/dvb-frontends/tda10021.c      |    2 +-
+ drivers/media/dvb-frontends/tda10023.c      |    2 +-
+ drivers/media/dvb-frontends/tda10048.c      |    2 +-
+ drivers/media/dvb-frontends/tda1004x.c      |    4 ++--
+ drivers/media/dvb-frontends/tda10086.c      |    2 +-
+ drivers/media/dvb-frontends/tda665x.c       |    2 +-
+ drivers/media/dvb-frontends/tda8083.c       |    2 +-
+ drivers/media/dvb-frontends/tda8261.c       |    2 +-
+ drivers/media/dvb-frontends/tda826x.c       |    2 +-
+ drivers/media/dvb-frontends/ts2020.c        |    2 +-
+ drivers/media/dvb-frontends/tua6100.c       |    2 +-
+ drivers/media/dvb-frontends/ves1820.c       |    2 +-
+ drivers/media/dvb-frontends/ves1x93.c       |    2 +-
+ drivers/media/dvb-frontends/zl10036.c       |    2 +-
+ drivers/media/dvb-frontends/zl10039.c       |    2 +-
+ drivers/media/dvb-frontends/zl10353.c       |    2 +-
+ drivers/media/pci/bt8xx/dst.c               |    2 +-
+ drivers/media/pci/bt8xx/dst_ca.c            |    2 +-
+ drivers/media/tuners/fc0011.c               |    2 +-
+ drivers/media/tuners/fc0012.c               |    2 +-
+ drivers/media/tuners/fc0013.c               |    2 +-
+ drivers/media/tuners/max2165.c              |    2 +-
+ drivers/media/tuners/mc44s803.c             |    2 +-
+ drivers/media/tuners/mt2060.c               |    2 +-
+ drivers/media/tuners/mt2131.c               |    2 +-
+ drivers/media/tuners/mt2266.c               |    2 +-
+ drivers/media/tuners/mxl5005s.c             |    2 +-
+ drivers/media/tuners/qt1010.c               |    2 +-
+ drivers/media/tuners/tda18218.c             |    2 +-
+ drivers/media/tuners/xc4000.c               |    2 +-
+ drivers/media/tuners/xc5000.c               |    2 +-
+ 100 files changed, 107 insertions(+), 107 deletions(-)
 
 --- a/drivers/media/dvb-frontends/ascot2e.c
 +++ b/drivers/media/dvb-frontends/ascot2e.c
-@@ -533,7 +533,7 @@ struct dvb_frontend *ascot2e_attach(stru
+@@ -542,7 +542,7 @@ struct dvb_frontend *ascot2e_attach(stru
  		priv->i2c_address, priv->i2c);
  	return fe;
  }
@@ -202,7 +199,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("info@netup.ru");
 --- a/drivers/media/dvb-frontends/atbm8830.c
 +++ b/drivers/media/dvb-frontends/atbm8830.c
-@@ -489,7 +489,7 @@ error_out:
+@@ -498,7 +498,7 @@ error_out:
  	return NULL;
  
  }
@@ -213,7 +210,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("David T. L. Wong <davidtlwong@gmail.com>");
 --- a/drivers/media/dvb-frontends/au8522_dig.c
 +++ b/drivers/media/dvb-frontends/au8522_dig.c
-@@ -879,7 +879,7 @@ error:
+@@ -891,7 +891,7 @@ error:
  	au8522_release_state(state);
  	return NULL;
  }
@@ -235,7 +232,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
 --- a/drivers/media/dvb-frontends/cx22700.c
 +++ b/drivers/media/dvb-frontends/cx22700.c
-@@ -432,4 +432,4 @@ MODULE_DESCRIPTION("Conexant CX22700 DVB
+@@ -444,4 +444,4 @@ MODULE_DESCRIPTION("Conexant CX22700 DVB
  MODULE_AUTHOR("Holger Waechtler");
  MODULE_LICENSE("GPL");
  
@@ -243,7 +240,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(cx22700_attach);
 --- a/drivers/media/dvb-frontends/cx22702.c
 +++ b/drivers/media/dvb-frontends/cx22702.c
-@@ -604,7 +604,7 @@ error:
+@@ -616,7 +616,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -254,7 +251,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBT },
 --- a/drivers/media/dvb-frontends/cx24110.c
 +++ b/drivers/media/dvb-frontends/cx24110.c
-@@ -653,4 +653,4 @@ MODULE_DESCRIPTION("Conexant CX24110 DVB
+@@ -666,4 +666,4 @@ MODULE_DESCRIPTION("Conexant CX24110 DVB
  MODULE_AUTHOR("Peter Hettkamp");
  MODULE_LICENSE("GPL");
  
@@ -262,7 +259,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(cx24110_attach);
 --- a/drivers/media/dvb-frontends/cx24113.c
 +++ b/drivers/media/dvb-frontends/cx24113.c
-@@ -590,7 +590,7 @@ error:
+@@ -602,7 +602,7 @@ error:
  
  	return NULL;
  }
@@ -273,9 +270,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug, "Activates frontend debugging (default:0)");
 --- a/drivers/media/dvb-frontends/cx24116.c
 +++ b/drivers/media/dvb-frontends/cx24116.c
-@@ -1133,7 +1133,7 @@ struct dvb_frontend *cx24116_attach(cons
- 	state->frontend.demodulator_priv = state;
- 	return &state->frontend;
+@@ -1151,7 +1151,7 @@ struct dvb_frontend *cx24116_attach(cons
+ error2: kfree(state);
+ error1: return NULL;
  }
 -EXPORT_SYMBOL(cx24116_attach);
 +EXPORT_SYMBOL_GPL(cx24116_attach);
@@ -284,7 +281,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
   * Initialise or wake up device
 --- a/drivers/media/dvb-frontends/cx24120.c
 +++ b/drivers/media/dvb-frontends/cx24120.c
-@@ -305,7 +305,7 @@ error:
+@@ -313,7 +313,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -295,7 +292,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  {
 --- a/drivers/media/dvb-frontends/cx24123.c
 +++ b/drivers/media/dvb-frontends/cx24123.c
-@@ -1096,7 +1096,7 @@ error:
+@@ -1105,7 +1105,7 @@ error:
  
  	return NULL;
  }
@@ -306,7 +303,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBS },
 --- a/drivers/media/dvb-frontends/cxd2820r_core.c
 +++ b/drivers/media/dvb-frontends/cxd2820r_core.c
-@@ -536,7 +536,7 @@ struct dvb_frontend *cxd2820r_attach(con
+@@ -549,7 +549,7 @@ struct dvb_frontend *cxd2820r_attach(con
  
  	return pdata.get_dvb_frontend(client);
  }
@@ -317,7 +314,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  {
 --- a/drivers/media/dvb-frontends/cxd2841er.c
 +++ b/drivers/media/dvb-frontends/cxd2841er.c
-@@ -3920,14 +3920,14 @@ struct dvb_frontend *cxd2841er_attach_s(
+@@ -3926,14 +3926,14 @@ struct dvb_frontend *cxd2841er_attach_s(
  {
  	return cxd2841er_attach(cfg, i2c, SYS_DVBS);
  }
@@ -334,20 +331,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  static const struct dvb_frontend_ops cxd2841er_dvbs_s2_ops = {
  	.delsys = { SYS_DVBS, SYS_DVBS2 },
---- a/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
-+++ b/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
-@@ -1950,7 +1950,7 @@ struct dvb_frontend *cxd2880_attach(stru
- 
- 	return fe;
- }
--EXPORT_SYMBOL(cxd2880_attach);
-+EXPORT_SYMBOL_GPL(cxd2880_attach);
- 
- MODULE_DESCRIPTION("Sony CXD2880 DVB-T2/T tuner + demod driver");
- MODULE_AUTHOR("Sony Semiconductor Solutions Corporation");
 --- a/drivers/media/dvb-frontends/dib0070.c
 +++ b/drivers/media/dvb-frontends/dib0070.c
-@@ -755,7 +755,7 @@ free_mem:
+@@ -767,7 +767,7 @@ free_mem:
  	fe->tuner_priv = NULL;
  	return NULL;
  }
@@ -358,7 +344,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("Driver for the DiBcom 0070 base-band RF Tuner");
 --- a/drivers/media/dvb-frontends/dib0090.c
 +++ b/drivers/media/dvb-frontends/dib0090.c
-@@ -2631,7 +2631,7 @@ struct dvb_frontend *dib0090_register(st
+@@ -2643,7 +2643,7 @@ struct dvb_frontend *dib0090_register(st
  	return NULL;
  }
  
@@ -367,7 +353,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  struct dvb_frontend *dib0090_fw_register(struct dvb_frontend *fe, struct i2c_adapter *i2c, const struct dib0090_config *config)
  {
-@@ -2657,7 +2657,7 @@ free_mem:
+@@ -2669,7 +2669,7 @@ free_mem:
  	fe->tuner_priv = NULL;
  	return NULL;
  }
@@ -378,7 +364,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Olivier Grenie <olivier.grenie@parrot.com>");
 --- a/drivers/media/dvb-frontends/dib3000mb.c
 +++ b/drivers/media/dvb-frontends/dib3000mb.c
-@@ -815,4 +815,4 @@ MODULE_AUTHOR(DRIVER_AUTHOR);
+@@ -819,4 +819,4 @@ MODULE_AUTHOR(DRIVER_AUTHOR);
  MODULE_DESCRIPTION(DRIVER_DESC);
  MODULE_LICENSE("GPL");
  
@@ -386,7 +372,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(dib3000mb_attach);
 --- a/drivers/media/dvb-frontends/dib3000mc.c
 +++ b/drivers/media/dvb-frontends/dib3000mc.c
-@@ -935,7 +935,7 @@ error:
+@@ -938,7 +938,7 @@ error:
  	kfree(st);
  	return NULL;
  }
@@ -397,7 +383,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBT },
 --- a/drivers/media/dvb-frontends/dib7000m.c
 +++ b/drivers/media/dvb-frontends/dib7000m.c
-@@ -1434,7 +1434,7 @@ error:
+@@ -1437,7 +1437,7 @@ error:
  	kfree(st);
  	return NULL;
  }
@@ -408,7 +394,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBT },
 --- a/drivers/media/dvb-frontends/dib7000p.c
 +++ b/drivers/media/dvb-frontends/dib7000p.c
-@@ -2822,7 +2822,7 @@ void *dib7000p_attach(struct dib7000p_op
+@@ -2818,7 +2818,7 @@ void *dib7000p_attach(struct dib7000p_op
  
  	return ops;
  }
@@ -419,7 +405,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBT },
 --- a/drivers/media/dvb-frontends/dib8000.c
 +++ b/drivers/media/dvb-frontends/dib8000.c
-@@ -4527,7 +4527,7 @@ void *dib8000_attach(struct dib8000_ops
+@@ -4530,7 +4530,7 @@ void *dib8000_attach(struct dib8000_ops
  
  	return ops;
  }
@@ -430,7 +416,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("Driver for the DiBcom 8000 ISDB-T demodulator");
 --- a/drivers/media/dvb-frontends/dib9000.c
 +++ b/drivers/media/dvb-frontends/dib9000.c
-@@ -2546,7 +2546,7 @@ error:
+@@ -2547,7 +2547,7 @@ error:
  	kfree(st);
  	return NULL;
  }
@@ -441,7 +427,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBT },
 --- a/drivers/media/dvb-frontends/drx39xyj/drxj.c
 +++ b/drivers/media/dvb-frontends/drx39xyj/drxj.c
-@@ -12366,7 +12366,7 @@ error:
+@@ -12364,7 +12364,7 @@ error:
  
  	return NULL;
  }
@@ -452,7 +438,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
 --- a/drivers/media/dvb-frontends/drxd_hard.c
 +++ b/drivers/media/dvb-frontends/drxd_hard.c
-@@ -2948,7 +2948,7 @@ error:
+@@ -2981,7 +2981,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -463,7 +449,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Micronas");
 --- a/drivers/media/dvb-frontends/drxk_hard.c
 +++ b/drivers/media/dvb-frontends/drxk_hard.c
-@@ -6857,7 +6857,7 @@ error:
+@@ -6873,7 +6873,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -474,9 +460,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Ralph Metzler");
 --- a/drivers/media/dvb-frontends/ds3000.c
 +++ b/drivers/media/dvb-frontends/ds3000.c
-@@ -859,7 +859,7 @@ struct dvb_frontend *ds3000_attach(const
- 	ds3000_set_voltage(&state->frontend, SEC_VOLTAGE_OFF);
- 	return &state->frontend;
+@@ -879,7 +879,7 @@ error3:
+ error2:
+ 	return NULL;
  }
 -EXPORT_SYMBOL(ds3000_attach);
 +EXPORT_SYMBOL_GPL(ds3000_attach);
@@ -485,18 +471,18 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  					s32 carrier_offset_khz)
 --- a/drivers/media/dvb-frontends/dvb-pll.c
 +++ b/drivers/media/dvb-frontends/dvb-pll.c
-@@ -866,7 +866,7 @@ out:
+@@ -825,7 +825,7 @@ struct dvb_frontend *dvb_pll_attach(stru
  
- 	return NULL;
+ 	return fe;
  }
 -EXPORT_SYMBOL(dvb_pll_attach);
 +EXPORT_SYMBOL_GPL(dvb_pll_attach);
  
- 
- static int
+ MODULE_DESCRIPTION("dvb pll library");
+ MODULE_AUTHOR("Gerd Knorr");
 --- a/drivers/media/dvb-frontends/ec100.c
 +++ b/drivers/media/dvb-frontends/ec100.c
-@@ -299,7 +299,7 @@ error:
+@@ -309,7 +309,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -507,7 +493,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBT },
 --- a/drivers/media/dvb-frontends/helene.c
 +++ b/drivers/media/dvb-frontends/helene.c
-@@ -1025,7 +1025,7 @@ struct dvb_frontend *helene_attach_s(str
+@@ -1007,7 +1007,7 @@ struct dvb_frontend *helene_attach_s(str
  			priv->i2c_address, priv->i2c);
  	return fe;
  }
@@ -516,18 +502,18 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  struct dvb_frontend *helene_attach(struct dvb_frontend *fe,
  		const struct helene_config *config,
-@@ -1061,7 +1061,7 @@ struct dvb_frontend *helene_attach(struc
+@@ -1043,7 +1043,7 @@ struct dvb_frontend *helene_attach(struc
  			priv->i2c_address, priv->i2c);
  	return fe;
  }
 -EXPORT_SYMBOL(helene_attach);
 +EXPORT_SYMBOL_GPL(helene_attach);
  
- static int helene_probe(struct i2c_client *client,
- 			const struct i2c_device_id *id)
+ MODULE_DESCRIPTION("Sony HELENE Sat/Ter tuner driver");
+ MODULE_AUTHOR("Abylay Ospan <aospan@netup.ru>");
 --- a/drivers/media/dvb-frontends/horus3a.c
 +++ b/drivers/media/dvb-frontends/horus3a.c
-@@ -395,7 +395,7 @@ struct dvb_frontend *horus3a_attach(stru
+@@ -404,7 +404,7 @@ struct dvb_frontend *horus3a_attach(stru
  		priv->i2c_address, priv->i2c);
  	return fe;
  }
@@ -538,7 +524,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Sergey Kozlov <serjk@netup.ru>");
 --- a/drivers/media/dvb-frontends/isl6405.c
 +++ b/drivers/media/dvb-frontends/isl6405.c
-@@ -141,7 +141,7 @@ struct dvb_frontend *isl6405_attach(stru
+@@ -155,7 +155,7 @@ struct dvb_frontend *isl6405_attach(stru
  
  	return fe;
  }
@@ -549,7 +535,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Hartmut Hackmann & Oliver Endriss");
 --- a/drivers/media/dvb-frontends/isl6421.c
 +++ b/drivers/media/dvb-frontends/isl6421.c
-@@ -213,7 +213,7 @@ struct dvb_frontend *isl6421_attach(stru
+@@ -227,7 +227,7 @@ struct dvb_frontend *isl6421_attach(stru
  
  	return fe;
  }
@@ -560,7 +546,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Andrew de Quincey & Oliver Endriss");
 --- a/drivers/media/dvb-frontends/isl6423.c
 +++ b/drivers/media/dvb-frontends/isl6423.c
-@@ -289,7 +289,7 @@ exit:
+@@ -301,7 +301,7 @@ exit:
  	fe->sec_priv = NULL;
  	return NULL;
  }
@@ -571,7 +557,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Manu Abraham");
 --- a/drivers/media/dvb-frontends/itd1000.c
 +++ b/drivers/media/dvb-frontends/itd1000.c
-@@ -389,7 +389,7 @@ struct dvb_frontend *itd1000_attach(stru
+@@ -399,7 +399,7 @@ struct dvb_frontend *itd1000_attach(stru
  
  	return fe;
  }
@@ -582,7 +568,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("Integrant ITD1000 driver");
 --- a/drivers/media/dvb-frontends/ix2505v.c
 +++ b/drivers/media/dvb-frontends/ix2505v.c
-@@ -302,7 +302,7 @@ error:
+@@ -311,7 +311,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -593,7 +579,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
 --- a/drivers/media/dvb-frontends/l64781.c
 +++ b/drivers/media/dvb-frontends/l64781.c
-@@ -593,4 +593,4 @@ MODULE_DESCRIPTION("LSI L64781 DVB-T Dem
+@@ -606,4 +606,4 @@ MODULE_DESCRIPTION("LSI L64781 DVB-T Dem
  MODULE_AUTHOR("Holger Waechtler, Marko Kohtala");
  MODULE_LICENSE("GPL");
  
@@ -601,7 +587,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(l64781_attach);
 --- a/drivers/media/dvb-frontends/lg2160.c
 +++ b/drivers/media/dvb-frontends/lg2160.c
-@@ -1426,7 +1426,7 @@ struct dvb_frontend *lg2160_attach(const
+@@ -1450,7 +1450,7 @@ struct dvb_frontend *lg2160_attach(const
  
  	return &state->frontend;
  }
@@ -612,7 +598,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Michael Krufky <mkrufky@linuxtv.org>");
 --- a/drivers/media/dvb-frontends/lgdt3305.c
 +++ b/drivers/media/dvb-frontends/lgdt3305.c
-@@ -1148,7 +1148,7 @@ fail:
+@@ -1158,7 +1158,7 @@ fail:
  	kfree(state);
  	return NULL;
  }
@@ -623,7 +609,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
 --- a/drivers/media/dvb-frontends/lgdt3306a.c
 +++ b/drivers/media/dvb-frontends/lgdt3306a.c
-@@ -1881,7 +1881,7 @@ fail:
+@@ -1846,7 +1846,7 @@ fail:
  	kfree(state);
  	return NULL;
  }
@@ -632,20 +618,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  #ifdef DBG_DUMP
  
---- a/drivers/media/dvb-frontends/lgdt330x.c
-+++ b/drivers/media/dvb-frontends/lgdt330x.c
-@@ -928,7 +928,7 @@ struct dvb_frontend *lgdt330x_attach(con
- 
- 	return lgdt330x_get_dvb_frontend(client);
- }
--EXPORT_SYMBOL(lgdt330x_attach);
-+EXPORT_SYMBOL_GPL(lgdt330x_attach);
- 
- static const struct dvb_frontend_ops lgdt3302_ops = {
- 	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
 --- a/drivers/media/dvb-frontends/lgs8gxx.c
 +++ b/drivers/media/dvb-frontends/lgs8gxx.c
-@@ -1043,7 +1043,7 @@ error_out:
+@@ -1053,7 +1053,7 @@ error_out:
  	return NULL;
  
  }
@@ -656,7 +631,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("David T. L. Wong <davidtlwong@gmail.com>");
 --- a/drivers/media/dvb-frontends/lnbh25.c
 +++ b/drivers/media/dvb-frontends/lnbh25.c
-@@ -173,7 +173,7 @@ struct dvb_frontend *lnbh25_attach(struc
+@@ -182,7 +182,7 @@ struct dvb_frontend *lnbh25_attach(struc
  		__func__, priv->i2c_address);
  	return fe;
  }
@@ -667,7 +642,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("info@netup.ru");
 --- a/drivers/media/dvb-frontends/lnbp21.c
 +++ b/drivers/media/dvb-frontends/lnbp21.c
-@@ -155,7 +155,7 @@ struct dvb_frontend *lnbh24_attach(struc
+@@ -169,7 +169,7 @@ struct dvb_frontend *lnbh24_attach(struc
  	return lnbx2x_attach(fe, i2c, override_set, override_clear,
  							i2c_addr, LNBH24_TTX);
  }
@@ -676,7 +651,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  struct dvb_frontend *lnbp21_attach(struct dvb_frontend *fe,
  				struct i2c_adapter *i2c, u8 override_set,
-@@ -164,7 +164,7 @@ struct dvb_frontend *lnbp21_attach(struc
+@@ -178,7 +178,7 @@ struct dvb_frontend *lnbp21_attach(struc
  	return lnbx2x_attach(fe, i2c, override_set, override_clear,
  							0x08, LNBP21_ISEL);
  }
@@ -687,7 +662,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Oliver Endriss, Igor M. Liplianin");
 --- a/drivers/media/dvb-frontends/lnbp22.c
 +++ b/drivers/media/dvb-frontends/lnbp22.c
-@@ -125,7 +125,7 @@ struct dvb_frontend *lnbp22_attach(struc
+@@ -139,7 +139,7 @@ struct dvb_frontend *lnbp22_attach(struc
  
  	return fe;
  }
@@ -698,7 +673,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Dominik Kuhlen");
 --- a/drivers/media/dvb-frontends/m88ds3103.c
 +++ b/drivers/media/dvb-frontends/m88ds3103.c
-@@ -1284,7 +1284,7 @@ struct dvb_frontend *m88ds3103_attach(co
+@@ -1293,7 +1293,7 @@ struct dvb_frontend *m88ds3103_attach(co
  	*tuner_i2c_adapter = pdata.get_i2c_adapter(client);
  	return pdata.get_dvb_frontend(client);
  }
@@ -709,7 +684,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = {SYS_DVBS, SYS_DVBS2},
 --- a/drivers/media/dvb-frontends/m88rs2000.c
 +++ b/drivers/media/dvb-frontends/m88rs2000.c
-@@ -807,7 +807,7 @@ error:
+@@ -816,7 +816,7 @@ error:
  
  	return NULL;
  }
@@ -720,7 +695,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Malcolm Priestley tvboxspy@gmail.com");
 --- a/drivers/media/dvb-frontends/mb86a16.c
 +++ b/drivers/media/dvb-frontends/mb86a16.c
-@@ -1851,6 +1851,6 @@ error:
+@@ -1865,6 +1865,6 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -730,9 +705,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Manu Abraham");
 --- a/drivers/media/dvb-frontends/mb86a20s.c
 +++ b/drivers/media/dvb-frontends/mb86a20s.c
-@@ -2089,7 +2089,7 @@ struct dvb_frontend *mb86a20s_attach(con
- 	dev_info(&i2c->dev, "Detected a Fujitsu mb86a20s frontend\n");
- 	return &state->frontend;
+@@ -2106,7 +2106,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
  }
 -EXPORT_SYMBOL(mb86a20s_attach);
 +EXPORT_SYMBOL_GPL(mb86a20s_attach);
@@ -741,7 +716,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_ISDBT },
 --- a/drivers/media/dvb-frontends/mt312.c
 +++ b/drivers/media/dvb-frontends/mt312.c
-@@ -832,7 +832,7 @@ error:
+@@ -840,7 +840,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -752,7 +727,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
 --- a/drivers/media/dvb-frontends/mt352.c
 +++ b/drivers/media/dvb-frontends/mt352.c
-@@ -593,4 +593,4 @@ MODULE_DESCRIPTION("Zarlink MT352 DVB-T
+@@ -604,4 +604,4 @@ MODULE_DESCRIPTION("Zarlink MT352 DVB-T
  MODULE_AUTHOR("Holger Waechtler, Daniel Mack, Antonio Mancuso");
  MODULE_LICENSE("GPL");
  
@@ -760,7 +735,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(mt352_attach);
 --- a/drivers/media/dvb-frontends/nxt200x.c
 +++ b/drivers/media/dvb-frontends/nxt200x.c
-@@ -1232,5 +1232,5 @@ MODULE_DESCRIPTION("NXT200X (ATSC 8VSB &
+@@ -1242,5 +1242,5 @@ MODULE_DESCRIPTION("NXT200X (ATSC 8VSB &
  MODULE_AUTHOR("Kirk Lapray, Michael Krufky, Jean-Francois Thibert, and Taylor Jacob");
  MODULE_LICENSE("GPL");
  
@@ -769,7 +744,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
 --- a/drivers/media/dvb-frontends/nxt6000.c
 +++ b/drivers/media/dvb-frontends/nxt6000.c
-@@ -621,4 +621,4 @@ MODULE_DESCRIPTION("NxtWave NXT6000 DVB-
+@@ -633,4 +633,4 @@ MODULE_DESCRIPTION("NxtWave NXT6000 DVB-
  MODULE_AUTHOR("Florian Schirmer");
  MODULE_LICENSE("GPL");
  
@@ -777,7 +752,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(nxt6000_attach);
 --- a/drivers/media/dvb-frontends/or51132.c
 +++ b/drivers/media/dvb-frontends/or51132.c
-@@ -605,4 +605,4 @@ MODULE_AUTHOR("Kirk Lapray");
+@@ -616,4 +616,4 @@ MODULE_AUTHOR("Kirk Lapray");
  MODULE_AUTHOR("Trent Piepho");
  MODULE_LICENSE("GPL");
  
@@ -785,7 +760,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(or51132_attach);
 --- a/drivers/media/dvb-frontends/or51211.c
 +++ b/drivers/media/dvb-frontends/or51211.c
-@@ -551,5 +551,5 @@ MODULE_DESCRIPTION("Oren OR51211 VSB [pc
+@@ -561,5 +561,5 @@ MODULE_DESCRIPTION("Oren OR51211 VSB [pc
  MODULE_AUTHOR("Kirk Lapray");
  MODULE_LICENSE("GPL");
  
@@ -794,7 +769,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
 --- a/drivers/media/dvb-frontends/s5h1409.c
 +++ b/drivers/media/dvb-frontends/s5h1409.c
-@@ -981,7 +981,7 @@ error:
+@@ -993,7 +993,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -805,7 +780,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
 --- a/drivers/media/dvb-frontends/s5h1411.c
 +++ b/drivers/media/dvb-frontends/s5h1411.c
-@@ -900,7 +900,7 @@ error:
+@@ -912,7 +912,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -816,7 +791,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
 --- a/drivers/media/dvb-frontends/s5h1420.c
 +++ b/drivers/media/dvb-frontends/s5h1420.c
-@@ -918,7 +918,7 @@ error:
+@@ -928,7 +928,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -827,7 +802,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBS },
 --- a/drivers/media/dvb-frontends/s5h1432.c
 +++ b/drivers/media/dvb-frontends/s5h1432.c
-@@ -355,7 +355,7 @@ struct dvb_frontend *s5h1432_attach(cons
+@@ -364,7 +364,7 @@ struct dvb_frontend *s5h1432_attach(cons
  
  	return &state->frontend;
  }
@@ -838,7 +813,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBT },
 --- a/drivers/media/dvb-frontends/s921.c
 +++ b/drivers/media/dvb-frontends/s921.c
-@@ -495,7 +495,7 @@ struct dvb_frontend *s921_attach(const s
+@@ -503,7 +503,7 @@ struct dvb_frontend *s921_attach(const s
  
  	return &state->frontend;
  }
@@ -849,7 +824,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_ISDBT },
 --- a/drivers/media/dvb-frontends/si21xx.c
 +++ b/drivers/media/dvb-frontends/si21xx.c
-@@ -938,7 +938,7 @@ error:
+@@ -944,7 +944,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -860,7 +835,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
 --- a/drivers/media/dvb-frontends/sp887x.c
 +++ b/drivers/media/dvb-frontends/sp887x.c
-@@ -626,4 +626,4 @@ MODULE_PARM_DESC(debug, "Turn on/off fro
+@@ -625,4 +625,4 @@ MODULE_PARM_DESC(debug, "Turn on/off fro
  MODULE_DESCRIPTION("Spase sp887x DVB-T demodulator driver");
  MODULE_LICENSE("GPL");
  
@@ -868,7 +843,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(sp887x_attach);
 --- a/drivers/media/dvb-frontends/stb0899_drv.c
 +++ b/drivers/media/dvb-frontends/stb0899_drv.c
-@@ -1638,7 +1638,7 @@ error:
+@@ -1652,7 +1652,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -879,7 +854,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("STB0899 Multi-Std frontend");
 --- a/drivers/media/dvb-frontends/stb6000.c
 +++ b/drivers/media/dvb-frontends/stb6000.c
-@@ -232,7 +232,7 @@ struct dvb_frontend *stb6000_attach(stru
+@@ -245,7 +245,7 @@ struct dvb_frontend *stb6000_attach(stru
  
  	return fe;
  }
@@ -890,7 +865,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
 --- a/drivers/media/dvb-frontends/stb6100.c
 +++ b/drivers/media/dvb-frontends/stb6100.c
-@@ -557,7 +557,7 @@ static void stb6100_release(struct dvb_f
+@@ -570,7 +570,7 @@ static void stb6100_release(struct dvb_f
  	kfree(state);
  }
  
@@ -901,7 +876,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Manu Abraham");
 --- a/drivers/media/dvb-frontends/stv0288.c
 +++ b/drivers/media/dvb-frontends/stv0288.c
-@@ -590,7 +590,7 @@ error:
+@@ -610,7 +610,7 @@ error:
  
  	return NULL;
  }
@@ -912,7 +887,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug_legacy_dish_switch,
 --- a/drivers/media/dvb-frontends/stv0297.c
 +++ b/drivers/media/dvb-frontends/stv0297.c
-@@ -710,4 +710,4 @@ MODULE_DESCRIPTION("ST STV0297 DVB-C Dem
+@@ -722,4 +722,4 @@ MODULE_DESCRIPTION("ST STV0297 DVB-C Dem
  MODULE_AUTHOR("Dennis Noermann and Andrew de Quincey");
  MODULE_LICENSE("GPL");
  
@@ -920,7 +895,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(stv0297_attach);
 --- a/drivers/media/dvb-frontends/stv0299.c
 +++ b/drivers/media/dvb-frontends/stv0299.c
-@@ -751,4 +751,4 @@ MODULE_DESCRIPTION("ST STV0299 DVB Demod
+@@ -764,4 +764,4 @@ MODULE_DESCRIPTION("ST STV0299 DVB Demod
  MODULE_AUTHOR("Ralph Metzler, Holger Waechtler, Peter Schildmann, Felix Domke, Andreas Oberritter, Andrew de Quincey, Kenneth Aafly");
  MODULE_LICENSE("GPL");
  
@@ -928,7 +903,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(stv0299_attach);
 --- a/drivers/media/dvb-frontends/stv0367.c
 +++ b/drivers/media/dvb-frontends/stv0367.c
-@@ -1750,7 +1750,7 @@ error:
+@@ -1763,7 +1763,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -937,7 +912,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  static int stv0367cab_gate_ctrl(struct dvb_frontend *fe, int enable)
  {
-@@ -2923,7 +2923,7 @@ error:
+@@ -2936,7 +2936,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -946,7 +921,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  /*
   * Functions for operation on Digital Devices hardware
-@@ -3344,7 +3344,7 @@ error:
+@@ -3358,7 +3358,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -957,7 +932,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(i2c_debug, "Set i2c debug");
 --- a/drivers/media/dvb-frontends/stv0900_core.c
 +++ b/drivers/media/dvb-frontends/stv0900_core.c
-@@ -1957,7 +1957,7 @@ error:
+@@ -1968,7 +1968,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -966,20 +941,9 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  MODULE_PARM_DESC(debug, "Set debug");
  
---- a/drivers/media/dvb-frontends/stv090x.c
-+++ b/drivers/media/dvb-frontends/stv090x.c
-@@ -5073,7 +5073,7 @@ error:
- 	kfree(state);
- 	return NULL;
- }
--EXPORT_SYMBOL(stv090x_attach);
-+EXPORT_SYMBOL_GPL(stv090x_attach);
- 
- static const struct i2c_device_id stv090x_id_table[] = {
- 	{"stv090x", 0},
 --- a/drivers/media/dvb-frontends/stv6110.c
 +++ b/drivers/media/dvb-frontends/stv6110.c
-@@ -427,7 +427,7 @@ struct dvb_frontend *stv6110_attach(stru
+@@ -446,7 +446,7 @@ struct dvb_frontend *stv6110_attach(stru
  
  	return fe;
  }
@@ -990,18 +954,18 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
 --- a/drivers/media/dvb-frontends/stv6110x.c
 +++ b/drivers/media/dvb-frontends/stv6110x.c
-@@ -469,7 +469,7 @@ const struct stv6110x_devctl *stv6110x_a
- 	dev_info(&stv6110x->i2c->dev, "Attaching STV6110x\n");
+@@ -409,7 +409,7 @@ const struct stv6110x_devctl *stv6110x_a
+ 	printk(KERN_INFO "%s: Attaching STV6110x\n", __func__);
  	return stv6110x->devctl;
  }
 -EXPORT_SYMBOL(stv6110x_attach);
 +EXPORT_SYMBOL_GPL(stv6110x_attach);
  
- static const struct i2c_device_id stv6110x_id_table[] = {
- 	{"stv6110x", 0},
+ MODULE_AUTHOR("Manu Abraham");
+ MODULE_DESCRIPTION("STV6110x Silicon tuner");
 --- a/drivers/media/dvb-frontends/tda10021.c
 +++ b/drivers/media/dvb-frontends/tda10021.c
-@@ -513,4 +513,4 @@ MODULE_DESCRIPTION("Philips TDA10021 DVB
+@@ -525,4 +525,4 @@ MODULE_DESCRIPTION("Philips TDA10021 DVB
  MODULE_AUTHOR("Ralph Metzler, Holger Waechtler, Markus Schulz");
  MODULE_LICENSE("GPL");
  
@@ -1009,7 +973,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(tda10021_attach);
 --- a/drivers/media/dvb-frontends/tda10023.c
 +++ b/drivers/media/dvb-frontends/tda10023.c
-@@ -594,4 +594,4 @@ MODULE_DESCRIPTION("Philips TDA10023 DVB
+@@ -606,4 +606,4 @@ MODULE_DESCRIPTION("Philips TDA10023 DVB
  MODULE_AUTHOR("Georg Acher, Hartmut Birr");
  MODULE_LICENSE("GPL");
  
@@ -1017,7 +981,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(tda10023_attach);
 --- a/drivers/media/dvb-frontends/tda10048.c
 +++ b/drivers/media/dvb-frontends/tda10048.c
-@@ -1138,7 +1138,7 @@ error:
+@@ -1150,7 +1150,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -1028,7 +992,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBT },
 --- a/drivers/media/dvb-frontends/tda1004x.c
 +++ b/drivers/media/dvb-frontends/tda1004x.c
-@@ -1378,5 +1378,5 @@ MODULE_DESCRIPTION("Philips TDA10045H &
+@@ -1391,5 +1391,5 @@ MODULE_DESCRIPTION("Philips TDA10045H &
  MODULE_AUTHOR("Andrew de Quincey & Robert Schlabbach");
  MODULE_LICENSE("GPL");
  
@@ -1038,7 +1002,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(tda10046_attach);
 --- a/drivers/media/dvb-frontends/tda10086.c
 +++ b/drivers/media/dvb-frontends/tda10086.c
-@@ -764,4 +764,4 @@ MODULE_DESCRIPTION("Philips TDA10086 DVB
+@@ -777,4 +777,4 @@ MODULE_DESCRIPTION("Philips TDA10086 DVB
  MODULE_AUTHOR("Andrew de Quincey");
  MODULE_LICENSE("GPL");
  
@@ -1046,7 +1010,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(tda10086_attach);
 --- a/drivers/media/dvb-frontends/tda665x.c
 +++ b/drivers/media/dvb-frontends/tda665x.c
-@@ -227,7 +227,7 @@ struct dvb_frontend *tda665x_attach(stru
+@@ -239,7 +239,7 @@ struct dvb_frontend *tda665x_attach(stru
  
  	return fe;
  }
@@ -1057,7 +1021,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Manu Abraham");
 --- a/drivers/media/dvb-frontends/tda8083.c
 +++ b/drivers/media/dvb-frontends/tda8083.c
-@@ -481,4 +481,4 @@ MODULE_DESCRIPTION("Philips TDA8083 DVB-
+@@ -494,4 +494,4 @@ MODULE_DESCRIPTION("Philips TDA8083 DVB-
  MODULE_AUTHOR("Ralph Metzler, Holger Waechtler");
  MODULE_LICENSE("GPL");
  
@@ -1065,7 +1029,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(tda8083_attach);
 --- a/drivers/media/dvb-frontends/tda8261.c
 +++ b/drivers/media/dvb-frontends/tda8261.c
-@@ -188,7 +188,7 @@ exit:
+@@ -201,7 +201,7 @@ exit:
  	return NULL;
  }
  
@@ -1076,7 +1040,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("TDA8261 8PSK/QPSK Tuner");
 --- a/drivers/media/dvb-frontends/tda826x.c
 +++ b/drivers/media/dvb-frontends/tda826x.c
-@@ -164,7 +164,7 @@ struct dvb_frontend *tda826x_attach(stru
+@@ -177,7 +177,7 @@ struct dvb_frontend *tda826x_attach(stru
  
  	return fe;
  }
@@ -1087,7 +1051,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
 --- a/drivers/media/dvb-frontends/ts2020.c
 +++ b/drivers/media/dvb-frontends/ts2020.c
-@@ -525,7 +525,7 @@ struct dvb_frontend *ts2020_attach(struc
+@@ -534,7 +534,7 @@ struct dvb_frontend *ts2020_attach(struc
  
  	return fe;
  }
@@ -1098,7 +1062,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
   * We implement own regmap locking due to legacy DVB attach which uses frontend
 --- a/drivers/media/dvb-frontends/tua6100.c
 +++ b/drivers/media/dvb-frontends/tua6100.c
-@@ -186,7 +186,7 @@ struct dvb_frontend *tua6100_attach(stru
+@@ -194,7 +194,7 @@ struct dvb_frontend *tua6100_attach(stru
  	fe->tuner_priv = priv;
  	return fe;
  }
@@ -1109,7 +1073,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Andrew de Quincey");
 --- a/drivers/media/dvb-frontends/ves1820.c
 +++ b/drivers/media/dvb-frontends/ves1820.c
-@@ -434,4 +434,4 @@ MODULE_DESCRIPTION("VLSI VES1820 DVB-C D
+@@ -446,4 +446,4 @@ MODULE_DESCRIPTION("VLSI VES1820 DVB-C D
  MODULE_AUTHOR("Ralph Metzler, Holger Waechtler");
  MODULE_LICENSE("GPL");
  
@@ -1117,7 +1081,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(ves1820_attach);
 --- a/drivers/media/dvb-frontends/ves1x93.c
 +++ b/drivers/media/dvb-frontends/ves1x93.c
-@@ -540,4 +540,4 @@ MODULE_DESCRIPTION("VLSI VES1x93 DVB-S D
+@@ -553,4 +553,4 @@ MODULE_DESCRIPTION("VLSI VES1x93 DVB-S D
  MODULE_AUTHOR("Ralph Metzler");
  MODULE_LICENSE("GPL");
  
@@ -1125,7 +1089,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(ves1x93_attach);
 --- a/drivers/media/dvb-frontends/zl10036.c
 +++ b/drivers/media/dvb-frontends/zl10036.c
-@@ -496,7 +496,7 @@ error:
+@@ -504,7 +504,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -1136,7 +1100,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
 --- a/drivers/media/dvb-frontends/zl10039.c
 +++ b/drivers/media/dvb-frontends/zl10039.c
-@@ -295,7 +295,7 @@ error:
+@@ -304,7 +304,7 @@ error:
  	kfree(state);
  	return NULL;
  }
@@ -1147,7 +1111,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
 --- a/drivers/media/dvb-frontends/zl10353.c
 +++ b/drivers/media/dvb-frontends/zl10353.c
-@@ -665,4 +665,4 @@ MODULE_DESCRIPTION("Zarlink ZL10353 DVB-
+@@ -676,4 +676,4 @@ MODULE_DESCRIPTION("Zarlink ZL10353 DVB-
  MODULE_AUTHOR("Chris Pascoe");
  MODULE_LICENSE("GPL");
  
@@ -1155,7 +1119,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 +EXPORT_SYMBOL_GPL(zl10353_attach);
 --- a/drivers/media/pci/bt8xx/dst.c
 +++ b/drivers/media/pci/bt8xx/dst.c
-@@ -1722,7 +1722,7 @@ struct dst_state *dst_attach(struct dst_
+@@ -1733,7 +1733,7 @@ struct dst_state *dst_attach(struct dst_
  	return state;				/*	Manu (DST is a card not a frontend)	*/
  }
  
@@ -1166,7 +1130,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	.delsys = { SYS_DVBT },
 --- a/drivers/media/pci/bt8xx/dst_ca.c
 +++ b/drivers/media/pci/bt8xx/dst_ca.c
-@@ -668,7 +668,7 @@ struct dvb_device *dst_ca_attach(struct
+@@ -680,7 +680,7 @@ struct dvb_device *dst_ca_attach(struct
  	return NULL;
  }
  
@@ -1177,7 +1141,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Manu Abraham");
 --- a/drivers/media/tuners/fc0011.c
 +++ b/drivers/media/tuners/fc0011.c
-@@ -499,7 +499,7 @@ struct dvb_frontend *fc0011_attach(struc
+@@ -508,7 +508,7 @@ struct dvb_frontend *fc0011_attach(struc
  
  	return fe;
  }
@@ -1188,7 +1152,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Michael Buesch <m@bues.ch>");
 --- a/drivers/media/tuners/fc0012.c
 +++ b/drivers/media/tuners/fc0012.c
-@@ -495,7 +495,7 @@ err:
+@@ -505,7 +505,7 @@ err:
  
  	return fe;
  }
@@ -1199,7 +1163,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Hans-Frieder Vogt <hfvogt@gmx.net>");
 --- a/drivers/media/tuners/fc0013.c
 +++ b/drivers/media/tuners/fc0013.c
-@@ -608,7 +608,7 @@ struct dvb_frontend *fc0013_attach(struc
+@@ -619,7 +619,7 @@ struct dvb_frontend *fc0013_attach(struc
  
  	return fe;
  }
@@ -1210,7 +1174,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Hans-Frieder Vogt <hfvogt@gmx.net>");
 --- a/drivers/media/tuners/max2165.c
 +++ b/drivers/media/tuners/max2165.c
-@@ -410,7 +410,7 @@ struct dvb_frontend *max2165_attach(stru
+@@ -420,7 +420,7 @@ struct dvb_frontend *max2165_attach(stru
  
  	return fe;
  }
@@ -1221,7 +1185,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("Maxim MAX2165 silicon tuner driver");
 --- a/drivers/media/tuners/mc44s803.c
 +++ b/drivers/media/tuners/mc44s803.c
-@@ -356,7 +356,7 @@ error:
+@@ -366,7 +366,7 @@ error:
  	kfree(priv);
  	return NULL;
  }
@@ -1232,7 +1196,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("Freescale MC44S803 silicon tuner driver");
 --- a/drivers/media/tuners/mt2060.c
 +++ b/drivers/media/tuners/mt2060.c
-@@ -440,7 +440,7 @@ struct dvb_frontend * mt2060_attach(stru
+@@ -450,7 +450,7 @@ struct dvb_frontend * mt2060_attach(stru
  
  	return fe;
  }
@@ -1243,7 +1207,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  			const struct i2c_device_id *id)
 --- a/drivers/media/tuners/mt2131.c
 +++ b/drivers/media/tuners/mt2131.c
-@@ -274,7 +274,7 @@ struct dvb_frontend * mt2131_attach(stru
+@@ -284,7 +284,7 @@ struct dvb_frontend * mt2131_attach(stru
  	fe->tuner_priv = priv;
  	return fe;
  }
@@ -1254,7 +1218,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("Microtune MT2131 silicon tuner driver");
 --- a/drivers/media/tuners/mt2266.c
 +++ b/drivers/media/tuners/mt2266.c
-@@ -336,7 +336,7 @@ struct dvb_frontend * mt2266_attach(stru
+@@ -345,7 +345,7 @@ struct dvb_frontend * mt2266_attach(stru
  	mt2266_calibrate(priv);
  	return fe;
  }
@@ -1265,7 +1229,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("Microtune MT2266 silicon tuner driver");
 --- a/drivers/media/tuners/mxl5005s.c
 +++ b/drivers/media/tuners/mxl5005s.c
-@@ -4114,7 +4114,7 @@ struct dvb_frontend *mxl5005s_attach(str
+@@ -4109,7 +4109,7 @@ struct dvb_frontend *mxl5005s_attach(str
  	fe->tuner_priv = state;
  	return fe;
  }
@@ -1276,7 +1240,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Steven Toth");
 --- a/drivers/media/tuners/qt1010.c
 +++ b/drivers/media/tuners/qt1010.c
-@@ -437,7 +437,7 @@ struct dvb_frontend * qt1010_attach(stru
+@@ -446,7 +446,7 @@ struct dvb_frontend * qt1010_attach(stru
  	fe->tuner_priv = priv;
  	return fe;
  }
@@ -1287,7 +1251,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Antti Palosaari <crope@iki.fi>");
 --- a/drivers/media/tuners/tda18218.c
 +++ b/drivers/media/tuners/tda18218.c
-@@ -336,7 +336,7 @@ struct dvb_frontend *tda18218_attach(str
+@@ -345,7 +345,7 @@ struct dvb_frontend *tda18218_attach(str
  
  	return fe;
  }
@@ -1298,7 +1262,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_AUTHOR("Antti Palosaari <crope@iki.fi>");
 --- a/drivers/media/tuners/xc4000.c
 +++ b/drivers/media/tuners/xc4000.c
-@@ -1744,7 +1744,7 @@ fail2:
+@@ -1751,7 +1751,7 @@ fail2:
  	xc4000_release(fe);
  	return NULL;
  }
@@ -1309,7 +1273,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  MODULE_DESCRIPTION("Xceive xc4000 silicon tuner driver");
 --- a/drivers/media/tuners/xc5000.c
 +++ b/drivers/media/tuners/xc5000.c
-@@ -1460,7 +1460,7 @@ fail:
+@@ -1464,7 +1464,7 @@ fail:
  	xc5000_release(fe);
  	return NULL;
  }
