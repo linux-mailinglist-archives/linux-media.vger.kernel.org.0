@@ -2,383 +2,1321 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B617D7A7944
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 12:31:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D76B77A8056
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:36:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234442AbjITKb5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 06:31:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36978 "EHLO
+        id S235913AbjITMgi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 08:36:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234397AbjITKbq (ORCPT
+        with ESMTP id S235917AbjITMgg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 06:31:46 -0400
+        Wed, 20 Sep 2023 08:36:36 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C43F2B9;
-        Wed, 20 Sep 2023 03:31:35 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA096C433C8;
-        Wed, 20 Sep 2023 10:31:31 +0000 (UTC)
-Message-ID: <7b3c5c8e-7b8b-43c1-8059-13e7c2f2b262@xs4all.nl>
-Date:   Wed, 20 Sep 2023 12:31:29 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4315CFB;
+        Wed, 20 Sep 2023 05:36:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 068D5C433CC;
+        Wed, 20 Sep 2023 12:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1695213384;
+        bh=DPfEuM+nQ+mvSK07cbWAEXqmamBceOFSaL9uFmlvrYY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pFufL3yVJ9vpy6TFJc5EtCrgmRkTIgmOJZZgKw5+4GeEF8ckDhw/mqKoba4qw/WBV
+         9YktgAHJ6Tc0PcPfc0l3jX9DGRk1sXcZfTBt+Mzx3bQ6QT7N3KP6UvF61JJQYBomKG
+         y7U3yTYEfPu6QWZBDPp3RtF8EOilh/Ck4C1XoM84=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     stable@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        patches@lists.linux.dev, stable <stable@kernel.org>,
+        Stefan Lippers-Hollmann <s.l-h@gmx.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Christoph Hellwig <hch@lst.de>, linux-media@vger.kernel.org,
+        linux-modules@vger.kernel.org,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 5.4 218/367] media: dvb: symbol fixup for dvb_attach()
+Date:   Wed, 20 Sep 2023 13:29:55 +0200
+Message-ID: <20230920112904.240871962@linuxfoundation.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230920112858.471730572@linuxfoundation.org>
+References: <20230920112858.471730572@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v4 01/11] ASoC: fsl_asrc: define functions for memory
- to memory usage
-Content-Language: en-US, nl
-To:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-        nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-        perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-        linuxppc-dev@lists.ozlabs.org
-References: <1695202370-24678-1-git-send-email-shengjiu.wang@nxp.com>
- <1695202370-24678-2-git-send-email-shengjiu.wang@nxp.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <1695202370-24678-2-git-send-email-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/09/2023 11:32, Shengjiu Wang wrote:
-> ASRC can be used on memory to memory case, define several
-> functions for m2m usage.
-> 
-> m2m_start_part_one: first part of the start steps
-> m2m_start_part_two: second part of the start steps
-> m2m_stop_part_one: first part of stop steps
-> m2m_stop_part_two: second part of stop steps, optional
-> m2m_check_format: check format is supported or not
-> m2m_calc_out_len: calculate output length according to input length
-> m2m_get_maxburst: burst size for dma
-> m2m_pair_suspend: suspend function of pair, optional.
-> m2m_pair_resume: resume function of pair
-> get_output_fifo_size: get remaining data size in FIFO
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  sound/soc/fsl/fsl_asrc.c        | 150 ++++++++++++++++++++++++++++++++
->  sound/soc/fsl/fsl_asrc.h        |   2 +
->  sound/soc/fsl/fsl_asrc_common.h |  42 +++++++++
->  3 files changed, 194 insertions(+)
-> 
-> diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
-> index b793263291dc..f9d830e0957f 100644
-> --- a/sound/soc/fsl/fsl_asrc.c
-> +++ b/sound/soc/fsl/fsl_asrc.c
-> @@ -1063,6 +1063,145 @@ static int fsl_asrc_get_fifo_addr(u8 dir, enum asrc_pair_index index)
->  	return REG_ASRDx(dir, index);
->  }
->  
-> +/* Get sample numbers in FIFO */
-> +static unsigned int fsl_asrc_get_output_fifo_size(struct fsl_asrc_pair *pair)
-> +{
-> +	struct fsl_asrc *asrc = pair->asrc;
-> +	enum asrc_pair_index index = pair->index;
-> +	u32 val;
-> +
-> +	regmap_read(asrc->regmap, REG_ASRFST(index), &val);
-> +
-> +	val &= ASRFSTi_OUTPUT_FIFO_MASK;
-> +
-> +	return val >> ASRFSTi_OUTPUT_FIFO_SHIFT;
-> +}
-> +
-> +static int fsl_asrc_m2m_start_part_one(struct fsl_asrc_pair *pair)
-> +{
-> +	struct fsl_asrc_pair_priv *pair_priv = pair->private;
-> +	struct fsl_asrc *asrc = pair->asrc;
-> +	struct device *dev = &asrc->pdev->dev;
-> +	struct asrc_config config;
-> +	int ret;
-> +
-> +	/* fill config */
-> +	config.pair = pair->index;
-> +	config.channel_num = pair->channels;
-> +	config.input_sample_rate = pair->rate[IN];
-> +	config.output_sample_rate = pair->rate[OUT];
-> +	config.input_format = pair->sample_format[IN];
-> +	config.output_format = pair->sample_format[OUT];
-> +	config.inclk = INCLK_NONE;
-> +	config.outclk = OUTCLK_ASRCK1_CLK;
-> +
-> +	pair_priv->config = &config;
-> +	ret = fsl_asrc_config_pair(pair, true);
-> +	if (ret) {
-> +		dev_err(dev, "failed to config pair: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	fsl_asrc_start_pair(pair);
-> +
-> +	return 0;
-> +}
-> +
-> +static int fsl_asrc_m2m_start_part_two(struct fsl_asrc_pair *pair)
-> +{
-> +	/*
-> +	 * Clear DMA request during the stall state of ASRC:
-> +	 * During STALL state, the remaining in input fifo would never be
-> +	 * smaller than the input threshold while the output fifo would not
-> +	 * be bigger than output one. Thus the DMA request would be cleared.
-> +	 */
-> +	fsl_asrc_set_watermarks(pair, ASRC_FIFO_THRESHOLD_MIN,
-> +				ASRC_FIFO_THRESHOLD_MAX);
-> +
-> +	/* Update the real input threshold to raise DMA request */
-> +	fsl_asrc_set_watermarks(pair, ASRC_M2M_INPUTFIFO_WML,
-> +				ASRC_M2M_OUTPUTFIFO_WML);
-> +
-> +	return 0;
-> +}
-> +
-> +static int fsl_asrc_m2m_stop_part_one(struct fsl_asrc_pair *pair)
-> +{
-> +	fsl_asrc_stop_pair(pair);
-> +
-> +	return 0;
-> +}
-> +
-> +static int fsl_asrc_m2m_check_format(u8 dir, u32 format)
-> +{
-> +	u64 support_format = FSL_ASRC_FORMATS;
-> +
-> +	if (dir == IN)
-> +		support_format |= SNDRV_PCM_FMTBIT_S8;
-> +
-> +	if (!(1 << format & support_format))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static int fsl_asrc_m2m_check_rate(u8 dir, u32 rate)
-> +{
-> +	if (rate < 5512 || rate > 192000)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static int fsl_asrc_m2m_check_channel(u8 dir, u32 channels)
-> +{
-> +	if (channels < 1 || channels > 10)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +/* calculate capture data length according to output data length and sample rate */
-> +static int fsl_asrc_m2m_calc_out_len(struct fsl_asrc_pair *pair, int input_buffer_length)
-> +{
-> +	unsigned int in_width, out_width;
-> +	unsigned int channels = pair->channels;
-> +	unsigned int in_samples, out_samples;
-> +	unsigned int out_length;
-> +
-> +	in_width = snd_pcm_format_physical_width(pair->sample_format[IN]) / 8;
-> +	out_width = snd_pcm_format_physical_width(pair->sample_format[OUT]) / 8;
-> +
-> +	in_samples = input_buffer_length / in_width / channels;
-> +	out_samples = pair->rate[OUT] * in_samples / pair->rate[IN];
-> +	out_length = (out_samples - ASRC_OUTPUT_LAST_SAMPLE) * out_width * channels;
-> +
-> +	return out_length;
-> +}
-> +
-> +static int fsl_asrc_m2m_get_maxburst(u8 dir, struct fsl_asrc_pair *pair)
-> +{
-> +	struct fsl_asrc *asrc = pair->asrc;
-> +	struct fsl_asrc_priv *asrc_priv = asrc->private;
-> +	int wml = (dir == IN) ? ASRC_M2M_INPUTFIFO_WML : ASRC_M2M_OUTPUTFIFO_WML;
-> +
-> +	if (!asrc_priv->soc->use_edma)
-> +		return wml * pair->channels;
-> +	else
-> +		return 1;
-> +}
-> +
-> +static int fsl_asrc_m2m_pair_resume(struct fsl_asrc_pair *pair)
-> +{
-> +	struct fsl_asrc *asrc = pair->asrc;
-> +	int i;
-> +
-> +	for (i = 0; i < pair->channels * 4; i++)
-> +		regmap_write(asrc->regmap, REG_ASRDI(pair->index), 0);
-> +
-> +	return 0;
-> +}
-> +
->  static int fsl_asrc_runtime_resume(struct device *dev);
->  static int fsl_asrc_runtime_suspend(struct device *dev);
->  
-> @@ -1147,6 +1286,17 @@ static int fsl_asrc_probe(struct platform_device *pdev)
->  	asrc->get_fifo_addr = fsl_asrc_get_fifo_addr;
->  	asrc->pair_priv_size = sizeof(struct fsl_asrc_pair_priv);
->  
-> +	asrc->m2m_start_part_one = fsl_asrc_m2m_start_part_one;
-> +	asrc->m2m_start_part_two = fsl_asrc_m2m_start_part_two;
-> +	asrc->m2m_stop_part_one = fsl_asrc_m2m_stop_part_one;
-> +	asrc->get_output_fifo_size = fsl_asrc_get_output_fifo_size;
-> +	asrc->m2m_check_format = fsl_asrc_m2m_check_format;
-> +	asrc->m2m_check_rate = fsl_asrc_m2m_check_rate;
-> +	asrc->m2m_check_channel = fsl_asrc_m2m_check_channel;
-> +	asrc->m2m_calc_out_len = fsl_asrc_m2m_calc_out_len;
-> +	asrc->m2m_get_maxburst = fsl_asrc_m2m_get_maxburst;
-> +	asrc->m2m_pair_resume = fsl_asrc_m2m_pair_resume;
-> +
->  	if (of_device_is_compatible(np, "fsl,imx35-asrc")) {
->  		asrc_priv->clk_map[IN] = input_clk_map_imx35;
->  		asrc_priv->clk_map[OUT] = output_clk_map_imx35;
-> diff --git a/sound/soc/fsl/fsl_asrc.h b/sound/soc/fsl/fsl_asrc.h
-> index 86d2422ad606..1c492eb237f5 100644
-> --- a/sound/soc/fsl/fsl_asrc.h
-> +++ b/sound/soc/fsl/fsl_asrc.h
-> @@ -12,6 +12,8 @@
->  
->  #include  "fsl_asrc_common.h"
->  
-> +#define ASRC_M2M_INPUTFIFO_WML		0x4
-> +#define ASRC_M2M_OUTPUTFIFO_WML		0x2
->  #define ASRC_DMA_BUFFER_NUM		2
->  #define ASRC_INPUTFIFO_THRESHOLD	32
->  #define ASRC_OUTPUTFIFO_THRESHOLD	32
-> diff --git a/sound/soc/fsl/fsl_asrc_common.h b/sound/soc/fsl/fsl_asrc_common.h
-> index 7e1c13ca37f1..7f7e725075fe 100644
-> --- a/sound/soc/fsl/fsl_asrc_common.h
-> +++ b/sound/soc/fsl/fsl_asrc_common.h
-> @@ -34,6 +34,11 @@ enum asrc_pair_index {
->   * @pos: hardware pointer position
->   * @req_dma_chan: flag to release dev_to_dev chan
->   * @private: pair private area
-> + * @complete: dma task complete
-> + * @sample_format: format of m2m
-> + * @rate: rate of m2m
-> + * @buf_len: buffer length of m2m
-> + * @req_pair: flag for request pair
->   */
->  struct fsl_asrc_pair {
->  	struct fsl_asrc *asrc;
-> @@ -49,6 +54,13 @@ struct fsl_asrc_pair {
->  	bool req_dma_chan;
->  
->  	void *private;
-> +
-> +	/* used for m2m */
-> +	struct completion complete[2];
-> +	snd_pcm_format_t sample_format[2];
-> +	unsigned int rate[2];
-> +	unsigned int buf_len[2];
-> +	bool req_pair;
->  };
->  
->  /**
-> @@ -72,6 +84,19 @@ struct fsl_asrc_pair {
->   * @request_pair: function pointer
->   * @release_pair: function pointer
->   * @get_fifo_addr: function pointer
-> + * @m2m_start_part_one: function pointer
-> + * @m2m_start_part_two: function pointer
-> + * @m2m_stop_part_one: function pointer
-> + * @m2m_stop_part_two: function pointer
-> + * @m2m_check_format: function pointer
-> + * @m2m_check_rate: function pointer
-> + * @m2m_check_channel: function pointer
-> + * @m2m_calc_out_len: function pointer
-> + * @m2m_get_maxburst: function pointer
-> + * @m2m_pair_suspend: function pointer
-> + * @m2m_pair_resume: function pointer
-> + * @m2m_set_ratio_mod: function pointer
-> + * @get_output_fifo_size: function pointer
->   * @pair_priv_size: size of pair private struct.
->   * @private: private data structure
->   */
-> @@ -97,6 +122,23 @@ struct fsl_asrc {
->  	int (*request_pair)(int channels, struct fsl_asrc_pair *pair);
->  	void (*release_pair)(struct fsl_asrc_pair *pair);
->  	int (*get_fifo_addr)(u8 dir, enum asrc_pair_index index);
-> +
-> +	int (*m2m_start_part_one)(struct fsl_asrc_pair *pair);
-> +	int (*m2m_start_part_two)(struct fsl_asrc_pair *pair);
-> +	int (*m2m_stop_part_one)(struct fsl_asrc_pair *pair);
-> +	int (*m2m_stop_part_two)(struct fsl_asrc_pair *pair);
-> +
-> +	int (*m2m_check_format)(u8 dir, u32 format);
+5.4-stable review patch.  If anyone has any objections, please let me know.
 
-I think it will be easier if this just returns the u64 with the supported formats
-for the given direction. That will be helpful for enum_fmt.
+------------------
 
-> +	int (*m2m_check_rate)(u8 dir, u32 rate);
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-This should just map the rate to something that is valid. V4L2 allows drivers
-to modify the requested format to whatever is valid, and that can be used here.
+commit 86495af1171e1feec79faa9b64c05c89f46e41d1 upstream.
 
-> +	int (*m2m_check_channel)(u8 dir, u32 channels);
+In commit 9011e49d54dc ("modules: only allow symbol_get of
+EXPORT_SYMBOL_GPL modules") the use of symbol_get is properly restricted
+to GPL-only marked symbols.  This interacts oddly with the DVB logic
+which only uses dvb_attach() to load the dvb driver which then uses
+symbol_get().
 
-This can do the same (i.e., map to a valid number of channels).
+Fix this up by properly marking all of the dvb_attach attach symbols as
+EXPORT_SYMBOL_GPL().
 
-Regards,
+Fixes: 9011e49d54dc ("modules: only allow symbol_get of EXPORT_SYMBOL_GPL modules")
+Cc: stable <stable@kernel.org>
+Reported-by: Stefan Lippers-Hollmann <s.l-h@gmx.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: linux-media@vger.kernel.org
+Cc: linux-modules@vger.kernel.org
+Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Link: https://lore.kernel.org/r/20230908092035.3815268-2-gregkh@linuxfoundation.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/media/dvb-frontends/ascot2e.c             |    2 +-
+ drivers/media/dvb-frontends/atbm8830.c            |    2 +-
+ drivers/media/dvb-frontends/au8522_dig.c          |    2 +-
+ drivers/media/dvb-frontends/bcm3510.c             |    2 +-
+ drivers/media/dvb-frontends/cx22700.c             |    2 +-
+ drivers/media/dvb-frontends/cx22702.c             |    2 +-
+ drivers/media/dvb-frontends/cx24110.c             |    2 +-
+ drivers/media/dvb-frontends/cx24113.c             |    2 +-
+ drivers/media/dvb-frontends/cx24116.c             |    2 +-
+ drivers/media/dvb-frontends/cx24120.c             |    2 +-
+ drivers/media/dvb-frontends/cx24123.c             |    2 +-
+ drivers/media/dvb-frontends/cxd2820r_core.c       |    2 +-
+ drivers/media/dvb-frontends/cxd2841er.c           |    4 ++--
+ drivers/media/dvb-frontends/cxd2880/cxd2880_top.c |    2 +-
+ drivers/media/dvb-frontends/dib0070.c             |    2 +-
+ drivers/media/dvb-frontends/dib0090.c             |    4 ++--
+ drivers/media/dvb-frontends/dib3000mb.c           |    2 +-
+ drivers/media/dvb-frontends/dib3000mc.c           |    2 +-
+ drivers/media/dvb-frontends/dib7000m.c            |    2 +-
+ drivers/media/dvb-frontends/dib7000p.c            |    2 +-
+ drivers/media/dvb-frontends/dib8000.c             |    2 +-
+ drivers/media/dvb-frontends/dib9000.c             |    2 +-
+ drivers/media/dvb-frontends/drx39xyj/drxj.c       |    2 +-
+ drivers/media/dvb-frontends/drxd_hard.c           |    2 +-
+ drivers/media/dvb-frontends/drxk_hard.c           |    2 +-
+ drivers/media/dvb-frontends/ds3000.c              |    2 +-
+ drivers/media/dvb-frontends/dvb-pll.c             |    2 +-
+ drivers/media/dvb-frontends/ec100.c               |    2 +-
+ drivers/media/dvb-frontends/helene.c              |    4 ++--
+ drivers/media/dvb-frontends/horus3a.c             |    2 +-
+ drivers/media/dvb-frontends/isl6405.c             |    2 +-
+ drivers/media/dvb-frontends/isl6421.c             |    2 +-
+ drivers/media/dvb-frontends/isl6423.c             |    2 +-
+ drivers/media/dvb-frontends/itd1000.c             |    2 +-
+ drivers/media/dvb-frontends/ix2505v.c             |    2 +-
+ drivers/media/dvb-frontends/l64781.c              |    2 +-
+ drivers/media/dvb-frontends/lg2160.c              |    2 +-
+ drivers/media/dvb-frontends/lgdt3305.c            |    2 +-
+ drivers/media/dvb-frontends/lgdt3306a.c           |    2 +-
+ drivers/media/dvb-frontends/lgdt330x.c            |    2 +-
+ drivers/media/dvb-frontends/lgs8gxx.c             |    2 +-
+ drivers/media/dvb-frontends/lnbh25.c              |    2 +-
+ drivers/media/dvb-frontends/lnbp21.c              |    4 ++--
+ drivers/media/dvb-frontends/lnbp22.c              |    2 +-
+ drivers/media/dvb-frontends/m88ds3103.c           |    2 +-
+ drivers/media/dvb-frontends/m88rs2000.c           |    2 +-
+ drivers/media/dvb-frontends/mb86a16.c             |    2 +-
+ drivers/media/dvb-frontends/mb86a20s.c            |    2 +-
+ drivers/media/dvb-frontends/mt312.c               |    2 +-
+ drivers/media/dvb-frontends/mt352.c               |    2 +-
+ drivers/media/dvb-frontends/nxt200x.c             |    2 +-
+ drivers/media/dvb-frontends/nxt6000.c             |    2 +-
+ drivers/media/dvb-frontends/or51132.c             |    2 +-
+ drivers/media/dvb-frontends/or51211.c             |    2 +-
+ drivers/media/dvb-frontends/s5h1409.c             |    2 +-
+ drivers/media/dvb-frontends/s5h1411.c             |    2 +-
+ drivers/media/dvb-frontends/s5h1420.c             |    2 +-
+ drivers/media/dvb-frontends/s5h1432.c             |    2 +-
+ drivers/media/dvb-frontends/s921.c                |    2 +-
+ drivers/media/dvb-frontends/si21xx.c              |    2 +-
+ drivers/media/dvb-frontends/sp887x.c              |    2 +-
+ drivers/media/dvb-frontends/stb0899_drv.c         |    2 +-
+ drivers/media/dvb-frontends/stb6000.c             |    2 +-
+ drivers/media/dvb-frontends/stb6100.c             |    2 +-
+ drivers/media/dvb-frontends/stv0288.c             |    2 +-
+ drivers/media/dvb-frontends/stv0297.c             |    2 +-
+ drivers/media/dvb-frontends/stv0299.c             |    2 +-
+ drivers/media/dvb-frontends/stv0367.c             |    6 +++---
+ drivers/media/dvb-frontends/stv0900_core.c        |    2 +-
+ drivers/media/dvb-frontends/stv090x.c             |    2 +-
+ drivers/media/dvb-frontends/stv6110.c             |    2 +-
+ drivers/media/dvb-frontends/stv6110x.c            |    2 +-
+ drivers/media/dvb-frontends/tda10021.c            |    2 +-
+ drivers/media/dvb-frontends/tda10023.c            |    2 +-
+ drivers/media/dvb-frontends/tda10048.c            |    2 +-
+ drivers/media/dvb-frontends/tda1004x.c            |    4 ++--
+ drivers/media/dvb-frontends/tda10086.c            |    2 +-
+ drivers/media/dvb-frontends/tda665x.c             |    2 +-
+ drivers/media/dvb-frontends/tda8083.c             |    2 +-
+ drivers/media/dvb-frontends/tda8261.c             |    2 +-
+ drivers/media/dvb-frontends/tda826x.c             |    2 +-
+ drivers/media/dvb-frontends/ts2020.c              |    2 +-
+ drivers/media/dvb-frontends/tua6100.c             |    2 +-
+ drivers/media/dvb-frontends/ves1820.c             |    2 +-
+ drivers/media/dvb-frontends/ves1x93.c             |    2 +-
+ drivers/media/dvb-frontends/zl10036.c             |    2 +-
+ drivers/media/dvb-frontends/zl10039.c             |    2 +-
+ drivers/media/dvb-frontends/zl10353.c             |    2 +-
+ drivers/media/pci/bt8xx/dst.c                     |    2 +-
+ drivers/media/pci/bt8xx/dst_ca.c                  |    2 +-
+ drivers/media/tuners/fc0011.c                     |    2 +-
+ drivers/media/tuners/fc0012.c                     |    2 +-
+ drivers/media/tuners/fc0013.c                     |    2 +-
+ drivers/media/tuners/max2165.c                    |    2 +-
+ drivers/media/tuners/mc44s803.c                   |    2 +-
+ drivers/media/tuners/mt2060.c                     |    2 +-
+ drivers/media/tuners/mt2131.c                     |    2 +-
+ drivers/media/tuners/mt2266.c                     |    2 +-
+ drivers/media/tuners/mxl5005s.c                   |    2 +-
+ drivers/media/tuners/qt1010.c                     |    2 +-
+ drivers/media/tuners/tda18218.c                   |    2 +-
+ drivers/media/tuners/xc4000.c                     |    2 +-
+ drivers/media/tuners/xc5000.c                     |    2 +-
+ 103 files changed, 110 insertions(+), 110 deletions(-)
 
-	Hans
+--- a/drivers/media/dvb-frontends/ascot2e.c
++++ b/drivers/media/dvb-frontends/ascot2e.c
+@@ -533,7 +533,7 @@ struct dvb_frontend *ascot2e_attach(stru
+ 		priv->i2c_address, priv->i2c);
+ 	return fe;
+ }
+-EXPORT_SYMBOL(ascot2e_attach);
++EXPORT_SYMBOL_GPL(ascot2e_attach);
+ 
+ MODULE_DESCRIPTION("Sony ASCOT2E terr/cab tuner driver");
+ MODULE_AUTHOR("info@netup.ru");
+--- a/drivers/media/dvb-frontends/atbm8830.c
++++ b/drivers/media/dvb-frontends/atbm8830.c
+@@ -489,7 +489,7 @@ error_out:
+ 	return NULL;
+ 
+ }
+-EXPORT_SYMBOL(atbm8830_attach);
++EXPORT_SYMBOL_GPL(atbm8830_attach);
+ 
+ MODULE_DESCRIPTION("AltoBeam ATBM8830/8831 GB20600 demodulator driver");
+ MODULE_AUTHOR("David T. L. Wong <davidtlwong@gmail.com>");
+--- a/drivers/media/dvb-frontends/au8522_dig.c
++++ b/drivers/media/dvb-frontends/au8522_dig.c
+@@ -879,7 +879,7 @@ error:
+ 	au8522_release_state(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(au8522_attach);
++EXPORT_SYMBOL_GPL(au8522_attach);
+ 
+ static const struct dvb_frontend_ops au8522_ops = {
+ 	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
+--- a/drivers/media/dvb-frontends/bcm3510.c
++++ b/drivers/media/dvb-frontends/bcm3510.c
+@@ -835,7 +835,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(bcm3510_attach);
++EXPORT_SYMBOL_GPL(bcm3510_attach);
+ 
+ static const struct dvb_frontend_ops bcm3510_ops = {
+ 	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
+--- a/drivers/media/dvb-frontends/cx22700.c
++++ b/drivers/media/dvb-frontends/cx22700.c
+@@ -432,4 +432,4 @@ MODULE_DESCRIPTION("Conexant CX22700 DVB
+ MODULE_AUTHOR("Holger Waechtler");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(cx22700_attach);
++EXPORT_SYMBOL_GPL(cx22700_attach);
+--- a/drivers/media/dvb-frontends/cx22702.c
++++ b/drivers/media/dvb-frontends/cx22702.c
+@@ -604,7 +604,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(cx22702_attach);
++EXPORT_SYMBOL_GPL(cx22702_attach);
+ 
+ static const struct dvb_frontend_ops cx22702_ops = {
+ 	.delsys = { SYS_DVBT },
+--- a/drivers/media/dvb-frontends/cx24110.c
++++ b/drivers/media/dvb-frontends/cx24110.c
+@@ -653,4 +653,4 @@ MODULE_DESCRIPTION("Conexant CX24110 DVB
+ MODULE_AUTHOR("Peter Hettkamp");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(cx24110_attach);
++EXPORT_SYMBOL_GPL(cx24110_attach);
+--- a/drivers/media/dvb-frontends/cx24113.c
++++ b/drivers/media/dvb-frontends/cx24113.c
+@@ -590,7 +590,7 @@ error:
+ 
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(cx24113_attach);
++EXPORT_SYMBOL_GPL(cx24113_attach);
+ 
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Activates frontend debugging (default:0)");
+--- a/drivers/media/dvb-frontends/cx24116.c
++++ b/drivers/media/dvb-frontends/cx24116.c
+@@ -1133,7 +1133,7 @@ struct dvb_frontend *cx24116_attach(cons
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
+ }
+-EXPORT_SYMBOL(cx24116_attach);
++EXPORT_SYMBOL_GPL(cx24116_attach);
+ 
+ /*
+  * Initialise or wake up device
+--- a/drivers/media/dvb-frontends/cx24120.c
++++ b/drivers/media/dvb-frontends/cx24120.c
+@@ -305,7 +305,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(cx24120_attach);
++EXPORT_SYMBOL_GPL(cx24120_attach);
+ 
+ static int cx24120_test_rom(struct cx24120_state *state)
+ {
+--- a/drivers/media/dvb-frontends/cx24123.c
++++ b/drivers/media/dvb-frontends/cx24123.c
+@@ -1096,7 +1096,7 @@ error:
+ 
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(cx24123_attach);
++EXPORT_SYMBOL_GPL(cx24123_attach);
+ 
+ static const struct dvb_frontend_ops cx24123_ops = {
+ 	.delsys = { SYS_DVBS },
+--- a/drivers/media/dvb-frontends/cxd2820r_core.c
++++ b/drivers/media/dvb-frontends/cxd2820r_core.c
+@@ -536,7 +536,7 @@ struct dvb_frontend *cxd2820r_attach(con
+ 
+ 	return pdata.get_dvb_frontend(client);
+ }
+-EXPORT_SYMBOL(cxd2820r_attach);
++EXPORT_SYMBOL_GPL(cxd2820r_attach);
+ 
+ static struct dvb_frontend *cxd2820r_get_dvb_frontend(struct i2c_client *client)
+ {
+--- a/drivers/media/dvb-frontends/cxd2841er.c
++++ b/drivers/media/dvb-frontends/cxd2841er.c
+@@ -3920,14 +3920,14 @@ struct dvb_frontend *cxd2841er_attach_s(
+ {
+ 	return cxd2841er_attach(cfg, i2c, SYS_DVBS);
+ }
+-EXPORT_SYMBOL(cxd2841er_attach_s);
++EXPORT_SYMBOL_GPL(cxd2841er_attach_s);
+ 
+ struct dvb_frontend *cxd2841er_attach_t_c(struct cxd2841er_config *cfg,
+ 					struct i2c_adapter *i2c)
+ {
+ 	return cxd2841er_attach(cfg, i2c, 0);
+ }
+-EXPORT_SYMBOL(cxd2841er_attach_t_c);
++EXPORT_SYMBOL_GPL(cxd2841er_attach_t_c);
+ 
+ static const struct dvb_frontend_ops cxd2841er_dvbs_s2_ops = {
+ 	.delsys = { SYS_DVBS, SYS_DVBS2 },
+--- a/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
++++ b/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
+@@ -1950,7 +1950,7 @@ struct dvb_frontend *cxd2880_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(cxd2880_attach);
++EXPORT_SYMBOL_GPL(cxd2880_attach);
+ 
+ MODULE_DESCRIPTION("Sony CXD2880 DVB-T2/T tuner + demod driver");
+ MODULE_AUTHOR("Sony Semiconductor Solutions Corporation");
+--- a/drivers/media/dvb-frontends/dib0070.c
++++ b/drivers/media/dvb-frontends/dib0070.c
+@@ -755,7 +755,7 @@ free_mem:
+ 	fe->tuner_priv = NULL;
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(dib0070_attach);
++EXPORT_SYMBOL_GPL(dib0070_attach);
+ 
+ MODULE_AUTHOR("Patrick Boettcher <patrick.boettcher@posteo.de>");
+ MODULE_DESCRIPTION("Driver for the DiBcom 0070 base-band RF Tuner");
+--- a/drivers/media/dvb-frontends/dib0090.c
++++ b/drivers/media/dvb-frontends/dib0090.c
+@@ -2631,7 +2631,7 @@ struct dvb_frontend *dib0090_register(st
+ 	return NULL;
+ }
+ 
+-EXPORT_SYMBOL(dib0090_register);
++EXPORT_SYMBOL_GPL(dib0090_register);
+ 
+ struct dvb_frontend *dib0090_fw_register(struct dvb_frontend *fe, struct i2c_adapter *i2c, const struct dib0090_config *config)
+ {
+@@ -2657,7 +2657,7 @@ free_mem:
+ 	fe->tuner_priv = NULL;
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(dib0090_fw_register);
++EXPORT_SYMBOL_GPL(dib0090_fw_register);
+ 
+ MODULE_AUTHOR("Patrick Boettcher <patrick.boettcher@posteo.de>");
+ MODULE_AUTHOR("Olivier Grenie <olivier.grenie@parrot.com>");
+--- a/drivers/media/dvb-frontends/dib3000mb.c
++++ b/drivers/media/dvb-frontends/dib3000mb.c
+@@ -815,4 +815,4 @@ MODULE_AUTHOR(DRIVER_AUTHOR);
+ MODULE_DESCRIPTION(DRIVER_DESC);
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(dib3000mb_attach);
++EXPORT_SYMBOL_GPL(dib3000mb_attach);
+--- a/drivers/media/dvb-frontends/dib3000mc.c
++++ b/drivers/media/dvb-frontends/dib3000mc.c
+@@ -935,7 +935,7 @@ error:
+ 	kfree(st);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(dib3000mc_attach);
++EXPORT_SYMBOL_GPL(dib3000mc_attach);
+ 
+ static const struct dvb_frontend_ops dib3000mc_ops = {
+ 	.delsys = { SYS_DVBT },
+--- a/drivers/media/dvb-frontends/dib7000m.c
++++ b/drivers/media/dvb-frontends/dib7000m.c
+@@ -1434,7 +1434,7 @@ error:
+ 	kfree(st);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(dib7000m_attach);
++EXPORT_SYMBOL_GPL(dib7000m_attach);
+ 
+ static const struct dvb_frontend_ops dib7000m_ops = {
+ 	.delsys = { SYS_DVBT },
+--- a/drivers/media/dvb-frontends/dib7000p.c
++++ b/drivers/media/dvb-frontends/dib7000p.c
+@@ -2822,7 +2822,7 @@ void *dib7000p_attach(struct dib7000p_op
+ 
+ 	return ops;
+ }
+-EXPORT_SYMBOL(dib7000p_attach);
++EXPORT_SYMBOL_GPL(dib7000p_attach);
+ 
+ static const struct dvb_frontend_ops dib7000p_ops = {
+ 	.delsys = { SYS_DVBT },
+--- a/drivers/media/dvb-frontends/dib8000.c
++++ b/drivers/media/dvb-frontends/dib8000.c
+@@ -4527,7 +4527,7 @@ void *dib8000_attach(struct dib8000_ops
+ 
+ 	return ops;
+ }
+-EXPORT_SYMBOL(dib8000_attach);
++EXPORT_SYMBOL_GPL(dib8000_attach);
+ 
+ MODULE_AUTHOR("Olivier Grenie <Olivier.Grenie@parrot.com, Patrick Boettcher <patrick.boettcher@posteo.de>");
+ MODULE_DESCRIPTION("Driver for the DiBcom 8000 ISDB-T demodulator");
+--- a/drivers/media/dvb-frontends/dib9000.c
++++ b/drivers/media/dvb-frontends/dib9000.c
+@@ -2546,7 +2546,7 @@ error:
+ 	kfree(st);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(dib9000_attach);
++EXPORT_SYMBOL_GPL(dib9000_attach);
+ 
+ static const struct dvb_frontend_ops dib9000_ops = {
+ 	.delsys = { SYS_DVBT },
+--- a/drivers/media/dvb-frontends/drx39xyj/drxj.c
++++ b/drivers/media/dvb-frontends/drx39xyj/drxj.c
+@@ -12366,7 +12366,7 @@ error:
+ 
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(drx39xxj_attach);
++EXPORT_SYMBOL_GPL(drx39xxj_attach);
+ 
+ static const struct dvb_frontend_ops drx39xxj_ops = {
+ 	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
+--- a/drivers/media/dvb-frontends/drxd_hard.c
++++ b/drivers/media/dvb-frontends/drxd_hard.c
+@@ -2948,7 +2948,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(drxd_attach);
++EXPORT_SYMBOL_GPL(drxd_attach);
+ 
+ MODULE_DESCRIPTION("DRXD driver");
+ MODULE_AUTHOR("Micronas");
+--- a/drivers/media/dvb-frontends/drxk_hard.c
++++ b/drivers/media/dvb-frontends/drxk_hard.c
+@@ -6857,7 +6857,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(drxk_attach);
++EXPORT_SYMBOL_GPL(drxk_attach);
+ 
+ MODULE_DESCRIPTION("DRX-K driver");
+ MODULE_AUTHOR("Ralph Metzler");
+--- a/drivers/media/dvb-frontends/ds3000.c
++++ b/drivers/media/dvb-frontends/ds3000.c
+@@ -859,7 +859,7 @@ struct dvb_frontend *ds3000_attach(const
+ 	ds3000_set_voltage(&state->frontend, SEC_VOLTAGE_OFF);
+ 	return &state->frontend;
+ }
+-EXPORT_SYMBOL(ds3000_attach);
++EXPORT_SYMBOL_GPL(ds3000_attach);
+ 
+ static int ds3000_set_carrier_offset(struct dvb_frontend *fe,
+ 					s32 carrier_offset_khz)
+--- a/drivers/media/dvb-frontends/dvb-pll.c
++++ b/drivers/media/dvb-frontends/dvb-pll.c
+@@ -866,7 +866,7 @@ out:
+ 
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(dvb_pll_attach);
++EXPORT_SYMBOL_GPL(dvb_pll_attach);
+ 
+ 
+ static int
+--- a/drivers/media/dvb-frontends/ec100.c
++++ b/drivers/media/dvb-frontends/ec100.c
+@@ -299,7 +299,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(ec100_attach);
++EXPORT_SYMBOL_GPL(ec100_attach);
+ 
+ static const struct dvb_frontend_ops ec100_ops = {
+ 	.delsys = { SYS_DVBT },
+--- a/drivers/media/dvb-frontends/helene.c
++++ b/drivers/media/dvb-frontends/helene.c
+@@ -1025,7 +1025,7 @@ struct dvb_frontend *helene_attach_s(str
+ 			priv->i2c_address, priv->i2c);
+ 	return fe;
+ }
+-EXPORT_SYMBOL(helene_attach_s);
++EXPORT_SYMBOL_GPL(helene_attach_s);
+ 
+ struct dvb_frontend *helene_attach(struct dvb_frontend *fe,
+ 		const struct helene_config *config,
+@@ -1061,7 +1061,7 @@ struct dvb_frontend *helene_attach(struc
+ 			priv->i2c_address, priv->i2c);
+ 	return fe;
+ }
+-EXPORT_SYMBOL(helene_attach);
++EXPORT_SYMBOL_GPL(helene_attach);
+ 
+ static int helene_probe(struct i2c_client *client,
+ 			const struct i2c_device_id *id)
+--- a/drivers/media/dvb-frontends/horus3a.c
++++ b/drivers/media/dvb-frontends/horus3a.c
+@@ -395,7 +395,7 @@ struct dvb_frontend *horus3a_attach(stru
+ 		priv->i2c_address, priv->i2c);
+ 	return fe;
+ }
+-EXPORT_SYMBOL(horus3a_attach);
++EXPORT_SYMBOL_GPL(horus3a_attach);
+ 
+ MODULE_DESCRIPTION("Sony HORUS3A satellite tuner driver");
+ MODULE_AUTHOR("Sergey Kozlov <serjk@netup.ru>");
+--- a/drivers/media/dvb-frontends/isl6405.c
++++ b/drivers/media/dvb-frontends/isl6405.c
+@@ -141,7 +141,7 @@ struct dvb_frontend *isl6405_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(isl6405_attach);
++EXPORT_SYMBOL_GPL(isl6405_attach);
+ 
+ MODULE_DESCRIPTION("Driver for lnb supply and control ic isl6405");
+ MODULE_AUTHOR("Hartmut Hackmann & Oliver Endriss");
+--- a/drivers/media/dvb-frontends/isl6421.c
++++ b/drivers/media/dvb-frontends/isl6421.c
+@@ -213,7 +213,7 @@ struct dvb_frontend *isl6421_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(isl6421_attach);
++EXPORT_SYMBOL_GPL(isl6421_attach);
+ 
+ MODULE_DESCRIPTION("Driver for lnb supply and control ic isl6421");
+ MODULE_AUTHOR("Andrew de Quincey & Oliver Endriss");
+--- a/drivers/media/dvb-frontends/isl6423.c
++++ b/drivers/media/dvb-frontends/isl6423.c
+@@ -289,7 +289,7 @@ exit:
+ 	fe->sec_priv = NULL;
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(isl6423_attach);
++EXPORT_SYMBOL_GPL(isl6423_attach);
+ 
+ MODULE_DESCRIPTION("ISL6423 SEC");
+ MODULE_AUTHOR("Manu Abraham");
+--- a/drivers/media/dvb-frontends/itd1000.c
++++ b/drivers/media/dvb-frontends/itd1000.c
+@@ -389,7 +389,7 @@ struct dvb_frontend *itd1000_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(itd1000_attach);
++EXPORT_SYMBOL_GPL(itd1000_attach);
+ 
+ MODULE_AUTHOR("Patrick Boettcher <pb@linuxtv.org>");
+ MODULE_DESCRIPTION("Integrant ITD1000 driver");
+--- a/drivers/media/dvb-frontends/ix2505v.c
++++ b/drivers/media/dvb-frontends/ix2505v.c
+@@ -302,7 +302,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(ix2505v_attach);
++EXPORT_SYMBOL_GPL(ix2505v_attach);
+ 
+ module_param_named(debug, ix2505v_debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
+--- a/drivers/media/dvb-frontends/l64781.c
++++ b/drivers/media/dvb-frontends/l64781.c
+@@ -593,4 +593,4 @@ MODULE_DESCRIPTION("LSI L64781 DVB-T Dem
+ MODULE_AUTHOR("Holger Waechtler, Marko Kohtala");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(l64781_attach);
++EXPORT_SYMBOL_GPL(l64781_attach);
+--- a/drivers/media/dvb-frontends/lg2160.c
++++ b/drivers/media/dvb-frontends/lg2160.c
+@@ -1426,7 +1426,7 @@ struct dvb_frontend *lg2160_attach(const
+ 
+ 	return &state->frontend;
+ }
+-EXPORT_SYMBOL(lg2160_attach);
++EXPORT_SYMBOL_GPL(lg2160_attach);
+ 
+ MODULE_DESCRIPTION("LG Electronics LG216x ATSC/MH Demodulator Driver");
+ MODULE_AUTHOR("Michael Krufky <mkrufky@linuxtv.org>");
+--- a/drivers/media/dvb-frontends/lgdt3305.c
++++ b/drivers/media/dvb-frontends/lgdt3305.c
+@@ -1148,7 +1148,7 @@ fail:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(lgdt3305_attach);
++EXPORT_SYMBOL_GPL(lgdt3305_attach);
+ 
+ static const struct dvb_frontend_ops lgdt3304_ops = {
+ 	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
+--- a/drivers/media/dvb-frontends/lgdt3306a.c
++++ b/drivers/media/dvb-frontends/lgdt3306a.c
+@@ -1881,7 +1881,7 @@ fail:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(lgdt3306a_attach);
++EXPORT_SYMBOL_GPL(lgdt3306a_attach);
+ 
+ #ifdef DBG_DUMP
+ 
+--- a/drivers/media/dvb-frontends/lgdt330x.c
++++ b/drivers/media/dvb-frontends/lgdt330x.c
+@@ -928,7 +928,7 @@ struct dvb_frontend *lgdt330x_attach(con
+ 
+ 	return lgdt330x_get_dvb_frontend(client);
+ }
+-EXPORT_SYMBOL(lgdt330x_attach);
++EXPORT_SYMBOL_GPL(lgdt330x_attach);
+ 
+ static const struct dvb_frontend_ops lgdt3302_ops = {
+ 	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
+--- a/drivers/media/dvb-frontends/lgs8gxx.c
++++ b/drivers/media/dvb-frontends/lgs8gxx.c
+@@ -1043,7 +1043,7 @@ error_out:
+ 	return NULL;
+ 
+ }
+-EXPORT_SYMBOL(lgs8gxx_attach);
++EXPORT_SYMBOL_GPL(lgs8gxx_attach);
+ 
+ MODULE_DESCRIPTION("Legend Silicon LGS8913/LGS8GXX DMB-TH demodulator driver");
+ MODULE_AUTHOR("David T. L. Wong <davidtlwong@gmail.com>");
+--- a/drivers/media/dvb-frontends/lnbh25.c
++++ b/drivers/media/dvb-frontends/lnbh25.c
+@@ -173,7 +173,7 @@ struct dvb_frontend *lnbh25_attach(struc
+ 		__func__, priv->i2c_address);
+ 	return fe;
+ }
+-EXPORT_SYMBOL(lnbh25_attach);
++EXPORT_SYMBOL_GPL(lnbh25_attach);
+ 
+ MODULE_DESCRIPTION("ST LNBH25 driver");
+ MODULE_AUTHOR("info@netup.ru");
+--- a/drivers/media/dvb-frontends/lnbp21.c
++++ b/drivers/media/dvb-frontends/lnbp21.c
+@@ -155,7 +155,7 @@ struct dvb_frontend *lnbh24_attach(struc
+ 	return lnbx2x_attach(fe, i2c, override_set, override_clear,
+ 							i2c_addr, LNBH24_TTX);
+ }
+-EXPORT_SYMBOL(lnbh24_attach);
++EXPORT_SYMBOL_GPL(lnbh24_attach);
+ 
+ struct dvb_frontend *lnbp21_attach(struct dvb_frontend *fe,
+ 				struct i2c_adapter *i2c, u8 override_set,
+@@ -164,7 +164,7 @@ struct dvb_frontend *lnbp21_attach(struc
+ 	return lnbx2x_attach(fe, i2c, override_set, override_clear,
+ 							0x08, LNBP21_ISEL);
+ }
+-EXPORT_SYMBOL(lnbp21_attach);
++EXPORT_SYMBOL_GPL(lnbp21_attach);
+ 
+ MODULE_DESCRIPTION("Driver for lnb supply and control ic lnbp21, lnbh24");
+ MODULE_AUTHOR("Oliver Endriss, Igor M. Liplianin");
+--- a/drivers/media/dvb-frontends/lnbp22.c
++++ b/drivers/media/dvb-frontends/lnbp22.c
+@@ -125,7 +125,7 @@ struct dvb_frontend *lnbp22_attach(struc
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(lnbp22_attach);
++EXPORT_SYMBOL_GPL(lnbp22_attach);
+ 
+ MODULE_DESCRIPTION("Driver for lnb supply and control ic lnbp22");
+ MODULE_AUTHOR("Dominik Kuhlen");
+--- a/drivers/media/dvb-frontends/m88ds3103.c
++++ b/drivers/media/dvb-frontends/m88ds3103.c
+@@ -1284,7 +1284,7 @@ struct dvb_frontend *m88ds3103_attach(co
+ 	*tuner_i2c_adapter = pdata.get_i2c_adapter(client);
+ 	return pdata.get_dvb_frontend(client);
+ }
+-EXPORT_SYMBOL(m88ds3103_attach);
++EXPORT_SYMBOL_GPL(m88ds3103_attach);
+ 
+ static const struct dvb_frontend_ops m88ds3103_ops = {
+ 	.delsys = {SYS_DVBS, SYS_DVBS2},
+--- a/drivers/media/dvb-frontends/m88rs2000.c
++++ b/drivers/media/dvb-frontends/m88rs2000.c
+@@ -807,7 +807,7 @@ error:
+ 
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(m88rs2000_attach);
++EXPORT_SYMBOL_GPL(m88rs2000_attach);
+ 
+ MODULE_DESCRIPTION("M88RS2000 DVB-S Demodulator driver");
+ MODULE_AUTHOR("Malcolm Priestley tvboxspy@gmail.com");
+--- a/drivers/media/dvb-frontends/mb86a16.c
++++ b/drivers/media/dvb-frontends/mb86a16.c
+@@ -1851,6 +1851,6 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(mb86a16_attach);
++EXPORT_SYMBOL_GPL(mb86a16_attach);
+ MODULE_LICENSE("GPL");
+ MODULE_AUTHOR("Manu Abraham");
+--- a/drivers/media/dvb-frontends/mb86a20s.c
++++ b/drivers/media/dvb-frontends/mb86a20s.c
+@@ -2089,7 +2089,7 @@ struct dvb_frontend *mb86a20s_attach(con
+ 	dev_info(&i2c->dev, "Detected a Fujitsu mb86a20s frontend\n");
+ 	return &state->frontend;
+ }
+-EXPORT_SYMBOL(mb86a20s_attach);
++EXPORT_SYMBOL_GPL(mb86a20s_attach);
+ 
+ static const struct dvb_frontend_ops mb86a20s_ops = {
+ 	.delsys = { SYS_ISDBT },
+--- a/drivers/media/dvb-frontends/mt312.c
++++ b/drivers/media/dvb-frontends/mt312.c
+@@ -832,7 +832,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(mt312_attach);
++EXPORT_SYMBOL_GPL(mt312_attach);
+ 
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
+--- a/drivers/media/dvb-frontends/mt352.c
++++ b/drivers/media/dvb-frontends/mt352.c
+@@ -593,4 +593,4 @@ MODULE_DESCRIPTION("Zarlink MT352 DVB-T
+ MODULE_AUTHOR("Holger Waechtler, Daniel Mack, Antonio Mancuso");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(mt352_attach);
++EXPORT_SYMBOL_GPL(mt352_attach);
+--- a/drivers/media/dvb-frontends/nxt200x.c
++++ b/drivers/media/dvb-frontends/nxt200x.c
+@@ -1232,5 +1232,5 @@ MODULE_DESCRIPTION("NXT200X (ATSC 8VSB &
+ MODULE_AUTHOR("Kirk Lapray, Michael Krufky, Jean-Francois Thibert, and Taylor Jacob");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(nxt200x_attach);
++EXPORT_SYMBOL_GPL(nxt200x_attach);
+ 
+--- a/drivers/media/dvb-frontends/nxt6000.c
++++ b/drivers/media/dvb-frontends/nxt6000.c
+@@ -621,4 +621,4 @@ MODULE_DESCRIPTION("NxtWave NXT6000 DVB-
+ MODULE_AUTHOR("Florian Schirmer");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(nxt6000_attach);
++EXPORT_SYMBOL_GPL(nxt6000_attach);
+--- a/drivers/media/dvb-frontends/or51132.c
++++ b/drivers/media/dvb-frontends/or51132.c
+@@ -605,4 +605,4 @@ MODULE_AUTHOR("Kirk Lapray");
+ MODULE_AUTHOR("Trent Piepho");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(or51132_attach);
++EXPORT_SYMBOL_GPL(or51132_attach);
+--- a/drivers/media/dvb-frontends/or51211.c
++++ b/drivers/media/dvb-frontends/or51211.c
+@@ -551,5 +551,5 @@ MODULE_DESCRIPTION("Oren OR51211 VSB [pc
+ MODULE_AUTHOR("Kirk Lapray");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(or51211_attach);
++EXPORT_SYMBOL_GPL(or51211_attach);
+ 
+--- a/drivers/media/dvb-frontends/s5h1409.c
++++ b/drivers/media/dvb-frontends/s5h1409.c
+@@ -981,7 +981,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(s5h1409_attach);
++EXPORT_SYMBOL_GPL(s5h1409_attach);
+ 
+ static const struct dvb_frontend_ops s5h1409_ops = {
+ 	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
+--- a/drivers/media/dvb-frontends/s5h1411.c
++++ b/drivers/media/dvb-frontends/s5h1411.c
+@@ -900,7 +900,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(s5h1411_attach);
++EXPORT_SYMBOL_GPL(s5h1411_attach);
+ 
+ static const struct dvb_frontend_ops s5h1411_ops = {
+ 	.delsys = { SYS_ATSC, SYS_DVBC_ANNEX_B },
+--- a/drivers/media/dvb-frontends/s5h1420.c
++++ b/drivers/media/dvb-frontends/s5h1420.c
+@@ -918,7 +918,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(s5h1420_attach);
++EXPORT_SYMBOL_GPL(s5h1420_attach);
+ 
+ static const struct dvb_frontend_ops s5h1420_ops = {
+ 	.delsys = { SYS_DVBS },
+--- a/drivers/media/dvb-frontends/s5h1432.c
++++ b/drivers/media/dvb-frontends/s5h1432.c
+@@ -355,7 +355,7 @@ struct dvb_frontend *s5h1432_attach(cons
+ 
+ 	return &state->frontend;
+ }
+-EXPORT_SYMBOL(s5h1432_attach);
++EXPORT_SYMBOL_GPL(s5h1432_attach);
+ 
+ static const struct dvb_frontend_ops s5h1432_ops = {
+ 	.delsys = { SYS_DVBT },
+--- a/drivers/media/dvb-frontends/s921.c
++++ b/drivers/media/dvb-frontends/s921.c
+@@ -495,7 +495,7 @@ struct dvb_frontend *s921_attach(const s
+ 
+ 	return &state->frontend;
+ }
+-EXPORT_SYMBOL(s921_attach);
++EXPORT_SYMBOL_GPL(s921_attach);
+ 
+ static const struct dvb_frontend_ops s921_ops = {
+ 	.delsys = { SYS_ISDBT },
+--- a/drivers/media/dvb-frontends/si21xx.c
++++ b/drivers/media/dvb-frontends/si21xx.c
+@@ -938,7 +938,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(si21xx_attach);
++EXPORT_SYMBOL_GPL(si21xx_attach);
+ 
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
+--- a/drivers/media/dvb-frontends/sp887x.c
++++ b/drivers/media/dvb-frontends/sp887x.c
+@@ -626,4 +626,4 @@ MODULE_PARM_DESC(debug, "Turn on/off fro
+ MODULE_DESCRIPTION("Spase sp887x DVB-T demodulator driver");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(sp887x_attach);
++EXPORT_SYMBOL_GPL(sp887x_attach);
+--- a/drivers/media/dvb-frontends/stb0899_drv.c
++++ b/drivers/media/dvb-frontends/stb0899_drv.c
+@@ -1638,7 +1638,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(stb0899_attach);
++EXPORT_SYMBOL_GPL(stb0899_attach);
+ MODULE_PARM_DESC(verbose, "Set Verbosity level");
+ MODULE_AUTHOR("Manu Abraham");
+ MODULE_DESCRIPTION("STB0899 Multi-Std frontend");
+--- a/drivers/media/dvb-frontends/stb6000.c
++++ b/drivers/media/dvb-frontends/stb6000.c
+@@ -232,7 +232,7 @@ struct dvb_frontend *stb6000_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(stb6000_attach);
++EXPORT_SYMBOL_GPL(stb6000_attach);
+ 
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
+--- a/drivers/media/dvb-frontends/stb6100.c
++++ b/drivers/media/dvb-frontends/stb6100.c
+@@ -557,7 +557,7 @@ static void stb6100_release(struct dvb_f
+ 	kfree(state);
+ }
+ 
+-EXPORT_SYMBOL(stb6100_attach);
++EXPORT_SYMBOL_GPL(stb6100_attach);
+ MODULE_PARM_DESC(verbose, "Set Verbosity level");
+ 
+ MODULE_AUTHOR("Manu Abraham");
+--- a/drivers/media/dvb-frontends/stv0288.c
++++ b/drivers/media/dvb-frontends/stv0288.c
+@@ -590,7 +590,7 @@ error:
+ 
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(stv0288_attach);
++EXPORT_SYMBOL_GPL(stv0288_attach);
+ 
+ module_param(debug_legacy_dish_switch, int, 0444);
+ MODULE_PARM_DESC(debug_legacy_dish_switch,
+--- a/drivers/media/dvb-frontends/stv0297.c
++++ b/drivers/media/dvb-frontends/stv0297.c
+@@ -710,4 +710,4 @@ MODULE_DESCRIPTION("ST STV0297 DVB-C Dem
+ MODULE_AUTHOR("Dennis Noermann and Andrew de Quincey");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(stv0297_attach);
++EXPORT_SYMBOL_GPL(stv0297_attach);
+--- a/drivers/media/dvb-frontends/stv0299.c
++++ b/drivers/media/dvb-frontends/stv0299.c
+@@ -751,4 +751,4 @@ MODULE_DESCRIPTION("ST STV0299 DVB Demod
+ MODULE_AUTHOR("Ralph Metzler, Holger Waechtler, Peter Schildmann, Felix Domke, Andreas Oberritter, Andrew de Quincey, Kenneth Aafly");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(stv0299_attach);
++EXPORT_SYMBOL_GPL(stv0299_attach);
+--- a/drivers/media/dvb-frontends/stv0367.c
++++ b/drivers/media/dvb-frontends/stv0367.c
+@@ -1750,7 +1750,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(stv0367ter_attach);
++EXPORT_SYMBOL_GPL(stv0367ter_attach);
+ 
+ static int stv0367cab_gate_ctrl(struct dvb_frontend *fe, int enable)
+ {
+@@ -2923,7 +2923,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(stv0367cab_attach);
++EXPORT_SYMBOL_GPL(stv0367cab_attach);
+ 
+ /*
+  * Functions for operation on Digital Devices hardware
+@@ -3344,7 +3344,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(stv0367ddb_attach);
++EXPORT_SYMBOL_GPL(stv0367ddb_attach);
+ 
+ MODULE_PARM_DESC(debug, "Set debug");
+ MODULE_PARM_DESC(i2c_debug, "Set i2c debug");
+--- a/drivers/media/dvb-frontends/stv0900_core.c
++++ b/drivers/media/dvb-frontends/stv0900_core.c
+@@ -1957,7 +1957,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(stv0900_attach);
++EXPORT_SYMBOL_GPL(stv0900_attach);
+ 
+ MODULE_PARM_DESC(debug, "Set debug");
+ 
+--- a/drivers/media/dvb-frontends/stv090x.c
++++ b/drivers/media/dvb-frontends/stv090x.c
+@@ -5073,7 +5073,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(stv090x_attach);
++EXPORT_SYMBOL_GPL(stv090x_attach);
+ 
+ static const struct i2c_device_id stv090x_id_table[] = {
+ 	{"stv090x", 0},
+--- a/drivers/media/dvb-frontends/stv6110.c
++++ b/drivers/media/dvb-frontends/stv6110.c
+@@ -427,7 +427,7 @@ struct dvb_frontend *stv6110_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(stv6110_attach);
++EXPORT_SYMBOL_GPL(stv6110_attach);
+ 
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
+--- a/drivers/media/dvb-frontends/stv6110x.c
++++ b/drivers/media/dvb-frontends/stv6110x.c
+@@ -469,7 +469,7 @@ const struct stv6110x_devctl *stv6110x_a
+ 	dev_info(&stv6110x->i2c->dev, "Attaching STV6110x\n");
+ 	return stv6110x->devctl;
+ }
+-EXPORT_SYMBOL(stv6110x_attach);
++EXPORT_SYMBOL_GPL(stv6110x_attach);
+ 
+ static const struct i2c_device_id stv6110x_id_table[] = {
+ 	{"stv6110x", 0},
+--- a/drivers/media/dvb-frontends/tda10021.c
++++ b/drivers/media/dvb-frontends/tda10021.c
+@@ -513,4 +513,4 @@ MODULE_DESCRIPTION("Philips TDA10021 DVB
+ MODULE_AUTHOR("Ralph Metzler, Holger Waechtler, Markus Schulz");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(tda10021_attach);
++EXPORT_SYMBOL_GPL(tda10021_attach);
+--- a/drivers/media/dvb-frontends/tda10023.c
++++ b/drivers/media/dvb-frontends/tda10023.c
+@@ -594,4 +594,4 @@ MODULE_DESCRIPTION("Philips TDA10023 DVB
+ MODULE_AUTHOR("Georg Acher, Hartmut Birr");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(tda10023_attach);
++EXPORT_SYMBOL_GPL(tda10023_attach);
+--- a/drivers/media/dvb-frontends/tda10048.c
++++ b/drivers/media/dvb-frontends/tda10048.c
+@@ -1138,7 +1138,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(tda10048_attach);
++EXPORT_SYMBOL_GPL(tda10048_attach);
+ 
+ static const struct dvb_frontend_ops tda10048_ops = {
+ 	.delsys = { SYS_DVBT },
+--- a/drivers/media/dvb-frontends/tda1004x.c
++++ b/drivers/media/dvb-frontends/tda1004x.c
+@@ -1378,5 +1378,5 @@ MODULE_DESCRIPTION("Philips TDA10045H &
+ MODULE_AUTHOR("Andrew de Quincey & Robert Schlabbach");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(tda10045_attach);
+-EXPORT_SYMBOL(tda10046_attach);
++EXPORT_SYMBOL_GPL(tda10045_attach);
++EXPORT_SYMBOL_GPL(tda10046_attach);
+--- a/drivers/media/dvb-frontends/tda10086.c
++++ b/drivers/media/dvb-frontends/tda10086.c
+@@ -764,4 +764,4 @@ MODULE_DESCRIPTION("Philips TDA10086 DVB
+ MODULE_AUTHOR("Andrew de Quincey");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(tda10086_attach);
++EXPORT_SYMBOL_GPL(tda10086_attach);
+--- a/drivers/media/dvb-frontends/tda665x.c
++++ b/drivers/media/dvb-frontends/tda665x.c
+@@ -227,7 +227,7 @@ struct dvb_frontend *tda665x_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(tda665x_attach);
++EXPORT_SYMBOL_GPL(tda665x_attach);
+ 
+ MODULE_DESCRIPTION("TDA665x driver");
+ MODULE_AUTHOR("Manu Abraham");
+--- a/drivers/media/dvb-frontends/tda8083.c
++++ b/drivers/media/dvb-frontends/tda8083.c
+@@ -481,4 +481,4 @@ MODULE_DESCRIPTION("Philips TDA8083 DVB-
+ MODULE_AUTHOR("Ralph Metzler, Holger Waechtler");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(tda8083_attach);
++EXPORT_SYMBOL_GPL(tda8083_attach);
+--- a/drivers/media/dvb-frontends/tda8261.c
++++ b/drivers/media/dvb-frontends/tda8261.c
+@@ -188,7 +188,7 @@ exit:
+ 	return NULL;
+ }
+ 
+-EXPORT_SYMBOL(tda8261_attach);
++EXPORT_SYMBOL_GPL(tda8261_attach);
+ 
+ MODULE_AUTHOR("Manu Abraham");
+ MODULE_DESCRIPTION("TDA8261 8PSK/QPSK Tuner");
+--- a/drivers/media/dvb-frontends/tda826x.c
++++ b/drivers/media/dvb-frontends/tda826x.c
+@@ -164,7 +164,7 @@ struct dvb_frontend *tda826x_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(tda826x_attach);
++EXPORT_SYMBOL_GPL(tda826x_attach);
+ 
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
+--- a/drivers/media/dvb-frontends/ts2020.c
++++ b/drivers/media/dvb-frontends/ts2020.c
+@@ -525,7 +525,7 @@ struct dvb_frontend *ts2020_attach(struc
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(ts2020_attach);
++EXPORT_SYMBOL_GPL(ts2020_attach);
+ 
+ /*
+  * We implement own regmap locking due to legacy DVB attach which uses frontend
+--- a/drivers/media/dvb-frontends/tua6100.c
++++ b/drivers/media/dvb-frontends/tua6100.c
+@@ -186,7 +186,7 @@ struct dvb_frontend *tua6100_attach(stru
+ 	fe->tuner_priv = priv;
+ 	return fe;
+ }
+-EXPORT_SYMBOL(tua6100_attach);
++EXPORT_SYMBOL_GPL(tua6100_attach);
+ 
+ MODULE_DESCRIPTION("DVB tua6100 driver");
+ MODULE_AUTHOR("Andrew de Quincey");
+--- a/drivers/media/dvb-frontends/ves1820.c
++++ b/drivers/media/dvb-frontends/ves1820.c
+@@ -434,4 +434,4 @@ MODULE_DESCRIPTION("VLSI VES1820 DVB-C D
+ MODULE_AUTHOR("Ralph Metzler, Holger Waechtler");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(ves1820_attach);
++EXPORT_SYMBOL_GPL(ves1820_attach);
+--- a/drivers/media/dvb-frontends/ves1x93.c
++++ b/drivers/media/dvb-frontends/ves1x93.c
+@@ -540,4 +540,4 @@ MODULE_DESCRIPTION("VLSI VES1x93 DVB-S D
+ MODULE_AUTHOR("Ralph Metzler");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(ves1x93_attach);
++EXPORT_SYMBOL_GPL(ves1x93_attach);
+--- a/drivers/media/dvb-frontends/zl10036.c
++++ b/drivers/media/dvb-frontends/zl10036.c
+@@ -496,7 +496,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(zl10036_attach);
++EXPORT_SYMBOL_GPL(zl10036_attach);
+ 
+ module_param_named(debug, zl10036_debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
+--- a/drivers/media/dvb-frontends/zl10039.c
++++ b/drivers/media/dvb-frontends/zl10039.c
+@@ -295,7 +295,7 @@ error:
+ 	kfree(state);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(zl10039_attach);
++EXPORT_SYMBOL_GPL(zl10039_attach);
+ 
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off frontend debugging (default:off).");
+--- a/drivers/media/dvb-frontends/zl10353.c
++++ b/drivers/media/dvb-frontends/zl10353.c
+@@ -665,4 +665,4 @@ MODULE_DESCRIPTION("Zarlink ZL10353 DVB-
+ MODULE_AUTHOR("Chris Pascoe");
+ MODULE_LICENSE("GPL");
+ 
+-EXPORT_SYMBOL(zl10353_attach);
++EXPORT_SYMBOL_GPL(zl10353_attach);
+--- a/drivers/media/pci/bt8xx/dst.c
++++ b/drivers/media/pci/bt8xx/dst.c
+@@ -1722,7 +1722,7 @@ struct dst_state *dst_attach(struct dst_
+ 	return state;				/*	Manu (DST is a card not a frontend)	*/
+ }
+ 
+-EXPORT_SYMBOL(dst_attach);
++EXPORT_SYMBOL_GPL(dst_attach);
+ 
+ static const struct dvb_frontend_ops dst_dvbt_ops = {
+ 	.delsys = { SYS_DVBT },
+--- a/drivers/media/pci/bt8xx/dst_ca.c
++++ b/drivers/media/pci/bt8xx/dst_ca.c
+@@ -668,7 +668,7 @@ struct dvb_device *dst_ca_attach(struct
+ 	return NULL;
+ }
+ 
+-EXPORT_SYMBOL(dst_ca_attach);
++EXPORT_SYMBOL_GPL(dst_ca_attach);
+ 
+ MODULE_DESCRIPTION("DST DVB-S/T/C Combo CA driver");
+ MODULE_AUTHOR("Manu Abraham");
+--- a/drivers/media/tuners/fc0011.c
++++ b/drivers/media/tuners/fc0011.c
+@@ -499,7 +499,7 @@ struct dvb_frontend *fc0011_attach(struc
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(fc0011_attach);
++EXPORT_SYMBOL_GPL(fc0011_attach);
+ 
+ MODULE_DESCRIPTION("Fitipower FC0011 silicon tuner driver");
+ MODULE_AUTHOR("Michael Buesch <m@bues.ch>");
+--- a/drivers/media/tuners/fc0012.c
++++ b/drivers/media/tuners/fc0012.c
+@@ -495,7 +495,7 @@ err:
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(fc0012_attach);
++EXPORT_SYMBOL_GPL(fc0012_attach);
+ 
+ MODULE_DESCRIPTION("Fitipower FC0012 silicon tuner driver");
+ MODULE_AUTHOR("Hans-Frieder Vogt <hfvogt@gmx.net>");
+--- a/drivers/media/tuners/fc0013.c
++++ b/drivers/media/tuners/fc0013.c
+@@ -608,7 +608,7 @@ struct dvb_frontend *fc0013_attach(struc
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(fc0013_attach);
++EXPORT_SYMBOL_GPL(fc0013_attach);
+ 
+ MODULE_DESCRIPTION("Fitipower FC0013 silicon tuner driver");
+ MODULE_AUTHOR("Hans-Frieder Vogt <hfvogt@gmx.net>");
+--- a/drivers/media/tuners/max2165.c
++++ b/drivers/media/tuners/max2165.c
+@@ -410,7 +410,7 @@ struct dvb_frontend *max2165_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(max2165_attach);
++EXPORT_SYMBOL_GPL(max2165_attach);
+ 
+ MODULE_AUTHOR("David T. L. Wong <davidtlwong@gmail.com>");
+ MODULE_DESCRIPTION("Maxim MAX2165 silicon tuner driver");
+--- a/drivers/media/tuners/mc44s803.c
++++ b/drivers/media/tuners/mc44s803.c
+@@ -356,7 +356,7 @@ error:
+ 	kfree(priv);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(mc44s803_attach);
++EXPORT_SYMBOL_GPL(mc44s803_attach);
+ 
+ MODULE_AUTHOR("Jochen Friedrich");
+ MODULE_DESCRIPTION("Freescale MC44S803 silicon tuner driver");
+--- a/drivers/media/tuners/mt2060.c
++++ b/drivers/media/tuners/mt2060.c
+@@ -440,7 +440,7 @@ struct dvb_frontend * mt2060_attach(stru
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(mt2060_attach);
++EXPORT_SYMBOL_GPL(mt2060_attach);
+ 
+ static int mt2060_probe(struct i2c_client *client,
+ 			const struct i2c_device_id *id)
+--- a/drivers/media/tuners/mt2131.c
++++ b/drivers/media/tuners/mt2131.c
+@@ -274,7 +274,7 @@ struct dvb_frontend * mt2131_attach(stru
+ 	fe->tuner_priv = priv;
+ 	return fe;
+ }
+-EXPORT_SYMBOL(mt2131_attach);
++EXPORT_SYMBOL_GPL(mt2131_attach);
+ 
+ MODULE_AUTHOR("Steven Toth");
+ MODULE_DESCRIPTION("Microtune MT2131 silicon tuner driver");
+--- a/drivers/media/tuners/mt2266.c
++++ b/drivers/media/tuners/mt2266.c
+@@ -336,7 +336,7 @@ struct dvb_frontend * mt2266_attach(stru
+ 	mt2266_calibrate(priv);
+ 	return fe;
+ }
+-EXPORT_SYMBOL(mt2266_attach);
++EXPORT_SYMBOL_GPL(mt2266_attach);
+ 
+ MODULE_AUTHOR("Olivier DANET");
+ MODULE_DESCRIPTION("Microtune MT2266 silicon tuner driver");
+--- a/drivers/media/tuners/mxl5005s.c
++++ b/drivers/media/tuners/mxl5005s.c
+@@ -4114,7 +4114,7 @@ struct dvb_frontend *mxl5005s_attach(str
+ 	fe->tuner_priv = state;
+ 	return fe;
+ }
+-EXPORT_SYMBOL(mxl5005s_attach);
++EXPORT_SYMBOL_GPL(mxl5005s_attach);
+ 
+ MODULE_DESCRIPTION("MaxLinear MXL5005S silicon tuner driver");
+ MODULE_AUTHOR("Steven Toth");
+--- a/drivers/media/tuners/qt1010.c
++++ b/drivers/media/tuners/qt1010.c
+@@ -437,7 +437,7 @@ struct dvb_frontend * qt1010_attach(stru
+ 	fe->tuner_priv = priv;
+ 	return fe;
+ }
+-EXPORT_SYMBOL(qt1010_attach);
++EXPORT_SYMBOL_GPL(qt1010_attach);
+ 
+ MODULE_DESCRIPTION("Quantek QT1010 silicon tuner driver");
+ MODULE_AUTHOR("Antti Palosaari <crope@iki.fi>");
+--- a/drivers/media/tuners/tda18218.c
++++ b/drivers/media/tuners/tda18218.c
+@@ -336,7 +336,7 @@ struct dvb_frontend *tda18218_attach(str
+ 
+ 	return fe;
+ }
+-EXPORT_SYMBOL(tda18218_attach);
++EXPORT_SYMBOL_GPL(tda18218_attach);
+ 
+ MODULE_DESCRIPTION("NXP TDA18218HN silicon tuner driver");
+ MODULE_AUTHOR("Antti Palosaari <crope@iki.fi>");
+--- a/drivers/media/tuners/xc4000.c
++++ b/drivers/media/tuners/xc4000.c
+@@ -1744,7 +1744,7 @@ fail2:
+ 	xc4000_release(fe);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(xc4000_attach);
++EXPORT_SYMBOL_GPL(xc4000_attach);
+ 
+ MODULE_AUTHOR("Steven Toth, Davide Ferri");
+ MODULE_DESCRIPTION("Xceive xc4000 silicon tuner driver");
+--- a/drivers/media/tuners/xc5000.c
++++ b/drivers/media/tuners/xc5000.c
+@@ -1460,7 +1460,7 @@ fail:
+ 	xc5000_release(fe);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(xc5000_attach);
++EXPORT_SYMBOL_GPL(xc5000_attach);
+ 
+ MODULE_AUTHOR("Steven Toth");
+ MODULE_DESCRIPTION("Xceive xc5000 silicon tuner driver");
 
-> +
-> +	int (*m2m_calc_out_len)(struct fsl_asrc_pair *pair, int input_buffer_length);
-> +	int (*m2m_get_maxburst)(u8 dir, struct fsl_asrc_pair *pair);
-> +	int (*m2m_pair_suspend)(struct fsl_asrc_pair *pair);
-> +	int (*m2m_pair_resume)(struct fsl_asrc_pair *pair);
-> +	int (*m2m_set_ratio_mod)(struct fsl_asrc_pair *pair, int val);
-> +
-> +	unsigned int (*get_output_fifo_size)(struct fsl_asrc_pair *pair);
->  	size_t pair_priv_size;
->  
->  	void *private;
 
