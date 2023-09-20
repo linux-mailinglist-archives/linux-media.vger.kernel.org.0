@@ -2,117 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBB0C7A7F7F
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 780157A7FC6
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 14:30:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235856AbjITM12 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 08:27:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48438 "EHLO
+        id S235943AbjITMaV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 08:30:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235892AbjITM1X (ORCPT
+        with ESMTP id S235947AbjITMaU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 08:27:23 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 407E1E8
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:27:17 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-52c88a03f99so7918424a12.2
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695212835; x=1695817635; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Hv2thh1H9tA97kPGliYAF+DpZy/mFhBKmC18f7g/H+8=;
-        b=gTBJ71bQIeIVolDEZJIODZhuDnrWLqps9SijgyLrQpTQpXNDl9CsRDpdrRglaEzyXt
-         ekH0Q8wd2rJ4Owa7f9X2BbRnw/qbqbDOsaumPnTlh/g4zKTuSCenS0zQ14CWkARLV/Uk
-         0EYW7KYQ051zL1sXCEDJCdLP124OkKiOiJtwLwDkHvM9vLx9wkUve5bR19cRE0YTCypp
-         YJwpbky8d4Vh2Q/Bs0m06gPnjkZNIg69iSKvc5e9zCVdyvrfkakTOjt8xM+aclIPoqif
-         IKs/KvlvQHpXnJjGkI41sWdEgDtY4LwEgnsKFNbSqi1SpxN1aUbuu51YzbAhIrYDE21V
-         NmSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695212835; x=1695817635;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hv2thh1H9tA97kPGliYAF+DpZy/mFhBKmC18f7g/H+8=;
-        b=UGOfNuUbiaiOFoKMvS1t7wBLA1gqUhrehTb5iGMWpVv0di7R4euQ0QbOGbLsoH6hry
-         kConarvjkMXZzKQNryn4g5PZhjyepQk6mYwmgkFutCYlr1NW9hrGtCT4pQaEhcnGIJ11
-         ERLXhVRCdNIlbt7Gh8cCzPEFigh+0wXhwfxc2sEmdG9okki8e2SZavW/Vpaui0Ii4HNm
-         o6ZvcOTrheJCLnMYIcY912HGHZsvAJ9lIL+AdwMjqQHF7oq27kFUzXrL6APhfod63ka1
-         kL8Pg/hDWuE+beKm7A8OfKMspBHfQdLqQTKKT25/Nmm0LoquZCfQPtDXyR1ISDe+6EFG
-         2DLA==
-X-Gm-Message-State: AOJu0Yw4jRUJ7F2MIFPx1+cA2v9ufYaPkooqnKpcUNrKBcJIw2WHnmYA
-        3aZui/6T1VZMGpOdFxZ+e0e+Zg==
-X-Google-Smtp-Source: AGHT+IGhilnDj/sus5JakUZtSo3PYNc+I+MMntBHtlUMM1+I1hu3v/I4zTxsAW6rKgXqdzXJYZ8m6w==
-X-Received: by 2002:a17:906:2ce:b0:9a5:846d:d81f with SMTP id 14-20020a17090602ce00b009a5846dd81fmr1726172ejk.17.1695212835687;
-        Wed, 20 Sep 2023 05:27:15 -0700 (PDT)
-Received: from [172.20.24.238] (static-212-193-78-212.thenetworkfactory.nl. [212.78.193.212])
-        by smtp.gmail.com with ESMTPSA id z18-20020a1709060ad200b009887f4e0291sm9210859ejf.27.2023.09.20.05.27.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Sep 2023 05:27:14 -0700 (PDT)
-Message-ID: <817a2b0c-cc90-e109-0b8d-4283f0ac2610@linaro.org>
-Date:   Wed, 20 Sep 2023 14:27:14 +0200
+        Wed, 20 Sep 2023 08:30:20 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1D4E99
+        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 05:30:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695213014; x=1726749014;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=dZtPLs+7QP8uZkACpZEDrJodFfGF4YJDRhkYruC/fU0=;
+  b=Z7uNyv8RDm0Jye/0uUd7hD0rVqkle3onQzkeD15V0xOiK2/0MJW8G2XQ
+   Y5djl6d4bzOaxao1Ea21nDt/vYHnzOqOL5YzdqQUTozHaxHyskDd6dtjT
+   HNXNxYG3RS18cZppSY6NbjTwOnnxok3sapFAEXPtvGKiGrUjCipPDH79a
+   OpnE7ejQU38VIS+8EORKzHsYlj5/VdscO/oVBzPHQKihaBLvDHniP4KbX
+   MZ7Z21ikqqWueDJsh587gD5pdZhnzJW3bVoFbTy1zwsEcr8UeMLpTeSez
+   HqHbbu4bcEGvG6w5jly+HcoX5owNcqC9DWrElVy0ZYMGI6s1VW6HAwpIB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="446677913"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
+   d="scan'208";a="446677913"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 05:30:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="740192132"
+X-IronPort-AV: E=Sophos;i="6.03,162,1694761200"; 
+   d="scan'208";a="740192132"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2023 05:30:12 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id C5EAD120B86;
+        Wed, 20 Sep 2023 15:30:09 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1qiwJt-00A0vJ-0X;
+        Wed, 20 Sep 2023 15:28:41 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        "Alessandrelli, Daniele" <daniele.alessandrelli@intel.com>,
+        "Murphy, Paul J" <paul.j.murphy@intel.com>
+Subject: [PATCH v2 1/1] media: ov9282: Assign maintenance to Dave
+Date:   Wed, 20 Sep 2023 15:28:31 +0300
+Message-Id: <20230920122831.2386821-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230919111540.2344757-2-sakari.ailus@linux.intel.com>
+References: <20230919111540.2344757-2-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3 3/3] media: exynos4-is: fimc-is: replace duplicate pmu
- node with phandle
-Content-Language: en-US
-To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230815060739.30160-1-krzysztof.kozlowski@linaro.org>
- <20230815060739.30160-3-krzysztof.kozlowski@linaro.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230815060739.30160-3-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/08/2023 08:07, Krzysztof Kozlowski wrote:
-> Devicetree for the FIMC IS camera included duplicated PMU node as its
-> child like:
-> 
->   soc@0 {
->     system-controller@10020000 { ... }; // Real PMU
-> 
->     camera@11800000 {
->       fimc-is@12000000 {
->         // FIMC IS camera node
->         pmu@10020000 {
->           reg = <0x10020000 0x3000>; // Fake PMU node
->         };
->       };
->     };
->   };
-> 
-> This is not a correct representation of the hardware.  Mapping the PMU
-> (Power Management Unit) IO memory should be via syscon-like phandle
-> (samsung,pmu-syscon, already used for other drivers), not by duplicating
-> "pmu" Devicetree node inside the FIMC IS.  Backward compatibility is
-> preserved.
+The current maintainers won't be looking after this driver anymore. Dave
+offered to take over the driver, assign maintenance to him.
 
-Hey Mauro,
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ MAINTAINERS | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-This patchset is waiting a bit. Patchwork:
-https://patchwork.linuxtv.org/project/linux-media/list/?series=11051
-
-This is a cleanup which blocks further DTS cleanup changes. Any comments
-from your side?
-
-Best regards,
-Krzysztof
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 980b141856e1..d03a1428080f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15862,8 +15862,7 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
+ F:	drivers/media/i2c/ov8858.c
+ 
+ OMNIVISION OV9282 SENSOR DRIVER
+-M:	Paul J. Murphy <paul.j.murphy@intel.com>
+-M:	Daniele Alessandrelli <daniele.alessandrelli@intel.com>
++M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+-- 
+2.39.2
 
