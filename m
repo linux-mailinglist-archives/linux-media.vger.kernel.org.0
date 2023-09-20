@@ -2,74 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0C5B7A7473
-	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 09:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D70A37A7486
+	for <lists+linux-media@lfdr.de>; Wed, 20 Sep 2023 09:44:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233794AbjITHlj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Sep 2023 03:41:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53990 "EHLO
+        id S233886AbjITHoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Sep 2023 03:44:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233756AbjITHli (ORCPT
+        with ESMTP id S233894AbjITHoP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Sep 2023 03:41:38 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B99EC9
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 00:41:32 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-417d6e83ce2so4789191cf.0
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 00:41:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695195690; x=1695800490; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iP+e5yTNMQ0UK6TWKcNmH7iV1dhFExt2WXPYDJ8BwIE=;
-        b=fYO3jWvt+6OWUb1+YG4NJdKQUPFgZq793kY4KorbtNrOFczZ5KKvEgL+gOZjeHyy3X
-         vK1rPv4LfnMTJg2QwmPLNYQw6/uv2nLrX9inot2aWU1Lc62gE0IPjOjiJwNx6Wc9QaQq
-         BtGNjUVcH7B8PM1xHUBQEFD7Mq+SCZRxcFxtk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695195690; x=1695800490;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iP+e5yTNMQ0UK6TWKcNmH7iV1dhFExt2WXPYDJ8BwIE=;
-        b=Bbqd/O2Z0bFyXQIkwS/FXzHeQoCTCOv4PocJ343tl0oW8HgaY9hOHpKLCqeEos+9Yk
-         QEuVXkZHMXV6Qmnb491XU9LulIO+ensrsDtEiMeucBTJPdItRdyD3uUWkDb1pATEDu1X
-         XxtE3re3S5F/3ke96/XQcuK45k9s+fOsDDysk5rkI0QFYTw8JGquhfMNDsyCmJ74Ne3Q
-         EZkGAOjZNBQL0T+67w+IN1QU1vqhAJ78toVWYBKKwX99362/0+z6Ov9N6sL2RiBcr1K2
-         AjOvrYpxBdAZnFJceyadVzn9pQqaCNMJLXGarvDRozeeQYHBmSCPvVzhNg/T0W6prSvl
-         yrLA==
-X-Gm-Message-State: AOJu0Yx0VOGrXuFt5gbEI5/3+IEQke8sfpY9Xox38dC0/O6ATyZoHf6Z
-        vum7RbE0CNdYyUoyvHn49/lrBbKSrMAMuGv/UKU=
-X-Google-Smtp-Source: AGHT+IFi0fUkE993in0l4uXAhWbu7OcVvVVFBpry6L5X4NSVd+H0WqS1+Gn98fUQb7VOug8RFQhxVw==
-X-Received: by 2002:ac8:5944:0:b0:403:a9d3:91e3 with SMTP id 4-20020ac85944000000b00403a9d391e3mr2457094qtz.32.1695195690603;
-        Wed, 20 Sep 2023 00:41:30 -0700 (PDT)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com. [209.85.219.52])
-        by smtp.gmail.com with ESMTPSA id kc1-20020a05622a44c100b00417dd1dd0adsm190233qtb.87.2023.09.20.00.41.29
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Sep 2023 00:41:29 -0700 (PDT)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-65631aa8b93so31000396d6.3
-        for <linux-media@vger.kernel.org>; Wed, 20 Sep 2023 00:41:29 -0700 (PDT)
-X-Received: by 2002:a0c:f8c9:0:b0:62f:f6ed:857e with SMTP id
- h9-20020a0cf8c9000000b0062ff6ed857emr1539387qvo.55.1695195688994; Wed, 20 Sep
- 2023 00:41:28 -0700 (PDT)
+        Wed, 20 Sep 2023 03:44:15 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F9CFD3;
+        Wed, 20 Sep 2023 00:44:07 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:def9:8f6c:3807:7d89] (unknown [IPv6:2a01:e0a:120:3210:def9:8f6c:3807:7d89])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 47BA36602173;
+        Wed, 20 Sep 2023 08:44:05 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1695195845;
+        bh=eSYDs+qZU32e2E7cB12pTV5zRWbHto0dzuV5YKjfLWo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Xalbv7WF546UBvMJ/uGdPNld1qXxWIZmEZBQNskDrTzN3Kc+mJm2K9bvp4I5jtKtk
+         xh/X+B7ucMdy42dseAz54rg4P7I9YJA/3FoQItb9vwQqHPyUNl7fc+dshVakekBHXb
+         QcP1y4mgDUSV5tY2k7TpkbMndUSxWS785NAY9lNPZHJ6xrOwqoVA0akSgEhrXfyBKv
+         Zwaxq58FH2PeIV5GsXJ0NbMHwbSwRC/aW/RyPQ+MIUv1c82tP51tb2XKxB3Y308Gqb
+         6NwPnaeD8HFNYScL6HU9hUz1inEGA8duZz+ac3Je4mIy3XMK6cx+laUynATVkjms8Q
+         FvmXdUFWloOmA==
+Message-ID: <f6332d70-4392-3eee-edaa-0f7e4308fa67@collabora.com>
+Date:   Wed, 20 Sep 2023 09:44:03 +0200
 MIME-Version: 1.0
-References: <20230914145812.12851-1-hui.fang@nxp.com>
-In-Reply-To: <20230914145812.12851-1-hui.fang@nxp.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 20 Sep 2023 16:41:08 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CcN+TiVd8vhMxQRbmrJuBGYwL5d6C0fKzOy4ujjM_JMQ@mail.gmail.com>
-Message-ID: <CAAFQd5CcN+TiVd8vhMxQRbmrJuBGYwL5d6C0fKzOy4ujjM_JMQ@mail.gmail.com>
-Subject: Re: [PATCH] MA-21654 Use dma_alloc_pages in vb2_dma_sg_alloc_compacted
-To:     Fang Hui <hui.fang@nxp.com>, Christoph Hellwig <hch@lst.de>,
-        Robin Murphy <robin.murphy@arm.com>
-Cc:     m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        anle.pan@nxp.com, xuegang.liu@nxp.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v7 16/49] media: verisilicon: postproc: Fix down scale
+ test
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-17-benjamin.gaignard@collabora.com>
+ <cbfef598-8faa-40e6-8dc2-a1efd03f9560@xs4all.nl>
+Content-Language: en-US
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <cbfef598-8faa-40e6-8dc2-a1efd03f9560@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -78,131 +66,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fang,
 
-On Thu, Sep 14, 2023 at 4:41=E2=80=AFPM Fang Hui <hui.fang@nxp.com> wrote:
+Le 19/09/2023 à 13:16, Hans Verkuil a écrit :
+> On 14/09/2023 15:32, Benjamin Gaignard wrote:
+>> Do not allow down scaling if the source buffer resolution is
+>> smaller  than destination one.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> Fixes: fbb6c848dd89 ("media: destage Hantro VPU driver")
+> Is this really a fix? I gather that this relies on "VP9 resolution change without
+> doing stream off/on" support, and support for that is added by these patches.
 >
-> On system with "CONFIG_ZONE_DMA32=3Dy", if the allocated physical address=
- is
-
-First of all, thanks a lot for the patch! Please check my review comments b=
-elow.
-
-Is CONFIG_ZONE_DMA32 really the factor that triggers the problem? My
-understanding was that the problem was that the hardware has 32-bit
-DMA, but the system has physical memory at addresses beyond the first
-4G.
-
-> greater than 4G, swiotlb will be used. It will lead below defects.
-> 1) Impact performance due to an extra memcpy.
-> 2) May meet below error due to swiotlb_max_mapping_size()
->    is 256K (IO_TLB_SIZE * IO_TLB_SEGSIZE).
-> "swiotlb buffer is full (sz: 393216 bytes), total 65536 (slots),
-> used 2358 (slots)"
+> Adding the Fixes tag would cause stable maintainers to queue this patch up for
+> older kernels, but I don't think that is needed here at all.
 >
-> To avoid those defects, use dma_alloc_pages() instead of alloc_pages()
-> in vb2_dma_sg_alloc_compacted().
+> And related I also think that this really does not belong to this patch series.
 >
-> Suggested-by: Tomasz Figa <tfiga@chromium.org>
-> Signed-off-by: Fang Hui <hui.fang@nxp.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+> As I understand it, patch 13/49 extends the verisilicon driver to support more
+> than 32 buffers, so that one makes sense in the context of this series.
 >
-
-Please remove MA-21654 from the subject and prefix it with the right
-tags for the path (`git log drivers/media/common/videobuf2` should be
-helpful to find the right one).
-
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/=
-media/common/videobuf2/videobuf2-dma-sg.c
-> index 28f3fdfe23a2..b938582c68f4 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -58,7 +58,7 @@ struct vb2_dma_sg_buf {
->  static void vb2_dma_sg_put(void *buf_priv);
+> But the other verisilicon patches appear to be unrelated and instead add a new
+> feature, and I don't believe it relates to this series at all.
 >
->  static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg_buf *buf,
-> -               gfp_t gfp_flags)
-> +               gfp_t gfp_flags, struct device *dev)
+> If I am right, then please post this as a separate series, possibly mentioning
+> that it sits on top of this series.
 
-FWIW buf->dev already points to the right device - although we would
-need to move the assignment in vb2_dma_sg_alloc() to a place higher in
-that function before calling this function.
+Marek has send the same patch and got it merged in stage branch:
+https://patchwork.kernel.org/project/linux-media/patch/20230824013935.303132-1-marex@denx.de/
+so I can skip it now.
 
->  {
->         unsigned int last_page =3D 0;
->         unsigned long size =3D buf->size;
-> @@ -67,6 +67,7 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg=
-_buf *buf,
->                 struct page *pages;
->                 int order;
->                 int i;
-> +               dma_addr_t dma_handle;
+The other patches are needed to enable VP9 dynamic resolution change, which is the feature
+I target with this series.
+2 patches fix chroma / motion vector offset issues.
+1 allow to change the resolution while stream.
+
+Regards,
+Benjamin
+
 >
->                 order =3D get_order(size);
->                 /* Don't over allocate*/
-> @@ -75,8 +76,9 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg=
-_buf *buf,
+> Regards,
 >
->                 pages =3D NULL;
->                 while (!pages) {
-> -                       pages =3D alloc_pages(GFP_KERNEL | __GFP_ZERO |
-> -                                       __GFP_NOWARN | gfp_flags, order);
-> +                       pages =3D dma_alloc_pages(dev, PAGE_SIZE << order=
-, &dma_handle,
-
-Hmm, when I was proposing dma_alloc_pages(), I missed that it returns
-a DMA handle. That on its own can be handled by saving the returned
-handles somewhere in struct vb2_dma_sg_buf, but there is a bigger
-problem - the function would actually create a mapping if the DMA
-device requires some mapping management (e.g. is behind an IOMMU),
-which is undesirable, because we create the mapping ourselves below
-anyway...
-
-@Christoph Hellwig @Robin Murphy  I need your thoughts on this as
-well. Would it make sense to have a variant of dma_alloc_pages() that
-only allocates the pages, but doesn't perform the mapping? (Or a flag
-that tells the implementation to skip creating a mapping.)
-
-> +                               DMA_BIDIRECTIONAL,
-
-The right value should be already available in buf->dma_dir.
-
-> +                               GFP_KERNEL | __GFP_ZERO | __GFP_NOWARN | =
-gfp_flags);
->                         if (pages)
->                                 break;
+> 	Hans
 >
-> @@ -96,6 +98,7 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg=
-_buf *buf,
->         }
+>> ---
+>>   drivers/media/platform/verisilicon/hantro_postproc.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+>> index e624cd98f41b..77d8ecfbe12f 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+>> @@ -107,7 +107,7 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
+>>   
+>>   static int down_scale_factor(struct hantro_ctx *ctx)
+>>   {
+>> -	if (ctx->src_fmt.width == ctx->dst_fmt.width)
+>> +	if (ctx->src_fmt.width <= ctx->dst_fmt.width)
+>>   		return 0;
+>>   
+>>   	return DIV_ROUND_CLOSEST(ctx->src_fmt.width, ctx->dst_fmt.width);
 >
->         return 0;
-> +
-
-Unnecessary blank line.
-
->  }
->
->  static void *vb2_dma_sg_alloc(struct vb2_buffer *vb, struct device *dev,
-> @@ -130,7 +133,7 @@ static void *vb2_dma_sg_alloc(struct vb2_buffer *vb, =
-struct device *dev,
->         if (!buf->pages)
->                 goto fail_pages_array_alloc;
->
-> -       ret =3D vb2_dma_sg_alloc_compacted(buf, vb->vb2_queue->gfp_flags)=
-;
-> +       ret =3D vb2_dma_sg_alloc_compacted(buf, vb->vb2_queue->gfp_flags,=
- dev);
->         if (ret)
->                 goto fail_pages_alloc;
->
-> --
-> 2.17.1
->
-
-We also need to use dma_free_pages() to free the memory.
-
-Best regards,
-Tomasz
