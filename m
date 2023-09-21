@@ -2,243 +2,342 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A43277A99AF
-	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 20:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A869F7A9A2B
+	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 20:36:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbjIUSRO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Sep 2023 14:17:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57676 "EHLO
+        id S229655AbjIUSg7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Sep 2023 14:36:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230412AbjIUSQn (ORCPT
+        with ESMTP id S229574AbjIUSgh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Sep 2023 14:16:43 -0400
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5EFA9D7
-        for <linux-media@vger.kernel.org>; Thu, 21 Sep 2023 10:07:18 -0700 (PDT)
-Received: by mail-il1-x134.google.com with SMTP id e9e14a558f8ab-34fe2814b0dso3942355ab.3
-        for <linux-media@vger.kernel.org>; Thu, 21 Sep 2023 10:07:18 -0700 (PDT)
+        Thu, 21 Sep 2023 14:36:37 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C42D4F925;
+        Thu, 21 Sep 2023 10:15:15 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-532c81b9adbso1431353a12.1;
+        Thu, 21 Sep 2023 10:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695316037; x=1695920837; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uy5T9PYUOt3mNwpfqS7Gt38WpmrbAJ+D4814w5GplsI=;
-        b=BpJyMKCxSSBiG409dxNArnThE5i0SHV56t3Xgdps/vh7kviqTbj1HcCK7aFTPZZmGG
-         tajGi3SEHrrZzCCvTkPsM+MXK1u0hXOo0kWpZzFMGNIaBwIyPhA+a26CMEpCf05Ziqzs
-         2bay1YvoQfKjfkW2uv0CM7VTWze2jnsuxA4dM=
+        d=gmail.com; s=20230601; t=1695316513; x=1695921313; darn=vger.kernel.org;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=do13wE1NZGvZdh+vY8gzmZTIIEx/P59A/WkG5M6tfxM=;
+        b=e5KkzxHFQSgx/+tneHXb5A+CFDPl9D+1i+xG5Jzo1AflZggwZMRD7r1YMP1lv6YN68
+         HVtdDwWR7T/krBSp68EbGU0gmqJ5/j/TxwKLaCdEujz5iVCI6jozMJWTpeX+OYHDEQSi
+         1n9pGMSB2NlEtmo8q3RuXFtG7T9bc5JEz8CjKc9UAoZfMhmrVLhadaiW+S3xF/9CYWrA
+         4KjFA+yOZ5ECt68PgW2LB6v7s9fSBfXqtzcIhDzmO8sQj3HTL6I/6yc4BUNZBwR9ycbC
+         VMCmHRcPoMEfE0ZBU9nxvqbOKkWrFkNriOa2KlfJzKe4waLl3s9O2ZRmlmbERFp2pJte
+         vIjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695316037; x=1695920837;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Uy5T9PYUOt3mNwpfqS7Gt38WpmrbAJ+D4814w5GplsI=;
-        b=Sn1nV92yAg+De+2IxB6slyipnW89ayalv8LP4UxTxoe+fWULn9hDs2J1oh00peJ9R3
-         BivJmPwq8R3SLHFk37jHEzahg72ZSRs4tltbTnsLsMWZIaZThAFLJ2gXUUE4Zv2vNlwg
-         NjXiiDq+ZgnvTXu9iOQlqGy63gkHy/BqXfaBLc6nwVnaNyxj8Fwh05zv158Jw26wSAnt
-         0MVhv8NL1haGoEiBZiixbHYYcPvD/HI4+lC7QuyxPDVNUS+1jYMSwpmPus1oqn2qEnuF
-         8QajnmrMPHadjJPq4I2ZbLPeWYy1R64cV8BhlIcEdfQJ4qdDFImGqcrFT9Fcg4uiAdVu
-         7sLw==
-X-Gm-Message-State: AOJu0YxPRDEAh1RqF72aQpCdQP1WyaaWr3sEFCs+ia/YSvOWuDxmPngT
-        kTZy2sDMi73Vp7A3XKX7g3kss234qMKFv6g9si3RdA==
-X-Google-Smtp-Source: AGHT+IG1DW4Wm/IyBIS+iVacyJOFULOFf05Zh6DsR7cuHzrn4JbkYWeOCTYmV0ije0Q4fxINZcyMIg==
-X-Received: by 2002:a1f:d546:0:b0:495:ba08:79dd with SMTP id m67-20020a1fd546000000b00495ba0879ddmr5698187vkg.5.1695285321859;
-        Thu, 21 Sep 2023 01:35:21 -0700 (PDT)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id cn13-20020a056122428d00b004997b237391sm73177vkb.38.2023.09.21.01.35.20
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Sep 2023 01:35:20 -0700 (PDT)
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-496a2ff7780so313109e0c.2
-        for <linux-media@vger.kernel.org>; Thu, 21 Sep 2023 01:35:20 -0700 (PDT)
-X-Received: by 2002:a05:6102:3c8a:b0:452:b96c:313b with SMTP id
- c10-20020a0561023c8a00b00452b96c313bmr1183738vsv.13.1695285320162; Thu, 21
- Sep 2023 01:35:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695316513; x=1695921313;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=do13wE1NZGvZdh+vY8gzmZTIIEx/P59A/WkG5M6tfxM=;
+        b=YJduwPabirzDdwTH4K5ocLwViDXIu/o5n3ALn03Q1LSYhncAo7sUl/S8/znkQXqSkW
+         xJN4EkRMk5RxSQjC74jENJZvFf2+8GXc5PNfT39M96Tm6LFaT5o55Hs2HlQZLVP0LETF
+         MpIMJhsYBPvGczU2xcBzwEem1eM+lgwlKfZZUJ/pzIY7peW6KfMLT01nEDcyAV2vUKl7
+         OwpHi2AMLUWuUsqqCcjIqFQlfgSwdyJuW+R65cN+K0eGqMphAAOFAJ2e/93hAtUhSoTT
+         AVT3S3JeaieAF0dkMIXv0w6D9nI7K9353PtsmlPIa7yU/1Vmo9v5TuOD723JU+T4hSyE
+         zz1w==
+X-Gm-Message-State: AOJu0YxhD+asVII+Fd7+FnsejgWF+mNJh3HYoHdQn8tOjhYMt6qBMia1
+        b1Z8pVs12N2KrH9WYWPOkk8=
+X-Google-Smtp-Source: AGHT+IEg+Q5URv4DOIHpsqZ5z/w2kZYXI9iypMN4HV1bJyRLV6UA2HEdGUB18nSebb4ZlpNiEyGH2w==
+X-Received: by 2002:a2e:8ed4:0:b0:2bf:fa16:2787 with SMTP id e20-20020a2e8ed4000000b002bffa162787mr3966289ljl.39.1695285568444;
+        Thu, 21 Sep 2023 01:39:28 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id a24-20020a05651c011800b002b9de06f119sm224076ljb.67.2023.09.21.01.39.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 01:39:27 -0700 (PDT)
+Date:   Thu, 21 Sep 2023 11:39:11 +0300
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Heiko =?UTF-8?B?U3Q=?= =?UTF-8?B?w7xibmVy?= <heiko@sntech.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH RFC v2 03/37] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <20230921113911.7799583d@eldfell>
+In-Reply-To: <20230920-kms-hdmi-connector-state-v2-3-17932daddd7d@kernel.org>
+References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
+        <20230920-kms-hdmi-connector-state-v2-3-17932daddd7d@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20230914145812.12851-1-hui.fang@nxp.com> <CAAFQd5CcN+TiVd8vhMxQRbmrJuBGYwL5d6C0fKzOy4ujjM_JMQ@mail.gmail.com>
- <353919fd-932e-5d81-6ac5-7b51117366cd@arm.com>
-In-Reply-To: <353919fd-932e-5d81-6ac5-7b51117366cd@arm.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 21 Sep 2023 17:35:03 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5ABTuR9JSwsd+9mZ3Q66sY9X3NSx+G-8kJ_XRTeT-x9Bw@mail.gmail.com>
-Message-ID: <CAAFQd5ABTuR9JSwsd+9mZ3Q66sY9X3NSx+G-8kJ_XRTeT-x9Bw@mail.gmail.com>
-Subject: Re: [PATCH] MA-21654 Use dma_alloc_pages in vb2_dma_sg_alloc_compacted
-To:     Robin Murphy <robin.murphy@arm.com>, Fang Hui <hui.fang@nxp.com>
-Cc:     Christoph Hellwig <hch@lst.de>, m.szyprowski@samsung.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, anle.pan@nxp.com,
-        xuegang.liu@nxp.com, Sergey Senozhatsky <senozhatsky@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; boundary="Sig_/whNYN0BaPvA7+2Dd9n3sm9G";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,WEIRD_QUOTING autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 21, 2023 at 1:54=E2=80=AFAM Robin Murphy <robin.murphy@arm.com>=
- wrote:
->
-> On 20/09/2023 8:41 am, Tomasz Figa wrote:
-> > Hi Fang,
-> >
-> > On Thu, Sep 14, 2023 at 4:41=E2=80=AFPM Fang Hui <hui.fang@nxp.com> wro=
-te:
-> >>
-> >> On system with "CONFIG_ZONE_DMA32=3Dy", if the allocated physical addr=
-ess is
-> >
-> > First of all, thanks a lot for the patch! Please check my review commen=
-ts below.
-> >
-> > Is CONFIG_ZONE_DMA32 really the factor that triggers the problem? My
-> > understanding was that the problem was that the hardware has 32-bit
-> > DMA, but the system has physical memory at addresses beyond the first
-> > 4G.
->
-> Indeed, without ZONE-DMA32 it would be difficult for any allocator to
-> support this at all. SWIOTLB is merely a symptom - if it wasn't enabled,
-> the dma_map_sgtable() operation would just fail entirely when any page
-> is beyond the device's reach.
->
-> >> greater than 4G, swiotlb will be used. It will lead below defects.
-> >> 1) Impact performance due to an extra memcpy.
-> >> 2) May meet below error due to swiotlb_max_mapping_size()
-> >>     is 256K (IO_TLB_SIZE * IO_TLB_SEGSIZE).
-> >> "swiotlb buffer is full (sz: 393216 bytes), total 65536 (slots),
-> >> used 2358 (slots)"
-> >>
-> >> To avoid those defects, use dma_alloc_pages() instead of alloc_pages()
-> >> in vb2_dma_sg_alloc_compacted().
-> >>
-> >> Suggested-by: Tomasz Figa <tfiga@chromium.org>
-> >> Signed-off-by: Fang Hui <hui.fang@nxp.com>
-> >> ---
-> >>   drivers/media/common/videobuf2/videobuf2-dma-sg.c | 11 +++++++----
-> >>   1 file changed, 7 insertions(+), 4 deletions(-)
-> >>
-> >
-> > Please remove MA-21654 from the subject and prefix it with the right
-> > tags for the path (`git log drivers/media/common/videobuf2` should be
-> > helpful to find the right one).
-> >
-> >> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drive=
-rs/media/common/videobuf2/videobuf2-dma-sg.c
-> >> index 28f3fdfe23a2..b938582c68f4 100644
-> >> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> >> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> >> @@ -58,7 +58,7 @@ struct vb2_dma_sg_buf {
-> >>   static void vb2_dma_sg_put(void *buf_priv);
-> >>
-> >>   static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg_buf *buf,
-> >> -               gfp_t gfp_flags)
-> >> +               gfp_t gfp_flags, struct device *dev)
-> >
-> > FWIW buf->dev already points to the right device - although we would
-> > need to move the assignment in vb2_dma_sg_alloc() to a place higher in
-> > that function before calling this function.
-> >
-> >>   {
-> >>          unsigned int last_page =3D 0;
-> >>          unsigned long size =3D buf->size;
-> >> @@ -67,6 +67,7 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma=
-_sg_buf *buf,
-> >>                  struct page *pages;
-> >>                  int order;
-> >>                  int i;
-> >> +               dma_addr_t dma_handle;
-> >>
-> >>                  order =3D get_order(size);
-> >>                  /* Don't over allocate*/
-> >> @@ -75,8 +76,9 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma=
-_sg_buf *buf,
-> >>
-> >>                  pages =3D NULL;
-> >>                  while (!pages) {
-> >> -                       pages =3D alloc_pages(GFP_KERNEL | __GFP_ZERO =
-|
-> >> -                                       __GFP_NOWARN | gfp_flags, orde=
-r);
-> >> +                       pages =3D dma_alloc_pages(dev, PAGE_SIZE << or=
-der, &dma_handle,
-> >
-> > Hmm, when I was proposing dma_alloc_pages(), I missed that it returns
-> > a DMA handle. That on its own can be handled by saving the returned
-> > handles somewhere in struct vb2_dma_sg_buf, but there is a bigger
-> > problem - the function would actually create a mapping if the DMA
-> > device requires some mapping management (e.g. is behind an IOMMU),
-> > which is undesirable, because we create the mapping ourselves below
-> > anyway...
-> >
-> > @Christoph Hellwig @Robin Murphy  I need your thoughts on this as
-> > well. Would it make sense to have a variant of dma_alloc_pages() that
-> > only allocates the pages, but doesn't perform the mapping? (Or a flag
-> > that tells the implementation to skip creating a mapping.)
->
-> As I mentioned before, I think it might make the most sense to make the
-> whole thing into a "proper" dma_alloc_sgtable() function, which can then
-> be used with dma_sync_sgtable_*() as dma_alloc_pages() is used with
-> dma_sync_single_*() (and then dma_alloc_noncontiguous() clearly falls as
-> the special in-between case).
->
+--Sig_/whNYN0BaPvA7+2Dd9n3sm9G
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Okay, so that is the same thing that I was proposing from the
-beginning of the original thread that reported the swiotlb issues.
-Somehow I got convinced that it wasn't well received. Thanks for
-clarifying!
+On Wed, 20 Sep 2023 16:35:18 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Then it sounds like we just need someone to implement it?
+> The i915 driver has a property to force the RGB range of an HDMI output.
+> The vc4 driver then implemented the same property with the same
+> semantics. KWin has support for it, and a PR for mutter is also there to
+> support it.
+>=20
+> Both drivers implementing the same property with the same semantics,
+> plus the userspace having support for it, is proof enough that it's
+> pretty much a de-facto standard now and we can provide helpers for it.
+>=20
+> Let's plumb it into the newly created HDMI connector.
+>=20
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  Documentation/gpu/kms-properties.csv      |  1 -
+>  drivers/gpu/drm/drm_atomic.c              |  5 +++
+>  drivers/gpu/drm/drm_atomic_state_helper.c | 17 +++++++
+>  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
+>  drivers/gpu/drm/drm_connector.c           | 74 +++++++++++++++++++++++++=
+++++++
+>  include/drm/drm_connector.h               | 39 ++++++++++++++++
+>  6 files changed, 139 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms=
+-properties.csv
+> index 0f9590834829..caef14c532d4 100644
+> --- a/Documentation/gpu/kms-properties.csv
+> +++ b/Documentation/gpu/kms-properties.csv
+> @@ -17,7 +17,6 @@ Owner Module/Drivers,Group,Property Name,Type,Property =
+Values,Object attached,De
+>  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xfffff=
+fff",Connector,property to suggest an X offset for a connector
+>  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Connec=
+tor,property to suggest an Y offset for a connector
+>  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Conn=
+ector,TDB
+> -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limi=
+ted 16:235"" }",Connector,"When this property is set to Limited 16:235 and =
+CTM is set, the hardware will be programmed with the result of the multipli=
+cation of CTM by the limited range matrix to ensure the pixels normally in =
+the range 0..1.0 are remapped to the range 16/255..235/255."
 
-Let me CC +Sergey Senozhatsky for visibility as well.
+Hi,
 
-Best regards,
-Tomasz
+have a look at this old doc for the property, and...
 
-> Thanks,
-> Robin.
->
-> >> +                               DMA_BIDIRECTIONAL,
-> >
-> > The right value should be already available in buf->dma_dir.
-> >
-> >> +                               GFP_KERNEL | __GFP_ZERO | __GFP_NOWARN=
- | gfp_flags);
-> >>                          if (pages)
-> >>                                  break;
-> >>
-> >> @@ -96,6 +98,7 @@ static int vb2_dma_sg_alloc_compacted(struct vb2_dma=
-_sg_buf *buf,
-> >>          }
-> >>
-> >>          return 0;
-> >> +
-> >
-> > Unnecessary blank line.
-> >
-> >>   }
-> >>
-> >>   static void *vb2_dma_sg_alloc(struct vb2_buffer *vb, struct device *=
-dev,
-> >> @@ -130,7 +133,7 @@ static void *vb2_dma_sg_alloc(struct vb2_buffer *v=
-b, struct device *dev,
-> >>          if (!buf->pages)
-> >>                  goto fail_pages_array_alloc;
-> >>
-> >> -       ret =3D vb2_dma_sg_alloc_compacted(buf, vb->vb2_queue->gfp_fla=
-gs);
-> >> +       ret =3D vb2_dma_sg_alloc_compacted(buf, vb->vb2_queue->gfp_fla=
-gs, dev);
-> >>          if (ret)
-> >>                  goto fail_pages_alloc;
-> >>
-> >> --
-> >> 2.17.1
-> >>
-> >
-> > We also need to use dma_free_pages() to free the memory.
-> >
-> > Best regards,
-> > Tomasz
+>  ,,=E2=80=9Caudio=E2=80=9D,ENUM,"{ ""force-dvi"", ""off"", ""auto"", ""on=
+"" }",Connector,TBD
+>  ,SDVO-TV,=E2=80=9Cmode=E2=80=9D,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NTSC_4=
+43"", ""PAL_B"" } etc.",Connector,TBD
+>  ,,"""left_margin""",RANGE,"Min=3D0, Max=3D SDVO dependent",Connector,TBD
+
+...
+
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index d9a7e101e4e5..b45471d540ac 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1174,6 +1174,29 @@ static const u32 dp_colorspaces =3D
+>  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
+>  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
+> =20
+> +static const struct drm_prop_enum_list broadcast_rgb_names[] =3D {
+> +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
+> +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
+> +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
+> +};
+> +
+> +/*
+> + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDMI =
+connector RGB broadcast selection
+> + * @broadcast_rgb: Broadcast RGB selection to compute name of
+> + *
+> + * Returns: the name of the Broadcast RGB selection, or NULL if the type
+> + * is not valid.
+> + */
+> +const char *
+> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb br=
+oadcast_rgb)
+> +{
+> +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
+> +		return NULL;
+> +
+> +	return broadcast_rgb_names[broadcast_rgb].name;
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
+> +
+>  /**
+>   * DOC: standard connector properties
+>   *
+> @@ -1640,6 +1663,24 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector=
+_property);
+>  /**
+>   * DOC: HDMI connector properties
+>   *
+> + * Broadcast RGB (HDMI Specific):
+> + *      Indicates the RGB Range (Full vs Limited) used.
+> + *
+> + *      The value of this property can be one of the following:
+> + *
+> + *      Automatic:
+> + *              RGB Range is selected automatically based on the mode
+> + *              according to the HDMI specifications.
+> + *
+> + *      Full:
+> + *              Full RGB Range is forced.
+> + *
+> + *      Limited 16:235:
+> + *              Limited RGB Range is forced.
+> + *
+> + *      Drivers can set up this property by calling
+> + *      drm_connector_attach_broadcast_rgb_property().
+
+...compare it to this. There is one crucial detail lost: setting this
+property does two or three things: it clips conversion input values to
+[0.0, 1.0] range, programs a conversion matrix to convert full-range
+RGB to destination RGB, and sends infoframes to indicate the chosen
+destination RGB.
+
+The distinction is important, because use cases like PLUGE calibration
+(Rec. ITU-R BT.814-4) rely on indicating limited range while pixel
+values are still able to carry sub-black values. Other procedures might
+also want to use super-whites. This is impossible with the existing
+"Broadcast RGB" property, but that is a different matter.
+
+The old doc didn't exactly say it sets the infoframe fields either, but
+I presume it does.
+
+I feel the documentation needs to be much more explicit here.
+
+> + *
+>   * content type (HDMI specific):
+>   *	Indicates content type setting to be used in HDMI infoframes to indic=
+ate
+>   *	content type for the external device, so that it adjusts its display
+> @@ -2500,6 +2541,39 @@ int drm_connector_attach_hdr_output_metadata_prope=
+rty(struct drm_connector *conn
+>  }
+>  EXPORT_SYMBOL(drm_connector_attach_hdr_output_metadata_property);
+> =20
+> +/**
+> + * drm_connector_attach_broadcast_rgb_property - attach "Broadcast RGB" =
+property
+> + * @connector: connector to attach max bpc property on.
+
+"max bpc" pasta.
+
+> + *
+> + * This is used to add support for forcing the RGB range on a connector
+> + *
+> + * Returns:
+> + * Zero on success, negative errno on failure.
+> + */
+> +int drm_connector_attach_broadcast_rgb_property(struct drm_connector *co=
+nnector)
+> +{
+> +	struct drm_device *dev =3D connector->dev;
+> +	struct drm_property *prop;
+> +
+> +	prop =3D connector->broadcast_rgb_property;
+> +	if (!prop) {
+> +		prop =3D drm_property_create_enum(dev, DRM_MODE_PROP_ENUM,
+> +						"Broadcast RGB",
+> +						broadcast_rgb_names,
+> +						ARRAY_SIZE(broadcast_rgb_names));
+> +		if (!prop)
+> +			return -EINVAL;
+> +
+> +		connector->broadcast_rgb_property =3D prop;
+> +	}
+> +
+> +	drm_object_attach_property(&connector->base, prop,
+> +				   DRM_HDMI_BROADCAST_RGB_AUTO);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_connector_attach_broadcast_rgb_property);
+> +
+>  /**
+>   * drm_connector_attach_colorspace_property - attach "Colorspace" proper=
+ty
+>   * @connector: connector to attach the property on.
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 5961f2ad48b1..fdcf64ab91a9 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -368,6 +368,33 @@ enum drm_panel_orientation {
+>  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+>  };
+> =20
+> +/**
+> + * enum drm_hdmi_broadcast_rgb - Broadcast RGB Selection for a @drm_hdmi=
+_connector
+> + *
+> + * This enum is used to track broadcast RGB selection. There are no
+> + * separate #defines for the uapi!
+
+Why the "no separate defines" comment? That's the norm.
+
+The KMS property UAPI works by string names for enum values. Some enum
+properties might expose C enums for the values, but that is an
+exception that cannot be fixed due to stable UAPI.
+
+
+Thanks,
+pq
+
+> + */
+> +enum drm_hdmi_broadcast_rgb {
+> +	/**
+> +	 * @DRM_HDMI_BROADCAST_RGB_AUTO: The RGB range is selected
+> +	 * automatically based on the mode.
+> +	 */
+> +	DRM_HDMI_BROADCAST_RGB_AUTO,
+> +
+> +	/**
+> +	 * @DRM_HDMI_BROADCAST_RGB_FULL: Full range RGB is forced.
+> +	 */
+> +	DRM_HDMI_BROADCAST_RGB_FULL,
+> +
+> +	/**
+> +	 * @DRM_HDMI_BROADCAST_RGB_LIMITED: Limited range RGB is forced.
+> +	 */
+> +	DRM_HDMI_BROADCAST_RGB_LIMITED,
+> +};
+
+--Sig_/whNYN0BaPvA7+2Dd9n3sm9G
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmUMAS8ACgkQI1/ltBGq
+qqc3XA/9ECTVC9T0gCqODWNk5wpTe/rrNuuHwqZsSzh3lDAK8NrTGSnuIuMXWGSj
+vljtNwo3HH3V9o/dn5AsgBH6W2TQkFAeth05KqFVSXbcNO4eNSNNxmFlWl+fZ8HA
+ePTbRN2FWZ1FWujVDZEWBetPxs3a662dH7YOjZrhh6dMxU0PbgKgOaUVoUrimRht
+Lh3VJUfi3utYySd2kHSqO7/yaT8M7hC2wVfSk1OcD3PNb9w6ntBMAfzDQ/Nubo6V
+nNGZsB+DrKkSYa7q7LDienXuonsPyVpLw9e90tZJcHmzD6gUYDymEoTdy4rv6u2N
+Gn2kTUbPFPCNlEuBpe0lQhRrTJcl2oqF19zllvRSrEgwBX1c8PSx8C6RUlqd0l7c
+btRB6rNODtr52ySQLOHWUjaQ/xAT8pbswadOilUFRJFrNJHSkXxR2Ij21L7TbLpb
+KstqX3IAk33IVQzafw5fdXfofU/PvUvLiFYJV/5nsbSeU409buZu+p7kCjvNaG5R
+385N6MTELzTD5fjvZn7OtAjdmsRlb2opYASo5vU9F4zw/NqDUFEqzRj3IeOZ7SAe
+orEitPwAzPSsS4+6D4bJbzutcvHLpScQ8go7iZzeY/idr2BcsCkpNGlDZ89uk6Lu
+wIH7tiRHk8r/2akYDa2Sl1zPnU/ELxUrbbWCWyjJSeE1CF5LZpc=
+=A8/v
+-----END PGP SIGNATURE-----
+
+--Sig_/whNYN0BaPvA7+2Dd9n3sm9G--
