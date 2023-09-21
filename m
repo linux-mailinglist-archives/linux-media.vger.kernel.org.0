@@ -2,99 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF9017A9B02
-	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 20:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6914F7A9906
+	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 20:10:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbjIUSw5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Sep 2023 14:52:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46522 "EHLO
+        id S229906AbjIUSKm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Sep 2023 14:10:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbjIUSwm (ORCPT
+        with ESMTP id S229512AbjIUSKi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Sep 2023 14:52:42 -0400
-Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com [IPv6:2607:f8b0:4864:20::a2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 569C890F36;
-        Thu, 21 Sep 2023 10:47:30 -0700 (PDT)
-Received: by mail-vk1-xa2e.google.com with SMTP id 71dfb90a1353d-49970221662so463548e0c.0;
-        Thu, 21 Sep 2023 10:47:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695318449; x=1695923249; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2QMJzQRVdpXl092C0YB+p9u+FvBSdDJvGwaFoHe9mXs=;
-        b=GW5mu62j5GAI8vx+EUr37uPb2r6AqNVp61yF0br8XOte7zKmB0/kPBFQGwR4LGVQKi
-         EjfufBC0Lyq2lmGiHbOoNFbcxsvSOb9266c8nMSaUWme1J7QHknyYlgCK0H1ndyNOSDB
-         fA+3TMwN7Syd9tHw8Uv08c/THQX7TY8a+4cLO1MmVygOBnQlRSOKw1iEeN3yFQvb7AWS
-         XFUhgH/Ka5UbrqC3oyZLxwmthJF05wP1FSO8pVilIEOC+W4Z59cUN+O2FuhPjv3hR+v2
-         mcY465v9Lv0/Eqj9vJauSf5cJ6Wpu0b09jHCgLckqMDaaKeyvhS8lAFF2IcohtYWkGtQ
-         zRNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695318449; x=1695923249;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2QMJzQRVdpXl092C0YB+p9u+FvBSdDJvGwaFoHe9mXs=;
-        b=cfv+VjYkfHrs+fWjptct3o4+YYe9k8KR/R+115hzrOT/QI6q8/xHDJveSQk0UeZLly
-         oaSQpzrzq9aqOolVa3c+ch//D5SK27rY1wTYjMRgvPr2o1VkKZMFA1D5B+wLw0QGsfvJ
-         V6FHmH2uepBq6KoyYekxkeErFVEdFoYeBEjiQOAIkfwzi24lozC5ZLx4C/85aCOa2S9S
-         4D+Q8fNCSuGomlm2hPpjMeY26hkPsObhyF6Ym3cmj2tO5sgGRXl1YruXSvf2bVGBoX/G
-         h+Z/nIf4eaWB4e5BjvPP+PCJdEVJYaRpKtdx1aYSw/1LB8zpiAftkpaaVnUfkVVa4xUs
-         2BKA==
-X-Gm-Message-State: AOJu0Yxo+m/RlCNMCAbgNssFdfD8zmmuj6M6uCgatoRjbdW/kNzS1Wcy
-        omwlnJAgQQGx9EVzoL4pKdsP12Yuq7aDp+miLJwiIZgG
-X-Google-Smtp-Source: AGHT+IEQIBnn00pB2IJpNVNOufGxL6gAIwGGykOexSbWRjQHbZV1E1O5Pn75njZHId7nUUnh90Ubb2uF3bofkKYX24k=
-X-Received: by 2002:a67:e2d7:0:b0:451:64e:4645 with SMTP id
- i23-20020a67e2d7000000b00451064e4645mr5954736vsm.12.1695302660371; Thu, 21
- Sep 2023 06:24:20 -0700 (PDT)
+        Thu, 21 Sep 2023 14:10:38 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D59785D3D;
+        Thu, 21 Sep 2023 10:37:53 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF7DC4E74B;
+        Thu, 21 Sep 2023 13:48:08 +0000 (UTC)
+Message-ID: <13b47528-153d-417d-8fe3-0288aa4d1003@xs4all.nl>
+Date:   Thu, 21 Sep 2023 15:48:06 +0200
 MIME-Version: 1.0
-References: <20230920022812.601800-1-milkfafa@gmail.com> <20230920022812.601800-8-milkfafa@gmail.com>
- <fb74f6b8-3139-4652-b36a-1de396d0ca23@xs4all.nl>
-In-Reply-To: <fb74f6b8-3139-4652-b36a-1de396d0ca23@xs4all.nl>
-From:   Kun-Fa Lin <milkfafa@gmail.com>
-Date:   Thu, 21 Sep 2023 21:24:09 +0800
-Message-ID: <CADnNmFp9meVx5MMbCcvjSQaMv12K7j=_kB_ajJi5GoYEWegZcg@mail.gmail.com>
-Subject: Re: [PATCH v15 7/7] media: nuvoton: Add driver for NPCM video capture
- and encoding engine
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     mchehab@kernel.org, avifishman70@gmail.com, tmaimon77@gmail.com,
-        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
-        benjaminfair@google.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        kwliu@nuvoton.com, kflin@nuvoton.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
+ entries
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-46-benjamin.gaignard@collabora.com>
+ <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
+ <20b6b93e-eef8-3d7b-a3c2-795f220059d4@collabora.com>
+ <470682b4-c14b-4237-bc46-fddfdd085026@xs4all.nl>
+ <31f298ec-6280-d21b-3d8a-c7bf1c9c0c30@collabora.com>
+ <b10a7414-b710-4fb9-a72d-e2d7eff2616d@xs4all.nl>
+ <aa649adf-8faf-801b-f6bd-d4a4760e040f@collabora.com>
+ <a6a6da68-d9f2-44d3-9741-aa2cf83fac6d@xs4all.nl>
+ <c8b7db47-3875-a10b-8d81-a0b3dcbc564a@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <c8b7db47-3875-a10b-8d81-a0b3dcbc564a@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On 21/09/2023 14:46, Benjamin Gaignard wrote:
+> 
+> Le 21/09/2023 à 14:13, Hans Verkuil a écrit :
+>> On 21/09/2023 14:05, Benjamin Gaignard wrote:
+>>> Le 21/09/2023 à 12:24, Hans Verkuil a écrit :
+>>>> On 21/09/2023 11:28, Benjamin Gaignard wrote:
+>>>>> Le 20/09/2023 à 16:56, Hans Verkuil a écrit :
+>>>>>> On 20/09/2023 16:30, Benjamin Gaignard wrote:
+>>>>>> <snip>
+>>>>>>
+>>>>>>>>>          num_buffers = min_t(unsigned int, num_buffers,
+>>>>>>>>>                      q->max_allowed_buffers - vb2_get_num_buffers(q));
+>>>>>>>>>      -    first_index = vb2_get_num_buffers(q);
+>>>>>>>>> +    first_index = bitmap_find_next_zero_area(q->bufs_map, q->max_allowed_buffers,
+>>>>>>>>> +                         0, num_buffers, 0);
+>>>>>>>>>            if (first_index >= q->max_allowed_buffers)
+>>>>>>>>>              return 0;
+>>>>>>>>> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>>>>>>>>>        struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
+>>>>>>>>>      {
+>>>>>>>>> -    if (index < q->num_buffers)
+>>>>>>>>> +    if (!q->bufs_map || !q->bufs)
+>>>>>>>>> +        return NULL;
+>>>>>>>> I don't think this can ever happen.
+>>>>>>> I got kernel crash without them.
+>>>>>>> I will keep them.
+>>>>>> What is the backtrace? How can this happen? It feels wrong that this can be
+>>>>>> called with a vb2_queue that apparently is not properly initialized.
+>>>>> I have this log when adding dump_stack() in vb2_get_buffer() if !q->bufs_bitmap:
+>>>>>
+>>>>> [   18.924627] Call trace:
+>>>>> [   18.927090]  dump_backtrace+0x94/0xec
+>>>>> [   18.930787]  show_stack+0x18/0x24
+>>>>> [   18.934137]  dump_stack_lvl+0x48/0x60
+>>>>> [   18.937833]  dump_stack+0x18/0x24
+>>>>> [   18.941166]  __vb2_queue_cancel+0x23c/0x2f0
+>>>>> [   18.945365]  vb2_core_queue_release+0x24/0x6c
+>>>>> [   18.949740]  vb2_queue_release+0x10/0x1c
+>>>>> [   18.953677]  v4l2_m2m_ctx_release+0x20/0x40
+>>>>> [   18.957892]  hantro_release+0x20/0x54
+>>>>> [   18.961584]  v4l2_release+0x74/0xec
+>>>>> [   18.965110]  __fput+0xb4/0x274
+>>>>> [   18.968205]  __fput_sync+0x50/0x5c
+>>>>> [   18.971626]  __arm64_sys_close+0x38/0x7c
+>>>>> [   18.975562]  invoke_syscall+0x48/0x114
+>>>>> [   18.979329]  el0_svc_common.constprop.0+0xc0/0xe0
+>>>>> [   18.984068]  do_el0_svc+0x1c/0x28
+>>>>> [   18.987402]  el0_svc+0x40/0xe8
+>>>>> [   18.990470]  el0t_64_sync_handler+0x100/0x12c
+>>>>> [   18.994842]  el0t_64_sync+0x190/0x194
+>>>>>
+>>>>> This happen at boot time when hantro driver is open and close without other actions.
+>>>> Ah, now I see the problem. q->bufs and q->bufs_map are allocated in
+>>>> vb2_core_create_bufs and vb2_core_reqbufs, but they should be allocated
+>>>> in vb2_queue_init: that's the counterpart of vb2_core_queue_release.
+>>>>
+>>>> With that change you shouldn't have to check for q->bufs/bufs_map anymore.
+>>> It is a better solution but even like this vb2_core_queue_release() is called
+>>> at least 2 times on the same vivid queue and without testing q->bufs_bitmap
+>>> makes kernel crash.
+>> Do you have a stacktrace for that? Perhaps vb2_core_queue_release should check
+>> for q->bufs/q->bufs_map and return if those are NULL. But it could also be a
+>> bug that it is called twice, it just was never noticed because it was harmless
+>> before.
+> 
+> I have added some printk to log that when running test-media on vivid:
+> 
+> [  130.497426] vb2_core_queue_init queue cap-0000000050d195ab allocate q->bufs 00000000dc2c15ed and q->bufs_bitmap 000000008173fc5a
+> ...
+> [  130.733967] vb2_core_queue_release queue cap-0000000050d195ab release q->bufs and q->bufs_bitmap
+> [  133.866345] vb2_get_buffer queue cap-0000000050d195ab q->bufs_bitmap is NULL
+> [  133.873454] CPU: 1 PID: 321 Comm: v4l2-ctl Not tainted 6.6.0-rc1+ #542
+> [  133.879997] Hardware name: NXP i.MX8MQ EVK (DT)
+> [  133.884536] Call trace:
+> [  133.886988]  dump_backtrace+0x94/0xec
+> [  133.890673]  show_stack+0x18/0x24
+> [  133.894002]  dump_stack_lvl+0x48/0x60
+> [  133.897681]  dump_stack+0x18/0x24
+> [  133.901009]  __vb2_queue_cancel+0x250/0x31c
+> [  133.905209]  vb2_core_queue_release+0x24/0x88
+> [  133.909580]  _vb2_fop_release+0xb0/0xbc
+> [  133.913428]  vb2_fop_release+0x2c/0x58
+> [  133.917187]  vivid_fop_release+0x80/0x388 [vivid]
+> [  133.921948]  v4l2_release+0x74/0xec
+> [  133.925452]  __fput+0xb4/0x274
+> [  133.928520]  __fput_sync+0x50/0x5c
+> [  133.931934]  __arm64_sys_close+0x38/0x7c
+> [  133.935868]  invoke_syscall+0x48/0x114
+> [  133.939630]  el0_svc_common.constprop.0+0x40/0xe0
+> [  133.944349]  do_el0_svc+0x1c/0x28
+> [  133.947677]  el0_svc+0x40/0xe8
+> [  133.950741]  el0t_64_sync_handler+0x100/0x12c
+> [  133.955109]  el0t_64_sync+0x190/0x194
+> 
+> and later I have a call to reqbufs on the same queue without call to vb2_core_queue_init before
+> 
+> [   58.696812] __vb2_queue_alloc queue cap- 0000000050d195abq->bufs_bitmap is NULL
+> [   58.704148] CPU: 1 PID: 319 Comm: v4l2-compliance Not tainted 6.6.0-rc1+ #544
+> [   58.711291] Hardware name: NXP i.MX8MQ EVK (DT)
+> [   58.715826] Call trace:
+> [   58.718274]  dump_backtrace+0x94/0xec
+> [   58.721951]  show_stack+0x18/0x24
+> [   58.725274]  dump_stack_lvl+0x48/0x60
+> [   58.728946]  dump_stack+0x18/0x24
+> [   58.732268]  __vb2_queue_alloc+0x4a8/0x50c
+> [   58.736374]  vb2_core_reqbufs+0x274/0x46c
+> [   58.740391]  vb2_ioctl_reqbufs+0xb0/0xe8
+> [   58.744320]  vidioc_reqbufs+0x50/0x64 [vivid]
+> [   58.748717]  v4l_reqbufs+0x50/0x64
+> [   58.752125]  __video_do_ioctl+0x164/0x3c8
+> [   58.756140]  video_usercopy+0x200/0x668
+> [   58.759982]  video_ioctl2+0x18/0x28
+> [   58.763475]  v4l2_ioctl+0x40/0x60
+> [   58.766798]  __arm64_sys_ioctl+0xac/0xf0
+> [   58.770730]  invoke_syscall+0x48/0x114
+> [   58.774487]  el0_svc_common.constprop.0+0x40/0xe0
+> [   58.779199]  do_el0_svc+0x1c/0x28
+> [   58.782520]  el0_svc+0x40/0xe8
+> [   58.785580]  el0t_64_sync_handler+0x100/0x12c
+> [   58.789942]  el0t_64_sync+0x190/0x194
 
-Thanks for your review.
+Argh, I see what is happening. The root cause is that vb2_core_queue_release
+is actually not a true counterpart to vb2_core_queue_init.
 
-> > +static const struct v4l2_ctrl_config npcm_ctrl_rect_count = {
-> > +     .id = V4L2_CID_NPCM_RECT_COUNT,
-> > +     .name = "NPCM Compressed Hextile Rectangle Count",
->
-> This name is too long, it should be max 31 characters. Dropping the "Compressed " part
-> might be best, I think that word isn't needed.
->
-> > +     .type = V4L2_CTRL_TYPE_INTEGER,
-> > +     .min = 0,
-> > +     .max = (MAX_WIDTH / RECT_W) * (MAX_HEIGHT / RECT_H),
-> > +     .step = 1,
-> > +     .def = 0,
-> > +};
->
-> With this fixed, and the sparse warnings fixed, it should be ready for merging.
+The '_release' part refers to when a file handle is released, and not to
+releasing resources allocated in queue_init.
 
-OK. Will fix them in the next version.
+The queue_init function never actually allocated any resources, so there
+was never a reason to make a counterpart to that, but now that bites us.
+
+Changing this would be a huge amount of work, and it is not worth the
+effort, IMHO.
+
+But at least we shouldn't have to test for both bufs and bufs_map,
+they are either both set or both NULL. Just test one of the two.
+
+The vb2_core_queue_init() function documentation in the header
+should perhaps be more clear about the fact that this function
+does not allocate any resources, and that there is no cleanup
+counterpart.
+
+It is what got me confused...
 
 Regards,
-Marvin
+
+	Hans
+
+> 
+>>
+>> Regards,
+>>
+>>     Hans
+>>
+>>>> Regards,
+>>>>
+>>>>      Hans
+>>>>
+>>>>>    
+>>>>>>>>> +
+>>>>>>>>> +    return (bitmap_weight(q->bufs_map, q->max_allowed_buffers) > 0);
+>>>>>>>> How about:
+>>>>>>>>
+>>>>>>>>        return vb2_get_num_buffers(q) > 0;
+>>>>>>> vb2_get_num_buffers is defined in videobuf2-core.c, I'm not sure that
+>>>>>>> an inline function could depend of a module function.
+>>>>>> Not a problem. E.g. v4l2-ctrls.h is full of such static inlines.
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>>       Hans
+>>>>>>
+>>
+
