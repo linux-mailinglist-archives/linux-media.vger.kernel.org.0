@@ -2,332 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A70C7A9914
-	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 20:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BB897A9D5A
+	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 21:31:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbjIUSLF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Sep 2023 14:11:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47904 "EHLO
+        id S230358AbjIUTbR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Sep 2023 15:31:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbjIUSKn (ORCPT
+        with ESMTP id S230135AbjIUTag (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Sep 2023 14:10:43 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 083C584F0E;
-        Thu, 21 Sep 2023 10:37:40 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D77AC4AF6C;
-        Thu, 21 Sep 2023 10:49:47 +0000 (UTC)
-Message-ID: <b4fc7e06-d9d4-482c-b83d-ab2de29f34f3@xs4all.nl>
-Date:   Thu, 21 Sep 2023 12:49:45 +0200
+        Thu, 21 Sep 2023 15:30:36 -0400
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F000B56D38;
+        Thu, 21 Sep 2023 10:18:26 -0700 (PDT)
+Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-6c21b2c6868so710554a34.1;
+        Thu, 21 Sep 2023 10:18:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695316706; x=1695921506; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q6Io+NqdH4bxbw7qedQ2WLW3wnG7KpfohNDHzRzQ7HQ=;
+        b=a42Jhq7F8SjW0ZExjFGT/NMG51AGscXCa+vQg0M7q6tY4RR8SUfn9gMooM/yJnXL72
+         amhA9iSA5LaRFZ/NBIhcyxWEOVnoWlm10Wl9eZnnFYJp/G5sdG0Pj9DNtKk1y7oHlxsw
+         DC64FvDaFge121tiPM3qcIYgoHuv7joy5zFoRcoSXXnKfXHpR13iFUJIEx0yDPzT4Ke/
+         YqKE15JJc9+PPUveY3dC8bf98HMKfde+sx1GUmX+4BWNrypq1qwTT+vl/NV/jqvkJt9S
+         kljpk1tq0CsalhNUwTq/fUxHyyO33oZgziqIo4vB3a6TGtkEc7V88qSSdcJUdePcaH5c
+         04+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695316706; x=1695921506;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q6Io+NqdH4bxbw7qedQ2WLW3wnG7KpfohNDHzRzQ7HQ=;
+        b=J0PBu7FA7o7uIuFEz9psKi8rAEt4HQEYwKZVP8oVDeXxAy+Iw+5bGTeWTuwl6IyFSK
+         7/xuM5khrW1jQL1v77JfSvUZnfHoSk7sUcJdq7XMpKBldIENQUk65VBG1qDNxf+km3tN
+         R6yBwTOnkXdjTsV3DZuGCdxHuXY9fCh2egLR2qRhMBZjB/JRJGDBqaaEpZIexq7g4sLJ
+         rOfjeC2AHFnFBCKjSS9vYX90wABPAxMBlCyuDUaLBQjOv5cmxhyi87EsV57IbLkpLOXi
+         dNxoz9X5WiZIXMPrWDn+1t5uRYtTghxZnMlCNQPpyuYBoBsl0Atr17cyMkYz0oNlwEjj
+         WhCg==
+X-Gm-Message-State: AOJu0YyNTFiVI+kQDcZkqcWtJaWLdEE22XQiphi+uF0O5oS8Or8A+W2T
+        b+tSW0ABvEnBO1vcob+Z6e5WcNzXTphSx8XI1ms0Ro9xdjE=
+X-Google-Smtp-Source: AGHT+IFd83OFEN20e4ml9L8pmlvbvhS2daJ1R+Y7BWCut39c7qxVh2xC1k3KYOAJpyayzaGsCncOE3w/BFNte+w5Fc8=
+X-Received: by 2002:a17:90b:390a:b0:26d:2bac:a0bb with SMTP id
+ ob10-20020a17090b390a00b0026d2baca0bbmr4967326pjb.6.1695294806097; Thu, 21
+ Sep 2023 04:13:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 1/2] Added Digiteq Automotive MGB4 driver
-Content-Language: en-US, nl
-To:     =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-References: <20230919165923.2509-1-tumic@gpxsee.org>
- <20230919165923.2509-2-tumic@gpxsee.org>
- <84ecbf4e-79eb-4ab4-851d-cdd998201534@xs4all.nl>
- <91d2eb26-f4de-4b83-816e-d7b8ada5a225@gpxsee.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <91d2eb26-f4de-4b83-816e-d7b8ada5a225@gpxsee.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <1695202370-24678-1-git-send-email-shengjiu.wang@nxp.com>
+ <1695202370-24678-10-git-send-email-shengjiu.wang@nxp.com>
+ <fbedcbf1-d925-47d6-b9fb-c9e15263c117@xs4all.nl> <CAA+D8APyNGFSry1GUv6TOW0nKYHKSwQd5bTcRNuT7cu0Xf8eUA@mail.gmail.com>
+ <5292ce53-643e-44f0-b2cc-cb66efee9712@xs4all.nl>
+In-Reply-To: <5292ce53-643e-44f0-b2cc-cb66efee9712@xs4all.nl>
+From:   Shengjiu Wang <shengjiu.wang@gmail.com>
+Date:   Thu, 21 Sep 2023 19:13:14 +0800
+Message-ID: <CAA+D8AMZN59uTRs2sOrSeVb5AGopTzurNVCTNwJOVPahfEXd+w@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 09/11] media: uapi: Add V4L2_CID_USER_IMX_ASRC_RATIO_MOD
+ control
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+        tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/09/2023 12:43, Martin Tůma wrote:
-> On 21. 09. 23 9:28, Hans Verkuil wrote:
->> On 19/09/2023 18:59, tumic@gpxsee.org wrote:
->>> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
->>>
->>> Digiteq Automotive MGB4 is a modular frame grabber PCIe card for automotive
->>> video interfaces. As for now, two modules - FPD-Link and GMSL - are
->>> available and supported by the driver. The card has two inputs and two
->>> outputs (FPD-Link only).
->>>
->>> In addition to the video interfaces it also provides a trigger signal
->>> interface and a MTD interface for FPGA firmware upload.
->>>
->>> Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
->>> ---
->>>   MAINTAINERS                             |   7 +
->>>   drivers/media/pci/Kconfig               |   1 +
->>>   drivers/media/pci/Makefile              |   1 +
->>>   drivers/media/pci/mgb4/Kconfig          |  17 +
->>>   drivers/media/pci/mgb4/Makefile         |   6 +
->>>   drivers/media/pci/mgb4/mgb4_cmt.c       | 244 +++++++
->>>   drivers/media/pci/mgb4/mgb4_cmt.h       |  17 +
->>>   drivers/media/pci/mgb4/mgb4_core.c      | 686 +++++++++++++++++
->>>   drivers/media/pci/mgb4/mgb4_core.h      |  74 ++
->>>   drivers/media/pci/mgb4/mgb4_dma.c       | 123 ++++
->>>   drivers/media/pci/mgb4/mgb4_dma.h       |  18 +
->>>   drivers/media/pci/mgb4/mgb4_i2c.c       | 140 ++++
->>>   drivers/media/pci/mgb4/mgb4_i2c.h       |  35 +
->>>   drivers/media/pci/mgb4/mgb4_io.h        |  33 +
->>>   drivers/media/pci/mgb4/mgb4_regs.c      |  30 +
->>>   drivers/media/pci/mgb4/mgb4_regs.h      |  35 +
->>>   drivers/media/pci/mgb4/mgb4_sysfs.h     |  18 +
->>>   drivers/media/pci/mgb4/mgb4_sysfs_in.c  | 744 +++++++++++++++++++
->>>   drivers/media/pci/mgb4/mgb4_sysfs_out.c | 681 +++++++++++++++++
->>>   drivers/media/pci/mgb4/mgb4_sysfs_pci.c |  71 ++
->>>   drivers/media/pci/mgb4/mgb4_trigger.c   | 208 ++++++
->>>   drivers/media/pci/mgb4/mgb4_trigger.h   |   8 +
->>>   drivers/media/pci/mgb4/mgb4_vin.c       | 934 ++++++++++++++++++++++++
->>>   drivers/media/pci/mgb4/mgb4_vin.h       |  69 ++
->>>   drivers/media/pci/mgb4/mgb4_vout.c      | 597 +++++++++++++++
->>>   drivers/media/pci/mgb4/mgb4_vout.h      |  65 ++
->>>   26 files changed, 4862 insertions(+)
->>>   create mode 100644 drivers/media/pci/mgb4/Kconfig
->>>   create mode 100644 drivers/media/pci/mgb4/Makefile
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_dma.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_dma.h
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
->>>   create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
->>>
->>
->> <snip>
->>
->>> diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_in.c b/drivers/media/pci/mgb4/mgb4_sysfs_in.c
->>> new file mode 100644
->>> index 000000000000..61b1ee969ed0
->>> --- /dev/null
->>> +++ b/drivers/media/pci/mgb4/mgb4_sysfs_in.c
->>> @@ -0,0 +1,744 @@
->>> +// SPDX-License-Identifier: GPL-2.0-only
->>> +/*
->>> + * Copyright (C) 2021-2023 Digiteq Automotive
->>> + *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
->>> + *
->>> + * This module handles all the sysfs info/configuration that is related to the
->>> + * v4l2 input devices.
->>> + */
->>> +
->>> +#include <linux/device.h>
->>> +#include "mgb4_core.h"
->>> +#include "mgb4_i2c.h"
->>> +#include "mgb4_vin.h"
->>> +#include "mgb4_cmt.h"
->>> +#include "mgb4_sysfs.h"
->>> +
->>> +/* Common for both FPDL3 and GMSL */
->>> +
->>> +static ssize_t input_id_show(struct device *dev,
->>> +                 struct device_attribute *attr, char *buf)
->>> +{
->>> +    struct video_device *vdev = to_video_device(dev);
->>> +    struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->>> +
->>> +    return sprintf(buf, "%d\n", vindev->config->id);
->>> +}
->>> +
->>> +static ssize_t oldi_lane_width_show(struct device *dev,
->>> +                    struct device_attribute *attr, char *buf)
->>> +{
->>> +    struct video_device *vdev = to_video_device(dev);
->>> +    struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->>> +    struct mgb4_dev *mgbdev = vindev->mgbdev;
->>> +    u16 i2c_reg;
->>> +    u8 i2c_mask, i2c_single_val, i2c_dual_val;
->>> +    u32 config;
->>> +    int ret;
->>> +
->>> +    i2c_reg = MGB4_IS_GMSL(mgbdev) ? 0x1CE : 0x49;
->>> +    i2c_mask = MGB4_IS_GMSL(mgbdev) ? 0x0E : 0x03;
->>> +    i2c_single_val = MGB4_IS_GMSL(mgbdev) ? 0x00 : 0x02;
->>> +    i2c_dual_val = MGB4_IS_GMSL(mgbdev) ? 0x0E : 0x00;
->>> +
->>> +    mutex_lock(&mgbdev->i2c_lock);
->>> +    ret = mgb4_i2c_read_byte(&vindev->deser, i2c_reg);
->>> +    mutex_unlock(&mgbdev->i2c_lock);
->>> +    if (ret < 0)
->>> +        return -EIO;
->>> +
->>> +    config = mgb4_read_reg(&mgbdev->video, vindev->config->regs.config);
->>> +
->>> +    if (((config & (1U << 9)) && ((ret & i2c_mask) != i2c_dual_val)) ||
->>> +        (!(config & (1U << 9)) && ((ret & i2c_mask) != i2c_single_val))) {
->>> +        dev_err(dev, "I2C/FPGA register value mismatch\n");
->>> +        return -EINVAL;
->>> +    }
->>> +
->>> +    return sprintf(buf, "%s\n", config & (1U << 9) ? "1" : "0");
->>> +}
->>> +
->>> +static ssize_t oldi_lane_width_store(struct device *dev,
->>> +                     struct device_attribute *attr,
->>> +                     const char *buf, size_t count)
->>> +{
->>> +    struct video_device *vdev = to_video_device(dev);
->>> +    struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->>> +    struct mgb4_dev *mgbdev = vindev->mgbdev;
->>> +    u32 fpga_data;
->>> +    u16 i2c_reg;
->>> +    u8 i2c_mask, i2c_data;
->>> +    unsigned long val;
->>> +    int ret;
->>> +
->>> +    ret = kstrtoul(buf, 10, &val);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    switch (val) {
->>> +    case 0: /* single */
->>> +        fpga_data = 0;
->>> +        i2c_data = MGB4_IS_GMSL(mgbdev) ? 0x00 : 0x02;
->>> +        break;
->>> +    case 1: /* dual */
->>> +        fpga_data = 1U << 9;
->>> +        i2c_data = MGB4_IS_GMSL(mgbdev) ? 0x0E : 0x00;
->>> +        break;
->>> +    default:
->>> +        return -EINVAL;
->>> +    }
->>> +
->>> +    i2c_reg = MGB4_IS_GMSL(mgbdev) ? 0x1CE : 0x49;
->>> +    i2c_mask = MGB4_IS_GMSL(mgbdev) ? 0x0E : 0x03;
->>
->> Isn't this sequence needed as well?
->>
->>     mutex_lock(vindev->vdev.lock);
->>     if (vb2_is_busy(vindev->vdev.queue)) {
->>         mutex_unlock(vindev->vdev.lock);
->>         return -EBUSY;
->>     }
->>
->> I would expect this to be present in almost all store functions.
->> You don't want to change a setting like this when the queue is busy.
->>
->> If a store function doesn't need the lock, then perhaps add a comment
->> like: 'This can be changed at any time, even if vb2_is_busy() is true.'
->>
->> Can you go through all the store functions and verify this?
->>
->> Basically any store function that changes timings/video source/buffer size
->> needs this check.
->>
->> Similar to VIDIOC_S_FMT and VIDIOC_S_DV_TIMINGS ioctls: you can't change
->> those while buffers are allocated.
->>
-> 
-> Any store function, that could change the video source/size and thus would require new buffers is guarded by this check. In the admin guide documentation, all those functions have the "This parameter
-> can not be changed while the output v4l2 device is open." note.
-> 
-> Functions that change the signal "on the wire" like oldi_lane_width_store() do however not have this guard as for me it seems that those can not break anything in v4l2 - the queue remains the same.
-> Also when practically tested, nothing seemed to break. But I can of course add those checks to some more functions if you think they are necessary. Not having this restrictions makes it possible to
-> fiddle with the parameters on live streams to set the correct parameters. For example in this case (oldi_lane_width) the image switches between "two images in one" and "the correct image" if you
-> switch it during playback, but the queue (buffer size) is the same. The FPGA is also designed to be capable of changing those parameters "live".
+On Thu, Sep 21, 2023 at 3:11=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
+rote:
+>
+> On 21/09/2023 08:55, Shengjiu Wang wrote:
+> > On Wed, Sep 20, 2023 at 6:19=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.n=
+l> wrote:
+> >>
+> >> On 20/09/2023 11:32, Shengjiu Wang wrote:
+> >>> The input clock and output clock may not be the accurate
+> >>> rate as the sample rate, there is some drift, so the convert
+> >>> ratio of i.MX ASRC module need to be changed according to
+> >>> actual clock rate.
+> >>>
+> >>> Add V4L2_CID_USER_IMX_ASRC_RATIO_MOD control for user to
+> >>> adjust the ratio.
+> >>>
+> >>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> >>> ---
+> >>>  Documentation/userspace-api/media/v4l/control.rst | 5 +++++
+> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c         | 1 +
+> >>>  include/uapi/linux/v4l2-controls.h                | 1 +
+> >>>  3 files changed, 7 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Docu=
+mentation/userspace-api/media/v4l/control.rst
+> >>> index 4463fce694b0..2bc175900a34 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/control.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/control.rst
+> >>> @@ -318,6 +318,11 @@ Control IDs
+> >>>      depending on particular custom controls should check the driver =
+name
+> >>>      and version, see :ref:`querycap`.
+> >>>
+> >>> +.. _v4l2-audio-imx:
+> >>> +
+> >>> +``V4L2_CID_USER_IMX_ASRC_RATIO_MOD``
+> >>> +    sets the rasampler ratio modifier of i.MX asrc module.
+> >>
+> >> rasampler -> resampler (I think?)
+> >>
+> >> This doesn't document at all what the type of the control is or how to=
+ interpret it.
+> >>
+> >>> +
+> >>>  Applications can enumerate the available controls with the
+> >>>  :ref:`VIDIOC_QUERYCTRL` and
+> >>>  :ref:`VIDIOC_QUERYMENU <VIDIOC_QUERYCTRL>` ioctls, get and set a
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/medi=
+a/v4l2-core/v4l2-ctrls-defs.c
+> >>> index 8696eb1cdd61..16f66f66198c 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> @@ -1242,6 +1242,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >>>       case V4L2_CID_COLORIMETRY_CLASS:        return "Colorimetry Con=
+trols";
+> >>>       case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:               return =
+"HDR10 Content Light Info";
+> >>>       case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:      return =
+"HDR10 Mastering Display";
+> >>> +     case V4L2_CID_USER_IMX_ASRC_RATIO_MOD:                  return =
+"ASRC RATIO MOD";
+> >>
+> >> Let's stay consistent with the other control names:
+> >>
+> >> "ASRC Ratio Modifier"
+> >>
+> >> But if this is a driver specific control, then this doesn't belong her=
+e.
+> >>
+> >> Driver specific controls are defined in the driver itself, including t=
+his
+> >> description.
+> >>
+> >> Same for the control documentation: if it is driver specific, then tha=
+t
+> >> typically is documented either in a driver-specific public header, or
+> >> possibly in driver-specific documentation (Documentation/admin-guide/m=
+edia/).
+> >>
+> >> But is this imx specific? Wouldn't other similar devices need this?
+> >
+> > It is imx specific.
+>
+> Why? I'm not opposed to this, but I wonder if you looked at datasheets of
+> similar devices from other vendors: would they use something similar?
 
-Ah, OK. Then this should be documented in the source code. Basically you want
-to see in the code that it is intentional that no locking takes place and that
-it is safe to do so.
+I tried to find some datasheets for other vendors, but failed to find them.
+So I don't know how they implement this part.
 
-Most devices are not able to handle this, at minimum you will see video glitches.
+Ratio modification on i.MX is to modify the configured ratio.
+For example, the input rate is 44.1kHz,  output rate is 48kHz,
+configured ratio =3D 441/480,   the ratio modification is to modify
+the fractional part of (441/480) with small steps.  because the
+input clock or output clock has drift in the real hardware.
+The ratio modification is signed value, it is added to configured
+ratio.
 
-With that change I should be able to merge v11.
+In our case, we have some sysfs interface for user to get the
+clock from input audio device and output audio device, user
+need to calculate the ratio dynamically , then configure the
+modification to driver
 
-Regards,
+May be other vendors has similar implementation. or make
+the definition be generic is an option.
 
-	Hans
+best regards
+wang shengjiu
 
-> 
->>> +
->>> +    mutex_lock(&mgbdev->i2c_lock);
->>> +    ret = mgb4_i2c_mask_byte(&vindev->deser, i2c_reg, i2c_mask, i2c_data);
->>> +    mutex_unlock(&mgbdev->i2c_lock);
->>> +    if (ret < 0)
->>> +        return -EIO;
->>> +    mgb4_mask_reg(&mgbdev->video, vindev->config->regs.config, 1U << 9,
->>> +              fpga_data);
->>> +    if (MGB4_IS_GMSL(mgbdev)) {
->>> +        /* reset input link */
->>> +        mutex_lock(&mgbdev->i2c_lock);
->>> +        ret = mgb4_i2c_mask_byte(&vindev->deser, 0x10, 1U << 5, 1U << 5);
->>> +        mutex_unlock(&mgbdev->i2c_lock);
->>> +        if (ret < 0)
->>> +            return -EIO;
->>> +    }
->>> +
->>> +    return count;
->>> +}
->>> +
->>> +static ssize_t color_mapping_show(struct device *dev,
->>> +                  struct device_attribute *attr, char *buf)
->>> +{
->>> +    struct video_device *vdev = to_video_device(dev);
->>> +    struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->>> +    u32 config = mgb4_read_reg(&vindev->mgbdev->video,
->>> +      vindev->config->regs.config);
->>> +
->>> +    return sprintf(buf, "%s\n", config & (1U << 8) ? "0" : "1");
->>> +}
->>> +
->>> +static ssize_t color_mapping_store(struct device *dev,
->>> +                   struct device_attribute *attr,
->>> +                   const char *buf, size_t count)
->>> +{
->>> +    struct video_device *vdev = to_video_device(dev);
->>> +    struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->>> +    u32 fpga_data;
->>> +    unsigned long val;
->>> +    int ret;
->>> +
->>> +    ret = kstrtoul(buf, 10, &val);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    switch (val) {
->>> +    case 0: /* OLDI/JEIDA */
->>> +        fpga_data = (1U << 8);
->>> +        break;
->>> +    case 1: /* SPWG/VESA */
->>> +        fpga_data = 0;
->>> +        break;
->>> +    default:
->>> +        return -EINVAL;
->>> +    }
->>> +
->>> +    mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.config,
->>> +              1U << 8, fpga_data);
->>
->> This is likely a store function that can be called at any time as this
->> doesn't interrupt video streaming or changes buffer sizes.
->>
-> 
-> Yes, this parameter definitely does not break anything else than the color scheme of the image and is without doubt safe to do on running streams. But the others should be as well.
-> 
->>> +
->>> +    return count;
->>> +}
->>> +
->>
->> Regards,
->>
->>     Hans
-> 
-
+>
+> And the very short description you gave in the commit log refers to input
+> and output clock: how would userspace know those clock frequencies? In
+> other words, what information does userspace need in order to set this
+> control correctly? And is that information actually available? How would
+> you use this control?
+>
+> I don't really understand how this is supposed to be used.
+>
+> >
+> > Does this mean that I need to create a header file in include/uapi/linu=
+x
+> > folder to put this definition?  I just hesitate if this is necessary.
+>
+> Yes, put it there. There are some examples of this already:
+>
+> include/uapi/linux/aspeed-video.h
+> include/uapi/linux/max2175.h
+>
+> >
+> > There is folder Documentation/userspace-api/media/drivers/ for drivers
+> > Should this document in this folder, not in the
+> > Documentation/admin-guide/media/?
+>
+> Yes, you are correct. For the headers above, the corresponding documentat=
+ion
+> is in:
+>
+> Documentation/userspace-api/media/drivers/aspeed-video.rst
+> Documentation/userspace-api/media/drivers/max2175.rst
+>
+> So you have some examples as reference.
+>
+> Frankly, what is in admin-guide and in userspace-api is a bit random, it
+> probably could use a cleanup.
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> > Best regards
+> > Wang shengjiu
+> >>
+> >>>       default:
+> >>>               return NULL;
+> >>>       }
+> >>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/=
+v4l2-controls.h
+> >>> index c3604a0a3e30..b1c319906d12 100644
+> >>> --- a/include/uapi/linux/v4l2-controls.h
+> >>> +++ b/include/uapi/linux/v4l2-controls.h
+> >>> @@ -162,6 +162,7 @@ enum v4l2_colorfx {
+> >>>  /* The base for the imx driver controls.
+> >>>   * We reserve 16 controls for this driver. */
+> >>>  #define V4L2_CID_USER_IMX_BASE                       (V4L2_CID_USER_=
+BASE + 0x10b0)
+> >>> +#define V4L2_CID_USER_IMX_ASRC_RATIO_MOD     (V4L2_CID_USER_IMX_BASE=
+ + 0)
+> >>>
+> >>>  /*
+> >>>   * The base for the atmel isc driver controls.
+> >>
+> >> Regards,
+> >>
+> >>         Hans
+>
