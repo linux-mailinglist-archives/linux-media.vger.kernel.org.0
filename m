@@ -2,329 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 363EF7AA0C5
-	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 22:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A5B27AA0E1
+	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 22:49:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231344AbjIUUsc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Sep 2023 16:48:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53608 "EHLO
+        id S232611AbjIUUti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Sep 2023 16:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230381AbjIUUsS (ORCPT
+        with ESMTP id S232556AbjIUUtI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Sep 2023 16:48:18 -0400
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D377284F03;
-        Thu, 21 Sep 2023 10:50:53 -0700 (PDT)
-Received: from [192.168.42.133] (host-178-72-203-90.ip.nej.cz [178.72.203.90])
-        by mx.gpxsee.org (Postfix) with ESMTPSA id 7D95FF62;
-        Thu, 21 Sep 2023 12:43:59 +0200 (CEST)
-Message-ID: <91d2eb26-f4de-4b83-816e-d7b8ada5a225@gpxsee.org>
-Date:   Thu, 21 Sep 2023 12:43:59 +0200
+        Thu, 21 Sep 2023 16:49:08 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E82315809E;
+        Thu, 21 Sep 2023 10:49:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695318593; x=1726854593;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4Ne+vrsW5UtAXBNbbGZuiUIqq3ylSla3sj1CH7LF+fA=;
+  b=mppSSCJfWVdhupr/av+7YMV6WwjSB6DV7MocoSfQELXuGEJ/rVLyCeaB
+   Bda198HO87Tn1fPzPgJmNkcf6tUHfd/Pt+IcnVRSJg3mnfIY6/j7Kd0om
+   VGiYNOMFYua4YZ9smiqLDr/2bIsNJ0kHdwAdkGPj6rLn6N6tSrAgpLFnq
+   emB6SqTABERKcBYxsbiJ91TAMmr8r1XSPYRCg7Efz5PyZhuEAJEB+bAYf
+   XvgzBKOt5QO3X1K9TNjoqddS7GupHl20uhkgZBhjlCMqXCn8oO2K7VJDQ
+   iPhHCUR48yUjZwfroyPEJ3IYldNJvRxXMX/oLHoG/XKE0qXEABHZpsN+I
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="446964126"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
+   d="scan'208";a="446964126"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 04:26:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="862425479"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694761200"; 
+   d="scan'208";a="862425479"
+Received: from lkp-server02.sh.intel.com (HELO 9ef86b2655e5) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2023 04:26:23 -0700
+Received: from kbuild by 9ef86b2655e5 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qjHp7-0009uu-2J;
+        Thu, 21 Sep 2023 11:26:21 +0000
+Date:   Thu, 21 Sep 2023 19:26:04 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Serge Semin <fancer.lancer@gmail.com>,
+        Michal Simek <monstr@monstr.eu>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rric@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Punnaiah Choudary Kalluri 
+        <punnaiah.choudary.kalluri@xilinx.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 16/20] EDAC/synopsys: Detach Zynq A05 DDRC support to
+ separate driver
+Message-ID: <202309211954.M7wyhXyv-lkp@intel.com>
+References: <20230920191059.28395-17-fancer.lancer@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 1/2] Added Digiteq Automotive MGB4 driver
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-References: <20230919165923.2509-1-tumic@gpxsee.org>
- <20230919165923.2509-2-tumic@gpxsee.org>
- <84ecbf4e-79eb-4ab4-851d-cdd998201534@xs4all.nl>
-Content-Language: en-US
-From:   =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <84ecbf4e-79eb-4ab4-851d-cdd998201534@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=3.0 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230920191059.28395-17-fancer.lancer@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21. 09. 23 9:28, Hans Verkuil wrote:
-> On 19/09/2023 18:59, tumic@gpxsee.org wrote:
->> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
->>
->> Digiteq Automotive MGB4 is a modular frame grabber PCIe card for automotive
->> video interfaces. As for now, two modules - FPD-Link and GMSL - are
->> available and supported by the driver. The card has two inputs and two
->> outputs (FPD-Link only).
->>
->> In addition to the video interfaces it also provides a trigger signal
->> interface and a MTD interface for FPGA firmware upload.
->>
->> Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
->> ---
->>   MAINTAINERS                             |   7 +
->>   drivers/media/pci/Kconfig               |   1 +
->>   drivers/media/pci/Makefile              |   1 +
->>   drivers/media/pci/mgb4/Kconfig          |  17 +
->>   drivers/media/pci/mgb4/Makefile         |   6 +
->>   drivers/media/pci/mgb4/mgb4_cmt.c       | 244 +++++++
->>   drivers/media/pci/mgb4/mgb4_cmt.h       |  17 +
->>   drivers/media/pci/mgb4/mgb4_core.c      | 686 +++++++++++++++++
->>   drivers/media/pci/mgb4/mgb4_core.h      |  74 ++
->>   drivers/media/pci/mgb4/mgb4_dma.c       | 123 ++++
->>   drivers/media/pci/mgb4/mgb4_dma.h       |  18 +
->>   drivers/media/pci/mgb4/mgb4_i2c.c       | 140 ++++
->>   drivers/media/pci/mgb4/mgb4_i2c.h       |  35 +
->>   drivers/media/pci/mgb4/mgb4_io.h        |  33 +
->>   drivers/media/pci/mgb4/mgb4_regs.c      |  30 +
->>   drivers/media/pci/mgb4/mgb4_regs.h      |  35 +
->>   drivers/media/pci/mgb4/mgb4_sysfs.h     |  18 +
->>   drivers/media/pci/mgb4/mgb4_sysfs_in.c  | 744 +++++++++++++++++++
->>   drivers/media/pci/mgb4/mgb4_sysfs_out.c | 681 +++++++++++++++++
->>   drivers/media/pci/mgb4/mgb4_sysfs_pci.c |  71 ++
->>   drivers/media/pci/mgb4/mgb4_trigger.c   | 208 ++++++
->>   drivers/media/pci/mgb4/mgb4_trigger.h   |   8 +
->>   drivers/media/pci/mgb4/mgb4_vin.c       | 934 ++++++++++++++++++++++++
->>   drivers/media/pci/mgb4/mgb4_vin.h       |  69 ++
->>   drivers/media/pci/mgb4/mgb4_vout.c      | 597 +++++++++++++++
->>   drivers/media/pci/mgb4/mgb4_vout.h      |  65 ++
->>   26 files changed, 4862 insertions(+)
->>   create mode 100644 drivers/media/pci/mgb4/Kconfig
->>   create mode 100644 drivers/media/pci/mgb4/Makefile
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_dma.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_dma.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
->>
-> 
-> <snip>
-> 
->> diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_in.c b/drivers/media/pci/mgb4/mgb4_sysfs_in.c
->> new file mode 100644
->> index 000000000000..61b1ee969ed0
->> --- /dev/null
->> +++ b/drivers/media/pci/mgb4/mgb4_sysfs_in.c
->> @@ -0,0 +1,744 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (C) 2021-2023 Digiteq Automotive
->> + *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
->> + *
->> + * This module handles all the sysfs info/configuration that is related to the
->> + * v4l2 input devices.
->> + */
->> +
->> +#include <linux/device.h>
->> +#include "mgb4_core.h"
->> +#include "mgb4_i2c.h"
->> +#include "mgb4_vin.h"
->> +#include "mgb4_cmt.h"
->> +#include "mgb4_sysfs.h"
->> +
->> +/* Common for both FPDL3 and GMSL */
->> +
->> +static ssize_t input_id_show(struct device *dev,
->> +			     struct device_attribute *attr, char *buf)
->> +{
->> +	struct video_device *vdev = to_video_device(dev);
->> +	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->> +
->> +	return sprintf(buf, "%d\n", vindev->config->id);
->> +}
->> +
->> +static ssize_t oldi_lane_width_show(struct device *dev,
->> +				    struct device_attribute *attr, char *buf)
->> +{
->> +	struct video_device *vdev = to_video_device(dev);
->> +	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->> +	struct mgb4_dev *mgbdev = vindev->mgbdev;
->> +	u16 i2c_reg;
->> +	u8 i2c_mask, i2c_single_val, i2c_dual_val;
->> +	u32 config;
->> +	int ret;
->> +
->> +	i2c_reg = MGB4_IS_GMSL(mgbdev) ? 0x1CE : 0x49;
->> +	i2c_mask = MGB4_IS_GMSL(mgbdev) ? 0x0E : 0x03;
->> +	i2c_single_val = MGB4_IS_GMSL(mgbdev) ? 0x00 : 0x02;
->> +	i2c_dual_val = MGB4_IS_GMSL(mgbdev) ? 0x0E : 0x00;
->> +
->> +	mutex_lock(&mgbdev->i2c_lock);
->> +	ret = mgb4_i2c_read_byte(&vindev->deser, i2c_reg);
->> +	mutex_unlock(&mgbdev->i2c_lock);
->> +	if (ret < 0)
->> +		return -EIO;
->> +
->> +	config = mgb4_read_reg(&mgbdev->video, vindev->config->regs.config);
->> +
->> +	if (((config & (1U << 9)) && ((ret & i2c_mask) != i2c_dual_val)) ||
->> +	    (!(config & (1U << 9)) && ((ret & i2c_mask) != i2c_single_val))) {
->> +		dev_err(dev, "I2C/FPGA register value mismatch\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	return sprintf(buf, "%s\n", config & (1U << 9) ? "1" : "0");
->> +}
->> +
->> +static ssize_t oldi_lane_width_store(struct device *dev,
->> +				     struct device_attribute *attr,
->> +				     const char *buf, size_t count)
->> +{
->> +	struct video_device *vdev = to_video_device(dev);
->> +	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->> +	struct mgb4_dev *mgbdev = vindev->mgbdev;
->> +	u32 fpga_data;
->> +	u16 i2c_reg;
->> +	u8 i2c_mask, i2c_data;
->> +	unsigned long val;
->> +	int ret;
->> +
->> +	ret = kstrtoul(buf, 10, &val);
->> +	if (ret)
->> +		return ret;
->> +
->> +	switch (val) {
->> +	case 0: /* single */
->> +		fpga_data = 0;
->> +		i2c_data = MGB4_IS_GMSL(mgbdev) ? 0x00 : 0x02;
->> +		break;
->> +	case 1: /* dual */
->> +		fpga_data = 1U << 9;
->> +		i2c_data = MGB4_IS_GMSL(mgbdev) ? 0x0E : 0x00;
->> +		break;
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +
->> +	i2c_reg = MGB4_IS_GMSL(mgbdev) ? 0x1CE : 0x49;
->> +	i2c_mask = MGB4_IS_GMSL(mgbdev) ? 0x0E : 0x03;
-> 
-> Isn't this sequence needed as well?
-> 
-> 	mutex_lock(vindev->vdev.lock);
-> 	if (vb2_is_busy(vindev->vdev.queue)) {
-> 		mutex_unlock(vindev->vdev.lock);
-> 		return -EBUSY;
-> 	}
-> 
-> I would expect this to be present in almost all store functions.
-> You don't want to change a setting like this when the queue is busy.
-> 
-> If a store function doesn't need the lock, then perhaps add a comment
-> like: 'This can be changed at any time, even if vb2_is_busy() is true.'
-> 
-> Can you go through all the store functions and verify this?
-> 
-> Basically any store function that changes timings/video source/buffer size
-> needs this check.
-> 
-> Similar to VIDIOC_S_FMT and VIDIOC_S_DV_TIMINGS ioctls: you can't change
-> those while buffers are allocated.
-> 
+Hi Serge,
 
-Any store function, that could change the video source/size and thus 
-would require new buffers is guarded by this check. In the admin guide 
-documentation, all those functions have the "This parameter can not be 
-changed while the output v4l2 device is open." note.
+kernel test robot noticed the following build warnings:
 
-Functions that change the signal "on the wire" like 
-oldi_lane_width_store() do however not have this guard as for me it 
-seems that those can not break anything in v4l2 - the queue remains the 
-same. Also when practically tested, nothing seemed to break. But I can 
-of course add those checks to some more functions if you think they are 
-necessary. Not having this restrictions makes it possible to fiddle with 
-the parameters on live streams to set the correct parameters. For 
-example in this case (oldi_lane_width) the image switches between "two 
-images in one" and "the correct image" if you switch it during playback, 
-but the queue (buffer size) is the same. The FPGA is also designed to be 
-capable of changing those parameters "live".
+[auto build test WARNING on v6.5]
+[also build test WARNING on next-20230921]
+[cannot apply to linus/master v6.6-rc2 v6.6-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->> +
->> +	mutex_lock(&mgbdev->i2c_lock);
->> +	ret = mgb4_i2c_mask_byte(&vindev->deser, i2c_reg, i2c_mask, i2c_data);
->> +	mutex_unlock(&mgbdev->i2c_lock);
->> +	if (ret < 0)
->> +		return -EIO;
->> +	mgb4_mask_reg(&mgbdev->video, vindev->config->regs.config, 1U << 9,
->> +		      fpga_data);
->> +	if (MGB4_IS_GMSL(mgbdev)) {
->> +		/* reset input link */
->> +		mutex_lock(&mgbdev->i2c_lock);
->> +		ret = mgb4_i2c_mask_byte(&vindev->deser, 0x10, 1U << 5, 1U << 5);
->> +		mutex_unlock(&mgbdev->i2c_lock);
->> +		if (ret < 0)
->> +			return -EIO;
->> +	}
->> +
->> +	return count;
->> +}
->> +
->> +static ssize_t color_mapping_show(struct device *dev,
->> +				  struct device_attribute *attr, char *buf)
->> +{
->> +	struct video_device *vdev = to_video_device(dev);
->> +	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->> +	u32 config = mgb4_read_reg(&vindev->mgbdev->video,
->> +	  vindev->config->regs.config);
->> +
->> +	return sprintf(buf, "%s\n", config & (1U << 8) ? "0" : "1");
->> +}
->> +
->> +static ssize_t color_mapping_store(struct device *dev,
->> +				   struct device_attribute *attr,
->> +				   const char *buf, size_t count)
->> +{
->> +	struct video_device *vdev = to_video_device(dev);
->> +	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
->> +	u32 fpga_data;
->> +	unsigned long val;
->> +	int ret;
->> +
->> +	ret = kstrtoul(buf, 10, &val);
->> +	if (ret)
->> +		return ret;
->> +
->> +	switch (val) {
->> +	case 0: /* OLDI/JEIDA */
->> +		fpga_data = (1U << 8);
->> +		break;
->> +	case 1: /* SPWG/VESA */
->> +		fpga_data = 0;
->> +		break;
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +
->> +	mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.config,
->> +		      1U << 8, fpga_data);
-> 
-> This is likely a store function that can be called at any time as this
-> doesn't interrupt video streaming or changes buffer sizes.
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/EDAC-synopsys-Fix-ECC-status-data-and-IRQ-disable-race-condition/20230921-031420
+base:   v6.5
+patch link:    https://lore.kernel.org/r/20230920191059.28395-17-fancer.lancer%40gmail.com
+patch subject: [PATCH v4 16/20] EDAC/synopsys: Detach Zynq A05 DDRC support to separate driver
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230921/202309211954.M7wyhXyv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230921/202309211954.M7wyhXyv-lkp@intel.com/reproduce)
 
-Yes, this parameter definitely does not break anything else than the 
-color scheme of the image and is without doubt safe to do on running 
-streams. But the others should be as well.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309211954.M7wyhXyv-lkp@intel.com/
 
->> +
->> +	return count;
->> +}
->> +
-> 
-> Regards,
-> 
-> 	Hans
+All warnings (new ones prefixed by >>):
 
+>> drivers/edac/zynq_edac.c:194: warning: expecting prototype for handle_error(). Prototype was for zynq_handle_error() instead
+>> drivers/edac/zynq_edac.c:233: warning: expecting prototype for check_errors(). Prototype was for zynq_check_errors() instead
+
+
+vim +194 drivers/edac/zynq_edac.c
+
+   185	
+   186	/**
+   187	 * handle_error - Handle Correctable and Uncorrectable errors.
+   188	 * @mci:	EDAC memory controller instance.
+   189	 * @p:		Zynq ECC status structure.
+   190	 *
+   191	 * Handles ECC correctable and uncorrectable errors.
+   192	 */
+   193	static void zynq_handle_error(struct mem_ctl_info *mci, struct zynq_ecc_status *p)
+ > 194	{
+   195		struct zynq_edac_priv *priv = mci->pvt_info;
+   196		struct zynq_ecc_error_info *pinf;
+   197	
+   198		if (p->ce_cnt) {
+   199			pinf = &p->ceinfo;
+   200	
+   201			snprintf(priv->message, ZYNQ_EDAC_MSG_SIZE,
+   202				 "Row %d Bank %d Col %d Bit %d Data 0x%08x",
+   203				 pinf->row, pinf->bank, pinf->col,
+   204				 pinf->bitpos, pinf->data);
+   205	
+   206			edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
+   207					     p->ce_cnt, 0, 0, 0, 0, 0, -1,
+   208					     priv->message, "");
+   209		}
+   210	
+   211		if (p->ue_cnt) {
+   212			pinf = &p->ueinfo;
+   213	
+   214			snprintf(priv->message, ZYNQ_EDAC_MSG_SIZE,
+   215				 "Row %d Bank %d Col %d",
+   216				 pinf->row, pinf->bank, pinf->col);
+   217	
+   218			edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
+   219					     p->ue_cnt, 0, 0, 0, 0, 0, -1,
+   220					     priv->message, "");
+   221		}
+   222	
+   223		memset(p, 0, sizeof(*p));
+   224	}
+   225	
+   226	/**
+   227	 * check_errors - Check controller for ECC errors.
+   228	 * @mci:	EDAC memory controller instance.
+   229	 *
+   230	 * Check and post ECC errors. Called by the polling thread.
+   231	 */
+   232	static void zynq_check_errors(struct mem_ctl_info *mci)
+ > 233	{
+   234		struct zynq_edac_priv *priv = mci->pvt_info;
+   235		int status;
+   236	
+   237		status = zynq_get_error_info(priv);
+   238		if (status)
+   239			return;
+   240	
+   241		zynq_handle_error(mci, &priv->stat);
+   242	}
+   243	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
