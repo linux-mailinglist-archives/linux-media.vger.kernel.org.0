@@ -2,217 +2,283 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 218BE7A9FB0
-	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 22:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA8277AA13D
+	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 22:59:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231833AbjIUU0y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Sep 2023 16:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38350 "EHLO
+        id S231395AbjIUU7y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Sep 2023 16:59:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231603AbjIUU01 (ORCPT
+        with ESMTP id S232279AbjIUU7j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Sep 2023 16:26:27 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E567356B;
-        Thu, 21 Sep 2023 10:33:16 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:9fdf:789a:7434:5a59] (unknown [IPv6:2a01:e0a:120:3210:9fdf:789a:7434:5a59])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 33A2566072EA;
-        Thu, 21 Sep 2023 13:46:43 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695300403;
-        bh=LVEZ1RsG9zACgcHPee3WTOL671cvZoROVfJ92IP6s4Y=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Z7acJaSzlHDcCiwLMiECWrrw5UijdlQ+DYiCsWekWoNpZ3tWGx6RqitZQ5cmt7bpf
-         r8MU3UuFwvDJzNYe1xL5Y/b3xLsQy0Phe/0FacTfJDAd76T/xFvJsFSKXzdi7cqygT
-         nnR/uVG3c5M9+pdpeUljAGo+Ro7bh3NzUCc7J3/ZVMKPQmZV5Ar34/V7nSYyhf7xVi
-         RjGOqVm5mGQxUBr22OlVpTmp3jupc+1vblk/eBLz/A9XDq3XaZ2d0hvxOepERS1ZdT
-         9mjN13gH3bQTbVtxurYBzMHh5jfHpAcMC56+t7Ip6d0FjST8TjTAN+DXWqnN9PFxMc
-         NU4rD8cbt2+6g==
-Message-ID: <c8b7db47-3875-a10b-8d81-a0b3dcbc564a@collabora.com>
-Date:   Thu, 21 Sep 2023 14:46:40 +0200
+        Thu, 21 Sep 2023 16:59:39 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FBF886109;
+        Thu, 21 Sep 2023 10:37:54 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5535FC4E750;
+        Thu, 21 Sep 2023 14:09:50 +0000 (UTC)
+Message-ID: <2d44d574-08e5-4db3-87d9-5d12657f8935@xs4all.nl>
+Date:   Thu, 21 Sep 2023 16:09:48 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
- entries
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
-        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
- <20230914133323.198857-46-benjamin.gaignard@collabora.com>
- <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
- <20b6b93e-eef8-3d7b-a3c2-795f220059d4@collabora.com>
- <470682b4-c14b-4237-bc46-fddfdd085026@xs4all.nl>
- <31f298ec-6280-d21b-3d8a-c7bf1c9c0c30@collabora.com>
- <b10a7414-b710-4fb9-a72d-e2d7eff2616d@xs4all.nl>
- <aa649adf-8faf-801b-f6bd-d4a4760e040f@collabora.com>
- <a6a6da68-d9f2-44d3-9741-aa2cf83fac6d@xs4all.nl>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <a6a6da68-d9f2-44d3-9741-aa2cf83fac6d@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v4 09/11] media: uapi: Add
+ V4L2_CID_USER_IMX_ASRC_RATIO_MOD control
+Content-Language: en-US, nl
+To:     Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+        tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+References: <1695202370-24678-1-git-send-email-shengjiu.wang@nxp.com>
+ <1695202370-24678-10-git-send-email-shengjiu.wang@nxp.com>
+ <fbedcbf1-d925-47d6-b9fb-c9e15263c117@xs4all.nl>
+ <CAA+D8APyNGFSry1GUv6TOW0nKYHKSwQd5bTcRNuT7cu0Xf8eUA@mail.gmail.com>
+ <5292ce53-643e-44f0-b2cc-cb66efee9712@xs4all.nl>
+ <CAA+D8AMZN59uTRs2sOrSeVb5AGopTzurNVCTNwJOVPahfEXd+w@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <CAA+D8AMZN59uTRs2sOrSeVb5AGopTzurNVCTNwJOVPahfEXd+w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-Le 21/09/2023 à 14:13, Hans Verkuil a écrit :
-> On 21/09/2023 14:05, Benjamin Gaignard wrote:
->> Le 21/09/2023 à 12:24, Hans Verkuil a écrit :
->>> On 21/09/2023 11:28, Benjamin Gaignard wrote:
->>>> Le 20/09/2023 à 16:56, Hans Verkuil a écrit :
->>>>> On 20/09/2023 16:30, Benjamin Gaignard wrote:
->>>>> <snip>
->>>>>
->>>>>>>>          num_buffers = min_t(unsigned int, num_buffers,
->>>>>>>>                      q->max_allowed_buffers - vb2_get_num_buffers(q));
->>>>>>>>      -    first_index = vb2_get_num_buffers(q);
->>>>>>>> +    first_index = bitmap_find_next_zero_area(q->bufs_map, q->max_allowed_buffers,
->>>>>>>> +                         0, num_buffers, 0);
->>>>>>>>            if (first_index >= q->max_allowed_buffers)
->>>>>>>>              return 0;
->>>>>>>> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->>>>>>>>        struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, unsigned int index)
->>>>>>>>      {
->>>>>>>> -    if (index < q->num_buffers)
->>>>>>>> +    if (!q->bufs_map || !q->bufs)
->>>>>>>> +        return NULL;
->>>>>>> I don't think this can ever happen.
->>>>>> I got kernel crash without them.
->>>>>> I will keep them.
->>>>> What is the backtrace? How can this happen? It feels wrong that this can be
->>>>> called with a vb2_queue that apparently is not properly initialized.
->>>> I have this log when adding dump_stack() in vb2_get_buffer() if !q->bufs_bitmap:
+On 21/09/2023 13:13, Shengjiu Wang wrote:
+> On Thu, Sep 21, 2023 at 3:11 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> On 21/09/2023 08:55, Shengjiu Wang wrote:
+>>> On Wed, Sep 20, 2023 at 6:19 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >>>>
->>>> [   18.924627] Call trace:
->>>> [   18.927090]  dump_backtrace+0x94/0xec
->>>> [   18.930787]  show_stack+0x18/0x24
->>>> [   18.934137]  dump_stack_lvl+0x48/0x60
->>>> [   18.937833]  dump_stack+0x18/0x24
->>>> [   18.941166]  __vb2_queue_cancel+0x23c/0x2f0
->>>> [   18.945365]  vb2_core_queue_release+0x24/0x6c
->>>> [   18.949740]  vb2_queue_release+0x10/0x1c
->>>> [   18.953677]  v4l2_m2m_ctx_release+0x20/0x40
->>>> [   18.957892]  hantro_release+0x20/0x54
->>>> [   18.961584]  v4l2_release+0x74/0xec
->>>> [   18.965110]  __fput+0xb4/0x274
->>>> [   18.968205]  __fput_sync+0x50/0x5c
->>>> [   18.971626]  __arm64_sys_close+0x38/0x7c
->>>> [   18.975562]  invoke_syscall+0x48/0x114
->>>> [   18.979329]  el0_svc_common.constprop.0+0xc0/0xe0
->>>> [   18.984068]  do_el0_svc+0x1c/0x28
->>>> [   18.987402]  el0_svc+0x40/0xe8
->>>> [   18.990470]  el0t_64_sync_handler+0x100/0x12c
->>>> [   18.994842]  el0t_64_sync+0x190/0x194
+>>>> On 20/09/2023 11:32, Shengjiu Wang wrote:
+>>>>> The input clock and output clock may not be the accurate
+>>>>> rate as the sample rate, there is some drift, so the convert
+>>>>> ratio of i.MX ASRC module need to be changed according to
+>>>>> actual clock rate.
+>>>>>
+>>>>> Add V4L2_CID_USER_IMX_ASRC_RATIO_MOD control for user to
+>>>>> adjust the ratio.
+>>>>>
+>>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+>>>>> ---
+>>>>>  Documentation/userspace-api/media/v4l/control.rst | 5 +++++
+>>>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c         | 1 +
+>>>>>  include/uapi/linux/v4l2-controls.h                | 1 +
+>>>>>  3 files changed, 7 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+>>>>> index 4463fce694b0..2bc175900a34 100644
+>>>>> --- a/Documentation/userspace-api/media/v4l/control.rst
+>>>>> +++ b/Documentation/userspace-api/media/v4l/control.rst
+>>>>> @@ -318,6 +318,11 @@ Control IDs
+>>>>>      depending on particular custom controls should check the driver name
+>>>>>      and version, see :ref:`querycap`.
+>>>>>
+>>>>> +.. _v4l2-audio-imx:
+>>>>> +
+>>>>> +``V4L2_CID_USER_IMX_ASRC_RATIO_MOD``
+>>>>> +    sets the rasampler ratio modifier of i.MX asrc module.
 >>>>
->>>> This happen at boot time when hantro driver is open and close without other actions.
->>> Ah, now I see the problem. q->bufs and q->bufs_map are allocated in
->>> vb2_core_create_bufs and vb2_core_reqbufs, but they should be allocated
->>> in vb2_queue_init: that's the counterpart of vb2_core_queue_release.
+>>>> rasampler -> resampler (I think?)
+>>>>
+>>>> This doesn't document at all what the type of the control is or how to interpret it.
+>>>>
+>>>>> +
+>>>>>  Applications can enumerate the available controls with the
+>>>>>  :ref:`VIDIOC_QUERYCTRL` and
+>>>>>  :ref:`VIDIOC_QUERYMENU <VIDIOC_QUERYCTRL>` ioctls, get and set a
+>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>> index 8696eb1cdd61..16f66f66198c 100644
+>>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>> @@ -1242,6 +1242,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>>>>       case V4L2_CID_COLORIMETRY_CLASS:        return "Colorimetry Controls";
+>>>>>       case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:               return "HDR10 Content Light Info";
+>>>>>       case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:      return "HDR10 Mastering Display";
+>>>>> +     case V4L2_CID_USER_IMX_ASRC_RATIO_MOD:                  return "ASRC RATIO MOD";
+>>>>
+>>>> Let's stay consistent with the other control names:
+>>>>
+>>>> "ASRC Ratio Modifier"
+>>>>
+>>>> But if this is a driver specific control, then this doesn't belong here.
+>>>>
+>>>> Driver specific controls are defined in the driver itself, including this
+>>>> description.
+>>>>
+>>>> Same for the control documentation: if it is driver specific, then that
+>>>> typically is documented either in a driver-specific public header, or
+>>>> possibly in driver-specific documentation (Documentation/admin-guide/media/).
+>>>>
+>>>> But is this imx specific? Wouldn't other similar devices need this?
 >>>
->>> With that change you shouldn't have to check for q->bufs/bufs_map anymore.
->> It is a better solution but even like this vb2_core_queue_release() is called
->> at least 2 times on the same vivid queue and without testing q->bufs_bitmap
->> makes kernel crash.
-> Do you have a stacktrace for that? Perhaps vb2_core_queue_release should check
-> for q->bufs/q->bufs_map and return if those are NULL. But it could also be a
-> bug that it is called twice, it just was never noticed because it was harmless
-> before.
+>>> It is imx specific.
+>>
+>> Why? I'm not opposed to this, but I wonder if you looked at datasheets of
+>> similar devices from other vendors: would they use something similar?
+> 
+> I tried to find some datasheets for other vendors, but failed to find them.
+> So I don't know how they implement this part.
+> 
+> Ratio modification on i.MX is to modify the configured ratio.
+> For example, the input rate is 44.1kHz,  output rate is 48kHz,
+> configured ratio = 441/480,   the ratio modification is to modify
+> the fractional part of (441/480) with small steps.  because the
+> input clock or output clock has drift in the real hardware.
+> The ratio modification is signed value, it is added to configured
+> ratio.
+> 
+> In our case, we have some sysfs interface for user to get the
+> clock from input audio device and output audio device, user
+> need to calculate the ratio dynamically , then configure the
+> modification to driver
 
-I have added some printk to log that when running test-media on vivid:
+So this ratio modifier comes into play when either the audio input
+or audio output (or both) are realtime audio inputs/outputs where
+the sample rate is not a perfect 44.1 or 48 kHz, but slightly different?
 
-[  130.497426] vb2_core_queue_init queue cap-0000000050d195ab allocate q->bufs 00000000dc2c15ed and q->bufs_bitmap 000000008173fc5a
-...
-[  130.733967] vb2_core_queue_release queue cap-0000000050d195ab release q->bufs and q->bufs_bitmap
-[  133.866345] vb2_get_buffer queue cap-0000000050d195ab q->bufs_bitmap is NULL
-[  133.873454] CPU: 1 PID: 321 Comm: v4l2-ctl Not tainted 6.6.0-rc1+ #542
-[  133.879997] Hardware name: NXP i.MX8MQ EVK (DT)
-[  133.884536] Call trace:
-[  133.886988]  dump_backtrace+0x94/0xec
-[  133.890673]  show_stack+0x18/0x24
-[  133.894002]  dump_stack_lvl+0x48/0x60
-[  133.897681]  dump_stack+0x18/0x24
-[  133.901009]  __vb2_queue_cancel+0x250/0x31c
-[  133.905209]  vb2_core_queue_release+0x24/0x88
-[  133.909580]  _vb2_fop_release+0xb0/0xbc
-[  133.913428]  vb2_fop_release+0x2c/0x58
-[  133.917187]  vivid_fop_release+0x80/0x388 [vivid]
-[  133.921948]  v4l2_release+0x74/0xec
-[  133.925452]  __fput+0xb4/0x274
-[  133.928520]  __fput_sync+0x50/0x5c
-[  133.931934]  __arm64_sys_close+0x38/0x7c
-[  133.935868]  invoke_syscall+0x48/0x114
-[  133.939630]  el0_svc_common.constprop.0+0x40/0xe0
-[  133.944349]  do_el0_svc+0x1c/0x28
-[  133.947677]  el0_svc+0x40/0xe8
-[  133.950741]  el0t_64_sync_handler+0x100/0x12c
-[  133.955109]  el0t_64_sync+0x190/0x194
+If you would use this resampler to do offline resampling (i.e. resample
+a 44.1 kHz wav file to a 48 kHz wav file), then this wouldn't be needed,
+correct?
 
-and later I have a call to reqbufs on the same queue without call to vb2_core_queue_init before
+When dealing with realtime audio, userspace will know how to get the
+precise sample rate, but that is out-of-scope of this driver. Here
+you just need a knob to slightly tweak the resampling ratio.
 
-[   58.696812] __vb2_queue_alloc queue cap- 0000000050d195abq->bufs_bitmap is NULL
-[   58.704148] CPU: 1 PID: 319 Comm: v4l2-compliance Not tainted 6.6.0-rc1+ #544
-[   58.711291] Hardware name: NXP i.MX8MQ EVK (DT)
-[   58.715826] Call trace:
-[   58.718274]  dump_backtrace+0x94/0xec
-[   58.721951]  show_stack+0x18/0x24
-[   58.725274]  dump_stack_lvl+0x48/0x60
-[   58.728946]  dump_stack+0x18/0x24
-[   58.732268]  __vb2_queue_alloc+0x4a8/0x50c
-[   58.736374]  vb2_core_reqbufs+0x274/0x46c
-[   58.740391]  vb2_ioctl_reqbufs+0xb0/0xe8
-[   58.744320]  vidioc_reqbufs+0x50/0x64 [vivid]
-[   58.748717]  v4l_reqbufs+0x50/0x64
-[   58.752125]  __video_do_ioctl+0x164/0x3c8
-[   58.756140]  video_usercopy+0x200/0x668
-[   58.759982]  video_ioctl2+0x18/0x28
-[   58.763475]  v4l2_ioctl+0x40/0x60
-[   58.766798]  __arm64_sys_ioctl+0xac/0xf0
-[   58.770730]  invoke_syscall+0x48/0x114
-[   58.774487]  el0_svc_common.constprop.0+0x40/0xe0
-[   58.779199]  do_el0_svc+0x1c/0x28
-[   58.782520]  el0_svc+0x40/0xe8
-[   58.785580]  el0t_64_sync_handler+0x100/0x12c
-[   58.789942]  el0t_64_sync+0x190/0x194
+If my understanding is correct, then I wonder if it is such a good
+idea to put the rate into the v4l2_audio_format: it really has nothing
+to do with the audio format as it is stored in memory.
 
->
-> Regards,
->
-> 	Hans
->
->>> Regards,
+What if you would drop that 'rate' field and instead create just a single
+control for the resampling ratio. This can use struct v4l2_fract to represent
+a fraction. It would be more work since v4l2_fract is currently not supported
+for controls, but it is not hard to add support for that (just a bit tedious)
+and I actually think this might be a perfect solution.
+
+That way userspace can quite precisely tweak the ratio on the fly, and
+it is a generic solution as well instead of mediatek specific.
+
+Regards,
+
+	Hans
+
+> 
+> May be other vendors has similar implementation. or make
+> the definition be generic is an option.
+> 
+> best regards
+> wang shengjiu
+> 
+>>
+>> And the very short description you gave in the commit log refers to input
+>> and output clock: how would userspace know those clock frequencies? In
+>> other words, what information does userspace need in order to set this
+>> control correctly? And is that information actually available? How would
+>> you use this control?
+>>
+>> I don't really understand how this is supposed to be used.
+>>
 >>>
->>>      Hans
+>>> Does this mean that I need to create a header file in include/uapi/linux
+>>> folder to put this definition?  I just hesitate if this is necessary.
+>>
+>> Yes, put it there. There are some examples of this already:
+>>
+>> include/uapi/linux/aspeed-video.h
+>> include/uapi/linux/max2175.h
+>>
 >>>
->>>>     
->>>>>>>> +
->>>>>>>> +    return (bitmap_weight(q->bufs_map, q->max_allowed_buffers) > 0);
->>>>>>> How about:
->>>>>>>
->>>>>>>        return vb2_get_num_buffers(q) > 0;
->>>>>> vb2_get_num_buffers is defined in videobuf2-core.c, I'm not sure that
->>>>>> an inline function could depend of a module function.
->>>>> Not a problem. E.g. v4l2-ctrls.h is full of such static inlines.
+>>> There is folder Documentation/userspace-api/media/drivers/ for drivers
+>>> Should this document in this folder, not in the
+>>> Documentation/admin-guide/media/?
+>>
+>> Yes, you are correct. For the headers above, the corresponding documentation
+>> is in:
+>>
+>> Documentation/userspace-api/media/drivers/aspeed-video.rst
+>> Documentation/userspace-api/media/drivers/max2175.rst
+>>
+>> So you have some examples as reference.
+>>
+>> Frankly, what is in admin-guide and in userspace-api is a bit random, it
+>> probably could use a cleanup.
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>> Best regards
+>>> Wang shengjiu
+>>>>
+>>>>>       default:
+>>>>>               return NULL;
+>>>>>       }
+>>>>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>>>>> index c3604a0a3e30..b1c319906d12 100644
+>>>>> --- a/include/uapi/linux/v4l2-controls.h
+>>>>> +++ b/include/uapi/linux/v4l2-controls.h
+>>>>> @@ -162,6 +162,7 @@ enum v4l2_colorfx {
+>>>>>  /* The base for the imx driver controls.
+>>>>>   * We reserve 16 controls for this driver. */
+>>>>>  #define V4L2_CID_USER_IMX_BASE                       (V4L2_CID_USER_BASE + 0x10b0)
+>>>>> +#define V4L2_CID_USER_IMX_ASRC_RATIO_MOD     (V4L2_CID_USER_IMX_BASE + 0)
 >>>>>
->>>>> Regards,
->>>>>
->>>>>       Hans
->>>>>
->
+>>>>>  /*
+>>>>>   * The base for the atmel isc driver controls.
+>>>>
+>>>> Regards,
+>>>>
+>>>>         Hans
+>>
+
