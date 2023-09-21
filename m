@@ -2,61 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8EAE7AA2C1
-	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 23:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C09A17AA0E5
+	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 22:51:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231387AbjIUVeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Sep 2023 17:34:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51458 "EHLO
+        id S232179AbjIUUup (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Sep 2023 16:50:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231359AbjIUVd6 (ORCPT
+        with ESMTP id S232473AbjIUUub (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Sep 2023 17:33:58 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B50355AD7;
-        Thu, 21 Sep 2023 10:17:28 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A439C611A5;
-        Thu, 21 Sep 2023 16:48:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695314908;
-        bh=ZbMXdzw0c6h6S382Eseu0JWC3SsTXULfTbe1Huhp5BM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=D2YWMMMQiBTC5mxrk+SG24U9NwIaq8dJU0Qw9abr55Q84220BN00grlowP+mIyJ9X
-         Due81h4X6s9m6SpzErNcepsukUfq5XGjMjTYHIysoBms4ojX/ilMzZGW7t6tdLOH9g
-         Q10WJPqeiYnEYz3xd0jJyE0qNhj9YJ3urQlGTvaqdFDOWz94iiDE/WRL9by3g/VgOb
-         NK+SFUA4pA8acwVjMHwKK2hPAx1dn4GuI//4CZzzUM9MxuP8c3Ypp9lXqViDXp6SzB
-         e6BsQW5Rqm4XNeo4k86JIqffTyyrZYc0GomPiLHiieFizLyldl4ngBJFXIoghmw/i5
-         5k13QgGKHqYRA==
-Date:   Thu, 21 Sep 2023 18:48:26 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH RFC v2 00/37] drm/connector: Create HDMI Connector
- infrastructure
-Message-ID: <cbbovd3t7ssstvk22qmhwl7hgfo74jdwy77harjh3wwyaml3hh@qfsoqtqaw26x>
-References: <20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org>
- <f6bf0ef2-7a2a-4456-825f-a34ba8c8886f@xs4all.nl>
+        Thu, 21 Sep 2023 16:50:31 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEDFCD2068
+        for <linux-media@vger.kernel.org>; Thu, 21 Sep 2023 11:45:41 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2b95d5ee18dso22283981fa.1
+        for <linux-media@vger.kernel.org>; Thu, 21 Sep 2023 11:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1695321940; x=1695926740; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5qHSfSCqrovxL6GDTyoOuCZ+/MuVj0+loftxjgaYqcg=;
+        b=bE5lMTsfU3a8JLoOggKr3vTnzaeYf7nrht3y43fqk9AY8eFrgRiIKMfYhmrh9+gYkH
+         Hru/QAx6FXRepqdAuxwQSr3VK1JRaSC6wZqlRRPlnf8LWpSO2qeHJx892v6rtPShTVk3
+         c6CIXpoSvn+UOevy5rLdZK+gxqfWQCAQS53Vz4HXag8jbjgSyv1iTARKXqJzspoKFtaZ
+         GuoaU3f/l5u/fUl0uVgXiggHUB9FLSHZB4e8hv0H1wFj0Q6Efn3evnRFw0JPydUwOlHf
+         g/99Zy/rr4wu0I/MM6dDuis2cfQQ3qcH+6tutaMc8DYM3uA9H7AZiImGq0a3x2qF6kHz
+         FsuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695321940; x=1695926740;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5qHSfSCqrovxL6GDTyoOuCZ+/MuVj0+loftxjgaYqcg=;
+        b=e8xiOV7T5+Ew0XUBOGHUEhx7hhBbMTdqqctUvNHoFYMPo5olzP5z2FxRw2APoOb1tn
+         +TtokYI47ob3vkPhNbhmTwwJDcvvhF7NJTaxRoytbU60ip5ZV83qg47V+82XBHTXvQOB
+         w+MmcRGdKO1JgtSjKQf9XxDyk+aGlPfZTVLlZs3ihSizo8LAmxNtZbzVx/TpXiNniv24
+         xZUe0VN6EsbG35TK32Fn/EUkHfAfl+kVY5KzyhBMFFMlJcMM+5ToiPGIRSUNTHpJ55i2
+         SOrTIN5BJTzhUJNX4qHru4pRACSTrYNcEZgHX8Ps0OqRwyXqNYCXPmPHFQupdQpHpANu
+         +tdg==
+X-Gm-Message-State: AOJu0YzoOZAEXxpqVytvaXXt0Y4fBOPsi0vtZUgsvKdBLAAUyIDA7igM
+        Jjup/R5hV4bbdFUGRpAfuBMdKg==
+X-Google-Smtp-Source: AGHT+IFY2VAcdPoG/7HtbQAXH8lj0D23g3bRz0xCFuTHjFUDK8ABHnoID8XZcPvApsuFZ50cfhi2pw==
+X-Received: by 2002:a2e:92c3:0:b0:2bf:7905:12c3 with SMTP id k3-20020a2e92c3000000b002bf790512c3mr5431739ljh.40.1695321938911;
+        Thu, 21 Sep 2023 11:45:38 -0700 (PDT)
+Received: from localhost (h-46-59-36-206.A463.priv.bahnhof.se. [46.59.36.206])
+        by smtp.gmail.com with ESMTPSA id s18-20020a2e2c12000000b002b9e346a152sm468179ljs.96.2023.09.21.11.45.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 11:45:38 -0700 (PDT)
+Date:   Thu, 21 Sep 2023 20:45:37 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, guoniu.zhou@oss.nxp.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-imx@nxp.com, mchehab@kernel.org,
+        alexander.stein@ew.tq-group.com, krzysztof.kozlowski+dt@linaro.org,
+        robh+dt@kernel.org, conor+dt@kernel.org,
+        jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH v2 2/2] media: nxp: add driver for i.MX93 MIPI CSI-2
+ controller and D-PHY
+Message-ID: <ZQyPURd-I2WwOsh5@oden.dyn.berto.se>
+References: <20230710060352.584286-1-guoniu.zhou@oss.nxp.com>
+ <20230710060352.584286-3-guoniu.zhou@oss.nxp.com>
+ <ZQIdQmsv4wEmmyau@valkosipuli.retiisi.eu>
+ <20230917212509.GB16448@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tqheb5u3s3lx5xmw"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f6bf0ef2-7a2a-4456-825f-a34ba8c8886f@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230917212509.GB16448@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,151 +80,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
---tqheb5u3s3lx5xmw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2023-09-18 00:25:09 +0300, Laurent Pinchart wrote:
 
-Hi Hans,
+[snip]
 
-On Thu, Sep 21, 2023 at 06:29:29PM +0200, Hans Verkuil wrote:
-> On 20/09/2023 16:35, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > Here's a series that creates a subclass of drm_connector specifically
-> > targeted at HDMI controllers.
-> >=20
-> > The idea behind this series came from a recent discussion on IRC during
-> > which we discussed infoframes generation of i915 vs everything else.=20
-> >=20
-> > Infoframes generation code still requires some decent boilerplate, with
-> > each driver doing some variation of it.
-> >=20
-> > In parallel, while working on vc4, we ended up converting a lot of i915
-> > logic (mostly around format / bpc selection, and scrambler setup) to
-> > apply on top of a driver that relies only on helpers.
-> >=20
-> > While currently sitting in the vc4 driver, none of that logic actually
-> > relies on any driver or hardware-specific behaviour.
-> >=20
-> > The only missing piece to make it shareable are a bunch of extra
-> > variables stored in a state (current bpc, format, RGB range selection,
-> > etc.).
-> >=20
-> > The initial implementation was relying on some generic subclass of
-> > drm_connector to address HDMI connectors, with a bunch of helpers that
-> > will take care of all the "HDMI Spec" related code. Scrambler setup is
-> > missing at the moment but can easily be plugged in.
-> >=20
-> > The feedback was that creating a connector subclass like was done for
-> > writeback would prevent the adoption of those helpers since it couldn't
-> > be used in all situations (like when the connector driver can implement
-> > multiple output) and required more churn to cast between the
-> > drm_connector and its subclass. The decision was thus to provide a set
-> > of helper and to store the required variables in drm_connector and
-> > drm_connector_state. This what has been implemented now.
-> >=20
-> > Hans Verkuil also expressed interest in implementing a mechanism in v4l2
-> > to retrieve infoframes from HDMI receiver and implementing an
-> > infoframe-decode tool.
->=20
-> I'd love to get started on that, but...
->=20
-> >=20
-> > This series thus leverages the infoframe generation code to expose it
-> > through debugfs.
-> >=20
-> > This entire series is only build-tested at the moment. Let me know what
-> > you think,
->=20
-> ...trying this series on my RPi4 gives me this during boot:
->=20
-> [    2.361239] vc4-drm gpu: bound fe400000.hvs (ops 0xffff800080cac6f8)
-> [    2.367834] Unable to handle kernel NULL pointer dereference at virtua=
-l address 0000000000000090
-> [    2.376748] Mem abort info:
-> [    2.379570]   ESR =3D 0x0000000096000044
-> [    2.383367]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-> [    2.388748]   SET =3D 0, FnV =3D 0
-> [    2.391835]   EA =3D 0, S1PTW =3D 0
-> [    2.395011]   FSC =3D 0x04: level 0 translation fault
-> [    2.399951] Data abort info:
-> [    2.402864]   ISV =3D 0, ISS =3D 0x00000044, ISS2 =3D 0x00000000
-> [    2.408420]   CM =3D 0, WnR =3D 1, TnD =3D 0, TagAccess =3D 0
-> [    2.413536]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
-> [    2.418916] [0000000000000090] user address but active_mm is swapper
-> [    2.425353] Internal error: Oops: 0000000096000044 [#1] PREEMPT SMP
-> [    2.431700] Modules linked in:
-> [    2.434791] CPU: 2 PID: 55 Comm: kworker/u8:3 Not tainted 6.6.0-rc1-hd=
-mi-dbg #245
-> [    2.442372] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
-> [    2.448278] Workqueue: events_unbound deferred_probe_work_func
-> [    2.454193] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [    2.461245] pc : drm_connector_attach_max_bpc_property+0x48/0x90
-> [    2.467332] lr : drm_connector_attach_max_bpc_property+0x3c/0x90
-> [    2.473415] sp : ffff800081d038b0
-> [    2.476766] x29: ffff800081d038b0 x28: 0000000000000000 x27: ffff00010=
-41968c0
-> [    2.483999] x26: 0000000000000000 x25: ffff00010339d558 x24: ffff00010=
-3399000
-> [    2.491231] x23: ffff800080caa3e8 x22: ffff800080e96a20 x21: 000000000=
-000000c
-> [    2.498463] x20: 000000000000000c x19: ffff00010339d558 x18: fffffffff=
-fffffff
-> [    2.505694] x17: ffff0001008e7650 x16: ffff800080d55500 x15: fffffffff=
-fffffff
-> [    2.512926] x14: ffff000105dda209 x13: 0000000000000006 x12: 000000000=
-0000001
-> [    2.520158] x11: 0101010101010101 x10: ffff00027effe219 x9 : 000000000=
-0000001
-> [    2.527389] x8 : ffff000105db8ad4 x7 : 00000000c0c0c0c0 x6 : 00000000c=
-0c0c0c0
-> [    2.534620] x5 : 0000000000000000 x4 : ffff00010339d728 x3 : ffff00010=
-339d728
-> [    2.541852] x2 : 000000000000000c x1 : 0000000000000000 x0 : 000000000=
-0000000
-> [    2.549083] Call trace:
-> [    2.551554]  drm_connector_attach_max_bpc_property+0x48/0x90
-> [    2.557285]  drmm_connector_hdmi_init+0x114/0x14c
-> [    2.562048]  vc4_hdmi_bind+0x320/0xa40
-> [    2.565842]  component_bind_all+0x114/0x23c
-> [    2.570077]  vc4_drm_bind+0x148/0x2c0
-> [    2.573784]  try_to_bring_up_aggregate_device+0x168/0x1d4
-> [    2.579253]  __component_add+0xa4/0x16c
-> [    2.583136]  component_add+0x14/0x20
-> [    2.586754]  vc4_hdmi_dev_probe+0x1c/0x28
-> [    2.590815]  platform_probe+0x68/0xc4
-> [    2.594522]  really_probe+0x148/0x2b0
-> [    2.598228]  __driver_probe_device+0x78/0x12c
-> [    2.602638]  driver_probe_device+0xd8/0x15c
-> [    2.606873]  __device_attach_driver+0xb8/0x134
-> [    2.611372]  bus_for_each_drv+0x80/0xdc
-> [    2.615254]  __device_attach+0x9c/0x188
-> [    2.619136]  device_initial_probe+0x14/0x20
-> [    2.623371]  bus_probe_device+0xac/0xb0
-> [    2.627253]  deferred_probe_work_func+0x88/0xc0
-> [    2.631839]  process_one_work+0x138/0x244
-> [    2.635899]  worker_thread+0x320/0x438
-> [    2.639692]  kthread+0x10c/0x110
-> [    2.642957]  ret_from_fork+0x10/0x20
-> [    2.646576] Code: 94005f8d 12001e94 f9427e61 52800000 (39024034)
-> [    2.652745] ---[ end trace 0000000000000000 ]---
+> > > diff --git a/drivers/media/platform/nxp/dwc-mipi-csi2.h 
+> > > b/drivers/media/platform/nxp/dwc-mipi-csi2.h
+> > > new file mode 100644
+> > > index 000000000000..470023787c25
+> > > --- /dev/null
+> > > +++ b/drivers/media/platform/nxp/dwc-mipi-csi2.h
+> > > @@ -0,0 +1,299 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright 2023 NXP
+> > > + */
+> > > +
+> > > +#ifndef __DWC_MIPI_CSI2_H__
+> > > +#define __DWC_MIPI_CSI2_H__
+> > > +
+> > > +#include <linux/device.h>
+> > > +#include <linux/delay.h>
+> > > +#include <linux/io.h>
+> > > +
+> > > +#include <media/v4l2-ctrls.h>
+> > > +#include <media/v4l2-device.h>
+> > > +#include <media/v4l2-fwnode.h>
+> > > +#include <media/v4l2-mc.h>
+> > > +#include <media/v4l2-subdev.h>
+> > 
+> > I don't think you need many of these headers here. Please move to the .c
+> > file those you don't need here.
+> > 
+> > > +
+> > > +/* MIPI CSI-2 Host Controller Registers Define */
+> > > +
+> 
+> Niklas, is it me, or do the registers here look very familiar ? The
+> R-Car V4H may have the same CSI-2 RX. Should we have a single driver ?
 
-Well, I guess I'll have to start testing what I'm doing then :)
+I agree it looks very familiar. The register space to indeed start out 
+aligned between this driver and R-Car V4H (not checked every bit tho).  
+But once we get to later registers it seems the two diverge a bit. If 
+this is due to usage or something else I don't know. I have very sparse 
+documentation for the V4H.
 
-Maxime
+It becomes even more interesting. Have a look at this drivers 
+hsfreqrange lookup table, dwc_csi_mbps_table[]. That overlaps with R-Car 
+V3U (rcar-csi2.c hsfreqrange_v3u[]) instead of V4H, but V3U appears to 
+support faster bus.
 
---tqheb5u3s3lx5xmw
-Content-Type: application/pgp-signature; name="signature.asc"
+I think we can agree these two drivers are very similar, but not 
+identical. The most interesting register here is the first one 
+CSI2RX_VERSION. Maybe if we can figure that out we could start to think 
+about a generic driver? Unfortunately I have no documentation for the 
+content of this register. And the V4H driver do not use it, so I don't 
+even know if it contains anything.
 
------BEGIN PGP SIGNATURE-----
+Is there any publicly documentation about this device? I have very 
+sparse documentation about V4H, and nothing I can share. As to not block 
+anyone maybe two drivers are OK and if we can figure out what parts, if 
+any can be shared?
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQxz2gAKCRDj7w1vZxhR
-xTmAAP9zoK2b+SdtpCJFGCX7o373ATzx/Z9LKZn8NsK54IxYDAEAqMqFpI0Xg1Kq
-iSTWfIp3pAvquRgXpVDtgkMv7+qbSAU=
-=vGpA
------END PGP SIGNATURE-----
-
---tqheb5u3s3lx5xmw--
+-- 
+Kind Regards,
+Niklas Söderlund
