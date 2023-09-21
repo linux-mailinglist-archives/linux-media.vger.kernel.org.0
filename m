@@ -2,139 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FEED7A990C
-	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 20:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ABE17A9BE5
+	for <lists+linux-media@lfdr.de>; Thu, 21 Sep 2023 21:05:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbjIUSKs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Sep 2023 14:10:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47862 "EHLO
+        id S229512AbjIUTFK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Sep 2023 15:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbjIUSKj (ORCPT
+        with ESMTP id S231207AbjIUTEL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Sep 2023 14:10:39 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ECE885D28
-        for <linux-media@vger.kernel.org>; Thu, 21 Sep 2023 10:37:51 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD8DC4E67E;
-        Thu, 21 Sep 2023 12:55:33 +0000 (UTC)
-Message-ID: <48385e32-f161-4f6c-b039-7fb4816998ba@xs4all.nl>
-Date:   Thu, 21 Sep 2023 14:55:32 +0200
+        Thu, 21 Sep 2023 15:04:11 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79CC77C71C;
+        Thu, 21 Sep 2023 10:53:21 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:9fdf:789a:7434:5a59] (unknown [IPv6:2a01:e0a:120:3210:9fdf:789a:7434:5a59])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0993D660730F;
+        Thu, 21 Sep 2023 14:07:08 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1695301628;
+        bh=mmmqwe8q35EF60gRPt25qgUoNhlMJ6f3fdyHBPL8m3I=;
+        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+        b=eycWj38iy+o38Wd27qeabpN9rCIeaUbg4iCFmr/gYTc1iI0sd4g6PA9ixzl7OCbql
+         WhNNn1IPL7jCZXaa2tfeNuBKI4ukEnhi++qwS4TsPhYUByBrX434lzly16fjBPPHT7
+         QgOvqo9F9b7POofosZ0jRYZqHKDttSbNFGaU2H1A13qYx12llkfYMrgHPECpHbIT10
+         CDRhZxzqHs5xvj42Z+kN44idFLmv+2Iv0EQNVANYJmritM3Pcy1Epy6YGXCzq9e//j
+         GHNFOeedc4smhZgCbok3W1igHvgk7paj/48e3GyHtkEXS65ykPybPaMsxYkchfcfsY
+         85EKNLZgBqdMQ==
+Message-ID: <bf659f27-1669-86b8-df30-f1e7f9ecf371@collabora.com>
+Date:   Thu, 21 Sep 2023 15:07:05 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL FOR v6.7] RC fixes
-Content-Language: en-US, nl
-To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org
-References: <ZQAK1UxQlcx2ExWr@gofer.mess.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <ZQAK1UxQlcx2ExWr@gofer.mess.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v7 45/49] media: core: Add bitmap manage bufs array
+ entries
+Content-Language: en-US
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230914133323.198857-1-benjamin.gaignard@collabora.com>
+ <20230914133323.198857-46-benjamin.gaignard@collabora.com>
+ <1142bbb4-b8f1-44ec-962e-9347a231782f@xs4all.nl>
+ <20b6b93e-eef8-3d7b-a3c2-795f220059d4@collabora.com>
+ <470682b4-c14b-4237-bc46-fddfdd085026@xs4all.nl>
+ <31f298ec-6280-d21b-3d8a-c7bf1c9c0c30@collabora.com>
+ <b10a7414-b710-4fb9-a72d-e2d7eff2616d@xs4all.nl>
+ <aa649adf-8faf-801b-f6bd-d4a4760e040f@collabora.com>
+ <a6a6da68-d9f2-44d3-9741-aa2cf83fac6d@xs4all.nl>
+ <c8b7db47-3875-a10b-8d81-a0b3dcbc564a@collabora.com>
+In-Reply-To: <c8b7db47-3875-a10b-8d81-a0b3dcbc564a@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sean,
 
-On 12/09/2023 08:53, Sean Young wrote:
-> The following changes since commit f32b68cd3604a824769ffeb02d2adea492a9d221:
-> 
->   media: cx231xx: Add EP5_BUF_SIZE and EP5_TIMEOUT_MS macros (2023-09-06 12:29:09 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/syoung/media_tree.git tags/v6.7a
-> 
-> for you to fetch changes up to c6ab671c3b08b7b5231346ec7a7f06ff2b22bf07:
-> 
->   arm64: dts: meson: add IR controller for Meson-S4 SoC (2023-09-11 11:49:43 +0100)
-> 
-> ----------------------------------------------------------------
-> v6.7a
-> 
-> ----------------------------------------------------------------
-> Sean Young (2):
->       dt-bindings: media: remove nokia,n900-ir as pwm-ir-tx is compatible
->       media: rc: remove ir-rx51 in favour of generic pwm-ir-tx
-> 
-> Zelong Dong (2):
->       media: rc: meson-ir: support rc driver type RC_DRIVER_SCANCODE
->       arm64: dts: meson: add IR controller for Meson-S4 SoC
+Le 21/09/2023 à 14:46, Benjamin Gaignard a écrit :
+>
+> Le 21/09/2023 à 14:13, Hans Verkuil a écrit :
+>> On 21/09/2023 14:05, Benjamin Gaignard wrote:
+>>> Le 21/09/2023 à 12:24, Hans Verkuil a écrit :
+>>>> On 21/09/2023 11:28, Benjamin Gaignard wrote:
+>>>>> Le 20/09/2023 à 16:56, Hans Verkuil a écrit :
+>>>>>> On 20/09/2023 16:30, Benjamin Gaignard wrote:
+>>>>>> <snip>
+>>>>>>
+>>>>>>>>>          num_buffers = min_t(unsigned int, num_buffers,
+>>>>>>>>>                      q->max_allowed_buffers - 
+>>>>>>>>> vb2_get_num_buffers(q));
+>>>>>>>>>      -    first_index = vb2_get_num_buffers(q);
+>>>>>>>>> +    first_index = bitmap_find_next_zero_area(q->bufs_map, 
+>>>>>>>>> q->max_allowed_buffers,
+>>>>>>>>> +                         0, num_buffers, 0);
+>>>>>>>>>            if (first_index >= q->max_allowed_buffers)
+>>>>>>>>>              return 0;
+>>>>>>>>> @@ -675,7 +678,13 @@ static void __vb2_queue_free(struct 
+>>>>>>>>> vb2_queue *q, unsigned int buffers)
+>>>>>>>>>        struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q, 
+>>>>>>>>> unsigned int index)
+>>>>>>>>>      {
+>>>>>>>>> -    if (index < q->num_buffers)
+>>>>>>>>> +    if (!q->bufs_map || !q->bufs)
+>>>>>>>>> +        return NULL;
+>>>>>>>> I don't think this can ever happen.
+>>>>>>> I got kernel crash without them.
+>>>>>>> I will keep them.
+>>>>>> What is the backtrace? How can this happen? It feels wrong that 
+>>>>>> this can be
+>>>>>> called with a vb2_queue that apparently is not properly initialized.
+>>>>> I have this log when adding dump_stack() in vb2_get_buffer() if 
+>>>>> !q->bufs_bitmap:
+>>>>>
+>>>>> [   18.924627] Call trace:
+>>>>> [   18.927090]  dump_backtrace+0x94/0xec
+>>>>> [   18.930787]  show_stack+0x18/0x24
+>>>>> [   18.934137]  dump_stack_lvl+0x48/0x60
+>>>>> [   18.937833]  dump_stack+0x18/0x24
+>>>>> [   18.941166]  __vb2_queue_cancel+0x23c/0x2f0
+>>>>> [   18.945365]  vb2_core_queue_release+0x24/0x6c
+>>>>> [   18.949740]  vb2_queue_release+0x10/0x1c
+>>>>> [   18.953677]  v4l2_m2m_ctx_release+0x20/0x40
+>>>>> [   18.957892]  hantro_release+0x20/0x54
+>>>>> [   18.961584]  v4l2_release+0x74/0xec
+>>>>> [   18.965110]  __fput+0xb4/0x274
+>>>>> [   18.968205]  __fput_sync+0x50/0x5c
+>>>>> [   18.971626]  __arm64_sys_close+0x38/0x7c
+>>>>> [   18.975562]  invoke_syscall+0x48/0x114
+>>>>> [   18.979329]  el0_svc_common.constprop.0+0xc0/0xe0
+>>>>> [   18.984068]  do_el0_svc+0x1c/0x28
+>>>>> [   18.987402]  el0_svc+0x40/0xe8
+>>>>> [   18.990470]  el0t_64_sync_handler+0x100/0x12c
+>>>>> [   18.994842]  el0t_64_sync+0x190/0x194
+>>>>>
+>>>>> This happen at boot time when hantro driver is open and close 
+>>>>> without other actions.
+>>>> Ah, now I see the problem. q->bufs and q->bufs_map are allocated in
+>>>> vb2_core_create_bufs and vb2_core_reqbufs, but they should be 
+>>>> allocated
+>>>> in vb2_queue_init: that's the counterpart of vb2_core_queue_release.
 
-I think you accidentally picked the dts patch instead of the bindings
-patch (1), since that one is missing, leading to a checkpatch warning:
-
-WARNING: DT compatible string "amlogic,meson-s4-ir" appears un-documented -- check ./Documentation/devicetree/bindings/
-#56: FILE: arch/arm64/boot/dts/amlogic/meson-s4.dtsi:146:
-+                               compatible = "amlogic,meson-s4-ir";
-
-I'll mark this PR as 'Changes Requested', since this can't be right.
+Hans,
+I think we are doing loops in your comment :-)
+https://patchwork.kernel.org/comment/25496456/
 
 Regards,
+Benjamin
 
-	Hans
-
-(1) https://patchwork.linuxtv.org/project/linux-media/patch/20230825115310.39993-3-zelong.dong@amlogic.com/
-
-> 
->  .../devicetree/bindings/leds/irled/pwm-ir-tx.yaml  |   5 +-
->  .../devicetree/bindings/media/nokia,n900-ir        |  20 -
->  arch/arm/configs/omap2plus_defconfig               |   1 -
->  .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts     |   6 +
->  arch/arm64/boot/dts/amlogic/meson-s4.dtsi          |  15 +
->  drivers/media/rc/Kconfig                           |  10 -
->  drivers/media/rc/Makefile                          |   1 -
->  drivers/media/rc/ir-rx51.c                         | 285 -----------
->  drivers/media/rc/meson-ir.c                        | 522 ++++++++++++++++++---
->  drivers/media/rc/pwm-ir-tx.c                       |   1 +
->  10 files changed, 477 insertions(+), 389 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/nokia,n900-ir
->  delete mode 100644 drivers/media/rc/ir-rx51.c
-
+>>>>
+>>>> With that change you shouldn't have to check for q->bufs/bufs_map 
+>>>> anymore.
+>>> It is a better solution but even like this vb2_core_queue_release() 
+>>> is called
+>>> at least 2 times on the same vivid queue and without testing 
+>>> q->bufs_bitmap
+>>> makes kernel crash.
+>> Do you have a stacktrace for that? Perhaps vb2_core_queue_release 
+>> should check
+>> for q->bufs/q->bufs_map and return if those are NULL. But it could 
+>> also be a
+>> bug that it is called twice, it just was never noticed because it was 
+>> harmless
+>> before.
+>
+> I have added some printk to log that when running test-media on vivid:
+>
+> [  130.497426] vb2_core_queue_init queue cap-0000000050d195ab allocate 
+> q->bufs 00000000dc2c15ed and q->bufs_bitmap 000000008173fc5a
+> ...
+> [  130.733967] vb2_core_queue_release queue cap-0000000050d195ab 
+> release q->bufs and q->bufs_bitmap
+> [  133.866345] vb2_get_buffer queue cap-0000000050d195ab 
+> q->bufs_bitmap is NULL
+> [  133.873454] CPU: 1 PID: 321 Comm: v4l2-ctl Not tainted 6.6.0-rc1+ #542
+> [  133.879997] Hardware name: NXP i.MX8MQ EVK (DT)
+> [  133.884536] Call trace:
+> [  133.886988]  dump_backtrace+0x94/0xec
+> [  133.890673]  show_stack+0x18/0x24
+> [  133.894002]  dump_stack_lvl+0x48/0x60
+> [  133.897681]  dump_stack+0x18/0x24
+> [  133.901009]  __vb2_queue_cancel+0x250/0x31c
+> [  133.905209]  vb2_core_queue_release+0x24/0x88
+> [  133.909580]  _vb2_fop_release+0xb0/0xbc
+> [  133.913428]  vb2_fop_release+0x2c/0x58
+> [  133.917187]  vivid_fop_release+0x80/0x388 [vivid]
+> [  133.921948]  v4l2_release+0x74/0xec
+> [  133.925452]  __fput+0xb4/0x274
+> [  133.928520]  __fput_sync+0x50/0x5c
+> [  133.931934]  __arm64_sys_close+0x38/0x7c
+> [  133.935868]  invoke_syscall+0x48/0x114
+> [  133.939630]  el0_svc_common.constprop.0+0x40/0xe0
+> [  133.944349]  do_el0_svc+0x1c/0x28
+> [  133.947677]  el0_svc+0x40/0xe8
+> [  133.950741]  el0t_64_sync_handler+0x100/0x12c
+> [  133.955109]  el0t_64_sync+0x190/0x194
+>
+> and later I have a call to reqbufs on the same queue without call to 
+> vb2_core_queue_init before
+>
+> [   58.696812] __vb2_queue_alloc queue cap- 
+> 0000000050d195abq->bufs_bitmap is NULL
+> [   58.704148] CPU: 1 PID: 319 Comm: v4l2-compliance Not tainted 
+> 6.6.0-rc1+ #544
+> [   58.711291] Hardware name: NXP i.MX8MQ EVK (DT)
+> [   58.715826] Call trace:
+> [   58.718274]  dump_backtrace+0x94/0xec
+> [   58.721951]  show_stack+0x18/0x24
+> [   58.725274]  dump_stack_lvl+0x48/0x60
+> [   58.728946]  dump_stack+0x18/0x24
+> [   58.732268]  __vb2_queue_alloc+0x4a8/0x50c
+> [   58.736374]  vb2_core_reqbufs+0x274/0x46c
+> [   58.740391]  vb2_ioctl_reqbufs+0xb0/0xe8
+> [   58.744320]  vidioc_reqbufs+0x50/0x64 [vivid]
+> [   58.748717]  v4l_reqbufs+0x50/0x64
+> [   58.752125]  __video_do_ioctl+0x164/0x3c8
+> [   58.756140]  video_usercopy+0x200/0x668
+> [   58.759982]  video_ioctl2+0x18/0x28
+> [   58.763475]  v4l2_ioctl+0x40/0x60
+> [   58.766798]  __arm64_sys_ioctl+0xac/0xf0
+> [   58.770730]  invoke_syscall+0x48/0x114
+> [   58.774487]  el0_svc_common.constprop.0+0x40/0xe0
+> [   58.779199]  do_el0_svc+0x1c/0x28
+> [   58.782520]  el0_svc+0x40/0xe8
+> [   58.785580]  el0t_64_sync_handler+0x100/0x12c
+> [   58.789942]  el0t_64_sync+0x190/0x194
+>
+>>
+>> Regards,
+>>
+>>     Hans
+>>
+>>>> Regards,
+>>>>
+>>>>      Hans
+>>>>
+>>>>>>>>> +
+>>>>>>>>> +    return (bitmap_weight(q->bufs_map, 
+>>>>>>>>> q->max_allowed_buffers) > 0);
+>>>>>>>> How about:
+>>>>>>>>
+>>>>>>>>        return vb2_get_num_buffers(q) > 0;
+>>>>>>> vb2_get_num_buffers is defined in videobuf2-core.c, I'm not sure 
+>>>>>>> that
+>>>>>>> an inline function could depend of a module function.
+>>>>>> Not a problem. E.g. v4l2-ctrls.h is full of such static inlines.
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>>       Hans
+>>>>>>
+>>
