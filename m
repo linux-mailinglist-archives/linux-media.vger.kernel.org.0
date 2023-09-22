@@ -2,98 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 594797AAE5B
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 11:39:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8365D7AAE68
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 11:41:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233218AbjIVJjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 05:39:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39534 "EHLO
+        id S232913AbjIVJlP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 05:41:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233168AbjIVJjB (ORCPT
+        with ESMTP id S232830AbjIVJlO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 05:39:01 -0400
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40EEB199
-        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 02:38:56 -0700 (PDT)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-59be9a09c23so23485127b3.1
-        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 02:38:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=edgeble-ai.20230601.gappssmtp.com; s=20230601; t=1695375535; x=1695980335; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mwNQ/CYeR/nBD7mWQbxqZyORQOanfTdsCvfUkINX8Jk=;
-        b=Fkhk+ib9VibTK4DrHc1Cgt0qSQmw0ODMPR4ogkCHpwY9LDT1/AZFckviW7YN4/z1cG
-         MeWQdsICfnqLZAOHIImvzYmBfAT27KZOvrDgl72R++O3inUMHN2AqCPUcvAlZe3GfGP7
-         zvp+4oLzesfFBafNGuLtXhRInoaVYU4zZMA8MQWc2rjFQtBv89ZkjM0q6gcZAeVd0g/f
-         8zKBtNTTiV4tGEs4Ts9YCwL74cU+sEH64FOKdCwVCN+yHiXdByzS2NAcpoMr7mwKblS2
-         7Rcn40zy4Zon9zOB2eb9J1batCw4ZeqXrdVL7khCJ54SMXESEJ7G740ShdbnPMtDDnxI
-         c4cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695375535; x=1695980335;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mwNQ/CYeR/nBD7mWQbxqZyORQOanfTdsCvfUkINX8Jk=;
-        b=ktJ1REmHPy4VZ2EHC+dzIjQuhqX/U6Jf8fU+s9zUFj0iS5Hrnwy0xxSnGAYx95t2sn
-         zPy7lPPDtYjvjXAzq2PaPmSbsyoKMVVGNaZWr7qBqdQFfpJdq+lnnbIGW7XDXjIZ1S0g
-         bqDfCUM0u8lxTFFTCncfdGkk1yWFVwkyAdQMKeLUHdVO6iOKIWwdLy7wePB9tup6t9er
-         cEcc4wmgdBMLXt++7Pl5gVrb9XYydh84hWbsgNv1k8kcUtmjH5JtGX1F3Cu8+aVLiORC
-         MxjlUdUCZ0FEiyluonbYE3aA2Fl0DXwZWarEtskFU+g30oN3qw0yyZQvnVwReP8FcpCx
-         itxA==
-X-Gm-Message-State: AOJu0YyBps1QEn+CUHQvt1waWUxjGBnUKAHLprPqIMjzbYt4w4emLAr/
-        b4x9EYVvV56TWRECWSwcs6LDIUE0L3e6RUXcHA8zVw==
-X-Google-Smtp-Source: AGHT+IGCviUFRNTNlBmQpjFFVbwhGWnPpRQNyvwuSmBs8kTiPoJBFEGggeTFnWVRC2IQcGVXMWgAXd5rWViC+sO0gqM=
-X-Received: by 2002:a0d:d9c8:0:b0:59b:fe73:debc with SMTP id
- b191-20020a0dd9c8000000b0059bfe73debcmr7879297ywe.0.1695375535376; Fri, 22
- Sep 2023 02:38:55 -0700 (PDT)
+        Fri, 22 Sep 2023 05:41:14 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4922E19B
+        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 02:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695375668; x=1726911668;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZARz2Vul3GFQmTXr9VEt7St8RNPxOx5PxwTV3nSv9P8=;
+  b=AMOHEXFj/4M6q8XBYUmoQc5ylJRueQ8SlLM0ITdqesHGVaRQT+X95s2g
+   YQ0k5EiGHAngI2ycX147GGpehvnZHrDeN7EoO3qy1uQB75Kmtl1OE4yvx
+   X0Ztd5IOiyLzBslxLWL/26XWkmdSENT48GBx5jCFpJTc0btWYgL00hdb1
+   WQiaR4sQvDYbJhXx8GETejn8UF+CtWGJunDe0DFIaTXcBfa/ed//2MhEY
+   aIQz6QZrNJ4/drbiaOEKqWgMcI0HJ2cStlZ9X0GVC3jWSmHtSB2lQ92PH
+   qPqrSDSXx8p2by8HXLmLOLYUxl1vIuaGl18td1b2bF5n5XKPUvJ5+mYPt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="384624107"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
+   d="scan'208";a="384624107"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 02:41:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="890757528"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
+   d="scan'208";a="890757528"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 02:40:10 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 44BC811FC30;
+        Fri, 22 Sep 2023 12:41:01 +0300 (EEST)
+Date:   Fri, 22 Sep 2023 09:41:01 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>
+Subject: Re: [PATCH v3 11/12] media: v4l: subdev: Print debug information on
+ frame descriptor
+Message-ID: <ZQ1hLRtz4ai+miPS@kekkonen.localdomain>
+References: <20230919121728.126781-1-sakari.ailus@linux.intel.com>
+ <20230919121728.126781-12-sakari.ailus@linux.intel.com>
+ <20230919133248.GD1505@pendragon.ideasonboard.com>
+ <ZQm0+U6n+rE2fjcD@kekkonen.localdomain>
+ <20230919152123.GA18426@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <SEYPR03MB704641091854162959578D7E9AFFA@SEYPR03MB7046.apcprd03.prod.outlook.com>
-In-Reply-To: <SEYPR03MB704641091854162959578D7E9AFFA@SEYPR03MB7046.apcprd03.prod.outlook.com>
-From:   Jagan Teki <jagan@edgeble.ai>
-Date:   Fri, 22 Sep 2023 15:08:44 +0530
-Message-ID: <CA+VMnFyhp9D8cjtvLVzdKGETouOuH=MKgjOu1pn00WDRB=5oUg@mail.gmail.com>
-Subject: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
-To:     Cancan Chang <Cancan.Chang@amlogic.com>,
-        Oded Gabbay <ogabbay@kernel.org>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230919152123.GA18426@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 22 Sept 2023 at 15:04, Cancan Chang <Cancan.Chang@amlogic.com> wrot=
-e:
->
-> Dear Media Maintainers:
->      Thanks for your attention. Before describing my problem=EF=BC=8Clet =
-me introduce to you what I  mean by NPU.
->      NPU is Neural Processing Unit, It is designed for deep learning acce=
-leration, It is also called TPU, APU ..
->
->      The real problems:
->       When I was about to upstream my NPU driver codes to linux mainline,=
- i meet two problems:
->         1.  According to my research, There is no NPU module path in the =
-linux (base on linux 6.5.4) , I have searched all linux projects and found =
-no organization or comany that has submitted NPU code. Is there a path prep=
-ared for NPU driver currently?
->         2.   If there is no NPU driver path currently, I am going to put =
-my NPU driver code in the drivers/media/platform/amlogic/ =EF=BB=BF, becaus=
-e my NPU driver belongs to amlogic. and amlogic NPU is mainly used for AI v=
-ision applications. Is this plan suitabe for you?
+On Tue, Sep 19, 2023 at 06:21:23PM +0300, Laurent Pinchart wrote:
+> On Tue, Sep 19, 2023 at 02:49:29PM +0000, Sakari Ailus wrote:
+> > Hi Laurent,
+> > 
+> > On Tue, Sep 19, 2023 at 04:32:48PM +0300, Laurent Pinchart wrote:
+> > > Hi Sakari,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Tue, Sep 19, 2023 at 03:17:27PM +0300, Sakari Ailus wrote:
+> > > > Print debug level information on returned frame descriptors.
+> > > > 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  drivers/media/v4l2-core/v4l2-subdev.c | 32 ++++++++++++++++++++++++++-
+> > > >  1 file changed, 31 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > index 7b087be3ff4f..504ca625b2bd 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > > @@ -15,6 +15,7 @@
+> > > >  #include <linux/module.h>
+> > > >  #include <linux/overflow.h>
+> > > >  #include <linux/slab.h>
+> > > > +#include <linux/string.h>
+> > > >  #include <linux/types.h>
+> > > >  #include <linux/version.h>
+> > > >  #include <linux/videodev2.h>
+> > > > @@ -309,9 +310,38 @@ static int call_set_selection(struct v4l2_subdev *sd,
+> > > >  static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > > >  			       struct v4l2_mbus_frame_desc *fd)
+> > > >  {
+> > > > +	unsigned int i;
+> > > > +	int ret;
+> > > > +
+> > > >  	memset(fd, 0, sizeof(*fd));
+> > > >  
+> > > > -	return sd->ops->pad->get_frame_desc(sd, pad, fd);
+> > > > +	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	dev_dbg(sd->dev, "Frame descriptor on pad %u, type %s\n", pad,
+> > > > +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
+> > > > +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
+> > > > +		"unknown");
+> > > > +
+> > > > +	for (i = 0; i < fd->num_entries; i++) {
+> > > > +		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
+> > > > +		char buf[20] = "";
+> > > 
+> > > Should this be sized for the worst case ? The vc and dt should not be
+> > > large, but a buffer overflow on the stack in debug code if a subdev
+> > > returns an incorrect value would be bad.
+> > 
+> > 17 should be enough but it's not useful to use a size not divisible by 4 in
+> > practice here.
+> 
+> 18 with the terminating 0. But indeed, it's large enough as vc and dt
 
-If I'm correct about the discussion with Oded Gabby before. I think
-the drivers/accel/ is proper for AI Accelerators including NPU.
+I can count only 17 --- there's no newline.
 
-+ Oded in case he can comment.
+I guess it's most probably either of these then. X-)
 
-Thanks,
-Jagan.
+> are u8. I'm just a bit worried we're opening the door to hard to debug
+> problems if we later change the vc and dt types.
+
+I can add a WARN_ON() to cover this.
+
+> 
+> > > > +
+> > > > +		if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+> > > > +			snprintf(buf, sizeof(buf), ", vc %u, dt 0x%2.2x",
+> > > 
+> > > 0x%02x would be one character shorter ;-) Same below.
+> > 
+> > It would be, but I prefer the above notation as it's more generic.
+> 
+> Out of curiosity, how so ?
+
+It works with data that would span more than 9 characters when printed.
+
+> 
+> > > > +				 entry->bus.csi2.vc, entry->bus.csi2.dt);
+> > > > +
+> > > > +		dev_dbg(sd->dev,
+> > > > +			"\tstream %u, code 0x%4.4x, lenght %u, flags%s%s%s\n",
+> > > 
+> > > s/lenght/length/
+> > 
+> > Thanks, I'll fix this.
+> > 
+> > > > +			entry->stream, entry->pixelcode, entry->length,
+> > > > +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_LEN_MAX ?
+> > > > +			" LEN_MAX" : "",
+> > > > +			entry->flags & V4L2_MBUS_FRAME_DESC_FL_BLOB ?
+> > > > +			" BLOB" : "", buf);
+> > > 
+> > > If no flags are set, you will get something like
+> > > 
+> > > 	stream 0, code 0x1234, length ..., flags, vc 0, dt 0x2a
+> > > 
+> > > Maybe printing the hex value for the flags would be simpler and clearer
+> > > ?
+> > 
+> > How about adding the numerical value in addition to the strings?
+> > 
+> > The use of these flags is rare though. I could just remove the strings,
+> > too.
+> 
+> Up to you.
+
+On second thought, I'll make it an integer only. If we'll get more commonly
+used flags, we can rethink about strings.
+
+-- 
+Regards,
+
+Sakari Ailus
