@@ -2,102 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A15997AB15A
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 13:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5823A7AB15F
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 13:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233709AbjIVLz2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 07:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55340 "EHLO
+        id S233709AbjIVL5r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 07:57:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbjIVLz1 (ORCPT
+        with ESMTP id S229644AbjIVL5q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 07:55:27 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B0E3100
-        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 04:55:21 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1qjekh-0000wh-TW; Fri, 22 Sep 2023 13:55:19 +0200
-Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1qjekh-0089V0-Ch; Fri, 22 Sep 2023 13:55:19 +0200
-Received: from mtr by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1qjekh-00AxJZ-AS; Fri, 22 Sep 2023 13:55:19 +0200
-Date:   Fri, 22 Sep 2023 13:55:19 +0200
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 1/7] media: allegro-dvt: increase buffer size in
- msg_type_name()
-Message-ID: <20230922115519.GC2564188@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-References: <20230922105036.3148784-1-hverkuil-cisco@xs4all.nl>
- <20230922105036.3148784-2-hverkuil-cisco@xs4all.nl>
+        Fri, 22 Sep 2023 07:57:46 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73E9BFB
+        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 04:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695383860; x=1726919860;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nVRuutj+wYs5BrZuvMjTjb71ek7kcb2brvwf1As0rGo=;
+  b=AtJH2LxuNtYxwbyXjdc3Cgzsfb0ls7gQBG5rcNEozhevHagHyc2DJs+D
+   L74IitG/7pgQiwMqSeczHSOY5fAdtcG9NkosfCz8atBki+R0GkMXXNFqU
+   wlzwvcoAej/FViBKcY7cFgr9stXyWpuWOEm67z/0VR11t10/L8u65Pl/Z
+   0PA6UPWPSe/mvJVIvg/W5T65jFeYO3KtIyh3X2WwT6aVeKG1g2ueSmKhe
+   4K9N7Ip8is97MDGunnOK0u+FyQm1G7UX/JqOg7TrjuBn3/GGM9z4C4WY0
+   6T88W2Oc626yv+V3UCaoobo2j5SppxPlS+FsT8Y7aBb9t/cO2pAjwOKVU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="383558557"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
+   d="scan'208";a="383558557"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 04:57:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="837714631"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
+   d="scan'208";a="837714631"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 04:57:35 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 4C5D311FC30;
+        Fri, 22 Sep 2023 14:57:31 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>
+Subject: [PATCH v4 00/12] Small fixes and cleanups (ov2740 and ccs)
+Date:   Fri, 22 Sep 2023 14:57:18 +0300
+Message-Id: <20230922115730.251779-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230922105036.3148784-2-hverkuil-cisco@xs4all.nl>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 22 Sep 2023 12:50:30 +0200, Hans Verkuil wrote:
-> Fixes this compile error
-> 
-> drivers/media/platform/allegro-dvt/allegro-mail.c: In function 'msg_type_name':
-> drivers/media/platform/allegro-dvt/allegro-mail.c:37:48: warning: '%04x' directive output may be truncated writing between 4 and 8 bytes into a region of size 6 [-Wformat-truncation=]
->    37 |                 snprintf(buf, sizeof(buf), "(0x%04x)", type);
->       |                                                ^~~~
-> drivers/media/platform/allegro-dvt/allegro-mail.c:37:44: note: directive argument in the range [1, 4294967295]
->    37 |                 snprintf(buf, sizeof(buf), "(0x%04x)", type);
->       |                                            ^~~~~~~~~~
-> drivers/media/platform/allegro-dvt/allegro-mail.c:37:17: note: 'snprintf' output between 9 and 13 bytes into a destination of size 9
->    37 |                 snprintf(buf, sizeof(buf), "(0x%04x)", type);
->       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Michael Tretter <m.tretter@pengutronix.de>
+Hi folks,
 
-Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
+This small set contains fixes and cleanups, mainly for the ccs and ov2740
+drivers. I wrote these while working on the metadata set, but these could
+and should be merged earlier.
 
-> ---
->  drivers/media/platform/allegro-dvt/allegro-mail.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/allegro-dvt/allegro-mail.c b/drivers/media/platform/allegro-dvt/allegro-mail.c
-> index 16effad10746..aadc947a77ae 100644
-> --- a/drivers/media/platform/allegro-dvt/allegro-mail.c
-> +++ b/drivers/media/platform/allegro-dvt/allegro-mail.c
-> @@ -16,7 +16,7 @@
->  
->  const char *msg_type_name(enum mcu_msg_type type)
->  {
-> -	static char buf[9];
-> +	static char buf[13];
->  
->  	switch (type) {
->  	case MCU_MSG_TYPE_INIT:
-> -- 
-> 2.40.1
-> 
-> 
+since v3:
+
+- Don't print frame descriptor entry flags as strings but in a numeric
+  form.
+
+- Add a WARN_ON() for string truncation in printing the frame descriptor.
+
+- Use 0 flag in printing hexadecimal values in frame descriptor instead of
+  specifying precision.
+
+- Add curly braces around a loop (11th patch).
+
+since v2:
+
+- Wrap init_cfg callback long line.
+
+- Remove "pad_" from variable names in ccs_init_cfg.
+
+- Fix media_entity_pads_init() error handling bug (was introduced in the
+  last patch).
+
+- Print frame descriptor in less verbose way.
+
+since v1:
+
+- Add a comment on ov2740 active state patch on serialising sensor access.
+
+- Improved commit message of ov2740 patch enabling runtime PM earlier.
+
+- Added patches for printing and zeroing frame descriptor, (debug)
+  printing of frame descriptor, switching ccs to init_cfg and sub-device
+  state and checking pad flag validity.
+
+Sakari Ailus (12):
+  media: Documentation: Align numbered list, make it a proper ReST
+  media: ccs: Fix driver quirk struct documentation
+  media: ccs: Correctly initialise try compose rectangle
+  media: ccs: Correct error handling in ccs_register_subdev
+  media: ccs: Switch to init_cfg
+  media: ccs: Use sub-device active state
+  media: ov2740: Enable runtime PM before registering the async subdev
+  media: ov2740: Use sub-device active state
+  media: ov2740: Return -EPROBE_DEFER if no endpoint is found
+  media: v4l: subdev: Clear frame descriptor before get_frame_desc
+  media: v4l: subdev: Print debug information on frame descriptor
+  media: mc: Check pad flag validity
+
+ .../userspace-api/media/v4l/dev-subdev.rst    |  49 ++-
+ drivers/media/i2c/ccs/ccs-core.c              | 302 +++++++-----------
+ drivers/media/i2c/ccs/ccs-quirk.h             |   4 +-
+ drivers/media/i2c/ccs/ccs.h                   |   4 +-
+ drivers/media/i2c/ds90ub913.c                 |   2 -
+ drivers/media/i2c/ds90ub953.c                 |   2 -
+ drivers/media/i2c/ds90ub960.c                 |   2 -
+ drivers/media/i2c/ov2740.c                    | 138 ++++----
+ drivers/media/mc/mc-entity.c                  |  14 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c    |   2 -
+ drivers/media/v4l2-core/v4l2-subdev.c         |  39 +++
+ 11 files changed, 252 insertions(+), 306 deletions(-)
+
+-- 
+2.39.2
+
+
+Sakari Ailus (12):
+  media: Documentation: Align numbered list, make it a proper ReST
+  media: ccs: Fix driver quirk struct documentation
+  media: ccs: Correctly initialise try compose rectangle
+  media: ccs: Correct error handling in ccs_register_subdev
+  media: ccs: Switch to init_cfg
+  media: ccs: Use sub-device active state
+  media: ov2740: Enable runtime PM before registering the async subdev
+  media: ov2740: Use sub-device active state
+  media: ov2740: Return -EPROBE_DEFER if no endpoint is found
+  media: v4l: subdev: Clear frame descriptor before get_frame_desc
+  media: v4l: subdev: Print debug information on frame descriptor
+  media: mc: Check pad flag validity
+
+ .../userspace-api/media/v4l/dev-subdev.rst    |  49 ++-
+ drivers/media/i2c/ccs/ccs-core.c              | 302 +++++++-----------
+ drivers/media/i2c/ccs/ccs-quirk.h             |   4 +-
+ drivers/media/i2c/ccs/ccs.h                   |   4 +-
+ drivers/media/i2c/ds90ub913.c                 |   2 -
+ drivers/media/i2c/ds90ub953.c                 |   2 -
+ drivers/media/i2c/ds90ub960.c                 |   2 -
+ drivers/media/i2c/ov2740.c                    | 138 ++++----
+ drivers/media/mc/mc-entity.c                  |  15 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c    |   2 -
+ drivers/media/v4l2-core/v4l2-subdev.c         |  38 +++
+ 11 files changed, 252 insertions(+), 306 deletions(-)
+
+-- 
+2.39.2
+
