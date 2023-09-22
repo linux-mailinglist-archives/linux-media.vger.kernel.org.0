@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D49357AB384
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 16:23:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E8887AB385
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 16:23:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234268AbjIVOXG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 10:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60898 "EHLO
+        id S234269AbjIVOXK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 10:23:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234266AbjIVOXF (ORCPT
+        with ESMTP id S234258AbjIVOXJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 10:23:05 -0400
+        Fri, 22 Sep 2023 10:23:09 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21F7D100
-        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 07:23:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7BE7196
+        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 07:23:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695392580; x=1726928580;
+  t=1695392583; x=1726928583;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=NCBA2ZWrxrOSJHNzrnnv7zJUFHNyA34Wx+SZLYkoGpY=;
-  b=DWsKziNrekIBvfZqLSya3LCL+ltvwZKSMdL9hFtpEJieuIU7vWutgIU4
-   bLQZPQoUJxhwCT8VXSvZUlByJ0UKT9eLlwBZwAmDgopVBS/Ru/ftfqpaT
-   t03f7zQRmw7Nbgqe/S39jcO9FIyoaj0WmkalMF9JtKw4C1CihdKrNaiUY
-   6hud/NizGKTXj8Vf9sWbqX0Hq8dCfv86b5lenhtfKj4+9rRHSWY6qqHba
-   6saGyQir8mCvaECyMM7nk1Ok86xlVjAC6SqyKNWUakzmfGJuou/jZFRgR
-   FXCNJLiIgBsl3Crhmo7pbhugP+gQxZq5ByCnYHZdW60noxsqDDdkBM+k1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="360218890"
+  bh=JI6DEynazv5SQkL32BxagWDlmsJXU/m58K0DaNBnY9Q=;
+  b=ULEAjlH2D3NgzBwVMRIn7YhzTtKPFnAvzM2n2tCiQ167D7CGnkw2CtCS
+   ta/KdaOd5BKHCHAWsUtVZswaX2Q0TBfAFTrJkv5S8Fmv0e0ytJcJJFijR
+   nRkSNltBsrk1AWSlCXYvIqb4eNllLrTcaoMpbsNmhsjmsWdBM3s/JxzT1
+   EhIbQw/k7/nPdBXXIoU0zUjDuih6vDmepeEQ9I9A+IfXKQiQgWyZ6Fum3
+   QccWxy4laIn+sJU0t05OsVHVUvccwlkc3wzvyJz6v4YFe1kZfoZgbdxtB
+   N00+TRlW4RkfnTPE6O1ceXVwwhFLRTOKfXUR2xWGHcVUP2GvPh05OQF8N
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="360218909"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="360218890"
+   d="scan'208";a="360218909"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 07:22:59 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 07:23:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="741112400"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="741112412"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="741112400"
+   d="scan'208";a="741112412"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 07:22:55 -0700
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 07:22:57 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 417911209A1;
-        Fri, 22 Sep 2023 17:22:52 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id A5DC711FC30;
+        Fri, 22 Sep 2023 17:22:53 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -51,9 +51,9 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH v4 08/23] media: Documentation: Additional streams generally don't harm capture
-Date:   Fri, 22 Sep 2023 17:22:24 +0300
-Message-Id: <20230922142239.259425-9-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 09/23] media: Documentation: Document embedded data guidelines for camera sensors
+Date:   Fri, 22 Sep 2023 17:22:25 +0300
+Message-Id: <20230922142239.259425-10-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230922142239.259425-1-sakari.ailus@linux.intel.com>
 References: <20230922142239.259425-1-sakari.ailus@linux.intel.com>
@@ -69,33 +69,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Having extra streams on the source end of the link that cannot be captured
-by the sink sub-device generally are not an issue, at least not on CSI-2
-bus. Still document that there may be hardware specific limitations. For
-example on parallel bus this might not work on all cases.
+Document how embedded data support should be implemented for camera
+sensors, and when and how CCS embedded data format should be referenced.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- Documentation/userspace-api/media/v4l/dev-subdev.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../driver-api/media/camera-sensor.rst        | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-index f375b820ab68..a387e8a15b8d 100644
---- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-@@ -529,9 +529,9 @@ the its sink pad and allows to route them individually to one of its source
- pads.
- 
- Subdevice drivers that support multiplexed streams are compatible with
--non-multiplexed subdev drivers, but, of course, require a routing configuration
--where the link between those two types of drivers contains only a single
--stream.
-+non-multiplexed subdev drivers. However, if the driver at the sink end of a link
-+does not support streams, then only the stream 0 on source end may be
-+captured. There may be additional hardware specific limitations.
- 
- Understanding streams
- ^^^^^^^^^^^^^^^^^^^^^
+diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+index 2acc08142a1a..64c74fa51586 100644
+--- a/Documentation/driver-api/media/camera-sensor.rst
++++ b/Documentation/driver-api/media/camera-sensor.rst
+@@ -200,3 +200,26 @@ V4L2_CID_VFLIP controls with the values programmed by the register sequences.
+ The default values of these controls shall be 0 (disabled). Especially these
+ controls shall not be inverted, independently of the sensor's mounting
+ rotation.
++
++Embedded data
++-------------
++
++Many sensors, mostly raw sensors, support embedded data which is used to convey
++the sensor configuration for the captured frame back to the host. While CSI-2 is
++the most common bus used by such sensors, embedded data is not entirely limited
++to CSI-2 bus due to e.g. bridge devices.
++
++Embedded data support should use an internal source pad and route to the
++external pad. If embedded data output can be disabled in hardware, it should be
++possible to disable the embedded data route via ``VIDIOC_SUBDEV_S_ROUTING``
++IOCTL.
++
++CCS and non-CCS embedded data
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Embedded data which is compliant with CCS definitions shall use ``CCS embedded
++data format <MEDIA-BUS-FMT-CCS-EMBEDDED>``. Device specific embedded data which
++is compliant up to MIPI CCS embedded data levels 1 or 2 only shall refer to CCS
++embedded data formats and document the level of conformance. The rest of the
++device specific embedded data format shall be documented in the context of the
++data format itself.
 -- 
 2.39.2
 
