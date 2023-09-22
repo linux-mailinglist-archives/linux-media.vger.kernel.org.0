@@ -2,86 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 504B47AB497
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 17:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54DCE7AB4EF
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 17:42:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232656AbjIVPSf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 11:18:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42182 "EHLO
+        id S231789AbjIVPmi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 11:42:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232620AbjIVPSd (ORCPT
+        with ESMTP id S230322AbjIVPmh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 11:18:33 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 736F3122;
-        Fri, 22 Sep 2023 08:18:27 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04FE5968;
-        Fri, 22 Sep 2023 17:16:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695395808;
-        bh=2J9SlBU+ytt0y3KvMFmzHUbWbCAyEXh4/rzIlFpUB0w=;
+        Fri, 22 Sep 2023 11:42:37 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FFF983;
+        Fri, 22 Sep 2023 08:42:30 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C27BCC433C7;
+        Fri, 22 Sep 2023 15:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695397350;
+        bh=5BvJFP59LWR6oDRO5gYLA3PtHEwbDC1l69qhCgYKVCw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ct7MuQZ/eQBmDokZWM1/hhuJFkZMWrbUO5xFmdhrmhCaxW1seVYTzX/OLB4sj4aVS
-         xIw1Fa8XJ7OYNKIviYH9lf91nEnJk23dfvEDtzC8Gj8gjIlZ2HpCGyFj0YAzDM40jJ
-         +Az23dSDP0ZyqhxCsO2maTWGxd2oOT3XWV+RsVVQ=
-Date:   Fri, 22 Sep 2023 18:18:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martijn Braam <martijn@brixit.nl>
-Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
+        b=NwsOSugG4TV4Em3gjHEeJTTBmwRPpa/KkLiCEpocihXimquuECxT7ntrra1bg34sv
+         Mn6IpapFxVVsN0FIQ22ZPXKmMRDLNHnSHrnB/7ktVv0g4D34g/2RNsW4vThxRipxSp
+         i7PIBY8Og6q/LRgorpaw+lTPueWenBahnUH44XEhz4d1SVmAPiQcLaCB0LvRrK23DK
+         68wqByJglzf2t++qUiqD9akiPztmS/k0n89j82VOMrSpBiX5e6Wm8r3Kq5cnhg3sVo
+         siLaiwRJxNjwS/yTy16nYT/jzinn4diKN61G9ihnFg69ZQCapWeIQF+8RQM4dIXNST
+         jvXebT3Osxqhg==
+Date:   Fri, 22 Sep 2023 16:42:24 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rkisp1: Promote link validation error to dev_err
-Message-ID: <20230922151838.GA22696@pendragon.ideasonboard.com>
-References: <20230719145534.9812-1-martijn@brixit.nl>
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        dri-devel@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 03/16] dt-bindings: media: mediatek: mdp3: include
+ common properties
+Message-ID: <20230922-grope-yield-46767aa32a3d@spud>
+References: <20230922072116.11009-1-moudy.ho@mediatek.com>
+ <20230922072116.11009-4-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="t3id+nrX22G9XF03"
 Content-Disposition: inline
-In-Reply-To: <20230719145534.9812-1-martijn@brixit.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230922072116.11009-4-moudy.ho@mediatek.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martijn,
 
-Thank you for the patch.
+--t3id+nrX22G9XF03
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 19, 2023 at 04:55:33PM +0200, Martijn Braam wrote:
-> Show an error when the pipeline cannot start due to an invalid link
-> instead of hiding it behind the debugging system.
+On Fri, Sep 22, 2023 at 03:21:03PM +0800, Moudy Ho wrote:
+> To minimize duplication and standardize the document style,
+> include the common properties for MT8183 RDMA.
 
-While this can help debugging issues in applications, allowing
-unpriviledged applications to control messages being printed to the
-kernel log is frowned upon, is it could flood the log. This is why these
-messages use dev_dbg() and not dev_err().
+Duplication that you created in the previous patch? Why not combine
+patches 2 & 3?
 
-> Signed-off-by: Martijn Braam <martijn@brixit.nl>
+Cheers,
+Conor.
+
+>=20
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
->  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index 8f3cba319762..9361b9086f6b 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -1340,7 +1340,7 @@ static int rkisp1_capture_link_validate(struct media_link *link)
->  	if (sd_fmt.format.height != cap->pix.fmt.height ||
->  	    sd_fmt.format.width != cap->pix.fmt.width ||
->  	    sd_fmt.format.code != fmt->mbus) {
-> -		dev_dbg(cap->rkisp1->dev,
-> +		dev_err(cap->rkisp1->dev,
->  			"link '%s':%u -> '%s':%u not valid: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
->  			link->source->entity->name, link->source->index,
->  			link->sink->entity->name, link->sink->index,
+>  .../bindings/media/mediatek,mdp3-rdma.yaml    | 43 ++-----------------
+>  1 file changed, 4 insertions(+), 39 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.y=
+aml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> index 3e128733ef53..0539badc9821 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> =20
+> -title: MediaTek Read Direct Memory Access
+> +title: MediaTek MT8183 Read Direct Memory Access
+> =20
+>  maintainers:
+>    - Matthias Brugger <matthias.bgg@gmail.com>
+> @@ -18,62 +18,27 @@ description: |
+>    Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>    for details.
+> =20
+> +allOf:
+> +  - $ref: mediatek,mdp3-rdma-common.yaml#
+> +
+>  properties:
+>    compatible:
+>      items:
+>        - const: mediatek,mt8183-mdp3-rdma
+> =20
+> -  reg:
+> -    maxItems: 1
+> -
+> -  mediatek,gce-client-reg:
+> -    $ref: /schemas/types.yaml#/definitions/phandle-array
+> -    items:
+> -      items:
+> -        - description: phandle of GCE
+> -        - description: GCE subsys id
+> -        - description: register offset
+> -        - description: register size
+> -    description: The register of client driver can be configured by gce =
+with
+> -      4 arguments defined in this property. Each GCE subsys id is mappin=
+g to
+> -      a client defined in the header include/dt-bindings/gce/<chip>-gce.=
+h.
+> -
+> -  mediatek,gce-events:
+> -    description:
+> -      The event id which is mapping to the specific hardware event signal
+> -      to gce. The event id is defined in the gce header
+> -      include/dt-bindings/gce/<chip>-gce.h of each chips.
+> -    $ref: /schemas/types.yaml#/definitions/uint32-array
+> -
+> -  power-domains:
+> -    maxItems: 1
+> -
+>    clocks:
+>      items:
+>        - description: RDMA clock
+>        - description: RSZ clock
+> =20
+> -  iommus:
+> -    maxItems: 1
+> -
+>    mboxes:
+>      items:
+>        - description: used for 1st data pipe from RDMA
+>        - description: used for 2nd data pipe from RDMA
+> =20
+> -  '#dma-cells':
+> -    const: 1
+> -
+>  required:
+>    - compatible
+> -  - reg
+> -  - mediatek,gce-client-reg
+> -  - mediatek,gce-events
+> -  - power-domains
+> -  - clocks
+> -  - iommus
+>    - mboxes
+> -  - '#dma-cells'
+> =20
+>  additionalProperties: false
+> =20
+> --=20
+> 2.18.0
+>=20
 
--- 
-Regards,
+--t3id+nrX22G9XF03
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Laurent Pinchart
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZQ214AAKCRB4tDGHoIJi
+0pjhAQDqYFJMcVq5Ru7Q8gVzeuDVj+gKssFalhT0d+Clke4nqQD/VPXvz8K458L1
+KJs20bZWY09DDbrl5qDCY9BMQs7IQQc=
+=F41u
+-----END PGP SIGNATURE-----
+
+--t3id+nrX22G9XF03--
