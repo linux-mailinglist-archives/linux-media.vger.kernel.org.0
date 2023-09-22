@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0963A7AB16A
+	by mail.lfdr.de (Postfix) with ESMTP id 80ABD7AB16B
 	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 13:57:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233918AbjIVL56 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S233927AbjIVL56 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 22 Sep 2023 07:57:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46086 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233921AbjIVL54 (ORCPT
+        with ESMTP id S233926AbjIVL55 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 07:57:56 -0400
+        Fri, 22 Sep 2023 07:57:57 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1255F198
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5DF018F
         for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 04:57:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1695383871; x=1726919871;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bd2YYJCzGlMt6IUuz2mj70eciD1v2dqyycwBrrFKol4=;
-  b=kFouVJWmBZInt8N2bKNBWj3eCY9PFFuIXD18d0N1YxMEJgCRI5348FDt
-   oulrC5go304bjnWtqXUPgwwzwyATsz02teuuO3QIienAYudJ6Y+qEfyu2
-   DszRuT6TnArug/A7zhmXxpWKMTKvwQ1VQ9fHh+1Fv7CwoaQUO4ffih4hx
-   k1849ODZrdp2/8KA2/Y8hNtZMDrOVUM/aw5IL0e5y1r6Rzzqqvohuly2l
-   NmD3fSLxLA5qz0TFlhYK/baT2Vzy/fi/AugTKwGPDCohhlwzc6TmP6uFe
-   x4yPsaFOacJuZeUMwkIpy5BEo5+dELWCiXIgief/dSVKB1YqhsngrcaSJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="383558626"
+  bh=p71jLwyaJ+cRA4wPi0IX6Mx4yaKEMlNV4iXy/0ENXCg=;
+  b=ZXBbClB3Zm70oIxZkLnuupmzG0lESVDdQ9necLi3WKAJqoZjRrsky/ya
+   uJCblDDbROuHTUbx/0xDpn+jnGXk18gpd8Kz9zb692QVNQtJxu4rZuL/Y
+   OGlRAmgZTEQ4WGLr/KmI/sSsMLwZXhn089+ZiyqMRrOB3N7xV7wa38fYl
+   umPmkbkPVKwsF95HAqBwjyHQsMboYxbr5Ec48PSaFfo0r0/gPaPcAvy/x
+   MgvdYUr+sEx7LOl4t4jNNmT8tIqvYEOuFaYhD0sUXQgLmQH/UMLu4A756
+   jAX6suHl52HoohoJ0ZCa8aPiip/IpIF5g6ybZOCwENPPMb61dSpZwOuDu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="383558632"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="383558626"
+   d="scan'208";a="383558632"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 04:57:50 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 04:57:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="837714690"
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="837714698"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="837714690"
+   d="scan'208";a="837714698"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 04:57:48 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 04:57:49 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 0DAAE11FC30;
-        Fri, 22 Sep 2023 14:57:44 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 29320120810;
+        Fri, 22 Sep 2023 14:57:46 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com,
@@ -51,9 +51,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Martin Kepplinger <martink@posteo.de>
-Subject: [PATCH v4 11/12] media: v4l: subdev: Print debug information on frame descriptor
-Date:   Fri, 22 Sep 2023 14:57:29 +0300
-Message-Id: <20230922115730.251779-12-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 12/12] media: mc: Check pad flag validity
+Date:   Fri, 22 Sep 2023 14:57:30 +0300
+Message-Id: <20230922115730.251779-13-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230922115730.251779-1-sakari.ailus@linux.intel.com>
 References: <20230922115730.251779-1-sakari.ailus@linux.intel.com>
@@ -69,64 +69,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Print debug level information on returned frame descriptors.
+Check the validity of pad flags on entity init. Exactly one of the flags
+must be set.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 31 ++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ drivers/media/mc/mc-entity.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 7b087be3ff4f..ed0069efc921 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -15,6 +15,7 @@
- #include <linux/module.h>
- #include <linux/overflow.h>
- #include <linux/slab.h>
-+#include <linux/string.h>
- #include <linux/types.h>
- #include <linux/version.h>
- #include <linux/videodev2.h>
-@@ -309,9 +310,37 @@ static int call_set_selection(struct v4l2_subdev *sd,
- static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 			       struct v4l2_mbus_frame_desc *fd)
- {
-+	unsigned int i;
-+	int ret;
-+
- 	memset(fd, 0, sizeof(*fd));
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 83468d4a440b..543a392f8635 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -197,6 +197,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+ 	struct media_device *mdev = entity->graph_obj.mdev;
+ 	struct media_pad *iter;
+ 	unsigned int i = 0;
++	int ret = 0;
  
--	return sd->ops->pad->get_frame_desc(sd, pad, fd);
-+	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
-+	if (ret)
-+		return ret;
+ 	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
+ 		return -E2BIG;
+@@ -210,15 +211,27 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+ 	media_entity_for_each_pad(entity, iter) {
+ 		iter->entity = entity;
+ 		iter->index = i++;
 +
-+	dev_dbg(sd->dev, "Frame descriptor on pad %u, type %s\n", pad,
-+		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
-+		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
-+		"unknown");
++		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
++					     MEDIA_PAD_FL_SOURCE)) != 1) {
++			ret = -EINVAL;
++			break;
++		}
 +
-+	for (i = 0; i < fd->num_entries; i++) {
-+		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
-+		char buf[20] = "";
-+
-+		if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-+			WARN_ON(snprintf(buf, sizeof(buf),
-+					 ", vc %u, dt 0x%02x",
-+					 entry->bus.csi2.vc,
-+					 entry->bus.csi2.dt) >= sizeof(buf));
-+
-+		dev_dbg(sd->dev,
-+			"\tstream %u, code 0x%04x, length %u, flags 0x%04x%s\n",
-+			entry->stream, entry->pixelcode, entry->length,
-+			entry->flags, buf);
+ 		if (mdev)
+ 			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
+ 					  &iter->graph_obj);
+ 	}
+ 
++	if (ret && mdev) {
++		media_entity_for_each_pad(entity, iter)
++			media_gobj_destroy(&iter->graph_obj);
 +	}
 +
-+	return 0;
- }
+ 	if (mdev)
+ 		mutex_unlock(&mdev->graph_mutex);
  
- static inline int check_edid(struct v4l2_subdev *sd,
+-	return 0;
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(media_entity_pads_init);
+ 
 -- 
 2.39.2
 
