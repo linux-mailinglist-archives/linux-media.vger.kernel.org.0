@@ -2,108 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78D187AB23F
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 14:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C53967AB274
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 14:58:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232445AbjIVMiU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 08:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43722 "EHLO
+        id S231894AbjIVM6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 08:58:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjIVMiT (ORCPT
+        with ESMTP id S229947AbjIVM6q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 08:38:19 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FBC8F;
-        Fri, 22 Sep 2023 05:38:13 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id A367321AD9;
-        Fri, 22 Sep 2023 12:38:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1695386292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=HmnTB2uEgKxCayfWbdMyfcqdfLvJ0elT6dc12gIbdRg=;
-        b=cpFzbIALsj1ODGnFfsTW5wm8fHcgMsrVufEwwQckS4ZVO8cQEvXmLoSwCdrtgejvy7SFNY
-        tp6pWwoMsR0pqcHopeC3HIkg46s7qlF7kBstvUIrQ78cUuI9fpDC0nPu5GprIdyb2NIb1W
-        1u9abk6CMMq7GKlIBv9xXZ21BgVpUg0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1695386292;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=HmnTB2uEgKxCayfWbdMyfcqdfLvJ0elT6dc12gIbdRg=;
-        b=9yJkWQCYG2FlbfLg/TaQK++ZCzgF+KIUO7D0BrWT2e3OCPJr4m55+sPG7SkvYMQvQvpKxb
-        P63uS8vuQOwpI0Cw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 739DB13597;
-        Fri, 22 Sep 2023 12:38:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id egktG7SKDWU2QwAAMHmgww
-        (envelope-from <tiwai@suse.de>); Fri, 22 Sep 2023 12:38:12 +0000
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Sean Young <sean@mess.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Ricardo B . Marliere" <ricardo@marliere.net>
-Subject: [PATCH] media: imon: fix access to invalid resource for the second interface
-Date:   Fri, 22 Sep 2023 14:38:07 +0200
-Message-Id: <20230922123807.15236-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+        Fri, 22 Sep 2023 08:58:46 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3443DCE
+        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 05:58:40 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2200FC433C7;
+        Fri, 22 Sep 2023 12:58:38 +0000 (UTC)
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@kernel.org>
+Subject: [PATCH 0/6] media: string truncate warnings: increase name fields
+Date:   Fri, 22 Sep 2023 14:58:31 +0200
+Message-Id: <20230922125837.3290073-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-imon driver probes two USB interfaces, and at the probe of the second
-interface, the driver assumes blindly that the first interface got
-bound with the same imon driver.  It's usually true, but it's still
-possible that the first interface is bound with another driver via a
-malformed descriptor.  Then it may lead to a memory corruption, as
-spotted by syzkaller; imon driver accesses the data from drvdata as
-struct imon_context object although it's a completely different one
-that was assigned by another driver.
+This is a second batch of patches: the first 3 fix some more low-hanging
+fruit that I missed in the first round.
 
-This patch adds a sanity check -- whether the first interface is
-really bound with the imon driver or not -- for avoiding the problem
-above at the probe time.
+The next two patches increase two internal name fields: one
+in struct video_device and one in struct v4l2_subdev.
 
-Reported-by: syzbot+59875ffef5cb9c9b29e9@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/000000000000a838aa0603cc74d6@google.com/
-Tested-by: Ricardo B. Marliere <ricardo@marliere.net>
-Link: https://lore.kernel.org/r/20230922005152.163640-1-ricardo@marliere.net
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/media/rc/imon.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 74546f7e3469..5719dda6e0f0 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -2427,6 +2427,12 @@ static int imon_probe(struct usb_interface *interface,
- 		goto fail;
- 	}
+Generally speaking: 
  
-+	if (first_if->dev.driver != interface->dev.driver) {
-+		dev_err(&interface->dev, "inconsistent driver matching\n");
-+		ret = -EINVAL;
-+		goto fail;
-+	}
-+
- 	if (ifnum == 0) {
- 		ictx = imon_init_intf0(interface, id);
- 		if (!ictx) {
+sizeof(v4l2_device.name) < sizeof(v4l2_subdev.name) < sizeof(video_device.name)
+
+With this patch series these become:
+
+36 < 52 < 64.
+
+The exact sizes are a bit trial and error, I'm afraid.
+
+Typically v4l2_subdev.name uses v4l2_device.name with some extra text,
+and the same happens for video_device.name.
+
+The last patch removes V4L2_SUBDEV_NAME_SIZE and replaces all uses of
+it by sizeof(), which is much safer than relying on a define.
+
+With these changes I am left with 11 warnings, 10 of which are bus_info
+related (uAPI). Especially for the platform devices this can likely
+be dropped altogether since today it is filled in by the core for
+platform devices.
+
+Something to look at in the next round.
+
+Regards,
+
+	Hans
+
+Hans Verkuil (6):
+  media: cec.h: increase input_phys buffer
+  media: renesas-ceu: keep input name simple
+  media: zoran: increase name size
+  media: v4l2-dev.h: increase struct video_device name size
+  media: v4l2-subdev.h: increase struct v4l2_subdev name size
+  media: use sizeof() instead of V4L2_SUBDEV_NAME_SIZE
+
+ drivers/media/i2c/msp3400-driver.c                  | 2 +-
+ drivers/media/pci/zoran/zoran.h                     | 2 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c        | 4 ++--
+ drivers/media/platform/cadence/cdns-csi2tx.c        | 4 ++--
+ drivers/media/platform/renesas/rcar-isp.c           | 2 +-
+ drivers/media/platform/renesas/rcar-vin/rcar-csi2.c | 2 +-
+ drivers/media/platform/renesas/renesas-ceu.c        | 6 +-----
+ drivers/media/platform/ti/omap3isp/ispstat.c        | 2 +-
+ drivers/staging/media/omap4iss/iss_csi2.c           | 2 +-
+ drivers/staging/media/tegra-video/csi.c             | 4 ++--
+ drivers/staging/media/tegra-video/vip.c             | 2 +-
+ include/media/cec.h                                 | 2 +-
+ include/media/v4l2-dev.h                            | 2 +-
+ include/media/v4l2-subdev.h                         | 4 +---
+ 14 files changed, 17 insertions(+), 23 deletions(-)
+
 -- 
-2.35.3
+2.40.1
 
