@@ -2,65 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 203437AB081
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 13:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 609697AB105
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 13:38:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233628AbjIVLWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 07:22:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42814 "EHLO
+        id S233709AbjIVLiR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 07:38:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233634AbjIVLWV (ORCPT
+        with ESMTP id S233384AbjIVLiQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 07:22:21 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A027CAF
-        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 04:22:14 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8FB8C433D9;
-        Fri, 22 Sep 2023 11:22:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695381734;
-        bh=Ched8wXyhDR12B3TkyRlsIOzWX2ibo3ogQqUKg7GRLM=;
-        h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-        b=WWozBd1QsZJnPkWwvDhB3Uc41BxMrCwex7F1V4NJnHVE5ryjJh4MGfrripDl9cjxq
-         8f1AuOtNSAGc7B6TFvWaTSuWpWznjmTJ7xa5/AEit12IWrr3fRc8BUP3JfjA89Y/SI
-         K/UnwWC58awvI1QN8nYEs+TIC4SqO4WvBjEvitWVY3AAQTmgz8y9x5YUfl4F/Ie5zB
-         S5X9NdXlOBnkhldjDP3hmgTcCXmj8LEhh9HBpx8tE6Ey/BCYIust6H8xt7mfn0zV8x
-         M8mwId+PfV+U3js17rvHIzFNF1+lnUvz42HssiaBzFSejaZcGNh9tx8K4g2HEE1x5C
-         LexE4w5tcRRaA==
-Message-ID: <d6ce775682ac38c6f5790343d7c5b5ad.mripard@kernel.org>
-Date:   Fri, 22 Sep 2023 11:22:11 +0000
-From:   "Maxime Ripard" <mripard@kernel.org>
-To:     "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 2/7] media: cadence: increase buffer size in
- csi2tx_get_resources()
-In-Reply-To: <20230922105036.3148784-3-hverkuil-cisco@xs4all.nl>
-References: <20230922105036.3148784-3-hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, "Arnd Bergmann" <arnd@kernel.org>,
-        "Maxime Ripard" <mripard@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 22 Sep 2023 07:38:16 -0400
+Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD7EFAC;
+        Fri, 22 Sep 2023 04:38:10 -0700 (PDT)
+Received: by mail-ua1-x932.google.com with SMTP id a1e0cc1a2514c-7a52a27fe03so890636241.0;
+        Fri, 22 Sep 2023 04:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695382690; x=1695987490; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vUgX4U1nDqbgagySgU1QRculQUZhCufDpVd955ye1oU=;
+        b=O304hvCZw4GTnlNls/jJA8ZymGaROphdIcHrADM67r9GR2wna5oXZxqUQwBCTDTsN/
+         iuGQXwUIG2ENvYuZtumVlcXI/zAI7YQ5VCMqLNlakxTqtPt9heJnW41Tc0HQqQCgh9FN
+         6ajHRC2+eHrEJmi0dzEB/Z28ouMvHrjkz90KM53x2rE/pqPJOzLpyuA/5z9ExJw5bCV+
+         bTslQ00/OJbW+THK5nG1n0xLpFZaeRKxqdyQAzKQFiDsb3lZxPTw018YB/JhbBzuj9c7
+         tXuikHcGU8gvq6Ld3nCgM7PWSi9TJpXG54E/3wZgjLCLiBvHvKl12DenndIgLCw4dZK3
+         liLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695382690; x=1695987490;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vUgX4U1nDqbgagySgU1QRculQUZhCufDpVd955ye1oU=;
+        b=GVmpp2mjoATWHBZ4CJDBCYEtvMMhkozDlPL+YLhjuraFo09bS0sm75rqcdzmhFPE01
+         Es1aUzGsllARzMrxA9YmRcPvp6WVtC2rV9KFXJxUEdfyxmMYa9NWr1Xn7jcUX7F34OAw
+         3A7SaFtigpIR1Wjd/QTVpZxw8nv0x4A0C02y4Hz+xnB4eH/luh8iPYxw6uJwJS4mwjvA
+         iCivcxaGj3qQkUXeLpTyI7oRvSHzR5zxMCRKM6bSD7ew7AWDT8XFXW4XfPZCXDntxag8
+         nYx3n4ccbLW5FKcVj3ETeJT5WwCIXF5LqgtoTb0v5GTKgYUoNf19azE3/ibQraTx21dD
+         2Ozw==
+X-Gm-Message-State: AOJu0Yw+1rL85vkrJRl6KdYTg4t6KCah7Dks+wO046nrt9sB0ap7dkGc
+        UaAZBZakR4TiHeyJaa2JoXj+AMDIctpw6HZeAmPsKgAXUjs=
+X-Google-Smtp-Source: AGHT+IGIqGChB6cFXllrHUdzdpIdQVOVkFS2UF0Y14Lbfg8SJ76iH1CyhIQdNFhrHSC5b81fr8ojrgimHPbvL8Dfj8c=
+X-Received: by 2002:a05:6102:7ae:b0:452:8452:8a90 with SMTP id
+ x14-20020a05610207ae00b0045284528a90mr8260920vsg.0.1695382689830; Fri, 22 Sep
+ 2023 04:38:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230922062405.2571850-1-milkfafa@gmail.com> <86729293-ad37-4f2e-bff7-c49d166e02df@xs4all.nl>
+In-Reply-To: <86729293-ad37-4f2e-bff7-c49d166e02df@xs4all.nl>
+From:   Kun-Fa Lin <milkfafa@gmail.com>
+Date:   Fri, 22 Sep 2023 19:38:01 +0800
+Message-ID: <CADnNmFoXBA7mbs2zNFWOCYaP1TheS50E9vTdSH3uhjea=RuALQ@mail.gmail.com>
+Subject: Re: [PATCH v16 0/7] Support Nuvoton NPCM Video Capture/Encode Engine
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, avifishman70@gmail.com, tmaimon77@gmail.com,
+        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
+        benjaminfair@google.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        kwliu@nuvoton.com, kflin@nuvoton.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 22 Sep 2023 12:50:31 +0200, Hans Verkuil wrote:
-> Fixes this compiler warning:
->=20
-> drivers/media/platform/cadence/cdns-csi2tx.c: In function 'csi2tx_get_res=
-ources':
-> drivers/media/platform/cadence/cdns-csi2tx.c:485:63: warning: '%u' direct=
-ive output may be truncated writing between 1 and 10 bytes into a region of=
- size 8 [-Wformat-truncation=3D]
->   485 |                 snprintf(clk_name, sizeof(clk_name), "pixel_if%u_=
-clk", i);
->=20
-> [ ... ]
+Hi Hans,
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Thank you so much for your review and time.
 
-Thanks!
-Maxime
+Regards,
+Marvin
