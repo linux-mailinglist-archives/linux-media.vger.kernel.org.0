@@ -2,124 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A2367AB58D
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 18:08:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6E657AB813
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 19:49:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbjIVQIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 12:08:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40578 "EHLO
+        id S233182AbjIVRty (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 13:49:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjIVQIN (ORCPT
+        with ESMTP id S233595AbjIVRtq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 12:08:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD3899;
-        Fri, 22 Sep 2023 09:08:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7715EB53;
-        Fri, 22 Sep 2023 18:06:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695398787;
-        bh=Xs3HJJWVKmjQFBtIkxcpfdhvwl2YfTPFfT5f3BfS2P4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t73D12u6qC9MwrL4EN+MJkqQgp8Rs+xx1TrYWHeuwHkDYx6/IRBk+tcFmwEQp2yDF
-         xUu+ANq5DNzWHpse7/U/0k6LIx7krIxAb3UQ9SblPw+J9fqW5N8uET3qKi1EKGQDcG
-         hGHEk39Slm/akpi8hzrc/Gc9BJSt4dU8Yipks9ns=
-Date:   Fri, 22 Sep 2023 19:08:18 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alain Volmat <alain.volmat@foss.st.com>
-Cc:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Fri, 22 Sep 2023 13:49:46 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A81CCDB
+        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 10:49:39 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1c43b4b02c1so20309035ad.3
+        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 10:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695404978; x=1696009778; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2o1CYzB6+mJ2+hUW8zCgaKBLo7FrtBAUficPQDkUT8w=;
+        b=AQPi46/AUvV70Ssazv2CulXfb4ZhI+PDQ638pfDYcyciO4ORXl1mU1DB0hMf7jXWxE
+         tF5bZ6Nvptn5kKVtCGy4nnFhFYJdoEmgBasuc1ormUeFrySMCoHl923W4iMxS6aSW3RM
+         EZ9nCogbuu4qH1hksz2v20QyoyZFhP8RYGEEI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695404978; x=1696009778;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2o1CYzB6+mJ2+hUW8zCgaKBLo7FrtBAUficPQDkUT8w=;
+        b=GC/crXet4RWm/lRXCpjmcRRRRzqo2pCHgs5E2Wwr+FZpfG0IqoMHVXfCaQ8LXh86uy
+         4hDRTi3gH9y5wkiO5PsgT8juiPrQYBdw9YRI7s6A4BbEeuA5YVI7o5pAZu+bX3UhNxNG
+         kt4VUCc6hbhvLW5HqGYah8bX3KS2DLq+gRvhSrQByTYXHcgwnhRhPwS9lMTeICkKf7nh
+         rSitpMBWxGutcUkCiWzJuGqr+TS/g1pEApTX84VB2Ky9TeDHfp4dLkjYTP2/KhI4mnTQ
+         KyecaFYa8/PX/dM13yLXUMfGbsnollKMzi9C2+SCIQtBNPjogjZaupp9VjRdmOYpObSC
+         9Qug==
+X-Gm-Message-State: AOJu0YwQt6cKeAV6b56r65LnviMiYCLDlxM0/jT8E4UM3b9CsH3V9sk/
+        PwqKQ5desFwlsBh7tOUdCvbH1Q==
+X-Google-Smtp-Source: AGHT+IGvd6YZ4gKAdDYTDm0Jv2/Pab+ImwGyxn9Lpj+6Tu3lvA7azIcDOLjq7kzjSW3qiIl23xZoPw==
+X-Received: by 2002:a17:90b:8c6:b0:26d:54de:b0d6 with SMTP id ds6-20020a17090b08c600b0026d54deb0d6mr377458pjb.20.1695404978555;
+        Fri, 22 Sep 2023 10:49:38 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id dw24-20020a17090b095800b0026d533216e5sm5194253pjb.46.2023.09.22.10.49.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Sep 2023 10:49:38 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] ARM: dts: stm32: add dcmipp support to stm32mp135
-Message-ID: <20230922160818.GJ19112@pendragon.ideasonboard.com>
-References: <20230901155732.252436-1-alain.volmat@foss.st.com>
- <20230901155732.252436-5-alain.volmat@foss.st.com>
- <20230905090258.GC31594@pendragon.ideasonboard.com>
- <20230922160227.GA608616@gnbcxd0016.gnb.st.com>
+        linux-media@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+Subject: [PATCH] media: allegro: Annotate struct mcu_msg_push_buffers_internal with __counted_by
+Date:   Fri, 22 Sep 2023 10:49:36 -0700
+Message-Id: <20230922174935.work.699-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230922160227.GA608616@gnbcxd0016.gnb.st.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1446; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=bN/ajVTfVuIiMGEGWWAcgGtceBsP5LcYYFGEKRmRbCI=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdOw4ytUtDHEFA0oq/D0lIUJ3hczfQWyTFNqp
+ mzZrHCMZV6JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3TsAAKCRCJcvTf3G3A
+ JpSDEACqurosT1uzHcOqbuoB7iJin9Tu8TQRk+o2p2ReQ1BEhMuyNvL1gVTecnUtek8OCFNH8F6
+ boRt8sZBndcQrwMtVGoM3lNwdoEndkQAJrPSUKF3nFwZaEbj5sILyoJLVXYTh+E5uJXbSUJPMqa
+ JDCVjF3D89G2UUokDXLgSzNqMCEGxjz8pE11LDfwTWRhiBivcL36mVthUupVT1Shy+Soo2BpmIr
+ pvW81aO8bXcvRLYIjKzlsidCVFgGkuD2ash8wMG6/KsmWfPbSTl2Tv21LyRMK0uPRAHigjT3Q6C
+ nzHI09QduMSUnhW8enjTF8Wx+RPi1ZJsG3YKkOSgDzXGKoZ7UWb3z55zbXrrKh0uACw/Y4RUY25
+ 3Yvxvo6iglrP/+LCCJ4zWT/xPq7VM8DLwHHL8iKq6Dsnpq7rXNDo9m337Z1T/1NCWglWqvb9riw
+ //2HXkXLKzo/8hl3FykRaQCZI4oyRlddySyKCmWm5770Rr5odHDThDOih1gLm1DACoH1oP/yHCn
+ CPKFABdnUuAgtYbjkni8LJgY449sh91SZKfreS1q3hemGpqMRMvalfl+BWUHIdTQclq3mG8CzEG
+ ssQonfBsYP7J6xN2aIVJJYwZGFihQkocrlmxmsbxArwreUaA2g2gKqrpVgwwIFToVk+8ezi2i+I
+ eJ3MP+O JCJIPzfg==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 22, 2023 at 06:02:27PM +0200, Alain Volmat wrote:
-> On Tue, Sep 05, 2023 at 12:02:58PM +0300, Laurent Pinchart wrote:
-> > On Fri, Sep 01, 2023 at 05:57:23PM +0200, Alain Volmat wrote:
-> > > From: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > > 
-> > > Add dcmipp support to STM32MP135.
-> > > 
-> > > Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> > > ---
-> > >  arch/arm/boot/dts/st/stm32mp135.dtsi | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/arch/arm/boot/dts/st/stm32mp135.dtsi b/arch/arm/boot/dts/st/stm32mp135.dtsi
-> > > index abf2acd37b4e..beee9ec7ed0d 100644
-> > > --- a/arch/arm/boot/dts/st/stm32mp135.dtsi
-> > > +++ b/arch/arm/boot/dts/st/stm32mp135.dtsi
-> > > @@ -8,5 +8,13 @@
-> > >  
-> > >  / {
-> > >  	soc {
-> > > +		dcmipp: dcmipp@5a000000 {
-> > > +			compatible = "st,stm32mp13-dcmipp";
-> > > +			reg = <0x5a000000 0x400>;
-> > > +			interrupts = <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
-> > > +			resets = <&rcc DCMIPP_R>;
-> > > +			clocks = <&rcc DCMIPP_K>;
-> > > +			status = "disabled";
-> > 
-> > This needs a port, as it's marked as required in the bindings. You can
-> > leave the endpoint out.
-> 
-> I first agreed with your comment but, having done the check (make
-> CHECK_DTBS=y  ...) this doesn't seem to be required because the dcmipp
-> node is kept disabled within our dtsi.
+Prepare for the coming implementation by GCC and Clang of the __counted_by
+attribute. Flexible array members annotated with __counted_by can have
+their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+functions).
 
-Interesting.
+As found with Coccinelle[1], add __counted_by for struct mcu_msg_push_buffers_internal.
 
-> (it is later on only enabled in dts file which as well have the port
-> property).
-> Indeed, to check this I changed it to okay and DTC_CHK complained about
-> missing port property.
-> 
-> Hence, I'd think that port doesn't have to be added in this dtsi file.
-> Would you agree with that ?
+[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
-I still think the port belongs here, as it's an intrinsic property of
-the dcmipp, not a property of the board. Does it cause any issue to add
-a port in the .dtsi ?
+Cc: Michael Tretter <m.tretter@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/media/platform/allegro-dvt/allegro-mail.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > With this fixed,
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > > +		};
-> > >  	};
-> > >  };
-
+diff --git a/drivers/media/platform/allegro-dvt/allegro-mail.h b/drivers/media/platform/allegro-dvt/allegro-mail.h
+index a5686058d754..c0c9013f1aab 100644
+--- a/drivers/media/platform/allegro-dvt/allegro-mail.h
++++ b/drivers/media/platform/allegro-dvt/allegro-mail.h
+@@ -184,7 +184,7 @@ struct mcu_msg_push_buffers_internal {
+ 	struct mcu_msg_header header;
+ 	u32 channel_id;
+ 	size_t num_buffers;
+-	struct mcu_msg_push_buffers_internal_buffer buffer[];
++	struct mcu_msg_push_buffers_internal_buffer buffer[] __counted_by(num_buffers);
+ };
+ 
+ struct mcu_msg_put_stream_buffer {
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
