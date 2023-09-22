@@ -2,186 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B17A7AB41E
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 16:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E2367AB472
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 17:09:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232021AbjIVOvx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 10:51:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
+        id S232312AbjIVPJN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 11:09:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232041AbjIVOvu (ORCPT
+        with ESMTP id S232056AbjIVPJM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 10:51:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A061B8
-        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 07:51:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F444968;
-        Fri, 22 Sep 2023 16:50:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695394201;
-        bh=hITO0GBwOof1UuQtb60cyuvvepFVwGDgum4MFpbAyZA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UvfmhVaM/XQVutGf2ienC+sPayRL0AH+oEeNTQqf1L9lti+Ww6qol40SC2CX2CSEG
-         ls/ROHIRh/+izyBzrGI0sNbX7Fk70j4dkQaigsh29WCXKoXIsSttQ7bbACIMb7mSHT
-         4ctNuZ1y4pQik0gkNX+jTXQOdR354yNjZjX5W528=
-Date:   Fri, 22 Sep 2023 17:51:51 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Martin Kepplinger <martink@posteo.de>
-Subject: Re: [PATCH v3 11/12] media: v4l: subdev: Print debug information on
- frame descriptor
-Message-ID: <20230922145151.GI19112@pendragon.ideasonboard.com>
-References: <20230919121728.126781-12-sakari.ailus@linux.intel.com>
- <20230919133248.GD1505@pendragon.ideasonboard.com>
- <ZQm0+U6n+rE2fjcD@kekkonen.localdomain>
- <20230919152123.GA18426@pendragon.ideasonboard.com>
- <ZQ1hLRtz4ai+miPS@kekkonen.localdomain>
- <20230922095320.GE19112@pendragon.ideasonboard.com>
- <ZQ1n8ZycYUNJnLSc@kekkonen.localdomain>
- <09af9c43-f9b8-d426-f7ce-959a6dea87d2@ideasonboard.com>
- <20230922102244.GG19112@pendragon.ideasonboard.com>
- <60f44e28-1166-026f-1bea-633de7d53298@ideasonboard.com>
+        Fri, 22 Sep 2023 11:09:12 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94A1CC6;
+        Fri, 22 Sep 2023 08:09:06 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36140C433C8;
+        Fri, 22 Sep 2023 15:09:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695395346;
+        bh=XsXHh90rL5Oxz0o4/7pmVqXNIDZlKcy9P9sRX+xLwE8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=tYrrz2Jtz5yuQkLWbKIj5PUSQ5gakrnfGiL/P2cbSrXvmawjo7OmJBMcZQK+xcjtu
+         vyD4uuAuZygWuXsQPfJAYe/rsgKiZ8v07oU11krDKlbJSBgHOmGm97KbtmilSQT+Lp
+         574G9bAn3TEnJZmg3V+0tw69bXAkak3zKv5hveTo1kGfh4t4biM250lC6p+iDo7PUF
+         /POOC6MsthXVhyaKl2OU1mXbd1KIVD15wMq67m54udKHe2VWgM/8TqOHIJgvnmOo00
+         RRhuQ1y5lZWAZaeH+NORmVwlxBw6lybEF/6yso6/8mfb3/VRliMY8SuKsgbElFJioa
+         Vw+dxVzbTsI1A==
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-59c268676a9so26705717b3.0;
+        Fri, 22 Sep 2023 08:09:06 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwlDTiNg7BiAwHenkacGSl+FDR1F8Lo2KT+SVw0KbiB0N6tnSjS
+        ZyS9pRx71a0lfBKsXUlCZ81IQk3VAvJk5nqbxsg=
+X-Google-Smtp-Source: AGHT+IFqK+0lT+ocRoW+vU5iVCzFG0N9dYlQxc7x8/IbpeAnpbmLGw7poT/AXnftVvW5/P9E2yGZMkozvJDDdkeMLQs=
+X-Received: by 2002:a0d:c8c1:0:b0:59b:c6a4:15c7 with SMTP id
+ k184-20020a0dc8c1000000b0059bc6a415c7mr9129453ywd.46.1695395345308; Fri, 22
+ Sep 2023 08:09:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <60f44e28-1166-026f-1bea-633de7d53298@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <SEYPR03MB704641091854162959578D7E9AFFA@SEYPR03MB7046.apcprd03.prod.outlook.com>
+ <CA+VMnFyhp9D8cjtvLVzdKGETouOuH=MKgjOu1pn00WDRB=5oUg@mail.gmail.com>
+In-Reply-To: <CA+VMnFyhp9D8cjtvLVzdKGETouOuH=MKgjOu1pn00WDRB=5oUg@mail.gmail.com>
+From:   Oded Gabbay <ogabbay@kernel.org>
+Date:   Fri, 22 Sep 2023 18:08:38 +0300
+X-Gmail-Original-Message-ID: <CAFCwf12sUL5bcXhYKwRkMxLtSDtLfTK003oxkRDVmThx1ARV-A@mail.gmail.com>
+Message-ID: <CAFCwf12sUL5bcXhYKwRkMxLtSDtLfTK003oxkRDVmThx1ARV-A@mail.gmail.com>
+Subject: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
+To:     Jagan Teki <jagan@edgeble.ai>
+Cc:     Cancan Chang <Cancan.Chang@amlogic.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Dave Airlie <airlied@redhat.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 22, 2023 at 01:27:46PM +0300, Tomi Valkeinen wrote:
-> On 22/09/2023 13:22, Laurent Pinchart wrote:
-> > On Fri, Sep 22, 2023 at 01:16:21PM +0300, Tomi Valkeinen wrote:
-> >> On 22/09/2023 13:09, Sakari Ailus wrote:
-> >>> On Fri, Sep 22, 2023 at 12:53:20PM +0300, Laurent Pinchart wrote:
-> >>>> On Fri, Sep 22, 2023 at 09:41:01AM +0000, Sakari Ailus wrote:
-> >>>>> On Tue, Sep 19, 2023 at 06:21:23PM +0300, Laurent Pinchart wrote:
-> >>>>>> On Tue, Sep 19, 2023 at 02:49:29PM +0000, Sakari Ailus wrote:
-> >>>>>>> On Tue, Sep 19, 2023 at 04:32:48PM +0300, Laurent Pinchart wrote:
-> >>>>>>>> On Tue, Sep 19, 2023 at 03:17:27PM +0300, Sakari Ailus wrote:
-> >>>>>>>>> Print debug level information on returned frame descriptors.
-> >>>>>>>>>
-> >>>>>>>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >>>>>>>>> ---
-> >>>>>>>>>    drivers/media/v4l2-core/v4l2-subdev.c | 32 ++++++++++++++++++++++++++-
-> >>>>>>>>>    1 file changed, 31 insertions(+), 1 deletion(-)
-> >>>>>>>>>
-> >>>>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>>>>>>> index 7b087be3ff4f..504ca625b2bd 100644
-> >>>>>>>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>>>>>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> >>>>>>>>> @@ -15,6 +15,7 @@
-> >>>>>>>>>    #include <linux/module.h>
-> >>>>>>>>>    #include <linux/overflow.h>
-> >>>>>>>>>    #include <linux/slab.h>
-> >>>>>>>>> +#include <linux/string.h>
-> >>>>>>>>>    #include <linux/types.h>
-> >>>>>>>>>    #include <linux/version.h>
-> >>>>>>>>>    #include <linux/videodev2.h>
-> >>>>>>>>> @@ -309,9 +310,38 @@ static int call_set_selection(struct v4l2_subdev *sd,
-> >>>>>>>>>    static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> >>>>>>>>>    			       struct v4l2_mbus_frame_desc *fd)
-> >>>>>>>>>    {
-> >>>>>>>>> +	unsigned int i;
-> >>>>>>>>> +	int ret;
-> >>>>>>>>> +
-> >>>>>>>>>    	memset(fd, 0, sizeof(*fd));
-> >>>>>>>>>    
-> >>>>>>>>> -	return sd->ops->pad->get_frame_desc(sd, pad, fd);
-> >>>>>>>>> +	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
-> >>>>>>>>> +	if (ret)
-> >>>>>>>>> +		return ret;
-> >>>>>>>>> +
-> >>>>>>>>> +	dev_dbg(sd->dev, "Frame descriptor on pad %u, type %s\n", pad,
-> >>>>>>>>> +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
-> >>>>>>>>> +		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
-> >>>>>>>>> +		"unknown");
-> >>>>>>>>> +
-> >>>>>>>>> +	for (i = 0; i < fd->num_entries; i++) {
-> >>>>>>>>> +		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
-> >>>>>>>>> +		char buf[20] = "";
-> >>>>>>>>
-> >>>>>>>> Should this be sized for the worst case ? The vc and dt should not be
-> >>>>>>>> large, but a buffer overflow on the stack in debug code if a subdev
-> >>>>>>>> returns an incorrect value would be bad.
-> >>>>>>>
-> >>>>>>> 17 should be enough but it's not useful to use a size not divisible by 4 in
-> >>>>>>> practice here.
-> >>>>>>
-> >>>>>> 18 with the terminating 0. But indeed, it's large enough as vc and dt
-> >>>>>
-> >>>>> I can count only 17 --- there's no newline.
-> >>>>>
-> >>>>> I guess it's most probably either of these then. X-)
-> >>>>>
-> >>>>>> are u8. I'm just a bit worried we're opening the door to hard to debug
-> >>>>>> problems if we later change the vc and dt types.
-> >>>>>
-> >>>>> I can add a WARN_ON() to cover this.
-> >>>>>
-> >>>>>>>>> +
-> >>>>>>>>> +		if (fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-> >>>>>>>>> +			snprintf(buf, sizeof(buf), ", vc %u, dt 0x%2.2x",
-> >>>>>>>>
-> >>>>>>>> 0x%02x would be one character shorter ;-) Same below.
-> >>>>>>>
-> >>>>>>> It would be, but I prefer the above notation as it's more generic.
-> >>>>>>
-> >>>>>> Out of curiosity, how so ?
-> >>>>>
-> >>>>> It works with data that would span more than 9 characters when printed.
-> >>>>
-> >>>> And 0x%02x doesn't ?
-> >>>
-> >>> Ah, it should indeed work, 0 is actually a flag here and part of the field
-> >>> width or precision. I can use that in v4.
-> >>
-> >> Or %#04x, even shorter!
-> > 
-> > That's different though.
-> > 
-> > printf("0x%2.2x\n", 0);		-> 0x00
-> > printf("0x%2.2x\n", 1);		-> 0x01
-> > printf("0x%2.2x\n", 42);	-> 0x2a
-> > 
-> > printf("0x%02x\n", 0);		-> 0x00
-> > printf("0x%02x\n", 1);		-> 0x01
-> > printf("0x%02x\n", 42);		-> 0x2a
-> > 
-> > printf("%#2.2x\n", 0);		-> 00
-> > printf("%#2.2x\n", 1);		-> 0x01
-> > printf("%#2.2x\n", 42);		-> 0x2a
-> > 
-> > printf("%#02x\n", 0);		-> 00
-> > printf("%#02x\n", 1);		-> 0x1
-> > printf("%#02x\n", 42);		-> 0x2a
-> 
-> The length should be 4 there, not 2. But even after fixing that, the 0 
-> case is printed wrong. Interesting, I haven't noticed that before. I 
-> wonder why it behaves that way...
+On Fri, Sep 22, 2023 at 12:38=E2=80=AFPM Jagan Teki <jagan@edgeble.ai> wrot=
+e:
+>
+> On Fri, 22 Sept 2023 at 15:04, Cancan Chang <Cancan.Chang@amlogic.com> wr=
+ote:
+> >
+> > Dear Media Maintainers:
+> >      Thanks for your attention. Before describing my problem=EF=BC=8Cle=
+t me introduce to you what I  mean by NPU.
+> >      NPU is Neural Processing Unit, It is designed for deep learning ac=
+celeration, It is also called TPU, APU ..
+> >
+> >      The real problems:
+> >       When I was about to upstream my NPU driver codes to linux mainlin=
+e, i meet two problems:
+> >         1.  According to my research, There is no NPU module path in th=
+e linux (base on linux 6.5.4) , I have searched all linux projects and foun=
+d no organization or comany that has submitted NPU code. Is there a path pr=
+epared for NPU driver currently?
+> >         2.   If there is no NPU driver path currently, I am going to pu=
+t my NPU driver code in the drivers/media/platform/amlogic/ =EF=BB=BF, beca=
+use my NPU driver belongs to amlogic. and amlogic NPU is mainly used for AI=
+ vision applications. Is this plan suitabe for you?
+>
+> If I'm correct about the discussion with Oded Gabby before. I think
+> the drivers/accel/ is proper for AI Accelerators including NPU.
+>
+> + Oded in case he can comment.
+>
+> Thanks,
+> Jagan.
+Thanks Jagan for adding me to this thread. Adding Dave & Daniel as well.
 
-It's documented as such:
+Indeed, the drivers/accel is the place for Accelerators, mainly for
+AI/Deep-Learning accelerators.
+We currently have 3 drivers there already.
 
-  #  The value should be converted to an "alternate form". [...] For x
-     and X conversions, a nonzero result has the string "0x" (or "0X"
-     for X conversions) prepended to it. [...]
+The accel subsystem is part of the larger drm subsystem. Basically, to
+get into accel, you need to integrate your driver with the drm at the
+basic level (registering a device, hooking up with the proper
+callbacks). ofc the more you use code from drm, the better.
+You can take a look at the drivers under accel for some examples on
+how to do that.
 
-> 0000
-> 0x01
-> 0x2a
+Could you please describe in a couple of sentences what your
+accelerator does, which engines it contains, how you program it. i.e.
+Is it a fixed-function device where you write to a couple of registers
+to execute workloads, or is it a fully programmable device where you
+load compiled code into it (GPU style) ?
 
--- 
-Regards,
+For better background on the accel subsystem, please read the following:
+https://docs.kernel.org/accel/introduction.html
+This introduction also contains links to other important email threads
+and to Dave Airlie's BOF summary in LPC2022.
 
-Laurent Pinchart
+Thanks,
+Oded
