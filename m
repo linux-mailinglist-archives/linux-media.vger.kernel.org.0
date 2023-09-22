@@ -2,69 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B03637AAD1D
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 10:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2DE17AAD2E
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 10:54:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232103AbjIVIuZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 04:50:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52284 "EHLO
+        id S232558AbjIVIyc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 04:54:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230126AbjIVIuY (ORCPT
+        with ESMTP id S232277AbjIVIyb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 04:50:24 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CBFCF
-        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 01:50:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695372618; x=1726908618;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ai3JOOjYB1ra3sm9ReHN1ksGdYqPDCpgQN0MUF3f6CU=;
-  b=HiC2zKFfP+tioKtxR1DxYoiYNOqj+eTqgvMm0LEmTKf71stpH0mWdUKb
-   JKBzs0MdcfIPyOD93ozXmbLjU4hd4XjsEFjc46cChp0Pq6zM3f6ioPimm
-   YXgLqgdxaHBgi7RQHTWN7hosZXv/23Lv9v69wHoZhS7MvVXVWiaLW0CrV
-   tCCbarsMLdYjx4BWLU8avDVsJMq1aTsLVw/ej+u+bT0e93oRTrSI1XhpO
-   HOl6hOv0wBhSFj2IIUf8yfheIOZXi0w8AdYwTXGHb86eL96APmfhH8Yaa
-   94wMqhMobvf9k1p4zZnbtco+Qb4vkY113Kh/SaP4pikwSoOP7JDAd/56c
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="383524838"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="383524838"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 01:50:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="697091717"
-X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="697091717"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 01:50:14 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 66B4611FC30;
-        Fri, 22 Sep 2023 11:50:11 +0300 (EEST)
-Date:   Fri, 22 Sep 2023 08:50:11 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>
-Subject: Re: [PATCH v3 07/10] media: uapi: Add generic 8-bit metadata format
- definitions
-Message-ID: <ZQ1VQ4OmkNCAu1SA@kekkonen.localdomain>
-References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
- <20230808075538.3043934-8-sakari.ailus@linux.intel.com>
- <20230905165558.GD7971@pendragon.ideasonboard.com>
- <ZPho//Cib9DtXx0o@kekkonen.localdomain>
- <20230906130729.GJ17308@pendragon.ideasonboard.com>
+        Fri, 22 Sep 2023 04:54:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43AD099;
+        Fri, 22 Sep 2023 01:54:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 826D3C433C8;
+        Fri, 22 Sep 2023 08:54:20 +0000 (UTC)
+Message-ID: <c3d08bc5-49af-4967-8d06-572219cad9de@xs4all.nl>
+Date:   Fri, 22 Sep 2023 10:54:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230906130729.GJ17308@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v4 09/11] media: uapi: Add
+ V4L2_CID_USER_IMX_ASRC_RATIO_MOD control
+Content-Language: en-US, nl
+To:     Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+        tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+References: <1695202370-24678-1-git-send-email-shengjiu.wang@nxp.com>
+ <1695202370-24678-10-git-send-email-shengjiu.wang@nxp.com>
+ <fbedcbf1-d925-47d6-b9fb-c9e15263c117@xs4all.nl>
+ <CAA+D8APyNGFSry1GUv6TOW0nKYHKSwQd5bTcRNuT7cu0Xf8eUA@mail.gmail.com>
+ <5292ce53-643e-44f0-b2cc-cb66efee9712@xs4all.nl>
+ <CAA+D8AMZN59uTRs2sOrSeVb5AGopTzurNVCTNwJOVPahfEXd+w@mail.gmail.com>
+ <2d44d574-08e5-4db3-87d9-5d12657f8935@xs4all.nl>
+ <CAA+D8AN+Uz+3CN9BnD5R_gp5opD1v-D8FBjANRpGrH43Ac2tdg@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
+ BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
+ 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
+ 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
+ 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
+ +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
+ OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
+ 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
+ wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
+ qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
+ vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
+ 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
+ IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
+ KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
+ UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
+ c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
+ AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
+ Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
+ KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
+ gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
+ sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
+ UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
+In-Reply-To: <CAA+D8AN+Uz+3CN9BnD5R_gp5opD1v-D8FBjANRpGrH43Ac2tdg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,147 +96,241 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Shengjiu,
 
-On Wed, Sep 06, 2023 at 04:07:29PM +0300, Laurent Pinchart wrote:
-> On Wed, Sep 06, 2023 at 11:56:47AM +0000, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > On Tue, Sep 05, 2023 at 07:55:58PM +0300, Laurent Pinchart wrote:
-> > > On Tue, Aug 08, 2023 at 10:55:35AM +0300, Sakari Ailus wrote:
-> > > > Generic 8-bit metadata formats define the in-memory data layout but not
-> > > > the format of the data itself. The reasoning for having such formats is to
-> > > > allow CSI-2 receiver drivers to receive and DMA drivers to write the data
-> > > > to memory without knowing a large number of device specific formats.
-> > > > 
-> > > > These formats may be used only in conjunction of a Media controller
-> > > > pipeline where the internal pad of the source sub-device defines the
-> > > > specific format of the data (using an mbus code).
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  .../userspace-api/media/v4l/meta-formats.rst  |   1 +
-> > > >  .../media/v4l/metafmt-generic.rst             | 331 ++++++++++++++++++
-> > > >  drivers/media/v4l2-core/v4l2-ioctl.c          |   8 +
-> > > >  include/uapi/linux/videodev2.h                |   9 +
-> > > >  4 files changed, 349 insertions(+)
-> > > >  create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > > > 
-> > > > diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > > > index 0bb61fc5bc00..919f595576b9 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > > > @@ -19,3 +19,4 @@ These formats are used for the :ref:`metadata` interface only.
-> > > >      metafmt-vsp1-hgo
-> > > >      metafmt-vsp1-hgt
-> > > >      metafmt-vivid
-> > > > +    metafmt-generic
-> > > > diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > > > new file mode 100644
-> > > > index 000000000000..a27bfc721edf
-> > > > --- /dev/null
-> > > > +++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > > > @@ -0,0 +1,331 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-> > > > +
-> > > > +**************************************************************************************************************************************************************************************************************************************************************************************************************************
-> > > > +V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_META_FMT_GENERIC_CSI2_12 ('MC1C'), V4L2_META_FMT_GENERIC_CSI2_14 ('MC1E'), V4L2_META_FMT_GENERIC_CSI2_16 ('MC1G'), V4L2_META_FMT_GENERIC_CSI2_20 ('MC1K'), V4L2_META_FMT_GENERIC_CSI2_24 ('MC1O'), V4L2_META_FMT_GENERIC_CSI2_2_24 ('MC2O')
-> > > > +**************************************************************************************************************************************************************************************************************************************************************************************************************************
-> > > > +
-> > > > +
-> > > > +Generic line-based metadata formats
-> > > > +
-> > > > +
-> > > > +Description
-> > > > +===========
-> > > > +
-> > > > +These generic line-based metadata formats define the memory layout of the data
-> > > > +without defining the format or meaning of the metadata itself. These formats may
-> > > > +only be used with a Media controller pipeline where the more specific format is
-> > > > +defined in an :ref:`internal source pad <MEDIA-PAD-FL-INTERNAL>` of the source
-> > > > +sub-device. See also :ref:`source routes <v4l2-subdev-source-routes>`.
-> > > > +
-> > > > +.. _v4l2-meta-fmt-generic-8:
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_8
-> > > > +-----------------------
-> > > > +
-> > > > +The V4L2_META_FMT_GENERIC_8 format is a plain 8-bit metadata format.
-> > > > +
-> > > > +This format is also used on CSI-2 on both 8 bits per sample as well as on
-> > > 
-> > > s/also on/by/
-> > > 
-> > > I would also mention "MIPI CCS" instead of "CSI-2".
-> > 
-> > If CCS were to be mentioned here, then all uses of this format should be
-> > included as well.
-> > 
-> > > > +16 bits per sample when two bytes of metadata are packed into one sample.
-> > > 
-> > > "bits per sample" is very ill-defined for metadata, as there's no
-> > > sample. I would write "for both the RAW8 packing and the 2 bytes RAW16
-> > > packing" or something similar.
-> > > 
-> > > Similar comments for below.
-> > 
-> > From CSI-2 bus point of view there's no difference between pixel and
-> > embedded data when it comes to encoding that data. "Sample" is the next
-> > best term beyond "pixel", as the bus can carry samples that may or may not
-> > be pixel data. But I'm fine with changing the wording if you think it makes
-> > it more understandable.
+On 22/09/2023 04:51, Shengjiu Wang wrote:
+> On Thu, Sep 21, 2023 at 10:09 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> On 21/09/2023 13:13, Shengjiu Wang wrote:
+>>> On Thu, Sep 21, 2023 at 3:11 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>>>
+>>>> On 21/09/2023 08:55, Shengjiu Wang wrote:
+>>>>> On Wed, Sep 20, 2023 at 6:19 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>>>>>
+>>>>>> On 20/09/2023 11:32, Shengjiu Wang wrote:
+>>>>>>> The input clock and output clock may not be the accurate
+>>>>>>> rate as the sample rate, there is some drift, so the convert
+>>>>>>> ratio of i.MX ASRC module need to be changed according to
+>>>>>>> actual clock rate.
+>>>>>>>
+>>>>>>> Add V4L2_CID_USER_IMX_ASRC_RATIO_MOD control for user to
+>>>>>>> adjust the ratio.
+>>>>>>>
+>>>>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+>>>>>>> ---
+>>>>>>>  Documentation/userspace-api/media/v4l/control.rst | 5 +++++
+>>>>>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c         | 1 +
+>>>>>>>  include/uapi/linux/v4l2-controls.h                | 1 +
+>>>>>>>  3 files changed, 7 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+>>>>>>> index 4463fce694b0..2bc175900a34 100644
+>>>>>>> --- a/Documentation/userspace-api/media/v4l/control.rst
+>>>>>>> +++ b/Documentation/userspace-api/media/v4l/control.rst
+>>>>>>> @@ -318,6 +318,11 @@ Control IDs
+>>>>>>>      depending on particular custom controls should check the driver name
+>>>>>>>      and version, see :ref:`querycap`.
+>>>>>>>
+>>>>>>> +.. _v4l2-audio-imx:
+>>>>>>> +
+>>>>>>> +``V4L2_CID_USER_IMX_ASRC_RATIO_MOD``
+>>>>>>> +    sets the rasampler ratio modifier of i.MX asrc module.
+>>>>>>
+>>>>>> rasampler -> resampler (I think?)
+>>>>>>
+>>>>>> This doesn't document at all what the type of the control is or how to interpret it.
+>>>>>>
+>>>>>>> +
+>>>>>>>  Applications can enumerate the available controls with the
+>>>>>>>  :ref:`VIDIOC_QUERYCTRL` and
+>>>>>>>  :ref:`VIDIOC_QUERYMENU <VIDIOC_QUERYCTRL>` ioctls, get and set a
+>>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>>>> index 8696eb1cdd61..16f66f66198c 100644
+>>>>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>>>> @@ -1242,6 +1242,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>>>>>>       case V4L2_CID_COLORIMETRY_CLASS:        return "Colorimetry Controls";
+>>>>>>>       case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:               return "HDR10 Content Light Info";
+>>>>>>>       case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:      return "HDR10 Mastering Display";
+>>>>>>> +     case V4L2_CID_USER_IMX_ASRC_RATIO_MOD:                  return "ASRC RATIO MOD";
+>>>>>>
+>>>>>> Let's stay consistent with the other control names:
+>>>>>>
+>>>>>> "ASRC Ratio Modifier"
+>>>>>>
+>>>>>> But if this is a driver specific control, then this doesn't belong here.
+>>>>>>
+>>>>>> Driver specific controls are defined in the driver itself, including this
+>>>>>> description.
+>>>>>>
+>>>>>> Same for the control documentation: if it is driver specific, then that
+>>>>>> typically is documented either in a driver-specific public header, or
+>>>>>> possibly in driver-specific documentation (Documentation/admin-guide/media/).
+>>>>>>
+>>>>>> But is this imx specific? Wouldn't other similar devices need this?
+>>>>>
+>>>>> It is imx specific.
+>>>>
+>>>> Why? I'm not opposed to this, but I wonder if you looked at datasheets of
+>>>> similar devices from other vendors: would they use something similar?
+>>>
+>>> I tried to find some datasheets for other vendors, but failed to find them.
+>>> So I don't know how they implement this part.
+>>>
+>>> Ratio modification on i.MX is to modify the configured ratio.
+>>> For example, the input rate is 44.1kHz,  output rate is 48kHz,
+>>> configured ratio = 441/480,   the ratio modification is to modify
+>>> the fractional part of (441/480) with small steps.  because the
+>>> input clock or output clock has drift in the real hardware.
+>>> The ratio modification is signed value, it is added to configured
+>>> ratio.
+>>>
+>>> In our case, we have some sysfs interface for user to get the
+>>> clock from input audio device and output audio device, user
+>>> need to calculate the ratio dynamically , then configure the
+>>> modification to driver
+>>
+>> So this ratio modifier comes into play when either the audio input
+>> or audio output (or both) are realtime audio inputs/outputs where
+>> the sample rate is not a perfect 44.1 or 48 kHz, but slightly different?
 > 
-> The CSI-2 specification doesn't seem to define any "sample" concept.
+> yes.
 > 
-> > > > +
-> > > > +**Byte Order Of V4L2_META_FMT_GENERIC_8.**
-> > > > +Each cell is one byte. "M" denotes a byte of metadata.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|
-> > > > +
-> > > > +.. flat-table::
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths: 12 8 8 8 8
-> > > > +
-> > > > +    * - start + 0:
-> > > > +      - M\ :sub:`00`
-> > > > +      - M\ :sub:`10`
-> > > > +      - M\ :sub:`20`
-> > > > +      - M\ :sub:`30`
-> > > > +    * - start + 4:
-> > > > +      - M\ :sub:`01`
-> > > > +      - M\ :sub:`11`
-> > > > +      - M\ :sub:`21`
-> > > > +      - M\ :sub:`31`
-> > > > +
-> > > > +.. _v4l2-meta-fmt-generic-csi2-10:
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_10
-> > > > +-----------------------------
-> > > > +
-> > > > +V4L2_META_FMT_GENERIC_CSI2_10 contains packed 8-bit generic metadata, 10 bits
-> > > > +for each 8 bits of data. Every four bytes of metadata is followed by a single
-> > > > +byte of padding.
-> > > 
-> > > It sounds really weird to write that this format writes 10 bits for each
-> > > 8 bits of data, when essentially it adds a packing byte every four
-> > > bytes.
-> > 
-> > That's how the hardware has been implemented and probably there is a
-> > hardware implementation related reason for this.
+>>
+>> If you would use this resampler to do offline resampling (i.e. resample
+>> a 44.1 kHz wav file to a 48 kHz wav file), then this wouldn't be needed,
+>> correct?
 > 
-> I can imagine the specification has been designed to make it possible to
-> push embedded data and pixel data through the same serialization
-> hardware, but I can't tell if that's how hardware has been implemented.
-> Still, from an application point of view, when documenting pixel
-> formats, it sounds confusing. Can't we instead say that there's a 0x55
-> padding after every four bytes of data ?
+> yes.
+> 
+>>
+>> When dealing with realtime audio, userspace will know how to get the
+>> precise sample rate, but that is out-of-scope of this driver. Here
+>> you just need a knob to slightly tweak the resampling ratio.
+>>
+>> If my understanding is correct, then I wonder if it is such a good
+>> idea to put the rate into the v4l2_audio_format: it really has nothing
+>> to do with the audio format as it is stored in memory.
+>>
+>> What if you would drop that 'rate' field and instead create just a single
+>> control for the resampling ratio. This can use struct v4l2_fract to represent
+>> a fraction. It would be more work since v4l2_fract is currently not supported
+>> for controls, but it is not hard to add support for that (just a bit tedious)
+>> and I actually think this might be a perfect solution.
+>>
+>> That way userspace can quite precisely tweak the ratio on the fly, and
+>> it is a generic solution as well instead of mediatek specific.
+>>
+> 
+> (rate, channel, format) are the basic parameters for audio stream.
+> For example, if there is decoder/encoder requirement, the rate field is
+> still needed,  I think the rate shouldn't be removed.
 
-What if we get an implementation that does not use 0x55 value for padding?
+The v4l2_format struct is meant to describe the format of the data in memory,
+not the rate at which the data has to be processed. It is the same for video:
+v4l2_format describes the memory layout of the video data, not the framerate.
+That is done through other ioctls (VIDIOC_S/G_PARM, a horrible ioctl, but
+that's another story). So for audio the channel and format fields define how
+the audio data is laid out in memory, but the rate has nothing to do with
+that.
 
-It'd be safer not to define the value of the padding byte, it doesn't
-matter from parsing point in any case.
+For this resampler you don't even need the rate at all, all you need is the
+rate ratio, right? I.e. there is no difference when resampling from 10 kHz to 20 kHz
+vs. 30 kHz to 60 kHz, the ratio is the same.
 
--- 
-Sakari Ailus
+Or is that too simplistic and the hardware needs the actual rates as well?
+
+Remember that I am a video guy, not an audio guy, so apologies if I ask stupid
+questions!
+
+Regardless, I don't believe the rate belongs to the audio format struct. It's
+not how v4l2_format works. If the rate is needed, then that is probably best
+done through controls, one for the source (output queue) and one for the
+destination (capture queue).
+
+Regards,
+
+	Hans
+
+> 
+> tweak ratio is not always needed by use case. As you said, for
+> file to file conversion, it is not needed, so keeping 'rate' is necessary.
+> 
+> best regards
+> wang shengjiu
+> 
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>> May be other vendors has similar implementation. or make
+>>> the definition be generic is an option.
+>>>
+>>> best regards
+>>> wang shengjiu
+>>>
+>>>>
+>>>> And the very short description you gave in the commit log refers to input
+>>>> and output clock: how would userspace know those clock frequencies? In
+>>>> other words, what information does userspace need in order to set this
+>>>> control correctly? And is that information actually available? How would
+>>>> you use this control?
+>>>>
+>>>> I don't really understand how this is supposed to be used.
+>>>>
+>>>>>
+>>>>> Does this mean that I need to create a header file in include/uapi/linux
+>>>>> folder to put this definition?  I just hesitate if this is necessary.
+>>>>
+>>>> Yes, put it there. There are some examples of this already:
+>>>>
+>>>> include/uapi/linux/aspeed-video.h
+>>>> include/uapi/linux/max2175.h
+>>>>
+>>>>>
+>>>>> There is folder Documentation/userspace-api/media/drivers/ for drivers
+>>>>> Should this document in this folder, not in the
+>>>>> Documentation/admin-guide/media/?
+>>>>
+>>>> Yes, you are correct. For the headers above, the corresponding documentation
+>>>> is in:
+>>>>
+>>>> Documentation/userspace-api/media/drivers/aspeed-video.rst
+>>>> Documentation/userspace-api/media/drivers/max2175.rst
+>>>>
+>>>> So you have some examples as reference.
+>>>>
+>>>> Frankly, what is in admin-guide and in userspace-api is a bit random, it
+>>>> probably could use a cleanup.
+>>>>
+>>>> Regards,
+>>>>
+>>>>         Hans
+>>>>
+>>>>>
+>>>>> Best regards
+>>>>> Wang shengjiu
+>>>>>>
+>>>>>>>       default:
+>>>>>>>               return NULL;
+>>>>>>>       }
+>>>>>>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>>>>>>> index c3604a0a3e30..b1c319906d12 100644
+>>>>>>> --- a/include/uapi/linux/v4l2-controls.h
+>>>>>>> +++ b/include/uapi/linux/v4l2-controls.h
+>>>>>>> @@ -162,6 +162,7 @@ enum v4l2_colorfx {
+>>>>>>>  /* The base for the imx driver controls.
+>>>>>>>   * We reserve 16 controls for this driver. */
+>>>>>>>  #define V4L2_CID_USER_IMX_BASE                       (V4L2_CID_USER_BASE + 0x10b0)
+>>>>>>> +#define V4L2_CID_USER_IMX_ASRC_RATIO_MOD     (V4L2_CID_USER_IMX_BASE + 0)
+>>>>>>>
+>>>>>>>  /*
+>>>>>>>   * The base for the atmel isc driver controls.
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>>         Hans
+>>>>
+>>
+
