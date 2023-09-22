@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E5347AB382
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 16:23:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 049D57AB379
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 16:23:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234271AbjIVOXO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S234258AbjIVOXO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 22 Sep 2023 10:23:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50558 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234272AbjIVOXM (ORCPT
+        with ESMTP id S234277AbjIVOXN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 10:23:12 -0400
+        Fri, 22 Sep 2023 10:23:13 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B768100
-        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 07:23:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BB08100
+        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 07:23:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695392586; x=1726928586;
+  t=1695392587; x=1726928587;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=fKrqt/oVHxujyEDtQ/2VaWPFvNlfU4S6H9l/Pn0mQsY=;
-  b=hAqiCcpBVw+OYQyKwm6q7OcgN5VzQjDEMUaiccGg3nBYC+CbRchJT9fY
-   6AeP1yqIMcZfGRQxExzlrBwdTDxORFH3BkKXgqc9F20VxhTMSHtxRTVwS
-   lcUaVh+MvIPE+ZNQIz4T0dHI7iCOEoc8JJV+c7K3nEuYIv+yczUjwmWgy
-   1yezHs7KRCLmqkG32AOoJua0O9jRbWmqhpUCjhbG5OMCpExH3Zaeyn9Nm
-   HkQOqNpYbmj4251DyCQ2EAbtrJCaInarbu2NfqJlDNHM9bU/K2btMQdxA
-   Dw6p8CGaRNTUJb29zPoevLrVvm2xLUUlU1xDGObIRF+K6Kr+eIxZkC085
+  bh=AaoufCv0YrlwJHYMJjHJgwxc/YSEpvPKR8UN/tzuCu4=;
+  b=KUMQgoA5qpp7w1fJVXE92vRt0Cu1HaB2t8OY2LG67O1LkA0l6KDapwVF
+   NtZwTFuhNWCWbf8NQ2mLW3If0u78UxOE3arTWm81RCuNtc/IQuhqUkWHC
+   CFS9XcDRyc1IghWa+ost/dBlUylKaPkc3Gyy2qeKW5/jSR40sEYmGYpNa
+   4fMAfdbNr3GdiEuaN2WZ4tBZZKUO4fmSeRcI/kZQCDyaCYPJSJI80chU8
+   GSujCiOfBq1eQzDmS+Pzdz9IklveJxAyY94m2lbJoAEUcCIzw37O5C+38
+   hyVohqgHSQ26ZFWsN3I9oxCoHS5CAdAvQhy7XwTbOwQ7iU0clqxPJVQHV
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="360218935"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="360218945"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="360218935"
+   d="scan'208";a="360218945"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 07:23:05 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 07:23:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="741112466"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="741112493"
 X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
-   d="scan'208";a="741112466"
+   d="scan'208";a="741112493"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 07:23:02 -0700
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 07:23:04 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 8FA641208F8;
-        Fri, 22 Sep 2023 17:22:58 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id DE85D11FC30;
+        Fri, 22 Sep 2023 17:23:00 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -51,9 +51,9 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH v4 12/23] media: v4l: subdev: Add helpers for format, crop and compose pointers
-Date:   Fri, 22 Sep 2023 17:22:28 +0300
-Message-Id: <20230922142239.259425-13-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 13/23] media: ccs: Move ccs_validate_csi_data_format up
+Date:   Fri, 22 Sep 2023 17:22:29 +0300
+Message-Id: <20230922142239.259425-14-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230922142239.259425-1-sakari.ailus@linux.intel.com>
 References: <20230922142239.259425-1-sakari.ailus@linux.intel.com>
@@ -69,152 +69,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a helper for obtaining format, crop and compose pointers. These are
-convenient for drivers, independently of the driver uses streams or not.
+ccs_validate_csi_data_format() will soon be needed elsewhere, above its
+current location. Move it up.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 54 ++++++++++++++++++++++----
- include/media/v4l2-subdev.h           | 56 +++++++++++++++++++++++++++
- 2 files changed, 102 insertions(+), 8 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index d295a4e87b66..854f9d4db923 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1573,19 +1573,57 @@ v4l2_subdev_init_stream_configs(struct v4l2_subdev_stream_configs *stream_config
- 	return 0;
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 08cb5ad3a737..a9b260101a33 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -1976,6 +1976,20 @@ static int ccs_post_streamoff(struct v4l2_subdev *subdev)
+ 	return pm_runtime_put(&client->dev);
  }
  
-+struct v4l2_mbus_framefmt
-+*v4l2_subdev_get_fmt_ptr(struct v4l2_subdev *sd,
-+			 struct v4l2_subdev_state *state, unsigned int pad,
-+			 unsigned int stream)
++static const struct ccs_csi_data_format
++*ccs_validate_csi_data_format(struct ccs_sensor *sensor, u32 code)
 +{
-+	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
-+		return v4l2_subdev_state_get_stream_format(state, pad, stream);
++	unsigned int i;
 +
-+	if (pad < sd->entity.num_pads && stream == 0)
-+		return v4l2_subdev_get_pad_format(sd, state, pad);
++	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
++		if (sensor->mbus_frame_fmts & (1 << i) &&
++		    ccs_csi_data_formats[i].code == code)
++			return &ccs_csi_data_formats[i];
++	}
 +
-+	return NULL;
++	return sensor->csi_format;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt_ptr);
 +
-+struct v4l2_rect
-+*v4l2_subdev_get_crop_ptr(struct v4l2_subdev *sd,
-+			  struct v4l2_subdev_state *state, unsigned int pad,
-+			  unsigned int stream)
-+{
-+	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
-+		return v4l2_subdev_state_get_stream_crop(state, pad, stream);
-+
-+	if (pad < sd->entity.num_pads && stream == 0)
-+		return v4l2_subdev_get_pad_crop(sd, state, pad);
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_crop_ptr);
-+
-+struct v4l2_rect
-+*v4l2_subdev_get_compose_ptr(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state, unsigned int pad,
-+			     unsigned int stream)
-+{
-+	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
-+		return v4l2_subdev_state_get_stream_compose(state, pad, stream);
-+
-+	if (pad < sd->entity.num_pads && stream == 0)
-+		return v4l2_subdev_get_pad_compose(sd, state, pad);
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_compose_ptr);
-+
- int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- 			struct v4l2_subdev_format *format)
- {
- 	struct v4l2_mbus_framefmt *fmt;
+ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
+ 			      struct v4l2_subdev_state *sd_state,
+ 			      struct v4l2_subdev_mbus_code_enum *code)
+@@ -2107,20 +2121,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
+ 	}
+ }
  
--	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
--		fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
--							  format->stream);
--	else if (format->pad < sd->entity.num_pads && format->stream == 0)
--		fmt = v4l2_subdev_get_pad_format(sd, state, format->pad);
--	else
--		fmt = NULL;
+-static const struct ccs_csi_data_format
+-*ccs_validate_csi_data_format(struct ccs_sensor *sensor, u32 code)
+-{
+-	unsigned int i;
 -
-+	fmt = v4l2_subdev_get_fmt_ptr(sd, state, format->pad, format->stream);
- 	if (!fmt)
- 		return -EINVAL;
- 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 5f59ff0796b7..7c34243ffed9 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1479,6 +1479,62 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
- 
- #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
- 
-+/**
-+ * v4l2_subdev_get_fmt_ptr - Obtain a pointer to V4L2 sub-device format for pad
-+ *			     and stream
-+ * @sd: subdevice
-+ * @state: subdevice state
-+ * @pad: the pad on the sub-device
-+ * @stream: stream in the pad
-+ *
-+ * For given pad and stream, obtain a pointer to the mbus format from the
-+ * sub-device.
-+ *
-+ * Returns NULL if the format is not found or the parameters are invalid.
-+ */
-+struct v4l2_mbus_framefmt *
-+v4l2_subdev_get_fmt_ptr(struct v4l2_subdev *sd,
-+			struct v4l2_subdev_state *state, unsigned int pad,
-+			unsigned int stream);
-+
-+/**
-+ * v4l2_subdev_get_crop_ptr - Obtain a pointer to V4L2 sub-device crop
-+ *			      rectangle for pad and stream
-+ * @sd: subdevice
-+ * @state: subdevice state
-+ * @pad: the pad on the sub-device
-+ * @stream: stream in the pad
-+ *
-+ * For given pad and stream, obtain a pointer to the crop selection rectangle
-+ * from the sub-device.
-+ *
-+ * Returns NULL if the selection rectangle is not found or the parameters are
-+ * invalid.
-+ */
-+struct v4l2_rect *
-+v4l2_subdev_get_crop_ptr(struct v4l2_subdev *sd,
-+			 struct v4l2_subdev_state *state, unsigned int pad,
-+			 unsigned int stream);
-+
-+/**
-+ * v4l2_subdev_get_compose_ptr - Obtain a pointer to V4L2 sub-device compose
-+ *				 rectangle for pad and stream
-+ * @sd: subdevice
-+ * @state: subdevice state
-+ * @pad: the pad on the sub-device
-+ * @stream: stream in the pad
-+ *
-+ * For given pad and stream, obtain a pointer to the compose selection rectangle
-+ * from the sub-device.
-+ *
-+ * Returns NULL if the selection rectangle is not found or the parameters are
-+ * invalid.
-+ */
-+struct v4l2_rect *
-+v4l2_subdev_get_compose_ptr(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *state, unsigned int pad,
-+			    unsigned int stream);
-+
- /**
-  * v4l2_subdev_get_fmt() - Fill format based on state
-  * @sd: subdevice
+-	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
+-		if (sensor->mbus_frame_fmts & (1 << i) &&
+-		    ccs_csi_data_formats[i].code == code)
+-			return &ccs_csi_data_formats[i];
+-	}
+-
+-	return sensor->csi_format;
+-}
+-
+ static int ccs_set_format_source(struct v4l2_subdev *subdev,
+ 				 struct v4l2_subdev_state *sd_state,
+ 				 struct v4l2_subdev_format *fmt)
 -- 
 2.39.2
 
