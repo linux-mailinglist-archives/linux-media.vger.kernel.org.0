@@ -2,479 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F6C47AAD17
-	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 10:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B03637AAD1D
+	for <lists+linux-media@lfdr.de>; Fri, 22 Sep 2023 10:50:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232390AbjIVItf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Sep 2023 04:49:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40920 "EHLO
+        id S232103AbjIVIuZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Sep 2023 04:50:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232465AbjIVItc (ORCPT
+        with ESMTP id S230126AbjIVIuY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Sep 2023 04:49:32 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2822CE8
-        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 01:49:22 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qjbqi-00B58o-6A; Fri, 22 Sep 2023 08:49:20 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.96)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qjbqe-000eIn-2m;
-        Fri, 22 Sep 2023 08:49:18 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Sean Young <sean@mess.org>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.7] RC fixes (v2) (#94975)
-Date:   Fri, 22 Sep 2023 08:49:17 +0000
-Message-Id: <20230922084917.154912-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <ZQ1L/LOtJn1ewOG/@gofer.mess.org>
-References: 
+        Fri, 22 Sep 2023 04:50:24 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CBFCF
+        for <linux-media@vger.kernel.org>; Fri, 22 Sep 2023 01:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695372618; x=1726908618;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ai3JOOjYB1ra3sm9ReHN1ksGdYqPDCpgQN0MUF3f6CU=;
+  b=HiC2zKFfP+tioKtxR1DxYoiYNOqj+eTqgvMm0LEmTKf71stpH0mWdUKb
+   JKBzs0MdcfIPyOD93ozXmbLjU4hd4XjsEFjc46cChp0Pq6zM3f6ioPimm
+   YXgLqgdxaHBgi7RQHTWN7hosZXv/23Lv9v69wHoZhS7MvVXVWiaLW0CrV
+   tCCbarsMLdYjx4BWLU8avDVsJMq1aTsLVw/ej+u+bT0e93oRTrSI1XhpO
+   HOl6hOv0wBhSFj2IIUf8yfheIOZXi0w8AdYwTXGHb86eL96APmfhH8Yaa
+   94wMqhMobvf9k1p4zZnbtco+Qb4vkY113Kh/SaP4pikwSoOP7JDAd/56c
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="383524838"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
+   d="scan'208";a="383524838"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 01:50:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10840"; a="697091717"
+X-IronPort-AV: E=Sophos;i="6.03,167,1694761200"; 
+   d="scan'208";a="697091717"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 01:50:14 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 66B4611FC30;
+        Fri, 22 Sep 2023 11:50:11 +0300 (EEST)
+Date:   Fri, 22 Sep 2023 08:50:11 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>
+Subject: Re: [PATCH v3 07/10] media: uapi: Add generic 8-bit metadata format
+ definitions
+Message-ID: <ZQ1VQ4OmkNCAu1SA@kekkonen.localdomain>
+References: <20230808075538.3043934-1-sakari.ailus@linux.intel.com>
+ <20230808075538.3043934-8-sakari.ailus@linux.intel.com>
+ <20230905165558.GD7971@pendragon.ideasonboard.com>
+ <ZPho//Cib9DtXx0o@kekkonen.localdomain>
+ <20230906130729.GJ17308@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230906130729.GJ17308@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Laurent,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZQ1L/LOtJn1ewOG/@gofer.mess.org/
-Build log: https://builder.linuxtv.org/job/patchwork/341836/
-Build time: 00:27:48
-Link: https://lore.kernel.org/linux-media/ZQ1L/LOtJn1ewOG/@gofer.mess.org
+On Wed, Sep 06, 2023 at 04:07:29PM +0300, Laurent Pinchart wrote:
+> On Wed, Sep 06, 2023 at 11:56:47AM +0000, Sakari Ailus wrote:
+> > Hi Laurent,
+> > 
+> > On Tue, Sep 05, 2023 at 07:55:58PM +0300, Laurent Pinchart wrote:
+> > > On Tue, Aug 08, 2023 at 10:55:35AM +0300, Sakari Ailus wrote:
+> > > > Generic 8-bit metadata formats define the in-memory data layout but not
+> > > > the format of the data itself. The reasoning for having such formats is to
+> > > > allow CSI-2 receiver drivers to receive and DMA drivers to write the data
+> > > > to memory without knowing a large number of device specific formats.
+> > > > 
+> > > > These formats may be used only in conjunction of a Media controller
+> > > > pipeline where the internal pad of the source sub-device defines the
+> > > > specific format of the data (using an mbus code).
+> > > > 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  .../userspace-api/media/v4l/meta-formats.rst  |   1 +
+> > > >  .../media/v4l/metafmt-generic.rst             | 331 ++++++++++++++++++
+> > > >  drivers/media/v4l2-core/v4l2-ioctl.c          |   8 +
+> > > >  include/uapi/linux/videodev2.h                |   9 +
+> > > >  4 files changed, 349 insertions(+)
+> > > >  create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
+> > > > 
+> > > > diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> > > > index 0bb61fc5bc00..919f595576b9 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> > > > @@ -19,3 +19,4 @@ These formats are used for the :ref:`metadata` interface only.
+> > > >      metafmt-vsp1-hgo
+> > > >      metafmt-vsp1-hgt
+> > > >      metafmt-vivid
+> > > > +    metafmt-generic
+> > > > diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
+> > > > new file mode 100644
+> > > > index 000000000000..a27bfc721edf
+> > > > --- /dev/null
+> > > > +++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
+> > > > @@ -0,0 +1,331 @@
+> > > > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
+> > > > +
+> > > > +**************************************************************************************************************************************************************************************************************************************************************************************************************************
+> > > > +V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_META_FMT_GENERIC_CSI2_12 ('MC1C'), V4L2_META_FMT_GENERIC_CSI2_14 ('MC1E'), V4L2_META_FMT_GENERIC_CSI2_16 ('MC1G'), V4L2_META_FMT_GENERIC_CSI2_20 ('MC1K'), V4L2_META_FMT_GENERIC_CSI2_24 ('MC1O'), V4L2_META_FMT_GENERIC_CSI2_2_24 ('MC2O')
+> > > > +**************************************************************************************************************************************************************************************************************************************************************************************************************************
+> > > > +
+> > > > +
+> > > > +Generic line-based metadata formats
+> > > > +
+> > > > +
+> > > > +Description
+> > > > +===========
+> > > > +
+> > > > +These generic line-based metadata formats define the memory layout of the data
+> > > > +without defining the format or meaning of the metadata itself. These formats may
+> > > > +only be used with a Media controller pipeline where the more specific format is
+> > > > +defined in an :ref:`internal source pad <MEDIA-PAD-FL-INTERNAL>` of the source
+> > > > +sub-device. See also :ref:`source routes <v4l2-subdev-source-routes>`.
+> > > > +
+> > > > +.. _v4l2-meta-fmt-generic-8:
+> > > > +
+> > > > +V4L2_META_FMT_GENERIC_8
+> > > > +-----------------------
+> > > > +
+> > > > +The V4L2_META_FMT_GENERIC_8 format is a plain 8-bit metadata format.
+> > > > +
+> > > > +This format is also used on CSI-2 on both 8 bits per sample as well as on
+> > > 
+> > > s/also on/by/
+> > > 
+> > > I would also mention "MIPI CCS" instead of "CSI-2".
+> > 
+> > If CCS were to be mentioned here, then all uses of this format should be
+> > included as well.
+> > 
+> > > > +16 bits per sample when two bytes of metadata are packed into one sample.
+> > > 
+> > > "bits per sample" is very ill-defined for metadata, as there's no
+> > > sample. I would write "for both the RAW8 packing and the 2 bytes RAW16
+> > > packing" or something similar.
+> > > 
+> > > Similar comments for below.
+> > 
+> > From CSI-2 bus point of view there's no difference between pixel and
+> > embedded data when it comes to encoding that data. "Sample" is the next
+> > best term beyond "pixel", as the bus can carry samples that may or may not
+> > be pixel data. But I'm fine with changing the wording if you think it makes
+> > it more understandable.
+> 
+> The CSI-2 specification doesn't seem to define any "sample" concept.
+> 
+> > > > +
+> > > > +**Byte Order Of V4L2_META_FMT_GENERIC_8.**
+> > > > +Each cell is one byte. "M" denotes a byte of metadata.
+> > > > +
+> > > > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|
+> > > > +
+> > > > +.. flat-table::
+> > > > +    :header-rows:  0
+> > > > +    :stub-columns: 0
+> > > > +    :widths: 12 8 8 8 8
+> > > > +
+> > > > +    * - start + 0:
+> > > > +      - M\ :sub:`00`
+> > > > +      - M\ :sub:`10`
+> > > > +      - M\ :sub:`20`
+> > > > +      - M\ :sub:`30`
+> > > > +    * - start + 4:
+> > > > +      - M\ :sub:`01`
+> > > > +      - M\ :sub:`11`
+> > > > +      - M\ :sub:`21`
+> > > > +      - M\ :sub:`31`
+> > > > +
+> > > > +.. _v4l2-meta-fmt-generic-csi2-10:
+> > > > +
+> > > > +V4L2_META_FMT_GENERIC_CSI2_10
+> > > > +-----------------------------
+> > > > +
+> > > > +V4L2_META_FMT_GENERIC_CSI2_10 contains packed 8-bit generic metadata, 10 bits
+> > > > +for each 8 bits of data. Every four bytes of metadata is followed by a single
+> > > > +byte of padding.
+> > > 
+> > > It sounds really weird to write that this format writes 10 bits for each
+> > > 8 bits of data, when essentially it adds a packing byte every four
+> > > bytes.
+> > 
+> > That's how the hardware has been implemented and probably there is a
+> > hardware implementation related reason for this.
+> 
+> I can imagine the specification has been designed to make it possible to
+> push embedded data and pixel data through the same serialization
+> hardware, but I can't tell if that's how hardware has been implemented.
+> Still, from an application point of view, when documenting pixel
+> formats, it sounds confusing. Can't we instead say that there's a 0x55
+> padding after every four bytes of data ?
 
-gpg: Signature made Fri 22 Sep 2023 07:36:20 AM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [full]
+What if we get an implementation that does not use 0x55 value for padding?
 
-Summary: got 4/4 patches with issues, being 4 at build time
+It'd be safer not to define the value of the padding byte, it doesn't
+matter from parsing point in any case.
 
-Error/warnings:
-
-patches/0001-dt-bindings-media-remove-nokia-n900-ir-as-pwm-ir-tx-.patch:
-
-    allyesconfig: return code #512:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/imx/imx-media-capture.c: In function ‘imx_media_capture_device_init’:
-	../drivers/staging/media/imx/imx-media-capture.c:1000:51: error: ‘ capture’ directive output may be truncated writing 8 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/staging/media/imx/imx-media-capture.c:1000:9: note: ‘snprintf’ output between 9 and 40 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/imx/imx-media-capture.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/imx] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c: In function ‘isc_querycap’:
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:496:28: error: ‘%s’ directive output may be truncated writing up to 35 bytes into a region of size 23 [-Werror=format-truncation=]
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:495:9: note: ‘snprintf’ output between 10 and 45 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/deprecated/atmel/atmel-isc-base.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/deprecated/atmel] Error 2
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/omap4iss/iss_csi2.c: In function ‘csi2_init_entities’:
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:57: error: ‘%s’ directive output may be truncated writing up to 31 bytes into a region of size 22 [-Werror=format-truncation=]
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:9: note: ‘snprintf’ output between 11 and 42 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/omap4iss/iss_csi2.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/omap4iss] Error 2
-	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: In function ‘ia_css_debug_pipe_graph_dump_stage’:
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2786:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2785:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2772:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2771:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:92: error: ‘snprintf’ output may be truncated before the last format character [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:41: note: ‘snprintf’ output between 3 and 201 bytes into a destination of size 200
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/atomisp] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/staging/media] Error 2
-	make[4]: *** [../scripts/Makefile.build:480: drivers/staging] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
-
-    allyesconfig: return code #512:
-	../drivers/media/cec/core/cec-core.c: In function ‘cec_allocate_adapter’:
-	../drivers/media/cec/core/cec-core.c:317:21: error: ‘/input0’ directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/media/cec/core/cec-core.c:316:9: note: ‘snprintf’ output between 8 and 39 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/cec/core/cec-core.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/cec/core] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/cec] Error 2
-	make[5]: *** Waiting for unfinished jobs....
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/rc/ati_remote.c: In function ‘ati_remote_probe’:
-	../drivers/media/rc/ati_remote.c:876:21: error: ‘ mouse’ directive output may be truncated writing 6 bytes into a region of size between 1 and 80 [-Werror=format-truncation=]
-	../drivers/media/rc/ati_remote.c:875:9: note: ‘snprintf’ output between 7 and 86 bytes into a destination of size 80
-	cc1: all warnings being treated as errors
-	make[6]: *** [../scripts/Makefile.build:243: drivers/media/rc/ati_remote.o] Error 1
-	make[6]: *** Waiting for unfinished jobs....
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/rc] Error 2
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	make[4]: *** [../scripts/Makefile.build:480: drivers/media] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
-
-   checkpatch.pl:
-	$ cat patches/0001-dt-bindings-media-remove-nokia-n900-ir-as-pwm-ir-tx-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:35: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:38: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0002-media-rc-remove-ir-rx51-in-favour-of-generic-pwm-ir-.patch:
-
-    allyesconfig: return code #512:
-	../drivers/staging/media/omap4iss/iss_csi2.c: In function ‘csi2_init_entities’:
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:57: error: ‘%s’ directive output may be truncated writing up to 31 bytes into a region of size 22 [-Werror=format-truncation=]
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:9: note: ‘snprintf’ output between 11 and 42 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/omap4iss/iss_csi2.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/omap4iss] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/imx/imx-media-capture.c: In function ‘imx_media_capture_device_init’:
-	../drivers/staging/media/imx/imx-media-capture.c:1000:51: error: ‘ capture’ directive output may be truncated writing 8 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/staging/media/imx/imx-media-capture.c:1000:9: note: ‘snprintf’ output between 9 and 40 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/imx/imx-media-capture.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c: In function ‘isc_querycap’:
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:496:28: error: ‘%s’ directive output may be truncated writing up to 35 bytes into a region of size 23 [-Werror=format-truncation=]
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:495:9: note: ‘snprintf’ output between 10 and 45 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/deprecated/atmel/atmel-isc-base.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/deprecated/atmel] Error 2
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: In function ‘ia_css_debug_pipe_graph_dump_stage’:
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2786:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2785:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2772:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2771:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:92: error: ‘snprintf’ output may be truncated before the last format character [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:41: note: ‘snprintf’ output between 3 and 201 bytes into a destination of size 200
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/atomisp] Error 2
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/imx] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/staging/media] Error 2
-	make[4]: *** [../scripts/Makefile.build:480: drivers/staging] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
-
-    allyesconfig: return code #512:
-	../drivers/media/cec/core/cec-core.c: In function ‘cec_allocate_adapter’:
-	../drivers/media/cec/core/cec-core.c:317:21: error: ‘/input0’ directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/media/cec/core/cec-core.c:316:9: note: ‘snprintf’ output between 8 and 39 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/cec/core/cec-core.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/cec/core] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/cec] Error 2
-	make[5]: *** Waiting for unfinished jobs....
-	../drivers/media/rc/ati_remote.c: In function ‘ati_remote_probe’:
-	../drivers/media/rc/ati_remote.c:876:21: error: ‘ mouse’ directive output may be truncated writing 6 bytes into a region of size between 1 and 80 [-Werror=format-truncation=]
-	../drivers/media/rc/ati_remote.c:875:9: note: ‘snprintf’ output between 7 and 86 bytes into a destination of size 80
-	cc1: all warnings being treated as errors
-	make[6]: *** [../scripts/Makefile.build:243: drivers/media/rc/ati_remote.o] Error 1
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/rc] Error 2
-	../drivers/media/platform/cadence/cdns-csi2tx.c: In function ‘csi2tx_get_resources’:
-	../drivers/media/platform/cadence/cdns-csi2tx.c:485:63: error: ‘%u’ directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Werror=format-truncation=]
-	../drivers/media/platform/cadence/cdns-csi2tx.c:485:54: note: directive argument in the range [0, 4294967294]
-	../drivers/media/platform/cadence/cdns-csi2tx.c:485:17: note: ‘snprintf’ output between 14 and 23 bytes into a destination of size 16
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/platform/cadence/cdns-csi2tx.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/platform/cadence] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/platform] Error 2
-	In file included from ../include/linux/property.h:14,
-	                 from ../include/linux/acpi.h:16,
-	                 from ../drivers/media/pci/intel/ipu-bridge.c:4:
-	In function ‘ipu_bridge_init_swnode_names’,
-	    inlined from ‘ipu_bridge_create_connection_swnodes’ at ../drivers/media/pci/intel/ipu-bridge.c:445:2,
-	    inlined from ‘ipu_bridge_connect_sensor’ at ../drivers/media/pci/intel/ipu-bridge.c:656:3:
-	../include/linux/fwnode.h:81:49: error: ‘%u’ directive output may be truncated writing between 1 and 3 bytes into a region of size 2 [-Werror=format-truncation=]
-	../drivers/media/pci/intel/ipu-bridge.c:384:18: note: in expansion of macro ‘SWNODE_GRAPH_PORT_NAME_FMT’
-	../include/linux/fwnode.h: In function ‘ipu_bridge_connect_sensor’:
-	../include/linux/fwnode.h:81:55: note: format string is defined here
-	In function ‘ipu_bridge_init_swnode_names’,
-	    inlined from ‘ipu_bridge_create_connection_swnodes’ at ../drivers/media/pci/intel/ipu-bridge.c:445:2,
-	    inlined from ‘ipu_bridge_connect_sensor’ at ../drivers/media/pci/intel/ipu-bridge.c:656:3:
-	../include/linux/fwnode.h:81:49: note: directive argument in the range [0, 255]
-	../drivers/media/pci/intel/ipu-bridge.c:384:18: note: in expansion of macro ‘SWNODE_GRAPH_PORT_NAME_FMT’
-	../drivers/media/pci/intel/ipu-bridge.c:382:9: note: ‘snprintf’ output between 7 and 9 bytes into a destination of size 7
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/pci/intel/ipu-bridge.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/pci/intel] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/pci] Error 2
-	make[4]: *** [../scripts/Makefile.build:480: drivers/media] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
-
-   checkpatch.pl:
-	$ cat patches/0002-media-rc-remove-ir-rx51-in-favour-of-generic-pwm-ir-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:75: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0003-media-rc-meson-ir-support-rc-driver-type-RC_DRIVER_S.patch:
-
-    allyesconfig: return code #512:
-	../drivers/staging/media/imx/imx-media-capture.c: In function ‘imx_media_capture_device_init’:
-	../drivers/staging/media/imx/imx-media-capture.c:1000:51: error: ‘ capture’ directive output may be truncated writing 8 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/staging/media/imx/imx-media-capture.c:1000:9: note: ‘snprintf’ output between 9 and 40 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/imx/imx-media-capture.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/imx] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/omap4iss/iss_csi2.c: In function ‘csi2_init_entities’:
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:57: error: ‘%s’ directive output may be truncated writing up to 31 bytes into a region of size 22 [-Werror=format-truncation=]
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:9: note: ‘snprintf’ output between 11 and 42 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/omap4iss/iss_csi2.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c: In function ‘isc_querycap’:
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:496:28: error: ‘%s’ directive output may be truncated writing up to 35 bytes into a region of size 23 [-Werror=format-truncation=]
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:495:9: note: ‘snprintf’ output between 10 and 45 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/deprecated/atmel/atmel-isc-base.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: In function ‘ia_css_debug_pipe_graph_dump_stage’:
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2786:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2785:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2772:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2771:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:92: error: ‘snprintf’ output may be truncated before the last format character [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:41: note: ‘snprintf’ output between 3 and 201 bytes into a destination of size 200
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/atomisp] Error 2
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/deprecated/atmel] Error 2
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/omap4iss] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/staging/media] Error 2
-	make[4]: *** [../scripts/Makefile.build:480: drivers/staging] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
-
-    allyesconfig: return code #512:
-	../drivers/media/cec/core/cec-core.c: In function ‘cec_allocate_adapter’:
-	../drivers/media/cec/core/cec-core.c:317:21: error: ‘/input0’ directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/media/cec/core/cec-core.c:316:9: note: ‘snprintf’ output between 8 and 39 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/cec/core/cec-core.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	../drivers/media/platform/cadence/cdns-csi2tx.c: In function ‘csi2tx_get_resources’:
-	../drivers/media/platform/cadence/cdns-csi2tx.c:485:63: error: ‘%u’ directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Werror=format-truncation=]
-	../drivers/media/platform/cadence/cdns-csi2tx.c:485:54: note: directive argument in the range [0, 4294967294]
-	../drivers/media/platform/cadence/cdns-csi2tx.c:485:17: note: ‘snprintf’ output between 14 and 23 bytes into a destination of size 16
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/platform/cadence/cdns-csi2tx.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/platform/cadence] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	In file included from ../include/linux/property.h:14,
-	                 from ../include/linux/acpi.h:16,
-	                 from ../drivers/media/pci/intel/ipu-bridge.c:4:
-	In function ‘ipu_bridge_init_swnode_names’,
-	    inlined from ‘ipu_bridge_create_connection_swnodes’ at ../drivers/media/pci/intel/ipu-bridge.c:445:2,
-	    inlined from ‘ipu_bridge_connect_sensor’ at ../drivers/media/pci/intel/ipu-bridge.c:656:3:
-	../include/linux/fwnode.h:81:49: error: ‘%u’ directive output may be truncated writing between 1 and 3 bytes into a region of size 2 [-Werror=format-truncation=]
-	../drivers/media/pci/intel/ipu-bridge.c:384:18: note: in expansion of macro ‘SWNODE_GRAPH_PORT_NAME_FMT’
-	../include/linux/fwnode.h: In function ‘ipu_bridge_connect_sensor’:
-	../include/linux/fwnode.h:81:55: note: format string is defined here
-	In function ‘ipu_bridge_init_swnode_names’,
-	    inlined from ‘ipu_bridge_create_connection_swnodes’ at ../drivers/media/pci/intel/ipu-bridge.c:445:2,
-	    inlined from ‘ipu_bridge_connect_sensor’ at ../drivers/media/pci/intel/ipu-bridge.c:656:3:
-	../include/linux/fwnode.h:81:49: note: directive argument in the range [0, 255]
-	../drivers/media/pci/intel/ipu-bridge.c:384:18: note: in expansion of macro ‘SWNODE_GRAPH_PORT_NAME_FMT’
-	../drivers/media/pci/intel/ipu-bridge.c:382:9: note: ‘snprintf’ output between 7 and 9 bytes into a destination of size 7
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/pci/intel/ipu-bridge.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	../drivers/media/rc/ati_remote.c: In function ‘ati_remote_probe’:
-	../drivers/media/rc/ati_remote.c:876:21: error: ‘ mouse’ directive output may be truncated writing 6 bytes into a region of size between 1 and 80 [-Werror=format-truncation=]
-	../drivers/media/rc/ati_remote.c:875:9: note: ‘snprintf’ output between 7 and 86 bytes into a destination of size 80
-	cc1: all warnings being treated as errors
-	make[6]: *** [../scripts/Makefile.build:243: drivers/media/rc/ati_remote.o] Error 1
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/rc] Error 2
-	make[5]: *** Waiting for unfinished jobs....
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/cec/core] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/pci/intel] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	../drivers/media/pci/cx18/cx18-driver.c: In function ‘cx18_init_struct1’:
-	../drivers/media/pci/cx18/cx18-driver.c:688:65: error: ‘%s’ directive output may be truncated writing up to 35 bytes into a region of size 11 [-Werror=format-truncation=]
-	In function ‘cx18_create_in_workq’,
-	    inlined from ‘cx18_init_struct1’ at ../drivers/media/pci/cx18/cx18-driver.c:724:8:
-	../drivers/media/pci/cx18/cx18-driver.c:688:9: note: ‘snprintf’ output between 4 and 39 bytes into a destination of size 11
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/pci/cx18/cx18-driver.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/pci/cx18] Error 2
-	../drivers/media/pci/cobalt/cobalt-v4l2.c: In function ‘cobalt_node_register’:
-	../drivers/media/pci/cobalt/cobalt-v4l2.c:1213:26: error: ‘%s’ directive output may be truncated writing up to 35 bytes into a region of size 32 [-Werror=format-truncation=]
-	../drivers/media/pci/cobalt/cobalt-v4l2.c:1213:25: note: directive argument in the range [0, 12]
-	../drivers/media/pci/cobalt/cobalt-v4l2.c:1212:9: note: ‘snprintf’ output between 3 and 39 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/pci/cobalt/cobalt-v4l2.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/pci/cobalt] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/platform] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/cec] Error 2
-	../drivers/media/pci/cx23885/cx23888-ir.c: In function ‘cx23888_ir_probe’:
-	../drivers/media/pci/cx23885/cx23888-ir.c:1162:49: error: ‘/888-ir’ directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/media/pci/cx23885/cx23888-ir.c:1162:9: note: ‘snprintf’ output between 8 and 39 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/pci/cx23885/cx23888-ir.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
-	  Locked on  : 326,387
-	  Unlocked on: 465,467
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: OOM: 3014564Kb sm_state_count = 1757213
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 49 seconds
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/pci/cx23885] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/pci] Error 2
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/cx231xx/cx231xx-417.c: In function ‘cx231xx_video_dev_init.constprop’:
-	../drivers/media/usb/cx231xx/cx231xx-417.c:1718:52: error: ‘%s’ directive output may be truncated writing 4 bytes into a region of size between 2 and 31 [-Werror=format-truncation=]
-	../drivers/media/usb/cx231xx/cx231xx-417.c:1718:9: note: ‘snprintf’ output 9 or more bytes (assuming 38) into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/usb/cx231xx/cx231xx-417.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/usb/cx231xx] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/usb] Error 2
-	make[4]: *** [../scripts/Makefile.build:480: drivers/media] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
-
-   checkpatch.pl:
-	$ cat patches/0003-media-rc-meson-ir-support-rc-driver-type-RC_DRIVER_S.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:620: WARNING: DT compatible string "amlogic,meson-s4-ir" appears un-documented -- check ./Documentation/devicetree/bindings/
-
-patches/0004-dt-bindings-media-Add-compatible-for-Meson-S4-IR-Con.patch:
-
-    allyesconfig: return code #512:
-	../drivers/staging/media/imx/imx-media-capture.c: In function ‘imx_media_capture_device_init’:
-	../drivers/staging/media/imx/imx-media-capture.c:1000:51: error: ‘ capture’ directive output may be truncated writing 8 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/staging/media/imx/imx-media-capture.c:1000:9: note: ‘snprintf’ output between 9 and 40 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/imx/imx-media-capture.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/omap4iss/iss_csi2.c: In function ‘csi2_init_entities’:
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:57: error: ‘%s’ directive output may be truncated writing up to 31 bytes into a region of size 22 [-Werror=format-truncation=]
-	../drivers/staging/media/omap4iss/iss_csi2.c:1268:9: note: ‘snprintf’ output between 11 and 42 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/omap4iss/iss_csi2.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c: In function ‘isc_querycap’:
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:496:28: error: ‘%s’ directive output may be truncated writing up to 35 bytes into a region of size 23 [-Werror=format-truncation=]
-	../drivers/staging/media/deprecated/atmel/atmel-isc-base.c:495:9: note: ‘snprintf’ output between 10 and 45 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/deprecated/atmel/atmel-isc-base.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/deprecated/atmel] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: In function ‘ia_css_debug_pipe_graph_dump_stage’:
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2786:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2785:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2772:66: error: ‘\n’ directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2771:49: note: ‘snprintf’ output between 5 and 302 bytes into a destination of size 200
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:92: error: ‘snprintf’ output may be truncated before the last format character [-Werror=format-truncation=]
-	../drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:41: note: ‘snprintf’ output between 3 and 201 bytes into a destination of size 200
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/imx] Error 2
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/atomisp] Error 2
-	make[6]: *** [../scripts/Makefile.build:480: drivers/staging/media/omap4iss] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/staging/media] Error 2
-	make[4]: *** [../scripts/Makefile.build:480: drivers/staging] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
-
-    allyesconfig: return code #512:
-	../drivers/media/cec/core/cec-core.c: In function ‘cec_allocate_adapter’:
-	../drivers/media/cec/core/cec-core.c:317:21: error: ‘/input0’ directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
-	../drivers/media/cec/core/cec-core.c:316:9: note: ‘snprintf’ output between 8 and 39 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/cec/core/cec-core.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/cec/core] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/cec] Error 2
-	make[5]: *** Waiting for unfinished jobs....
-	../drivers/media/platform/cadence/cdns-csi2tx.c: In function ‘csi2tx_get_resources’:
-	../drivers/media/platform/cadence/cdns-csi2tx.c:485:63: error: ‘%u’ directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Werror=format-truncation=]
-	../drivers/media/platform/cadence/cdns-csi2tx.c:485:54: note: directive argument in the range [0, 4294967294]
-	../drivers/media/platform/cadence/cdns-csi2tx.c:485:17: note: ‘snprintf’ output between 14 and 23 bytes into a destination of size 16
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/platform/cadence/cdns-csi2tx.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/platform/cadence] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	In file included from ../include/linux/property.h:14,
-	                 from ../include/linux/acpi.h:16,
-	                 from ../drivers/media/pci/intel/ipu-bridge.c:4:
-	In function ‘ipu_bridge_init_swnode_names’,
-	    inlined from ‘ipu_bridge_create_connection_swnodes’ at ../drivers/media/pci/intel/ipu-bridge.c:445:2,
-	    inlined from ‘ipu_bridge_connect_sensor’ at ../drivers/media/pci/intel/ipu-bridge.c:656:3:
-	../include/linux/fwnode.h:81:49: error: ‘%u’ directive output may be truncated writing between 1 and 3 bytes into a region of size 2 [-Werror=format-truncation=]
-	../drivers/media/pci/intel/ipu-bridge.c:384:18: note: in expansion of macro ‘SWNODE_GRAPH_PORT_NAME_FMT’
-	../include/linux/fwnode.h: In function ‘ipu_bridge_connect_sensor’:
-	../include/linux/fwnode.h:81:55: note: format string is defined here
-	In function ‘ipu_bridge_init_swnode_names’,
-	    inlined from ‘ipu_bridge_create_connection_swnodes’ at ../drivers/media/pci/intel/ipu-bridge.c:445:2,
-	    inlined from ‘ipu_bridge_connect_sensor’ at ../drivers/media/pci/intel/ipu-bridge.c:656:3:
-	../include/linux/fwnode.h:81:49: note: directive argument in the range [0, 255]
-	../drivers/media/pci/intel/ipu-bridge.c:384:18: note: in expansion of macro ‘SWNODE_GRAPH_PORT_NAME_FMT’
-	../drivers/media/pci/intel/ipu-bridge.c:382:9: note: ‘snprintf’ output between 7 and 9 bytes into a destination of size 7
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/pci/intel/ipu-bridge.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/pci/intel] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/pci] Error 2
-	../drivers/media/rc/ati_remote.c: In function ‘ati_remote_probe’:
-	../drivers/media/rc/ati_remote.c:876:21: error: ‘ mouse’ directive output may be truncated writing 6 bytes into a region of size between 1 and 80 [-Werror=format-truncation=]
-	../drivers/media/rc/ati_remote.c:875:9: note: ‘snprintf’ output between 7 and 86 bytes into a destination of size 80
-	cc1: all warnings being treated as errors
-	make[6]: *** [../scripts/Makefile.build:243: drivers/media/rc/ati_remote.o] Error 1
-	make[6]: *** Waiting for unfinished jobs....
-	../drivers/media/platform/microchip/microchip-isc-base.c: In function ‘isc_querycap’:
-	../drivers/media/platform/microchip/microchip-isc-base.c:486:28: error: ‘%s’ directive output may be truncated writing up to 35 bytes into a region of size 23 [-Werror=format-truncation=]
-	../drivers/media/platform/microchip/microchip-isc-base.c:485:9: note: ‘snprintf’ output between 10 and 45 bytes into a destination of size 32
-	../drivers/media/platform/microchip/microchip-isc-base.c: In function ‘isc_mc_init’:
-	../drivers/media/platform/microchip/microchip-isc-base.c:1996:76: error: ‘%s’ directive output may be truncated writing up to 35 bytes into a region of size 23 [-Werror=format-truncation=]
-	../drivers/media/platform/microchip/microchip-isc-base.c:1996:9: note: ‘snprintf’ output between 10 and 45 bytes into a destination of size 32
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:243: drivers/media/platform/microchip/microchip-isc-base.o] Error 1
-	make[7]: *** Waiting for unfinished jobs....
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/rc] Error 2
-	make[6]: *** [../scripts/Makefile.build:480: drivers/media/platform/microchip] Error 2
-	make[5]: *** [../scripts/Makefile.build:480: drivers/media/platform] Error 2
-	make[4]: *** [../scripts/Makefile.build:480: drivers/media] Error 2
-	make[3]: *** [../scripts/Makefile.build:480: drivers] Error 2
-	make[2]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1913: .] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:234: __sub-make] Error 2
-	make: *** [Makefile:234: __sub-make] Error 2
-
+-- 
+Sakari Ailus
