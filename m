@@ -2,76 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBCEE7AC332
-	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 17:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A12847AC3B6
+	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 18:36:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232019AbjIWPVt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Sep 2023 11:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33972 "EHLO
+        id S231895AbjIWQgz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Sep 2023 12:36:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232017AbjIWPVr (ORCPT
+        with ESMTP id S229868AbjIWQgz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Sep 2023 11:21:47 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1801E194
-        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 08:21:42 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 046B5C433C9;
-        Sat, 23 Sep 2023 15:21:40 +0000 (UTC)
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 23/23] media: radio-si476x: don't fill in bus_info
-Date:   Sat, 23 Sep 2023 17:21:07 +0200
-Message-Id: <20230923152107.283289-24-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230923152107.283289-1-hverkuil-cisco@xs4all.nl>
-References: <20230923152107.283289-1-hverkuil-cisco@xs4all.nl>
+        Sat, 23 Sep 2023 12:36:55 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC971D3;
+        Sat, 23 Sep 2023 09:36:48 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,171,1694703600"; 
+   d="scan'208";a="180728095"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 24 Sep 2023 01:36:47 +0900
+Received: from localhost.localdomain (unknown [10.226.92.12])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id ED750401DDF3;
+        Sun, 24 Sep 2023 01:36:44 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Biju Das <biju.das.au@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 0/3] Match data improvements for tvp541x driver
+Date:   Sat, 23 Sep 2023 17:36:38 +0100
+Message-Id: <20230923163641.31685-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Let the V4L2 core fill in bus_info.
+This patch series aims to add match data improvements for tvp541x driver.
 
-This fixes this warning:
+This patch series is only compile tested.
 
-drivers/media/radio/radio-si476x.c: In function 'si476x_radio_querycap':
-drivers/media/radio/radio-si476x.c:333:28: warning: '%s' directive output may be truncated writing up to 35 bytes into a region of size 23 [-Wformat-truncation=]
-  333 |                  "platform:%s", radio->v4l2dev.name);
-      |                            ^~
-drivers/media/radio/radio-si476x.c:332:9: note: 'snprintf' output between 10 and 45 bytes into a destination of size 32
-  332 |         snprintf(capability->bus_info, sizeof(capability->bus_info),
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  333 |                  "platform:%s", radio->v4l2dev.name);
-      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+v1->v2:
+ * Added Rb tag from Jacopo for patch#1 and patch#2.
+ * Adeed patch#3 for sorting header files.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/radio/radio-si476x.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Biju Das (3):
+  media: tvp541x: Extend match support for OF tables
+  media: tvp541x: Drop CONFIG_OF ifdeffery
+  media: tvp541x: Sort header files
 
-diff --git a/drivers/media/radio/radio-si476x.c b/drivers/media/radio/radio-si476x.c
-index 6061506159f1..b2c5809a8bc7 100644
---- a/drivers/media/radio/radio-si476x.c
-+++ b/drivers/media/radio/radio-si476x.c
-@@ -328,9 +328,7 @@ static int si476x_radio_querycap(struct file *file, void *priv,
- 
- 	strscpy(capability->driver, radio->v4l2dev.name,
- 		sizeof(capability->driver));
--	strscpy(capability->card,   DRIVER_CARD, sizeof(capability->card));
--	snprintf(capability->bus_info, sizeof(capability->bus_info),
--		 "platform:%s", radio->v4l2dev.name);
-+	strscpy(capability->card, DRIVER_CARD, sizeof(capability->card));
- 	return 0;
- }
- 
+ drivers/media/i2c/tvp514x.c | 49 +++++++++++++++++--------------------
+ 1 file changed, 23 insertions(+), 26 deletions(-)
+
 -- 
-2.40.1
+2.25.1
 
