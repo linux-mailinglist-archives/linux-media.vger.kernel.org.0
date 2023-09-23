@@ -2,154 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C66467AC075
-	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 12:27:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68E47AC14B
+	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 13:41:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231346AbjIWK1S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Sep 2023 06:27:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58992 "EHLO
+        id S230426AbjIWLlY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Sep 2023 07:41:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231448AbjIWK1M (ORCPT
+        with ESMTP id S230205AbjIWLlX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Sep 2023 06:27:12 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0A15CD9;
-        Sat, 23 Sep 2023 03:20:04 -0700 (PDT)
-Received: from [192.168.1.129] ([37.4.248.43]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MysFQ-1reYJ00JV4-00vvV2; Sat, 23 Sep 2023 12:19:44 +0200
-Message-ID: <21893e62-2a93-af84-a004-5bebc9916627@i2se.com>
-Date:   Sat, 23 Sep 2023 12:19:42 +0200
+        Sat, 23 Sep 2023 07:41:23 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B379F11D;
+        Sat, 23 Sep 2023 04:41:17 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAF22C433C8;
+        Sat, 23 Sep 2023 11:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695469277;
+        bh=ZON8kr4GUbYCZ4b1kB2ZVW9g0A5X9VAu+hWS6y27YS4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Cs4W1QnHJGdeNRwXe4HEks+w+f6j3Fn1juZdszAiLF48MCO4w7UXnWk2U5k6XUz53
+         SnzxBG54ya35i38EY4ZcExrcTIaT3ofzaj+vnMEhHZV8PylCdeT4seVmpm81sBYLin
+         H+DFX/5K9hCaAi7mqwUIn+2dsxI6BaqWfuAmvm6bzyWqd90+OIumvK7j7Ij2R5nBmr
+         xGsqV2H0NpVPvfVIcNe+ZXkXBesw/zmjvBBc0oCMHXkayN0FwOk9S+gmNIfGI99G2U
+         SWVJxKEKfJ7UaBByAc8vOzXazFiIl6NA8zE+/hJagc9hwcc0e+/dCqUd73UtKfOYN3
+         Q8nsw+pOd+DKg==
+Message-ID: <8eae1b18-b7dc-6e33-eb53-3b9df0d20dc6@kernel.org>
+Date:   Sat, 23 Sep 2023 13:41:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [RFC PATCH v2 0/4] staging: vc04: Drop custom logging
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Phil Elwell <phil@raspberrypi.com>
-References: <20230913185528.770634-1-umang.jain@ideasonboard.com>
- <1d54715d-25f9-4937-bdff-de0136c95fe8@kadam.mountain>
- <d8395455-44eb-6762-d978-e912bf2cfe73@i2se.com>
- <3f040e44-3bdc-b09c-58b3-ea3b0ac6d5dd@ideasonboard.com>
+Subject: Re: [EXT] Re: [PATCH v2 2/2] dt-bindings: media: imx-jpeg: Assign
+ slot for imx jpeg encoder/decoder
+To:     Ming Qian <ming.qian@nxp.com>,
+        "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>
+Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        "X.H. Bao" <xiahong.bao@nxp.com>, Eagle Zhou <eagle.zhou@nxp.com>,
+        Tao Jiang <tao.jiang_2@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230921063620.22962-1-ming.qian@nxp.com>
+ <20230921063620.22962-2-ming.qian@nxp.com>
+ <19d2bc5c-2662-6ed8-cc3d-7efb82fd1825@kernel.org>
+ <AM6PR04MB634103F226B69ADD41255FCBE7FFA@AM6PR04MB6341.eurprd04.prod.outlook.com>
 Content-Language: en-US
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <3f040e44-3bdc-b09c-58b3-ea3b0ac6d5dd@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <AM6PR04MB634103F226B69ADD41255FCBE7FFA@AM6PR04MB6341.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OFXh+SWAalxlA/BKarJEaKNh9elJf6QmZksB0h43QjpisjqGtPb
- P4dwfYkn0nxOJNRDcn+08zW0B50MOIcgT10MmI3ri06XRKELcujsGfJiJmNklFw7aTIEiqR
- O54kv1Rip8jhf20KE+df8IvZMrl8YiIldtOaqiK72Q5CQ2E6+gQeeRof4+poGtxuLrsEGhy
- fDjnHo+JYxMGWfb006x0w==
-UI-OutboundReport: notjunk:1;M01:P0:wxOQh8MJRw8=;/OXycivT0mp7vH58Q7/B3taAhpO
- IvofYFeT2GzPwAz9phoOngRC+wamU1M/I3UF07JboQKWm9BQ/3WNxvzuZFB8dmHLbe2eDFo4G
- q1QF10VsWolLf6mkBp4qsOVhauvoIDnuO9sOuQl8ZRi4Ni4LDYaP3MQKrdB0vYdv9tuNNStu8
- BMZbTP4MmSSAa7VT09inq0ClzyuZzfc/iewKgSGEtGwXigIJW6B/7Rzl5TYe9kSdVv+c4QK3e
- f1yUsZH7aIbRuG6IxA+T7WQlf7YzlsIAdTf8Fqq/yP/n8jHZDAA38JCI4fXkwIvTDvePpevRr
- WLoAyKcDXeIWPOZlBnz3uU1hoVI0JDILSZSGTrFU8Aw5zuTktH/9BdkpWmEiIsYbvsMzZEP49
- fJoc4hPHEr45QkXIE/o23DT+o38TW+4U9UVD5IjOMcuFRFIkEnstm6Ho//c2Pgt4PGdlfEPp9
- /0fg66PflRf3letiUQjXgdbO6kz5x/mR88Ewnv9nl1ZyrwkgHCjQVPvMAHaRDOSQPAafwKPlJ
- 6TA3cHAt1jdfvr2NoSg8zm8y6HiCr1Fm3WXzA9l3mffBaTKpoySahH1dORtxHTvTk9KsvvCiy
- ssAaRGK8xke5HW//eQrxqQrojOeiyTQINsZSLirmbWlEuu+mh3n+oIGyaa1slvFlD0X5UFspb
- w/5lb3XUkcN/PcPx6lFgNZsuafUzlxM2EjY0AKiNpKkINP3QOMG+RMUYPti4p9oJqm56pqdBH
- +SG31DqhXPwthfyd/FCuYn01OmCwqMgRnSztVMw4E7VaigRKwQSb6hFrIB9fCCZ6y6vgX076X
- DkgKgjXMuBp2puTQBd+4ifvBEnmLGPdEqVXUfhLy7mmC4kv/Y21EjYwLTosvpuV9kErT+HT/W
- hJDzImYbNHdCbIQ==
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
-
-Am 23.09.23 um 11:39 schrieb Umang Jain:
-> Hi Stefan,
-> 
-> On 9/17/23 9:06 PM, Stefan Wahren wrote:
->> Hi,
+On 22/09/2023 03:33, Ming Qian wrote:
+>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>> Sent: 2023年9月21日 17:55
+>> To: Ming Qian <ming.qian@nxp.com>; Mirela Rabulea (OSS)
+>> <mirela.rabulea@oss.nxp.com>; robh+dt@kernel.org; shawnguo@kernel.org
+>> Cc: mchehab@kernel.org; hverkuil-cisco@xs4all.nl; s.hauer@pengutronix.de;
+>> kernel@pengutronix.de; festevam@gmail.com; X.H. Bao
+>> <xiahong.bao@nxp.com>; Eagle Zhou <eagle.zhou@nxp.com>; Tao Jiang
+>> <tao.jiang_2@nxp.com>; dl-linux-imx <linux-imx@nxp.com>; linux-
+>> media@vger.kernel.org; linux-kernel@vger.kernel.org; linux-arm-
+>> kernel@lists.infradead.org
+>> Subject: [EXT] Re: [PATCH v2 2/2] dt-bindings: media: imx-jpeg: Assign slot for
+>> imx jpeg encoder/decoder
 >>
->> Am 14.09.23 um 08:35 schrieb Dan Carpenter:
->>> On Thu, Sep 14, 2023 at 12:25:24AM +0530, Umang Jain wrote:
->>>> Hello,
->>>>
->>>> This series attempts to restart the discussion on custom logging used
->>>> in VC04. In the last feedback gathered in [1] it seems that the logging
->>>> would rather be moved to use dynamic debug. The series tries to move
->>>> in that direction.
->>>>
->>>> The elephant in the room is the ability of turning on/off log levels,
->>>> which this series just drops. Compensated by a crude strings
->>>> ("error", "warning", "info"... etc) for easier grepping.
->>>>
->>>> The log category are also just strings (which probably can be 
->>>> transformed
->>>> to dynamic debug class names moving forwards?).
->>>>
->>>> To move forwards, I would like feedback on the broader direction.
->>>> There are couple of TODOs in each of the patch (summarised in commit
->>>> messages) which require case-by-case discussion.
->>>>
->>>> Additional high-level questions to move forwards:
->>>> 1. Is loss of log levels by moving to dynamic debug, is actually a
->>>>     concern? Is dynamic debug a valid replacement?
->>>
->>> Dynamic debug is honestly going to be an improvement.  I guess, Greg and
->>> I said this back in Jan.
-> 
-> +1
->>>
->>>> 2. Whether debugfs should be dropped as well, found vestigial in [2]
->>>
->>> Yes. The "vchiq/log" should be removed.  Ideally as part of this
->>> patchset so it's easier to understand.
+>> Caution: This is an external email. Please take care when clicking links or
+>> opening attachments. When in doubt, report the message using the 'Report
+>> this email' button
 >>
->> Yes, but please do not remote vchiq_debugfs entirely. I'm working on a 
->> patch to move the state dump (debug feature) from the character device 
->> /dev/vchiq to debugfs /sys/kernel/debug/vchiq/dump_state.
-> 
-> Can't the state dump be printed to dev_dbg() ? Will it pollute the 
-> kernel log?  Having debugfs for a single dump doesn't seem worthwhile if 
-> the state dump can be incorporated to dev_dbg() too.
-
-debugfs was created for a good reason. dev_dbg() is a nice tool, but it 
-isn't useful in every situation. In case of communication the usage of 
-counter is quite popular and removing this ability would make debugging 
-not easier.
-
-Try to make "cat /dev/vchiq" you will see you don't want pollute the 
-kernel log with this kind of information.
-
-Actually i don't see a problem with have a single dump in debugfs.
-
-Let me send a draft of my changes for a better discussion ...
-
-Regards
-Stefan
-
+>>
+>> On 21/09/2023 08:36, Ming Qian wrote:
+>>> There are total 4 slots available in the IP, and we only need to use
+>>> one slot in one os, assign a single slot, configure interrupt and
+>>> power domain only for 1 slot, not for the all 4 slots.
+>>
+>> Please use scripts/get_maintainers.pl to get a list of necessary people and lists
+>> to CC. It might happen, that command when run on an older kernel, gives you
+>> outdated entries. Therefore please be sure you base your patches on recent
+>> Linux kernel.
+>>
+>> You missed at least devicetree list (maybe more), so this won't be tested by
+>> automated tooling. Performing review on untested code might be a waste of
+>> time, thus I will skip this patch entirely till you follow the process allowing the
+>> patch to be tested.
+>>
+>> Please kindly resend and include all necessary To/Cc entries.
 >>
 >>>
->>>> 3. whether vchiq_log_trace() should actually be tracing support for 
->>>> VC04
+>>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+>>> ---
+>>>  .../bindings/media/nxp,imx8-jpeg.yaml         | 40 ++++++++-----------
+>>>  1 file changed, 16 insertions(+), 24 deletions(-)
 >>>
->>> That can be done later if people want.  No need to discuss it now.
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+>>> b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+>>> index 3d9d1db37040..5f0e2fc1ea9c 100644
+>>> --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+>>> @@ -32,25 +32,27 @@ properties:
+>>>      maxItems: 1
+>>>
+>>>    interrupts:
+>>> -    description: |
+>>> -      There are 4 slots available in the IP, which the driver may use
+>>> -      If a certain slot is used, it should have an associated interrupt
+>>> -      The interrupt with index i is assumed to be for slot i
+>>> -    minItems: 1               # At least one slot is needed by the driver
+>>> -    maxItems: 4               # The IP has 4 slots available for use
+>>> +    description:
+>>> +      Interrupt number for slot
+>>> +    maxItems: 1
+>>>
+>>>    power-domains:
+>>>      description:
+>>>        List of phandle and PM domain specifier as documented in
+>>>        Documentation/devicetree/bindings/power/power_domain.txt
+>>> -    minItems: 2               # Wrapper and 1 slot
+>>> -    maxItems: 5               # Wrapper and 4 slots
+>>> +    minItems: 1               # VPUMIX
+>>> +    maxItems: 2               # Wrapper and 1 slot
+>>> +
+>>> +  slot:
+>>> +    description:
+>>> +      Integer number of slot index used. the value range is from 0 to
+>>> + 3
+>>
+>> Don't you have here obvious errors reported by testing? Did you test this?
+>>
+>> Best regards,
+>> Krzysztof
 > 
-> Thanks Dan.
->>>
->>> regards,
->>> dan carpenter
->>>
-> 
+> Hi Krzysztof,
+>     Can you point out which test error? I run the dt_binding_check and didn't get any error.
+
+Hm, I guess we need to add some checks for this... You miss type and
+vendor prefix. This does not look like generic property. Constraints are
+also missing, but that's minor. The main point is that this does not
+look suitable for DT at all. Your description says nothing - copies
+property name. Commit msg also does not explain it.
+
+Best regards,
+Krzysztof
+
