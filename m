@@ -2,165 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A4777AC2B6
-	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 16:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62E4D7AC31B
+	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 17:21:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231598AbjIWOeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Sep 2023 10:34:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49916 "EHLO
+        id S231873AbjIWPVV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Sep 2023 11:21:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231240AbjIWOeK (ORCPT
+        with ESMTP id S231799AbjIWPVU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Sep 2023 10:34:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E16111D;
-        Sat, 23 Sep 2023 07:34:04 -0700 (PDT)
-Received: from [IPV6:2001:818:e7d2:8300:2412:6733:7e63:fb46] (unknown [IPv6:2001:818:e7d2:8300:2412:6733:7e63:fb46])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02C77DE2;
-        Sat, 23 Sep 2023 16:32:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695479543;
-        bh=68LBmqQjIXy9xykOwHtx+7UwRbdJFITND0li2jF81AQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=BmTSsfT/vhMMUUMfmO9bGz+Rc48Fg1/JbXoO/+0n5P4DvblZpMD14DptlWejx+5Nl
-         d4+hlTq2CYEajjTMCnLiHpZBrpn6j5LV3Fn92fu58FO3vqRG9H/Is/9BgdQ+WUFefu
-         B3Qy5nBg6GEw31fiFLbgFeFVHJbnhSpZQyZoKrcI=
-Message-ID: <dc6d4108-7bb0-ba81-2f6b-0409b848ab0d@ideasonboard.com>
-Date:   Sat, 23 Sep 2023 20:03:58 +0530
+        Sat, 23 Sep 2023 11:21:20 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E161193
+        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 08:21:13 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65F7C433C7;
+        Sat, 23 Sep 2023 15:21:09 +0000 (UTC)
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@kernel.org>
+Subject: [PATCHv2 00/23] media: fix all string truncate warnings
+Date:   Sat, 23 Sep 2023 17:20:44 +0200
+Message-Id: <20230923152107.283289-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v12 0/6] staging: vc04_services: vchiq: Register devices
- with a custom bus_type
-Content-Language: en-US
-To:     linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Adrien Thierry <athierry@redhat.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230923143200.268063-1-umang.jain@ideasonboard.com>
-From:   Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20230923143200.268063-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+This series fixes all string truncate warnings for media drivers.
+The first 13 patches have been posted before, the remainder is new.
 
-On 9/23/23 8:01 PM, Umang Jain wrote:
-> The patch series added a new bus type vchiq_bus_type and registers
-> child devices in order to move them away from using platform
-> device/driver.
->
-> Tested on RPi-3-b with media tree master branch.
->
-> Patch 1/6 and 2/6 adds explicit DMA mask to bcm2835-camera
-> and bcm2835-audio respectively to avoid regression when moving
-> to away from platform device/driver model.
->
-> Patch 3/6 and 4/6 adds a new bus_type and registers them to vchiq
-> interface
->
-> Patch 5/6 and 6/6 moves the bcm2835-camera and bcm2835-audio
-> to the new bus respectively
->
-> Patch 5/5 removes a platform registeration helper which is no
-> longer required.
+It's a mix of various techniques, but in the end we are really
+just fighting the compiler, and not improving the code.
 
-Please ignore the  just above line, forgot to delete while editing the 
-cover letter.
->
-> Changes in v12:
-> - Add initial two patches to set DMA Mask explicitly to avoid regression
-> - fixup vchiq_device.c bad squash in v11
-> - Rename vchiq_device.[ch] to vchiq_bus.[ch]
-> - Fix memory leak if device cannot be registered
-> - Make vchiq_bus_type_match() use bool values
-> - vchiq_register_child() helper removal folded in 6/6
->    instead of creating extra patch.
->
-> Changes in v11:
-> - Move setting of DMA mask in child devices (3/5 and 4/5)
-> - Fixes "DMA mask not set issue" reported in v10.
->
-> Changes in v10:
-> - fix dma_attr WARN issue with bcm2835-audio module loading
-> - Unregister bus on parent platform device fails to register
-> - Reword commit to highlight bcm2835_audio to bcm2835-audio name change
->
-> Changes in v9:
-> - Fix module autoloading
-> - Implement bus_type's probe() callback to load drivers
-> - Implement bus_type's uevent() to make sure appropriate drivers are
->    loaded when device are registed from vchiq.
->
-> Changes in v8:
-> - Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
->
-> Changes in v7:
-> (5 out of 6 patches from v6 merged)
-> - Split the main patch (6/6) as requested.
-> - Use struct vchiq_device * instead of struct device * in
->    all bus functions.
-> - Drop additional name attribute displayed in sysfs (redundant info)
-> - Document vchiq_interface doesn't enumerate device discovery
-> - remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
->
-> Changes in v6:
-> - Split struct device and struct driver wrappers in vchiq_device.[ch]
-> - Move vchiq_bus_type definition to vchiq_device.[ch] as well
-> - return error on bus_register() failure
-> - drop dma_set_mask_and_coherent
-> - trivial variable name change
->
-> Changes in v5:
-> - Fixup missing "staging: " in commits' subject line
-> - No code changes from v4
->
-> Changes in v4:
-> - Introduce patches to drop include directives from Makefile
->
-> Changes in v3:
-> - Rework entirely to replace platform devices/driver model
->
-> -v2:
-> https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
->
-> -v1:
-> https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
->
-> Umang Jain (6):
->    staging: vc04_services: bcm2835-camera: Explicitly set DMA mask
->    staging: vc04_services: bcm2835-audio: Explicitly set DMA mask
->    staging: vc04_services: vchiq_arm: Add new bus type and device type
->    staging: vc04_services: vchiq_arm: Register vchiq_bus_type
->    staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
->    staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
->
->   drivers/staging/vc04_services/Makefile        |   1 +
->   .../vc04_services/bcm2835-audio/bcm2835.c     |  26 +++--
->   .../bcm2835-camera/bcm2835-camera.c           |  23 ++--
->   .../interface/vchiq_arm/vchiq_arm.c           |  52 ++++-----
->   .../interface/vchiq_arm/vchiq_bus.c           | 100 ++++++++++++++++++
->   .../interface/vchiq_arm/vchiq_bus.h           |  54 ++++++++++
->   6 files changed, 209 insertions(+), 47 deletions(-)
->   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
->   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
->
->
-> base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+Anyway, after running my build scripts on this I don't see this
+warning anymore.
+
+Regards,
+
+	Hans
+
+Hans Verkuil (23):
+  media: allegro-dvt: increase buffer size in msg_type_name()
+  media: cadence: increase buffer size in csi2tx_get_resources()
+  media: atomisp: ia_ccs_debug.c: increase enable_info buffer
+  media: vivid: avoid integer overflow
+  media: ipu-bridge: increase sensor_name size
+  media: cx18: increase in_workq_name size
+  media: rc: ati_remote: increase mouse_name buffer size
+  media: cec.h: increase input_phys buffer
+  media: renesas-ceu: keep input name simple
+  media: zoran: increase name size
+  media: v4l2-dev.h: increase struct video_device name size
+  media: v4l2-subdev.h: increase struct v4l2_subdev name size
+  media: use sizeof() instead of V4L2_SUBDEV_NAME_SIZE
+  media: v4l2-device.h: drop V4L2_DEVICE_NAME_SIZE
+  media: vivid: use VIVID_MODULE_NAME to fill bus_info
+  media: microchip: don't set bus_info
+  media: rcar_drif: use explicit name for bus_info
+  media: am437x: don't fill in bus_info
+  media: atmel: drop bus_info
+  media: radio-isa: use dev_name to fill in bus_info
+  media: radio-miropcm20: set bus_info to explicit name
+  media: verisilicon: replace snprintf with strscpy+strlcat
+  media: radio-si476x: don't fill in bus_info
+
+ drivers/media/i2c/msp3400-driver.c                          | 2 +-
+ drivers/media/pci/cx18/cx18-driver.h                        | 2 +-
+ drivers/media/pci/zoran/zoran.h                             | 2 +-
+ drivers/media/platform/allegro-dvt/allegro-mail.c           | 2 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c                | 4 ++--
+ drivers/media/platform/cadence/cdns-csi2tx.c                | 6 +++---
+ drivers/media/platform/microchip/microchip-isc-base.c       | 6 ------
+ drivers/media/platform/renesas/rcar-isp.c                   | 2 +-
+ drivers/media/platform/renesas/rcar-vin/rcar-csi2.c         | 2 +-
+ drivers/media/platform/renesas/rcar_drif.c                  | 3 +--
+ drivers/media/platform/renesas/renesas-ceu.c                | 6 +-----
+ drivers/media/platform/ti/am437x/am437x-vpfe.c              | 4 ----
+ drivers/media/platform/ti/omap3isp/ispstat.c                | 2 +-
+ drivers/media/platform/verisilicon/hantro_drv.c             | 5 +++--
+ drivers/media/radio/radio-isa.c                             | 2 +-
+ drivers/media/radio/radio-miropcm20.c                       | 4 +---
+ drivers/media/radio/radio-si476x.c                          | 4 +---
+ drivers/media/rc/ati_remote.c                               | 2 +-
+ drivers/media/test-drivers/vivid/vivid-core.c               | 2 +-
+ drivers/media/test-drivers/vivid/vivid-rds-gen.c            | 2 +-
+ .../media/atomisp/pci/runtime/debug/src/ia_css_debug.c      | 2 +-
+ drivers/staging/media/deprecated/atmel/atmel-isc-base.c     | 4 ----
+ drivers/staging/media/omap4iss/iss_csi2.c                   | 2 +-
+ drivers/staging/media/tegra-video/csi.c                     | 4 ++--
+ drivers/staging/media/tegra-video/vip.c                     | 2 +-
+ include/media/cec.h                                         | 2 +-
+ include/media/ipu-bridge.h                                  | 2 +-
+ include/media/v4l2-dev.h                                    | 2 +-
+ include/media/v4l2-device.h                                 | 4 +---
+ include/media/v4l2-subdev.h                                 | 4 +---
+ 30 files changed, 33 insertions(+), 59 deletions(-)
+
+-- 
+2.40.1
 
