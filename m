@@ -2,30 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27D4B7AC31D
+	by mail.lfdr.de (Postfix) with ESMTP id E70BB7AC31E
 	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 17:21:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231890AbjIWPVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Sep 2023 11:21:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52388 "EHLO
+        id S231906AbjIWPVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Sep 2023 11:21:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231853AbjIWPVV (ORCPT
+        with ESMTP id S231874AbjIWPVW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Sep 2023 11:21:21 -0400
+        Sat, 23 Sep 2023 11:21:22 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ECE9196
-        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 08:21:15 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00B81C433CA;
-        Sat, 23 Sep 2023 15:21:13 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA3A192
+        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 08:21:16 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A0FFC433C9;
+        Sat, 23 Sep 2023 15:21:15 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Arnd Bergmann <arnd@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hans de Goede <hdegoede@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCHv2 03/23] media: atomisp: ia_ccs_debug.c: increase enable_info buffer
-Date:   Sat, 23 Sep 2023 17:20:47 +0200
-Message-Id: <20230923152107.283289-4-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2 04/23] media: vivid: avoid integer overflow
+Date:   Sat, 23 Sep 2023 17:20:48 +0200
+Message-Id: <20230923152107.283289-5-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230923152107.283289-1-hverkuil-cisco@xs4all.nl>
 References: <20230923152107.283289-1-hverkuil-cisco@xs4all.nl>
@@ -42,60 +41,38 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes these compiler warnings:
 
-drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: In function 'ia_css_debug_pipe_graph_dump_stage':
-drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2786:66: warning: '\n' directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Wformat-truncation=]
- 2786 |                                                          "%s\\n%s\\n%s",
-      |                                                                  ^~~
-drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2785:49: note: 'snprintf' output between 5 and 302 bytes into a destination of size 200
- 2785 |                                                 snprintf(enable_info, sizeof(enable_info),
-      |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 2786 |                                                          "%s\\n%s\\n%s",
-      |                                                          ~~~~~~~~~~~~~~~
- 2787 |                                                          enable_info1, enable_info2,
-      |                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 2788 |                                                          enable_info3);
-      |                                                          ~~~~~~~~~~~~~
-drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2772:66: warning: '\n' directive output may be truncated writing 2 bytes into a region of size between 0 and 198 [-Wformat-truncation=]
- 2772 |                                                          "%s\\n%s\\n%s",
-      |                                                                  ^~~
-drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2771:49: note: 'snprintf' output between 5 and 302 bytes into a destination of size 200
- 2771 |                                                 snprintf(enable_info, sizeof(enable_info),
-      |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 2772 |                                                          "%s\\n%s\\n%s",
-      |                                                          ~~~~~~~~~~~~~~~
- 2773 |                                                          enable_info1, enable_info2,
-      |                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 2774 |                                                          enable_info3);
-      |                                                          ~~~~~~~~~~~~~
-drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:92: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
- 2749 |                                         snprintf(enable_info, sizeof(enable_info), "%s\\n%s",
-      |                                                                                            ^
-drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:2749:41: note: 'snprintf' output between 3 and 201 bytes into a destination of size 200
- 2749 |                                         snprintf(enable_info, sizeof(enable_info), "%s\\n%s",
-      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 2750 |                                                  enable_info1, enable_info2);
-      |                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/media/test-drivers/vivid/vivid-rds-gen.c: In function 'vivid_rds_gen_fill':
+drivers/media/test-drivers/vivid/vivid-rds-gen.c:147:56: warning: '.' directive output may be truncated writing 1 byte into a region of size between 0 and 3 [-Wformat-truncation=]
+  147 |         snprintf(rds->psname, sizeof(rds->psname), "%6d.%1d",
+      |                                                        ^
+drivers/media/test-drivers/vivid/vivid-rds-gen.c:147:52: note: directive argument in the range [0, 9]
+  147 |         snprintf(rds->psname, sizeof(rds->psname), "%6d.%1d",
+      |                                                    ^~~~~~~~~
+drivers/media/test-drivers/vivid/vivid-rds-gen.c:147:9: note: 'snprintf' output between 9 and 12 bytes into a destination of size 9
+  147 |         snprintf(rds->psname, sizeof(rds->psname), "%6d.%1d",
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  148 |                  freq / 16, ((freq & 0xf) * 10) / 16);
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Acked-by: Arnd Bergmann <arnd@arndb.de>
 ---
- .../staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c  | 2 +-
+ drivers/media/test-drivers/vivid/vivid-rds-gen.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index bb6204cb42c5..8b0251073f93 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -2673,7 +2673,7 @@ ia_css_debug_pipe_graph_dump_stage(
- 		char enable_info1[100];
- 		char enable_info2[100];
- 		char enable_info3[100];
--		char enable_info[200];
-+		char enable_info[302];
- 		struct ia_css_binary_info *bi = stage->binary_info;
- 
- 		/* Split it in 2 function-calls to keep the amount of
+diff --git a/drivers/media/test-drivers/vivid/vivid-rds-gen.c b/drivers/media/test-drivers/vivid/vivid-rds-gen.c
+index b5b104ee64c9..c57771119a34 100644
+--- a/drivers/media/test-drivers/vivid/vivid-rds-gen.c
++++ b/drivers/media/test-drivers/vivid/vivid-rds-gen.c
+@@ -145,7 +145,7 @@ void vivid_rds_gen_fill(struct vivid_rds_gen *rds, unsigned freq,
+ 	rds->ta = alt;
+ 	rds->ms = true;
+ 	snprintf(rds->psname, sizeof(rds->psname), "%6d.%1d",
+-		 freq / 16, ((freq & 0xf) * 10) / 16);
++		 (freq / 16) % 1000000, (((freq & 0xf) * 10) / 16) % 10);
+ 	if (alt)
+ 		strscpy(rds->radiotext,
+ 			" The Radio Data System can switch between different Radio Texts ",
 -- 
 2.40.1
 
