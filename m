@@ -2,163 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FCCC7ABEDA
-	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 10:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C66467AC075
+	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 12:27:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230149AbjIWIZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Sep 2023 04:25:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58360 "EHLO
+        id S231346AbjIWK1S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Sep 2023 06:27:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230426AbjIWIZN (ORCPT
+        with ESMTP id S231448AbjIWK1M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Sep 2023 04:25:13 -0400
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6AF1B3
-        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 01:25:06 -0700 (PDT)
-Received: from eig-obgw-6010a.ext.cloudfilter.net ([10.0.30.248])
-        by cmsmtp with ESMTP
-        id jjIEqHLv7QFHRjxwoquQ92; Sat, 23 Sep 2023 08:25:06 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with ESMTPS
-        id jxwnqKh9NySCujxwnqYFNo; Sat, 23 Sep 2023 08:25:06 +0000
-X-Authority-Analysis: v=2.4 cv=ea8uwpIH c=1 sm=1 tr=0 ts=650ea0e2
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=VwQbUJbxAAAA:8 a=xOd6jRPJAAAA:8 a=KS6gg5_tAAAA:8 a=cm27Pg_UAAAA:8
- a=9o_zG6Dhc6zXjm0x12cA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
- a=hZ4L7c2QG0rhM108vGPe:22 a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=qWZdHccnt1fvi8xDwRL+9uDuNFG1guvBJy7s0ev0k3A=; b=kCrXN2UxanPx6VovsFtA6QureC
-        2ttIT0s7GS2snyH6TkQoX8w2UyKOpqNrmfP7bwdYuS6gb/9tc4SicVw1W8l950SAl33+a0veAk7fG
-        YREJ+V2bAi3h0MD58oqAFiQwMR6HsGVpwqrTHZwP/1Zryc0BdLIkjrMvduhw4N69AvFsHTES1JlMl
-        iRwx4pFfNjTnNIg9bk0pJ0NVMe24+xm/N2PWrEywPb0HH8PSYAzgdAoc5m3TVcRDpljnZxaux3HZf
-        C5kQfbLW8k9tvDkUSQkwF0BeOxG8IwryPnEUadVl9PGV6du/PeaThb2+PoON8dzMS5gpifkG+01LI
-        5W9rDSbg==;
-Received: from [94.239.20.48] (port=54178 helo=[192.168.1.98])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.96)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1qjxwm-003UfP-2R;
-        Sat, 23 Sep 2023 03:25:04 -0500
-Message-ID: <03569fde-125a-f4af-4501-a47ce2440a0f@embeddedor.com>
-Date:   Sat, 23 Sep 2023 10:26:09 -0600
+        Sat, 23 Sep 2023 06:27:12 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0A15CD9;
+        Sat, 23 Sep 2023 03:20:04 -0700 (PDT)
+Received: from [192.168.1.129] ([37.4.248.43]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MysFQ-1reYJ00JV4-00vvV2; Sat, 23 Sep 2023 12:19:44 +0200
+Message-ID: <21893e62-2a93-af84-a004-5bebc9916627@i2se.com>
+Date:   Sat, 23 Sep 2023 12:19:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH] media: v4l2-event: Annotate struct v4l2_subscribed_event
- with __counted_by
+Subject: Re: [RFC PATCH v2 0/4] staging: vc04: Drop custom logging
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>
+Cc:     linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Adrien Thierry <athierry@redhat.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Phil Elwell <phil@raspberrypi.com>
+References: <20230913185528.770634-1-umang.jain@ideasonboard.com>
+ <1d54715d-25f9-4937-bdff-de0136c95fe8@kadam.mountain>
+ <d8395455-44eb-6762-d978-e912bf2cfe73@i2se.com>
+ <3f040e44-3bdc-b09c-58b3-ea3b0ac6d5dd@ideasonboard.com>
 Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        lijian <lijian@yulong.com>, linux-media@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-References: <20230922174951.work.160-kees@kernel.org>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20230922174951.work.160-kees@kernel.org>
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <3f040e44-3bdc-b09c-58b3-ea3b0ac6d5dd@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 94.239.20.48
-X-Source-L: No
-X-Exim-ID: 1qjxwm-003UfP-2R
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:54178
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 29
-X-Org:  HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfJQAS7jeTyGw2c+bgGyhG+IxVI3ZUOM3Z5IInhcV/VLjkPZcQwMixBJe61iCtOAfLeYErL+nSa+d2HOvJw70QYIKiu/n/YZD/vPw3LCgXUjwEPlWx0H+
- zrAjrX29sphBAOIClXomOUWlpscGumP7IxlPQE4y/77982of8RJxh4Wk4Q1wR9TWB6W1oFloKj2wtA9YF9JSLn+86s3yOdEYWde+JbtiL8cuUIMru5Wl44gK
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_06_12,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:OFXh+SWAalxlA/BKarJEaKNh9elJf6QmZksB0h43QjpisjqGtPb
+ P4dwfYkn0nxOJNRDcn+08zW0B50MOIcgT10MmI3ri06XRKELcujsGfJiJmNklFw7aTIEiqR
+ O54kv1Rip8jhf20KE+df8IvZMrl8YiIldtOaqiK72Q5CQ2E6+gQeeRof4+poGtxuLrsEGhy
+ fDjnHo+JYxMGWfb006x0w==
+UI-OutboundReport: notjunk:1;M01:P0:wxOQh8MJRw8=;/OXycivT0mp7vH58Q7/B3taAhpO
+ IvofYFeT2GzPwAz9phoOngRC+wamU1M/I3UF07JboQKWm9BQ/3WNxvzuZFB8dmHLbe2eDFo4G
+ q1QF10VsWolLf6mkBp4qsOVhauvoIDnuO9sOuQl8ZRi4Ni4LDYaP3MQKrdB0vYdv9tuNNStu8
+ BMZbTP4MmSSAa7VT09inq0ClzyuZzfc/iewKgSGEtGwXigIJW6B/7Rzl5TYe9kSdVv+c4QK3e
+ f1yUsZH7aIbRuG6IxA+T7WQlf7YzlsIAdTf8Fqq/yP/n8jHZDAA38JCI4fXkwIvTDvePpevRr
+ WLoAyKcDXeIWPOZlBnz3uU1hoVI0JDILSZSGTrFU8Aw5zuTktH/9BdkpWmEiIsYbvsMzZEP49
+ fJoc4hPHEr45QkXIE/o23DT+o38TW+4U9UVD5IjOMcuFRFIkEnstm6Ho//c2Pgt4PGdlfEPp9
+ /0fg66PflRf3letiUQjXgdbO6kz5x/mR88Ewnv9nl1ZyrwkgHCjQVPvMAHaRDOSQPAafwKPlJ
+ 6TA3cHAt1jdfvr2NoSg8zm8y6HiCr1Fm3WXzA9l3mffBaTKpoySahH1dORtxHTvTk9KsvvCiy
+ ssAaRGK8xke5HW//eQrxqQrojOeiyTQINsZSLirmbWlEuu+mh3n+oIGyaa1slvFlD0X5UFspb
+ w/5lb3XUkcN/PcPx6lFgNZsuafUzlxM2EjY0AKiNpKkINP3QOMG+RMUYPti4p9oJqm56pqdBH
+ +SG31DqhXPwthfyd/FCuYn01OmCwqMgRnSztVMw4E7VaigRKwQSb6hFrIB9fCCZ6y6vgX076X
+ DkgKgjXMuBp2puTQBd+4ifvBEnmLGPdEqVXUfhLy7mmC4kv/Y21EjYwLTosvpuV9kErT+HT/W
+ hJDzImYbNHdCbIQ==
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Umang,
 
-
-On 9/22/23 11:49, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
+Am 23.09.23 um 11:39 schrieb Umang Jain:
+> Hi Stefan,
 > 
-> As found with Coccinelle[1], add __counted_by for struct v4l2_subscribed_event.
-> Additionally, since the element count member must be set before accessing
-> the annotated flexible array member, move its initialization earlier.
+> On 9/17/23 9:06 PM, Stefan Wahren wrote:
+>> Hi,
+>>
+>> Am 14.09.23 um 08:35 schrieb Dan Carpenter:
+>>> On Thu, Sep 14, 2023 at 12:25:24AM +0530, Umang Jain wrote:
+>>>> Hello,
+>>>>
+>>>> This series attempts to restart the discussion on custom logging used
+>>>> in VC04. In the last feedback gathered in [1] it seems that the logging
+>>>> would rather be moved to use dynamic debug. The series tries to move
+>>>> in that direction.
+>>>>
+>>>> The elephant in the room is the ability of turning on/off log levels,
+>>>> which this series just drops. Compensated by a crude strings
+>>>> ("error", "warning", "info"... etc) for easier grepping.
+>>>>
+>>>> The log category are also just strings (which probably can be 
+>>>> transformed
+>>>> to dynamic debug class names moving forwards?).
+>>>>
+>>>> To move forwards, I would like feedback on the broader direction.
+>>>> There are couple of TODOs in each of the patch (summarised in commit
+>>>> messages) which require case-by-case discussion.
+>>>>
+>>>> Additional high-level questions to move forwards:
+>>>> 1. Is loss of log levels by moving to dynamic debug, is actually a
+>>>>     concern? Is dynamic debug a valid replacement?
+>>>
+>>> Dynamic debug is honestly going to be an improvement.  I guess, Greg and
+>>> I said this back in Jan.
 > 
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+> +1
+>>>
+>>>> 2. Whether debugfs should be dropped as well, found vestigial in [2]
+>>>
+>>> Yes. The "vchiq/log" should be removed.  Ideally as part of this
+>>> patchset so it's easier to understand.
+>>
+>> Yes, but please do not remote vchiq_debugfs entirely. I'm working on a 
+>> patch to move the state dump (debug feature) from the character device 
+>> /dev/vchiq to debugfs /sys/kernel/debug/vchiq/dump_state.
 > 
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: lijian <lijian@yulong.com>
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Can't the state dump be printed to dev_dbg() ? Will it pollute the 
+> kernel log?  Having debugfs for a single dump doesn't seem worthwhile if 
+> the state dump can be incorporated to dev_dbg() too.
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+debugfs was created for a good reason. dev_dbg() is a nice tool, but it 
+isn't useful in every situation. In case of communication the usage of 
+counter is quite popular and removing this ability would make debugging 
+not easier.
 
-Thanks
--- 
-Gustavo
+Try to make "cat /dev/vchiq" you will see you don't want pollute the 
+kernel log with this kind of information.
 
-> ---
->   drivers/media/v4l2-core/v4l2-event.c | 2 +-
->   include/media/v4l2-event.h           | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+Actually i don't see a problem with have a single dump in debugfs.
+
+Let me send a draft of my changes for a better discussion ...
+
+Regards
+Stefan
+
+>>
+>>>
+>>>> 3. whether vchiq_log_trace() should actually be tracing support for 
+>>>> VC04
+>>>
+>>> That can be done later if people want.  No need to discuss it now.
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
-> index c5ce9f11ad7b..3898ff7edddb 100644
-> --- a/drivers/media/v4l2-core/v4l2-event.c
-> +++ b/drivers/media/v4l2-core/v4l2-event.c
-> @@ -238,6 +238,7 @@ int v4l2_event_subscribe(struct v4l2_fh *fh,
->   	sev = kvzalloc(struct_size(sev, events, elems), GFP_KERNEL);
->   	if (!sev)
->   		return -ENOMEM;
-> +	sev->elems = elems;
->   	for (i = 0; i < elems; i++)
->   		sev->events[i].sev = sev;
->   	sev->type = sub->type;
-> @@ -245,7 +246,6 @@ int v4l2_event_subscribe(struct v4l2_fh *fh,
->   	sev->flags = sub->flags;
->   	sev->fh = fh;
->   	sev->ops = ops;
-> -	sev->elems = elems;
->   
->   	mutex_lock(&fh->subscribe_lock);
->   
-> diff --git a/include/media/v4l2-event.h b/include/media/v4l2-event.h
-> index 4ffa914ade3a..3a0e2588361c 100644
-> --- a/include/media/v4l2-event.h
-> +++ b/include/media/v4l2-event.h
-> @@ -78,7 +78,7 @@ struct v4l2_subscribed_event {
->   	unsigned int		elems;
->   	unsigned int		first;
->   	unsigned int		in_use;
-> -	struct v4l2_kevent	events[];
-> +	struct v4l2_kevent	events[] __counted_by(elems);
->   };
->   
->   /**
+> Thanks Dan.
+>>>
+>>> regards,
+>>> dan carpenter
+>>>
+> 
