@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54B4C7AC3C5
-	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 18:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 856317AC3F5
+	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 19:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232027AbjIWQoM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Sep 2023 12:44:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47726 "EHLO
+        id S231831AbjIWReU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Sep 2023 13:34:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231972AbjIWQoL (ORCPT
+        with ESMTP id S231284AbjIWReT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Sep 2023 12:44:11 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E284139
-        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 09:44:04 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-3231d6504e1so300671f8f.2
-        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 09:44:04 -0700 (PDT)
+        Sat, 23 Sep 2023 13:34:19 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34ABB124
+        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 10:34:12 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-31dd10c2b8bso3754148f8f.3
+        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 10:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695487442; x=1696092242; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1695490450; x=1696095250; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=rwXDdCQptEP/nw6d5R5qSVoajNpgD48V9SGyZsJIHbo=;
-        b=VgAtCuhG9WB82v3Ua+ACr0m2DmqeDJ9kvZXXqQ5yV+NiZn6vuh2jLZmMERfJqtoeMh
-         4BKqC9PsNaz7mmh82rnZagu4AkOsxXFMvT4sD7HHjReeVIDZgZ2eeFZlVVkxA89FbLVv
-         HIy55OYhYpyKY7UMOS3CKu63piMW/U7KPDVxXQRglbdNgbtADaA8PMuyxJ5nDlIgk362
-         TTZipco/PhPqcdew8f9PgIDAjZqn4sZkDrBpXd82aP3CX29S0SV+tjmv5bjLQazDH6Nn
-         Ocu90pWGVGQn4rzD1h8DOaLXrOIkPOvgzy9Hx/kIiXjSxVJCczajW80SjwkNpxPvmeFC
-         YLTg==
+        bh=h8e4WOeV3uP0Avl4Q9o2tfB8fRCYhZPCMlDY4X+oryg=;
+        b=qXuhAV2rOIAwHcKLt/EiVugltt9sNos2IzIFcYeAKX3zpewWJrXsbVE/SdhwpHRKkW
+         6XeV8nszUQ7HMQxkJNcgDtVge9iY3/8tnsKXYInX7xWT+l9jibsh1+FJCVoGdUBUGf7J
+         JDAanN4S5th2E1KqzI/CrURkOqfpLcECgbpWByv9uRygaRAu0wqra5sEx2PU4TFt1bnP
+         CxnvacEbrxNAOQL4SWs0+CXA0nbYFjz1Y6nYIvJv3iRn1OMiLKP2HLGxKRgorLe8KNIP
+         YWsAOcrnUd0UtpBs4dXHrmMR24wP4P5iA6Nr6su6t2TmJoHEqD/WmUIxHyy4qIFR3hpS
+         d97Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695487442; x=1696092242;
+        d=1e100.net; s=20230601; t=1695490450; x=1696095250;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rwXDdCQptEP/nw6d5R5qSVoajNpgD48V9SGyZsJIHbo=;
-        b=Tdi87xeR/Ql/KMUt5Ab043mHVrNeM0iRX8hnIr05bwccvC73z4RVKP2P+X0H9C14Rn
-         Fq/XjnuAt9q2iwlZrlJ5bYZMk31RhRuBa4jzovQbwYN8JUWBEv03LfN0GXEHarcXT0Qa
-         agp5HfqUv7P8RuFkO3kGUw8nF93y4vMwH/Z0hdyw2Hn4HXTUkujZ2uHf+M9NF8LB4cyM
-         b3lTYwamuLFftvvZ0b/rVPiNcor7YW5A+IrzqK3mqS4HfDGcgiUbYPuI+KtePrrzlxRM
-         iOvpJ4HBhiLW+9CwyhbUshQtTZkeGdzWLJbC5k5vzjC8nka/QPQJUvDgd/MIjgSQpDsp
-         OX6Q==
-X-Gm-Message-State: AOJu0YwzaJOg5hbyOtcJpe1L4WM4D7shbBvkso6R4j2DP2LCXQoN0YfF
-        dhtrMVw61B+7HhHPlcfbJH8mEA==
-X-Google-Smtp-Source: AGHT+IGUp9vWURoqWCtTYN6CKaYvUBZmRKeL0YoxcxOlYDVcQJOgyOxbi3Pq3R8mE4CSABKxCOgFMg==
-X-Received: by 2002:adf:fcc5:0:b0:320:b2a:4ea6 with SMTP id f5-20020adffcc5000000b003200b2a4ea6mr2618848wrs.9.1695487442674;
-        Sat, 23 Sep 2023 09:44:02 -0700 (PDT)
+        bh=h8e4WOeV3uP0Avl4Q9o2tfB8fRCYhZPCMlDY4X+oryg=;
+        b=LX5lR90WBPFR1VznfFMkUlljjUlDLmUN0UP8+2uvehQP/GsQF8Po423T9HZmCeByKb
+         xK+xSv0GRq6A1dazX36ACCIqYrZqHVnGt1Xln1kTgCvq+HpJivFHuMwhVaKaclTALEox
+         Gd3oCdDo4HmThxlRomBXichVC5+EO7dsidhrvb2DiLAKFIVcRT+W1RD3UkW9281SP6xq
+         kU3V1BQqskkJBD8WYfVpZ2A5/rRnag/7DQC9+6htIGbjFiIOGEjOLgQgBQONnOPZhYD8
+         UyxJ/gMz0kYwn0AcWzBPjK4xyE+p3yVZ4owp6c/fhbVVI7Mz96I69YyumYGPFNhGwHoI
+         jJzg==
+X-Gm-Message-State: AOJu0Yy/niG9Ko6DHZzLAZ8X94cIanHqUiBNedBx60MD4sJpsyg3uLI9
+        yP59VpIOQxZZ55dfHK8lMTZfUA==
+X-Google-Smtp-Source: AGHT+IGywFoLRHTpFCviFneYTV3hIVt1uqS6WEMAUjyo6HuW9R7DnOeXATYbyZiXoF0+vDPukj7PRg==
+X-Received: by 2002:a5d:44ca:0:b0:31f:fdd8:7d56 with SMTP id z10-20020a5d44ca000000b0031ffdd87d56mr2347231wrr.12.1695490450364;
+        Sat, 23 Sep 2023 10:34:10 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id s7-20020adfea87000000b0030ada01ca78sm7299990wrm.10.2023.09.23.09.44.00
+        by smtp.gmail.com with ESMTPSA id p13-20020a5d68cd000000b00321673de0d7sm7374280wrw.25.2023.09.23.10.34.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Sep 2023 09:44:02 -0700 (PDT)
-Message-ID: <4e21d965-b7b6-8b2a-5e78-37b9da69b2f1@linaro.org>
-Date:   Sat, 23 Sep 2023 18:43:59 +0200
+        Sat, 23 Sep 2023 10:34:09 -0700 (PDT)
+Message-ID: <948a37c4-2237-8ec8-270d-8a704c8c4835@linaro.org>
+Date:   Sat, 23 Sep 2023 19:34:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH v6 03/16] dt-bindings: media: mediatek: mdp3: include
- common properties
+Subject: Re: [PATCH v6 10/16] dt-bindings: media: mediatek: mdp3: add
+ component TDSHP for MT8195
 Content-Language: en-US
 To:     Moudy Ho <moudy.ho@mediatek.com>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -76,15 +76,15 @@ Cc:     dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230922072116.11009-1-moudy.ho@mediatek.com>
- <20230922072116.11009-4-moudy.ho@mediatek.com>
+ <20230922072116.11009-11-moudy.ho@mediatek.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230922072116.11009-4-moudy.ho@mediatek.com>
+In-Reply-To: <20230922072116.11009-11-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -92,27 +92,66 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 22/09/2023 09:21, Moudy Ho wrote:
-> To minimize duplication and standardize the document style,
-> include the common properties for MT8183 RDMA.
+> Add the fundamental hardware configuration of component TDSHP,
+> which is controlled by MDP3 on MT8195.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
->  .../bindings/media/mediatek,mdp3-rdma.yaml    | 43 ++-----------------
->  1 file changed, 4 insertions(+), 39 deletions(-)
+>  .../bindings/media/mediatek,mdp3-tdshp.yaml   | 61 +++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> index 3e128733ef53..0539badc9821 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> @@ -4,7 +4,7 @@
->  $id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: MediaTek Read Direct Memory Access
-> +title: MediaTek MT8183 Read Direct Memory Access
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
+> new file mode 100644
+> index 000000000000..0ac904cbc2c0
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-tdshp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Media Data Path 3 TDSHP
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +  - Moudy Ho <moudy.ho@mediatek.com>
+> +
+> +description:
+> +  One of Media Data Path 3 (MDP3) components used to improve image
+> +  sharpness and contrast.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt8195-mdp3-tdshp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  mediatek,gce-client-reg:
+> +    description:
+> +      The register of display function block to be set by gce. There are 4 arguments,
+> +      such as gce node, subsys id, offset and register size. The subsys id that is
+> +      mapping to the register of display function blocks is defined in the gce header
+> +      include/dt-bindings/gce/<chip>-gce.h of each chips.
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      items:
+> +        - description: phandle of GCE
+> +        - description: GCE subsys id
+> +        - description: register offset
+> +        - description: register size
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
 
-How is this related to patch? Why rename is separate? This is poor way
-to split your work.
+NAK. So you ignored all the review. Brilliant.
+
+I am getting fed up with Mediatek's approach. It's not the first time.
 
 Best regards,
 Krzysztof
