@@ -2,44 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C127AC3BC
-	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 18:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 709AB7AC3C1
+	for <lists+linux-media@lfdr.de>; Sat, 23 Sep 2023 18:43:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232116AbjIWQhN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Sep 2023 12:37:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56314 "EHLO
+        id S231993AbjIWQnH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Sep 2023 12:43:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232063AbjIWQhK (ORCPT
+        with ESMTP id S229537AbjIWQnH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Sep 2023 12:37:10 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ED347192;
-        Sat, 23 Sep 2023 09:36:58 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.03,171,1694703600"; 
-   d="scan'208";a="176995320"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Sep 2023 01:36:58 +0900
-Received: from localhost.localdomain (unknown [10.226.92.12])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 403DD401DDF3;
-        Sun, 24 Sep 2023 01:36:54 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Biju Das <biju.das.au@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 3/3] media: tvp541x: Sort header files
-Date:   Sat, 23 Sep 2023 17:36:41 +0100
-Message-Id: <20230923163641.31685-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230923163641.31685-1-biju.das.jz@bp.renesas.com>
-References: <20230923163641.31685-1-biju.das.jz@bp.renesas.com>
+        Sat, 23 Sep 2023 12:43:07 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 939D792
+        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 09:43:00 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4050bd2e33aso40703175e9.2
+        for <linux-media@vger.kernel.org>; Sat, 23 Sep 2023 09:43:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695487379; x=1696092179; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+ehvNyN1e8AcFsIaExWpUQQDC3O+XNhpuGUxABDsT1k=;
+        b=lALM0hrH6G8U0itn2oxf/5bl9yJrYy/mxuWfwwu4bThd/Y0W4jdFammsnQws6Tl9jE
+         lbUOik+LiMhJBqAoMZxLGDWneqF5Z9IUSa3FuwkCpGCpClONvAdXQ2CQ+YaAt+ERZ6oF
+         4gKixWuh1kXSD5gCn1h/SzTiu/PX6uAQ72RzZrMohFOzajmSaZPpR2PaqoTUoCr28T8y
+         pBGc1uvl3U2n6PsyGYsFMz+DuasCytfQvFaxxV+hiHu3oeNBLS8KQ8ygER49JlGo4n/4
+         /UZOew1zTG+XnLdbsgTc61uNSVHC4zmbGSxkDiWHL3ucvL+7xETcjWv+zcbLCuVj039s
+         stbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695487379; x=1696092179;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+ehvNyN1e8AcFsIaExWpUQQDC3O+XNhpuGUxABDsT1k=;
+        b=ppuzCLrCvWTSi2G2lcOPKTNv/TZFOKp/RDIg6SbZTo06OeEIjDDbsvZVIrjey2R9f5
+         oDPVm0AmXNNrawwUuC7KVwXxZNv1R7F+re0Isfz9AHRtt0JZyCnkpiF4Rr86zEoOrcng
+         PHkS4VmAoDiL0gx5INLkvsugRLryL6dybiuX60bc3BoSIUo7vOR3v5AzLLxTz5Pvkgat
+         /770CVCd2ljI61+efN/JpszUNPeRp7W0ex0QnYcrNbvGrEAbiV9ssYzlTOF6gszuXSYZ
+         PmK2WeysaXYGtmC/s6Idi7Bia8kWxcpjB8LTADIkGs6soGUTPhk/mkXA4Q74nXC8u1mu
+         sdSw==
+X-Gm-Message-State: AOJu0YxP/+9F+3Ucu6DfsVolvq5gBy7UeSagCE/3zEzYpd128kzymT00
+        CeS4DeLpTJuUNwuLfBBmEHyGwg==
+X-Google-Smtp-Source: AGHT+IHeYkcu/RtMUX5lf2uTUiwk5whv3Kim5HQRxv8v4Wkt6ThO4w/ApV1UJK2BVwSR7UZ8q2JpuQ==
+X-Received: by 2002:adf:ea84:0:b0:319:6327:6adb with SMTP id s4-20020adfea84000000b0031963276adbmr2170369wrm.70.1695487378995;
+        Sat, 23 Sep 2023 09:42:58 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.100])
+        by smtp.gmail.com with ESMTPSA id x10-20020a05600c21ca00b004051b994014sm10434968wmj.19.2023.09.23.09.42.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Sep 2023 09:42:58 -0700 (PDT)
+Message-ID: <4fdfe29b-aea7-8180-d2e3-5caa1beb7232@linaro.org>
+Date:   Sat, 23 Sep 2023 18:42:55 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v6 02/16] dt-bindings: media: mediatek: mdp3: split out
+ general properties
+Content-Language: en-US
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     dri-devel@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230922072116.11009-1-moudy.ho@mediatek.com>
+ <20230922072116.11009-3-moudy.ho@mediatek.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230922072116.11009-3-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -48,55 +91,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sort header files alphabetically.
+On 22/09/2023 09:21, Moudy Ho wrote:
+> In order to minimize duplication and standardize the document style,
+> it is necessary to separate the general properties specific to
+> MediaTek MDP3 RDMA.
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../media/mediatek,mdp3-rdma-common.yaml      | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
 
-Suggested-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2:
- * New patch.
----
- drivers/media/i2c/tvp514x.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+I don't understand why this is a separate patch. It's not used, not
+effective and not visible for us how it extracts common parts.
 
-diff --git a/drivers/media/i2c/tvp514x.c b/drivers/media/i2c/tvp514x.c
-index 569a9437ec86..c37f605cb75f 100644
---- a/drivers/media/i2c/tvp514x.c
-+++ b/drivers/media/i2c/tvp514x.c
-@@ -16,24 +16,24 @@
-  *     Prabhakar Lad <prabhakar.lad@ti.com>
-  */
- 
--#include <linux/i2c.h>
--#include <linux/slab.h>
- #include <linux/delay.h>
--#include <linux/videodev2.h>
-+#include <linux/i2c.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/v4l2-mediabus.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
-+#include <linux/slab.h>
-+#include <linux/v4l2-mediabus.h>
-+#include <linux/videodev2.h>
- 
-+#include <media/i2c/tvp514x.h>
-+#include <media/media-entity.h>
- #include <media/v4l2-async.h>
--#include <media/v4l2-device.h>
- #include <media/v4l2-common.h>
--#include <media/v4l2-mediabus.h>
--#include <media/v4l2-fwnode.h>
- #include <media/v4l2-ctrls.h>
--#include <media/i2c/tvp514x.h>
--#include <media/media-entity.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-mediabus.h>
- 
- #include "tvp514x_regs.h"
- 
--- 
-2.25.1
+Best regards,
+Krzysztof
 
