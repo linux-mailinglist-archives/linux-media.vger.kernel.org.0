@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E9747ACA88
-	for <lists+linux-media@lfdr.de>; Sun, 24 Sep 2023 17:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6C067ACA89
+	for <lists+linux-media@lfdr.de>; Sun, 24 Sep 2023 17:33:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229993AbjIXPdT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Sep 2023 11:33:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42558 "EHLO
+        id S230001AbjIXPdV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Sep 2023 11:33:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229928AbjIXPdT (ORCPT
+        with ESMTP id S229999AbjIXPdU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Sep 2023 11:33:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4ECFB8
-        for <linux-media@vger.kernel.org>; Sun, 24 Sep 2023 08:33:12 -0700 (PDT)
+        Sun, 24 Sep 2023 11:33:20 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF95AC6
+        for <linux-media@vger.kernel.org>; Sun, 24 Sep 2023 08:33:13 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A2343358;
-        Sun, 24 Sep 2023 17:31:30 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C01263360;
+        Sun, 24 Sep 2023 17:31:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695569490;
-        bh=pNT3PxeG7r+E+14aWJAhdf4Ovk/CUeeXIju/7xgLJcA=;
+        s=mail; t=1695569492;
+        bh=wqAM+gBAzgot2hh2m4BKULFUEKpkzSqVunH1xMBOYJo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XQVrSb5xrbsA53OCKclevHqlXdCzwYyyTAroxrG5lNh7sy73B5V52tsCYXphggU6f
-         KtohrNMuZfma2njWQ+PLVlH3eOncc53F0sO+mfMkWAEDmu5IEl/sBU559abG+m9xZb
-         WnXTCPx5eHFiq4vnBt4O8quYXsWYsbubPBttNDpY=
+        b=IjF5qsYtTiEy+/noy0HGs8UFi1YGSYkI2I2TD42H/cqzMEv2q6X6444xfSARUo/rX
+         kJtWHQ0jvk47Trrpgsjg+9geisEZ47cj5sryNY52YfCkaEnAM4Spm2vTMAJvsXbpk4
+         eNR6LbySrqtZqFlsBWVARv+5dOOiLjPUam+fYN00=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
@@ -32,100 +32,89 @@ Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v4 09/20] media: i2c: imx219: Use active crop rectangle to configure registers
-Date:   Sun, 24 Sep 2023 18:32:58 +0300
-Message-ID: <20230924153309.12423-10-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 10/20] media: i2c: imx219: Infer binning settings from format and crop
+Date:   Sun, 24 Sep 2023 18:32:59 +0300
+Message-ID: <20230924153309.12423-11-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230924153309.12423-1-laurent.pinchart@ideasonboard.com>
 References: <20230924153309.12423-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Configure the crop-related registers from the values stored in the
-active crop rectangle instead of the mode structure. This removes usage
-of the mode from the imx219_set_framefmt(). No functional change is
-intended.
+Compare the format and crop rectangle dimensions to infer binning
+settings, instead of storing the binning mode in the imx219_mode
+structure. This removes duplicate information from the mode.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
-Changes since v2:
-
-- Pass state to imx219_set_framefmt()
----
- drivers/media/i2c/imx219.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/media/i2c/imx219.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 2e1fbeef11a8..562cfee87b24 100644
+index 562cfee87b24..bc836cd13ef5 100644
 --- a/drivers/media/i2c/imx219.c
 +++ b/drivers/media/i2c/imx219.c
-@@ -611,13 +611,17 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- }
+@@ -161,9 +161,6 @@ struct imx219_mode {
  
- static int imx219_set_framefmt(struct imx219 *imx219,
--			       const struct v4l2_mbus_framefmt *format)
-+			       struct v4l2_subdev_state *state)
- {
--	const struct imx219_mode *mode = imx219->mode;
-+	const struct v4l2_mbus_framefmt *format;
-+	const struct v4l2_rect *crop;
- 	unsigned int bpp;
- 	u64 bin_mode;
- 	int ret = 0;
+ 	/* V-timing */
+ 	unsigned int vts_def;
+-
+-	/* 2x2 binning is used */
+-	bool binning;
+ };
  
-+	format = v4l2_subdev_get_pad_format(&imx219->sd, state, 0);
-+	crop = v4l2_subdev_get_pad_crop(&imx219->sd, state, 0);
-+
- 	switch (format->code) {
- 	case MEDIA_BUS_FMT_SRGGB8_1X8:
- 	case MEDIA_BUS_FMT_SGRBG8_1X8:
-@@ -636,15 +640,13 @@ static int imx219_set_framefmt(struct imx219 *imx219,
- 	}
+ static const struct cci_reg_sequence imx219_common_regs[] = {
+@@ -305,7 +302,6 @@ static const struct imx219_mode supported_modes[] = {
+ 			.height = 2464
+ 		},
+ 		.vts_def = IMX219_VTS_15FPS,
+-		.binning = false,
+ 	},
+ 	{
+ 		/* 1080P 30fps cropped */
+@@ -318,7 +314,6 @@ static const struct imx219_mode supported_modes[] = {
+ 			.height = 1080
+ 		},
+ 		.vts_def = IMX219_VTS_30FPS_1080P,
+-		.binning = false,
+ 	},
+ 	{
+ 		/* 2x2 binned 30fps mode */
+@@ -331,7 +326,6 @@ static const struct imx219_mode supported_modes[] = {
+ 			.height = 2464
+ 		},
+ 		.vts_def = IMX219_VTS_30FPS_BINNED,
+-		.binning = true,
+ 	},
+ 	{
+ 		/* 640x480 30fps mode */
+@@ -344,7 +338,6 @@ static const struct imx219_mode supported_modes[] = {
+ 			.height = 960
+ 		},
+ 		.vts_def = IMX219_VTS_30FPS_640x480,
+-		.binning = true,
+ 	},
+ };
  
- 	cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
--		  mode->crop.left - IMX219_PIXEL_ARRAY_LEFT, &ret);
-+		  crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
- 	cci_write(imx219->regmap, IMX219_REG_X_ADD_END_A,
--		  mode->crop.left - IMX219_PIXEL_ARRAY_LEFT + mode->crop.width - 1,
--		  &ret);
-+		  crop->left - IMX219_PIXEL_ARRAY_LEFT + crop->width - 1, &ret);
- 	cci_write(imx219->regmap, IMX219_REG_Y_ADD_STA_A,
--		  mode->crop.top - IMX219_PIXEL_ARRAY_TOP, &ret);
-+		  crop->top - IMX219_PIXEL_ARRAY_TOP, &ret);
+@@ -648,7 +641,7 @@ static int imx219_set_framefmt(struct imx219 *imx219,
  	cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
--		  mode->crop.top - IMX219_PIXEL_ARRAY_TOP + mode->crop.height - 1,
--		  &ret);
-+		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
+ 		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
  
- 	if (!imx219->mode->binning)
+-	if (!imx219->mode->binning)
++	if (format->width == crop->width && format->height == crop->height)
  		bin_mode = IMX219_BINNING_NONE;
-@@ -714,7 +716,6 @@ static int imx219_start_streaming(struct imx219 *imx219,
- 				  struct v4l2_subdev_state *state)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
--	const struct v4l2_mbus_framefmt *format;
- 	int ret;
- 
- 	ret = pm_runtime_resume_and_get(&client->dev);
-@@ -737,8 +738,7 @@ static int imx219_start_streaming(struct imx219 *imx219,
- 	}
- 
- 	/* Apply format and crop settings. */
--	format = v4l2_subdev_get_pad_format(&imx219->sd, state, 0);
--	ret = imx219_set_framefmt(imx219, format);
-+	ret = imx219_set_framefmt(imx219, state);
- 	if (ret) {
- 		dev_err(&client->dev, "%s failed to set frame format: %d\n",
- 			__func__, ret);
+ 	else if (bpp == 8)
+ 		bin_mode = IMX219_BINNING_2X2_ANALOG;
 -- 
 Regards,
 
