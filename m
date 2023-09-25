@@ -2,199 +2,445 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7A67AD482
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 11:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E4BF7AD612
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 12:34:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233182AbjIYJ3o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 05:29:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59746 "EHLO
+        id S231232AbjIYKer (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 06:34:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233213AbjIYJ3l (ORCPT
+        with ESMTP id S229475AbjIYKeq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 05:29:41 -0400
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2111.outbound.protection.outlook.com [40.107.117.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1365AA3;
-        Mon, 25 Sep 2023 02:29:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eIm6SiOZYYRfTUx839tI0Mnj/4eL7hC65FV/RhYq0/1fb3OjwbSW9w+dQlSSWf6mZ1k9Itx33ZbFKhkl+LzhnKEPOX/RMtH6XzoAMEy5/OEpujejVJFmhfoWEUma5qNpvfP3QrKfRe37RS7yE3CiU/OeoESPw2hwo+2TJZWpvoU9CXUJKtdb0k0UDrmrBICB6xjEezp0qphl2I/k5kjru9f2ep84zOMF9D5KGFF9midup0ba+Yptq4P5jib1CShp5H3gD2TLU1UEyePc5XY7s1I10ikJzAT+GlKWWBgROJuoMHAp+U70wds7bqsuthJXFDtKldKoZxbQcxMMv3GZ/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GEJHSjyC3C9CJWwHrFuVRHFWdVU0j8XWdyxeGP6Vbi4=;
- b=nEa22SQ15RAx2UpEe6x7gKUBL5KZ/7E51CoDNJiJ6D5Clgir6uoMnlWCTslSzPjRMVkRbqfNtmXFWdTDDYwu54d37iWRiVz9+cRUlePlD4YyOWFr2ILxD7NWmIeQbnVFv1sdQ9c+O5cNCaPA3PDg+aCxUeeb+mAqtujtvAN62UJq9GRNMUGRT7QfoiR+EoreM8xP4cFm+kHdWcYb9JCwu/fwi4xterTJjnD7MTtGVvTYrquFejO+RjvLEAnK7qGRgZPZz15xxaDEgGcff+UXpR9M/MZMQSaZ0v3P7Pc6GQpx2UwSsC7n4WCbQTHWwcsiguoJ59j14qFNJHvlSU5ueA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
- dkim=pass header.d=amlogic.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GEJHSjyC3C9CJWwHrFuVRHFWdVU0j8XWdyxeGP6Vbi4=;
- b=TXs+yYGJEPjqGGfrxRE0Rbt0xDAa2hu4XqmQCqRhTYipm54csKas4PSRBLtVGulhRQHnKXaIsm8zvJQSnBJosIMVUKDxydt86O3Ae8oMfVgxkyeCwrz+NwOuUicepmq+5Pibq0J72fms2C8Wxc+cTW+6cEssNhx85VMyk2N6WZtBIoeJsZSiXOZMgwLSOBJbRjUI42Kz9gn/0+WjhJerEMpjtyz7vYa2pTWUinUaGY3xb3t7/QC5YEQVKQZU4YmTf+7/uwJ2K0+itMoiQLVKxo9geF26fEzhgMUvUDkRYAXkNJjDGbJSBGjL8MM/yytTI6GFBvWMC/4BT7l/xGWTGA==
-Received: from SEYPR03MB7046.apcprd03.prod.outlook.com (2603:1096:101:d0::15)
- by TYZPR03MB5966.apcprd03.prod.outlook.com (2603:1096:400:126::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Mon, 25 Sep
- 2023 09:29:31 +0000
-Received: from SEYPR03MB7046.apcprd03.prod.outlook.com
- ([fe80::59de:bf6b:c22:4f8d]) by SEYPR03MB7046.apcprd03.prod.outlook.com
- ([fe80::59de:bf6b:c22:4f8d%7]) with mapi id 15.20.6813.027; Mon, 25 Sep 2023
- 09:29:30 +0000
-From:   Cancan Chang <Cancan.Chang@amlogic.com>
-To:     Oded Gabbay <ogabbay@kernel.org>, Jagan Teki <jagan@edgeble.ai>
-CC:     linux-media <linux-media@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: =?utf-8?B?5Zue5aSNOiBrZXJuZWwub3JnIDYuNS40ICwgTlBVIGRyaXZlciwgLS1ub3Qg?=
- =?utf-8?Q?support_(RFC)?=
-Thread-Topic: kernel.org 6.5.4 , NPU driver, --not support (RFC)
-Thread-Index: AQHZ7TUhgs72H8AZFkqdmOUY4AB+vbAmlr0AgABcLACABCyLjw==
-Date:   Mon, 25 Sep 2023 09:29:29 +0000
-Message-ID: <SEYPR03MB70462A385A52A317427E93B59AFCA@SEYPR03MB7046.apcprd03.prod.outlook.com>
-References: <SEYPR03MB704641091854162959578D7E9AFFA@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CA+VMnFyhp9D8cjtvLVzdKGETouOuH=MKgjOu1pn00WDRB=5oUg@mail.gmail.com>
- <CAFCwf12sUL5bcXhYKwRkMxLtSDtLfTK003oxkRDVmThx1ARV-A@mail.gmail.com>
-In-Reply-To: <CAFCwf12sUL5bcXhYKwRkMxLtSDtLfTK003oxkRDVmThx1ARV-A@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amlogic.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR03MB7046:EE_|TYZPR03MB5966:EE_
-x-ms-office365-filtering-correlation-id: e26933e1-c34d-4faa-5e0f-08dbbda9eb42
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: I2q0JNmJn28FPeQzan4alUdp3mlzxCL4FdAYrZTys9wK8DLYmiln83AeXhBOrdAXclIYSgBE7fzS8fihOSR+CM4XBmrfad4LJJWQarVWLN92D6OCEjP0ave1gNGzu17x7AOWGv1JxBCbcbzKXEk76i5uXRjTpUV0Nqx+Cu2Gfq1jIoObQ6hhhOxRxf6YyQ5y2LeBIHPY/p4mUF1HTo3Bb+MK3aFNTYjoeWMre0knDUbmiBkaxK289etwPBAx1vTMMS0xNbtX1HWBhqF4ln/hj0xUp7bRjoafnw726NlUQ9N4DQtmkkER5Mf91nSa7x57/thANAcGVRitlevhn6sc45uUJ517OJMfe99SLaT7iWLZjI9aV1BeiEPsaRNBD/xO9ACw393zAFFlW+/du7JwN+YrrRE9cjeHFJSIWocHY5yAI4SBWYSau47X9lkBMlBmby5CQ/c3SIcORAVcIyS33W1N33f14XupZb6CfLEgH04YuCVKX4g5vTARhc+uV8QZNGRwOOvC/4jXvYzbwwcK6wzc3raUJ9SAK+5PgbtCGau18tmEHYEZCbuK2cIjDLem3/IsTbrzwIJ9r5BDJisRUjkRO56SUqUT2rzTr6jE2eGcV1cW85hy2BCYM2c3NkPEu1YPZXZPrC1wpOsGyx0meQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR03MB7046.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(346002)(39850400004)(396003)(366004)(230922051799003)(186009)(1800799009)(451199024)(7696005)(6506007)(9686003)(53546011)(26005)(71200400001)(33656002)(76116006)(66946007)(66556008)(66476007)(66446008)(64756008)(86362001)(110136005)(966005)(91956017)(478600001)(122000001)(38070700005)(38100700002)(83380400001)(54906003)(55016003)(2906002)(8936002)(4326008)(5660300002)(316002)(224303003)(52536014)(41300700001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WkRyZ2tOUnV5bngvTE43VXBjd1FLbTBPaU5SN2R1TUNmV1p1RlMySUQ3S2h1?=
- =?utf-8?B?SnN1NzBDaTFYcWU5NG01OGg0em5SRlZSc1VDY3R5bFlueml0TG1GVGlDaEhD?=
- =?utf-8?B?L1U1dTlzZ1hGd3VKeUFvYmRqUENlbjJZU0ZFYWJ5b0FKVS91VE84QmEvV0ZU?=
- =?utf-8?B?YUFRd3pFWWN5SFp3Ry9DTWdoaU90REx2K1cwWGplZEV2aytldGI1MUtmYk9a?=
- =?utf-8?B?YW1qWHRLTkhrcFEyOFBlQkx5Uy9rdlhXUlFsZ3BnSUdNSVljTUJYY3NLVS8v?=
- =?utf-8?B?N3M2cnZmRUdra3FGUHRESG9TZURiN2lUWnNTb2U4ZnlXaVM0SE9pK05LcWRW?=
- =?utf-8?B?RFUrcGRvV2JkVWlUSFN4T0lvb3JYNjNrbmptNlJZUDlkVnNZREZNUVg2TTdn?=
- =?utf-8?B?dHBxamtmNjRhWDZuWlh1Skg5NUhOWFJPNlhoaWhuTkhneE9nUjJjazAzNXg4?=
- =?utf-8?B?eldITnQwMUJ3bVl0NmFuTnQ1b2NLZVlMUjgzQ1BqeVVBcHJTMW5FUkxWY1Bs?=
- =?utf-8?B?Rk5TYUlmczg2MGVEdFFSM0c4Q0hNbGs0MGhlMUJBelNiVXJRTHJoekJncnVB?=
- =?utf-8?B?ZG1QRmhhTTN1RGJ0WDRMNi80bW16UFNuRDI3clpMUzhPS0Q3TDlHejZLdEF6?=
- =?utf-8?B?OGh2K1lveTVoUDNGWUkvaW9HVmluOFRKUkVQelpYaStwYUpOU1RXSE82MCtZ?=
- =?utf-8?B?RnNOeDRBMzFlN2VrOHd3VnUvYkpmakN6OEtsNnJ1cktIY3ZPMFRzRmxuRlR1?=
- =?utf-8?B?QncyY3pSUmtRK09GcS9XaEF4WmNFUnpCV1Z3d3Y5RHBjSGZOc3JzaTZnY0hN?=
- =?utf-8?B?enl0UVhFaVR5cElQOUlIRHcvbEpKOFdTN1BJaDJKNURsSE5Na2VvM1RyaTZK?=
- =?utf-8?B?R3ROTWhoOUYrcDhFMzQ2eWVDWS9YL3gvcHpkT21aeFRMU0xmS3dCcUxUSHgz?=
- =?utf-8?B?czJKcVBvNEpGb2phUGZGS084di90WkdNbzZWNkFoZlpnRkw2THdhT1ZIbjZS?=
- =?utf-8?B?MjZ4bGd1akducmI2T3kwaW5pb0ZSbm9ENXE3Y2hOMkFMQndrTGFBNzhLc1Jx?=
- =?utf-8?B?bmF2Z3VMRnRFTVcyU080WHJVYy90aHFzbXpodCtjd3FDUUFDL0svUnZjZWw1?=
- =?utf-8?B?UXB2UllRWEdMNHh2bnlZSk5aQ2dTMTJVUGUzSHY5QS9LcW1HcEdUYjNLSGxr?=
- =?utf-8?B?UkYvVTU4SmhsTGp1NFFiT0tjeGt5ZnBkcTZIdnB0WmN3bmU4VGp5ZW1hNlIr?=
- =?utf-8?B?c2JucFFBWWhYQ2p1V01LUGhmRFNwemZWQ3h4SS9rMlF1SHhjbDhSUWZ6R0VC?=
- =?utf-8?B?a0k2QllGQzZSc000UVE0ZTM2OXBUVmNDb3o0Tm5BTXRuVHI3eGdHeU9jVWdQ?=
- =?utf-8?B?d1o0Y1dCYWlsZU5NOThuMW8yMGR5NTJrYVhTbkZCQTRHZFVreFN0NGtTZEtw?=
- =?utf-8?B?d3FZY3BqTnJuM1A1RnArcGFXQllUcXp6NXpMNmlrQmR4Zk1RUVpVUHJjWU51?=
- =?utf-8?B?QlQ4V2oxSnJCUjJWYjBxeVM5ZjZSODE5eWxmUE1qQXVOSktTYkg4WjR0enZv?=
- =?utf-8?B?Q3hUNnRJVWpUSkFBL1B2RlBubFkzK0UrMHA1S09tRWtCSzNmNE5naTZ2SEhD?=
- =?utf-8?B?cWhBZzMremp1Q1lYMmtSMFhNM3BrdEovZkQvNjBMbCsvbURwQVM3bHRNSnNo?=
- =?utf-8?B?Q29SZ05SZVFlSjVwY1p3dkhwRmNGOUNnOVFFTkFQRUk5NzJ3azFiYU9YUlla?=
- =?utf-8?B?c21GUkdMZUtGVGNNWXFIUStBRTgwaWVVbVBja3B0cUVxZUs5TXZKQVVXZW4z?=
- =?utf-8?B?b0VONjdHNG4wYmNZcEVpeHVVdWNxTmV1RmxhVWFmVmJKWTRYZ0l1TEtxUXRB?=
- =?utf-8?B?UkJGcCs1VTNDQ1Z6YjVIZC8yR2cyOUJvSGNEcnZkYXV3OXVzZ2paZWN6NTRZ?=
- =?utf-8?B?RDJqSTZIcnpjL0IveTNnV3hwa1BrM1drak9SeDIramtGVEJmanBaK2NJZDY0?=
- =?utf-8?B?eFRrK1NDNlFPZ0grQmN0VFJBY3E5ZEoycWlrUFdOV2YxTzIvY3lNMkx4WEZm?=
- =?utf-8?B?RGkwK1k1bzh3NmJmWVdDdzVRSWwvQXVrMHNQc2hjZ2hubnpSQjZmeDFOVzR2?=
- =?utf-8?Q?umdJinWCkIA/hCaKyZlgAJpBm?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Mon, 25 Sep 2023 06:34:46 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9CBDB3
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 03:34:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695638075; x=1727174075;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YF1uJGSTPpfTmXEVm5uI9R04rGeFrT2WqkVGhnEqjQ4=;
+  b=XnX8mG7pttXpWzYhyo8gp5l1vrOmo7utFsbf8G+qtC5Zz2gl/Rm6dMQU
+   Y59uXdnsYByPPsgoWh2VH94H6wsNXJwSxYdVa0KFFlZAVDl+26lT4USBQ
+   1V+yYGIAjNhnNXNv94WydI2BIZ/5oqqsgq3hFwi67hidnxdMKdsrR8pP3
+   1nLvF8h/iwgGIMboJcCPmmILuNUEUyMjHFG6EmzmMTaV4J86Zis1wRI4Y
+   pgHyDnZv1Dtb5+3jLE/eWmqbsJhmYAY4bACGoz095RrejKvA5lwASMGAQ
+   27xPEPGLDHI6tss61IeLjB50bPng92ub8ZWJ0EllnCaGxDeH70KppTJ7W
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="371539976"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="371539976"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 03:34:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="748308878"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="748308878"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 25 Sep 2023 03:34:22 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qkiuy-0001QL-07;
+        Mon, 25 Sep 2023 10:34:20 +0000
+Date:   Mon, 25 Sep 2023 18:33:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 34/37]
+ drivers/media/v4l2-core/v4l2-subdev.c:947:17: warning: 'fallthrough'
+ attribute ignored
+Message-ID: <202309251840.DhpwgqJQ-lkp@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amlogic.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7046.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e26933e1-c34d-4faa-5e0f-08dbbda9eb42
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2023 09:29:29.6910
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gc5yN5+Ox8lD07JO+5JN2jubceoaMrjtgvI/DGdMDyg3fQdNSMoaE0Lis9TOSeIr1+FBMyBcGwolBN3n9ptrxWzbOPKA5KPFyxvLZH5H+z4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB5966
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-VGhhbmsgeW91IGZvciB5b3VyIHJlcGx5IGZyb20gSmFnYW4gJiBPZGVkLg0KDQpJdCBpcyB2ZXJ5
-IGFwcHJvcHJpdGF0ZSBmb3IgbXkgZHJpdmVyIHRvIGJlIHBsYWNlZCBpbiBkcml2ZXIvYWNjZWwu
-DQoNCk15IGFjY2VsZXJhdG9yIGlzIG5hbWVkIEFETEEoQW1sb2dpYyBEZWVwIExlYXJuaW5nIEFj
-Y2VsZXJhdG9yKS4NCkl0IGlzIGFuIElQIGluIFNPQyxtYWlubHkgdXNlZCBmb3IgbmV1cmFsIG5l
-dHdvcmsgbW9kZWxzIGFjY2VsZXJhdGlvbi4NCkl0IHdpbGwgc3BsaXQgYW5kIGNvbXBpbGUgdGhl
-IG5ldXJhbCBuZXR3b3JrIG1vZGVsIGludG8gYSBwcml2YXRlIGZvcm1hdCBjbWQgYnVmZmVyLA0K
-YW5kIHN1Ym1pdCB0aGlzIGNtZCBidWZmZXIgdG8gQURMQSBoYXJkd2FyZS4gSXQgaXMgbm90IHBy
-b2dyYW1tYWJsZSBkZXZpY2UuDQoNCkFETEEgaW5jbHVkZXMgZm91ciBoYXJkd2FyZSBlbmdpbmVz
-Og0KUlMgZW5naW5lcyAgICAgICAgICAgICA6IHdvcmtpbmcgZm9yIHRoZSByZXNoYXBlIG9wZXJh
-dG9ycw0KTUFDIGVuZ2luZXMgICAgICAgICA6IHdvcmtpbmcgZm9yIHRoZSBjb252b2x1dGlvbiBv
-cGVyYXRvcnMNCkRXIGVuZ2luZXMgICAgICAgICAgIDogd29ya2luZyBmb3IgdGhlIHBsYW5lciAm
-IEVsZW1lbnR3aXNlIG9wZXJhdG9ycw0KQWN0aXZhdGlvbiBlbmdpbmVzIDogd29ya2luZyBmb3Ig
-YWN0aXZhdGlvbiBvcGVyYXRvcnMoUmVMdSx0YW5oLi4pDQoNCkJ5IHRoZSB3YXksIG15IElQIGlz
-IG1haW5seSB1c2VkIGZvciBTT0MsIGFuZCB0aGUgY3VycmVudCBkcml2ZXIgcmVnaXN0cmF0aW9u
-IGlzIHRocm91Z2ggdGhlIHBsYXRmb3JtX2RyaXZlciwNCmlzIGl0IG5lY2Vzc2FyeSB0byBzd2l0
-Y2ggdG8gZHJtPw0KDQp0aGFua3MuDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18NCuWPkeS7tuS6ujogT2RlZCBHYWJiYXkgPG9nYWJiYXlAa2VybmVsLm9yZz4NCuWP
-kemAgeaXtumXtDogMjAyM+W5tDnmnIgyMuaXpSAyMzowOA0K5pS25Lu25Lq6OiBKYWdhbiBUZWtp
-DQrmioTpgIE6IENhbmNhbiBDaGFuZzsgbGludXgtbWVkaWE7IGxpbnV4LWtlcm5lbDsgRGF2ZSBB
-aXJsaWU7IERhbmllbCBWZXR0ZXINCuS4u+mimDogUmU6IGtlcm5lbC5vcmcgNi41LjQgLCBOUFUg
-ZHJpdmVyLCAtLW5vdCBzdXBwb3J0IChSRkMpDQoNClvkvaDpgJrluLjkuI3kvJrmlLbliLDmnaXo
-h6ogb2dhYmJheUBrZXJuZWwub3JnIOeahOeUteWtkOmCruS7tuOAguivt+iuv+mXriBodHRwczov
-L2FrYS5tcy9MZWFybkFib3V0U2VuZGVySWRlbnRpZmljYXRpb27vvIzku6Xkuobop6Pov5nkuIDn
-grnkuLrku4DkuYjlvojph43opoFdDQoNClsgRVhURVJOQUwgRU1BSUwgXQ0KDQpPbiBGcmksIFNl
-cCAyMiwgMjAyMyBhdCAxMjozOOKAr1BNIEphZ2FuIFRla2kgPGphZ2FuQGVkZ2VibGUuYWk+IHdy
-b3RlOg0KPg0KPiBPbiBGcmksIDIyIFNlcHQgMjAyMyBhdCAxNTowNCwgQ2FuY2FuIENoYW5nIDxD
-YW5jYW4uQ2hhbmdAYW1sb2dpYy5jb20+IHdyb3RlOg0KPiA+DQo+ID4gRGVhciBNZWRpYSBNYWlu
-dGFpbmVyczoNCj4gPiAgICAgIFRoYW5rcyBmb3IgeW91ciBhdHRlbnRpb24uIEJlZm9yZSBkZXNj
-cmliaW5nIG15IHByb2JsZW3vvIxsZXQgbWUgaW50cm9kdWNlIHRvIHlvdSB3aGF0IEkgIG1lYW4g
-YnkgTlBVLg0KPiA+ICAgICAgTlBVIGlzIE5ldXJhbCBQcm9jZXNzaW5nIFVuaXQsIEl0IGlzIGRl
-c2lnbmVkIGZvciBkZWVwIGxlYXJuaW5nIGFjY2VsZXJhdGlvbiwgSXQgaXMgYWxzbyBjYWxsZWQg
-VFBVLCBBUFUgLi4NCj4gPg0KPiA+ICAgICAgVGhlIHJlYWwgcHJvYmxlbXM6DQo+ID4gICAgICAg
-V2hlbiBJIHdhcyBhYm91dCB0byB1cHN0cmVhbSBteSBOUFUgZHJpdmVyIGNvZGVzIHRvIGxpbnV4
-IG1haW5saW5lLCBpIG1lZXQgdHdvIHByb2JsZW1zOg0KPiA+ICAgICAgICAgMS4gIEFjY29yZGlu
-ZyB0byBteSByZXNlYXJjaCwgVGhlcmUgaXMgbm8gTlBVIG1vZHVsZSBwYXRoIGluIHRoZSBsaW51
-eCAoYmFzZSBvbiBsaW51eCA2LjUuNCkgLCBJIGhhdmUgc2VhcmNoZWQgYWxsIGxpbnV4IHByb2pl
-Y3RzIGFuZCBmb3VuZCBubyBvcmdhbml6YXRpb24gb3IgY29tYW55IHRoYXQgaGFzIHN1Ym1pdHRl
-ZCBOUFUgY29kZS4gSXMgdGhlcmUgYSBwYXRoIHByZXBhcmVkIGZvciBOUFUgZHJpdmVyIGN1cnJl
-bnRseT8NCj4gPiAgICAgICAgIDIuICAgSWYgdGhlcmUgaXMgbm8gTlBVIGRyaXZlciBwYXRoIGN1
-cnJlbnRseSwgSSBhbSBnb2luZyB0byBwdXQgbXkgTlBVIGRyaXZlciBjb2RlIGluIHRoZSBkcml2
-ZXJzL21lZGlhL3BsYXRmb3JtL2FtbG9naWMvIO+7vywgYmVjYXVzZSBteSBOUFUgZHJpdmVyIGJl
-bG9uZ3MgdG8gYW1sb2dpYy4gYW5kIGFtbG9naWMgTlBVIGlzIG1haW5seSB1c2VkIGZvciBBSSB2
-aXNpb24gYXBwbGljYXRpb25zLiBJcyB0aGlzIHBsYW4gc3VpdGFiZSBmb3IgeW91Pw0KPg0KPiBJ
-ZiBJJ20gY29ycmVjdCBhYm91dCB0aGUgZGlzY3Vzc2lvbiB3aXRoIE9kZWQgR2FiYnkgYmVmb3Jl
-LiBJIHRoaW5rDQo+IHRoZSBkcml2ZXJzL2FjY2VsLyBpcyBwcm9wZXIgZm9yIEFJIEFjY2VsZXJh
-dG9ycyBpbmNsdWRpbmcgTlBVLg0KPg0KPiArIE9kZWQgaW4gY2FzZSBoZSBjYW4gY29tbWVudC4N
-Cj4NCj4gVGhhbmtzLA0KPiBKYWdhbi4NClRoYW5rcyBKYWdhbiBmb3IgYWRkaW5nIG1lIHRvIHRo
-aXMgdGhyZWFkLiBBZGRpbmcgRGF2ZSAmIERhbmllbCBhcyB3ZWxsLg0KDQpJbmRlZWQsIHRoZSBk
-cml2ZXJzL2FjY2VsIGlzIHRoZSBwbGFjZSBmb3IgQWNjZWxlcmF0b3JzLCBtYWlubHkgZm9yDQpB
-SS9EZWVwLUxlYXJuaW5nIGFjY2VsZXJhdG9ycy4NCldlIGN1cnJlbnRseSBoYXZlIDMgZHJpdmVy
-cyB0aGVyZSBhbHJlYWR5Lg0KDQpUaGUgYWNjZWwgc3Vic3lzdGVtIGlzIHBhcnQgb2YgdGhlIGxh
-cmdlciBkcm0gc3Vic3lzdGVtLiBCYXNpY2FsbHksIHRvDQpnZXQgaW50byBhY2NlbCwgeW91IG5l
-ZWQgdG8gaW50ZWdyYXRlIHlvdXIgZHJpdmVyIHdpdGggdGhlIGRybSBhdCB0aGUNCmJhc2ljIGxl
-dmVsIChyZWdpc3RlcmluZyBhIGRldmljZSwgaG9va2luZyB1cCB3aXRoIHRoZSBwcm9wZXINCmNh
-bGxiYWNrcykuIG9mYyB0aGUgbW9yZSB5b3UgdXNlIGNvZGUgZnJvbSBkcm0sIHRoZSBiZXR0ZXIu
-DQpZb3UgY2FuIHRha2UgYSBsb29rIGF0IHRoZSBkcml2ZXJzIHVuZGVyIGFjY2VsIGZvciBzb21l
-IGV4YW1wbGVzIG9uDQpob3cgdG8gZG8gdGhhdC4NCg0KQ291bGQgeW91IHBsZWFzZSBkZXNjcmli
-ZSBpbiBhIGNvdXBsZSBvZiBzZW50ZW5jZXMgd2hhdCB5b3VyDQphY2NlbGVyYXRvciBkb2VzLCB3
-aGljaCBlbmdpbmVzIGl0IGNvbnRhaW5zLCBob3cgeW91IHByb2dyYW0gaXQuIGkuZS4NCklzIGl0
-IGEgZml4ZWQtZnVuY3Rpb24gZGV2aWNlIHdoZXJlIHlvdSB3cml0ZSB0byBhIGNvdXBsZSBvZiBy
-ZWdpc3RlcnMNCnRvIGV4ZWN1dGUgd29ya2xvYWRzLCBvciBpcyBpdCBhIGZ1bGx5IHByb2dyYW1t
-YWJsZSBkZXZpY2Ugd2hlcmUgeW91DQpsb2FkIGNvbXBpbGVkIGNvZGUgaW50byBpdCAoR1BVIHN0
-eWxlKSA/DQoNCkZvciBiZXR0ZXIgYmFja2dyb3VuZCBvbiB0aGUgYWNjZWwgc3Vic3lzdGVtLCBw
-bGVhc2UgcmVhZCB0aGUgZm9sbG93aW5nOg0KaHR0cHM6Ly9kb2NzLmtlcm5lbC5vcmcvYWNjZWwv
-aW50cm9kdWN0aW9uLmh0bWwNClRoaXMgaW50cm9kdWN0aW9uIGFsc28gY29udGFpbnMgbGlua3Mg
-dG8gb3RoZXIgaW1wb3J0YW50IGVtYWlsIHRocmVhZHMNCmFuZCB0byBEYXZlIEFpcmxpZSdzIEJP
-RiBzdW1tYXJ5IGluIExQQzIwMjIuDQoNClRoYW5rcywNCk9kZWQNCg==
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   ebf82dae7b9f13add29d642c4b7c3d50fdc4fad8
+commit: 7bd83fc59acad8c10bad2fa3c9433a4cb118ec5b [34/37] media: v4l: subdev: Add trivial set_routing support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230925/202309251840.DhpwgqJQ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309251840.DhpwgqJQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309251840.DhpwgqJQ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/v4l2-core/v4l2-subdev.c: In function 'subdev_do_ioctl':
+>> drivers/media/v4l2-core/v4l2-subdev.c:947:17: warning: 'fallthrough' attribute ignored [-Wattributes]
+     947 |                 fallthrough;
+         |                 ^~~~~~~~~~~
+>> drivers/media/v4l2-core/v4l2-subdev.c:890:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     890 |         case VIDIOC_SUBDEV_S_ROUTING: {
+         |                                       ^
+   drivers/media/v4l2-core/v4l2-subdev.c:946:1: note: here
+     946 | do_vidioc_subdev_g_routing:
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/fallthrough +947 drivers/media/v4l2-core/v4l2-subdev.c
+
+bcd158de94238d drivers/media/video/v4l2-subdev.c     Sylwester Nawrocki 2011-10-01   665  
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   666  	case VIDIOC_LOG_STATUS: {
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   667  		int ret;
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   668  
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   669  		pr_info("%s: =================  START STATUS  =================\n",
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   670  			sd->name);
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   671  		ret = v4l2_subdev_call(sd, core, log_status);
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   672  		pr_info("%s: ==================  END STATUS  ==================\n",
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   673  			sd->name);
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   674  		return ret;
+42194e728f067c drivers/media/video/v4l2-subdev.c     Hans Verkuil       2012-02-02   675  	}
+bcd158de94238d drivers/media/video/v4l2-subdev.c     Sylwester Nawrocki 2011-10-01   676  
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   677  	case VIDIOC_SUBDEV_G_FMT: {
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   678  		struct v4l2_subdev_format *format = arg;
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   679  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   680  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   681  			format->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   682  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   683  		memset(format->reserved, 0, sizeof(format->reserved));
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   684  		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+3cc7a4bbc3817e drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2022-04-12   685  		return v4l2_subdev_call(sd, pad, get_fmt, state, format);
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   686  	}
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   687  
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   688  	case VIDIOC_SUBDEV_S_FMT: {
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   689  		struct v4l2_subdev_format *format = arg;
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   690  
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   691  		if (format->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   692  			return -EPERM;
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   693  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   694  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   695  			format->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   696  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   697  		memset(format->reserved, 0, sizeof(format->reserved));
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   698  		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+3cc7a4bbc3817e drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2022-04-12   699  		return v4l2_subdev_call(sd, pad, set_fmt, state, format);
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   700  	}
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   701  
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   702  	case VIDIOC_SUBDEV_G_CROP: {
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   703  		struct v4l2_subdev_crop *crop = arg;
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   704  		struct v4l2_subdev_selection sel;
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   705  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   706  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   707  			crop->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   708  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   709  		memset(crop->reserved, 0, sizeof(crop->reserved));
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   710  		memset(&sel, 0, sizeof(sel));
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   711  		sel.which = crop->which;
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   712  		sel.pad = crop->pad;
+5689b28890f4a7 drivers/media/video/v4l2-subdev.c     Sakari Ailus       2012-05-18   713  		sel.target = V4L2_SEL_TGT_CROP;
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   714  
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   715  		rval = v4l2_subdev_call(
+3cc7a4bbc3817e drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2022-04-12   716  			sd, pad, get_selection, state, &sel);
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   717  
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   718  		crop->rect = sel.r;
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   719  
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   720  		return rval;
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   721  	}
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   722  
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   723  	case VIDIOC_SUBDEV_S_CROP: {
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   724  		struct v4l2_subdev_crop *crop = arg;
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   725  		struct v4l2_subdev_selection sel;
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   726  
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   727  		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   728  			return -EPERM;
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   729  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   730  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   731  			crop->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   732  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   733  		memset(crop->reserved, 0, sizeof(crop->reserved));
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   734  		memset(&sel, 0, sizeof(sel));
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   735  		sel.which = crop->which;
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   736  		sel.pad = crop->pad;
+5689b28890f4a7 drivers/media/video/v4l2-subdev.c     Sakari Ailus       2012-05-18   737  		sel.target = V4L2_SEL_TGT_CROP;
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   738  		sel.r = crop->rect;
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   739  
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   740  		rval = v4l2_subdev_call(
+3cc7a4bbc3817e drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2022-04-12   741  			sd, pad, set_selection, state, &sel);
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   742  
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   743  		crop->rect = sel.r;
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   744  
+5b9d770fa3f5cf drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-11-14   745  		return rval;
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   746  	}
+f6a5cb1be89446 drivers/media/video/v4l2-subdev.c     Antti Koskipaa     2010-06-23   747  
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   748  	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   749  		struct v4l2_subdev_mbus_code_enum *code = arg;
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   750  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   751  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   752  			code->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   753  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   754  		memset(code->reserved, 0, sizeof(code->reserved));
+3cc7a4bbc3817e drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2022-04-12   755  		return v4l2_subdev_call(sd, pad, enum_mbus_code, state,
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   756  					code);
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   757  	}
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   758  
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   759  	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   760  		struct v4l2_subdev_frame_size_enum *fse = arg;
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   761  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   762  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   763  			fse->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   764  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   765  		memset(fse->reserved, 0, sizeof(fse->reserved));
+3cc7a4bbc3817e drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2022-04-12   766  		return v4l2_subdev_call(sd, pad, enum_frame_size, state,
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   767  					fse);
+333c8b97785d5a drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-03-15   768  	}
+35c3017a29d278 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-05-05   769  
+743e18377cae64 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2013-04-22   770  	case VIDIOC_SUBDEV_G_FRAME_INTERVAL: {
+743e18377cae64 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2013-04-22   771  		struct v4l2_subdev_frame_interval *fi = arg;
+743e18377cae64 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2013-04-22   772  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   773  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   774  			fi->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   775  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   776  		memset(fi->reserved, 0, sizeof(fi->reserved));
+35c3017a29d278 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-05-05   777  		return v4l2_subdev_call(sd, video, g_frame_interval, arg);
+743e18377cae64 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2013-04-22   778  	}
+743e18377cae64 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2013-04-22   779  
+743e18377cae64 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2013-04-22   780  	case VIDIOC_SUBDEV_S_FRAME_INTERVAL: {
+743e18377cae64 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2013-04-22   781  		struct v4l2_subdev_frame_interval *fi = arg;
+743e18377cae64 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2013-04-22   782  
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   783  		if (ro_subdev)
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   784  			return -EPERM;
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   785  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   786  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   787  			fi->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   788  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   789  		memset(fi->reserved, 0, sizeof(fi->reserved));
+35c3017a29d278 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-05-05   790  		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
+743e18377cae64 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2013-04-22   791  	}
+35c3017a29d278 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-05-05   792  
+35c3017a29d278 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-05-05   793  	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
+35c3017a29d278 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-05-05   794  		struct v4l2_subdev_frame_interval_enum *fie = arg;
+35c3017a29d278 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-05-05   795  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   796  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   797  			fie->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   798  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   799  		memset(fie->reserved, 0, sizeof(fie->reserved));
+3cc7a4bbc3817e drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2022-04-12   800  		return v4l2_subdev_call(sd, pad, enum_frame_interval, state,
+35c3017a29d278 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-05-05   801  					fie);
+35c3017a29d278 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-05-05   802  	}
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   803  
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   804  	case VIDIOC_SUBDEV_G_SELECTION: {
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   805  		struct v4l2_subdev_selection *sel = arg;
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   806  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   807  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   808  			sel->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   809  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   810  		memset(sel->reserved, 0, sizeof(sel->reserved));
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   811  		return v4l2_subdev_call(
+3cc7a4bbc3817e drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2022-04-12   812  			sd, pad, get_selection, state, sel);
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   813  	}
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   814  
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   815  	case VIDIOC_SUBDEV_S_SELECTION: {
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   816  		struct v4l2_subdev_selection *sel = arg;
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   817  
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   818  		if (sel->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   819  			return -EPERM;
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   820  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   821  		if (!client_supports_streams)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   822  			sel->stream = 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   823  
+7c8a940a5ea0b0 drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2018-02-03   824  		memset(sel->reserved, 0, sizeof(sel->reserved));
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   825  		return v4l2_subdev_call(
+3cc7a4bbc3817e drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2022-04-12   826  			sd, pad, set_selection, state, sel);
+ae184cda8d0eeb drivers/media/video/v4l2-subdev.c     Sakari Ailus       2011-10-14   827  	}
+ed45ce2cc0b31c drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2012-08-10   828  
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   829  	case VIDIOC_G_EDID: {
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   830  		struct v4l2_subdev_edid *edid = arg;
+ed45ce2cc0b31c drivers/media/v4l2-core/v4l2-subdev.c Hans Verkuil       2012-08-10   831  
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   832  		return v4l2_subdev_call(sd, pad, get_edid, edid);
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   833  	}
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   834  
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   835  	case VIDIOC_S_EDID: {
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   836  		struct v4l2_subdev_edid *edid = arg;
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   837  
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   838  		return v4l2_subdev_call(sd, pad, set_edid, edid);
+f2e9084779d3ad drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   839  	}
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   840  
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   841  	case VIDIOC_SUBDEV_DV_TIMINGS_CAP: {
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   842  		struct v4l2_dv_timings_cap *cap = arg;
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   843  
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   844  		return v4l2_subdev_call(sd, pad, dv_timings_cap, cap);
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   845  	}
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   846  
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   847  	case VIDIOC_SUBDEV_ENUM_DV_TIMINGS: {
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   848  		struct v4l2_enum_dv_timings *dvt = arg;
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   849  
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   850  		return v4l2_subdev_call(sd, pad, enum_dv_timings, dvt);
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   851  	}
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   852  
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   853  	case VIDIOC_SUBDEV_QUERY_DV_TIMINGS:
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   854  		return v4l2_subdev_call(sd, video, query_dv_timings, arg);
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   855  
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   856  	case VIDIOC_SUBDEV_G_DV_TIMINGS:
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   857  		return v4l2_subdev_call(sd, video, g_dv_timings, arg);
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   858  
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   859  	case VIDIOC_SUBDEV_S_DV_TIMINGS:
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   860  		if (ro_subdev)
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   861  			return -EPERM;
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   862  
+9cfd65e8095983 drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2014-01-29   863  		return v4l2_subdev_call(sd, video, s_dv_timings, arg);
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   864  
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   865  	case VIDIOC_SUBDEV_G_STD:
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   866  		return v4l2_subdev_call(sd, video, g_std, arg);
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   867  
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   868  	case VIDIOC_SUBDEV_S_STD: {
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   869  		v4l2_std_id *std = arg;
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   870  
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   871  		if (ro_subdev)
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   872  			return -EPERM;
+f75c431e54e2e4 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   873  
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   874  		return v4l2_subdev_call(sd, video, s_std, *std);
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   875  	}
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   876  
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   877  	case VIDIOC_SUBDEV_ENUMSTD: {
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   878  		struct v4l2_standard *p = arg;
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   879  		v4l2_std_id id;
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   880  
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   881  		if (v4l2_subdev_call(sd, video, g_tvnorms, &id))
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   882  			return -EINVAL;
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   883  
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   884  		return v4l_video_std_enumstd(p, id);
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   885  	}
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   886  
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   887  	case VIDIOC_SUBDEV_QUERYSTD:
+56ab8cdbc14385 drivers/media/v4l2-core/v4l2-subdev.c Niklas Söderlund   2018-05-17   888  		return v4l2_subdev_call(sd, video, querystd, arg);
+fb15db8c0060e7 drivers/media/v4l2-core/v4l2-subdev.c Jacopo Mondi       2020-05-07   889  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23  @890  	case VIDIOC_SUBDEV_S_ROUTING: {
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   891  		struct v4l2_subdev_routing *routing = arg;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   892  		struct v4l2_subdev_route *routes =
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   893  			(struct v4l2_subdev_route *)(uintptr_t)routing->routes;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   894  		struct v4l2_subdev_krouting krouting = {};
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   895  		unsigned int i;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   896  
+7bd83fc59acad8 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   897  		if (!v4l2_subdev_has_op(sd, pad, set_routing))
+7bd83fc59acad8 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   898  			goto do_vidioc_subdev_g_routing;
+7bd83fc59acad8 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   899  
+8a54644571fed4 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-01-15   900  		if (!v4l2_subdev_enable_streams_api)
+8a54644571fed4 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-01-15   901  			return -ENOIOCTLCMD;
+8a54644571fed4 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-01-15   902  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   903  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   904  			return -ENOIOCTLCMD;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   905  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   906  		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   907  			return -EPERM;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   908  
+f91be432a91671 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   909  		if (routing->num_routes > routing->len_routes)
+f91be432a91671 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   910  			return -EINVAL;
+f91be432a91671 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   911  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   912  		memset(routing->reserved, 0, sizeof(routing->reserved));
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   913  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   914  		for (i = 0; i < routing->num_routes; ++i) {
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   915  			const struct v4l2_subdev_route *route = &routes[i];
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   916  			const struct media_pad *pads = sd->entity.pads;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   917  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   918  			if (route->sink_stream > V4L2_SUBDEV_MAX_STREAM_ID ||
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   919  			    route->source_stream > V4L2_SUBDEV_MAX_STREAM_ID)
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   920  				return -EINVAL;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   921  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   922  			if (route->sink_pad >= sd->entity.num_pads)
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   923  				return -EINVAL;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   924  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   925  			if (!(pads[route->sink_pad].flags &
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   926  			      MEDIA_PAD_FL_SINK))
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   927  				return -EINVAL;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   928  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   929  			if (route->source_pad >= sd->entity.num_pads)
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   930  				return -EINVAL;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   931  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   932  			if (!(pads[route->source_pad].flags &
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   933  			      MEDIA_PAD_FL_SOURCE))
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   934  				return -EINVAL;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   935  		}
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   936  
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   937  		krouting.num_routes = routing->num_routes;
+f91be432a91671 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   938  		krouting.len_routes = routing->len_routes;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   939  		krouting.routes = routes;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   940  
+a4a01db3d61467 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-09-06   941  		rval = v4l2_subdev_call(sd, pad, set_routing, state,
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   942  					routing->which, &krouting);
+a4a01db3d61467 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-09-06   943  		if (rval < 0)
+a4a01db3d61467 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-09-06   944  			return rval;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   945  	}
+7bd83fc59acad8 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   946  do_vidioc_subdev_g_routing:
+a4a01db3d61467 drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-09-06  @947  		fallthrough;
+a418bb3f30d9ac drivers/media/v4l2-core/v4l2-subdev.c Laurent Pinchart   2021-04-23   948  
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   949  	case VIDIOC_SUBDEV_G_ROUTING: {
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   950  		struct v4l2_subdev_routing *routing = arg;
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   951  		struct v4l2_subdev_krouting *krouting;
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   952  
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   953  		if (!v4l2_subdev_enable_streams_api)
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   954  			return -ENOIOCTLCMD;
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   955  
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   956  		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   957  			return -ENOIOCTLCMD;
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   958  
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   959  		memset(routing->reserved, 0, sizeof(routing->reserved));
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   960  
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   961  		krouting = &state->routing;
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   962  
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   963  		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   964  		       krouting->routes,
+637380569caf1e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-09-22   965  		       min(krouting->num_routes, krouting->len_routes) *
+637380569caf1e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-09-22   966  		       sizeof(*krouting->routes));
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   967  		routing->num_routes = krouting->num_routes;
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   968  
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   969  		return 0;
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   970  	}
+7b9e3975398e7e drivers/media/v4l2-core/v4l2-subdev.c Sakari Ailus       2023-08-31   971  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   972  	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   973  		struct v4l2_subdev_client_capability *client_cap = arg;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   974  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   975  		client_cap->capabilities = subdev_fh->client_caps;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   976  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   977  		return 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   978  	}
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   979  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   980  	case VIDIOC_SUBDEV_S_CLIENT_CAP: {
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   981  		struct v4l2_subdev_client_capability *client_cap = arg;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   982  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   983  		/*
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   984  		 * Clear V4L2_SUBDEV_CLIENT_CAP_STREAMS if streams API is not
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   985  		 * enabled. Remove this when streams API is no longer
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   986  		 * experimental.
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   987  		 */
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   988  		if (!v4l2_subdev_enable_streams_api)
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   989  			client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   990  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   991  		/* Filter out unsupported capabilities */
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   992  		client_cap->capabilities &= V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   993  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   994  		subdev_fh->client_caps = client_cap->capabilities;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   995  
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   996  		return 0;
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   997  	}
+f57fa295924402 drivers/media/v4l2-core/v4l2-subdev.c Tomi Valkeinen     2023-03-23   998  
+2096a5dcf9704f drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2009-12-09   999  	default:
+c30b46e58b31a0 drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2010-02-26  1000  		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
+2096a5dcf9704f drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2009-12-09  1001  	}
+2096a5dcf9704f drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2009-12-09  1002  
+2096a5dcf9704f drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2009-12-09  1003  	return 0;
+2096a5dcf9704f drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2009-12-09  1004  }
+2096a5dcf9704f drivers/media/video/v4l2-subdev.c     Laurent Pinchart   2009-12-09  1005  
+
+:::::: The code at line 947 was first introduced by commit
+:::::: a4a01db3d61467f70f5fc424649af18816ad2842 media: v4l: subdev: Return routes set using S_ROUTING
+
+:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
