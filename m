@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C6C7AD286
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 09:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ECDE7AD299
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 10:01:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232541AbjIYH7n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 03:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38752 "EHLO
+        id S232535AbjIYIBx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 04:01:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232544AbjIYH7m (ORCPT
+        with ESMTP id S232520AbjIYIBw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 03:59:42 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1284100
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 00:59:34 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-3214cdb4b27so5468098f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 00:59:34 -0700 (PDT)
+        Mon, 25 Sep 2023 04:01:52 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DB0FFE
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 01:01:45 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-323168869daso3226196f8f.2
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 01:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695628773; x=1696233573; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=75w5kNl0BQvti/V97KLToabGdtI+OVnIPyxYO7hlKPU=;
-        b=wf8wS0BUt93iu4mWIR5dIdUAel/AKn4GwQRnr+xmt+R2sGQfq99yJPkBdORtX8xN9K
-         zNEPHxtOkxPnyxQ3eB0BQn2bRVY08ebtrWWP63ovrGQrxvbtfVj0Ka+zrO0IkIJOkGU+
-         QV8JuU8t6ACk5pwmmHtkezY8SIF1ge31d/osJRqP4eaigPp16SV4jfx8xI5Wdke+3JJ/
-         56SxCJCU0O9lv3oAbyeC5VhxFd4h0Hp/i0yQaSkoQRGUMWAmnKjxc/1tKfi8c5So5Xob
-         Hk+1lKp8skhg88lUr4DLO4kAXyiraBxVdbPOp3QHBPZjsxg7tiL4Nh7ZRM2z8mjKAyZD
-         56iA==
+        d=linaro.org; s=google; t=1695628903; x=1696233703; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rWe8PJs1b9Dtx41y65X4Zg8v33gAtzucrNuB8pJG71o=;
+        b=rJ5RRUzxyuTzIcsWT7mnEv/BcKRD1IMkugBK/s3zqkkPFpTJ1F5Q2lquPvvrE66F4z
+         YdXtZ4NeyFTbjVLE5sSOftkvY/5/ml65ZNo2llUuoVMiayedj9s/y5USP21+PXJL5/vv
+         ryx76baUHgZDNb7m4IajkNXBNEBNlufRB6HhyoWT59otNnss+yRYBKcfciBa3KJWEqSa
+         JDkiGcSjlqy+mnLxEKwSCRNDCAfJxMRJC5FQVZrcP9nC2kLIeOmIbPH5w7LiV+Of5ksg
+         Nfdbk29XlOOQfC2Z5bF9N4LjK4LkqGP+jOXGWxd8qDrAoCdzP8be2Gb0WuU5KBFmMVa1
+         gwXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695628773; x=1696233573;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=75w5kNl0BQvti/V97KLToabGdtI+OVnIPyxYO7hlKPU=;
-        b=dw4Jt9Zx9laO3b9vM8xp+aHWSJxjwzqPVCOhGkIRqPRn11w5gzkzbHhnKSCTvlE+EO
-         axwL9/uVN2ltk0JP8jiy3GVumoGr7JDBv/yywceEMfoa938IbZklgLbg0YMnHO9gZE0f
-         JUmj8eRfp1oIS9fu96thtw+ieN+S6s6j9w1jf27LCGdM5sxTK3Kz+xOOOIjMpuilgk/x
-         VDRP7YUpk3iqq06KYI8yr2iKo4rf73oKf7WpL+KUhg40O9T694xhLG7rMXDWihURPD83
-         RvY2Z50o+SDr4q+P9YE4HYXE2F+MSrglQTrMZP5Bi1nKtZA78IUNkAsIZWzZ255k0RsC
-         Plag==
-X-Gm-Message-State: AOJu0YwaJ9LUauxYY0jm7Wn2kHPtsCvnElFXZ9QGh9K/tG5IXJu2C6N4
-        B7kDVOyRy7fNzp3sMNLAxmQaBw==
-X-Google-Smtp-Source: AGHT+IGcqHAEgffz32lX5YyQAZ+BccCI3Q9ud+4Vq9WJdBZVHgp1QvvJI8oAp0aqOvg6u0WU8w9pDg==
-X-Received: by 2002:a05:6000:11c6:b0:321:6779:944d with SMTP id i6-20020a05600011c600b003216779944dmr4688837wrx.47.1695628773269;
-        Mon, 25 Sep 2023 00:59:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695628903; x=1696233703;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rWe8PJs1b9Dtx41y65X4Zg8v33gAtzucrNuB8pJG71o=;
+        b=vDRNgy0uKGl4ARKXB6biaaOC1da09YgT/3SLP/TVrpfyBM5dnZKV2O3p7no8fISXOP
+         Z7+Dz7KTlYEwfiU4Hv5ZdCa8g0zqUSHu6OX2lElN/4v1NQYHdpMhkwsuSzjthNpR9Vbd
+         J/H82poroj01Nr/0v74zZMTFxCbmnO3E7ncDKUTkq4TTDFEwBLtewG2bkDtjpM3cV+3Y
+         A684wcOI5/Nc9JxRZ00uZOerHaxCe4QzhOMXC02wI1/UaoxUxuvbnBGUAcWoyZSQM3Ev
+         cmBMHGfsS0MVTUFVLdQrJTIcYcfcXlZL3O39EX43SdY6H04GwClI2HBw5VPXFGgvoyK2
+         ArCA==
+X-Gm-Message-State: AOJu0YzH/Ht84itituI1ISz/2245Fl51O6h62aVtMSz6OZQ+IvQZ+mJJ
+        U1LCOfiH4tZ3QrONtS9KVEdawA==
+X-Google-Smtp-Source: AGHT+IGPHi04IuhEVziXdKrF4Eir2m0JTdxZ8yPrSSjcye7UJVhAbXNkIXcWqsC9Mg7mjJPUsvD/qQ==
+X-Received: by 2002:a05:6000:1081:b0:31a:e73f:3fe7 with SMTP id y1-20020a056000108100b0031ae73f3fe7mr4867071wrw.3.1695628903388;
+        Mon, 25 Sep 2023 01:01:43 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id p2-20020a5d68c2000000b0031431fb40fasm11126460wrw.89.2023.09.25.00.59.31
+        by smtp.gmail.com with ESMTPSA id o5-20020a056000010500b0031ddf6cc89csm10984021wrx.98.2023.09.25.01.01.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Sep 2023 00:59:32 -0700 (PDT)
-Message-ID: <417559ec-5e21-4fba-b001-3f230a087e20@linaro.org>
-Date:   Mon, 25 Sep 2023 09:59:30 +0200
+        Mon, 25 Sep 2023 01:01:42 -0700 (PDT)
+Message-ID: <bbc8dd05-8589-44ec-87dd-f2d7b4368245@linaro.org>
+Date:   Mon, 25 Sep 2023 10:01:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] arm64: dts: imx8-ss-img: Assign slot for imx jpeg
- encoder/decoder
+Subject: Re: [PATCH v3 2/2] dt-bindings: media: imx-jpeg: Assign slot for imx
+ jpeg encoder/decoder
+Content-Language: en-US
 To:     Ming Qian <ming.qian@nxp.com>, mirela.rabulea@oss.nxp.com,
         robh+dt@kernel.org, shawnguo@kernel.org
 Cc:     krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -67,7 +67,7 @@ Cc:     krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230925074131.10133-1-ming.qian@nxp.com>
-Content-Language: en-US
+ <20230925074131.10133-2-ming.qian@nxp.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -113,12 +113,13 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20230925074131.10133-1-ming.qian@nxp.com>
+In-Reply-To: <20230925074131.10133-2-ming.qian@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -128,18 +129,68 @@ X-Mailing-List: linux-media@vger.kernel.org
 On 25/09/2023 09:41, Ming Qian wrote:
 > There are total 4 slots available in the IP,
 > and we only need to use one slot in one os,
-> assign a single slot for imx jpeg device node,
+> assign a single slot,
 > configure interrupt and power domain only for 1 slot,
 > not for the all 4 slots.
 
-Still not properly wrapped.
+No changelog and I do not see much of improvements. Do not ignore the
+feedback but respond to it or fix the patch. Really, what happened here?
 
 Please wrap commit message according to Linux coding style / submission
 process (neither too early nor over the limit):
 https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
 
-Also, no changelog, so did you skipped feedback?
+> 
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+>  .../bindings/media/nxp,imx8-jpeg.yaml         | 42 ++++++++-----------
+>  1 file changed, 18 insertions(+), 24 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> index 3d9d1db37040..df381b21336d 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> @@ -32,25 +32,29 @@ properties:
+>      maxItems: 1
+>  
+>    interrupts:
+> -    description: |
+> -      There are 4 slots available in the IP, which the driver may use
+> -      If a certain slot is used, it should have an associated interrupt
+> -      The interrupt with index i is assumed to be for slot i
+> -    minItems: 1               # At least one slot is needed by the driver
+> -    maxItems: 4               # The IP has 4 slots available for use
+> +    description:
+> +      Interrupt number for slot
+> +    maxItems: 1
+>  
+>    power-domains:
+>      description:
+>        List of phandle and PM domain specifier as documented in
+>        Documentation/devicetree/bindings/power/power_domain.txt
+> -    minItems: 2               # Wrapper and 1 slot
+> -    maxItems: 5               # Wrapper and 4 slots
+> +    minItems: 1               # VPUMIX
+> +    maxItems: 2               # Wrapper and 1 slot
+> +
+> +  nxp,slot:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: Integer number of slot index used.
+> +    minimum: 0
+> +    maximum: 3
 
+Nothing explains what is a slot and nothing explains why do you need
+this property.
+
+>  
+>  required:
+>    - compatible
+>    - reg
+>    - interrupts
+>    - power-domains
+> +  - nxp,slot
+
+NAK, that's an ABI break.
 
 Best regards,
 Krzysztof
