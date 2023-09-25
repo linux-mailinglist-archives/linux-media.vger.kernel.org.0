@@ -2,155 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 719E37AD730
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 13:46:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36E737AD73B
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 13:50:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbjIYLq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 07:46:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60338 "EHLO
+        id S229905AbjIYLua convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 25 Sep 2023 07:50:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229595AbjIYLq6 (ORCPT
+        with ESMTP id S229456AbjIYLu3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 07:46:58 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09624DF
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 04:46:51 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4056ce55e7eso28636415e9.2
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 04:46:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695642409; x=1696247209; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vYcYzGFcPcFNcdhLbqvhHN6qFJ0rWufHOTyltNhdpfs=;
-        b=Po/PTE9m421E34P1xNXRDqjHeGT0Wi/c1sGrj8sJwY0C+nGZyV/mszIlLslSD0Y23e
-         VHZSfvJBwimRqfnGyNykgY9QOLzQ8JoD/ktup/dNcwtMdXA9f4WTSKV1Uxekm05Xp2wP
-         m+36mrhhpUdlUDyRI5xBy5aJeq3IMVf/i51jTOr/d69scZFWAdy8r6IIDj9GYahAutcr
-         qAZa2eb4ME76Ng6zPQnO6X4S93BfBe6iCjhjmVeRtRNk2o7RS1JhIYC/ICRkrbyDx/Jt
-         UJu4cPVenssu+TVNfYyS8C4Zw/PoLMNXc5E/VyXmymHaZGPRh9g5qS0ENUKdDl3VZHq4
-         6GmQ==
+        Mon, 25 Sep 2023 07:50:29 -0400
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102E9CF;
+        Mon, 25 Sep 2023 04:50:20 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-59f6492b415so33107097b3.0;
+        Mon, 25 Sep 2023 04:50:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695642409; x=1696247209;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vYcYzGFcPcFNcdhLbqvhHN6qFJ0rWufHOTyltNhdpfs=;
-        b=iWWwXxmlysWrYWUnXPVKQ5A8dlvbuTdJ3UT5lPpRkzs1E0me7Efm5BfosMh9SURYUV
-         BQ+FLxkbAEDgtBpkqmKXnkPjJn+HLlitYl7Yqz2YeST0OwSW1z/xAz3A1klAzaM4OQ0l
-         zkj1JB71q2HljDcazZfLFV35Rikxq9sKMEHb72v+JJiWo+3VFBin3SxaCoxRSAx9imP0
-         8wnq5uU15eKDgXWoKc6Q5q7pqg5zhNWZ1m3c7829oYVRMY3F8o2Iadcv4mPTISpYBkAh
-         zb5VdymWwSg174oqBN/p1rYC5vr3MAqg43s1OKRc5eUqWvXuy/pKaPHKsZK1gCfLFwHz
-         mxug==
-X-Gm-Message-State: AOJu0YxvGgnyLeETsDnCpD35J7t/MwNxuddxr7N4lsHQTTE1i8EYEBEs
-        Zr6n8XyLFBavNnAuyKhAeKGglQ==
-X-Google-Smtp-Source: AGHT+IFd7UcxLS+BU737pcEMWDnXE2kMVHbJQsEDBwkeKmw9iGCTaTmwo7ZTsBKSegHPVhG544O+UA==
-X-Received: by 2002:a5d:4903:0:b0:322:5251:d798 with SMTP id x3-20020a5d4903000000b003225251d798mr5427540wrq.70.1695642409326;
-        Mon, 25 Sep 2023 04:46:49 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id g10-20020adffc8a000000b003176c6e87b1sm11703603wrr.81.2023.09.25.04.46.48
+        d=1e100.net; s=20230601; t=1695642619; x=1696247419;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s0UP6u4hsoIodJSqXKIKtd9qcKxG8HgXyNCB8NOU6N8=;
+        b=VhOdTjvwLzYLwnWJdjeHLEVuK62BJIMcuDKk8TCRoZN+Dgu6lHJus9BjjqV/FgezID
+         5IpGkMLZ+ecoTSUbwFGaSQpg96dk6aH4aniFXAbMTjO4ANslT/M55jiISH7ix4oTaMY4
+         qSjhmQQYH0DYHUo6NOfsbJiWoYjahLlu2Q1t5mBX0kGRrzjgG804QuqeiT9CDhZH8t2D
+         +BK37FYUN4AfNI7qIMKOCYVqrKOX/2swF4ze4N8qO7iQBxL+wSwp+jimWWeLlJzfhRQ0
+         LZ19lDR9PPqjfpP/Sz1QM8poZxqARA1vAtUK3I6AkGHP6ZhaPNvqvZTEPftQcGf+oWi4
+         VKtg==
+X-Gm-Message-State: AOJu0Yyxrd2xqx0u/twerxgTrIx8724x4X6IjS7kUvSd8rVP+J/ihGQl
+        YdHYaD3zg0e9rMj0oPa1VenF6sg21Yf7JQ==
+X-Google-Smtp-Source: AGHT+IF3hQbGDFG4xsWrXN44k+lZXvDn9DdrGufy7HI5WFryR59ieMmttDzkI2jvblwygZ56JnfsGQ==
+X-Received: by 2002:a81:83ce:0:b0:59f:6a25:959e with SMTP id t197-20020a8183ce000000b0059f6a25959emr2383797ywf.10.1695642618989;
+        Mon, 25 Sep 2023 04:50:18 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id f128-20020a0ddc86000000b0059c8387f673sm2375733ywe.51.2023.09.25.04.50.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Sep 2023 04:46:48 -0700 (PDT)
-Message-ID: <22a7562e-53cb-40f9-a922-cf840c178506@linaro.org>
-Date:   Mon, 25 Sep 2023 12:46:47 +0100
+        Mon, 25 Sep 2023 04:50:18 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-59f6492b415so33106417b3.0;
+        Mon, 25 Sep 2023 04:50:17 -0700 (PDT)
+X-Received: by 2002:a0d:d542:0:b0:59f:66a1:bfca with SMTP id
+ x63-20020a0dd542000000b0059f66a1bfcamr2229179ywd.26.1695642617660; Mon, 25
+ Sep 2023 04:50:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 11/17] media: qcom: camss: Allow clocks vfeN vfe_liteN
- or vfe_lite
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, rfoss@kernel.org,
-        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230911131411.196033-1-bryan.odonoghue@linaro.org>
- <20230911131411.196033-12-bryan.odonoghue@linaro.org>
- <936acf18-b961-40e3-b68b-f1c679961d67@xs4all.nl>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <936acf18-b961-40e3-b68b-f1c679961d67@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230922080421.35145-1-wsa+renesas@sang-engineering.com> <20230922080421.35145-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230922080421.35145-3-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 25 Sep 2023 13:50:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXNWL7dMuRwcdcFaSy5ew9gvcdWzXVMp-QjzSDcxbRFFw@mail.gmail.com>
+Message-ID: <CAMuHMdXNWL7dMuRwcdcFaSy5ew9gvcdWzXVMp-QjzSDcxbRFFw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: i2c: drop check because i2c_unregister_device()
+ is NULL safe
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/09/2023 08:10, Hans Verkuil wrote:
-> On 11/09/2023 15:14, Bryan O'Donoghue wrote:
->> The number of Video Front End - VFE or Image Front End - IFE supported
->> with new SoCs can vary both for the full and lite cases.
->>
->> For example sdm845 has one vfe_lite and two vfe interfaces with the vfe
->> clock called simply "vfe_lite" with no integer postfix. sc8280xp has four
->> vfe and four vfe lite blocks.
->>
->> At the moment we declare vfe_lite0 and vfe_lite1 for sm8250 but never set
->> those clocks because we don't match the strings.
->>
->> We need to support the following clock name formats
->>
->> - vfeN
->> - vfe_liteN
->> - vfe_lite
->>
->> with N being any reasonably sized integer.
->>
->> There are two sites in this code which need to do the same thing,
->> constructing and matching strings with the pattern above, so encapsulate
->> the logic in one function.
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
->>   drivers/media/platform/qcom/camss/camss-vfe.c | 22 ++++++++++++++-----
->>   1 file changed, 16 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
->> index db8f68819ded9..f3cf387e4907e 100644
->> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
->> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
->> @@ -431,6 +431,20 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
->>   	complete(&vfe->reset_complete);
->>   }
->>   
->> +static int vfe_match_clock_names(struct vfe_device *vfe,
->> +				 struct camss_clock *clock)
->> +{
->> +	char vfe_name[6]; /* vfeXX\0 */
->> +	char vfe_lite_name[11]; /* vfe_liteXX\0 */
->> +
->> +	snprintf(vfe_name, sizeof(vfe_name), "vfe%d", vfe->id);
->> +	snprintf(vfe_lite_name, sizeof(vfe_lite_name), "vfe_lite%d", vfe->id);
->> +
->> +	return (!strcmp(clock->name, vfe_name) ||
->> +		!strcmp(clock->name, vfe_lite_name) ||
->> +		!strcmp(clock->name, "vfe_lite"));
->> +}
-> 
-> I'm getting this compiler warning:
-> 
-> drivers/media/platform/qcom/camss/camss-vfe.c: In function 'vfe_match_clock_names':
-> drivers/media/platform/qcom/camss/camss-vfe.c:483:52: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
->    483 |         snprintf(vfe_name, sizeof(vfe_name), "vfe%d", vfe->id);
->        |                                                    ^
-> 
-> Since vfe->id is a u8 I would just increase both the vfe_name and vfe_lite_name
-> sizes by 1.
-> 
-> Regards,
-> 
-> 	Hans
-> 
+On Fri, Sep 22, 2023 at 4:45 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> No need to check the argument of i2c_unregister_device() because the
+> function itself does it.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Hmm. True.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Maximum value of VFE id is 255 @ u8
+Gr{oetje,eeting}s,
 
----
-bod
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
