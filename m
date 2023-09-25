@@ -2,68 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93E177ADBF0
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 17:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F12097ADC07
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 17:47:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233134AbjIYPmN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 11:42:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53446 "EHLO
+        id S230417AbjIYPrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 11:47:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233109AbjIYPlx (ORCPT
+        with ESMTP id S229674AbjIYPrT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 11:41:53 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E144CDD
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:41:25 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4060b623e64so633745e9.0
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:41:25 -0700 (PDT)
+        Mon, 25 Sep 2023 11:47:19 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 203A095
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:47:12 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-32167a4adaaso6472094f8f.1
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695656483; x=1696261283; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yKTR9FGAJbp1Nit0RKPxQtBceNed5p1nXP0aMRVoGew=;
-        b=QrsVFyjBk4md7uG1N5IvQSP5V1erEytLEvYNHpgT3vyzTmh38XzPDdzehb+6E2LZXN
-         w1D39S1mXoceUOlTWjRMW1YpKN8OaiqtYUVMjot9OEbOU1nwjcFd7+5kOoUL2/HCgmis
-         aiD/537GtobJ2vJ3m30T4zbWWQFnkSeKmT6Wj2t/1mY3fLQcct55lk9FsMt1q3nxS0LM
-         3fcNHpk9kV6wAxvUXVWtEDwwN1xB2lNNltONrNZD3CaQtEnnIBu9gh35zUxwVRzU9nGY
-         Ou5lubkYZ3CrkWqZ7JJmqmGl3iA0c5gxFi7C1tN68DySt2ltSPFI78OBQQQkNTAkH2Fk
-         meaQ==
+        d=linaro.org; s=google; t=1695656830; x=1696261630; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3zTtm1hNuXbYkvFioZ7yQhrns3BNrHuUCR7GieW18ow=;
+        b=nB/E0Z60kxsdFg7OJQM7PkPHBN9LYO+KJsYQ5P28hVPaVpSK7wKV4Fq1oEvzRjfVN1
+         poDMgf2VM3ZhVKtCBJKmYZ5JANukZnQ9/1Mq99kPn/vFtUgHNguuX2wGVWiCDoH8db2I
+         aGooNqvi5G/r/S50rDp6YYYaXZQqcHTonMuu0VtVw7RPlgz48X/U3a5gwCXfT1z2fDrw
+         M8iQShU9EScYqlZ80JYW/9HN+DRwpiEqxOywXtX6VPEPRZqYh7dSGAYa4gGiyTssalDo
+         1iemwNtq6tdYxAXEIvQl0VXi5ayIUjf5VprAhJnnHPFU/EaESrOTMKkVz18nPo8tfU2o
+         ovhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695656483; x=1696261283;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yKTR9FGAJbp1Nit0RKPxQtBceNed5p1nXP0aMRVoGew=;
-        b=cc+w8Mv3sVAXHwTDvNGr0JM3uuOPjhank5wzQt7oFfgGlCjGSnXazOfAUDTwbCe7xk
-         rO/wEMkwiZ/tTVCd1AFzHmOfwhKfPcvtL8VRydAYrCjBAL9G9LdBGoVfAfDjDRv2rEUM
-         Gg8r7cliUlv9s5tgjLKBA6Mdv6M9Kql/LNoJ1dA+aBr4AZ+/WmVqbK+hr6dDf/dxi6Dk
-         zVVMavTiHLevZO+ib0klcQ8FOFjuY/HYSklOtWtEPU3TorfhOAY0qw47pG4LLCZRCrsj
-         iT0rETlfZcgsiJ6xnfjf/4Wg3UfEyNnZs6jo3ODf1aoZjo+rUbURVib/DsjM5VX0y487
-         AiOg==
-X-Gm-Message-State: AOJu0YyKv6iqu61k+0pQEYrSV1oXmeOt8HbetGIDhFAOoz5eqFCTP23I
-        iQtiTUEaA9rqJmcYjDQDAMJajw==
-X-Google-Smtp-Source: AGHT+IFoAhU5Cs0xvXPtG7uTV1iy0I3SOLFGewWZ+KZawkMRIs4+1nopiCEkRO25IW2QkypAJvnF3Q==
-X-Received: by 2002:a05:600c:11d2:b0:405:409e:1fcb with SMTP id b18-20020a05600c11d200b00405409e1fcbmr43234wmi.5.1695656483646;
-        Mon, 25 Sep 2023 08:41:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695656830; x=1696261630;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3zTtm1hNuXbYkvFioZ7yQhrns3BNrHuUCR7GieW18ow=;
+        b=JPxLJwE/9b/7+/rmXxDEdN6T9KGm/NJIDM1ZA9P5nUpAdkON6yAC9/g+5z6j++V+2y
+         2plOPBKnmGbHDgrJtdB05fnIg+MBphysLltjTImheRqOrZqY08d/SosFSIU+QoAcIJNn
+         XkAGTahLrintOnfsVKqeT3KOS2n2hitqM5wcyDs10V/fDsaEIQEnPkmSXUyTLXpVVqk2
+         RwOCgoUjG0runK+QroViPl5rwdaSe3dFGQgdVuePRfPkQiPhEtM2An0LS69np/Zpvl3f
+         8Xt9ppvMlkIa4OvAFk39sEhdsnAqydtTQ6+/epGc5XJSJoy/8pTCZfN3sv3G8fi91/Pb
+         9XXA==
+X-Gm-Message-State: AOJu0Yzdxd5HXtVgVHPCvF4RN51x0GpAuUt6A1gcMFI0FSHrDiVju5lP
+        buFwy7HbKK7RyjyQVwfOjNZnbg==
+X-Google-Smtp-Source: AGHT+IHjbTFGMD/dQQacif74Tz17qX4YAWOvibP5tgZnCdqK8NA0RAcTy3YQNLi0s1Sn8DPiadrjYQ==
+X-Received: by 2002:a05:6000:146:b0:31f:e5b8:4693 with SMTP id r6-20020a056000014600b0031fe5b84693mr5732637wrx.25.1695656830473;
+        Mon, 25 Sep 2023 08:47:10 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id m15-20020a7bca4f000000b003fe4548188bsm15206155wml.48.2023.09.25.08.41.22
+        by smtp.gmail.com with ESMTPSA id d4-20020adffd84000000b0031f34a395e7sm12077536wrr.45.2023.09.25.08.47.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 08:41:23 -0700 (PDT)
+        Mon, 25 Sep 2023 08:47:10 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
+        rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
         andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v6 17/17] media: qcom: camss: Comment CSID dt_id field
-Date:   Mon, 25 Sep 2023 16:40:59 +0100
-Message-ID: <20230925154059.837152-18-bryan.odonoghue@linaro.org>
+Subject: [RESEND PATCH v6 00/17] media: qcom: camss: Add parameter passing to remove several outstanding bugs
+Date:   Mon, 25 Sep 2023 16:46:50 +0100
+Message-ID: <20230925154707.837542-1-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230925154059.837152-1-bryan.odonoghue@linaro.org>
-References: <20230925154059.837152-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -75,56 +72,188 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Digging into the documentation we find that the DT_ID bitfield is used to
-map the six bit DT to a two bit ID code. This value is concatenated to the
-VC bitfield to create a CID value. DT_ID is the two least significant bits
-of CID and VC the most significant bits.
+RESEND V6:
+- Resend to Robert's kernel.org address -> rfoss@kernel.org
 
-Originally we set dt_id = vc * 4 in and then subsequently set dt_id = vc.
+V6:
+- Adds Laurent's suggested comment verbatim to vfe_get() patch
+- Adds Laurent's RB
+- Extends array per Hans' found -Wformat-truncation
+- Rewords the CID comment to make it a bit clearer
 
-commit 3c4ed72a16bc ("media: camss: sm8250: Virtual channels for CSID")
-silently fixed the multiplication by four which would give a better
-value for the generated CID without mentioning what was being done or why.
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/media-stage-25-10-23-lenovo-x13s-v6.5-rc7-x13s-camss-patches-v6
 
-Next up I haplessly changed the value back to "dt_id = vc * 4" since there
-didn't appear to be any logic behind it.
+git remote add bod https://git.codelinaro.org/bryan.odonoghue/kernel.git
+git fetch bod
+git diff bod/linux-next-23-09-06-lenovo-x13s-v6.5-rc7-x13s-camss-patches-v5..bod/media-stage-25-10-23-lenovo-x13s-v6.5-rc7-x13s-camss-patches-v6 drivers/media/platform/qcom/camss
 
-Hans asked what the change was for and I honestly couldn't remember the
-provenance of it, so I dug in.
+git diff 
+V5:
+- drops ret = fn(); return ret; for return fn(); - Hans, Konrad
+Link: https://lore.kernel.org/linux-arm-msm/20230907164410.36651-16-bryan.odonoghue@linaro.org/
 
-Link: https://lore.kernel.org/linux-arm-msm/edd4bf9b-0e1b-883c-1a4d-50f4102c3924@xs4all.nl/
+Bootable:
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-09-06-lenovo-x13s-v6.5-rc7-x13s-camss-patches-v5
 
-Add a comment so the next hapless programmer doesn't make this same
-mistake.
+V4:
+- Adds additional Reviewed-by / Acked-by from Laurent and Konrad as indicated
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/camss-csid-gen2.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+- Updates commit log per Laurent suggestion not go on hunger strike
+  Link: https://lore.kernel.org/linux-arm-msm/20230828185110.GN14596@pendragon.ideasonboard.com/
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 6ba2b10326444..791f27b18c394 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -352,6 +352,18 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 		phy_sel = csid->phy.csiphy_id;
- 
- 	if (enable) {
-+		/*
-+		 * DT_ID is a two bit bitfield that is concatenated with
-+		 * the four least significant bits of the six bit VC
-+		 * bitfield to generate an internal CID value.
-+		 *
-+		 * CSID_RDI_CFG0(vc)
-+		 * DT_ID : 28:27
-+		 * VC    : 26:22
-+		 * DT    : 21:16
-+		 *
-+		 * CID   : VC 3:0 << 2 | DT_ID 1:0
-+		 */
- 		u8 dt_id = vc;
- 
- 		if (tg->enabled) {
+- Includes suggested changes to switch {} statements - Laurent
+  Link: https://lore.kernel.org/linux-media/d7745ece-bea1-f8f9-a1d2-0f01aa221ade@linaro.org/
+
+- Drops SoC specific vfe_get()/vfe_put() we have been using.
+  There is no need to differentiate on SoC since get/put reference count.
+  Link: https://lore.kernel.org/linux-media/62f78aac-c1e4-018c-93c2-4dac1ec7c688@linaro.org/
+
+- Changes the name of the generic struct resources to struct camss_subdev_resources - Laurent
+  Link: https://lore.kernel.org/lkml/20230828173055.GF14596@pendragon.ideasonboard.com/
+
+- media: qcom: camss: media: qcom: camss: Move vfe_disable into a common routine where applicable
+  Follows up on a comment from Laurent
+  Link: https://lore.kernel.org/linux-media/20230828171725.GZ14596@pendragon.ideasonboard.com/
+
+- media: qcom: camss: Propagate vfe_reset error up the callstack
+  Take the different approach to fixing the vfe_disable() routine doing nothing but returning 0
+  Per Konrad's correct comment on vfe_reset() error
+  Link: https://lore.kernel.org/linux-media/aaf9db49-54c4-4c27-8206-61e86ad560c2@linaro.org/
+
+- Restricts the length of buffer size for clock name string lookups - Konrad
+  Link: https://lore.kernel.org/linux-arm-msm/076d958f-2cf3-4a52-99a2-52a6cdd5443c@linaro.org/
+
+- Some outstanding issues not addressed in this series
+
+  * Clock name string lookups.
+    This warrants a standalone series - which will need yaml and dts changes to group clocks
+    by name across all supported SoCs.
+    This will then negate the string matching for clocks.
+    Link: https://lore.kernel.org/linux-arm-msm/3b3682be-5dbd-5e2d-a6c1-7bdf6d3ff8cd@linaro.org/
+
+  * Pixel formats are assigned via control strucutres not pointers from compat params
+    The struct resources stuff is still sub-optimal and it feels to me as if we should
+    do a bigger intervention to break away from a generic structure to subdevice specific
+    parameter structures. Such a subdevice specific structure would support passing pxiel
+    formats.
+
+  * We still need to follow up on having named genpds instead of magic indexes
+    Link: https://lore.kernel.org/lkml/b7e1d035-ee79-77c9-e81f-56fa8c2cf1df@linaro.org/
+
+  * More generally this driver allows for arbitrary connection of CSID, RDI
+    and VFE but, that is not how the hardware works. I believe other people
+    have works in progress to address some of this shortcoming separately.
+
+Bootable - includes tag for patches queued in Hans staging tree
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/22ed4a935d6d323e71b014a69bafd638ad53cb5c 
+
+V3:
+- Adds RB/AB as indicated - Konrad
+- Replaces >= SDM845 with helper function per discussion - bod/Konrad
+- Leaves out constraining VFE clock names sizes. A full pass for resource strings will happen later. - bod
+- Clarifies commit log resulting in updated patch title also
+  "Add support for setting CSIPHY clock name csiphyX"
+  ->
+  "Fix support for setting CSIPHY clock name csiphyX"
+- Adds patch to remove dead integer return type in vfe_disable()
+- Adds patch to comment CSID dt_id meanining which I personally find non-obvious right now - bod
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/09e7805a733b488c5dc19b301eb3b77cb0fad3d6
+
+V2:
+- Replaces &camss->res with pointer to res - Konrad
+- Squashes patch for NULL removal - Konrad
+- Left suggestion on ICC initialisation points alone, doesn't seem to fit Konrad/bod
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-08-07-db410c-rb3-camss-dts-v3+maintenance-bugfixes-v2
+
+V1:
+- I forgot to include patch # 14 in V0 of this series.
+  This patch leverages previous changes to unwind the fixed polling of
+  RDI[0..2] allowing driver data to articulate on a per-VFE basis how many
+  RDIs to poll.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-08-07-db410c-rb3-camss-dts-v3+maintenance-bugfixes-v1
+
+V0:
+This second series of bugfixes stacks ontop of the Fixes series sent earlier.
+
+Link: https://lore.kernel.org/linux-arm-msm/20230814141007.3721197-1-bryan.odonoghue@linaro.org/T/#t
+
+Rather than send both series as one giant series, I opted to send a pure
+Fixes series above, with this second series a non-backport series i.e. no
+Fixes tags in this series.
+
+The existing CAMSS code relies on some hard-coded parameters buried inside
+of the driver, instead of passed via compat .data as arguably ought to be
+the case.
+
+This brittle model is an extending morass of spaghetti code. More than that
+in CAMSS Video Front Ends (VFEs) and the number of Raw Data Interfaces
+(RDIs) per VFE can vary from SoC to SoC. Indeed sm8250 has VFE and VFE Lite
+blocks which have a different number of RDIs per block.
+
+The use of defines as opposed to per-compat parameters inside of ISRs leads
+to either under-polling or over-polling the number of RDIs.
+
+On top of all of that we have some hard-coded statements for clock names
+which breaks easily.
+
+We can solve the under/over polling loop problem by transitioning loop
+controls from macros to parameters passed via probe().
+
+Similarly and unsurprisingly we can also solve the hard-coded clock problem
+by adding some string processing routines that take passed arguments.
+
+There is still some additional maintenance work to be done in this driver
+but before adding one more SoC the code needs to be made more extensible
+and less brittle.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/dc346c7f46c0680bcfb84fded6db97497fffe49a
+
+Bryan O'Donoghue (17):
+  media: qcom: camss: Amalgamate struct resource with struct
+    resource_ispif
+  media: qcom: camss: Rename camss struct resources to
+    camss_subdev_resources
+  media: qcom: camss: Start to move to module compat matched resources
+  media: qcom: camss: Pass icc bandwidth table as a platform parameter
+  media: qcom: camss: Pass remainder of variables as resources
+  media: qcom: camss: Pass line_num from compat resources
+  media: qcom: camss: Pass CAMSS subdev callbacks via resource ops
+    pointer
+  media: qcom: camss: Assign the correct number of RDIs per VFE
+  media: qcom: camss: Remove special case for VFE get/put
+  media: qcom: camss: Untangle if/else spaghetti in camss
+  media: qcom: camss: Allow clocks vfeN vfe_liteN or vfe_lite
+  media: qcom: camss: Functionally decompose CSIPHY clock lookups
+  media: qcom: camss: Fix support for setting CSIPHY clock name csiphyX
+  media: qcom: camss: Support RDI3 for VFE 17x
+  media: qcom: camss: Move vfe_disable into a common routine where
+    applicable
+  media: qcom: camss: Propagate vfe_reset error up the callstack
+  media: qcom: camss: Comment CSID dt_id field
+
+ .../platform/qcom/camss/camss-csid-gen2.c     |  12 +
+ .../media/platform/qcom/camss/camss-csid.c    |  33 +-
+ .../media/platform/qcom/camss/camss-csid.h    |   4 +-
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |   8 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |  67 +--
+ .../media/platform/qcom/camss/camss-csiphy.h  |   4 +-
+ .../media/platform/qcom/camss/camss-ispif.c   |  32 +-
+ .../media/platform/qcom/camss/camss-ispif.h   |   4 +-
+ .../media/platform/qcom/camss/camss-vfe-170.c |  57 +--
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-4-7.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-4-8.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-480.c |  45 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c | 127 ++++--
+ drivers/media/platform/qcom/camss/camss-vfe.h |  15 +-
+ .../media/platform/qcom/camss/camss-video.c   |  17 +-
+ drivers/media/platform/qcom/camss/camss.c     | 429 ++++++++++--------
+ drivers/media/platform/qcom/camss/camss.h     |  34 +-
+ 18 files changed, 462 insertions(+), 432 deletions(-)
+
 -- 
 2.42.0
 
