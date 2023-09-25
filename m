@@ -2,123 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B198E7AD23C
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 09:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6C6C7AD286
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 09:59:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232538AbjIYHqc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 03:46:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
+        id S232541AbjIYH7n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 03:59:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232592AbjIYHqW (ORCPT
+        with ESMTP id S232544AbjIYH7m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 03:46:22 -0400
-Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FCAC11B
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 00:45:48 -0700 (PDT)
-Received: by mail-ua1-x936.google.com with SMTP id a1e0cc1a2514c-7ab9ad973e6so950159241.1
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 00:45:48 -0700 (PDT)
+        Mon, 25 Sep 2023 03:59:42 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1284100
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 00:59:34 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-3214cdb4b27so5468098f8f.1
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 00:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695627947; x=1696232747; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5mPPOD2/eXSwHT+TaXg7FJ8AbpONpDvarYE+1SHxNYM=;
-        b=jM7PDkhitmr9M2ZE/HPlpywXlMBep2PCuDebSZXoaU0bZAVMOKC4JBTe5wHARdEDI8
-         gTuMGf7zZEYVgJGPVKP1joIllOL/g1sxxFqZ6C005UNs0qGZCP1DOObn1/Bm61ln/VCK
-         wjU/1mpdlhs7Zy50Qcd2qvtgidTQzpZA0cOah1dF1v1K91VRoXcNIiK8PDB+UiWNiafk
-         RKAI2f9hzWqFvBj9I4MNH5IR+ihE4vCLm8mNdXtopbF9JENrOiXHcJ/oR7mn3mUtblct
-         6yN7tvTKARMNHxxFdS6q4sxazBzn5B1Gsj1y4P1BPYjk3C/K1nnAHSTOk/+9Z8QtyDkL
-         G1KA==
+        d=linaro.org; s=google; t=1695628773; x=1696233573; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=75w5kNl0BQvti/V97KLToabGdtI+OVnIPyxYO7hlKPU=;
+        b=wf8wS0BUt93iu4mWIR5dIdUAel/AKn4GwQRnr+xmt+R2sGQfq99yJPkBdORtX8xN9K
+         zNEPHxtOkxPnyxQ3eB0BQn2bRVY08ebtrWWP63ovrGQrxvbtfVj0Ka+zrO0IkIJOkGU+
+         QV8JuU8t6ACk5pwmmHtkezY8SIF1ge31d/osJRqP4eaigPp16SV4jfx8xI5Wdke+3JJ/
+         56SxCJCU0O9lv3oAbyeC5VhxFd4h0Hp/i0yQaSkoQRGUMWAmnKjxc/1tKfi8c5So5Xob
+         Hk+1lKp8skhg88lUr4DLO4kAXyiraBxVdbPOp3QHBPZjsxg7tiL4Nh7ZRM2z8mjKAyZD
+         56iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695627947; x=1696232747;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5mPPOD2/eXSwHT+TaXg7FJ8AbpONpDvarYE+1SHxNYM=;
-        b=w0hlrja9vEFQAJ9lTNcyveq7P4GlihupaFR7qh9ZQlzZ3cDtuS7vqpO3gEi487EVji
-         grWzr68xapnliFDoyyl9She2HbiXR5Cfw3KQOZT5TJt6SkbpwBijJDqsMvMfv+NmQ2zx
-         UcMDpqxNGeQNFmfHiN0B69uNYxI4AClleuo8j/OndcoBwZCSKY7kMs3/SErc3yMxgxlQ
-         93naEmZmuIKQMFSi62/PAkaS5M+9qjCYwKHcDvcGM5/j33yW4apPn7QTQ3i5XHV9x2pz
-         6U8joaS+Do0P/tpxGxQZyYPWzJIU0qOQzaNxbItM2pGcN3+MctZT9pD5R2lrR+/7q0po
-         6YtQ==
-X-Gm-Message-State: AOJu0YzKve4ZSL6Oe1C3hyECRvChQhKMXfJp7FuM0gD3ZXCLhszcxIap
-        FbJgY+xBjeGLl3VGtUn4l68f+W2+0OxxKYCZJVc=
-X-Google-Smtp-Source: AGHT+IG6BtByBxaleZxhMgqiDLHEdOVboilxLJgye6qh6nIBUG8cd8H/xYZxJTGn5u7whgFHUnmSh7H3Bb7KET0VhHY=
-X-Received: by 2002:a05:6122:2228:b0:49a:3538:1908 with SMTP id
- bb40-20020a056122222800b0049a35381908mr1531966vkb.1.1695627947438; Mon, 25
- Sep 2023 00:45:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695628773; x=1696233573;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=75w5kNl0BQvti/V97KLToabGdtI+OVnIPyxYO7hlKPU=;
+        b=dw4Jt9Zx9laO3b9vM8xp+aHWSJxjwzqPVCOhGkIRqPRn11w5gzkzbHhnKSCTvlE+EO
+         axwL9/uVN2ltk0JP8jiy3GVumoGr7JDBv/yywceEMfoa938IbZklgLbg0YMnHO9gZE0f
+         JUmj8eRfp1oIS9fu96thtw+ieN+S6s6j9w1jf27LCGdM5sxTK3Kz+xOOOIjMpuilgk/x
+         VDRP7YUpk3iqq06KYI8yr2iKo4rf73oKf7WpL+KUhg40O9T694xhLG7rMXDWihURPD83
+         RvY2Z50o+SDr4q+P9YE4HYXE2F+MSrglQTrMZP5Bi1nKtZA78IUNkAsIZWzZ255k0RsC
+         Plag==
+X-Gm-Message-State: AOJu0YwaJ9LUauxYY0jm7Wn2kHPtsCvnElFXZ9QGh9K/tG5IXJu2C6N4
+        B7kDVOyRy7fNzp3sMNLAxmQaBw==
+X-Google-Smtp-Source: AGHT+IGcqHAEgffz32lX5YyQAZ+BccCI3Q9ud+4Vq9WJdBZVHgp1QvvJI8oAp0aqOvg6u0WU8w9pDg==
+X-Received: by 2002:a05:6000:11c6:b0:321:6779:944d with SMTP id i6-20020a05600011c600b003216779944dmr4688837wrx.47.1695628773269;
+        Mon, 25 Sep 2023 00:59:33 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.100])
+        by smtp.gmail.com with ESMTPSA id p2-20020a5d68c2000000b0031431fb40fasm11126460wrw.89.2023.09.25.00.59.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Sep 2023 00:59:32 -0700 (PDT)
+Message-ID: <417559ec-5e21-4fba-b001-3f230a087e20@linaro.org>
+Date:   Mon, 25 Sep 2023 09:59:30 +0200
 MIME-Version: 1.0
-References: <20230923152107.283289-1-hverkuil-cisco@xs4all.nl> <20230923152107.283289-19-hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230923152107.283289-19-hverkuil-cisco@xs4all.nl>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 25 Sep 2023 08:45:21 +0100
-Message-ID: <CA+V-a8tmFYs=Pw52y2Xo_WeGh_nE0v-MNNx07sJiq17ebeArZA@mail.gmail.com>
-Subject: Re: [PATCHv2 18/23] media: am437x: don't fill in bus_info
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] arm64: dts: imx8-ss-img: Assign slot for imx jpeg
+ encoder/decoder
+To:     Ming Qian <ming.qian@nxp.com>, mirela.rabulea@oss.nxp.com,
+        robh+dt@kernel.org, shawnguo@kernel.org
+Cc:     krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+        linux-imx@nxp.com, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230925074131.10133-1-ming.qian@nxp.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20230925074131.10133-1-ming.qian@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Sep 23, 2023 at 4:21=E2=80=AFPM Hans Verkuil <hverkuil-cisco@xs4all=
-.nl> wrote:
->
-> Let the V4L2 core fill this in.
->
-> This fixes this warning:
->
-> drivers/media/platform/ti/am437x/am437x-vpfe.c: In function 'vpfe_queryca=
-p':
-> drivers/media/platform/ti/am437x/am437x-vpfe.c:1279:35: warning: '%s' dir=
-ective output may be truncated writing up to 35 bytes into a region of size=
- 23 [-Wformat-truncation=3D]
->  1279 |                         "platform:%s", vpfe->v4l2_dev.name);
->       |                                   ^~
-> drivers/media/platform/ti/am437x/am437x-vpfe.c:1278:9: note: 'snprintf' o=
-utput between 10 and 45 bytes into a destination of size 32
->  1278 |         snprintf(cap->bus_info, sizeof(cap->bus_info),
->       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  1279 |                         "platform:%s", vpfe->v4l2_dev.name);
->       |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-> ---
->  drivers/media/platform/ti/am437x/am437x-vpfe.c | 4 ----
->  1 file changed, 4 deletions(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
+On 25/09/2023 09:41, Ming Qian wrote:
+> There are total 4 slots available in the IP,
+> and we only need to use one slot in one os,
+> assign a single slot for imx jpeg device node,
+> configure interrupt and power domain only for 1 slot,
+> not for the all 4 slots.
 
-Cheers,
-Prabhakar
+Still not properly wrapped.
 
-> diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/med=
-ia/platform/ti/am437x/am437x-vpfe.c
-> index 63092013d476..5fa2ea9025d9 100644
-> --- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> +++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> @@ -1271,12 +1271,8 @@ static inline void vpfe_attach_irq(struct vpfe_dev=
-ice *vpfe)
->  static int vpfe_querycap(struct file *file, void  *priv,
->                          struct v4l2_capability *cap)
->  {
-> -       struct vpfe_device *vpfe =3D video_drvdata(file);
-> -
->         strscpy(cap->driver, VPFE_MODULE_NAME, sizeof(cap->driver));
->         strscpy(cap->card, "TI AM437x VPFE", sizeof(cap->card));
-> -       snprintf(cap->bus_info, sizeof(cap->bus_info),
-> -                       "platform:%s", vpfe->v4l2_dev.name);
->         return 0;
->  }
->
-> --
-> 2.40.1
->
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
+Also, no changelog, so did you skipped feedback?
+
+
+Best regards,
+Krzysztof
+
