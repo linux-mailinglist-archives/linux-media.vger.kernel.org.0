@@ -2,74 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B72627AD10E
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 09:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3610D7AD123
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 09:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232357AbjIYHHE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 03:07:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35258 "EHLO
+        id S232438AbjIYHLE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 03:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232229AbjIYHHD (ORCPT
+        with ESMTP id S232426AbjIYHLB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 03:07:03 -0400
+        Mon, 25 Sep 2023 03:11:01 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1F39A3
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 00:06:56 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7E77C433C8;
-        Mon, 25 Sep 2023 07:06:55 +0000 (UTC)
-Message-ID: <b9e4dbea-2f90-4221-b65f-25e4d42056fd@xs4all.nl>
-Date:   Mon, 25 Sep 2023 09:06:54 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B26C9B8;
+        Mon, 25 Sep 2023 00:10:54 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12C41C433C7;
+        Mon, 25 Sep 2023 07:10:51 +0000 (UTC)
+Message-ID: <936acf18-b961-40e3-b68b-f1c679961d67@xs4all.nl>
+Date:   Mon, 25 Sep 2023 09:10:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 11/17] media: qcom: camss: Allow clocks vfeN vfe_liteN
+ or vfe_lite
 Content-Language: en-US, nl
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: New atomisp compiler warning
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, rfoss@kernel.org,
+        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230911131411.196033-1-bryan.odonoghue@linaro.org>
+ <20230911131411.196033-12-bryan.odonoghue@linaro.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230911131411.196033-12-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
@@ -81,36 +46,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On 11/09/2023 15:14, Bryan O'Donoghue wrote:
+> The number of Video Front End - VFE or Image Front End - IFE supported
+> with new SoCs can vary both for the full and lite cases.
+> 
+> For example sdm845 has one vfe_lite and two vfe interfaces with the vfe
+> clock called simply "vfe_lite" with no integer postfix. sc8280xp has four
+> vfe and four vfe lite blocks.
+> 
+> At the moment we declare vfe_lite0 and vfe_lite1 for sm8250 but never set
+> those clocks because we don't match the strings.
+> 
+> We need to support the following clock name formats
+> 
+> - vfeN
+> - vfe_liteN
+> - vfe_lite
+> 
+> with N being any reasonably sized integer.
+> 
+> There are two sites in this code which need to do the same thing,
+> constructing and matching strings with the pattern above, so encapsulate
+> the logic in one function.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  drivers/media/platform/qcom/camss/camss-vfe.c | 22 ++++++++++++++-----
+>  1 file changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+> index db8f68819ded9..f3cf387e4907e 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+> @@ -431,6 +431,20 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
+>  	complete(&vfe->reset_complete);
+>  }
+>  
+> +static int vfe_match_clock_names(struct vfe_device *vfe,
+> +				 struct camss_clock *clock)
+> +{
+> +	char vfe_name[6]; /* vfeXX\0 */
+> +	char vfe_lite_name[11]; /* vfe_liteXX\0 */
+> +
+> +	snprintf(vfe_name, sizeof(vfe_name), "vfe%d", vfe->id);
+> +	snprintf(vfe_lite_name, sizeof(vfe_lite_name), "vfe_lite%d", vfe->id);
+> +
+> +	return (!strcmp(clock->name, vfe_name) ||
+> +		!strcmp(clock->name, vfe_lite_name) ||
+> +		!strcmp(clock->name, "vfe_lite"));
+> +}
 
-Since the last merge of atomisp changes I get this new compiler warning:
+I'm getting this compiler warning:
 
-In file included from include/linux/string.h:254,
-                 from include/linux/bitmap.h:11,
-                 from include/linux/cpumask.h:12,
-                 from arch/x86/include/asm/paravirt.h:17,
-                 from arch/x86/include/asm/cpuid.h:62,
-                 from arch/x86/include/asm/processor.h:19,
-                 from arch/x86/include/asm/cpufeature.h:5,
-                 from arch/x86/include/asm/thread_info.h:53,
-                 from include/linux/thread_info.h:60,
-                 from arch/x86/include/asm/preempt.h:9,
-                 from include/linux/preempt.h:79,
-                 from include/linux/spinlock.h:56,
-                 from include/linux/mmzone.h:8,
-                 from include/linux/gfp.h:7,
-                 from include/linux/slab.h:16,
-                 from drivers/staging/media/atomisp//include/hmm/hmm.h:26,
-                 from drivers/staging/media/atomisp/pci/sh_css_params.c:26:
-In function 'fortify_memcpy_chk',
-    inlined from 'sh_css_store_sp_group_to_ddr' at drivers/staging/media/atomisp/pci/sh_css_params.c:3736:3:
-include/linux/fortify-string.h:592:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()?
-[-Wattribute-warning]
-  592 |                         __read_overflow2_field(q_size_field, size);
-      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/media/platform/qcom/camss/camss-vfe.c: In function 'vfe_match_clock_names':
+drivers/media/platform/qcom/camss/camss-vfe.c:483:52: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+  483 |         snprintf(vfe_name, sizeof(vfe_name), "vfe%d", vfe->id);
+      |                                                    ^
 
-Can you take a look?
+Since vfe->id is a u8 I would just increase both the vfe_name and vfe_lite_name
+sizes by 1.
 
 Regards,
 
 	Hans
+
+> +
+>  /*
+>   * vfe_set_clock_rates - Calculate and set clock rates on VFE module
+>   * @vfe: VFE device
+> @@ -454,9 +468,7 @@ static int vfe_set_clock_rates(struct vfe_device *vfe)
+>  	for (i = 0; i < vfe->nclocks; i++) {
+>  		struct camss_clock *clock = &vfe->clock[i];
+>  
+> -		if (!strcmp(clock->name, "vfe0") ||
+> -		    !strcmp(clock->name, "vfe1") ||
+> -		    !strcmp(clock->name, "vfe_lite")) {
+> +		if (vfe_match_clock_names(vfe, clock)) {
+>  			u64 min_rate = 0;
+>  			long rate;
+>  
+> @@ -537,9 +549,7 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
+>  	for (i = 0; i < vfe->nclocks; i++) {
+>  		struct camss_clock *clock = &vfe->clock[i];
+>  
+> -		if (!strcmp(clock->name, "vfe0") ||
+> -		    !strcmp(clock->name, "vfe1") ||
+> -		    !strcmp(clock->name, "vfe_lite")) {
+> +		if (vfe_match_clock_names(vfe, clock)) {
+>  			u64 min_rate = 0;
+>  			unsigned long rate;
+>  
+
