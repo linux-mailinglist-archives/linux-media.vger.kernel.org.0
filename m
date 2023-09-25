@@ -2,461 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDBC17AD81D
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 14:35:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BFAF7ADABD
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 16:56:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229924AbjIYMgD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 08:36:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43896 "EHLO
+        id S232443AbjIYO4o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 10:56:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbjIYMgC (ORCPT
+        with ESMTP id S231502AbjIYO4n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 08:36:02 -0400
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BAD03FC;
-        Mon, 25 Sep 2023 05:35:52 -0700 (PDT)
-Received: from localhost.localdomain (host-178-72-203-85.ip.nej.cz [178.72.203.85])
-        by mx.gpxsee.org (Postfix) with ESMTPSA id 95C011B47;
-        Mon, 25 Sep 2023 14:35:49 +0200 (CEST)
-From:   tumic@gpxsee.org
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-Subject: [PATCH v11 2/2] Added Digiteq Automotive MGB4 driver documentation
-Date:   Mon, 25 Sep 2023 16:36:05 +0200
-Message-Id: <20230925143605.4686-3-tumic@gpxsee.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230925143605.4686-1-tumic@gpxsee.org>
-References: <20230925143605.4686-1-tumic@gpxsee.org>
+        Mon, 25 Sep 2023 10:56:43 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D0BA103;
+        Mon, 25 Sep 2023 07:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695653796; x=1727189796;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a6827gPuavvfahrs3++OAZrS8oURq6/e0qMe/+jqp5A=;
+  b=K+v/lVGb9U45HYy3QV1s7VFqJvT1egSKpbnG6U3Yl9uCnhMw9hshu6KB
+   g/PfPs1ZiCV4MWPjR7r95tkCWe+OvnrN1Y5g3EqXh4kyuMiais5PoPhw4
+   tEubzsbgHFn46YD1tL5d0c+1Q0t+B4iimXtFfhdCpvhGArlkqM72Nqex+
+   o4zwPt1LfEAilsYLbF383uNM1pb9WOUtcjv6gg71UzaSwzzq8njRhVGGP
+   tHc9Oo/G1t+/IZmD/thWaajzfSBVNDRi2umWk0aiI4D8SA6Uw0+qDg7nE
+   z03wdPrMpfrSECvO1jJuoXw37O/cScN0MI62jB7L5AD1C7f9uETxi2zAA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="447761334"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="447761334"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2023 07:56:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="777671146"
+X-IronPort-AV: E=Sophos;i="6.03,175,1694761200"; 
+   d="scan'208";a="777671146"
+Received: from lkp-server02.sh.intel.com (HELO 32c80313467c) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 25 Sep 2023 07:56:25 -0700
+Received: from kbuild by 32c80313467c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qkn0Y-0001cV-1f;
+        Mon, 25 Sep 2023 14:56:22 +0000
+Date:   Mon, 25 Sep 2023 22:55:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, George Sun <george.sun@mediatek.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size
+ of 1420 bytes is larger than 1024 bytes
+Message-ID: <202309252201.HKvcjHQ6-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+Hi Yunfei,
 
-The "admin-guide" documentation for the Digiteq Automotive MGB4 driver.
+FYI, the error/warning still remains.
 
-Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
----
- Documentation/admin-guide/media/mgb4.rst      | 374 ++++++++++++++++++
- .../admin-guide/media/pci-cardlist.rst        |   1 +
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- 3 files changed, 376 insertions(+)
- create mode 100644 Documentation/admin-guide/media/mgb4.rst
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6465e260f48790807eef06b583b38ca9789b6072
+commit: 5d418351ca8f17defa1170d968df161c35b810e3 media: mediatek: vcodec: support stateless VP9 decoding
+date:   1 year, 4 months ago
+config: csky-randconfig-r012-20220120 (https://download.01.org/0day-ci/archive/20230925/202309252201.HKvcjHQ6-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230925/202309252201.HKvcjHQ6-lkp@intel.com/reproduce)
 
-diff --git a/Documentation/admin-guide/media/mgb4.rst b/Documentation/admin-guide/media/mgb4.rst
-new file mode 100644
-index 000000000000..2977f74d7e26
---- /dev/null
-+++ b/Documentation/admin-guide/media/mgb4.rst
-@@ -0,0 +1,374 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+mgb4 sysfs interface
-+====================
-+
-+The mgb4 driver provides a sysfs interface, that is used to configure video
-+stream related parameters (some of them must be set properly before the v4l2
-+device can be opened) and obtain the video device/stream status.
-+
-+There are two types of parameters - global / PCI card related, found under
-+``/sys/class/video4linux/videoX/device`` and module specific found under
-+``/sys/class/video4linux/videoX``.
-+
-+
-+Global (PCI card) parameters
-+============================
-+
-+**module_type** (R):
-+    Module type.
-+
-+    | 0 - No module present
-+    | 1 - FPDL3
-+    | 2 - GMSL
-+
-+**module_version** (R):
-+    Module version number. Zero in case of a missing module.
-+
-+**fw_type** (R):
-+    Firmware type.
-+
-+    | 1 - FPDL3
-+    | 2 - GMSL
-+
-+**fw_version** (R):
-+    Firmware version number.
-+
-+**serial_number** (R):
-+    Card serial number. The format is::
-+
-+        PRODUCT-REVISION-SERIES-SERIAL
-+
-+    where each component is a 8b number.
-+
-+
-+Common FPDL3/GMSL input parameters
-+==================================
-+
-+**input_id** (R):
-+    Input number ID, zero based.
-+
-+**oldi_lane_width** (RW):
-+    Number of deserializer output lanes.
-+
-+    | 0 - single
-+    | 1 - dual (default)
-+
-+**color_mapping** (RW):
-+    Mapping of the incoming bits in the signal to the colour bits of the pixels.
-+
-+    | 0 - OLDI/JEIDA
-+    | 1 - SPWG/VESA (default)
-+
-+**link_status** (R):
-+    Video link status. If the link is locked, chips are properly connected and
-+    communicating at the same speed and protocol. The link can be locked without
-+    an active video stream.
-+
-+    A value of 0 is equivalent to the V4L2_IN_ST_NO_SYNC flag of the V4L2
-+    VIDIOC_ENUMINPUT status bits.
-+
-+    | 0 - unlocked
-+    | 1 - locked
-+
-+**stream_status** (R):
-+    Video stream status. A stream is detected if the link is locked, the input
-+    pixel clock is running and the DE signal is moving.
-+
-+    A value of 0 is equivalent to the V4L2_IN_ST_NO_SIGNAL flag of the V4L2
-+    VIDIOC_ENUMINPUT status bits.
-+
-+    | 0 - not detected
-+    | 1 - detected
-+
-+**video_width** (R):
-+    Video stream width. This is the actual width as detected by the HW.
-+
-+    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in the width
-+    field of the v4l2_bt_timings struct.
-+
-+**video_height** (R):
-+    Video stream height. This is the actual height as detected by the HW.
-+
-+    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in the height
-+    field of the v4l2_bt_timings struct.
-+
-+**vsync_status** (R):
-+    The type of VSYNC pulses as detected by the video format detector.
-+
-+    The value is equivalent to the flags returned by VIDIOC_QUERY_DV_TIMINGS in
-+    the polarities field of the v4l2_bt_timings struct.
-+
-+    | 0 - active low
-+    | 1 - active high
-+    | 2 - not available
-+
-+**hsync_status** (R):
-+    The type of HSYNC pulses as detected by the video format detector.
-+
-+    The value is equivalent to the flags returned by VIDIOC_QUERY_DV_TIMINGS in
-+    the polarities field of the v4l2_bt_timings struct.
-+
-+    | 0 - active low
-+    | 1 - active high
-+    | 2 - not available
-+
-+**vsync_gap_length** (RW):
-+    If the incoming video signal does not contain synchronization VSYNC and
-+    HSYNC pulses, these must be generated internally in the FPGA to achieve
-+    the correct frame ordering. This value indicates, how many "empty" pixels
-+    (pixels with deasserted Data Enable signal) are necessary to generate the
-+    internal VSYNC pulse.
-+
-+**hsync_gap_length** (RW):
-+    If the incoming video signal does not contain synchronization VSYNC and
-+    HSYNC pulses, these must be generated internally in the FPGA to achieve
-+    the correct frame ordering. This value indicates, how many "empty" pixels
-+    (pixels with deasserted Data Enable signal) are necessary to generate the
-+    internal HSYNC pulse. The value must be greater than 1 and smaller than
-+    vsync_gap_length.
-+
-+**pclk_frequency** (R):
-+    Input pixel clock frequency in kHz.
-+
-+    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
-+    the pixelclock field of the v4l2_bt_timings struct.
-+
-+    *Note: The frequency_range parameter must be set properly first to get
-+    a valid frequency here.*
-+
-+**hsync_width** (R):
-+    Width of the HSYNC signal in PCLK clock ticks.
-+
-+    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
-+    the hsync field of the v4l2_bt_timings struct.
-+
-+**vsync_width** (R):
-+    Width of the VSYNC signal in PCLK clock ticks.
-+
-+    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
-+    the vsync field of the v4l2_bt_timings struct.
-+
-+**hback_porch** (R):
-+    Number of PCLK pulses between deassertion of the HSYNC signal and the first
-+    valid pixel in the video line (marked by DE=1).
-+
-+    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
-+    the hbackporch field of the v4l2_bt_timings struct.
-+
-+**hfront_porch** (R):
-+    Number of PCLK pulses between the end of the last valid pixel in the video
-+    line (marked by DE=1) and assertion of the HSYNC signal.
-+
-+    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
-+    the hfrontporch field of the v4l2_bt_timings struct.
-+
-+**vback_porch** (R):
-+    Number of video lines between deassertion of the VSYNC signal and the video
-+    line with the first valid pixel (marked by DE=1).
-+
-+    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
-+    the vbackporch field of the v4l2_bt_timings struct.
-+
-+**vfront_porch** (R):
-+    Number of video lines between the end of the last valid pixel line (marked
-+    by DE=1) and assertion of the VSYNC signal.
-+
-+    The value is identical to what VIDIOC_QUERY_DV_TIMINGS returns in
-+    the vfrontporch field of the v4l2_bt_timings struct.
-+
-+**frequency_range** (RW)
-+    PLL frequency range of the OLDI input clock generator. The PLL frequency is
-+    derived from the Pixel Clock Frequency (PCLK) and is equal to PCLK if
-+    oldi_lane_width is set to "single" and PCLK/2 if oldi_lane_width is set to
-+    "dual".
-+
-+    | 0 - PLL < 50MHz (default)
-+    | 1 - PLL >= 50MHz
-+
-+    *Note: This parameter can not be changed while the input v4l2 device is
-+    open.*
-+
-+
-+Common FPDL3/GMSL output parameters
-+===================================
-+
-+**output_id** (R):
-+    Output number ID, zero based.
-+
-+**video_source** (RW):
-+    Output video source. If set to 0 or 1, the source is the corresponding card
-+    input and the v4l2 output devices are disabled. If set to 2 or 3, the source
-+    is the corresponding v4l2 video output device. The default is
-+    the corresponding v4l2 output, i.e. 2 for OUT1 and 3 for OUT2.
-+
-+    | 0 - input 0
-+    | 1 - input 1
-+    | 2 - v4l2 output 0
-+    | 3 - v4l2 output 1
-+
-+    *Note: This parameter can not be changed while ANY of the input/output v4l2
-+    devices is open.*
-+
-+**display_width** (RW):
-+    Display width. There is no autodetection of the connected display, so the
-+    proper value must be set before the start of streaming. The default width
-+    is 1280.
-+
-+    *Note: This parameter can not be changed while the output v4l2 device is
-+    open.*
-+
-+**display_height** (RW):
-+    Display height. There is no autodetection of the connected display, so the
-+    proper value must be set before the start of streaming. The default height
-+    is 640.
-+
-+    *Note: This parameter can not be changed while the output v4l2 device is
-+    open.*
-+
-+**frame_rate** (RW):
-+    Output video frame rate in frames per second. The default frame rate is
-+    60Hz.
-+
-+**hsync_polarity** (RW):
-+    HSYNC signal polarity.
-+
-+    | 0 - active low (default)
-+    | 1 - active high
-+
-+**vsync_polarity** (RW):
-+    VSYNC signal polarity.
-+
-+    | 0 - active low (default)
-+    | 1 - active high
-+
-+**de_polarity** (RW):
-+    DE signal polarity.
-+
-+    | 0 - active low
-+    | 1 - active high (default)
-+
-+**pclk_frequency** (RW):
-+    Output pixel clock frequency. Allowed values are between 25000-190000(kHz)
-+    and there is a non-linear stepping between two consecutive allowed
-+    frequencies. The driver finds the nearest allowed frequency to the given
-+    value and sets it. When reading this property, you get the exact
-+    frequency set by the driver. The default frequency is 70000kHz.
-+
-+    *Note: This parameter can not be changed while the output v4l2 device is
-+    open.*
-+
-+**hsync_width** (RW):
-+    Width of the HSYNC signal in pixels. The default value is 16.
-+
-+**vsync_width** (RW):
-+    Width of the VSYNC signal in video lines. The default value is 2.
-+
-+**hback_porch** (RW):
-+    Number of PCLK pulses between deassertion of the HSYNC signal and the first
-+    valid pixel in the video line (marked by DE=1). The default value is 32.
-+
-+**hfront_porch** (RW):
-+    Number of PCLK pulses between the end of the last valid pixel in the video
-+    line (marked by DE=1) and assertion of the HSYNC signal. The default value
-+    is 32.
-+
-+**vback_porch** (RW):
-+    Number of video lines between deassertion of the VSYNC signal and the video
-+    line with the first valid pixel (marked by DE=1). The default value is 2.
-+
-+**vfront_porch** (RW):
-+    Number of video lines between the end of the last valid pixel line (marked
-+    by DE=1) and assertion of the VSYNC signal. The default value is 2.
-+
-+
-+FPDL3 specific input parameters
-+===============================
-+
-+**fpdl3_input_width** (RW):
-+    Number of deserializer input lines.
-+
-+    | 0 - auto (default)
-+    | 1 - single
-+    | 2 - dual
-+
-+FPDL3 specific output parameters
-+================================
-+
-+**fpdl3_output_width** (RW):
-+    Number of serializer output lines.
-+
-+    | 0 - auto (default)
-+    | 1 - single
-+    | 2 - dual
-+
-+GMSL specific input parameters
-+==============================
-+
-+**gmsl_mode** (RW):
-+    GMSL speed mode.
-+
-+    | 0 - 12Gb/s (default)
-+    | 1 - 6Gb/s
-+    | 2 - 3Gb/s
-+    | 3 - 1.5Gb/s
-+
-+**gmsl_stream_id** (RW):
-+    The GMSL multi-stream contains up to four video streams. This parameter
-+    selects which stream is captured by the video input. The value is the
-+    zero-based index of the stream. The default stream id is 0.
-+
-+    *Note: This parameter can not be changed while the input v4l2 device is
-+    open.*
-+
-+**gmsl_fec** (RW):
-+    GMSL Forward Error Correction (FEC).
-+
-+    | 0 - disabled
-+    | 1 - enabled (default)
-+
-+
-+====================
-+mgb4 mtd partitions
-+====================
-+
-+The mgb4 driver creates a MTD device with two partitions:
-+ - mgb4-fw.X - FPGA firmware.
-+ - mgb4-data.X - Factory settings, e.g. card serial number.
-+
-+The *mgb4-fw* partition is writable and is used for FW updates, *mgb4-data* is
-+read-only. The *X* attached to the partition name represents the card number.
-+Depending on the CONFIG_MTD_PARTITIONED_MASTER kernel configuration, you may
-+also have a third partition named *mgb4-flash* available in the system. This
-+partition represents the whole, unpartitioned, card's FLASH memory and one should
-+not fiddle with it...
-+
-+====================
-+mgb4 iio (triggers)
-+====================
-+
-+The mgb4 driver creates an Industrial I/O (IIO) device that provides trigger and
-+signal level status capability. The following scan elements are available:
-+
-+**activity**:
-+	The trigger levels and pending status.
-+
-+	| bit 1 - trigger 1 pending
-+	| bit 2 - trigger 2 pending
-+	| bit 5 - trigger 1 level
-+	| bit 6 - trigger 2 level
-+
-+**timestamp**:
-+	The trigger event timestamp.
-+
-+The iio device can operate either in "raw" mode where you can fetch the signal
-+levels (activity bits 5 and 6) using sysfs access or in triggered buffer mode.
-+In the triggered buffer mode you can follow the signal level changes (activity
-+bits 1 and 2) using the iio device in /dev. If you enable the timestamps, you
-+will also get the exact trigger event time that can be matched to a video frame
-+(every mgb4 video frame has a timestamp with the same clock source).
-+
-+*Note: although the activity sample always contains all the status bits, it makes
-+no sense to get the pending bits in raw mode or the level bits in the triggered
-+buffer mode - the values do not represent valid data in such case.*
-diff --git a/Documentation/admin-guide/media/pci-cardlist.rst b/Documentation/admin-guide/media/pci-cardlist.rst
-index 42528795d4da..7d8e3c8987db 100644
---- a/Documentation/admin-guide/media/pci-cardlist.rst
-+++ b/Documentation/admin-guide/media/pci-cardlist.rst
-@@ -77,6 +77,7 @@ ipu3-cio2         Intel ipu3-cio2 driver
- ivtv              Conexant cx23416/cx23415 MPEG encoder/decoder
- ivtvfb            Conexant cx23415 framebuffer
- mantis            MANTIS based cards
-+mgb4              Digiteq Automotive MGB4 frame grabber
- mxb               Siemens-Nixdorf 'Multimedia eXtension Board'
- netup-unidvb      NetUP Universal DVB card
- ngene             Micronas nGene
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 1c41f87c3917..61283d67ceef 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -17,6 +17,7 @@ Video4Linux (V4L) driver-specific documentation
- 	imx7
- 	ipu3
- 	ivtv
-+	mgb4
- 	omap3isp
- 	omap4_camera
- 	philips
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309252201.HKvcjHQ6-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/v4l2-core/v4l2-vp9.c: In function 'v4l2_vp9_adapt_noncoef_probs':
+>> drivers/media/v4l2-core/v4l2-vp9.c:1834:1: warning: the frame size of 1420 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1834 | }
+         | ^
+
+
+vim +1834 drivers/media/v4l2-core/v4l2-vp9.c
+
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1757  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1758  /* 8.4.4 Non coefficient probability adaptation process */
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1759  void v4l2_vp9_adapt_noncoef_probs(struct v4l2_vp9_frame_context *probs,
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1760  				  struct v4l2_vp9_frame_symbol_counts *counts,
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1761  				  u8 reference_mode, u8 interpolation_filter, u8 tx_mode,
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1762  				  u32 flags)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1763  {
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1764  	unsigned int i, j;
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1765  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1766  	for (i = 0; i < ARRAY_SIZE(probs->is_inter); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1767  		probs->is_inter[i] = adapt_prob(probs->is_inter[i], (*counts->intra_inter)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1768  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1769  	for (i = 0; i < ARRAY_SIZE(probs->comp_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1770  		probs->comp_mode[i] = adapt_prob(probs->comp_mode[i], (*counts->comp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1771  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1772  	for (i = 0; i < ARRAY_SIZE(probs->comp_ref); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1773  		probs->comp_ref[i] = adapt_prob(probs->comp_ref[i], (*counts->comp_ref)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1774  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1775  	if (reference_mode != V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1776  		for (i = 0; i < ARRAY_SIZE(probs->single_ref); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1777  			for (j = 0; j < ARRAY_SIZE(probs->single_ref[0]); j++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1778  				probs->single_ref[i][j] = adapt_prob(probs->single_ref[i][j],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1779  								     (*counts->single_ref)[i][j]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1780  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1781  	for (i = 0; i < ARRAY_SIZE(probs->inter_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1782  		adapt_probs_variant_c(probs->inter_mode[i], (*counts->mv_mode)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1783  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1784  	for (i = 0; i < ARRAY_SIZE(probs->y_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1785  		adapt_probs_variant_d(probs->y_mode[i], (*counts->y_mode)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1786  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1787  	for (i = 0; i < ARRAY_SIZE(probs->uv_mode); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1788  		adapt_probs_variant_d(probs->uv_mode[i], (*counts->uv_mode)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1789  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1790  	for (i = 0; i < ARRAY_SIZE(probs->partition); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1791  		adapt_probs_variant_e(probs->partition[i], (*counts->partition)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1792  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1793  	for (i = 0; i < ARRAY_SIZE(probs->skip); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1794  		probs->skip[i] = adapt_prob(probs->skip[i], (*counts->skip)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1795  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1796  	if (interpolation_filter == V4L2_VP9_INTERP_FILTER_SWITCHABLE)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1797  		for (i = 0; i < ARRAY_SIZE(probs->interp_filter); i++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1798  			adapt_probs_variant_f(probs->interp_filter[i], (*counts->filter)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1799  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1800  	if (tx_mode == V4L2_VP9_TX_MODE_SELECT)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1801  		for (i = 0; i < ARRAY_SIZE(probs->tx8); i++) {
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1802  			adapt_probs_variant_b(probs->tx8[i], (*counts->tx8p)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1803  			adapt_probs_variant_f(probs->tx16[i], (*counts->tx16p)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1804  			adapt_probs_variant_e(probs->tx32[i], (*counts->tx32p)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1805  		}
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1806  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1807  	adapt_probs_variant_e(probs->mv.joint, *counts->mv_joint);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1808  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1809  	for (i = 0; i < ARRAY_SIZE(probs->mv.sign); i++) {
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1810  		probs->mv.sign[i] = adapt_prob(probs->mv.sign[i], (*counts->sign)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1811  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1812  		adapt_probs_variant_g(probs->mv.classes[i], (*counts->classes)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1813  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1814  		probs->mv.class0_bit[i] = adapt_prob(probs->mv.class0_bit[i], (*counts->class0)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1815  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1816  		for (j = 0; j < ARRAY_SIZE(probs->mv.bits[0]); j++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1817  			probs->mv.bits[i][j] = adapt_prob(probs->mv.bits[i][j],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1818  							  (*counts->bits)[i][j]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1819  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1820  		for (j = 0; j < ARRAY_SIZE(probs->mv.class0_fr[0]); j++)
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1821  			adapt_probs_variant_e(probs->mv.class0_fr[i][j],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1822  					      (*counts->class0_fp)[i][j]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1823  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1824  		adapt_probs_variant_e(probs->mv.fr[i], (*counts->fp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1825  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1826  		if (!(flags & V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV))
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1827  			continue;
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1828  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1829  		probs->mv.class0_hp[i] = adapt_prob(probs->mv.class0_hp[i],
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1830  						    (*counts->class0_hp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1831  
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1832  		probs->mv.hp[i] = adapt_prob(probs->mv.hp[i], (*counts->hp)[i]);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1833  	}
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16 @1834  }
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1835  EXPORT_SYMBOL_GPL(v4l2_vp9_adapt_noncoef_probs);
+3e3b1fb0e5d95c Andrzej Pietrasiewicz 2021-11-16  1836  
+
+:::::: The code at line 1834 was first introduced by commit
+:::::: 3e3b1fb0e5d95c0cd7278717185ca3fb00f5d771 media: Add VP9 v4l2 library
+
+:::::: TO: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
