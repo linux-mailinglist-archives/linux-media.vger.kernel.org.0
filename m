@@ -2,87 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6EA67ADBB7
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 17:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F401E7ADBBE
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 17:41:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231298AbjIYPk3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 11:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53836 "EHLO
+        id S230256AbjIYPlO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 11:41:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229874AbjIYPk2 (ORCPT
+        with ESMTP id S229674AbjIYPlN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 11:40:28 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC43FF;
-        Mon, 25 Sep 2023 08:40:20 -0700 (PDT)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38PB8uT6014707;
-        Mon, 25 Sep 2023 17:39:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-        message-id:date:mime-version:subject:to:cc:references:from
-        :in-reply-to:content-type:content-transfer-encoding; s=
-        selector1; bh=mGHKtScuDGvlKtHxb7FEML0faIVvgVUaxKEFd7mNV8E=; b=4q
-        Kcoqc3zgo9sJUre04DyZDGbklDpC/KeHLYhQUqjGRISItW8tgxD1HfsY5C4dvmqU
-        ypND1/tw6xNpNdiaI9cj+0DWwB+AO0jLWS/wje1xIs8ahvEonwIRLgsKfwpyGxPj
-        WrbsnrDRuDGY9paZF0VD3ToFCcy5ZYDaUcatISItUInwnHoiND9VP6eDGTO9iYXo
-        ZEP5o7P/ZBL2FD+txkgb4ZEpwSXXmY28sPofNNkoXeBmhTKN4+cuSPwfop+Qz5FQ
-        7qyGBbMEzJI/xgZpubfLrOe/BKmIRB3aBHd5cxl6QkR5912kToqhArv0Ruzk8VDm
-        KERn0jfP42AQsJ6JQr2A==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3t9qbwr14m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 25 Sep 2023 17:39:35 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 16D6610005C;
-        Mon, 25 Sep 2023 17:39:15 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D8052245514;
-        Mon, 25 Sep 2023 17:39:15 +0200 (CEST)
-Received: from [10.201.20.32] (10.201.20.32) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 25 Sep
- 2023 17:39:13 +0200
-Message-ID: <4eb771d5-1f22-c708-0390-0111e8d1a9a0@foss.st.com>
-Date:   Mon, 25 Sep 2023 17:39:13 +0200
+        Mon, 25 Sep 2023 11:41:13 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA3AC95
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:41:05 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40528376459so67657575e9.3
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695656464; x=1696261264; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0QhceiGixPupEfZnDqYqV5nAQifEZIHOiVJF709ap7o=;
+        b=yXtP4fucwtzX8a/eGgm4iKpcUQarngu6VFyzXXHBJLxhaC++GyviQVGraxNpSOE6+X
+         CdeNFamUTtLO0VnSvHIxXR3F3XKK/wNJ63Dy4/yzq8nZDS46y64uKG/C0gwwx22Qks5B
+         nW3MAZqwCej44ZdVtsQIS+MaLIG0EgnCZq6GXMzDxV3y/5YzOqTbRIoaJlR/jQLvyDxf
+         CxNrtUbNr8i7tgTH2p7zSkZbCoiy5sL6P2M5Bu8t9GFVDcz6WwHxdFtXisW9aPge5qSC
+         +Z5SdmQCqmQCc0Us8sofZiD6FAhZDp99C5+CwPkYcGSJBzzi0Hx2zqU/c9A/rSdKAYzQ
+         gI7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695656464; x=1696261264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0QhceiGixPupEfZnDqYqV5nAQifEZIHOiVJF709ap7o=;
+        b=Ka9NCNjFI87IbSpZqzfg/wNRKZ2HwZZkGTF7XetSs+t0gCXo4+kdecCazF6ZCmxqri
+         yQ0O8nBJ54WxnlVBzIQ9fYrYgcebGYKcxayMejyD7qMKWbq2owgAnCkak7oi6HfL6Ttl
+         I9rEJYmbKkP+9LdrTXIx1cP3z9jbmCJmIdFwcmb2nZ/rG3mlCVsyO5gmOTIh4RhTLn6P
+         lHhdKI3DKeBML7k4U5owFMjJpzPx0aoI6MOGsbQPsJi7Pd/I6HwfHngJ35oO/vJ4UMlk
+         YpJKZB5OJ+tDdB9DxlcVHEENmApvCwJqsFQdL9k9Ch5fdUoaWv/+t/znyrpX+OVOvioX
+         IDqA==
+X-Gm-Message-State: AOJu0YyOOddeOPMG/ptIDJH5T3X6hX8lVkPHHiyfH0M73Eo78rdTTXm3
+        yTE/XBIGkhP6qN5q4Dj226mLOL0bp76FJ53BOvs=
+X-Google-Smtp-Source: AGHT+IH00iya8yAU5BR9NYjx57gxgn2B7lwfGz9vyRyxxSotNW9jo9PNcLZqvCpdlwRmpg6MzgtKPw==
+X-Received: by 2002:a05:600c:204:b0:401:b6f6:d8fd with SMTP id 4-20020a05600c020400b00401b6f6d8fdmr6058888wmi.6.1695656464221;
+        Mon, 25 Sep 2023 08:41:04 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id m15-20020a7bca4f000000b003fe4548188bsm15206155wml.48.2023.09.25.08.41.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Sep 2023 08:41:03 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
+Cc:     linux-kernel@vger.kernel.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v6 00/17] media: qcom: camss: Add parameter passing to remove several outstanding bugs
+Date:   Mon, 25 Sep 2023 16:40:42 +0100
+Message-ID: <20230925154059.837152-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3 00/11] Introduce STM32 Firewall framework
-Content-Language: en-US
-To:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
-        <vkoul@kernel.org>, <jic23@kernel.org>,
-        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
-        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
-        <andi.shyti@kernel.org>, <ulf.hansson@linaro.org>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <hugues.fruchet@foss.st.com>, <lee@kernel.org>, <will@kernel.org>,
-        <catalin.marinas@arm.com>, <arnd@kernel.org>,
-        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>
-CC:     <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <20230726083810.232100-1-gatien.chevallier@foss.st.com>
-From:   Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <20230726083810.232100-1-gatien.chevallier@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.20.32]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-25_13,2023-09-25_01,2023-05-22_02
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,195 +72,185 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello all,
+V6:
+- Adds Laurent's suggested comment verbatim to vfe_get() patch
+- Adds Laurent's RB
+- Extends array per Hans' found -Wformat-truncation
+- Rewords the CID comment to make it a bit clearer
 
-Since the "feature-domains" bindings lacks precision (maybe some
-renaming for better clarity on its purpose), I will send v4 with a
-vendor binding so the generic one better discussed and enriched with
-other contributor examples.
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/media-stage-25-10-23-lenovo-x13s-v6.5-rc7-x13s-camss-patches-v6
 
-This will avoid mixing several patch set.
+git remote add bod https://git.codelinaro.org/bryan.odonoghue/kernel.git
+git fetch bod
+git diff bod/linux-next-23-09-06-lenovo-x13s-v6.5-rc7-x13s-camss-patches-v5..bod/media-stage-25-10-23-lenovo-x13s-v6.5-rc7-x13s-camss-patches-v6 drivers/media/platform/qcom/camss
 
-Best regards,
-Gatien
+git diff 
+V5:
+- drops ret = fn(); return ret; for return fn(); - Hans, Konrad
+Link: https://lore.kernel.org/linux-arm-msm/20230907164410.36651-16-bryan.odonoghue@linaro.org/
 
-On 7/26/23 10:37, Gatien Chevallier wrote:
-> Introduce STM32 Firewall framework for STM32MP1x and STM32MP2x
-> platforms. STM32MP1x(ETZPC) and STM32MP2x(RIFSC) Firewall controllers
-> register to the framework to offer firewall services such as access
-> granting.
-> 
-> This series of patches is a new approach on the previous STM32 system
-> bus, history is available here:
-> https://lore.kernel.org/lkml/20230127164040.1047583/
-> 
-> The need for such framework arises from the fact that there are now
-> multiple hardware firewalls implemented across multiple products.
-> Drivers are shared between different products, using the same code.
-> When it comes to firewalls, the purpose mostly stays the same: Protect
-> hardware resources. But the implementation differs, and there are
-> multiple types of firewalls: peripheral, memory, ...
-> 
-> Some hardware firewall controllers such as the RIFSC implemented on
-> STM32MP2x platforms may require to take ownership of a resource before
-> being able to use it, hence the requirement for firewall services to
-> take/release the ownership of such resources.
-> 
-> On the other hand, hardware firewall configurations are becoming
-> more and more complex. These mecanisms prevent platform crashes
-> or other firewall-related incoveniences by denying access to some
-> resources.
-> 
-> The stm32 firewall framework offers an API that is defined in
-> firewall controllers drivers to best fit the specificity of each
-> firewall.
-> 
-> For every peripherals protected by either the ETZPC or the RIFSC, the
-> firewall framework checks the firewall controlelr registers to see if
-> the peripheral's access is granted to the Linux kernel. If not, the
-> peripheral is configured as secure, the node is marked populated,
-> so that the driver is not probed for that device.
-> 
-> The firewall framework relies on the feature-domain-controller device
-> tree bindings: https://lore.kernel.org/lkml/0c0a82bb-18ae-d057-562b.
-> It is used by peripherals to reference a domain controller, in this
-> case a firewall feature domain. The bus uses the ID referenced by
-> the feature-domains property to know where to look in the firewall
-> to get the security configuration for the peripheral. This allows
-> a device tree description rather than a hardcoded peripheral table
-> in the bus driver.
-> 
-> The STM32 ETZPC device is responsible for filtering accesses based on
-> security level, or co-processor isolation for any resource connected
-> to it.
-> 
-> The RIFSC is responsible for filtering accesses based on Compartment
-> ID / security level / privilege level for any resource connected to
-> it.
-> 
-> STM32MP13/15/25 SoC device tree files are updated in this series to
-> implement this mecanism.
-> 
-> Changes in V2:
-> 
-> 	generic:
-> 		- Add fw_devlink dependency for "feature-domains"
-> 		  property.
-> 
-> 	bindings:
-> 		- Corrected YAMLS errors highlighted by Rob's robot
-> 		- Firewall controllers YAMLs no longer define the
-> 		  maxItems for the "feature-domains" property
-> 		- Renamed st,stm32-rifsc.yaml to
-> 		  st,stm32mp25-rifsc.yaml
-> 		- Fix examples in YAML files
-> 		- Change feature-domains maxItems to 2 in firewall
-> 		  consumer files as there should not be more than
-> 		  2 entries for now
-> 		- Declare "feature-domain-names" as an optional
-> 		  property for firewall controllers child nodes.
-> 		- Add missing "feature-domains" property declaration
-> 		  in bosch,m_can.yaml and st,stm32-cryp.yaml files
-> 
-> 	firewall framework:
-> 		- Support multiple entries for "feature-domains"
-> 		  property
-> 		- Better handle the device-tree parsing using
-> 		  phandle+args APIs
-> 		- Remove "resource firewall" type
-> 		- Add a field for the name of the firewall entry
-> 		- Fix licenses
-> 	
-> 	RIFSC:
-> 		- Add controller name
-> 		- Driver is now a module_platform_driver
-> 		- Fix license
-> 
-> 	ETZPC:
-> 		- Add controller name
-> 		- Driver is now a module_platform_driver
-> 		- Fix license
-> 
-> 	Device trees:
-> 		- Fix rifsc node name
-> 		- Move the "ranges" property under the
-> 		  "feature-domains" one
-> 
-> Changes in V3:
-> 
-> 	Change incorrect ordering for bindings commits leading
-> 	to an error while running
-> 	"make DT_CHECKER_FLAGS=-m dt_binding_check"
-> 
-> Oleksii Moisieiev (1):
->    dt-bindings: Document common device controller bindings
-> 
-> Gatien Chevallier (10):
->    dt-bindings: treewide: add feature-domains description
->    dt-bindings: bus: document RIFSC
->    dt-bindings: bus: document ETZPC
->    firewall: introduce stm32_firewall framework
->    of: property: fw_devlink: Add support for "feature-domains"
->    bus: rifsc: introduce RIFSC firewall controller driver
->    arm64: dts: st: add RIFSC as a domain controller for STM32MP25x boards
->    bus: etzpc: introduce ETZPC firewall controller driver
->    ARM: dts: stm32: add ETZPC as a system bus for STM32MP15x boards
->    ARM: dts: stm32: add ETZPC as a system bus for STM32MP13x boards
-> 
->   .../bindings/bus/st,stm32-etzpc.yaml          |   96 +
->   .../bindings/bus/st,stm32mp25-rifsc.yaml      |  105 +
->   .../bindings/crypto/st,stm32-cryp.yaml        |    4 +
->   .../bindings/crypto/st,stm32-hash.yaml        |    4 +
->   .../devicetree/bindings/dma/st,stm32-dma.yaml |    4 +
->   .../bindings/dma/st,stm32-dmamux.yaml         |    4 +
->   .../feature-domain-controller.yaml            |   84 +
->   .../devicetree/bindings/i2c/st,stm32-i2c.yaml |    4 +
->   .../bindings/iio/adc/st,stm32-adc.yaml        |    4 +
->   .../bindings/iio/adc/st,stm32-dfsdm-adc.yaml  |    4 +
->   .../bindings/iio/dac/st,stm32-dac.yaml        |    4 +
->   .../bindings/media/cec/st,stm32-cec.yaml      |    4 +
->   .../bindings/media/st,stm32-dcmi.yaml         |    4 +
->   .../memory-controllers/st,stm32-fmc2-ebi.yaml |    4 +
->   .../bindings/mfd/st,stm32-lptimer.yaml        |    4 +
->   .../bindings/mfd/st,stm32-timers.yaml         |    5 +
->   .../devicetree/bindings/mmc/arm,pl18x.yaml    |    4 +
->   .../bindings/net/can/bosch,m_can.yaml         |    4 +
->   .../devicetree/bindings/net/stm32-dwmac.yaml  |    4 +
->   .../bindings/phy/phy-stm32-usbphyc.yaml       |    4 +
->   .../bindings/regulator/st,stm32-vrefbuf.yaml  |    4 +
->   .../devicetree/bindings/rng/st,stm32-rng.yaml |    4 +
->   .../bindings/serial/st,stm32-uart.yaml        |    4 +
->   .../bindings/sound/st,stm32-i2s.yaml          |    4 +
->   .../bindings/sound/st,stm32-sai.yaml          |    4 +
->   .../bindings/sound/st,stm32-spdifrx.yaml      |    4 +
->   .../bindings/spi/st,stm32-qspi.yaml           |    4 +
->   .../devicetree/bindings/spi/st,stm32-spi.yaml |    4 +
->   .../devicetree/bindings/usb/dwc2.yaml         |    4 +
->   MAINTAINERS                                   |    7 +
->   arch/arm/boot/dts/st/stm32mp131.dtsi          | 1027 +++---
->   arch/arm/boot/dts/st/stm32mp133.dtsi          |   51 +-
->   arch/arm/boot/dts/st/stm32mp13xc.dtsi         |   19 +-
->   arch/arm/boot/dts/st/stm32mp13xf.dtsi         |   19 +-
->   arch/arm/boot/dts/st/stm32mp151.dtsi          | 2757 +++++++++--------
->   arch/arm/boot/dts/st/stm32mp153.dtsi          |   52 +-
->   arch/arm/boot/dts/st/stm32mp15xc.dtsi         |   19 +-
->   arch/arm64/Kconfig.platforms                  |    1 +
->   arch/arm64/boot/dts/st/stm32mp251.dtsi        |    7 +-
->   drivers/bus/Kconfig                           |    9 +
->   drivers/bus/Makefile                          |    1 +
->   drivers/bus/stm32_etzpc.c                     |  141 +
->   drivers/bus/stm32_firewall.c                  |  288 ++
->   drivers/bus/stm32_firewall.h                  |   83 +
->   drivers/bus/stm32_rifsc.c                     |  252 ++
->   drivers/of/property.c                         |    2 +
->   include/linux/bus/stm32_firewall_device.h     |  140 +
->   47 files changed, 3346 insertions(+), 1919 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
->   create mode 100644 Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml
->   create mode 100644 Documentation/devicetree/bindings/feature-controllers/feature-domain-controller.yaml
->   create mode 100644 drivers/bus/stm32_etzpc.c
->   create mode 100644 drivers/bus/stm32_firewall.c
->   create mode 100644 drivers/bus/stm32_firewall.h
->   create mode 100644 drivers/bus/stm32_rifsc.c
->   create mode 100644 include/linux/bus/stm32_firewall_device.h
-> 
+Bootable:
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-09-06-lenovo-x13s-v6.5-rc7-x13s-camss-patches-v5
+
+V4:
+- Adds additional Reviewed-by / Acked-by from Laurent and Konrad as indicated
+
+- Updates commit log per Laurent suggestion not go on hunger strike
+  Link: https://lore.kernel.org/linux-arm-msm/20230828185110.GN14596@pendragon.ideasonboard.com/
+
+- Includes suggested changes to switch {} statements - Laurent
+  Link: https://lore.kernel.org/linux-media/d7745ece-bea1-f8f9-a1d2-0f01aa221ade@linaro.org/
+
+- Drops SoC specific vfe_get()/vfe_put() we have been using.
+  There is no need to differentiate on SoC since get/put reference count.
+  Link: https://lore.kernel.org/linux-media/62f78aac-c1e4-018c-93c2-4dac1ec7c688@linaro.org/
+
+- Changes the name of the generic struct resources to struct camss_subdev_resources - Laurent
+  Link: https://lore.kernel.org/lkml/20230828173055.GF14596@pendragon.ideasonboard.com/
+
+- media: qcom: camss: media: qcom: camss: Move vfe_disable into a common routine where applicable
+  Follows up on a comment from Laurent
+  Link: https://lore.kernel.org/linux-media/20230828171725.GZ14596@pendragon.ideasonboard.com/
+
+- media: qcom: camss: Propagate vfe_reset error up the callstack
+  Take the different approach to fixing the vfe_disable() routine doing nothing but returning 0
+  Per Konrad's correct comment on vfe_reset() error
+  Link: https://lore.kernel.org/linux-media/aaf9db49-54c4-4c27-8206-61e86ad560c2@linaro.org/
+
+- Restricts the length of buffer size for clock name string lookups - Konrad
+  Link: https://lore.kernel.org/linux-arm-msm/076d958f-2cf3-4a52-99a2-52a6cdd5443c@linaro.org/
+
+- Some outstanding issues not addressed in this series
+
+  * Clock name string lookups.
+    This warrants a standalone series - which will need yaml and dts changes to group clocks
+    by name across all supported SoCs.
+    This will then negate the string matching for clocks.
+    Link: https://lore.kernel.org/linux-arm-msm/3b3682be-5dbd-5e2d-a6c1-7bdf6d3ff8cd@linaro.org/
+
+  * Pixel formats are assigned via control strucutres not pointers from compat params
+    The struct resources stuff is still sub-optimal and it feels to me as if we should
+    do a bigger intervention to break away from a generic structure to subdevice specific
+    parameter structures. Such a subdevice specific structure would support passing pxiel
+    formats.
+
+  * We still need to follow up on having named genpds instead of magic indexes
+    Link: https://lore.kernel.org/lkml/b7e1d035-ee79-77c9-e81f-56fa8c2cf1df@linaro.org/
+
+  * More generally this driver allows for arbitrary connection of CSID, RDI
+    and VFE but, that is not how the hardware works. I believe other people
+    have works in progress to address some of this shortcoming separately.
+
+Bootable - includes tag for patches queued in Hans staging tree
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/22ed4a935d6d323e71b014a69bafd638ad53cb5c 
+
+V3:
+- Adds RB/AB as indicated - Konrad
+- Replaces >= SDM845 with helper function per discussion - bod/Konrad
+- Leaves out constraining VFE clock names sizes. A full pass for resource strings will happen later. - bod
+- Clarifies commit log resulting in updated patch title also
+  "Add support for setting CSIPHY clock name csiphyX"
+  ->
+  "Fix support for setting CSIPHY clock name csiphyX"
+- Adds patch to remove dead integer return type in vfe_disable()
+- Adds patch to comment CSID dt_id meanining which I personally find non-obvious right now - bod
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/09e7805a733b488c5dc19b301eb3b77cb0fad3d6
+
+V2:
+- Replaces &camss->res with pointer to res - Konrad
+- Squashes patch for NULL removal - Konrad
+- Left suggestion on ICC initialisation points alone, doesn't seem to fit Konrad/bod
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-08-07-db410c-rb3-camss-dts-v3+maintenance-bugfixes-v2
+
+V1:
+- I forgot to include patch # 14 in V0 of this series.
+  This patch leverages previous changes to unwind the fixed polling of
+  RDI[0..2] allowing driver data to articulate on a per-VFE basis how many
+  RDIs to poll.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-08-07-db410c-rb3-camss-dts-v3+maintenance-bugfixes-v1
+
+V0:
+This second series of bugfixes stacks ontop of the Fixes series sent earlier.
+
+Link: https://lore.kernel.org/linux-arm-msm/20230814141007.3721197-1-bryan.odonoghue@linaro.org/T/#t
+
+Rather than send both series as one giant series, I opted to send a pure
+Fixes series above, with this second series a non-backport series i.e. no
+Fixes tags in this series.
+
+The existing CAMSS code relies on some hard-coded parameters buried inside
+of the driver, instead of passed via compat .data as arguably ought to be
+the case.
+
+This brittle model is an extending morass of spaghetti code. More than that
+in CAMSS Video Front Ends (VFEs) and the number of Raw Data Interfaces
+(RDIs) per VFE can vary from SoC to SoC. Indeed sm8250 has VFE and VFE Lite
+blocks which have a different number of RDIs per block.
+
+The use of defines as opposed to per-compat parameters inside of ISRs leads
+to either under-polling or over-polling the number of RDIs.
+
+On top of all of that we have some hard-coded statements for clock names
+which breaks easily.
+
+We can solve the under/over polling loop problem by transitioning loop
+controls from macros to parameters passed via probe().
+
+Similarly and unsurprisingly we can also solve the hard-coded clock problem
+by adding some string processing routines that take passed arguments.
+
+There is still some additional maintenance work to be done in this driver
+but before adding one more SoC the code needs to be made more extensible
+and less brittle.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/dc346c7f46c0680bcfb84fded6db97497fffe49a
+
+Bryan O'Donoghue (17):
+  media: qcom: camss: Amalgamate struct resource with struct
+    resource_ispif
+  media: qcom: camss: Rename camss struct resources to
+    camss_subdev_resources
+  media: qcom: camss: Start to move to module compat matched resources
+  media: qcom: camss: Pass icc bandwidth table as a platform parameter
+  media: qcom: camss: Pass remainder of variables as resources
+  media: qcom: camss: Pass line_num from compat resources
+  media: qcom: camss: Pass CAMSS subdev callbacks via resource ops
+    pointer
+  media: qcom: camss: Assign the correct number of RDIs per VFE
+  media: qcom: camss: Remove special case for VFE get/put
+  media: qcom: camss: Untangle if/else spaghetti in camss
+  media: qcom: camss: Allow clocks vfeN vfe_liteN or vfe_lite
+  media: qcom: camss: Functionally decompose CSIPHY clock lookups
+  media: qcom: camss: Fix support for setting CSIPHY clock name csiphyX
+  media: qcom: camss: Support RDI3 for VFE 17x
+  media: qcom: camss: Move vfe_disable into a common routine where
+    applicable
+  media: qcom: camss: Propagate vfe_reset error up the callstack
+  media: qcom: camss: Comment CSID dt_id field
+
+ .../platform/qcom/camss/camss-csid-gen2.c     |  12 +
+ .../media/platform/qcom/camss/camss-csid.c    |  33 +-
+ .../media/platform/qcom/camss/camss-csid.h    |   4 +-
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |   8 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |  67 +--
+ .../media/platform/qcom/camss/camss-csiphy.h  |   4 +-
+ .../media/platform/qcom/camss/camss-ispif.c   |  32 +-
+ .../media/platform/qcom/camss/camss-ispif.h   |   4 +-
+ .../media/platform/qcom/camss/camss-vfe-170.c |  57 +--
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-4-7.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-4-8.c |   2 -
+ .../media/platform/qcom/camss/camss-vfe-480.c |  45 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c | 127 ++++--
+ drivers/media/platform/qcom/camss/camss-vfe.h |  15 +-
+ .../media/platform/qcom/camss/camss-video.c   |  17 +-
+ drivers/media/platform/qcom/camss/camss.c     | 429 ++++++++++--------
+ drivers/media/platform/qcom/camss/camss.h     |  34 +-
+ 18 files changed, 462 insertions(+), 432 deletions(-)
+
+-- 
+2.42.0
+
