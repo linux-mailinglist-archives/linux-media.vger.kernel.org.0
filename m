@@ -2,129 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABE557ADC3B
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 17:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C13C7ADCAD
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 18:06:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233110AbjIYPsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 11:48:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58468 "EHLO
+        id S233051AbjIYQHC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 12:07:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233148AbjIYPri (ORCPT
+        with ESMTP id S229437AbjIYQHB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 11:47:38 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 347FB1B2
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:47:31 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4056ce55e7eso33907685e9.2
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:47:31 -0700 (PDT)
+        Mon, 25 Sep 2023 12:07:01 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6EE7FF;
+        Mon, 25 Sep 2023 09:06:49 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-502e7d66c1eso10989868e87.1;
+        Mon, 25 Sep 2023 09:06:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695656849; x=1696261649; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yKTR9FGAJbp1Nit0RKPxQtBceNed5p1nXP0aMRVoGew=;
-        b=fHa419QvOcMY3fX1MkE/QRM/XI/th837ZFDNaLME2XfJn65nuWG0W1GjL9Mh7toEMO
-         xfDltwaBv+WgSYDIGDKJFFdxvfFjfep96BwPItoeXfLnj/QigJSIerF1H5lJVm2jYZSY
-         hzYvBjJWMS5mBAAAc2CVtaCmlxFvfOuGRdPT4CWmFmJqaYkJACXsd04pAeIfxYNZ/EMj
-         QOx81lZQ6WqitIKgim1Z0ldwGloM7v/xp8z9vwWHGZjKmLXT9nDWzRQ9Mep2egV5d18W
-         5Wr07w03xPpP9IMmU3Ztdqc9dR++CnPz5nywekPUqpE9UaxXCfASOVF3gCQDoD8Qy8i+
-         KL9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695656849; x=1696261649;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20230601; t=1695658008; x=1696262808; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yKTR9FGAJbp1Nit0RKPxQtBceNed5p1nXP0aMRVoGew=;
-        b=tgGZxi0D1m4hKbKauVNdBqtjNgKgdQGUerkddfgOFUqwnTgHx0IJPQm9+964F0Ve55
-         63bVATIkt/ADuhhvw9DTyq4IirOgD/FvBupgpZgh1Ptxr0kVjJEg0nOsgif/bQWXEUp2
-         hzFfCWEi3CEOPHPzYVR5xpQ4zVZ7GyeGAsvsRe7ZdhZsK4b2OCwT+KbjiH2SCsnNDkAv
-         jFcqZQlKfOU5GN/80KWgpaz5OrfJN3nO/6dZKW3gHZX5Lgx1bhOb2n4FB5XZB4SKcFaU
-         mqyjtRs7gG82UN2RBDKLfjMNCOluhVMK7KAAxzfvQcPnQ1JaVo8MU6huUsHnSDg/dzfh
-         O5hw==
-X-Gm-Message-State: AOJu0Ywjab7llYnb9CIQgSKilNPhJ6Jxwb1+EJERai+Il813eKSmEyFo
-        srykUvEbxXdPpibQkhSD1bvWuQ==
-X-Google-Smtp-Source: AGHT+IFKeZu788gHWgsRongPTtFe1L8P+ypwnDHQNU1kHF/IJhSKZslu+Zrp5iqyGWbQVXRGeB/6pA==
-X-Received: by 2002:a7b:c456:0:b0:405:2d23:16d9 with SMTP id l22-20020a7bc456000000b004052d2316d9mr5885861wmi.21.1695656849715;
-        Mon, 25 Sep 2023 08:47:29 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id d4-20020adffd84000000b0031f34a395e7sm12077536wrr.45.2023.09.25.08.47.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 08:47:29 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [RESEND PATCH v6 17/17] media: qcom: camss: Comment CSID dt_id field
-Date:   Mon, 25 Sep 2023 16:47:07 +0100
-Message-ID: <20230925154707.837542-18-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230925154707.837542-1-bryan.odonoghue@linaro.org>
-References: <20230925154707.837542-1-bryan.odonoghue@linaro.org>
+        bh=FjZKX49WJeWkaYPbNflpa2QWaqaLadeSJAuUwOEodTY=;
+        b=K2ANID33kOdxOpUxB3MgFwKFezipaVNhlsNOPpja4SZ+AhZ/Nj9KLQAT+J5RSNrrUJ
+         UX8NxTSdd2oBj7G2sOyik0xh0WtGuABS3X1d13EY2zCIfDvhOTKV98aX4LiEfnQXEcQf
+         7XREOQd9TamEyo4g9M+EBrmt0AsrHWxoxrrsVBiG6t5YMu52N2yWqLyQue5K5PDsfdTv
+         xwQYnCo/JvkjQHSvC5Afp8Ngpzps3sh43qVahgpceJGQkoFNUPYAbkeIhghTcUX2VLTG
+         7FlnRQ5Ohnm+450Y/YND3U1wJnvJlCodk+bRWwXpjpAc7VAchmBnI/xn25SyWYvcA6U1
+         g/gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695658008; x=1696262808;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FjZKX49WJeWkaYPbNflpa2QWaqaLadeSJAuUwOEodTY=;
+        b=SOLIEkLXjaPcC2A86TD6RHkQyP2l0w5tDEW3/g6t7ipwTGCh3tp2iJW8yXLuIsbPIO
+         vL4woBBaTukneuQZlGKEmCPHwcu/r76pc4C+2Qo6k7WGRoYcaF9c9NmTiVkuHn2UxfWX
+         ULSvK8/ZLKTXYc7AbwbnudQncz1tbEEZNTe3worFmGsyltBydwgtn15QoFdvJmzwN4Mb
+         ilZbMw4uOrkL6oqd3Sa7rL2fUvOXjxLVyXoeLPZVofDk+2SPhDGRoRAiPRlZmhYDd5vf
+         l+NIreYS5BRhzo0ALG21Ni9/hpfhQWms4a9UsQBSnq80+kFUJqWC56/63jXgmdpoRbas
+         98Vw==
+X-Gm-Message-State: AOJu0YzEtSvDkl+5qzwriJ4ysfUvimux6ZUKqdIbi3Wv5TikK9m6rgdR
+        ewbVQGOoTVDKr5Lmd++FCWevgLX0sso=
+X-Google-Smtp-Source: AGHT+IH0wCeQkCSpQeBTRA9+Npw8GsrZOWLPf6GO4bZlYYGot9Sw0NpfireqAbkt3KX+f2GH23iRxA==
+X-Received: by 2002:a05:6512:3b2a:b0:500:780b:5bdc with SMTP id f42-20020a0565123b2a00b00500780b5bdcmr6788554lfv.49.1695658007769;
+        Mon, 25 Sep 2023 09:06:47 -0700 (PDT)
+Received: from [192.168.1.10] ([95.43.220.235])
+        by smtp.googlemail.com with ESMTPSA id h20-20020a0564020e9400b0053441519ed5sm542151eda.88.2023.09.25.09.06.46
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 25 Sep 2023 09:06:47 -0700 (PDT)
+Subject: Re: [PATCH v5 2/2] media: rc: remove ir-rx51 in favour of generic
+ pwm-ir-tx
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Timo Kokkonen <timo.t.kokkonen@iki.fi>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>,
+        "Sicelo A . Mhlongo" <absicsz@gmail.com>,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <cover.1693577725.git.sean@mess.org>
+ <e5325e826935f0bd8566152b6a5fa799b2429d43.1693577725.git.sean@mess.org>
+From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <99f0042f-538c-bcaf-96fd-bac24a87f88e@gmail.com>
+Date:   Mon, 25 Sep 2023 19:06:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <e5325e826935f0bd8566152b6a5fa799b2429d43.1693577725.git.sean@mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Digging into the documentation we find that the DT_ID bitfield is used to
-map the six bit DT to a two bit ID code. This value is concatenated to the
-VC bitfield to create a CID value. DT_ID is the two least significant bits
-of CID and VC the most significant bits.
 
-Originally we set dt_id = vc * 4 in and then subsequently set dt_id = vc.
 
-commit 3c4ed72a16bc ("media: camss: sm8250: Virtual channels for CSID")
-silently fixed the multiplication by four which would give a better
-value for the generated CID without mentioning what was being done or why.
+On 1.09.23 г. 17:18 ч., Sean Young wrote:
+> The ir-rx51 is a pwm-based TX driver specific to the N900. This can be
+> handled entirely by the generic pwm-ir-tx driver, and in fact the
+> pwm-ir-tx driver has been compatible with ir-rx51 from the start.
+> 
 
-Next up I haplessly changed the value back to "dt_id = vc * 4" since there
-didn't appear to be any logic behind it.
+Unfortunately, pwm-ir-tx does not work on n900. My investigation shows 
+that for some reason usleep_range() sleeps for at least 300-400 us more 
+than what interval it is requested to sleep. I played with cyclictest 
+from rt-tests package and it gives similar results - increasing the 
+priority helps, but I was not able to make it sleep for less that 300 us 
+in average. I tried cpu_latency_qos_add_request() in pwm-ir-tx, but it 
+made no difference.
 
-Hans asked what the change was for and I honestly couldn't remember the
-provenance of it, so I dug in.
+I get similar results on motorola droid4 (OMAP4), albeit there average 
+sleep is in 200-300 us range, which makes me believe that either OMAPs 
+have issues with hrtimers or the config we use has some issue which 
+leads to scheduler latency. Or, something else...
 
-Link: https://lore.kernel.org/linux-arm-msm/edd4bf9b-0e1b-883c-1a4d-50f4102c3924@xs4all.nl/
+In either case help is appreciated to dig further trying to find the 
+reason for such a big delay.
 
-Add a comment so the next hapless programmer doesn't make this same
-mistake.
-
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/camss-csid-gen2.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 6ba2b10326444..791f27b18c394 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -352,6 +352,18 @@ static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
- 		phy_sel = csid->phy.csiphy_id;
- 
- 	if (enable) {
-+		/*
-+		 * DT_ID is a two bit bitfield that is concatenated with
-+		 * the four least significant bits of the six bit VC
-+		 * bitfield to generate an internal CID value.
-+		 *
-+		 * CSID_RDI_CFG0(vc)
-+		 * DT_ID : 28:27
-+		 * VC    : 26:22
-+		 * DT    : 21:16
-+		 *
-+		 * CID   : VC 3:0 << 2 | DT_ID 1:0
-+		 */
- 		u8 dt_id = vc;
- 
- 		if (tg->enabled) {
--- 
-2.42.0
-
+Regards,
+Ivo
