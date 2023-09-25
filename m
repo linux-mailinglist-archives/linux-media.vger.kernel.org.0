@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD71D7ADBD7
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 17:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B12BE7ADBD1
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 17:41:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233024AbjIYPll (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 11:41:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52282 "EHLO
+        id S232644AbjIYPlb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 11:41:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232828AbjIYPl0 (ORCPT
+        with ESMTP id S232777AbjIYPlZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 11:41:26 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E18DA124
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:41:13 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-405361bba99so62485385e9.2
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:41:13 -0700 (PDT)
+        Mon, 25 Sep 2023 11:41:25 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AFCA10E
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:41:15 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-40535597f01so66361525e9.3
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:41:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695656472; x=1696261272; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1695656473; x=1696261273; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7RcC5Z13/zUqK69N/so6eHAgcugzjOcvez6QkwUNOkw=;
-        b=op1YuN2UTw9XW9FwZWPyfKg1U9kD+Kk3cjtPj/O7m0V/UbJjnJFqkuQB0zj5lkRn3m
-         fJCSpELZz9aAr/OfDfIsI7PS5VMtEsvDSfgAz/DUBLAr0HIFK+8OzviRKbek9wgCvT2q
-         qvj5848EAoyFsrEmkiLPGaWFVVqA3wAxt9llt53UfjKlu/StDL2uA6CuyRjRLoTCIMZV
-         rNHvVWNbRzb/+Qz6EInM6uXnsnaqJ1IR3gfTf41i2LtaaKhxiKsnujZh+42d+hTdmsei
-         Bm/RTDzDE/JmbXy2I0jvneH33cXNqNR4m0sJwzc+AyGmeeA1BjMqa31g9yKyR5R7Ptio
-         CDGw==
+        bh=XhSKtn1WWoetbFcEPefpk8WL/CMtB2nONd2TgD1HTnc=;
+        b=oaVWQyEY/Fb3qLAbi289u5rgNukfv8i+OrFUoqm5NdORG3ccZyvQiUSHzyjM3nWvAC
+         X3byZLejI3kXGrRZVAj4lWYz54NynYgIkbBQ3qpENOiZ7E2K3WMCiufqSlqTKXokMBRF
+         hS0ChC2geChQcIa2TbrBMmxEn+srSMNPbRtvgb7NWIiQ2FDL630rfEGTpfRAya8cwOZf
+         LXnkFK+Qnuzc4CvwRT2l9WuW+Qp87YPpOg7hweEMnwr1bPMh+NdmCY1nmkvNmInI3po2
+         CpfQszWbeA3etOF5DxvGvn3kLpMzxFox0JeA/aUz8xs9L/VbyGkp7cS2uz1PpgNazSc6
+         BwPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695656472; x=1696261272;
+        d=1e100.net; s=20230601; t=1695656473; x=1696261273;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7RcC5Z13/zUqK69N/so6eHAgcugzjOcvez6QkwUNOkw=;
-        b=l8DLwikTSd1qhhv7fSJ3dIqg3wQkfHxjCLZ5/EDvvn8FM2FbfitapYexXuIOox9sMH
-         Ua4lyh//4CenoQbkDpQSrwRDT4JX2m3xRkqkC1DtV350IdTlz7QUaliYOX9BMjN9VWH6
-         kR/4eV4OhkTuccSzklFGrWRfECKWBKTYCoNmHBHkGCcmT3zpRFE7OwmlnZP4jYJ0tsrY
-         1RZ/HRyHfPlhFqE3SfrnAwlf4nNFB1JkeyP+6u/884XF/Gz0c/g5rOyTBYE7vF8Y+RwG
-         aCm8BFFirHafY2uA7BliQBcn3pYRBQEjyLr2mzI9nHEBS1v/WBs8qSmYtQGWpfOKadpF
-         scUw==
-X-Gm-Message-State: AOJu0Yz6zuEmsjyJTTOzwERQnA7gVAlk+twQovTFwhlUiQhFxYgM0Jh3
-        e1Rwfy0c+GPfZRKb06MkZthgjQ==
-X-Google-Smtp-Source: AGHT+IF4VIf3CoRYinlp+YHFgpoiaY+j7De7jLPnWDafMB8fMxMqwfqsU7Rbzb8OWZwya7vFxblMOA==
-X-Received: by 2002:a05:600c:2205:b0:405:514d:eb15 with SMTP id z5-20020a05600c220500b00405514deb15mr5677279wml.10.1695656472315;
-        Mon, 25 Sep 2023 08:41:12 -0700 (PDT)
+        bh=XhSKtn1WWoetbFcEPefpk8WL/CMtB2nONd2TgD1HTnc=;
+        b=kL1S760bQ25d4n+Yq0g4Vca1roLhXkihqnZHT+1+oqWx7mbWj7C1TQ7pZA1VjAVjS+
+         QyZZCJ1jcgBfXqaxUGG86SCfHa+4jnjCLgqHTub7kwtdpaMe7yYXoANyC3ycJoSkyQZB
+         FOaDv7Vipz7mIdqsfbU4wJw/4hGbJ8w4KGlXnljzA9roMdYlzbX4oNUXTpzr4KGhiVML
+         0K4UjxdFD+SqDrZgOh0hnRnCO19d/oHGaqZgsrdrjtTUTTxEBrZN5BrHxn64s1hyyrl9
+         zd8y6p0Bd7e8ATL4Tz7TOBHF4CSSC0goBZgncVcQMXbPl3KjNOYlYcrCRwdL8bDyJP8z
+         ykTA==
+X-Gm-Message-State: AOJu0YwF86uUNKVa69+WzzQ42kSH12znjzoBMvnmGefgvLtO7Eygsg7+
+        kU2pphxUHkssi92zTWHogC6FaQ==
+X-Google-Smtp-Source: AGHT+IFg0BOqko4zKrjTxWd8QjAavwcAz78JXhFZuLIReoRwwl6b7uKAqVKOLT+wudStb5Fwa/lMlA==
+X-Received: by 2002:a05:600c:d4:b0:405:3a3d:6f42 with SMTP id u20-20020a05600c00d400b004053a3d6f42mr5841513wmm.39.1695656473410;
+        Mon, 25 Sep 2023 08:41:13 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id m15-20020a7bca4f000000b003fe4548188bsm15206155wml.48.2023.09.25.08.41.11
+        by smtp.gmail.com with ESMTPSA id m15-20020a7bca4f000000b003fe4548188bsm15206155wml.48.2023.09.25.08.41.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 08:41:11 -0700 (PDT)
+        Mon, 25 Sep 2023 08:41:13 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
@@ -58,580 +58,192 @@ To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v6 07/17] media: qcom: camss: Pass CAMSS subdev callbacks via resource ops pointer
-Date:   Mon, 25 Sep 2023 16:40:49 +0100
-Message-ID: <20230925154059.837152-8-bryan.odonoghue@linaro.org>
+Subject: [PATCH v6 08/17] media: qcom: camss: Assign the correct number of RDIs per VFE
+Date:   Mon, 25 Sep 2023 16:40:50 +0100
+Message-ID: <20230925154059.837152-9-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230925154059.837152-1-bryan.odonoghue@linaro.org>
 References: <20230925154059.837152-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It is possible to pass all of the CAMSS subdevice internal operations
-pointers from the controlling resources structure with an additional
-pointer added to the resources structure.
+Each Video Front End - VFE - has a variable number of Raw Data Interfaces -
+RDIs associated with it.
 
-This allows for the removal of most of the probe-time control structures.
+The CAMSS code started from a naive implementation where a fixed define was
+used as a control in a for(){} loop iterating through RDIs.
+
+That model scales badly. An attempt was made with  VFE_LINE_NUM_GEN2 and
+VFE_LINE_NUM_GEN1 to differentiate between SoCs but, the problem with that
+is "gen1" and "gen2" have no meaning in the silicon. There is no fixed
+constraint in the silicon between VFE and RDI, it is entirely up to the SoC
+designers how many VFEs are populated and how many RDIs to associate with
+each VFE.
+
+As an example sdm845 has VFE version 175 and sm8250 VFE version 480.
+sdm845 has 2 VFEs with 4 RDIs and 1 VFE Lite with 4 RDIs.
+sm8250 has 2 VFEs with 3 RDIs and 2 VFE Lite with 4 RDIs.
+
+Clearly then we need a more granular model to capture the necessary data.
+
+The defines have gone away to be replaced with per-SoC data but, we haven't
+populated the parameter data with the real values.
+
+Let's call those values out now
+
+msm8916:
+1 x VFE
+3 x RDI per VFE (not 4)
+
+msm8996:
+2 x VFE
+3 x RDI per VFE (not 4)
+
+sdm660:
+2 x VFE
+3 x RDI per VFE (not 4)
+
+sdm845:
+2 x VFE
+4 x RDI per VFE (not 3)
+1 x VFE Lite
+4 x RDI per VFE Lite (not 3)
+
+sm8250:
+2 x VFE
+3 x RDI per VFE (not 4)
+2 x VFE Lite
+4 x RDI per VFE Lite
+
+This more complex and correct mapping was not possible prior to passing
+values via driver data. Now that we have that change in place we can
+correctly map VFEs to RDIs for each VFE.
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../media/platform/qcom/camss/camss-csid.c    |  12 +-
- .../media/platform/qcom/camss/camss-csiphy.c  |   4 +-
- drivers/media/platform/qcom/camss/camss-vfe.c |  20 +--
- drivers/media/platform/qcom/camss/camss.c     | 117 ++++++++++++------
- drivers/media/platform/qcom/camss/camss.h     |   1 +
- 5 files changed, 86 insertions(+), 68 deletions(-)
+ drivers/media/platform/qcom/camss/camss-vfe.h |  2 --
+ drivers/media/platform/qcom/camss/camss.c     | 20 +++++++++----------
+ 2 files changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index 14abb7a7ceb47..99f651e2021cb 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -575,18 +575,8 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
+index b4bae9f65c68f..4783afa73a365 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.h
++++ b/drivers/media/platform/qcom/camss/camss-vfe.h
+@@ -52,9 +52,7 @@ enum vfe_line_id {
+ 	VFE_LINE_RDI0 = 0,
+ 	VFE_LINE_RDI1 = 1,
+ 	VFE_LINE_RDI2 = 2,
+-	VFE_LINE_NUM_GEN2 = 3,
+ 	VFE_LINE_PIX = 3,
+-	VFE_LINE_NUM_GEN1 = 4,
+ 	VFE_LINE_NUM_MAX = 4
+ };
  
- 	csid->camss = camss;
- 	csid->id = id;
-+	csid->ops = res->ops;
- 
--	if (camss->res->version == CAMSS_8x16) {
--		csid->ops = &csid_ops_4_1;
--	} else if (camss->res->version == CAMSS_8x96 ||
--		   camss->res->version == CAMSS_660) {
--		csid->ops = &csid_ops_4_7;
--	} else if (camss->res->version == CAMSS_845 ||
--		   camss->res->version == CAMSS_8250) {
--		csid->ops = &csid_ops_gen2;
--	} else {
--		return -EINVAL;
--	}
- 	csid->ops->subdev_init(csid);
- 
- 	/* Memory */
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index 48e6a101ec9c9..4310a132dcbe2 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -556,19 +556,17 @@ int msm_csiphy_subdev_init(struct camss *camss,
- 	csiphy->camss = camss;
- 	csiphy->id = id;
- 	csiphy->cfg.combo_mode = 0;
-+	csiphy->ops = res->ops;
- 
- 	if (camss->res->version == CAMSS_8x16) {
--		csiphy->ops = &csiphy_ops_2ph_1_0;
- 		csiphy->formats = csiphy_formats_8x16;
- 		csiphy->nformats = ARRAY_SIZE(csiphy_formats_8x16);
- 	} else if (camss->res->version == CAMSS_8x96 ||
- 		   camss->res->version == CAMSS_660) {
--		csiphy->ops = &csiphy_ops_3ph_1_0;
- 		csiphy->formats = csiphy_formats_8x96;
- 		csiphy->nformats = ARRAY_SIZE(csiphy_formats_8x96);
- 	} else if (camss->res->version == CAMSS_845 ||
- 		   camss->res->version == CAMSS_8250) {
--		csiphy->ops = &csiphy_ops_3ph_1_0;
- 		csiphy->formats = csiphy_formats_sdm845;
- 		csiphy->nformats = ARRAY_SIZE(csiphy_formats_sdm845);
- 	} else {
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index f381c82f1f877..4d5c32d3dddbf 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -1286,25 +1286,7 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
- 	int i, j;
- 	int ret;
- 
--	switch (camss->res->version) {
--	case CAMSS_8x16:
--		vfe->ops = &vfe_ops_4_1;
--		break;
--	case CAMSS_8x96:
--		vfe->ops = &vfe_ops_4_7;
--		break;
--	case CAMSS_660:
--		vfe->ops = &vfe_ops_4_8;
--		break;
--	case CAMSS_845:
--		vfe->ops = &vfe_ops_170;
--		break;
--	case CAMSS_8250:
--		vfe->ops = &vfe_ops_480;
--		break;
--	default:
--		return -EINVAL;
--	}
-+	vfe->ops = res->ops;
- 
- 	if (!res->line_num)
- 		return -EINVAL;
 diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 54886a2a449b0..12131d9ea7ca8 100644
+index 12131d9ea7ca8..8e78dd8d5961e 100644
 --- a/drivers/media/platform/qcom/camss/camss.c
 +++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -42,7 +42,8 @@ static const struct camss_subdev_resources csiphy_res_8x16[] = {
- 				{ 0 },
- 				{ 100000000, 200000000 } },
- 		.reg = { "csiphy0", "csiphy0_clk_mux" },
--		.interrupt = { "csiphy0" }
-+		.interrupt = { "csiphy0" },
-+		.ops = &csiphy_ops_2ph_1_0
- 	},
- 
- 	/* CSIPHY1 */
-@@ -54,7 +55,8 @@ static const struct camss_subdev_resources csiphy_res_8x16[] = {
- 				{ 0 },
- 				{ 100000000, 200000000 } },
- 		.reg = { "csiphy1", "csiphy1_clk_mux" },
--		.interrupt = { "csiphy1" }
-+		.interrupt = { "csiphy1" },
-+		.ops = &csiphy_ops_2ph_1_0
- 	}
- };
- 
-@@ -73,7 +75,8 @@ static const struct camss_subdev_resources csid_res_8x16[] = {
- 				{ 0 },
+@@ -128,7 +128,7 @@ static const struct camss_subdev_resources vfe_res_8x16[] = {
  				{ 0 } },
- 		.reg = { "csid0" },
--		.interrupt = { "csid0" }
-+		.interrupt = { "csid0" },
-+		.ops = &csid_ops_4_1,
- 	},
- 
- 	/* CSID1 */
-@@ -90,7 +93,8 @@ static const struct camss_subdev_resources csid_res_8x16[] = {
- 				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid1" },
--		.interrupt = { "csid1" }
-+		.interrupt = { "csid1" },
-+		.ops = &csid_ops_4_1,
- 	},
- };
- 
-@@ -125,6 +129,7 @@ static const struct camss_subdev_resources vfe_res_8x16[] = {
  		.reg = { "vfe0" },
  		.interrupt = { "vfe0" },
- 		.line_num = VFE_LINE_NUM_GEN1,
-+		.ops = &vfe_ops_4_1
+-		.line_num = VFE_LINE_NUM_GEN1,
++		.line_num = 3,
+ 		.ops = &vfe_ops_4_1
  	}
  };
- 
-@@ -138,7 +143,8 @@ static const struct camss_subdev_resources csiphy_res_8x96[] = {
- 				{ 0 },
- 				{ 100000000, 200000000, 266666667 } },
- 		.reg = { "csiphy0", "csiphy0_clk_mux" },
--		.interrupt = { "csiphy0" }
-+		.interrupt = { "csiphy0" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 
- 	/* CSIPHY1 */
-@@ -150,7 +156,8 @@ static const struct camss_subdev_resources csiphy_res_8x96[] = {
- 				{ 0 },
- 				{ 100000000, 200000000, 266666667 } },
- 		.reg = { "csiphy1", "csiphy1_clk_mux" },
--		.interrupt = { "csiphy1" }
-+		.interrupt = { "csiphy1" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 
- 	/* CSIPHY2 */
-@@ -162,7 +169,8 @@ static const struct camss_subdev_resources csiphy_res_8x96[] = {
- 				{ 0 },
- 				{ 100000000, 200000000, 266666667 } },
- 		.reg = { "csiphy2", "csiphy2_clk_mux" },
--		.interrupt = { "csiphy2" }
-+		.interrupt = { "csiphy2" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	}
- };
- 
-@@ -181,7 +189,8 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 				{ 0 },
+@@ -277,7 +277,7 @@ static const struct camss_subdev_resources vfe_res_8x96[] = {
  				{ 0 } },
- 		.reg = { "csid0" },
--		.interrupt = { "csid0" }
-+		.interrupt = { "csid0" },
-+		.ops = &csid_ops_4_7,
- 	},
- 
- 	/* CSID1 */
-@@ -198,7 +207,8 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid1" },
--		.interrupt = { "csid1" }
-+		.interrupt = { "csid1" },
-+		.ops = &csid_ops_4_7,
- 	},
- 
- 	/* CSID2 */
-@@ -215,7 +225,8 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid2" },
--		.interrupt = { "csid2" }
-+		.interrupt = { "csid2" },
-+		.ops = &csid_ops_4_7,
- 	},
- 
- 	/* CSID3 */
-@@ -232,7 +243,8 @@ static const struct camss_subdev_resources csid_res_8x96[] = {
- 				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid3" },
--		.interrupt = { "csid3" }
-+		.interrupt = { "csid3" },
-+		.ops = &csid_ops_4_7,
- 	}
- };
- 
-@@ -266,6 +278,7 @@ static const struct camss_subdev_resources vfe_res_8x96[] = {
  		.reg = { "vfe0" },
  		.interrupt = { "vfe0" },
- 		.line_num = VFE_LINE_NUM_GEN1,
-+		.ops = &vfe_ops_4_7
+-		.line_num = VFE_LINE_NUM_GEN1,
++		.line_num = 3,
+ 		.ops = &vfe_ops_4_7
  	},
  
- 	/* VFE1 */
-@@ -285,6 +298,7 @@ static const struct camss_subdev_resources vfe_res_8x96[] = {
+@@ -297,7 +297,7 @@ static const struct camss_subdev_resources vfe_res_8x96[] = {
+ 				{ 0 } },
  		.reg = { "vfe1" },
  		.interrupt = { "vfe1" },
- 		.line_num = VFE_LINE_NUM_GEN1,
-+		.ops = &vfe_ops_4_7
+-		.line_num = VFE_LINE_NUM_GEN1,
++		.line_num = 3,
+ 		.ops = &vfe_ops_4_7
  	}
  };
- 
-@@ -300,7 +314,8 @@ static const struct camss_subdev_resources csiphy_res_660[] = {
- 				{ 100000000, 200000000, 269333333 },
+@@ -467,7 +467,7 @@ static const struct camss_subdev_resources vfe_res_660[] = {
  				{ 0 } },
- 		.reg = { "csiphy0", "csiphy0_clk_mux" },
--		.interrupt = { "csiphy0" }
-+		.interrupt = { "csiphy0" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 
- 	/* CSIPHY1 */
-@@ -314,7 +329,8 @@ static const struct camss_subdev_resources csiphy_res_660[] = {
- 				{ 100000000, 200000000, 269333333 },
- 				{ 0 } },
- 		.reg = { "csiphy1", "csiphy1_clk_mux" },
--		.interrupt = { "csiphy1" }
-+		.interrupt = { "csiphy1" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 
- 	/* CSIPHY2 */
-@@ -328,7 +344,8 @@ static const struct camss_subdev_resources csiphy_res_660[] = {
- 				{ 100000000, 200000000, 269333333 },
- 				{ 0 } },
- 		.reg = { "csiphy2", "csiphy2_clk_mux" },
--		.interrupt = { "csiphy2" }
-+		.interrupt = { "csiphy2" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	}
- };
- 
-@@ -350,7 +367,8 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid0" },
--		.interrupt = { "csid0" }
-+		.interrupt = { "csid0" },
-+		.ops = &csid_ops_4_7,
- 	},
- 
- 	/* CSID1 */
-@@ -370,7 +388,8 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid1" },
--		.interrupt = { "csid1" }
-+		.interrupt = { "csid1" },
-+		.ops = &csid_ops_4_7,
- 	},
- 
- 	/* CSID2 */
-@@ -390,7 +409,8 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid2" },
--		.interrupt = { "csid2" }
-+		.interrupt = { "csid2" },
-+		.ops = &csid_ops_4_7,
- 	},
- 
- 	/* CSID3 */
-@@ -410,7 +430,8 @@ static const struct camss_subdev_resources csid_res_660[] = {
- 				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid3" },
--		.interrupt = { "csid3" }
-+		.interrupt = { "csid3" },
-+		.ops = &csid_ops_4_7,
- 	}
- };
- 
-@@ -447,6 +468,7 @@ static const struct camss_subdev_resources vfe_res_660[] = {
  		.reg = { "vfe0" },
  		.interrupt = { "vfe0" },
- 		.line_num = VFE_LINE_NUM_GEN1,
-+		.ops = &vfe_ops_4_8
+-		.line_num = VFE_LINE_NUM_GEN1,
++		.line_num = 3,
+ 		.ops = &vfe_ops_4_8
  	},
  
- 	/* VFE1 */
-@@ -469,6 +491,7 @@ static const struct camss_subdev_resources vfe_res_660[] = {
+@@ -490,7 +490,7 @@ static const struct camss_subdev_resources vfe_res_660[] = {
+ 				{ 0 } },
  		.reg = { "vfe1" },
  		.interrupt = { "vfe1" },
- 		.line_num = VFE_LINE_NUM_GEN1,
-+		.ops = &vfe_ops_4_8
+-		.line_num = VFE_LINE_NUM_GEN1,
++		.line_num = 3,
+ 		.ops = &vfe_ops_4_8
  	}
  };
- 
-@@ -488,7 +511,8 @@ static const struct camss_subdev_resources csiphy_res_845[] = {
- 				{ 0 },
- 				{ 19200000, 240000000, 269333333 } },
- 		.reg = { "csiphy0" },
--		.interrupt = { "csiphy0" }
-+		.interrupt = { "csiphy0" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 
- 	/* CSIPHY1 */
-@@ -506,7 +530,8 @@ static const struct camss_subdev_resources csiphy_res_845[] = {
- 				{ 0 },
- 				{ 19200000, 240000000, 269333333 } },
- 		.reg = { "csiphy1" },
--		.interrupt = { "csiphy1" }
-+		.interrupt = { "csiphy1" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 
- 	/* CSIPHY2 */
-@@ -524,7 +549,8 @@ static const struct camss_subdev_resources csiphy_res_845[] = {
- 				{ 0 },
- 				{ 19200000, 240000000, 269333333 } },
- 		.reg = { "csiphy2" },
--		.interrupt = { "csiphy2" }
-+		.interrupt = { "csiphy2" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 
- 	/* CSIPHY3 */
-@@ -542,7 +568,8 @@ static const struct camss_subdev_resources csiphy_res_845[] = {
- 				{ 0 },
- 				{ 19200000, 240000000, 269333333 } },
- 		.reg = { "csiphy3" },
--		.interrupt = { "csiphy3" }
-+		.interrupt = { "csiphy3" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	}
- };
- 
-@@ -564,7 +591,8 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 				{ 19200000, 75000000, 384000000, 538666667 },
+@@ -657,7 +657,7 @@ static const struct camss_subdev_resources vfe_res_845[] = {
  				{ 384000000 } },
- 		.reg = { "csid0" },
--		.interrupt = { "csid0" }
-+		.interrupt = { "csid0" },
-+		.ops = &csid_ops_gen2
- 	},
- 
- 	/* CSID1 */
-@@ -584,7 +612,8 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 				{ 19200000, 75000000, 384000000, 538666667 },
- 				{ 384000000 } },
- 		.reg = { "csid1" },
--		.interrupt = { "csid1" }
-+		.interrupt = { "csid1" },
-+		.ops = &csid_ops_gen2
- 	},
- 
- 	/* CSID2 */
-@@ -604,7 +633,8 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 				{ 19200000, 75000000, 384000000, 538666667 },
- 				{ 384000000 } },
- 		.reg = { "csid2" },
--		.interrupt = { "csid2" }
-+		.interrupt = { "csid2" },
-+		.ops = &csid_ops_gen2
- 	}
- };
- 
-@@ -628,6 +658,7 @@ static const struct camss_subdev_resources vfe_res_845[] = {
  		.reg = { "vfe0" },
  		.interrupt = { "vfe0" },
- 		.line_num = VFE_LINE_NUM_GEN2,
-+		.ops = &vfe_ops_170
+-		.line_num = VFE_LINE_NUM_GEN2,
++		.line_num = 4,
+ 		.ops = &vfe_ops_170
  	},
  
- 	/* VFE1 */
-@@ -649,6 +680,7 @@ static const struct camss_subdev_resources vfe_res_845[] = {
+@@ -679,7 +679,7 @@ static const struct camss_subdev_resources vfe_res_845[] = {
+ 				{ 384000000 } },
  		.reg = { "vfe1" },
  		.interrupt = { "vfe1" },
- 		.line_num = VFE_LINE_NUM_GEN2,
-+		.ops = &vfe_ops_170
+-		.line_num = VFE_LINE_NUM_GEN2,
++		.line_num = 4,
+ 		.ops = &vfe_ops_170
  	},
  
- 	/* VFE-lite */
-@@ -669,6 +701,7 @@ static const struct camss_subdev_resources vfe_res_845[] = {
+@@ -700,7 +700,7 @@ static const struct camss_subdev_resources vfe_res_845[] = {
+ 				{ 384000000 } },
  		.reg = { "vfe_lite" },
  		.interrupt = { "vfe_lite" },
- 		.line_num = VFE_LINE_NUM_GEN2,
-+		.ops = &vfe_ops_170
+-		.line_num = VFE_LINE_NUM_GEN2,
++		.line_num = 4,
+ 		.ops = &vfe_ops_170
  	}
  };
- 
-@@ -680,7 +713,8 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 		.clock_rate = { { 400000000 },
- 				{ 300000000 } },
- 		.reg = { "csiphy0" },
--		.interrupt = { "csiphy0" }
-+		.interrupt = { "csiphy0" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 	/* CSIPHY1 */
- 	{
-@@ -689,7 +723,8 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 		.clock_rate = { { 400000000 },
- 				{ 300000000 } },
- 		.reg = { "csiphy1" },
--		.interrupt = { "csiphy1" }
-+		.interrupt = { "csiphy1" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 	/* CSIPHY2 */
- 	{
-@@ -698,7 +733,8 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 		.clock_rate = { { 400000000 },
- 				{ 300000000 } },
- 		.reg = { "csiphy2" },
--		.interrupt = { "csiphy2" }
-+		.interrupt = { "csiphy2" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 	/* CSIPHY3 */
- 	{
-@@ -707,7 +743,8 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 		.clock_rate = { { 400000000 },
- 				{ 300000000 } },
- 		.reg = { "csiphy3" },
--		.interrupt = { "csiphy3" }
-+		.interrupt = { "csiphy3" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 	/* CSIPHY4 */
- 	{
-@@ -716,7 +753,8 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 		.clock_rate = { { 400000000 },
- 				{ 300000000 } },
- 		.reg = { "csiphy4" },
--		.interrupt = { "csiphy4" }
-+		.interrupt = { "csiphy4" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	},
- 	/* CSIPHY5 */
- 	{
-@@ -725,7 +763,8 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 		.clock_rate = { { 400000000 },
- 				{ 300000000 } },
- 		.reg = { "csiphy5" },
--		.interrupt = { "csiphy5" }
-+		.interrupt = { "csiphy5" },
-+		.ops = &csiphy_ops_3ph_1_0
- 	}
- };
- 
-@@ -740,7 +779,8 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 100000000, 200000000, 300000000, 400000000 },
+@@ -839,7 +839,7 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
  				{ 0 } },
- 		.reg = { "csid0" },
--		.interrupt = { "csid0" }
-+		.interrupt = { "csid0" },
-+		.ops = &csid_ops_gen2
- 	},
- 	/* CSID1 */
- 	{
-@@ -752,7 +792,8 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 100000000, 200000000, 300000000, 400000000 },
- 				{ 0 } },
- 		.reg = { "csid1" },
--		.interrupt = { "csid1" }
-+		.interrupt = { "csid1" },
-+		.ops = &csid_ops_gen2
- 	},
- 	/* CSID2 */
- 	{
-@@ -763,7 +804,8 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 400000000, 480000000 },
- 				{ 0 } },
- 		.reg = { "csid2" },
--		.interrupt = { "csid2" }
-+		.interrupt = { "csid2" },
-+		.ops = &csid_ops_gen2
- 	},
- 	/* CSID3 */
- 	{
-@@ -774,7 +816,8 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 400000000, 480000000 },
- 				{ 0 } },
- 		.reg = { "csid3" },
--		.interrupt = { "csid3" }
-+		.interrupt = { "csid3" },
-+		.ops = &csid_ops_gen2
- 	}
- };
- 
-@@ -797,6 +840,7 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
  		.reg = { "vfe0" },
  		.interrupt = { "vfe0" },
- 		.line_num = 4,
-+		.ops = &vfe_ops_480
+-		.line_num = 4,
++		.line_num = 3,
+ 		.ops = &vfe_ops_480
  	},
  	/* VFE1 */
- 	{
-@@ -816,6 +860,7 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
+@@ -859,7 +859,7 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
+ 				{ 0 } },
  		.reg = { "vfe1" },
  		.interrupt = { "vfe1" },
- 		.line_num = 4,
-+		.ops = &vfe_ops_480
+-		.line_num = 4,
++		.line_num = 3,
+ 		.ops = &vfe_ops_480
  	},
  	/* VFE2 (lite) */
- 	{
-@@ -834,6 +879,7 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
- 		.reg = { "vfe_lite0" },
- 		.interrupt = { "vfe_lite0" },
- 		.line_num = 4,
-+		.ops = &vfe_ops_480
- 	},
- 	/* VFE3 (lite) */
- 	{
-@@ -852,6 +898,7 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
- 		.reg = { "vfe_lite1" },
- 		.interrupt = { "vfe_lite1" },
- 		.line_num = 4,
-+		.ops = &vfe_ops_480
- 	},
- };
- 
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index fc02aa84a5dd7..8acad7321c09d 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -49,6 +49,7 @@ struct camss_subdev_resources {
- 	char *reg[CAMSS_RES_MAX];
- 	char *interrupt[CAMSS_RES_MAX];
- 	u8 line_num;
-+	const void *ops;
- };
- 
- struct icc_bw_tbl {
 -- 
 2.42.0
 
