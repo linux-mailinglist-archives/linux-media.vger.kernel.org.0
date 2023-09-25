@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C541D7ADC0E
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 17:47:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7EBE7ADC14
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 17:47:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232689AbjIYPrc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 11:47:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47864 "EHLO
+        id S232934AbjIYPre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 11:47:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230243AbjIYPrX (ORCPT
+        with ESMTP id S232269AbjIYPrb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 11:47:23 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B58B1101
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:47:15 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-32325534cfaso2297230f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:47:15 -0700 (PDT)
+        Mon, 25 Sep 2023 11:47:31 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C55AB6
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:47:16 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-404314388ceso73069735e9.2
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 08:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695656834; x=1696261634; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1695656835; x=1696261635; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WtUvABqn7deJbHXIvivNsqSlJTQ17oV+fRU19/L86bw=;
-        b=HZkqBNGRaQdG3zTA/C/uAUAe9y9vucAnFBelQCSRRcFZTUlr0aKcDyX7l7Xh7tMLce
-         4HwEGoEcVntAKQ1l4sw6+TyTC+gwmM8eJdvV1OUomw1iVeFgcwPY9SCMb9BQ+uYJ/chu
-         tVJNIs5G3DuCy1mXrXUw+yI8ned647TGu9LROYmd9ftE/rDb1zaBqKBzU/VevfoWtFiw
-         xdy69hZi1ULzHVw5pzNgmtZtMTIBWIE0L742nafMvYV1jF5Zcm+j2700qjPhGieCqQ9h
-         mz13JVdOH/j6MwooDmzNqfEoM4FW0KSZU/E7KbPVxrtI+WrbqLxqeqW9Dng+LeA3BppC
-         6rBw==
+        bh=sc3QrJ7bPpNquzpdbmPtMRrT+D/boaJ7K4FKMOV9GkU=;
+        b=H3PVYLPpnelNgvmpHOso/1Vm4/D6bOgu8VbEy+o6OwYWwc2VY9iseE9Sp63V83/VS8
+         p74u16t27WkiUvbM8XIMPyvfIYXVuFirljLxJeK/S9zStv8GMldq7S9XLFUY44kkSIFr
+         3Ktmn0tFGAI38qUa0HX3FCHsmhnt7PPIhSnrESED6rj+7adokcnJpQ9/WNBqg+iof7Hm
+         IXa60ejcQg7WZET8DZ1Ukj8shqUQFeY5FrlHCfUhl28asThkwO9W56c0j7UU1mOw3jUN
+         YFgbbaMAtrh4IM6npp9kymismfQT+X00SKXPHOFbCKdR+hmCZZ2Yonsd32ODFW0ngFh7
+         s9uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695656834; x=1696261634;
+        d=1e100.net; s=20230601; t=1695656835; x=1696261635;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WtUvABqn7deJbHXIvivNsqSlJTQ17oV+fRU19/L86bw=;
-        b=ur007off2S6LPLJz/VSSjupIGhV1CrVtTuEpcMRWGv+3SGUDaGliT1vWWoDA4/aYSH
-         1dD/HSJsWaj/jRG4FRXIfcD4uLr4CQMMUIHdzfiDqN3EQeiPRxUtCN8ay+Wm9lkZanO5
-         YYuLisYePGw9PTAy57T6T1lM6b/lPL+LzDFti6EojbDJP/c+aleOifG+8BLZGailfW8T
-         O+j83z7v2p2t7t2yrHK3iwncp1y3nNLuoHzpNEKq61D9+g5CSHNyMhWxD0+x6cgqfFsr
-         /s5AT7qC8pEfmcPqiQVoqHeHG6V6rUFgyAK6HozXSPgnI+dZlfS7ABHSQ1brojLmlfaJ
-         jwaQ==
-X-Gm-Message-State: AOJu0YxTve2CM4+H6qtwzLBlQo98V0ZOD1jMHkO7BMLxz9GRBFoUeM+/
-        o7MQZF586IdIe+/Ul1x5J25ZJg==
-X-Google-Smtp-Source: AGHT+IHui5ItgVZVkrzlKk2MaXtQevTJX+D4WE7bMOUDc7G55beRLypjnFK5ubf4G7PQbzNMrPUorw==
-X-Received: by 2002:adf:fd8e:0:b0:31f:a0ab:26b5 with SMTP id d14-20020adffd8e000000b0031fa0ab26b5mr5846228wrr.8.1695656834064;
-        Mon, 25 Sep 2023 08:47:14 -0700 (PDT)
+        bh=sc3QrJ7bPpNquzpdbmPtMRrT+D/boaJ7K4FKMOV9GkU=;
+        b=v90a54e1ilupFhFx5/EmiS2UOMMYv0KwclBAFmL5S6mO15OWAmzLGzQG6nww8/rVuA
+         oIADDbgGDcN0GBnZt7cVKiGfH/sIuPIeXHb/ZCAb64IfO6xbki2PnR1T2IkuAIEuoCMq
+         1bh7e5bcahpZshrVn8vihRbh3h9+mJ2bPSzdJC4R1dHWvtDCGlGek4oXnJxlhvIsIB/4
+         I9rwupwwCiSbkYikntN6PAUw3kApJjjMzmOmMEsecZRzD4iDQhGuUu4FE38B4lceRhRT
+         jIydTZjM3NWsJZj9bfFc61zh0nT51mdQwJUsFl9zcevAdtBNtXTvT/wEvQ1yNUR2yaMK
+         0abA==
+X-Gm-Message-State: AOJu0YyPAlw8wGu+PZatbSpAhsSzugpiPXPtjL09QI6/IHzetzjjTeNl
+        6uKXXzBLuDTVjn+oYsRLk92xZA==
+X-Google-Smtp-Source: AGHT+IG36AW3eM7yXuWX82AYCVyQ/lYpqfCIwvyKT2Wlv/+SLpJWnSF97hCUIVDjdLYa1A33ZDM2mg==
+X-Received: by 2002:adf:fd01:0:b0:322:5d58:99b4 with SMTP id e1-20020adffd01000000b003225d5899b4mr5900724wrr.0.1695656835097;
+        Mon, 25 Sep 2023 08:47:15 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id d4-20020adffd84000000b0031f34a395e7sm12077536wrr.45.2023.09.25.08.47.13
+        by smtp.gmail.com with ESMTPSA id d4-20020adffd84000000b0031f34a395e7sm12077536wrr.45.2023.09.25.08.47.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 08:47:13 -0700 (PDT)
+        Mon, 25 Sep 2023 08:47:14 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
@@ -58,9 +58,9 @@ To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [RESEND PATCH v6 03/17] media: qcom: camss: Start to move to module compat matched resources
-Date:   Mon, 25 Sep 2023 16:46:53 +0100
-Message-ID: <20230925154707.837542-4-bryan.odonoghue@linaro.org>
+Subject: [RESEND PATCH v6 04/17] media: qcom: camss: Pass icc bandwidth table as a platform parameter
+Date:   Mon, 25 Sep 2023 16:46:54 +0100
+Message-ID: <20230925154707.837542-5-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230925154707.837542-1-bryan.odonoghue@linaro.org>
 References: <20230925154707.837542-1-bryan.odonoghue@linaro.org>
@@ -68,211 +68,121 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a lot of unnecessary if/elsing in this code that arguably
-should never have made it upstream when adding a second let alone
-subsequent SoC.
-
-I'm guilty of not fixing the mess myself when adding in the sm8250.
-Before adding in any new SoCs or resources lets take the time to cleanup
-the resource passing.
-
-First step is to pass the generic struct camss_resources as a parameter
-per the compatible list.
-
-Subsequent patches will address the other somewhat disparate strutures
-which we are also doing if/else on and assigning statically.
-
-Squashed down a commit to drop useless NULL assignment for ispif resources.
+Pass the bandwidth table as a platform parameter not if/else derived
+pointer to the static table.
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/qcom/camss/camss.c | 90 ++++++++++++-----------
- drivers/media/platform/qcom/camss/camss.h |  8 ++
- 2 files changed, 54 insertions(+), 44 deletions(-)
+ drivers/media/platform/qcom/camss/camss.c | 29 +++++++----------------
+ drivers/media/platform/qcom/camss/camss.h |  3 ++-
+ 2 files changed, 11 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 718ef8e4f5938..8fa5dee75672d 100644
+index 8fa5dee75672d..f502b4d9e07c5 100644
 --- a/drivers/media/platform/qcom/camss/camss.c
 +++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -14,6 +14,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/of_graph.h>
- #include <linux/pm_runtime.h>
- #include <linux/pm_domain.h>
-@@ -1120,47 +1121,13 @@ static int camss_of_parse_ports(struct camss *camss)
-  */
- static int camss_init_subdevices(struct camss *camss)
+@@ -1485,21 +1485,15 @@ static int camss_configure_pd(struct camss *camss)
+ static int camss_icc_get(struct camss *camss)
  {
--	const struct camss_subdev_resources *csiphy_res;
--	const struct camss_subdev_resources *csid_res;
--	const struct camss_subdev_resources *ispif_res;
--	const struct camss_subdev_resources *vfe_res;
-+	const struct camss_resources *res = camss->res;
- 	unsigned int i;
- 	int ret;
+ 	const struct resources_icc *icc_res;
+-	int nbr_icc_paths = 0;
+ 	int i;
  
--	if (camss->version == CAMSS_8x16) {
--		csiphy_res = csiphy_res_8x16;
--		csid_res = csid_res_8x16;
--		ispif_res = &ispif_res_8x16;
--		vfe_res = vfe_res_8x16;
--	} else if (camss->version == CAMSS_8x96) {
--		csiphy_res = csiphy_res_8x96;
--		csid_res = csid_res_8x96;
--		ispif_res = &ispif_res_8x96;
--		vfe_res = vfe_res_8x96;
--	} else if (camss->version == CAMSS_660) {
--		csiphy_res = csiphy_res_660;
--		csid_res = csid_res_660;
--		ispif_res = &ispif_res_660;
--		vfe_res = vfe_res_660;
--	}  else if (camss->version == CAMSS_845) {
--		csiphy_res = csiphy_res_845;
--		csid_res = csid_res_845;
--		/* Titan VFEs don't have an ISPIF  */
--		ispif_res = NULL;
--		vfe_res = vfe_res_845;
--	} else if (camss->version == CAMSS_8250) {
--		csiphy_res = csiphy_res_8250;
--		csid_res = csid_res_8250;
--		/* Titan VFEs don't have an ISPIF  */
--		ispif_res = NULL;
--		vfe_res = vfe_res_8250;
--	} else {
--		return -EINVAL;
+-	if (camss->version == CAMSS_8250) {
+-		icc_res = &icc_res_sm8250[0];
+-		nbr_icc_paths =	ICC_SM8250_COUNT;
 -	}
--
- 	for (i = 0; i < camss->csiphy_num; i++) {
- 		ret = msm_csiphy_subdev_init(camss, &camss->csiphy[i],
--					     &csiphy_res[i], i);
-+					     &res->csiphy_res[i], i);
- 		if (ret < 0) {
- 			dev_err(camss->dev,
- 				"Failed to init csiphy%d sub-device: %d\n",
-@@ -1172,7 +1139,7 @@ static int camss_init_subdevices(struct camss *camss)
- 	/* note: SM8250 requires VFE to be initialized before CSID */
- 	for (i = 0; i < camss->vfe_num + camss->vfe_lite_num; i++) {
- 		ret = msm_vfe_subdev_init(camss, &camss->vfe[i],
--					  &vfe_res[i], i);
-+					  &res->vfe_res[i], i);
- 		if (ret < 0) {
- 			dev_err(camss->dev,
- 				"Fail to init vfe%d sub-device: %d\n", i, ret);
-@@ -1182,7 +1149,7 @@ static int camss_init_subdevices(struct camss *camss)
++	icc_res = camss->res->icc_res;
  
- 	for (i = 0; i < camss->csid_num; i++) {
- 		ret = msm_csid_subdev_init(camss, &camss->csid[i],
--					   &csid_res[i], i);
-+					   &res->csid_res[i], i);
- 		if (ret < 0) {
- 			dev_err(camss->dev,
- 				"Failed to init csid%d sub-device: %d\n",
-@@ -1191,7 +1158,7 @@ static int camss_init_subdevices(struct camss *camss)
- 		}
+-	for (i = 0; i < nbr_icc_paths; i++) {
++	for (i = 0; i < camss->res->icc_path_num; i++) {
+ 		camss->icc_path[i] = devm_of_icc_get(camss->dev,
+ 						     icc_res[i].name);
+ 		if (IS_ERR(camss->icc_path[i]))
+ 			return PTR_ERR(camss->icc_path[i]);
+-
+-		camss->icc_bw_tbl[i] = icc_res[i].icc_bw_tbl;
  	}
  
--	ret = msm_ispif_subdev_init(camss, ispif_res);
-+	ret = msm_ispif_subdev_init(camss, res->ispif_res);
- 	if (ret < 0) {
- 		dev_err(camss->dev, "Failed to init ispif sub-device: %d\n",
- 		ret);
-@@ -1568,6 +1535,8 @@ static int camss_probe(struct platform_device *pdev)
- 	if (!camss)
- 		return -ENOMEM;
- 
-+	camss->res = of_device_get_match_data(dev);
-+
- 	atomic_set(&camss->ref_count, 0);
- 	camss->dev = dev;
- 	platform_set_drvdata(pdev, camss);
-@@ -1742,12 +1711,45 @@ static void camss_remove(struct platform_device *pdev)
- 	camss_genpd_cleanup(camss);
- }
- 
-+static const struct camss_resources msm8916_resources = {
-+	.csiphy_res = csiphy_res_8x16,
-+	.csid_res = csid_res_8x16,
-+	.ispif_res = &ispif_res_8x16,
-+	.vfe_res = vfe_res_8x16,
-+};
-+
-+static const struct camss_resources msm8996_resources = {
-+	.csiphy_res = csiphy_res_8x96,
-+	.csid_res = csid_res_8x96,
-+	.ispif_res = &ispif_res_8x96,
-+	.vfe_res = vfe_res_8x96,
-+};
-+
-+static const struct camss_resources sdm660_resources = {
-+	.csiphy_res = csiphy_res_660,
-+	.csid_res = csid_res_660,
-+	.ispif_res = &ispif_res_660,
-+	.vfe_res = vfe_res_660,
-+};
-+
-+static const struct camss_resources sdm845_resources = {
-+	.csiphy_res = csiphy_res_845,
-+	.csid_res = csid_res_845,
-+	.vfe_res = vfe_res_845,
-+};
-+
-+static const struct camss_resources sm8250_resources = {
-+	.csiphy_res = csiphy_res_8250,
-+	.csid_res = csid_res_8250,
-+	.vfe_res = vfe_res_8250,
-+};
-+
- static const struct of_device_id camss_dt_match[] = {
--	{ .compatible = "qcom,msm8916-camss" },
--	{ .compatible = "qcom,msm8996-camss" },
--	{ .compatible = "qcom,sdm660-camss" },
--	{ .compatible = "qcom,sdm845-camss" },
--	{ .compatible = "qcom,sm8250-camss" },
-+	{ .compatible = "qcom,msm8916-camss", .data = &msm8916_resources },
-+	{ .compatible = "qcom,msm8996-camss", .data = &msm8996_resources },
-+	{ .compatible = "qcom,sdm660-camss", .data = &sdm660_resources },
-+	{ .compatible = "qcom,sdm845-camss", .data = &sdm845_resources },
-+	{ .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
- 	{ }
+ 	return 0;
+@@ -1742,6 +1736,8 @@ static const struct camss_resources sm8250_resources = {
+ 	.csiphy_res = csiphy_res_8250,
+ 	.csid_res = csid_res_8250,
+ 	.vfe_res = vfe_res_8250,
++	.icc_res = icc_res_sm8250,
++	.icc_path_num = ARRAY_SIZE(icc_res_sm8250),
  };
  
+ static const struct of_device_id camss_dt_match[] = {
+@@ -1758,14 +1754,10 @@ MODULE_DEVICE_TABLE(of, camss_dt_match);
+ static int __maybe_unused camss_runtime_suspend(struct device *dev)
+ {
+ 	struct camss *camss = dev_get_drvdata(dev);
+-	int nbr_icc_paths = 0;
+ 	int i;
+ 	int ret;
+ 
+-	if (camss->version == CAMSS_8250)
+-		nbr_icc_paths =	ICC_SM8250_COUNT;
+-
+-	for (i = 0; i < nbr_icc_paths; i++) {
++	for (i = 0; i < camss->res->icc_path_num; i++) {
+ 		ret = icc_set_bw(camss->icc_path[i], 0, 0);
+ 		if (ret)
+ 			return ret;
+@@ -1777,17 +1769,14 @@ static int __maybe_unused camss_runtime_suspend(struct device *dev)
+ static int __maybe_unused camss_runtime_resume(struct device *dev)
+ {
+ 	struct camss *camss = dev_get_drvdata(dev);
+-	int nbr_icc_paths = 0;
++	const struct resources_icc *icc_res = camss->res->icc_res;
+ 	int i;
+ 	int ret;
+ 
+-	if (camss->version == CAMSS_8250)
+-		nbr_icc_paths =	ICC_SM8250_COUNT;
+-
+-	for (i = 0; i < nbr_icc_paths; i++) {
++	for (i = 0; i < camss->res->icc_path_num; i++) {
+ 		ret = icc_set_bw(camss->icc_path[i],
+-				 camss->icc_bw_tbl[i].avg,
+-				 camss->icc_bw_tbl[i].peak);
++				 icc_res[i].icc_bw_tbl.avg,
++				 icc_res[i].icc_bw_tbl.peak);
+ 		if (ret)
+ 			return ret;
+ 	}
 diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index 9d6ba7b17ff02..20c84e8328880 100644
+index 20c84e8328880..8b2e4adb923ef 100644
 --- a/drivers/media/platform/qcom/camss/camss.h
 +++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -79,6 +79,13 @@ enum icc_count {
- 	ICC_SM8250_COUNT = 4,
+@@ -84,6 +84,8 @@ struct camss_resources {
+ 	const struct camss_subdev_resources *csid_res;
+ 	const struct camss_subdev_resources *ispif_res;
+ 	const struct camss_subdev_resources *vfe_res;
++	const struct resources_icc *icc_res;
++	const unsigned int icc_path_num;
  };
  
-+struct camss_resources {
-+	const struct camss_subdev_resources *csiphy_res;
-+	const struct camss_subdev_resources *csid_res;
-+	const struct camss_subdev_resources *ispif_res;
-+	const struct camss_subdev_resources *vfe_res;
-+};
-+
  struct camss {
- 	enum camss_version version;
- 	struct v4l2_device v4l2_dev;
-@@ -99,6 +106,7 @@ struct camss {
+@@ -105,7 +107,6 @@ struct camss {
+ 	struct device **genpd;
  	struct device_link **genpd_link;
  	struct icc_path *icc_path[ICC_SM8250_COUNT];
- 	struct icc_bw_tbl icc_bw_tbl[ICC_SM8250_COUNT];
-+	const struct camss_resources *res;
+-	struct icc_bw_tbl icc_bw_tbl[ICC_SM8250_COUNT];
+ 	const struct camss_resources *res;
  };
  
- struct camss_camera_interface {
 -- 
 2.42.0
 
