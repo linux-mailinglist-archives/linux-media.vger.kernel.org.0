@@ -2,138 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 303557AD725
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 13:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 719E37AD730
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 13:46:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229905AbjIYLnc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 07:43:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57712 "EHLO
+        id S230117AbjIYLq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 07:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbjIYLnb (ORCPT
+        with ESMTP id S229595AbjIYLq6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 07:43:31 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B12101;
-        Mon, 25 Sep 2023 04:43:24 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC3322C6;
-        Mon, 25 Sep 2023 13:41:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695642102;
-        bh=7drmX4x0568COQ3pmzKZZ5GBj/TdmLP8mLIm57UxoTk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kdMLdujFa+CaEAZgea7ohvBwyIGATOAD46fquHT85pDVPg8wfFfhb0E4VPru3Eiky
-         TP6THd4p+RNmisuYDj1FxIsv93yIne1grVH2+/odWIVVe45WP0Hs9IVJPHlO4+eVUt
-         RB4GmJgmkL1P+o0QWWp8EhRUF7D7dboQvBwuSg70=
-Date:   Mon, 25 Sep 2023 14:43:32 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alain Volmat <alain.volmat@foss.st.com>
-Cc:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] ARM: dts: stm32: add dcmipp support to stm32mp135
-Message-ID: <20230925114332.GC8583@pendragon.ideasonboard.com>
-References: <20230901155732.252436-1-alain.volmat@foss.st.com>
- <20230901155732.252436-5-alain.volmat@foss.st.com>
- <20230905090258.GC31594@pendragon.ideasonboard.com>
- <20230922160227.GA608616@gnbcxd0016.gnb.st.com>
- <20230922160818.GJ19112@pendragon.ideasonboard.com>
- <20230925113542.GA646870@gnbcxd0016.gnb.st.com>
+        Mon, 25 Sep 2023 07:46:58 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09624DF
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 04:46:51 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4056ce55e7eso28636415e9.2
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 04:46:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695642409; x=1696247209; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vYcYzGFcPcFNcdhLbqvhHN6qFJ0rWufHOTyltNhdpfs=;
+        b=Po/PTE9m421E34P1xNXRDqjHeGT0Wi/c1sGrj8sJwY0C+nGZyV/mszIlLslSD0Y23e
+         VHZSfvJBwimRqfnGyNykgY9QOLzQ8JoD/ktup/dNcwtMdXA9f4WTSKV1Uxekm05Xp2wP
+         m+36mrhhpUdlUDyRI5xBy5aJeq3IMVf/i51jTOr/d69scZFWAdy8r6IIDj9GYahAutcr
+         qAZa2eb4ME76Ng6zPQnO6X4S93BfBe6iCjhjmVeRtRNk2o7RS1JhIYC/ICRkrbyDx/Jt
+         UJu4cPVenssu+TVNfYyS8C4Zw/PoLMNXc5E/VyXmymHaZGPRh9g5qS0ENUKdDl3VZHq4
+         6GmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695642409; x=1696247209;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vYcYzGFcPcFNcdhLbqvhHN6qFJ0rWufHOTyltNhdpfs=;
+        b=iWWwXxmlysWrYWUnXPVKQ5A8dlvbuTdJ3UT5lPpRkzs1E0me7Efm5BfosMh9SURYUV
+         BQ+FLxkbAEDgtBpkqmKXnkPjJn+HLlitYl7Yqz2YeST0OwSW1z/xAz3A1klAzaM4OQ0l
+         zkj1JB71q2HljDcazZfLFV35Rikxq9sKMEHb72v+JJiWo+3VFBin3SxaCoxRSAx9imP0
+         8wnq5uU15eKDgXWoKc6Q5q7pqg5zhNWZ1m3c7829oYVRMY3F8o2Iadcv4mPTISpYBkAh
+         zb5VdymWwSg174oqBN/p1rYC5vr3MAqg43s1OKRc5eUqWvXuy/pKaPHKsZK1gCfLFwHz
+         mxug==
+X-Gm-Message-State: AOJu0YxvGgnyLeETsDnCpD35J7t/MwNxuddxr7N4lsHQTTE1i8EYEBEs
+        Zr6n8XyLFBavNnAuyKhAeKGglQ==
+X-Google-Smtp-Source: AGHT+IFd7UcxLS+BU737pcEMWDnXE2kMVHbJQsEDBwkeKmw9iGCTaTmwo7ZTsBKSegHPVhG544O+UA==
+X-Received: by 2002:a5d:4903:0:b0:322:5251:d798 with SMTP id x3-20020a5d4903000000b003225251d798mr5427540wrq.70.1695642409326;
+        Mon, 25 Sep 2023 04:46:49 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id g10-20020adffc8a000000b003176c6e87b1sm11703603wrr.81.2023.09.25.04.46.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Sep 2023 04:46:48 -0700 (PDT)
+Message-ID: <22a7562e-53cb-40f9-a922-cf840c178506@linaro.org>
+Date:   Mon, 25 Sep 2023 12:46:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230925113542.GA646870@gnbcxd0016.gnb.st.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 11/17] media: qcom: camss: Allow clocks vfeN vfe_liteN
+ or vfe_lite
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, rfoss@kernel.org,
+        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230911131411.196033-1-bryan.odonoghue@linaro.org>
+ <20230911131411.196033-12-bryan.odonoghue@linaro.org>
+ <936acf18-b961-40e3-b68b-f1c679961d67@xs4all.nl>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <936acf18-b961-40e3-b68b-f1c679961d67@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 25, 2023 at 01:35:42PM +0200, Alain Volmat wrote:
-> On Fri, Sep 22, 2023 at 07:08:18PM +0300, Laurent Pinchart wrote:
-> > On Fri, Sep 22, 2023 at 06:02:27PM +0200, Alain Volmat wrote:
-> > > On Tue, Sep 05, 2023 at 12:02:58PM +0300, Laurent Pinchart wrote:
-> > > > On Fri, Sep 01, 2023 at 05:57:23PM +0200, Alain Volmat wrote:
-> > > > > From: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > > > > 
-> > > > > Add dcmipp support to STM32MP135.
-> > > > > 
-> > > > > Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > > > > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> > > > > ---
-> > > > >  arch/arm/boot/dts/st/stm32mp135.dtsi | 8 ++++++++
-> > > > >  1 file changed, 8 insertions(+)
-> > > > > 
-> > > > > diff --git a/arch/arm/boot/dts/st/stm32mp135.dtsi b/arch/arm/boot/dts/st/stm32mp135.dtsi
-> > > > > index abf2acd37b4e..beee9ec7ed0d 100644
-> > > > > --- a/arch/arm/boot/dts/st/stm32mp135.dtsi
-> > > > > +++ b/arch/arm/boot/dts/st/stm32mp135.dtsi
-> > > > > @@ -8,5 +8,13 @@
-> > > > >  
-> > > > >  / {
-> > > > >  	soc {
-> > > > > +		dcmipp: dcmipp@5a000000 {
-> > > > > +			compatible = "st,stm32mp13-dcmipp";
-> > > > > +			reg = <0x5a000000 0x400>;
-> > > > > +			interrupts = <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > +			resets = <&rcc DCMIPP_R>;
-> > > > > +			clocks = <&rcc DCMIPP_K>;
-> > > > > +			status = "disabled";
-> > > > 
-> > > > This needs a port, as it's marked as required in the bindings. You can
-> > > > leave the endpoint out.
-> > > 
-> > > I first agreed with your comment but, having done the check (make
-> > > CHECK_DTBS=y  ...) this doesn't seem to be required because the dcmipp
-> > > node is kept disabled within our dtsi.
-> > 
-> > Interesting.
-> > 
-> > > (it is later on only enabled in dts file which as well have the port
-> > > property).
-> > > Indeed, to check this I changed it to okay and DTC_CHK complained about
-> > > missing port property.
-> > > 
-> > > Hence, I'd think that port doesn't have to be added in this dtsi file.
-> > > Would you agree with that ?
-> > 
-> > I still think the port belongs here, as it's an intrinsic property of
-> > the dcmipp, not a property of the board. Does it cause any issue to add
-> > a port in the .dtsi ?
+On 25/09/2023 08:10, Hans Verkuil wrote:
+> On 11/09/2023 15:14, Bryan O'Donoghue wrote:
+>> The number of Video Front End - VFE or Image Front End - IFE supported
+>> with new SoCs can vary both for the full and lite cases.
+>>
+>> For example sdm845 has one vfe_lite and two vfe interfaces with the vfe
+>> clock called simply "vfe_lite" with no integer postfix. sc8280xp has four
+>> vfe and four vfe lite blocks.
+>>
+>> At the moment we declare vfe_lite0 and vfe_lite1 for sm8250 but never set
+>> those clocks because we don't match the strings.
+>>
+>> We need to support the following clock name formats
+>>
+>> - vfeN
+>> - vfe_liteN
+>> - vfe_lite
+>>
+>> with N being any reasonably sized integer.
+>>
+>> There are two sites in this code which need to do the same thing,
+>> constructing and matching strings with the pattern above, so encapsulate
+>> the logic in one function.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+>>   drivers/media/platform/qcom/camss/camss-vfe.c | 22 ++++++++++++++-----
+>>   1 file changed, 16 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+>> index db8f68819ded9..f3cf387e4907e 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+>> @@ -431,6 +431,20 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
+>>   	complete(&vfe->reset_complete);
+>>   }
+>>   
+>> +static int vfe_match_clock_names(struct vfe_device *vfe,
+>> +				 struct camss_clock *clock)
+>> +{
+>> +	char vfe_name[6]; /* vfeXX\0 */
+>> +	char vfe_lite_name[11]; /* vfe_liteXX\0 */
+>> +
+>> +	snprintf(vfe_name, sizeof(vfe_name), "vfe%d", vfe->id);
+>> +	snprintf(vfe_lite_name, sizeof(vfe_lite_name), "vfe_lite%d", vfe->id);
+>> +
+>> +	return (!strcmp(clock->name, vfe_name) ||
+>> +		!strcmp(clock->name, vfe_lite_name) ||
+>> +		!strcmp(clock->name, "vfe_lite"));
+>> +}
 > 
-> I agree that the port refers more to the SoC (hence dtsi) rather than
-> the board (hence dts), however I am wondering if this is really
-> something usually done.  I had a look at other dtsi with node related
-> to similar kind of devices and it seems to me that there is no such case
-> of a dtsi with a port having nothing in it.  Did I missed something ?
+> I'm getting this compiler warning:
+> 
+> drivers/media/platform/qcom/camss/camss-vfe.c: In function 'vfe_match_clock_names':
+> drivers/media/platform/qcom/camss/camss-vfe.c:483:52: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+>    483 |         snprintf(vfe_name, sizeof(vfe_name), "vfe%d", vfe->id);
+>        |                                                    ^
+> 
+> Since vfe->id is a u8 I would just increase both the vfe_name and vfe_lite_name
+> sizes by 1.
+> 
+> Regards,
+> 
+> 	Hans
+> 
 
-Look at the csi@32e4000 and csi@32e5000 nodes in
-arch/arm64/boot/dts/freescale/imx8mp.dtsi for instance. There are quite
-a few other examples.
+Hmm. True.
 
-> > > > With this fixed,
-> > > > 
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > 
-> > > > > +		};
-> > > > >  	};
-> > > > >  };
+Maximum value of VFE id is 255 @ u8
 
--- 
-Regards,
+---
+bod
 
-Laurent Pinchart
