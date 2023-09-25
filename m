@@ -2,44 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F5717AD1A6
-	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 09:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A7B97AD1B3
+	for <lists+linux-media@lfdr.de>; Mon, 25 Sep 2023 09:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbjIYH1f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 03:27:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46258 "EHLO
+        id S229582AbjIYHdB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 03:33:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjIYH1d (ORCPT
+        with ESMTP id S229475AbjIYHdA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 03:27:33 -0400
+        Mon, 25 Sep 2023 03:33:00 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D46FB
-        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 00:27:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFAD5C433C7;
-        Mon, 25 Sep 2023 07:27:23 +0000 (UTC)
-Message-ID: <f2a1b5ba-c5b3-4690-bad4-3792d895eb60@xs4all.nl>
-Date:   Mon, 25 Sep 2023 09:27:21 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F2AC2
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 00:32:54 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45CAFC433C7;
+        Mon, 25 Sep 2023 07:32:51 +0000 (UTC)
+Message-ID: <8175c3d7-9e28-4483-a573-c64109784c60@xs4all.nl>
+Date:   Mon, 25 Sep 2023 09:32:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 02/13] media: rockchip: rga: extract helper to fill
  descriptors
 Content-Language: en-US, nl
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
+To:     Michael Tretter <m.tretter@pengutronix.de>,
         Jacob Chen <jacob-chen@iotwrt.com>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Heiko Stuebner <heiko@sntech.de>,
         Shengyu Qu <wiagn233@outlook.com>,
         Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-        Diederik de Haas <didi.debian@cknow.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        Robin Murphy <robin.murphy@arm.com>,
+        Diederik de Haas <didi.debian@cknow.org>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
 References: <20230914-rockchip-rga-multiplanar-v1-0-abfd77260ae3@pengutronix.de>
  <20230914-rockchip-rga-multiplanar-v1-2-abfd77260ae3@pengutronix.de>
- <239e2853-f89f-20da-2492-7f6d33aede63@arm.com>
- <20230914175724.GB1580188@pengutronix.de>
- <dde29b86-1cca-0712-0f0d-25d7e6d3327e@arm.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -84,9 +81,9 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <dde29b86-1cca-0712-0f0d-25d7e6d3327e@arm.com>
+In-Reply-To: <20230914-rockchip-rga-multiplanar-v1-2-abfd77260ae3@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
         SPF_PASS autolearn=no autolearn_force=no version=3.4.6
@@ -96,63 +93,151 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/09/2023 22:33, Robin Murphy wrote:
-> On 2023-09-14 18:57, Michael Tretter wrote:
->> Hi Robin,
->>
->> On Thu, 14 Sep 2023 16:06:27 +0100, Robin Murphy wrote:
->>> On 2023-09-14 13:40, Michael Tretter wrote:
->>>> The IOMMU of the RGA is programmed with a list of DMA descriptors that
->>>> contain an 32 bit address per 4k page in the video buffers. The address
->>>> in the descriptor points to the start address of the page.
->>>>
->>>> Introduce 'struct rga_dma_desc' to make the handling of the DMA
->>>> descriptors explicit instead of hiding them behind standard types.
->>>>
->>>> As the descriptors only handle 32 bit addresses, addresses above 4 GB
->>>> cannot be addressed. If this is detected, stop filling the descriptor
->>>> list and report an error.
->>>
->>> That sounds unnecessary, since the only DMA addresses the RGA should be
->>> seeing are those from a dma_map_sg() call using the RGA device itself, and
->>> that would have failed if it was unable to provide a valid DMA address for
->>> the device.
->>>
->>> The existing rga_buf_map() code is so clearly wrong I can't tell whether
->>> that mapping is done somewhere out in the core framework or whether the
->>> driver's supposed to be doing it for itself.
->>
->> The sg_table is filled by dma_map_sgtable in
->> drivers/media/common/videobuf2/videobuf2-dma-sg.c.
+On 14/09/2023 14:40, Michael Tretter wrote:
+> The IOMMU of the RGA is programmed with a list of DMA descriptors that
+> contain an 32 bit address per 4k page in the video buffers. The address
+> in the descriptor points to the start address of the page.
 > 
-> Ah, great - in that case all you should need to do here is fill out the DMA descriptors with the correct DMA address as you are doing. If buf->dev is the right thing and you've set your DMA masks
-> correctly then you can rely on the DMA addresses being appropriate already, since it's vb2-dma-sg's job to get that right (which per another recent thread it will do, but could do better...)
+> Introduce 'struct rga_dma_desc' to make the handling of the DMA
+> descriptors explicit instead of hiding them behind standard types.
+> 
+> As the descriptors only handle 32 bit addresses, addresses above 4 GB
+> cannot be addressed. If this is detected, stop filling the descriptor
+> list and report an error.
+> 
+> While at it, use provided helpers for iterating the sg_table instead of
+> manually calculating the DMA addresses.
+> 
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> ---
+>  drivers/media/platform/rockchip/rga/rga-buf.c | 47 +++++++++++++++------------
+>  drivers/media/platform/rockchip/rga/rga.h     |  8 +++--
+>  2 files changed, 33 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
+> index 81508ed5abf3..df5ebc90e32d 100644
+> --- a/drivers/media/platform/rockchip/rga/rga-buf.c
+> +++ b/drivers/media/platform/rockchip/rga/rga-buf.c
+> @@ -5,6 +5,7 @@
+>   */
+>  
+>  #include <linux/pm_runtime.h>
+> +#include <linux/scatterlist.h>
+>  
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-ioctl.h>
+> @@ -15,6 +16,25 @@
+>  #include "rga-hw.h"
+>  #include "rga.h"
+>  
+> +static int fill_descriptors(struct rga_dma_desc *desc, struct sg_table *sgt)
+> +{
+> +	struct sg_dma_page_iter iter;
+> +	struct rga_dma_desc *tmp = desc;
+> +	unsigned int num_desc = 0;
+> +	dma_addr_t addr;
+> +
+> +	for_each_sgtable_dma_page(sgt, &iter, 0) {
+> +		addr = sg_page_iter_dma_address(&iter);
+> +		if (upper_32_bits(addr) != 0L)
+> +			return -1;
+> +		tmp->addr = lower_32_bits(addr);
+> +		tmp++;
+> +		num_desc++;
+> +	}
+> +
+> +	return num_desc;
+> +}
+> +
+>  static int
+>  rga_queue_setup(struct vb2_queue *vq,
+>  		unsigned int *nbuffers, unsigned int *nplanes,
+> @@ -114,11 +134,8 @@ void rga_buf_map(struct vb2_buffer *vb)
+>  {
+>  	struct rga_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+>  	struct rockchip_rga *rga = ctx->rga;
+> -	struct sg_table *sgt;
+> -	struct scatterlist *sgl;
+> -	unsigned int *pages;
+> -	unsigned int address, len, i, p;
+> -	unsigned int mapped_size = 0;
+> +	struct rga_dma_desc *pages;
+> +	unsigned int num_desc = 0;
+>  
+>  	if (vb->type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
+>  		pages = rga->src_mmu_pages;
+> @@ -126,23 +143,13 @@ void rga_buf_map(struct vb2_buffer *vb)
+>  		pages = rga->dst_mmu_pages;
+>  
+>  	/* Create local MMU table for RGA */
+> -	sgt = vb2_plane_cookie(vb, 0);
+> -
+> -	for_each_sg(sgt->sgl, sgl, sgt->nents, i) {
+> -		len = sg_dma_len(sgl) >> PAGE_SHIFT;
+> -		address = sg_phys(sgl);
+> -
+> -		for (p = 0; p < len; p++) {
+> -			dma_addr_t phys = address +
+> -					  ((dma_addr_t)p << PAGE_SHIFT);
+> -
+> -			pages[mapped_size + p] = phys;
+> -		}
+> -
+> -		mapped_size += len;
+> +	num_desc = fill_descriptors(pages, vb2_dma_sg_plane_desc(vb, 0));
+> +	if (num_desc < 0) {
+> +		dev_err(rga->dev, "Failed to map buffer");
+> +		return;
+>  	}
+>  
+>  	/* sync local MMU table for RGA */
+>  	dma_sync_single_for_device(rga->dev, virt_to_phys(pages),
+> -				   8 * PAGE_SIZE, DMA_BIDIRECTIONAL);
+> +				   num_desc * sizeof(*pages), DMA_BIDIRECTIONAL);
+>  }
+> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
+> index 5fa9d2f366dc..22f7da28ac51 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.h
+> +++ b/drivers/media/platform/rockchip/rga/rga.h
+> @@ -40,6 +40,10 @@ struct rga_frame {
+>  	u32 size;
+>  };
+>  
+> +struct rga_dma_desc {
+> +	u32 addr;
+> +};
+> +
+>  struct rockchip_rga_version {
+>  	u32 major;
+>  	u32 minor;
+> @@ -81,8 +85,8 @@ struct rockchip_rga {
+>  	struct rga_ctx *curr;
+>  	dma_addr_t cmdbuf_phy;
+>  	void *cmdbuf_virt;
+> -	unsigned int *src_mmu_pages;
+> -	unsigned int *dst_mmu_pages;
+> +	struct rga_dma_desc *src_mmu_pages;
+> +	struct rga_dma_desc *dst_mmu_pages;
 
-A lot of media drivers that require 32 bit DMA set the vb2_queue gfp_flags:
+This breaks compilation:
 
-q->gfp_flags = __GFP_DMA32;
+drivers/media/platform/rockchip/rga/rga.c: In function ‘rga_probe’:
+drivers/media/platform/rockchip/rga/rga.c:875:28: error: assignment to ‘struct rga_dma_desc *’ from incompatible pointer type ‘unsigned int *’ [-Werror=incompatible-pointer-types]
+  875 |         rga->src_mmu_pages =
+      |                            ^
+drivers/media/platform/rockchip/rga/rga.c:881:28: error: assignment to ‘struct rga_dma_desc *’ from incompatible pointer type ‘unsigned int *’ [-Werror=incompatible-pointer-types]
+  881 |         rga->dst_mmu_pages =
+      |                            ^
 
-This is ORed in the vb2 framework when calling alloc_pages().
-
-That said, that's only used for the V4L2_MEMORY_MMAP streaming model, i.e. when
-the driver allocates the memory. For MEMORY_DMABUF this isn't used and you still
-need the correct DMA mask for the device.
-
-Since I do not see __GFP_DMA32, I suspect that allocating buffers in vb2 might
-still choose buffers above 4 GB, which would be wrong for this driver.
+It's probably something that is fixed in a later patch, but as it is right
+now this series breaks bisect.
 
 Regards,
 
 	Hans
 
+>  };
+>  
+>  struct rga_frame *rga_get_frame(struct rga_ctx *ctx, enum v4l2_buf_type type);
 > 
->> Do you suggest to just drop the check for the addresses or is there something
->> fundamentally wrong with filling the descriptor list in the driver? Can you
->> explain what exactly is wrong with this code and do you have a pointer how to
->> implement this correctly?
-> 
-> The rest of your patch is frankly more correct than what it's replacing, you can just drop the redundant upper_32_bits() check :)
-> 
-> Cheers,
-> Robin.
 
