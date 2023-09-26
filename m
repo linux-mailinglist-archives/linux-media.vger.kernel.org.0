@@ -2,114 +2,284 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDCEB7AE257
-	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 01:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A464B7AE371
+	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 03:46:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229485AbjIYXfQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Sep 2023 19:35:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
+        id S230519AbjIZBqo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Sep 2023 21:46:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231929AbjIYXfP (ORCPT
+        with ESMTP id S231359AbjIZBqn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Sep 2023 19:35:15 -0400
-Received: from mo-csw.securemx.jp (mo-csw1802.securemx.jp [210.130.202.152])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1830136;
-        Mon, 25 Sep 2023 16:35:08 -0700 (PDT)
-Received: by mo-csw.securemx.jp (mx-mo-csw1802) id 38PNYkos921746; Tue, 26 Sep 2023 08:34:46 +0900
-X-Iguazu-Qid: 2yAaLCv84JdgTyrse5
-X-Iguazu-QSIG: v=2; s=0; t=1695684885; q=2yAaLCv84JdgTyrse5; m=WFyM66ysULiWHMyZilvpa0lvU0iH8qWby07yq/rBB0g=
-Received: from imx12-a.toshiba.co.jp ([38.106.60.135])
-        by relay.securemx.jp (mx-mr1800) id 38PNYi0i055533
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Tue, 26 Sep 2023 08:34:45 +0900
-X-SA-MID: 7628795
-From:   Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v8 5/5] MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
-Date:   Tue, 26 Sep 2023 08:28:06 +0900
-X-TSB-HOP2: ON
-Message-Id: <20230925232806.950683-6-yuji2.ishikawa@toshiba.co.jp>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230925232806.950683-1-yuji2.ishikawa@toshiba.co.jp>
-References: <20230925232806.950683-1-yuji2.ishikawa@toshiba.co.jp>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Mon, 25 Sep 2023 21:46:43 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E2E10C
+        for <linux-media@vger.kernel.org>; Mon, 25 Sep 2023 18:46:36 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52263C433C8
+        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 01:46:35 +0000 (UTC)
+Date:   Tue, 26 Sep 2023 03:46:33 +0200
+Message-ID: <0da9123541f8bc07d21f7e710894eff1.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Added entries for visconti Video Input Interface driver, including;
-* device tree bindings
-* source files
-* documentation files
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
----
-Changelog v2:
-- no change
+Results of the daily build of media_tree:
 
-Changelog v3:
-- added entry for driver API documentation
+date:			Tue Sep 26 03:00:18 CEST 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	72666b8ca7ddd9f3745a0049f0aa80785925ebfb
+v4l-utils git hash:	b79e00a74fde35d0c0bb801b78b15664d3f10309
+edid-decode git hash:	e59b8a2ffd690d6576639365a67e890d91ca443d
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.2
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8464-g7c80de6b
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b81901f31466fd2a51e2fe28a46979d1690a01d1
+host hardware:		x86_64
+host os:		6.4.13-cobaltpc1
 
-Changelog v4:
-- added entry for header file
+linux-git-arm: (18 string truncate warnings) OK
+linux-git-powerpc64: (30 string truncate warnings) OK
+linux-git-arm64: (16 string truncate warnings) OK
+linux-git-i686: WARNINGS:
 
-Changelog v5:
-- no change
+In file included from include/linux/string.h:254,
+                 from arch/x86/include/asm/page_32.h:18,
+                 from arch/x86/include/asm/page.h:14,
+                 from arch/x86/include/asm/thread_info.h:12,
+                 from include/linux/thread_info.h:60,
+                 from arch/x86/include/asm/preempt.h:9,
+                 from include/linux/preempt.h:79,
+                 from include/linux/spinlock.h:56,
+                 from include/linux/mmzone.h:8,
+                 from include/linux/gfp.h:7,
+                 from include/linux/slab.h:16,
+                 from drivers/staging/media/atomisp//include/hmm/hmm.h:26,
+                 from drivers/staging/media/atomisp/pci/sh_css_params.c:26:
+In function 'fortify_memcpy_chk',
+    inlined from 'sh_css_store_sp_group_to_ddr' at drivers/staging/media/atomisp/pci/sh_css_params.c:3736:3:
+include/linux/fortify-string.h:592:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+  592 |                         __read_overflow2_field(q_size_field, size);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Changelog v6:
-- update path to VIIF driver source files
+linux-git-x86_64: (41 string truncate warnings) WARNINGS:
 
-Changelog v7:
-- no change
+In file included from include/linux/string.h:254,
+                 from include/linux/bitmap.h:11,
+                 from include/linux/cpumask.h:12,
+                 from arch/x86/include/asm/paravirt.h:17,
+                 from arch/x86/include/asm/cpuid.h:62,
+                 from arch/x86/include/asm/processor.h:19,
+                 from arch/x86/include/asm/cpufeature.h:5,
+                 from arch/x86/include/asm/thread_info.h:53,
+                 from include/linux/thread_info.h:60,
+                 from arch/x86/include/asm/preempt.h:9,
+                 from include/linux/preempt.h:79,
+                 from include/linux/spinlock.h:56,
+                 from include/linux/mmzone.h:8,
+                 from include/linux/gfp.h:7,
+                 from include/linux/slab.h:16,
+                 from drivers/staging/media/atomisp//include/hmm/hmm.h:26,
+                 from drivers/staging/media/atomisp/pci/sh_css_params.c:26:
+In function 'fortify_memcpy_chk',
+    inlined from 'sh_css_store_sp_group_to_ddr' at drivers/staging/media/atomisp/pci/sh_css_params.c:3736:3:
+include/linux/fortify-string.h:592:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+  592 |                         __read_overflow2_field(q_size_field, size);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Changelog v8:
-- rename bindings description file
+no-acpi.config: (38 string truncate warnings) OK
+no-of.config: (39 string truncate warnings) WARNINGS:
 
- MAINTAINERS | 4 ++++
- 1 file changed, 4 insertions(+)
+In file included from include/linux/string.h:254,
+                 from include/linux/bitmap.h:11,
+                 from include/linux/cpumask.h:12,
+                 from arch/x86/include/asm/paravirt.h:17,
+                 from arch/x86/include/asm/cpuid.h:62,
+                 from arch/x86/include/asm/processor.h:19,
+                 from arch/x86/include/asm/cpufeature.h:5,
+                 from arch/x86/include/asm/thread_info.h:53,
+                 from include/linux/thread_info.h:60,
+                 from arch/x86/include/asm/preempt.h:9,
+                 from include/linux/preempt.h:79,
+                 from include/linux/spinlock.h:56,
+                 from include/linux/mmzone.h:8,
+                 from include/linux/gfp.h:7,
+                 from include/linux/slab.h:16,
+                 from drivers/staging/media/atomisp//include/hmm/hmm.h:26,
+                 from drivers/staging/media/atomisp/pci/sh_css_params.c:26:
+In function 'fortify_memcpy_chk',
+    inlined from 'sh_css_store_sp_group_to_ddr' at drivers/staging/media/atomisp/pci/sh_css_params.c:3736:3:
+include/linux/fortify-string.h:592:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+  592 |                         __read_overflow2_field(q_size_field, size);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 90f13281d297..2cd290dfadd3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2891,17 +2891,21 @@ F:	Documentation/devicetree/bindings/arm/toshiba.yaml
- F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pipllct.yaml
- F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pismu.yaml
- F:	Documentation/devicetree/bindings/gpio/toshiba,gpio-visconti.yaml
-+F:	Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
- F:	Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
- F:	Documentation/devicetree/bindings/pci/toshiba,visconti-pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/toshiba,visconti-pinctrl.yaml
- F:	Documentation/devicetree/bindings/watchdog/toshiba,visconti-wdt.yaml
-+F:	Documentation/driver-api/media/drivers/visconti-viif.rst
- F:	arch/arm64/boot/dts/toshiba/
- F:	drivers/clk/visconti/
- F:	drivers/gpio/gpio-visconti.c
-+F:	drivers/media/platform/toshiba/visconti/
- F:	drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c
- F:	drivers/pci/controller/dwc/pcie-visconti.c
- F:	drivers/pinctrl/visconti/
- F:	drivers/watchdog/visconti_wdt.c
-+F:	include/uapi/linux/visconti_viif.h
- N:	visconti
- 
- ARM/UNIPHIER ARCHITECTURE
--- 
-2.34.1
+no-pm.config: (41 string truncate warnings) WARNINGS:
 
+In file included from include/linux/string.h:254,
+                 from include/linux/bitmap.h:11,
+                 from include/linux/cpumask.h:12,
+                 from arch/x86/include/asm/cpumask.h:5,
+                 from arch/x86/include/asm/msr.h:11,
+                 from arch/x86/include/asm/processor.h:23,
+                 from arch/x86/include/asm/cpufeature.h:5,
+                 from arch/x86/include/asm/thread_info.h:53,
+                 from include/linux/thread_info.h:60,
+                 from arch/x86/include/asm/preempt.h:9,
+                 from include/linux/preempt.h:79,
+                 from include/linux/spinlock.h:56,
+                 from include/linux/mmzone.h:8,
+                 from include/linux/gfp.h:7,
+                 from include/linux/slab.h:16,
+                 from drivers/staging/media/atomisp//include/hmm/hmm.h:26,
+                 from drivers/staging/media/atomisp/pci/sh_css_params.c:26:
+In function 'fortify_memcpy_chk',
+    inlined from 'sh_css_store_sp_group_to_ddr' at drivers/staging/media/atomisp/pci/sh_css_params.c:3736:3:
+include/linux/fortify-string.h:592:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+  592 |                         __read_overflow2_field(q_size_field, size);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+no-pm-sleep.config: (41 string truncate warnings) WARNINGS:
+
+In file included from include/linux/string.h:254,
+                 from include/linux/bitmap.h:11,
+                 from include/linux/cpumask.h:12,
+                 from arch/x86/include/asm/cpumask.h:5,
+                 from arch/x86/include/asm/msr.h:11,
+                 from arch/x86/include/asm/processor.h:23,
+                 from arch/x86/include/asm/cpufeature.h:5,
+                 from arch/x86/include/asm/thread_info.h:53,
+                 from include/linux/thread_info.h:60,
+                 from arch/x86/include/asm/preempt.h:9,
+                 from include/linux/preempt.h:79,
+                 from include/linux/spinlock.h:56,
+                 from include/linux/mmzone.h:8,
+                 from include/linux/gfp.h:7,
+                 from include/linux/slab.h:16,
+                 from drivers/staging/media/atomisp//include/hmm/hmm.h:26,
+                 from drivers/staging/media/atomisp/pci/sh_css_params.c:26:
+In function 'fortify_memcpy_chk',
+    inlined from 'sh_css_store_sp_group_to_ddr' at drivers/staging/media/atomisp/pci/sh_css_params.c:3736:3:
+include/linux/fortify-string.h:592:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+  592 |                         __read_overflow2_field(q_size_field, size);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+no-debug-fs.config: (40 string truncate warnings) WARNINGS:
+
+In file included from include/linux/string.h:254,
+                 from include/linux/bitmap.h:11,
+                 from include/linux/cpumask.h:12,
+                 from arch/x86/include/asm/paravirt.h:17,
+                 from arch/x86/include/asm/cpuid.h:62,
+                 from arch/x86/include/asm/processor.h:19,
+                 from arch/x86/include/asm/cpufeature.h:5,
+                 from arch/x86/include/asm/thread_info.h:53,
+                 from include/linux/thread_info.h:60,
+                 from arch/x86/include/asm/preempt.h:9,
+                 from include/linux/preempt.h:79,
+                 from include/linux/spinlock.h:56,
+                 from include/linux/mmzone.h:8,
+                 from include/linux/gfp.h:7,
+                 from include/linux/slab.h:16,
+                 from drivers/staging/media/atomisp//include/hmm/hmm.h:26,
+                 from drivers/staging/media/atomisp/pci/sh_css_params.c:26:
+In function 'fortify_memcpy_chk',
+    inlined from 'sh_css_store_sp_group_to_ddr' at drivers/staging/media/atomisp/pci/sh_css_params.c:3736:3:
+include/linux/fortify-string.h:592:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+  592 |                         __read_overflow2_field(q_size_field, size);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+sparse: WARNINGS:
+
+In file included from include/linux/string.h:254,
+                 from arch/x86/include/asm/page_32.h:18,
+                 from arch/x86/include/asm/page.h:14,
+                 from arch/x86/include/asm/thread_info.h:12,
+                 from include/linux/thread_info.h:60,
+                 from arch/x86/include/asm/preempt.h:9,
+                 from include/linux/preempt.h:79,
+                 from include/linux/spinlock.h:56,
+                 from include/linux/mmzone.h:8,
+                 from include/linux/gfp.h:7,
+                 from include/linux/slab.h:16,
+                 from drivers/staging/media/atomisp//include/hmm/hmm.h:26,
+                 from drivers/staging/media/atomisp/pci/sh_css_params.c:26:
+In function 'fortify_memcpy_chk',
+    inlined from 'sh_css_store_sp_group_to_ddr' at drivers/staging/media/atomisp/pci/sh_css_params.c:3736:3:
+include/linux/fortify-string.h:592:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+  592 |                         __read_overflow2_field(q_size_field, size);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: (41 string truncate warnings) WARNINGS:
+
+In file included from include/linux/string.h:254,
+                 from include/linux/bitmap.h:11,
+                 from include/linux/cpumask.h:12,
+                 from arch/x86/include/asm/paravirt.h:17,
+                 from arch/x86/include/asm/cpuid.h:62,
+                 from arch/x86/include/asm/processor.h:19,
+                 from arch/x86/include/asm/cpufeature.h:5,
+                 from arch/x86/include/asm/thread_info.h:53,
+                 from include/linux/thread_info.h:60,
+                 from arch/x86/include/asm/preempt.h:9,
+                 from include/linux/preempt.h:79,
+                 from include/linux/spinlock.h:56,
+                 from include/linux/mmzone.h:8,
+                 from include/linux/gfp.h:7,
+                 from include/linux/slab.h:16,
+                 from drivers/staging/media/atomisp//include/hmm/hmm.h:26,
+                 from drivers/staging/media/atomisp/pci/sh_css_params.c:26:
+In function 'fortify_memcpy_chk',
+    inlined from 'sh_css_store_sp_group_to_ddr' at drivers/staging/media/atomisp/pci/sh_css_params.c:3736:3:
+include/linux/fortify-string.h:592:25: warning: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+  592 |                         __read_overflow2_field(q_size_field, size);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Tue Sep 26 03:16:55 CEST 2023
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 5
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 5
+
+date:			Tue Sep 26 03:44:44 CEST 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
