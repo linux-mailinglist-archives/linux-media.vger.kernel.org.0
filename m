@@ -2,104 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5A527AEED5
-	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 16:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EDA67AEEE6
+	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 16:58:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232626AbjIZOXt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Sep 2023 10:23:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35418 "EHLO
+        id S234590AbjIZOiq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Sep 2023 10:38:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230330AbjIZOXs (ORCPT
+        with ESMTP id S234417AbjIZOip (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Sep 2023 10:23:48 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 477E4CE
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 07:23:41 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-50309daf971so14493436e87.3
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 07:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695738219; x=1696343019; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UssXu9Wxp7fradqyberfVF7I5rVfNpdxXWunpxNTls4=;
-        b=oEyrmtyn3jdCbatN+pNvMZoSf7p/lROxrZBbFVlxW16nDjRgDOHIOj1dDrfnlx1ueZ
-         WTZSI/pkLNRPijhwYu30kl30GXd+VCeFEOa3B990q+Te1gZg9asyGBgB+EYCcD8ehtmr
-         5UN2/iG5xtYeFBJFO2IHNhMzv/scisKynLJgBmZTZRkVi/r7T9DwI1moSuJLH95zAJ9T
-         a4aCpo/9KnKjNK6RycCU1Ym9t5jOSk87vTvt89uUo802SQ6h1wqdqSOlgk0LX1ktH/Xn
-         zj0cxqC52Bv5omhB9gAdgak7yvm3j3n/ujaEPhReoOYZM3lKjPLRaJgLH4JgPpWWdg7z
-         W16w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695738219; x=1696343019;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UssXu9Wxp7fradqyberfVF7I5rVfNpdxXWunpxNTls4=;
-        b=K21Zm0jImsWA87po7EarbxP1YOx2GKRXTZvphGydh7YZWWfJUdqrKiPAu4LExG7aNY
-         oIEtPCPqbcnKilBINuBC1lfe+fELW02Q9bq3qhmqOhBo90VkNFwCnWte/ibt3Wca2X+C
-         KruyxeFF1EsVavGfogX1nRZkjZxDl8enARPVOUcTClSH8Fh4NvyjvBnY7vtV3iPIktfe
-         roJnfak1wmMz//8dhI9z/KYFJclCpt/kuNu34N64AmQvvEPg2UN+AVrm5lK8d5UjgM+9
-         jh0QT/P590bF6BeQ7Pd3DRRC7IHZmaRJSj3g8ybh5ezkpdjzvetyndhjU+5B4+izTJHv
-         J2OQ==
-X-Gm-Message-State: AOJu0Yw1PSp86VE6qM8GRc4IXEqIXhMy8jarjICOqd+wSs5C1QiPWqNC
-        enuo72bMEho12HcaFByb13WnUg==
-X-Google-Smtp-Source: AGHT+IHcUm19hYY20+/d6glprVTg94TajPGELXQ4CXgxFCpADEW5oa8NfeU0dLhCEciyb1RBm632fA==
-X-Received: by 2002:a05:6512:110b:b0:502:fdca:2eaa with SMTP id l11-20020a056512110b00b00502fdca2eaamr9903205lfg.52.1695738219428;
-        Tue, 26 Sep 2023 07:23:39 -0700 (PDT)
-Received: from localhost (h3221.n1.ips.mtn.co.ug. [41.210.178.33])
-        by smtp.gmail.com with ESMTPSA id j19-20020a170906051300b009937e7c4e54sm7884736eja.39.2023.09.26.07.23.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 07:23:39 -0700 (PDT)
-Date:   Tue, 26 Sep 2023 17:23:35 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     milkfafa@gmail.com
-Cc:     linux-media@vger.kernel.org, openbmc@lists.ozlabs.org
-Subject: [bug report] media: nuvoton: Add driver for NPCM video capture and
- encoding engine
-Message-ID: <f794bf89-584b-41ff-a021-ab973cae89f8@moroto.mountain>
+        Tue, 26 Sep 2023 10:38:45 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E01CFE6;
+        Tue, 26 Sep 2023 07:38:38 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 79E101FB;
+        Tue, 26 Sep 2023 07:39:16 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 36D223F5A1;
+        Tue, 26 Sep 2023 07:38:37 -0700 (PDT)
+Message-ID: <06d476e5-ba85-1504-d69b-a8c1cf617d54@arm.com>
+Date:   Tue, 26 Sep 2023 15:38:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH] MA-21654 Use dma_alloc_pages in
+ vb2_dma_sg_alloc_compacted
+Content-Language: en-GB
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Tomasz Figa <tfiga@chromium.org>, Fang Hui <hui.fang@nxp.com>,
+        m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        anle.pan@nxp.com, xuegang.liu@nxp.com
+References: <20230914145812.12851-1-hui.fang@nxp.com>
+ <CAAFQd5CcN+TiVd8vhMxQRbmrJuBGYwL5d6C0fKzOy4ujjM_JMQ@mail.gmail.com>
+ <353919fd-932e-5d81-6ac5-7b51117366cd@arm.com> <20230926065143.GB5606@lst.de>
+ <4d0f3de5-1d34-d998-cb55-7ce7bfaf3f49@arm.com>
+ <20230926094616.GA14877@lst.de>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230926094616.GA14877@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Marvin Lin,
+On 26/09/2023 10:46 am, Christoph Hellwig wrote:
+> On Tue, Sep 26, 2023 at 09:21:15AM +0100, Robin Murphy wrote:
+>> On 2023-09-26 07:51, Christoph Hellwig wrote:
+>>> On Wed, Sep 20, 2023 at 05:54:26PM +0100, Robin Murphy wrote:
+>>>> As I mentioned before, I think it might make the most sense to make the
+>>>> whole thing into a "proper" dma_alloc_sgtable() function, which can then be
+>>>> used with dma_sync_sgtable_*() as dma_alloc_pages() is used with
+>>>> dma_sync_single_*() (and then dma_alloc_noncontiguous() clearly falls as
+>>>> the special in-between case).
+>>>
+>>> Why not just use dma_alloc_noncontiguous if the caller wants an sgtable
+>>> anyway?
+>>
+>> Because we don't need the restriction of the allocation being
+>> DMA-contiguous (and thus having to fall back to physically-contiguous in
+>> the absence of an IOMMU). That's what vb2_dma_contig already does, whereas
+>> IIUC vb2_dma_sg is for devices which can handle genuine scatter-gather DMA
+>> (and so are less likely to have an IOMMU, and more likely to need the best
+>> shot at piecing together large allocations).
+> 
+> Let's just extent dma_alloc_noncontiguous with a max_dma_segments
+> parameter instead of adding yet another API.
 
-The patch 70721089985c: "media: nuvoton: Add driver for NPCM video
-capture and encoding engine" from Sep 22, 2023 (linux-next), leads to
-the following Smatch static checker warning:
+Sure, that could work equally well, and might even help make its 
+existing usage a bit clearer.
 
-	drivers/media/platform/nuvoton/npcm-video.c:1004 npcm_video_raw()
-	warn: sleeping in atomic context
-
-drivers/media/platform/nuvoton/npcm-video.c
-    998 static unsigned int npcm_video_raw(struct npcm_video *video, int index, void *addr)
-    999 {
-    1000         unsigned int width = video->active_timings.width;
-    1001         unsigned int height = video->active_timings.height;
-    1002         unsigned int i, len, offset, bytes = 0;
-    1003 
---> 1004         video->rect[index] = npcm_video_add_rect(video, index, 0, 0, width, height);
-                                      ^^^^^^^^^^^^^^^^^^^
-This function does a sleeping allocation (GFP_KERNEL).  However
-npcm_video_irq() is holding spin_lock(&video->lock); so this is a
-sleeping in atomic bug.
-
-    1005 
-    1006         for (i = 0; i < height; i++) {
-    1007                 len = width * video->bytesperpixel;
-    1008                 offset = i * video->bytesperline;
-    1009 
-    1010                 memcpy(addr + bytes, video->src.virt + offset, len);
-    1011                 bytes += len;
-    1012         }
-    1013 
-    1014         return bytes;
-    1015 }
-
-regards,
-dan carpenter
+Cheers,
+Robin.
