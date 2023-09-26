@@ -2,353 +2,373 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DF7B7AF668
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 00:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C59197AF720
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 02:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbjIZWmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Sep 2023 18:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38854 "EHLO
+        id S230017AbjI0AN4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Sep 2023 20:13:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbjIZWkA (ORCPT
+        with ESMTP id S229990AbjI0ALz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Sep 2023 18:40:00 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DD781BDF
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 14:00:05 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-35137ab766dso38305ab.0
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 14:00:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695762005; x=1696366805; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TA45zhytFPggJ/KNc3nT/s2rZmIFeSaR3+xLqtcK0a4=;
-        b=oyelkEXOrVN4kgQ2Y+/AjDXZOeYSXja0GiLIWcu97fTGoD6ajiIUNYoWWaJ3vjE9s0
-         VOvGgeIsh9I8Q5cn2e3gswt3A5jCewomhdodu/7ez2yUxsSOy2GavMOxVlcLFe8Wyk+q
-         +ZzPhhUwQDKiXF6bnjm2X3X0Dvc+xVkDL0atxPn91y7GT2+LY7eyKmQ5UYOW6SoKu9XG
-         GOJZwj5U9lfEZroUs4YiNJa57qs6sYsA/kp0zTJojB7WPZJPnpAUknU8YeL5eXTIxJ16
-         fA9qAzFxPeCJX86I2Ij2k4HxJhOzXvgBPmxDT3Cj2Gl48PU0xFbOUJufBAwoHfqjXXpt
-         rcgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695762005; x=1696366805;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TA45zhytFPggJ/KNc3nT/s2rZmIFeSaR3+xLqtcK0a4=;
-        b=afJzzpurE2J3s9wl0Yk25XiJHDK93zyTEAEOMa5AV+sDl+smkugNcxfrSTg8JORAu2
-         mLZeZGQyEHKkAxhKOuCOr1Mx8lgiOI9V2mBcFbgHQH/58fYpl5XJwVbEsrzWFJDrA7te
-         PtTtiR7OYC0k/vMWjXZ/QmYR5/4cqV02FjZed/Ni+2F/t9juXDURFtXaGW+nRm9AbWFs
-         Wk/VcZeewNnnLtf0/dVGRZ+Jgn3VCqANqs7fvNlTqGP684RdUqQktGxllniz9HLVmh6+
-         NsN2/T6nTCPZ1Lpocm4sHZDF3EQx2n8ubOUEYN0gtWq3J9gd/bKdml1AjVdyaT/a4Lr1
-         FaOQ==
-X-Gm-Message-State: AOJu0YwW9SVMa5hXAtz5GsYXEOfSqbvIXFTn/3CrKw5kBWfcfnLYJ1m4
-        yyCfAvIiIEifrV93T2Czmfz8VMtbWxsKIH1Fsent
-X-Google-Smtp-Source: AGHT+IH0K9jqTlO5uKW9Jk4H1zWznZIkAiTG/Sjcg0WAY719KKeJ9HLq7/pc0+OhaE2YfKwbhRYcwP13j84kzOzGKFA=
-X-Received: by 2002:a92:c562:0:b0:351:4dad:4738 with SMTP id
- b2-20020a92c562000000b003514dad4738mr367127ilj.9.1695762004652; Tue, 26 Sep
- 2023 14:00:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
- <20230911125936.10648-13-yunfei.dong@mediatek.com> <1df3e79b84933dda0313d0d9719220dbc06c9022.camel@collabora.com>
- <d4cedcb0-32ed-495d-a8cd-a635d5105824@xs4all.nl> <5307203d79c0d90cc742a315bb161fa796b9960f.camel@mediatek.com>
- <bafc37e8-96e8-41c0-b805-c6477f0d7c4a@xs4all.nl> <CA+ddPcN6EaFERC60_Z_-ZmWzqyUEwxiDCZwt_U6Y-gpaAu76tA@mail.gmail.com>
- <ff7aa575-c820-4dfa-853f-77438b8b149a@xs4all.nl> <b7d661637eacbda3e83d192b1126fc3970c4f50d.camel@collabora.com>
- <c3d14f64-bf04-46b9-ac7b-af7ef9014335@xs4all.nl> <00302ac675af858eb11d8398f100921af806bc30.camel@mediatek.com>
- <3e053387-4ba6-49bc-a59a-46854e0a7c26@xs4all.nl> <CA+ddPcOaCKq5Nd_3eWwJ3=oAf=5t-Z+w51NqapXN8VBuvbTw3g@mail.gmail.com>
- <71cadec5-06df-4490-9b06-e3af6bb43498@xs4all.nl> <CA+ddPcN0ivYa+vfvs-8PDpkDFkC=1gkM6fkeP7kE8Wqbi1w+dw@mail.gmail.com>
-In-Reply-To: <CA+ddPcN0ivYa+vfvs-8PDpkDFkC=1gkM6fkeP7kE8Wqbi1w+dw@mail.gmail.com>
-From:   Jeffrey Kardatzke <jkardatzke@google.com>
-Date:   Tue, 26 Sep 2023 13:59:50 -0700
-Message-ID: <CA+ddPcMX=6ek-EVRMxJcRfZxRuLTGL3A-jeeNaifNF0E5AvVHw@mail.gmail.com>
-Subject: Re: [PATCH 12/14] media: medkatek: vcodec: set secure mode to decoder driver
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>,
-        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "frkoenig@chromium.org" <frkoenig@chromium.org>,
-        "stevecho@chromium.org" <stevecho@chromium.org>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        "nhebert@chromium.org" <nhebert@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "hsinyi@chromium.org" <hsinyi@chromium.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "nfraprado@collabora.com" <nfraprado@collabora.com>
+        Tue, 26 Sep 2023 20:11:55 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C49FC46A3;
+        Tue, 26 Sep 2023 16:29:56 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [45.84.211.191])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 17FCD660731C;
+        Wed, 27 Sep 2023 00:29:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1695770995;
+        bh=KvkFiRPKdGvQj6Wwi6VvHejV7MQfknC6iOfkSZ6pmlE=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=LfBmxNENe/eR4pJ9lyOCjRMq+x7WuYXFbiKxTml38dPsrQMEqFaRtzEgGD1s5IhSH
+         zXbf9W95YsRig7QHa2BGwVCKm76pJRZn1BGfSejxlwDB4dmUgTWObJtzTXPFL6t4ZW
+         Trm8y9COhly+XRF/Vc4As0ZwgChdRFKOQ4gY2y3d/6a/5bCQzGIilz1kTK+a8t5NnY
+         0+QmMv9WdcnPWk81BQ4afIn377rIlDTcbQWAL/ORHTd8y3zdNGYmM7dEK7GOtcc606
+         Q9gzulHTxZfnOq+zD4suirgrC8DKRoWgU9ZCmEsidiCG1OSvWYQGydEnJNJ/+p4jw3
+         7wi79sNdbBYJw==
+Message-ID: <330a177320fd766af8eddb76f57ea728b2e36afe.camel@collabora.com>
+Subject: Re: [PATCH v12 5/7] media: chips-media: wave5: Add the v4l2 layer
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jackson Lee <jackson.lee@chipsnmedia.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Robert Beckett <bob.beckett@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+Date:   Wed, 27 Sep 2023 01:29:44 +0200
+In-Reply-To: <6ae8a639-b9f5-4426-be49-5340a8b8b5e9@xs4all.nl>
+References: <20230915-wave5_v12_on_media_master-v12-0-92fc66cd685d@collabora.com>
+         <20230915-wave5_v12_on_media_master-v12-5-92fc66cd685d@collabora.com>
+         <b7aa9a5a-018a-4d78-b001-4ba84acb1e24@xs4all.nl>
+         <7b159731dfbc2ab8243396eaec8f41be10af5160.camel@collabora.com>
+         <6ae8a639-b9f5-4426-be49-5340a8b8b5e9@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hans,
-
-I've been looking through the v4l2/vbuf2 code to get an idea of the
-details for implementing a new memory type for secure buffers.  What
-it comes down to essentially is that it would behave just like
-V4L2_MEMORY_DMABUF, but then there would be an extra check in
-__prepare_dmabuf (in videobuf2-core.c) when the memory type is SECURE
-to ensure that it is actually from a secure dma-buf allocation.  So
-I'm thinking an alternate solution might be cleaner so we don't have
-two memory types that are handled nearly identically in most of the
-code. What do you think about a new memory flag like
-V4L2_MEMORY_FLAG_SECURE?  This would be set in vb2_queue struct like
-the other existing memory flag. Then when it gets into
-__prepare_dmabuf and invokes attach_dmabuf on each buffer...that call
-could then check for the existence of that flag, and if it's there it
-could validate it is actually secure memory.  Then in various other
-dmabuf vb2_mem_ops (maybe alloc, get_userptr, vaddr and mmap) those
-could also check for the secure flag, and if present return an
-error/null.  Then also in the driver specific vb2_ops for queue_setup,
-the MTK driver could recognize the flag there and then configure
-itself for secure mode.
-
-How does that sound as an overall strategy?
-
-Cheers,
-Jeff
-
-On Mon, Sep 25, 2023 at 9:51=E2=80=AFAM Jeffrey Kardatzke <jkardatzke@googl=
-e.com> wrote:
->
-> On Mon, Sep 25, 2023 at 2:00=E2=80=AFAM Hans Verkuil <hverkuil-cisco@xs4a=
-ll.nl> wrote:
-> >
-> > On 22/09/2023 21:17, Jeffrey Kardatzke wrote:
-> > > On Fri, Sep 22, 2023 at 1:44=E2=80=AFAM Hans Verkuil <hverkuil-cisco@=
-xs4all.nl> wrote:
-> > >>
-> > >> On 22/09/2023 05:28, Yunfei Dong (=E8=91=A3=E4=BA=91=E9=A3=9E) wrote=
-:
-> > >>> Hi Hans,
-> > >>>
-> > >>> Thanks for your help to give some good advice.
-> > >>> On Wed, 2023-09-20 at 09:20 +0200, Hans Verkuil wrote:
-> > >>>>
-> > >>>>>>>> In any case, using a control to switch to secure mode and usin=
+Le vendredi 22 septembre 2023 =C3=A0 09:33 +0200, Hans Verkuil a =C3=A9crit=
+=C2=A0:
+> On 21/09/2023 21:11, Nicolas Dufresne wrote:
+> > Le mercredi 20 septembre 2023 =C3=A0 17:13 +0200, Hans Verkuil a =C3=A9=
+crit=C2=A0:
+> > > On 15/09/2023 23:11, Sebastian Fricke wrote:
+> > > > From: Nas Chung <nas.chung@chipsnmedia.com>
+> > > >=20
+> > > > Add the decoder and encoder implementing the v4l2
+> > > > API. This patch also adds the Makefile and the VIDEO_WAVE_VPU confi=
 g
-> > >>>> a control
-> > >>>>>>>> to convert a dmabuf fd to a secure handle seems a poor choice =
-to
-> > >>>> me.
-> > >>>>>>>>
-> > >>>>>>>> I was wondering if it wouldn't be better to create a new
-> > >>>> V4L2_MEMORY_ type,
-> > >>>>>>>> e.g. V4L2_MEMORY_DMABUF_SECURE (or perhaps _DMABUF_OPTEE). Tha=
-t
-> > >>>> ensures that
-> > >>>>>>>> once you create buffers for the first time, the driver can
-> > >>>> switch into secure
-> > >>>>>>>> mode, and until all buffers are released again you know that t=
-he
-> > >>>> driver will
-> > >>>>>>>> stay in secure mode.
-> > >>>>>>>
-> > >>>>>>> Why do you think the control for setting secure mode is a poor
-> > >>>> choice?
-> > >>>>>>> There's various places in the driver code where functionality
-> > >>>> changes
-> > >>>>>>> based on being secure/non-secure mode, so this is very much a
-> > >>>> 'global'
-> > >>>>>>> setting for the driver. It could be inferred based off a new
-> > >>>> memory
-> > >>>>>>> type for the queues...which then sets that flag in the driver;
-> > >>>> but
-> > >>>>>>> that seems like it would be more fragile and would require
-> > >>>> checking
-> > >>>>>>> for incompatible output/capture memory types. I'm not against
-> > >>>> another
-> > >>>>>>> way of doing this; but didn't see why you think the proposed
-> > >>>> method is
-> > >>>>>>> a poor choice.
-> > >>>>>>
-> > >>>>>> I assume you are either decoding to secure memory all the time, =
-or
-> > >>>> not
-> > >>>>>> at all. That's something you would want to select the moment you
-> > >>>> allocate
-> > >>>>>> the first buffer. Using the V4L2_MEMORY_ value would be the
-> > >>>> natural place
-> > >>>>>> for that. A control can typically be toggled at any time, and it
-> > >>>> makes
-> > >>>>>> no sense to do that for secure streaming.
-> > >>>>>>
-> > >>>>>> Related to that: if you pass a dmabuf fd you will need to check
-> > >>>> somewhere
-> > >>>>>> if the fd points to secure memory or not. You don't want to mix
-> > >>>> the two
-> > >>>>>> but you want to check that at VIDIOC_QBUF time.
-> > >>>>>>
-> > >>>>>> Note that the V4L2_MEMORY_ value is already checked in the v4l2
-> > >>>> core,
-> > >>>>>> drivers do not need to do that.
-> > >>>>>
-> > >>>>> Just to clarify a bit, and make sure I understand this too. You a=
-re
-> > >>>> proposing to
-> > >>>>> introduce something like:
-> > >>>>>
-> > >>>>>    V4L2_MEMORY_SECURE_DMABUF
-> > >>>>>
-> > >>>>> Which like V4L2_MEMORY_DMABUF is meant to import dmabuf, while
-> > >>>> telling the
-> > >>>>> driver that the memory is secure according to the definition of
-> > >>>> "secure" for the
-> > >>>>> platform its running on.
-> > >>>>>
-> > >>>>> This drivers also allocate secure SHM (a standard tee concept) an=
+> > > >=20
+> > > > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > > > Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> > > > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > > > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+> > > > ---
+> > > >  drivers/media/platform/chips-media/Kconfig         |    1 +
+> > > >  drivers/media/platform/chips-media/Makefile        |    1 +
+> > > >  drivers/media/platform/chips-media/wave5/Kconfig   |   12 +
+> > > >  drivers/media/platform/chips-media/wave5/Makefile  |   10 +
+> > > >  .../platform/chips-media/wave5/wave5-helper.c      |  196 ++
+> > > >  .../platform/chips-media/wave5/wave5-helper.h      |   30 +
+> > > >  .../platform/chips-media/wave5/wave5-vpu-dec.c     | 1965 ++++++++=
+++++++++++++
+> > > >  .../platform/chips-media/wave5/wave5-vpu-enc.c     | 1825 ++++++++=
+++++++++++
+> > > >  .../media/platform/chips-media/wave5/wave5-vpu.c   |  331 ++++
+> > > >  .../media/platform/chips-media/wave5/wave5-vpu.h   |   83 +
+> > > >  10 files changed, 4454 insertions(+)
+> > > >=20
+>=20
+> <snip>
+>=20
+> > > > +static int wave5_vpu_dec_set_eos_on_firmware(struct vpu_instance *=
+inst)
+> > > > +{
+> > > > +	int ret;
+> > > > +
+> > > > +	ret =3D wave5_vpu_dec_update_bitstream_buffer(inst, 0);
+> > > > +	if (ret) {
+> > > > +		dev_err(inst->dev->dev,
+> > > > +			"Setting EOS for the bitstream, fail: %d\n", ret);
+> > >=20
+> > > Is this an error due to a driver problem, or because a bad bitstream =
+is
+> > > fed from userspace? In the first case, dev_err would be right, in the
+> > > second dev_dbg would be more appropriate. Bad userspace input should =
+not
+> > > spam the kernel log in general.
+> >=20
+> > Its the first. To set the EOS flag, a command is sent to the firmware. =
+That
+> > command may never return (timeout) or may report an error. For this spe=
+cific
+> > command, if that happens we are likely facing firmware of driver proble=
+m (or
+> > both).
+>=20
+> OK, I'd add that as a comment here as this is unexpected behavior.
+>=20
+> >=20
+> > >=20
+> > > > +		return ret;
+> > > > +	}
+> > > > +	return 0;
+> > > > +}
+>=20
+> <snip>
+>=20
+> > > > +static int wave5_vpu_dec_create_bufs(struct file *file, void *priv=
+,
+> > > > +				     struct v4l2_create_buffers *create)
+> > > > +{
+> > > > +	struct v4l2_format *f =3D &create->format;
+> > > > +
+> > > > +	if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> > > > +		return -ENOTTY;
+> > >=20
+> > > Huh? Why is this needed?
+> >=20
+> > Minimally a comment should be added. The why is that we support CREATE_=
+BUF for
+> > OUTPUT queue (bitstream) but not for CAPTURE queues. This is simply not
+> > supported by Wave5 firmware. Do you have any suggestion how this asymme=
+try can
+> > be implemented better ?
+>=20
+> Certainly not with ENOTTY: the ioctl exists, it is just not supported for
+> CAPTURE queues.
+>=20
+> How about -EPERM? And document this error as well in the VIDIOC_CREATE_BU=
+FS
+> documentation. And you want a dev_dbg here too.
+
+The suggestion cannot be used since there is documentation for that one alr=
+eady,
+and it does not match "unsupported".
+
+"Permission denied. Can be returned if the device needs write permission, o=
+r
+some special capabilities is needed (e. g. root)"
+
+What about using the most logical error code, which name is actually obviou=
+s,
+like ENOTSUP ?
+
+   #define ENOTSUPP	524	/* Operation is not supported */
+
+>=20
+> So I would propose that EPERM is returned if CREATE_BUFS is only supporte=
 d
-> > >>>> have internal
-> > >>>>> allocation for reconstruction buffer and some hw specific referen=
-ce
-> > >>>> metadata. So
-> > >>>>> the idea would be that it would keep allocation using the dmabuf
-> > >>>> heap internal
-> > >>>>> APIs ? And decide which type of memory based on the memory type
-> > >>>> found in the
-> > >>>>> queue?
-> > >>>>
-> > >>>> Yes. Once you request the first buffer you basically tell the driv=
-er
-> > >>>> whether it
-> > >>>> will operate in secure or non-secure mode, and that stays that way
-> > >>>> until all
-> > >>>> buffers are freed. I think that makes sense.
-> > >>>>
-> > >>>
-> > >>> According to iommu's information, the dma operation for secure and =
-non-
-> > >>> secure are the same, whether just need to add one memory type in v4=
-l2
-> > >>> framework the same as V4L2_MEMORY_DMABUF? The dma operation in
-> > >>> videobuf2-dma-contig.c can use the same functions.
-> > >>
-> > >> So if I pass a non-secure dma fd to the capture queue of the codec, =
-who
-> > >> will check that it can't write the data to that fd? Since doing so w=
-ould
-> > >> expose the video. Presumably at some point the tee code will prevent=
- that?
-> > >> (I sincerely hope so!)
-> > >
-> > > It is entirely the job of the TEE to prevent this. Nothing in the
-> > > kernel should allow exploitation of what happens in the TEE no matter
-> > > what goes on in the kernel
-> > >
-> > >>
-> > >> Having a separate V4L2_MEMORY_DMABUF_SECURE type is to indicate to t=
-he
-> > >> driver that 1) it can expect secure dmabuf fds, 2) it can configure =
-itself
-> > >> for that (that avoids using a control to toggle between normal and s=
-ecure mode),
-> > >> and at VIDIOC_QBUF time it is easy for the V4L2 core to verify that =
-the
-> > >> fd that is passed in is for secure memory. This means that mistakes =
-by
-> > >> userspace are caught at QBUF time.
-> > >>
-> > >> Of course, this will not protect you (people can disable this check =
-by
-> > >> recompiling the kernel), that still has to be done by the firmware, =
-but
-> > >> it catches userspace errors early on.
-> > >>
-> > >> Also, while for this hardware the DMA operation is the same, that mi=
-ght
-> > >> not be the case for other hardware.
-> > >
-> > > That's a really good point. So one of the other models that is used
-> > > for secure video decoding is to send the encrypted buffer into the
-> > > video decoder directly (i.e. V4L2_MEMORY_MMAP) and then also send in
-> > > all the corresponding crypto parameters (i.e. algorithm, IV,
-> > > encryption pattern, etc.). Then the video driver internally does the
-> > > decryption and decode in one operation.  That's not what we want to
-> > > use here for Mediatek; but I've done other integrations that work tha=
-t
-> > > way (that was for VAAPI [1], not V4L2...but there are other ARM
-> > > implementations that do operate that way).  So if we end up requiring
-> > > V4L2_MEMORY_DMABUF_SECURE to indicate secure mode and enforce it on
-> > > output+capture, that'll close off other potential solutions in the
-> > > future.
-> > >
-> > > Expanding on your point about DMA operations being different on
-> > > various hardware, that also makes me think a general check for this i=
+> for for one of the two queues of an M2M device.
+
+Note that userspace does not care of the difference between an ioctl not be=
+ing
+implemented at all or not being implement for one queue. GStreamer have bee=
 n
-> > > v4l2 code may also be limiting. There are various ways secure video
-> > > pipelines are done, so leaving these checks up to the individual
-> > > drivers that implement secure video decode may be more pragmatic. If
-> > > there's a generic V4L2 _CID_SECURE_MODE control, that makes it more
-> > > general for how drivers can handle secure video decode.
-> >
-> > No, using a control for this is really wrong.
-> >
-> > The reason why I want it as a separate memory type is that that is
-> > what you use when you call VIDIOC_REQBUFS, and that ioctl is also
-> > when things are locked down in a driver. As long as no buffers have
-> > been allocated, you can still change formats, parameters, etc. But
-> > once buffers are allocated, most of that can't be changed, since
-> > changing e.g. the format would also change the buffer sizes.
-> >
-> > It also locks down who owns the buffers by storing the file descriptor.
-> > This prevents other processes from hijacking the I/O streaming, only
-> > the owner can stream buffers.
-> >
-> > So it is a natural point in the sequence for selecting secure
-> > buffers.
-> >
-> > If you request V4L2_MEMORY_DMABUF_SECURE for the output, then the
-> > capture side must also use DMABUF_SECURE. Whether or not you can
-> > use regular DMABUF for the output side and select DMABUF_SECURE
-> > on the capture side is a driver decision. It can be useful to
-> > support this for testing the secure capture using regular video
-> > streams (something Nicolas discussed as well), but it depends on
-> > the hardware whether you can use that technique.
->
-> OK, that does work for the additional cases I mentioned.  And for
-> testing...we would still want to use DMABUF_SECURE on both ends for
-> Mediatek at least (that's the only way they support it). But rather
-> than having to bother with a clearkey implementation...we can just do
-> something that directly copies compressed video into the secure
-> dmabufs and then exercises the whole pipeline from there. This same
-> thing happens with the 'clear lead' that is sometimes there with
-> encrypted video (where the first X seconds are unencrypted and then it
-> switches to encrypted...but you're still using the secure video
-> pipeline on the unencrypted frames in that case).
->
->
-> >
-> > Regards,
-> >
-> >         Hans
-> >
-> > >
-> > > [1] - https://github.com/intel/libva/blob/master/va/va.h#L2177
-> > >
-> > >>
-> > >> Regards,
-> > >>
-> > >>         Hans
-> > >>
-> > >>>
-> > >>> Best Regards,
-> > >>> Yunfei Dong
-> > >>>
-> > >>
-> >
+testing with both queue type for couple of years now. Adding this distincti=
+on is
+just leaking an implementation details to userspace. I'm fine to just do wh=
+at
+you'd like, just stating the obvious that while it may look logical inside =
+the
+kernel, its a bit of a non-sense for our users.
+
+regards,
+Nicolas
+
+>=20
+> >=20
+> > >=20
+> > > > +
+> > > > +	return v4l2_m2m_ioctl_create_bufs(file, priv, create);
+> > > > +}
+>=20
+> <snip>
+>=20
+> > > > +static int wave5_vpu_dec_queue_setup(struct vb2_queue *q, unsigned=
+ int *num_buffers,
+> > > > +				     unsigned int *num_planes, unsigned int sizes[],
+> > > > +				     struct device *alloc_devs[])
+> > > > +{
+> > > > +	struct vpu_instance *inst =3D vb2_get_drv_priv(q);
+> > > > +	struct v4l2_pix_format_mplane inst_format =3D
+> > > > +		(q->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) ? inst->src_f=
+mt : inst->dst_fmt;
+> > > > +	unsigned int i;
+> > > > +
+> > > > +	dev_dbg(inst->dev->dev, "%s: num_buffers: %u | num_planes: %u | t=
+ype: %u\n", __func__,
+> > > > +		*num_buffers, *num_planes, q->type);
+> > > > +
+> > > > +	/* the CREATE_BUFS case */
+> > > > +	if (*num_planes) {
+> > > > +		if (inst_format.num_planes !=3D *num_planes)
+> > > > +			return -EINVAL;
+> > > > +
+> > > > +		for (i =3D 0; i < *num_planes; i++) {
+> > > > +			if (sizes[i] < inst_format.plane_fmt[i].sizeimage)
+> > > > +				return -EINVAL;
+> > > > +		}
+> > > > +	/* the REQBUFS case */
+> > > > +	} else {
+> > > > +		*num_planes =3D inst_format.num_planes;
+> > > > +
+> > > > +		if (q->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+> > > > +			sizes[0] =3D inst_format.plane_fmt[0].sizeimage;
+> > > > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u\n", __func__, sizes[0]=
+);
+> > > > +		} else if (*num_planes =3D=3D 1) {
+> > > > +			if (inst->output_format =3D=3D FORMAT_422)
+> > > > +				sizes[0] =3D inst_format.width * inst_format.height * 2;
+> > > > +			else
+> > > > +				sizes[0] =3D inst_format.width * inst_format.height * 3 / 2;
+> > > > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u\n", __func__, sizes[0]=
+);
+> > > > +		} else if (*num_planes =3D=3D 2) {
+> > > > +			sizes[0] =3D inst_format.width * inst_format.height;
+> > > > +			if (inst->output_format =3D=3D FORMAT_422)
+> > > > +				sizes[1] =3D inst_format.width * inst_format.height;
+> > > > +			else
+> > > > +				sizes[1] =3D inst_format.width * inst_format.height / 2;
+> > > > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u | size[1]: %u\n",
+> > > > +				__func__, sizes[0], sizes[1]);
+> > > > +		} else if (*num_planes =3D=3D 3) {
+> > > > +			sizes[0] =3D inst_format.width * inst_format.height;
+> > > > +			if (inst->output_format =3D=3D FORMAT_422) {
+> > > > +				sizes[1] =3D inst_format.width * inst_format.height / 2;
+> > > > +				sizes[2] =3D inst_format.width * inst_format.height / 2;
+> > > > +			} else {
+> > > > +				sizes[1] =3D inst_format.width * inst_format.height / 4;
+> > > > +				sizes[2] =3D inst_format.width * inst_format.height / 4;
+> > > > +			}
+> > > > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u | size[1]: %u | size[2=
+]: %u\n",
+> > > > +				__func__, sizes[0], sizes[1], sizes[2]);
+> > > > +		}
+> > > > +	}
+> > > > +
+> > > > +	if (inst->state =3D=3D VPU_INST_STATE_INIT_SEQ &&
+> > > > +	    q->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+> > > > +		if (*num_buffers > inst->dst_buf_count &&
+> > > > +		    *num_buffers < WAVE5_MAX_FBS)
+> > > > +			inst->dst_buf_count =3D *num_buffers;
+> > >=20
+> > > In the create_bufs case, *num_buffers is the number of buffers you ar=
+e
+> > > adding to the already existing buffers. Frankly, the logic here is
+> > > dubious. I'm not sure what the intent is. Why do you need to keep tra=
+ck
+> > > of the buf count at all when the vb2_queue already does that?
+> >=20
+> > This needs to be cleaned up. CREATE_BUFS case is not supported for capt=
+ure, and
+> > so there is no such weirdo case second calls for that queue at least. M=
+eanwhile,
+> > inst->dst_buf_count is used a MIN_BUFFERS_FOR_CAPTURE initially, and th=
+e number
+> > of allocated buffer later. I think it would be better to simply store t=
+he min,
+> > and use the queue to track the number of allocated buffers.
+> >=20
+> > In this diver, the reference frame are stored separately, and compresse=
+d. The
+> > capture queue contains the display frame. There is a gap when comes tim=
+e to
+> > transfer timestamp, and for this reason we had to keep the two fbc_coun=
+t equal.
+> > We classified this as hardware issue and moved on.
+> >=20
+> > I think the dst_buf_count can be dropped now and the "*num_buffers > in=
+st-
+> > > dst_buf_count" not longer make any sense.
+> >=20
+> > >=20
+> > > WAVE5_MAX_FBS =3D=3D 32, which is VIDEO_MAX_FRAMES. You can just drop=
+ the check
+> > > against WAVE5_MAX_FBS since the core ensures already it will never al=
+locate
+> > > more than VIDEO_MAX_FRAMES.
+> > >=20
+> > > I'm not sure why WAVE5_MAX_FBS is defined at all, when it is just equ=
+al to
+> > > VIDEO_MAX_FRAMES. Perhaps it can be replaced everywhere with VIDEO_MA=
+X_FRAMES?
+> >=20
+> > That is more challenging changes, since VIDEO_MAX_FRAMES is a software
+> > limitation, but WAVE5_MAX_FBS is a hardware limitation. Buffer index on=
+ly have 4
+> > bits on this hardware. And the marking of frame being used for display =
+is using
+> > a 32bit flag. Considering there is effort to lift that software limitat=
+ion, it
+> > seems ill advised to completely stop ensuring this HW limit is respecte=
+d.
+>=20
+> If there are only 4 bits for the buffer index, shouldn't WAVE5_MAX_FBS be=
+ 16? Or
+> did you mean '5 bits'? Assuming that you meant '5 bits', then that makes
+> WAVE5_MAX_FBS identical to VIDEO_MAX_FRAMES, but that is just luck, reall=
+y.
+>=20
+> In any case, you should document at the place where WAVE5_MAX_FBS is defi=
+ned that
+> this is a hardware limitation, and not a random software limit.
+>=20
+> I also think that the DELETE_BUFS series should allow drivers to set max_=
+num_buffers
+> to a value less than 32 (currently the requirement is that it is at least=
+ 32).
+>=20
+> I saw a few more drivers that limit the number of buffers, usually based =
+on the
+> format (and so the buffer size) and some HW memory limitation. It might b=
+e interesting
+> to allow drivers to change max_num_buffers on the fly (provided no buffer=
+s are
+> allocated, of course). Limit checking is really something that vb2 should=
+ do, and
+> not the driver.
+>=20
+> >=20
+> > I'm open for suggestions.
+> >=20
+> > >=20
+> > > > +
+> > > > +		*num_buffers =3D inst->dst_buf_count;
+> > > > +	}
+> > > > +
+> > > > +	return 0;
+> > > > +}
+>=20
+> Regards,
+>=20
+> 	Hans
+
