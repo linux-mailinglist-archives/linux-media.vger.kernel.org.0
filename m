@@ -2,94 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFA047AE69C
-	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 09:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E5C87AE6FB
+	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 09:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229811AbjIZHS3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Sep 2023 03:18:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46992 "EHLO
+        id S233420AbjIZHhy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Sep 2023 03:37:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjIZHS2 (ORCPT
+        with ESMTP id S229617AbjIZHhx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Sep 2023 03:18:28 -0400
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C07DDE
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 00:18:22 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id E2931240103
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 09:18:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1695712699; bh=X0PoM1F6cAIBp1xCCBKZz0CKN/WlTbBuBtj9LVo7xTU=;
-        h=Message-ID:Subject:From:To:Cc:Date:Content-Transfer-Encoding:
-         MIME-Version:From;
-        b=oDUl/VysOyRT+VqLVFTB0RAMYxxC040LgppbqNFAIVeIAhV+PUEEqAsq9kLOwOCCY
-         lk5ofo9udo9D7qj/qOdWhqlVqL5VPgyc+eqU+zzbFXxiWuAzyHezzS5rrb5dlHuTqT
-         sBD0QDrxhdzITt7PCt1cAUU10SLeJNAcfnVx+VBSxvoD7OPQMEplyB+9LotGQHHPBt
-         c4KY8uQRYoUkclXnuQPjNuQOtqLUh7nioE67gP+O2ikJxp6EGcfnvRgj/9CjFo9dw7
-         WjDvdI9y1/fTlWew4TfklPs5gYYGIWSrkiWmAGliw0yck/U4WDH56m2XXAXlpln8d9
-         PY5EpfqX1ryOw==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4Rvrgb1qmWz9rxH;
-        Tue, 26 Sep 2023 09:18:19 +0200 (CEST)
-Message-ID: <6976d91d1d83a7f932a4667f5923a1f2bd1857fd.camel@posteo.de>
-Subject: Re: [PATCH 03/57] media: i2c: hi846: Drop check for reentrant
- .s_stream()
-From:   Martin Kepplinger <martink@posteo.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>
-Date:   Tue, 26 Sep 2023 07:18:18 +0000
-In-Reply-To: <20230914181704.4811-4-laurent.pinchart@ideasonboard.com>
-References: <20230914181704.4811-1-laurent.pinchart@ideasonboard.com>
-         <20230914181704.4811-4-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 26 Sep 2023 03:37:53 -0400
+Received: from muru.com (muru.com [72.249.23.125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DDDC8DC;
+        Tue, 26 Sep 2023 00:37:46 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id 2D61380A3;
+        Tue, 26 Sep 2023 07:37:46 +0000 (UTC)
+Date:   Tue, 26 Sep 2023 10:37:44 +0300
+From:   Tony Lindgren <tony@atomide.com>
+To:     Sean Young <sean@mess.org>
+Cc:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        linux-media@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Timo Kokkonen <timo.t.kokkonen@iki.fi>,
+        Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>,
+        "Sicelo A . Mhlongo" <absicsz@gmail.com>,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] media: rc: remove ir-rx51 in favour of generic
+ pwm-ir-tx
+Message-ID: <20230926073744.GA5285@atomide.com>
+References: <cover.1693577725.git.sean@mess.org>
+ <e5325e826935f0bd8566152b6a5fa799b2429d43.1693577725.git.sean@mess.org>
+ <99f0042f-538c-bcaf-96fd-bac24a87f88e@gmail.com>
+ <ZRKFUb1vRtn82bgn@gofer.mess.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZRKFUb1vRtn82bgn@gofer.mess.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Donnerstag, dem 14.09.2023 um 21:16 +0300 schrieb Laurent Pinchart:
-> The subdev .s_stream() operation shall not be called to start
-> streaming
-> on an already started subdev, or stop streaming on a stopped subdev.
-> Remove the check that guards against that condition.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> =C2=A0drivers/media/i2c/hi846.c | 3 ---
-> =C2=A01 file changed, 3 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
-> index fa0038749a3b..746e1f75f9d0 100644
-> --- a/drivers/media/i2c/hi846.c
-> +++ b/drivers/media/i2c/hi846.c
-> @@ -1607,9 +1607,6 @@ static int hi846_set_stream(struct v4l2_subdev
-> *sd, int enable)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct i2c_client *client=
- =3D v4l2_get_subdevdata(sd);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret =3D 0;
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (hi846->streaming =3D=3D en=
-able)
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0return 0;
-> -
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mutex_lock(&hi846->mutex)=
-;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (enable) {
+* Sean Young <sean@mess.org> [230926 07:16]:
+> On Mon, Sep 25, 2023 at 07:06:44PM +0300, Ivaylo Dimitrov wrote:
+> > On 1.09.23 г. 17:18 ч., Sean Young wrote:
+> > > The ir-rx51 is a pwm-based TX driver specific to the N900. This can be
+> > > handled entirely by the generic pwm-ir-tx driver, and in fact the
+> > > pwm-ir-tx driver has been compatible with ir-rx51 from the start.
+> > > 
+> > 
+> > Unfortunately, pwm-ir-tx does not work on n900. My investigation shows that
+> > for some reason usleep_range() sleeps for at least 300-400 us more than what
+> > interval it is requested to sleep. I played with cyclictest from rt-tests
+> > package and it gives similar results - increasing the priority helps, but I
+> > was not able to make it sleep for less that 300 us in average. I tried
+> > cpu_latency_qos_add_request() in pwm-ir-tx, but it made no difference.
+> > 
+> > I get similar results on motorola droid4 (OMAP4), albeit there average sleep
+> > is in 200-300 us range, which makes me believe that either OMAPs have issues
+> > with hrtimers or the config we use has some issue which leads to scheduler
+> > latency. Or, something else...
+> 
+> The pwm-ir-tx driver does suffer from this problem, but I was under the
+> impression that the ir-rx51 has the same problem.
+> 
+> > In either case help is appreciated to dig further trying to find the reason
+> > for such a big delay.
+> 
+> pwm-ir-tx uses usleep_range() and ir-rx51 uses hrtimers. I thought that
+> usleep_range() uses hrtimers; however if you're not seeing the same delay
+> on ir-rx51 then maybe it's time to switch pwm-ir-tx to hrtimers.
 
+Maybe using fsleep() fixes this issue? See commit c6af13d33475 ("timer: add
+fsleep for flexible sleeping"), and Documentation/timers/timers-howto.rst.
 
-Tested-by: Martin Kepplinger <martink@posteo.de>
+The long wake-up time for an idle state could explain the values. I think
+Ivaylo already tested with most cpuidle states disabled via sysfs though.
 
-thanks Laurent,
+> I don't have a n900 to test on, unfortunately.
 
-                                 martin
+If you want one for development, the maemo folks cc:ed here likely have
+some available devices.
 
+Regards,
+
+Tony
