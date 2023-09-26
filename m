@@ -2,104 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50A477AE68D
-	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 09:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5390D7AE693
+	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 09:16:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232117AbjIZHQT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Sep 2023 03:16:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58052 "EHLO
+        id S232301AbjIZHQo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Sep 2023 03:16:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229738AbjIZHQS (ORCPT
+        with ESMTP id S229776AbjIZHQn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Sep 2023 03:16:18 -0400
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5065DE
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 00:16:08 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id EFB1824002A
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 09:16:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1695712567; bh=Hnun/WSgTHclDT7t/mYAYrb5K/GMwwYPZcQjP0dYjw0=;
-        h=Message-ID:Subject:From:To:Cc:Date:Content-Transfer-Encoding:
-         MIME-Version:From;
-        b=JqoP1dKfQgDYJ7IeHVLEJbQl2yHTo39jQ2iFudP3/OSg0vf32BiHjI0kk2QJqQaQ0
-         /K+dD3VgYC7mnrj/y/+Qsa6p43KfYIFfWEK2z3YRHbRAuKJ1VbKMpupUSVkaol3DX5
-         TEbAV1UtosbZhv+Xfe+7Jh/eibxMuDsbiLPp8EmQc6gMkowP3tks3as4Omkryz9N5a
-         o3GJFX2zBRf/YpNJbwTqNUG0SsFWynTUbNf0AWhabe2Zt8QPQB0sQOiBX1DJTbZ3ZS
-         WgU4CwWcqb9B6nJ/1a6Miqg50rgg1YQQV+jXmVmTyeQjsDd/9QD8He6G5RfKGK6KJV
-         VuU/kaUo4yWkg==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4Rvrd20WYtz6tmv;
-        Tue, 26 Sep 2023 09:16:06 +0200 (CEST)
-Message-ID: <d387939e94b753478df8caa62513aacc6d7c7b1c.camel@posteo.de>
-Subject: Re: [PATCH] media: i2c: Use pm_runtime_resume_and_get()
-From:   Martin Kepplinger <martink@posteo.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Daniel Scally <djrscally@gmail.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>
-Date:   Tue, 26 Sep 2023 07:16:05 +0000
-In-Reply-To: <20230914172054.31825-1-laurent.pinchart@ideasonboard.com>
-References: <20230914172054.31825-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        Tue, 26 Sep 2023 03:16:43 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8346EB;
+        Tue, 26 Sep 2023 00:16:35 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 199A01000B2; Tue, 26 Sep 2023 08:16:33 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1695712593; bh=q3yvy6U1pA8dk2yNpmmm8FMMggMlyRZgCfRP5FNv19Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JJmlZqE1mqfatxA0PE4r+/oQknTKqr1XLSSa10ptK0XHsrdV0UNQYmpZkI7zW9xk1
+         N+uxyzsCksaEg+QmhFzV6t2U34i2uqaWG4ddy/3dMkVzLcdjfj8M30p5akR88s4IJc
+         yYgvwDnBzd3fr0pY9c3GUpTGEZ/4j0q8zpkCDihmMcu/yF+fm6NmazdnePcEHJ9ara
+         6cdzW91KVfnb8tb+D53nSU55qIlPc6i0i+Y7slYYak7h8w6zP7DaErg4Y8y1qnYqvu
+         WUZUhN5cyD4kJEaHcFrVVi7lghq74mvMGJkhnZCNzk+s7lao9hRj2FLykvjj4Gad00
+         RbSynYpBokk4Q==
+Date:   Tue, 26 Sep 2023 08:16:33 +0100
+From:   Sean Young <sean@mess.org>
+To:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc:     linux-media@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Timo Kokkonen <timo.t.kokkonen@iki.fi>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>,
+        "Sicelo A . Mhlongo" <absicsz@gmail.com>,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] media: rc: remove ir-rx51 in favour of generic
+ pwm-ir-tx
+Message-ID: <ZRKFUb1vRtn82bgn@gofer.mess.org>
+References: <cover.1693577725.git.sean@mess.org>
+ <e5325e826935f0bd8566152b6a5fa799b2429d43.1693577725.git.sean@mess.org>
+ <99f0042f-538c-bcaf-96fd-bac24a87f88e@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <99f0042f-538c-bcaf-96fd-bac24a87f88e@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QW0gRG9ubmVyc3RhZywgZGVtIDE0LjA5LjIwMjMgdW0gMjA6MjAgKzAzMDAgc2NocmllYiBMYXVy
-ZW50IFBpbmNoYXJ0Ogo+IFNpbXBsaWZ5IGVycm9yIGhhbmRsaW5nIGJ5IHVzaW5nIHBtX3J1bnRp
-bWVfcmVzdW1lX2FuZF9nZXQoKSBpbnN0ZWFkCj4gb2YKPiBwbV9ydW50aW1lX2dldF9zeW5jKCkg
-d2l0aCBhIHB1dCBjYWxsIGluIHRoZSBlcnJvciBwYXRoLgo+IAo+IFNpZ25lZC1vZmYtYnk6IExh
-dXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KPiAtLS0K
-PiDCoGRyaXZlcnMvbWVkaWEvaTJjL2Njcy9jY3MtY29yZS5jIHzCoCA2ICsrKy0tLQo+IMKgZHJp
-dmVycy9tZWRpYS9pMmMvaGk4NDYuY8KgwqDCoMKgwqDCoMKgIHzCoCA2ICsrLS0tLQo+IMKgZHJp
-dmVycy9tZWRpYS9pMmMvaGk4NDcuY8KgwqDCoMKgwqDCoMKgIHzCoCA1ICsrLS0tCj4gwqBkcml2
-ZXJzL21lZGlhL2kyYy9pbXgyMDguY8KgwqDCoMKgwqDCoCB8IDE0ICsrKysrKystLS0tLS0tCj4g
-wqBkcml2ZXJzL21lZGlhL2kyYy9vZzAxYTFiLmPCoMKgwqDCoMKgIHzCoCA1ICsrLS0tCj4gwqBk
-cml2ZXJzL21lZGlhL2kyYy9vdjU2OTMuY8KgwqDCoMKgwqDCoCB8wqAgNiArKystLS0KPiDCoGRy
-aXZlcnMvbWVkaWEvaTJjL292NzI1MS5jwqDCoMKgwqDCoMKgIHzCoCA4ICsrKysrLS0tCj4gwqBk
-cml2ZXJzL21lZGlhL2kyYy9zdC12Z3h5NjEuY8KgwqDCoCB8wqAgOSArKy0tLS0tLS0KPiDCoDgg
-ZmlsZXMgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwgMzMgZGVsZXRpb25zKC0pCj4gCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvaTJjL2Njcy9jY3MtY29yZS5jCj4gYi9kcml2ZXJzL21l
-ZGlhL2kyYy9jY3MvY2NzLWNvcmUuYwo+IGluZGV4IDQ5ZTBkOWEwOTUzMC4uNTY5YmY5YjY3NTM5
-IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvaTJjL2Njcy9jY3MtY29yZS5jCj4gKysrIGIv
-ZHJpdmVycy9tZWRpYS9pMmMvY2NzL2Njcy1jb3JlLmMKPiBAQCAtMTg5Myw5ICsxODkzLDkgQEAg
-c3RhdGljIGludCBjY3NfcG1fZ2V0X2luaXQoc3RydWN0IGNjc19zZW5zb3IKPiAqc2Vuc29yKQo+
-IMKgwqDCoMKgwqDCoMKgwqAgKiByZWxpZXMgYXQgdGhlIHJldHVybmVkIHZhbHVlIHRvIGRldGVj
-dCBpZiB0aGUgZGV2aWNlIHdhcwo+IGFscmVhZHkKPiDCoMKgwqDCoMKgwqDCoMKgICogYWN0aXZl
-IG9yIG5vdC4KPiDCoMKgwqDCoMKgwqDCoMKgICovCj4gLcKgwqDCoMKgwqDCoMKgcnZhbCA9IHBt
-X3J1bnRpbWVfZ2V0X3N5bmMoJmNsaWVudC0+ZGV2KTsKPiAtwqDCoMKgwqDCoMKgwqBpZiAocnZh
-bCA8IDApCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdvdG8gZXJyb3I7Cj4gK8Kg
-wqDCoMKgwqDCoMKgcnZhbCA9IHBtX3J1bnRpbWVfcmVzdW1lX2FuZF9nZXQoJmNsaWVudC0+ZGV2
-KTsKPiArwqDCoMKgwqDCoMKgwqBpZiAocnZhbCkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgcmV0dXJuIHJ2YWw7Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgLyogRGV2aWNlIHdhcyBh
-bHJlYWR5IGFjdGl2ZSwgc28gZG9uJ3Qgc2V0IGNvbnRyb2xzICovCj4gwqDCoMKgwqDCoMKgwqDC
-oGlmIChydmFsID09IDEpCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvaTJjL2hpODQ2LmMg
-Yi9kcml2ZXJzL21lZGlhL2kyYy9oaTg0Ni5jCj4gaW5kZXggZmEwMDM4NzQ5YTNiLi44YThhZTg5
-YTg0NTMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9tZWRpYS9pMmMvaGk4NDYuYwo+ICsrKyBiL2Ry
-aXZlcnMvbWVkaWEvaTJjL2hpODQ2LmMKPiBAQCAtMTYxMywxMSArMTYxMyw5IEBAIHN0YXRpYyBp
-bnQgaGk4NDZfc2V0X3N0cmVhbShzdHJ1Y3QgdjRsMl9zdWJkZXYKPiAqc2QsIGludCBlbmFibGUp
-Cj4gwqDCoMKgwqDCoMKgwqDCoG11dGV4X2xvY2soJmhpODQ2LT5tdXRleCk7Cj4gwqAKPiDCoMKg
-wqDCoMKgwqDCoMKgaWYgKGVuYWJsZSkgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqByZXQgPSBwbV9ydW50aW1lX2dldF9zeW5jKCZjbGllbnQtPmRldik7Cj4gLcKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoGlmIChyZXQgPCAwKSB7Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwbV9ydW50aW1lX3B1dF9ub2lkbGUoJmNsaWVudC0+
-ZGV2KTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0ID0gcG1fcnVudGltZV9y
-ZXN1bWVfYW5kX2dldCgmY2xpZW50LT5kZXYpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqBpZiAocmV0KQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoGdvdG8gb3V0Owo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Cj4gwqAK
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9IGhpODQ2X3N0YXJ0X3N0cmVh
-bWluZyhoaTg0Nik7Cj4gCgpmb3IgdGhlIGhpODQ2IGRyaXZlcjoKClRlc3RlZC1ieTogTWFydGlu
-IEtlcHBsaW5nZXIgPG1hcnRpbmtAcG9zdGVvLmRlPiAKCnRoYW5rcyBmb3IgdGhlIHBhdGNoIQoK
+On Mon, Sep 25, 2023 at 07:06:44PM +0300, Ivaylo Dimitrov wrote:
+> On 1.09.23 г. 17:18 ч., Sean Young wrote:
+> > The ir-rx51 is a pwm-based TX driver specific to the N900. This can be
+> > handled entirely by the generic pwm-ir-tx driver, and in fact the
+> > pwm-ir-tx driver has been compatible with ir-rx51 from the start.
+> > 
+> 
+> Unfortunately, pwm-ir-tx does not work on n900. My investigation shows that
+> for some reason usleep_range() sleeps for at least 300-400 us more than what
+> interval it is requested to sleep. I played with cyclictest from rt-tests
+> package and it gives similar results - increasing the priority helps, but I
+> was not able to make it sleep for less that 300 us in average. I tried
+> cpu_latency_qos_add_request() in pwm-ir-tx, but it made no difference.
+> 
+> I get similar results on motorola droid4 (OMAP4), albeit there average sleep
+> is in 200-300 us range, which makes me believe that either OMAPs have issues
+> with hrtimers or the config we use has some issue which leads to scheduler
+> latency. Or, something else...
 
+The pwm-ir-tx driver does suffer from this problem, but I was under the
+impression that the ir-rx51 has the same problem.
 
+> In either case help is appreciated to dig further trying to find the reason
+> for such a big delay.
+
+pwm-ir-tx uses usleep_range() and ir-rx51 uses hrtimers. I thought that
+usleep_range() uses hrtimers; however if you're not seeing the same delay
+on ir-rx51 then maybe it's time to switch pwm-ir-tx to hrtimers.
+
+I don't have a n900 to test on, unfortunately.
+
+Thanks
+Sean
