@@ -2,227 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD0937AF345
-	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 20:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB2DD7AF3F4
+	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 21:14:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235622AbjIZStv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Sep 2023 14:49:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33962 "EHLO
+        id S235694AbjIZTO1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Sep 2023 15:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235592AbjIZStt (ORCPT
+        with ESMTP id S235469AbjIZTO0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Sep 2023 14:49:49 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE9A1136
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 11:49:42 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-9a6190af24aso1166286866b.0
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 11:49:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695754181; x=1696358981; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=tyXalGA9+XN1iK71fzykPOplz8rTMa6VlrFOAX1gLuE=;
-        b=laueBE0UOCHhUo5ab6qz6wVNUlDFJi2q989nbtPgZE4MllFgRddjxmLyGJHhnvEgEw
-         lE5Gk5PiGEMYMYpvivsIjUk9548urDRh9NwaQmWA4RdqLk7RvnZp+zx7XHBaUHbnB2Sc
-         +DxkkJHr2vtEL9F6ekX5pR/TSQhxqLKjVRdUNaOXQofYYJXAYSpbLeNswt1NFTMkJpzg
-         JqkG1W/9Tb/UWR7Igu2VeGvWppjrbdrBaMAOWVicTk3ohcyqjtfZmj4KGwSWvu8hnlLh
-         qtbHmLkuQyFNEB+ab9hEzaUzprLFNSRlPZiwUwgb1dLjOicxVwk1GVj14wk3sE8PiBGY
-         O8Mw==
+        Tue, 26 Sep 2023 15:14:26 -0400
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A971E10A
+        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 12:14:20 -0700 (PDT)
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-6bdcdde1df9so20304053a34.2
+        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 12:14:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695754181; x=1696358981;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tyXalGA9+XN1iK71fzykPOplz8rTMa6VlrFOAX1gLuE=;
-        b=b/PetG44BWEaOuIbsKY5bLli+XoSQXrPKbgie5tRzOjqt+AkTZEmYrIGFeVCu029bB
-         HjmNrwqfCBpNNKpxH+XQ2QQPEUwwTrJorOZ7vyUSddJnnDt/PGPK53UwFSrZ4FgjzoaY
-         Xtqngr994vhJc2oqYhvF9ody1w5pElD4a4ewdVvpH7/e2pz6EzzT5WrSVfdsAcX7l+fU
-         5tuZi4LuOY0DPp/JPKz+eJcBP2AuUVNAtSZs/40FRzt+hD3BDIMeHesv2sl2G2GkU/Sr
-         t+Prt2LBYR+tb0ZiT+nXD9aqK3N+Kr5Sze14EntVrVbWmsEUpd4dncGGtubp5Mev4TqT
-         AY9w==
-X-Gm-Message-State: AOJu0Yy/PKqUQOis/flEvjPx0y9qiXrH+9Rp0E89J0S22IepW+BZvmLS
-        G3XMvT22OYpDwDzvoByqnsQ3q8bj4TKXuM8gL7kpBMLn
-X-Google-Smtp-Source: AGHT+IGzA10+P51wbmU+Z0gnDj+kE8rF06FJ+BweHiVVO/K84QZQve4AIqdaWZ/XkcokugeSgPfeGw==
-X-Received: by 2002:a17:906:30d3:b0:9ae:6538:643b with SMTP id b19-20020a17090630d300b009ae6538643bmr9073221ejb.38.1695754181174;
-        Tue, 26 Sep 2023 11:49:41 -0700 (PDT)
-Received: from [192.168.168.156] (host-87-4-82-94.retail.telecomitalia.it. [87.4.82.94])
-        by smtp.gmail.com with ESMTPSA id sd6-20020a170906ce2600b00997e99a662bsm8080405ejb.20.2023.09.26.11.49.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Sep 2023 11:49:40 -0700 (PDT)
-Message-ID: <d9b4c469-34b5-4616-aa79-93df94c07be1@linaro.org>
-Date:   Tue, 26 Sep 2023 20:49:38 +0200
+        d=1e100.net; s=20230601; t=1695755660; x=1696360460;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R9PmlP7Y5UoxMXjOGsmxEgQMBWWhN1CDILnI2HWTU3Y=;
+        b=BRE3KwqUBPo7BbEqZAWBSFjn2YPoacoONYWz3Wl6+6AeUlmu9T7PoT8fKaRoR8qpm8
+         UAbB73VLzxUlC7cm2G23FbqLeZK7LaUSJ/JDN5kA+p+EIYYqlEIPeZTk6lZrJt5Gycgl
+         JvQyiRJz94+o5gHDguClgbTxwAr+zRtPtqDZLQhPdy992peiXXM7+7THYXeEMj9xGJ4j
+         XajdFEPLyUAjqBHIL6xVdHErhHD3Ac5g8Cx3dLrYasDAZgfCOHcIfScQjl0TaWD2cnbL
+         IGnXXVXL4SohUclsbBdwxQ42s5W1co8XLiYu3uDPJSIQJ7gxJtvc+crH1Wrm8gq0qiuE
+         OOxw==
+X-Gm-Message-State: AOJu0Yxr+brv5EYJB+P7DqPLDEcXAIww3yd5P9HwZLfLA/aPHWoEi0gV
+        u4Xdqv9klRjtj7CXkIzbO1CXfesJfk5g0kO31erXIA3OhQyG
+X-Google-Smtp-Source: AGHT+IHCle0c7PN0TBNUEdeiNereyLBhp5ZDwcCTWRfAyhvRKOxdGoC2UAZsjJDu7q4jrEOfhGbQDx8iew5md2qyoO6QdnGM+yOK
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: add galaxycore,gc2145
- dt-bindings
-To:     Alain Volmat <alain.volmat@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-        Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230926092825.819229-1-alain.volmat@foss.st.com>
- <20230926092825.819229-2-alain.volmat@foss.st.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20230926092825.819229-2-alain.volmat@foss.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Received: by 2002:a9d:7d87:0:b0:6c0:a3e0:f9e9 with SMTP id
+ j7-20020a9d7d87000000b006c0a3e0f9e9mr2732348otn.4.1695755660088; Tue, 26 Sep
+ 2023 12:14:20 -0700 (PDT)
+Date:   Tue, 26 Sep 2023 12:14:20 -0700
+In-Reply-To: <mrce6emi7jvmoe4fgxt7lgrgkswkinc5u3hpl57gr5oaxau55o@fdvuaqxcsgu6>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000bedf08060647e102@google.com>
+Subject: Re: [syzbot] [usb?] [media?] WARNING in imon_probe
+From:   syzbot <syzbot+1c41b2e045dc086f58be@syzkaller.appspotmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        ricardo@marliere.net, sean@mess.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/09/2023 11:28, Alain Volmat wrote:
-> Introduction of the Galaxy Core GC2145 XVGA CMOS camera sensor.
-> 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> ---
+Hello,
 
-...
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-> +properties:
-> +  compatible:
-> +    const: galaxycore,gc2145
-> +
-> +  reg:
-> +    enum:
-> +      - 0x3c
-> +
-> +  clocks:
-> +    description: Reference to the xclk clock.
-> +    maxItems: 1
+Reported-and-tested-by: syzbot+1c41b2e045dc086f58be@syzkaller.appspotmail.com
 
-If xclk is the name of the pin and you want to mention it, then just:
-items:
- - description: xclk clock
+Tested on:
 
-(no "reference" or "GPIO descriptor" because it is redundant as Conor wrote)
+commit:         a48fa7ef Merge tag 'drm-next-2023-09-08' of git://anon..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=13257bd4680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8dfc2c52f63929e
+dashboard link: https://syzkaller.appspot.com/bug?extid=1c41b2e045dc086f58be
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=17ca18da680000
 
-> +
-> +  powerdown-gpios:
-> +    description: GPIO descriptor for the powerdown pin.
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: GPIO descriptor for the reset pin.
-> +    maxItems: 1
-> +
-> +  IOVDD-supply:
-
-lowercase, so iovdd-supply. Same in other places.
-
-> +    description: Power Supply for I/O circuits (1.7 - 3V).
-> +
-> +  AVDD-supply:
-> +    description: Power for analog circuit/sensor array (2.7 - 3V).
-> +
-> +  DVDD-supply:
-> +    description: Power for digital core (1.7 - 1.9V).
-> +
-> +  orientation: true
-> +
-> +  rotation: true
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +    required:
-> +      - endpoint
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - powerdown-gpios
-> +  - reset-gpios
-> +  - IOVDD-supply
-> +  - AVDD-supply
-> +  - DVDD-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c5 {
-
-i2c
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        gc2145@3c {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-> +            compatible = "galaxycore,gc2145";
-> +            reg = <0x3c>;
-Best regards,
-Krzysztof
-
+Note: testing is done by a robot and is best-effort only.
