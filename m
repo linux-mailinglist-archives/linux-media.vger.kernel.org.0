@@ -2,84 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88A6F7AED4D
-	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 14:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 771167AED97
+	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 15:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234695AbjIZMzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Sep 2023 08:55:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
+        id S234741AbjIZNEC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Sep 2023 09:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232303AbjIZMzK (ORCPT
+        with ESMTP id S234695AbjIZNEC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Sep 2023 08:55:10 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 091F2124;
-        Tue, 26 Sep 2023 05:55:03 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9ad8a822508so1088582166b.0;
-        Tue, 26 Sep 2023 05:55:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695732901; x=1696337701; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YtZUjiYxLryjulqmofSoSPz/vXsvJQv9EIQwllIJJ1Q=;
-        b=h8ZIpWWKZEn6JxNXgelUeup/cHgYFZFzuh2hYdfEI9OeiIxBuAuw0TvhPz8oRLh4zO
-         pM8SQ8Wlg4AnBNqMLUS/5uFRX4GYBtg2gyja0cNY0p8X/XpjvHjnKUlvwgQcIzff6K42
-         ZGCA07WDG1JfhxmpbBet8jInPfsB2PRia0s8OqtNn3IKZPpgrdsm696ziiNCV9UkruQm
-         L7/RrWHFSOUDeRY46Z4jOG7C6S44Xbtqz11x1b/PlnEcrB+6M+wCOJCV4G1RvHDqwKPu
-         Y7WCb0JEgCbZtda6I4VXeaGjpAG0JlokEHC5DhhVTyJ9dSiswPqVHEXwDEztk/h/t3hQ
-         AlOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695732901; x=1696337701;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YtZUjiYxLryjulqmofSoSPz/vXsvJQv9EIQwllIJJ1Q=;
-        b=X+IfY2L+fT8ynDm9+/WIShlPTRlZZrbeibQQpBVOjUWY/WeUBfg2vHsCtjdwqBB0eM
-         QTYtMi1NGDrTzZthst5K89saJrXZvD/i5eg9ESuGOW6s95+ZWPd53/MaZD2mgi7lM/xc
-         Z7X2vWbwIWmz9wjib0P3lABP9nTShvSgk2xVfi50T7a5wmm1+CnJsIGwhZWtbV//i5QH
-         dAGjkcv7UU9q/8qwOFhFWeBGhQm7wIZqyXcE8zuieJasTcDxZmNCZ46W9IFYAjzvxfH9
-         d22wuJNHT0Unrr+8sfSzkXH9xbJWGh2Jol8hdWZ0QWbh7nAelJsZRY93aQW6PV0xECDx
-         zm3Q==
-X-Gm-Message-State: AOJu0YyEZNtLA7FlS3zYnXt8x9a8IzmVhzFAdOR2/B3Y9AXeC9XxQp6a
-        y/z2Ne/ouyRGFEJPKAOOM5BKKSmP3us=
-X-Google-Smtp-Source: AGHT+IEIgSOnM9nWgU3CH6MFtsFoLHrezbgSdcz6k5Y/bnAqqO4VUway+4TqF0ssjOolYPUjg/uFrw==
-X-Received: by 2002:a17:906:5386:b0:9ae:614f:2037 with SMTP id g6-20020a170906538600b009ae614f2037mr9035770ejo.61.1695732901234;
-        Tue, 26 Sep 2023 05:55:01 -0700 (PDT)
-Received: from [192.168.1.10] ([95.43.220.235])
-        by smtp.googlemail.com with ESMTPSA id ez23-20020a1709070bd700b009b285351817sm1411385ejc.116.2023.09.26.05.55.00
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 Sep 2023 05:55:01 -0700 (PDT)
-Subject: Re: [PATCH v5 2/2] media: rc: remove ir-rx51 in favour of generic
- pwm-ir-tx
-To:     Tony Lindgren <tony@atomide.com>, Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        Tue, 26 Sep 2023 09:04:02 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB55CC9;
+        Tue, 26 Sep 2023 06:03:55 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3616EC433C8;
+        Tue, 26 Sep 2023 13:03:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695733435;
+        bh=wfl6PSkicMbQ19c5+7nPo++8qzhAyuUvd4GKwLBD9XU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fxggefr0ckrs614BmCsTYWKfD6fRHT3XyJsneL9S428wOL+x8Ryg2688/A+pP/fph
+         l3A+u1eNBFLOYKus+axL/QYYfkvHyEql29DwkZabkyMSCuwRQoFB/CN+XzxFPc1xsH
+         ocJa27AGeX4qm3Kyn9/4AI6bPuL+ggm7eqopexPmPjPOqiNBog9x6P9NdQIFDFA3Sv
+         HR6FKgUq7KSd5s33NWHxkIbfFYmYJbpmBnM+0gnZstUjc8+m9VHVKAdXz9lz1OlmEQ
+         kf/Xng3D8F7TRdExhkjJm4R3v7TXmRPT4m2L3gtQoSMXO1SxDIukLV1wAzfnl/IiFM
+         8P9YOTTTMAHZQ==
+Date:   Tue, 26 Sep 2023 14:03:49 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Michael Riesch <michael.riesch@wolfvision.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Timo Kokkonen <timo.t.kokkonen@iki.fi>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>,
-        "Sicelo A . Mhlongo" <absicsz@gmail.com>,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <cover.1693577725.git.sean@mess.org>
- <e5325e826935f0bd8566152b6a5fa799b2429d43.1693577725.git.sean@mess.org>
- <99f0042f-538c-bcaf-96fd-bac24a87f88e@gmail.com>
- <ZRKFUb1vRtn82bgn@gofer.mess.org> <20230926073744.GA5285@atomide.com>
-From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <f2ca8923-2e25-3748-e44f-a5b6e7222320@gmail.com>
-Date:   Tue, 26 Sep 2023 15:54:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: Add missing unevaluatedProperties on
+ child node schemas
+Message-ID: <20230926-untying-booting-7744376e955b@spud>
+References: <20230925212803.1976803-1-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20230926073744.GA5285@atomide.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="9nLnT1SikReH0C+P"
+Content-Disposition: inline
+In-Reply-To: <20230925212803.1976803-1-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -87,72 +63,90 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
+--9nLnT1SikReH0C+P
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 26.09.23 г. 10:37 ч., Tony Lindgren wrote:
-> * Sean Young <sean@mess.org> [230926 07:16]:
->> On Mon, Sep 25, 2023 at 07:06:44PM +0300, Ivaylo Dimitrov wrote:
->>> On 1.09.23 г. 17:18 ч., Sean Young wrote:
->>>> The ir-rx51 is a pwm-based TX driver specific to the N900. This can be
->>>> handled entirely by the generic pwm-ir-tx driver, and in fact the
->>>> pwm-ir-tx driver has been compatible with ir-rx51 from the start.
->>>>
->>>
->>> Unfortunately, pwm-ir-tx does not work on n900. My investigation shows that
->>> for some reason usleep_range() sleeps for at least 300-400 us more than what
->>> interval it is requested to sleep. I played with cyclictest from rt-tests
->>> package and it gives similar results - increasing the priority helps, but I
->>> was not able to make it sleep for less that 300 us in average. I tried
->>> cpu_latency_qos_add_request() in pwm-ir-tx, but it made no difference.
->>>
->>> I get similar results on motorola droid4 (OMAP4), albeit there average sleep
->>> is in 200-300 us range, which makes me believe that either OMAPs have issues
->>> with hrtimers or the config we use has some issue which leads to scheduler
->>> latency. Or, something else...
->>
->> The pwm-ir-tx driver does suffer from this problem, but I was under the
->> impression that the ir-rx51 has the same problem.
->>
->>> In either case help is appreciated to dig further trying to find the reason
->>> for such a big delay.
->>
->> pwm-ir-tx uses usleep_range() and ir-rx51 uses hrtimers. I thought that
->> usleep_range() uses hrtimers; however if you're not seeing the same delay
->> on ir-rx51 then maybe it's time to switch pwm-ir-tx to hrtimers.
-> 
-> Maybe using fsleep() fixes this issue? See commit c6af13d33475 ("timer: add
-> fsleep for flexible sleeping"), and Documentation/timers/timers-howto.rst.
-> 
+On Mon, Sep 25, 2023 at 04:27:58PM -0500, Rob Herring wrote:
+> Just as unevaluatedProperties or additionalProperties are required at
+> the top level of schemas, they should (and will) also be required for
+> child node schemas. That ensures only documented properties are
+> present for any node.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-I doubt, time intervals we are talking about are > 500 us, which means 
-fsleep will always use usleep_range() (or even worse, msleep()), see 
-https://elixir.bootlin.com/linux/v6.6-rc3/source/include/linux/delay.h#L82
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-> The long wake-up time for an idle state could explain the values. I think
-> Ivaylo already tested with most cpuidle states disabled via sysfs though.
-> 
+Thanks,
+Conor.
 
-Yes, I disabled all idle states on both n900 and droid4 (when doing 
-cyclictest experiments), with no difference. I also locked frequency on 
-n900 to 500MHz, which improved the things a bit, by some 20-50 us 
-(IIRC), which makes sense, but also makes me think frequency scaling is 
-not the one to blame either.
+> ---
+>  Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml    | 1 +
+>  .../devicetree/bindings/media/i2c/toshiba,tc358746.yaml         | 2 ++
+>  Documentation/devicetree/bindings/media/samsung,fimc.yaml       | 1 +
+>  3 files changed, 4 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml=
+ b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> index ffccf5f3c9e3..642f9b15d359 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> @@ -54,6 +54,7 @@ properties:
+> =20
+>    port:
+>      $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> =20
+>      properties:
+>        endpoint:
+> diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746=
+=2Eyaml b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+> index c5cab549ee8e..1c476b635b69 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+> @@ -69,6 +69,7 @@ properties:
+>      properties:
+>        port@0:
+>          $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+>          description: Input port
+> =20
+>          properties:
+> @@ -89,6 +90,7 @@ properties:
+> =20
+>        port@1:
+>          $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+>          description: Output port
+> =20
+>          properties:
+> diff --git a/Documentation/devicetree/bindings/media/samsung,fimc.yaml b/=
+Documentation/devicetree/bindings/media/samsung,fimc.yaml
+> index 79ff6d83a9fd..b3486c38a05b 100644
+> --- a/Documentation/devicetree/bindings/media/samsung,fimc.yaml
+> +++ b/Documentation/devicetree/bindings/media/samsung,fimc.yaml
+> @@ -57,6 +57,7 @@ properties:
+>      patternProperties:
+>        "^port@[01]$":
+>          $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+>          description:
+>            Camera A and camera B inputs.
+> =20
+> --=20
+> 2.40.1
+>=20
 
->> I don't have a n900 to test on, unfortunately.
-> 
-> If you want one for development, the maemo folks cc:ed here likely have
-> some available devices.
-> 
+--9nLnT1SikReH0C+P
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I think we can arrange one, yes, but my gut feeling tells me the issue 
-is not n900 specific, it is just a bit worse there as the device is 
-relatively slow already. I have no sane explanation why one would see 
-similar latencies on droid4, given that it is times faster than n900.
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRLWtQAKCRB4tDGHoIJi
+0pKXAP4vPFXRlytem7/2OyutY69usbQYIokQoAx4XzrGl7bAlgEA9dHgJjs1i5fJ
+6g53rKEgA61fFIafEo7ysNfDZs3qjQU=
+=VkdZ
+-----END PGP SIGNATURE-----
 
-Ivo
-
-> Regards,
-> 
-> Tony
-> 
+--9nLnT1SikReH0C+P--
