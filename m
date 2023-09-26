@@ -2,112 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C2EB7AEACF
-	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 12:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 425357AED13
+	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 14:43:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234140AbjIZKxm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Sep 2023 06:53:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44076 "EHLO
+        id S234061AbjIZMnc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Sep 2023 08:43:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbjIZKxl (ORCPT
+        with ESMTP id S233232AbjIZMnb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Sep 2023 06:53:41 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E129B4;
-        Tue, 26 Sep 2023 03:53:35 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-578b4997decso6558894a12.0;
-        Tue, 26 Sep 2023 03:53:35 -0700 (PDT)
+        Tue, 26 Sep 2023 08:43:31 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37818E5;
+        Tue, 26 Sep 2023 05:43:24 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-5344d996bedso2768329a12.3;
+        Tue, 26 Sep 2023 05:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695725615; x=1696330415; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sIOtiw4Vu/5LT/q28eVE3Dtmyg66prHjYei1I5nWOjs=;
-        b=QNPLkVwX/xUWmgWocrqta2A2+0Vn6B2n5h3LmTpw0Q52FO3dsrw7pfa11RTbVYPy3/
-         mfG4iGAXmEhBRCXAr9U90LsxHy7nJHObA4YytKAABWK8rebnccT9ztJkuPKU+Q5u8LYx
-         5riiHMj8eLAqMsoq/9DXoJSe9s6RsoL32XT+XsewsXzlZ+nvP3NFHT0OECHkitF/owSh
-         eESWjLu+tqLLp9OXkve4wotiG+aEW4xbR/cns5V70RgBHld3C0FVWlXR0cugy6W+5E+r
-         P2TqOqwL2pTHSTNgTkLBe5WREGDv5ntM91Lza+TkGBl9Kjft3N5VlMWBeqLBNxYewnR3
-         2tYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695725615; x=1696330415;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20230601; t=1695732202; x=1696337002; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sIOtiw4Vu/5LT/q28eVE3Dtmyg66prHjYei1I5nWOjs=;
-        b=F3g4jDpVrQk7+KXoPlB8XrVk0iO6ijIH42EO21O8nCdsTROZSse/z+L5OUIm5uqJnJ
-         S4K3T+ZdGwK5MCvWXArEDeiI740FahBCzUzkZreM02V+F5acCIszvC9odrDmhBUQeGM3
-         17E4cVjmstlH1BaBYOo5UAXLjv1nhvdbHZCQTlq/MNk50AtrWyzIhjCB4+iT1H1tAxE6
-         /3kxN32RLvwvqZCCo2KgJQ8flTB+DkDl7JntgJkkY/7Ow5pIsH409Y6iOQ3Ay3QIUf5s
-         yOQyEKFHQpvqJ5VkOrsk2bL8nHk4kTX9vE7IlYFu6iw/mA0KdO/MOaaWELqvNg8JziJJ
-         5t4Q==
-X-Gm-Message-State: AOJu0Yz36Ln761Vyp0nb+BIUQ8XqB1r4bnqgNgZfXZhtonOKFyVTjfev
-        Z7akRwnt3D7QLtuQQFQlQ/o=
-X-Google-Smtp-Source: AGHT+IGNucwzMarZ64hyme5OSMHfFeU8XflGBVJxo1PNxfECkFjBUPA9h6rwr6R1/vrmIvpw06cCnQ==
-X-Received: by 2002:a05:6a20:3ba8:b0:15d:ccf3:939c with SMTP id b40-20020a056a203ba800b0015dccf3939cmr9074771pzh.35.1695725614578;
-        Tue, 26 Sep 2023 03:53:34 -0700 (PDT)
-Received: from 377044c6c369.cse.ust.hk (191host097.mobilenet.cse.ust.hk. [143.89.191.97])
-        by smtp.gmail.com with ESMTPSA id y3-20020a170902864300b001bdc8a5e96csm10645022plt.169.2023.09.26.03.53.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 03:53:34 -0700 (PDT)
-From:   Chengfeng Ye <dg573847474@gmail.com>
-To:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Chengfeng Ye <dg573847474@gmail.com>
-Subject: [PATCH] media: s5p-mfc: Fix potential deadlock on condlock
-Date:   Tue, 26 Sep 2023 10:53:30 +0000
-Message-Id: <20230926105330.10281-1-dg573847474@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        bh=1hA28nfmDNZCbL4Ew/7n+0PE3pEqWXZnhkySX1hHyL4=;
+        b=Kv93Zju4/FKUwKzWH79hP/4d4Batk8oKPirBimT8+9QBRDVtdQz6y+PHmtDTsaF6Bn
+         8PJHey3yotRq7f80QaoDSgzVVwfql+EbVkHE+c9gSRkAvtMy2g9KHhxE/ex+Ylim0onE
+         BeoexZpjuj9MwmC1glCxLh8moMrTmyC/Htloj6vpJxGF1EevZEwc5hEVWGrp6JQ/7YS2
+         /EjxonCreYv9CaHK8tIsGyfQUoLLA7bV22RvQR9Q6j6EcVppiD6lahRGQo4hZUPEn4+z
+         oZjiGOLschMqQKaOQG2CNhNJSabzS/T5ZLxkF14cYmU5EurxSaJ6CEsw1wbCeft6kP6n
+         hEVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695732202; x=1696337002;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1hA28nfmDNZCbL4Ew/7n+0PE3pEqWXZnhkySX1hHyL4=;
+        b=QGnyyYKc6a3YuGFR17s7+dQpXsa4lqx+ZKS/G591xV+5ujH6F/xNJUtcb6R86X81kb
+         /z9gCO0JF01MRWtdQXXVIP+nJzRyl90i7Xyg9FY5KRF/2P4SpJx+pykstYQBIcXu7XKy
+         ZMjvcjpEKMC+4MfZR7L69npaRHpL6hAzDkbwHNRusCJkDxTl1e7syOSHg5oqGG5wOqmq
+         liYn4E6RxeWqed97y1mPSrvBhuMAMSbhzkR5NwxCM4nmmoHtCz6hTgJ8NpWq/TtbrHRN
+         zrR10UL7nSuCUbAkbM1GnFJEvJzy2y4D9yTFFMqSsavDjGoOEgJ+8IGeOGFl8ddW4W5B
+         oiyw==
+X-Gm-Message-State: AOJu0Yz6BTeubo59TTFn8VJSykEVpzUn/hI+cbOBEnZVvJrJK+krAsgl
+        ND3RU/RONJ1gxs/0fPW4M/gY1Bdl//w=
+X-Google-Smtp-Source: AGHT+IGNoam+P9Q0Tdh3q3qXJ2zE2RGt+wQ8R2+1xFs1gsVP2rUGMVnrwZIrAT0CNxOm20fyT33QLQ==
+X-Received: by 2002:a05:6402:150d:b0:530:8801:47aa with SMTP id f13-20020a056402150d00b00530880147aamr8268057edw.19.1695732202444;
+        Tue, 26 Sep 2023 05:43:22 -0700 (PDT)
+Received: from [192.168.1.10] ([95.43.220.235])
+        by smtp.googlemail.com with ESMTPSA id l24-20020aa7c318000000b00533349696f1sm6736617edq.16.2023.09.26.05.43.21
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 26 Sep 2023 05:43:22 -0700 (PDT)
+Subject: Re: [PATCH v5 2/2] media: rc: remove ir-rx51 in favour of generic
+ pwm-ir-tx
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Timo Kokkonen <timo.t.kokkonen@iki.fi>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>,
+        "Sicelo A . Mhlongo" <absicsz@gmail.com>,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <cover.1693577725.git.sean@mess.org>
+ <e5325e826935f0bd8566152b6a5fa799b2429d43.1693577725.git.sean@mess.org>
+ <99f0042f-538c-bcaf-96fd-bac24a87f88e@gmail.com>
+ <ZRKFUb1vRtn82bgn@gofer.mess.org>
+From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <1715e2bf-5d02-4f20-1476-29a1fdf350b1@gmail.com>
+Date:   Tue, 26 Sep 2023 15:43:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <ZRKFUb1vRtn82bgn@gofer.mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As &dev->condlock is acquired under irq context along the following
-call chain from s5p_mfc_irq(), other acquisition of the same lock
-inside process context or softirq context should disable irq avoid double
-lock. enc_post_frame_start() seems to be one such function that execute
-under process context or softirq context.
 
-<deadlock #1>
 
-enc_post_frame_start()
---> clear_work_bit()
---> spin_loc(&dev->condlock)
-<interrupt>
-   --> s5p_mfc_irq()
-   --> s5p_mfc_handle_frame()
-   --> clear_work_bit()
-   --> spin_lock(&dev->condlock)
+On 26.09.23 г. 10:16 ч., Sean Young wrote:
+> On Mon, Sep 25, 2023 at 07:06:44PM +0300, Ivaylo Dimitrov wrote:
+>> On 1.09.23 г. 17:18 ч., Sean Young wrote:
+>>> The ir-rx51 is a pwm-based TX driver specific to the N900. This can be
+>>> handled entirely by the generic pwm-ir-tx driver, and in fact the
+>>> pwm-ir-tx driver has been compatible with ir-rx51 from the start.
+>>>
+>>
+>> Unfortunately, pwm-ir-tx does not work on n900. My investigation shows that
+>> for some reason usleep_range() sleeps for at least 300-400 us more than what
+>> interval it is requested to sleep. I played with cyclictest from rt-tests
+>> package and it gives similar results - increasing the priority helps, but I
+>> was not able to make it sleep for less that 300 us in average. I tried
+>> cpu_latency_qos_add_request() in pwm-ir-tx, but it made no difference.
+>>
+>> I get similar results on motorola droid4 (OMAP4), albeit there average sleep
+>> is in 200-300 us range, which makes me believe that either OMAPs have issues
+>> with hrtimers or the config we use has some issue which leads to scheduler
+>> latency. Or, something else...
+> 
+> The pwm-ir-tx driver does suffer from this problem, but I was under the
+> impression that the ir-rx51 has the same problem.
+> 
 
-This flaw was found by an experimental static analysis tool I am
-developing for irq-related deadlock.
+Could you elaborate on the "pwm-ir-tx driver does suffer from this 
+problem"? Where do you see that?
 
-To prevent the potential deadlock, the patch change clear_work_bit()
-inside enc_post_frame_start() to clear_work_bit_irqsave().
+ir-rx51 does not suffer from the same problem (albeit it has its own 
+one, see bellow)
 
-Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
----
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>> In either case help is appreciated to dig further trying to find the reason
+>> for such a big delay.
+> 
+> pwm-ir-tx uses usleep_range() and ir-rx51 uses hrtimers. I thought that
+> usleep_range() uses hrtimers; however if you're not seeing the same delay
+> on ir-rx51 then maybe it's time to switch pwm-ir-tx to hrtimers.
+> 
 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-index f62703cebb77..4b4c129c09e7 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-@@ -1297,7 +1297,7 @@ static int enc_post_frame_start(struct s5p_mfc_ctx *ctx)
- 	if (ctx->state == MFCINST_FINISHING && ctx->ref_queue_cnt == 0)
- 		src_ready = false;
- 	if (!src_ready || ctx->dst_queue_cnt == 0)
--		clear_work_bit(ctx);
-+		clear_work_bit_irqsave(ctx);
- 
- 	return 0;
- }
--- 
-2.17.1
+usleep_range() is backed by hrtimers already, however the difference 
+comes from how hrtimer is used in ir-rx51: it uses timer callback 
+function that gets called in softirq context, while usleep_range() puts 
+the task in TASK_UNINTERRUPTIBLE state and then calls 
+schedule_hrtimeout_range(). For some reason it takes at least 200-400 us 
+(on average) even on OMAP4 to switch back to TASK_RUNNING state.
 
+The issue with ir-rx51 and the way it uses hrtimers is that it calls 
+pwm_apply_state() from hrtimer function, which is not ok, per the 
+comment here 
+https://elixir.bootlin.com/linux/v6.6-rc3/source/drivers/pwm/core.c#L502
+
+I can make pwm-ir-tx switch to hrtimers, that's not an issue, but I am 
+afraid that there is some general scheduler or timers (or something 
+else) issue that manifests itself with usleep_range() misbehaving.
+
+> I don't have a n900 to test on, unfortunately.
+> 
+
+I have and once I have an idea what's going on will port pwm-ir-tx to 
+hrtimers, if needed. Don't want to do it now as I am afraid the 
+completion I will have to use will have the same latency problems as 
+usleep_range()
+
+Thanks,
+Ivo
+
+> Thanks
+> Sean
+> 
