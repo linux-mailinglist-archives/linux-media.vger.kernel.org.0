@@ -2,103 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAA147AEA66
-	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 12:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C2EB7AEACF
+	for <lists+linux-media@lfdr.de>; Tue, 26 Sep 2023 12:53:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234387AbjIZK3q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Sep 2023 06:29:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42664 "EHLO
+        id S234140AbjIZKxm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Sep 2023 06:53:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234200AbjIZK3p (ORCPT
+        with ESMTP id S229725AbjIZKxl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Sep 2023 06:29:45 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F5CFB
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 03:29:37 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CEC4660005;
-        Tue, 26 Sep 2023 10:29:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1695724174;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uunvQtIRwVRTBPjSh/oLT8/3urYKdeDx64CqNk3TofI=;
-        b=IJqRob+dEoHcOW3+Kj/l6zcXeuKOj41Op20K7ryF7QG3n4b6gJpkoiOWQHTNSBlvS8au4k
-        VrEs4lM3hGGltF2YmckVafqAAxdYx9Px8ZZcMfyDWciyPBhu18gCDphTL98fHMfRHVFDG7
-        ODBqG+NOUHKm58CdajYLRbcIJm5akRnfWllrTrMrD/yGTusEUPMjv0ZpgPnTP3L8D/0vLe
-        6svgkzHfAC48DcRhW4J0p88W4SvpIu8xlZkAdSYCKauI3k0r7MZoEznPYFl4OGv6HLvKcL
-        MUFK0LpaADFqQGT7UykLghfk/TyHOgCL64FcYwFOCD50aejeEkkConS6+pFpXA==
-Date:   Tue, 26 Sep 2023 12:29:32 +0200
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Niklas =?UTF-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCHv2 13/23] media: use sizeof() instead of
- V4L2_SUBDEV_NAME_SIZE
-Message-ID: <20230926122932.72ff52d1@booty>
-In-Reply-To: <20230925185157.15c181e6@booty>
-References: <20230923152107.283289-1-hverkuil-cisco@xs4all.nl>
-        <20230923152107.283289-14-hverkuil-cisco@xs4all.nl>
-        <20230925185157.15c181e6@booty>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: luca.ceresoli@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 26 Sep 2023 06:53:41 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E129B4;
+        Tue, 26 Sep 2023 03:53:35 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-578b4997decso6558894a12.0;
+        Tue, 26 Sep 2023 03:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695725615; x=1696330415; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sIOtiw4Vu/5LT/q28eVE3Dtmyg66prHjYei1I5nWOjs=;
+        b=QNPLkVwX/xUWmgWocrqta2A2+0Vn6B2n5h3LmTpw0Q52FO3dsrw7pfa11RTbVYPy3/
+         mfG4iGAXmEhBRCXAr9U90LsxHy7nJHObA4YytKAABWK8rebnccT9ztJkuPKU+Q5u8LYx
+         5riiHMj8eLAqMsoq/9DXoJSe9s6RsoL32XT+XsewsXzlZ+nvP3NFHT0OECHkitF/owSh
+         eESWjLu+tqLLp9OXkve4wotiG+aEW4xbR/cns5V70RgBHld3C0FVWlXR0cugy6W+5E+r
+         P2TqOqwL2pTHSTNgTkLBe5WREGDv5ntM91Lza+TkGBl9Kjft3N5VlMWBeqLBNxYewnR3
+         2tYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695725615; x=1696330415;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sIOtiw4Vu/5LT/q28eVE3Dtmyg66prHjYei1I5nWOjs=;
+        b=F3g4jDpVrQk7+KXoPlB8XrVk0iO6ijIH42EO21O8nCdsTROZSse/z+L5OUIm5uqJnJ
+         S4K3T+ZdGwK5MCvWXArEDeiI740FahBCzUzkZreM02V+F5acCIszvC9odrDmhBUQeGM3
+         17E4cVjmstlH1BaBYOo5UAXLjv1nhvdbHZCQTlq/MNk50AtrWyzIhjCB4+iT1H1tAxE6
+         /3kxN32RLvwvqZCCo2KgJQ8flTB+DkDl7JntgJkkY/7Ow5pIsH409Y6iOQ3Ay3QIUf5s
+         yOQyEKFHQpvqJ5VkOrsk2bL8nHk4kTX9vE7IlYFu6iw/mA0KdO/MOaaWELqvNg8JziJJ
+         5t4Q==
+X-Gm-Message-State: AOJu0Yz36Ln761Vyp0nb+BIUQ8XqB1r4bnqgNgZfXZhtonOKFyVTjfev
+        Z7akRwnt3D7QLtuQQFQlQ/o=
+X-Google-Smtp-Source: AGHT+IGNucwzMarZ64hyme5OSMHfFeU8XflGBVJxo1PNxfECkFjBUPA9h6rwr6R1/vrmIvpw06cCnQ==
+X-Received: by 2002:a05:6a20:3ba8:b0:15d:ccf3:939c with SMTP id b40-20020a056a203ba800b0015dccf3939cmr9074771pzh.35.1695725614578;
+        Tue, 26 Sep 2023 03:53:34 -0700 (PDT)
+Received: from 377044c6c369.cse.ust.hk (191host097.mobilenet.cse.ust.hk. [143.89.191.97])
+        by smtp.gmail.com with ESMTPSA id y3-20020a170902864300b001bdc8a5e96csm10645022plt.169.2023.09.26.03.53.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Sep 2023 03:53:34 -0700 (PDT)
+From:   Chengfeng Ye <dg573847474@gmail.com>
+To:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Chengfeng Ye <dg573847474@gmail.com>
+Subject: [PATCH] media: s5p-mfc: Fix potential deadlock on condlock
+Date:   Tue, 26 Sep 2023 10:53:30 +0000
+Message-Id: <20230926105330.10281-1-dg573847474@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 25 Sep 2023 18:51:57 +0200
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+As &dev->condlock is acquired under irq context along the following
+call chain from s5p_mfc_irq(), other acquisition of the same lock
+inside process context or softirq context should disable irq avoid double
+lock. enc_post_frame_start() seems to be one such function that execute
+under process context or softirq context.
 
-> Hi Hans,
->=20
-> On Sat, 23 Sep 2023 17:20:57 +0200
-> Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->=20
-> > Don't rely on a define, let the compiler use the actual
-> > field size.
-> >=20
-> > Remove all uses of the V4L2_SUBDEV_NAME_SIZE define and also
-> > drop the define itself.
-> >=20
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se>
-> > Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/msp3400-driver.c                  | 2 +-
-> >  drivers/media/platform/cadence/cdns-csi2rx.c        | 4 ++--
-> >  drivers/media/platform/cadence/cdns-csi2tx.c        | 4 ++--
-> >  drivers/media/platform/renesas/rcar-isp.c           | 2 +-
-> >  drivers/media/platform/renesas/rcar-vin/rcar-csi2.c | 2 +-
-> >  drivers/media/platform/ti/omap3isp/ispstat.c        | 2 +-
-> >  drivers/staging/media/tegra-video/csi.c             | 4 ++--
-> >  drivers/staging/media/tegra-video/vip.c             | 2 +- =20
->=20
-> For tegra-video:
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+<deadlock #1>
 
-And now also (for patches 11 and 12 as well):
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra-video VIP
+enc_post_frame_start()
+--> clear_work_bit()
+--> spin_loc(&dev->condlock)
+<interrupt>
+   --> s5p_mfc_irq()
+   --> s5p_mfc_handle_frame()
+   --> clear_work_bit()
+   --> spin_lock(&dev->condlock)
 
-Luca
+This flaw was found by an experimental static analysis tool I am
+developing for irq-related deadlock.
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+To prevent the potential deadlock, the patch change clear_work_bit()
+inside enc_post_frame_start() to clear_work_bit_irqsave().
+
+Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
+---
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
+index f62703cebb77..4b4c129c09e7 100644
+--- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
++++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
+@@ -1297,7 +1297,7 @@ static int enc_post_frame_start(struct s5p_mfc_ctx *ctx)
+ 	if (ctx->state == MFCINST_FINISHING && ctx->ref_queue_cnt == 0)
+ 		src_ready = false;
+ 	if (!src_ready || ctx->dst_queue_cnt == 0)
+-		clear_work_bit(ctx);
++		clear_work_bit_irqsave(ctx);
+ 
+ 	return 0;
+ }
+-- 
+2.17.1
+
