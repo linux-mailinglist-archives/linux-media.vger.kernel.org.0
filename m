@@ -2,373 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDB087B0370
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 14:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 624667B0373
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 14:03:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231169AbjI0MDs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 08:03:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60962 "EHLO
+        id S231521AbjI0MDy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 08:03:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230268AbjI0MDq (ORCPT
+        with ESMTP id S231500AbjI0MDv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 08:03:46 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE11A191;
-        Wed, 27 Sep 2023 05:03:44 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C2ECC433C7;
-        Wed, 27 Sep 2023 12:03:43 +0000 (UTC)
-Message-ID: <0e7556cd-4478-4f21-aab1-5abd1849aa51@xs4all.nl>
-Date:   Wed, 27 Sep 2023 14:03:41 +0200
+        Wed, 27 Sep 2023 08:03:51 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97EB7180
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 05:03:49 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3232be274a0so3876151f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 05:03:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695816228; x=1696421028; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Jijfer/7eCNz5d5BIo7I4Bl8wL2YGtLqRbhXkOSybRs=;
+        b=PNGruEm1Wn5LDKELZWLrKId9OxS7CLwWMBOVfVFJHm9K1DPcUKpFEJNKR2cnDCCd9P
+         P1Td0KsL2d68SPbdDy9MGs4sx1qOY2gsD352UwNOlez/MMLNLjDma1jMmEzafUDoEwka
+         thAJfZjcA/vPHAbH7sPx7p35FiJEWGnVFygj5wTmMh448ozYMr0ccC/NQTg/ytFbuLN5
+         /jFs0/mgbI25s9GZAYSydiaPgRhXFnIGZIVxZWohXm7fmSEmGuBjup9DiRw3C3qO325u
+         0nSX502dr7y4gf/hVALsiFSe0MCEHwpp9eXMhrglYZ15OK14oMgiW3Ahi0YcBfzIwNiL
+         hPjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695816228; x=1696421028;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jijfer/7eCNz5d5BIo7I4Bl8wL2YGtLqRbhXkOSybRs=;
+        b=bDZUuwGKP0NPb+PVC8BVxcRXrtJKje6TccX4ty+ShwLXMg0DlHzV//oik2siE5ZTWu
+         Mi2OaAnW6WImVc8PQnLI/kFVXLCE+v5FpEM6nYbtOOeNCdTq8McA/kSuRKNo2HNMPqT4
+         WX36O65NTn7VjklIsg07juG5/QcHNNHUaUkOTlecBa4Z2oN7oIkFNAOdE3iOus9JBxdl
+         8Sv8x6nD6eh6UEx1GQ6FfnvcXWAMi2tGBUKS8MMmT9mS42toNAj1E/Ign+rwzvfEEokq
+         3B4yudMFXjzV3NZxawseoVhTgXJEIjPbe9Xwwr/m/R23HiMUnBpWQOQudUgmGQrT9+5S
+         hjMw==
+X-Gm-Message-State: AOJu0YzMIR08jXbWIPtqW4mJGWQ/jDDBqmHX8H09IW7ikDSmFrtm0ZMi
+        F8Silc5/KAqF3nJI/oOtPuaBag==
+X-Google-Smtp-Source: AGHT+IEaeYWVJFO+6RpCdltvFb+3rxtBgeMmbeAB5ZzYo2qjuWG/T7aZ4nxbTNAS/LEd4l7yBFoA3g==
+X-Received: by 2002:a5d:5903:0:b0:31f:afeb:4e7d with SMTP id v3-20020a5d5903000000b0031fafeb4e7dmr1727898wrd.18.1695816227977;
+        Wed, 27 Sep 2023 05:03:47 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id m16-20020a056000025000b0032330232802sm6149752wrz.4.2023.09.27.05.03.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Sep 2023 05:03:47 -0700 (PDT)
+Message-ID: <d799f653-e00c-43be-9487-381a8ef4c849@linaro.org>
+Date:   Wed, 27 Sep 2023 13:03:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 0/2] Digiteq Automotive MGB4 driver
-Content-Language: en-US, nl
-To:     tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-References: <20230925143605.4686-1-tumic@gpxsee.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230925143605.4686-1-tumic@gpxsee.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [RESEND PATCH v6 17/17] media: qcom: camss: Comment CSID dt_id
+ field
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, andrey.konovalov@linaro.org
+Cc:     linux-kernel@vger.kernel.org
+References: <20230925154707.837542-1-bryan.odonoghue@linaro.org>
+ <20230925154707.837542-18-bryan.odonoghue@linaro.org>
+ <cf7cdafb-ccd1-42ee-9c67-5e6600f752f7@xs4all.nl>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <cf7cdafb-ccd1-42ee-9c67-5e6600f752f7@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+On 27/09/2023 12:42, Hans Verkuil wrote:
+>> +		/*
+>> +		 * DT_ID is a two bit bitfield that is concatenated with
+>> +		 * the four least significant bits of the six bit VC
+>> +		 * bitfield to generate an internal CID value.
+>> +		 *
+>> +		 * CSID_RDI_CFG0(vc)
+>> +		 * DT_ID : 28:27
+>> +		 * VC    : 26:22
+> This is 5 bits, not 6 bits as the comment above says. Which is right?
 
-Thank you for your work and patience!
+Yes you're right I had "DT" which is six bits in my head when I wrote 
+this. The VC bitfield is five.
 
-I've just merged this v11, it all looked good to me.
+> 
+>> +		 * DT    : 21:16
+>> +		 *
+>> +		 * CID   : VC 3:0 << 2 | DT_ID 1:0
+>> +		 */
+>>   		u8 dt_id = vc;
+> So if dt_id is 2 bits, and vc can be more than 2 bits in the future,
+> shouldn't this read "vc & 3"?
 
-Regards,
+Hmm...
 
-	Hans
+val |= dt_id << RDI_CFG0_DT_ID;
 
-On 25/09/2023 16:36, tumic@gpxsee.org wrote:
-> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
-> 
-> Hi,
-> This patch adds a driver for the Digiteq Automotive MGB4 grabber card.
-> MGB4 is a modular frame grabber PCIe card for automotive video interfaces
-> (FPD-Link and GMSL for now). It is based on a Xilinx FPGA and uses their
-> XDMA IP core for DMA transfers. Additionally, Xilinx I2C and SPI IP cores
-> which already have drivers in linux are used in the design.
-> 
-> The driver is a quite standard v4l2 driver, with one exception - there are
-> a lot of sysfs options that may/must be set before opening the v4l2 device
-> to adapt the card on a specific signal (see mgb4.rst for details)
-> as the card must be able to work with various signal sources (or displays)
-> that can not be auto-detected.
-> 
-> Changes in v11
-> * Fixed broken video buffer size check.
-> * Documented video queue checks/locking during I/O reconfiguration and signal
->   parameters changes.
-> 
-> Changes in v10:
-> * Use propper locks/is_busy functions when accessing the video devices in
->   the sysfs callbacks.
-> * Fixed issues found by the sparse/smatch tools.
-> 
-> Changes in v9:
-> * Renamed all sysfs show/store functions using the propper naming convention.
-> * Now using device_add_groups() when initializing the sysfs properties.
-> * Fixed build without debugfs support.
-> * Fixed documentation (vsync/hsync) + added default values where applicable.
-> * Fixed the rest of minor issues from v8 review.
-> 
-> Changes in v8:
-> * Fixed broken video buffer size computation.
-> * Fixed switched I2C deserializers addresses.
-> * Do not depend on hwmon.
-> 
-> Changes in v7:
-> * Now using hwmon for FPGA temperature reporting.
-> * Now using VIDIOC_S_FMT and v4l2_pix_format.bytesperline for setting
->   the alignment.
-> * Removed the magic sleep when loading the i2c/spi adapter modules (solved by
->   request_module() calls with propper - "platform:" prefixed - module
->   names).
-> * Now properly reporting all the timings info in the VIDIOC_G_DV_TIMINGS
->   ioctls.
-> * Updated the documentation.
-> * Minor fixes as discussed in the v6 review.
-> * Added debugfs access to the FPGA registers.
-> 
-> Changes in v6:
-> * Rebased to current master that includes the Xilinx XDMA driver.
-> 
-> Changes in v5:
-> * Removed unused <linux/version.h> includes
-> 
-> Changes in v4:
-> * Redesigned the signal change handling logic. Now using the propper timings
->   API in the video input driver and a propper open() syscall check/logic in
->   the video output driver.
-> * Fixed all minor issues from v3 review.
-> * 'checkpatch.pl --strict' used for checking the code.
-> 
-> Changes in v3:
-> * Rebased the DMA transfers part to use the new XDMA driver from Xilinx/AMD
-> 
-> Changes in v2:
-> * Completely rewritten the original Xilinx's XDMA driver to meet kernel code
->   standards.
-> * Added all required "to" and "cc" mail addresses.
-> 
-> 
-> ===== v4l2-compliance results - input =====
-> 
-> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
-> 
-> Compliance test for mgb4 device /dev/video0:
-> 
-> Driver Info:
->         Driver name      : mgb4
->         Card type        : MGB4 PCIe Card
->         Bus info         : PCI:0000:01:00.0
->         Driver version   : 6.4.0
->         Capabilities     : 0x85200001
->                 Video Capture
->                 Read/Write
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x05200001
->                 Video Capture
->                 Read/Write
->                 Streaming
->                 Extended Pix Format
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
->         test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video0 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 1 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
->         test VIDIOC_DV_TIMINGS_CAP: OK
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls (Input 0):
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
->         test VIDIOC_QUERYCTRL: OK (Not Supported)
->         test VIDIOC_G/S_CTRL: OK (Not Supported)
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
->                 warn: v4l2-test-controls.cpp(1139): V4L2_CID_DV_RX_POWER_PRESENT not found for input 0
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 0 Private Controls: 0
-> 
-> Format ioctls (Input 0):
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK (Not Supported)
->         test Scaling: OK (Not Supported)
-> 
-> Codec ioctls (Input 0):
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 0):
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for mgb4 device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 1
-> 
-> ===== v4l2-compliance results - output =====
-> 
-> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
-> 
-> Compliance test for mgb4 device /dev/video2:
-> 
-> Driver Info:
->         Driver name      : mgb4
->         Card type        : MGB4 PCIe Card
->         Bus info         : PCI:0000:01:00.0
->         Driver version   : 6.4.0
->         Capabilities     : 0x85200002
->                 Video Output
->                 Read/Write
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x05200002
->                 Video Output
->                 Read/Write
->                 Streaming
->                 Extended Pix Format
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
->         test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video2 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 1 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls (Output 0):
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
->         test VIDIOC_QUERYCTRL: OK (Not Supported)
->         test VIDIOC_G/S_CTRL: OK (Not Supported)
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 0 Private Controls: 0
-> 
-> Format ioctls (Output 0):
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK (Not Supported)
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK (Not Supported)
->         test Scaling: OK (Not Supported)
-> 
-> Codec ioctls (Output 0):
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Output 0):
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for mgb4 device /dev/video2: 45, Succeeded: 45, Failed: 0, Warnings: 0
-> 
-> Martin Tůma (2):
->   Added Digiteq Automotive MGB4 driver
->   Added Digiteq Automotive MGB4 driver documentation
-> 
->  Documentation/admin-guide/media/mgb4.rst      | 374 +++++++
->  .../admin-guide/media/pci-cardlist.rst        |   1 +
->  .../admin-guide/media/v4l-drivers.rst         |   1 +
->  MAINTAINERS                                   |   7 +
->  drivers/media/pci/Kconfig                     |   1 +
->  drivers/media/pci/Makefile                    |   1 +
->  drivers/media/pci/mgb4/Kconfig                |  17 +
->  drivers/media/pci/mgb4/Makefile               |   6 +
->  drivers/media/pci/mgb4/mgb4_cmt.c             | 244 +++++
->  drivers/media/pci/mgb4/mgb4_cmt.h             |  17 +
->  drivers/media/pci/mgb4/mgb4_core.c            | 686 +++++++++++++
->  drivers/media/pci/mgb4/mgb4_core.h            |  74 ++
->  drivers/media/pci/mgb4/mgb4_dma.c             | 123 +++
->  drivers/media/pci/mgb4/mgb4_dma.h             |  18 +
->  drivers/media/pci/mgb4/mgb4_i2c.c             | 140 +++
->  drivers/media/pci/mgb4/mgb4_i2c.h             |  35 +
->  drivers/media/pci/mgb4/mgb4_io.h              |  33 +
->  drivers/media/pci/mgb4/mgb4_regs.c            |  30 +
->  drivers/media/pci/mgb4/mgb4_regs.h            |  35 +
->  drivers/media/pci/mgb4/mgb4_sysfs.h           |  18 +
->  drivers/media/pci/mgb4/mgb4_sysfs_in.c        | 772 ++++++++++++++
->  drivers/media/pci/mgb4/mgb4_sysfs_out.c       | 737 ++++++++++++++
->  drivers/media/pci/mgb4/mgb4_sysfs_pci.c       |  71 ++
->  drivers/media/pci/mgb4/mgb4_trigger.c         | 208 ++++
->  drivers/media/pci/mgb4/mgb4_trigger.h         |   8 +
->  drivers/media/pci/mgb4/mgb4_vin.c             | 939 ++++++++++++++++++
->  drivers/media/pci/mgb4/mgb4_vin.h             |  69 ++
->  drivers/media/pci/mgb4/mgb4_vout.c            | 602 +++++++++++
->  drivers/media/pci/mgb4/mgb4_vout.h            |  65 ++
->  29 files changed, 5332 insertions(+)
->  create mode 100644 Documentation/admin-guide/media/mgb4.rst
->  create mode 100644 drivers/media/pci/mgb4/Kconfig
->  create mode 100644 drivers/media/pci/mgb4/Makefile
->  create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_dma.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_dma.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
-> 
-> 
-> base-commit: 27bbf45eae9ca98877a2d52a92a188147cd61b07
+yes that would overrun otherwise.
+
+---
+bod
 
