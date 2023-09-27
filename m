@@ -2,546 +2,410 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D98E7B0A68
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 18:34:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 167E57B0AF7
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 19:18:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232303AbjI0QeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 12:34:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57844 "EHLO
+        id S229486AbjI0RSB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 13:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232132AbjI0QeH (ORCPT
+        with ESMTP id S229450AbjI0RSA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 12:34:07 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32BC6CE9
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 09:33:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695832428; x=1727368428;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=N2lQc5ddumLpwuFB8dlVj6Uyvd8iaLaiqglPE+4lCTI=;
-  b=gSiaSw0MfvPIBmzJD8rRJuCclqAOjB6+UXzerSIPX1TeOxkL4aCokny3
-   uxGi1v3T5G78C1khs0GOoZ/7cO7IpaKVH8RZQrgCERJ5pabT7NSOhOVS7
-   sufdVIzAxZDqCv32lOe71RqPnKBRik6DjNZuPjuPGmkYJui+L3Ovt0oKk
-   q3prsKqITJkmd1zM3jf8h/DoEQqwFpsNeM1jbdscnM939MzSJ1yuNYOvl
-   oLV+GY+kczJIhhzhLCX80y/dx9PBrkA0d78AYsG44t0y7eDh2oGEw3XAA
-   CbkW1Ecq+55Wk7BAamx142Jo4qFtrxeY0J4YB8jIJsQnAAXHwjDZc15L4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="372219033"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="372219033"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:33:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="725870256"
-X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="725870256"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:33:44 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id C4C5B11FBCE;
-        Wed, 27 Sep 2023 19:33:38 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Wed, 27 Sep 2023 13:18:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16F28B4
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 10:17:57 -0700 (PDT)
+Received: from ideasonboard.com (unknown [IPv6:2001:861:388f:1650:2f32:b6ff:a885:7d5e])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A85CFB9A;
+        Wed, 27 Sep 2023 19:16:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1695834973;
+        bh=LFQG+i/ww14J/Oj8iD1dvp0QiOlFEYbzc1kOT8NnRn4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bIr0Rb+aC9aW48CDS+ToP3+PFQwzC+awgu5UGtu3pRI3ujky2UZ8Kydllp8Uyq+DT
+         HYm30SqGhlkziInvl+7vZWV3ek6iUJYUyXDj2Ncb0S6t084FPT2hQEY6sEOP5x0fEz
+         Vrgtugu2Wa/hlvb6hcHFslNqY/v64RF0XrRJGwCs=
+Date:   Wed, 27 Sep 2023 19:17:51 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>,
-        "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH v5 26/26] media: ccs: Rely on sub-device state locking
-Date:   Wed, 27 Sep 2023 19:32:12 +0300
-Message-Id: <20230927163212.402025-27-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230927163212.402025-1-sakari.ailus@linux.intel.com>
-References: <20230927163212.402025-1-sakari.ailus@linux.intel.com>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 1/1] media: Documentation: Split camera sensor
+ documentation
+Message-ID: <bj4kfqthh4kb7dbu2auevb44yrqgeu6z3rakx5x55q3jfwsyur@emhmhbmr3bpk>
+References: <20230927160623.399428-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230927160623.399428-1-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rely on sub-device state locking to serialise access to driver's data
-structures. The driver-provided mutex is used as the state lock for all
-driver sub-devices.
+Hi Sakari,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/ccs/ccs-core.c | 163 +++++++++++++++----------------
- drivers/media/i2c/ccs/ccs.h      |   1 -
- 2 files changed, 77 insertions(+), 87 deletions(-)
+On Wed, Sep 27, 2023 at 07:06:23PM +0300, Sakari Ailus wrote:
+> Split camera sensor documentation into user and kernel portions. This
+> should make it easier for the user space developers to find the relevant
+> documentation.
+>
+> Also add a list of exemplary drivers and add imx219 driver to it, besides
+> those that were already mentioned.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index ad63fce546cd..4342c4cce83a 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -531,12 +531,13 @@ static int ccs_pll_update(struct ccs_sensor *sensor)
-  *
-  */
- 
--static void __ccs_update_exposure_limits(struct ccs_sensor *sensor)
-+static void __ccs_update_exposure_limits(struct ccs_sensor *sensor,
-+					 struct v4l2_rect *pa_src)
- {
- 	struct v4l2_ctrl *ctrl = sensor->exposure;
- 	int max;
- 
--	max = sensor->pa_src.height + sensor->vblank->val -
-+	max = pa_src->height + sensor->vblank->val -
- 		CCS_LIM(sensor, COARSE_INTEGRATION_TIME_MAX_MARGIN);
- 
- 	__v4l2_ctrl_modify_range(ctrl, ctrl->minimum, max, ctrl->step, max);
-@@ -639,12 +640,21 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
- 		container_of(ctrl->handler, struct ccs_subdev, ctrl_handler)
- 			->sensor;
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-+	struct v4l2_subdev_state *state;
-+	struct v4l2_rect *pa_src;
- 	int pm_status;
- 	u32 orient = 0;
- 	unsigned int i;
- 	int exposure;
- 	int rval;
- 
-+	if (ctrl->id == V4L2_CID_VBLANK || ctrl->id == V4L2_CID_HBLANK) {
-+		state = v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
-+		pa_src = v4l2_subdev_get_crop_ptr(&sensor->pixel_array->sd,
-+						  state, CCS_PA_PAD_SRC,
-+						  CCS_STREAM_PIXEL);
-+	}
-+
- 	switch (ctrl->id) {
- 	case V4L2_CID_HFLIP:
- 	case V4L2_CID_VFLIP:
-@@ -663,7 +673,7 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_VBLANK:
- 		exposure = sensor->exposure->val;
- 
--		__ccs_update_exposure_limits(sensor);
-+		__ccs_update_exposure_limits(sensor, pa_src);
- 
- 		if (exposure > sensor->exposure->maximum) {
- 			sensor->exposure->val =	sensor->exposure->maximum;
-@@ -755,12 +765,12 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_VBLANK:
- 		rval = ccs_write(sensor, FRAME_LENGTH_LINES,
--				 sensor->pa_src.height + ctrl->val);
-+				 pa_src->height + ctrl->val);
- 
- 		break;
- 	case V4L2_CID_HBLANK:
- 		rval = ccs_write(sensor, LINE_LENGTH_PCK,
--				 sensor->pa_src.width + ctrl->val);
-+				 pa_src->width + ctrl->val);
- 
- 		break;
- 	case V4L2_CID_TEST_PATTERN:
-@@ -1215,7 +1225,8 @@ static int ccs_get_mbus_formats(struct ccs_sensor *sensor)
- 	return 0;
- }
- 
--static void ccs_update_blanking(struct ccs_sensor *sensor)
-+static void ccs_update_blanking(struct ccs_sensor *sensor,
-+				struct v4l2_rect *pa_src)
- {
- 	struct v4l2_ctrl *vblank = sensor->vblank;
- 	struct v4l2_ctrl *hblank = sensor->hblank;
-@@ -1238,21 +1249,26 @@ static void ccs_update_blanking(struct ccs_sensor *sensor)
- 
- 	min = max_t(int,
- 		    CCS_LIM(sensor, MIN_FRAME_BLANKING_LINES),
--		    min_fll - sensor->pa_src.height);
--	max = max_fll -	sensor->pa_src.height;
-+		    min_fll - pa_src->height);
-+	max = max_fll -	pa_src->height;
- 
- 	__v4l2_ctrl_modify_range(vblank, min, max, vblank->step, min);
- 
--	min = max_t(int, min_llp - sensor->pa_src.width, min_lbp);
--	max = max_llp - sensor->pa_src.width;
-+	min = max_t(int, min_llp - pa_src->width, min_lbp);
-+	max = max_llp - pa_src->width;
- 
- 	__v4l2_ctrl_modify_range(hblank, min, max, hblank->step, min);
- 
--	__ccs_update_exposure_limits(sensor);
-+	__ccs_update_exposure_limits(sensor, pa_src);
- }
- 
- static int ccs_pll_blanking_update(struct ccs_sensor *sensor)
- {
-+	struct v4l2_subdev_state *state =
-+		v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
-+	struct v4l2_rect *pa_src =
-+		v4l2_subdev_get_crop_ptr(&sensor->pixel_array->sd, state,
-+					 CCS_PA_PAD_SRC, CCS_STREAM_PIXEL);
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
- 	int rval;
- 
-@@ -1261,15 +1277,15 @@ static int ccs_pll_blanking_update(struct ccs_sensor *sensor)
- 		return rval;
- 
- 	/* Output from pixel array, including blanking */
--	ccs_update_blanking(sensor);
-+	ccs_update_blanking(sensor, pa_src);
- 
- 	dev_dbg(&client->dev, "vblank\t\t%d\n", sensor->vblank->val);
- 	dev_dbg(&client->dev, "hblank\t\t%d\n", sensor->hblank->val);
- 
- 	dev_dbg(&client->dev, "real timeperframe\t100/%d\n",
- 		sensor->pll.pixel_rate_pixel_array /
--		((sensor->pa_src.width + sensor->hblank->val) *
--		 (sensor->pa_src.height + sensor->vblank->val) / 100));
-+		((pa_src->width + sensor->hblank->val) *
-+		 (pa_src->height + sensor->vblank->val) / 100));
- 
- 	return 0;
- }
-@@ -1739,6 +1755,16 @@ static int ccs_power_off(struct device *dev)
- 
- static int ccs_start_streaming(struct ccs_sensor *sensor)
- {
-+	struct v4l2_subdev_state *pa_state =
-+		v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
-+	struct v4l2_subdev_state *src_state =
-+		v4l2_subdev_get_locked_active_state(&sensor->src->sd);
-+	struct v4l2_rect *pa_src =
-+		v4l2_subdev_get_crop_ptr(&sensor->pixel_array->sd, pa_state,
-+					 CCS_PA_PAD_SRC, CCS_STREAM_PIXEL);
-+	struct v4l2_rect *src_src =
-+		v4l2_subdev_get_crop_ptr(&sensor->src->sd, src_state,
-+					 CCS_PAD_SRC, CCS_STREAM_PIXEL);
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
- 	unsigned int binning_mode;
- 	int rval;
-@@ -1774,22 +1800,20 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
- 		return rval;
- 
- 	/* Analog crop start coordinates */
--	rval = ccs_write(sensor, X_ADDR_START, sensor->pa_src.left);
-+	rval = ccs_write(sensor, X_ADDR_START, pa_src->left);
- 	if (rval < 0)
- 		return rval;
- 
--	rval = ccs_write(sensor, Y_ADDR_START, sensor->pa_src.top);
-+	rval = ccs_write(sensor, Y_ADDR_START, pa_src->top);
- 	if (rval < 0)
- 		return rval;
- 
- 	/* Analog crop end coordinates */
--	rval = ccs_write(sensor, X_ADDR_END,
--			 sensor->pa_src.left + sensor->pa_src.width - 1);
-+	rval = ccs_write(sensor, X_ADDR_END, pa_src->left + pa_src->width - 1);
- 	if (rval < 0)
- 		return rval;
- 
--	rval = ccs_write(sensor, Y_ADDR_END,
--			 sensor->pa_src.top + sensor->pa_src.height - 1);
-+	rval = ccs_write(sensor, Y_ADDR_END, pa_src->top + pa_src->height - 1);
- 	if (rval < 0)
- 		return rval;
- 
-@@ -1801,23 +1825,31 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
- 	/* Digital crop */
- 	if (CCS_LIM(sensor, DIGITAL_CROP_CAPABILITY)
- 	    == CCS_DIGITAL_CROP_CAPABILITY_INPUT_CROP) {
-+		struct v4l2_subdev_state *scaler_state =
-+			v4l2_subdev_get_locked_active_state(&sensor->scaler->sd);
-+		struct v4l2_rect *scaler_sink =
-+			v4l2_subdev_get_crop_ptr(&sensor->scaler->sd,
-+						 scaler_state,
-+						 sensor->scaler->sink_pad,
-+						 CCS_STREAM_PIXEL);
-+
- 		rval = ccs_write(sensor, DIGITAL_CROP_X_OFFSET,
--				 sensor->scaler_sink.left);
-+				 scaler_sink->left);
- 		if (rval < 0)
- 			return rval;
- 
- 		rval = ccs_write(sensor, DIGITAL_CROP_Y_OFFSET,
--				 sensor->scaler_sink.top);
-+				 scaler_sink->top);
- 		if (rval < 0)
- 			return rval;
- 
- 		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_WIDTH,
--				 sensor->scaler_sink.width);
-+				 scaler_sink->width);
- 		if (rval < 0)
- 			return rval;
- 
- 		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_HEIGHT,
--				 sensor->scaler_sink.height);
-+				 scaler_sink->height);
- 		if (rval < 0)
- 			return rval;
- 	}
-@@ -1835,10 +1867,10 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
- 	}
- 
- 	/* Output size from sensor */
--	rval = ccs_write(sensor, X_OUTPUT_SIZE, sensor->src_src.width);
-+	rval = ccs_write(sensor, X_OUTPUT_SIZE, src_src->width);
- 	if (rval < 0)
- 		return rval;
--	rval = ccs_write(sensor, Y_OUTPUT_SIZE, sensor->src_src.height);
-+	rval = ccs_write(sensor, Y_OUTPUT_SIZE, src_src->height);
- 	if (rval < 0)
- 		return rval;
- 
-@@ -2078,9 +2110,6 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
- 	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
- 	unsigned int i;
- 	int idx = -1;
--	int rval = -EINVAL;
--
--	mutex_lock(&sensor->mutex);
- 
- 	dev_err(&client->dev, "subdev %s, pad %u, index %u\n",
- 		subdev->name, code->pad, code->index);
-@@ -2088,12 +2117,11 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
- 	if (subdev == &sensor->src->sd) {
- 		if (code->pad == CCS_PAD_META) {
- 			if (code->index)
--				goto out;
-+				return -EINVAL;
- 
- 			code->code = MEDIA_BUS_FMT_CCS_EMBEDDED;
- 
--			rval = 0;
--			goto out;
-+			return 0;
- 		}
- 		if (code->stream == CCS_STREAM_META) {
- 			struct v4l2_mbus_framefmt *pix_fmt =
-@@ -2140,21 +2168,21 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
- 			}
- 
- 			if (WARN_ON(i > ARRAY_SIZE(codes)) || code->index >= i)
--				goto out;
-+				return -EINVAL;
- 
- 			code->code = codes[code->index];
--			rval = 0;
--			goto out;
-+
-+			return 0;
- 		}
- 	}
- 
- 	if (subdev != &sensor->src->sd || code->pad != CCS_PAD_SRC) {
- 		if (code->index)
--			goto out;
-+			return -EINVAL;
- 
- 		code->code = sensor->internal_csi_format->code;
--		rval = 0;
--		goto out;
-+
-+		return 0;
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
-@@ -2165,18 +2193,14 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
- 			code->code = ccs_csi_data_formats[i].code;
- 			dev_err(&client->dev, "found index %u, i %u, code %x\n",
- 				code->index, i, code->code);
--			rval = 0;
--			break;
-+			return 0;
- 		}
- 	}
- 
--out:
--	mutex_unlock(&sensor->mutex);
--
--	return rval;
-+	return -EINVAL;
- }
- 
--static u32 __ccs_get_mbus_code(struct v4l2_subdev *subdev, unsigned int pad)
-+static u32 ccs_get_mbus_code(struct v4l2_subdev *subdev, unsigned int pad)
- {
- 	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
- 
-@@ -2186,33 +2210,19 @@ static u32 __ccs_get_mbus_code(struct v4l2_subdev *subdev, unsigned int pad)
- 		return sensor->internal_csi_format->code;
- }
- 
--static int __ccs_get_format(struct v4l2_subdev *subdev,
--			    struct v4l2_subdev_state *sd_state,
--			    struct v4l2_subdev_format *fmt)
-+static int ccs_get_format(struct v4l2_subdev *subdev,
-+			  struct v4l2_subdev_state *sd_state,
-+			  struct v4l2_subdev_format *fmt)
- {
- 	fmt->format = *v4l2_subdev_get_fmt_ptr(subdev, sd_state, fmt->pad,
- 					       fmt->stream);
- 
- 	if (fmt->pad != CCS_PAD_META && fmt->stream != CCS_STREAM_META)
--		fmt->format.code = __ccs_get_mbus_code(subdev, fmt->pad);
-+		fmt->format.code = ccs_get_mbus_code(subdev, fmt->pad);
- 
- 	return 0;
- }
- 
--static int ccs_get_format(struct v4l2_subdev *subdev,
--			  struct v4l2_subdev_state *sd_state,
--			  struct v4l2_subdev_format *fmt)
--{
--	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
--	int rval;
--
--	mutex_lock(&sensor->mutex);
--	rval = __ccs_get_format(subdev, sd_state, fmt);
--	mutex_unlock(&sensor->mutex);
--
--	return rval;
--}
--
- /* Changes require propagation only on sink pad. */
- static void ccs_propagate(struct v4l2_subdev *subdev,
- 			  struct v4l2_subdev_state *sd_state, int which,
-@@ -2238,7 +2248,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
- 				sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
- 				sensor->scaling_mode =
- 					CCS_SCALING_MODE_NO_SCALING;
--				sensor->scaler_sink = *comp;
- 			} else if (ssd == sensor->binner) {
- 				sensor->binning_horizontal = 1;
- 				sensor->binning_vertical = 1;
-@@ -2247,8 +2256,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
- 		fallthrough;
- 	case V4L2_SEL_TGT_COMPOSE:
- 		*crops[CCS_PAD_SRC] = *comp;
--		if (which == V4L2_SUBDEV_FORMAT_ACTIVE && ssd == sensor->src)
--			sensor->src_src = *crops[CCS_PAD_SRC];
- 		break;
- 	default:
- 		WARN_ON_ONCE(1);
-@@ -2267,7 +2274,7 @@ static int ccs_set_format_source(struct v4l2_subdev *subdev,
- 	unsigned int i;
- 	int rval;
- 
--	rval = __ccs_get_format(subdev, sd_state, fmt);
-+	rval = ccs_get_format(subdev, sd_state, fmt);
- 	if (rval)
- 		return rval;
- 
-@@ -2396,13 +2403,9 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
- 	if (subdev == &sensor->src->sd && fmt->pad == CCS_PAD_META)
- 		return ccs_get_format(subdev, sd_state, fmt);
- 
--	mutex_lock(&sensor->mutex);
--
- 	if (subdev == &sensor->src->sd && fmt->stream == CCS_STREAM_META) {
- 		ccs_set_format_meta(subdev, sd_state, &fmt->format);
- 
--		mutex_unlock(&sensor->mutex);
--
- 		return 0;
- 	}
- 
-@@ -2412,13 +2415,12 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
- 		rval = ccs_set_format_source(subdev, sd_state, fmt);
- 		ccs_set_format_meta(subdev, sd_state, NULL);
- 
--		mutex_unlock(&sensor->mutex);
--
- 		return rval;
- 	}
- 
- 	/* Sink pad. Width and height are changeable here. */
--	fmt->format.code = __ccs_get_mbus_code(subdev, fmt->pad);
-+	fmt->format.code = ccs_get_mbus_code(subdev, fmt->pad);
-+
- 	fmt->format.width &= ~1;
- 	fmt->format.height &= ~1;
- 	fmt->format.field = V4L2_FIELD_NONE;
-@@ -2441,8 +2443,6 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
- 	crop->height = fmt->format.height;
- 	ccs_propagate(subdev, sd_state, fmt->which, V4L2_SEL_TGT_CROP);
- 
--	mutex_unlock(&sensor->mutex);
--
- 	return 0;
- }
- 
-@@ -2756,9 +2756,6 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
- 
- 	if (ssd != sensor->pixel_array && sel->pad == CCS_PAD_SINK)
- 		ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_CROP);
--	else if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
--		 ssd == sensor->pixel_array)
--		sensor->pa_src = sel->r;
- 
- 	return 0;
- }
-@@ -2830,8 +2827,6 @@ static int ccs_set_selection(struct v4l2_subdev *subdev,
- 	if (ret)
- 		return ret;
- 
--	mutex_lock(&sensor->mutex);
--
- 	sel->r.left = max(0, sel->r.left & ~1);
- 	sel->r.top = max(0, sel->r.top & ~1);
- 	sel->r.width = CCS_ALIGN_DIM(sel->r.width, sel->flags);
-@@ -2853,7 +2848,6 @@ static int ccs_set_selection(struct v4l2_subdev *subdev,
- 		ret = -EINVAL;
- 	}
- 
--	mutex_unlock(&sensor->mutex);
- 	return ret;
- }
- 
-@@ -3250,6 +3244,7 @@ static void ccs_create_subdev(struct ccs_sensor *sensor,
- 
- 	ssd->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	ssd->sd.entity.function = function;
-+	ssd->sd.state_lock = &sensor->mutex;
- 	ssd->sensor = sensor;
- 
- 	ssd->npads = num_pads;
-@@ -3283,8 +3278,6 @@ static int ccs_init_cfg(struct v4l2_subdev *sd,
- 	struct ccs_sensor *sensor = ssd->sensor;
- 	unsigned int i;
- 
--	mutex_lock(&sensor->mutex);
--
- 	for (i = 0; i < ssd->npads; i++) {
- 		struct v4l2_mbus_framefmt *fmt =
- 			v4l2_subdev_get_fmt_ptr(sd, sd_state, i,
-@@ -3312,8 +3305,6 @@ static int ccs_init_cfg(struct v4l2_subdev *sd,
- 		*comp = *crop;
- 	}
- 
--	mutex_unlock(&sensor->mutex);
--
- 	return 0;
- }
- 
-diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
-index ba01115aa739..4b185618f033 100644
---- a/drivers/media/i2c/ccs/ccs.h
-+++ b/drivers/media/i2c/ccs/ccs.h
-@@ -228,7 +228,6 @@ struct ccs_sensor {
- 	u32 mbus_frame_fmts;
- 	const struct ccs_csi_data_format *csi_format;
- 	const struct ccs_csi_data_format *internal_csi_format;
--	struct v4l2_rect pa_src, scaler_sink, src_src;
- 	u32 default_mbus_frame_fmts;
- 	int default_pixel_order;
- 	struct ccs_data_container sdata, mdata;
--- 
-2.39.2
+The patch doesn't apply on media/master nor on v6.6-rc2.
+What is the intended base ?
 
+> ---
+>  .../driver-api/media/camera-sensor.rst        | 135 ++++++------------
+>  .../media/drivers/camera-sensor.rst           | 104 ++++++++++++++
+>  .../userspace-api/media/drivers/index.rst     |   1 +
+>  .../userspace-api/media/v4l/control.rst       |   4 +
+>  4 files changed, 151 insertions(+), 93 deletions(-)
+>  create mode 100644 Documentation/userspace-api/media/drivers/camera-sensor.rst
+>
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index 2acc08142a1a..1f32a7e2d858 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -1,8 +1,14 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>
+> +.. _media_writing_camera_sensor_drivers:
+> +
+>  Writing camera sensor drivers
+>  =============================
+>
+> +This document covers the in-kernel APIs only. For the best practices on
+> +userspace API implementation in camera sensor drivers, please see
+> +:ref:`media_using_camera_sensor_drivers`.
+> +
+>  CSI-2 and parallel (BT.601 and BT.656) busses
+>  ---------------------------------------------
+>
+> @@ -34,7 +40,8 @@ Devicetree
+>
+>  The preferred way to achieve this is using ``assigned-clocks``,
+>  ``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
+> -`clock device tree bindings <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+> +`clock device tree bindings
+> +<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+>  for more information. The driver then gets the frequency using
+>  ``clk_get_rate()``.
+>
+> @@ -85,9 +92,7 @@ PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
+>  a bridge driver, instead add runtime PM support to the sensor driver you are
+>  using and drop its ``.s_power()`` handler.
+>
+> -See examples of runtime PM handling in e.g. ``drivers/media/i2c/ov8856.c`` and
+> -``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI and DT
+> -based systems.
+> +Please also see :ref:`examples <media-camera-sensor-examples>`.
+>
+>  Control framework
+>  ~~~~~~~~~~~~~~~~~
+> @@ -104,99 +109,43 @@ The function returns a non-zero value if it succeeded getting the power count or
+>  runtime PM was disabled, in either of which cases the driver may proceed to
+>  access the device.
+>
+> -Frame size
+> -----------
+> -
+> -There are two distinct ways to configure the frame size produced by camera
+> -sensors.
+> -
+> -Freely configurable camera sensor drivers
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> -
+> -Freely configurable camera sensor drivers expose the device's internal
+> -processing pipeline as one or more sub-devices with different cropping and
+> -scaling configurations. The output size of the device is the result of a series
+> -of cropping and scaling operations from the device's pixel array's size.
+> -
+> -An example of such a driver is the CCS driver (see ``drivers/media/i2c/ccs``).
+> -
+> -Register list based drivers
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> -
+> -Register list based drivers generally, instead of able to configure the device
+> -they control based on user requests, are limited to a number of preset
+> -configurations that combine a number of different parameters that on hardware
+> -level are independent. How a driver picks such configuration is based on the
+> -format set on a source pad at the end of the device's internal pipeline.
+> -
+> -Most sensor drivers are implemented this way, see e.g.
+> -``drivers/media/i2c/imx319.c`` for an example.
+> -
+> -Frame interval configuration
+> -----------------------------
+> -
+> -There are two different methods for obtaining possibilities for different frame
+> -intervals as well as configuring the frame interval. Which one to implement
+> -depends on the type of the device.
+> -
+> -Raw camera sensors
+> -~~~~~~~~~~~~~~~~~~
+> -
+> -Instead of a high level parameter such as frame interval, the frame interval is
+> -a result of the configuration of a number of camera sensor implementation
+> -specific parameters. Luckily, these parameters tend to be the same for more or
+> -less all modern raw camera sensors.
+> -
+> -The frame interval is calculated using the following equation::
+> -
+> -	frame interval = (analogue crop width + horizontal blanking) *
+> -			 (analogue crop height + vertical blanking) / pixel rate
+> -
+> -The formula is bus independent and is applicable for raw timing parameters on
+> -large variety of devices beyond camera sensors. Devices that have no analogue
+> -crop, use the full source image size, i.e. pixel array size.
+> -
+> -Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> -``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> -is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> -the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> -sub-device. The unit of that control is pixels per second.
+> -
+> -Register list based drivers need to implement read-only sub-device nodes for the
+> -purpose. Devices that are not register list based need these to configure the
+> -device's internal processing pipeline.
+> -
+> -The first entity in the linear pipeline is the pixel array. The pixel array may
+> -be followed by other entities that are there to allow configuring binning,
+> -skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
+> -
+> -USB cameras etc. devices
+> -~~~~~~~~~~~~~~~~~~~~~~~~
+> -
+> -USB video class hardware, as well as many cameras offering a similar higher
+> -level interface natively, generally use the concept of frame interval (or frame
+> -rate) on device level in firmware or hardware. This means lower level controls
+> -implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
+> -frame interval on these devices.
+> -
+>  Rotation, orientation and flipping
+>  ----------------------------------
+>
+> -Some systems have the camera sensor mounted upside down compared to its natural
+> -mounting rotation. In such cases, drivers shall expose the information to
+> -userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> -<v4l2-camera-sensor-rotation>` control.
+> -
+> -Sensor drivers shall also report the sensor's mounting orientation with the
+> -:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> -
+>  Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
+>  information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
+>  register the appropriate controls.
+>
+> -Sensor drivers that have any vertical or horizontal flips embedded in the
+> -register programming sequences shall initialize the V4L2_CID_HFLIP and
+> -V4L2_CID_VFLIP controls with the values programmed by the register sequences.
+> -The default values of these controls shall be 0 (disabled). Especially these
+> -controls shall not be inverted, independently of the sensor's mounting
+> -rotation.
+> +.. _media-camera-sensor-examples:
+> +
+> +Example drivers
+> +---------------
+> +
+> +Features implemented by sensor drivers vary, and depending on the set of
+> +supported features and other qualities, particular sensor drivers better serve
+> +the purpose of an example. The following drivers are known to be good examples:
+> +
+> +.. flat-table:: Example sensor drivers
+> +    :header-rows: 0
+> +    :widths:      1 1 1 2
+> +
+> +    * - Driver name
+> +      - File(s)
+> +      - Driver type
+> +      - Example topic
+> +    * - CCS
+> +      - ``drivers/media/i2c/ccs/``
+> +      - Freely configurable
+> +      - Power management (ACPI and DT), UAPI
+> +    * - imx219
+> +      - ``drivers/media/i2c/imx219.c``
+> +      - Register list based
+> +      - Power management (DT), UAPI, mode selection
+> +    * - imx319
+> +      - ``drivers/media/i2c/imx319.c``
+> +      - Register list based
+> +      - Power management (ACPI and DT)
+> +    * - ov8865
+> +      - ``drivers/media/i2c/ov8865.c``
+> +      - Register list based
+> +      - Power management (ACPI and DT)
+> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> new file mode 100644
+> index 000000000000..919a50e8b9d9
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> @@ -0,0 +1,104 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _media_using_camera_sensor_drivers:
+> +
+> +Using camera sensor drivers
+> +===========================
+> +
+> +This section describes common practices for how the V4L2 sub-device interface is
+> +used to control the camera sensor drivers.
+> +
+> +You may also find :ref:`media_writing_camera_sensor_drivers` useful.
+> +
+> +Frame size
+> +----------
+> +
+> +There are two distinct ways to configure the frame size produced by camera
+> +sensors.
+> +
+> +Freely configurable camera sensor drivers
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Freely configurable camera sensor drivers expose the device's internal
+> +processing pipeline as one or more sub-devices with different cropping and
+> +scaling configurations. The output size of the device is the result of a series
+> +of cropping and scaling operations from the device's pixel array's size.
+> +
+> +An example of such a driver is the CCS driver.
+> +
+> +Register list based drivers
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Register list based drivers generally, instead of able to configure the device
+> +they control based on user requests, are limited to a number of preset
+> +configurations that combine a number of different parameters that on hardware
+> +level are independent. How a driver picks such configuration is based on the
+> +format set on a source pad at the end of the device's internal pipeline.
+> +
+> +Most sensor drivers are implemented this way.
+> +
+> +Frame interval configuration
+> +----------------------------
+> +
+> +There are two different methods for obtaining possibilities for different frame
+> +intervals as well as configuring the frame interval. Which one to implement
+> +depends on the type of the device.
+> +
+> +Raw camera sensors
+> +~~~~~~~~~~~~~~~~~~
+> +
+> +Instead of a high level parameter such as frame interval, the frame interval is
+> +a result of the configuration of a number of camera sensor implementation
+> +specific parameters. Luckily, these parameters tend to be the same for more or
+> +less all modern raw camera sensors.
+> +
+> +The frame interval is calculated using the following equation::
+> +
+> +	frame interval = (analogue crop width + horizontal blanking) *
+> +			 (analogue crop height + vertical blanking) / pixel rate
+> +
+
+Is this even correct ? The above formula mentions the analogue crop sizes,
+but isn't this the pixel sampling rate on the sensor's pixel array ? isn't it
+different from the produced output frame rate which should take into
+account any binning/skipping step and optional digital crop ? Should the
+visible+blanking sizes should be taken into account instead ? Binned
+modes are usually faster than non-binned ones, in example...
+
+> +The formula is bus independent and is applicable for raw timing parameters on
+> +large variety of devices beyond camera sensors. Devices that have no analogue
+> +crop, use the full source image size, i.e. pixel array size.
+
+This is also wrong imho. Using the pixel array size would only give
+you an approximation  of the frame interval of the sensor's frame rate
+at maximum resolution ?
+
+I understand this was already here so this is not strictly related to
+this patch...
+
+> +
+> +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> +is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> +sub-device. The unit of that control is pixels per second.
+> +
+> +Register list based drivers need to implement read-only sub-device nodes for the
+> +purpose. Devices that are not register list based need these to configure the
+> +device's internal processing pipeline.
+
+Why are read-only subdev suggested here ? can't a register-based
+driver can register read-only controls for blankings ?
+
+Again, this was here already.
+
+> +
+> +The first entity in the linear pipeline is the pixel array. The pixel array may
+> +be followed by other entities that are there to allow configuring binning,
+> +skipping, scaling or digital crop, see :ref:`VIDIOC_SUBDEV_G_SELECTION
+> +<VIDIOC_SUBDEV_G_SELECTION>`.
+> +
+> +USB cameras etc. devices
+> +~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +USB video class hardware, as well as many cameras offering a similar higher
+> +level interface natively, generally use the concept of frame interval (or frame
+> +rate) on device level in firmware or hardware. This means lower level controls
+> +implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
+> +frame interval on these devices.
+> +
+> +Rotation, orientation and flipping
+> +----------------------------------
+> +
+> +Some systems have the camera sensor mounted upside down compared to its natural
+> +mounting rotation. In such cases, drivers shall expose the information to
+> +userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> +<v4l2-camera-sensor-rotation>` control.
+> +
+> +Sensor drivers shall also report the sensor's mounting orientation with the
+> +:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> +
+> +Sensor drivers that have any vertical or horizontal flips embedded in the
+> +register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
+> +<v4l2-cid-hflip>` and :ref:`V4L2_CID_VFLIP <v4l2-cid-vflip>` controls with the
+> +values programmed by the register sequences. The default values of these
+> +controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> +independently of the sensor's mounting rotation.
+> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> index 783f92f01a4c..1726f8ec86fa 100644
+> --- a/Documentation/userspace-api/media/drivers/index.rst
+> +++ b/Documentation/userspace-api/media/drivers/index.rst
+> @@ -32,6 +32,7 @@ For more details see the file COPYING in the source distribution of Linux.
+>  	:numbered:
+>
+>  	aspeed-video
+> +	camera-sensor
+>  	ccs
+>  	cx2341x-uapi
+>  	dw100
+> diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+> index 4463fce694b0..57893814a1e5 100644
+> --- a/Documentation/userspace-api/media/v4l/control.rst
+> +++ b/Documentation/userspace-api/media/v4l/control.rst
+> @@ -143,9 +143,13 @@ Control IDs
+>      recognise the difference between digital and analogue gain use
+>      controls ``V4L2_CID_DIGITAL_GAIN`` and ``V4L2_CID_ANALOGUE_GAIN``.
+>
+> +.. _v4l2-cid-hflip:
+> +
+>  ``V4L2_CID_HFLIP`` ``(boolean)``
+>      Mirror the picture horizontally.
+>
+> +.. _v4l2-cid-vflip:
+> +
+>  ``V4L2_CID_VFLIP`` ``(boolean)``
+>      Mirror the picture vertically.
+>
+> --
+> 2.39.2
+>
