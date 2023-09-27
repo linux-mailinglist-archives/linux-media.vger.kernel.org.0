@@ -1,45 +1,45 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F5537B0EDA
-	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 00:23:01 +0200 (CEST)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.lfdr.de (Postfix) with ESMTP id 42FEE7B0EF4
+	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 00:36:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbjI0WXA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 18:23:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35382 "EHLO
+        id S229460AbjI0WeC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 18:34:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjI0WXA (ORCPT
+        with ESMTP id S229634AbjI0WeB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 18:23:00 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35731AF
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 15:22:57 -0700 (PDT)
+        Wed, 27 Sep 2023 18:34:01 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED50711D
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 15:33:55 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (176-132-227-79.abo.bbox.fr [176.132.227.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9F05DFB;
-        Thu, 28 Sep 2023 00:21:13 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 058A5DFB;
+        Thu, 28 Sep 2023 00:31:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695853273;
-        bh=/wldjJzHYGc/TQv6UPQAFUTK7DO/r9zGMCYE6QWmTCU=;
+        s=mail; t=1695853906;
+        bh=e+SPe0rZIybSChFpfSM2MvlC0aIl8FPAWH3UZg8I05I=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m1jo0rXbAyhNgjANyg4eXvonr4UPwE1ycfnIP0rOePoItOFnDvBu0Esd/g/gIQGKR
-         XLc+UFD5sOXtG8GEN77SdO4dHId1krjLH4j8TCKAbEIUpfT4+HhiMZC02S/QVDxWcm
-         Cw4FeMmJxRcM4wyu62GXvFaFsgNEbhWONMTSV+GY=
-Date:   Thu, 28 Sep 2023 01:23:05 +0300
+        b=qMsPoNTm4CajyWlaLwvqGVY1LWLR0NKXu14AWFGfGeIcgUDsoI4I89njUF8ULRrp4
+         wckZLI3umiiPayr2Ip6buPwbEy2gfitiemqc4xHqIO0lKMUaSTnOX/9FahZAOISzkt
+         rjqXx5t/XFSif8L4JyusIMhIvrNu02fKXGdTVCQo=
+Date:   Thu, 28 Sep 2023 01:33:36 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 1/1] media: Documentation: Split camera sensor
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] media: Documentation: Split camera sensor
  documentation
-Message-ID: <20230927222305.GW5854@pendragon.ideasonboard.com>
-References: <20230927115816.392215-1-sakari.ailus@linux.intel.com>
- <20230927122620.GA21444@pendragon.ideasonboard.com>
- <ZRQnzNUsvKIUdIN1@kekkonen.localdomain>
+Message-ID: <20230927223336.GX5854@pendragon.ideasonboard.com>
+References: <20230927160623.399428-1-sakari.ailus@linux.intel.com>
+ <bj4kfqthh4kb7dbu2auevb44yrqgeu6z3rakx5x55q3jfwsyur@emhmhbmr3bpk>
+ <ZRR4ODOLBCfspNNT@kekkonen.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZRQnzNUsvKIUdIN1@kekkonen.localdomain>
+In-Reply-To: <ZRR4ODOLBCfspNNT@kekkonen.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -49,53 +49,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On Wed, Sep 27, 2023 at 01:02:04PM +0000, Sakari Ailus wrote:
-> On Wed, Sep 27, 2023 at 03:26:20PM +0300, Laurent Pinchart wrote:
-> > On Wed, Sep 27, 2023 at 02:58:16PM +0300, Sakari Ailus wrote:
+On Wed, Sep 27, 2023 at 06:45:12PM +0000, Sakari Ailus wrote:
+> On Wed, Sep 27, 2023 at 07:17:51PM +0200, Jacopo Mondi wrote:
+> > On Wed, Sep 27, 2023 at 07:06:23PM +0300, Sakari Ailus wrote:
 > > > Split camera sensor documentation into user and kernel portions. This
 > > > should make it easier for the user space developers to find the relevant
 > > > documentation.
-> > > 
+> > >
+> > > Also add a list of exemplary drivers and add imx219 driver to it, besides
+> > > those that were already mentioned.
+> > >
 > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > 
+> > The patch doesn't apply on media/master nor on v6.6-rc2.
+> > What is the intended base ?
+> 
+> Oops. I had other documentation patches in the metadata preparation set. It
+> goes on top of that:
+> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata-pre>.
+
+I recommend setting format.useAutoBase to true, it will then convey base
+commit information in the patches.
+
 > > > ---
-> > >  .../driver-api/media/camera-sensor.rst        | 129 +++++-------------
+> > >  .../driver-api/media/camera-sensor.rst        | 135 ++++++------------
 > > >  .../media/drivers/camera-sensor.rst           | 104 ++++++++++++++
 > > >  .../userspace-api/media/drivers/index.rst     |   1 +
 > > >  .../userspace-api/media/v4l/control.rst       |   4 +
-> > >  4 files changed, 145 insertions(+), 93 deletions(-)
+> > >  4 files changed, 151 insertions(+), 93 deletions(-)
 > > >  create mode 100644 Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > 
+> > >
 > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > > index 2acc08142a1a..6e5c3b16161e 100644
+> > > index 2acc08142a1a..1f32a7e2d858 100644
 > > > --- a/Documentation/driver-api/media/camera-sensor.rst
 > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > > @@ -1,8 +1,12 @@
+> > > @@ -1,8 +1,14 @@
 > > >  .. SPDX-License-Identifier: GPL-2.0
-> > >  
+> > >
 > > > +.. _media_writing_camera_sensor_drivers:
 > > > +
 > > >  Writing camera sensor drivers
 > > >  =============================
-> > >  
-> > > +Please also see :ref:`media_using_camera_sensor_drivers`.
-> > 
-> > Let's mention why:
-> > 
-> > This document covers the in-kernel APIs only. For the best practices on
-> > userspace API implementation in camera sensor drivers, please see
-> > :ref:`media_using_camera_sensor_drivers`.
-> 
-> I'll add that.
-> 
-> > 
+> > >
+> > > +This document covers the in-kernel APIs only. For the best practices on
+> > > +userspace API implementation in camera sensor drivers, please see
+> > > +:ref:`media_using_camera_sensor_drivers`.
 > > > +
 > > >  CSI-2 and parallel (BT.601 and BT.656) busses
 > > >  ---------------------------------------------
-> > >  
-> > > @@ -34,7 +38,8 @@ Devicetree
-> > >  
+> > >
+> > > @@ -34,7 +40,8 @@ Devicetree
+> > >
 > > >  The preferred way to achieve this is using ``assigned-clocks``,
 > > >  ``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
 > > > -`clock device tree bindings <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
@@ -103,22 +107,22 @@ On Wed, Sep 27, 2023 at 01:02:04PM +0000, Sakari Ailus wrote:
 > > > +<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
 > > >  for more information. The driver then gets the frequency using
 > > >  ``clk_get_rate()``.
-> > >  
-> > > @@ -85,9 +90,7 @@ PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
+> > >
+> > > @@ -85,9 +92,7 @@ PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
 > > >  a bridge driver, instead add runtime PM support to the sensor driver you are
 > > >  using and drop its ``.s_power()`` handler.
-> > >  
+> > >
 > > > -See examples of runtime PM handling in e.g. ``drivers/media/i2c/ov8856.c`` and
 > > > -``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI and DT
 > > > -based systems.
 > > > +Please also see :ref:`examples <media-camera-sensor-examples>`.
-> > >  
+> > >
 > > >  Control framework
 > > >  ~~~~~~~~~~~~~~~~~
-> > > @@ -104,99 +107,39 @@ The function returns a non-zero value if it succeeded getting the power count or
+> > > @@ -104,99 +109,43 @@ The function returns a non-zero value if it succeeded getting the power count or
 > > >  runtime PM was disabled, in either of which cases the driver may proceed to
 > > >  access the device.
-> > >  
+> > >
 > > > -Frame size
 > > > -----------
 > > > -
@@ -196,7 +200,7 @@ On Wed, Sep 27, 2023 at 01:02:04PM +0000, Sakari Ailus wrote:
 > > > -
 > > >  Rotation, orientation and flipping
 > > >  ----------------------------------
-> > >  
+> > >
 > > > -Some systems have the camera sensor mounted upside down compared to its natural
 > > > -mounting rotation. In such cases, drivers shall expose the information to
 > > > -userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
@@ -208,7 +212,7 @@ On Wed, Sep 27, 2023 at 01:02:04PM +0000, Sakari Ailus wrote:
 > > >  Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
 > > >  information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
 > > >  register the appropriate controls.
-> > >  
+> > >
 > > > -Sensor drivers that have any vertical or horizontal flips embedded in the
 > > > -register programming sequences shall initialize the V4L2_CID_HFLIP and
 > > > -V4L2_CID_VFLIP controls with the values programmed by the register sequences.
@@ -236,79 +240,23 @@ On Wed, Sep 27, 2023 at 01:02:04PM +0000, Sakari Ailus wrote:
 > > > +      - ``drivers/media/i2c/ccs/``
 > > > +      - Freely configurable
 > > > +      - Power management (ACPI and DT), UAPI
+> > > +    * - imx219
+> > > +      - ``drivers/media/i2c/imx219.c``
+> > > +      - Register list based
+> > > +      - Power management (DT), UAPI, mode selection
 > > > +    * - imx319
 > > > +      - ``drivers/media/i2c/imx319.c``
-> > 
-> > I wonder if you meant imx219 here. imx319 doesn't seem to be a
-> > particularly good example.
-> 
-> For power management it is: it supports DT, ACPI and probing while powered
-> off. This wasn't reflected in this patch though, I'll fix it for v2.
-> 
-> I can add imx219 there, too, for UAPI and mode selection. Imx319 doesn't do
-> that badly either.
-> 
 > > > +      - Register list based
-> > > +      - UAPI, mode selection
-> > 
-> > If you meant imx219, I think power management can be listed too. And
-> > soon the driver will get streams support :-)
-> 
-> Imx219 is lacking ACPI support.
-> 
-> I'll use this in v2:
-> 
->     * - Driver name
->       - File(s)
->       - Driver type
->       - Example topic
->     * - CCS
->       - ``drivers/media/i2c/ccs/``
->       - Freely configurable
->       - Power management (ACPI and DT), UAPI
->     * - imx219
->       - ``drivers/media/i2c/imx219.c``
->       - Register list based
->       - Power management (DT), UAPI, mode selection
->     * - imx319
->       - ``drivers/media/i2c/imx319.c``
->       - Register list based
->       - Power management (ACPI and DT)
->     * - ov8865
->       - ``drivers/media/i2c/ov8865.c``
->       - Register list based
->       - Power management (ACPI and DT)
-
-It's not nice for developers to have to look at different drivers and
-takes bits and pieces from different places, especially if it's not
-clear which bits they should take on one side and which pieces on the
-other side. Ideally we should be able to collapse all thre register
-list based drivers into a single entry, but I understand we can't do
-that yet. Could we however list only one of the imx319 and ov8865 ?
-
+> > > +      - Power management (ACPI and DT)
 > > > +    * - ov8865
 > > > +      - ``drivers/media/i2c/ov8865.c``
 > > > +      - Register list based
 > > > +      - Power management (ACPI and DT)
 > > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
 > > > new file mode 100644
-> > > index 000000000000..18befb4ecd8d
+> > > index 000000000000..919a50e8b9d9
 > > > --- /dev/null
 > > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > 
-> > I wonder if this is the best location. The documentation isn't
-> > driver-specific. Still, moving it out of driver-api is an improvement,
-> > we can keep improving on top.
-> > 
-> > In particular, I plan to add documentation on how drivers for raw
-> > sensors should map the sensor configuration to subdevs, formats and
-> > selection rectangles. I think this should go to
-> > userspace-api/media/v4l/, not userspace-api/media/drivers/. I will thus
-> > likely rework this file.
-> 
-> I'd put it to latter but I have no strong opinion on that. If you can find
-> a good place in the former, sure.
-> 
 > > > @@ -0,0 +1,104 @@
 > > > +.. SPDX-License-Identifier: GPL-2.0
 > > > +
@@ -369,9 +317,44 @@ that yet. Could we however list only one of the imx319 and ov8865 ?
 > > > +	frame interval = (analogue crop width + horizontal blanking) *
 > > > +			 (analogue crop height + vertical blanking) / pixel rate
 > > > +
+> > 
+> > Is this even correct ? The above formula mentions the analogue crop sizes,
+> > but isn't this the pixel sampling rate on the sensor's pixel array ? isn't it
+> 
+> Yes, it is.
+> 
+> > different from the produced output frame rate which should take into
+> > account any binning/skipping step and optional digital crop ? Should the
+> 
+> These happen later in the pipeline.
+> 
+> > visible+blanking sizes should be taken into account instead ? Binned
+> > modes are usually faster than non-binned ones, in example...
+> 
+> Good point. How have you calculated the frame rate in libcamera? :-)
+> 
+> The pixel rate control in CCS driver's pixel array sub-device
+> indeed indicates the pixel rate in the pixel array, but in at least some drivers
+> it's the pixel rate on the bus.
+
+Thits patch only moves the documentation, so fixes can go on top.
+
 > > > +The formula is bus independent and is applicable for raw timing parameters on
 > > > +large variety of devices beyond camera sensors. Devices that have no analogue
 > > > +crop, use the full source image size, i.e. pixel array size.
+> > 
+> > This is also wrong imho. Using the pixel array size would only give
+> > you an approximation  of the frame interval of the sensor's frame rate
+> > at maximum resolution ?
+> 
+> The formula holds in all cases: what happens later in the sensor's pipeline
+> doesn't change the pixel rate. We should add documentation (and probably
+> new interface elements, whatever they are) to properly do this for register
+> list based drivers with a single sub-device, too.
+> 
+> > I understand this was already here so this is not strictly related to
+> > this patch...
+> > 
 > > > +
 > > > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
 > > > +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
@@ -382,6 +365,14 @@ that yet. Could we however list only one of the imx319 and ov8865 ?
 > > > +Register list based drivers need to implement read-only sub-device nodes for the
 > > > +purpose. Devices that are not register list based need these to configure the
 > > > +device's internal processing pipeline.
+> > 
+> > Why are read-only subdev suggested here ? can't a register-based
+> > driver can register read-only controls for blankings ?
+> 
+> This is what the text is suggesting, indeed.
+> 
+> > Again, this was here already.
+> > 
 > > > +
 > > > +The first entity in the linear pipeline is the pixel array. The pixel array may
 > > > +be followed by other entities that are there to allow configuring binning,
@@ -411,18 +402,7 @@ that yet. Could we however list only one of the imx319 and ov8865 ?
 > > > +Sensor drivers that have any vertical or horizontal flips embedded in the
 > > > +register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
 > > > +<v4l2-cid-hflip>` and :ref:`V4L2_CID_VFLIP <v4l2-cid-vflip>` controls with the
-> > > +values programmed by the register sequences.  The default values of these
-> > 
-> > s/  / /
-> > 
-> > With the above comments addressed,
-> 
-> Yes.
-> 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Thanks!
-> 
+> > > +values programmed by the register sequences. The default values of these
 > > > +controls shall be 0 (disabled). Especially these controls shall not be inverted,
 > > > +independently of the sensor's mounting rotation.
 > > > diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
@@ -431,7 +411,7 @@ that yet. Could we however list only one of the imx319 and ov8865 ?
 > > > +++ b/Documentation/userspace-api/media/drivers/index.rst
 > > > @@ -32,6 +32,7 @@ For more details see the file COPYING in the source distribution of Linux.
 > > >  	:numbered:
-> > >  
+> > >
 > > >  	aspeed-video
 > > > +	camera-sensor
 > > >  	ccs
@@ -444,17 +424,17 @@ that yet. Could we however list only one of the imx319 and ov8865 ?
 > > > @@ -143,9 +143,13 @@ Control IDs
 > > >      recognise the difference between digital and analogue gain use
 > > >      controls ``V4L2_CID_DIGITAL_GAIN`` and ``V4L2_CID_ANALOGUE_GAIN``.
-> > >  
+> > >
 > > > +.. _v4l2-cid-hflip:
 > > > +
 > > >  ``V4L2_CID_HFLIP`` ``(boolean)``
 > > >      Mirror the picture horizontally.
-> > >  
+> > >
 > > > +.. _v4l2-cid-vflip:
 > > > +
 > > >  ``V4L2_CID_VFLIP`` ``(boolean)``
 > > >      Mirror the picture vertically.
-> > >  
+> > >
 
 -- 
 Regards,
