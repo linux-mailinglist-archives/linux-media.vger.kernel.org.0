@@ -2,99 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 782EC7B02B2
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 13:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78D3F7B02B0
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 13:23:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230286AbjI0LX4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 07:23:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58304 "EHLO
+        id S231376AbjI0LW7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 07:22:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230138AbjI0LXz (ORCPT
+        with ESMTP id S229458AbjI0LW5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 07:23:55 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FB63F3
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 04:23:54 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ED28C433CA
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 11:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695813834;
-        bh=OILtlPC6/2OjZjVelOzbiJgoBS+mbmNhYWvAf8vxecw=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=UGUA5TMTWJOWDVNfaKtoY1WTWi5Q97Su8Z3g1f1lOUVuzoSoRFdEM033ZWwr25S43
-         EvZAoFel4CwbTZ9mFL/dZlou4YLw47+XVZPwxBmNWML/qWiw1iNBeVUksYv4v6//Kj
-         8AM7lo2GzYRsg5Fvl9/5lSfEaelobyhxBk6yv0lCMOxsk8KsebFWu/yVJOfhVoiAem
-         8QZI+KTelHt2fqqxLWccwgzw0f2EDhqz9vZiY02/4uhiXgUiacROfLZx/CxfWhHipv
-         ICfxZjSsHCm8I9K0L7abEIjJ69oypbCN7AFV+eidkUSHyXKoWPfaI4VocrZlUeqMXg
-         lnqBlDIAb+hgQ==
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailauth.nyi.internal (Postfix) with ESMTP id E779727C0054;
-        Wed, 27 Sep 2023 07:23:52 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 27 Sep 2023 07:23:52 -0400
-X-ME-Sender: <xms:yBAUZdiPm3gV_D9oNYFzML6aJlokEe6Lc1kiCklrem1Tz_tqTBJGcA>
-    <xme:yBAUZSBrjlAA5N8AUgJn2ksGdTf9mQSwMcYttvr0Qyqw0OjuIgRObBz7VceFCmQvs
-    xolduupdFgXkfo_QU4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvjedrtdefgdduvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtffrrg
-    htthgvrhhnpedvveeigfetudegveeiledvgfevuedvgfetgeefieeijeejffeggeehudeg
-    tdevheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidquddvkeehudejtddv
-    gedqvdekjedttddvieegqdgrrhhnugeppehkvghrnhgvlhdrohhrghesrghrnhgusgdrug
-    gv
-X-ME-Proxy: <xmx:yBAUZdG0wrlhW1U4zbC24QU9Mq87Gb_haeUBHWGBNAiwxd4-wCwhYA>
-    <xmx:yBAUZSQv6jkGF4onHdAN9DuMR1gX3aC7ANhjBVF_QXb6LXtllO7dXA>
-    <xmx:yBAUZawuhPge47uBiHxVp3tSMGyOeIZeKyBUWz9HapQeqk6Z9AsJlw>
-    <xmx:yBAUZV_lrXEbu8QpEwH7O0nbMEH7-M0yAjkaupbGnyB2YRgONRnWVg>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 57351B60089; Wed, 27 Sep 2023 07:23:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-957-ga1ccdb4cff-fm-20230919.001-ga1ccdb4c
+        Wed, 27 Sep 2023 07:22:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971E7194
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 04:22:54 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (unknown [95.214.66.65])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D772B18BF;
+        Wed, 27 Sep 2023 13:21:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1695813671;
+        bh=fU4HCFTqK8F3Dk72E9XX0CUrAEHemIXWwF5HKIQs1QQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HPFVANVtRXa8Vz+v/VgrGS5I5dmXSVzO9f6Axs7CTKPsHdD1rO7clu+kiroqFowEQ
+         uVZyZrTH/VwRzkUTNCgHXkzk8zn8KOhew3rGbbaYA9fPfWhy+nCnl0PM0Kw8Vvgbxm
+         7q63U/sA/yafGpPJQJPMX4nOa4AzRnPsIdpz4/i8=
+Date:   Wed, 27 Sep 2023 14:23:01 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Max Schulze <max.schulze@online.de>, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH] read ov9281 sensor-id in 2-steps in case the firmware
+ locks
+Message-ID: <20230927112301.GR5854@pendragon.ideasonboard.com>
+References: <918ce2ca-55ff-aff8-ea6c-0c17f566d59d@online.de>
+ <CAPY8ntCDtrNJ7HCgQy7ZHxRpaK7brQicOQX_j99U0hX0PDS-6A@mail.gmail.com>
 MIME-Version: 1.0
-Message-Id: <f246ffd9-b061-4ac2-add6-18d9288673ad@app.fastmail.com>
-In-Reply-To: <20230927105112.705998-1-sakari.ailus@linux.intel.com>
-References: <20230927105112.705998-1-sakari.ailus@linux.intel.com>
-Date:   Wed, 27 Sep 2023 13:22:49 +0200
-From:   "Arnd Bergmann" <arnd@kernel.org>
-To:     "Sakari Ailus" <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     "Bingbu Cao" <bingbu.cao@intel.com>,
-        "Daniel Scally" <dan.scally@ideasonboard.com>,
-        "Hans de Goede" <hdegoede@redhat.com>
-Subject: Re: [PATCH 1/1] media: ipu-bridge: Fix Kconfig dependencies
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntCDtrNJ7HCgQy7ZHxRpaK7brQicOQX_j99U0hX0PDS-6A@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 27, 2023, at 12:51, Sakari Ailus wrote:
-> The current Kconfig symbol dependencies allow having the following Kconfig
-> symbol values
->
-> 	CONFIG_IPU_BRIDGE=m
-> 	CONFIG_VIDEO_IPU3_CIO2=y
-> 	CONFIG_CIO2_BRIDGE=n
->
-> This does not work as the IPU bridge API is conditional to
-> IS_ENABLED(CONFIG_IPU_BRIDGE). Fix this by changing the dependencies so
-> that CONFIG_IPU_BRIDGE can be separately selected.
->
-> The CONFIG_CIO2_BRIDGE symbol becomes redundant as a result and is
-> removed.
->
-> Fixes: 2545a2c02ba1 ("media: ipu3-cio2: allow ipu_bridge to be a module again")
-> Suggested-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+On Wed, Sep 27, 2023 at 11:38:21AM +0100, Dave Stevenson wrote:
+> On Wed, 27 Sept 2023 at 09:56, Max Schulze wrote:
+> >
+> > The ov9281 produced by vision-components does not support
+> > auto-incremented reads, so read the id in 2 separate steps
+> > to circumvent the error:
+> >   kernel: ov9282 10-0060: chip id mismatch: 9281!=92ff
+> >   kernel: ov9282 10-0060: failed to find sensor: -6
 
-Thanks for sending the fix, looks good.
+If I recall correctly, the issue isn't that it doesn't support
+auto-increment at all, but that it then will output one 0xff byte first.
+Or maybe that was with a different firmware version ?
 
-     Arnd
+> > Signed-off-by: Max Schulze <max.schulze@online.de>
+> > Tested-by: Max Schulze <max.schulze@online.de>
+> > Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > ---
+> > This was tested on rpi cm4 with two ov9281 at the same time,
+> > one from vc, one from inno-maker.
+> >
+> > The rpi kernel supported ov9281 out-of-tree until kernel 6.1.
+> > It carried this change originally made by Dave to support the vc
+> > sensor. Switching to mainline now broke support for it.
+> >
+> > I could not find a single-commit for the original change to which I
+> > could link, only squashed ones, i.e.
+> >
+> > https://github.com/raspberrypi/linux/commit/eb00efc993d8cd835221255b44e9019a31708abe
+> 
+> The single commit was on the rpi-5.10.y branch
+> https://github.com/raspberrypi/linux/commit/e19e5fa998c7dfaa9942a494499e37788365ccec
+> 
+> >  media: i2c: ov9281: Read chip ID via 2 reads
+> >
+> >  Vision Components have made an OV9281 module which blocks reading
+> >  back the majority of registers to comply with NDAs, and in doing
+> >  so doesn't allow auto-increment register reading as used when
+> >  reading the chip ID.
+> 
+> I know that Laurent has previously made comments on potentially nicer
+> ways to handle these annoying Vision Components sensors before, but in
+> the absence of anything solid then I have no issues with this patch.
+> It's not going to cause an issue with standard modules, and makes them
+> work with the VC ones.
+
+I'd rather handle this in a common layer, with a DT property to indicate
+that multi-reads are broken. A good candidate would be regmap, v4l2-cci
+being another possible option.
+
+I don't want to see this kind of change made in lots of sensor drivers
+because one vendor got it wrong.
+
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> 
+> > ---
+> >  drivers/media/i2c/ov9282.c | 13 ++++++++-----
+> >  1 file changed, 8 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index 068c7449f50e..3b687f6d4581 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -1078,13 +1078,16 @@ static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
+> >  static int ov9282_detect(struct ov9282 *ov9282)
+> >  {
+> >         int ret;
+> > -       u32 val;
+> > +       u32 val = 0, id_msb = 0;
+> >
+> > -       ret = ov9282_read_reg(ov9282, OV9282_REG_ID, 2, &val);
+> > -       if (ret)
+> > -               return ret;
+> > +       // some firmware limits auto-increment register writes, so do it separately
+> > +       ret = ov9282_read_reg(ov9282, OV9282_REG_ID + 1, 1, &val);
+> > +       if (!ret)
+> > +               ret = ov9282_read_reg(ov9282, OV9282_REG_ID, 1, &id_msb);
+> > +
+> > +       val |= (id_msb << 8);
+> >
+> > -       if (val != OV9282_ID) {
+> > +       if (ret || val != OV9282_ID) {
+> >                 dev_err(ov9282->dev, "chip id mismatch: %x!=%x",
+> >                         OV9282_ID, val);
+> 
+> Minor nit: you'll print this error message if one of the transfers
+> failed, whereas previously it would have just returned the error code.
+> 
+> >                 return -ENXIO;
+
+-- 
+Regards,
+
+Laurent Pinchart
