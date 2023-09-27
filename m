@@ -2,462 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7117D7B0C1B
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 20:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23F1B7B0C40
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 20:54:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbjI0SpV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 14:45:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42110 "EHLO
+        id S229594AbjI0SyT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 14:54:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbjI0SpU (ORCPT
+        with ESMTP id S229493AbjI0SyS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 14:45:20 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8308F
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 11:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695840318; x=1727376318;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wLQafYKN8T/dDWnNpxc7XXIQASwQK4S/Qtha8iuRcxs=;
-  b=RscLkK8C+N/Ufy7IXsNpHztty7ZCHVMjn145di30cj33EO96Sc1c/21H
-   9teEB/epPlsQz8tMkRzbz5FkTYimSBJH4x2Uarpyzu08LY5PhxTuikGX9
-   gNh2a+lQyaytLoiMqGMHMnHlspTWJ4PO7Y6kEn8gftU+bEcLeIzxNd+LT
-   Pi8t1RmPnNXm2i72J2OGMsUeiPxE6h5J8m4wNxv1Hy52th+NTl/qhzVhK
-   +ESLl2d3mUdKJBbfLEnyFnDbCLilBrS85cZ8t0EnmKKOud+BiZTU97BaE
-   CaA75JBkRTpOBf9peYB5FK1y55j5C94ftAYGkqqE0h95bRL+Xb2CL3fxX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3439375"
-X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="3439375"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 11:45:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="814949357"
-X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
-   d="scan'208";a="814949357"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 11:45:15 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 95AC611F967;
-        Wed, 27 Sep 2023 21:45:12 +0300 (EEST)
-Date:   Wed, 27 Sep 2023 18:45:12 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 1/1] media: Documentation: Split camera sensor
- documentation
-Message-ID: <ZRR4ODOLBCfspNNT@kekkonen.localdomain>
-References: <20230927160623.399428-1-sakari.ailus@linux.intel.com>
- <bj4kfqthh4kb7dbu2auevb44yrqgeu6z3rakx5x55q3jfwsyur@emhmhbmr3bpk>
+        Wed, 27 Sep 2023 14:54:18 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89225F5
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 11:54:15 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-351367c1c24so23425ab.1
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 11:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695840855; x=1696445655; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pgknUwnq9gIV+tvRlScN3zfltL029CTlXmtn1qWfZ48=;
+        b=CuOl5XrCYS06vtYmnr6IgA5Q5UvsyZdXDUmApZzoFhCeRol/q2H52nc9klsREksetB
+         EDLOZo9AoJ2TZKweFC0F92mVh2z0R/l3rJz4sISCWu1rYTzAuTLXzozYwvzb6AX00TaG
+         wdC6egT+yr/85KBs2x09A8x3iTzmpbjKTdS7ZJWY8/6zpPHnyJKsFf2IMz0IA1fYgprs
+         vYtBViyMiZ7hjxv1A17ARNPCUt5sCOApaIjZk2tq08fz/y3VaQQzkOCM42g6JMwHu5S1
+         Hj9D3qm2Bm9dhXgfoZmr1h4C7U2NiAfzShtpgjAEQNKW9oSORjM331F141wnGy9mYk+P
+         4M7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695840855; x=1696445655;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pgknUwnq9gIV+tvRlScN3zfltL029CTlXmtn1qWfZ48=;
+        b=n+QEtQDa8c1oMmM2Z+gEKMHbFUVhtMunPOXvsLz/s2DUWYC0Ncy5s8i3SOdDUmuQ6P
+         C45K6r5ahP2SCK6RAYEEFviZfp1xEUDf6AGeCHcoZgOWVfGsKgfZwfKLA5QYEwmHoeXW
+         u6ambOUFOUyEWzKHMqchWfJrIRcIQ+bVxT3prqXLC3RKNu9G3P8oLQq+/Y8wyQf6+Ggc
+         q81Dn7GlmxMdiy7Hr+IOxxSqzX5gvqMOb2vB9ylmSxYIADZh9F7w/kpcEhXAsBhIBfos
+         eqC9OUNJGDyVpbGSgqXLZHrAIgusRjCjWRD5LV59OD6VEIMUUvAEEYiV9NHq/Ha2vEIy
+         1Lfg==
+X-Gm-Message-State: AOJu0YwWo8I8GnYoMq0Ik+KsotlJ0O5s2SauZN8QtW5JBN2vBxXahtSN
+        4CKxVBoKiryEtuzjCS2FsCC6DslrehwZjpyrTlfP
+X-Google-Smtp-Source: AGHT+IGFTNOeIjY0z4z1jsppqGQ/+DkN5LKNzVhtRpc1fe/Zjm0L6bfMROX9KjJp8peSFpnQgwJTEYqVV/8DUuyxQQM=
+X-Received: by 2002:a92:c242:0:b0:34d:ff4c:5e3a with SMTP id
+ k2-20020a92c242000000b0034dff4c5e3amr748810ilo.10.1695840854718; Wed, 27 Sep
+ 2023 11:54:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bj4kfqthh4kb7dbu2auevb44yrqgeu6z3rakx5x55q3jfwsyur@emhmhbmr3bpk>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230911023038.30649-1-yong.wu@mediatek.com> <20230911023038.30649-6-yong.wu@mediatek.com>
+ <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com> <a115a2a5d3ac218e6db65ccdb0a1876f9cfca02b.camel@mediatek.com>
+ <d798b15b-6f35-96db-e3f7-5c0bcc5d46a2@collabora.com> <a4ecc2792f3a4d3159e34415be984ff7d5f5e263.camel@mediatek.com>
+ <20230927134614.kp27moxdw72jiu4y@pop-os.localdomain>
+In-Reply-To: <20230927134614.kp27moxdw72jiu4y@pop-os.localdomain>
+From:   Jeffrey Kardatzke <jkardatzke@google.com>
+Date:   Wed, 27 Sep 2023 11:54:03 -0700
+Message-ID: <CA+ddPcNDOsd4+1a3W5ufA-FaCc801bKkA-OapNKOC8snXrntAw@mail.gmail.com>
+Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
+To:     Joakim Bech <joakim.bech@linaro.org>
+Cc:     =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jstultz@google.com" <jstultz@google.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
+        <kuohong.wang@mediatek.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+On Wed, Sep 27, 2023 at 6:46=E2=80=AFAM Joakim Bech <joakim.bech@linaro.org=
+> wrote:
+>
+> On Mon, Sep 25, 2023 at 12:49:50PM +0000, Yong Wu (=E5=90=B4=E5=8B=87) wr=
+ote:
+> > On Tue, 2023-09-12 at 11:32 +0200, AngeloGioacchino Del Regno wrote:
+> > > Il 12/09/23 08:17, Yong Wu (=E5=90=B4=E5=8B=87) ha scritto:
+> > > > On Mon, 2023-09-11 at 11:29 +0200, AngeloGioacchino Del Regno
+> > > > wrote:
+> > > > > Il 11/09/23 04:30, Yong Wu ha scritto:
+> > > > > > The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't
+> > > > > > work
+> > > > > > here since this is not a platform driver, therefore initialise
+> > > > > > the
+> > > > > > TEE
+> > > > > > context/session while we allocate the first secure buffer.
+> > > > > >
+> > > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > > > > > ---
+> > > > > >    drivers/dma-buf/heaps/mtk_secure_heap.c | 61
+> > > > > > +++++++++++++++++++++++++
+> > > > > >    1 file changed, 61 insertions(+)
+> > > > > >
+> > > > > > diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c
+> > > > > > b/drivers/dma-
+> > > > > > buf/heaps/mtk_secure_heap.c
+> > > > > > index bbf1c8dce23e..e3da33a3d083 100644
+> > > > > > --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
+> > > > > > +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
+> > > > > > @@ -10,6 +10,12 @@
+> > > > > >    #include <linux/err.h>
+> > > > > >    #include <linux/module.h>
+> > > > > >    #include <linux/slab.h>
+> > > > > > +#include <linux/tee_drv.h>
+> > > > > > +#include <linux/uuid.h>
+> > > > > > +
+> > > > > > +#define TZ_TA_MEM_UUID               "4477588a-8476-11e2-ad15-
+> > > > > > e41f1390d676"
+> > > > > > +
+> > > > >
+> > > > > Is this UUID the same for all SoCs and all TZ versions?
+> > > >
+> > > > Yes. It is the same for all SoCs and all TZ versions currently.
+> > > >
+> > >
+> > > That's good news!
+> > >
+> > > Is this UUID used in any userspace component? (example: Android
+> > > HALs?)
+> >
+> > No. Userspace never use it. If userspace would like to allocate this
+> > secure buffer, it can achieve through the existing dmabuf IOCTL via
+> > /dev/dma_heap/mtk_svp node.
+> >
+> In general I think as mentioned elsewhere in comments, that there isn't
+> that much here that seems to be unique for MediaTek in this patch
+> series, so I think it worth to see whether this whole patch set can be
+> made more generic. Having said that, the UUID is always unique for a
+> certain Trusted Application. So, it's not entirely true saying that the
+> UUID is the same for all SoCs and all TrustZone versions. It might be
+> true for a family of MediaTek devices and the TEE in use, but not
+> generically.
+>
+> So, if we need to differentiate between different TA implementations,
+> then we need different UUIDs. If it would be possible to make this patch
+> set generic, then it sounds like a single UUID would be sufficient, but
+> that would imply that all TA's supporting such a generic UUID would be
+> implemented the same from an API point of view. Which also means that
+> for example Trusted Application function ID's needs to be the same etc.
+> Not impossible to achieve, but still not easy (different TEE follows
+> different specifications) and it's not typically something we've done in
+> the past.
+>
+> Unfortunately there is no standardized database of TA's describing what
+> they implement and support.
+>
+> As an alternative, we could implement a query call in the TEE answering,
+> "What UUID does your TA have that implements secure unmapped heap?".
+> I.e., something that reminds of a lookup table. Then we wouldn't have to
+> carry this in UAPI, DT or anywhere else.
+>
 
-On Wed, Sep 27, 2023 at 07:17:51PM +0200, Jacopo Mondi wrote:
-> Hi Sakari,
-> 
-> On Wed, Sep 27, 2023 at 07:06:23PM +0300, Sakari Ailus wrote:
-> > Split camera sensor documentation into user and kernel portions. This
-> > should make it easier for the user space developers to find the relevant
-> > documentation.
-> >
-> > Also add a list of exemplary drivers and add imx219 driver to it, besides
-> > those that were already mentioned.
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> The patch doesn't apply on media/master nor on v6.6-rc2.
-> What is the intended base ?
+I think that's a good idea. If we add kernel APIs to the tee for
+opening a session for secure memory allocation and for performing the
+allocation, then the UUID, TA commands and TA parameters can all be
+decided upon in the TEE specific driver and the code in dma-heap
+becomes generic.
 
-Oops. I had other documentation patches in the metadata preparation set. It
-goes on top of that:
-<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata-pre>.
-
-> 
-> > ---
-> >  .../driver-api/media/camera-sensor.rst        | 135 ++++++------------
-> >  .../media/drivers/camera-sensor.rst           | 104 ++++++++++++++
-> >  .../userspace-api/media/drivers/index.rst     |   1 +
-> >  .../userspace-api/media/v4l/control.rst       |   4 +
-> >  4 files changed, 151 insertions(+), 93 deletions(-)
-> >  create mode 100644 Documentation/userspace-api/media/drivers/camera-sensor.rst
+> --
+> // Regards
+> Joakim
+>
 > >
-> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > index 2acc08142a1a..1f32a7e2d858 100644
-> > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > @@ -1,8 +1,14 @@
-> >  .. SPDX-License-Identifier: GPL-2.0
-> >
-> > +.. _media_writing_camera_sensor_drivers:
-> > +
-> >  Writing camera sensor drivers
-> >  =============================
-> >
-> > +This document covers the in-kernel APIs only. For the best practices on
-> > +userspace API implementation in camera sensor drivers, please see
-> > +:ref:`media_using_camera_sensor_drivers`.
-> > +
-> >  CSI-2 and parallel (BT.601 and BT.656) busses
-> >  ---------------------------------------------
-> >
-> > @@ -34,7 +40,8 @@ Devicetree
-> >
-> >  The preferred way to achieve this is using ``assigned-clocks``,
-> >  ``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
-> > -`clock device tree bindings <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
-> > +`clock device tree bindings
-> > +<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
-> >  for more information. The driver then gets the frequency using
-> >  ``clk_get_rate()``.
-> >
-> > @@ -85,9 +92,7 @@ PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
-> >  a bridge driver, instead add runtime PM support to the sensor driver you are
-> >  using and drop its ``.s_power()`` handler.
-> >
-> > -See examples of runtime PM handling in e.g. ``drivers/media/i2c/ov8856.c`` and
-> > -``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI and DT
-> > -based systems.
-> > +Please also see :ref:`examples <media-camera-sensor-examples>`.
-> >
-> >  Control framework
-> >  ~~~~~~~~~~~~~~~~~
-> > @@ -104,99 +109,43 @@ The function returns a non-zero value if it succeeded getting the power count or
-> >  runtime PM was disabled, in either of which cases the driver may proceed to
-> >  access the device.
-> >
-> > -Frame size
-> > -----------
-> > -
-> > -There are two distinct ways to configure the frame size produced by camera
-> > -sensors.
-> > -
-> > -Freely configurable camera sensor drivers
-> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > -
-> > -Freely configurable camera sensor drivers expose the device's internal
-> > -processing pipeline as one or more sub-devices with different cropping and
-> > -scaling configurations. The output size of the device is the result of a series
-> > -of cropping and scaling operations from the device's pixel array's size.
-> > -
-> > -An example of such a driver is the CCS driver (see ``drivers/media/i2c/ccs``).
-> > -
-> > -Register list based drivers
-> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > -
-> > -Register list based drivers generally, instead of able to configure the device
-> > -they control based on user requests, are limited to a number of preset
-> > -configurations that combine a number of different parameters that on hardware
-> > -level are independent. How a driver picks such configuration is based on the
-> > -format set on a source pad at the end of the device's internal pipeline.
-> > -
-> > -Most sensor drivers are implemented this way, see e.g.
-> > -``drivers/media/i2c/imx319.c`` for an example.
-> > -
-> > -Frame interval configuration
-> > -----------------------------
-> > -
-> > -There are two different methods for obtaining possibilities for different frame
-> > -intervals as well as configuring the frame interval. Which one to implement
-> > -depends on the type of the device.
-> > -
-> > -Raw camera sensors
-> > -~~~~~~~~~~~~~~~~~~
-> > -
-> > -Instead of a high level parameter such as frame interval, the frame interval is
-> > -a result of the configuration of a number of camera sensor implementation
-> > -specific parameters. Luckily, these parameters tend to be the same for more or
-> > -less all modern raw camera sensors.
-> > -
-> > -The frame interval is calculated using the following equation::
-> > -
-> > -	frame interval = (analogue crop width + horizontal blanking) *
-> > -			 (analogue crop height + vertical blanking) / pixel rate
-> > -
-> > -The formula is bus independent and is applicable for raw timing parameters on
-> > -large variety of devices beyond camera sensors. Devices that have no analogue
-> > -crop, use the full source image size, i.e. pixel array size.
-> > -
-> > -Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-> > -``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
-> > -is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
-> > -the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
-> > -sub-device. The unit of that control is pixels per second.
-> > -
-> > -Register list based drivers need to implement read-only sub-device nodes for the
-> > -purpose. Devices that are not register list based need these to configure the
-> > -device's internal processing pipeline.
-> > -
-> > -The first entity in the linear pipeline is the pixel array. The pixel array may
-> > -be followed by other entities that are there to allow configuring binning,
-> > -skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
-> > -
-> > -USB cameras etc. devices
-> > -~~~~~~~~~~~~~~~~~~~~~~~~
-> > -
-> > -USB video class hardware, as well as many cameras offering a similar higher
-> > -level interface natively, generally use the concept of frame interval (or frame
-> > -rate) on device level in firmware or hardware. This means lower level controls
-> > -implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
-> > -frame interval on these devices.
-> > -
-> >  Rotation, orientation and flipping
-> >  ----------------------------------
-> >
-> > -Some systems have the camera sensor mounted upside down compared to its natural
-> > -mounting rotation. In such cases, drivers shall expose the information to
-> > -userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
-> > -<v4l2-camera-sensor-rotation>` control.
-> > -
-> > -Sensor drivers shall also report the sensor's mounting orientation with the
-> > -:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
-> > -
-> >  Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
-> >  information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
-> >  register the appropriate controls.
-> >
-> > -Sensor drivers that have any vertical or horizontal flips embedded in the
-> > -register programming sequences shall initialize the V4L2_CID_HFLIP and
-> > -V4L2_CID_VFLIP controls with the values programmed by the register sequences.
-> > -The default values of these controls shall be 0 (disabled). Especially these
-> > -controls shall not be inverted, independently of the sensor's mounting
-> > -rotation.
-> > +.. _media-camera-sensor-examples:
-> > +
-> > +Example drivers
-> > +---------------
-> > +
-> > +Features implemented by sensor drivers vary, and depending on the set of
-> > +supported features and other qualities, particular sensor drivers better serve
-> > +the purpose of an example. The following drivers are known to be good examples:
-> > +
-> > +.. flat-table:: Example sensor drivers
-> > +    :header-rows: 0
-> > +    :widths:      1 1 1 2
-> > +
-> > +    * - Driver name
-> > +      - File(s)
-> > +      - Driver type
-> > +      - Example topic
-> > +    * - CCS
-> > +      - ``drivers/media/i2c/ccs/``
-> > +      - Freely configurable
-> > +      - Power management (ACPI and DT), UAPI
-> > +    * - imx219
-> > +      - ``drivers/media/i2c/imx219.c``
-> > +      - Register list based
-> > +      - Power management (DT), UAPI, mode selection
-> > +    * - imx319
-> > +      - ``drivers/media/i2c/imx319.c``
-> > +      - Register list based
-> > +      - Power management (ACPI and DT)
-> > +    * - ov8865
-> > +      - ``drivers/media/i2c/ov8865.c``
-> > +      - Register list based
-> > +      - Power management (ACPI and DT)
-> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > new file mode 100644
-> > index 000000000000..919a50e8b9d9
-> > --- /dev/null
-> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > @@ -0,0 +1,104 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +.. _media_using_camera_sensor_drivers:
-> > +
-> > +Using camera sensor drivers
-> > +===========================
-> > +
-> > +This section describes common practices for how the V4L2 sub-device interface is
-> > +used to control the camera sensor drivers.
-> > +
-> > +You may also find :ref:`media_writing_camera_sensor_drivers` useful.
-> > +
-> > +Frame size
-> > +----------
-> > +
-> > +There are two distinct ways to configure the frame size produced by camera
-> > +sensors.
-> > +
-> > +Freely configurable camera sensor drivers
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +Freely configurable camera sensor drivers expose the device's internal
-> > +processing pipeline as one or more sub-devices with different cropping and
-> > +scaling configurations. The output size of the device is the result of a series
-> > +of cropping and scaling operations from the device's pixel array's size.
-> > +
-> > +An example of such a driver is the CCS driver.
-> > +
-> > +Register list based drivers
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +Register list based drivers generally, instead of able to configure the device
-> > +they control based on user requests, are limited to a number of preset
-> > +configurations that combine a number of different parameters that on hardware
-> > +level are independent. How a driver picks such configuration is based on the
-> > +format set on a source pad at the end of the device's internal pipeline.
-> > +
-> > +Most sensor drivers are implemented this way.
-> > +
-> > +Frame interval configuration
-> > +----------------------------
-> > +
-> > +There are two different methods for obtaining possibilities for different frame
-> > +intervals as well as configuring the frame interval. Which one to implement
-> > +depends on the type of the device.
-> > +
-> > +Raw camera sensors
-> > +~~~~~~~~~~~~~~~~~~
-> > +
-> > +Instead of a high level parameter such as frame interval, the frame interval is
-> > +a result of the configuration of a number of camera sensor implementation
-> > +specific parameters. Luckily, these parameters tend to be the same for more or
-> > +less all modern raw camera sensors.
-> > +
-> > +The frame interval is calculated using the following equation::
-> > +
-> > +	frame interval = (analogue crop width + horizontal blanking) *
-> > +			 (analogue crop height + vertical blanking) / pixel rate
-> > +
-> 
-> Is this even correct ? The above formula mentions the analogue crop sizes,
-> but isn't this the pixel sampling rate on the sensor's pixel array ? isn't it
-
-Yes, it is.
-
-> different from the produced output frame rate which should take into
-> account any binning/skipping step and optional digital crop ? Should the
-
-These happen later in the pipeline.
-
-> visible+blanking sizes should be taken into account instead ? Binned
-> modes are usually faster than non-binned ones, in example...
-
-Good point. How have you calculated the frame rate in libcamera? :-)
-
-The pixel rate control in CCS driver's pixel array sub-device
-indeed indicates the pixel rate in the pixel array, but in at least some drivers
-it's the pixel rate on the bus.
-
-> 
-> > +The formula is bus independent and is applicable for raw timing parameters on
-> > +large variety of devices beyond camera sensors. Devices that have no analogue
-> > +crop, use the full source image size, i.e. pixel array size.
-> 
-> This is also wrong imho. Using the pixel array size would only give
-> you an approximation  of the frame interval of the sensor's frame rate
-> at maximum resolution ?
-
-The formula holds in all cases: what happens later in the sensor's pipeline
-doesn't change the pixel rate. We should add documentation (and probably
-new interface elements, whatever they are) to properly do this for register
-list based drivers with a single sub-device, too.
-
-> 
-> I understand this was already here so this is not strictly related to
-> this patch...
-> 
-> > +
-> > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-> > +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
-> > +is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
-> > +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
-> > +sub-device. The unit of that control is pixels per second.
-> > +
-> > +Register list based drivers need to implement read-only sub-device nodes for the
-> > +purpose. Devices that are not register list based need these to configure the
-> > +device's internal processing pipeline.
-> 
-> Why are read-only subdev suggested here ? can't a register-based
-> driver can register read-only controls for blankings ?
-
-This is what the text is suggesting, indeed.
-
-> 
-> Again, this was here already.
-> 
-> > +
-> > +The first entity in the linear pipeline is the pixel array. The pixel array may
-> > +be followed by other entities that are there to allow configuring binning,
-> > +skipping, scaling or digital crop, see :ref:`VIDIOC_SUBDEV_G_SELECTION
-> > +<VIDIOC_SUBDEV_G_SELECTION>`.
-> > +
-> > +USB cameras etc. devices
-> > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +USB video class hardware, as well as many cameras offering a similar higher
-> > +level interface natively, generally use the concept of frame interval (or frame
-> > +rate) on device level in firmware or hardware. This means lower level controls
-> > +implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
-> > +frame interval on these devices.
-> > +
-> > +Rotation, orientation and flipping
-> > +----------------------------------
-> > +
-> > +Some systems have the camera sensor mounted upside down compared to its natural
-> > +mounting rotation. In such cases, drivers shall expose the information to
-> > +userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
-> > +<v4l2-camera-sensor-rotation>` control.
-> > +
-> > +Sensor drivers shall also report the sensor's mounting orientation with the
-> > +:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
-> > +
-> > +Sensor drivers that have any vertical or horizontal flips embedded in the
-> > +register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
-> > +<v4l2-cid-hflip>` and :ref:`V4L2_CID_VFLIP <v4l2-cid-vflip>` controls with the
-> > +values programmed by the register sequences. The default values of these
-> > +controls shall be 0 (disabled). Especially these controls shall not be inverted,
-> > +independently of the sensor's mounting rotation.
-> > diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> > index 783f92f01a4c..1726f8ec86fa 100644
-> > --- a/Documentation/userspace-api/media/drivers/index.rst
-> > +++ b/Documentation/userspace-api/media/drivers/index.rst
-> > @@ -32,6 +32,7 @@ For more details see the file COPYING in the source distribution of Linux.
-> >  	:numbered:
-> >
-> >  	aspeed-video
-> > +	camera-sensor
-> >  	ccs
-> >  	cx2341x-uapi
-> >  	dw100
-> > diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
-> > index 4463fce694b0..57893814a1e5 100644
-> > --- a/Documentation/userspace-api/media/v4l/control.rst
-> > +++ b/Documentation/userspace-api/media/v4l/control.rst
-> > @@ -143,9 +143,13 @@ Control IDs
-> >      recognise the difference between digital and analogue gain use
-> >      controls ``V4L2_CID_DIGITAL_GAIN`` and ``V4L2_CID_ANALOGUE_GAIN``.
-> >
-> > +.. _v4l2-cid-hflip:
-> > +
-> >  ``V4L2_CID_HFLIP`` ``(boolean)``
-> >      Mirror the picture horizontally.
-> >
-> > +.. _v4l2-cid-vflip:
-> > +
-> >  ``V4L2_CID_VFLIP`` ``(boolean)``
-> >      Mirror the picture vertically.
-> >
-> > --
-> > 2.39.2
-> >
-
--- 
-Regards,
-
-Sakari Ailus
+> > > If it is (and I somehow expect that it is), then this definition
+> > > should go
+> > > to a UAPI header, as suggested by Christian.
+> > >
+> > > Cheers!
+> > >
+> > > > >
+> > > > > Thanks,
+> > > > > Angelo
+> > > > >
+> > > > >
+> > > > > > +#define MTK_TEE_PARAM_NUM            4
+> > > > > >
+> > > > > >    /*
+> > > > > >     * MediaTek secure (chunk) memory type
+> > > > > > @@ -28,17 +34,72 @@ struct mtk_secure_heap_buffer {
+> > > > > >    struct mtk_secure_heap {
+> > > > > >       const char              *name;
+> > > > > >       const enum kree_mem_type mem_type;
+> > > > > > +     u32                      mem_session;
+> > > > > > +     struct tee_context      *tee_ctx;
+> > > > > >    };
+> > > > > >
+> > > > > > +static int mtk_optee_ctx_match(struct tee_ioctl_version_data
+> > > > > > *ver,
+> > > > > > const void *data)
+> > > > > > +{
+> > > > > > +     return ver->impl_id =3D=3D TEE_IMPL_ID_OPTEE;
+> > > > > > +}
+> > > > > > +
+> > > > > > +static int mtk_kree_secure_session_init(struct mtk_secure_heap
+> > > > > > *sec_heap)
+> > > > > > +{
+> > > > > > +     struct tee_param t_param[MTK_TEE_PARAM_NUM] =3D {0};
+> > > > > > +     struct tee_ioctl_open_session_arg arg =3D {0};
+> > > > > > +     uuid_t ta_mem_uuid;
+> > > > > > +     int ret;
+> > > > > > +
+> > > > > > +     sec_heap->tee_ctx =3D tee_client_open_context(NULL,
+> > > > > > mtk_optee_ctx_match,
+> > > > > > +                                                 NULL,
+> > > > > > NULL);
+> > > > > > +     if (IS_ERR(sec_heap->tee_ctx)) {
+> > > > > > +             pr_err("%s: open context failed, ret=3D%ld\n",
+> > > > > > sec_heap-
+> > > > > > > name,
+> > > > > >
+> > > > > > +                    PTR_ERR(sec_heap->tee_ctx));
+> > > > > > +             return -ENODEV;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     arg.num_params =3D MTK_TEE_PARAM_NUM;
+> > > > > > +     arg.clnt_login =3D TEE_IOCTL_LOGIN_PUBLIC;
+> > > > > > +     ret =3D uuid_parse(TZ_TA_MEM_UUID, &ta_mem_uuid);
+> > > > > > +     if (ret)
+> > > > > > +             goto close_context;
+> > > > > > +     memcpy(&arg.uuid, &ta_mem_uuid.b, sizeof(ta_mem_uuid));
+> > > > > > +
+> > > > > > +     ret =3D tee_client_open_session(sec_heap->tee_ctx, &arg,
+> > > > > > t_param);
+> > > > > > +     if (ret < 0 || arg.ret) {
+> > > > > > +             pr_err("%s: open session failed, ret=3D%d:%d\n",
+> > > > > > +                    sec_heap->name, ret, arg.ret);
+> > > > > > +             ret =3D -EINVAL;
+> > > > > > +             goto close_context;
+> > > > > > +     }
+> > > > > > +     sec_heap->mem_session =3D arg.session;
+> > > > > > +     return 0;
+> > > > > > +
+> > > > > > +close_context:
+> > > > > > +     tee_client_close_context(sec_heap->tee_ctx);
+> > > > > > +     return ret;
+> > > > > > +}
+> > > > > > +
+> > > > > >    static struct dma_buf *
+> > > > > >    mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
+> > > > > >                     unsigned long fd_flags, unsigned long
+> > > > > > heap_flags)
+> > > > > >    {
+> > > > > > +     struct mtk_secure_heap *sec_heap =3D
+> > > > > > dma_heap_get_drvdata(heap);
+> > > > > >       struct mtk_secure_heap_buffer *sec_buf;
+> > > > > >       DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> > > > > >       struct dma_buf *dmabuf;
+> > > > > >       int ret;
+> > > > > >
+> > > > > > +     /*
+> > > > > > +      * TEE probe may be late. Initialise the secure session
+> > > > > > in the
+> > > > > > first
+> > > > > > +      * allocating secure buffer.
+> > > > > > +      */
+> > > > > > +     if (!sec_heap->mem_session) {
+> > > > > > +             ret =3D mtk_kree_secure_session_init(sec_heap);
+> > > > > > +             if (ret)
+> > > > > > +                     return ERR_PTR(ret);
+> > > > > > +     }
+> > > > > > +
+> > > > > >       sec_buf =3D kzalloc(sizeof(*sec_buf), GFP_KERNEL);
+> > > > > >       if (!sec_buf)
+> > > > > >               return ERR_PTR(-ENOMEM);
+> > > > >
+> > > > >
+> > >
+> > >
