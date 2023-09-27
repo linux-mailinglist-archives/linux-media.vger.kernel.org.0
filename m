@@ -2,246 +2,290 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 896787B0548
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 15:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A07F77B05B5
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 15:46:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231905AbjI0NX4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 09:23:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47788 "EHLO
+        id S231968AbjI0NqX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 09:46:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231873AbjI0NXy (ORCPT
+        with ESMTP id S231964AbjI0NqW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 09:23:54 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F93F5;
-        Wed, 27 Sep 2023 06:23:52 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1549AC433C8;
-        Wed, 27 Sep 2023 13:23:49 +0000 (UTC)
-Message-ID: <035d64ea-2851-4b65-b7bf-fc1c852d47ca@xs4all.nl>
-Date:   Wed, 27 Sep 2023 15:23:48 +0200
+        Wed, 27 Sep 2023 09:46:22 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC820136
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 06:46:19 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-5041d6d8b10so18502050e87.2
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 06:46:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695822378; x=1696427178; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xjMt+usahKyEXhyMN9rIKh7XECu5zDX2FLeHZvS3f6M=;
+        b=oeM46MhCnw2BXtdx77cSFQE5ZisF0H7LLh5VDsP0l0BfTAQx7M1DE+GG5r2VK2P1Pa
+         4NbI3TfaTC+TMJbX9DcrrMhCjnSmsxET7LyhbyhpvnpHORow0QYAcJ4BnIXzVbxKdt6/
+         of2+ewnbHC22U+xkr9oeytf9WupUCtHS9KvBaZbsKqMByo5VZbCiWouR30lcFSFSxuhR
+         iHwFxFdD7/VFPXwDsIAAkwq/m3BQNs5nqxPKnBT+/aX3N1EVEm1fGEbyjrI6ey/fLPe3
+         zYNVNjQnIVIC2QgzOjVFTkWSEZhYeTvrtFxoAlFtD89XRE4/Yg842AztHn8Ii9gcYxnN
+         HN3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695822378; x=1696427178;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xjMt+usahKyEXhyMN9rIKh7XECu5zDX2FLeHZvS3f6M=;
+        b=kqTHex4AwBffmzKT9bZns5r9ytZ9oKpN+mYGO7YORm5XJAngjv6sl0dl0048AQMhFc
+         srRhRMmEW01/KqyM/TB775jiyCylqbKIk46y8oXoNZp4sZkCvmXmxM9PmknijY952O02
+         KOGJeR1K2c6nWNAbbmGTUONTv9pOrexkEYbBbhQeE4M8syMXuvrJoVE5bviNl41HA4wU
+         pp7UXh789R+STh0gwPUE4/iJy9F5UtIwIORw0tiNwuxvAHFA3By3MEfDmtBkAg0h5zaL
+         bWy8/+1YYxzRC5l8KdsWBWoVktw/hfrbRhPAIcASyYN8JJ54ajiTb+4SqAFDdFHrH621
+         eTMQ==
+X-Gm-Message-State: AOJu0YzFqK6x41ui+7Bglo3X6/k/CVS+CoUMY+jNDXi+ZGjUQxOeIQhw
+        HBWLZoH5nf/H/pINq/tfQ+jxBQ==
+X-Google-Smtp-Source: AGHT+IGpPGTE4fiqS7H6X5cE5gxZAu7fbfw/lkC2Rf9hkEdABrFyFW6E9N1aUp/8UrNrtYA3KSkgEg==
+X-Received: by 2002:ac2:58e4:0:b0:504:3424:215c with SMTP id v4-20020ac258e4000000b005043424215cmr1658146lfo.51.1695822377525;
+        Wed, 27 Sep 2023 06:46:17 -0700 (PDT)
+Received: from pop-os.localdomain (81-231-61-187-no276.tbcn.telia.com. [81.231.61.187])
+        by smtp.gmail.com with ESMTPSA id f21-20020a19ae15000000b00500d1f67be9sm2664810lfc.43.2023.09.27.06.46.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Sep 2023 06:46:16 -0700 (PDT)
+Date:   Wed, 27 Sep 2023 15:46:14 +0200
+From:   Joakim Bech <joakim.bech@linaro.org>
+To:     Yong Wu =?utf-8?B?KOWQtOWLhyk=?= <Yong.Wu@mediatek.com>
+Cc:     "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jstultz@google.com" <jstultz@google.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Jianjiao Zeng =?utf-8?B?KOabvuWBpeWnoyk=?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        Kuohong Wang =?utf-8?B?KOeOi+Wci+m0uyk=?= 
+        <kuohong.wang@mediatek.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
+Message-ID: <20230927134614.kp27moxdw72jiu4y@pop-os.localdomain>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-6-yong.wu@mediatek.com>
+ <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com>
+ <a115a2a5d3ac218e6db65ccdb0a1876f9cfca02b.camel@mediatek.com>
+ <d798b15b-6f35-96db-e3f7-5c0bcc5d46a2@collabora.com>
+ <a4ecc2792f3a4d3159e34415be984ff7d5f5e263.camel@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 0/5] Add Toshiba Visconti Video Input Interface driver
-Content-Language: en-US, nl
-To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20230925232806.950683-1-yuji2.ishikawa@toshiba.co.jp>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20230925232806.950683-1-yuji2.ishikawa@toshiba.co.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a4ecc2792f3a4d3159e34415be984ff7d5f5e263.camel@mediatek.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yuji Ishikawa,
+On Mon, Sep 25, 2023 at 12:49:50PM +0000, Yong Wu (吴勇) wrote:
+> On Tue, 2023-09-12 at 11:32 +0200, AngeloGioacchino Del Regno wrote:
+> > Il 12/09/23 08:17, Yong Wu (吴勇) ha scritto:
+> > > On Mon, 2023-09-11 at 11:29 +0200, AngeloGioacchino Del Regno
+> > > wrote:
+> > > > Il 11/09/23 04:30, Yong Wu ha scritto:
+> > > > > The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't
+> > > > > work
+> > > > > here since this is not a platform driver, therefore initialise
+> > > > > the
+> > > > > TEE
+> > > > > context/session while we allocate the first secure buffer.
+> > > > > 
+> > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > > > > ---
+> > > > >    drivers/dma-buf/heaps/mtk_secure_heap.c | 61
+> > > > > +++++++++++++++++++++++++
+> > > > >    1 file changed, 61 insertions(+)
+> > > > > 
+> > > > > diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c
+> > > > > b/drivers/dma-
+> > > > > buf/heaps/mtk_secure_heap.c
+> > > > > index bbf1c8dce23e..e3da33a3d083 100644
+> > > > > --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
+> > > > > +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
+> > > > > @@ -10,6 +10,12 @@
+> > > > >    #include <linux/err.h>
+> > > > >    #include <linux/module.h>
+> > > > >    #include <linux/slab.h>
+> > > > > +#include <linux/tee_drv.h>
+> > > > > +#include <linux/uuid.h>
+> > > > > +
+> > > > > +#define TZ_TA_MEM_UUID		"4477588a-8476-11e2-ad15-
+> > > > > e41f1390d676"
+> > > > > +
+> > > > 
+> > > > Is this UUID the same for all SoCs and all TZ versions?
+> > > 
+> > > Yes. It is the same for all SoCs and all TZ versions currently.
+> > > 
+> > 
+> > That's good news!
+> > 
+> > Is this UUID used in any userspace component? (example: Android
+> > HALs?)
+> 
+> No. Userspace never use it. If userspace would like to allocate this
+> secure buffer, it can achieve through the existing dmabuf IOCTL via
+> /dev/dma_heap/mtk_svp node.
+> 
+In general I think as mentioned elsewhere in comments, that there isn't
+that much here that seems to be unique for MediaTek in this patch
+series, so I think it worth to see whether this whole patch set can be
+made more generic. Having said that, the UUID is always unique for a
+certain Trusted Application. So, it's not entirely true saying that the
+UUID is the same for all SoCs and all TrustZone versions. It might be
+true for a family of MediaTek devices and the TEE in use, but not
+generically.
 
-On 26/09/2023 01:28, Yuji Ishikawa wrote:
-> This series is the Video Input Interface driver
-> for Toshiba's ARM SoC, Visconti.
-> This provides DT binding documentation,
-> device driver, documentation and MAINTAINER files.
-> 
-> A visconti VIIF driver instance exposes
-> 1 media control device file and 3 video device files
-> for a VIIF hardware.
-> Detailed HW/SW are described in documentation directory.
-> The VIIF hardware has CSI2 receiver,
-> image signal processor and DMAC inside.
-> The subdevice for image signal processor provides
-> vendor specific V4L2 controls.
-> 
-> The device driver depends on two other drivers under development;
-> clock framework driver and IOMMU driver.
-> Corresponding features will be added later.
+So, if we need to differentiate between different TA implementations,
+then we need different UUIDs. If it would be possible to make this patch
+set generic, then it sounds like a single UUID would be sufficient, but
+that would imply that all TA's supporting such a generic UUID would be
+implemented the same from an API point of view. Which also means that
+for example Trusted Application function ID's needs to be the same etc.
+Not impossible to achieve, but still not easy (different TEE follows
+different specifications) and it's not typically something we've done in
+the past.
 
-Building this series results in a set of sparse warnings:
+Unfortunately there is no standardized database of TA's describing what
+they implement and support.
 
-drivers/media/platform/toshiba/visconti/viif_capture.c:235:29: warning: symbol 'out_format_spec' was not declared. Should it be static?
-drivers/media/platform/toshiba/visconti/viif_capture.c:517:13: warning: context imbalance in 'viif_regbuf_access_start' - wrong count at exit
-drivers/media/platform/toshiba/visconti/viif_capture.c:523:13: warning: context imbalance in 'viif_regbuf_access_end' - unexpected unlock
-drivers/media/platform/toshiba/visconti/viif_csi2rx.c:458:15: warning: Using plain integer as NULL pointer
-drivers/media/platform/toshiba/visconti/viif_csi2rx.c:458:15: warning: Using plain integer as NULL pointer
+As an alternative, we could implement a query call in the TEE answering,
+"What UUID does your TA have that implements secure unmapped heap?".
+I.e., something that reminds of a lookup table. Then we wouldn't have to
+carry this in UAPI, DT or anywhere else.
 
-And I also get a Documentation build warning:
-
-Documentation/output/videodev2.h.rst:6: WARNING: undefined label: 'v4l2-ctrl-type-visconti-isp'
-
-Also note that you need to rebase: the v4l2-controls.h header changed.
-
-Regards,
-
-	Hans
+-- 
+// Regards
+Joakim
 
 > 
-> Best regards,
-> Yuji
-> 
-> Changelog v2:
-> - Resend v1 because a patch exceeds size limit.
-> 
-> Changelog v3:
-> - Add documentation to describe SW and HW
-> - Adapted to media control framework
-> - Introduced ISP subdevice, capture device
-> - Remove private IOCTLs and add vendor specific V4L2 controls
-> - Change function name avoiding camelcase and uppercase letters
-> 
-> Changelog v4:
-> - Split patches because a patch exceeds size limit
-> - fix dt-bindings document
-> - stop specifying ID numbers for driver instance explicitly at device tree
-> - use pm_runtime to trigger initialization of HW
->   along with open/close of device files.
-> - add a entry for a header file at MAINTAINERS file
-> 
-> Changelog v5:
-> - Fix coding style problem in viif.c (patch 2/6)
-> 
-> Changelog v6:
-> - add register definition of BUS-IF and MPU in dt-bindings
-> - add CSI2RX subdevice (separeted from ISP subdevice)
-> - change directory layout (moved to media/platform/toshiba/visconti)
-> - change source file layout (removed hwd_xxxx.c)
-> - pointer to userland memory is removed from uAPI parameters
-> - change register access (from struct style to macro style)
-> - remove unused macros
-> 
-> Changelog v7:
-> - remove redundant "bindings" from header and description text
-> - fix multiline text of "description"
-> - change "compatible" to "visconti5-viif"
-> - explicitly define allowed properties for port::endpoint
-> - remove unused variables
-> - update kerneldoc comments
-> - update references to headers
-> 
-> Changelog v8:
-> - rename bindings description file
-> - remove/simplify items in bindings
-> - update operations around v4l2_async_notifier
-> - use v4l2_async_connection instead of v4l2_async_subdev
-> - use dev_err_probe()
-> - better error handling at probe
-> - remove redundant mutex
-> - add V4L2_CTRL_TYPE_VISCONTI_ISP constant
-> 
-> Yuji Ishikawa (5):
->   dt-bindings: media: platform: visconti: Add Toshiba Visconti Video
->     Input Interface
->   media: platform: visconti: Add Toshiba Visconti Video Input Interface
->     driver
->   media: add V4L2 vendor specific control handlers
->   documentation: media: add documentation for Toshiba Visconti Video
->     Input Interface driver
->   MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
-> 
->  .../media/toshiba,visconti5-viif.yaml         |  105 +
->  .../driver-api/media/drivers/index.rst        |    1 +
->  .../media/drivers/visconti-viif.rst           |  462 +++
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
->  .../media/v4l/vidioc-queryctrl.rst            |    5 +
->  MAINTAINERS                                   |    4 +
->  drivers/media/platform/Kconfig                |    1 +
->  drivers/media/platform/Makefile               |    1 +
->  drivers/media/platform/toshiba/Kconfig        |    6 +
->  drivers/media/platform/toshiba/Makefile       |    2 +
->  .../media/platform/toshiba/visconti/Kconfig   |   18 +
->  .../media/platform/toshiba/visconti/Makefile  |    8 +
->  .../media/platform/toshiba/visconti/viif.c    |  650 ++++
->  .../media/platform/toshiba/visconti/viif.h    |  374 ++
->  .../platform/toshiba/visconti/viif_capture.c  | 1489 ++++++++
->  .../platform/toshiba/visconti/viif_capture.h  |   22 +
->  .../platform/toshiba/visconti/viif_common.c   |  199 +
->  .../platform/toshiba/visconti/viif_common.h   |   38 +
->  .../platform/toshiba/visconti/viif_controls.c | 3394 +++++++++++++++++
->  .../platform/toshiba/visconti/viif_controls.h |   18 +
->  .../platform/toshiba/visconti/viif_csi2rx.c   |  691 ++++
->  .../platform/toshiba/visconti/viif_csi2rx.h   |   24 +
->  .../toshiba/visconti/viif_csi2rx_regs.h       |  102 +
->  .../platform/toshiba/visconti/viif_isp.c      | 1259 ++++++
->  .../platform/toshiba/visconti/viif_isp.h      |   24 +
->  .../platform/toshiba/visconti/viif_regs.h     |  716 ++++
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     |    7 +-
->  include/uapi/linux/v4l2-controls.h            |    6 +
->  include/uapi/linux/videodev2.h                |    2 +
->  include/uapi/linux/visconti_viif.h            | 1800 +++++++++
->  30 files changed, 11431 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
->  create mode 100644 Documentation/driver-api/media/drivers/visconti-viif.rst
->  create mode 100644 drivers/media/platform/toshiba/Kconfig
->  create mode 100644 drivers/media/platform/toshiba/Makefile
->  create mode 100644 drivers/media/platform/toshiba/visconti/Kconfig
->  create mode 100644 drivers/media/platform/toshiba/visconti/Makefile
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_capture.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_capture.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_common.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_common.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_controls.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_controls.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_csi2rx.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_csi2rx.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_csi2rx_regs.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_isp.c
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_isp.h
->  create mode 100644 drivers/media/platform/toshiba/visconti/viif_regs.h
->  create mode 100644 include/uapi/linux/visconti_viif.h
-> 
-
+> > If it is (and I somehow expect that it is), then this definition
+> > should go
+> > to a UAPI header, as suggested by Christian.
+> > 
+> > Cheers!
+> > 
+> > > > 
+> > > > Thanks,
+> > > > Angelo
+> > > > 
+> > > > 
+> > > > > +#define MTK_TEE_PARAM_NUM		4
+> > > > >    
+> > > > >    /*
+> > > > >     * MediaTek secure (chunk) memory type
+> > > > > @@ -28,17 +34,72 @@ struct mtk_secure_heap_buffer {
+> > > > >    struct mtk_secure_heap {
+> > > > >    	const char		*name;
+> > > > >    	const enum kree_mem_type mem_type;
+> > > > > +	u32			 mem_session;
+> > > > > +	struct tee_context	*tee_ctx;
+> > > > >    };
+> > > > >    
+> > > > > +static int mtk_optee_ctx_match(struct tee_ioctl_version_data
+> > > > > *ver,
+> > > > > const void *data)
+> > > > > +{
+> > > > > +	return ver->impl_id == TEE_IMPL_ID_OPTEE;
+> > > > > +}
+> > > > > +
+> > > > > +static int mtk_kree_secure_session_init(struct mtk_secure_heap
+> > > > > *sec_heap)
+> > > > > +{
+> > > > > +	struct tee_param t_param[MTK_TEE_PARAM_NUM] = {0};
+> > > > > +	struct tee_ioctl_open_session_arg arg = {0};
+> > > > > +	uuid_t ta_mem_uuid;
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	sec_heap->tee_ctx = tee_client_open_context(NULL,
+> > > > > mtk_optee_ctx_match,
+> > > > > +						    NULL,
+> > > > > NULL);
+> > > > > +	if (IS_ERR(sec_heap->tee_ctx)) {
+> > > > > +		pr_err("%s: open context failed, ret=%ld\n",
+> > > > > sec_heap-
+> > > > > > name,
+> > > > > 
+> > > > > +		       PTR_ERR(sec_heap->tee_ctx));
+> > > > > +		return -ENODEV;
+> > > > > +	}
+> > > > > +
+> > > > > +	arg.num_params = MTK_TEE_PARAM_NUM;
+> > > > > +	arg.clnt_login = TEE_IOCTL_LOGIN_PUBLIC;
+> > > > > +	ret = uuid_parse(TZ_TA_MEM_UUID, &ta_mem_uuid);
+> > > > > +	if (ret)
+> > > > > +		goto close_context;
+> > > > > +	memcpy(&arg.uuid, &ta_mem_uuid.b, sizeof(ta_mem_uuid));
+> > > > > +
+> > > > > +	ret = tee_client_open_session(sec_heap->tee_ctx, &arg,
+> > > > > t_param);
+> > > > > +	if (ret < 0 || arg.ret) {
+> > > > > +		pr_err("%s: open session failed, ret=%d:%d\n",
+> > > > > +		       sec_heap->name, ret, arg.ret);
+> > > > > +		ret = -EINVAL;
+> > > > > +		goto close_context;
+> > > > > +	}
+> > > > > +	sec_heap->mem_session = arg.session;
+> > > > > +	return 0;
+> > > > > +
+> > > > > +close_context:
+> > > > > +	tee_client_close_context(sec_heap->tee_ctx);
+> > > > > +	return ret;
+> > > > > +}
+> > > > > +
+> > > > >    static struct dma_buf *
+> > > > >    mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
+> > > > >    		      unsigned long fd_flags, unsigned long
+> > > > > heap_flags)
+> > > > >    {
+> > > > > +	struct mtk_secure_heap *sec_heap =
+> > > > > dma_heap_get_drvdata(heap);
+> > > > >    	struct mtk_secure_heap_buffer *sec_buf;
+> > > > >    	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> > > > >    	struct dma_buf *dmabuf;
+> > > > >    	int ret;
+> > > > >    
+> > > > > +	/*
+> > > > > +	 * TEE probe may be late. Initialise the secure session
+> > > > > in the
+> > > > > first
+> > > > > +	 * allocating secure buffer.
+> > > > > +	 */
+> > > > > +	if (!sec_heap->mem_session) {
+> > > > > +		ret = mtk_kree_secure_session_init(sec_heap);
+> > > > > +		if (ret)
+> > > > > +			return ERR_PTR(ret);
+> > > > > +	}
+> > > > > +
+> > > > >    	sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
+> > > > >    	if (!sec_buf)
+> > > > >    		return ERR_PTR(-ENOMEM);
+> > > > 
+> > > > 
+> > 
+> > 
