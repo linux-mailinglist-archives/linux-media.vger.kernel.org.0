@@ -2,110 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8E1A7B0714
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 16:37:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A5FC7B0732
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 16:42:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232179AbjI0Ohn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 10:37:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49458 "EHLO
+        id S232107AbjI0Omd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 10:42:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232046AbjI0Ohm (ORCPT
+        with ESMTP id S232050AbjI0Omc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 10:37:42 -0400
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6739E139;
-        Wed, 27 Sep 2023 07:37:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1695825448; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=aAN5wK8mJcjRahrM9xpdrkrWJEK2xbuAfUOeXKDvIocLvYMrkqV1wrk2Cnu6BrAL6jR/MdFgWxNe5lCcUcUnkMvAtaOg/HP2Y9JZ1tC97F9gQkFDpWzJpwkNMXpIFGNA/ZEPXyFFGH2qmZ1SAgNDqQSbDEc+wdBhily4TwYChPU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1695825448; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-        bh=ymOqUCZg1zNUB8SXIxzMtO2Mq3I3I9p64qCNhj72OWk=; 
-        b=MStKIM26lk1ocKnWXLx6e32UnrryizN3EyMaFuFCuVBySsyCasK8TGb0EjO2BlGCZbVg0p2fD/K47QR+rLAUnqf8LX+skexLklztCjrZyi6VRqF4qNAFGKIYKIA59pf/dC6mAGI12I8kI8fvpK6MbejCXix1zau1KGiVpwYAPhs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=marliere.net;
-        spf=pass  smtp.mailfrom=ricardo@marliere.net;
-        dmarc=pass header.from=<ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1695825448;
-        s=zmail; d=marliere.net; i=ricardo@marliere.net;
-        h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-        bh=ymOqUCZg1zNUB8SXIxzMtO2Mq3I3I9p64qCNhj72OWk=;
-        b=uGpirVJpVIlKrNgA2Olrh9QR6VuMjJfMyo2gbKBMREz70KgEpLDF3XTyu0r9BX7t
-        nNpIgldgENqlMsOSxFkegICUPRtx97ZaWu8KYcjMlNfIqeRxhIOVvYfdFhmGiTavBCt
-        BuPpLJsddzw/4X76+J8JYFAow1TIhdCHY+2bDLXk=
-Received: from localhost (177.104.93.54 [177.104.93.54]) by mx.zohomail.com
-        with SMTPS id 1695825447125886.5405244262054; Wed, 27 Sep 2023 07:37:27 -0700 (PDT)
-Date:   Wed, 27 Sep 2023 11:37:20 -0300
-From:   "Ricardo B. Marliere" <ricardo@marliere.net>
-To:     syzbot <syzbot+621409285c4156a009b3@syzkaller.appspotmail.com>
-Cc:     isely@pobox.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, pvrusb2@isely.net,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [pvrusb2?] [usb?] KASAN: slab-use-after-free Read in
- pvr2_context_set_notify
-Message-ID: <gugiuvjgpoogf3k5cm4px4jwevg5torsu3d7afbbhvnrxho4zu@wkcxeb5sr5ez>
-References: <000000000000a02a4205fff8eb92@google.com>
+        Wed, 27 Sep 2023 10:42:32 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0873196
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 07:42:30 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5333fb34be3so13311306a12.1
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 07:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695825749; x=1696430549; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DQa0uS9ZxVzUEvSIaoDnSyYxM+uNjYjcw68CuBARJN8=;
+        b=zP6Ci+AS0YD9HOVXRL0t943eT6TcafVJ64evKwFlzwPDJHaburIJTQBFBgQgQj5SUO
+         FpEvO1rpAgxIawVFLhITNS8N3NAlNWAlPWe9CHotKdF0qKXonICKaqeIFQ9EOjjLC8Gz
+         nVaWDgr7VYdgpAl2v+awvrnGu/b+60UzHQECVJ2V27D0BR30u2k4vDu745CLYJ3u3cvJ
+         5+Q0Kq7DJzNLesg44T6rabOJ8idrWox6+pmIY6Qof56yTAgIrZj2mHHcbvQeYyi2Gthj
+         xcTPjlz/JGt+k/EemsBBM+aHGfuKxzv3gm8dJLGmj2soDxGqOsdSE3mTszDxAQSkioXL
+         uL7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695825749; x=1696430549;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DQa0uS9ZxVzUEvSIaoDnSyYxM+uNjYjcw68CuBARJN8=;
+        b=jrAY7paHMvyYqFl5vDqZP3YrvLlFPkMlucC+m3GRMyfVWs6XJ7SghoJxk61NU7IYNT
+         rqhB6E8Wh5Al1JC2s7kLh7QuTqja7T9+K+xruyTrqNfHN9BVJdiBKCNoPFTwQ1RQ74j2
+         ZBrMgbeW7eFbtbaMxrJJ45MYrZRvaMK8PLTbeiZu7mxesUWkGe38E8jMgRCPB9U3FAVJ
+         mSu2UjdwQe1O2I0N9cMiBU6Fd2LjwX8Za2Tx91XUyEo6Imge/zFE045QInptc7X0nduz
+         Llj6M2D3VTXd7EuijbiFT64OjNoqqQBvjfRP8uSEHRKiVMA0+G2AKSk6Ilh6S2GxzMDU
+         M71A==
+X-Gm-Message-State: AOJu0YzZyy4vQrKTItZostxwhYIDZNnKBP2g2DQNKANpNzlWF45Qcxp8
+        PNwPp197k0yHJza6ULon53ihvw==
+X-Google-Smtp-Source: AGHT+IHbkXEUZ2yiICh2bDKC3XoQRoR1GzJCgOavVhuustl4JEpqTa1gx5Cc9UIMgVeGD+zgjr8MaQ==
+X-Received: by 2002:a17:906:5142:b0:9b2:ba65:db21 with SMTP id jr2-20020a170906514200b009b2ba65db21mr368111ejc.45.1695825749077;
+        Wed, 27 Sep 2023 07:42:29 -0700 (PDT)
+Received: from pop-os.localdomain (81-231-61-187-no276.tbcn.telia.com. [81.231.61.187])
+        by smtp.gmail.com with ESMTPSA id z15-20020a170906944f00b00993928e4d1bsm9374996ejx.24.2023.09.27.07.42.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Sep 2023 07:42:28 -0700 (PDT)
+Date:   Wed, 27 Sep 2023 16:42:26 +0200
+From:   Joakim Bech <joakim.bech@linaro.org>
+To:     Yong Wu <yong.wu@mediatek.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        christian.koenig@amd.com,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>, tjmercier@google.com,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, jianjiao.zeng@mediatek.com,
+        kuohong.wang@mediatek.com
+Subject: Re: [PATCH 4/9] dma-buf: heaps: Initialise MediaTek secure heap
+Message-ID: <20230927144226.pdssel3dwv53g546@pop-os.localdomain>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-5-yong.wu@mediatek.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="exir5lirupkd3ozp"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <000000000000a02a4205fff8eb92@google.com>
-X-Zoho-Virus-Status: 1
-X-ZohoMailClient: External
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230911023038.30649-5-yong.wu@mediatek.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Sep 11, 2023 at 10:30:33AM +0800, Yong Wu wrote:
+> Initialise a mtk_svp heap. Currently just add a null heap, Prepare for
+> the later patches.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+>  drivers/dma-buf/heaps/Kconfig           |  8 ++
+>  drivers/dma-buf/heaps/Makefile          |  1 +
+>  drivers/dma-buf/heaps/mtk_secure_heap.c | 99 +++++++++++++++++++++++++
+>  3 files changed, 108 insertions(+)
+>  create mode 100644 drivers/dma-buf/heaps/mtk_secure_heap.c
+> 
+> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+> index a5eef06c4226..729c0cf3eb7c 100644
+> --- a/drivers/dma-buf/heaps/Kconfig
+> +++ b/drivers/dma-buf/heaps/Kconfig
+> @@ -12,3 +12,11 @@ config DMABUF_HEAPS_CMA
+>  	  Choose this option to enable dma-buf CMA heap. This heap is backed
+>  	  by the Contiguous Memory Allocator (CMA). If your system has these
+>  	  regions, you should say Y here.
+> +
+> +config DMABUF_HEAPS_MTK_SECURE
+> +	bool "DMA-BUF MediaTek Secure Heap"
+> +	depends on DMABUF_HEAPS && TEE
+> +	help
+> +	  Choose this option to enable dma-buf MediaTek secure heap for Secure
+> +	  Video Path. This heap is backed by TEE client interfaces. If in
+Although this is intended for SVP right now, this is something that very
+well could work for other use cases. So, I think I'd not mention "Secure
+Video Path" and just mention "secure heap".
 
---exir5lirupkd3ozp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> +	  doubt, say N.
+> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
+> index 974467791032..df559dbe33fe 100644
+> --- a/drivers/dma-buf/heaps/Makefile
+> +++ b/drivers/dma-buf/heaps/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
+> +obj-$(CONFIG_DMABUF_HEAPS_MTK_SECURE)	+= mtk_secure_heap.o
+> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c b/drivers/dma-buf/heaps/mtk_secure_heap.c
+> new file mode 100644
+> index 000000000000..bbf1c8dce23e
+> --- /dev/null
+> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
+> @@ -0,0 +1,99 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * DMABUF mtk_secure_heap exporter
+> + *
+> + * Copyright (C) 2023 MediaTek Inc.
+> + */
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-heap.h>
+> +#include <linux/err.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +
+> +/*
+> + * MediaTek secure (chunk) memory type
+> + *
+> + * @KREE_MEM_SEC_CM_TZ: static chunk memory carved out for trustzone.
+nit: s/trustzone/TrustZone/
 
-#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git ce9ecca0238b140b88f43859b211c9fdfd8e5b70
+-- 
+// Regards
+Joakim
 
---exir5lirupkd3ozp
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment; filename=patch
-
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-context.c b/drivers/media/usb/pvrusb2/pvrusb2-context.c
-index 14170a5d72b3..e3356f94e50e 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-context.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-context.c
-@@ -27,9 +27,16 @@ static int pvr2_context_cleaned_flag;
- static struct task_struct *pvr2_context_thread_ptr;
- 
- 
-+static int pvr2_context_shutok(void)
-+{
-+	return pvr2_context_cleanup_flag && (pvr2_context_exist_first == NULL);
-+}
-+
-+
- static void pvr2_context_set_notify(struct pvr2_context *mp, int fl)
- {
- 	int signal_flag = 0;
-+	if (pvr2_context_shutok()) return;
- 	mutex_lock(&pvr2_context_mutex);
- 	if (fl) {
- 		if (!mp->notify_flag) {
-@@ -140,12 +147,6 @@ static void pvr2_context_check(struct pvr2_context *mp)
- }
- 
- 
--static int pvr2_context_shutok(void)
--{
--	return pvr2_context_cleanup_flag && (pvr2_context_exist_first == NULL);
--}
--
--
- static int pvr2_context_thread_func(void *foo)
- {
- 	struct pvr2_context *mp;
-
---exir5lirupkd3ozp--
+> + */
+> +enum kree_mem_type {
+> +	KREE_MEM_SEC_CM_TZ = 1,
+> +};
+> +
+> +struct mtk_secure_heap_buffer {
+> +	struct dma_heap		*heap;
+> +	size_t			size;
+> +};
+> +
+> +struct mtk_secure_heap {
+> +	const char		*name;
+> +	const enum kree_mem_type mem_type;
+> +};
+> +
+> +static struct dma_buf *
+> +mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
+> +		      unsigned long fd_flags, unsigned long heap_flags)
+> +{
+> +	struct mtk_secure_heap_buffer *sec_buf;
+> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> +	struct dma_buf *dmabuf;
+> +	int ret;
+> +
+> +	sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
+> +	if (!sec_buf)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	sec_buf->size = size;
+> +	sec_buf->heap = heap;
+> +
+> +	exp_info.exp_name = dma_heap_get_name(heap);
+> +	exp_info.size = sec_buf->size;
+> +	exp_info.flags = fd_flags;
+> +	exp_info.priv = sec_buf;
+> +
+> +	dmabuf = dma_buf_export(&exp_info);
+> +	if (IS_ERR(dmabuf)) {
+> +		ret = PTR_ERR(dmabuf);
+> +		goto err_free_buf;
+> +	}
+> +
+> +	return dmabuf;
+> +
+> +err_free_buf:
+> +	kfree(sec_buf);
+> +	return ERR_PTR(ret);
+> +}
+> +
+> +static const struct dma_heap_ops mtk_sec_heap_ops = {
+> +	.allocate	= mtk_sec_heap_allocate,
+> +};
+> +
+> +static struct mtk_secure_heap mtk_sec_heap[] = {
+> +	{
+> +		.name		= "mtk_svp",
+> +		.mem_type	= KREE_MEM_SEC_CM_TZ,
+> +	},
+> +};
+> +
+> +static int mtk_sec_heap_init(void)
+> +{
+> +	struct mtk_secure_heap *sec_heap = mtk_sec_heap;
+> +	struct dma_heap_export_info exp_info;
+> +	struct dma_heap *heap;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(mtk_sec_heap); i++, sec_heap++) {
+> +		exp_info.name = sec_heap->name;
+> +		exp_info.ops = &mtk_sec_heap_ops;
+> +		exp_info.priv = (void *)sec_heap;
+> +
+> +		heap = dma_heap_add(&exp_info);
+> +		if (IS_ERR(heap))
+> +			return PTR_ERR(heap);
+> +	}
+> +	return 0;
+> +}
+> +
+> +module_init(mtk_sec_heap_init);
+> +MODULE_DESCRIPTION("MediaTek Secure Heap Driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.25.1
+> 
