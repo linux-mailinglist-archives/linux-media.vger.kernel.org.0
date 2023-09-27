@@ -2,379 +2,462 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 381867B0BF9
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 20:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7117D7B0C1B
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 20:45:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbjI0Sa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 14:30:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47460 "EHLO
+        id S229536AbjI0SpV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 14:45:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjI0Sa6 (ORCPT
+        with ESMTP id S229464AbjI0SpU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 14:30:58 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7705C8F
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 11:30:56 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-3514ece5ed4so22035ab.1
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 11:30:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695839456; x=1696444256; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MIjAuBLH35Ezjhzsj4X9szK/gj5rFSWTPmQeixZLFj8=;
-        b=WWfAdtRsGDTUqOB/md3MOKvXXVrt24mNHnr87F5+NXrqG6MBKdcSnE59OVB2V7vLmM
-         2wvzWjPmXfcglFLqe2V1J1lZM5gtRQM0dW0cVAD7sixLv60vAFqxZixmemGXVUoWEZZp
-         2uJXkqBRje35vYwx71OKqoiQof331HoZ1Z5y6oqAmfBtySEscxCd+FXKs5DE82HSG64N
-         magTvkBYKoGOjVq17nKWktB4UEuLSxPWt6SAzUUfkWQj7hYZtb+2PoB/o6WmqhombrQ8
-         lUcJxbSryOaISgBh+lszVf6STXlxg+2ULSgNGQeKJL7+0edj6DOvsOWFFzsQZSol8HfZ
-         W/Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695839456; x=1696444256;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MIjAuBLH35Ezjhzsj4X9szK/gj5rFSWTPmQeixZLFj8=;
-        b=Ip1tZMvmsQ015NiNt6mJGSSCY6fLTZvANNPwXZ39TsaJ+JqrOt9SY5PGbdpXQK/0AN
-         RYhhO/aDGuSrzZjIhTpwUXxiasLcwQCtkT0m6cGRZ9B/pWzth3nf9Wgh1ifIeQheBaWr
-         Aa89rshrFgVT8cQFqi7Px2mU9K9xw9yw8IrUYlRsd8k/zQ4C2NBj4LMrSRbRvqlyF5Og
-         P1laKuVIelWsryHOHGvuNmth8vcu2my0fPOi+9CUviFleonVHNxKMI5WoOXYrflbsZ8g
-         9IxKkg8/3wRMNtSBN0ovVYCNqP8WaZPlPqFMV0vrtXbXmYB8NFIwpvmEjyCS+jUdE5hP
-         Lxmw==
-X-Gm-Message-State: AOJu0YzAS2bp5g1nRC94LiWfKFJ2vjb/a2WYhtAcbRbvcWe8mUpGJo4x
-        A9z0oRAu20rR2SamDRa98NIXB+oQaiN+DaKaua3i
-X-Google-Smtp-Source: AGHT+IEBzfsnNoqmTprE6FHEsgZGaX4uGBHU2VwOFBRqtTLDhWDti9N+DZ17As3ZWOEqg/HPosXrOSIPTqYDQHRd+Gc=
-X-Received: by 2002:a05:6e02:214c:b0:348:d358:467c with SMTP id
- d12-20020a056e02214c00b00348d358467cmr723464ilv.2.1695839455522; Wed, 27 Sep
- 2023 11:30:55 -0700 (PDT)
+        Wed, 27 Sep 2023 14:45:20 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8308F
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 11:45:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695840318; x=1727376318;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wLQafYKN8T/dDWnNpxc7XXIQASwQK4S/Qtha8iuRcxs=;
+  b=RscLkK8C+N/Ufy7IXsNpHztty7ZCHVMjn145di30cj33EO96Sc1c/21H
+   9teEB/epPlsQz8tMkRzbz5FkTYimSBJH4x2Uarpyzu08LY5PhxTuikGX9
+   gNh2a+lQyaytLoiMqGMHMnHlspTWJ4PO7Y6kEn8gftU+bEcLeIzxNd+LT
+   Pi8t1RmPnNXm2i72J2OGMsUeiPxE6h5J8m4wNxv1Hy52th+NTl/qhzVhK
+   +ESLl2d3mUdKJBbfLEnyFnDbCLilBrS85cZ8t0EnmKKOud+BiZTU97BaE
+   CaA75JBkRTpOBf9peYB5FK1y55j5C94ftAYGkqqE0h95bRL+Xb2CL3fxX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3439375"
+X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
+   d="scan'208";a="3439375"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 11:45:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="814949357"
+X-IronPort-AV: E=Sophos;i="6.03,182,1694761200"; 
+   d="scan'208";a="814949357"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 11:45:15 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 95AC611F967;
+        Wed, 27 Sep 2023 21:45:12 +0300 (EEST)
+Date:   Wed, 27 Sep 2023 18:45:12 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 1/1] media: Documentation: Split camera sensor
+ documentation
+Message-ID: <ZRR4ODOLBCfspNNT@kekkonen.localdomain>
+References: <20230927160623.399428-1-sakari.ailus@linux.intel.com>
+ <bj4kfqthh4kb7dbu2auevb44yrqgeu6z3rakx5x55q3jfwsyur@emhmhbmr3bpk>
 MIME-Version: 1.0
-References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
- <20230911125936.10648-13-yunfei.dong@mediatek.com> <1df3e79b84933dda0313d0d9719220dbc06c9022.camel@collabora.com>
- <d4cedcb0-32ed-495d-a8cd-a635d5105824@xs4all.nl> <5307203d79c0d90cc742a315bb161fa796b9960f.camel@mediatek.com>
- <bafc37e8-96e8-41c0-b805-c6477f0d7c4a@xs4all.nl> <CA+ddPcN6EaFERC60_Z_-ZmWzqyUEwxiDCZwt_U6Y-gpaAu76tA@mail.gmail.com>
- <ff7aa575-c820-4dfa-853f-77438b8b149a@xs4all.nl> <b7d661637eacbda3e83d192b1126fc3970c4f50d.camel@collabora.com>
- <c3d14f64-bf04-46b9-ac7b-af7ef9014335@xs4all.nl> <00302ac675af858eb11d8398f100921af806bc30.camel@mediatek.com>
- <3e053387-4ba6-49bc-a59a-46854e0a7c26@xs4all.nl> <CA+ddPcOaCKq5Nd_3eWwJ3=oAf=5t-Z+w51NqapXN8VBuvbTw3g@mail.gmail.com>
- <71cadec5-06df-4490-9b06-e3af6bb43498@xs4all.nl> <CA+ddPcN0ivYa+vfvs-8PDpkDFkC=1gkM6fkeP7kE8Wqbi1w+dw@mail.gmail.com>
- <CA+ddPcMX=6ek-EVRMxJcRfZxRuLTGL3A-jeeNaifNF0E5AvVHw@mail.gmail.com> <d774c0e4-5ab2-4d3e-ae87-eb311aeaa1c2@xs4all.nl>
-In-Reply-To: <d774c0e4-5ab2-4d3e-ae87-eb311aeaa1c2@xs4all.nl>
-From:   Jeffrey Kardatzke <jkardatzke@google.com>
-Date:   Wed, 27 Sep 2023 11:30:39 -0700
-Message-ID: <CA+ddPcMFM40S0sH70-StdjdJ_YpX6vfwTeXAYBJLtm911gPU9Q@mail.gmail.com>
-Subject: Re: [PATCH 12/14] media: medkatek: vcodec: set secure mode to decoder driver
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>,
-        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "frkoenig@chromium.org" <frkoenig@chromium.org>,
-        "stevecho@chromium.org" <stevecho@chromium.org>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        "nhebert@chromium.org" <nhebert@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "hsinyi@chromium.org" <hsinyi@chromium.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "nfraprado@collabora.com" <nfraprado@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bj4kfqthh4kb7dbu2auevb44yrqgeu6z3rakx5x55q3jfwsyur@emhmhbmr3bpk>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sounds great Hans! I'll work with Mediatek to update their code for that.
+Hi Jacopo,
 
-On Wed, Sep 27, 2023 at 12:26=E2=80=AFAM Hans Verkuil <hverkuil-cisco@xs4al=
-l.nl> wrote:
->
-> On 26/09/2023 22:59, Jeffrey Kardatzke wrote:
-> > Hans,
+On Wed, Sep 27, 2023 at 07:17:51PM +0200, Jacopo Mondi wrote:
+> Hi Sakari,
+> 
+> On Wed, Sep 27, 2023 at 07:06:23PM +0300, Sakari Ailus wrote:
+> > Split camera sensor documentation into user and kernel portions. This
+> > should make it easier for the user space developers to find the relevant
+> > documentation.
 > >
-> > I've been looking through the v4l2/vbuf2 code to get an idea of the
-> > details for implementing a new memory type for secure buffers.  What
-> > it comes down to essentially is that it would behave just like
-> > V4L2_MEMORY_DMABUF, but then there would be an extra check in
-> > __prepare_dmabuf (in videobuf2-core.c) when the memory type is SECURE
-> > to ensure that it is actually from a secure dma-buf allocation.  So
-> > I'm thinking an alternate solution might be cleaner so we don't have
-> > two memory types that are handled nearly identically in most of the
-> > code. What do you think about a new memory flag like
-> > V4L2_MEMORY_FLAG_SECURE?  This would be set in vb2_queue struct like
-> > the other existing memory flag. Then when it gets into
-> > __prepare_dmabuf and invokes attach_dmabuf on each buffer...that call
-> > could then check for the existence of that flag, and if it's there it
-> > could validate it is actually secure memory.  Then in various other
-> > dmabuf vb2_mem_ops (maybe alloc, get_userptr, vaddr and mmap) those
-> > could also check for the secure flag, and if present return an
-> > error/null.  Then also in the driver specific vb2_ops for queue_setup,
-> > the MTK driver could recognize the flag there and then configure
-> > itself for secure mode.
+> > Also add a list of exemplary drivers and add imx219 driver to it, besides
+> > those that were already mentioned.
 > >
-> > How does that sound as an overall strategy?
->
-> Yes, I actually had the same thought.
->
-> You would also need a new capability: V4L2_BUF_CAP_SUPPORTS_SECURE_MEMORY
->
-> It makes more sense than creating a new V4L2_MEMORY_ type, and it still
-> is handled at the right place (creating the buffers).
->
-> Regards,
->
->         Hans
->
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> The patch doesn't apply on media/master nor on v6.6-rc2.
+> What is the intended base ?
+
+Oops. I had other documentation patches in the metadata preparation set. It
+goes on top of that:
+<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata-pre>.
+
+> 
+> > ---
+> >  .../driver-api/media/camera-sensor.rst        | 135 ++++++------------
+> >  .../media/drivers/camera-sensor.rst           | 104 ++++++++++++++
+> >  .../userspace-api/media/drivers/index.rst     |   1 +
+> >  .../userspace-api/media/v4l/control.rst       |   4 +
+> >  4 files changed, 151 insertions(+), 93 deletions(-)
+> >  create mode 100644 Documentation/userspace-api/media/drivers/camera-sensor.rst
 > >
-> > Cheers,
-> > Jeff
+> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > index 2acc08142a1a..1f32a7e2d858 100644
+> > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > @@ -1,8 +1,14 @@
+> >  .. SPDX-License-Identifier: GPL-2.0
 > >
-> > On Mon, Sep 25, 2023 at 9:51=E2=80=AFAM Jeffrey Kardatzke <jkardatzke@g=
-oogle.com> wrote:
-> >>
-> >> On Mon, Sep 25, 2023 at 2:00=E2=80=AFAM Hans Verkuil <hverkuil-cisco@x=
-s4all.nl> wrote:
-> >>>
-> >>> On 22/09/2023 21:17, Jeffrey Kardatzke wrote:
-> >>>> On Fri, Sep 22, 2023 at 1:44=E2=80=AFAM Hans Verkuil <hverkuil-cisco=
-@xs4all.nl> wrote:
-> >>>>>
-> >>>>> On 22/09/2023 05:28, Yunfei Dong (=E8=91=A3=E4=BA=91=E9=A3=9E) wrot=
-e:
-> >>>>>> Hi Hans,
-> >>>>>>
-> >>>>>> Thanks for your help to give some good advice.
-> >>>>>> On Wed, 2023-09-20 at 09:20 +0200, Hans Verkuil wrote:
-> >>>>>>>
-> >>>>>>>>>>> In any case, using a control to switch to secure mode and usi=
-ng
-> >>>>>>> a control
-> >>>>>>>>>>> to convert a dmabuf fd to a secure handle seems a poor choice=
- to
-> >>>>>>> me.
-> >>>>>>>>>>>
-> >>>>>>>>>>> I was wondering if it wouldn't be better to create a new
-> >>>>>>> V4L2_MEMORY_ type,
-> >>>>>>>>>>> e.g. V4L2_MEMORY_DMABUF_SECURE (or perhaps _DMABUF_OPTEE). Th=
-at
-> >>>>>>> ensures that
-> >>>>>>>>>>> once you create buffers for the first time, the driver can
-> >>>>>>> switch into secure
-> >>>>>>>>>>> mode, and until all buffers are released again you know that =
-the
-> >>>>>>> driver will
-> >>>>>>>>>>> stay in secure mode.
-> >>>>>>>>>>
-> >>>>>>>>>> Why do you think the control for setting secure mode is a poor
-> >>>>>>> choice?
-> >>>>>>>>>> There's various places in the driver code where functionality
-> >>>>>>> changes
-> >>>>>>>>>> based on being secure/non-secure mode, so this is very much a
-> >>>>>>> 'global'
-> >>>>>>>>>> setting for the driver. It could be inferred based off a new
-> >>>>>>> memory
-> >>>>>>>>>> type for the queues...which then sets that flag in the driver;
-> >>>>>>> but
-> >>>>>>>>>> that seems like it would be more fragile and would require
-> >>>>>>> checking
-> >>>>>>>>>> for incompatible output/capture memory types. I'm not against
-> >>>>>>> another
-> >>>>>>>>>> way of doing this; but didn't see why you think the proposed
-> >>>>>>> method is
-> >>>>>>>>>> a poor choice.
-> >>>>>>>>>
-> >>>>>>>>> I assume you are either decoding to secure memory all the time,=
- or
-> >>>>>>> not
-> >>>>>>>>> at all. That's something you would want to select the moment yo=
-u
-> >>>>>>> allocate
-> >>>>>>>>> the first buffer. Using the V4L2_MEMORY_ value would be the
-> >>>>>>> natural place
-> >>>>>>>>> for that. A control can typically be toggled at any time, and i=
-t
-> >>>>>>> makes
-> >>>>>>>>> no sense to do that for secure streaming.
-> >>>>>>>>>
-> >>>>>>>>> Related to that: if you pass a dmabuf fd you will need to check
-> >>>>>>> somewhere
-> >>>>>>>>> if the fd points to secure memory or not. You don't want to mix
-> >>>>>>> the two
-> >>>>>>>>> but you want to check that at VIDIOC_QBUF time.
-> >>>>>>>>>
-> >>>>>>>>> Note that the V4L2_MEMORY_ value is already checked in the v4l2
-> >>>>>>> core,
-> >>>>>>>>> drivers do not need to do that.
-> >>>>>>>>
-> >>>>>>>> Just to clarify a bit, and make sure I understand this too. You =
-are
-> >>>>>>> proposing to
-> >>>>>>>> introduce something like:
-> >>>>>>>>
-> >>>>>>>>    V4L2_MEMORY_SECURE_DMABUF
-> >>>>>>>>
-> >>>>>>>> Which like V4L2_MEMORY_DMABUF is meant to import dmabuf, while
-> >>>>>>> telling the
-> >>>>>>>> driver that the memory is secure according to the definition of
-> >>>>>>> "secure" for the
-> >>>>>>>> platform its running on.
-> >>>>>>>>
-> >>>>>>>> This drivers also allocate secure SHM (a standard tee concept) a=
-nd
-> >>>>>>> have internal
-> >>>>>>>> allocation for reconstruction buffer and some hw specific refere=
-nce
-> >>>>>>> metadata. So
-> >>>>>>>> the idea would be that it would keep allocation using the dmabuf
-> >>>>>>> heap internal
-> >>>>>>>> APIs ? And decide which type of memory based on the memory type
-> >>>>>>> found in the
-> >>>>>>>> queue?
-> >>>>>>>
-> >>>>>>> Yes. Once you request the first buffer you basically tell the dri=
-ver
-> >>>>>>> whether it
-> >>>>>>> will operate in secure or non-secure mode, and that stays that wa=
-y
-> >>>>>>> until all
-> >>>>>>> buffers are freed. I think that makes sense.
-> >>>>>>>
-> >>>>>>
-> >>>>>> According to iommu's information, the dma operation for secure and=
- non-
-> >>>>>> secure are the same, whether just need to add one memory type in v=
-4l2
-> >>>>>> framework the same as V4L2_MEMORY_DMABUF? The dma operation in
-> >>>>>> videobuf2-dma-contig.c can use the same functions.
-> >>>>>
-> >>>>> So if I pass a non-secure dma fd to the capture queue of the codec,=
- who
-> >>>>> will check that it can't write the data to that fd? Since doing so =
-would
-> >>>>> expose the video. Presumably at some point the tee code will preven=
-t that?
-> >>>>> (I sincerely hope so!)
-> >>>>
-> >>>> It is entirely the job of the TEE to prevent this. Nothing in the
-> >>>> kernel should allow exploitation of what happens in the TEE no matte=
-r
-> >>>> what goes on in the kernel
-> >>>>
-> >>>>>
-> >>>>> Having a separate V4L2_MEMORY_DMABUF_SECURE type is to indicate to =
-the
-> >>>>> driver that 1) it can expect secure dmabuf fds, 2) it can configure=
- itself
-> >>>>> for that (that avoids using a control to toggle between normal and =
-secure mode),
-> >>>>> and at VIDIOC_QBUF time it is easy for the V4L2 core to verify that=
- the
-> >>>>> fd that is passed in is for secure memory. This means that mistakes=
- by
-> >>>>> userspace are caught at QBUF time.
-> >>>>>
-> >>>>> Of course, this will not protect you (people can disable this check=
- by
-> >>>>> recompiling the kernel), that still has to be done by the firmware,=
- but
-> >>>>> it catches userspace errors early on.
-> >>>>>
-> >>>>> Also, while for this hardware the DMA operation is the same, that m=
-ight
-> >>>>> not be the case for other hardware.
-> >>>>
-> >>>> That's a really good point. So one of the other models that is used
-> >>>> for secure video decoding is to send the encrypted buffer into the
-> >>>> video decoder directly (i.e. V4L2_MEMORY_MMAP) and then also send in
-> >>>> all the corresponding crypto parameters (i.e. algorithm, IV,
-> >>>> encryption pattern, etc.). Then the video driver internally does the
-> >>>> decryption and decode in one operation.  That's not what we want to
-> >>>> use here for Mediatek; but I've done other integrations that work th=
-at
-> >>>> way (that was for VAAPI [1], not V4L2...but there are other ARM
-> >>>> implementations that do operate that way).  So if we end up requirin=
-g
-> >>>> V4L2_MEMORY_DMABUF_SECURE to indicate secure mode and enforce it on
-> >>>> output+capture, that'll close off other potential solutions in the
-> >>>> future.
-> >>>>
-> >>>> Expanding on your point about DMA operations being different on
-> >>>> various hardware, that also makes me think a general check for this =
-in
-> >>>> v4l2 code may also be limiting. There are various ways secure video
-> >>>> pipelines are done, so leaving these checks up to the individual
-> >>>> drivers that implement secure video decode may be more pragmatic. If
-> >>>> there's a generic V4L2 _CID_SECURE_MODE control, that makes it more
-> >>>> general for how drivers can handle secure video decode.
-> >>>
-> >>> No, using a control for this is really wrong.
-> >>>
-> >>> The reason why I want it as a separate memory type is that that is
-> >>> what you use when you call VIDIOC_REQBUFS, and that ioctl is also
-> >>> when things are locked down in a driver. As long as no buffers have
-> >>> been allocated, you can still change formats, parameters, etc. But
-> >>> once buffers are allocated, most of that can't be changed, since
-> >>> changing e.g. the format would also change the buffer sizes.
-> >>>
-> >>> It also locks down who owns the buffers by storing the file descripto=
-r.
-> >>> This prevents other processes from hijacking the I/O streaming, only
-> >>> the owner can stream buffers.
-> >>>
-> >>> So it is a natural point in the sequence for selecting secure
-> >>> buffers.
-> >>>
-> >>> If you request V4L2_MEMORY_DMABUF_SECURE for the output, then the
-> >>> capture side must also use DMABUF_SECURE. Whether or not you can
-> >>> use regular DMABUF for the output side and select DMABUF_SECURE
-> >>> on the capture side is a driver decision. It can be useful to
-> >>> support this for testing the secure capture using regular video
-> >>> streams (something Nicolas discussed as well), but it depends on
-> >>> the hardware whether you can use that technique.
-> >>
-> >> OK, that does work for the additional cases I mentioned.  And for
-> >> testing...we would still want to use DMABUF_SECURE on both ends for
-> >> Mediatek at least (that's the only way they support it). But rather
-> >> than having to bother with a clearkey implementation...we can just do
-> >> something that directly copies compressed video into the secure
-> >> dmabufs and then exercises the whole pipeline from there. This same
-> >> thing happens with the 'clear lead' that is sometimes there with
-> >> encrypted video (where the first X seconds are unencrypted and then it
-> >> switches to encrypted...but you're still using the secure video
-> >> pipeline on the unencrypted frames in that case).
-> >>
-> >>
-> >>>
-> >>> Regards,
-> >>>
-> >>>         Hans
-> >>>
-> >>>>
-> >>>> [1] - https://github.com/intel/libva/blob/master/va/va.h#L2177
-> >>>>
-> >>>>>
-> >>>>> Regards,
-> >>>>>
-> >>>>>         Hans
-> >>>>>
-> >>>>>>
-> >>>>>> Best Regards,
-> >>>>>> Yunfei Dong
-> >>>>>>
-> >>>>>
-> >>>
->
+> > +.. _media_writing_camera_sensor_drivers:
+> > +
+> >  Writing camera sensor drivers
+> >  =============================
+> >
+> > +This document covers the in-kernel APIs only. For the best practices on
+> > +userspace API implementation in camera sensor drivers, please see
+> > +:ref:`media_using_camera_sensor_drivers`.
+> > +
+> >  CSI-2 and parallel (BT.601 and BT.656) busses
+> >  ---------------------------------------------
+> >
+> > @@ -34,7 +40,8 @@ Devicetree
+> >
+> >  The preferred way to achieve this is using ``assigned-clocks``,
+> >  ``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
+> > -`clock device tree bindings <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+> > +`clock device tree bindings
+> > +<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+> >  for more information. The driver then gets the frequency using
+> >  ``clk_get_rate()``.
+> >
+> > @@ -85,9 +92,7 @@ PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
+> >  a bridge driver, instead add runtime PM support to the sensor driver you are
+> >  using and drop its ``.s_power()`` handler.
+> >
+> > -See examples of runtime PM handling in e.g. ``drivers/media/i2c/ov8856.c`` and
+> > -``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI and DT
+> > -based systems.
+> > +Please also see :ref:`examples <media-camera-sensor-examples>`.
+> >
+> >  Control framework
+> >  ~~~~~~~~~~~~~~~~~
+> > @@ -104,99 +109,43 @@ The function returns a non-zero value if it succeeded getting the power count or
+> >  runtime PM was disabled, in either of which cases the driver may proceed to
+> >  access the device.
+> >
+> > -Frame size
+> > -----------
+> > -
+> > -There are two distinct ways to configure the frame size produced by camera
+> > -sensors.
+> > -
+> > -Freely configurable camera sensor drivers
+> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > -
+> > -Freely configurable camera sensor drivers expose the device's internal
+> > -processing pipeline as one or more sub-devices with different cropping and
+> > -scaling configurations. The output size of the device is the result of a series
+> > -of cropping and scaling operations from the device's pixel array's size.
+> > -
+> > -An example of such a driver is the CCS driver (see ``drivers/media/i2c/ccs``).
+> > -
+> > -Register list based drivers
+> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > -
+> > -Register list based drivers generally, instead of able to configure the device
+> > -they control based on user requests, are limited to a number of preset
+> > -configurations that combine a number of different parameters that on hardware
+> > -level are independent. How a driver picks such configuration is based on the
+> > -format set on a source pad at the end of the device's internal pipeline.
+> > -
+> > -Most sensor drivers are implemented this way, see e.g.
+> > -``drivers/media/i2c/imx319.c`` for an example.
+> > -
+> > -Frame interval configuration
+> > -----------------------------
+> > -
+> > -There are two different methods for obtaining possibilities for different frame
+> > -intervals as well as configuring the frame interval. Which one to implement
+> > -depends on the type of the device.
+> > -
+> > -Raw camera sensors
+> > -~~~~~~~~~~~~~~~~~~
+> > -
+> > -Instead of a high level parameter such as frame interval, the frame interval is
+> > -a result of the configuration of a number of camera sensor implementation
+> > -specific parameters. Luckily, these parameters tend to be the same for more or
+> > -less all modern raw camera sensors.
+> > -
+> > -The frame interval is calculated using the following equation::
+> > -
+> > -	frame interval = (analogue crop width + horizontal blanking) *
+> > -			 (analogue crop height + vertical blanking) / pixel rate
+> > -
+> > -The formula is bus independent and is applicable for raw timing parameters on
+> > -large variety of devices beyond camera sensors. Devices that have no analogue
+> > -crop, use the full source image size, i.e. pixel array size.
+> > -
+> > -Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > -``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> > -is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> > -the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> > -sub-device. The unit of that control is pixels per second.
+> > -
+> > -Register list based drivers need to implement read-only sub-device nodes for the
+> > -purpose. Devices that are not register list based need these to configure the
+> > -device's internal processing pipeline.
+> > -
+> > -The first entity in the linear pipeline is the pixel array. The pixel array may
+> > -be followed by other entities that are there to allow configuring binning,
+> > -skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
+> > -
+> > -USB cameras etc. devices
+> > -~~~~~~~~~~~~~~~~~~~~~~~~
+> > -
+> > -USB video class hardware, as well as many cameras offering a similar higher
+> > -level interface natively, generally use the concept of frame interval (or frame
+> > -rate) on device level in firmware or hardware. This means lower level controls
+> > -implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
+> > -frame interval on these devices.
+> > -
+> >  Rotation, orientation and flipping
+> >  ----------------------------------
+> >
+> > -Some systems have the camera sensor mounted upside down compared to its natural
+> > -mounting rotation. In such cases, drivers shall expose the information to
+> > -userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> > -<v4l2-camera-sensor-rotation>` control.
+> > -
+> > -Sensor drivers shall also report the sensor's mounting orientation with the
+> > -:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> > -
+> >  Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
+> >  information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
+> >  register the appropriate controls.
+> >
+> > -Sensor drivers that have any vertical or horizontal flips embedded in the
+> > -register programming sequences shall initialize the V4L2_CID_HFLIP and
+> > -V4L2_CID_VFLIP controls with the values programmed by the register sequences.
+> > -The default values of these controls shall be 0 (disabled). Especially these
+> > -controls shall not be inverted, independently of the sensor's mounting
+> > -rotation.
+> > +.. _media-camera-sensor-examples:
+> > +
+> > +Example drivers
+> > +---------------
+> > +
+> > +Features implemented by sensor drivers vary, and depending on the set of
+> > +supported features and other qualities, particular sensor drivers better serve
+> > +the purpose of an example. The following drivers are known to be good examples:
+> > +
+> > +.. flat-table:: Example sensor drivers
+> > +    :header-rows: 0
+> > +    :widths:      1 1 1 2
+> > +
+> > +    * - Driver name
+> > +      - File(s)
+> > +      - Driver type
+> > +      - Example topic
+> > +    * - CCS
+> > +      - ``drivers/media/i2c/ccs/``
+> > +      - Freely configurable
+> > +      - Power management (ACPI and DT), UAPI
+> > +    * - imx219
+> > +      - ``drivers/media/i2c/imx219.c``
+> > +      - Register list based
+> > +      - Power management (DT), UAPI, mode selection
+> > +    * - imx319
+> > +      - ``drivers/media/i2c/imx319.c``
+> > +      - Register list based
+> > +      - Power management (ACPI and DT)
+> > +    * - ov8865
+> > +      - ``drivers/media/i2c/ov8865.c``
+> > +      - Register list based
+> > +      - Power management (ACPI and DT)
+> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > new file mode 100644
+> > index 000000000000..919a50e8b9d9
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > @@ -0,0 +1,104 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +.. _media_using_camera_sensor_drivers:
+> > +
+> > +Using camera sensor drivers
+> > +===========================
+> > +
+> > +This section describes common practices for how the V4L2 sub-device interface is
+> > +used to control the camera sensor drivers.
+> > +
+> > +You may also find :ref:`media_writing_camera_sensor_drivers` useful.
+> > +
+> > +Frame size
+> > +----------
+> > +
+> > +There are two distinct ways to configure the frame size produced by camera
+> > +sensors.
+> > +
+> > +Freely configurable camera sensor drivers
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Freely configurable camera sensor drivers expose the device's internal
+> > +processing pipeline as one or more sub-devices with different cropping and
+> > +scaling configurations. The output size of the device is the result of a series
+> > +of cropping and scaling operations from the device's pixel array's size.
+> > +
+> > +An example of such a driver is the CCS driver.
+> > +
+> > +Register list based drivers
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Register list based drivers generally, instead of able to configure the device
+> > +they control based on user requests, are limited to a number of preset
+> > +configurations that combine a number of different parameters that on hardware
+> > +level are independent. How a driver picks such configuration is based on the
+> > +format set on a source pad at the end of the device's internal pipeline.
+> > +
+> > +Most sensor drivers are implemented this way.
+> > +
+> > +Frame interval configuration
+> > +----------------------------
+> > +
+> > +There are two different methods for obtaining possibilities for different frame
+> > +intervals as well as configuring the frame interval. Which one to implement
+> > +depends on the type of the device.
+> > +
+> > +Raw camera sensors
+> > +~~~~~~~~~~~~~~~~~~
+> > +
+> > +Instead of a high level parameter such as frame interval, the frame interval is
+> > +a result of the configuration of a number of camera sensor implementation
+> > +specific parameters. Luckily, these parameters tend to be the same for more or
+> > +less all modern raw camera sensors.
+> > +
+> > +The frame interval is calculated using the following equation::
+> > +
+> > +	frame interval = (analogue crop width + horizontal blanking) *
+> > +			 (analogue crop height + vertical blanking) / pixel rate
+> > +
+> 
+> Is this even correct ? The above formula mentions the analogue crop sizes,
+> but isn't this the pixel sampling rate on the sensor's pixel array ? isn't it
+
+Yes, it is.
+
+> different from the produced output frame rate which should take into
+> account any binning/skipping step and optional digital crop ? Should the
+
+These happen later in the pipeline.
+
+> visible+blanking sizes should be taken into account instead ? Binned
+> modes are usually faster than non-binned ones, in example...
+
+Good point. How have you calculated the frame rate in libcamera? :-)
+
+The pixel rate control in CCS driver's pixel array sub-device
+indeed indicates the pixel rate in the pixel array, but in at least some drivers
+it's the pixel rate on the bus.
+
+> 
+> > +The formula is bus independent and is applicable for raw timing parameters on
+> > +large variety of devices beyond camera sensors. Devices that have no analogue
+> > +crop, use the full source image size, i.e. pixel array size.
+> 
+> This is also wrong imho. Using the pixel array size would only give
+> you an approximation  of the frame interval of the sensor's frame rate
+> at maximum resolution ?
+
+The formula holds in all cases: what happens later in the sensor's pipeline
+doesn't change the pixel rate. We should add documentation (and probably
+new interface elements, whatever they are) to properly do this for register
+list based drivers with a single sub-device, too.
+
+> 
+> I understand this was already here so this is not strictly related to
+> this patch...
+> 
+> > +
+> > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> > +is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> > +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> > +sub-device. The unit of that control is pixels per second.
+> > +
+> > +Register list based drivers need to implement read-only sub-device nodes for the
+> > +purpose. Devices that are not register list based need these to configure the
+> > +device's internal processing pipeline.
+> 
+> Why are read-only subdev suggested here ? can't a register-based
+> driver can register read-only controls for blankings ?
+
+This is what the text is suggesting, indeed.
+
+> 
+> Again, this was here already.
+> 
+> > +
+> > +The first entity in the linear pipeline is the pixel array. The pixel array may
+> > +be followed by other entities that are there to allow configuring binning,
+> > +skipping, scaling or digital crop, see :ref:`VIDIOC_SUBDEV_G_SELECTION
+> > +<VIDIOC_SUBDEV_G_SELECTION>`.
+> > +
+> > +USB cameras etc. devices
+> > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +USB video class hardware, as well as many cameras offering a similar higher
+> > +level interface natively, generally use the concept of frame interval (or frame
+> > +rate) on device level in firmware or hardware. This means lower level controls
+> > +implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
+> > +frame interval on these devices.
+> > +
+> > +Rotation, orientation and flipping
+> > +----------------------------------
+> > +
+> > +Some systems have the camera sensor mounted upside down compared to its natural
+> > +mounting rotation. In such cases, drivers shall expose the information to
+> > +userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> > +<v4l2-camera-sensor-rotation>` control.
+> > +
+> > +Sensor drivers shall also report the sensor's mounting orientation with the
+> > +:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> > +
+> > +Sensor drivers that have any vertical or horizontal flips embedded in the
+> > +register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
+> > +<v4l2-cid-hflip>` and :ref:`V4L2_CID_VFLIP <v4l2-cid-vflip>` controls with the
+> > +values programmed by the register sequences. The default values of these
+> > +controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> > +independently of the sensor's mounting rotation.
+> > diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> > index 783f92f01a4c..1726f8ec86fa 100644
+> > --- a/Documentation/userspace-api/media/drivers/index.rst
+> > +++ b/Documentation/userspace-api/media/drivers/index.rst
+> > @@ -32,6 +32,7 @@ For more details see the file COPYING in the source distribution of Linux.
+> >  	:numbered:
+> >
+> >  	aspeed-video
+> > +	camera-sensor
+> >  	ccs
+> >  	cx2341x-uapi
+> >  	dw100
+> > diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+> > index 4463fce694b0..57893814a1e5 100644
+> > --- a/Documentation/userspace-api/media/v4l/control.rst
+> > +++ b/Documentation/userspace-api/media/v4l/control.rst
+> > @@ -143,9 +143,13 @@ Control IDs
+> >      recognise the difference between digital and analogue gain use
+> >      controls ``V4L2_CID_DIGITAL_GAIN`` and ``V4L2_CID_ANALOGUE_GAIN``.
+> >
+> > +.. _v4l2-cid-hflip:
+> > +
+> >  ``V4L2_CID_HFLIP`` ``(boolean)``
+> >      Mirror the picture horizontally.
+> >
+> > +.. _v4l2-cid-vflip:
+> > +
+> >  ``V4L2_CID_VFLIP`` ``(boolean)``
+> >      Mirror the picture vertically.
+> >
+> > --
+> > 2.39.2
+> >
+
+-- 
+Regards,
+
+Sakari Ailus
