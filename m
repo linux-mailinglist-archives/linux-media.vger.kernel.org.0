@@ -2,95 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BB4F7AFEBD
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 10:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FBD57AFF19
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 10:56:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230253AbjI0Igw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 04:36:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38254 "EHLO
+        id S230237AbjI0I4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 04:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230162AbjI0IgS (ORCPT
+        with ESMTP id S230177AbjI0I4c (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 04:36:18 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60009CD8
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 01:36:10 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-405621baba7so76556695e9.0
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 01:36:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695803769; x=1696408569; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RP4NFLi1nTGuMaBbBhxBM0a+Xsqfu8L1EJzzk4FIXJw=;
-        b=ojBZ38uOJHR06T/D7UWJ1HsKil5rjwK2iVKDUh82LjLb8HLItnftDR8n3WyC9ArCWo
-         G1p+zJb+C/Is4XqoUltfbA1fGLFRzKtQ0hmSgCnxWRim5IWEQRVTXjfTfj6eh6tM+sjD
-         qPkKC977zz7vXYz+8T9pdb3lwagfj2RMswzaqWAi3Tr9cJaMxeaVcLcjnVj1hNCCRW6x
-         V3IDkqnO0DlnzDgoYbln+97makiXweZ6UIWrsxeObN0kRi+KgscYJhlgifWqw07eKYCU
-         PUewZMpJNN4JW56YRSzYshfGOV0+T0qMo4jum/Um5i4K/BWi6LZbo//+hsYJzqM1uYrJ
-         VDKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695803769; x=1696408569;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RP4NFLi1nTGuMaBbBhxBM0a+Xsqfu8L1EJzzk4FIXJw=;
-        b=qXj0asgPjvcgshjIki23hL0lwFFtL2LyGKUx1jB/ckQrL+k4ZSgN9dHGc4QcL2HQnq
-         oKWiq9j7gCfBc4qA61nPsg1vQ9yQkatxEKbEdFybS739BZqpqgcBLqyxmuoGykN76dFP
-         G9KX60LOJSiB/xMT52Ax0WiZLKb2/kkuxVc3TEachndLEeyLoL9maweKzNk8/lfsKvmn
-         ljLyh8BMsxxDnnVM6WIIGAb3ym316XoZnEWDeBjhUWr94BLfI3DENAKP3LaO0eXUfRUZ
-         xRPGrpQr3cE+cu2r4tHMwQaH7FDX7i01m0loCLVHdKL7uDHJG3hsodd2Bkkew5qwJJ2d
-         WHKA==
-X-Gm-Message-State: AOJu0YyXTLW7xkAn0Dv7zI7mP8gTdZjYuxu7v/OEGxSN5Kjc6jw24qE5
-        Mxce/QuFHc3pVgoW3hdnKkf9cA==
-X-Google-Smtp-Source: AGHT+IE+mnly4WGbql9i2+vMbD8YM5WK4IFFUoPHInOBqXn9QewjEQFn7gUvIdsmbUU2zlTnGqS0LA==
-X-Received: by 2002:a05:600c:ac1:b0:403:272:4414 with SMTP id c1-20020a05600c0ac100b0040302724414mr1509992wmr.0.1695803766941;
-        Wed, 27 Sep 2023 01:36:06 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o7-20020a1c7507000000b004051f8d6207sm17182075wmc.6.2023.09.27.01.36.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 01:36:06 -0700 (PDT)
-Date:   Wed, 27 Sep 2023 11:36:03 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     milkfafa@gmail.com, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org
-Subject: Re: [bug report] media: nuvoton: Add driver for NPCM video capture
- and encoding engine
-Message-ID: <88c78401-a3bf-4996-a703-c2869d3d7d23@kadam.mountain>
-References: <f794bf89-584b-41ff-a021-ab973cae89f8@moroto.mountain>
- <ad3feca0-94da-4b81-b52b-6a893bd07e5c@xs4all.nl>
+        Wed, 27 Sep 2023 04:56:32 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23C51D6
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 01:56:29 -0700 (PDT)
+Received: from [192.168.179.7] ([37.24.11.236]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mi2aH-1rFpPF0YKn-00e3Na; Wed, 27 Sep 2023 10:56:16 +0200
+Message-ID: <918ce2ca-55ff-aff8-ea6c-0c17f566d59d@online.de>
+Date:   Wed, 27 Sep 2023 10:56:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad3feca0-94da-4b81-b52b-6a893bd07e5c@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Content-Language: en-US
+To:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+From:   Max Schulze <max.schulze@online.de>
+Subject: [PATCH] read ov9281 sensor-id in 2-steps in case the firmware locks
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:olbm5KOY3EHfwC+dC1TRZGcoiArhePBk46w65BIwZ81A0R4FMOw
+ Bv42Z+gS+LZ1XnXjs0Mi6pVS4rkrxNd5O+827+Myxr+ExNpKMX5Wkq/DeD0uKGrsASqdX6s
+ 6CER9QeeYlw8noyCKE5hXH1Qn7vUHDIu5Ztzb+Alf8Q+pxzaJOr2fyzjI4+kifnuZ9h+vHg
+ EswEESk7qnaVBuw7XVPPg==
+UI-OutboundReport: notjunk:1;M01:P0:PPPU0Q50hKg=;7TFuVd/Rvec4wfEOoguCcSkIYre
+ FCoJNuL4MOTy99PQL5R74SIWsYdI4OtsrjBPmnjXakRph8USZ/J5A+fVZcnDx+9RjrVk4pIoy
+ rUmoJ6NV19vGFvNT6RozYuTLtmLcs/qhLABeptXFeQ72sykEOA9zzk+1gEoh51NxipAOjUpL+
+ 0ZxLva9vgWbPPNPvilEWcDSo9zkpKxQXwiQXpBDT7Y516e1h3mMFIwkZk1DT61zHa3rFcs8rv
+ pThfGjUfrPBcBtkL3CeeJqF0PmzpIIwIQJIrmgRDSGQ+F7mpHjCci7t+cPIcm5iHPym+7+Qrr
+ kNmcCqrJgk9r2dS/RXxJqXcEFhPCaqHWwQDhoxkwV55n7TLVgdn+wakPCPOnQOSPzW30Y6J4i
+ UAiV/MLUImAo29qSgJi4CgogOi0T1X5C3IAkiHsoSJ7waC7NIJnx/r2S/0abhOl8BmtCXMfak
+ snSihECb6KNmGpWBdFeDK/7mqce4FvHN6+wnMfppsESgmTHxz/mu9KcXlUVtYWJT9YmD1pJc/
+ JUhanPtJlBBn4Wk9dWYTGXsiRMNJhLorLjgaliTf2xgIWSulc/gJvYsIjyXMLlptnHkmMcfbS
+ a3jPoLocDlekvjmAH/Q3xaghz2Pf5owPikGmr23YnAiU7xi5DjQrPTj53YCpX0pm6JFoKTz5v
+ /LYNtApFx3Kw2OEMz8q+suRJglfWz3AgQZDR61ElLgoYhfalN+V/dvhhRLTigAX1lgKcCZyRa
+ 5suWH8BHfVmwbscgt2rB2wHv5Pe3ocCoHWgznheCNeJRHXFqwQIz4TyZIBRjuokQjBBWoSxDz
+ triL+S1TFvJiRv91srtIUJ5D+izjtx/t4emIi6Q3bDGWFq/nlOyViqy3+ob08aGBK5qc8j3b0
+ ptkdiDMVbo2Z5xQ==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 27, 2023 at 10:04:01AM +0200, Hans Verkuil wrote:
-> Hi Dan,
-> 
-> On 26/09/2023 16:23, Dan Carpenter wrote:
-> > Hello Marvin Lin,
-> > 
-> > The patch 70721089985c: "media: nuvoton: Add driver for NPCM video
-> > capture and encoding engine" from Sep 22, 2023 (linux-next), leads to
-> > the following Smatch static checker warning:
-> > 
-> > 	drivers/media/platform/nuvoton/npcm-video.c:1004 npcm_video_raw()
-> > 	warn: sleeping in atomic context
-> 
-> Hmm, why didn't my smatch run see this? Does this check require something
-> special? Does it rely on having run build_kernel_data.sh?
+The ov9281 produced by vision-components does not support 
+auto-incremented reads, so read the id in 2 separate steps 
+to circumvent the error:
+  kernel: ov9282 10-0060: chip id mismatch: 9281!=92ff
+  kernel: ov9282 10-0060: failed to find sensor: -6
 
-Yep.  It relies on build_kernel_data.sh.  Otherwise it that code is all
-released.
 
-regards,
-dan carpenter
+Signed-off-by: Max Schulze <max.schulze@online.de>
+Tested-by: Max Schulze <max.schulze@online.de>
+Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+---
+This was tested on rpi cm4 with two ov9281 at the same time, 
+one from vc, one from inno-maker.
 
+The rpi kernel supported ov9281 out-of-tree until kernel 6.1.
+It carried this change originally made by Dave to support the vc
+sensor. Switching to mainline now broke support for it.
+
+I could not find a single-commit for the original change to which I 
+could link, only squashed ones, i.e.
+
+https://github.com/raspberrypi/linux/commit/eb00efc993d8cd835221255b44e9019a31708abe
+
+ media: i2c: ov9281: Read chip ID via 2 reads
+
+ Vision Components have made an OV9281 module which blocks reading
+ back the majority of registers to comply with NDAs, and in doing
+ so doesn't allow auto-increment register reading as used when
+ reading the chip ID.
+---
+ drivers/media/i2c/ov9282.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+index 068c7449f50e..3b687f6d4581 100644
+--- a/drivers/media/i2c/ov9282.c
++++ b/drivers/media/i2c/ov9282.c
+@@ -1078,13 +1078,16 @@ static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
+ static int ov9282_detect(struct ov9282 *ov9282)
+ {
+ 	int ret;
+-	u32 val;
++	u32 val = 0, id_msb = 0;
+ 
+-	ret = ov9282_read_reg(ov9282, OV9282_REG_ID, 2, &val);
+-	if (ret)
+-		return ret;
++	// some firmware limits auto-increment register writes, so do it separately
++	ret = ov9282_read_reg(ov9282, OV9282_REG_ID + 1, 1, &val);
++	if (!ret)
++		ret = ov9282_read_reg(ov9282, OV9282_REG_ID, 1, &id_msb);
++
++	val |= (id_msb << 8);
+ 
+-	if (val != OV9282_ID) {
++	if (ret || val != OV9282_ID) {
+ 		dev_err(ov9282->dev, "chip id mismatch: %x!=%x",
+ 			OV9282_ID, val);
+ 		return -ENXIO;
+-- 
+2.30.2
