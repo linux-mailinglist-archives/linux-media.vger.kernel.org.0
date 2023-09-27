@@ -2,395 +2,336 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E0F77B099C
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 18:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64BCD7B0A38
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 18:32:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231576AbjI0QHh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 12:07:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40118 "EHLO
+        id S231528AbjI0Qc1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 12:32:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231752AbjI0QHf (ORCPT
+        with ESMTP id S229692AbjI0Qc0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 12:07:35 -0400
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 Sep 2023 09:07:33 PDT
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9A7AEB
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 09:07:33 -0700 (PDT)
+        Wed, 27 Sep 2023 12:32:26 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15DB895
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 09:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695830853; x=1727366853;
+  t=1695832344; x=1727368344;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=v9hVh/N/PK1QIuBFVgck+UMPuDpRb2z8maLdn2itugY=;
-  b=b8QevpCU1KTD7mhvl6jm/qVybZphaatIAxrittYLhJ9Vs8jk7H1NvEZx
-   hRNVVY5gvbqigPQJJZtdOkZc8+Zc9jGpXMLB4NBfdZ6+HnT+Qq+PyxlVy
-   gIr1DK0zLdAV46/EwIYvibJxvM7LwXRYZbW6uZNPLBJ0rz/6ss5Lb8j6p
-   5ghkqQ+UnmFgxRz8c7SX8BVQzvm2yLDHBkgGywPbMrhuJoJJxU6O643/X
-   gvQYPa7iMUKsC8pgLKbSNlDpZQqJylyo7GwlBFnwyhzOjhhwV3MGORgMN
-   5UlSp6e4Bt0gaaHxQki90VspZSwuLuQDMBk+oW9TXAve/6q0ndfkgbs5R
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="3397253"
+  bh=E+GdUb0bnpUYlGKgHDW5xaChAGgcIdtrw/t0kmTCBwI=;
+  b=ZqzRK+NMnuoWPVVTugJ8IIPb37sd/dchQU9bs66SBLMJTzFQFc/df9/I
+   bXIxKQrN7tLqj44T9PZjWkSpMW4lDMQO9KbbWjFaEjQ7E+Pn2iEp0T2BB
+   9MP+SlwYglks21L9PVsAP3Kr44quiWnNqSKYm+FXosQ9zdv4I5eIt3c2y
+   O1hGc6Uv5RPneSxGyX2BXGXW2z8fEqfFfyeiH4I3ujm92xZbrCA56SXPY
+   JEDmKycBGBpSNRc0wRjJEQqqa9sD9RXAVvg+glXjSLzTkEfc9gjrbJHUY
+   55pC+6sybTu58EgLao8zh1fHfRt47zxvD3y5ebqyHbgLqIMlmeivaZx/D
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="412781011"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="3397253"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:06:30 -0700
+   d="scan'208";a="412781011"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:32:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="778586148"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="922850984"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="778586148"
+   d="scan'208";a="922850984"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:06:28 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:32:19 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 92BFE11F967;
-        Wed, 27 Sep 2023 19:06:24 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id C532B11F967;
+        Wed, 27 Sep 2023 19:32:13 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v2 1/1] media: Documentation: Split camera sensor documentation
-Date:   Wed, 27 Sep 2023 19:06:23 +0300
-Message-Id: <20230927160623.399428-1-sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com, hverkuil@xs4all.nl,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>,
+        "Ng, Khai Wen" <khai.wen.ng@intel.com>
+Subject: [PATCH v5 00/26] Generic line based metadata support, internal pads
+Date:   Wed, 27 Sep 2023 19:31:46 +0300
+Message-Id: <20230927163212.402025-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Split camera sensor documentation into user and kernel portions. This
-should make it easier for the user space developers to find the relevant
-documentation.
+Hi folks,
 
-Also add a list of exemplary drivers and add imx219 driver to it, besides
-those that were already mentioned.
+Here are a few patches to add support generic, line based metadata as well
+as internal pads. While the amount of code is not very large, to the
+contrary it is quite small actually IMO, I presume what this is about and
+why it is being proposed requires some explaining.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../driver-api/media/camera-sensor.rst        | 135 ++++++------------
- .../media/drivers/camera-sensor.rst           | 104 ++++++++++++++
- .../userspace-api/media/drivers/index.rst     |   1 +
- .../userspace-api/media/v4l/control.rst       |   4 +
- 4 files changed, 151 insertions(+), 93 deletions(-)
- create mode 100644 Documentation/userspace-api/media/drivers/camera-sensor.rst
+Metadata mbus codes and formats have existed for some time in V4L2. They
+however have been only used by drivers that produce the data itself and
+effectively this metadata has always been statistics of some sort (at
+least when it comes to ISPs). What is different here is that we intend to
+add support for metadata originating from camera sensors.
 
-diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-index 2acc08142a1a..1f32a7e2d858 100644
---- a/Documentation/driver-api/media/camera-sensor.rst
-+++ b/Documentation/driver-api/media/camera-sensor.rst
-@@ -1,8 +1,14 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. _media_writing_camera_sensor_drivers:
-+
- Writing camera sensor drivers
- =============================
- 
-+This document covers the in-kernel APIs only. For the best practices on
-+userspace API implementation in camera sensor drivers, please see
-+:ref:`media_using_camera_sensor_drivers`.
-+
- CSI-2 and parallel (BT.601 and BT.656) busses
- ---------------------------------------------
- 
-@@ -34,7 +40,8 @@ Devicetree
- 
- The preferred way to achieve this is using ``assigned-clocks``,
- ``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
--`clock device tree bindings <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
-+`clock device tree bindings
-+<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
- for more information. The driver then gets the frequency using
- ``clk_get_rate()``.
- 
-@@ -85,9 +92,7 @@ PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
- a bridge driver, instead add runtime PM support to the sensor driver you are
- using and drop its ``.s_power()`` handler.
- 
--See examples of runtime PM handling in e.g. ``drivers/media/i2c/ov8856.c`` and
--``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI and DT
--based systems.
-+Please also see :ref:`examples <media-camera-sensor-examples>`.
- 
- Control framework
- ~~~~~~~~~~~~~~~~~
-@@ -104,99 +109,43 @@ The function returns a non-zero value if it succeeded getting the power count or
- runtime PM was disabled, in either of which cases the driver may proceed to
- access the device.
- 
--Frame size
------------
--
--There are two distinct ways to configure the frame size produced by camera
--sensors.
--
--Freely configurable camera sensor drivers
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--Freely configurable camera sensor drivers expose the device's internal
--processing pipeline as one or more sub-devices with different cropping and
--scaling configurations. The output size of the device is the result of a series
--of cropping and scaling operations from the device's pixel array's size.
--
--An example of such a driver is the CCS driver (see ``drivers/media/i2c/ccs``).
--
--Register list based drivers
--~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--Register list based drivers generally, instead of able to configure the device
--they control based on user requests, are limited to a number of preset
--configurations that combine a number of different parameters that on hardware
--level are independent. How a driver picks such configuration is based on the
--format set on a source pad at the end of the device's internal pipeline.
--
--Most sensor drivers are implemented this way, see e.g.
--``drivers/media/i2c/imx319.c`` for an example.
--
--Frame interval configuration
------------------------------
--
--There are two different methods for obtaining possibilities for different frame
--intervals as well as configuring the frame interval. Which one to implement
--depends on the type of the device.
--
--Raw camera sensors
--~~~~~~~~~~~~~~~~~~
--
--Instead of a high level parameter such as frame interval, the frame interval is
--a result of the configuration of a number of camera sensor implementation
--specific parameters. Luckily, these parameters tend to be the same for more or
--less all modern raw camera sensors.
--
--The frame interval is calculated using the following equation::
--
--	frame interval = (analogue crop width + horizontal blanking) *
--			 (analogue crop height + vertical blanking) / pixel rate
--
--The formula is bus independent and is applicable for raw timing parameters on
--large variety of devices beyond camera sensors. Devices that have no analogue
--crop, use the full source image size, i.e. pixel array size.
--
--Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
--``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
--is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
--the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
--sub-device. The unit of that control is pixels per second.
--
--Register list based drivers need to implement read-only sub-device nodes for the
--purpose. Devices that are not register list based need these to configure the
--device's internal processing pipeline.
--
--The first entity in the linear pipeline is the pixel array. The pixel array may
--be followed by other entities that are there to allow configuring binning,
--skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
--
--USB cameras etc. devices
--~~~~~~~~~~~~~~~~~~~~~~~~
--
--USB video class hardware, as well as many cameras offering a similar higher
--level interface natively, generally use the concept of frame interval (or frame
--rate) on device level in firmware or hardware. This means lower level controls
--implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
--frame interval on these devices.
--
- Rotation, orientation and flipping
- ----------------------------------
- 
--Some systems have the camera sensor mounted upside down compared to its natural
--mounting rotation. In such cases, drivers shall expose the information to
--userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
--<v4l2-camera-sensor-rotation>` control.
--
--Sensor drivers shall also report the sensor's mounting orientation with the
--:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
--
- Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
- information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
- register the appropriate controls.
- 
--Sensor drivers that have any vertical or horizontal flips embedded in the
--register programming sequences shall initialize the V4L2_CID_HFLIP and
--V4L2_CID_VFLIP controls with the values programmed by the register sequences.
--The default values of these controls shall be 0 (disabled). Especially these
--controls shall not be inverted, independently of the sensor's mounting
--rotation.
-+.. _media-camera-sensor-examples:
-+
-+Example drivers
-+---------------
-+
-+Features implemented by sensor drivers vary, and depending on the set of
-+supported features and other qualities, particular sensor drivers better serve
-+the purpose of an example. The following drivers are known to be good examples:
-+
-+.. flat-table:: Example sensor drivers
-+    :header-rows: 0
-+    :widths:      1 1 1 2
-+
-+    * - Driver name
-+      - File(s)
-+      - Driver type
-+      - Example topic
-+    * - CCS
-+      - ``drivers/media/i2c/ccs/``
-+      - Freely configurable
-+      - Power management (ACPI and DT), UAPI
-+    * - imx219
-+      - ``drivers/media/i2c/imx219.c``
-+      - Register list based
-+      - Power management (DT), UAPI, mode selection
-+    * - imx319
-+      - ``drivers/media/i2c/imx319.c``
-+      - Register list based
-+      - Power management (ACPI and DT)
-+    * - ov8865
-+      - ``drivers/media/i2c/ov8865.c``
-+      - Register list based
-+      - Power management (ACPI and DT)
-diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-new file mode 100644
-index 000000000000..919a50e8b9d9
---- /dev/null
-+++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-@@ -0,0 +1,104 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _media_using_camera_sensor_drivers:
-+
-+Using camera sensor drivers
-+===========================
-+
-+This section describes common practices for how the V4L2 sub-device interface is
-+used to control the camera sensor drivers.
-+
-+You may also find :ref:`media_writing_camera_sensor_drivers` useful.
-+
-+Frame size
-+----------
-+
-+There are two distinct ways to configure the frame size produced by camera
-+sensors.
-+
-+Freely configurable camera sensor drivers
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Freely configurable camera sensor drivers expose the device's internal
-+processing pipeline as one or more sub-devices with different cropping and
-+scaling configurations. The output size of the device is the result of a series
-+of cropping and scaling operations from the device's pixel array's size.
-+
-+An example of such a driver is the CCS driver.
-+
-+Register list based drivers
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Register list based drivers generally, instead of able to configure the device
-+they control based on user requests, are limited to a number of preset
-+configurations that combine a number of different parameters that on hardware
-+level are independent. How a driver picks such configuration is based on the
-+format set on a source pad at the end of the device's internal pipeline.
-+
-+Most sensor drivers are implemented this way.
-+
-+Frame interval configuration
-+----------------------------
-+
-+There are two different methods for obtaining possibilities for different frame
-+intervals as well as configuring the frame interval. Which one to implement
-+depends on the type of the device.
-+
-+Raw camera sensors
-+~~~~~~~~~~~~~~~~~~
-+
-+Instead of a high level parameter such as frame interval, the frame interval is
-+a result of the configuration of a number of camera sensor implementation
-+specific parameters. Luckily, these parameters tend to be the same for more or
-+less all modern raw camera sensors.
-+
-+The frame interval is calculated using the following equation::
-+
-+	frame interval = (analogue crop width + horizontal blanking) *
-+			 (analogue crop height + vertical blanking) / pixel rate
-+
-+The formula is bus independent and is applicable for raw timing parameters on
-+large variety of devices beyond camera sensors. Devices that have no analogue
-+crop, use the full source image size, i.e. pixel array size.
-+
-+Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-+``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
-+is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
-+the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
-+sub-device. The unit of that control is pixels per second.
-+
-+Register list based drivers need to implement read-only sub-device nodes for the
-+purpose. Devices that are not register list based need these to configure the
-+device's internal processing pipeline.
-+
-+The first entity in the linear pipeline is the pixel array. The pixel array may
-+be followed by other entities that are there to allow configuring binning,
-+skipping, scaling or digital crop, see :ref:`VIDIOC_SUBDEV_G_SELECTION
-+<VIDIOC_SUBDEV_G_SELECTION>`.
-+
-+USB cameras etc. devices
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+USB video class hardware, as well as many cameras offering a similar higher
-+level interface natively, generally use the concept of frame interval (or frame
-+rate) on device level in firmware or hardware. This means lower level controls
-+implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
-+frame interval on these devices.
-+
-+Rotation, orientation and flipping
-+----------------------------------
-+
-+Some systems have the camera sensor mounted upside down compared to its natural
-+mounting rotation. In such cases, drivers shall expose the information to
-+userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
-+<v4l2-camera-sensor-rotation>` control.
-+
-+Sensor drivers shall also report the sensor's mounting orientation with the
-+:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
-+
-+Sensor drivers that have any vertical or horizontal flips embedded in the
-+register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
-+<v4l2-cid-hflip>` and :ref:`V4L2_CID_VFLIP <v4l2-cid-vflip>` controls with the
-+values programmed by the register sequences. The default values of these
-+controls shall be 0 (disabled). Especially these controls shall not be inverted,
-+independently of the sensor's mounting rotation.
-diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-index 783f92f01a4c..1726f8ec86fa 100644
---- a/Documentation/userspace-api/media/drivers/index.rst
-+++ b/Documentation/userspace-api/media/drivers/index.rst
-@@ -32,6 +32,7 @@ For more details see the file COPYING in the source distribution of Linux.
- 	:numbered:
- 
- 	aspeed-video
-+	camera-sensor
- 	ccs
- 	cx2341x-uapi
- 	dw100
-diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
-index 4463fce694b0..57893814a1e5 100644
---- a/Documentation/userspace-api/media/v4l/control.rst
-+++ b/Documentation/userspace-api/media/v4l/control.rst
-@@ -143,9 +143,13 @@ Control IDs
-     recognise the difference between digital and analogue gain use
-     controls ``V4L2_CID_DIGITAL_GAIN`` and ``V4L2_CID_ANALOGUE_GAIN``.
- 
-+.. _v4l2-cid-hflip:
-+
- ``V4L2_CID_HFLIP`` ``(boolean)``
-     Mirror the picture horizontally.
- 
-+.. _v4l2-cid-vflip:
-+
- ``V4L2_CID_VFLIP`` ``(boolean)``
-     Mirror the picture vertically.
- 
+Camera sensors produce different kinds of metadata, embedded data (usually
+register address--value pairs used to capture the frame, in a more or less
+sensor specific format), histograms (in a very sensor specific format),
+dark pixels etc. The number of these formats is probably going to be about
+as large as image data formats if not larger, as the image data formats
+are much better standardised but a smaller subset of them will be
+supported by V4L2, at least initially but possibly much more in the long
+run.
+
+Having this many device specific formats would be a major problem for all
+the other drivers along that pipeline (not to mention the users of those
+drivers), including bridge (e.g. CSI-2 to parallel) but especially CSI-2
+receiver drivers that have DMA: the poor driver developer would not only
+need to know camera sensor specific formats but to choose the specific
+packing of that format suitable for the DMA used by the hardware. It is
+unlikely many of these would ever get tested while being present on the
+driver API. Also adding new sensors with new embedded data formats would
+involve updating all bridge and CSI-2 receiver drivers. I don't expect
+this to be a workable approach.
+
+Instead what I'm proposing is to use specific metadata formats on the
+sensor devices only, on internal pads (more about those soon) of the
+sensors, only visible in the UAPI, and then generic mbus formats along the
+pipeline and finally generic V4L2 metadata formats on the DMAs (specific
+to bit depth and packing). This would unsnarl the two, defining what data
+there is (specific mbus code) and how that is transported and packed
+(generic mbus codes and V4L2 formats).
+
+The user space would be required to "know" the path of that data from the
+sensor's internal pad to the V4L2 video node. I do not see this as these
+devices require at least some knowledge of the pipeline, i.e. hardware at
+hand. Separating what the data means and how it is packed may even be
+beneficial: it allows separating code that interprets the data (sensor
+internal mbus code) from the code that accesses it (packing).
+
+These formats are in practice line based, meaning that there may be
+padding at the end of the line, depending on the bus as well as the DMA.
+If non-line based formats are needed, it is always possible to set the
+"height" field to 1.
+
+The internal (source) pads are an alternative to source routes [1]. The
+source routes were not universally liked and I do have to say I like
+re-using existing interface concepts (pads and everything you can do with
+pads, including access format, selections etc.) wherever it makes sense,
+instead of duplicating functionality.
+
+Effectively internal source pads behave mostly just like sink pads, but
+they describe a flow of data that originates from a sub-device instead of
+arriving to a sub-device. The SUBDEV_S_ROUTING IOCTLs are used to enable
+and disable routes from internal source pads to sub-device's source pads.
+The subdev format IOCTLs are usable, too, so one can find which subdev
+format is available on given internal source pad.
+
+This set depends on these patches:
+
+<URL:https://lore.kernel.org/linux-media/20230927061829.366107-1-sakari.ailus@linux.intel.com/T/#t>
+
+I've also pushed these here and I'll keep updating the branch, I've also
+included untested OV2740 patches:
+
+<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata>
+
+Questions and comments are most welcome.
+
+Preliminary media-ctl and yavta patches can be found here:
+
+<URL:https://git.retiisi.eu/?p=~sailus/yavta.git;a=shortlog;h=refs/heads/metadata>
+<URL:https://git.retiisi.eu/?p=~sailus/v4l-utils.git;a=shortlog;h=refs/heads/metadata>
+
+I have used IMX219 as an example on routing in a sensor driver in this
+version. I also hope I can add OV2740 support in the next version after
+testing the patches.
+
+[1] <URL:https://lore.kernel.org/linux-media/20220831141357.1396081-20-tomi.valkeinen@ideasonboard.com/>
+
+since v4:
+
+- Add a patch to acquire two sub-device states that may use the same lock.
+
+- Add a patch for CCS driver to remove ccs_get_crop_compose() helper.
+
+- Add a patch for CCS driver moving acquiring and releasing the mutex to
+  the s_stream callback.
+
+- Add a patch for CCS driver to rely on sub-device state locking using a
+  single driver-provided lock.
+
+- Fixed calculating minimum number of routes in copying the routes
+  (thanks, Laurent).
+
+- Moved a label in S_ROUTING handling to make Clang happy (hopefully).
+
+- Fixed setting emb_data_ctrl register for CCS embedded data support.
+
+- Rebase on Laurent's cleanup patches.
+
+- Wrap a few long lines.
+
+- Write in embedded data documentation sensor drivers generally don't
+  allow configuring it.
+
+since v3:
+
+- Separate preparation patches from this set.
+
+- Add a definition for "Data unit", a pixel that is not image data and use
+  it instead in format documentation.
+
+- Fix more numbered lists in dev-subdev.rst.
+
+- Remove a redundant definition for V4L2_META_FMT_GENERIC_CSI2_2_24 ---
+  V4L2_META_FMT_GENERIC_CSI2_12 can be used instead.
+
+- Use "X" instead of "p" to denote padding in format documentation.
+
+- Use IMX219 in examples instead of CCS.
+
+- Document that the generic V4L2 CSI-2 metadata formats use padding
+  defined in CSI-2 spec and packing defined in CCS spec.
+
+- Add patches to align [GS]_ROUTING behaviour with V4L2. This means mainly
+  returning configured routes as part of S_ROUTING as well. "len_routes"
+  field is added to denote the length of the array and having more routes
+  than fits in the array is no longer an error. Also added more reserved
+  fields.
+
+- Added trivial support for S_ROUTING (via G_ROUTING implementation) for
+  use in drivers with static-only routes.
+
+- Added helper functions to obtain mbus format as well as crop and compose
+  rectangles that are streams-independent.
+
+- Added a patch to define generic CSI-2 long packet types.
+
+- Removed MEDIA_BUS_FMT_IS_META() macro. It didn't seem useful in the end.
+
+- Use a single CCS embedded data format. The bit depth can be selected
+  using the meta stream on the source pad.
+
+- Fix mbus code numbers (there were holes due to removed redundant
+  formats).
+
+- Fix generic mbus code documentation (byte was being used instead of
+  bit).
+
+- Fix spelling of "length".
+
+- Added a patch to remove v4l2_subdev_enable_streams_api that disables
+  streams API. This should be merged once libcamera support for streams
+  works nicely.
+
+- Don't use strings in printing frame descriptor flags.
+
+- Warn on string truncation in printing frame descriptor.
+
+since v2:
+
+- Add a better example, with formats.
+
+- Add CCS static data media bus codes.
+
+- Added an example demonstrating the use of internal pads. --- Is the
+  level of detail enough for the purpose?
+
+- Improved documentation.
+
+- Added a macro to tell whether a format is a metadata format.
+  (Documentation could be added.)
+
+- A small ReST syntax fix in the same section.
+
+- Drop leftovers of a patch checking for the INTERNAL_SOURCE flag.
+
+since v1:
+
+- Make the new pad flag just "INTERNAL", requiring either SINK or SOURCE
+  pad flag to accompany it. Removed the union in struct v4l2_subdev_route.
+
+- Add the term "stream" to MC glossary.
+
+- Improved and fixed documentation (according to comments).
+
+- Note these formats are little endian.
+
+- Remove 1X8 from the names of the mbus codes. These formats have generally
+  8 bits per pixel.
+
+- Fix mbus code numbering (had holes in RFC).
+
+- Add new metadata fields to debug prints.
+
+- Fix a minor documentation build issue.
+
+Sakari Ailus (26):
+  media: mc: Add INTERNAL pad flag
+  media: uapi: Add generic serial metadata mbus formats
+  media: uapi: Document which mbus format fields are valid for metadata
+  media: uapi: Add generic 8-bit metadata format definitions
+  media: v4l: Support line-based metadata capture
+  media: uapi: ccs: Add media bus code for MIPI CCS embedded data
+  media: Documentation: ccs: Document routing
+  media: Documentation: Additional streams generally don't harm capture
+  media: Documentation: Document embedded data guidelines for camera
+    sensors
+  media: Documentation: v4l: Document source routes
+  media: Documentation: Document S_ROUTING behaviour
+  media: v4l: subdev: Add helpers for format, crop and compose pointers
+  media: v4l: subdev: Add a function to lock two sub-device states, use
+    it
+  media: v4l: subdev: Move G_ROUTING handling below S_ROUTING
+  media: v4l: subdev: Copy argument back to user also for S_ROUTING
+  media: v4l: subdev: Add len_routes field to struct v4l2_subdev_routing
+  media: v4l: subdev: Return routes set using S_ROUTING
+  media: uapi: Allow a larger number of routes than there's room for
+  media: v4l: subdev: Add trivial set_routing support
+  media: uapi: v4l: subdev: Enable streams API
+  media: ccs: Move ccs_validate_csi_data_format up
+  media: ccs: Support frame descriptors
+  media: ccs: Add support for embedded data stream
+  media: ccs: Remove ccs_get_crop_compose helper
+  media: ccs: Move acquiring and release mutex to set_stream callback
+  media: ccs: Rely on sub-device state locking
+
+ .../media/drivers/camera-sensor.rst           |  28 +
+ .../userspace-api/media/drivers/ccs.rst       |  34 +-
+ .../userspace-api/media/glossary.rst          |  14 +
+ .../media/mediactl/media-types.rst            |   6 +
+ .../userspace-api/media/v4l/dev-meta.rst      |  15 +
+ .../userspace-api/media/v4l/dev-subdev.rst    | 208 ++++-
+ .../userspace-api/media/v4l/meta-formats.rst  |   1 +
+ .../media/v4l/metafmt-generic.rst             | 304 ++++++++
+ .../media/v4l/subdev-formats.rst              | 288 +++++++
+ .../media/v4l/vidioc-enum-fmt.rst             |   7 +
+ .../media/v4l/vidioc-subdev-g-routing.rst     |  40 +-
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ drivers/media/i2c/ccs/ccs-core.c              | 727 +++++++++++++-----
+ drivers/media/i2c/ccs/ccs-quirk.h             |   7 +
+ drivers/media/i2c/ccs/ccs.h                   |  21 +-
+ drivers/media/mc/mc-entity.c                  |  10 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  19 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         | 145 ++--
+ include/media/v4l2-subdev.h                   |  98 +++
+ include/uapi/linux/media-bus-format.h         |  12 +
+ include/uapi/linux/media.h                    |   1 +
+ include/uapi/linux/v4l2-mediabus.h            |  18 +-
+ include/uapi/linux/v4l2-subdev.h              |   8 +-
+ include/uapi/linux/videodev2.h                |  18 +
+ 24 files changed, 1730 insertions(+), 300 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
+
+
+base-commit: ebe6c2f6f0a93e43620c416852ce34f1edab001c
 -- 
 2.39.2
 
