@@ -2,187 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 056FB7AFD95
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 10:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A90A7AFD9B
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 10:06:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbjI0IGK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 04:06:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37960 "EHLO
+        id S230126AbjI0IGq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 04:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbjI0IGI (ORCPT
+        with ESMTP id S230117AbjI0IGm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 04:06:08 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 223EB12A
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 01:06:06 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-5333fb34be3so12222684a12.1
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 01:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695801964; x=1696406764; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s9lhIWUiEHwYDI/ZE1Mrd+/X49I6RpefneqXYBV0K7o=;
-        b=ldLd8GK2hxPdTT50+icZledFOE8HkWRxj9ko2mxp40rjcVmZK2qinsnhIVjdapaGFX
-         UqkEsvMrE8qVbPnU1O/BsbWgcAL7dPNXRfV1A6MdAm53k3dZysf2AAa19kz40r3kDOXa
-         qY746og5F8K4Dig1FzT3fZSH8FvauhLBRY5F7LiTFHto5pxA+Ud6LhutPTkV54oDVfCQ
-         4ZiLTaIQIUdAF+oC+DZ+RV+8TLZXgoDU3BtwMs0W3KMo2H/L7CRRka8sm07jT84GKxii
-         gauWXVdQMGh2hsHm912zYK82lZFWPlvd2SsfKgyeHiVSt2fuuLKM++vLNK6tUom7B3hT
-         zU/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695801964; x=1696406764;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s9lhIWUiEHwYDI/ZE1Mrd+/X49I6RpefneqXYBV0K7o=;
-        b=nm4OiK8RQh7gCvFt7pdmEtoxeUEm1Lqxb35FACC+v0I5AZY8u78M36QGHKh0n8B+1p
-         1p2Xzd5NfDaLaTmHaR4qQ7MPaK0fnwUOTLWvdNEQM1LjYftVeTDru3qbvJbS/Ebajc4Q
-         /e6pdvJiwCkFRHc5nwGXFx2m7bVf0o4yqjU+1IRCup1sqB3KUzTx8CZ++iubA8GSPRB0
-         WeK14Ocm2ArIaGHv6OFRUk0Yw5S10/K1NerF+fblvzWT1Nu0+Ry6QcCbxKp2Ub7AF6y7
-         EE8HnG6KKtFKezwOgtWGiDwYOkIAk5V5cjT/5WAg+KJ5gkPuo7fkw8clTa0Ho1LoXXF8
-         QusA==
-X-Gm-Message-State: AOJu0YxtSL5q8fhS2uN+0tycWKZmpm5Kn9GLW+hmb0RpZFvIKGoxN0JZ
-        d55wYXJXeBgII1a7FRIMtfXuUg==
-X-Google-Smtp-Source: AGHT+IEJHLpBtZHIOgcPBm1iXxyDo1WfxKr99oBFs2g4VeNxtdd/d/vypZAAAShqO3/0yuyisFZMMQ==
-X-Received: by 2002:a17:906:d6:b0:9ae:2f33:4ad0 with SMTP id 22-20020a17090600d600b009ae2f334ad0mr1187387eji.71.1695801964602;
-        Wed, 27 Sep 2023 01:06:04 -0700 (PDT)
-Received: from [192.168.1.162] (host-87-4-82-94.retail.telecomitalia.it. [87.4.82.94])
-        by smtp.gmail.com with ESMTPSA id b18-20020a170906039200b009ae5674825asm8886694eja.47.2023.09.27.01.06.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Sep 2023 01:06:04 -0700 (PDT)
-Message-ID: <2c351ca0-cee4-4c1b-956b-6134ad101a9a@linaro.org>
-Date:   Wed, 27 Sep 2023 10:06:01 +0200
+        Wed, 27 Sep 2023 04:06:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC7B11D
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 01:06:40 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2EF8D20;
+        Wed, 27 Sep 2023 10:04:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1695801897;
+        bh=glJHFlSeTzk2RZMDpluhUQHf1WRgiOanb673Q7paJi8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SJHcfHzh8gl8m0YGO/EmVxYKq4gMNeYD3BLUUUj7dj/frnO0hmQXc/SxBOcirS6dB
+         IaxfGco18xuyAeke52S9jfk7//aZFpHkvNfLoYuOvzpew9xbPmwx33I/tTFrvwOpkO
+         NxBwh+3nwzElJWBrIHzkbU9SZze90A51nxMs9+qc=
+Date:   Wed, 27 Sep 2023 11:06:47 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>
+Subject: Re: [PATCH v6 13/13] media: Add MIPI CSI-2 generic long packet type
+ definition
+Message-ID: <20230927080647.GP5854@pendragon.ideasonboard.com>
+References: <20230927064120.367561-1-sakari.ailus@linux.intel.com>
+ <20230927064120.367561-14-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] dt-bindings: media: imx-jpeg: Assign slot for imx
- jpeg encoder/decoder
-Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mirela.rabulea@oss.nxp.com,
-        robh+dt@kernel.org, shawnguo@kernel.org
-Cc:     krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
-        linux-imx@nxp.com, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230926101000.13392-1-ming.qian@nxp.com>
- <20230926101000.13392-2-ming.qian@nxp.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20230926101000.13392-2-ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230927064120.367561-14-sakari.ailus@linux.intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/09/2023 12:10, Ming Qian wrote:
-> There are total 4 slots available in the IP, and we only need to use one
-> slot in one os, assign a single slot, configure interrupt and power
-> domain only for 1 slot, not for the all 4 slots.
+Hi Sakari,
+
+Thank you for the patch.
+
+On Wed, Sep 27, 2023 at 09:41:20AM +0300, Sakari Ailus wrote:
+> Add a definition for MIPI CSI-2 generic long packet types. The generic
+> long packet types are numbered from 1 to 4.
 > 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
-> v4
-> - improve commit message
-> - don't make an ABI break
-> v3
-> - add vender prefix, change property slot to nxp,slot
-> - add type for property slot
+>  include/media/mipi-csi2.h | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->  .../bindings/media/nxp,imx8-jpeg.yaml         | 45 +++++++++----------
->  1 file changed, 21 insertions(+), 24 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> index 3d9d1db37040..4bcfc815c894 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> @@ -32,19 +32,26 @@ properties:
->      maxItems: 1
->  
->    interrupts:
-> -    description: |
-> -      There are 4 slots available in the IP, which the driver may use
-> -      If a certain slot is used, it should have an associated interrupt
-> -      The interrupt with index i is assumed to be for slot i
-> -    minItems: 1               # At least one slot is needed by the driver
-> -    maxItems: 4               # The IP has 4 slots available for use
-> +    description:
-> +      Interrupt number for slot
-> +    maxItems: 1
->  
->    power-domains:
->      description:
->        List of phandle and PM domain specifier as documented in
->        Documentation/devicetree/bindings/power/power_domain.txt
-> -    minItems: 2               # Wrapper and 1 slot
-> -    maxItems: 5               # Wrapper and 4 slots
-> +    minItems: 1               # VPUMIX
-> +    maxItems: 2               # Wrapper and 1 slot
-> +
-> +  nxp,slot:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Integer number of slot index used. There are 4 slots available in the IP,
-> +      and driver can use a certain slot, it should have an associated interrupt
-> +      and power-domain. In theory, it supports 4 os or vm. If not specified, 0
-> +      is used by default.
-> +    minimum: 0
-> +    maximum: 3
+> diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
+> index c3d8f12234b1..1503c3fab1fe 100644
+> --- a/include/media/mipi-csi2.h
+> +++ b/include/media/mipi-csi2.h
+> @@ -19,6 +19,7 @@
+>  #define MIPI_CSI2_DT_NULL		0x10
+>  #define MIPI_CSI2_DT_BLANKING		0x11
+>  #define MIPI_CSI2_DT_EMBEDDED_8B	0x12
+> +#define MIPI_CSI2_DT_GENERIC_LONG(n)	(0x12 + (n))	/* 1..4 */
 
-NAK, you still did not answer concerns why this is needed and justified.
-I keep asking and you keep ignoring...
+I would write
 
-Best regards,
-Krzysztof
+#define MIPI_CSI2_DT_GENERIC_LONG(n)	(0x13 + (n) - 1)	/* 1..4 */
 
+to make it clear there's no overlap with MIPI_CSI2_DT_EMBEDDED_8B. Up to
+you.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  #define MIPI_CSI2_DT_YUV420_8B		0x18
+>  #define MIPI_CSI2_DT_YUV420_10B		0x19
+>  #define MIPI_CSI2_DT_YUV420_8B_LEGACY	0x1a
+
+-- 
+Regards,
+
+Laurent Pinchart
