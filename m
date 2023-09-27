@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 686887AFB81
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 08:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 952D67AFB8A
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 08:58:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjI0G5x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 02:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56006 "EHLO
+        id S229934AbjI0G6A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 02:58:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbjI0G5v (ORCPT
+        with ESMTP id S229930AbjI0G5z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 02:57:51 -0400
+        Wed, 27 Sep 2023 02:57:55 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D22E5A3
-        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 23:57:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D37DFC
+        for <linux-media@vger.kernel.org>; Tue, 26 Sep 2023 23:57:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695797870; x=1727333870;
+  t=1695797874; x=1727333874;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=p71jLwyaJ+cRA4wPi0IX6Mx4yaKEMlNV4iXy/0ENXCg=;
-  b=eL/L/63Mz9VXpc+CNwgMe0T7MG9ZhWoxqGfXm8BKTjmIzZjkJbOYPzVm
-   wIc5pGSEcboGFPW7TWHysSgPpVkkqi8W5vV0ls4flREyyA56tNl4Is8GG
-   Cf5nD9VTHsYEvn0mulWfrEYTE5eAh0oii8xn55+WPYihlEof3kJe+czeU
-   LtL6D3kKE0Bo0mqhLqqlOmTXQxXjb0gWezYMjFs1+BmBW+nbzIAvDpYHH
-   rjkdKOptgcY9LtgXnd0JhvvE2jKWJgtY5gujWn6I4u1EGG+mQdR9nXeRB
-   OpkCqsDagL4563MV2RX7HXBuM8oGcUXk+1mTCO1SlZ7yNu6YAW5MjmT6x
+  bh=B7CGOXcmzXMCSrQFQN9qX0MwRGJpWxjTVvMfZvbuT2c=;
+  b=TGZnbgQ83Rbp+k3a0ICn5JDppvBeGph4Y3sxHcD6SCj8eIzIhGE0v6Wi
+   4zoh1GKAuXtVKiOqJUF5syhxikm/ZH8Q8AYF0SPfh8YYhovNDCkK/lfng
+   YRcxxU4M+lXwDz7Qx1K2IAMd4+xfFPiH0RSmKEmkK4JlrkFFKZ4Llkr1i
+   2FknqzJnaYlT377FB+vjlN0w4bOMpKd0QOlUAp/Vspf/LWDd3CKQwlmlS
+   s+TUi0j0vvW4tgrXNxA6/5dwDBtnP0cxzzX1p3XH+pF8zPl+PmY1i1wTu
+   sa5sYvkcTZ/eIk72ncBdhWQcyEZd125rYob2j2fLA7GjysGddeZeCTgaI
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="372083327"
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="372083346"
 X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="372083327"
+   d="scan'208";a="372083346"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 23:57:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="892489894"
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="892489902"
 X-IronPort-AV: E=Sophos;i="6.03,179,1694761200"; 
-   d="scan'208";a="892489894"
+   d="scan'208";a="892489902"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 23:56:41 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id E601E120F14;
-        Wed, 27 Sep 2023 09:41:40 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 51A97120F2C;
+        Wed, 27 Sep 2023 09:41:42 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com,
@@ -51,9 +51,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Martin Kepplinger <martink@posteo.de>
-Subject: [PATCH v6 12/13] media: mc: Check pad flag validity
-Date:   Wed, 27 Sep 2023 09:41:19 +0300
-Message-Id: <20230927064120.367561-13-sakari.ailus@linux.intel.com>
+Subject: [PATCH v6 13/13] media: Add MIPI CSI-2 generic long packet type definition
+Date:   Wed, 27 Sep 2023 09:41:20 +0300
+Message-Id: <20230927064120.367561-14-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230927064120.367561-1-sakari.ailus@linux.intel.com>
 References: <20230927064120.367561-1-sakari.ailus@linux.intel.com>
@@ -69,56 +69,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Check the validity of pad flags on entity init. Exactly one of the flags
-must be set.
+Add a definition for MIPI CSI-2 generic long packet types. The generic
+long packet types are numbered from 1 to 4.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/mc/mc-entity.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ include/media/mipi-csi2.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 83468d4a440b..543a392f8635 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -197,6 +197,7 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
- 	struct media_device *mdev = entity->graph_obj.mdev;
- 	struct media_pad *iter;
- 	unsigned int i = 0;
-+	int ret = 0;
- 
- 	if (num_pads >= MEDIA_ENTITY_MAX_PADS)
- 		return -E2BIG;
-@@ -210,15 +211,27 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
- 	media_entity_for_each_pad(entity, iter) {
- 		iter->entity = entity;
- 		iter->index = i++;
-+
-+		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
-+					     MEDIA_PAD_FL_SOURCE)) != 1) {
-+			ret = -EINVAL;
-+			break;
-+		}
-+
- 		if (mdev)
- 			media_gobj_create(mdev, MEDIA_GRAPH_PAD,
- 					  &iter->graph_obj);
- 	}
- 
-+	if (ret && mdev) {
-+		media_entity_for_each_pad(entity, iter)
-+			media_gobj_destroy(&iter->graph_obj);
-+	}
-+
- 	if (mdev)
- 		mutex_unlock(&mdev->graph_mutex);
- 
--	return 0;
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(media_entity_pads_init);
- 
+diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
+index c3d8f12234b1..1503c3fab1fe 100644
+--- a/include/media/mipi-csi2.h
++++ b/include/media/mipi-csi2.h
+@@ -19,6 +19,7 @@
+ #define MIPI_CSI2_DT_NULL		0x10
+ #define MIPI_CSI2_DT_BLANKING		0x11
+ #define MIPI_CSI2_DT_EMBEDDED_8B	0x12
++#define MIPI_CSI2_DT_GENERIC_LONG(n)	(0x12 + (n))	/* 1..4 */
+ #define MIPI_CSI2_DT_YUV420_8B		0x18
+ #define MIPI_CSI2_DT_YUV420_10B		0x19
+ #define MIPI_CSI2_DT_YUV420_8B_LEGACY	0x1a
 -- 
 2.39.2
 
