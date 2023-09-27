@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E324D7B0A44
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 18:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85C187B0A40
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 18:32:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231848AbjI0Qcg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 12:32:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50030 "EHLO
+        id S231895AbjI0Qch (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 12:32:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231657AbjI0Qca (ORCPT
+        with ESMTP id S231757AbjI0Qcf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 12:32:30 -0400
+        Wed, 27 Sep 2023 12:32:35 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8878191
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 09:32:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F610F3
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 09:32:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695832346; x=1727368346;
+  t=1695832350; x=1727368350;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=kn0wzA+uAt7xFQzvaxyZOJ5t8GgKMQyISUwz6L8y9gw=;
-  b=RcTw8fK4Q1vNJ/qUKpcU2b826jsEdObu7GhNPq7RYVnHggxoebS1zX/W
-   OfQ8zwwwWL32poLiaqtsGlF+HaLmhVaAUfashL0GljN2TnADA/kMnXA3n
-   fpUQZLrqFi/yyi4yrWP7gNhS1ymyJsB1f7rpnbLYQ4uxYiVmyBVUUHuUC
-   VMB8k0qwmcMYzHXZtwkogRHpYvafx1EaQLz189gYqGz3z7CCZPVqMUlyR
-   KzwopSfYYTod2L+FcCMyLrWkRg5cBVIb/cPTRVoc5DTCLVkv6h/84Plq1
-   tG3IYZgYl7PqQ0uDsQVpNkEH+Vmn0o4QzLKgF6OSfDGEFmg5ngv2Es4ac
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="412781024"
+  bh=PrIYsWsx/AHSo5nDA3v2jd2fa1WTup9gwXhDzEGlrV8=;
+  b=ZBjzodVektyAYyi2T5xpZwtUmNaPDOIxA56v6in3mIZwpQ/i7ZDZ5jgH
+   qmZkuKEhcW5XGHtBZJbOfERS78s9RmbLL997e51uV8Hd+JKVMPqRLSK7n
+   pa5KwJOx4nQLLOllxjmACVmMJQ4W4S2B5ID9eGGMnIcVu8NUPeQLI1vxt
+   +I3XeGCGYxnlIuNEzUWV9bH8uYJzJSTzpUAzYtE7EBqNYrt1rqcJJ0192
+   offU7gUTYlejqLc+pMRudAV18DiEkELM8aJrM47UO5mvI0+afPokZRpe2
+   THNF3k2JORQhJjWokWlR1hzvRrkU7jqGM47OXJyfCSOmptZeOe6k6N3AC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="412781044"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="412781024"
+   d="scan'208";a="412781044"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:32:26 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:32:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="922850987"
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="922850994"
 X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
-   d="scan'208";a="922850987"
+   d="scan'208";a="922850994"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:32:22 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 09:32:26 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id F401E11FBCE;
-        Wed, 27 Sep 2023 19:32:17 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 8FFBB12035C;
+        Wed, 27 Sep 2023 19:32:21 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -51,9 +51,9 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH v5 01/26] media: mc: Add INTERNAL pad flag
-Date:   Wed, 27 Sep 2023 19:31:47 +0300
-Message-Id: <20230927163212.402025-2-sakari.ailus@linux.intel.com>
+Subject: [PATCH v5 02/26] media: uapi: Add generic serial metadata mbus formats
+Date:   Wed, 27 Sep 2023 19:31:48 +0300
+Message-Id: <20230927163212.402025-3-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230927163212.402025-1-sakari.ailus@linux.intel.com>
 References: <20230927163212.402025-1-sakari.ailus@linux.intel.com>
@@ -69,108 +69,327 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Internal source pads will be used as routing endpoints in V4L2
-[GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
+Add generic serial metadata mbus formats. These formats describe data
+width and packing but not the content itself. The reason for specifying
+such formats is that the formats as such are fairly device specific but
+they are still handled by CSI-2 receiver drivers that should not be aware
+of device specific formats. What makes generic metadata formats possible
+is that these formats are parsed by software only, after capturing the
+data to system memory.
 
-Also prevent creating links to pads that have been flagged as internal and
-initialising source pads with internal flag set.
+Also add a definition for "Data unit" to cover what is essentially a pixel
+but is not image data.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- Documentation/userspace-api/media/glossary.rst         |  6 ++++++
- .../userspace-api/media/mediactl/media-types.rst       |  6 ++++++
- drivers/media/mc/mc-entity.c                           | 10 ++++++++--
- include/uapi/linux/media.h                             |  1 +
- 4 files changed, 21 insertions(+), 2 deletions(-)
+ .../userspace-api/media/glossary.rst          |   8 +
+ .../media/v4l/subdev-formats.rst              | 258 ++++++++++++++++++
+ include/uapi/linux/media-bus-format.h         |   9 +
+ 3 files changed, 275 insertions(+)
 
 diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
-index 96a360edbf3b..f7b99a4527c7 100644
+index f7b99a4527c7..65217b8a44cc 100644
 --- a/Documentation/userspace-api/media/glossary.rst
 +++ b/Documentation/userspace-api/media/glossary.rst
-@@ -173,6 +173,12 @@ Glossary
- 	An integrated circuit that integrates all components of a computer
- 	or other electronic systems.
+@@ -25,6 +25,14 @@ Glossary
  
-+_media-glossary-stream:
-+    Stream
-+	A distinct flow of data (image data or metadata) over a media pipeline
-+	from source to sink. A source may be e.g. an image sensor and a sink
-+	e.g. a memory buffer.
+ 	See :ref:`cec`.
+ 
++.. _media-glossary-data-unit:
 +
-     V4L2 API
- 	**V4L2 userspace API**
++    Data unit
++
++	Unit of data transported by a bus. On parallel buses, this is called a
++	sample while on serial buses the data unit is logical. If the data unit
++	is image data, it may also be called a pixel.
++
+     Device Driver
+ 	Part of the Linux Kernel that implements support for a hardware
+ 	component.
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index a3a35eeed708..c54bf834d839 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -8234,3 +8234,261 @@ The following table lists the existing metadata formats.
+ 	both sides of the link and the bus format is a fixed
+ 	metadata format that is not configurable from userspace.
+ 	Width and height will be set to 0 for this format.
++
++Generic Serial Metadata Formats
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Generic serial metadata formats are used on serial buses where the actual data
++content is more or less device specific but the data is transmitted and received
++by multiple devices that do not process the data in any way, simply writing
++it to system memory for processing in software at the end of the pipeline.
++
++The more specific variant describing the actual data is used on the internal
++source pad of the originating sub-device.
++
++"b" in an array cell signifies a byte of data, followed by the number of the bit
++and finally the bit number in subscript. "X" indicates a padding bit.
++
++.. _media-bus-format-generic-meta:
++
++.. cssclass: longtable
++
++.. flat-table:: Generic Serial Metadata Formats
++    :header-rows:  2
++    :stub-columns: 0
++
++    * - Identifier
++      - Code
++      -
++      - :cspan:`23` Data organization within bus ``Data unit
++	<media-glossary-data-unit>``
++    * -
++      -
++      - Bit
++      - 23
++      - 22
++      - 21
++      - 20
++      - 19
++      - 18
++      - 17
++      - 16
++      - 15
++      - 14
++      - 13
++      - 12
++      - 11
++      - 10
++      - 9
++      - 8
++      - 7
++      - 6
++      - 5
++      - 4
++      - 3
++      - 2
++      - 1
++      - 0
++    * .. _MEDIA-BUS-FMT-META-8:
++
++      - MEDIA_BUS_FMT_META_8
++      - 0x8001
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      - b0\ :sub:`7`
++      - b0\ :sub:`6`
++      - b0\ :sub:`5`
++      - b0\ :sub:`4`
++      - b0\ :sub:`3`
++      - b0\ :sub:`2`
++      - b0\ :sub:`1`
++      - b0\ :sub:`0`
++    * .. _MEDIA-BUS-FMT-META-10:
++
++      - MEDIA_BUS_FMT_META_10
++      - 0x8002
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      - b0\ :sub:`7`
++      - b0\ :sub:`6`
++      - b0\ :sub:`5`
++      - b0\ :sub:`4`
++      - b0\ :sub:`3`
++      - b0\ :sub:`2`
++      - b0\ :sub:`1`
++      - b0\ :sub:`0`
++      - X
++      - X
++    * .. _MEDIA-BUS-FMT-META-12:
++
++      - MEDIA_BUS_FMT_META_12
++      - 0x8003
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      - b0\ :sub:`7`
++      - b0\ :sub:`6`
++      - b0\ :sub:`5`
++      - b0\ :sub:`4`
++      - b0\ :sub:`3`
++      - b0\ :sub:`2`
++      - b0\ :sub:`1`
++      - b0\ :sub:`0`
++      - X
++      - X
++      - X
++      - X
++    * .. _MEDIA-BUS-FMT-META-14:
++
++      - MEDIA_BUS_FMT_META_14
++      - 0x8004
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      - b0\ :sub:`7`
++      - b0\ :sub:`6`
++      - b0\ :sub:`5`
++      - b0\ :sub:`4`
++      - b0\ :sub:`3`
++      - b0\ :sub:`2`
++      - b0\ :sub:`1`
++      - b0\ :sub:`0`
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++    * .. _MEDIA-BUS-FMT-META-16:
++
++      - MEDIA_BUS_FMT_META_16
++      - 0x8005
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      -
++      - b0\ :sub:`7`
++      - b0\ :sub:`6`
++      - b0\ :sub:`5`
++      - b0\ :sub:`4`
++      - b0\ :sub:`3`
++      - b0\ :sub:`2`
++      - b0\ :sub:`1`
++      - b0\ :sub:`0`
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++    * .. _MEDIA-BUS-FMT-META-20:
++
++      - MEDIA_BUS_FMT_META_20
++      - 0x8006
++      -
++      -
++      -
++      -
++      -
++      - b0\ :sub:`7`
++      - b0\ :sub:`6`
++      - b0\ :sub:`5`
++      - b0\ :sub:`4`
++      - b0\ :sub:`3`
++      - b0\ :sub:`2`
++      - b0\ :sub:`1`
++      - b0\ :sub:`0`
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++    * .. _MEDIA-BUS-FMT-META-24:
++
++      - MEDIA_BUS_FMT_META_24
++      - 0x8007
++      -
++      - b0\ :sub:`7`
++      - b0\ :sub:`6`
++      - b0\ :sub:`5`
++      - b0\ :sub:`4`
++      - b0\ :sub:`3`
++      - b0\ :sub:`2`
++      - b0\ :sub:`1`
++      - b0\ :sub:`0`
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
++      - X
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index a03c543cb072..9ee031397372 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -173,4 +173,13 @@
+  */
+ #define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
  
-diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-index 0ffeece1e0c8..28941da27790 100644
---- a/Documentation/userspace-api/media/mediactl/media-types.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-@@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
- .. _MEDIA-PAD-FL-SINK:
- .. _MEDIA-PAD-FL-SOURCE:
- .. _MEDIA-PAD-FL-MUST-CONNECT:
-+.. _MEDIA-PAD-FL-INTERNAL:
- 
- .. flat-table:: Media pad flags
-     :header-rows:  0
-@@ -382,6 +383,11 @@ Types and flags used to represent the media graph elements
- 	  when this flag isn't set; the absence of the flag doesn't imply
- 	  there is none.
- 
-+    *  -  ``MEDIA_PAD_FL_INTERNAL``
-+       -  The internal flag indicates an internal pad that has no external
-+	  connections. Such a pad shall not be connected with a link. The
-+	  internal flag indicates that the :ref:``stream
-+	  <media-glossary-stream>`` either starts or ends in the entity.
- 
- One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
- must be set for every pad.
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 543a392f8635..f5f290781021 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -213,7 +213,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
- 		iter->index = i++;
- 
- 		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
--					     MEDIA_PAD_FL_SOURCE)) != 1) {
-+					     MEDIA_PAD_FL_SOURCE)) != 1 ||
-+		    (iter->flags & MEDIA_PAD_FL_INTERNAL &&
-+		     !(iter->flags & MEDIA_PAD_FL_SINK))) {
- 			ret = -EINVAL;
- 			break;
- 		}
-@@ -1075,7 +1077,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
- 
- 	for (i = 0; i < entity->num_pads; i++) {
- 		if ((entity->pads[i].flags &
--		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
-+		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
-+		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
- 			continue;
- 
- 		if (entity->pads[i].sig_type == sig_type)
-@@ -1100,6 +1103,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
- 		return -EINVAL;
- 	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
- 		return -EINVAL;
-+	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL) ||
-+	    WARN_ON(source->pads[sink_pad].flags & MEDIA_PAD_FL_INTERNAL))
-+		return -EINVAL;
- 
- 	link = media_add_link(&source->links);
- 	if (link == NULL)
-diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-index 1c80b1d6bbaf..80cfd12a43fc 100644
---- a/include/uapi/linux/media.h
-+++ b/include/uapi/linux/media.h
-@@ -208,6 +208,7 @@ struct media_entity_desc {
- #define MEDIA_PAD_FL_SINK			(1U << 0)
- #define MEDIA_PAD_FL_SOURCE			(1U << 1)
- #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
-+#define MEDIA_PAD_FL_INTERNAL			(1U << 3)
- 
- struct media_pad_desc {
- 	__u32 entity;		/* entity ID */
++/* Generic line based metadata formats for serial buses. Next is 0x8008. */
++#define MEDIA_BUS_FMT_META_8			0x8001
++#define MEDIA_BUS_FMT_META_10			0x8002
++#define MEDIA_BUS_FMT_META_12			0x8003
++#define MEDIA_BUS_FMT_META_14			0x8004
++#define MEDIA_BUS_FMT_META_16			0x8005
++#define MEDIA_BUS_FMT_META_20			0x8006
++#define MEDIA_BUS_FMT_META_24			0x8007
++
+ #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
 -- 
 2.39.2
 
