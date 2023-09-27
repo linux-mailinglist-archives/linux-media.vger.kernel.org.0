@@ -2,71 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B7417AFBFF
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 09:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC2387AFD87
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 10:04:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbjI0H0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 03:26:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36646 "EHLO
+        id S230024AbjI0IEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 04:04:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjI0H0k (ORCPT
+        with ESMTP id S229981AbjI0IEF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 03:26:40 -0400
+        Wed, 27 Sep 2023 04:04:05 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67595BF;
-        Wed, 27 Sep 2023 00:26:38 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C26B1C433C8;
-        Wed, 27 Sep 2023 07:26:34 +0000 (UTC)
-Message-ID: <d774c0e4-5ab2-4d3e-ae87-eb311aeaa1c2@xs4all.nl>
-Date:   Wed, 27 Sep 2023 09:26:33 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78BD6B3
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 01:04:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58965C433C7;
+        Wed, 27 Sep 2023 08:04:03 +0000 (UTC)
+Message-ID: <ad3feca0-94da-4b81-b52b-6a893bd07e5c@xs4all.nl>
+Date:   Wed, 27 Sep 2023 10:04:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/14] media: medkatek: vcodec: set secure mode to decoder
- driver
+Subject: Re: [bug report] media: nuvoton: Add driver for NPCM video capture
+ and encoding engine
 Content-Language: en-US, nl
-To:     Jeffrey Kardatzke <jkardatzke@google.com>
-Cc:     =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>,
-        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "frkoenig@chromium.org" <frkoenig@chromium.org>,
-        "stevecho@chromium.org" <stevecho@chromium.org>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        "nhebert@chromium.org" <nhebert@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "hsinyi@chromium.org" <hsinyi@chromium.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "nfraprado@collabora.com" <nfraprado@collabora.com>
-References: <20230911125936.10648-1-yunfei.dong@mediatek.com>
- <20230911125936.10648-13-yunfei.dong@mediatek.com>
- <1df3e79b84933dda0313d0d9719220dbc06c9022.camel@collabora.com>
- <d4cedcb0-32ed-495d-a8cd-a635d5105824@xs4all.nl>
- <5307203d79c0d90cc742a315bb161fa796b9960f.camel@mediatek.com>
- <bafc37e8-96e8-41c0-b805-c6477f0d7c4a@xs4all.nl>
- <CA+ddPcN6EaFERC60_Z_-ZmWzqyUEwxiDCZwt_U6Y-gpaAu76tA@mail.gmail.com>
- <ff7aa575-c820-4dfa-853f-77438b8b149a@xs4all.nl>
- <b7d661637eacbda3e83d192b1126fc3970c4f50d.camel@collabora.com>
- <c3d14f64-bf04-46b9-ac7b-af7ef9014335@xs4all.nl>
- <00302ac675af858eb11d8398f100921af806bc30.camel@mediatek.com>
- <3e053387-4ba6-49bc-a59a-46854e0a7c26@xs4all.nl>
- <CA+ddPcOaCKq5Nd_3eWwJ3=oAf=5t-Z+w51NqapXN8VBuvbTw3g@mail.gmail.com>
- <71cadec5-06df-4490-9b06-e3af6bb43498@xs4all.nl>
- <CA+ddPcN0ivYa+vfvs-8PDpkDFkC=1gkM6fkeP7kE8Wqbi1w+dw@mail.gmail.com>
- <CA+ddPcMX=6ek-EVRMxJcRfZxRuLTGL3A-jeeNaifNF0E5AvVHw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CA+ddPcMX=6ek-EVRMxJcRfZxRuLTGL3A-jeeNaifNF0E5AvVHw@mail.gmail.com>
+To:     Dan Carpenter <dan.carpenter@linaro.org>, milkfafa@gmail.com
+Cc:     linux-media@vger.kernel.org, openbmc@lists.ozlabs.org
+References: <f794bf89-584b-41ff-a021-ab973cae89f8@moroto.mountain>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
+ BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
+ 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
+ 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
+ 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
+ +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
+ OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
+ 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
+ wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
+ qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
+ vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
+ 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
+ IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
+ KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
+ UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
+ c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
+ AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
+ Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
+ KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
+ gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
+ sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
+ UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
+In-Reply-To: <f794bf89-584b-41ff-a021-ab973cae89f8@moroto.mountain>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -76,244 +83,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/09/2023 22:59, Jeffrey Kardatzke wrote:
-> Hans,
+Hi Dan,
+
+On 26/09/2023 16:23, Dan Carpenter wrote:
+> Hello Marvin Lin,
 > 
-> I've been looking through the v4l2/vbuf2 code to get an idea of the
-> details for implementing a new memory type for secure buffers.  What
-> it comes down to essentially is that it would behave just like
-> V4L2_MEMORY_DMABUF, but then there would be an extra check in
-> __prepare_dmabuf (in videobuf2-core.c) when the memory type is SECURE
-> to ensure that it is actually from a secure dma-buf allocation.  So
-> I'm thinking an alternate solution might be cleaner so we don't have
-> two memory types that are handled nearly identically in most of the
-> code. What do you think about a new memory flag like
-> V4L2_MEMORY_FLAG_SECURE?  This would be set in vb2_queue struct like
-> the other existing memory flag. Then when it gets into
-> __prepare_dmabuf and invokes attach_dmabuf on each buffer...that call
-> could then check for the existence of that flag, and if it's there it
-> could validate it is actually secure memory.  Then in various other
-> dmabuf vb2_mem_ops (maybe alloc, get_userptr, vaddr and mmap) those
-> could also check for the secure flag, and if present return an
-> error/null.  Then also in the driver specific vb2_ops for queue_setup,
-> the MTK driver could recognize the flag there and then configure
-> itself for secure mode.
+> The patch 70721089985c: "media: nuvoton: Add driver for NPCM video
+> capture and encoding engine" from Sep 22, 2023 (linux-next), leads to
+> the following Smatch static checker warning:
 > 
-> How does that sound as an overall strategy?
+> 	drivers/media/platform/nuvoton/npcm-video.c:1004 npcm_video_raw()
+> 	warn: sleeping in atomic context
 
-Yes, I actually had the same thought.
-
-You would also need a new capability: V4L2_BUF_CAP_SUPPORTS_SECURE_MEMORY
-
-It makes more sense than creating a new V4L2_MEMORY_ type, and it still
-is handled at the right place (creating the buffers).
+Hmm, why didn't my smatch run see this? Does this check require something
+special? Does it rely on having run build_kernel_data.sh?
 
 Regards,
 
 	Hans
 
 > 
-> Cheers,
-> Jeff
+> drivers/media/platform/nuvoton/npcm-video.c
+>     998 static unsigned int npcm_video_raw(struct npcm_video *video, int index, void *addr)
+>     999 {
+>     1000         unsigned int width = video->active_timings.width;
+>     1001         unsigned int height = video->active_timings.height;
+>     1002         unsigned int i, len, offset, bytes = 0;
+>     1003 
+> --> 1004         video->rect[index] = npcm_video_add_rect(video, index, 0, 0, width, height);
+>                                       ^^^^^^^^^^^^^^^^^^^
+> This function does a sleeping allocation (GFP_KERNEL).  However
+> npcm_video_irq() is holding spin_lock(&video->lock); so this is a
+> sleeping in atomic bug.
 > 
-> On Mon, Sep 25, 2023 at 9:51 AM Jeffrey Kardatzke <jkardatzke@google.com> wrote:
->>
->> On Mon, Sep 25, 2023 at 2:00 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>>
->>> On 22/09/2023 21:17, Jeffrey Kardatzke wrote:
->>>> On Fri, Sep 22, 2023 at 1:44 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>>>>
->>>>> On 22/09/2023 05:28, Yunfei Dong (董云飞) wrote:
->>>>>> Hi Hans,
->>>>>>
->>>>>> Thanks for your help to give some good advice.
->>>>>> On Wed, 2023-09-20 at 09:20 +0200, Hans Verkuil wrote:
->>>>>>>
->>>>>>>>>>> In any case, using a control to switch to secure mode and using
->>>>>>> a control
->>>>>>>>>>> to convert a dmabuf fd to a secure handle seems a poor choice to
->>>>>>> me.
->>>>>>>>>>>
->>>>>>>>>>> I was wondering if it wouldn't be better to create a new
->>>>>>> V4L2_MEMORY_ type,
->>>>>>>>>>> e.g. V4L2_MEMORY_DMABUF_SECURE (or perhaps _DMABUF_OPTEE). That
->>>>>>> ensures that
->>>>>>>>>>> once you create buffers for the first time, the driver can
->>>>>>> switch into secure
->>>>>>>>>>> mode, and until all buffers are released again you know that the
->>>>>>> driver will
->>>>>>>>>>> stay in secure mode.
->>>>>>>>>>
->>>>>>>>>> Why do you think the control for setting secure mode is a poor
->>>>>>> choice?
->>>>>>>>>> There's various places in the driver code where functionality
->>>>>>> changes
->>>>>>>>>> based on being secure/non-secure mode, so this is very much a
->>>>>>> 'global'
->>>>>>>>>> setting for the driver. It could be inferred based off a new
->>>>>>> memory
->>>>>>>>>> type for the queues...which then sets that flag in the driver;
->>>>>>> but
->>>>>>>>>> that seems like it would be more fragile and would require
->>>>>>> checking
->>>>>>>>>> for incompatible output/capture memory types. I'm not against
->>>>>>> another
->>>>>>>>>> way of doing this; but didn't see why you think the proposed
->>>>>>> method is
->>>>>>>>>> a poor choice.
->>>>>>>>>
->>>>>>>>> I assume you are either decoding to secure memory all the time, or
->>>>>>> not
->>>>>>>>> at all. That's something you would want to select the moment you
->>>>>>> allocate
->>>>>>>>> the first buffer. Using the V4L2_MEMORY_ value would be the
->>>>>>> natural place
->>>>>>>>> for that. A control can typically be toggled at any time, and it
->>>>>>> makes
->>>>>>>>> no sense to do that for secure streaming.
->>>>>>>>>
->>>>>>>>> Related to that: if you pass a dmabuf fd you will need to check
->>>>>>> somewhere
->>>>>>>>> if the fd points to secure memory or not. You don't want to mix
->>>>>>> the two
->>>>>>>>> but you want to check that at VIDIOC_QBUF time.
->>>>>>>>>
->>>>>>>>> Note that the V4L2_MEMORY_ value is already checked in the v4l2
->>>>>>> core,
->>>>>>>>> drivers do not need to do that.
->>>>>>>>
->>>>>>>> Just to clarify a bit, and make sure I understand this too. You are
->>>>>>> proposing to
->>>>>>>> introduce something like:
->>>>>>>>
->>>>>>>>    V4L2_MEMORY_SECURE_DMABUF
->>>>>>>>
->>>>>>>> Which like V4L2_MEMORY_DMABUF is meant to import dmabuf, while
->>>>>>> telling the
->>>>>>>> driver that the memory is secure according to the definition of
->>>>>>> "secure" for the
->>>>>>>> platform its running on.
->>>>>>>>
->>>>>>>> This drivers also allocate secure SHM (a standard tee concept) and
->>>>>>> have internal
->>>>>>>> allocation for reconstruction buffer and some hw specific reference
->>>>>>> metadata. So
->>>>>>>> the idea would be that it would keep allocation using the dmabuf
->>>>>>> heap internal
->>>>>>>> APIs ? And decide which type of memory based on the memory type
->>>>>>> found in the
->>>>>>>> queue?
->>>>>>>
->>>>>>> Yes. Once you request the first buffer you basically tell the driver
->>>>>>> whether it
->>>>>>> will operate in secure or non-secure mode, and that stays that way
->>>>>>> until all
->>>>>>> buffers are freed. I think that makes sense.
->>>>>>>
->>>>>>
->>>>>> According to iommu's information, the dma operation for secure and non-
->>>>>> secure are the same, whether just need to add one memory type in v4l2
->>>>>> framework the same as V4L2_MEMORY_DMABUF? The dma operation in
->>>>>> videobuf2-dma-contig.c can use the same functions.
->>>>>
->>>>> So if I pass a non-secure dma fd to the capture queue of the codec, who
->>>>> will check that it can't write the data to that fd? Since doing so would
->>>>> expose the video. Presumably at some point the tee code will prevent that?
->>>>> (I sincerely hope so!)
->>>>
->>>> It is entirely the job of the TEE to prevent this. Nothing in the
->>>> kernel should allow exploitation of what happens in the TEE no matter
->>>> what goes on in the kernel
->>>>
->>>>>
->>>>> Having a separate V4L2_MEMORY_DMABUF_SECURE type is to indicate to the
->>>>> driver that 1) it can expect secure dmabuf fds, 2) it can configure itself
->>>>> for that (that avoids using a control to toggle between normal and secure mode),
->>>>> and at VIDIOC_QBUF time it is easy for the V4L2 core to verify that the
->>>>> fd that is passed in is for secure memory. This means that mistakes by
->>>>> userspace are caught at QBUF time.
->>>>>
->>>>> Of course, this will not protect you (people can disable this check by
->>>>> recompiling the kernel), that still has to be done by the firmware, but
->>>>> it catches userspace errors early on.
->>>>>
->>>>> Also, while for this hardware the DMA operation is the same, that might
->>>>> not be the case for other hardware.
->>>>
->>>> That's a really good point. So one of the other models that is used
->>>> for secure video decoding is to send the encrypted buffer into the
->>>> video decoder directly (i.e. V4L2_MEMORY_MMAP) and then also send in
->>>> all the corresponding crypto parameters (i.e. algorithm, IV,
->>>> encryption pattern, etc.). Then the video driver internally does the
->>>> decryption and decode in one operation.  That's not what we want to
->>>> use here for Mediatek; but I've done other integrations that work that
->>>> way (that was for VAAPI [1], not V4L2...but there are other ARM
->>>> implementations that do operate that way).  So if we end up requiring
->>>> V4L2_MEMORY_DMABUF_SECURE to indicate secure mode and enforce it on
->>>> output+capture, that'll close off other potential solutions in the
->>>> future.
->>>>
->>>> Expanding on your point about DMA operations being different on
->>>> various hardware, that also makes me think a general check for this in
->>>> v4l2 code may also be limiting. There are various ways secure video
->>>> pipelines are done, so leaving these checks up to the individual
->>>> drivers that implement secure video decode may be more pragmatic. If
->>>> there's a generic V4L2 _CID_SECURE_MODE control, that makes it more
->>>> general for how drivers can handle secure video decode.
->>>
->>> No, using a control for this is really wrong.
->>>
->>> The reason why I want it as a separate memory type is that that is
->>> what you use when you call VIDIOC_REQBUFS, and that ioctl is also
->>> when things are locked down in a driver. As long as no buffers have
->>> been allocated, you can still change formats, parameters, etc. But
->>> once buffers are allocated, most of that can't be changed, since
->>> changing e.g. the format would also change the buffer sizes.
->>>
->>> It also locks down who owns the buffers by storing the file descriptor.
->>> This prevents other processes from hijacking the I/O streaming, only
->>> the owner can stream buffers.
->>>
->>> So it is a natural point in the sequence for selecting secure
->>> buffers.
->>>
->>> If you request V4L2_MEMORY_DMABUF_SECURE for the output, then the
->>> capture side must also use DMABUF_SECURE. Whether or not you can
->>> use regular DMABUF for the output side and select DMABUF_SECURE
->>> on the capture side is a driver decision. It can be useful to
->>> support this for testing the secure capture using regular video
->>> streams (something Nicolas discussed as well), but it depends on
->>> the hardware whether you can use that technique.
->>
->> OK, that does work for the additional cases I mentioned.  And for
->> testing...we would still want to use DMABUF_SECURE on both ends for
->> Mediatek at least (that's the only way they support it). But rather
->> than having to bother with a clearkey implementation...we can just do
->> something that directly copies compressed video into the secure
->> dmabufs and then exercises the whole pipeline from there. This same
->> thing happens with the 'clear lead' that is sometimes there with
->> encrypted video (where the first X seconds are unencrypted and then it
->> switches to encrypted...but you're still using the secure video
->> pipeline on the unencrypted frames in that case).
->>
->>
->>>
->>> Regards,
->>>
->>>         Hans
->>>
->>>>
->>>> [1] - https://github.com/intel/libva/blob/master/va/va.h#L2177
->>>>
->>>>>
->>>>> Regards,
->>>>>
->>>>>         Hans
->>>>>
->>>>>>
->>>>>> Best Regards,
->>>>>> Yunfei Dong
->>>>>>
->>>>>
->>>
+>     1005 
+>     1006         for (i = 0; i < height; i++) {
+>     1007                 len = width * video->bytesperpixel;
+>     1008                 offset = i * video->bytesperline;
+>     1009 
+>     1010                 memcpy(addr + bytes, video->src.virt + offset, len);
+>     1011                 bytes += len;
+>     1012         }
+>     1013 
+>     1014         return bytes;
+>     1015 }
+> 
+> regards,
+> dan carpenter
 
