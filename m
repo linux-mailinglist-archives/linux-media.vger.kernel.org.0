@@ -2,385 +2,479 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC1867B04A8
-	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 14:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FFE37B04DC
+	for <lists+linux-media@lfdr.de>; Wed, 27 Sep 2023 15:02:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231749AbjI0Mtu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Sep 2023 08:49:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34214 "EHLO
+        id S231768AbjI0NCP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Sep 2023 09:02:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231720AbjI0Mtt (ORCPT
+        with ESMTP id S231740AbjI0NCP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Sep 2023 08:49:49 -0400
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B1240E6;
-        Wed, 27 Sep 2023 05:49:45 -0700 (PDT)
-Received: from [192.168.42.133] (host-178-72-203-85.ip.nej.cz [178.72.203.85])
-        by mx.gpxsee.org (Postfix) with ESMTPSA id 4B98A11B;
-        Wed, 27 Sep 2023 14:49:43 +0200 (CEST)
-Message-ID: <ba93a813-cff0-40d5-be57-1bcc45310557@gpxsee.org>
-Date:   Wed, 27 Sep 2023 14:49:43 +0200
+        Wed, 27 Sep 2023 09:02:15 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17178F5
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 06:02:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695819733; x=1727355733;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PQoHVQ5UAXmHIg14GQZOyGFN1WKC0jA6uVrBMPz89MQ=;
+  b=YowXcMVtRCQV3Sft/t/wqm5PUKyGUgytdOEFJRIDs6VNjFgRAbTZdDgK
+   teZMRvTjW+y2pyIKKG5OORQxq5c/LHOUINm7ltOD18gi6vmPnEJRceMvw
+   XxdKn16G4YrfAl5t6PIHOHCYjRJUMdOeHDFfpoyr730HihCAw16mEY7DW
+   hUUst2p2YwutHTzLnFGhsuLgjppOGiMxNtzgjLBB4oZB695jvqoPDmooJ
+   H00DebOAyM2e6EVUjhqgSYHZ39NepRLVRb2cPuGzw1GqwVnnuDLvSIH8E
+   jfQgWMdk6Dan/JdOwdn9hed9neM5NEZKG6k2NUXMOURMjBQJ0vLTxch4q
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="448310027"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
+   d="scan'208";a="448310027"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 06:02:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="742703062"
+X-IronPort-AV: E=Sophos;i="6.03,181,1694761200"; 
+   d="scan'208";a="742703062"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 06:02:06 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 3E4001209F6;
+        Wed, 27 Sep 2023 16:02:04 +0300 (EEST)
+Date:   Wed, 27 Sep 2023 13:02:04 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 1/1] media: Documentation: Split camera sensor
+ documentation
+Message-ID: <ZRQnzNUsvKIUdIN1@kekkonen.localdomain>
+References: <20230927115816.392215-1-sakari.ailus@linux.intel.com>
+ <20230927122620.GA21444@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 0/2] Digiteq Automotive MGB4 driver
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-References: <20230925143605.4686-1-tumic@gpxsee.org>
- <0e7556cd-4478-4f21-aab1-5abd1849aa51@xs4all.nl>
-Content-Language: en-US
-From:   =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <0e7556cd-4478-4f21-aab1-5abd1849aa51@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230927122620.GA21444@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-Thank you very much for your patience and help making the driver a much 
-better code than what was send in the v1 patch. I will now watch 
-linux/master with champagne in my fridge ;-)
+Hi Laurent,
 
-M.
+On Wed, Sep 27, 2023 at 03:26:20PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Sep 27, 2023 at 02:58:16PM +0300, Sakari Ailus wrote:
+> > Split camera sensor documentation into user and kernel portions. This
+> > should make it easier for the user space developers to find the relevant
+> > documentation.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../driver-api/media/camera-sensor.rst        | 129 +++++-------------
+> >  .../media/drivers/camera-sensor.rst           | 104 ++++++++++++++
+> >  .../userspace-api/media/drivers/index.rst     |   1 +
+> >  .../userspace-api/media/v4l/control.rst       |   4 +
+> >  4 files changed, 145 insertions(+), 93 deletions(-)
+> >  create mode 100644 Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > 
+> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > index 2acc08142a1a..6e5c3b16161e 100644
+> > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > @@ -1,8 +1,12 @@
+> >  .. SPDX-License-Identifier: GPL-2.0
+> >  
+> > +.. _media_writing_camera_sensor_drivers:
+> > +
+> >  Writing camera sensor drivers
+> >  =============================
+> >  
+> > +Please also see :ref:`media_using_camera_sensor_drivers`.
+> 
+> Let's mention why:
+> 
+> This document covers the in-kernel APIs only. For the best practices on
+> userspace API implementation in camera sensor drivers, please see
+> :ref:`media_using_camera_sensor_drivers`.
 
-On 27. 09. 23 14:03, Hans Verkuil wrote:
-> Hi Martin,
+I'll add that.
+
 > 
-> Thank you for your work and patience!
+> > +
+> >  CSI-2 and parallel (BT.601 and BT.656) busses
+> >  ---------------------------------------------
+> >  
+> > @@ -34,7 +38,8 @@ Devicetree
+> >  
+> >  The preferred way to achieve this is using ``assigned-clocks``,
+> >  ``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
+> > -`clock device tree bindings <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+> > +`clock device tree bindings
+> > +<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+> >  for more information. The driver then gets the frequency using
+> >  ``clk_get_rate()``.
+> >  
+> > @@ -85,9 +90,7 @@ PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
+> >  a bridge driver, instead add runtime PM support to the sensor driver you are
+> >  using and drop its ``.s_power()`` handler.
+> >  
+> > -See examples of runtime PM handling in e.g. ``drivers/media/i2c/ov8856.c`` and
+> > -``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI and DT
+> > -based systems.
+> > +Please also see :ref:`examples <media-camera-sensor-examples>`.
+> >  
+> >  Control framework
+> >  ~~~~~~~~~~~~~~~~~
+> > @@ -104,99 +107,39 @@ The function returns a non-zero value if it succeeded getting the power count or
+> >  runtime PM was disabled, in either of which cases the driver may proceed to
+> >  access the device.
+> >  
+> > -Frame size
+> > -----------
+> > -
+> > -There are two distinct ways to configure the frame size produced by camera
+> > -sensors.
+> > -
+> > -Freely configurable camera sensor drivers
+> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > -
+> > -Freely configurable camera sensor drivers expose the device's internal
+> > -processing pipeline as one or more sub-devices with different cropping and
+> > -scaling configurations. The output size of the device is the result of a series
+> > -of cropping and scaling operations from the device's pixel array's size.
+> > -
+> > -An example of such a driver is the CCS driver (see ``drivers/media/i2c/ccs``).
+> > -
+> > -Register list based drivers
+> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > -
+> > -Register list based drivers generally, instead of able to configure the device
+> > -they control based on user requests, are limited to a number of preset
+> > -configurations that combine a number of different parameters that on hardware
+> > -level are independent. How a driver picks such configuration is based on the
+> > -format set on a source pad at the end of the device's internal pipeline.
+> > -
+> > -Most sensor drivers are implemented this way, see e.g.
+> > -``drivers/media/i2c/imx319.c`` for an example.
+> > -
+> > -Frame interval configuration
+> > -----------------------------
+> > -
+> > -There are two different methods for obtaining possibilities for different frame
+> > -intervals as well as configuring the frame interval. Which one to implement
+> > -depends on the type of the device.
+> > -
+> > -Raw camera sensors
+> > -~~~~~~~~~~~~~~~~~~
+> > -
+> > -Instead of a high level parameter such as frame interval, the frame interval is
+> > -a result of the configuration of a number of camera sensor implementation
+> > -specific parameters. Luckily, these parameters tend to be the same for more or
+> > -less all modern raw camera sensors.
+> > -
+> > -The frame interval is calculated using the following equation::
+> > -
+> > -	frame interval = (analogue crop width + horizontal blanking) *
+> > -			 (analogue crop height + vertical blanking) / pixel rate
+> > -
+> > -The formula is bus independent and is applicable for raw timing parameters on
+> > -large variety of devices beyond camera sensors. Devices that have no analogue
+> > -crop, use the full source image size, i.e. pixel array size.
+> > -
+> > -Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > -``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> > -is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> > -the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> > -sub-device. The unit of that control is pixels per second.
+> > -
+> > -Register list based drivers need to implement read-only sub-device nodes for the
+> > -purpose. Devices that are not register list based need these to configure the
+> > -device's internal processing pipeline.
+> > -
+> > -The first entity in the linear pipeline is the pixel array. The pixel array may
+> > -be followed by other entities that are there to allow configuring binning,
+> > -skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
+> > -
+> > -USB cameras etc. devices
+> > -~~~~~~~~~~~~~~~~~~~~~~~~
+> > -
+> > -USB video class hardware, as well as many cameras offering a similar higher
+> > -level interface natively, generally use the concept of frame interval (or frame
+> > -rate) on device level in firmware or hardware. This means lower level controls
+> > -implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
+> > -frame interval on these devices.
+> > -
+> >  Rotation, orientation and flipping
+> >  ----------------------------------
+> >  
+> > -Some systems have the camera sensor mounted upside down compared to its natural
+> > -mounting rotation. In such cases, drivers shall expose the information to
+> > -userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> > -<v4l2-camera-sensor-rotation>` control.
+> > -
+> > -Sensor drivers shall also report the sensor's mounting orientation with the
+> > -:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> > -
+> >  Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
+> >  information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
+> >  register the appropriate controls.
+> >  
+> > -Sensor drivers that have any vertical or horizontal flips embedded in the
+> > -register programming sequences shall initialize the V4L2_CID_HFLIP and
+> > -V4L2_CID_VFLIP controls with the values programmed by the register sequences.
+> > -The default values of these controls shall be 0 (disabled). Especially these
+> > -controls shall not be inverted, independently of the sensor's mounting
+> > -rotation.
+> > +.. _media-camera-sensor-examples:
+> > +
+> > +Example drivers
+> > +---------------
+> > +
+> > +Features implemented by sensor drivers vary, and depending on the set of
+> > +supported features and other qualities, particular sensor drivers better serve
+> > +the purpose of an example. The following drivers are known to be good examples:
+> > +
+> > +.. flat-table:: Example sensor drivers
+> > +    :header-rows: 0
+> > +    :widths:      1 1 1 2
+> > +
+> > +    * - Driver name
+> > +      - File(s)
+> > +      - Driver type
+> > +      - Example topic
+> > +    * - CCS
+> > +      - ``drivers/media/i2c/ccs/``
+> > +      - Freely configurable
+> > +      - Power management (ACPI and DT), UAPI
+> > +    * - imx319
+> > +      - ``drivers/media/i2c/imx319.c``
 > 
-> I've just merged this v11, it all looked good to me.
+> I wonder if you meant imx219 here. imx319 doesn't seem to be a
+> particularly good example.
+
+For power management it is: it supports DT, ACPI and probing while powered
+off. This wasn't reflected in this patch though, I'll fix it for v2.
+
+I can add imx219 there, too, for UAPI and mode selection. Imx319 doesn't do
+that badly either.
+
 > 
-> Regards,
+> > +      - Register list based
+> > +      - UAPI, mode selection
 > 
-> 	Hans
+> If you meant imx219, I think power management can be listed too. And
+> soon the driver will get streams support :-)
+
+Imx219 is lacking ACPI support.
+
+I'll use this in v2:
+
+    * - Driver name
+      - File(s)
+      - Driver type
+      - Example topic
+    * - CCS
+      - ``drivers/media/i2c/ccs/``
+      - Freely configurable
+      - Power management (ACPI and DT), UAPI
+    * - imx219
+      - ``drivers/media/i2c/imx219.c``
+      - Register list based
+      - Power management (DT), UAPI, mode selection
+    * - imx319
+      - ``drivers/media/i2c/imx319.c``
+      - Register list based
+      - Power management (ACPI and DT)
+    * - ov8865
+      - ``drivers/media/i2c/ov8865.c``
+      - Register list based
+      - Power management (ACPI and DT)
+
 > 
-> On 25/09/2023 16:36, tumic@gpxsee.org wrote:
->> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
->>
->> Hi,
->> This patch adds a driver for the Digiteq Automotive MGB4 grabber card.
->> MGB4 is a modular frame grabber PCIe card for automotive video interfaces
->> (FPD-Link and GMSL for now). It is based on a Xilinx FPGA and uses their
->> XDMA IP core for DMA transfers. Additionally, Xilinx I2C and SPI IP cores
->> which already have drivers in linux are used in the design.
->>
->> The driver is a quite standard v4l2 driver, with one exception - there are
->> a lot of sysfs options that may/must be set before opening the v4l2 device
->> to adapt the card on a specific signal (see mgb4.rst for details)
->> as the card must be able to work with various signal sources (or displays)
->> that can not be auto-detected.
->>
->> Changes in v11
->> * Fixed broken video buffer size check.
->> * Documented video queue checks/locking during I/O reconfiguration and signal
->>    parameters changes.
->>
->> Changes in v10:
->> * Use propper locks/is_busy functions when accessing the video devices in
->>    the sysfs callbacks.
->> * Fixed issues found by the sparse/smatch tools.
->>
->> Changes in v9:
->> * Renamed all sysfs show/store functions using the propper naming convention.
->> * Now using device_add_groups() when initializing the sysfs properties.
->> * Fixed build without debugfs support.
->> * Fixed documentation (vsync/hsync) + added default values where applicable.
->> * Fixed the rest of minor issues from v8 review.
->>
->> Changes in v8:
->> * Fixed broken video buffer size computation.
->> * Fixed switched I2C deserializers addresses.
->> * Do not depend on hwmon.
->>
->> Changes in v7:
->> * Now using hwmon for FPGA temperature reporting.
->> * Now using VIDIOC_S_FMT and v4l2_pix_format.bytesperline for setting
->>    the alignment.
->> * Removed the magic sleep when loading the i2c/spi adapter modules (solved by
->>    request_module() calls with propper - "platform:" prefixed - module
->>    names).
->> * Now properly reporting all the timings info in the VIDIOC_G_DV_TIMINGS
->>    ioctls.
->> * Updated the documentation.
->> * Minor fixes as discussed in the v6 review.
->> * Added debugfs access to the FPGA registers.
->>
->> Changes in v6:
->> * Rebased to current master that includes the Xilinx XDMA driver.
->>
->> Changes in v5:
->> * Removed unused <linux/version.h> includes
->>
->> Changes in v4:
->> * Redesigned the signal change handling logic. Now using the propper timings
->>    API in the video input driver and a propper open() syscall check/logic in
->>    the video output driver.
->> * Fixed all minor issues from v3 review.
->> * 'checkpatch.pl --strict' used for checking the code.
->>
->> Changes in v3:
->> * Rebased the DMA transfers part to use the new XDMA driver from Xilinx/AMD
->>
->> Changes in v2:
->> * Completely rewritten the original Xilinx's XDMA driver to meet kernel code
->>    standards.
->> * Added all required "to" and "cc" mail addresses.
->>
->>
->> ===== v4l2-compliance results - input =====
->>
->> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->>
->> Compliance test for mgb4 device /dev/video0:
->>
->> Driver Info:
->>          Driver name      : mgb4
->>          Card type        : MGB4 PCIe Card
->>          Bus info         : PCI:0000:01:00.0
->>          Driver version   : 6.4.0
->>          Capabilities     : 0x85200001
->>                  Video Capture
->>                  Read/Write
->>                  Streaming
->>                  Extended Pix Format
->>                  Device Capabilities
->>          Device Caps      : 0x05200001
->>                  Video Capture
->>                  Read/Write
->>                  Streaming
->>                  Extended Pix Format
->>
->> Required ioctls:
->>          test VIDIOC_QUERYCAP: OK
->>          test invalid ioctls: OK
->>
->> Allow for multiple opens:
->>          test second /dev/video0 open: OK
->>          test VIDIOC_QUERYCAP: OK
->>          test VIDIOC_G/S_PRIORITY: OK
->>          test for unlimited opens: OK
->>
->> Debug ioctls:
->>          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->>          test VIDIOC_LOG_STATUS: OK (Not Supported)
->>
->> Input ioctls:
->>          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->>          test VIDIOC_ENUMAUDIO: OK (Not Supported)
->>          test VIDIOC_G/S/ENUMINPUT: OK
->>          test VIDIOC_G/S_AUDIO: OK (Not Supported)
->>          Inputs: 1 Audio Inputs: 0 Tuners: 0
->>
->> Output ioctls:
->>          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->>          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->>          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->>          Outputs: 0 Audio Outputs: 0 Modulators: 0
->>
->> Input/Output configuration ioctls:
->>          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->>          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
->>          test VIDIOC_DV_TIMINGS_CAP: OK
->>          test VIDIOC_G/S_EDID: OK (Not Supported)
->>
->> Control ioctls (Input 0):
->>          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
->>          test VIDIOC_QUERYCTRL: OK (Not Supported)
->>          test VIDIOC_G/S_CTRL: OK (Not Supported)
->>          test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
->>                  warn: v4l2-test-controls.cpp(1139): V4L2_CID_DV_RX_POWER_PRESENT not found for input 0
->>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
->>          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->>          Standard Controls: 0 Private Controls: 0
->>
->> Format ioctls (Input 0):
->>          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->>          test VIDIOC_G/S_PARM: OK
->>          test VIDIOC_G_FBUF: OK (Not Supported)
->>          test VIDIOC_G_FMT: OK
->>          test VIDIOC_TRY_FMT: OK
->>          test VIDIOC_S_FMT: OK
->>          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->>          test Cropping: OK (Not Supported)
->>          test Composing: OK (Not Supported)
->>          test Scaling: OK (Not Supported)
->>
->> Codec ioctls (Input 0):
->>          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->>          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->>          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
->>
->> Buffer ioctls (Input 0):
->>          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->>          test VIDIOC_EXPBUF: OK
->>          test Requests: OK (Not Supported)
->>
->> Total for mgb4 device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 1
->>
->> ===== v4l2-compliance results - output =====
->>
->> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->>
->> Compliance test for mgb4 device /dev/video2:
->>
->> Driver Info:
->>          Driver name      : mgb4
->>          Card type        : MGB4 PCIe Card
->>          Bus info         : PCI:0000:01:00.0
->>          Driver version   : 6.4.0
->>          Capabilities     : 0x85200002
->>                  Video Output
->>                  Read/Write
->>                  Streaming
->>                  Extended Pix Format
->>                  Device Capabilities
->>          Device Caps      : 0x05200002
->>                  Video Output
->>                  Read/Write
->>                  Streaming
->>                  Extended Pix Format
->>
->> Required ioctls:
->>          test VIDIOC_QUERYCAP: OK
->>          test invalid ioctls: OK
->>
->> Allow for multiple opens:
->>          test second /dev/video2 open: OK
->>          test VIDIOC_QUERYCAP: OK
->>          test VIDIOC_G/S_PRIORITY: OK
->>          test for unlimited opens: OK
->>
->> Debug ioctls:
->>          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->>          test VIDIOC_LOG_STATUS: OK (Not Supported)
->>
->> Input ioctls:
->>          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->>          test VIDIOC_ENUMAUDIO: OK (Not Supported)
->>          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->>          test VIDIOC_G/S_AUDIO: OK (Not Supported)
->>          Inputs: 0 Audio Inputs: 0 Tuners: 0
->>
->> Output ioctls:
->>          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->>          test VIDIOC_G/S/ENUMOUTPUT: OK
->>          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->>          Outputs: 1 Audio Outputs: 0 Modulators: 0
->>
->> Input/Output configuration ioctls:
->>          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->>          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->>          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->>          test VIDIOC_G/S_EDID: OK (Not Supported)
->>
->> Control ioctls (Output 0):
->>          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
->>          test VIDIOC_QUERYCTRL: OK (Not Supported)
->>          test VIDIOC_G/S_CTRL: OK (Not Supported)
->>          test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
->>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
->>          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->>          Standard Controls: 0 Private Controls: 0
->>
->> Format ioctls (Output 0):
->>          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->>          test VIDIOC_G/S_PARM: OK (Not Supported)
->>          test VIDIOC_G_FBUF: OK (Not Supported)
->>          test VIDIOC_G_FMT: OK
->>          test VIDIOC_TRY_FMT: OK
->>          test VIDIOC_S_FMT: OK
->>          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->>          test Cropping: OK (Not Supported)
->>          test Composing: OK (Not Supported)
->>          test Scaling: OK (Not Supported)
->>
->> Codec ioctls (Output 0):
->>          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->>          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->>          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
->>
->> Buffer ioctls (Output 0):
->>          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->>          test VIDIOC_EXPBUF: OK
->>          test Requests: OK (Not Supported)
->>
->> Total for mgb4 device /dev/video2: 45, Succeeded: 45, Failed: 0, Warnings: 0
->>
->> Martin Tůma (2):
->>    Added Digiteq Automotive MGB4 driver
->>    Added Digiteq Automotive MGB4 driver documentation
->>
->>   Documentation/admin-guide/media/mgb4.rst      | 374 +++++++
->>   .../admin-guide/media/pci-cardlist.rst        |   1 +
->>   .../admin-guide/media/v4l-drivers.rst         |   1 +
->>   MAINTAINERS                                   |   7 +
->>   drivers/media/pci/Kconfig                     |   1 +
->>   drivers/media/pci/Makefile                    |   1 +
->>   drivers/media/pci/mgb4/Kconfig                |  17 +
->>   drivers/media/pci/mgb4/Makefile               |   6 +
->>   drivers/media/pci/mgb4/mgb4_cmt.c             | 244 +++++
->>   drivers/media/pci/mgb4/mgb4_cmt.h             |  17 +
->>   drivers/media/pci/mgb4/mgb4_core.c            | 686 +++++++++++++
->>   drivers/media/pci/mgb4/mgb4_core.h            |  74 ++
->>   drivers/media/pci/mgb4/mgb4_dma.c             | 123 +++
->>   drivers/media/pci/mgb4/mgb4_dma.h             |  18 +
->>   drivers/media/pci/mgb4/mgb4_i2c.c             | 140 +++
->>   drivers/media/pci/mgb4/mgb4_i2c.h             |  35 +
->>   drivers/media/pci/mgb4/mgb4_io.h              |  33 +
->>   drivers/media/pci/mgb4/mgb4_regs.c            |  30 +
->>   drivers/media/pci/mgb4/mgb4_regs.h            |  35 +
->>   drivers/media/pci/mgb4/mgb4_sysfs.h           |  18 +
->>   drivers/media/pci/mgb4/mgb4_sysfs_in.c        | 772 ++++++++++++++
->>   drivers/media/pci/mgb4/mgb4_sysfs_out.c       | 737 ++++++++++++++
->>   drivers/media/pci/mgb4/mgb4_sysfs_pci.c       |  71 ++
->>   drivers/media/pci/mgb4/mgb4_trigger.c         | 208 ++++
->>   drivers/media/pci/mgb4/mgb4_trigger.h         |   8 +
->>   drivers/media/pci/mgb4/mgb4_vin.c             | 939 ++++++++++++++++++
->>   drivers/media/pci/mgb4/mgb4_vin.h             |  69 ++
->>   drivers/media/pci/mgb4/mgb4_vout.c            | 602 +++++++++++
->>   drivers/media/pci/mgb4/mgb4_vout.h            |  65 ++
->>   29 files changed, 5332 insertions(+)
->>   create mode 100644 Documentation/admin-guide/media/mgb4.rst
->>   create mode 100644 drivers/media/pci/mgb4/Kconfig
->>   create mode 100644 drivers/media/pci/mgb4/Makefile
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_dma.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_dma.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
->>   create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
->>
->>
->> base-commit: 27bbf45eae9ca98877a2d52a92a188147cd61b07
+> > +    * - ov8865
+> > +      - ``drivers/media/i2c/ov8865.c``
+> > +      - Register list based
+> > +      - Power management (ACPI and DT)
+> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > new file mode 100644
+> > index 000000000000..18befb4ecd8d
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> 
+> I wonder if this is the best location. The documentation isn't
+> driver-specific. Still, moving it out of driver-api is an improvement,
+> we can keep improving on top.
+> 
+> In particular, I plan to add documentation on how drivers for raw
+> sensors should map the sensor configuration to subdevs, formats and
+> selection rectangles. I think this should go to
+> userspace-api/media/v4l/, not userspace-api/media/drivers/. I will thus
+> likely rework this file.
+
+I'd put it to latter but I have no strong opinion on that. If you can find
+a good place in the former, sure.
+
+> 
+> > @@ -0,0 +1,104 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +.. _media_using_camera_sensor_drivers:
+> > +
+> > +Using camera sensor drivers
+> > +===========================
+> > +
+> > +This section describes common practices for how the V4L2 sub-device interface is
+> > +used to control the camera sensor drivers.
+> > +
+> > +You may also find :ref:`media_writing_camera_sensor_drivers` useful.
+> > +
+> > +Frame size
+> > +----------
+> > +
+> > +There are two distinct ways to configure the frame size produced by camera
+> > +sensors.
+> > +
+> > +Freely configurable camera sensor drivers
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Freely configurable camera sensor drivers expose the device's internal
+> > +processing pipeline as one or more sub-devices with different cropping and
+> > +scaling configurations. The output size of the device is the result of a series
+> > +of cropping and scaling operations from the device's pixel array's size.
+> > +
+> > +An example of such a driver is the CCS driver.
+> > +
+> > +Register list based drivers
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Register list based drivers generally, instead of able to configure the device
+> > +they control based on user requests, are limited to a number of preset
+> > +configurations that combine a number of different parameters that on hardware
+> > +level are independent. How a driver picks such configuration is based on the
+> > +format set on a source pad at the end of the device's internal pipeline.
+> > +
+> > +Most sensor drivers are implemented this way.
+> > +
+> > +Frame interval configuration
+> > +----------------------------
+> > +
+> > +There are two different methods for obtaining possibilities for different frame
+> > +intervals as well as configuring the frame interval. Which one to implement
+> > +depends on the type of the device.
+> > +
+> > +Raw camera sensors
+> > +~~~~~~~~~~~~~~~~~~
+> > +
+> > +Instead of a high level parameter such as frame interval, the frame interval is
+> > +a result of the configuration of a number of camera sensor implementation
+> > +specific parameters. Luckily, these parameters tend to be the same for more or
+> > +less all modern raw camera sensors.
+> > +
+> > +The frame interval is calculated using the following equation::
+> > +
+> > +	frame interval = (analogue crop width + horizontal blanking) *
+> > +			 (analogue crop height + vertical blanking) / pixel rate
+> > +
+> > +The formula is bus independent and is applicable for raw timing parameters on
+> > +large variety of devices beyond camera sensors. Devices that have no analogue
+> > +crop, use the full source image size, i.e. pixel array size.
+> > +
+> > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> > +is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> > +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> > +sub-device. The unit of that control is pixels per second.
+> > +
+> > +Register list based drivers need to implement read-only sub-device nodes for the
+> > +purpose. Devices that are not register list based need these to configure the
+> > +device's internal processing pipeline.
+> > +
+> > +The first entity in the linear pipeline is the pixel array. The pixel array may
+> > +be followed by other entities that are there to allow configuring binning,
+> > +skipping, scaling or digital crop, see :ref:`VIDIOC_SUBDEV_G_SELECTION
+> > +<VIDIOC_SUBDEV_G_SELECTION>`.
+> > +
+> > +USB cameras etc. devices
+> > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +USB video class hardware, as well as many cameras offering a similar higher
+> > +level interface natively, generally use the concept of frame interval (or frame
+> > +rate) on device level in firmware or hardware. This means lower level controls
+> > +implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
+> > +frame interval on these devices.
+> > +
+> > +Rotation, orientation and flipping
+> > +----------------------------------
+> > +
+> > +Some systems have the camera sensor mounted upside down compared to its natural
+> > +mounting rotation. In such cases, drivers shall expose the information to
+> > +userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> > +<v4l2-camera-sensor-rotation>` control.
+> > +
+> > +Sensor drivers shall also report the sensor's mounting orientation with the
+> > +:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> > +
+> > +Sensor drivers that have any vertical or horizontal flips embedded in the
+> > +register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
+> > +<v4l2-cid-hflip>` and :ref:`V4L2_CID_VFLIP <v4l2-cid-vflip>` controls with the
+> > +values programmed by the register sequences.  The default values of these
+> 
+> s/  / /
+> 
+> With the above comments addressed,
+
+Yes.
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+> 
+> > +controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> > +independently of the sensor's mounting rotation.
+> > diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> > index 783f92f01a4c..1726f8ec86fa 100644
+> > --- a/Documentation/userspace-api/media/drivers/index.rst
+> > +++ b/Documentation/userspace-api/media/drivers/index.rst
+> > @@ -32,6 +32,7 @@ For more details see the file COPYING in the source distribution of Linux.
+> >  	:numbered:
+> >  
+> >  	aspeed-video
+> > +	camera-sensor
+> >  	ccs
+> >  	cx2341x-uapi
+> >  	dw100
+> > diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+> > index 4463fce694b0..57893814a1e5 100644
+> > --- a/Documentation/userspace-api/media/v4l/control.rst
+> > +++ b/Documentation/userspace-api/media/v4l/control.rst
+> > @@ -143,9 +143,13 @@ Control IDs
+> >      recognise the difference between digital and analogue gain use
+> >      controls ``V4L2_CID_DIGITAL_GAIN`` and ``V4L2_CID_ANALOGUE_GAIN``.
+> >  
+> > +.. _v4l2-cid-hflip:
+> > +
+> >  ``V4L2_CID_HFLIP`` ``(boolean)``
+> >      Mirror the picture horizontally.
+> >  
+> > +.. _v4l2-cid-vflip:
+> > +
+> >  ``V4L2_CID_VFLIP`` ``(boolean)``
+> >      Mirror the picture vertically.
+> >  
 > 
 
+-- 
+Regards,
+
+Sakari Ailus
