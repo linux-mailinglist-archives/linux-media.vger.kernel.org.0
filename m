@@ -2,119 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BA257B1BD8
-	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 14:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 905437B1CF4
+	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 14:51:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232286AbjI1MPH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Sep 2023 08:15:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51446 "EHLO
+        id S232063AbjI1MvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Sep 2023 08:51:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbjI1MPG (ORCPT
+        with ESMTP id S231293AbjI1MvL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Sep 2023 08:15:06 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EBB9180;
-        Thu, 28 Sep 2023 05:15:03 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-3af59a017a5so399971b6e.1;
-        Thu, 28 Sep 2023 05:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695903302; x=1696508102; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VpmJ802FoQOjA2VHA2wPii0E71iasRWO8yv5CT65q40=;
-        b=Du2H1deE+4Do2KCSM2o+871eEtC/5cNSOSmes150lxkc8ys+i9H2Je1FfL4iSnmlqj
-         rNh2L/x6fUPBypKwpzi/dPsn19g4xLU3H2lU/rTcJfJZGBz6TKZNc1dBaQi2chcwQuqd
-         m0avzEgbgH4puNcGfEeEHw3QNaDlb0N/UapjugNSPAoheT9T1UwTfPbL3c2L2C+FLGQM
-         6ADigPc3CGnrdZquNyydEq6MMmNrttJAjeCFEZE99GxgPGcXQTZ3sFH8J8nVzYHuZ3un
-         pwUGM2eC2MWttgTceziOrYdWRA+btSxOiuULq/AlXVg5KXaoL4T3r6X1lOGL5HFfrjTs
-         idDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695903302; x=1696508102;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VpmJ802FoQOjA2VHA2wPii0E71iasRWO8yv5CT65q40=;
-        b=L2clbbKgUNHMNj3FraX0U1viNk5N5HnXecyBcvzb6zSuiE4eF/70tiGEwzV+sD0S1y
-         ATZXHYkvdqkSq01PK1ZhX6q7XFfmNNBS333xgxATCky0hCdDz3fLOQwvTxNPah3fAHEg
-         g5nMMvQokYcTfnc7QlQ55+PQ+zl2wD2rAMYmHxh2Zsir6Tqo46rCdgtkg2XMJFGcjvXx
-         zvLp8YgHm8WYrk5ZSpDwfm3N81azaT2lY911LVtrfCy79iFh6MMFyaP774br+Jl5oHEr
-         h78Nps5Cc3GMIK3mgrpGiOrqvfGp62PsrvPafh9NWCOgBHkvJ5lSjvCl8TC7thGAH6ep
-         /EJA==
-X-Gm-Message-State: AOJu0YzbUJqtzJw+1r+UlDafrkaKco7VSG7PRMDVL++QW/CIDpJzJx8c
-        tOSjc6zcyKi9se4SamNtX4g=
-X-Google-Smtp-Source: AGHT+IGqhB7ZvZva14eLkHHm5jugmC8qdD8PvABRqOqc6m38fb6L5vVVMXDlrOBhL2OwsRmSQhHejg==
-X-Received: by 2002:a05:6808:1818:b0:3ae:5e6a:5693 with SMTP id bh24-20020a056808181800b003ae5e6a5693mr1421015oib.0.1695903302453;
-        Thu, 28 Sep 2023 05:15:02 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:386c:ba81:a385:9374])
-        by smtp.gmail.com with ESMTPSA id 11-20020aa7910b000000b0068842ebfd10sm5706265pfh.160.2023.09.28.05.14.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Sep 2023 05:15:01 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     mchehab@kernel.org
-Cc:     sakari.ailus@linux.intel.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        martink@posteo.de, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2] media: dt-bindings: hynix,hi846: Document orientation and rotation
-Date:   Thu, 28 Sep 2023 09:14:24 -0300
-Message-Id: <20230928121424.388019-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 28 Sep 2023 08:51:11 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C1B180
+        for <linux-media@vger.kernel.org>; Thu, 28 Sep 2023 05:51:06 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4RxCyb672qzyYH
+        for <linux-media@vger.kernel.org>; Thu, 28 Sep 2023 15:51:01 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1695905464;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=OP1wzksXNlqnVzV7BpMS4bqKQTs1dPv/UgLelppBR2I=;
+        b=jsAexNiE6BGiab4rvKZ8NkGWuknrdNOMvfosIVvppFemtwLQWXC38W+5QYG4L7bUtQcIrA
+        WxshIS1cFDqFthkiWg0M3AContE68VcUiUoeRSBjW8Mp5cZV5MTjuEZfyWDLFuvngyRAM8
+        +VG8rz3SdGn37I7wdVY4fg62kCIZm3Y=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1695905464; a=rsa-sha256; cv=none;
+        b=YXk1fIb9PAlGejp3np1OuQ/MABY9FGTfBbYCEQctWITuFdUzfnLMk08acFg4VDPFfJSVM8
+        eurSk9RtOrKsqMLLuE0IMwX1FNFsf5C0u/zGd4JG0WTJdGm4tMAnSKybuikeFylsbMLT4s
+        BisI7PkPj/eyqaaFiGJVxyXQVcL6MFg=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1695905464;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=OP1wzksXNlqnVzV7BpMS4bqKQTs1dPv/UgLelppBR2I=;
+        b=lYuSiQPWU8Zao80zxGA8810W2fsRCECdnM81u/cNDs1oqH4vqRFU8ZtaNiFwpHzqX7r5HK
+        LERsah4HdVNVzaEhFmrHdu4cymd70LRb5hG9d17oPxV1M5S0DiAlthaUZQvfk+vp+ktSFq
+        aQgr2AJ3gNic3ENgXIZLRR6sbwnYlwg=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 76B28634C93
+        for <linux-media@vger.kernel.org>; Thu, 28 Sep 2023 15:51:01 +0300 (EEST)
+Date:   Thu, 28 Sep 2023 12:51:01 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT FIXES FOR 6.6] Various fixes, including for Kconfig
+Message-ID: <ZRV2tQ46b6S26zJI@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Fabio Estevam <festevam@denx.de>
+Hi Mauro, Hans,
 
-Document the 'orientation' and 'rotation' properties, which
-are valid for the SK Hynix Hi-846 sensor.
+Here are a couple of fixes for 6.6, two of which fix Kconfig dependency
+issues that lead to build failures.
 
-Their definitions come from video-interface-devices.yaml, so add
-a reference to it.
+Please pull.
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Martin Kepplinger <martink@posteo.de>
----
-Changes since v1:
-- Also pass a ref to video-interface-devices.yaml. (Martin)
 
- .../devicetree/bindings/media/i2c/hynix,hi846.yaml         | 7 +++++++
- 1 file changed, 7 insertions(+)
+The following changes since commit 263cb0cc5abac7c22a6c0dfa7e50e89d8e6c6900:
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-index 1e2df8cf2937..8b7a46a15458 100644
---- a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-@@ -14,6 +14,9 @@ description: |-
-   interface and CCI (I2C compatible) control bus. The output format
-   is raw Bayer.
- 
-+allOf:
-+  - $ref: /schemas/media/video-interface-devices.yaml#
-+
- properties:
-   compatible:
-     const: hynix,hi846
-@@ -48,6 +51,10 @@ properties:
-   vddd-supply:
-     description: Definition of the regulator used for the VDDD power supply.
- 
-+  orientation: true
-+
-+  rotation: true
-+
-   port:
-     $ref: /schemas/graph.yaml#/$defs/port-base
-     unevaluatedProperties: false
+  media: imx-mipi-csis: Remove an incorrect fwnode_handle_put() call (2023-09-19 09:03:21 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.6-2-signed
+
+for you to fetch changes up to 8c721c2a27606946eef3bf0eec9c310cf1b32ec2:
+
+  media: pci: intel: ivsc: select V4L2_FWNODE (2023-09-27 15:01:36 +0300)
+
+----------------------------------------------------------------
+V4L2 fixes for 6.6
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      media: pci: intel: ivsc: select V4L2_FWNODE
+
+Christophe JAILLET (1):
+      media: pxa_camera: Fix an error handling path in pxa_camera_probe()
+
+Sakari Ailus (1):
+      media: ipu-bridge: Fix Kconfig dependencies
+
+ drivers/media/pci/intel/Kconfig           | 20 ++++++++++++++------
+ drivers/media/pci/intel/ipu3/Kconfig      | 21 +--------------------
+ drivers/media/pci/intel/ivsc/Kconfig      |  2 +-
+ drivers/media/platform/intel/pxa_camera.c |  2 +-
+ drivers/staging/media/atomisp/Kconfig     |  2 +-
+ 5 files changed, 18 insertions(+), 29 deletions(-)
+
 -- 
-2.34.1
-
+Sakari Ailus
