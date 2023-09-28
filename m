@@ -2,264 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BECC7B15FE
-	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 10:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F1FD7B1603
+	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 10:29:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbjI1I2J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Sep 2023 04:28:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56038 "EHLO
+        id S230338AbjI1I3i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Sep 2023 04:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbjI1I2H (ORCPT
+        with ESMTP id S229605AbjI1I3g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Sep 2023 04:28:07 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15647AC
-        for <linux-media@vger.kernel.org>; Thu, 28 Sep 2023 01:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695889686; x=1727425686;
-  h=date:from:to:cc:subject:message-id;
-  bh=xfH6yAbMf8kMox5Pk+B+oVS8lgeuC2mqmtrM5Unkxf4=;
-  b=MLljfs4NYfWsLTcRWw254PdT3YiMYIUQTB8706FSKDWqN0UqvMt2wvWn
-   WrbngEqmabRRszsvwMnIJefNMPaj9rQ/swK7Ojl50ANlyYFl/9TaSBo/M
-   2rjULFWoscLYLIRDCngrJA3IQv6NmqLyMa4PlfCciWoIOAbw40h3uoQ6C
-   xUuePhAtdCC5YzmhfQu4dWEE0zanUgLwLupdHja5jH0LOu+nM6yjvkqhO
-   R0R+MeLtUNvbPICoDck12gyl2kWW+FxboHCqqayz/M3N8qhBDzM6q4ws1
-   rBUgmASEcsICQ6JJWfXKLQLCKUN9S4+g7aXXQp8Ls/hSeK9lgz92GTcX8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="362253479"
-X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="362253479"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 01:28:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="815158317"
-X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
-   d="scan'208";a="815158317"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 28 Sep 2023 01:28:04 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qlmNO-0001H5-1O;
-        Thu, 28 Sep 2023 08:28:02 +0000
-Date:   Thu, 28 Sep 2023 16:27:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata] BUILD SUCCESS
- 6f709c96aabd485fa56e9ef11c6aa7a0640c71d1
-Message-ID: <202309281606.c354cngJ-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 28 Sep 2023 04:29:36 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD79FAC;
+        Thu, 28 Sep 2023 01:29:34 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E34FC433C8;
+        Thu, 28 Sep 2023 08:29:31 +0000 (UTC)
+Message-ID: <a0a3d582-ee6f-441b-a5a5-2d7a79ad099c@xs4all.nl>
+Date:   Thu, 28 Sep 2023 10:29:30 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 0/8] Add StarFive Camera Subsystem driver
+Content-Language: en-US, nl
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>
+References: <20230914031607.34877-1-jack.zhu@starfivetech.com>
+ <11735008-1adf-4b84-9023-d295371caed5@xs4all.nl>
+ <705f6143-169d-907e-9453-a5b384f921cd@starfivetech.com>
+ <c9eb7857-896f-43dd-b8fe-4711ba202c81@xs4all.nl>
+In-Reply-To: <c9eb7857-896f-43dd-b8fe-4711ba202c81@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
-branch HEAD: 6f709c96aabd485fa56e9ef11c6aa7a0640c71d1  media: ov2740: Add support for embedded data
+On 28/09/2023 10:22, Hans Verkuil wrote:
+> On 28/09/2023 10:12, Jack Zhu wrote:
+>>
+>>
+>> On 2023/9/15 17:26, Hans Verkuil wrote:
+>>> On 14/09/2023 05:15, Jack Zhu wrote:
+>>>> Hi,
+>>>>
+>>>> This series is the v9 series that attempts to support the Camera Subsystem
+>>>> found on StarFive JH7110 SoC.
+>>>>
+>>>> This series is based on top of the master branch of media_stage repository.
+>>>>
+>>>> The following are the media graph for the device and the v4l2-compliance
+>>>> output.
+>>>>
+>>>> ===========================================================================
+>>>> [the media graph]:
+>>>>
+>>>> digraph board {
+>>>> 	rankdir=TB
+>>>> 	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+>>>> 	n00000001:port1 -> n00000008 [style=dashed]
+>>>> 	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+>>>> 	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+>>>> 	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+>>>> 	n0000000e:port1 -> n00000001:port0 [style=dashed]
+>>>> 	n0000000e:port1 -> n00000004 [style=dashed]
+>>>> 	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+>>>> 	n00000018:port0 -> n0000000e:port0 [style=bold]
+>>>> }
+>>>>
+>>>> [the device topology]:
+>>>>
+>>>> Media controller API version 6.5.0
+>>>>
+>>>> Media device information
+>>>> ------------------------
+>>>> driver          starfive-camss
+>>>> model           Starfive Camera Subsystem
+>>>> serial          
+>>>> bus info        platform:19840000.camss
+>>>> hw revision     0x0
+>>>> driver version  6.5.0
+>>>>
+>>>> Device topology
+>>>> - entity 1: stf_isp (2 pads, 2 links)
+>>>>             type V4L2 subdev subtype Unknown flags 0
+>>>>             device node name /dev/v4l-subdev0
+>>>> 	pad0: Sink
+>>>> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
+>>>> 		 crop.bounds:(0,0)/1920x1080
+>>>> 		 crop:(0,0)/1920x1080]
+>>>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>>>> 	pad1: Source
+>>>> 		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
+>>>> 		 crop.bounds:(0,0)/1920x1080
+>>>> 		 crop:(0,0)/1920x1080]
+>>>> 		-> "capture_yuv":0 []
+>>>>
+>>>> - entity 4: capture_raw (1 pad, 1 link)
+>>>>             type Node subtype V4L flags 0
+>>>>             device node name /dev/video0
+>>>> 	pad0: Sink
+>>>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>>>>
+>>>> - entity 8: capture_yuv (1 pad, 1 link)
+>>>>             type Node subtype V4L flags 0
+>>>>             device node name /dev/video1
+>>>> 	pad0: Sink
+>>>> 		<- "stf_isp":1 []
+>>>>
+>>>> - entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
+>>>>              type V4L2 subdev subtype Unknown flags 0
+>>>> 	pad0: Sink
+>>>> 		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
+>>>> 	pad1: Source
+>>>> 		-> "stf_isp":0 []
+>>>> 		-> "capture_raw":0 []
+>>>> 	pad2: Source
+>>>> 	pad3: Source
+>>>> 	pad4: Source
+>>>>
+>>>> - entity 24: imx219 6-0010 (1 pad, 1 link)
+>>>>              type V4L2 subdev subtype Sensor flags 0
+>>>>              device node name /dev/v4l-subdev1
+>>>> 	pad0: Source
+>>>> 		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+>>>> 		 crop.bounds:(8,8)/3280x2464
+>>>> 		 crop:(8,8)/3280x2464]
+>>>> 		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
+>>>>
+>>>> ===========================================================================
+>>>> [the v4l2-compliance output]:
+>>>>
+>>>> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+>>>
+>>> This v4l2-compliance version is from a distro. For driver acceptance you
+>>> must test with a v4l2-compliance compiled from the git repo (git://linuxtv.org/v4l-utils.git).
+>>>
+>>> Also, since this driver uses the media controller, you must run v4l2-compliance
+>>> with the -m /dev/mediaX option. This will test the compliance of all devices
+>>> reported by the media controller.
+>>>
+>>>>
+>>>> Compliance test for stf camss device /dev/video1:
+>>>>
+>>>> Driver Info:
+>>>> 	Driver name      : stf camss
+>>>
+>>> The module is called starfive-camss, so shouldn't the driver name reported here
+>>> be the same?
+>>>
+>>>> 	Card type        : Starfive Camera Subsystem
+>>>> 	Bus info         : platform:19840000.camss
+>>>> 	Driver version   : 6.5.0
+>>>> 	Capabilities     : 0x84200001
+>>>> 		Video Capture
+>>>> 		Streaming
+>>>> 		Extended Pix Format
+>>>> 		Device Capabilities
+>>>> 	Device Caps      : 0x04200001
+>>>> 		Video Capture
+>>>> 		Streaming
+>>>> 		Extended Pix Format
+>>>> Media Driver Info:
+>>>> 	Driver name      : starfive-camss
+>>>
+>>> It's correct in the media controller information.
+>>>
+>>>> 	Model            : Starfive Camera Subsystem
+>>>> 	Serial           : 
+>>>> 	Bus info         : platform:19840000.camss
+>>>> 	Media version    : 6.5.0
+>>>> 	Hardware revision: 0x00000000 (0)
+>>>> 	Driver version   : 6.5.0
+>>>> Interface Info:
+>>>> 	ID               : 0x0300000a
+>>>> 	Type             : V4L Video
+>>>> Entity Info:
+>>>> 	ID               : 0x00000008 (8)
+>>>> 	Name             : capture_yuv
+>>>> 	Function         : V4L2 I/O
+>>>> 	Pad 0x01000009   : 0: Sink
+>>>> 	  Link 0x0200000c: from remote pad 0x1000003 of entity 'stf_isp' (Unknown Function (00004009)): Data, Enabled
+>>>
+>>> Hmm, this reports "Unknown Function". I bet that when you run v4l2-compliance
+>>> with the -m option it will fail on this. If not, then that's likely a bug in
+>>> the compliance test, please let me know if that's the case.
+>>>
+>>
+>> Hi Hans,
+>>
+>> The following is the latest test log, which does not report a failure, but
+>> also reports "Unknown Function".
+>>
+>> I make the following settings in the stf-isp.c file:
+>> v4l2_subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_ISP;
+>>
+> 
+> Can you post the output of:
+> 
+> v4l2-compliance --verbose -M /dev/media0
+> 
+> I am beginning to suspect that utils/common/media-info.cpp is out-of-date:
+> it is missing MEDIA_ENT_F_PROC_VIDEO_ISP.
 
-elapsed time: 1454m
+Yes, this was missing. I've pushed a fix for this.
 
-configs tested: 188
-configs skipped: 2
+Regards,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+	Hans
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20230927   gcc  
-arc                   randconfig-001-20230928   gcc  
-arc                    vdk_hs38_smp_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                       imx_v6_v7_defconfig   gcc  
-arm                         lpc32xx_defconfig   clang
-arm                        neponset_defconfig   clang
-arm                   randconfig-001-20230927   gcc  
-arm                   randconfig-001-20230928   gcc  
-arm                        shmobile_defconfig   gcc  
-arm                        spear3xx_defconfig   clang
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20230927   gcc  
-i386         buildonly-randconfig-001-20230928   gcc  
-i386         buildonly-randconfig-002-20230927   gcc  
-i386         buildonly-randconfig-002-20230928   gcc  
-i386         buildonly-randconfig-003-20230927   gcc  
-i386         buildonly-randconfig-003-20230928   gcc  
-i386         buildonly-randconfig-004-20230927   gcc  
-i386         buildonly-randconfig-004-20230928   gcc  
-i386         buildonly-randconfig-005-20230927   gcc  
-i386         buildonly-randconfig-005-20230928   gcc  
-i386         buildonly-randconfig-006-20230927   gcc  
-i386         buildonly-randconfig-006-20230928   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20230928   gcc  
-i386                  randconfig-002-20230928   gcc  
-i386                  randconfig-003-20230927   gcc  
-i386                  randconfig-003-20230928   gcc  
-i386                  randconfig-004-20230928   gcc  
-i386                  randconfig-005-20230928   gcc  
-i386                  randconfig-006-20230928   gcc  
-i386                  randconfig-011-20230927   gcc  
-i386                  randconfig-011-20230928   gcc  
-i386                  randconfig-012-20230927   gcc  
-i386                  randconfig-012-20230928   gcc  
-i386                  randconfig-013-20230927   gcc  
-i386                  randconfig-013-20230928   gcc  
-i386                  randconfig-014-20230927   gcc  
-i386                  randconfig-014-20230928   gcc  
-i386                  randconfig-015-20230927   gcc  
-i386                  randconfig-015-20230928   gcc  
-i386                  randconfig-016-20230927   gcc  
-i386                  randconfig-016-20230928   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20230927   gcc  
-loongarch             randconfig-001-20230928   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                           ip28_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                      ppc64e_defconfig   clang
-powerpc                    sam440ep_defconfig   gcc  
-powerpc                    socrates_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20230927   gcc  
-riscv                 randconfig-001-20230928   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20230927   gcc  
-s390                  randconfig-001-20230928   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20230928   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20230927   gcc  
-x86_64       buildonly-randconfig-001-20230928   gcc  
-x86_64       buildonly-randconfig-002-20230927   gcc  
-x86_64       buildonly-randconfig-002-20230928   gcc  
-x86_64       buildonly-randconfig-003-20230927   gcc  
-x86_64       buildonly-randconfig-003-20230928   gcc  
-x86_64       buildonly-randconfig-004-20230927   gcc  
-x86_64       buildonly-randconfig-004-20230928   gcc  
-x86_64       buildonly-randconfig-005-20230927   gcc  
-x86_64       buildonly-randconfig-005-20230928   gcc  
-x86_64       buildonly-randconfig-006-20230927   gcc  
-x86_64       buildonly-randconfig-006-20230928   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-001-20230928   gcc  
-x86_64                randconfig-002-20230928   gcc  
-x86_64                randconfig-003-20230928   gcc  
-x86_64                randconfig-004-20230928   gcc  
-x86_64                randconfig-005-20230928   gcc  
-x86_64                randconfig-006-20230928   gcc  
-x86_64                randconfig-011-20230927   gcc  
-x86_64                randconfig-011-20230928   gcc  
-x86_64                randconfig-012-20230927   gcc  
-x86_64                randconfig-012-20230928   gcc  
-x86_64                randconfig-013-20230927   gcc  
-x86_64                randconfig-013-20230928   gcc  
-x86_64                randconfig-014-20230927   gcc  
-x86_64                randconfig-014-20230928   gcc  
-x86_64                randconfig-015-20230927   gcc  
-x86_64                randconfig-015-20230928   gcc  
-x86_64                randconfig-016-20230927   gcc  
-x86_64                randconfig-016-20230928   gcc  
-x86_64                randconfig-071-20230927   gcc  
-x86_64                randconfig-071-20230928   gcc  
-x86_64                randconfig-072-20230927   gcc  
-x86_64                randconfig-072-20230928   gcc  
-x86_64                randconfig-073-20230927   gcc  
-x86_64                randconfig-073-20230928   gcc  
-x86_64                randconfig-074-20230927   gcc  
-x86_64                randconfig-074-20230928   gcc  
-x86_64                randconfig-075-20230927   gcc  
-x86_64                randconfig-075-20230928   gcc  
-x86_64                randconfig-076-20230927   gcc  
-x86_64                randconfig-076-20230928   gcc  
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                         rhel-8.3-kunit   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
+> 
+> But I don't understand why v4l2-compliance didn't fail on this.
+> 
+> Regards,
+> 
+> 	Hans
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
