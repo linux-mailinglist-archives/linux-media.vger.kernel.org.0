@@ -2,51 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0ACA7B21D3
-	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 17:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71F8E7B22B3
+	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 18:47:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231953AbjI1Pyv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Sep 2023 11:54:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43342 "EHLO
+        id S231150AbjI1Qr2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Sep 2023 12:47:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231875AbjI1Pyu (ORCPT
+        with ESMTP id S231307AbjI1Qr1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Sep 2023 11:54:50 -0400
+        Thu, 28 Sep 2023 12:47:27 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE5919F
-        for <linux-media@vger.kernel.org>; Thu, 28 Sep 2023 08:54:48 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BC35C433C8;
-        Thu, 28 Sep 2023 15:54:47 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD3B1A4;
+        Thu, 28 Sep 2023 09:47:25 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 047F8C433C8;
+        Thu, 28 Sep 2023 16:47:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695916488;
-        bh=TyK4oRa39EFi3FEtmPtV9JKHNZGXq3NJxrDJaHDMNvs=;
+        s=k20201202; t=1695919644;
+        bh=3ULes3SP+nVMDrHJRNu8hN35Zfay9cO72EBXJbs4MP0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iblaJIoiMbx07wf9W6cMp12Y7iY2swpXlxPlb/pxJATIQo+98pN6XDEqVuw47eUmH
-         ZvYcYKCaysRNYqof4CpliJKG3188qvONwse3P/f9XuC6sYOsWnQxSM105e17WBSniz
-         Pr/Ci4MN8UIjupJcIPoPcEVFsnO+Snuu3q8qtyulQAvM9wcDMNbdpAe8LOfjoPZYGc
-         VkXtfAC4Lf35/S/gaS0mp9WgKmXNNPCB9xqVkEt8g9R36HGkR3PWMUtmKA/S4SfFOw
-         bcCKBPgqZg35DOQfFe6OEKqFMPjKB7S+UEIrtS7QhRYwZGXKLRt6An9MnDjnAzy7s6
-         QEwpmRK+Vuqng==
-Received: (nullmailer pid 575144 invoked by uid 1000);
-        Thu, 28 Sep 2023 15:54:46 -0000
-Date:   Thu, 28 Sep 2023 10:54:46 -0500
+        b=FJ1hHcd501bSblfoDC1vqRbgIic8CijJLyrB9WU3GwGIixc/ptBw7AW6exr6EoqYw
+         sp/0EzHtubpTo9CKuKlWwr4EIOP2r3JK/4ERExObJomh1xKu8ijpkfTIsqKOqN8HeL
+         9P/kpYJ4NjjZyRL2X48oD63uH0njQxA63qpHyKiD/1oiQTjBTnErpeVNmj8t+1uOE1
+         ynHoKQ+cjSBMYCXWKzHVL7gzPTBlxnzG1aoXkqJ4gDYv7FKmzB25wf0oj2NBDeToQF
+         q7bEwMBVt4tN5EXZkbXUg4SsuOEoN2Or5NWZnG+iQrudJwaClAIr6QQN2AntjYHJvs
+         NthIpULy3TQAA==
+Received: (nullmailer pid 834795 invoked by uid 1000);
+        Thu, 28 Sep 2023 16:47:20 -0000
+Date:   Thu, 28 Sep 2023 11:47:20 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Fabio Estevam <festevam@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, martink@posteo.de,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2] media: dt-bindings: hynix,hi846: Document orientation
- and rotation
-Message-ID: <20230928155446.GA568091-robh@kernel.org>
-References: <20230928121424.388019-1-festevam@gmail.com>
- <avoixz5pqixr366cqks672akniv7h7ewix4edoyikg23dv24fd@bquxelr53t7t>
+To:     Ming Qian <ming.qian@nxp.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        "X.H. Bao" <xiahong.bao@nxp.com>, Eagle Zhou <eagle.zhou@nxp.com>,
+        Tao Jiang <tao.jiang_2@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [EXT] Re: [PATCH v4 2/2] dt-bindings: media: imx-jpeg: Assign
+ slot for imx jpeg encoder/decoder
+Message-ID: <20230928164720.GA816352-robh@kernel.org>
+References: <20230926101000.13392-1-ming.qian@nxp.com>
+ <20230926101000.13392-2-ming.qian@nxp.com>
+ <2c351ca0-cee4-4c1b-956b-6134ad101a9a@linaro.org>
+ <AM6PR04MB63415CF2EDCF0AF33F778774E7C2A@AM6PR04MB6341.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <avoixz5pqixr366cqks672akniv7h7ewix4edoyikg23dv24fd@bquxelr53t7t>
+In-Reply-To: <AM6PR04MB63415CF2EDCF0AF33F778774E7C2A@AM6PR04MB6341.eurprd04.prod.outlook.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -56,84 +71,91 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 28, 2023 at 04:57:23PM +0200, Jacopo Mondi wrote:
-> Hi Fabio, Krzysztof
-> 
-> On Thu, Sep 28, 2023 at 09:14:24AM -0300, Fabio Estevam wrote:
-> > From: Fabio Estevam <festevam@denx.de>
+On Wed, Sep 27, 2023 at 09:10:52AM +0000, Ming Qian wrote:
+> >From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > >
-> > Document the 'orientation' and 'rotation' properties, which
-> > are valid for the SK Hynix Hi-846 sensor.
+> >On 26/09/2023 12:10, Ming Qian wrote:
+> >> There are total 4 slots available in the IP, and we only need to use
+> >> one slot in one os, assign a single slot, configure interrupt and
+> >> power domain only for 1 slot, not for the all 4 slots.
+> >>
+> >> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> >> ---
+> >> v4
+> >> - improve commit message
+> >> - don't make an ABI break
+> >> v3
+> >> - add vender prefix, change property slot to nxp,slot
+> >> - add type for property slot
+> >>
+> >>  .../bindings/media/nxp,imx8-jpeg.yaml         | 45 +++++++++----------
+> >>  1 file changed, 21 insertions(+), 24 deletions(-)
+> >>
+> >> diff --git
+> >> a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> >> b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> >> index 3d9d1db37040..4bcfc815c894 100644
+> >> --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> >> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> >> @@ -32,19 +32,26 @@ properties:
+> >>      maxItems: 1
+> >>
+> >>    interrupts:
+> >> -    description: |
+> >> -      There are 4 slots available in the IP, which the driver may use
+> >> -      If a certain slot is used, it should have an associated interrupt
+> >> -      The interrupt with index i is assumed to be for slot i
+> >> -    minItems: 1               # At least one slot is needed by the driver
+> >> -    maxItems: 4               # The IP has 4 slots available for use
+> >> +    description:
+> >> +      Interrupt number for slot
+> >> +    maxItems: 1
+> >>
+> >>    power-domains:
+> >>      description:
+> >>        List of phandle and PM domain specifier as documented in
+> >>        Documentation/devicetree/bindings/power/power_domain.txt
+> >> -    minItems: 2               # Wrapper and 1 slot
+> >> -    maxItems: 5               # Wrapper and 4 slots
+> >> +    minItems: 1               # VPUMIX
+> >> +    maxItems: 2               # Wrapper and 1 slot
+> >> +
+> >> +  nxp,slot:
+> >> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >> +    description:
+> >> +      Integer number of slot index used. There are 4 slots available in the IP,
+> >> +      and driver can use a certain slot, it should have an associated interrupt
+> >> +      and power-domain. In theory, it supports 4 os or vm. If not specified, 0
+> >> +      is used by default.
+> >> +    minimum: 0
+> >> +    maximum: 3
 > >
-> > Their definitions come from video-interface-devices.yaml, so add
-> > a reference to it.
+> >NAK, you still did not answer concerns why this is needed and justified.
+> >I keep asking and you keep ignoring...
 > >
-> > Signed-off-by: Fabio Estevam <festevam@denx.de>
-> > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Acked-by: Martin Kepplinger <martink@posteo.de>
-> > ---
-> > Changes since v1:
-> > - Also pass a ref to video-interface-devices.yaml. (Martin)
-> >
+> >Best regards,
+> >Krzysztof
 > 
-> This patch is technically correct, so this message is not meant to
-> delay its integration or anything like that, but I'll take the
-> occasion to ask for guidance to the DT maintainers, as I think this
-> approach doesn't scale.
+> Hi Krzysztof,
 > 
-> I count the following sensor bindings that refer to
-> video-interface-device.yaml
+> > Nothing explains what is a slot and nothing explains why do you need this property.
 > 
-> Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-> Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
-> Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> I thought I had answered that question, but seems you don't agree with that explanation. 
+> Would the following description be any better?
 > 
-> These:
-> 
-> Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml:additionalProperties: false
-> Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml:additionalProperties: false
-> Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml:additionalProperties: false
-> Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml:additionalProperties: false
-> Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml:additionalProperties: false
-> 
-> specify 'additionalProperties: false' at the top-level.
-> This is correct imho, as it implies that any properties not
-> specifically allowed by bindings is forbidden.
-> 
-> This unfortunately applies to  'rotation' and 'orientation' as well.
-> This is not correct, as those two properties should apply to all
-> sensors without the requiring the bindings to explicitly allow them.
-> 
-> Counterproof: It's very easy to break validation of, in example,
-> ov5640
-> 
-> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> @@ -109,6 +109,7 @@ examples:
->                powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
->                reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
->                rotation = <180>;
-> +              orientation = <0>;
-> 
->                port {
->                    /* MIPI CSI-2 bus endpoint */
-> 
-> $ make ARCH=arm64 dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
->   DTC_CHK Documentation/devicetree/bindings/media/i2c/ovti,ov5640.example.dtb
->   'orientation' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov5640.yaml#
-> 
-> Is there a way to allow those two properties ('rotation' and
-> 'orientation') to be accepted by all sensor drivers bindings ?
+> The slot is the IP used to share the jpeg engine across multiple VMS 
+> and os, there are 4 slots available in the IP. We can use one slot in 
+> linux. The slot index indicates which slot we choose. If not 
+> specified, 0 is used by default.
 
-Use unevaluatedProperties instead of additionalProperties and add a $ref 
-to video-interface-devices.yaml in the sensor schemas. However, that 
-will allow all properties in video-interface-devices.yaml (which is just 
-flash-leds and lens-focus which seem fine). If you don't want that, then 
-you will have to split up video-interface-devices.yaml.
+If you have to modify the DT to update 'nxp,slot', then you can modify 
+the DT to just expose the parts of the h/w for the assigned slot. For 
+example, only put slot 1's power-domains entry in the DT when slot 1 is 
+assigned.
+
+As far as formatting your emails, talk to your NXP colleagues. They've 
+figured it out. If you've configured git-send-email successfully, then 
+using mutt should be possible. You can use 'b4' to get the thread mbox, 
+and read it in mutt.
 
 Rob
