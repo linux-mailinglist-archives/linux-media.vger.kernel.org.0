@@ -2,223 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDCA07B1217
-	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 07:29:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F5E27B1223
+	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 07:32:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbjI1F3X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Sep 2023 01:29:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51568 "EHLO
+        id S229469AbjI1Fc3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Sep 2023 01:32:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjI1F3W (ORCPT
+        with ESMTP id S229639AbjI1Fc0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Sep 2023 01:29:22 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD2098;
-        Wed, 27 Sep 2023 22:29:19 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BB8C433CA;
-        Thu, 28 Sep 2023 05:29:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695878958;
-        bh=5boNtUVXoBezK9qrfar7T1jFAW/Qiscp5SjTTLfehhk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qpYevJdrmaraBa1IyayVVw441Xc4/eTxuTmlpAmlKqLfyxn3TGC9PNVINhnSUT8MQ
-         67xaoX5zyVBFK8kPJ7lXoyKhaChN0XURIzfBrfMfx0IRNG7Yj0stPN2TS50OFWyKEA
-         hO7j3LlbCfx6WjuqRYRFPI3fkosbVWa1KVdCZEccrP4DRRLpsBcYZyzLXJ1EDQ/yIi
-         yQRTg9adBsCRuZTOsJBPa4797QVl5IAU/ffCQrBBo0mk0JyrLKTbWeY79iYP3sa1M7
-         8TTPSulijGJFI/SAtQBugNskVFkIWbW6bO9eBQso7lPzwPGHb5fOyhaLX0EnG4qNNV
-         /eogUg65/EQSg==
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-59bebd5bdadso156978767b3.0;
-        Wed, 27 Sep 2023 22:29:18 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxEfUhY1jPrHldhqDg+PJST+P0C85LUyG2Lu2Kjnrqbe+8WineY
-        0eBTx9M6cazohwBy/kxm7zRBW/+CKl0whWF/hy8=
-X-Google-Smtp-Source: AGHT+IH+lJQAsQ16d51/ZVB/Z75rTRuHBRY2hyoV/jwea6Pv3AG487NEXQNi3VK6LtTFqdy8NWkNn4ODuJyFgshD5HQ=
-X-Received: by 2002:a81:53c2:0:b0:59a:f131:50fa with SMTP id
- h185-20020a8153c2000000b0059af13150famr215091ywb.47.1695878957842; Wed, 27
- Sep 2023 22:29:17 -0700 (PDT)
+        Thu, 28 Sep 2023 01:32:26 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B2D6136
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 22:32:24 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5335725cf84so14088418a12.2
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 22:32:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695879142; x=1696483942; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZAOCLhkc883imuhwELA/Sn7bvE+DYVt5946/0QV3Vhk=;
+        b=BuxuDHHtEj/V+6glJu4G0jjiVIZZIwI+wJ1GXmXSsd3UTo90d4FckVdp1roJEmtAHJ
+         LrwVRUC4FckzPCcxShT4k2ckosA+eIsZ1q1A38AVcWEBUgIdRFORZFhVdJP+PqPcPVrc
+         eWYKu7FeqIm5eYjZJAZxHBG22Z1jwv10ld8BiRpYCiesS83mAbS6O0dlnbtiwPGn+G1B
+         7iFvu7QC+Xdi0Gm3gm4IhtwIVjVaCbgqCq8eHEPmpUgj1S4d0fOWuGSW6j+OwRNG3ZjV
+         Yd04OoAeTVuamrmrQA0BK/wtxe5omzg4HDP86UstWioqcvZ2+6fzt9S9V4Ej3d5JjLgo
+         Ua1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695879142; x=1696483942;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZAOCLhkc883imuhwELA/Sn7bvE+DYVt5946/0QV3Vhk=;
+        b=ZBfQ8sPAr4gUbonm7CRAMdUs4njG0aX3K/O8PTAg8z3ZqooTpxAwNcgP/viqkmBeMY
+         lZzppZBkrSNMUAqQDHTl0yK/q9fRiTF2Bnfu/94rDaJzU5bk+OfehrdFH4Js4VQYKb4f
+         B3pIroE8lWHeYi9xBOuYOiGm5d7wb8j3jy1a62fvBfWp3bUqcgw8n1oQCYa1soQgw/7R
+         07V0UyJCvo501JxCYyKfmIONBunTMVj77xYasJttcB+BzfvSop80y7wwlwXXIHc4rZfz
+         P/FQBtZE16yOBG3X06ucIQUxhh4+z3g0VrKz7xL3L+gUH6zA8cRuCpCWP1xXBbcmbLjj
+         Mruw==
+X-Gm-Message-State: AOJu0YwSFXNBNKY32CPnaeMVTKJwXwIEFOX5VBvYcttGDQadqWUHo0Ws
+        B8ESP3SDehu5Izuh7T1b44eEDQ==
+X-Google-Smtp-Source: AGHT+IHJh8BRt0WI4/IuVDNeNl4sJyfaJ7tN8Va16jjJ1W7nj7MWxT06kPYO2NYHnF76FAcqy+F9JA==
+X-Received: by 2002:a17:906:518d:b0:9a5:a44a:86f3 with SMTP id y13-20020a170906518d00b009a5a44a86f3mr249833ejk.25.1695879142608;
+        Wed, 27 Sep 2023 22:32:22 -0700 (PDT)
+Received: from [192.168.168.70] (host-87-4-82-94.retail.telecomitalia.it. [87.4.82.94])
+        by smtp.gmail.com with ESMTPSA id rh27-20020a17090720fb00b0099b6becb107sm10322051ejb.95.2023.09.27.22.32.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Sep 2023 22:32:22 -0700 (PDT)
+Message-ID: <c58ffc72-59d9-49f5-be22-18588f7df1e3@linaro.org>
+Date:   Thu, 28 Sep 2023 07:32:20 +0200
 MIME-Version: 1.0
-References: <SEYPR03MB704641091854162959578D7E9AFFA@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CA+VMnFyhp9D8cjtvLVzdKGETouOuH=MKgjOu1pn00WDRB=5oUg@mail.gmail.com>
- <CAFCwf12sUL5bcXhYKwRkMxLtSDtLfTK003oxkRDVmThx1ARV-A@mail.gmail.com>
- <SEYPR03MB70462A385A52A317427E93B59AFCA@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CAFCwf11hxBpg3T6MoVrL0GaOD_=xB+-dWeEtDH0cCyzyQ-q1tg@mail.gmail.com> <SEYPR03MB70463AEED951A0E2C18481099AC2A@SEYPR03MB7046.apcprd03.prod.outlook.com>
-In-Reply-To: <SEYPR03MB70463AEED951A0E2C18481099AC2A@SEYPR03MB7046.apcprd03.prod.outlook.com>
-From:   Oded Gabbay <ogabbay@kernel.org>
-Date:   Thu, 28 Sep 2023 08:28:51 +0300
-X-Gmail-Original-Message-ID: <CAFCwf13ZiYYoXE+S_wQ_EhjiACPGJGT+70_stwpY_=aD=VYa4A@mail.gmail.com>
-Message-ID: <CAFCwf13ZiYYoXE+S_wQ_EhjiACPGJGT+70_stwpY_=aD=VYa4A@mail.gmail.com>
-Subject: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
-To:     Cancan Chang <Cancan.Chang@amlogic.com>
-Cc:     Jagan Teki <jagan@edgeble.ai>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/5] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface
+Content-Language: en-US
+To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20230925232806.950683-1-yuji2.ishikawa@toshiba.co.jp>
+ <20230925232806.950683-2-yuji2.ishikawa@toshiba.co.jp>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20230925232806.950683-2-yuji2.ishikawa@toshiba.co.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 27, 2023 at 10:01=E2=80=AFAM Cancan Chang <Cancan.Chang@amlogic=
-.com> wrote:
->
-> =E2=80=9COr do you handle one cmd at a time, where the user sends a cmd b=
-uffer
-> to the driver and the driver then submit it by writing to a couple of
-> registers and polls on some status register until its done, or waits
-> for an interrupt to mark it as done ?=E2=80=9D
->   --- yes=EF=BC=8C user sends a cmd buffer to driver, and driver triggers=
- hardware by writing to register,
->         and then, waits for an interrupt to mark it  as done.
->
->     My current driver is very different from drm, so I want to know if I =
-have to switch to drm=EF=BC=9F
-Could you please post a link to the driver's source code ?
-In addition, could you please elaborate which userspace libraries
-exists that work with your driver ? Are any of them open-source ?
+On 26/09/2023 01:28, Yuji Ishikawa wrote:
+> Adds the Device Tree binding documentation that allows to describe
+> the Video Input Interface found in Toshiba Visconti SoCs.
+> 
 
->     Maybe I can refer to /driver/accel/habanalabs.
-That's definitely a possibility.
 
-Oded
->
-> thanks
->
-> ________________________________________
-> =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
-> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8826=E6=97=A5 =
-20:54
-> =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
-> =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Airlie; D=
-aniel Vetter
-> =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC=
-)
->
-> [ EXTERNAL EMAIL ]
->
-> On Mon, Sep 25, 2023 at 12:29=E2=80=AFPM Cancan Chang <Cancan.Chang@amlog=
-ic.com> wrote:
-> >
-> > Thank you for your reply from Jagan & Oded.
-> >
-> > It is very appropritate for my driver to be placed in driver/accel.
-> >
-> > My accelerator is named ADLA(Amlogic Deep Learning Accelerator).
-> > It is an IP in SOC,mainly used for neural network models acceleration.
-> > It will split and compile the neural network model into a private forma=
-t cmd buffer,
-> > and submit this cmd buffer to ADLA hardware. It is not programmable dev=
-ice.
-> What exactly does it mean to "submit this cmd buffer to ADLA hardware" ?
->
-> Does your h/w provides queues for the user/driver to put their
-> workloads/cmd-bufs on them ? And does it provide some completion queue
-> to notify when the work is completed?
->
-> Or do you handle one cmd at a time, where the user sends a cmd buffer
-> to the driver and the driver then submit it by writing to a couple of
-> registers and polls on some status register until its done, or waits
-> for an interrupt to mark it as done ?
->
-> >
-> > ADLA includes four hardware engines:
-> > RS engines             : working for the reshape operators
-> > MAC engines         : working for the convolution operators
-> > DW engines           : working for the planer & Elementwise operators
-> > Activation engines : working for activation operators(ReLu,tanh..)
-> >
-> > By the way, my IP is mainly used for SOC, and the current driver regist=
-ration is through the platform_driver,
-> > is it necessary to switch to drm?
-> This probably depends on the answer to my question above. btw, there
-> are drivers in drm that handle IPs that are part of an SOC, so
-> platform_driver is supported.
->
-> Oded
->
-> >
-> > thanks.
-> >
-> > ________________________________________
-> > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
-> > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8822=E6=97=
-=A5 23:08
-> > =E6=94=B6=E4=BB=B6=E4=BA=BA: Jagan Teki
-> > =E6=8A=84=E9=80=81: Cancan Chang; linux-media; linux-kernel; Dave Airli=
-e; Daniel Vetter
-> > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support (R=
-FC)
-> >
-> > [=E4=BD=A0=E9=80=9A=E5=B8=B8=E4=B8=8D=E4=BC=9A=E6=94=B6=E5=88=B0=E6=9D=
-=A5=E8=87=AA ogabbay@kernel.org =E7=9A=84=E7=94=B5=E5=AD=90=E9=82=AE=E4=BB=
-=B6=E3=80=82=E8=AF=B7=E8=AE=BF=E9=97=AE https://aka.ms/LearnAboutSenderIden=
-tification=EF=BC=8C=E4=BB=A5=E4=BA=86=E8=A7=A3=E8=BF=99=E4=B8=80=E7=82=B9=
-=E4=B8=BA=E4=BB=80=E4=B9=88=E5=BE=88=E9=87=8D=E8=A6=81]
-> >
-> > [ EXTERNAL EMAIL ]
-> >
-> > On Fri, Sep 22, 2023 at 12:38=E2=80=AFPM Jagan Teki <jagan@edgeble.ai> =
-wrote:
-> > >
-> > > On Fri, 22 Sept 2023 at 15:04, Cancan Chang <Cancan.Chang@amlogic.com=
-> wrote:
-> > > >
-> > > > Dear Media Maintainers:
-> > > >      Thanks for your attention. Before describing my problem=EF=BC=
-=8Clet me introduce to you what I  mean by NPU.
-> > > >      NPU is Neural Processing Unit, It is designed for deep learnin=
-g acceleration, It is also called TPU, APU ..
-> > > >
-> > > >      The real problems:
-> > > >       When I was about to upstream my NPU driver codes to linux mai=
-nline, i meet two problems:
-> > > >         1.  According to my research, There is no NPU module path i=
-n the linux (base on linux 6.5.4) , I have searched all linux projects and =
-found no organization or comany that has submitted NPU code. Is there a pat=
-h prepared for NPU driver currently?
-> > > >         2.   If there is no NPU driver path currently, I am going t=
-o put my NPU driver code in the drivers/media/platform/amlogic/ =EF=BB=BF, =
-because my NPU driver belongs to amlogic. and amlogic NPU is mainly used fo=
-r AI vision applications. Is this plan suitabe for you?
-> > >
-> > > If I'm correct about the discussion with Oded Gabby before. I think
-> > > the drivers/accel/ is proper for AI Accelerators including NPU.
-> > >
-> > > + Oded in case he can comment.
-> > >
-> > > Thanks,
-> > > Jagan.
-> > Thanks Jagan for adding me to this thread. Adding Dave & Daniel as well=
-.
-> >
-> > Indeed, the drivers/accel is the place for Accelerators, mainly for
-> > AI/Deep-Learning accelerators.
-> > We currently have 3 drivers there already.
-> >
-> > The accel subsystem is part of the larger drm subsystem. Basically, to
-> > get into accel, you need to integrate your driver with the drm at the
-> > basic level (registering a device, hooking up with the proper
-> > callbacks). ofc the more you use code from drm, the better.
-> > You can take a look at the drivers under accel for some examples on
-> > how to do that.
-> >
-> > Could you please describe in a couple of sentences what your
-> > accelerator does, which engines it contains, how you program it. i.e.
-> > Is it a fixed-function device where you write to a couple of registers
-> > to execute workloads, or is it a fully programmable device where you
-> > load compiled code into it (GPU style) ?
-> >
-> > For better background on the accel subsystem, please read the following=
-:
-> > https://docs.kernel.org/accel/introduction.html
-> > This introduction also contains links to other important email threads
-> > and to Dave Airlie's BOF summary in LPC2022.
-> >
-> > Thanks,
-> > Oded
+> +  reg:
+> +    items:
+> +      - description: Registers for capture control
+> +      - description: Registers for CSI2 receiver control
+> +      - description: Registers for bus interface unit control
+> +      - description: Registers for Memory Protection Unit
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Sync Interrupt
+> +      - description: Status (Error) Interrupt
+> +      - description: CSI2 Receiver Interrupt
+> +      - description: L1ISP Interrupt
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> +    description: CSI-2 input port, with a single endpoint connected to the CSI-2 transmitter.
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: video-interfaces.yaml#
+> +        additionalProperties: false
+
+This is a friendly reminder during the review process.
+
+It seems my previous comments were not fully addressed. Maybe my
+feedback got lost between the quotes, maybe you just forgot to apply it.
+Please go back to the previous discussion and either implement all
+requested changes or keep discussing them.
+
+Thank you.
+
+
+> +
+> +        required:
+> +          - clock-noncontinuous
+> +          - link-frequencies
+> +          - remote-endpoint
+> +          - data-lanes
+
+Not much improved here. required goes after properties, always. I
+pointed you last time the file which you should use as an example.
+
+> +
+> +        properties:
+> +          data-lanes:
+> +            description: VIIF supports 1, 2, 3 or 4 data lanes
+> +            minItems: 1
+> +            items:
+> +              - const: 1
+> +              - const: 2
+> +              - const: 3
+> +              - const: 4
+> +
+> +          clock-noncontinuous: true
+
+Drop
+
+> +          link-frequencies: true
+
+Drop
+> +          remote-endpoint: true
+
+Drop
+
+Best regards,
+Krzysztof
+
