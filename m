@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A37937B11E8
-	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 07:06:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DE4D7B11EA
+	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 07:07:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbjI1FGq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Sep 2023 01:06:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47710 "EHLO
+        id S230212AbjI1FHE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Sep 2023 01:07:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbjI1FGp (ORCPT
+        with ESMTP id S230221AbjI1FHD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Sep 2023 01:06:45 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30748F
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 22:06:42 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9b0168a9e05so1321445366b.3
-        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 22:06:42 -0700 (PDT)
+        Thu, 28 Sep 2023 01:07:03 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA841198
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 22:07:00 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9ad8a822508so1603161666b.0
+        for <linux-media@vger.kernel.org>; Wed, 27 Sep 2023 22:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695877601; x=1696482401; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1695877619; x=1696482419; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
         bh=iharTJU5Bifx1z2hCCj9/iXAdTatfSCs/y5PbcRu+IM=;
-        b=sWr71T7pFZo3K8OcRiwpkV2oFin7sxz7OKPMhYrXHaa7idk9azLCU9Byl/bZ9C1AJu
-         JQAXIeYddMvbBG/0NrmbmEjeS2J8e2sPdVmBzzXzvCsmM8TlHOatgbD81MZM8QSiNptn
-         x+MMq/62922lqMzYCNYPjWA2Vl6e2fnPJkB4wgOQIGeKHv8VVjDyFDo9lFpFYcmAlycX
-         4KiQhIDVU6jMxIFjTkwjeWLb3feZMws5oTzUYc6fGPT625ki42qkzXG9YEflnNPNAq43
-         m+nqRJEbWugJC4M6fdIS0a+VHXJ5VgNIxIjgx4HmRDuFsDh6fAlOoMxk8HmNSz2vunib
-         9yfg==
+        b=COUt88vdnfwCvukUQ6iRyOSbAv4Yf1C6/+Uv8ywThKn35I4djYP94gYDFka6+bO0OW
+         iJpLtnxRpL58/0ly8IGkNF3nCpi72N2QV9rvmZ/LinAJlPvPdHQA4HXQd/hQlWS5OEAg
+         SjhJuqffP5p6jzcv8cxdSJq64nRC4tkLCSW6675QEqXFicaJAzlLAG2M1qV8UqrXbx+m
+         Btp3chGzhXsz8d330c4ONP8NCjfTCAymVXhf+zmU4kc8xRQW1RhiDQL0kyoY9Z7pAhO4
+         ElkNhjkd87rW2jK1OIoQcHEWwvVQ1gWLZLlxFcGulcnN2GdG0W0kuXlE16yKlYO1wpdM
+         TOnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695877601; x=1696482401;
+        d=1e100.net; s=20230601; t=1695877619; x=1696482419;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=iharTJU5Bifx1z2hCCj9/iXAdTatfSCs/y5PbcRu+IM=;
-        b=m563xKH/7r2yvZh4lUgYp7gwjl3BnVON3IUn6sLwaFBGZGn/Q51HEklmAVfkTrI4d4
-         K4u4CeMoxiZNbDHFgw5CVFhXxO+nFUpq1IwwNfGQIGzcG5Mwe/w8usjKjcHPGkYpAeNe
-         0FksYh2dxxPmScKfeEvTRu25VosSj9/TRuGBQvQNySf7jqivcU1B9vkzQOLr9DO3V08H
-         d90AtTS4vhWQ3enp89xALmuTFlJ5gTIrmmHSsL+JadC0xYKJ3OCyBz1hokU7vDCcpDUD
-         f2Cc5DtDAf/B7oD7Qz72YcLw7lEJyXy3xCz4Bl1FjvfxWskznRLy8fTRxvGsoL9FHPiv
-         ZpvQ==
-X-Gm-Message-State: AOJu0Yy630fIPiZth77DptXgcY5y5CBpUkfZe4f/tvs8e3/FWAPHGyGG
-        Xq4YnMxl5AxAxSxqEYyAc8VnhA==
-X-Google-Smtp-Source: AGHT+IHm4Hmj6e1ivjaB7U7Kxwz/xFnJzV8t3jVK2uGEt7Z0KcVA/lqHKWO0FGXzY1GCZIVYlWgQpg==
-X-Received: by 2002:a17:906:3152:b0:9b2:89ec:d701 with SMTP id e18-20020a170906315200b009b289ecd701mr197205eje.27.1695877601314;
-        Wed, 27 Sep 2023 22:06:41 -0700 (PDT)
+        b=LgNAvHzpZXZXKiREaYZLD/v2yZY/hKrrHaAmIF5DtDGjA6AqGA2K99o9lqwa8+U5AV
+         8szoYfcePVHKdWplvU33MOMCxFwD4IEeq5z0qeuqLAwlAr2sGXGQFOo0u9NZuPxc1h3S
+         82SbF4x1qzLqN9JoC3XVFLR40B2i3z1ohGD1bP6liGNv110BoOK2nzQaB5kIAGR81liK
+         KX/HiAkQsl+aFVPMImQpJ57MND6oonD9veaysJ+toZSAvfrt/uBRyzTLMUucBQjxxKFh
+         OGzX8xUrpP/A2+G2NtsOCytcJKAq+a8J3AKXn+gD7Be1Z9HkjQABwL7sqHisaZSTLnJx
+         YHvA==
+X-Gm-Message-State: AOJu0YzYdyX+ffugC70/7vXQxBrRsZ+yRH9th+y+hkmI4r4eGwGIrv6m
+        RfiEisAMzfLjsOtbOt7je7YToQ==
+X-Google-Smtp-Source: AGHT+IEDIkYhRtbBw3Mzn5spS8ZQv67kDmvuQX0UfKumFs9KpLvHbUtItvXsOR6yd3K2sN6A2avD/A==
+X-Received: by 2002:a17:907:b10:b0:9b2:78bf:d8d4 with SMTP id h16-20020a1709070b1000b009b278bfd8d4mr151066ejl.5.1695877618796;
+        Wed, 27 Sep 2023 22:06:58 -0700 (PDT)
 Received: from [192.168.1.234] (host-87-4-82-94.retail.telecomitalia.it. [87.4.82.94])
-        by smtp.gmail.com with ESMTPSA id gx10-20020a170906f1ca00b0099cb349d570sm10279642ejb.185.2023.09.27.22.06.39
+        by smtp.gmail.com with ESMTPSA id gx10-20020a170906f1ca00b0099cb349d570sm10279642ejb.185.2023.09.27.22.06.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Sep 2023 22:06:40 -0700 (PDT)
-Message-ID: <45abc9ec-1f7a-469c-bc0f-2a065499b0b4@linaro.org>
-Date:   Thu, 28 Sep 2023 07:06:38 +0200
+        Wed, 27 Sep 2023 22:06:58 -0700 (PDT)
+Message-ID: <e243a285-156f-4947-8932-45f2a8e3ec93@linaro.org>
+Date:   Thu, 28 Sep 2023 07:06:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [EXT] Re: [PATCH v4 2/2] dt-bindings: media: imx-jpeg: Assign
