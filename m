@@ -2,66 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71F8E7B22B3
-	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 18:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B34E47B22C6
+	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 18:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231150AbjI1Qr2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Sep 2023 12:47:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37228 "EHLO
+        id S230050AbjI1QtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Sep 2023 12:49:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231307AbjI1Qr1 (ORCPT
+        with ESMTP id S231687AbjI1QtK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Sep 2023 12:47:27 -0400
+        Thu, 28 Sep 2023 12:49:10 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD3B1A4;
-        Thu, 28 Sep 2023 09:47:25 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 047F8C433C8;
-        Thu, 28 Sep 2023 16:47:21 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 456DA1B4;
+        Thu, 28 Sep 2023 09:49:08 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 448EDC433C7;
+        Thu, 28 Sep 2023 16:49:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695919644;
-        bh=3ULes3SP+nVMDrHJRNu8hN35Zfay9cO72EBXJbs4MP0=;
+        s=k20201202; t=1695919747;
+        bh=OeEEMzb0mAUmb+1aOokCsA6Qtj1woMg6PHCCVn3/JME=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FJ1hHcd501bSblfoDC1vqRbgIic8CijJLyrB9WU3GwGIixc/ptBw7AW6exr6EoqYw
-         sp/0EzHtubpTo9CKuKlWwr4EIOP2r3JK/4ERExObJomh1xKu8ijpkfTIsqKOqN8HeL
-         9P/kpYJ4NjjZyRL2X48oD63uH0njQxA63qpHyKiD/1oiQTjBTnErpeVNmj8t+1uOE1
-         ynHoKQ+cjSBMYCXWKzHVL7gzPTBlxnzG1aoXkqJ4gDYv7FKmzB25wf0oj2NBDeToQF
-         q7bEwMBVt4tN5EXZkbXUg4SsuOEoN2Or5NWZnG+iQrudJwaClAIr6QQN2AntjYHJvs
-         NthIpULy3TQAA==
-Received: (nullmailer pid 834795 invoked by uid 1000);
-        Thu, 28 Sep 2023 16:47:20 -0000
-Date:   Thu, 28 Sep 2023 11:47:20 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Ming Qian <ming.qian@nxp.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        b=Db4BIMAEruuU/barRuapyi3/Do9/1bDem/5vK75erdBa4OOv0a1ayu8JhhwMhiB1B
+         b7FWDXnC9y2GsNVWgvvUIv6epHjo0s+2m9CpR4mOrH1GbZPa4NHYS8ThmE2VxxCI6V
+         tzuRfZSSWdkk2mAYTYjfGbTU46igF52qvkooGb36BaLRROU/HFmzbxWBpsvzILGUvY
+         pMJm89sxGOxi3ZnZu23ElsoQI3nkiUmhgeURqhYzRmP0giv7f9ZN/c7osFWg8g/gXK
+         TkguG9vvRACHovu32wesmkPf+mMsKyrABHaY39fy50sqyvNZxLaFoXjy7EbhFUESl2
+         nan2yXLQizmUQ==
+Date:   Thu, 28 Sep 2023 17:49:01 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Moudy Ho =?utf-8?B?KOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>
+Cc:     "conor.dooley@microchip.com" <conor.dooley@microchip.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "airlied@gmail.com" <airlied@gmail.com>,
         "krzysztof.kozlowski+dt@linaro.org" 
         <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        "X.H. Bao" <xiahong.bao@nxp.com>, Eagle Zhou <eagle.zhou@nxp.com>,
-        Tao Jiang <tao.jiang_2@nxp.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
         "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v4 2/2] dt-bindings: media: imx-jpeg: Assign
- slot for imx jpeg encoder/decoder
-Message-ID: <20230928164720.GA816352-robh@kernel.org>
-References: <20230926101000.13392-1-ming.qian@nxp.com>
- <20230926101000.13392-2-ming.qian@nxp.com>
- <2c351ca0-cee4-4c1b-956b-6134ad101a9a@linaro.org>
- <AM6PR04MB63415CF2EDCF0AF33F778774E7C2A@AM6PR04MB6341.eurprd04.prod.outlook.com>
+        <linux-arm-kernel@lists.infradead.org>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v6 12/16] dt-bindings: display: mediatek: color: add
+ compatible for MT8195
+Message-ID: <20230928-keep-attractor-1e7cd0df03b2@spud>
+References: <20230922072116.11009-1-moudy.ho@mediatek.com>
+ <20230922072116.11009-13-moudy.ho@mediatek.com>
+ <20230922-zebra-modify-87ff23c70bb3@spud>
+ <20230922-overhung-deception-e9b461ba0372@spud>
+ <7c445195e17e15d5af5fcb30ae53f76c713e958b.camel@mediatek.com>
+ <20230927-crunching-prancing-36fe3eb79607@wendy>
+ <825ac03b692043d48563620ad9542a4ee43211e7.camel@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rL+dijxgtPL7w+1l"
 Content-Disposition: inline
-In-Reply-To: <AM6PR04MB63415CF2EDCF0AF33F778774E7C2A@AM6PR04MB6341.eurprd04.prod.outlook.com>
+In-Reply-To: <825ac03b692043d48563620ad9542a4ee43211e7.camel@mediatek.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -71,91 +76,105 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 27, 2023 at 09:10:52AM +0000, Ming Qian wrote:
-> >From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >
-> >On 26/09/2023 12:10, Ming Qian wrote:
-> >> There are total 4 slots available in the IP, and we only need to use
-> >> one slot in one os, assign a single slot, configure interrupt and
-> >> power domain only for 1 slot, not for the all 4 slots.
-> >>
-> >> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> >> ---
-> >> v4
-> >> - improve commit message
-> >> - don't make an ABI break
-> >> v3
-> >> - add vender prefix, change property slot to nxp,slot
-> >> - add type for property slot
-> >>
-> >>  .../bindings/media/nxp,imx8-jpeg.yaml         | 45 +++++++++----------
-> >>  1 file changed, 21 insertions(+), 24 deletions(-)
-> >>
-> >> diff --git
-> >> a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> >> b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> >> index 3d9d1db37040..4bcfc815c894 100644
-> >> --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> >> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> >> @@ -32,19 +32,26 @@ properties:
-> >>      maxItems: 1
-> >>
-> >>    interrupts:
-> >> -    description: |
-> >> -      There are 4 slots available in the IP, which the driver may use
-> >> -      If a certain slot is used, it should have an associated interrupt
-> >> -      The interrupt with index i is assumed to be for slot i
-> >> -    minItems: 1               # At least one slot is needed by the driver
-> >> -    maxItems: 4               # The IP has 4 slots available for use
-> >> +    description:
-> >> +      Interrupt number for slot
-> >> +    maxItems: 1
-> >>
-> >>    power-domains:
-> >>      description:
-> >>        List of phandle and PM domain specifier as documented in
-> >>        Documentation/devicetree/bindings/power/power_domain.txt
-> >> -    minItems: 2               # Wrapper and 1 slot
-> >> -    maxItems: 5               # Wrapper and 4 slots
-> >> +    minItems: 1               # VPUMIX
-> >> +    maxItems: 2               # Wrapper and 1 slot
-> >> +
-> >> +  nxp,slot:
-> >> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >> +    description:
-> >> +      Integer number of slot index used. There are 4 slots available in the IP,
-> >> +      and driver can use a certain slot, it should have an associated interrupt
-> >> +      and power-domain. In theory, it supports 4 os or vm. If not specified, 0
-> >> +      is used by default.
-> >> +    minimum: 0
-> >> +    maximum: 3
-> >
-> >NAK, you still did not answer concerns why this is needed and justified.
-> >I keep asking and you keep ignoring...
-> >
-> >Best regards,
-> >Krzysztof
-> 
-> Hi Krzysztof,
-> 
-> > Nothing explains what is a slot and nothing explains why do you need this property.
-> 
-> I thought I had answered that question, but seems you don't agree with that explanation. 
-> Would the following description be any better?
-> 
-> The slot is the IP used to share the jpeg engine across multiple VMS 
-> and os, there are 4 slots available in the IP. We can use one slot in 
-> linux. The slot index indicates which slot we choose. If not 
-> specified, 0 is used by default.
 
-If you have to modify the DT to update 'nxp,slot', then you can modify 
-the DT to just expose the parts of the h/w for the assigned slot. For 
-example, only put slot 1's power-domains entry in the DT when slot 1 is 
-assigned.
+--rL+dijxgtPL7w+1l
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As far as formatting your emails, talk to your NXP colleagues. They've 
-figured it out. If you've configured git-send-email successfully, then 
-using mutt should be possible. You can use 'b4' to get the thread mbox, 
-and read it in mutt.
+On Thu, Sep 28, 2023 at 02:52:23AM +0000, Moudy Ho (=E4=BD=95=E5=AE=97=E5=
+=8E=9F) wrote:
+> On Wed, 2023-09-27 at 10:47 +0100, Conor Dooley wrote:
+> > On Wed, Sep 27, 2023 at 07:19:28AM +0000, Moudy Ho (=E4=BD=95=E5=AE=97=
+=E5=8E=9F) wrote:
+> > > On Fri, 2023-09-22 at 16:51 +0100, Conor Dooley wrote:
+> > > > On Fri, Sep 22, 2023 at 04:49:14PM +0100, Conor Dooley wrote:
+> > > > > On Fri, Sep 22, 2023 at 03:21:12PM +0800, Moudy Ho wrote:
+> > > > > > Add a compatible string for the COLOR block in MediaTek
+> > > > > > MT8195
+> > > > > > that
+> > > > > > is controlled by MDP3.
+> > > > > >=20
+> > > > > > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> > > > > > ---
+> > > > > >  .../devicetree/bindings/display/mediatek/mediatek,color.yaml
+> > > > > >    =20
+> > > > > >  | 1 +
+> > > > > >  1 file changed, 1 insertion(+)
+> > > > > >=20
+> > > > > > diff --git
+> > > > > > a/Documentation/devicetree/bindings/display/mediatek/mediatek
+> > > > > > ,col
+> > > > > > or.yaml
+> > > > > > b/Documentation/devicetree/bindings/display/mediatek/mediatek
+> > > > > > ,col
+> > > > > > or.yaml
+> > > > > > index f21e44092043..b886ca0d89ea 100644
+> > > > > > ---
+> > > > > > a/Documentation/devicetree/bindings/display/mediatek/mediatek
+> > > > > > ,col
+> > > > > > or.yaml
+> > > > > > +++
+> > > > > > b/Documentation/devicetree/bindings/display/mediatek/mediatek
+> > > > > > ,col
+> > > > > > or.yaml
+> > > > > > @@ -26,6 +26,7 @@ properties:
+> > > > > >            - mediatek,mt2701-disp-color
+> > > > > >            - mediatek,mt8167-disp-color
+> > > > > >            - mediatek,mt8173-disp-color
+> > > > > > +          - mediatek,mt8195-mdp3-color
+> > > > >=20
+> > > > > How come this one is a "mdp3" not a "disp"?
+> > > >=20
+> > > > I don't know what mdp3 means & googling gives me no answers.
+> > > > What's
+> > > > the
+> > > > "disp" one controlled by, since it isn't controlled by mdp3?
+> > > >=20
 
-Rob
+> > > Mediatek's Media Data Path ver.3 (MDP3) is associated with MMSYS
+> > > and
+> > > acts as an independent driver that operates between VDEC and DISP.
+> > > By controlling multiple components, it carries out tasks like
+> > > converting color formats, resizing, and applying specific Picture
+> > > Quality (PQ) effects.
+> > > The driver can be found at "driver/media/platform/mediatek/mdp3".
+> > > Since the same hardware components are configured in both MDP3 and
+> > > DISP, considering previous discussions, I attemped to integrate
+> > > into a
+> > > single binding, named after the controlling user.
+> >=20
+> > I'm still kinda struggling to understand this. Do you mean that the
+> > hardware can be controlled by either of the disp and mdp3 drivers,
+> > and
+> > a compatible containing "disp" would use one driver, and one
+> > containing
+> > "mdp3" would use another?
+> >=20
+
+> Sorry for any confusion caused by the software information. In the
+> video pipeline, after decoding, the data flows sequentially through two
+> subsystems: MDP and DISP. Each subsystems has multiple IPs, with some
+> serving the same functionality as COLOR mentioned here. However, these
+> IPs cannot be controlled by different subsystems. Therefore, I included
+> the name of the subsystem after SoC to identify the configuration's
+> location. Is this approach feasible?
+
+I'll have to leave things to the likes of Laurent to comment here I
+think. I don't understand this hardware well enough to have a useful
+opinion. It would seem like a different part of the datapath is a
+different device that should be documented separately, but I don't know
+enough to say for sure, sorry.
+
+--rL+dijxgtPL7w+1l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRWufQAKCRB4tDGHoIJi
+0nsWAP9Z5+p8LVkSBzp2zIp0mJIEPuMJ/5L9jDuxGtzFI/iWtgEArrzswN8FG3pb
+YVD0T3yCkqjyqOjvhOwzAdI5Kr9a5go=
+=Rkco
+-----END PGP SIGNATURE-----
+
+--rL+dijxgtPL7w+1l--
