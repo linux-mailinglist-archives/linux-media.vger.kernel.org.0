@@ -2,274 +2,476 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C38877B152E
-	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 09:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FB187B15B9
+	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 10:09:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230265AbjI1Hl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Sep 2023 03:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60646 "EHLO
+        id S230251AbjI1IJF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Sep 2023 04:09:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjI1Hl1 (ORCPT
+        with ESMTP id S229605AbjI1IJE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Sep 2023 03:41:27 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2D1AC;
-        Thu, 28 Sep 2023 00:41:25 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 666E4C433C8;
-        Thu, 28 Sep 2023 07:41:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695886885;
-        bh=D9ts5MC2FywiLZJu5dLAwNpd7njTHE/n9uAshJDLqp4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ERtMggmnq7Sp96lpebNUtkqJs8EMkeU+GVUNnsQPHXtIfwOVL+fBlnsUoWsmN+2fr
-         Lj02o4Odf6TyQn0f0lqGcxIdSS1Xeo8Eo7ia2TTJCi+OeOZoQ16ql5mgbT0afO37MD
-         oGivHeRe8qH14OtZY8rvxsOSGm2iIbeKBzk6IeyKRKT6mKsGHfPMBxPo9NjkffJuwM
-         QlX6RBMiE0UNeAgI8NE7HM418FkHIrc9jOO5hcIpVmGe/XAoM8kkvssK1GzzkoNg/9
-         f7mY88bi5Rg7QqmjAw5f26ZYQ/qT38hBeqwi3PZn/RQlEp8gWNqxgXHDuGMaFv4AsZ
-         v5jIDFsi+GZ0Q==
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-59f1dff5298so146596027b3.3;
-        Thu, 28 Sep 2023 00:41:25 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yz9wMOmQG9QAhOLOm8CUWMVadYLbhN14+rWpxOOi/KpDyZRGQBi
-        al/Z6G9z49iGPkOvG6ZhpG11rMUf7mIoSKPP03k=
-X-Google-Smtp-Source: AGHT+IG7vcYp5tlWjW6jEUotF/g7/ewW9sWPYdVH8ytcGbrHKVS6T+gFOR32W8reM211OSAjae4wNHo7muiQJR0SUHg=
-X-Received: by 2002:a81:ab46:0:b0:59b:eb8:c38a with SMTP id
- d6-20020a81ab46000000b0059b0eb8c38amr363373ywk.30.1695886884509; Thu, 28 Sep
- 2023 00:41:24 -0700 (PDT)
+        Thu, 28 Sep 2023 04:09:04 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1277595
+        for <linux-media@vger.kernel.org>; Thu, 28 Sep 2023 01:09:00 -0700 (PDT)
+Received: from ideasonboard.com (mob-5-90-13-94.net.vodafone.it [5.90.13.94])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B54E057E;
+        Thu, 28 Sep 2023 10:07:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1695888433;
+        bh=+zZi4UNHCvwraR2x6vAIKmMKjxht/gTrMawiwflu30M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Nf3A1dSg6DkIyV+qieVVmeHmiDvMtzybdboJmU3wDOCWOFmQMNI6dsovfPdWqOSDx
+         JSawoD/IBxnIwqDCMMBigOWfPNjLM4eG7bPvEgmOhiKYpuOvr6ZiPge7Ks7YmOqCfn
+         ftf1s36dySk0kmNP73wSJ2wJud+lrrwONBAR6tY4=
+Date:   Thu, 28 Sep 2023 10:08:47 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] media: Documentation: Split camera sensor
+ documentation
+Message-ID: <vfdo5iajz6xgny4wuwqvz7c7zrqyexu2aihj4wrsgf7s347ft4@z5ruigjp7ld6>
+References: <20230927160623.399428-1-sakari.ailus@linux.intel.com>
+ <bj4kfqthh4kb7dbu2auevb44yrqgeu6z3rakx5x55q3jfwsyur@emhmhbmr3bpk>
+ <ZRR4ODOLBCfspNNT@kekkonen.localdomain>
+ <20230927223336.GX5854@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <SEYPR03MB704641091854162959578D7E9AFFA@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CA+VMnFyhp9D8cjtvLVzdKGETouOuH=MKgjOu1pn00WDRB=5oUg@mail.gmail.com>
- <CAFCwf12sUL5bcXhYKwRkMxLtSDtLfTK003oxkRDVmThx1ARV-A@mail.gmail.com>
- <SEYPR03MB70462A385A52A317427E93B59AFCA@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CAFCwf11hxBpg3T6MoVrL0GaOD_=xB+-dWeEtDH0cCyzyQ-q1tg@mail.gmail.com>
- <SEYPR03MB70463AEED951A0E2C18481099AC2A@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CAFCwf13ZiYYoXE+S_wQ_EhjiACPGJGT+70_stwpY_=aD=VYa4A@mail.gmail.com> <SEYPR03MB704690FD9116A31D6FBCF32A9AC1A@SEYPR03MB7046.apcprd03.prod.outlook.com>
-In-Reply-To: <SEYPR03MB704690FD9116A31D6FBCF32A9AC1A@SEYPR03MB7046.apcprd03.prod.outlook.com>
-From:   Oded Gabbay <ogabbay@kernel.org>
-Date:   Thu, 28 Sep 2023 10:40:58 +0300
-X-Gmail-Original-Message-ID: <CAFCwf128vYZ+EGHvZD0_ND2CGBzwMKk6OyhVRW_z=xCOSmi47w@mail.gmail.com>
-Message-ID: <CAFCwf128vYZ+EGHvZD0_ND2CGBzwMKk6OyhVRW_z=xCOSmi47w@mail.gmail.com>
-Subject: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
-To:     Cancan Chang <Cancan.Chang@amlogic.com>
-Cc:     Jagan Teki <jagan@edgeble.ai>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230927223336.GX5854@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 28, 2023 at 10:25=E2=80=AFAM Cancan Chang <Cancan.Chang@amlogic=
-.com> wrote:
->
-> =E2=80=9CCould you please post a link to the driver's source code ?
-> In addition, could you please elaborate which userspace libraries
-> exists that work with your driver ? Are any of them open-source ?=E2=80=
-=9D
-> --- We will prepare the adla driver link after the holiday on October 6th=
-.
->      It's a pity that there is no open-source userspace library.
->      But you can probably understand it through a workflow, which can be =
-simplified as:
->      1. create model context
->           ret =3D ioctl(context->fd, ADLAK_IOCTL_REGISTER_NETWORK, &desc)=
-;
->      2.  set inputs
->      3.  inference
->            ret =3D ioctl(context->fd, ADLAK_IOCTL_INVOKE, &invoke_dec);
-What happens if you call this again without waiting for the previous
-inference to complete ?
-Oded
->      4.  wait for the inference to complete
->            ret =3D ioctl(context->fd, ADLAK_IOCTL_WAIT_UNTIL_FINISH, &sta=
-t_req_desc);
->      5.  destroy model context
->            ret =3D ioctl(context->fd, ADLAK_IOCTL_DESTROY_NETWORK, &submi=
-t_del);
->
->
->       thanks
->
->
-> ________________________________________
-> =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
-> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8828=E6=97=A5 =
-13:28
-> =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
-> =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Airlie; D=
-aniel Vetter
-> =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC=
-)
->
-> [ EXTERNAL EMAIL ]
->
-> On Wed, Sep 27, 2023 at 10:01=E2=80=AFAM Cancan Chang <Cancan.Chang@amlog=
-ic.com> wrote:
-> >
-> > =E2=80=9COr do you handle one cmd at a time, where the user sends a cmd=
- buffer
-> > to the driver and the driver then submit it by writing to a couple of
-> > registers and polls on some status register until its done, or waits
-> > for an interrupt to mark it as done ?=E2=80=9D
-> >   --- yes=EF=BC=8C user sends a cmd buffer to driver, and driver trigge=
-rs hardware by writing to register,
-> >         and then, waits for an interrupt to mark it  as done.
-> >
-> >     My current driver is very different from drm, so I want to know if =
-I have to switch to drm=EF=BC=9F
-> Could you please post a link to the driver's source code ?
-> In addition, could you please elaborate which userspace libraries
-> exists that work with your driver ? Are any of them open-source ?
->
-> >     Maybe I can refer to /driver/accel/habanalabs.
-> That's definitely a possibility.
->
-> Oded
-> >
-> > thanks
-> >
-> > ________________________________________
-> > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
-> > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8826=E6=97=
-=A5 20:54
-> > =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
-> > =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Airlie;=
- Daniel Vetter
-> > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support (R=
-FC)
-> >
-> > [ EXTERNAL EMAIL ]
-> >
-> > On Mon, Sep 25, 2023 at 12:29=E2=80=AFPM Cancan Chang <Cancan.Chang@aml=
-ogic.com> wrote:
-> > >
-> > > Thank you for your reply from Jagan & Oded.
-> > >
-> > > It is very appropritate for my driver to be placed in driver/accel.
-> > >
-> > > My accelerator is named ADLA(Amlogic Deep Learning Accelerator).
-> > > It is an IP in SOC,mainly used for neural network models acceleration=
-.
-> > > It will split and compile the neural network model into a private for=
-mat cmd buffer,
-> > > and submit this cmd buffer to ADLA hardware. It is not programmable d=
-evice.
-> > What exactly does it mean to "submit this cmd buffer to ADLA hardware" =
-?
-> >
-> > Does your h/w provides queues for the user/driver to put their
-> > workloads/cmd-bufs on them ? And does it provide some completion queue
-> > to notify when the work is completed?
-> >
-> > Or do you handle one cmd at a time, where the user sends a cmd buffer
-> > to the driver and the driver then submit it by writing to a couple of
-> > registers and polls on some status register until its done, or waits
-> > for an interrupt to mark it as done ?
-> >
-> > >
-> > > ADLA includes four hardware engines:
-> > > RS engines             : working for the reshape operators
-> > > MAC engines         : working for the convolution operators
-> > > DW engines           : working for the planer & Elementwise operators
-> > > Activation engines : working for activation operators(ReLu,tanh..)
-> > >
-> > > By the way, my IP is mainly used for SOC, and the current driver regi=
-stration is through the platform_driver,
-> > > is it necessary to switch to drm?
-> > This probably depends on the answer to my question above. btw, there
-> > are drivers in drm that handle IPs that are part of an SOC, so
-> > platform_driver is supported.
-> >
-> > Oded
-> >
-> > >
-> > > thanks.
-> > >
-> > > ________________________________________
-> > > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
-> > > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8822=E6=97=
-=A5 23:08
-> > > =E6=94=B6=E4=BB=B6=E4=BA=BA: Jagan Teki
-> > > =E6=8A=84=E9=80=81: Cancan Chang; linux-media; linux-kernel; Dave Air=
-lie; Daniel Vetter
-> > > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support =
-(RFC)
-> > >
-> > > [=E4=BD=A0=E9=80=9A=E5=B8=B8=E4=B8=8D=E4=BC=9A=E6=94=B6=E5=88=B0=E6=
-=9D=A5=E8=87=AA ogabbay@kernel.org =E7=9A=84=E7=94=B5=E5=AD=90=E9=82=AE=E4=
-=BB=B6=E3=80=82=E8=AF=B7=E8=AE=BF=E9=97=AE https://aka.ms/LearnAboutSenderI=
-dentification=EF=BC=8C=E4=BB=A5=E4=BA=86=E8=A7=A3=E8=BF=99=E4=B8=80=E7=82=
-=B9=E4=B8=BA=E4=BB=80=E4=B9=88=E5=BE=88=E9=87=8D=E8=A6=81]
-> > >
-> > > [ EXTERNAL EMAIL ]
-> > >
-> > > On Fri, Sep 22, 2023 at 12:38=E2=80=AFPM Jagan Teki <jagan@edgeble.ai=
-> wrote:
+Hi Sakari, Laurent
+
+On Thu, Sep 28, 2023 at 01:33:36AM +0300, Laurent Pinchart wrote:
+> On Wed, Sep 27, 2023 at 06:45:12PM +0000, Sakari Ailus wrote:
+> > On Wed, Sep 27, 2023 at 07:17:51PM +0200, Jacopo Mondi wrote:
+> > > On Wed, Sep 27, 2023 at 07:06:23PM +0300, Sakari Ailus wrote:
+> > > > Split camera sensor documentation into user and kernel portions. This
+> > > > should make it easier for the user space developers to find the relevant
+> > > > documentation.
 > > > >
-> > > > On Fri, 22 Sept 2023 at 15:04, Cancan Chang <Cancan.Chang@amlogic.c=
-om> wrote:
-> > > > >
-> > > > > Dear Media Maintainers:
-> > > > >      Thanks for your attention. Before describing my problem=EF=
-=BC=8Clet me introduce to you what I  mean by NPU.
-> > > > >      NPU is Neural Processing Unit, It is designed for deep learn=
-ing acceleration, It is also called TPU, APU ..
-> > > > >
-> > > > >      The real problems:
-> > > > >       When I was about to upstream my NPU driver codes to linux m=
-ainline, i meet two problems:
-> > > > >         1.  According to my research, There is no NPU module path=
- in the linux (base on linux 6.5.4) , I have searched all linux projects an=
-d found no organization or comany that has submitted NPU code. Is there a p=
-ath prepared for NPU driver currently?
-> > > > >         2.   If there is no NPU driver path currently, I am going=
- to put my NPU driver code in the drivers/media/platform/amlogic/ =EF=BB=BF=
-, because my NPU driver belongs to amlogic. and amlogic NPU is mainly used =
-for AI vision applications. Is this plan suitabe for you?
+> > > > Also add a list of exemplary drivers and add imx219 driver to it, besides
+> > > > those that were already mentioned.
 > > > >
-> > > > If I'm correct about the discussion with Oded Gabby before. I think
-> > > > the drivers/accel/ is proper for AI Accelerators including NPU.
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > >
+> > > The patch doesn't apply on media/master nor on v6.6-rc2.
+> > > What is the intended base ?
+> >
+> > Oops. I had other documentation patches in the metadata preparation set. It
+> > goes on top of that:
+> > <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata-pre>.
+>
+> I recommend setting format.useAutoBase to true, it will then convey base
+> commit information in the patches.
+>
+> > > > ---
+> > > >  .../driver-api/media/camera-sensor.rst        | 135 ++++++------------
+> > > >  .../media/drivers/camera-sensor.rst           | 104 ++++++++++++++
+> > > >  .../userspace-api/media/drivers/index.rst     |   1 +
+> > > >  .../userspace-api/media/v4l/control.rst       |   4 +
+> > > >  4 files changed, 151 insertions(+), 93 deletions(-)
+> > > >  create mode 100644 Documentation/userspace-api/media/drivers/camera-sensor.rst
 > > > >
-> > > > + Oded in case he can comment.
+> > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > > index 2acc08142a1a..1f32a7e2d858 100644
+> > > > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > > @@ -1,8 +1,14 @@
+> > > >  .. SPDX-License-Identifier: GPL-2.0
 > > > >
-> > > > Thanks,
-> > > > Jagan.
-> > > Thanks Jagan for adding me to this thread. Adding Dave & Daniel as we=
-ll.
+> > > > +.. _media_writing_camera_sensor_drivers:
+> > > > +
+> > > >  Writing camera sensor drivers
+> > > >  =============================
+> > > >
+> > > > +This document covers the in-kernel APIs only. For the best practices on
+> > > > +userspace API implementation in camera sensor drivers, please see
+> > > > +:ref:`media_using_camera_sensor_drivers`.
+> > > > +
+> > > >  CSI-2 and parallel (BT.601 and BT.656) busses
+> > > >  ---------------------------------------------
+> > > >
+> > > > @@ -34,7 +40,8 @@ Devicetree
+> > > >
+> > > >  The preferred way to achieve this is using ``assigned-clocks``,
+> > > >  ``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
+> > > > -`clock device tree bindings <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+> > > > +`clock device tree bindings
+> > > > +<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
+> > > >  for more information. The driver then gets the frequency using
+> > > >  ``clk_get_rate()``.
+> > > >
+> > > > @@ -85,9 +92,7 @@ PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
+> > > >  a bridge driver, instead add runtime PM support to the sensor driver you are
+> > > >  using and drop its ``.s_power()`` handler.
+> > > >
+> > > > -See examples of runtime PM handling in e.g. ``drivers/media/i2c/ov8856.c`` and
+> > > > -``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI and DT
+> > > > -based systems.
+> > > > +Please also see :ref:`examples <media-camera-sensor-examples>`.
+> > > >
+> > > >  Control framework
+> > > >  ~~~~~~~~~~~~~~~~~
+> > > > @@ -104,99 +109,43 @@ The function returns a non-zero value if it succeeded getting the power count or
+> > > >  runtime PM was disabled, in either of which cases the driver may proceed to
+> > > >  access the device.
+> > > >
+> > > > -Frame size
+> > > > -----------
+> > > > -
+> > > > -There are two distinct ways to configure the frame size produced by camera
+> > > > -sensors.
+> > > > -
+> > > > -Freely configurable camera sensor drivers
+> > > > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > -
+> > > > -Freely configurable camera sensor drivers expose the device's internal
+> > > > -processing pipeline as one or more sub-devices with different cropping and
+> > > > -scaling configurations. The output size of the device is the result of a series
+> > > > -of cropping and scaling operations from the device's pixel array's size.
+> > > > -
+> > > > -An example of such a driver is the CCS driver (see ``drivers/media/i2c/ccs``).
+> > > > -
+> > > > -Register list based drivers
+> > > > -~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > -
+> > > > -Register list based drivers generally, instead of able to configure the device
+> > > > -they control based on user requests, are limited to a number of preset
+> > > > -configurations that combine a number of different parameters that on hardware
+> > > > -level are independent. How a driver picks such configuration is based on the
+> > > > -format set on a source pad at the end of the device's internal pipeline.
+> > > > -
+> > > > -Most sensor drivers are implemented this way, see e.g.
+> > > > -``drivers/media/i2c/imx319.c`` for an example.
+> > > > -
+> > > > -Frame interval configuration
+> > > > -----------------------------
+> > > > -
+> > > > -There are two different methods for obtaining possibilities for different frame
+> > > > -intervals as well as configuring the frame interval. Which one to implement
+> > > > -depends on the type of the device.
+> > > > -
+> > > > -Raw camera sensors
+> > > > -~~~~~~~~~~~~~~~~~~
+> > > > -
+> > > > -Instead of a high level parameter such as frame interval, the frame interval is
+> > > > -a result of the configuration of a number of camera sensor implementation
+> > > > -specific parameters. Luckily, these parameters tend to be the same for more or
+> > > > -less all modern raw camera sensors.
+> > > > -
+> > > > -The frame interval is calculated using the following equation::
+> > > > -
+> > > > -	frame interval = (analogue crop width + horizontal blanking) *
+> > > > -			 (analogue crop height + vertical blanking) / pixel rate
+> > > > -
+> > > > -The formula is bus independent and is applicable for raw timing parameters on
+> > > > -large variety of devices beyond camera sensors. Devices that have no analogue
+> > > > -crop, use the full source image size, i.e. pixel array size.
+> > > > -
+> > > > -Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > > > -``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> > > > -is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> > > > -the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> > > > -sub-device. The unit of that control is pixels per second.
+> > > > -
+> > > > -Register list based drivers need to implement read-only sub-device nodes for the
+> > > > -purpose. Devices that are not register list based need these to configure the
+> > > > -device's internal processing pipeline.
+> > > > -
+> > > > -The first entity in the linear pipeline is the pixel array. The pixel array may
+> > > > -be followed by other entities that are there to allow configuring binning,
+> > > > -skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
+> > > > -
+> > > > -USB cameras etc. devices
+> > > > -~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > -
+> > > > -USB video class hardware, as well as many cameras offering a similar higher
+> > > > -level interface natively, generally use the concept of frame interval (or frame
+> > > > -rate) on device level in firmware or hardware. This means lower level controls
+> > > > -implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
+> > > > -frame interval on these devices.
+> > > > -
+> > > >  Rotation, orientation and flipping
+> > > >  ----------------------------------
+> > > >
+> > > > -Some systems have the camera sensor mounted upside down compared to its natural
+> > > > -mounting rotation. In such cases, drivers shall expose the information to
+> > > > -userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> > > > -<v4l2-camera-sensor-rotation>` control.
+> > > > -
+> > > > -Sensor drivers shall also report the sensor's mounting orientation with the
+> > > > -:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> > > > -
+> > > >  Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
+> > > >  information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
+> > > >  register the appropriate controls.
+> > > >
+> > > > -Sensor drivers that have any vertical or horizontal flips embedded in the
+> > > > -register programming sequences shall initialize the V4L2_CID_HFLIP and
+> > > > -V4L2_CID_VFLIP controls with the values programmed by the register sequences.
+> > > > -The default values of these controls shall be 0 (disabled). Especially these
+> > > > -controls shall not be inverted, independently of the sensor's mounting
+> > > > -rotation.
+> > > > +.. _media-camera-sensor-examples:
+> > > > +
+> > > > +Example drivers
+> > > > +---------------
+> > > > +
+> > > > +Features implemented by sensor drivers vary, and depending on the set of
+> > > > +supported features and other qualities, particular sensor drivers better serve
+> > > > +the purpose of an example. The following drivers are known to be good examples:
+> > > > +
+> > > > +.. flat-table:: Example sensor drivers
+> > > > +    :header-rows: 0
+> > > > +    :widths:      1 1 1 2
+> > > > +
+> > > > +    * - Driver name
+> > > > +      - File(s)
+> > > > +      - Driver type
+> > > > +      - Example topic
+> > > > +    * - CCS
+> > > > +      - ``drivers/media/i2c/ccs/``
+> > > > +      - Freely configurable
+> > > > +      - Power management (ACPI and DT), UAPI
+> > > > +    * - imx219
+> > > > +      - ``drivers/media/i2c/imx219.c``
+> > > > +      - Register list based
+> > > > +      - Power management (DT), UAPI, mode selection
+> > > > +    * - imx319
+> > > > +      - ``drivers/media/i2c/imx319.c``
+> > > > +      - Register list based
+> > > > +      - Power management (ACPI and DT)
+> > > > +    * - ov8865
+> > > > +      - ``drivers/media/i2c/ov8865.c``
+> > > > +      - Register list based
+> > > > +      - Power management (ACPI and DT)
+> > > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > new file mode 100644
+> > > > index 000000000000..919a50e8b9d9
+> > > > --- /dev/null
+> > > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > @@ -0,0 +1,104 @@
+> > > > +.. SPDX-License-Identifier: GPL-2.0
+> > > > +
+> > > > +.. _media_using_camera_sensor_drivers:
+> > > > +
+> > > > +Using camera sensor drivers
+> > > > +===========================
+> > > > +
+> > > > +This section describes common practices for how the V4L2 sub-device interface is
+> > > > +used to control the camera sensor drivers.
+> > > > +
+> > > > +You may also find :ref:`media_writing_camera_sensor_drivers` useful.
+> > > > +
+> > > > +Frame size
+> > > > +----------
+> > > > +
+> > > > +There are two distinct ways to configure the frame size produced by camera
+> > > > +sensors.
+> > > > +
+> > > > +Freely configurable camera sensor drivers
+> > > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +Freely configurable camera sensor drivers expose the device's internal
+> > > > +processing pipeline as one or more sub-devices with different cropping and
+> > > > +scaling configurations. The output size of the device is the result of a series
+> > > > +of cropping and scaling operations from the device's pixel array's size.
+> > > > +
+> > > > +An example of such a driver is the CCS driver.
+> > > > +
+> > > > +Register list based drivers
+> > > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +Register list based drivers generally, instead of able to configure the device
+> > > > +they control based on user requests, are limited to a number of preset
+> > > > +configurations that combine a number of different parameters that on hardware
+> > > > +level are independent. How a driver picks such configuration is based on the
+> > > > +format set on a source pad at the end of the device's internal pipeline.
+> > > > +
+> > > > +Most sensor drivers are implemented this way.
+> > > > +
+> > > > +Frame interval configuration
+> > > > +----------------------------
+> > > > +
+> > > > +There are two different methods for obtaining possibilities for different frame
+> > > > +intervals as well as configuring the frame interval. Which one to implement
+> > > > +depends on the type of the device.
+> > > > +
+> > > > +Raw camera sensors
+> > > > +~~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +Instead of a high level parameter such as frame interval, the frame interval is
+> > > > +a result of the configuration of a number of camera sensor implementation
+> > > > +specific parameters. Luckily, these parameters tend to be the same for more or
+> > > > +less all modern raw camera sensors.
+> > > > +
+> > > > +The frame interval is calculated using the following equation::
+> > > > +
+> > > > +	frame interval = (analogue crop width + horizontal blanking) *
+> > > > +			 (analogue crop height + vertical blanking) / pixel rate
+> > > > +
 > > >
-> > > Indeed, the drivers/accel is the place for Accelerators, mainly for
-> > > AI/Deep-Learning accelerators.
-> > > We currently have 3 drivers there already.
+> > > Is this even correct ? The above formula mentions the analogue crop sizes,
+> > > but isn't this the pixel sampling rate on the sensor's pixel array ? isn't it
+> >
+> > Yes, it is.
+> >
+> > > different from the produced output frame rate which should take into
+> > > account any binning/skipping step and optional digital crop ? Should the
+> >
+> > These happen later in the pipeline.
+> >
+> > > visible+blanking sizes should be taken into account instead ? Binned
+> > > modes are usually faster than non-binned ones, in example...
+> >
+> > Good point. How have you calculated the frame rate in libcamera? :-)
+
+Using visible sizes. In all our IPAs (the 3A block) the frame duration
+is calculated using the line length and frame height as calculated
+here:
+https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/camera_sensor.cpp#n1074
+        info->minLineLength = info->outputSize.width + hblank.min().get<int32_t>();
+        info->maxLineLength = info->outputSize.width + hblank.max().get<int32_t>();
+
+        info->minFrameLength = info->outputSize.height + vblank.min().get<int32_t>();
+        info->maxFrameLength = info->outputSize.height + vblank.max().get<int32_t>();
+
+Combined with the pixel rate and blankings to get the frame duration
+https://git.libcamera.org/libcamera/libcamera.git/tree/src/ipa/ipu3/ipu3.cpp#n263
+https://git.libcamera.org/libcamera/libcamera.git/tree/src/ipa/rpi/common/ipa_base.cpp#n516
+
+> >
+> > The pixel rate control in CCS driver's pixel array sub-device
+> > indeed indicates the pixel rate in the pixel array, but in at least some drivers
+> > it's the pixel rate on the bus.
+
+True indeed. For MIPI CSI-2 it would probably be more correct to use
+the link frequency and the bus bandwidth, but that only apply to
+CSI-2...
+
+>
+> Thits patch only moves the documentation, so fixes can go on top.
+>
+
+Indeed, for the documentation move
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+> > > > +The formula is bus independent and is applicable for raw timing parameters on
+> > > > +large variety of devices beyond camera sensors. Devices that have no analogue
+> > > > +crop, use the full source image size, i.e. pixel array size.
 > > >
-> > > The accel subsystem is part of the larger drm subsystem. Basically, t=
-o
-> > > get into accel, you need to integrate your driver with the drm at the
-> > > basic level (registering a device, hooking up with the proper
-> > > callbacks). ofc the more you use code from drm, the better.
-> > > You can take a look at the drivers under accel for some examples on
-> > > how to do that.
+> > > This is also wrong imho. Using the pixel array size would only give
+> > > you an approximation  of the frame interval of the sensor's frame rate
+> > > at maximum resolution ?
+> >
+> > The formula holds in all cases: what happens later in the sensor's pipeline
+> > doesn't change the pixel rate. We should add documentation (and probably
+> > new interface elements, whatever they are) to properly do this for register
+> > list based drivers with a single sub-device, too.
+> >
+> > > I understand this was already here so this is not strictly related to
+> > > this patch...
 > > >
-> > > Could you please describe in a couple of sentences what your
-> > > accelerator does, which engines it contains, how you program it. i.e.
-> > > Is it a fixed-function device where you write to a couple of register=
-s
-> > > to execute workloads, or is it a fully programmable device where you
-> > > load compiled code into it (GPU style) ?
+> > > > +
+> > > > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > > > +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> > > > +is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> > > > +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> > > > +sub-device. The unit of that control is pixels per second.
+> > > > +
+> > > > +Register list based drivers need to implement read-only sub-device nodes for the
+> > > > +purpose. Devices that are not register list based need these to configure the
+> > > > +device's internal processing pipeline.
 > > >
-> > > For better background on the accel subsystem, please read the followi=
-ng:
-> > > https://docs.kernel.org/accel/introduction.html
-> > > This introduction also contains links to other important email thread=
-s
-> > > and to Dave Airlie's BOF summary in LPC2022.
+> > > Why are read-only subdev suggested here ? can't a register-based
+> > > driver can register read-only controls for blankings ?
+> >
+> > This is what the text is suggesting, indeed.
+> >
+
+Indeed it is, but it is correct in your opinion ? :)
+
+Thanks
+  j
+
+> > > Again, this was here already.
 > > >
-> > > Thanks,
-> > > Oded
+> > > > +
+> > > > +The first entity in the linear pipeline is the pixel array. The pixel array may
+> > > > +be followed by other entities that are there to allow configuring binning,
+> > > > +skipping, scaling or digital crop, see :ref:`VIDIOC_SUBDEV_G_SELECTION
+> > > > +<VIDIOC_SUBDEV_G_SELECTION>`.
+> > > > +
+> > > > +USB cameras etc. devices
+> > > > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +USB video class hardware, as well as many cameras offering a similar higher
+> > > > +level interface natively, generally use the concept of frame interval (or frame
+> > > > +rate) on device level in firmware or hardware. This means lower level controls
+> > > > +implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
+> > > > +frame interval on these devices.
+> > > > +
+> > > > +Rotation, orientation and flipping
+> > > > +----------------------------------
+> > > > +
+> > > > +Some systems have the camera sensor mounted upside down compared to its natural
+> > > > +mounting rotation. In such cases, drivers shall expose the information to
+> > > > +userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> > > > +<v4l2-camera-sensor-rotation>` control.
+> > > > +
+> > > > +Sensor drivers shall also report the sensor's mounting orientation with the
+> > > > +:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> > > > +
+> > > > +Sensor drivers that have any vertical or horizontal flips embedded in the
+> > > > +register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
+> > > > +<v4l2-cid-hflip>` and :ref:`V4L2_CID_VFLIP <v4l2-cid-vflip>` controls with the
+> > > > +values programmed by the register sequences. The default values of these
+> > > > +controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> > > > +independently of the sensor's mounting rotation.
+> > > > diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> > > > index 783f92f01a4c..1726f8ec86fa 100644
+> > > > --- a/Documentation/userspace-api/media/drivers/index.rst
+> > > > +++ b/Documentation/userspace-api/media/drivers/index.rst
+> > > > @@ -32,6 +32,7 @@ For more details see the file COPYING in the source distribution of Linux.
+> > > >  	:numbered:
+> > > >
+> > > >  	aspeed-video
+> > > > +	camera-sensor
+> > > >  	ccs
+> > > >  	cx2341x-uapi
+> > > >  	dw100
+> > > > diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+> > > > index 4463fce694b0..57893814a1e5 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/control.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/control.rst
+> > > > @@ -143,9 +143,13 @@ Control IDs
+> > > >      recognise the difference between digital and analogue gain use
+> > > >      controls ``V4L2_CID_DIGITAL_GAIN`` and ``V4L2_CID_ANALOGUE_GAIN``.
+> > > >
+> > > > +.. _v4l2-cid-hflip:
+> > > > +
+> > > >  ``V4L2_CID_HFLIP`` ``(boolean)``
+> > > >      Mirror the picture horizontally.
+> > > >
+> > > > +.. _v4l2-cid-vflip:
+> > > > +
+> > > >  ``V4L2_CID_VFLIP`` ``(boolean)``
+> > > >      Mirror the picture vertically.
+> > > >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
