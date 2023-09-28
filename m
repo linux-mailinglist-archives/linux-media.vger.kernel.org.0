@@ -2,476 +2,669 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FB187B15B9
-	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 10:09:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB6A97B15C5
+	for <lists+linux-media@lfdr.de>; Thu, 28 Sep 2023 10:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbjI1IJF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Sep 2023 04:09:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46370 "EHLO
+        id S230385AbjI1IMi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Sep 2023 04:12:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbjI1IJE (ORCPT
+        with ESMTP id S229639AbjI1IMg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Sep 2023 04:09:04 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1277595
-        for <linux-media@vger.kernel.org>; Thu, 28 Sep 2023 01:09:00 -0700 (PDT)
-Received: from ideasonboard.com (mob-5-90-13-94.net.vodafone.it [5.90.13.94])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B54E057E;
-        Thu, 28 Sep 2023 10:07:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695888433;
-        bh=+zZi4UNHCvwraR2x6vAIKmMKjxht/gTrMawiwflu30M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nf3A1dSg6DkIyV+qieVVmeHmiDvMtzybdboJmU3wDOCWOFmQMNI6dsovfPdWqOSDx
-         JSawoD/IBxnIwqDCMMBigOWfPNjLM4eG7bPvEgmOhiKYpuOvr6ZiPge7Ks7YmOqCfn
-         ftf1s36dySk0kmNP73wSJ2wJud+lrrwONBAR6tY4=
-Date:   Thu, 28 Sep 2023 10:08:47 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] media: Documentation: Split camera sensor
- documentation
-Message-ID: <vfdo5iajz6xgny4wuwqvz7c7zrqyexu2aihj4wrsgf7s347ft4@z5ruigjp7ld6>
-References: <20230927160623.399428-1-sakari.ailus@linux.intel.com>
- <bj4kfqthh4kb7dbu2auevb44yrqgeu6z3rakx5x55q3jfwsyur@emhmhbmr3bpk>
- <ZRR4ODOLBCfspNNT@kekkonen.localdomain>
- <20230927223336.GX5854@pendragon.ideasonboard.com>
+        Thu, 28 Sep 2023 04:12:36 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C63F295;
+        Thu, 28 Sep 2023 01:12:30 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 472597FFE;
+        Thu, 28 Sep 2023 16:12:29 +0800 (CST)
+Received: from EXMBX173.cuchost.com (172.16.6.93) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 28 Sep
+ 2023 16:12:29 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX173.cuchost.com
+ (172.16.6.93) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 28 Sep
+ 2023 16:12:28 +0800
+Message-ID: <705f6143-169d-907e-9453-a5b384f921cd@starfivetech.com>
+Date:   Thu, 28 Sep 2023 16:12:28 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230927223336.GX5854@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v9 0/8] Add StarFive Camera Subsystem driver
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        "Changhuang Liang" <changhuang.liang@starfivetech.com>
+References: <20230914031607.34877-1-jack.zhu@starfivetech.com>
+ <11735008-1adf-4b84-9023-d295371caed5@xs4all.nl>
+Content-Language: en-US
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <11735008-1adf-4b84-9023-d295371caed5@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX173.cuchost.com
+ (172.16.6.93)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_FILL_THIS_FORM_SHORT
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari, Laurent
 
-On Thu, Sep 28, 2023 at 01:33:36AM +0300, Laurent Pinchart wrote:
-> On Wed, Sep 27, 2023 at 06:45:12PM +0000, Sakari Ailus wrote:
-> > On Wed, Sep 27, 2023 at 07:17:51PM +0200, Jacopo Mondi wrote:
-> > > On Wed, Sep 27, 2023 at 07:06:23PM +0300, Sakari Ailus wrote:
-> > > > Split camera sensor documentation into user and kernel portions. This
-> > > > should make it easier for the user space developers to find the relevant
-> > > > documentation.
-> > > >
-> > > > Also add a list of exemplary drivers and add imx219 driver to it, besides
-> > > > those that were already mentioned.
-> > > >
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > >
-> > > The patch doesn't apply on media/master nor on v6.6-rc2.
-> > > What is the intended base ?
-> >
-> > Oops. I had other documentation patches in the metadata preparation set. It
-> > goes on top of that:
-> > <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata-pre>.
->
-> I recommend setting format.useAutoBase to true, it will then convey base
-> commit information in the patches.
->
-> > > > ---
-> > > >  .../driver-api/media/camera-sensor.rst        | 135 ++++++------------
-> > > >  .../media/drivers/camera-sensor.rst           | 104 ++++++++++++++
-> > > >  .../userspace-api/media/drivers/index.rst     |   1 +
-> > > >  .../userspace-api/media/v4l/control.rst       |   4 +
-> > > >  4 files changed, 151 insertions(+), 93 deletions(-)
-> > > >  create mode 100644 Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > >
-> > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > > > index 2acc08142a1a..1f32a7e2d858 100644
-> > > > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > > > @@ -1,8 +1,14 @@
-> > > >  .. SPDX-License-Identifier: GPL-2.0
-> > > >
-> > > > +.. _media_writing_camera_sensor_drivers:
-> > > > +
-> > > >  Writing camera sensor drivers
-> > > >  =============================
-> > > >
-> > > > +This document covers the in-kernel APIs only. For the best practices on
-> > > > +userspace API implementation in camera sensor drivers, please see
-> > > > +:ref:`media_using_camera_sensor_drivers`.
-> > > > +
-> > > >  CSI-2 and parallel (BT.601 and BT.656) busses
-> > > >  ---------------------------------------------
-> > > >
-> > > > @@ -34,7 +40,8 @@ Devicetree
-> > > >
-> > > >  The preferred way to achieve this is using ``assigned-clocks``,
-> > > >  ``assigned-clock-parents`` and ``assigned-clock-rates`` properties. See the
-> > > > -`clock device tree bindings <https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
-> > > > +`clock device tree bindings
-> > > > +<https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/clock/clock.yaml>`_
-> > > >  for more information. The driver then gets the frequency using
-> > > >  ``clk_get_rate()``.
-> > > >
-> > > > @@ -85,9 +92,7 @@ PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
-> > > >  a bridge driver, instead add runtime PM support to the sensor driver you are
-> > > >  using and drop its ``.s_power()`` handler.
-> > > >
-> > > > -See examples of runtime PM handling in e.g. ``drivers/media/i2c/ov8856.c`` and
-> > > > -``drivers/media/i2c/ccs/ccs-core.c``. The two drivers work in both ACPI and DT
-> > > > -based systems.
-> > > > +Please also see :ref:`examples <media-camera-sensor-examples>`.
-> > > >
-> > > >  Control framework
-> > > >  ~~~~~~~~~~~~~~~~~
-> > > > @@ -104,99 +109,43 @@ The function returns a non-zero value if it succeeded getting the power count or
-> > > >  runtime PM was disabled, in either of which cases the driver may proceed to
-> > > >  access the device.
-> > > >
-> > > > -Frame size
-> > > > -----------
-> > > > -
-> > > > -There are two distinct ways to configure the frame size produced by camera
-> > > > -sensors.
-> > > > -
-> > > > -Freely configurable camera sensor drivers
-> > > > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > -
-> > > > -Freely configurable camera sensor drivers expose the device's internal
-> > > > -processing pipeline as one or more sub-devices with different cropping and
-> > > > -scaling configurations. The output size of the device is the result of a series
-> > > > -of cropping and scaling operations from the device's pixel array's size.
-> > > > -
-> > > > -An example of such a driver is the CCS driver (see ``drivers/media/i2c/ccs``).
-> > > > -
-> > > > -Register list based drivers
-> > > > -~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > -
-> > > > -Register list based drivers generally, instead of able to configure the device
-> > > > -they control based on user requests, are limited to a number of preset
-> > > > -configurations that combine a number of different parameters that on hardware
-> > > > -level are independent. How a driver picks such configuration is based on the
-> > > > -format set on a source pad at the end of the device's internal pipeline.
-> > > > -
-> > > > -Most sensor drivers are implemented this way, see e.g.
-> > > > -``drivers/media/i2c/imx319.c`` for an example.
-> > > > -
-> > > > -Frame interval configuration
-> > > > -----------------------------
-> > > > -
-> > > > -There are two different methods for obtaining possibilities for different frame
-> > > > -intervals as well as configuring the frame interval. Which one to implement
-> > > > -depends on the type of the device.
-> > > > -
-> > > > -Raw camera sensors
-> > > > -~~~~~~~~~~~~~~~~~~
-> > > > -
-> > > > -Instead of a high level parameter such as frame interval, the frame interval is
-> > > > -a result of the configuration of a number of camera sensor implementation
-> > > > -specific parameters. Luckily, these parameters tend to be the same for more or
-> > > > -less all modern raw camera sensors.
-> > > > -
-> > > > -The frame interval is calculated using the following equation::
-> > > > -
-> > > > -	frame interval = (analogue crop width + horizontal blanking) *
-> > > > -			 (analogue crop height + vertical blanking) / pixel rate
-> > > > -
-> > > > -The formula is bus independent and is applicable for raw timing parameters on
-> > > > -large variety of devices beyond camera sensors. Devices that have no analogue
-> > > > -crop, use the full source image size, i.e. pixel array size.
-> > > > -
-> > > > -Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-> > > > -``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
-> > > > -is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
-> > > > -the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
-> > > > -sub-device. The unit of that control is pixels per second.
-> > > > -
-> > > > -Register list based drivers need to implement read-only sub-device nodes for the
-> > > > -purpose. Devices that are not register list based need these to configure the
-> > > > -device's internal processing pipeline.
-> > > > -
-> > > > -The first entity in the linear pipeline is the pixel array. The pixel array may
-> > > > -be followed by other entities that are there to allow configuring binning,
-> > > > -skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
-> > > > -
-> > > > -USB cameras etc. devices
-> > > > -~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > -
-> > > > -USB video class hardware, as well as many cameras offering a similar higher
-> > > > -level interface natively, generally use the concept of frame interval (or frame
-> > > > -rate) on device level in firmware or hardware. This means lower level controls
-> > > > -implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
-> > > > -frame interval on these devices.
-> > > > -
-> > > >  Rotation, orientation and flipping
-> > > >  ----------------------------------
-> > > >
-> > > > -Some systems have the camera sensor mounted upside down compared to its natural
-> > > > -mounting rotation. In such cases, drivers shall expose the information to
-> > > > -userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
-> > > > -<v4l2-camera-sensor-rotation>` control.
-> > > > -
-> > > > -Sensor drivers shall also report the sensor's mounting orientation with the
-> > > > -:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
-> > > > -
-> > > >  Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
-> > > >  information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
-> > > >  register the appropriate controls.
-> > > >
-> > > > -Sensor drivers that have any vertical or horizontal flips embedded in the
-> > > > -register programming sequences shall initialize the V4L2_CID_HFLIP and
-> > > > -V4L2_CID_VFLIP controls with the values programmed by the register sequences.
-> > > > -The default values of these controls shall be 0 (disabled). Especially these
-> > > > -controls shall not be inverted, independently of the sensor's mounting
-> > > > -rotation.
-> > > > +.. _media-camera-sensor-examples:
-> > > > +
-> > > > +Example drivers
-> > > > +---------------
-> > > > +
-> > > > +Features implemented by sensor drivers vary, and depending on the set of
-> > > > +supported features and other qualities, particular sensor drivers better serve
-> > > > +the purpose of an example. The following drivers are known to be good examples:
-> > > > +
-> > > > +.. flat-table:: Example sensor drivers
-> > > > +    :header-rows: 0
-> > > > +    :widths:      1 1 1 2
-> > > > +
-> > > > +    * - Driver name
-> > > > +      - File(s)
-> > > > +      - Driver type
-> > > > +      - Example topic
-> > > > +    * - CCS
-> > > > +      - ``drivers/media/i2c/ccs/``
-> > > > +      - Freely configurable
-> > > > +      - Power management (ACPI and DT), UAPI
-> > > > +    * - imx219
-> > > > +      - ``drivers/media/i2c/imx219.c``
-> > > > +      - Register list based
-> > > > +      - Power management (DT), UAPI, mode selection
-> > > > +    * - imx319
-> > > > +      - ``drivers/media/i2c/imx319.c``
-> > > > +      - Register list based
-> > > > +      - Power management (ACPI and DT)
-> > > > +    * - ov8865
-> > > > +      - ``drivers/media/i2c/ov8865.c``
-> > > > +      - Register list based
-> > > > +      - Power management (ACPI and DT)
-> > > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > > new file mode 100644
-> > > > index 000000000000..919a50e8b9d9
-> > > > --- /dev/null
-> > > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > > @@ -0,0 +1,104 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +.. _media_using_camera_sensor_drivers:
-> > > > +
-> > > > +Using camera sensor drivers
-> > > > +===========================
-> > > > +
-> > > > +This section describes common practices for how the V4L2 sub-device interface is
-> > > > +used to control the camera sensor drivers.
-> > > > +
-> > > > +You may also find :ref:`media_writing_camera_sensor_drivers` useful.
-> > > > +
-> > > > +Frame size
-> > > > +----------
-> > > > +
-> > > > +There are two distinct ways to configure the frame size produced by camera
-> > > > +sensors.
-> > > > +
-> > > > +Freely configurable camera sensor drivers
-> > > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > +
-> > > > +Freely configurable camera sensor drivers expose the device's internal
-> > > > +processing pipeline as one or more sub-devices with different cropping and
-> > > > +scaling configurations. The output size of the device is the result of a series
-> > > > +of cropping and scaling operations from the device's pixel array's size.
-> > > > +
-> > > > +An example of such a driver is the CCS driver.
-> > > > +
-> > > > +Register list based drivers
-> > > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > +
-> > > > +Register list based drivers generally, instead of able to configure the device
-> > > > +they control based on user requests, are limited to a number of preset
-> > > > +configurations that combine a number of different parameters that on hardware
-> > > > +level are independent. How a driver picks such configuration is based on the
-> > > > +format set on a source pad at the end of the device's internal pipeline.
-> > > > +
-> > > > +Most sensor drivers are implemented this way.
-> > > > +
-> > > > +Frame interval configuration
-> > > > +----------------------------
-> > > > +
-> > > > +There are two different methods for obtaining possibilities for different frame
-> > > > +intervals as well as configuring the frame interval. Which one to implement
-> > > > +depends on the type of the device.
-> > > > +
-> > > > +Raw camera sensors
-> > > > +~~~~~~~~~~~~~~~~~~
-> > > > +
-> > > > +Instead of a high level parameter such as frame interval, the frame interval is
-> > > > +a result of the configuration of a number of camera sensor implementation
-> > > > +specific parameters. Luckily, these parameters tend to be the same for more or
-> > > > +less all modern raw camera sensors.
-> > > > +
-> > > > +The frame interval is calculated using the following equation::
-> > > > +
-> > > > +	frame interval = (analogue crop width + horizontal blanking) *
-> > > > +			 (analogue crop height + vertical blanking) / pixel rate
-> > > > +
-> > >
-> > > Is this even correct ? The above formula mentions the analogue crop sizes,
-> > > but isn't this the pixel sampling rate on the sensor's pixel array ? isn't it
-> >
-> > Yes, it is.
-> >
-> > > different from the produced output frame rate which should take into
-> > > account any binning/skipping step and optional digital crop ? Should the
-> >
-> > These happen later in the pipeline.
-> >
-> > > visible+blanking sizes should be taken into account instead ? Binned
-> > > modes are usually faster than non-binned ones, in example...
-> >
-> > Good point. How have you calculated the frame rate in libcamera? :-)
 
-Using visible sizes. In all our IPAs (the 3A block) the frame duration
-is calculated using the line length and frame height as calculated
-here:
-https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/camera_sensor.cpp#n1074
-        info->minLineLength = info->outputSize.width + hblank.min().get<int32_t>();
-        info->maxLineLength = info->outputSize.width + hblank.max().get<int32_t>();
+On 2023/9/15 17:26, Hans Verkuil wrote:
+> On 14/09/2023 05:15, Jack Zhu wrote:
+>> Hi,
+>> 
+>> This series is the v9 series that attempts to support the Camera Subsystem
+>> found on StarFive JH7110 SoC.
+>> 
+>> This series is based on top of the master branch of media_stage repository.
+>> 
+>> The following are the media graph for the device and the v4l2-compliance
+>> output.
+>> 
+>> ===========================================================================
+>> [the media graph]:
+>> 
+>> digraph board {
+>> 	rankdir=TB
+>> 	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+>> 	n00000001:port1 -> n00000008 [style=dashed]
+>> 	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+>> 	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+>> 	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+>> 	n0000000e:port1 -> n00000001:port0 [style=dashed]
+>> 	n0000000e:port1 -> n00000004 [style=dashed]
+>> 	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+>> 	n00000018:port0 -> n0000000e:port0 [style=bold]
+>> }
+>> 
+>> [the device topology]:
+>> 
+>> Media controller API version 6.5.0
+>> 
+>> Media device information
+>> ------------------------
+>> driver          starfive-camss
+>> model           Starfive Camera Subsystem
+>> serial          
+>> bus info        platform:19840000.camss
+>> hw revision     0x0
+>> driver version  6.5.0
+>> 
+>> Device topology
+>> - entity 1: stf_isp (2 pads, 2 links)
+>>             type V4L2 subdev subtype Unknown flags 0
+>>             device node name /dev/v4l-subdev0
+>> 	pad0: Sink
+>> 		[fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
+>> 		 crop.bounds:(0,0)/1920x1080
+>> 		 crop:(0,0)/1920x1080]
+>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>> 	pad1: Source
+>> 		[fmt:YUYV8_1_5X8/1920x1080 field:none colorspace:srgb
+>> 		 crop.bounds:(0,0)/1920x1080
+>> 		 crop:(0,0)/1920x1080]
+>> 		-> "capture_yuv":0 []
+>> 
+>> - entity 4: capture_raw (1 pad, 1 link)
+>>             type Node subtype V4L flags 0
+>>             device node name /dev/video0
+>> 	pad0: Sink
+>> 		<- "cdns_csi2rx.19800000.csi-bridge":1 []
+>> 
+>> - entity 8: capture_yuv (1 pad, 1 link)
+>>             type Node subtype V4L flags 0
+>>             device node name /dev/video1
+>> 	pad0: Sink
+>> 		<- "stf_isp":1 []
+>> 
+>> - entity 14: cdns_csi2rx.19800000.csi-bridge (5 pads, 3 links)
+>>              type V4L2 subdev subtype Unknown flags 0
+>> 	pad0: Sink
+>> 		<- "imx219 6-0010":0 [ENABLED,IMMUTABLE]
+>> 	pad1: Source
+>> 		-> "stf_isp":0 []
+>> 		-> "capture_raw":0 []
+>> 	pad2: Source
+>> 	pad3: Source
+>> 	pad4: Source
+>> 
+>> - entity 24: imx219 6-0010 (1 pad, 1 link)
+>>              type V4L2 subdev subtype Sensor flags 0
+>>              device node name /dev/v4l-subdev1
+>> 	pad0: Source
+>> 		[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+>> 		 crop.bounds:(8,8)/3280x2464
+>> 		 crop:(8,8)/3280x2464]
+>> 		-> "cdns_csi2rx.19800000.csi-bridge":0 [ENABLED,IMMUTABLE]
+>> 
+>> ===========================================================================
+>> [the v4l2-compliance output]:
+>> 
+>> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+> 
+> This v4l2-compliance version is from a distro. For driver acceptance you
+> must test with a v4l2-compliance compiled from the git repo (git://linuxtv.org/v4l-utils.git).
+> 
+> Also, since this driver uses the media controller, you must run v4l2-compliance
+> with the -m /dev/mediaX option. This will test the compliance of all devices
+> reported by the media controller.
+> 
+>> 
+>> Compliance test for stf camss device /dev/video1:
+>> 
+>> Driver Info:
+>> 	Driver name      : stf camss
+> 
+> The module is called starfive-camss, so shouldn't the driver name reported here
+> be the same?
+> 
+>> 	Card type        : Starfive Camera Subsystem
+>> 	Bus info         : platform:19840000.camss
+>> 	Driver version   : 6.5.0
+>> 	Capabilities     : 0x84200001
+>> 		Video Capture
+>> 		Streaming
+>> 		Extended Pix Format
+>> 		Device Capabilities
+>> 	Device Caps      : 0x04200001
+>> 		Video Capture
+>> 		Streaming
+>> 		Extended Pix Format
+>> Media Driver Info:
+>> 	Driver name      : starfive-camss
+> 
+> It's correct in the media controller information.
+> 
+>> 	Model            : Starfive Camera Subsystem
+>> 	Serial           : 
+>> 	Bus info         : platform:19840000.camss
+>> 	Media version    : 6.5.0
+>> 	Hardware revision: 0x00000000 (0)
+>> 	Driver version   : 6.5.0
+>> Interface Info:
+>> 	ID               : 0x0300000a
+>> 	Type             : V4L Video
+>> Entity Info:
+>> 	ID               : 0x00000008 (8)
+>> 	Name             : capture_yuv
+>> 	Function         : V4L2 I/O
+>> 	Pad 0x01000009   : 0: Sink
+>> 	  Link 0x0200000c: from remote pad 0x1000003 of entity 'stf_isp' (Unknown Function (00004009)): Data, Enabled
+> 
+> Hmm, this reports "Unknown Function". I bet that when you run v4l2-compliance
+> with the -m option it will fail on this. If not, then that's likely a bug in
+> the compliance test, please let me know if that's the case.
+> 
 
-        info->minFrameLength = info->outputSize.height + vblank.min().get<int32_t>();
-        info->maxFrameLength = info->outputSize.height + vblank.max().get<int32_t>();
+Hi Hans,
 
-Combined with the pixel rate and blankings to get the frame duration
-https://git.libcamera.org/libcamera/libcamera.git/tree/src/ipa/ipu3/ipu3.cpp#n263
-https://git.libcamera.org/libcamera/libcamera.git/tree/src/ipa/rpi/common/ipa_base.cpp#n516
+The following is the latest test log, which does not report a failure, but
+also reports "Unknown Function".
 
-> >
-> > The pixel rate control in CCS driver's pixel array sub-device
-> > indeed indicates the pixel rate in the pixel array, but in at least some drivers
-> > it's the pixel rate on the bus.
+I make the following settings in the stf-isp.c file:
+v4l2_subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_ISP;
 
-True indeed. For MIPI CSI-2 it would probably be more correct to use
-the link frequency and the bus bandwidth, but that only apply to
-CSI-2...
+# 
+# v4l2-compliance -m /dev/media0
+v4l2-compliance 1.25.0, 64 bits, 64-bit time_t
 
->
-> Thits patch only moves the documentation, so fixes can go on top.
->
+Compliance test for starfive-camss device /dev/media0:
 
-Indeed, for the documentation move
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Media Driver Info:
+	Driver name      : starfive-camss
+	Model            : Starfive Camera Subsystem
+	Serial           : 
+	Bus info         : platform:19840000.camss
+	Media version    : 6.5.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 6.5.0
 
-> > > > +The formula is bus independent and is applicable for raw timing parameters on
-> > > > +large variety of devices beyond camera sensors. Devices that have no analogue
-> > > > +crop, use the full source image size, i.e. pixel array size.
-> > >
-> > > This is also wrong imho. Using the pixel array size would only give
-> > > you an approximation  of the frame interval of the sensor's frame rate
-> > > at maximum resolution ?
-> >
-> > The formula holds in all cases: what happens later in the sensor's pipeline
-> > doesn't change the pixel rate. We should add documentation (and probably
-> > new interface elements, whatever they are) to properly do this for register
-> > list based drivers with a single sub-device, too.
-> >
-> > > I understand this was already here so this is not strictly related to
-> > > this patch...
-> > >
-> > > > +
-> > > > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-> > > > +``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
-> > > > +is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
-> > > > +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
-> > > > +sub-device. The unit of that control is pixels per second.
-> > > > +
-> > > > +Register list based drivers need to implement read-only sub-device nodes for the
-> > > > +purpose. Devices that are not register list based need these to configure the
-> > > > +device's internal processing pipeline.
-> > >
-> > > Why are read-only subdev suggested here ? can't a register-based
-> > > driver can register read-only controls for blankings ?
-> >
-> > This is what the text is suggesting, indeed.
-> >
+Required ioctls:
+	test MEDIA_IOC_DEVICE_INFO: OK
+	test invalid ioctls: OK
 
-Indeed it is, but it is correct in your opinion ? :)
+Allow for multiple opens:
+	test second /dev/media0 open: OK
+	test MEDIA_IOC_DEVICE_INFO: OK
+	test for unlimited opens: OK
 
-Thanks
-  j
+Media Controller ioctls:
+	test MEDIA_IOC_G_TOPOLOGY: OK
+	Entities: 5 Interfaces: 4 Pads: 10 Links: 8
+	test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
+	test MEDIA_IOC_SETUP_LINK: OK
 
-> > > Again, this was here already.
-> > >
-> > > > +
-> > > > +The first entity in the linear pipeline is the pixel array. The pixel array may
-> > > > +be followed by other entities that are there to allow configuring binning,
-> > > > +skipping, scaling or digital crop, see :ref:`VIDIOC_SUBDEV_G_SELECTION
-> > > > +<VIDIOC_SUBDEV_G_SELECTION>`.
-> > > > +
-> > > > +USB cameras etc. devices
-> > > > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > +
-> > > > +USB video class hardware, as well as many cameras offering a similar higher
-> > > > +level interface natively, generally use the concept of frame interval (or frame
-> > > > +rate) on device level in firmware or hardware. This means lower level controls
-> > > > +implemented by raw cameras may not be used on uAPI (or even kAPI) to control the
-> > > > +frame interval on these devices.
-> > > > +
-> > > > +Rotation, orientation and flipping
-> > > > +----------------------------------
-> > > > +
-> > > > +Some systems have the camera sensor mounted upside down compared to its natural
-> > > > +mounting rotation. In such cases, drivers shall expose the information to
-> > > > +userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
-> > > > +<v4l2-camera-sensor-rotation>` control.
-> > > > +
-> > > > +Sensor drivers shall also report the sensor's mounting orientation with the
-> > > > +:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
-> > > > +
-> > > > +Sensor drivers that have any vertical or horizontal flips embedded in the
-> > > > +register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
-> > > > +<v4l2-cid-hflip>` and :ref:`V4L2_CID_VFLIP <v4l2-cid-vflip>` controls with the
-> > > > +values programmed by the register sequences. The default values of these
-> > > > +controls shall be 0 (disabled). Especially these controls shall not be inverted,
-> > > > +independently of the sensor's mounting rotation.
-> > > > diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> > > > index 783f92f01a4c..1726f8ec86fa 100644
-> > > > --- a/Documentation/userspace-api/media/drivers/index.rst
-> > > > +++ b/Documentation/userspace-api/media/drivers/index.rst
-> > > > @@ -32,6 +32,7 @@ For more details see the file COPYING in the source distribution of Linux.
-> > > >  	:numbered:
-> > > >
-> > > >  	aspeed-video
-> > > > +	camera-sensor
-> > > >  	ccs
-> > > >  	cx2341x-uapi
-> > > >  	dw100
-> > > > diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
-> > > > index 4463fce694b0..57893814a1e5 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/control.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/control.rst
-> > > > @@ -143,9 +143,13 @@ Control IDs
-> > > >      recognise the difference between digital and analogue gain use
-> > > >      controls ``V4L2_CID_DIGITAL_GAIN`` and ``V4L2_CID_ANALOGUE_GAIN``.
-> > > >
-> > > > +.. _v4l2-cid-hflip:
-> > > > +
-> > > >  ``V4L2_CID_HFLIP`` ``(boolean)``
-> > > >      Mirror the picture horizontally.
-> > > >
-> > > > +.. _v4l2-cid-vflip:
-> > > > +
-> > > >  ``V4L2_CID_VFLIP`` ``(boolean)``
-> > > >      Mirror the picture vertically.
-> > > >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Total for starfive-camss device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for starfive-camss device /dev/video0:
+
+Driver Info:
+	Driver name      : starfive-camss
+	Card type        : Starfive Camera Subsystem
+	Bus info         : platform:19840000.camss
+	Driver version   : 6.5.0
+	Capabilities     : 0x84200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : starfive-camss
+	Model            : Starfive Camera Subsystem
+	Serial           : 
+	Bus info         : platform:19840000.camss
+	Media version    : 6.5.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 6.5.0
+Interface Info:
+	ID               : 0x03000006
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000004 (4)
+	Name             : capture_raw
+	Function         : V4L2 I/O
+	Pad 0x01000005   : 0: Sink
+	  Link 0x02000016: from remote pad 0x1000010 of entity 'cdns_csi2rx.19800000.csi-bridge' (Video Interface Bridge): Data
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Total for starfive-camss device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for starfive-camss device /dev/video1:
+
+Driver Info:
+	Driver name      : starfive-camss
+	Card type        : Starfive Camera Subsystem
+	Bus info         : platform:19840000.camss
+	Driver version   : 6.5.0
+	Capabilities     : 0x84200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : starfive-camss
+	Model            : Starfive Camera Subsystem
+	Serial           : 
+	Bus info         : platform:19840000.camss
+	Media version    : 6.5.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 6.5.0
+Interface Info:
+	ID               : 0x0300000a
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000008 (8)
+	Name             : capture_yuv
+	Function         : V4L2 I/O
+	Pad 0x01000009   : 0: Sink
+	  Link 0x0200000c: from remote pad 0x1000003 of entity 'stf_isp' (Unknown Function (00004009)): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXstf_isp: =================  START STATUS  =================
+PBUF: OKtf_isp: ==================  END STATUS  ==================
+m
+	test Requests: OK (Not Supported)
+
+Total for starfive-camss device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for starfive-camss device /dev/v4l-subdev0:
+
+Driver Info:
+	Driver version   : 6.5.0
+	Capabilities     : 0x00000000
+Media Driver Info:
+	Driver name      : starfive-camss
+	Model            : Starfive Camera Subsystem
+	Serial           : 
+	Bus info         : platform:19840000.camss
+	Media version    : 6.5.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 6.5.0
+Interface Info:
+	ID               : 0x0300001c
+	Type             : V4L Sub-Device
+Entity Info:
+	ID               : 0x00000001 (1)
+	Name             : stf_isp
+	Function         : WARNING: Unknown Function (00004009), is v4l2-compliance out-of-date?
+	Pad 0x01000002   : 0: Sink
+	  Link 0x02000014: from remote pad 0x1000010 of entity 'cdns_csi2rx.19800000.csi-bridge' (Video Interface Bridge): Data, Enabled
+	Pad 0x01000003   : 1: Source
+	  Link 0x0200000c: to remote pad 0x1000009 of entity 'capture_yuv' (V4L2 I/O): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev0 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device ioctls (Sink Pad 0):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Sub-Device ioctls (Source Pad 1):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEimx219 6-0010: =================  START STATUS  =================
+VENT: OKmx219 6-0010: ==================  END STATUS  ==================
+m (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for starfive-camss device /dev/v4l-subdev0: 58, Succeeded: 58, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for device /dev/v4l-subdev1:
+
+Driver Info:
+	Driver version   : 6.5.0
+	Capabilities     : 0x00000000
+
+Required ioctls:
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev1 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 20 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev1: 43, Succeeded: 43, Failed: 0, Warnings: 0
+
+Grand Total for starfive-camss device /dev/media0: 201, Succeeded: 201, Failed: 0, Warnings: 0
+# 
+
+--
+Regards,
+
+Jack Zhu
