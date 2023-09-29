@@ -2,163 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 281007B3710
-	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 17:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EC5A7B37C8
+	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 18:20:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233665AbjI2Pmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Sep 2023 11:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40388 "EHLO
+        id S233260AbjI2QUP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Sep 2023 12:20:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233233AbjI2Pmx (ORCPT
+        with ESMTP id S232878AbjI2QUO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Sep 2023 11:42:53 -0400
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70FFC1A7
-        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 08:42:50 -0700 (PDT)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20230929154246euoutp02577a5633312e91f81a87014e0b0afad5~JaPwc1ZAI1093210932euoutp02f
-        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 15:42:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20230929154246euoutp02577a5633312e91f81a87014e0b0afad5~JaPwc1ZAI1093210932euoutp02f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1696002166;
-        bh=CQTRN2vo9WK0OShy1SLmkbvDHRVLHte2+59M6kPbZg8=;
-        h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-        b=PA3uuCGbkheZJ4Kl3Jr2qqkvLhPL5D4JkhRBGX76rVCEBejZ3Spu8FcTi1ph2e/Us
-         PqHPeiSahDx2/5PhjuX1dUQRssH74Ph1/1px7NlMhoQqA1l8wGtT2e2wHsEOsbiraq
-         sAkoc1UKQ02plCBUvsVDNVFNjhbfgFwUX3C2mZVA=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20230929154246eucas1p1bdfd26c3f7ecd0f0fb5810012e0d00ea~JaPwPIGdP2198521985eucas1p1E;
-        Fri, 29 Sep 2023 15:42:46 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges1new.samsung.com (EUCPMTA) with SMTP id CB.80.42423.670F6156; Fri, 29
-        Sep 2023 16:42:46 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20230929154246eucas1p2ccbc8fc3f916d7edcfe89ce3d50331a6~JaPv0Vp240913609136eucas1p2O;
-        Fri, 29 Sep 2023 15:42:46 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20230929154246eusmtrp2e2dc508523525d475ba0e8ef0d94d7d7~JaPvzyUOd0408104081eusmtrp2T;
-        Fri, 29 Sep 2023 15:42:46 +0000 (GMT)
-X-AuditID: cbfec7f2-a3bff7000002a5b7-f4-6516f0767169
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 9C.02.10549.570F6156; Fri, 29
-        Sep 2023 16:42:45 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20230929154245eusmtip16e01c544e29d470035523d841b766e6e~JaPvWsuVU0372603726eusmtip10;
-        Fri, 29 Sep 2023 15:42:45 +0000 (GMT)
-Message-ID: <07cfbe4d-35e9-b7d2-ca0f-7c38eac2e4e6@samsung.com>
-Date:   Fri, 29 Sep 2023 17:42:45 +0200
+        Fri, 29 Sep 2023 12:20:14 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBEA7BE;
+        Fri, 29 Sep 2023 09:20:11 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 6408D1000B2; Fri, 29 Sep 2023 17:20:09 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1696004409; bh=NO7U8jxZgUpWr0WrNZxuq6hy5u2FsN8FVLFZSQC6DGs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=io8J1gWqNgAp0oYQnqnXaZ0ODjPn8YiBFoeog8mMiW+afnyzuONlL0UGmD40NmA3x
+         b5dbj86ikrbxYLBjtnLZlcGCLLbaUEOikPOO6geNK+t5IjAJ1l6hrDJ9rf0LjnANGr
+         lCugOdBmh3Lj2GZdb2KblJRDuelBK7zEl/EOCmIQSCjuMUA8SFqDB50K9NJIEHtAGI
+         7V/wHYWH7/7o08N66Hk/Tmo+A2nQny1HqHn4rYPPbwj9bhcliogFb8J8OdH1fspeOC
+         YD2bpjXh0AGXNv4iwxaf92HcL7aiJ0I2FYvX28GRCQoGKc6EuXCeU0qxh+qsrjkUAB
+         F3HxtdV4skF5w==
+Date:   Fri, 29 Sep 2023 17:20:09 +0100
+From:   Sean Young <sean@mess.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc:     linux-media@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Timo Kokkonen <timo.t.kokkonen@iki.fi>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>,
+        "Sicelo A . Mhlongo" <absicsz@gmail.com>,
+        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] media: rc: remove ir-rx51 in favour of generic
+ pwm-ir-tx
+Message-ID: <ZRb5OWvx3GxYWf9g@gofer.mess.org>
+References: <cover.1693577725.git.sean@mess.org>
+ <e5325e826935f0bd8566152b6a5fa799b2429d43.1693577725.git.sean@mess.org>
+ <99f0042f-538c-bcaf-96fd-bac24a87f88e@gmail.com>
+ <ZRKFUb1vRtn82bgn@gofer.mess.org>
+ <1715e2bf-5d02-4f20-1476-29a1fdf350b1@gmail.com>
+ <ZRM8iLORjKw3z/h5@gofer.mess.org>
+ <179c4674-aa5c-0573-6d1f-ea6f2694d156@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
-        Gecko/20100101 Thunderbird/102.15.1
-Subject: Re: [PATCH] media: s5p-mfc: Fix potential deadlock on condlock
-Content-Language: en-US
-To:     Chengfeng Ye <dg573847474@gmail.com>, andrzej.hajda@intel.com,
-        mchehab@kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20230926105330.10281-1-dg573847474@gmail.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRmVeSWpSXmKPExsWy7djP87plH8RSDZY8FbO4v/gzi8WSu1vY
-        LTY9vsZqcXnXHDaLng1bWS2WbfrD5MDmsXPWXXaPxXteMnlsWtXJ5rF5Sb3H501yAaxRXDYp
-        qTmZZalF+nYJXBnH/s5gKmjmq1j/eipLA+Ml7i5GTg4JAROJ/qVrWLoYuTiEBFYwSpzcMQPK
-        +cIosXPlTkYI5zOjxIKH+5hgWjafXMYMkVjOKHHx7i0mCOcjo8TymXuYQap4BewkTn86yA5i
-        swioShz5soYRIi4ocXLmExYQW1QgVaL5zXmwGmEBd4mm/h6wXmYBcYlbT+YDDeXgEBEIlziw
-        3R8inCrx5O0iNhCbTcBQouttF5jNKWAtsenlOahWeYntb+eAHSchcIFD4t2LL4wQV7tIHH/T
-        wAphC0u8Or6FHcKWkfi/cz4TREM70Ju/70M5ExglGp7fguq2lrhz7hcbyEXMApoS63fpQ4Qd
-        Ja4dussOEpYQ4JO48VYQ4gg+iUnbpjNDhHklOtqEIKrVJGYdXwe39uCFS8wTGJVmIYXKLCTf
-        z0LyziyEvQsYWVYxiqeWFuempxYb5qWW6xUn5haX5qXrJefnbmIEJp7T/45/2sE499VHvUOM
-        TByMhxglOJiVRHjbLoilCvGmJFZWpRblxxeV5qQWH2KU5mBREufVtj2ZLCSQnliSmp2aWpBa
-        BJNl4uCUamByZLuV6Xib3/nQu25p1fWqauWm8jdMOdSn74qYpHFG3Oz63i1uTF52fxzFn8jL
-        9/MwNrA/Wp+oarwi23LSW7b6z43hld/37OFk9lecIi349NIH5cUmSwNSzBqZVMyCd65km5Hb
-        Vv5ogpDl8j9bprEFicypfLk4QdYlYOqWP6/KHsqoRigen17K0PxvyTROm3eS5upGSoYRqsds
-        qvb9kgjmmMnNmLxARKrxyIqm8D9yhdWRclf64njtt/f+2DIjLCb2cw1vdUak68IjE2LmL/+3
-        Y/2SbxLX0wLyl+9yzk0vWMKlfetKxTqP5ZNennoaerDxjfTdKp4Eu4ZTlyvX17uf6PhV98Jq
-        j2bMLmYeHiWW4oxEQy3mouJEAHNKK+CrAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNIsWRmVeSWpSXmKPExsVy+t/xu7qlH8RSDbrmW1vcX/yZxWLJ3S3s
-        FpseX2O1uLxrDptFz4atrBbLNv1hcmDz2DnrLrvH4j0vmTw2repk89i8pN7j8ya5ANYoPZui
-        /NKSVIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYxjf2cwFTTz
-        Vax/PZWlgfESdxcjJ4eEgInE5pPLmLsYuTiEBJYySqzc+4oNIiEjcXJaAyuELSzx51oXG0TR
-        e0aJydeamUASvAJ2Eqc/HWQHsVkEVCWOfFnDCBEXlDg58wkLiC0qkCpxetomsLiwgLtEU38P
-        M4jNLCAucevJfLA5IgLhEm/alrBBxFMlZnx8zA6xrI9R4sPUI2CD2AQMJbredoEVcQpYS2x6
-        eQ5qkJlE19YuRghbXmL72znMExiFZiG5YxaSfbOQtMxC0rKAkWUVo0hqaXFuem6xoV5xYm5x
-        aV66XnJ+7iZGYKxtO/Zz8w7Gea8+6h1iZOJgPMQowcGsJMLbdkEsVYg3JbGyKrUoP76oNCe1
-        +BCjKTAwJjJLiSbnA6M9ryTe0MzA1NDEzNLA1NLMWEmc17OgI1FIID2xJDU7NbUgtQimj4mD
-        U6qBaUrrZLuf63/zsE57m8vsu93x+7J7t5lWW8wRdy12Yyj47PVkytaw24aSko7xWzmCS6J6
-        GEIFQn7I7wr+3sYaen1jw+rcgDeyPHZf+P/uf7pca33+NV3fg/ZhcmeqxHtqtHNc1yhyL9Mu
-        O/r0UHlwGOeW2m7h1Z+OaMjdqdM4O6vnOp+//v+9HY9du1QXZ5gbbNn0II/B/s1ylQynNt3a
-        BHvz+QbSF3l/Pbm74faFqAsJpmFRmQ+yVBIt7VnEg0yE68+0TGT3Wan/b4Xv5eMT9W/+mKlr
-        W15y8sS9wA9mPM03RcW7zjJ7+fYbaq5RnO+k8WzLlbvb/xQ/5JkQeO146vpGV3aWXSZ9bgc1
-        mlcqsRRnJBpqMRcVJwIAoM0kVj4DAAA=
-X-CMS-MailID: 20230929154246eucas1p2ccbc8fc3f916d7edcfe89ce3d50331a6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230926105338eucas1p286ab56d3177817fbb32713228af9f9ba
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230926105338eucas1p286ab56d3177817fbb32713228af9f9ba
-References: <CGME20230926105338eucas1p286ab56d3177817fbb32713228af9f9ba@eucas1p2.samsung.com>
-        <20230926105330.10281-1-dg573847474@gmail.com>
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <179c4674-aa5c-0573-6d1f-ea6f2694d156@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26.09.2023 12:53, Chengfeng Ye wrote:
-> As &dev->condlock is acquired under irq context along the following
-> call chain from s5p_mfc_irq(), other acquisition of the same lock
-> inside process context or softirq context should disable irq avoid double
-> lock. enc_post_frame_start() seems to be one such function that execute
-> under process context or softirq context.
->
-> <deadlock #1>
->
-> enc_post_frame_start()
-> --> clear_work_bit()
-> --> spin_loc(&dev->condlock)
-> <interrupt>
->     --> s5p_mfc_irq()
->     --> s5p_mfc_handle_frame()
->     --> clear_work_bit()
->     --> spin_lock(&dev->condlock)
->
-> This flaw was found by an experimental static analysis tool I am
-> developing for irq-related deadlock.
->
-> To prevent the potential deadlock, the patch change clear_work_bit()
-> inside enc_post_frame_start() to clear_work_bit_irqsave().
->
-> Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
-Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->   drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> index f62703cebb77..4b4c129c09e7 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> @@ -1297,7 +1297,7 @@ static int enc_post_frame_start(struct s5p_mfc_ctx *ctx)
->   	if (ctx->state == MFCINST_FINISHING && ctx->ref_queue_cnt == 0)
->   		src_ready = false;
->   	if (!src_ready || ctx->dst_queue_cnt == 0)
-> -		clear_work_bit(ctx);
-> +		clear_work_bit_irqsave(ctx);
->   
->   	return 0;
->   }
+Hello Uwe,
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+Just wanted to run an idea by you.
 
+On Fri, Sep 29, 2023 at 11:49:52AM +0300, Ivaylo Dimitrov wrote:
+> On 26.09.23 г. 23:18 ч., Sean Young wrote:
+> > I've never known of a solution to the pwm-ir-tx driver. If using hrtimers
+> > directly improves the situation even a bit, then that would be great.
+> 
+> The issue with hrtimers is that we cannot use them directly, as
+> pwm_apply_state() may sleep, but hrtimer function is called in atomic
+> context.
+
+I've also been looking at this problem and came to same conclusion: the
+fact that pwm_apply_state() sleeps is a huge problem.
+
+1) The vast majority of pwm drivers don't sleep, or could even be converted
+   to spinlocks (e.g pwm-sifive.c could use spinlocks, as far as I can see).
+
+2) Sure, some pwm devices are on i2c busses, so the driver needs to sleep.
+   Those devices aren't great for what we're trying to do here, since the
+   sleeping may cause delays and affect the generated signal.
+
+What would be ideal here is to have pwm-ir-tx work in atomic context if
+a non-sleeping pwm device is used, and another (non-optimal) code path
+for sleeping pwm drivers. We could even just refuse to run on sleeping pwm
+drivers.
+
+Uwe what do you think of this idea? The pwm api could have a
+bool pwm_may_sleep(struct pwm *pwm) function, and pwm_apply_state() does 
+not contain might_sleep() - only the driver-specific apply calls might_sleep().
+
+It would be nice if this could all be done at compile time through e.g. a
+device tree attribute.
+
+Thanks,
+
+Sean
