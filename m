@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F08A7B367F
-	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 17:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5606A7B3685
+	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 17:19:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233575AbjI2PS4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Sep 2023 11:18:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42866 "EHLO
+        id S233585AbjI2PTA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Sep 2023 11:19:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233562AbjI2PSz (ORCPT
+        with ESMTP id S233576AbjI2PS7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Sep 2023 11:18:55 -0400
+        Fri, 29 Sep 2023 11:18:59 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87453D6;
-        Fri, 29 Sep 2023 08:18:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBC26DD;
+        Fri, 29 Sep 2023 08:18:57 -0700 (PDT)
 Received: from uno.localdomain (mob-5-90-203-152.net.vodafone.it [5.90.203.152])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 921BC3358;
-        Fri, 29 Sep 2023 17:17:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FC6034B5;
+        Fri, 29 Sep 2023 17:17:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696000629;
-        bh=RFtJSOjV6FtpQpxrkNDSyJnksxeXGW77+2EWI+5rKtM=;
+        s=mail; t=1696000634;
+        bh=/rHxEB83L7ZPE3qnJZqy34OVeUaWFT9aJaxP7+WOcfI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ees+ngApHST90uZHupvsinvDi/1ewwF3Tzkhxvkh6kZEf3JD+RAScBXvZ5Ny7kmcC
-         nctx0HASfUSLJroqzt9jvSI+F6SWgkPEPCUIfoN4ZKeftd7lOGpFa+WhDG+97mvjNY
-         VH6QdqKgLQTZHOaGKSV1NPVagkSnmTxrbF8fkE+w=
+        b=fJ59k4g5qsbKS5EPVZ+pwQQcF4zVhOeEhsWfJD1vmCHKQGPXrXGWSniAHP/1+zb+H
+         WFd1hw6mDM5Gg8lpm5ZHygfvHUz0wYTgEAO3O9pPfzPXxBNgi6VCgvo8m89rF2fMFY
+         3dA6de9fM7bnzWJKT467fpi6888YafwShoMfnCro=
 From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -34,10 +34,10 @@ Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Fabio Estevam <festevam@gmail.com>, martink@posteo.de,
-        Mikhail Rudenko <mike.rudenko@gmail.com>
-Subject: [PATCH 4/7] media: bindings: ovti,ov4689: Fix handling of video-interface-device
-Date:   Fri, 29 Sep 2023 17:18:22 +0200
-Message-ID: <20230929151825.6535-5-jacopo.mondi@ideasonboard.com>
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH 5/7] media: bindings: ovti,ov5640: Fix handling of video-interface-device
+Date:   Fri, 29 Sep 2023 17:18:23 +0200
+Message-ID: <20230929151825.6535-6-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20230929151825.6535-1-jacopo.mondi@ideasonboard.com>
 References: <20230929151825.6535-1-jacopo.mondi@ideasonboard.com>
@@ -53,39 +53,43 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Fix handling of properties from video-interface-device.yaml for
-Omnivision OV4689.
+Omnivision OV5640 sensor.
 
-All the properties described by video-interface-device.yaml are
+There is no reason to restrict the allowed rotation degrees to 0 and 180,
+as the sensor can be mounted with any rotation.
+
+Also, as all the properties described by video-interface-device.yaml are
 allowed for the image sensor, make them accepted by changing
 "additionalProperties: false" to "unevaluatedProperties: false" at the
 schema top-level.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- .../devicetree/bindings/media/i2c/ovti,ov4689.yaml          | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ .../devicetree/bindings/media/i2c/ovti,ov5640.yaml         | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-index 50579c947f3c..d96199031b66 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-@@ -52,10 +52,6 @@ properties:
-     description:
-       GPIO connected to the reset pin (active low)
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+index a621032f9bd0..58c442cfb612 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+@@ -44,11 +44,6 @@ properties:
+     description: >
+       Reference to the GPIO connected to the reset pin, if any.
 
--  orientation: true
--
--  rotation: true
+-  rotation:
+-    enum:
+-      - 0
+-      - 180
 -
    port:
+     description: Digital Output Port
      $ref: /schemas/graph.yaml#/$defs/port-base
-     additionalProperties: false
-@@ -95,7 +91,7 @@ required:
-   - dvdd-supply
+@@ -85,7 +80,7 @@ required:
+   - DOVDD-supply
    - port
 
 -additionalProperties: false
-+unevaluatedProperties: false
++unevaluatatedProperties: false
 
  examples:
    - |
