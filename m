@@ -2,220 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B6377B2CAA
-	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 08:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3A687B2DEE
+	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 10:38:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232519AbjI2GyY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Sep 2023 02:54:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36572 "EHLO
+        id S232875AbjI2Iim (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Sep 2023 04:38:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjI2GyX (ORCPT
+        with ESMTP id S232853AbjI2Iih (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Sep 2023 02:54:23 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 161F41A7;
-        Thu, 28 Sep 2023 23:54:20 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:df6a:b81:b9d2:d824] (unknown [IPv6:2a01:e0a:120:3210:df6a:b81:b9d2:d824])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id E2E19660732B;
-        Fri, 29 Sep 2023 07:54:18 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1695970459;
-        bh=O8YZ77epx2sINEGgheJrVOCXF6XG6Sc+CjdzPYmY2hE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=eBmLienboXPfmiRedjLIQt1ffMXAggrXq+zZx1IJsOIyP3RC9PV62T0cCiABkKNko
-         MwF+angSnuoWHcduO3xZPFnT/Q+kSzNhAqGHVBzbsnkM2B1uqBRzJSFJNsHNunp7MO
-         e0NpAjOsmim/1BJiibClxluNbe62L4K2AaoD+cqcAe+JrWL6C3YzlJ92MEgAjgnt37
-         v4dgbzsuKgKqKc41/n8Xk+5KjMsiuX2qCoE946nu20K49GYz2TNOyrbLfxP8GqN3QS
-         vxnBmOkNkPk1VR2YazeL6TXlWNaXCTlYyNJPG8+s6Tk0O/0WvYM96OZp4iy1dQw/7d
-         RhSAmseeRAg3g==
-Message-ID: <32e515e1-b7a2-de3c-723b-ade3ec760b4d@collabora.com>
-Date:   Fri, 29 Sep 2023 08:54:16 +0200
+        Fri, 29 Sep 2023 04:38:37 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE891AC
+        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 01:38:33 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-99bf3f59905so1821477866b.3
+        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 01:38:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1695976711; x=1696581511; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=91bzG0Gvztxq9AzwDAH8hNYEi4ko/cSP4Liv9cAEuIU=;
+        b=DdRblbFAPurXIUU3F+cpsJB31BK2VR2TiUJd5qijD2gkO6V2FAjVHMq6flca39GuDo
+         Voo3bojKdLA12UeP6IUTduNOylBAw2iMp8pvm/tLkRjQh5yUhcAUYsbV1Nl5y/Iyqmm+
+         3JY9IfjQWtMfaSQcJCGaPnUhdqiYYkNpkVIvXvPz8V/kP8+dgmmxWXMTp3Ywba9U56a7
+         hR4lJBnX+SsfiJZYmRaU2Hv3iZCfQEZgYnXW7B8nxYUHL3yMKu0tfOcqDJ/P5AIs9kCB
+         lVOvqStfxIJdwaWpft4ljxadtUSc1du876WdyQVh7Mbl5LrF7Oz/5KRVT/cGyq1QV4oV
+         Aqfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695976711; x=1696581511;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=91bzG0Gvztxq9AzwDAH8hNYEi4ko/cSP4Liv9cAEuIU=;
+        b=LA8UnZyoID0q8gi7YoTSPszwVR/aBuEzvqCwgW+w+4jtJvctyspTGebQws7XIasmFN
+         vPmK7m5dRi8wKKKbYkp8FHmOWoWOIWB+8IaVhVBflt4EElwhQ+NBKNvFMzrYMCkxzX6i
+         fb72b4g5demOxns3KgsXbgDhwo1QBq1WjifK/JDoBpI0hz1M0mJ2w+2/gJjkhKy4xWDG
+         8J/Iy6NaxfzcwitLOhI2XRg0errTKfFW/JRbe3dnL0FCX0Hm/H+ch94IL6WQU4Rs3PCx
+         x6H5Ar6CK/HCSqjnuKVkXLUN3NYPGqi5dNivGLflFqgvgWakAyJLg/pcbXO8w49XoV1/
+         XkQw==
+X-Gm-Message-State: AOJu0YzK7rT6XVpclyfOvqwKaOVeMvWHx55ANfq1NA1BiV4YRpJdsb7l
+        G0MQGJsXVLPusPAXPQHbYmUBOw==
+X-Google-Smtp-Source: AGHT+IHLsYBhakgorb9cz9xMHTZREOY3MKxX8RWfDk0MxVttJTRKtifVvOUBTcfVorek5kiIlkefrQ==
+X-Received: by 2002:a17:906:3402:b0:9a1:bb8f:17d0 with SMTP id c2-20020a170906340200b009a1bb8f17d0mr3167830ejb.30.1695976711532;
+        Fri, 29 Sep 2023 01:38:31 -0700 (PDT)
+Received: from otso.luca.vpn.lucaweiss.eu (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id qk8-20020a170906d9c800b009ad89697c86sm12208965ejb.144.2023.09.29.01.38.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 01:38:31 -0700 (PDT)
+From:   Luca Weiss <luca.weiss@fairphone.com>
+Subject: [PATCH 0/3] Enable venus on Fairphone 5 / non-ChromeOS sc7280
+ venus support
+Date:   Fri, 29 Sep 2023 10:38:18 +0200
+Message-Id: <20230929-sc7280-venus-pas-v1-0-9c6738cf157a@fairphone.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
-To:     Jeffrey Kardatzke <jkardatzke@google.com>
-Cc:     Joakim Bech <joakim.bech@linaro.org>,
-        =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "jstultz@google.com" <jstultz@google.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
-        <Jianjiao.Zeng@mediatek.com>,
-        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
-        <kuohong.wang@mediatek.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
-        "tjmercier@google.com" <tjmercier@google.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-6-yong.wu@mediatek.com>
- <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com>
- <a115a2a5d3ac218e6db65ccdb0a1876f9cfca02b.camel@mediatek.com>
- <d798b15b-6f35-96db-e3f7-5c0bcc5d46a2@collabora.com>
- <a4ecc2792f3a4d3159e34415be984ff7d5f5e263.camel@mediatek.com>
- <20230927134614.kp27moxdw72jiu4y@pop-os.localdomain>
- <3aaafe47-3733-a4d5-038d-a7e439309282@collabora.com>
- <CA+ddPcP4=p37cV5Tbn5zTUbiL4ou+Yqb=5rS+O_ff8ZUw64D3Q@mail.gmail.com>
- <80695726-1a98-12d4-ad7d-d731f2f3caeb@collabora.com>
- <CA+ddPcPES=4FcQRkvVnW=C9mL6hCxVfCcoLDJSjb58UiDmS_Mg@mail.gmail.com>
-Content-Language: en-US
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <CA+ddPcPES=4FcQRkvVnW=C9mL6hCxVfCcoLDJSjb58UiDmS_Mg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPqMFmUC/x3MMQqAMAxA0atIZgM1pWq9ijgUjZqlSoMiSO9uc
+ XzD/y8oJ2GFoXoh8S0qRyxo6grmPcSNUZZiIEPWePKoc0e9wZvjpXgGRQ6+tcaR65yFkp2JV3n
+ +5Tjl/AHEswkEYgAAAA==
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        cros-qcom-dts-watchers@chromium.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Luca Weiss <luca.weiss@fairphone.com>
+X-Mailer: b4 0.12.3
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Devices with Qualcomm firmware (compared to ChromeOS firmware) need some
+changes in the venus driver and dts layout so that venus can initialize.
 
-Le 28/09/2023 à 19:48, Jeffrey Kardatzke a écrit :
-> On Thu, Sep 28, 2023 at 1:30 AM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
->>
->> Le 27/09/2023 à 20:56, Jeffrey Kardatzke a écrit :
->>> On Wed, Sep 27, 2023 at 8:18 AM Benjamin Gaignard
->>> <benjamin.gaignard@collabora.com> wrote:
->>>> Le 27/09/2023 à 15:46, Joakim Bech a écrit :
->>>>> On Mon, Sep 25, 2023 at 12:49:50PM +0000, Yong Wu (吴勇) wrote:
->>>>>> On Tue, 2023-09-12 at 11:32 +0200, AngeloGioacchino Del Regno wrote:
->>>>>>> Il 12/09/23 08:17, Yong Wu (吴勇) ha scritto:
->>>>>>>> On Mon, 2023-09-11 at 11:29 +0200, AngeloGioacchino Del Regno
->>>>>>>> wrote:
->>>>>>>>> Il 11/09/23 04:30, Yong Wu ha scritto:
->>>>>>>>>> The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't
->>>>>>>>>> work
->>>>>>>>>> here since this is not a platform driver, therefore initialise
->>>>>>>>>> the
->>>>>>>>>> TEE
->>>>>>>>>> context/session while we allocate the first secure buffer.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>>>>>>>>> ---
->>>>>>>>>>       drivers/dma-buf/heaps/mtk_secure_heap.c | 61
->>>>>>>>>> +++++++++++++++++++++++++
->>>>>>>>>>       1 file changed, 61 insertions(+)
->>>>>>>>>>
->>>>>>>>>> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c
->>>>>>>>>> b/drivers/dma-
->>>>>>>>>> buf/heaps/mtk_secure_heap.c
->>>>>>>>>> index bbf1c8dce23e..e3da33a3d083 100644
->>>>>>>>>> --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
->>>>>>>>>> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
->>>>>>>>>> @@ -10,6 +10,12 @@
->>>>>>>>>>       #include <linux/err.h>
->>>>>>>>>>       #include <linux/module.h>
->>>>>>>>>>       #include <linux/slab.h>
->>>>>>>>>> +#include <linux/tee_drv.h>
->>>>>>>>>> +#include <linux/uuid.h>
->>>>>>>>>> +
->>>>>>>>>> +#define TZ_TA_MEM_UUID          "4477588a-8476-11e2-ad15-
->>>>>>>>>> e41f1390d676"
->>>>>>>>>> +
->>>>>>>>> Is this UUID the same for all SoCs and all TZ versions?
->>>>>>>> Yes. It is the same for all SoCs and all TZ versions currently.
->>>>>>>>
->>>>>>> That's good news!
->>>>>>>
->>>>>>> Is this UUID used in any userspace component? (example: Android
->>>>>>> HALs?)
->>>>>> No. Userspace never use it. If userspace would like to allocate this
->>>>>> secure buffer, it can achieve through the existing dmabuf IOCTL via
->>>>>> /dev/dma_heap/mtk_svp node.
->>>>>>
->>>>> In general I think as mentioned elsewhere in comments, that there isn't
->>>>> that much here that seems to be unique for MediaTek in this patch
->>>>> series, so I think it worth to see whether this whole patch set can be
->>>>> made more generic. Having said that, the UUID is always unique for a
->>>>> certain Trusted Application. So, it's not entirely true saying that the
->>>>> UUID is the same for all SoCs and all TrustZone versions. It might be
->>>>> true for a family of MediaTek devices and the TEE in use, but not
->>>>> generically.
->>>>>
->>>>> So, if we need to differentiate between different TA implementations,
->>>>> then we need different UUIDs. If it would be possible to make this patch
->>>>> set generic, then it sounds like a single UUID would be sufficient, but
->>>>> that would imply that all TA's supporting such a generic UUID would be
->>>>> implemented the same from an API point of view. Which also means that
->>>>> for example Trusted Application function ID's needs to be the same etc.
->>>>> Not impossible to achieve, but still not easy (different TEE follows
->>>>> different specifications) and it's not typically something we've done in
->>>>> the past.
->>>>>
->>>>> Unfortunately there is no standardized database of TA's describing what
->>>>> they implement and support.
->>>>>
->>>>> As an alternative, we could implement a query call in the TEE answering,
->>>>> "What UUID does your TA have that implements secure unmapped heap?".
->>>>> I.e., something that reminds of a lookup table. Then we wouldn't have to
->>>>> carry this in UAPI, DT or anywhere else.
->>>> Joakim does a TA could offer a generic API and hide the hardware specific
->>>> details (like kernel uAPI does for drivers) ?
->>> It would have to go through another layer (like the tee driver) to be
->>> a generic API. The main issue with TAs is that they have UUIDs you
->>> need to connect to and specific codes for each function; so we should
->>> abstract at a layer above where those exist in the dma-heap code.
->>>> Aside that question I wonder what are the needs to perform a 'secure' playback.
->>>> I have in mind 2 requirements:
->>>> - secure memory regions, which means configure the hardware to ensure that only
->>>> dedicated hardware blocks and read or write into it.
->>>> - set hardware blocks in secure modes so they access to secure memory.
->>>> Do you see something else ?
->>> This is more or less what is required, but this is out of scope for
->>> the Linux kernel since it can't be trusted to do these things...this
->>> is all done in firmware or the TEE itself.
->> Yes kernel can't be trusted to do these things but know what we need could help
->> to define a API for a generic TA.
->>
->> Just to brainstorm on mailing list:
->> What about a TA API like
->> TA_secure_memory_region() and TA_unsecure_memory_region() with parameters like:
->> - device identifier (an ID or compatible string maybe)
->> - memory region (physical address, size, offset)
->> - requested access rights (read, write)
->>
->> and on kernel side a IOMMU driver because it basically have all this information already
->> (device attachment, kernel map/unmap).
->>
->> In my mind it sound like a solution to limit the impact (new controls, new memory type)
->> inside v4l2. Probably we won't need new heap either.
->> All hardware dedicated implementations could live inside the TA which can offer a generic
->> API.
-> The main problem with that type of design is the limitations of
-> TrustZone memory protection. Usually there is a limit to the number of
-> regions you can define for memory protection (and there is on
-> Mediatek). So you can't pass an arbitrary memory region and mark it
-> protected/unprotected at a given time. You need to establish these
-> regions in the firmware instead and then configure those regions for
-> protection in the firmware or the TEE.
+Do these changes, similar to sc7180.
 
-The TEE iommu could be aware of these limitations and merge the regions when possible
-plus we can define a CMA region for each device to limit the secured memory fragmentation.
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+Luca Weiss (3):
+      media: venus: core: Set up secure memory ranges for SC7280
+      arm64: dts: qcom: sc7280: Move video-firmware to chrome-common
+      arm64: dts: qcom: qcm6490-fairphone-fp5: Enable venus node
 
->
->>>> Regards,
->>>> Benjamin
->>>>
+ arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 5 +++++
+ arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi | 8 ++++++++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi               | 6 ++----
+ drivers/media/platform/qcom/venus/core.c           | 4 ++++
+ 4 files changed, 19 insertions(+), 4 deletions(-)
+---
+base-commit: df964ce9ef9fea10cf131bf6bad8658fde7956f6
+change-id: 20230929-sc7280-venus-pas-ea9630525753
+
+Best regards,
+-- 
+Luca Weiss <luca.weiss@fairphone.com>
+
