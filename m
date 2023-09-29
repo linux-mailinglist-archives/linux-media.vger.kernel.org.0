@@ -2,56 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 478CA7B382B
-	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 18:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F7757B38F8
+	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 19:29:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233439AbjI2Qzz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Sep 2023 12:55:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57278 "EHLO
+        id S233824AbjI2R3L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Sep 2023 13:29:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233135AbjI2Qzy (ORCPT
+        with ESMTP id S233863AbjI2R3D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Sep 2023 12:55:54 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AE561AE
-        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 09:55:52 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18C6BC433C9;
-        Fri, 29 Sep 2023 16:55:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696006552;
-        bh=uf3unOmquHNeo7Ua/HDausdM3DppGA02+6/jUxVaBPU=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=jcv5ZVlkiH0PDq8XbPRd0TeLlyedF1el5RuKNHTtcFvvEv2AxevxgeCp6CqWrYHHI
-         9R21E0jn2gtFAq7xxMp+ldIceBIij/8NRzCii41Px2RRBVtYvW55MJlhpUEPyN0/OR
-         e/Z+QMiwnkR5dQqsckubwYTmBD3TPYBlW1rlY7rmFrq8Z0R+Jt5jvyWguRD/IXtlGQ
-         /6xIQtdZsn9s+wJ/vt22NrALe9PD3CxqLAfS4wxNJQeEn39gnZWUFuuYw7oZ6jilb6
-         kAOa4ndgt33bjayHekPc9PNCXpFOb62xQG8Er2Umy4q3Pu7K08y5ZG7frnuUEcyvwR
-         lkl9/EuYCyH5w==
-Received: (nullmailer pid 4105451 invoked by uid 1000);
-        Fri, 29 Sep 2023 16:55:49 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Fri, 29 Sep 2023 13:29:03 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B9ACFC
+        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 10:28:36 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-692a885f129so10333897b3a.0
+        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 10:28:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1696008516; x=1696613316; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Po3iJEPyhTDHKHPYluCLtAPAQ5pzD+vTnYerXb74xEg=;
+        b=cO80HXeYmyhSsBCB7tXQU1Ce772cGf1RoQxQ//zw/qtcXztY1J8XGB+qun3ZYGmsaq
+         lrufjkV5TEpE0arjJXC56GhUY+xN/V0An7aZORQqzEU0YrlLkgOLUlRduhKWgk1wflDh
+         g7xNt46p/LXssE84ssuqyE7fumLOdFpUFzBZA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696008516; x=1696613316;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Po3iJEPyhTDHKHPYluCLtAPAQ5pzD+vTnYerXb74xEg=;
+        b=oY3j5wuozzIvjiciRvRL1g1vY9pP3IA6SdemxH8uDWCVat0xk3wWrSylBb9rKimBud
+         wPnrYUfG8t5Pzszn3QShpWthgxXqmbORNeyRdO4UL8kwm2UEs2Rt/oCNswFCOzONLPil
+         vGJcFZ8jh3AuteyTO9Hwh+UgevU8t7UJRE2yr1QRCYZyXAQT95lCzbGO24Cn9Z8MOZ98
+         gJlC7Fjaeq0JkN/rqQ7yfBoKge5hvYs6rayUUYQj/e+0eO6rV8dVA7BWq21tDOIEhASM
+         8Z8UuR6T4f4uMucogNbta1CoQgpxDhRo2QXaJ829l4LlEnRHc6zNpvPg1CtTUdQlRwxA
+         sZeQ==
+X-Gm-Message-State: AOJu0Yx3AEHf+NH2PJIRcQVA2PQJxR1KYcn/koUnEc9mR9/JNDg3R21X
+        q0jjWnqpOr5BQJPBXwht0Ledbw==
+X-Google-Smtp-Source: AGHT+IELca6dHQ43mKm/oMzdvQYfA4Uh8/PuQ46jEYeyMLg9ZQpRBWSkpn/PPZVgmSwvl4Uqd7CFMg==
+X-Received: by 2002:a05:6a20:a110:b0:159:b7ba:74bd with SMTP id q16-20020a056a20a11000b00159b7ba74bdmr5057365pzk.50.1696008515843;
+        Fri, 29 Sep 2023 10:28:35 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id m16-20020aa79010000000b0068fece22469sm15298300pfo.4.2023.09.29.10.28.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 10:28:35 -0700 (PDT)
+Date:   Fri, 29 Sep 2023 10:28:34 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] media: usb: siano: Fix undefined behavior bug in
+ struct smsusb_urb_t
+Message-ID: <202309291027.305751B8@keescook>
+References: <ZRbwU8Qnx28gpbuO@work>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>, martink@posteo.de,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Conor Dooley <conor+dt@kernel.org>
-In-Reply-To: <20230929151825.6535-6-jacopo.mondi@ideasonboard.com>
-References: <20230929151825.6535-1-jacopo.mondi@ideasonboard.com>
- <20230929151825.6535-6-jacopo.mondi@ideasonboard.com>
-Message-Id: <169600654899.4105435.9416613828918752316.robh@kernel.org>
-Subject: Re: [PATCH 5/7] media: bindings: ovti,ov5640: Fix handling of
- video-interface-device
-Date:   Fri, 29 Sep 2023 11:55:49 -0500
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZRbwU8Qnx28gpbuO@work>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,53 +70,22 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On Fri, 29 Sep 2023 17:18:23 +0200, Jacopo Mondi wrote:
-> Fix handling of properties from video-interface-device.yaml for
-> Omnivision OV5640 sensor.
+On Fri, Sep 29, 2023 at 05:42:11PM +0200, Gustavo A. R. Silva wrote:
+> `struct urb` is a flexible structure, which means that it contains a
+> flexible-array member at the bottom. This could potentially lead to an
+> overwrite of the object `wq` at run-time with the contents of `urb`.
 > 
-> There is no reason to restrict the allowed rotation degrees to 0 and 180,
-> as the sensor can be mounted with any rotation.
+> Fix this by placing object `urb` at the end of `struct smsusb_urb_t`.
 > 
-> Also, as all the properties described by video-interface-device.yaml are
-> allowed for the image sensor, make them accepted by changing
-> "additionalProperties: false" to "unevaluatedProperties: false" at the
-> schema top-level.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  .../devicetree/bindings/media/i2c/ovti,ov5640.yaml         | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
+> Fixes: dd47fbd40e6e ("[media] smsusb: don't sleep while atomic")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+As Jann pointed out, it's unlikely there is a function bug here, but I
+still think it's right to make sure this is robust and clears the way
+for -Wflex-array-member-not-at-end.
 
-yamllint warnings/errors:
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml: 'unevaluatatedProperties' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'dependentRequired', 'dependentSchemas', 'patternProperties', 'properties', 'not', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select', '$ref']
-	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml: 'oneOf' conditional failed, one must be fixed:
-	'unevaluatedProperties' is a required property
-	'additionalProperties' is a required property
-	hint: Either unevaluatedProperties or additionalProperties must be present
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230929151825.6535-6-jacopo.mondi@ideasonboard.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+Kees Cook
