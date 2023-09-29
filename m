@@ -2,65 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B2937B33B3
-	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 15:34:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 455F27B340D
+	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 15:58:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233389AbjI2NeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Sep 2023 09:34:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48612 "EHLO
+        id S232803AbjI2N6k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Sep 2023 09:58:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233413AbjI2NeB (ORCPT
+        with ESMTP id S232748AbjI2N6j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Sep 2023 09:34:01 -0400
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C8ECCD3
-        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 06:33:59 -0700 (PDT)
-Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-49d0a704ac7so567671e0c.1
-        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 06:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1695994438; x=1696599238; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A+xdIamtWar0MYfhb0rDcSmv8dCB5Xt4XPVLRYRJ3b4=;
-        b=DfKq+khyi68MO5POorqL+w7FLTVw7kpOAkyb9ENUlnq6VS8kKM0LYG5LtaTNSXguI3
-         JxYAPv8jl3jDKY5JGwecfL28x+40ORzrGuakykh1C5iaSUZ5YwUEWRAEKsVUWdrp/8un
-         7pobgqgt4LEWomqMgDIogohzC0zxVwyg3IDE+zIIIsDti/6/xjXqBdt9jCr/Bi3S4Px5
-         0fQPctMzlZv+OTdeLVw/bGWVl7UFl660dcPlpYdfiOYwwAGKgN7izR7wTktMr6AUVurw
-         78MyioCleHY4Cd9aG2gYgZSrgwJ/UmYA3hO8TG8fJK1xMrJd/tTQpZrwdfyjwy/Wt36g
-         8Y1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695994438; x=1696599238;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A+xdIamtWar0MYfhb0rDcSmv8dCB5Xt4XPVLRYRJ3b4=;
-        b=qYUq7e6N9jinXLVlo/+wdauEV/Y8OLuXNx0+kTvtQEbk8dYGTzjXP58+yoUxW5eYcg
-         Gz6DEAbf66EaAblRUqlwESFo1/6+mFo6eI1jnZ6Jq53VR1tluxbYuZDJW9H0aSPYCT2A
-         nYTD0k3YHBdjDhk9CsnEkd467e1aSPct/OJnMS9mdKtcJI2iYuMs7PV7QC5lT+J9rQNB
-         vbn8XM3KREVPx0YsZ/e8RFU45sDYd7vgxHyYZ19dsHoc01ytv8ADrZ7La0BwhDKm7WFE
-         YjIi/ux/lqZuHXmIxMDqQR+TSpjkI6Ctt1K5giU44JIMEOUfjo8bhVcO7HztxfS3lOYB
-         ymNA==
-X-Gm-Message-State: AOJu0YxIRKt0BZmAlTs9NZbJEpJOGeFxFtr6D8h7iZ6YcWd0/0R9Yhbz
-        iTwgOSNAi0kTsyN1e7QBO/umku9meX83f3SLFznBlAVlJoIYgHcIjbU=
-X-Google-Smtp-Source: AGHT+IHHyhyo65ld9rgo3x3D0p/k9tLyqy8oiJ8aVd5/jh05D1feMiR8+2dvprSCCjc8uaoechR6+ou6NnvdxiYCR94=
-X-Received: by 2002:a1f:cc46:0:b0:48d:eaa:45c4 with SMTP id
- c67-20020a1fcc46000000b0048d0eaa45c4mr3791108vkg.7.1695994438460; Fri, 29 Sep
- 2023 06:33:58 -0700 (PDT)
+        Fri, 29 Sep 2023 09:58:39 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAD08DB;
+        Fri, 29 Sep 2023 06:58:37 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0392C433C8;
+        Fri, 29 Sep 2023 13:58:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695995917;
+        bh=CHEXPlpFmHD8rVxXqeAQGRdFG1pNx0Kk9AeUvrx4txE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jICsUAQdJA2wHFVYpRu0kl90yxId8Gfhtvm1Jl/X6SJ+/DXMq/vjzap5vOuFTtwjh
+         +QzG99dKnAyH85c+D0/GnH0CxZ4mdGim0f+7MsehocvKAFmSRnkmao0TU1hnCm3td7
+         wnznvXqRkOfqKzo6wDlV+xrDRrjmKlBSQnVla0W6zbK3aQ+GLbiNaMsqnjUuK0dT2l
+         EsIcZ7mC4cEw6wRZ3y4PcPckx75TRQDVLRrcrkE691z6isF1B9xWAnYOIRU73y1954
+         TkddNsCTIAjNYTDQuzD0ZFVdRS3WWXA6EMUhRQ/Q2xanFqKF+ovZKvS4hubVD62yld
+         y+ZdJ/cft3Q9w==
+Date:   Fri, 29 Sep 2023 14:58:31 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     Moudy Ho =?utf-8?B?KOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+        "conor.dooley@microchip.com" <conor.dooley@microchip.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "airlied@gmail.com" <airlied@gmail.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v6 12/16] dt-bindings: display: mediatek: color: add
+ compatible for MT8195
+Message-ID: <20230929-renewably-landing-3f5a1d2eb27c@spud>
+References: <20230922072116.11009-1-moudy.ho@mediatek.com>
+ <20230922072116.11009-13-moudy.ho@mediatek.com>
+ <20230922-zebra-modify-87ff23c70bb3@spud>
+ <20230922-overhung-deception-e9b461ba0372@spud>
+ <7c445195e17e15d5af5fcb30ae53f76c713e958b.camel@mediatek.com>
+ <20230927-crunching-prancing-36fe3eb79607@wendy>
+ <825ac03b692043d48563620ad9542a4ee43211e7.camel@mediatek.com>
+ <20230928-keep-attractor-1e7cd0df03b2@spud>
+ <7dbadd86-f408-bc94-92fc-22f460eebb43@collabora.com>
 MIME-Version: 1.0
-References: <m3y1gpw8ri.fsf@t19.piap.pl>
-In-Reply-To: <m3y1gpw8ri.fsf@t19.piap.pl>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 29 Sep 2023 14:33:42 +0100
-Message-ID: <CAPY8ntASwh3AcRqE+2zF4Df=u+=wJ5K9icAeOrXTMJGDd1+caw@mail.gmail.com>
-Subject: Re: Sony IMX290/462 image sensors I2C xfer peculiarity
-To:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="/VzKeb9rEqhIUOcg"
+Content-Disposition: inline
+In-Reply-To: <7dbadd86-f408-bc94-92fc-22f460eebb43@collabora.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,71 +78,165 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof
 
-On Fri, 29 Sept 2023 at 11:53, Krzysztof Ha=C5=82asa <khalasa@piap.pl> wrot=
-e:
->
-> Hi,
->
-> I am debugging certain IMX290 and IMX462 I2C failures on an NXP
-> i.MX6MP based board and there seem to be interesting "feature" here:
-> Sony IMX290 and IMX462 image sensors apparently terminate I2C transfers
-> after 2^18 of their master clock cycles. For example, with a typical
-> 37.125 MHz clock oscillator, this means about 7 ms. In practice, I'm
-> barely able to read a block of 128 registers (at I2C 400 kHz clock
-> rate).
->
-> I think the sensors simply disconnect from the bus after 2^18 clock
-> cycles (starting from the first START condition, the repeated STARTs
-> don't reset the timeout). This means, in case of a READ operation, the
-> data read by the CPU after the timeout contains all bits set to 1.
-> i.MX8MP detects arbitration losses, so if the SDA change to 1 happens on
-> high clock value (but not on ACK bit), the whole transfer is aborted.
-> Otherwise, the ending bytes are simply set to FF (and the last non-FF
-> may be corrupted partially).
->
-> The problem is 7 ms is a short time and on a non-real time system even
-> a simple non-DMA I2C register writes can take as much time. This causes
-> driver failures.
+--/VzKeb9rEqhIUOcg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What's your requirement to be able to read back so many registers at once?
+On Fri, Sep 29, 2023 at 10:42:58AM +0200, AngeloGioacchino Del Regno wrote:
+> Il 28/09/23 18:49, Conor Dooley ha scritto:
+> > On Thu, Sep 28, 2023 at 02:52:23AM +0000, Moudy Ho (=E4=BD=95=E5=AE=97=
+=E5=8E=9F) wrote:
+> > > On Wed, 2023-09-27 at 10:47 +0100, Conor Dooley wrote:
+> > > > On Wed, Sep 27, 2023 at 07:19:28AM +0000, Moudy Ho (=E4=BD=95=E5=AE=
+=97=E5=8E=9F) wrote:
+> > > > > On Fri, 2023-09-22 at 16:51 +0100, Conor Dooley wrote:
+> > > > > > On Fri, Sep 22, 2023 at 04:49:14PM +0100, Conor Dooley wrote:
+> > > > > > > On Fri, Sep 22, 2023 at 03:21:12PM +0800, Moudy Ho wrote:
+> > > > > > > > Add a compatible string for the COLOR block in MediaTek
+> > > > > > > > MT8195
+> > > > > > > > that
+> > > > > > > > is controlled by MDP3.
+> > > > > > > >=20
+> > > > > > > > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> > > > > > > > ---
+> > > > > > > >   .../devicetree/bindings/display/mediatek/mediatek,color.y=
+aml
+> > > > > > > >   | 1 +
+> > > > > > > >   1 file changed, 1 insertion(+)
+> > > > > > > >=20
+> > > > > > > > diff --git
+> > > > > > > > a/Documentation/devicetree/bindings/display/mediatek/mediat=
+ek
+> > > > > > > > ,col
+> > > > > > > > or.yaml
+> > > > > > > > b/Documentation/devicetree/bindings/display/mediatek/mediat=
+ek
+> > > > > > > > ,col
+> > > > > > > > or.yaml
+> > > > > > > > index f21e44092043..b886ca0d89ea 100644
+> > > > > > > > ---
+> > > > > > > > a/Documentation/devicetree/bindings/display/mediatek/mediat=
+ek
+> > > > > > > > ,col
+> > > > > > > > or.yaml
+> > > > > > > > +++
+> > > > > > > > b/Documentation/devicetree/bindings/display/mediatek/mediat=
+ek
+> > > > > > > > ,col
+> > > > > > > > or.yaml
+> > > > > > > > @@ -26,6 +26,7 @@ properties:
+> > > > > > > >             - mediatek,mt2701-disp-color
+> > > > > > > >             - mediatek,mt8167-disp-color
+> > > > > > > >             - mediatek,mt8173-disp-color
+> > > > > > > > +          - mediatek,mt8195-mdp3-color
+> > > > > > >=20
+> > > > > > > How come this one is a "mdp3" not a "disp"?
+> > > > > >=20
+> > > > > > I don't know what mdp3 means & googling gives me no answers.
+> > > > > > What's
+> > > > > > the
+> > > > > > "disp" one controlled by, since it isn't controlled by mdp3?
+> > > > > >=20
+> >=20
+> > > > > Mediatek's Media Data Path ver.3 (MDP3) is associated with MMSYS
+> > > > > and
+> > > > > acts as an independent driver that operates between VDEC and DISP.
+> > > > > By controlling multiple components, it carries out tasks like
+> > > > > converting color formats, resizing, and applying specific Picture
+> > > > > Quality (PQ) effects.
+> > > > > The driver can be found at "driver/media/platform/mediatek/mdp3".
+> > > > > Since the same hardware components are configured in both MDP3 and
+> > > > > DISP, considering previous discussions, I attemped to integrate
+> > > > > into a
+> > > > > single binding, named after the controlling user.
+> > > >=20
+> > > > I'm still kinda struggling to understand this. Do you mean that the
+> > > > hardware can be controlled by either of the disp and mdp3 drivers,
+> > > > and
+> > > > a compatible containing "disp" would use one driver, and one
+> > > > containing
+> > > > "mdp3" would use another?
+> > > >=20
+> >=20
+> > > Sorry for any confusion caused by the software information. In the
+> > > video pipeline, after decoding, the data flows sequentially through t=
+wo
+> > > subsystems: MDP and DISP. Each subsystems has multiple IPs, with some
+> > > serving the same functionality as COLOR mentioned here. However, these
+> > > IPs cannot be controlled by different subsystems. Therefore, I includ=
+ed
+> > > the name of the subsystem after SoC to identify the configuration's
+> > > location. Is this approach feasible?
+> >=20
+> > I'll have to leave things to the likes of Laurent to comment here I
+> > think. I don't understand this hardware well enough to have a useful
+> > opinion. It would seem like a different part of the datapath is a
+> > different device that should be documented separately, but I don't know
+> > enough to say for sure, sorry.
+>=20
+> Hardware speaking, it's not a different device: those all reside in the
+> same block, except they are configured to route their I/O *either* to the
+> display pipeline, *or* to the MDP3 pipeline.
 
-Whilst potentially useful during development, most sensor drivers
-write specific registers but never read anything other than
-potentially a model ID register during probe.
-Large block writes are generally not possible as at least the IMX290
-datasheet does state "Do not perform communication to addresses not
-listed in the Register Map", and there are numerous reserved blocks
-throughout the map.
-As far as I know there's no OTP on these sensors which would be about
-the only reason I can think of for needing to read large blocks.
+Is it runtime configurable?
 
-I currently can't see a reason for a sensor driver to be needing to do
-these big reads, so how can it cause a driver failure?
+> I would agree though in that this could be more flexible, as in, not
+> having a requirement to say "mdp3" or "disp", and managing the COLOR
+> blocks generically and letting the drivers to choose the actual path
+> transparently from what the devicetree compatible is, but there's no
+> practical point in doing this in the end, because there is an enough
+> number of (for example, COLOR) blocks such that one can be completely
+> reserved to MDP3 and one completely reserved to DISP.
+>=20
+> So, we don't *need* this flexibility, but would be nice to have for
+> different (unexistant, basically) usecases...
+>=20
+> The thing is, if we go for the maximum flexibility, the drawback is
+> that we'd see a number of nodes like
+>=20
+> shared_block: something@somewhere {
+> 	compatible =3D "mediatek,something";
+> }
+>=20
+> mdp3: dma-controller@14001000 {
+> 	......
+> 	mediatek,color =3D <&color0>;
+> 	mediatek,stitch =3D <&stitch0>;
+> 	mediatek,hdr =3D <&hdr0>;
+> 	mediatek,aal =3D <&aal0>;
+> 	....
+> 	long list of another 10 components
+> }
+>=20
+> display: something@somewhere {
+> 	......
+> 	an even longer list than the MDP3 one
+> }
+>=20
+> ...or perhaps even a graph, which is even longer in the end.
+>=20
+> I'm not against this kind of structure, but I wonder if it's worth it.
 
-Scanning the IMX290 datasheet further, there is a slightly worrying
-paragraph in "Register Communication Timing (I2C)":
-"In I2C communication system, communication can be performed excluding
-during the period when communication is prohibited from the falling
-edge of XVS to 6H after (1H period)."
-and the diagram shows a 1 line period 6 lines after XVS which is
-marked "communication prohibited period". Ouch!
-I've never experienced issues with I2C comms to these modules, but is
-it possible that you're hitting this period with your longer I2C
-transactions? A logic analyser looking at XVS, XHS, and the I2C might
-give you some clues. Or are you not streaming when you're doing these
-transactions?
-IMX462 appears to list a similar restriction.
+I have no idea, but it sounds like it isn't. Really what happened here,
+is not me having a particular thing I want to see, is getting a response
+that implied that there were two different compatibles for the same
+hardware, controlled by different drivers.
+It does seem to be that way at present, and this is not something I am
+willing to ack etc. That's not to say that I am _nacking_ it, just that
+I don't understand this enough to ack something that we usually tell
+people not to do.
 
-  Dave
+--/VzKeb9rEqhIUOcg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Needless to say, the datasheets know nothing about the feature.
->
-> Any thoughts?
-> --
-> Krzysztof "Chris" Ha=C5=82asa
->
-> Sie=C4=87 Badawcza =C5=81ukasiewicz
-> Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-> Al. Jerozolimskie 202, 02-486 Warszawa
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRbYBwAKCRB4tDGHoIJi
+0gDgAQD4uuPf+CMkS9i8umAoxxX46tlaJiF0ICduWocAJ7z4JwEAmoWZAI0hf7If
+KE6e8+SKB238W6F5JretaCDxsAbF5gU=
+=6dAo
+-----END PGP SIGNATURE-----
+
+--/VzKeb9rEqhIUOcg--
