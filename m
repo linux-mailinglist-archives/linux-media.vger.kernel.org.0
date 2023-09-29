@@ -2,180 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 976AA7B2C4F
-	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 08:30:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B6377B2CAA
+	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 08:54:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232758AbjI2Gab (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Sep 2023 02:30:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39156 "EHLO
+        id S232519AbjI2GyY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Sep 2023 02:54:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232744AbjI2Ga3 (ORCPT
+        with ESMTP id S229577AbjI2GyX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Sep 2023 02:30:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 103531B0;
-        Thu, 28 Sep 2023 23:30:26 -0700 (PDT)
-Received: from ideasonboard.com (unknown [IPv6:2001:861:388f:1650:2f32:b6ff:a885:7d5e])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE094844;
-        Fri, 29 Sep 2023 08:28:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1695968920;
-        bh=wHmiBJv2Rg0wYUZ+ffUzk0vEJGF6fWACVyEd9GZDv0k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=srcPCxN30DFBZUtc7tuMLSsT9QfXLl4iNg7xhpiWp/t+rpGZ6G3xj/ANa87k9sll1
-         8DmopkUXaxEyNd9LZQKnP0NFCWJIbVtrcQhDaJe6R2qzw1RWWmeCo2RdwlZlKv6Cnk
-         YCdgbtUH8P7gKV6AOHHd3jq9hS0ueSyt5UFtKF/c=
-Date:   Fri, 29 Sep 2023 08:30:19 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Fabio Estevam <festevam@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, martink@posteo.de,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2] media: dt-bindings: hynix,hi846: Document orientation
- and rotation
-Message-ID: <orsrzyiaykfoqb5uritwbz5bgovxn4wviijinzlim2cy3qffhp@5zuy5ffp7kmo>
-References: <20230928121424.388019-1-festevam@gmail.com>
- <avoixz5pqixr366cqks672akniv7h7ewix4edoyikg23dv24fd@bquxelr53t7t>
- <20230928155446.GA568091-robh@kernel.org>
+        Fri, 29 Sep 2023 02:54:23 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 161F41A7;
+        Thu, 28 Sep 2023 23:54:20 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:df6a:b81:b9d2:d824] (unknown [IPv6:2a01:e0a:120:3210:df6a:b81:b9d2:d824])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E2E19660732B;
+        Fri, 29 Sep 2023 07:54:18 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1695970459;
+        bh=O8YZ77epx2sINEGgheJrVOCXF6XG6Sc+CjdzPYmY2hE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=eBmLienboXPfmiRedjLIQt1ffMXAggrXq+zZx1IJsOIyP3RC9PV62T0cCiABkKNko
+         MwF+angSnuoWHcduO3xZPFnT/Q+kSzNhAqGHVBzbsnkM2B1uqBRzJSFJNsHNunp7MO
+         e0NpAjOsmim/1BJiibClxluNbe62L4K2AaoD+cqcAe+JrWL6C3YzlJ92MEgAjgnt37
+         v4dgbzsuKgKqKc41/n8Xk+5KjMsiuX2qCoE946nu20K49GYz2TNOyrbLfxP8GqN3QS
+         vxnBmOkNkPk1VR2YazeL6TXlWNaXCTlYyNJPG8+s6Tk0O/0WvYM96OZp4iy1dQw/7d
+         RhSAmseeRAg3g==
+Message-ID: <32e515e1-b7a2-de3c-723b-ade3ec760b4d@collabora.com>
+Date:   Fri, 29 Sep 2023 08:54:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230928155446.GA568091-robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
+To:     Jeffrey Kardatzke <jkardatzke@google.com>
+Cc:     Joakim Bech <joakim.bech@linaro.org>,
+        =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jstultz@google.com" <jstultz@google.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
+        <kuohong.wang@mediatek.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-6-yong.wu@mediatek.com>
+ <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com>
+ <a115a2a5d3ac218e6db65ccdb0a1876f9cfca02b.camel@mediatek.com>
+ <d798b15b-6f35-96db-e3f7-5c0bcc5d46a2@collabora.com>
+ <a4ecc2792f3a4d3159e34415be984ff7d5f5e263.camel@mediatek.com>
+ <20230927134614.kp27moxdw72jiu4y@pop-os.localdomain>
+ <3aaafe47-3733-a4d5-038d-a7e439309282@collabora.com>
+ <CA+ddPcP4=p37cV5Tbn5zTUbiL4ou+Yqb=5rS+O_ff8ZUw64D3Q@mail.gmail.com>
+ <80695726-1a98-12d4-ad7d-d731f2f3caeb@collabora.com>
+ <CA+ddPcPES=4FcQRkvVnW=C9mL6hCxVfCcoLDJSjb58UiDmS_Mg@mail.gmail.com>
+Content-Language: en-US
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CA+ddPcPES=4FcQRkvVnW=C9mL6hCxVfCcoLDJSjb58UiDmS_Mg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob, Fabio
 
-On Thu, Sep 28, 2023 at 10:54:46AM -0500, Rob Herring wrote:
-> On Thu, Sep 28, 2023 at 04:57:23PM +0200, Jacopo Mondi wrote:
-> > Hi Fabio, Krzysztof
-> >
-> > On Thu, Sep 28, 2023 at 09:14:24AM -0300, Fabio Estevam wrote:
-> > > From: Fabio Estevam <festevam@denx.de>
-> > >
-> > > Document the 'orientation' and 'rotation' properties, which
-> > > are valid for the SK Hynix Hi-846 sensor.
-> > >
-> > > Their definitions come from video-interface-devices.yaml, so add
-> > > a reference to it.
-> > >
-> > > Signed-off-by: Fabio Estevam <festevam@denx.de>
-> > > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > Acked-by: Martin Kepplinger <martink@posteo.de>
-> > > ---
-> > > Changes since v1:
-> > > - Also pass a ref to video-interface-devices.yaml. (Martin)
-> > >
-> >
-> > This patch is technically correct, so this message is not meant to
-> > delay its integration or anything like that, but I'll take the
-> > occasion to ask for guidance to the DT maintainers, as I think this
-> > approach doesn't scale.
-> >
-> > I count the following sensor bindings that refer to
-> > video-interface-device.yaml
-> >
-> > Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> > Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-> > Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> > Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
-> > Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-> > Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> > Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
-> >
-> > These:
-> >
-> > Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml:additionalProperties: false
-> > Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml:additionalProperties: false
-> > Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml:additionalProperties: false
-> > Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml:additionalProperties: false
-> > Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml:additionalProperties: false
-> >
-> > specify 'additionalProperties: false' at the top-level.
-> > This is correct imho, as it implies that any properties not
-> > specifically allowed by bindings is forbidden.
-> >
-> > This unfortunately applies to  'rotation' and 'orientation' as well.
-> > This is not correct, as those two properties should apply to all
-> > sensors without the requiring the bindings to explicitly allow them.
-> >
-> > Counterproof: It's very easy to break validation of, in example,
-> > ov5640
-> >
-> > --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> > @@ -109,6 +109,7 @@ examples:
-> >                powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-> >                reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-> >                rotation = <180>;
-> > +              orientation = <0>;
-> >
-> >                port {
-> >                    /* MIPI CSI-2 bus endpoint */
-> >
-> > $ make ARCH=arm64 dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> >   DTC_CHK Documentation/devicetree/bindings/media/i2c/ovti,ov5640.example.dtb
-> >   'orientation' does not match any of the regexes: 'pinctrl-[0-9]+'
-> > 	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov5640.yaml#
-> >
-> > Is there a way to allow those two properties ('rotation' and
-> > 'orientation') to be accepted by all sensor drivers bindings ?
+Le 28/09/2023 à 19:48, Jeffrey Kardatzke a écrit :
+> On Thu, Sep 28, 2023 at 1:30 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>>
+>> Le 27/09/2023 à 20:56, Jeffrey Kardatzke a écrit :
+>>> On Wed, Sep 27, 2023 at 8:18 AM Benjamin Gaignard
+>>> <benjamin.gaignard@collabora.com> wrote:
+>>>> Le 27/09/2023 à 15:46, Joakim Bech a écrit :
+>>>>> On Mon, Sep 25, 2023 at 12:49:50PM +0000, Yong Wu (吴勇) wrote:
+>>>>>> On Tue, 2023-09-12 at 11:32 +0200, AngeloGioacchino Del Regno wrote:
+>>>>>>> Il 12/09/23 08:17, Yong Wu (吴勇) ha scritto:
+>>>>>>>> On Mon, 2023-09-11 at 11:29 +0200, AngeloGioacchino Del Regno
+>>>>>>>> wrote:
+>>>>>>>>> Il 11/09/23 04:30, Yong Wu ha scritto:
+>>>>>>>>>> The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't
+>>>>>>>>>> work
+>>>>>>>>>> here since this is not a platform driver, therefore initialise
+>>>>>>>>>> the
+>>>>>>>>>> TEE
+>>>>>>>>>> context/session while we allocate the first secure buffer.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>>>>>>>> ---
+>>>>>>>>>>       drivers/dma-buf/heaps/mtk_secure_heap.c | 61
+>>>>>>>>>> +++++++++++++++++++++++++
+>>>>>>>>>>       1 file changed, 61 insertions(+)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c
+>>>>>>>>>> b/drivers/dma-
+>>>>>>>>>> buf/heaps/mtk_secure_heap.c
+>>>>>>>>>> index bbf1c8dce23e..e3da33a3d083 100644
+>>>>>>>>>> --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
+>>>>>>>>>> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
+>>>>>>>>>> @@ -10,6 +10,12 @@
+>>>>>>>>>>       #include <linux/err.h>
+>>>>>>>>>>       #include <linux/module.h>
+>>>>>>>>>>       #include <linux/slab.h>
+>>>>>>>>>> +#include <linux/tee_drv.h>
+>>>>>>>>>> +#include <linux/uuid.h>
+>>>>>>>>>> +
+>>>>>>>>>> +#define TZ_TA_MEM_UUID          "4477588a-8476-11e2-ad15-
+>>>>>>>>>> e41f1390d676"
+>>>>>>>>>> +
+>>>>>>>>> Is this UUID the same for all SoCs and all TZ versions?
+>>>>>>>> Yes. It is the same for all SoCs and all TZ versions currently.
+>>>>>>>>
+>>>>>>> That's good news!
+>>>>>>>
+>>>>>>> Is this UUID used in any userspace component? (example: Android
+>>>>>>> HALs?)
+>>>>>> No. Userspace never use it. If userspace would like to allocate this
+>>>>>> secure buffer, it can achieve through the existing dmabuf IOCTL via
+>>>>>> /dev/dma_heap/mtk_svp node.
+>>>>>>
+>>>>> In general I think as mentioned elsewhere in comments, that there isn't
+>>>>> that much here that seems to be unique for MediaTek in this patch
+>>>>> series, so I think it worth to see whether this whole patch set can be
+>>>>> made more generic. Having said that, the UUID is always unique for a
+>>>>> certain Trusted Application. So, it's not entirely true saying that the
+>>>>> UUID is the same for all SoCs and all TrustZone versions. It might be
+>>>>> true for a family of MediaTek devices and the TEE in use, but not
+>>>>> generically.
+>>>>>
+>>>>> So, if we need to differentiate between different TA implementations,
+>>>>> then we need different UUIDs. If it would be possible to make this patch
+>>>>> set generic, then it sounds like a single UUID would be sufficient, but
+>>>>> that would imply that all TA's supporting such a generic UUID would be
+>>>>> implemented the same from an API point of view. Which also means that
+>>>>> for example Trusted Application function ID's needs to be the same etc.
+>>>>> Not impossible to achieve, but still not easy (different TEE follows
+>>>>> different specifications) and it's not typically something we've done in
+>>>>> the past.
+>>>>>
+>>>>> Unfortunately there is no standardized database of TA's describing what
+>>>>> they implement and support.
+>>>>>
+>>>>> As an alternative, we could implement a query call in the TEE answering,
+>>>>> "What UUID does your TA have that implements secure unmapped heap?".
+>>>>> I.e., something that reminds of a lookup table. Then we wouldn't have to
+>>>>> carry this in UAPI, DT or anywhere else.
+>>>> Joakim does a TA could offer a generic API and hide the hardware specific
+>>>> details (like kernel uAPI does for drivers) ?
+>>> It would have to go through another layer (like the tee driver) to be
+>>> a generic API. The main issue with TAs is that they have UUIDs you
+>>> need to connect to and specific codes for each function; so we should
+>>> abstract at a layer above where those exist in the dma-heap code.
+>>>> Aside that question I wonder what are the needs to perform a 'secure' playback.
+>>>> I have in mind 2 requirements:
+>>>> - secure memory regions, which means configure the hardware to ensure that only
+>>>> dedicated hardware blocks and read or write into it.
+>>>> - set hardware blocks in secure modes so they access to secure memory.
+>>>> Do you see something else ?
+>>> This is more or less what is required, but this is out of scope for
+>>> the Linux kernel since it can't be trusted to do these things...this
+>>> is all done in firmware or the TEE itself.
+>> Yes kernel can't be trusted to do these things but know what we need could help
+>> to define a API for a generic TA.
+>>
+>> Just to brainstorm on mailing list:
+>> What about a TA API like
+>> TA_secure_memory_region() and TA_unsecure_memory_region() with parameters like:
+>> - device identifier (an ID or compatible string maybe)
+>> - memory region (physical address, size, offset)
+>> - requested access rights (read, write)
+>>
+>> and on kernel side a IOMMU driver because it basically have all this information already
+>> (device attachment, kernel map/unmap).
+>>
+>> In my mind it sound like a solution to limit the impact (new controls, new memory type)
+>> inside v4l2. Probably we won't need new heap either.
+>> All hardware dedicated implementations could live inside the TA which can offer a generic
+>> API.
+> The main problem with that type of design is the limitations of
+> TrustZone memory protection. Usually there is a limit to the number of
+> regions you can define for memory protection (and there is on
+> Mediatek). So you can't pass an arbitrary memory region and mark it
+> protected/unprotected at a given time. You need to establish these
+> regions in the firmware instead and then configure those regions for
+> protection in the firmware or the TEE.
+
+The TEE iommu could be aware of these limitations and merge the regions when possible
+plus we can define a CMA region for each device to limit the secured memory fragmentation.
+
 >
-> Use unevaluatedProperties instead of additionalProperties and add a $ref
-> to video-interface-devices.yaml in the sensor schemas. However, that
-> will allow all properties in video-interface-devices.yaml (which is just
-> flash-leds and lens-focus which seem fine). If you don't want that, then
-> you will have to split up video-interface-devices.yaml.
-
-ack! I think it's fine to allow all sensors to point to a lens or a
-flash device if they want to.
-
-I'll send a patch for:
-
-Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml:additionalProperties: false
-Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml:additionalProperties: false
-Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml:additionalProperties: false
-Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml:additionalProperties: false
-Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml:additionalProperties: false
-
-to s/additionalProperties/unevaluatedProperties/
-
-On this binding file instead. I noticed it again specifies
-unevaluatedProperties: false both in the and 'endpoint' nodes, which
-refers to /schemas/media/video-interfaces.yaml. This allows all
-properties from that schema to be specified.
-
-Should I send a patch to or is Fabio interested in doing so as
-part of a new version of this patch ?
-
---- a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-@@ -55,7 +55,7 @@ properties:
-     properties:
-       endpoint:
-         $ref: /schemas/media/video-interfaces.yaml#
--        unevaluatedProperties: false
-+        additionalProperties: false
-
-         properties:
-           data-lanes:
-@@ -70,6 +70,7 @@ properties:
-                   - const: 2
-
-           link-frequencies: true
-+          remote-endpoint: true
-
-
-
->
-> Rob
+>>>> Regards,
+>>>> Benjamin
+>>>>
