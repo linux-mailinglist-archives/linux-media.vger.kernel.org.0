@@ -2,116 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C618F7B2E0A
-	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 10:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ABE37B2E26
+	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 10:43:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232757AbjI2Ilo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Sep 2023 04:41:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44242 "EHLO
+        id S232835AbjI2InH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Sep 2023 04:43:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232740AbjI2Ilm (ORCPT
+        with ESMTP id S232784AbjI2InF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Sep 2023 04:41:42 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE2781AA
-        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 01:41:39 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-40651a72807so16151185e9.1
-        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 01:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695976898; x=1696581698; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M1qa9MPXO3QkuATigdmsJ+7YJ61rWQy2j+JwMEZKO3Y=;
-        b=o6TPz/5CBu7SXr1j3rNH31VLcRQY8LPeiS8s2phtQWSG/TzyMAMNADW2e8yg7kyVTm
-         DD0U8k7Ts6v0fMxpI3qsJCYQsc5VYCoLy6/bKRrnAVqr9Aq3or4u8d34PcyifAbq7Cbb
-         R0hDRB0U8bdcmStxO7KmFSnZ76baZwaWHVeLwSav+6Vsk1Pi3xVUyCN1yo3Y/IQR+JBp
-         6BFgbrmEvmJlRqSHVFNia3IzqPSM41vhFar1WlRh01ChiG/BecC4/Eh74ow9sG8ahKzq
-         tGg6TV6TxBhTVnz5fdkKbxhI/ir7QUrlR9xPcHlD8f7i86f9VoJSL/QO1GRSmXF0qNTE
-         RWQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695976898; x=1696581698;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M1qa9MPXO3QkuATigdmsJ+7YJ61rWQy2j+JwMEZKO3Y=;
-        b=fDoAI5ASkevjWye45ZP3CZDoUswx2ZT/Mi3y8sH3OYsPQ9e79ZP7ZUbi6Yyk5X1E+y
-         RLifzq9HX/8ixFyK9+9HN1ZHXUMKzrZGvgFEXQdxQ1W4nTANkpC/puGHc2HupWQSaMMr
-         gdBe/Hv8/6liKVpPaRWjOyOJc1FcsmfTmSHG5mmJjBFC8QckexmkwAcXNaAeV8u/dv/+
-         lsh1dG72rv3+eBkl6JuHLieRQ+LILPVFh19pdgB1+hmVlkvjQrNqKxOiqJpziOR4qpBB
-         MlI0S38q8iojxSwEOkkjoOo68k3tiphloLlo1ykAIzIeaj3cLOrBkQ3gMbNVx1Txh1oj
-         ovdA==
-X-Gm-Message-State: AOJu0Yy8J/SmHhgkdYEOHG2HwN3CrVs1ewyvSImkhzpZG4+btzXUAXNK
-        bSqRaSEBYXAp/WuAZiGt/JxDjg==
-X-Google-Smtp-Source: AGHT+IGoAq5YuKVMoGvdyZ7QMvGcwB5OFGA+8f2cwGQcecWyWkmY78FgzMH9ry9w/k10s4mUQpQonw==
-X-Received: by 2002:adf:ead1:0:b0:315:ad1a:5abc with SMTP id o17-20020adfead1000000b00315ad1a5abcmr3241388wrn.5.1695976898094;
-        Fri, 29 Sep 2023 01:41:38 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id z17-20020adfd0d1000000b00317a04131c5sm21032893wrh.57.2023.09.29.01.41.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Sep 2023 01:41:37 -0700 (PDT)
-Message-ID: <0523aa22-5a82-488a-b325-0cab6a4c95aa@linaro.org>
-Date:   Fri, 29 Sep 2023 09:41:36 +0100
+        Fri, 29 Sep 2023 04:43:05 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4887492;
+        Fri, 29 Sep 2023 01:43:03 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 00D826607342;
+        Fri, 29 Sep 2023 09:43:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1695976981;
+        bh=uiFIr0QtcCv98GNZksTz1IxuKJn0A6If3Wrm+S+R9Dc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=eJoJRtp1NC059atmmhRsvEF31BihjtVtAugFx9dlHoCrFMBZh1jrGhteZOlo7RtkQ
+         lnd8AHDTWkDdCIK+dU4OKIxtlycUe2lQzyaHoPniUsh9504Jfx5K2Q2Xo2ivAMIR5y
+         lZ0Wgvy5icrDdyae2/OPe8IfKJm4NVH6i7Z1QfGsAo3HHSmGrpwsXVNCD1wt9pTl8W
+         sfDdjupPGdPFFqDZcxRGfx1uIrxFP8kzYqO70uBvOtPFpvG+t9ZDwvJFv7jCFWuueV
+         pD63I9XS/sLFkPbSWcXovtm+qQ7OQLva188CiILIbcZDUrtKapgfnyTyr0EWLfYlSD
+         zzETDP2l5hs7A==
+Message-ID: <7dbadd86-f408-bc94-92fc-22f460eebb43@collabora.com>
+Date:   Fri, 29 Sep 2023 10:42:58 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: venus: core: Set up secure memory ranges for
- SC7280
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v6 12/16] dt-bindings: display: mediatek: color: add
+ compatible for MT8195
 Content-Language: en-US
-To:     Luca Weiss <luca.weiss@fairphone.com>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        cros-qcom-dts-watchers@chromium.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230929-sc7280-venus-pas-v1-0-9c6738cf157a@fairphone.com>
- <20230929-sc7280-venus-pas-v1-1-9c6738cf157a@fairphone.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230929-sc7280-venus-pas-v1-1-9c6738cf157a@fairphone.com>
+To:     Conor Dooley <conor@kernel.org>,
+        =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>
+Cc:     "conor.dooley@microchip.com" <conor.dooley@microchip.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "airlied@gmail.com" <airlied@gmail.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230922072116.11009-1-moudy.ho@mediatek.com>
+ <20230922072116.11009-13-moudy.ho@mediatek.com>
+ <20230922-zebra-modify-87ff23c70bb3@spud>
+ <20230922-overhung-deception-e9b461ba0372@spud>
+ <7c445195e17e15d5af5fcb30ae53f76c713e958b.camel@mediatek.com>
+ <20230927-crunching-prancing-36fe3eb79607@wendy>
+ <825ac03b692043d48563620ad9542a4ee43211e7.camel@mediatek.com>
+ <20230928-keep-attractor-1e7cd0df03b2@spud>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230928-keep-attractor-1e7cd0df03b2@spud>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/09/2023 09:38, Luca Weiss wrote:
-> Not all SC7280 devices ship with ChromeOS firmware. Other devices need
-> PAS for image authentication. That requires the predefined virtual
-> address ranges to be passed via scm calls. Define them to enable Venus
-> on non-CrOS SC7280 devices.
+Il 28/09/23 18:49, Conor Dooley ha scritto:
+> On Thu, Sep 28, 2023 at 02:52:23AM +0000, Moudy Ho (何宗原) wrote:
+>> On Wed, 2023-09-27 at 10:47 +0100, Conor Dooley wrote:
+>>> On Wed, Sep 27, 2023 at 07:19:28AM +0000, Moudy Ho (何宗原) wrote:
+>>>> On Fri, 2023-09-22 at 16:51 +0100, Conor Dooley wrote:
+>>>>> On Fri, Sep 22, 2023 at 04:49:14PM +0100, Conor Dooley wrote:
+>>>>>> On Fri, Sep 22, 2023 at 03:21:12PM +0800, Moudy Ho wrote:
+>>>>>>> Add a compatible string for the COLOR block in MediaTek
+>>>>>>> MT8195
+>>>>>>> that
+>>>>>>> is controlled by MDP3.
+>>>>>>>
+>>>>>>> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+>>>>>>> ---
+>>>>>>>   .../devicetree/bindings/display/mediatek/mediatek,color.yaml
+>>>>>>>      
+>>>>>>>   | 1 +
+>>>>>>>   1 file changed, 1 insertion(+)
+>>>>>>>
+>>>>>>> diff --git
+>>>>>>> a/Documentation/devicetree/bindings/display/mediatek/mediatek
+>>>>>>> ,col
+>>>>>>> or.yaml
+>>>>>>> b/Documentation/devicetree/bindings/display/mediatek/mediatek
+>>>>>>> ,col
+>>>>>>> or.yaml
+>>>>>>> index f21e44092043..b886ca0d89ea 100644
+>>>>>>> ---
+>>>>>>> a/Documentation/devicetree/bindings/display/mediatek/mediatek
+>>>>>>> ,col
+>>>>>>> or.yaml
+>>>>>>> +++
+>>>>>>> b/Documentation/devicetree/bindings/display/mediatek/mediatek
+>>>>>>> ,col
+>>>>>>> or.yaml
+>>>>>>> @@ -26,6 +26,7 @@ properties:
+>>>>>>>             - mediatek,mt2701-disp-color
+>>>>>>>             - mediatek,mt8167-disp-color
+>>>>>>>             - mediatek,mt8173-disp-color
+>>>>>>> +          - mediatek,mt8195-mdp3-color
+>>>>>>
+>>>>>> How come this one is a "mdp3" not a "disp"?
+>>>>>
+>>>>> I don't know what mdp3 means & googling gives me no answers.
+>>>>> What's
+>>>>> the
+>>>>> "disp" one controlled by, since it isn't controlled by mdp3?
+>>>>>
 > 
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> ---
->   drivers/media/platform/qcom/venus/core.c | 4 ++++
->   1 file changed, 4 insertions(+)
+>>>> Mediatek's Media Data Path ver.3 (MDP3) is associated with MMSYS
+>>>> and
+>>>> acts as an independent driver that operates between VDEC and DISP.
+>>>> By controlling multiple components, it carries out tasks like
+>>>> converting color formats, resizing, and applying specific Picture
+>>>> Quality (PQ) effects.
+>>>> The driver can be found at "driver/media/platform/mediatek/mdp3".
+>>>> Since the same hardware components are configured in both MDP3 and
+>>>> DISP, considering previous discussions, I attemped to integrate
+>>>> into a
+>>>> single binding, named after the controlling user.
+>>>
+>>> I'm still kinda struggling to understand this. Do you mean that the
+>>> hardware can be controlled by either of the disp and mdp3 drivers,
+>>> and
+>>> a compatible containing "disp" would use one driver, and one
+>>> containing
+>>> "mdp3" would use another?
+>>>
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 054b8e74ba4f..5c6baa0f4d45 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -881,6 +881,10 @@ static const struct venus_resources sc7280_res = {
->   	.vmem_size = 0,
->   	.vmem_addr = 0,
->   	.dma_mask = 0xe0000000 - 1,
-> +	.cp_start = 0,
-> +	.cp_size = 0x25800000,
-> +	.cp_nonpixel_start = 0x1000000,
-> +	.cp_nonpixel_size = 0x24800000,
->   	.fwname = "qcom/vpu-2.0/venus.mbn",
->   };
->   
+>> Sorry for any confusion caused by the software information. In the
+>> video pipeline, after decoding, the data flows sequentially through two
+>> subsystems: MDP and DISP. Each subsystems has multiple IPs, with some
+>> serving the same functionality as COLOR mentioned here. However, these
+>> IPs cannot be controlled by different subsystems. Therefore, I included
+>> the name of the subsystem after SoC to identify the configuration's
+>> location. Is this approach feasible?
 > 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> I'll have to leave things to the likes of Laurent to comment here I
+> think. I don't understand this hardware well enough to have a useful
+> opinion. It would seem like a different part of the datapath is a
+> different device that should be documented separately, but I don't know
+> enough to say for sure, sorry.
+
+Hardware speaking, it's not a different device: those all reside in the
+same block, except they are configured to route their I/O *either* to the
+display pipeline, *or* to the MDP3 pipeline.
+
+I would agree though in that this could be more flexible, as in, not
+having a requirement to say "mdp3" or "disp", and managing the COLOR
+blocks generically and letting the drivers to choose the actual path
+transparently from what the devicetree compatible is, but there's no
+practical point in doing this in the end, because there is an enough
+number of (for example, COLOR) blocks such that one can be completely
+reserved to MDP3 and one completely reserved to DISP.
+
+So, we don't *need* this flexibility, but would be nice to have for
+different (unexistant, basically) usecases...
+
+The thing is, if we go for the maximum flexibility, the drawback is
+that we'd see a number of nodes like
+
+shared_block: something@somewhere {
+	compatible = "mediatek,something";
+}
+
+mdp3: dma-controller@14001000 {
+	......
+	mediatek,color = <&color0>;
+	mediatek,stitch = <&stitch0>;
+	mediatek,hdr = <&hdr0>;
+	mediatek,aal = <&aal0>;
+	....
+	long list of another 10 components
+}
+
+display: something@somewhere {
+	......
+	an even longer list than the MDP3 one
+}
+
+...or perhaps even a graph, which is even longer in the end.
+
+I'm not against this kind of structure, but I wonder if it's worth it.
+
+Cheers,
+Angelo
