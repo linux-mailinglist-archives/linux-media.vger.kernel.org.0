@@ -2,100 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36C0A7B3E80
-	for <lists+linux-media@lfdr.de>; Sat, 30 Sep 2023 07:51:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A15637B3EB9
+	for <lists+linux-media@lfdr.de>; Sat, 30 Sep 2023 09:01:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234018AbjI3Fvq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Sep 2023 01:51:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49328 "EHLO
+        id S234066AbjI3HBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Sep 2023 03:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233996AbjI3Fvp (ORCPT
+        with ESMTP id S229447AbjI3HBQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Sep 2023 01:51:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B7F81B0;
-        Fri, 29 Sep 2023 22:51:43 -0700 (PDT)
-Received: from uno.lan (unknown [IPv6:2001:861:388f:1650:2f32:b6ff:a885:7d5e])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA62034B5;
-        Sat, 30 Sep 2023 07:49:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696052992;
-        bh=yDNG9lescimiVCdDa3Yo4ag2EPpuBl4frfIL53tgkIs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LGdsQXmpyUATGraqc1ONXvpIhFg7B2ws6fztl8u99KdFb4JAW1YOrII1WvtVMVzO4
-         xCXpc/UOFQJMIxtQTadzcW6blU+/BTrzyCYuAmQzJ8RmXrEMF/n5RXfmowAYwjAuMQ
-         rHi4pfSXFml6wz/Yt5h7Y40mJTABWW0NUDE8eTC4=
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Fabio Estevam <festevam@gmail.com>, martink@posteo.de,
-        Michael Riesch <michael.riesch@wolfvision.net>
-Subject: [PATCH v2 7/7] media: bindings: sony,imx415: Fix handling of video-interface-device
-Date:   Sat, 30 Sep 2023 07:51:09 +0200
-Message-ID: <20230930055110.1986-8-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230930055110.1986-1-jacopo.mondi@ideasonboard.com>
-References: <20230930055110.1986-1-jacopo.mondi@ideasonboard.com>
+        Sat, 30 Sep 2023 03:01:16 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE0AC5;
+        Sat, 30 Sep 2023 00:01:14 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF0FC433C7;
+        Sat, 30 Sep 2023 07:01:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1696057273;
+        bh=aH5DifR1+J1vJdlt0HdKBLUJn1v/XbPJouikZChEZlI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=B+gwLL3DtZ6fdEbiMlKWdDAslWvJnAtuWXp52nw1rU2c2LU+QkKt7rUIr1o9ly0jU
+         rVBkKKyoB31D8MJEmrAgy717YH3yTN0APjd4dYAUD2UZb6H0sFfM23QhY2iKc2aj2G
+         qccOAwvjavs9nGtVRzBK6/Lg/WzjnWTflT2bnjsM=
+Date:   Sat, 30 Sep 2023 09:01:11 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jann Horn <jannh@google.com>
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] media: usb: siano: Fix undefined behavior bug in
+ struct smsusb_urb_t
+Message-ID: <2023093029-primary-likewise-9579@gregkh>
+References: <ZRbwU8Qnx28gpbuO@work>
+ <CAG48ez2SJMJSYrJQ9RVC44hbj3uNYBZeN0yfxWa7pqX9Fp2L7g@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAG48ez2SJMJSYrJQ9RVC44hbj3uNYBZeN0yfxWa7pqX9Fp2L7g@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix handling of properties from video-interface-device.yaml for
-Sony IMX415.
+On Fri, Sep 29, 2023 at 06:20:10PM +0200, Jann Horn wrote:
+> On Fri, Sep 29, 2023 at 5:42 PM Gustavo A. R. Silva
+> <gustavoars@kernel.org> wrote:
+> > `struct urb` is a flexible structure, which means that it contains a
+> > flexible-array member at the bottom. This could potentially lead to an
+> > overwrite of the object `wq` at run-time with the contents of `urb`.
+> >
+> > Fix this by placing object `urb` at the end of `struct smsusb_urb_t`.
+> 
+> Does this really change the situation? "struct smsusb_device_t"
+> contains an array of "struct smsusb_urb_t", so it seems to be like
+> you're just shifting the "VLA inside a non-final member of a struct"
+> thing around so that there is one more layer of abstraction in
+> between.
+> 
+> Comments on "struct urb" say:
+> 
+>  * Isochronous URBs have a different data transfer model, in part because
+>  * the quality of service is only "best effort".  Callers provide specially
+>  * allocated URBs, with number_of_packets worth of iso_frame_desc structures
+>  * at the end.
+> 
+> and:
+> 
+> /* (in) ISO ONLY */
+> 
+> And it looks like smsusb only uses that URB as a bulk URB, so the flex
+> array is unused and we can't have an overflow here?
+> 
+> If this is intended to make it possible to enable some kinda compiler
+> warning, it might be worth talking to the USB folks to figure out the
+> right approach here.
+> 
+> > Fixes: dd47fbd40e6e ("[media] smsusb: don't sleep while atomic")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> > ---
+> >  drivers/media/usb/siano/smsusb.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+> > index 9d9e14c858e6..2c048f8e8371 100644
+> > --- a/drivers/media/usb/siano/smsusb.c
+> > +++ b/drivers/media/usb/siano/smsusb.c
+> > @@ -40,10 +40,10 @@ struct smsusb_urb_t {
+> >         struct smscore_buffer_t *cb;
+> >         struct smsusb_device_t *dev;
+> >
+> > -       struct urb urb;
+> > -
+> >         /* For the bottom half */
+> >         struct work_struct wq;
+> > +
+> > +       struct urb urb;
+> >  };
 
-All the properties described by video-interface-device.yaml are
-allowed for the image sensor, make them accepted by changing
-"additionalProperties: false" to "unevaluatedProperties: false" at the
-schema top-level.
+Yeah, this is going to get messy.  Ideally, just dynamically create the
+urb and change this to a "struct urb *urb;" instead.
 
-Because all properties are now accepted, there is no need to explicitly
-allow them in the schema.
+thanks,
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- .../devicetree/bindings/media/i2c/sony,imx415.yaml     | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
-index ffccf5f3c9e3..8ea3ddd251f6 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
-@@ -44,14 +44,6 @@ properties:
-     description: Sensor reset (XCLR) GPIO
-     maxItems: 1
-
--  flash-leds: true
--
--  lens-focus: true
--
--  orientation: true
--
--  rotation: true
--
-   port:
-     $ref: /schemas/graph.yaml#/$defs/port-base
-
-@@ -88,7 +80,7 @@ required:
-   - ovdd-supply
-   - port
-
--additionalProperties: false
-+unevaluatedProperties: false
-
- examples:
-   - |
---
-2.42.0
-
+greg k-h
