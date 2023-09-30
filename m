@@ -2,158 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF9DC7B3BCB
-	for <lists+linux-media@lfdr.de>; Fri, 29 Sep 2023 23:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4329B7B3D2B
+	for <lists+linux-media@lfdr.de>; Sat, 30 Sep 2023 02:15:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232748AbjI2VJF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Sep 2023 17:09:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39224 "EHLO
+        id S230063AbjI3APP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Sep 2023 20:15:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjI2VJF (ORCPT
+        with ESMTP id S229489AbjI3APP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Sep 2023 17:09:05 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50E121AA
-        for <linux-media@vger.kernel.org>; Fri, 29 Sep 2023 14:09:01 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qmKjB-0002ue-N9; Fri, 29 Sep 2023 23:08:49 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qmKjA-009tcM-MS; Fri, 29 Sep 2023 23:08:48 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qmKjA-0064Jb-Ct; Fri, 29 Sep 2023 23:08:48 +0200
-Date:   Fri, 29 Sep 2023 23:08:48 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Sean Young <sean@mess.org>
-Cc:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-        linux-media@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Timo Kokkonen <timo.t.kokkonen@iki.fi>,
-        Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>,
-        "Sicelo A . Mhlongo" <absicsz@gmail.com>,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] media: rc: remove ir-rx51 in favour of generic
- pwm-ir-tx
-Message-ID: <20230929210848.u4nzfttiyzde3ass@pengutronix.de>
-References: <cover.1693577725.git.sean@mess.org>
- <e5325e826935f0bd8566152b6a5fa799b2429d43.1693577725.git.sean@mess.org>
- <99f0042f-538c-bcaf-96fd-bac24a87f88e@gmail.com>
- <ZRKFUb1vRtn82bgn@gofer.mess.org>
- <1715e2bf-5d02-4f20-1476-29a1fdf350b1@gmail.com>
- <ZRM8iLORjKw3z/h5@gofer.mess.org>
- <179c4674-aa5c-0573-6d1f-ea6f2694d156@gmail.com>
- <ZRb5OWvx3GxYWf9g@gofer.mess.org>
+        Fri, 29 Sep 2023 20:15:15 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585021A7;
+        Fri, 29 Sep 2023 17:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696032913; x=1727568913;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6cS0OOOzJy+TWm+pONxiMK/YecABXrBmw59B3VTqqx4=;
+  b=fanfr7LPw6dw2VrNLOC6bD8etqxSxZcKFLGE8QNUxdcN7NY/mx0FkZ9c
+   S5uRSqQP6rGBhsBmTay4SRCAY/CMkx5GsEZJCvqdrWJ7AXFcMR8f009Hi
+   htEuUF5YYbiC9rm2yiaXpr1mAFcl5MRH5JB9CrJQbC4cVxTt/DP8yMDVI
+   mlu3HC/BSvFFW1q1hARl3HF0IjeYl2ZGQhPZYs2JP7JIbEIzsP4Pj6vt9
+   X8CjKlWFF8P9u3snMyewQ1nhKYs6pwkU2eGr5pGVm6uPc1gapsHmxU4Ex
+   whBbX631zxmEQjyn6zeROXyomnvKto7m7yaSZEa/K7lZ9l/qRxJWSwSMR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="381286453"
+X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
+   d="scan'208";a="381286453"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2023 17:15:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10848"; a="743585064"
+X-IronPort-AV: E=Sophos;i="6.03,188,1694761200"; 
+   d="scan'208";a="743585064"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 29 Sep 2023 17:15:09 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qmNdT-0003Sf-0H;
+        Sat, 30 Sep 2023 00:15:07 +0000
+Date:   Sat, 30 Sep 2023 08:15:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fabio Estevam <festevam@gmail.com>, martink@posteo.de,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: Re: [PATCH 5/7] media: bindings: ovti,ov5640: Fix handling of
+ video-interface-device
+Message-ID: <202309300855.B0j1LqGe-lkp@intel.com>
+References: <20230929151825.6535-6-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="u4jmzjzd7ymfkcg2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZRb5OWvx3GxYWf9g@gofer.mess.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230929151825.6535-6-jacopo.mondi@ideasonboard.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Jacopo,
 
---u4jmzjzd7ymfkcg2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-Hello Sean,
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/streams linus/master v6.6-rc3 next-20230929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Fri, Sep 29, 2023 at 05:20:09PM +0100, Sean Young wrote:
-> On Fri, Sep 29, 2023 at 11:49:52AM +0300, Ivaylo Dimitrov wrote:
-> > On 26.09.23 =D0=B3. 23:18 =D1=87., Sean Young wrote:
-> > > I've never known of a solution to the pwm-ir-tx driver. If using hrti=
-mers
-> > > directly improves the situation even a bit, then that would be great.
-> >=20
-> > The issue with hrtimers is that we cannot use them directly, as
-> > pwm_apply_state() may sleep, but hrtimer function is called in atomic
-> > context.
->=20
-> I've also been looking at this problem and came to same conclusion: the
-> fact that pwm_apply_state() sleeps is a huge problem.
->=20
-> 1) The vast majority of pwm drivers don't sleep, or could even be convert=
-ed
->    to spinlocks (e.g pwm-sifive.c could use spinlocks, as far as I can se=
-e).
->=20
-> 2) Sure, some pwm devices are on i2c busses, so the driver needs to sleep.
->    Those devices aren't great for what we're trying to do here, since the
->    sleeping may cause delays and affect the generated signal.
->=20
-> What would be ideal here is to have pwm-ir-tx work in atomic context if
-> a non-sleeping pwm device is used, and another (non-optimal) code path
-> for sleeping pwm drivers. We could even just refuse to run on sleeping pwm
-> drivers.
->=20
-> Uwe what do you think of this idea? The pwm api could have a
-> bool pwm_may_sleep(struct pwm *pwm) function,
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-bindings-hynix-hi846-Add-video-interface-device-properties/20230929-232019
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230929151825.6535-6-jacopo.mondi%40ideasonboard.com
+patch subject: [PATCH 5/7] media: bindings: ovti,ov5640: Fix handling of video-interface-device
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230930/202309300855.B0j1LqGe-lkp@intel.com/reproduce)
 
-It's certainly possible. The idea of introducing the might_sleep() was
-to catch atomic users and if some appear to be able to evaluate if
-something needs to be done. See commit 4ad91a227817 ("pwm: Make it
-explicit that pwm_apply_state() might sleep").
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309300855.B0j1LqGe-lkp@intel.com/
 
-It complicates things concerning my last bigger pwm series, see
-https://lore.kernel.org/linux-pwm/20230808171931.944154-102-u.kleine-koenig=
-@pengutronix.de/
-which introduces a mutex_lock() in pwm_apply_state(). Hmm.
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml: 'unevaluatatedProperties' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'dependentRequired', 'dependentSchemas', 'patternProperties', 'properties', 'not', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select', '$ref']
+   	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+>> Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml: 'oneOf' conditional failed, one must be fixed:
+   	'unevaluatedProperties' is a required property
+   	'additionalProperties' is a required property
+   	hint: Either unevaluatedProperties or additionalProperties must be present
+   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
 
-> and pwm_apply_state() does=20
-> not contain might_sleep() - only the driver-specific apply calls might_sl=
-eep().
-
-I'd replace the might_sleep() by something like
-might_sleep_if(pwm_may_sleep(pwm)); but that's an implementation detail.
-
-> It would be nice if this could all be done at compile time through e.g. a
-> device tree attribute.
-
-I wouldn't have something like "linux,slow-pwm" or similar in the device
-tree, and I'd expect the dt maintainers to shoot down something like
-that, too. What is the problem with a pwm_can_sleep() function only?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---u4jmzjzd7ymfkcg2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUXPN8ACgkQj4D7WH0S
-/k77GQf/V8FMnrkeJGagdrDY/0MiSQ4rfssA9y/TF+9BTZaMroFiEWqRUsnGY1De
-Ry21ynn5GebPW+ocFZMO81g8XDjZo4g6XfVB4SMdKOZu2cnQ66ibeLh+JE7nZpHu
-GOrpZQY8izyrFnByEHNrsjaVUUJy886hFZ5CfxgU5ofXDFzlC+UA9w6tOpLVKSN7
-RoFVkafau5OkPn8On3GkI/qaTJmh20EUGvQL5tmoXn0rbZoCb6pbDa8k9m9LSTUx
-QNGgK5cqH8+jbWDqJhBXFSe6mgjLV4x+Zy3KTrAFzUo8IFA4Z7HNnG5ZhXOxL2SG
-h76J6e2dAO+wSvZ8zTZMXIrGQhPswg==
-=IWbA
------END PGP SIGNATURE-----
-
---u4jmzjzd7ymfkcg2--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
