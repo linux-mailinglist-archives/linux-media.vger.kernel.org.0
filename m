@@ -2,115 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A15637B3EB9
-	for <lists+linux-media@lfdr.de>; Sat, 30 Sep 2023 09:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F410E7B3F85
+	for <lists+linux-media@lfdr.de>; Sat, 30 Sep 2023 10:56:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234066AbjI3HBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Sep 2023 03:01:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44362 "EHLO
+        id S229557AbjI3Iwu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Sep 2023 04:52:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjI3HBQ (ORCPT
+        with ESMTP id S229489AbjI3Iwt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Sep 2023 03:01:16 -0400
+        Sat, 30 Sep 2023 04:52:49 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE0AC5;
-        Sat, 30 Sep 2023 00:01:14 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF0FC433C7;
-        Sat, 30 Sep 2023 07:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1696057273;
-        bh=aH5DifR1+J1vJdlt0HdKBLUJn1v/XbPJouikZChEZlI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=B+gwLL3DtZ6fdEbiMlKWdDAslWvJnAtuWXp52nw1rU2c2LU+QkKt7rUIr1o9ly0jU
-         rVBkKKyoB31D8MJEmrAgy717YH3yTN0APjd4dYAUD2UZb6H0sFfM23QhY2iKc2aj2G
-         qccOAwvjavs9nGtVRzBK6/Lg/WzjnWTflT2bnjsM=
-Date:   Sat, 30 Sep 2023 09:01:11 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jann Horn <jannh@google.com>
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] media: usb: siano: Fix undefined behavior bug in
- struct smsusb_urb_t
-Message-ID: <2023093029-primary-likewise-9579@gregkh>
-References: <ZRbwU8Qnx28gpbuO@work>
- <CAG48ez2SJMJSYrJQ9RVC44hbj3uNYBZeN0yfxWa7pqX9Fp2L7g@mail.gmail.com>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 359801A5;
+        Sat, 30 Sep 2023 01:52:46 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A244C433C7;
+        Sat, 30 Sep 2023 08:52:42 +0000 (UTC)
+Message-ID: <cf67b199-e6cb-4c49-8e88-f045ae9d1422@xs4all.nl>
+Date:   Sat, 30 Sep 2023 10:52:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG48ez2SJMJSYrJQ9RVC44hbj3uNYBZeN0yfxWa7pqX9Fp2L7g@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 01/53] media: videobuf2: Rework offset 'cookie'
+ encoding pattern
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20230927153558.159278-1-benjamin.gaignard@collabora.com>
+ <20230927153558.159278-2-benjamin.gaignard@collabora.com>
+Content-Language: en-US, nl
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230927153558.159278-2-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 29, 2023 at 06:20:10PM +0200, Jann Horn wrote:
-> On Fri, Sep 29, 2023 at 5:42 PM Gustavo A. R. Silva
-> <gustavoars@kernel.org> wrote:
-> > `struct urb` is a flexible structure, which means that it contains a
-> > flexible-array member at the bottom. This could potentially lead to an
-> > overwrite of the object `wq` at run-time with the contents of `urb`.
-> >
-> > Fix this by placing object `urb` at the end of `struct smsusb_urb_t`.
+On 27/09/2023 17:35, Benjamin Gaignard wrote:
+> Change how offset 'cookie' field value is computed to make possible
+> to use more buffers (up to 0x7fff)
+> With this encoding pattern we know the maximum number that a queue
+> could store so we can check ing at queue init time.
+> It also make easier and faster to find buffer and plane from using
+> the offset field.
+> Change __find_plane_by_offset() prototype to return the video buffer
+> itself rather than it index.
 > 
-> Does this really change the situation? "struct smsusb_device_t"
-> contains an array of "struct smsusb_urb_t", so it seems to be like
-> you're just shifting the "VLA inside a non-final member of a struct"
-> thing around so that there is one more layer of abstraction in
-> between.
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   | 74 +++++++++----------
+>  1 file changed, 35 insertions(+), 39 deletions(-)
 > 
-> Comments on "struct urb" say:
-> 
->  * Isochronous URBs have a different data transfer model, in part because
->  * the quality of service is only "best effort".  Callers provide specially
->  * allocated URBs, with number_of_packets worth of iso_frame_desc structures
->  * at the end.
-> 
-> and:
-> 
-> /* (in) ISO ONLY */
-> 
-> And it looks like smsusb only uses that URB as a bulk URB, so the flex
-> array is unused and we can't have an overflow here?
-> 
-> If this is intended to make it possible to enable some kinda compiler
-> warning, it might be worth talking to the USB folks to figure out the
-> right approach here.
-> 
-> > Fixes: dd47fbd40e6e ("[media] smsusb: don't sleep while atomic")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> > ---
-> >  drivers/media/usb/siano/smsusb.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
-> > index 9d9e14c858e6..2c048f8e8371 100644
-> > --- a/drivers/media/usb/siano/smsusb.c
-> > +++ b/drivers/media/usb/siano/smsusb.c
-> > @@ -40,10 +40,10 @@ struct smsusb_urb_t {
-> >         struct smscore_buffer_t *cb;
-> >         struct smsusb_device_t *dev;
-> >
-> > -       struct urb urb;
-> > -
-> >         /* For the bottom half */
-> >         struct work_struct wq;
-> > +
-> > +       struct urb urb;
-> >  };
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index cf6727d9c81f..6eeddb3a01c7 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -31,6 +31,14 @@
+>  
+>  #include <trace/events/vb2.h>
+>  
+> +#define PLANE_INDEX_SHIFT	(PAGE_SHIFT + 3)
+> +#define PLANE_INDEX_MASK	0x7
+> +#define BUFFER_INDEX_MASK	0x7fff
+> +
+> +#if PAGE_SHIFT != 12
+> +#error Expected PAGE_SHIFT to be 12
 
-Yeah, this is going to get messy.  Ideally, just dynamically create the
-urb and change this to a "struct urb *urb;" instead.
+So it turns out this can actually be something other than 12.
+Search for CONFIG_ARM64_PAGE_SHIFT and CONFIG_PPC_PAGE_SHIFT.
 
-thanks,
+arm64 supports 12, 14, 16 and powerpc64 supports 12, 14, 16, 18.
 
-greg k-h
+I think we should calculate the BUFFER_INDEX_MASK based on the
+PAGE_SHIFT value. Even with a PAGE_SHIFT of 18, you can still
+allocate up to 512 buffers.
+
+Regards,
+
+	Hans
