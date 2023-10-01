@@ -2,173 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD00E7B467D
-	for <lists+linux-media@lfdr.de>; Sun,  1 Oct 2023 11:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01F4D7B4692
+	for <lists+linux-media@lfdr.de>; Sun,  1 Oct 2023 11:26:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234669AbjJAJNh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Oct 2023 05:13:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54704 "EHLO
+        id S234724AbjJAJ0H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Oct 2023 05:26:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234530AbjJAJNg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Oct 2023 05:13:36 -0400
-Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E818BC6;
-        Sun,  1 Oct 2023 02:13:33 -0700 (PDT)
-Received: from eig-obgw-5004a.ext.cloudfilter.net ([10.0.29.221])
-        by cmsmtp with ESMTP
-        id mKShqDMZSMZBkmsW5q6tIg; Sun, 01 Oct 2023 09:13:33 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with ESMTPS
-        id msW4qwZeCXQGamsW4qvGiu; Sun, 01 Oct 2023 09:13:32 +0000
-X-Authority-Analysis: v=2.4 cv=DJGcXgBb c=1 sm=1 tr=0 ts=6519383c
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=bhdUkHdE2iEA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
- a=LGO97N6URhV1HzgtwBkA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=4g2DqY1HQzg9VHDk8bpfbsxVxIS5o6CwTE1YY6fEQ3g=; b=AUvFBCRUB7J4vAcINYNmf8AedX
-        vVjpv9aSEIHk6sHw8Z03zs4zmYb0n26Zz4ENctk+kwTyZxdREssUFaiHh8iqt6+n/F+XAhbguP5BD
-        xaNImehj3L+M6hDG4ekFPG/4y7kZ3s3INLLpGO1fHDVcSHmzSDjdFU4Uv9WNlnE8CZhxYqCKbYa1k
-        kHRn2OZVJde+6EotWeVQ1c+fvtrEzNM2GpiRQAw4lBWyEv1zZqipiev6SRBPmUSRAH/o8PqVYwLNt
-        j1UDYIofGl95WzJ1RNGbqD6ZBURjfRP8+JfsHaSEhS1X7fGgFBS1iZDhwXJVDacDFbnAc1e0Grd3Y
-        UhEt5mXQ==;
-Received: from [94.239.20.48] (port=48332 helo=[192.168.1.98])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.96)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1qmqOy-001eje-0E;
-        Sun, 01 Oct 2023 01:58:04 -0500
-Message-ID: <d81a2187-a2ff-c741-8f35-a1af54652ebd@embeddedor.com>
-Date:   Sun, 1 Oct 2023 08:58:00 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH][next] media: usb: siano: Fix undefined behavior bug in
- struct smsusb_urb_t
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jann Horn <jannh@google.com>
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
+        with ESMTP id S234660AbjJAJ0G (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Oct 2023 05:26:06 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F33C5;
+        Sun,  1 Oct 2023 02:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696152363; x=1727688363;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yEtFqc31BYHmQugRYmLnl7wLrdlolit/SsBWc+E4vIs=;
+  b=Kh+bCi0BxuAesCdsXg1hK4aTW0ABJNtb14lJBqkuKTJC6txDiWrF+AJw
+   Ny/HBU13RQ5rIFwCNTJcC1/wL8gU1SYgxZgM9vv8Guru2t8zSumD0By3L
+   bhFGl4odnl4tpDxwWtAT6W1xYR6wo2m+JpjRfraswephw8aFiFW674TkA
+   EAOz1XIlQenrJjzFwZnryENdLxZMAcwe8JwmSZAqsg0Ejn17tjJiXUTFL
+   /BN7zIAKOWw3CIJONaBLlSyCK/bc3JdODh1CVaBJ2HZ1xP8DeHsQlxR6y
+   yvNpgRKoqr0laRUytRYp+GM2y2RWyekYDxC/XJpSJNE7xd7EoJpUJh7ea
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="449001274"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="449001274"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 02:26:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="743850890"
+X-IronPort-AV: E=Sophos;i="6.03,191,1694761200"; 
+   d="scan'208";a="743850890"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 02:26:01 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC0)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qmsi6-00000001rbs-3naz;
+        Sun, 01 Oct 2023 12:25:58 +0300
+Date:   Sun, 1 Oct 2023 12:25:58 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Wentong Wu <wentong.wu@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-References: <ZRbwU8Qnx28gpbuO@work>
- <CAG48ez2SJMJSYrJQ9RVC44hbj3uNYBZeN0yfxWa7pqX9Fp2L7g@mail.gmail.com>
- <2023093029-primary-likewise-9579@gregkh>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <2023093029-primary-likewise-9579@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 94.239.20.48
-X-Source-L: No
-X-Exim-ID: 1qmqOy-001eje-0E
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:48332
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 0
-X-Org:  HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfOBNRepxkbBW5oTCh0rxhMzN0x/4rQbyN1ExUDG0Yn4Z0S/O6iJ5NDER4VYcRRTP8KkhuIasKPH6ssj+2egE8I/6bhavg1i0ATX0Pr+V8xuB5nbP2YZw
- jvTPnVrtac/gAWvCY+3fLsfzha6We/4v0SNJQ2zRoY6aA15gutLLCZuiibW9S+ir8m4uL0/sjjTCzmd7TD9BJG657sK3uqDl1Wd00RLvgNjfHWjaltJk76qA
- wx583CU3F+a2OSCPcXq0esn8Fxnf1qjkD8+uNjTyEK/ZLxuZw+53u5xZHKQqtzFm3FvfhgNx4kCTZgEEsh3f+uY+pv9jAJF57PUsb0U1lk/3yWoiJqrrFugq
- zpyf009w
-X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: ipu-bridge: Add missing acpi_dev_put() in
+ ipu_bridge_get_ivsc_acpi_dev()
+Message-ID: <ZRk7JrCxUhgJ/zhf@smile.fi.intel.com>
+References: <0e8fa862e2d3da5897d0f895322d469e7d5aa052.1695979848.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0e8fa862e2d3da5897d0f895322d469e7d5aa052.1695979848.git.geert+renesas@glider.be>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 9/30/23 09:01, Greg Kroah-Hartman wrote:
-> On Fri, Sep 29, 2023 at 06:20:10PM +0200, Jann Horn wrote:
->> On Fri, Sep 29, 2023 at 5:42 PM Gustavo A. R. Silva
->> <gustavoars@kernel.org> wrote:
->>> `struct urb` is a flexible structure, which means that it contains a
->>> flexible-array member at the bottom. This could potentially lead to an
->>> overwrite of the object `wq` at run-time with the contents of `urb`.
->>>
->>> Fix this by placing object `urb` at the end of `struct smsusb_urb_t`.
->>
->> Does this really change the situation? "struct smsusb_device_t"
->> contains an array of "struct smsusb_urb_t", so it seems to be like
-
-Yeah. I noticed that too.
-
-Probably what Greg suggests (dynamically create the urb) can fix this, too.
-
-I haven't taken a deep dive into this particular case. So, let me go and
-figure something out.
-
->> you're just shifting the "VLA inside a non-final member of a struct"
->> thing around so that there is one more layer of abstraction in
->> between.
->>
->> Comments on "struct urb" say:
->>
->>   * Isochronous URBs have a different data transfer model, in part because
->>   * the quality of service is only "best effort".  Callers provide specially
->>   * allocated URBs, with number_of_packets worth of iso_frame_desc structures
->>   * at the end.
->>
->> and:
->>
->> /* (in) ISO ONLY */
->>
->> And it looks like smsusb only uses that URB as a bulk URB, so the flex
->> array is unused and we can't have an overflow here?
->>
->> If this is intended to make it possible to enable some kinda compiler
->> warning, it might be worth talking to the USB folks to figure out the
->> right approach here.
->>
->>> Fixes: dd47fbd40e6e ("[media] smsusb: don't sleep while atomic")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->>> ---
->>>   drivers/media/usb/siano/smsusb.c | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
->>> index 9d9e14c858e6..2c048f8e8371 100644
->>> --- a/drivers/media/usb/siano/smsusb.c
->>> +++ b/drivers/media/usb/siano/smsusb.c
->>> @@ -40,10 +40,10 @@ struct smsusb_urb_t {
->>>          struct smscore_buffer_t *cb;
->>>          struct smsusb_device_t *dev;
->>>
->>> -       struct urb urb;
->>> -
->>>          /* For the bottom half */
->>>          struct work_struct wq;
->>> +
->>> +       struct urb urb;
->>>   };
+On Fri, Sep 29, 2023 at 11:31:33AM +0200, Geert Uytterhoeven wrote:
+> In ipu_bridge_get_ivsc_acpi_dev(), the "ivsc_adev" acpi_device pointer
+> from the outer loop is handed over to the caller, which takes proper
+> care of its reference count.
+> However, the "consumer" acpi_device pointer from the inner loop is lost,
+> without decrementing its reference count.
 > 
-> Yeah, this is going to get messy.  Ideally, just dynamically create the
-> urb and change this to a "struct urb *urb;" instead.
+> Fix this by adding the missing call to acpi_dev_put().
 
-Probably, yes.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Thanks
---
-Gustavo
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
