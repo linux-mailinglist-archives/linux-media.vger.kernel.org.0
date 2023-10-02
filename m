@@ -2,206 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51A937B50CD
-	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 13:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76EBD7B50FD
+	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 13:16:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236608AbjJBLDP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Oct 2023 07:03:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56870 "EHLO
+        id S236676AbjJBLQV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Oct 2023 07:16:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236614AbjJBLDO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 07:03:14 -0400
-Received: from vulcan.natalenko.name (vulcan.natalenko.name [104.207.131.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E01CFE9;
-        Mon,  2 Oct 2023 04:03:08 -0700 (PDT)
-Received: from spock.localnet (unknown [94.142.239.106])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vulcan.natalenko.name (Postfix) with ESMTPSA id 581591528A26;
-        Mon,  2 Oct 2023 13:03:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=dkim-20170712; t=1696244584;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ksUEqlapOqMH7Fpkxrstb3/2J4U6ZMZEKSj22Lx69To=;
-        b=nXbu0B5U9WFnOcE6otIg3HRZYvOcelja3QsWbQZDPnRutm26R11HBWyp6WFDgLSSBp6nq8
-        /1WYQ4la6D+GmuhwIjcj0Srr+SYdZjxRXsBy9bIJ63+42UWzOF+ujcMNfkUXn8syNxz1fB
-        TEYUODPJ/yUrGybI4sUlUf5zagzRhsA=
-From:   Oleksandr Natalenko <oleksandr@natalenko.name>
-To:     linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        dri-devel@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Subject: Re: [REGRESSION] BUG: KFENCE: memory corruption in
- drm_gem_put_pages+0x186/0x250
-Date:   Mon, 02 Oct 2023 13:02:52 +0200
-Message-ID: <2300189.ElGaqSPkdT@natalenko.name>
-In-Reply-To: <ZRqeoiZ2ayrAR6AV@debian.me>
-References: <13360591.uLZWGnKmhe@natalenko.name> <2701570.mvXUDI8C0e@natalenko.name>
- <ZRqeoiZ2ayrAR6AV@debian.me>
+        with ESMTP id S236655AbjJBLQU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 07:16:20 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8315BBD;
+        Mon,  2 Oct 2023 04:16:17 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F203C433C8;
+        Mon,  2 Oct 2023 11:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696245377;
+        bh=QlUTCFA1oTOCFIM4Yfd3zKJNi3jrP5i38bPj93frt8Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=m6/fsF4XFSq61oX2l95CBmNaJvTnuWOMdJxe/xU2w4U/Ybg4cPK1TmEKfM0OiAZ9E
+         3J09S7dE/fmWO+V3ui07y8nIcwd4Nc+ou98+HRismiU/SFeL0SKApPwpEjYvGqMOF0
+         htI483C8aFx46zI+3w5p2TrJTKCOJ4G/12h+aPqZJbgug+eA/0D9NjnLgStC3gSNkw
+         /+qv1MIdzzbm77rDaQFMk70rpcKmO70LjiTsMM1GxqHVDf2n2LaBqfzsNaVpViKGY2
+         MfGA01zxNX/YDhBy7E+idQWyTZJuAWdG4E+/hpViZmqLdOTH36XKLsaYiPVbxWF3qV
+         nRSZyIuGFifKg==
+Date:   Mon, 2 Oct 2023 12:16:04 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Rob Herring <robh@kernel.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Ming Qian <ming.qian@nxp.com>, Shijie Qin <shijie.qin@nxp.com>,
+        Eagle Zhou <eagle.zhou@nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] dt-bindings: media: imx-jpeg: Add clocks property
+Message-ID: <20231002-outhouse-mothproof-f969384a7f8a@spud>
+References: <20230724122101.2903318-1-alexander.stein@ew.tq-group.com>
+ <20230724122101.2903318-3-alexander.stein@ew.tq-group.com>
+ <20230724-unscrew-bonnet-3c86da806df3@spud>
+ <1908243.taCxCBeP46@steina-w>
+ <20230726170141.GA1568248-robh@kernel.org>
+ <AS4PR04MB9244D1BD535A188356683DD58F12A@AS4PR04MB9244.eurprd04.prod.outlook.com>
+ <c835120d-8a2f-4542-8df9-4d6a2218ddf1@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart4837470.GXAFRqVoOG";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jN7rkPBS7BoOo2NB"
+Content-Disposition: inline
+In-Reply-To: <c835120d-8a2f-4542-8df9-4d6a2218ddf1@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---nextPart4837470.GXAFRqVoOG
+
+--jN7rkPBS7BoOo2NB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
-From: Oleksandr Natalenko <oleksandr@natalenko.name>
-To: linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Date: Mon, 02 Oct 2023 13:02:52 +0200
-Message-ID: <2300189.ElGaqSPkdT@natalenko.name>
-In-Reply-To: <ZRqeoiZ2ayrAR6AV@debian.me>
-MIME-Version: 1.0
 
-/cc Matthew, Andrew (please see below)
-
-On pond=C4=9Bl=C3=AD 2. =C5=99=C3=ADjna 2023 12:42:42 CEST Bagas Sanjaya wr=
-ote:
-> On Mon, Oct 02, 2023 at 08:20:15AM +0200, Oleksandr Natalenko wrote:
-> > Hello.
-> >=20
-> > On pond=C4=9Bl=C3=AD 2. =C5=99=C3=ADjna 2023 1:45:44 CEST Bagas Sanjaya=
- wrote:
-> > > On Sun, Oct 01, 2023 at 06:32:34PM +0200, Oleksandr Natalenko wrote:
-> > > > Hello.
-> > > >=20
-> > > > I've got a VM from a cloud provider, and since v6.5 I observe the f=
-ollowing kfence splat in dmesg during boot:
-> > > >=20
-> > > > ```
-> > > > BUG: KFENCE: memory corruption in drm_gem_put_pages+0x186/0x250
-> > > >=20
-> > > > Corrupted memory at 0x00000000e173a294 [ ! ! ! ! ! ! ! ! ! ! ! ! ! =
-! ! ! ] (in kfence-#108):
-> > > >  drm_gem_put_pages+0x186/0x250
-> > > >  drm_gem_shmem_put_pages_locked+0x43/0xc0
-> > > >  drm_gem_shmem_object_vunmap+0x83/0xe0
-> > > >  drm_gem_vunmap_unlocked+0x46/0xb0
-> > > >  drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
-> > > >  drm_fb_helper_damage_work+0x96/0x170
-> > > >  process_one_work+0x254/0x470
-> > > >  worker_thread+0x55/0x4f0
-> > > >  kthread+0xe8/0x120
-> > > >  ret_from_fork+0x34/0x50
-> > > >  ret_from_fork_asm+0x1b/0x30
-> > > >=20
-> > > > kfence-#108: 0x00000000cda343af-0x00000000aec2c095, size=3D3072, ca=
-che=3Dkmalloc-4k
-> > > >=20
-> > > > allocated by task 51 on cpu 0 at 14.668667s:
-> > > >  drm_gem_get_pages+0x94/0x2b0
-> > > >  drm_gem_shmem_get_pages+0x5d/0x110
-> > > >  drm_gem_shmem_object_vmap+0xc4/0x1e0
-> > > >  drm_gem_vmap_unlocked+0x3c/0x70
-> > > >  drm_client_buffer_vmap+0x23/0x50
-> > > >  drm_fbdev_generic_helper_fb_dirty+0xae/0x310
-> > > >  drm_fb_helper_damage_work+0x96/0x170
-> > > >  process_one_work+0x254/0x470
-> > > >  worker_thread+0x55/0x4f0
-> > > >  kthread+0xe8/0x120
-> > > >  ret_from_fork+0x34/0x50
-> > > >  ret_from_fork_asm+0x1b/0x30
-> > > >=20
-> > > > freed by task 51 on cpu 0 at 14.668697s:
-> > > >  drm_gem_put_pages+0x186/0x250
-> > > >  drm_gem_shmem_put_pages_locked+0x43/0xc0
-> > > >  drm_gem_shmem_object_vunmap+0x83/0xe0
-> > > >  drm_gem_vunmap_unlocked+0x46/0xb0
-> > > >  drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
-> > > >  drm_fb_helper_damage_work+0x96/0x170
-> > > >  process_one_work+0x254/0x470
-> > > >  worker_thread+0x55/0x4f0
-> > > >  kthread+0xe8/0x120
-> > > >  ret_from_fork+0x34/0x50
-> > > >  ret_from_fork_asm+0x1b/0x30
-> > > >=20
-> > > > CPU: 0 PID: 51 Comm: kworker/0:2 Not tainted 6.5.0-pf4 #1 8b557a417=
-3114d86eef7240f7a080080cfc4617e
-> > > > Hardware name: Red Hat KVM, BIOS 1.11.0-2.el7 04/01/2014
-> > > > Workqueue: events drm_fb_helper_damage_work
-> > > > ```
-> > > >=20
-> > > > This repeats a couple of times and then stops.
-> > > >=20
-> > > > Currently, I'm running v6.5.5. So far, there's no impact on how VM =
-functions for me.
-> > > >=20
-> > > > The VGA adapter is as follows: 00:02.0 VGA compatible controller: C=
-irrus Logic GD 5446
-> > > >=20
-> > >=20
-> > > Do you have this issue on v6.4?
-> >=20
-> > No, I did not have this issue with v6.4.
-> >=20
+On Mon, Oct 02, 2023 at 11:18:56AM +0200, Hans Verkuil wrote:
+> Rob, Conor,
 >=20
-> Then proceed with kernel bisection. You can refer to
-> Documentation/admin-guide/bug-bisect.rst in the kernel sources for the
-> process.
+> On 09/08/2023 22:43, Mirela Rabulea wrote:
+> >> -----Original Message-----
+> >> From: Rob Herring <robh@kernel.org>
+> >> Sent: Wednesday, July 26, 2023 8:02 PM
+> >> To: Alexander Stein <alexander.stein@ew.tq-group.com>
+> >> Cc: Conor Dooley <conor@kernel.org>; Mirela Rabulea
+> >> <mirela.rabulea@nxp.com>; Ming Qian <ming.qian@nxp.com>; Shijie Qin
+> >> <shijie.qin@nxp.com>; Eagle Zhou <eagle.zhou@nxp.com>; Mauro Carvalho
+> >> Chehab <mchehab@kernel.org>; Krzysztof Kozlowski
+> >> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org=
+>;
+> >> Shawn Guo <shawnguo@kernel.org>; Sascha Hauer <s.hauer@pengutronix.de>;
+> >> Fabio Estevam <festevam@gmail.com>; Mark Brown <broonie@kernel.org>;
+> >> Anson Huang <Anson.Huang@nxp.com>; dl-linux-imx <linux-imx@nxp.com>;
+> >> Pengutronix Kernel Team <kernel@pengutronix.de>; linux-
+> >> media@vger.kernel.org; devicetree@vger.kernel.org; linux-arm-
+> >> kernel@lists.infradead.org; linux-spi@vger.kernel.org
+> >> Subject: [EXT] Re: [PATCH v2 3/3] dt-bindings: media: imx-jpeg: Add cl=
+ocks
+> >> property
+> >>
+> >> Caution: This is an external email. Please take care when clicking lin=
+ks or
+> >> opening attachments. When in doubt, report the message using the 'Repo=
+rt this
+> >> email' button
+> >>
+> >>
+> >> On Tue, Jul 25, 2023 at 07:31:55AM +0200, Alexander Stein wrote:
+> >>> Am Montag, 24. Juli 2023, 20:26:15 CEST schrieb Conor Dooley:
+> >>>> On Mon, Jul 24, 2023 at 02:21:00PM +0200, Alexander Stein wrote:
+> >>>>> i.MX8 and i.MX8X both use two clocks for accessing the periphery.
+> >>>>> Add clocks and clock-names properties accordingly.
+> >>>>>
+> >>>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>=20
+> Is this patch OK or do you want changes?
+>=20
+> It's a bit unclear.
 
-Matthew, before I start dancing around, do you think ^^ could have the same=
- cause as 0b62af28f249b9c4036a05acfb053058dc02e2e2 which got fixed by 863a8=
-eb3f27098b42772f668e3977ff4cae10b04?
+It's unclear to me too at this point, but I wonder if the names should
+just be removed and replaced by descriptions in the clocks property?
 
-In the git log between v6.4 and v6.5 I see this:
+One of the responses here mentioned that the names aren't even needed by
+hardware.
 
-```
-commit 3291e09a463870610b8227f32b16b19a587edf33
-Author: Matthew Wilcox (Oracle) <willy@infradead.org>
-Date:   Wed Jun 21 17:45:49 2023 +0100
-
-drm: convert drm_gem_put_pages() to use a folio_batch
-
-Remove a few hidden compound_head() calls by converting the returned page
-to a folio once and using the folio APIs.
-```
-
-Thanks.
-
-=2D-=20
-Oleksandr Natalenko (post-factum)
---nextPart4837470.GXAFRqVoOG
+--jN7rkPBS7BoOo2NB
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUao1wACgkQil/iNcg8
-M0s3dg/8CO8fmsx9fjX8gK4rbe7C3aYWo6KhaJzggfPgPFgo5PQOrus8j3SbGlan
-iSoJjWDouEEpQsp/ftMc1vlT1zdNOIVp8j/1wM/SL+PG3LeY5Ne2DCnV4Z+UB9aB
-sugKZfA7I+//+gt+3AxD6zv/M95+rYG2bXIDxauNP8Zus+Pngs3u+bx2XU5Bmr0v
-ed5pLuWCkY9KTa/BXv6Gl8j8prDr+5DynpvxwhLLF+qt/0yQRgNnvO9s7alC3t7p
-H6q0EFFm2GcWqsznsUtzuDjywpekUOrFqUZO9uBWDXNmT5jts2w6RwINj4fgvwvd
-I5em4uumMTGcvAQcAmYxB1apft6azpTpCTO908QvKE1tnL+TZtWIsul8pYslm58f
-oOfyq2C7u0szwMByqQ+Sw0w6sLbd9za+4J/dn5tIk6kTsX/0Y7MCAV7LYz1T5yLf
-XkRN8k/Dw5cUD6pBRUoAtMipeZng+VIifDLM+qDYVak3xUKb6NQ7hONni6q34Hvs
-ph3FijRzIqpnRzneEGU/j8BpGvk7bH3ILo7oSfuAVv0mwPANgMszdIBQEWE8BQrG
-9vjqepw5SOVl2TADXsLRiH99MLJTlx0u5UX1rc4Gwzq84H07JwLuvf2UOk3xJDn1
-BbgVDW5QMh00GYz/DYpI3zf2R1u+lhtMnmp25uex9np0sqfac8k=
-=QDDU
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZRqmdAAKCRB4tDGHoIJi
+0qGQAP97iMMZlqq+3vxqkpPgXgm6yNcRHH31ON2+khFqo8bg9QD9Gxhbw/pI7pRY
+rz8plw1T8Pof/Co/E8HYmIJD+mc5LwU=
+=mAR6
 -----END PGP SIGNATURE-----
 
---nextPart4837470.GXAFRqVoOG--
-
-
-
+--jN7rkPBS7BoOo2NB--
