@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 594617B5032
-	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 12:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A80A7B5038
+	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 12:25:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236416AbjJBKYL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Oct 2023 06:24:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55200 "EHLO
+        id S236456AbjJBKZ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Oct 2023 06:25:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236367AbjJBKYJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 06:24:09 -0400
+        with ESMTP id S236367AbjJBKZ6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 06:25:58 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B49990;
-        Mon,  2 Oct 2023 03:24:06 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 094FEC433C8;
-        Mon,  2 Oct 2023 10:24:02 +0000 (UTC)
-Message-ID: <36356e37-9abd-4dec-a716-9822b67bd0fa@xs4all.nl>
-Date:   Mon, 2 Oct 2023 12:24:01 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D22190;
+        Mon,  2 Oct 2023 03:25:55 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80717C433C7;
+        Mon,  2 Oct 2023 10:25:52 +0000 (UTC)
+Message-ID: <870b0f4a-b808-4575-84f4-a4b2b6642387@xs4all.nl>
+Date:   Mon, 2 Oct 2023 12:25:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: mediatek: vcodec: Fix encoder access NULL
- pointer
+Subject: Re: [PATCH 2/2] media: mediatek: vcodec: Handle encoder vsi NULL
+ pointer case
 Content-Language: en-US, nl
 To:     Irui Wang <irui.wang@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -35,8 +35,9 @@ Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
         linux-mediatek@lists.infradead.org,
         Maoguang Meng <maoguang.meng@mediatek.com>
 References: <20230926101909.15030-1-irui.wang@mediatek.com>
+ <20230926101909.15030-2-irui.wang@mediatek.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230926101909.15030-1-irui.wang@mediatek.com>
+In-Reply-To: <20230926101909.15030-2-irui.wang@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
@@ -49,33 +50,55 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 26/09/2023 12:19, Irui Wang wrote:
-> Need to set the private data with encoder device, or will access
-> NULL pointer in encoder handler.
-> 
-> Fixes: 1972e32431ed ("media: mediatek: vcodec: Fix possible invalid memory access for encoder")
+> There will be a kernel null pointer exception if 'vsi' is NULL, check
+> 'vsi' is not NULL before assign it to encoder instance.
 > 
 > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> ---
->  drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-> index d299cc2962a5..ae6290d28f8e 100644
-> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-> @@ -138,7 +138,8 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
->  	vpu->ctx->vpu_inst = vpu;
->  
->  	status = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
-> -					    vpu_enc_ipi_handler, "venc", NULL);
-> +					    vpu_enc_ipi_handler, "venc",
-> +					    vpu->ctx->dev);
->  
->  	if (status) {
->  		mtk_venc_err(vpu->ctx, "vpu_ipi_register fail %d", status);
 
-Is this a fix that should go to 6.6?
+I see no Fixes tag, is that correct?
+
+Is this a fix that needs to go to kernel 6.6? It's not clear how urgent this
+is.
 
 Regards,
 
 	Hans
+
+> ---
+>  .../platform/mediatek/vcodec/encoder/venc/venc_h264_if.c     | 5 +++++
+>  .../platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c      | 5 +++++
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+> index a68dac72c4e4..385bcc0d14f3 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+> @@ -597,6 +597,11 @@ static int h264_enc_init(struct mtk_vcodec_enc_ctx *ctx)
+>  	inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VENC_SYS);
+>  
+>  	ret = vpu_enc_init(&inst->vpu_inst);
+> +	if (!inst->vpu_inst.vsi) {
+> +		mtk_venc_err(ctx, "share buffer is NULL");
+> +		kfree(inst);
+> +		return -EFAULT;
+> +	}
+>  
+>  	if (MTK_ENC_IOVA_IS_34BIT(ctx))
+>  		inst->vsi_34 = (struct venc_h264_vsi_34 *)inst->vpu_inst.vsi;
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c
+> index 05abca91e742..23ca0d93324f 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c
+> @@ -326,6 +326,11 @@ static int vp8_enc_init(struct mtk_vcodec_enc_ctx *ctx)
+>  	inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VENC_LT_SYS);
+>  
+>  	ret = vpu_enc_init(&inst->vpu_inst);
+> +	if (!inst->vpu_inst.vsi) {
+> +		mtk_venc_err(ctx, "share buffer is NULL");
+> +		kfree(inst);
+> +		return -EFAULT;
+> +	}
+>  
+>  	inst->vsi = (struct venc_vp8_vsi *)inst->vpu_inst.vsi;
+>  
+
