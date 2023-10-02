@@ -2,220 +2,306 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E1907B4EDE
-	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 11:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA2C47B4F8C
+	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 11:52:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236002AbjJBJTG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Oct 2023 05:19:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
+        id S236261AbjJBJwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Oct 2023 05:52:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230062AbjJBJTF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 05:19:05 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0257E83;
-        Mon,  2 Oct 2023 02:19:02 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E22C433C7;
-        Mon,  2 Oct 2023 09:18:57 +0000 (UTC)
-Message-ID: <c835120d-8a2f-4542-8df9-4d6a2218ddf1@xs4all.nl>
-Date:   Mon, 2 Oct 2023 11:18:56 +0200
+        with ESMTP id S235897AbjJBJwN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 05:52:13 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 578568E;
+        Mon,  2 Oct 2023 02:52:09 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9adca291f99so2228325066b.2;
+        Mon, 02 Oct 2023 02:52:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696240328; x=1696845128; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0AGQqmAbDBlfqVHrxBuFwYXzqiiEFup7ewkYUhXNVpA=;
+        b=JUy8qycN/B3FitkKY/lXPV862rZaSj+ydB+yyTpmknrkA8+/jnAEyXx/XXqnUHd2GT
+         svrdeR5smKpMXi+pXxnB5BlAqnkG1SG/feKeLb3/E8cNH670Oh9V1X1CY2ErXb8+EFqd
+         o6JzROXIseiVrNOw/z2SqUy9VEM+FuOfG0FstjVGNPQnZ9rkVs88J83wRTWk36uPXbqO
+         QG5yBvIOldmSGk6KIqkZZ0MZIRsgVMQVXLGH11ih+CxHGX7CZXChuie3mdqowok6dig2
+         Apxaxl97df8gy9mRGA8rIvueVVxil9C+sqhzGBE1GVXuHBMnolL040m6x/i+cUCdbX8+
+         g9YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696240328; x=1696845128;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0AGQqmAbDBlfqVHrxBuFwYXzqiiEFup7ewkYUhXNVpA=;
+        b=S1TtGdMRv7CT9T6kQwHv/5gA8EZo4cNSZYrjyCM3zlXWx1+owH9jfnp9s61T33osPn
+         JBa5gmU8nL59iSTigpoNjCT4EWV5nGmBM/Hi7zm75nXdpmmoEfE+YgbFIVpyNqEFUhU+
+         aWSqSY52D+FNZL2dbdkZYzgwuldLEvS4V8qhNVUrVdBMCklqXCLpGIB7jpQYFB/Sv3IT
+         1KOndePkig/GJjPp1USY6RWB+5iPEEKq765WAZNF79bw2+vDaFCBDdkcc7+bqswqM7Ay
+         6873we2qZovkHSYVD2Og3lOcWaYoMoFRe/LTt8w5jryByIf8tn/P1C+lxQTxcFvoV+tz
+         Xjow==
+X-Gm-Message-State: AOJu0YznDV0OM34RAfbQl78X20P/bD5P3dfZawbbFnM4SYYT8p5zTs+H
+        4Qx9kM0VToT/kb0cM/5If4BlvMQko7k=
+X-Google-Smtp-Source: AGHT+IG01q/TNsAHxo0ISPP1Y6Frl7T0GGwk472rViaxYEIB8TKA2nqzk5zh/IOaarcECC8hwNZ5mQ==
+X-Received: by 2002:a17:906:108f:b0:9ae:5202:e611 with SMTP id u15-20020a170906108f00b009ae5202e611mr9708096eju.14.1696240327570;
+        Mon, 02 Oct 2023 02:52:07 -0700 (PDT)
+Received: from [192.168.1.10] ([95.43.220.235])
+        by smtp.googlemail.com with ESMTPSA id l5-20020a170906a40500b009ae4ead6c01sm16659019ejz.163.2023.10.02.02.52.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 02 Oct 2023 02:52:07 -0700 (PDT)
+Subject: Re: [PATCH 2/2] media: pwm-ir-tx: trigger edges from hrtimer
+ interrupt context
+To:     Sean Young <sean@mess.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+References: <cover.1696156485.git.sean@mess.org>
+ <7efe4229514001b835fa70d51973cd3306dc0b04.1696156485.git.sean@mess.org>
+ <5982681d-4fb5-0271-fdc5-712d6c8512e3@gmail.com>
+ <ZRp9RE2jOZdL0+1/@gofer.mess.org>
+From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <7075cfd7-847e-8d28-72be-93761b36b0e0@gmail.com>
+Date:   Mon, 2 Oct 2023 12:52:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] dt-bindings: media: imx-jpeg: Add clocks property
-Content-Language: en-US, nl
-To:     Mirela Rabulea <mirela.rabulea@nxp.com>,
-        Rob Herring <robh@kernel.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Conor Dooley <conor@kernel.org>, Ming Qian <ming.qian@nxp.com>,
-        Shijie Qin <shijie.qin@nxp.com>,
-        Eagle Zhou <eagle.zhou@nxp.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>
-References: <20230724122101.2903318-1-alexander.stein@ew.tq-group.com>
- <20230724122101.2903318-3-alexander.stein@ew.tq-group.com>
- <20230724-unscrew-bonnet-3c86da806df3@spud> <1908243.taCxCBeP46@steina-w>
- <20230726170141.GA1568248-robh@kernel.org>
- <AS4PR04MB9244D1BD535A188356683DD58F12A@AS4PR04MB9244.eurprd04.prod.outlook.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <AS4PR04MB9244D1BD535A188356683DD58F12A@AS4PR04MB9244.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <ZRp9RE2jOZdL0+1/@gofer.mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rob, Conor,
 
-On 09/08/2023 22:43, Mirela Rabulea wrote:
->> -----Original Message-----
->> From: Rob Herring <robh@kernel.org>
->> Sent: Wednesday, July 26, 2023 8:02 PM
->> To: Alexander Stein <alexander.stein@ew.tq-group.com>
->> Cc: Conor Dooley <conor@kernel.org>; Mirela Rabulea
->> <mirela.rabulea@nxp.com>; Ming Qian <ming.qian@nxp.com>; Shijie Qin
->> <shijie.qin@nxp.com>; Eagle Zhou <eagle.zhou@nxp.com>; Mauro Carvalho
->> Chehab <mchehab@kernel.org>; Krzysztof Kozlowski
->> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>;
->> Shawn Guo <shawnguo@kernel.org>; Sascha Hauer <s.hauer@pengutronix.de>;
->> Fabio Estevam <festevam@gmail.com>; Mark Brown <broonie@kernel.org>;
->> Anson Huang <Anson.Huang@nxp.com>; dl-linux-imx <linux-imx@nxp.com>;
->> Pengutronix Kernel Team <kernel@pengutronix.de>; linux-
->> media@vger.kernel.org; devicetree@vger.kernel.org; linux-arm-
->> kernel@lists.infradead.org; linux-spi@vger.kernel.org
->> Subject: [EXT] Re: [PATCH v2 3/3] dt-bindings: media: imx-jpeg: Add clocks
->> property
->>
->> Caution: This is an external email. Please take care when clicking links or
->> opening attachments. When in doubt, report the message using the 'Report this
->> email' button
->>
->>
->> On Tue, Jul 25, 2023 at 07:31:55AM +0200, Alexander Stein wrote:
->>> Am Montag, 24. Juli 2023, 20:26:15 CEST schrieb Conor Dooley:
->>>> On Mon, Jul 24, 2023 at 02:21:00PM +0200, Alexander Stein wrote:
->>>>> i.MX8 and i.MX8X both use two clocks for accessing the periphery.
->>>>> Add clocks and clock-names properties accordingly.
->>>>>
->>>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-Is this patch OK or do you want changes?
-
-It's a bit unclear.
-
-Regards,
-
-	Hans
-
->>>>> ---
->>>>> Changes in v2:
->>>>> * None
->>>>>
->>>>>  .../devicetree/bindings/media/nxp,imx8-jpeg.yaml          | 8 ++++++++
->>>>>  1 file changed, 8 insertions(+)
->>>>>
->>>>> diff --git
->>>>> a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
->>>>> b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml index
->>>>> 3d9d1db37040..2533e16720f2 100644
->>>>> --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
->>>>> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
->>>>>
->>>>> @@ -46,6 +46,14 @@ properties:
->>>>>      minItems: 2               # Wrapper and 1 slot
->>>>>      maxItems: 5               # Wrapper and 4 slots
->>>>>
->>>>> +  clocks:
->>>>> +    maxItems: 2
->>>>> +
->>>>> +  clock-names:
->>>>> +    items:
->>>>> +      - const: per
->>>>> +      - const: ipg
->>>>
->>>> What do "per" and "ipg" mean? I assume "per" is peripheral?
->>>
->>> Actually I don't know what "ipg" stands for. It's a quite common name
->>> on i.MX platforms though. I opted for the names currently used in the
->>> DT. The driver doesn't care for the names currently.
-> 
+On 2.10.23 г. 11:20 ч., Sean Young wrote:
 > Hi,
-> Sorry for the late response.
-> Yes, the driver uses now the clk_bulk functions, so it does not care for the names anymore (in the past it used the per/ipg names to get the clocks).
 > 
->>
->> Those names date back about 25 years to Motorola Mcore GSM SoCs. IPG came
->> from IPG bus which IIRC stood for IP gasket. Essentially the bus was something
->> like Arm APB being slave only. The IPG clock is essentially the bus and register
->> access clock. 'per' is the functional clock in cases that need a defined clock rate
->> such as UART baud clock.
->>
->> There is also a shared (between CPU and DSP) bus called SPBA from the same
->> time which still lives on even though it isn't shared in i.MX chips.
-> 
-> Unfortunately, I cannot provide an explanation for the IPG acronym, I asked around, will come back if I get an answer.
-> 
->>
->>> But cross-checking the reference manual these clocks seems to be called
->> "jpeg"
->>> and "ips", individually for both jpeg encoder and decoder.
->>
->> Given this block is probably licensed IP, seems like it would use something
->> different and be directly connected to AHB or AXI.
-> 
-> Yes, the Cast JPEG Decoder/Encoder is a licensed core, and it there is also an NXP JPEG Decoder/Encoder Wrapper, which provides the interface for the Cast JPEG Decoder/Encoder. The wrapper also provides AXI DMA engines for fetching Jpeg bitstream from memory and feed it to the Cast Jpeg or for storing the decoded pixel data into system memory through AXI bus. The wrapper also provides APB interface for wrapper and Cast Jpeg register access.
-> 
-> From our hardware team, I got the information that: for jpeg wrapper, it has two clocks(axi and apb), for CAST IP it has one clock(axi, whose clock source is same with wrapper on chip).
-> 
->>
->>> Mirela (added to recipients): As the original author of the DT nodes,
->>> could you provide additional information regarding the clock names?
-> 
-> I understand that "ipg" usually is IP bus clk for register access, but I am not sure. Experimentally, I was not able to get register access unless both clocks were enabled. I'll get back if I get more details.
-> 
-> Regards,
-> Mirela
-> 
+> On Mon, Oct 02, 2023 at 08:49:47AM +0300, Ivaylo Dimitrov wrote:
+>> On 1.10.23 г. 13:40 ч., Sean Young wrote:
+>>> The pwm-ir-tx driver has to turn the pwm signal on and off, and suffers
+>>> from delays as this is done in process context. Make this work in atomic
+>>> context.
 >>>
->>> Best regards,
->>> Alexander
+>>> This makes the driver much more precise.
+>>>
+>>> Signed-off-by: Sean Young <sean@mess.org>
+>>> Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+>>> ---
+>>>    drivers/media/rc/pwm-ir-tx.c | 79 ++++++++++++++++++++++++++++--------
+>>>    1 file changed, 63 insertions(+), 16 deletions(-)
+>>>
+>>> diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
+>>> index c5f37c03af9c..557725a07a67 100644
+>>> --- a/drivers/media/rc/pwm-ir-tx.c
+>>> +++ b/drivers/media/rc/pwm-ir-tx.c
+>>> @@ -10,6 +10,8 @@
+>>>    #include <linux/slab.h>
+>>>    #include <linux/of.h>
+>>>    #include <linux/platform_device.h>
+>>> +#include <linux/hrtimer.h>
+>>> +#include <linux/completion.h>
+>>>    #include <media/rc-core.h>
+>>>    #define DRIVER_NAME	"pwm-ir-tx"
+>>> @@ -17,8 +19,13 @@
+>>>    struct pwm_ir {
+>>>    	struct pwm_device *pwm;
+>>> -	unsigned int carrier;
+>>> -	unsigned int duty_cycle;
+>>> +	struct hrtimer timer;
+>>> +	struct completion completion;
+>>> +	uint carrier;
+>>> +	uint duty_cycle;
+>>> +	uint *txbuf;
+>>> +	uint txbuf_len;
+>>> +	uint txbuf_index;
+>>>    };
+>>>    static const struct of_device_id pwm_ir_of_match[] = {
+>>> @@ -55,33 +62,65 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+>>>    	struct pwm_ir *pwm_ir = dev->priv;
+>>>    	struct pwm_device *pwm = pwm_ir->pwm;
+>>>    	struct pwm_state state;
+>>> -	int i;
+>>> -	ktime_t edge;
+>>> -	long delta;
+>>> +
+>>> +	reinit_completion(&pwm_ir->completion);
+>>
+>> You should not need that.
+> 
+> It does not work without it - the process doing the 2nd tx hangs indefinitely.
+> 
 
+that means your calls to wait_for_completion() / complete() do not 
+match. I think you should check why.
+
+>>>    	pwm_init_state(pwm, &state);
+>>>    	state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
+>>>    	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
+>>> +	state.enabled = false;
+>>> -	edge = ktime_get();
+>>> +	pwm_ir->txbuf = txbuf;
+>>> +	pwm_ir->txbuf_len = count;
+>>> +	pwm_ir->txbuf_index = 0;
+>>> -	for (i = 0; i < count; i++) {
+>>> -		state.enabled = !(i % 2);
+>>> -		pwm_apply_state(pwm, &state);
+>>> +	pwm_apply_state(pwm, &state);
+>>
+>> ditto, first pwm control should be in the timer function
+> 
+> This requires keeping a copy of pwm_state in pwm_ir but does avoid the extra
+> call to pwm_apply_state() here.
+> 
+
+not really, you can have pwm_state * pwm_ir member and pass pointer to 
+the stack variable.
+
+> Having said that, the extra call to pwm_apply_state() may have benefits,
+> see this comment in the pwm-sifive driver:
+> 
+>   * - When changing both duty cycle and period, we cannot prevent in
+>   *   software that the output might produce a period with mixed
+>   *   settings (new period length and old duty cycle).
+> 
+> So setting the duty cycle and period once with enabled = false prevents a
+> first period with mixed settings (i.e. bogus).
+> 
+
+Who will enable pwm if not in tx? Like, doesn't the driver have 
+exclusive ownership of the pwm? Also, every transmission ends up wit pwm 
+disabled, so disabling it once again does not make sense to me.
+
+
+>>> -		edge = ktime_add_us(edge, txbuf[i]);
+>>> -		delta = ktime_us_delta(edge, ktime_get());
+>>> -		if (delta > 0)
+>>> -			usleep_range(delta, delta + 10);
+>>> -	}
+>>> +	hrtimer_start(&pwm_ir->timer, 1000, HRTIMER_MODE_REL);
+>>
+>> why not just call it with 0 time?
+> 
+> Otherwise the timings are a little off for the first edge - hrtimer setup
+> time, I think. I can experiment again.
+> 
+
+Why is that? Edge start is controlled by the calls in timer function, it 
+should not matter when it is called for the first time.
+
+>>> -	state.enabled = false;
+>>> -	pwm_apply_state(pwm, &state);
+>>> +	wait_for_completion(&pwm_ir->completion);
+>>>    	return count;
+>>>    }
+>>> +static enum hrtimer_restart pwm_ir_timer(struct hrtimer *timer)
+>>> +{
+>>> +	struct pwm_ir *pwm_ir = container_of(timer, struct pwm_ir, timer);
+>>> +	ktime_t now;
+>>> +
+>>> +	/*
+>>> +	 * If we happen to hit an odd latency spike, loop through the
+>>> +	 * pulses until we catch up.
+>>> +	 */
+>>> +	do {
+>>> +		u64 ns;
+>>> +
+>>> +		if (pwm_ir->txbuf_index >= pwm_ir->txbuf_len) {
+>>> +			/* Stop TX here */
+>>> +			pwm_disable(pwm_ir->pwm);
+>>> +
+>>> +			complete(&pwm_ir->completion);
+>>> +
+>>> +			return HRTIMER_NORESTART;
+>>> +		}
+>>> +
+>>> +		if (pwm_ir->txbuf_index % 2)
+>>> +			pwm_disable(pwm_ir->pwm);
+>>> +		else
+>>> +			pwm_enable(pwm_ir->pwm);
+>>> +
+>>
+>> pwm_ir->pwm->state.enabled = !(pwm_ir->txbuf_index % 2);
+>> pwm_apply_state(pwm_ir->pwm, pwm_ir->state);
+> 
+> Requires a copy of pwm_state in pwm_ir, not a huge difference (copy of 28
+> bytes vs keeping it around).
+
+see my previous comment re struct var. Also, look at the overhead: 
+https://elixir.bootlin.com/linux/v6.6-rc3/source/include/linux/pwm.h#L349 
+- you call pwm_get_state() for every edge.
+
+> 
+>>> +		ns = US_TO_NS(pwm_ir->txbuf[pwm_ir->txbuf_index]);
+>>> +		hrtimer_add_expires_ns(timer, ns);
+>>> +
+>>> +		pwm_ir->txbuf_index++;
+>>> +
+>>> +		now = timer->base->get_time();
+>>> +	} while (hrtimer_get_expires_tv64(timer) < now);
+>>> +
+>>> +	return HRTIMER_RESTART;
+>>> +}
+>>> +
+>>>    static int pwm_ir_probe(struct platform_device *pdev)
+>>>    {
+>>>    	struct pwm_ir *pwm_ir;
+>>> @@ -96,8 +135,16 @@ static int pwm_ir_probe(struct platform_device *pdev)
+>>>    	if (IS_ERR(pwm_ir->pwm))
+>>>    		return PTR_ERR(pwm_ir->pwm);
+>>> +	if (pwm_can_sleep(pwm_ir->pwm)) {
+>>> +		dev_err(&pdev->dev, "unsupported pwm device: driver can sleep\n");
+>>> +		return -ENODEV;
+>>> +	}
+>>> +
+>>
+>> I think we shall not limit, but use high priority thread to support those
+>> drivers. I have that working on n900 with current (sleeping) pwm, see my
+>> reply on the other mail. Maybe we can combine both patches in a way to
+>> support both atomic and sleeping pwm drivers.
+> 
+> If the ir-rx51 driver uses a sleeping pwm then that's broken and only works
+> by accident - the current driver is broken then.
+> 
+
+Yes, and I stated that couple of times in my previous emails :)
+
+> Spinning for longer periods (e.g. 100us) does not play well with RT. Would
+> make more sense to fix the pwm driver to non-sleeping when a pwm driver
+> is used for pwm-ir-tx?
+> 
+
+Sure, and I have a patch for n900 that does this, however, for your i2c 
+case there is no solution. Also, we may play smart and dynamically 
+decrease sleep time (by adjusting edge by lets say 5-10 us every pulse 
+until we have some sane value) if we see it is too long. No strong 
+preferences here, it is just that I have code that works.
+
+Thanks,
+Ivo
+
+> Thanks
+> 
+> Sean
+> 
+>>
+>>>    	pwm_ir->carrier = 38000;
+>>>    	pwm_ir->duty_cycle = 50;
+>>> +	init_completion(&pwm_ir->completion);
+>>> +	hrtimer_init(&pwm_ir->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+>>> +	pwm_ir->timer.function = pwm_ir_timer;
+>>>    	rcdev = devm_rc_allocate_device(&pdev->dev, RC_DRIVER_IR_RAW_TX);
+>>>    	if (!rcdev)
+>>>
+>>
+>> Regards,
+>> Ivo
