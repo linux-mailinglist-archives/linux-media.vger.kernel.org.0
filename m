@@ -2,136 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 342A17B50C5
-	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 13:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51A937B50CD
+	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 13:03:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236567AbjJBLAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Oct 2023 07:00:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
+        id S236608AbjJBLDP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Oct 2023 07:03:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236590AbjJBLAG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 07:00:06 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3277FE0
-        for <linux-media@vger.kernel.org>; Mon,  2 Oct 2023 04:00:02 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-65af75a0209so73485516d6.3
-        for <linux-media@vger.kernel.org>; Mon, 02 Oct 2023 04:00:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696244401; x=1696849201; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zag2FfUNq99ttVshS20BuMzQ5l7ujEO0IQzOyYgkL70=;
-        b=e0TC4acnjxe0jCpLWfAhJsSZsaRkuDW0nqwdTls0QUr3J4qFskX+2m4pEq/3lw6Tgf
-         lvQYqvqt6RAmEEa0hUCQkSeQPSxAfGciuBpG4ugDsO8C05NYXKKsRNh7+4wCUcuVWwZz
-         Z2BTpOy2mJD4t16kHp1Vk7GLVWDn3oVc1VNPI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696244401; x=1696849201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zag2FfUNq99ttVshS20BuMzQ5l7ujEO0IQzOyYgkL70=;
-        b=Tu9H7bEjsqvdQNPIJHaPv8+4g3+PTq+tUaVrOH8rk5iWsSHSHO1Y8icTfnAWAjSutd
-         fbkm1CF/tY5aGZuzxp2qhVIYnWbJynHK1zYKjrq/jc4lLYhRgSopD6YOgGLPFN6Ul5Io
-         XN7tJnd0lsI1RmIy+53UOBT2EFfucQEM/qvxutplZ0TzGPWCPsLSyh6HnQ7jUmMZIJJv
-         0SHmOv+0MJtILfCeoE7EhjK0wrdK+PLR2IycpwQivaS6B8sZJwFo7KyK+24sfZv/upKS
-         B0UX5FiZm+rf4UFjETmu2qSBV+tmwI9+7Kiny5xsPZfdqkynjN9w6MiejC+oHd0vrN2C
-         JNbA==
-X-Gm-Message-State: AOJu0Yw5ExvR/Rp70b5CV4pjKkpprvXXJYxzINdKKJNXJ8tTnLlsQxab
-        GXuqQUnEwkcLbx9zYR8r+swxbEJoJ0ZFdig1/wJ+BQ==
-X-Google-Smtp-Source: AGHT+IHY1k9k34PSy87dIizf2wH0RagVmLMKwReeIUQywdiS9XMzHD0QeuAMvxB3lkusjgrLJVU1tQ==
-X-Received: by 2002:a0c:f50b:0:b0:65b:21bf:8fc1 with SMTP id j11-20020a0cf50b000000b0065b21bf8fc1mr10332983qvm.42.1696244400756;
-        Mon, 02 Oct 2023 04:00:00 -0700 (PDT)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com. [209.85.219.47])
-        by smtp.gmail.com with ESMTPSA id l1-20020a0ce501000000b0065b08efe4dbsm6651946qvm.4.2023.10.02.04.00.00
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Oct 2023 04:00:00 -0700 (PDT)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-668e4fd13a3so2279556d6.2
-        for <linux-media@vger.kernel.org>; Mon, 02 Oct 2023 04:00:00 -0700 (PDT)
-X-Received: by 2002:a05:6214:5f0c:b0:65d:105f:6934 with SMTP id
- lx12-20020a0562145f0c00b0065d105f6934mr10393985qvb.5.1696244399754; Mon, 02
- Oct 2023 03:59:59 -0700 (PDT)
+        with ESMTP id S236614AbjJBLDO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 07:03:14 -0400
+Received: from vulcan.natalenko.name (vulcan.natalenko.name [104.207.131.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E01CFE9;
+        Mon,  2 Oct 2023 04:03:08 -0700 (PDT)
+Received: from spock.localnet (unknown [94.142.239.106])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vulcan.natalenko.name (Postfix) with ESMTPSA id 581591528A26;
+        Mon,  2 Oct 2023 13:03:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=dkim-20170712; t=1696244584;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ksUEqlapOqMH7Fpkxrstb3/2J4U6ZMZEKSj22Lx69To=;
+        b=nXbu0B5U9WFnOcE6otIg3HRZYvOcelja3QsWbQZDPnRutm26R11HBWyp6WFDgLSSBp6nq8
+        /1WYQ4la6D+GmuhwIjcj0Srr+SYdZjxRXsBy9bIJ63+42UWzOF+ujcMNfkUXn8syNxz1fB
+        TEYUODPJ/yUrGybI4sUlUf5zagzRhsA=
+From:   Oleksandr Natalenko <oleksandr@natalenko.name>
+To:     linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        dri-devel@lists.freedesktop.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Linux Regressions <regressions@lists.linux.dev>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Subject: Re: [REGRESSION] BUG: KFENCE: memory corruption in
+ drm_gem_put_pages+0x186/0x250
+Date:   Mon, 02 Oct 2023 13:02:52 +0200
+Message-ID: <2300189.ElGaqSPkdT@natalenko.name>
+In-Reply-To: <ZRqeoiZ2ayrAR6AV@debian.me>
+References: <13360591.uLZWGnKmhe@natalenko.name> <2701570.mvXUDI8C0e@natalenko.name>
+ <ZRqeoiZ2ayrAR6AV@debian.me>
 MIME-Version: 1.0
-References: <20230924124425.3664024-1-make_ruc2021@163.com> <20e3745b-ed89-4f9e-9ef6-f527122fe204@xs4all.nl>
-In-Reply-To: <20e3745b-ed89-4f9e-9ef6-f527122fe204@xs4all.nl>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 2 Oct 2023 19:59:43 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BewuzafQ-ohW6hESRH409ZBRKBZUAPP3OCK5iHuPPHNA@mail.gmail.com>
-Message-ID: <CAAFQd5BewuzafQ-ohW6hESRH409ZBRKBZUAPP3OCK5iHuPPHNA@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: Fix IS_ERR checking in vb2_vmalloc_put_userptr()
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Ma Ke <make_ruc2021@163.com>, m.szyprowski@samsung.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; boundary="nextPart4837470.GXAFRqVoOG";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 2, 2023 at 7:16=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> wr=
+--nextPart4837470.GXAFRqVoOG
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
+Date: Mon, 02 Oct 2023 13:02:52 +0200
+Message-ID: <2300189.ElGaqSPkdT@natalenko.name>
+In-Reply-To: <ZRqeoiZ2ayrAR6AV@debian.me>
+MIME-Version: 1.0
+
+/cc Matthew, Andrew (please see below)
+
+On pond=C4=9Bl=C3=AD 2. =C5=99=C3=ADjna 2023 12:42:42 CEST Bagas Sanjaya wr=
 ote:
->
-> Hi Ma Ke,
->
-> On 24/09/2023 14:44, Ma Ke wrote:
-> > In order to avoid error pointers from frame_vector_pages(), we could
-> > use IS_ERR() to check the return value to fix this. This checking
-> > operation could make sure that vector contains pages.
-> >
-> > Signed-off-by: Ma Ke <make_ruc2021@163.com>
-> > ---
-> >  drivers/media/common/videobuf2/videobuf2-vmalloc.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drive=
-rs/media/common/videobuf2/videobuf2-vmalloc.c
-> > index 7c635e292106..c37775080aff 100644
-> > --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> > +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> > @@ -134,6 +134,7 @@ static void vb2_vmalloc_put_userptr(void *buf_priv)
-> >       if (!buf->vec->is_pfns) {
-> >               n_pages =3D frame_vector_count(buf->vec);
-> >               pages =3D frame_vector_pages(buf->vec);
-> > +             BUG_ON(IS_ERR(pages));
+> On Mon, Oct 02, 2023 at 08:20:15AM +0200, Oleksandr Natalenko wrote:
+> > Hello.
+> >=20
+> > On pond=C4=9Bl=C3=AD 2. =C5=99=C3=ADjna 2023 1:45:44 CEST Bagas Sanjaya=
+ wrote:
+> > > On Sun, Oct 01, 2023 at 06:32:34PM +0200, Oleksandr Natalenko wrote:
+> > > > Hello.
+> > > >=20
+> > > > I've got a VM from a cloud provider, and since v6.5 I observe the f=
+ollowing kfence splat in dmesg during boot:
+> > > >=20
+> > > > ```
+> > > > BUG: KFENCE: memory corruption in drm_gem_put_pages+0x186/0x250
+> > > >=20
+> > > > Corrupted memory at 0x00000000e173a294 [ ! ! ! ! ! ! ! ! ! ! ! ! ! =
+! ! ! ] (in kfence-#108):
+> > > >  drm_gem_put_pages+0x186/0x250
+> > > >  drm_gem_shmem_put_pages_locked+0x43/0xc0
+> > > >  drm_gem_shmem_object_vunmap+0x83/0xe0
+> > > >  drm_gem_vunmap_unlocked+0x46/0xb0
+> > > >  drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
+> > > >  drm_fb_helper_damage_work+0x96/0x170
+> > > >  process_one_work+0x254/0x470
+> > > >  worker_thread+0x55/0x4f0
+> > > >  kthread+0xe8/0x120
+> > > >  ret_from_fork+0x34/0x50
+> > > >  ret_from_fork_asm+0x1b/0x30
+> > > >=20
+> > > > kfence-#108: 0x00000000cda343af-0x00000000aec2c095, size=3D3072, ca=
+che=3Dkmalloc-4k
+> > > >=20
+> > > > allocated by task 51 on cpu 0 at 14.668667s:
+> > > >  drm_gem_get_pages+0x94/0x2b0
+> > > >  drm_gem_shmem_get_pages+0x5d/0x110
+> > > >  drm_gem_shmem_object_vmap+0xc4/0x1e0
+> > > >  drm_gem_vmap_unlocked+0x3c/0x70
+> > > >  drm_client_buffer_vmap+0x23/0x50
+> > > >  drm_fbdev_generic_helper_fb_dirty+0xae/0x310
+> > > >  drm_fb_helper_damage_work+0x96/0x170
+> > > >  process_one_work+0x254/0x470
+> > > >  worker_thread+0x55/0x4f0
+> > > >  kthread+0xe8/0x120
+> > > >  ret_from_fork+0x34/0x50
+> > > >  ret_from_fork_asm+0x1b/0x30
+> > > >=20
+> > > > freed by task 51 on cpu 0 at 14.668697s:
+> > > >  drm_gem_put_pages+0x186/0x250
+> > > >  drm_gem_shmem_put_pages_locked+0x43/0xc0
+> > > >  drm_gem_shmem_object_vunmap+0x83/0xe0
+> > > >  drm_gem_vunmap_unlocked+0x46/0xb0
+> > > >  drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
+> > > >  drm_fb_helper_damage_work+0x96/0x170
+> > > >  process_one_work+0x254/0x470
+> > > >  worker_thread+0x55/0x4f0
+> > > >  kthread+0xe8/0x120
+> > > >  ret_from_fork+0x34/0x50
+> > > >  ret_from_fork_asm+0x1b/0x30
+> > > >=20
+> > > > CPU: 0 PID: 51 Comm: kworker/0:2 Not tainted 6.5.0-pf4 #1 8b557a417=
+3114d86eef7240f7a080080cfc4617e
+> > > > Hardware name: Red Hat KVM, BIOS 1.11.0-2.el7 04/01/2014
+> > > > Workqueue: events drm_fb_helper_damage_work
+> > > > ```
+> > > >=20
+> > > > This repeats a couple of times and then stops.
+> > > >=20
+> > > > Currently, I'm running v6.5.5. So far, there's no impact on how VM =
+functions for me.
+> > > >=20
+> > > > The VGA adapter is as follows: 00:02.0 VGA compatible controller: C=
+irrus Logic GD 5446
+> > > >=20
+> > >=20
+> > > Do you have this issue on v6.4?
+> >=20
+> > No, I did not have this issue with v6.4.
+> >=20
+>=20
+> Then proceed with kernel bisection. You can refer to
+> Documentation/admin-guide/bug-bisect.rst in the kernel sources for the
+> process.
 
-Can this even happen? We removed support for pfn maps from
-get_vaddr_frames() quite long ago, so we should always have pages in
-the frame vector if vb2_crate_framevec() in get_userptr() succeeds.
+Matthew, before I start dancing around, do you think ^^ could have the same=
+ cause as 0b62af28f249b9c4036a05acfb053058dc02e2e2 which got fixed by 863a8=
+eb3f27098b42772f668e3977ff4cae10b04?
 
-Or am I reading something wrong?
+In the git log between v6.4 and v6.5 I see this:
 
-> >               if (vaddr)
-> >                       vm_unmap_ram((void *)vaddr, n_pages);
-> >               if (buf->dma_dir =3D=3D DMA_FROM_DEVICE ||
->
-> The use of BUG_ON is discouraged in the kernel. I did notice that is it
-> also used in the put_userptr callback in videobuf2-dma-contig.c.
->
-> I think it is much better to do something like this:
->
->         if (!buf->vec->is_pfns) {
->                 n_pages =3D frame_vector_count(buf->vec);
->                 if (vaddr)
->                         vm_unmap_ram((void *)vaddr, n_pages);
->                 if (buf->dma_dir =3D=3D DMA_FROM_DEVICE ||
->                     buf->dma_dir =3D=3D DMA_BIDIRECTIONAL) {
->                         pages =3D frame_vector_pages(buf->vec);
->                         if (!WARN_ON_ONCE(IS_ERR(pages)))
->                                 for (i =3D 0; i < n_pages; i++)
->                                         set_page_dirty_lock(pages[i]);
->                 }
->         } else {
->
-> and do something similar in videobuf2-dma-contig.c.
->
-> Regards,
->
->         Hans
+```
+commit 3291e09a463870610b8227f32b16b19a587edf33
+Author: Matthew Wilcox (Oracle) <willy@infradead.org>
+Date:   Wed Jun 21 17:45:49 2023 +0100
+
+drm: convert drm_gem_put_pages() to use a folio_batch
+
+Remove a few hidden compound_head() calls by converting the returned page
+to a folio once and using the folio APIs.
+```
+
+Thanks.
+
+=2D-=20
+Oleksandr Natalenko (post-factum)
+--nextPart4837470.GXAFRqVoOG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUao1wACgkQil/iNcg8
+M0s3dg/8CO8fmsx9fjX8gK4rbe7C3aYWo6KhaJzggfPgPFgo5PQOrus8j3SbGlan
+iSoJjWDouEEpQsp/ftMc1vlT1zdNOIVp8j/1wM/SL+PG3LeY5Ne2DCnV4Z+UB9aB
+sugKZfA7I+//+gt+3AxD6zv/M95+rYG2bXIDxauNP8Zus+Pngs3u+bx2XU5Bmr0v
+ed5pLuWCkY9KTa/BXv6Gl8j8prDr+5DynpvxwhLLF+qt/0yQRgNnvO9s7alC3t7p
+H6q0EFFm2GcWqsznsUtzuDjywpekUOrFqUZO9uBWDXNmT5jts2w6RwINj4fgvwvd
+I5em4uumMTGcvAQcAmYxB1apft6azpTpCTO908QvKE1tnL+TZtWIsul8pYslm58f
+oOfyq2C7u0szwMByqQ+Sw0w6sLbd9za+4J/dn5tIk6kTsX/0Y7MCAV7LYz1T5yLf
+XkRN8k/Dw5cUD6pBRUoAtMipeZng+VIifDLM+qDYVak3xUKb6NQ7hONni6q34Hvs
+ph3FijRzIqpnRzneEGU/j8BpGvk7bH3ILo7oSfuAVv0mwPANgMszdIBQEWE8BQrG
+9vjqepw5SOVl2TADXsLRiH99MLJTlx0u5UX1rc4Gwzq84H07JwLuvf2UOk3xJDn1
+BbgVDW5QMh00GYz/DYpI3zf2R1u+lhtMnmp25uex9np0sqfac8k=
+=QDDU
+-----END PGP SIGNATURE-----
+
+--nextPart4837470.GXAFRqVoOG--
+
+
+
