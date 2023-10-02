@@ -2,52 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 460577B529F
-	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 14:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C80A87B52BC
+	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 14:10:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237250AbjJBMH5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Oct 2023 08:07:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45412 "EHLO
+        id S237389AbjJBMKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Oct 2023 08:10:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237246AbjJBMH1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 08:07:27 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A269CD5;
-        Mon,  2 Oct 2023 05:06:54 -0700 (PDT)
+        with ESMTP id S237102AbjJBMJu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 08:09:50 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B99AE210D
+        for <linux-media@vger.kernel.org>; Mon,  2 Oct 2023 05:08:18 -0700 (PDT)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:9537:67ca:c85e:d0ae])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id CA6A466072FF;
-        Mon,  2 Oct 2023 13:06:52 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 673556607325;
+        Mon,  2 Oct 2023 13:08:17 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1696248413;
-        bh=od83LmKhAhKbqGYrw7/WB9PaXmjqloXPSjvbzmBGKQc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MwEu2RDaqNdzfCpe2lEPxAGZL1HvbPYCium4whDwOPYV6g6O+CUJ29sIdq5Nl7rKm
-         bxIqY6eMPgTa+uKAlkJL2MwMvM+5+kf5QlRQDkcGcpD+QClZW6BdYx2FwMJ755h7p0
-         OYU2CJFTMtbc/wY6xLQw2QylvrSFFyt8Cd0wBxktbtc+UWE38rposle96GzcRNOycD
-         Hp7N4cUuPLtomDdz4K3yKhp2+z8z/V16FxeEDNoyOX3RI86W8T55OKo4bY4VxKUFEh
-         C9ite1KQkos4uB7Pf4ERm96oeNBIW1SC/6halIdiieBPN+VfznxZV7OoZ1sQzZbPnX
-         P4HTV3kzRUl7g==
+        s=mail; t=1696248497;
+        bh=LXbe1ywgweW2coTWQuoPmV8VqXDEm2Ieo4Ut52meSLc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ix1dLmks6B9ugEOTrD1N5pqY/adrJjnIBJux8EFzZhI2MYbbS9ONftRI+Rn5aNPRs
+         bQqycerzdEgF9u2im0lQyGRfyYgL6a2z5Ktgye6a+9h9S+n+EsdXWzZSnl8XEqSWbH
+         n3P7r/F0ITw9ENSjR0h0hSmQWM+yrz/1N9hfmjAcbRqW5HXx7BCaYxlj0a7W/FOprf
+         aG5p4/rZaY2wpcgTn3pQGtONuOkh31l+p6mUzI8R9L9nbpjZwCAp4CFqFZQgmkN/Et
+         YAEMIkhN1JH7Q8P2+bMYGVx+LcwtR7u9mFsi7l1+m4dyK0kEsMF/vLuxIuCdIX1e5O
+         l25OlyJGbsTDA==
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com,
+To:     hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v9 53/53] media: test-drivers: Use helper for DELETE_BUFS ioctl
-Date:   Mon,  2 Oct 2023 14:06:17 +0200
-Message-Id: <20231002120617.119602-54-benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 1/2] v4l2-compliance: Test queue maximum buffers allocation
+Date:   Mon,  2 Oct 2023 14:08:12 +0200
+Message-Id: <20231002120813.119791-1-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
-References: <20231002120617.119602-1-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -59,110 +51,197 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allow test drivers to use DELETE_BUFS by adding vb2_ioctl_delete_bufs() helper.
+If V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS is set v4l2_create_buffers
+max_buffers field reports the maximum number of buffers supported
+by the queue.
+Add a test to allocate this maximum value and make sure that one
+more allocation is failing.
+Display the flag in v4l2-ctl.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/test-drivers/vicodec/vicodec-core.c |  2 ++
- drivers/media/test-drivers/vimc/vimc-capture.c    |  2 ++
- drivers/media/test-drivers/visl/visl-video.c      |  2 ++
- drivers/media/test-drivers/vivid/vivid-core.c     | 13 ++++++++++---
- 4 files changed, 16 insertions(+), 3 deletions(-)
+version 3:
+- change test fail check because vim2m do not allocate all the
+  requested buffers (memory size limitation)
+ include/linux/videodev2.h                   |  7 +++-
+ utils/common/cv4l-helpers.h                 |  1 +
+ utils/common/v4l-helpers.h                  |  5 +++
+ utils/common/v4l2-info.cpp                  |  1 +
+ utils/v4l2-compliance/v4l2-compliance.cpp   |  1 +
+ utils/v4l2-compliance/v4l2-compliance.h     |  1 +
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 42 ++++++++++++++++++++-
+ 7 files changed, 56 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-index 69cbe2c094e1..f14a8fd506d0 100644
---- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-+++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-@@ -1339,6 +1339,7 @@ static const struct v4l2_ioctl_ops vicodec_ioctl_ops = {
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
-+	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
+diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
+index c19441a1..ac5d2980 100644
+--- a/include/linux/videodev2.h
++++ b/include/linux/videodev2.h
+@@ -986,6 +986,7 @@ struct v4l2_requestbuffers {
+ #define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS		(1 << 4)
+ #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
+ #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
++#define V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS		(1 << 7)
  
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
- 	.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
-@@ -1725,6 +1726,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = src_vq->lock;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index aa944270e716..fda7ea3a6cb6 100644
---- a/drivers/media/test-drivers/vimc/vimc-capture.c
-+++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -221,6 +221,7 @@ static const struct v4l2_ioctl_ops vimc_capture_ioctl_ops = {
- 	.vidioc_expbuf = vb2_ioctl_expbuf,
- 	.vidioc_streamon = vb2_ioctl_streamon,
- 	.vidioc_streamoff = vb2_ioctl_streamoff,
-+	.vidioc_delete_bufs = vb2_ioctl_delete_bufs,
+ /**
+  * struct v4l2_plane - plane info for multi-planar buffers
+@@ -2531,6 +2532,9 @@ struct v4l2_dbg_chip_info {
+  * @flags:	additional buffer management attributes (ignored unless the
+  *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
+  *		and configured for MMAP streaming I/O).
++ * @max_buffers: if V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS capability flag is set
++ *		 this field indicate the maximum possible number of buffers
++ *		 for this queue.
+  * @reserved:	future extensions
+  */
+ struct v4l2_create_buffers {
+@@ -2540,7 +2544,8 @@ struct v4l2_create_buffers {
+ 	struct v4l2_format	format;
+ 	__u32			capabilities;
+ 	__u32			flags;
+-	__u32			reserved[6];
++	__u32			max_buffers;
++	__u32			reserved[5];
  };
  
- static void vimc_capture_return_all_buffers(struct vimc_capture_device *vcapture,
-@@ -435,6 +436,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
- 	q->min_buffers_needed = 2;
- 	q->lock = &vcapture->lock;
- 	q->dev = v4l2_dev->dev;
-+	q->supports_delete_bufs = true;
+ /*
+diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
+index 91a04146..5a515a13 100644
+--- a/utils/common/cv4l-helpers.h
++++ b/utils/common/cv4l-helpers.h
+@@ -743,6 +743,7 @@ public:
+ 	unsigned g_type() const { return v4l_queue_g_type(this); }
+ 	unsigned g_memory() const { return v4l_queue_g_memory(this); }
+ 	unsigned g_buffers() const { return v4l_queue_g_buffers(this); }
++	unsigned g_max_buffers() const { return v4l_queue_g_max_buffers(this); }
+ 	unsigned g_num_planes() const { return v4l_queue_g_num_planes(this); }
+ 	unsigned g_capabilities() const { return v4l_queue_g_capabilities(this); }
+ 	unsigned g_length(unsigned plane) const { return v4l_queue_g_length(this, plane); }
+diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
+index f8e96d58..5853f753 100644
+--- a/utils/common/v4l-helpers.h
++++ b/utils/common/v4l-helpers.h
+@@ -1429,6 +1429,7 @@ struct v4l_queue {
+ 	unsigned mappings;
+ 	unsigned num_planes;
+ 	unsigned capabilities;
++	unsigned max_buffers;
  
- 	ret = vb2_queue_init(q);
- 	if (ret) {
-diff --git a/drivers/media/test-drivers/visl/visl-video.c b/drivers/media/test-drivers/visl/visl-video.c
-index 7cac6a6456eb..bd6c112f7846 100644
---- a/drivers/media/test-drivers/visl/visl-video.c
-+++ b/drivers/media/test-drivers/visl/visl-video.c
-@@ -521,6 +521,7 @@ const struct v4l2_ioctl_ops visl_ioctl_ops = {
- 	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
- 	.vidioc_expbuf			= v4l2_m2m_ioctl_expbuf,
-+	.vidioc_delete_bufs		= v4l2_m2m_ioctl_delete_bufs,
- 
- 	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
- 	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
-@@ -728,6 +729,7 @@ int visl_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->vb_mutex;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
+ 	__u32 lengths[VIDEO_MAX_PLANES];
+ 	__u32 mem_offsets[VIDEO_MAX_FRAME][VIDEO_MAX_PLANES];
+@@ -1453,6 +1454,7 @@ static inline void v4l_queue_init(struct v4l_queue *q,
+ static inline unsigned v4l_queue_g_type(const struct v4l_queue *q) { return q->type; }
+ static inline unsigned v4l_queue_g_memory(const struct v4l_queue *q) { return q->memory; }
+ static inline unsigned v4l_queue_g_buffers(const struct v4l_queue *q) { return q->buffers; }
++static inline unsigned v4l_queue_g_max_buffers(const struct v4l_queue *q) { return q->max_buffers; }
+ static inline unsigned v4l_queue_g_mappings(const struct v4l_queue *q) { return q->mappings; }
+ static inline unsigned v4l_queue_g_num_planes(const struct v4l_queue *q) { return q->num_planes; }
+ static inline unsigned v4l_queue_g_capabilities(const struct v4l_queue *q) { return q->capabilities; }
+@@ -1587,6 +1589,9 @@ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
+ 	if (ret)
+ 		return ret;
+ 	q->capabilities = createbufs.capabilities;
++	q->max_buffers = 32;
++	if (q->capabilities & V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS)
++		q->max_buffers = createbufs.max_buffers;
+ 	q->buffers += createbufs.count;
+ 	return v4l_queue_querybufs(f, q, q->buffers - createbufs.count);
  }
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index 58a059140365..2ed8847ce86e 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -769,6 +769,7 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
- 	.vidioc_expbuf			= vb2_ioctl_expbuf,
- 	.vidioc_streamon		= vb2_ioctl_streamon,
- 	.vidioc_streamoff		= vb2_ioctl_streamoff,
-+	.vidioc_delete_bufs		= vb2_ioctl_delete_bufs,
+diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
+index 4f8c2aa7..7adfedfc 100644
+--- a/utils/common/v4l2-info.cpp
++++ b/utils/common/v4l2-info.cpp
+@@ -206,6 +206,7 @@ static constexpr flag_def bufcap_def[] = {
+ 	{ V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS, "orphaned-bufs" },
+ 	{ V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF, "m2m-hold-capture-buf" },
+ 	{ V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS, "mmap-cache-hints" },
++	{ V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS, "set-max-bufs" },
+ 	{ 0, nullptr }
+ };
  
- 	.vidioc_enum_input		= vivid_enum_input,
- 	.vidioc_g_input			= vivid_g_input,
-@@ -876,12 +877,18 @@ static int vivid_create_queue(struct vivid_dev *dev,
- 	q->type = buf_type;
- 	q->io_modes = VB2_MMAP | VB2_DMABUF;
- 	q->io_modes |= V4L2_TYPE_IS_OUTPUT(buf_type) ?  VB2_WRITE : VB2_READ;
--	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
- 		q->max_num_buffers = 64;
--	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE)
-+		q->supports_delete_bufs = true;
-+	}
-+	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE) {
- 		q->max_num_buffers = 1024;
--	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE)
-+		q->supports_delete_bufs = true;
-+	}
-+	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE) {
- 		q->max_num_buffers = 32768;
-+		q->supports_delete_bufs = true;
-+	}
+diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+index f62016e5..56190448 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.cpp
++++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+@@ -1448,6 +1448,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
  
- 	if (allocators[dev->inst] != 1)
- 		q->io_modes |= VB2_USERPTR;
+ 		printf("Buffer ioctls%s:\n", suffix);
+ 		printf("\ttest VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: %s\n", ok(testReqBufs(&node)));
++		printf("\ttest CREATE_BUFS maximum buffers: %s\n", ok(testCreateBufsMax(&node)));
+ 		// Reopen after each streaming test to reset the streaming state
+ 		// in case of any errors in the preceeding test.
+ 		node.reopen();
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index 7caf254b..4886e4c8 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -383,6 +383,7 @@ int testReqBufs(struct node *node);
+ int testReadWrite(struct node *node);
+ int testExpBuf(struct node *node);
+ int testBlockingWait(struct node *node);
++int testCreateBufsMax(struct node *node);
+ 
+ // 32-bit architecture, 32/64-bit time_t tests
+ int testTime32_64(struct node *node);
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index 6d592c9b..130c11fb 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -634,7 +634,6 @@ int testReqBufs(struct node *node)
+ 			fail_on_test(testQueryBuf(node, i, q.g_buffers()));
+ 			node->valid_memorytype |= 1 << V4L2_MEMORY_DMABUF;
+ 		}
+-
+ 		/*
+ 		 * It should be possible to set the same std, timings or
+ 		 * native size even after reqbufs was called.
+@@ -761,6 +760,47 @@ int testReqBufs(struct node *node)
+ 	return 0;
+ }
+ 
++int testCreateBufsMax(struct node *node)
++{
++	unsigned int i;
++	int ret;
++
++	node->reopen();
++
++	cv4l_queue q(0, 0);
++
++	for (i = 1; i <= V4L2_BUF_TYPE_LAST; i++) {
++		if (!(node->valid_buftypes & (1 << i)))
++			continue;
++
++		q.init(i, V4L2_MEMORY_USERPTR);
++		ret = q.create_bufs(node, 1);
++		if (!ret && (q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS)) {
++			fail_on_test(q.create_bufs(node, q.g_max_buffers() - q.g_buffers()));
++			ret = q.create_bufs(node, 1);
++			fail_on_test(ret != ENOBUFS && (q.g_max_buffers() == q.g_buffers()));
++		}
++
++		q.init(i, V4L2_MEMORY_MMAP);
++		ret = q.create_bufs(node, 1);
++		if (!ret && (q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS)) {
++			fail_on_test(q.create_bufs(node, q.g_max_buffers() - q.g_buffers()));
++			ret = q.create_bufs(node, 1);
++			fail_on_test(ret != ENOBUFS && (q.g_max_buffers() == q.g_buffers()));
++		}
++
++		q.init(i, V4L2_MEMORY_DMABUF);
++		ret = q.create_bufs(node, 1);
++		if (!ret && (q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS)) {
++			fail_on_test(q.create_bufs(node, q.g_max_buffers() - q.g_buffers()));
++			ret = q.create_bufs(node, 1);
++			fail_on_test(ret != ENOBUFS && (q.g_max_buffers() == q.g_buffers()));
++		}
++	}
++
++	return 0;
++}
++
+ int testExpBuf(struct node *node)
+ {
+ 	bool have_expbuf = false;
 -- 
 2.39.2
 
