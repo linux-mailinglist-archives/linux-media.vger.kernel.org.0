@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA1C27B568B
-	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 17:38:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CFA07B5696
+	for <lists+linux-media@lfdr.de>; Mon,  2 Oct 2023 17:38:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237630AbjJBPII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Oct 2023 11:08:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57358 "EHLO
+        id S238011AbjJBPLU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Oct 2023 11:11:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236077AbjJBPII (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 11:08:08 -0400
+        with ESMTP id S238032AbjJBPLQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Oct 2023 11:11:16 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9784783;
-        Mon,  2 Oct 2023 08:08:04 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ED2AC433C7;
-        Mon,  2 Oct 2023 15:08:00 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A79011B;
+        Mon,  2 Oct 2023 08:11:06 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA3D6C433CC;
+        Mon,  2 Oct 2023 15:11:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696259284;
-        bh=J+OwmH7fnLd3FjX0c5iBU4C0cZpYv0irsXmd/Nc8juo=;
+        s=k20201202; t=1696259465;
+        bh=41XksM9CbEPqnvNa0ISp/vSRlLbz+4PKhMb7S1TUSAA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=atF4iQwivM2vmRHpHXqaQtNheefwRwC5MjGvX2c4mKcZwXwQvKGjY2e6hq8f8EVKj
-         0kStVfFoD8spZca0Kuo+IP28Cyj93OQ6KkOBjhTuBY0euutoi+jq2ZuwBhJ1Yye73X
-         SKAwqtIKHBgSW30WTST2zMd97Ix1lNTdBTqrUIv5rNMyLMo8Oszwlh3J5mePVyppfU
-         oT+gB8D+YpHaPxu+oEoJW/nTGLgR5Noi1z+Lflc0O1EO/zFSU4MKmAB5xP6p46hMh6
-         BO1V0QHJbtc3u91m60YTKhfJGBYbwP7ycVh25X3WDUb94drOOkHqa29unh+etrWD47
-         +8ktmKV608gCw==
-Date:   Mon, 2 Oct 2023 16:07:57 +0100
+        b=a43GUsTcxLVVQlHP1srhc2Ta0b4OZ7SBq6c8jNRGjOA2nNhqTttwcPgjv+EoY/Sk/
+         yuU1euPuMJiWOF6SETfeCcw1cc8r/8avOGUxhhtN4wPRiADHbUQEgR8CxuJfITlA2R
+         ScIpIVFfEEeaf82zyLCD6ASkOPMJxrXYlWhg5QwNGm9kfTgKjsl7rwye31fIXyM09r
+         UzXdWWqnhyyq/Yp1B9TAlMxHZhPtA6mZ2KC7nWk2qlRY8Ino/PI4lwr06wWkOhVdEy
+         mGTzbGJBCBQEsngu82ZsBn2uNQA7gNf5bHCExLim85xh2RZQuNetq3T86ZfIQSr7Lx
+         8J34ttjE2jGWQ==
+Date:   Mon, 2 Oct 2023 16:10:58 +0100
 From:   Mark Brown <broonie@kernel.org>
 To:     Shengjiu Wang <shengjiu.wang@nxp.com>
 Cc:     hverkuil@xs4all.nl, sakari.ailus@iki.fi, tfiga@chromium.org,
@@ -36,16 +36,14 @@ Cc:     hverkuil@xs4all.nl, sakari.ailus@iki.fi, tfiga@chromium.org,
         nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
         tiwai@suse.com, alsa-devel@alsa-project.org,
         linuxppc-dev@lists.ozlabs.org
-Subject: Re: [RFC PATCH v5 01/11] ASoC: fsl_asrc: define functions for memory
- to memory usage
-Message-ID: <7af54654-d4d5-498e-bd53-78ad54e6d818@sirena.org.uk>
+Subject: Re: [RFC PATCH v5 00/11] Add audio support in v4l2 framework
+Message-ID: <2599f388-51a0-4ecc-9f36-b72d96466dfa@sirena.org.uk>
 References: <1695891619-32393-1-git-send-email-shengjiu.wang@nxp.com>
- <1695891619-32393-2-git-send-email-shengjiu.wang@nxp.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="KuYuv5Y+mxgMeyVy"
+        protocol="application/pgp-signature"; boundary="XveoJAUVdjo3FpSQ"
 Content-Disposition: inline
-In-Reply-To: <1695891619-32393-2-git-send-email-shengjiu.wang@nxp.com>
+In-Reply-To: <1695891619-32393-1-git-send-email-shengjiu.wang@nxp.com>
 X-Cookie: Postage will be paid by addressee.
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -57,35 +55,33 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---KuYuv5Y+mxgMeyVy
+--XveoJAUVdjo3FpSQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Sep 28, 2023 at 05:00:09PM +0800, Shengjiu Wang wrote:
+On Thu, Sep 28, 2023 at 05:00:08PM +0800, Shengjiu Wang wrote:
+> Audio signal processing also has the requirement for memory to
+> memory similar as Video.
 
-> m2m_start_part_one: first part of the start steps
-> m2m_start_part_two: second part of the start steps
-> m2m_stop_part_one: first part of stop steps
-> m2m_stop_part_two: second part of stop steps, optional
+> This asrc memory to memory (memory ->asrc->memory) case is a non
+> real time use case.
 
-The part_one/two naming isn't amazing here.  Looking at the rest of the
-code it looks like this is a prepare/trigger type distinction where the
-first part is configuring things prior to DMA setup and the second part
-is actually starting the transfer.  Perhaps _config()/_start() instead?
+Other than the naming thing I sent in reply to one of the patches the
+ASoC bits look fine.
 
---KuYuv5Y+mxgMeyVy
+--XveoJAUVdjo3FpSQ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUa3MwACgkQJNaLcl1U
-h9CpqAf+LBBYky8048zO16jau031dm9xveIOz9PkuENbvo2Uh2rQKQMPbnuhWDLH
-h27vidoat8VGo5MFaqpCAKpJA+PReOLkzI4sk71WcW3RaNJ5MofIQO3E5ZIXanKo
-ZqsjDFWImiT68/LPs/u7jjgl801Z3IgQ1ozVJgM0NyZr7w/mu603A8gnbenRNZyA
-JLcybnLQ0CGi9P23UKjCLBJx4dZpvFgm6K31K175IcDnx+cOn5CBEyHe9nyhEI/S
-iXFtO85ddjkuxyepQMqlED8ipo5sSZLgrHHGpTB13DmY08jDnFSQQH9czc/mLNty
-KoKv69c+UgkKI6BSQ0hue4iiY/oIOg==
-=Cq0X
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUa3YIACgkQJNaLcl1U
+h9C9gwf+OHN5aL0Hw/La5WvbqbDYD50xGPRZAiEzHEhxU7t3oB7XRmUGKpAcNp6B
+9Gg7xSnez9mmtrqUNNeptqdDTo6KYgdKF0gkoYUMdjA6rwmvBJ4sxs+vv1lRjIT9
+8Q2l8jlRl0fFxmRqP6nmKxUPuS6p0m2ZUWU0CbRNiKMdPkGUnHpVpm7jIaXHAy6O
+y4J8OrVpC/goCfRANXcrtz7DACV60ihbwMMED6dUZV7xg8ruXAw/cK2kJWqlsTjx
+T5bEQxOsCPV3TWM1Gr7BHANCQj/Azzb3XTvMUin+y1PJaHU60qLRROcVDN9V7YaW
+qm4fbNobVVMaG1EnsmYguD/bS85naw==
+=grt1
 -----END PGP SIGNATURE-----
 
---KuYuv5Y+mxgMeyVy--
+--XveoJAUVdjo3FpSQ--
