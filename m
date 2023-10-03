@@ -2,48 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B9217B6567
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 11:24:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1146E7B6619
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 12:12:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239624AbjJCJYE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 05:24:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41104 "EHLO
+        id S239803AbjJCKMs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 06:12:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239610AbjJCJYD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 05:24:03 -0400
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6003EAF;
-        Tue,  3 Oct 2023 02:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=e04my
-        DLFot6od+kDMPF3w8x1jnIuCirLxdNBI1/fCwA=; b=lyhYffMseMjfqahD0EWgc
-        2L5Gdnl0IoQy+eekRWuwv8ybpx5V2IMa00PSp8ueV8HjG/3ljkshY77MlPVv1eA8
-        8GZtYnCd4bSyFgg51p7oWqQJz5Kga46qzjhxU8lzA2HIQf52sva0ILFg1jpMK+Ya
-        l8MQjRQsbvzR94yeQXiq/s=
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
-        by zwqz-smtp-mta-g3-4 (Coremail) with SMTP id _____wBXOwuU3Rtl0HD2Dg--.40629S4;
-        Tue, 03 Oct 2023 17:23:43 +0800 (CST)
-From:   Ma Ke <make_ruc2021@163.com>
-To:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ma Ke <make_ruc2021@163.com>
-Subject: [PATCH] media: videobuf2: Fix IS_ERR checking in vb2_dc_put_userptr()
-Date:   Tue,  3 Oct 2023 17:23:29 +0800
-Message-Id: <20231003092329.3919828-1-make_ruc2021@163.com>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S229758AbjJCKMr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 06:12:47 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9D793
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 03:12:44 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-98377c5d53eso123145266b.0
+        for <linux-media@vger.kernel.org>; Tue, 03 Oct 2023 03:12:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696327962; x=1696932762; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HOB0Hf+tiSmSSMs645g9vdl4l0WCE45Pze6Ctga1rx8=;
+        b=FSfQYRmuSNJzvBJjy5qAui/6eG1ymEQLb6wLYpYSzB0MUgJzdJrZAtYsIz1FACQ1fo
+         WcDabpUeZhGxExFlkTeveKn0q42W+CJkATwH0lNd5g1JQ5tF51Dk9waoH9zYTz4jPFyy
+         +cCKNgbLp2Nj8TYKEm0uoFePPm05z4IDo5Aakm4t3mbpuqsHoaTfJLlqGIyZCK6CLQRC
+         hzon/zZHZAyTd7Z2P5LCoS5r++O0yn3F5b1BA+/iAV8tw+oXmPBOnhxVWhk03+c6dh0x
+         EfmjHw9AVMmgo28GVbxYFPAR2KKV7RTdECQQneW0XgZQYene2qG+gWSwL+HszYUIQ2dt
+         21aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696327962; x=1696932762;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HOB0Hf+tiSmSSMs645g9vdl4l0WCE45Pze6Ctga1rx8=;
+        b=DDZymUXCH8GDhYE19T4bSNz/JUk2enPDVzKa+ZWlBB+5P0VDeJ+PvZ0py5s92b8oLH
+         78CLo2rmblOqYkb9EfBUo33XHgQm0CakRjNj1cn6OEj4t6YkL4G5Sb1kMYMCAJW6E2vm
+         ou9RGN5nfzowVORzCmHGyiWccTF31N4je6ivilh7R52ua9FgR0Eu8G4+iw3QYOgz1NVz
+         bGihmibXla3J8gsadalva1uO77rrN7hcxnYDL6dExJDUuy3LRmIRPef7+DKg2cbO5J0V
+         qqgQCkkyx8+acQd03OA0124wUAURb2hHUjPNe6V9s371Ffq9Oi/Dx8G8Y8/sq6BQzFtw
+         0aHA==
+X-Gm-Message-State: AOJu0YwlR3Wz+HkZF1lyF+roqcla2r0ufzquKMEwAs0VZ99HIJr0+P5M
+        CGIfQzS1MmVobqWb5XXdZjY=
+X-Google-Smtp-Source: AGHT+IE5+lAANQA8YF/a9VqLazcPQuhllNBF5y5yrsyeEznNd7lm2h7oW2mSYhodkVUdJqMWgKecwA==
+X-Received: by 2002:a17:906:328e:b0:9a5:b8ca:9b76 with SMTP id 14-20020a170906328e00b009a5b8ca9b76mr11858311ejw.72.1696327962321;
+        Tue, 03 Oct 2023 03:12:42 -0700 (PDT)
+Received: from [10.9.136.59] ([87.62.83.1])
+        by smtp.gmail.com with ESMTPSA id l18-20020a1709061c5200b009ad81554c1bsm796719ejg.55.2023.10.03.03.12.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 03:12:41 -0700 (PDT)
+Message-ID: <c071d5b55ac369f039c180685742560b4a5d03cf.camel@gmail.com>
+Subject: Re: [PATCH 01/15] media: intel/ipu6: add Intel IPU6 PCI device
+ driver
+From:   Andreas Helbech Kleist <andreaskleist@gmail.com>
+To:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
+        hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
+        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
+        hongju.wang@intel.com
+Date:   Tue, 03 Oct 2023 12:12:40 +0200
+In-Reply-To: <20230727071558.1148653-2-bingbu.cao@intel.com>
+References: <20230727071558.1148653-1-bingbu.cao@intel.com>
+         <20230727071558.1148653-2-bingbu.cao@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBXOwuU3Rtl0HD2Dg--.40629S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WrWDZw45tFykWFW3trWfGrg_yoW8XrWUpF
-        WSyF9IyFWUJrW3uw17Jw4Duay5Ka95XFW0k3y7G3WrCwn8CFyIvryUt34DuryDGrZ2vFn0
-        yayjgr13JF4UuFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEeOpJUUUUU=
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbBFRT9C2B9oWo6RAABse
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_BL,
-        RCVD_IN_MSPIKE_L4,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,40 +78,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to avoid error pointers from frame_vector_pages(), we could
-use IS_ERR() to check the return value to fix this. This checking
-operation could make sure that vector contains pages.
+Hi Bingbu,
 
-Signed-off-by: Ma Ke <make_ruc2021@163.com>
----
- .../media/common/videobuf2/videobuf2-dma-contig.c   | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Thank your for the patch series. I'm working on adding support for IPU4
+(as Claus Stovgaard mentioned) and have run into various issues,
+resulting in these comments.
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index 2fa455d4a048..5001f2a258dd 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -542,13 +542,14 @@ static void vb2_dc_put_userptr(void *buf_priv)
- 		 */
- 		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
- 				  DMA_ATTR_SKIP_CPU_SYNC);
--		pages = frame_vector_pages(buf->vec);
--		/* sgt should exist only if vector contains pages... */
--		BUG_ON(IS_ERR(pages));
- 		if (buf->dma_dir == DMA_FROM_DEVICE ||
--		    buf->dma_dir == DMA_BIDIRECTIONAL)
--			for (i = 0; i < frame_vector_count(buf->vec); i++)
--				set_page_dirty_lock(pages[i]);
-+		    buf->dma_dir == DMA_BIDIRECTIONAL){
-+			pages = frame_vector_pages(buf->vec);
-+			/* sgt should exist only if vector contains pages... */
-+			if (!WARN_ON_ONCE(IS_ERR(pages)))
-+				for (i = 0; i < frame_vector_count(buf->vec); i++)
-+					set_page_dirty_lock(pages[i]);
-+		}
- 		sg_free_table(sgt);
- 		kfree(sgt);
- 	} else {
--- 
-2.37.2
+On Thu, 2023-07-27 at 15:15 +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+>=20
+> Intel Image Processing Unit 6th Gen includes input and processing
+> systems
+> but the hardware presents itself as a single PCI device in system.
+>=20
+> IPU6 PCI device driver basically does PCI configurations and load
+> the firmware binary, initialises IPU virtual bus, and sets up
+> platform
+> specific variants to support multiple IPU6 devices in single device
+> driver.
 
+
+> +extern struct ipu6_isys_internal_pdata isys_ipdata;
+> +extern struct ipu6_psys_internal_pdata psys_ipdata;
+> +extern const struct ipu6_buttress_ctrl isys_buttress_ctrl;
+> +extern const struct ipu6_buttress_ctrl psys_buttress_ctrl;
+
+They are only used internally in ipu6.c, so no need for extern
+declarations.
+
+> +static int ipu6_pci_probe(struct pci_dev *pdev, const struct
+> pci_device_id *id)
+> +{
+...
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0isp->bus_ready_to_probe =3D tr=
+ue;
+
+This variable is written but never read.
+
+> +static void ipu6_pci_remove(struct pci_dev *pdev)
+> +{
+...
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ipu6_bus_del_devices(pdev);
+...
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ipu6_mmu_cleanup(isp->psys->mm=
+u);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ipu6_mmu_cleanup(isp->isys->mm=
+u);
+
+I think ipu6_mmu_cleanup() should be done before ipu6_bus_del_devices()
+like in the ipu6_pci_probe() error path.
+
+> +struct ipu6_device {
+...
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bool bus_ready_to_probe;
+
+Remove unused variable (see comment earlier).
+
+I'm looking forward to the next version of the patch series.
+
+Best Regards,
+Andreas
