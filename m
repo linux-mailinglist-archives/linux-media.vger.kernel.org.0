@@ -2,89 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00A797B6407
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 10:27:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1335A7B6411
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 10:30:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230494AbjJCI1k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 04:27:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51760 "EHLO
+        id S239412AbjJCIaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 04:30:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239413AbjJCI1j (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 04:27:39 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34669A1;
-        Tue,  3 Oct 2023 01:27:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696321657; x=1727857657;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Np7mk6/x/cZ6QoBA0cNd7B9kSY5wDcUu6hSpxiS7lYs=;
-  b=W+wpn2+daaxa0auL4+MFxNRlR1jv+xADPDd3S7wS7VN/fe1MybZhpFpc
-   fYMXs63EDQg995eeGkoZe4MMSLOHQ5pQ+05of0QgQ1zDaOAwVVne9Z0yy
-   GdCQZ+Aa01SCNxU37Mp8oUu1cfuw3DqxfPau1BDw9uE4jzoFbw08s2/Se
-   aVbsoaFZ5yRdygf4XKatRgSSwmDwHKjE0eniHoK848DLU4w0mKudjeEZe
-   hVwGEiMv3XGj4nL0nqrpMz13Sv1MW9ovUGbra6H4SgZzF2gTaX1mnJIr9
-   bNahcZ+3NuWQf9cGpzMseWmzFCV7aTvcJ9rp4AO1cXUlBTo9YXW1ErkLT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="413738667"
-X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="413738667"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 01:27:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="780225936"
-X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="780225936"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 01:27:33 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 36D0F12060C;
-        Tue,  3 Oct 2023 11:27:30 +0300 (EEST)
-Date:   Tue, 3 Oct 2023 08:27:30 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Fabio Estevam <festevam@gmail.com>, martink@posteo.de
-Subject: Re: [PATCH v3 1/7] media: dt-bindings: hynix,hi846: Add
- video-interface-device properties
-Message-ID: <ZRvQckwdt9modLss@kekkonen.localdomain>
-References: <20230930145951.23433-1-jacopo.mondi@ideasonboard.com>
- <20230930145951.23433-2-jacopo.mondi@ideasonboard.com>
+        with ESMTP id S239398AbjJCIaR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 04:30:17 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76BAC97
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 01:30:14 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50573e85ee0so727065e87.3
+        for <linux-media@vger.kernel.org>; Tue, 03 Oct 2023 01:30:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696321813; x=1696926613; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tCVLlGuDttXDAeKBU2+UulxgkQbSJpXxQEIW9ibhWmE=;
+        b=XtV2aQ5pP3lijq+WPAGkg0AonpQvNinUqaEFjGYaTtgLgElc/rHZDyudwKEeOmW4Rj
+         gYLN2Jv2nxOkIjGxAjdY3g3eHJmR9Fk1fZXCHylRl505aMlAzcEZjUnNDoqst+l4crFx
+         HVIqcXbAMr+cUQvBBeQ/Dn3Daz6pMnAfwUN3Pg5JwKtt6KucIMOqKnrsuL8ZrB/gymd2
+         nsMiKk+nXbozizb9/Wcv1RNWwpsD4FzVXjgA9QscN73gkoOAxKzSBwFIxS1IEmmoUy0c
+         XNEANSME1h/nwbucZZrSBkjtQRDgTdwIvyfQ992SJ4eTg711bFsNy8fAn+yAblJr9Dgx
+         sy7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696321813; x=1696926613;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tCVLlGuDttXDAeKBU2+UulxgkQbSJpXxQEIW9ibhWmE=;
+        b=eoXROrgIIWNZK4lIuEy+k0lVDA71E7aFZBLypU1FvqSFm6USIVr/qFx+Gtcm3HrMaE
+         dw+cXnSw2GZa9FJRBVLaRAlUnacfhAt5gfPTSOgHnTZo697WJRqc44avpOiPp/ljISfV
+         3A9/bSKSGvViH2+wSEdu0ocvU0Jz51xhme1Euzf32bq+MwXqYFekpE+6olmhVuyyv4s+
+         61amEiIEcDjsbImTn6ijqum5CZ9WcYC1/BA5ZhXkIoHJknk9vX9rkqN3lhq7g9/c3nDA
+         hYJVwhF8R+zEQ8XeF8g7Ft1z07fpJLXwwYs+bYXN0KTAFCzM0R+C0kQlKprUhkNn2mVl
+         mzZQ==
+X-Gm-Message-State: AOJu0YxgGjPHGwaWAcPrkzB9mbxOIu26QdHZgkID+P9HyU+DRo9HV8QH
+        /WLRBFsdAs2I/IlAPATtbbaffQ==
+X-Google-Smtp-Source: AGHT+IF5jqCZuut1egRUR+esMIoO1bSWn9DsA6o33yNuDo0JmBUPqEnTCoPt8mrVyD2S7D9i02Vjdg==
+X-Received: by 2002:a05:6512:360a:b0:502:d35b:5058 with SMTP id f10-20020a056512360a00b00502d35b5058mr10185024lfs.4.1696321812713;
+        Tue, 03 Oct 2023 01:30:12 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q20-20020a1cf314000000b00401b242e2e6sm8801252wmq.47.2023.10.03.01.30.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 01:30:11 -0700 (PDT)
+Date:   Tue, 3 Oct 2023 11:30:09 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     John Stultz <jstultz@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] dma-buf: heaps: Fix off by one in cma_heap_vm_fault()
+Message-ID: <04ea5706-7373-48c4-a93e-e69c50816a0b@kadam.mountain>
+References: <bc145167-0471-4ab3-935c-aa5dc20e342a@moroto.mountain>
+ <CABdmKX1PsCcRpsnUgwoS9yMhCXcin1bQt6D+N0b2mHP93cmX-A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230930145951.23433-2-jacopo.mondi@ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABdmKX1PsCcRpsnUgwoS9yMhCXcin1bQt6D+N0b2mHP93cmX-A@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On Sat, Sep 30, 2023 at 04:59:45PM +0200, Jacopo Mondi wrote:
-> Allow properties from video-interface-device.yaml for the SK Hynix Hi-846
-> sensor.
+On Mon, Oct 02, 2023 at 10:16:24AM -0700, T.J. Mercier wrote:
+> On Mon, Oct 2, 2023 at 12:04 AM Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> >
+> > The buffer->pages[] has "buffer->pagecount" elements so this > comparison
+> > has to be changed to >= to avoid reading beyond the end of the array.
+> > The buffer->pages[] array is allocated in cma_heap_allocate().
+> >
+> > Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> >  drivers/dma-buf/heaps/cma_heap.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+> > index ee899f8e6721..bea7e574f916 100644
+> > --- a/drivers/dma-buf/heaps/cma_heap.c
+> > +++ b/drivers/dma-buf/heaps/cma_heap.c
+> > @@ -165,7 +165,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *vmf)
+> >         struct vm_area_struct *vma = vmf->vma;
+> >         struct cma_heap_buffer *buffer = vma->vm_private_data;
+> >
+> > -       if (vmf->pgoff > buffer->pagecount)
+> > +       if (vmf->pgoff >= buffer->pagecount)
+> >                 return VM_FAULT_SIGBUS;
+> >
+> Hi Dan,
 > 
-> All properties specified in video-interface-device.yaml schema are
-> valid, so make them accepted by changing "additionalProperties: false"
-> to "unevaluatedProperties: false" at the schema top-level.
+> Your fix looks correct to me, but I'm curious if you observed this
+> problem on a device? The mmap in dma-buf.c looks like it prevents
+> creating a mapping that is too large, and I think an access beyond the
+> VMA should segfault before reaching here.
 
-The patch seems fine to me, but I wonder if we should change the title of
-video-interface-devices.yaml (it's plural) to something that refers to
-camera sensors, and possibly split it. It's currently not relevant for
-other types of devices.
+This is from static analysis and not from testing.  You could be correct
+that this bug can't affect real life.
 
--- 
-Regards,
+regards,
+dan carpenter
 
-Sakari Ailus
