@@ -2,123 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 057437B6483
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 10:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D43D7B652A
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 11:13:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230441AbjJCIke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 04:40:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53572 "EHLO
+        id S231458AbjJCJN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 05:13:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230259AbjJCIkd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 04:40:33 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46D9A3;
-        Tue,  3 Oct 2023 01:40:29 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2FBB660005;
-        Tue,  3 Oct 2023 08:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1696322428;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YD9yrtCBZymzxDesfTQGfoyNHVBYtaajgX0MUzZwAM4=;
-        b=it9nvDErLS3Dkumv3tt0+U8MyhdevvVnbQwCziN4asSKSbyARA7h9PvLo2sfSHeQ6e5jnb
-        JyeqldpAwATrCmH2XtT9x8Uw3Kn+BtEvm96fyJkzGiTW/dj/1eeamkmoliQ0dLQcNsp9Cr
-        tC5Jj9xnsOUIYT1LC0IlFPyGpWbUXbncdlz2ve6LVYaAWeKEFaSJ1J1fpJHRSmMie8N2C5
-        peoKR0TaXLkVUFr6dYTvhoEAReeN2XF9TrNgVavMYJcRI9yj8lskfA4XGUssgqclYZoHzi
-        WOkyfGmE4MfbaGOXlwkNmtNL2iCsou3zL9/P1oQ4sDqQMQb/tvQiK4/TcmOv2w==
-Date:   Tue, 3 Oct 2023 10:40:22 +0200
-From:   Mehdi Djait <mehdi.djait@bootlin.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     mchehab@kernel.org, heiko@sntech.de, ezequiel@vanguardiasur.com.ar,
-        hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, paul.kocialkowski@bootlin.com,
-        miquel.raynal@bootlin.com, maxime.chevallier@bootlin.com,
-        luca.ceresoli@bootlin.com, thomas.petazzoni@bootlin.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: media: add rockchip-vip
-Message-ID: <ZRvTdm5cTMT1tHlM@pc-86.home>
-References: <cover.1695981374.git.mehdi.djait@bootlin.com>
- <6fa90df50c201dec70165c5138bc837f5a8829b5.1695981374.git.mehdi.djait@bootlin.com>
- <20231002171801.GA1942512-robh@kernel.org>
+        with ESMTP id S231503AbjJCJN4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 05:13:56 -0400
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7DAAEAD;
+        Tue,  3 Oct 2023 02:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=aB39z
+        3nEFhlQiheQaPa4Ujx4EJgUHKZv82T0iigXc/4=; b=m3rAuWNM23ugb+YjbCMIK
+        P0Qr3/8b5b338lExi0XTsAa1JImayRTTC1VW/umLAU1GarBnshOfgIrzxEWSn2/W
+        MHzwaSUmT2qbXxAgekGDzNM5RBJGeL3OUxPf/xNo8lvksbaCls/2MAGZSlHDJ2qc
+        vzT2ejnTGaitO5rdlB1cEc=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+        by zwqz-smtp-mta-g2-1 (Coremail) with SMTP id _____wCnGDMt2xtlDF8gDw--.40780S4;
+        Tue, 03 Oct 2023 17:13:28 +0800 (CST)
+From:   Ma Ke <make_ruc2021@163.com>
+To:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ma Ke <make_ruc2021@163.com>
+Subject: [PATCH v2] media: videobuf2: Fix IS_ERR checking in vb2_vmalloc_put_userptr()
+Date:   Tue,  3 Oct 2023 17:13:15 +0800
+Message-Id: <20231003091315.3919528-1-make_ruc2021@163.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231002171801.GA1942512-robh@kernel.org>
-X-GND-Sasl: mehdi.djait@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wCnGDMt2xtlDF8gDw--.40780S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WrWDZw45tFykWFW3trWfGrg_yoW8Gr1DpF
+        WFyF9IyFW5J347uw17Jws7uay5Ka95WrW0k3y7Ww1F9wn5Gr9agFyqq34kur17CFZ2yFs0
+        yayjqw43JF1xurUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_NtxrUUUUU=
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/1tbiyBr9C1p7L-EpmgAAso
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Rob,
+In order to avoid error pointers from frame_vector_pages(), we could
+use IS_ERR() to check the return value to fix this. This checking
+operation could make sure that vector contains pages.
 
-Thank you for the review!
+Signed-off-by: Ma Ke <make_ruc2021@163.com>
+---
+ drivers/media/common/videobuf2/videobuf2-vmalloc.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-On Mon, Oct 02, 2023 at 12:18:01PM -0500, Rob Herring wrote:
-> On Fri, Sep 29, 2023 at 12:08:00PM +0200, Mehdi Djait wrote:
-> > Add a documentation for the Rockchip Camera Interface controller
-> > binding.
-> > 
-> > This controller can be found on platforms such as the PX30 or
-> > RK1808, RK3128 and RK3288. The PX30 is the only platform
-> > supported so far.
-> > 
-> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> > ---
-> >  .../bindings/media/rockchip-vip.yaml          | 91 +++++++++++++++++++
-> 
-> filename should match compatible.
-> 
-> >  1 file changed, 91 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/rockchip-vip.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/rockchip-vip.yaml b/Documentation/devicetree/bindings/media/rockchip-vip.yaml
-> > new file mode 100644
-> > index 000000000000..33c603209c39
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/rockchip-vip.yaml
-> > @@ -0,0 +1,91 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/rockchip-vip.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Rockchip VIP Camera Interface
-> > +
-> > +maintainers:
-> > +  - Mehdi Djait <mehdi.djait@bootlin.com>
-> > +
-> > +description: |-
-> 
-> Don't need '|-'.
-> 
-> > +  Rockchip Video Input Processor present on PX30, RK1808, RK3128 and RK3288
-> 
-> Write complete sentences.
-> 
-> 
-> 
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: rockchip,px30-vip
-> 
-> I see 4 SoCs listed, but only 1 compatible.
-> 
+diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+index 7c635e292106..5aa66305546d 100644
+--- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
++++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+@@ -133,13 +133,15 @@ static void vb2_vmalloc_put_userptr(void *buf_priv)
+ 
+ 	if (!buf->vec->is_pfns) {
+ 		n_pages = frame_vector_count(buf->vec);
+-		pages = frame_vector_pages(buf->vec);
+ 		if (vaddr)
+ 			vm_unmap_ram((void *)vaddr, n_pages);
+ 		if (buf->dma_dir == DMA_FROM_DEVICE ||
+-		    buf->dma_dir == DMA_BIDIRECTIONAL)
+-			for (i = 0; i < n_pages; i++)
+-				set_page_dirty_lock(pages[i]);
++		    buf->dma_dir == DMA_BIDIRECTIONAL){
++			pages = frame_vector_pages(buf->vec);
++			if (!WARN_ON_ONCE(IS_ERR(pages)))
++				for (i = 0; i < n_pages; i++)
++					set_page_dirty_lock(pages[i]);
++		}
+ 	} else {
+ 		iounmap((__force void __iomem *)buf->vaddr);
+ 	}
+-- 
+2.37.2
 
-PX30 is the only SoC I have used to test the driver. What is the best
-way to proceed here ? Change the description ?
-
-ack for all the other comments. 
-
---
-Kind Regards
-Mehdi Djait
