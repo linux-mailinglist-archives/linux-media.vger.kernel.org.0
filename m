@@ -2,545 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EF4D7B6895
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 14:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A6E17B68FC
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 14:29:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232224AbjJCMIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 08:08:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39670 "EHLO
+        id S232131AbjJCM3u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 08:29:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232216AbjJCMIu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 08:08:50 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05FC8CE
-        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 05:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696334926; x=1727870926;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=5Qc7c9hLKvrfaUEMxNionXwYY4FgDovSx6j6eLs6vSI=;
-  b=b+ijsmrwSuYNv/jXdOdZ5T1g7xVGVVYfY4mUUYswfEp5UFQfUGQ9cwsq
-   mB9u3I0SUXJ/LUiNpb8EqtfBvy2Sj3c7+VTIWsj3iHRWz9cTQEsesTlxi
-   WyitKt6QwZVE8GVE9jf/07zZwIdsUqVQpGmsWvSxtoqfOnRTaJyFMoQEn
-   X8BzDuS03Xe9RzJE1x9jDF7mCAV5AV2vGblK2bhc39X5kUrkovxHDl5zy
-   awZ0a3k51otcUl7WLn9HUsl4OIuwf1tvGtAFsVj20MSEnC1kKm/R5aHKp
-   jM5g/NfmV1mkVZXqTiuh6T/oC88C7EIzaL/Vddz3muF4b+nsNjdSdlRL2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="385681594"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="385681594"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 05:08:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="780285980"
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="780285980"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 05:08:42 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 5B253120A57;
-        Tue,  3 Oct 2023 15:08:39 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        with ESMTP id S240033AbjJCM3u (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 08:29:50 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08ABEBF
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 05:29:45 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (185-9-11-240.cust.suomicom.net [185.9.11.240])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4S0HFg3LZWz49Q6R
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 15:29:43 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1696336183;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=u8oFEkb02CRpjv0oQTAcRfQOsv+Db+LReedkdS6VGOM=;
+        b=amlf7wcHBsAtzoGk64xjYTZ1ULJcu4kZXt8dns2gbCyB4u5ssW84OVcUMX/LbVIen0UCbZ
+        XUr9TuB4yd12m1xgqHmJaXEh0SCyipYvW9RqceHqvTVseFUA4GVDvx1mCGl0eYjgDl2VgY
+        m697w28N4Mrza+gKUY/4OQp/sDrbSqF4XCdEk5pQRxy2dCwGVN/Dd74mWNwiNYZxNuhcLF
+        h4bVI0S2uX9WVoSoOAQHOYukmHtyg8B/R7Ou8Md+RjRN7CCPESJ4H7akWf0XSD0lsML5BN
+        877DL+0brTtjK10IDk65k+lJfd4RFVJcscofR6UIgMAdFLF7ta3Ase3J58t/HA==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1696336183; a=rsa-sha256;
+        cv=none;
+        b=osXcKPyv5RE0JUTHfi+CqWz6F643fggRB12Mj18x+fwojHJ/FspkuDuTI3xfYBnM9Vv3yy
+        j2J6kng9NRcOU7Do842/OasDcQiIO1CQQlAdakGpmZtI/qE0LY9TI895EaYX1RsLxVc1wQ
+        SvLWO0EFn+5b9PZ8xNYXO50/2ZHWYVenmV7XI2dVatOVAxyHorj3JIEdEVG9jye5iHPvzL
+        3YbQJFfxPGRWkR0+D2X/BATOg2ZDj9xWHIyrycr+v+npzUw1jEoCvhGH8cjpeL8Hm232cc
+        3hGnRXgyMFUxl6lk0nG1yqRxZF+c3A28EL3mX4Wuz/vuqLuInUqvmZD48HYzTQ==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1696336183;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=u8oFEkb02CRpjv0oQTAcRfQOsv+Db+LReedkdS6VGOM=;
+        b=hlmfiPek+nTY1Xd6QpPfeX3bT7fEtSeK+vAPHQKpgGKhXh+9EPQiE4qeQCsEWfh6P4ySEv
+        ADk5ktmwhKQi2CJ6OM6eHYF0jMYrvqBu3LzLZrLieo8OhiSdZmYZSSoZtb3FVJPxNULInQ
+        40q3SPuspdjVy+DImE1Xsgyu/bDLeWR4meGWStNGjmM7iSNVrUazjZU4fCvBZ5Qt/O+3dx
+        qzZsI6PMbnGxCfxw2dFvtTgbJ++wmcbv5koi26J+Bqx8ljwmp3hdez20eClvhkKcpowfZv
+        NQ0GUG0Lc5EWE2h/6L/96r7TOTp1LBHzOz1JXoDrfFON2yFNOqiBoe3yE16Scw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DC431634C93
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 15:29:42 +0300 (EEST)
+Date:   Tue, 3 Oct 2023 12:29:42 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>,
-        "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH v6 28/28] media: ccs: Rely on sub-device state locking
-Date:   Tue,  3 Oct 2023 15:08:13 +0300
-Message-Id: <20231003120813.77726-19-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
-References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
+Subject: [GIT PULL FOR 6.7] Camera sensor patches, preparation for enabling
+ streams API
+Message-ID: <ZRwJNg5Ez6iSBINf@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rely on sub-device state locking to serialise access to driver's data
-structures. The driver-provided mutex is used as the state lock for all
-driver sub-devices.
+Hi Mauro, Hans,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/ccs/ccs-core.c | 163 +++++++++++++++----------------
- drivers/media/i2c/ccs/ccs.h      |   1 -
- 2 files changed, 77 insertions(+), 87 deletions(-)
+This set contains cleanups and improvements for the imx219 driver from
+Laurent, additional mode for the hi556 driver from Bingbu, maintainer
+changes for some Intel-written sensor drivers as well as preparation for
+generic line based metadata support, including moving
+CCS and ov2740 drivers to use sub-device state.
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 9ebf6063150f..89eda03a99a1 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -531,12 +531,13 @@ static int ccs_pll_update(struct ccs_sensor *sensor)
-  *
-  */
- 
--static void __ccs_update_exposure_limits(struct ccs_sensor *sensor)
-+static void __ccs_update_exposure_limits(struct ccs_sensor *sensor,
-+					 struct v4l2_rect *pa_src)
- {
- 	struct v4l2_ctrl *ctrl = sensor->exposure;
- 	int max;
- 
--	max = sensor->pa_src.height + sensor->vblank->val -
-+	max = pa_src->height + sensor->vblank->val -
- 		CCS_LIM(sensor, COARSE_INTEGRATION_TIME_MAX_MARGIN);
- 
- 	__v4l2_ctrl_modify_range(ctrl, ctrl->minimum, max, ctrl->step, max);
-@@ -639,12 +640,21 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
- 		container_of(ctrl->handler, struct ccs_subdev, ctrl_handler)
- 			->sensor;
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-+	struct v4l2_subdev_state *state;
-+	struct v4l2_rect *pa_src;
- 	int pm_status;
- 	u32 orient = 0;
- 	unsigned int i;
- 	int exposure;
- 	int rval;
- 
-+	if (ctrl->id == V4L2_CID_VBLANK || ctrl->id == V4L2_CID_HBLANK) {
-+		state = v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
-+		pa_src = v4l2_subdev_get_crop_ptr(&sensor->pixel_array->sd,
-+						  state, CCS_PA_PAD_SRC,
-+						  CCS_STREAM_PIXEL);
-+	}
-+
- 	switch (ctrl->id) {
- 	case V4L2_CID_HFLIP:
- 	case V4L2_CID_VFLIP:
-@@ -663,7 +673,7 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_VBLANK:
- 		exposure = sensor->exposure->val;
- 
--		__ccs_update_exposure_limits(sensor);
-+		__ccs_update_exposure_limits(sensor, pa_src);
- 
- 		if (exposure > sensor->exposure->maximum) {
- 			sensor->exposure->val =	sensor->exposure->maximum;
-@@ -755,12 +765,12 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_VBLANK:
- 		rval = ccs_write(sensor, FRAME_LENGTH_LINES,
--				 sensor->pa_src.height + ctrl->val);
-+				 pa_src->height + ctrl->val);
- 
- 		break;
- 	case V4L2_CID_HBLANK:
- 		rval = ccs_write(sensor, LINE_LENGTH_PCK,
--				 sensor->pa_src.width + ctrl->val);
-+				 pa_src->width + ctrl->val);
- 
- 		break;
- 	case V4L2_CID_TEST_PATTERN:
-@@ -1215,7 +1225,8 @@ static int ccs_get_mbus_formats(struct ccs_sensor *sensor)
- 	return 0;
- }
- 
--static void ccs_update_blanking(struct ccs_sensor *sensor)
-+static void ccs_update_blanking(struct ccs_sensor *sensor,
-+				struct v4l2_rect *pa_src)
- {
- 	struct v4l2_ctrl *vblank = sensor->vblank;
- 	struct v4l2_ctrl *hblank = sensor->hblank;
-@@ -1238,21 +1249,26 @@ static void ccs_update_blanking(struct ccs_sensor *sensor)
- 
- 	min = max_t(int,
- 		    CCS_LIM(sensor, MIN_FRAME_BLANKING_LINES),
--		    min_fll - sensor->pa_src.height);
--	max = max_fll -	sensor->pa_src.height;
-+		    min_fll - pa_src->height);
-+	max = max_fll -	pa_src->height;
- 
- 	__v4l2_ctrl_modify_range(vblank, min, max, vblank->step, min);
- 
--	min = max_t(int, min_llp - sensor->pa_src.width, min_lbp);
--	max = max_llp - sensor->pa_src.width;
-+	min = max_t(int, min_llp - pa_src->width, min_lbp);
-+	max = max_llp - pa_src->width;
- 
- 	__v4l2_ctrl_modify_range(hblank, min, max, hblank->step, min);
- 
--	__ccs_update_exposure_limits(sensor);
-+	__ccs_update_exposure_limits(sensor, pa_src);
- }
- 
- static int ccs_pll_blanking_update(struct ccs_sensor *sensor)
- {
-+	struct v4l2_subdev_state *state =
-+		v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
-+	struct v4l2_rect *pa_src =
-+		v4l2_subdev_get_crop_ptr(&sensor->pixel_array->sd, state,
-+					 CCS_PA_PAD_SRC, CCS_STREAM_PIXEL);
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
- 	int rval;
- 
-@@ -1261,15 +1277,15 @@ static int ccs_pll_blanking_update(struct ccs_sensor *sensor)
- 		return rval;
- 
- 	/* Output from pixel array, including blanking */
--	ccs_update_blanking(sensor);
-+	ccs_update_blanking(sensor, pa_src);
- 
- 	dev_dbg(&client->dev, "vblank\t\t%d\n", sensor->vblank->val);
- 	dev_dbg(&client->dev, "hblank\t\t%d\n", sensor->hblank->val);
- 
- 	dev_dbg(&client->dev, "real timeperframe\t100/%d\n",
- 		sensor->pll.pixel_rate_pixel_array /
--		((sensor->pa_src.width + sensor->hblank->val) *
--		 (sensor->pa_src.height + sensor->vblank->val) / 100));
-+		((pa_src->width + sensor->hblank->val) *
-+		 (pa_src->height + sensor->vblank->val) / 100));
- 
- 	return 0;
- }
-@@ -1775,6 +1791,16 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
- 			      u64 streams_mask)
- {
- 	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-+	struct v4l2_subdev_state *pa_state =
-+		v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
-+	struct v4l2_subdev_state *src_state =
-+		v4l2_subdev_get_locked_active_state(&sensor->src->sd);
-+	struct v4l2_rect *pa_src =
-+		v4l2_subdev_get_crop_ptr(&sensor->pixel_array->sd, pa_state,
-+					 CCS_PA_PAD_SRC, CCS_STREAM_PIXEL);
-+	struct v4l2_rect *src_src =
-+		v4l2_subdev_get_crop_ptr(&sensor->src->sd, src_state,
-+					 CCS_PAD_SRC, CCS_STREAM_PIXEL);
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
- 	unsigned int binning_mode;
- 	int rval;
-@@ -1822,22 +1848,20 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
- 		goto err_pm_put;
- 
- 	/* Analog crop start coordinates */
--	rval = ccs_write(sensor, X_ADDR_START, sensor->pa_src.left);
-+	rval = ccs_write(sensor, X_ADDR_START, pa_src->left);
- 	if (rval < 0)
- 		goto err_pm_put;
- 
--	rval = ccs_write(sensor, Y_ADDR_START, sensor->pa_src.top);
-+	rval = ccs_write(sensor, Y_ADDR_START, pa_src->top);
- 	if (rval < 0)
- 		goto err_pm_put;
- 
- 	/* Analog crop end coordinates */
--	rval = ccs_write(sensor, X_ADDR_END,
--			 sensor->pa_src.left + sensor->pa_src.width - 1);
-+	rval = ccs_write(sensor, X_ADDR_END, pa_src->left + pa_src->width - 1);
- 	if (rval < 0)
- 		goto err_pm_put;
- 
--	rval = ccs_write(sensor, Y_ADDR_END,
--			 sensor->pa_src.top + sensor->pa_src.height - 1);
-+	rval = ccs_write(sensor, Y_ADDR_END, pa_src->top + pa_src->height - 1);
- 	if (rval < 0)
- 		goto err_pm_put;
- 
-@@ -1849,23 +1873,31 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
- 	/* Digital crop */
- 	if (CCS_LIM(sensor, DIGITAL_CROP_CAPABILITY)
- 	    == CCS_DIGITAL_CROP_CAPABILITY_INPUT_CROP) {
-+		struct v4l2_subdev_state *scaler_state =
-+			v4l2_subdev_get_locked_active_state(&sensor->scaler->sd);
-+		struct v4l2_rect *scaler_sink =
-+			v4l2_subdev_get_crop_ptr(&sensor->scaler->sd,
-+						 scaler_state,
-+						 sensor->scaler->sink_pad,
-+						 CCS_STREAM_PIXEL);
-+
- 		rval = ccs_write(sensor, DIGITAL_CROP_X_OFFSET,
--				 sensor->scaler_sink.left);
-+				 scaler_sink->left);
- 		if (rval < 0)
- 			goto err_pm_put;
- 
- 		rval = ccs_write(sensor, DIGITAL_CROP_Y_OFFSET,
--				 sensor->scaler_sink.top);
-+				 scaler_sink->top);
- 		if (rval < 0)
- 			goto err_pm_put;
- 
- 		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_WIDTH,
--				 sensor->scaler_sink.width);
-+				 scaler_sink->width);
- 		if (rval < 0)
- 			goto err_pm_put;
- 
- 		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_HEIGHT,
--				 sensor->scaler_sink.height);
-+				 scaler_sink->height);
- 		if (rval < 0)
- 			goto err_pm_put;
- 	}
-@@ -1883,10 +1915,10 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
- 	}
- 
- 	/* Output size from sensor */
--	rval = ccs_write(sensor, X_OUTPUT_SIZE, sensor->src_src.width);
-+	rval = ccs_write(sensor, X_OUTPUT_SIZE, src_src->width);
- 	if (rval < 0)
- 		goto err_pm_put;
--	rval = ccs_write(sensor, Y_OUTPUT_SIZE, sensor->src_src.height);
-+	rval = ccs_write(sensor, Y_OUTPUT_SIZE, src_src->height);
- 	if (rval < 0)
- 		goto err_pm_put;
- 
-@@ -2075,9 +2107,6 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
- 	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
- 	unsigned int i;
- 	int idx = -1;
--	int rval = -EINVAL;
--
--	mutex_lock(&sensor->mutex);
- 
- 	dev_err(&client->dev, "subdev %s, pad %u, index %u\n",
- 		subdev->name, code->pad, code->index);
-@@ -2085,12 +2114,11 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
- 	if (subdev == &sensor->src->sd) {
- 		if (code->pad == CCS_PAD_META) {
- 			if (code->index)
--				goto out;
-+				return -EINVAL;
- 
- 			code->code = MEDIA_BUS_FMT_CCS_EMBEDDED;
- 
--			rval = 0;
--			goto out;
-+			return 0;
- 		}
- 		if (code->stream == CCS_STREAM_META) {
- 			struct v4l2_mbus_framefmt *pix_fmt =
-@@ -2137,21 +2165,21 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
- 			}
- 
- 			if (WARN_ON(i > ARRAY_SIZE(codes)) || code->index >= i)
--				goto out;
-+				return -EINVAL;
- 
- 			code->code = codes[code->index];
--			rval = 0;
--			goto out;
-+
-+			return 0;
- 		}
- 	}
- 
- 	if (subdev != &sensor->src->sd || code->pad != CCS_PAD_SRC) {
- 		if (code->index)
--			goto out;
-+			return -EINVAL;
- 
- 		code->code = sensor->internal_csi_format->code;
--		rval = 0;
--		goto out;
-+
-+		return 0;
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
-@@ -2162,18 +2190,14 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
- 			code->code = ccs_csi_data_formats[i].code;
- 			dev_err(&client->dev, "found index %u, i %u, code %x\n",
- 				code->index, i, code->code);
--			rval = 0;
--			break;
-+			return 0;
- 		}
- 	}
- 
--out:
--	mutex_unlock(&sensor->mutex);
--
--	return rval;
-+	return -EINVAL;
- }
- 
--static u32 __ccs_get_mbus_code(struct v4l2_subdev *subdev, unsigned int pad)
-+static u32 ccs_get_mbus_code(struct v4l2_subdev *subdev, unsigned int pad)
- {
- 	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
- 
-@@ -2183,33 +2207,19 @@ static u32 __ccs_get_mbus_code(struct v4l2_subdev *subdev, unsigned int pad)
- 		return sensor->internal_csi_format->code;
- }
- 
--static int __ccs_get_format(struct v4l2_subdev *subdev,
--			    struct v4l2_subdev_state *sd_state,
--			    struct v4l2_subdev_format *fmt)
-+static int ccs_get_format(struct v4l2_subdev *subdev,
-+			  struct v4l2_subdev_state *sd_state,
-+			  struct v4l2_subdev_format *fmt)
- {
- 	fmt->format = *v4l2_subdev_get_fmt_ptr(subdev, sd_state, fmt->pad,
- 					       fmt->stream);
- 
- 	if (fmt->pad != CCS_PAD_META && fmt->stream != CCS_STREAM_META)
--		fmt->format.code = __ccs_get_mbus_code(subdev, fmt->pad);
-+		fmt->format.code = ccs_get_mbus_code(subdev, fmt->pad);
- 
- 	return 0;
- }
- 
--static int ccs_get_format(struct v4l2_subdev *subdev,
--			  struct v4l2_subdev_state *sd_state,
--			  struct v4l2_subdev_format *fmt)
--{
--	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
--	int rval;
--
--	mutex_lock(&sensor->mutex);
--	rval = __ccs_get_format(subdev, sd_state, fmt);
--	mutex_unlock(&sensor->mutex);
--
--	return rval;
--}
--
- /* Changes require propagation only on sink pad. */
- static void ccs_propagate(struct v4l2_subdev *subdev,
- 			  struct v4l2_subdev_state *sd_state, int which,
-@@ -2235,7 +2245,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
- 				sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
- 				sensor->scaling_mode =
- 					CCS_SCALING_MODE_NO_SCALING;
--				sensor->scaler_sink = *comp;
- 			} else if (ssd == sensor->binner) {
- 				sensor->binning_horizontal = 1;
- 				sensor->binning_vertical = 1;
-@@ -2244,8 +2253,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
- 		fallthrough;
- 	case V4L2_SEL_TGT_COMPOSE:
- 		*crops[CCS_PAD_SRC] = *comp;
--		if (which == V4L2_SUBDEV_FORMAT_ACTIVE && ssd == sensor->src)
--			sensor->src_src = *crops[CCS_PAD_SRC];
- 		break;
- 	default:
- 		WARN_ON_ONCE(1);
-@@ -2264,7 +2271,7 @@ static int ccs_set_format_source(struct v4l2_subdev *subdev,
- 	unsigned int i;
- 	int rval;
- 
--	rval = __ccs_get_format(subdev, sd_state, fmt);
-+	rval = ccs_get_format(subdev, sd_state, fmt);
- 	if (rval)
- 		return rval;
- 
-@@ -2393,13 +2400,9 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
- 	if (subdev == &sensor->src->sd && fmt->pad == CCS_PAD_META)
- 		return ccs_get_format(subdev, sd_state, fmt);
- 
--	mutex_lock(&sensor->mutex);
--
- 	if (subdev == &sensor->src->sd && fmt->stream == CCS_STREAM_META) {
- 		ccs_set_format_meta(subdev, sd_state, &fmt->format);
- 
--		mutex_unlock(&sensor->mutex);
--
- 		return 0;
- 	}
- 
-@@ -2409,13 +2412,12 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
- 		rval = ccs_set_format_source(subdev, sd_state, fmt);
- 		ccs_set_format_meta(subdev, sd_state, NULL);
- 
--		mutex_unlock(&sensor->mutex);
--
- 		return rval;
- 	}
- 
- 	/* Sink pad. Width and height are changeable here. */
--	fmt->format.code = __ccs_get_mbus_code(subdev, fmt->pad);
-+	fmt->format.code = ccs_get_mbus_code(subdev, fmt->pad);
-+
- 	fmt->format.width &= ~1;
- 	fmt->format.height &= ~1;
- 	fmt->format.field = V4L2_FIELD_NONE;
-@@ -2438,8 +2440,6 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
- 	crop->height = fmt->format.height;
- 	ccs_propagate(subdev, sd_state, fmt->which, V4L2_SEL_TGT_CROP);
- 
--	mutex_unlock(&sensor->mutex);
--
- 	return 0;
- }
- 
-@@ -2753,9 +2753,6 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
- 
- 	if (ssd != sensor->pixel_array && sel->pad == CCS_PAD_SINK)
- 		ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_CROP);
--	else if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
--		 ssd == sensor->pixel_array)
--		sensor->pa_src = sel->r;
- 
- 	return 0;
- }
-@@ -2827,8 +2824,6 @@ static int ccs_set_selection(struct v4l2_subdev *subdev,
- 	if (ret)
- 		return ret;
- 
--	mutex_lock(&sensor->mutex);
--
- 	sel->r.left = max(0, sel->r.left & ~1);
- 	sel->r.top = max(0, sel->r.top & ~1);
- 	sel->r.width = CCS_ALIGN_DIM(sel->r.width, sel->flags);
-@@ -2850,7 +2845,6 @@ static int ccs_set_selection(struct v4l2_subdev *subdev,
- 		ret = -EINVAL;
- 	}
- 
--	mutex_unlock(&sensor->mutex);
- 	return ret;
- }
- 
-@@ -3235,6 +3229,7 @@ static int ccs_init_subdev(struct ccs_sensor *sensor,
- 
- 	ssd->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	ssd->sd.entity.function = function;
-+	ssd->sd.state_lock = &sensor->mutex;
- 	ssd->sensor = sensor;
- 
- 	ssd->npads = num_pads;
-@@ -3281,8 +3276,6 @@ static int ccs_init_cfg(struct v4l2_subdev *sd,
- 	struct ccs_sensor *sensor = ssd->sensor;
- 	unsigned int i;
- 
--	mutex_lock(&sensor->mutex);
--
- 	for (i = 0; i < ssd->npads; i++) {
- 		struct v4l2_mbus_framefmt *fmt =
- 			v4l2_subdev_get_fmt_ptr(sd, sd_state, i,
-@@ -3310,8 +3303,6 @@ static int ccs_init_cfg(struct v4l2_subdev *sd,
- 		*comp = *crop;
- 	}
- 
--	mutex_unlock(&sensor->mutex);
--
- 	return 0;
- }
- 
-diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
-index 5e561cc91717..47c77f3284c8 100644
---- a/drivers/media/i2c/ccs/ccs.h
-+++ b/drivers/media/i2c/ccs/ccs.h
-@@ -228,7 +228,6 @@ struct ccs_sensor {
- 	u32 mbus_frame_fmts;
- 	const struct ccs_csi_data_format *csi_format;
- 	const struct ccs_csi_data_format *internal_csi_format;
--	struct v4l2_rect pa_src, scaler_sink, src_src;
- 	u32 default_mbus_frame_fmts;
- 	int default_pixel_order;
- 	struct ccs_data_container sdata, mdata;
+Please pull.
+
+
+The following changes since commit 1aa687a41c6b1ca28b45f230eb7ad2d3d6d35bc6:
+
+  media: qcom: camss: Comment CSID dt_id field (2023-09-28 09:41:54 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.7-2-signed
+
+for you to fetch changes up to 64079722be862e4e31b15f75503dee0315aca84e:
+
+  media: Documentation: Split camera sensor documentation (2023-10-03 14:43:04 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 6.7
+
+----------------------------------------------------------------
+Bingbu Cao (1):
+      media: i2c/hi556: add a new mode 1296x722 settings
+
+Laurent Pinchart (22):
+      media: dt-bindings: media: i2c: Add MT9M114 camera sensor binding
+      media: i2c: Add driver for onsemi MT9M114 camera sensor
+      media: i2c: imx219: Convert to CCI register access helpers
+      media: i2c: imx219: Drop unused macros
+      media: i2c: imx219: Replace register addresses with macros
+      media: i2c: imx219: Drop IMX219_REG_CSI_LANE_MODE from common regs array
+      media: i2c: imx219: Fix test pattern window for 640x480 mode
+      media: i2c: imx219: Set mode registers programmatically
+      media: i2c: imx219: Merge format and binning setting functions
+      media: i2c: imx219: Initialize ycbcr_enc
+      media: i2c: imx219: Use active crop rectangle to configure registers
+      media: i2c: imx219: Infer binning settings from format and crop
+      media: i2c: imx219: Access height from active format in imx219_set_ctrl
+      media: i2c: imx219: Don't store the current mode in the imx219 structure
+      media: i2c: imx219: Drop IMX219_VTS_* macros
+      media: i2c: imx219: Group functions by purpose
+      media: i2c: imx219: Remove unneeded goto
+      media: i2c: imx219: Implement .init_cfg() using .set_fmt()
+      media: i2c: imx219: Separate horizontal and vertical binning
+      media: i2c: imx219: Calculate crop rectangle dynamically
+      media: i2c: imx219: Name all subdev state variables 'state'
+      media: i2c: imx219: Move variables to inner scope
+
+Sakari Ailus (23):
+      media: ov9282: Assign maintenance to Dave
+      media: imx412: Orphan the driver
+      media: imx335: Orphan the driver
+      media: imx334: Orphan the driver
+      media: Documentation: Align numbered list, make it a proper ReST
+      media: ccs: Fix driver quirk struct documentation
+      media: ccs: Correctly initialise try compose rectangle
+      media: ccs: Correct error handling in ccs_register_subdev
+      media: ccs: Switch to init_cfg
+      media: ccs: Rename ccs_create_subdev as ccs_init_subdev
+      media: ccs: Move media_entity_pads_init to init from register
+      media: ccs: Obtain media bus formats before initialising up sub-devices
+      media: ccs: Use sub-device active state
+      media: ccs: Partially revert "media: i2c: Use pm_runtime_resume_and_get()"
+      media: ccs: Drop re-entrant s_stream support
+      media: ov2740: Enable runtime PM before registering the async subdev
+      media: ov2740: Use sub-device active state
+      media: ov2740: Return -EPROBE_DEFER if no endpoint is found
+      media: v4l: subdev: Clear frame descriptor before get_frame_desc
+      media: v4l: subdev: Print debug information on frame descriptor
+      media: mc: Check pad flag validity
+      media: Add MIPI CSI-2 generic long packet type definition
+      media: Documentation: Split camera sensor documentation
+
+ .../bindings/media/i2c/onnn,mt9m114.yaml           |  114 +
+ Documentation/driver-api/media/camera-sensor.rst   |  131 +-
+ .../userspace-api/media/drivers/camera-sensor.rst  |  104 +
+ .../userspace-api/media/drivers/index.rst          |    1 +
+ Documentation/userspace-api/media/v4l/control.rst  |    4 +
+ .../userspace-api/media/v4l/dev-subdev.rst         |   49 +-
+ MAINTAINERS                                        |   23 +-
+ drivers/media/i2c/Kconfig                          |   11 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/ccs/ccs-core.c                   |  374 ++-
+ drivers/media/i2c/ccs/ccs-quirk.h                  |    4 +-
+ drivers/media/i2c/ccs/ccs.h                        |    4 +-
+ drivers/media/i2c/ds90ub913.c                      |    2 -
+ drivers/media/i2c/ds90ub953.c                      |    2 -
+ drivers/media/i2c/ds90ub960.c                      |    2 -
+ drivers/media/i2c/hi556.c                          |   64 +-
+ drivers/media/i2c/imx219.c                         | 1247 +++++-----
+ drivers/media/i2c/mt9m114.c                        | 2481 ++++++++++++++++++++
+ drivers/media/i2c/ov2740.c                         |  125 +-
+ drivers/media/mc/mc-entity.c                       |   15 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c         |    2 -
+ drivers/media/v4l2-core/v4l2-subdev.c              |   38 +
+ include/media/mipi-csi2.h                          |    1 +
+ 23 files changed, 3636 insertions(+), 1163 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+ create mode 100644 Documentation/userspace-api/media/drivers/camera-sensor.rst
+ create mode 100644 drivers/media/i2c/mt9m114.c
+
 -- 
-2.39.2
-
+Sakari Ailus
