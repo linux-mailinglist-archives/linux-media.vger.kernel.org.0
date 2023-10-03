@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC5FC7B6890
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 14:08:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA48B7B6891
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 14:08:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232198AbjJCMIo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S232206AbjJCMIo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 3 Oct 2023 08:08:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50750 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232193AbjJCMIm (ORCPT
+        with ESMTP id S232197AbjJCMIm (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 08:08:42 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 038F1BB
-        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 05:08:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1258FB3
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 05:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696334919; x=1727870919;
+  t=1696334920; x=1727870920;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=rTofabdLgGNT+FGxr0MzNByKxARc+ID4rVgkhnh3neM=;
-  b=e2sUR93cfVnIGDO5UdKwCJNmd/rL6aM9da+BKhdRnaBbfR0KByPPzLqF
-   zCeL9Wklk9ThQd9HCgoU/ZRLzBXEGv61d3htlhntenQF8IBOIzIVrjwgT
-   r/20yC6r8+acz7OokKjq3jgzzdVNTcOINz/8V59VmaEvmsQZTOPwq9Pb0
-   PmLYije3PB+GBdQ9rxpIymsAf4f7yb61KV+cxyIznoVhldfL3lRXVuMes
-   d7LbDOpcGhRLYTbWowYHSx+wbEJSp4it3FDOa2CiOHQNCwcd8Ma9jjKX0
-   FOSU8xJlbONFMdOg6xNT9V/Jkm/4HeSsGciL5ms36XEyu91TECSxLm80B
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="385681562"
+  bh=WF7R6WCcF16DzqQ4oKIzXua2fsuAALVhBA+QmOF5vqA=;
+  b=lZWdhLRcAjiqGrM8CRElMoTWD4nhmvQmTine61FWSiwnoyo3rSOU+MfR
+   9Kpe7a2k8sCFkwNrZkPc0EKjAhigGyKKtLf1SQXbe11u9KJHYlUpqiDAc
+   LXn75N2yXPay0DAY9weAPZzVO12SWTegXMU2P4go9qLm2R/sr/mZ88nqR
+   i6QanGqUhlISjyQqcY0DRK6v0w4iUywqZBuBDLjoMKf/ruD39Pcg6qoWj
+   t7uVU0FL5wBp4wW4guaoaXe0SXw9FYqnyANjKaIqSYcDBsdiZ72U0Sz9W
+   x1fmGzN3SPJk94zdk22zMkOZVRo6EWLB8ydFbZlY7Jd0XiH2J4L+ygVQy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="385681567"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="385681562"
+   d="scan'208";a="385681567"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 05:08:38 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 05:08:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="780285949"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="780285951"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="780285949"
+   d="scan'208";a="780285951"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 05:08:35 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 05:08:37 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id A6E91120A57;
-        Tue,  3 Oct 2023 15:08:32 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id E428A120A58;
+        Tue,  3 Oct 2023 15:08:33 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -50,9 +50,9 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH v6 23/28] media: ccs: Track streaming state
-Date:   Tue,  3 Oct 2023 15:08:08 +0300
-Message-Id: <20231003120813.77726-14-sakari.ailus@linux.intel.com>
+Subject: [PATCH v6 24/28] media: ccs: Move ccs_validate_csi_data_format up
+Date:   Tue,  3 Oct 2023 15:08:09 +0300
+Message-Id: <20231003120813.77726-15-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
 References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
@@ -68,85 +68,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With enable_streams and disable_streams, the driver for a device where
-streams are not independently started and stopped needs to maintain state
-information on streams that have been requested to be started. Do that
-now.
-
-In the future, a helper function in the framework is a desirable way to do
-this instead.
+ccs_validate_csi_data_format() will soon be needed elsewhere, above its
+current location. Move it up.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 13 ++++++++++---
- drivers/media/i2c/ccs/ccs.h      |  2 +-
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 70e7582bbf5f..27ecf8688658 100644
+index 27ecf8688658..4924ec460d81 100644
 --- a/drivers/media/i2c/ccs/ccs-core.c
 +++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -1754,6 +1754,11 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
- 	if (pad != CCS_PAD_SRC)
- 		return -EINVAL;
+@@ -1967,6 +1967,20 @@ static int ccs_post_streamoff(struct v4l2_subdev *subdev)
+ 	return pm_runtime_put(&client->dev);
+ }
  
-+	if (sensor->streaming) {
-+		sensor->streaming |= streams_mask;
-+		return 0;
++static const struct ccs_csi_data_format
++*ccs_validate_csi_data_format(struct ccs_sensor *sensor, u32 code)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
++		if (sensor->mbus_frame_fmts & (1 << i) &&
++		    ccs_csi_data_formats[i].code == code)
++			return &ccs_csi_data_formats[i];
 +	}
 +
- 	rval = ccs_pm_get_init(sensor);
- 	if (rval)
- 		return rval;
-@@ -1875,7 +1880,7 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
- 
- 	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_STREAMING);
- 
--	sensor->streaming = true;
-+	sensor->streaming |= streams_mask;
- 
- 	return 0;
- 
-@@ -1897,6 +1902,10 @@ static int ccs_disable_streams(struct v4l2_subdev *subdev,
- 	if (pad != CCS_PAD_SRC)
- 		return -EINVAL;
- 
-+	sensor->streaming &= ~streams_mask;
-+	if (sensor->streaming)
-+		return 0;
++	return sensor->csi_format;
++}
 +
- 	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_SOFTWARE_STANDBY);
- 	if (rval)
- 		return rval;
-@@ -1905,7 +1914,6 @@ static int ccs_disable_streams(struct v4l2_subdev *subdev,
- 	if (rval)
- 		dev_err(&client->dev, "post_streamoff quirks failed\n");
- 
--	sensor->streaming = false;
- 	pm_runtime_mark_last_busy(&client->dev);
- 	pm_runtime_put_autosuspend(&client->dev);
- 
-@@ -3500,7 +3508,6 @@ static int ccs_probe(struct i2c_client *client)
- 		goto out_cleanup;
+ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
+ 			      struct v4l2_subdev_state *sd_state,
+ 			      struct v4l2_subdev_mbus_code_enum *code)
+@@ -2098,20 +2112,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
  	}
+ }
  
--	sensor->streaming = false;
- 	sensor->dev_init_done = true;
- 
- 	rval = ccs_write_msr_regs(sensor);
-diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
-index 9c3587b2fbe7..043a679e115c 100644
---- a/drivers/media/i2c/ccs/ccs.h
-+++ b/drivers/media/i2c/ccs/ccs.h
-@@ -234,7 +234,7 @@ struct ccs_sensor {
- 	u16 image_start; /* image data start line */
- 	u16 visible_pixel_start; /* start pixel of the visible image */
- 
--	bool streaming;
-+	u8 streaming;
- 	bool dev_init_done;
- 	u8 compressed_min_bpp;
- 
+-static const struct ccs_csi_data_format
+-*ccs_validate_csi_data_format(struct ccs_sensor *sensor, u32 code)
+-{
+-	unsigned int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
+-		if (sensor->mbus_frame_fmts & (1 << i) &&
+-		    ccs_csi_data_formats[i].code == code)
+-			return &ccs_csi_data_formats[i];
+-	}
+-
+-	return sensor->csi_format;
+-}
+-
+ static int ccs_set_format_source(struct v4l2_subdev *subdev,
+ 				 struct v4l2_subdev_state *sd_state,
+ 				 struct v4l2_subdev_format *fmt)
 -- 
 2.39.2
 
