@@ -2,88 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D43D7B652A
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 11:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8DEA7B6536
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 11:15:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231458AbjJCJN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 05:13:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35434 "EHLO
+        id S231645AbjJCJP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 05:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231503AbjJCJN4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 05:13:56 -0400
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7DAAEAD;
-        Tue,  3 Oct 2023 02:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=aB39z
-        3nEFhlQiheQaPa4Ujx4EJgUHKZv82T0iigXc/4=; b=m3rAuWNM23ugb+YjbCMIK
-        P0Qr3/8b5b338lExi0XTsAa1JImayRTTC1VW/umLAU1GarBnshOfgIrzxEWSn2/W
-        MHzwaSUmT2qbXxAgekGDzNM5RBJGeL3OUxPf/xNo8lvksbaCls/2MAGZSlHDJ2qc
-        vzT2ejnTGaitO5rdlB1cEc=
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
-        by zwqz-smtp-mta-g2-1 (Coremail) with SMTP id _____wCnGDMt2xtlDF8gDw--.40780S4;
-        Tue, 03 Oct 2023 17:13:28 +0800 (CST)
-From:   Ma Ke <make_ruc2021@163.com>
-To:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ma Ke <make_ruc2021@163.com>
-Subject: [PATCH v2] media: videobuf2: Fix IS_ERR checking in vb2_vmalloc_put_userptr()
-Date:   Tue,  3 Oct 2023 17:13:15 +0800
-Message-Id: <20231003091315.3919528-1-make_ruc2021@163.com>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S231526AbjJCJPZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 05:15:25 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8586FA9;
+        Tue,  3 Oct 2023 02:15:21 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (unknown [88.124.123.152])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED60D75A;
+        Tue,  3 Oct 2023 11:13:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1696324414;
+        bh=PO3ge0MR9XFHjEOGZbD7BZzaTQmFFuxGS+gzgFhY7/c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EjamJU7A6WI/F4CvZCOf0MRBSGqlZsa1luRrO8vyPO+qW9fFjVR9LvUufArTC7wIx
+         ZtSnMwLKRvx7iuqyzYkO2/8gYrCDSD9YU8tjYOgWmFR2cxfPiJ5FfzITPgggNPVMvx
+         AF3iH99XLzRBTd/Kp4obsgcEvwO5FY5u/kE2jX04=
+Date:   Tue, 3 Oct 2023 12:15:29 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>, martink@posteo.de
+Subject: Re: [PATCH v3 1/7] media: dt-bindings: hynix,hi846: Add
+ video-interface-device properties
+Message-ID: <20231003091529.GB16331@pendragon.ideasonboard.com>
+References: <20230930145951.23433-1-jacopo.mondi@ideasonboard.com>
+ <20230930145951.23433-2-jacopo.mondi@ideasonboard.com>
+ <ZRvQckwdt9modLss@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCnGDMt2xtlDF8gDw--.40780S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WrWDZw45tFykWFW3trWfGrg_yoW8Gr1DpF
-        WFyF9IyFW5J347uw17Jws7uay5Ka95WrW0k3y7Ww1F9wn5Gr9agFyqq34kur17CFZ2yFs0
-        yayjqw43JF1xurUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_NtxrUUUUU=
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/1tbiyBr9C1p7L-EpmgAAso
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZRvQckwdt9modLss@kekkonen.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to avoid error pointers from frame_vector_pages(), we could
-use IS_ERR() to check the return value to fix this. This checking
-operation could make sure that vector contains pages.
+On Tue, Oct 03, 2023 at 08:27:30AM +0000, Sakari Ailus wrote:
+> Hi Jacopo,
+> 
+> On Sat, Sep 30, 2023 at 04:59:45PM +0200, Jacopo Mondi wrote:
+> > Allow properties from video-interface-device.yaml for the SK Hynix Hi-846
+> > sensor.
+> > 
+> > All properties specified in video-interface-device.yaml schema are
+> > valid, so make them accepted by changing "additionalProperties: false"
+> > to "unevaluatedProperties: false" at the schema top-level.
+> 
+> The patch seems fine to me, but I wonder if we should change the title of
+> video-interface-devices.yaml (it's plural) to something that refers to
+> camera sensors, and possibly split it. It's currently not relevant for
+> other types of devices.
 
-Signed-off-by: Ma Ke <make_ruc2021@163.com>
----
- drivers/media/common/videobuf2/videobuf2-vmalloc.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+I was thinking exactly the same yesterday.
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-index 7c635e292106..5aa66305546d 100644
---- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-+++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-@@ -133,13 +133,15 @@ static void vb2_vmalloc_put_userptr(void *buf_priv)
- 
- 	if (!buf->vec->is_pfns) {
- 		n_pages = frame_vector_count(buf->vec);
--		pages = frame_vector_pages(buf->vec);
- 		if (vaddr)
- 			vm_unmap_ram((void *)vaddr, n_pages);
- 		if (buf->dma_dir == DMA_FROM_DEVICE ||
--		    buf->dma_dir == DMA_BIDIRECTIONAL)
--			for (i = 0; i < n_pages; i++)
--				set_page_dirty_lock(pages[i]);
-+		    buf->dma_dir == DMA_BIDIRECTIONAL){
-+			pages = frame_vector_pages(buf->vec);
-+			if (!WARN_ON_ONCE(IS_ERR(pages)))
-+				for (i = 0; i < n_pages; i++)
-+					set_page_dirty_lock(pages[i]);
-+		}
- 	} else {
- 		iounmap((__force void __iomem *)buf->vaddr);
- 	}
 -- 
-2.37.2
+Regards,
 
+Laurent Pinchart
