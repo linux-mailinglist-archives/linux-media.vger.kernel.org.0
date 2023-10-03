@@ -2,64 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B75057B66CB
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 12:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1532A7B6762
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 13:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231831AbjJCKx2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 06:53:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34164 "EHLO
+        id S239899AbjJCLNJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 07:13:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231173AbjJCKx1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 06:53:27 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0AAAC;
-        Tue,  3 Oct 2023 03:53:23 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86458C433C9;
-        Tue,  3 Oct 2023 10:53:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696330403;
-        bh=7d34zM3dSi1EmvJgpJwjtxHg10NsCJyhiek6+F843Y8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EQkQHDTWT6z/gaHpgwuStT/S52T8Nf29hPQfCJKSE2XJbSh/Ogui1YytZKzCtp+pj
-         hFNwP/3NfIErcPYeZLgMPUXOSM0LieiWUTTRRdbv2t479UsM7KQaN5JwVj3Y4psTrl
-         3vv/YvkSB+zhumtPcoRaNQVsch+QZuxiszfRnvUSd7zmJe0bbEyplLW6QF5fzEH9Ef
-         K/oVVp3cHe9UOoL3F9vNLFxk2+j1R+KyQ7EFUyobNXBjrBehiuj2+DZ+nzjQvq1xko
-         lAbRDroglCpBQpE+Q8r3rkx60q7rN9zcGUvFk6so4sTTWoF1VhaLXYA9kGOYEiL9AV
-         kUd0WjV4h9dbw==
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5a1d0fee86aso9389107b3.2;
-        Tue, 03 Oct 2023 03:53:23 -0700 (PDT)
-X-Gm-Message-State: AOJu0YysggT8ssBDVcsDXLS2a8b3BzFtBC9QnGt59Dvpff/y8V8xj+Yq
-        1vzhcWwr3BQi3X00bX/ajFKbvr+h72IkhMDz7y4=
-X-Google-Smtp-Source: AGHT+IF2TuEXNqjyoHzZJGiFNKYpH2AwuP2gHprrQtMQX2U5OKpI9sE1JlSk05NcXqJediHv3nKNXAV+lZv4RAW+0sg=
-X-Received: by 2002:a81:4f88:0:b0:5a1:cc37:7c91 with SMTP id
- d130-20020a814f88000000b005a1cc377c91mr15138418ywb.19.1696330402461; Tue, 03
- Oct 2023 03:53:22 -0700 (PDT)
+        with ESMTP id S239904AbjJCLNE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 07:13:04 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16AC5C6
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 04:13:01 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qndKk-0007iY-UG; Tue, 03 Oct 2023 13:12:58 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qndKk-00AkvC-1d; Tue, 03 Oct 2023 13:12:58 +0200
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1qndKj-00CExz-Ok; Tue, 03 Oct 2023 13:12:57 +0200
+Date:   Tue, 3 Oct 2023 13:12:57 +0200
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Cc:     laurent.pinchart@ideasonboard.com, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
+        john@keeping.me.uk, alsi@bang-olufsen.dk, kernel@pengutronix.de
+Subject: Re: [PATCH] usb: gadget: u_audio: initialize spinlocks
+Message-ID: <ZRv3Ocwc0c/sKaDk@pengutronix.de>
+References: <20231002064231.2336627-1-m.grzeschik@pengutronix.de>
+ <CAB=otbTBNDNpg0B_WdCbCuj7qcoOdPCP2QE4az0J=KrHOTgfLg@mail.gmail.com>
 MIME-Version: 1.0
-References: <SEYPR03MB704641091854162959578D7E9AFFA@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CA+VMnFyhp9D8cjtvLVzdKGETouOuH=MKgjOu1pn00WDRB=5oUg@mail.gmail.com>
- <CAFCwf12sUL5bcXhYKwRkMxLtSDtLfTK003oxkRDVmThx1ARV-A@mail.gmail.com>
- <SEYPR03MB70462A385A52A317427E93B59AFCA@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CAFCwf11hxBpg3T6MoVrL0GaOD_=xB+-dWeEtDH0cCyzyQ-q1tg@mail.gmail.com>
- <SEYPR03MB70463AEED951A0E2C18481099AC2A@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CAFCwf13ZiYYoXE+S_wQ_EhjiACPGJGT+70_stwpY_=aD=VYa4A@mail.gmail.com>
- <SEYPR03MB704690FD9116A31D6FBCF32A9AC1A@SEYPR03MB7046.apcprd03.prod.outlook.com>
- <CAFCwf128vYZ+EGHvZD0_ND2CGBzwMKk6OyhVRW_z=xCOSmi47w@mail.gmail.com> <SEYPR03MB7046F74834B7D789C2DD4E459AC1A@SEYPR03MB7046.apcprd03.prod.outlook.com>
-In-Reply-To: <SEYPR03MB7046F74834B7D789C2DD4E459AC1A@SEYPR03MB7046.apcprd03.prod.outlook.com>
-From:   Oded Gabbay <ogabbay@kernel.org>
-Date:   Tue, 3 Oct 2023 13:52:56 +0300
-X-Gmail-Original-Message-ID: <CAFCwf10HAi+HEEWy=C4395eaHh_iSmcW1v87A+1J8QN9_P7tUQ@mail.gmail.com>
-Message-ID: <CAFCwf10HAi+HEEWy=C4395eaHh_iSmcW1v87A+1J8QN9_P7tUQ@mail.gmail.com>
-Subject: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC)
-To:     Cancan Chang <Cancan.Chang@amlogic.com>
-Cc:     Jagan Teki <jagan@edgeble.ai>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="WTLseb3EDzLd3Y4J"
+Content-Disposition: inline
+In-Reply-To: <CAB=otbTBNDNpg0B_WdCbCuj7qcoOdPCP2QE4az0J=KrHOTgfLg@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,254 +58,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 28, 2023 at 11:16=E2=80=AFAM Cancan Chang <Cancan.Chang@amlogic=
-.com> wrote:
+
+--WTLseb3EDzLd3Y4J
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Oct 02, 2023 at 04:39:42AM -0400, Ruslan Bilovol wrote:
+>On Mon, Oct 2, 2023 at 2:42=E2=80=AFAM Michael Grzeschik
+><m.grzeschik@pengutronix.de> wrote:
+>>
+>> When using uac2 with lockdep enabled, the kernel is throwing this
+>> message, due to uninitialized spinlocks. We initialize them now.
+>>
+>> [   24.668867] The code is fine but needs lockdep annotation, or maybe
+>> [   24.675878] you didn't initialize this object before use?
+>> [   24.681910] turning off the locking correctness validator.
+>> [   24.688038] CPU: 0 PID: 348 Comm: irq/43-dwc3 Tainted: G         C   =
+      6.5.0-20230919-1+ #14
+>> [   24.697866] Hardware name: WolfVision PF5 (DT)
+>> [   24.702831] Call trace:
+>> [   24.705559]  dump_backtrace+0xac/0x130
+>> [   24.709755]  show_stack+0x30/0x48
+>> [   24.713456]  dump_stack_lvl+0x60/0xb0
+>> [   24.717552]  dump_stack+0x18/0x28
+>> [   24.721254]  register_lock_class+0x4e8/0x4f8
+>> [   24.726029]  __lock_acquire+0x88/0x2130
+>> [   24.730314]  lock_acquire+0x17c/0x338
+>> [   24.734403]  _raw_spin_lock_irqsave+0x60/0x90
+>> [   24.739274]  u_audio_get_capture_srate+0x34/0x68
+>> [   24.744436]  afunc_setup+0x2d8/0x538
+>> [   24.748431]  composite_setup+0x1a8/0x1ba8
+>> [   24.752913]  configfs_composite_setup+0x88/0xc0
+>> [   24.757974]  dwc3_ep0_interrupt+0x5e8/0xab8
+>> [   24.762648]  dwc3_process_event_buf+0x424/0xbb0
+>> [   24.767717]  dwc3_thread_interrupt+0x4c/0x90
+>> [   24.772488]  irq_thread_fn+0x34/0xb8
+>> [   24.776484]  irq_thread+0x1a0/0x290
+>> [   24.780379]  kthread+0x10c/0x120
+>> [   24.783985]  ret_from_fork+0x10/0x20
+>>
+>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>> ---
+>>  drivers/usb/gadget/function/u_audio.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/=
+function/u_audio.c
+>> index 4a42574b4a7feb..9d9f906adf7c00 100644
+>> --- a/drivers/usb/gadget/function/u_audio.c
+>> +++ b/drivers/usb/gadget/function/u_audio.c
+>> @@ -1172,6 +1172,9 @@ int g_audio_setup(struct g_audio *g_audio, const c=
+har *pcm_name,
+>>         g_audio->uac =3D uac;
+>>         uac->audio_dev =3D g_audio;
+>>
+>> +       spin_lock_init(&uac->c_prm.lock);
+>> +       spin_lock_init(&uac->p_prm.lock);
 >
-> =E2=80=9CWhat happens if you call this again without waiting for the prev=
-ious
-> inference to complete ?=E2=80=9D
->    --- There is a work-queue in the driver to manage inference tasks.
->          When two consecutive inference tasks occur, the second inference=
- task will be add to
->          the "pending list". While the previous inference task ends, the =
-second inference task will
->          switch to the "scheduled list", and be executed.
->          Each inference task has an id,  "inferece" and "wait until finis=
-h" are paired.
->
->          thanks
-Thanks for the clarification.
-I'll wait for your driver's code link. It doesn't have to be a patch
-series at this point. A link to a git repo is enough.
-I just want to do a quick pass.
+>These locks are already initialized just a few lines below in this functio=
+n.
+
+It was probably to obvious, so I missed them.
+
+>It seems the issue is because uac2 does u_audio_get_capture_srate() while
+>capture isn't enabled? What is your UAC2 gadget configuration?
+
+Yes, so probably the c_chmask is not setup while we still try to
+work/configure the capture path.
+
+There is actually no application of ours involved in setting the srate.
+
+It might be possible that pipewire is changing things that should
+left alone. I will check that assumption.
 
 Thanks,
-Oded
+Michael
 
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
+--WTLseb3EDzLd3Y4J
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
-> ________________________________________
-> =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
-> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8828=E6=97=A5 =
-15:40
-> =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
-> =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Airlie; D=
-aniel Vetter
-> =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support (RFC=
-)
->
-> [ EXTERNAL EMAIL ]
->
-> On Thu, Sep 28, 2023 at 10:25=E2=80=AFAM Cancan Chang <Cancan.Chang@amlog=
-ic.com> wrote:
-> >
-> > =E2=80=9CCould you please post a link to the driver's source code ?
-> > In addition, could you please elaborate which userspace libraries
-> > exists that work with your driver ? Are any of them open-source ?=E2=80=
-=9D
-> > --- We will prepare the adla driver link after the holiday on October 6=
-th.
-> >      It's a pity that there is no open-source userspace library.
-> >      But you can probably understand it through a workflow, which can b=
-e simplified as:
-> >      1. create model context
-> >           ret =3D ioctl(context->fd, ADLAK_IOCTL_REGISTER_NETWORK, &des=
-c);
-> >      2.  set inputs
-> >      3.  inference
-> >            ret =3D ioctl(context->fd, ADLAK_IOCTL_INVOKE, &invoke_dec);
-> What happens if you call this again without waiting for the previous
-> inference to complete ?
-> Oded
-> >      4.  wait for the inference to complete
-> >            ret =3D ioctl(context->fd, ADLAK_IOCTL_WAIT_UNTIL_FINISH, &s=
-tat_req_desc);
-> >      5.  destroy model context
-> >            ret =3D ioctl(context->fd, ADLAK_IOCTL_DESTROY_NETWORK, &sub=
-mit_del);
-> >
-> >
-> >       thanks
-> >
-> >
-> > ________________________________________
-> > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
-> > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8828=E6=97=
-=A5 13:28
-> > =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
-> > =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Airlie;=
- Daniel Vetter
-> > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support (R=
-FC)
-> >
-> > [ EXTERNAL EMAIL ]
-> >
-> > On Wed, Sep 27, 2023 at 10:01=E2=80=AFAM Cancan Chang <Cancan.Chang@aml=
-ogic.com> wrote:
-> > >
-> > > =E2=80=9COr do you handle one cmd at a time, where the user sends a c=
-md buffer
-> > > to the driver and the driver then submit it by writing to a couple of
-> > > registers and polls on some status register until its done, or waits
-> > > for an interrupt to mark it as done ?=E2=80=9D
-> > >   --- yes=EF=BC=8C user sends a cmd buffer to driver, and driver trig=
-gers hardware by writing to register,
-> > >         and then, waits for an interrupt to mark it  as done.
-> > >
-> > >     My current driver is very different from drm, so I want to know i=
-f I have to switch to drm=EF=BC=9F
-> > Could you please post a link to the driver's source code ?
-> > In addition, could you please elaborate which userspace libraries
-> > exists that work with your driver ? Are any of them open-source ?
-> >
-> > >     Maybe I can refer to /driver/accel/habanalabs.
-> > That's definitely a possibility.
-> >
-> > Oded
-> > >
-> > > thanks
-> > >
-> > > ________________________________________
-> > > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
-> > > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8826=E6=97=
-=A5 20:54
-> > > =E6=94=B6=E4=BB=B6=E4=BA=BA: Cancan Chang
-> > > =E6=8A=84=E9=80=81: Jagan Teki; linux-media; linux-kernel; Dave Airli=
-e; Daniel Vetter
-> > > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not support =
-(RFC)
-> > >
-> > > [ EXTERNAL EMAIL ]
-> > >
-> > > On Mon, Sep 25, 2023 at 12:29=E2=80=AFPM Cancan Chang <Cancan.Chang@a=
-mlogic.com> wrote:
-> > > >
-> > > > Thank you for your reply from Jagan & Oded.
-> > > >
-> > > > It is very appropritate for my driver to be placed in driver/accel.
-> > > >
-> > > > My accelerator is named ADLA(Amlogic Deep Learning Accelerator).
-> > > > It is an IP in SOC,mainly used for neural network models accelerati=
-on.
-> > > > It will split and compile the neural network model into a private f=
-ormat cmd buffer,
-> > > > and submit this cmd buffer to ADLA hardware. It is not programmable=
- device.
-> > > What exactly does it mean to "submit this cmd buffer to ADLA hardware=
-" ?
-> > >
-> > > Does your h/w provides queues for the user/driver to put their
-> > > workloads/cmd-bufs on them ? And does it provide some completion queu=
-e
-> > > to notify when the work is completed?
-> > >
-> > > Or do you handle one cmd at a time, where the user sends a cmd buffer
-> > > to the driver and the driver then submit it by writing to a couple of
-> > > registers and polls on some status register until its done, or waits
-> > > for an interrupt to mark it as done ?
-> > >
-> > > >
-> > > > ADLA includes four hardware engines:
-> > > > RS engines             : working for the reshape operators
-> > > > MAC engines         : working for the convolution operators
-> > > > DW engines           : working for the planer & Elementwise operato=
-rs
-> > > > Activation engines : working for activation operators(ReLu,tanh..)
-> > > >
-> > > > By the way, my IP is mainly used for SOC, and the current driver re=
-gistration is through the platform_driver,
-> > > > is it necessary to switch to drm?
-> > > This probably depends on the answer to my question above. btw, there
-> > > are drivers in drm that handle IPs that are part of an SOC, so
-> > > platform_driver is supported.
-> > >
-> > > Oded
-> > >
-> > > >
-> > > > thanks.
-> > > >
-> > > > ________________________________________
-> > > > =E5=8F=91=E4=BB=B6=E4=BA=BA: Oded Gabbay <ogabbay@kernel.org>
-> > > > =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2023=E5=B9=B49=E6=9C=8822=E6=
-=97=A5 23:08
-> > > > =E6=94=B6=E4=BB=B6=E4=BA=BA: Jagan Teki
-> > > > =E6=8A=84=E9=80=81: Cancan Chang; linux-media; linux-kernel; Dave A=
-irlie; Daniel Vetter
-> > > > =E4=B8=BB=E9=A2=98: Re: kernel.org 6.5.4 , NPU driver, --not suppor=
-t (RFC)
-> > > >
-> > > > [=E4=BD=A0=E9=80=9A=E5=B8=B8=E4=B8=8D=E4=BC=9A=E6=94=B6=E5=88=B0=E6=
-=9D=A5=E8=87=AA ogabbay@kernel.org =E7=9A=84=E7=94=B5=E5=AD=90=E9=82=AE=E4=
-=BB=B6=E3=80=82=E8=AF=B7=E8=AE=BF=E9=97=AE https://aka.ms/LearnAboutSenderI=
-dentification=EF=BC=8C=E4=BB=A5=E4=BA=86=E8=A7=A3=E8=BF=99=E4=B8=80=E7=82=
-=B9=E4=B8=BA=E4=BB=80=E4=B9=88=E5=BE=88=E9=87=8D=E8=A6=81]
-> > > >
-> > > > [ EXTERNAL EMAIL ]
-> > > >
-> > > > On Fri, Sep 22, 2023 at 12:38=E2=80=AFPM Jagan Teki <jagan@edgeble.=
-ai> wrote:
-> > > > >
-> > > > > On Fri, 22 Sept 2023 at 15:04, Cancan Chang <Cancan.Chang@amlogic=
-.com> wrote:
-> > > > > >
-> > > > > > Dear Media Maintainers:
-> > > > > >      Thanks for your attention. Before describing my problem=EF=
-=BC=8Clet me introduce to you what I  mean by NPU.
-> > > > > >      NPU is Neural Processing Unit, It is designed for deep lea=
-rning acceleration, It is also called TPU, APU ..
-> > > > > >
-> > > > > >      The real problems:
-> > > > > >       When I was about to upstream my NPU driver codes to linux=
- mainline, i meet two problems:
-> > > > > >         1.  According to my research, There is no NPU module pa=
-th in the linux (base on linux 6.5.4) , I have searched all linux projects =
-and found no organization or comany that has submitted NPU code. Is there a=
- path prepared for NPU driver currently?
-> > > > > >         2.   If there is no NPU driver path currently, I am goi=
-ng to put my NPU driver code in the drivers/media/platform/amlogic/ =EF=BB=
-=BF, because my NPU driver belongs to amlogic. and amlogic NPU is mainly us=
-ed for AI vision applications. Is this plan suitabe for you?
-> > > > >
-> > > > > If I'm correct about the discussion with Oded Gabby before. I thi=
-nk
-> > > > > the drivers/accel/ is proper for AI Accelerators including NPU.
-> > > > >
-> > > > > + Oded in case he can comment.
-> > > > >
-> > > > > Thanks,
-> > > > > Jagan.
-> > > > Thanks Jagan for adding me to this thread. Adding Dave & Daniel as =
-well.
-> > > >
-> > > > Indeed, the drivers/accel is the place for Accelerators, mainly for
-> > > > AI/Deep-Learning accelerators.
-> > > > We currently have 3 drivers there already.
-> > > >
-> > > > The accel subsystem is part of the larger drm subsystem. Basically,=
- to
-> > > > get into accel, you need to integrate your driver with the drm at t=
-he
-> > > > basic level (registering a device, hooking up with the proper
-> > > > callbacks). ofc the more you use code from drm, the better.
-> > > > You can take a look at the drivers under accel for some examples on
-> > > > how to do that.
-> > > >
-> > > > Could you please describe in a couple of sentences what your
-> > > > accelerator does, which engines it contains, how you program it. i.=
-e.
-> > > > Is it a fixed-function device where you write to a couple of regist=
-ers
-> > > > to execute workloads, or is it a fully programmable device where yo=
-u
-> > > > load compiled code into it (GPU style) ?
-> > > >
-> > > > For better background on the accel subsystem, please read the follo=
-wing:
-> > > > https://docs.kernel.org/accel/introduction.html
-> > > > This introduction also contains links to other important email thre=
-ads
-> > > > and to Dave Airlie's BOF summary in LPC2022.
-> > > >
-> > > > Thanks,
-> > > > Oded
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmUb9zkACgkQC+njFXoe
+LGQuDw//ZBsB617Kjhfsv5PMeUASDe0rVqZ0bWrxoMFGXU66QTfxaooYZDcBRxIZ
+ia0MwerSsLkUSMY1uR32vjtnG+ONLfnVO8y8nGUp/jMolPTteWfSEccI2c4bHGXP
+EtLNjHHhvpkv5wOwi/Hnlb+55GPS/liQ3c9yVrJtPiC1wrrXzr46ZbWpXRUS37Dw
+zd+Y94s99+dyaBK9QWVzhqFqCpVz1K8uPLT/mtK5odJpHN9QA0oiRtnIDc58owjl
+YfPYPAr5yR5uNaj6yYBAhY1/Y4LMEhT96ofUeHRULD7phAijpcvlREihpVq65rmY
+ZWiqJcGWz49+PI98vn09zC8Rs5l46n5yjjWjF2LX1lL6a6sULzBs2Mtv7xTCdERO
+gtxM1q5Uq01u1jli9ZiYVle6a/AeqNVotKEjxPblj+15qfZr+y8f8Wa7oj99C5BG
+n+aGoFv5rdLqOyOw8YNFW+7RTakEVRUaKKnyojwzUZMlNy0WkEPEK3Se40OvOkpV
+zkYFmKMi2kGi2B8U+EwOjIMmfXslJS5Vzhe1owoCsJmQgP7BOFVnfF+RePhrL9rI
+QsZZ/93aoLgSnQHPBNpJQGmqvFTkPydWg4Ky968hkg7dY66G3A3j4Q4STYg88i0c
+1N74g1mSvNNuwCjFiHgvTsSsbG3dxzpJZpW1raGnh8dGQ+vpimE=
+=QkqG
+-----END PGP SIGNATURE-----
+
+--WTLseb3EDzLd3Y4J--
