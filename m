@@ -2,104 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 189327B7374
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 23:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDCF37B743B
+	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 00:46:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241259AbjJCVke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 17:40:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44314 "EHLO
+        id S231194AbjJCWqI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 18:46:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232084AbjJCVkc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 17:40:32 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721E6A1;
-        Tue,  3 Oct 2023 14:40:25 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F2EDC433C8;
-        Tue,  3 Oct 2023 21:40:23 +0000 (UTC)
-Date:   Tue, 3 Oct 2023 17:41:29 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Ross Zwisler <zwisler@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Ross Zwisler <zwisler@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] visl: use canonical ftrace path
-Message-ID: <20231003174129.11c79c18@gandalf.local.home>
-In-Reply-To: <20230829204600.3210276-2-zwisler@kernel.org>
-References: <20230829204600.3210276-2-zwisler@kernel.org>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S230237AbjJCWqI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 18:46:08 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6440AB
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 15:46:03 -0700 (PDT)
+Received: from db550.lan (node-1w7jr9sszvrrzruovovr1tjll.ipv6.telus.net [IPv6:2001:569:be8a:cf00:5d23:b71:6055:e579])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0E0C9660731D;
+        Tue,  3 Oct 2023 23:46:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1696373162;
+        bh=uOQxbTgP3lCx/3PFH3qKmATRjKes6Z/k+HmO58NnGFQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Vg69YwS3m3UeMCS1xj+kWY7/i8gRGVr2oUbvZVvKk8joaP8ejzBLdrEXB6LKXHCDZ
+         bANgzypWj2MK5KRdEQwMWpx9/cg6iZhGrn5lGWSgIuVQLC+DpaWb8RcCMS4KODDmhO
+         HWtQngdYVO+ZXFf/67qvnFzgHd1rVmi0wTGiBq+2NTQBvP7HwFWoCwiazKRrOPxL1V
+         bs57YTBcYVLG2uDxQ43E00Kt8k8+aNVSdxjW31YnIYNBw/yPDmWsc6uEq2zftqn59z
+         7ogeO/Lrwe6GwRGtNg48ftUemvQ0dgNahCmhSyGViDAZDlZ1jlpI3ld05J4NbuoI8k
+         VnK3n1kf08XuQ==
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
+        sebastian.fricke@collabora.com, nas.chung@chipsnmedia.com,
+        jackson.lee@chipsnmedia.com,
+        Deborah Brouwer <deborah.brouwer@collabora.com>
+Subject: [PATCH] v4l2-compliance: add EOPNOTSUPP for create_bufs
+Date:   Tue,  3 Oct 2023 15:45:36 -0700
+Message-Id: <20231003224536.13199-1-deborah.brouwer@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+If VIDIOC_CREATE_BUFS is supported on one queue but not the other, then
+the driver should return EOPNOTSUPP for the unsupported queue only.
 
-Could this go through the linux-media tree, or if you give it an Ack, I'll
-take it through the tracing tree.
+Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+---
+On the wave5 driver, v4l2-compliance -d0 -v now shows:
+<snip>
+Buffer ioctls:
+        info: test buftype Video Capture Multiplanar
+        info: VIDIOC_CREATE_BUFS not supported for Video Capture Multiplanar
+        info: test buftype Video Output Multiplanar
+    test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+    test VIDIOC_EXPBUF: OK
+        info: could not test the Request API, no suitable control found
+    test Requests: OK (Not Supported)
 
--- Steve
+Total for wave5-dec device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
 
+ utils/v4l2-compliance/v4l2-compliance.h     | 1 +
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-On Tue, 29 Aug 2023 14:46:01 -0600
-Ross Zwisler <zwisler@kernel.org> wrote:
-
-> From: Ross Zwisler <zwisler@google.com>
-> 
-> The canonical location for the tracefs filesystem is at /sys/kernel/tracing.
-> 
-> But, from Documentation/trace/ftrace.rst:
-> 
->   Before 4.1, all ftrace tracing control files were within the debugfs
->   file system, which is typically located at /sys/kernel/debug/tracing.
->   For backward compatibility, when mounting the debugfs file system,
->   the tracefs file system will be automatically mounted at:
-> 
->   /sys/kernel/debug/tracing
-> 
-> Update the visl decoder driver documentation to use this tracefs path.
-> 
-> Signed-off-by: Ross Zwisler <zwisler@google.com>
-> ---
->  Documentation/admin-guide/media/visl.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/media/visl.rst b/Documentation/admin-guide/media/visl.rst
-> index 7d2dc78341c9..4328c6c72d30 100644
-> --- a/Documentation/admin-guide/media/visl.rst
-> +++ b/Documentation/admin-guide/media/visl.rst
-> @@ -78,7 +78,7 @@ The trace events are defined on a per-codec basis, e.g.:
->  
->  .. code-block:: bash
->  
-> -        $ ls /sys/kernel/debug/tracing/events/ | grep visl
-> +        $ ls /sys/kernel/tracing/events/ | grep visl
->          visl_fwht_controls
->          visl_h264_controls
->          visl_hevc_controls
-> @@ -90,13 +90,13 @@ For example, in order to dump HEVC SPS data:
->  
->  .. code-block:: bash
->  
-> -        $ echo 1 >  /sys/kernel/debug/tracing/events/visl_hevc_controls/v4l2_ctrl_hevc_sps/enable
-> +        $ echo 1 >  /sys/kernel/tracing/events/visl_hevc_controls/v4l2_ctrl_hevc_sps/enable
->  
->  The SPS data will be dumped to the trace buffer, i.e.:
->  
->  .. code-block:: bash
->  
-> -        $ cat /sys/kernel/debug/tracing/trace
-> +        $ cat /sys/kernel/tracing/trace
->          video_parameter_set_id 0
->          seq_parameter_set_id 0
->          pic_width_in_luma_samples 1920
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index 7caf254b..99c98916 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -165,6 +165,7 @@ struct base_node {
+ 	bool supports_orphaned_bufs;
+ 	// support for this was introduced in 5.9
+ 	bool might_support_cache_hints;
++	bool create_bufs_on_one_queue_only;
+ };
+ 
+ struct node : public base_node, public cv4l_fd {
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index 6d592c9b..e709580b 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -693,6 +693,14 @@ int testReqBufs(struct node *node)
+ 				warn("VIDIOC_CREATE_BUFS not supported\n");
+ 				break;
+ 			}
++			if (ret == EOPNOTSUPP) {
++				/* VIDIOC_CREATE_BUFS is supported on one queue but not the other. */
++				fail_on_test(node->create_bufs_on_one_queue_only);
++				node->create_bufs_on_one_queue_only = true;
++				info("VIDIOC_CREATE_BUFS not supported for %s\n",
++				     buftype2s(q.g_type()).c_str());
++				break;
++			}
+ 
+ 			memset(&crbufs, 0xff, sizeof(crbufs));
+ 			node->g_fmt(crbufs.format, i);
+-- 
+2.40.1
 
