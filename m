@@ -2,163 +2,348 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1532A7B6762
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 13:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6886C7B684D
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 13:52:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239899AbjJCLNJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 07:13:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54616 "EHLO
+        id S232048AbjJCLwv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 07:52:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239904AbjJCLNE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 07:13:04 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16AC5C6
-        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 04:13:01 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1qndKk-0007iY-UG; Tue, 03 Oct 2023 13:12:58 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1qndKk-00AkvC-1d; Tue, 03 Oct 2023 13:12:58 +0200
-Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1qndKj-00CExz-Ok; Tue, 03 Oct 2023 13:12:57 +0200
-Date:   Tue, 3 Oct 2023 13:12:57 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Ruslan Bilovol <ruslan.bilovol@gmail.com>
-Cc:     laurent.pinchart@ideasonboard.com, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
-        john@keeping.me.uk, alsi@bang-olufsen.dk, kernel@pengutronix.de
-Subject: Re: [PATCH] usb: gadget: u_audio: initialize spinlocks
-Message-ID: <ZRv3Ocwc0c/sKaDk@pengutronix.de>
-References: <20231002064231.2336627-1-m.grzeschik@pengutronix.de>
- <CAB=otbTBNDNpg0B_WdCbCuj7qcoOdPCP2QE4az0J=KrHOTgfLg@mail.gmail.com>
+        with ESMTP id S231770AbjJCLwv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 07:52:51 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C185A3
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 04:52:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696333967; x=1727869967;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wsZ/8+fd17aNRWSHmrpF1unVeKzGzdV1oL5r4Wt3/5o=;
+  b=JaOEO1eWt/zb34N7TKGCc/tgBsLt2x9+ENArbGGzfWCQgXxHGaxlpLN0
+   i24BkOTeAg8dUNDVdP6U2g2u43RP+GZU9NVJtOqV2Mkrx9Ept2EpmkfKb
+   Ugo4KSUVpZN8PYw0OZBYkc5Oj2yJMZZSn1iX67FVpVlINzIyxaYzfAAtj
+   e0e2UIBLRB1ukSEeenuokyqn55sY9CVngIH1kc1+twoy8DbXnjMNb79d0
+   Dmm8Tc4TByweilM0cYNsOSwSqOqVdYw9aDvgebArqD3VCzmH63Jx3rvJL
+   w1Zy7Dvn4QsbgRtovQEsANxSDdx1VbAOVN043DC6UcMMQuroXOeWTwgDf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="413767100"
+X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
+   d="scan'208";a="413767100"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 04:52:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="816650477"
+X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
+   d="scan'208";a="816650477"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 04:52:42 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 2DF09120797;
+        Tue,  3 Oct 2023 14:52:38 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com, hverkuil@xs4all.nl,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>,
+        "Ng, Khai Wen" <khai.wen.ng@intel.com>
+Subject: [PATCH v6 00/28] Generic line based metadata support, internal pads
+Date:   Tue,  3 Oct 2023 14:52:28 +0300
+Message-Id: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="WTLseb3EDzLd3Y4J"
-Content-Disposition: inline
-In-Reply-To: <CAB=otbTBNDNpg0B_WdCbCuj7qcoOdPCP2QE4az0J=KrHOTgfLg@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi folks,
 
---WTLseb3EDzLd3Y4J
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here are a few patches to add support generic, line based metadata as well
+as internal pads. While the amount of code is not very large, to the
+contrary it is quite small actually IMO, I presume what this is about and
+why it is being proposed requires some explaining.
 
-On Mon, Oct 02, 2023 at 04:39:42AM -0400, Ruslan Bilovol wrote:
->On Mon, Oct 2, 2023 at 2:42=E2=80=AFAM Michael Grzeschik
-><m.grzeschik@pengutronix.de> wrote:
->>
->> When using uac2 with lockdep enabled, the kernel is throwing this
->> message, due to uninitialized spinlocks. We initialize them now.
->>
->> [   24.668867] The code is fine but needs lockdep annotation, or maybe
->> [   24.675878] you didn't initialize this object before use?
->> [   24.681910] turning off the locking correctness validator.
->> [   24.688038] CPU: 0 PID: 348 Comm: irq/43-dwc3 Tainted: G         C   =
-      6.5.0-20230919-1+ #14
->> [   24.697866] Hardware name: WolfVision PF5 (DT)
->> [   24.702831] Call trace:
->> [   24.705559]  dump_backtrace+0xac/0x130
->> [   24.709755]  show_stack+0x30/0x48
->> [   24.713456]  dump_stack_lvl+0x60/0xb0
->> [   24.717552]  dump_stack+0x18/0x28
->> [   24.721254]  register_lock_class+0x4e8/0x4f8
->> [   24.726029]  __lock_acquire+0x88/0x2130
->> [   24.730314]  lock_acquire+0x17c/0x338
->> [   24.734403]  _raw_spin_lock_irqsave+0x60/0x90
->> [   24.739274]  u_audio_get_capture_srate+0x34/0x68
->> [   24.744436]  afunc_setup+0x2d8/0x538
->> [   24.748431]  composite_setup+0x1a8/0x1ba8
->> [   24.752913]  configfs_composite_setup+0x88/0xc0
->> [   24.757974]  dwc3_ep0_interrupt+0x5e8/0xab8
->> [   24.762648]  dwc3_process_event_buf+0x424/0xbb0
->> [   24.767717]  dwc3_thread_interrupt+0x4c/0x90
->> [   24.772488]  irq_thread_fn+0x34/0xb8
->> [   24.776484]  irq_thread+0x1a0/0x290
->> [   24.780379]  kthread+0x10c/0x120
->> [   24.783985]  ret_from_fork+0x10/0x20
->>
->> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->> ---
->>  drivers/usb/gadget/function/u_audio.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/=
-function/u_audio.c
->> index 4a42574b4a7feb..9d9f906adf7c00 100644
->> --- a/drivers/usb/gadget/function/u_audio.c
->> +++ b/drivers/usb/gadget/function/u_audio.c
->> @@ -1172,6 +1172,9 @@ int g_audio_setup(struct g_audio *g_audio, const c=
-har *pcm_name,
->>         g_audio->uac =3D uac;
->>         uac->audio_dev =3D g_audio;
->>
->> +       spin_lock_init(&uac->c_prm.lock);
->> +       spin_lock_init(&uac->p_prm.lock);
->
->These locks are already initialized just a few lines below in this functio=
-n.
+Metadata mbus codes and formats have existed for some time in V4L2. They
+however have been only used by drivers that produce the data itself and
+effectively this metadata has always been statistics of some sort (at
+least when it comes to ISPs). What is different here is that we intend to
+add support for metadata originating from camera sensors.
 
-It was probably to obvious, so I missed them.
+Camera sensors produce different kinds of metadata, embedded data (usually
+register address--value pairs used to capture the frame, in a more or less
+sensor specific format), histograms (in a very sensor specific format),
+dark pixels etc. The number of these formats is probably going to be about
+as large as image data formats if not larger, as the image data formats
+are much better standardised but a smaller subset of them will be
+supported by V4L2, at least initially but possibly much more in the long
+run.
 
->It seems the issue is because uac2 does u_audio_get_capture_srate() while
->capture isn't enabled? What is your UAC2 gadget configuration?
+Having this many device specific formats would be a major problem for all
+the other drivers along that pipeline (not to mention the users of those
+drivers), including bridge (e.g. CSI-2 to parallel) but especially CSI-2
+receiver drivers that have DMA: the poor driver developer would not only
+need to know camera sensor specific formats but to choose the specific
+packing of that format suitable for the DMA used by the hardware. It is
+unlikely many of these would ever get tested while being present on the
+driver API. Also adding new sensors with new embedded data formats would
+involve updating all bridge and CSI-2 receiver drivers. I don't expect
+this to be a workable approach.
 
-Yes, so probably the c_chmask is not setup while we still try to
-work/configure the capture path.
+Instead what I'm proposing is to use specific metadata formats on the
+sensor devices only, on internal pads (more about those soon) of the
+sensors, only visible in the UAPI, and then generic mbus formats along the
+pipeline and finally generic V4L2 metadata formats on the DMAs (specific
+to bit depth and packing). This would unsnarl the two, defining what data
+there is (specific mbus code) and how that is transported and packed
+(generic mbus codes and V4L2 formats).
 
-There is actually no application of ours involved in setting the srate.
+The user space would be required to "know" the path of that data from the
+sensor's internal pad to the V4L2 video node. I do not see this as these
+devices require at least some knowledge of the pipeline, i.e. hardware at
+hand. Separating what the data means and how it is packed may even be
+beneficial: it allows separating code that interprets the data (sensor
+internal mbus code) from the code that accesses it (packing).
 
-It might be possible that pipewire is changing things that should
-left alone. I will check that assumption.
+These formats are in practice line based, meaning that there may be
+padding at the end of the line, depending on the bus as well as the DMA.
+If non-line based formats are needed, it is always possible to set the
+"height" field to 1.
 
-Thanks,
-Michael
+The internal (source) pads are an alternative to source routes [1]. The
+source routes were not universally liked and I do have to say I like
+re-using existing interface concepts (pads and everything you can do with
+pads, including access format, selections etc.) wherever it makes sense,
+instead of duplicating functionality.
 
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Effectively internal source pads behave mostly just like sink pads, but
+they describe a flow of data that originates from a sub-device instead of
+arriving to a sub-device. The SUBDEV_S_ROUTING IOCTLs are used to enable
+and disable routes from internal source pads to sub-device's source pads.
+The subdev format IOCTLs are usable, too, so one can find which subdev
+format is available on given internal source pad.
 
---WTLseb3EDzLd3Y4J
-Content-Type: application/pgp-signature; name="signature.asc"
+This set depends on these patches:
 
------BEGIN PGP SIGNATURE-----
+<URL:https://lore.kernel.org/linux-media/20231002105557.28972-1-sakari.ailus@linux.intel.com/T/#t>
 
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmUb9zkACgkQC+njFXoe
-LGQuDw//ZBsB617Kjhfsv5PMeUASDe0rVqZ0bWrxoMFGXU66QTfxaooYZDcBRxIZ
-ia0MwerSsLkUSMY1uR32vjtnG+ONLfnVO8y8nGUp/jMolPTteWfSEccI2c4bHGXP
-EtLNjHHhvpkv5wOwi/Hnlb+55GPS/liQ3c9yVrJtPiC1wrrXzr46ZbWpXRUS37Dw
-zd+Y94s99+dyaBK9QWVzhqFqCpVz1K8uPLT/mtK5odJpHN9QA0oiRtnIDc58owjl
-YfPYPAr5yR5uNaj6yYBAhY1/Y4LMEhT96ofUeHRULD7phAijpcvlREihpVq65rmY
-ZWiqJcGWz49+PI98vn09zC8Rs5l46n5yjjWjF2LX1lL6a6sULzBs2Mtv7xTCdERO
-gtxM1q5Uq01u1jli9ZiYVle6a/AeqNVotKEjxPblj+15qfZr+y8f8Wa7oj99C5BG
-n+aGoFv5rdLqOyOw8YNFW+7RTakEVRUaKKnyojwzUZMlNy0WkEPEK3Se40OvOkpV
-zkYFmKMi2kGi2B8U+EwOjIMmfXslJS5Vzhe1owoCsJmQgP7BOFVnfF+RePhrL9rI
-QsZZ/93aoLgSnQHPBNpJQGmqvFTkPydWg4Ky968hkg7dY66G3A3j4Q4STYg88i0c
-1N74g1mSvNNuwCjFiHgvTsSsbG3dxzpJZpW1raGnh8dGQ+vpimE=
-=QkqG
------END PGP SIGNATURE-----
+I've also pushed these here and I'll keep updating the branch, I've also
+included untested OV2740 patches:
 
---WTLseb3EDzLd3Y4J--
+<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata>
+
+Questions and comments are most welcome.
+
+Preliminary media-ctl and yavta patches can be found here:
+
+<URL:https://git.retiisi.eu/?p=~sailus/yavta.git;a=shortlog;h=refs/heads/metadata>
+<URL:https://git.retiisi.eu/?p=~sailus/v4l-utils.git;a=shortlog;h=refs/heads/metadata>
+
+I have used IMX219 as an example on routing in a sensor driver in this
+version. I also hope I can add OV2740 support in the next version after
+testing the patches.
+
+[1] <URL:https://lore.kernel.org/linux-media/20220831141357.1396081-20-tomi.valkeinen@ideasonboard.com/>
+
+since v5:
+
+- Rebase on new set of preparation patches.
+
+- Switch CCS driver from s_stream to enable_streams/disable_streams. Keep
+  streaming state information --- the sensor remains in streaming state if
+  any of the streams is enabled.
+
+- Fix setting mbus code on embedded data in get_frame_desc() op in the CCS
+  driver.
+
+since v4:
+
+- Add a patch to acquire two sub-device states that may use the same lock.
+
+- Add a patch for CCS driver to remove ccs_get_crop_compose() helper.
+
+- Add a patch for CCS driver moving acquiring and releasing the mutex to
+  the s_stream callback.
+
+- Add a patch for CCS driver to rely on sub-device state locking using a
+  single driver-provided lock.
+
+- Fixed calculating minimum number of routes in copying the routes
+  (thanks, Laurent).
+
+- Moved a label in S_ROUTING handling to make Clang happy (hopefully).
+
+- Fixed setting emb_data_ctrl register for CCS embedded data support.
+
+- Rebase on Laurent's cleanup patches.
+
+- Wrap a few long lines.
+
+- Write in embedded data documentation sensor drivers generally don't
+  allow configuring it.
+
+since v3:
+
+- Separate preparation patches from this set.
+
+- Add a definition for "Data unit", a pixel that is not image data and use
+  it instead in format documentation.
+
+- Fix more numbered lists in dev-subdev.rst.
+
+- Remove a redundant definition for V4L2_META_FMT_GENERIC_CSI2_2_24 ---
+  V4L2_META_FMT_GENERIC_CSI2_12 can be used instead.
+
+- Use "X" instead of "p" to denote padding in format documentation.
+
+- Use IMX219 in examples instead of CCS.
+
+- Document that the generic V4L2 CSI-2 metadata formats use padding
+  defined in CSI-2 spec and packing defined in CCS spec.
+
+- Add patches to align [GS]_ROUTING behaviour with V4L2. This means mainly
+  returning configured routes as part of S_ROUTING as well. "len_routes"
+  field is added to denote the length of the array and having more routes
+  than fits in the array is no longer an error. Also added more reserved
+  fields.
+
+- Added trivial support for S_ROUTING (via G_ROUTING implementation) for
+  use in drivers with static-only routes.
+
+- Added helper functions to obtain mbus format as well as crop and compose
+  rectangles that are streams-independent.
+
+- Added a patch to define generic CSI-2 long packet types.
+
+- Removed MEDIA_BUS_FMT_IS_META() macro. It didn't seem useful in the end.
+
+- Use a single CCS embedded data format. The bit depth can be selected
+  using the meta stream on the source pad.
+
+- Fix mbus code numbers (there were holes due to removed redundant
+  formats).
+
+- Fix generic mbus code documentation (byte was being used instead of
+  bit).
+
+- Fix spelling of "length".
+
+- Added a patch to remove v4l2_subdev_enable_streams_api that disables
+  streams API. This should be merged once libcamera support for streams
+  works nicely.
+
+- Don't use strings in printing frame descriptor flags.
+
+- Warn on string truncation in printing frame descriptor.
+
+since v2:
+
+- Add a better example, with formats.
+
+- Add CCS static data media bus codes.
+
+- Added an example demonstrating the use of internal pads. --- Is the
+  level of detail enough for the purpose?
+
+- Improved documentation.
+
+- Added a macro to tell whether a format is a metadata format.
+  (Documentation could be added.)
+
+- A small ReST syntax fix in the same section.
+
+- Drop leftovers of a patch checking for the INTERNAL_SOURCE flag.
+
+since v1:
+
+- Make the new pad flag just "INTERNAL", requiring either SINK or SOURCE
+  pad flag to accompany it. Removed the union in struct v4l2_subdev_route.
+
+- Add the term "stream" to MC glossary.
+
+- Improved and fixed documentation (according to comments).
+
+- Note these formats are little endian.
+
+- Remove 1X8 from the names of the mbus codes. These formats have generally
+  8 bits per pixel.
+
+- Fix mbus code numbering (had holes in RFC).
+
+- Add new metadata fields to debug prints.
+
+- Fix a minor documentation build issue.
+
+Sakari Ailus (28):
+  media: mc: Add INTERNAL pad flag
+  media: uapi: Add generic serial metadata mbus formats
+  media: uapi: Document which mbus format fields are valid for metadata
+  media: uapi: Add generic 8-bit metadata format definitions
+  media: v4l: Support line-based metadata capture
+  media: uapi: ccs: Add media bus code for MIPI CCS embedded data
+  media: Documentation: ccs: Document routing
+  media: Documentation: Additional streams generally don't harm capture
+  media: Documentation: Document embedded data guidelines for camera
+    sensors
+  media: Documentation: v4l: Document source routes
+  media: Documentation: Document S_ROUTING behaviour
+  media: v4l: subdev: Add helpers for format, crop and compose pointers
+  media: v4l: subdev: Add a function to lock two sub-device states, use
+    it
+  media: v4l: subdev: Move G_ROUTING handling below S_ROUTING
+  media: v4l: subdev: Copy argument back to user also for S_ROUTING
+  media: v4l: subdev: Add len_routes field to struct v4l2_subdev_routing
+  media: v4l: subdev: Return routes set using S_ROUTING
+  media: uapi: Allow a larger number of routes than there's room for
+  media: v4l: subdev: Add trivial set_routing support
+  media: uapi: v4l: subdev: Enable streams API
+  media: ccs: No need to set streaming to false in power off
+  media: ccs: Use {enable,disable}_streams operations
+  media: ccs: Track streaming state
+  media: ccs: Move ccs_validate_csi_data_format up
+  media: ccs: Support frame descriptors
+  media: ccs: Add support for embedded data stream
+  media: ccs: Remove ccs_get_crop_compose helper
+  media: ccs: Rely on sub-device state locking
+
+ .../media/drivers/camera-sensor.rst           |  28 +
+ .../userspace-api/media/drivers/ccs.rst       |  34 +-
+ .../userspace-api/media/glossary.rst          |  14 +
+ .../media/mediactl/media-types.rst            |   6 +
+ .../userspace-api/media/v4l/dev-meta.rst      |  15 +
+ .../userspace-api/media/v4l/dev-subdev.rst    | 208 ++++-
+ .../userspace-api/media/v4l/meta-formats.rst  |   1 +
+ .../media/v4l/metafmt-generic.rst             | 304 +++++++
+ .../media/v4l/subdev-formats.rst              | 288 ++++++
+ .../media/v4l/vidioc-enum-fmt.rst             |   7 +
+ .../media/v4l/vidioc-subdev-g-routing.rst     |  40 +-
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ drivers/media/i2c/ccs/ccs-core.c              | 859 ++++++++++++------
+ drivers/media/i2c/ccs/ccs-quirk.h             |   7 +
+ drivers/media/i2c/ccs/ccs.h                   |  23 +-
+ drivers/media/mc/mc-entity.c                  |  10 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  19 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         | 145 +--
+ include/media/v4l2-subdev.h                   |  98 ++
+ include/uapi/linux/media-bus-format.h         |  12 +
+ include/uapi/linux/media.h                    |   1 +
+ include/uapi/linux/v4l2-mediabus.h            |  18 +-
+ include/uapi/linux/v4l2-subdev.h              |   8 +-
+ include/uapi/linux/videodev2.h                |  18 +
+ 24 files changed, 1799 insertions(+), 365 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
+
+
+base-commit: 0fa78064f6e3a354616fb24462864900c0db3191
+-- 
+2.39.2
+
