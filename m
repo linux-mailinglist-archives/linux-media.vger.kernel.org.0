@@ -2,107 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7617B661C
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 12:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB8AE7B6670
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 12:31:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239858AbjJCKNZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 06:13:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
+        id S231657AbjJCKbQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 06:31:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230426AbjJCKNY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 06:13:24 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BFB3A3
-        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 03:13:20 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-99357737980so126243866b.2
-        for <linux-media@vger.kernel.org>; Tue, 03 Oct 2023 03:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696327998; x=1696932798; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=fWLtro2SUdPDWFW4xz0kwpbzpSYWcrJyQJgzLGk5aoI=;
-        b=BlYZnVXqt2QaPTYYO0aZGbCDGx+Me5VzXo49WKEeSPZOAu5V6/vbJvg2hA9ilsHryn
-         Sm7WrLkAWlUv8FPvAuYM5yEeResNk8s7BhhktB13cPah170sECttbCSKdILm4UVcOueE
-         aa89Ewr+RFv+H9xefgj7TenKMoIl98uNtAIMHbM8WI4Ks2fWQCKAzjljEQY4b6NXc6vb
-         jP3sS7V86Gt6RwORGO5DoGOmMf0ecFYllc0VzkAtUjKd1jfSBljsRRfzWGp75h72tmeY
-         X2XwNRrgAT9GyiWzn9U7uqH7iRj4EQhI0EcTvePXxegWaU00Lb7eF6DkBZlBqaYMb7Bh
-         hKlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696327998; x=1696932798;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fWLtro2SUdPDWFW4xz0kwpbzpSYWcrJyQJgzLGk5aoI=;
-        b=R9KaQxUv4AbbbV6LN1cq3hGDWq1YiiTKJH2M/8DQtPqpClSzD6XizbxZ6c80WAAzAx
-         TAG4FvV4FcRtaElNxGAfRpGEclBF7yyR/lIEFcvNLqhXt1+CDzhY7ppBBwAD6THPMo5c
-         Q0LfozaXEwkowrMSXdnNNTTp4F3OUDOb43l0mXwZGQT2DOu3avD4kK1YcrvVq0pXDPSj
-         xWdGOiLVbVkYwQiGxB/tMVjY+jVhUIYDwXvMLiJHD4aW6qPmbEN0/ERaQ1ZnRvynRbGz
-         TYDdYqiu7RCWeuIoxgKmhNK+dfE1Mubyh0eaC3pU8vDhVhKmrUr4YV/TscS3NfX0KxBt
-         xKPQ==
-X-Gm-Message-State: AOJu0YxmgjCu10RnWcxVOcqY8g9ijBmeWsnWiR6UFsxb0SaffgltMZ1x
-        aIC+6mpnUbWujiZoONvLeR0=
-X-Google-Smtp-Source: AGHT+IH93ff43GCgFLONw96XOTR/v8pA1LDvnQR+DPPZHgrdfwf4M/K+S0YFDHex2fH2V+Z1NSYTMQ==
-X-Received: by 2002:a17:907:d13:b0:9b2:6c37:22ee with SMTP id gn19-20020a1709070d1300b009b26c3722eemr13876566ejc.21.1696327998492;
-        Tue, 03 Oct 2023 03:13:18 -0700 (PDT)
-Received: from [10.9.136.59] ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id gr5-20020a170906e2c500b0099315454e76sm786742ejb.211.2023.10.03.03.13.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Oct 2023 03:13:18 -0700 (PDT)
-Message-ID: <069207da98e6445f0c70c74ba1e1bdb7c46ba25a.camel@gmail.com>
-Subject: Re: [PATCH 12/15] media: add Kconfig and Makefile for IPU6
-From:   Andreas Helbech Kleist <andreaskleist@gmail.com>
-To:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
-        hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com
-Date:   Tue, 03 Oct 2023 12:13:17 +0200
-In-Reply-To: <20230727071558.1148653-13-bingbu.cao@intel.com>
-References: <20230727071558.1148653-1-bingbu.cao@intel.com>
-         <20230727071558.1148653-13-bingbu.cao@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+        with ESMTP id S231623AbjJCKbP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 06:31:15 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4039B7
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 03:31:11 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5b9d:c703:a536:8d7b])
+        by baptiste.telenet-ops.be with bizsmtp
+        id tNX32A00N0Gl2EY01NX3wN; Tue, 03 Oct 2023 12:31:08 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qncfm-0057Jk-7h;
+        Tue, 03 Oct 2023 12:31:03 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qncYR-00FiqG-Fa;
+        Tue, 03 Oct 2023 12:23:03 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: media: renesas,vin: Fix field-even-active spelling
+Date:   Tue,  3 Oct 2023 12:22:57 +0200
+Message-Id: <c999eef0a14c8678f56eb698d27b2243e09afed4.1696328563.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+make dt_binding_check:
 
-On Thu, 2023-07-27 at 15:15 +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
->=20
-> Add IPU6 support in Kconfig and Makefile, with this patch you can
-> build the Intel IPU6 and input system modules by select the
-> CONFIG_VIDEO_INTEL_IPU6 in config.
+    field-active-even: missing type definition
 
-> +++ b/drivers/media/pci/intel/ipu6/Kconfig
-> @@ -0,0 +1,15 @@
-> +config VIDEO_INTEL_IPU6
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tristate "Intel IPU6 driver"
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on ACPI || COMPILE_TES=
-T
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on MEDIA_SUPPORT
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on MEDIA_PCI_SUPPORT
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on X86 && X86_64
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select IOMMU_IOVA
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select VIDEOBUF2_DMA_CONTIG
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select V4L2_FWNODE
+The property is named "field-even-active", not "field-active-even".
 
-This is still missing VIDEO_V4L2_SUBDEV_API as mentioned in the RFC
-series:
-https://lore.kernel.org/all/20230706085736.1915096-1-andreaskleist@gmail.co=
-m/
+Fixes: 3ab7801dfab998a2 ("media: dt-bindings: media: rcar-vin: Describe optional ep properties")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/devicetree/bindings/media/renesas,vin.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
-Andreas
+diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+index 324703bfb1bded3a..5539d0f8e74d2e82 100644
+--- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+@@ -95,7 +95,7 @@ properties:
+               synchronization is selected.
+             default: 1
+ 
+-          field-active-even: true
++          field-even-active: true
+ 
+           bus-width: true
+ 
+@@ -144,7 +144,7 @@ properties:
+                   synchronization is selected.
+                 default: 1
+ 
+-              field-active-even: true
++              field-even-active: true
+ 
+               bus-width: true
+ 
+-- 
+2.34.1
+
