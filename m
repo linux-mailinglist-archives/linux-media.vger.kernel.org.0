@@ -2,116 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1335A7B6411
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 10:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 057437B6483
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 10:40:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239412AbjJCIaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 04:30:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35424 "EHLO
+        id S230441AbjJCIke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 04:40:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239398AbjJCIaR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 04:30:17 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76BAC97
-        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 01:30:14 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50573e85ee0so727065e87.3
-        for <linux-media@vger.kernel.org>; Tue, 03 Oct 2023 01:30:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696321813; x=1696926613; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tCVLlGuDttXDAeKBU2+UulxgkQbSJpXxQEIW9ibhWmE=;
-        b=XtV2aQ5pP3lijq+WPAGkg0AonpQvNinUqaEFjGYaTtgLgElc/rHZDyudwKEeOmW4Rj
-         gYLN2Jv2nxOkIjGxAjdY3g3eHJmR9Fk1fZXCHylRl505aMlAzcEZjUnNDoqst+l4crFx
-         HVIqcXbAMr+cUQvBBeQ/Dn3Daz6pMnAfwUN3Pg5JwKtt6KucIMOqKnrsuL8ZrB/gymd2
-         nsMiKk+nXbozizb9/Wcv1RNWwpsD4FzVXjgA9QscN73gkoOAxKzSBwFIxS1IEmmoUy0c
-         XNEANSME1h/nwbucZZrSBkjtQRDgTdwIvyfQ992SJ4eTg711bFsNy8fAn+yAblJr9Dgx
-         sy7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696321813; x=1696926613;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tCVLlGuDttXDAeKBU2+UulxgkQbSJpXxQEIW9ibhWmE=;
-        b=eoXROrgIIWNZK4lIuEy+k0lVDA71E7aFZBLypU1FvqSFm6USIVr/qFx+Gtcm3HrMaE
-         dw+cXnSw2GZa9FJRBVLaRAlUnacfhAt5gfPTSOgHnTZo697WJRqc44avpOiPp/ljISfV
-         3A9/bSKSGvViH2+wSEdu0ocvU0Jz51xhme1Euzf32bq+MwXqYFekpE+6olmhVuyyv4s+
-         61amEiIEcDjsbImTn6ijqum5CZ9WcYC1/BA5ZhXkIoHJknk9vX9rkqN3lhq7g9/c3nDA
-         hYJVwhF8R+zEQ8XeF8g7Ft1z07fpJLXwwYs+bYXN0KTAFCzM0R+C0kQlKprUhkNn2mVl
-         mzZQ==
-X-Gm-Message-State: AOJu0YxgGjPHGwaWAcPrkzB9mbxOIu26QdHZgkID+P9HyU+DRo9HV8QH
-        /WLRBFsdAs2I/IlAPATtbbaffQ==
-X-Google-Smtp-Source: AGHT+IF5jqCZuut1egRUR+esMIoO1bSWn9DsA6o33yNuDo0JmBUPqEnTCoPt8mrVyD2S7D9i02Vjdg==
-X-Received: by 2002:a05:6512:360a:b0:502:d35b:5058 with SMTP id f10-20020a056512360a00b00502d35b5058mr10185024lfs.4.1696321812713;
-        Tue, 03 Oct 2023 01:30:12 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q20-20020a1cf314000000b00401b242e2e6sm8801252wmq.47.2023.10.03.01.30.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Oct 2023 01:30:11 -0700 (PDT)
-Date:   Tue, 3 Oct 2023 11:30:09 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     "T.J. Mercier" <tjmercier@google.com>
-Cc:     John Stultz <jstultz@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] dma-buf: heaps: Fix off by one in cma_heap_vm_fault()
-Message-ID: <04ea5706-7373-48c4-a93e-e69c50816a0b@kadam.mountain>
-References: <bc145167-0471-4ab3-935c-aa5dc20e342a@moroto.mountain>
- <CABdmKX1PsCcRpsnUgwoS9yMhCXcin1bQt6D+N0b2mHP93cmX-A@mail.gmail.com>
+        with ESMTP id S230259AbjJCIkd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 04:40:33 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46D9A3;
+        Tue,  3 Oct 2023 01:40:29 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2FBB660005;
+        Tue,  3 Oct 2023 08:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1696322428;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YD9yrtCBZymzxDesfTQGfoyNHVBYtaajgX0MUzZwAM4=;
+        b=it9nvDErLS3Dkumv3tt0+U8MyhdevvVnbQwCziN4asSKSbyARA7h9PvLo2sfSHeQ6e5jnb
+        JyeqldpAwATrCmH2XtT9x8Uw3Kn+BtEvm96fyJkzGiTW/dj/1eeamkmoliQ0dLQcNsp9Cr
+        tC5Jj9xnsOUIYT1LC0IlFPyGpWbUXbncdlz2ve6LVYaAWeKEFaSJ1J1fpJHRSmMie8N2C5
+        peoKR0TaXLkVUFr6dYTvhoEAReeN2XF9TrNgVavMYJcRI9yj8lskfA4XGUssgqclYZoHzi
+        WOkyfGmE4MfbaGOXlwkNmtNL2iCsou3zL9/P1oQ4sDqQMQb/tvQiK4/TcmOv2w==
+Date:   Tue, 3 Oct 2023 10:40:22 +0200
+From:   Mehdi Djait <mehdi.djait@bootlin.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     mchehab@kernel.org, heiko@sntech.de, ezequiel@vanguardiasur.com.ar,
+        hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, paul.kocialkowski@bootlin.com,
+        miquel.raynal@bootlin.com, maxime.chevallier@bootlin.com,
+        luca.ceresoli@bootlin.com, thomas.petazzoni@bootlin.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 1/3] media: dt-bindings: media: add rockchip-vip
+Message-ID: <ZRvTdm5cTMT1tHlM@pc-86.home>
+References: <cover.1695981374.git.mehdi.djait@bootlin.com>
+ <6fa90df50c201dec70165c5138bc837f5a8829b5.1695981374.git.mehdi.djait@bootlin.com>
+ <20231002171801.GA1942512-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABdmKX1PsCcRpsnUgwoS9yMhCXcin1bQt6D+N0b2mHP93cmX-A@mail.gmail.com>
+In-Reply-To: <20231002171801.GA1942512-robh@kernel.org>
+X-GND-Sasl: mehdi.djait@bootlin.com
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 02, 2023 at 10:16:24AM -0700, T.J. Mercier wrote:
-> On Mon, Oct 2, 2023 at 12:04 AM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> >
-> > The buffer->pages[] has "buffer->pagecount" elements so this > comparison
-> > has to be changed to >= to avoid reading beyond the end of the array.
-> > The buffer->pages[] array is allocated in cma_heap_allocate().
-> >
-> > Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Hello Rob,
+
+Thank you for the review!
+
+On Mon, Oct 02, 2023 at 12:18:01PM -0500, Rob Herring wrote:
+> On Fri, Sep 29, 2023 at 12:08:00PM +0200, Mehdi Djait wrote:
+> > Add a documentation for the Rockchip Camera Interface controller
+> > binding.
+> > 
+> > This controller can be found on platforms such as the PX30 or
+> > RK1808, RK3128 and RK3288. The PX30 is the only platform
+> > supported so far.
+> > 
+> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
 > > ---
-> >  drivers/dma-buf/heaps/cma_heap.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> > index ee899f8e6721..bea7e574f916 100644
-> > --- a/drivers/dma-buf/heaps/cma_heap.c
-> > +++ b/drivers/dma-buf/heaps/cma_heap.c
-> > @@ -165,7 +165,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *vmf)
-> >         struct vm_area_struct *vma = vmf->vma;
-> >         struct cma_heap_buffer *buffer = vma->vm_private_data;
-> >
-> > -       if (vmf->pgoff > buffer->pagecount)
-> > +       if (vmf->pgoff >= buffer->pagecount)
-> >                 return VM_FAULT_SIGBUS;
-> >
-> Hi Dan,
+> >  .../bindings/media/rockchip-vip.yaml          | 91 +++++++++++++++++++
 > 
-> Your fix looks correct to me, but I'm curious if you observed this
-> problem on a device? The mmap in dma-buf.c looks like it prevents
-> creating a mapping that is too large, and I think an access beyond the
-> VMA should segfault before reaching here.
+> filename should match compatible.
+> 
+> >  1 file changed, 91 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/rockchip-vip.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/rockchip-vip.yaml b/Documentation/devicetree/bindings/media/rockchip-vip.yaml
+> > new file mode 100644
+> > index 000000000000..33c603209c39
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/rockchip-vip.yaml
+> > @@ -0,0 +1,91 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/rockchip-vip.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Rockchip VIP Camera Interface
+> > +
+> > +maintainers:
+> > +  - Mehdi Djait <mehdi.djait@bootlin.com>
+> > +
+> > +description: |-
+> 
+> Don't need '|-'.
+> 
+> > +  Rockchip Video Input Processor present on PX30, RK1808, RK3128 and RK3288
+> 
+> Write complete sentences.
+> 
+> 
+> 
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: rockchip,px30-vip
+> 
+> I see 4 SoCs listed, but only 1 compatible.
+> 
 
-This is from static analysis and not from testing.  You could be correct
-that this bug can't affect real life.
+PX30 is the only SoC I have used to test the driver. What is the best
+way to proceed here ? Change the description ?
 
-regards,
-dan carpenter
+ack for all the other comments. 
 
+--
+Kind Regards
+Mehdi Djait
