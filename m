@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6886C7B684D
-	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 13:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A5E57B684E
+	for <lists+linux-media@lfdr.de>; Tue,  3 Oct 2023 13:52:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232048AbjJCLwv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 07:52:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50374 "EHLO
+        id S240493AbjJCLwx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 07:52:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231770AbjJCLwv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 07:52:51 -0400
+        with ESMTP id S231770AbjJCLww (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 07:52:52 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C185A3
-        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 04:52:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 506A1A6
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 04:52:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696333967; x=1727869967;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=wsZ/8+fd17aNRWSHmrpF1unVeKzGzdV1oL5r4Wt3/5o=;
-  b=JaOEO1eWt/zb34N7TKGCc/tgBsLt2x9+ENArbGGzfWCQgXxHGaxlpLN0
-   i24BkOTeAg8dUNDVdP6U2g2u43RP+GZU9NVJtOqV2Mkrx9Ept2EpmkfKb
-   Ugo4KSUVpZN8PYw0OZBYkc5Oj2yJMZZSn1iX67FVpVlINzIyxaYzfAAtj
-   e0e2UIBLRB1ukSEeenuokyqn55sY9CVngIH1kc1+twoy8DbXnjMNb79d0
-   Dmm8Tc4TByweilM0cYNsOSwSqOqVdYw9aDvgebArqD3VCzmH63Jx3rvJL
-   w1Zy7Dvn4QsbgRtovQEsANxSDdx1VbAOVN043DC6UcMMQuroXOeWTwgDf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="413767100"
+  t=1696333969; x=1727869969;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=kn0wzA+uAt7xFQzvaxyZOJ5t8GgKMQyISUwz6L8y9gw=;
+  b=g40qcmfOT6HJdxA9Hkeqw83byeDAUjb1W51R8Us372WqMIcDFBXU7Bgr
+   ycAmCEU2lllEFtpN629koNC1l61gGcEudGMq2EKE5mk0a+xfJVDzyStol
+   YnS8SwbQHz1FqftDJZC0YmgTiqtX+PzH0l6LnUYjL5lwcPtsVC9WOjqvU
+   0yCXnMYIWjRlAaIoosSJFMwN9CrktcWN/PTag63BRPBZyj5H2cHlrmPA3
+   OQEP3o8sFDdYXngkGuD58zh6W9QlQW8EpEcZEtn8kScuaVESDYzPWMBRR
+   og5c8e0nOfBiXeuuEOB57JTOsqFrKejZBVC1UJ2i76V50TryZ5962nXNR
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="413767097"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="413767100"
+   d="scan'208";a="413767097"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 04:52:47 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 04:52:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="816650477"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="816650485"
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="816650477"
+   d="scan'208";a="816650485"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 04:52:42 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 2DF09120797;
-        Tue,  3 Oct 2023 14:52:38 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 788AB120A2E;
+        Tue,  3 Oct 2023 14:52:39 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -50,10 +50,12 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH v6 00/28] Generic line based metadata support, internal pads
-Date:   Tue,  3 Oct 2023 14:52:28 +0300
-Message-Id: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
+Subject: [PATCH v6 01/28] media: mc: Add INTERNAL pad flag
+Date:   Tue,  3 Oct 2023 14:52:29 +0300
+Message-Id: <20231003115237.76828-2-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
+References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -66,284 +68,108 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi folks,
-
-Here are a few patches to add support generic, line based metadata as well
-as internal pads. While the amount of code is not very large, to the
-contrary it is quite small actually IMO, I presume what this is about and
-why it is being proposed requires some explaining.
-
-Metadata mbus codes and formats have existed for some time in V4L2. They
-however have been only used by drivers that produce the data itself and
-effectively this metadata has always been statistics of some sort (at
-least when it comes to ISPs). What is different here is that we intend to
-add support for metadata originating from camera sensors.
-
-Camera sensors produce different kinds of metadata, embedded data (usually
-register address--value pairs used to capture the frame, in a more or less
-sensor specific format), histograms (in a very sensor specific format),
-dark pixels etc. The number of these formats is probably going to be about
-as large as image data formats if not larger, as the image data formats
-are much better standardised but a smaller subset of them will be
-supported by V4L2, at least initially but possibly much more in the long
-run.
-
-Having this many device specific formats would be a major problem for all
-the other drivers along that pipeline (not to mention the users of those
-drivers), including bridge (e.g. CSI-2 to parallel) but especially CSI-2
-receiver drivers that have DMA: the poor driver developer would not only
-need to know camera sensor specific formats but to choose the specific
-packing of that format suitable for the DMA used by the hardware. It is
-unlikely many of these would ever get tested while being present on the
-driver API. Also adding new sensors with new embedded data formats would
-involve updating all bridge and CSI-2 receiver drivers. I don't expect
-this to be a workable approach.
-
-Instead what I'm proposing is to use specific metadata formats on the
-sensor devices only, on internal pads (more about those soon) of the
-sensors, only visible in the UAPI, and then generic mbus formats along the
-pipeline and finally generic V4L2 metadata formats on the DMAs (specific
-to bit depth and packing). This would unsnarl the two, defining what data
-there is (specific mbus code) and how that is transported and packed
-(generic mbus codes and V4L2 formats).
-
-The user space would be required to "know" the path of that data from the
-sensor's internal pad to the V4L2 video node. I do not see this as these
-devices require at least some knowledge of the pipeline, i.e. hardware at
-hand. Separating what the data means and how it is packed may even be
-beneficial: it allows separating code that interprets the data (sensor
-internal mbus code) from the code that accesses it (packing).
-
-These formats are in practice line based, meaning that there may be
-padding at the end of the line, depending on the bus as well as the DMA.
-If non-line based formats are needed, it is always possible to set the
-"height" field to 1.
-
-The internal (source) pads are an alternative to source routes [1]. The
-source routes were not universally liked and I do have to say I like
-re-using existing interface concepts (pads and everything you can do with
-pads, including access format, selections etc.) wherever it makes sense,
-instead of duplicating functionality.
-
-Effectively internal source pads behave mostly just like sink pads, but
-they describe a flow of data that originates from a sub-device instead of
-arriving to a sub-device. The SUBDEV_S_ROUTING IOCTLs are used to enable
-and disable routes from internal source pads to sub-device's source pads.
-The subdev format IOCTLs are usable, too, so one can find which subdev
-format is available on given internal source pad.
-
-This set depends on these patches:
-
-<URL:https://lore.kernel.org/linux-media/20231002105557.28972-1-sakari.ailus@linux.intel.com/T/#t>
-
-I've also pushed these here and I'll keep updating the branch, I've also
-included untested OV2740 patches:
-
-<URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata>
-
-Questions and comments are most welcome.
-
-Preliminary media-ctl and yavta patches can be found here:
-
-<URL:https://git.retiisi.eu/?p=~sailus/yavta.git;a=shortlog;h=refs/heads/metadata>
-<URL:https://git.retiisi.eu/?p=~sailus/v4l-utils.git;a=shortlog;h=refs/heads/metadata>
-
-I have used IMX219 as an example on routing in a sensor driver in this
-version. I also hope I can add OV2740 support in the next version after
-testing the patches.
-
-[1] <URL:https://lore.kernel.org/linux-media/20220831141357.1396081-20-tomi.valkeinen@ideasonboard.com/>
-
-since v5:
-
-- Rebase on new set of preparation patches.
-
-- Switch CCS driver from s_stream to enable_streams/disable_streams. Keep
-  streaming state information --- the sensor remains in streaming state if
-  any of the streams is enabled.
-
-- Fix setting mbus code on embedded data in get_frame_desc() op in the CCS
-  driver.
-
-since v4:
-
-- Add a patch to acquire two sub-device states that may use the same lock.
-
-- Add a patch for CCS driver to remove ccs_get_crop_compose() helper.
-
-- Add a patch for CCS driver moving acquiring and releasing the mutex to
-  the s_stream callback.
-
-- Add a patch for CCS driver to rely on sub-device state locking using a
-  single driver-provided lock.
-
-- Fixed calculating minimum number of routes in copying the routes
-  (thanks, Laurent).
-
-- Moved a label in S_ROUTING handling to make Clang happy (hopefully).
-
-- Fixed setting emb_data_ctrl register for CCS embedded data support.
-
-- Rebase on Laurent's cleanup patches.
-
-- Wrap a few long lines.
-
-- Write in embedded data documentation sensor drivers generally don't
-  allow configuring it.
-
-since v3:
-
-- Separate preparation patches from this set.
-
-- Add a definition for "Data unit", a pixel that is not image data and use
-  it instead in format documentation.
-
-- Fix more numbered lists in dev-subdev.rst.
-
-- Remove a redundant definition for V4L2_META_FMT_GENERIC_CSI2_2_24 ---
-  V4L2_META_FMT_GENERIC_CSI2_12 can be used instead.
-
-- Use "X" instead of "p" to denote padding in format documentation.
-
-- Use IMX219 in examples instead of CCS.
-
-- Document that the generic V4L2 CSI-2 metadata formats use padding
-  defined in CSI-2 spec and packing defined in CCS spec.
-
-- Add patches to align [GS]_ROUTING behaviour with V4L2. This means mainly
-  returning configured routes as part of S_ROUTING as well. "len_routes"
-  field is added to denote the length of the array and having more routes
-  than fits in the array is no longer an error. Also added more reserved
-  fields.
-
-- Added trivial support for S_ROUTING (via G_ROUTING implementation) for
-  use in drivers with static-only routes.
-
-- Added helper functions to obtain mbus format as well as crop and compose
-  rectangles that are streams-independent.
-
-- Added a patch to define generic CSI-2 long packet types.
-
-- Removed MEDIA_BUS_FMT_IS_META() macro. It didn't seem useful in the end.
-
-- Use a single CCS embedded data format. The bit depth can be selected
-  using the meta stream on the source pad.
-
-- Fix mbus code numbers (there were holes due to removed redundant
-  formats).
-
-- Fix generic mbus code documentation (byte was being used instead of
-  bit).
-
-- Fix spelling of "length".
-
-- Added a patch to remove v4l2_subdev_enable_streams_api that disables
-  streams API. This should be merged once libcamera support for streams
-  works nicely.
-
-- Don't use strings in printing frame descriptor flags.
-
-- Warn on string truncation in printing frame descriptor.
-
-since v2:
-
-- Add a better example, with formats.
-
-- Add CCS static data media bus codes.
-
-- Added an example demonstrating the use of internal pads. --- Is the
-  level of detail enough for the purpose?
-
-- Improved documentation.
-
-- Added a macro to tell whether a format is a metadata format.
-  (Documentation could be added.)
-
-- A small ReST syntax fix in the same section.
-
-- Drop leftovers of a patch checking for the INTERNAL_SOURCE flag.
-
-since v1:
-
-- Make the new pad flag just "INTERNAL", requiring either SINK or SOURCE
-  pad flag to accompany it. Removed the union in struct v4l2_subdev_route.
-
-- Add the term "stream" to MC glossary.
-
-- Improved and fixed documentation (according to comments).
-
-- Note these formats are little endian.
-
-- Remove 1X8 from the names of the mbus codes. These formats have generally
-  8 bits per pixel.
-
-- Fix mbus code numbering (had holes in RFC).
-
-- Add new metadata fields to debug prints.
-
-- Fix a minor documentation build issue.
-
-Sakari Ailus (28):
-  media: mc: Add INTERNAL pad flag
-  media: uapi: Add generic serial metadata mbus formats
-  media: uapi: Document which mbus format fields are valid for metadata
-  media: uapi: Add generic 8-bit metadata format definitions
-  media: v4l: Support line-based metadata capture
-  media: uapi: ccs: Add media bus code for MIPI CCS embedded data
-  media: Documentation: ccs: Document routing
-  media: Documentation: Additional streams generally don't harm capture
-  media: Documentation: Document embedded data guidelines for camera
-    sensors
-  media: Documentation: v4l: Document source routes
-  media: Documentation: Document S_ROUTING behaviour
-  media: v4l: subdev: Add helpers for format, crop and compose pointers
-  media: v4l: subdev: Add a function to lock two sub-device states, use
-    it
-  media: v4l: subdev: Move G_ROUTING handling below S_ROUTING
-  media: v4l: subdev: Copy argument back to user also for S_ROUTING
-  media: v4l: subdev: Add len_routes field to struct v4l2_subdev_routing
-  media: v4l: subdev: Return routes set using S_ROUTING
-  media: uapi: Allow a larger number of routes than there's room for
-  media: v4l: subdev: Add trivial set_routing support
-  media: uapi: v4l: subdev: Enable streams API
-  media: ccs: No need to set streaming to false in power off
-  media: ccs: Use {enable,disable}_streams operations
-  media: ccs: Track streaming state
-  media: ccs: Move ccs_validate_csi_data_format up
-  media: ccs: Support frame descriptors
-  media: ccs: Add support for embedded data stream
-  media: ccs: Remove ccs_get_crop_compose helper
-  media: ccs: Rely on sub-device state locking
-
- .../media/drivers/camera-sensor.rst           |  28 +
- .../userspace-api/media/drivers/ccs.rst       |  34 +-
- .../userspace-api/media/glossary.rst          |  14 +
- .../media/mediactl/media-types.rst            |   6 +
- .../userspace-api/media/v4l/dev-meta.rst      |  15 +
- .../userspace-api/media/v4l/dev-subdev.rst    | 208 ++++-
- .../userspace-api/media/v4l/meta-formats.rst  |   1 +
- .../media/v4l/metafmt-generic.rst             | 304 +++++++
- .../media/v4l/subdev-formats.rst              | 288 ++++++
- .../media/v4l/vidioc-enum-fmt.rst             |   7 +
- .../media/v4l/vidioc-subdev-g-routing.rst     |  40 +-
- .../media/videodev2.h.rst.exceptions          |   1 +
- drivers/media/i2c/ccs/ccs-core.c              | 859 ++++++++++++------
- drivers/media/i2c/ccs/ccs-quirk.h             |   7 +
- drivers/media/i2c/ccs/ccs.h                   |  23 +-
- drivers/media/mc/mc-entity.c                  |  10 +-
- drivers/media/v4l2-core/v4l2-ioctl.c          |  19 +-
- drivers/media/v4l2-core/v4l2-subdev.c         | 145 +--
- include/media/v4l2-subdev.h                   |  98 ++
- include/uapi/linux/media-bus-format.h         |  12 +
- include/uapi/linux/media.h                    |   1 +
- include/uapi/linux/v4l2-mediabus.h            |  18 +-
- include/uapi/linux/v4l2-subdev.h              |   8 +-
- include/uapi/linux/videodev2.h                |  18 +
- 24 files changed, 1799 insertions(+), 365 deletions(-)
- create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
-
-
-base-commit: 0fa78064f6e3a354616fb24462864900c0db3191
+Internal source pads will be used as routing endpoints in V4L2
+[GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
+
+Also prevent creating links to pads that have been flagged as internal and
+initialising source pads with internal flag set.
+
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ Documentation/userspace-api/media/glossary.rst         |  6 ++++++
+ .../userspace-api/media/mediactl/media-types.rst       |  6 ++++++
+ drivers/media/mc/mc-entity.c                           | 10 ++++++++--
+ include/uapi/linux/media.h                             |  1 +
+ 4 files changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
+index 96a360edbf3b..f7b99a4527c7 100644
+--- a/Documentation/userspace-api/media/glossary.rst
++++ b/Documentation/userspace-api/media/glossary.rst
+@@ -173,6 +173,12 @@ Glossary
+ 	An integrated circuit that integrates all components of a computer
+ 	or other electronic systems.
+ 
++_media-glossary-stream:
++    Stream
++	A distinct flow of data (image data or metadata) over a media pipeline
++	from source to sink. A source may be e.g. an image sensor and a sink
++	e.g. a memory buffer.
++
+     V4L2 API
+ 	**V4L2 userspace API**
+ 
+diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+index 0ffeece1e0c8..28941da27790 100644
+--- a/Documentation/userspace-api/media/mediactl/media-types.rst
++++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+@@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
+ .. _MEDIA-PAD-FL-SINK:
+ .. _MEDIA-PAD-FL-SOURCE:
+ .. _MEDIA-PAD-FL-MUST-CONNECT:
++.. _MEDIA-PAD-FL-INTERNAL:
+ 
+ .. flat-table:: Media pad flags
+     :header-rows:  0
+@@ -382,6 +383,11 @@ Types and flags used to represent the media graph elements
+ 	  when this flag isn't set; the absence of the flag doesn't imply
+ 	  there is none.
+ 
++    *  -  ``MEDIA_PAD_FL_INTERNAL``
++       -  The internal flag indicates an internal pad that has no external
++	  connections. Such a pad shall not be connected with a link. The
++	  internal flag indicates that the :ref:``stream
++	  <media-glossary-stream>`` either starts or ends in the entity.
+ 
+ One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
+ must be set for every pad.
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 543a392f8635..f5f290781021 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -213,7 +213,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+ 		iter->index = i++;
+ 
+ 		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
+-					     MEDIA_PAD_FL_SOURCE)) != 1) {
++					     MEDIA_PAD_FL_SOURCE)) != 1 ||
++		    (iter->flags & MEDIA_PAD_FL_INTERNAL &&
++		     !(iter->flags & MEDIA_PAD_FL_SINK))) {
+ 			ret = -EINVAL;
+ 			break;
+ 		}
+@@ -1075,7 +1077,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
+ 
+ 	for (i = 0; i < entity->num_pads; i++) {
+ 		if ((entity->pads[i].flags &
+-		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
++		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
++		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
+ 			continue;
+ 
+ 		if (entity->pads[i].sig_type == sig_type)
+@@ -1100,6 +1103,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
+ 		return -EINVAL;
+ 	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
+ 		return -EINVAL;
++	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL) ||
++	    WARN_ON(source->pads[sink_pad].flags & MEDIA_PAD_FL_INTERNAL))
++		return -EINVAL;
+ 
+ 	link = media_add_link(&source->links);
+ 	if (link == NULL)
+diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+index 1c80b1d6bbaf..80cfd12a43fc 100644
+--- a/include/uapi/linux/media.h
++++ b/include/uapi/linux/media.h
+@@ -208,6 +208,7 @@ struct media_entity_desc {
+ #define MEDIA_PAD_FL_SINK			(1U << 0)
+ #define MEDIA_PAD_FL_SOURCE			(1U << 1)
+ #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
++#define MEDIA_PAD_FL_INTERNAL			(1U << 3)
+ 
+ struct media_pad_desc {
+ 	__u32 entity;		/* entity ID */
 -- 
 2.39.2
 
