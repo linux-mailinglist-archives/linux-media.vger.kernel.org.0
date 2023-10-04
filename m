@@ -2,97 +2,281 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D57227B78CF
-	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 09:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E71FD7B78ED
+	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 09:44:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241495AbjJDHex (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Oct 2023 03:34:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37884 "EHLO
+        id S241550AbjJDHoB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Oct 2023 03:44:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241544AbjJDHew (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 03:34:52 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 053D9AD
-        for <linux-media@vger.kernel.org>; Wed,  4 Oct 2023 00:34:49 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D57C433C8;
-        Wed,  4 Oct 2023 07:34:47 +0000 (UTC)
-Message-ID: <f1535da7-b5bd-4cef-b2b5-cf08c4c2aa62@xs4all.nl>
-Date:   Wed, 4 Oct 2023 09:34:46 +0200
+        with ESMTP id S232761AbjJDHn7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 03:43:59 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 317599B;
+        Wed,  4 Oct 2023 00:43:55 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 2A5EB100092; Wed,  4 Oct 2023 08:43:53 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1696405433; bh=1nteSVKD+/K8wn+sogKzmMSMVdu1ePZDwxTQ14oQaVI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DA3Ii5GqPrIMzCb7NZBj2Sx80QP4HbbpMwtL6rl6spGihosQ42euaxqsJuHG+Noo8
+         IkHd9lxkA+HiLy6Ycj7TRg5hL6YGUeLgppeYC41/Hi/x/tKQ5PsW4YvUhQW7F6C2UC
+         U+oBgJBiaobkDNjtY9wBHklcoaZyEaz9hJKRmTbX8rLw+PGH+T/hGZKq9Wa14rvsL0
+         E7jvYMUW1b7oKx+zovAl6TH4CndJAmyY+MS5FR+GE1ZgErGxLGfelPA3o2HZqbhVwn
+         I3pxsrVMDwJ30cjWWYFcYcCOOyFmHDkITr5f9ehiyMeqY9wcMqDlOxWhAEE+wKWHN+
+         HoaagrFpd2Y+w==
+Date:   Wed, 4 Oct 2023 08:43:53 +0100
+From:   Sean Young <sean@mess.org>
+To:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: pwm-ir-tx: trigger edges from hrtimer
+ interrupt context
+Message-ID: <ZR0Xue8Mu8VZIxm5@gofer.mess.org>
+References: <cover.1696156485.git.sean@mess.org>
+ <7efe4229514001b835fa70d51973cd3306dc0b04.1696156485.git.sean@mess.org>
+ <5982681d-4fb5-0271-fdc5-712d6c8512e3@gmail.com>
+ <ZRp9RE2jOZdL0+1/@gofer.mess.org>
+ <7075cfd7-847e-8d28-72be-93761b36b0e0@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: How to shut up smatch warning "use 'gfp_buf_flags' here instead of
- GFP_KERNEL?"
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7075cfd7-847e-8d28-72be-93761b36b0e0@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+Hi,
 
-I'm trying to 'fix' three smatch warnings in the media subsystem:
+On Mon, Oct 02, 2023 at 12:52:00PM +0300, Ivaylo Dimitrov wrote:
+> On 2.10.23 г. 11:20 ч., Sean Young wrote:
+> > On Mon, Oct 02, 2023 at 08:49:47AM +0300, Ivaylo Dimitrov wrote:
+> > > On 1.10.23 г. 13:40 ч., Sean Young wrote:
+> > > > The pwm-ir-tx driver has to turn the pwm signal on and off, and suffers
+> > > > from delays as this is done in process context. Make this work in atomic
+> > > > context.
+> > > > 
+> > > > This makes the driver much more precise.
+> > > > 
+> > > > Signed-off-by: Sean Young <sean@mess.org>
+> > > > Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+> > > > ---
+> > > >    drivers/media/rc/pwm-ir-tx.c | 79 ++++++++++++++++++++++++++++--------
+> > > >    1 file changed, 63 insertions(+), 16 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
+> > > > index c5f37c03af9c..557725a07a67 100644
+> > > > --- a/drivers/media/rc/pwm-ir-tx.c
+> > > > +++ b/drivers/media/rc/pwm-ir-tx.c
+> > > > @@ -10,6 +10,8 @@
+> > > >    #include <linux/slab.h>
+> > > >    #include <linux/of.h>
+> > > >    #include <linux/platform_device.h>
+> > > > +#include <linux/hrtimer.h>
+> > > > +#include <linux/completion.h>
+> > > >    #include <media/rc-core.h>
+> > > >    #define DRIVER_NAME	"pwm-ir-tx"
+> > > > @@ -17,8 +19,13 @@
+> > > >    struct pwm_ir {
+> > > >    	struct pwm_device *pwm;
+> > > > -	unsigned int carrier;
+> > > > -	unsigned int duty_cycle;
+> > > > +	struct hrtimer timer;
+> > > > +	struct completion completion;
+> > > > +	uint carrier;
+> > > > +	uint duty_cycle;
+> > > > +	uint *txbuf;
+> > > > +	uint txbuf_len;
+> > > > +	uint txbuf_index;
+> > > >    };
+> > > >    static const struct of_device_id pwm_ir_of_match[] = {
+> > > > @@ -55,33 +62,65 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+> > > >    	struct pwm_ir *pwm_ir = dev->priv;
+> > > >    	struct pwm_device *pwm = pwm_ir->pwm;
+> > > >    	struct pwm_state state;
+> > > > -	int i;
+> > > > -	ktime_t edge;
+> > > > -	long delta;
+> > > > +
+> > > > +	reinit_completion(&pwm_ir->completion);
+> > > 
+> > > You should not need that.
+> > 
+> > It does not work without it - the process doing the 2nd tx hangs indefinitely.
+> > 
+> 
+> that means your calls to wait_for_completion() / complete() do not match. I
+> think you should check why.
 
-drivers/media/common/siano/smscoreapi.c:650 smscore_register_device() warn: use 'gfp_buf_flags' here instead of GFP_KERNEL?
-drivers/media/common/siano/smscoreapi.c:689 smscore_register_device() warn: use 'gfp_buf_flags' here instead of GFP_KERNEL?
-drivers/staging/media/ipu3/ipu3-dmamap.c:42 imgu_dmamap_alloc_buffer() warn: use 'gfp' here instead of GFP_KERNEL?
+I've had a deeper look and you're right. Thanks!
 
-However, the code is perfectly fine, the 'gfp' flags are not for the initial allocation but
-used later one.
+> > > >    	pwm_init_state(pwm, &state);
+> > > >    	state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
+> > > >    	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
+> > > > +	state.enabled = false;
+> > > > -	edge = ktime_get();
+> > > > +	pwm_ir->txbuf = txbuf;
+> > > > +	pwm_ir->txbuf_len = count;
+> > > > +	pwm_ir->txbuf_index = 0;
+> > > > -	for (i = 0; i < count; i++) {
+> > > > -		state.enabled = !(i % 2);
+> > > > -		pwm_apply_state(pwm, &state);
+> > > > +	pwm_apply_state(pwm, &state);
+> > > 
+> > > ditto, first pwm control should be in the timer function
+> > 
+> > This requires keeping a copy of pwm_state in pwm_ir but does avoid the extra
+> > call to pwm_apply_state() here.
+> > 
+> 
+> not really, you can have pwm_state * pwm_ir member and pass pointer to the
+> stack variable.
 
-I don't really see a way to easily shut up smatch. Any suggestions?
+Ah, good point, I had not thought of that :)
 
-Regards,
+> > Having said that, the extra call to pwm_apply_state() may have benefits,
+> > see this comment in the pwm-sifive driver:
+> > 
+> >   * - When changing both duty cycle and period, we cannot prevent in
+> >   *   software that the output might produce a period with mixed
+> >   *   settings (new period length and old duty cycle).
+> > 
+> > So setting the duty cycle and period once with enabled = false prevents a
+> > first period with mixed settings (i.e. bogus).
+> > 
+> 
+> Who will enable pwm if not in tx? Like, doesn't the driver have exclusive
+> ownership of the pwm? Also, every transmission ends up wit pwm disabled, so
+> disabling it once again does not make sense to me.
 
-	Hans
+My only point was that if the period/duty cycle have changed, then the extra
+disable may set up the parameters in the pwm hardware correctly (according
+to this comment). Uwe has already responded saying this is not going to work,
+so this can be ignored.
+
+> > > > -		edge = ktime_add_us(edge, txbuf[i]);
+> > > > -		delta = ktime_us_delta(edge, ktime_get());
+> > > > -		if (delta > 0)
+> > > > -			usleep_range(delta, delta + 10);
+> > > > -	}
+> > > > +	hrtimer_start(&pwm_ir->timer, 1000, HRTIMER_MODE_REL);
+> > > 
+> > > why not just call it with 0 time?
+> > 
+> > Otherwise the timings are a little off for the first edge - hrtimer setup
+> > time, I think. I can experiment again.
+> > 
+> 
+> Why is that? Edge start is controlled by the calls in timer function, it
+> should not matter when it is called for the first time.
+
+Again, you're right.
+
+> > > > -	state.enabled = false;
+> > > > -	pwm_apply_state(pwm, &state);
+> > > > +	wait_for_completion(&pwm_ir->completion);
+> > > >    	return count;
+> > > >    }
+> > > > +static enum hrtimer_restart pwm_ir_timer(struct hrtimer *timer)
+> > > > +{
+> > > > +	struct pwm_ir *pwm_ir = container_of(timer, struct pwm_ir, timer);
+> > > > +	ktime_t now;
+> > > > +
+> > > > +	/*
+> > > > +	 * If we happen to hit an odd latency spike, loop through the
+> > > > +	 * pulses until we catch up.
+> > > > +	 */
+> > > > +	do {
+> > > > +		u64 ns;
+> > > > +
+> > > > +		if (pwm_ir->txbuf_index >= pwm_ir->txbuf_len) {
+> > > > +			/* Stop TX here */
+> > > > +			pwm_disable(pwm_ir->pwm);
+> > > > +
+> > > > +			complete(&pwm_ir->completion);
+> > > > +
+> > > > +			return HRTIMER_NORESTART;
+> > > > +		}
+> > > > +
+> > > > +		if (pwm_ir->txbuf_index % 2)
+> > > > +			pwm_disable(pwm_ir->pwm);
+> > > > +		else
+> > > > +			pwm_enable(pwm_ir->pwm);
+> > > > +
+> > > 
+> > > pwm_ir->pwm->state.enabled = !(pwm_ir->txbuf_index % 2);
+> > > pwm_apply_state(pwm_ir->pwm, pwm_ir->state);
+> > 
+> > Requires a copy of pwm_state in pwm_ir, not a huge difference (copy of 28
+> > bytes vs keeping it around).
+> 
+> see my previous comment re struct var. Also, look at the overhead:
+> https://elixir.bootlin.com/linux/v6.6-rc3/source/include/linux/pwm.h#L349 -
+> you call pwm_get_state() for every edge.
+
+That's the 28 bytes copy I was talking about.
+
+However keeping a pointer in struct pwm_ir is a good compromise and makes
+the rest of the code cleaner.
+
+> > > > +		ns = US_TO_NS(pwm_ir->txbuf[pwm_ir->txbuf_index]);
+> > > > +		hrtimer_add_expires_ns(timer, ns);
+> > > > +
+> > > > +		pwm_ir->txbuf_index++;
+> > > > +
+> > > > +		now = timer->base->get_time();
+> > > > +	} while (hrtimer_get_expires_tv64(timer) < now);
+> > > > +
+> > > > +	return HRTIMER_RESTART;
+> > > > +}
+> > > > +
+> > > >    static int pwm_ir_probe(struct platform_device *pdev)
+> > > >    {
+> > > >    	struct pwm_ir *pwm_ir;
+> > > > @@ -96,8 +135,16 @@ static int pwm_ir_probe(struct platform_device *pdev)
+> > > >    	if (IS_ERR(pwm_ir->pwm))
+> > > >    		return PTR_ERR(pwm_ir->pwm);
+> > > > +	if (pwm_can_sleep(pwm_ir->pwm)) {
+> > > > +		dev_err(&pdev->dev, "unsupported pwm device: driver can sleep\n");
+> > > > +		return -ENODEV;
+> > > > +	}
+> > > > +
+> > > 
+> > > I think we shall not limit, but use high priority thread to support those
+> > > drivers. I have that working on n900 with current (sleeping) pwm, see my
+> > > reply on the other mail. Maybe we can combine both patches in a way to
+> > > support both atomic and sleeping pwm drivers.
+> > 
+> > If the ir-rx51 driver uses a sleeping pwm then that's broken and only works
+> > by accident - the current driver is broken then.
+> > 
+> 
+> Yes, and I stated that couple of times in my previous emails :)
+> 
+> > Spinning for longer periods (e.g. 100us) does not play well with RT. Would
+> > make more sense to fix the pwm driver to non-sleeping when a pwm driver
+> > is used for pwm-ir-tx?
+> > 
+> 
+> Sure, and I have a patch for n900 that does this, however, for your i2c case
+> there is no solution. Also, we may play smart and dynamically decrease sleep
+> time (by adjusting edge by lets say 5-10 us every pulse until we have some
+> sane value) if we see it is too long. No strong preferences here, it is just
+> that I have code that works.
+
+So in order to get everything in order for atomic pwm, we need a few patches
+to land. Let's try to get your patch merged for the next release cycle, so
+that at least tx on the n900 works and there is improved tx for other devices
+(although not the most efficient).
+
+Thanks,
+Sean
