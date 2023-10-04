@@ -2,177 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E09D07B98C4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 01:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 954487B997B
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 03:13:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240917AbjJDXl1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Oct 2023 19:41:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54208 "EHLO
+        id S244294AbjJEBN6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Oct 2023 21:13:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236922AbjJDXlZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 19:41:25 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2857C9;
-        Wed,  4 Oct 2023 16:41:21 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3af65455e7fso272356b6e.3;
-        Wed, 04 Oct 2023 16:41:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696462881; x=1697067681; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4C1iihc3EDnsL/rTdUR5Op9U6iZWDJfi2p6KDHXbMCg=;
-        b=ifi6Y6PlyomqjHtWWBT9F1EAhHeZLFwYQxquDS9F4hwKJje+NHz/nRc8Y3s3INPyR4
-         J7JB9+GF1t/43fzoDfAtu1ZUywHmxaJPWUgrDFrvmT++z9gTG9wYhsZoFeHxRObZW8ZB
-         voOCUSbyqmPwZfyBk9gbGTPcSVYZYATGMxcLKSeF5cqWoaVozbXP9zPQ18j0DfkBzYER
-         cVhNN3WlLieqjNdY2ZOJ/+gUIlVZzh/9/BRonzH0RMYp+it95DVmFNOrMsuOxmEg1JFy
-         zKMiOUJ4Bj4bcS2beHzsdFxcdEmt6QHzOWtnVEEqvjqYbDo9fhCCScNZpiCc5PREmMFi
-         Auqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696462881; x=1697067681;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4C1iihc3EDnsL/rTdUR5Op9U6iZWDJfi2p6KDHXbMCg=;
-        b=X7SCeyX+fEe6CcktCGH2foTXiRxHWxwAAovDsqwSTomGIAzeZTpg5zpmfxr3//CQot
-         UsyjUwuCtvfwvf/W6X0zgtgd6c7y89Gc5tjsuGazSTdDZotJLKoIElZtfByLv2UPVu5P
-         1QPgVZTKBvriIjKtOC4zxW5O0G7mnbWPxGXiMYWwvVPDaw+gOMOw7eLjQFrhPhigHVu6
-         FF2JFzecVOpDpRxxx/EXi/3ZTVcA8eVRDzgaW5scTMOcFCSFGPQy5yE1P02mjVtq2GLy
-         V/sr/4wl9tShiKMeggnWS7fwSYWdRUPIAtGmCS63N04VkIbVAt7mVqoOh+XtUpQmkRY+
-         sjww==
-X-Gm-Message-State: AOJu0YxGfcHt+o7iwQ6QPp/vDJpp6oV58cVlR2CVWIbeRhnsdp7Z4g6s
-        uZhVGIMsKQ4WWNI+KS7R2R81E17AqqiDkgwWbsQ=
-X-Google-Smtp-Source: AGHT+IF1G34r6cm8vMu/bXXwaMqnblKv3w1itMr8e1W0/KkBZ7RueirXtjIlAqju5LO/oQRnSsQ9D66zRw06dgwbdk8=
-X-Received: by 2002:a05:6358:6f06:b0:13c:eea2:d021 with SMTP id
- r6-20020a0563586f0600b0013ceea2d021mr3677892rwn.9.1696462880856; Wed, 04 Oct
- 2023 16:41:20 -0700 (PDT)
+        with ESMTP id S244277AbjJEBN5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 21:13:57 -0400
+X-Greylist: delayed 14227 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 04 Oct 2023 18:13:53 PDT
+Received: from sp5.takenet.or.jp (sp5.takenet.or.jp [160.16.99.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14474E8
+        for <linux-media@vger.kernel.org>; Wed,  4 Oct 2023 18:13:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=takenet.or.jp;
+        s=default; t=1696468431;
+        bh=S1mheBjhzBg4PjAkGGE9O3Mf+mPioMRI2PFzj5PeZCE=; l=165;
+        h=Received:Received:Received:From:To:Subject;
+        b=CuOmVRXIwRs34WAjMhK5gmYUO8qDJyLERJ67z6egA7U1x70KJnzYARYA7+MPIM8kt
+         cRI+bs9hCYHRjV1TWFqpOCv7wFyVxuym1kGXG+MsFszgrwLDtz1XukB8iIreeJj6Kt
+         qtzk/W58oDM/DAKIzeuiOT1zVNyKzyFb4cdB7ZYM=
+Received: (qmail 519 invoked from network); 5 Oct 2023 04:38:51 +0900
+Authentication-Results: sp5.takenet.or.jp;
+        spf=pass (sender IP is 127.0.0.1) smtp.mailfrom=ace_pd@takenet.or.jp smtp.helo=sp5.takenet.or.jp
+Received-SPF: pass (sp5.takenet.or.jp: connection is authenticated)
+Received: from localhost (HELO sp5.takenet.or.jp) (127.0.0.1)
+        by localhost with ESMTPSA (DHE-RSA-AES256-GCM-SHA384 encrypted,
+        authenticated); 5 Oct 2023 04:38:46 +0900
+Received: from [103.109.103.211] ([103.109.103.211]) by
+        webmail.takenet.or.jp (Horde Framework) with HTTP;
+        Thu, 05 Oct 2023 04:38:43 +0900
+Date:   Thu, 05 Oct 2023 04:38:43 +0900
+Message-ID: <20231005043843.Horde.7fCTdiXLtRxWQcYkXP-yAx9@webmail.takenet.or.jp>
+From:   Tronzadora Group <ace_pd@takenet.or.jp>
+Subject: Inquiry From Tronzadora Group
+Reply-to: gibitre@outlook.com
+User-Agent: Horde Application Framework 5
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
 MIME-Version: 1.0
-References: <20231004091552.3531659-1-hugues.fruchet@foss.st.com> <20231004091552.3531659-4-hugues.fruchet@foss.st.com>
-In-Reply-To: <20231004091552.3531659-4-hugues.fruchet@foss.st.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Wed, 4 Oct 2023 18:41:09 -0500
-Message-ID: <CAHCN7xKrriTPaRMJ-r86cSgFDUUP1At08imLBr_zEP0g3fga_g@mail.gmail.com>
-Subject: Re: [PATCH 3/7] dt-bindings: media: Document STM32MP25 VENC video encoder
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Disposition: inline
+X-PPP-Message-ID: <20231004193846.32375.89567@sp5.takenet.or.jp>
+X-PPP-Vhost: takenet.or.jp
+X-Spam-Status: No, score=4.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        REPLYTO_WITHOUT_TO_CC,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 4, 2023 at 4:16=E2=80=AFAM Hugues Fruchet
-<hugues.fruchet@foss.st.com> wrote:
->
-> Add STM32MP25 VENC video encoder bindings.
->
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> ---
->  .../bindings/media/st,stm32mp25-venc.yaml     | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/st,stm32mp25-=
-venc.yaml
->
-> diff --git a/Documentation/devicetree/bindings/media/st,stm32mp25-venc.ya=
-ml b/Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml
-> new file mode 100644
-> index 000000000000..c69e0a34f675
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/st,stm32mp25-venc.yaml#
-
-Can this dt-binding be made more generic, like something like
-hantro-h1 or VC8000NanoE?
-
-I think there will be more boards that may incorporate the Hantro-H1
-or a VC8000 in the future, because I don't think this IP is unique to
-the STM32MP25.
-
-adam
-
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: STMicroelectronics STM32MP25 VENC video encoder
-> +
-> +maintainers:
-> +  - Hugues Fruchet <hugues.fruchet@foss.st.com>
-> +
-> +description:
-> +  The STMicroelectronics STM32MP25 SOCs embeds a VENC video hardware enc=
-oder
-> +  peripheral based on Verisilicon VC8000NanoE IP (former Hantro H1).
-> +
-> +properties:
-> +  compatible:
-> +    const: st,stm32mp25-venc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-names:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - clock-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    venc: venc@580e0000 {
-> +        compatible =3D "st,stm32mp25-venc";
-> +        reg =3D <0x580e0000 0x800>;
-> +        interrupts =3D <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-names =3D "venc";
 
 
-Is the interrupt-names needed if there is only one?
 
-> +        clocks =3D <&ck_icn_p_venc>;
-> +        clock-names =3D "venc-clk";
+Hello
 
-Same thing for the clock.  if there is only one clock, doe they need names?
+We'll need to place a few orders to receive a price estimate, so  
+please provide us with your most recent catalog.
 
-adam
-> +    };
-> --
-> 2.25.1
->
+Best Regards
+Aminda Sebastian
+
