@@ -2,164 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A747D7B815A
-	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 15:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA59F7B8177
+	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 15:56:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242604AbjJDNvK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Oct 2023 09:51:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34268 "EHLO
+        id S242695AbjJDN4W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Oct 2023 09:56:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242594AbjJDNvI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 09:51:08 -0400
+        with ESMTP id S233375AbjJDN4V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 09:56:21 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 075C8A1;
-        Wed,  4 Oct 2023 06:51:05 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3EC3C433C8;
-        Wed,  4 Oct 2023 13:51:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696427464;
-        bh=5dxwRtP0WUsm4uqALVgMvEmHcGfySQY48FXS22qdXnA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iq5KLCxXupKp+Y3rbet2SD1FP/DSA2ynwy90znIO2JhCclGmP/8wtqZdSaZNIfE1o
-         KxpCnJb8rBrSmLUTpl9R4Qqp0LWHDmylUP/L2LQMYbKwuNfawq84z/q1YEws5sL3BY
-         lWMnJPhn1BhZpx2GI7Il8QTHKjK6Bp44Ry3+EUrpw/fBpkAkEr2WxO/Dfl+xqybz31
-         49MuogcugaZC9FwlklYR+5VFQOpqtnatb+pTwRtr4ZwPg5dyV53od0FBcXaxDmIeT0
-         48oOiPvZOtJUdy59Ptesgs5Hej8VJGGSFAeZRmyH5IYAYkxvCh8Ij7QKthKF+uUeG0
-         iChVYAvDiqLYA==
-Date:   Wed, 4 Oct 2023 19:21:00 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jai Luthra <j-luthra@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9E00AB;
+        Wed,  4 Oct 2023 06:56:14 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A124C433C7;
+        Wed,  4 Oct 2023 13:56:13 +0000 (UTC)
+Date:   Wed, 4 Oct 2023 09:57:20 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Ross Zwisler <zwisler@kernel.org>, linux-kernel@vger.kernel.org,
+        Ross Zwisler <zwisler@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Benoit Parrot <bparrot@ti.com>,
-        Vaishnav Achath <vaishnav.a@ti.com>, nm@ti.com,
-        devarsht@ti.com, a-bhatia1@ti.com,
-        Martyn Welch <martyn.welch@collabora.com>,
-        Julien Massot <julien.massot@collabora.com>
-Subject: Re: [PATCH v9 13/13] media: ti: Add CSI2RX support for J721E
-Message-ID: <ZR1txMVk+4oHLEKU@matsya>
-References: <20230811-upstream_csi-v9-0-8943f7a68a81@ti.com>
- <20230811-upstream_csi-v9-13-8943f7a68a81@ti.com>
- <ad042065-33a2-d42e-ce2e-628464102fc3@ideasonboard.com>
- <wgkjek77bolf5wabki7uhm6cxjy5g5z2ncoc6urr7dv5y6wnaw@yfh7ccogxfea>
- <20230829155513.GG6477@pendragon.ideasonboard.com>
+        linux-media@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        Daniel Almeida <daniel.almeida@collabora.com>
+Subject: Re: [PATCH] visl: use canonical ftrace path
+Message-ID: <20231004095720.5727254a@gandalf.local.home>
+In-Reply-To: <c7e21ecf-9554-425d-a8c1-90f890de6bb4@xs4all.nl>
+References: <20230829204600.3210276-2-zwisler@kernel.org>
+        <20231003174129.11c79c18@gandalf.local.home>
+        <c7e21ecf-9554-425d-a8c1-90f890de6bb4@xs4all.nl>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230829155513.GG6477@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29-08-23, 18:55, Laurent Pinchart wrote:
-> Hi Jai,
-> 
-> (CC'ing Vinod, the maintainer of the DMA engine subsystem, for a
-> question below)
+On Wed, 4 Oct 2023 08:33:12 +0200
+Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
 
-Sorry this got lost
-
-> 
-> On Fri, Aug 18, 2023 at 03:55:06PM +0530, Jai Luthra wrote:
-> > On Aug 15, 2023 at 16:00:51 +0300, Tomi Valkeinen wrote:
-> > > On 11/08/2023 13:47, Jai Luthra wrote:
-> > > > From: Pratyush Yadav <p.yadav@ti.com>
-> 
-> [snip]
-> 
-> > > > +static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
-> > > > +{
-> > > > +	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vq);
-> > > > +	struct ti_csi2rx_dma *dma = &csi->dma;
-> > > > +	struct ti_csi2rx_buffer *buf;
-> > > > +	unsigned long flags;
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	spin_lock_irqsave(&dma->lock, flags);
-> > > > +	if (list_empty(&dma->queue))
-> > > > +		ret = -EIO;
-> > > > +	spin_unlock_irqrestore(&dma->lock, flags);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	dma->drain.len = csi->v_fmt.fmt.pix.sizeimage;
-> > > > +	dma->drain.vaddr = dma_alloc_coherent(csi->dev, dma->drain.len,
-> > > > +					      &dma->drain.paddr, GFP_KERNEL);
-> > > > +	if (!dma->drain.vaddr)
-> > > > +		return -ENOMEM;
-> > > 
-> > > This is still allocating a large buffer every time streaming is started (and
-> > > with streams support, a separate buffer for each stream?).
-> > > 
-> > > Did you check if the TI DMA can do writes to a constant address? That would
-> > > be the best option, as then the whole buffer allocation problem goes away.
+> On 03/10/2023 23:41, Steven Rostedt wrote:
 > > 
-> > I checked with Vignesh, the hardware can support a scenario where we 
-> > flush out all the data without allocating a buffer, but I couldn't find 
-> > a way to signal that via the current dmaengine framework APIs. Will look 
-> > into it further as it will be important for multi-stream support.
+> > Could this go through the linux-media tree, or if you give it an Ack, I'll
+> > take it through the tracing tree.  
 > 
-> That would be the best option. It's not immediately apparent to me if
-> the DMA engine API supports such a use case.
-> dmaengine_prep_interleaved_dma() gives you finer grain control on the
-> source and destination increments, but I haven't seen a way to instruct
-> the DMA engine to direct writes to /dev/null (so to speak). Vinod, is
-> this something that is supported, or could be supported ?
+> I prefer to take this through the media subsystem. Ross, can you post this
 
-Write to a dummy buffer could have the same behaviour, no?
+Thanks!
+
+> patch again, this time including linux-media@vger.kernel.org?
+
+The original patch did have linux-media@vger.kernel.org Cc'd. Was it dropped?
+
+-- Steve
+
 
 > 
-> > > Alternatively, can you flush the buffers with multiple one line transfers?
-> > > The flushing shouldn't be performance critical, so even if that's slower
-> > > than a normal full-frame DMA, it shouldn't matter much. And if that can be
-> > > done, a single probe time line-buffer allocation should do the trick.
-> > 
-> > There will be considerable overhead if we queue many DMA transactions 
-> > (in the order of 1000s or even 100s), which might not be okay for the 
-> > scenarios where we have to drain mid-stream. Will have to run some 
-> > experiments to see if that is worth it.
-> > 
-> > But one optimization we can for sure do is re-use a single drain buffer 
-> > for all the streams. We will need to ensure to re-allocate the buffer 
-> > for the "largest" framesize supported across the different streams at 
-> > stream-on time.
+> The patch looks fine, so I'll pick it up.
 > 
-> If you implement .device_prep_interleaved_dma() in the DMA engine driver
-> you could write to a single line buffer, assuming that the hardware would
-> support so in a generic way.
-> 
-> > My guess is the endpoint is not buffering a full-frame's worth of data, 
-> > I will also check if we can upper bound that size to something feasible.
-> > 
-> > > Other than this drain buffer topic, I think this looks fine. So, I'm going
-> > > to give Rb, but I do encourage you to look more into optimizing this drain
-> > > buffer.
-> > 
-> > Thank you!
-> > 
-> > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
-> -- 
 > Regards,
 > 
-> Laurent Pinchart
-
--- 
-~Vinod
+> 	Hans
