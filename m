@@ -2,139 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 853097B7859
-	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 09:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F17BB7B7887
+	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 09:19:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241469AbjJDHE7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Oct 2023 03:04:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60006 "EHLO
+        id S241376AbjJDHT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Oct 2023 03:19:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232647AbjJDHE6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 03:04:58 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EEC4AB
-        for <linux-media@vger.kernel.org>; Wed,  4 Oct 2023 00:04:54 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F302C433C9
-        for <linux-media@vger.kernel.org>; Wed,  4 Oct 2023 07:04:53 +0000 (UTC)
-Message-ID: <a224ad26-5578-4f31-a38f-925e86ac07e4@xs4all.nl>
-Date:   Wed, 4 Oct 2023 09:04:51 +0200
+        with ESMTP id S229577AbjJDHT7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 03:19:59 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F96AC
+        for <linux-media@vger.kernel.org>; Wed,  4 Oct 2023 00:19:55 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-99c1c66876aso322872466b.2
+        for <linux-media@vger.kernel.org>; Wed, 04 Oct 2023 00:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=melexis.com; s=google; t=1696403994; x=1697008794; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vDQoG5ysT8EDNxnOtjtwrzyiSEy0xvqDP37xVnx8+0I=;
+        b=petNBZmJe0LvZEadkQ6j7b7cxj7dQIXmmYmhdtWcfd12Uy3dL2jwqh30O86TL5oEE1
+         fqlsNPmi20rTtbYLlUxrRcxoqtBz15S1pH3ptTBcEZAgXV9a+iIR3pptd6/KE6gZn8/V
+         7eKq3jvq6DAZCH3wQyPP5D9c/dPuEY2NsOZj8qOxuNd8u+GLtWTG+m+VYs1gog7j3ghA
+         x+1IP8hQLBiPV3lYmCoz/oQx6RhnUu/23C5J6c2P173RsJsfjVN7AO06TnwdtYpVFub2
+         Kx0EbN2ok3ER+6oBnOKLJbD0aaV/sfI1JkhCvZ5Utpuep8ro7qzLTsDbDSNkTSfsfWAp
+         aBSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696403994; x=1697008794;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vDQoG5ysT8EDNxnOtjtwrzyiSEy0xvqDP37xVnx8+0I=;
+        b=rgyLviveSJIIUHTLRs6M2+xr1vJ5vTefIn5SUfkyoeIkyBNUaJbYfQperEn1+sZ1Id
+         AHKayWxhlEPktBp3IYZaUqMGpcpXXXk6+gfYC0uujl8BpI7SCl3kALS9+LUfPjKzK7o6
+         rxYtMBUNYR9wL8f7IeGCtr1nR1tQBW5pxou/n6DfU5+qEhi/XKGkchtoWl1WP0IoeoU6
+         mQ/rX05K54N0npICvSPE1NJtgGzvAjxJx+xqzGwmqJTsYPJWj2rv2h9+sYi9OQW/Mkjm
+         JNmIiI8TJsPV02vqbm1761eenCv5/0t6F3MLZvkxBJelCm3CWWOUnf8FIL8nu/7lFPmY
+         Ej5w==
+X-Gm-Message-State: AOJu0YyOEOPTgkkBB9zok0O1pB14cAPYYwqxSiGOsHuOfxdi/XolJtj8
+        03jye0NSDsX5Sfs4dL/YlprrHyVsPQlcMwI58xK4NIlMppiCte5ZB0MPvxArTKYJsniXM6wd1GB
+        8YqiAcPpvHHw1QgMVFqAwV9mIvsEBw3lZEjKpPMdeKXxKIhBR9jtoZVmMAGKIYvQANneG8XLw6R
+        +Gqw==
+X-Google-Smtp-Source: AGHT+IG2ZRIUTt96YLhXGElyvkDUYr9bPzO4uyFOod84PFk/Qr+XhxT0lqHsgt12EVGjJMPnDnxDPg==
+X-Received: by 2002:a17:906:3094:b0:9b7:2a13:160c with SMTP id 20-20020a170906309400b009b72a13160cmr1191779ejv.69.1696403994223;
+        Wed, 04 Oct 2023 00:19:54 -0700 (PDT)
+Received: from melexis ([91.192.181.19])
+        by smtp.gmail.com with ESMTPSA id d18-20020a50fb12000000b0053801ca9a09sm1953928edq.33.2023.10.04.00.19.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Oct 2023 00:19:54 -0700 (PDT)
+From:   Volodymyr Kharuk <vkh@melexis.com>
+To:     <linux-media@vger.kernel.org>
+Cc:     Andrii Kyselov <ays@melexis.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        devicetree@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Volodymyr Kharuk <vkh@melexis.com>
+Subject: [PATCH v5 0/8] media: i2c: mlx7502x ToF camera support
+Date:   Wed,  4 Oct 2023 10:19:39 +0300
+Message-Id: <cover.1696347109.git.vkh@melexis.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: cron job: media_tree daily build: WARNINGS
-Content-Language: en-US, nl
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-References: <b11d6e48a58d1508fd059400f40204e6.hverkuil@xs4all.nl>
-In-Reply-To: <b11d6e48a58d1508fd059400f40204e6.hverkuil@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/10/2023 03:46, Hans Verkuil wrote:
-> This message is generated daily by a cron job that builds media_tree for
-> the architectures in the list below.
-> 
-> Results of the daily build of media_tree:
-> 
-> date:			Wed Oct  4 03:00:08 CEST 2023
-> media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-> media-tree git branch:	media_stage/master
-> media-tree git hash:	d39216ece42e5d4b0150e0b414fd69e52ae90857
-> v4l-utils git hash:	99c4f6dd80613c7bd1fe02bd34492bbd4c999fea
-> edid-decode git hash:	e59b8a2ffd690d6576639365a67e890d91ca443d
-> gcc version:		i686-linux-gcc (GCC) 13.2.0
-> ccache version:		ccache version 4.8.3
-> smatch/sparse repo:     git://repo.or.cz/smatch.git
-> smatch version:		v0.5.0-8471-g6f3cce86
-> sparse version:		v0.5.0-8471-g6f3cce86
-> build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-> build-scripts git hash: ce72105881befed252121ffc203e7c155e655c05
-> host hardware:		x86_64
-> host os:		6.5.0-1-amd64
-> 
-> linux-git-arm: OK
-> linux-git-powerpc64: OK
-> linux-git-arm64: OK
-> linux-git-i686: OK
-> linux-git-x86_64: OK
-> no-acpi.config: OK
-> no-of.config: OK
-> no-pm.config: OK
-> no-pm-sleep.config: OK
-> no-debug-fs.config: OK
-> sparse: WARNINGS:
-> 
-> drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-> 
-> smatch: WARNINGS:
-> 
-> drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:446 gc0310_s_stream() warn: missing error code 'ret'
-> drivers/media/common/siano/smscoreapi.c:650 smscore_register_device() warn: use 'gfp_buf_flags' here instead of GFP_KERNEL?
-> drivers/media/common/siano/smscoreapi.c:689 smscore_register_device() warn: use 'gfp_buf_flags' here instead of GFP_KERNEL?
-> drivers/media/i2c/s5c73m3/s5c73m3-core.c:1412 __s5c73m3_power_off() warn: 'state->clock' from clk_prepare_enable() not released on lines: 1412.
-> drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-> drivers/staging/media/atomisp/pci/atomisp_cmd.c:2779 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-> drivers/staging/media/atomisp/pci/atomisp_cmd.c:2878 atomisp_cp_morph_table() warn: missing unwind goto?
-> drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
->   Locked on  : 326,387
->   Unlocked on: 465,467
-> drivers/media/i2c/ar0521.c:913 ar0521_power_on() warn: 'sensor->extclk' from clk_prepare_enable() not released on lines: 913.
-> drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
-> drivers/media/platform/qcom/venus/pm_helpers.c:873 vcodec_domains_get() warn: passing zero to 'PTR_ERR'
-> drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-> drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
-> drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
-> drivers/media/i2c/tc358746.c:790 tc358746_set_fmt() error: 'fmt' dereferencing possible ERR_PTR()
-> drivers/media/i2c/tc358746.c:1624 tc358746_suspend() warn: 'tc358746->refclk' from clk_prepare_enable() not released on lines: 1624.
-> drivers/staging/media/ipu3/ipu3-dmamap.c:42 imgu_dmamap_alloc_buffer() warn: use 'gfp' here instead of GFP_KERNEL?
+Hello all,
 
-The reason for these new warnings is that it turned out that the build
-script was missing a crucial smatch option. After enabling that, I now get
-new warnings.
+This series adds support for the Melexis 75026 and 75027 Time of Flight
+camera sensors, with DT bindings in patch 7/8 and a driver in patch 8/8.
+In patches 1/8, 2/8 and 3/8, I've add ToF controls as separate
+ToF control class. Also in patch 4/8 there is changes which allow to
+modify range of control with array type.
 
-Regards,
+v5:
+- MHz to Hz for V4L2_CID_TOF_FREQ_MOD
 
-	Hans
+v4:
+- fix output mode
+- forbid array for menu and warn if validate_new return an error
+- add enums to custom control OUTPUT_MODE
+- update doc
+- minor fixes
 
-> 
-> COMPILE_TEST: OK
-> strcpy/strncpy/strlcpy: OK
-> abi-compliance: ABI OK
-> pahole: ABI OK
-> utils: OK
-> spec-git: OK
-> kerneldoc: OK
-> 
-> date:			Wed Oct  4 03:17:14 CEST 2023
-> virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 3
-> virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
-> 
-> date:			Wed Oct  4 03:44:45 CEST 2023
-> 
-> Detailed results are available here:
-> 
-> https://hverkuil.home.xs4all.nl/logs/Wednesday.log
-> 
-> Detailed regression test results are available here:
-> 
-> https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
-> https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
-> https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-> https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
-> 
-> Full logs are available here:
-> 
-> https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-> 
-> The Media Infrastructure API from this daily build is here:
-> 
-> https://hverkuil.home.xs4all.nl/spec/index.html
+v3:
+- move FMOD, TINT, PHASE_SEQ to common V4L2 as ToF common controls
+- FMOD and TINT became dynamic arrays
+- remove PHASE_NUM, use dynamic_array for PHASE_SEQ,
+  ctrl->new_elems pass number of phases
+- remove leden-gpios, will be used gpio explicitly in library for now
+- remade probe: use probe_new, no power on during probe
+- remove autodetect and wildcard
+- make all supplies to be required
+- remove trigger ioctl, will add in separate patch series
+- remove temperature ioctl, will add in separate patch series
+- add documentation about custom ioctl
+- style: 80 cols
+- minor fixes device tree
+
+v2:
+- added external clock to the sensor
+- added all regulators required by the sensor
+- added posibility to choose sensor type in device tree
+- added prefixes to all custom types in device tree and driver as well
+- style fixes
+
+Volodymyr Kharuk (8):
+  media: uapi: ctrls: Add Time of Flight class controls
+  media: v4l: ctrls: Fill V4L2_CID_TOF_CLASS controls
+  media: Documentation: v4l: Add TOF class controls
+  media: v4l: ctrls-api: Allow array update in __v4l2_ctrl_modify_range
+  media: v4l: ctrls: Add user control base for mlx7502x
+  media: uapi: Add mlx7502x header file
+  media: dt-bindings: Add mlx7502x camera sensor
+  media: i2c: Add driver for mlx7502x ToF sensor
+
+ .../bindings/media/i2c/melexis,mlx7502x.yaml  |  126 ++
+ .../userspace-api/media/drivers/index.rst     |    1 +
+ .../userspace-api/media/drivers/mlx7502x.rst  |   28 +
+ .../userspace-api/media/v4l/common.rst        |    1 +
+ .../userspace-api/media/v4l/ext-ctrls-tof.rst |   56 +
+ MAINTAINERS                                   |   11 +
+ drivers/media/i2c/Kconfig                     |   13 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/mlx7502x.c                  | 1747 +++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      |   25 +-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   20 +
+ include/uapi/linux/mlx7502x.h                 |   28 +
+ include/uapi/linux/v4l2-controls.h            |   14 +
+ 13 files changed, 2059 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+ create mode 100644 Documentation/userspace-api/media/drivers/mlx7502x.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-tof.rst
+ create mode 100644 drivers/media/i2c/mlx7502x.c
+ create mode 100644 include/uapi/linux/mlx7502x.h
+
+
+base-commit: 2c1bae27df787c9535e48cc27bbd11c3c3e0a235
+-- 
+BR,
+Volodymyr Kharuk
 
