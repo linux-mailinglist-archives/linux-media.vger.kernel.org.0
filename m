@@ -2,182 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCA557B7645
-	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 03:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 592CD7B7660
+	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 03:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239744AbjJDBZK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 21:25:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57156 "EHLO
+        id S240206AbjJDBqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 21:46:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239461AbjJDBZJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 21:25:09 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2070AB
-        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 18:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696382706; x=1727918706;
-  h=date:from:to:cc:subject:message-id;
-  bh=j1DhKzVSlNOrWXPt2jiL4U22nej48VH+J1gC2lWb0+U=;
-  b=DHUwsuBYXIlAyum8Mg4WmFsawYlijmYpgZ8c9AsVYDp2T/h13T7Y+FhL
-   5pRuSn1tVmdXGhB5tWHMvJfrisuUuEKnxAQSgESgjbN75t5tFu7OSjrC5
-   MmIJlUWgXyYhjom4XYDMlz/79IoE1DqdW43546KrZQSq6bbF+Jso652K0
-   1/TNmsyFzHNOgOItI6uOxWh+C0sJUGh9vaTsu6wROcJqRo3kjCXIG6cr6
-   nNbUhPrxNRkTH6WeLtgWHp7I2y8REDmigzwucyrskmh8mz6PPiNOq8SWc
-   wvlOGFlCI7zBwDqJonUTvBjZtYtaHbn7jiWK+9YNnWZO+0A5dpm05aYIX
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="1620474"
-X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="1620474"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 18:25:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="821463423"
-X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="821463423"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 03 Oct 2023 18:25:03 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qnqdI-000ACG-0Y;
-        Wed, 04 Oct 2023 01:25:00 +0000
-Date:   Wed, 04 Oct 2023 09:24:28 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 64079722be862e4e31b15f75503dee0315aca84e
-Message-ID: <202310040926.CkLpxgK4-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S240501AbjJDBqe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 21:46:34 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507FBCE
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 18:46:30 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82194C433CC
+        for <linux-media@vger.kernel.org>; Wed,  4 Oct 2023 01:46:29 +0000 (UTC)
+Date:   Wed, 04 Oct 2023 03:46:27 +0200
+Message-ID: <b11d6e48a58d1508fd059400f40204e6.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 64079722be862e4e31b15f75503dee0315aca84e  media: Documentation: Split camera sensor documentation
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-elapsed time: 756m
+Results of the daily build of media_tree:
 
-configs tested: 107
-configs skipped: 2
+date:			Wed Oct  4 03:00:08 CEST 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	d39216ece42e5d4b0150e0b414fd69e52ae90857
+v4l-utils git hash:	99c4f6dd80613c7bd1fe02bd34492bbd4c999fea
+edid-decode git hash:	e59b8a2ffd690d6576639365a67e890d91ca443d
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8471-g6f3cce86
+sparse version:		v0.5.0-8471-g6f3cce86
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: ce72105881befed252121ffc203e7c155e655c05
+host hardware:		x86_64
+host os:		6.5.0-1-amd64
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+linux-git-arm: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231003   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20231003   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20231003   gcc  
-i386         buildonly-randconfig-002-20231003   gcc  
-i386         buildonly-randconfig-003-20231003   gcc  
-i386         buildonly-randconfig-004-20231003   gcc  
-i386         buildonly-randconfig-005-20231003   gcc  
-i386         buildonly-randconfig-006-20231003   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231003   gcc  
-i386                  randconfig-002-20231003   gcc  
-i386                  randconfig-003-20231003   gcc  
-i386                  randconfig-004-20231003   gcc  
-i386                  randconfig-005-20231003   gcc  
-i386                  randconfig-006-20231003   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231003   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231003   gcc  
-x86_64                randconfig-002-20231003   gcc  
-x86_64                randconfig-003-20231003   gcc  
-x86_64                randconfig-004-20231003   gcc  
-x86_64                randconfig-005-20231003   gcc  
-x86_64                randconfig-006-20231003   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+smatch: WARNINGS:
+
+drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:446 gc0310_s_stream() warn: missing error code 'ret'
+drivers/media/common/siano/smscoreapi.c:650 smscore_register_device() warn: use 'gfp_buf_flags' here instead of GFP_KERNEL?
+drivers/media/common/siano/smscoreapi.c:689 smscore_register_device() warn: use 'gfp_buf_flags' here instead of GFP_KERNEL?
+drivers/media/i2c/s5c73m3/s5c73m3-core.c:1412 __s5c73m3_power_off() warn: 'state->clock' from clk_prepare_enable() not released on lines: 1412.
+drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+drivers/staging/media/atomisp/pci/atomisp_cmd.c:2779 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+drivers/staging/media/atomisp/pci/atomisp_cmd.c:2878 atomisp_cp_morph_table() warn: missing unwind goto?
+drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+  Locked on  : 326,387
+  Unlocked on: 465,467
+drivers/media/i2c/ar0521.c:913 ar0521_power_on() warn: 'sensor->extclk' from clk_prepare_enable() not released on lines: 913.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
+drivers/media/platform/qcom/venus/pm_helpers.c:873 vcodec_domains_get() warn: passing zero to 'PTR_ERR'
+drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
+drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
+drivers/media/i2c/tc358746.c:790 tc358746_set_fmt() error: 'fmt' dereferencing possible ERR_PTR()
+drivers/media/i2c/tc358746.c:1624 tc358746_suspend() warn: 'tc358746->refclk' from clk_prepare_enable() not released on lines: 1624.
+drivers/staging/media/ipu3/ipu3-dmamap.c:42 imgu_dmamap_alloc_buffer() warn: use 'gfp' here instead of GFP_KERNEL?
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Wed Oct  4 03:17:14 CEST 2023
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+
+date:			Wed Oct  4 03:44:45 CEST 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
