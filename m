@@ -2,326 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 579AA7B7962
-	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 10:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BA017B7A0F
+	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 10:31:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241601AbjJDIAq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Oct 2023 04:00:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55592 "EHLO
+        id S241680AbjJDIbk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Oct 2023 04:31:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232790AbjJDIAq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 04:00:46 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B25A2A6;
-        Wed,  4 Oct 2023 01:00:41 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 50736100092; Wed,  4 Oct 2023 09:00:40 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1696406440; bh=P20aLjHrAhxgrHuMg5QiYe89UaZY0Q7KPEktQsHBWbw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EOb32D1N7cSgQhfuBPmdlTKM1M1+qzZuckJKWMgvV0ihbUTUhCTDCujRDhcALai2T
-         YmvmX26bydxbj8ugrakJj9r2w9Tj3El5yh4+naVLQxGt840a0CBJmLL+vOmhqvEV4y
-         poANJliqvHngN8FgxmKMhGXfxfH/yI9kN7/9YQrbogzxE3J8ulXNOaRvdgLz7nP6Af
-         Xyh5uONDIqtbI6tQpeFitM5/Xyg8AMJT/l/HtSyTkkBBBtHToEDz/M4CmpJvJfbhw3
-         ly81lqVVT7VYdK6wAQvO0eBs6H4VKtmuBnc65rse0uR8JxrfPfJ/d6knVIm0DGzh9l
-         SFo8VwtNmL8iQ==
-Date:   Wed, 4 Oct 2023 09:00:40 +0100
-From:   Sean Young <sean@mess.org>
-To:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: pwm-ir-tx: trigger edges from hrtimer
- interrupt context
-Message-ID: <ZR0bqBbvM+hHOPXX@gofer.mess.org>
-References: <cover.1696156485.git.sean@mess.org>
- <7efe4229514001b835fa70d51973cd3306dc0b04.1696156485.git.sean@mess.org>
- <1647d018-cb4e-7c4a-c80f-c726b1ea3628@gmail.com>
+        with ESMTP id S232596AbjJDIbj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 04:31:39 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9E283;
+        Wed,  4 Oct 2023 01:31:35 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163d.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4S0nwH0HHJzybV;
+        Wed,  4 Oct 2023 11:31:26 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1696408293;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JKqxzOZ2qGHHi9gAj4QDW8D+W69O9XKgDH2rcoYp++Q=;
+        b=jjKP9GPPuYNPNjVbWbzKxhtGMkzgxCQPjiea+rmCSgFJrsqjVHQLqf/i7/g60tHSes247Z
+        zFroukg23yHFYFkYnkdak91bh95u8O5mZm4Mp13Lw7ju0ptDNyY9JIZFg9pPwYvZhsyHkH
+        AoK+odFqRbpor22ObYuSY+HJQUlFOAw=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1696408293; a=rsa-sha256; cv=none;
+        b=oBwSZIhyYZBJPLRuTIiXSEnw/21bkB5xqV/XPaagFVamkH8QEp1zC49wRg5EHuzGPubNrn
+        zNOoVvPUcrh3AiG3WUFvrDnZ8Ph919Su3hN0OC6hDoMQjAwD0mHRk2OeSsWotS55SPKNLj
+        V1kWmJsar6rJgtbyd/Gw9q2x3NnQD70=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1696408293;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JKqxzOZ2qGHHi9gAj4QDW8D+W69O9XKgDH2rcoYp++Q=;
+        b=pGuoSjaqsBGGVqxwz2ha7qzoPXBIFO5QeGWUsOsGlfRCknQ3zvipKtQz+1V9Dl75a2kbE4
+        yiq0SZrqqt6dEnQoBuCqtcCu5DAZfnIq5rGc8WOe2K00/8NHZBPcOIzVo2AtnNRFq0y22s
+        a6KBPAMIhz3/rzC50ON9Q0l4LcsVgcU=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 91D2C634C93;
+        Wed,  4 Oct 2023 11:31:25 +0300 (EEST)
+Date:   Wed, 4 Oct 2023 08:31:25 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+Subject: Re: [PATCH v10 01/54] media: videobuf2: Rework offset 'cookie'
+ encoding pattern
+Message-ID: <ZR0i3Rv58uDOPNTK@valkosipuli.retiisi.eu>
+References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
+ <20231003080704.43911-2-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1647d018-cb4e-7c4a-c80f-c726b1ea3628@gmail.com>
+In-Reply-To: <20231003080704.43911-2-benjamin.gaignard@collabora.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Benjamin,
 
-On Mon, Oct 02, 2023 at 09:16:53AM +0300, Ivaylo Dimitrov wrote:
-> On 1.10.23 г. 13:40 ч., Sean Young wrote:
-> > The pwm-ir-tx driver has to turn the pwm signal on and off, and suffers
-> > from delays as this is done in process context. Make this work in atomic
-> > context.
-> > 
-> > This makes the driver much more precise.
-> > 
-> > Signed-off-by: Sean Young <sean@mess.org>
-> > Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-> > ---
-> >   drivers/media/rc/pwm-ir-tx.c | 79 ++++++++++++++++++++++++++++--------
-> >   1 file changed, 63 insertions(+), 16 deletions(-)
-> > 
+On Tue, Oct 03, 2023 at 10:06:10AM +0200, Benjamin Gaignard wrote:
+> Change how offset 'cookie' field value is computed to make possible
+> to use more buffers.
+> The maximum number of buffers depends of PAGE_SHIFT value and can
+> go up to 0x7fff when PAGE_SHIFT = 12.
+> With this encoding pattern we know the maximum number that a queue
+> could store so we can check it at  queue init time.
+> It also make easier and faster to find buffer and plane from using
+> the offset field.
+> Change __find_plane_by_offset() prototype to return the video buffer
+> itself rather than it index.
 > 
-> what about the following patch(not a proper one, just RFC)? It achieves the
-> same (if not better) precision (on n900 at least) without using atomic pwm.
-> What it does is: create a fifo thread in which we swicth pwm on/off, start
-> hrtimer that is used to signal thread when to switch pwm.
-> As signal comes earlier than needed(because hrtimer runs async to the
-> thread), we do a busy loop wait for the precise time to switch the pwm. At
-> least on n900, this busy loop is less than 200 us per switch(worst case,
-> usually it is less than 100 us). That way, even if we have some latency
-> spike, it is covered by not doing busy loop for that particular pwm switch
-> and we keep the precise timing.
-
-I think this is a good idea.
-
-> Maybe we shall merge both patches so fifo thread to be used for sleeping
-> pwms and hrtimer for atomic. I can do that and test it here if you think
-> that approach makes sense.
-
-Let's try and merge this patch for the next merge window, and worry about
-the atomic version after that. We've already queued the ir-rx51 removal
-patches to media_stage so it would be nice to have to revert these patches,
-and improve pwm-ir-tx for the next kernel release.
-
-I'll test your patch, in the mean time would you mind posting this patch
-as a proper patch (with review comments below addressed)?
-
-Thanks,
-
-Sean
-
-
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> changes in version 10:
+> - Make BUFFER_INDEX_MASK definition more readable.
+> - Correct typo.
 > 
-> Regards,
-> Ivo
+>  .../media/common/videobuf2/videobuf2-core.c   | 72 +++++++++----------
+>  1 file changed, 33 insertions(+), 39 deletions(-)
 > 
-> PS: I have a patch that converts timer-ti-dm to non-sleeping one, will send
-> it when it comes to it.
-> 
-> diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
-> index 105a9c24f1e3..e8b620f53056 100644
-> --- a/drivers/media/rc/pwm-ir-tx.c
-> +++ b/drivers/media/rc/pwm-ir-tx.c
-> @@ -4,6 +4,7 @@
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 27aee92f3eea..5591ac830668 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -31,6 +31,11 @@
+>  
+>  #include <trace/events/vb2.h>
+>  
+> +#define PLANE_INDEX_SHIFT	(PAGE_SHIFT + 3)
+> +#define PLANE_INDEX_MASK	0x7
+> +#define MAX_BUFFER_INDEX	BIT_MASK(30 - PLANE_INDEX_SHIFT)
+> +#define BUFFER_INDEX_MASK	(MAX_BUFFER_INDEX - 1)
+> +
+>  static int debug;
+>  module_param(debug, int, 0644);
+>  
+> @@ -358,21 +363,24 @@ static void __setup_offsets(struct vb2_buffer *vb)
+>  	unsigned int plane;
+>  	unsigned long off = 0;
+>  
+> -	if (vb->index) {
+> -		struct vb2_buffer *prev = q->bufs[vb->index - 1];
+> -		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
+> -
+> -		off = PAGE_ALIGN(p->m.offset + p->length);
+> -	}
+> +	/*
+> +	 * Offsets cookies value have the following constraints:
+> +	 * - a buffer can have up to 8 planes.
+> +	 * - v4l2 mem2mem uses bit 30 to distinguish between source and destination buffers.
+
+Long line.
+
+Shouldn't this be OUTPUT and CAPTURE?
+
+> +	 * - must be page aligned
+> +	 * That led to this bit mapping when PAGE_SHIFT = 12:
+> +	 * |30                |29        15|14       12|11 0|
+> +	 * |DST_QUEUE_OFF_BASE|buffer index|plane index| 0  |
+> +	 * where there are 15 bits to store the buffer index.
+> +	 * Depending on PAGE_SHIFT value we can have fewer bits to store the buffer index.
+
+Here, too...
+
+> +	 */
+> +	off = vb->index << PLANE_INDEX_SHIFT;
+>  
+>  	for (plane = 0; plane < vb->num_planes; ++plane) {
+> -		vb->planes[plane].m.offset = off;
+> +		vb->planes[plane].m.offset = off + (plane << PAGE_SHIFT);
+>  
+>  		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
+>  				vb->index, plane, off);
+> -
+> -		off += vb->planes[plane].length;
+> -		off = PAGE_ALIGN(off);
+>  	}
+>  }
+>  
+> @@ -2185,13 +2193,12 @@ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type)
+>  EXPORT_SYMBOL_GPL(vb2_core_streamoff);
+>  
+>  /*
+> - * __find_plane_by_offset() - find plane associated with the given offset off
+> + * __find_plane_by_offset() - find video buffer and plane associated with the given offset off
 >   */
-> 
->  #include <linux/kernel.h>
-> +#include <linux/kthread.h>
->  #include <linux/module.h>
->  #include <linux/pwm.h>
->  #include <linux/delay.h>
-> @@ -17,8 +18,16 @@
-> 
->  struct pwm_ir {
->  	struct pwm_device *pwm;
-> +	struct hrtimer timer;
-> +	struct task_struct *tx_thread;
-> +	wait_queue_head_t tx_wq;
-> +	struct completion tx_done;
-> +	struct completion edge;
->  	unsigned int carrier;
->  	unsigned int duty_cycle;
-> +	unsigned int *txbuf;
-> +	unsigned int count;
-> +	unsigned int index;
->  };
-> 
->  static const struct of_device_id pwm_ir_of_match[] = {
-> @@ -48,35 +57,103 @@ static int pwm_ir_set_carrier(struct rc_dev *dev, u32
-> carrier)
+>  static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+> -			unsigned int *_buffer, unsigned int *_plane)
+> +			struct vb2_buffer **vb, unsigned int *plane)
+>  {
+> -	struct vb2_buffer *vb;
+> -	unsigned int buffer, plane;
+> +	unsigned int buffer;
+>  
+>  	/*
+>  	 * Sanity checks to ensure the lock is held, MEMORY_MMAP is
+> @@ -2209,24 +2216,15 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+>  		return -EBUSY;
+>  	}
+>  
+> -	/*
+> -	 * Go over all buffers and their planes, comparing the given offset
+> -	 * with an offset assigned to each plane. If a match is found,
+> -	 * return its buffer and plane numbers.
+> -	 */
+> -	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
+> -		vb = q->bufs[buffer];
+> +	/* Get buffer and plane from the offset */
+> +	buffer = (off >> PLANE_INDEX_SHIFT) & BUFFER_INDEX_MASK;
+> +	*plane = (off >> PAGE_SHIFT) & PLANE_INDEX_MASK;
+>  
+> -		for (plane = 0; plane < vb->num_planes; ++plane) {
+> -			if (vb->planes[plane].m.offset == off) {
+> -				*_buffer = buffer;
+> -				*_plane = plane;
+> -				return 0;
+> -			}
+> -		}
+> -	}
+> +	if (buffer >= q->num_buffers || *plane >= q->bufs[buffer]->num_planes)
+> +		return -EINVAL;
+>  
+> -	return -EINVAL;
+> +	*vb = q->bufs[buffer];
+> +	return 0;
+>  }
+>  
+>  int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+> @@ -2306,7 +2304,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+>  {
+>  	unsigned long off = vma->vm_pgoff << PAGE_SHIFT;
+>  	struct vb2_buffer *vb;
+> -	unsigned int buffer = 0, plane = 0;
+> +	unsigned int plane = 0;
+>  	int ret;
+>  	unsigned long length;
+>  
+> @@ -2335,12 +2333,10 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+>  	 * Find the plane corresponding to the offset passed by userspace. This
+>  	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+>  	 */
+> -	ret = __find_plane_by_offset(q, off, &buffer, &plane);
+> +	ret = __find_plane_by_offset(q, off, &vb, &plane);
+>  	if (ret)
+>  		goto unlock;
+>  
+> -	vb = q->bufs[buffer];
+> -
+>  	/*
+>  	 * MMAP requires page_aligned buffers.
+>  	 * The buffer length was page_aligned at __vb2_buf_mem_alloc(),
+> @@ -2368,7 +2364,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+>  	if (ret)
+>  		return ret;
+>  
+> -	dprintk(q, 3, "buffer %d, plane %d successfully mapped\n", buffer, plane);
+> +	dprintk(q, 3, "buffer %u, plane %d successfully mapped\n", vb->index, plane);
 >  	return 0;
 >  }
-> 
-> -static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
-> -		     unsigned int count)
-> +static enum hrtimer_restart pwm_ir_timer_cb(struct hrtimer *timer)
-> +{
-> +	struct pwm_ir *pwm_ir = container_of(timer, struct pwm_ir, timer);
-> +	ktime_t now;
-> +
-> +	/*
-> +	 * If we happen to hit an odd latency spike, loop through the
-> +	 * pulses until we catch up.
-> +	 */
-> +	do {
-> +		u64 edge;
-> +
-> +		if (pwm_ir->index >= pwm_ir->count)
-> +			goto out;
-
-Might as well avoid the goto and put the complete and return in the body of
-the if.
-
-> +
-> +		complete(&pwm_ir->edge);
-> +
-> +		edge = US_TO_NS(pwm_ir->txbuf[pwm_ir->index]);
-> +		hrtimer_add_expires_ns(timer, edge);
-> +
-> +		pwm_ir->index++;
-> +
-> +		now = timer->base->get_time();
-> +
-> +	} while (hrtimer_get_expires_tv64(timer) < now);
-> +
-> +	return HRTIMER_RESTART;
-> +out:
-> +	complete(&pwm_ir->edge);
-> +
-> +	return HRTIMER_NORESTART;
-> +}
-> +
-> +static void _pwm_ir_tx(struct pwm_ir *pwm_ir)
+>  EXPORT_SYMBOL_GPL(vb2_mmap);
+> @@ -2382,7 +2378,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
 >  {
-> -	struct pwm_ir *pwm_ir = dev->priv;
-> -	struct pwm_device *pwm = pwm_ir->pwm;
->  	struct pwm_state state;
->  	int i;
->  	ktime_t edge;
->  	long delta;
-> 
-> -	pwm_init_state(pwm, &state);
-> +	pwm_init_state(pwm_ir->pwm, &state);
-> 
->  	state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
->  	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
-> 
-> +	hrtimer_start(&pwm_ir->timer, 0, HRTIMER_MODE_REL);
-> +	wait_for_completion(&pwm_ir->edge);
->  	edge = ktime_get();
-> 
-> -	for (i = 0; i < count; i++) {
-> +	for (i = 0; i < pwm_ir->count; i++) {
->  		state.enabled = !(i % 2);
-> -		pwm_apply_state(pwm, &state);
-> +		pwm_apply_state(pwm_ir->pwm, &state);
-> +
-> +		edge = ktime_add_us(edge, pwm_ir->txbuf[i]);
-> +		wait_for_completion(&pwm_ir->edge);
-> 
-> -		edge = ktime_add_us(edge, txbuf[i]);
->  		delta = ktime_us_delta(edge, ktime_get());
-> +
->  		if (delta > 0)
-> -			usleep_range(delta, delta + 10);
-> +			udelay(delta);
->  	}
-> 
->  	state.enabled = false;
-> -	pwm_apply_state(pwm, &state);
-> +	pwm_apply_state(pwm_ir->pwm, &state);
-> +
-> +	pwm_ir->count = 0;
-> +}
-> +
-> +static int pwm_ir_thread(void *data)
-> +{
-> +	struct pwm_ir *pwm_ir = data;
-> +
-> +	for (;;) {
-> +		wait_event_idle(pwm_ir->tx_wq,
-> +				kthread_should_stop() || pwm_ir->count);
-> +
-> +		if (kthread_should_stop())
-> +			break;
-> +
-> +		_pwm_ir_tx(pwm_ir);
-> +		complete(&pwm_ir->tx_done);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
-> +		     unsigned int count)
-> +{
-> +	struct pwm_ir *pwm_ir = dev->priv;
-> +
-> +	pwm_ir->txbuf = txbuf;
-> +	pwm_ir->count = count;
-> +	pwm_ir->index = 0;
-> +
-> +	wake_up(&pwm_ir->tx_wq);
-> +	wait_for_completion(&pwm_ir->tx_done);
-> 
->  	return count;
->  }
-> @@ -91,12 +168,24 @@ static int pwm_ir_probe(struct platform_device *pdev)
->  	if (!pwm_ir)
->  		return -ENOMEM;
-> 
-> +	platform_set_drvdata(pdev, pwm_ir);
-> +
-> +	pwm_ir->count = 0;
-> +
->  	pwm_ir->pwm = devm_pwm_get(&pdev->dev, NULL);
->  	if (IS_ERR(pwm_ir->pwm))
->  		return PTR_ERR(pwm_ir->pwm);
-> 
-> -	pwm_ir->carrier = 38000;
-> +	init_waitqueue_head(&pwm_ir->tx_wq);
-> +	init_completion(&pwm_ir->edge);
-> +	init_completion(&pwm_ir->tx_done);
-> +
-> +	hrtimer_init(&pwm_ir->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> +	pwm_ir->timer.function = pwm_ir_timer_cb;
-> +
->  	pwm_ir->duty_cycle = 50;
-> +	pwm_ir->carrier = DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm_ir->pwm),
-> +						NSEC_PER_SEC);
-> 
->  	rcdev = devm_rc_allocate_device(&pdev->dev, RC_DRIVER_IR_RAW_TX);
->  	if (!rcdev)
-> @@ -109,15 +198,38 @@ static int pwm_ir_probe(struct platform_device *pdev)
->  	rcdev->s_tx_duty_cycle = pwm_ir_set_duty_cycle;
->  	rcdev->s_tx_carrier = pwm_ir_set_carrier;
-> 
-> +	pwm_ir->tx_thread = kthread_create(pwm_ir_thread, pwm_ir, "%s/tx",
-> +					   dev_name(&pdev->dev));
-> +	if (IS_ERR(pwm_ir->tx_thread))
-> +		return PTR_ERR(pwm_ir->tx_thread);
-> +
-> +	sched_set_fifo(pwm_ir->tx_thread);
-> +	wake_up_process(pwm_ir->tx_thread);
+>  	unsigned long off = pgoff << PAGE_SHIFT;
+>  	struct vb2_buffer *vb;
+> -	unsigned int buffer, plane;
+> +	unsigned int plane;
+>  	void *vaddr;
+>  	int ret;
+>  
+> @@ -2392,12 +2388,10 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+>  	 * Find the plane corresponding to the offset passed by userspace. This
+>  	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+>  	 */
+> -	ret = __find_plane_by_offset(q, off, &buffer, &plane);
+> +	ret = __find_plane_by_offset(q, off, &vb, &plane);
+>  	if (ret)
+>  		goto unlock;
+>  
+> -	vb = q->bufs[buffer];
+> -
+>  	vaddr = vb2_plane_vaddr(vb, plane);
+>  	mutex_unlock(&q->mmap_lock);
+>  	return vaddr ? (unsigned long)vaddr : -EINVAL;
 
-This means the thread is always around. How about creating the thread 
-per-tx?
+-- 
+Regards,
 
-> +
->  	rc = devm_rc_register_device(&pdev->dev, rcdev);
-> -	if (rc < 0)
-> +	if (rc < 0) {
-> +		kthread_stop(pwm_ir->tx_thread);
->  		dev_err(&pdev->dev, "failed to register rc device\n");
-> +	}
-> 
->  	return rc;
->  }
-> 
-> +static int pwm_ir_remove(struct platform_device *pdev)
-> +{
-> +	struct pwm_ir *pwm_ir = platform_get_drvdata(pdev);
-> +
-> +	if (pwm_ir->tx_thread) {
-> +		kthread_stop(pwm_ir->tx_thread);
-> +		pwm_ir->tx_thread = NULL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static struct platform_driver pwm_ir_driver = {
->  	.probe = pwm_ir_probe,
-> +	.remove = pwm_ir_remove,
->  	.driver = {
->  		.name	= DRIVER_NAME,
->  		.of_match_table = of_match_ptr(pwm_ir_of_match),
+Sakari Ailus
