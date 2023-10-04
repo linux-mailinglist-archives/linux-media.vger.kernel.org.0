@@ -2,119 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E93127B7C36
-	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 11:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8C0D7B7C87
+	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 11:44:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241990AbjJDJgH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Oct 2023 05:36:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
+        id S242069AbjJDJou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Oct 2023 05:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232889AbjJDJgG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 05:36:06 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2561EB7
-        for <linux-media@vger.kernel.org>; Wed,  4 Oct 2023 02:36:03 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qnyIR-0008EB-Mz; Wed, 04 Oct 2023 11:35:59 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qnyIR-00AztC-AH; Wed, 04 Oct 2023 11:35:59 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qnyIR-008tcd-0w; Wed, 04 Oct 2023 11:35:59 +0200
-Date:   Wed, 4 Oct 2023 11:35:58 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Sean Young <sean@mess.org>
-Cc:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: pwm-ir-tx: trigger edges from hrtimer
- interrupt context
-Message-ID: <20231004093558.bt7gf3m6erxxpaie@pengutronix.de>
-References: <cover.1696156485.git.sean@mess.org>
- <7efe4229514001b835fa70d51973cd3306dc0b04.1696156485.git.sean@mess.org>
- <5982681d-4fb5-0271-fdc5-712d6c8512e3@gmail.com>
- <ZRp9RE2jOZdL0+1/@gofer.mess.org>
- <7075cfd7-847e-8d28-72be-93761b36b0e0@gmail.com>
- <ZR0Xue8Mu8VZIxm5@gofer.mess.org>
+        with ESMTP id S242061AbjJDJot (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 05:44:49 -0400
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E81A7
+        for <linux-media@vger.kernel.org>; Wed,  4 Oct 2023 02:44:45 -0700 (PDT)
+X-KPN-MessageId: a55cff68-629a-11ee-90ec-00505699b430
+Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id a55cff68-629a-11ee-90ec-00505699b430;
+        Wed, 04 Oct 2023 11:44:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=tCQwTOg6EZKsFKGY5sd1RNw/73pN54y1SZSPjSAVn8I=;
+        b=oezxJrbr/5RfXfBOSjdu+s1GfCosGCieowWwfcVTt67mz3mzTTR3WUOofIOqSKwTT4K5V6WUWMAoj
+         fxh1fwxgjJhzcZ1ghcheqxJYTUCGcN5M4R3FM2SubhBoLTbxDS09hcQAeI5wJSYLMnx/EB54lchgZf
+         C939FWzE7DzKYZ4ugGnsqiFtDog6M+3pbe0eLx0F8YkVGz6S2OtNmqnHtbdEzigNSEMnYkglrAhmvE
+         lTxueqX2nmJDwJ+YD0xRKpwcdnAKgetdISnb3rB+kRIZKGKdIuLARCrEFl2XAjsa8R52MBgppU7G+f
+         5JDsh0AnLl4MsW8q1iTyZ4PTM0AoOFA==
+X-KPN-MID: 33|Xd2evYbjuV5WodjIv7ET3yz4MvAFrxM4WViBb/7fy555PjwH3usDI52Zuluo6ay
+ 3rJ2RRQ/6dYUeDvlbVPs0GuS4n+709RhxBFgMG2R/WAY=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|75fSE3b2QWEuqiHfLRtQWid1FHJBGvTZe3i6M7ZKEpfN0IpQSyDjQm98kiR87tU
+ vQaL5h0k94vgbfICUJiqdPQ==
+X-Originating-IP: 173.38.220.46
+Received: from [10.47.77.214] (unknown [173.38.220.46])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id a4ba84e5-629a-11ee-9dc8-00505699772e;
+        Wed, 04 Oct 2023 11:44:43 +0200 (CEST)
+Message-ID: <3173f083-ae6c-4f57-be00-05203bf798a3@xs4all.nl>
+Date:   Wed, 4 Oct 2023 11:44:39 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="pe6ujpvp227ivopk"
-Content-Disposition: inline
-In-Reply-To: <ZR0Xue8Mu8VZIxm5@gofer.mess.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] v4l2-compliance: add EOPNOTSUPP for create_bufs
+To:     Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
+        sebastian.fricke@collabora.com, nas.chung@chipsnmedia.com,
+        jackson.lee@chipsnmedia.com
+References: <20231003224536.13199-1-deborah.brouwer@collabora.com>
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231003224536.13199-1-deborah.brouwer@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Deb,
 
---pe6ujpvp227ivopk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/4/23 00:45, Deborah Brouwer wrote:
+> If VIDIOC_CREATE_BUFS is supported on one queue but not the other, then
+> the driver should return EOPNOTSUPP for the unsupported queue only.
+> 
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> ---
+> On the wave5 driver, v4l2-compliance -d0 -v now shows:
+> <snip>
+> Buffer ioctls:
+>         info: test buftype Video Capture Multiplanar
+>         info: VIDIOC_CREATE_BUFS not supported for Video Capture Multiplanar
+>         info: test buftype Video Output Multiplanar
+>     test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>     test VIDIOC_EXPBUF: OK
+>         info: could not test the Request API, no suitable control found
+>     test Requests: OK (Not Supported)
+> 
+> Total for wave5-dec device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
+> 
+>  utils/v4l2-compliance/v4l2-compliance.h     | 1 +
+>  utils/v4l2-compliance/v4l2-test-buffers.cpp | 8 ++++++++
+>  2 files changed, 9 insertions(+)
+> 
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+> index 7caf254b..99c98916 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.h
+> +++ b/utils/v4l2-compliance/v4l2-compliance.h
+> @@ -165,6 +165,7 @@ struct base_node {
+>  	bool supports_orphaned_bufs;
+>  	// support for this was introduced in 5.9
+>  	bool might_support_cache_hints;
+> +	bool create_bufs_on_one_queue_only;
 
-Hello,
+No need to add this here.
 
-On Wed, Oct 04, 2023 at 08:43:53AM +0100, Sean Young wrote:
-> On Mon, Oct 02, 2023 at 12:52:00PM +0300, Ivaylo Dimitrov wrote:
-> > On 2.10.23 =D0=B3. 11:20 =D1=87., Sean Young wrote:
-> > > Requires a copy of pwm_state in pwm_ir, not a huge difference (copy o=
-f 28
-> > > bytes vs keeping it around).
-> >=20
-> > see my previous comment re struct var. Also, look at the overhead:
-> > https://elixir.bootlin.com/linux/v6.6-rc3/source/include/linux/pwm.h#L3=
-49 -
-> > you call pwm_get_state() for every edge.
->=20
-> That's the 28 bytes copy I was talking about.
+>  };
+>  
+>  struct node : public base_node, public cv4l_fd {
+> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> index 6d592c9b..e709580b 100644
+> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> @@ -693,6 +693,14 @@ int testReqBufs(struct node *node)
+>  				warn("VIDIOC_CREATE_BUFS not supported\n");
+>  				break;
+>  			}
+> +			if (ret == EOPNOTSUPP) {
+> +				/* VIDIOC_CREATE_BUFS is supported on one queue but not the other. */
+> +				fail_on_test(node->create_bufs_on_one_queue_only);
+> +				node->create_bufs_on_one_queue_only = true;
+> +				info("VIDIOC_CREATE_BUFS not supported for %s\n",
+> +				     buftype2s(q.g_type()).c_str());
+> +				break;
+> +			}
 
-Note that pwm_get_state() also has (IMHO) confusing semantics. It gives
-you (most of the time) the state that was last pwm_state_apply()d and
-not the state the hardware is currently in. In my book keeping the
-pwm_state around is the nicer approach that often is also simpler ...
+It is sufficient to have it as a local variable in this function.
 
-> However keeping a pointer in struct pwm_ir is a good compromise and makes
-> the rest of the code cleaner.
+>  
+>  			memset(&crbufs, 0xff, sizeof(crbufs));
+>  			node->g_fmt(crbufs.format, i);
 
-=2E.. which seems to apply here, too.
+In any case, the logic needs to be improved a bit:
 
-Best regards
-Uwe
+keep track of the q.create_bufs(node, 0) return values: crbufs_enotty_cnt,
+crbufs_eopnotsupp_cnt and crbufs_ok_cnt (for any ohter return values).
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Fail if (crbufs_enotty_cnt && (crbufs_eopnotsupp_cnt + crbufs_ok_cnt), since
+if ENOTTY is returned once, it has to be returned always.
 
---pe6ujpvp227ivopk
-Content-Type: application/pgp-signature; name="signature.asc"
+Also fail if (crbufs_eopnotsupp_cnt && !crbufs_ok_cnt), since EOPNOTSUPP indicates
+that it is supported in some cases, but not others, so you need to see at least
+some successful calls.
 
------BEGIN PGP SIGNATURE-----
+I think that is a better test, because that checks for ENOTTY abuse as well.
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUdMf4ACgkQj4D7WH0S
-/k4a8ggAg6OI8IGWfsLy664bxwFXr17DZ7mff8aWmCNyTuzenyyn1ztaclxH9LDA
-90+B2fbt/XxWJzt5pX+OU6wcGDMMmsVQdv87X4ACZBkhQ0k89TJ40SbVNFXoDLUa
-BTjQsYPqOxYUIS7AsGh2NRW1gIwL0ITcVdeaw/jZSc5gtYM/hc8HYzvPsL7V8Rom
-IGRNU0saEMLKiIcXObvQMAoLG4S6YPE0GKiOQZee2BQiEtF0uvfhHRSDcaEybMIg
-uyWqbJqS2i0dW6xsG+sp9ySpxPd9osh5LYhwxa9Xr/a0JPx+fjzTBt8RAefz1qWA
-KyU5n3RpaHKDe3p7eXq8U9HhzEm66A==
-=/8+M
------END PGP SIGNATURE-----
+Regards,
 
---pe6ujpvp227ivopk--
+	Hans
