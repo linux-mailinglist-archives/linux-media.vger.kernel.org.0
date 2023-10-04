@@ -2,67 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD94C7B761D
-	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 03:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCA557B7645
+	for <lists+linux-media@lfdr.de>; Wed,  4 Oct 2023 03:25:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238564AbjJDBHb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Oct 2023 21:07:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56294 "EHLO
+        id S239744AbjJDBZK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Oct 2023 21:25:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239203AbjJDBHb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 21:07:31 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C2FBD
-        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 18:07:27 -0700 (PDT)
+        with ESMTP id S239461AbjJDBZJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Oct 2023 21:25:09 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2070AB
+        for <linux-media@vger.kernel.org>; Tue,  3 Oct 2023 18:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696381647; x=1727917647;
+  t=1696382706; x=1727918706;
   h=date:from:to:cc:subject:message-id;
-  bh=BeYIzbDiXhCb/6/cVIa+AkCISqR57hy6EIU7bbJHL1g=;
-  b=M/HHoZbRAq49pjSlCDH1oYB5VaQXSHt6XYPdvnL9ZPW9ndb3gYljdqUX
-   WXEYB55iKNTdvFo/Igq/4Mz3XzDZl0HYlx3ybTCLUAz/KOHfstwcyTGqi
-   YvG7x345h682ntJIkEVZ0EweEJECHtKdhtIVNRIxPY6W364wCK1XJUPAZ
-   7bf+ev5uTPheHvaQQYUEMzCF5cyokijjbpPXLYXRNL/4QF50V8+3k5Ukp
-   dxfatY2DprDtDsS5tVfZp0tMNXwNLTI1aiYQoXe0UQ1eS3I7ru4cLvqhy
-   DAx0YZ2AeFncW23CVEgxK6S+57RGaIJ6+jiFp3hDEoSHO94YbGRaaBTxm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="449514398"
+  bh=j1DhKzVSlNOrWXPt2jiL4U22nej48VH+J1gC2lWb0+U=;
+  b=DHUwsuBYXIlAyum8Mg4WmFsawYlijmYpgZ8c9AsVYDp2T/h13T7Y+FhL
+   5pRuSn1tVmdXGhB5tWHMvJfrisuUuEKnxAQSgESgjbN75t5tFu7OSjrC5
+   MmIJlUWgXyYhjom4XYDMlz/79IoE1DqdW43546KrZQSq6bbF+Jso652K0
+   1/TNmsyFzHNOgOItI6uOxWh+C0sJUGh9vaTsu6wROcJqRo3kjCXIG6cr6
+   nNbUhPrxNRkTH6WeLtgWHp7I2y8REDmigzwucyrskmh8mz6PPiNOq8SWc
+   wvlOGFlCI7zBwDqJonUTvBjZtYtaHbn7jiWK+9YNnWZO+0A5dpm05aYIX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="1620474"
 X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="449514398"
+   d="scan'208";a="1620474"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 18:07:27 -0700
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 18:25:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="821458040"
+X-IronPort-AV: E=McAfee;i="6600,9927,10852"; a="821463423"
 X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="821458040"
+   d="scan'208";a="821463423"
 Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 03 Oct 2023 18:07:26 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 03 Oct 2023 18:25:03 -0700
 Received: from kbuild by c3b01524d57c with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qnqMF-000A9z-3C;
-        Wed, 04 Oct 2023 01:07:23 +0000
-Date:   Wed, 04 Oct 2023 09:07:02 +0800
+        id 1qnqdI-000ACG-0Y;
+        Wed, 04 Oct 2023 01:25:00 +0000
+Date:   Wed, 04 Oct 2023 09:24:28 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata] BUILD SUCCESS
- 99f5dcb0d71a9868f22044ed46fb90735833425e
-Message-ID: <202310040900.s6AaY4cV-lkp@intel.com>
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ 64079722be862e4e31b15f75503dee0315aca84e
+Message-ID: <202310040926.CkLpxgK4-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
-branch HEAD: 99f5dcb0d71a9868f22044ed46fb90735833425e  media: ccs: Rely on sub-device state locking
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: 64079722be862e4e31b15f75503dee0315aca84e  media: Documentation: Split camera sensor documentation
 
-elapsed time: 738m
+elapsed time: 756m
 
 configs tested: 107
 configs skipped: 2
