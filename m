@@ -2,92 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 842647BA100
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 16:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52A3E7B9E65
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 16:06:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238124AbjJEOnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Oct 2023 10:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48736 "EHLO
+        id S229649AbjJEOFT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Oct 2023 10:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236903AbjJEOhU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 10:37:20 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE00D47858;
-        Thu,  5 Oct 2023 07:02:55 -0700 (PDT)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 395AZB2Z025382;
-        Thu, 5 Oct 2023 13:46:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-        message-id:date:mime-version:subject:to:cc:references:from
-        :in-reply-to:content-type:content-transfer-encoding; s=
-        selector1; bh=4xkLY2sFZ6bAzP0C1Okvtq5k6MsL61eKVQtjQb/uCzI=; b=ih
-        YJGuaoo6cj7jDjv8uH+x/yHLAIAYkgZMQObGOUiuNk1/TqYdrHiovCWuZw64s+rh
-        x/a9xMB1yUcVzidue2x3rz3sAPaSSscGSZw8nOQj+SkUtnTf6J91iUPeE5JhqVyH
-        8AdXjupa7lH5IgiQ9sUDFQZXT/5SdNstWBZAHRsmnHnQKhekScWINLECzhgc6oA9
-        twXbm+xtMTeT3Bn7rdsh8zklNFhgyItrygbhaXLqkU/nN6QBJzsXTFOOxXWy1X0d
-        vBvWEgUvR5mbwWhNEi4BwNCu3syuhstUFx2AiuuUi/kEADr9kLJnMQ3hoAFwgNZf
-        2s6m4Xb/hrFLoh0IBW9w==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3thuh409b3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 Oct 2023 13:46:34 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BF7D010005C;
-        Thu,  5 Oct 2023 13:46:32 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B19E124AAD8;
-        Thu,  5 Oct 2023 13:46:32 +0200 (CEST)
-Received: from [10.201.20.120] (10.201.20.120) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 5 Oct
- 2023 13:46:31 +0200
-Message-ID: <a4ae0d0a-2a80-45d7-9527-928e26fef4ef@foss.st.com>
-Date:   Thu, 5 Oct 2023 13:46:30 +0200
+        with ESMTP id S230004AbjJEODr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 10:03:47 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 819762572C
+        for <linux-media@vger.kernel.org>; Thu,  5 Oct 2023 04:55:37 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-40537481094so7631845e9.0
+        for <linux-media@vger.kernel.org>; Thu, 05 Oct 2023 04:55:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696506936; x=1697111736; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RQdcaVujkFdj0wa7smLreLyTyUiwJXB1nTmSI2VVOLc=;
+        b=NqGFtfkMJKin2+i3yG7AkOUtLJC3segHwBvrg4oSTqSM20S/1okNhe0kgvGJU9fmvu
+         38GQ8uVPQi3uh3XgLJmBXxpq8qrzSiT4TC4QkX5CZjor+xVErvaeSLKQvauQsihctbB6
+         jxldZgy44Ueo+HMSkqmBARema1X1sNzrAgLesn057+AWLnXF9AgtVmOsXqmL5LMqaVqc
+         jXMfNR1IMtio9owB8QBRmfkff1iQqw9wS1wuAqSCxVTrzcl56ylFuW5pfwOSYCDMeEF1
+         EPYVEU1vwnwINNQsWjKWjdectueXs/aC42cCCLqni7kN4TxBNWljB6V/m/gTP2teQjt2
+         AGzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696506936; x=1697111736;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RQdcaVujkFdj0wa7smLreLyTyUiwJXB1nTmSI2VVOLc=;
+        b=q3CBScteut7GW24UN9AYFVN+0n47/P+KvS4/GZiKeM0S89p+6qIG/kTCaQGb0IoP/S
+         TYM+0h6KuZk+coaPaJZwtdMxQEpvtRBXtb/4Bi6rmXovnynu6sS19TOhvAG2u/yD+MX0
+         CzrFWdWSp3osajMtFLBaWMXD56xd8uWlmOtWFoBiXbdg3OsEper2zD10LtGBrgK23PfA
+         sKrXAh2f7D6AYgC/2w0p6cu+3Y2rZ4nP07Rm6LTJNxyg6Ile5gg73Oe3A73/uYQbAfcM
+         cPL7/znRKfkaOXrhwhRweGlQnmisG36hO6GckTZrXG/iQ20QhXk3qG9CjTu0MKmdP/dc
+         fnHg==
+X-Gm-Message-State: AOJu0YysYc+8xWgSsKnU3JTYpC9eih/rcMoGUQwE3z6J32MPIYOnKUn0
+        ntq6JNkrTMF9fbTOFEObOLb2gw==
+X-Google-Smtp-Source: AGHT+IFEbOl3ekk/K3E950SGKAPMaVFIo8CnYOp5aFhY6KBgCnBxNTv+coH9N4s4TWUgK1RS04IatQ==
+X-Received: by 2002:a1c:720c:0:b0:3fe:4cbc:c345 with SMTP id n12-20020a1c720c000000b003fe4cbcc345mr4775325wmc.41.1696506935975;
+        Thu, 05 Oct 2023 04:55:35 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x2-20020a5d6502000000b00323293bd023sm1649067wru.6.2023.10.05.04.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Oct 2023 04:55:35 -0700 (PDT)
+Date:   Thu, 5 Oct 2023 14:55:32 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     milkfafa@gmail.com
+Cc:     linux-media@vger.kernel.org
+Subject: [bug report] media: nuvoton: Add driver for NPCM video capture and
+ encoding engine
+Message-ID: <a89539bc-e4d9-466f-a9dc-1bf440e71cea@moroto.mountain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFC 0/6] VP8 H1 stateless encoding
-Content-Language: en-US
-To:     Conor Dooley <conor@kernel.org>
-CC:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        <linux-media@vger.kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Adam Ford <aford173@gmail.com>
-References: <20231004103720.3540436-1-hugues.fruchet@foss.st.com>
- <20231005-bleach-unknotted-9b11443959b1@spud>
-From:   Hugues FRUCHET <hugues.fruchet@foss.st.com>
-In-Reply-To: <20231005-bleach-unknotted-9b11443959b1@spud>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.20.120]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-05_08,2023-10-05_01,2023-05-22_02
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -96,85 +67,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Conor,
+Hello Marvin Lin,
 
-My fault, mistake on "to" when sending mail, please ignore this serie 
-there are no bindings/DT in it.
-Sorry for disturbance.
+The patch 70721089985c: "media: nuvoton: Add driver for NPCM video
+capture and encoding engine" from Sep 22, 2023 (linux-next), leads to
+the following Smatch static checker warning:
 
-Best regards,
-Hugues.
+	drivers/media/platform/nuvoton/npcm-video.c:493 npcm_video_find_rect()
+	warn: sleeping in atomic context
 
-On 10/5/23 12:59, Conor Dooley wrote:
-> On Wed, Oct 04, 2023 at 12:37:14PM +0200, Hugues Fruchet wrote:
->> Hi all,
->>
->> Here is an RFC to support VP8 encoding using Hantro H1 hardware
->> of STM32MP25 SoCs (Verisilicon VC8000NanoE IP).
->> This work is derived from work done to support Rockchip RK3399
->> VPU2 in RFC [1] with a reshuffling of registers to match H1
->> register set.
->>
->> This has been tested on STM32MP257F-EV1 evaluation board using
->> GStreamer userspace [2]:
->> gst-launch-1.0 videotestsrc num-buffers=500 ! video/x-raw,width=640,height=480 \
->> ! v4l2slvp8enc ! queue ! matroskamux ! filesink location=test_vp8.mkv
->>
->> For the sake of simplicity I have embedded here the RFC [1] before the
->> changes related to this exact RFC, all rebased on v6.6 + STM32MP25
->> hardware codecs support [3].
-> 
-> I don't see any bindings etc here, what is it that you think I would
-> care about looking at in this RFC series?
-> 
-> Thanks,
-> Conor.
-> 
->>
->> [1] https://lwn.net/ml/linux-media/20230309125651.23911-1-andrzej.p@collabora.com/
->> [2] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3736
->> [3] https://patchwork.kernel.org/project/linux-media/list/?series=789861
->>
->> Best regards,
->> Hugues.
->>
->>
->> Andrzej Pietrasiewicz (2):
->>    media: uapi: Add VP8 stateless encoder controls
->>    media: hantro: add VP8 encode support for Rockchip RK3399 VPU2
->>
->> Hugues Fruchet (4):
->>    media: hantro: add h1 vp8 encode support
->>    media: hantro: add VP8 encode support for STM32MP25 VENC
->>    media: hantro: h1: NV12 single-plane support
->>    media: hantro: add NV12 single-plane support for STM32MP25 VENC
->>
->>   drivers/media/platform/verisilicon/Makefile   |    3 +
->>   drivers/media/platform/verisilicon/hantro.h   |   10 +
->>   .../platform/verisilicon/hantro_boolenc.c     |   69 +
->>   .../platform/verisilicon/hantro_boolenc.h     |   21 +
->>   .../media/platform/verisilicon/hantro_drv.c   |   15 +-
->>   .../platform/verisilicon/hantro_h1_jpeg_enc.c |   42 +-
->>   .../platform/verisilicon/hantro_h1_regs.h     |   71 +-
->>   .../platform/verisilicon/hantro_h1_vp8_enc.c  | 1589 +++++++++++++++++
->>   .../media/platform/verisilicon/hantro_hw.h    |   93 +
->>   .../media/platform/verisilicon/hantro_v4l2.c  |    5 +-
->>   .../media/platform/verisilicon/hantro_vp8.c   |  118 ++
->>   .../verisilicon/rockchip_vpu2_hw_vp8_enc.c    | 1574 ++++++++++++++++
->>   .../platform/verisilicon/rockchip_vpu2_regs.h |    1 +
->>   .../platform/verisilicon/rockchip_vpu_hw.c    |   23 +-
->>   .../platform/verisilicon/stm32mp25_venc_hw.c  |   35 +-
->>   drivers/media/v4l2-core/v4l2-ctrls-core.c     |   13 +
->>   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    5 +
->>   include/media/v4l2-ctrls.h                    |    2 +
->>   include/uapi/linux/v4l2-controls.h            |   91 +
->>   include/uapi/linux/videodev2.h                |    3 +
->>   20 files changed, 3755 insertions(+), 28 deletions(-)
->>   create mode 100644 drivers/media/platform/verisilicon/hantro_boolenc.c
->>   create mode 100644 drivers/media/platform/verisilicon/hantro_boolenc.h
->>   create mode 100644 drivers/media/platform/verisilicon/hantro_h1_vp8_enc.c
->>   create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu2_hw_vp8_enc.c
->>
->> -- 
->> 2.25.1
->>
+drivers/media/platform/nuvoton/npcm-video.c
+    488 static int npcm_video_find_rect(struct npcm_video *video,
+    489                                 struct rect_list_info *info,
+    490                                 unsigned int offset)
+    491 {
+    492         if (offset < info->tile_perline) {
+--> 493                 info->list = npcm_video_new_rect(video, offset, info->index);
+
+Does a sleeping allocation.
+
+    494                 if (!info->list) {
+    495                         dev_err(video->dev, "Failed to allocate rect_list\n");
+    496                         return -ENOMEM;
+    497                 }
+    498 
+    499                 npcm_video_merge_rect(video, info);
+    500         }
+    501         return 0;
+    502 }
+
+The problematic call tree is:
+
+npcm_video_irq() <- disables preempt
+-> npcm_video_hextile()
+   -> npcm_video_get_diff_rect()
+      -> npcm_video_get_rect_list()
+         -> npcm_video_build_table()
+            -> npcm_video_find_rect()
+
+The npcm_video_irq() function holds spin_lock(&video->lock) and we can't
+sleep while holding a spinlock.
+
+regards,
+dan carpenter
