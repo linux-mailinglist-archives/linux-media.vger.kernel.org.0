@@ -2,54 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B04F7B99E3
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 04:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52CE17B9A06
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 04:44:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233577AbjJECUo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Oct 2023 22:20:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34270 "EHLO
+        id S233748AbjJECok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Oct 2023 22:44:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233313AbjJECUn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 22:20:43 -0400
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F42C1;
-        Wed,  4 Oct 2023 19:20:38 -0700 (PDT)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        with ESMTP id S233787AbjJECoj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Oct 2023 22:44:39 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D007C0
+        for <linux-media@vger.kernel.org>; Wed,  4 Oct 2023 19:44:33 -0700 (PDT)
+Received: from db550.lan (node-1w7jr9sszvrs12j3t2c4roop6.ipv6.telus.net [IPv6:2001:569:be8a:cf00:b266:6d88:df5a:5e0a])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 48D17864C3;
-        Thu,  5 Oct 2023 04:20:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1696472434;
-        bh=tsEtEqiIgmM0XR9aZhVSacXQcVQ2j7YFJBDTLrjYKB4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=EmtdEYK8bSYL4AZzwqKBFD3J7QeXa3nlgwoP4BOgEwu0z+oXfxy8IZp1PZ65b9tTR
-         M7HOMhyAwtMXXlKuCYPv4nMG9zmGL1XMzxtR0Iu6n40AWkNUw0nSkcT/wmSCdJdv96
-         3VAI76K2s6VFcnTlrgS+drISseTJvcjMUMVJEkm6xcB2JJZINPC9RZ5POy3Utvl9uF
-         zSt5nET/FwhChCfKQbntGE9+9Pke3FBUexs29G5nZggTwV4cHhem0b54VsoMCqg3FQ
-         g0UaOikVqsJAn0fTKAVWA7asoslp0619FYuJWnj3QromvdQqx7dGc97Y2RA8UbD/pB
-         iOoH8IlHYi+wA==
-Message-ID: <870e8fc7-8fc4-4773-8546-3b5f5dc827ef@denx.de>
-Date:   Thu, 5 Oct 2023 04:20:33 +0200
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5A66266072F6;
+        Thu,  5 Oct 2023 03:44:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1696473871;
+        bh=qxQnfyCyu3V2VHGVoJTesyavvJg5fSRdPWwVuq8iv0s=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cGdME8cOVGRU4Z0T435PIoO/sOxHjeDymZQtlMCTK/+2QfjPnFVk9a6aZbVcRTzKb
+         ZQiYZ6DF1KDLTel2jfkzpkYqGGQhTdhu7dDWGxVT5jsWo2nftb02PIE4WktghU5RT+
+         u+10f/oja7vCwxouf0z/oK7b8b+k7gU1mow2DGmlSj7HJPQc1+qW/QdJhKBy0UYQ7U
+         82V6ZKrOzNMS/ghdzqI+U1JYQOFGNZUZ4ramqlCfaCD/HgtVdFT4wOadx7N+whcZ3f
+         TsKPyXCz1T0kAvYmfc6KH5xv68GA4n41emG8zaBTDSLz730vu126viZZcHXNIFhroQ
+         lixHDmK8mr8rQ==
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
+        sebastian.fricke@collabora.com, nas.chung@chipsnmedia.com,
+        jackson.lee@chipsnmedia.com,
+        Deborah Brouwer <deborah.brouwer@collabora.com>
+Subject: [PATCH v2] v4l2-compliance: check errors returned by CREATE_BUFS
+Date:   Wed,  4 Oct 2023 19:44:15 -0700
+Message-Id: <20231005024415.20212-1-deborah.brouwer@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: dt-bindings: imx7-csi: Make power-domains not
- required for imx8mq
-To:     Fabio Estevam <festevam@gmail.com>,
-        laurent.pinchart@ideasonboard.com
-Cc:     rmfrfs@gmail.com, martink@posteo.de, mchehab@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, Fabio Estevam <festevam@denx.de>
-References: <20231004201105.2323758-1-festevam@gmail.com>
-Content-Language: en-US
-From:   Marek Vasut <marex@denx.de>
-In-Reply-To: <20231004201105.2323758-1-festevam@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -60,21 +53,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/4/23 22:11, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
-> 
-> On i.MX8MQ the MIPI CSI block does have an associated power-domain, but
-> the CSI bridge does not.
-> 
-> Remove the power-domains requirement from the i.MX8MQ CSI bridge
-> to fix the following schema warning:
-> 
-> imx8mq-librem5-r4.dtb: csi@30a90000: 'power-domains' is a required property
-> from schema $id: http://devicetree.org/schemas/media/nxp,imx7-csi.yaml#
-> 
-> Fixes: de655386845a ("media: dt-bindings: media: imx7-csi: Document i.MX8M power-domains property")
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+If VIDIOC_CREATE_BUFS is not supported by a driver, it should return
+ENOTTY on all queues; so add a test to fail if ENOTTY is returned on only
+one queue.
 
-Reviewed-by: Marek Vasut <marex@denx.de>
+If  VIDIOC_CREATE_BUFS is supported, asymmetrically, on only one queue and
+not another, then the driver should return EOPNOTSUPP for only that queue.
+Fail if the driver returns EOPNOTSUPP on both queues.
 
-Thanks !
+Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+---
+Changes since v1:
+- add the ENOTTY test
+- use a count instead of bool to keep track of error codes
+
+On the wave5 driver, v4l2-compliance -d0 -v shows:
+<snip>
+Buffer ioctls:
+        info: test buftype Video Capture Multiplanar
+        info: VIDIOC_CREATE_BUFS not supported for Video Capture Multiplanar
+        info: test buftype Video Output Multiplanar
+    test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+    test VIDIOC_EXPBUF: OK
+        info: could not test the Request API, no suitable control found
+    test Requests: OK (Not Supported)
+
+Total for wave5-dec device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
+
+
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index 6d592c9b..632da7f8 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -540,6 +540,9 @@ int testReqBufs(struct node *node)
+ 	bool dmabuf_valid;
+ 	int ret;
+ 	unsigned i, m;
++	int crbufs_ok_cnt = 0;
++	int crbufs_enotty_cnt = 0;
++	int crbufs_eopnotsupp_cnt = 0;
+ 
+ 	node->reopen();
+ 
+@@ -690,9 +693,21 @@ int testReqBufs(struct node *node)
+ 
+ 			ret = q.create_bufs(node, 0);
+ 			if (ret == ENOTTY) {
++				/* VIDIOC_CREATE_BUFS is not supported at all. */
++				crbufs_enotty_cnt++;
++				fail_on_test(crbufs_enotty_cnt && (crbufs_eopnotsupp_cnt + crbufs_ok_cnt));
+ 				warn("VIDIOC_CREATE_BUFS not supported\n");
+ 				break;
+ 			}
++			if (ret == EOPNOTSUPP) {
++				/* VIDIOC_CREATE_BUFS is supported on one queue but not the other. */
++				fail_on_test(crbufs_eopnotsupp_cnt && !crbufs_ok_cnt);
++				crbufs_eopnotsupp_cnt++;
++				info("VIDIOC_CREATE_BUFS not supported for %s\n",
++				     buftype2s(q.g_type()).c_str());
++				break;
++			}
++			crbufs_ok_cnt++;
+ 
+ 			memset(&crbufs, 0xff, sizeof(crbufs));
+ 			node->g_fmt(crbufs.format, i);
+-- 
+2.40.1
+
