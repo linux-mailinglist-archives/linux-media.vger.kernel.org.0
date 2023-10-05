@@ -2,90 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E35E7BA051
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 16:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 842647BA100
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 16:53:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233574AbjJEOev (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Oct 2023 10:34:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53166 "EHLO
+        id S238124AbjJEOnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Oct 2023 10:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234003AbjJEOcl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 10:32:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44E6E24EB9
-        for <linux-media@vger.kernel.org>; Thu,  5 Oct 2023 04:40:21 -0700 (PDT)
-Received: from [192.168.88.20] (91-157-153-81.elisa-laajakaista.fi [91.157.153.81])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49E2C8C;
-        Thu,  5 Oct 2023 13:38:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696505913;
-        bh=LUBwgmOnESqdb7XxTvJfVN+UyOXK+KnzgMC0susmxAw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=pBl2qEFmIGp5cjvM0VHOCQjG92qnEuhpEVA4kzhvnnUQfq+B6UI5Y3yXgcm+vs8ly
-         JQObakFIPV4gFB+NEpdq6s3xWX5fZfrdA2Az9q5Pf4FkB8ZO8vcj1kSG452ZB4E9O7
-         s9NK53v1GHpuMRJj0i9vYO5cIYO5zFNg0hUbJZws=
-Message-ID: <02386178-0ea4-ea8b-ae68-17ebe6aeaa6d@ideasonboard.com>
-Date:   Thu, 5 Oct 2023 14:40:16 +0300
+        with ESMTP id S236903AbjJEOhU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 10:37:20 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE00D47858;
+        Thu,  5 Oct 2023 07:02:55 -0700 (PDT)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 395AZB2Z025382;
+        Thu, 5 Oct 2023 13:46:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+        message-id:date:mime-version:subject:to:cc:references:from
+        :in-reply-to:content-type:content-transfer-encoding; s=
+        selector1; bh=4xkLY2sFZ6bAzP0C1Okvtq5k6MsL61eKVQtjQb/uCzI=; b=ih
+        YJGuaoo6cj7jDjv8uH+x/yHLAIAYkgZMQObGOUiuNk1/TqYdrHiovCWuZw64s+rh
+        x/a9xMB1yUcVzidue2x3rz3sAPaSSscGSZw8nOQj+SkUtnTf6J91iUPeE5JhqVyH
+        8AdXjupa7lH5IgiQ9sUDFQZXT/5SdNstWBZAHRsmnHnQKhekScWINLECzhgc6oA9
+        twXbm+xtMTeT3Bn7rdsh8zklNFhgyItrygbhaXLqkU/nN6QBJzsXTFOOxXWy1X0d
+        vBvWEgUvR5mbwWhNEi4BwNCu3syuhstUFx2AiuuUi/kEADr9kLJnMQ3hoAFwgNZf
+        2s6m4Xb/hrFLoh0IBW9w==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3thuh409b3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 05 Oct 2023 13:46:34 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BF7D010005C;
+        Thu,  5 Oct 2023 13:46:32 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B19E124AAD8;
+        Thu,  5 Oct 2023 13:46:32 +0200 (CEST)
+Received: from [10.201.20.120] (10.201.20.120) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 5 Oct
+ 2023 13:46:31 +0200
+Message-ID: <a4ae0d0a-2a80-45d7-9527-928e26fef4ef@foss.st.com>
+Date:   Thu, 5 Oct 2023 13:46:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH v6 08/28] media: Documentation: Additional streams
- generally don't harm capture
+Subject: Re: [RFC 0/6] VP8 H1 stateless encoding
 Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>,
-        "Ng, Khai Wen" <khai.wen.ng@intel.com>
-References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
- <20231003115237.76828-9-sakari.ailus@linux.intel.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20231003115237.76828-9-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Conor Dooley <conor@kernel.org>
+CC:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        <linux-media@vger.kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Adam Ford <aford173@gmail.com>
+References: <20231004103720.3540436-1-hugues.fruchet@foss.st.com>
+ <20231005-bleach-unknotted-9b11443959b1@spud>
+From:   Hugues FRUCHET <hugues.fruchet@foss.st.com>
+In-Reply-To: <20231005-bleach-unknotted-9b11443959b1@spud>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Originating-IP: [10.201.20.120]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-05_08,2023-10-05_01,2023-05-22_02
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/10/2023 14:52, Sakari Ailus wrote:
-> Having extra streams on the source end of the link that cannot be captured
-> by the sink sub-device generally are not an issue, at least not on CSI-2
-> bus. Still document that there may be hardware specific limitations. For
-> example on parallel bus this might not work on all cases.
+Hi Conor,
+
+My fault, mistake on "to" when sending mail, please ignore this serie 
+there are no bindings/DT in it.
+Sorry for disturbance.
+
+Best regards,
+Hugues.
+
+On 10/5/23 12:59, Conor Dooley wrote:
+> On Wed, Oct 04, 2023 at 12:37:14PM +0200, Hugues Fruchet wrote:
+>> Hi all,
+>>
+>> Here is an RFC to support VP8 encoding using Hantro H1 hardware
+>> of STM32MP25 SoCs (Verisilicon VC8000NanoE IP).
+>> This work is derived from work done to support Rockchip RK3399
+>> VPU2 in RFC [1] with a reshuffling of registers to match H1
+>> register set.
+>>
+>> This has been tested on STM32MP257F-EV1 evaluation board using
+>> GStreamer userspace [2]:
+>> gst-launch-1.0 videotestsrc num-buffers=500 ! video/x-raw,width=640,height=480 \
+>> ! v4l2slvp8enc ! queue ! matroskamux ! filesink location=test_vp8.mkv
+>>
+>> For the sake of simplicity I have embedded here the RFC [1] before the
+>> changes related to this exact RFC, all rebased on v6.6 + STM32MP25
+>> hardware codecs support [3].
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->   Documentation/userspace-api/media/v4l/dev-subdev.rst | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+> I don't see any bindings etc here, what is it that you think I would
+> care about looking at in this RFC series?
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> index f375b820ab68..a387e8a15b8d 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -529,9 +529,9 @@ the its sink pad and allows to route them individually to one of its source
->   pads.
->   
->   Subdevice drivers that support multiplexed streams are compatible with
-> -non-multiplexed subdev drivers, but, of course, require a routing configuration
-> -where the link between those two types of drivers contains only a single
-> -stream.
-> +non-multiplexed subdev drivers. However, if the driver at the sink end of a link
-> +does not support streams, then only the stream 0 on source end may be
-> +captured. There may be additional hardware specific limitations.
->   
->   Understanding streams
->   ^^^^^^^^^^^^^^^^^^^^^
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
-  Tomi
-
+> Thanks,
+> Conor.
+> 
+>>
+>> [1] https://lwn.net/ml/linux-media/20230309125651.23911-1-andrzej.p@collabora.com/
+>> [2] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3736
+>> [3] https://patchwork.kernel.org/project/linux-media/list/?series=789861
+>>
+>> Best regards,
+>> Hugues.
+>>
+>>
+>> Andrzej Pietrasiewicz (2):
+>>    media: uapi: Add VP8 stateless encoder controls
+>>    media: hantro: add VP8 encode support for Rockchip RK3399 VPU2
+>>
+>> Hugues Fruchet (4):
+>>    media: hantro: add h1 vp8 encode support
+>>    media: hantro: add VP8 encode support for STM32MP25 VENC
+>>    media: hantro: h1: NV12 single-plane support
+>>    media: hantro: add NV12 single-plane support for STM32MP25 VENC
+>>
+>>   drivers/media/platform/verisilicon/Makefile   |    3 +
+>>   drivers/media/platform/verisilicon/hantro.h   |   10 +
+>>   .../platform/verisilicon/hantro_boolenc.c     |   69 +
+>>   .../platform/verisilicon/hantro_boolenc.h     |   21 +
+>>   .../media/platform/verisilicon/hantro_drv.c   |   15 +-
+>>   .../platform/verisilicon/hantro_h1_jpeg_enc.c |   42 +-
+>>   .../platform/verisilicon/hantro_h1_regs.h     |   71 +-
+>>   .../platform/verisilicon/hantro_h1_vp8_enc.c  | 1589 +++++++++++++++++
+>>   .../media/platform/verisilicon/hantro_hw.h    |   93 +
+>>   .../media/platform/verisilicon/hantro_v4l2.c  |    5 +-
+>>   .../media/platform/verisilicon/hantro_vp8.c   |  118 ++
+>>   .../verisilicon/rockchip_vpu2_hw_vp8_enc.c    | 1574 ++++++++++++++++
+>>   .../platform/verisilicon/rockchip_vpu2_regs.h |    1 +
+>>   .../platform/verisilicon/rockchip_vpu_hw.c    |   23 +-
+>>   .../platform/verisilicon/stm32mp25_venc_hw.c  |   35 +-
+>>   drivers/media/v4l2-core/v4l2-ctrls-core.c     |   13 +
+>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    5 +
+>>   include/media/v4l2-ctrls.h                    |    2 +
+>>   include/uapi/linux/v4l2-controls.h            |   91 +
+>>   include/uapi/linux/videodev2.h                |    3 +
+>>   20 files changed, 3755 insertions(+), 28 deletions(-)
+>>   create mode 100644 drivers/media/platform/verisilicon/hantro_boolenc.c
+>>   create mode 100644 drivers/media/platform/verisilicon/hantro_boolenc.h
+>>   create mode 100644 drivers/media/platform/verisilicon/hantro_h1_vp8_enc.c
+>>   create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu2_hw_vp8_enc.c
+>>
+>> -- 
+>> 2.25.1
+>>
