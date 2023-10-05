@@ -2,92 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84ABB7BA20F
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 17:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 535417BA297
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 17:42:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbjJEPMj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Oct 2023 11:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41786 "EHLO
+        id S233532AbjJEPmY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Oct 2023 11:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234389AbjJEPLa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 11:11:30 -0400
+        with ESMTP id S234152AbjJEPmJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 11:42:09 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD0F88E93;
-        Thu,  5 Oct 2023 07:42:31 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E053EC116B0;
-        Thu,  5 Oct 2023 08:46:13 +0000 (UTC)
-Message-ID: <ef1d5a63-6a83-46fc-b593-2d507a1ce097@xs4all.nl>
-Date:   Thu, 5 Oct 2023 10:46:12 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5991E4DF59
+        for <linux-media@vger.kernel.org>; Thu,  5 Oct 2023 07:57:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26E4AC116B5;
+        Thu,  5 Oct 2023 08:58:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1696496311;
+        bh=4u7zMz1tChsNoGb+xXZPQ0U/1bfNLWD4sHDlcDoasXc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=0im4Jip8wJzdQjGzdd3zWfjfUf6C2ZXsEbkgIgXiLqmcrcD7+kwzLSaT4y5l6SD18
+         jeF67XMQkEmEwo7ZvecO2p8u1mTyVYFgLk7QEghv+XCuQeS9WLhHub1ecqzmQYbqYR
+         zOUnPJ53FTWFE900s3P/tTSRwfWDtkRdEYm5EO3U=
+Date:   Thu, 5 Oct 2023 10:58:28 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        dan.scally@ideasonboard.com, nicolas@ndufresne.ca,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v2 1/3] usb: gadget: uvc: stop pump thread on video
+ disable
+Message-ID: <2023100507-sponsor-guise-d459@gregkh>
+References: <20230911140530.2995138-1-m.grzeschik@pengutronix.de>
+ <20230911140530.2995138-2-m.grzeschik@pengutronix.de>
+ <20231005081716.GA13853@pendragon.ideasonboard.com>
+ <2023100557-crabbing-superhero-02f9@gregkh>
+ <20231005084805.GB31450@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: mediatek: vcodec: Fix encoder access NULL
- pointer
-Content-Language: en-US, nl
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Irui Wang <irui.wang@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        angelogioacchino.delregno@collabora.com,
-        nicolas.dufresne@collabora.com,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Maoguang Meng <maoguang.meng@mediatek.com>
-References: <20230926101909.15030-1-irui.wang@mediatek.com>
- <36356e37-9abd-4dec-a716-9822b67bd0fa@xs4all.nl>
- <54962983-fa23-4ecc-9874-f59a1387cf70@xs4all.nl>
-In-Reply-To: <54962983-fa23-4ecc-9874-f59a1387cf70@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231005084805.GB31450@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/10/2023 08:54, Hans Verkuil wrote:
-> Ping! Is this a fix for 6.6 or not?
+On Thu, Oct 05, 2023 at 11:48:05AM +0300, Laurent Pinchart wrote:
+> On Thu, Oct 05, 2023 at 10:40:10AM +0200, Greg KH wrote:
+> > On Thu, Oct 05, 2023 at 11:17:16AM +0300, Laurent Pinchart wrote:
+> > > Hi Michael,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Mon, Sep 11, 2023 at 04:05:28PM +0200, Michael Grzeschik wrote:
+> > > > Since the uvc-video gadget driver is using the v4l2 interface,
+> > > > the streamon and streamoff can be triggered at any times. To ensure
+> > > > that the pump worker will be closed as soon the userspace is
+> > > > calling streamoff we synchronize the state of the gadget ensuring
+> > > > the pump worker to bail out.
+> > > 
+> > > I'm sorry but I really dislike this. Not only does the patch fail to
+> > > ensure real synchronization, as the uvcg_video_pump() function still
+> > > runs asynchronously, it messes up the usage of the state field that now
+> > > tracks the state both from a host point of view (which it was doing so
+> > > far, updating the state based on callbacks from the UDC), and from a
+> > > gadget userspace point of view. This lacks clarity and is confusing.
+> > > Furthermore, the commit message doesn't even explain what issue is being
+> > > fixed here.
+> > > 
+> > > Greg, I think this series has been merged too soon :-(
+> > 
+> > Ok, I'll go revert them now, thanks for the review.
 > 
-> Regards,
-> 
-> 	Hans
-> 
-> On 02/10/2023 12:24, Hans Verkuil wrote:
->> On 26/09/2023 12:19, Irui Wang wrote:
->>> Need to set the private data with encoder device, or will access
->>> NULL pointer in encoder handler.
->>>
->>> Fixes: 1972e32431ed ("media: mediatek: vcodec: Fix possible invalid memory access for encoder")
->>>
->>> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
->>> ---
->>>  drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
->>> index d299cc2962a5..ae6290d28f8e 100644
->>> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
->>> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
->>> @@ -138,7 +138,8 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
->>>  	vpu->ctx->vpu_inst = vpu;
->>>  
->>>  	status = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
->>> -					    vpu_enc_ipi_handler, "venc", NULL);
->>> +					    vpu_enc_ipi_handler, "venc",
->>> +					    vpu->ctx->dev);
->>>  
->>>  	if (status) {
->>>  		mtk_venc_err(vpu->ctx, "vpu_ipi_register fail %d", status);
->>
->> Is this a fix that should go to 6.6?
+> Or we can wait a day for Michael to reply, in case this can quickly be
+> fixed on top for v6.7. I'm now reading on the loooon discussion from v1,
+> and reviewing the other pending patches that try to tackle the same
+> issue.
 
-This looks like a real bug, so I'll queue this up for 6.6.
+I'd rather take a patchset that everyone agrees with, reverting was easy
+and now done.
 
-Regards,
+thanks,
 
-	Hans
+greg k-h
