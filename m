@@ -2,66 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D07FB7BA314
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 17:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD7387BA321
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 17:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234843AbjJEPvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Oct 2023 11:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47942 "EHLO
+        id S233917AbjJEPwD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Oct 2023 11:52:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234089AbjJEPu6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 11:50:58 -0400
+        with ESMTP id S234240AbjJEPvD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 11:51:03 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FCFC3266
-        for <linux-media@vger.kernel.org>; Thu,  5 Oct 2023 07:12:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BACAB1178C
+        for <linux-media@vger.kernel.org>; Thu,  5 Oct 2023 07:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696515171; x=1728051171;
+  t=1696515225; x=1728051225;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=L3TQrgk/uqE5H5y9vGrszrSwFn9qykrxNEW2l5ryKxo=;
-  b=hGtS1LFKQPU9w6Ojww7IDpF29Lb4kE7d8KWZFkNIhrksz4GB1Dt4oPiN
-   dVxtjKjH7jIGVIrloVm8L8I93972Ns5sVOrEXF6zvcdKR2+DZARZW3KKI
-   WdVHQD1syaX9/+CQOmZjL2nNd26X7cLWPrA2LRdmNYrN+NGKk/ms1Oi5R
-   w/XIlNwk0QWdeKI5Q+i7f8r7qMysIow3Ai8nza9k4jJ+oXkk31a0mSoEx
-   4RavvbzeLKd89xpbKmLpaYGzmFDpp6SljrSpEstUS2yi5IDuPTpb1FHfq
-   f2JZ4RIGMnGkDNzzrZisZv9uqw97pH8cO1+OD0eJSDCWxuym5fDe1xOGW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="387386019"
+  bh=3zlmOD0sw/Q3fs75VOAF2Sj40kAxq/n97BhzVY9DKfA=;
+  b=bc8d1P8cZPxq9GCGU0DIhBLfR/Q5+AJhihFhlNLQeIjg7/NaOj9zY2VL
+   sm71mx0mrdnXgQUJhBYCoEp8lWRXfiEaKfY7CmG8IvCZrG6nFFFSIve3R
+   GI/F3mLPlJ1U8lU/4Whmag3VX6aXvWGzOF/ge0FMWo5Xj+7DXMiCVv5uS
+   wCi8l+uYWVfh+yZuLjZpshIb4IMLEr0XAyfLjjC0e1Ib+iWj7VVn4UauF
+   Mc7e0RihC86ri4XfPhCUsA3b9/CPTsKVZJ9V10/MBV5M/V4ZJX9USkLFC
+   5tAb3elQwlaXOE0UCEMopdwR+PF38RQEICjBurLE8gc+bYjwGJwdOWNLy
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="387386937"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="387386019"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 07:11:44 -0700
+   d="scan'208";a="387386937"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 07:13:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="925616988"
+X-IronPort-AV: E=McAfee;i="6600,9927,10854"; a="751785026"
 X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="925616988"
+   d="scan'208";a="751785026"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 07:11:21 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 07:13:41 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 9959B120AD7;
-        Thu,  5 Oct 2023 17:11:18 +0300 (EEST)
-Date:   Thu, 5 Oct 2023 14:11:18 +0000
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 75107120AD7;
+        Thu,  5 Oct 2023 17:13:38 +0300 (EEST)
+Date:   Thu, 5 Oct 2023 14:13:38 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com,
         Andrey Konovalov <andrey.konovalov@linaro.org>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
 Subject: Re: [PATCH v6 09/28] media: Documentation: Document embedded data
  guidelines for camera sensors
-Message-ID: <ZR7EBrYxXdT5fMDY@kekkonen.localdomain>
+Message-ID: <ZR7EkqaHanIHXhFd@kekkonen.localdomain>
 References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
  <20231003115237.76828-10-sakari.ailus@linux.intel.com>
  <9e73537d-b32d-4abe-8dc2-390dbd9e566a@xs4all.nl>
+ <6c0ba156-535d-b618-0b02-685423cd3589@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9e73537d-b32d-4abe-8dc2-390dbd9e566a@xs4all.nl>
+In-Reply-To: <6c0ba156-535d-b618-0b02-685423cd3589@ideasonboard.com>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -71,54 +71,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Moi,
 
-On Thu, Oct 05, 2023 at 12:10:29PM +0200, Hans Verkuil wrote:
-> On 03/10/2023 13:52, Sakari Ailus wrote:
-> > Document how embedded data support should be implemented for camera
-> > sensors, and when and how CCS embedded data format should be referenced.
+On Thu, Oct 05, 2023 at 02:53:25PM +0300, Tomi Valkeinen wrote:
+> On 05/10/2023 13:10, Hans Verkuil wrote:
+> > On 03/10/2023 13:52, Sakari Ailus wrote:
+> > > Document how embedded data support should be implemented for camera
+> > > sensors, and when and how CCS embedded data format should be referenced.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >   .../media/drivers/camera-sensor.rst           | 28 +++++++++++++++++++
+> > >   1 file changed, 28 insertions(+)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > index 919a50e8b9d9..308f391c5ca1 100644
+> > > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > @@ -102,3 +102,31 @@ register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
+> > >   values programmed by the register sequences. The default values of these
+> > >   controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> > >   independently of the sensor's mounting rotation.
+> > > +
+> > > +Embedded data
+> > > +-------------
+> > > +
+> > > +Many sensors, mostly raw sensors, support embedded data which is used to convey
+> > > +the sensor configuration for the captured frame back to the host. While CSI-2 is
+> > > +the most common bus used by such sensors, embedded data is not entirely limited
+> > > +to CSI-2 bus due to e.g. bridge devices.
 > > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../media/drivers/camera-sensor.rst           | 28 +++++++++++++++++++
-> >  1 file changed, 28 insertions(+)
+> > I'm not quite sure what you mean with "embedded data is not entirely limited
+> > to CSI-2 bus due to e.g. bridge devices": do you just want to say: "embedded data
+> > can be available on other bus types as well."?
+> 
+> Right, nothing CSI-2 specific here. I have a parallel sensor that sends
+> embedded data as the last (or was it first?) few lines of the frame.
+> 
+> Also, is this about sensors only, and more specifically, about generating
+> the embedded data? If yes, why mention bridge devices (and should the title
+> be "Embedded data generation" or such)? If not, is it about metadata in
+> general, in which case bridges come into play?
+> 
+> > > +
+> > > +Embedded data support should use an internal source pad and route to the
 > > 
-> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > index 919a50e8b9d9..308f391c5ca1 100644
-> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > @@ -102,3 +102,31 @@ register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
-> >  values programmed by the register sequences. The default values of these
-> >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
-> >  independently of the sensor's mounting rotation.
-> > +
-> > +Embedded data
-> > +-------------
-> > +
-> > +Many sensors, mostly raw sensors, support embedded data which is used to convey
-> > +the sensor configuration for the captured frame back to the host. While CSI-2 is
-> > +the most common bus used by such sensors, embedded data is not entirely limited
-> > +to CSI-2 bus due to e.g. bridge devices.
+> > should or shall/must?
 > 
-> I'm not quite sure what you mean with "embedded data is not entirely limited
-> to CSI-2 bus due to e.g. bridge devices": do you just want to say: "embedded data
-> can be available on other bus types as well."?
-
-Bridge devices that transmit what they received over CSI-2 may result in
-embedded data on parallel bus, for instance.
-
-I'm fine with using the text you suggested, it's equally true as well.
-
+> Is the above necessary? I don't see anything wrong with, say, having a
+> sensor represented with multiple subdevs, and one subdev is used for the
+> embedded data generation.
 > 
-> > +
-> > +Embedded data support should use an internal source pad and route to the
-> 
-> should or shall/must?
+> Basically, anything that can be represented with internal pads can also be
+> done with multiple subdevs, although I think you don't want to go the
+> multiple subdev route unless absolutely necessary.
 
-
-I'll change this to shall.
+True. This is trying to convey to the user space developers what's possible
+vs. suggesting driver developers what to do. I'd expect embedded data to
+use internal source pads, anything else will need to be separately
+agreed upon.
 
 -- 
-Regards,
+Terveisin,
 
 Sakari Ailus
