@@ -2,85 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CCB07BA10D
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 16:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9925E7B9FC7
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 16:30:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238607AbjJEOno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Oct 2023 10:43:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45010 "EHLO
+        id S233009AbjJEO3j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Oct 2023 10:29:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238872AbjJEOlR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 10:41:17 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AD4E22E0F;
-        Thu,  5 Oct 2023 07:15:43 -0700 (PDT)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 394NxwVc016445;
-        Thu, 5 Oct 2023 09:44:50 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-        message-id:date:mime-version:subject:to:cc:references:from
-        :in-reply-to:content-type:content-transfer-encoding; s=
-        selector1; bh=uPeJe/ujiHjKK9NWuZX2rXwLdsc4nIHY6JTK7vpJxH4=; b=pX
-        q0UHCc1ado2QV7WtnmdeB804HXe3FijBSoA9psMDkYnF0uIh0WKNYRPoWZIB+rsh
-        gReFnz5YcLFnD6seqZ1iaNsRJsypo6VayiyWgAw49j0rMEOz/lF7ws/vAag7QQYd
-        oT68cFTQ8EQPTpkb14dR3TU1g4bS9zRIwJYYUE1EFMJPI+pUDhIH88dUyHiSC2TZ
-        EJUsOHYuDlLMspH1Fx3gkPDTAWzvCcXJNwlmGf6n21I7hwX4CR+mMO3/djlZZ9ad
-        OC7oVV1Fujd0O48ZVoWOidNBEDF1cHl6v6l1y4F93HSueEETu7Uon+Oud4tChzC7
-        mJiJhrVj2VzEZI1GnBPg==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3thj7e9ehw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 Oct 2023 09:44:50 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4D859100053;
-        Thu,  5 Oct 2023 09:44:49 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 406DD21ED32;
-        Thu,  5 Oct 2023 09:44:49 +0200 (CEST)
-Received: from [10.201.20.120] (10.201.20.120) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 5 Oct
- 2023 09:44:48 +0200
-Message-ID: <866fd143-a290-63ec-103c-b49368d9dc03@foss.st.com>
-Date:   Thu, 5 Oct 2023 09:44:47 +0200
+        with ESMTP id S233834AbjJEO1o (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 10:27:44 -0400
+Received: from vulcan.natalenko.name (vulcan.natalenko.name [IPv6:2001:19f0:6c00:8846:5400:ff:fe0c:dfa0])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06B583D6;
+        Thu,  5 Oct 2023 00:56:24 -0700 (PDT)
+Received: from spock.localnet (unknown [94.142.239.106])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vulcan.natalenko.name (Postfix) with ESMTPSA id A74A5152DF11;
+        Thu,  5 Oct 2023 09:56:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=dkim-20170712; t=1696492577;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qLErRg+IY+M+tMiWfSLlVJCQY74BdF5SCkyderIHIa0=;
+        b=h7xrC5PkklBLzvH13lJaXipMzYLk7ODNLFPeypzjuPHUyCP+2NbcQ+lR7VinR5D68csHYC
+        ER5lSQNMZ1BujtcDRgS1EEmaOkSp5YuOTsVmySu1ONKkk1UjK2aNxkLw21T5v35ccRaPjP
+        ET8Ej0R8oBGTFKEcgEr9SS7Use/bjM4=
+From:   Oleksandr Natalenko <oleksandr@natalenko.name>
+To:     Matthew Wilcox <willy@infradead.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     Linux Regressions <regressions@lists.linux.dev>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
+        Maxime Ripard <mripard@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [REGRESSION] BUG: KFENCE: memory corruption in
+ drm_gem_put_pages+0x186/0x250
+Date:   Thu, 05 Oct 2023 09:56:03 +0200
+Message-ID: <3254850.aeNJFYEL58@natalenko.name>
+In-Reply-To: <fed1cbf3-0926-4895-a8ba-d6fa9fd53dbe@suse.de>
+References: <13360591.uLZWGnKmhe@natalenko.name> <2160215.irdbgypaU6@natalenko.name>
+ <fed1cbf3-0926-4895-a8ba-d6fa9fd53dbe@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 3/7] dt-bindings: media: Document STM32MP25 VENC video
- encoder
-Content-Language: en-US
-To:     Adam Ford <aford173@gmail.com>
-CC:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        <linux-media@vger.kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-References: <20231004091552.3531659-1-hugues.fruchet@foss.st.com>
- <20231004091552.3531659-4-hugues.fruchet@foss.st.com>
- <CAHCN7xKrriTPaRMJ-r86cSgFDUUP1At08imLBr_zEP0g3fga_g@mail.gmail.com>
-From:   Hugues FRUCHET <hugues.fruchet@foss.st.com>
-In-Reply-To: <CAHCN7xKrriTPaRMJ-r86cSgFDUUP1At08imLBr_zEP0g3fga_g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.201.20.120]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-05_04,2023-10-02_01,2023-05-22_02
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
+Content-Type: multipart/signed; boundary="nextPart3261088.44csPzL39Z";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -89,117 +61,108 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+--nextPart3261088.44csPzL39Z
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+Date: Thu, 05 Oct 2023 09:56:03 +0200
+Message-ID: <3254850.aeNJFYEL58@natalenko.name>
+In-Reply-To: <fed1cbf3-0926-4895-a8ba-d6fa9fd53dbe@suse.de>
+MIME-Version: 1.0
 
-Thanks for review,
+Hello.
 
-On 10/5/23 01:41, Adam Ford wrote:
-> On Wed, Oct 4, 2023 at 4:16 AM Hugues Fruchet
-> <hugues.fruchet@foss.st.com> wrote:
->>
->> Add STM32MP25 VENC video encoder bindings.
->>
->> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
->> ---
->>   .../bindings/media/st,stm32mp25-venc.yaml     | 56 +++++++++++++++++++
->>   1 file changed, 56 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml b/Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml
->> new file mode 100644
->> index 000000000000..c69e0a34f675
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml
->> @@ -0,0 +1,56 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/st,stm32mp25-venc.yaml#
-> 
-> Can this dt-binding be made more generic, like something like
-> hantro-h1 or VC8000NanoE?
-> 
-> I think there will be more boards that may incorporate the Hantro-H1
-> or a VC8000 in the future, because I don't think this IP is unique to
-> the STM32MP25.
+On =C4=8Dtvrtek 5. =C5=99=C3=ADjna 2023 9:44:42 CEST Thomas Zimmermann wrot=
+e:
+> Hi
+>=20
+> Am 02.10.23 um 17:38 schrieb Oleksandr Natalenko:
+> > On pond=C4=9Bl=C3=AD 2. =C5=99=C3=ADjna 2023 16:32:45 CEST Matthew Wilc=
+ox wrote:
+> >> On Mon, Oct 02, 2023 at 01:02:52PM +0200, Oleksandr Natalenko wrote:
+> >>>>>>> BUG: KFENCE: memory corruption in drm_gem_put_pages+0x186/0x250
+> >>>>>>>
+> >>>>>>> Corrupted memory at 0x00000000e173a294 [ ! ! ! ! ! ! ! ! ! ! ! ! =
+! ! ! ! ] (in kfence-#108):
+> >>>>>>>   drm_gem_put_pages+0x186/0x250
+> >>>>>>>   drm_gem_shmem_put_pages_locked+0x43/0xc0
+> >>>>>>>   drm_gem_shmem_object_vunmap+0x83/0xe0
+> >>>>>>>   drm_gem_vunmap_unlocked+0x46/0xb0
+> >>>>>>>   drm_fbdev_generic_helper_fb_dirty+0x1dc/0x310
+> >>>>>>>   drm_fb_helper_damage_work+0x96/0x170
+> >>>
+> >>> Matthew, before I start dancing around, do you think ^^ could have th=
+e same cause as 0b62af28f249b9c4036a05acfb053058dc02e2e2 which got fixed by=
+ 863a8eb3f27098b42772f668e3977ff4cae10b04?
+> >>
+> >> Yes, entirely plausible.  I think you have two useful points to look at
+> >> before delving into a full bisect -- 863a8e and the parent of 0b62af.
+> >> If either of them work, I think you have no more work to do.
+> >=20
+> > OK, I've did this against v6.5.5:
+> >=20
+> > ```
+> > git log --oneline HEAD~3..
+> > 7c1e7695ca9b8 (HEAD -> test) Revert "mm: remove struct pagevec"
+> > 8f2ad53b6eac6 Revert "mm: remove check_move_unevictable_pages()"
+> > fa1e3c0b5453c Revert "drm: convert drm_gem_put_pages() to use a folio_b=
+atch"
+> > ```
+> >=20
+> > then rebooted the host multiple times, and the issue is not seen any mo=
+re.
+> >=20
+> > So I guess 3291e09a463870610b8227f32b16b19a587edf33 is the culprit.
+>=20
+> Ignore my other email. It's apparently been fixed already. Thanks!
 
-This is already the case, check variants in hantro_drv.c.
-Several SoCs are sharing this IP but each IP slightly differs because of
-supported resolution, codec, preprocessing features, ...
-There are also some differences on how clock, interrupt, reset are 
-hardware mapped: shared or not by decoder and encoder for ex.
+Has it? I think I was able to identify offending commit, but I'm not aware =
+of any fix to that.
 
-> 
-> adam
-> 
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: STMicroelectronics STM32MP25 VENC video encoder
->> +
->> +maintainers:
->> +  - Hugues Fruchet <hugues.fruchet@foss.st.com>
->> +
->> +description:
->> +  The STMicroelectronics STM32MP25 SOCs embeds a VENC video hardware encoder
->> +  peripheral based on Verisilicon VC8000NanoE IP (former Hantro H1).
->> +
->> +properties:
->> +  compatible:
->> +    const: st,stm32mp25-venc
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  interrupt-names:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    maxItems: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - interrupt-names
->> +  - clocks
->> +  - clock-names
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    venc: venc@580e0000 {
->> +        compatible = "st,stm32mp25-venc";
->> +        reg = <0x580e0000 0x800>;
->> +        interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
->> +        interrupt-names = "venc";
-> 
-> 
-> Is the interrupt-names needed if there is only one?
-> 
+Thanks.
 
-Not really, could be dropped.
+> Best regards
+> Thomas
+>=20
+> >=20
+> > Thanks.
+> >=20
+>=20
+> --=20
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>=20
 
->> +        clocks = <&ck_icn_p_venc>;
->> +        clock-names = "venc-clk";
-> 
-> Same thing for the clock.  if there is only one clock, doe they need names?
-> 
-Not really, could be dropped.
 
-> adam
->> +    };
->> --
->> 2.25.1
->>
+=2D-=20
+Oleksandr Natalenko (post-factum)
+--nextPart3261088.44csPzL39Z
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-BR,
-Hugues.
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmUebBMACgkQil/iNcg8
+M0tJ/Q/9FPtmZXPGSlNkh2qFBHnyONCuzzj6LT+47+l6Fm7nsJgSnF74o/yV/pMh
+q7vpMK9rD5WvRyb5fgLxv+qfYz0t09dnOs5K+ZMjpLdeM5GMp78fFB1E/HOUAADx
+JjTDrWvykfLEDoTBnZedZjxZTaHeR8b0wLvh9f9tF4Z25jeYvy9zWFDueXX97rBo
+/VxH88ZCRlNwFstWH8qwa6W6DP2hiSb4osfYsftRib0xU3Gu1fNKrsWyw95VfeTd
+ReiHGad9mQ4Y1AN3Ff9NeoT6/rM/2rG7h6xSgvsVrt1MAw/iwW24bH1lKUe+5f1k
+fgR7nv6flGS4FF7zZ+deiI+dUaiyt1urG1zZh5U6VhzzW2VandPoTJHE+L1kT8WF
+kAEsYCwRV2v0lw0YL9JhIPhDgCOT7pLWsIXmZXUKnr7IcR7cGwBPMNYpgxgpYyj0
+YqujL4hPU64n46AHLaVlHBAsXO0CLgDqDJjgfbsiWe15XPnAkq0bm8QJRLBjTM0M
+7Z6yr0eiGA1cdZtu8wgwen7ZEH94Lq2aBPhHAhSjSqWLlGJunN/aNSi6u3dVGy4h
+ag1vpbsw2un3WU97sd3AjDunpUn01rk0GiyCWjraCbAyFAQKyVNgdonMGcV5wzX4
+fTHWSuLNytga3UcQ/hCYxldyK/iT/HkFV37Z/aKGJX752dw9KNA=
+=eWGs
+-----END PGP SIGNATURE-----
+
+--nextPart3261088.44csPzL39Z--
+
+
+
