@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E70D7BA29B
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 17:42:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E8CC7BA096
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 16:41:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233658AbjJEPmZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Oct 2023 11:42:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36738 "EHLO
+        id S236620AbjJEOgo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Oct 2023 10:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234157AbjJEPmJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 11:42:09 -0400
+        with ESMTP id S236145AbjJEOej (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 10:34:39 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E8B669227
-        for <linux-media@vger.kernel.org>; Thu,  5 Oct 2023 07:57:31 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6080C116D6;
-        Thu,  5 Oct 2023 10:10:31 +0000 (UTC)
-Message-ID: <9e73537d-b32d-4abe-8dc2-390dbd9e566a@xs4all.nl>
-Date:   Thu, 5 Oct 2023 12:10:29 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9474D4EEC
+        for <linux-media@vger.kernel.org>; Thu,  5 Oct 2023 06:52:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47F6BC193E8;
+        Thu,  5 Oct 2023 10:14:07 +0000 (UTC)
+Message-ID: <532dda7e-5632-4081-8ef0-89a89905e566@xs4all.nl>
+Date:   Thu, 5 Oct 2023 12:14:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 09/28] media: Documentation: Document embedded data
@@ -115,21 +115,21 @@ On 03/10/2023 13:52, Sakari Ailus wrote:
 > +the sensor configuration for the captured frame back to the host. While CSI-2 is
 > +the most common bus used by such sensors, embedded data is not entirely limited
 > +to CSI-2 bus due to e.g. bridge devices.
-
-I'm not quite sure what you mean with "embedded data is not entirely limited
-to CSI-2 bus due to e.g. bridge devices": do you just want to say: "embedded data
-can be available on other bus types as well."?
-
 > +
 > +Embedded data support should use an internal source pad and route to the
 
-should or shall/must?
+"internal source pad" -> "internal sink pad"?
+
+> +external pad. If embedded data output can be disabled in hardware, it should be
+
+"external pad" -> "external source pad"?
+
+Or perhaps "a source pad of the entity"?
 
 Regards,
 
 	Hans
 
-> +external pad. If embedded data output can be disabled in hardware, it should be
 > +possible to disable the embedded data route via ``VIDIOC_SUBDEV_S_ROUTING``
 > +IOCTL.
 > +
