@@ -2,321 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CA737BA0CC
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 16:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 487C67B9F58
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 16:22:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236545AbjJEOnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Oct 2023 10:43:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38606 "EHLO
+        id S233651AbjJEOWb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Oct 2023 10:22:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231702AbjJEOho (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 10:37:44 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 756938A61
-        for <linux-media@vger.kernel.org>; Thu,  5 Oct 2023 07:03:25 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1284FC197C4;
-        Thu,  5 Oct 2023 10:26:42 +0000 (UTC)
-Message-ID: <4896e6d7-c3c6-475d-a989-9f2d8c867a1f@xs4all.nl>
-Date:   Thu, 5 Oct 2023 12:26:41 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 10/28] media: Documentation: v4l: Document source
- routes
-Content-Language: en-US, nl
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>,
-        "Ng, Khai Wen" <khai.wen.ng@intel.com>
-References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
- <20231003120813.77726-1-sakari.ailus@linux.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
- BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
- 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
- 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
- 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
- +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
- OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
- 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
- wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
- qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
- vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
- 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
- IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
- KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
- UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
- c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
- AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
- Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
- KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
- gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
- sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
- UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231003120813.77726-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S233720AbjJEOUa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 10:20:30 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C2B20E62;
+        Thu,  5 Oct 2023 03:29:53 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9b2cee55056so150959766b.3;
+        Thu, 05 Oct 2023 03:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696501792; x=1697106592; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KWK1KGgsFifnpxABECH4YtKcxOvbFg5VERnvowJC8Eo=;
+        b=IzUfYMGDCo50uyCw0Ziwlr00jI0QpZt2isx2fVrbGhWjZOz4YTesvaNqfnN+WKuRoe
+         AwdVNxzOIy9InlFzHuMvi0TcY8f/2Ks3bXlV19AFUpRW57Rwc1sjMcZpqbjZbrlFGfCG
+         BkWSTsXF6T4VwpnxM+e1mqfs4A0zi/WKQKGZBtKUrSygZ8iQPOG2SoFeDNFn7ytGY/Ma
+         M1nxFYxxXjyz6fxIAahS3nMOUE0y2OmP7aP5zSRK6rSOikPvh6An4SDOpElJkfTigwrt
+         iB1C81nxNNDUF9GB76haXNbusJMDKMLHNCD8KyBNFXqEZkcgZp1VCfkgmbKGTJl2g2Sx
+         DL0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696501792; x=1697106592;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KWK1KGgsFifnpxABECH4YtKcxOvbFg5VERnvowJC8Eo=;
+        b=xPsu/FfHBTVhpwA5Kf4G5UoxFGkeSKUWo9A4BA7EtxESdeLYm+VJct0Ig2T4bVWw6e
+         1clBdvI1n4bQY4cuz5zIwqZ8VVV/b/q2EyYGf3CxpiecunYjLxSjvM6yCN3Q7zGuJLLY
+         Ee4Ki9KY8+Edq8aM8LneejLgV44fhRF5/3NY+OemuOxFkUtxNu+tPRW6+mOdaYy0lpWR
+         nF6RJPgrAW3rzhESLbTtnJlTZNwluJ3DiUbdg885cRL+2AkRxucRQ03IG99RvUjQJjTH
+         uJNxruwya/AvDWihntt8oj8qsTKAXUIf5YOTFv+Y0OZhHFiCNkznM4Rw6pdGjc+M4rDw
+         kMsw==
+X-Gm-Message-State: AOJu0YwFECubpk3SBeRhsLpSuwNsCCICnWNf8MqDJVfK3MV5a5alXz2B
+        zLCqBaOeao5CY5gVAcBqAe8oJX2U8Kk=
+X-Google-Smtp-Source: AGHT+IFdziX5Oo0F0ntZMF7HNZK0fTv4bVtYW+Of9g01bQ/Dwd5j7u1XOjdgO+kEmVNDI4N4f04Nlw==
+X-Received: by 2002:a17:906:51d1:b0:9b2:7657:87c0 with SMTP id v17-20020a17090651d100b009b2765787c0mr4126798ejk.51.1696501791664;
+        Thu, 05 Oct 2023 03:29:51 -0700 (PDT)
+Received: from localhost.localdomain ([95.43.220.235])
+        by smtp.gmail.com with ESMTPSA id n12-20020a170906378c00b0099d45ed589csm927940ejc.125.2023.10.05.03.29.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 05 Oct 2023 03:29:51 -0700 (PDT)
+From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+To:     sean@mess.org, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Subject: [PATCH] media: rc: pwm-ir-tx: use hrtimer for edge generation
+Date:   Thu,  5 Oct 2023 13:28:59 +0300
+Message-Id: <1696501739-29861-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+X-Mailer: git-send-email 1.9.1
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/10/2023 14:07, Sakari Ailus wrote:
-> Document how internal pads are used on source routes. Use the IMX219
-> camera sensor as an example.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../userspace-api/media/v4l/dev-subdev.rst    | 179 ++++++++++++++++++
->  1 file changed, 179 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> index a387e8a15b8d..fb73a95401c3 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
->  sub-device and a (pad, stream) pair. For sub-devices that do not support
->  multiplexed streams the 'stream' field is always 0.
->  
-> +.. _v4l2-subdev-source-routes:
-> +
-> +Internal pads and source routes
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +Cases where a single sub-device source pad is traversed by multiple streams one
+usleep_range() seems to suffer from scheduling latency of up to 400 us on
+some platforms (like OMAP) which makes it unusable for IR pulses edge
+timings. In the same time pwm_ir_trx() is called in a context with priority
+which might not be suitable for real-time IR pulses generation.
 
-Comma after "streams"
+Fix that by using hrtimer and a thread with sched_set_fifo() priority. That
+way scheduling latency is compensated by the fact that PWM is controlled in
+the thread after a completion is signalled in hrtimer function - we have
+more or less the same latency for every edge. If completion comes earlier
+than needed, we do udelay() till the exact time for the next edge. That
+way pulse width generation is robust and precise and mostly independent of
+the system load.
 
-> +or more of which originate from within the sub-device itself are special as
+Tests on Nokia N900 showed that udelay() is called with up to 200 us in
+worst cases, usually times are less that 100 us.
 
-and comma after "itself".
+Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+---
+ drivers/media/rc/pwm-ir-tx.c | 122 ++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 115 insertions(+), 7 deletions(-)
 
-> +there is no external sink pad for such routes. In those cases, the sources of
-> +the internally generated streams are represented by internal sink pads, which
-> +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
-> +pad flag set.
-> +
-> +Internal pads have all the properties of an external pad, including formats and
+diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
+index 7732054c..cb6ce73 100644
+--- a/drivers/media/rc/pwm-ir-tx.c
++++ b/drivers/media/rc/pwm-ir-tx.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/kernel.h>
++#include <linux/kthread.h>
+ #include <linux/module.h>
+ #include <linux/pwm.h>
+ #include <linux/delay.h>
+@@ -17,8 +18,16 @@
+ 
+ struct pwm_ir {
+ 	struct pwm_device *pwm;
++	struct hrtimer timer;
++	struct task_struct *tx_thread;
++	wait_queue_head_t tx_wq;
++	struct completion tx_done;
++	struct completion edge;
+ 	unsigned int carrier;
+ 	unsigned int duty_cycle;
++	unsigned int *txbuf;
++	unsigned int count;
++	unsigned int index;
+ };
+ 
+ static const struct of_device_id pwm_ir_of_match[] = {
+@@ -48,12 +57,41 @@ static int pwm_ir_set_carrier(struct rc_dev *dev, u32 carrier)
+ 	return 0;
+ }
+ 
+-static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+-		     unsigned int count)
++static enum hrtimer_restart pwm_ir_timer_cb(struct hrtimer *timer)
++{
++	struct pwm_ir *pwm_ir = container_of(timer, struct pwm_ir, timer);
++	ktime_t now;
++
++	/*
++	 * If we happen to hit an odd latency spike, loop through the
++	 * pulses until we catch up.
++	 */
++	do {
++		u64 edge;
++
++		complete(&pwm_ir->edge);
++
++		if (pwm_ir->index >= pwm_ir->count)
++			return HRTIMER_NORESTART;
++
++		edge = US_TO_NS(pwm_ir->txbuf[pwm_ir->index]);
++		hrtimer_add_expires_ns(timer, edge);
++
++		pwm_ir->index++;
++
++		now = timer->base->get_time();
++
++	} while (hrtimer_get_expires_tv64(timer) < now);
++
++	return HRTIMER_RESTART;
++}
++
++static void _pwm_ir_tx(struct pwm_ir *pwm_ir)
+ {
+-	struct pwm_ir *pwm_ir = dev->priv;
+ 	struct pwm_device *pwm = pwm_ir->pwm;
+ 	struct pwm_state state;
++	unsigned int *txbuf = pwm_ir->txbuf;
++	unsigned int count = pwm_ir->count;
+ 	int i;
+ 	ktime_t edge;
+ 	long delta;
+@@ -63,6 +101,8 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+ 	state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
+ 	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
+ 
++	hrtimer_start(&pwm_ir->timer, 0, HRTIMER_MODE_REL);
++	wait_for_completion(&pwm_ir->edge);
+ 	edge = ktime_get();
+ 
+ 	for (i = 0; i < count; i++) {
+@@ -70,14 +110,50 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+ 		pwm_apply_state(pwm, &state);
+ 
+ 		edge = ktime_add_us(edge, txbuf[i]);
++		wait_for_completion(&pwm_ir->edge);
++
+ 		delta = ktime_us_delta(edge, ktime_get());
++
+ 		if (delta > 0)
+-			usleep_range(delta, delta + 10);
++			udelay(delta);
+ 	}
+ 
+ 	state.enabled = false;
+ 	pwm_apply_state(pwm, &state);
+ 
++	pwm_ir->count = 0;
++}
++
++static int pwm_ir_thread(void *data)
++{
++	struct pwm_ir *pwm_ir = data;
++
++	for (;;) {
++		wait_event_idle(pwm_ir->tx_wq,
++				kthread_should_stop() || pwm_ir->count);
++
++		if (kthread_should_stop())
++			break;
++
++		_pwm_ir_tx(pwm_ir);
++		complete(&pwm_ir->tx_done);
++	}
++
++	return 0;
++}
++
++static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
++		     unsigned int count)
++{
++	struct pwm_ir *pwm_ir = dev->priv;
++
++	pwm_ir->txbuf = txbuf;
++	pwm_ir->count = count;
++	pwm_ir->index = 0;
++
++	wake_up(&pwm_ir->tx_wq);
++	wait_for_completion(&pwm_ir->tx_done);
++
+ 	return count;
+ }
+ 
+@@ -91,12 +167,24 @@ static int pwm_ir_probe(struct platform_device *pdev)
+ 	if (!pwm_ir)
+ 		return -ENOMEM;
+ 
++	platform_set_drvdata(pdev, pwm_ir);
++
+ 	pwm_ir->pwm = devm_pwm_get(&pdev->dev, NULL);
+ 	if (IS_ERR(pwm_ir->pwm))
+ 		return PTR_ERR(pwm_ir->pwm);
+ 
+-	pwm_ir->carrier = 38000;
++	/* Use default, in case userspace does not set the carrier */
++	pwm_ir->carrier = DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm_ir->pwm),
++						NSEC_PER_SEC);
+ 	pwm_ir->duty_cycle = 50;
++	pwm_ir->count = 0;
++
++	init_waitqueue_head(&pwm_ir->tx_wq);
++	init_completion(&pwm_ir->edge);
++	init_completion(&pwm_ir->tx_done);
++
++	hrtimer_init(&pwm_ir->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++	pwm_ir->timer.function = pwm_ir_timer_cb;
+ 
+ 	rcdev = devm_rc_allocate_device(&pdev->dev, RC_DRIVER_IR_RAW_TX);
+ 	if (!rcdev)
+@@ -110,14 +198,34 @@ static int pwm_ir_probe(struct platform_device *pdev)
+ 	rcdev->s_tx_carrier = pwm_ir_set_carrier;
+ 
+ 	rc = devm_rc_register_device(&pdev->dev, rcdev);
+-	if (rc < 0)
++	if (rc < 0) {
+ 		dev_err(&pdev->dev, "failed to register rc device\n");
++		return rc;
++	}
++
++	pwm_ir->tx_thread = kthread_create(pwm_ir_thread, pwm_ir, "%s/tx",
++					   dev_name(&pdev->dev));
++	if (IS_ERR(pwm_ir->tx_thread))
++		return PTR_ERR(pwm_ir->tx_thread);
+ 
+-	return rc;
++	sched_set_fifo(pwm_ir->tx_thread);
++	wake_up_process(pwm_ir->tx_thread);
++
++	return 0;
++}
++
++static int pwm_ir_remove(struct platform_device *pdev)
++{
++	struct pwm_ir *pwm_ir = platform_get_drvdata(pdev);
++
++	kthread_stop(pwm_ir->tx_thread);
++
++	return 0;
+ }
+ 
+ static struct platform_driver pwm_ir_driver = {
+ 	.probe = pwm_ir_probe,
++	.remove = pwm_ir_remove,
+ 	.driver = {
+ 		.name	= DRIVER_NAME,
+ 		.of_match_table = pwm_ir_of_match,
+-- 
+1.9.1
 
-Perhaps the glossary should have definitions for "internal pad" and "external pad"?
-Or define it somewhere in:
-
-https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/mediactl/media-controller.html
-
-> +selections. The format in this case is the source format of the stream. An
-> +internal pad always has a single stream only (0).
-> +
-> +*Source routes* are routes from an internal sink pad to an external source
-> +pad. In most cases source routes are not modifiable but they can be activated
-> +and deactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +<v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
-> +
->  Interaction between routes, streams, formats and selections
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> @@ -668,3 +689,161 @@ To configure this pipeline, the userspace must take the following steps:
->     the configurations along the stream towards the receiver, using
->     :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
->     stream endpoint in each sub-device.
-> +
-> +Internal pads setup example
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +A simple example of a multiplexed stream setup might be as follows:
-> +
-> +- A CCS camera sensor source sub-device, with one sink pad (0), one source pad
-> +  (1), an internal sink pad (2) that represents the source of embedded
-> +  data. There are two routes, one from the sink pad to the source, and another
-> +  from the internal sink pad to the source pad. The embedded data stream needs
-> +  to be enabled by activating the related route. The configuration of the rest
-> +  of the CCS sub-devices is omitted from this example.
-> +
-> +- Multiplexer bridge (Bridge). The bridge has one sink pad, connected to the
-> +  sensor (pad 0), and one source pad (pad 1), which outputs two streams.
-
-I think this should mention "CSI" somewhere, since this transmits over the CSI bus.
-
-> +
-> +- Receiver in the SoC (Receiver). The receiver has a single sink pad (pad 0),
-> +  connected to the bridge, and two source pads (pads 1-2), going to the DMA
-> +  engine. The receiver demultiplexes the incoming streams to the source pads.
-
-Ditto: this receives data from the CSI bus.
-
-> +
-> +- DMA Engines in the SoC (DMA Engine), one for each stream. Each DMA engine is
-> +  connected to a single source pad in the receiver.
-> +
-> +The sensor, the bridge and the receiver are modeled as V4L2 sub-devices,
-> +exposed to userspace via /dev/v4l-subdevX device nodes. The DMA engines are
-> +modeled as V4L2 devices, exposed to userspace via /dev/videoX nodes.
-> +
-> +To configure this pipeline, the userspace must take the following steps:
-> +
-> +1) Set up media links between entities: connect the sensors to the bridge,
-> +   bridge to the receiver, and the receiver to the DMA engines. This step does
-> +   not differ from normal non-multiplexed media controller setup.
-> +
-> +2) Configure routing
-> +
-> +.. flat-table:: Camera sensor
-> +    :header-rows: 1
-> +
-> +    * - Sink Pad/Stream
-> +      - Source Pad/Stream
-> +      - Routing Flags
-> +      - Comments
-> +    * - 0/0
-> +      - 1/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Pixel data stream from the sink pad
-> +    * - 2/0
-> +      - 1/1
-> +      - **V4L2_SUBDEV_ROUTE_FL_ACTIVE**
-> +      - Metadata stream from the internal sink pad
-> +
-> +.. flat-table:: Bridge routing table
-> +    :header-rows: 1
-> +
-> +    * - Sink Pad/Stream
-> +      - Source Pad/Stream
-> +      - Routing Flags
-> +      - Comments
-> +    * - 0/0
-> +      - 1/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Pixel data stream from camera sensor
-> +    * - 0/1
-> +      - 1/1
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Metadata stream from camera sensor
-> +
-> +.. flat-table:: Receiver routing table
-> +    :header-rows:  1
-> +
-> +    * - Sink Pad/Stream
-> +      - Source Pad/Stream
-> +      - Routing Flags
-> +      - Comments
-> +    * - 0/0
-> +      - 1/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Pixel data stream from camera sensor
-> +    * - 0/1
-> +      - 2/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Metadata stream from camera sensor
-> +
-> +The options available in sensor's routing configuration are dictated by
-> +hardware capabilities: typically camera sensors always produce image data
-
-image data -> an image data
-
-> +stream while the embedded data stream typically can be either enabled or
-> +disabled.
-> +
-> +3) Configure formats and selections
-> +
-> +   This example assumes that the formats are propagated from sink pad to the
-> +   source pad as-is. The tables contain fields of both struct v4l2_subdev_format
-> +   and struct v4l2_mbus_framefmt.
-> +
-> +.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
-> +                static or propagated.
-> +    :header-rows: 1
-> +    :fill-cells:
-> +
-> +    * - Sub-device
-> +      - Pad/Stream
-> +      - Width
-> +      - Height
-> +      - Code
-> +    * - :rspan:`3` Camera sensor sub-device (IMX219)
-> +      - 1/0
-> +      - 3296
-> +      - 2480
-> +      - MEDIA_BUS_FMT_SRGGB10
-> +    * - 0/0
-> +      - **3296**
-> +      - **2480**
-> +      - **MEDIA_BUS_FMT_SRGGB10**
-> +    * - 2/0
-> +      - 3296
-> +      - 2
-> +      - MEDIA_BUS_FMT_IMX219_EMBEDDED
-> +    * - 1/1
-> +      - 3296
-> +      - 2
-> +      - MEDIA_BUS_FMT_META_10
-> +    * - :rspan:`3` Bridge
-> +      - 0/0
-> +      - **3296**
-> +      - **2480**
-> +      - **MEDIA_BUS_FMT_SRGGB10**
-> +    * - 1/0
-> +      - 3296
-> +      - 2480
-> +      - MEDIA_BUS_FMT_SRGGB10
-> +    * - 0/1
-> +      - **3296**
-> +      - **2**
-> +      - **MEDIA_BUS_FMT_META_10**
-> +    * - 1/1
-> +      - 3296
-> +      - 2
-> +      - MEDIA_BUS_FMT_META_10
-> +    * - :rspan:`3` Receiver
-> +      - 0/0
-> +      - **3296**
-> +      - **2480**
-> +      - **MEDIA_BUS_FMT_SRGGB10**
-> +    * - 1/0
-> +      - 3296
-> +      - 2480
-> +      - MEDIA_BUS_FMT_SRGGB10
-> +    * - 0/1
-> +      - **3296**
-> +      - **2**
-> +      - **MEDIA_BUS_FMT_META_10**
-> +    * - 2/0
-> +      - 3296
-> +      - 2
-> +      - MEDIA_BUS_FMT_META_10
-> +
-> +The embedded data format does not need to be configured as the format is
-> +dictated by the pixel data format in this case.
-
-"pixel data format"? That doesn't sound right for embedded data.
-
-Regards,
-
-	Hans
