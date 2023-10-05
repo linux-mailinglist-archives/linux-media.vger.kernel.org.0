@@ -2,134 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6278C7BA511
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 18:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE1ED7BA548
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 18:16:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241059AbjJEQNe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Oct 2023 12:13:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38726 "EHLO
+        id S240952AbjJEQPj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Oct 2023 12:15:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240983AbjJEQMV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 12:12:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 767AE86AC;
-        Thu,  5 Oct 2023 01:17:12 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C2AA57E;
-        Thu,  5 Oct 2023 10:15:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696493721;
-        bh=JCbSyjyhMKQuqISnzlfjMnXI+rKLP69iM7FKg2G6358=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RT/3WqNuQbT9N8Y+FbFAmfb3lEqddMvX5OTSd0QZD7kvRoaulQOF/9A6dVCpfDocU
-         0ygx9VlhbDu093b2Olwz40CuO/JKi67drQgtE3oMIm6CCD8h7ajfpKtjGQplnYitP3
-         J6kpEbPoNl+bg+oE/M8iOi74RLmK4kzBsje6/b6Q=
-Date:   Thu, 5 Oct 2023 11:17:16 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        dan.scally@ideasonboard.com, gregkh@linuxfoundation.org,
-        nicolas@ndufresne.ca, kernel@pengutronix.de
-Subject: Re: [PATCH v2 1/3] usb: gadget: uvc: stop pump thread on video
- disable
-Message-ID: <20231005081716.GA13853@pendragon.ideasonboard.com>
-References: <20230911140530.2995138-1-m.grzeschik@pengutronix.de>
- <20230911140530.2995138-2-m.grzeschik@pengutronix.de>
+        with ESMTP id S241236AbjJEQOM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 12:14:12 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7850629B0D;
+        Thu,  5 Oct 2023 07:42:55 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C973EC116AF;
+        Thu,  5 Oct 2023 08:43:19 +0000 (UTC)
+Message-ID: <b7c19673-a3bd-449a-9e84-49a68c89b0ea@xs4all.nl>
+Date:   Thu, 5 Oct 2023 10:43:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230911140530.2995138-2-m.grzeschik@pengutronix.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: mediatek: vcodec: Handle encoder vsi NULL
+ pointer case
+Content-Language: en-US, nl
+To:     Irui Wang <irui.wang@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        angelogioacchino.delregno@collabora.com,
+        nicolas.dufresne@collabora.com,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Maoguang Meng <maoguang.meng@mediatek.com>
+References: <20230926101909.15030-1-irui.wang@mediatek.com>
+ <20230926101909.15030-2-irui.wang@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230926101909.15030-2-irui.wang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
-
-Thank you for the patch.
-
-On Mon, Sep 11, 2023 at 04:05:28PM +0200, Michael Grzeschik wrote:
-> Since the uvc-video gadget driver is using the v4l2 interface,
-> the streamon and streamoff can be triggered at any times. To ensure
-> that the pump worker will be closed as soon the userspace is
-> calling streamoff we synchronize the state of the gadget ensuring
-> the pump worker to bail out.
-
-I'm sorry but I really dislike this. Not only does the patch fail to
-ensure real synchronization, as the uvcg_video_pump() function still
-runs asynchronously, it messes up the usage of the state field that now
-tracks the state both from a host point of view (which it was doing so
-far, updating the state based on callbacks from the UDC), and from a
-gadget userspace point of view. This lacks clarity and is confusing.
-Furthermore, the commit message doesn't even explain what issue is being
-fixed here.
-
-Greg, I think this series has been merged too soon :-(
-
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+On 26/09/2023 12:19, Irui Wang wrote:
+> There will be a kernel null pointer exception if 'vsi' is NULL, check
+> 'vsi' is not NULL before assign it to encoder instance.
+> 
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
 > ---
-> v1 -> v2: Fixed the missing uvc variable in uvcg_video_enable
+>  .../platform/mediatek/vcodec/encoder/venc/venc_h264_if.c     | 5 +++++
+>  .../platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c      | 5 +++++
+>  2 files changed, 10 insertions(+)
 > 
->  drivers/usb/gadget/function/uvc_video.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-> index 91af3b1ef0d412..4b68a3a9815d73 100644
-> --- a/drivers/usb/gadget/function/uvc_video.c
-> +++ b/drivers/usb/gadget/function/uvc_video.c
-> @@ -384,13 +384,14 @@ static void uvcg_video_pump(struct work_struct *work)
->  	struct uvc_video_queue *queue = &video->queue;
->  	/* video->max_payload_size is only set when using bulk transfer */
->  	bool is_bulk = video->max_payload_size;
-> +	struct uvc_device *uvc = video->uvc;
->  	struct usb_request *req = NULL;
->  	struct uvc_buffer *buf;
->  	unsigned long flags;
->  	bool buf_done;
->  	int ret;
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+> index a68dac72c4e4..385bcc0d14f3 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
+> @@ -597,6 +597,11 @@ static int h264_enc_init(struct mtk_vcodec_enc_ctx *ctx)
+>  	inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VENC_SYS);
 >  
-> -	while (video->ep->enabled) {
-> +	while (video->ep->enabled && uvc->state == UVC_STATE_STREAMING) {
->  		/*
->  		 * Retrieve the first available USB request, protected by the
->  		 * request lock.
-> @@ -488,6 +489,7 @@ static void uvcg_video_pump(struct work_struct *work)
->   */
->  int uvcg_video_enable(struct uvc_video *video, int enable)
->  {
-> +	struct uvc_device *uvc = video->uvc;
->  	unsigned int i;
->  	int ret;
->  
-> @@ -498,6 +500,8 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
->  	}
->  
->  	if (!enable) {
-> +		uvc->state = UVC_STATE_CONNECTED;
-> +
->  		cancel_work_sync(&video->pump);
->  		uvcg_queue_cancel(&video->queue, 0);
->  
-> @@ -523,6 +527,8 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
->  		video->encode = video->queue.use_sg ?
->  			uvc_video_encode_isoc_sg : uvc_video_encode_isoc;
->  
-> +	uvc->state = UVC_STATE_STREAMING;
-> +
+>  	ret = vpu_enc_init(&inst->vpu_inst);
+> +	if (!inst->vpu_inst.vsi) {
+> +		mtk_venc_err(ctx, "share buffer is NULL");
+> +		kfree(inst);
+> +		return -EFAULT;
+> +	}
 
-You're now setting the state to UVC_STATE_STREAMING both here and in
-uvc_v4l2_streamon(). That's confusing.
+Shouldn't this check be done in vpu_enc_init?
 
->  	video->req_int_count = 0;
->  
->  	queue_work(video->async_wq, &video->pump);
+It looks weird that a function can return 0, but there is still an
+error that needs to be checked manually afterwards.
 
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+>  
+>  	if (MTK_ENC_IOVA_IS_34BIT(ctx))
+>  		inst->vsi_34 = (struct venc_h264_vsi_34 *)inst->vpu_inst.vsi;
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c
+> index 05abca91e742..23ca0d93324f 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_vp8_if.c
+> @@ -326,6 +326,11 @@ static int vp8_enc_init(struct mtk_vcodec_enc_ctx *ctx)
+>  	inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VENC_LT_SYS);
+>  
+>  	ret = vpu_enc_init(&inst->vpu_inst);
+> +	if (!inst->vpu_inst.vsi) {
+> +		mtk_venc_err(ctx, "share buffer is NULL");
+> +		kfree(inst);
+> +		return -EFAULT;
+> +	}
+>  
+>  	inst->vsi = (struct venc_vp8_vsi *)inst->vpu_inst.vsi;
+>  
+
