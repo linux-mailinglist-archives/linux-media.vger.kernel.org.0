@@ -2,213 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B5067B9DE0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 15:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EFBE7BA248
+	for <lists+linux-media@lfdr.de>; Thu,  5 Oct 2023 17:26:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231635AbjJEN4b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Oct 2023 09:56:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59620 "EHLO
+        id S232670AbjJEP0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Oct 2023 11:26:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239897AbjJENyx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 09:54:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15F092754D
-        for <linux-media@vger.kernel.org>; Thu,  5 Oct 2023 06:12:06 -0700 (PDT)
-Received: from [192.168.88.20] (91-157-153-81.elisa-laajakaista.fi [91.157.153.81])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0BF9D8C2;
-        Thu,  5 Oct 2023 15:10:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696511417;
-        bh=6GCZF2FRUB54pML2jE6QUxYRnnYrv5b1Ss2VrcwIaF8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=R+Lm7rD4kLhYZZmL6RKo8oAOiQCB/uYdb4+DtBt7jHxCRihWpFi9iZi+kGcHRxt0n
-         LLWAFXWfzLE0Xpusj3WiLTMAsrFuNJ43Ax4pL1I2Bdi3Rfr41FEdGp2RDlDaqI4H4h
-         nz1HjHr8g8aXGoCiaO1bhvyYiDajb/jVW7x9kMKs=
-Message-ID: <8e843fa6-ac89-9c53-2a69-55e2bb82d928@ideasonboard.com>
-Date:   Thu, 5 Oct 2023 16:12:00 +0300
+        with ESMTP id S232602AbjJEPZx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Oct 2023 11:25:53 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91C86078A;
+        Thu,  5 Oct 2023 07:51:03 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1BB1C433CB;
+        Thu,  5 Oct 2023 04:10:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696479019;
+        bh=tvQ6HmqskzVwBQufXqWAzijK9xLx9i/yIFRHr3dsOjg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cUGQPMVmdNnKQ0RoWKzH79W5T8AWaX52R5iZQaBiaKi+e773J54Ahe6zZ3s7p6pzB
+         WtHdPYGr1LFupPbB+ZUJHOVLwqBeJcNuVaAgf2Vvwwy1uSv28lE6HX9NRGq87B6o7a
+         Zab4J1b51rBp2Dz+Z5xRryrrFhRn5XE6a9VBlk/YCHq2OrREr9bBjDnTIpO2cfd0XP
+         CXadHlD2fzWFoS+FrMbrYO/ncV/jrXyO+QQ354YZO2Bl0VdsYTI7n3L+UO3wc6FAWf
+         F3ZgLzlbZwKm1ej4WRH/RHNWsUY2mPVvDBLyXar3PUyTQ8rrqsg+EQnloOmdkoJbhH
+         +DN+dx1Jhy6Fw==
+Date:   Thu, 5 Oct 2023 09:40:14 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jai Luthra <j-luthra@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Benoit Parrot <bparrot@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>, nm@ti.com,
+        devarsht@ti.com, a-bhatia1@ti.com,
+        Martyn Welch <martyn.welch@collabora.com>,
+        Julien Massot <julien.massot@collabora.com>
+Subject: Re: [PATCH v9 13/13] media: ti: Add CSI2RX support for J721E
+Message-ID: <ZR43Jre2j51j0mFk@matsya>
+References: <20230811-upstream_csi-v9-0-8943f7a68a81@ti.com>
+ <20230811-upstream_csi-v9-13-8943f7a68a81@ti.com>
+ <ad042065-33a2-d42e-ce2e-628464102fc3@ideasonboard.com>
+ <wgkjek77bolf5wabki7uhm6cxjy5g5z2ncoc6urr7dv5y6wnaw@yfh7ccogxfea>
+ <20230829155513.GG6477@pendragon.ideasonboard.com>
+ <ZR1txMVk+4oHLEKU@matsya>
+ <20231004200312.GE30342@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v6 12/28] media: v4l: subdev: Add helpers for format, crop
- and compose pointers
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>,
-        "Ng, Khai Wen" <khai.wen.ng@intel.com>
-References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
- <20231003120813.77726-3-sakari.ailus@linux.intel.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20231003120813.77726-3-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231004200312.GE30342@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/10/2023 15:07, Sakari Ailus wrote:
-> Add a helper for obtaining format, crop and compose pointers. These are
-> convenient for drivers, independently of the driver uses streams or not.
-
-If we go with these, should we deprecate 
-v4l2_subdev_state_get_stream_format() and v4l2_subdev_get_pad_format()?
-
-Having three different ways to get the fmt seems a bit excessive.
-
-Should we add 'num_pads' to the state? That would remove the need pass 
-the subdevice to these functions.
-
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->   drivers/media/v4l2-core/v4l2-subdev.c | 54 ++++++++++++++++++++++----
->   include/media/v4l2-subdev.h           | 56 +++++++++++++++++++++++++++
->   2 files changed, 102 insertions(+), 8 deletions(-)
+On 04-10-23, 23:03, Laurent Pinchart wrote:
+> On Wed, Oct 04, 2023 at 07:21:00PM +0530, Vinod Koul wrote:
+> > On 29-08-23, 18:55, Laurent Pinchart wrote:
+> > > Hi Jai,
+> > > 
+> > > (CC'ing Vinod, the maintainer of the DMA engine subsystem, for a
+> > > question below)
+> > 
+> > Sorry this got lost
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index d295a4e87b66..854f9d4db923 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1573,19 +1573,57 @@ v4l2_subdev_init_stream_configs(struct v4l2_subdev_stream_configs *stream_config
->   	return 0;
->   }
->   
-> +struct v4l2_mbus_framefmt
-> +*v4l2_subdev_get_fmt_ptr(struct v4l2_subdev *sd,
-> +			 struct v4l2_subdev_state *state, unsigned int pad,
-> +			 unsigned int stream)
-> +{
-> +	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
-> +		return v4l2_subdev_state_get_stream_format(state, pad, stream);
-> +
-> +	if (pad < sd->entity.num_pads && stream == 0)
-> +		return v4l2_subdev_get_pad_format(sd, state, pad);
-> +
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt_ptr);
-> +
-> +struct v4l2_rect
-> +*v4l2_subdev_get_crop_ptr(struct v4l2_subdev *sd,
-> +			  struct v4l2_subdev_state *state, unsigned int pad,
-> +			  unsigned int stream)
-> +{
-> +	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
-> +		return v4l2_subdev_state_get_stream_crop(state, pad, stream);
-> +
-> +	if (pad < sd->entity.num_pads && stream == 0)
-> +		return v4l2_subdev_get_pad_crop(sd, state, pad);
-> +
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_crop_ptr);
-> +
-> +struct v4l2_rect
-> +*v4l2_subdev_get_compose_ptr(struct v4l2_subdev *sd,
-> +			     struct v4l2_subdev_state *state, unsigned int pad,
-> +			     unsigned int stream)
-> +{
-> +	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
-> +		return v4l2_subdev_state_get_stream_compose(state, pad, stream);
-> +
-> +	if (pad < sd->entity.num_pads && stream == 0)
-> +		return v4l2_subdev_get_pad_compose(sd, state, pad);
-> +
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_compose_ptr);
-> +
->   int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->   			struct v4l2_subdev_format *format)
->   {
->   	struct v4l2_mbus_framefmt *fmt;
->   
-> -	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
-> -		fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
-> -							  format->stream);
-> -	else if (format->pad < sd->entity.num_pads && format->stream == 0)
-> -		fmt = v4l2_subdev_get_pad_format(sd, state, format->pad);
-> -	else
-> -		fmt = NULL;
-> -
-> +	fmt = v4l2_subdev_get_fmt_ptr(sd, state, format->pad, format->stream);
->   	if (!fmt)
->   		return -EINVAL;
->   
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 5f59ff0796b7..7c34243ffed9 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1479,6 +1479,62 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
->   
->   #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->   
-> +/**
-> + * v4l2_subdev_get_fmt_ptr - Obtain a pointer to V4L2 sub-device format for pad
-> + *			     and stream
-> + * @sd: subdevice
-> + * @state: subdevice state
-> + * @pad: the pad on the sub-device
-> + * @stream: stream in the pad
-> + *
-> + * For given pad and stream, obtain a pointer to the mbus format from the
-> + * sub-device.
-> + *
-> + * Returns NULL if the format is not found or the parameters are invalid.
-> + */
-> +struct v4l2_mbus_framefmt *
-> +v4l2_subdev_get_fmt_ptr(struct v4l2_subdev *sd,
-> +			struct v4l2_subdev_state *state, unsigned int pad,
-> +			unsigned int stream);
-> +
-> +/**
-> + * v4l2_subdev_get_crop_ptr - Obtain a pointer to V4L2 sub-device crop
-> + *			      rectangle for pad and stream
-> + * @sd: subdevice
-> + * @state: subdevice state
-> + * @pad: the pad on the sub-device
-> + * @stream: stream in the pad
-> + *
-> + * For given pad and stream, obtain a pointer to the crop selection rectangle
-> + * from the sub-device.
-> + *
-> + * Returns NULL if the selection rectangle is not found or the parameters are
-> + * invalid.
-> + */
-> +struct v4l2_rect *
-> +v4l2_subdev_get_crop_ptr(struct v4l2_subdev *sd,
-> +			 struct v4l2_subdev_state *state, unsigned int pad,
-> +			 unsigned int stream);
-> +
-> +/**
-> + * v4l2_subdev_get_compose_ptr - Obtain a pointer to V4L2 sub-device compose
-> + *				 rectangle for pad and stream
-> + * @sd: subdevice
-> + * @state: subdevice state
-> + * @pad: the pad on the sub-device
-> + * @stream: stream in the pad
-> + *
-> + * For given pad and stream, obtain a pointer to the compose selection rectangle
-> + * from the sub-device.
-> + *
-> + * Returns NULL if the selection rectangle is not found or the parameters are
-> + * invalid.
-> + */
-> +struct v4l2_rect *
-> +v4l2_subdev_get_compose_ptr(struct v4l2_subdev *sd,
-> +			    struct v4l2_subdev_state *state, unsigned int pad,
-> +			    unsigned int stream);
-> +
->   /**
->    * v4l2_subdev_get_fmt() - Fill format based on state
->    * @sd: subdevice
+> No worries.
+> 
+> > > On Fri, Aug 18, 2023 at 03:55:06PM +0530, Jai Luthra wrote:
+> > > > On Aug 15, 2023 at 16:00:51 +0300, Tomi Valkeinen wrote:
+> > > > > On 11/08/2023 13:47, Jai Luthra wrote:
+> > > > > > From: Pratyush Yadav <p.yadav@ti.com>
+> > > 
+> > > [snip]
+> > > 
+> > > > > > +static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+> > > > > > +{
+> > > > > > +	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vq);
+> > > > > > +	struct ti_csi2rx_dma *dma = &csi->dma;
+> > > > > > +	struct ti_csi2rx_buffer *buf;
+> > > > > > +	unsigned long flags;
+> > > > > > +	int ret = 0;
+> > > > > > +
+> > > > > > +	spin_lock_irqsave(&dma->lock, flags);
+> > > > > > +	if (list_empty(&dma->queue))
+> > > > > > +		ret = -EIO;
+> > > > > > +	spin_unlock_irqrestore(&dma->lock, flags);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	dma->drain.len = csi->v_fmt.fmt.pix.sizeimage;
+> > > > > > +	dma->drain.vaddr = dma_alloc_coherent(csi->dev, dma->drain.len,
+> > > > > > +					      &dma->drain.paddr, GFP_KERNEL);
+> > > > > > +	if (!dma->drain.vaddr)
+> > > > > > +		return -ENOMEM;
+> > > > > 
+> > > > > This is still allocating a large buffer every time streaming is started (and
+> > > > > with streams support, a separate buffer for each stream?).
+> > > > > 
+> > > > > Did you check if the TI DMA can do writes to a constant address? That would
+> > > > > be the best option, as then the whole buffer allocation problem goes away.
+> > > > 
+> > > > I checked with Vignesh, the hardware can support a scenario where we 
+> > > > flush out all the data without allocating a buffer, but I couldn't find 
+> > > > a way to signal that via the current dmaengine framework APIs. Will look 
+> > > > into it further as it will be important for multi-stream support.
+> > > 
+> > > That would be the best option. It's not immediately apparent to me if
+> > > the DMA engine API supports such a use case.
+> > > dmaengine_prep_interleaved_dma() gives you finer grain control on the
+> > > source and destination increments, but I haven't seen a way to instruct
+> > > the DMA engine to direct writes to /dev/null (so to speak). Vinod, is
+> > > this something that is supported, or could be supported ?
+> > 
+> > Write to a dummy buffer could have the same behaviour, no?
+> 
+> Yes, but if the DMA engine can write to /dev/null, that avoids
+> allocating a dummy buffer, which is nicer. For video use cases, dummy
+> buffers are often large.
 
+hmmm maybe I haven't comprehended it full, would you mind explaining the
+details on how such a potential interleaved transfer would look like so
+that we can model it or change apis to model this
+
+-- 
+~Vinod
