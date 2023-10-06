@@ -2,252 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B87A7BBB69
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 17:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65F057BBB97
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 17:18:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232755AbjJFPMY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 11:12:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43666 "EHLO
+        id S232749AbjJFPSX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 11:18:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230223AbjJFPMW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 11:12:22 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA3A9F;
-        Fri,  6 Oct 2023 08:12:20 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E7A5C433C9;
-        Fri,  6 Oct 2023 15:12:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696605140;
-        bh=pBOi8Gv1qqAYJ4e8Pn7HdfqP1/2VS6TDqzcavQT8xAc=;
+        with ESMTP id S232742AbjJFPSW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 11:18:22 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E95683
+        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 08:18:21 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E5F82E4;
+        Fri,  6 Oct 2023 17:16:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1696605391;
+        bh=Jz2vynyinThR7h3LBbI/KDvOLvRBbWxK7PUJrXAfniE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nh1+bqXtCsi7ZZjZza7aC7d+ut2k/L3MQ+5Yjbyyv1/rHiu7DpXYb0fba6V9ovLcq
-         3nThaQWrbMSifXObCGFbgCaXVJETfj+p1iG9omrqLEXdhglmUntxPtacm984ZQ1IBq
-         Z56bKzR9KRYYZqsZzOfgNAeaXVyIOXMLoOpWbR5GfsoOlMe93ATdTWsA/vWL3yOZIw
-         im/S8fZbvtC5Y7Yqda311tVnW6zF4kuV7/vvLGpLqNiA9Oq8oT3u2sKz0otwYRSmfL
-         idCa4DHkyLoKI6w+NKGAmzCYnkJFjfggZH5oYwNtKZs9UAyZjuvi9kdrvFd1Qyly2K
-         XwCQmPtZXBDEw==
-Received: (nullmailer pid 3946956 invoked by uid 1000);
-        Fri, 06 Oct 2023 15:12:17 -0000
-Date:   Fri, 6 Oct 2023 10:12:17 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org,
-        loic.poulain@linaro.org, rfoss@kernel.org, andi.shyti@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        todor.too@gmail.com, mchehab@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] media: dt-bindings: media: camss: Add
- qcom,sc8280xp-camss binding
-Message-ID: <20231006151217.GA3943830-robh@kernel.org>
-References: <20231006120159.3413789-1-bryan.odonoghue@linaro.org>
- <20231006120159.3413789-5-bryan.odonoghue@linaro.org>
- <ace84d7f-d332-4598-a95d-634c1d17f852@linaro.org>
+        b=MubInQyHVhKIaWb+mZAlKC3jptltIDveyEKC8SAolQB0CuwYH3QaelB7zdx7X5KQm
+         njDzh4Ov0nZvIajYc3mivRXqtATD1i5xd6vi+RPvp8fyHo/GygbdBC6s1OCSJC2dQm
+         FP6C/9RVgpWUxBhlr++LGM3vIQJG7UvE5tOqIL4I=
+Date:   Fri, 6 Oct 2023 18:18:26 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 8/9] media: i2c: mt9m114: goto proper error path
+Message-ID: <20231006151826.GB5121@pendragon.ideasonboard.com>
+References: <cover.1696586632.git.hverkuil-cisco@xs4all.nl>
+ <6e2b3d5971905c1cf63184e7c3cd269c10151bb7.1696586632.git.hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ace84d7f-d332-4598-a95d-634c1d17f852@linaro.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <6e2b3d5971905c1cf63184e7c3cd269c10151bb7.1696586632.git.hverkuil-cisco@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 06, 2023 at 02:33:42PM +0200, Krzysztof Kozlowski wrote:
-> On 06/10/2023 14:01, Bryan O'Donoghue wrote:
-> > Add bindings for qcom,sc8280xp-camss in order to support the camera
-> > subsystem for sc8280xp as found in the Lenovo x13s Laptop.
-> > 
-> > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> > ---
-> >  .../bindings/media/qcom,sc8280xp-camss.yaml   | 598 ++++++++++++++++++
-> >  1 file changed, 598 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
-> > new file mode 100644
-> > index 000000000000..46d2da4ad373
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
-> > @@ -0,0 +1,598 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/qcom,sc8280xp-camss.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Qualcomm CAMSS
-> 
-> Instead something like:
-> Qualcomm SC8280xp Camera SubSystem (CAMSS)
-> ?
-> 
-> > +
-> > +maintainers:
-> > +  - Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> > +
-> > +description: |
-> > +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: qcom,sc8280xp-camss
-> > +
-> > +  clocks:
-> > +    minItems: 63
-> 
-> You can drop minItems if they equal maxItems.
-> 
-> > +    maxItems: 63
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: camnoc_axi
-> > +      - const: camnoc_axi_src
-> > +      - const: cpas_ahb
-> > +      - const: cphy_rx_src
-> > +      - const: csiphy0
-> > +      - const: csiphy0_timer_src
-> > +      - const: csiphy0_timer
-> > +      - const: csiphy1
-> > +      - const: csiphy1_timer_src
-> > +      - const: csiphy1_timer
-> > +      - const: csiphy2
-> > +      - const: csiphy2_timer_src
-> > +      - const: csiphy2_timer
-> > +      - const: csiphy3
-> > +      - const: csiphy3_timer_src
-> > +      - const: csiphy3_timer
-> > +      - const: vfe0_axi
-> > +      - const: vfe0_src
-> > +      - const: vfe0
-> > +      - const: vfe0_cphy_rx
-> > +      - const: vfe0_csid_src
-> > +      - const: vfe0_csid
-> > +      - const: vfe1_axi
-> > +      - const: vfe1_src
-> > +      - const: vfe1
-> > +      - const: vfe1_cphy_rx
-> > +      - const: vfe1_csid_src
-> > +      - const: vfe1_csid
-> > +      - const: vfe2_axi
-> > +      - const: vfe2_src
-> > +      - const: vfe2
-> > +      - const: vfe2_cphy_rx
-> > +      - const: vfe2_csid_src
-> > +      - const: vfe2_csid
-> > +      - const: vfe3_axi
-> > +      - const: vfe3_src
-> > +      - const: vfe3
-> > +      - const: vfe3_cphy_rx
-> > +      - const: vfe3_csid_src
-> > +      - const: vfe3_csid
-> > +      - const: vfe_lite0_src
-> > +      - const: vfe_lite0
-> > +      - const: vfe_lite0_cphy_rx
-> > +      - const: vfe_lite0_csid_src
-> > +      - const: vfe_lite0_csid
-> > +      - const: vfe_lite1_src
-> > +      - const: vfe_lite1
-> > +      - const: vfe_lite1_cphy_rx
-> > +      - const: vfe_lite1_csid_src
-> > +      - const: vfe_lite1_csid
-> > +      - const: vfe_lite2_src
-> > +      - const: vfe_lite2
-> > +      - const: vfe_lite2_cphy_rx
-> > +      - const: vfe_lite2_csid_src
-> > +      - const: vfe_lite2_csid
-> > +      - const: vfe_lite3_src
-> > +      - const: vfe_lite3
-> > +      - const: vfe_lite3_cphy_rx
-> > +      - const: vfe_lite3_csid_src
-> > +      - const: vfe_lite3_csid
-> > +      - const: gcc_axi_hf
-> > +      - const: gcc_axi_sf
-> > +      - const: slow_ahb_src
-> > +
-> > +  interrupts:
-> > +    minItems: 20
-> 
-> You can drop minItems if they equal maxItems.
-> 
-> 
-> > +    maxItems: 20
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: csid1_lite
-> > +      - const: vfe_lite1
-> > +      - const: csiphy3
-> > +      - const: csid0
-> > +      - const: vfe0
-> > +      - const: csid1
-> > +      - const: vfe1
-> > +      - const: csid0_lite
-> > +      - const: vfe_lite0
-> > +      - const: csiphy0
-> > +      - const: csiphy1
-> > +      - const: csiphy2
-> > +      - const: csid2
-> > +      - const: vfe2
-> > +      - const: csid3_lite
-> > +      - const: csid2_lite
-> > +      - const: vfe_lite3
-> > +      - const: vfe_lite2
-> > +      - const: csid3
-> > +      - const: vfe3
-> > +
-> > +  iommus:
-> > +    minItems: 16
-> 
-> You can drop minItems if they equal maxItems.
-> 
-> > +    maxItems: 16
-> > +
-> > +  interconnects:
-> > +    minItems: 4
-> 
-> You can drop minItems if they equal maxItems.
-> 
-> 
-> > +    maxItems: 4
-> > +
-> > +  interconnect-names:
-> > +    items:
-> > +      - const: cam_ahb
-> > +      - const: cam_hf_mnoc
-> > +      - const: cam_sf_mnoc
-> > +      - const: cam_sf_icp_mnoc
-> > +
-> > +  power-domains:
-> > +    items:
-> > +      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
-> > +      - description: IFE1 GDSC - Image Front End, Global Distributed Switch Controller.
-> > +      - description: IFE2 GDSC - Image Front End, Global Distributed Switch Controller.
-> > +      - description: IFE3 GDSC - Image Front End, Global Distributed Switch Controller.
-> > +      - description: Titan Top GDSC - Titan ISP Block, Global Distributed Switch Controller.
-> > +
-> > +  power-domain-names:
-> > +    items:
-> > +      - description: ife0
-> > +      - description: ife1
-> > +      - description: ife2
-> > +      - description: ife3
-> > +      - description: top
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> 
-> On this level of indentation:
-> additionalProperties: false
+Hi Hans,
 
-No, because then #size-cells/#address-cells won't be allowed.
+Thank you for the patch.
 
-Rob
+On Fri, Oct 06, 2023 at 12:08:49PM +0200, Hans Verkuil wrote:
+> In two places the probe function returns instead of going
+> to the correct goto label.
+> 
+> This fixes this smatch warning:
+> 
+> drivers/media/i2c/mt9m114.c:2381 mt9m114_probe() warn: missing unwind goto?
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I've already submitted
+https://lore.kernel.org/linux-media/20231003192043.27690-1-laurent.pinchart@ideasonboard.com
+
+> ---
+>  drivers/media/i2c/mt9m114.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index dae675e52390..ac19078ceda3 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -2367,7 +2367,7 @@ static int mt9m114_probe(struct i2c_client *client)
+>  
+>  	ret = mt9m114_clk_init(sensor);
+>  	if (ret)
+> -		return ret;
+> +		goto error_ep_free;
+>  
+>  	/*
+>  	 * Identify the sensor. The driver supports runtime PM, but needs to
+> @@ -2378,7 +2378,7 @@ static int mt9m114_probe(struct i2c_client *client)
+>  	ret = mt9m114_power_on(sensor);
+>  	if (ret < 0) {
+>  		dev_err_probe(dev, ret, "Could not power on the device\n");
+> -		return ret;
+> +		goto error_ep_free;
+>  	}
+>  
+>  	ret = mt9m114_identify(sensor);
+
+-- 
+Regards,
+
+Laurent Pinchart
