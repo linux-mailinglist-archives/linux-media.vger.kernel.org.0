@@ -2,30 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49AEC7BB9A2
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 15:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9BFD7BB9DF
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 15:58:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232569AbjJFNqZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 09:46:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60708 "EHLO
+        id S232446AbjJFN6w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 09:58:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232571AbjJFNqB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 09:46:01 -0400
+        with ESMTP id S231891AbjJFN6v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 09:58:51 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E482A10A
-        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 06:45:51 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A187C43391;
-        Fri,  6 Oct 2023 13:45:50 +0000 (UTC)
-Message-ID: <34367590-d62a-4527-b31e-0401ba030ad4@xs4all.nl>
-Date:   Fri, 6 Oct 2023 15:45:48 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34CFF83
+        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 06:58:50 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 899F5C433AD
+        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 13:58:49 +0000 (UTC)
+Message-ID: <908dab89-a18b-4667-9ef3-18111290f6ab@xs4all.nl>
+Date:   Fri, 6 Oct 2023 15:58:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US, nl
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] Documentation: media: gen-errors.rst: fix confusing ENOTTY
- description
+Subject: [PATCH] Documentation: media: buffer.rst: fix V4L2_BUF_FLAG_PREPARED
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -80,31 +78,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The text is very, very old and predates /dev/mediaX devices, so the
-reference to "media device" is today very confusing.
+The list of ioctls that set or clear this flag was garbled in the generator
+output. Put in the proper text.
 
-It also says that the ioctl is not supported by the driver, but a
-driver may have multiple device nodes, some support a given ioctl,
-and some don't.
-
-Simplify the description: ENOTTY means that the ioctl is not supported
-by the file descriptor.
-
-Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
-diff --git a/Documentation/userspace-api/media/gen-errors.rst b/Documentation/userspace-api/media/gen-errors.rst
-index e595d0bea109..4e8defd3612b 100644
---- a/Documentation/userspace-api/media/gen-errors.rst
-+++ b/Documentation/userspace-api/media/gen-errors.rst
-@@ -59,9 +59,7 @@ Generic Error Codes
-
-     -  -  ``ENOTTY``
-
--       -  The ioctl is not supported by the driver, actually meaning that
--	  the required functionality is not available, or the file
--	  descriptor is not for a media device.
-+       -  The ioctl is not supported by the file descriptor.
-
-     -  -  ``ENOSPC``
+diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+index 04dec3e570ed..52bbee81c080 100644
+--- a/Documentation/userspace-api/media/v4l/buffer.rst
++++ b/Documentation/userspace-api/media/v4l/buffer.rst
+@@ -549,9 +549,9 @@ Buffer Flags
+       - 0x00000400
+       - The buffer has been prepared for I/O and can be queued by the
+ 	application. Drivers set or clear this flag when the
+-	:ref:`VIDIOC_QUERYBUF`,
++	:ref:`VIDIOC_QUERYBUF <VIDIOC_QUERYBUF>`,
+ 	:ref:`VIDIOC_PREPARE_BUF <VIDIOC_QBUF>`,
+-	:ref:`VIDIOC_QBUF` or
++	:ref:`VIDIOC_QBUF <VIDIOC_QBUF>` or
+ 	:ref:`VIDIOC_DQBUF <VIDIOC_QBUF>` ioctl is called.
+     * .. _`V4L2-BUF-FLAG-NO-CACHE-INVALIDATE`:
 
