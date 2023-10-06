@@ -2,101 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C80CC7BB90F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 15:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21E877BB95C
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 15:42:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232341AbjJFN07 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 09:26:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35768 "EHLO
+        id S232388AbjJFNmZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 09:42:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232082AbjJFN06 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 09:26:58 -0400
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEF8683;
-        Fri,  6 Oct 2023 06:26:56 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 501)
-        id 197301007F8; Fri,  6 Oct 2023 14:26:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1696598815; bh=UXwmvyfcz7+G6k1Eio3GnnTX/uptDTtBSTC2steX08w=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jmQs7Ss/peRiRt886mq2geyLW8byTP0ykuahAlIny14b2PeJppNMX8iP8sHogLCqv
-         5fj4MzrTWK4jujeczzIG5iC+x7QDHSnGjKpsuPsupY4HIRZ03NXjbdrnqrv9EHDotj
-         NFAkNcIjhGTlmZjACLkhxd/sxGIf5cDmAXOdr/YsNLXns6KE3PGb8fqH+2sCBZBB6o
-         +IxwnA1i30+zGYaRCm42qiIUPaLc8S2S6OYPb/PYVNiSGeh9H4fIFdUIZtOguKUsIr
-         ura4CgF9NfgUUTC5jNEKE24QIsNa6yDC7va70NjqXatWp7KvdqSYkmD/AHecCPG/BZ
-         wWtkrvOxr6vOA==
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
-X-Spam-Level: 
+        with ESMTP id S232335AbjJFNmX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 09:42:23 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2289E
+        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 06:42:22 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9b2cee55056so397738966b.3
+        for <linux-media@vger.kernel.org>; Fri, 06 Oct 2023 06:42:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696599741; x=1697204541; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wuMy4S0ru4zLGZOBtXvG1IdjCKVMmCKYDZxiqYoNrug=;
+        b=YQClspXlKIbT+K11tG6T22Cvp6ZWH313lJ47uwP/Z6caZilcnAtxaRHPINtwDvx+/B
+         q8eRf31Hpo+BuywTepN8qNLbm0p0RsCkFv//4Bw1m75AvbRafWbLP/WxVamshCPIjmk2
+         GAmqu5yMEJZAcZ1Hsj/k/9JYKaxFzY0Tp8+ayDopBLbLsbS/Le838wp8B3dB2bxu9EqW
+         DsoFqr8XY7OOa1X0LvQMsYNoyYMb+a7L6L3x/xwsLvngudAJTDUlHuyk6nYFZIv8AvgL
+         mSZLagw9YTFQlE6woRAtTsrhDi8adu4q9Jcguj2tw54aPSzQVXjg1jfndwwj2Iky+Hns
+         ugjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696599741; x=1697204541;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wuMy4S0ru4zLGZOBtXvG1IdjCKVMmCKYDZxiqYoNrug=;
+        b=BKGkRIEyiQOz21M49R0wPO2wGkUxCzUJrDUdW8xZx62GiKZlvbMSmAehMX31i1YVGK
+         yIdue5tnsw/MFtpz1KCu6JaAaKjS1ChxAq8OXQ8Fsuq8C150f9bDh06UFhuC8A6SPHHe
+         N9c66sXo//Ppn1otsviqmvMzqyMFOdd6f/srrGkX6YhR2WF9EbNa1wivSMIxmFxVV20O
+         mRgd3J6+mVK8opvyCgVf2sSShYXeFcFSI1qPMW5d/Dmn9cd2Canz+zvS8PFwpzMdgUZ1
+         Ov/0W+kDyO2xPGZFRccO6vjrxghVgKXb2rDth+capKZUcQPdFAwhKA4UeR0JCalEk0Pl
+         KT1g==
+X-Gm-Message-State: AOJu0YznOkOuWLBA7sAr3Y/p7SehMXuHL7Bh3hpwc/2q7Oi3Ttn+4l0l
+        YoHIvBv0VhXIpJMNBjIVkhRJyQ==
+X-Google-Smtp-Source: AGHT+IEu4MjYlRNDFM6oFK7NgRNN3wh+E7Cl+Rl50272RJjELQYz17Ku8sxhJDD1aiQyeuI+GQRM5w==
+X-Received: by 2002:a17:906:253:b0:9b8:9b4f:1cc2 with SMTP id 19-20020a170906025300b009b89b4f1cc2mr6988445ejl.43.1696599740631;
+        Fri, 06 Oct 2023 06:42:20 -0700 (PDT)
+Received: from [192.168.1.197] (5-157-101-10.dyn.eolo.it. [5.157.101.10])
+        by smtp.gmail.com with ESMTPSA id ci24-20020a170906c35800b009a2235ed496sm2953812ejb.141.2023.10.06.06.42.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Oct 2023 06:42:20 -0700 (PDT)
+Message-ID: <b4b8b73b-847c-4292-b6a3-a5d409eb51cd@linaro.org>
+Date:   Fri, 6 Oct 2023 15:42:18 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] media: dt-bindings: media: camss: Add
+ qcom,sc8280xp-camss binding
+Content-Language: en-US
+To:     Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        loic.poulain@linaro.org, rfoss@kernel.org, andi.shyti@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, todor.too@gmail.com, mchehab@kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231006120159.3413789-1-bryan.odonoghue@linaro.org>
+ <20231006120159.3413789-5-bryan.odonoghue@linaro.org>
+ <ace84d7f-d332-4598-a95d-634c1d17f852@linaro.org>
+ <661e3701-9a26-451a-8851-f1d1b2355f80@nexus-software.ie>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <661e3701-9a26-451a-8851-f1d1b2355f80@nexus-software.ie>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
-Received: from bigcore.mess.org (unknown [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by gofer.mess.org (Postfix) with ESMTPSA id F3209100057;
-        Fri,  6 Oct 2023 14:26:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1696598814; bh=UXwmvyfcz7+G6k1Eio3GnnTX/uptDTtBSTC2steX08w=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ldpy4Gh0DGhTVX2j5z/b7p2QSlULiXt5MhhXKKoKNjjvk+5VKTJQtxrmQe7d+f+oD
-         9UIl+F9KE7hDIqwN1gjYbQ/Ss/6CWot1tMxRVqZcmQs/Gp5y4TxBRixReBHbyR28kT
-         dOx6cQ0vJDqBODXIAKXDaXuUH9nCfva82wFjQvm0xZhwIq97ZGO7Bl1h/ywF3/ZGcO
-         yDM9w93M8MTpPVu+6Jc8anpmuu3nd6hiJ4fHlLcXLRJy/RIDBoLGfkTtPBFR3eZ35+
-         UUNQZEBlYmshaKxBPOF81A52SpMcAPwwtcSKxD9iiFkbbvu9HCGawLTAfyQwX+fElc
-         5M4XLSQink4mA==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Joe Ferner <joe.m.ferner@gmail.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: sharp: fix sharp encoding
-Date:   Fri,  6 Oct 2023 14:26:30 +0100
-Message-ID: <20231006132631.216231-1-sean@mess.org>
-X-Mailer: git-send-email 2.42.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Sharp protocol[1] encoding has incorrect timings for bit space.
+On 06/10/2023 14:52, Bryan O'Donoghue wrote:
+> On 06/10/2023 13:33, Krzysztof Kozlowski wrote:
+>>> +      port@3:
+>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>>> +        unevaluatedProperties: false
+>>> +        description:
+>>> +          Input port for receiving CSI data.
+>> No output ports to some ISP?
+> 
+> Not for the moment anyway. Its a raw dump of bayer data to userspace.
 
-[1] https://www.sbprojects.net/knowledge/ir/sharp.php
+The best would be if bindings were complete, but I understand.
 
-Reported-by: Joe Ferner <joe.m.ferner@gmail.com>
-Closes: https://sourceforge.net/p/lirc/mailman/message/38604507/
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/ir-sharp-decoder.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/rc/ir-sharp-decoder.c b/drivers/media/rc/ir-sharp-decoder.c
-index 3d8488c39c56..3311099cbd57 100644
---- a/drivers/media/rc/ir-sharp-decoder.c
-+++ b/drivers/media/rc/ir-sharp-decoder.c
-@@ -15,7 +15,9 @@
- #define SHARP_UNIT		40  /* us */
- #define SHARP_BIT_PULSE		(8    * SHARP_UNIT) /* 320us */
- #define SHARP_BIT_0_PERIOD	(25   * SHARP_UNIT) /* 1ms (680us space) */
--#define SHARP_BIT_1_PERIOD	(50   * SHARP_UNIT) /* 2ms (1680ms space) */
-+#define SHARP_BIT_1_PERIOD	(50   * SHARP_UNIT) /* 2ms (1680us space) */
-+#define SHARP_BIT_0_SPACE	(17   * SHARP_UNIT) /* 680us space */
-+#define SHARP_BIT_1_SPACE	(42   * SHARP_UNIT) /* 1680us space */
- #define SHARP_ECHO_SPACE	(1000 * SHARP_UNIT) /* 40 ms */
- #define SHARP_TRAILER_SPACE	(125  * SHARP_UNIT) /* 5 ms (even longer) */
- 
-@@ -168,8 +170,8 @@ static const struct ir_raw_timings_pd ir_sharp_timings = {
- 	.header_pulse  = 0,
- 	.header_space  = 0,
- 	.bit_pulse     = SHARP_BIT_PULSE,
--	.bit_space[0]  = SHARP_BIT_0_PERIOD,
--	.bit_space[1]  = SHARP_BIT_1_PERIOD,
-+	.bit_space[0]  = SHARP_BIT_0_SPACE,
-+	.bit_space[1]  = SHARP_BIT_1_SPACE,
- 	.trailer_pulse = SHARP_BIT_PULSE,
- 	.trailer_space = SHARP_ECHO_SPACE,
- 	.msb_first     = 1,
--- 
-2.42.0
+Best regards,
+Krzysztof
 
