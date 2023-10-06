@@ -2,96 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C237E7BB4E1
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 12:09:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DCB07BB4F4
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 12:13:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231706AbjJFKJ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 06:09:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36882 "EHLO
+        id S231676AbjJFKNm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 06:13:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231707AbjJFKJX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 06:09:23 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1EDBE
-        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 03:09:16 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qohli-007oQg-Qc; Fri, 06 Oct 2023 10:09:14 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.96)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qohlf-0078m2-3A;
-        Fri, 06 Oct 2023 10:09:12 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Sean Young <sean@mess.org>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.7] More rc fixes (#95584)
-Date:   Fri,  6 Oct 2023 10:09:10 +0000
-Message-Id: <20231006100910.1702013-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <ZR/RzbrHMZjn2jrh@gofer.mess.org>
-References: 
+        with ESMTP id S231648AbjJFKNl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 06:13:41 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0969EA
+        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 03:13:38 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3214cdb4b27so1861360f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Oct 2023 03:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696587217; x=1697192017; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+5ZiMUDCBG5q+dOhucBT4pqBcaD3QFKz8YWmZyOxDh4=;
+        b=QWGCesHJCPcvpDWc/cLY4vaeOHFuou15GOuLmEkfmfvaKTsV78pqhWsGDmrTWr27DN
+         h1f3ggP7Zp8qrN4ReBNEio7bznXgirXgI3u7K312lcGz6uQi0EjOfDMgPgl2Yy+RXcsw
+         9G0XBbvP9J+QMBntIGv/clJV27qDbxjMzf6xcE+9QUv02w4HOeFqbwGcf5MRdP+il8Et
+         havWXtps3DhHJHpinQVF85eLjHt4cf7pPZVGciC4mx5NFcDwRenGUTkaC1KPpLdw+0XE
+         xCeVmUZUHveeliocMEFGiPSuIMU9TSjOoDMZumWmyABQvBlGjckFVTdMrSzpgFqlIxI3
+         6Uxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696587217; x=1697192017;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+5ZiMUDCBG5q+dOhucBT4pqBcaD3QFKz8YWmZyOxDh4=;
+        b=aPHz/qXfy8bzX9T4CO0XmAGPk4jQJ/ntzmdjfP4lb9nSjZbMYIuyunmSFuD7Lsm9LK
+         vUs98FmPsOiFuN0kdTQQGbspPzZs2ZG2BLcUMBUgljyH1ddw1J9im2gO/nuc3aExXf+X
+         xwlMb+lsM9qSSrR/USKwo0XutURgv1RhzH/q4EdxIl1Q0mCyT3sk3jzb1acaQ4s0h7e3
+         LDpp/QAdloDhfozlBw9QLKMAbeVkDVGB16HqY/y9/SbJLPckLC2iN325j3SrO8W7PNfc
+         eVqzdpihulwzqM9qDnyfOT4t3Vkdp4/+H+kQiMJfzlL2rBdUYEDkiwt8XR60RLmN1uQw
+         KDWg==
+X-Gm-Message-State: AOJu0YyKDvyFTNLMjA6FeL7jVmbmvWwuagO8HO4xNkaVB76fXin8kKOo
+        Lv/l/X1A9mUJegBJT/tkzirw3Q==
+X-Google-Smtp-Source: AGHT+IEgKVlQn0MpuB6kGWJfiTaeEec0q7RiFC/D89MW3PVSim/8c/17pVEMbUnQmFBkOI1LIrwfCg==
+X-Received: by 2002:a5d:4b92:0:b0:31f:ea3d:f93 with SMTP id b18-20020a5d4b92000000b0031fea3d0f93mr7305536wrt.40.1696587217011;
+        Fri, 06 Oct 2023 03:13:37 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id l1-20020a5d4bc1000000b00323287186b2sm1287582wrt.29.2023.10.06.03.13.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Oct 2023 03:13:36 -0700 (PDT)
+Message-ID: <87ddd6ea-e219-43c9-8157-e15ac8ae448b@linaro.org>
+Date:   Fri, 6 Oct 2023 11:13:35 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] media: qcom: venus: fix incorrect return value
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>
+References: <cover.1696586632.git.hverkuil-cisco@xs4all.nl>
+ <aca1fc4a0f8b503e77365bd7d7d06d2dfa2d7d91.1696586632.git.hverkuil-cisco@xs4all.nl>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <aca1fc4a0f8b503e77365bd7d7d06d2dfa2d7d91.1696586632.git.hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 06/10/2023 11:08, Hans Verkuil wrote:
+> 'pd' can be NULL, and in that case it shouldn't be passed to
+> PTR_ERR. Fixes a smatch warning:
+> 
+> drivers/media/platform/qcom/venus/pm_helpers.c:873 vcodec_domains_get() warn: passing zero to 'PTR_ERR'
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+> CC: Vikash Garodia <quic_vgarodia@quicinc.com>
+> CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+> ---
+>   drivers/media/platform/qcom/venus/pm_helpers.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index 48c9084bb4db..a1b127caa90a 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -870,7 +870,7 @@ static int vcodec_domains_get(struct venus_core *core)
+>   		pd = dev_pm_domain_attach_by_name(dev,
+>   						  res->vcodec_pmdomains[i]);
+>   		if (IS_ERR_OR_NULL(pd))
+> -			return PTR_ERR(pd) ? : -ENODATA;
+> +			return pd ? PTR_ERR(pd) : -ENODATA;
+>   		core->pmdomains[i] = pd;
+>   	}
+>   
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZR/RzbrHMZjn2jrh@gofer.mess.org/
-Build log: https://builder.linuxtv.org/job/patchwork/345856/
-Build time: 00:34:55
-Link: https://lore.kernel.org/linux-media/ZR/RzbrHMZjn2jrh@gofer.mess.org
-
-gpg: Signature made Fri 06 Oct 2023 09:11:47 AM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [full]
-
-Summary: got 1/2 patches with issues, being 1 at build time
-
-Error/warnings:
-
-patches/0001-media-rc-keymaps-add-missing-MODULE_DESCRIPTION-to-k.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:446 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2779 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2878 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
-	  Locked on  : 326,387
-	  Unlocked on: 465,467
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1974 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/i2c/mt9m114.c: ../drivers/media/i2c/mt9m114.c:2381 mt9m114_probe() warn: missing unwind goto?
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/dvb-frontends/mb86a16.c: ../drivers/media/dvb-frontends/mb86a16.c:1449 mb86a16_set_fe() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2213 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: OOM: 3013268Kb sm_state_count = 1753539
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 76 seconds
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: OOM: 3003988Kb sm_state_count = 2158
-	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: __split_smt: function too hairy.  Giving up after 6 seconds
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/pci/mgb4/mgb4_sysfs_out.c: ../drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
-	../drivers/media/pci/mgb4/mgb4_sysfs_out.c: ../drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2804 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
