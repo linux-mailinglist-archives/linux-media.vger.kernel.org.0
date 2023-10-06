@@ -2,80 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE72A7BB76F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 14:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C35347BB79A
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 14:30:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232224AbjJFMRO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 08:17:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37458 "EHLO
+        id S231989AbjJFMaC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 08:30:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232196AbjJFMRM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 08:17:12 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85778C2;
-        Fri,  6 Oct 2023 05:17:09 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1c3d8fb23d9so15630025ad.0;
-        Fri, 06 Oct 2023 05:17:09 -0700 (PDT)
+        with ESMTP id S231877AbjJFM36 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 08:29:58 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7F9FE4
+        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 05:29:55 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-533c8f8f91dso3717146a12.0
+        for <linux-media@vger.kernel.org>; Fri, 06 Oct 2023 05:29:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696595394; x=1697200194; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=KSPOq6GPySdwGSInmYuZudkJs+/ss1/t1gFD1Bmsqj0=;
+        b=WuLwpVEMNObtFu/9BVndCtt+4t3zIxfDiQx1f2ExiQk8lVtDZKGCL2HP6xeKMEjK7Y
+         7bWaXVrNrQO4fsg7jovQff/8tl9tq+NoNE9fIczhH/L84cZ/hy/il6YoWWaf67xi1nKB
+         HDNTPIT2EaBujHJ/78boJ/wmWS7YtoH1SN7vbIS2R3wC9t8wLalvLmI0yQ73HSd2n2J+
+         VXuhdtUyolLTsp+CEqd0czhzTxH7B9WcSjOsY7xPgB52fESX39H5LOgZQdsey4pGN7Cd
+         57Bmdp3bi9P3QXX1cnQrFaIZBzYw4/t/AA8SHI/k0T/FdmjtgGoO7itwSpd33ZpbJdnc
+         4hxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696594629; x=1697199429;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=KOliDYSfdDjd8qPENuvroDgTApgk5BQpxPpwejVZeFQ=;
-        b=MH0DFd6ACHbKdBeKavmmImFXwxUt/pt2aQBDnpP4ePw+WMsyJNHf3x+9CFHVCbxPvg
-         8klP8YURbN5klJGxfSG3te2Eo42RZaZC1nXusUT8jhTMp3I4dx2LL/p7j5IQWH9xASoh
-         eDbp5NaQhtpZFvkkkf1TMPeYNilfBfQsouI7FC5xw+7S97Ya9ug+Fr2MeWs7RgdvPZDL
-         vNbjdmr5PTxImLJpCMixP1RKMngnKKPXgxs18eXRHZ24CWkHabjRcwP7U0HMuAaSzLoB
-         rEdd5ciVk7IybWA2sX2QRgM2rVtuAivhoFD+U82Dxe9MJO5ZciH8NpppBm/jA3fAuVML
-         oIZw==
-X-Gm-Message-State: AOJu0Yyb8v2FbTrsC+8zhOH7zU1rTUa2iq/wk/zX47ipwctbvzulkLf9
-        4IDRRFB7VHYdPW8EGpjDe9k=
-X-Google-Smtp-Source: AGHT+IGpqLWRjfqW0a1Q63oZsAgBWs0TG5UVFflGSESYtARNtaAA7H4ylYwrFP7YDABFRj/NZcJzSA==
-X-Received: by 2002:a17:902:d50f:b0:1c3:bc2a:f6b4 with SMTP id b15-20020a170902d50f00b001c3bc2af6b4mr9121885plg.42.1696594628907;
-        Fri, 06 Oct 2023 05:17:08 -0700 (PDT)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id ji2-20020a170903324200b001b8b2b95068sm3679811plb.204.2023.10.06.05.17.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 05:17:08 -0700 (PDT)
-Date:   Fri, 6 Oct 2023 09:17:08 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-        s=2023; t=1696594627;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KOliDYSfdDjd8qPENuvroDgTApgk5BQpxPpwejVZeFQ=;
-        b=Bvj2ZZmlAmcheOfr191AVtGk6RsvZcgU71VUMj7sbdUrqSjrgltToamVt70fjLzGKsWZyV
-        kg1qq6c1/37JQu9fJx7HrCuZiEqGIBo3CWSvot6SZUr08393v4l3Z98dmLdctRhRTRtrBh
-        EebfnWIFSlySCiJRb8NETGLLVSVbR7C+aRkGdxyGQozIxlmS9DyCoxBM6zZlJ5oss8V4Ts
-        U79eL8Vq+IuwQigxogHjRHDwIk4yXEr/HRWYgpjaaugJ/7zy4qCYx2YTCeWXbHwo6ocDrj
-        nuRXlnPo15YXScnDSAHYGFHWDEa+/Fv6uYhYZbxSGCY5WnYRHK7Awa6vu3+2pg==
-Authentication-Results: ORIGINATING;
-        auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-From:   "Ricardo B. Marliere" <ricardo@marliere.net>
-To:     syzbot <syzbot+621409285c4156a009b3@syzkaller.appspotmail.com>
-Cc:     isely@pobox.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, pvrusb2@isely.net,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [pvrusb2?] [usb?] KASAN: slab-use-after-free Read in
- pvr2_context_set_notify
-Message-ID: <cb6fm6c65rqbk6hzjii5bqanscy7njfu5k7nnpe4doxytshqpf@ulv5noywsnlv>
-References: <000000000000a02a4205fff8eb92@google.com>
- <gugiuvjgpoogf3k5cm4px4jwevg5torsu3d7afbbhvnrxho4zu@wkcxeb5sr5ez>
+        d=1e100.net; s=20230601; t=1696595394; x=1697200194;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KSPOq6GPySdwGSInmYuZudkJs+/ss1/t1gFD1Bmsqj0=;
+        b=KtLXf4BmNHa1iDMTnGQq6BpL0MXkiRIMdCu37teGvO6JDxGW0QjvNIkBwKMwd+jiBH
+         f6JboGLxJFOsVLyUjhieQsQV8Td867vp442GG6JoCHI0EXOsdXsy48eZz06Z5/MX/dkS
+         UAGZCxEnTpsgQMAF88EiQH609/2uwp6xEY408aqYZ/t59KDnZlmoPMehInFrifSMZnQJ
+         5n2STA2mn5UU5sS3bHwV3BOJphrpLmdymn9q2KJs20xgR/u34ZS4m+/IkKlqZLvZOcPl
+         lFo6F6xWBrMeEUopV/tHsonLrkYN3QqVOFxw/EVUvzWradg1nlybt+oLzalww+CtyWlJ
+         SleA==
+X-Gm-Message-State: AOJu0Yz7UOogedr29duCSBSsy5z4nFg0BrO0610JBg04blh+vz5nbksj
+        ctrUveOMau6+ZGPL7PxB/4Cogg==
+X-Google-Smtp-Source: AGHT+IHIJYhzfMfqm5jJJJdMb0s4l/rwMkhsc+9gNrP1kQScSjKUMoJCGdv7FY5EQIzpAw8Chi6DOw==
+X-Received: by 2002:a50:ee84:0:b0:531:9c1:8276 with SMTP id f4-20020a50ee84000000b0053109c18276mr7646714edr.4.1696595393667;
+        Fri, 06 Oct 2023 05:29:53 -0700 (PDT)
+Received: from [192.168.1.197] (5-157-101-10.dyn.eolo.it. [5.157.101.10])
+        by smtp.gmail.com with ESMTPSA id u1-20020a05640207c100b005311e934765sm2519564edy.27.2023.10.06.05.29.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Oct 2023 05:29:53 -0700 (PDT)
+Message-ID: <9e7a5316-ade2-45c7-8c72-e99f9ce21f25@linaro.org>
+Date:   Fri, 6 Oct 2023 14:29:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <gugiuvjgpoogf3k5cm4px4jwevg5torsu3d7afbbhvnrxho4zu@wkcxeb5sr5ez>
-X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SORTED_RECIPS,
-        SPF_HELO_NONE,SPF_PASS,TVD_SPACE_RATIO autolearn=no autolearn_force=no
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] dt-bindings: i2c: qcom-cci: Document sc8280xp
+ compatible
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org,
+        loic.poulain@linaro.org, rfoss@kernel.org, andi.shyti@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, todor.too@gmail.com, mchehab@kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231006120159.3413789-1-bryan.odonoghue@linaro.org>
+ <20231006120159.3413789-2-bryan.odonoghue@linaro.org>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231006120159.3413789-2-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
-X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git 1053c4a4b8fcbd28386e80347e7c82d4d617e352
+On 06/10/2023 14:01, Bryan O'Donoghue wrote:
+> Add sc8280xp compatible consistent with recent CAMSS CCI interfaces.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
