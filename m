@@ -2,34 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B322E7BB4DE
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 12:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C237E7BB4E1
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 12:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231666AbjJFKJJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 06:09:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37614 "EHLO
+        id S231706AbjJFKJ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 06:09:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231657AbjJFKJH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 06:09:07 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD80DF0
-        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 03:09:05 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 732D0C433AD;
-        Fri,  6 Oct 2023 10:09:04 +0000 (UTC)
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Martin Tuma <martin.tuma@digiteqautomotive.com>
-Subject: [PATCH 9/9] media: pci: mgb4: fix potential spectre vulnerability
-Date:   Fri,  6 Oct 2023 12:08:50 +0200
-Message-Id: <c83b7fffe1e087568f64aba786797d258279948e.1696586632.git.hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <cover.1696586632.git.hverkuil-cisco@xs4all.nl>
-References: <cover.1696586632.git.hverkuil-cisco@xs4all.nl>
+        with ESMTP id S231707AbjJFKJX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 06:09:23 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1EDBE
+        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 03:09:16 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qohli-007oQg-Qc; Fri, 06 Oct 2023 10:09:14 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qohlf-0078m2-3A;
+        Fri, 06 Oct 2023 10:09:12 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sean Young <sean@mess.org>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.7] More rc fixes (#95584)
+Date:   Fri,  6 Oct 2023 10:09:10 +0000
+Message-Id: <20231006100910.1702013-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZR/RzbrHMZjn2jrh@gofer.mess.org>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -37,41 +45,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix smatch warnings:
+From: builder@linuxtv.org
 
-drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
-drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZR/RzbrHMZjn2jrh@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/345856/
+Build time: 00:34:55
+Link: https://lore.kernel.org/linux-media/ZR/RzbrHMZjn2jrh@gofer.mess.org
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC: Martin Tuma <martin.tuma@digiteqautomotive.com>
----
- drivers/media/pci/mgb4/mgb4_sysfs_out.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+gpg: Signature made Fri 06 Oct 2023 09:11:47 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_out.c b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
-index 23a9aabf3915..9f6e81c57726 100644
---- a/drivers/media/pci/mgb4/mgb4_sysfs_out.c
-+++ b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
-@@ -8,6 +8,7 @@
-  */
- 
- #include <linux/device.h>
-+#include <linux/nospec.h>
- #include "mgb4_core.h"
- #include "mgb4_i2c.h"
- #include "mgb4_vout.h"
-@@ -114,8 +115,10 @@ static ssize_t video_source_store(struct device *dev,
- 
- 	if (((config & 0xc) >> 2) < MGB4_VIN_DEVICES)
- 		loopin_old = mgbdev->vin[(config & 0xc) >> 2];
--	if (val < MGB4_VIN_DEVICES)
-+	if (val < MGB4_VIN_DEVICES) {
-+		val = array_index_nospec(val, MGB4_VIN_DEVICES);
- 		loopin_new = mgbdev->vin[val];
-+	}
- 	if (loopin_old && loopin_cnt(loopin_old) == 1)
- 		mgb4_mask_reg(&mgbdev->video, loopin_old->config->regs.config,
- 			      0x2, 0x0);
--- 
-2.40.1
+Summary: got 1/2 patches with issues, being 1 at build time
+
+Error/warnings:
+
+patches/0001-media-rc-keymaps-add-missing-MODULE_DESCRIPTION-to-k.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:446 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2779 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2878 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+	  Locked on  : 326,387
+	  Unlocked on: 465,467
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1974 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/i2c/mt9m114.c: ../drivers/media/i2c/mt9m114.c:2381 mt9m114_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/dvb-frontends/mb86a16.c: ../drivers/media/dvb-frontends/mb86a16.c:1449 mb86a16_set_fe() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2213 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: OOM: 3013268Kb sm_state_count = 1753539
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 76 seconds
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: OOM: 3003988Kb sm_state_count = 2158
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: __split_smt: function too hairy.  Giving up after 6 seconds
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/mgb4/mgb4_sysfs_out.c: ../drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
+	../drivers/media/pci/mgb4/mgb4_sysfs_out.c: ../drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2804 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
