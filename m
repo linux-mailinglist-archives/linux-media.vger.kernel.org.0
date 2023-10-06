@@ -2,101 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89EB37BBCB0
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 18:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3EAE7BBCB4
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 18:28:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232496AbjJFQ1L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 12:27:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52596 "EHLO
+        id S232637AbjJFQ2X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 12:28:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230050AbjJFQ1K (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 12:27:10 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF293AD;
-        Fri,  6 Oct 2023 09:27:06 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DE25C433C8;
-        Fri,  6 Oct 2023 16:27:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696609626;
-        bh=SVGR/dgN3Ia2g/ceGF5AhDwZ0Sefym/pCcWKrkUlFKM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CITwWzMH2g2fBjiW+AXqbUZj0vPTcGj7f8bAVh7Oe5DcE97YDA2mheL32aZ+K5jNI
-         pKS6nY0cQ8JxKwOKttq6+T8BWP3EdbF5sjzFixfOJfCTM8e1OmLn7nn28iKhjxFqYQ
-         n2G9es+KaFUV+lPkfNJx3q3iAvihKyW6Fw0NCdOBEJKaxMImWeFxATrjN1swsvEMaZ
-         07UlLpaTtQKPU60RnfeNGam5IGSnqJQfE+yXfuPRlYdA4JjjHtrNir/sa6qSchQhj9
-         3qYXuB4ar4+AfHVgKOLQwLoMF81K7ilczQ8k9YrXGMb0mZxjNFAxBan8I31OL15+NH
-         Xv4RGfNvG8G2w==
-Received: (nullmailer pid 4034213 invoked by uid 1000);
-        Fri, 06 Oct 2023 16:27:03 -0000
-Date:   Fri, 6 Oct 2023 11:27:03 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: Re: [PATCH 3/7] dt-bindings: media: Document STM32MP25 VENC video
- encoder
-Message-ID: <20231006162703.GA4030032-robh@kernel.org>
-References: <20231004091552.3531659-1-hugues.fruchet@foss.st.com>
- <20231004091552.3531659-4-hugues.fruchet@foss.st.com>
- <CAHCN7xKrriTPaRMJ-r86cSgFDUUP1At08imLBr_zEP0g3fga_g@mail.gmail.com>
+        with ESMTP id S230113AbjJFQ2W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 12:28:22 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5776CB6
+        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 09:28:21 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:a4b3::580])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5DFC26605957;
+        Fri,  6 Oct 2023 17:28:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1696609699;
+        bh=BpBRSzjEt9YdkMSc5bpxOEoFBMPL2m6SmbzqTf/kSWo=;
+        h=Subject:From:To:Date:In-Reply-To:References:From;
+        b=cUOzZyYgDycfYGD7LgfwXUCzsCkfrGCtypv13YLyql++nFabs8yVGnO8dTxMdgANn
+         DZWcf4JOMrzX5BxRIBk/KjfQh18sxV2G2f6XHfSPa2Xpi5JRW29Cnwq7jDl2LNWvKq
+         KB3H4VBWRa/LXKwjkgM53jXqoiM8foWRqZWmYTx8OhSnJB5ByflxGZ6Y0otBpNa8hB
+         66fR+Rq/FI5CvFiFQCrY8TXklUyVn/DTvZm45Yh7+8WFTitmCQHaPLVJ63G30sGGzJ
+         VkEzQacD7UVRX0IwHLBm87gKeJ4DzlEvNw3GW3Cv2gSjXuGOsOybT1w4eZrvD8DDhb
+         W/GiN4mJgIYZw==
+Message-ID: <f1b9292311ca9b9c723505cdc0fdc3a7280be9dc.camel@collabora.com>
+Subject: Re: [PATCH] Documentation: media: gen-errors.rst: fix confusing
+ ENOTTY description
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Date:   Fri, 06 Oct 2023 12:28:09 -0400
+In-Reply-To: <34367590-d62a-4527-b31e-0401ba030ad4@xs4all.nl>
+References: <34367590-d62a-4527-b31e-0401ba030ad4@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHCN7xKrriTPaRMJ-r86cSgFDUUP1At08imLBr_zEP0g3fga_g@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 04, 2023 at 06:41:09PM -0500, Adam Ford wrote:
-> On Wed, Oct 4, 2023 at 4:16 AM Hugues Fruchet
-> <hugues.fruchet@foss.st.com> wrote:
-> >
-> > Add STM32MP25 VENC video encoder bindings.
-> >
-> > Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > ---
-> >  .../bindings/media/st,stm32mp25-venc.yaml     | 56 +++++++++++++++++++
-> >  1 file changed, 56 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml b/Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml
-> > new file mode 100644
-> > index 000000000000..c69e0a34f675
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/st,stm32mp25-venc.yaml
-> > @@ -0,0 +1,56 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/st,stm32mp25-venc.yaml#
-> 
-> Can this dt-binding be made more generic, like something like
-> hantro-h1 or VC8000NanoE?
-> 
-> I think there will be more boards that may incorporate the Hantro-H1
-> or a VC8000 in the future, because I don't think this IP is unique to
-> the STM32MP25.
+Hi,
 
-Unless the underlying IP is well documented (i.e. public), then it's 
-kind of pointless. Everyone will just invent their own numbers and names 
-of clocks, resets, etc. unless someone can enforce not doing that.
+thanks for the quick adjustment.
 
-Rob
+Le vendredi 06 octobre 2023 =C3=A0 15:45 +0200, Hans Verkuil a =C3=A9crit=
+=C2=A0:
+> The text is very, very old and predates /dev/mediaX devices, so the
+> reference to "media device" is today very confusing.
+>=20
+> It also says that the ioctl is not supported by the driver, but a
+> driver may have multiple device nodes, some support a given ioctl,
+> and some don't.
+>=20
+> Simplify the description: ENOTTY means that the ioctl is not supported
+> by the file descriptor.
+>=20
+> Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+> ---
+> diff --git a/Documentation/userspace-api/media/gen-errors.rst b/Documenta=
+tion/userspace-api/media/gen-errors.rst
+> index e595d0bea109..4e8defd3612b 100644
+> --- a/Documentation/userspace-api/media/gen-errors.rst
+> +++ b/Documentation/userspace-api/media/gen-errors.rst
+> @@ -59,9 +59,7 @@ Generic Error Codes
+>=20
+>      -  -  ``ENOTTY``
+>=20
+> -       -  The ioctl is not supported by the driver, actually meaning tha=
+t
+> -	  the required functionality is not available, or the file
+> -	  descriptor is not for a media device.
+> +       -  The ioctl is not supported by the file descriptor.
+>=20
+>      -  -  ``ENOSPC``
+>=20
+
