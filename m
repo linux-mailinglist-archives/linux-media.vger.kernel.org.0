@@ -2,94 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2919E7BB81C
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 14:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C80CC7BB90F
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 15:27:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232202AbjJFMxC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 08:53:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45124 "EHLO
+        id S232341AbjJFN07 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 09:26:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231603AbjJFMxA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 08:53:00 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1B55CE
-        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 05:52:57 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9b29186e20aso366581466b.2
-        for <linux-media@vger.kernel.org>; Fri, 06 Oct 2023 05:52:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1696596776; x=1697201576; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Cwqsii98peqhVJoK4VIxWSTkPTgnYf80VbctBQv6Fvc=;
-        b=jaUK7riIqOMdRoc+PAPVEDMON96UZ3HLUoJNze+qNwyAvLubc0n7Hgjbg2/ESsb2mQ
-         KerW+rI5tdfxN06MYBjjYn/5YQ62/gtAZXsews/genGsUFhPU7ZwsH2JKaFcMe6V4nW3
-         tXRoGlBaOSa0/ubXCGXZEX8S6lz62q3g0Eh9Q815Y08pEYe4Mjz83M448XkTiQsK2GMJ
-         UpaJsEK1ARRoDzTf/CtRc3CwG/mUn//qm+FSLXDAwIg25psVmDAlbHoko3N5ijHcDI7B
-         jpoiQM7W3Sdh6FYDRRgUleu6vqWVsvVDflMWlw8SYMfxiwtg8q3zG66rZfPfem9oXhi3
-         d02A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696596776; x=1697201576;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cwqsii98peqhVJoK4VIxWSTkPTgnYf80VbctBQv6Fvc=;
-        b=uFBzQZljiZ1V07KzJGl9Vsp5vOdgelsGe7sAQFTwAfe+wCr/RTWuKy0GbMgQRAMVZh
-         QmJ40JWqVTIStU07ckiJCh/GOvKkrUNX+sMlzDLxk+fUyhV6Bo0xYjSVpwLCR2zc+zX5
-         fDI2NKDyWrmtkScFDIiIAxdwvkxAF9TDqez5ed88I82GmLKKw+gSA5ZeEtsjf92cIGig
-         N7O5NDJeLPtJH8PxqfB+QnAqAUzJzRvI9X4hsR6LisrXYmDqN4vc9tlehpawDL1blKnb
-         b/aI7lDkN4g7uyKx7JWkEsn/rV3F5OC/QIgDnvxs3dGqRbWjZPndUhv5w4HhOXlWD3FO
-         2gfQ==
-X-Gm-Message-State: AOJu0YwddrShaelMIaU6r2YQSC6eihnfsjR+DBYOuX2kiSKP90/SL22t
-        pD1ITIKBqE3/tF+qjdFVb3KhRg==
-X-Google-Smtp-Source: AGHT+IFB2jTPlqF+QJCHbtvihw8H2Qw/ZlMn8tXyBNhZ+xQvO86DXco10Nkex1qT7Hqi67YGHbT0cw==
-X-Received: by 2002:a17:907:77c7:b0:9ae:1872:d01a with SMTP id kz7-20020a17090777c700b009ae1872d01amr6510332ejc.76.1696596775820;
-        Fri, 06 Oct 2023 05:52:55 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id l1-20020a5d4bc1000000b00323287186b2sm1607954wrt.29.2023.10.06.05.52.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Oct 2023 05:52:55 -0700 (PDT)
-Message-ID: <661e3701-9a26-451a-8851-f1d1b2355f80@nexus-software.ie>
-Date:   Fri, 6 Oct 2023 13:52:54 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] media: dt-bindings: media: camss: Add
- qcom,sc8280xp-camss binding
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        loic.poulain@linaro.org, rfoss@kernel.org, andi.shyti@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, todor.too@gmail.com, mchehab@kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20231006120159.3413789-1-bryan.odonoghue@linaro.org>
- <20231006120159.3413789-5-bryan.odonoghue@linaro.org>
- <ace84d7f-d332-4598-a95d-634c1d17f852@linaro.org>
-From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
-In-Reply-To: <ace84d7f-d332-4598-a95d-634c1d17f852@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        with ESMTP id S232082AbjJFN06 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 09:26:58 -0400
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEF8683;
+        Fri,  6 Oct 2023 06:26:56 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 501)
+        id 197301007F8; Fri,  6 Oct 2023 14:26:55 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1696598815; bh=UXwmvyfcz7+G6k1Eio3GnnTX/uptDTtBSTC2steX08w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jmQs7Ss/peRiRt886mq2geyLW8byTP0ykuahAlIny14b2PeJppNMX8iP8sHogLCqv
+         5fj4MzrTWK4jujeczzIG5iC+x7QDHSnGjKpsuPsupY4HIRZ03NXjbdrnqrv9EHDotj
+         NFAkNcIjhGTlmZjACLkhxd/sxGIf5cDmAXOdr/YsNLXns6KE3PGb8fqH+2sCBZBB6o
+         +IxwnA1i30+zGYaRCm42qiIUPaLc8S2S6OYPb/PYVNiSGeh9H4fIFdUIZtOguKUsIr
+         ura4CgF9NfgUUTC5jNEKE24QIsNa6yDC7va70NjqXatWp7KvdqSYkmD/AHecCPG/BZ
+         wWtkrvOxr6vOA==
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: from bigcore.mess.org (unknown [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by gofer.mess.org (Postfix) with ESMTPSA id F3209100057;
+        Fri,  6 Oct 2023 14:26:53 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1696598814; bh=UXwmvyfcz7+G6k1Eio3GnnTX/uptDTtBSTC2steX08w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ldpy4Gh0DGhTVX2j5z/b7p2QSlULiXt5MhhXKKoKNjjvk+5VKTJQtxrmQe7d+f+oD
+         9UIl+F9KE7hDIqwN1gjYbQ/Ss/6CWot1tMxRVqZcmQs/Gp5y4TxBRixReBHbyR28kT
+         dOx6cQ0vJDqBODXIAKXDaXuUH9nCfva82wFjQvm0xZhwIq97ZGO7Bl1h/ywF3/ZGcO
+         yDM9w93M8MTpPVu+6Jc8anpmuu3nd6hiJ4fHlLcXLRJy/RIDBoLGfkTtPBFR3eZ35+
+         UUNQZEBlYmshaKxBPOF81A52SpMcAPwwtcSKxD9iiFkbbvu9HCGawLTAfyQwX+fElc
+         5M4XLSQink4mA==
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Joe Ferner <joe.m.ferner@gmail.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: sharp: fix sharp encoding
+Date:   Fri,  6 Oct 2023 14:26:30 +0100
+Message-ID: <20231006132631.216231-1-sean@mess.org>
+X-Mailer: git-send-email 2.42.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/10/2023 13:33, Krzysztof Kozlowski wrote:
->> +      port@3:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description:
->> +          Input port for receiving CSI data.
-> No output ports to some ISP?
+The Sharp protocol[1] encoding has incorrect timings for bit space.
 
-Not for the moment anyway. Its a raw dump of bayer data to userspace.
+[1] https://www.sbprojects.net/knowledge/ir/sharp.php
 
+Reported-by: Joe Ferner <joe.m.ferner@gmail.com>
+Closes: https://sourceforge.net/p/lirc/mailman/message/38604507/
+Signed-off-by: Sean Young <sean@mess.org>
 ---
-bod
+ drivers/media/rc/ir-sharp-decoder.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/rc/ir-sharp-decoder.c b/drivers/media/rc/ir-sharp-decoder.c
+index 3d8488c39c56..3311099cbd57 100644
+--- a/drivers/media/rc/ir-sharp-decoder.c
++++ b/drivers/media/rc/ir-sharp-decoder.c
+@@ -15,7 +15,9 @@
+ #define SHARP_UNIT		40  /* us */
+ #define SHARP_BIT_PULSE		(8    * SHARP_UNIT) /* 320us */
+ #define SHARP_BIT_0_PERIOD	(25   * SHARP_UNIT) /* 1ms (680us space) */
+-#define SHARP_BIT_1_PERIOD	(50   * SHARP_UNIT) /* 2ms (1680ms space) */
++#define SHARP_BIT_1_PERIOD	(50   * SHARP_UNIT) /* 2ms (1680us space) */
++#define SHARP_BIT_0_SPACE	(17   * SHARP_UNIT) /* 680us space */
++#define SHARP_BIT_1_SPACE	(42   * SHARP_UNIT) /* 1680us space */
+ #define SHARP_ECHO_SPACE	(1000 * SHARP_UNIT) /* 40 ms */
+ #define SHARP_TRAILER_SPACE	(125  * SHARP_UNIT) /* 5 ms (even longer) */
+ 
+@@ -168,8 +170,8 @@ static const struct ir_raw_timings_pd ir_sharp_timings = {
+ 	.header_pulse  = 0,
+ 	.header_space  = 0,
+ 	.bit_pulse     = SHARP_BIT_PULSE,
+-	.bit_space[0]  = SHARP_BIT_0_PERIOD,
+-	.bit_space[1]  = SHARP_BIT_1_PERIOD,
++	.bit_space[0]  = SHARP_BIT_0_SPACE,
++	.bit_space[1]  = SHARP_BIT_1_SPACE,
+ 	.trailer_pulse = SHARP_BIT_PULSE,
+ 	.trailer_space = SHARP_ECHO_SPACE,
+ 	.msb_first     = 1,
+-- 
+2.42.0
+
