@@ -2,95 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65F057BBB97
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 17:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7AE7BBC9E
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 18:25:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232749AbjJFPSX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 11:18:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53392 "EHLO
+        id S232459AbjJFQZj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 12:25:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232742AbjJFPSW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 11:18:22 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E95683
-        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 08:18:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E5F82E4;
-        Fri,  6 Oct 2023 17:16:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696605391;
-        bh=Jz2vynyinThR7h3LBbI/KDvOLvRBbWxK7PUJrXAfniE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MubInQyHVhKIaWb+mZAlKC3jptltIDveyEKC8SAolQB0CuwYH3QaelB7zdx7X5KQm
-         njDzh4Ov0nZvIajYc3mivRXqtATD1i5xd6vi+RPvp8fyHo/GygbdBC6s1OCSJC2dQm
-         FP6C/9RVgpWUxBhlr++LGM3vIQJG7UvE5tOqIL4I=
-Date:   Fri, 6 Oct 2023 18:18:26 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 8/9] media: i2c: mt9m114: goto proper error path
-Message-ID: <20231006151826.GB5121@pendragon.ideasonboard.com>
-References: <cover.1696586632.git.hverkuil-cisco@xs4all.nl>
- <6e2b3d5971905c1cf63184e7c3cd269c10151bb7.1696586632.git.hverkuil-cisco@xs4all.nl>
+        with ESMTP id S230050AbjJFQZi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 12:25:38 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AABCA6;
+        Fri,  6 Oct 2023 09:25:36 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5CC2DC0002;
+        Fri,  6 Oct 2023 16:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1696609535;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=BowLHmdlVABG/3EmDMqrUsVIT6KePTdYJjpAj3z+AVE=;
+        b=W/90crlZ5TJKN4GF5wx3iLWq9E+fsOVSXwOW0UoC4sTMAD4vyD+MH+jmnztH146Uix8PmT
+        uVOVSS+Wh9Hi1m7Z9hQElkYXFIyL2YvalA3DNi62EPICtHaghJRbbG6pZRTqTP7M+48vk7
+        o0a5MlOsx/nhWWXMR9SPvqxdT0RpImT8ZBlEpWyLc2VQUJjTPKqE7H1DK80hwEerNrpfjq
+        rmPh6Iq9uKrOTq8UHexE95h/3TWzCbgQrwwHxq6YOIFw1AqXky/Fh3M61b9wdvPCpNBSll
+        0J0I4+8uV6ZVDP6hrjXM7SKNvo/vjE2G+3v49bzNQf/g+/7ikyDkf4QhGKD0jw==
+From:   Mehdi Djait <mehdi.djait@bootlin.com>
+To:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
+        paul.kocialkowski@bootlin.com,
+        Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: [PATCH v6 0/3] media: i2c: Introduce driver for the TW9900 video decoder
+Date:   Fri,  6 Oct 2023 18:25:27 +0200
+Message-ID: <cover.1696608809.git.mehdi.djait@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6e2b3d5971905c1cf63184e7c3cd269c10151bb7.1696586632.git.hverkuil-cisco@xs4all.nl>
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: mehdi.djait@bootlin.com
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hello everyone,
 
-Thank you for the patch.
+This series is based on the fifth iteration of the series introducing the
+tw9900 driver: sent 29 Dec 2020 [1]
 
-On Fri, Oct 06, 2023 at 12:08:49PM +0200, Hans Verkuil wrote:
-> In two places the probe function returns instead of going
-> to the correct goto label.
-> 
-> This fixes this smatch warning:
-> 
-> drivers/media/i2c/mt9m114.c:2381 mt9m114_probe() warn: missing unwind goto?
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+This is the version 6 of the series adding support for the Techwell
+TW9900 multi standard decoder. It's a pretty simple decoder compared to
+the TW9910, since it doesn't have a built-in scaler/crop engine.
 
-I've already submitted
-https://lore.kernel.org/linux-media/20231003192043.27690-1-laurent.pinchart@ideasonboard.com
+Changes v5 => v6:
+- dropped .skip_top and .field in the supported_modes
+- added error handling for the i2c writes/reads
+- added the colorimetry information to fill_fmt
+- removed pm_runtime
+- added the g_input_status callback
+- dropped SECAM
+- dropped the non-standard PAL/NTSC variants
 
-> ---
->  drivers/media/i2c/mt9m114.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> index dae675e52390..ac19078ceda3 100644
-> --- a/drivers/media/i2c/mt9m114.c
-> +++ b/drivers/media/i2c/mt9m114.c
-> @@ -2367,7 +2367,7 @@ static int mt9m114_probe(struct i2c_client *client)
->  
->  	ret = mt9m114_clk_init(sensor);
->  	if (ret)
-> -		return ret;
-> +		goto error_ep_free;
->  
->  	/*
->  	 * Identify the sensor. The driver supports runtime PM, but needs to
-> @@ -2378,7 +2378,7 @@ static int mt9m114_probe(struct i2c_client *client)
->  	ret = mt9m114_power_on(sensor);
->  	if (ret < 0) {
->  		dev_err_probe(dev, ret, "Could not power on the device\n");
-> -		return ret;
-> +		goto error_ep_free;
->  	}
->  
->  	ret = mt9m114_identify(sensor);
+Any feedback is appreciated,
+
+Mehdi Djait
+
+media_tree, base-commit: 2c1bae27df787c9535e48cc27bbd11c3c3e0a235
+
+[1] https://lore.kernel.org/linux-media/20210401070802.1685823-1-maxime.chevallier@bootlin.com/
+
+Mehdi Djait (3):
+  dt-bindings: vendor-prefixes: Add techwell vendor prefix
+  media: dt-bindings: media: i2c: Add bindings for TW9900
+  media: i2c: Introduce a driver for the Techwell TW9900 decoder
+
+ .../bindings/media/i2c/techwell,tw9900.yaml   |  61 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   6 +
+ drivers/media/i2c/Kconfig                     |  12 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/tw9900.c                    | 651 ++++++++++++++++++
+ 6 files changed, 733 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
+ create mode 100644 drivers/media/i2c/tw9900.c
 
 -- 
-Regards,
+2.41.0
 
-Laurent Pinchart
