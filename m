@@ -2,51 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 675C27BBD57
-	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 18:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE79D7BBF23
+	for <lists+linux-media@lfdr.de>; Fri,  6 Oct 2023 20:54:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232627AbjJFQzs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Oct 2023 12:55:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35278 "EHLO
+        id S233300AbjJFSyE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Oct 2023 14:54:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232198AbjJFQzr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 12:55:47 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3CDAD
-        for <linux-media@vger.kernel.org>; Fri,  6 Oct 2023 09:55:44 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2F96C433C7;
-        Fri,  6 Oct 2023 16:55:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696611344;
-        bh=rDfmF7AdipwmWvQbtxanfQLHtkHemqVv1va7cCaAG1k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nJ4edeIyoIa8vlx8aetIP5GsI2aOX+yqCPkGTBml4VQYdl+IcbLpEZdswaVpmn9Pk
-         FrJqyLA+f+klcFfGc2Yfbwg6JrO8y/1/L+FVZKJ49fnYIfq4mIPgQldO92DP0FX9wS
-         ZuNwzuTEwjo5mEbyEo8OlOwTxvbtyvOcxHQ+lPf/l26dnLBJbmZ61BpERjHrLdMT1B
-         flbIhqgzH2cPLZfvuoDIhRawh14r4CRSCSmbWMkw6j25dWm6NegIiFBP8XZOT0sGxf
-         qJ4NiX5GtAE1VjFiWcaf27RMEU/nXSQjBkbDp8Bi7K7n7nHwKGVVtysF2LN+2CErzd
-         bXcCiEzSzjiCA==
-Received: (nullmailer pid 4065867 invoked by uid 1000);
-        Fri, 06 Oct 2023 16:55:41 -0000
-Date:   Fri, 6 Oct 2023 11:55:41 -0500
+        with ESMTP id S233279AbjJFSyC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Oct 2023 14:54:02 -0400
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A413F10E;
+        Fri,  6 Oct 2023 11:52:42 -0700 (PDT)
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6c63588b554so1570212a34.0;
+        Fri, 06 Oct 2023 11:52:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696618362; x=1697223162;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FnCQZZLMaYvVQmBFNRBtIb+9ksHQ8DNiyna3qi1ebDE=;
+        b=vibPlvZs+KKNjZD2cofHPJNJsfuPl05djX6n1LmTMmA2v+r+w0bk/MwdSCwCn2O28+
+         /i0lQfOckQW4otk5bsDTIrmaes6zuunub0PSWSe20AF3lbBml9srHMM6yQOCoMbfSPJB
+         km+4QoTmSX/e8PYhCBIWPVCwUZc0H5K8iEo8WIkjU4ejroInnY3xY5NLeOWaR7U7xnTO
+         BYUcweVP774plKShKXGfrStNcdmf2yL5NKqAKmW+rYngPe8Y8q83Ui/A/90303o6Sf4Z
+         25aOZGZaRToRxLYxOHQr/KuZld0stE1ymn/rV1bGP+iGJLjCE+PoA+NZGuyIqye1YAPt
+         GHWQ==
+X-Gm-Message-State: AOJu0YwBu27LYtjwlzzGD7ufwqXgyeBIeQOL/DRfk6/19LCI+FM6Wvbj
+        SiJTmUNIslrXTtPEpm3nCPcLKudAfQ==
+X-Google-Smtp-Source: AGHT+IG6E4QV9zTksKhyXU6kJo0Oxau71Xh5m+hAQybK2lC+F5L7Po4YjA6MK8F8BcW8mLAKYGVt2Q==
+X-Received: by 2002:a05:6830:208:b0:6b8:82ed:ea2e with SMTP id em8-20020a056830020800b006b882edea2emr9752976otb.4.1696618361805;
+        Fri, 06 Oct 2023 11:52:41 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z24-20020a05683010d800b006c4e2f00135sm654140oto.28.2023.10.06.11.52.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Oct 2023 11:52:41 -0700 (PDT)
+Received: (nullmailer pid 135620 invoked by uid 1000);
+        Fri, 06 Oct 2023 18:52:40 -0000
+Date:   Fri, 6 Oct 2023 13:52:40 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     robh+dt@kernel.org, rmfrfs@gmail.com, marex@denx.de,
-        Fabio Estevam <festevam@denx.de>, martink@posteo.de,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
-        mchehab@kernel.org, conor+dt@kernel.org
-Subject: Re: [PATCH] media: dt-bindings: imx7-csi: Make power-domains not
- required for imx8mq
-Message-ID: <169661133841.4065755.10008060737440302024.robh@kernel.org>
-References: <20231004201105.2323758-1-festevam@gmail.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        devicetree@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-media@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: Re: [PATCH] media: dt-bindings: Add missing unevaluatedProperties on
+ child node schemas
+Message-ID: <169661835849.135550.16625897748454275391.robh@kernel.org>
+References: <20230925212803.1976803-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231004201105.2323758-1-festevam@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230925212803.1976803-1-robh@kernel.org>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -54,24 +74,18 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On Wed, 04 Oct 2023 17:11:05 -0300, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
+On Mon, 25 Sep 2023 16:27:58 -0500, Rob Herring wrote:
+> Just as unevaluatedProperties or additionalProperties are required at
+> the top level of schemas, they should (and will) also be required for
+> child node schemas. That ensures only documented properties are
+> present for any node.
 > 
-> On i.MX8MQ the MIPI CSI block does have an associated power-domain, but
-> the CSI bridge does not.
-> 
-> Remove the power-domains requirement from the i.MX8MQ CSI bridge
-> to fix the following schema warning:
-> 
-> imx8mq-librem5-r4.dtb: csi@30a90000: 'power-domains' is a required property
-> from schema $id: http://devicetree.org/schemas/media/nxp,imx7-csi.yaml#
-> 
-> Fixes: de655386845a ("media: dt-bindings: media: imx7-csi: Document i.MX8M power-domains property")
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-> 
->  Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 1 -
->  1 file changed, 1 deletion(-)
+>  Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml    | 1 +
+>  .../devicetree/bindings/media/i2c/toshiba,tc358746.yaml         | 2 ++
+>  Documentation/devicetree/bindings/media/samsung,fimc.yaml       | 1 +
+>  3 files changed, 4 insertions(+)
 > 
 
 Applied, thanks!
