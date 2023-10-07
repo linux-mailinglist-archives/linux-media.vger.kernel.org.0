@@ -2,114 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5618B7BC76F
-	for <lists+linux-media@lfdr.de>; Sat,  7 Oct 2023 14:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 013E17BC780
+	for <lists+linux-media@lfdr.de>; Sat,  7 Oct 2023 14:32:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343892AbjJGMP4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Oct 2023 08:15:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50314 "EHLO
+        id S1343912AbjJGMcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Oct 2023 08:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343680AbjJGMPy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 08:15:54 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 736B5BC
-        for <linux-media@vger.kernel.org>; Sat,  7 Oct 2023 05:15:51 -0700 (PDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4S2kgH0zbgzLnZY;
-        Sat,  7 Oct 2023 20:11:55 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Sat, 7 Oct
- 2023 20:15:49 +0800
-From:   Jinjie Ruan <ruanjinjie@huawei.com>
-To:     <linux-media@vger.kernel.org>, <mchehab@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>
-CC:     <ruanjinjie@huawei.com>
-Subject: [PATCH -next] media: cx231xx: Use EP5_BUF_SIZE macro
-Date:   Sat, 7 Oct 2023 20:14:47 +0800
-Message-ID: <20231007121448.3473132-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S1343882AbjJGMcE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 08:32:04 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02858B6;
+        Sat,  7 Oct 2023 05:32:02 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 501)
+        id 7B588100057; Sat,  7 Oct 2023 13:32:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1696681920; bh=rOBP2wQ6cH9vnnvMHhphypU81Jp3mFXrC6UZzoQjoM0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Sni86AsxZpbp/gQsZjXdVg1Kfbm7X3sdEXxVaSyfEMbRG/TQuy6RYcur4DQC2aEXi
+         X0WFwSC7pGUm/xMo4m+FRgCcvLt4K8vxYxWO24Vz9jtH3JTeEusNMEC1PvDeFXb9Xl
+         ozn/WgdO0OQEMxt8rTYxruas4q7uf9yrHNeCJG/mgKIO+Fm6RSMe8X8ILQQlbFZYls
+         FsP4sYl1isXqPHlPVpF5Pjvm0JYae231WfNWWf7C+r6GSmUE+9ml7QLt3MaX+dYAhF
+         pNQ10rfmU+eRSBLy83rZfRIdd8xQMN4nLPyipAeC+6cH+1WFJUFllGWnW31LVxIAYG
+         7u2U3EFH9HtHg==
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: from bigcore.mess.org (unknown [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by gofer.mess.org (Postfix) with ESMTPSA id 73A04100057;
+        Sat,  7 Oct 2023 13:31:58 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1696681918; bh=rOBP2wQ6cH9vnnvMHhphypU81Jp3mFXrC6UZzoQjoM0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=knqb0WvDFjlUdrIqLXQYEz9R4cp4vJmKBf9VZeoBP1US3ZpKfJ8Szl2aQzBG2Zrfg
+         2RjU+SSaGhWTi8Fyv6YoC3Qx0UDJJDLsAw0NskJpN9dOmKtA1sSYTNaB+LpX8rh05F
+         bi851ahx7PnWUK85tw6cYuC7NvTTiSPnfRbRll+qmx1J58A/W/L4z/QUmPKcHNNjoN
+         qscw/GZxo6nSChatzvVa2LbK9YCkHG+Ni+CUILrBjyqG0Avnbdj/jcY9ED27p5+j4U
+         IYvS/rMSlGhcdvz7D/j4XiDbpwb+Cn63aSa5vwwIj+GveDWwfhupdwstDLfcLlj79K
+         Wvb1KCA851hOQ==
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     stable@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: lirc: drop trailing space from scancode transmit
+Date:   Sat,  7 Oct 2023 13:31:33 +0100
+Message-ID: <20231007123133.6718-1-sean@mess.org>
+X-Mailer: git-send-email 2.42.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As Andrzej suggested, use EP5_BUF_SIZE macro to replace the other three
-places of 4096 in cx231xx with EP5_BUF_SIZE.
+When transmitting, infrared drivers expect an odd number of samples; iow
+without a trailing space. No problems have been observed so far, so
+this is just belt and braces.
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Suggested-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Sean Young <sean@mess.org>
 ---
- drivers/media/usb/cx231xx/cx231xx-417.c  | 9 ++++-----
- drivers/media/usb/cx231xx/cx231xx-core.c | 2 +-
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ drivers/media/rc/lirc_dev.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
-index c5e21785fafe..fe4410a5e128 100644
---- a/drivers/media/usb/cx231xx/cx231xx-417.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-417.c
-@@ -937,7 +937,6 @@ static int cx231xx_load_firmware(struct cx231xx *dev)
- 	u32 *p_current_fw, *p_fw;
- 	u32 *p_fw_data;
- 	int frame = 0;
--	u16 _buffer_size = 4096;
- 	u8 *p_buffer;
+diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
+index 043d23aaa3cb..a537734832c5 100644
+--- a/drivers/media/rc/lirc_dev.c
++++ b/drivers/media/rc/lirc_dev.c
+@@ -276,7 +276,11 @@ static ssize_t lirc_transmit(struct file *file, const char __user *buf,
+ 		if (ret < 0)
+ 			goto out_kfree_raw;
  
- 	p_current_fw = vmalloc(1884180 * 4);
-@@ -947,7 +946,7 @@ static int cx231xx_load_firmware(struct cx231xx *dev)
- 		return -ENOMEM;
- 	}
+-		count = ret;
++		/* drop trailing space */
++		if (!(ret % 2))
++			count = ret - 1;
++		else
++			count = ret;
  
--	p_buffer = vmalloc(4096);
-+	p_buffer = vmalloc(EP5_BUF_SIZE);
- 	if (p_buffer == NULL) {
- 		dprintk(2, "FAIL!!!\n");
- 		vfree(p_current_fw);
-@@ -1030,9 +1029,9 @@ static int cx231xx_load_firmware(struct cx231xx *dev)
- 
- 	/*download the firmware by ep5-out*/
- 
--	for (frame = 0; frame < (int)(CX231xx_FIRM_IMAGE_SIZE*20/_buffer_size);
-+	for (frame = 0; frame < (int)(CX231xx_FIRM_IMAGE_SIZE*20/EP5_BUF_SIZE);
- 	     frame++) {
--		for (i = 0; i < _buffer_size; i++) {
-+		for (i = 0; i < EP5_BUF_SIZE; i++) {
- 			*(p_buffer + i) = (u8)(*(p_fw + (frame * 128 * 8 + (i / 4))) & 0x000000FF);
- 			i++;
- 			*(p_buffer + i) = (u8)((*(p_fw + (frame * 128 * 8 + (i / 4))) & 0x0000FF00) >> 8);
-@@ -1041,7 +1040,7 @@ static int cx231xx_load_firmware(struct cx231xx *dev)
- 			i++;
- 			*(p_buffer + i) = (u8)((*(p_fw + (frame * 128 * 8 + (i / 4))) & 0xFF000000) >> 24);
- 		}
--		cx231xx_ep5_bulkout(dev, p_buffer, _buffer_size);
-+		cx231xx_ep5_bulkout(dev, p_buffer, EP5_BUF_SIZE);
- 	}
- 
- 	p_current_fw = p_fw;
-diff --git a/drivers/media/usb/cx231xx/cx231xx-core.c b/drivers/media/usb/cx231xx/cx231xx-core.c
-index 57a8b4780a7d..7b7e2a26ef93 100644
---- a/drivers/media/usb/cx231xx/cx231xx-core.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-core.c
-@@ -993,7 +993,7 @@ int cx231xx_init_isoc(struct cx231xx *dev, int max_packets,
- 	/* De-allocates all pending stuff */
- 	cx231xx_uninit_isoc(dev);
- 
--	dma_q->p_left_data = kzalloc(4096, GFP_KERNEL);
-+	dma_q->p_left_data = kzalloc(EP5_BUF_SIZE, GFP_KERNEL);
- 	if (dma_q->p_left_data == NULL)
- 		return -ENOMEM;
- 
+ 		txbuf = kmalloc_array(count, sizeof(unsigned int), GFP_KERNEL);
+ 		if (!txbuf) {
 -- 
-2.34.1
+2.42.0
 
