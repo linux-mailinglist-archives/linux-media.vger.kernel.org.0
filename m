@@ -2,108 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B59807BC723
-	for <lists+linux-media@lfdr.de>; Sat,  7 Oct 2023 13:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 062C07BC738
+	for <lists+linux-media@lfdr.de>; Sat,  7 Oct 2023 13:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343627AbjJGLeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Oct 2023 07:34:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50674 "EHLO
+        id S1343889AbjJGLgo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Oct 2023 07:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233662AbjJGLeF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 07:34:05 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2228CB9;
-        Sat,  7 Oct 2023 04:33:58 -0700 (PDT)
-X-UUID: 63df5328650511eea33bb35ae8d461a2-20231007
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=G2hwZoXcbyNGfedM4B88uDwT0h+xRYSV2MrJHG+Tp70=;
-        b=u6NylKEHefPx9u32F9X61no9/4crwSlY0fqNlz/W58Ust3yRp/qaLMEUOWouFfYb3HlmVLgiauRKzSxfHbSVj4bDo2hKanlmqS8CUJdZRd0mdAMnd0YRPackxq59O+OA7F+ITlAA7XUKU0YkWrSjdPBq/uQwBR5b5q2CQ5YIYro=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32,REQID:66315b78-29c6-4879-a495-6eddb0bbf174,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:5f78ec9,CLOUDID:de86e0c3-1e57-4345-9d31-31ad9818b39f,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-        NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
-X-UUID: 63df5328650511eea33bb35ae8d461a2-20231007
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 2065451869; Sat, 07 Oct 2023 19:33:51 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 7 Oct 2023 19:33:50 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sat, 7 Oct 2023 19:33:49 +0800
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <angelogioacchino.delregno@collabora.com>,
-        <nicolas.dufresne@collabora.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Irui Wang <irui.wang@mediatek.com>
-CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>
-Subject: [PATCH v2] media: mediatek: vcodec: Handle invalid encoder vsi
-Date:   Sat, 7 Oct 2023 19:33:47 +0800
-Message-ID: <20231007113347.28863-1-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S1343894AbjJGLgm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 07:36:42 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B07DDF
+        for <linux-media@vger.kernel.org>; Sat,  7 Oct 2023 04:36:40 -0700 (PDT)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4S2jp32PT8zNp1D;
+        Sat,  7 Oct 2023 19:32:43 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Sat, 7 Oct
+ 2023 19:36:37 +0800
+From:   Jinjie Ruan <ruanjinjie@huawei.com>
+To:     <linux-media@vger.kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <ye.xingchen@zte.com.cn>, <mchehab@kernel.org>
+CC:     <ruanjinjie@huawei.com>
+Subject: [PATCH v2] [media] siano: Drop unnecessary error check for debugfs_create_dir/file()
+Date:   Sat, 7 Oct 2023 19:35:59 +0800
+Message-ID: <20231007113600.3467347-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Handle invalid encoder vsi in vpu_enc_init to ensure the encoder
-vsi is valid for future use.
+Both debugfs_create_dir() and debugfs_create_file() return ERR_PTR
+and never return NULL.
 
-Fixes: 1972e32431ed ("media: mediatek: vcodec: Fix possible invalid memory access for encoder")
+As Hans suggested, this patch removes the error checking for both
+debugfs_create_dir() and debugfs_create_file() in smsdvb_debugfs_create().
+This is because the DebugFS kernel API is developed in a way that the
+caller can safely ignore the errors that occur during the creation of
+DebugFS nodes. The debugfs APIs have a IS_ERR() judge in start_creating()
+which can handle it gracefully. So these checks are unnecessary.
 
-Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+And as Hans pointed out, it's much better to first allocate debug_data
+before calling debugfs_create_dir, which need not to clean anything up in
+that case.
+
+Fixes: 503efe5cfc9f ("[media] siano: split debugfs code into a separate file")
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
-changed with v1:
- - add Fixes tag
- - move vsi check to vpu_enc_init
- - update commit message
+v2:
+- Remove the err check instead of using IS_ERR to replace NULL check.
+- Allocate debug_data before calling debugfs_create_dir().
+- Update the commit message and title.
+- Add suggested-by.
 ---
- drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/media/common/siano/smsdvb-debugfs.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-index d299cc2962a5..39e8f3ac53ca 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-@@ -153,6 +153,11 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
- 		return -EINVAL;
- 	}
+diff --git a/drivers/media/common/siano/smsdvb-debugfs.c b/drivers/media/common/siano/smsdvb-debugfs.c
+index e0beefd80d7b..78c1f41ba466 100644
+--- a/drivers/media/common/siano/smsdvb-debugfs.c
++++ b/drivers/media/common/siano/smsdvb-debugfs.c
+@@ -359,25 +359,16 @@ int smsdvb_debugfs_create(struct smsdvb_client_t *client)
+ 	if (!smsdvb_debugfs_usb_root || !coredev->is_usb_device)
+ 		return -ENODEV;
  
-+	if (IS_ERR_OR_NULL(vpu->vsi)) {
-+		mtk_venc_err(vpu->ctx, "invalid venc vsi");
-+		return -EINVAL;
-+	}
+-	client->debugfs = debugfs_create_dir(coredev->devpath,
+-					     smsdvb_debugfs_usb_root);
+-	if (IS_ERR_OR_NULL(client->debugfs)) {
+-		pr_info("Unable to create debugfs %s directory.\n",
+-			coredev->devpath);
+-		return -ENODEV;
+-	}
+-
+-	d = debugfs_create_file("stats", S_IRUGO | S_IWUSR, client->debugfs,
+-				client, &debugfs_stats_ops);
+-	if (!d) {
+-		debugfs_remove(client->debugfs);
+-		return -ENOMEM;
+-	}
+-
+ 	debug_data = kzalloc(sizeof(*client->debug_data), GFP_KERNEL);
+ 	if (!debug_data)
+ 		return -ENOMEM;
+ 
++	client->debugfs = debugfs_create_dir(coredev->devpath,
++					     smsdvb_debugfs_usb_root);
 +
- 	return 0;
- }
- 
++	debugfs_create_file("stats", S_IRUGO | S_IWUSR, client->debugfs,
++			    client, &debugfs_stats_ops);
++
+ 	client->debug_data        = debug_data;
+ 	client->prt_dvb_stats     = smsdvb_print_dvb_stats;
+ 	client->prt_isdb_stats    = smsdvb_print_isdb_stats;
 -- 
-2.18.0
+2.34.1
 
