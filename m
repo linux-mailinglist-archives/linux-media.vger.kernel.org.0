@@ -2,79 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E63937BC80D
-	for <lists+linux-media@lfdr.de>; Sat,  7 Oct 2023 15:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB9877BC89E
+	for <lists+linux-media@lfdr.de>; Sat,  7 Oct 2023 17:33:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343958AbjJGNuS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Oct 2023 09:50:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53726 "EHLO
+        id S1343893AbjJGPdc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Oct 2023 11:33:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343880AbjJGNuR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 09:50:17 -0400
-Received: from smtp.smtpout.orange.fr (smtp-23.smtpout.orange.fr [80.12.242.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2BE7BF
-        for <linux-media@vger.kernel.org>; Sat,  7 Oct 2023 06:50:14 -0700 (PDT)
-Received: from pop-os.home ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id p7h0qpPqZqToTp7h0qy9q1; Sat, 07 Oct 2023 15:50:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1696686612;
-        bh=+NsrC/kMBjP5jYS5nCk9DfFO8Yn5kcVnJ7NUbypxWEE=;
-        h=From:To:Cc:Subject:Date;
-        b=S/BuIu22dvKaQZVcytkPFaooazzGdz6iVKPujBs6N8X9Uu+z4UbmAnryyDm8S4qTi
-         /tslWKj4umgblAYL000xKgNdUbZF3ReR7cg8t1LtjGq7K9C8rHLXiSBaIqr0tX4ajY
-         1IZdGZSeVlT5bDdZET+U0jRVhDD8YXIkg+PoPd+IxRBpE4WXztn4p88MCqBEZUxagO
-         O3Z4llfIe3LOG/3i+k/j9RSOS4IfazIdbV3srp82iDeUHRZHw9REoeuJsSZ1Cp/Tc8
-         w4islVbqKYeLJfgGsoAdVKT5VctLwFS42DqXs9YLwUkMpc6p6zPwlqH/iN/JxHyZ+9
-         krAqU6VFsdHEA==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 07 Oct 2023 15:50:12 +0200
-X-ME-IP: 86.243.2.178
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH] media: vde: Use struct_size()
-Date:   Sat,  7 Oct 2023 15:50:02 +0200
-Message-Id: <bb201c3f0e7d2ca5cd222d9bb4c78ded8fded54e.1696686558.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229824AbjJGPdb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 11:33:31 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BE6ABA
+        for <linux-media@vger.kernel.org>; Sat,  7 Oct 2023 08:33:27 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40572aeb6d0so28878135e9.1
+        for <linux-media@vger.kernel.org>; Sat, 07 Oct 2023 08:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696692806; x=1697297606; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GwBp/+fuaE9lnpKd/mh8SgwHaNFm5bGjDkMscsT9cBk=;
+        b=Sb3RpmXAGlAwcaxuQvnmAJ6K6GdDwYLGVjIzJb2j53rOV7JysQttW6wSb7stuK+oaH
+         NAS6EPEdHsBHFnP2BZxPrAza8zkB38zNfzXjASgtbqBdBHeDrfp++ZlrUaiqyHWMvaR1
+         buuuK3xfdmbEmgyNIgXXMT0VWxEdTDTsFEq2NgclXzPHjt1XfEnIBIvooCJDIZunoY2q
+         M97TI/mevwq6E5ejDQVlZBRxjgbBu5V/HO/NDuFRXPO54GArkHowxVDjilSdi9RD81Bw
+         MkVHepHu9YV4He+Qo8UaPOXgTzsGVTExBxNZO3Nxig6eH5ZVIcjPDMQVO8xImhpyD5jK
+         aCjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696692806; x=1697297606;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GwBp/+fuaE9lnpKd/mh8SgwHaNFm5bGjDkMscsT9cBk=;
+        b=cKMv6d2KPixZw5+R3asQjZgbrGP8tcgy9z4j/cREWuE9W8aQj9l28hmtYf6it4voor
+         yaCdfmkKCVBSSniRtR3U3wZWFJFfFWHkiFrIPfdlKukjm8QGJIYbOCWX2ULCn5K/WBcN
+         66FuJHiIRWI9lKXgd4v5Z9pNwHO2Y61QdvU+OEWYMiG3sQ121kXmcn4GFu2biFgGhLaF
+         BGKJAEwGn5Vcyt62v9fx3zHIJRluZKbGNAxwcMcLREdnB34PUcJB16ZQW3kJK6X2jyDS
+         ORkLfXOFfPV/ABCC1GCMc9OMv+uljEkzxpvn6C/esXLr+La30AiLR47uN0UtkVx/bLXe
+         v49g==
+X-Gm-Message-State: AOJu0YxdJgdY2KOWRw9mlOCRM0Z5tepjQzVb1VnvYRrMrOjXarPl/h4F
+        qrl3fAeBiOXkr5tTtYSnbv8g1A==
+X-Google-Smtp-Source: AGHT+IGIvkVDkVvtJaQkmLFuI0uxkHq2cYbtkYv6hi+V4myy1zrhI9myxu6dSL8iELsAcXuy9PoYew==
+X-Received: by 2002:a1c:ed17:0:b0:3fe:d1e9:e6b8 with SMTP id l23-20020a1ced17000000b003fed1e9e6b8mr10282448wmh.12.1696692805848;
+        Sat, 07 Oct 2023 08:33:25 -0700 (PDT)
+Received: from [192.168.1.197] (5-157-101-10.dyn.eolo.it. [5.157.101.10])
+        by smtp.gmail.com with ESMTPSA id t4-20020a0560001a4400b0032763287473sm4564545wry.75.2023.10.07.08.33.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Oct 2023 08:33:25 -0700 (PDT)
+Message-ID: <a9b4bead-bf0b-47f9-a5f7-028d43e9ad67@linaro.org>
+Date:   Sat, 7 Oct 2023 17:33:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/3] dt-bindings: vendor-prefixes: Add techwell vendor
+ prefix
+Content-Language: en-US
+To:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
+        paul.kocialkowski@bootlin.com
+References: <cover.1696608809.git.mehdi.djait@bootlin.com>
+ <944ce349236e007f5a4d4fad3ba48d75009644ca.1696608809.git.mehdi.djait@bootlin.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <944ce349236e007f5a4d4fad3ba48d75009644ca.1696608809.git.mehdi.djait@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use struct_size() which is much more common than this offsetof().
+On 06/10/2023 18:25, Mehdi Djait wrote:
+> Add prefix for Techwell, Inc.
+> 
+> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> ---
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/platform/nvidia/tegra-vde/v4l2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/media/platform/nvidia/tegra-vde/v4l2.c b/drivers/media/platform/nvidia/tegra-vde/v4l2.c
-index bd8c207d5b54..0f48ce6f243e 100644
---- a/drivers/media/platform/nvidia/tegra-vde/v4l2.c
-+++ b/drivers/media/platform/nvidia/tegra-vde/v4l2.c
-@@ -813,7 +813,7 @@ static int tegra_open(struct file *file)
- 	struct tegra_ctx *ctx;
- 	int err;
- 
--	ctx = kzalloc(offsetof(struct tegra_ctx, ctrls[ARRAY_SIZE(ctrl_cfgs)]),
-+	ctx = kzalloc(struct_size(ctx, ctrls, ARRAY_SIZE(ctrl_cfgs)),
- 		      GFP_KERNEL);
- 	if (!ctx)
- 		return -ENOMEM;
--- 
-2.34.1
+Best regards,
+Krzysztof
 
