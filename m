@@ -2,84 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 283047BC748
-	for <lists+linux-media@lfdr.de>; Sat,  7 Oct 2023 13:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5618B7BC76F
+	for <lists+linux-media@lfdr.de>; Sat,  7 Oct 2023 14:16:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343880AbjJGLxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Oct 2023 07:53:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46340 "EHLO
+        id S1343892AbjJGMP4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Oct 2023 08:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343680AbjJGLxs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 07:53:48 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5386AB6;
-        Sat,  7 Oct 2023 04:53:47 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 472E6C433C8;
-        Sat,  7 Oct 2023 11:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1696679626;
-        bh=dqUCLf7VJJQ0WmX/MCm12hiJxadk/DBDL9bDj5rTUg0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W2pkUPldZaTK/U7f0cFp/yf/G63SlUhl3nWK3cjfVeiNanEE7E9G2CMVFUHlLgvBB
-         7Vr0vlqLLcAmWY7UkdAVjMhXigqf8FVEPeV1idcOBdEOYz7DSTQ2XOYnJk/+quBebH
-         G9YW5ejUnFDKPcawvr4tWTQFF3r8BQEUIYsLULnE=
-Date:   Sat, 7 Oct 2023 13:53:44 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Ben Hutchings <ben@decadent.org.uk>
-Cc:     stable@vger.kernel.org, patches@lists.linux.dev,
-        stable <stable@kernel.org>,
-        Stefan Lippers-Hollmann <s.l-h@gmx.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Christoph Hellwig <hch@lst.de>, linux-media@vger.kernel.org,
-        linux-modules@vger.kernel.org,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 4.19 178/273] media: dvb: symbol fixup for dvb_attach()
-Message-ID: <2023100730-imprint-follow-56ec@gregkh>
-References: <20230920112846.440597133@linuxfoundation.org>
- <20230920112852.017230256@linuxfoundation.org>
- <b12435b2311ada131db05d3cf195b4b5d87708eb.camel@decadent.org.uk>
+        with ESMTP id S1343680AbjJGMPy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 08:15:54 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 736B5BC
+        for <linux-media@vger.kernel.org>; Sat,  7 Oct 2023 05:15:51 -0700 (PDT)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4S2kgH0zbgzLnZY;
+        Sat,  7 Oct 2023 20:11:55 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Sat, 7 Oct
+ 2023 20:15:49 +0800
+From:   Jinjie Ruan <ruanjinjie@huawei.com>
+To:     <linux-media@vger.kernel.org>, <mchehab@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>
+CC:     <ruanjinjie@huawei.com>
+Subject: [PATCH -next] media: cx231xx: Use EP5_BUF_SIZE macro
+Date:   Sat, 7 Oct 2023 20:14:47 +0800
+Message-ID: <20231007121448.3473132-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b12435b2311ada131db05d3cf195b4b5d87708eb.camel@decadent.org.uk>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 28, 2023 at 01:36:06AM +0200, Ben Hutchings wrote:
-> On Wed, 2023-09-20 at 13:30 +0200, Greg Kroah-Hartman wrote:
-> > 4.19-stable review patch.  If anyone has any objections, please let me know.
-> > 
-> > ------------------
-> > 
-> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> > commit 86495af1171e1feec79faa9b64c05c89f46e41d1 upstream.
-> > 
-> > In commit 9011e49d54dc ("modules: only allow symbol_get of
-> > EXPORT_SYMBOL_GPL modules") the use of symbol_get is properly restricted
-> > to GPL-only marked symbols.  This interacts oddly with the DVB logic
-> > which only uses dvb_attach() to load the dvb driver which then uses
-> > symbol_get().
-> > 
-> > Fix this up by properly marking all of the dvb_attach attach symbols as
-> > EXPORT_SYMBOL_GPL().
-> [...]
-> 
-> This (and other) backports missed a couple of affected exports:
-> 
-> - sp8870_attach in drivers/media/dvb-frontends/sp8870.c
->   (renamed to drivers/staging/media/av7110/sp8870.c upstream)
-> - xc2028_attach in drivers/media/tuners/tuner-xc2028.c
->   (renamed to drivers/media/tuners/xc2028.c upstream)
+As Andrzej suggested, use EP5_BUF_SIZE macro to replace the other three
+places of 4096 in cx231xx with EP5_BUF_SIZE.
 
-Thanks for catching this, fixed up now for 4.14.y and 4.19.y.
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Suggested-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+---
+ drivers/media/usb/cx231xx/cx231xx-417.c  | 9 ++++-----
+ drivers/media/usb/cx231xx/cx231xx-core.c | 2 +-
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-greg k-h
+diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
+index c5e21785fafe..fe4410a5e128 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-417.c
++++ b/drivers/media/usb/cx231xx/cx231xx-417.c
+@@ -937,7 +937,6 @@ static int cx231xx_load_firmware(struct cx231xx *dev)
+ 	u32 *p_current_fw, *p_fw;
+ 	u32 *p_fw_data;
+ 	int frame = 0;
+-	u16 _buffer_size = 4096;
+ 	u8 *p_buffer;
+ 
+ 	p_current_fw = vmalloc(1884180 * 4);
+@@ -947,7 +946,7 @@ static int cx231xx_load_firmware(struct cx231xx *dev)
+ 		return -ENOMEM;
+ 	}
+ 
+-	p_buffer = vmalloc(4096);
++	p_buffer = vmalloc(EP5_BUF_SIZE);
+ 	if (p_buffer == NULL) {
+ 		dprintk(2, "FAIL!!!\n");
+ 		vfree(p_current_fw);
+@@ -1030,9 +1029,9 @@ static int cx231xx_load_firmware(struct cx231xx *dev)
+ 
+ 	/*download the firmware by ep5-out*/
+ 
+-	for (frame = 0; frame < (int)(CX231xx_FIRM_IMAGE_SIZE*20/_buffer_size);
++	for (frame = 0; frame < (int)(CX231xx_FIRM_IMAGE_SIZE*20/EP5_BUF_SIZE);
+ 	     frame++) {
+-		for (i = 0; i < _buffer_size; i++) {
++		for (i = 0; i < EP5_BUF_SIZE; i++) {
+ 			*(p_buffer + i) = (u8)(*(p_fw + (frame * 128 * 8 + (i / 4))) & 0x000000FF);
+ 			i++;
+ 			*(p_buffer + i) = (u8)((*(p_fw + (frame * 128 * 8 + (i / 4))) & 0x0000FF00) >> 8);
+@@ -1041,7 +1040,7 @@ static int cx231xx_load_firmware(struct cx231xx *dev)
+ 			i++;
+ 			*(p_buffer + i) = (u8)((*(p_fw + (frame * 128 * 8 + (i / 4))) & 0xFF000000) >> 24);
+ 		}
+-		cx231xx_ep5_bulkout(dev, p_buffer, _buffer_size);
++		cx231xx_ep5_bulkout(dev, p_buffer, EP5_BUF_SIZE);
+ 	}
+ 
+ 	p_current_fw = p_fw;
+diff --git a/drivers/media/usb/cx231xx/cx231xx-core.c b/drivers/media/usb/cx231xx/cx231xx-core.c
+index 57a8b4780a7d..7b7e2a26ef93 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-core.c
++++ b/drivers/media/usb/cx231xx/cx231xx-core.c
+@@ -993,7 +993,7 @@ int cx231xx_init_isoc(struct cx231xx *dev, int max_packets,
+ 	/* De-allocates all pending stuff */
+ 	cx231xx_uninit_isoc(dev);
+ 
+-	dma_q->p_left_data = kzalloc(4096, GFP_KERNEL);
++	dma_q->p_left_data = kzalloc(EP5_BUF_SIZE, GFP_KERNEL);
+ 	if (dma_q->p_left_data == NULL)
+ 		return -ENOMEM;
+ 
+-- 
+2.34.1
+
