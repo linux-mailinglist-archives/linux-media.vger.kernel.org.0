@@ -2,138 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0E0E7BC9AB
-	for <lists+linux-media@lfdr.de>; Sat,  7 Oct 2023 22:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40B327BCB9B
+	for <lists+linux-media@lfdr.de>; Sun,  8 Oct 2023 03:46:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344146AbjJGUGL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Oct 2023 16:06:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37426 "EHLO
+        id S1344249AbjJHBqJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Oct 2023 21:46:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343782AbjJGUGK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 16:06:10 -0400
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93B7BD;
-        Sat,  7 Oct 2023 13:06:08 -0700 (PDT)
-Received: by mail-io1-xd29.google.com with SMTP id ca18e2360f4ac-7a2a3fb0713so128820739f.1;
-        Sat, 07 Oct 2023 13:06:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696709168; x=1697313968;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zNlD1s/5Qv8LvOzp0cT+qMBzDmfWHxl8/xBRMHgFQGc=;
-        b=QvfqL1f4PC+1Q+zm01Fk51afkAupO3PoLygj2Qnsv7ilHd2gUr+Ck07tl/4eA9X34i
-         X/NGbV6kYMsA+pOnjuqtfq91902Hjt+h21YlQ/TAwBisRJcuHBh52Q+/eiv6jI9LXcND
-         PQGTTrv1QzNtvb3MSPu3DRkHRXqqk8k5HmlBIyVHh0EkKpYTigXKYq19Ka+v4lSiz9F2
-         1OfMw59LjN6BgyUWxYbbGrhUsJjK1y5em0JtWEhNpyuxde1kQhOlJHbRuW0jx2klRulU
-         lGI/bO7VutOjFrMJHpBppkRPH6QdK1HbmPPkvGNYK619q0Xv02qTO2RuLVDlKXhTnQxR
-         fkHA==
-X-Gm-Message-State: AOJu0Yxjxzmpg0EEMuYQCgnIxFN6JeCchiTZPr96LE5ICz0+4IM1/kWI
-        ZrkRVEdDfYOPkDXH12B6bAc=
-X-Google-Smtp-Source: AGHT+IG2wf6mgobZ2IOixaCTrcl3zW9YZbaOfG0cI8m3grNo8XccXE19/FQlBmnU1OO4gAk3FQ/gRg==
-X-Received: by 2002:a05:6602:54:b0:783:4bc6:636e with SMTP id z20-20020a056602005400b007834bc6636emr11401205ioz.21.1696709168170;
-        Sat, 07 Oct 2023 13:06:08 -0700 (PDT)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id gj12-20020a0566386a0c00b0043193e32c78sm1106734jab.152.2023.10.07.13.06.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Oct 2023 13:06:07 -0700 (PDT)
-From:   "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-        s=2023; t=1696709166;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=zNlD1s/5Qv8LvOzp0cT+qMBzDmfWHxl8/xBRMHgFQGc=;
-        b=nkSQrXCY5vVbqS6btuYu/JipccFgDJ7nsyFtTYPE0Ffxa7OF5HPKZO91zA3DcU6yWTiHPv
-        Nr+KtmGt56HhXXRizuDQxOzfVNGguPFskpIeZzh6ZnpanJZ1twbWz2DQXa6Pl8KwqNtlGA
-        AYsRDqMY7JOvTOm6SQOGF4bmtFGjZFBqtcnxUGZ7ybPcwI/4b2TtCrW8+gDQDlY8WdzNxW
-        30w5/AdtEpNe1wFw9MYy9pGPNb3HM69K2BVXDqXKOvgHSOHkYTQ8PMxyAriBatLtfJxqtd
-        idiCs7KvGnX6GNrMz8eSJ8C8vD9nJ7pJ/idgkOeTGdXWzdSjovyGTxd4XbgwLQ==
-Authentication-Results: ORIGINATING;
-        auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tomasz Figa <tfiga@chromium.org>, Yong Zhi <yong.zhi@intel.com>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        "Ricardo B. Marliere" <ricardo@marliere.net>
-Subject: [PATCH] staging: media: ipu3: remove ftrace-like logging
-Date:   Sat,  7 Oct 2023 17:05:42 -0300
-Message-Id: <20231007200541.126325-1-ricardo@marliere.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        with ESMTP id S1343783AbjJHBqI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Oct 2023 21:46:08 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49A7F92
+        for <linux-media@vger.kernel.org>; Sat,  7 Oct 2023 18:46:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A86DC433C7
+        for <linux-media@vger.kernel.org>; Sun,  8 Oct 2023 01:46:03 +0000 (UTC)
+Date:   Sun, 08 Oct 2023 03:46:01 +0200
+Message-ID: <afc2c47564232d6bddc5f0a54ae2567e.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch fixes the following checkpatch.pl warnings in ipu3.c:
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-+       dev_dbg(dev, "enter %s\n", __func__);
+Results of the daily build of media_tree:
 
-WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-+       dev_dbg(dev, "leave %s\n", __func__);
+date:			Sun Oct  8 03:00:09 CEST 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	73835b514160dc548f7d77c6cd7fe6a8629d3406
+v4l-utils git hash:	99c4f6dd80613c7bd1fe02bd34492bbd4c999fea
+edid-decode git hash:	e59b8a2ffd690d6576639365a67e890d91ca443d
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8471-g6f3cce86
+sparse version:		v0.5.0-8471-g6f3cce86
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0a853ea53a945e540f59068cfb988e61f25bffa0
+host hardware:		x86_64
+host os:		6.5.0-1-amd64
 
-WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-+       dev_dbg(dev, "enter %s\n", __func__);
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-+       dev_dbg(dev, "leave %s\n", __func__);
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
-Fixes: 7fc7af649ca7 ("media: staging/intel-ipu3: Add imgu top level pci device driver")
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
----
- drivers/staging/media/ipu3/ipu3.c | 6 ------
- 1 file changed, 6 deletions(-)
+smatch: WARNINGS:
 
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-index 0c453b37f8c4..18ca22c3018a 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -762,7 +762,6 @@ static int __maybe_unused imgu_suspend(struct device *dev)
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
- 	struct imgu_device *imgu = pci_get_drvdata(pci_dev);
- 
--	dev_dbg(dev, "enter %s\n", __func__);
- 	imgu->suspend_in_stream = imgu_css_is_streaming(&imgu->css);
- 	if (!imgu->suspend_in_stream)
- 		goto out;
-@@ -783,7 +782,6 @@ static int __maybe_unused imgu_suspend(struct device *dev)
- 	imgu_powerdown(imgu);
- 	pm_runtime_force_suspend(dev);
- out:
--	dev_dbg(dev, "leave %s\n", __func__);
- 	return 0;
- }
- 
-@@ -793,8 +791,6 @@ static int __maybe_unused imgu_resume(struct device *dev)
- 	int r = 0;
- 	unsigned int pipe;
- 
--	dev_dbg(dev, "enter %s\n", __func__);
--
- 	if (!imgu->suspend_in_stream)
- 		goto out;
- 
-@@ -821,8 +817,6 @@ static int __maybe_unused imgu_resume(struct device *dev)
- 	}
- 
- out:
--	dev_dbg(dev, "leave %s\n", __func__);
--
- 	return r;
- }
- 
--- 
-2.40.1
+drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:446 gc0310_s_stream() warn: missing error code 'ret'
+drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+drivers/staging/media/atomisp/pci/atomisp_cmd.c:2779 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+drivers/staging/media/atomisp/pci/atomisp_cmd.c:2878 atomisp_cp_morph_table() warn: missing unwind goto?
+drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+  Locked on  : 326,387
+  Unlocked on: 465,467
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/i2c/mt9m114.c:2381 mt9m114_probe() warn: missing unwind goto?
+drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
+drivers/media/platform/qcom/venus/pm_helpers.c:873 vcodec_domains_get() warn: passing zero to 'PTR_ERR'
+drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
+drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
+drivers/media/i2c/tc358746.c:790 tc358746_set_fmt() error: 'fmt' dereferencing possible ERR_PTR()
 
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Sun Oct  8 03:17:15 CEST 2023
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+
+date:			Sun Oct  8 03:44:46 CEST 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
