@@ -2,62 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 802B97BD4DF
-	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 10:08:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB3AC7BD4E4
+	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 10:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345469AbjJIIIV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 04:08:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33326 "EHLO
+        id S1345499AbjJIIJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Oct 2023 04:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345456AbjJIIIU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 04:08:20 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE05394
-        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 01:08:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696838900; x=1728374900;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OTuIPhu4NFCXr/dZaV7naDJR+jpiCWpPGaeUUTNDXMQ=;
-  b=BNCjy5xWGvBx4KmYY/KrqsOGLGe3Q1L0ylfp7DYOGeJ8KpuXpH7YEUQu
-   6fodQB91QuqEbp5OqBjLrXDsax9NmhvoePR8yTBLxrUGTDXeee8C0GwTS
-   n30E5cCgQ84oxqVGkTtkUM8UEGtVMtrL6Qi9vorEwVngn0j7TYJ5kFL3a
-   WIdI1km+NVZSuffUAlaonyq5aNnfZx/kybcd4J9/9e7ECvLPO8SfsgSWD
-   Skxz1QcRuRYAgU9u5pPEsF/XGuFeuNAZGqn482VUvUNjoiugZK/5kdgu4
-   u+9CCme3k7Uhb0K9hMB9xSJ43fn+KqaqK4JcN83UXBD/jgV/efLHr899X
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="5640899"
-X-IronPort-AV: E=Sophos;i="6.03,209,1694761200"; 
-   d="scan'208";a="5640899"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 01:08:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10857"; a="752939267"
-X-IronPort-AV: E=Sophos;i="6.03,209,1694761200"; 
-   d="scan'208";a="752939267"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 01:08:17 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 05FF211FC2C;
-        Mon,  9 Oct 2023 11:08:15 +0300 (EEST)
-Date:   Mon, 9 Oct 2023 08:08:15 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Bingbu Cao <bingbu.cao@linux.intel.com>
-Subject: Re: [PATCH] media: intel/ipu6: Set V4L2_CAP_IO_MC flag for isys
- /dev/video# nodes
-Message-ID: <ZSO07yIijONinNEw@kekkonen.localdomain>
-References: <20231002172306.111601-1-hdegoede@redhat.com>
+        with ESMTP id S1345495AbjJIIJK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 04:09:10 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6387CA6
+        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 01:09:08 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qplK6-00APba-T1; Mon, 09 Oct 2023 08:09:06 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qplK4-00GBPT-0X;
+        Mon, 09 Oct 2023 08:09:04 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sean Young <sean@mess.org>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.7] Minor rc fixes (#95641)
+Date:   Mon,  9 Oct 2023 08:09:03 +0000
+Message-Id: <20231009080903.3857098-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZSOux5a0d0tu9FtE@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231002172306.111601-1-hdegoede@redhat.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,85 +45,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+From: builder@linuxtv.org
 
-On Mon, Oct 02, 2023 at 07:23:06PM +0200, Hans de Goede wrote:
-> The IPU6 isys is a media-controller centric device which needs
-> the pipeline to be configured using the media controller API before use.
-> 
-> Set the V4L2_CAP_IO_MC flag to reflect this.
-> 
-> This also allows dropping of the enum_input() g_input() and s_input()
-> implementations, with V4L2_CAP_IO_MC set the v4l2-core will take care
-> of those.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZSOux5a0d0tu9FtE@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/346688/
+Build time: 00:20:41
+Link: https://lore.kernel.org/linux-media/ZSOux5a0d0tu9FtE@gofer.mess.org
 
-Thanks.
+gpg: Signature made Mon 09 Oct 2023 07:27:28 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-Cc'd Bingbu. (Also bounced the patch to him.)
+Summary: got 1/2 patches with issues, being 1 at build time
 
-> ---
->  .../media/pci/intel/ipu6/ipu6-isys-video.c    | 29 ++-----------------
->  1 file changed, 2 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> index ad74a19527b7..e6fc32603c3f 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> @@ -262,29 +262,6 @@ static int vidioc_try_fmt_vid_cap_mplane(struct file *file, void *fh,
->  	return 0;
->  }
->  
-> -static int vidioc_enum_input(struct file *file, void *fh,
-> -			     struct v4l2_input *input)
-> -{
-> -	if (input->index > 0)
-> -		return -EINVAL;
-> -	strscpy(input->name, "camera", sizeof(input->name));
-> -	input->type = V4L2_INPUT_TYPE_CAMERA;
-> -
-> -	return 0;
-> -}
-> -
-> -static int vidioc_g_input(struct file *file, void *fh, unsigned int *input)
-> -{
-> -	*input = 0;
-> -
-> -	return 0;
-> -}
-> -
-> -static int vidioc_s_input(struct file *file, void *fh, unsigned int input)
-> -{
-> -	return input == 0 ? 0 : -EINVAL;
-> -}
-> -
->  static int link_validate(struct media_link *link)
->  {
->  	struct ipu6_isys_video *av =
-> @@ -1017,9 +994,6 @@ static const struct v4l2_ioctl_ops ioctl_ops_mplane = {
->  	.vidioc_streamon = vb2_ioctl_streamon,
->  	.vidioc_streamoff = vb2_ioctl_streamoff,
->  	.vidioc_expbuf = vb2_ioctl_expbuf,
-> -	.vidioc_enum_input = vidioc_enum_input,
-> -	.vidioc_g_input = vidioc_g_input,
-> -	.vidioc_s_input = vidioc_s_input,
->  };
->  
->  static const struct media_entity_operations entity_ops = {
-> @@ -1217,7 +1191,8 @@ int ipu6_isys_video_init(struct ipu6_isys_video *av)
->  
->  	mutex_init(&av->mutex);
->  	av->vdev.device_caps = V4L2_CAP_STREAMING |
-> -			       V4L2_CAP_VIDEO_CAPTURE_MPLANE;
-> +			       V4L2_CAP_VIDEO_CAPTURE_MPLANE |
-> +			       V4L2_CAP_IO_MC;
->  	av->vdev.vfl_dir = VFL_DIR_RX;
->  
->  	ret = ipu6_isys_queue_init(&av->aq);
-> -- 
-> 2.41.0
-> 
+Error/warnings:
 
--- 
-Sakari Ailus
+patches/0001-media-sharp-fix-sharp-encoding.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:446 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2779 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2878 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+	  Locked on  : 326,387
+	  Unlocked on: 465,467
+	../drivers/media/i2c/mt9m114.c: ../drivers/media/i2c/mt9m114.c:2381 mt9m114_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: OOM: 3003988Kb sm_state_count = 2158
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: __split_smt: function too hairy.  Giving up after 4 seconds
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: OOM: 3014560Kb sm_state_count = 1757213
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 50 seconds
+	../drivers/media/pci/mgb4/mgb4_sysfs_out.c: ../drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
+	../drivers/media/pci/mgb4/mgb4_sysfs_out.c: ../drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
