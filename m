@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFDB57BD8B3
-	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 12:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B6EF7BD8CC
+	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 12:37:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345535AbjJIKeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 06:34:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48964 "EHLO
+        id S1345918AbjJIKhP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Oct 2023 06:37:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345853AbjJIKeK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 06:34:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55B8F9C
-        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 03:34:07 -0700 (PDT)
+        with ESMTP id S1346124AbjJIKhJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 06:37:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E52B11B
+        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 03:36:53 -0700 (PDT)
 Received: from [192.168.88.20] (91-157-153-81.elisa-laajakaista.fi [91.157.153.81])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0908C7E4;
-        Mon,  9 Oct 2023 12:34:02 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34DB37E2;
+        Mon,  9 Oct 2023 12:36:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696847643;
-        bh=tl0oyi4I/x/tHSKj+OJH+8cxqh94QYO5uYoBRBiCg8o=;
+        s=mail; t=1696847808;
+        bh=+DYeJc6X2sluF5R1j9KlPMVoQXifXivNGxrOjgZIUeg=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=njiFH+XvTBvozr67EGxHJnMxGJ2C4zTJWu15YxhZWVkSgO8HJAyda7O9q9hYwbZ9K
-         BV8BaM9ofdv22PGdhzlPDmYtCf8pr1NdAk7rhbGY8FrGa7OUHXk44KR83UfHE0mBFp
-         egWWINZVuRys93Pz6ixu7ettQn6Qd6B54Eud4X0I=
-Message-ID: <c3640f19-ae69-4915-b0f2-acc480c6aa07@ideasonboard.com>
-Date:   Mon, 9 Oct 2023 13:34:00 +0300
+        b=j4R/MgvdDJajFt2H+7NlzE/71d6RdUMpV43uZfLtrbIAwbeYQx1Y1bcnENW/5CVqE
+         VA4tV/w9RzsImDro57P7jrFpG/MMGCfyxCg+rx7bB4Ph+3gWOOq6PUv3bmArnC/PxV
+         kujBtp0vOlUj3I1ui5QHFc9ML3bcA0eQ2vrRXdus=
+Message-ID: <92176362-7127-45a3-a436-c4068885c7ce@ideasonboard.com>
+Date:   Mon, 9 Oct 2023 13:36:46 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 13/28] media: v4l: subdev: Add a function to lock two
- sub-device states, use it
+Subject: Re: [PATCH v6 14/28] media: v4l: subdev: Move G_ROUTING handling
+ below S_ROUTING
 Content-Language: en-US
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org
@@ -40,7 +40,7 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
 References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
- <20231003120813.77726-4-sakari.ailus@linux.intel.com>
+ <20231003120813.77726-5-sakari.ailus@linux.intel.com>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -85,7 +85,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20231003120813.77726-4-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231003120813.77726-5-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -98,106 +98,90 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 03/10/2023 15:07, Sakari Ailus wrote:
-> Add two new functions, v4l2_subdev_lock_states() and
-> v4l2_subdev_unclock_states(), to acquire and release the state of two
-> sub-devices. They differ from calling v4l2_subdev_{un,}lock_state() so
-> that if the two states share the same lock, the lock is acquired only
-> once.
-> 
-> Also use the new functions in v4l2_subdev_link_validate().
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->   drivers/media/v4l2-core/v4l2-subdev.c | 12 +++-----
->   include/media/v4l2-subdev.h           | 40 +++++++++++++++++++++++++++
->   2 files changed, 44 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 854f9d4db923..df9a1ae65410 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1377,17 +1377,13 @@ int v4l2_subdev_link_validate(struct media_link *link)
->   
->   	states_locked = sink_state && source_state;
->   
-> -	if (states_locked) {
-> -		v4l2_subdev_lock_state(sink_state);
-> -		v4l2_subdev_lock_state(source_state);
-> -	}
-> +	if (states_locked)
-> +		v4l2_subdev_lock_states(sink_state, source_state);
->   
->   	ret = v4l2_subdev_link_validate_locked(link, states_locked);
->   
-> -	if (states_locked) {
-> -		v4l2_subdev_unlock_state(sink_state);
-> -		v4l2_subdev_unlock_state(source_state);
-> -	}
-> +	if (states_locked)
-> +		v4l2_subdev_unlock_states(sink_state, source_state);
->   
->   	return ret;
->   }
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 7c34243ffed9..e49e8af2fb52 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1418,6 +1418,46 @@ static inline void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
->   	mutex_unlock(state->lock);
->   }
->   
-> +/**
-> + * v4l2_subdev_lock_states - Lock two sub-device states
-> + * @state1: One subdevice state
-> + * @state2: The other subdevice state
-> + *
-> + * Locks the state of two sub-devices.
-> + *
-> + * The states must be unlocked with v4l2_subdev_unlock_states() after use.
-> + *
-> + * This differs from calling v4l2_subdev_lock_state() on both states so that if
-> + * the states share the same lock, the lock is acquired only once (so no
-> + * deadlock occurs). Note that it must be ensured the locks must always be
-> + * acquired in the same order.
+> Move G_ROUTING IOCTL handling below that of S_ROUTING. G_ROUTING
+> implementation will soon needed in handling S_ROUTING as well.
 
-Either s/must/will/ or maybe "note that the locks must always be 
-acquired...".
-
-Maybe it should be stated that state1 and state2 have to be from 
-subdevices that are connected via a media link and something like "the 
-sink subdevice must always be state 1, and the source subdevice must 
-always be state2".
+There's probably a "be" missing in the above text. Also, it's a bit 
+unclear on why this is needed. You could say it'll allow switch-case 
+fall-through.
 
   Tomi
 
-> + */
-> +static inline void v4l2_subdev_lock_states(struct v4l2_subdev_state *state1,
-> +					   struct v4l2_subdev_state *state2)
-> +{
-> +	mutex_lock(state1->lock);
-> +	if (state1->lock != state2->lock)
-> +		mutex_lock(state2->lock);
-> +}
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>   drivers/media/v4l2-core/v4l2-subdev.c | 54 +++++++++++++--------------
+>   1 file changed, 27 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index df9a1ae65410..614ff0031831 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -887,33 +887,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>   	case VIDIOC_SUBDEV_QUERYSTD:
+>   		return v4l2_subdev_call(sd, video, querystd, arg);
+>   
+> -	case VIDIOC_SUBDEV_G_ROUTING: {
+> -		struct v4l2_subdev_routing *routing = arg;
+> -		struct v4l2_subdev_krouting *krouting;
+> -
+> -		if (!v4l2_subdev_enable_streams_api)
+> -			return -ENOIOCTLCMD;
+> -
+> -		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+> -			return -ENOIOCTLCMD;
+> -
+> -		memset(routing->reserved, 0, sizeof(routing->reserved));
+> -
+> -		krouting = &state->routing;
+> -
+> -		if (routing->num_routes < krouting->num_routes) {
+> -			routing->num_routes = krouting->num_routes;
+> -			return -ENOSPC;
+> -		}
+> -
+> -		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+> -		       krouting->routes,
+> -		       krouting->num_routes * sizeof(*krouting->routes));
+> -		routing->num_routes = krouting->num_routes;
+> -
+> -		return 0;
+> -	}
+> -
+>   	case VIDIOC_SUBDEV_S_ROUTING: {
+>   		struct v4l2_subdev_routing *routing = arg;
+>   		struct v4l2_subdev_route *routes =
+> @@ -962,6 +935,33 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>   					routing->which, &krouting);
+>   	}
+>   
+> +	case VIDIOC_SUBDEV_G_ROUTING: {
+> +		struct v4l2_subdev_routing *routing = arg;
+> +		struct v4l2_subdev_krouting *krouting;
 > +
-> +/**
-> + * v4l2_subdev_unlock_states() - Unlock two sub-device states
-> + * @state1: One subdevice state
-> + * @state2: The other subdevice state
-> + *
-> + * Unlocks the state of two sub-devices.
-> + *
-> + * This differs from calling v4l2_subdev_unlock_state() on both states so that if
-> + * the states share the same lock, the lock is released only once.
-> + */
-> +static inline void v4l2_subdev_unlock_states(struct v4l2_subdev_state *state1,
-> +					     struct v4l2_subdev_state *state2)
-> +{
-> +	mutex_unlock(state1->lock);
-> +	if (state1->lock != state2->lock)
-> +		mutex_unlock(state2->lock);
-> +}
+> +		if (!v4l2_subdev_enable_streams_api)
+> +			return -ENOIOCTLCMD;
 > +
->   /**
->    * v4l2_subdev_get_unlocked_active_state() - Checks that the active subdev state
->    *					     is unlocked and returns it
+> +		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+> +			return -ENOIOCTLCMD;
+> +
+> +		memset(routing->reserved, 0, sizeof(routing->reserved));
+> +
+> +		krouting = &state->routing;
+> +
+> +		if (routing->num_routes < krouting->num_routes) {
+> +			routing->num_routes = krouting->num_routes;
+> +			return -ENOSPC;
+> +		}
+> +
+> +		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+> +		       krouting->routes,
+> +		       krouting->num_routes * sizeof(*krouting->routes));
+> +		routing->num_routes = krouting->num_routes;
+> +
+> +		return 0;
+> +	}
+> +
+>   	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
+>   		struct v4l2_subdev_client_capability *client_cap = arg;
+>   
 
