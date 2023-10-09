@@ -2,111 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CFAA7BD0E2
-	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 00:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 827517BD1E6
+	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 04:18:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344876AbjJHW0Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Oct 2023 18:26:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56962 "EHLO
+        id S1344825AbjJICSh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Oct 2023 22:18:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344437AbjJHW0W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Oct 2023 18:26:22 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22D1FBA
-        for <linux-media@vger.kernel.org>; Sun,  8 Oct 2023 15:26:21 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-405361bb94eso39356775e9.0
-        for <linux-media@vger.kernel.org>; Sun, 08 Oct 2023 15:26:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696803979; x=1697408779; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E5F6Ic134Yi1iysyJ6K232qeqhgAgSXNQ9anlaFp7+o=;
-        b=vp/BtA35HUCXhFv1symXXPDLhdZ6mZOEsEXQPQzAt0n8aoWbQTWQ+z0dsZ6Bx9a3lf
-         Hy7PDKdvA4/U3JDpqrUBJ11wb1LGd66K/1lLXkJvYLf5Hgwg+mEf1UPKEb6rxpFFQane
-         TwWi+ziNH/baQdFbYT061V4+kjplDeh8XWNJF9UNHbCiwSowvS/b3kvvtdr11qb5Sv6Q
-         O25CLXjSyoWEdMIPN+sUT7ouKLINxgj1xrFyLxqBoSm0AJgaTYvb5FOf2Px2/NhIIj1M
-         NF9bNY54zS8zyvYBaVQ82ov9XvPceTfubMhDBw16DDVXREaiqOjXp2Z5/Mn8oYhgxzwH
-         DVcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696803979; x=1697408779;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E5F6Ic134Yi1iysyJ6K232qeqhgAgSXNQ9anlaFp7+o=;
-        b=P9x3gdEmZB8JZGJKuXWJnk1Kenuq3crHEEZgKsqddyOJZ3KPjkFbhhVUxrf/3dKeVM
-         WIsB+LEBfPacJgXk1xS07SgcWQ4Qhht+4/xulXt57gXFVisd5tmieKWBa8jTuZx6zIg4
-         hJW1CFjmGNmp/VUYlBPye7MnuZKUv3UfwRU0xBK1g1dciPpud15FJqpvldbO/Q9mF4np
-         983ckw/MxqRwskLN2goRh0ANb4mrIthJU/uOhw4lkwndjaO3EdbEwfiy39S5bshtfyNu
-         xe+En2FvY7dpmshBBkQddXjkuSLYBxcyMP9VL60Q9LJx7DUAt6VOyLwuhlZZBkDi1NB6
-         B/OQ==
-X-Gm-Message-State: AOJu0YzVmkBkcoCCxjLM3nPF5rBgrUeA9IGY+8iO91sSnXI4iNNwf49u
-        S8ES1pA0ASCskl90PRu3HNgP0g==
-X-Google-Smtp-Source: AGHT+IE5Bwgw8Sv4XEbdHISWjLI6mywdMuzfaBhCFQkF9GkEp3SmKfDb1yrC+EDJeeO0eM6jYnFsqw==
-X-Received: by 2002:a05:600c:468d:b0:407:4944:76dc with SMTP id p13-20020a05600c468d00b00407494476dcmr1947380wmo.20.1696803979357;
-        Sun, 08 Oct 2023 15:26:19 -0700 (PDT)
-Received: from [192.168.100.102] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id n5-20020a05600c294500b003fc02e8ea68sm11615535wmd.13.2023.10.08.15.26.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Oct 2023 15:26:18 -0700 (PDT)
-Message-ID: <18716c6a-93ea-43d5-ab55-43b3b86920ce@linaro.org>
-Date:   Sun, 8 Oct 2023 23:26:17 +0100
+        with ESMTP id S231542AbjJICSg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Oct 2023 22:18:36 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8F9FA6;
+        Sun,  8 Oct 2023 19:18:34 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 934C67E2;
+        Mon,  9 Oct 2023 04:18:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1696817910;
+        bh=8+fT+A+W5pFEzCWpa2x917y4zdBVrVYbRFOBAvj5acc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jSIdZb4/XkhWnNS005sJ7m5fqcpg+79e3zTpi+RyPrHy7RZ0EGFE05nREElqZhnlL
+         +7h4O9G2QtUVKBWi19ACL2bXZ1C5O/8udD6kPjPhKcEAO3s1oRYu8DgRb+SNY6xzgP
+         YipZVFhVJnDlTGmj3ve5vzxI4msMCKO5xre6SYBM=
+Date:   Mon, 9 Oct 2023 05:18:38 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Mehdi Djait <mehdi.djait@bootlin.com>
+Cc:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+        maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com
+Subject: Re: [PATCH v6 2/3] media: dt-bindings: media: i2c: Add bindings for
+ TW9900
+Message-ID: <20231009021838.GG5121@pendragon.ideasonboard.com>
+References: <cover.1696608809.git.mehdi.djait@bootlin.com>
+ <6ad44a04366e65d5baec08dd966f5c81995d626d.1696608809.git.mehdi.djait@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] i2c: qcom-cci: Add sc8280xp compatible
-Content-Language: en-US
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     Andi Shyti <andi.shyti@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     agross@kernel.org, andersson@kernel.org, loic.poulain@linaro.org,
-        rfoss@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        todor.too@gmail.com, mchehab@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20231006120159.3413789-1-bryan.odonoghue@linaro.org>
- <20231006120159.3413789-3-bryan.odonoghue@linaro.org>
- <b8f2d7f1-16e2-4e6a-9c84-37da393f74a3@linaro.org>
- <20231008212824.cs6e6hc7zur67v6k@zenone.zhora.eu>
- <4fdfd283-234b-4c14-8db1-3feaf1fa8618@linaro.org>
-In-Reply-To: <4fdfd283-234b-4c14-8db1-3feaf1fa8618@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6ad44a04366e65d5baec08dd966f5c81995d626d.1696608809.git.mehdi.djait@bootlin.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/10/2023 23:13, Bryan O'Donoghue wrote:
-> On 08/10/2023 22:28, Andi Shyti wrote:
->> Hi Konrad,
->>
->>>> Add sc8280xp compatible with cci_v2_data parameters.
->>>>
->>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>>> ---
->>> Drop this patch, it adds nothing useful
->>
->> what about the rest of the series?
->>
->> Could you please be a bit more explicative?
->>
->> Thanks,
->> Andi
+Hi Mehdi,
+
+Thank you for the patch.
+
+On Fri, Oct 06, 2023 at 06:25:29PM +0200, Mehdi Djait wrote:
+> The Techwell TW9900 is a video decoder supporting multiple input
+> standards, such as PAL and NTSC, and outputs a BT.656 video
+> signal.
 > 
-> I think he means I can use the sm8250 or sm8450 compat string, which is 
-> true.
+> It's designed to be low-power, posesses some features such as a
+> programmable comb-filter, and automatic input standard detection
 > 
+> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
 > ---
-> bod
+> V5->V6: 
+> - This commit had a "Reviewed-by: Rob Herring <robh@kernel.org>" Tag but
+>   decided not to collect it because the last Iteration was more than 2
+>   years ago
+> - removed SECAM from the mentioned standards
+> - changed maintainer
+> 
+> V4->V5: 
+> - renamed the file to match the compatible string, and referenced
+>   the graph.yaml schema
+> 
+> V3->V4: 
+> - add the missing reset-gpios node to the binding
+> 
+> V2->V3: 
+> - fix the example not compiling due to a typo in the reset-gpios
+>   node.
+> 
+>  .../bindings/media/i2c/techwell,tw9900.yaml   | 61 +++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml b/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
+> new file mode 100644
+> index 000000000000..24bbbff5cc01
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/techwell,tw9900.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Techwell TW9900 NTSC/PAL video decoder
+> +
+> +maintainers:
+> +  - Mehdi Djait <mehdi.djait@bootlin.com>
+> +
+> +description:
+> +  The tw9900 is a multi-standard video decoder, supporting NTSC, PAL standards
+> +  with auto-detection features.
+> +
+> +properties:
+> +  compatible:
+> +    const: techwell,tw9900
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  vdd-supply:
+> +    description: VDD power supply
+> +
+> +  reset-gpios:
+> +    description: GPIO descriptor for the RESET input pin
+> +    maxItems: 1
 
-Tested, compat sm8250 works fine.
+How about the power down GPIO ?
 
----
-bod
+The chip requires a clock, which is provided by a crystal oscillator in
+the block diagram I found. Does it also support an external clock ? If
+so the bindings should support it, although this could be added later.
+
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description:
+> +      Video port for the decoder output.
+
+How about input ports, connected to nodes that model the connector(s) ?
+
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    i2c {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            tw9900: tw9900@44 {
+> +                    compatible = "techwell,tw9900";
+> +                    reg = <0x44>;
+> +
+> +                    vdd-supply = <&tw9900_supply>;
+> +                    reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
+> +
+> +                    port {
+> +                            tw9900_out: endpoint {
+> +                                    remote-endpoint = <&vip_in>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+
+-- 
+Regards,
+
+Laurent Pinchart
