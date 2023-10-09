@@ -2,62 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CA377BD853
-	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 12:16:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 985C97BD85A
+	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 12:17:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346112AbjJIKQT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 06:16:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45594 "EHLO
+        id S1346134AbjJIKQ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Oct 2023 06:16:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346121AbjJIKQS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 06:16:18 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB1BDAB
-        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 03:16:16 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0B24C433C7;
-        Mon,  9 Oct 2023 10:16:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1696846576;
-        bh=RSSmBe2hBTVt5zo3o9PsUHPyXSee+Ceb+hlfyxj1OxM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1NWXqfFxwZCDZNLjtbeDlsdfaMmJmRVLJczlRzq6WTh+3MhTv0DACUOHbjMaE1jZJ
-         UtTix9FQIns7d4LTyXyeCJtfTxQusHfYj7chvkOQLFOrHG1Vcec8CoHT6QwK4Hc3HW
-         h+WY1ckDlhKll5K3ykMVIhGJwV2RrAisppKgMZ2E=
-Date:   Mon, 9 Oct 2023 12:16:14 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH] staging: vc04_services: vchiq_bus: Do not kfree device
-Message-ID: <2023100902-common-myself-e3f4@gregkh>
-References: <20231009060906.33407-1-umang.jain@ideasonboard.com>
+        with ESMTP id S1346125AbjJIKQ4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 06:16:56 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61A9CEA
+        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 03:16:54 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c012232792so52343051fa.0
+        for <linux-media@vger.kernel.org>; Mon, 09 Oct 2023 03:16:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696846612; x=1697451412; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HuYv4b6pLjydapaBtZop4O37DiFGBbAGIm3D4cVug5g=;
+        b=hnz+IwKRROHGKsTD2NNtpIZXyQgL3Ome02mc8FtBfJMMORpPoibOt7YZaGoEvcDhqZ
+         N+36+tSfxj/23qNpesgvePyPXqpAAcbtxCc7H7xhrGLdUC81QjePbdYhLCxCTO+H4d+j
+         PeIy3iFXDzPf7PLy4IGhvHzY8/STkmxIwaDnrvAAn40bYTZ8HdWY7kiY+E7QyDRh9+d4
+         gMmZ2ZwPVUBWvsdCzncU/2UXrCN+7h4HihimWIc3gikyR7CT4KsrMUQI7Z/asdU4gdKa
+         eBcx9VA/0hC5MAoaFILywUBr0OnpVB1DldPxH/X1zkcl4R5r6hRYnQdBn8DiB8X0N3tk
+         72UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696846612; x=1697451412;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HuYv4b6pLjydapaBtZop4O37DiFGBbAGIm3D4cVug5g=;
+        b=hDpc4YU0iAT+yH4B/0cnOh7PqfWIg6SbC4RWZa9jMDymdPTrbWKIVpCcpyPcZeA5uO
+         LYSPv4XK0j5cBK5BmnM/2iuhsK4KRRU9Dhp4nhkXFA8fwvTjSPlwZov3wNGAOLSaF0JP
+         eOc8yYIpCyKLTjYL6UNWK5IBaeV1KrzJyE7yv2JPJXFjLGLKLqeyar4XUP1Ll45AvyT6
+         D10cvmE2okDmQgKn4APmb0IF6dPWEZ+9eXGRqXydDsaLPWbGsgQxs0IHZXcMasvnceys
+         aZ25i8OpWI/by7nUPy4lV5oBdXqv6PO5tk99RU43Ht1BTTMAY6x6c6lWAKCwVK345Wy1
+         Nejw==
+X-Gm-Message-State: AOJu0YyDImhwftjUntRA/t2z4u5Zo+o3G1oe3LP6y4qHo/lIYY5uIlYg
+        PGrgAcm7G9RIBmD/C5qfRiPhxA==
+X-Google-Smtp-Source: AGHT+IFDxuwnrTw9oBX4OgnlazccY+uFAtoj++5xgItlpzobK2civqYU0difdDwxMAWL3MPK3GDdqg==
+X-Received: by 2002:a2e:8745:0:b0:2c0:158f:8133 with SMTP id q5-20020a2e8745000000b002c0158f8133mr13449820ljj.28.1696846612558;
+        Mon, 09 Oct 2023 03:16:52 -0700 (PDT)
+Received: from [192.168.200.173] (178235177147.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.147])
+        by smtp.gmail.com with ESMTPSA id h25-20020a2e3a19000000b002b9e20d0356sm1996314lja.114.2023.10.09.03.16.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Oct 2023 03:16:52 -0700 (PDT)
+Message-ID: <0a3cd2f3-85e9-4769-9749-62353e842625@linaro.org>
+Date:   Mon, 9 Oct 2023 12:16:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231009060906.33407-1-umang.jain@ideasonboard.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] i2c: qcom-cci: Add sc8280xp compatible
+Content-Language: en-US
+To:     Andi Shyti <andi.shyti@kernel.org>
+Cc:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, agross@kernel.org,
+        andersson@kernel.org, loic.poulain@linaro.org, rfoss@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231006120159.3413789-1-bryan.odonoghue@linaro.org>
+ <20231006120159.3413789-3-bryan.odonoghue@linaro.org>
+ <b8f2d7f1-16e2-4e6a-9c84-37da393f74a3@linaro.org>
+ <20231008212824.cs6e6hc7zur67v6k@zenone.zhora.eu>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20231008212824.cs6e6hc7zur67v6k@zenone.zhora.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 09, 2023 at 11:39:06AM +0530, Umang Jain wrote:
-> As per device_register() documentation, this kfree() on error path will
-> crash. The call to put_device() is all that is needed here to free the
-> memory.
+On 8.10.2023 23:28, Andi Shyti wrote:
+> Hi Konrad,
 > 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c | 1 -
->  1 file changed, 1 deletion(-)
+>>> Add sc8280xp compatible with cci_v2_data parameters.
+>>>
+>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>> ---
+>> Drop this patch, it adds nothing useful
+> 
+> what about the rest of the series?
+> 
+> Could you please be a bit more explicative?
+This patch introduces a new compatible in the driver that does
+exactly nothing, as the bindings require the use of
+"qcom,sc8280xp-cci" with a fallback of "qcom,msm8996-cci". The
+latter one already has a match table entry.
 
-This needs a "Fixes:" tag, right?
-
-thanks,
-
-greg k-h
+Konrad
