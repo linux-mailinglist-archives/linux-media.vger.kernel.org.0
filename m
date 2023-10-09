@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6B457BD90A
-	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 12:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E15827BD93F
+	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 13:09:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346076AbjJIK42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 06:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35450 "EHLO
+        id S1346170AbjJILJh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Oct 2023 07:09:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346025AbjJIK41 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 06:56:27 -0400
+        with ESMTP id S1346139AbjJILJg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 07:09:36 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB3B39C
-        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 03:56:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C996894
+        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 04:09:34 -0700 (PDT)
 Received: from [192.168.88.20] (91-157-153-81.elisa-laajakaista.fi [91.157.153.81])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C19E7E2;
-        Mon,  9 Oct 2023 12:56:23 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 71D8E56D;
+        Mon,  9 Oct 2023 13:09:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696848984;
-        bh=Jmj+hqql6OwTIRf/8urSXNnM2yJnjO7WboErD48cSb4=;
+        s=mail; t=1696849772;
+        bh=b8XzrqGamOeGXIg/txTObohNASclvdEhJE9b/hoSS1o=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=rTWkeY/5/fkYKSROG50vZHVSDbPBhLwVxDaD2GEtL2Su5xo3wL9av0d3zWaLPJIpo
-         fl8bOw0+wqNiyatJ1DS9OJS/+nkA4HtYQNMMQbqq36WvLumpR+DyO6nCiRd/n2xhnQ
-         Ko1hh2R3MpECLWOmjDYhSXb3IFoNA4zGBsnN/uTk=
-Message-ID: <811d8344-192f-4fb6-8da6-b0c8b93165b8@ideasonboard.com>
-Date:   Mon, 9 Oct 2023 13:56:21 +0300
+        b=RevVCkQgEX6+GGQR2wPtuQTT8luq5DGk8Xh0VKWesTs5KwI/Vc1duY6LAkuiBKbUh
+         gDZIQPRBZ0ygsvEsnKdipipHDQqztH72I5NB5vltyiIELUY9bWtddx4TgtxSGPr4vD
+         CjLwTrL1k2gUOGAbQef63EItVpIAoZEgaD81ZHlg=
+Message-ID: <76770126-3da2-45b4-b953-c2bbeb1b3f91@ideasonboard.com>
+Date:   Mon, 9 Oct 2023 14:09:29 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 18/28] media: uapi: Allow a larger number of routes
- than there's room for
+Subject: Re: [PATCH v6 19/28] media: v4l: subdev: Add trivial set_routing
+ support
 Content-Language: en-US
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org
@@ -40,7 +40,7 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
 References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
- <20231003120813.77726-9-sakari.ailus@linux.intel.com>
+ <20231003120813.77726-10-sakari.ailus@linux.intel.com>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -85,7 +85,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20231003120813.77726-9-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231003120813.77726-10-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -98,56 +98,43 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 03/10/2023 15:08, Sakari Ailus wrote:
-> On VIDIOC_SUBDEV_[GS]_ROUTING, only return as many routes back to the user
-> as there's room. Do not consider it an error if more routes existed.
-> Simply inform the user there are more routes.
-
-Inform how? And I agree with Hans here. How about return ENOSPC, but the 
-kernel fills in num_routes to tell the userspace how many there actually 
-are?
-
-  Tomi
-
+> Add trivial S_ROUTING IOCTL support for drivers where routing is static.
+> Essentially this means returning the same information G_ROUTING call would
+> have done.
+> 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->   .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst   | 4 ----
->   drivers/media/v4l2-core/v4l2-subdev.c                     | 8 ++------
->   2 files changed, 2 insertions(+), 10 deletions(-)
+>   drivers/media/v4l2-core/v4l2-subdev.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> index ced53ea5f23c..99d3c15fd759 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> @@ -145,10 +145,6 @@ On success 0 is returned, on error -1 and the ``errno`` variable is set
->   appropriately. The generic error codes are described at the
->   :ref:`Generic Error Codes <gen-errors>` chapter.
->   
-> -ENOSPC
-> -   The application provided ``num_routes`` is not big enough to contain
-> -   all the available routes the subdevice exposes.
-> -
->   EINVAL
->      The sink or source pad identifiers reference a non-existing pad, or reference
->      pads of different types (ie. the sink_pad identifiers refers to a source pad).
 > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 9a34e13dfd96..dd48e7e549fb 100644
+> index dd48e7e549fb..7d7028de581a 100644
 > --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -956,14 +956,10 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> @@ -894,6 +894,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>   		struct v4l2_subdev_krouting krouting = {};
+>   		unsigned int i;
 >   
->   		krouting = &state->routing;
+> +		if (!v4l2_subdev_has_op(sd, pad, set_routing))
+> +			goto do_vidioc_subdev_g_routing;
+> +
+>   		if (!v4l2_subdev_enable_streams_api)
+>   			return -ENOIOCTLCMD;
 >   
-> -		if (routing->len_routes < krouting->num_routes) {
-> -			routing->num_routes = krouting->num_routes;
-> -			return -ENOSPC;
-> -		}
-> -
->   		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
->   		       krouting->routes,
-> -		       krouting->num_routes * sizeof(*krouting->routes));
-> +		       min(krouting->num_routes, routing->len_routes) *
-> +		       sizeof(*krouting->routes));
->   		routing->num_routes = krouting->num_routes;
+> @@ -939,6 +942,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>   					routing->which, &krouting);
+>   		if (rval < 0)
+>   			return rval;
+> +do_vidioc_subdev_g_routing:
+> +		;
+>   	}
+>   		fallthrough;
 >   
->   		return 0;
+
+As Hans mentioned in an earlier comment, the code would perhaps be more 
+readable if the s_routing ioctl code would just handle the g_routing 
+part itself. Or we could have a helper function, called by both 
+s_routing and g_routing. It looks very confusing with these patches.
+
+  Tomi
 
