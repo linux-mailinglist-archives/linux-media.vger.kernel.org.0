@@ -2,62 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 575837BDC57
-	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 14:39:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 888657BDCA8
+	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 14:45:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346610AbjJIMjw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 08:39:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55504 "EHLO
+        id S1376501AbjJIMpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Oct 2023 08:45:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346437AbjJIMjv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 08:39:51 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD75AC;
-        Mon,  9 Oct 2023 05:39:50 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 203C0660716C;
-        Mon,  9 Oct 2023 13:39:48 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1696855188;
-        bh=lS76ocpZeANuMGXYVZLnsbTidODtHxIumr0VpieWrD0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=jt0iKC8R9Wx4opcqtrMmKH9+AOy+H2tE3ng3w9EAmYZrzqYuUq6bBw6Z7slm2epCe
-         uH9u322ItomcDCaU8FcYCIbF3pERqrSS6KRPTE+rWJ2qkaPkTyQ6DfqBeLxlIcVAjQ
-         whRmSl0RtPyi100ru/U3zXY3inNCRS+sQqZiesHNd3yCimktFDLqCERXiGrhyYoT25
-         3ZC1PvmfLUT2mYHpiLPFsdr6X8K2rBppKavy7NJc6DlM9WOH7FnhgmcvCC8QxJ7CK8
-         Ev+c7I0Jytua3+XQO5/6tKiAklBEcUpl2rvKjqdZ9PBkk5XAp/7xfc9iIepuIDYsuq
-         OGijxSaQnzERg==
-Message-ID: <ee6598bf-312f-d76d-93e6-16ac7f90b335@collabora.com>
-Date:   Mon, 9 Oct 2023 14:39:45 +0200
+        with ESMTP id S1346570AbjJIMpv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 08:45:51 -0400
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0DA5AC
+        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 05:45:49 -0700 (PDT)
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-1dd25fa2a2cso7291399fac.2
+        for <linux-media@vger.kernel.org>; Mon, 09 Oct 2023 05:45:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696855549; x=1697460349;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=e6OHh5e2T1GOn8WrMRABkMpowU1QNe48XcopO7VVx+0=;
+        b=cY/rsYttGtEG+BsLKbahGZt4xBD+s6crJt0SPqFBYSd+CRUEJRc2YEqRtqUZNiYRIG
+         IYigTRzui0x2nogbAb5M1z2igDexgsmmYVSYfv/KZba178sXM6VXlpLJ8/N9kmxirmVn
+         NCXQXCN4D5EnboaXTKXQCd+wHkN1UMgUiA3YHeUN56mGCMBjJQiljXBEIIFEtTH0gHed
+         /dAbJVVD6OIw23mqVYng1U1TDdQYJOlqH1+4Kp5ORVnNhUuyK6BK8EG8CXgkQTbi4E8f
+         kGPPwLpZheEjEs9AqxByRfDNtMFSlwDL/I5qCkvyUqtwPmwihW4Xufmp/wBlnu6J0RLE
+         8ADg==
+X-Gm-Message-State: AOJu0YzG1oJGmFkg/5V/HPQsJLp5cT/mj6u0NOYFB30EGPzb+yZ/rv8t
+        50pxqNtunY2nqlSaw5JXI/pTI7EOHbQ6rQgVaSBZT/G6AcKF
+X-Google-Smtp-Source: AGHT+IHLfIDXqezx5RpiSstr0BXbJV6NuaGlRH09snN7LD9fYfTg9+MjkliTUZH5p1EQLDSsmERL/Ba4EALSlraWYRgLtdW8Dp6v
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v2] media: mediatek: vcodec: Handle invalid encoder vsi
-Content-Language: en-US
-To:     Irui Wang <irui.wang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        nicolas.dufresne@collabora.com,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Maoguang Meng <maoguang.meng@mediatek.com>
-References: <20231007113347.28863-1-irui.wang@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231007113347.28863-1-irui.wang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Received: by 2002:a05:6870:3b0b:b0:1e5:f51d:ce74 with SMTP id
+ gh11-20020a0568703b0b00b001e5f51dce74mr792985oab.7.1696855548940; Mon, 09 Oct
+ 2023 05:45:48 -0700 (PDT)
+Date:   Mon, 09 Oct 2023 05:45:48 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000003ad683060747f8ca@google.com>
+Subject: [syzbot] Monthly media report (Oct 2023)
+From:   syzbot <syzbot+listdfdb213d14073f6190f9@syzkaller.appspotmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,14 +53,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 07/10/23 13:33, Irui Wang ha scritto:
-> Handle invalid encoder vsi in vpu_enc_init to ensure the encoder
-> vsi is valid for future use.
-> 
-> Fixes: 1972e32431ed ("media: mediatek: vcodec: Fix possible invalid memory access for encoder")
-> 
-> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+Hello media maintainers/developers,
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+This is a 31-day syzbot report for the media subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/media
 
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 16 issues are still open and 84 have been fixed so far.
 
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 818     Yes   general protection fault in ir_raw_event_store_with_filter
+                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
+<2> 304     Yes   KASAN: use-after-free Read in v4l2_fh_init
+                  https://syzkaller.appspot.com/bug?extid=c025d34b8eaa54c571b8
+<3> 95      Yes   WARNING in media_create_pad_link
+                  https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
+<4> 83      Yes   WARNING in smsusb_start_streaming/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=12002a39b8c60510f8fb
+<5> 51      Yes   KASAN: use-after-free Read in send_packet
+                  https://syzkaller.appspot.com/bug?extid=f1a69784f6efe748c3bf
+<6> 5       No    KASAN: slab-use-after-free Read in ir_raw_event_store
+                  https://syzkaller.appspot.com/bug?extid=3edd6754ed84dc732eee
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
