@@ -2,168 +2,336 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF1527BE2C7
-	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 16:28:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584E37BE2E2
+	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 16:33:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377018AbjJIO2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 10:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42988 "EHLO
+        id S232829AbjJIOd0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Oct 2023 10:33:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377013AbjJIO2t (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 10:28:49 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D368B9
-        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 07:28:45 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40535597f01so43288245e9.3
-        for <linux-media@vger.kernel.org>; Mon, 09 Oct 2023 07:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696861724; x=1697466524; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=a+7M0AHYNZH1mPLf3H5qQErik5p5SGAC1rjxcpWZH8Q=;
-        b=l+c3YoFwFcJqNqykycrqPEaSmpx43sIvPZ3zatFkxiQQr2/fCLWc1vG6ntQ/o5+VML
-         p5/gXPtM6Qb2ycs8IL9BD2eSqKos1bCE9tuPjcAIcXYIk5o7PAaz9iPJpBwt+yF0PuW5
-         ogJ5MhlFaBjXv453uzXIKWdMf+rgGE2pOdqwgNJGAJ7LeSNt+0aMKumCB+ogXY3yFxXa
-         OgGWmLdarA/KC6bqk5+4xy6D1edpbc6JKdHlsTjzdmusAy0lSNuVcs5yonMwL5NQQZ2S
-         fgDLY4dZRgAdsAT9wvXmUpjjSYnOsPnc2M6V/0t8FzrYi7dNMWtt4hmfWzSMjXAsm8Wn
-         CEfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696861724; x=1697466524;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a+7M0AHYNZH1mPLf3H5qQErik5p5SGAC1rjxcpWZH8Q=;
-        b=IBj4PmWYWdfdZBVvE8CjlMdpzG77qVNdVVNau4JnRNJJswucwsn2Q7lNzdUyK7Os50
-         PBXZRmuKpq2Sm5Q4kLnHxSIusnVdIA+mvp6LvzLG3Lr6dVXt2haUe9MGHTBKaOczNoIc
-         bzFqJMkhgh7hrmKx/mjIr9jec8mwyRY/+I2l+psjv57eCzvkybCY3DxHNjNqYbcnjfH5
-         E/J2MK8uhUfZX/PAMsRUCyiWSUV85a8o2PhlEOScBUH82JYdpoG/5MWD9+7j+YC59aQV
-         RBez9rnWzjr1oBKr3Gck7+qVerJ5GOXu/uAaGb+HiPC/uJzqUaSFFDYsdseeRRIt0JVq
-         +jDg==
-X-Gm-Message-State: AOJu0YzJNA2bZu0+rpkYA6utQxdQGPfibkVrlqQfhzbHnUfhXsNovZdj
-        qleUn4VmXzK/5tFBG0PrmXIw9A==
-X-Google-Smtp-Source: AGHT+IEmfetZGwgxK9GU3rc4AnA+Rg69W/SViB1yBfRKxaAx6EJEj2/DvVg+BfUFW3sO0I3KT16Naw==
-X-Received: by 2002:a05:600c:ad0:b0:406:7029:7cc3 with SMTP id c16-20020a05600c0ad000b0040670297cc3mr13247986wmr.28.1696861723411;
-        Mon, 09 Oct 2023 07:28:43 -0700 (PDT)
-Received: from [192.168.1.197] (5-157-101-10.dyn.eolo.it. [5.157.101.10])
-        by smtp.gmail.com with ESMTPSA id l34-20020a05600c1d2200b003fef5e76f2csm6791127wms.0.2023.10.09.07.28.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Oct 2023 07:28:42 -0700 (PDT)
-Message-ID: <d3f56d51-beb0-4f7a-a1f6-3ae03bbc9826@linaro.org>
-Date:   Mon, 9 Oct 2023 16:28:41 +0200
+        with ESMTP id S230317AbjJIOdZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 10:33:25 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 376A3B9;
+        Mon,  9 Oct 2023 07:33:23 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 319E9C433C8;
+        Mon,  9 Oct 2023 14:33:19 +0000 (UTC)
+Message-ID: <ff0cbd65-33ee-4a5e-acc3-0ca085eaaed4@xs4all.nl>
+Date:   Mon, 9 Oct 2023 16:33:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] dt-bindings: media: Document STM32MP25 VENC video
- encoder
-Content-Language: en-US
-To:     Hugues FRUCHET <hugues.fruchet@foss.st.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-References: <20231004091552.3531659-1-hugues.fruchet@foss.st.com>
- <20231004091552.3531659-4-hugues.fruchet@foss.st.com>
- <6bc60e4a-ddf1-4125-ba27-53ab55a553d2@linaro.org>
- <0de2ae74-2ba1-0e8d-aa7b-77806ac8b252@foss.st.com>
- <1e2a4d87-5478-4655-993d-7f404d507c82@linaro.org>
- <fa0e6187-ab7d-bc23-299c-a491c8ff1d8f@foss.st.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <fa0e6187-ab7d-bc23-299c-a491c8ff1d8f@foss.st.com>
+Subject: Re: [RFC PATCH v5 08/11] media: uapi: Add audio rate controls support
+Content-Language: en-US, nl
+To:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+        nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+        perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+References: <1695891619-32393-1-git-send-email-shengjiu.wang@nxp.com>
+ <1695891619-32393-9-git-send-email-shengjiu.wang@nxp.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <1695891619-32393-9-git-send-email-shengjiu.wang@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/10/2023 16:24, Hugues FRUCHET wrote:
-> Hi Krzysztof,
+On 28/09/2023 11:00, Shengjiu Wang wrote:
+> Audio rate controls is used for user to configure
+
+is -> are
+for -> by the
+
+> the audio sample rate to driver.
 > 
-> On 10/9/23 15:56, Krzysztof Kozlowski wrote:
->> On 09/10/2023 15:49, Hugues FRUCHET wrote:
->>> Hi Krzysztof,
->>>
->>> On 10/5/23 21:45, Krzysztof Kozlowski wrote:
->>>> On 04/10/2023 11:15, Hugues Fruchet wrote:
->>>>> Add STM32MP25 VENC video encoder bindings.
->>>>>
->>>>
->>>> I don't understand why this binding is separate from video decoder.
->>>> Merge them.
->>> VDEC and VENC are two independent IPs with their own clock, reset,
->>> interrupt & register set, they have their own access to APB/AXI bus.
->>> Moreover future chipsets may embed only VENC or VDEC.
->>>
->>> Hoping that this clarifies the reason of two different bindings.
->>
->> No, it does not. These are no reasons to have independent bindings,
->> except when having actual impact on the bindings. The bindings look
->> identical. What are the differences?
-> I'm sorry but I really don't understand your point, these are two 
-> different IPs with very different registers in it, so why should
-> I share that in a single binding ?
+> Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE
+> new ID for ASRC rate control.
 
-Because the binding is identical. If not, maybe I missed something, so
-please point me to differences in the binding.
+ID -> IDs
 
-Best regards,
-Krzysztof
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  .../userspace-api/media/v4l/common.rst        |  1 +
+>  .../media/v4l/ext-ctrls-asrc-rate.rst         | 36 +++++++++++++++++++
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 +++
+>  .../media/v4l/vidioc-queryctrl.rst            |  7 ++++
+>  .../media/videodev2.h.rst.exceptions          |  1 +
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  5 +++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 +++
+>  include/media/v4l2-ctrls.h                    |  1 +
+>  include/uapi/linux/v4l2-controls.h            | 13 +++++++
+>  include/uapi/linux/videodev2.h                |  1 +
+>  10 files changed, 73 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-asrc-rate.rst
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/common.rst b/Documentation/userspace-api/media/v4l/common.rst
+> index ea0435182e44..fe6cd7ae60e4 100644
+> --- a/Documentation/userspace-api/media/v4l/common.rst
+> +++ b/Documentation/userspace-api/media/v4l/common.rst
+> @@ -52,6 +52,7 @@ applicable to all devices.
+>      ext-ctrls-fm-rx
+>      ext-ctrls-detect
+>      ext-ctrls-colorimetry
+> +    ext-ctrls-asrc-rate
+>      fourcc
+>      format
+>      planar-apis
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-asrc-rate.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-asrc-rate.rst
+> new file mode 100644
+> index 000000000000..28bf9e1628e1
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-asrc-rate.rst
+> @@ -0,0 +1,36 @@
+> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> +
+> +.. _asrc-rate-controls:
+> +
+> +***************************
+> +ASRC RATE Control Reference
 
+RATE -> Rate
+
+> +***************************
+> +
+> +These controls is intended to support asynchronous sample
+
+is -> are
+support -> support an
+
+> +rate converter.
+> +
+> +.. _v4l2-audio-asrc:
+> +
+> +``V4L2_CID_ASRC_SOURCE_RATE``
+> +    sets the rasampler source rate.
+
+You mean 'resampler'?
+
+> +
+> +``V4L2_CID_ASRC_DEST_RATE``
+> +    sets the rasampler destination rate.
+
+Ditto
+
+> +
+> +.. c:type:: v4l2_ctrl_asrc_rate
+> +
+> +.. cssclass:: longtable
+> +
+> +.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
+> +
+> +.. flat-table:: struct v4l2_ctrl_asrc_rate
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 1 2
+> +
+> +    * - __u32
+> +      - ``rate_integer``
+> +      - integer part of sample rate.
+> +    * - __s32
+> +      - ``rate_fractional``
+> +      - fractional part of sample rate, which is Q31.
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index f9f73530a6be..93ce15330490 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -295,6 +295,10 @@ still cause this situation.
+>        - ``p_av1_film_grain``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_av1_film_grain`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_AV1_FILM_GRAIN``.
+> +    * - struct :c:type:`v4l2_ctrl_asrc_rate` *
+> +      - ``p_asrc_rate``
+> +      - A pointer to a struct :c:type:`v4l2_ctrl_asrc_rate`. Valid if this control is
+> +        of type ``V4L2_CTRL_TYPE_ASRC_RATE``.
+>      * - void *
+>        - ``ptr``
+>        - A pointer to a compound type which can be an N-dimensional array
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> index 4d38acafe8e1..8c15a0bb0fbc 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> @@ -549,6 +549,13 @@ See also the examples in :ref:`control`.
+>        - n/a
+>        - A struct :c:type:`v4l2_ctrl_av1_film_grain`, containing AV1 Film Grain
+>          parameters for stateless video decoders.
+> +    * - ``V4L2_CTRL_TYPE_ASRC_RATE``
+> +      - n/a
+> +      - n/a
+> +      - n/a
+> +      - A struct :c:type:`v4l2_ctrl_asrc_rate`, containing audio
+> +        parameters for asrc component.
+> +
+
+You relate the name of the type to the controls that use it, but I think
+the type should be about the actual value it carries. So:
+
+V4L2_CTRL_TYPE_FRACTIONAL
+
+I.e. it is the type for a fractional value and it can be used by any
+control that would need a fractional value.
+
+Note: I'm not sure if 'fractional' is the best name. Perhaps 'FIXED_POINT'
+would be better? Suggestions welcome.
+
+>  
+>  .. raw:: latex
+>  
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index e61152bb80d1..769e333a2b75 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -167,6 +167,7 @@ replace symbol V4L2_CTRL_TYPE_AV1_SEQUENCE :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AV1_FRAME :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AV1_FILM_GRAIN :c:type:`v4l2_ctrl_type`
+> +replace symbol V4L2_CTRL_TYPE_ASRC_RATE :c:type:`v4l2_ctrl_type`
+>  
+>  # V4L2 capability defines
+>  replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index a662fb60f73f..2a72779f3508 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -1168,6 +1168,8 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  		if (!area->width || !area->height)
+>  			return -EINVAL;
+>  		break;
+> +	case V4L2_CTRL_TYPE_ASRC_RATE:
+> +		break;
+>  
+>  	default:
+>  		return -EINVAL;
+> @@ -1868,6 +1870,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  	case V4L2_CTRL_TYPE_AREA:
+>  		elem_size = sizeof(struct v4l2_area);
+>  		break;
+> +	case V4L2_CTRL_TYPE_ASRC_RATE:
+> +		elem_size = sizeof(struct v4l2_ctrl_asrc_rate);
+> +		break;
+>  	default:
+>  		if (type < V4L2_CTRL_COMPOUND_TYPES)
+>  			elem_size = sizeof(s32);
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index 8696eb1cdd61..84766037db80 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1602,6 +1602,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
+>  		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
+>  		break;
+> +	case V4L2_CID_ASRC_SOURCE_RATE:
+> +	case V4L2_CID_ASRC_DEST_RATE:
+> +		*type = V4L2_CTRL_TYPE_ASRC_RATE;
+> +		break;
+>  	default:
+>  		*type = V4L2_CTRL_TYPE_INTEGER;
+>  		break;
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index 59679a42b3e7..40475965f8e4 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -89,6 +89,7 @@ union v4l2_ctrl_ptr {
+>  	struct v4l2_ctrl_av1_tile_group_entry *p_av1_tile_group_entry;
+>  	struct v4l2_ctrl_av1_frame *p_av1_frame;
+>  	struct v4l2_ctrl_av1_film_grain *p_av1_film_grain;
+> +	struct v4l2_ctrl_asrc_rate *p_asrc_rate;
+>  	void *p;
+>  	const void *p_const;
+>  };
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index c3604a0a3e30..a08be3bd5977 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -112,6 +112,8 @@ enum v4l2_colorfx {
+>  
+>  /* last CID + 1 */
+>  #define V4L2_CID_LASTP1                         (V4L2_CID_BASE+44)
+> +#define V4L2_CID_ASRC_SOURCE_RATE		(V4L2_CID_BASE + 45)
+> +#define V4L2_CID_ASRC_DEST_RATE			(V4L2_CID_BASE + 46)
+>  
+>  /* USER-class private control IDs */
+>  
+> @@ -3488,4 +3490,15 @@ struct v4l2_ctrl_av1_film_grain {
+>  #define V4L2_CID_MPEG_MFC51_BASE        V4L2_CID_CODEC_MFC51_BASE
+>  #endif
+>  
+> +/**
+> + * struct v4l2_ctrl_asrc_rate - ASRC sample rate.
+> + *
+> + * @rate_integer: integer part of rate.
+> + * @rate_fractional: fractional part of rate, most time may be zero
+> + */
+> +struct v4l2_ctrl_asrc_rate {
+> +	__u32 rate_integer;
+> +	__u32 rate_fractional;
+> +};
+> +
+>  #endif
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 3630f50eedb1..166c51f537cc 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1840,6 +1840,7 @@ struct v4l2_ext_control {
+>  		struct v4l2_ctrl_av1_tile_group_entry __user *p_av1_tile_group_entry;
+>  		struct v4l2_ctrl_av1_frame __user *p_av1_frame;
+>  		struct v4l2_ctrl_av1_film_grain __user *p_av1_film_grain;
+> +		struct v4l2_ctrl_asrc_rate __user *p_asrc_rate;
+>  		void __user *ptr;
+>  	};
+>  } __attribute__ ((packed));
+
+Regards,
+
+	Hans
