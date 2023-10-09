@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA1A77BDAA5
-	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 14:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2F1C7BDAA8
+	for <lists+linux-media@lfdr.de>; Mon,  9 Oct 2023 14:05:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346455AbjJIMFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 08:05:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53874 "EHLO
+        id S1346449AbjJIMFk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Oct 2023 08:05:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346308AbjJIMFg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 08:05:36 -0400
+        with ESMTP id S1346447AbjJIMFh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 08:05:37 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E5CA6
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB89694
         for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 05:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1696853136; x=1728389136;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=SnFvz40nTo1wWnvsvdfGJGtKxDfJKBDQfesPPQsi49I=;
-  b=htV4w8i3ZhqHBTpzQCWxLA+D89tuBp1HEYmUvO0BYb5BmHJ1y30I5E8I
-   lQqeJrQ5PN/zj70PjdXv3x1RLhnEWa7Zk/pYVilbwVkYAa7+gTeaEZi9z
-   aV485rwTeUkB4bUHumaWq9XyvngUg0Db7KcTnQs/Y3UgPUziQ/R0wvFxj
-   ds9azugmnh3y8k3EdQ6gAny3bnOr+f+HIt0W3JS6PnP/YoV8/nW7J4yJe
-   edbiZb54FabHC8CPsXpAMMJAY7fKQ0556nx3cpLHnlPCa83g01WNuGJVt
-   /kIIiBgMF/kamIQStK8HJFUGLi6nLC5mDiruGqKufwMYUJIiID2MDbRNb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="2725507"
+  bh=8unoJ2CF6b7ZuIxRpKSJzquoipvjGCHV6k77AhsjWdU=;
+  b=YN1FruR8EzptWMf5iY1EWLgDhpucPlvcE7XCzDRGBLhKDiBEFWro9Pus
+   yynmEA+jXBeH3D+z3jgL0tuAi5fwDgXjCA8StUDZV5JIHGuZ1m8DYMwIl
+   CLZVuC3mfe26UrSUEU+Y17nuP49LSmvzGP0+Yw1dtiGpdoslZ/VAEh0uu
+   Mlni+o+iu/G4vGhPkrwl98gtJFXwDzMKPk7msK6dSPVCctUN0H6NPLX/w
+   M3MlunkAJrjHYkAYPOzMNNekELZuY3a4RI5MBP+4FafFhcWIO3bzGYuhX
+   CoYQ0qS+ZC0FSwWVNLodgUTiCkIxZoc7f/L/fWOasgL157lITQ+NLFvvk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="2725509"
 X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="2725507"
+   d="scan'208";a="2725509"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 05:05:34 -0700
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 05:05:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="869216199"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="869216202"
 X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
-   d="scan'208";a="869216199"
+   d="scan'208";a="869216202"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 05:05:32 -0700
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 05:05:33 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 6C66611FC2C;
-        Mon,  9 Oct 2023 15:05:28 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 47BB01206B6;
+        Mon,  9 Oct 2023 15:05:29 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         tomi.valkeinen@ideasonboard.com
-Subject: [PATCH 2/4] media: v4l: subdev: Add a helper to tell if a sub-device state is active
-Date:   Mon,  9 Oct 2023 15:05:23 +0300
-Message-Id: <20231009120525.202957-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH 3/4] media: ccs: Rework initialising sub-device state
+Date:   Mon,  9 Oct 2023 15:05:24 +0300
+Message-Id: <20231009120525.202957-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231009120525.202957-1-sakari.ailus@linux.intel.com>
 References: <20231009120525.202957-1-sakari.ailus@linux.intel.com>
@@ -62,34 +62,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a helper called v4l2_subdev_state_whence() to return enum
-v4l2_subdev_format_whence to tell whether a state the driver is dealing with
-it active or not.
+Initialise sub-device state in init_cfg callback using ccs_propagate() to
+the extent it covers of the initialisation. This fixes a bug where the
+driver configuration was incorrectly initialised.
 
+Fixes: 4b05b1baae3e ("media: ccs: Use sub-device active state")
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- include/media/v4l2-subdev.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/i2c/ccs/ccs-core.c | 47 ++++++++++++++++++++------------
+ 1 file changed, 30 insertions(+), 17 deletions(-)
 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index ea05b70389b3..ff211b0f07ff 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1645,6 +1645,14 @@ v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
- u64 v4l2_subdev_state_xlate_streams(const struct v4l2_subdev_state *state,
- 				    u32 pad0, u32 pad1, u64 *streams);
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 2abfd5932e02..6589b0d84e06 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -2075,6 +2075,7 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
+ 	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
+ 	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
+ 	struct v4l2_rect *comp, *crops[CCS_PADS];
++	struct v4l2_mbus_framefmt *fmt;
  
-+static inline enum v4l2_subdev_format_whence
-+v4l2_subdev_state_whence(struct v4l2_subdev *sd,
-+			 struct v4l2_subdev_state *state)
-+{
-+	return sd->active_state == state ?
-+		V4L2_SUBDEV_FORMAT_ACTIVE : V4L2_SUBDEV_FORMAT_TRY;
-+}
+ 	ccs_get_crop_compose(subdev, sd_state, crops, &comp);
+ 
+@@ -2096,6 +2097,9 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
+ 		fallthrough;
+ 	case V4L2_SEL_TGT_COMPOSE:
+ 		*crops[CCS_PAD_SRC] = *comp;
++		fmt = v4l2_subdev_get_pad_format(subdev, sd_state, CCS_PAD_SRC);
++		fmt->width = comp->width;
++		fmt->height = comp->height;
+ 		if (which == V4L2_SUBDEV_FORMAT_ACTIVE && ssd == sensor->src)
+ 			sensor->src_src = *crops[CCS_PAD_SRC];
+ 		break;
+@@ -3003,31 +3007,40 @@ static int ccs_init_cfg(struct v4l2_subdev *sd,
+ {
+ 	struct ccs_subdev *ssd = to_ccs_subdev(sd);
+ 	struct ccs_sensor *sensor = ssd->sensor;
+-	unsigned int i;
++	unsigned int pad = ssd == sensor->pixel_array ?
++		CCS_PA_PAD_SRC : CCS_PAD_SINK;
++	struct v4l2_mbus_framefmt *fmt =
++		v4l2_subdev_get_pad_format(sd, sd_state, pad);
++	struct v4l2_rect *crop =
++		v4l2_subdev_get_pad_crop(sd, sd_state, pad);
+ 
+ 	mutex_lock(&sensor->mutex);
+ 
+-	for (i = 0; i < ssd->npads; i++) {
+-		struct v4l2_mbus_framefmt *fmt =
+-			v4l2_subdev_get_pad_format(sd, sd_state, i);
+-		struct v4l2_rect *crop =
+-			v4l2_subdev_get_pad_crop(sd, sd_state, i);
+-		struct v4l2_rect *comp;
+-
+-		ccs_get_native_size(ssd, crop);
++	ccs_get_native_size(ssd, crop);
+ 
+-		fmt->width = crop->width;
+-		fmt->height = crop->height;
+-		fmt->code = sensor->internal_csi_format->code;
+-		fmt->field = V4L2_FIELD_NONE;
++	fmt->width = crop->width;
++	fmt->height = crop->height;
++	fmt->code = sensor->internal_csi_format->code;
++	fmt->field = V4L2_FIELD_NONE;
+ 
+-		if (ssd == sensor->pixel_array)
+-			continue;
++	if (ssd == sensor->pixel_array) {
++		if (v4l2_subdev_state_whence(sd, sd_state) ==
++		    V4L2_SUBDEV_FORMAT_ACTIVE)
++			sensor->pa_src = *crop;
+ 
+-		comp = v4l2_subdev_get_pad_compose(sd, sd_state, i);
+-		*comp = *crop;
++		mutex_unlock(&sensor->mutex);
++		return 0;
+ 	}
+ 
++	fmt = v4l2_subdev_get_pad_format(sd, sd_state, CCS_PAD_SRC);
++	fmt->code = ssd == sensor->src ?
++		sensor->csi_format->code : sensor->internal_csi_format->code;
++	fmt->field = V4L2_FIELD_NONE;
 +
- /**
-  * enum v4l2_subdev_routing_restriction - Subdevice internal routing restrictions
-  *
++	ccs_propagate(sd, sd_state,
++		      v4l2_subdev_state_whence(sd, sd_state),
++		      V4L2_SEL_TGT_CROP);
++
+ 	mutex_unlock(&sensor->mutex);
+ 
+ 	return 0;
 -- 
 2.39.2
 
