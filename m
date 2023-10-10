@@ -2,58 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C87DC7BF1B3
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 05:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 426957BF1CC
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 06:07:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442080AbjJJDxR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 23:53:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48616 "EHLO
+        id S1442080AbjJJEG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 00:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442068AbjJJDxQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 23:53:16 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 728019D;
-        Mon,  9 Oct 2023 20:53:14 -0700 (PDT)
+        with ESMTP id S229625AbjJJEG5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Oct 2023 00:06:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C63B692;
+        Mon,  9 Oct 2023 21:06:55 -0700 (PDT)
 Received: from [IPV6:2405:201:2033:3002:3848:5d20:59c9:c87c] (unknown [IPv6:2405:201:2033:3002:3848:5d20:59c9:c87c])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 705013D6;
-        Tue, 10 Oct 2023 05:53:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4985A3D9;
+        Tue, 10 Oct 2023 06:06:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696909991;
-        bh=4Gqs0eLo+EBbzG39UcwXadyv2NlIUjuZuyQ9YKGzG5c=;
+        s=mail; t=1696910810;
+        bh=a6u/THpqVdrMY1xlWYqq7omMOY0DEDqusFhodaF7IhY=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=WVx4SFqeA/RWgByXG8dJR/FAvRgOVKCApWuj/zhn51BQ2CkvFMaTanD909h1kzVvj
-         +tHtsVQBo0M/rRIn0D5rBPDpMsb0mbUmxR9eAy8aH0et9RoYifUI4vtQqieQHWimZ3
-         Qbki7vlMRYeal+JPLp1XtdGr/shHRGGxPMFc6VoY=
-Message-ID: <4b319504-45e8-5ad6-7c7a-e503a3c98428@ideasonboard.com>
-Date:   Tue, 10 Oct 2023 09:23:02 +0530
+        b=NQqJnaec7GRwE1UllqBTRtJwI65qoVSYsDEVh/sErUROuN8gPWW0VX5gdKgKeCiq0
+         s7CVQn0PkNE38KxjmqjQPbkc8qBMrslUxhAvq8JWnaFdj9QPTqjhyf4W29cCrE35g5
+         8MrL9AZmynsVmVF3QXvbmL5cOMynwSGx4zA2x0G8=
+Message-ID: <b9eb03cd-41b3-7d1c-d8c0-fb4fc98af8e1@ideasonboard.com>
+Date:   Tue, 10 Oct 2023 09:36:45 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 1/5] media: dt-bindings: media: imx335: Add supply
- bindings
+Subject: Re: [PATCH 2/5] media: i2c: imx335: Enable regulator supplies
 Content-Language: en-US
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     "Paul J. Murphy" <paul.j.murphy@intel.com>,
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
         Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
         open list <linux-kernel@vger.kernel.org>
 References: <20231010005126.3425444-1-kieran.bingham@ideasonboard.com>
- <20231010005126.3425444-2-kieran.bingham@ideasonboard.com>
+ <20231010005126.3425444-3-kieran.bingham@ideasonboard.com>
 From:   Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20231010005126.3425444-2-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20231010005126.3425444-3-kieran.bingham@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
@@ -66,60 +57,109 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Kieran,
 
-Thank you for the patch
+Thank you for the patch.
 
 On 10/10/23 6:21 AM, Kieran Bingham wrote:
-> Add the bindings for the supply references used on the IMX335.
+> Provide support for enabling and disabling regulator supplies to control
+> power to the camera sensor.
 >
 > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
-LGTM,
-
-Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-
 > ---
->   .../bindings/media/i2c/sony,imx335.yaml          | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
+>   drivers/media/i2c/imx335.c | 41 ++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 39 insertions(+), 2 deletions(-)
 >
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> index a167dcdb3a32..1863b5608a5c 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> @@ -32,6 +32,15 @@ properties:
->       description: Clock frequency from 6 to 27 MHz, 37.125MHz, 74.25MHz
->       maxItems: 1
+> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+> index ec729126274b..bf12b9b69fce 100644
+> --- a/drivers/media/i2c/imx335.c
+> +++ b/drivers/media/i2c/imx335.c
+> @@ -75,6 +75,19 @@ struct imx335_reg_list {
+>   	const struct imx335_reg *regs;
+>   };
 >   
-> +  avdd-supply:
-> +    description: Analog power supply (2.9V)
+> +static const char * const imx335_supply_name[] = {
+> +	/*
+> +	 * Turn on the power supplies so that they rise in order of
+> +	 *           1.2v,-> 1.8 -> 2.9v
+> +	 * All power supplies should finish rising within 200ms.
+> +	 */
+> +	"avdd", /* Analog (2.9V) supply */
+> +	"ovdd", /* Digital I/O (1.8V) supply */
+> +	"dvdd", /* Digital Core (1.2V) supply */
+> +};
 > +
-> +  ovdd-supply:
-> +    description: Interface power supply (1.8V)
+> +#define IMX335_NUM_SUPPLIES ARRAY_SIZE(imx335_supply_name)
 > +
-> +  dvdd-supply:
-> +    description: Digital power supply (1.2V)
+>   /**
+>    * struct imx335_mode - imx335 sensor mode structure
+>    * @width: Frame width
+> @@ -126,6 +139,8 @@ struct imx335 {
+>   	struct v4l2_subdev sd;
+>   	struct media_pad pad;
+>   	struct gpio_desc *reset_gpio;
+> +	struct regulator_bulk_data supplies[IMX335_NUM_SUPPLIES];
 > +
->     reset-gpios:
->       description: Reference to the GPIO connected to the XCLR pin, if any.
->       maxItems: 1
-> @@ -60,6 +69,9 @@ required:
->     - compatible
->     - reg
->     - clocks
-> +  - avdd-supply
-> +  - ovdd-supply
-> +  - dvdd-supply
->     - port
+>   	struct clk *inclk;
+>   	struct v4l2_ctrl_handler ctrl_handler;
+>   	struct v4l2_ctrl *link_freq_ctrl;
+> @@ -781,6 +796,17 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
+>   		return PTR_ERR(imx335->reset_gpio);
+>   	}
 >   
->   additionalProperties: false
-> @@ -79,6 +91,10 @@ examples:
->               assigned-clock-parents = <&imx335_clk_parent>;
->               assigned-clock-rates = <24000000>;
->   
-> +            avdd-supply = <&camera_vdda_2v9>;
-> +            ovdd-supply = <&camera_vddo_1v8>;
-> +            dvdd-supply = <&camera_vddd_1v2>;
+> +	for (i = 0; i < IMX335_NUM_SUPPLIES; i++)
+> +		imx335->supplies[i].supply = imx335_supply_name[i];
 > +
->               port {
->                   imx335: endpoint {
->                       remote-endpoint = <&cam>;
+> +	ret = devm_regulator_bulk_get(imx335->dev,
+> +				      IMX335_NUM_SUPPLIES,
+> +				      imx335->supplies);
+
+Shouldn't this go directly in  probe() function ? (Taking IMX219 driver 
+as a reference..)
+> +	if (ret) {
+> +		dev_err(imx335->dev, "Failed to get regulators\n");
+> +		return ret;
+> +	}
+> +
+>   	/* Get sensor input clock */
+>   	imx335->inclk = devm_clk_get(imx335->dev, NULL);
+>   	if (IS_ERR(imx335->inclk)) {
+> @@ -859,6 +885,17 @@ static int imx335_power_on(struct device *dev)
+>   	struct imx335 *imx335 = to_imx335(sd);
+>   	int ret;
+>   
+> +	ret = regulator_bulk_enable(IMX335_NUM_SUPPLIES,
+> +				    imx335->supplies);
+> +	if (ret) {
+> +		dev_err(dev, "%s: failed to enable regulators\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	usleep_range(500, 550); /* Tlow */
+> +
+> +	/* Set XCLR */
+>   	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
+>   
+>   	ret = clk_prepare_enable(imx335->inclk);
+> @@ -867,7 +904,7 @@ static int imx335_power_on(struct device *dev)
+>   		goto error_reset;
+>   	}
+>   
+> -	usleep_range(20, 22);
+> +	usleep_range(20, 22); /* T4 */
+
+It would be help to document this addition of comment in the commit 
+message as well.
+>   
+>   	return 0;
+>   
+> @@ -889,8 +926,8 @@ static int imx335_power_off(struct device *dev)
+>   	struct imx335 *imx335 = to_imx335(sd);
+>   
+>   	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
+> -
+>   	clk_disable_unprepare(imx335->inclk);
+> +	regulator_bulk_disable(IMX335_NUM_SUPPLIES, imx335->supplies);
+>   
+>   	return 0;
+>   }
 
