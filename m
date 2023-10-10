@@ -2,184 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7D8A7BF2CE
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 08:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABC4B7BF331
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 08:39:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442201AbjJJGOT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 02:14:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57538 "EHLO
+        id S1442242AbjJJGj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 02:39:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442156AbjJJGOT (ORCPT
+        with ESMTP id S1442233AbjJJGjz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 02:14:19 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 209D89D;
-        Mon,  9 Oct 2023 23:14:18 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (185-9-11-240.cust.suomicom.net [185.9.11.240])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4S4QbC4GQQz49Q4j;
-        Tue, 10 Oct 2023 09:14:10 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1696918456;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sFJA2tqBva7PfHLrqbPQpWk8J1xI2ifThc/jSVknM30=;
-        b=LEQEOuZ22wnylwJfycQOeMFFEitnTTUtOeu+j+9HY/XkS/F6dB7FEzj1ohkHON/63X+8/G
-        0BlhYet6me0PJoIIRcVI6r2JV5M1a3yNnkIcMkLyD7ILqv2vXmb3F68EoOeme/tUGKiPSZ
-        Ilz9T64hYiY2FBk0AAgomvaFX8UUlJLYASa/S9sGXZo3lBjDkuT4cm4abkei4MDn1KOVIT
-        Vlz/tFxo1qWnFR/WnxqSlfg51uTNdpfSxrVxFqI2wh+QNp5c1CdPsYLS2jku3v2E1EaKvv
-        saH5XjKtsPDo21swY3v4cjEgblhVFT2yDekAgYIExJyEAQmiHKsTMCzTD3qhQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1696918456;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sFJA2tqBva7PfHLrqbPQpWk8J1xI2ifThc/jSVknM30=;
-        b=An4EF1s1kZt0Ec+ZUPBAc5bjnHnNAORVUTKA6uLJtM9sGBGTn1UeLd5JjBZdEQK64Ufjf9
-        2V71Q2Ix2/vINsgxwLdsj4trUUDuBDeUQWphOGOHFaTvYJLKN4Zx3gJXYYN1fHTGkw0ptt
-        Z2Y/Hl9RRvmcl5pbILtTv1GQJJPqsHN6eKk6pRcNcYPdiZfrzQciKFdvmDgWECQW6LLmb3
-        I/V+4J9QgzRpcZqXA0y/wcBE3Uo9+NwtUdkfvTxip3qXfPHaPJwEBgRkOFFJVAT0lyjfhb
-        5ae6+4HNXk2e+phPup8ZpzsxB+RQP4kyorNVfe+6K2OmxGHEGaUpOmWAdcihkQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1696918456; a=rsa-sha256;
-        cv=none;
-        b=fTyi4ddZZtv+5Nk8ev1t6KOkXVbGbyrxTz9STwh34enumJErbfnqIoXKA0NHNwPhnbBJ3V
-        QGmHI0EiuKTzHnbEWcyUp+NQve/vOxz3Z5tXpdA3uX20wruMYVHfGzo48IRyusNr7O0I6O
-        WeVTPmxfyW9IMi6f7mHvF1FPUS9ac8sUXoqMnqXsM9YUV+aV28CFZj+/XRZTBC1gTvQV5+
-        5Rf7J5B16bzFSswvrfDdeH4OtTa8Ql0y1+vE+mm8NJHPPNnPIO3Is7UJMWeNEEWFfQbQDR
-        n36R56PHxFwRXMyOnC2wWr5O6t6vs4f/wpmWPbTjmcrNVDL6huLj++neZ3qFsg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id EA3E4634CA9;
-        Tue, 10 Oct 2023 09:14:09 +0300 (EEST)
-Date:   Tue, 10 Oct 2023 06:14:09 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 3/5] media: i2c: imx335: Implement get selection API
-Message-ID: <ZSTrse7OeKIA+k2t@valkosipuli.retiisi.eu>
-References: <20231010005126.3425444-1-kieran.bingham@ideasonboard.com>
- <20231010005126.3425444-4-kieran.bingham@ideasonboard.com>
+        Tue, 10 Oct 2023 02:39:55 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7038B97
+        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 23:39:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696919994; x=1728455994;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WfDMlglrJiRnCIfKNosg+mcrpxnAK861x3J4NTBNF/U=;
+  b=ZU8gMnBcf74OCdofyU+Edv/QnB1+ehuAoLKqOOkHx/1sejCin/RhvACc
+   oiQRaGAEHy07LCmcPpquKDGG8onPVcJDFVjvSMUSOzppfOg2nSJpYjxGU
+   obCfXAvW0ke9lNi8B59JXqIxitlPlF2MZpxs+KVstPqw6zv3iyLSIH02v
+   gEdiwkc+AEHDb5n5wyWkOWfgBBtvn3J5AS+ntRZMnGfUorb6OOs1KJHz+
+   bz6AxAcjUWLcDTSAkrOtc0D8MtkW+9JM3nUFWv5CBN9miFC2gb/PoiBa1
+   JTOVmXPJC4RnWmF0Tqb7MYWybzrfTNFHM0eOyNQGtBITMLCDDLK/CsWDN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="369390503"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
+   d="scan'208";a="369390503"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 23:39:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1000558329"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
+   d="scan'208";a="1000558329"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 23:39:52 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 9A25111F8DE;
+        Tue, 10 Oct 2023 09:39:49 +0300 (EEST)
+Date:   Tue, 10 Oct 2023 06:39:49 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 7/9] media: i2c: tc358746: check fmt validity
+Message-ID: <ZSTxtRAXdaUwTUjN@kekkonen.localdomain>
+References: <cover.1696586632.git.hverkuil-cisco@xs4all.nl>
+ <b4a9369bf923c0a3b90cf0e8ccee8ee2178403fc.1696586632.git.hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231010005126.3425444-4-kieran.bingham@ideasonboard.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <b4a9369bf923c0a3b90cf0e8ccee8ee2178403fc.1696586632.git.hverkuil-cisco@xs4all.nl>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Hi Hans,
 
-On Tue, Oct 10, 2023 at 01:51:24AM +0100, Kieran Bingham wrote:
-> Support reporting of the Sensor Native and Active pixel array areas
-> through the Selection API.
+On Fri, Oct 06, 2023 at 12:08:48PM +0200, Hans Verkuil wrote:
+> Check if the format was really found.
 > 
-> The implementation reports a single target crop only for the mode that
-> is presently exposed by the driver.
+> Fixes smatch warning:
 > 
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
-Shouldn't you use the same callback for .set_selection? I guess this is
-somewhat grey area but doing so would be in line with how V4L2 API works in
-general.
-
-Cc Laurent.
-
+> drivers/media/i2c/tc358746.c:790 tc358746_set_fmt() error: 'fmt' dereferencing possible ERR_PTR()
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/i2c/imx335.c | 44 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 44 insertions(+)
+>  drivers/media/i2c/tc358746.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> index bf12b9b69fce..026777eb362e 100644
-> --- a/drivers/media/i2c/imx335.c
-> +++ b/drivers/media/i2c/imx335.c
-> @@ -55,6 +55,14 @@
->  #define IMX335_REG_MIN		0x00
->  #define IMX335_REG_MAX		0xfffff
+> diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
+> index 566f5eaddd57..ce612a47ba84 100644
+> --- a/drivers/media/i2c/tc358746.c
+> +++ b/drivers/media/i2c/tc358746.c
+> @@ -784,8 +784,12 @@ static int tc358746_set_fmt(struct v4l2_subdev *sd,
+>  	sink_fmt = v4l2_subdev_get_pad_format(sd, sd_state, TC358746_SINK);
 >  
-> +/* IMX335 native and active pixel array size. */
-> +#define IMX335_NATIVE_WIDTH		2616U
-> +#define IMX335_NATIVE_HEIGHT		1964U
-> +#define IMX335_PIXEL_ARRAY_LEFT		12U
-> +#define IMX335_PIXEL_ARRAY_TOP		12U
-> +#define IMX335_PIXEL_ARRAY_WIDTH	2592U
-> +#define IMX335_PIXEL_ARRAY_HEIGHT	1944U
-> +
->  /**
->   * struct imx335_reg - imx335 sensor register
->   * @address: Register address
-> @@ -651,6 +659,41 @@ static int imx335_init_pad_cfg(struct v4l2_subdev *sd,
->  	return imx335_set_pad_format(sd, sd_state, &fmt);
->  }
->  
-> +/**
-> + * imx335_get_selection() - Selection API
-> + * @sd: pointer to imx335 V4L2 sub-device structure
-> + * @sd_state: V4L2 sub-device configuration
-> + * @sel: V4L2 selection info
-> + *
-> + * Return: 0 if successful, error code otherwise.
-> + */
-> +static int imx335_get_selection(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_selection *sel)
-> +{
-> +	switch (sel->target) {
-> +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> +		sel->r.top = 0;
-> +		sel->r.left = 0;
-> +		sel->r.width = IMX335_NATIVE_WIDTH;
-> +		sel->r.height = IMX335_NATIVE_HEIGHT;
-> +
-> +		return 0;
-> +
-> +	case V4L2_SEL_TGT_CROP:
-> +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> +		sel->r.top = IMX335_PIXEL_ARRAY_TOP;
-> +		sel->r.left = IMX335_PIXEL_ARRAY_LEFT;
-> +		sel->r.width = IMX335_PIXEL_ARRAY_WIDTH;
-> +		sel->r.height = IMX335_PIXEL_ARRAY_HEIGHT;
-> +
-> +		return 0;
+>  	fmt = tc358746_get_format_by_code(format->pad, format->format.code);
+> -	if (IS_ERR(fmt))
+> +	if (IS_ERR(fmt)) {
+>  		fmt = tc358746_get_format_by_code(format->pad, tc358746_def_fmt.code);
+> +		// Can't happen, but just in case...
+
+/* ... */
+
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+> +		if (WARN_ON(IS_ERR(fmt)))
+> +			return -EINVAL;
 > +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
->  /**
->   * imx335_start_streaming() - Start sensor stream
->   * @imx335: pointer to imx335 device
-> @@ -864,6 +907,7 @@ static const struct v4l2_subdev_pad_ops imx335_pad_ops = {
->  	.init_cfg = imx335_init_pad_cfg,
->  	.enum_mbus_code = imx335_enum_mbus_code,
->  	.enum_frame_size = imx335_enum_frame_size,
-> +	.get_selection = imx335_get_selection,
->  	.get_fmt = imx335_get_pad_format,
->  	.set_fmt = imx335_set_pad_format,
->  };
+>  
+>  	format->format.code = fmt->code;
+>  	format->format.field = V4L2_FIELD_NONE;
+> -- 
+> 2.40.1
+> 
 
 -- 
-Regards,
-
 Sakari Ailus
