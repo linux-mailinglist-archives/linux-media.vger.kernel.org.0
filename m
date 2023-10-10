@@ -2,111 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 587647BFA5E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 13:52:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF17E7BFAF5
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 14:16:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231384AbjJJLw3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 07:52:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59136 "EHLO
+        id S231607AbjJJMQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 08:16:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231421AbjJJLw2 (ORCPT
+        with ESMTP id S231246AbjJJMQa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 07:52:28 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D38B4
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 04:52:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64A17C433C7;
-        Tue, 10 Oct 2023 11:52:24 +0000 (UTC)
-Message-ID: <c9157c41-a890-4542-bdad-9e193dcbb833@xs4all.nl>
-Date:   Tue, 10 Oct 2023 13:52:21 +0200
+        Tue, 10 Oct 2023 08:16:30 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2D3E94
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 05:16:27 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-9a645e54806so939498266b.0
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 05:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696940186; x=1697544986; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nndtjHuMt0cf145zyVj0vZGF/G3X++LPFZ51I696qiM=;
+        b=NZZcyXTG6Zx9ltg87ezUNKF4wfdB3C4rTzl+1aA3PX8AprsYgjY/mqCcMaxhxQBvrS
+         4K8LAIYFQywW9wdhVr80NkRmBx80CGvk8wCczvO/BepRBLBXt+ybRHQ9TbNyZZPu2U9Y
+         iL3saGwWdSlIrP/Bx2NrVJUhe0tmdE0LnW2L+6InLWvSx/Pv5IGhER6ZrZnTzOqO0pHR
+         Rb/otAayBVUmO2rhjv+8DgThDAwUQqCC0Pt3ZzgPWpDY3J4tsnedpaW1QuzIeTgrLruj
+         zrJJe4suzD2AbT5JYQafYJP1UYFxRcDHXq8vI6jBs9dcnRDs9KO5nonyL35PBMFU7/zb
+         kDjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696940186; x=1697544986;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nndtjHuMt0cf145zyVj0vZGF/G3X++LPFZ51I696qiM=;
+        b=pANOEdod6Okdd1F9+9jwoH+oK8KfOC8YVZmJu/hdenobr0O3vtkDoRdJ35dgH5uZsQ
+         8Uqdtg5WqzusEvF/tQreY9uHso77BUzYdrznhC4/jEYXS887BANYx2wbuT3SeknF1aoc
+         vPUfLC94sA/PyfxFYZ3gKX6G3pFMh/aZvqFdQPPYsrDvaTvsSzwU3Xwk58P6SUreNo8F
+         xzWdySzrbTbF2cCYxZyWdJQnjId76VjZcQ7yjbTIADYjrNt8/AsEIFKjvQPxcBFrVED0
+         b+xs/6mf2en3JKLsrkLQeFkk1qy9u7ca9ia7gU8YO+DgI4PZ8CIuf3Q2wUwtRJIqi3pa
+         t+8A==
+X-Gm-Message-State: AOJu0YwNolwj6Iq0zsmSuW1vfK9K32p+BTkA1nOJ8BXgY9yiscDq5KZ6
+        fdbxCDXkLVEo8hEuE/ZZIPRkIA==
+X-Google-Smtp-Source: AGHT+IGvbaphCGmTo8kI0FKFqK44m2tAKrLMU9877yBSznrJMtpCLD2SsXe+zSRMlWY5bELacdHCPw==
+X-Received: by 2002:a17:907:7711:b0:9b2:a96c:9290 with SMTP id kw17-20020a170907771100b009b2a96c9290mr15848525ejc.33.1696940186336;
+        Tue, 10 Oct 2023 05:16:26 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id k16-20020a1709062a5000b0099315454e76sm8293803eje.211.2023.10.10.05.16.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Oct 2023 05:16:25 -0700 (PDT)
+Message-ID: <50662394-0da1-49ce-a519-c0b963d19e54@baylibre.com>
+Date:   Tue, 10 Oct 2023 14:16:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: subdev: Don't report V4L2_SUBDEV_CAP_STREAMS when
- the streams API is disabled
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: mediatek: Add phandle to
+ mediatek,scp on MDP3 RDMA
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, mchehab@kernel.org
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, matthias.bgg@gmail.com, moudy.ho@mediatek.com,
+        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
+        u.kleine-koenig@pengutronix.de, linqiheng@huawei.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, kernel@collabora.com,
+        wenst@chromium.org
+References: <20231005104905.120544-1-angelogioacchino.delregno@collabora.com>
+ <20231005104905.120544-2-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Dennis Bonke <admin@dennisbonke.com>,
-        tomi.valkeinen@ideasonboard.com
-References: <20231010102458.111227-1-hdegoede@redhat.com>
- <ZSU6ZFKS5QkFJgZw@kekkonen.localdomain>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <ZSU6ZFKS5QkFJgZw@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20231005104905.120544-2-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/10/23 13:49, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Tue, Oct 10, 2023 at 12:24:58PM +0200, Hans de Goede wrote:
->> Since the stream API is still experimental it is currently locked away
->> behind the internal, default disabled, v4l2_subdev_enable_streams_api flag.
->>
->> Advertising V4L2_SUBDEV_CAP_STREAMS when the streams API is disabled
->> confuses userspace. E.g. it causes the following libcamera error:
->>
->> ERROR SimplePipeline simple.cpp:1497 Failed to reset routes for
->>   /dev/v4l-subdev1: Inappropriate ioctl for device
->>
->> Don't report V4L2_SUBDEV_CAP_STREAMS when the streams API is disabled
->> to avoid problems like this.
->>
->> Reported-by: Dennis Bonke <admin@dennisbonke.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->> -Clearing the V4L2_SUBDEV_FL_STREAMS flag from sd.flags might seem
->>  appealing as an alternative fix. But this causes various v4l2-core bits
->>  to enter different code paths which confuses drivers which set
->>  V4L2_SUBDEV_FL_STREAMS, so this is a bad idea.
-> 
-> Thanks, this apparently had been missed while disabling the API.
-> 
-> Probably also should be added:
-> 
-> Fixes: 9a6b5bf4c1bb ("media: add V4L2_SUBDEV_CAP_STREAMS")
-> Cc: stable@vger.kernel.org # for >= 6.3
-> 
-> Also cc'd Tomi.
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-Should this be queued up as a 6.6 fix?
+On 05/10/2023 12:49, AngeloGioacchino Del Regno wrote:
+> The MDP3 RDMA needs to communicate with the SCP remote processor: allow 
+> specifying a phandle to a SCP core.
 
+-- 
 Regards,
-
-	Hans V.
-
-> 
->> -No Closes: for the Reported-by since this was reported by private email
->> ---
->>  drivers/media/v4l2-core/v4l2-subdev.c | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index b92348ad61f6..31752c06d1f0 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -502,6 +502,13 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>  				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
->>  	int rval;
->>  
->> +	/*
->> +	 * If the streams API is not enabled, remove V4L2_SUBDEV_CAP_STREAMS.
->> +	 * Remove this when the API is no longer experimental.
->> +	 */
->> +	if (!v4l2_subdev_enable_streams_api)
->> +		streams_subdev = false;
->> +
->>  	switch (cmd) {
->>  	case VIDIOC_SUBDEV_QUERYCAP: {
->>  		struct v4l2_subdev_capability *cap = arg;
-> 
-
+Alexandre
