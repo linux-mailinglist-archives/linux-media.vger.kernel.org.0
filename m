@@ -2,102 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED1377C04DC
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 21:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 689FF7C04E6
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 21:47:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234287AbjJJTod (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 15:44:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58018 "EHLO
+        id S1343602AbjJJTrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 15:47:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230442AbjJJToc (ORCPT
+        with ESMTP id S234287AbjJJTrG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 15:44:32 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFBDF8E;
-        Tue, 10 Oct 2023 12:44:31 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B770EC433C8;
-        Tue, 10 Oct 2023 19:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696967071;
-        bh=3C++hF0g2xnKijtFMR04daPdF8gMLF1v7H3LnvxMEhg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t7KrsoMcqOmJb1MuzJxoEBEyUaRciAvWD61supcifUDsRdoYMEPuVEuFWTABqJ541
-         jxulDs09PYKpUgBhJUj/eA4O0OoR1ai2BuCNy7vlrAdO/kUfSa4q6wu2zEYJ87lUVm
-         CsCbcawg9RiP8bY55Tu1sO3CjpZ5hDeWlgK5y4LvP32ngvGyio3Q3o0yJoiCUDCLvg
-         z2b4RgpuRZTpxo1dfk7931Jl8D4VHhgcJcoeWIegFeRjdd656UDokKnZ+3ERDpDOzs
-         dOk98eBpG9v1IiTiyFmBb12OLpEOa0axyhkB8nsfEBV8h5brrzZSx6WPc4deYS46k7
-         g2yP0X3R631ww==
-Date:   Tue, 10 Oct 2023 21:44:27 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        loic.poulain@linaro.org, rfoss@kernel.org, andi.shyti@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] dt-bindings: i2c: qcom-cci: Document sc8280xp
- compatible
-Message-ID: <ZSWpm/7xnoFkUn31@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org,
-        loic.poulain@linaro.org, rfoss@kernel.org, andi.shyti@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20231006120159.3413789-1-bryan.odonoghue@linaro.org>
- <20231006120159.3413789-2-bryan.odonoghue@linaro.org>
+        Tue, 10 Oct 2023 15:47:06 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D918E94;
+        Tue, 10 Oct 2023 12:47:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696967224; x=1728503224;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VPrHXiQm5RWmzzSVo8j3cx+9+CzFPY38DEadQdbhtyk=;
+  b=bVmA5KCuI4r9UWMM5uGgyyx2F7VJlQJLuadnfAAhbgqN3wKOwGFkX2KZ
+   BRUwxfT34A3FMIvurzu0dKSbtdTMlTAGtqRXkXYUldRMgyfjS8WkJnjYa
+   8hDyzjym6LM5Hd5rsWMnro5adPtLUb0MlHjra0xiNdt/dzClsCoDEfXM7
+   j2zzxmBDsFS6FSTLfMWtzN2Jb0oKZuyOKEgNeCkwpDID6oMavZDT+naFU
+   U4Ugo9aVwXZn5Ga6tYtw+DfO6jMa17+hnOlxWUJk+Ndyq4tiqBSZcBB39
+   n1uQaPLKsDOzeUdgkSpf8DK2q7snwzcWWRjqwbJ6/w2B+OoCJvQ5EDpNO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="381744444"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
+   d="scan'208";a="381744444"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 12:47:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="897330864"
+X-IronPort-AV: E=Sophos;i="6.03,213,1694761200"; 
+   d="scan'208";a="897330864"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Oct 2023 12:45:17 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qqIgp-0000zo-1T;
+        Tue, 10 Oct 2023 19:46:50 +0000
+Date:   Wed, 11 Oct 2023 03:45:10 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+        maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
+        Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: Re: [PATCH v7 2/3] media: rockchip: Add a driver for Rockhip's
+ camera interface
+Message-ID: <202310110303.xXSwhz1o-lkp@intel.com>
+References: <d5f301fe2b72f90aff357b3b6b4de77939f5248d.1696943295.git.mehdi.djait@bootlin.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="t6Aj+rePpll//Dod"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231006120159.3413789-2-bryan.odonoghue@linaro.org>
+In-Reply-To: <d5f301fe2b72f90aff357b3b6b4de77939f5248d.1696943295.git.mehdi.djait@bootlin.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Mehdi,
 
---t6Aj+rePpll//Dod
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Fri, Oct 06, 2023 at 01:01:55PM +0100, Bryan O'Donoghue wrote:
-> Add sc8280xp compatible consistent with recent CAMSS CCI interfaces.
->=20
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on linus/master v6.6-rc5 next-20231010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Applied to for-next, thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Mehdi-Djait/media-dt-bindings-media-add-bindings-for-Rockchip-VIP/20231010-211703
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/d5f301fe2b72f90aff357b3b6b4de77939f5248d.1696943295.git.mehdi.djait%40bootlin.com
+patch subject: [PATCH v7 2/3] media: rockchip: Add a driver for Rockhip's camera interface
+config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20231011/202310110303.xXSwhz1o-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310110303.xXSwhz1o-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310110303.xXSwhz1o-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/platform/rockchip/vip/capture.c: In function 'rk_vip_irq_pingpong':
+>> drivers/media/platform/rockchip/vip/capture.c:1134:13: warning: unused variable 'ret' [-Wunused-variable]
+    1134 |         int ret;
+         |             ^~~
 
 
---t6Aj+rePpll//Dod
-Content-Type: application/pgp-signature; name="signature.asc"
+vim +/ret +1134 drivers/media/platform/rockchip/vip/capture.c
 
------BEGIN PGP SIGNATURE-----
+  1127	
+  1128	irqreturn_t rk_vip_irq_pingpong(int irq, void *ctx)
+  1129	{
+  1130		struct device *dev = ctx;
+  1131		struct rk_vip_device *vip_dev = dev_get_drvdata(dev);
+  1132		struct rk_vip_stream *stream = &vip_dev->stream;
+  1133		void __iomem *base = vip_dev->base_addr;
+> 1134		int ret;
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUlqZsACgkQFA3kzBSg
-KbYxYRAAr7+ppZOIsAJ24eXrV+W6sJDcUrxv7CSK9IjgX4II8QHuJJPwGW1iUeax
-LOgmBQcvDP2hQKG3oaAWcpn0UWly1ny4n6iHLyMK9EDiKIPkXVr64G5sfN/iDRjL
-U6lSb5ZRpO9uYvVu7+vFU9JmCoO5p53JnQpdkvZpy89wT8ylMST/Dx/ZHMYr6ySj
-s7TsBNizXBo0UXSUYjpXekq7NZHIP124/wK+LWUx3AXq7fnlGsksCAoQen27G05F
-U5bIPxhJuNvO4U/1g1xNZFHsOwI6Gb2Jk/dpNmik4YJ7jaiUfzK3QXuH0Yge/vxK
-JsWIdmMRMz31UTSePtq49Gd4Q2PFo92fti+TUVzZhkawhgi8jL6aX6u1Z93PMeqv
-NnHgVT4ziqKqCCHQQU11CcGcjNaepfawOlWSebqTI1oDk9Z5XAMRyxU0tGVAYQtB
-BKiPvnUeQ0kHGhoyfb4V5d3Q5ue9l12aJ2/PAMH2F5w3Q3m25dgRteW0IAT8OuZc
-TjxNWAbtDh6I3ZxgfBHR9XR8kdkBHgxv7h/6lYh3fxdUPPPnLHrADCURVscownI7
-tJy7FNISwe1O6yHfge2FnzUOFAspZAUL9VBMPU0fL5Z4w5NxTIxPs5tQsDfJQmxj
-zAnfTpMqoVsvt05mGusYWetkr00c3RiNG3Yp4P8V0zIGDWH7TS4=
-=jtu3
------END PGP SIGNATURE-----
-
---t6Aj+rePpll//Dod--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
