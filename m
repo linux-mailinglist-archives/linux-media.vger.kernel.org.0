@@ -2,108 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E596D7BFE76
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 15:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FBC17BFE54
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 15:47:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232878AbjJJNwu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 09:52:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52134 "EHLO
+        id S232733AbjJJNri (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 09:47:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232663AbjJJNwl (ORCPT
+        with ESMTP id S232580AbjJJNr1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 09:52:41 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CEF726BA;
-        Tue, 10 Oct 2023 06:45:18 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6969b391791so3880912b3a.3;
-        Tue, 10 Oct 2023 06:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696945517; x=1697550317; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8l2RdI3GFEPsUV4izDgB+ReS+fUuBzrkfgodsUfx59E=;
-        b=NEZaRF6XdarTyqq7WhTh6Ppmj3rHgDi3u42y0blJQvIp6q9r5inkGCvDUZGKAdwFxB
-         6b4Raag+FyX9wSDgjGX/gpnDxVvZxGxvBueAQMrgDm27a8LOV4m7xjIXU4WYxkXaSH5s
-         H7/v6ASKspCPgVc7aJcyBssNtzSgWby8Aj5TNoZjo259Hjx1JVig/QfRkOBJZEc9fw0I
-         t6E863ANh+LMGgPjbuu8xm8DOITRV7dpc1MZYLBFW0tMjwg92Tf2lkdnFM2MxhMoCfHT
-         3yh6lFnaVFD7A7v/QeCZKsnsmvmfRX4MqfgBpFhnxEGopoHmIEfHD/K/7wbcJBXpM8Wv
-         Vrmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696945517; x=1697550317;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:sender:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=8l2RdI3GFEPsUV4izDgB+ReS+fUuBzrkfgodsUfx59E=;
-        b=WUvauxw2JQxzwpexGR8MIo90ujj3+kQLnuhwShnyMUlgbevhd8me99v81Zwutg+ezZ
-         ZWigJp+Drmhk5hpdWGaP4TYrLqCYrzu/TnZcxn7rVdpTodJ8mdKeU5HPKLq7T75bCSpR
-         ms8s6NZW+EQqVkYsXFJDNLBLbZh9/oQJxOP0xWA7ySd7X/PHOuo6miIVpowbu6sWipdB
-         zEgUChUSv9BrkyRyBs6/LKvd3ZsZM/Svm49xsIeqp8A0DLyWdhB7s92+LqFTZDCL8Yze
-         jvlGQpzToZnGkbpMJGWr3saZnvWKFqqYnk0pFkw/bSONGRAUtbxAfaNasOK7v6jw5eyc
-         yoKg==
-X-Gm-Message-State: AOJu0YwZ6vjynDnCqesrGeZX8/4tGK/Wdl9COKH0H43vMuCTYAq2BXdk
-        ppXaW+4iJczjO47iCSHiHbA=
-X-Google-Smtp-Source: AGHT+IFXY9oUPaVxKEnn6g6JYYGtzSzrMoSdMofrv/KTOwLE9fLvIeTEWiBIFB3Tz8IdPnDmUMrc6Q==
-X-Received: by 2002:a05:6a20:2451:b0:14d:5580:8ff0 with SMTP id t17-20020a056a20245100b0014d55808ff0mr18099934pzc.25.1696945517276;
-        Tue, 10 Oct 2023 06:45:17 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j6-20020aa783c6000000b0068ffb8da107sm8231769pfn.212.2023.10.10.06.45.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 06:45:16 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 10 Oct 2023 06:45:15 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Wolfram Sang <wsa@kernel.org>,
-        Lakshmi Yadlapati <lakshmiy@us.ibm.com>,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        jdelvare@suse.com, joel@jms.id.au, andrew@aj.id.au,
-        eajames@linux.ibm.com, ninad@linux.ibm.com,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1 0/2] [PATCH] hwmon: (pmbus/max31785) Add minimum delay
- between bus accesses
-Message-ID: <1284830f-025e-4e25-8ed0-50a6cc00d223@roeck-us.net>
-References: <20231009211420.3454026-1-lakshmiy@us.ibm.com>
- <ZSUaDIfWmEn5edrE@shikoro>
+        Tue, 10 Oct 2023 09:47:27 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB58CD55
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 06:47:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B62CC433C7
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 13:47:23 +0000 (UTC)
+Message-ID: <658f107c-551e-49d8-aec9-54592a8690ef@xs4all.nl>
+Date:   Tue, 10 Oct 2023 15:47:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZSUaDIfWmEn5edrE@shikoro>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media: cec: core: count low-drive, error and arb-lost
+ conditions
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 11:31:56AM +0200, Wolfram Sang wrote:
-> Hi,
-> 
-> thanks for this series!
-> 
-> > Reference to Andrew's previous proposal:
-> > https://lore.kernel.org/all/20200914122811.3295678-1-andrew@aj.id.au/
-> 
-> I do totally agree with Guenter's comment[1], though. This just affects
-> a few drivers and this patch is way too intrusive for the I2C core. The
-> later suggested prepare_device() callback[2] sounds better to me. I
-> still haven't fully understood why this all cannot be handled in the
-> driver's probe. Could someone give me a small summary about that?
-> 
+Count how many Low Drive, Error and Arbitration Lost transmit
+status errors occurred, and expose that in debugfs.
 
-Lots of PMBus devices have the same problem, we have always handled
-it in PMBus drivers by implementing local wait code, and your references
-point that out. What other summary are you looking for ?
+Useful to debug HDMI cable issues.
 
-On a side note, if anyone plans to implement the prepare_device() callback,
-please make sure that it covers all requirements. It would be unfortunate
-if such a callback was implemented if that would still require per-driver
-code (besides the callback).
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+index 09ca83c23329..ab24fc043f60 100644
+--- a/drivers/media/cec/core/cec-adap.c
++++ b/drivers/media/cec/core/cec-adap.c
+@@ -511,7 +511,7 @@ int cec_thread_func(void *_adap)
+ 				pr_warn("cec-%s: transmit timed out\n", adap->name);
+ 			}
+ 			adap->transmit_in_progress = false;
+-			adap->tx_timeouts++;
++			adap->tx_timeout_cnt++;
+ 			goto unlock;
+ 		}
 
-Thanks,
-Guenter
+@@ -625,6 +625,10 @@ void cec_transmit_done_ts(struct cec_adapter *adap, u8 status,
+ 	msg->tx_low_drive_cnt += low_drive_cnt;
+ 	msg->tx_error_cnt += error_cnt;
+
++	adap->tx_arb_lost_cnt += arb_lost_cnt;
++	adap->tx_low_drive_cnt += low_drive_cnt;
++	adap->tx_error_cnt += error_cnt;
++
+ 	/* Mark that we're done with this transmit */
+ 	adap->transmitting = NULL;
+
+@@ -2260,10 +2264,25 @@ int cec_adap_status(struct seq_file *file, void *priv)
+ 	if (adap->monitor_pin_cnt)
+ 		seq_printf(file, "file handles in Monitor Pin mode: %u\n",
+ 			   adap->monitor_pin_cnt);
+-	if (adap->tx_timeouts) {
+-		seq_printf(file, "transmit timeouts: %u\n",
+-			   adap->tx_timeouts);
+-		adap->tx_timeouts = 0;
++	if (adap->tx_timeout_cnt) {
++		seq_printf(file, "transmit timeout count: %u\n",
++			   adap->tx_timeout_cnt);
++		adap->tx_timeout_cnt = 0;
++	}
++	if (adap->tx_low_drive_cnt) {
++		seq_printf(file, "transmit low drive count: %u\n",
++			   adap->tx_low_drive_cnt);
++		adap->tx_low_drive_cnt = 0;
++	}
++	if (adap->tx_arb_lost_cnt) {
++		seq_printf(file, "transmit arbitration lost count: %u\n",
++			   adap->tx_arb_lost_cnt);
++		adap->tx_arb_lost_cnt = 0;
++	}
++	if (adap->tx_error_cnt) {
++		seq_printf(file, "transmit error count: %u\n",
++			   adap->tx_error_cnt);
++		adap->tx_error_cnt = 0;
+ 	}
+ 	data = adap->transmitting;
+ 	if (data)
+diff --git a/include/media/cec.h b/include/media/cec.h
+index 53e4b2eb2b26..2e5da283cc09 100644
+--- a/include/media/cec.h
++++ b/include/media/cec.h
+@@ -262,7 +262,10 @@ struct cec_adapter {
+ 	struct cec_log_addrs log_addrs;
+ 	struct cec_connector_info conn_info;
+
+-	u32 tx_timeouts;
++	u32 tx_timeout_cnt;
++	u32 tx_low_drive_cnt;
++	u32 tx_error_cnt;
++	u32 tx_arb_lost_cnt;
+
+ #ifdef CONFIG_CEC_NOTIFIER
+ 	struct cec_notifier *notifier;
