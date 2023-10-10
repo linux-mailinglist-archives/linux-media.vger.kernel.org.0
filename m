@@ -2,84 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA6CA7BF2C1
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 08:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ABB07BF2C9
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 08:12:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442192AbjJJGGj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 02:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38004 "EHLO
+        id S1442201AbjJJGM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 02:12:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376502AbjJJGGi (ORCPT
+        with ESMTP id S1442156AbjJJGM1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 02:06:38 -0400
+        Tue, 10 Oct 2023 02:12:27 -0400
+X-Greylist: delayed 347 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 09 Oct 2023 23:12:22 PDT
 Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AAFEAC;
-        Mon,  9 Oct 2023 23:06:35 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (185-9-11-240.cust.suomicom.net [185.9.11.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26041B0;
+        Mon,  9 Oct 2023 23:12:22 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163d.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163d])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4S4QQF6XLFzyWn;
-        Tue, 10 Oct 2023 09:06:27 +0300 (EEST)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4S4QXz3C4nzyWn;
+        Tue, 10 Oct 2023 09:12:09 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1696917992;
+        t=1696918339;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=6+kUZ8PXCIiQYOaRsg+lVPSGx1V+n4P7FYahLIA1VgI=;
-        b=uocPHBA/W+9y9OmEAhXzwnDc7SwM2UNcMhHAm7jezccmUryQGIVWTGCSdsIIC66FSF2AMu
-        A8CPTEyVV/NHfw/SUFpq0L9G6kEpclmdarioAtmlQ0JW5KTNDa1O6ufGr5xCWQBRK6YK72
-        95jfvYgfTPKYaD9K6Pw6VHinSvAqUrk=
+        bh=XuMIcU8cZvU0jZEP/BNe7LPcBPMAKzlOUZkaZJUYjtI=;
+        b=NJl5giuUzCG4Ku92wHfREsnir3US0FQ0HpE+6qjTjfsoW3tP8fuBpFZedO0+9jkxcOD89k
+        htnlWd3aHs/6xBDFSESObrhER1KQ5laaq/hrHe8IrfFWnNs/RDi3J+7m51XDNDcYevhNxM
+        Oay+fyJPJ65uyhE2Hyiv0gL+0byFDnw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1696917992;
+        s=meesny; t=1696918339;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=6+kUZ8PXCIiQYOaRsg+lVPSGx1V+n4P7FYahLIA1VgI=;
-        b=U5f3RTcaItTeIklJyU8l0HnyinZmbgSvEWtXI4hnWsl+Tl6kEWaehe7NLPuVLcd0i+sHd4
-        IK8Pwx8xeChPgYNQpJfj+f3oy6lB2w1Su8vV59U9tGOpuOAglr52Ppq0w9MHBBTGDYEgLZ
-        a0GMXLj0KZpZzKFKFYMLweiMnA7SZOk=
+        bh=XuMIcU8cZvU0jZEP/BNe7LPcBPMAKzlOUZkaZJUYjtI=;
+        b=egiMaw3kzxckyRstS8g7T1uT5eABEm0ZHU5IJ2g4mwK6HAdnR4gnGkA1mMiQfs3Xto2cDO
+        wIYKsxIDcCEBtppuPiN21Tlx6/HpjWu119w6dOoAJcRNI2A2uyWezzHOYdSBydXdoEHpfD
+        8HsqAlt7hefyQvPHxvzbrGczi+wBTqM=
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1696917992; a=rsa-sha256; cv=none;
-        b=ZE2Miv8CLD5pyxxx5ZKzlNxzBn58XYlXP9DA/0AyzO8qxiJEWKwNl/KfhvzxdeLvNQfzbk
-        JoOppgcivP5Atrq11q6CSJ6rMZOFPq4Tq/K6qqpO6Y/sOGJeJ/t0Vbupukv1nBuduUv2e6
-        9KfyfLdVS5sAz5ciGouNRf0Op+rplhY=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1696918339; a=rsa-sha256; cv=none;
+        b=XSefguaJ+zDIvDnCsD8PE9y8DwNenrZuxp+M04F1rd3jXV7aWhzzsGv9gj1sMxX5bPQCSH
+        8+GQ/Xf4k8ooDJ1ONGci26litC2xx/PcbTTwWg6r2JwrYdQ8dybt17SE8rrTPoQ9iEA7Hy
+        qMxtwwcd/jLMP3YrVjPjLi1XxYlfoMA=
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7A300634CBD;
-        Tue, 10 Oct 2023 09:06:26 +0300 (EEST)
-Date:   Tue, 10 Oct 2023 06:06:26 +0000
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0F723634CA9;
+        Tue, 10 Oct 2023 09:12:09 +0300 (EEST)
+Date:   Tue, 10 Oct 2023 06:12:08 +0000
 From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         "Paul J. Murphy" <paul.j.murphy@intel.com>,
         Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
         open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/5] media: dt-bindings: media: imx335: Add supply
- bindings
-Message-ID: <ZSTp4jXKPVrbo5oU@valkosipuli.retiisi.eu>
+Subject: Re: [PATCH 2/5] media: i2c: imx335: Enable regulator supplies
+Message-ID: <ZSTrOB10pDhJq6gG@valkosipuli.retiisi.eu>
 References: <20231010005126.3425444-1-kieran.bingham@ideasonboard.com>
- <20231010005126.3425444-2-kieran.bingham@ideasonboard.com>
+ <20231010005126.3425444-3-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231010005126.3425444-2-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20231010005126.3425444-3-kieran.bingham@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -91,65 +82,111 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Kieran,
 
-On Tue, Oct 10, 2023 at 01:51:22AM +0100, Kieran Bingham wrote:
-> Add the bindings for the supply references used on the IMX335.
+On Tue, Oct 10, 2023 at 01:51:23AM +0100, Kieran Bingham wrote:
+> Provide support for enabling and disabling regulator supplies to control
+> power to the camera sensor.
 > 
 > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 > ---
->  .../bindings/media/i2c/sony,imx335.yaml          | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  drivers/media/i2c/imx335.c | 41 ++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 39 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> index a167dcdb3a32..1863b5608a5c 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> @@ -32,6 +32,15 @@ properties:
->      description: Clock frequency from 6 to 27 MHz, 37.125MHz, 74.25MHz
->      maxItems: 1
+> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+> index ec729126274b..bf12b9b69fce 100644
+> --- a/drivers/media/i2c/imx335.c
+> +++ b/drivers/media/i2c/imx335.c
+> @@ -75,6 +75,19 @@ struct imx335_reg_list {
+>  	const struct imx335_reg *regs;
+>  };
 >  
-> +  avdd-supply:
-> +    description: Analog power supply (2.9V)
-> +
-> +  ovdd-supply:
-> +    description: Interface power supply (1.8V)
-> +
-> +  dvdd-supply:
-> +    description: Digital power supply (1.2V)
+> +static const char * const imx335_supply_name[] = {
+> +	/*
+> +	 * Turn on the power supplies so that they rise in order of
+> +	 *           1.2v,-> 1.8 -> 2.9v
 
-I wonder what's the policy in this case --- some of the regulators are
-often hard-wired and the bindings didn't have them previously either (I
-wonder why, maybe they were all hard wired in the board??).
+This won't happen with regulator_bulk_enable(). Does the spec require this?
 
-Could they be optional? The driver will need to be able to do without these
-in any case.
-
+> +	 * All power supplies should finish rising within 200ms.
+> +	 */
+> +	"avdd", /* Analog (2.9V) supply */
+> +	"ovdd", /* Digital I/O (1.8V) supply */
+> +	"dvdd", /* Digital Core (1.2V) supply */
+> +};
 > +
->    reset-gpios:
->      description: Reference to the GPIO connected to the XCLR pin, if any.
->      maxItems: 1
-> @@ -60,6 +69,9 @@ required:
->    - compatible
->    - reg
->    - clocks
-> +  - avdd-supply
-> +  - ovdd-supply
-> +  - dvdd-supply
->    - port
+> +#define IMX335_NUM_SUPPLIES ARRAY_SIZE(imx335_supply_name)
+> +
+>  /**
+>   * struct imx335_mode - imx335 sensor mode structure
+>   * @width: Frame width
+> @@ -126,6 +139,8 @@ struct imx335 {
+>  	struct v4l2_subdev sd;
+>  	struct media_pad pad;
+>  	struct gpio_desc *reset_gpio;
+> +	struct regulator_bulk_data supplies[IMX335_NUM_SUPPLIES];
+> +
+>  	struct clk *inclk;
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	struct v4l2_ctrl *link_freq_ctrl;
+> @@ -781,6 +796,17 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
+>  		return PTR_ERR(imx335->reset_gpio);
+>  	}
 >  
->  additionalProperties: false
-> @@ -79,6 +91,10 @@ examples:
->              assigned-clock-parents = <&imx335_clk_parent>;
->              assigned-clock-rates = <24000000>;
->  
-> +            avdd-supply = <&camera_vdda_2v9>;
-> +            ovdd-supply = <&camera_vddo_1v8>;
-> +            dvdd-supply = <&camera_vddd_1v2>;
+> +	for (i = 0; i < IMX335_NUM_SUPPLIES; i++)
+> +		imx335->supplies[i].supply = imx335_supply_name[i];
 > +
->              port {
->                  imx335: endpoint {
->                      remote-endpoint = <&cam>;
+> +	ret = devm_regulator_bulk_get(imx335->dev,
+> +				      IMX335_NUM_SUPPLIES,
+> +				      imx335->supplies);
+> +	if (ret) {
+> +		dev_err(imx335->dev, "Failed to get regulators\n");
+> +		return ret;
+> +	}
+> +
+>  	/* Get sensor input clock */
+>  	imx335->inclk = devm_clk_get(imx335->dev, NULL);
+>  	if (IS_ERR(imx335->inclk)) {
+> @@ -859,6 +885,17 @@ static int imx335_power_on(struct device *dev)
+>  	struct imx335 *imx335 = to_imx335(sd);
+>  	int ret;
+>  
+> +	ret = regulator_bulk_enable(IMX335_NUM_SUPPLIES,
+> +				    imx335->supplies);
+> +	if (ret) {
+> +		dev_err(dev, "%s: failed to enable regulators\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	usleep_range(500, 550); /* Tlow */
+
+You're not handling the error case later on in the function.
+
+> +
+> +	/* Set XCLR */
+>  	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
+>  
+>  	ret = clk_prepare_enable(imx335->inclk);
+> @@ -867,7 +904,7 @@ static int imx335_power_on(struct device *dev)
+>  		goto error_reset;
+>  	}
+>  
+> -	usleep_range(20, 22);
+> +	usleep_range(20, 22); /* T4 */
+>  
+>  	return 0;
+>  
+> @@ -889,8 +926,8 @@ static int imx335_power_off(struct device *dev)
+>  	struct imx335 *imx335 = to_imx335(sd);
+>  
+>  	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
+> -
+>  	clk_disable_unprepare(imx335->inclk);
+> +	regulator_bulk_disable(IMX335_NUM_SUPPLIES, imx335->supplies);
+>  
+>  	return 0;
+>  }
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
