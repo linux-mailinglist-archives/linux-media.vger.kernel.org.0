@@ -2,51 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0DE87BFD16
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 15:15:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8CB57BFD96
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 15:35:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232073AbjJJNP1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 09:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52878 "EHLO
+        id S232190AbjJJNfb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 09:35:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232029AbjJJNPY (ORCPT
+        with ESMTP id S231897AbjJJNfa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 09:15:24 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FEC1C6;
-        Tue, 10 Oct 2023 06:15:22 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5A1EE60011;
-        Tue, 10 Oct 2023 13:15:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1696943721;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5U2Vlzghfoo774zsU4ZxMClCDoCsWFp/EPSf+mUw5k4=;
-        b=UJJa9QrqKBM5NanrUl5aH4Kr/HzvZeuv2Z6kAU5cuVYtX/lINlw9jS7gRkTTlKCmz+N+gW
-        9bD/PnT7l/7EXc17Gx9PAHTtrlq7uLnd+LfPbQfHH9VP3jrzj4WFI7fWK1ogOv3gSONIcc
-        2NY3t+MTAQfJEmtXLcca84OEPZJKCgqcYCtQxtO+fxTnwnXGsi9tMjxezCYj+hF045nGNH
-        Vd0CU2EFBQvF5dZwjhGudCQWJWIoUjXomL7xmAUmVp5VLQyNeFHYhc1JMUCxp1WFoQ4Yoj
-        HFRjabeYbE0DX1T11SL0Oq7jeUuQI9fpnG/AGN7k6kGEU6fGqmEqLgbYRWUegg==
-From:   Mehdi Djait <mehdi.djait@bootlin.com>
-To:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
-        paul.kocialkowski@bootlin.com,
-        Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: [PATCH v7 3/3] arm64: dts: rockchip: Add the camera interface
-Date:   Tue, 10 Oct 2023 15:15:06 +0200
-Message-ID: <9bc15dee2d2e0f66b98a8aff7adacc9b22dc845c.1696943295.git.mehdi.djait@bootlin.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <cover.1696943295.git.mehdi.djait@bootlin.com>
-References: <cover.1696943295.git.mehdi.djait@bootlin.com>
+        Tue, 10 Oct 2023 09:35:30 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93DA4CC
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 06:35:26 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1B8A3D6;
+        Tue, 10 Oct 2023 15:35:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1696944921;
+        bh=uJi/Jy9Bl8nP9sI0N/MntCYtUXrJ09EOaQZeTKBDV30=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=foMzobtTqXs0D+elHHyiB00P4SbL3G13vuRJ/TNGftdV2Ef58t84lQPiWa1z3QWyA
+         Tm4w7QRi8d43MSiihMOAyaHOfHfAS2NX4Nv3czvenVNqTxOM6sDhHiu3pyBks0aYoi
+         Spvwt6jpmhbU0IbgVMBbUMZkle2pv9g+DmpIIQ/w=
+Date:   Tue, 10 Oct 2023 16:35:29 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Dennis Bonke <admin@dennisbonke.com>
+Subject: Re: [PATCH] media: subdev: Don't report V4L2_SUBDEV_CAP_STREAMS when
+ the streams API is disabled
+Message-ID: <20231010133529.GO5121@pendragon.ideasonboard.com>
+References: <20231010102458.111227-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: mehdi.djait@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231010102458.111227-1-hdegoede@redhat.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -57,37 +49,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The PX30 has a camera interface, supporting CSI2 and BT656
-modes. Add a DT description for this interface.
+Hi Hans,
 
-Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
----
- arch/arm64/boot/dts/rockchip/px30.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Thank you for the patch.
 
-diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
-index 42ce78beb413..7aaa88a15d07 100644
---- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-@@ -1281,6 +1281,18 @@ isp_mmu: iommu@ff4a8000 {
- 		#iommu-cells = <0>;
- 	};
- 
-+	vip: vip@ff490000 {
-+		compatible = "rockchip,px30-vip";
-+		reg = <0x0 0xff490000 0x0 0x200>;
-+		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
-+		clock-names = "aclk", "hclk", "pclk";
-+		power-domains = <&power PX30_PD_VI>;
-+		resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
-+		reset-names = "axi", "ahb", "pclkin";
-+		status = "disabled";
-+	};
-+
- 	qos_gmac: qos@ff518000 {
- 		compatible = "rockchip,px30-qos", "syscon";
- 		reg = <0x0 0xff518000 0x0 0x20>;
+On Tue, Oct 10, 2023 at 12:24:58PM +0200, Hans de Goede wrote:
+> Since the stream API is still experimental it is currently locked away
+> behind the internal, default disabled, v4l2_subdev_enable_streams_api flag.
+> 
+> Advertising V4L2_SUBDEV_CAP_STREAMS when the streams API is disabled
+> confuses userspace. E.g. it causes the following libcamera error:
+> 
+> ERROR SimplePipeline simple.cpp:1497 Failed to reset routes for
+>   /dev/v4l-subdev1: Inappropriate ioctl for device
+> 
+> Don't report V4L2_SUBDEV_CAP_STREAMS when the streams API is disabled
+> to avoid problems like this.
+> 
+> Reported-by: Dennis Bonke <admin@dennisbonke.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> -Clearing the V4L2_SUBDEV_FL_STREAMS flag from sd.flags might seem
+>  appealing as an alternative fix. But this causes various v4l2-core bits
+>  to enter different code paths which confuses drivers which set
+>  V4L2_SUBDEV_FL_STREAMS, so this is a bad idea.
+> -No Closes: for the Reported-by since this was reported by private email
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index b92348ad61f6..31752c06d1f0 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -502,6 +502,13 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+>  	int rval;
+>  
+> +	/*
+> +	 * If the streams API is not enabled, remove V4L2_SUBDEV_CAP_STREAMS.
+> +	 * Remove this when the API is no longer experimental.
+> +	 */
+> +	if (!v4l2_subdev_enable_streams_api)
+> +		streams_subdev = false;
+> +
+>  	switch (cmd) {
+>  	case VIDIOC_SUBDEV_QUERYCAP: {
+>  		struct v4l2_subdev_capability *cap = arg;
+
 -- 
-2.41.0
+Regards,
 
+Laurent Pinchart
