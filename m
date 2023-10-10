@@ -2,169 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C647BF576
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 10:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 582877BF5B1
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 10:25:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442525AbjJJIQv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 04:16:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44258 "EHLO
+        id S1442837AbjJJIZ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 04:25:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379437AbjJJIQu (ORCPT
+        with ESMTP id S1442775AbjJJIZR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 04:16:50 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B28F97
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 01:16:49 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4063bfc6c03so181095e9.0
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 01:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696925807; x=1697530607; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n68TBGRMFs7Ast0Ek6d2Qt/Bdc98t4wFTnApyxWWodI=;
-        b=YY3hbrVKYLNGJgRquY+/QHGCjq1cJdStbpCfgF54d6ZDcvzD+3ALdSBNJLMrAqittB
-         luiGWjIik1TLaWhpfYdLVuEU/tjL3M/VaCU2w8XfiP/hb7jnaEArG7FTvfpiDV8w5We1
-         GFKqleGfs+9BAHZdBHGtbaEs1cdmJNDCA2jmuWQVZ3zSFi/uOoq6Et0Cj2pMqIA614Es
-         s2KVivTJHbdBiLs85Y0jApBmZc5UKI/EmuJnHfVEt5Ntxpe1bhU1r3XOwCCU4pVTxCMO
-         a9mkb0ypmtvrsngYjwXZsXo9ttbufPb6KWuoz6nJgChxECbDMyrh1g9q2t7G774FpbsV
-         Tzuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696925807; x=1697530607;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n68TBGRMFs7Ast0Ek6d2Qt/Bdc98t4wFTnApyxWWodI=;
-        b=MzCt9hpDfIPnIEMD7OHN1g+MiOMm9cISzfBTE8ds6Ps+Vx032MNFV81xMz5Esq4DTn
-         WL/Kim+8W7xCbJqkRSm8Y06j22KvXZMHgurjPwQW+AQcvUUHTlxVTFxaTvNf+EARktrz
-         oR6kX1zyqjgm5dvktBGl1RN5+ubuUZ1uH3Jm3QQqdnpSTCrUzaqdCx710XeMnXbaeCp1
-         raMyBaDL+qYnRF54rbHMitbbFYtE74KwVWMlY7ilF81zhU6ocYxAinGcuoDKWw4S6Azk
-         fAC6VKBV2FXPch7l0MQTP3/fbcCVlCDFV3FrXCCMiqLl84j9rvH+aCOTK5PxkYVHC58u
-         mcPg==
-X-Gm-Message-State: AOJu0YwAMw5yH8jCI7bmEnQj1Rblfg8Th1frkRB61CxDr33fjQBunDDX
-        plYtrMNfyphlv06WSJeK7fWtEnqV2iFp4NPs4HSKtA==
-X-Google-Smtp-Source: AGHT+IH1j3vrNdbyuwEgPSZYARWUbRvpCjZ59Brb3e2QmiD54cuBa47AO53yQg/K7NZYmRy+5InqcMmqtV/0t7MTJdI=
-X-Received: by 2002:a05:600c:188f:b0:3f7:3e85:36a with SMTP id
- x15-20020a05600c188f00b003f73e85036amr426352wmp.7.1696925807363; Tue, 10 Oct
- 2023 01:16:47 -0700 (PDT)
+        Tue, 10 Oct 2023 04:25:17 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41E9CA4;
+        Tue, 10 Oct 2023 01:25:14 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39A8HQdY012470;
+        Tue, 10 Oct 2023 10:24:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding:content-type; s=selector1; bh=/58iszK
+        xT8/2aQ+luwFtIdDmKUdoz4QGYZXzaU173K8=; b=XqYMpbDbZwnz+PXe9q9askN
+        1Bbj0VS3GTF8rSBS9RQiQjx0dvsuZU4OV3rjYIdM14sXv+rGtZi6aZNQilOyVNl/
+        guCLbxwEdIkSCRRISCCs9HmXcjCZXbiuoyUwPRQoLi1iRoWpitEG3Ti952wOAzpD
+        KU65GLtmJP9ArCs300EWXmTnOogQn0zcP/VRVOIvltPHW+9C46QQJfJQMsx01cv2
+        NPFbbJFjGZrT83O1T8z99T0OA8lWFIbj6LKVfv2yobtVDwtezFV9NDlEOpaVrmnE
+        GSncMN3QZ4BeA418xvKDnF3irWgIClE7+1Pc4LERWbvsScuysmGJ6gsOqWtS9VA=
+        =
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3tkhjg8tf4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 10 Oct 2023 10:24:44 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A2AAA10005A;
+        Tue, 10 Oct 2023 10:24:42 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BDD66218617;
+        Tue, 10 Oct 2023 10:24:42 +0200 (CEST)
+Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 10 Oct
+ 2023 10:24:42 +0200
+From:   Alain Volmat <alain.volmat@foss.st.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dan Scally <dan.scally@ideasonboard.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 0/5] Add support for DCMIPP camera interface of STMicroelectronics STM32 SoC series
+Date:   Tue, 10 Oct 2023 10:24:00 +0200
+Message-ID: <20231010082413.1717919-1-alain.volmat@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20231010022136.1504015-1-yunkec@google.com> <20231010022136.1504015-8-yunkec@google.com>
- <4f13e0e5-3650-4f81-9c14-367d4f46ecf7@xs4all.nl>
-In-Reply-To: <4f13e0e5-3650-4f81-9c14-367d4f46ecf7@xs4all.nl>
-From:   Yunke Cao <yunkec@google.com>
-Date:   Tue, 10 Oct 2023 17:16:35 +0900
-Message-ID: <CANqU6FddYka1V9mwnbh+RsFZe2335-2GtQ0acfm1p+HeFxhznA@mail.gmail.com>
-Subject: Re: [PATCH v13 07/11] media: vivid: Add an rectangle control
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-10_04,2023-10-09_01,2023-05-22_02
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 5:05=E2=80=AFPM Hans Verkuil <hverkuil-cisco@xs4all=
-.nl> wrote:
->
-> On 10/10/23 04:21, Yunke Cao wrote:
-> > This control represents a generic read/write rectangle.
-> > It supports V4L2_CTRL_WHICH_MIN/MAX_VAL.
->
-> No SOB!
+This patchset introduces support for Digital Camera Memory Interface
+Pixel Processor (DCMIPP) of STMicroelectronics STM32 SoC series.
 
-Oops.. Thanks for catching it!
+This initial support implements a single capture pipe
+allowing RGB565, YUV, Y, RAW8 and JPEG capture with
+frame skipping, prescaling and cropping.
 
-Yunke
+DCMIPP is exposed through 3 subdevices:
+- dcmipp_dump_parallel: parallel interface handling
+- dcmipp_dump_postproc: frame skipping, prescaling and cropping control
+- dcmipp_dump_capture: video device capture node
 
->
-> With that added:
->
-> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->
-> Regards,
->
->         Hans
->
-> > ---
-> >  .../media/test-drivers/vivid/vivid-ctrls.c    | 34 +++++++++++++++++++
-> >  1 file changed, 34 insertions(+)
-> >
-> > diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/m=
-edia/test-drivers/vivid/vivid-ctrls.c
-> > index f2b20e25a7a4..27a1173c7734 100644
-> > --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> > +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> > @@ -38,6 +38,7 @@
-> >  #define VIVID_CID_U8_PIXEL_ARRAY     (VIVID_CID_CUSTOM_BASE + 14)
-> >  #define VIVID_CID_S32_ARRAY          (VIVID_CID_CUSTOM_BASE + 15)
-> >  #define VIVID_CID_S64_ARRAY          (VIVID_CID_CUSTOM_BASE + 16)
-> > +#define VIVID_CID_RECT                       (VIVID_CID_CUSTOM_BASE + =
-17)
-> >
-> >  #define VIVID_CID_VIVID_BASE         (0x00f00000 | 0xf000)
-> >  #define VIVID_CID_VIVID_CLASS                (0x00f00000 | 1)
-> > @@ -357,6 +358,38 @@ static const struct v4l2_ctrl_config vivid_ctrl_ro=
-_int32 =3D {
-> >       .step =3D 1,
-> >  };
-> >
-> > +static const struct v4l2_rect rect_def =3D {
-> > +     .top =3D 100,
-> > +     .left =3D 200,
-> > +     .width =3D 300,
-> > +     .height =3D 400,
-> > +};
-> > +
-> > +static const struct v4l2_rect rect_min =3D {
-> > +     .top =3D 0,
-> > +     .left =3D 0,
-> > +     .width =3D 1,
-> > +     .height =3D 1,
-> > +};
-> > +
-> > +static const struct v4l2_rect rect_max =3D {
-> > +     .top =3D 0,
-> > +     .left =3D 0,
-> > +     .width =3D 1000,
-> > +     .height =3D 2000,
-> > +};
-> > +
-> > +static const struct v4l2_ctrl_config vivid_ctrl_rect =3D {
-> > +     .ops =3D &vivid_user_gen_ctrl_ops,
-> > +     .id =3D VIVID_CID_RECT,
-> > +     .name =3D "Rect",
-> > +     .type =3D V4L2_CTRL_TYPE_RECT,
-> > +     .flags =3D V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX,
-> > +     .p_def.p_const =3D &rect_def,
-> > +     .p_min.p_const =3D &rect_min,
-> > +     .p_max.p_const =3D &rect_max,
-> > +};
-> > +
-> >  /* Framebuffer Controls */
-> >
-> >  static int vivid_fb_s_ctrl(struct v4l2_ctrl *ctrl)
-> > @@ -1677,6 +1710,7 @@ int vivid_create_controls(struct vivid_dev *dev, =
-bool show_ccs_cap,
-> >       dev->int_menu =3D v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_=
-int_menu, NULL);
-> >       dev->ro_int32 =3D v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_=
-ro_int32, NULL);
-> >       v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
-> > +     v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_rect, NULL);
-> >       v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
-> >       v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NUL=
-L);
-> >       v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
->
+v5:
+  - removal of dcmipp_frame_size & dcmipp_frame_stride and use
+    v4l2_fill_pixfmt
+  - correct typos & avoid check of available buffer at start_streaming
+    time since this is done by vb2 framework
+  - avoid set of pad format in dcmipp_par_ent_init and
+    dcmipp_byteproc_ent_init since done via init_cfg
+  - reorder bound functions
+  - use v4l2_subdev_get_fmt in parallel and byteproc subdevs
+  - correct struct dcmipp_ent_device comments
+  - removal of dcmipp_hdw_pixel_alignment in bytecap subdev since not
+    applicable in this byte mode pipeline
+
+v4:
+  - rework of mutex / spinlock handling
+  - addition of dma mask setting
+  - removal of __maybe_unused, use pm_ptr and new declaration macros
+  - driver now only generate a single stm32-dcmipp.ko module instead of
+    several as before
+  - removal of the component framework usage
+  - various small fixes (function names, lowercase values, indentation,
+    print formats)
+  - register name removal in register access function, only dev_dbg with
+    address & values are kept
+  - removal of VB2_READ and CAP_READWRITE
+  - usage of subdev active state mechanism and removal of locally stored
+    format/compose/crop
+  - addition of port { } within the stm32mp135.dtsi
+
+v3:
+  - Have same To & Cc in all patches emails of the serie so that everybody
+    has coherent view of the serie
+  - bindings: correct wording, clock-names & label removal
+  - driver: replace of_graph call with fwnode_graph
+  - driver: use defined bus-type when calling v4l2_fwnode_endpoint_parse
+  - driver: remove clock name
+  - dtsi: remove clock-names property
+
+v2:
+  - removal of pclk-max-frequency from yaml example dts
+  - codying-style fixes
+  - correction in enum functions (format, mbus, frame_size ...) handling
+  - drop of v4l2_pipeline_pm_ calls, and specific open/close handler of
+    vdev
+  - video dev s_stream handling updated to call s_stream of remote subdev
+    instead of loop until sensor subdev
+  - code update following media_pipeline & v4l2_async_ api changes since v1
+  - removal of IP reset call upon error
+  - removal of link_validate handlers
+  - addition of V4L2_CAP_IO_MC device_caps
+  - removal of the frame skip control for the time being, will be added
+    back in another commit once control method will be agreed
+  - change byteproc entity type to MEDIA_ENT_F_PROC_VIDEO_SCALER
+  - various fixes from Dan & Sakari remarks
+
+Alain Volmat (2):
+  dt-bindings: media: add bindings for stm32 dcmipp
+  media: MAINTAINERS: add entry for STM32 DCMIPP driver
+
+Hugues Fruchet (3):
+  media: stm32-dcmipp: STM32 DCMIPP camera interface driver
+  ARM: dts: stm32: add dcmipp support to stm32mp135
+  ARM: multi_v7_defconfig: enable STM32 DCMIPP media support
+
+ .../bindings/media/st,stm32-dcmipp.yaml       |  89 ++
+ MAINTAINERS                                   |   5 +-
+ arch/arm/boot/dts/st/stm32mp135.dtsi          |  11 +
+ arch/arm/configs/multi_v7_defconfig           |   1 +
+ drivers/media/platform/st/stm32/Kconfig       |  15 +
+ drivers/media/platform/st/stm32/Makefile      |   1 +
+ .../platform/st/stm32/stm32-dcmipp/Makefile   |   4 +
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c    | 916 ++++++++++++++++++
+ .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c   | 555 +++++++++++
+ .../st/stm32/stm32-dcmipp/dcmipp-common.c     | 106 ++
+ .../st/stm32/stm32-dcmipp/dcmipp-common.h     | 216 +++++
+ .../st/stm32/stm32-dcmipp/dcmipp-core.c       | 603 ++++++++++++
+ .../st/stm32/stm32-dcmipp/dcmipp-parallel.c   | 441 +++++++++
+ 13 files changed, 2962 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/Makefile
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.h
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c
+
+-- 
+2.25.1
+
