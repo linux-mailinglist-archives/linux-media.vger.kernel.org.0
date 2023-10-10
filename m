@@ -2,238 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A7B87BF53A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 10:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08A007BF541
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 10:05:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442694AbjJJIDt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 04:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51924 "EHLO
+        id S234637AbjJJIFZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 04:05:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442660AbjJJIDr (ORCPT
+        with ESMTP id S234631AbjJJIFY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 04:03:47 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC01CB4
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 01:03:44 -0700 (PDT)
-Received: from [192.168.88.20] (91-157-153-81.elisa-laajakaista.fi [91.157.153.81])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD0073D9;
-        Tue, 10 Oct 2023 10:03:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696925021;
-        bh=0poxKzCbcMOfICSQoTUWJZymGq+Rg1QI9wvbDZxcP5I=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=dVXRzLoNUDGjDTWpOopzL+oWmFHoO0kZogehDAa+X5dDdhOUCryYY0m3caPdn7aDV
-         leLMILU0NgRyAOgjLs+3gm6dzeyGBUQlPJa7kiXlgqD5XUqYAjgyuzvAVXYa01XVaH
-         aSWq/A3eLD+8f5XvddegqEiW91a6AQZ/STWvLR4c=
-Message-ID: <f6db5b5c-1a9f-4687-a615-5c1a169d31bf@ideasonboard.com>
-Date:   Tue, 10 Oct 2023 11:03:40 +0300
+        Tue, 10 Oct 2023 04:05:24 -0400
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D8FA4
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 01:05:21 -0700 (PDT)
+X-KPN-MessageId: c122c2b1-6743-11ee-91e6-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id c122c2b1-6743-11ee-91e6-005056994fde;
+        Tue, 10 Oct 2023 10:05:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=tj9fIXbh/D+ooqSlso0OVcd6fcTL9d+cn33J2XNKssA=;
+        b=CvondWqZNWS6HdCTf3emNvpaAVux/ziQ2z6h5YgFhhEDQRFR+eiJEuxw+OlGZ0RNU49XyAH65Pzmr
+         br4DffwXsmvTSO4Y72KDzvbqfH6s5dryeJ51DZgizvZBOuCgAkidvTeTdqBzYDU8S2hL7bfQ/yDGYX
+         Z3XJOLvRVd6R0LqU1xOySuvK7RzOIDU3+tZ2JgHsNfSfZpj7mDpnQUF9jXDeUtemFX9wujvSuhrk3G
+         RiFemPNPfgyzljtWostKdCX1Ikuo9FeJvfININ1QseIaNIG+w1xJwxGjXwr7m4M1qauaJFbZVZCTbS
+         jkYm6HeZGjGuHbfQizqhLlDsosl5lrg==
+X-KPN-MID: 33|ftU4skUh0dEdH83DqzQy4Bx9uxMWTxMozaZWVgDjyUSpwzukxqP0avqgIhYnG35
+ 1nBC7pjS86fBVsf0V1wyuvr7zk4yU5WHuM69RozEXhxY=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|YtFDZMfDRiqKB9cDrBc0mTx6y2HdrSTPyJj6D/PHbmYw17fTP4euCNRoaxhAYJx
+ WHc+P17cwvuhzvX8G/1krQQ==
+X-Originating-IP: 173.38.220.40
+Received: from [10.47.78.242] (unknown [173.38.220.40])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id c08108a4-6743-11ee-ac79-00505699b758;
+        Tue, 10 Oct 2023 10:05:19 +0200 (CEST)
+Message-ID: <4f13e0e5-3650-4f81-9c14-367d4f46ecf7@xs4all.nl>
+Date:   Tue, 10 Oct 2023 10:05:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] V4L2 sub-device active state helper, CCS fixes
+Subject: Re: [PATCH v13 07/11] media: vivid: Add an rectangle control
 Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20231009220906.221303-1-sakari.ailus@linux.intel.com>
- <d5cf6f37-c1d2-4b79-bf12-611fead262bc@ideasonboard.com>
- <ZST7+X7jwjVxNtTF@kekkonen.localdomain>
- <7dccde6c-e82f-4c63-bfbc-b0f1170e2796@ideasonboard.com>
- <ZSUBTFd9Nz1k2W9K@kekkonen.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <ZSUBTFd9Nz1k2W9K@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Yunke Cao <yunkec@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+References: <20231010022136.1504015-1-yunkec@google.com>
+ <20231010022136.1504015-8-yunkec@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231010022136.1504015-8-yunkec@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/10/2023 10:46, Sakari Ailus wrote:
-> Moi,
+On 10/10/23 04:21, Yunke Cao wrote:
+> This control represents a generic read/write rectangle.
+> It supports V4L2_CTRL_WHICH_MIN/MAX_VAL.
+
+No SOB!
+
+With that added:
+
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Regards,
+
+	Hans
+
+> ---
+>  .../media/test-drivers/vivid/vivid-ctrls.c    | 34 +++++++++++++++++++
+>  1 file changed, 34 insertions(+)
 > 
-> On Tue, Oct 10, 2023 at 10:40:05AM +0300, Tomi Valkeinen wrote:
->> On 10/10/2023 10:23, Sakari Ailus wrote:
->>> Moi,
->>>
->>> On Tue, Oct 10, 2023 at 09:52:48AM +0300, Tomi Valkeinen wrote:
->>>> On 10/10/2023 01:09, Sakari Ailus wrote:
->>>>> Hi folks,
->>>>>
->>>>> This set includes a helper for working with V4L2 sub-device active state as
->>>>> well as a fix for the CCS driver sub-device state patch.
->>>>>
->>>>> since v1:
->>>>>
->>>>> - There were other drivers using __v4l2_subdev_state_alloc(). Ouch. Change
->>>>>      those users as well. Note that this function should not be used in
->>>>>      drivers, hence API niceness is not a high priority.
->>>>>
->>>>> Sakari Ailus (4):
->>>>>      media: v4l: subdev: Set sub-device active state earlier
->>>>>      media: v4l: subdev: Add a helper to tell if a sub-device state is
->>>>>        active
->>>>>      media: ccs: Rework initialising sub-device state
->>>>>      media: ccs: Fix a (harmless) lockdep warning
->>>>>
->>>>>     drivers/media/i2c/ccs/ccs-core.c              | 64 ++++++++++++-------
->>>>>     .../platform/renesas/rcar-vin/rcar-v4l2.c     |  3 +-
->>>>>     .../media/platform/renesas/vsp1/vsp1_entity.c |  3 +-
->>>>>     drivers/media/v4l2-core/v4l2-subdev.c         | 14 ++--
->>>>>     drivers/staging/media/tegra-video/vi.c        |  2 +-
->>>>>     include/media/v4l2-subdev.h                   | 11 +++-
->>>>>     6 files changed, 66 insertions(+), 31 deletions(-)
->>>>>
->>>>
->>>> I'm not familiar with the CCS driver, and you don't explain much why you are
->>>> doing this, so it's a bit unclear to me. But I don't like it.
->>>>
->>>> The idea with the subdev state was that the driver doesn't need to know
->>>> whether it's active-state or try-state. It should behave the same way in
->>>> both cases. This series goes against that.
->>>>
->>>> Can you explain a bit what the issue is and what you are doing in this
->>>> series?
->>>
->>> The driver maintains internal state and that needs to be updated when the
->>> configuration (including what's in sub-device state) changes. Generally the
->>> driver knows (as for the whence field) which state it's dealing with but
->>> that is not the case for init_cfg.
->>
->> So you need to set the subdev state to sd->active_state earlier (in patch 1)
->> so that the driver can use v4l2_subdev_state_whence()? You don't really
->> explain that in the patch descriptions.
->>
->> In other words, if init_cfg() were to get a whence-parameter, this wouldn't
->> be needed? (I don't want to do that, just trying to understand what's going
->> on).
-> 
-> Yes, that's correct.
-
-Ok. So the driver keeps some private state separately from the subdev 
-state, and keeps track of only the active state details, and thus it 
-needs to know the whence in init_cfg so that it can fill in those 
-details only when dealing with active state.
-
->>> Alternatively I could split the internal workings of the driver into active
->>> and try states but I prefer to improve the framework and make the driver
->>> simpler.
->>
->> I agree with the goal, but I don't think this is improving the framework.
->>
->> If we decide that we need to know if a state is an active-state or a
->> try-state, I think it's better to add a whence-field into the state itself.
->> But I'd rather not.
-> 
-> In all other callbacks the whence is known but not in init_cfg.
-
-Yes, those should be removed =).
-
-Well, that may not work, but at least we should consider if a specific 
-callback should ever care about active/try, and if not, remove the whence.
-
-> Comparing with sd->active_state does this pretty cleanly, without a need to
-> change APIs.
-> 
->>
->>> Deducing the internal configuration solely based on sub-device state is not
->>> really feasible.
->>
->> Am I correct in that what you really need is a way to sub-class the subdev
->> state, so that you can have all that internal state in the subdev state, and
->> thus all the code in the driver can work in "whence-agnostic" manner? That's
->> something we've been thinking about for a long time.
-> 
-> In the case of the CCS driver it's not necessary to store these parameters
-> for try states: they are driver internal only.
-
-That's fine, the sub-classed state can only have driver internal data 
-(in addition to the standard data).
-
-I think a follow-up question here is: why do you need to keep track of 
-state that's only needed for active state? What is that state?
-
->> But the driver needs to be fixed now, not at some point in the future, of
->> course. If the sub-classing would solve the issue (i.e. we have a plan in
->> mind), I'd rather just hack this in the driver, instead of extending the
->> framework, which might easily lead to other drivers going the wrong way too.
->>
->> How about a private flag, set before calling v4l2_subdev_init_finalize(),
->> and unset after the call. ccs_init_cfg() can look at that flag an if it's
->> set, it's initializing an active state.
-> 
-> I dislike using driver specific flags in generic APIs.
-
-I meant in the driver private state. Add a field to the driver's private 
-data struct, and use that. Then it's wholly inside the driver, and needs 
-just a few lines of hack-code, easy to remove later.
-
-> While trivial sensor drivers have no use for such functionality, I would be
-> surprised if there would not be other similar cases.
-
-Can you open this up a bit? Why do drivers need to know if an operation 
-is about active or try state?
-
-Answering my own question:
-
-In some cases it's implicit: when starting the streaming, it's always 
-active state. Similarly in, e.g., get_frame_desc.
-
-Some operations might allow changing HW settings while streaming is 
-enabled. I guess set_fmt might allow changing some specific things even 
-while streaming is enabled. And if so, the callback needs to know if 
-this is for active state or not.
-
-But why does a driver need to know the whence in init_cfg? With 
-sub-classed state, init_cfg should work fine for both active-state and 
-try-state.
-
-  Tomi
+> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> index f2b20e25a7a4..27a1173c7734 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> @@ -38,6 +38,7 @@
+>  #define VIVID_CID_U8_PIXEL_ARRAY	(VIVID_CID_CUSTOM_BASE + 14)
+>  #define VIVID_CID_S32_ARRAY		(VIVID_CID_CUSTOM_BASE + 15)
+>  #define VIVID_CID_S64_ARRAY		(VIVID_CID_CUSTOM_BASE + 16)
+> +#define VIVID_CID_RECT			(VIVID_CID_CUSTOM_BASE + 17)
+>  
+>  #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
+>  #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
+> @@ -357,6 +358,38 @@ static const struct v4l2_ctrl_config vivid_ctrl_ro_int32 = {
+>  	.step = 1,
+>  };
+>  
+> +static const struct v4l2_rect rect_def = {
+> +	.top = 100,
+> +	.left = 200,
+> +	.width = 300,
+> +	.height = 400,
+> +};
+> +
+> +static const struct v4l2_rect rect_min = {
+> +	.top = 0,
+> +	.left = 0,
+> +	.width = 1,
+> +	.height = 1,
+> +};
+> +
+> +static const struct v4l2_rect rect_max = {
+> +	.top = 0,
+> +	.left = 0,
+> +	.width = 1000,
+> +	.height = 2000,
+> +};
+> +
+> +static const struct v4l2_ctrl_config vivid_ctrl_rect = {
+> +	.ops = &vivid_user_gen_ctrl_ops,
+> +	.id = VIVID_CID_RECT,
+> +	.name = "Rect",
+> +	.type = V4L2_CTRL_TYPE_RECT,
+> +	.flags = V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX,
+> +	.p_def.p_const = &rect_def,
+> +	.p_min.p_const = &rect_min,
+> +	.p_max.p_const = &rect_max,
+> +};
+> +
+>  /* Framebuffer Controls */
+>  
+>  static int vivid_fb_s_ctrl(struct v4l2_ctrl *ctrl)
+> @@ -1677,6 +1710,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>  	dev->int_menu = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_int_menu, NULL);
+>  	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
+>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
+> +	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_rect, NULL);
+>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
+>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NULL);
+>  	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
 
