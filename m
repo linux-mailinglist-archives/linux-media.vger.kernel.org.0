@@ -2,156 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68F5E7BF3E6
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 09:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F9CC7BF3FD
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 09:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442406AbjJJHPO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 03:15:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54018 "EHLO
+        id S1442444AbjJJHU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 03:20:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442392AbjJJHPM (ORCPT
+        with ESMTP id S1442441AbjJJHU5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 03:15:12 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 536BC9E
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 00:15:11 -0700 (PDT)
+        Tue, 10 Oct 2023 03:20:57 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEBFCEB;
+        Tue, 10 Oct 2023 00:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696922112; x=1728458112;
+  t=1696922456; x=1728458456;
   h=subject:to:cc:references:from:message-id:date:
    mime-version:in-reply-to:content-transfer-encoding;
-  bh=SR0z5+k7f09X4oSIBT6JZPi+wmKyVNI03qo0ZaVho9s=;
-  b=QiZNuep8nl1SF7lGVSCUzvnBB1fe4N0ZzLQ2PcgjHv3gkCR4rY+FCWKK
-   t6wvOC7V69wu80iJb7XzAcGP99DcW0w1h72zB5cYi4VNE5W8Zw++r1Zhj
-   CVgcXwYvzgn3KZajGCP4ilVY5MiPoN/xu6l6d3cJ8qFOXkxJvnD80xsWq
-   Oq9mBT+3xGhrH5NpYz3i8eudGxobasBkyLTtIzETp6OIyzVuTRYnuOTHj
-   33A/gwOPC/ILSQeE5o1OqHLKdphfbqfjdvQMrLtWHd1q5ZuWVN9fNxko4
-   J5wzW1Vv3RhN3rxLyOjrZ57kTo1UMWT3b7+RdYqlUe6J0CRoOzw/rr62v
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="2917020"
+  bh=YyHQz7qyK+sC3CxsWjcLVyT5duvUIhENeNDxvSGX4B0=;
+  b=UVBscdsIAthyLsGO7uD53RUdjzTzj+sQpQqfsL9t2GuHmcbryHu5iDQS
+   6Ry2OnGEZ2GbXWnkJpeAwYGJFvAHhvLVqsz/59VpTuH9W93FUlVpgiLnK
+   TibOPXX3gxGZ/mE2z1RexhVjSOR/2IEX+0kFb/86RtZG/2+2vxgW0GSw3
+   syDcaB7tYcAKco+DJuUqbpuRpxtK/mUoXzfgYu/MBtY/C31ehkjr+IXwa
+   kb399ToiOjK9zO0cTkrfpwurEk4eKojxzKZBVdYEXJEcx5TMVD5QQ7ry3
+   7eS7BWMsfgfhT1BdGC7esn29vCgfunENmdQRyye/Oamzkchzq+gCVQUCH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="364622730"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="2917020"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 00:15:11 -0700
+   d="scan'208";a="364622730"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 00:20:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="823672182"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="746972315"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="823672182"
+   d="scan'208";a="746972315"
 Received: from ipu5-build.bj.intel.com (HELO [10.238.232.146]) ([10.238.232.146])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Oct 2023 00:15:08 -0700
-Subject: Re: [PATCH] media: intel/ipu6: Set V4L2_CAP_IO_MC flag for isys
- /dev/video# nodes
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-References: <20231002172306.111601-1-hdegoede@redhat.com>
- <ZSO07yIijONinNEw@kekkonen.localdomain>
+  by orsmga007.jf.intel.com with ESMTP; 10 Oct 2023 00:20:52 -0700
+Subject: Re: [PATCH] platform/x86: int3472: Add handshake GPIO function
+To:     Hao Yao <hao.yao@intel.com>,
+        Dan Scally <dan.scally@ideasonboard.com>, djrscally@gmail.com,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@intel.com>
+Cc:     Bingbu Cao <bingbu.cao@intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20231007021225.9240-1-hao.yao@intel.com>
 From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <c0550b3d-65dd-f0c7-4876-9d47ca618990@linux.intel.com>
-Date:   Tue, 10 Oct 2023 15:12:06 +0800
+Message-ID: <38c9ff1c-8d3b-8675-9780-2bb6c87ba815@linux.intel.com>
+Date:   Tue, 10 Oct 2023 15:17:50 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <ZSO07yIijONinNEw@kekkonen.localdomain>
+In-Reply-To: <20231007021225.9240-1-hao.yao@intel.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hao, 
 
+On 10/7/23 10:12 AM, Hao Yao wrote:
+> Handshake pin is used for Lattice MIPI aggregator to enable the
+> camera sensor. After pulled up, recommend to wail ~250ms to get
+> everything ready.
 
-On 10/9/23 4:08 PM, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Mon, Oct 02, 2023 at 07:23:06PM +0200, Hans de Goede wrote:
->> The IPU6 isys is a media-controller centric device which needs
->> the pipeline to be configured using the media controller API before use.
->>
->> Set the V4L2_CAP_IO_MC flag to reflect this.
->>
->> This also allows dropping of the enum_input() g_input() and s_input()
->> implementations, with V4L2_CAP_IO_MC set the v4l2-core will take care
->> of those.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> Thanks.
-> 
-> Cc'd Bingbu. (Also bounced the patch to him.)
+Is the delay for specific camera or requirement from Lattice.
+250ms is bad for camera.
 
-Applied, thanks. :)
 > 
->> ---
->>  .../media/pci/intel/ipu6/ipu6-isys-video.c    | 29 ++-----------------
->>  1 file changed, 2 insertions(+), 27 deletions(-)
->>
->> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
->> index ad74a19527b7..e6fc32603c3f 100644
->> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
->> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
->> @@ -262,29 +262,6 @@ static int vidioc_try_fmt_vid_cap_mplane(struct file *file, void *fh,
->>  	return 0;
->>  }
->>  
->> -static int vidioc_enum_input(struct file *file, void *fh,
->> -			     struct v4l2_input *input)
->> -{
->> -	if (input->index > 0)
->> -		return -EINVAL;
->> -	strscpy(input->name, "camera", sizeof(input->name));
->> -	input->type = V4L2_INPUT_TYPE_CAMERA;
->> -
->> -	return 0;
->> -}
->> -
->> -static int vidioc_g_input(struct file *file, void *fh, unsigned int *input)
->> -{
->> -	*input = 0;
->> -
->> -	return 0;
->> -}
->> -
->> -static int vidioc_s_input(struct file *file, void *fh, unsigned int input)
->> -{
->> -	return input == 0 ? 0 : -EINVAL;
->> -}
->> -
->>  static int link_validate(struct media_link *link)
->>  {
->>  	struct ipu6_isys_video *av =
->> @@ -1017,9 +994,6 @@ static const struct v4l2_ioctl_ops ioctl_ops_mplane = {
->>  	.vidioc_streamon = vb2_ioctl_streamon,
->>  	.vidioc_streamoff = vb2_ioctl_streamoff,
->>  	.vidioc_expbuf = vb2_ioctl_expbuf,
->> -	.vidioc_enum_input = vidioc_enum_input,
->> -	.vidioc_g_input = vidioc_g_input,
->> -	.vidioc_s_input = vidioc_s_input,
->>  };
->>  
->>  static const struct media_entity_operations entity_ops = {
->> @@ -1217,7 +1191,8 @@ int ipu6_isys_video_init(struct ipu6_isys_video *av)
->>  
->>  	mutex_init(&av->mutex);
->>  	av->vdev.device_caps = V4L2_CAP_STREAMING |
->> -			       V4L2_CAP_VIDEO_CAPTURE_MPLANE;
->> +			       V4L2_CAP_VIDEO_CAPTURE_MPLANE |
->> +			       V4L2_CAP_IO_MC;
->>  	av->vdev.vfl_dir = VFL_DIR_RX;
->>  
->>  	ret = ipu6_isys_queue_init(&av->aq);
->> -- 
->> 2.41.0
->>
+> Signed-off-by: Hao Yao <hao.yao@intel.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/platform/x86/intel/int3472/common.h   | 1 +
+>  drivers/platform/x86/intel/int3472/discrete.c | 5 +++++
+>  2 files changed, 6 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+> index 655ae3ec0593..3ad4c72afb45 100644
+> --- a/drivers/platform/x86/intel/int3472/common.h
+> +++ b/drivers/platform/x86/intel/int3472/common.h
+> @@ -23,6 +23,7 @@
+>  #define INT3472_GPIO_TYPE_POWER_ENABLE				0x0b
+>  #define INT3472_GPIO_TYPE_CLK_ENABLE				0x0c
+>  #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
+> +#define INT3472_GPIO_TYPE_HANDSHAKE				0x12
+>  
+>  #define INT3472_PDEV_MAX_NAME_LEN				23
+>  #define INT3472_MAX_SENSOR_GPIOS				3
+> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+> index b644ce65c990..4753161b4080 100644
+> --- a/drivers/platform/x86/intel/int3472/discrete.c
+> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> @@ -111,6 +111,10 @@ static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polar
+>  		*func = "power-enable";
+>  		*polarity = GPIO_ACTIVE_HIGH;
+>  		break;
+> +	case INT3472_GPIO_TYPE_HANDSHAKE:
+> +		*func = "handshake";
+> +		*polarity = GPIO_ACTIVE_HIGH;
+> +		break;
+>  	default:
+>  		*func = "unknown";
+>  		*polarity = GPIO_ACTIVE_HIGH;
+> @@ -201,6 +205,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>  	switch (type) {
+>  	case INT3472_GPIO_TYPE_RESET:
+>  	case INT3472_GPIO_TYPE_POWERDOWN:
+> +	case INT3472_GPIO_TYPE_HANDSHAKE:
+>  		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
+>  		if (ret)
+>  			err_msg = "Failed to map GPIO pin to sensor\n";
 > 
 
 -- 
