@@ -2,89 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C09017C4215
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 23:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 439157C43C5
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 00:25:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231749AbjJJVLi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 17:11:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57372 "EHLO
+        id S230495AbjJJWZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 18:25:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231376AbjJJVLh (ORCPT
+        with ESMTP id S229835AbjJJWZN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 17:11:37 -0400
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 021DF9B
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 14:11:36 -0700 (PDT)
-Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-1e132944da9so374636fac.0
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 14:11:35 -0700 (PDT)
+        Tue, 10 Oct 2023 18:25:13 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF9B699
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 15:25:11 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40684f53bfcso57734425e9.0
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 15:25:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1696976710; x=1697581510; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NeNBxG8cx8l82M9jSYOd85ZbB8rCa8c/Jq+U7184yFk=;
+        b=S5SQskA9ABRG0dDXhy6Gx7nBdCHs1pv1tDkKgteOlp8L3Qz8iqsTSLWFivlPPEWBT9
+         n5kTWMM0teXCXnNonvbRNxB0N+9ANxMF3mFX597d9pO0Z7VVU0ST+f8qQx17OjOABdRr
+         0RjeeJaqBUSuFjzB9pFG7mnAeCE8FaSyI3yrjdBoLF+SLpux9YMlA9eq9MFYieC9N56S
+         6W7slgA3MklyPwtSfz4LBYQzswIXvTMJE9tmYKo4WCg8ORF5P6BK4HrFex7Idk/13MFf
+         eydxOOaGXGQr/bHOmMSDzCwEu4JM6XJiMCgtrhXVQ1cjx6nGtjQCPZzEtFrPR3eKl7Wj
+         1bUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696972295; x=1697577095;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
+        d=1e100.net; s=20230601; t=1696976710; x=1697581510;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DZWvcvFWT3P94ESec92OyEYUrt6Ss1wkXtTKq4rDYxM=;
-        b=TEBXaPT7hXZx1sqCck3VTU41ONXkmKRFwFeszlsZgcTr6Yx9ghApOABxAWrBQuQR06
-         vq0j8aRT1SRG6UDXvWIqlN9n7xwGgW/74svNKeLqZSqfXNpCah5dFagnpZJFXixyVOw6
-         iYtUcOoFLQa4jAAsizsg/XvySAiWjZwhb6jTVRizrSYqZTKxpC1Az6Lmdqdcyq3zKBtY
-         oDtVaQUZ8oqfrYe1p1fgikCgTv+2GDg+e1JqSXbmf/XlsBNCvYasmktSEZ1IU/hNDBjx
-         wTxsP7ajY1wqbM5GLEGJ2mxc9XWtBlY3HT/BwHgQMhmu6D+qpjKKfm0KymVbs46T0Jfc
-         b+Ig==
-X-Gm-Message-State: AOJu0YxH9ts9lqcNM7+nY4IDahz2kUdOIkXb05Rq3RXwxF400zwEBora
-        MwusPN+LCDRr89hRAoGyOoJrfIfk4XFdsdj7vAoGrVw04KiZ
-X-Google-Smtp-Source: AGHT+IEip8/WB1KxD/i7SHZr01hyD5rCMbCsYc9ryFGNuYKojxiyUdRD1sIhFjIPArPGKDz+S+ZWIZzEf6rVWxHmkHDUZdRTKIGt
+        bh=NeNBxG8cx8l82M9jSYOd85ZbB8rCa8c/Jq+U7184yFk=;
+        b=KdXf4344EUbzm63ZUNaX3jrvwHmAxCme+6SosxHA0fySKXlRsxzSP21AeWqlbOauZS
+         2hxMjThesVqHmRkrSagef8VGnDmWScZLY7PJDOdefW1+fROMXY31ogg8h2s/yyo4hQdV
+         i0u59AX25eIKgOK2Kv0qyrRIwh77R+dqWKVy8h57HJijD3E5Qvp4gFHHjaIjIMdmDApK
+         p0aX8NKfHPhU5zo+9GaloE2R9X2r9lWKcDqgIXO98x2zmNmXh2J/MhIf6h38dmKy/qIn
+         qNIaxX4tQGFmbIs8GQb/nxNcabCdcOlD8/DSaPn7vZdEB7kVSq8Kr8IN9JnP3kKV1ssu
+         ll2A==
+X-Gm-Message-State: AOJu0Yys0w/1uVlrDe0lMSLvKuujzvHlQ1zbiY73xYbp27KdQP8xR3CY
+        1PQ9kk6BuHWCAq9ELqkL5Gz4Cg==
+X-Google-Smtp-Source: AGHT+IHEuN5PvxZFSfB7Vg7qUsAC5xOyLico4McU8PvylCjZQ+dpzhndsn+K3J3VxezRxLJ+ps/4iw==
+X-Received: by 2002:adf:f48c:0:b0:317:e025:5a5c with SMTP id l12-20020adff48c000000b00317e0255a5cmr16832072wro.48.1696976710127;
+        Tue, 10 Oct 2023 15:25:10 -0700 (PDT)
+Received: from [192.168.100.102] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id c6-20020adfed86000000b003279518f51dsm13806929wro.2.2023.10.10.15.25.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Oct 2023 15:25:09 -0700 (PDT)
+Message-ID: <767bc246-a0a0-4dad-badc-81ed50573832@linaro.org>
+Date:   Tue, 10 Oct 2023 23:25:08 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a05:6870:b79c:b0:1e9:6d19:935b with SMTP id
- ed28-20020a056870b79c00b001e96d19935bmr1140796oab.5.1696972295375; Tue, 10
- Oct 2023 14:11:35 -0700 (PDT)
-Date:   Tue, 10 Oct 2023 14:11:35 -0700
-In-Reply-To: <0000000000003ee3610599d20096@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000dc11d106076326fe@google.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in __media_entity_remove_links
-From:   syzbot <syzbot+0b0095300dfeb8a83dc8@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org, nogikh@google.com,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] dt-bindings: i2c: qcom-cci: Document sc8280xp
+ compatible
+Content-Language: en-US
+To:     Wolfram Sang <wsa@kernel.org>, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org,
+        loic.poulain@linaro.org, rfoss@kernel.org, andi.shyti@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231006120159.3413789-1-bryan.odonoghue@linaro.org>
+ <20231006120159.3413789-2-bryan.odonoghue@linaro.org>
+ <ZSWpm/7xnoFkUn31@shikoro>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <ZSWpm/7xnoFkUn31@shikoro>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This bug is marked as fixed by commit:
-media: uvcvideo: Avoid cyclic entity chains due to malformed USB descriptors
+On 10/10/2023 20:44, Wolfram Sang wrote:
+> On Fri, Oct 06, 2023 at 01:01:55PM +0100, Bryan O'Donoghue wrote:
+>> Add sc8280xp compatible consistent with recent CAMSS CCI interfaces.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> 
+> Applied to for-next, thanks!
+> 
 
-But I can't find it in the tested trees[1] for more than 90 days.
-Is it a correct commit? Please update it by replying:
+Hey Wolfram.
 
-#syz fix: exact-commit-title
+This patch was superseded could you please drop ?
 
-Until then the bug is still considered open and new crashes with
-the same signature are ignored.
-
-Kernel: Linux
-Dashboard link: https://syzkaller.appspot.com/bug?extid=0b0095300dfeb8a83dc8
+https://lore.kernel.org/linux-arm-msm/20231010122539.1768825-1-bryan.odonoghue@linaro.org/
 
 ---
-[1] I expect the commit to be present in:
-
-1. for-kernelci branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
-
-2. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
-
-3. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
-
-4. main branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-
-The full list of 9 trees can be found at
-https://syzkaller.appspot.com/upstream/repos
+bod
