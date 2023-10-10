@@ -2,104 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E7797BF3F7
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 09:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE8197BF404
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 09:21:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442433AbjJJHUd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 03:20:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34082 "EHLO
+        id S1442422AbjJJHVr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 03:21:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442406AbjJJHUb (ORCPT
+        with ESMTP id S1442479AbjJJHVp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 03:20:31 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E4F9F
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 00:20:30 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31196C433C7;
-        Tue, 10 Oct 2023 07:20:27 +0000 (UTC)
-Message-ID: <49e32b1d-fd2e-4fd0-bcfe-78ff57adb588@xs4all.nl>
-Date:   Tue, 10 Oct 2023 09:20:26 +0200
+        Tue, 10 Oct 2023 03:21:45 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE68392;
+        Tue, 10 Oct 2023 00:21:43 -0700 (PDT)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 596E33D6;
+        Tue, 10 Oct 2023 09:21:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1696922500;
+        bh=1cyXPcG1hvJgf3dDnfetJVDrY9Kmi4/216HZOH9llbQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=V4G8z3ahN+sUfwQQnWk54kGwqiF6j48AChfW3Mztl8anv9KIc2XADnSDc19LS0nBk
+         5yIjz6tc7isOGU3C/6fpksSyZJeYImZtE1tSsQxaTac5aatGiBpa8OOTk48mTFwCj5
+         B7i4pzemiyq9urppvArbUF7Z2TuIfvtDawN+HL+4=
+Date:   Tue, 10 Oct 2023 09:21:39 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+Cc:     linux-rockchip@lists.infradead.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:OMNIVISION OV8858 SENSOR DRIVER" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] media: i2c: ov8858: Don't set fwnode in the driver
+Message-ID: <xlw4t6xxq64pbloppn73gh624s3ji2773tmeigxk5cmwy6b2u3@5vofchxdwox2>
+References: <20231010070747.1781612-1-megi@xff.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 06/11] v4l2-ctrls: add support for
- V4L2_CTRL_WHICH_MIN/MAX_VAL
-Content-Language: en-US, nl
-To:     Yunke Cao <yunkec@google.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-References: <20231010022136.1504015-1-yunkec@google.com>
- <20231010022136.1504015-7-yunkec@google.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231010022136.1504015-7-yunkec@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231010070747.1781612-1-megi@xff.cz>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunke,
+Hello Ondřej
 
-Just one remaining issue:
+On Tue, Oct 10, 2023 at 09:07:44AM +0200, Ondřej Jirman wrote:
+> From: Ondrej Jirman <megi@xff.cz>
+>
+> This makes the driver work with the new check in
+> v4l2_async_register_subdev() that was introduced recently in 6.6-rc1.
+> Without this change, probe fails with:
+>
+> ov8858 1-0036: Detected OV8858 sensor, revision 0xb2
+> ov8858 1-0036: sub-device fwnode is an endpoint!
+> ov8858 1-0036: v4l2 async register subdev failed
+> ov8858: probe of 1-0036 failed with error -22
+>
+> This also simplifies the driver a bit.
+>
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
 
-On 10/10/2023 04:21, Yunke Cao wrote:
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-<snip>
+Thanks!
 
-> @@ -723,17 +741,23 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
->   * @ops:       The control ops.
->   * @id:        The control ID.
->   * @p_def:     The control's default value.
-> + * @p_min:     The control's minimum value.
-> + * @p_max:     The control's maximum value.
->   *
-> - * Sames as v4l2_ctrl_new_std(), but with support to compound controls, thanks
-> - * to the @p_def field. Use v4l2_ctrl_ptr_create() to create @p_def from a
-> - * pointer. Use v4l2_ctrl_ptr_create(NULL) if the default value of the
-> - * compound control should be all zeroes.
-> + * Same as v4l2_ctrl_new_std(), but with support to compound controls, thanks
-> + * to the @p_def/min/max fields. Use v4l2_ctrl_ptr_create() to create
-> + * @p_def/min/max from a pointer. Use v4l2_ctrl_ptr_create(NULL) if the
-> + * default, minimum and maximum value of the compound control should be all
-> + * zeroes. Use v4l2_ctrl_ptr_create(NULL) if the min/max value of the compound
-> + * control is not defined, -ENODATA will be returned in this case.
-
-This still refers to ENODATA, but the text should be improved anyway, even
-the original wasn't very good. How about:
-
- * Same as v4l2_ctrl_new_std(), but with support for compound controls.
- * To fill in the @p_def, @p_min and @p_max fields, use v4l2_ctrl_ptr_create()
- * to convert a pointer to a const union v4l2_ctrl_ptr.
- * Use v4l2_ctrl_ptr_create(NULL) if you want the default, minimum or maximum
- * value of the compound control to be all zeroes.
- * If the compound control does not set the ``V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX``
- * flag, then it does not has minimum and maximum values. In that case just use
- * v4l2_ctrl_ptr_create(NULL) for the @p_min and @p_max arguments.
-
->   *
->   */
->  struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
->  					     const struct v4l2_ctrl_ops *ops,
->  					     u32 id,
-> -					     const union v4l2_ctrl_ptr p_def);
-> +					     const union v4l2_ctrl_ptr p_def,
-> +					     const union v4l2_ctrl_ptr p_min,
-> +					     const union v4l2_ctrl_ptr p_max);
->  
->  /**
->   * v4l2_ctrl_new_int_menu() - Create a new standard V4L2 integer menu control.
-
-Other than this the controls part of this series looks good to me.
-
-Regards,
-
-	Hans
-
+> ---
+> v2:
+> - call fwnode_handle_put earlier to avoid multiple calls to it in
+>   error code paths (suggested by Jacopo Mondi)
+>
+>  drivers/media/i2c/ov8858.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
+> index 3af6125a2eee..4d9fd76e2f60 100644
+> --- a/drivers/media/i2c/ov8858.c
+> +++ b/drivers/media/i2c/ov8858.c
+> @@ -1850,9 +1850,9 @@ static int ov8858_parse_of(struct ov8858 *ov8858)
+>  	}
+>
+>  	ret = v4l2_fwnode_endpoint_parse(endpoint, &vep);
+> +	fwnode_handle_put(endpoint);
+>  	if (ret) {
+>  		dev_err(dev, "Failed to parse endpoint: %d\n", ret);
+> -		fwnode_handle_put(endpoint);
+>  		return ret;
+>  	}
+>
+> @@ -1864,12 +1864,9 @@ static int ov8858_parse_of(struct ov8858 *ov8858)
+>  	default:
+>  		dev_err(dev, "Unsupported number of data lanes %u\n",
+>  			ov8858->num_lanes);
+> -		fwnode_handle_put(endpoint);
+>  		return -EINVAL;
+>  	}
+>
+> -	ov8858->subdev.fwnode = endpoint;
+> -
+>  	return 0;
+>  }
+>
+> @@ -1913,7 +1910,7 @@ static int ov8858_probe(struct i2c_client *client)
+>
+>  	ret = ov8858_init_ctrls(ov8858);
+>  	if (ret)
+> -		goto err_put_fwnode;
+> +		return ret;
+>
+>  	sd = &ov8858->subdev;
+>  	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+> @@ -1964,8 +1961,6 @@ static int ov8858_probe(struct i2c_client *client)
+>  	media_entity_cleanup(&sd->entity);
+>  err_free_handler:
+>  	v4l2_ctrl_handler_free(&ov8858->ctrl_handler);
+> -err_put_fwnode:
+> -	fwnode_handle_put(ov8858->subdev.fwnode);
+>
+>  	return ret;
+>  }
+> @@ -1978,7 +1973,6 @@ static void ov8858_remove(struct i2c_client *client)
+>  	v4l2_async_unregister_subdev(sd);
+>  	media_entity_cleanup(&sd->entity);
+>  	v4l2_ctrl_handler_free(&ov8858->ctrl_handler);
+> -	fwnode_handle_put(ov8858->subdev.fwnode);
+>
+>  	pm_runtime_disable(&client->dev);
+>  	if (!pm_runtime_status_suspended(&client->dev))
+> --
+> 2.42.0
+>
