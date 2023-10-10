@@ -2,145 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04B527BFCEF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 15:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C5747BFD0C
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 15:15:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231816AbjJJNKb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 09:10:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60654 "EHLO
+        id S231634AbjJJNPR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 09:15:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231400AbjJJNKa (ORCPT
+        with ESMTP id S229887AbjJJNPQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 09:10:30 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93AA7AC
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 06:10:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696943428; x=1728479428;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8LfrtzSe3QTLmf73zJyj8cTCI32a+oRZPf1k4J8zTNg=;
-  b=efYO6/nkTYt2rwf5q/MKUGMZrCdIOggWv9awwXYfAtTbvafazBdwW9BR
-   J1HxLw6rZYXS4ZfebdUJs0wZ7L/nE9+FaUmHxubeReBu07ifIcLnUVm77
-   9ck2ERFTc11uj7fszH/hmFAMC8IL8XlBEdGV7sTRNy9ewMOyf8eV1kIkl
-   9w4ZLjeNOZ5vmBgAl4UPspUUFwIbakHd8xd4c7WaL2ASN+4zoxy63Ftcj
-   L4qzgfG9hSfmm0m+XVBU5jMpME1DR93gGFz+AA9+UxS30SRh/hB9/MVwS
-   wpsKMqAtK0OV0CYHAwtMsc+sssrOqtgd0mYcLsJqMeuoxW8pTeoMZF/NE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="387224875"
-X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="387224875"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:10:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="877220279"
-X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="877220279"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 06:10:19 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 56D1211F8DE;
-        Tue, 10 Oct 2023 16:10:17 +0300 (EEST)
-Date:   Tue, 10 Oct 2023 13:10:17 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Dennis Bonke <admin@dennisbonke.com>,
-        tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH] media: subdev: Don't report V4L2_SUBDEV_CAP_STREAMS when
- the streams API is disabled
-Message-ID: <ZSVNOb1Cg6lIda6E@kekkonen.localdomain>
-References: <20231010102458.111227-1-hdegoede@redhat.com>
- <ZSU6ZFKS5QkFJgZw@kekkonen.localdomain>
- <c9157c41-a890-4542-bdad-9e193dcbb833@xs4all.nl>
- <ZSVChht/IK+XA0dp@kekkonen.localdomain>
- <acdf7d7b-e6f2-41c0-a025-397a95afc2cf@xs4all.nl>
+        Tue, 10 Oct 2023 09:15:16 -0400
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE738C4;
+        Tue, 10 Oct 2023 06:15:12 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3411F60008;
+        Tue, 10 Oct 2023 13:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1696943711;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=92wkF1+OZ59KpGfmZnu+Vkwq3nyi9bpMP5C9cBgIJ40=;
+        b=TDTcfbPRYcq2ABod+88AfBi7oWWhg5p1YVGQOEvORwmGW9xQrDB2jd9hwGqnSKOIuEbaKU
+        xF9wFfCh5taO3Pln75Zb1vkAwMMUoEYjdflG60yoPNSj4MUsFvmBWsZP7IIDs3pOip1D5C
+        CawgeuZKa9GL8mEtGB2qSLrimhfhLEJ17m9wvAox3aB7gtZp6Hqq6fyZM0DdDov8uOlKbK
+        iH2z6ymK7/Q2m9HFckMTITx1DMxnWCbL4WaXsZE4/w/IFzk63SngqGKrUYCNBKlREvCFwP
+        lOBGZcCir6K/u06MqP/dvAw/fGeQxHUHi4PTJbHpv8JhIFBICrc3ct8f5ZcHfg==
+From:   Mehdi Djait <mehdi.djait@bootlin.com>
+To:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
+        paul.kocialkowski@bootlin.com,
+        Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: [PATCH v7 0/3] media: rockchip: Add a driver for Rockchip's camera interface
+Date:   Tue, 10 Oct 2023 15:15:03 +0200
+Message-ID: <cover.1696943295.git.mehdi.djait@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acdf7d7b-e6f2-41c0-a025-397a95afc2cf@xs4all.nl>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: mehdi.djait@bootlin.com
+X-Spam-Status: No, score=-0.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED,URI_HEX
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 03:01:53PM +0200, Hans Verkuil wrote:
-> On 10/10/23 14:24, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Tue, Oct 10, 2023 at 01:52:21PM +0200, Hans Verkuil wrote:
-> >> On 10/10/23 13:49, Sakari Ailus wrote:
-> >>> Hi Hans,
-> >>>
-> >>> On Tue, Oct 10, 2023 at 12:24:58PM +0200, Hans de Goede wrote:
-> >>>> Since the stream API is still experimental it is currently locked away
-> >>>> behind the internal, default disabled, v4l2_subdev_enable_streams_api flag.
-> >>>>
-> >>>> Advertising V4L2_SUBDEV_CAP_STREAMS when the streams API is disabled
-> >>>> confuses userspace. E.g. it causes the following libcamera error:
-> >>>>
-> >>>> ERROR SimplePipeline simple.cpp:1497 Failed to reset routes for
-> >>>>   /dev/v4l-subdev1: Inappropriate ioctl for device
-> >>>>
-> >>>> Don't report V4L2_SUBDEV_CAP_STREAMS when the streams API is disabled
-> >>>> to avoid problems like this.
-> >>>>
-> >>>> Reported-by: Dennis Bonke <admin@dennisbonke.com>
-> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>>> ---
-> >>>> -Clearing the V4L2_SUBDEV_FL_STREAMS flag from sd.flags might seem
-> >>>>  appealing as an alternative fix. But this causes various v4l2-core bits
-> >>>>  to enter different code paths which confuses drivers which set
-> >>>>  V4L2_SUBDEV_FL_STREAMS, so this is a bad idea.
-> >>>
-> >>> Thanks, this apparently had been missed while disabling the API.
-> >>>
-> >>> Probably also should be added:
-> >>>
-> >>> Fixes: 9a6b5bf4c1bb ("media: add V4L2_SUBDEV_CAP_STREAMS")
-> >>> Cc: stable@vger.kernel.org # for >= 6.3
-> >>>
-> >>> Also cc'd Tomi.
-> >>
-> >> Should this be queued up as a 6.6 fix?
-> > 
-> > I wonder what the criteria is these days.
-> > 
-> > I'd think it's unlikely anything is or will be broken by this in practice.
-> > The further this exists, though, increases the likelihood for that to
-> > happen.
-> > 
-> 
-> 1) Regressions: i.e. it worked before, but no longer in v6.6.
-> 2) Compilation errors, typically due to Kconfig problems.
-> 3) For new code that appeared in v6.6: serious bugs causing kernel oopses
->    or other bad behavior during normal use. (I.e., the 'Oh shit, I never
->    tested that!' bugs)
-> 
-> Generally a lot of these fixes deal with error paths etc., those can
-> often wait for the next kernel.
-> 
-> There are no doubt more reasons for considering patches for v6.6, but those
-> three are no-brainers...
-> 
-> And there is of course a gray area where you could lean either way.
-> 
-> For this particular patch it would affect imx8-isi-crossbar.c in 6.4 onwards,
-> and starting with 6.6 it is also used in the ds90ub9xx drivers according to
-> git grep.
+Hello everyone,
 
-I think it'd be better to get it to 6.6 right away. If you take this,
-please add:
+V7 for basic support of the Video Input Processor found on the Rockchip PX30 SoC
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+The v6 is based on the fifth iteration of the series introducing the
+driver: sent 29 Dec 2020 [1]
+
+Most of this driver was written following the BSP driver from rockchip,
+removing the parts that either didn't fit correctly the guidelines, or
+that couldn't be tested.
+
+In the BSP, this driver is known as the "cif" driver, but this was
+renamed to "vip" to better fit the controller denomination in the
+datasheet.
+
+This version of the driver supports ONLY the parallel interface BT656
+and was tested/implemented using an SDTV video decoder
+
+media_tree, base-commit: 2c1bae27df787c9535e48cc27bbd11c3c3e0a235
+
+V6 => V7:
+vip/capture.c vip/dev.c vip/dev.h
+- renamed all struct rk_vip_dev dev => struct rk_vip_dev vip_dev
+- added some error when rk_vip_get_buffer() returns NULL
+- removed a WARN_ON
+- made the irq NOT shared
+- dropped of_match_ptr
+- added the rk_vip_get_resource() function
+
+rockchip,px30-vip.yaml:
+- changed filename to match the compatible
+- dropped the mention of the other rockchip SoC in the dt-binding
+  description and added a more detailed description of VIP
+- removed unused labels in the example
+
+
+V5 [1] => V6:
+vip/capture.c vip/dev.c vip/dev.h
+- added a video g_input_status subdev call, V4L2_IN_CAP_STD and the
+  supported stds in rk_vip_enum_input callback
+- added rk_vip_g_std, rk_vip_s_std and rk_vip_querystd callbacks
+- added the supported video_device->tvnorms
+- s_std will now update the format as this depends on the standard
+  NTSC/PAL (as suggested by Hans in [1])
+- removed STD_ATSC
+- moved the colorimetry information to come from the subdev
+- removed the core s_power subdev calls
+- dropped cropping in rk_vip_stream struct
+
+rockchip-vip.yaml:
+- fixed a mistake in the name of third clock plckin -> plck
+- changed the reg maxItems 2 -> 1
+
+[1] https://lore.kernel.org/linux-media/20201229161724.511102-1-maxime.chevallier@bootlin.com/
+
+I used v4l-utils with HEAD: commit 1ee258e5bb91a12df378e19eb255c5219d6bc36b
+
+# v4l2-compliance 
+v4l2-compliance 1.25.0, 64 bits, 64-bit time_t
+
+Compliance test for rk_vip device /dev/video0:
+
+Driver Info:
+        Driver name      : rk_vip
+        Card type        : rk_vip
+        Bus info         : platform:ff490000.vip
+        Driver version   : 6.6.0
+        Capabilities     : 0x84201000
+                Video Capture Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04201000
+                Video Capture Multiplanar
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : rk_vip
+        Model            : rk_vip
+        Serial           : 
+        Bus info         : platform:ff490000.vip
+        Media version    : 6.6.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.6.0
+Interface Info:
+        ID               : 0x03000002
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : video_rkvip
+        Function         : V4L2 I/O
+        Pad 0x01000004   : 0: Sink
+          Link 0x02000009: from remote pad 0x1000006 of entity 'tw9900 2-0044' (Digital Video Decoder): Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for rk_vip device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+Mehdi Djait (3):
+  media: dt-bindings: media: add bindings for Rockchip VIP
+  media: rockchip: Add a driver for Rockhip's camera interface
+  arm64: dts: rockchip: Add the camera interface
+
+ .../bindings/media/rockchip,px30-vip.yaml     |   93 ++
+ arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+ drivers/media/platform/rockchip/Kconfig       |    1 +
+ drivers/media/platform/rockchip/Makefile      |    1 +
+ drivers/media/platform/rockchip/vip/Kconfig   |   14 +
+ drivers/media/platform/rockchip/vip/Makefile  |    3 +
+ drivers/media/platform/rockchip/vip/capture.c | 1211 +++++++++++++++++
+ drivers/media/platform/rockchip/vip/dev.c     |  346 +++++
+ drivers/media/platform/rockchip/vip/dev.h     |  163 +++
+ drivers/media/platform/rockchip/vip/regs.h    |  260 ++++
+ 10 files changed, 2104 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+ create mode 100644 drivers/media/platform/rockchip/vip/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/vip/Makefile
+ create mode 100644 drivers/media/platform/rockchip/vip/capture.c
+ create mode 100644 drivers/media/platform/rockchip/vip/dev.c
+ create mode 100644 drivers/media/platform/rockchip/vip/dev.h
+ create mode 100644 drivers/media/platform/rockchip/vip/regs.h
 
 -- 
-Sakari Ailus
+2.41.0
+
