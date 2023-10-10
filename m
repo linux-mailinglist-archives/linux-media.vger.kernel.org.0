@@ -2,51 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F34007C04BF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 21:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED1377C04DC
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 21:44:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343940AbjJJTgq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 15:36:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48706 "EHLO
+        id S234287AbjJJTod (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 15:44:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343946AbjJJTgo (ORCPT
+        with ESMTP id S230442AbjJJToc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 15:36:44 -0400
+        Tue, 10 Oct 2023 15:44:32 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61E939E;
-        Tue, 10 Oct 2023 12:36:43 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58C8DC433C8;
-        Tue, 10 Oct 2023 19:36:41 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFBDF8E;
+        Tue, 10 Oct 2023 12:44:31 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B770EC433C8;
+        Tue, 10 Oct 2023 19:44:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696966603;
-        bh=cZkzPPFC3wMzzRvvFIDetx465/S9zd2QKLoizRzR0gI=;
+        s=k20201202; t=1696967071;
+        bh=3C++hF0g2xnKijtFMR04daPdF8gMLF1v7H3LnvxMEhg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LYGlVfKg4sSSZjfl2XDMA6KCVaRbQF/bXgrzY8OcHIvKxtXq0Pfw73bxJUGhWtc6e
-         17dTUdIS7RnQy0sCqfZGGQYS5Y/vC2T967KmNtzcgmCHDwe0+BY9K7y5FTWjjc4ek2
-         yU7dtRz6CmPWaHLcyYnVu7wA6Qa9dSaWUNrnxqAMfxWdYLcZPx0ukMqx9hSI3NiGMZ
-         5l0dwTKvv59Yt3MdWjVextK9jf4dqBfu4SSJHO5KeS/brR6ijvhs3lNscCBOd0o8cE
-         kUB9LYxgW2yLb1r07biJ25GjEtFloOyG4qhLSR0t3B2IeVx5QXQDSH0uq0n5gFCwTu
-         Uq1i24pvfu9Ig==
-Received: (nullmailer pid 1423129 invoked by uid 1000);
-        Tue, 10 Oct 2023 19:36:40 -0000
-Date:   Tue, 10 Oct 2023 14:36:40 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Mehdi Djait <mehdi.djait@bootlin.com>
-Cc:     ezequiel@vanguardiasur.com.ar, robh+dt@kernel.org, heiko@sntech.de,
-        linux-media@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, linux-kernel@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
-        mchehab@kernel.org, conor+dt@kernel.org, hverkuil-cisco@xs4all.nl,
-        maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com
-Subject: Re: [PATCH v7 1/3] media: dt-bindings: media: add bindings for
- Rockchip VIP
-Message-ID: <169696659993.1423074.9501474541283864884.robh@kernel.org>
-References: <cover.1696943295.git.mehdi.djait@bootlin.com>
- <a103d2e4e2c80a97a62574a782eba29f78731471.1696943295.git.mehdi.djait@bootlin.com>
+        b=t7KrsoMcqOmJb1MuzJxoEBEyUaRciAvWD61supcifUDsRdoYMEPuVEuFWTABqJ541
+         jxulDs09PYKpUgBhJUj/eA4O0OoR1ai2BuCNy7vlrAdO/kUfSa4q6wu2zEYJ87lUVm
+         CsCbcawg9RiP8bY55Tu1sO3CjpZ5hDeWlgK5y4LvP32ngvGyio3Q3o0yJoiCUDCLvg
+         z2b4RgpuRZTpxo1dfk7931Jl8D4VHhgcJcoeWIegFeRjdd656UDokKnZ+3ERDpDOzs
+         dOk98eBpG9v1IiTiyFmBb12OLpEOa0axyhkB8nsfEBV8h5brrzZSx6WPc4deYS46k7
+         g2yP0X3R631ww==
+Date:   Tue, 10 Oct 2023 21:44:27 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        loic.poulain@linaro.org, rfoss@kernel.org, andi.shyti@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] dt-bindings: i2c: qcom-cci: Document sc8280xp
+ compatible
+Message-ID: <ZSWpm/7xnoFkUn31@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org,
+        loic.poulain@linaro.org, rfoss@kernel.org, andi.shyti@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231006120159.3413789-1-bryan.odonoghue@linaro.org>
+ <20231006120159.3413789-2-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="t6Aj+rePpll//Dod"
 Content-Disposition: inline
-In-Reply-To: <a103d2e4e2c80a97a62574a782eba29f78731471.1696943295.git.mehdi.djait@bootlin.com>
+In-Reply-To: <20231006120159.3413789-2-bryan.odonoghue@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -58,18 +67,37 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On Tue, 10 Oct 2023 15:15:04 +0200, Mehdi Djait wrote:
-> Add a documentation for the Rockchip Video Input Processor
-> binding.
-> 
-> The PX30 SoC is the only platform supported so far.
-> 
-> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> ---
->  .../bindings/media/rockchip,px30-vip.yaml     | 93 +++++++++++++++++++
->  1 file changed, 93 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> 
+--t6Aj+rePpll//Dod
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Fri, Oct 06, 2023 at 01:01:55PM +0100, Bryan O'Donoghue wrote:
+> Add sc8280xp compatible consistent with recent CAMSS CCI interfaces.
+>=20
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
+Applied to for-next, thanks!
+
+
+--t6Aj+rePpll//Dod
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUlqZsACgkQFA3kzBSg
+KbYxYRAAr7+ppZOIsAJ24eXrV+W6sJDcUrxv7CSK9IjgX4II8QHuJJPwGW1iUeax
+LOgmBQcvDP2hQKG3oaAWcpn0UWly1ny4n6iHLyMK9EDiKIPkXVr64G5sfN/iDRjL
+U6lSb5ZRpO9uYvVu7+vFU9JmCoO5p53JnQpdkvZpy89wT8ylMST/Dx/ZHMYr6ySj
+s7TsBNizXBo0UXSUYjpXekq7NZHIP124/wK+LWUx3AXq7fnlGsksCAoQen27G05F
+U5bIPxhJuNvO4U/1g1xNZFHsOwI6Gb2Jk/dpNmik4YJ7jaiUfzK3QXuH0Yge/vxK
+JsWIdmMRMz31UTSePtq49Gd4Q2PFo92fti+TUVzZhkawhgi8jL6aX6u1Z93PMeqv
+NnHgVT4ziqKqCCHQQU11CcGcjNaepfawOlWSebqTI1oDk9Z5XAMRyxU0tGVAYQtB
+BKiPvnUeQ0kHGhoyfb4V5d3Q5ue9l12aJ2/PAMH2F5w3Q3m25dgRteW0IAT8OuZc
+TjxNWAbtDh6I3ZxgfBHR9XR8kdkBHgxv7h/6lYh3fxdUPPPnLHrADCURVscownI7
+tJy7FNISwe1O6yHfge2FnzUOFAspZAUL9VBMPU0fL5Z4w5NxTIxPs5tQsDfJQmxj
+zAnfTpMqoVsvt05mGusYWetkr00c3RiNG3Yp4P8V0zIGDWH7TS4=
+=jtu3
+-----END PGP SIGNATURE-----
+
+--t6Aj+rePpll//Dod--
