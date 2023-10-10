@@ -2,91 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65F5F7BEFF5
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 02:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EE147BF075
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 03:45:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379301AbjJJAvq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 20:51:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
+        id S1379372AbjJJBpt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Oct 2023 21:45:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379290AbjJJAvn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 20:51:43 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7446FBA;
-        Mon,  9 Oct 2023 17:51:41 -0700 (PDT)
-Received: from Monstersaurus.local (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A485CF8B;
-        Tue, 10 Oct 2023 02:51:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1696899094;
-        bh=6et6YB3ovJRquTK1bYYUx8i7eR+31xGOSlTSN1ZNHt8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MJKZ4b/egWoZwPcbZ74ew/22iue5kNjfJxUObC2Q5S+dG5E/YbCVX3UVNNcYxi9to
-         T6kjzK9lzErtAvcdaK2nFuXyTW8CeaINU0hVd0n8R9cJ/KF8sh1uEIcoKtfp2kl3dg
-         A0UAhMAIOyLZBWN7LVB+OdfG3YfJnqTbQ7BXVxrs=
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 5/5] media: i2c: imx335: Improve configuration error reporting
-Date:   Tue, 10 Oct 2023 01:51:26 +0100
-Message-Id: <20231010005126.3425444-6-kieran.bingham@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231010005126.3425444-1-kieran.bingham@ideasonboard.com>
-References: <20231010005126.3425444-1-kieran.bingham@ideasonboard.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S1379327AbjJJBps (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 21:45:48 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 787ED8F
+        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 18:45:46 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD258C433C8
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 01:45:45 +0000 (UTC)
+Date:   Tue, 10 Oct 2023 03:45:43 +0200
+Message-ID: <c3906ca48ba2f9f8dcffb1829e236f8d.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The existing imx335_parse_hw_config function has two paths
-that can be taken without reporting to the user the reason
-for failing to accept the hardware configuration.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Extend the error reporting paths to identify failures when
-probing the device.
+Results of the daily build of media_tree:
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
- drivers/media/i2c/imx335.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+date:			Tue Oct 10 03:00:07 CEST 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	a1766a4fd83befa0b34d932d532e7ebb7fab1fa7
+v4l-utils git hash:	99c4f6dd80613c7bd1fe02bd34492bbd4c999fea
+edid-decode git hash:	e59b8a2ffd690d6576639365a67e890d91ca443d
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8471-g6f3cce86
+sparse version:		v0.5.0-8471-g6f3cce86
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 842db433707b21980cbfcc82837152be22752510
+host hardware:		x86_64
+host os:		6.5.0-1-amd64
 
-diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index 1a34b2a43718..753e5c39e0fa 100644
---- a/drivers/media/i2c/imx335.c
-+++ b/drivers/media/i2c/imx335.c
-@@ -864,8 +864,10 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
- 	}
- 
- 	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
--	if (!ep)
-+	if (!ep) {
-+		dev_err(imx335->dev, "Failed to get next endpoint");
- 		return -ENXIO;
-+	}
- 
- 	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
- 	fwnode_handle_put(ep);
-@@ -890,6 +892,8 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
- 		if (bus_cfg.link_frequencies[i] == IMX335_LINK_FREQ)
- 			goto done_endpoint_free;
- 
-+	dev_err(imx335->dev, "no compatible link frequencies found");
-+
- 	ret = -EINVAL;
- 
- done_endpoint_free:
--- 
-2.34.1
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:446 gc0310_s_stream() warn: missing error code 'ret'
+drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+  Locked on  : 326,387
+  Unlocked on: 465,467
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+drivers/staging/media/atomisp/pci/atomisp_cmd.c:2779 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+drivers/staging/media/atomisp/pci/atomisp_cmd.c:2878 atomisp_cp_morph_table() warn: missing unwind goto?
+drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
+drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
+drivers/media/i2c/mt9m114.c:2381 mt9m114_probe() warn: missing unwind goto?
+drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
+drivers/media/platform/qcom/venus/pm_helpers.c:873 vcodec_domains_get() warn: passing zero to 'PTR_ERR'
+drivers/media/i2c/tc358746.c:790 tc358746_set_fmt() error: 'fmt' dereferencing possible ERR_PTR()
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Tue Oct 10 03:16:59 CEST 2023
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 5
+
+date:			Tue Oct 10 03:44:28 CEST 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
