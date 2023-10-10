@@ -2,56 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4D137BF0C5
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 04:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD05C7BF0C6
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 04:21:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379404AbjJJCVv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Oct 2023 22:21:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55800 "EHLO
+        id S1441849AbjJJCV4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Oct 2023 22:21:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379400AbjJJCVu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 22:21:50 -0400
+        with ESMTP id S1441843AbjJJCVz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Oct 2023 22:21:55 -0400
 Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF3993
-        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 19:21:49 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5a7a6fd18abso15174827b3.1
-        for <linux-media@vger.kernel.org>; Mon, 09 Oct 2023 19:21:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2349693
+        for <linux-media@vger.kernel.org>; Mon,  9 Oct 2023 19:21:54 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5a7b9e83b70so3860627b3.0
+        for <linux-media@vger.kernel.org>; Mon, 09 Oct 2023 19:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696904508; x=1697509308; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1696904513; x=1697509313; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/j/k0wnr5OTIj2PFl+c3jEMpzoGNzeZvbWu6+Id8COM=;
-        b=FVuWvEg18HIhb9uBdvuNcZYjsnvLoVKRlaIEfaj0pkvUD4YANh2NiIjx7d8I1yVffH
-         8hYc46I7PUM9GBp+nwy97E4aI9c/JjAInDM+N+TJerO7z7ByVxEwsgyEGpcsrCaczz3y
-         kVrg4gypDo8JVAQQNtBANTySeJsTT/jQIJ/dj5LufaRVWEts1EK85lmWPw0zbBh6BgSg
-         EFxSoA+KGYtAqJiwRKIp2FHOTZnS4eC1SNVS9rlDmGIX3QHInZpT7AeR5Pg1ALO4ZJkR
-         BfqTP1QgEk+IWhDb3sG8uaHFXlh3oySW+3XS3gMHGe0nVP3TnaZr1apD0u5QjivQEcUE
-         XFfg==
+        bh=TgMooTmfsY7D1tW8ueH79VZeEdXrtsvNQwGx0XkGMo4=;
+        b=NetkawKuTv9Y+gz7L4XzagfchWa6w4BDINO2/5el60F6KnKBP4BlxrV00z/NUFzyjp
+         reStAnKBEYmfIMD+EjM0eSFbLkaaYHRVrZgsiIEYyD3seLdkB4jDuENgI15PBkn/4bFy
+         DTSvW1hbH/h+mWIyTF2m+RBYLhvy+4LPp+1hc3Hx9/sOwcjTW5elMvJ7Wl1Y0OZ2gShR
+         pkq1j+RULDUn3BeR+FzaaolofoVlyamvpEQCxcG1ArEWiz/YNVZCfrrnCkTS6rtgbMid
+         nqAD4B8iMn7mtN38xS9vM53Jf+F3nt/vVulJVmiW3Cr5tDg5I0JaTq9TR0bHtBLylnf7
+         d+8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696904508; x=1697509308;
+        d=1e100.net; s=20230601; t=1696904513; x=1697509313;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/j/k0wnr5OTIj2PFl+c3jEMpzoGNzeZvbWu6+Id8COM=;
-        b=RO8qP/+f5/iEJCcei3/J0h6olyp8nzxQPKATY7SY53Wr+IlvYzcGBtxW7W0iqy6Nqp
-         TiUZ+/kws+sU86Pl4yz6BpzWQjIYL8hf0m7zfABnStfRB7J4U4Gql3g2uw3XNM9z4I2H
-         YfoJ39p4kz/3+Fzvt9IF8JS2Z5yzUdUx/0fJhix8dfb0MUOHGyfr7rDrmy9Fkat2kTLP
-         RxkLQNvypO3bHQz3Uv4tmrqUOnP+TpTggYCm9GZQMmua0HIVYxuDc//VqfSIus7tQZFb
-         8zkeZH7Wc6HkizmqTVLvTxqJtPbTUd0U5dTQvxJkfIDTPKOvBeNyxksACASImU6hxoDP
-         qfFw==
-X-Gm-Message-State: AOJu0YzjXXeyhy7bR1TkjUoylnYxZ7daQHvc3bWhG3Bm8S4wjmCUuKRe
-        Wej55uX5qfSRMasgH4V/t6Gi70/XiDQ=
-X-Google-Smtp-Source: AGHT+IEqORpx2ns7oyZr2jZAcnCfnk7JkXj610EjbknHXnpYnArcttaVT5FuQHMOtuRhJpbxxF5PGGwk8YU=
+        bh=TgMooTmfsY7D1tW8ueH79VZeEdXrtsvNQwGx0XkGMo4=;
+        b=bDqpKFHwn6mAcLEpc1iVQnqpY3tX3e7WURlvewnd+tdX5YdTia5DWm7KysTl6nkRqF
+         jNxgEEW6LLA4HlUhn7Ho4x2s8aQYWFIVVrhUmWDYATqeS6k8SSL6crYtmxHRsQHm/D36
+         HMYTx8YFw7rmE5YtjprTBFSjIBlPDj/PckL16dB+ZTP0MALdl9F+d0fZuyH7ldcUm4Vk
+         KKjFGyI9E9OnVGr8Vauf6mV5fyhOu8g5e1n6ekGARxn7Btn/NhmhQIwN71WHI/jVBozo
+         R0x915e5wS2pbcnMxvsBHY1MPLZlOaNX3iY67rBxWBybSREd6B95FgUkulM4pVyBi4ze
+         AOGQ==
+X-Gm-Message-State: AOJu0YyR3iylVhzEN901D3cM58AU8ScD5Z2BX4H6IZPfvxmz0ZAh0GVr
+        TVZaVxeVQrVQDMKsj7Xv+JX8v3MEHlg=
+X-Google-Smtp-Source: AGHT+IGJ/RVDPs0xhnZXNBwivyf6Kb9eudA18h0uLUbA2TTB3OnXxEBmid9crBdPQhEJ64RwJjrAP9Tu7X0=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:7303:2d54:5b83:e60b])
- (user=yunkec job=sendgmr) by 2002:a81:b3c3:0:b0:59b:eb63:4beb with SMTP id
- r186-20020a81b3c3000000b0059beb634bebmr319348ywh.7.1696904508453; Mon, 09 Oct
- 2023 19:21:48 -0700 (PDT)
-Date:   Tue, 10 Oct 2023 11:21:24 +0900
+ (user=yunkec job=sendgmr) by 2002:a05:690c:2f0e:b0:5a7:7f50:b8a2 with SMTP id
+ ev14-20020a05690c2f0e00b005a77f50b8a2mr150439ywb.0.1696904513350; Mon, 09 Oct
+ 2023 19:21:53 -0700 (PDT)
+Date:   Tue, 10 Oct 2023 11:21:25 +0900
 In-Reply-To: <20231010022136.1504015-1-yunkec@google.com>
 Mime-Version: 1.0
 References: <20231010022136.1504015-1-yunkec@google.com>
 X-Mailer: git-send-email 2.42.0.609.gbb76f46606-goog
-Message-ID: <20231010022136.1504015-2-yunkec@google.com>
-Subject: [PATCH v13 01/11] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+Message-ID: <20231010022136.1504015-3-yunkec@google.com>
+Subject: [PATCH v13 02/11] media: uvcvideo: add uvc_ctrl_get_boundary for
+ getting default value
 From:   Yunke Cao <yunkec@google.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -71,172 +72,142 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add p_rect to struct v4l2_ext_control with basic support in
-v4l2-ctrls.
+Introduce uvc_ctrl_get_boundary(), making it easier to extend to
+support compound controls and V4L2_CTRL_WHICH_MIN/MAX_VAL in the
+following patches.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+For now, it simply returns EINVAL for compound controls and calls
+__query_v4l2_ctrl() for non-compound controls.
+
 Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 Signed-off-by: Yunke Cao <yunkec@google.com>
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
-Changelog since v12:
-- No Change.
+An alternative name is uvc_ctrl_get_statc(). Let me know if that's better.
+
 Changelog since v11:
-- Added reviewed-by from Hans
-Changelog since v10:
-- Added reviewed-by from Sergey and Daniel.
-Changelog since v9:
-- No Change.
-Changelog since v8:
 - No change.
+Changelog since v10:
+- Fix __uvc_ctrl_get_boundary_std() typo causing build error.
+- Added Reviewed-by from Sergey.
+Changelog since v9:
+- Make __uvc_ctrl_get_boundary_std() static.
+Changelog since v8:
+- No Change.
 Changelog since v7:
-- Document V4L2_CTRL_TYPE_RECT in vidioc-queryctrl.rst.
-- Rebased to media-stage master.
-- Do not assign each field in std_equal
+- Rename uvc_ctrl_get_fixed() to uvc_ctrl_get_boundary().
+- Move refactor (introduce  __uvc_ctrl_get_boundary_std()) in this patch
+  instead of in the patch where we implement compound control.
+- Fix locking. uvc_ctrl_get_boundary() now acquires ctrl_mutex.
+  __uvc_ctrl_get_boundary_std() calls __uvc_query_v4l2_ctrl() while
+  holding the mutex.
+- Define a uvc_ctrl_mapping_is_compound() for readability.
 
- .../media/v4l/vidioc-g-ext-ctrls.rst             |  4 ++++
- .../userspace-api/media/v4l/vidioc-queryctrl.rst |  7 +++++++
- .../media/videodev2.h.rst.exceptions             |  1 +
- drivers/media/v4l2-core/v4l2-ctrls-core.c        | 16 +++++++++++++++-
- include/media/v4l2-ctrls.h                       |  2 ++
- include/uapi/linux/videodev2.h                   |  2 ++
- 6 files changed, 31 insertions(+), 1 deletion(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 48 ++++++++++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvc_v4l2.c |  6 +---
+ drivers/media/usb/uvc/uvcvideo.h |  2 ++
+ 3 files changed, 51 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-index f9f73530a6be..7b1001d11f9c 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-@@ -199,6 +199,10 @@ still cause this situation.
-       - ``p_area``
-       - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
-         of type ``V4L2_CTRL_TYPE_AREA``.
-+    * - struct :c:type:`v4l2_rect` *
-+      - ``p_rect``
-+      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_RECT``.
-     * - struct :c:type:`v4l2_ctrl_h264_sps` *
-       - ``p_h264_sps``
-       - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 4d38acafe8e1..56d5c8b0b88b 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -441,6 +441,13 @@ See also the examples in :ref:`control`.
-       - n/a
-       - A struct :c:type:`v4l2_area`, containing the width and the height
-         of a rectangular area. Units depend on the use case.
-+    * - ``V4L2_CTRL_TYPE_RECT``
-+      - n/a
-+      - n/a
-+      - n/a
-+      - A struct :c:type:`v4l2_rect`, containing a rectangle described by
-+	the position of its top-left corner, the width and the height. Units
-+	depend on the use case.
-     * - ``V4L2_CTRL_TYPE_H264_SPS``
-       - n/a
-       - n/a
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index 3e58aac4ef0b..c46082ef0e4d 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -150,6 +150,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index a662fb60f73f..f1486ab032cf 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -367,7 +367,11 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
- 	case V4L2_CTRL_TYPE_AV1_FILM_GRAIN:
- 		pr_cont("AV1_FILM_GRAIN");
- 		break;
--
-+	case V4L2_CTRL_TYPE_RECT:
-+		pr_cont("%ux%u@%dx%d",
-+			ptr.p_rect->width, ptr.p_rect->height,
-+			ptr.p_rect->left, ptr.p_rect->top);
-+		break;
- 	default:
- 		pr_cont("unknown type %d", ctrl->type);
- 		break;
-@@ -812,6 +816,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
- 	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
- 	struct v4l2_area *area;
-+	struct v4l2_rect *rect;
- 	void *p = ptr.p + idx * ctrl->elem_size;
- 	unsigned int i;
- 
-@@ -1169,6 +1174,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 			return -EINVAL;
- 		break;
- 
-+	case V4L2_CTRL_TYPE_RECT:
-+		rect = p;
-+		if (!rect->width || !rect->height)
-+			return -EINVAL;
-+		break;
-+
- 	default:
- 		return -EINVAL;
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index e59a463c2761..8d8333786333 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -884,6 +884,12 @@ static void uvc_set_le_value(struct uvc_control_mapping *mapping,
  	}
-@@ -1868,6 +1879,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	case V4L2_CTRL_TYPE_AREA:
- 		elem_size = sizeof(struct v4l2_area);
- 		break;
-+	case V4L2_CTRL_TYPE_RECT:
-+		elem_size = sizeof(struct v4l2_rect);
-+		break;
- 	default:
- 		if (type < V4L2_CTRL_COMPOUND_TYPES)
- 			elem_size = sizeof(s32);
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 59679a42b3e7..b0db167a3ac4 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -56,6 +56,7 @@ struct video_device;
-  * @p_av1_tile_group_entry:	Pointer to an AV1 tile group entry structure.
-  * @p_av1_frame:		Pointer to an AV1 frame structure.
-  * @p_av1_film_grain:		Pointer to an AV1 film grain structure.
-+ * @p_rect:			Pointer to a rectangle.
-  * @p:				Pointer to a compound value.
-  * @p_const:			Pointer to a constant compound value.
-  */
-@@ -89,6 +90,7 @@ union v4l2_ctrl_ptr {
- 	struct v4l2_ctrl_av1_tile_group_entry *p_av1_tile_group_entry;
- 	struct v4l2_ctrl_av1_frame *p_av1_frame;
- 	struct v4l2_ctrl_av1_film_grain *p_av1_film_grain;
-+	struct v4l2_rect *p_rect;
- 	void *p;
- 	const void *p_const;
- };
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 78260e5d9985..9a8836ee8da9 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1814,6 +1814,7 @@ struct v4l2_ext_control {
- 		__s32 __user *p_s32;
- 		__s64 __user *p_s64;
- 		struct v4l2_area __user *p_area;
-+		struct v4l2_rect __user *p_rect;
- 		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
- 		struct v4l2_ctrl_h264_pps *p_h264_pps;
- 		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
-@@ -1882,6 +1883,7 @@ enum v4l2_ctrl_type {
- 	V4L2_CTRL_TYPE_U16	     = 0x0101,
- 	V4L2_CTRL_TYPE_U32	     = 0x0102,
- 	V4L2_CTRL_TYPE_AREA          = 0x0106,
-+	V4L2_CTRL_TYPE_RECT	     = 0x0107,
+ }
  
- 	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
- 	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
++static bool
++uvc_ctrl_mapping_is_compound(const struct uvc_control_mapping *mapping)
++{
++	return mapping->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES;
++}
++
+ /* ------------------------------------------------------------------------
+  * Terminal and unit management
+  */
+@@ -1880,6 +1886,48 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
+ 	return __uvc_ctrl_get(chain, ctrl, mapping, &xctrl->value);
+ }
+ 
++static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
++				       struct uvc_control *ctrl,
++				       struct uvc_control_mapping *mapping,
++				       struct v4l2_ext_control *xctrl)
++{
++	struct v4l2_queryctrl qc = { .id = xctrl->id };
++
++	int ret = __uvc_query_v4l2_ctrl(chain, ctrl, mapping, &qc);
++
++	if (ret < 0)
++		return ret;
++
++	xctrl->value = qc.default_value;
++	return 0;
++}
++
++int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
++			  struct v4l2_ext_control *xctrl)
++{
++	struct uvc_control *ctrl;
++	struct uvc_control_mapping *mapping;
++	int ret;
++
++	if (mutex_lock_interruptible(&chain->ctrl_mutex))
++		return -ERESTARTSYS;
++
++	ctrl = uvc_find_control(chain, xctrl->id, &mapping);
++	if (!ctrl) {
++		ret = -EINVAL;
++		goto done;
++	}
++
++	if (uvc_ctrl_mapping_is_compound(mapping))
++		ret = -EINVAL;
++	else
++		ret = __uvc_ctrl_get_boundary_std(chain, ctrl, mapping, xctrl);
++
++done:
++	mutex_unlock(&chain->ctrl_mutex);
++	return ret;
++}
++
+ int uvc_ctrl_set(struct uvc_fh *handle,
+ 	struct v4l2_ext_control *xctrl)
+ {
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index f4988f03640a..5a88847bfbfe 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -1096,15 +1096,11 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+ 
+ 	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
+ 		for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+-			struct v4l2_queryctrl qc = { .id = ctrl->id };
+-
+-			ret = uvc_query_v4l2_ctrl(chain, &qc);
++			ret = uvc_ctrl_get_boundary(chain, ctrl);
+ 			if (ret < 0) {
+ 				ctrls->error_idx = i;
+ 				return ret;
+ 			}
+-
+-			ctrl->value = qc.default_value;
+ 		}
+ 
+ 		return 0;
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 6fb0a78b1b00..5091085fcfb0 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -781,6 +781,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
+ }
+ 
+ int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
++int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
++			  struct v4l2_ext_control *xctrl);
+ int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
+ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+ 			   const struct v4l2_ext_controls *ctrls,
 -- 
 2.42.0.609.gbb76f46606-goog
 
