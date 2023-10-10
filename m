@@ -2,136 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C2847BF92E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 13:06:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAE1E7BFA50
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 13:50:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231131AbjJJLGq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 07:06:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53492 "EHLO
+        id S231445AbjJJLuE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 07:50:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231211AbjJJLGp (ORCPT
+        with ESMTP id S231244AbjJJLuD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 07:06:45 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C2D294
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 04:06:41 -0700 (PDT)
+        Tue, 10 Oct 2023 07:50:03 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D3279D
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 04:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696936001; x=1728472001;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aYNPXEXyl8RWhiSV0o9uJDzObOReC36Oqr08dOYNnjQ=;
-  b=XalSuLSCm6AzeljtSCggv8QSGmjGPsIGbNjfrjcHPh5kTtCkt1MzXt9j
-   Ry78mPGmtOnUv1I6NrlHCza23Qy/hDil7znDOgYzSlq6ypyjzdktYWbNT
-   kcI03aaCZRTDWOswxpOLmrzTycLhGCfBj2ykMuHuqHv4T3v9BfqyZWcij
-   PmIdKhDJm9fLQQRieJaBJqK1jiP3PpeHNp5yD7UC8/YkHZ7xs+ngAogws
-   QYo8QcGU0f4xYb2QbKLIFJsVek1HwLRdL9Bl5nOXSdb1byHrW8h1k0x3Q
-   1BVhR+Vz8/8siY5qbMfB4hw0U3qKXDP0bnjPPG/PbJY/w5QYNODBMBCCe
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="369430697"
+  t=1696938601; x=1728474601;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=88EAsTvlA9sazY42zKRgyLtepyLlWwhGA1GDiaOG5Uw=;
+  b=bm4/RFMUoP6joqEL9VYU4sn5LXNTpqaonaeTxVPOj/OCQmEip9RnvF8D
+   U/alLreTo5mfsLz5X8WbEQ9aTdX/6O8xnDyHVGt0VxWtFvZgdAEbbypSh
+   mvWhWUADN+QrhKjM9C83tbvOrgahPc+8j4r9l7VhGOE/XZS5gSjmwMsbl
+   0Nrt+uobRABqTYoKzA5nqmoc2fbL2dKPPwHxm3xbHF8ezEHx4SUUM26tV
+   Esmpckngz9oZNSis9ga+OgyRHyHZ+qQewmMGrwgSd7aPwXINTJxS+bC3O
+   YKwWTxPrfiiruuKejIAYltfKRtZ80jF6iUXU60zDMNkb+g7CYMGZwbOpt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="384227446"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="369430697"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 04:06:40 -0700
+   d="scan'208";a="384227446"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 04:50:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="747037062"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="782858274"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="747037062"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 10 Oct 2023 04:06:39 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qqAZQ-0000II-23;
-        Tue, 10 Oct 2023 11:06:36 +0000
-Date:   Tue, 10 Oct 2023 19:06:14 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 31/36]
- drivers/media/i2c/ccs/ccs-core.c:2222:22: warning: unused variable 'i'
-Message-ID: <202310101832.SmsDPmoW-lkp@intel.com>
+   d="scan'208";a="782858274"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 04:49:59 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 4377F11F835;
+        Tue, 10 Oct 2023 14:49:56 +0300 (EEST)
+Date:   Tue, 10 Oct 2023 11:49:56 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Dennis Bonke <admin@dennisbonke.com>,
+        tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH] media: subdev: Don't report V4L2_SUBDEV_CAP_STREAMS when
+ the streams API is disabled
+Message-ID: <ZSU6ZFKS5QkFJgZw@kekkonen.localdomain>
+References: <20231010102458.111227-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231010102458.111227-1-hdegoede@redhat.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   278fe7fc8a0bdc0cc01b934edf4e2193b0dc195e
-commit: f815633f0acd64a5a663a205f74db43d814c7a73 [31/36] media: ccs: Remove ccs_get_crop_compose helper
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20231010/202310101832.SmsDPmoW-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231010/202310101832.SmsDPmoW-lkp@intel.com/reproduce)
+Hi Hans,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310101832.SmsDPmoW-lkp@intel.com/
+On Tue, Oct 10, 2023 at 12:24:58PM +0200, Hans de Goede wrote:
+> Since the stream API is still experimental it is currently locked away
+> behind the internal, default disabled, v4l2_subdev_enable_streams_api flag.
+> 
+> Advertising V4L2_SUBDEV_CAP_STREAMS when the streams API is disabled
+> confuses userspace. E.g. it causes the following libcamera error:
+> 
+> ERROR SimplePipeline simple.cpp:1497 Failed to reset routes for
+>   /dev/v4l-subdev1: Inappropriate ioctl for device
+> 
+> Don't report V4L2_SUBDEV_CAP_STREAMS when the streams API is disabled
+> to avoid problems like this.
+> 
+> Reported-by: Dennis Bonke <admin@dennisbonke.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> -Clearing the V4L2_SUBDEV_FL_STREAMS flag from sd.flags might seem
+>  appealing as an alternative fix. But this causes various v4l2-core bits
+>  to enter different code paths which confuses drivers which set
+>  V4L2_SUBDEV_FL_STREAMS, so this is a bad idea.
 
-All warnings (new ones prefixed by >>):
+Thanks, this apparently had been missed while disabling the API.
 
-   drivers/media/i2c/ccs/ccs-core.c: In function 'ccs_propagate':
->> drivers/media/i2c/ccs/ccs-core.c:2222:22: warning: unused variable 'i' [-Wunused-variable]
-    2222 |         unsigned int i;
-         |                      ^
+Probably also should be added:
 
+Fixes: 9a6b5bf4c1bb ("media: add V4L2_SUBDEV_CAP_STREAMS")
+Cc: stable@vger.kernel.org # for >= 6.3
 
-vim +/i +2222 drivers/media/i2c/ccs/ccs-core.c
+Also cc'd Tomi.
 
-  2212	
-  2213	/* Changes require propagation only on sink pad. */
-  2214	static void ccs_propagate(struct v4l2_subdev *subdev,
-  2215				  struct v4l2_subdev_state *sd_state, int which,
-  2216				  int target)
-  2217	{
-  2218		struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-  2219		struct ccs_subdev *ssd = to_ccs_subdev(subdev);
-  2220		struct v4l2_rect *comp, *crop;
-  2221		struct v4l2_mbus_framefmt *fmt;
-> 2222		unsigned int i;
-  2223	
-  2224		comp = v4l2_subdev_get_compose_ptr(subdev, sd_state,
-  2225						   ssd->sink_pad, CCS_STREAM_PIXEL);
-  2226		switch (target) {
-  2227		case V4L2_SEL_TGT_CROP:
-  2228			crop = v4l2_subdev_get_crop_ptr(subdev, sd_state, CCS_PAD_SINK,
-  2229							CCS_STREAM_PIXEL);
-  2230			comp->width = crop->width;
-  2231			comp->height = crop->height;
-  2232			if (which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-  2233				if (ssd == sensor->scaler) {
-  2234					sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
-  2235					sensor->scaling_mode =
-  2236						CCS_SCALING_MODE_NO_SCALING;
-  2237					sensor->scaler_sink = *comp;
-  2238				} else if (ssd == sensor->binner) {
-  2239					sensor->binning_horizontal = 1;
-  2240					sensor->binning_vertical = 1;
-  2241				}
-  2242			}
-  2243			fallthrough;
-  2244		case V4L2_SEL_TGT_COMPOSE:
-  2245			crop = v4l2_subdev_get_crop_ptr(subdev, sd_state, CCS_PAD_SRC,
-  2246							CCS_STREAM_PIXEL);
-  2247			*crop = *comp;
-  2248			fmt = v4l2_subdev_get_pad_format(subdev, sd_state, CCS_PAD_SRC);
-  2249			fmt->width = comp->width;
-  2250			fmt->height = comp->height;
-  2251			if (which == V4L2_SUBDEV_FORMAT_ACTIVE && ssd == sensor->src)
-  2252				sensor->src_src = *crop;
-  2253			break;
-  2254		default:
-  2255			WARN_ON_ONCE(1);
-  2256		}
-  2257	}
-  2258	
+> -No Closes: for the Reported-by since this was reported by private email
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index b92348ad61f6..31752c06d1f0 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -502,6 +502,13 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+>  	int rval;
+>  
+> +	/*
+> +	 * If the streams API is not enabled, remove V4L2_SUBDEV_CAP_STREAMS.
+> +	 * Remove this when the API is no longer experimental.
+> +	 */
+> +	if (!v4l2_subdev_enable_streams_api)
+> +		streams_subdev = false;
+> +
+>  	switch (cmd) {
+>  	case VIDIOC_SUBDEV_QUERYCAP: {
+>  		struct v4l2_subdev_capability *cap = arg;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Sakari Ailus
