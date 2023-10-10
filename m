@@ -2,175 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D51AE7BF4AA
-	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 09:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78B757BF4EA
+	for <lists+linux-media@lfdr.de>; Tue, 10 Oct 2023 09:54:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442496AbjJJHq2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 03:46:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43388 "EHLO
+        id S1442613AbjJJHyP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 03:54:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442419AbjJJHq0 (ORCPT
+        with ESMTP id S1442635AbjJJHyK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 03:46:26 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3BD92
-        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 00:46:25 -0700 (PDT)
+        Tue, 10 Oct 2023 03:54:10 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CCCC4;
+        Tue, 10 Oct 2023 00:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696923985; x=1728459985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5QCmzI6LfXu3SHoUmdh5HaQNvrYPj/ApLX6Tm8adG9A=;
-  b=bETaivln/wdQtdjFi2OpozPNhwr+Fn40mqWKFLooLoOwQuzoM7NbdP5H
-   0735TfhG79Kw4yMc9SvTnnajBPza6W3Zx41BGtxhafIb/I3vI6Cc17SuV
-   aqo8IEzue+xhoHjpo7lOONLVIqqSjW9G8JChaiWMbBXTZLWWS6bo3PNaT
-   sNglOjCLCTAI8Q5V4jL+JDecQkWgpEbEbjlmPl1rCZb7UzvWkMsPh8JtO
-   THvQqtnj1LTfGEnO0MEL+zfdciL0Ow0pmtyCUiqVfztrUjpNGc2rEN90z
-   RL1qLsNFTrrb/rhviagUZcjufybimdDYS0t5VkVKdkXrxOh1xEnkhiY5z
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="384192310"
+  t=1696924445; x=1728460445;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=XckaF1xsqIUt67kmRX05FiGkJv6OWk/maetsOFTF52M=;
+  b=J5UWHeXZdmSuuzC7b80QY/tzWTOg3CQKAADnSGqQDJIGDYnHY4zFfgVf
+   SusRHzzPt4F/bZIYBhQncrflHWgiRbCoEjRx/Zo9jK2ovpuxNt7lBnEhJ
+   5SYr0Q8oPQejm6kW1osVixb4XEIJ1fPc2Gny86csTEeZ1JvaA/lT5ArEY
+   p/m7X1YOgqwAAmFxGbJ9/SgLLqov5n7hxcmMPuptwel/fXOOnxBqAkgtH
+   YUmeXt2+pKSzDUrJtsJhSwTNb1FDndtTYiL6AQn68VBWcgL9g9ndCExYW
+   PORvvc88OILE0rKPmklWsR6bZddqH1L+zKDB+o6mS/1heTQW8e1vLtOwd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="450829698"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="384192310"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 00:46:25 -0700
+   d="scan'208";a="450829698"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 00:54:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="729985989"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1084679019"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="729985989"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 00:46:23 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id E011E1206B6;
-        Tue, 10 Oct 2023 10:46:20 +0300 (EEST)
-Date:   Tue, 10 Oct 2023 07:46:20 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 0/4] V4L2 sub-device active state helper, CCS fixes
-Message-ID: <ZSUBTFd9Nz1k2W9K@kekkonen.localdomain>
-References: <20231009220906.221303-1-sakari.ailus@linux.intel.com>
- <d5cf6f37-c1d2-4b79-bf12-611fead262bc@ideasonboard.com>
- <ZST7+X7jwjVxNtTF@kekkonen.localdomain>
- <7dccde6c-e82f-4c63-bfbc-b0f1170e2796@ideasonboard.com>
+   d="scan'208";a="1084679019"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Oct 2023 00:54:04 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 10 Oct 2023 00:54:03 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Tue, 10 Oct 2023 00:54:03 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Tue, 10 Oct 2023 00:54:03 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kJVcV3iA5KFr75tM25uXoCawIO74vVESSBj0XZJmsv0Zec/c12tCJkCrwpI2FBj4Q7ApYsUZ7UsXaQQZ+fPwvveGP263Qu/vXcLkFStE/OYr8SaS4bSCrc/HJUnEzkN49NVMbr6Imd60AakvrTDLsom7jMvif8WXm2N2ltfYxETskWMPmyFchNzrHuMiT5LRddo9m+i62f8o2IW5fuWvQqKNX4MjirofJ6Y4Jg2P+jYLcoDgiYe7cuYrhQhcebEhLWie0fO4etoSpXlWskHg6olbLOxljXdg+23tBDmi8G1jaPUazESXeQWvXV2UnfCJCdt6i0djJw0KumA2kvPiYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3gGhbfZMypm/smom7NV7TEeoEXwWhUOHsb3l4lqE5oo=;
+ b=TMfJEN/oWMJLxB4+hbjnG9jw1w4qzxdPK45ltsmVPowXDjjSg+SPqrFjdx/sp+Wwi8N8BQhyouRFzoxZWW33qoOcr8Grhr4HLj6+eJhTdFVIPOdPFILPOiSOAr/yQTRRSqFGXG8kzkhUkrCK48DgIVdplE//QZEF1VMVYV+0s9TIKVmn7dxqN+a2N41JOeYYWmIiAvAxbJiUUsLANW3jxCQgeRziuQV6mhqGq9uzKVER6mBmMRCItHRj9/sJnvWeSSPL2YzXT/ybtFigibuFOi0KLX86Z1hA6HnFU98qWunhmnW/exKLc0+cXHb03wn9mtvXfHQt18tmMahTZ7vG+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4071.namprd11.prod.outlook.com (2603:10b6:a03:18c::28)
+ by CY8PR11MB7921.namprd11.prod.outlook.com (2603:10b6:930:7d::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.37; Tue, 10 Oct
+ 2023 07:54:00 +0000
+Received: from BY5PR11MB4071.namprd11.prod.outlook.com
+ ([fe80::a9f5:29c8:2288:ea98]) by BY5PR11MB4071.namprd11.prod.outlook.com
+ ([fe80::a9f5:29c8:2288:ea98%4]) with mapi id 15.20.6863.032; Tue, 10 Oct 2023
+ 07:53:59 +0000
+Message-ID: <57379273-c290-4a69-893d-b40c25023148@intel.com>
+Date:   Tue, 10 Oct 2023 15:53:50 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] platform/x86: int3472: Add handshake GPIO function
+Content-Language: en-US
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>,
+        Dan Scally <dan.scally@ideasonboard.com>,
+        <djrscally@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@intel.com>
+CC:     Bingbu Cao <bingbu.cao@intel.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        <linux-media@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20231007021225.9240-1-hao.yao@intel.com>
+ <38c9ff1c-8d3b-8675-9780-2bb6c87ba815@linux.intel.com>
+From:   Hao Yao <hao.yao@intel.com>
+In-Reply-To: <38c9ff1c-8d3b-8675-9780-2bb6c87ba815@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: KL1PR01CA0107.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:3::23) To BY5PR11MB4071.namprd11.prod.outlook.com
+ (2603:10b6:a03:18c::28)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7dccde6c-e82f-4c63-bfbc-b0f1170e2796@ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4071:EE_|CY8PR11MB7921:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19fa5196-ff15-45d9-319f-08dbc9660fbd
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Om/E9tIxlMz1lfuzCvHj18TRbWHNA15i/l7MHsWyhdrbW3GtW6sEbTexxxLIIdVJNgkKFsqcUwjDlW0/QZFTJiNIiFqcE/4xUoKWFph3CB13Cy3sAej45RrdBtL2Ks74y+j8Ckn+KtQpEVqc0mNaNDklKRyMEB8MsT6xWmHOM5AvrEWZQ/EMKv7C5q7Leoi/NHr1pOJFJ75O5HYiYRGrDNcTia3c8nVlkvlCcQgwBZvtuHLu81helUpVXMtQg3hYRveH/Cp0ztaFNccCGl1EXdoFpKXC9xpX+70uVBSFtPtmBOFVypPeHWnxGjZKzkL0+uxCa1UQuTemFRLOtA4Q/SIEcx6NtyTZjA8yM6Y87HQEIqH8K1LWSOa0Or1U5x0DRQ64jd1OaMx2Y9ohot8So0KXSzMuFDinT5yILXlm5v8zVxQuCyMX7H8qf8HpI+50TMPd4d4ebdtsg4IE31+ZDQcgnFwAJyVSMhIaTX/kRYo6O3sgRClIOW/iBHz/hu2NwhvuBGn1GSgqrGgS8rZFFujaEW0qHOLmWdN8PcA4p5ySW/p/nLiNpi0n18ufW5poXXUxGejMuXAJyA565ww28n70qrpI8KrHITjvqAuunIDoJdkgiZTrIoowysaIzpYbDE+HLmy2B5wRaUZCC29eqA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4071.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(396003)(366004)(136003)(39860400002)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(31696002)(82960400001)(86362001)(38100700002)(36756003)(31686004)(66899024)(2906002)(6512007)(6486002)(478600001)(41300700001)(8936002)(53546011)(4326008)(5660300002)(44832011)(6506007)(8676002)(6666004)(2616005)(83380400001)(6636002)(66476007)(66556008)(66946007)(110136005)(54906003)(316002)(26005)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TjUrS2VwNllva2d1NWNLWFZHU2pQb0piSkQ3Zk5uS3ZxZGlLaG9yWlMwWUc5?=
+ =?utf-8?B?YWhpdGd4cmtFV1JOZ09PU2h5Z3JEaTBnYUhVblBnMWtYU0c3UjNNdlVSbzJY?=
+ =?utf-8?B?QzQwSUdBYzh5UnlQZzZLU2lNWjVaT3hzZnJZbk5LNTlWUjRaaXNCWERLOVht?=
+ =?utf-8?B?M0F4MENic2VCUDYrZnp1QlM5QXZJZnF0R3p0ZFpoalZOOWtzaEJIUlJPSFh6?=
+ =?utf-8?B?UTQ1L2ltZDRMd3AvcUg5THRrb20xdDFGU2hEV0lKU3BMNStrZERUZlZGMmxC?=
+ =?utf-8?B?K0x5NHJjdDA0MktiM00xR0paTGhsN3JKU1ZLdVE5Mm9zMFNXN1QvQTRLN0Zm?=
+ =?utf-8?B?RnNPN1h0bmNhUkQzeDkwYmdwaWlSekZtQjJ1U29QWXBGWUxZamNuT3l1blRL?=
+ =?utf-8?B?YmdrODZpOGNNU1R6Q0s4cEZKMkVWcDRtbG9iL3lidlNxSzV2cnVkUm9IQmpX?=
+ =?utf-8?B?YUVtMEg1a3cvaFNLM1dON0JZTUpqblJKclpFeE9yME51aDREQTBXUFVPUnI4?=
+ =?utf-8?B?WjhPQTl4VzBhRFdSeUVuUUwxNkhzZWJoUXF5ZkJwUVJDRjJRZm5hbDdEemdr?=
+ =?utf-8?B?d1BwRzI4bU9SMXVwZEpCWGtycHA2SEdLWmhNV3gxem52NmdySXBHYVZLVzI0?=
+ =?utf-8?B?M1dZaHdNWTVEUmFEWEMwOFlpUThJWmVyQm5SUlFzZitoY1Bnd08zRWZUdFoz?=
+ =?utf-8?B?ZW1qU3VyT0lVczRDclZCS3dEcW5NaExQZ050ZnJ5YkF3dExncWd2N3hDcDF3?=
+ =?utf-8?B?L3FNM2sxa1I1VWpzTVZpWlVxMnFVSnNnSkUvRGN3ZEVJSmN0U3h0YnhJSzRQ?=
+ =?utf-8?B?QXZ0R2pXRCtqT2dBT3BQR3VrYThTb3JVMmRLV28zLzBVdW00Ny9DVzZmOWtG?=
+ =?utf-8?B?YkRYd2R5Tk1DZzNidi9DZWVuOXdidTZhbFFTd0JkdTI4T3psdzVRdkRzVXVW?=
+ =?utf-8?B?THFSLzI0S3VKOWdGUEhMbnFsUFpuK1VkdncybjExZzhvdUdsLzRvQmxlaWN3?=
+ =?utf-8?B?TmxiaFBXUGwyckQ4a3c0bGlGSWk4a0dzYjg2emFYWXI0dEdKTkIvV1NOd0JM?=
+ =?utf-8?B?VjZVNXFpMnROaHB3RE9UT0U5VVJ0Y0dMMC9VMFlvRlVKaTBsbmtIZ0lCRXlx?=
+ =?utf-8?B?UE03UG1wTnpDTW1uTHVpYjBsSnRBQmpIVEh2SHpodHYvSzBBYy9xcjYwc1hE?=
+ =?utf-8?B?UDBBUG01VUhPVU9JaXhpY2RTRVhSdUFXMzRqREV1a1Y3Nm9tbk94SmlpYjE4?=
+ =?utf-8?B?ajQ5TEYxcWVVUnFuOGxKaHZ3QmpvbnZaTU9FQThNYUljWkkrRDJnNUJyTGJ2?=
+ =?utf-8?B?a0RhVFpwRmRNaHFqNDRrTTR2bTlwVHdvR1lseVZTcFFwRTBQS1R6RFZCY3VC?=
+ =?utf-8?B?d1c0akhueEwxZ1NsVW5pM0JhNE1HWUt3SDRKOWk0d0xpWU1HSE9iTDJJS0ZE?=
+ =?utf-8?B?MzNwM3JKLzZkU1g0L2pBZG9Lbk1LSUFSWmRQWWlHdG5aUnBldHNTSFJKdlVI?=
+ =?utf-8?B?UTNsUWJFaUNlbnZuOTg1NXMwVFhzV2dxanRWNmw1SDFLa3RVSk10Z013dnVS?=
+ =?utf-8?B?L29CRjNCTFNmanR6bmdiMTdHaVVyak13WHdlekR3c0VObVg5aTJSaWU0TmZH?=
+ =?utf-8?B?ZExFQ2JwbUlsanhkMHVMUThYQ2pYdW10MUhuSHFaaVJjYUhtM0NVMytMbmp0?=
+ =?utf-8?B?djNWYmtDTnlYVGtVYVp3OG9Bb21US0NxUXg1VWRadWYxc0FBS0NTaE1FVlZo?=
+ =?utf-8?B?c0R0dXc1aFg2QzA5TUFKQ2xFUmhpL2w0QmZmY2RKRFFrVHV6VDJqdHdLT0lR?=
+ =?utf-8?B?SS8wcDg0UWNjVmtWWlNudjJNbjhsUmlpdGV4dS8rWVNUVFQwWEIxQ2k2T2lX?=
+ =?utf-8?B?RmVoeGhVdnBxTEFPREdCOGt0eEtadWhLWGJsR0lLeHJoTjdzVlp6MzJJbXFy?=
+ =?utf-8?B?SDlGeXJUbjZTdjlOczNWWkErOE15TmhCNXJTMU1VelAzcFNMc3Nja0txeElM?=
+ =?utf-8?B?S0JybzVMTVl2cCtSSUtyeHdZLzhRSlQzeG9zWS9MUVF1cW9JRkxFS2tCTXdW?=
+ =?utf-8?B?SzAyTUFSR1RiK2VUTkMxY2VydHJZc1RGZURCWjdUSGQzbG5sZDZRbFUwcmc2?=
+ =?utf-8?Q?j1oGnBJZjxdSOvLz3e4WVbYBm?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19fa5196-ff15-45d9-319f-08dbc9660fbd
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4071.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2023 07:53:59.3753
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NJBXT0ErQ1SdNL3aUShAXYqMSrrIdXCp3WCUZJZrZNCmfwwkKlW2crPlI8rpHadPyTrvKVqv6d+kEjF1tCbeWw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7921
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
+Thank you Bingbu,
 
-On Tue, Oct 10, 2023 at 10:40:05AM +0300, Tomi Valkeinen wrote:
-> On 10/10/2023 10:23, Sakari Ailus wrote:
-> > Moi,
-> > 
-> > On Tue, Oct 10, 2023 at 09:52:48AM +0300, Tomi Valkeinen wrote:
-> > > On 10/10/2023 01:09, Sakari Ailus wrote:
-> > > > Hi folks,
-> > > > 
-> > > > This set includes a helper for working with V4L2 sub-device active state as
-> > > > well as a fix for the CCS driver sub-device state patch.
-> > > > 
-> > > > since v1:
-> > > > 
-> > > > - There were other drivers using __v4l2_subdev_state_alloc(). Ouch. Change
-> > > >     those users as well. Note that this function should not be used in
-> > > >     drivers, hence API niceness is not a high priority.
-> > > > 
-> > > > Sakari Ailus (4):
-> > > >     media: v4l: subdev: Set sub-device active state earlier
-> > > >     media: v4l: subdev: Add a helper to tell if a sub-device state is
-> > > >       active
-> > > >     media: ccs: Rework initialising sub-device state
-> > > >     media: ccs: Fix a (harmless) lockdep warning
-> > > > 
-> > > >    drivers/media/i2c/ccs/ccs-core.c              | 64 ++++++++++++-------
-> > > >    .../platform/renesas/rcar-vin/rcar-v4l2.c     |  3 +-
-> > > >    .../media/platform/renesas/vsp1/vsp1_entity.c |  3 +-
-> > > >    drivers/media/v4l2-core/v4l2-subdev.c         | 14 ++--
-> > > >    drivers/staging/media/tegra-video/vi.c        |  2 +-
-> > > >    include/media/v4l2-subdev.h                   | 11 +++-
-> > > >    6 files changed, 66 insertions(+), 31 deletions(-)
-> > > > 
-> > > 
-> > > I'm not familiar with the CCS driver, and you don't explain much why you are
-> > > doing this, so it's a bit unclear to me. But I don't like it.
-> > > 
-> > > The idea with the subdev state was that the driver doesn't need to know
-> > > whether it's active-state or try-state. It should behave the same way in
-> > > both cases. This series goes against that.
-> > > 
-> > > Can you explain a bit what the issue is and what you are doing in this
-> > > series?
-> > 
-> > The driver maintains internal state and that needs to be updated when the
-> > configuration (including what's in sub-device state) changes. Generally the
-> > driver knows (as for the whence field) which state it's dealing with but
-> > that is not the case for init_cfg.
+On 2023/10/10 15:17, Bingbu Cao wrote:
+> Hao,
 > 
-> So you need to set the subdev state to sd->active_state earlier (in patch 1)
-> so that the driver can use v4l2_subdev_state_whence()? You don't really
-> explain that in the patch descriptions.
+> On 10/7/23 10:12 AM, Hao Yao wrote:
+>> Handshake pin is used for Lattice MIPI aggregator to enable the
+>> camera sensor. After pulled up, recommend to wail ~250ms to get
+>> everything ready.
 > 
-> In other words, if init_cfg() were to get a whence-parameter, this wouldn't
-> be needed? (I don't want to do that, just trying to understand what's going
-> on).
-
-Yes, that's correct.
-
+> Is the delay for specific camera or requirement from Lattice.
+> 250ms is bad for camera.
 > 
-> > Alternatively I could split the internal workings of the driver into active
-> > and try states but I prefer to improve the framework and make the driver
-> > simpler.
+
+Actually the handshake pin is used by both Altek M1 and Lattice chips. 
+As far as I know, Altek M1 required ~250ms delay while recently Lattice 
+team told me they don't need delay. However I don't know if there were 
+any devices using Altek M1.
+
+>>
+>> Signed-off-by: Hao Yao <hao.yao@intel.com>
+>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> ---
+>>   drivers/platform/x86/intel/int3472/common.h   | 1 +
+>>   drivers/platform/x86/intel/int3472/discrete.c | 5 +++++
+>>   2 files changed, 6 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+>> index 655ae3ec0593..3ad4c72afb45 100644
+>> --- a/drivers/platform/x86/intel/int3472/common.h
+>> +++ b/drivers/platform/x86/intel/int3472/common.h
+>> @@ -23,6 +23,7 @@
+>>   #define INT3472_GPIO_TYPE_POWER_ENABLE				0x0b
+>>   #define INT3472_GPIO_TYPE_CLK_ENABLE				0x0c
+>>   #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
+>> +#define INT3472_GPIO_TYPE_HANDSHAKE				0x12
+>>   
+>>   #define INT3472_PDEV_MAX_NAME_LEN				23
+>>   #define INT3472_MAX_SENSOR_GPIOS				3
+>> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+>> index b644ce65c990..4753161b4080 100644
+>> --- a/drivers/platform/x86/intel/int3472/discrete.c
+>> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+>> @@ -111,6 +111,10 @@ static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polar
+>>   		*func = "power-enable";
+>>   		*polarity = GPIO_ACTIVE_HIGH;
+>>   		break;
+>> +	case INT3472_GPIO_TYPE_HANDSHAKE:
+>> +		*func = "handshake";
+>> +		*polarity = GPIO_ACTIVE_HIGH;
+>> +		break;
+>>   	default:
+>>   		*func = "unknown";
+>>   		*polarity = GPIO_ACTIVE_HIGH;
+>> @@ -201,6 +205,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>>   	switch (type) {
+>>   	case INT3472_GPIO_TYPE_RESET:
+>>   	case INT3472_GPIO_TYPE_POWERDOWN:
+>> +	case INT3472_GPIO_TYPE_HANDSHAKE:
+>>   		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
+>>   		if (ret)
+>>   			err_msg = "Failed to map GPIO pin to sensor\n";
+>>
 > 
-> I agree with the goal, but I don't think this is improving the framework.
-> 
-> If we decide that we need to know if a state is an active-state or a
-> try-state, I think it's better to add a whence-field into the state itself.
-> But I'd rather not.
 
-In all other callbacks the whence is known but not in init_cfg.
 
-Comparing with sd->active_state does this pretty cleanly, without a need to
-change APIs.
-
-> 
-> > Deducing the internal configuration solely based on sub-device state is not
-> > really feasible.
-> 
-> Am I correct in that what you really need is a way to sub-class the subdev
-> state, so that you can have all that internal state in the subdev state, and
-> thus all the code in the driver can work in "whence-agnostic" manner? That's
-> something we've been thinking about for a long time.
-
-In the case of the CCS driver it's not necessary to store these parameters
-for try states: they are driver internal only.
-
-> 
-> But the driver needs to be fixed now, not at some point in the future, of
-> course. If the sub-classing would solve the issue (i.e. we have a plan in
-> mind), I'd rather just hack this in the driver, instead of extending the
-> framework, which might easily lead to other drivers going the wrong way too.
-> 
-> How about a private flag, set before calling v4l2_subdev_init_finalize(),
-> and unset after the call. ccs_init_cfg() can look at that flag an if it's
-> set, it's initializing an active state.
-
-I dislike using driver specific flags in generic APIs.
-
-While trivial sensor drivers have no use for such functionality, I would be
-surprised if there would not be other similar cases.
-
--- 
-Terveisin,
-
-Sakari Ailus
+Best Regards,
+Hao Yao
