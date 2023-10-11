@@ -2,137 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1517F7C5654
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 16:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E67D7C577E
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 16:53:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235038AbjJKOEP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 10:04:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60152 "EHLO
+        id S235091AbjJKOxR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 10:53:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235143AbjJKOD4 (ORCPT
+        with ESMTP id S232553AbjJKOxQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 10:03:56 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D295E184;
-        Wed, 11 Oct 2023 07:03:47 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D101C433C8;
-        Wed, 11 Oct 2023 14:03:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697033027;
-        bh=Zh3bJ54D4zW63Ncr/mu6xJinQ4B8/2BBuvC0nnjCJ+c=;
-        h=Date:From:To:Cc:Subject:From;
-        b=ZkP4DcvHTv+CAU+Bxp7bY8mRMIANtm2V9mIigWhS4C7tKd8ksjtwI42hJdKV47med
-         Zbh8xz/Qia5Y0t4GtL+bAr4a4l8PKf5ZgCLjus2Zq+ODqvNMgmih9PufW6kUfk51mI
-         BZ2j/V/EkLskGGRbRjul2+hRAY8mXTUH+y05qVcxCZRllwFjc8O5kvg564yw6Vctkm
-         ZesOPr/II66swDL/BQ1+W5CawaE4hg0vrD8HdvBIFpSIZaSt82Px8k4kKlJeQRwDR6
-         Sz+vbYcmtVygTHd5vsfk0MRCm6zl/6eriAYykaLUak4pPitWYW56gTGnVIVmUAQGoo
-         c3iDm5VQFx7OQ==
-Date:   Wed, 11 Oct 2023 08:03:43 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Arvind Yadav <Arvind.Yadav@amd.com>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH][next] dma-buf: Fix NULL pointer dereference in
- dma_fence_enable_sw_signaling()
-Message-ID: <ZSarP0/+hG8/87//@work>
+        Wed, 11 Oct 2023 10:53:16 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05101A9
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 07:53:14 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id E3C6D10005E; Wed, 11 Oct 2023 15:53:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1697035992; bh=s5PBy5Ecbm1fwlz1fP5d/6y5+u7wSy2SWSd13TkdrRk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=k54yJ1kKklvgJ+U8m51Its+lN5dW++uPVsOAMUxIGIt2lrv30euUySvZQNBR0WzSv
+         6UfUZn7UBuqztc7MfeutqFOb03tVi/Qsnl9QvW3xeGe8Eps+hV3B1FyNOumOi5Fato
+         EhPlTUMfB4RcK8l2HB1tv+Whjht+U0ia2Wj/Rehyk6MJiVMy7LaYHgRQ4Uv1sntE+T
+         vMfa2qqBtB3fc2cfkr6nnsoR+uwi35apT5f+wRFrmGeOw/rz2HBeR7VjEHCdiaKQ/t
+         XMpxz952CpHXWWN5V5iEhQJjvQXo53Xf0l2YDsAH7CARew1iAMrAW/cJ6CKY0hqoIB
+         qhJqRBhnqXTsw==
+Date:   Wed, 11 Oct 2023 15:53:12 +0100
+From:   Sean Young <sean@mess.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [GIT PULL FOR v6.7] Minor rc fixes
+Message-ID: <ZSa22E0RLQmWxR9X@gofer.mess.org>
+References: <ZSOux5a0d0tu9FtE@gofer.mess.org>
+ <3faae6db-140a-4eb0-a72e-4d2a82e281ec@xs4all.nl>
+ <ZSalxiDPtztvdW0x@gofer.mess.org>
+ <d556ab48-b4a4-4699-ba8a-8cb5700f2eec@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <d556ab48-b4a4-4699-ba8a-8cb5700f2eec@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, a NULL pointer dereference will happen in function
-`dma_fence_enable_sw_signaling()` (at line 615), in case `chain`
-is not allocated in `mock_chain()` and this function returns
-`NULL` (at line 86). See below:
+On Wed, Oct 11, 2023 at 03:51:29PM +0200, Hans Verkuil wrote:
+> On 11/10/2023 15:40, Sean Young wrote:
+> > On Wed, Oct 11, 2023 at 02:58:19PM +0200, Hans Verkuil wrote:
+> >> On 09/10/2023 09:41, Sean Young wrote:
+> >> These two patches have a Cc to stable, but no Fixes: tag.
+> > 
+> > I've added the fixes tags and retagged the v6.7c tag in my repo.
+> 
+> I'll pick it up from your repo again. No need to do anything.
 
-drivers/dma-buf/st-dma-fence-chain.c:
- 86         chain = mock_chain(NULL, f, 1);
- 87         if (!chain)
- 88                 err = -ENOMEM;
- 89
- 90         dma_fence_enable_sw_signaling(chain);
+Thanks.
 
-drivers/dma-buf/dma-fence.c:
- 611 void dma_fence_enable_sw_signaling(struct dma_fence *fence)
- 612 {
- 613         unsigned long flags;
- 614
- 615         spin_lock_irqsave(fence->lock, flags);
-			       ^^^^^^^^^^^
-				    |
-			  NULL pointer reference
-			  if fence == NULL
+If we have rules like "Cc: stable" requires "Fixes: " then we really need 
+tooling that picks that up and warns us about it. Otherwise, not everyone
+will know or remember.
 
- 616         __dma_fence_enable_signaling(fence);
- 617         spin_unlock_irqrestore(fence->lock, flags);
- 618 }
+Something for your build-scripts?
 
-Fix this by adding a NULL check before dereferencing `fence` in
-`dma_fence_enable_sw_signaling()`. This will prevent any other NULL
-pointer dereference when the `fence` passed as an argument is `NULL`.
 
-Addresses-Coverity: ("Dereference after null check")
-Fixes: d62c43a953ce ("dma-buf: Enable signaling on fence for selftests")
-Cc: stable@vger.kernel.org
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/dma-buf/dma-fence.c | 9 ++++++++-
- include/linux/dma-fence.h   | 2 +-
- 2 files changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 8aa8f8cb7071..4d2f13560d0f 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -607,14 +607,21 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
-  * This will request for sw signaling to be enabled, to make the fence
-  * complete as soon as possible. This calls &dma_fence_ops.enable_signaling
-  * internally.
-+ *
-+ * Returns 0 on success and a negative error value when @fence is NULL.
-  */
--void dma_fence_enable_sw_signaling(struct dma_fence *fence)
-+int dma_fence_enable_sw_signaling(struct dma_fence *fence)
- {
- 	unsigned long flags;
- 
-+	if (!fence)
-+		return -EINVAL;
-+
- 	spin_lock_irqsave(fence->lock, flags);
- 	__dma_fence_enable_signaling(fence);
- 	spin_unlock_irqrestore(fence->lock, flags);
-+
-+	return 0;
- }
- EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
- 
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index ebe78bd3d121..1e4025e925e6 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -399,7 +399,7 @@ int dma_fence_add_callback(struct dma_fence *fence,
- 			   dma_fence_func_t func);
- bool dma_fence_remove_callback(struct dma_fence *fence,
- 			       struct dma_fence_cb *cb);
--void dma_fence_enable_sw_signaling(struct dma_fence *fence);
-+int dma_fence_enable_sw_signaling(struct dma_fence *fence);
- 
- /**
-  * dma_fence_is_signaled_locked - Return an indication if the fence
--- 
-2.34.1
-
+Sean
