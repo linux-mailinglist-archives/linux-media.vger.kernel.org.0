@@ -2,45 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D6947C55A0
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 15:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37C7B7C55B1
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 15:42:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232355AbjJKNk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 09:40:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38224 "EHLO
+        id S1346208AbjJKNmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 09:42:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232202AbjJKNk1 (ORCPT
+        with ESMTP id S234891AbjJKNl7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 09:40:27 -0400
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F419E
-        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 06:40:25 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id B7FDF10005E; Wed, 11 Oct 2023 14:40:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1697031622; bh=8pURyj9slli2rRbBHEiAYnNMPKrTxJHxIqSD8aJ//NI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K2gT3+wNpLPvhzu9lati22QQoE1Deqyqzj18lFQdK2GK7FpXPLUkXYVZ/ZNoAlXjm
-         ZAW1cngaILxURvGlhBDo6ouMeKBoilJMlQ6m+95oiQSPMUT+hTUfZNlsveTmPxmVFp
-         XL7vxlUEos3pERfkS75POq2dKA5V2czq5Gh7FBe5047O9NSHXHnzfwxMUbcNfjqbpg
-         vHEnwr+pTVGOgMbE4wNj7+vMdyOE2cS1O+LLs9O5maMnL2pl/2ocza3b6qSF0djsrS
-         YZo91ZsRwJmyftOsjnw43Bwl/hU9nmZ556hQsfDTGVvEUd0G9+nwLkG9LrNFCkOSD3
-         JTuZJixvggNaQ==
-Date:   Wed, 11 Oct 2023 14:40:22 +0100
-From:   Sean Young <sean@mess.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [GIT PULL FOR v6.7] Minor rc fixes
-Message-ID: <ZSalxiDPtztvdW0x@gofer.mess.org>
-References: <ZSOux5a0d0tu9FtE@gofer.mess.org>
- <3faae6db-140a-4eb0-a72e-4d2a82e281ec@xs4all.nl>
+        Wed, 11 Oct 2023 09:41:59 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D1E3D6
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 06:41:57 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qqZTH-00CWXw-Kc; Wed, 11 Oct 2023 13:41:55 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qqZTE-006o8G-0O;
+        Wed, 11 Oct 2023 13:41:53 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR 6.7] CSI2RX, mostly camera sensor sensor patches (#95737)
+Date:   Wed, 11 Oct 2023 13:41:51 +0000
+Message-Id: <20231011134151.1622667-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZSaXrKkhP4AOH+Rh@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3faae6db-140a-4eb0-a72e-4d2a82e281ec@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,42 +47,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 11, 2023 at 02:58:19PM +0200, Hans Verkuil wrote:
-> On 09/10/2023 09:41, Sean Young wrote:
-> > The following changes since commit 73835b514160dc548f7d77c6cd7fe6a8629d3406:
-> > 
-> >   media: imon: fix access to invalid resource for the second interface (2023-10-07 10:55:48 +0200)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://linuxtv.org/syoung/media_tree.git tags/v6.7c
-> > 
-> > for you to fetch changes up to faf2b9954d9c9fdbac48e4b1d45d5ba2d3f10e52:
-> > 
-> >   media: lirc: drop trailing space from scancode transmit (2023-10-09 08:22:14 +0100)
-> > 
-> > ----------------------------------------------------------------
-> > v6.7c
-> > 
-> > ----------------------------------------------------------------
-> > Sean Young (2):
-> >       media: sharp: fix sharp encoding
-> >       media: lirc: drop trailing space from scancode transmit
-> > 
-> >  drivers/media/rc/ir-sharp-decoder.c | 8 +++++---
-> >  drivers/media/rc/lirc_dev.c         | 6 +++++-
-> >  2 files changed, 10 insertions(+), 4 deletions(-)
-> 
-> These two patches have a Cc to stable, but no Fixes: tag.
+From: builder@linuxtv.org
 
-I've added the fixes tags and retagged the v6.7c tag in my repo.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZSaXrKkhP4AOH+Rh@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/347311/
+Build time: 00:32:17
+Link: https://lore.kernel.org/linux-media/ZSaXrKkhP4AOH+Rh@valkosipuli.retiisi.eu
 
-> Can you provide Fixes tags for these two patches? I can add them
-> manually.
+gpg: Signature made Wed 11 Oct 2023 12:37:54 PM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
 
-I should have fully read your message before retagging, my bad. What do
-you want me to do now? The patches haven't changed, just the commit
-messages.
+Summary: got 3/24 patches with issues, being 1 at build time
 
+Error/warnings:
 
-Sean
+patches/0001-staging-media-ipu3-remove-ftrace-like-logging.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:446 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2779 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2878 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/usb/dvb-usb-v2/af9035.c: ../drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+	  Locked on  : 326,387
+	  Unlocked on: 465,467
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1974 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/i2c/mt9m114.c: ../drivers/media/i2c/mt9m114.c:2381 mt9m114_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2438 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: OOM: 3013952Kb sm_state_count = 1755691
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 63 seconds
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: OOM: 3003988Kb sm_state_count = 2158
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: __split_smt: function too hairy.  Giving up after 3 seconds
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/mgb4/mgb4_sysfs_out.c: ../drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
+	../drivers/media/pci/mgb4/mgb4_sysfs_out.c: ../drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2831 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0014-media-dt-bindings-Add-TI-J721E-CSI2RX.patch:
+
+   checkpatch.pl:
+	$ cat patches/0014-media-dt-bindings-Add-TI-J721E-CSI2RX.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:22: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0015-media-ti-Add-CSI2RX-support-for-J721E.patch:
+
+   checkpatch.pl:
+	$ cat patches/0015-media-ti-Add-CSI2RX-support-for-J721E.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:65: WARNING: please write a help paragraph that fully describes the config symbol
+
