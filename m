@@ -2,187 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF7357C58A8
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 17:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91D5A7C58CB
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 18:04:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235064AbjJKP4B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 11:56:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58460 "EHLO
+        id S232894AbjJKQEE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 12:04:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232596AbjJKP4A (ORCPT
+        with ESMTP id S232810AbjJKQED (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 11:56:00 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A40B99D;
-        Wed, 11 Oct 2023 08:55:58 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D5EBC433C9;
-        Wed, 11 Oct 2023 15:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697039758;
-        bh=l9SFEh6GumGFUG+DXwfjem9vY8NkT0tXT2M7UKxvr+4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ixz6+3ToD5gCvDW97nhaKCvGkg+zuAa66qnUIYhJxKe8kNBhHm2Kcov3Ggelcst9i
-         gCuJyp9AUNk/QELshcUjFj0lTDxx2hxty9VRcvCceAtmIYNmsQaSYciVbweYPfD+QT
-         PaAS5v9GBATPOL+MQPemncG7EnSSAETrqt1nMcyVyZho0hjP69D9eJHZcSPQLh0gLq
-         Zcwghmsthja+tv1QeN0SZmKhbZ87cTA90Ijeuct3i+wfsAUXKNED9EUCKIKU5HBlwY
-         DqbyU8yLOZk9J+mr71itTN70mVjLDa/ElG2Fn+OZAaLbYJefXMY+gAPTBnvyrilY3U
-         vhMRPbSWgnBQQ==
-Date:   Wed, 11 Oct 2023 16:55:50 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Adam Ford <aford173@gmail.com>
-Subject: Re: [PATCH v2 1/5] dt-bindings: media: Document STM32MP25 VDEC &
- VENC video codecs
-Message-ID: <20231011-jogger-designing-0eb6e2daacba@spud>
-References: <20231010091643.3666290-1-hugues.fruchet@foss.st.com>
- <20231010091643.3666290-2-hugues.fruchet@foss.st.com>
+        Wed, 11 Oct 2023 12:04:03 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE412A4
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 09:04:01 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1c9d7a98abbso2739905ad.1
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 09:04:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1697040241; x=1697645041; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/JdPIzkZRw+UEDCwPct/StXsx1OeuztdzUWh/BOTJXs=;
+        b=Xc1EJqelwNYwe6Kfm2eAtA+XjRix1DyZKgwQEYFbVIKUUCcIGcjZR2WLhB2MLXxPX0
+         94Q4uq4CfMxRvyn4xMGcNfiWykpv8hw1yYfq7Ti/9rQ58zqk4fpvoBPqYVp6aTd2cvZy
+         PssJ3Cmh+uof7P87zQx6jkKvklsPgM5myBsKk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697040241; x=1697645041;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/JdPIzkZRw+UEDCwPct/StXsx1OeuztdzUWh/BOTJXs=;
+        b=UWiHPvCwVjA7ylfPZQGZDiVt8PFzuXNbxmLgxuRAHMxGJnOSmYLA55ttRtvZf/t4Tw
+         LGqmwS1RJG/jfFJKKMF8EU3MFcam+YES199/VV6smbFxsW7N8MLLA+pC4s4QolsHgPO1
+         p7nMVhI5O5BgRlMyIxxjeANMOD/kKCbv+tFxjXph1a8VJb8yKL2zaFoFx66jSAWqnkBk
+         RGqTm89YMvoekHhNvqPGdrCRoDLQkuBkhudamcc27A4TmyM0PShOV7TFJhgroN4Ul6x2
+         kQ+LmidPOgzHRznoeQt7EyC4S41/caESVPuvRpcHkU8a4mxvj7yA7oJOpjJHbtkxPtcM
+         bcGQ==
+X-Gm-Message-State: AOJu0YwOAOI+vo8eeCaDsaIiopATZgLgAp+j1YW8zd5NPOyk/ncUA9EG
+        KdZY/p6fkAgweEf5xXrfMFR7Jg==
+X-Google-Smtp-Source: AGHT+IGqjWqrCIqSHnONJ5fjKcFYrHjY07tSyis9X/kZiXSoJrS/q64lZQJ+lrnayGHRVg3N8XWShA==
+X-Received: by 2002:a17:903:2289:b0:1c6:28f6:9545 with SMTP id b9-20020a170903228900b001c628f69545mr21755725plh.45.1697040241156;
+        Wed, 11 Oct 2023 09:04:01 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id jw14-20020a170903278e00b001adf6b21c77sm9908plb.107.2023.10.11.09.04.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 09:04:00 -0700 (PDT)
+Date:   Wed, 11 Oct 2023 09:03:58 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Arvind Yadav <Arvind.Yadav@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] dma-buf: Fix NULL pointer dereference in
+ dma_fence_enable_sw_signaling()
+Message-ID: <202310110903.FE533CBCD@keescook>
+References: <ZSarP0/+hG8/87//@work>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="HQXQfP5KdaxdfgWJ"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231010091643.3666290-2-hugues.fruchet@foss.st.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <ZSarP0/+hG8/87//@work>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Oct 11, 2023 at 08:03:43AM -0600, Gustavo A. R. Silva wrote:
+> Currently, a NULL pointer dereference will happen in function
+> `dma_fence_enable_sw_signaling()` (at line 615), in case `chain`
+> is not allocated in `mock_chain()` and this function returns
+> `NULL` (at line 86). See below:
+> 
+> drivers/dma-buf/st-dma-fence-chain.c:
+>  86         chain = mock_chain(NULL, f, 1);
+>  87         if (!chain)
+>  88                 err = -ENOMEM;
+>  89
+>  90         dma_fence_enable_sw_signaling(chain);
 
---HQXQfP5KdaxdfgWJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Instead of the larger patch, should line 88 here just do a "return
+-ENOMEM" instead?
 
-Hey,
+-Kees
 
-On Tue, Oct 10, 2023 at 11:16:39AM +0200, Hugues Fruchet wrote:
-> Add STM32MP25 VDEC video decoder & VENC video encoder bindings.
->=20
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+> 
+> drivers/dma-buf/dma-fence.c:
+>  611 void dma_fence_enable_sw_signaling(struct dma_fence *fence)
+>  612 {
+>  613         unsigned long flags;
+>  614
+>  615         spin_lock_irqsave(fence->lock, flags);
+> 			       ^^^^^^^^^^^
+> 				    |
+> 			  NULL pointer reference
+> 			  if fence == NULL
+> 
+>  616         __dma_fence_enable_signaling(fence);
+>  617         spin_unlock_irqrestore(fence->lock, flags);
+>  618 }
+> 
+> Fix this by adding a NULL check before dereferencing `fence` in
+> `dma_fence_enable_sw_signaling()`. This will prevent any other NULL
+> pointer dereference when the `fence` passed as an argument is `NULL`.
+> 
+> Addresses-Coverity: ("Dereference after null check")
+> Fixes: d62c43a953ce ("dma-buf: Enable signaling on fence for selftests")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 > ---
->  .../media/st,stm32mp25-video-codec.yaml       | 58 +++++++++++++++++++
->  1 file changed, 58 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/st,stm32mp25-=
-video-codec.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/media/st,stm32mp25-video-c=
-odec.yaml b/Documentation/devicetree/bindings/media/st,stm32mp25-video-code=
-c.yaml
-> new file mode 100644
-> index 000000000000..479566171568
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.ya=
-ml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>  drivers/dma-buf/dma-fence.c | 9 ++++++++-
+>  include/linux/dma-fence.h   | 2 +-
+>  2 files changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 8aa8f8cb7071..4d2f13560d0f 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -607,14 +607,21 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+>   * This will request for sw signaling to be enabled, to make the fence
+>   * complete as soon as possible. This calls &dma_fence_ops.enable_signaling
+>   * internally.
+> + *
+> + * Returns 0 on success and a negative error value when @fence is NULL.
+>   */
+> -void dma_fence_enable_sw_signaling(struct dma_fence *fence)
+> +int dma_fence_enable_sw_signaling(struct dma_fence *fence)
+>  {
+>  	unsigned long flags;
+>  
+> +	if (!fence)
+> +		return -EINVAL;
 > +
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/st,stm32mp25-video-codec.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>  	spin_lock_irqsave(fence->lock, flags);
+>  	__dma_fence_enable_signaling(fence);
+>  	spin_unlock_irqrestore(fence->lock, flags);
 > +
-> +title: STMicroelectronics STM32MP25 VDEC video decoder & VENC video enco=
-der
-> +
-> +maintainers:
-> +  - Hugues Fruchet <hugues.fruchet@foss.st.com>
-> +
-> +description:
-> +  The STMicroelectronics STM32MP25 SOCs embeds a VDEC video hardware
-> +  decoder peripheral based on Verisilicon VC8000NanoD IP (former Hantro =
-G1)
-> +  and a VENC video hardware encoder peripheral based on Verisilicon
-> +  VC8000NanoE IP (former Hantro H1).
-> +
-> +properties:
-> +  compatible:
-> +    items:
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
+>  
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index ebe78bd3d121..1e4025e925e6 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -399,7 +399,7 @@ int dma_fence_add_callback(struct dma_fence *fence,
+>  			   dma_fence_func_t func);
+>  bool dma_fence_remove_callback(struct dma_fence *fence,
+>  			       struct dma_fence_cb *cb);
+> -void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+> +int dma_fence_enable_sw_signaling(struct dma_fence *fence);
+>  
+>  /**
+>   * dma_fence_is_signaled_locked - Return an indication if the fence
+> -- 
+> 2.34.1
+> 
+> 
 
-This "items:" is not needed, the enum on its own is enough.
-
-> +      - enum:
-> +          - st,stm32mp25-vdec
-> +          - st,stm32mp25-venc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    vdec: video-codec@580d0000 {
-
-The node labels for both nodes here are not used & should be dropped.
-
-Otherwise, this seems fine to me.
-
-Cheers,
-Conor.
-
-> +        compatible =3D "st,stm32mp25-vdec";
-> +        reg =3D <0x580d0000 0x3c8>;
-> +        interrupts =3D <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks =3D <&ck_icn_p_vdec>;
-> +    };
-> +  - |
-> +    venc: video-codec@580e0000 {
-> +        compatible =3D "st,stm32mp25-venc";
-> +        reg =3D <0x580e0000 0x800>;
-> +        interrupts =3D <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks =3D <&ck_icn_p_venc>;
-> +    };
-> --=20
-> 2.25.1
->=20
-
---HQXQfP5KdaxdfgWJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSbFhgAKCRB4tDGHoIJi
-0t0uAQCP6ge+y1j9+kMRyc0k7z2mmqF+5BxIUEKWEn3WUxp1vgD+NYj7GsuoXHij
-EdPldWL1H+xzD4wuI5OWRDd2WLQiMQY=
-=H1kq
------END PGP SIGNATURE-----
-
---HQXQfP5KdaxdfgWJ--
+-- 
+Kees Cook
