@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA74A7C4CAF
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 10:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D7607C4CE6
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 10:18:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229899AbjJKIMZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 04:12:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57924 "EHLO
+        id S230321AbjJKISF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 04:18:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbjJKIMY (ORCPT
+        with ESMTP id S230179AbjJKISE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 04:12:24 -0400
+        Wed, 11 Oct 2023 04:18:04 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E920C9B
-        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 01:12:22 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42FC5C433C7
-        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 08:12:22 +0000 (UTC)
-Message-ID: <515e4b53-db90-417d-a81e-ae1b3e9a358d@xs4all.nl>
-Date:   Wed, 11 Oct 2023 10:12:20 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2688392
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 01:18:02 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68DCDC433C9
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 08:18:01 +0000 (UTC)
+Message-ID: <e9b8cfa1-0993-4225-ac79-93807b7f6dbf@xs4all.nl>
+Date:   Wed, 11 Oct 2023 10:17:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCHv2] media: cec: core: count low-drive, error and arb-lost
+Subject: [PATCHv3] media: cec: core: count low-drive, error and arb-lost
  conditions
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Language: en-US, nl
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -91,6 +91,8 @@ This is useful to detect and debug HDMI cable issues.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
+Changes since v2:
+- Fix spaces instead of TAB issue in two lines.
 Changes since v1:
 - Log the first 8 transmits that resulted in a Low Drive or Error status.
 ---
@@ -128,13 +130,13 @@ index 09ca83c23329..f8f7ac61fe55 100644
 +	if (done && adap->tx_low_drive_log_cnt < 8 && msg->tx_low_drive_cnt) {
 +		adap->tx_low_drive_log_cnt++;
 +		dprintk(0, "low drive counter: %u (seq %u: %*ph)\n",
-+		       	msg->tx_low_drive_cnt, msg->sequence,
++			msg->tx_low_drive_cnt, msg->sequence,
 +			msg->len, msg->msg);
 +	}
 +	if (done && adap->tx_error_log_cnt < 8 && msg->tx_error_cnt) {
 +		adap->tx_error_log_cnt++;
 +		dprintk(0, "error counter: %u (seq %u: %*ph)\n",
-+		       	msg->tx_error_cnt, msg->sequence,
++			msg->tx_error_cnt, msg->sequence,
 +			msg->len, msg->msg);
 +	}
 +
