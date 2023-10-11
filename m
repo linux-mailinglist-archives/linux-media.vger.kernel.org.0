@@ -2,157 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 323A87C4526
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 00:59:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EB657C46C4
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 02:36:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbjJJW7h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 18:59:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43826 "EHLO
+        id S1344412AbjJKAgJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 20:36:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229865AbjJJW7g (ORCPT
+        with ESMTP id S1344336AbjJKAgI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 18:59:36 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFF789D;
-        Tue, 10 Oct 2023 15:59:30 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1c87a85332bso51846805ad.2;
-        Tue, 10 Oct 2023 15:59:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696978770; x=1697583570; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/ES8C0x5ZuDNWr0HT9HpTOQqsYOU0+uKuBS01OB1ZoI=;
-        b=GpntdHK+21sDzhg0enY9S+FepIl1WszrF/Nm5Z+0HneQG0e17PxPTLCfAtIMCjBQG5
-         9n7nE3XAuO3FDxlQW2XgCeQm5xVnthPx4qLJuGjrDAq+kxTgTfEhbHpGCiRjLWLdhfjt
-         9cyndqyq5o/th3jo49IqhMSoyXtSyXMB7wbOrS/DdSHSy9DD55baJl1dD/S53J0/A+6D
-         PYhVKIgUWhIEagp3qNGRJpFbwOrikcZpk1dAaQLVPawMZYNtJn+ue1PDZ5cbsWMqsIS4
-         vOEpyY/QIb/Oacu22Pe8K8iwThIvUgccHrc32wLb1Wh1h+x9GVR6pJSaYKJOrIZiyY3S
-         mWIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696978770; x=1697583570;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:sender:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/ES8C0x5ZuDNWr0HT9HpTOQqsYOU0+uKuBS01OB1ZoI=;
-        b=KNoNg42VjK4/MlBH5C8VCHiQn2eeuRAXN3+ID45xdiFX8O5dhyEXIznKyp4NLC09bH
-         ZJfq2CZqGgStdi1XM+myfLEWhQnndI+xzA5+9pSAm1V7o5O0S8jYqfm/KXIWY3P1kk+1
-         O+ZT54EQ5I/oxDoyrmfuJMx2/W1tf1b6GaifbhApm5Q7wpuIo/JbgB1KQvYZecVJWc6K
-         AUVtpOLmW8j81RM4+l0k9xu1B1Ehqo3abt0++F1oMxlv7dwGewk6uDYQywoC2NuzyHMA
-         n6ywI0mGS040Z0NjSo+VuP3KSB4W1aJR0ya2dDjxDRyprrSD5+YOKUrqie4bQ75oeqOc
-         +WRg==
-X-Gm-Message-State: AOJu0Yy79TNBvAqBhuvIyDczrQtUdfjU19+KHGOW1O6VMkmbVPhfiPsU
-        xS6x3ykSJRzSwMPFwi1zv8Q=
-X-Google-Smtp-Source: AGHT+IEtF2lTqZZ7UjLFlrsQ5S9tyJm76ONM8BvApkxciRNKIFFX8vAoR8+YfD2KoSXBJPg85G0uIg==
-X-Received: by 2002:a17:903:228f:b0:1c7:1fbc:b9e7 with SMTP id b15-20020a170903228f00b001c71fbcb9e7mr22885106plh.43.1696978770109;
-        Tue, 10 Oct 2023 15:59:30 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w7-20020a170902d3c700b001c42d4b3675sm12216597plb.309.2023.10.10.15.59.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 15:59:29 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 10 Oct 2023 15:59:27 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Wolfram Sang <wsa@kernel.org>,
-        Lakshmi Yadlapati <lakshmiy@us.ibm.com>,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        jdelvare@suse.com, joel@jms.id.au, andrew@aj.id.au,
-        eajames@linux.ibm.com, ninad@linux.ibm.com,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1 0/2] [PATCH] hwmon: (pmbus/max31785) Add minimum delay
- between bus accesses
-Message-ID: <125cac30-b83d-4530-885b-5008fc3045af@roeck-us.net>
-References: <20231009211420.3454026-1-lakshmiy@us.ibm.com>
- <ZSUaDIfWmEn5edrE@shikoro>
- <1284830f-025e-4e25-8ed0-50a6cc00d223@roeck-us.net>
- <ZSWevlHzu6kVcGWA@shikoro>
+        Tue, 10 Oct 2023 20:36:08 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5970398
+        for <linux-media@vger.kernel.org>; Tue, 10 Oct 2023 17:36:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696984565; x=1728520565;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=OBhZ0zyf/oA8BBSbgX4OsE/5+rDeuHxP2t0o65ILJJw=;
+  b=lf986PkP3npkZvuVB5wbpCE6WZAZy+BceqnsfKd9wPkp0ZL1wlNHoMGn
+   7sc8WVLlVUfiKxmlURC/wO4lRPuP4RZBUOTsxM2b1M3AhFrmEASr24Vev
+   us8wdtj3ZAres2sCbOhiMyLlqxRtUr0Q6KvMmcS6+2lfY3KPQ6LXCS6v4
+   asKXvqoDIWS+iGRAqaek4YQ2PxP53Agb2V25syIEZZ3KamS36NIr7lZ8P
+   PmtvGFkc/I6KckW84NkTqozyrAE9mqR0mX8oY8hOKfh5lhtP2zxqPKdbd
+   XSiHKnrk4iq5KprHNqZ8CdN9OcL2BVemPkHLHePSTOL4uEyseyXGgNr0A
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="448749089"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="448749089"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 17:36:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="869935943"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="869935943"
+Received: from mdemtias-mobl.amr.corp.intel.com (HELO desk) ([10.209.103.243])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 17:36:04 -0700
+Date:   Tue, 10 Oct 2023 17:35:49 -0700
+From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To:     Martin =?utf-8?B?VMWvbWE=?= <tumic@gpxsee.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org,
+        Martin Tuma <martin.tuma@digiteqautomotive.com>
+Subject: Re: [PATCH 9/9] media: pci: mgb4: fix potential spectre vulnerability
+Message-ID: <20231011003549.y7nniiz26z2fcbhd@desk>
+References: <cover.1696586632.git.hverkuil-cisco@xs4all.nl>
+ <c83b7fffe1e087568f64aba786797d258279948e.1696586632.git.hverkuil-cisco@xs4all.nl>
+ <d8726389-4354-499f-9114-eeff27231c7e@gpxsee.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZSWevlHzu6kVcGWA@shikoro>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d8726389-4354-499f-9114-eeff27231c7e@gpxsee.org>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 08:58:06PM +0200, Wolfram Sang wrote:
-> Hi Guenter,
-> 
-> > > > Reference to Andrew's previous proposal:
-> > > > https://lore.kernel.org/all/20200914122811.3295678-1-andrew@aj.id.au/
-> > > 
-> > > I do totally agree with Guenter's comment[1], though. This just affects
-> > > a few drivers and this patch is way too intrusive for the I2C core. The
-> > > later suggested prepare_device() callback[2] sounds better to me. I
-> > > still haven't fully understood why this all cannot be handled in the
-> > > driver's probe. Could someone give me a small summary about that?
-> > > 
+On Tue, Oct 10, 2023 at 12:31:07PM +0200, Martin Tůma wrote:
+> On 06. 10. 23 12:08, Hans Verkuil wrote:
+> > Fix smatch warnings:
 > > 
-> > Lots of PMBus devices have the same problem, we have always handled
-> > it in PMBus drivers by implementing local wait code, and your references
-> > point that out.
+> > drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
+> > drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
+> > 
+> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > CC: Martin Tuma <martin.tuma@digiteqautomotive.com>
+> > ---
+> >   drivers/media/pci/mgb4/mgb4_sysfs_out.c | 5 ++++-
+> >   1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_out.c b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
+> > index 23a9aabf3915..9f6e81c57726 100644
+> > --- a/drivers/media/pci/mgb4/mgb4_sysfs_out.c
+> > +++ b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
+> > @@ -8,6 +8,7 @@
+> >    */
+> >   #include <linux/device.h>
+> > +#include <linux/nospec.h>
+> >   #include "mgb4_core.h"
+> >   #include "mgb4_i2c.h"
+> >   #include "mgb4_vout.h"
+> > @@ -114,8 +115,10 @@ static ssize_t video_source_store(struct device *dev,
+> >   	if (((config & 0xc) >> 2) < MGB4_VIN_DEVICES)
+> >   		loopin_old = mgbdev->vin[(config & 0xc) >> 2];
+> > -	if (val < MGB4_VIN_DEVICES)
+> > +	if (val < MGB4_VIN_DEVICES) {
+> > +		val = array_index_nospec(val, MGB4_VIN_DEVICES);
+> >   		loopin_new = mgbdev->vin[val];
+> > +	}
+> >   	if (loopin_old && loopin_cnt(loopin_old) == 1)
+> >   		mgb4_mask_reg(&mgbdev->video, loopin_old->config->regs.config,
+> >   			      0x2, 0x0);
 > 
-> I am confused now. Reading your reply:
-> 
-> "I am not sure if an implementation in the i2c core is desirable. It
-> looks quite invasive to me, and it won't solve the problem for all
-> devices since it isn't always a simple "wait <n> microseconds between
-> accesses". For example, some devices may require a wait after a write
-> but not after a read, or a wait only after certain commands (such as
-> commands writing to an EEPROM)."
-> 
-> I get the impression you don't prefer to have a generic mechanism in the
-> I2C core. This I share. Your response now sounds like you do support
-> that idea now?
-> 
+> Hi,
+> I had investigated the warning when it appeared here on the mailing list,
+> but IMHO it is a false-positive, so I didn't react to it. MGB4_VIN_DEVICES
+> in the condition is not a check for array bounds but a check whether the
+> input source (val) is one of the inputs. Valid "val" values are <0,3> and
+> only if the value is <0,1> it is used as an array index for the input
+> devices (vin) array.
 
-I didn't (want to) say that. I am perfectly happy with driver specific
-code, and I would personally still very much prefer it. I only wanted to
-suggest that _if_ a generic solution is implemented, it should cover all
-existing use cases and not just this one. But, really, I'd rather leave
-that alone and not risk introducing regressions to existing drivers.
+I think when there are 2 branch mispredicts this is a valid problem.
+Below both branches can be trained with a val < 2. Then for a val > 3,
+both branches can mispredict:
 
-> > What other summary are you looking for ?
-> 
-> What the actual problem is with these devices. The cover letter only
-> mentions "issues with small command turn-around times". More details
-> would be nice. Is it between transfers? Or even between messages within
-> one transfer? Has it been tried to lower the bus frequency? Stuff like
-> this.
-> 
+video_source_store(buf)
+{
+...
+	ret = kstrtoul(buf, 10, &val);
+	if (ret)
+		return ret;
+	if (val > 3)		     <------------- predicted as not taken
+		return -EINVAL;
+	...
 
-I don't know about this device, but in general the problem is that the
-devices need some delay between some or all transfers or otherwise react
-badly in one way or another. The problem is not always the same.
-Lower bus frequencies don't help, at least not for the devices where
-I have seen to problem myself. The issue is not bus speed, but time between
-transfers. Typically the underlying problem is that there is some
-microcontroller on the affected chips, and the microcode is less than
-perfect. For example, the microcode may not poll its I2C interface
-while it is busy writing into the chip's internal EEPROM or while it is
-updating some internal parameters as result of a previous I2C transfer.
+	if (val < MGB4_VIN_DEVICES)  <------------- predicted as taken
+ 		loopin_new = mgbdev->vin[val];
 
-> > On a side note, if anyone plans to implement the prepare_device() callback,
-> > please make sure that it covers all requirements. It would be unfortunate
-> > if such a callback was implemented if that would still require per-driver
-> > code (besides the callback).
-> 
-> Is there a list of that somewhere? Or does it mean going through all the
-> drivers and see what they currently do?
-> 
+The fix LGTM, although it can also possibly be fixed by masking the
+index after the first mispredicted branch, like:
 
-The latter. I never bothered trying to write up a list. Typically the behavior
-is not documented and needs to be tweaked a couple of times, and it may be
-different across chips supported by the same driver, or even across chip
-revisions. Any list trying to keep track of the various details would
-be difficult to maintain and notoriously be outdated.
+	ret = kstrtoul(buf, 10, &val);
+	if (ret)
+		return ret;
 
-Guenter
++	val = array_index_nospec(val, 4);
+
+provided, mgbdev->vin[2] and mgbdev->vin[3] can't load a secret.
