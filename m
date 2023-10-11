@@ -2,129 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 751127C55E7
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 15:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1517F7C5654
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 16:04:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232122AbjJKNvf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 09:51:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34126 "EHLO
+        id S235038AbjJKOEP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 10:04:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231642AbjJKNve (ORCPT
+        with ESMTP id S235143AbjJKOD4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 09:51:34 -0400
+        Wed, 11 Oct 2023 10:03:56 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5AE19E
-        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 06:51:32 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D8AC433C7;
-        Wed, 11 Oct 2023 13:51:31 +0000 (UTC)
-Message-ID: <d556ab48-b4a4-4699-ba8a-8cb5700f2eec@xs4all.nl>
-Date:   Wed, 11 Oct 2023 15:51:29 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D295E184;
+        Wed, 11 Oct 2023 07:03:47 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D101C433C8;
+        Wed, 11 Oct 2023 14:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697033027;
+        bh=Zh3bJ54D4zW63Ncr/mu6xJinQ4B8/2BBuvC0nnjCJ+c=;
+        h=Date:From:To:Cc:Subject:From;
+        b=ZkP4DcvHTv+CAU+Bxp7bY8mRMIANtm2V9mIigWhS4C7tKd8ksjtwI42hJdKV47med
+         Zbh8xz/Qia5Y0t4GtL+bAr4a4l8PKf5ZgCLjus2Zq+ODqvNMgmih9PufW6kUfk51mI
+         BZ2j/V/EkLskGGRbRjul2+hRAY8mXTUH+y05qVcxCZRllwFjc8O5kvg564yw6Vctkm
+         ZesOPr/II66swDL/BQ1+W5CawaE4hg0vrD8HdvBIFpSIZaSt82Px8k4kKlJeQRwDR6
+         Sz+vbYcmtVygTHd5vsfk0MRCm6zl/6eriAYykaLUak4pPitWYW56gTGnVIVmUAQGoo
+         c3iDm5VQFx7OQ==
+Date:   Wed, 11 Oct 2023 08:03:43 -0600
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Arvind Yadav <Arvind.Yadav@amd.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH][next] dma-buf: Fix NULL pointer dereference in
+ dma_fence_enable_sw_signaling()
+Message-ID: <ZSarP0/+hG8/87//@work>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL FOR v6.7] Minor rc fixes
-Content-Language: en-US, nl
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-References: <ZSOux5a0d0tu9FtE@gofer.mess.org>
- <3faae6db-140a-4eb0-a72e-4d2a82e281ec@xs4all.nl>
- <ZSalxiDPtztvdW0x@gofer.mess.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <ZSalxiDPtztvdW0x@gofer.mess.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/10/2023 15:40, Sean Young wrote:
-> On Wed, Oct 11, 2023 at 02:58:19PM +0200, Hans Verkuil wrote:
->> On 09/10/2023 09:41, Sean Young wrote:
->>> The following changes since commit 73835b514160dc548f7d77c6cd7fe6a8629d3406:
->>>
->>>   media: imon: fix access to invalid resource for the second interface (2023-10-07 10:55:48 +0200)
->>>
->>> are available in the Git repository at:
->>>
->>>   git://linuxtv.org/syoung/media_tree.git tags/v6.7c
->>>
->>> for you to fetch changes up to faf2b9954d9c9fdbac48e4b1d45d5ba2d3f10e52:
->>>
->>>   media: lirc: drop trailing space from scancode transmit (2023-10-09 08:22:14 +0100)
->>>
->>> ----------------------------------------------------------------
->>> v6.7c
->>>
->>> ----------------------------------------------------------------
->>> Sean Young (2):
->>>       media: sharp: fix sharp encoding
->>>       media: lirc: drop trailing space from scancode transmit
->>>
->>>  drivers/media/rc/ir-sharp-decoder.c | 8 +++++---
->>>  drivers/media/rc/lirc_dev.c         | 6 +++++-
->>>  2 files changed, 10 insertions(+), 4 deletions(-)
->>
->> These two patches have a Cc to stable, but no Fixes: tag.
-> 
-> I've added the fixes tags and retagged the v6.7c tag in my repo.
-> 
->> Can you provide Fixes tags for these two patches? I can add them
->> manually.
-> 
-> I should have fully read your message before retagging, my bad. What do
-> you want me to do now? The patches haven't changed, just the commit
-> messages.
-> 
-> 
-> Sean
+Currently, a NULL pointer dereference will happen in function
+`dma_fence_enable_sw_signaling()` (at line 615), in case `chain`
+is not allocated in `mock_chain()` and this function returns
+`NULL` (at line 86). See below:
 
-I'll pick it up from your repo again. No need to do anything.
+drivers/dma-buf/st-dma-fence-chain.c:
+ 86         chain = mock_chain(NULL, f, 1);
+ 87         if (!chain)
+ 88                 err = -ENOMEM;
+ 89
+ 90         dma_fence_enable_sw_signaling(chain);
 
-	Hans
+drivers/dma-buf/dma-fence.c:
+ 611 void dma_fence_enable_sw_signaling(struct dma_fence *fence)
+ 612 {
+ 613         unsigned long flags;
+ 614
+ 615         spin_lock_irqsave(fence->lock, flags);
+			       ^^^^^^^^^^^
+				    |
+			  NULL pointer reference
+			  if fence == NULL
+
+ 616         __dma_fence_enable_signaling(fence);
+ 617         spin_unlock_irqrestore(fence->lock, flags);
+ 618 }
+
+Fix this by adding a NULL check before dereferencing `fence` in
+`dma_fence_enable_sw_signaling()`. This will prevent any other NULL
+pointer dereference when the `fence` passed as an argument is `NULL`.
+
+Addresses-Coverity: ("Dereference after null check")
+Fixes: d62c43a953ce ("dma-buf: Enable signaling on fence for selftests")
+Cc: stable@vger.kernel.org
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/dma-buf/dma-fence.c | 9 ++++++++-
+ include/linux/dma-fence.h   | 2 +-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 8aa8f8cb7071..4d2f13560d0f 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -607,14 +607,21 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+  * This will request for sw signaling to be enabled, to make the fence
+  * complete as soon as possible. This calls &dma_fence_ops.enable_signaling
+  * internally.
++ *
++ * Returns 0 on success and a negative error value when @fence is NULL.
+  */
+-void dma_fence_enable_sw_signaling(struct dma_fence *fence)
++int dma_fence_enable_sw_signaling(struct dma_fence *fence)
+ {
+ 	unsigned long flags;
+ 
++	if (!fence)
++		return -EINVAL;
++
+ 	spin_lock_irqsave(fence->lock, flags);
+ 	__dma_fence_enable_signaling(fence);
+ 	spin_unlock_irqrestore(fence->lock, flags);
++
++	return 0;
+ }
+ EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
+ 
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index ebe78bd3d121..1e4025e925e6 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -399,7 +399,7 @@ int dma_fence_add_callback(struct dma_fence *fence,
+ 			   dma_fence_func_t func);
+ bool dma_fence_remove_callback(struct dma_fence *fence,
+ 			       struct dma_fence_cb *cb);
+-void dma_fence_enable_sw_signaling(struct dma_fence *fence);
++int dma_fence_enable_sw_signaling(struct dma_fence *fence);
+ 
+ /**
+  * dma_fence_is_signaled_locked - Return an indication if the fence
+-- 
+2.34.1
+
