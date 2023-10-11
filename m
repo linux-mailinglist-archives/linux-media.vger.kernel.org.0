@@ -2,211 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F327C4BD5
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 09:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 443D87C4C89
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 10:01:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344709AbjJKHac (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 03:30:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34274 "EHLO
+        id S230059AbjJKIBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 04:01:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344731AbjJKHab (ORCPT
+        with ESMTP id S230032AbjJKIA7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 03:30:31 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4636FB9;
-        Wed, 11 Oct 2023 00:30:29 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1c9d407bb15so390895ad.0;
-        Wed, 11 Oct 2023 00:30:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697009429; x=1697614229; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=481kwyoPSHDX+4JF1QVKBTbkhSw4SWArgmqeSO/N9bg=;
-        b=UHYHENiL+xJf7bciSOA3dL/eRpnZS4WwMhYKst9b+acW69GS4DVz8Mhrrfi73zArGe
-         yspclcIwO3HNtFaF+/PfgFFV5lTIDPDkl9uG8T2DsKU/dPUeqXOw+JZ22FzgTVzERW9y
-         avd/SQuheFvxYD0bAH/+OJQAHerjsYV8P70+XEWwDAB4EspbV8xWu2miuR/A5zwp1EDL
-         6UsMuDDV7YQTWl0fESJOuBJSFoSYvBKj4zwo32yvY+glrXhbeStNU2Z6AsRwHnNjLRJI
-         5GEi9ahiP8YMaOIMLbiGuEMoJDLKKYJSo83B3iMmuKIiO4cpF0SHKajhMCIkQO7PDXKv
-         Rh4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697009429; x=1697614229;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=481kwyoPSHDX+4JF1QVKBTbkhSw4SWArgmqeSO/N9bg=;
-        b=hda+55eFdITvlaG6hTO5c15sbJlHV/y+lRIgFKzY088Fhujdaq/lwtPbcWOK0w0tPC
-         a3wAzn5NAVguVl7KxaOcXU994EBVRDJ4MTA8S6ot96ZtZqJs7m8foI0ON2vq41PaOvU0
-         ZgCdUwS41m0nRQMBeVRU8Kv7ulliRVwqofsIEIYxKNBmXG6BPBBz7Qk1xrBhw1EsQvji
-         gHmpaApctx/TiOJdpHAIpm2XIDd3HIYnFm+6psm5EN/z96dMh2HH0TJPOUa98cQ3q50m
-         MfrGFCpcxA2IV5WSPuRyh3adgqBC8OErCoCVLnfUU3zshOqcjbc5Vd/n/Icgh3iOhpJR
-         22YA==
-X-Gm-Message-State: AOJu0Yxp5siA5tCz/znW1m971tEBWtjxae6vGpl1XUQLKgvKmgov+YNj
-        yzfssbIq0xtSl5HnTFW9tfE=
-X-Google-Smtp-Source: AGHT+IEmMVessNgXQdctBaoEjzu3v9Hkz36qlqr9ZgEJpfbYpmyP0b6kG6ar/DJxrRBysDOssMM0ww==
-X-Received: by 2002:a17:902:82c4:b0:1c6:694:1dda with SMTP id u4-20020a17090282c400b001c606941ddamr19079607plz.63.1697009428492;
-        Wed, 11 Oct 2023 00:30:28 -0700 (PDT)
-Received: from hcdev-d520mt2.. (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
-        by smtp.gmail.com with ESMTPSA id j6-20020a170902758600b001c61e628e9dsm1011352pll.77.2023.10.11.00.30.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 00:30:27 -0700 (PDT)
-From:   Marvin Lin <milkfafa@gmail.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     dan.carpenter@linaro.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        avifishman70@gmail.com, tmaimon77@gmail.com, kwliu@nuvoton.com,
-        kflin@nuvoton.com, Marvin Lin <milkfafa@gmail.com>
-Subject: [PATCH v2] media: nuvoton: npcm-video: Fix sleeping in atomic context
-Date:   Wed, 11 Oct 2023 15:30:03 +0800
-Message-Id: <20231011073003.1637086-1-milkfafa@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 11 Oct 2023 04:00:59 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEC9398
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 01:00:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697011255; x=1728547255;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cFSAtXo2c5uFO8rZF1ptbHHC65ADRzbScT8LWgffKi4=;
+  b=juUjw3A9j2GXY5QwzZQIs2a/WiS7W3aMAXgQpziP9UCtgyqAsJR1sC5f
+   UeXunytDCRTREp8sarAyVfHsG74y+AP8Qvz58r5R5P4dZLlJEeZ/Riq7p
+   Jrc830d/q7eJx3i+z2ZBo9CuPg/4zgYTn0JzAdecJIL9EdT0nkZumDKE4
+   Gy/GX8vOVAK2KjjIRbTTbLRrCw9rmagrg/eK/0+EldCZq/a4GoUpw9tqe
+   4da+536Ipk6P7o97XqFQ34iVUTHG4WlYT/FcynV9SxZmtg2ACUH+0byAJ
+   Q9UpkV/sNi84cXA769Gu6s2FdsK8BcSnuUGAlfWLficQCI9vfzmuVpCuN
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="374947454"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="374947454"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 01:00:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747360836"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="747360836"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 11 Oct 2023 01:00:53 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qqU9D-0001xh-27;
+        Wed, 11 Oct 2023 08:00:51 +0000
+Date:   Wed, 11 Oct 2023 15:59:58 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 1/36]
+ drivers/staging/media/tegra-video/vi.c:452:20: error: too few arguments to
+ function '__v4l2_subdev_state_alloc'
+Message-ID: <202310111512.HGE16GfN-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Change to use mutex instead of spinlock for buffer list lock to fix
-sleeping in atomic context warnings reported by the Smatch tool.
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   278fe7fc8a0bdc0cc01b934edf4e2193b0dc195e
+commit: 089d1f64f9b8140ae312d7ff739af58040904ba3 [1/36] media: v4l: subdev: Set sub-device active state earlier
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231011/202310111512.HGE16GfN-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111512.HGE16GfN-lkp@intel.com/reproduce)
 
-Fixes: 70721089985c ("media: nuvoton: Add driver for NPCM video capture and encoding engine")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Marvin Lin <milkfafa@gmail.com>
----
- drivers/media/platform/nuvoton/npcm-video.c | 30 +++++++++------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310111512.HGE16GfN-lkp@intel.com/
 
-diff --git a/drivers/media/platform/nuvoton/npcm-video.c b/drivers/media/platform/nuvoton/npcm-video.c
-index b9e6782f59b4..ea32d9588bb5 100644
---- a/drivers/media/platform/nuvoton/npcm-video.c
-+++ b/drivers/media/platform/nuvoton/npcm-video.c
-@@ -26,7 +26,6 @@
- #include <linux/regmap.h>
- #include <linux/reset.h>
- #include <linux/sched.h>
--#include <linux/spinlock.h>
- #include <linux/string.h>
- #include <linux/v4l2-controls.h>
- #include <linux/videodev2.h>
-@@ -120,7 +119,7 @@ struct npcm_video {
- 	struct mutex video_lock; /* v4l2 and videobuf2 lock */
- 
- 	struct list_head buffers;
--	spinlock_t lock; /* buffer list lock */
-+	struct mutex buffer_lock; /* buffer list lock */
- 	unsigned long flags;
- 	unsigned int sequence;
- 
-@@ -782,7 +781,6 @@ static int npcm_video_start_frame(struct npcm_video *video)
- {
- 	struct npcm_video_buffer *buf;
- 	struct regmap *vcd = video->vcd_regmap;
--	unsigned long flags;
- 	unsigned int val;
- 	int ret;
- 
-@@ -798,17 +796,17 @@ static int npcm_video_start_frame(struct npcm_video *video)
- 		return -EBUSY;
- 	}
- 
--	spin_lock_irqsave(&video->lock, flags);
-+	mutex_lock(&video->buffer_lock);
- 	buf = list_first_entry_or_null(&video->buffers,
- 				       struct npcm_video_buffer, link);
- 	if (!buf) {
--		spin_unlock_irqrestore(&video->lock, flags);
-+		mutex_unlock(&video->buffer_lock);
- 		dev_dbg(video->dev, "No empty buffers; skip capture frame\n");
- 		return 0;
- 	}
- 
- 	set_bit(VIDEO_CAPTURING, &video->flags);
--	spin_unlock_irqrestore(&video->lock, flags);
-+	mutex_unlock(&video->buffer_lock);
- 
- 	npcm_video_vcd_state_machine_reset(video);
- 
-@@ -834,14 +832,13 @@ static void npcm_video_bufs_done(struct npcm_video *video,
- 				 enum vb2_buffer_state state)
- {
- 	struct npcm_video_buffer *buf;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&video->lock, flags);
-+	mutex_lock(&video->buffer_lock);
- 	list_for_each_entry(buf, &video->buffers, link)
- 		vb2_buffer_done(&buf->vb.vb2_buf, state);
- 
- 	INIT_LIST_HEAD(&video->buffers);
--	spin_unlock_irqrestore(&video->lock, flags);
-+	mutex_unlock(&video->buffer_lock);
- }
- 
- static void npcm_video_get_diff_rect(struct npcm_video *video, unsigned int index)
-@@ -1071,12 +1068,12 @@ static irqreturn_t npcm_video_irq(int irq, void *arg)
- 
- 	if (status & VCD_STAT_DONE) {
- 		regmap_write(vcd, VCD_INTE, 0);
--		spin_lock(&video->lock);
-+		mutex_lock(&video->buffer_lock);
- 		clear_bit(VIDEO_CAPTURING, &video->flags);
- 		buf = list_first_entry_or_null(&video->buffers,
- 					       struct npcm_video_buffer, link);
- 		if (!buf) {
--			spin_unlock(&video->lock);
-+			mutex_unlock(&video->buffer_lock);
- 			return IRQ_NONE;
- 		}
- 
-@@ -1093,7 +1090,7 @@ static irqreturn_t npcm_video_irq(int irq, void *arg)
- 			size = npcm_video_hextile(video, index, dma_addr, addr);
- 			break;
- 		default:
--			spin_unlock(&video->lock);
-+			mutex_unlock(&video->buffer_lock);
- 			return IRQ_NONE;
- 		}
- 
-@@ -1104,7 +1101,7 @@ static irqreturn_t npcm_video_irq(int irq, void *arg)
- 
- 		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
- 		list_del(&buf->link);
--		spin_unlock(&video->lock);
-+		mutex_unlock(&video->buffer_lock);
- 
- 		if (npcm_video_start_frame(video))
- 			dev_err(video->dev, "Failed to capture next frame\n");
-@@ -1508,13 +1505,12 @@ static void npcm_video_buf_queue(struct vb2_buffer *vb)
- 	struct npcm_video *video = vb2_get_drv_priv(vb->vb2_queue);
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
- 	struct npcm_video_buffer *nvb = to_npcm_video_buffer(vbuf);
--	unsigned long flags;
- 	bool empty;
- 
--	spin_lock_irqsave(&video->lock, flags);
-+	mutex_lock(&video->buffer_lock);
- 	empty = list_empty(&video->buffers);
- 	list_add_tail(&nvb->link, &video->buffers);
--	spin_unlock_irqrestore(&video->lock, flags);
-+	mutex_unlock(&video->buffer_lock);
- 
- 	if (test_bit(VIDEO_STREAMING, &video->flags) &&
- 	    !test_bit(VIDEO_CAPTURING, &video->flags) && empty) {
-@@ -1744,8 +1740,8 @@ static int npcm_video_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	video->dev = &pdev->dev;
--	spin_lock_init(&video->lock);
- 	mutex_init(&video->video_lock);
-+	mutex_init(&video->buffer_lock);
- 	INIT_LIST_HEAD(&video->buffers);
- 
- 	regs = devm_platform_ioremap_resource(pdev, 0);
+All errors (new ones prefixed by >>):
+
+   drivers/staging/media/tegra-video/vi.c: In function '__tegra_channel_try_format':
+>> drivers/staging/media/tegra-video/vi.c:452:20: error: too few arguments to function '__v4l2_subdev_state_alloc'
+     452 |         sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/media/v4l2-device.h:13,
+                    from drivers/staging/media/tegra-video/vi.h:19,
+                    from drivers/staging/media/tegra-video/vi.c:30:
+   include/media/v4l2-subdev.h:1347:27: note: declared here
+    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c: In function 'rvin_try_format':
+>> drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c:269:20: error: too few arguments to function '__v4l2_subdev_state_alloc'
+     269 |         sd_state = __v4l2_subdev_state_alloc(sd, "rvin:state->lock", &key);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/media/v4l2-mc.h:15,
+                    from drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c:17:
+   include/media/v4l2-subdev.h:1347:27: note: declared here
+    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/media/platform/renesas/vsp1/vsp1_entity.c: In function 'vsp1_entity_init':
+>> drivers/media/platform/renesas/vsp1/vsp1_entity.c:682:26: error: too few arguments to function '__v4l2_subdev_state_alloc'
+     682 |         entity->config = __v4l2_subdev_state_alloc(&entity->subdev,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/renesas/vsp1/vsp1_entity.c:15:
+   include/media/v4l2-subdev.h:1347:27: note: declared here
+    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/__v4l2_subdev_state_alloc +452 drivers/staging/media/tegra-video/vi.c
+
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  424  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  425  static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  426  				      struct v4l2_pix_format *pix)
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  427  {
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  428  	const struct tegra_video_format *fmtinfo;
+ed647ea668fb27 Tomi Valkeinen      2022-04-12  429  	static struct lock_class_key key;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  430  	struct v4l2_subdev *subdev;
+ecefa105cc44ff Laurent Pinchart    2023-02-15  431  	struct v4l2_subdev_format fmt = {
+ecefa105cc44ff Laurent Pinchart    2023-02-15  432  		.which = V4L2_SUBDEV_FORMAT_TRY,
+ecefa105cc44ff Laurent Pinchart    2023-02-15  433  	};
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  434  	struct v4l2_subdev_state *sd_state;
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  435  	struct v4l2_subdev_frame_size_enum fse = {
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  436  		.which = V4L2_SUBDEV_FORMAT_TRY,
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  437  	};
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  438  	struct v4l2_subdev_selection sdsel = {
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  439  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  440  		.target = V4L2_SEL_TGT_CROP_BOUNDS,
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  441  	};
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  442  	int ret;
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  443  
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  444  	subdev = tegra_channel_get_remote_source_subdev(chan);
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  445  	if (!subdev)
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  446  		return -ENODEV;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  447  
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  448  	/*
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  449  	 * FIXME: Drop this call, drivers are not supposed to use
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  450  	 * __v4l2_subdev_state_alloc().
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  451  	 */
+ed647ea668fb27 Tomi Valkeinen      2022-04-12 @452  	sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
+ed647ea668fb27 Tomi Valkeinen      2022-04-12  453  					     &key);
+ba7a93e507f883 Dan Carpenter       2021-06-22  454  	if (IS_ERR(sd_state))
+ba7a93e507f883 Dan Carpenter       2021-06-22  455  		return PTR_ERR(sd_state);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  456  	/*
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  457  	 * Retrieve the format information and if requested format isn't
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  458  	 * supported, keep the current format.
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  459  	 */
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  460  	fmtinfo = tegra_get_format_by_fourcc(chan->vi, pix->pixelformat);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  461  	if (!fmtinfo) {
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  462  		pix->pixelformat = chan->format.pixelformat;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  463  		pix->colorspace = chan->format.colorspace;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  464  		fmtinfo = tegra_get_format_by_fourcc(chan->vi,
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  465  						     pix->pixelformat);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  466  	}
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  467  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  468  	pix->field = V4L2_FIELD_NONE;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  469  	fmt.pad = 0;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  470  	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  471  
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  472  	/*
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  473  	 * Attempt to obtain the format size from subdev.
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  474  	 * If not available, try to get crop boundary from subdev.
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  475  	 */
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  476  	fse.code = fmtinfo->code;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  477  	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  478  	if (ret) {
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  479  		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  480  			sd_state->pads->try_crop.width = 0;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  481  			sd_state->pads->try_crop.height = 0;
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  482  		} else {
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  483  			ret = v4l2_subdev_call(subdev, pad, get_selection,
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  484  					       NULL, &sdsel);
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  485  			if (ret)
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  486  				return -EINVAL;
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  487  
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  488  			sd_state->pads->try_crop.width = sdsel.r.width;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  489  			sd_state->pads->try_crop.height = sdsel.r.height;
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  490  		}
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  491  	} else {
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  492  		sd_state->pads->try_crop.width = fse.max_width;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  493  		sd_state->pads->try_crop.height = fse.max_height;
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  494  	}
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  495  
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  496  	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  497  	if (ret < 0)
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  498  		return ret;
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  499  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  500  	v4l2_fill_pix_format(pix, &fmt.format);
+1a3ea975d79418 Luca Ceresoli       2023-04-18  501  	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  502  
+40aaab9d773b07 Tomi Valkeinen      2022-04-12  503  	__v4l2_subdev_state_free(sd_state);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  504  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  505  	return 0;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  506  }
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  507  
+
+:::::: The code at line 452 was first introduced by commit
+:::::: ed647ea668fb27cd21408d5cb7cc7d4c30417332 media: subdev: add subdev state locking
+
+:::::: TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
