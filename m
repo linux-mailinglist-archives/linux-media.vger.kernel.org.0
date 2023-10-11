@@ -2,205 +2,260 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 443D87C4C89
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 10:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D8587C4C98
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 10:04:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230059AbjJKIBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 04:01:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60082 "EHLO
+        id S230093AbjJKIEj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 04:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230032AbjJKIA7 (ORCPT
+        with ESMTP id S229879AbjJKIEi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 04:00:59 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEC9398
-        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 01:00:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697011255; x=1728547255;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cFSAtXo2c5uFO8rZF1ptbHHC65ADRzbScT8LWgffKi4=;
-  b=juUjw3A9j2GXY5QwzZQIs2a/WiS7W3aMAXgQpziP9UCtgyqAsJR1sC5f
-   UeXunytDCRTREp8sarAyVfHsG74y+AP8Qvz58r5R5P4dZLlJEeZ/Riq7p
-   Jrc830d/q7eJx3i+z2ZBo9CuPg/4zgYTn0JzAdecJIL9EdT0nkZumDKE4
-   Gy/GX8vOVAK2KjjIRbTTbLRrCw9rmagrg/eK/0+EldCZq/a4GoUpw9tqe
-   4da+536Ipk6P7o97XqFQ34iVUTHG4WlYT/FcynV9SxZmtg2ACUH+0byAJ
-   Q9UpkV/sNi84cXA769Gu6s2FdsK8BcSnuUGAlfWLficQCI9vfzmuVpCuN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="374947454"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="374947454"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 01:00:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747360836"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="747360836"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 11 Oct 2023 01:00:53 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qqU9D-0001xh-27;
-        Wed, 11 Oct 2023 08:00:51 +0000
-Date:   Wed, 11 Oct 2023 15:59:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 1/36]
- drivers/staging/media/tegra-video/vi.c:452:20: error: too few arguments to
- function '__v4l2_subdev_state_alloc'
-Message-ID: <202310111512.HGE16GfN-lkp@intel.com>
+        Wed, 11 Oct 2023 04:04:38 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EA2792;
+        Wed, 11 Oct 2023 01:04:36 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3E60C433C7;
+        Wed, 11 Oct 2023 08:04:32 +0000 (UTC)
+Message-ID: <905d78f8-26a2-4229-8892-38d7cf24e39c@xs4all.nl>
+Date:   Wed, 11 Oct 2023 10:04:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 01/54] media: videobuf2: Rework offset 'cookie'
+ encoding pattern
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
+ <20231003080704.43911-2-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231003080704.43911-2-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   278fe7fc8a0bdc0cc01b934edf4e2193b0dc195e
-commit: 089d1f64f9b8140ae312d7ff739af58040904ba3 [1/36] media: v4l: subdev: Set sub-device active state earlier
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231011/202310111512.HGE16GfN-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231011/202310111512.HGE16GfN-lkp@intel.com/reproduce)
+Hi Benjamin,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310111512.HGE16GfN-lkp@intel.com/
+On 03/10/2023 10:06, Benjamin Gaignard wrote:
+> Change how offset 'cookie' field value is computed to make possible
+> to use more buffers.
+> The maximum number of buffers depends of PAGE_SHIFT value and can
+> go up to 0x7fff when PAGE_SHIFT = 12.
+> With this encoding pattern we know the maximum number that a queue
+> could store so we can check it at  queue init time.
+> It also make easier and faster to find buffer and plane from using
+> the offset field.
+> Change __find_plane_by_offset() prototype to return the video buffer
+> itself rather than it index.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> changes in version 10:
+> - Make BUFFER_INDEX_MASK definition more readable.
+> - Correct typo.
+> 
+>  .../media/common/videobuf2/videobuf2-core.c   | 72 +++++++++----------
+>  1 file changed, 33 insertions(+), 39 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 27aee92f3eea..5591ac830668 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -31,6 +31,11 @@
+>  
+>  #include <trace/events/vb2.h>
+>  
+> +#define PLANE_INDEX_SHIFT	(PAGE_SHIFT + 3)
+> +#define PLANE_INDEX_MASK	0x7
+> +#define MAX_BUFFER_INDEX	BIT_MASK(30 - PLANE_INDEX_SHIFT)
+> +#define BUFFER_INDEX_MASK	(MAX_BUFFER_INDEX - 1)
+> +
+>  static int debug;
+>  module_param(debug, int, 0644);
+>  
+> @@ -358,21 +363,24 @@ static void __setup_offsets(struct vb2_buffer *vb)
+>  	unsigned int plane;
+>  	unsigned long off = 0;
 
-All errors (new ones prefixed by >>):
+This is a rather ugly name. I suggest renaming this to "offset" to avoid
+confusion with "on"/"off". See additional comments on this below.
 
-   drivers/staging/media/tegra-video/vi.c: In function '__tegra_channel_try_format':
->> drivers/staging/media/tegra-video/vi.c:452:20: error: too few arguments to function '__v4l2_subdev_state_alloc'
-     452 |         sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/media/v4l2-device.h:13,
-                    from drivers/staging/media/tegra-video/vi.h:19,
-                    from drivers/staging/media/tegra-video/vi.c:30:
-   include/media/v4l2-subdev.h:1347:27: note: declared here
-    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c: In function 'rvin_try_format':
->> drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c:269:20: error: too few arguments to function '__v4l2_subdev_state_alloc'
-     269 |         sd_state = __v4l2_subdev_state_alloc(sd, "rvin:state->lock", &key);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/media/v4l2-mc.h:15,
-                    from drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c:17:
-   include/media/v4l2-subdev.h:1347:27: note: declared here
-    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/media/platform/renesas/vsp1/vsp1_entity.c: In function 'vsp1_entity_init':
->> drivers/media/platform/renesas/vsp1/vsp1_entity.c:682:26: error: too few arguments to function '__v4l2_subdev_state_alloc'
-     682 |         entity->config = __v4l2_subdev_state_alloc(&entity->subdev,
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/media/platform/renesas/vsp1/vsp1_entity.c:15:
-   include/media/v4l2-subdev.h:1347:27: note: declared here
-    1347 | struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+> -	if (vb->index) {
+> -		struct vb2_buffer *prev = q->bufs[vb->index - 1];
+> -		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
+> -
+> -		off = PAGE_ALIGN(p->m.offset + p->length);
+> -	}
+> +	/*
+> +	 * Offsets cookies value have the following constraints:
 
+I'd rephrase this a little bit:
 
-vim +/__v4l2_subdev_state_alloc +452 drivers/staging/media/tegra-video/vi.c
+	 * The offset "cookie" value has the following constraints:
 
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  424  
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  425  static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  426  				      struct v4l2_pix_format *pix)
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  427  {
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  428  	const struct tegra_video_format *fmtinfo;
-ed647ea668fb27 Tomi Valkeinen      2022-04-12  429  	static struct lock_class_key key;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  430  	struct v4l2_subdev *subdev;
-ecefa105cc44ff Laurent Pinchart    2023-02-15  431  	struct v4l2_subdev_format fmt = {
-ecefa105cc44ff Laurent Pinchart    2023-02-15  432  		.which = V4L2_SUBDEV_FORMAT_TRY,
-ecefa105cc44ff Laurent Pinchart    2023-02-15  433  	};
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  434  	struct v4l2_subdev_state *sd_state;
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  435  	struct v4l2_subdev_frame_size_enum fse = {
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  436  		.which = V4L2_SUBDEV_FORMAT_TRY,
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  437  	};
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  438  	struct v4l2_subdev_selection sdsel = {
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  439  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  440  		.target = V4L2_SEL_TGT_CROP_BOUNDS,
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  441  	};
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  442  	int ret;
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  443  
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  444  	subdev = tegra_channel_get_remote_source_subdev(chan);
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  445  	if (!subdev)
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  446  		return -ENODEV;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  447  
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  448  	/*
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  449  	 * FIXME: Drop this call, drivers are not supposed to use
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  450  	 * __v4l2_subdev_state_alloc().
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  451  	 */
-ed647ea668fb27 Tomi Valkeinen      2022-04-12 @452  	sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
-ed647ea668fb27 Tomi Valkeinen      2022-04-12  453  					     &key);
-ba7a93e507f883 Dan Carpenter       2021-06-22  454  	if (IS_ERR(sd_state))
-ba7a93e507f883 Dan Carpenter       2021-06-22  455  		return PTR_ERR(sd_state);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  456  	/*
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  457  	 * Retrieve the format information and if requested format isn't
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  458  	 * supported, keep the current format.
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  459  	 */
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  460  	fmtinfo = tegra_get_format_by_fourcc(chan->vi, pix->pixelformat);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  461  	if (!fmtinfo) {
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  462  		pix->pixelformat = chan->format.pixelformat;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  463  		pix->colorspace = chan->format.colorspace;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  464  		fmtinfo = tegra_get_format_by_fourcc(chan->vi,
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  465  						     pix->pixelformat);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  466  	}
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  467  
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  468  	pix->field = V4L2_FIELD_NONE;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  469  	fmt.pad = 0;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  470  	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  471  
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  472  	/*
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  473  	 * Attempt to obtain the format size from subdev.
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  474  	 * If not available, try to get crop boundary from subdev.
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  475  	 */
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  476  	fse.code = fmtinfo->code;
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  477  	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  478  	if (ret) {
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  479  		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  480  			sd_state->pads->try_crop.width = 0;
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  481  			sd_state->pads->try_crop.height = 0;
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  482  		} else {
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  483  			ret = v4l2_subdev_call(subdev, pad, get_selection,
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  484  					       NULL, &sdsel);
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  485  			if (ret)
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  486  				return -EINVAL;
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  487  
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  488  			sd_state->pads->try_crop.width = sdsel.r.width;
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  489  			sd_state->pads->try_crop.height = sdsel.r.height;
-56f64b82356b74 Sowjanya Komatineni 2020-12-11  490  		}
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  491  	} else {
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  492  		sd_state->pads->try_crop.width = fse.max_width;
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  493  		sd_state->pads->try_crop.height = fse.max_height;
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  494  	}
-bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  495  
-0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  496  	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  497  	if (ret < 0)
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  498  		return ret;
-1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  499  
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  500  	v4l2_fill_pix_format(pix, &fmt.format);
-1a3ea975d79418 Luca Ceresoli       2023-04-18  501  	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  502  
-40aaab9d773b07 Tomi Valkeinen      2022-04-12  503  	__v4l2_subdev_state_free(sd_state);
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  504  
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  505  	return 0;
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  506  }
-3d8a97eabef088 Sowjanya Komatineni 2020-05-04  507  
+> +	 * - a buffer can have up to 8 planes.
+> +	 * - v4l2 mem2mem uses bit 30 to distinguish between source and destination buffers.
 
-:::::: The code at line 452 was first introduced by commit
-:::::: ed647ea668fb27cd21408d5cb7cc7d4c30417332 media: subdev: add subdev state locking
+Related to Sakari's comments: the mem2mem framework uses source and destination
+a lot, but vb2 is mostly OUTPUT/CAPTURE. So it is best to mention both:
 
-:::::: TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+source -> OUTPUT (aka "source", bit 30 is 0)
+destination -> CAPTURE (aka "destination", bit 30 is 1)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +	 * - must be page aligned
+> +	 * That led to this bit mapping when PAGE_SHIFT = 12:
+> +	 * |30                |29        15|14       12|11 0|
+> +	 * |DST_QUEUE_OFF_BASE|buffer index|plane index| 0  |
+> +	 * where there are 15 bits to store the buffer index.
+> +	 * Depending on PAGE_SHIFT value we can have fewer bits to store the buffer index.
+> +	 */
+> +	off = vb->index << PLANE_INDEX_SHIFT;
+>  
+>  	for (plane = 0; plane < vb->num_planes; ++plane) {
+> -		vb->planes[plane].m.offset = off;
+> +		vb->planes[plane].m.offset = off + (plane << PAGE_SHIFT);
+>  
+>  		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
+>  				vb->index, plane, off);
+> -
+> -		off += vb->planes[plane].length;
+> -		off = PAGE_ALIGN(off);
+>  	}
+>  }
+>  
+> @@ -2185,13 +2193,12 @@ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type)
+>  EXPORT_SYMBOL_GPL(vb2_core_streamoff);
+>  
+>  /*
+> - * __find_plane_by_offset() - find plane associated with the given offset off
+> + * __find_plane_by_offset() - find video buffer and plane associated with the given offset off
+>   */
+>  static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+
+Same here: rename "off" to "offset", that also simplifies the comment above:
+"with the given offset off" can now just be "with the given offset".
+
+The same change can be done in vb2_mmap and vb2_get_unmapped_area.
+
+I think it would be best if the off -> offset rename is done in a separate initial
+patch.
+
+I know that this isn't really DELETE_BUFS related, but I think it makes the code
+a bit easier to follow.
+
+> -			unsigned int *_buffer, unsigned int *_plane)
+> +			struct vb2_buffer **vb, unsigned int *plane)
+>  {
+> -	struct vb2_buffer *vb;
+> -	unsigned int buffer, plane;
+> +	unsigned int buffer;
+>  
+>  	/*
+>  	 * Sanity checks to ensure the lock is held, MEMORY_MMAP is
+> @@ -2209,24 +2216,15 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+>  		return -EBUSY;
+>  	}
+>  
+> -	/*
+> -	 * Go over all buffers and their planes, comparing the given offset
+> -	 * with an offset assigned to each plane. If a match is found,
+> -	 * return its buffer and plane numbers.
+> -	 */
+> -	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
+> -		vb = q->bufs[buffer];
+> +	/* Get buffer and plane from the offset */
+> +	buffer = (off >> PLANE_INDEX_SHIFT) & BUFFER_INDEX_MASK;
+> +	*plane = (off >> PAGE_SHIFT) & PLANE_INDEX_MASK;
+>  
+> -		for (plane = 0; plane < vb->num_planes; ++plane) {
+> -			if (vb->planes[plane].m.offset == off) {
+> -				*_buffer = buffer;
+> -				*_plane = plane;
+> -				return 0;
+> -			}
+> -		}
+> -	}
+> +	if (buffer >= q->num_buffers || *plane >= q->bufs[buffer]->num_planes)
+> +		return -EINVAL;
+>  
+> -	return -EINVAL;
+> +	*vb = q->bufs[buffer];
+> +	return 0;
+>  }
+>  
+>  int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+> @@ -2306,7 +2304,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+>  {
+>  	unsigned long off = vma->vm_pgoff << PAGE_SHIFT;
+>  	struct vb2_buffer *vb;
+> -	unsigned int buffer = 0, plane = 0;
+> +	unsigned int plane = 0;
+>  	int ret;
+>  	unsigned long length;
+>  
+> @@ -2335,12 +2333,10 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+>  	 * Find the plane corresponding to the offset passed by userspace. This
+>  	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+>  	 */
+> -	ret = __find_plane_by_offset(q, off, &buffer, &plane);
+> +	ret = __find_plane_by_offset(q, off, &vb, &plane);
+>  	if (ret)
+>  		goto unlock;
+>  
+> -	vb = q->bufs[buffer];
+> -
+>  	/*
+>  	 * MMAP requires page_aligned buffers.
+>  	 * The buffer length was page_aligned at __vb2_buf_mem_alloc(),
+> @@ -2368,7 +2364,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+>  	if (ret)
+>  		return ret;
+>  
+> -	dprintk(q, 3, "buffer %d, plane %d successfully mapped\n", buffer, plane);
+> +	dprintk(q, 3, "buffer %u, plane %d successfully mapped\n", vb->index, plane);
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_mmap);
+> @@ -2382,7 +2378,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+>  {
+>  	unsigned long off = pgoff << PAGE_SHIFT;
+>  	struct vb2_buffer *vb;
+> -	unsigned int buffer, plane;
+> +	unsigned int plane;
+>  	void *vaddr;
+>  	int ret;
+>  
+> @@ -2392,12 +2388,10 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+>  	 * Find the plane corresponding to the offset passed by userspace. This
+>  	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
+>  	 */
+> -	ret = __find_plane_by_offset(q, off, &buffer, &plane);
+> +	ret = __find_plane_by_offset(q, off, &vb, &plane);
+>  	if (ret)
+>  		goto unlock;
+>  
+> -	vb = q->bufs[buffer];
+> -
+>  	vaddr = vb2_plane_vaddr(vb, plane);
+>  	mutex_unlock(&q->mmap_lock);
+>  	return vaddr ? (unsigned long)vaddr : -EINVAL;
+
+Regards,
+
+	Hans
