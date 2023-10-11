@@ -2,185 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FA0C7C4E84
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 11:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5561B7C4F05
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 11:32:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231318AbjJKJZf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 05:25:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52950 "EHLO
+        id S231221AbjJKJcX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 05:32:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230500AbjJKJZe (ORCPT
+        with ESMTP id S230434AbjJKJcW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 05:25:34 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92028CC;
-        Wed, 11 Oct 2023 02:25:31 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE44C433C7;
-        Wed, 11 Oct 2023 09:25:27 +0000 (UTC)
-Message-ID: <69334bb8-c9e5-4387-b3c5-adc66ed9f825@xs4all.nl>
-Date:   Wed, 11 Oct 2023 11:25:25 +0200
+        Wed, 11 Oct 2023 05:32:22 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E3F91;
+        Wed, 11 Oct 2023 02:32:17 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:b4ac:2b31:7a66:8708] (unknown [IPv6:2a01:e0a:120:3210:b4ac:2b31:7a66:8708])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 675CB66072F1;
+        Wed, 11 Oct 2023 10:32:15 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1697016735;
+        bh=5tBLJiqzOELHvhOEyitYQraoe9MQBCrZ0Va/cYbiJGQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=l7HDeNnyFwiGa8tcEAfmk+SXlkOW9tCJRHAXfwJVRumJnaxWMFC8o4quE1/PV7Cr4
+         PIFAOeJxFE0T7QLRoHdfX/+XqrwL3qmvZNS+veOns4PrCVd4NHZWiK8Qcc4Dw/hw1H
+         C2JBixXqLmarSHTg5PdMEbhSjcCrlmZeUFFEacCefxEl7NEgWfV6w+LmTRmKtMwfTL
+         Q8HspQmkOPgzJZoerILZ+m2mlB4sM3KltcOeZqinhuSoE4xLxuor4Pcz5/YroqkgQq
+         QIu/QdzKLyfG9MsdoP+max2m1xHJLZRApA9Ay6GFxpDarzTo78klgKRRPs6DsFOn2q
+         Jjq4OV2rglTpw==
+Message-ID: <954315b8-3e5c-4583-a904-d20fbd21aa3f@collabora.com>
+Date:   Wed, 11 Oct 2023 11:32:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 00/54] Add DELETE_BUF ioctl
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
+Subject: Re: [PATCH v10 11/54] media: videobuf2: Access vb2_queue bufs array
+ through helper functions
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         kernel@collabora.com
 References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+ <20231003080704.43911-12-benjamin.gaignard@collabora.com>
+ <bd0ba3d3-444a-4288-910f-4b8a84b90750@xs4all.nl>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <bd0ba3d3-444a-4288-910f-4b8a84b90750@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
 
-On 03/10/2023 10:06, Benjamin Gaignard wrote:
-> Unlike when resolution change on keyframes, dynamic resolution change
-> on inter frames doesn't allow to do a stream off/on sequence because
-> it is need to keep all previous references alive to decode inter frames.
-> This constraint have two main problems:
-> - more memory consumption.
-> - more buffers in use.
-> To solve these issue this series introduce DELETE_BUFS ioctl and remove
-> the 32 buffers limit per queue.
-> 
-> VP9 conformance tests using fluster give a score of 210/305.
-> The 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
-> but require to use postprocessor.
-> 
-> Kernel branch is available here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v10
-> 
-> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
-> change is here:
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
-> 
+Le 11/10/2023 à 10:44, Hans Verkuil a écrit :
+> On 03/10/2023 10:06, Benjamin Gaignard wrote:
+>> This patch adds 2 helpers functions to add and remove vb2 buffers
+>> from a queue. With these 2 and vb2_get_buffer(), bufs field of
+>> struct vb2_queue becomes like a private member of the structure.
+>>
+>> After each call to vb2_get_buffer() we need to be sure that we get
+>> a valid pointer so check the return value of all of them.
+> This needs to be extended: checking the returned pointer is a preparation
+> for when buffers can be deleted. As it is right now, checking for a
+> NULL pointer isn't needed.
+>
+> I wonder if it isn't better to drop those checks and instead apply them
+> at the tail end of this series when the actual work on deleting buffers
+> starts (before patch 49, I think).
 
-<snip>
-
-I'm a bit unhappy about the order of these patches.
-
-It mixes core and driver patches, making it hard to follow. Also, the
-driver patches are missing CCs to the driver maintainers.
-
-There are two types of driver patches:
-
-1) switch to vb2_get_buffer()
-2) switch to vb2_get_num_buffers(), or stop using num_buffers altogether.
-
-I am not counting the patches for verisilicon and the test drivers that
-add support for max_num_buffers, those are separate.
-
-In order to support more than 32 buffers the first phase is to fix the
-drivers.
-
-I would suggest the following:
-
-1) start with a videobuf2-core.h patch adding vb2_get_num_buffers()
-   (so just the header part of patch 21/54).
-2) then add all driver patches switching to vb2_get_buffer/vb2_get_num_buffers(),
-   grouped by driver (so e.g. the two amphion patches are placed together).
-
-Also add CCs to the driver maintainers for each driver patch, allowing them
-to review the code.
-
-Also include patches 10/54 and 22/54 (dvb-core).
-
-The remaining patches for vb2 etc. and for drivers patches adding support for
-the new features should be posted as a separate series on top of this.
-
-I want to get the driver changes in first. That will greatly simplify the
-remaining work.
-
-What will also be very helpful if this approach is taken is that it should
-be no problem to merge the initial patch adding the new vb2_get_num_buffers
-function for v6.7. That makes it easier to convert drivers in phases, if
-needed. And new upcoming drivers can start to use this function as well.
+I think that checking vb2_get_buffer() return value while removing direct
+call to queue buffers array doesn't hurt here.
+It is also needed to do that before "media: videobuf2: Add helper to get queue number of buffers" patch.
 
 Regards,
+Benjamin
 
-	Hans
-
-> Benjamin Gaignard (54):
->   media: videobuf2: Rework offset 'cookie' encoding pattern
->   media: videobuf2: Stop spamming kernel log with all queue counter
->   media: videobuf2: Use vb2_buffer instead of index
->   media: amphion: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
->     to buffers array
->   media: mediatek: vdec: Remove useless loop
->   media: sti: hva: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: visl: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: atomisp: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: dvb-core: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: videobuf2: Access vb2_queue bufs array through helper functions
->   media: videobuf2: Be more flexible on the number of queue stored
->     buffers
->   media: Report the maximum possible number of buffers for the queue
->   media: test-drivers: vivid: Increase max supported buffers for capture
->     queues
->   media: test-drivers: vicodec: Increase max supported capture queue
->     buffers
->   media: verisilicon: Refactor postprocessor to store more buffers
->   media: verisilicon: Store chroma and motion vectors offset
->   media: verisilicon: g2: Use common helpers to compute chroma and mv
->     offsets
->   media: verisilicon: vp9: Allow to change resolution while streaming
->   media: Remove duplicated index vs q->num_buffers check
->   media: core: Add helper to get queue number of buffers
->   media: dvb-core: Do not initialize twice queue num_buffer field
->   media: dvb-frontends: rtl2832_srd: Use queue min_buffers_needed field
->   media: video-i2c: Set min_buffers_needed to 2
->   media: pci: cx18: Set correct value to min_buffers_needed field
->   media: pci: dt3155: Remove useless check
->   media: pci: netup_unidvb: Remove useless number of buffers check
->   media: pci: tw68: Stop direct calls to queue num_buffers field
->   media: pci: tw686x: Set min_buffers_needed to 3
->   media: amphion: Stop direct calls to queue num_buffers field
->   media: coda: Stop direct calls to queue num_buffers field
->   media: mediatek: vcodec: Stop direct calls to queue num_buffers field
->   media: nxp: Stop direct calls to queue num_buffers field
->   media: renesas: Set min_buffers_needed to 16
->   media: ti: Use queue min_buffers_needed field to set the min number of
->     buffers
->   media: verisilicon: Stop direct calls to queue num_buffers field
->   media: test-drivers: Stop direct calls to queue num_buffers field
->   media: usb: airspy: Set min_buffers_needed to 8
->   media: usb: cx231xx: Set min_buffers_needed to CX231XX_MIN_BUF
->   media: usb: hackrf: Set min_buffers_needed to 8
->   media: usb: usbtv: Set min_buffers_needed to 2
->   media: atomisp: Stop direct calls to queue num_buffers field
->   media: imx: Stop direct calls to queue num_buffers field
->   media: meson: vdec: Stop direct calls to queue num_buffers field
->   touchscreen: sur40: Stop direct calls to queue num_buffers field
->   sample: v4l: Stop direct calls to queue num_buffers field
->   media: cedrus: Stop direct calls to queue num_buffers field
->   media: nuvoton: Stop direct calls to queue num_buffers field
->   media: core: Rework how create_buf index returned value is computed
->   media: core: Add bitmap manage bufs array entries
->   media: core: Free range of buffers
->   media: v4l2: Add DELETE_BUFS ioctl
->   media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
->   media: test-drivers: Use helper for DELETE_BUFS ioctl
-
-
+>
+> Regards,
+>
+> 	Hans
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   .../media/common/videobuf2/videobuf2-core.c   | 151 +++++++++++++-----
+>>   .../media/common/videobuf2/videobuf2-v4l2.c   |  51 ++++--
+>>   2 files changed, 146 insertions(+), 56 deletions(-)
+>
